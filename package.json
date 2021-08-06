@@ -1,0 +1,17 @@
+{
+  "name": "turbo-playground",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Joel Hooks",
+  "license": "ISC",
+  "dependencies": {
+    "turbo": "^0.7.5"
+  },
+  "turbo": {
+    "baseBranch": "origin/main"
+  }
+}
