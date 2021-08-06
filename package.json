@@ -4,14 +4,53 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "format": "prettier --write  'packages/**/*' 'README.md'",
+    "lint": "turbo run lint",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Joel Hooks",
   "license": "ISC",
   "dependencies": {
-    "turbo": "^0.7.5"
+
+  },
+  "lint-staged": {
+    "**/*.{ts,tsx,md,mdx,js,jsx}": [
+      "pnpm run format",
+      "pnpm run lint"
+    ]
+  },
+  "devDependencies": {
+    "husky": "^4.3.8",
+    "lint-staged": "^10.5.3",
+    "turbo": "^0.7.5",
+    "tsdx": "^0.14.1"
   },
   "turbo": {
-    "baseBranch": "origin/main"
+    "baseBranch": "origin/main",
+    "pipeline": {
+      "build": {
+        "dependsOn": [
+          "^build"
+        ]
+      },
+      "test": {
+        "dependsOn": [
+          "^build"
+        ]
+      },
+      "deploy": {
+        "dependsOn": [
+          "build",
+          "test",
+          "lint"
+        ]
+      },
+      "lint": {
+        "outputs": []
+      },
+      "dev": {
+        "cache": false
+      }
+    }
   }
 }

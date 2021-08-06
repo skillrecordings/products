@@ -1,0 +1,13 @@
+{
+  "name": "skill-tsconfig",
+  "version": "0.0.0",
+  "license": "BUSL-1.1",
+  "main": "index.js",
+  "publishConfig": {
+    "access": "public"
+  },
+  "files": [
+    "base.json",
+    "nextjs.json"
+  ]
+}
