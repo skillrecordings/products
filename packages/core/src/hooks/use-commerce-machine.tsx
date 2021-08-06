@@ -1,8 +1,8 @@
 import React from 'react'
 import get from 'lodash/get'
 import {useMachine} from '@xstate/react'
-import {SellableResource} from '@types'
-import commerceMachine from 'machines/commerce'
+import {SellableResource} from '../@types'
+import commerceMachine from '../machines/commerce'
 
 type CreateCommerceMachineProps = {
   sellable: SellableResource

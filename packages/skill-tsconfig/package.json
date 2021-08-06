@@ -8,6 +8,7 @@
   },
   "files": [
     "base.json",
-    "nextjs.json"
+    "nextjs.json",
+    "lib-build.json"
   ]
 }

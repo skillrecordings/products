@@ -4,8 +4,8 @@
   "description": "Internal, shared utilities",
   "author": "Joel Hooks",
   "scripts": {
-    "start": "tsdx watch --tsconfig tsconfig.json --verbose --noClean",
-    "build": "tsdx build --tsconfig tsconfig.json",
+    "start": "tsdx watch --tsconfig tsconfig.build.json --verbose --noClean",
+    "build": "tsdx build --tsconfig tsconfig.build.json",
     "test": "tsdx test",
     "lint": "tsdx lint",
     "prepublish": "npm run build"

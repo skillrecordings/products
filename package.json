@@ -33,6 +33,13 @@
           "^build"
         ]
       },
+      "next-product-starter": {
+        "build": {
+          "dependsOn": [
+            "core#build"
+          ]
+        }
+      },
       "test": {
         "dependsOn": [
           "^build"

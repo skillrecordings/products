@@ -1,0 +1,4 @@
+{
+  "extends": "skill-tsconfig/lib-build.json",
+  "include": ["src", "types", "../../types"]
+}

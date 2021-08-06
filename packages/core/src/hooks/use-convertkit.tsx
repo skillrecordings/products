@@ -1,8 +1,8 @@
 import * as React from 'react'
 import queryString from 'query-string'
 import {isEmpty, get} from 'lodash'
-import cookie from 'utils/cookies'
-import axios from 'utils/axios'
+import cookie from '../utils/cookies'
+import axios from '../utils/axios'
 
 type ConvertkitContextType = {
   subscriber?: {fields?: {job_title?: 'manager'}}
