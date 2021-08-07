@@ -1,12 +1,9 @@
 {
-  "$schema": "https://unpkg.com/@changesets/config@1.3.0/schema.json",
-  "changelog": [
-    "@changesets/changelog-github",
-    { "repo": "skillrecordings/turbo-playground" }
-  ],
+  "$schema": "https://unpkg.com/@changesets/config@1.6.0/schema.json",
+  "changelog": "@changesets/cli/changelog",
   "commit": false,
   "linked": [],
-  "access": "public",
+  "access": "restricted",
   "baseBranch": "main",
   "updateInternalDependencies": "patch",
   "ignore": []
