@@ -1,0 +1,22 @@
+analytics:
+  - packages/analytics/*
+  - packages/analytics/**/*
+
+utils:
+  - packages/auth/*
+  - packages/auth/**/*
+
+admin:
+  - packages/core/*
+  - packages/core/**/*
+
+users:
+  - packages/type/*
+  - packages/type/**/*
+
+cypress:
+  - cypress/*
+  - cypress/**/*
+
+repo:
+  - ./*

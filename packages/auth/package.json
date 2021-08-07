@@ -4,7 +4,7 @@
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "source": "./src/index.ts",
-  "private": true,
+  "private": false,
   "files": [
     "dist/**"
   ],
