@@ -1,22 +1,21 @@
 import OAuthClient from 'client-oauth2'
-import {track, identify} from './analytics'
-import http from 'utils/axios'
+import {track, identify} from '@skillrecordngs/analytics'
+import http from './axios'
 import get from 'lodash/get'
-import cookie from 'utils/cookies'
+import cookie from './cookies'
 import * as serverCookie from 'cookie'
 import getAccessTokenFromCookie from './get-access-token-from-cookie'
-import {CIO_KEY} from '../hooks/use-cio'
-import {Viewer} from '@types'
+import {Viewer} from '@skillrecordngs/types'
 
 export const AUTH_DOMAIN = process.env.NEXT_PUBLIC_AUTH_DOMAIN
 const AUTH_CLIENT_ID = process.env.NEXT_PUBLIC_CLIENT_ID
 const AUTH_REDIRECT_URL = process.env.NEXT_PUBLIC_REDIRECT_URI
 
 // TODO: create unique keys for site authorization
-export const USER_KEY = 'sr_user'
-export const ACCESS_TOKEN_KEY = 'sr_sellable_access_token'
-export const EXPIRES_AT_KEY = 'sr_sellable_expires_at'
-export const VIEWING_AS_USER_KEY = 'sr_sellable_viewing_as_user'
+export const USER_KEY = process.env.NEXT_PUBLIC_USER_KEY || 'user'
+export const ACCESS_TOKEN_KEY = process.env.NEXT_PUBLIC_ACCESS_TOKEN_KEY || 'access_token'
+export const EXPIRES_AT_KEY = process.env.NEXT_PUBLIC_EXPIRES_AT_KEY || 'expires_at'
+export const VIEWING_AS_USER_KEY = process.env.NEXT_PUBLIC_VIEWING_AS_USER_KEY || 'viewing_as_user'
 
 type AuthorizationHeader = {
   Authorization: string
@@ -39,6 +38,20 @@ export function getTokenFromCookieHeaders(serverCookies = '') {
 
 const SIXTY_DAYS_IN_SECONDS = JSON.stringify(60 * 24 * 60 * 60)
 
+export function getUser() {
+  return getLocalUser()
+}
+
+export function getLocalUser() {
+  if (typeof localStorage === 'undefined') {
+    return
+  }
+  const user = localStorage.getItem(USER_KEY)
+  if (user) {
+    return JSON.parse(user)
+  }
+}
+
 export default class Auth {
   eggheadAuth: OAuthClient
 
@@ -54,7 +67,7 @@ export default class Auth {
     this.logout = this.logout.bind(this)
     this.handleAuthentication = this.handleAuthentication.bind(this)
     this.handleCookieBasedAccessTokenAuthentication = this.handleCookieBasedAccessTokenAuthentication.bind(
-      this,
+        this,
     )
     this.isAuthenticated = this.isAuthenticated.bind(this)
     this.refreshUser = this.refreshUser.bind(this)
@@ -71,48 +84,48 @@ export default class Auth {
     accessToken = accessToken ?? getAccessTokenFromCookie()
 
     return http
-      .post(
-        `${AUTH_DOMAIN}/api/v1/users/become_user?email=${email}&client_id=${AUTH_CLIENT_ID}`,
-        {},
-        {
-          headers: {
-            Authorization: `Bearer ${accessToken}`,
-          },
-        },
-      )
-      .then(({data}) => {
-        const expiresAt = JSON.stringify(
-          data.access_token.expires_in * 1000 + new Date().getTime(),
+        .post(
+            `${AUTH_DOMAIN}/api/v1/users/become_user?email=${email}&client_id=${AUTH_CLIENT_ID}`,
+            {},
+            {
+              headers: {
+                Authorization: `Bearer ${accessToken}`,
+              },
+            },
         )
-        const user = data.user
+        .then(({data}) => {
+          const expiresAt = JSON.stringify(
+              data.access_token.expires_in * 1000 + new Date().getTime(),
+          )
+          const user = data.user
 
-        localStorage.setItem(ACCESS_TOKEN_KEY, data.access_token.token)
-        localStorage.setItem(EXPIRES_AT_KEY, expiresAt)
-        localStorage.setItem(USER_KEY, JSON.stringify(user))
-        localStorage.setItem(VIEWING_AS_USER_KEY, get(user, 'email'))
+          localStorage.setItem(ACCESS_TOKEN_KEY, data.access_token.token)
+          localStorage.setItem(EXPIRES_AT_KEY, expiresAt)
+          localStorage.setItem(USER_KEY, JSON.stringify(user))
+          localStorage.setItem(VIEWING_AS_USER_KEY, get(user, 'email'))
 
-        if (user.contact_id) {
-          cookie.set(CIO_KEY, user.contact_id)
-        }
+          if (user.contact_id) {
+            cookie.set('cio_id', user.contact_id)
+          }
 
-        cookie.set(ACCESS_TOKEN_KEY, data.access_token.token, {
-          expires: parseInt(expiresAt, 10),
+          cookie.set(ACCESS_TOKEN_KEY, data.access_token.token, {
+            expires: parseInt(expiresAt, 10),
+          })
+          return user
         })
-        return user
-      })
-      .catch((error) => {
-        this.logout()
-      })
+        .catch((_) => {
+          this.logout()
+        })
   }
 
   requestSignInEmail(email: string) {
     return http.post(
-      `${process.env.NEXT_PUBLIC_AUTH_DOMAIN}/api/v1/users/send_token`,
-      {
-        email,
-        client_id: process.env.NEXT_PUBLIC_CLIENT_ID,
-        redirect_uri: AUTH_REDIRECT_URL,
-      },
+        `${process.env.NEXT_PUBLIC_AUTH_DOMAIN}/api/v1/users/send_token`,
+        {
+          email,
+          client_id: process.env.NEXT_PUBLIC_CLIENT_ID,
+          redirect_uri: AUTH_REDIRECT_URL,
+        },
     )
   }
 
@@ -131,15 +144,18 @@ export default class Auth {
   monitor(onInterval: {(): void; (...args: any[]): void}, delay = 2000) {
     if (this.isAuthenticated()) {
       return window.setInterval(onInterval, delay)
+    } else {
+      return 0
     }
   }
 
   handleCookieBasedAccessTokenAuthentication(
-    accessToken: string,
-    expiresInSeconds: string = SIXTY_DAYS_IN_SECONDS,
+      accessToken: string,
+      expiresInSeconds: string = SIXTY_DAYS_IN_SECONDS,
   ) {
     // handle any previous location redirects here
 
+    // @ts-ignore
     return this.handleNewSession(accessToken, expiresInSeconds).catch((e) => {
       if (e.isAxiosError && e.response.status === 403) {
         // do nothing, logout has been called to clear local session data
@@ -150,19 +166,19 @@ export default class Auth {
   }
 
   handleNewSession(
-    accessToken: string,
-    expiresInSeconds: string = SIXTY_DAYS_IN_SECONDS,
+      accessToken: string,
+      expiresInSeconds: string = SIXTY_DAYS_IN_SECONDS,
   ): Promise<Viewer> {
     return new Promise((resolve, reject) => {
       this.setSession(accessToken, expiresInSeconds).then(
-        (user) => {
-          identify(user)
-          resolve(user)
-        },
-        (error) => {
-          console.error(error)
-          this.logout().then(() => reject(error))
-        },
+          (user) => {
+            identify(user)
+            resolve(user)
+          },
+          (error) => {
+            console.error(error)
+            this.logout().then(() => reject(error))
+          },
       )
     })
   }
@@ -175,29 +191,29 @@ export default class Auth {
       if (typeof window !== 'undefined') {
         const uri = window.location.href
         window.history.pushState(
-          '',
-          document.title,
-          window.location.pathname + window.location.search,
+            '',
+            document.title,
+            window.location.pathname + window.location.search,
         )
         this.eggheadAuth.token.getToken(uri).then(
-          (authResult) => {
-            const user = this.handleNewSession(
-              authResult.accessToken,
-              authResult.data.expires_in,
-            )
-            resolve(user)
-          },
-          (error) => {
-            console.error(error)
-            this.logout().then(() => reject(error))
-          },
+            (authResult: any) => {
+              const user = this.handleNewSession(
+                  authResult.accessToken,
+                  authResult.data.expires_in,
+              )
+              resolve(user)
+            },
+            (error:any) => {
+              console.error(error)
+              this.logout().then(() => reject(error))
+            },
         )
       }
     })
   }
 
   clearLocalStorage() {
-    return new Promise((resolve, reject) => {
+    return new Promise((resolve, _) => {
       const removeLocalStorage = () => {
         cookie.remove(ACCESS_TOKEN_KEY, {})
 
@@ -235,27 +251,27 @@ export default class Auth {
       }
 
       http
-        .get(`/api/users/current?minimal=${minimalUser}`)
-        .then(({data}) => {
-          if (!this.isAuthenticated()) {
-            return reject('not authenticated')
-          }
-          if (data) identify(data)
-          if (data.contact_id) {
-            cookie.set(CIO_KEY, data.contact_id)
-          }
-          localStorage.setItem(USER_KEY, JSON.stringify(data))
-          resolve(data)
-        })
-        .catch((error) => {
-          this.logout().then(() => reject(error))
-        })
+          .get(`/api/users/current?minimal=${minimalUser}`)
+          .then(({data}: {data:any}) => {
+            if (!this.isAuthenticated()) {
+              return reject('not authenticated')
+            }
+            if (data) identify(data)
+            if (data.contact_id) {
+              cookie.set('cio_id', data.contact_id)
+            }
+            localStorage.setItem(USER_KEY, JSON.stringify(data))
+            resolve(data)
+          })
+          .catch((error:any) => {
+            this.logout().then(() => reject(error))
+          })
     })
   }
 
   setSession(
-    accessToken: string,
-    expiresInSeconds: string = SIXTY_DAYS_IN_SECONDS,
+      accessToken: string,
+      expiresInSeconds: string = SIXTY_DAYS_IN_SECONDS,
   ): Promise<Viewer> {
     return new Promise((resolve, reject) => {
       if (typeof localStorage === 'undefined') {
@@ -289,23 +305,16 @@ export default class Auth {
   }
 
   getUser() {
-    return this.getLocalUser()
+    return getLocalUser()
   }
 
   getLocalUser() {
-    if (typeof localStorage === 'undefined') {
-      return
-    }
-    const user = localStorage.getItem(USER_KEY)
-    if (user) {
-      const parsedUser = JSON.parse(user)
-      return parsedUser
-    }
+    return getLocalUser()
   }
 
   getUserName() {
-    if (this.getLocalUser()) {
-      return this.getLocalUser().name
+    if (getLocalUser()) {
+      return getLocalUser().name
     }
   }
 

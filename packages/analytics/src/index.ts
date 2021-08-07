@@ -1,20 +1,41 @@
 import {isFunction, isUndefined} from 'lodash'
-import {Viewer} from '../@types'
-import Auth from './auth'
+import {Viewer} from '@skillrecordngs/types'
 const DEBUG_ANALYTICS = false
 
+export const USER_KEY = process.env.NEXT_PUBLIC_USER_KEY || 'user'
+export const ACCESS_TOKEN_KEY = process.env.NEXT_PUBLIC_ACCESS_TOKEN_KEY || 'access_token'
+
+export function getLocalUser() {
+  if (typeof localStorage === 'undefined') {
+    return
+  }
+  const user = localStorage.getItem(USER_KEY)
+  if (user) {
+    return JSON.parse(user)
+  }
+}
+
+declare global {
+  interface Window {
+    ahoy: any
+    _cio: any
+    fbq: any
+    becomeUser: any
+    ga: any
+  }
+}
+
 export const track = (
-  event: string,
-  paramsOrCallback?: any,
-  callback?: any,
+    event: string,
+    paramsOrCallback?: any,
+    callback?: any,
 ) => {
-  const auth = new Auth()
 
   return new Promise(async (resolve) => {
     const ahoy = window.ahoy
     let wasCalled = false
 
-    const viewer: Viewer = auth.getLocalUser()
+    const viewer: Viewer = getLocalUser()
 
     function politelyExit() {
       DEBUG_ANALYTICS && console.debug(`TRACKED: ${event}`)
@@ -56,12 +77,12 @@ export const track = (
     }
 
     if (
-      viewer &&
-      !viewer.opted_out &&
-      viewer.contact_id &&
-      viewer.email &&
-      window._cio &&
-      isFunction(window._cio.track)
+        viewer &&
+        !viewer.opted_out &&
+        viewer.contact_id &&
+        viewer.email &&
+        window._cio &&
+        isFunction(window._cio.track)
     ) {
       identify(viewer)
       window._cio.track(event, params)
@@ -73,11 +94,11 @@ export const track = (
 
 export const identify = (data: Viewer, properties?: any) => {
   if (
-    !data.opted_out &&
-    data.email &&
-    data.contact_id &&
-    window._cio &&
-    isFunction(window._cio.identify)
+      !data.opted_out &&
+      data.email &&
+      data.contact_id &&
+      window._cio &&
+      isFunction(window._cio.identify)
   ) {
     window._cio.identify({
       id: data.contact_id,
@@ -93,10 +114,3 @@ export const identify = (data: Viewer, properties?: any) => {
   }
   return Promise.resolve(data)
 }
-
-const analytics = {
-  track,
-  identify,
-}
-
-export default analytics

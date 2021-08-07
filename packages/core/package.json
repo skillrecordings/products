@@ -18,6 +18,9 @@
     "dist"
   ],
   "dependencies": {
+    "@skillrecordngs/types": "*",
+    "@skillrecordngs/analytics": "*",
+    "@skillrecordngs/auth": "*",
     "@stripe/stripe-js": "^1.16.0",
     "@xstate/react": "^1.5.1",
     "axios": "^0.21.1",

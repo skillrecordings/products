@@ -1,7 +1,7 @@
 import axios from '../../utils/axios'
 import pickBy from 'lodash/pickBy'
 import isEmpty from 'lodash/isEmpty'
-import {SellableResource, Price} from '../../@types'
+import {SellableResource, Price} from '@skillrecordngs/types'
 
 export interface CommerceMachineContext {
   sellable: SellableResource | null

@@ -1,5 +1,5 @@
 import {interpret} from 'xstate'
-import {SellableResource} from '../../../@types'
+import {SellableResource} from '@skillrecordngs/typess'
 import commerceMachine from '../'
 import {
   CommerceMachineContext,

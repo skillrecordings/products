@@ -1,0 +1,31 @@
+{
+  "name": "@skillrecordngs/auth",
+  "version": "0.0.0",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "source": "./src/index.ts",
+  "private": true,
+  "files": [
+    "dist/**"
+  ],
+  "scripts": {
+    "test": "jest",
+    "dev": "tsc -w",
+    "build": "tsc",
+    "lint": "TIMING=1 eslint src --fix",
+    "clean": "rm -rf .turbo && rm -rf node_modules && rm -rf dist"
+  },
+  "dependencies": {
+    "axios": "^0.21.1",
+    "client-oauth2": "^4.3.3",
+    "@skillrecordngs/analytics": "*"
+  },
+  "devDependencies": {
+    "skill-tsconfig": "*",
+    "@skillrecordngs/types": "*",
+    "typescript": "^4.2.4"
+  },
+  "jest": {
+    "preset": "scripts/jest/node"
+  }
+}

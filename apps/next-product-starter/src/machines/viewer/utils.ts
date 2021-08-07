@@ -4,7 +4,7 @@ import reduce from 'lodash/reduce'
 import {isBrowser} from 'utils/is-browser'
 import getDevAccessToken from 'utils/get-dev-access-token'
 import {SellableResource, Viewer} from '@types'
-import Auth from 'utils/auth'
+import Auth from '@skillrecordngs/auth'
 
 export const auth = new Auth()
 

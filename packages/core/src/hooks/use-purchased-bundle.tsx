@@ -1,4 +1,4 @@
-import {SellableResource} from '../@types'
+import {SellableResource} from '@skillrecordngs/types'
 import {useViewer} from '../contexts/viewer-context'
 import find from 'lodash/find'
 import useSWR from 'swr'

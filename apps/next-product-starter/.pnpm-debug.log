@@ -1,0 +1,23 @@
+{
+  "0 debug pnpm:scope": {
+    "selected": 1,
+    "workspacePrefix": "/Users/joel/Code/skillrecordings/turbo-playground"
+  },
+  "1 error pnpm": {
+    "code": "ELIFECYCLE",
+    "errno": "ENOENT",
+    "syscall": "spawn",
+    "file": "sh",
+    "pkgid": "skill-product-starter@0.1.0",
+    "stage": "build",
+    "script": "NODE_ENV=production next build",
+    "pkgname": "skill-product-starter",
+    "err": {
+      "name": "Error",
+      "message": "skill-product-starter@0.1.0 build: `NODE_ENV=production next build`\nspawn ENOENT",
+      "code": "ELIFECYCLE",
+      "stack": "Error: skill-product-starter@0.1.0 build: `NODE_ENV=production next build`\nspawn ENOENT\n    at ChildProcess.<anonymous> (/Users/joel/.nodenv/versions/14.15.0/pnpm-global/5/node_modules/.pnpm/pnpm@6.11.5/node_modules/pnpm/dist/pnpm.cjs:93047:22)\n    at ChildProcess.emit (events.js:315:20)\n    at maybeClose (internal/child_process.js:1048:16)\n    at Process.ChildProcess._handle.onexit (internal/child_process.js:288:5)"
+    }
+  },
+  "2 warn pnpm:global": " Local package.json exists, but node_modules missing, did you mean to install?"
+}

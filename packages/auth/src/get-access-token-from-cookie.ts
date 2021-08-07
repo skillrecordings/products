@@ -1,4 +1,4 @@
-import {ACCESS_TOKEN_KEY} from '@skillrecordngs/auth'
+import {ACCESS_TOKEN_KEY} from '.'
 import cookies from './cookies'
 
 const getAccessTokenFromCookie = () => {
