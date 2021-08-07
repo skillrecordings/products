@@ -1,6 +1,6 @@
 import * as React from 'react'
 import useBundleProgress from './use-bundle-progress'
-import type {Achievement} from '@skillrecordngs/types'
+import type {Achievement} from '@skillrecordings/types'
 import {isEmpty} from 'lodash'
 
 export default function useAchievements(purchasedBundle: any) {

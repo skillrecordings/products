@@ -1,5 +1,5 @@
 import axios from 'axios'
-import {ACCESS_TOKEN_KEY} from '@skillrecordngs/auth'
+import {ACCESS_TOKEN_KEY} from '@skillrecordings/auth'
 
 axios.interceptors.request.use(
   function (config: any) {

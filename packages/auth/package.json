@@ -1,5 +1,5 @@
 {
-  "name": "@skillrecordngs/auth",
+  "name": "@skillrecordings/auth",
   "description": "Internal, shared utilities",
   "author": "Joel Hooks",
   "version": "0.0.3",
@@ -17,13 +17,13 @@
     "clean": "rm -rf .turbo && rm -rf node_modules && rm -rf dist"
   },
   "dependencies": {
-    "@skillrecordngs/analytics": "^0.0.3",
+    "@skillrecordings/analytics": "^0.0.3",
     "axios": "^0.21.1",
     "client-oauth2": "^4.3.3"
   },
   "devDependencies": {
     "@skillrecordings/tsconfig": "^0.0.3",
-    "@skillrecordngs/types": "^0.0.3",
+    "@skillrecordings/types": "^0.0.3",
     "typescript": "^4.2.4"
   },
   "publishConfig": {
@@ -32,5 +32,5 @@
   "jest": {
     "preset": "@skillrecordings/scripts/jest/node"
   },
-  "gitHead": "0fb5eaf184f47de6c5baef11a0aca1f03c72df1b"
+  "gitHead": "3398ceeb143d5fddcf11268741c2747856814119"
 }

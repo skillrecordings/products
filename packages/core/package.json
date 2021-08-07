@@ -18,9 +18,9 @@
   ],
   "dependencies": {
     "@skillrecordings/tsconfig": "^0.0.3",
-    "@skillrecordngs/analytics": "^0.0.3",
-    "@skillrecordngs/auth": "^0.0.3",
-    "@skillrecordngs/types": "^0.0.3",
+    "@skillrecordings/analytics": "^0.0.3",
+    "@skillrecordings/auth": "^0.0.3",
+    "@skillrecordings/types": "^0.0.3",
     "@stripe/stripe-js": "^1.16.0",
     "@xstate/react": "^1.5.1",
     "axios": "^0.21.1",
@@ -46,5 +46,5 @@
   "jest": {
     "preset": "@skillrecordings/scripts/jest/node"
   },
-  "gitHead": "0fb5eaf184f47de6c5baef11a0aca1f03c72df1b"
+  "gitHead": "3398ceeb143d5fddcf11268741c2747856814119"
 }

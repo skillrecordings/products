@@ -4,7 +4,7 @@ import {every, find, isArray, map} from 'lodash'
 import isEmpty from 'lodash/isEmpty'
 import React from 'react'
 import * as Yup from 'yup'
-import {Question, Choice} from '@skillrecordngs/types'
+import {Question, Choice} from '@skillrecordings/types'
 
 function useQuestion(question: Question) {
   const [answer, setAnswer] = React.useState<any>()

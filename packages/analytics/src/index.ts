@@ -1,5 +1,5 @@
 import {isFunction, isUndefined} from 'lodash'
-import {Viewer} from '@skillrecordngs/types'
+import {Viewer} from '@skillrecordings/types'
 const DEBUG_ANALYTICS = false
 
 export const USER_KEY = process.env.NEXT_PUBLIC_USER_KEY || 'user'

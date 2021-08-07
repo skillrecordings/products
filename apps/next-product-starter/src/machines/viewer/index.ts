@@ -1,5 +1,5 @@
 import {createMachine, assign} from 'xstate'
-import {identify} from '@skillrecordngs/analytics'
+import {identify} from '@skillrecordings/analytics'
 import isEmpty from 'lodash/isEmpty'
 import isEqual from 'lodash/isEqual'
 import get from 'lodash/get'

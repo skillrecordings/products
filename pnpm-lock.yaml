@@ -26,9 +26,9 @@ importers:
       '@mdx-js/loader': ^1.6.22
       '@next/mdx': ^11.0.1
       '@reach/dialog': ^0.15.3
+      '@skillrecordings/analytics': '*'
+      '@skillrecordings/auth': '*'
       '@skillrecordings/core': '*'
-      '@skillrecordngs/analytics': '*'
-      '@skillrecordngs/auth': '*'
       '@stripe/stripe-js': ^1.13.2
       '@tailwindcss/aspect-ratio': ^0.2.1
       '@tailwindcss/forms': ^0.3.3
@@ -102,9 +102,9 @@ importers:
     dependencies:
       '@next/mdx': 11.0.1_@mdx-js+loader@1.6.22
       '@reach/dialog': 0.15.3_a1bbe17b69ce74ad68a61ee76e049e19
+      '@skillrecordings/analytics': link:../../packages/analytics
+      '@skillrecordings/auth': link:../../packages/auth
       '@skillrecordings/core': link:../../packages/core
-      '@skillrecordngs/analytics': link:../../packages/analytics
-      '@skillrecordngs/auth': link:../../packages/auth
       '@stripe/stripe-js': 1.16.0
       '@tailwindcss/aspect-ratio': 0.2.1_tailwindcss@2.2.7
       '@tailwindcss/forms': 0.3.3_tailwindcss@2.2.7
@@ -181,37 +181,37 @@ importers:
 
   packages/analytics:
     specifiers:
-      '@skillrecordings/tsconfig': ^0.0.2
-      '@skillrecordngs/types': ^0.0.2
+      '@skillrecordings/tsconfig': ^0.0.3
+      '@skillrecordings/types': ^0.0.3
       typescript: ^4.2.4
     devDependencies:
       '@skillrecordings/tsconfig': link:../tsconfig
-      '@skillrecordngs/types': link:../types
+      '@skillrecordings/types': link:../types
       typescript: 4.3.5
 
   packages/auth:
     specifiers:
-      '@skillrecordings/tsconfig': ^0.0.2
-      '@skillrecordngs/analytics': ^0.0.2
-      '@skillrecordngs/types': ^0.0.2
+      '@skillrecordings/analytics': ^0.0.3
+      '@skillrecordings/tsconfig': ^0.0.3
+      '@skillrecordings/types': ^0.0.3
       axios: ^0.21.1
       client-oauth2: ^4.3.3
       typescript: ^4.2.4
     dependencies:
-      '@skillrecordngs/analytics': link:../analytics
+      '@skillrecordings/analytics': link:../analytics
       axios: 0.21.1
       client-oauth2: 4.3.3
     devDependencies:
       '@skillrecordings/tsconfig': link:../tsconfig
-      '@skillrecordngs/types': link:../types
+      '@skillrecordings/types': link:../types
       typescript: 4.3.5
 
   packages/core:
     specifiers:
-      '@skillrecordings/tsconfig': ^0.0.2
-      '@skillrecordngs/analytics': ^0.0.2
-      '@skillrecordngs/auth': ^0.0.2
-      '@skillrecordngs/types': ^0.0.2
+      '@skillrecordings/analytics': ^0.0.3
+      '@skillrecordings/auth': ^0.0.3
+      '@skillrecordings/tsconfig': ^0.0.3
+      '@skillrecordings/types': ^0.0.3
       '@stripe/stripe-js': ^1.16.0
       '@types/lodash': ^4.14.172
       '@types/react': ^17.0.13
@@ -229,10 +229,10 @@ importers:
       tslib: ^2.0.0
       xstate: ^4.23.1
     dependencies:
+      '@skillrecordings/analytics': link:../analytics
+      '@skillrecordings/auth': link:../auth
       '@skillrecordings/tsconfig': link:../tsconfig
-      '@skillrecordngs/analytics': link:../analytics
-      '@skillrecordngs/auth': link:../auth
-      '@skillrecordngs/types': link:../types
+      '@skillrecordings/types': link:../types
       '@stripe/stripe-js': 1.16.0
       '@xstate/react': 1.5.1_c99a27c30afd12f27e51c113193b4b90
       axios: 0.21.1

@@ -1,5 +1,5 @@
 import * as serverCookie from 'cookie'
-import {ACCESS_TOKEN_KEY} from '@skillrecordngs/auth'
+import {ACCESS_TOKEN_KEY} from '@skillrecordings/auth'
 import {CK_SUBSCRIBER_KEY} from '../contexts/convertkit-context'
 
 interface ParsedCookie {

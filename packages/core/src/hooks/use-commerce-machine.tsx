@@ -1,7 +1,7 @@
 import React from 'react'
 import get from 'lodash/get'
 import {useMachine} from '@xstate/react'
-import {SellableResource} from '@skillrecordngs/types'
+import {SellableResource} from '@skillrecordings/types'
 import commerceMachine from '../machines/commerce'
 
 type CreateCommerceMachineProps = {
