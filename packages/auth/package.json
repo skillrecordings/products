@@ -1,6 +1,6 @@
 {
   "name": "@skillrecordngs/auth",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "source": "./src/index.ts",
@@ -15,13 +15,13 @@
     "clean": "rm -rf .turbo && rm -rf node_modules && rm -rf dist"
   },
   "dependencies": {
-    "@skillrecordngs/analytics": "^0.0.1",
+    "@skillrecordngs/analytics": "^0.0.2",
     "axios": "^0.21.1",
     "client-oauth2": "^4.3.3"
   },
   "devDependencies": {
-    "@skillrecordings/tsconfig": "^0.0.1",
-    "@skillrecordngs/types": "^0.0.1",
+    "@skillrecordings/tsconfig": "^0.0.2",
+    "@skillrecordngs/types": "^0.0.2",
     "typescript": "^4.2.4"
   },
   "publishConfig": {
