@@ -29,6 +29,7 @@ importers:
       '@skillrecordings/analytics': '*'
       '@skillrecordings/auth': '*'
       '@skillrecordings/core': '*'
+      '@skillrecordings/types': '*'
       '@stripe/stripe-js': ^1.13.2
       '@tailwindcss/aspect-ratio': ^0.2.1
       '@tailwindcss/forms': ^0.3.3
@@ -147,6 +148,7 @@ importers:
     devDependencies:
       '@babel/plugin-transform-react-jsx': 7.14.9
       '@mdx-js/loader': 1.6.22_react@17.0.2
+      '@skillrecordings/types': link:../../packages/types
       '@testing-library/jest-dom': 5.14.1
       '@testing-library/react': 11.2.7_react-dom@17.0.2+react@17.0.2
       '@types/cookie': 0.4.1

@@ -1,6 +1,6 @@
 import React from 'react'
 import {Element} from 'react-scroll'
-import {SellableResource} from '@types'
+import {SellableResource} from '@skillrecordings/types'
 import PurchaseBundle from './purchase-bundle'
 import Image from 'next/image'
 import {getBundleDescription, getBundleImage} from 'utils/get-bundle-metadata'

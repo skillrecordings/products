@@ -1,5 +1,5 @@
 import * as React from 'react'
-import type {Achievement, SellableResource} from '@types'
+import type {Achievement, SellableResource} from '@skillrecordings/types'
 import useAchievements from 'hooks/use-achievements'
 import Markdown from 'react-markdown'
 import Spinner from 'components/spinner'

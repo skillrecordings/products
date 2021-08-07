@@ -62,6 +62,7 @@
   "devDependencies": {
     "@babel/plugin-transform-react-jsx": "^7.14.5",
     "@mdx-js/loader": "^1.6.22",
+    "@skillrecordings/types": "*",
     "@testing-library/jest-dom": "^5.14.1",
     "@testing-library/react": "^11.2.5",
     "@types/cookie": "^0.4.1",

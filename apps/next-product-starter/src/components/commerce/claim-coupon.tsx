@@ -1,7 +1,7 @@
 import React from 'react'
 import ClaimCouponOverlay from 'components/commerce/claim-coupon-overlay'
 import get from 'lodash/get'
-import {SellableResource} from '@types'
+import {SellableResource} from '@skillrecordings/types'
 import {useCommerceMachine} from '@skillrecordings/core'
 
 type ClaimCouponProps = {
