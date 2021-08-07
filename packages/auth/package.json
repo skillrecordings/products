@@ -20,7 +20,7 @@
     "@skillrecordngs/analytics": "*"
   },
   "devDependencies": {
-    "skill-tsconfig": "*",
+    "@skillrecordings/tsconfig": "*",
     "@skillrecordngs/types": "*",
     "typescript": "^4.2.4"
   },

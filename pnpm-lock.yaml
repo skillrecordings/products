@@ -181,33 +181,34 @@ importers:
 
   packages/analytics:
     specifiers:
+      '@skillrecordings/tsconfig': '*'
       '@skillrecordngs/types': '*'
-      skill-tsconfig: '*'
       typescript: ^4.2.4
     devDependencies:
+      '@skillrecordings/tsconfig': link:../skill-tsconfig
       '@skillrecordngs/types': link:../types
-      skill-tsconfig: link:../skill-tsconfig
       typescript: 4.3.5
 
   packages/auth:
     specifiers:
+      '@skillrecordings/tsconfig': '*'
       '@skillrecordngs/analytics': '*'
       '@skillrecordngs/types': '*'
       axios: ^0.21.1
       client-oauth2: ^4.3.3
-      skill-tsconfig: '*'
       typescript: ^4.2.4
     dependencies:
       '@skillrecordngs/analytics': link:../analytics
       axios: 0.21.1
       client-oauth2: 4.3.3
     devDependencies:
+      '@skillrecordings/tsconfig': link:../skill-tsconfig
       '@skillrecordngs/types': link:../types
-      skill-tsconfig: link:../skill-tsconfig
       typescript: 4.3.5
 
   packages/core:
     specifiers:
+      '@skillrecordings/tsconfig': '*'
       '@skillrecordngs/analytics': '*'
       '@skillrecordngs/auth': '*'
       '@skillrecordngs/types': '*'
@@ -224,11 +225,11 @@ importers:
       query-string: ^7.0.1
       react: ^17.0.2
       react-dom: ^17.0.2
-      skill-tsconfig: '*'
       stripe: ^8.167.0
       tslib: ^2.0.0
       xstate: ^4.23.1
     dependencies:
+      '@skillrecordings/tsconfig': link:../skill-tsconfig
       '@skillrecordngs/analytics': link:../analytics
       '@skillrecordngs/auth': link:../auth
       '@skillrecordngs/types': link:../types
@@ -242,7 +243,6 @@ importers:
       query-string: 7.0.1
       react: 17.0.2
       react-dom: 17.0.2_react@17.0.2
-      skill-tsconfig: link:../skill-tsconfig
       stripe: 8.168.0
       tslib: 2.3.0
       xstate: 4.23.1
@@ -259,7 +259,7 @@ importers:
       skill-tsconfig: '*'
       typescript: ^4.2.4
     devDependencies:
-      skill-tsconfig: link:../skill-tsconfig
+      skill-tsconfig: 0.0.0
       typescript: 4.3.5
 
 packages:
@@ -13689,6 +13689,10 @@ packages:
 
   /sisteransi/1.0.5:
     resolution: {integrity: sha512-bLGGlR1QxBcynn2d5YmDX4MGjlZvy2MRBDRNHLJ8VI6l6+9FUiyTFNJ0IveOSP0bcXgVDPRcfGqA0pjaqUpfVg==}
+    dev: true
+
+  /skill-tsconfig/0.0.0:
+    resolution: {integrity: sha512-ru/GyK4WgkiCpvpgMKQDsCISHHBhlkMgi7I6l9J+VBnsysUzBNIlLzfbSeITUzNZRhLKTYfGTzhOdCyEKerEQg==}
     dev: true
 
   /slash/3.0.0:

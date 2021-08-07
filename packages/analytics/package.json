@@ -15,7 +15,7 @@
     "clean": "rm -rf .turbo && rm -rf node_modules && rm -rf dist"
   },
   "devDependencies": {
-    "skill-tsconfig": "*",
+    "@skillrecordings/tsconfig": "*",
     "@skillrecordngs/types": "*",
     "typescript": "^4.2.4"
   },
