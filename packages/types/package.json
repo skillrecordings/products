@@ -20,5 +20,6 @@
   },
   "jest": {
     "preset": "scripts/jest/node"
-  }
+  },
+  "gitHead": "6eb270c68eaf959f6c48cceaea4c4b5d4d60a822"
 }
