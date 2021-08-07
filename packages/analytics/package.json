@@ -1,5 +1,7 @@
 {
   "name": "@skillrecordngs/analytics",
+  "description": "Internal, shared utilities",
+  "author": "Joel Hooks",
   "version": "0.0.2",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
@@ -25,5 +27,5 @@
   "jest": {
     "preset": "@skillrecordings/scripts/jest/node"
   },
-  "gitHead": "6eb270c68eaf959f6c48cceaea4c4b5d4d60a822"
+  "gitHead": "0fb5eaf184f47de6c5baef11a0aca1f03c72df1b"
 }
