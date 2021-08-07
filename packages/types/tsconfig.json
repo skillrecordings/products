@@ -6,6 +6,6 @@
     "rootDir": "./src"
   },
   "exclude": ["node_modules"],
-  "extends": "skill-tsconfig/base.json",
+  "extends": "@skillrecordings/tsconfig/base.json",
   "include": ["src"]
 }

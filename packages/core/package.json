@@ -36,6 +36,7 @@
     "xstate": "^4.23.1"
   },
   "devDependencies": {
+    "@skillrecordings/scripts": "^0.0.4",
     "@types/lodash": "^4.14.172",
     "@types/react": "^17.0.13",
     "@types/react-dom": "^17.0.8"

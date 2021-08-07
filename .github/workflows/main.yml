@@ -23,4 +23,4 @@ jobs:
         uses: bahmutov/npm-install@v1
 
       - name: Test
-        run: yarn test --ci --coverage --maxWorkers=2
+        run: pnpm test --ci --coverage --maxWorkers=2

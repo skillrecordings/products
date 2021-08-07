@@ -183,10 +183,12 @@ importers:
 
   packages/analytics:
     specifiers:
+      '@skillrecordings/scripts': ^0.0.4
       '@skillrecordings/tsconfig': ^0.0.4
       '@skillrecordings/types': ^0.0.4
       typescript: ^4.2.4
     devDependencies:
+      '@skillrecordings/scripts': link:../scripts
       '@skillrecordings/tsconfig': link:../tsconfig
       '@skillrecordings/types': link:../types
       typescript: 4.3.5
@@ -194,6 +196,7 @@ importers:
   packages/auth:
     specifiers:
       '@skillrecordings/analytics': ^0.0.4
+      '@skillrecordings/scripts': ^0.0.4
       '@skillrecordings/tsconfig': ^0.0.4
       '@skillrecordings/types': ^0.0.4
       axios: ^0.21.1
@@ -204,6 +207,7 @@ importers:
       axios: 0.21.1
       client-oauth2: 4.3.3
     devDependencies:
+      '@skillrecordings/scripts': link:../scripts
       '@skillrecordings/tsconfig': link:../tsconfig
       '@skillrecordings/types': link:../types
       typescript: 4.3.5
@@ -212,6 +216,7 @@ importers:
     specifiers:
       '@skillrecordings/analytics': ^0.0.4
       '@skillrecordings/auth': ^0.0.4
+      '@skillrecordings/scripts': ^0.0.4
       '@skillrecordings/tsconfig': ^0.0.4
       '@skillrecordings/types': ^0.0.4
       '@stripe/stripe-js': ^1.16.0
@@ -249,6 +254,7 @@ importers:
       tslib: 2.3.0
       xstate: 4.23.1
     devDependencies:
+      '@skillrecordings/scripts': link:../scripts
       '@types/lodash': 4.14.172
       '@types/react': 17.0.16
       '@types/react-dom': 17.0.9
@@ -293,10 +299,12 @@ importers:
 
   packages/types:
     specifiers:
-      skill-tsconfig: '*'
+      '@skillrecordings/scripts': ^0.0.4
+      '@skillrecordings/tsconfig': '*'
       typescript: ^4.2.4
     devDependencies:
-      skill-tsconfig: 0.0.0
+      '@skillrecordings/scripts': link:../scripts
+      '@skillrecordings/tsconfig': link:../tsconfig
       typescript: 4.3.5
 
 packages:
@@ -14154,10 +14162,6 @@ packages:
 
   /sisteransi/1.0.5:
     resolution: {integrity: sha512-bLGGlR1QxBcynn2d5YmDX4MGjlZvy2MRBDRNHLJ8VI6l6+9FUiyTFNJ0IveOSP0bcXgVDPRcfGqA0pjaqUpfVg==}
-
-  /skill-tsconfig/0.0.0:
-    resolution: {integrity: sha512-ru/GyK4WgkiCpvpgMKQDsCISHHBhlkMgi7I6l9J+VBnsysUzBNIlLzfbSeITUzNZRhLKTYfGTzhOdCyEKerEQg==}
-    dev: true
 
   /slash/3.0.0:
     resolution: {integrity: sha512-g9Q1haeby36OSStwb4ntCGGGaKsaVSjQ68fBxoQcutl5fS1vuY18H3wSt3jFyFtrkx+Kz0V1G85A4MyAdDMi2Q==}
