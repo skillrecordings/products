@@ -1,6 +1,6 @@
 {
   "name": "@skillrecordings/core",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Internal, shared utilities",
   "author": "Joel Hooks",
   "scripts": {
@@ -17,10 +17,10 @@
     "dist"
   ],
   "dependencies": {
-    "@skillrecordings/tsconfig": "^0.0.3",
-    "@skillrecordings/analytics": "^0.0.3",
-    "@skillrecordings/auth": "^0.0.3",
-    "@skillrecordings/types": "^0.0.3",
+    "@skillrecordings/analytics": "^0.0.4",
+    "@skillrecordings/auth": "^0.0.4",
+    "@skillrecordings/tsconfig": "^0.0.4",
+    "@skillrecordings/types": "^0.0.4",
     "@stripe/stripe-js": "^1.16.0",
     "@xstate/react": "^1.5.1",
     "axios": "^0.21.1",

@@ -1,6 +1,6 @@
 {
   "name": "@skillrecordings/tsconfig",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "license": "BUSL-1.1",
   "main": "index.js",
   "publishConfig": {

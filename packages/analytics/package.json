@@ -2,7 +2,7 @@
   "name": "@skillrecordings/analytics",
   "description": "Internal, shared utilities",
   "author": "Joel Hooks",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "source": "./src/index.ts",
@@ -17,8 +17,8 @@
     "clean": "rm -rf .turbo && rm -rf node_modules && rm -rf dist"
   },
   "devDependencies": {
-    "@skillrecordings/tsconfig": "^0.0.3",
-    "@skillrecordings/types": "^0.0.3",
+    "@skillrecordings/tsconfig": "^0.0.4",
+    "@skillrecordings/types": "^0.0.4",
     "typescript": "^4.2.4"
   },
   "publishConfig": {
