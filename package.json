@@ -26,10 +26,10 @@
     "@changesets/changelog-github": "^0.2.7",
     "@changesets/cli": "^2.10.3",
     "husky": "^4.3.8",
+    "lerna": "^4.0.0",
     "lint-staged": "^10.5.3",
     "turbo": "^0.7.5",
     "tsdx": "^0.14.1"
-
   },
   "turbo": {
     "baseBranch": "origin/main",
