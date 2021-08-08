@@ -1,7 +1,7 @@
 import * as React from 'react'
 import queryString from 'query-string'
 import {isEmpty, get} from 'lodash'
-import cookie from 'utils/cookies'
+import cookie from '@skillrecordings/cookies'
 import axios from 'utils/axios'
 
 export const ConverkitContext = React.createContext({})

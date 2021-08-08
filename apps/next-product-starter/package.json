@@ -19,6 +19,8 @@
     "@skillrecordings/core": "*",
     "@skillrecordings/auth": "*",
     "@skillrecordings/analytics": "*",
+    "@skillrecordings/cookies": "*",
+    "@skillrecordings/time": "*",
     "@stripe/stripe-js": "^1.13.2",
     "@tailwindcss/aspect-ratio": "^0.2.1",
     "@tailwindcss/forms": "^0.3.3",

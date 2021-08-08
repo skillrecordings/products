@@ -2,10 +2,12 @@ import OAuthClient from 'client-oauth2'
 import {track, identify} from '@skillrecordings/analytics'
 import http from './axios'
 import get from 'lodash/get'
-import cookie from './cookies'
+import cookie from '@skillrecordings/cookies'
 import * as serverCookie from 'cookie'
-import getAccessTokenFromCookie from './get-access-token-from-cookie'
 import {Viewer} from '@skillrecordings/types'
+import getAccessTokenFromCookie from "./get-access-token-from-cookie";
+
+export {default as getAccessTokenFromCookie} from './get-access-token-from-cookie'
 
 export const AUTH_DOMAIN = process.env.NEXT_PUBLIC_AUTH_DOMAIN
 const AUTH_CLIENT_ID = process.env.NEXT_PUBLIC_CLIENT_ID

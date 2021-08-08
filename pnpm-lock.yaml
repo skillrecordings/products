@@ -28,7 +28,9 @@ importers:
       '@reach/dialog': ^0.15.3
       '@skillrecordings/analytics': '*'
       '@skillrecordings/auth': '*'
+      '@skillrecordings/cookies': '*'
       '@skillrecordings/core': '*'
+      '@skillrecordings/time': '*'
       '@skillrecordings/types': '*'
       '@stripe/stripe-js': ^1.13.2
       '@tailwindcss/aspect-ratio': ^0.2.1
@@ -105,7 +107,9 @@ importers:
       '@reach/dialog': 0.15.3_a1bbe17b69ce74ad68a61ee76e049e19
       '@skillrecordings/analytics': link:../../packages/analytics
       '@skillrecordings/auth': link:../../packages/auth
+      '@skillrecordings/cookies': link:../../packages/cookies
       '@skillrecordings/core': link:../../packages/core
+      '@skillrecordings/time': link:../../packages/time
       '@stripe/stripe-js': 1.16.0
       '@tailwindcss/aspect-ratio': 0.2.1_tailwindcss@2.2.7
       '@tailwindcss/forms': 0.3.3_tailwindcss@2.2.7
@@ -196,6 +200,7 @@ importers:
   packages/auth:
     specifiers:
       '@skillrecordings/analytics': ^0.0.4
+      '@skillrecordings/cookies': ^0.0.1
       '@skillrecordings/scripts': ^0.0.4
       '@skillrecordings/tsconfig': ^0.0.4
       '@skillrecordings/types': ^0.0.4
@@ -204,8 +209,21 @@ importers:
       typescript: ^4.2.4
     dependencies:
       '@skillrecordings/analytics': link:../analytics
+      '@skillrecordings/cookies': link:../cookies
       axios: 0.21.1
       client-oauth2: 4.3.3
+    devDependencies:
+      '@skillrecordings/scripts': link:../scripts
+      '@skillrecordings/tsconfig': link:../tsconfig
+      '@skillrecordings/types': link:../types
+      typescript: 4.3.5
+
+  packages/cookies:
+    specifiers:
+      '@skillrecordings/scripts': ^0.0.4
+      '@skillrecordings/tsconfig': ^0.0.4
+      '@skillrecordings/types': ^0.0.4
+      typescript: ^4.2.4
     devDependencies:
       '@skillrecordings/scripts': link:../scripts
       '@skillrecordings/tsconfig': link:../tsconfig
@@ -293,6 +311,18 @@ importers:
       typescript: 4.3.5
     devDependencies:
       '@types/jest': 26.0.24
+
+  packages/time:
+    specifiers:
+      '@skillrecordings/scripts': ^0.0.4
+      '@skillrecordings/tsconfig': ^0.0.4
+      '@skillrecordings/types': ^0.0.4
+      typescript: ^4.2.4
+    devDependencies:
+      '@skillrecordings/scripts': link:../scripts
+      '@skillrecordings/tsconfig': link:../tsconfig
+      '@skillrecordings/types': link:../types
+      typescript: 4.3.5
 
   packages/tsconfig:
     specifiers: {}

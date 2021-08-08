@@ -16,9 +16,9 @@ export function convertTime(seconds: number) {
   const secs = (seconds - hours * 3600 - mins * 60) % 60
 
   return [hours, mins, secs]
-    .filter((i, index) => i > 0 || index > 0)
-    .map((i) => i.toString().padStart(2, '0'))
-    .join(':')
+      .filter((i, index) => i > 0 || index > 0)
+      .map((i) => i.toString().padStart(2, '0'))
+      .join(':')
 }
 
 export function convertTimeWithTitles(seconds: number, options: any = {}) {
@@ -38,17 +38,17 @@ export function convertTimeWithTitles(seconds: number, options: any = {}) {
 }
 
 export function percentComplete(
-  course: {lessons: any[]},
-  completed_lessons: any,
+    course: {lessons: any[]},
+    completed_lessons: any,
 ) {
   const totalDuration = course.lessons.reduce(
-    (p: any, l: {duration: any}) => p + l.duration,
-    0,
+      (p: any, l: {duration: any}) => p + l.duration,
+      0,
   )
   const completedDuration = course.lessons.reduce(
-    (p: any, l: {duration?: any; slug: any}) =>
-      p + (isLessonComplete(l, completed_lessons) ? l.duration : 0),
-    0,
+      (p: any, l: {duration?: any; slug: any}) =>
+          p + (isLessonComplete(l, completed_lessons) ? l.duration : 0),
+      0,
   )
 
   return completedDuration / totalDuration

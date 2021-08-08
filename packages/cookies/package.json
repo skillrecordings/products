@@ -1,8 +1,8 @@
 {
-  "name": "@skillrecordings/auth",
+  "name": "@skillrecordings/cookies",
   "description": "Internal, shared utilities",
   "author": "Joel Hooks",
-  "version": "0.0.4",
+  "version": "0.0.1",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "source": "./src/index.ts",
@@ -17,15 +17,12 @@
     "clean": "rm -rf .turbo && rm -rf node_modules && rm -rf dist"
   },
   "dependencies": {
-    "@skillrecordings/analytics": "^0.0.4",
-    "@skillrecordings/cookies": "^0.0.1",
-    "axios": "^0.21.1",
-    "client-oauth2": "^4.3.3"
+
   },
   "devDependencies": {
+    "@skillrecordings/scripts": "^0.0.4",
     "@skillrecordings/tsconfig": "^0.0.4",
     "@skillrecordings/types": "^0.0.4",
-    "@skillrecordings/scripts": "^0.0.4",
     "typescript": "^4.2.4"
   },
   "publishConfig": {

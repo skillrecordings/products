@@ -1,5 +1,6 @@
+import cookies from '@skillrecordings/cookies'
+
 import {ACCESS_TOKEN_KEY} from '.'
-import cookies from './cookies'
 
 const getAccessTokenFromCookie = () => {
   if (!ACCESS_TOKEN_KEY) return false
