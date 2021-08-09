@@ -10,4 +10,5 @@ module.exports = {
     '<rootDir>/dist',
   ],
   preset: 'ts-jest',
+  passWithNoTests: true,
 }

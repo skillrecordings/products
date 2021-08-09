@@ -1,12 +1,15 @@
+/**
+ * @jest-environment jsdom
+ */
 import {interpret} from 'xstate'
-import {SellableResource} from '@skillrecordings/typess'
+import {SellableResource} from '@skillrecordings/types'
 import commerceMachine from '../'
 import {
   CommerceMachineContext,
   eggheadPriceCheckUrl,
   stripeCheckoutSessionUrl,
 } from '../utils'
-const sellableData: SellableResource[] = require('../../../../test/data/bundles.development.json')
+const sellableData: SellableResource[] = require('../../../data/bundles.development.json')
 
 const sellable = sellableData[0]
 
