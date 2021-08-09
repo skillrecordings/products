@@ -9,13 +9,8 @@ import CompletedMessage from 'components/forms/quiz/completed'
 const EssayQuestion: FunctionComponent<{
   question: Question
 }> = ({question}) => {
-  const {
-    formik,
-    onAnswer,
-    isAnswered,
-    answeredCorrectly,
-    isSubmitting,
-  } = useQuestion(question)
+  const {formik, onAnswer, isAnswered, answeredCorrectly, isSubmitting} =
+    useQuestion(question)
 
   return (
     <form onSubmit={onAnswer} className="w-full">

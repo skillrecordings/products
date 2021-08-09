@@ -7,7 +7,7 @@
     "pre-commit": "lint-staged",
     "format": "pnpm run format:index && pnpm run format:src",
     "format:index": "prettier --write \"*.{js,ts,json,md}\"",
-    "format:src": "prettier --write \"packages/**/*.{js,ts,tsx,md,mdx}\" \"apps/**/*.{js,ts,tsx,md,mdx}\"",
+    "format:src": "prettier --write",
     "lint": "TIMING=1 eslint --fix",
     "changeset": "changeset",
     "release": "changeset publish",

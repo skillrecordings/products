@@ -278,7 +278,7 @@ const PurchaseBundle = ({
               </label>
               <input
                 value={state.context.quantity}
-                onChange={event => {
+                onChange={(event) => {
                   const newQuantity = Number(event.target.value)
                   const isBulk = newQuantity > 1
                   if (isBulk) {

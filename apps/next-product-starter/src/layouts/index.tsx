@@ -15,8 +15,13 @@ const Layout: FunctionComponent<LayoutProps> = ({
   meta,
   noIndex,
 }) => {
-  const {title, description, titleAppendSiteName = false, url, ogImage} =
-    meta || {}
+  const {
+    title,
+    description,
+    titleAppendSiteName = false,
+    url,
+    ogImage,
+  } = meta || {}
   return (
     <>
       <NextSeo

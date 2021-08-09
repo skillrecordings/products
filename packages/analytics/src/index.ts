@@ -1,4 +1,3 @@
-// lint me
 import {isFunction, isUndefined} from 'lodash'
 import {Viewer} from '@skillrecordings/types'
 const DEBUG_ANALYTICS = false

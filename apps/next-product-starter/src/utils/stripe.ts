@@ -1,4 +1,3 @@
-// lint me
 import Stripe from 'stripe'
 const STRIPE_SECRET = process.env.STRIPE_SECRET_TOKEN
 

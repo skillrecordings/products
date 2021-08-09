@@ -52,7 +52,8 @@ function useAuthedViewer() {
   }).sort(sortPurchases)
 
   const bestPurchase = first(sitePurchases)
-  const availableUpgrades = bestPurchase?.available_upgrades as AvailableUpgrade[]
+  const availableUpgrades =
+    bestPurchase?.available_upgrades as AvailableUpgrade[]
   const nextUpgrade = first(availableUpgrades) // we only sell one upgrade
   const siteSellables: any = getBundles()
   const upgradeFromSellable =

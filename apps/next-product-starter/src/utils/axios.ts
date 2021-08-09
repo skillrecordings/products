@@ -1,4 +1,3 @@
-// lint me
 import axios from 'axios'
 import {ACCESS_TOKEN_KEY} from '@skillrecordings/auth'
 
