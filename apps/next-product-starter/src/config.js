@@ -1,3 +1,4 @@
+// add a comment here
 export default {
   defaultTitle: 'Skill Recordings',
   description: 'Lorem ipsum dolor sit amet.',

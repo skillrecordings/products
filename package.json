@@ -6,7 +6,9 @@
   "scripts": {
     "pre-commit": "lint-staged",
     "prepare": "husky install",
-    "format": "prettier --write  'packages/**/*' 'README.md'",
+    "format": "pnpm run format:index && pnpm run format:src",
+    "format:index": "prettier --write \"*.{js,ts,json,md}\"",
+    "format:src": "prettier --write \"packages/**/*.{js,ts,tsx,md,mdx}\"",
     "lint": "turbo run lint",
     "changeset": "changeset",
     "release": "changeset publish",
@@ -17,8 +19,7 @@
   "license": "ISC",
   "lint-staged": {
     "**/*.{ts,tsx,md,mdx,js,jsx}": [
-      "pnpm run format",
-      "pnpm run lint"
+      "pnpm run format"
     ]
   },
   "devDependencies": {
@@ -57,5 +58,8 @@
         "cache": false
       }
     }
+  },
+  "dependencies": {
+    "prettier": "^2.3.2"
   }
 }
