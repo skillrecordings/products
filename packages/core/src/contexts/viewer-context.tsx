@@ -1,51 +1,51 @@
-import React, { FunctionComponent } from "react";
-import get from "lodash/get";
-import filter from "lodash/filter";
-import reduce from "lodash/reduce";
-import { sortPurchases } from "utils/sort-purchases";
-import { SellableResource } from "@skillrecordings/types";
-import viewerMachine from "machines/viewer";
-import { auth } from "machines/viewer/utils";
-import { useMachine } from "@xstate/react";
+import React, {FunctionComponent} from 'react'
+import get from 'lodash/get'
+import filter from 'lodash/filter'
+import reduce from 'lodash/reduce'
+import {sortPurchases} from 'utils/sort-purchases'
+import {SellableResource} from '@skillrecordings/types'
+import viewerMachine from 'machines/viewer'
+import {auth} from 'machines/viewer/utils'
+import {useMachine} from '@xstate/react'
 
 type ViewerContextType = {
-  authenticated?: boolean;
-  viewer?: any;
-  requestSignInEmail?: any;
-  logout?: any;
-  viewAsEmail?: any;
-  upgradeToSellable?: any;
-  upgradeFromSellable?: any;
-  isAuthenticated?: any;
-  sitePurchases?: any;
-  isUnclaimedBulkPurchaser?: boolean;
-  refreshViewer?: () => void;
-};
+  authenticated?: boolean
+  viewer?: any
+  requestSignInEmail?: any
+  logout?: any
+  viewAsEmail?: any
+  upgradeToSellable?: any
+  upgradeFromSellable?: any
+  isAuthenticated?: any
+  sitePurchases?: any
+  isUnclaimedBulkPurchaser?: boolean
+  refreshViewer?: () => void
+}
 
 const defaultViewerContext: ViewerContextType = {
   authenticated: false,
-};
-
-export function useViewer() {
-  return React.useContext(ViewerContext);
 }
 
-export const ViewerContext = React.createContext(defaultViewerContext);
+export function useViewer() {
+  return React.useContext(ViewerContext)
+}
+
+export const ViewerContext = React.createContext(defaultViewerContext)
 
 function useAuthedViewer() {
-  const [machineState, send] = useMachine(viewerMachine);
-  const viewerState = machineState.value;
-  const viewer = machineState.context.viewer;
-  const viewAsEmail = machineState.context.viewAsUser;
+  const [machineState, send] = useMachine(viewerMachine)
+  const viewerState = machineState.value
+  const viewer = machineState.context.viewer
+  const viewAsEmail = machineState.context.viewAsUser
 
   React.useEffect(() => {
-    window.becomeUser = auth.becomeUser;
-  }, []);
+    window.becomeUser = auth.becomeUser
+  }, [])
 
-  const allPurchases = get(viewer, "purchased") || ([] as SellableResource[]);
+  const allPurchases = get(viewer, 'purchased') || ([] as SellableResource[])
   const sitePurchases = filter(allPurchases, {
     site: process.env.NEXT_PUBLIC_SITE_NAME,
-  }).sort(sortPurchases);
+  }).sort(sortPurchases)
 
   // TODO: This is all code related to determining available upgrades and
   // needs access to site bundles
@@ -67,52 +67,52 @@ function useAuthedViewer() {
     sitePurchases,
     (canViewContent, currentPurchase) => {
       if (canViewContent) {
-        return canViewContent;
+        return canViewContent
       }
 
-      return get(currentPurchase, "bulk", false) !== true;
+      return get(currentPurchase, 'bulk', false) !== true
     },
-    false
-  );
+    false,
+  )
 
-  const isUnclaimedBulkPurchaser = !canViewContent && sitePurchases.length > 0;
+  const isUnclaimedBulkPurchaser = !canViewContent && sitePurchases.length > 0
 
   const values = React.useMemo(
     () => ({
       viewer,
       sitePurchases,
-      logout: () => send("LOG_OUT"),
-      isAuthenticated: machineState.matches("loggedIn"),
+      logout: () => send('LOG_OUT'),
+      isAuthenticated: machineState.matches('loggedIn'),
       requestSignInEmail: (email: string) =>
         new Promise((resolve) => {
-          send("REQUEST_LOGIN", { email });
-          resolve(email);
+          send('REQUEST_LOGIN', {email})
+          resolve(email)
         }),
       viewerState,
       viewAsEmail,
 
       isUnclaimedBulkPurchaser,
       refreshViewer: () => {
-        if (machineState.matches("loggedIn")) {
-          send("REFRESH_VIEWER");
+        if (machineState.matches('loggedIn')) {
+          send('REFRESH_VIEWER')
         }
       },
       // upgrade stuff
       // upgradeFromSellable,
       // upgradeToSellable,
     }),
-    [viewer?.id, viewerState]
-  );
+    [viewer?.id, viewerState],
+  )
 
-  return values;
+  return values
 }
 
-export const ViewerProvider: FunctionComponent = ({ children }) => {
-  const values = useAuthedViewer();
+export const ViewerProvider: FunctionComponent = ({children}) => {
+  const values = useAuthedViewer()
 
   return (
-    <ViewerContext.Provider value={{ ...values }}>
+    <ViewerContext.Provider value={{...values}}>
       {children}
     </ViewerContext.Provider>
-  );
-};
+  )
+}

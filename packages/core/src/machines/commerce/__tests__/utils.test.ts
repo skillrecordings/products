@@ -1,4 +1,4 @@
-import { getPriceParams, getStripeCheckoutParams } from "../utils";
+import {getPriceParams, getStripeCheckoutParams} from '../utils'
 
 const getContext = (options: any = {}) => {
   const defaultContext = {
@@ -7,33 +7,33 @@ const getContext = (options: any = {}) => {
     bulk: false,
     quantity: 1,
     stripePriceId: undefined,
-  };
+  }
 
-  return { ...defaultContext, ...options };
-};
+  return {...defaultContext, ...options}
+}
 
-describe("getPriceParams", () => {
-  it("returns the stripe price id as {id}", () => {
+describe('getPriceParams', () => {
+  it('returns the stripe price id as {id}', () => {
     const machineContext = getContext({
-      stripePriceId: "abc123",
+      stripePriceId: 'abc123',
       sellable: {},
-    });
-    const params = getPriceParams(machineContext);
-    expect(params).toStrictEqual({ id: "abc123" });
-  });
+    })
+    const params = getPriceParams(machineContext)
+    expect(params).toStrictEqual({id: 'abc123'})
+  })
 
-  it("errors when sellable is null", () => {
-    const machineContext = getContext();
-    expect(() => getPriceParams(machineContext)).toThrow();
-  });
+  it('errors when sellable is null', () => {
+    const machineContext = getContext()
+    expect(() => getPriceParams(machineContext)).toThrow()
+  })
 
-  it("returns sellable params", () => {
+  it('returns sellable params', () => {
     const contextOverride = {
       quantity: 1,
-      sellable: { id: "abc123", type: "type", site: "site" },
-    };
-    const machineContext = getContext(contextOverride);
-    const params = getPriceParams(machineContext);
+      sellable: {id: 'abc123', type: 'type', site: 'site'},
+    }
+    const machineContext = getContext(contextOverride)
+    const params = getPriceParams(machineContext)
     expect(params).toStrictEqual({
       sellables: [
         {
@@ -42,18 +42,18 @@ describe("getPriceParams", () => {
           sellable_id: contextOverride.sellable.id,
         },
       ],
-      site: "TEST_PRODUCT",
-    });
-  });
+      site: 'TEST_PRODUCT',
+    })
+  })
 
-  it("returns sellable params with applied coupon", () => {
+  it('returns sellable params with applied coupon', () => {
     const contextOverride = {
       quantity: 1,
-      sellable: { id: "abc123", type: "type" },
-      appliedCoupon: "coupon",
-    };
-    const machineContext = getContext(contextOverride);
-    const params = getPriceParams(machineContext);
+      sellable: {id: 'abc123', type: 'type'},
+      appliedCoupon: 'coupon',
+    }
+    const machineContext = getContext(contextOverride)
+    const params = getPriceParams(machineContext)
     expect(params).toStrictEqual({
       sellables: [
         {
@@ -62,22 +62,22 @@ describe("getPriceParams", () => {
           sellable_id: contextOverride.sellable.id,
         },
       ],
-      site: "TEST_PRODUCT",
+      site: 'TEST_PRODUCT',
       code: contextOverride.appliedCoupon,
-    });
-  });
+    })
+  })
 
-  it("returns sellable params with an upgradeFromSellable", () => {
+  it('returns sellable params with an upgradeFromSellable', () => {
     const contextOverride = {
       quantity: 1,
-      sellable: { id: "abc123", type: "type" },
+      sellable: {id: 'abc123', type: 'type'},
       upgradeFromSellable: {
-        slug: "upgrade",
-        type: "type",
+        slug: 'upgrade',
+        type: 'type',
       },
-    };
-    const machineContext = getContext(contextOverride);
-    const params = getPriceParams(machineContext);
+    }
+    const machineContext = getContext(contextOverride)
+    const params = getPriceParams(machineContext)
     expect(params).toStrictEqual({
       sellables: [
         {
@@ -88,33 +88,33 @@ describe("getPriceParams", () => {
           upgrade_from_sellable: contextOverride.upgradeFromSellable.type,
         },
       ],
-      site: "TEST_PRODUCT",
-    });
-  });
-});
+      site: 'TEST_PRODUCT',
+    })
+  })
+})
 
-describe("getStripeCheckoutParams", () => {
-  it("returns the stripe price id as {stripe_price_id}", () => {
+describe('getStripeCheckoutParams', () => {
+  it('returns the stripe price id as {stripe_price_id}', () => {
     const machineContext = getContext({
-      stripePriceId: "abc123",
+      stripePriceId: 'abc123',
       sellable: {},
-    });
-    const params = getStripeCheckoutParams(machineContext);
-    expect(params).toStrictEqual({ stripe_price_id: "abc123", quantity: 1 });
-  });
+    })
+    const params = getStripeCheckoutParams(machineContext)
+    expect(params).toStrictEqual({stripe_price_id: 'abc123', quantity: 1})
+  })
 
-  it("errors when sellable is null", () => {
-    const machineContext = getContext();
-    expect(() => getStripeCheckoutParams(machineContext)).toThrow();
-  });
+  it('errors when sellable is null', () => {
+    const machineContext = getContext()
+    expect(() => getStripeCheckoutParams(machineContext)).toThrow()
+  })
 
-  it("returns sellable params", () => {
+  it('returns sellable params', () => {
     const contextOverride = {
       quantity: 1,
-      sellable: { slug: "abc123", type: "type", site: "site" },
-    };
-    const machineContext = getContext(contextOverride);
-    const params = getStripeCheckoutParams(machineContext);
+      sellable: {slug: 'abc123', type: 'type', site: 'site'},
+    }
+    const machineContext = getContext(contextOverride)
+    const params = getStripeCheckoutParams(machineContext)
     expect(params).toStrictEqual({
       sellables: [
         {
@@ -124,17 +124,17 @@ describe("getStripeCheckoutParams", () => {
           site: contextOverride.sellable.site,
         },
       ],
-    });
-  });
+    })
+  })
 
-  it("returns sellable params with applied coupon", () => {
+  it('returns sellable params with applied coupon', () => {
     const contextOverride = {
       quantity: 1,
-      sellable: { slug: "abc123", type: "type", site: "site" },
-      appliedCoupon: "coupon",
-    };
-    const machineContext = getContext(contextOverride);
-    const params = getStripeCheckoutParams(machineContext);
+      sellable: {slug: 'abc123', type: 'type', site: 'site'},
+      appliedCoupon: 'coupon',
+    }
+    const machineContext = getContext(contextOverride)
+    const params = getStripeCheckoutParams(machineContext)
     expect(params).toStrictEqual({
       sellables: [
         {
@@ -145,20 +145,20 @@ describe("getStripeCheckoutParams", () => {
         },
       ],
       code: contextOverride.appliedCoupon,
-    });
-  });
+    })
+  })
 
-  it("returns sellable params with an upgradeFromSellable", () => {
+  it('returns sellable params with an upgradeFromSellable', () => {
     const contextOverride = {
       quantity: 1,
-      sellable: { slug: "abc123", type: "type", site: "site" },
+      sellable: {slug: 'abc123', type: 'type', site: 'site'},
       upgradeFromSellable: {
-        slug: "upgrade",
-        type: "type",
+        slug: 'upgrade',
+        type: 'type',
       },
-    };
-    const machineContext = getContext(contextOverride);
-    const params = getStripeCheckoutParams(machineContext);
+    }
+    const machineContext = getContext(contextOverride)
+    const params = getStripeCheckoutParams(machineContext)
     expect(params).toStrictEqual({
       sellables: [
         {
@@ -170,21 +170,21 @@ describe("getStripeCheckoutParams", () => {
           upgrade_from_sellable: contextOverride.upgradeFromSellable.type,
         },
       ],
-    });
-  });
+    })
+  })
 
-  it("returns sellable params with bulk purchase", () => {
+  it('returns sellable params with bulk purchase', () => {
     const contextOverride = {
       quantity: 2,
       bulk: true,
-      sellable: { slug: "abc123", type: "type", site: "site" },
+      sellable: {slug: 'abc123', type: 'type', site: 'site'},
       upgradeFromSellable: {
-        slug: "upgrade",
-        type: "type",
+        slug: 'upgrade',
+        type: 'type',
       },
-    };
-    const machineContext = getContext(contextOverride);
-    const params = getStripeCheckoutParams(machineContext);
+    }
+    const machineContext = getContext(contextOverride)
+    const params = getStripeCheckoutParams(machineContext)
     expect(params).toStrictEqual({
       sellables: [
         {
@@ -197,6 +197,6 @@ describe("getStripeCheckoutParams", () => {
           upgrade_from_sellable: contextOverride.upgradeFromSellable.type,
         },
       ],
-    });
-  });
-});
+    })
+  })
+})

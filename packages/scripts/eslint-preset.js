@@ -1,8 +1,8 @@
 module.exports = {
-  extends: ["react-app"],
+  extends: ['react-app'],
   settings: {
     react: {
-      version: "detect",
+      version: 'detect',
     },
   },
-};
+}

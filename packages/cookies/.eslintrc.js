@@ -1,1 +1,1 @@
-module.exports = require("@skillrecordings/scripts/eslint-preset");
+module.exports = require('@skillrecordings/scripts/eslint-preset')
