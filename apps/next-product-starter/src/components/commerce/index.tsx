@@ -18,7 +18,7 @@ export function getBundleStyles(slug: string) {
     case process.env.NEXT_PUBLIC_BOOK_SLUG:
       return ''
     default:
-      ''
+      return ''
   }
 }
 
@@ -50,14 +50,16 @@ const Commerce = ({bundles, children, className}: CommerceProps) => {
               <PurchaseBundle bundle={bundle} />
               <div className="flex flex-col items-center">
                 <ul className="pt-8 pb-2 font-semibold">
-                  {getBundleDescription(bundle.slug)?.map((item, i) => (
-                    <li key={i} className="py-1 flex items-center">
-                      <span className="flex-shrink-0 w-6 h-6 font-bold text-sm text-center leading-tight rounded-full ml-1 mr-3 flex items-center justify-center border dark:border-gray-700 border-gray-300">
-                        ✓
-                      </span>
-                      <span>{item}</span>
-                    </li>
-                  ))}
+                  {getBundleDescription(bundle.slug)?.map(
+                    (item: any, i: number) => (
+                      <li key={i} className="py-1 flex items-center">
+                        <span className="flex-shrink-0 w-6 h-6 font-bold text-sm text-center leading-tight rounded-full ml-1 mr-3 flex items-center justify-center border dark:border-gray-700 border-gray-300">
+                          ✓
+                        </span>
+                        <span>{item}</span>
+                      </li>
+                    ),
+                  )}
                 </ul>
                 <ul>
                   {bundle.items.map((item, i) => {

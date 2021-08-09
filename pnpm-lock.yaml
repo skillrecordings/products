@@ -12,14 +12,13 @@ importers:
       prettier: ^2.3.2
       tsdx: ^0.14.1
       turbo: ^0.7.5
-    dependencies:
-      prettier: 2.3.2
     devDependencies:
       '@changesets/changelog-github': 0.2.8
       '@changesets/cli': 2.16.0
       husky: 4.3.8
       lerna: 4.0.0
       lint-staged: 10.5.4
+      prettier: 2.3.2
       tsdx: 0.14.1
       turbo: 0.7.5
 
@@ -33,6 +32,7 @@ importers:
       '@skillrecordings/auth': '*'
       '@skillrecordings/cookies': '*'
       '@skillrecordings/core': '*'
+      '@skillrecordings/scripts': '*'
       '@skillrecordings/time': '*'
       '@skillrecordings/types': '*'
       '@stripe/stripe-js': ^1.13.2
@@ -155,6 +155,7 @@ importers:
     devDependencies:
       '@babel/plugin-transform-react-jsx': 7.14.9
       '@mdx-js/loader': 1.6.22_react@17.0.2
+      '@skillrecordings/scripts': link:../../packages/scripts
       '@skillrecordings/types': link:../../packages/types
       '@testing-library/jest-dom': 5.14.1
       '@testing-library/react': 11.2.7_react-dom@17.0.2+react@17.0.2
@@ -12892,6 +12893,7 @@ packages:
     resolution: {integrity: sha512-lnJzDfJ66zkMy58OL5/NY5zp70S7Nz6KqcKkXYzn2tMVrNxvbqaBpg7H3qHaLxCJ5lNMsGuM8+ohS7cZrthdLQ==}
     engines: {node: '>=10.13.0'}
     hasBin: true
+    dev: true
 
   /pretty-format/25.5.0:
     resolution: {integrity: sha512-kbo/kq2LQ/A/is0PQwsEHM7Ca6//bGPPvU6UnsdDRSKTWxT/ru/xb88v4BJf6a69H+uTytOEsTusT9ksd/1iWQ==}

@@ -31,6 +31,7 @@ const InviteTeam = ({teamPurchase}: any) => {
           target="_blank"
           aria-label={teamPurchase.bulk_coupon_url}
           className="font-mono overflow-hidden text-xxs rounded-l-lg bg-transparent hover:bg-gray-100 hover:bg-opacity-25 dark:hover:bg-opacity-10 border border-gray-200 dark:border-gray-700 text-text flex items-center justify-start p-3 transition-all ease-in-out duration-200 leading-none w-full"
+          rel="noreferrer"
         >
           <span className="whitespace-no-wrap flex items-center text-sm">
             {teamPurchase.bulk_coupon_url}

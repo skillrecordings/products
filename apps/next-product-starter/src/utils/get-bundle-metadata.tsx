@@ -26,7 +26,7 @@ export function getBundleImage(slug: string): any {
       )
 
     default:
-      null
+      return null
   }
 }
 
@@ -48,6 +48,6 @@ export function getBundleDescription(slug: string) {
         'Lorem ipsum dolor sit amet',
       ]
     default:
-      ''
+      return []
   }
 }

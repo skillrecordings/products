@@ -10,7 +10,7 @@
     "build:data": "node src/data/cache-json-data.js -p",
     "build:data:dev": "node src/data/cache-json-data.js",
     "test": "jest",
-    "lint": "eslint .",
+    "lint": "TIMING=1 eslint src/**/*.{ts,tsx} --fix && tsc --noEmit",
     "format": "prettier --write './**/*.{js,jsx,ts,tsx,css,md,mdx,json}' --config ./.prettierrc"
   },
   "dependencies": {
@@ -64,6 +64,7 @@
   "devDependencies": {
     "@babel/plugin-transform-react-jsx": "^7.14.5",
     "@mdx-js/loader": "^1.6.22",
+    "@skillrecordings/scripts": "*",
     "@skillrecordings/types": "*",
     "@testing-library/jest-dom": "^5.14.1",
     "@testing-library/react": "^11.2.5",
