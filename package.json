@@ -7,8 +7,8 @@
     "pre-commit": "lint-staged",
     "format": "pnpm run format:index && pnpm run format:src",
     "format:index": "prettier --write \"*.{js,ts,json,md}\"",
-    "format:src": "prettier --write \"packages/**/*.{js,ts,tsx,md,mdx}\"",
-    "lint": "turbo run lint",
+    "format:src": "prettier --write \"packages/**/*.{js,ts,tsx,md,mdx}\" \"apps/**/*.{js,ts,tsx,md,mdx}\"",
+    "lint": "TIMING=1 eslint --fix",
     "changeset": "changeset",
     "release": "changeset publish",
     "version:canary": "changeset version --snapshot canary",
@@ -18,14 +18,14 @@
   "license": "ISC",
   "lint-staged": {
     "**/*.{ts,tsx,md,mdx,js,jsx}": [
-      "pnpm run format"
+      "pnpm run format",
+      "pnpm run lint"
     ]
   },
   "devDependencies": {
     "@changesets/changelog-github": "^0.2.7",
     "@changesets/cli": "^2.16.0",
     "husky": "^4.3.8",
-    "lerna": "^4.0.0",
     "lint-staged": "^10.5.3",
     "prettier": "^2.3.2",
     "tsdx": "^0.14.1",

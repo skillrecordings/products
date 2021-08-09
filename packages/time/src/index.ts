@@ -1,3 +1,4 @@
+// lint me
 import {get, some} from 'lodash'
 /* eslint-disable */
 
