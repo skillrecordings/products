@@ -5,7 +5,7 @@ importers:
   .:
     specifiers:
       '@changesets/changelog-github': ^0.2.7
-      '@changesets/cli': ^2.10.3
+      '@changesets/cli': ^2.16.0
       husky: ^4.3.8
       lerna: ^4.0.0
       lint-staged: ^10.5.3
