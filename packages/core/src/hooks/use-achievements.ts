@@ -1,75 +1,77 @@
-import * as React from 'react'
-import useBundleProgress from './use-bundle-progress'
-import type {Achievement} from '@skillrecordings/types'
-import {isEmpty} from 'lodash'
+import * as React from "react";
+import useBundleProgress from "./use-bundle-progress";
+import type { Achievement } from "@skillrecordings/types";
+import { isEmpty } from "lodash";
 
 export default function useAchievements(purchasedBundle: any) {
-  const {progress} = useBundleProgress(purchasedBundle)
+  const { progress } = useBundleProgress(purchasedBundle);
   const modules = progress?.data?.resources.filter(
-    (m: any) => m.lesson_count !== 0,
-  )
-  const [completedArr, setCompletedArr] = React.useState([])
+    (m: any) => m.lesson_count !== 0
+  );
+  const [completedArr, setCompletedArr] = React.useState([]);
 
   React.useEffect(() => {
     const completed = modules?.map(
-      (module: any) => module.state === 'completed',
-    )
-    setCompletedArr(completed)
-  }, [progress])
+      (module: any) => module.state === "completed"
+    );
+    setCompletedArr(completed);
+  }, [progress]);
 
   // TODO: achievements should vary based on tier since they have different number of modules
   const achievements: Achievement[] | any = !isEmpty(completedArr) && [
     {
-      title: 'Finish 1st module',
+      title: "Finish 1st module",
       earned: completedArr[0] === true,
-      image: '',
+      image: "",
       link: {
-        children: 'Download certificate',
+        children: "Download certificate",
         onClick: () => {
-          window.alert('todo: check if name is present -> download certificate')
+          window.alert(
+            "todo: check if name is present -> download certificate"
+          );
         },
       },
     },
     {
-      title: 'Finish 3 modules',
+      title: "Finish 3 modules",
       earned: completedArr.filter((i) => i === true).length >= 3,
-      image: '',
+      image: "",
       link: {
-        children: 'Download certificates',
+        children: "Download certificates",
         onClick: () => {
           window.alert(
-            'todo: check if name is present -> download 3 certificates',
-          )
+            "todo: check if name is present -> download 3 certificates"
+          );
         },
       },
     },
     {
-      title: 'Finish 5 modules',
+      title: "Finish 5 modules",
       earned: completedArr.filter((i) => i === true).length >= 5,
-      image: '',
+      image: "",
       link: {
-        children: 'Download certificates',
+        children: "Download certificates",
         onClick: () => {
           window.alert(
-            'todo: check if name is present -> download 5 certificates',
-          )
+            "todo: check if name is present -> download 5 certificates"
+          );
         },
       },
     },
     {
-      title: 'Finish **all** modules',
+      title: "Finish **all** modules",
       earned: completedArr.filter((i) => i === true).length >= 5,
-      image: '',
+      image: "",
       link: {
-        children: 'Download workshop certificate',
+        children: "Download workshop certificate",
         onClick: () => {
           window.alert(
-            'todo: check if name is present -> download workshop certificate',
-          )
+            "todo: check if name is present -> download workshop certificate"
+          );
         },
       },
     },
-  ]
+  ];
 
-  return {achievements}
+  return { achievements };
 }

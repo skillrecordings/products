@@ -2,8 +2,6 @@
 
 This is an exploratory project using Turborepo and pnpm to create a monorepo working environment for multiple applications and a shared common core library (or set of libraries.
 
-
-
 ## Get Started
 
 You'll need [pnpm](https://twitter.com/pnpmjs) installed.
