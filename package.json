@@ -12,7 +12,8 @@
     "changeset": "changeset",
     "release": "changeset publish",
     "version:canary": "changeset version --snapshot canary",
-    "release:canary": "changeset publish --tag canary"
+    "release:canary": "changeset publish --tag canary",
+    "prepare": "husky install"
   },
   "author": "Joel Hooks",
   "license": "ISC",
