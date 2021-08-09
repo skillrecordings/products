@@ -191,9 +191,9 @@ importers:
 
   packages/analytics:
     specifiers:
-      '@skillrecordings/scripts': ^0.0.4
-      '@skillrecordings/tsconfig': ^0.0.4
-      '@skillrecordings/types': ^0.0.4
+      '@skillrecordings/scripts': ^0.0.5
+      '@skillrecordings/tsconfig': ^0.0.5
+      '@skillrecordings/types': ^0.0.5
       typescript: ^4.2.4
     devDependencies:
       '@skillrecordings/scripts': link:../scripts
@@ -203,11 +203,11 @@ importers:
 
   packages/auth:
     specifiers:
-      '@skillrecordings/analytics': ^0.0.4
+      '@skillrecordings/analytics': ^0.0.5
       '@skillrecordings/cookies': ^0.0.1
-      '@skillrecordings/scripts': ^0.0.4
-      '@skillrecordings/tsconfig': ^0.0.4
-      '@skillrecordings/types': ^0.0.4
+      '@skillrecordings/scripts': ^0.0.5
+      '@skillrecordings/tsconfig': ^0.0.5
+      '@skillrecordings/types': ^0.0.5
       axios: ^0.21.1
       client-oauth2: ^4.3.3
       typescript: ^4.2.4
@@ -224,9 +224,9 @@ importers:
 
   packages/cookies:
     specifiers:
-      '@skillrecordings/scripts': ^0.0.4
-      '@skillrecordings/tsconfig': ^0.0.4
-      '@skillrecordings/types': ^0.0.4
+      '@skillrecordings/scripts': ^0.0.5
+      '@skillrecordings/tsconfig': ^0.0.5
+      '@skillrecordings/types': ^0.0.5
       typescript: ^4.2.4
     devDependencies:
       '@skillrecordings/scripts': link:../scripts
@@ -236,11 +236,11 @@ importers:
 
   packages/core:
     specifiers:
-      '@skillrecordings/analytics': ^0.0.4
-      '@skillrecordings/auth': ^0.0.4
-      '@skillrecordings/scripts': ^0.0.4
-      '@skillrecordings/tsconfig': ^0.0.4
-      '@skillrecordings/types': ^0.0.4
+      '@skillrecordings/analytics': ^0.0.5
+      '@skillrecordings/auth': ^0.0.5
+      '@skillrecordings/scripts': ^0.0.5
+      '@skillrecordings/tsconfig': ^0.0.5
+      '@skillrecordings/types': ^0.0.5
       '@stripe/stripe-js': ^1.16.0
       '@types/lodash': ^4.14.172
       '@types/react': ^17.0.13
@@ -318,9 +318,9 @@ importers:
 
   packages/time:
     specifiers:
-      '@skillrecordings/scripts': ^0.0.4
-      '@skillrecordings/tsconfig': ^0.0.4
-      '@skillrecordings/types': ^0.0.4
+      '@skillrecordings/scripts': ^0.0.5
+      '@skillrecordings/tsconfig': ^0.0.5
+      '@skillrecordings/types': ^0.0.5
       typescript: ^4.2.4
     devDependencies:
       '@skillrecordings/scripts': link:../scripts
@@ -333,7 +333,7 @@ importers:
 
   packages/types:
     specifiers:
-      '@skillrecordings/scripts': ^0.0.4
+      '@skillrecordings/scripts': ^0.0.5
       '@skillrecordings/tsconfig': '*'
       typescript: ^4.2.4
     devDependencies:
