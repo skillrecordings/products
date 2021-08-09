@@ -1,6 +1,6 @@
 {
   "name": "@skillrecordings/types",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "source": "./src/index.ts",
@@ -15,7 +15,7 @@
     "clean": "rm -rf .turbo && rm -rf node_modules && rm -rf dist"
   },
   "devDependencies": {
-    "@skillrecordings/scripts": "^0.0.4",
+    "@skillrecordings/scripts": "^0.0.5",
     "@skillrecordings/tsconfig": "*",
     "typescript": "^4.2.4"
   },

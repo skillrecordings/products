@@ -16,13 +16,11 @@
     "lint": "TIMING=1 eslint src --fix",
     "clean": "rm -rf .turbo && rm -rf node_modules && rm -rf dist"
   },
-  "dependencies": {
-
-  },
+  "dependencies": {},
   "devDependencies": {
-    "@skillrecordings/scripts": "^0.0.4",
-    "@skillrecordings/tsconfig": "^0.0.4",
-    "@skillrecordings/types": "^0.0.4",
+    "@skillrecordings/scripts": "^0.0.5",
+    "@skillrecordings/tsconfig": "^0.0.5",
+    "@skillrecordings/types": "^0.0.5",
     "typescript": "^4.2.4"
   },
   "publishConfig": {
