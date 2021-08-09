@@ -4,6 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "pre-commit": "lint-staged",
+    "prepare": "husky install",
     "format": "prettier --write  'packages/**/*' 'README.md'",
     "lint": "turbo run lint",
     "changeset": "changeset",
