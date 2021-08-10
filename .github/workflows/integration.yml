@@ -8,14 +8,17 @@ jobs:
       - name: Install pnpm
         uses: pnpm/action-setup@v2.0.1
         with:
-          version: 6
+          version: 6.0.0
 
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@main
 
       - name: Cypress run
         uses: cypress-io/github-action@v2
         with:
           install: false
-          wait-on: 'http://localhost:1234'
+          command: pnpm --dir cypress/ cypress:ci
+          start: pnpm --dir apps/next-product-starter/ dev
+          working-directory: apps/next-product-starter
+          wait-on: 'http://localhost:3004'
           wait-on-timeout: 120
