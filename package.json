@@ -22,7 +22,7 @@
   "author": "Joel Hooks",
   "license": "ISC",
   "lint-staged": {
-    "**/*.{ts,tsx,md,mdx,js,jsx}": [
+    "**/*.{ts,tsx,js,jsx}": [
       "pnpm run format",
       "pnpm run lint"
     ]
