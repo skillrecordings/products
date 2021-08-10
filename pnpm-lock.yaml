@@ -12,7 +12,7 @@ importers:
       plop: ^2.7.4
       prettier: ^2.3.2
       tsdx: ^0.14.1
-      turbo: ^0.7.5
+      turbo: ^0.8.0
     devDependencies:
       '@changesets/changelog-github': 0.2.8
       '@changesets/cli': 2.16.0
@@ -22,7 +22,7 @@ importers:
       plop: 2.7.4
       prettier: 2.3.2
       tsdx: 0.14.1
-      turbo: 0.7.5
+      turbo: 0.8.0
 
   apps/next-product-starter:
     specifiers:
@@ -13424,8 +13424,8 @@ packages:
       safe-buffer: 5.2.1
     dev: true
 
-  /turbo/0.7.5:
-    resolution: {integrity: sha512-hc/ncUhNTc/LSrGMdYNSLfS6gVjG0Ve3Q7kIf4w7WIrs49tP4AoV6shwRMwPSifCbOfIvoh3ileXx50+wPTffw==}
+  /turbo/0.8.0:
+    resolution: {integrity: sha512-vVUB7YvGnwMTR3tOHJ2+StA2Hw1LNHBDliCf26PD+t8baZ1R67nkGqYQnN0OflJiRX6rHLjWeFXtxQRsYHa5Uw==}
     hasBin: true
     requiresBuild: true
     dependencies:
