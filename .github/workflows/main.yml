@@ -32,8 +32,5 @@ jobs:
         with:
           node-version: ${{ matrix.node }}
 
-      - name: Install deps and build (with cache)
-        uses: bahmutov/npm-install@v1
-
       - name: Test
         run: pnpm test --ci --coverage --maxWorkers=2
