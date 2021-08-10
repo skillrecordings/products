@@ -18,7 +18,7 @@ This will build (and cache) the library packages and applications.
 You can start the template next.js app:
 
 ```bash
-cd apps/next-productstarter && pnpm run dev
+cd apps/next-product-starter && pnpm run dev
 ```
 
 ## Tools Used
@@ -45,7 +45,7 @@ performant npm is just what it says it is and a modern evolution of npm/yarn etc
 
 ## Resources
 
-Here's a general tour of Turbrepo from Jared:
+Here's a general tour of Turborepo from Jared:
 
 [![Jared Palmer gives Joel a tour of Turborepo - Watch Video](https://cdn.loom.com/sessions/thumbnails/6be074dc590d44b192ab7e126f04c36b-with-play.gif)](https://www.loom.com/embed/6be074dc590d44b192ab7e126f04c36b)
 
