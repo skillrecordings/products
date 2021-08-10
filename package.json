@@ -43,6 +43,7 @@
       },
       "test": {
         "dependsOn": [
+          "@skillrecordings/types:build",
           "^build"
         ]
       },
