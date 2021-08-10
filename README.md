@@ -43,6 +43,10 @@ Changeset is an Atlassian library that makes releasing library versions a little
 
 performant npm is just what it says it is and a modern evolution of npm/yarn etc that follows the same conventions and gives efficiency in a monorepo environment and can shave a lot of time off of builds.
 
+### cypress
+
+for integration and e2e testing
+
 ## Resources
 
 Here's a general tour of Turborepo from Jared:
