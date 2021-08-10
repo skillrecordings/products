@@ -31,14 +31,6 @@ Turbo is the core of the developer experience that this playground is exploring 
 
 It's a closed source paid product that we are excited to use and support.
 
-### Lerna
-
-> 🐉 A tool for managing JavaScript projects with multiple packages.
-
-Lerna is being used for library versioning and publishing.
-
-One thing that should be noted is that Jared explcitly recommended not versioning libraries because it makes things more complex versus the monorepo being the "single source of truth", but we need to expot the core libraries for use in projects outside the monorepo and use [semvar](https://semver.org/) to the extent possible.
-
 ### Changset
 
 > 🦋 A way to manage your versioning and changelogs with a focus on monorepos
