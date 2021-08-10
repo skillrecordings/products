@@ -7,7 +7,8 @@
     "start": "tsdx watch --tsconfig tsconfig.build.json --verbose --noClean",
     "build": "tsdx build --tsconfig tsconfig.build.json",
     "test": "jest",
-    "lint": "tsdx lint"
+    "lint": "tsdx lint",
+    "clean": "rm -rf .turbo && rm -rf node_modules && rm -rf dist"
   },
   "main": "dist/index.js",
   "module": "dist/utils.esm.js",

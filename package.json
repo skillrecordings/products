@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "build": "turbo build",
     "pre-commit": "lint-staged",
     "format": "pnpm run format:index && pnpm run format:src",
     "format:index": "prettier --write \"*.{js,ts,json,md}\"",
@@ -43,7 +44,6 @@
       },
       "test": {
         "dependsOn": [
-          "@skillrecordings/types:build",
           "^build"
         ]
       },
