@@ -9,6 +9,7 @@
     "format:index": "prettier --write \"*.{js,ts,json,md}\"",
     "format:src": "prettier --write",
     "lint": "TIMING=1 eslint --fix",
+    "test": "turbo run test",
     "changeset": "changeset",
     "release": "changeset publish",
     "version:canary": "changeset version --snapshot canary",
