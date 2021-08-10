@@ -19,5 +19,3 @@ jobs:
         with:
           install: false
           start: pnpm --dir apps/next-product-starter/ start
-          wait-on: 'http://localhost:3004'
-          wait-on-timeout: 120
