@@ -18,7 +18,7 @@ This will build (and cache) the library packages and applications.
 You can start the template next.js app:
 
 ```bash
-cd apps/next-productstarter && pnpm run start
+cd apps/next-productstarter && pnpm run dev
 ```
 
 ## Tools Used
