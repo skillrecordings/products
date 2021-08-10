@@ -30,8 +30,9 @@ jobs:
         run: pnpm run build
 
       - name: Cypress run
-        uses: cypress-io/github-action@v1
+        uses: cypress-io/github-action@v2
         with:
+          install: false
           start: pnpm run start
           wait-on: 'http://localhost:3004'
           wait-on-timeout: 120
