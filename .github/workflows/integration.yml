@@ -17,7 +17,6 @@ jobs:
         uses: cypress-io/github-action@v2
         with:
           install: false
-          command: pnpm --dir cypress/ cypress:ci
           start: pnpm --dir apps/next-product-starter/ dev
           wait-on: 'http://localhost:3004'
           wait-on-timeout: 120
