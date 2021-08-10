@@ -29,7 +29,6 @@ jobs:
       - name: build
         run: pnpm run build
 
-      - uses: actions/checkout@v2
       - name: Cypress run
         uses: cypress-io/github-action@v1
         with:
