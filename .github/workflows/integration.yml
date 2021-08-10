@@ -19,6 +19,5 @@ jobs:
           install: false
           command: pnpm --dir cypress/ cypress:ci
           start: pnpm --dir apps/next-product-starter/ dev
-          working-directory: apps/next-product-starter
           wait-on: 'http://localhost:3004'
           wait-on-timeout: 120
