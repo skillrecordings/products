@@ -45,6 +45,7 @@
     "access": "public"
   },
   "jest": {
+    "testEnvironment": "jsdom",
     "preset": "@skillrecordings/scripts/jest/node"
   },
   "gitHead": "3398ceeb143d5fddcf11268741c2747856814119"

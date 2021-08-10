@@ -1,6 +1,3 @@
-/**
- * @jest-environment jsdom
- */
 import {interpret} from 'xstate'
 import {SellableResource} from '@skillrecordings/types'
 import commerceMachine from '../'

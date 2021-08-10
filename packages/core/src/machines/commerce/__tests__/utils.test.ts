@@ -1,6 +1,3 @@
-/**
- * @jest-environment jsdom
- */
 import {getPriceParams, getStripeCheckoutParams} from '../utils'
 
 const getContext = (options: any = {}) => {
