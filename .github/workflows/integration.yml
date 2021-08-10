@@ -5,10 +5,26 @@ jobs:
     name: Cypress
     runs-on: ubuntu-16.04
     steps:
+      - name: Cache pnpm modules
+        uses: actions/cache@v2
+        with:
+          path: ~/.pnpm-store
+          key: ${{ runner.os }}-${{ hashFiles('**/pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-
+
+      - uses: pnpm/action-setup@v2.0.1
+        with:
+          version: 6.0.2
+          run_install: true
+
+      - name: build
+        run: pnpm run build
+
       - uses: actions/checkout@v2
       - name: Cypress run
         uses: cypress-io/github-action@v1
         with:
-          start: npm run start:app
-          wait-on: 'http://localhost:1234'
+          start: pnpm run start
+          wait-on: 'http://localhost:3004'
           wait-on-timeout: 120
