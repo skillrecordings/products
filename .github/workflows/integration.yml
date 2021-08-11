@@ -27,7 +27,9 @@ jobs:
           run_install: true
 
       - name: build
-        run: pnpm run ci:build -- --team=skill-recordings --project=turbo-playground --token=${{ secrets.TURBO_REPO_API_KEY }}
+        env:
+          TURBO_API_KEY: ${{ secrets.TURBO_REPO_API_KEY }}
+        run: pnpm run ci:build
 
       - name: Cypress run
         uses: cypress-io/github-action@v2
