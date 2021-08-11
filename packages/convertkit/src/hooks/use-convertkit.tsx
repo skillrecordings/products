@@ -4,32 +4,37 @@ import {isEmpty, get} from 'lodash'
 import cookie from '@skillrecordings/cookies'
 import axios from '@skillrecordings/axios'
 
-export const ConverkitContext = React.createContext({})
+type ConvertkitContextType = {
+  subscriber?: {fields?: {job_title?: 'manager'}}
+  loadingSubscriber: boolean
+}
 
-export const CK_SUBSCRIBER_KEY = 'ck_subscriber_id'
+const defaultConvertKitContext: ConvertkitContextType = {
+  loadingSubscriber: true,
+}
+
+export const ConverkitContext = React.createContext(defaultConvertKitContext)
 
 export const ConvertkitProvider: React.FunctionComponent = ({children}) => {
   const [subscriber, setSubscriber] = React.useState()
   const [loadingSubscriber, setLoadingSubscriber] = React.useState(true)
   React.useEffect(() => {
-    if (typeof window !== 'undefined' && CK_SUBSCRIBER_KEY) {
+    if (typeof window !== 'undefined') {
       const queryParams = queryString.parse(window.location.search)
-      const ckSubscriberId = get(queryParams, CK_SUBSCRIBER_KEY)
-      const clearParams = get(queryParams, 'debug') !== 'true'
+      const ckSubscriberId = get(queryParams, 'ck_subscriber_id')
 
       if (!isEmpty(ckSubscriberId)) {
-        cookie.set(CK_SUBSCRIBER_KEY, ckSubscriberId)
-        clearParams &&
-          window.history.replaceState(
-            null,
-            document.title,
-            window.location.pathname,
-          )
+        cookie.set('ck_subscriber_id', ckSubscriberId)
+        window.history.replaceState(
+          null,
+          document.title,
+          window.location.pathname,
+        )
       }
     }
 
     axios
-      .get('/api/subscriber')
+      .get(`/api/subscriber`)
       .then(({data}) => {
         setSubscriber(data)
       })
@@ -41,4 +46,8 @@ export const ConvertkitProvider: React.FunctionComponent = ({children}) => {
       {children}
     </ConverkitContext.Provider>
   )
+}
+
+export function useConvertkit() {
+  return React.useContext(ConverkitContext)
 }

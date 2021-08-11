@@ -32,8 +32,11 @@ importers:
       '@reach/dialog': ^0.15.3
       '@skillrecordings/analytics': '*'
       '@skillrecordings/auth': '*'
+      '@skillrecordings/axios': ^0.0.1
+      '@skillrecordings/commerce': '*'
+      '@skillrecordings/config': '*'
+      '@skillrecordings/convertkit': '*'
       '@skillrecordings/cookies': '*'
-      '@skillrecordings/core': '*'
       '@skillrecordings/scripts': '*'
       '@skillrecordings/time': '*'
       '@skillrecordings/types': '*'
@@ -111,8 +114,11 @@ importers:
       '@reach/dialog': 0.15.3_a1bbe17b69ce74ad68a61ee76e049e19
       '@skillrecordings/analytics': link:../../packages/analytics
       '@skillrecordings/auth': link:../../packages/auth
+      '@skillrecordings/axios': link:../../packages/axios
+      '@skillrecordings/commerce': link:../../packages/commerce
+      '@skillrecordings/config': link:../../packages/config
+      '@skillrecordings/convertkit': link:../../packages/convertkit
       '@skillrecordings/cookies': link:../../packages/cookies
-      '@skillrecordings/core': link:../../packages/core
       '@skillrecordings/time': link:../../packages/time
       '@stripe/stripe-js': 1.16.0
       '@tailwindcss/aspect-ratio': 0.2.1_tailwindcss@2.2.7
@@ -207,22 +213,111 @@ importers:
   packages/auth:
     specifiers:
       '@skillrecordings/analytics': ^0.0.5
+      '@skillrecordings/axios': ^0.0.1
+      '@skillrecordings/config': ^0.0.1
       '@skillrecordings/cookies': ^0.0.1
       '@skillrecordings/scripts': ^0.0.5
       '@skillrecordings/tsconfig': ^0.0.5
       '@skillrecordings/types': ^0.0.5
-      axios: ^0.21.1
       client-oauth2: ^4.3.3
       typescript: ^4.2.4
     dependencies:
       '@skillrecordings/analytics': link:../analytics
+      '@skillrecordings/axios': link:../axios
+      '@skillrecordings/config': link:../config
       '@skillrecordings/cookies': link:../cookies
-      axios: 0.21.1
       client-oauth2: 4.3.3
     devDependencies:
       '@skillrecordings/scripts': link:../scripts
       '@skillrecordings/tsconfig': link:../tsconfig
       '@skillrecordings/types': link:../types
+      typescript: 4.3.5
+
+  packages/axios:
+    specifiers:
+      '@skillrecordings/config': ^0.0.1
+      '@skillrecordings/scripts': ^0.0.5
+      '@skillrecordings/tsconfig': ^0.0.5
+      '@skillrecordings/types': ^0.0.5
+      axios: ^0.21.1
+      esbuild-node-tsc: ^1.6.1
+      typescript: ^4.2.4
+    dependencies:
+      '@skillrecordings/config': link:../config
+      axios: 0.21.1
+    devDependencies:
+      '@skillrecordings/scripts': link:../scripts
+      '@skillrecordings/tsconfig': link:../tsconfig
+      '@skillrecordings/types': link:../types
+      esbuild-node-tsc: 1.6.1_typescript@4.3.5
+      typescript: 4.3.5
+
+  packages/commerce:
+    specifiers:
+      '@skillrecordings/axios': ^0.0.1
+      '@skillrecordings/config': ^0.0.1
+      '@skillrecordings/scripts': ^0.0.5
+      '@skillrecordings/tsconfig': ^0.0.5
+      '@skillrecordings/types': ^0.0.5
+      '@stripe/stripe-js': ^1.16.0
+      '@xstate/react': ^1.5.1
+      axios: ^0.21.1
+      date-fns: ^2.23.0
+      esbuild-node-tsc: ^1.6.1
+      stripe: ^8.167.0
+      typescript: ^4.2.4
+      xstate: ^4.23.1
+    dependencies:
+      '@skillrecordings/axios': link:../axios
+      '@skillrecordings/config': link:../config
+      '@stripe/stripe-js': 1.16.0
+      '@xstate/react': 1.5.1_xstate@4.23.1
+      axios: 0.21.1
+      date-fns: 2.23.0
+      stripe: 8.168.0
+      xstate: 4.23.1
+    devDependencies:
+      '@skillrecordings/scripts': link:../scripts
+      '@skillrecordings/tsconfig': link:../tsconfig
+      '@skillrecordings/types': link:../types
+      esbuild-node-tsc: 1.6.1_typescript@4.3.5
+      typescript: 4.3.5
+
+  packages/config:
+    specifiers:
+      '@skillrecordings/scripts': ^0.0.5
+      '@skillrecordings/tsconfig': ^0.0.5
+      '@skillrecordings/types': ^0.0.5
+      esbuild-node-tsc: ^1.6.1
+      typescript: ^4.2.4
+    devDependencies:
+      '@skillrecordings/scripts': link:../scripts
+      '@skillrecordings/tsconfig': link:../tsconfig
+      '@skillrecordings/types': link:../types
+      esbuild-node-tsc: 1.6.1_typescript@4.3.5
+      typescript: 4.3.5
+
+  packages/convertkit:
+    specifiers:
+      '@skillrecordings/axios': ^0.0.1
+      '@skillrecordings/cookies': ^0.0.1
+      '@skillrecordings/scripts': ^0.0.5
+      '@skillrecordings/tsconfig': ^0.0.5
+      '@skillrecordings/types': ^0.0.5
+      axios: ^0.21.1
+      esbuild-node-tsc: ^1.6.1
+      query-string: ^7.0.1
+      typescript: ^4.2.4
+    dependencies:
+      '@skillrecordings/axios': link:../axios
+      '@skillrecordings/cookies': link:../cookies
+      axios: 0.21.1
+      query-string: 7.0.1
+    devDependencies:
+      '@skillrecordings/scripts': link:../scripts
+      '@skillrecordings/tsconfig': link:../tsconfig
+      '@skillrecordings/types': link:../types
+      esbuild-node-tsc: 1.6.1_typescript@4.3.5
       typescript: 4.3.5
 
   packages/cookies:
@@ -236,53 +331,6 @@ importers:
       '@skillrecordings/tsconfig': link:../tsconfig
       '@skillrecordings/types': link:../types
       typescript: 4.3.5
-
-  packages/core:
-    specifiers:
-      '@skillrecordings/analytics': ^0.0.5
-      '@skillrecordings/auth': ^0.0.5
-      '@skillrecordings/scripts': ^0.0.5
-      '@skillrecordings/tsconfig': ^0.0.5
-      '@skillrecordings/types': ^0.0.5
-      '@stripe/stripe-js': ^1.16.0
-      '@types/lodash': ^4.14.172
-      '@types/react': ^17.0.13
-      '@types/react-dom': ^17.0.8
-      '@xstate/react': ^1.5.1
-      axios: ^0.21.1
-      client-oauth2: ^4.3.3
-      date-fns: ^2.23.0
-      js-cookie: ^3.0.0
-      lodash: ^4.17.21
-      query-string: ^7.0.1
-      react: ^17.0.2
-      react-dom: ^17.0.2
-      stripe: ^8.167.0
-      tslib: ^2.0.0
-      xstate: ^4.23.1
-    dependencies:
-      '@skillrecordings/analytics': link:../analytics
-      '@skillrecordings/auth': link:../auth
-      '@skillrecordings/tsconfig': link:../tsconfig
-      '@skillrecordings/types': link:../types
-      '@stripe/stripe-js': 1.16.0
-      '@xstate/react': 1.5.1_c99a27c30afd12f27e51c113193b4b90
-      axios: 0.21.1
-      client-oauth2: 4.3.3
-      date-fns: 2.23.0
-      js-cookie: 3.0.0
-      lodash: 4.17.21
-      query-string: 7.0.1
-      react: 17.0.2
-      react-dom: 17.0.2_react@17.0.2
-      stripe: 8.168.0
-      tslib: 2.3.0
-      xstate: 4.23.1
-    devDependencies:
-      '@skillrecordings/scripts': link:../scripts
-      '@types/lodash': 4.14.172
-      '@types/react': 17.0.16
-      '@types/react-dom': 17.0.9
 
   packages/scripts:
     specifiers:
@@ -2434,6 +2482,14 @@ packages:
     resolution: {integrity: sha512-H1rQc1ZOHANWBvPcW+JpGwr+juXSxM8Q8YCkm3GhZd8REu1fHR3z99CErO1p9pkcfcxZnMdIZdIsXkOHY0NilA==}
     dev: true
 
+  /@mrmlnc/readdir-enhanced/2.2.1:
+    resolution: {integrity: sha512-bPHp6Ji8b41szTOcaP63VlnbbO5Ny6dwAATtY6JTjh5N2OLrb5Qk/Th5cRkRQhkWCt+EJsYrNB0MiL+Gpn6e3g==}
+    engines: {node: '>=4'}
+    dependencies:
+      call-me-maybe: 1.0.1
+      glob-to-regexp: 0.3.0
+    dev: true
+
   /@mswjs/cookies/0.1.6:
     resolution: {integrity: sha512-A53XD5TOfwhpqAmwKdPtg1dva5wrng2gH5xMvklzbd9WLTSVU953eCRa8rtrrm6G7Cy60BOGsBRN89YQK0mlKA==}
     dependencies:
@@ -2514,6 +2570,11 @@ packages:
     dependencies:
       '@nodelib/fs.stat': 2.0.5
       run-parallel: 1.2.0
+
+  /@nodelib/fs.stat/1.1.3:
+    resolution: {integrity: sha512-shAmDyaQC4H92APFoIaVDHCx5bStIocgvbwQyxPRrbUY20V1EYTbSDchWbuwlMG3V17cprZhA6+78JfB+3DTPw==}
+    engines: {node: '>= 6'}
+    dev: true
 
   /@nodelib/fs.stat/2.0.5:
     resolution: {integrity: sha512-RkhPPp2zrqDAQA/2jNhnztcPAlv64XdhIp7a7454A5ovI7Bukxgt7MX7udwAu3zg1DcpPU0rz3VV1SeaqvY4+A==}
@@ -2937,6 +2998,7 @@ packages:
 
   /@types/lodash/4.14.172:
     resolution: {integrity: sha512-/BHF5HAx3em7/KkzVKm3LrsD6HZAXuXO1AJZQ3cRRBZj4oHZDviWPYu0aEplAqDFNHZPW6d3G7KN+ONcCCC7pw==}
+    dev: false
 
   /@types/mdast/3.0.7:
     resolution: {integrity: sha512-YwR7OK8aPmaBvMMUi+pZXBNoW2unbVbfok4YRqGMJBe1dpDlzpRkJrYEYmvjxgs5JhuQmKfDexrN98u941Zasg==}
@@ -2987,12 +3049,6 @@ packages:
 
   /@types/prop-types/15.7.4:
     resolution: {integrity: sha512-rZ5drC/jWjrArrS8BR6SIr4cWpW09RNTYt9AMZo3Jwwif+iacXAqgVjm0B0Bv/S1jhDXKHqRVNCbACkJ89RAnQ==}
-    dev: true
-
-  /@types/react-dom/17.0.9:
-    resolution: {integrity: sha512-wIvGxLfgpVDSAMH5utdL9Ngm5Owu0VsGmldro3ORLXV8CShrL8awVj06NuEXFQ5xyaYfdca7Sgbk/50Ri1GdPg==}
-    dependencies:
-      '@types/react': 17.0.16
     dev: true
 
   /@types/react-scroll/1.8.3:
@@ -3329,6 +3385,25 @@ packages:
       - '@types/react'
     dev: false
 
+  /@xstate/react/1.5.1_xstate@4.23.1:
+    resolution: {integrity: sha512-DJHDqDlZHus08X98uMJw4KR17FRWBXLHMQ02YRxx0DMm5VLn75VwGyt4tXdlNZHQWjyk++C5c9Ichq3PdmM3og==}
+    peerDependencies:
+      '@xstate/fsm': ^1.0.0
+      react: ^16.8.0 || ^17.0.0
+      xstate: ^4.11.0
+    peerDependenciesMeta:
+      '@xstate/fsm':
+        optional: true
+      xstate:
+        optional: true
+    dependencies:
+      use-isomorphic-layout-effect: 1.1.1
+      use-subscription: 1.5.1
+      xstate: 4.23.1
+    transitivePeerDependencies:
+      - '@types/react'
+    dev: false
+
   /abab/2.0.5:
     resolution: {integrity: sha512-9IK9EadsbHo6jLWIpxpR6pL0sazTXV6+SQv25ZB+F7Bj9mJNaOc4nCRabwd5M/JwmUa8idz6Eci6eKfJryPs6Q==}
 
@@ -3567,9 +3642,21 @@ packages:
     engines: {node: '>=0.10.0'}
     dev: true
 
+  /array-union/1.0.2:
+    resolution: {integrity: sha1-mjRBDk9OPaI96jdb5b5w8kd47Dk=}
+    engines: {node: '>=0.10.0'}
+    dependencies:
+      array-uniq: 1.0.3
+    dev: true
+
   /array-union/2.1.0:
     resolution: {integrity: sha512-HGyxoOTYUyCM6stUe6EJgnd4EoewAI7zMdfqO+kGjnlZmBDz/cR5pf8r/cR4Wq60sL/p0IkcjUEEPwS3GFrIyw==}
     engines: {node: '>=8'}
+
+  /array-uniq/1.0.3:
+    resolution: {integrity: sha1-r2rId6Jcx/dOBYiUdThY39sk/bY=}
+    engines: {node: '>=0.10.0'}
+    dev: true
 
   /array-unique/0.3.2:
     resolution: {integrity: sha1-qJS3XUvE9s1nnvMkSp/Y9Gri1Cg=}
@@ -3596,6 +3683,11 @@ packages:
   /arrify/1.0.1:
     resolution: {integrity: sha1-iYUI2iIm84DfkEcoRWhJwVAaSw0=}
     engines: {node: '>=0.10.0'}
+    dev: true
+
+  /arrify/2.0.1:
+    resolution: {integrity: sha512-3duEwti880xqi4eAMN8AyR4a0ByT90zoYdLlevfrvU43vb0YZwZVfxOgxWrLXXXpyugL0hNZc9G6BiB5B3nUug==}
+    engines: {node: '>=8'}
     dev: true
 
   /asn1.js/5.4.1:
@@ -4355,6 +4447,10 @@ packages:
       function-bind: 1.1.1
       get-intrinsic: 1.1.1
 
+  /call-me-maybe/1.0.1:
+    resolution: {integrity: sha1-JtII6onje1y95gJQoV8DHBak1ms=}
+    dev: true
+
   /callsites/3.1.0:
     resolution: {integrity: sha512-P8BjAsXvZS+VIDUI11hHCQEv74YT67YUi5JJFNWIqL235sBmjX4+qx9Muvls5ivyNENctx46xQLQ3aTuE7ssaQ==}
     engines: {node: '>=6'}
@@ -4849,6 +4945,31 @@ packages:
       parse-json: 5.2.0
       path-type: 4.0.0
       yaml: 1.10.2
+    dev: true
+
+  /cp-file/7.0.0:
+    resolution: {integrity: sha512-0Cbj7gyvFVApzpK/uhCtQ/9kE9UnYpxMzaq5nQQC/Dh4iaj5fxp7iEFIullrYwzj8nf0qnsI1Qsx34hAeAebvw==}
+    engines: {node: '>=8'}
+    dependencies:
+      graceful-fs: 4.2.8
+      make-dir: 3.1.0
+      nested-error-stacks: 2.1.0
+      p-event: 4.2.0
+    dev: true
+
+  /cpy/8.1.2:
+    resolution: {integrity: sha512-dmC4mUesv0OYH2kNFEidtf/skUwv4zePmGeepjyyJ0qTo5+8KhA1o99oIAwVVLzQMAeDJml74d6wPPKb6EZUTg==}
+    engines: {node: '>=8'}
+    dependencies:
+      arrify: 2.0.1
+      cp-file: 7.0.0
+      globby: 9.2.0
+      has-glob: 1.0.0
+      junk: 3.1.0
+      nested-error-stacks: 2.1.0
+      p-all: 2.1.0
+      p-filter: 2.1.0
+      p-map: 3.0.0
     dev: true
 
   /create-ecdh/4.0.4:
@@ -5368,6 +5489,13 @@ packages:
       randombytes: 2.1.0
     dev: false
 
+  /dir-glob/2.2.2:
+    resolution: {integrity: sha512-f9LBi5QWzIW3I6e//uxZoLBlUt9kcp66qo0sSCxL6YZKc75R1c4MFCoe/LaZiBGmgujvQdxc5Bn3QhfyvK5Hsw==}
+    engines: {node: '>=4'}
+    dependencies:
+      path-type: 3.0.0
+    dev: true
+
   /dir-glob/3.0.1:
     resolution: {integrity: sha512-WkrWp9GR4KXfKGYzOLmTuGVi1UWFfws377n9cc55/tb6DuqyF6pcQ5AbiHEshaDpY9v6oaSr2XCDidGmMwdzIA==}
     engines: {node: '>=8'}
@@ -5546,6 +5674,25 @@ packages:
 
   /es6-object-assign/1.1.0:
     resolution: {integrity: sha1-wsNYJlYkfDnqEHyx5mUrb58kUjw=}
+
+  /esbuild-node-tsc/1.6.1_typescript@4.3.5:
+    resolution: {integrity: sha512-HEeT7qtpUqTnaA5LEZuyvGPjj57Tz1YAO1GO/jRIiV1KVdd6SG+Q4eHJuIjaCtE3QBvWdqpxvsjkp8+c708OtQ==}
+    hasBin: true
+    peerDependencies:
+      typescript: '*'
+    dependencies:
+      cpy: 8.1.2
+      esbuild: 0.12.19
+      rimraf: 3.0.2
+      typescript: 4.3.5
+      yargs: 17.1.0
+    dev: true
+
+  /esbuild/0.12.19:
+    resolution: {integrity: sha512-5NuT1G6THW7l3fsSCDkcPepn24R0XtyPjKoqKHD8LfhqMXzCdz0mrS9HgO6hIhzVT7zt0T+JGbzCqF5AH8hS9w==}
+    hasBin: true
+    requiresBuild: true
+    dev: true
 
   /escalade/3.1.1:
     resolution: {integrity: sha512-k0er2gUkLf8O0zKJiAhmkTnJlTvINGv7ygDNPbeIsX/TJjGJZHuh9B2UxbsaEkmlEo9MfhrSzmhIlhRlI2GXnw==}
@@ -6342,6 +6489,18 @@ packages:
     resolution: {integrity: sha512-xJuoT5+L99XlZ8twedaRf6Ax2TgQVxvgZOYoPKqZufmJib0tL2tegPBOZb1pVNgIhlqDlA0eO0c3wBvQcmzx4w==}
     dev: true
 
+  /fast-glob/2.2.7:
+    resolution: {integrity: sha512-g1KuQwHOZAmOZMuBtHdxDtju+T2RT8jgCC9aANsbpdiDDTSnjgfuVsIBNKbUeJI3oKMRExcfNDtJl4OhbffMsw==}
+    engines: {node: '>=4.0.0'}
+    dependencies:
+      '@mrmlnc/readdir-enhanced': 2.2.1
+      '@nodelib/fs.stat': 1.1.3
+      glob-parent: 3.1.0
+      is-glob: 4.0.1
+      merge2: 1.4.1
+      micromatch: 3.1.10
+    dev: true
+
   /fast-glob/3.2.7:
     resolution: {integrity: sha512-rYGMRwip6lUMvYD3BTScMwT1HtAs2d71SMv66Vrxs0IekGZEjhM0pcMfjQPnknBt2zeCwQMEupiN02ZP4DiT1Q==}
     engines: {node: '>=8'}
@@ -6766,6 +6925,13 @@ packages:
       emoji-regex: 6.1.1
     dev: false
 
+  /glob-parent/3.1.0:
+    resolution: {integrity: sha1-nmr2KZ2NO9K9QEMIMr0RPfkGxa4=}
+    dependencies:
+      is-glob: 3.1.0
+      path-dirname: 1.0.2
+    dev: true
+
   /glob-parent/5.1.2:
     resolution: {integrity: sha512-AOIgSQCepiJYwP3ARnGx+5VnTu2HBYdzbGP45eLw1vr3zB3vZLeyed1sC9hnbcOc9/SrMyM5RPQrkGz4aS9Zow==}
     engines: {node: '>= 6'}
@@ -6777,6 +6943,10 @@ packages:
     engines: {node: '>=10.13.0'}
     dependencies:
       is-glob: 4.0.1
+    dev: true
+
+  /glob-to-regexp/0.3.0:
+    resolution: {integrity: sha1-jFoUlNIGbFcMw7/kSWF1rMTVAqs=}
     dev: true
 
   /glob-to-regexp/0.4.1:
@@ -6865,6 +7035,20 @@ packages:
       ignore: 5.1.8
       merge2: 1.4.1
       slash: 3.0.0
+
+  /globby/9.2.0:
+    resolution: {integrity: sha512-ollPHROa5mcxDEkwg6bPt3QbEf4pDQSNtd6JPL1YvOvAo/7/0VAm9TccUeoTmarjPw4pfUthSCqcyfNB1I3ZSg==}
+    engines: {node: '>=6'}
+    dependencies:
+      '@types/glob': 7.1.4
+      array-union: 1.0.2
+      dir-glob: 2.2.2
+      fast-glob: 2.2.7
+      glob: 7.1.7
+      ignore: 4.0.6
+      pify: 4.0.1
+      slash: 2.0.0
+    dev: true
 
   /globrex/0.1.2:
     resolution: {integrity: sha512-uHJgbwAMwNFf5mLst7IWLNg14x1CkeqglJb/K3doi4dw6q2IvAAmM/Y81kevy83wP+Sst+nutFTYOGg3d1lsxg==}
@@ -6960,6 +7144,13 @@ packages:
   /has-flag/4.0.0:
     resolution: {integrity: sha512-EykJT/Q1KjTWctppgIAgfSO0tKVuZUjhgMr17kqTumMl6Afv3EISleU7qZUzoXDFTAHTDC4NOoG/ZxU3EvlMPQ==}
     engines: {node: '>=8'}
+
+  /has-glob/1.0.0:
+    resolution: {integrity: sha1-mqqe7b/7G6OZCnsAEPtnjuAIEgc=}
+    engines: {node: '>=0.10.0'}
+    dependencies:
+      is-glob: 3.1.0
+    dev: true
 
   /has-symbols/1.0.2:
     resolution: {integrity: sha512-chXa79rL/UC2KlX17jo3vRGz0azaWEx5tGqZg5pO3NUyEJVB17dMruQlzCCOfUvElghKcm5194+BCRvi2Rv/Gw==}
@@ -8814,11 +9005,6 @@ packages:
     resolution: {integrity: sha512-HvdH2LzI/EAZcUwA8+0nKNtWHqS+ZmijLA30RwZA0bo7ToCckjK5MkGhjED9KoRcXO6BaGI3I9UIzSA1FKFPOQ==}
     dev: false
 
-  /js-cookie/3.0.0:
-    resolution: {integrity: sha512-oUbbplKuH07/XX2YD2+Q+GMiPpnVXaRz8npE7suhBH9QEkJe2W7mQ6rwuMXHue3fpfcftQwzgyvGzIHyfCSngQ==}
-    engines: {node: '>=12'}
-    dev: false
-
   /js-levenshtein/1.1.6:
     resolution: {integrity: sha512-X2BB11YZtrRqY4EnQcLX5Rh373zbK4alC1FW7D7MBhL2gtcC17cTnr6DmfHZeS0s2rTHjUTMMHfG7gO8SSdw+g==}
     engines: {node: '>=0.10.0'}
@@ -9002,6 +9188,11 @@ packages:
     dependencies:
       array-includes: 3.1.3
       object.assign: 4.1.2
+
+  /junk/3.1.0:
+    resolution: {integrity: sha512-pBxcB3LFc8QVgdggvZWyeys+hnrNWg4OcZIU/1X59k5jQdLBlCsYGRQaz234SqoRLTCgMH00fY0xRJH+F9METQ==}
+    engines: {node: '>=8'}
+    dev: true
 
   /keyv/4.0.3:
     resolution: {integrity: sha512-zdGa2TOpSZPq5mU6iowDARnMBZgtCqJ11dJROFi6tg6kTn4nuUdU09lFyLFSaHrWqpIJ+EBq4E8/Dc0Vx5vLdA==}
@@ -9780,6 +9971,10 @@ packages:
     resolution: {integrity: sha512-Yd3UES5mWCSqR+qNT93S3UoYUkqAZ9lLg8a7g9rimsWmYGK8cVToA4/sF3RrshdyV3sAGMXVUmpMYOw+dLpOuw==}
     dev: true
 
+  /nested-error-stacks/2.1.0:
+    resolution: {integrity: sha512-AO81vsIO1k1sM4Zrd6Hu7regmJN1NSiAja10gc4bX3F0wd+9rQmcuHQaHVQCYIEC8iFXnE+mavh23GOt7wBgug==}
+    dev: true
+
   /next-compose-plugins/2.2.1:
     resolution: {integrity: sha512-OjJ+fV15FXO2uQXQagLD4C0abYErBjyjE0I0FHpOEIB8upw0hg1ldFP6cqHTJBH1cZqy96OeR3u1dJ+Ez2D4Bg==}
     dev: true
@@ -10259,6 +10454,13 @@ packages:
     resolution: {integrity: sha512-OKEOPXtvIeSohFl9avZwm1BL/awT49PV/HQHyc0RHcdICkvj5XP+j+IHhsSoV7nT5gDtMJTlWXqVpA/F8yoi2A==}
     dev: true
 
+  /p-all/2.1.0:
+    resolution: {integrity: sha512-HbZxz5FONzz/z2gJfk6bFca0BCiSRF8jU3yCsWOen/vR6lZjfPOu/e7L3uFzTW1i0H8TlC3vqQstEJPQL4/uLA==}
+    engines: {node: '>=6'}
+    dependencies:
+      p-map: 2.1.0
+    dev: true
+
   /p-cancelable/2.1.1:
     resolution: {integrity: sha512-BZOr3nRQHOntUjTrH8+Lh54smKHoHyur8We1V8DSMVrl5A2malOOwuJRnKRDjSnkoeBh4at6BwEnb5I7Jl31wg==}
     engines: {node: '>=8'}
@@ -10267,6 +10469,13 @@ packages:
   /p-each-series/2.2.0:
     resolution: {integrity: sha512-ycIL2+1V32th+8scbpTvyHNaHe02z0sjgh91XXjAk+ZeXoPN4Z46DVUnzdso0aX4KckKw0FNNFHdjZ2UsZvxiA==}
     engines: {node: '>=8'}
+
+  /p-event/4.2.0:
+    resolution: {integrity: sha512-KXatOjCRXXkSePPb1Nbi0p0m+gQAwdlbhi4wQKJPI1HsMQS9g+Sqp2o+QHziPr7eYJyOZet836KoHEVM1mwOrQ==}
+    engines: {node: '>=8'}
+    dependencies:
+      p-timeout: 3.2.0
+    dev: true
 
   /p-filter/2.1.0:
     resolution: {integrity: sha512-ZBxxZ5sL2HghephhpGAQdoskxplTwr7ICaehZwLIlfL6acuVgZPm8yBNuRAFBGEqtD/hmUeq9eqLg2ys9Xr/yw==}
@@ -10339,6 +10548,13 @@ packages:
     engines: {node: '>=10'}
     dependencies:
       aggregate-error: 3.1.0
+    dev: true
+
+  /p-timeout/3.2.0:
+    resolution: {integrity: sha512-rhIwUycgwwKcP9yTOOFK/AKsAopjjCakVqLHePO3CC6Mir1Z99xT+R63jZxAT5lFZLa2inS5h+ZS2GvR99/FBg==}
+    engines: {node: '>=8'}
+    dependencies:
+      p-finally: 1.0.0
     dev: true
 
   /p-try/1.0.0:
@@ -10458,6 +10674,10 @@ packages:
     resolution: {integrity: sha1-lLgDfDctP+KQbkZbtF4l0ibo7qU=}
     dependencies:
       no-case: 2.3.2
+    dev: true
+
+  /path-dirname/1.0.2:
+    resolution: {integrity: sha1-zDPSTVJeCZpTiMAzbG4yuRYGCeA=}
     dev: true
 
   /path-exists/3.0.0:
@@ -12325,6 +12545,11 @@ packages:
   /sisteransi/1.0.5:
     resolution: {integrity: sha512-bLGGlR1QxBcynn2d5YmDX4MGjlZvy2MRBDRNHLJ8VI6l6+9FUiyTFNJ0IveOSP0bcXgVDPRcfGqA0pjaqUpfVg==}
 
+  /slash/2.0.0:
+    resolution: {integrity: sha512-ZYKh3Wh2z1PpEXWr0MpSBZ0V6mZHAQfYevttO11c51CaWjGTaadiKZ+wVt1PbMlDV5qhMFslpZCemhwOK7C89A==}
+    engines: {node: '>=6'}
+    dev: true
+
   /slash/3.0.0:
     resolution: {integrity: sha512-g9Q1haeby36OSStwb4ntCGGGaKsaVSjQ68fBxoQcutl5fS1vuY18H3wSt3jFyFtrkx+Kz0V1G85A4MyAdDMi2Q==}
     engines: {node: '>=8'}
@@ -13730,6 +13955,16 @@ packages:
       react: 17.0.2
     dev: false
 
+  /use-isomorphic-layout-effect/1.1.1:
+    resolution: {integrity: sha512-L7Evj8FGcwo/wpbv/qvSfrkHFtOpCzvM5yl2KVyDJoylVuSvzphiiasmjgQPttIGBAy2WKiBNR98q8w7PiNgKQ==}
+    peerDependencies:
+      '@types/react': '*'
+      react: ^16.8.0 || ^17.0.0
+    peerDependenciesMeta:
+      '@types/react':
+        optional: true
+    dev: false
+
   /use-isomorphic-layout-effect/1.1.1_15528815d0fdcbb9a8cf5c0542e8230f:
     resolution: {integrity: sha512-L7Evj8FGcwo/wpbv/qvSfrkHFtOpCzvM5yl2KVyDJoylVuSvzphiiasmjgQPttIGBAy2WKiBNR98q8w7PiNgKQ==}
     peerDependencies:
@@ -13752,6 +13987,14 @@ packages:
       detect-node-es: 1.1.0
       react: 17.0.2
       tslib: 1.14.1
+    dev: false
+
+  /use-subscription/1.5.1:
+    resolution: {integrity: sha512-Xv2a1P/yReAjAbhylMfFplFKj9GssgTwN7RlcTxBujFQcloStWNDQdc4g4NRWH9xS4i/FDk04vQBptAXoF3VcA==}
+    peerDependencies:
+      react: ^16.8.0 || ^17.0.0
+    dependencies:
+      object-assign: 4.1.1
     dev: false
 
   /use-subscription/1.5.1_react@17.0.2:
