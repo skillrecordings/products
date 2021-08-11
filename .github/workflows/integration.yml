@@ -1,5 +1,9 @@
 name: E2E Test
-on: [pull_request]
+on:
+  push:
+    branches: [ $default-branch ]
+  pull_request:
+    branches: [ $default-branch ]
 jobs:
   cypress:
     name: Cypress
@@ -20,6 +24,16 @@ jobs:
           key: ${{ runner.os }}-${{ hashFiles('**/pnpm-lock.yaml') }}
           restore-keys: |
             ${{ runner.os }}-
+
+      - name: Cache Starter Next.js
+      uses: actions/cache@v2
+      with:
+        path: ${{ github.workspace }}/apps/next-product-starter/.next/cache
+        # Generate a new cache whenever packages or source files change.
+        key: ${{ runner.os }}-nextjs-${{ hashFiles('**/pnpm-lock.yaml') }}-${{ hashFiles('**.[jt]sx?') }}
+        # If source files changed but packages didn't, rebuild from a prior cache.
+        restore-keys: |
+          ${{ runner.os }}-nextjs-${{ hashFiles('**/pnpm-lock.yaml') }}-
 
       - uses: pnpm/action-setup@v2.0.1
         with:
