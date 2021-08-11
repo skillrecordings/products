@@ -28,7 +28,7 @@ jobs:
           run_install: true
 
       - name: build
-        run: pnpm run build --team=skill-recordings --project=turbo-playground --token=${{ secrets.TURBO_REPO_API_KEY }}
+        run: pnpm run ci:build
 
       - name: Lint
         run: pnpm run ci:lint
