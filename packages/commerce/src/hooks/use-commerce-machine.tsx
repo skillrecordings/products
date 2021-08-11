@@ -25,7 +25,7 @@ type UseCommerceMachineProps = {
   upgradeFromSellable?: SellableResource
 }
 
-export const useCommerceMachine = ({
+export const useCommerceMachine: any = ({
   sellable,
   upgradeFromSellable,
 }: UseCommerceMachineProps) => {
