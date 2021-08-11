@@ -3,7 +3,7 @@ import {useTheme} from 'next-themes'
 
 const DarkModeToggle: React.FC = () => {
   const [mounted, setMounted] = React.useState(false)
-  const {theme, setTheme} = useTheme()
+  const {resolvedTheme: theme, setTheme} = useTheme()
   React.useEffect(() => setMounted(true), [])
 
   return (
