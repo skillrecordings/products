@@ -36,7 +36,7 @@
     "plop": "^2.7.4",
     "prettier": "^2.3.2",
     "tsdx": "^0.14.1",
-    "turbo": "^0.8.1-next.0"
+    "turbo": "^0.8.2"
   },
   "turbo": {
     "baseBranch": "origin/main",
