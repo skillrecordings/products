@@ -37,4 +37,4 @@ jobs:
           TURBO_TOKEN: ${{ secrets.TURBO_REPO_API_KEY }}
           TURBO_TEAM: skill-recordings
           TURBO_PROJECT: turbo-playground
-        run: pnpm turbo run build test lint
+        run: pnpm run build:ci
