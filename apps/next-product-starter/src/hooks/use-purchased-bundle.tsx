@@ -2,7 +2,7 @@ import {SellableResource} from '@skillrecordings/types'
 import {useViewer} from 'contexts/viewer-context'
 import find from 'lodash/find'
 import useSWR from 'swr'
-import Axios from 'utils/axios'
+import Axios from '@skillrecordings/axios'
 
 const fetcher = (url: string) => {
   return Axios.get(url)

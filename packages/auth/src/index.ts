@@ -1,26 +1,21 @@
 import OAuthClient from 'client-oauth2'
 import {track, identify} from '@skillrecordings/analytics'
-import http from './axios'
+import http from '@skillrecordings/axios'
 import get from 'lodash/get'
 import cookie from '@skillrecordings/cookies'
 import * as serverCookie from 'cookie'
 import {Viewer} from '@skillrecordings/types'
 import getAccessTokenFromCookie from './get-access-token-from-cookie'
-
+import {
+  AUTH_DOMAIN,
+  AUTH_CLIENT_ID,
+  AUTH_REDIRECT_URL,
+  USER_KEY,
+  ACCESS_TOKEN_KEY,
+  EXPIRES_AT_KEY,
+  VIEWING_AS_USER_KEY,
+} from '@skillrecordings/config'
 export {default as getAccessTokenFromCookie} from './get-access-token-from-cookie'
-
-export const AUTH_DOMAIN = process.env.NEXT_PUBLIC_AUTH_DOMAIN
-const AUTH_CLIENT_ID = process.env.NEXT_PUBLIC_CLIENT_ID
-const AUTH_REDIRECT_URL = process.env.NEXT_PUBLIC_REDIRECT_URI
-
-// TODO: create unique keys for site authorization
-export const USER_KEY = process.env.NEXT_PUBLIC_USER_KEY || 'user'
-export const ACCESS_TOKEN_KEY =
-  process.env.NEXT_PUBLIC_ACCESS_TOKEN_KEY || 'access_token'
-export const EXPIRES_AT_KEY =
-  process.env.NEXT_PUBLIC_EXPIRES_AT_KEY || 'expires_at'
-export const VIEWING_AS_USER_KEY =
-  process.env.NEXT_PUBLIC_VIEWING_AS_USER_KEY || 'viewing_as_user'
 
 type AuthorizationHeader = {
   Authorization: string
@@ -122,7 +117,7 @@ export default class Auth {
       })
   }
 
-  requestSignInEmail(email: string) {
+  requestSignInEmail(email: string): Promise<any> {
     return http.post(
       `${process.env.NEXT_PUBLIC_AUTH_DOMAIN}/api/v1/users/send_token`,
       {

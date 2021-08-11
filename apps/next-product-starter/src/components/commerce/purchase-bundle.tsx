@@ -7,7 +7,8 @@ import {useViewer} from 'contexts/viewer-context'
 import {motion} from 'framer-motion'
 import {isEmpty, get, find, noop} from 'lodash'
 import Spinner from 'components/spinner'
-import {useConvertkit, useCommerceMachine} from '@skillrecordings/core'
+import {useCommerceMachine} from '@skillrecordings/commerce'
+import {useConvertkit} from '@skillrecordings/convertkit'
 
 // problem with `react-stripe-checkout` not having these types
 // https://github.com/azmenak/react-stripe-checkout/pull/152

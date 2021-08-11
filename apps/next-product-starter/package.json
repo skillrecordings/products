@@ -17,7 +17,10 @@
   "dependencies": {
     "@next/mdx": "^11.0.1",
     "@reach/dialog": "^0.15.3",
-    "@skillrecordings/core": "*",
+    "@skillrecordings/axios": "*",
+    "@skillrecordings/config": "*",
+    "@skillrecordings/convertkit": "*",
+    "@skillrecordings/commerce": "*",
     "@skillrecordings/auth": "*",
     "@skillrecordings/analytics": "*",
     "@skillrecordings/cookies": "*",
