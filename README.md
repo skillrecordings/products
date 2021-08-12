@@ -45,7 +45,7 @@ performant npm is just what it says it is and a modern evolution of npm/yarn etc
 
 ### cypress
 
-for integration and e2e testing
+for integration and e2e testing!
 
 ## Resources
 
