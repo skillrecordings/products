@@ -12,7 +12,7 @@ export function convertTimeToMins(seconds: number) {
 }
 
 export function convertTime(seconds: number) {
-  if (seconds < 0) return '00:00'
+  if (seconds < 0) seconds = 0
   const hours = ~~(seconds / 3600)
   const mins = ~~((seconds - hours * 3600) / 60)
   const secs = (seconds - hours * 3600 - mins * 60) % 60
