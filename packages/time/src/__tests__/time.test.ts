@@ -21,9 +21,10 @@ describe('convertTimeToMins', () => {
     const mins = convertTimeToMins(0)
     expect(mins).toBe('0m')
   })
-  test('converts negative seconds to 0m', () => {
-    const mins = convertTimeToMins(-1)
-    expect(mins).toBe('0m')
+  test('negative input has same output as an input of 0', () => {
+    const negativeSecondsToMin = convertTimeToMins(-1)
+    const zeroSecondsToMin = convertTimeToMins(0)
+    expect(negativeSecondsToMin).toBe(zeroSecondsToMin)
   })
 })
 
@@ -44,9 +45,10 @@ describe('convertTime', () => {
     const formattedTime = convertTime(0)
     expect(formattedTime).toBe('00:00')
   })
-  test('converts negative seconds to 00:00', () => {
-    const formattedTime = convertTime(-1)
-    expect(formattedTime).toBe('00:00')
+  test('negative input has same output as an input of 0', () => {
+    const negativeSecondsFormatted = convertTime(-1)
+    const zeroSecondsFormatted = convertTime(0)
+    expect(negativeSecondsFormatted).toBe(zeroSecondsFormatted)
   })
 })
 
@@ -106,9 +108,10 @@ describe('convertTimeWithTitles', () => {
     expect(formattedTime).toBe('')
   })
 
-  test('converts negative seconds to empty string', () => {
-    const formattedTime = convertTimeWithTitles(-1)
-    expect(formattedTime).toBe('')
+  test('negative input has same output as an input of 0', () => {
+    const negativeSecondsFormatted = convertTimeWithTitles(-1)
+    const zeroSecondsFormatted = convertTimeWithTitles(0)
+    expect(negativeSecondsFormatted).toBe(zeroSecondsFormatted)
   })
 })
 
