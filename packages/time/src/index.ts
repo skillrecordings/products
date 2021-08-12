@@ -6,7 +6,7 @@ function pad(s: string | any[]) {
 }
 
 export function convertTimeToMins(seconds: number) {
-  if (seconds < 0) return '0m'
+  if (seconds < 0) seconds = 0
   const mins = ~~(seconds / 60)
   return `${pad(mins.toString())}m`
 }
