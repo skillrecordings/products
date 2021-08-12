@@ -77,7 +77,7 @@ function useAuthedViewer() {
   )
 
   const isUnclaimedBulkPurchaser = !canViewContent && sitePurchases.length > 0
-  console.log(machineState)
+  // console.log(machineState)
   const values = React.useMemo(
     () => ({
       viewer,

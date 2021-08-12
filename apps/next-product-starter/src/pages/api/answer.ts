@@ -1,8 +1,14 @@
 import {NextApiRequest, NextApiResponse} from 'next'
-import {convertkitAxios} from 'utils/axios-convertkit-api'
-import fetchConvertkitSubscriberFromServerCookie from 'utils/fetch-convertkit-subscriber'
+import {convertkitAxios} from '@skillrecordings/axios'
+import {fetchConvertkitSubscriberFromServerCookie} from '@skillrecordings/convertkit'
 import isEmpty from 'lodash/isEmpty'
 import find from 'lodash/find'
+
+if (!process.env.CONVERTKIT_BASE_URL)
+  throw new Error('No Convertkit API Base Url Found: CONVERTKIT_BASE_URL')
+
+if (!process.env.NEXT_PUBLIC_CONVERTKIT_TOKEN)
+  throw new Error('No Convertkit Token Found: NEXT_PUBLIC_CONVERTKIT_TOKEN')
 
 const answer = async (req: NextApiRequest, res: NextApiResponse) => {
   if (req.method === 'POST') {

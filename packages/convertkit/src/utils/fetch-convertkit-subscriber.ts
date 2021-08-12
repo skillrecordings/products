@@ -1,8 +1,25 @@
 import fetchEggheadUser from './fetch-egghead-user'
-import {convertkitAxios} from './axios-convertkit-api'
+import {convertkitAxios} from '@skillrecordings/axios'
 import {first, isEmpty} from 'lodash'
 import serializeConvertkitCookie from './serialize-convertkit-cookie'
-import getTokenFromCookieHeaders from './parse-server-cookie'
+import * as serverCookie from 'cookie'
+import {ACCESS_TOKEN_KEY, CK_SUBSCRIBER_KEY} from '@skillrecordings/config'
+
+interface ParsedCookie {
+  [key: string]: string
+}
+
+const getConvertkitId = (parsedCookie: ParsedCookie) => {
+  const result = CK_SUBSCRIBER_KEY ? parsedCookie[CK_SUBSCRIBER_KEY] : ''
+  return result || ''
+}
+
+function getTokenFromCookieHeaders(serverCookies: string = '') {
+  const parsedCookie = serverCookie.parse(serverCookies)
+  const eggheadToken = parsedCookie[ACCESS_TOKEN_KEY] || ''
+  const convertkitId = getConvertkitId(parsedCookie)
+  return {convertkitId, eggheadToken, loginRequired: eggheadToken.length <= 0}
+}
 
 export default async function fetchConvertkitSubscriberFromServerCookie(
   header: string,

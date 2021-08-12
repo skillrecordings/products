@@ -298,18 +298,22 @@ importers:
   packages/convertkit:
     specifiers:
       '@skillrecordings/axios': ^0.0.1
+      '@skillrecordings/config': ^0.0.1
       '@skillrecordings/cookies': ^0.0.1
       '@skillrecordings/scripts': ^0.0.5
       '@skillrecordings/tsconfig': ^0.0.5
       '@skillrecordings/types': ^0.0.5
       axios: ^0.21.1
+      cookie: ^0.4.1
       esbuild-node-tsc: ^1.6.1
       query-string: ^7.0.1
       typescript: ^4.2.4
     dependencies:
       '@skillrecordings/axios': link:../axios
+      '@skillrecordings/config': link:../config
       '@skillrecordings/cookies': link:../cookies
       axios: 0.21.1
+      cookie: 0.4.1
       query-string: 7.0.1
     devDependencies:
       '@skillrecordings/scripts': link:../scripts
