@@ -6,12 +6,13 @@ function pad(s: string | any[]) {
 }
 
 export function convertTimeToMins(seconds: number) {
-  // if (seconds < 0) throw new Error('Received negative argument')
+  if (seconds < 0) return '0m'
   const mins = ~~(seconds / 60)
   return `${pad(mins.toString())}m`
 }
 
 export function convertTime(seconds: number) {
+  if (seconds < 0) return '00:00'
   const hours = ~~(seconds / 3600)
   const mins = ~~((seconds - hours * 3600) / 60)
   const secs = (seconds - hours * 3600 - mins * 60) % 60
@@ -23,6 +24,7 @@ export function convertTime(seconds: number) {
 }
 
 export function convertTimeWithTitles(seconds: number, options: any = {}) {
+  if (seconds < 0) return ''
   const hours = ~~(seconds / 3600)
   const mins = ~~((seconds - hours * 3600) / 60)
   const secs = (seconds - hours * 3600 - mins * 60) % 60

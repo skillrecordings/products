@@ -21,11 +21,10 @@ describe('convertTimeToMins', () => {
     const mins = convertTimeToMins(0)
     expect(mins).toBe('0m')
   })
-  /* test('throws error when a negative argument is received', () => {
-    expect(() => {
-      convertTimeToMins(-1)
-    }).toThrow("Received negative argument")
-  }) */
+  test('converts negative seconds to 0m', () => {
+    const mins = convertTimeToMins(-1)
+    expect(mins).toBe('0m')
+  })
 })
 
 describe('convertTime', () => {
@@ -45,6 +44,10 @@ describe('convertTime', () => {
     const formattedTime = convertTime(0)
     expect(formattedTime).toBe('00:00')
   })
+  test('converts negative seconds to 00:00', () => {
+    const formattedTime = convertTime(-1)
+    expect(formattedTime).toBe('00:00')
+  })
 })
 
 describe('convertTimeWithTitles', () => {
@@ -58,7 +61,6 @@ describe('convertTimeWithTitles', () => {
     expect(formattedTime).toBe('1h')
   })
 
-  // is this the expected functionality ?
   test('converts 3601 seconds to 1h with showSeconds: true', () => {
     const formattedTime = convertTimeWithTitles(3601, {showSeconds: true})
     expect(formattedTime).toBe('1h')
@@ -101,6 +103,11 @@ describe('convertTimeWithTitles', () => {
 
   test('converts 0 seconds to empty string with showSeconds: true', () => {
     const formattedTime = convertTimeWithTitles(0, {showSeconds: true})
+    expect(formattedTime).toBe('')
+  })
+
+  test('converts negative seconds to empty string', () => {
+    const formattedTime = convertTimeWithTitles(-1)
     expect(formattedTime).toBe('')
   })
 })
