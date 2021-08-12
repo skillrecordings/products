@@ -6,7 +6,6 @@ import {
   isLessonComplete,
 } from '../index'
 
-// how do we want to handle negatives in each function?
 
 describe('convertTimeToMins', () => {
   test('converts 60 seconds to 1m', () => {
