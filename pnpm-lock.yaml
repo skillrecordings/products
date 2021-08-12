@@ -12,7 +12,7 @@ importers:
       plop: ^2.7.4
       prettier: ^2.3.2
       tsdx: ^0.14.1
-      turbo: ^0.8.2
+      turbo: ^0.8.3
     devDependencies:
       '@changesets/changelog-github': 0.2.8
       '@changesets/cli': 2.16.0
@@ -22,7 +22,7 @@ importers:
       plop: 2.7.4
       prettier: 2.3.2
       tsdx: 0.14.1
-      turbo: 0.8.2
+      turbo: 0.8.3
 
   apps/next-product-starter:
     specifiers:
@@ -2873,7 +2873,7 @@ packages:
     dependencies:
       '@types/http-cache-semantics': 4.0.1
       '@types/keyv': 3.1.2
-      '@types/node': 16.4.13
+      '@types/node': 16.6.0
       '@types/responselike': 1.0.0
     dev: true
 
@@ -2986,7 +2986,7 @@ packages:
   /@types/keyv/3.1.2:
     resolution: {integrity: sha512-/FvAK2p4jQOaJ6CGDHJTqZcUtbZe820qIeTg7o0Shg7drB4JHeL+V/dhSaly7NXx6u8eSee+r7coT+yuJEvDLg==}
     dependencies:
-      '@types/node': 16.4.13
+      '@types/node': 16.6.0
     dev: true
 
   /@types/liftoff/2.5.1:
@@ -3090,7 +3090,7 @@ packages:
   /@types/responselike/1.0.0:
     resolution: {integrity: sha512-85Y2BjiufFzaMIlvJDvTTB8Fxl2xfLo4HgmHzVBz08w4wDePCTjYw66PdrolO0kzli3yam/YCgRufyo1DdQVTA==}
     dependencies:
-      '@types/node': 16.4.13
+      '@types/node': 16.6.0
     dev: true
 
   /@types/scheduler/0.16.2:
@@ -13780,8 +13780,8 @@ packages:
       safe-buffer: 5.2.1
     dev: true
 
-  /turbo/0.8.2:
-    resolution: {integrity: sha512-nnyIam45lbc3rkwArFY233H4WAoH39xKEDjkCNsg8EZUie1Jezd22VGDMNr6yvaMAzNrEIHuS+q/8QUWf8SyHw==}
+  /turbo/0.8.3:
+    resolution: {integrity: sha512-uoCV36yRNsJBG/zul5qCTznIOpp1x6oLyrllXzMafIKeCPVlPkAEc9amgTFnOLswfRart8FVwHirDDabc6IA3Q==}
     hasBin: true
     requiresBuild: true
     dependencies:
