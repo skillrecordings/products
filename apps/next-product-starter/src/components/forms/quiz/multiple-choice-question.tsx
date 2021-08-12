@@ -1,7 +1,7 @@
 import * as React from 'react'
 import {FunctionComponent} from 'react'
 import Markdown from 'react-markdown'
-import type {Question} from 'pages/answer'
+import type {Question} from '@skillrecordings/types'
 import useQuestion from 'hooks/use-quiz-question'
 import SubmitButton from './submit'
 import CompletedMessage from 'components/forms/quiz/completed'
