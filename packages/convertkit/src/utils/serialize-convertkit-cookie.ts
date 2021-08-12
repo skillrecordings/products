@@ -1,5 +1,5 @@
 import * as serverCookie from 'cookie'
-import {CK_SUBSCRIBER_KEY} from 'contexts/convertkit-context'
+import {CK_SUBSCRIBER_KEY} from '@skillrecordings/config'
 
 const serializeCookie = (
   value: string,

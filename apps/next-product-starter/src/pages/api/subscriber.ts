@@ -1,5 +1,5 @@
 import {NextApiRequest, NextApiResponse} from 'next'
-import fetchConvertkitSubscriberFromServerCookie from 'utils/fetch-convertkit-subscriber'
+import {fetchConvertkitSubscriberFromServerCookie} from '@skillrecordings/convertkit'
 
 const subscriber = async (req: NextApiRequest, res: NextApiResponse) => {
   if (req.method === 'GET') {

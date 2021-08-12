@@ -19,8 +19,10 @@
   },
   "dependencies": {
     "@skillrecordings/axios": "^0.0.1",
+    "@skillrecordings/config": "^0.0.1",
     "@skillrecordings/cookies": "^0.0.1",
     "axios": "^0.21.1",
+    "cookie": "^0.4.1",
     "query-string": "^7.0.1"
   },
   "devDependencies": {

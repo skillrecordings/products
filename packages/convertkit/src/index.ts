@@ -1,5 +1,13 @@
+import {
+  useConvertkit,
+  ConvertkitProvider,
+  ConvertkitContext,
+} from './hooks/use-convertkit'
+import fetchConvertkitSubscriberFromServerCookie from './utils/fetch-convertkit-subscriber'
+
 export {
   useConvertkit,
   ConvertkitProvider,
-  ConverkitContext,
-} from './hooks/use-convertkit'
+  ConvertkitContext,
+  fetchConvertkitSubscriberFromServerCookie,
+}

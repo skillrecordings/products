@@ -1,5 +1,17 @@
 import axios from 'axios'
-import {ACCESS_TOKEN_KEY} from '@skillrecordings/config'
+import {
+  ACCESS_TOKEN_KEY,
+  CONVERTKIT_BASE_URL,
+  AUTH_DOMAIN,
+} from '@skillrecordings/config'
+
+export const convertkitAxios = axios.create({
+  baseURL: CONVERTKIT_BASE_URL,
+})
+
+export const eggheadAxios = axios.create({
+  baseURL: AUTH_DOMAIN,
+})
 
 axios.interceptors.request.use(
   function (config: any) {
