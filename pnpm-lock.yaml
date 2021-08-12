@@ -51,7 +51,7 @@ importers:
       '@types/lodash': ^4.14.172
       '@types/node': ^16.6.0
       '@types/pluralize': ^0.0.29
-      '@types/react': ^17.0.17
+      '@types/react': '*'
       '@types/react-scroll': ^1.8.3
       '@typescript-eslint/eslint-plugin': ^4.29.1
       '@typescript-eslint/parser': ^4.29.1
@@ -169,6 +169,185 @@ importers:
       '@types/pluralize': 0.0.29
       '@types/react': 17.0.17
       '@types/react-scroll': 1.8.3
+      '@typescript-eslint/eslint-plugin': 4.29.1_d4376362794b743c19f4cba25c7fc6f5
+      '@typescript-eslint/parser': 4.29.1_eslint@7.32.0+typescript@4.3.5
+      assert: 2.0.0
+      babel-jest: 27.0.6
+      commander: 8.1.0
+      eslint: 7.32.0
+      eslint-config-next: 11.1.0_5976364cb0ac16872ff3eea1a55e5ca2
+      eslint-config-prettier: 8.3.0_eslint@7.32.0
+      eslint-plugin-jsx-a11y: 6.4.1_eslint@7.32.0
+      eslint-plugin-prettier: 3.4.0_5a48a349ffec60f5257b5f148f5199c3
+      eslint-plugin-react: 7.24.0_eslint@7.32.0
+      eslint-plugin-react-hooks: 4.2.0_eslint@7.32.0
+      husky: 7.0.1
+      lint-staged: 11.1.2
+      msw: 0.34.0
+      next-compose-plugins: 2.2.1
+      next-images: 1.8.1
+      postcss-nested: 5.0.6_postcss@8.3.6
+      postcss-preset-env: 6.7.0
+      prettier: 2.3.2
+      react-test-renderer: 17.0.2_react@17.0.2
+      tailwindcss: 2.2.7_7b69a43ec4689fa7484dee35f79a7806
+      typescript: 4.3.5
+
+  apps/rustadventure:
+    specifiers:
+      '@babel/plugin-transform-react-jsx': ^7.14.9
+      '@mdx-js/loader': ^1.6.22
+      '@mdx-js/react': ^1.6.22
+      '@next/mdx': ^11.1.0
+      '@reach/dialog': ^0.16.0
+      '@skillrecordings/analytics': '*'
+      '@skillrecordings/auth': '*'
+      '@skillrecordings/axios': '*'
+      '@skillrecordings/commerce': '*'
+      '@skillrecordings/config': '*'
+      '@skillrecordings/convertkit': '*'
+      '@skillrecordings/cookies': '*'
+      '@skillrecordings/scripts': '*'
+      '@skillrecordings/time': '*'
+      '@skillrecordings/types': '*'
+      '@stripe/stripe-js': ^1.16.0
+      '@tailwindcss/aspect-ratio': ^0.2.1
+      '@tailwindcss/forms': ^0.3.3
+      '@tailwindcss/typography': ^0.4.1
+      '@testing-library/jest-dom': ^5.14.1
+      '@testing-library/react': ^12.0.0
+      '@tippyjs/react': ^4.2.5
+      '@types/cookie': ^0.4.1
+      '@types/lodash': ^4.14.172
+      '@types/mdx-js__react': ^1.5.4
+      '@types/node': ^16.6.0
+      '@types/pluralize': ^0.0.29
+      '@types/react': '*'
+      '@types/react-scroll': ^1.8.3
+      '@types/react-syntax-highlighter': ^13.5.2
+      '@typescript-eslint/eslint-plugin': ^4.29.1
+      '@typescript-eslint/parser': ^4.29.1
+      '@xstate/react': ^1.5.1
+      assert: ^2.0.0
+      autoprefixer: ^10.3.1
+      axios: ^0.21.1
+      babel-jest: ^27.0.6
+      client-oauth2: ^4.3.3
+      commander: ^8.1.0
+      cookie: ^0.4.1
+      date-fns: ^2.23.0
+      dotenv-flow: ^3.2.0
+      eslint: ^7.32.0
+      eslint-config-next: ^11.1.0
+      eslint-config-prettier: ^8.3.0
+      eslint-plugin-jsx-a11y: ^6.4.1
+      eslint-plugin-prettier: ^3.4.0
+      eslint-plugin-react: ^7.24.0
+      eslint-plugin-react-hooks: ^4.2.0
+      focus-visible: ^5.2.0
+      formik: ^2.2.9
+      framer-motion: ^4.1.17
+      husky: ^7.0.1
+      lint-staged: ^11.1.2
+      lodash: ^4.17.21
+      mdx-prism: ^0.3.4
+      msw: ^0.34.0
+      next: 11.1.0
+      next-compose-plugins: ^2.2.1
+      next-images: ^1.8.1
+      next-seo: ^4.26.0
+      next-sitemap: ^1.6.148
+      next-themes: ^0.0.15
+      pluralize: ^8.0.0
+      postcss: ^8.3.6
+      postcss-nested: ^5.0.6
+      postcss-preset-env: ^6.7.0
+      prettier: ^2.3.2
+      query-string: ^7.0.1
+      react: 17.0.2
+      react-countdown: ^2.3.2
+      react-dom: 17.0.2
+      react-markdown: ^6.0.3
+      react-scroll: ^1.8.3
+      react-stripe-checkout: ^2.6.3
+      react-syntax-highlighter: ^15.4.4
+      react-test-renderer: ^17.0.2
+      react-use: ^17.2.4
+      react-use-clipboard: ^1.0.7
+      rehype: ^12.0.0
+      remark-slug: ^6.1.0
+      stripe: ^8.169.0
+      swr: ^0.5.6
+      tailwindcss: ^2.2.7
+      typescript: ^4.3.5
+      xstate: ^4.23.1
+      yup: ^0.32.9
+    dependencies:
+      '@mdx-js/react': 1.6.22_react@17.0.2
+      '@next/mdx': 11.1.0_f56c41adb6190c4680be4a1c0222355d
+      '@reach/dialog': 0.16.0_9c423dff26c1034f6157071c372957fe
+      '@skillrecordings/analytics': link:../../packages/analytics
+      '@skillrecordings/auth': link:../../packages/auth
+      '@skillrecordings/axios': link:../../packages/axios
+      '@skillrecordings/commerce': link:../../packages/commerce
+      '@skillrecordings/config': link:../../packages/config
+      '@skillrecordings/convertkit': link:../../packages/convertkit
+      '@skillrecordings/cookies': link:../../packages/cookies
+      '@skillrecordings/time': link:../../packages/time
+      '@stripe/stripe-js': 1.16.0
+      '@tailwindcss/aspect-ratio': 0.2.1_tailwindcss@2.2.7
+      '@tailwindcss/forms': 0.3.3_tailwindcss@2.2.7
+      '@tailwindcss/typography': 0.4.1_tailwindcss@2.2.7
+      '@tippyjs/react': 4.2.5_react-dom@17.0.2+react@17.0.2
+      '@types/lodash': 4.14.172
+      '@xstate/react': 1.5.1_49beb093bbd7c35e54ba0f39a3d61311
+      autoprefixer: 10.3.1_postcss@8.3.6
+      axios: 0.21.1
+      client-oauth2: 4.3.3
+      cookie: 0.4.1
+      date-fns: 2.23.0
+      dotenv-flow: 3.2.0
+      focus-visible: 5.2.0
+      formik: 2.2.9_react@17.0.2
+      framer-motion: 4.1.17_react-dom@17.0.2+react@17.0.2
+      lodash: 4.17.21
+      mdx-prism: 0.3.4
+      next: 11.1.0_f31b35bdaa3b7c2fce82404f09d2dac4
+      next-seo: 4.26.0_7df30a00c1bfce1004e3004b7e801a78
+      next-sitemap: 1.6.148_next@11.1.0
+      next-themes: 0.0.15_7df30a00c1bfce1004e3004b7e801a78
+      pluralize: 8.0.0
+      postcss: 8.3.6
+      query-string: 7.0.1
+      react: 17.0.2
+      react-countdown: 2.3.2_react-dom@17.0.2+react@17.0.2
+      react-dom: 17.0.2_react@17.0.2
+      react-markdown: 6.0.3_9280ae23271fd1e8184f767af1a90e55
+      react-scroll: 1.8.3_react-dom@17.0.2+react@17.0.2
+      react-stripe-checkout: 2.6.3
+      react-syntax-highlighter: 15.4.4_react@17.0.2
+      react-use: 17.2.4_react-dom@17.0.2+react@17.0.2
+      react-use-clipboard: 1.0.7_react-dom@17.0.2+react@17.0.2
+      rehype: 12.0.0
+      remark-slug: 6.1.0
+      stripe: 8.169.0
+      swr: 0.5.6_react@17.0.2
+      xstate: 4.23.1
+      yup: 0.32.9
+    devDependencies:
+      '@babel/plugin-transform-react-jsx': 7.14.9
+      '@mdx-js/loader': 1.6.22_react@17.0.2
+      '@skillrecordings/scripts': link:../../packages/scripts
+      '@skillrecordings/types': link:../../packages/types
+      '@testing-library/jest-dom': 5.14.1
+      '@testing-library/react': 12.0.0_react-dom@17.0.2+react@17.0.2
+      '@types/cookie': 0.4.1
+      '@types/mdx-js__react': 1.5.4
+      '@types/node': 16.6.0
+      '@types/pluralize': 0.0.29
+      '@types/react': 17.0.17
+      '@types/react-scroll': 1.8.3
+      '@types/react-syntax-highlighter': 13.5.2
       '@typescript-eslint/eslint-plugin': 4.29.1_d4376362794b743c19f4cba25c7fc6f5
       '@typescript-eslint/parser': 4.29.1_eslint@7.32.0+typescript@4.3.5
       assert: 2.0.0
@@ -2469,7 +2648,6 @@ packages:
       react: ^16.13.1 || ^17.0.0
     dependencies:
       react: 17.0.2
-    dev: true
 
   /@mdx-js/util/1.6.22:
     resolution: {integrity: sha512-H1rQc1ZOHANWBvPcW+JpGwr+juXSxM8Q8YCkm3GhZd8REu1fHR3z99CErO1p9pkcfcxZnMdIZdIsXkOHY0NilA==}
@@ -2524,6 +2702,16 @@ packages:
       '@mdx-js/react': '*'
     dependencies:
       '@mdx-js/loader': 1.6.22_react@17.0.2
+    dev: false
+
+  /@next/mdx/11.1.0_f56c41adb6190c4680be4a1c0222355d:
+    resolution: {integrity: sha512-X+NwSByGr9HuPkGs1nrzhmJ5qqQbv6CpEA3dJKEYHaDe7YzEUCM00Y7abxOzowXhUXeDdAHJ7IeIV4GZMhdcpg==}
+    peerDependencies:
+      '@mdx-js/loader': '>=0.15.0'
+      '@mdx-js/react': '*'
+    dependencies:
+      '@mdx-js/loader': 1.6.22_react@17.0.2
+      '@mdx-js/react': 1.6.22_react@17.0.2
     dev: false
 
   /@next/polyfill-module/11.1.0:
@@ -3010,6 +3198,12 @@ packages:
     dependencies:
       '@types/unist': 2.0.6
 
+  /@types/mdx-js__react/1.5.4:
+    resolution: {integrity: sha512-hce+Hymj3cEMOma13eQRhpT3mhQrOkN4CAYEwKWB/qj2BiuUrrTpCkOShEERGmLVgDc3nxF4Dc0k7W999EQxnQ==}
+    dependencies:
+      '@types/react': 17.0.17
+    dev: true
+
   /@types/minimatch/3.0.5:
     resolution: {integrity: sha512-Klz949h02Gz2uZCMGwDUSDS1YBlTdDDgbWHi+81l29tQALUtvz4rAYi5uoVhE5Lagoq6DeqAUlbrHvW/mXDgdQ==}
     dev: true
@@ -3067,6 +3261,12 @@ packages:
     resolution: {integrity: sha512-Xt0+Y58pwrIv+vRFxcyKDoo0gBWBR2eNMJ4XRMhQpZdGUtmjnszPi/wFEJSAY+5r83ypJsSA+hOpSc3hRpYlWw==}
     dependencies:
       '@types/react': 17.0.16
+    dev: true
+
+  /@types/react-syntax-highlighter/13.5.2:
+    resolution: {integrity: sha512-sRZoKZBGKaE7CzMvTTgz+0x/aVR58ZYUTfB7HN76vC+yQnvo1FWtzNARBt0fGqcLGEVakEzMu/CtPzssmanu8Q==}
+    dependencies:
+      '@types/react': 17.0.17
     dev: true
 
   /@types/react/17.0.16:
@@ -5627,6 +5827,10 @@ packages:
     engines: {node: '>=10'}
     dev: false
 
+  /emoji-regex/6.1.1:
+    resolution: {integrity: sha1-xs0OwbBkLio8Z6ETfvxeeW2k+I4=}
+    dev: false
+
   /emoji-regex/7.0.3:
     resolution: {integrity: sha512-CwBLREIQ7LvYFB0WyRvwhq5N5qPhc6PMjD6bYggFlI5YyDgl+0vxq5VHbMOFqLg7hfWzmu8T5Z1QofhmTIhItA==}
     dev: true
@@ -6564,6 +6768,12 @@ packages:
     dependencies:
       reusify: 1.0.4
 
+  /fault/1.0.4:
+    resolution: {integrity: sha512-CJ0HCB5tL5fYTEA7ToAq5+kTwd++Borf1/bifxd9iT70QcXr4MRrO3Llf8Ifs70q+SJcGHFtnIE/Nw6giCtECA==}
+    dependencies:
+      format: 0.2.2
+    dev: false
+
   /fb-watchman/2.0.1:
     resolution: {integrity: sha512-DkPJKQeY6kKwmuMretBhr7G6Vodr7bFwDYTXIkfG1gjvNpaxBTQV3PbXg6bR1c1UP4jPOX0jHUbbHANL9vRjVg==}
     dependencies:
@@ -6773,6 +6983,11 @@ packages:
       mime-types: 2.1.32
     dev: false
 
+  /format/0.2.2:
+    resolution: {integrity: sha1-1hcBB+nv3E7TDJ3DkBbflCtctYs=}
+    engines: {node: '>=0.4.x'}
+    dev: false
+
   /formik/2.2.9_react@17.0.2:
     resolution: {integrity: sha512-LQLcISMmf1r5at4/gyJigGn0gOwFbeEAlji+N9InZF6LIMXnFNkO42sCI8Jt84YZggpD4cPWObAZaxpEFtSzNA==}
     peerDependencies:
@@ -6952,6 +7167,12 @@ packages:
     dependencies:
       assert-plus: 1.0.0
     dev: true
+
+  /github-slugger/1.3.0:
+    resolution: {integrity: sha512-gwJScWVNhFYSRDvURk/8yhcFBee6aFjye2a7Lhb2bUyRulpIoek9p0I9Kt7PT67d/nUlZbFu8L9RLiA0woQN8Q==}
+    dependencies:
+      emoji-regex: 6.1.1
+    dev: false
 
   /glob-parent/3.1.0:
     resolution: {integrity: sha1-nmr2KZ2NO9K9QEMIMr0RPfkGxa4=}
@@ -7402,6 +7623,10 @@ packages:
 
   /hey-listen/1.0.8:
     resolution: {integrity: sha512-COpmrF2NOg4TBWUJ5UVyaCU2A88wEMkUPK4hNqyCkqHbxT92BbvfjoSozkAIIm6XhicGlJHhFdullInrdhwU8Q==}
+    dev: false
+
+  /highlight.js/10.7.3:
+    resolution: {integrity: sha512-tzcUFauisWKNHaRkN4Wjl/ZA07gENAjFl3J/c480dprkGTg5EQstgaNFqBfUqCq54kZRIEcreTsAgF/m2quD7A==}
     dev: false
 
   /hmac-drbg/1.0.1:
@@ -9628,6 +9853,13 @@ packages:
     engines: {node: '>=8'}
     dev: true
 
+  /lowlight/1.20.0:
+    resolution: {integrity: sha512-8Ktj+prEb1RoCPkEOrPMYUN/nCggB7qAWe3a7OpMjWQkh3l2RD5wKRQ+o8Q8YuI9RG/xs95waaI/E6ym/7NsTw==}
+    dependencies:
+      fault: 1.0.4
+      highlight.js: 10.7.3
+    dev: false
+
   /lru-cache/4.1.5:
     resolution: {integrity: sha512-sWZlbEP2OsHNkXrMl5GYk/jKk70MBng6UU4YI/qGDYbgf6YbP4EvmqISbXCoJiRKs+1bSpFHVgQxvJ17F2li5g==}
     dependencies:
@@ -9767,6 +9999,10 @@ packages:
       unist-util-generated: 1.1.6
       unist-util-position: 3.1.0
       unist-util-visit: 2.0.3
+    dev: false
+
+  /mdast-util-to-string/1.1.0:
+    resolution: {integrity: sha512-jVU0Nr2B9X3MU4tSK7JP1CMkSvOj7X5l/GboG1tKRw52lLF1x2Ju92Ms9tNetCcbfX3hzlM73zYo2NKkWSfF/A==}
     dev: false
 
   /mdast-util-to-string/2.0.0:
@@ -11792,6 +12028,19 @@ packages:
       tslib: 1.14.1
     dev: false
 
+  /react-syntax-highlighter/15.4.4_react@17.0.2:
+    resolution: {integrity: sha512-PsOFHNTzkb3OroXdoR897eKN5EZ6grht1iM+f1lJSq7/L0YVnkJaNVwC3wEUYPOAmeyl5xyer1DjL6MrumO6Zw==}
+    peerDependencies:
+      react: '>= 0.14.0'
+    dependencies:
+      '@babel/runtime': 7.14.8
+      highlight.js: 10.7.3
+      lowlight: 1.20.0
+      prismjs: 1.23.0
+      react: 17.0.2
+      refractor: 3.3.0
+    dev: false
+
   /react-test-renderer/17.0.2_react@17.0.2:
     resolution: {integrity: sha512-yaQ9cB89c17PUb0x6UfWRs7kQCorVdHlutU1boVPEsB8IDZH6n9tHxMacc3y0JoXOJUsZb/t/Mb8FUWMKaM7iQ==}
     peerDependencies:
@@ -12143,6 +12392,14 @@ packages:
     resolution: {integrity: sha512-EbCu9kHgAxKmW1yEYjx3QafMyGY3q8noUbNUI5xyKbaFP89wbhDrKxyIQNukNYthzjNHZu6J7hwFg7hRm1svYA==}
     dependencies:
       mdast-util-to-hast: 10.2.0
+    dev: false
+
+  /remark-slug/6.1.0:
+    resolution: {integrity: sha512-oGCxDF9deA8phWvxFuyr3oSJsdyUAxMFbA0mZ7Y1Sas+emILtO+e5WutF9564gDsEN4IXaQXm5pFo6MLH+YmwQ==}
+    dependencies:
+      github-slugger: 1.3.0
+      mdast-util-to-string: 1.1.0
+      unist-util-visit: 2.0.3
     dev: false
 
   /remark-squeeze-paragraphs/4.0.0:
