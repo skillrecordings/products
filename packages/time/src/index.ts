@@ -6,6 +6,7 @@ function pad(s: string | any[]) {
 }
 
 export function convertTimeToMins(seconds: number) {
+  // if (seconds < 0) throw new Error('Received negative argument')
   const mins = ~~(seconds / 60)
   return `${pad(mins.toString())}m`
 }
