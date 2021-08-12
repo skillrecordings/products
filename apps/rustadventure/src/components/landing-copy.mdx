@@ -1,0 +1,107 @@
+<div className="relative text-lg">
+  <h2 className="font-bold pl-8">
+    Performance.
+    <br />
+    Reliability.
+    <br />
+    Comfort.
+  </h2>
+  <div className="w-1 bg-brand-orange-600 h-[145%] absolute left-0 top-[-45%]" />
+</div>
+
+In car commercials, you’re promised all three, but for software development, you’re in a “choose two” situation.
+
+### Let’s talk about performance first.
+
+One maxim of software development states that the more lower-level the language, the higher the performance.
+
+However, these lower-level languages come with baggage.
+
+You have to have an understanding of how your code uses memory, and have the knowledge to manually manage it. Once you introduce concurrency into the mix, it becomes even easier to stall out.
+
+Low-level languages have a tendency to be unsafe at any speed.
+
+### Let’s look at C and C++.
+
+These old timers are more than happy to sit back and watch you try to run your error-prone code. At best, you’ll crash due to something innocent that you can catch and fix right away. At worst, you won’t notice anything bad happening but have opened up the entire system to being carjacked through memory exploits (Stack overflow, anyone?).
+
+And if you’re coming from a modern language like JavaScript, Ruby, or Go…
+
+### Finally, the subject of comfort.
+
+While how you feel sitting in the driver’s seat plays a large part in how good you feel in a car, it’s not the only concern. Similarly, working in a language is more than just syntax.
+
+Terse legacy code written by others can be hard to read, and even scarier to modify.
+
+Different library and version tooling can make it annoying to collaborate on larger projects.
+
+---
+
+Just as certain vehicles have their ideal environment, these system level languages have theirs. Your choice of language may make it hard to find a change of scenery.
+
+**So how do you choose between performance, safety, and comfort? How will you know you've made the right choice?**
+
+<div className="relative">
+  <h2 className="text-3xl font-bold pl-8">With Rust, you get it all.</h2>
+  <div className="w-1 bg-brand-orange-600 h-full absolute left-0 top-0" />
+</div>
+
+Thanks to its benchmarks in both runtime and developer experience, Rust has been growing in popularity amongst developers of all backgrounds.
+
+### The compiler is what sets Rust apart from other languages.
+
+It provides a super stable platform for you to build on.
+
+With Rust’s default behavior it is impossible to end up with null pointers. Being both strongly and statically typed with the power of inference makes it hard to write programs that don't work.
+
+If there's an issue with your code, the Rust compiler tells you what part is wrong and points you to the solution.
+
+As your skills grow and you become more confident, you can start working with Unsafe Rust. This opens up even more possibilities, but that’s a subject for another time…
+
+Now, some people online have complained that the learning curve for Rust is a bit steeper than some other languages.
+
+### Rust has mechanics that aren't found in other languages.
+
+Rust’s concept of Ownership, for example, is a major part of the language and it combines with the rest of the language in a way that makes it hard to ignore. Borrowing, Lifetimes, and Traits all interact to make Ownership what it is. This combination is the source of foreign looking types like ` '``a `, the differences between `String` and `&str`, and more.
+
+Seeing these explained in isolation makes it feel like like cobbling things together.
+
+<!-- **The compiler won't let you write code that doesn't run, but how do you know you're writing _good_ code?** -->
+
+<br />
+<div className="relative sm:text-2xl text-xl font-bold pl-5">
+  <div>
+    The compiler won't let you write code that doesn't run, but how do you know
+    you're writing <i>good</i> code?
+    <br />
+    <br />
+    That's why I developed Rust Adventure.
+  </div>
+  <div className="w-1 bg-brand-orange-600 h-[100%] absolute left-0 top-0" />
+</div>
+<br />
+<div className="items-start py-5">
+<div className="flex flex-shrink-0 items-center justify-center sm:w-auto w-full max-w-[110px] float-left pr-5">
+  <Image
+    src={ChrisBiscardi}
+    placeholder="blur"
+    quality={100}
+    className="rounded-md"
+  />
+</div>
+<div className="font-medium">
+    
+Hey, I'm Chris Biscardi. For the past few years, I've been diving deep into the Rust ecosystem and working with beginners to figure out what people stumble on most when learning Rust. Through many cohorts and separate live sessions I've discovered what it takes for someone familiar with languages like JavaScript to get up to speed and produce working production code using Rust.
+
+</div>
+</div>
+
+I've seen first-hand the struggles people have with Rust.
+
+Rust Adventure builds your understanding of the syntax, concepts, and idiomatic practices of the language.
+
+Where other materials focus on little demos or toys, **in Rust Adventure you will experience the versatility of the language through building games, powerful CLI apps, and serverless functions.**
+
+Whether your goal is to jump start the next stretch of your development career or just to tinker, Rust Adventure is what you need.
+
+import ChrisBiscardi from '../../public/chris-biscardi.jpg'

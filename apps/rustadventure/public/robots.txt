@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+Host: undefined
+Sitemap: undefined/sitemap.xml
