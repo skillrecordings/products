@@ -1,4 +1,4 @@
-## Start developing
+## Start developing here
 
 Copy the template `.env.template` file to `.env.local` and `.env.production`.
 
