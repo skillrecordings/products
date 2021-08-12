@@ -1,7 +1,7 @@
 import * as React from 'react'
 import {FunctionComponent} from 'react'
 import Markdown from 'react-markdown'
-import type {Question} from 'pages/answer'
+import type {Question} from '@skillrecordings/types'
 import useQuestion from 'hooks/use-quiz-question'
 import SubmitButton from './submit'
 import CompletedMessage from 'components/forms/quiz/completed'
@@ -16,12 +16,12 @@ const EssayQuestion: FunctionComponent<{
     <form onSubmit={onAnswer} className="w-full">
       <legend className="lg:text-4xl sm:text-3xl text-2xl font-semibold pb-6">
         <Markdown
-          className="prose sm:prose-xl prose-lg"
+          className="prose sm:prose-xl prose-lg dark:prose-dark"
           children={question?.question}
         />
       </legend>
       <label>
-        <span className="text-xl font-medium pb-2 inline-block text-gray-800">
+        <span className="text-xl font-medium pb-2 inline-block text-gray-800 dark:text-gray-300">
           Please explain:
         </span>
         <textarea
@@ -29,8 +29,8 @@ const EssayQuestion: FunctionComponent<{
           name="answer"
           onChange={formik.handleChange}
           rows={6}
-          className="form-textarea w-full text-lg"
-          placeholder=""
+          className="form-textarea w-full text-lg dark:bg-gray-800 dark:text-white rounded-lg dark:placeholder-gray-500"
+          placeholder="Type your answer here..."
         />
       </label>
       {!isAnswered && (
@@ -53,7 +53,7 @@ const EssayQuestion: FunctionComponent<{
           className="prose sm:prose-xl prose-lg pt-5"
         />
       )}
-      {isAnswered && <CompletedMessage neutral={true} />}
+      {isAnswered && <CompletedMessage question={question} neutral={true} />}
     </form>
   )
 }

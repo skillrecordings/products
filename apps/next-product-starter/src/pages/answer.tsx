@@ -5,19 +5,7 @@ import Layout from 'layouts'
 import Link from 'next/link'
 import EssayQuestion from 'components/forms/quiz/essay-question'
 import MultipleChoiceQuestion from 'components/forms/quiz/multiple-choice-question'
-
-export type Question = {
-  question: string
-  type: 'multiple-choice' | 'essay'
-  tagId: number
-  correct?: string[] | string
-  answer?: string
-  choices?: {answer: string; label: string}[]
-}
-
-export type Questions = {
-  [key: string]: Question
-}
+import type {Question, Questions} from '@skillrecordings/types'
 
 type AnswerProps = {
   questions: Questions
@@ -124,17 +112,17 @@ const DevTools: React.FC<{questions: Questions}> = ({questions}) => {
   }
 
   return (
-    <nav className="z-10 flex border border-gray-100 flex-col fixed top-5 right-5 rounded-md bg-white shadow-xl p-4 sm:visible invisible">
+    <nav className="z-10 flex border border-gray-100 dark:border-gray-700 flex-col fixed bottom-5 right-5 rounded-md bg-white dark:bg-gray-800 shadow-xl p-4 sm:visible invisible">
       <div className="w-full flex leading-tighter justify-end absolute right-2 top-2">
         <button
           onClick={() => setHidden(true)}
-          className="text-xs text-black font-bold"
+          className="text-xs text-black dark:text-white font-bold"
         >
           <span className="not-sr-only">✕</span>
           <span className="sr-only">close navigation</span>
         </button>
       </div>
-      <span className="text-sm font-medium pb-2 text-indigo-600">
+      <span className="text-sm font-medium pb-2 text-indigo-600 dark:text-indigo-200">
         Questions:
       </span>
       <ol className="list-decimal list-inside">

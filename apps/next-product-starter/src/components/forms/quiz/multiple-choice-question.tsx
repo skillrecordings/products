@@ -30,7 +30,7 @@ const MultipleChoiceQuestion: FunctionComponent<{
     <form onSubmit={onAnswer} className="w-full">
       <legend className="lg:text-4xl sm:text-3xl text-2xl font-semibold pb-6">
         <Markdown
-          className="prose sm:prose-xl prose-lg"
+          className="prose sm:prose-xl prose-lg dark:prose-dark"
           children={question?.question}
         />
       </legend>
@@ -43,9 +43,9 @@ const MultipleChoiceQuestion: FunctionComponent<{
             }  ${
               isAnswered
                 ? isCorrectAnswer(choice)
-                  ? 'bg-teal-50 text-teal-600 border-teal-200'
-                  : 'bg-pink-50 text-pink-600 border-pink-100'
-                : 'border-gray-100 bg-gray-50 hover:bg-gray-100'
+                  ? 'bg-teal-50 text-teal-600 border-teal-200 dark:bg-teal-500 dark:bg-opacity-10 dark:text-teal-100 dark:border-teal-500'
+                  : 'bg-pink-50 text-pink-600 border-pink-100 dark:bg-pink-500 dark:bg-opacity-10 dark:border-pink-500 dark:text-pink-100'
+                : 'border-gray-100 bg-gray-50 hover:bg-gray-100 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700'
             }`}
           >
             <input
@@ -56,16 +56,18 @@ const MultipleChoiceQuestion: FunctionComponent<{
               disabled={isAnswered}
               className={`${
                 hasMultipleCorrectAnswers
-                  ? 'form-checkbox sm:translate-y-0'
-                  : 'form-radio sm:-translate-y-px'
-              } border-gray-400 transform  translate-y-1`}
+                  ? 'sm:translate-y-0'
+                  : 'sm:-translate-y-px'
+              } border-gray-400 translate-y-1`}
             />
             <div className="flex sm:flex-row flex-col sm:items-center justify-between relative w-full pl-2 leading-tighter">
               <span className="flex-grow">{choice.label}</span>
               {isAnswered && (
                 <span
                   className={`text-xs px-2 rounded-full flex-shrink-0 ${
-                    isCorrectAnswer(choice) ? 'bg-teal-100' : 'bg-pink-100'
+                    isCorrectAnswer(choice)
+                      ? 'bg-teal-100 dark:bg-teal-500'
+                      : 'bg-pink-100 dark:bg-pink-500'
                   }`}
                 >
                   {isCorrectAnswer(choice) ? 'correct' : 'incorrect'}
@@ -93,10 +95,15 @@ const MultipleChoiceQuestion: FunctionComponent<{
       {isAnswered && question?.answer && (
         <Markdown
           children={question.answer}
-          className="prose sm:prose-xl prose-lg pt-5"
+          className="prose sm:prose-xl prose-lg pt-5 dark:prose-dark"
         />
       )}
-      {isAnswered && <CompletedMessage answeredCorrectly={answeredCorrectly} />}
+      {isAnswered && (
+        <CompletedMessage
+          question={question}
+          answeredCorrectly={answeredCorrectly}
+        />
+      )}
     </form>
   )
 }

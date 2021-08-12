@@ -68,7 +68,7 @@ const PoliteConvertkitForm = ({children, peakingContent}: any) => {
       <div
         className={`${
           peaking ? 'left-0 -rotate-3' : '-left-1/2 rotate-0'
-        } fixed bottom-24 -translate-x-3 rounded-md bg-black transform transition-all ease-in-out duration-300  text-white text-lg`}
+        } fixed bottom-24 -translate-x-3 rounded-md bg-black transition-all ease-in-out duration-300  text-white text-lg`}
       >
         <div className="max-w-md pl-10 p-5">
           {peakingContent}

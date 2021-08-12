@@ -39,9 +39,7 @@ const Layout: FunctionComponent<LayoutProps> = ({
       />
       <div className={`p-5 flex flex-col min-h-screen ${className}`}>
         <Navigation />
-        <main className="flex-grow flex flex-col justify-center">
-          {children}
-        </main>
+        <div className="flex-grow flex flex-col justify-center">{children}</div>
         <Footer />
       </div>
     </>

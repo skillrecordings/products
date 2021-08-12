@@ -25,7 +25,6 @@ module.exports = withPlugins(
     withImages(),
     withMDX({
       pageExtensions: ['ts', 'tsx', 'mdx'],
-      remarkPlugins: [require('remark-slug')],
       rehypePlugins: [require('mdx-prism')],
     }),
   ],

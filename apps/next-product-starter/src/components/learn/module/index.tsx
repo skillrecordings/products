@@ -69,7 +69,7 @@ const Module: React.FC<ModuleProps> = ({resource, items, progress, i}) => {
           </div>
         </div>
         {isModuleCompleted && (
-          <div className="transform -rotate-45 w-12 h-1 bg-teal-500 absolute -left-3 top-3" />
+          <div className="-rotate-45 w-12 h-1 bg-teal-500 absolute -left-3 top-3" />
         )}
       </div>
     </>

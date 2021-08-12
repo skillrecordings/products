@@ -127,7 +127,7 @@ const LoginForm: FunctionComponent<LoginFormProps> = ({
                             <button
                               type="submit"
                               disabled={isSubmitting}
-                              className="w-full mt-4 transition-all duration-150 ease-in-out bg-gradient-to-b from-gray-700 to-gray-800 hover:from-gray-800 hover:to-gray-900  text-white transform hover:shadow-xl font-semibold py-3 px-5 rounded-md"
+                              className="w-full mt-4 transition-all duration-150 ease-in-out bg-gradient-to-b from-gray-700 to-gray-800 hover:from-gray-800 hover:to-gray-900  text-white hover:shadow-xl font-semibold py-3 px-5 rounded-md"
                             >
                               {button}
                             </button>

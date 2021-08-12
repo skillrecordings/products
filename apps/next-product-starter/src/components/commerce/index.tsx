@@ -94,7 +94,7 @@ const Commerce = ({bundles, children, className}: CommerceProps) => {
 export const QualityAssuranceSection = () => {
   return (
     <section className="pt-24">
-      <div className="flex items-center flex-wrap justify-center transform scale-90 opacity-80 leading-tight">
+      <div className="flex items-center flex-wrap justify-center scale-90 opacity-80 leading-tight">
         <span className="text-sm mx-3 my-2">30 day money back guarantee</span>
         <div className="mx-3 my-2 text-gray-900 dark:text-white">
           <StripeBadge />
