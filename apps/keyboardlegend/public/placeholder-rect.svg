@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="518" height="518" fill="none" viewBox="0 0 518 518">
+  <path stroke="#828282" stroke-width="5" d="M3 3h512v512H3z"/>
+  <mask id="a" width="512" height="512" x="3" y="3" maskUnits="userSpaceOnUse">
+    <path fill="#C4C4C4" d="M3 3h512v512H3z"/>
+  </mask>
+  <g mask="url(#a)">
+    <path stroke="#828282" stroke-width="5" d="M3 3l512 512M3 515L515 3"/>
+  </g>
+</svg>
