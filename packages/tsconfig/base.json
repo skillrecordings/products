@@ -13,6 +13,7 @@
     "noUnusedParameters": false,
     "preserveWatchOutput": true,
     "skipLibCheck": true,
+    "resolveJsonModule": true,
     "strict": true
   },
   "exclude": ["node_modules"]

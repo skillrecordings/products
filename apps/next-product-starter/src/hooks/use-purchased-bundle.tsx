@@ -1,5 +1,5 @@
 import {SellableResource} from '@skillrecordings/types'
-import {useViewer} from 'contexts/viewer-context'
+import {useViewer} from '@skillrecordings/viewer'
 import find from 'lodash/find'
 import useSWR from 'swr'
 import Axios from '@skillrecordings/axios'

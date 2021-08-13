@@ -2,7 +2,7 @@ import * as React from 'react'
 import DarkModeToggle from './color-mode-toggle'
 import config from 'config'
 import Link from 'next/link'
-import {useViewer} from 'contexts/viewer-context'
+import {useViewer} from '@skillrecordings/viewer'
 
 const Navigation = () => {
   const {isAuthenticated, logout} = useViewer()

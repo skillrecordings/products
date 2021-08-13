@@ -7,8 +7,8 @@ import find from 'lodash/find'
 import getBundles from '../utils/get-bundles'
 import {sortPurchases} from '../utils/sort-purchases'
 import {AvailableUpgrade, SellableResource} from '@skillrecordings/types'
-import viewerMachine from 'machines/viewer'
-import {auth} from 'machines/viewer/utils'
+import viewerMachine from '../machines/viewer'
+import {auth} from '../machines/viewer/utils'
 import {useMachine} from '@xstate/react'
 import {isEmpty} from 'lodash'
 
@@ -45,6 +45,7 @@ function useAuthedViewer() {
   React.useEffect(() => {
     window.becomeUser = auth.becomeUser
   }, [])
+
   const allPurchases = get(viewer, 'purchased') || ([] as SellableResource[])
   const sitePurchases = filter(allPurchases, {
     site: process.env.NEXT_PUBLIC_SITE_NAME,

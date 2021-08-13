@@ -4,7 +4,7 @@ import isEmpty from 'lodash/isEmpty'
 import isEqual from 'lodash/isEqual'
 import get from 'lodash/get'
 import queryString from 'query-string'
-import {isBrowser} from 'utils/is-browser'
+import {isBrowser} from '../../utils/is-browser'
 import {
   ViewerContext,
   ViewerEvent,

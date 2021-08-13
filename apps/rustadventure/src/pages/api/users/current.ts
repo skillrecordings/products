@@ -1,6 +1,7 @@
 import axios from 'axios'
 import {NextApiRequest, NextApiResponse} from 'next'
-import {getTokenFromCookieHeaders, AUTH_DOMAIN} from 'utils/auth'
+import {getTokenFromCookieHeaders} from '@skillrecordings/auth'
+import {AUTH_DOMAIN} from '@skillrecordings/config'
 import getDevAccessToken from 'utils/get-dev-access-token'
 
 const current = async (req: NextApiRequest, res: NextApiResponse) => {

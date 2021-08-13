@@ -5,8 +5,8 @@ import config from '../config'
 import {MDXProvider} from '@mdx-js/react'
 import '../styles/globals.css'
 import 'focus-visible'
-import {ViewerProvider} from 'contexts/viewer-context'
-import {ConvertkitProvider} from 'contexts/convertkit-context'
+import {ViewerProvider} from '@skillrecordings/viewer'
+import {ConvertkitProvider} from '@skillrecordings/convertkit'
 import mdxComponents from 'components/mdx'
 
 declare global {
