@@ -110,6 +110,9 @@
       "prettier --write"
     ]
   },
+  "jest": {
+    "preset": "@skillrecordings/scripts/jest/next"
+  },
   "prettier": {
     "printWidth": 80,
     "tabWidth": 2,

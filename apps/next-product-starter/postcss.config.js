@@ -1,9 +1,1 @@
-module.exports = {
-  plugins: {
-    tailwindcss: {},
-    autoprefixer: {
-      flexbox: 'no-2009',
-    },
-    'postcss-nested': {},
-  },
-}
+module.exports = require('@skillrecordings/scripts/postcss.config')
