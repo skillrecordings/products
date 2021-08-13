@@ -214,6 +214,7 @@ importers:
       '@skillrecordings/config': '*'
       '@skillrecordings/convertkit': '*'
       '@skillrecordings/cookies': '*'
+      '@skillrecordings/quiz': '*'
       '@skillrecordings/scripts': '*'
       '@skillrecordings/time': '*'
       '@skillrecordings/tsconfig': ^0.0.5
@@ -297,6 +298,7 @@ importers:
       '@skillrecordings/config': link:../../packages/config
       '@skillrecordings/convertkit': link:../../packages/convertkit
       '@skillrecordings/cookies': link:../../packages/cookies
+      '@skillrecordings/quiz': link:../../packages/quiz
       '@skillrecordings/time': link:../../packages/time
       '@skillrecordings/viewer': link:../../packages/viewer
       '@stripe/stripe-js': 1.16.0
@@ -696,6 +698,118 @@ importers:
       '@skillrecordings/scripts': link:../scripts
       '@skillrecordings/tsconfig': link:../tsconfig
       '@skillrecordings/types': link:../types
+      typescript: 4.3.5
+
+  packages/quiz:
+    specifiers:
+      '@skillrecordings/analytics': ^0.0.5
+      '@skillrecordings/auth': ^0.0.5
+      '@skillrecordings/axios': ^0.0.1
+      '@skillrecordings/config': ^0.0.1
+      '@skillrecordings/convertkit': ^0.0.1
+      '@skillrecordings/cookies': ^0.0.1
+      '@skillrecordings/react': workspace:*
+      '@skillrecordings/scripts': ^0.0.5
+      '@skillrecordings/tsconfig': ^0.0.5
+      '@skillrecordings/types': ^0.0.5
+      '@types/react': '*'
+      '@types/react-dom': ^17.0.9
+      '@xstate/react': ^1.5.1
+      axios: ^0.21.1
+      esbuild-node-tsc: ^1.6.1
+      formik: ^2.2.9
+      lodash: ^4.17.21
+      next: 11.1.0
+      query-string: ^7.0.1
+      react: 17.0.2
+      react-dom: 17.0.2
+      react-markdown: ^6.0.3
+      typescript: ^4.2.4
+      xstate: ^4.23.1
+      yup: ^0.32.9
+    dependencies:
+      '@skillrecordings/analytics': link:../analytics
+      '@skillrecordings/auth': link:../auth
+      '@skillrecordings/axios': link:../axios
+      '@skillrecordings/config': link:../config
+      '@skillrecordings/convertkit': link:../convertkit
+      '@skillrecordings/cookies': link:../cookies
+      '@skillrecordings/react': link:../react
+      '@types/react': 17.0.17
+      '@types/react-dom': 17.0.9
+      '@xstate/react': 1.5.1_49beb093bbd7c35e54ba0f39a3d61311
+      axios: 0.21.1
+      formik: 2.2.9_react@17.0.2
+      lodash: 4.17.21
+      next: 11.1.0_f31b35bdaa3b7c2fce82404f09d2dac4
+      query-string: 7.0.1
+      react: 17.0.2
+      react-dom: 17.0.2_react@17.0.2
+      react-markdown: 6.0.3_9280ae23271fd1e8184f767af1a90e55
+      xstate: 4.23.1
+      yup: 0.32.9
+    devDependencies:
+      '@skillrecordings/scripts': link:../scripts
+      '@skillrecordings/tsconfig': link:../tsconfig
+      '@skillrecordings/types': link:../types
+      esbuild-node-tsc: 1.6.1_typescript@4.3.5
+      typescript: 4.3.5
+
+  packages/react:
+    specifiers:
+      '@skillrecordings/analytics': ^0.0.5
+      '@skillrecordings/auth': ^0.0.5
+      '@skillrecordings/axios': ^0.0.1
+      '@skillrecordings/config': ^0.0.1
+      '@skillrecordings/convertkit': ^0.0.1
+      '@skillrecordings/cookies': ^0.0.1
+      '@skillrecordings/scripts': ^0.0.5
+      '@skillrecordings/tsconfig': ^0.0.5
+      '@skillrecordings/types': ^0.0.5
+      '@skillrecordings/viewer': workspace:*
+      '@types/react': '*'
+      '@types/react-dom': ^17.0.9
+      '@xstate/react': ^1.5.1
+      axios: ^0.21.1
+      esbuild-node-tsc: ^1.6.1
+      formik: ^2.2.9
+      lodash: ^4.17.21
+      next: 11.1.0
+      next-seo: ^4.26.0
+      next-themes: ^0.0.15
+      query-string: ^7.0.1
+      react: 17.0.2
+      react-dom: 17.0.2
+      typescript: ^4.2.4
+      xstate: ^4.23.1
+      yup: ^0.32.9
+    dependencies:
+      '@skillrecordings/analytics': link:../analytics
+      '@skillrecordings/auth': link:../auth
+      '@skillrecordings/axios': link:../axios
+      '@skillrecordings/config': link:../config
+      '@skillrecordings/convertkit': link:../convertkit
+      '@skillrecordings/cookies': link:../cookies
+      '@skillrecordings/viewer': link:../viewer
+      '@types/react': 17.0.17
+      '@types/react-dom': 17.0.9
+      '@xstate/react': 1.5.1_49beb093bbd7c35e54ba0f39a3d61311
+      axios: 0.21.1
+      formik: 2.2.9_react@17.0.2
+      lodash: 4.17.21
+      next: 11.1.0_f31b35bdaa3b7c2fce82404f09d2dac4
+      next-seo: 4.26.0_7df30a00c1bfce1004e3004b7e801a78
+      next-themes: 0.0.15_7df30a00c1bfce1004e3004b7e801a78
+      query-string: 7.0.1
+      react: 17.0.2
+      react-dom: 17.0.2_react@17.0.2
+      xstate: 4.23.1
+      yup: 0.32.9
+    devDependencies:
+      '@skillrecordings/scripts': link:../scripts
+      '@skillrecordings/tsconfig': link:../tsconfig
+      '@skillrecordings/types': link:../types
+      esbuild-node-tsc: 1.6.1_typescript@4.3.5
       typescript: 4.3.5
 
   packages/scripts:
@@ -3319,7 +3433,7 @@ packages:
     resolution: {integrity: sha512-w+LsMxKyYQm347Otw+IfBXOv9UWVjpHpCDdbBMt8Kz/xbvCYNjP+0qPh91Km3iKfSRLBB0P7fAMf0KHrPu+MyA==}
     dependencies:
       '@types/minimatch': 3.0.5
-      '@types/node': 16.4.13
+      '@types/node': 16.6.0
     dev: true
 
   /@types/graceful-fs/4.1.5:

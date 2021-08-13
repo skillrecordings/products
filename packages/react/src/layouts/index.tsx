@@ -1,7 +1,7 @@
-import React, {FunctionComponent} from 'react'
+import * as React from 'react'
 import {NextSeo} from 'next-seo'
-import Navigation from 'components/navigation'
-import Footer from 'components/footer'
+import Navigation from '../components/navigation'
+import Footer from '../components/footer'
 
 type LayoutProps = {
   meta?: any
@@ -9,7 +9,7 @@ type LayoutProps = {
   className?: string
 }
 
-const Layout: FunctionComponent<LayoutProps> = ({
+const Layout: React.FC<LayoutProps> = ({
   children,
   className,
   meta,

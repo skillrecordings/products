@@ -1,0 +1,56 @@
+{
+  "name": "@skillrecordings/react",
+  "version": "0.0.1",
+  "description": "",
+  "author": "Joel Hooks",
+  "license": "ISC",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "source": "./src/index.ts",
+  "files": [
+    "dist/**/*"
+  ],
+  "scripts": {
+    "test": "jest",
+    "dev": "etsc",
+    "build": "tsc --jsx react-jsx --outDir dist",
+    "lint": "TIMING=1 eslint src --fix",
+    "clean": "rm -rf .turbo && rm -rf node_modules && rm -rf dist"
+  },
+  "dependencies": {
+    "@skillrecordings/analytics": "^0.0.5",
+    "@skillrecordings/auth": "^0.0.5",
+    "@skillrecordings/axios": "^0.0.1",
+    "@skillrecordings/config": "^0.0.1",
+    "@skillrecordings/convertkit": "^0.0.1",
+    "@skillrecordings/cookies": "^0.0.1",
+    "@skillrecordings/viewer": "workspace:*",
+    "@types/react": "*",
+    "@types/react-dom": "^17.0.9",
+    "@xstate/react": "^1.5.1",
+    "axios": "^0.21.1",
+    "formik": "^2.2.9",
+    "lodash": "^4.17.21",
+    "next": "11.1.0",
+    "next-seo": "^4.26.0",
+    "next-themes": "^0.0.15",
+    "query-string": "^7.0.1",
+    "react": "17.0.2",
+    "react-dom": "17.0.2",
+    "xstate": "^4.23.1",
+    "yup": "^0.32.9"
+  },
+  "devDependencies": {
+    "@skillrecordings/scripts": "^0.0.5",
+    "@skillrecordings/tsconfig": "^0.0.5",
+    "@skillrecordings/types": "^0.0.5",
+    "esbuild-node-tsc": "^1.6.1",
+    "typescript": "^4.2.4"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "jest": {
+    "preset": "@skillrecordings/scripts/jest/node"
+  }
+}
