@@ -4,7 +4,7 @@ import DevBundles from 'data/bundles.development.json'
 import ProdBundles from 'data/bundles.production.json'
 import Commerce from '../components/commerce'
 import {SellableResource} from '@skillrecordings/types'
-import Layout from 'layouts'
+import Layout from '@skillrecordings/react/dist/layouts'
 import config from 'config'
 import ClaimCoupon from 'components/commerce/claim-coupon'
 
