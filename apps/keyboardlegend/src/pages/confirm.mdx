@@ -1,33 +1,38 @@
 export const firstName = config.openGraph.profile.firstName
-export const supportEmail = config.email
+export const email = config.email
 
-export const Message = () => (
-  <p>
-    If you don't see the email after a few minutes, you might check your spam
-    folder or other filters and add <code>{supportEmail}</code> to your
-    contacts.
-  </p>
-)
+<h1 className="uppercase sm:text-base text-sm font-medium tracking-wide text-brand-pink-500">
+  Just one last step and you are signed up...
+</h1>
 
-## Thanks so much for signing up! There's one last step.
+<h2 className="font-bold lg:text-3xl sm:text-2xl text-xl">
+  Please check your inbox for an email that just got sent. You'll need to{' '}
+  <span className="text-brand-pink-500">click the confirmation link</span> to
+  receive any further emails.
+</h2>
 
-Please check your inbox for an email that just got sent. You'll need to click the confirmation link to receive any further emails.
+<p className="opacity-80 prose">
+  If you don't see the email after a few minutes, you might check your spam
+  folder or other filters and add <code>{email}</code> to your contacts.
+</p>
 
-<Message />
-
-<div className="italic">
-  Thanks,
-  <br />
-  {firstName}
-</div>
-
-import config from 'config'
+import config from '../config'
 import Layout from 'components/app/layout'
+import {Confirm, Signature} from 'components/images'
 
 export default ({children}) => (
-  <Layout>
-    <div className="prose dark:prose-dark prose-lg mx-auto py-24">
+  <Layout meta={{title: 'Confirm your subscription'}}>
+    <div className="max-w-3xl text-center flex flex-col items-center justify-center space-y-5 mx-auto py-32 px-5">
+      <div className="w-16 mx-auto pb-4">
+        <Confirm />
+      </div>
       {children}
+      <div className="flex flex-col pt-6 text-sm opacity-80 text-gray-900">
+        Thanks,
+        <br />
+        <Signature className="w-48 mx-auto pt-2" />
+        {/* {firstName} */}
+      </div>
     </div>
   </Layout>
 )
