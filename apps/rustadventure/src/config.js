@@ -15,8 +15,7 @@ export default {
   ],
   twitter: {
     cardType: 'summary_large_image',
-    handle: 'chrisbiscardi',
-    site: 'chrisbiscardi',
+    handle: '@chrisbiscardi',
   },
   openGraph: {
     type: 'website',

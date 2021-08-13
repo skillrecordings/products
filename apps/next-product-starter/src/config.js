@@ -15,8 +15,8 @@ export default {
   ],
   twitter: {
     cardType: 'summary_large_image',
-    handle: 'skillrecordings',
-    site: 'skillrecordings',
+    handle: '@skillrecordings',
+    site: '@skillrecordings',
   },
   openGraph: {
     type: 'website',
