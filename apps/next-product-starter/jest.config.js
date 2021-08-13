@@ -22,4 +22,5 @@ module.exports = {
   roots: ['src'],
   moduleDirectories: ['node_modules', 'src'],
   resetMocks: true,
+  passWithNoTests: true,
 }
