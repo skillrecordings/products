@@ -8,7 +8,7 @@ import reduce from 'lodash/reduce'
 import get from 'lodash/get'
 import map from 'lodash/map'
 import TeamInvites from 'components/team-invites'
-import Layout from 'layouts'
+import Layout from '@skillrecordings/react/dist/layouts'
 import useLoginRequired from 'hooks/use-required-login'
 
 const InvoiceItem = ({purchase}: any) => {

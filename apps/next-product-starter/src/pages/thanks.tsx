@@ -1,5 +1,5 @@
 import * as React from 'react'
-import Layout from 'layouts'
+import Layout from '@skillrecordings/react/dist/layouts'
 import config from 'config'
 import get from 'lodash/get'
 import Markdown from 'react-markdown'

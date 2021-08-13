@@ -2,7 +2,7 @@ import React, {FunctionComponent} from 'react'
 import * as yup from 'yup'
 import {Formik} from 'formik'
 import {useViewer} from '@skillrecordings/viewer'
-import Layout from 'layouts'
+import Layout from '@skillrecordings/react/dist/layouts'
 import Image from 'next/image'
 
 const loginSchema = yup.object().shape({

@@ -3,7 +3,7 @@ import type {Viewer} from '@skillrecordings/types'
 import isEmpty from 'lodash/isEmpty'
 import Link from 'next/link'
 import pluralize from 'pluralize'
-import Spinner from 'components/spinner'
+import Spinner from '@skillrecordings/react/dist/components/spinner'
 
 const CallToAction: React.FC<{
   viewer: Viewer

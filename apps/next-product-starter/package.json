@@ -25,6 +25,8 @@
     "@skillrecordings/analytics": "*",
     "@skillrecordings/cookies": "*",
     "@skillrecordings/time": "*",
+    "@skillrecordings/quiz": "*",
+    "@skillrecordings/react": "*",
     "@skillrecordings/viewer": "*",
     "@stripe/stripe-js": "^1.16.0",
     "@tailwindcss/aspect-ratio": "^0.2.1",

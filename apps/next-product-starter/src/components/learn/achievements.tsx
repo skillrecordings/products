@@ -2,7 +2,7 @@ import * as React from 'react'
 import type {Achievement, SellableResource} from '@skillrecordings/types'
 import useAchievements from 'hooks/use-achievements'
 import Markdown from 'react-markdown'
-import Spinner from 'components/spinner'
+import Spinner from '@skillrecordings/react/dist/components/spinner'
 
 const Achievements: React.FC<{
   purchasedBundle: SellableResource | undefined

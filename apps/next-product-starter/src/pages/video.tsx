@@ -1,6 +1,6 @@
 import * as React from 'react'
 import VideoTemplate from 'templates/video'
-import Layout from 'layouts'
+import Layout from '@skillrecordings/react/dist/layouts'
 
 const resource = {
   title: 'Title',
