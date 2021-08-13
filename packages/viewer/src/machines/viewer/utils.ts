@@ -1,10 +1,10 @@
 import get from 'lodash/get'
 import filter from 'lodash/filter'
 import reduce from 'lodash/reduce'
-import {isBrowser} from 'utils/is-browser'
-import getDevAccessToken from 'utils/get-dev-access-token'
+import {isBrowser} from '../../utils/is-browser'
+import getDevAccessToken from '../../utils/get-dev-access-token'
 import {SellableResource, Viewer} from '@skillrecordings/types'
-import Auth from 'utils/auth'
+import Auth from '@skillrecordings/auth'
 
 export const auth = new Auth()
 

@@ -1,7 +1,7 @@
 import * as React from 'react'
 import config from '../config'
 import Link from 'next/link'
-import {useViewer} from 'contexts/viewer-context'
+import {useViewer} from '@skillrecordings/viewer'
 import Ferris from 'components/ferris'
 
 const Navigation = () => {

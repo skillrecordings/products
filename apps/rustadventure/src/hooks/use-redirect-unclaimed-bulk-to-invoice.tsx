@@ -1,6 +1,6 @@
 import {useRouter} from 'next/router'
 import React from 'react'
-import {useViewer} from 'contexts/viewer-context'
+import {useViewer} from '@skillrecordings/viewer'
 import useLoginRequired from './use-required-login'
 const disableLoginForDev = () =>
   process.env.NODE_ENV === 'development' &&
