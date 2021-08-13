@@ -10,7 +10,8 @@
   },
   "files": [
     "jest",
-    "eslint-preset.js"
+    "eslint-preset.js",
+    "postcss.config.js"
   ],
   "scripts": {
     "clean": "rm -rf .turbo && rm -rf node_modules"
