@@ -1,5 +1,7 @@
 import * as React from 'react'
 
+//TODO: separate the styling and the behavior so that it can be customized
+
 const FORM_ID = process.env.NEXT_PUBLIC_CONVERTKIT_SIGNUP_FORM
 
 type ConvertkitSubscribeFormProps = {

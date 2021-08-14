@@ -2,7 +2,9 @@ import * as React from 'react'
 import {useViewportScroll} from 'framer-motion'
 import {useLocalStorage} from 'react-use'
 import {Dialog} from '@reach/dialog'
-import ConvertkitSubscribeForm from 'components/forms/convertkit'
+import ConvertkitSubscribeForm from '../index'
+
+//TODO: separate the styling and the behavior so that it can be customized
 
 function usePoliteConvertkitForm(
   threshold: 0.6 | 0.7 | 0.75 | 0.8 | 0.85 | 0.9, // 1 is 100% of page height

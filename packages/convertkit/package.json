@@ -18,12 +18,16 @@
     "clean": "rm -rf .turbo && rm -rf node_modules && rm -rf dist"
   },
   "dependencies": {
+    "@reach/dialog": "^0.16.0",
     "@skillrecordings/axios": "^0.0.1",
     "@skillrecordings/config": "^0.0.1",
     "@skillrecordings/cookies": "^0.0.1",
     "axios": "^0.21.1",
     "cookie": "^0.4.1",
-    "query-string": "^7.0.1"
+    "framer-motion": "^4.1.17",
+    "next": "11.1.0",
+    "query-string": "^7.0.1",
+    "react-use": "^17.2.4"
   },
   "devDependencies": {
     "@skillrecordings/scripts": "^0.0.5",

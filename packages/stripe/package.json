@@ -1,8 +1,9 @@
 {
-  "name": "@skillrecordings/auth",
-  "description": "Internal, shared utilities",
+  "name": "@skillrecordings/stripe",
+  "version": "0.0.1",
+  "description": "",
   "author": "Joel Hooks",
-  "version": "0.0.5",
+  "license": "ISC",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "source": "./src/index.ts",
@@ -11,24 +12,20 @@
   ],
   "scripts": {
     "test": "jest",
-    "dev": "tsc -w",
-    "build": "tsc",
+    "dev": "etsc",
+    "build": "tsc --jsx react-jsx --outDir dist",
     "lint": "TIMING=1 eslint src --fix",
     "clean": "rm -rf .turbo && rm -rf node_modules && rm -rf dist"
   },
   "dependencies": {
-    "@skillrecordings/analytics": "^0.0.5",
-    "@skillrecordings/axios": "^0.0.1",
-    "@skillrecordings/config": "^0.0.1",
-    "@skillrecordings/cookies": "^0.0.1",
-    "axios": "^0.21.1",
-    "client-oauth2": "^4.3.3",
-    "next": "11.1.0"
+    "next": "11.1.0",
+    "stripe": "^8.169.0"
   },
   "devDependencies": {
     "@skillrecordings/scripts": "^0.0.5",
     "@skillrecordings/tsconfig": "^0.0.5",
     "@skillrecordings/types": "^0.0.5",
+    "esbuild-node-tsc": "^1.6.1",
     "typescript": "^4.2.4"
   },
   "publishConfig": {
@@ -36,6 +33,5 @@
   },
   "jest": {
     "preset": "@skillrecordings/scripts/jest/node"
-  },
-  "gitHead": "3398ceeb143d5fddcf11268741c2747856814119"
+  }
 }
