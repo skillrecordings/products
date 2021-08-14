@@ -2,7 +2,7 @@ import * as React from 'react'
 import type {LessonResource, Resource} from '@skillrecordings/types'
 import Image from 'next/image'
 import Markdown from 'react-markdown'
-import {convertTimeWithTitles} from 'utils/time-utils'
+import {convertTimeWithTitles} from '@skillrecordings/time'
 import Lessons from 'components/learn/module/lessons'
 import Play from 'components/learn/module/play'
 

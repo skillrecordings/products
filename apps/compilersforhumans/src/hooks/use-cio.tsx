@@ -2,7 +2,7 @@ import * as React from 'react'
 import queryString from 'query-string'
 import isEmpty from 'lodash/isEmpty'
 import get from 'lodash/get'
-import cookie from '../utils/cookies'
+import cookie from '@skillrecordings/cookies'
 import axios from 'axios'
 
 export const CIO_KEY = 'cio_id'

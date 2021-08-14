@@ -3,7 +3,7 @@ import Layout from 'layouts'
 import config from '../../config.json'
 import get from 'lodash/get'
 import Markdown from 'react-markdown'
-import {fetchStripeCheckoutSession} from 'utils/stripe'
+import {fetchStripeCheckoutSession} from '@skillrecordings/stripe'
 import {useViewer} from '@skillrecordings/viewer'
 
 const ThanksPage = ({displayEmail}: any) => {
