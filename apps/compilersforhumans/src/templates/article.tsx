@@ -1,6 +1,7 @@
 import * as React from 'react'
 import Layout from 'layouts'
-import PoliteConvertkitForm from 'components/forms/convertkit/polite'
+//TODO: Check form styling
+import PoliteConvertkitForm from '@skillrecordings/convertkit/dist/forms/polite'
 import config from '../../config.json'
 
 type ArticleTemplateProps = {
