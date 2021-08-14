@@ -1,11 +1,11 @@
 import * as React from 'react'
 import {FunctionComponent} from 'react'
-import DevBundles from '../../data/bundles.development.json'
-import ProdBundles from '../../data/bundles.production.json'
+import DevBundles from '../data/bundles.development.json'
+import ProdBundles from '../data/bundles.production.json'
 import Commerce from '../components/commerce'
 import {SellableResource} from '@skillrecordings/types'
 import Layout from 'layouts'
-import config from '../../config.json'
+import config from '../config.json'
 import ClaimCoupon from 'components/commerce/claim-coupon'
 
 type BuyProps = {

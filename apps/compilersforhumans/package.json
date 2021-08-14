@@ -6,8 +6,8 @@
     "dev": "next dev",
     "build": "NODE_ENV=production next build",
     "postbuild": "NODE_ENV=production next-sitemap",
-    "build:data": "node data/cache-json-data.js -p",
-    "build:data:dev": "node data/cache-json-data.js",
+    "build:data": "node src/data/cache-json-data.js -p",
+    "build:data:dev": "node src/data/cache-json-data.js",
     "start": "next start",
     "test": "jest --watch",
     "lint": "eslint .",
@@ -117,22 +117,7 @@
     "tailwindcss": "^2.2.4",
     "typescript": "^4.3.5"
   },
-  "lint-staged": {
-    "*.{js,json,md,mdx,ts,tsx}": [
-      "prettier --write"
-    ],
-    "src/**/*.{ts,tsx,md,mdx,js}": [
-      "prettier --write"
-    ]
-  },
-  "prettier": {
-    "printWidth": 80,
-    "tabWidth": 2,
-    "useTabs": false,
-    "semi": false,
-    "singleQuote": true,
-    "trailingComma": "all",
-    "bracketSpacing": false,
-    "jsxBracketSameLine": false
+  "jest": {
+    "preset": "@skillrecordings/scripts/jest/next"
   }
 }
