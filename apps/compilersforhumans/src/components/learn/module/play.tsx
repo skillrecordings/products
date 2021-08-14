@@ -1,6 +1,6 @@
 import * as React from 'react'
 import Link from 'next/link'
-import type {LessonResource} from '@types'
+import type {LessonResource} from '@skillrecordings/types'
 import find from 'lodash/find'
 
 const Play: React.FC<{items: LessonResource[]; progress: any}> = ({

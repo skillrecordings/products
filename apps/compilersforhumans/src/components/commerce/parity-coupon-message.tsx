@@ -1,5 +1,5 @@
 import React from 'react'
-import {Coupon} from '@types'
+import {Coupon} from '@skillrecordings/types'
 type ParityCouponMessage = {
   coupon: Coupon
   countryName: string
