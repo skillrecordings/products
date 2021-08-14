@@ -18,12 +18,12 @@
     "clean": "rm -rf .turbo && rm -rf node_modules && rm -rf dist"
   },
   "dependencies": {
-    "@skillrecordings/analytics": "^0.0.5",
-    "@skillrecordings/auth": "^0.0.5",
-    "@skillrecordings/axios": "^0.0.1",
-    "@skillrecordings/config": "^0.0.1",
-    "@skillrecordings/convertkit": "^0.0.1",
-    "@skillrecordings/cookies": "^0.0.1",
+    "@skillrecordings/analytics": "workspace:*",
+    "@skillrecordings/auth": "workspace:*",
+    "@skillrecordings/axios": "workspace:*",
+    "@skillrecordings/config": "workspace:*",
+    "@skillrecordings/convertkit": "workspace:*",
+    "@skillrecordings/cookies": "workspace:*",
     "@skillrecordings/react": "workspace:*",
     "@types/react": "*",
     "@types/react-dom": "^17.0.9",

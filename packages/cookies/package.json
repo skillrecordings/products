@@ -18,9 +18,9 @@
   },
   "dependencies": {},
   "devDependencies": {
-    "@skillrecordings/scripts": "^0.0.5",
-    "@skillrecordings/tsconfig": "^0.0.5",
-    "@skillrecordings/types": "^0.0.5",
+    "@skillrecordings/scripts": "workspace:*",
+    "@skillrecordings/tsconfig": "workspace:*",
+    "@skillrecordings/types": "workspace:*",
     "typescript": "^4.2.4"
   },
   "publishConfig": {

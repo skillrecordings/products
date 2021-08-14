@@ -22,9 +22,9 @@
     "stripe": "^8.169.0"
   },
   "devDependencies": {
-    "@skillrecordings/scripts": "^0.0.5",
-    "@skillrecordings/tsconfig": "^0.0.5",
-    "@skillrecordings/types": "^0.0.5",
+    "@skillrecordings/scripts": "workspace:*",
+    "@skillrecordings/tsconfig": "workspace:*",
+    "@skillrecordings/types": "workspace:*",
     "esbuild-node-tsc": "^1.6.1",
     "typescript": "^4.2.4"
   },

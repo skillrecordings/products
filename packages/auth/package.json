@@ -17,18 +17,18 @@
     "clean": "rm -rf .turbo && rm -rf node_modules && rm -rf dist"
   },
   "dependencies": {
-    "@skillrecordings/analytics": "^0.0.5",
-    "@skillrecordings/axios": "^0.0.1",
-    "@skillrecordings/config": "^0.0.1",
-    "@skillrecordings/cookies": "^0.0.1",
+    "@skillrecordings/analytics": "workspace:*",
+    "@skillrecordings/axios": "workspace:*",
+    "@skillrecordings/config": "workspace:*",
+    "@skillrecordings/cookies": "workspace:*",
     "axios": "^0.21.1",
     "client-oauth2": "^4.3.3",
     "next": "11.1.0"
   },
   "devDependencies": {
-    "@skillrecordings/scripts": "^0.0.5",
-    "@skillrecordings/tsconfig": "^0.0.5",
-    "@skillrecordings/types": "^0.0.5",
+    "@skillrecordings/scripts": "workspace:*",
+    "@skillrecordings/tsconfig": "workspace:*",
+    "@skillrecordings/types": "workspace:*",
     "typescript": "^4.2.4"
   },
   "publishConfig": {

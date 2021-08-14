@@ -563,9 +563,9 @@ importers:
 
   packages/analytics:
     specifiers:
-      '@skillrecordings/scripts': ^0.0.5
-      '@skillrecordings/tsconfig': ^0.0.5
-      '@skillrecordings/types': ^0.0.5
+      '@skillrecordings/scripts': workspace:*
+      '@skillrecordings/tsconfig': workspace:*
+      '@skillrecordings/types': workspace:*
       jest-localstorage-mock: ^2.4.14
       typescript: ^4.2.4
     dependencies:
@@ -578,13 +578,13 @@ importers:
 
   packages/auth:
     specifiers:
-      '@skillrecordings/analytics': ^0.0.5
-      '@skillrecordings/axios': ^0.0.1
-      '@skillrecordings/config': ^0.0.1
-      '@skillrecordings/cookies': ^0.0.1
-      '@skillrecordings/scripts': ^0.0.5
-      '@skillrecordings/tsconfig': ^0.0.5
-      '@skillrecordings/types': ^0.0.5
+      '@skillrecordings/analytics': workspace:*
+      '@skillrecordings/axios': workspace:*
+      '@skillrecordings/config': workspace:*
+      '@skillrecordings/cookies': workspace:*
+      '@skillrecordings/scripts': workspace:*
+      '@skillrecordings/tsconfig': workspace:*
+      '@skillrecordings/types': workspace:*
       axios: ^0.21.1
       client-oauth2: ^4.3.3
       next: 11.1.0
@@ -605,10 +605,10 @@ importers:
 
   packages/axios:
     specifiers:
-      '@skillrecordings/config': ^0.0.1
-      '@skillrecordings/scripts': ^0.0.5
-      '@skillrecordings/tsconfig': ^0.0.5
-      '@skillrecordings/types': ^0.0.5
+      '@skillrecordings/config': workspace:*
+      '@skillrecordings/scripts': workspace:*
+      '@skillrecordings/tsconfig': workspace:*
+      '@skillrecordings/types': workspace:*
       axios: ^0.21.1
       esbuild-node-tsc: ^1.6.1
       typescript: ^4.2.4
@@ -624,11 +624,11 @@ importers:
 
   packages/commerce:
     specifiers:
-      '@skillrecordings/axios': ^0.0.1
-      '@skillrecordings/config': ^0.0.1
-      '@skillrecordings/scripts': ^0.0.5
-      '@skillrecordings/tsconfig': ^0.0.5
-      '@skillrecordings/types': ^0.0.5
+      '@skillrecordings/axios': workspace:*
+      '@skillrecordings/config': workspace:*
+      '@skillrecordings/scripts': workspace:*
+      '@skillrecordings/tsconfig': workspace:*
+      '@skillrecordings/types': workspace:*
       '@stripe/stripe-js': ^1.16.0
       '@xstate/react': ^1.5.1
       axios: ^0.21.1
@@ -655,9 +655,9 @@ importers:
 
   packages/config:
     specifiers:
-      '@skillrecordings/scripts': ^0.0.5
-      '@skillrecordings/tsconfig': ^0.0.5
-      '@skillrecordings/types': ^0.0.5
+      '@skillrecordings/scripts': workspace:*
+      '@skillrecordings/tsconfig': workspace:*
+      '@skillrecordings/types': workspace:*
       esbuild-node-tsc: ^1.6.1
       typescript: ^4.2.4
     devDependencies:
@@ -670,12 +670,12 @@ importers:
   packages/convertkit:
     specifiers:
       '@reach/dialog': ^0.16.0
-      '@skillrecordings/axios': ^0.0.1
-      '@skillrecordings/config': ^0.0.1
-      '@skillrecordings/cookies': ^0.0.1
-      '@skillrecordings/scripts': ^0.0.5
-      '@skillrecordings/tsconfig': ^0.0.5
-      '@skillrecordings/types': ^0.0.5
+      '@skillrecordings/axios': workspace:*
+      '@skillrecordings/config': workspace:*
+      '@skillrecordings/cookies': workspace:*
+      '@skillrecordings/scripts': workspace:*
+      '@skillrecordings/tsconfig': workspace:*
+      '@skillrecordings/types': workspace:*
       axios: ^0.21.1
       cookie: ^0.4.1
       esbuild-node-tsc: ^1.6.1
@@ -704,9 +704,9 @@ importers:
 
   packages/cookies:
     specifiers:
-      '@skillrecordings/scripts': ^0.0.5
-      '@skillrecordings/tsconfig': ^0.0.5
-      '@skillrecordings/types': ^0.0.5
+      '@skillrecordings/scripts': workspace:*
+      '@skillrecordings/tsconfig': workspace:*
+      '@skillrecordings/types': workspace:*
       typescript: ^4.2.4
     devDependencies:
       '@skillrecordings/scripts': link:../scripts
@@ -716,12 +716,12 @@ importers:
 
   packages/quiz:
     specifiers:
-      '@skillrecordings/analytics': ^0.0.5
-      '@skillrecordings/auth': ^0.0.5
-      '@skillrecordings/axios': ^0.0.1
-      '@skillrecordings/config': ^0.0.1
-      '@skillrecordings/convertkit': ^0.0.1
-      '@skillrecordings/cookies': ^0.0.1
+      '@skillrecordings/analytics': workspace:*
+      '@skillrecordings/auth': workspace:*
+      '@skillrecordings/axios': workspace:*
+      '@skillrecordings/config': workspace:*
+      '@skillrecordings/convertkit': workspace:*
+      '@skillrecordings/cookies': workspace:*
       '@skillrecordings/react': workspace:*
       '@skillrecordings/scripts': ^0.0.5
       '@skillrecordings/tsconfig': ^0.0.5
@@ -771,15 +771,15 @@ importers:
 
   packages/react:
     specifiers:
-      '@skillrecordings/analytics': ^0.0.5
-      '@skillrecordings/auth': ^0.0.5
-      '@skillrecordings/axios': ^0.0.1
-      '@skillrecordings/config': ^0.0.1
-      '@skillrecordings/convertkit': ^0.0.1
-      '@skillrecordings/cookies': ^0.0.1
-      '@skillrecordings/scripts': ^0.0.5
-      '@skillrecordings/tsconfig': ^0.0.5
-      '@skillrecordings/types': ^0.0.5
+      '@skillrecordings/analytics': workspace:*
+      '@skillrecordings/auth': workspace:*
+      '@skillrecordings/axios': workspace:*
+      '@skillrecordings/config': workspace:*
+      '@skillrecordings/convertkit': workspace:*
+      '@skillrecordings/cookies': workspace:*
+      '@skillrecordings/scripts': workspace:*
+      '@skillrecordings/tsconfig': workspace:*
+      '@skillrecordings/types': workspace:*
       '@skillrecordings/viewer': workspace:*
       '@types/react': '*'
       '@types/react-dom': ^17.0.9
@@ -863,9 +863,9 @@ importers:
 
   packages/stripe:
     specifiers:
-      '@skillrecordings/scripts': ^0.0.5
-      '@skillrecordings/tsconfig': ^0.0.5
-      '@skillrecordings/types': ^0.0.5
+      '@skillrecordings/scripts': workspace:*
+      '@skillrecordings/tsconfig': workspace:*
+      '@skillrecordings/types': workspace:*
       esbuild-node-tsc: ^1.6.1
       next: 11.1.0
       stripe: ^8.169.0
@@ -882,9 +882,9 @@ importers:
 
   packages/time:
     specifiers:
-      '@skillrecordings/scripts': ^0.0.5
-      '@skillrecordings/tsconfig': ^0.0.5
-      '@skillrecordings/types': ^0.0.5
+      '@skillrecordings/scripts': workspace:*
+      '@skillrecordings/tsconfig': workspace:*
+      '@skillrecordings/types': workspace:*
       typescript: ^4.2.4
     devDependencies:
       '@skillrecordings/scripts': link:../scripts
@@ -897,8 +897,8 @@ importers:
 
   packages/types:
     specifiers:
-      '@skillrecordings/scripts': ^0.0.5
-      '@skillrecordings/tsconfig': '*'
+      '@skillrecordings/scripts': workspace:*
+      '@skillrecordings/tsconfig': workspace:*
       typescript: ^4.2.4
     devDependencies:
       '@skillrecordings/scripts': link:../scripts
@@ -907,14 +907,14 @@ importers:
 
   packages/viewer:
     specifiers:
-      '@skillrecordings/analytics': ^0.0.5
-      '@skillrecordings/auth': ^0.0.5
-      '@skillrecordings/axios': ^0.0.1
-      '@skillrecordings/config': ^0.0.1
-      '@skillrecordings/cookies': ^0.0.1
-      '@skillrecordings/scripts': ^0.0.5
-      '@skillrecordings/tsconfig': ^0.0.5
-      '@skillrecordings/types': ^0.0.5
+      '@skillrecordings/analytics': workspace:*
+      '@skillrecordings/auth': workspace:*
+      '@skillrecordings/axios': workspace:*
+      '@skillrecordings/config': workspace:*
+      '@skillrecordings/cookies': workspace:*
+      '@skillrecordings/scripts': workspace:*
+      '@skillrecordings/tsconfig': workspace:*
+      '@skillrecordings/types': workspace:*
       '@types/react': '*'
       '@types/react-dom': ^17.0.9
       '@xstate/react': ^1.5.1
