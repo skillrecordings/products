@@ -2,7 +2,7 @@ import * as React from 'react'
 import find from 'lodash/find'
 import Link from 'next/link'
 import type {LessonResource} from '@skillrecordings/types'
-import {convertTimeWithTitles} from 'utils/time-utils'
+import {convertTimeWithTitles} from '@skillrecordings/time'
 
 const Lessons: React.FC<{items: LessonResource[]; progress: any}> = ({
   items,

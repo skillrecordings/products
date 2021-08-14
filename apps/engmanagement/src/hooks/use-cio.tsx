@@ -2,7 +2,7 @@ import * as React from 'react'
 import queryString from 'query-string'
 import isEmpty from 'lodash/isEmpty'
 import get from 'lodash/get'
-import cookie from '../utils/cookies'
+import cookie from '@skillrecordings/cookies'
 import axios from 'axios'
 
 export const CIO_KEY = 'cio_id'
@@ -10,7 +10,7 @@ export const CIO_KEY = 'cio_id'
 export const cioIdentify = (id: string, options?: any) => {
   if (id || options?.email) {
     window._cio.identify({
-      ...(!!id && { id }),
+      ...(!!id && {id}),
       ...options,
     })
   }
@@ -26,9 +26,9 @@ export const CioContext = React.createContext<{
   subscriber?: CIOSubscriber
   loadingSubscriber: boolean
   cioIdentify: (id: string, options?: any) => void
-}>({ loadingSubscriber: true, cioIdentify })
+}>({loadingSubscriber: true, cioIdentify})
 
-export const CioProvider: React.FunctionComponent = ({ children }) => {
+export const CioProvider: React.FunctionComponent = ({children}) => {
   const [subscriber, setSubscriber] = React.useState<CIOSubscriber>()
   const [loadingSubscriber, setLoadingSubscriber] = React.useState(true)
   React.useEffect(() => {
@@ -39,14 +39,18 @@ export const CioProvider: React.FunctionComponent = ({ children }) => {
       if (!isEmpty(cioSubscriberId)) {
         cookie.set(CIO_KEY, cioSubscriberId)
         setTimeout(() => {
-          window.history.replaceState(null, document.title, window.location.pathname)
+          window.history.replaceState(
+            null,
+            document.title,
+            window.location.pathname,
+          )
         }, 250)
       }
     }
 
     axios
       .get(`/api/cio-subscriber`)
-      .then(({ data }) => {
+      .then(({data}) => {
         setSubscriber(data)
         cioIdentify(data.id)
       })

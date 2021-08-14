@@ -4,7 +4,7 @@ import find from 'lodash/find'
 import {useLocalStorage} from 'react-use'
 import {useViewer} from '@skillrecordings/viewer'
 import useSWR from 'swr'
-import axios from 'utils/axios'
+import axios from '@skillrecordings/axios'
 
 const fetcher = (url: string, token: string) => {
   return axios.get(
