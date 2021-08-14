@@ -1,5 +1,5 @@
 import React from 'react'
-import {SellableResource, Price, Coupon} from '@types'
+import {SellableResource, Price, Coupon} from '@skillrecordings/types'
 import Countdown from 'components/commerce/countdown'
 import ParityCouponMessage from 'components/commerce/parity-coupon-message'
 import StripeCheckout, {StripeCheckoutProps} from 'react-stripe-checkout'

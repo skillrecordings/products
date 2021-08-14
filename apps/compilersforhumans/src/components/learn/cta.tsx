@@ -1,5 +1,5 @@
 import * as React from 'react'
-import type {Viewer} from '@types'
+import type {Viewer} from '@skillrecordings/types'
 import isEmpty from 'lodash/isEmpty'
 import Link from 'next/link'
 import pluralize from 'pluralize'

@@ -1,5 +1,5 @@
 import {isFunction, isUndefined} from 'lodash'
-import {Viewer} from '@types'
+import {Viewer} from '@skillrecordings/types'
 import Auth from './auth'
 const DEBUG_ANALYTICS = false
 

@@ -1,5 +1,5 @@
 import * as React from 'react'
-import type {LessonResource, Resource} from '@types'
+import type {LessonResource, Resource} from '@skillrecordings/types'
 import Image from 'next/image'
 import Markdown from 'react-markdown'
 import {convertTimeWithTitles} from 'utils/time-utils'

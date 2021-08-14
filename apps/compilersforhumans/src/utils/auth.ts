@@ -6,7 +6,7 @@ import cookie from 'utils/cookies'
 import * as serverCookie from 'cookie'
 import getAccessTokenFromCookie from './get-access-token-from-cookie'
 import {CIO_KEY} from '../hooks/use-cio'
-import {Viewer} from '@types'
+import {Viewer} from '@skillrecordings/types'
 
 export const AUTH_DOMAIN = process.env.NEXT_PUBLIC_AUTH_DOMAIN
 const AUTH_CLIENT_ID = process.env.NEXT_PUBLIC_CLIENT_ID
