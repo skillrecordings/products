@@ -1,4 +1,4 @@
-import config from '../../../../config'
+import config from '../../../config'
 import React from 'react'
 
 const CompletedMessage: React.FC<{
