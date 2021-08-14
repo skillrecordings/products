@@ -1,7 +1,7 @@
 import React, {FunctionComponent} from 'react'
 import * as yup from 'yup'
 import {Formik} from 'formik'
-import {useViewer} from 'contexts/viewer-context'
+import {useViewer} from '@skillrecordings/viewer'
 import Layout from 'layouts'
 import Image from 'next/image'
 
