@@ -229,6 +229,189 @@ importers:
       tailwindcss: 2.2.7_7b69a43ec4689fa7484dee35f79a7806
       typescript: 4.3.5
 
+  apps/engmanagement:
+    specifiers:
+      '@babel/plugin-transform-react-jsx': ^7.14.5
+      '@mdx-js/loader': ^1.6.22
+      '@next/mdx': ^11.0.0
+      '@reach/dialog': ^0.15.0
+      '@skillrecordings/analytics': workspace:*
+      '@skillrecordings/auth': workspace:*
+      '@skillrecordings/axios': workspace:*
+      '@skillrecordings/commerce': workspace:*
+      '@skillrecordings/config': workspace:*
+      '@skillrecordings/convertkit': workspace:*
+      '@skillrecordings/cookies': workspace:*
+      '@skillrecordings/quiz': workspace:*
+      '@skillrecordings/react': workspace:*
+      '@skillrecordings/scripts': workspace:*
+      '@skillrecordings/stripe': workspace:*
+      '@skillrecordings/time': workspace:*
+      '@skillrecordings/tsconfig': workspace:*
+      '@skillrecordings/types': workspace:*
+      '@skillrecordings/viewer': workspace:*
+      '@stripe/stripe-js': ^1.15.0
+      '@tailwindcss/aspect-ratio': ^0.2.1
+      '@tailwindcss/forms': ^0.3.3
+      '@tailwindcss/typography': ^0.4.1
+      '@testing-library/jest-dom': ^5.14.1
+      '@testing-library/react': ^11.2.7
+      '@tippyjs/react': ^4.2.5
+      '@types/cookie': ^0.4.0
+      '@types/lodash': ^4.14.170
+      '@types/node': ^15.12.2
+      '@types/pluralize': ^0.0.29
+      '@types/react': ^17.0.11
+      '@types/react-scroll': ^1.8.2
+      '@typescript-eslint/eslint-plugin': ^4.27.0
+      '@typescript-eslint/parser': ^4.27.0
+      '@xstate/react': ^1.3.4
+      assert: ^2.0.0
+      autoprefixer: ^10.2.6
+      axios: ^0.21.1
+      babel-jest: ^27.0.2
+      client-oauth2: ^4.3.3
+      commander: ^7.2.0
+      cookie: ^0.4.1
+      date-fns: ^2.22.1
+      dotenv-flow: ^3.2.0
+      eslint: ^7.28.0
+      eslint-config-prettier: ^8.3.0
+      eslint-plugin-jsx-a11y: ^6.4.1
+      eslint-plugin-prettier: ^3.4.0
+      eslint-plugin-react: ^7.24.0
+      eslint-plugin-react-hooks: ^4.2.0
+      focus-visible: ^5.2.0
+      formik: ^2.2.9
+      framer-motion: ^4.1.17
+      husky: ^5.2.0
+      jest: ^27.0.4
+      lint-staged: ^11.0.0
+      lodash: ^4.17.21
+      mdx-prism: ^0.3.3
+      next: ^11.0.0
+      next-compose-plugins: ^2.2.1
+      next-images: ^1.8.1
+      next-seo: ^4.25.1
+      next-sitemap: ^1.6.116
+      next-themes: ^0.0.14
+      pluralize: ^8.0.0
+      postcss: ^8.3.5
+      postcss-nested: ^5.0.5
+      postcss-preset-env: ^6.7.0
+      prettier: ^2.3.1
+      query-string: ^7.0.0
+      react: ^17.0.2
+      react-countdown: ^2.3.2
+      react-dom: ^17.0.2
+      react-markdown: ^6.0.2
+      react-scroll: ^1.8.2
+      react-stripe-checkout: ^2.6.3
+      react-test-renderer: ^17.0.2
+      react-use: ^17.2.4
+      react-use-clipboard: ^1.0.7
+      rehype: ^11.0.0
+      remark-code-titles: ^0.1.1
+      remark-footnotes: ^3.0.0
+      remark-slug: ^6.0.0
+      stripe: ^8.155.0
+      swr: ^0.5.6
+      tailwindcss: ^2.2.4
+      typescript: ^4.3.3
+      xstate: ^4.20.0
+      yup: ^0.32.9
+    dependencies:
+      '@next/mdx': 11.1.0_@mdx-js+loader@1.6.22
+      '@reach/dialog': 0.15.3_9c423dff26c1034f6157071c372957fe
+      '@skillrecordings/analytics': link:../../packages/analytics
+      '@skillrecordings/auth': link:../../packages/auth
+      '@skillrecordings/axios': link:../../packages/axios
+      '@skillrecordings/commerce': link:../../packages/commerce
+      '@skillrecordings/config': link:../../packages/config
+      '@skillrecordings/convertkit': link:../../packages/convertkit
+      '@skillrecordings/cookies': link:../../packages/cookies
+      '@skillrecordings/quiz': link:../../packages/quiz
+      '@skillrecordings/react': link:../../packages/react
+      '@skillrecordings/stripe': link:../../packages/stripe
+      '@skillrecordings/time': link:../../packages/time
+      '@skillrecordings/viewer': link:../../packages/viewer
+      '@stripe/stripe-js': 1.16.0
+      '@tailwindcss/aspect-ratio': 0.2.1_tailwindcss@2.2.7
+      '@tailwindcss/forms': 0.3.3_tailwindcss@2.2.7
+      '@tailwindcss/typography': 0.4.1_tailwindcss@2.2.7
+      '@tippyjs/react': 4.2.5_react-dom@17.0.2+react@17.0.2
+      '@types/lodash': 4.14.172
+      '@xstate/react': 1.5.1_49beb093bbd7c35e54ba0f39a3d61311
+      autoprefixer: 10.3.1_postcss@8.3.6
+      axios: 0.21.1
+      client-oauth2: 4.3.3
+      cookie: 0.4.1
+      date-fns: 2.23.0
+      dotenv-flow: 3.2.0
+      focus-visible: 5.2.0
+      formik: 2.2.9_react@17.0.2
+      framer-motion: 4.1.17_react-dom@17.0.2+react@17.0.2
+      lodash: 4.17.21
+      mdx-prism: 0.3.4
+      next: 11.1.0_f31b35bdaa3b7c2fce82404f09d2dac4
+      next-seo: 4.26.0_7df30a00c1bfce1004e3004b7e801a78
+      next-sitemap: 1.6.148_next@11.1.0
+      next-themes: 0.0.14_7df30a00c1bfce1004e3004b7e801a78
+      pluralize: 8.0.0
+      postcss: 8.3.6
+      query-string: 7.0.1
+      react: 17.0.2
+      react-countdown: 2.3.2_react-dom@17.0.2+react@17.0.2
+      react-dom: 17.0.2_react@17.0.2
+      react-markdown: 6.0.3_9280ae23271fd1e8184f767af1a90e55
+      react-scroll: 1.8.3_react-dom@17.0.2+react@17.0.2
+      react-stripe-checkout: 2.6.3
+      react-use: 17.2.4_react-dom@17.0.2+react@17.0.2
+      react-use-clipboard: 1.0.7_react-dom@17.0.2+react@17.0.2
+      rehype: 11.0.0
+      remark-code-titles: 0.1.2
+      remark-footnotes: 3.0.0
+      remark-slug: 6.1.0
+      stripe: 8.169.0
+      swr: 0.5.6_react@17.0.2
+      xstate: 4.23.1
+      yup: 0.32.9
+    devDependencies:
+      '@babel/plugin-transform-react-jsx': 7.14.9
+      '@mdx-js/loader': 1.6.22_react@17.0.2
+      '@skillrecordings/scripts': link:../../packages/scripts
+      '@skillrecordings/tsconfig': link:../../packages/tsconfig
+      '@skillrecordings/types': link:../../packages/types
+      '@testing-library/jest-dom': 5.14.1
+      '@testing-library/react': 11.2.7_react-dom@17.0.2+react@17.0.2
+      '@types/cookie': 0.4.1
+      '@types/node': 15.14.7
+      '@types/pluralize': 0.0.29
+      '@types/react': 17.0.17
+      '@types/react-scroll': 1.8.3
+      '@typescript-eslint/eslint-plugin': 4.29.1_d4376362794b743c19f4cba25c7fc6f5
+      '@typescript-eslint/parser': 4.29.1_eslint@7.32.0+typescript@4.3.5
+      assert: 2.0.0
+      babel-jest: 27.0.6
+      commander: 7.2.0
+      eslint: 7.32.0
+      eslint-config-prettier: 8.3.0_eslint@7.32.0
+      eslint-plugin-jsx-a11y: 6.4.1_eslint@7.32.0
+      eslint-plugin-prettier: 3.4.0_5a48a349ffec60f5257b5f148f5199c3
+      eslint-plugin-react: 7.24.0_eslint@7.32.0
+      eslint-plugin-react-hooks: 4.2.0_eslint@7.32.0
+      husky: 5.2.0
+      jest: 27.0.6
+      lint-staged: 11.1.2
+      next-compose-plugins: 2.2.1
+      next-images: 1.8.1
+      postcss-nested: 5.0.6_postcss@8.3.6
+      postcss-preset-env: 6.7.0
+      prettier: 2.3.2
+      react-test-renderer: 17.0.2_react@17.0.2
+      tailwindcss: 2.2.7_7b69a43ec4689fa7484dee35f79a7806
+      typescript: 4.3.5
+
   apps/keyboardlegend:
     specifiers:
       '@babel/plugin-transform-react-jsx': ^7.14.9
@@ -4024,6 +4207,10 @@ packages:
 
   /@types/node/14.17.9:
     resolution: {integrity: sha512-CMjgRNsks27IDwI785YMY0KLt3co/c0cQ5foxHYv/shC2w8oOnVwz5Ubq1QG5KzrcW+AXk6gzdnxIkDnTvzu3g==}
+
+  /@types/node/15.14.7:
+    resolution: {integrity: sha512-FA45p37/mLhpebgbPWWCKfOisTjxGK9lwcHlJ6XVLfu3NgfcazOJHdYUZCWPMK8QX4LhNZdmfo6iMz9FqpUbaw==}
+    dev: true
 
   /@types/node/16.4.13:
     resolution: {integrity: sha512-bLL69sKtd25w7p1nvg9pigE4gtKVpGTPojBFLMkGHXuUgap2sLqQt2qUnqmVCDfzGUL0DRNZP+1prIZJbMeAXg==}
@@ -8822,6 +9009,12 @@ packages:
     resolution: {integrity: sha512-qLo/08cNc3Tb0uD7jK0jAcU5cnqCM0n568918E7R2XhMr/+7F37p4EY062W/stg7tmzvknNn9b/1+UhVRzsYrQ==}
     dev: true
 
+  /husky/5.2.0:
+    resolution: {integrity: sha512-AM8T/auHXRBxlrfPVLKP6jt49GCM2Zz47m8G3FOMsLmTv8Dj/fKVWE0Rh2d4Qrvmy131xEsdQnb3OXRib67PGg==}
+    engines: {node: '>= 10'}
+    hasBin: true
+    dev: true
+
   /husky/7.0.1:
     resolution: {integrity: sha512-gceRaITVZ+cJH9sNHqx5tFwbzlLCVxtVZcusME8JYQ8Edy5mpGDOqD8QBCdMhpyo9a+JXddnujQ4rpY2Ff9SJA==}
     engines: {node: '>=12'}
@@ -10885,6 +11078,10 @@ packages:
       '@sinonjs/commons': 1.8.3
     dev: true
 
+  /longest-streak/2.0.4:
+    resolution: {integrity: sha512-vM6rUVCVUJJt33bnmHiZEvr7wPT78ztX7rojL+LW51bHtLh6HTjx84LA5W4+oa6aKEJA7jJu5LR6vQRBpA5DVg==}
+    dev: false
+
   /loose-envify/1.4.0:
     resolution: {integrity: sha512-lyuxPGr/Wfhrlem2CL/UcnUc1zcqKAImBDzukY7Y5F/yQiNdko6+fRLevlw1HgMySw7f611UIY408EtxRSoK3Q==}
     hasBin: true
@@ -11028,6 +11225,15 @@ packages:
     dependencies:
       unist-util-visit: 2.0.3
 
+  /mdast-util-footnote/0.1.7:
+    resolution: {integrity: sha512-QxNdO8qSxqbO2e3m09KwDKfWiLgqyCurdWTQ198NpbZ2hxntdc+VKS4fDJCmNWbAroUdYnSthu+XbZ8ovh8C3w==}
+    dependencies:
+      mdast-util-to-markdown: 0.6.5
+      micromark: 2.11.4
+    transitivePeerDependencies:
+      - supports-color
+    dev: false
+
   /mdast-util-from-markdown/0.8.5:
     resolution: {integrity: sha512-2hkTXtYYnr+NubD/g6KGBS/0mFmBcifAsI0yIWRiRo0PjVs6SSOSOdtzbp6kSGnShDN6G5aWZpKQ2lWRy27mWQ==}
     dependencies:
@@ -11064,6 +11270,17 @@ packages:
       unist-util-generated: 1.1.6
       unist-util-position: 3.1.0
       unist-util-visit: 2.0.3
+    dev: false
+
+  /mdast-util-to-markdown/0.6.5:
+    resolution: {integrity: sha512-XeV9sDE7ZlOQvs45C9UKMtfTcctcaj/pGwH8YLbMHoMOXNNCn2LsqVQOqrF1+/NU8lKDAqozme9SCXWyo9oAcQ==}
+    dependencies:
+      '@types/unist': 2.0.6
+      longest-streak: 2.0.4
+      mdast-util-to-string: 2.0.0
+      parse-entities: 2.0.0
+      repeat-string: 1.6.1
+      zwitch: 1.0.5
     dev: false
 
   /mdast-util-to-string/1.1.0:
@@ -11117,6 +11334,14 @@ packages:
   /merge2/1.4.1:
     resolution: {integrity: sha512-8q7VEgMJW4J8tcfVPy8g09NcQwZdbwFEqhe/WZkoIzjn/3TGDwtOCYtXGxA3O8tPzpczCCDgv+P2P5y00ZJOOg==}
     engines: {node: '>= 8'}
+
+  /micromark-extension-footnote/0.3.2:
+    resolution: {integrity: sha512-gr/BeIxbIWQoUm02cIfK7mdMZ/fbroRpLsck4kvFtjbzP4yi+OPVbnukTc/zy0i7spC2xYE/dbX1Sur8BEDJsQ==}
+    dependencies:
+      micromark: 2.11.4
+    transitivePeerDependencies:
+      - supports-color
+    dev: false
 
   /micromark/2.11.4:
     resolution: {integrity: sha512-+WoovN/ppKolQOFIAajxi7Lu9kInbPxFuTBVEavFcL8eAfVstoc5MocPmqBeAdBOJV00uaVjegzH4+MA0DN/uA==}
@@ -11476,6 +11701,18 @@ packages:
       matcher: 4.0.0
       minimist: 1.2.5
       next: 11.1.0_f31b35bdaa3b7c2fce82404f09d2dac4
+    dev: false
+
+  /next-themes/0.0.14_7df30a00c1bfce1004e3004b7e801a78:
+    resolution: {integrity: sha512-x09OaM+wg3SIlEjOv8B21aw/E36jxTtfW3Dm/DPwMsSMluGt7twe1LigA6nc+mXP1u0qu9MxBaIrPPH6UTiKnA==}
+    peerDependencies:
+      next: '*'
+      react: '*'
+      react-dom: '*'
+    dependencies:
+      next: 11.1.0_f31b35bdaa3b7c2fce82404f09d2dac4
+      react: 17.0.2
+      react-dom: 17.0.2_react@17.0.2
     dev: false
 
   /next-themes/0.0.15_7df30a00c1bfce1004e3004b7e801a78:
@@ -13814,9 +14051,24 @@ packages:
       unified: 10.1.0
     dev: false
 
+  /remark-code-titles/0.1.2:
+    resolution: {integrity: sha512-KsHQbaI4FX8Ozxqk7YErxwmBiveUqloKuVqyPG2YPLHojpgomodWgRfG4B+bOtmn/5bfJ8khw4rR0lvgVFl2Uw==}
+    dependencies:
+      unist-util-visit: 1.4.1
+    dev: false
+
   /remark-footnotes/2.0.0:
     resolution: {integrity: sha512-3Clt8ZMH75Ayjp9q4CorNeyjwIxHFcTkaektplKGl2A1jNGEUey8cKL0ZC5vJwfcD5GFGsNLImLG/NGzWIzoMQ==}
     dev: true
+
+  /remark-footnotes/3.0.0:
+    resolution: {integrity: sha512-ZssAvH9FjGYlJ/PBVKdSmfyPc3Cz4rTWgZLI4iE/SX8Nt5l3o3oEjv3wwG5VD7xOjktzdwp5coac+kJV9l4jgg==}
+    dependencies:
+      mdast-util-footnote: 0.1.7
+      micromark-extension-footnote: 0.3.2
+    transitivePeerDependencies:
+      - supports-color
+    dev: false
 
   /remark-mdx/1.6.22:
     resolution: {integrity: sha512-phMHBJgeV76uyFkH4rvzCftLfKCr2RZuF+/gmVcaKrpsihyzmhXjA0BEMDaPTXG5y8qZOKPVo83NAOX01LPnOQ==}
@@ -13898,7 +14150,6 @@ packages:
   /repeat-string/1.6.1:
     resolution: {integrity: sha1-jcrkcOHIirwtYA//Sndihtp15jc=}
     engines: {node: '>=0.10'}
-    dev: true
 
   /request-progress/3.0.0:
     resolution: {integrity: sha1-TKdUCBx/7GP1BeT6qCWqBs1mnb4=}
@@ -16567,4 +16818,3 @@ packages:
 
   /zwitch/1.0.5:
     resolution: {integrity: sha512-V50KMwwzqJV0NpZIZFwfOD5/lyny3WlSzRiXgA0G7VUnRlqttta1L6UQIHzd6EuBY/cHGfwTIck7w1yH6Q5zUw==}
-    dev: true

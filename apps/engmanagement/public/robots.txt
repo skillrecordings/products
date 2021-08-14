@@ -1,0 +1,9 @@
+# *
+User-agent: *
+Allow: /
+
+# Host
+Host: https://engmanagement.dev
+
+# Sitemaps
+Sitemap: https://engmanagement.dev/sitemap.xml
