@@ -1,7 +1,7 @@
-import React, { FunctionComponent } from 'react'
+import React, {FunctionComponent} from 'react'
 import * as yup from 'yup'
-import { Formik } from 'formik'
-import { useViewer } from 'contexts/viewer-context'
+import {Formik} from 'formik'
+import {useViewer} from '@skillrecordings/viewer'
 import Layout from 'layouts'
 import Image from 'next/image'
 
@@ -28,10 +28,10 @@ const LoginForm: FunctionComponent<LoginFormProps> = ({
 }) => {
   const [isSubmitted, setIsSubmitted] = React.useState(false)
   const [isError, setIsError] = React.useState(false)
-  const { requestSignInEmail } = useViewer()
+  const {requestSignInEmail} = useViewer()
 
   return (
-    <Layout meta={{ title: `Log in to My Product` }}>
+    <Layout meta={{title: `Log in to My Product`}}>
       <div
         className={
           className
@@ -41,9 +41,15 @@ const LoginForm: FunctionComponent<LoginFormProps> = ({
       >
         <Image src="/placeholder-rect.svg" width={150} height={150} alt="" />
         <div className="sm:mx-auto rounded-lg mt-10">
-          {isSubmitted && <h2 className="text-center text-3xl leading-9 font-bold">Email Sent</h2>}
+          {isSubmitted && (
+            <h2 className="text-center text-3xl leading-9 font-bold">
+              Email Sent
+            </h2>
+          )}
           {isError && (
-            <h2 className="text-center text-3xl leading-9 font-bold">Something went wrong!</h2>
+            <h2 className="text-center text-3xl leading-9 font-bold">
+              Something went wrong!
+            </h2>
           )}
           {!isSubmitted &&
             !isError &&
@@ -51,7 +57,9 @@ const LoginForm: FunctionComponent<LoginFormProps> = ({
               children
             ) : (
               <>
-                <h2 className="text-center text-3xl leading-9 font-bold">Log in to My Product</h2>
+                <h2 className="text-center text-3xl leading-9 font-bold">
+                  Log in to My Product
+                </h2>
                 <p></p>
               </>
             ))}
@@ -59,7 +67,7 @@ const LoginForm: FunctionComponent<LoginFormProps> = ({
             <div className="pb-8">
               {!isSubmitted && !isError && (
                 <Formik
-                  initialValues={{ email: '' }}
+                  initialValues={{email: ''}}
                   validationSchema={loginSchema}
                   onSubmit={(values) => {
                     setIsSubmitted(true)
@@ -74,11 +82,20 @@ const LoginForm: FunctionComponent<LoginFormProps> = ({
                   }}
                 >
                   {(props) => {
-                    const { values, isSubmitting, handleChange, handleBlur, handleSubmit } = props
+                    const {
+                      values,
+                      isSubmitting,
+                      handleChange,
+                      handleBlur,
+                      handleSubmit,
+                    } = props
                     return (
                       <>
                         <form onSubmit={handleSubmit} className={formClassName}>
-                          <label htmlFor="email" className="block leading-5 text-sm font-semibold">
+                          <label
+                            htmlFor="email"
+                            className="block leading-5 text-sm font-semibold"
+                          >
                             {label}
                           </label>
                           <div className="mt-1 relative rounded-md shadow-sm">
@@ -127,8 +144,9 @@ const LoginForm: FunctionComponent<LoginFormProps> = ({
                     Please check your inbox for your sign in link.
                   </h3>
                   <p>
-                    Sometimes this can land in SPAM! While we hope that isn't the case if it doesn't
-                    arrive in a minute or three, please check.
+                    Sometimes this can land in SPAM! While we hope that isn't
+                    the case if it doesn't arrive in a minute or three, please
+                    check.
                   </p>
                 </div>
               )}
@@ -141,13 +159,15 @@ const LoginForm: FunctionComponent<LoginFormProps> = ({
                     </span>
                   </p>
                   <p className="pt-3">
-                    Are you using an aggressive ad blocker such as Privacy Badger? Please disable it
-                    for this site and reload the page to try again.
+                    Are you using an aggressive ad blocker such as Privacy
+                    Badger? Please disable it for this site and reload the page
+                    to try again.
                   </p>
                   <p className="pt-3">
-                    If you <strong>aren't</strong> running aggressive adblocking please check the
-                    console for errors and email
-                    {process.env.NEXT_PUBLIC_SUPPORT_EMAIL} with any info and we will help you ASAP.
+                    If you <strong>aren't</strong> running aggressive adblocking
+                    please check the console for errors and email
+                    {process.env.NEXT_PUBLIC_SUPPORT_EMAIL} with any info and we
+                    will help you ASAP.
                   </p>
                 </div>
               )}

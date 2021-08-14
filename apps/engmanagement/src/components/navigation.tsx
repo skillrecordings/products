@@ -2,10 +2,10 @@ import * as React from 'react'
 import DarkModeToggle from './color-mode-toggle'
 import config from '../config'
 import Link from 'next/link'
-import { useViewer } from 'contexts/viewer-context'
+import {useViewer} from '@skillrecordings/viewer'
 
 const Navigation = () => {
-  const { viewer, isAuthenticated, logout } = useViewer()
+  const {isAuthenticated, logout} = useViewer()
   return (
     <nav className="absolute top-0 left-0 p-5 w-full flex items-center justify-center print:hidden">
       <Link href="/">
@@ -14,7 +14,7 @@ const Navigation = () => {
         </a>
       </Link>
       <div className="flex space-x-3 items-center">
-        {isAuthenticated() && <button onClick={logout}>log out</button>}
+        {isAuthenticated && <button onClick={logout}>log out</button>}
       </div>
     </nav>
   )
