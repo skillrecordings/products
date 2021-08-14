@@ -1,5 +1,5 @@
 import * as React from 'react'
-import type { Viewer } from '@types'
+import type {Viewer} from '@skillrecordings/types'
 import isEmpty from 'lodash/isEmpty'
 import Link from 'next/link'
 import pluralize from 'pluralize'
@@ -11,11 +11,13 @@ const CallToAction: React.FC<{
   currentModule: any
   firstLesson: any
   progress: any
-}> = ({ viewer, firstLesson, nextLesson, progress, currentModule }) => {
-  const { completedLessonsCount, totalLessons } = progress
+}> = ({viewer, firstLesson, nextLesson, progress, currentModule}) => {
+  const {completedLessonsCount, totalLessons} = progress
   const leftToWatch = totalLessons - completedLessonsCount
   const greeting = isEmpty(viewer?.name)
-    ? `Hello, ready to ${completedLessonsCount > 0 ? 'continue' : 'start'} learning?`
+    ? `Hello, ready to ${
+        completedLessonsCount > 0 ? 'continue' : 'start'
+      } learning?`
     : `Hey ${viewer.name}, ready to continue learning?`
 
   return (
@@ -24,8 +26,9 @@ const CallToAction: React.FC<{
         <h1 className="text-xl font-semibold leading-tight">{greeting}</h1>
         {currentModule.title && leftToWatch !== 0 && (
           <p className="pt-2 opacity-80">
-            There {pluralize('is', leftToWatch)} {pluralize('lesson', leftToWatch, true)} left to
-            watch in <strong>{currentModule?.title}</strong>
+            There {pluralize('is', leftToWatch)}{' '}
+            {pluralize('lesson', leftToWatch, true)} left to watch in{' '}
+            <strong>{currentModule?.title}</strong>
           </p>
         )}
       </div>

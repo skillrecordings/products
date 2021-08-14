@@ -1,15 +1,19 @@
 import * as React from 'react'
 import useBundleProgress from './use-bundle-progress'
-import type { Achievement } from '@types'
-import { isEmpty } from 'lodash'
+import type {Achievement} from '@skillrecordings/types'
+import {isEmpty} from 'lodash'
 
 export default function useAchievements(purchasedBundle: any) {
-  const { progress } = useBundleProgress(purchasedBundle)
-  const modules = progress?.data?.resources.filter((m: any) => m.lesson_count !== 0)
+  const {progress} = useBundleProgress(purchasedBundle)
+  const modules = progress?.data?.resources.filter(
+    (m: any) => m.lesson_count !== 0,
+  )
   const [completedArr, setCompletedArr] = React.useState([])
 
   React.useEffect(() => {
-    const completed = modules?.map((module: any) => module.state === 'completed')
+    const completed = modules?.map(
+      (module: any) => module.state === 'completed',
+    )
     setCompletedArr(completed)
   }, [progress])
 
@@ -33,7 +37,9 @@ export default function useAchievements(purchasedBundle: any) {
       link: {
         children: 'Download certificates',
         onClick: () => {
-          window.alert('todo: check if name is present -> download 3 certificates')
+          window.alert(
+            'todo: check if name is present -> download 3 certificates',
+          )
         },
       },
     },
@@ -44,7 +50,9 @@ export default function useAchievements(purchasedBundle: any) {
       link: {
         children: 'Download certificates',
         onClick: () => {
-          window.alert('todo: check if name is present -> download 5 certificates')
+          window.alert(
+            'todo: check if name is present -> download 5 certificates',
+          )
         },
       },
     },
@@ -55,11 +63,13 @@ export default function useAchievements(purchasedBundle: any) {
       link: {
         children: 'Download workshop certificate',
         onClick: () => {
-          window.alert('todo: check if name is present -> download workshop certificate')
+          window.alert(
+            'todo: check if name is present -> download workshop certificate',
+          )
         },
       },
     },
   ]
 
-  return { achievements }
+  return {achievements}
 }

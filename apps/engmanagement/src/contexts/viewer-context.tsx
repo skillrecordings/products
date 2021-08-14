@@ -1,4 +1,4 @@
-import React, { FunctionComponent } from 'react'
+import React, {FunctionComponent} from 'react'
 import Auth from '../utils/auth'
 import queryString from 'query-string'
 import get from 'lodash/get'
@@ -10,8 +10,8 @@ import first from 'lodash/first'
 import find from 'lodash/find'
 import getAccessTokenFromCookie from '../utils/get-access-token-from-cookie'
 import getBundles from '../utils/get-bundles'
-import { sortPurchases } from '../utils/sort-purchases'
-import { AvailableUpgrade, SellableResource } from '../@types'
+import {sortPurchases} from '../utils/sort-purchases'
+import {AvailableUpgrade, SellableResource} from '@skillrecordings/types'
 
 export const auth = new Auth()
 
@@ -54,7 +54,7 @@ function useAuthedViewer() {
 
   const setViewerEmail = (newEmail: string) => {
     setViewer((prevViewer: any) => {
-      return { ...prevViewer, email: newEmail }
+      return {...prevViewer, email: newEmail}
     })
   }
 
@@ -135,10 +135,12 @@ function useAuthedViewer() {
         }
         setLoading(() => false)
       }
-      auth.handleCookieBasedAccessTokenAuthentication(authToken).then((viewer: any) => {
-        setViewer(viewer)
-        setLoading(() => false)
-      })
+      auth
+        .handleCookieBasedAccessTokenAuthentication(authToken)
+        .then((viewer: any) => {
+          setViewer(viewer)
+          setLoading(() => false)
+        })
     }
 
     const loadBecomeViewer = async () => {
@@ -177,7 +179,8 @@ function useAuthedViewer() {
   }).sort(sortPurchases)
 
   const bestPurchase = first(sitePurchases)
-  const availableUpgrades = bestPurchase?.available_upgrades as AvailableUpgrade[]
+  const availableUpgrades =
+    bestPurchase?.available_upgrades as AvailableUpgrade[]
   const nextUpgrade = first(availableUpgrades) // we only sell one upgrade
   const siteSellables: any = getBundles()
   const upgradeFromSellable =
@@ -186,7 +189,7 @@ function useAuthedViewer() {
       ? null
       : bestPurchase
   const upgradeToSellable = nextUpgrade
-    ? find(siteSellables, { slug: nextUpgrade.slug }) // must add bundles for this to work
+    ? find(siteSellables, {slug: nextUpgrade.slug}) // must add bundles for this to work
     : null
   const canViewContent = reduce(
     sitePurchases,
@@ -197,7 +200,7 @@ function useAuthedViewer() {
 
       return get(currentPurchase, 'bulk', false) !== true
     },
-    false
+    false,
   )
 
   const isUnclaimedBulkPurchaser = !canViewContent && sitePurchases.length > 0
@@ -221,14 +224,18 @@ function useAuthedViewer() {
       upgradeToSellable,
       isUnclaimedBulkPurchaser,
     }),
-    [viewer, loading]
+    [viewer, loading],
   )
 
   return values
 }
 
-export const ViewerProvider: FunctionComponent = ({ children }) => {
+export const ViewerProvider: FunctionComponent = ({children}) => {
   const values = useAuthedViewer()
 
-  return <ViewerContext.Provider value={{ ...values }}>{children}</ViewerContext.Provider>
+  return (
+    <ViewerContext.Provider value={{...values}}>
+      {children}
+    </ViewerContext.Provider>
+  )
 }

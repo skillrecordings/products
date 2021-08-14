@@ -1,16 +1,16 @@
 import * as React from 'react'
-import { FunctionComponent } from 'react'
+import {FunctionComponent} from 'react'
 import Layout from 'layouts'
 import Link from 'next/link'
 import useLoginRequired from 'hooks/use-required-login'
-import { usePurchasedBundle } from 'hooks/use-purchased-bundle'
+import {usePurchasedBundle} from 'hooks/use-purchased-bundle'
 import getBundles from 'utils/get-bundles'
-import { Resource, SellableResource } from '@types'
+import {Resource, SellableResource} from '@skillrecordings/types'
 import get from 'lodash/get'
 import find from 'lodash/find'
 import first from 'lodash/first'
 import indexOf from 'lodash/indexOf'
-import { useViewer } from 'contexts/viewer-context'
+import {useViewer} from 'contexts/viewer-context'
 import getCollections from 'utils/get-collections'
 import useBundleProgress from 'hooks/use-bundle-progress'
 import useRedirectUnclaimedBulkToInvoice from 'hooks/use-redirect-unclaimed-bulk-to-invoice'
@@ -32,16 +32,20 @@ interface Props {
   }[]
 }
 
-const Learn: FunctionComponent<Props> = ({ bundles }) => {
+const Learn: FunctionComponent<Props> = ({bundles}) => {
   const purchasedBundle = usePurchasedBundle(bundles)
   const isVerifying = useLoginRequired()
   const isVerifyingBulkPurchase = useRedirectUnclaimedBulkToInvoice()
-  const { viewer } = useViewer()
+  const {viewer} = useViewer()
   const collections = getCollections()
-  const { progress, getModuleProgress } = useBundleProgress(purchasedBundle)
+  const {progress, getModuleProgress} = useBundleProgress(purchasedBundle)
   const modules = get(purchasedBundle, 'items')?.filter((m) => m.duration)
-  const legitProgress = progress?.data?.resources?.filter((m: any) => m.lesson_count !== 0)
-  const completedModules = modules?.filter((_, i) => legitProgress[i].state === 'completed')
+  const legitProgress = progress?.data?.resources?.filter(
+    (m: any) => m.lesson_count !== 0,
+  )
+  const completedModules = modules?.filter(
+    (_, i) => legitProgress[i].state === 'completed',
+  )
   const sortedModules = modules
     ?.filter((_, i) => legitProgress[i].state !== 'completed')
     .concat(completedModules)
@@ -51,18 +55,20 @@ const Learn: FunctionComponent<Props> = ({ bundles }) => {
   }
 
   const currentUsersModule = get(viewer, 'current_course', first(modules))
-  const { completedLessonsCount, totalLessons, nextLesson } = getModuleProgress(
-    currentUsersModule?.slug
+  const {completedLessonsCount, totalLessons, nextLesson} = getModuleProgress(
+    currentUsersModule?.slug,
   )
 
   const currentModule =
     completedLessonsCount === totalLessons
-      ? first(progress.data.resources.filter((r: any) => r.state !== 'completed'))
+      ? first(
+          progress.data.resources.filter((r: any) => r.state !== 'completed'),
+        )
       : find(modules, {
           slug: currentUsersModule?.slug,
         })
 
-  const fullCurrentModule = find(modules, { slug: currentModule?.slug })
+  const fullCurrentModule = find(modules, {slug: currentModule?.slug})
 
   // const bookDownloadUrl = purchasedBundle?.items[0]?.url as string | undefined
   // const bannerProps = isEmpty(viewingAsUserEmail)
@@ -102,8 +108,11 @@ const Learn: FunctionComponent<Props> = ({ bundles }) => {
           {sortedModules ? (
             sortedModules.map((module: Resource) => {
               const items: any = get(
-                find(collections, (collection) => collection.slug === module.slug),
-                'items'
+                find(
+                  collections,
+                  (collection) => collection.slug === module.slug,
+                ),
+                'items',
               )
               const progress = getModuleProgress(module.slug)
 

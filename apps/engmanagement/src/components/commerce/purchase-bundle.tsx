@@ -1,12 +1,12 @@
 import React from 'react'
-import { SellableResource, Price, Coupon } from '@types'
+import {SellableResource, Price, Coupon} from '@skillrecordings/types'
 import Countdown from 'components/commerce/countdown'
 import ParityCouponMessage from 'components/commerce/parity-coupon-message'
-import StripeCheckout, { StripeCheckoutProps } from 'react-stripe-checkout'
-import { useCommerceMachine } from 'hooks/use-commerce-machine'
-import { useViewer } from 'contexts/viewer-context'
-import { motion } from 'framer-motion'
-import { isEmpty, get, find, noop } from 'lodash'
+import StripeCheckout, {StripeCheckoutProps} from 'react-stripe-checkout'
+import {useCommerceMachine} from 'hooks/use-commerce-machine'
+import {useViewer} from 'contexts/viewer-context'
+import {motion} from 'framer-motion'
+import {isEmpty, get, find, noop} from 'lodash'
 import Spinner from 'components/spinner'
 
 // problem with `react-stripe-checkout` not having these types
@@ -17,7 +17,11 @@ interface StripeCheckoutPropsExtended extends StripeCheckoutProps {
   closed?: (this: StripeCheckoutProps, ...args: any[]) => void
 }
 
-const StripeCheckoutExtended = ({ token, stripeKey, ...rest }: StripeCheckoutPropsExtended) => (
+const StripeCheckoutExtended = ({
+  token,
+  stripeKey,
+  ...rest
+}: StripeCheckoutPropsExtended) => (
   <StripeCheckout token={token} stripeKey={stripeKey} {...rest} />
 )
 
@@ -73,14 +77,18 @@ const PurchaseBundle = ({
     sellable: bundle,
     upgradeFromSellable,
   })
-  const { viewer } = useViewer()
-  const [planType, setPlanType] = React.useState<'individual' | 'team'>('individual')
+  const {viewer} = useViewer()
+  const [planType, setPlanType] = React.useState<'individual' | 'team'>(
+    'individual',
+  )
   const [isPPP, setIsPPP] = React.useState(false)
   // const {subscriber} = useConvertkit()
   const isProPackage = bundle.slug === process.env.NEXT_PUBLIC_PRO_SLUG
 
   const isPurchasing =
-    state.matches('stripePurchase') || state.matches('handlePurchase') || state.matches('success')
+    state.matches('stripePurchase') ||
+    state.matches('handlePurchase') ||
+    state.matches('success')
   const bundleSlug = bundle.slug
 
   React.useEffect(() => {
@@ -118,7 +126,7 @@ const PurchaseBundle = ({
 
   const onApplyParityCoupon = () => {
     setIsPPP(true)
-    send('APPLY_COUPON', { appliedCoupon: parityCoupon.coupon_code })
+    send('APPLY_COUPON', {appliedCoupon: parityCoupon.coupon_code})
   }
 
   const onDismissParityCoupon = () => {
@@ -126,21 +134,21 @@ const PurchaseBundle = ({
     send('DISMISS_COUPON')
   }
 
-  const setQuantity = ({ quantity, bulk }: { quantity: number; bulk: boolean }) => {
-    send('SET_QUANTITY', { quantity, bulk })
+  const setQuantity = ({quantity, bulk}: {quantity: number; bulk: boolean}) => {
+    send('SET_QUANTITY', {quantity, bulk})
   }
 
-  const setTeamQuantity = ({ quantity }: { quantity: number }) => {
-    setQuantity({ quantity, bulk: true })
+  const setTeamQuantity = ({quantity}: {quantity: number}) => {
+    setQuantity({quantity, bulk: true})
   }
 
   const activateIndividualPlan = () => {
-    setQuantity({ quantity: 1, bulk: false })
+    setQuantity({quantity: 1, bulk: false})
     setPlanType('individual')
   }
 
   const activateTeamPlan = () => {
-    setTeamQuantity({ quantity: 5 })
+    setTeamQuantity({quantity: 5})
     setPlanType('team')
     setIsPPP(false)
   }
@@ -149,8 +157,8 @@ const PurchaseBundle = ({
     send('START_STRIPE_CHECKOUT')
   }
 
-  const onStripeToken = ({ id, email }: { id: string; email: string }) => {
-    send('HANDLE_PURCHASE', { stripeToken: id, email })
+  const onStripeToken = ({id, email}: {id: string; email: string}) => {
+    send('HANDLE_PURCHASE', {stripeToken: id, email})
   }
 
   const onOpenStripePurchase = () => {
@@ -166,13 +174,21 @@ const PurchaseBundle = ({
   const displayPrice = currentPrice ? currentPrice : '--'
   const displayFullPrice = fullPrice ? fullPrice : '--'
 
-  const getPercentOff = ({ price, quantity }: { price?: Price; quantity?: number }) => {
+  const getPercentOff = ({
+    price,
+    quantity,
+  }: {
+    price?: Price
+    quantity?: number
+  }) => {
     if (!price) return
     if (isEmpty(price.bulk_discount) && isEmpty(price.coupon)) {
       return
     }
     const fractionOff =
-      quantity === 1 ? Number(price.coupon.coupon_discount) : Number(price.bulk_discount)
+      quantity === 1
+        ? Number(price.coupon.coupon_discount)
+        : Number(price.bulk_discount)
 
     if (fractionOff) {
       return fractionOff * 100
@@ -184,9 +200,11 @@ const PurchaseBundle = ({
     quantity: state.context.quantity,
   })
 
-  const isDiscounted = (state.context.quantity && state.context.quantity > 4) || displayPercentOff
+  const isDiscounted =
+    (state.context.quantity && state.context.quantity > 4) || displayPercentOff
 
-  const expiresAt = Number(state.context?.price?.coupon?.coupon_expires_at) * 1000 || false
+  const expiresAt =
+    Number(state.context?.price?.coupon?.coupon_expires_at) * 1000 || false
 
   const getPurchaseButtonText = () => {
     if (state.matches('purchasing')) {
@@ -220,8 +238,9 @@ const PurchaseBundle = ({
         {state.context.error && (
           <div className="w-full bg-rose-100 dark:bg-rose-500 text-rose-800 dark:text-rose-50 p-4 mt-4 rounded-md">
             <h4 className=" w-full text-center">
-              There was an error processing your card. <strong>{state.context.error}</strong>.
-              Please contact your bank. Reload the page to try another card.
+              There was an error processing your card.{' '}
+              <strong>{state.context.error}</strong>. Please contact your bank.
+              Reload the page to try another card.
             </h4>
           </div>
         )}
@@ -230,7 +249,9 @@ const PurchaseBundle = ({
           <div className="flex items-center">
             <div>
               <span className="align-top">$</span>
-              <span className="text-4xl font-semibold tabular-nums">{displayPrice}</span>
+              <span className="text-4xl font-semibold tabular-nums">
+                {displayPrice}
+              </span>
             </div>
             {isDiscounted && (
               <div className="text-sm text-left leading-tight pl-1 flex flex-col">
@@ -239,7 +260,9 @@ const PurchaseBundle = ({
                   {typeof displayFullPrice === 'number' &&
                     displayFullPrice * (state.context.quantity || 1)}
                 </del>
-                {displayPercentOff && <strong>Save {displayPercentOff}%</strong>}
+                {displayPercentOff && (
+                  <strong>Save {displayPercentOff}%</strong>
+                )}
               </div>
             )}
           </div>
@@ -255,7 +278,7 @@ const PurchaseBundle = ({
                 value={state.context.quantity}
                 onChange={(event) => {
                   const newQuantity = event.target.value
-                  setTeamQuantity({ quantity: Number(newQuantity) })
+                  setTeamQuantity({quantity: Number(newQuantity)})
                 }}
                 className="border-gray-300 dark:border-gray-700 dark:bg-black dark:text-white"
                 name="quantity"
@@ -294,7 +317,11 @@ const PurchaseBundle = ({
           )}
           {!stripeCheckoutV1Enabled &&
             (disablePurchaseButton ? (
-              <PurchaseButton purchasing isProPackage={isProPackage} bundle={bundle}>
+              <PurchaseButton
+                purchasing
+                isProPackage={isProPackage}
+                bundle={bundle}
+              >
                 Navigating to checkout...
               </PurchaseButton>
             ) : (
@@ -344,7 +371,7 @@ type FeatureProps = {
   className?: string
 }
 
-const Feature = ({ children, size = 'normal', className = '' }: FeatureProps) => {
+const Feature = ({children, size = 'normal', className = ''}: FeatureProps) => {
   const sizes = {
     normal: 'text-base',
     large: 'text-xl',
@@ -352,7 +379,11 @@ const Feature = ({ children, size = 'normal', className = '' }: FeatureProps) =>
 
   return (
     <li className={`flex items-center justify-start ${className}`}>
-      <p className={`px-4 ${sizes[size]} leading-6 font-large text-gray-700 py-2`}>{children}</p>
+      <p
+        className={`px-4 ${sizes[size]} leading-6 font-large text-gray-700 py-2`}
+      >
+        {children}
+      </p>
     </li>
   )
 }

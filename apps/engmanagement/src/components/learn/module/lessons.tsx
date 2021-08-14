@@ -1,14 +1,17 @@
 import * as React from 'react'
 import find from 'lodash/find'
 import Link from 'next/link'
-import type { LessonResource } from '@types'
-import { convertTimeWithTitles } from 'utils/time-utils'
+import type {LessonResource} from '@skillrecordings/types'
+import {convertTimeWithTitles} from 'utils/time-utils'
 
-const Lessons: React.FC<{ items: LessonResource[]; progress: any }> = ({ items, progress }) => {
-  const { completedLessons } = progress
+const Lessons: React.FC<{items: LessonResource[]; progress: any}> = ({
+  items,
+  progress,
+}) => {
+  const {completedLessons} = progress
 
   function isLessonCompleted(slug: string) {
-    return find(completedLessons, { slug })
+    return find(completedLessons, {slug})
   }
 
   return items ? (
@@ -20,7 +23,9 @@ const Lessons: React.FC<{ items: LessonResource[]; progress: any }> = ({ items, 
             <Link href={item.path}>
               <a
                 className={`py-2 px-3 flex items-center group font-medium ${
-                  i % 2 === 0 ? 'dark:bg-white bg-white dark:bg-opacity-5 bg-opacity-50' : ''
+                  i % 2 === 0
+                    ? 'dark:bg-white bg-white dark:bg-opacity-5 bg-opacity-50'
+                    : ''
                 } ${completed ? 'text-opacity-70' : ''}`}
               >
                 {completed && <i className={`gg-check opacity-90`} />}

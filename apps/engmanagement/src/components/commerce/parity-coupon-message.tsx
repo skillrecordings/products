@@ -1,5 +1,5 @@
 import React from 'react'
-import { Coupon } from '@types'
+import {Coupon} from '@skillrecordings/types'
 type ParityCouponMessage = {
   coupon: Coupon
   countryName: string
@@ -29,14 +29,17 @@ const ParityCouponMessage = ({
           className={`inline-block ${showFlag ? 'mr-1' : ''}`}
           src={`https://hardcore-golick-433858.netlify.app/image?code=${coupon.coupon_region_restricted_to}`}
         />
-        {countryName}. 👋 To help facilitate global learning, we are offering purchasing power
-        parity pricing.
+        {countryName}. 👋 To help facilitate global learning, we are offering
+        purchasing power parity pricing.
       </h2>
       <p className="text-base">
-        Please note that you will only be able to view content from within {countryName}, and{' '}
+        Please note that you will only be able to view content from within{' '}
+        {countryName}, and{' '}
         <strong>no downloads/bonuses will be provided</strong>.
       </p>
-      <p className="text-base inline-block mt-5">If that is something that you need:</p>
+      <p className="text-base inline-block mt-5">
+        If that is something that you need:
+      </p>
       <div className="mt-4">
         <label
           className={`inline-flex items-center px-4 py-3 rounded-md  transition-all ease-in-out duration-150 cursor-pointer border ${
@@ -58,9 +61,10 @@ const ParityCouponMessage = ({
         </label>
         {isPPP && (
           <div className="mt-4">
-            🛑 You currently have a Purchasing Power Parity coupon applied. With this discount your
-            purchase will be restricted to your country region/country. You will have the
-            opportunity to upgrade to a full license at a later time if you choose to do so.
+            🛑 You currently have a Purchasing Power Parity coupon applied. With
+            this discount your purchase will be restricted to your country
+            region/country. You will have the opportunity to upgrade to a full
+            license at a later time if you choose to do so.
           </div>
         )}
       </div>
