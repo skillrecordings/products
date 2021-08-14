@@ -1,0 +1,52 @@
+export const firstName = config.openGraph.profile.firstName
+export const email = config.email // 'john@johno.com'
+
+<h1 class="uppercase font-medium tracking-wide">
+  Just one last step and you are signed up...
+</h1>
+
+<h2 class="font-bold text-3xl">
+  Please check your inbox for an email that just got sent. You'll need to click
+  the confirmation link to receive any further emails.
+</h2>
+
+<p class="opacity-80 prose dark:prose-dark prose-lg">
+  If you don't see the email after a few minutes, you might check your spam
+  folder or other filters and add <code>{email}</code> to your contacts.
+</p>
+
+import config from '../../config'
+import Layout from 'layouts'
+
+export const EmailNotification = () => (
+  <svg viewBox="0 0 180 180" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path
+      d="M48 74.1429L85.1985 98.9419C88.3656 101.053 92.4915 101.053 95.6586 98.9419L132.857 74.1429M57.4286 126H123.429C128.636 126 132.857 121.779 132.857 116.571V69.4286C132.857 64.2213 128.636 60 123.429 60H57.4286C52.2213 60 48 64.2213 48 69.4286V116.571C48 121.779 52.2213 126 57.4286 126Z"
+      stroke="currentColor"
+      stroke-width="5"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    />
+    <circle opacity="0.98" cx="128" cy="65" r="25" fill="#EF4748" />
+    <path
+      d="M127.344 74.75H130.803V55.0215H127.316L122.162 58.6445V61.8848L127.262 58.3848H127.344V74.75Z"
+      fill="white"
+    />
+  </svg>
+)
+
+export default ({children}) => (
+  <Layout meta={{title: 'Confirm your subscription'}} className="p-5">
+    <div class="max-w-2xl text-center space-y-5 mx-auto py-24">
+      <div className="w-24 h-24 mx-auto rounded-full dark:bg-gray-700 bg-gray-200 bg-opacity-50">
+        <EmailNotification />
+      </div>
+      {children}
+      <div class="flex flex-col pt-6 text-lg">
+        Thanks,
+        <br />
+        {firstName}
+      </div>
+    </div>
+  </Layout>
+)

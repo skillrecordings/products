@@ -1,0 +1,71 @@
+@font-face {
+  font-family: 'Neue Montreal';
+  src: url('./neue-montreal/NeueMontreal-Light.woff2') format('woff2'),
+    url('./neue-montreal/NeueMontreal-Light.woff') format('woff');
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Neue Montreal';
+  src: url('./neue-montreal/NeueMontreal-LightItalic.woff2') format('woff2'),
+    url('./neue-montreal/NeueMontreal-LightItalic.woff') format('woff');
+  font-weight: 300;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Neue Montreal';
+  src: url('./neue-montreal/NeueMontreal-Regular.woff2') format('woff2'),
+    url('./neue-montreal/NeueMontreal-Regular.woff') format('woff');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Neue Montreal';
+  src: url('./neue-montreal/NeueMontreal-Italic.woff2') format('woff2'),
+    url('./neue-montreal/NeueMontreal-Italic.woff') format('woff');
+  font-weight: 400;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Neue Montreal';
+  src: url('./neue-montreal/NeueMontreal-Medium.woff2') format('woff2'),
+    url('./neue-montreal/NeueMontreal-Medium.woff') format('woff');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Neue Montreal';
+  src: url('./neue-montreal/NeueMontreal-MediumItalic.woff2') format('woff2'),
+    url('./neue-montreal/NeueMontreal-MediumItalic.woff') format('woff');
+  font-weight: 500;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Neue Montreal';
+  src: url('./neue-montreal/NeueMontreal-Bold.woff2') format('woff2'),
+    url('./neue-montreal/NeueMontreal-Bold.woff') format('woff');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Neue Montreal';
+  src: url('./neue-montreal/NeueMontreal-BoldItalic.woff2') format('woff2'),
+    url('./neue-montreal/NeueMontreal-BoldItalic.woff') format('woff');
+  font-weight: 700;
+  font-style: italic;
+  font-display: swap;
+}

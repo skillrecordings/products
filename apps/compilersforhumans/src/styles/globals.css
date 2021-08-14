@@ -1,0 +1,45 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+@import './icons.css';
+
+::selection {
+  @apply bg-black text-white dark:bg-white dark:text-black;
+}
+
+.prose {
+  code {
+    @apply dark:bg-gray-800 dark:text-white bg-white;
+  }
+}
+
+.prose-justify {
+  text-align: justify;
+  p {
+    @apply sm:py-2;
+  }
+}
+
+.text-stroke {
+  @media (prefers-color-scheme: dark) {
+    text-shadow: -1.25px -1.25px 0 #fff, 1.25px -1.25px 0 #fff,
+      -1.25px 1.25px 0 #fff, 1.25px 1.25px 0 #fff;
+  }
+  @media (prefers-color-scheme: light) {
+    text-shadow: -1.25px -1.25px 0 #000, 1.25px -1.25px 0 #000,
+      -1.25px 1.25px 0 #000, 1.25px 1.25px 0 #000;
+  }
+}
+
+.text-stroke-white {
+}
+
+/*
+This will hide the focus indicator if the element receives focus via the mouse,
+but it will still show up on keyboard focus.
+*/
+.js-focus-visible :focus:not(.focus-visible) {
+  outline: none;
+}
+
+@import '@reach/dialog/styles.css';
