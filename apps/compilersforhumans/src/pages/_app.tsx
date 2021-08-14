@@ -6,7 +6,7 @@ import {ThemeProvider} from 'next-themes'
 import '../styles/globals.css'
 import 'focus-visible'
 import {ViewerProvider} from 'contexts/viewer-context'
-import {ConvertkitProvider} from 'contexts/convertkit-context'
+import {ConvertkitProvider} from '@skillrecordings/convertkit'
 
 declare global {
   interface Window {

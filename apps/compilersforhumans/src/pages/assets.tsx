@@ -1,5 +1,6 @@
 import * as React from 'react'
-import ConvertkitSubscribeForm from 'components/forms/convertkit'
+//TODO: Check form styling
+import ConvertkitSubscribeForm from '@skillrecordings/convertkit/dist/forms'
 import Link from 'next/link'
 import Layout from 'layouts'
 
