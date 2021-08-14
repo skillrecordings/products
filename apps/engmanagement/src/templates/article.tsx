@@ -1,14 +1,14 @@
 import * as React from 'react'
 import Layout from 'layouts'
-import PoliteConvertkitForm from 'components/forms/convertkit/polite'
+import PoliteConvertkitForm from '@skillrecordings/convertkit/dist/forms/polite'
 import config from '../config'
 
 type ArticleTemplateProps = {
   meta?: any
 }
 
-const ArticleTemplate: React.FC<ArticleTemplateProps> = ({ meta, children }) => {
-  const { title } = meta
+const ArticleTemplate: React.FC<ArticleTemplateProps> = ({meta, children}) => {
+  const {title} = meta
 
   return (
     <Layout meta={meta}>
@@ -24,7 +24,10 @@ const ArticleTemplate: React.FC<ArticleTemplateProps> = ({ meta, children }) => 
           {children}
         </main>
         <footer className="mx-auto max-w-screen-md border-t dark:border-gray-800 border-gray-200 py-16">
-          by {meta.contributors ? meta.contributors[0].name : config.additionalMetaTags[0].content}
+          by{' '}
+          {meta.contributors
+            ? meta.contributors[0].name
+            : config.additionalMetaTags[0].content}
         </footer>
       </article>
       <PoliteConvertkitForm peakingContent={'Hello!'}>

@@ -1,7 +1,7 @@
 import * as React from 'react'
 import Layout from 'layouts'
 import LandingCopy from 'components/landing-copy.mdx'
-import ConvertkitSubscribeForm from 'components/forms/convertkit'
+import ConvertkitSubscribeForm from '@skillrecordings/convertkit/dist/forms'
 import get from 'lodash/get'
 import Image from 'next/image'
 import BookMockup from '../../public/images/engineering-management-for-the-rest-of-us-book-mockup-front@2x.jpg'
@@ -94,7 +94,11 @@ const Author = () => {
       </h3>
       <div className=" flex sm:flex-row flex-col items-center justify-center sm:space-x-10 max-w-screen-md mx-auto w-full">
         <div className="flex-shrink-0 sm:pb-0 pb-6">
-          <a href="https://sarah.dev/" target="_blank" rel="noopener noreferrer">
+          <a
+            href="https://sarah.dev/"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
             <Image
               src={SarahDrasner}
               alt="Sarah Drasner, the author of Engineering Management for the Rest of Us book"
@@ -108,10 +112,11 @@ const Author = () => {
           </a>
         </div>
         <p className="sm:text-xl text-lg text-gray-200">
-          Sarah Drasner has more than 10 years of experience in Engineering Management at all
-          levels, from Lead to VP at Netlify, Microsoft and Trulia/Zillow Group. She’s an
-          award-winning speaker, author of SVG Animations from O’Reilly, Vue core team emeritus, and
-          co-organizer of ConcatenateConf.
+          Sarah Drasner has more than 10 years of experience in Engineering
+          Management at all levels, from Lead to VP at Netlify, Microsoft and
+          Trulia/Zillow Group. She’s an award-winning speaker, author of SVG
+          Animations from O’Reilly, Vue core team emeritus, and co-organizer of
+          ConcatenateConf.
         </p>
       </div>
       <div className="italic text-xl font-medium justify-center flex sm:flex-row flex-col items-center leading-none pt-10 text-gray-200">
@@ -150,13 +155,22 @@ const ChapterGuide = () => {
           return (
             <div key={chapter}>
               <h4 className="pb-4 sm:text-3xl text-2xl  font-souvenir text-orange-200">
-                <span className="text-orange-300">{('0' + (i + 1)).slice(-2)}</span> {chapter}
+                <span className="text-orange-300">
+                  {('0' + (i + 1)).slice(-2)}
+                </span>{' '}
+                {chapter}
               </h4>
               <ul className=" text-xl font-brandon">
                 {get(chapters, chapter).map((section: any) => {
                   return (
-                    <li key={section} className="sm:py-4 py-2 leading-tight flex">
-                      <span aria-hidden={true} className="pr-2 text-orange-300 inline-block">
+                    <li
+                      key={section}
+                      className="sm:py-4 py-2 leading-tight flex"
+                    >
+                      <span
+                        aria-hidden={true}
+                        className="pr-2 text-orange-300 inline-block"
+                      >
                         ・
                       </span>
                       <span className="text-gray-100">{section}</span>
@@ -179,8 +193,9 @@ const ChapterGuide = () => {
           >
             list of some of them
           </a>
-          . You’re welcome to read the content there as well. The book has been edited and compiled
-          as a cohesive whole, and includes a few chapters not publicly available.
+          . You’re welcome to read the content there as well. The book has been
+          edited and compiled as a cohesive whole, and includes a few chapters
+          not publicly available.
         </p>
       </div>
     </div>
@@ -210,7 +225,7 @@ const chapters = {
   'Your Work': ['Prioritizing Your Own Work', 'Scheduling', 'Filling your Cup'],
 }
 
-export const Decoration = ({ className = '' }) => (
+export const Decoration = ({className = ''}) => (
   <svg
     className={`${className} pt-8 pb-16 w-32 mx-auto text-gray-600`}
     viewBox="0 0 91 26"
