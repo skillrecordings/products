@@ -1,9 +1,9 @@
 import * as React from 'react'
 import config from '../config'
-import { useLocalStorage } from 'react-use'
+import {useLocalStorage} from 'react-use'
 import Image from 'next/image'
-import { format, parseISO } from 'date-fns'
-import { useViewer } from 'contexts/viewer-context'
+import {format, parseISO} from 'date-fns'
+import {useViewer} from '@skillrecordings/viewer'
 import reduce from 'lodash/reduce'
 import get from 'lodash/get'
 import map from 'lodash/map'
@@ -11,7 +11,7 @@ import TeamInvites from 'components/team-invites'
 import Layout from 'layouts'
 import useLoginRequired from 'hooks/use-required-login'
 
-const InvoiceItem = ({ purchase }: any) => {
+const InvoiceItem = ({purchase}: any) => {
   return (
     <tr className="table-row">
       <td>
@@ -30,14 +30,20 @@ const InvoiceItem = ({ purchase }: any) => {
 }
 
 const getTotalPrice = (purchases: any) => {
-  return reduce(purchases, (totalAmount, currentPurchase) => totalAmount + currentPurchase.price, 0)
+  return reduce(
+    purchases,
+    (totalAmount, currentPurchase) => totalAmount + currentPurchase.price,
+    0,
+  )
 }
 
 const Invoice: React.FunctionComponent = () => {
-  const { sitePurchases, viewer } = useViewer()
+  const {sitePurchases, viewer} = useViewer()
   const [invoiceInfo, setInvoiceInfo] = useLocalStorage('invoice-info', '')
   const firstPurchase = get(sitePurchases, '[0]')
-  const teamPurchases = sitePurchases.filter((purchase: any) => purchase.quantity > 1)
+  const teamPurchases = sitePurchases.filter(
+    (purchase: any) => purchase.quantity > 1,
+  )
   const totalPrice = getTotalPrice(sitePurchases)
   const isVerifying = useLoginRequired()
 
@@ -46,7 +52,7 @@ const Invoice: React.FunctionComponent = () => {
   }
 
   return (
-    <Layout meta={{ title: 'Invoice for Pure React' }} className="print:block">
+    <Layout meta={{title: 'Invoice for Pure React'}} className="print:block">
       <div className="max-w-screen-md mx-auto py-16 print:py-0">
         <TeamInvites teamPurchases={teamPurchases} />
         <div className="flex sm:flex-row flex-col items-center justify-between py-5 print:hidden">
@@ -97,12 +103,16 @@ const Invoice: React.FunctionComponent = () => {
                     Invoice ID: <strong>{firstPurchase.guid}</strong>
                     <br />
                     Created:{' '}
-                    <strong>{format(parseISO(firstPurchase.created_at), 'yyyy/MM/dd')}</strong>
+                    <strong>
+                      {format(parseISO(firstPurchase.created_at), 'yyyy/MM/dd')}
+                    </strong>
                   </>
                 )}
               </div>
               <div className="pt-13">
-                <h5 className="uppercase text-xs mb-2 text-gray-500">Invoice For</h5>
+                <h5 className="uppercase text-xs mb-2 text-gray-500">
+                  Invoice For
+                </h5>
                 <div>
                   {viewer?.full_name}
                   <br />

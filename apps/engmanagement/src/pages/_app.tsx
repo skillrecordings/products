@@ -5,7 +5,7 @@ import config from '../config'
 import {ThemeProvider} from 'next-themes'
 import '../styles/globals.css'
 import 'focus-visible'
-import {ViewerProvider} from 'contexts/viewer-context'
+import {ViewerProvider} from '@skillrecordings/viewer'
 import {ConvertkitProvider} from '@skillrecordings/convertkit'
 
 declare global {
