@@ -1,7 +1,7 @@
 import * as React from 'react'
 import config from '../../config.json'
 import Link from 'next/link'
-import {useViewer} from 'contexts/viewer-context'
+import {useViewer} from '@skillrecordings/viewer'
 import {
   motion,
   useMotionValue,

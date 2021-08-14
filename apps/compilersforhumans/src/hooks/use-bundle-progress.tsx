@@ -3,7 +3,7 @@ import filter from 'lodash/filter'
 import find from 'lodash/find'
 import {useLocalStorage} from 'react-use'
 import useSWR from 'swr'
-import axios from 'utils/axios'
+import axios from '@skillrecordings/axios'
 
 const fetcher = (url: string) => {
   return axios.get(

@@ -1,6 +1,6 @@
 import React from 'react'
 import {useRouter} from 'next/router'
-import getAccessTokenFromCookie from 'utils/get-access-token-from-cookie'
+import {getAccessTokenFromCookie} from '@skillrecordings/auth'
 
 const disableLoginForDev = () =>
   process.env.NODE_ENV === 'development' &&

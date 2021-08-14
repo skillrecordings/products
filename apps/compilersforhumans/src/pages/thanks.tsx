@@ -4,7 +4,7 @@ import config from '../../config.json'
 import get from 'lodash/get'
 import Markdown from 'react-markdown'
 import {fetchStripeCheckoutSession} from 'utils/stripe'
-import {useViewer} from 'contexts/viewer-context'
+import {useViewer} from '@skillrecordings/viewer'
 
 const ThanksPage = ({displayEmail}: any) => {
   const {refreshViewer} = useViewer()
