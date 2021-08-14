@@ -1,5 +1,5 @@
 import * as React from 'react'
-import config from '../../config'
+import config from '../config'
 import { useLocalStorage } from 'react-use'
 import Image from 'next/image'
 import { format, parseISO } from 'date-fns'

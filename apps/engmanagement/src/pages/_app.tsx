@@ -1,7 +1,7 @@
 import React from 'react'
 import { AppProps } from 'next/app'
 import { DefaultSeo } from 'next-seo'
-import config from '../../config'
+import config from '../config'
 import { ThemeProvider } from 'next-themes'
 import '../styles/globals.css'
 import 'focus-visible'

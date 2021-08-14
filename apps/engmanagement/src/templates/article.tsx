@@ -1,7 +1,7 @@
 import * as React from 'react'
 import Layout from 'layouts'
 import PoliteConvertkitForm from 'components/forms/convertkit/polite'
-import config from '../../config'
+import config from '../config'
 
 type ArticleTemplateProps = {
   meta?: any

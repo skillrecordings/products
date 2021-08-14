@@ -1,6 +1,6 @@
 import * as React from 'react'
 import DarkModeToggle from './color-mode-toggle'
-import config from '../../config'
+import config from '../config'
 import Link from 'next/link'
 import { useViewer } from 'contexts/viewer-context'
 
