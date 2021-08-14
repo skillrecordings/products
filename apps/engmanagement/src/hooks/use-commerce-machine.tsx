@@ -5,13 +5,13 @@ import noop from 'lodash/noop'
 import pickBy from 'lodash/pickBy'
 import isEmpty from 'lodash/isEmpty'
 import isPast from 'date-fns/isPast'
-import { useMachine } from '@xstate/react'
-import { createMachine, assign } from 'xstate'
-import { SellableResource, Price } from '@types'
+import {useMachine} from '@xstate/react'
+import {createMachine, assign} from 'xstate'
+import {SellableResource, Price} from '@skillrecordings/types'
 import queryString from 'query-string'
-import { isBrowser } from 'utils/is-browser'
-import { loadStripe } from '@stripe/stripe-js'
-import { useViewer } from 'contexts/viewer-context'
+import {isBrowser} from 'utils/is-browser'
+import {loadStripe} from '@stripe/stripe-js'
+import {useViewer} from 'contexts/viewer-context'
 // TODO: set purchase key
 const PURCHASE_KEY = 'sr_purchase'
 
@@ -24,7 +24,11 @@ const storePurchase = (purchase: any) => {
 }
 
 // TODO: set convertkit tags for after purchase
-export const signupAfterPurchase = (title: string, email: string, purchase: any) => {
+export const signupAfterPurchase = (
+  title: string,
+  email: string,
+  purchase: any,
+) => {
   const api_key = process.env.NEXT_PUBLIC_CONVERTKIT_PUBLIC_KEY
   const form = process.env.NEXT_PUBLIC_CONVERTKIT_SIGNUP_FORM
   const bulkTag = 1888676
@@ -69,24 +73,24 @@ interface CommerceMachineContext {
   email?: string
   stripeToken?: string
   quantity?: number
-  purchase?: { sellable: SellableResource }
+  purchase?: {sellable: SellableResource}
   stripeCheckoutData?: any
   stripe?: any
 }
 
 type CommerceEvent =
-  | { type: 'APPLY_COUPON'; appliedCoupon: string }
-  | { type: 'DISMISS_COUPON'; appliedCoupon: null }
+  | {type: 'APPLY_COUPON'; appliedCoupon: string}
+  | {type: 'DISMISS_COUPON'; appliedCoupon: null}
   | {
       type: 'SET_QUANTITY'
       quantity: number
       bulk: boolean
     }
-  | { type: 'START_PURCHASE' }
-  | { type: 'CLAIM_COUPON'; email: string }
-  | { type: 'START_STRIPE_CHECKOUT' }
-  | { type: 'CANCEL_PURCHASE' }
-  | { type: 'HANDLE_PURCHASE'; email: string; stripeToken: string }
+  | {type: 'START_PURCHASE'}
+  | {type: 'CLAIM_COUPON'; email: string}
+  | {type: 'START_STRIPE_CHECKOUT'}
+  | {type: 'CANCEL_PURCHASE'}
+  | {type: 'HANDLE_PURCHASE'; email: string; stripeToken: string}
 
 const createCommerceMachine = ({
   sellable,
@@ -106,14 +110,17 @@ const createCommerceMachine = ({
       },
       states: {
         checkingCoupon: {
-          always: [{ target: 'fetchingPrice', actions: 'checkForCouponInHeader' }],
+          always: [
+            {target: 'fetchingPrice', actions: 'checkForCouponInHeader'},
+          ],
         },
         fetchingPrice: {
           invoke: {
             id: 'fetchPrice',
             src: (context, event) => {
-              const { quantity, appliedCoupon, sellable, upgradeFromSellable } = context
-              const { id: sellable_id, type } = sellable
+              const {quantity, appliedCoupon, sellable, upgradeFromSellable} =
+                context
+              const {id: sellable_id, type} = sellable
               if (process.env.NEXT_PUBLIC_AUTH_DOMAIN) {
                 return axios
                   .post(
@@ -132,11 +139,13 @@ const createCommerceMachine = ({
                       client_id: process.env.NEXT_PUBLIC_CLIENT_ID,
                       site: process.env.NEXT_PUBLIC_SITE_NAME,
                       code: appliedCoupon,
-                    })
+                    }),
                   )
-                  .then(({ data }) => data)
+                  .then(({data}) => data)
               } else {
-                return Promise.reject('process.env.NEXT_PUBLIC_AUTH_DOMAIN is not configured')
+                return Promise.reject(
+                  'process.env.NEXT_PUBLIC_AUTH_DOMAIN is not configured',
+                )
               }
             },
             onDone: {
@@ -150,7 +159,7 @@ const createCommerceMachine = ({
             },
             onError: {
               target: 'failure',
-              actions: assign({ error: (context, event) => event.data }),
+              actions: assign({error: (context, event) => event.data}),
             },
           },
         },
@@ -161,7 +170,7 @@ const createCommerceMachine = ({
               cond: 'couponErrorIsPresent',
               actions: ['setErrorFromCoupon'],
             },
-            { target: 'loadStripe', actions: ['checkForDefaultCoupon'] },
+            {target: 'loadStripe', actions: ['checkForDefaultCoupon']},
           ],
         },
         loadStripe: {
@@ -179,7 +188,7 @@ const createCommerceMachine = ({
             },
             onError: {
               target: 'failure',
-              actions: assign({ error: (context, event) => event.data }),
+              actions: assign({error: (context, event) => event.data}),
             },
           },
         },
@@ -218,14 +227,20 @@ const createCommerceMachine = ({
                 }),
               ],
             },
-            START_STRIPE_CHECKOUT: { target: 'loadingStripeCheckoutSession' },
+            START_STRIPE_CHECKOUT: {target: 'loadingStripeCheckoutSession'},
           },
         },
         loadingStripeCheckoutSession: {
           invoke: {
             id: 'createStripeCheckoutSession',
             src: (context, event) => {
-              const { quantity, appliedCoupon, sellable, upgradeFromSellable, bulk } = context
+              const {
+                quantity,
+                appliedCoupon,
+                sellable,
+                upgradeFromSellable,
+                bulk,
+              } = context
               if (process.env.NEXT_PUBLIC_STRIPE_CHECKOUT_SESSIONS_URL) {
                 return axios
                   .post(
@@ -245,14 +260,18 @@ const createCommerceMachine = ({
                       code: appliedCoupon,
                       client_id: process.env.NEXT_PUBLIC_CLIENT_ID,
                       site: process.env.NEXT_PUBLIC_SITE_NAME,
-                      success_url: process.env.NEXT_PUBLIC_STRIPE_CHECKOUT_SESSIONS_SUCCESS_URL,
-                      cancel_url: process.env.NEXT_PUBLIC_STRIPE_CHECKOUT_SESSIONS_CANCEL_URL,
-                    })
+                      success_url:
+                        process.env
+                          .NEXT_PUBLIC_STRIPE_CHECKOUT_SESSIONS_SUCCESS_URL,
+                      cancel_url:
+                        process.env
+                          .NEXT_PUBLIC_STRIPE_CHECKOUT_SESSIONS_CANCEL_URL,
+                    }),
                   )
-                  .then(({ data }) => data)
+                  .then(({data}) => data)
               } else {
                 return Promise.reject(
-                  'process.env.NEXT_PUBLIC_STRIPE_CHECKOUT_SESSIONS_URL is not configured.'
+                  'process.env.NEXT_PUBLIC_STRIPE_CHECKOUT_SESSIONS_URL is not configured.',
                 )
               }
             },
@@ -310,7 +329,7 @@ const createCommerceMachine = ({
                 bulk,
               } = context
 
-              const { id: sellable_id, type } = sellable
+              const {id: sellable_id, type} = sellable
               if (process.env.NEXT_PUBLIC_AUTH_DOMAIN) {
                 return axios
                   .post(
@@ -328,11 +347,13 @@ const createCommerceMachine = ({
                       upgrade_from_sellable_id: upgradeFromSellable?.slug,
                       upgrade_from_sellable: upgradeFromSellable?.type,
                     }),
-                    { headers: purchaseHeaders }
+                    {headers: purchaseHeaders},
                   )
-                  .then(({ data }) => data)
+                  .then(({data}) => data)
               } else {
-                return Promise.reject('process.env.NEXT_PUBLIC_AUTH_DOMAIN is not set up')
+                return Promise.reject(
+                  'process.env.NEXT_PUBLIC_AUTH_DOMAIN is not set up',
+                )
               }
             },
             onDone: {
@@ -375,13 +396,13 @@ const createCommerceMachine = ({
         },
       },
       actions: {
-        clearError: assign({ error: (context, event) => null }),
+        clearError: assign({error: (context, event) => null}),
         clearAppliedCoupon: assign({
           appliedCoupon: (context, event) => null,
         }),
         adjustPriceForUpgrade: assign({
           price: (context, event) => {
-            const { upgradeFromSellable, price, quantity } = context
+            const {upgradeFromSellable, price, quantity} = context
             if (isEmpty(upgradeFromSellable)) {
               return price
             }
@@ -397,21 +418,26 @@ const createCommerceMachine = ({
           },
         }),
         setErrorFromCoupon: assign({
-          error: (context, event) => context.price && context.price.price_message,
+          error: (context, event) =>
+            context.price && context.price.price_message,
         }),
         sendToThanks: (context, event) => {
-          const { email, purchase, upgradeFromSellable } = context
+          const {email, purchase, upgradeFromSellable} = context
           if (purchase && email) {
-            signupAfterPurchase(purchase.sellable.title, email, purchase.sellable).finally(() => {
+            signupAfterPurchase(
+              purchase.sellable.title,
+              email,
+              purchase.sellable,
+            ).finally(() => {
               window.scroll(0, 0)
-              window.location.href = `/thanks?email=${encodeURIComponent(email)}&upgrade=${!isEmpty(
-                upgradeFromSellable
-              )}`
+              window.location.href = `/thanks?email=${encodeURIComponent(
+                email,
+              )}&upgrade=${!isEmpty(upgradeFromSellable)}`
             })
           }
         },
         sendToCheckout: (context, event) => {
-          const { stripeCheckoutData, stripe } = context
+          const {stripeCheckoutData, stripe} = context
           stripe.redirectToCheckout({
             sessionId: stripeCheckoutData.id,
           })
@@ -448,16 +474,17 @@ const createCommerceMachine = ({
         checkForCouponInHeader: assign({
           appliedCoupon: (context, event) => {
             try {
-              const searchQuery = isBrowser() && queryString.parse(window.location.search)
+              const searchQuery =
+                isBrowser() && queryString.parse(window.location.search)
               return get(searchQuery, 'coupon')
             } catch (e) {
-              console.error({ e })
+              console.error({e})
               return null
             }
           },
         }),
       },
-    }
+    },
   )
 
 type UseCommerceMachineProps = {
@@ -465,8 +492,11 @@ type UseCommerceMachineProps = {
   upgradeFromSellable?: SellableResource
 }
 
-export const useCommerceMachine = ({ sellable, upgradeFromSellable }: UseCommerceMachineProps) => {
-  const { authToken, viewer } = useViewer()
+export const useCommerceMachine = ({
+  sellable,
+  upgradeFromSellable,
+}: UseCommerceMachineProps) => {
+  const {authToken, viewer} = useViewer()
   const sellableSlug = get(sellable, 'slug')
   const userId = get(viewer, 'id')
   const commerceMachine = React.useMemo(() => {

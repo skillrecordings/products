@@ -1,9 +1,13 @@
-import { isFunction, isUndefined } from 'lodash'
-import { Viewer } from '@types'
+import {isFunction, isUndefined} from 'lodash'
+import {Viewer} from '@skillrecordings/types'
 import Auth from './auth'
 const DEBUG_ANALYTICS = false
 
-export const track = (event: string, paramsOrCallback?: any, callback?: any) => {
+export const track = (
+  event: string,
+  paramsOrCallback?: any,
+  callback?: any,
+) => {
   const auth = new Auth()
 
   return new Promise(async (resolve) => {

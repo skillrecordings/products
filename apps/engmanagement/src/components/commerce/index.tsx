@@ -1,9 +1,9 @@
 import React from 'react'
-import { Element } from 'react-scroll'
-import { SellableResource } from '@types'
+import {Element} from 'react-scroll'
+import {SellableResource} from '@skillrecordings/types'
 import PurchaseBundle from './purchase-bundle'
 import Image from 'next/image'
-import { getBundleDescription, getBundleImage } from 'utils/get-bundle-metadata'
+import {getBundleDescription, getBundleImage} from 'utils/get-bundle-metadata'
 
 type CommerceProps = {
   bundles: SellableResource[]
@@ -22,7 +22,7 @@ export function getBundleStyles(slug: string) {
   }
 }
 
-const Commerce = ({ bundles, children, className }: CommerceProps) => {
+const Commerce = ({bundles, children, className}: CommerceProps) => {
   return (
     <div className={className} id="buy">
       <Element name="buy" />
@@ -35,7 +35,10 @@ const Commerce = ({ bundles, children, className }: CommerceProps) => {
       <div className="grid md:grid-cols-2 grid-cols-1 items-start gap-5 max-w-screen-md mx-auto">
         {bundles.map((bundle) => {
           return (
-            <div key={bundle.id} className={`${getBundleStyles(bundle.slug)} relative px-5`}>
+            <div
+              key={bundle.id}
+              className={`${getBundleStyles(bundle.slug)} relative px-5`}
+            >
               {getBundleImage(bundle.slug) && (
                 <div className="pt-10 pb-5 w-full flex items-center justify-center ">
                   {getBundleImage(bundle.slug)}

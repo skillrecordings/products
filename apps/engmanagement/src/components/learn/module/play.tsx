@@ -1,12 +1,19 @@
 import * as React from 'react'
 import Link from 'next/link'
-import type { LessonResource } from '@types'
+import type {LessonResource} from '@skillrecordings/types'
 import find from 'lodash/find'
 
-const Play: React.FC<{ items: LessonResource[]; progress: any }> = ({ items, progress }) => {
-  const { isModuleInProgress, completedLessons, isModuleCompleted } = progress
+const Play: React.FC<{items: LessonResource[]; progress: any}> = ({
+  items,
+  progress,
+}) => {
+  const {isModuleInProgress, completedLessons, isModuleCompleted} = progress
 
-  const buttonText = isModuleCompleted ? 'Watch Again' : isModuleInProgress ? 'Continue' : 'Start'
+  const buttonText = isModuleCompleted
+    ? 'Watch Again'
+    : isModuleInProgress
+    ? 'Continue'
+    : 'Start'
 
   const PlayButton = () => (
     <Link href={`/lessons/${progress.nextLesson.slug}`}>
@@ -30,7 +37,7 @@ const Play: React.FC<{ items: LessonResource[]; progress: any }> = ({ items, pro
       return null
     }
     function isLessonCompleted(slug: string) {
-      return find(completedLessons, { slug })
+      return find(completedLessons, {slug})
     }
     const width = `${100 / items.length}%`
     return (
@@ -41,9 +48,11 @@ const Play: React.FC<{ items: LessonResource[]; progress: any }> = ({ items, pro
             <Link key={item.slug} href={`/lessons/${item.slug}`}>
               <a
                 className={`${
-                  completed ? 'bg-teal-500 hover:bg-teal-400' : 'bg-gray-400 hover:bg-gray-300'
+                  completed
+                    ? 'bg-teal-500 hover:bg-teal-400'
+                    : 'bg-gray-400 hover:bg-gray-300'
                 } border dark:border-black border-white h-full block`}
-                style={{ width }}
+                style={{width}}
               />
             </Link>
           )
