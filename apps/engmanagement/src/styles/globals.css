@@ -1,0 +1,36 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+@import './icons.css';
+@import './fonts/index.css';
+@import '@reach/dialog/styles.css';
+
+::selection {
+  @apply bg-orange-200 text-amber-700;
+}
+::-moz-selection {
+  @apply bg-orange-200 text-amber-700;
+}
+
+/* Change Autocomplete styles in Chrome*/
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+textarea:-webkit-autofill,
+textarea:-webkit-autofill:hover,
+textarea:-webkit-autofill:focus,
+select:-webkit-autofill,
+select:-webkit-autofill:hover,
+select:-webkit-autofill:focus {
+  @apply border-amber-200;
+  -webkit-text-fill-color: white;
+  -webkit-box-shadow: 0 0 0px 1000px #000 inset;
+}
+
+/*
+This will hide the focus indicator if the element receives focus via the mouse,
+but it will still show up on keyboard focus.
+*/
+.js-focus-visible:focus:not(.focus-visible) {
+  outline: none;
+}

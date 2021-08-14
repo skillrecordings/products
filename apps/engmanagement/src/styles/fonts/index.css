@@ -1,0 +1,97 @@
+@font-face {
+  font-family: 'RodfatOne';
+  src: url('./RodfatOne-Regular.woff2') format('woff2'),
+    url('./RodfatOne-Regular.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+  font-display: fallback;
+}
+
+@font-face {
+  font-family: 'DIN Condensed';
+  src: url('./DINNextLTPro-BoldCondensed.woff2') format('woff2'),
+    url('./DINNextLTPro-BoldCondensed.woff') format('woff');
+  font-weight: 700;
+  font-style: normal;
+  font-display: fallback;
+}
+
+@font-face {
+  font-family: 'ITC Souvenir';
+  src: url('./itc-souvenir-medium.woff2') format('woff2'),
+    url('./itc-souvenir-medium.woff') format('woff');
+  font-weight: 500;
+  font-style: normal;
+  font-display: fallback;
+}
+
+@font-face {
+  font-family: 'Brandon Text';
+  src: url('./2b8d3660-1a97-4e2b-8637-c27c47ef6e4a.woff2') format('woff2'),
+    url('./f2735d8e-dece-4e49-baeb-a1211c308cd2.woff') format('woff');
+  font-weight: 300;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Brandon Text';
+  src: url('./75e8bf7a-b5e2-4fbb-84ef-2cdc318345c7.woff2') format('woff2'),
+    url('./57664b3f-fe4e-4041-8e68-a94f9a646f2e.woff') format('woff');
+  font-weight: 300;
+  font-style: italic;
+}
+@font-face {
+  font-family: 'Brandon Text';
+  src: url('./03bbca7e-869a-4f4f-a010-39e78be0b5df.woff2') format('woff2'),
+    url('./b3634ffb-e593-4817-9d09-eaf133a014d0.woff') format('woff');
+  font-weight: 400;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Brandon Text';
+  src: url('./ca2115b4-272c-49bc-bb7c-4b71645943de.woff2') format('woff2'),
+    url('./31f66157-e856-495d-b92b-f7d471a2eafa.woff') format('woff');
+  font-weight: 400;
+  font-style: italic;
+}
+@font-face {
+  font-family: 'Brandon Text';
+  src: url('./12cd8b0d-0f5c-4ec2-b2c7-9b30a8d06ded.woff2') format('woff2'),
+    url('./008df1be-c6b5-4688-a068-6729f08a0b08.woff') format('woff');
+  font-weight: 500;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Brandon Text';
+  src: url('./82cb571f-2a61-46e6-b29e-6de5d83abb29.woff2') format('woff2'),
+    url('./51bfc679-9574-480d-a2b7-2bc382e2070e.woff') format('woff');
+  font-weight: 500;
+  font-style: italic;
+}
+@font-face {
+  font-family: 'Brandon Text';
+  src: url('./314148f2-1786-479f-9e0b-e9418b8fee19.woff2') format('woff2'),
+    url('./04c8b798-e77b-4516-98e8-964145344d65.woff') format('woff');
+  font-weight: 700;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Brandon Text';
+  src: url('./1bf949cc-db2c-44f5-91d6-f90b6a434dca.woff2') format('woff2'),
+    url('./3bac646a-a8d1-4095-9d9a-4d6125c53933.woff') format('woff');
+  font-weight: 700;
+  font-style: italic;
+}
+/* @font-face {
+  font-family: 'Brandon Text W01 Black';
+  src: url('./59af2f23-b3c8-49fc-9417-0250b65fd399.woff2') format('woff2'),
+    url('./ea7e1e50-53ef-4673-8b08-456be24dd22f.woff') format('woff');
+  font-weight: 800;
+  font-style: normal;
+} */
+/* @font-face {
+  font-family: 'Brandon Text W01 Black Italic';
+  src: url('./43d708cd-11f7-4c51-8dc7-3bfa894f7db9.woff2') format('woff2'),
+    url('./8dcc3ef9-2fe0-49d9-a5d1-305a3fffe699.woff') format('woff');
+  font-weight: 800;
+  font-style: italic;
+} */
