@@ -1,39 +1,12 @@
 import axios from '@skillrecordings/axios'
 import pickBy from 'lodash/pickBy'
 import isEmpty from 'lodash/isEmpty'
-import {SellableResource, Price} from '@skillrecordings/types'
-
-export interface CommerceMachineContext {
-  sellable: SellableResource | null
-  upgradeFromSellable?: SellableResource | null
-  bulk: boolean
-  error?: string | null
-  price?: Price
-  appliedCoupon?: string | null
-  accessToken?: string
-  notification?: string
-  email?: string
-  stripeToken?: string
-  quantity?: number
-  purchase?: {sellable: SellableResource}
-  stripeCheckoutData?: any
-  stripe?: any
-  stripePriceId?: string
-}
-
-export type CommerceEvent =
-  | {type: 'APPLY_COUPON'; appliedCoupon: string}
-  | {type: 'DISMISS_COUPON'; appliedCoupon: null}
-  | {
-      type: 'SET_QUANTITY'
-      quantity: number
-      bulk: boolean
-    }
-  | {type: 'START_PURCHASE'}
-  | {type: 'CLAIM_COUPON'; email: string}
-  | {type: 'START_STRIPE_CHECKOUT'}
-  | {type: 'CANCEL_PURCHASE'}
-  | {type: 'HANDLE_PURCHASE'; email: string; stripeToken: string}
+import {
+  CommerceMachineContext,
+  EggheadPriceParams,
+  EggheadSellableParam,
+  StripePriceParams,
+} from '../../@types'
 
 // This generates the params based on the presence of `stripePriceId`
 // If its there, then we just need to send the id and quantity
@@ -112,7 +85,9 @@ export const checkoutSessionFetcher = (
 // This creates the params to fetch the price from a Sellable or a Stripe Price
 // The sellable price is fetched from egghead's api
 // The Stripe Price is fetched from stripe
-export const getPriceParams = (machineContext: CommerceMachineContext) => {
+export const getPriceParams = (
+  machineContext: CommerceMachineContext,
+): EggheadPriceParams | StripePriceParams => {
   const {
     quantity,
     appliedCoupon,
@@ -126,24 +101,28 @@ export const getPriceParams = (machineContext: CommerceMachineContext) => {
   }
   const {site, id: sellable_id, type} = sellable
 
+  const upgradeParams = {
+    upgrade_from_sellable_id: upgradeFromSellable?.slug,
+    upgrade_from_sellable: upgradeFromSellable?.type,
+  }
+
+  const sellableStuff: EggheadSellableParam = {
+    sellable_id,
+    sellable: type.toLowerCase(),
+    ...(!!upgradeParams && upgradeParams),
+    ...(!!quantity && {quantity}),
+  }
+
   return isEmpty(stripePriceId)
-    ? pickBy({
-        sellables: [
-          pickBy({
-            sellable_id,
-            upgrade_from_sellable_id: upgradeFromSellable?.slug,
-            upgrade_from_sellable: upgradeFromSellable?.type,
-            sellable: type.toLowerCase(),
-            quantity,
-          }),
-        ],
+    ? {
+        sellables: [sellableStuff],
         site: process.env.NEXT_PUBLIC_SITE_NAME || 'TEST_PRODUCT',
         code: appliedCoupon,
-      })
+      }
     : {id: stripePriceId}
 }
 
-export const eggheadPriceCheckUrl = `${process.env.NEXT_PUBLIC_AUTH_DOMAIN}/api/v1/sellable_purchases/prices`
+export const eggheadPriceCheckUrl = `/api/prices`
 export const stripePriceCheckUrl = `/api/stripe/prices`
 
 export const priceFetcher = (machineContext: CommerceMachineContext) => {

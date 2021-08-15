@@ -8,6 +8,9 @@ import 'focus-visible'
 import {ViewerProvider} from '@skillrecordings/viewer'
 import {ConvertkitProvider} from '@skillrecordings/convertkit'
 
+//TODO: build error if this was in the component after moving it to commerce package
+import '@reach/dialog/styles.css'
+
 declare global {
   interface Window {
     ahoy: any

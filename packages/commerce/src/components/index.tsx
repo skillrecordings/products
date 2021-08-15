@@ -1,13 +1,11 @@
 import React from 'react'
 import {Element} from 'react-scroll'
 import {SellableResource} from '@skillrecordings/types'
-import PurchaseBundle from './purchase-bundle'
 import Image from 'next/image'
-import {getBundleDescription, getBundleImage} from 'utils/get-bundle-metadata'
+import {getBundleDescription, getBundleImage} from '../get-bundle-metadata'
 
 type CommerceProps = {
   bundles: SellableResource[]
-  children?: JSX.Element
   className?: string
 }
 
@@ -22,82 +20,115 @@ export function getBundleStyles(slug: string) {
   }
 }
 
-const Commerce = ({bundles, children, className}: CommerceProps) => {
+export const CommerceHeader: React.FC = ({children}) => {
   return (
-    <div className={className} id="buy">
-      <Element name="buy" />
-      <div className="text-center px-5 sm:py-24 py-16">
-        <h2 className="pb-5 pt-10 text-4xl font-extrabold tracking-tight text-text sm:text-5xl sm:leading-10 lg:text-6xl leading-tight max-w-screen-md mx-auto">
-          Lorem ipsum dolor sit amet
-        </h2>
-        {children}
-      </div>
-      <div className="grid md:grid-cols-2 grid-cols-1 items-start gap-5 max-w-screen-md mx-auto">
-        {bundles.map((bundle) => {
-          return (
-            <div
-              key={bundle.id}
-              className={`${getBundleStyles(bundle.slug)} relative px-5`}
-            >
-              {getBundleImage(bundle.slug) && (
-                <div className="pt-10 pb-5 w-full flex items-center justify-center ">
-                  {getBundleImage(bundle.slug)}
-                </div>
-              )}
-              {/* {bundle.slug === process.env.NEXT_PUBLIC_PRO_SLUG && (
-                <div className="h-2 w-full absolute top-0 left-0 bg-gradient-to-tr from-blue-500 to-indigo-500 rounded-t-md" />
-              )} */}
-              <PurchaseBundle bundle={bundle} />
-              <div className="flex flex-col items-center">
-                <ul className="pt-8 pb-2 font-semibold">
-                  {getBundleDescription(bundle.slug)?.map(
-                    (item: any, i: number) => (
-                      <li key={i} className="py-1 flex items-center">
-                        <span className="flex-shrink-0 w-6 h-6 font-bold text-sm text-center leading-tight rounded-full ml-1 mr-3 flex items-center justify-center border dark:border-gray-700 border-gray-300">
-                          ✓
-                        </span>
-                        <span>{item}</span>
-                      </li>
-                    ),
-                  )}
-                </ul>
-                <ul>
-                  {bundle.items.map((item, i) => {
-                    if (!item.duration && item.slug) {
-                      return null
-                    }
-                    return (
-                      <li key={i} className="flex items-center py-1">
-                        <div className="flex-shrink-0 flex">
-                          <Image
-                            src={item.square_cover_128_url}
-                            width={32}
-                            height={32}
-                            alt={item.title}
-                          />
-                        </div>
-                        <span className="ml-2">{item.title}</span>
-                      </li>
-                    )
-                  })}
-                </ul>
-              </div>
-            </div>
-          )
-        })}
-      </div>
-      <QualityAssuranceSection />
+    <div className="text-center px-5 sm:py-24 py-16">
+      <h2 className="pb-5 pt-10 text-4xl font-extrabold tracking-tight text-text sm:text-5xl sm:leading-10 lg:text-6xl leading-tight max-w-screen-md mx-auto">
+        Lorem ipsum dolor sit amet
+      </h2>
+      {children}
     </div>
   )
 }
 
-export const QualityAssuranceSection = () => {
+export const CommerceBundleImage: React.FC<{bundle: any}> = ({bundle}) => {
+  const bundleImage = getBundleImage(bundle.slug)
+  return bundleImage ? (
+    <div className="pt-10 pb-5 w-full flex items-center justify-center ">
+      {getBundleImage(bundle.slug)}
+    </div>
+  ) : null
+}
+
+export const CommerceBundleDescription: React.FC<{bundle: any}> = ({
+  bundle,
+  children,
+}) => {
+  return (
+    <div className="flex flex-col items-center">
+      <ul className="pt-8 pb-2 font-semibold">
+        {getBundleDescription(bundle.slug)?.map((item, i) => (
+          <li key={i} className="py-1 flex items-center">
+            <span className="flex-shrink-0 w-6 h-6 font-bold text-sm text-center leading-tight rounded-full ml-1 mr-3 flex items-center justify-center border dark:border-gray-700 border-gray-300">
+              ✓
+            </span>
+            <span>{item}</span>
+          </li>
+        ))}
+      </ul>
+      {children}
+    </div>
+  )
+}
+
+export const CommerceBundleItemsList: React.FC<{bundle: any}> = ({bundle}) => {
+  return (
+    <ul>
+      {bundle.items.map((item: any, i: number) => {
+        if (!item.duration && item.slug) {
+          return null
+        }
+        return (
+          <li key={i} className="flex items-center py-1">
+            <div className="flex-shrink-0 flex">
+              <Image
+                src={item.square_cover_128_url}
+                width={32}
+                height={32}
+                alt={item.title}
+              />
+            </div>
+            <span className="ml-2">{item.title}</span>
+          </li>
+        )
+      })}
+    </ul>
+  )
+}
+
+export const CommerceBundleDetails: React.FC<{bundle: any}> = ({
+  bundle,
+  children,
+}) => {
+  return (
+    <div
+      key={bundle.id}
+      className={`${getBundleStyles(bundle.slug)} relative px-5`}
+    >
+      {children}
+    </div>
+  )
+}
+
+export const CommerceBundles: React.FC = ({children}) => {
+  return (
+    <div className="grid md:grid-cols-2 grid-cols-1 items-start gap-5 max-w-screen-md mx-auto">
+      {children}
+    </div>
+  )
+}
+
+export const CommerceContainer: React.FC<{className?: string}> = ({
+  children,
+  className,
+}) => {
+  return (
+    <div className={className} id="buy">
+      <CommerceScrollToTarget />
+      {children}
+    </div>
+  )
+}
+
+const CommerceScrollToTarget = () => <Element name="buy" />
+
+export const CommerceGuarantee = () => {
   return (
     <section className="pt-24">
-      <div className="flex items-center flex-wrap justify-center scale-90 opacity-80 leading-tight">
+      <div className="flex items-center flex-wrap justify-center transform scale-90 opacity-80 leading-tight">
         <span className="text-sm mx-3 my-2">30 day money back guarantee</span>
         <div className="mx-3 my-2 text-gray-900 dark:text-white">
-          <StripeBadge />
+          <CommerceStripeBadge />
         </div>
         <div className="mx-3 my-2">
           <Image
@@ -113,7 +144,7 @@ export const QualityAssuranceSection = () => {
   )
 }
 
-const StripeBadge = () => (
+export const CommerceStripeBadge = () => (
   <svg
     fill="currentColor"
     xmlns="http://www.w3.org/2000/svg"
@@ -129,5 +160,3 @@ const StripeBadge = () => (
     <rect width="2.457" height="8.676" x="104.625" y="11.349" />
   </svg>
 )
-
-export default Commerce

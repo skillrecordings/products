@@ -1008,28 +1008,50 @@ importers:
 
   packages/commerce:
     specifiers:
+      '@reach/dialog': ^0.16.0
+      '@skillrecordings/auth': workspace:*
       '@skillrecordings/axios': workspace:*
       '@skillrecordings/config': workspace:*
+      '@skillrecordings/convertkit': workspace:^0.0.1
+      '@skillrecordings/react': workspace:^0.0.1
       '@skillrecordings/scripts': workspace:*
       '@skillrecordings/tsconfig': workspace:*
       '@skillrecordings/types': workspace:*
+      '@skillrecordings/viewer': workspace:^0.0.1
       '@stripe/stripe-js': ^1.16.0
       '@xstate/react': ^1.5.1
       axios: ^0.21.1
       date-fns: ^2.23.0
       esbuild-node-tsc: ^1.6.1
+      formik: ^2.2.9
+      framer-motion: ^4.1.17
+      next: 11.1.0
+      react-countdown: ^2.3.2
+      react-stripe-checkout: ^2.6.3
       stripe: ^8.167.0
       typescript: ^4.2.4
       xstate: ^4.23.1
+      yup: ^0.32.9
     dependencies:
+      '@reach/dialog': 0.16.0
+      '@skillrecordings/auth': link:../auth
       '@skillrecordings/axios': link:../axios
       '@skillrecordings/config': link:../config
+      '@skillrecordings/convertkit': link:../convertkit
+      '@skillrecordings/react': link:../react
+      '@skillrecordings/viewer': link:../viewer
       '@stripe/stripe-js': 1.16.0
       '@xstate/react': 1.5.1_xstate@4.23.1
       axios: 0.21.1
       date-fns: 2.23.0
+      formik: 2.2.9
+      framer-motion: 4.1.17
+      next: 11.1.0_typescript@4.3.5
+      react-countdown: 2.3.2
+      react-stripe-checkout: 2.6.3
       stripe: 8.168.0
       xstate: 4.23.1
+      yup: 0.32.9
     devDependencies:
       '@skillrecordings/scripts': link:../scripts
       '@skillrecordings/tsconfig': link:../tsconfig
@@ -8106,6 +8128,20 @@ packages:
     engines: {node: '>=0.4.x'}
     dev: false
 
+  /formik/2.2.9:
+    resolution: {integrity: sha512-LQLcISMmf1r5at4/gyJigGn0gOwFbeEAlji+N9InZF6LIMXnFNkO42sCI8Jt84YZggpD4cPWObAZaxpEFtSzNA==}
+    peerDependencies:
+      react: '>=16.8.0'
+    dependencies:
+      deepmerge: 2.2.1
+      hoist-non-react-statics: 3.3.2
+      lodash: 4.17.21
+      lodash-es: 4.17.21
+      react-fast-compare: 2.0.4
+      tiny-warning: 1.0.3
+      tslib: 1.14.1
+    dev: false
+
   /formik/2.2.9_react@17.0.2:
     resolution: {integrity: sha512-LQLcISMmf1r5at4/gyJigGn0gOwFbeEAlji+N9InZF6LIMXnFNkO42sCI8Jt84YZggpD4cPWObAZaxpEFtSzNA==}
     peerDependencies:
@@ -13445,6 +13481,15 @@ packages:
     dependencies:
       '@babel/runtime': 7.14.8
       react: 17.0.2
+    dev: false
+
+  /react-countdown/2.3.2:
+    resolution: {integrity: sha512-Q4SADotHtgOxNWhDdvgupmKVL0pMB9DvoFcxv5AzjsxVhzOVxnttMbAywgqeOdruwEAmnPhOhNv/awAgkwru2w==}
+    peerDependencies:
+      react: '>= 15'
+      react-dom: '>= 15'
+    dependencies:
+      prop-types: 15.7.2
     dev: false
 
   /react-countdown/2.3.2_react-dom@17.0.2+react@17.0.2:
