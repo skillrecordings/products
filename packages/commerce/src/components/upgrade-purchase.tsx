@@ -4,7 +4,7 @@ import get from 'lodash/get'
 import {useViewer} from '@skillrecordings/viewer'
 import PurchaseBundle from './purchase-bundle'
 import Image from 'next/image'
-import {getBundleDescription} from 'utils/get-bundle-metadata'
+import {getBundleDescription} from '../get-bundle-metadata'
 
 function UpgradePurchase() {
   const {upgradeFromSellable, upgradeToSellable} = useViewer()

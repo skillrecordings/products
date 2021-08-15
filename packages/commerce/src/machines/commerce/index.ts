@@ -7,12 +7,11 @@ import {createMachine, assign} from 'xstate'
 // /pure loads stripe on the first call (is someone makes a purchase)
 import {loadStripe} from '@stripe/stripe-js/pure'
 import {
-  CommerceEvent,
-  CommerceMachineContext,
   checkoutSessionFetcher,
   priceFetcher,
   signUpAfterPurchase,
 } from './utils'
+import {CommerceEvent, CommerceMachineContext} from '../../@types'
 
 const stripePublicKey = process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!
 
@@ -22,8 +21,6 @@ const commerceMachine = createMachine<CommerceMachineContext, CommerceEvent>(
     // first we need to check if coupon is in the header so we can apply it to our price fetch
     initial: 'checkingCoupon',
     context: {
-      sellable: null,
-      upgradeFromSellable: null,
       bulk: false,
       quantity: 1,
       stripePriceId: undefined,
@@ -246,9 +243,9 @@ const commerceMachine = createMachine<CommerceMachineContext, CommerceEvent>(
       },
     },
     actions: {
-      clearError: assign({error: (_, __) => null}),
+      clearError: assign({error: (_, __) => undefined}),
       clearAppliedCoupon: assign({
-        appliedCoupon: (_, __) => null,
+        appliedCoupon: (_, __) => undefined,
       }),
       adjustPriceForUpgrade: assign({
         price: (context, _) => {
@@ -299,7 +296,7 @@ const commerceMachine = createMachine<CommerceMachineContext, CommerceEvent>(
         appliedCoupon: (context, _) => {
           const quantity = get(context, 'quantity')
           if (quantity !== 1) {
-            return null
+            return
           }
 
           const existingAppliedCoupon = get(context, 'appliedCoupon')
@@ -320,21 +317,24 @@ const commerceMachine = createMachine<CommerceMachineContext, CommerceEvent>(
           ) {
             return get(defaultCoupon, 'coupon_code')
           } else {
-            return null
+            return
           }
         },
       }),
       checkForCouponInHeader: assign({
         appliedCoupon: (_, __) => {
           if (typeof window === 'undefined') {
-            return null
+            return
           }
           try {
             const searchQuery = new URLSearchParams(window.location.search)
-            return searchQuery.get('coupon')
+            const coupon = searchQuery.get('coupon')
+            if (coupon) {
+              return coupon
+            }
           } catch (e) {
             console.error({e})
-            return null
+            return
           }
         },
       }),

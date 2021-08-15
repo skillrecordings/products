@@ -1,12 +1,12 @@
 import React from 'react'
 import {SellableResource, Price, Coupon} from '@skillrecordings/types'
-import Countdown from 'components/commerce/countdown'
-import ParityCouponMessage from 'components/commerce/parity-coupon-message'
+import Countdown from './countdown'
+import ParityCouponMessage from './parity-coupon-message'
 import StripeCheckout, {StripeCheckoutProps} from 'react-stripe-checkout'
 import {useViewer} from '@skillrecordings/viewer'
-import {isEmpty, get, find, noop} from 'lodash'
+import {isEmpty, get, find, noop, isString} from 'lodash'
 import Spinner from '@skillrecordings/react/dist/components/spinner'
-import {useCommerceMachine} from '@skillrecordings/commerce'
+import {useCommerceMachine} from '../hooks/use-commerce-machine'
 import {useConvertkit} from '@skillrecordings/convertkit'
 
 // problem with `react-stripe-checkout` not having these types
@@ -228,6 +228,18 @@ const PurchaseBundle = ({
 
   const teamAvailable = isEmpty(upgradeFromSellable)
 
+  const getError = (error: any) => {
+    if (isString(error)) {
+      return error
+    } else if (error?.message) {
+      return error?.message
+    } else if (error) {
+      return 'An error has occurred'
+    }
+  }
+
+  console.log(state.context?.error)
+
   return (
     <>
       <div className="text-center space-y-5">
@@ -241,8 +253,8 @@ const PurchaseBundle = ({
           <div className="w-full bg-rose-100 dark:bg-rose-500 text-rose-800 dark:text-rose-50 p-4 mt-4 rounded-md">
             <h4 className=" w-full text-center">
               There was an error processing your card.{' '}
-              <strong>{state.context.error}</strong>. Please contact your bank.
-              Reload the page to try another card.
+              <strong>{getError(state.context.error)}</strong>. Please contact
+              your bank. Reload the page to try another card.
             </h4>
           </div>
         )}
