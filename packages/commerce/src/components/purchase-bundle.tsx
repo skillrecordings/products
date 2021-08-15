@@ -238,7 +238,6 @@ const PurchaseBundle = ({
     }
   }
 
-  console.log(state.context?.error)
 
   return (
     <>
