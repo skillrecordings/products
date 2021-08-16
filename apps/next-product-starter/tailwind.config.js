@@ -5,7 +5,12 @@ module.exports = {
   mode: 'jit',
   darkMode: 'class',
   purge: {
-    content: ['./src/**/*.tsx', './src/**/*.mdx'],
+    content: [
+      './src/**/*.tsx',
+      './src/**/*.mdx',
+      '../../packages/commerce/src/**/*.tsx',
+      '../../packages/react/src/**/*.tsx',
+    ],
   },
   theme: {
     extend: {
