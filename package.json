@@ -47,8 +47,16 @@
         ],
         "outputs": [
           "dist/**",
-          ".next/**",
-          "!.next/cache/**/*"
+          ".next/**"
+        ]
+      },
+      "postbuild": {
+        "dependsOn": [
+          "build"
+        ],
+        "outputs": [
+          "public/sitemap.xml",
+          "public/robots.txt"
         ]
       },
       "test": {
