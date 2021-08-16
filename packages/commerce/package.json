@@ -8,12 +8,14 @@
   "types": "./dist/index.d.ts",
   "source": "./src/index.ts",
   "files": [
-    "dist/**"
+    "dist/**",
+    "dist/css/commerce.css"
   ],
   "scripts": {
     "test": "jest",
     "dev": "etsc",
-    "build": "tsc --jsx react-jsx --outDir dist",
+    "build": "tsc --jsx react-jsx --outDir dist && pnpm build:css",
+    "build:css": "NODE_ENV=production postcss ./src/styles/commerce.css -o ./dist/css/commerce.css",
     "lint": "TIMING=1 eslint src --fix",
     "clean": "rm -rf .turbo && rm -rf node_modules && rm -rf dist"
   },
@@ -26,6 +28,9 @@
     "@skillrecordings/react": "workspace:^0.0.1",
     "@skillrecordings/viewer": "workspace:^0.0.1",
     "@stripe/stripe-js": "^1.16.0",
+    "@tailwindcss/aspect-ratio": "^0.2.1",
+    "@tailwindcss/forms": "^0.3.3",
+    "@tailwindcss/typography": "^0.4.1",
     "@xstate/react": "^1.5.1",
     "axios": "^0.21.1",
     "date-fns": "^2.23.0",
@@ -43,6 +48,10 @@
     "@skillrecordings/tsconfig": "workspace:*",
     "@skillrecordings/types": "workspace:*",
     "esbuild-node-tsc": "^1.6.1",
+    "postcss": "^8.3.6",
+    "postcss-cli": "^8.3.1",
+    "postcss-nested": "^5.0.6",
+    "postcss-preset-env": "^6.7.0",
     "typescript": "^4.2.4"
   },
   "jest": {
