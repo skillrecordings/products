@@ -13,7 +13,7 @@
   ],
   "scripts": {
     "test": "jest",
-    "dev": "etsc",
+    "dev": "tsc-watch --noClear -p tsconfig.json",
     "build": "tsc --jsx react-jsx --outDir dist && pnpm build:css",
     "build:css": "NODE_ENV=production postcss ./src/styles/commerce.css -o ./dist/css/commerce.css",
     "lint": "TIMING=1 eslint src --fix",
@@ -52,6 +52,7 @@
     "postcss-cli": "^8.3.1",
     "postcss-nested": "^5.0.6",
     "postcss-preset-env": "^6.7.0",
+    "tsc-watch": "^4.4.0",
     "typescript": "^4.2.4"
   },
   "jest": {
