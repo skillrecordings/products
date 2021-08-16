@@ -4,10 +4,11 @@ import Countdown from './countdown'
 import ParityCouponMessage from './parity-coupon-message'
 import StripeCheckout, {StripeCheckoutProps} from 'react-stripe-checkout'
 import {useViewer} from '@skillrecordings/viewer'
-import {isEmpty, get, find, noop, isString} from 'lodash'
+import {isEmpty, get, find, noop} from 'lodash'
 import Spinner from '@skillrecordings/react/dist/components/spinner'
 import {useCommerceMachine} from '../hooks/use-commerce-machine'
 import {useConvertkit} from '@skillrecordings/convertkit'
+import {getErrorMessage} from '../utils/get-error-message'
 
 // problem with `react-stripe-checkout` not having these types
 // https://github.com/azmenak/react-stripe-checkout/pull/152
@@ -228,17 +229,6 @@ const PurchaseBundle = ({
 
   const teamAvailable = isEmpty(upgradeFromSellable)
 
-  const getError = (error: any) => {
-    if (isString(error)) {
-      return error
-    } else if (error?.message) {
-      return error?.message
-    } else if (error) {
-      return 'An error has occurred'
-    }
-  }
-
-
   return (
     <>
       <div className="text-center space-y-5">
@@ -252,8 +242,8 @@ const PurchaseBundle = ({
           <div className="w-full bg-rose-100 dark:bg-rose-500 text-rose-800 dark:text-rose-50 p-4 mt-4 rounded-md">
             <h4 className=" w-full text-center">
               There was an error processing your card.{' '}
-              <strong>{getError(state.context.error)}</strong>. Please contact
-              your bank. Reload the page to try another card.
+              <strong>{getErrorMessage(state.context.error)}</strong>. Please
+              contact your bank. Reload the page to try another card.
             </h4>
           </div>
         )}

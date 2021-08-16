@@ -4,7 +4,7 @@ import {Formik, Form, Field} from 'formik'
 import {DialogOverlay, DialogContent} from '@reach/dialog'
 import * as yup from 'yup'
 import {StateValue} from 'xstate'
-import {isString} from 'lodash'
+import {getErrorMessage} from '../utils/get-error-message'
 
 const loginSchema = yup.object().shape({
   email: yup.string().email().required('enter your email'),
@@ -30,16 +30,6 @@ function ClaimCouponOverlay({
   const openModal = () => setIsOpen(true)
   const handleSubmit = ({email}: HandleSubmitProps) => {
     onPurchaseComplete({email})
-  }
-
-  const getError = (error: any) => {
-    if (isString(error)) {
-      return error
-    } else if (error?.message) {
-      return error?.message
-    } else if (error) {
-      return 'An error has occurred'
-    }
   }
 
   return (
@@ -77,7 +67,7 @@ function ClaimCouponOverlay({
                   </svg>
                 </div>
                 <h2 className="text-2xl font-semibold mt-8 leading-tight text-center">
-                  {getError(error)}
+                  {getErrorMessage(error)}
                 </h2>
                 <div className="hidden sm:block absolute top-0 right-0 pt-4 pr-4">
                   <button
