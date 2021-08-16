@@ -10,7 +10,6 @@ import {ConvertkitProvider} from '@skillrecordings/convertkit'
 
 //TODO: build error if this was in the component after moving it to commerce package
 import '@reach/dialog/styles.css'
-import '@skillrecordings/commerce/dist/css/commerce.css'
 
 declare global {
   interface Window {
