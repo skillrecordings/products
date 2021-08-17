@@ -26,6 +26,7 @@ cd apps/next-product-starter && pnpm run dev
 The build command needs to be scoped to the specific project so we aren't building all of the repos for every single run.
 
 `build`:
+
 ```
 cd ../../ && pnpm build -- --scope="rust-adventure --includeDependencies
 ```
@@ -33,10 +34,10 @@ cd ../../ && pnpm build -- --scope="rust-adventure --includeDependencies
 The install command needs to also add `pnpn` and then run install.
 
 `install`:
+
 ```bash
 npm i pnpm -g && pnpm i
 ```
-
 
 ## Tools Used
 
