@@ -1,15 +1,38 @@
 import * as React from 'react'
-
-const FORM_ID = '2410348'
+import {useFormik} from 'formik'
+import * as Yup from 'yup'
+import axios from 'axios'
 
 type ConvertkitSubscribeFormProps = {
-  onSubmit?: () => void
+  onSubmit?: (subscriber?: any) => void
 }
 
 const ConvertkitSubscribeForm: React.FC<ConvertkitSubscribeFormProps> = ({
   children,
   onSubmit,
 }) => {
+  const [isSubmitting, setSubmitting] = React.useState<boolean>(false)
+  const formik = useFormik({
+    initialValues: {
+      email: '',
+      first_name: '',
+    },
+    validationSchema: Yup.object({
+      email: Yup.string().required('Enter Your Email'),
+      first_name: Yup.string(),
+    }),
+
+    onSubmit: async (values) => {
+      // await new Promise((r) => setTimeout(r, 500))
+      setSubmitting(true)
+      axios.post('/api/convertkit/subscribe', values).then(({data}) => {
+        setSubmitting(false)
+        if (onSubmit) {
+          onSubmit(data)
+        }
+      })
+    },
+  })
   const inputClassName =
     'w-full rounded-md focus:ring-1 focus:ring-brand-orange-600 focus:outline-none border-gray-200 bg-white shadow-sm focus:border-transparent'
 
@@ -18,25 +41,19 @@ const ConvertkitSubscribeForm: React.FC<ConvertkitSubscribeFormProps> = ({
       <div className="pb-4 font-bold sm:text-xl text-lg tracking-tight">
         {children}
       </div>
-      <form
-        action={`https://app.convertkit.com/forms/${FORM_ID}/subscriptions`}
-        method="post"
-        className="space-y-4 w-full"
-        onSubmit={() => onSubmit && onSubmit()}
-      >
+      <form className="space-y-4 w-full" onSubmit={formik.handleSubmit}>
         <div>
-          <label
-            htmlFor="fields[first_name]"
-            className="text-sm font-semibold block"
-          >
+          <label htmlFor="first_name" className="text-sm font-semibold block">
             First Name
           </label>
           <input
             placeholder="Preferred name"
-            id="fields[first_name]"
-            name="fields[first_name]"
+            id="first_name"
+            name="first_name"
             type="text"
             className={inputClassName}
+            onChange={formik.handleChange}
+            value={formik.values.first_name}
           />
         </div>
         <div>
@@ -49,11 +66,13 @@ const ConvertkitSubscribeForm: React.FC<ConvertkitSubscribeFormProps> = ({
           <div>
             <input
               placeholder="you@company.com"
-              id="email_address"
+              id="email"
               type="email"
-              name="email_address"
+              name="email"
               className={inputClassName}
               required
+              onChange={formik.handleChange}
+              value={formik.values.email}
             />
           </div>
         </div>
