@@ -4,7 +4,7 @@
     "module": "CommonJS",
     "outDir": "./dist",
     "rootDir": "./src",
-    "jsx": "preserve",
+    "jsx": "react",
     "declaration": true,
     "declarationDir": "./dist"
   },
