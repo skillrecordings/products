@@ -1,10 +1,11 @@
 {
   "compilerOptions": {
-    "lib": ["dom","ES2015"],
+    "lib": ["dom", "ES2015"],
     "module": "CommonJS",
     "outDir": "./dist",
     "rootDir": "./src",
-    "jsx": "preserve"
+    "jsx": "react",
+    "declaration": true
   },
   "exclude": ["node_modules"],
   "extends": "@skillrecordings/tsconfig/base.json",
