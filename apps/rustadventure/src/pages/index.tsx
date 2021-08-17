@@ -4,8 +4,10 @@ import Layout from 'layouts'
 import LandingCopy from 'components/landing-copy.mdx'
 import FerrisCodingAnimation from 'components/ferris-coding-animation'
 import {FerrisOnCogwheel} from 'components/ferris'
+import {useRouter} from 'next/router'
 
 export default function Home() {
+  const router = useRouter()
   return (
     <Layout
       meta={{title: 'Learn to build reliable and efficient software in Rust'}}
@@ -39,7 +41,9 @@ export default function Home() {
               </h3>
             </div>
             <div className="max-w-sm mx-auto">
-              <ConvertkitSubscribeForm />
+              <ConvertkitSubscribeForm
+                onSubmit={() => router.push('/confirmed')}
+              />
             </div>
           </div>
         </section>

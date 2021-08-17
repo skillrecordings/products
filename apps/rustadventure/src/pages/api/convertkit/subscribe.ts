@@ -11,7 +11,7 @@ const subscriber = async (req: NextApiRequest, res: NextApiResponse) => {
     try {
       const url = `/tags/${TRIGGER_RUST_ADVENTURE_TAG_ID}/subscribe`
       const {email, first_name, fields} = req.body
-      const subscription = await convertkitAxios
+      const subscriber = await convertkitAxios
         .post(url, {
           email,
           first_name,
@@ -19,12 +19,12 @@ const subscriber = async (req: NextApiRequest, res: NextApiResponse) => {
           api_key: process.env.NEXT_PUBLIC_CONVERTKIT_TOKEN,
         })
         .then(({data}) => {
-          return data.subscription
+          return data.subscription.subscriber
         })
 
       const convertkitCookie = serverCookie.serialize(
         CK_SUBSCRIBER_KEY,
-        subscription.id,
+        subscriber.id,
         {
           secure: process.env.NODE_ENV === 'production',
           path: '/',
@@ -34,7 +34,7 @@ const subscriber = async (req: NextApiRequest, res: NextApiResponse) => {
 
       res.setHeader('Set-Cookie', convertkitCookie)
 
-      res.status(200).json(subscription)
+      res.status(200).json(subscriber)
     } catch (error) {
       console.log(error)
       res.status(200).end(error.message)
