@@ -6,13 +6,12 @@
   "license": "ISC",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
-  "source": "./src/index.ts",
   "files": [
     "dist/**/*"
   ],
   "scripts": {
     "test": "jest",
-    "dev": "etsc",
+    "dev": "tsc -w",
     "build": "tsc --jsx react-jsx --outDir dist",
     "lint": "TIMING=1 eslint src --fix",
     "clean": "rm -rf .turbo && rm -rf node_modules && rm -rf dist"

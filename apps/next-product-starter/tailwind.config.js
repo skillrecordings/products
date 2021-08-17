@@ -8,8 +8,8 @@ module.exports = {
     content: [
       './src/**/*.tsx',
       './src/**/*.mdx',
-      '../../packages/commerce/src/**/*.tsx',
-      '../../packages/react/src/**/*.tsx',
+      './node_modules/commerce/**/*.js',
+      './node_modules/react/**/*.js',
     ],
   },
   theme: {

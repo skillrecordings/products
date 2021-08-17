@@ -5,7 +5,6 @@
   "version": "0.0.5",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
-  "source": "./src/index.ts",
   "files": [
     "dist/**"
   ],
@@ -31,7 +30,9 @@
   "jest": {
     "preset": "@skillrecordings/scripts/jest/node",
     "resetMocks": false,
-    "setupFiles": ["jest-localstorage-mock"]
+    "setupFiles": [
+      "jest-localstorage-mock"
+    ]
   },
   "gitHead": "3398ceeb143d5fddcf11268741c2747856814119"
 }
