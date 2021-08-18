@@ -23,4 +23,5 @@ module.exports = {
   moduleDirectories: ['node_modules', 'src'],
   resetMocks: true,
   passWithNoTests: true,
+  testEnvironment: 'jsdom',
 }

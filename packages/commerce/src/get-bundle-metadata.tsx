@@ -1,12 +1,15 @@
 import React from 'react'
 import Image from 'next/image'
 
-export function getBundleImage(slug: string): any {
+export function getBundleImage(
+  slug: string,
+  imagePath: string = '/placeholder-rect.svg',
+): any {
   switch (slug) {
     case process.env.NEXT_PUBLIC_PRO_SLUG:
       return (
         <Image
-          src="/placeholder-rect.svg"
+          src={imagePath}
           width={120}
           height={120}
           alt={slug}
@@ -17,7 +20,7 @@ export function getBundleImage(slug: string): any {
     case process.env.NEXT_PUBLIC_BOOK_SLUG:
       return (
         <Image
-          src="/placeholder-rect.svg"
+          src={imagePath}
           width={120}
           height={120}
           alt={slug}

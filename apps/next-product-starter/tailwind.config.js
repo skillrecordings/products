@@ -1,18 +1,10 @@
 const defaultTheme = require('tailwindcss/defaultTheme')
 const colors = require('tailwindcss/colors')
+const tailwindCommonConfig = require('@skillrecordings/scripts/tailwind.config')
 
 module.exports = {
-  mode: 'jit',
+  ...tailwindCommonConfig,
   darkMode: 'class',
-  purge: {
-    content: [
-      './src/**/*.tsx',
-      './src/**/*.mdx',
-      './node_modules/commerce/**/*.js',
-      './node_modules/react/**/*.js',
-      './node_modules/convertkit/**/*.js',
-    ],
-  },
   theme: {
     extend: {
       colors: {
