@@ -99,12 +99,13 @@ export const getPriceParams = (
   if (!sellable) {
     throw new Error('sellable is undefined')
   }
+
   const {site, id: sellable_id, type} = sellable
 
-  const upgradeParams = {
+  const upgradeParams = pickBy({
     upgrade_from_sellable_id: upgradeFromSellable?.slug,
     upgrade_from_sellable: upgradeFromSellable?.type,
-  }
+  })
 
   const sellableStuff: EggheadSellableParam = {
     sellable_id,
@@ -114,11 +115,11 @@ export const getPriceParams = (
   }
 
   return isEmpty(stripePriceId)
-    ? {
+    ? pickBy({
         sellables: [sellableStuff],
         site: process.env.NEXT_PUBLIC_SITE_NAME || 'TEST_PRODUCT',
         code: appliedCoupon,
-      }
+      })
     : {id: stripePriceId}
 }
 

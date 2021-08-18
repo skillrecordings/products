@@ -1030,7 +1030,7 @@ importers:
       formik: ^2.2.9
       framer-motion: ^4.1.17
       jest: ^27.0.6
-      msw: ^0.32.1
+      msw: ^0.32.3
       next: 11.1.0
       react-countdown: ^2.3.2
       react-stripe-checkout: ^2.6.3

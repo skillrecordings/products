@@ -6,11 +6,11 @@ export type Resource = {
   path: string
   type: string
   id: number
-  items: any[]
-  url: string
-  square_cover_480_url: string
-  square_cover_large_url: string
-  duration: number
+  items?: any[]
+  url?: string
+  square_cover_480_url?: string
+  square_cover_large_url?: string
+  duration?: number
 }
 
 export interface AvailableUpgrade {
