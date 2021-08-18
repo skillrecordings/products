@@ -10,6 +10,7 @@ module.exports = {
       './src/**/*.mdx',
       './node_modules/commerce/**/*.js',
       './node_modules/react/**/*.js',
+      './node_modules/convertkit/**/*.js',
     ],
   },
   theme: {

@@ -5,7 +5,13 @@ module.exports = {
   mode: 'jit',
   // important: true,
   purge: {
-    content: ['./src/**/*.tsx', './src/**/*.mdx'],
+    content: [
+      './src/**/*.tsx',
+      './src/**/*.mdx',
+      './node_modules/commerce/**/*.js',
+      './node_modules/react/**/*.js',
+      './node_modules/convertkit/**/*.js',
+    ],
   },
   theme: {
     extend: {
@@ -26,7 +32,7 @@ module.exports = {
         },
       },
       screens: {
-        print: { raw: 'print' },
+        print: {raw: 'print'},
       },
       fontFamily: {
         din: ['DIN Condensed', ...defaultTheme.fontFamily.sans],
@@ -55,7 +61,7 @@ module.exports = {
         dark: {
           css: {
             color: theme('colors.gray.200'),
-            strong: { color: theme('colors.gray.50') },
+            strong: {color: theme('colors.gray.50')},
             a: {
               color: theme('colors.orange.200'),
             },

@@ -5,7 +5,13 @@ module.exports = {
   mode: 'jit',
   darkMode: 'media',
   purge: {
-    content: ['./src/**/*.tsx', './src/**/*.mdx'],
+    content: [
+      './src/**/*.tsx',
+      './src/**/*.mdx',
+      './node_modules/commerce/**/*.js',
+      './node_modules/react/**/*.js',
+      './node_modules/convertkit/**/*.js',
+    ],
   },
   theme: {
     extend: {
