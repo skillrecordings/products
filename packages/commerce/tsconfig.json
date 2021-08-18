@@ -7,7 +7,7 @@
     "jsx": "react",
     "declaration": true
   },
-  "exclude": ["node_modules"],
+  "exclude": ["node_modules", "**/src/*.test.ts", "**/src/*.test.tsx"],
   "extends": "@skillrecordings/tsconfig/base.json",
   "include": ["src"]
 }

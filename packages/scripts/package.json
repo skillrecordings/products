@@ -11,7 +11,8 @@
   "files": [
     "jest",
     "eslint-preset.js",
-    "postcss.config.js"
+    "postcss.config.js",
+    "tailwind.config.js"
   ],
   "scripts": {
     "clean": "rm -rf .turbo && rm -rf node_modules"

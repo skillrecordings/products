@@ -43,6 +43,13 @@
     "@skillrecordings/scripts": "workspace:*",
     "@skillrecordings/tsconfig": "workspace:*",
     "@skillrecordings/types": "workspace:*",
+    "@testing-library/jest-dom": "^5.14.1",
+    "@testing-library/react": "^11.2.5",
+    "assert": "^2.0.0",
+    "babel-jest": "^27.0.6",
+    "jest": "^27.0.6",
+    "msw": "^0.32.1",
+    "react-test-renderer": "^17.0.2",
     "esbuild-node-tsc": "^1.6.1",
     "typescript": "^4.2.4"
   },
@@ -50,6 +57,6 @@
     "access": "public"
   },
   "jest": {
-    "preset": "@skillrecordings/scripts/jest/node"
+    "preset": "@skillrecordings/scripts/jest/next"
   }
 }
