@@ -48,7 +48,7 @@
     "assert": "^2.0.0",
     "babel-jest": "^27.0.6",
     "jest": "^27.0.6",
-    "msw": "^0.32.1",
+    "msw": "^0.34.0",
     "react-test-renderer": "^17.0.2",
     "esbuild-node-tsc": "^1.6.1",
     "typescript": "^4.2.4"
