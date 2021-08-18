@@ -21,15 +21,17 @@ const Module: React.FC<ModuleProps> = ({resource, items, progress, i}) => {
       <div className="bg-gray-100 dark:bg-gray-900 relative overflow-hidden">
         <div className="flex sm:space-x-10 sm:p-10 p-5">
           <div className="flex sm:flex-row flex-col sm:items-start items-center sm:space-x-10 w-full">
-            <div className="flex-shrink-0">
-              <Image
-                src={resource.square_cover_large_url}
-                width={200}
-                height={200}
-                quality={100}
-                alt={resource.title}
-              />
-            </div>
+            {resource.square_cover_large_url && (
+              <div className="flex-shrink-0">
+                <Image
+                  src={resource.square_cover_large_url}
+                  width={200}
+                  height={200}
+                  quality={100}
+                  alt={resource.title}
+                />
+              </div>
+            )}
             <div className="w-full flex flex-col justify-between space-y-5">
               <h2 className="sm:text-3xl text-2xl font-bold tracking-tight">
                 <span className="pr-1 font-light">{i + 1}</span>{' '}
@@ -60,7 +62,9 @@ const Module: React.FC<ModuleProps> = ({resource, items, progress, i}) => {
                     {/* <span>{isExpanded ? '-' : '+'}</span> */}
                     <span className="sr-only">view </span>
                     {items.length} lessons (
-                    {convertTimeWithTitles(resource.duration)})
+                    {resource.duration &&
+                      convertTimeWithTitles(resource.duration)}
+                    )
                   </button>
                 )}
                 {isExpanded && <Lessons items={items} progress={progress} />}

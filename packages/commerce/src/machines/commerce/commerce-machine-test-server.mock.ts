@@ -2,9 +2,7 @@ import {rest} from 'msw'
 import {setupServer} from 'msw/node'
 import {SellableResource} from '@skillrecordings/types'
 import {CommerceMachineContext} from '../../@types'
-
 import {eggheadPriceCheckUrl, stripeCheckoutSessionUrl} from './utils'
-import {AvailableUpgrade, Resource} from '@skillrecordings/types'
 
 export const sellable: SellableResource = {
   title: 'Test Sellable',
@@ -17,6 +15,11 @@ export const sellable: SellableResource = {
   full_price: 1,
   site: 'TEST',
   bulk: false,
+  items: [],
+  url: 'https://example.com/test-sellable',
+  square_cover_480_url: 'https://placekitten.com/480x480',
+  square_cover_large_url: 'https://placekitten.com/1200x1200',
+  duration: 232,
 }
 
 export const defaultContext = {

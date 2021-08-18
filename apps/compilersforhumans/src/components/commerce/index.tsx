@@ -60,7 +60,7 @@ const Commerce = ({bundles, children, className}: CommerceProps) => {
                   ))}
                 </ul>
                 <ul>
-                  {bundle.items.map((item, i) => {
+                  {bundle?.items.map((item, i) => {
                     if (!item.duration && item.slug) {
                       return null
                     }
