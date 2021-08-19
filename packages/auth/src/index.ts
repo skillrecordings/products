@@ -52,6 +52,15 @@ export function getLocalUser() {
   }
 }
 
+export function expirations(expiresInSeconds: string, now: number) {
+  const millisecondsInASecond = 1000
+  const expiresAt = Number(expiresInSeconds) * millisecondsInASecond + now
+
+  const millisecondsInADay = 60 * 60 * 24 * 1000
+  const expiresInDays = Math.floor((expiresAt - now) / millisecondsInADay)
+  return {expiresAt, expiresInDays}
+}
+
 export default class Auth {
   eggheadAuth: OAuthClient
 
@@ -279,11 +288,7 @@ export default class Auth {
 
       const now: number = new Date().getTime()
 
-      const millisecondsInASecond = 1000
-      const expiresAt = Number(expiresInSeconds) * millisecondsInASecond + now
-
-      const millisecondsInADay = 60 * 60 * 24 * 1000
-      const expiresInDays = Math.floor((expiresAt - now) / millisecondsInADay)
+      const {expiresAt, expiresInDays} = expirations(expiresInSeconds, now)
 
       localStorage.setItem(ACCESS_TOKEN_KEY, accessToken)
       localStorage.setItem(EXPIRES_AT_KEY, JSON.stringify(expiresAt))
