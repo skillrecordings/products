@@ -56,6 +56,13 @@ test('handle new session', async () => {
   expect(viewer).toEqual(cornDogUser)
 })
 
+test('sends the proper Authorization header', () => {
+  // since this test is using a mock service, we want to verify that the
+  // request is structured as we expect
+  // TODO: Figure out how to intercept and analyze the mock api request with msw
+  fail()
+})
+
 describe('getAuthorizationHeader', () => {
   test('return auth header if cookie is set ', () => {
     const token = 'TEST-AUTH'
