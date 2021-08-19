@@ -1,12 +1,13 @@
-import React from 'react'
+import * as React from 'react'
 import isEmpty from 'lodash/isEmpty'
 import get from 'lodash/get'
 import {useViewer} from '@skillrecordings/viewer'
 import PurchaseBundle from './purchase-bundle'
 import Image from 'next/image'
-import {getBundleDescription} from '../get-bundle-metadata'
 
-function UpgradePurchase() {
+const UpgradePurchase: React.FC<{
+  getBundleDescription: (slug: string) => any[]
+}> = ({getBundleDescription}) => {
   const {upgradeFromSellable, upgradeToSellable} = useViewer()
 
   const pppCountry = get(

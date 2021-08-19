@@ -19,6 +19,7 @@ import Module from 'components/learn/module'
 import CallToAction from 'components/learn/cta'
 import Spinner from '@skillrecordings/react/dist/components/spinner'
 import Achievements from 'components/learn/achievements'
+import {getBundleDescription} from '../utils/get-bundle-metadata'
 // import {titlizeChapter} from 'utils/titlizeChapter'
 // import {bookFilePaths} from 'utils/mdxUtils'
 // import {getModuleImage} from 'utils/get-bundle-metadata'
@@ -136,7 +137,7 @@ const Learn: FunctionComponent<Props> = ({bundles}) => {
 
       {/* TODO: handle displaying book */}
       {/* <Book chapters={chapters} bookDownloadUrl={bookDownloadUrl} /> */}
-      <UpgradePurchase />
+      <UpgradePurchase getBundleDescription={getBundleDescription} />
       <div className="flex items-center justify-center w-full pt-16">
         <Link href="/invoice">
           <a>Get your invoice</a>
