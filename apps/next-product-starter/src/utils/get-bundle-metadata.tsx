@@ -1,9 +1,20 @@
 import React from 'react'
 import Image from 'next/image'
 
+export function getBundleStyles(slug: string) {
+  switch (slug) {
+    case process.env.NEXT_PUBLIC_PRO_SLUG:
+      return ''
+    case process.env.NEXT_PUBLIC_BOOK_SLUG:
+      return ''
+    default:
+      return ''
+  }
+}
+
 export function getBundleImage(
   slug: string,
-  imagePath: string = '/placeholder-rect.svg',
+  imagePath: string = '/placeholder-react.svg',
 ): any {
   switch (slug) {
     case process.env.NEXT_PUBLIC_PRO_SLUG:

@@ -2,7 +2,6 @@ import * as React from 'react'
 import {FunctionComponent} from 'react'
 import DevBundles from 'data/bundles.development.json'
 import ProdBundles from 'data/bundles.production.json'
-
 import {SellableResource} from '@skillrecordings/types'
 import Layout from '@skillrecordings/react/dist/layouts'
 import config from 'config'
@@ -17,6 +16,11 @@ import {
   CommerceBundleImage,
   CommerceBundleItemsList,
 } from '@skillrecordings/commerce/dist/components'
+import {
+  getBundleImage,
+  getBundleStyles,
+  getBundleDescription,
+} from 'utils/get-bundle-metadata'
 import PurchaseBundle from '@skillrecordings/commerce/dist/components/purchase-bundle'
 
 type BuyProps = {
@@ -33,10 +37,19 @@ const Buy: FunctionComponent<BuyProps> = ({bundles}) => {
         <CommerceBundles>
           {bundles.map((bundle) => {
             return (
-              <CommerceBundleDetails bundle={bundle}>
-                <CommerceBundleImage bundle={bundle} />
+              <CommerceBundleDetails
+                getBundleStyles={getBundleStyles}
+                bundle={bundle}
+              >
+                <CommerceBundleImage
+                  bundle={bundle}
+                  getBundleImage={getBundleImage}
+                />
                 <PurchaseBundle bundle={bundle} />
-                <CommerceBundleDescription bundle={bundle}>
+                <CommerceBundleDescription
+                  bundle={bundle}
+                  getBundleDescription={getBundleDescription}
+                >
                   <CommerceBundleItemsList bundle={bundle} />
                 </CommerceBundleDescription>
               </CommerceBundleDetails>

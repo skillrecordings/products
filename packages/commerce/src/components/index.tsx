@@ -1,24 +1,6 @@
 import React from 'react'
 import {Element} from 'react-scroll'
-import {SellableResource} from '@skillrecordings/types'
 import Image from 'next/image'
-import {getBundleDescription, getBundleImage} from '../get-bundle-metadata'
-
-type CommerceProps = {
-  bundles: SellableResource[]
-  className?: string
-}
-
-export function getBundleStyles(slug: string) {
-  switch (slug) {
-    case process.env.NEXT_PUBLIC_PRO_SLUG:
-      return ''
-    case process.env.NEXT_PUBLIC_BOOK_SLUG:
-      return ''
-    default:
-      return ''
-  }
-}
 
 export const CommerceHeader: React.FC = ({children}) => {
   return (
@@ -31,7 +13,10 @@ export const CommerceHeader: React.FC = ({children}) => {
   )
 }
 
-export const CommerceBundleImage: React.FC<{bundle: any}> = ({bundle}) => {
+export const CommerceBundleImage: React.FC<{
+  bundle: any
+  getBundleImage: (slug: string) => JSX.Element
+}> = ({bundle, getBundleImage}) => {
   const bundleImage = getBundleImage(bundle.slug)
   return bundleImage ? (
     <div className="pt-10 pb-5 w-full flex items-center justify-center ">
@@ -40,10 +25,10 @@ export const CommerceBundleImage: React.FC<{bundle: any}> = ({bundle}) => {
   ) : null
 }
 
-export const CommerceBundleDescription: React.FC<{bundle: any}> = ({
-  bundle,
-  children,
-}) => {
+export const CommerceBundleDescription: React.FC<{
+  bundle: any
+  getBundleDescription: (slug: string) => any[]
+}> = ({bundle, getBundleDescription, children}) => {
   return (
     <div className="flex flex-col items-center">
       <ul className="pt-8 pb-2 font-semibold">
@@ -86,10 +71,10 @@ export const CommerceBundleItemsList: React.FC<{bundle: any}> = ({bundle}) => {
   )
 }
 
-export const CommerceBundleDetails: React.FC<{bundle: any}> = ({
-  bundle,
-  children,
-}) => {
+export const CommerceBundleDetails: React.FC<{
+  bundle: any
+  getBundleStyles: (slug: string) => string
+}> = ({bundle, getBundleStyles, children}) => {
   return (
     <div
       key={bundle.id}
