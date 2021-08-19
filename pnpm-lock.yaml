@@ -994,6 +994,7 @@ importers:
       client-oauth2: ^4.3.3
       jest-localstorage-mock: ^2.4.14
       jsdom: ^17.0.0
+      mockdate: ^3.0.5
       msw: ^0.34.0
       next: 11.1.0
       typescript: ^4.2.4
@@ -1005,6 +1006,7 @@ importers:
       axios: 0.21.1
       client-oauth2: 4.3.3
       jsdom: 17.0.0
+      mockdate: 3.0.5
       msw: 0.34.0
       next: 11.1.0_typescript@4.3.5
     devDependencies:
@@ -11624,6 +11626,10 @@ packages:
 
   /mmd-parser/1.0.4:
     resolution: {integrity: sha512-Qi0VCU46t2IwfGv5KF0+D/t9cizcDug7qnNoy9Ggk7aucp0tssV8IwTMkBlDbm+VqAf3cdQHTCARKSsuS2MYFg==}
+    dev: false
+
+  /mockdate/3.0.5:
+    resolution: {integrity: sha512-iniQP4rj1FhBdBYS/+eQv7j1tadJ9lJtdzgOpvsOHng/GbcDh2Fhdeq+ZRldrPYdXvCyfFUmFeEwEGXZB5I/AQ==}
     dev: false
 
   /modern-normalize/1.1.0:

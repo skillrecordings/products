@@ -1,9 +1,15 @@
 import {rest} from 'msw'
 import {setupServer} from 'msw/node'
 import cookie from '@skillrecordings/cookies'
-import {ACCESS_TOKEN_KEY, USER_KEY} from '@skillrecordings/config'
+import {
+  ACCESS_TOKEN_KEY,
+  EXPIRES_AT_KEY,
+  USER_KEY,
+} from '@skillrecordings/config'
+import MockDate from 'mockdate'
 
-import Auth, {getAuthorizationHeader, getLocalUser} from '../index'
+import Auth, {expirations, getAuthorizationHeader, getLocalUser} from '../index'
+import cookies from 'js-cookie'
 
 export const cornDogUser = {
   name: 'Corn Dog',
@@ -40,7 +46,7 @@ test('read the token from auth instance', async () => {
   expect(token.accessToken).toBe(accessToken)
 })
 
-test('handle new session', async () => {
+test('returns the viewer when auth suceeds', async () => {
   const auth = new Auth()
   const accessToken = '0f95fab36e7a'
   const expiresIn = 5184000
@@ -56,11 +62,115 @@ test('handle new session', async () => {
   expect(viewer).toEqual(cornDogUser)
 })
 
-test('sends the proper Authorization header', () => {
-  // since this test is using a mock service, we want to verify that the
-  // request is structured as we expect
-  // TODO: Figure out how to intercept and analyze the mock api request with msw
-  fail()
+test('returns the viewer when auth suceeds', async () => {
+  const auth = new Auth()
+  const accessToken = '0f95fab36e7a'
+  const expiresIn = 5184000
+  const url = `${process.env.NEXT_PUBLIC_REDIRECT_URI}#access_token=${accessToken}&token_type=bearer&expires_in=${expiresIn}`
+
+  // set the testURL in package.json to the redirect DOMAIN, then we can
+  // push state and get a new URL and simulate a valid login
+  //https://github.com/facebook/jest/issues/890#issuecomment-506926841
+  window.history.pushState({}, '', url)
+
+  const viewer = await auth.handleAuthentication()
+
+  expect(viewer).toEqual(cornDogUser)
+})
+
+test('returns the viewer for a new session', async () => {
+  const auth = new Auth()
+  const accessToken = '0f95fab36e7a'
+  const expiresIn = '5184000'
+
+  const viewer = await auth.handleNewSession(accessToken, expiresIn)
+
+  expect(viewer).toEqual(cornDogUser)
+})
+
+test('returns the viewer when the session is set', async () => {
+  const auth = new Auth()
+  const accessToken = '0f95fab36e7a'
+  const expiresIn = '5184000'
+
+  const viewer = await auth.setSession(accessToken, expiresIn)
+
+  expect(viewer).toEqual(cornDogUser)
+})
+
+test('sets the access token in local storage for a session', async () => {
+  const auth = new Auth()
+  const accessToken = '0f95fab36e7a'
+  const expiresIn = '5184000'
+
+  await auth.setSession(accessToken, expiresIn)
+
+  const storedToken = localStorage.getItem(ACCESS_TOKEN_KEY)
+
+  expect(storedToken).toEqual(accessToken)
+})
+
+test('sets session expiration in local storage for a session', async () => {
+  const auth = new Auth()
+  const accessToken = '0f95fab36e7a'
+  const expiresIn = '5184000'
+
+  MockDate.set(new Date(new Date().getTime() + 10000000000))
+
+  const {expiresAt} = expirations(expiresIn, new Date().getTime())
+
+  await auth.setSession(accessToken, expiresIn)
+
+  const storedTokenExpiration = localStorage.getItem(EXPIRES_AT_KEY)
+
+  expect(storedTokenExpiration).toEqual(expiresAt.toString())
+})
+
+test('sets session token cookie for a session', async () => {
+  const auth = new Auth()
+  const accessToken = '0f95fab36e7a'
+  const expiresIn = '5184000'
+
+  await auth.setSession(accessToken, expiresIn)
+
+  const cookieToken = cookie.get(ACCESS_TOKEN_KEY)
+
+  expect(cookieToken).toEqual(cookieToken)
+})
+
+test('returns a Viewer when refreshUser is called', async () => {
+  const auth = new Auth()
+  const viewer = await auth.refreshUser()
+
+  expect(viewer).toEqual(cornDogUser)
+})
+
+test('stores the Viewer in local storage when refreshUser is called', async () => {
+  const auth = new Auth()
+
+  await auth.refreshUser()
+
+  const viewer = JSON.parse(localStorage.getItem(USER_KEY) as string)
+
+  expect(viewer).toEqual(cornDogUser)
+})
+
+test('local storage is cleared if an error occurs loading current user', async () => {
+  server.use(
+    rest.get(`/api/users/current`, (req, res, ctx) => {
+      return res.once(
+        ctx.status(403),
+        ctx.json({message: 'Internal server error'}),
+      )
+    }),
+  )
+  const auth = new Auth()
+  try {
+    await auth.refreshUser()
+  } catch (error) {
+    const viewer = localStorage.getItem(USER_KEY)
+    expect(viewer).toBeNull()
+  }
 })
 
 describe('getAuthorizationHeader', () => {
