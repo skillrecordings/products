@@ -72,3 +72,5 @@ Here's a general tour of Turborepo from Jared:
 [![Jared Palmer gives Joel a tour of Turborepo - Watch Video](https://cdn.loom.com/sessions/thumbnails/6be074dc590d44b192ab7e126f04c36b-with-play.gif)](https://www.loom.com/embed/6be074dc590d44b192ab7e126f04c36b)
 
 Some good examples and background in [Jared's TSDX monorepo platground](https://github.com/jaredpalmer/tsdx-monorepo).
+
+[![vercel logo](https://raw.githubusercontent.com/skillrecordings/turbo-playground/6d8af460a9630edea33cbbeef2a2309189f95a64/1618983297-powered-by-vercel.svg)](https://www.vercel.com/?utm_source=[skillrecordings]&utm_campaign=oss)
