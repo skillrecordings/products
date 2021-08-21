@@ -43,11 +43,11 @@ export default function Home() {
           </article>
           <section className="max-w-screen-sm mx-auto w-full sm:pt-32 pt-20 sm:pb-24 pb-4 px-5">
             <h3 className="sm:text-4xl text-3xl font-bold text-center">
-              Sign up for my 6 part guide to Mechanical Keyboards
+              Sign up and I'll let you know when the course is ready.
             </h3>
             <h4 className="sm:text-2xl text-xl font-light max-w-md mx-auto pt-4 text-center text-brand-pink-500">
-              And stay in the loop for the super rad stuff I have planned for
-              the future!
+              Stay in the loop for the super rad stuff I have planned for the
+              future!
             </h4>
             <div className="max-w-sm mx-auto w-full py-16">
               <ConvertkitSubscribeForm />
