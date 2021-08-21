@@ -4,7 +4,7 @@ export default {
   description: 'A guide to mechanical keyboards.',
   author: 'Cassidy Williams',
   favicon: '/favicon.ico',
-  email: 'team@keyboardlegend.dev',
+  email: 'cassidy@keyboardlegend.dev',
   siteUrl: 'keyboardlegend.dev',
   additionalMetaTags: [
     {property: 'author', content: 'Cassidy Williams'},
