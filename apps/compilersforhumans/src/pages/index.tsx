@@ -1,5 +1,4 @@
 import * as React from 'react'
-//TODO: Check form styling
 import ConvertkitSubscribeForm from '@skillrecordings/convertkit/dist/forms'
 import Layout from 'layouts'
 import LandingCopy from 'components/landing-copy.mdx'
