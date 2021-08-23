@@ -77,13 +77,13 @@ const ConvertkitSubscribeForm: React.FC<ConvertkitSubscribeFormProps> = ({
             required
           />
         </div>
-        {button || (
-          <div className={classNames.buttonContainer}>
+        <div className={classNames.buttonContainer}>
+          {button || (
             <button type="submit" className={classNames.button}>
               Subscribe
             </button>
-          </div>
-        )}
+          )}
+        </div>
         <div className={classNames.comment}>
           {comment || 'No spam, unsubscribe any time.'}
         </div>
