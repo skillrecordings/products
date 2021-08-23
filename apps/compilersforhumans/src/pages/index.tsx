@@ -36,7 +36,19 @@ export default function Home() {
           <h3 className="font-bold lg:text-7xl sm:text-5xl text-4xl pb-8 text-center">
             Learn about Compilers
           </h3>
-          <ConvertkitSubscribeForm />
+          <ConvertkitSubscribeForm
+            classNames={{
+              input:
+                'autofill:text-fill-black autofill:caret-black dark:bg-black w-full text-lg py-2 px-4 leading-7 border-gray-200 rounded-md focus:ring-violet-400 focus:ring-2 focus:outline-none focus:border-transparent placeholder-gray-400',
+              form: 'max-w-sm w-full mx-auto py-8 space-y-5',
+              label: 'block text-base pb-1',
+              asterisk: 'dark:text-fuchsia-400',
+              button:
+                'font-medium text-lg rounded-full focus:bg-gray-500 focus:ring-2 focus:scale-90 focus:ring-black hover:scale-105 transition-all hover:shadow-xl focus:outline-none mt-4 sm:px-16 px-14 py-4 bg-gradient-to-r dark:from-pink-500 dark:to-purple-500 from-violet-500 to-pink-500 text-white ease-in-out',
+              comment: 'text-center pt-4 text-base opacity-70',
+              buttonContainer: 'w-full flex items-center justify-center',
+            }}
+          />
         </div>
         <div
           aria-hidden="true"

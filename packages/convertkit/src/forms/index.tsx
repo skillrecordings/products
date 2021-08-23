@@ -1,33 +1,50 @@
 import * as React from 'react'
 
-//TODO: separate the styling and the behavior so that it can be customized
-
 const FORM_ID = process.env.NEXT_PUBLIC_CONVERTKIT_SIGNUP_FORM
 
 type ConvertkitSubscribeFormProps = {
   onSubmit?: () => void
+  button?: React.ReactElement
+  classNames?: {
+    input?: string
+    label?: string
+    button?: string
+    comment?: string
+    children?: string
+    form?: string
+    asterisk?: string
+    buttonContainer?: string
+  }
 }
 
 const ConvertkitSubscribeForm: React.FC<ConvertkitSubscribeFormProps> = ({
   children,
   onSubmit,
+  button,
+  classNames = {
+    input:
+      'w-full rounded-sm dark:bg-gray-900 dark:text-white dark:placeholder-gray-300',
+    label: 'text-sm font-semibold block',
+    button:
+      'w-full px-3 py-2 font-semibold dark:bg-white dark:text-black bg-black text-white rounded-sm',
+    comment: 'text-xs italic text-center',
+    form: 'space-y-4 w-full',
+    children: 'pb-4 font-bold sm:text-xl text-lg tracking-tight',
+    asterisk: 'opacity-50',
+    buttonContainer: '',
+  },
 }) => {
   return (
-    <div id="subscribe">
-      <div className="pb-4 font-bold sm:text-xl text-lg tracking-tight">
-        {children}
-      </div>
+    <div id="subscribe" className="w-full">
+      {children && <div className={classNames.children}>{children}</div>}
       <form
         action={`https://app.convertkit.com/forms/${FORM_ID}/subscriptions`}
         method="post"
-        className="space-y-4 w-full"
+        className={classNames.form}
         onSubmit={() => onSubmit && onSubmit()}
       >
         <div>
-          <label
-            htmlFor="fields[first_name]"
-            className="text-sm font-semibold block"
-          >
+          <label htmlFor="fields[first_name]" className={classNames.label}>
             First Name
           </label>
           <input
@@ -35,36 +52,30 @@ const ConvertkitSubscribeForm: React.FC<ConvertkitSubscribeFormProps> = ({
             id="fields[first_name]"
             name="fields[first_name]"
             type="text"
-            className="w-full rounded-sm dark:bg-gray-900 dark:text-white dark:placeholder-gray-300"
+            className={classNames.input}
           />
         </div>
         <div>
-          <label
-            htmlFor="email_address"
-            className="text-sm font-semibold block"
-          >
-            Email
+          <label htmlFor="email_address" className={classNames.label}>
+            Email<span className={classNames.asterisk}>*</span>
           </label>
-          <div>
-            <input
-              placeholder="@"
-              id="email_address"
-              type="email"
-              name="email_address"
-              className="w-full rounded-sm dark:bg-gray-900 dark:text-white dark:placeholder-gray-300"
-              required
-            />
+          <input
+            placeholder="you@company.com"
+            id="email_address"
+            type="email"
+            name="email_address"
+            className={classNames.input}
+            required
+          />
+        </div>
+        {button || (
+          <div className={classNames.buttonContainer}>
+            <button type="submit" className={classNames.button}>
+              Subscribe
+            </button>
           </div>
-        </div>
-        <button
-          type="submit"
-          className="w-full px-3 py-2 font-semibold dark:bg-white dark:text-black bg-black text-white rounded-sm"
-        >
-          Subscribe
-        </button>
-        <div className="text-xs italic text-center">
-          No spam, unsubscribe any time.
-        </div>
+        )}
+        <div className={classNames.comment}>No spam, unsubscribe any time.</div>
       </form>
     </div>
   )
