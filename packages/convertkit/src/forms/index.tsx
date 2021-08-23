@@ -4,14 +4,22 @@ const FORM_ID = process.env.NEXT_PUBLIC_CONVERTKIT_SIGNUP_FORM
 
 type ConvertkitSubscribeFormProps = {
   onSubmit?: () => void
-  button?: React.ReactElement
+  button?: React.DetailedHTMLProps<
+    React.ButtonHTMLAttributes<HTMLButtonElement>,
+    HTMLButtonElement
+  >
+  /** text below submit button */
+  comment?: string
   classNames?: {
     input?: string
     label?: string
     button?: string
+    /** classNames for text below submit button */
     comment?: string
+    /** children container classNames */
     children?: string
     form?: string
+    /** required field indicator (*) classNames */
     asterisk?: string
     buttonContainer?: string
   }
@@ -21,6 +29,7 @@ const ConvertkitSubscribeForm: React.FC<ConvertkitSubscribeFormProps> = ({
   children,
   onSubmit,
   button,
+  comment,
   classNames = {
     input:
       'w-full rounded-sm dark:bg-gray-900 dark:text-white dark:placeholder-gray-300',
@@ -75,7 +84,9 @@ const ConvertkitSubscribeForm: React.FC<ConvertkitSubscribeFormProps> = ({
             </button>
           </div>
         )}
-        <div className={classNames.comment}>No spam, unsubscribe any time.</div>
+        <div className={classNames.comment}>
+          {comment || 'No spam, unsubscribe any time.'}
+        </div>
       </form>
     </div>
   )
