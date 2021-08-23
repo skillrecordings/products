@@ -1,7 +1,7 @@
 // add a comment here
 export default {
   defaultTitle: 'Keyboard Legend',
-  description: 'A guide to mechanical keyboards.',
+  description: 'A guide to mechanical keyboards by Cassidy Williams.',
   author: 'Cassidy Williams',
   favicon: '/favicon.ico',
   email: 'cassidy@keyboardlegend.dev',
