@@ -2,7 +2,8 @@ import * as React from 'react'
 import Layout from 'components/app/layout'
 import {Signature, ThumbsUp, Grid1} from 'components/images'
 import LandingCopy from 'components/content/landing-copy.mdx'
-import ConvertkitSubscribeForm from 'components/forms/convertkit'
+import ConvertkitSubscribeForm from '@skillrecordings/convertkit/dist/forms'
+import Button from 'components/button'
 import {CourseJsonLd} from 'next-seo'
 
 export default function Home() {
@@ -50,7 +51,18 @@ export default function Home() {
               future!
             </h4>
             <div className="max-w-sm mx-auto w-full py-16">
-              <ConvertkitSubscribeForm />
+              <ConvertkitSubscribeForm
+                button={<Button type="submit">Sign Up</Button>}
+                classNames={{
+                  input:
+                    'autofill:caret-black autofill:text-fill-black autofill:bg-white w-full rounded-lg border border-gray-400 focus:ring-2 focus:ring-brand-pink-500 focus:outline-none focus:border-transparent',
+                  label: 'block pb-1',
+                  form: 'space-y-4 w-full',
+                  buttonContainer:
+                    'w-full flex items-center justify-center pt-4',
+                  comment: 'text-sm text-gray-500 text-center pt-6',
+                }}
+              />
             </div>
           </section>
         </main>
