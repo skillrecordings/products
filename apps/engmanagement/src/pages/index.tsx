@@ -78,7 +78,19 @@ export default function Home() {
             </div>
             <div className="uppercase">Subscribe to get notified</div>
           </h2>
-          <ConvertkitSubscribeForm />
+          <ConvertkitSubscribeForm
+            classNames={{
+              input:
+                'w-full bg-gray-900 sm:text-xl text-lg px-5 py-4 rounded-lg text-white placeholder-gray-300 border-gray-700 shadow-inner focus:ring-0 focus:border-orange-300',
+              label: 'sm:text-lg text-base block pb-2',
+              form: 'space-y-6 w-full max-w-md mx-auto',
+              asterisk: 'text-orange-300',
+              button:
+                'sm:px-20 px-16 py-5 text-xl font-semibold bg-gradient-to-t from-orange-500 via-orange-400 to-orange-300 text-white rounded-lg transform hover:shadow-xl hover:scale-105 focus:scale-95 transition-all ease-in-out duration-200 focus:outline-none outline-none focus:ring-2 focus:ring-orange-200',
+              buttonContainer: 'w-full flex items-center justify-center py-8',
+              comment: 'text-lg text-center text-gray-200',
+            }}
+          />
         </div>
       </section>
     </Layout>
