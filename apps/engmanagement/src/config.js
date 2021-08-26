@@ -8,7 +8,7 @@ export default {
   favicon: '/favicon.ico',
   titleTemplate: '%s | Engineering Management for the Rest of Us',
   additionalMetaTags: [
-    { property: 'author', content: 'Sarah Drasner' },
+    {property: 'author', content: 'Sarah Drasner'},
     {
       property: 'keywords',
       content: '',
@@ -16,8 +16,7 @@ export default {
   ],
   twitter: {
     cardType: 'summary_large_image',
-    handle: 'sarah_edo',
-    site: 'sarah_edo',
+    handle: '@sarah_edo',
   },
   openGraph: {
     title: 'Engineering Management for the Rest of Us by Sarah Drasner',

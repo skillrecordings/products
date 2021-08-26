@@ -4,7 +4,7 @@ import LandingCopy from 'components/landing-copy.mdx'
 import ConvertkitSubscribeForm from '@skillrecordings/convertkit/dist/forms'
 import get from 'lodash/get'
 import Image from 'next/image'
-import BookMockup from '../../public/images/engineering-management-for-the-rest-of-us-book-mockup-front@2x.jpg'
+import BookCover from '../../public/images/engineering-management-for-the-rest-of-us-book-mockup-front@2x.jpg'
 import SarahDrasner from '../../public/images/sarah-drasner@2x.jpg'
 import AngieJones from '../../public/images/angie-jones@2x.png'
 
@@ -53,7 +53,7 @@ export default function Home() {
           <div className="max-w-[550px] sm:mx-0 -mx-5">
             <Image
               placeholder="blur"
-              src={BookMockup}
+              src={BookCover}
               alt="Book mockup of Engineering Management for the Rest of Us"
               quality={95}
               priority={true}

@@ -57,7 +57,27 @@ module.exports = {
             },
             strong: {color: theme('colors.gray.50')},
             a: {
-              color: theme('colors.indigo.300'),
+              color: theme('colors.orange.300'),
+            },
+            'a:hover': {
+              color: theme('colors.orange.200'),
+            },
+          },
+        },
+        xl: {
+          css: {
+            'p, ul': {
+              marginBottom: defaultTheme.spacing['10'],
+            },
+            li: {
+              marginBottom: defaultTheme.spacing['8'],
+            },
+            h2: {
+              fontFamily: theme('fontFamily.din').join(', '),
+              textTransform: 'uppercase',
+              fontSize: theme('fontSize.5xl'),
+              textAlign: 'center',
+              padding: `${defaultTheme.spacing['8']} ${defaultTheme.spacing['16']}`,
             },
           },
         },
