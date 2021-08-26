@@ -15,14 +15,12 @@
 
 import config from '../config'
 import Layout from 'layouts'
-import Signature from '../../public/images/signature.svg'
-import EmailNotification from '../../public/images/email-notification.svg'
 import Image from 'next/image'
 
 export default ({children}) => (
   <Layout meta={{title: 'Confirm'}}>
     <div class="max-w-2xl text-center space-y-5 mx-auto py-24">
-      <Image src={EmailNotification} width={100} height={100} />
+      <Image src={'/images/email-notification.svg'} width={100} height={100} />
       {children}
       <div class="flex flex-col pt-6 text-gray-200 text-lg">
         <i>Thanks,</i>
@@ -32,7 +30,7 @@ export default ({children}) => (
             height={100}
             alt="Sarah's signature (made up by a designer)"
             aria-hidden="true"
-            src={Signature}
+            src={'/images/signature.svg'}
           />
         </div>
       </div>
