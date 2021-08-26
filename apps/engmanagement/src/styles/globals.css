@@ -6,13 +6,17 @@
 @import '@reach/dialog/styles.css';
 
 ::selection {
-  @apply bg-orange-200 text-amber-700;
+  @apply bg-orange-400 text-white;
 }
 ::-moz-selection {
-  @apply bg-orange-200 text-amber-700;
+  @apply bg-orange-400 text-white;
 }
 
-/* Change Autocomplete styles in Chrome*/
+a {
+  @apply transition-all ease-in-out duration-500;
+}
+
+/* Change Autocomplete styles in Chrome */
 input:-webkit-autofill,
 input:-webkit-autofill:hover,
 input:-webkit-autofill:focus,
@@ -22,9 +26,9 @@ textarea:-webkit-autofill:focus,
 select:-webkit-autofill,
 select:-webkit-autofill:hover,
 select:-webkit-autofill:focus {
-  @apply border-amber-200;
+  @apply border-orange-300;
   -webkit-text-fill-color: white;
-  -webkit-box-shadow: 0 0 0px 1000px #000 inset;
+  -webkit-box-shadow: 0 0 0px 1000px #111725 inset;
 }
 
 /*
