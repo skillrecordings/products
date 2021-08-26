@@ -92,7 +92,7 @@ const ArticleTemplate: React.FC<ArticleTemplateProps> = ({meta, children}) => {
         <header>
           <div className="pt-40 min-h-[750px] -mx-5 px-5 -mt-5 relative flex flex-col items-center justify-between">
             {title && (
-              <h1 className="sm:text-7xl text-5xl font-bold font-din uppercase text-center relative z-10 py-8">
+              <h1 className="lg:text-7xl sm:text-6xl text-5xl font-bold font-din uppercase text-center relative z-10 py-8">
                 <Markdown>{title}</Markdown>
               </h1>
             )}
