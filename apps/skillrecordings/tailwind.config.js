@@ -24,10 +24,7 @@ module.exports = {
               color: 'inherit',
               fontWeight: theme('fontWeight.bold'),
             },
-            strong: {
-              color: 'inherit',
-            },
-            a: {
+            'a, strong, code': {
               color: 'inherit',
             },
             all: 'revert',
