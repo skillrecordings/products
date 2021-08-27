@@ -1,6 +1,5 @@
 import * as React from 'react'
 import Layout from 'layouts'
-import PoliteConvertkitForm from '@skillrecordings/convertkit/dist/forms/polite'
 import Markdown from 'react-markdown'
 import config from '../config'
 import Image from 'next/image'
@@ -15,7 +14,6 @@ import {
 } from 'components/share'
 import {useRouter} from 'next/router'
 import ConvertkitSubscribeForm from '@skillrecordings/convertkit/dist/forms'
-import BookCover from '../../public/images/engineering-management-for-the-rest-of-us-book-mockup-perspective@2x.png'
 
 type ArticleTemplateProps = {
   meta?: any
@@ -103,6 +101,8 @@ const ArticleTemplate: React.FC<ArticleTemplateProps> = ({meta, children}) => {
               className="md:object-contain object-cover object-top"
               quality={100}
               placeholder="blur"
+              loading="eager"
+              priority
             />
           </div>
           <div className="max-w-screen-sm w-full mx-auto flex md:flex-row flex-col items-center md:justify-between justify-center md:space-y-0 space-y-10 pb-16">
