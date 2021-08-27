@@ -1,0 +1,38 @@
+export const product = config.defaultTitle
+export const name = config.author
+export const firstName = config.openGraph.profile.firstName
+
+<h1 className="uppercase sm:text-base text-sm font-medium tracking-wide text-brand-pink-500">
+  Confirmed!
+</h1>
+
+<h2 className="font-bold lg:text-3xl sm:text-2xl text-xl">
+  You'll receive emails from me ({name}) about Mechanical Keyboards.
+</h2>
+
+<p className="opacity-80 prose">
+  Every email we send will have a handy unsubscribe link at the bottom. Please
+  feel free to use it if you don't want to receive emails about this!
+</p>
+
+import config from '../config'
+import Layout from 'components/app/layout'
+import {Confirmed, Signature} from 'components/images'
+
+export default ({children}) => {
+  return (
+    <Layout meta={{title: 'Subscription confirmed'}}>
+      <div className="max-w-xl text-center space-y-5 mx-auto py-14">
+        <div className="w-16 mx-auto pb-4">
+          <Confirmed />
+        </div>
+        {children}
+        <div className="flex flex-col pt-6 text-sm opacity-80 text-gray-900">
+          Thanks,
+          <br />
+          <Signature className="w-48 mx-auto pt-2" />
+        </div>
+      </div>
+    </Layout>
+  )
+}

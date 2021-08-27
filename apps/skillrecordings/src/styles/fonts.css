@@ -1,0 +1,102 @@
+@font-face {
+  font-family: 'Koopman';
+  src: url('fonts/fs-koopman/f69aeb57-489f-4c3d-a299-1b13d5f9a873.woff2')
+      format('woff2'),
+    url('fonts/fs-koopman/acb3101f-b05e-4b9d-9dda-38f5b5adb76d.woff')
+      format('woff');
+  font-weight: 300;
+}
+@font-face {
+  font-family: 'Koopman';
+  src: url('fonts/fs-koopman/b3b7dc36-0a5f-4357-95a2-36bb33b6b013.woff2')
+      format('woff2'),
+    url('fonts/fs-koopman/33c3a183-9f0c-41eb-a4d1-e8ab65474f96.woff')
+      format('woff');
+  font-weight: 300;
+  font-style: italic;
+}
+@font-face {
+  font-family: 'Koopman';
+  src: url('fonts/fs-koopman/d07a2fea-8033-46f6-b7f3-d2d1bd341fc9.woff2')
+      format('woff2'),
+    url('fonts/fs-koopman/cda8c1bd-72ae-4b18-8f4a-4b2a8ab70a1b.woff')
+      format('woff');
+  font-weight: 400;
+}
+@font-face {
+  font-family: 'Koopman';
+  src: url('fonts/fs-koopman/6fb39402-b860-4870-8029-5d4d2b074c31.woff2')
+      format('woff2'),
+    url('fonts/fs-koopman/ed6f87a4-2332-40e4-a151-225747e59a43.woff')
+      format('woff');
+  font-weight: 400;
+  font-style: italic;
+}
+@font-face {
+  font-family: 'Koopman';
+  src: url('fonts/fs-koopman/c7758f61-3c44-4882-bfc0-43937fde9272.woff2')
+      format('woff2'),
+    url('fonts/fs-koopman/ed389c4b-3726-4237-9032-9e9a56b1e957.woff')
+      format('woff');
+  font-weight: 500;
+}
+@font-face {
+  font-family: 'Koopman';
+  src: url('fonts/fs-koopman/ada3e240-c085-49a3-b43f-9ec7def96bd6.woff2')
+      format('woff2'),
+    url('fonts/fs-koopman/e335469d-beb3-412f-9f75-b6ecf38b988f.woff')
+      format('woff');
+  font-weight: 500;
+  font-style: italic;
+}
+@font-face {
+  font-family: 'Koopman';
+  src: url('fonts/fs-koopman/37ecb585-f254-4239-8270-754e7e921cea.woff2')
+      format('woff2'),
+    url('fonts/fs-koopman/e03936d5-6376-4897-bb1d-a33a96b2134c.woff')
+      format('woff');
+  font-weight: 700;
+}
+@font-face {
+  font-family: 'Koopman';
+  src: url('fonts/fs-koopman/218dcecd-27f0-40b2-aea0-35d8ae50f393.woff2')
+      format('woff2'),
+    url('fonts/fs-koopman/de4d3f46-33de-41fb-88fc-5eb189dd0eea.woff')
+      format('woff');
+  font-weight: 700;
+  font-style: italic;
+}
+@font-face {
+  font-family: 'Koopman';
+  src: url('fonts/fs-koopman/d62ec023-241e-4ade-ae39-e7169a2b1e15.woff2')
+      format('woff2'),
+    url('fonts/fs-koopman/46ea76fa-6b83-4781-8a10-bc2dd2a05c8f.woff')
+      format('woff');
+  font-weight: 800;
+}
+@font-face {
+  font-family: 'Koopman';
+  src: url('fonts/fs-koopman/cb5d9b51-47e9-4df3-8794-cde5b3acdb47.woff2')
+      format('woff2'),
+    url('fonts/fs-koopman/64623b3c-a9b9-4a4d-aa5e-a8fe6369ea50.woff')
+      format('woff');
+  font-weight: 800;
+  font-style: italic;
+}
+@font-face {
+  font-family: 'Koopman';
+  src: url('fonts/fs-koopman/c06a0367-690f-4b51-92cf-1119c37b6c7d.woff2')
+      format('woff2'),
+    url('fonts/fs-koopman/a74b9455-b52b-4adc-8001-d8f9fb074d0a.woff')
+      format('woff');
+  font-weight: 900;
+}
+@font-face {
+  font-family: 'Koopman';
+  src: url('fonts/fs-koopman/96e1a9a6-e12e-4935-831a-13ae8e2a549c.woff2')
+      format('woff2'),
+    url('fonts/fs-koopman/5fa5dec3-fd5a-44e5-9efe-03272a802367.woff')
+      format('woff');
+  font-weight: 900;
+  font-style: italic;
+}
