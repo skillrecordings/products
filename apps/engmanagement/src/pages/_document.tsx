@@ -1,5 +1,11 @@
 import * as React from 'react'
-import Document, { Html, Head, Main, NextScript, DocumentContext } from 'next/document'
+import Document, {
+  Html,
+  Head,
+  Main,
+  NextScript,
+  DocumentContext,
+} from 'next/document'
 
 export default class MyDocument extends Document {
   static async getInitialProps(ctx: DocumentContext) {
@@ -12,7 +18,7 @@ export default class MyDocument extends Document {
 
   render() {
     return (
-      <Html>
+      <Html lang="en">
         <Head></Head>
         <body className="bg-gray-900 text-white font-brandon transition-colors duration-100 ease-in-out">
           <Main />
