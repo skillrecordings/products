@@ -4,6 +4,7 @@ import Markdown from 'react-markdown'
 import config from '../config'
 import Image from 'next/image'
 import {format} from 'date-fns'
+import {ArticleJsonLd} from 'next-seo'
 import {
   Twitter,
   Facebook,
@@ -76,16 +77,29 @@ const Author: React.FC<AuthorProps> = ({name, image, url}) => {
 }
 
 const ArticleTemplate: React.FC<ArticleTemplateProps> = ({meta, children}) => {
-  const {title, image, published, card, background} = meta
+  const {title, image, published, description, images, background} = meta
   const author = meta.author || {
     name: config.author,
     image: require('../../public/images/sarah-drasner@2x.jpg'),
+    imageUrl: 'https://engmanagement.dev/images/sarah-drasner@2x.jpg',
     url: 'https://twitter.com/sarah_edo',
   }
   const dateFormatted = format(new Date(published), 'MMMM dd, y')
+  const router = useRouter()
 
   return (
     <Layout meta={meta} className="bg-[#111725]">
+      <ArticleJsonLd
+        url={`https://${config.siteUrl}${router.pathname}`}
+        title={title}
+        images={images}
+        datePublished={published}
+        dateModified={published}
+        authorName={[author.name]}
+        publisherName="EngMangement.dev"
+        publisherLogo={author.imageUrl}
+        description={description}
+      />
       <article>
         <header>
           <div className="pt-40 min-h-[750px] -mx-5 px-5 -mt-5 relative flex flex-col items-center justify-between">
@@ -136,9 +150,9 @@ const ArticleTemplate: React.FC<ArticleTemplateProps> = ({meta, children}) => {
         <section className=" max-w-screen-md w-full mx-auto sm:pb-48 pb-28">
           <div className="flex items-start justify-center ">
             <div className="w-full">
-              <h4 className="sm:text-5xl text-4xl font-medium pb-10 leading-none font-din uppercase text-center">
+              <h3 className="sm:text-5xl text-4xl font-medium pb-10 leading-none font-din uppercase text-center">
                 Subscribe for More
-              </h4>
+              </h3>
               <ConvertkitSubscribeForm
                 classNames={{
                   form: 'max-w-xs mx-auto space-y-4',
@@ -153,34 +167,9 @@ const ArticleTemplate: React.FC<ArticleTemplateProps> = ({meta, children}) => {
                 }}
               />
             </div>
-            <div className="">
-              {/* <div className="scale-[0.4] font-din lg:text-7xl text-6xl uppercase leading-[90%]">
-                Engineering
-                <br />
-                Management
-                <br />
-                <div className="leading-[100%] transform sm:-translate-y-5 -translate-y-4">
-                  <span className="font-souvenir font-medium inline-block tracking-wider lg:text-4xl text-3xl text-orange-300">
-                    for the
-                  </span>
-                  <span className="block">Rest of Us</span>
-                </div>
-              </div> */}
-              {/* <div className="max-w-[350px]">
-                <Image
-                  placeholder="blur"
-                  src={BookCover}
-                  alt="Engineering Management for the Rest of Us book by Sarah Drasner"
-                  quality={95}
-                />
-              </div> */}
-            </div>
           </div>
         </section>
       </article>
-      {/* <PoliteConvertkitForm peakingContent={'Hello!'}>
-        <p>Subscribe today!</p>
-      </PoliteConvertkitForm> */}
     </Layout>
   )
 }
