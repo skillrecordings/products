@@ -11,7 +11,8 @@ export default {
     {property: 'author', content: 'Sarah Drasner'},
     {
       property: 'keywords',
-      content: '',
+      content:
+        'engineering management for the rest of us,book,sarah drasner,guide',
     },
   ],
   twitter: {

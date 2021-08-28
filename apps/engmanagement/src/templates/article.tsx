@@ -88,7 +88,14 @@ const ArticleTemplate: React.FC<ArticleTemplateProps> = ({meta, children}) => {
   const router = useRouter()
 
   return (
-    <Layout meta={meta} className="bg-[#111725]">
+    <Layout
+      meta={{
+        ...meta,
+        author,
+        url: `https://${config.siteUrl}${router.pathname}`,
+      }}
+      className="bg-[#111725]"
+    >
       <ArticleJsonLd
         url={`https://${config.siteUrl}${router.pathname}`}
         title={title}
@@ -134,9 +141,9 @@ const ArticleTemplate: React.FC<ArticleTemplateProps> = ({meta, children}) => {
           </div>
         </header>
         <div className="relative overflow-hidden -mx-5 px-5">
-          <main className="prose prose-dark sm:prose-xl max-w-screen-sm prose-lg mx-auto relative z-10">
+          <div className="prose prose-dark sm:prose-xl max-w-screen-sm prose-lg mx-auto relative z-10">
             {children}
-          </main>
+          </div>
           {background && background}
         </div>
         <footer className="mx-auto max-w-screen-md flex md:flex-row flex-col md:space-y-0 space-y-10 items-center w-full justify-between pt-24 pb-32">
