@@ -7,6 +7,8 @@ export const CK_SUBSCRIBER_KEY =
   process.env.NEXT_PUBLIC_CK_SUBSCRIBER_KEY || 'ck_subscriber_id'
 export const CONVERTKIT_BASE_URL =
   process.env.CONVERTKIT_BASE_URL || 'https://api.convertkit.com/v3/'
+export const CONVERTKIT_API_SECRET = process.env.CONVERTKIT_API_SECRET
+export const CONVERTKIT_TOKEN = process.env.NEXT_PUBLIC_CONVERTKIT_TOKEN
 
 // TODO: create unique keys for site authorization
 export const USER_KEY = process.env.NEXT_PUBLIC_USER_KEY || 'user'
