@@ -6,7 +6,19 @@ import axios from '@skillrecordings/axios'
 import {CK_SUBSCRIBER_KEY} from '@skillrecordings/config'
 
 type ConvertkitContextType = {
-  subscriber?: {fields?: {job_title?: 'manager'}}
+  subscriber?: {
+    fields?: {job_title?: 'manager'}
+    created_at?: Date
+    email_address?: string
+    first_name?: string
+    id?: number
+    state?: 'active' | 'inactive'
+    tags?: {
+      id?: number
+      name?: string
+      created_at?: Date
+    }[]
+  }
   loadingSubscriber: boolean
 }
 
