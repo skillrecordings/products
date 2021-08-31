@@ -3,7 +3,7 @@ import {convertkitAxios} from '@skillrecordings/axios'
 import serverCookie from 'cookie'
 
 const CK_SUBSCRIBER_KEY = process.env.NEXT_PUBLIC_CONVERTKIT_SUBSCRIBER_KEY
-const subscriber = async (req: NextApiRequest, res: NextApiResponse) => {
+const subscribe = async (req: NextApiRequest, res: NextApiResponse) => {
   if (req.method === 'POST') {
     try {
       const {email_address, first_name, fields, tag} = req.body
@@ -44,4 +44,4 @@ const subscriber = async (req: NextApiRequest, res: NextApiResponse) => {
   }
 }
 
-export default subscriber
+export default subscribe
