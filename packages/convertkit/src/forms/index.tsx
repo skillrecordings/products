@@ -10,6 +10,7 @@ type ConvertkitSubscribeFormProps = {
   >
   /** text below submit button */
   comment?: string
+  buttonLabel?: string
   classNames?: {
     input?: string
     label?: string
@@ -29,6 +30,7 @@ const ConvertkitSubscribeForm: React.FC<ConvertkitSubscribeFormProps> = ({
   children,
   onSubmit,
   button,
+  buttonLabel = 'Subscribe',
   comment,
   classNames = {
     input:
@@ -80,7 +82,7 @@ const ConvertkitSubscribeForm: React.FC<ConvertkitSubscribeFormProps> = ({
         <div className={classNames.buttonContainer}>
           {button || (
             <button type="submit" className={classNames.button}>
-              Subscribe
+              {buttonLabel}
             </button>
           )}
         </div>

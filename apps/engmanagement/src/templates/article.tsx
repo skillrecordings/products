@@ -2,6 +2,7 @@ import * as React from 'react'
 import Layout from 'layouts'
 import Markdown from 'react-markdown'
 import config from '../config'
+import isString from 'lodash/isString'
 import Image from 'next/image'
 import {format} from 'date-fns'
 import {ArticleJsonLd} from 'next-seo'
@@ -18,6 +19,8 @@ import ConvertkitSubscribeForm from '@skillrecordings/convertkit/dist/forms'
 
 type ArticleTemplateProps = {
   meta?: any
+  footer?: boolean
+  subscribeForm?: boolean
 }
 
 type AuthorProps = {
@@ -26,27 +29,30 @@ type AuthorProps = {
   url: string
 }
 
-const ShareArticle: React.FC<{title: string}> = ({children, title}) => {
-  const router = useRouter()
+const ShareArticle: React.FC<{title: string; slug: string}> = ({
+  children,
+  title,
+  slug,
+}) => {
   return (
     <div className="flex items-center md:flex-row flex-col md:space-x-2 md:space-y-0 space-y-5">
       {children}
       <div className="flex items-center justify-center flex-wrap md:pb-0">
         <Twitter
-          link={`https://${config.siteUrl}${router.pathname}`}
+          link={`https://${config.siteUrl}/${slug}`}
           message={`${title}, by ${config.twitter.handle}`}
         />
-        <Facebook link={`https://${config.siteUrl}${router.pathname}`} />
+        <Facebook link={`https://${config.siteUrl}/${slug}`} />
         <Reddit
-          link={`https://${config.siteUrl}${router.pathname}`}
+          link={`https://${config.siteUrl}/${slug}`}
           message={`${title}, by ${config.author}`}
         />
-        <LinkedIn link={`https://${config.siteUrl}${router.pathname}`} />
+        <LinkedIn link={`https://${config.siteUrl}/${slug}`} />
         <Hacker
-          link={`https://${config.siteUrl}${router.pathname}`}
+          link={`https://${config.siteUrl}/${slug}`}
           message={`${title}, by ${config.author}`}
         />
-        <CopyToClipboard link={`https://${config.siteUrl}${router.pathname}`} />
+        <CopyToClipboard link={`https://${config.siteUrl}/${slug}`} />
       </div>
     </div>
   )
@@ -76,7 +82,12 @@ const Author: React.FC<AuthorProps> = ({name, image, url}) => {
   )
 }
 
-const ArticleTemplate: React.FC<ArticleTemplateProps> = ({meta, children}) => {
+const ArticleTemplate: React.FC<ArticleTemplateProps> = ({
+  meta,
+  children,
+  footer = true,
+  subscribeForm = true,
+}) => {
   const {title, image, published, description, images, background} = meta
   const author = meta.author || {
     name: config.author,
@@ -84,21 +95,22 @@ const ArticleTemplate: React.FC<ArticleTemplateProps> = ({meta, children}) => {
     imageUrl: 'https://engmanagement.dev/images/sarah-drasner@2x.jpg',
     url: 'https://twitter.com/sarah_edo',
   }
-  const dateFormatted = format(new Date(published), 'MMMM dd, y')
-  const router = useRouter()
+  const dateFormatted = published && format(new Date(published), 'MMMM dd, y')
 
   return (
     <Layout
       meta={{
+        // todo: add tags field to sanity
         ...meta,
         author,
-        url: `https://${config.siteUrl}${router.pathname}`,
+        url: `https://${config.siteUrl}/${meta.slug}`,
       }}
       className="bg-[#111725]"
     >
       <ArticleJsonLd
-        url={`https://${config.siteUrl}${router.pathname}`}
+        url={`https://${config.siteUrl}/${meta.slug}`}
         title={title}
+        // todo: add images field to sanity
         images={images}
         datePublished={published}
         dateModified={published}
@@ -115,21 +127,26 @@ const ArticleTemplate: React.FC<ArticleTemplateProps> = ({meta, children}) => {
                 <Markdown>{title}</Markdown>
               </h1>
             )}
-            <Image
-              src={image}
-              alt=""
-              layout="fill"
-              className="md:object-contain object-cover object-top"
-              quality={100}
-              placeholder="blur"
-              loading="eager"
-              priority
-            />
+            {image && isString(image) ? (
+              <Image
+                src={image}
+                alt=""
+                layout="fill"
+                className="md:object-contain object-cover object-top"
+                quality={100}
+                // TODO: enable blurred placeholder
+                // placeholder="blur"
+                loading="eager"
+                priority
+              />
+            ) : (
+              image
+            )}
           </div>
           <div className="max-w-screen-sm w-full mx-auto flex md:flex-row flex-col items-center md:justify-between justify-center md:space-y-0 space-y-10 pb-16">
             <Author {...author} />
             <div>
-              <ShareArticle title={title}>
+              <ShareArticle title={title} slug={meta.slug}>
                 <time
                   className="pr-2 text-xs text-gray-400 opacity-80"
                   dateTime={published}
@@ -146,36 +163,41 @@ const ArticleTemplate: React.FC<ArticleTemplateProps> = ({meta, children}) => {
           </div>
           {background && background}
         </div>
-        <footer className="mx-auto max-w-screen-md flex md:flex-row flex-col md:space-y-0 space-y-10 items-center w-full justify-between pt-24 pb-32">
-          <Author {...author} />
-          <ShareArticle title={title}>
-            <div className="text-sm text-gray-300 opacity-80 pr-2">
-              Share with your friends
+        {footer && (
+          <footer className="mx-auto max-w-screen-md flex md:flex-row flex-col md:space-y-0 space-y-10 items-center w-full justify-between pt-24 pb-32">
+            <Author {...author} />
+            <ShareArticle title={title} slug={meta.slug}>
+              <div className="text-sm text-gray-300 opacity-80 pr-2">
+                Share with your friends
+              </div>
+            </ShareArticle>
+          </footer>
+        )}
+        {subscribeForm && (
+          <section className=" max-w-screen-md w-full mx-auto sm:pb-48 pb-28">
+            <div className="flex items-start justify-center ">
+              <div className="w-full">
+                <h3 className="sm:text-5xl text-4xl font-medium pb-10 leading-none font-din uppercase text-center">
+                  Subscribe for More
+                </h3>
+                <ConvertkitSubscribeForm
+                  classNames={{
+                    form: 'max-w-xs mx-auto space-y-4',
+                    input:
+                      'focus:outline-none focus:ring-2 focus:ring-orange-300 border-none rounded-lg bg-white text-black placeholder-coolGray-400 w-full',
+                    label: 'block pb-1 font-medium',
+                    asterisk: 'text-orange-300',
+                    buttonContainer: 'flex items-center w-full justify-center',
+                    button:
+                      'px-6 py-3 rounded-lg border-orange-400 font-semibold mt-4 hover:scale-105 transition-all duration-300 ease-in-out border shadow-inner bg-orange-400 bg-opacity-5 hover:bg-opacity-20',
+                    comment:
+                      'text-center text-sm text-gray-300 opacity-60 pt-6',
+                  }}
+                />
+              </div>
             </div>
-          </ShareArticle>
-        </footer>
-        <section className=" max-w-screen-md w-full mx-auto sm:pb-48 pb-28">
-          <div className="flex items-start justify-center ">
-            <div className="w-full">
-              <h3 className="sm:text-5xl text-4xl font-medium pb-10 leading-none font-din uppercase text-center">
-                Subscribe for More
-              </h3>
-              <ConvertkitSubscribeForm
-                classNames={{
-                  form: 'max-w-xs mx-auto space-y-4',
-                  input:
-                    'focus:outline-none focus:ring-2 focus:ring-orange-300 border-none rounded-lg bg-white text-black placeholder-coolGray-400 w-full',
-                  label: 'block pb-1 font-medium',
-                  asterisk: 'text-orange-300',
-                  buttonContainer: 'flex items-center w-full justify-center',
-                  button:
-                    'px-6 py-3 rounded-lg border-orange-400 font-semibold mt-4 hover:scale-105 transition-all duration-300 ease-in-out border shadow-inner bg-orange-400 bg-opacity-5 hover:bg-opacity-20',
-                  comment: 'text-center text-sm text-gray-300 opacity-60 pt-6',
-                }}
-              />
-            </div>
-          </div>
-        </section>
+          </section>
+        )}
       </article>
     </Layout>
   )
