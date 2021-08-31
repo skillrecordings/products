@@ -12,13 +12,9 @@ import checkSubscriber from 'utils/check-subscriber'
 import {useNextSanityImage} from 'next-sanity-image'
 import Image from 'next/image'
 import {useConvertkit} from '@skillrecordings/convertkit'
+import {TheFutureOfRemoteWorkBackground} from 'components/backgrounds'
 
-export default function ExampleChapter({
-  post,
-  source,
-  subscribed,
-  background,
-}: any) {
+export default function ExampleChapter({post, source, subscribed}: any) {
   const {title, slug, mainImage, description, ckTagId, publishedAt, ogImage} =
     post
 
@@ -53,13 +49,15 @@ export default function ExampleChapter({
           image: <MainImage />,
           description,
           published: publishedAt,
+          background: slug === 'the-future-of-remote-work' && (
+            <TheFutureOfRemoteWorkBackground />
+          ),
           ogImage: ogImage && {
             width: 1200,
             height: 628,
             url: ogImage.url,
             alt: ogImage.alt,
           },
-          background: <MDXRemote {...background} components={{Image}} />,
         }}
       >
         <MDXRemote {...source} />
@@ -95,7 +93,6 @@ const initialQuery = groq`*[_type == "post" && slug.current == $slug][0]{
   'slug': slug.current,
   subscribersOnly,
   ckTagId,
-  background,
   ogImage,
   'body': preview
   }`
@@ -139,8 +136,8 @@ export const getServerSideProps: GetServerSideProps = async (context: any) => {
     : initialData
 
   const mdxSource = await serialize(body || post.preview)
-  const background = await serialize(post.background)
+
   return {
-    props: {post: post, source: mdxSource, subscribed, background},
+    props: {post: post, source: mdxSource, subscribed},
   }
 }
