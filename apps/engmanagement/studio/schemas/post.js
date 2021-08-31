@@ -81,12 +81,6 @@ export default {
         },
       ],
     },
-    {
-      name: 'background',
-      title: 'Background',
-      type: 'markdown',
-      description: 'Article background in MDX.',
-    },
   ],
   preview: {
     select: {
