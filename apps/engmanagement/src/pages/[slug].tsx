@@ -15,8 +15,16 @@ import {useConvertkit} from '@skillrecordings/convertkit'
 import {TheFutureOfRemoteWorkBackground} from 'components/backgrounds'
 
 export default function ExampleChapter({post, source, subscribed}: any) {
-  const {title, slug, mainImage, description, ckTagId, publishedAt, ogImage} =
-    post
+  const {
+    title,
+    slug,
+    mainImage,
+    description,
+    ckTagId,
+    publishedAt,
+    ogImage,
+    subscribersOnly,
+  } = post
 
   const {subscriber} = useConvertkit()
 
@@ -41,7 +49,7 @@ export default function ExampleChapter({post, source, subscribed}: any) {
     <div className="bg-[#111725]">
       <ArticleTemplate
         footer={subscribed}
-        subscribeForm={isEmpty(subscriber)}
+        subscribeForm={!subscribersOnly && isEmpty(subscriber)}
         meta={{
           title,
           type: 'article',
