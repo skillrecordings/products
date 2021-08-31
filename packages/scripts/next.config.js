@@ -5,6 +5,7 @@ const withMDX = require('@next/mdx')()
 const IMAGE_HOST_DOMAINS = [
   `res.cloudinary.com`,
   `d2eip9sf3oo6c2.cloudfront.net`,
+  `cdn.sanity.io`,
 ]
 
 const nextConfig = {
