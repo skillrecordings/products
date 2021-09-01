@@ -1,7 +1,7 @@
 import * as React from 'react'
 import {GetServerSideProps} from 'next'
 import {serialize} from 'next-mdx-remote/serialize'
-import {MDXRemote} from 'next-mdx-remote'
+import {MDXRemote, MDXRemoteSerializeResult} from 'next-mdx-remote'
 import isEmpty from 'lodash/isEmpty'
 import find from 'lodash/find'
 import ArticleTemplate from 'templates/article'
@@ -14,7 +14,31 @@ import Image from 'next/image'
 import {useConvertkit} from '@skillrecordings/convertkit'
 import {TheFutureOfRemoteWorkBackground} from 'components/backgrounds'
 
-export default function ExampleChapter({post, source, authorized}: any) {
+type ArticleProps = {
+  post: {
+    title: string
+    slug: string
+    mainImage?: any
+    description?: string
+    ckTagId?: string
+    publishedAt: Date
+    ogImage: {
+      url: string
+      alt?: string
+    }
+    subscribersOnly: boolean
+  }
+  authorized: boolean
+  source: MDXRemoteSerializeResult
+  backgroundColor?: string
+}
+
+const Article = ({
+  post,
+  source,
+  authorized,
+  backgroundColor = '#111725',
+}: ArticleProps) => {
   const {
     title,
     slug,
@@ -46,7 +70,7 @@ export default function ExampleChapter({post, source, authorized}: any) {
     )
   }
   return (
-    <div className="bg-[#111725]">
+    <div className={`bg-[${backgroundColor}]`}>
       <ArticleTemplate
         footer={authorized}
         subscribeForm={!subscribersOnly && isEmpty(subscriber)}
@@ -116,8 +140,6 @@ const allPostsQuery = groq`
 `
 
 export const getServerSideProps: GetServerSideProps = async (context: any) => {
-  context.res.setHeader('Cache-Control', 's-maxage=1, stale-while-revalidate')
-
   const allPosts = await sanityClient.fetch(allPostsQuery)
   const currentPost = find(allPosts, {slug: context.params.slug})
 
@@ -151,3 +173,5 @@ export const getServerSideProps: GetServerSideProps = async (context: any) => {
     props: {post: post, source: mdxSource, authorized},
   }
 }
+
+export default Article
