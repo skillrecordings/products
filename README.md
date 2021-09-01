@@ -39,6 +39,23 @@ The install command needs to also add `pnpn` and then run install.
 npm i pnpm -g && pnpm i
 ```
 
+## Develop locally using vercel
+
+Because of the way vercel handles monorepo projects, you can only have a single 
+project linked locally at a given time.
+
+In the root of the project:
+
+```bash
+vercel link
+vercel dev
+```
+
+Calling `vercel link` asks if you want to link the project (yes), has you pick the account (`skillrecordings`), and
+finally you enter the project name for the project you are working on.
+
+Repeat this process if you want to work on a different project.
+
 ## Tools Used
 
 ### Turborepo
