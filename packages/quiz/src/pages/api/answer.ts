@@ -3,8 +3,9 @@ import {convertkitAxios} from '@skillrecordings/axios'
 import {fetchConvertkitSubscriberFromServerCookie} from '@skillrecordings/convertkit'
 import isEmpty from 'lodash/isEmpty'
 import find from 'lodash/find'
+import {CONVERTKIT_BASE_URL} from '@skillrecordings/config'
 
-if (!process.env.CONVERTKIT_BASE_URL)
+if (!CONVERTKIT_BASE_URL)
   throw new Error('No Convertkit API Base Url Found: CONVERTKIT_BASE_URL')
 
 if (!process.env.NEXT_PUBLIC_CONVERTKIT_TOKEN)

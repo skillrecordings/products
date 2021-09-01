@@ -1,6 +1,15 @@
 import * as React from 'react'
 import {QuizAnswerPage} from '@skillrecordings/quiz'
 import {Questions} from '@skillrecordings/types'
+import Layout from 'layouts'
+
+const Answer = ({questions}: any) => {
+  return (
+    <Layout noIndex meta={{title: 'Quiz'}}>
+      <QuizAnswerPage questions={questions} />
+    </Layout>
+  )
+}
 
 //TODO: apply styling differences
 
@@ -71,4 +80,4 @@ export async function getStaticProps() {
   }
 }
 
-export default QuizAnswerPage
+export default Answer
