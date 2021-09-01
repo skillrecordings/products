@@ -8,6 +8,7 @@ module.exports = {
       './node_modules/react/**/*.js',
       './node_modules/convertkit/**/*.js',
       './node_modules/quiz/**/*.js',
+      '../../packages/quiz/**/*.tsx',
     ],
   },
 }
