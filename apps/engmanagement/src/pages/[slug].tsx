@@ -14,7 +14,7 @@ import Image from 'next/image'
 import {useConvertkit} from '@skillrecordings/convertkit'
 import {TheFutureOfRemoteWorkBackground} from 'components/backgrounds'
 
-export default function ExampleChapter({post, source, subscribed}: any) {
+export default function ExampleChapter({post, source, authorized}: any) {
   const {
     title,
     slug,
@@ -48,7 +48,7 @@ export default function ExampleChapter({post, source, subscribed}: any) {
   return (
     <div className="bg-[#111725]">
       <ArticleTemplate
-        footer={subscribed}
+        footer={authorized}
         subscribeForm={!subscribersOnly && isEmpty(subscriber)}
         meta={{
           title,
@@ -69,11 +69,11 @@ export default function ExampleChapter({post, source, subscribed}: any) {
         }}
       >
         <MDXRemote {...source} />
-        {!subscribed && (
+        {!authorized && (
           <div className="absolute -mx-5 bottom-0 h-96 bg-gradient-to-b from-transparent to-[#111725] w-full" />
         )}
       </ArticleTemplate>
-      {!subscribed && (
+      {!authorized && (
         <section className=" max-w-screen-md w-full mx-auto sm:pb-48 pb-28">
           <div className="flex items-start justify-center py-24 px-5 bg-gray-800 rounded-lg">
             <div className="w-full">
@@ -131,23 +131,23 @@ export const getServerSideProps: GetServerSideProps = async (context: any) => {
     slug: currentPost.slug,
   })
 
-  const subscribed = initialData.subscribersOnly
+  const authorized = initialData.subscribersOnly
     ? await checkSubscriber(context, initialData.ckTagId)
     : true
 
   const {body: fullBody} =
-    subscribed &&
+    authorized &&
     (await sanityClient.fetch(restQuery, {
       slug: currentPost.slug,
     }))
 
-  const {body, ...post} = subscribed
+  const {body, ...post} = authorized
     ? {...initialData, body: fullBody}
     : initialData
 
   const mdxSource = await serialize(body || post.preview)
 
   return {
-    props: {post: post, source: mdxSource, subscribed},
+    props: {post: post, source: mdxSource, authorized},
   }
 }
