@@ -5,7 +5,7 @@ import {useFormik} from 'formik'
 import Spinner from 'components/spinner'
 import * as Yup from 'yup'
 
-const ConvertkitSubscribeAndTagForm: React.FC<{tag: string; idNum?: string}> =
+const ConvertkitSubscribeAndTagForm: React.FC<{tag?: string; idNum?: string}> =
   ({tag, idNum = '1'}) => {
     const {subscriber} = useConvertkit()
     const [submitting, setSubmitting] = React.useState<boolean>(false)
