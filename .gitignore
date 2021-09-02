@@ -4,3 +4,4 @@ dist
 .idea
 .vercel
 .pnpm-debug.log
+.DS_Store
