@@ -1,0 +1,28 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+@import './icons.css';
+@import './fonts/index.css';
+
+::selection {
+  @apply bg-blue-600 text-white;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+.animate-spin {
+  animation: spin 50s linear infinite;
+}
+
+/*
+This will hide the focus indicator if the element receives focus via the mouse,
+but it will still show up on keyboard focus.
+*/
+.js-focus-visible :focus:not(.focus-visible) {
+  outline: none;
+}
+
+@import '@reach/dialog/styles.css';
