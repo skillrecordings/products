@@ -1,0 +1,11 @@
+.cueplayer-react .cueplayer-react-play-control {
+  cursor: pointer;
+  @include flex(none);
+  @extend .cueplayer-react-icon;
+  @extend .cueplayer-react-icon-play-arrow;
+
+  &.cueplayer-react-playing {
+    @extend .cueplayer-react-icon-pause;
+  }
+}
+

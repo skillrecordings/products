@@ -1,0 +1,27 @@
+.cueplayer-react {
+  .cueplayer-react-menu-button-popup .cueplayer-react-menu {
+    display: none;
+    position: absolute;
+    bottom: 0;
+    width: 10em;
+    left: -3em; // (Width of cueplayer-react-menu - width of button) / 2
+    height: 0em;
+    margin-bottom: 1.5em;
+    border-top-color: rgba($cueplayer-react-primary-background-color, $cueplayer-react-primary-background-transparency); // Same as ul background
+
+    .cueplayer-react-menu-content {
+      @include background-color-with-alpha($cueplayer-react-primary-background-color, $cueplayer-react-primary-background-transparency);
+
+      position: absolute;
+      width: 100%;
+      bottom: 1.5em; // Same bottom as cueplayer-react-menu border-top
+      max-height: 15em;
+    }
+  }
+
+}
+
+// .cueplayer-react-workinghover .cueplayer-react-menu-button-popup:hover .cueplayer-react-menu,
+.cueplayer-react-menu-button-popup .cueplayer-react-menu.cueplayer-react-lock-showing {
+  display: block;
+}
