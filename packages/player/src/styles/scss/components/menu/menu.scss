@@ -1,0 +1,59 @@
+.cueplayer-react-menu-button {
+  cursor: pointer;
+
+  // Change cursor back to default if the menu button is disabled
+  &.cueplayer-react-disabled {
+    cursor: default;
+  }
+}
+
+
+.cueplayer-react-menu {
+  .cueplayer-react-menu-content {
+    display: block;
+    padding: 0;
+    margin: 0;
+    overflow: auto;
+    font-family: $cueplayer-react-text-font-family;
+  }
+
+  li {
+    list-style: none;
+    margin: 0;
+    padding: 0.2em 0;
+    line-height: 1.4em;
+    font-size: 1.2em;
+    text-align: center;
+
+    &:focus,
+    &:hover {
+      outline: 0;
+      @include background-color-with-alpha($cueplayer-react-secondary-background-color, $cueplayer-react-secondary-background-transparency);
+    }
+
+
+    &.cueplayer-react-selected,
+    &.cueplayer-react-selected:focus,
+    &.cueplayer-react-selected:hover {
+      background-color: $cueplayer-react-primary-foreground-color;
+      color: $cueplayer-react-primary-background-color;
+    }
+
+    &.vjs-menu-title {
+      text-align: center;
+      text-transform: uppercase;
+      font-size: 1em;
+      line-height: 2em;
+      padding: 0;
+      margin: 0 0 0.3em 0;
+      font-weight: bold;
+      cursor: default;
+    }
+
+  }
+}
+
+// prevent menus from opening while scrubbing (FF, IE)
+.cueplayer-react-scrubbing .vjs-menu-button:hover .cueplayer-react-menu {
+  display: none;
+}

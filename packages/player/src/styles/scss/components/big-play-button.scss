@@ -1,0 +1,44 @@
+.cueplayer-react {
+  .cueplayer-react-big-play-button {
+    font-size: 3em;
+    line-height: $cueplayer-react-big-play-button-height;
+    height: $cueplayer-react-big-play-button-height;
+    width: $cueplayer-react-big-play-button-width; // Firefox bug: For some reason without width the icon wouldn't show up. Switched to using width and removed padding.
+    display: block;
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    padding: 0;
+    cursor: pointer;
+    opacity: 1;
+    border: 0.06666em solid $cueplayer-react-primary-foreground-color;
+    // Need a slightly gray bg so it can be seen on black backgrounds
+    @include background-color-with-alpha($cueplayer-react-primary-background-color, $cueplayer-react-primary-background-transparency);
+    @include border-radius(0.3em);
+    @include transition(all 0.4s);
+    @extend .cueplayer-react-icon;
+    @extend .cueplayer-react-icon-play-arrow;
+    // Since the big play button doesn't inherit from vjs-control, we need to specify a bit more than
+    // other buttons for the icon.
+    &:before {
+      @extend %cueplayer-react-icon-default;
+    }
+    // Allow people that hate their poster image to center the big play button.
+    &.cueplayer-react-big-play-button-center {
+      top: 50%;
+      left: 50%;
+      margin-top: -($cueplayer-react-big-play-button-height / 2);
+      margin-left: -($cueplayer-react-big-play-button-width / 2);
+    }
+    &.big-play-button-hide {
+      display: none;
+    }
+  }
+  &:hover .cueplayer-react-big-play-button,
+  .cueplayer-react-big-play-button:focus {
+    outline: 0;
+    border-color: $cueplayer-react-primary-foreground-color;
+    @include background-color-with-alpha($cueplayer-react-secondary-background-color, $cueplayer-react-secondary-background-transparency);
+    @include transition(all 0s);
+  }
+}

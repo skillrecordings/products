@@ -41,7 +41,7 @@ npm i pnpm -g && pnpm i
 
 ## Develop locally using vercel
 
-Because of the way vercel handles monorepo projects, you can only have a single 
+Because of the way vercel handles monorepo projects, you can only have a single
 project linked locally at a given time.
 
 In the root of the project:

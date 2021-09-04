@@ -2,6 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 @import './icons.css';
+@import "~@skillrecordings/player/dist/skillrecordings-player.css";
 
 /*
 This will hide the focus indicator if the element receives focus via the mouse,
@@ -11,4 +12,4 @@ but it will still show up on keyboard focus.
   outline: none;
 }
 
-@import '@reach/dialog/styles.css';
+@import '~@reach/dialog/styles.css';

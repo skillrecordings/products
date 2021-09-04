@@ -1,0 +1,147 @@
+.cueplayer-react {
+  .cueplayer-react-mute-control,
+  .cueplayer-react-volume-menu-button {
+    cursor: pointer;
+    @include flex(none);
+    @extend .cueplayer-react-icon;
+    @extend .cueplayer-react-icon-volume-up;
+
+    &.cueplayer-react-vol-0 {
+      @extend .cueplayer-react-icon-volume-mute;
+    }
+    &.cueplayer-react-vol-1 {
+      @extend .cueplayer-react-icon-volume-down;
+    }
+    &.cueplayer-react-vol-2 {
+      @extend .cueplayer-react-icon-volume-down;
+    }
+    &.cueplayer-react-vol-muted {
+      @extend .cueplayer-react-icon-volume-off;
+    }
+  }
+
+  .cueplayer-react-volume-control {
+    width: 5em;
+    @include flex(none);
+    @include display-flex(center);
+  }
+
+  .cueplayer-react-volume-bar {
+    margin: 1.35em 0.45em;
+
+    &.cueplayer-react-slider-horizontal {
+      width: 5em;
+      height: 0.3em;
+
+      .cueplayer-react-volume-level {
+        width: 100%;
+      }
+    }
+
+    &.cueplayer-react-slider-vertical {
+      width: 0.3em;
+      height: 5em;
+      margin: 1.35em auto;
+
+      .cueplayer-react-volume-level {
+        height: 100%;
+      }
+
+    }
+  }
+
+  .cueplayer-react-volume-level {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+
+    background-color: $cueplayer-react-primary-foreground-color;
+
+    @extend .cueplayer-react-icon;
+    @extend .cueplayer-react-icon-circle;
+
+    // Volume handle
+    &:before {
+      position: absolute;
+      font-size: 0.9em; // Doing this to match the handle on play progress.
+    }
+  }
+
+
+
+  .cueplayer-react-slider-vertical .cueplayer-react-volume-level {
+    width: 0.3em;
+
+    // Volume handle
+    &:before {
+      top: -0.5em;
+      left: -0.3em;
+    }
+  }
+
+  .cueplayer-react-slider-horizontal .cueplayer-react-volume-level {
+    height: 0.3em;
+
+    // Volume handle
+    &:before {
+      top: -0.3em;
+      right: -0.5em;
+    }
+  }
+
+
+
+  // The volume menu button is like menu buttons (captions/subtitles) but works
+  // a little differently. It needs to be possible to tab to the volume slider
+  // without hitting space bar on the menu button. To do this we're not using
+  // display:none to hide the slider menu by default, and instead setting the
+  // width and height to zero.
+  .cueplayer-react-menu-button-popup.cueplayer-react-volume-menu-button .cueplayer-react-menu {
+    display: block;
+    width: 0;
+    height: 0;
+    border-top-color: transparent;
+  }
+
+  .cueplayer-react-menu-button-popup.cueplayer-react-volume-menu-button-vertical .cueplayer-react-menu {
+    left: 0.5em;
+    height: 8em;
+  }
+  .cueplayer-react-menu-button-popup.cueplayer-react-volume-menu-button-horizontal .cueplayer-react-menu {
+    left: -2em;
+  }
+
+  .cueplayer-react-menu-button-popup.cueplayer-react-volume-menu-button .cueplayer-react-menu-content {
+    height: 0;
+    width: 0;
+
+    // Avoids unnecessary scrollbars in the menu content. Primarily noticed in Chrome on Linux.
+    overflow-x: hidden;
+    overflow-y: hidden;
+  }
+
+  .cueplayer-react-volume-menu-button-vertical:hover .cueplayer-react-menu-content,
+  .cueplayer-react-volume-menu-button-vertical:focus .cueplayer-react-menu-content,
+  .cueplayer-react-volume-menu-button-vertical.cueplayer-react-slider-active .cueplayer-react-menu-content,
+  .cueplayer-react-volume-menu-button-vertical .cueplayer-react-lock-showing .cueplayer-react-menu-content {
+    height: 8em;
+    width: 2.9em;
+  }
+
+  .cueplayer-react-volume-menu-button-horizontal:hover .cueplayer-react-menu-content,
+  .cueplayer-react-volume-menu-button-horizontal:focus .cueplayer-react-menu-content,
+  .cueplayer-react-volume-menu-button-horizontal .cueplayer-react-slider-active .cueplayer-react-menu-content,
+  .cueplayer-react-volume-menu-button-horizontal .cueplayer-react-lock-showing .cueplayer-react-menu-content {
+    height: 2.9em;
+    width: 8em;
+  }
+
+  .cueplayer-react-volume-menu-button.cueplayer-react-menu-button-inline .cueplayer-react-menu-content {
+    // An inline volume should never have a menu background color.
+    //  This protects it from external changes to background colors.
+    background-color: transparent !important;
+  }
+
+}
+
+

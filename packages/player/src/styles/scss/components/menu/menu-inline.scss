@@ -1,0 +1,67 @@
+.cueplayer-react {
+  .cueplayer-react-menu-button-inline {
+    @include transition(all 0.4s);
+    overflow: hidden;
+
+    &:before {
+      // Icon pseudoelement has a different base font size (1.8em), so we need to
+      // account for that in the width. 4em (standard button width) divided by 1.8
+      // to get the same button width as normal.
+      width: 2.222222222em;
+    }
+
+    &:hover,
+    &:focus,
+    &.cueplayer-react-slider-active {
+      width: 12em;
+
+      .cueplayer-react-menu {
+        display: block;
+        opacity: 1;
+      }
+
+    }
+
+    &.cueplayer-react-slider-active {
+      @include transition(none);
+    }
+
+    .cueplayer-react-menu {
+      opacity: 0;
+      height: 100%;
+      width: auto;
+
+      position: absolute;
+      left: 4em;
+      top: 0;
+
+      padding: 0;
+      margin: 0;
+
+      @include transition(all 0.4s);
+    }
+
+    .cueplayer-react-menu-content {
+      width: auto;
+      height: 100%;
+      margin: 0;
+      overflow: hidden;
+    }
+  }
+}
+
+
+.cueplayer-react-no-flex .cueplayer-react-menu-button-inline {
+  .cueplayer-react-menu {
+    display: block;
+    opacity: 1;
+    position: relative;
+    width: auto;
+  }
+
+  &:hover,
+  &:focus,
+  &.cueplayer-react-slider-active {
+    width: auto;
+  }
+}

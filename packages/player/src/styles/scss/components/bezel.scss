@@ -1,0 +1,119 @@
+.cueplayer-react .cueplayer-react-bezel {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 52px;
+  height: 52px;
+  z-index: 17;
+  margin-left: -26px;
+  margin-top: -26px;
+  background: rgba(0,0,0,.5);
+  border-radius: 26px;
+
+  &.cueplayer-react-bezel-animation {
+    -moz-animation: cueplayer-react-bezel-fadeout .5s linear 1 normal forwards;
+    -webkit-animation: cueplayer-react-bezel-fadeout .5s linear 1 normal forwards;
+    animation: cueplayer-react-bezel-fadeout .5s linear 1 normal forwards;
+    pointer-events: none;
+  }
+
+  &.cueplayer-react-bezel-animation-alt {
+    -moz-animation: cueplayer-react-bezel-fadeout-alt .5s linear 1 normal forwards;
+    -webkit-animation: cueplayer-react-bezel-fadeout-alt .5s linear 1 normal forwards;
+    animation: cueplayer-react-bezel-fadeout-alt .5s linear 1 normal forwards;
+    pointer-events: none;
+  }
+
+  .cueplayer-react-bezel-icon {
+    @extend .cueplayer-react-icon;
+    width: 36px;
+    height: 36px;
+    margin: 8px;
+    font-size: 26px;
+    line-height: 36px;
+    text-align: center;
+  }
+
+  .cueplayer-react-bezel-icon-play {
+    @extend .cueplayer-react-icon-play-arrow;
+  }
+
+  .cueplayer-react-bezel-icon-pause {
+    @extend .cueplayer-react-icon-pause;
+  }
+
+  .cueplayer-react-bezel-icon-pause {
+    @extend .cueplayer-react-icon-pause;
+  }
+
+  .cueplayer-react-bezel-icon-pause {
+    @extend .cueplayer-react-icon-pause;
+  }
+
+  .cueplayer-react-bezel-icon-replay-5 {
+    @extend .cueplayer-react-icon-replay-5;
+  }
+
+  .cueplayer-react-bezel-icon-replay-10 {
+    @extend .cueplayer-react-icon-replay-10;
+  }
+
+  .cueplayer-react-bezel-icon-replay-30 {
+    @extend .cueplayer-react-icon-replay-30;
+  }
+
+  .cueplayer-react-bezel-icon-forward-5 {
+    @extend .cueplayer-react-icon-forward-5;
+  }
+
+  .cueplayer-react-bezel-icon-forward-10 {
+    @extend .cueplayer-react-icon-forward-10;
+  }
+
+  .cueplayer-react-bezel-icon-forward-30 {
+    @extend .cueplayer-react-icon-forward-30;
+  }
+
+  .cueplayer-react-bezel-icon-volume-off {
+    @extend .cueplayer-react-icon-volume-off;
+  }
+
+  .cueplayer-react-bezel-icon-volume-down {
+    @extend .cueplayer-react-icon-volume-down;
+  }
+
+  .cueplayer-react-bezel-icon-volume-up {
+    @extend .cueplayer-react-icon-volume-up;
+  }
+
+  .cueplayer-react-bezel-icon-fast-rewind {
+    @extend .cueplayer-react-icon-fast-rewind;
+  }
+
+  .cueplayer-react-bezel-icon-fast-forward {
+    @extend .cueplayer-react-icon-fast-forward;
+  }
+
+}
+
+@keyframes cueplayer-react-bezel-fadeout {
+  0% {
+    opacity: 1
+  }
+
+  to {
+    opacity: 0;
+    transform: scale(2)
+  }
+}
+
+@keyframes cueplayer-react-bezel-fadeout-alt {
+  0% {
+    opacity: 1
+  }
+
+  to {
+    opacity: 0;
+    transform: scale(2)
+  }
+}
