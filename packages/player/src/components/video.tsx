@@ -1,6 +1,6 @@
 import * as React from 'react'
 import {SyntheticEvent} from 'react'
-import {createMachine} from 'xstate'
+import {VideoContext} from './player'
 
 type VideoProps = {
   loop?: boolean
@@ -13,14 +13,13 @@ type VideoProps = {
   crossOrigin?: string
   id?: string
   className?: string
-  handleCanPlay: (event: {currentTarget: HTMLVideoElement}) => void
 }
 
 export const Video: React.FC<VideoProps> = ({
   children,
   loop,
   poster,
-  preload,
+  preload = 'auto',
   src,
   autoPlay,
   playsInline,
@@ -28,9 +27,9 @@ export const Video: React.FC<VideoProps> = ({
   crossOrigin,
   id,
   className,
-  handleCanPlay,
 }) => {
   const videoElemRef = React.createRef<HTMLVideoElement>()
+  const {videoService} = React.useContext(VideoContext)
   function handleLoadStart(event: SyntheticEvent) {
     console.log(event)
   }
@@ -103,10 +102,6 @@ export const Video: React.FC<VideoProps> = ({
     //console.log(event)
   }
 
-  function handleTimeUpdate(event: SyntheticEvent) {
-    //console.log(event)
-  }
-
   function handleRateChange(event: SyntheticEvent) {
     //console.log(event)
   }
@@ -126,7 +121,7 @@ export const Video: React.FC<VideoProps> = ({
         // to check and see if it's ready as soon as we get a ref to
         // the HTMLVideoElement and "manually" fire an event
         if (c && c.readyState > 3) {
-          handleCanPlay({currentTarget: c})
+          videoService.send({type: 'LOADED', video: c})
         }
       }}
       muted={muted}
@@ -138,8 +133,12 @@ export const Video: React.FC<VideoProps> = ({
       src={src}
       onLoadStart={handleLoadStart}
       onWaiting={handleWaiting}
-      onCanPlay={handleCanPlay}
-      onCanPlayThrough={handleCanPlayThrough}
+      onCanPlay={(event) => {
+        videoService.send({type: 'LOADED', video: event.currentTarget})
+      }}
+      onCanPlayThrough={(event) => {
+        videoService.send({type: 'LOADED', video: event.currentTarget})
+      }}
       onPlaying={handlePlaying}
       onEnded={handleEnded}
       onSeeking={handleSeeking}
@@ -155,7 +154,12 @@ export const Video: React.FC<VideoProps> = ({
       onStalled={handleStalled}
       onLoadedMetadata={handleLoadedMetaData}
       onLoadedData={handleLoadedData}
-      onTimeUpdate={handleTimeUpdate}
+      onTimeUpdate={(event) => {
+        videoService.send({
+          type: 'TIMING',
+          elapsed: event.currentTarget.currentTime,
+        })
+      }}
       onRateChange={handleRateChange}
       onVolumeChange={handleVolumeChange}
       tabIndex={-1}

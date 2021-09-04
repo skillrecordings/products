@@ -1,4 +1,4 @@
-export {Video} from './components/video'
+export {Player, VideoProvider} from './components/player'
 
 export type PlayerContext = {
   currentSrc: null
