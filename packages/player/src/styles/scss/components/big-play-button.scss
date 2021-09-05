@@ -23,6 +23,7 @@
     &:before {
       @extend %cueplayer-react-icon-default;
     }
+
     // Allow people that hate their poster image to center the big play button.
     &.cueplayer-react-big-play-button-center {
       top: 50%;
@@ -30,10 +31,12 @@
       margin-top: -($cueplayer-react-big-play-button-height / 2);
       margin-left: -($cueplayer-react-big-play-button-width / 2);
     }
+
     &.big-play-button-hide {
       display: none;
     }
   }
+
   &:hover .cueplayer-react-big-play-button,
   .cueplayer-react-big-play-button:focus {
     outline: 0;

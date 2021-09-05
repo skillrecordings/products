@@ -6,6 +6,7 @@ export const Popup: React.FC<any> = ({children}) => {
     event.preventDefault()
     // event.stopPropagation();
   }
+
   return (
     <div className="cueplayer-react-menu" onClick={handleClick}>
       <div className="cueplayer-react-menu-content">{children}</div>

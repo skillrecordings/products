@@ -1,15 +1,18 @@
 import * as React from 'react'
 import cx from 'classnames'
 import {Slider} from '../slider'
-import {getPointerPosition, VideoContext, VideoStateContext} from '../player'
 import {useSelector} from '@xstate/react'
 import {SyntheticEvent} from 'react'
 import {VolumeLevel} from './volume-level'
+import {videoMachine, VideoStateContext} from '../../machines/video-machine'
+import {VideoContext} from '../../context/video-context'
+import {getPointerPosition} from '../../utils'
+import {StateFrom} from 'xstate'
 
-const selectVolume = (state: {context: VideoStateContext}) =>
+const selectVolume = (state: StateFrom<typeof videoMachine>) =>
   state.context.video?.volume ?? 0.8
 
-const selectMuted = (state: {context: VideoStateContext}) =>
+const selectMuted = (state: StateFrom<typeof videoMachine>) =>
   state.context.video?.muted ?? false
 
 export const VolumeBar: React.FC<any> = (props) => {
