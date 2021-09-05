@@ -657,6 +657,7 @@ importers:
       autoprefixer: ^10.3.1
       axios: ^0.21.1
       babel-jest: ^27.0.6
+      classnames: ^2.3.1
       client-oauth2: ^4.3.3
       commander: ^8.1.0
       cookie: ^0.4.1
@@ -729,6 +730,7 @@ importers:
       '@xstate/react': 1.5.1_49beb093bbd7c35e54ba0f39a3d61311
       autoprefixer: 10.3.1_postcss@8.3.6
       axios: 0.21.1
+      classnames: 2.3.1
       client-oauth2: 4.3.3
       cookie: 0.4.1
       date-fns: 2.23.0

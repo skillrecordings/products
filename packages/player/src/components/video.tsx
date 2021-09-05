@@ -154,11 +154,8 @@ export const Video: React.FC<VideoProps> = ({
       onStalled={handleStalled}
       onLoadedMetadata={handleLoadedMetaData}
       onLoadedData={handleLoadedData}
-      onTimeUpdate={(event) => {
-        videoService.send({
-          type: 'TIMING',
-          elapsed: event.currentTarget.currentTime,
-        })
+      onTimeUpdate={() => {
+        videoService.send('TIMING')
       }}
       onRateChange={handleRateChange}
       onVolumeChange={handleVolumeChange}
