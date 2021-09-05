@@ -1,0 +1,28 @@
+import * as React from 'react'
+import {useSelector} from '@xstate/react'
+import cx from 'classnames'
+import {selectFormattedTime, selectPercent} from '../player'
+import {VideoContext} from '../../context/video-context'
+
+export const PlayProgressBar: React.FC<any> = ({className}) => {
+  const {videoService} = React.useContext(VideoContext)
+  const formattedTime = useSelector(videoService, selectFormattedTime)
+  const percent = `${useSelector(videoService, selectPercent) * 100}%`
+
+  return (
+    <div
+      data-current-time={formattedTime}
+      className={cx(
+        'cueplayer-react-play-progress cueplayer-react-slider-bar',
+        className,
+      )}
+      style={{
+        width: percent,
+      }}
+    >
+      <span className="cueplayer-react-control-text">
+        {`Progress: ${percent}`}
+      </span>
+    </div>
+  )
+}

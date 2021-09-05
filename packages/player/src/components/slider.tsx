@@ -27,7 +27,6 @@ export const Slider: React.FC<SliderProps> = React.forwardRef<
   SliderProps
 >((props, ref) => {
   const [active, setActive] = React.useState(false)
-  const slider = React.useRef(null)
   const {onMouseMove, onMouseUp, sliderInactive, stepForward, stepBack} = props
 
   //EVENT HANDLERS

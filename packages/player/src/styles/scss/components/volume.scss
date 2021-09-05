@@ -9,12 +9,15 @@
     &.cueplayer-react-vol-0 {
       @extend .cueplayer-react-icon-volume-mute;
     }
+
     &.cueplayer-react-vol-1 {
       @extend .cueplayer-react-icon-volume-down;
     }
+
     &.cueplayer-react-vol-2 {
       @extend .cueplayer-react-icon-volume-down;
     }
+
     &.cueplayer-react-vol-muted {
       @extend .cueplayer-react-icon-volume-off;
     }
@@ -68,7 +71,6 @@
   }
 
 
-
   .cueplayer-react-slider-vertical .cueplayer-react-volume-level {
     width: 0.3em;
 
@@ -90,7 +92,6 @@
   }
 
 
-
   // The volume menu button is like menu buttons (captions/subtitles) but works
   // a little differently. It needs to be possible to tab to the volume slider
   // without hitting space bar on the menu button. To do this we're not using
@@ -107,6 +108,7 @@
     left: 0.5em;
     height: 8em;
   }
+
   .cueplayer-react-menu-button-popup.cueplayer-react-volume-menu-button-horizontal .cueplayer-react-menu {
     left: -2em;
   }

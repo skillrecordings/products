@@ -1,7 +1,8 @@
 import * as React from 'react'
-import {VideoContext, VideoStateContext} from './player'
+import {VideoContext} from '../context/video-context'
 import {useSelector} from '@xstate/react'
-import {State} from 'xstate'
+import {StateFrom} from 'xstate'
+import {videoMachine} from '../machines/video-machine'
 
 type ShortcutProps = {
   clickable?: boolean
@@ -9,28 +10,28 @@ type ShortcutProps = {
   shortcuts?: any[]
 }
 
-const selectHasStarted = (state: {context: VideoStateContext}) =>
+const selectHasStarted = (state: StateFrom<typeof videoMachine>) =>
   state.context.hasStarted || false
 
-const selectIsActive = (state: {context: VideoStateContext}) =>
+const selectIsActive = (state: StateFrom<typeof videoMachine>) =>
   state.context.isActive || false
 
-const selectReadyState = (state: {context: VideoStateContext}) =>
+const selectReadyState = (state: StateFrom<typeof videoMachine>) =>
   state.context.readyState ?? -1
 
-const selectVolume = (state: {context: VideoStateContext}) =>
+const selectVolume = (state: StateFrom<typeof videoMachine>) =>
   state.context.volume ?? 0.8
 
-const selectCurrentTime = (state: {context: VideoStateContext}) =>
+const selectCurrentTime = (state: StateFrom<typeof videoMachine>) =>
   state.context.video?.currentTime ?? 0
 
-const selectDuration = (state: {context: VideoStateContext}) =>
+const selectDuration = (state: StateFrom<typeof videoMachine>) =>
   state.context.video?.duration ?? 0
 
-const selectIsPaused = (state: State<VideoStateContext>) =>
+const selectIsPaused = (state: StateFrom<typeof videoMachine>) =>
   state.matches('ready.paused')
 
-const selectPlaybackRate = (state: State<VideoStateContext>) =>
+const selectPlaybackRate = (state: StateFrom<typeof videoMachine>) =>
   state.context.playbackRate ?? 1.0
 
 export const Shortcut: React.FC<ShortcutProps> = ({

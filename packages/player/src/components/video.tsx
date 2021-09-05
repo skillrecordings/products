@@ -1,6 +1,6 @@
 import * as React from 'react'
 import {SyntheticEvent} from 'react'
-import {VideoContext} from './player'
+import {VideoContext} from '../context/video-context'
 
 type VideoProps = {
   loop?: boolean

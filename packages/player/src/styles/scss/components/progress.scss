@@ -132,12 +132,15 @@
   background-color: #000;
   z-index: 1;
 }
+
 .cueplayer-react-no-flex .cueplayer-react-progress-control .cueplayer-react-mouse-display {
   z-index: 0;
 }
+
 .cueplayer-react .cueplayer-react-progress-control:hover .cueplayer-react-mouse-display {
   display: block;
 }
+
 .cueplayer-react.cueplayer-react-user-inactive .cueplayer-react-progress-control .cueplayer-react-mouse-display,
 .cueplayer-react.cueplayer-react-user-inactive .cueplayer-react-progress-control .cueplayer-react-mouse-display:after {
   visibility: hidden;
@@ -145,10 +148,12 @@
   $trans: visibility 1.0s, opacity 1.0s;
   @include transition($trans);
 }
+
 .cueplayer-react.cueplayer-react-user-inactive.cueplayer-react-no-flex .cueplayer-react-progress-control .cueplayer-react-mouse-display,
 .cueplayer-react.cueplayer-react-user-inactive.cueplayer-react-no-flex .cueplayer-react-progress-control .cueplayer-react-mouse-display:after {
   display: none;
 }
+
 .cueplayer-react .cueplayer-react-mouse-display .cueplayer-react-time-tooltip,
 .cueplayer-react .cueplayer-react-progress-control .cueplayer-react-mouse-display:after {
   color: #fff;
