@@ -1,6 +1,6 @@
 import * as React from 'react'
 import cx from 'classnames'
-import {ReactNode, MouseEvent, SyntheticEvent} from 'react'
+import {ReactNode, MouseEvent, SyntheticEvent, ForwardedRef} from 'react'
 
 type SliderProps = {
   sliderActive?: (event?: Event | SyntheticEvent) => boolean
@@ -19,7 +19,7 @@ type SliderProps = {
   label?: string
   valuenow?: string
   valuetext?: string
-  ref?: any
+  ref?: ForwardedRef<HTMLDivElement>
 }
 
 export const Slider: React.FC<SliderProps> = React.forwardRef<
@@ -30,29 +30,6 @@ export const Slider: React.FC<SliderProps> = React.forwardRef<
   const {onMouseMove, onMouseUp, sliderInactive, stepForward, stepBack} = props
 
   //EVENT HANDLERS
-
-  function handleMouseDown(event: Event | SyntheticEvent) {
-    const {onMouseDown} = props
-    // event.preventDefault();
-    // event.stopPropagation();
-
-    document.addEventListener('mousemove', handleMouseMove, true)
-    document.addEventListener('mouseup', handleMouseUp, true)
-    document.addEventListener('touchmove', handleMouseMove, true)
-    document.addEventListener('touchend', handleMouseUp, true)
-
-    setActive(true)
-
-    if (props.sliderActive) {
-      props.sliderActive(event)
-    }
-
-    handleMouseMove(event)
-
-    if (onMouseDown) {
-      onMouseDown(event)
-    }
-  }
 
   const handleMouseMove = React.useCallback(
     (event: Event | SyntheticEvent) => {
@@ -87,6 +64,29 @@ export const Slider: React.FC<SliderProps> = React.forwardRef<
     },
     [onMouseUp, sliderInactive, handleMouseMove],
   )
+
+  function handleMouseDown(event: Event | SyntheticEvent) {
+    const {onMouseDown} = props
+    // event.preventDefault();
+    // event.stopPropagation()
+
+    document.addEventListener('mousemove', handleMouseMove, true)
+    document.addEventListener('mouseup', handleMouseUp, true)
+    document.addEventListener('touchmove', handleMouseMove, true)
+    document.addEventListener('touchend', handleMouseUp, true)
+
+    setActive(true)
+
+    if (props.sliderActive) {
+      props.sliderActive(event)
+    }
+
+    handleMouseMove(event)
+
+    if (onMouseDown) {
+      onMouseDown(event)
+    }
+  }
 
   function handleFocus(e: Event | SyntheticEvent) {
     document.addEventListener('keydown', handleKeyPress, true)
@@ -162,16 +162,6 @@ export const Slider: React.FC<SliderProps> = React.forwardRef<
       }
     })
   }
-
-  React.useEffect(() => {
-    return () => {
-      document.removeEventListener('mousemove', handleMouseMove, true)
-      document.removeEventListener('mouseup', handleMouseUp, true)
-      document.removeEventListener('touchmove', handleMouseMove, true)
-      document.removeEventListener('touchend', handleMouseUp, true)
-      document.removeEventListener('keydown', handleKeyPress, true)
-    }
-  }, [handleKeyPress, handleMouseMove, handleMouseUp])
 
   return (
     <div
