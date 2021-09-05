@@ -125,7 +125,6 @@ export const Slider: React.FC<SliderProps> = React.forwardRef<
 
   const handleKeyPress = React.useCallback(
     (event: KeyboardEvent) => {
-      console.log(event)
       if (event.which === 37 || event.which === 40) {
         // Left and Down Arrows
         event.preventDefault()

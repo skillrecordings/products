@@ -31,7 +31,7 @@ export const Video: React.FC<VideoProps> = ({
   const videoElemRef = React.createRef<HTMLVideoElement>()
   const {videoService} = React.useContext(VideoContext)
   function handleLoadStart(event: SyntheticEvent) {
-    console.log(event)
+    // console.log(event)
   }
 
   function handleWaiting(event: SyntheticEvent) {

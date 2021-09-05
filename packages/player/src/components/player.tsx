@@ -2,13 +2,14 @@ import * as React from 'react'
 import {Video} from './video'
 import {ActorRefFrom, assign, createMachine} from 'xstate'
 import {useInterpret, useSelector} from '@xstate/react'
-import {createContext, SyntheticEvent} from 'react'
+import {createContext, SyntheticEvent, MouseEvent} from 'react'
 import cx from 'classnames'
 import {formatVideoTime} from '../utils/format-video-time'
 import {Slider} from './slider'
 import {Shortcut} from './shortcut'
 
 type VideoEvent =
+  | {type: 'VOLUME_CHANGE'; volume: number}
   | {type: 'LOADED'; video: HTMLVideoElement}
   | {type: 'PLAY'}
   | {type: 'SEEKING'; seekingTime: number}
@@ -16,7 +17,6 @@ type VideoEvent =
   | {type: 'ACTIVITY'}
   | {type: 'PAUSE'}
   | {type: 'END'}
-  | {type: 'VOLUME_CHANGE'; volume: number}
   | {type: 'PLAYBACKRATE_CHANGE'; playbackRate: number}
   | {type: 'FAIL'}
 
@@ -46,6 +46,15 @@ const videoMachine = createMachine<VideoStateContext, VideoEvent>({
     volume: 0.8,
     playbackRate: 1,
   },
+  on: {
+    ACTIVITY: {
+      actions: [
+        assign({
+          isActive: (_context, _event) => true,
+        }),
+      ],
+    },
+  },
   states: {
     loading: {
       on: {
@@ -56,18 +65,37 @@ const videoMachine = createMachine<VideoStateContext, VideoEvent>({
             readyState: (_context, event) => event.video.readyState,
           }),
         },
-        ACTIVITY: {
-          target: 'loading',
-          actions: assign({
-            isActive: (_context, _event) => true,
-          }),
-        },
         FAIL: 'failure',
       },
     },
     ready: {
       initial: 'paused',
-
+      on: {
+        VOLUME_CHANGE: {
+          actions: [
+            assign({
+              volume: (_context, event) => event.volume,
+            }),
+            'setVolume',
+          ],
+        },
+        PLAYBACKRATE_CHANGE: {
+          actions: [
+            assign({
+              playbackRate: (_context, event) => event.playbackRate,
+            }),
+            'setPlaybackRate',
+          ],
+        },
+        SEEKING: {
+          actions: [
+            assign({
+              seekingTime: (context, event) => event.seekingTime,
+            }),
+            'seekVideo',
+          ],
+        },
+      },
       states: {
         paused: {
           on: {
@@ -80,90 +108,13 @@ const videoMachine = createMachine<VideoStateContext, VideoEvent>({
                 'playVideo',
               ],
             },
-            VOLUME_CHANGE: {
-              target: 'paused',
-              actions: [
-                assign({
-                  volume: (_context, event) => event.volume,
-                }),
-                (context, event) => {
-                  if (context.video) context.video.volume = event.volume
-                },
-              ],
-            },
-            PLAYBACKRATE_CHANGE: {
-              target: 'paused',
-              actions: [
-                assign({
-                  playbackRate: (_context, event) => event.playbackRate,
-                }),
-                (context, event) => {
-                  if (context.video)
-                    context.video.playbackRate = event.playbackRate
-                },
-              ],
-            },
-            ACTIVITY: {
-              target: 'paused',
-              actions: assign({
-                isActive: (_context, _event) => true,
-              }),
-            },
-            SEEKING: {
-              target: 'paused',
-              actions: [
-                assign({
-                  seekingTime: (context, event) => event.seekingTime,
-                }),
-                'seekVideo',
-              ],
-            },
           },
         },
         playing: {
           on: {
             PAUSE: {target: 'paused', actions: ['pauseVideo']},
-            ACTIVITY: {
-              target: 'playing',
-              actions: assign({
-                isActive: (_context, _event) => true,
-              }),
-            },
-            VOLUME_CHANGE: {
-              target: 'playing',
-              actions: [
-                assign({
-                  volume: (_context, event) => event.volume,
-                }),
-                (context, event) => {
-                  if (context.video) context.video.volume = event.volume
-                },
-              ],
-            },
-            PLAYBACKRATE_CHANGE: {
-              target: 'playing',
-              actions: [
-                assign({
-                  playbackRate: (_context, event) => event.playbackRate,
-                }),
-                (context, event) => {
-                  if (context.video)
-                    context.video.playbackRate = event.playbackRate
-                },
-              ],
-            },
-            SEEKING: {
-              target: 'playing',
-              actions: [
-                assign({
-                  seekingTime: (context, event) => event.seekingTime,
-                }),
-                'seekVideo',
-              ],
-            },
             END: 'ended',
             TIMING: {
-              target: 'playing',
               actions: assign({
                 currentTime: (context, _event) =>
                   context.video?.currentTime ?? 0,
@@ -188,6 +139,18 @@ export const VideoContext = createContext({} as VideoContextType)
 export const VideoProvider: React.FC = (props) => {
   const videoService = useInterpret(videoMachine, {
     actions: {
+      setPlaybackRate: (context, event) => {
+        // These threw type errors if the event type wasn't specified
+        // assuming that the machine under the hood doesn't
+        // have enough context since these actions are very separated
+        // from the config.
+        if (context.video && event.type === 'PLAYBACKRATE_CHANGE')
+          context.video.playbackRate = event.playbackRate
+      },
+      setVolume: (context, event) => {
+        if (context.video && event.type === 'VOLUME_CHANGE')
+          context.video.volume = event.volume ?? 0.8
+      },
       playVideo: (context, _event) => {
         const {video} = context
         video?.play()
@@ -198,6 +161,7 @@ export const VideoProvider: React.FC = (props) => {
       },
       seekVideo: (context, _event) => {
         const {video, seekingTime} = context
+        console.log({seekingTime, _event})
         if (video) video.currentTime = seekingTime ?? video.currentTime
       },
     },
@@ -212,11 +176,12 @@ export const VideoProvider: React.FC = (props) => {
 
 export const Player: React.FC = ({children}) => {
   const {videoService} = React.useContext(VideoContext)
+  const handleActivity = () => videoService.send('ACTIVITY')
   return (
     <div
-      onMouseDown={() => videoService.send('ACTIVITY')}
-      onMouseMove={() => videoService.send('ACTIVITY')}
-      onKeyDown={() => videoService.send('ACTIVITY')}
+      onMouseDown={handleActivity}
+      onMouseMove={handleActivity}
+      onKeyDown={handleActivity}
       className="cueplayer-react"
       style={{height: '500px'}}
     >
@@ -251,7 +216,7 @@ const VideoControlBar = () => {
         Pause
       </button>
       <CurrentTimeDisplay />
-      <SeekBar />
+      <ProgressControl />
     </div>
   )
 }
@@ -281,6 +246,40 @@ const CurrentTimeDisplay: React.FC<any> = ({className}) => {
   )
 }
 
+const ProgressControl: React.FC<any> = (props) => {
+  const {videoService} = React.useContext(VideoContext)
+  const duration = useSelector(videoService, selectDuration)
+  const [mouseTime, setMouseTime] = React.useState({time: 0, position: 0})
+  const seekBar = React.useRef(null)
+
+  function handleMouseMove(event: MouseEvent) {
+    if (!event.pageX) {
+      return
+    }
+
+    const node = seekBar.current
+    const newTime = getPointerPosition(node, event).x * duration
+    const position = event.pageX - findElPosition(node).left
+
+    setMouseTime({
+      time: newTime,
+      position,
+    })
+  }
+
+  return (
+    <div
+      onMouseMove={handleMouseMove}
+      className={cx(
+        'cueplayer-react-progress-control cueplayer-react-control',
+        props.className,
+      )}
+    >
+      <SeekBar mouseTime={mouseTime} ref={seekBar} {...props} />
+    </div>
+  )
+}
+
 const selectPercent = (state: {context: VideoStateContext}) => {
   if (!state.context.video) return 0
   const {currentTime, duration} = state.context.video
@@ -296,81 +295,162 @@ const selectCurrentTime = (state: {context: VideoStateContext}) =>
 const selectDuration = (state: {context: VideoStateContext}) =>
   state.context.video?.duration || 0
 
-const SeekBar: React.FC<any> = (props) => {
-  const sliderRef = React.useRef(null)
+const SeekBar: React.FC<any> = React.forwardRef<HTMLDivElement, any>(
+  (props, ref) => {
+    // currentTime, seekingTime, duration, buffered
+    const {videoService} = React.useContext(VideoContext)
+    const formattedTime = useSelector(videoService, selectFormattedTime)
+    const percent = useSelector(videoService, selectPercent)
+    const duration = useSelector(videoService, selectDuration)
+    const currentTime = useSelector(videoService, selectCurrentTime)
+
+    function calculateDistance(event: Event | SyntheticEvent) {
+      // forwarding refs made for a bit of a weird situation with
+      // the typing but there IS a ref here
+      // @ts-ignore
+      const node = ref?.current
+      const position = getPointerPosition(node, event)
+      console.log(node, position)
+      return position.x
+    }
+
+    function getNewTime(event: Event | SyntheticEvent) {
+      const distance = calculateDistance(event)
+      const newTime = distance * duration
+      // Don't let video end while scrubbing.
+      return newTime === duration ? newTime - 0.1 : newTime
+    }
+
+    function handleMouseDown() {}
+
+    function handleMouseUp(event: Event | SyntheticEvent) {
+      const newTime = getNewTime(event)
+      videoService.send({type: 'SEEKING', seekingTime: newTime})
+    }
+
+    function handleMouseMove(event: Event | SyntheticEvent) {
+      const newTime = getNewTime(event)
+      videoService.send({type: 'SEEKING', seekingTime: newTime})
+    }
+
+    function stepForward() {
+      let newTime = currentTime + 10
+      if (newTime > duration) {
+        newTime = duration
+      }
+      videoService.send({type: 'SEEKING', seekingTime: newTime})
+    }
+
+    function stepBack() {
+      let newTime = currentTime - 10
+      if (newTime < 0) {
+        newTime = 0
+      }
+      videoService.send({type: 'SEEKING', seekingTime: newTime})
+    }
+
+    return (
+      <Slider
+        ref={ref}
+        label="video progress bar"
+        className={cx('cueplayer-react-progress-holder', props.className)}
+        valuenow={(percent * 100).toFixed(2)}
+        valuetext={formattedTime}
+        onMouseDown={handleMouseDown}
+        onMouseMove={handleMouseMove}
+        onMouseUp={handleMouseUp}
+        getPercent={() => percent}
+        stepForward={stepForward}
+        stepBack={stepBack}
+      >
+        <LoadProgressBar
+          buffered={true}
+          currentTime={currentTime}
+          duration={duration}
+        />
+        {/*<MouseTimeDisplay duration={duration} mouseTime={mouseTime} />*/}
+        <PlayProgressBar />
+      </Slider>
+    )
+  },
+)
+
+const PlayProgressBar: React.FC<any> = ({className}) => {
   const {videoService} = React.useContext(VideoContext)
   const formattedTime = useSelector(videoService, selectFormattedTime)
-  const percent = useSelector(videoService, selectPercent)
-  const duration = useSelector(videoService, selectDuration)
-  const currentTime = useSelector(videoService, selectCurrentTime)
+  const percent = `${useSelector(videoService, selectPercent) * 100}%`
 
-  function calculateDistance(event: Event | SyntheticEvent) {
-    const node = sliderRef.current
-    const position = getPointerPosition(node, event)
-    return position.x
+  console.log(percent)
+
+  return (
+    <div
+      data-current-time={formattedTime}
+      className={cx(
+        'cueplayer-react-play-progress cueplayer-react-slider-bar',
+        className,
+      )}
+      style={{
+        width: percent,
+      }}
+    >
+      <span className="cueplayer-react-control-text">
+        {`Progress: ${percent}`}
+      </span>
+    </div>
+  )
+}
+
+const LoadProgressBar: React.FC<any> = ({className, buffered, duration}) => {
+  if (!buffered || !buffered.length) {
+    return null
+  }
+  let bufferedEnd = buffered.end(buffered.length - 1)
+
+  if (bufferedEnd > duration) {
+    bufferedEnd = duration
   }
 
-  function getNewTime(event: Event | SyntheticEvent) {
-    const distance = calculateDistance(event)
-    const newTime = distance * duration
-
-    // Don't let video end while scrubbing.
-    return newTime === duration ? newTime - 0.1 : newTime
+  // get the percent width of a time compared to the total end
+  function percentify(time: number, end: number) {
+    const percent = time / end || 0 // no NaN
+    return `${(percent >= 1 ? 1 : percent) * 100}%`
   }
 
-  function handleMouseDown() {}
+  // the width of the progress bar
+  const style = {width: '0%'}
+  style.width = percentify(bufferedEnd, duration)
 
-  function handleMouseUp(event: Event | SyntheticEvent) {
-    const newTime = getNewTime(event)
-    // Set new time (tell video to seek to new time)
-    // actions.seek(newTime)
-    // actions.handleEndSeeking(newTime)
-    videoService.send({type: 'SEEKING', seekingTime: newTime})
+  let parts: any[] | undefined = []
+
+  // add child elements to represent the individual buffered time ranges
+  for (let i = 0; i < buffered.length; i++) {
+    const start = buffered.start(i)
+    const end = buffered.end(i)
+    // set the percent based on the width of the progress bar (bufferedEnd)
+    const part = (
+      <div
+        style={{
+          left: percentify(start, bufferedEnd),
+          width: percentify(end - start, bufferedEnd),
+        }}
+        key={`part-${i}`}
+      />
+    )
+    parts.push(part)
   }
 
-  function handleMouseMove(event: Event | SyntheticEvent) {
-    const newTime = getNewTime(event)
-    videoService.send({type: 'SEEKING', seekingTime: newTime})
-  }
-
-  function stepForward() {
-    let newTime = currentTime + 10
-    if (newTime > duration) {
-      newTime = duration
-    }
-    videoService.send({type: 'SEEKING', seekingTime: newTime})
-  }
-
-  function stepBack() {
-    let newTime = currentTime - 10
-    if (newTime < 0) {
-      newTime = 0
-    }
-    videoService.send({type: 'SEEKING', seekingTime: newTime})
+  if (parts.length === 0) {
+    parts = undefined
   }
 
   return (
-    <Slider
-      ref={sliderRef}
-      label="video progress bar"
-      className={cx('cueplayer-react-progress-holder', props.className)}
-      valuenow={(percent * 100).toFixed(2)}
-      valuetext={formattedTime}
-      onMouseDown={handleMouseDown}
-      onMouseMove={handleMouseMove}
-      onMouseUp={handleMouseUp}
-      getPercent={() => percent}
-      stepForward={stepForward}
-      stepBack={stepBack}
+    <div
+      style={style}
+      className={cx('cueplayer-react-load-progress', className)}
     >
-      {/*<LoadProgressBar*/}
-      {/*  buffered={buffered}*/}
-      {/*  currentTime={time}*/}
-      {/*  duration={duration}*/}
-      {/*/>*/}
-      {/*<MouseTimeDisplay duration={duration} mouseTime={mouseTime} />*/}
-      {/*<PlayProgressBar currentTime={time} duration={duration} />*/}
-    </Slider>
+      <span className="cueplayer-react-control-text">Loaded: 0%</span>
+      {parts}
+    </div>
   )
 }
 
