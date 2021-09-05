@@ -1,5 +1,4 @@
 import * as React from 'react'
-import {Component, SyntheticEvent} from 'react'
 import {VideoContext, VideoStateContext} from './player'
 import {useSelector} from '@xstate/react'
 import {State} from 'xstate'
@@ -49,8 +48,6 @@ export const Shortcut: React.FC<ShortcutProps> = ({
   const paused = useSelector(videoService, selectIsPaused)
   const playbackRate = useSelector(videoService, selectPlaybackRate)
   const shortCutsRef = React.useRef<any[]>([])
-
-  console.log(volume)
 
   const togglePlay = React.useCallback(() => {
     if (paused) {

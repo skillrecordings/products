@@ -7,7 +7,6 @@ import cx from 'classnames'
 import {formatVideoTime} from '../utils/format-video-time'
 import {Slider} from './slider'
 import {Shortcut} from './shortcut'
-import {context} from 'msw'
 
 type VideoEvent =
   | {type: 'LOADED'; video: HTMLVideoElement}
@@ -199,7 +198,6 @@ export const VideoProvider: React.FC = (props) => {
       },
       seekVideo: (context, _event) => {
         const {video, seekingTime} = context
-        console.log({seekingTime})
         if (video) video.currentTime = seekingTime ?? video.currentTime
       },
     },
@@ -306,8 +304,6 @@ const SeekBar: React.FC<any> = (props) => {
   const duration = useSelector(videoService, selectDuration)
   const currentTime = useSelector(videoService, selectCurrentTime)
 
-  console.log(percent, duration, formattedTime)
-
   function calculateDistance(event: Event | SyntheticEvent) {
     const node = sliderRef.current
     const position = getPointerPosition(node, event)
@@ -329,16 +325,12 @@ const SeekBar: React.FC<any> = (props) => {
     // Set new time (tell video to seek to new time)
     // actions.seek(newTime)
     // actions.handleEndSeeking(newTime)
-    console.log({newTime})
     videoService.send({type: 'SEEKING', seekingTime: newTime})
-    console.log('mouse up', newTime)
   }
 
   function handleMouseMove(event: Event | SyntheticEvent) {
     const newTime = getNewTime(event)
-    console.log({newTime})
     videoService.send({type: 'SEEKING', seekingTime: newTime})
-    console.log('mouse move', newTime)
   }
 
   function stepForward() {
@@ -346,7 +338,6 @@ const SeekBar: React.FC<any> = (props) => {
     if (newTime > duration) {
       newTime = duration
     }
-    console.log({newTime})
     videoService.send({type: 'SEEKING', seekingTime: newTime})
   }
 
@@ -355,7 +346,6 @@ const SeekBar: React.FC<any> = (props) => {
     if (newTime < 0) {
       newTime = 0
     }
-    console.log({newTime})
     videoService.send({type: 'SEEKING', seekingTime: newTime})
   }
 
