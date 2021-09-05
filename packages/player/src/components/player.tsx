@@ -7,11 +7,14 @@ import cx from 'classnames'
 import {formatVideoTime} from '../utils/format-video-time'
 import {Slider} from './slider'
 import {Shortcut} from './shortcut'
+import {PopupButton} from './popup/popup-button'
+import {VolumeBar} from './volume-control/volume-bar'
 
 type VideoEvent =
   | {type: 'VOLUME_CHANGE'; volume: number}
   | {type: 'LOADED'; video: HTMLVideoElement}
   | {type: 'PLAY'}
+  | {type: 'TOGGLE_MUTE'}
   | {type: 'SEEKING'; seekingTime: number}
   | {type: 'TIMING'}
   | {type: 'ACTIVITY'}
@@ -78,6 +81,9 @@ const videoMachine = createMachine<VideoStateContext, VideoEvent>({
             }),
             'setVolume',
           ],
+        },
+        TOGGLE_MUTE: {
+          actions: ['toggleMute'],
         },
         PLAYBACKRATE_CHANGE: {
           actions: [
@@ -151,6 +157,9 @@ export const VideoProvider: React.FC = (props) => {
         if (context.video && event.type === 'VOLUME_CHANGE')
           context.video.volume = event.volume ?? 0.8
       },
+      toggleMute: (context, _event) => {
+        if (context.video) context.video.muted = !context.video.muted
+      },
       playVideo: (context, _event) => {
         const {video} = context
         video?.play()
@@ -214,6 +223,7 @@ const VideoControlBar = () => {
       >
         Pause
       </button>
+      <VolumeMenuButton />
       <CurrentTimeDisplay />
       <ProgressControl />
     </div>
@@ -371,6 +381,71 @@ const SeekBar: React.FC<any> = React.forwardRef<HTMLDivElement, any>(
     )
   },
 )
+
+const selectVolume = (state: {context: VideoStateContext}) =>
+  state.context.video?.volume ?? 0.8
+
+const selectMuted = (state: {context: VideoStateContext}) =>
+  state.context.video?.muted ?? false
+
+const VolumeMenuButton: React.FC<any> = (props) => {
+  const {className, vertical = false, alwaysShowVolume} = props
+  const [active, setActive] = React.useState(false)
+  const {videoService} = React.useContext(VideoContext)
+  const volume = useSelector(videoService, selectVolume)
+  const muted = useSelector(videoService, selectMuted)
+
+  const inline = !vertical
+  const level = volumeLevel()
+
+  function volumeLevel() {
+    let level = 3
+    if (volume === 0 || muted) {
+      level = 0
+    } else if (volume < 0.33) {
+      level = 1
+    } else if (volume < 0.67) {
+      level = 2
+    }
+    return level
+  }
+
+  function handleClick() {
+    videoService.send('TOGGLE_MUTE')
+  }
+
+  function handleFocus() {
+    setActive(true)
+  }
+
+  function handleBlur() {
+    setActive(false)
+  }
+
+  return (
+    <PopupButton
+      className={cx(
+        className,
+        {
+          'cueplayer-react-volume-menu-button-vertical': vertical,
+          'cueplayer-react-volume-menu-button-horizontal': !vertical,
+          'cueplayer-react-vol-muted': muted,
+          'cueplayer-react-vol-0': level === 0 && !muted,
+          'cueplayer-react-vol-1': level === 1,
+          'cueplayer-react-vol-2': level === 2,
+          'cueplayer-react-vol-3': level === 3,
+          'cueplayer-react-slider-active': alwaysShowVolume || active,
+          'cueplayer-react-lock-showing': alwaysShowVolume || active,
+        },
+        'cueplayer-react-volume-menu-button',
+      )}
+      onClick={handleClick}
+      inline={inline}
+    >
+      <VolumeBar onFocus={handleFocus} onBlur={handleBlur} {...props} />
+    </PopupButton>
+  )
+}
 
 const PlayProgressBar: React.FC<any> = ({className}) => {
   const {videoService} = React.useContext(VideoContext)
