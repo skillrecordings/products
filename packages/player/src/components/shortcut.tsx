@@ -150,7 +150,6 @@ export const Shortcut: React.FC<ShortcutProps> = ({
           if (v > 1) {
             v = 1
           }
-          console.log(volume, v)
           videoService.send({type: 'VOLUME_CHANGE', volume: v < 1.0 ? v : 1.0})
         },
       },
@@ -301,8 +300,6 @@ export const Shortcut: React.FC<ShortcutProps> = ({
           (s.alt !== undefined && s.alt !== alt)
         )
       })[0]
-
-      console.log({shortcut})
 
       if (shortcut) {
         shortcut.handle()
