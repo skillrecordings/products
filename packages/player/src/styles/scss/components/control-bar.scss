@@ -1,0 +1,56 @@
+.cueplayer-react .cueplayer-react-control-bar {
+  display: flex;
+  width: 100%;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 32px;
+
+  @include background-color-with-alpha(
+                  $cueplayer-react-primary-background-color,
+                  $cueplayer-react-primary-background-transparency
+  );
+}
+
+// Video has started playing
+.cueplayer-react-has-started .cueplayer-react-control-bar {
+  @include display-flex;
+  visibility: visible;
+  opacity: 1;
+
+  $trans: visibility 0.6s, opacity 0.6s; // Var needed because of comma
+  @include transition($trans);
+}
+
+// Video has started playing AND user is inactive
+.cueplayer-react-has-started.cueplayer-react-user-inactive.cueplayer-react-playing {
+  .cueplayer-react-control-bar.cueplayer-react-control-bar-auto-hide {
+    // Remain visible for screen reader and keyboard users
+    visibility: visible;
+    opacity: 0;
+
+    $trans: visibility 0.6s, opacity 0.6s;
+    @include transition($trans);
+  }
+}
+
+.cueplayer-react-controls-disabled .cueplayer-react-control-bar,
+.cueplayer-react-using-native-controls .cueplayer-react-control-bar,
+.cueplayer-react-error .cueplayer-react-control-bar {
+  // !important is ok in this context.
+  display: none !important;
+}
+
+// Don't hide the control bar if it's audio
+.cueplayer-react-audio.cueplayer-react-has-started.cueplayer-react-user-inactive.cueplayer-react-playing
+.cueplayer-react-control-bar {
+  opacity: 1;
+  visibility: visible;
+}
+
+// IE 8 + 9 Support
+.cueplayer-react-has-started.cueplayer-react-no-flex
+.cueplayer-react-control-bar {
+  display: table;
+}
