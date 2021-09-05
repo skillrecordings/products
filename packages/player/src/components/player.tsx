@@ -70,3 +70,6 @@ export const selectVolume = (state: StateFrom<typeof videoMachine>) =>
 
 export const selectMuted = (state: StateFrom<typeof videoMachine>) =>
   state.context.video?.muted ?? false
+
+export const selectSeekTime = (state: StateFrom<typeof videoMachine>) =>
+  state.context.seekingTime ?? state.context.video?.currentTime ?? 0

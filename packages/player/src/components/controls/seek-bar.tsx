@@ -8,6 +8,7 @@ import {
   selectDuration,
   selectFormattedTime,
   selectPercent,
+  selectSeekTime,
 } from '../player'
 import {LoadProgressBar} from './load-progress-bar'
 import {PlayProgressBar} from './play-progress-bar'
@@ -22,6 +23,7 @@ export const SeekBar: React.FC<any> = React.forwardRef<HTMLDivElement, any>(
     const percent = useSelector(videoService, selectPercent)
     const duration = useSelector(videoService, selectDuration)
     const currentTime = useSelector(videoService, selectCurrentTime)
+    const seekingTime = useSelector(videoService, selectSeekTime)
 
     function calculateDistance(event: Event | SyntheticEvent) {
       // forwarding refs made for a bit of a weird situation with
@@ -67,6 +69,12 @@ export const SeekBar: React.FC<any> = React.forwardRef<HTMLDivElement, any>(
       videoService.send({type: 'SEEKING', seekingTime: newTime})
     }
 
+    function getPercent() {
+      const time = seekingTime || currentTime
+      const percent = time / duration
+      return percent >= 1 ? 1 : percent
+    }
+
     return (
       <Slider
         ref={ref}
@@ -77,7 +85,7 @@ export const SeekBar: React.FC<any> = React.forwardRef<HTMLDivElement, any>(
         onMouseDown={handleMouseDown}
         onMouseMove={handleMouseMove}
         onMouseUp={handleMouseUp}
-        getPercent={() => percent}
+        getPercent={getPercent}
         stepForward={stepForward}
         stepBack={stepBack}
       >
