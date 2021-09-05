@@ -21,10 +21,10 @@ type VideoEvent =
   | {type: 'FAIL'}
 
 export interface VideoStateContext {
-  video: HTMLVideoElement | null
+  video: HTMLVideoElement | undefined
   duration: number
   currentTime: number
-  seekingTime: null | number
+  seekingTime: undefined | number
   hasStarted: boolean
   isActive: boolean
   readyState: number
@@ -36,10 +36,10 @@ const videoMachine = createMachine<VideoStateContext, VideoEvent>({
   id: 'videoMachine',
   initial: 'loading',
   context: {
-    video: null,
+    video: undefined,
     duration: 0,
     currentTime: 0,
-    seekingTime: null,
+    seekingTime: undefined,
     hasStarted: false,
     isActive: false,
     readyState: -1,
@@ -161,7 +161,6 @@ export const VideoProvider: React.FC = (props) => {
       },
       seekVideo: (context, _event) => {
         const {video, seekingTime} = context
-        console.log({seekingTime, _event})
         if (video) video.currentTime = seekingTime ?? video.currentTime
       },
     },
@@ -295,6 +294,9 @@ const selectCurrentTime = (state: {context: VideoStateContext}) =>
 const selectDuration = (state: {context: VideoStateContext}) =>
   state.context.video?.duration || 0
 
+const selectBuffered = (state: {context: VideoStateContext}) =>
+  state.context.video?.buffered || 0
+
 const SeekBar: React.FC<any> = React.forwardRef<HTMLDivElement, any>(
   (props, ref) => {
     // currentTime, seekingTime, duration, buffered
@@ -310,7 +312,6 @@ const SeekBar: React.FC<any> = React.forwardRef<HTMLDivElement, any>(
       // @ts-ignore
       const node = ref?.current
       const position = getPointerPosition(node, event)
-      console.log(node, position)
       return position.x
     }
 
@@ -363,11 +364,7 @@ const SeekBar: React.FC<any> = React.forwardRef<HTMLDivElement, any>(
         stepForward={stepForward}
         stepBack={stepBack}
       >
-        <LoadProgressBar
-          buffered={true}
-          currentTime={currentTime}
-          duration={duration}
-        />
+        <LoadProgressBar />
         {/*<MouseTimeDisplay duration={duration} mouseTime={mouseTime} />*/}
         <PlayProgressBar />
       </Slider>
@@ -379,8 +376,6 @@ const PlayProgressBar: React.FC<any> = ({className}) => {
   const {videoService} = React.useContext(VideoContext)
   const formattedTime = useSelector(videoService, selectFormattedTime)
   const percent = `${useSelector(videoService, selectPercent) * 100}%`
-
-  console.log(percent)
 
   return (
     <div
@@ -400,7 +395,11 @@ const PlayProgressBar: React.FC<any> = ({className}) => {
   )
 }
 
-const LoadProgressBar: React.FC<any> = ({className, buffered, duration}) => {
+const LoadProgressBar: React.FC<any> = ({className}) => {
+  const {videoService} = React.useContext(VideoContext)
+  const duration = useSelector(videoService, selectDuration)
+  const buffered = useSelector(videoService, selectBuffered)
+
   if (!buffered || !buffered.length) {
     return null
   }
