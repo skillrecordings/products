@@ -17,20 +17,22 @@ const selectIsActive = (state: {context: VideoStateContext}) =>
   state.context.isActive || false
 
 const selectReadyState = (state: {context: VideoStateContext}) =>
-  state.context.readyState || -1
+  state.context.readyState ?? -1
 
 const selectVolume = (state: {context: VideoStateContext}) =>
-  state.context.volume || 0.8
+  state.context.volume ?? 0.8
+
+const selectCurrentTime = (state: {context: VideoStateContext}) =>
+  state.context.video?.currentTime ?? 0
 
 const selectDuration = (state: {context: VideoStateContext}) =>
-  state.context.volume || 0.8
+  state.context.video?.duration ?? 0
 
-const selectIsPaused = (state: State<VideoStateContext>) => {
-  return state.matches('ready.paused')
-}
+const selectIsPaused = (state: State<VideoStateContext>) =>
+  state.matches('ready.paused')
 
 const selectPlaybackRate = (state: State<VideoStateContext>) =>
-  state.context.playbackRate || 1.0
+  state.context.playbackRate ?? 1.0
 
 export const Shortcut: React.FC<ShortcutProps> = ({
   clickable = false,
@@ -43,11 +45,12 @@ export const Shortcut: React.FC<ShortcutProps> = ({
   const readyState = useSelector(videoService, selectReadyState)
   const volume = useSelector(videoService, selectVolume)
   const duration = useSelector(videoService, selectDuration)
+  const currentTime = useSelector(videoService, selectCurrentTime)
   const paused = useSelector(videoService, selectIsPaused)
   const playbackRate = useSelector(videoService, selectPlaybackRate)
   const shortCutsRef = React.useRef<any[]>([])
 
-  console.log(videoService, paused)
+  console.log(volume)
 
   const togglePlay = React.useCallback(() => {
     if (paused) {
@@ -77,9 +80,10 @@ export const Shortcut: React.FC<ShortcutProps> = ({
           if (!hasStarted) {
             return
           }
-          console.log('seek forward 5', 5, {
-            action: 'back-5',
-            source: 'shortcut',
+          const seekingTime = currentTime - 5
+          videoService.send({
+            type: 'SEEKING',
+            seekingTime: seekingTime > 0 ? seekingTime : 0,
           })
         },
       },
@@ -89,9 +93,10 @@ export const Shortcut: React.FC<ShortcutProps> = ({
           if (!hasStarted) {
             return
           }
-          console.log('seek back 10', 10, {
-            action: 'back-10',
-            source: 'shortcut',
+          const seekingTime = currentTime - 10
+          videoService.send({
+            type: 'SEEKING',
+            seekingTime: seekingTime > 0 ? seekingTime : 0,
           })
         },
       },
@@ -101,9 +106,10 @@ export const Shortcut: React.FC<ShortcutProps> = ({
           if (!hasStarted) {
             return
           }
-          console.log('seek forward 5', 10, {
-            action: 'forward-10',
-            source: 'shortcut',
+          const seekingTime = currentTime + 5
+          videoService.send({
+            type: 'SEEKING',
+            seekingTime: seekingTime < duration ? seekingTime : duration,
           })
         },
       },
@@ -113,9 +119,10 @@ export const Shortcut: React.FC<ShortcutProps> = ({
           if (!hasStarted) {
             return
           }
-          console.log('seek forward 10', 10, {
-            action: 'forward-10',
-            source: 'shortcut',
+          const seekingTime = currentTime + 10
+          videoService.send({
+            type: 'SEEKING',
+            seekingTime: seekingTime < duration ? seekingTime : duration,
           })
         },
       },
@@ -125,7 +132,7 @@ export const Shortcut: React.FC<ShortcutProps> = ({
           if (!hasStarted) {
             return
           }
-          console.log('seek to start')
+          videoService.send({type: 'SEEKING', seekingTime: 0})
         },
       },
       {
@@ -135,7 +142,7 @@ export const Shortcut: React.FC<ShortcutProps> = ({
             return
           }
           // Go to end of video
-          console.log('seek to end', duration)
+          videoService.send({type: 'SEEKING', seekingTime: duration})
         },
       },
       {
@@ -146,9 +153,8 @@ export const Shortcut: React.FC<ShortcutProps> = ({
           if (v > 1) {
             v = 1
           }
-          console.log('change volume', v, {
-            source: 'shortcut',
-          })
+          console.log(volume, v)
+          videoService.send({type: 'VOLUME_CHANGE', volume: v < 1.0 ? v : 1.0})
         },
       },
       {
@@ -159,11 +165,8 @@ export const Shortcut: React.FC<ShortcutProps> = ({
           if (v < 0) {
             v = 0
           }
-          const action = v > 0 ? 'volume-down' : 'volume-off'
-          console.log('change volume', v, {
-            action,
-            source: 'shortcut',
-          })
+          //TODO difference between volume down and volume off actions
+          videoService.send({type: 'VOLUME_CHANGE', volume: v > 0 ? v : 0})
         },
       },
       {
@@ -186,9 +189,9 @@ export const Shortcut: React.FC<ShortcutProps> = ({
             newPlaybackRate = 0.25
           }
 
-          console.log('fast forward', newPlaybackRate, {
-            action: 'fast-forward',
-            source: 'shortcut',
+          videoService.send({
+            type: 'PLAYBACKRATE_CHANGE',
+            playbackRate: newPlaybackRate,
           })
         },
       },
@@ -209,9 +212,9 @@ export const Shortcut: React.FC<ShortcutProps> = ({
           } else if (playbackRate <= 2) {
             newPlaybackRate = 1.5
           }
-          console.log('fast rewind', newPlaybackRate, {
-            action: 'fast-rewind',
-            source: 'shortcut',
+          videoService.send({
+            type: 'PLAYBACKRATE_CHANGE',
+            playbackRate: newPlaybackRate,
           })
         },
       },
@@ -257,7 +260,16 @@ export const Shortcut: React.FC<ShortcutProps> = ({
     return Object.keys(mergedShortcuts)
       .map((key) => mergedShortcuts[key])
       .sort((a, b) => gradeShortcut(b) - gradeShortcut(a))
-  }, [duration, hasStarted, playbackRate, props.shortcuts, togglePlay, volume])
+  }, [
+    currentTime,
+    duration,
+    hasStarted,
+    playbackRate,
+    props.shortcuts,
+    togglePlay,
+    videoService,
+    volume,
+  ])
 
   const handleKeyPress = React.useCallback(
     (e: KeyboardEvent) => {

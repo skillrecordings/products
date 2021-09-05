@@ -7,6 +7,7 @@ import cx from 'classnames'
 import {formatVideoTime} from '../utils/format-video-time'
 import {Slider} from './slider'
 import {Shortcut} from './shortcut'
+import {context} from 'msw'
 
 type VideoEvent =
   | {type: 'LOADED'; video: HTMLVideoElement}
@@ -16,6 +17,8 @@ type VideoEvent =
   | {type: 'ACTIVITY'}
   | {type: 'PAUSE'}
   | {type: 'END'}
+  | {type: 'VOLUME_CHANGE'; volume: number}
+  | {type: 'PLAYBACKRATE_CHANGE'; playbackRate: number}
   | {type: 'FAIL'}
 
 export interface VideoStateContext {
@@ -65,6 +68,7 @@ const videoMachine = createMachine<VideoStateContext, VideoEvent>({
     },
     ready: {
       initial: 'paused',
+
       states: {
         paused: {
           on: {
@@ -75,6 +79,29 @@ const videoMachine = createMachine<VideoStateContext, VideoEvent>({
                   hasStarted: (_context, _event) => true,
                 }),
                 'playVideo',
+              ],
+            },
+            VOLUME_CHANGE: {
+              target: 'paused',
+              actions: [
+                assign({
+                  volume: (_context, event) => event.volume,
+                }),
+                (context, event) => {
+                  if (context.video) context.video.volume = event.volume
+                },
+              ],
+            },
+            PLAYBACKRATE_CHANGE: {
+              target: 'paused',
+              actions: [
+                assign({
+                  playbackRate: (_context, event) => event.playbackRate,
+                }),
+                (context, event) => {
+                  if (context.video)
+                    context.video.playbackRate = event.playbackRate
+                },
               ],
             },
             ACTIVITY: {
@@ -102,6 +129,29 @@ const videoMachine = createMachine<VideoStateContext, VideoEvent>({
               actions: assign({
                 isActive: (_context, _event) => true,
               }),
+            },
+            VOLUME_CHANGE: {
+              target: 'playing',
+              actions: [
+                assign({
+                  volume: (_context, event) => event.volume,
+                }),
+                (context, event) => {
+                  if (context.video) context.video.volume = event.volume
+                },
+              ],
+            },
+            PLAYBACKRATE_CHANGE: {
+              target: 'playing',
+              actions: [
+                assign({
+                  playbackRate: (_context, event) => event.playbackRate,
+                }),
+                (context, event) => {
+                  if (context.video)
+                    context.video.playbackRate = event.playbackRate
+                },
+              ],
             },
             SEEKING: {
               target: 'playing',
