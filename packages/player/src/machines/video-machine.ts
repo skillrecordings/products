@@ -2,17 +2,17 @@ import {assign, createMachine} from 'xstate'
 import screenfull from 'screenfull'
 
 export type VideoEvent =
-  | {type: 'VOLUME_CHANGE'; volume: number}
+  | {type: 'VOLUME_CHANGE'; volume: number; source?: string}
   | {type: 'LOADED'; video: HTMLVideoElement}
-  | {type: 'PLAY'}
+  | {type: 'PLAY'; source?: string}
   | {type: 'TOGGLE_MUTE'}
   | {type: 'TOGGLE_FULLSCREEN'; element?: HTMLElement}
-  | {type: 'SEEKING'; seekingTime: number}
+  | {type: 'SEEKING'; seekingTime: number; source?: string}
   | {type: 'TIMING'}
   | {type: 'ACTIVITY'}
-  | {type: 'PAUSE'}
+  | {type: 'PAUSE'; source?: string}
   | {type: 'END'}
-  | {type: 'PLAYBACKRATE_CHANGE'; playbackRate: number}
+  | {type: 'PLAYBACKRATE_CHANGE'; playbackRate: number; source?: string}
   | {type: 'FAIL'}
 
 export interface VideoStateContext {
@@ -26,6 +26,7 @@ export interface VideoStateContext {
   volume: number
   playbackRate: number
   isFullscreen: boolean
+  lastAction: string | undefined
 }
 
 export const videoMachine = createMachine<VideoStateContext, VideoEvent>({
@@ -42,6 +43,7 @@ export const videoMachine = createMachine<VideoStateContext, VideoEvent>({
     volume: 0.8,
     playbackRate: 1,
     isFullscreen: false,
+    lastAction: undefined,
   },
   on: {
     ACTIVITY: {
