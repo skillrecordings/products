@@ -46,7 +46,7 @@ export const Bezel: React.FC<BezelProps> = ({className}) => {
     })
 
     return subscription.unsubscribe
-  }, [videoService]) // note: service should never change
+  }, [videoService])
 
   return (
     <div
