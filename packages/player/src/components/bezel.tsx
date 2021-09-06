@@ -6,9 +6,13 @@ type BezelProps = {
   className?: string
 }
 
-// this is a little flash icon in the center of the video
-// there is css for all of the shortcut actions, but currently
-// its only configured for PLAY actions
+/**
+ * Flashes an icon on the screen when a shortcut key is used
+ *
+ * Currently only 'play' and 'pause' are implemented
+ * @param className
+ * @constructor
+ */
 export const Bezel: React.FC<BezelProps> = ({className}) => {
   const {videoService} = React.useContext(VideoContext)
   const [count, setCount] = React.useState(0)
@@ -34,6 +38,8 @@ export const Bezel: React.FC<BezelProps> = ({className}) => {
           clearTimeout(timerRef.current) // cancel it
           timerRef.current = undefined
         }
+
+        setCount((prevCount) => prevCount + 1)
 
         setHidden(false)
 

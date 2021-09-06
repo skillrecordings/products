@@ -46,6 +46,7 @@ export const SeekBar: React.FC<any> = React.forwardRef<HTMLDivElement, any>(
     function handleMouseUp(event: Event | SyntheticEvent) {
       const newTime = getNewTime(event)
       videoService.send({type: 'SEEKING', seekingTime: newTime})
+      videoService.send('END_SEEKING')
     }
 
     function handleMouseMove(event: Event | SyntheticEvent) {
