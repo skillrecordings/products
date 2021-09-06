@@ -1,10 +1,12 @@
 import {assign, createMachine} from 'xstate'
+import screenfull from 'screenfull'
 
 export type VideoEvent =
   | {type: 'VOLUME_CHANGE'; volume: number}
   | {type: 'LOADED'; video: HTMLVideoElement}
   | {type: 'PLAY'}
   | {type: 'TOGGLE_MUTE'}
+  | {type: 'TOGGLE_FULLSCREEN'; element?: HTMLElement}
   | {type: 'SEEKING'; seekingTime: number}
   | {type: 'TIMING'}
   | {type: 'ACTIVITY'}
@@ -23,6 +25,7 @@ export interface VideoStateContext {
   readyState: number
   volume: number
   playbackRate: number
+  isFullscreen: boolean
 }
 
 export const videoMachine = createMachine<VideoStateContext, VideoEvent>({
@@ -38,6 +41,7 @@ export const videoMachine = createMachine<VideoStateContext, VideoEvent>({
     readyState: -1,
     volume: 0.8,
     playbackRate: 1,
+    isFullscreen: false,
   },
   on: {
     ACTIVITY: {
@@ -45,6 +49,18 @@ export const videoMachine = createMachine<VideoStateContext, VideoEvent>({
         assign({
           isActive: (_context, _event) => true,
         }),
+      ],
+    },
+    TOGGLE_FULLSCREEN: {
+      actions: [
+        assign({
+          isFullscreen: (context, _event) => !context.isFullscreen,
+        }),
+        (_context, event) => {
+          if (screenfull.isEnabled) {
+            screenfull.toggle(event.element)
+          }
+        },
       ],
     },
   },
