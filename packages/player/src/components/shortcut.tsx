@@ -3,6 +3,7 @@ import {VideoContext} from '../context/video-context'
 import {useSelector} from '@xstate/react'
 import {StateFrom} from 'xstate'
 import {videoMachine} from '../machines/video-machine'
+import {selectPlaybackRate} from './player'
 
 type ShortcutProps = {
   clickable?: boolean
@@ -31,15 +32,13 @@ const selectDuration = (state: StateFrom<typeof videoMachine>) =>
 const selectIsPaused = (state: StateFrom<typeof videoMachine>) =>
   state.matches('ready.paused')
 
-const selectPlaybackRate = (state: StateFrom<typeof videoMachine>) =>
-  state.context.playbackRate ?? 1.0
-
 export const Shortcut: React.FC<ShortcutProps> = ({
   clickable = false,
   dblclickable = false,
   ...props
 }) => {
   const {videoService} = React.useContext(VideoContext)
+  const playbackRate = useSelector(videoService, selectPlaybackRate)
   const hasStarted = useSelector(videoService, selectHasStarted)
   const isActive = useSelector(videoService, selectIsActive)
   const readyState = useSelector(videoService, selectReadyState)
@@ -47,7 +46,7 @@ export const Shortcut: React.FC<ShortcutProps> = ({
   const duration = useSelector(videoService, selectDuration)
   const currentTime = useSelector(videoService, selectCurrentTime)
   const paused = useSelector(videoService, selectIsPaused)
-  const playbackRate = useSelector(videoService, selectPlaybackRate)
+
   const shortCutsRef = React.useRef<any[]>([])
 
   const togglePlay = React.useCallback(() => {

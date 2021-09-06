@@ -12,6 +12,7 @@ import {videoMachine} from '../machines/video-machine'
 import {TimeDivider} from './time-controls/time-divider'
 import {DurationDisplay} from './time-controls/duration-display'
 import {RemainingTimeDisplay} from './time-controls/remaining-time-display'
+import {PlaybackRateMenuButton} from './controls/playback-rate-menu-button'
 
 export const Player: React.FC = ({children}) => {
   const {videoService} = React.useContext(VideoContext)
@@ -43,6 +44,7 @@ const VideoControlBar = () => {
       <DurationDisplay />
       <ProgressControl />
       <RemainingTimeDisplay />
+      <PlaybackRateMenuButton />
     </div>
   )
 }
@@ -91,3 +93,6 @@ export const selectMuted = (state: StateFrom<typeof videoMachine>) =>
 
 export const selectSeekTime = (state: StateFrom<typeof videoMachine>) =>
   state.context.seekingTime ?? state.context.video?.currentTime ?? 0
+
+export const selectPlaybackRate = (state: StateFrom<typeof videoMachine>) =>
+  state.context.playbackRate ?? 1.0
