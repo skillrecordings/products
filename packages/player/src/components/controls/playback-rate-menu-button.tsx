@@ -1,7 +1,7 @@
 import * as React from 'react'
 import cx from 'classnames'
 import {MenuButton} from '../menu/menu-button'
-import {VideoContext} from '../../context/video-context'
+import {useVideo} from '../../context/video-context'
 import {useSelector} from '@xstate/react'
 import {selectPlaybackRate} from '../../selectors'
 
@@ -15,7 +15,7 @@ type PlaybackRateMenuButtonProps = {
 export const PlaybackRateMenuButton: React.FC<PlaybackRateMenuButtonProps> = (
   props,
 ) => {
-  const {videoService} = React.useContext(VideoContext)
+  const videoService = useVideo()
   const playbackRate = useSelector(videoService, selectPlaybackRate)
   const {
     rates = [2, 1.5, 1.25, 1, 0.5, 0.25],

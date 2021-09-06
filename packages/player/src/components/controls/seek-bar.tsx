@@ -5,7 +5,7 @@ import {Slider} from '../slider'
 import cx from 'classnames'
 import {LoadProgressBar} from './load-progress-bar'
 import {PlayProgressBar} from './play-progress-bar'
-import {VideoContext} from '../../context/video-context'
+import {useVideo} from '../../context/video-context'
 import {getPointerPosition} from '../../utils'
 import {
   selectCurrentTime,
@@ -18,7 +18,7 @@ import {
 export const SeekBar: React.FC<any> = React.forwardRef<HTMLDivElement, any>(
   (props, ref) => {
     // currentTime, seekingTime, duration, buffered
-    const {videoService} = React.useContext(VideoContext)
+    const videoService = useVideo()
     const formattedTime = useSelector(videoService, selectFormattedTime)
     const percent = useSelector(videoService, selectPercent)
     const duration = useSelector(videoService, selectDuration)

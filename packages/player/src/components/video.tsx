@@ -1,5 +1,5 @@
 import * as React from 'react'
-import {VideoContext} from '../context/video-context'
+import {useVideo} from '../context/video-context'
 
 type VideoProps = {
   loop?: boolean
@@ -48,7 +48,7 @@ export const Video: React.FC<VideoProps> = ({
   //and below we need to manually assign it so we can dispatch
   //to the videoService and update our state machine context
   const videoElemRef = React.useRef<any>(null)
-  const {videoService} = React.useContext(VideoContext)
+  const videoService = useVideo()
 
   return (
     <video

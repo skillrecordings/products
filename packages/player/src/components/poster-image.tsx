@@ -1,5 +1,5 @@
 import * as React from 'react'
-import {VideoContext} from '../context/video-context'
+import {useVideo} from '../context/video-context'
 import {useSelector} from '@xstate/react'
 import cx from 'classnames'
 import {selectHasStarted, selectIsPaused} from '../selectors'
@@ -10,7 +10,7 @@ type PosterImageType = {
 }
 
 export const PosterImage: React.FC<PosterImageType> = ({poster, className}) => {
-  const {videoService} = React.useContext(VideoContext)
+  const videoService = useVideo()
   const hasStarted = useSelector(videoService, selectHasStarted)
   const paused = useSelector(videoService, selectIsPaused)
 

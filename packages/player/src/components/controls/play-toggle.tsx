@@ -1,14 +1,14 @@
 import * as React from 'react'
 import {useSelector} from '@xstate/react'
 import cx from 'classnames'
-import {VideoContext} from '../../context/video-context'
+import {useVideo} from '../../context/video-context'
 import {selectPaused} from '../../selectors'
 
 export const PlayToggle: React.FC<any> = React.forwardRef<
   HTMLButtonElement,
   any
 >(({className}, ref) => {
-  const {videoService} = React.useContext(VideoContext)
+  const videoService = useVideo()
   const paused = useSelector(videoService, selectPaused)
   const controlText = paused ? 'Play' : 'Pause'
 

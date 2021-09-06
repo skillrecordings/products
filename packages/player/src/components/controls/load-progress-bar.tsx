@@ -1,11 +1,11 @@
 import * as React from 'react'
 import {useSelector} from '@xstate/react'
 import cx from 'classnames'
-import {VideoContext} from '../../context/video-context'
+import {useVideo} from '../../context/video-context'
 import {selectBuffered, selectDuration} from '../../selectors'
 
 export const LoadProgressBar: React.FC<any> = ({className}) => {
-  const {videoService} = React.useContext(VideoContext)
+  const videoService = useVideo()
   const duration = useSelector(videoService, selectDuration)
   const buffered = useSelector(videoService, selectBuffered)
 

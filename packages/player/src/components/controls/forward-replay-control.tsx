@@ -1,5 +1,5 @@
 import * as React from 'react'
-import {VideoContext} from '../../context/video-context'
+import {useVideo} from '../../context/video-context'
 import {useSelector} from '@xstate/react'
 import {selectVideo} from '../../selectors'
 
@@ -12,7 +12,7 @@ export const ForwardReplayControl: React.FC<ForwardReplayControlProps> =
   React.forwardRef<HTMLButtonElement, ForwardReplayControlProps>(
     (props, ref) => {
       const {seconds = 10, className, mode = 'forward'} = props
-      const {videoService} = React.useContext(VideoContext)
+      const videoService = useVideo()
       const video = useSelector(videoService, selectVideo)
       const classNames = [
         'cueplayer-react-control',

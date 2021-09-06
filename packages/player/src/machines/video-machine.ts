@@ -1,5 +1,4 @@
 import {assign, createMachine} from 'xstate'
-import screenfull from 'screenfull'
 import {MutableRefObject} from 'react'
 
 export type VideoEvent =
@@ -81,12 +80,7 @@ export const videoMachine = createMachine<VideoStateContext, VideoEvent>({
         assign({
           isFullscreen: (context, _event) => !context.isFullscreen,
         }),
-        (_context, event) => {
-          if (screenfull.isEnabled) {
-            const element = event.element === null ? undefined : event.element
-            screenfull.toggle(element)
-          }
-        },
+        'toggleFullscreen',
       ],
     },
   },

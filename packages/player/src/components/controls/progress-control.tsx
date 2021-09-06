@@ -3,12 +3,12 @@ import {useSelector} from '@xstate/react'
 import {MouseEvent} from 'react'
 import cx from 'classnames'
 import {SeekBar} from './seek-bar'
-import {VideoContext} from '../../context/video-context'
+import {useVideo} from '../../context/video-context'
 import {findElPosition, getPointerPosition} from '../../utils'
 import {selectDuration} from '../../selectors'
 
 export const ProgressControl: React.FC<any> = (props) => {
-  const {videoService} = React.useContext(VideoContext)
+  const videoService = useVideo()
   const duration = useSelector(videoService, selectDuration)
   const [mouseTime, setMouseTime] = React.useState({time: 0, position: 0})
   const seekBar = React.useRef(null)

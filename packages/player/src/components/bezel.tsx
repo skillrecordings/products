@@ -1,6 +1,6 @@
 import * as React from 'react'
 import cx from 'classnames'
-import {VideoContext} from '../context/video-context'
+import {useVideo, VideoContext} from '../context/video-context'
 
 type BezelProps = {
   className?: string
@@ -14,7 +14,7 @@ type BezelProps = {
  * @constructor
  */
 export const Bezel: React.FC<BezelProps> = ({className}) => {
-  const {videoService} = React.useContext(VideoContext)
+  const videoService = useVideo()
   const [count, setCount] = React.useState(0)
   const [action, setAction] = React.useState('')
   const [hidden, setHidden] = React.useState(true)
