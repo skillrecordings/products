@@ -10,12 +10,7 @@ import {RemainingTimeDisplay} from './time-controls/remaining-time-display'
 import {PlaybackRateMenuButton} from './controls/playback-rate-menu-button'
 import {FullscreenToggle} from './controls/fullscreen-toggle'
 
-export const ControlBar: React.FC<{
-  fullscreenElement?: HTMLElement | null
-}> = ({fullscreenElement}) => {
-  if (fullscreenElement === null) {
-    fullscreenElement = undefined
-  }
+export const ControlBar: React.FC = () => {
   return (
     <div className="cueplayer-react-control-bar">
       <PlayToggle />
@@ -28,7 +23,7 @@ export const ControlBar: React.FC<{
       <ProgressControl />
       <RemainingTimeDisplay />
       <PlaybackRateMenuButton />
-      <FullscreenToggle fullscreenElement={fullscreenElement} />
+      <FullscreenToggle />
     </div>
   )
 }

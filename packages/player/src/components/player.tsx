@@ -18,7 +18,24 @@ import {
   selectIsWaiting,
 } from '../selectors'
 
-export const Player: React.FC<any> = ({children, className}) => {
+type PlayerProps = {
+  container?: HTMLElement
+  className?: string
+}
+
+/**
+ * The primary player instance. Must be a descendent by a {VideoProvider}.
+ * @param children {React.ReactNode=}
+ * @param className {string}
+ * @param container {HTMLElement=} element used floor fullscreen
+ * @constructor
+ */
+export const Player: React.FC<PlayerProps> = ({
+  children,
+  className,
+  container = null,
+}) => {
+  const containerRef = React.useRef(container)
   const {videoService} = React.useContext(VideoContext)
   const isActive = useSelector(videoService, selectIsActive)
   const hasStarted = useSelector(videoService, selectHasStarted)
@@ -26,10 +43,12 @@ export const Player: React.FC<any> = ({children, className}) => {
   const isFullscreen = useSelector(videoService, selectIsFullscreen)
   const isWaiting = useSelector(videoService, selectIsWaiting)
   const handleActivity = () => videoService.send('ACTIVITY')
-  const fullscreenContainerRef = React.useRef<HTMLDivElement>(null)
   return (
     <div
-      ref={fullscreenContainerRef}
+      ref={(c) => {
+        containerRef.current = container ? container : c
+        videoService.send({type: 'SET_ROOT_ELEM', rootElemRef: containerRef})
+      }}
       onMouseDown={handleActivity}
       onMouseMove={handleActivity}
       onKeyDown={handleActivity}
@@ -59,7 +78,7 @@ export const Player: React.FC<any> = ({children, className}) => {
         <Bezel />
         <LoadingSpinner />
       </div>
-      <ControlBar fullscreenElement={fullscreenContainerRef.current} />
+      <ControlBar />
       <Shortcut />
     </div>
   )

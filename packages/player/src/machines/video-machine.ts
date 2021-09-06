@@ -4,11 +4,12 @@ import {MutableRefObject} from 'react'
 
 export type VideoEvent =
   | {type: 'VOLUME_CHANGE'; volume: number; source?: string}
+  | {type: 'SET_ROOT_ELEM'; rootElemRef: MutableRefObject<HTMLElement | null>}
   | {type: 'LOADED'}
   | {type: 'REGISTER'; videoRef: MutableRefObject<HTMLVideoElement>}
   | {type: 'PLAY'; source?: string}
   | {type: 'TOGGLE_MUTE'}
-  | {type: 'TOGGLE_FULLSCREEN'; element?: HTMLElement}
+  | {type: 'TOGGLE_FULLSCREEN'; element?: HTMLElement | null}
   | {type: 'SEEKING'; seekingTime: number; source?: string}
   | {type: 'END_SEEKING'}
   | {type: 'TIMING'}
@@ -19,6 +20,7 @@ export type VideoEvent =
   | {type: 'FAIL'}
 
 export interface VideoStateContext {
+  rootElemRef: MutableRefObject<HTMLElement | null> | null
   // using a ref object versus the straight instance provided some
   // stability with the HLS Source. When it was the video element
   // HLS would get destroyed and recreated repeatedly
@@ -40,6 +42,7 @@ export const videoMachine = createMachine<VideoStateContext, VideoEvent>({
   id: 'videoMachine',
   initial: 'loading',
   context: {
+    rootElemRef: null,
     videoRef: undefined,
     waiting: true,
     duration: 0,
@@ -54,6 +57,11 @@ export const videoMachine = createMachine<VideoStateContext, VideoEvent>({
     lastAction: undefined,
   },
   on: {
+    SET_ROOT_ELEM: {
+      actions: assign({
+        rootElemRef: (_context, event) => event.rootElemRef,
+      }),
+    },
     REGISTER: {
       actions: assign({
         videoRef: (_context, event) => event.videoRef,
@@ -75,7 +83,8 @@ export const videoMachine = createMachine<VideoStateContext, VideoEvent>({
         }),
         (_context, event) => {
           if (screenfull.isEnabled) {
-            screenfull.toggle(event.element)
+            const element = event.element === null ? undefined : event.element
+            screenfull.toggle(element)
           }
         },
       ],
