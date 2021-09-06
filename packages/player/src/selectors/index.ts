@@ -82,3 +82,6 @@ export const selectPaused = (state: StateFrom<typeof videoMachine>) =>
 
 export const selectReadyState = (state: StateFrom<typeof videoMachine>) =>
   state.context.readyState ?? -1
+
+export const selectIsSeeking = (state: StateFrom<typeof videoMachine>) =>
+  state.context.seeking

@@ -17,6 +17,7 @@
     "clean": "rm -rf .turbo && rm -rf node_modules && rm -rf dist"
   },
   "dependencies": {
+    "@emotion/react": "^11.4.1",
     "@xstate/react": "^1.5.1",
     "classnames": "^2.3.1",
     "hls.js": "1.0.7",
@@ -26,6 +27,8 @@
     "xstate": "^4.23.1"
   },
   "devDependencies": {
+    "@emotion/babel-plugin": "^11.3.0",
+    "@emotion/babel-preset-css-prop": "^11.2.0",
     "@skillrecordings/scripts": "workspace:*",
     "@skillrecordings/tsconfig": "workspace:*",
     "@skillrecordings/types": "workspace:*",

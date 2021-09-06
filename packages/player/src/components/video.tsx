@@ -1,5 +1,6 @@
 import * as React from 'react'
 import {useVideo} from '../context/video-context'
+import cx from 'classnames'
 
 type VideoProps = {
   loop?: boolean
@@ -52,7 +53,7 @@ export const Video: React.FC<VideoProps> = ({
 
   return (
     <video
-      className={`cueplayer-react-video ${className}`}
+      className={cx([`cueplayer-react-video`, className])}
       id={id}
       crossOrigin={crossOrigin}
       ref={(c: HTMLVideoElement) => {
@@ -82,6 +83,9 @@ export const Video: React.FC<VideoProps> = ({
       }}
       onTimeUpdate={() => {
         videoService.send('TIMING')
+      }}
+      onWaiting={() => {
+        videoService.send('WAITING')
       }}
       tabIndex={-1}
     >

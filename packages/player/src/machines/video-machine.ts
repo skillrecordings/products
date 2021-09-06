@@ -16,6 +16,7 @@ export type VideoEvent =
   | {type: 'PAUSE'; source?: string}
   | {type: 'END'}
   | {type: 'PLAYBACKRATE_CHANGE'; playbackRate: number; source?: string}
+  | {type: 'WAITING'}
   | {type: 'FAIL'}
 
 export interface VideoStateContext {
@@ -35,6 +36,7 @@ export interface VideoStateContext {
   isFullscreen: boolean
   lastAction: string | undefined
   waiting: boolean
+  seeking: boolean
 }
 
 export const videoMachine = createMachine<VideoStateContext, VideoEvent>({
@@ -54,6 +56,7 @@ export const videoMachine = createMachine<VideoStateContext, VideoEvent>({
     playbackRate: 1,
     isFullscreen: false,
     lastAction: undefined,
+    seeking: false,
   },
   on: {
     SET_ROOT_ELEM: {
@@ -66,6 +69,11 @@ export const videoMachine = createMachine<VideoStateContext, VideoEvent>({
         videoRef: (_context, event) => event.videoRef,
         readyState: (_context, event) =>
           event.videoRef?.current?.readyState ?? 0,
+      }),
+    },
+    WAITING: {
+      actions: assign({
+        waiting: (_context, _event) => true,
       }),
     },
     ACTIVITY: {
@@ -86,6 +94,11 @@ export const videoMachine = createMachine<VideoStateContext, VideoEvent>({
   },
   states: {
     loading: {
+      entry: [
+        assign({
+          waiting: (_context, _event) => true,
+        }),
+      ],
       on: {
         LOADED: {
           target: 'ready',
@@ -100,6 +113,11 @@ export const videoMachine = createMachine<VideoStateContext, VideoEvent>({
     },
     ready: {
       initial: 'paused',
+      entry: [
+        assign({
+          waiting: (_context, _event) => false,
+        }),
+      ],
       on: {
         VOLUME_CHANGE: {
           actions: [
@@ -124,6 +142,7 @@ export const videoMachine = createMachine<VideoStateContext, VideoEvent>({
           actions: [
             assign({
               seekingTime: (context, event) => event.seekingTime,
+              seeking: (_context, _event) => true,
             }),
             'seekVideo',
           ],
@@ -132,6 +151,7 @@ export const videoMachine = createMachine<VideoStateContext, VideoEvent>({
           actions: [
             assign({
               seekingTime: (context, event) => 0,
+              seeking: (_context, _event) => false,
             }),
           ],
         },
@@ -151,6 +171,11 @@ export const videoMachine = createMachine<VideoStateContext, VideoEvent>({
           },
         },
         playing: {
+          entry: [
+            assign({
+              waiting: (_context, _event) => false,
+            }),
+          ],
           on: {
             PAUSE: {target: 'paused', actions: ['pauseVideo']},
             END: 'ended',
@@ -167,6 +192,12 @@ export const videoMachine = createMachine<VideoStateContext, VideoEvent>({
         ended: {on: {PLAY: 'playing'}},
       },
     },
-    failure: {},
+    failure: {
+      entry: [
+        assign({
+          waiting: (_context, _event) => true,
+        }),
+      ],
+    },
   },
 })
