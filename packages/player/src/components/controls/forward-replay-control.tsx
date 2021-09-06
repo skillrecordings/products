@@ -1,7 +1,7 @@
 import * as React from 'react'
 import {VideoContext} from '../../context/video-context'
 import {useSelector} from '@xstate/react'
-import {selectVideo} from '../player'
+import {selectVideo} from '../../selectors'
 
 type ForwardReplayControlProps = {
   mode?: 'forward' | 'replay'

@@ -3,7 +3,7 @@ import cx from 'classnames'
 import {ForwardedRef, MutableRefObject} from 'react'
 import {VideoContext} from '../../context/video-context'
 import {useSelector} from '@xstate/react'
-import {selectIsFullscreen} from '../player'
+import {selectIsFullscreen} from '../../selectors'
 
 type FullscrenToggleProps = {
   className?: string

@@ -3,8 +3,8 @@ import {useSelector} from '@xstate/react'
 import {PopupButton} from '../popup/popup-button'
 import cx from 'classnames'
 import {VolumeBar} from '../volume-control/volume-bar'
-import {selectMuted, selectVolume} from '../player'
 import {VideoContext} from '../../context/video-context'
+import {selectMuted, selectVolume} from '../../selectors'
 
 export const VolumeMenuButton: React.FC<any> = (props) => {
   const {className, vertical = false, alwaysShowVolume} = props

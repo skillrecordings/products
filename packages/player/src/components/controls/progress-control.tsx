@@ -2,10 +2,10 @@ import * as React from 'react'
 import {useSelector} from '@xstate/react'
 import {MouseEvent} from 'react'
 import cx from 'classnames'
-import {selectDuration} from '../player'
 import {SeekBar} from './seek-bar'
 import {VideoContext} from '../../context/video-context'
 import {findElPosition, getPointerPosition} from '../../utils'
+import {selectDuration} from '../../selectors'
 
 export const ProgressControl: React.FC<any> = (props) => {
   const {videoService} = React.useContext(VideoContext)

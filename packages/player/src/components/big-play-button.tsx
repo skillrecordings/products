@@ -2,7 +2,7 @@ import * as React from 'react'
 import cx from 'classnames'
 import {VideoContext} from '../context/video-context'
 import {useSelector} from '@xstate/react'
-import {selectCurrentSrc, selectHasStarted} from './player'
+import {selectCurrentSrc, selectHasStarted} from '../selectors'
 
 export const BigPlayButton: React.FC<any> = ({
   className,
