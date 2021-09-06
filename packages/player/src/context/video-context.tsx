@@ -18,27 +18,30 @@ export const VideoProvider: React.FC = (props) => {
         // assuming that the machine under the hood doesn't
         // have enough context since these actions are very separated
         // from the config.
-        if (context.video && event.type === 'PLAYBACKRATE_CHANGE')
-          context.video.playbackRate = event.playbackRate
+        if (context.videoRef && event.type === 'PLAYBACKRATE_CHANGE')
+          context.videoRef.current.playbackRate = event.playbackRate
       },
       setVolume: (context, event) => {
-        if (context.video && event.type === 'VOLUME_CHANGE')
-          context.video.volume = event.volume ?? 0.8
+        if (context.videoRef && event.type === 'VOLUME_CHANGE')
+          context.videoRef.current.volume = event.volume ?? 0.8
       },
       toggleMute: (context, _event) => {
-        if (context.video) context.video.muted = !context.video.muted
+        if (context.videoRef)
+          context.videoRef.current.muted = !context.videoRef.current.muted
       },
       playVideo: (context, _event) => {
-        const {video} = context
-        video?.play()
+        const {videoRef} = context
+        videoRef?.current?.play()
       },
       pauseVideo: (context, _event) => {
-        const {video} = context
-        video?.pause()
+        const {videoRef} = context
+        videoRef?.current?.pause()
       },
       seekVideo: (context, _event) => {
-        const {video, seekingTime} = context
-        if (video) video.currentTime = seekingTime ?? video.currentTime
+        const {videoRef, seekingTime} = context
+        if (videoRef)
+          videoRef.current.currentTime =
+            seekingTime ?? videoRef.current.currentTime
       },
     },
   })

@@ -1384,7 +1384,7 @@ importers:
       assert: ^2.0.0
       babel-jest: ^27.0.6
       classnames: ^2.3.1
-      hls.js: ^1.0.10
+      hls.js: 1.0.7
       jest: ^27.0.6
       msw: ^0.34.0
       node-sass: ^6.0.1
@@ -1397,7 +1397,7 @@ importers:
     dependencies:
       '@xstate/react': 1.5.1_49beb093bbd7c35e54ba0f39a3d61311
       classnames: 2.3.1
-      hls.js: 1.0.10
+      hls.js: 1.0.7
       react: 17.0.2
       react-dom: 17.0.2_react@17.0.2
       screenfull: 5.1.0
@@ -9594,8 +9594,8 @@ packages:
     resolution: {integrity: sha512-tzcUFauisWKNHaRkN4Wjl/ZA07gENAjFl3J/c480dprkGTg5EQstgaNFqBfUqCq54kZRIEcreTsAgF/m2quD7A==}
     dev: false
 
-  /hls.js/1.0.10:
-    resolution: {integrity: sha512-P+o/wjGJsnqwdXXYfWvopOceXEXFV0H8vs/T+ApsscP/GlpUtdIRWie7qc+jbml95ThjE6+FVci9VGaD51r/6Q==}
+  /hls.js/1.0.7:
+    resolution: {integrity: sha512-NsGaksvOuYNyTmu/w239EtYFMadFzIoDkmStc1FDRcrGmvxOfMGKad/hLj4NHoE8H1S+Q8dT7HufMJJ6yiht7g==}
     dev: false
 
   /hmac-drbg/1.0.1:

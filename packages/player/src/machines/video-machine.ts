@@ -1,13 +1,16 @@
 import {assign, createMachine} from 'xstate'
 import screenfull from 'screenfull'
+import {MutableRefObject} from 'react'
 
 export type VideoEvent =
   | {type: 'VOLUME_CHANGE'; volume: number; source?: string}
-  | {type: 'LOADED'; video: HTMLVideoElement}
+  | {type: 'LOADED'; video: MutableRefObject<HTMLVideoElement>}
+  | {type: 'REGISTER'; video: MutableRefObject<HTMLVideoElement>}
   | {type: 'PLAY'; source?: string}
   | {type: 'TOGGLE_MUTE'}
   | {type: 'TOGGLE_FULLSCREEN'; element?: HTMLElement}
   | {type: 'SEEKING'; seekingTime: number; source?: string}
+  | {type: 'END_SEEKING'}
   | {type: 'TIMING'}
   | {type: 'ACTIVITY'}
   | {type: 'PAUSE'; source?: string}
@@ -16,7 +19,10 @@ export type VideoEvent =
   | {type: 'FAIL'}
 
 export interface VideoStateContext {
-  video: HTMLVideoElement | undefined
+  // using a ref object versus the straight instance provided some
+  // stability with the HLS Source. When it was the video element
+  // HLS would get destroyed and recreated repeatedly
+  videoRef: MutableRefObject<HTMLVideoElement> | undefined
   duration: number
   currentTime: number
   seekingTime: undefined | number
@@ -27,13 +33,15 @@ export interface VideoStateContext {
   playbackRate: number
   isFullscreen: boolean
   lastAction: string | undefined
+  waiting: boolean
 }
 
 export const videoMachine = createMachine<VideoStateContext, VideoEvent>({
   id: 'videoMachine',
   initial: 'loading',
   context: {
-    video: undefined,
+    videoRef: undefined,
+    waiting: true,
     duration: 0,
     currentTime: 0,
     seekingTime: undefined,
@@ -46,6 +54,11 @@ export const videoMachine = createMachine<VideoStateContext, VideoEvent>({
     lastAction: undefined,
   },
   on: {
+    REGISTER: {
+      actions: assign({
+        videoRef: (_context, event) => event.video,
+      }),
+    },
     ACTIVITY: {
       actions: [
         assign({
@@ -72,8 +85,9 @@ export const videoMachine = createMachine<VideoStateContext, VideoEvent>({
         LOADED: {
           target: 'ready',
           actions: assign({
-            video: (_context, event) => event.video,
-            readyState: (_context, event) => event.video.readyState,
+            videoRef: (_context, event) => event.video,
+            readyState: (_context, event) => event.video.current.readyState,
+            waiting: (_context, _event) => false,
           }),
         },
         FAIL: 'failure',
@@ -109,6 +123,13 @@ export const videoMachine = createMachine<VideoStateContext, VideoEvent>({
             'seekVideo',
           ],
         },
+        END_SEEKING: {
+          actions: [
+            assign({
+              seekingTime: (context, event) => 0,
+            }),
+          ],
+        },
       },
       states: {
         paused: {
@@ -131,8 +152,9 @@ export const videoMachine = createMachine<VideoStateContext, VideoEvent>({
             TIMING: {
               actions: assign({
                 currentTime: (context, _event) =>
-                  context.video?.currentTime ?? 0,
-                duration: (context, _event) => context.video?.duration ?? 0,
+                  context.videoRef?.current?.currentTime ?? 0,
+                duration: (context, _event) =>
+                  context.videoRef?.current?.duration ?? 0,
               }),
             },
           },

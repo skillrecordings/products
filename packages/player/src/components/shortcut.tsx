@@ -1,30 +1,23 @@
 import * as React from 'react'
 import {VideoContext} from '../context/video-context'
 import {useSelector} from '@xstate/react'
-import {StateFrom} from 'xstate'
-import {videoMachine} from '../machines/video-machine'
-import {selectHasStarted, selectIsPaused, selectPlaybackRate} from './player'
+
+import {
+  selectCurrentTime,
+  selectDuration,
+  selectHasStarted,
+  selectIsActive,
+  selectIsPaused,
+  selectPlaybackRate,
+  selectReadyState,
+  selectVolume,
+} from './player'
 
 type ShortcutProps = {
   clickable?: boolean
   dblclickable?: boolean
   shortcuts?: any[]
 }
-
-const selectIsActive = (state: StateFrom<typeof videoMachine>) =>
-  state.context.isActive || false
-
-const selectReadyState = (state: StateFrom<typeof videoMachine>) =>
-  state.context.readyState ?? -1
-
-const selectVolume = (state: StateFrom<typeof videoMachine>) =>
-  state.context.volume ?? 0.8
-
-const selectCurrentTime = (state: StateFrom<typeof videoMachine>) =>
-  state.context.video?.currentTime ?? 0
-
-const selectDuration = (state: StateFrom<typeof videoMachine>) =>
-  state.context.video?.duration ?? 0
 
 export const Shortcut: React.FC<ShortcutProps> = ({
   clickable = false,

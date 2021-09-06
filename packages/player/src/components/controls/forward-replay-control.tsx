@@ -44,6 +44,8 @@ export const ForwardReplayControl: React.FC<ForwardReplayControlProps> =
             seekingTime: seekingTime > 0 ? seekingTime : 0,
           })
         }
+
+        videoService.send('END_SEEKING')
       }
 
       return (

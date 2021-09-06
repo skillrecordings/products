@@ -1,12 +1,8 @@
 import * as React from 'react'
 import {useSelector} from '@xstate/react'
 import cx from 'classnames'
-import {videoMachine} from '../../machines/video-machine'
 import {VideoContext} from '../../context/video-context'
-import {StateFrom} from 'xstate'
-
-const selectPaused = (state: StateFrom<typeof videoMachine>) =>
-  state.context.video?.paused ?? 0.8
+import {selectPaused} from '../player'
 
 export const PlayToggle: React.FC<any> = React.forwardRef<
   HTMLButtonElement,

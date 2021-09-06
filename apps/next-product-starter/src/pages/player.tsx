@@ -1,15 +1,12 @@
 import * as React from 'react'
 import Layout from '@skillrecordings/react/dist/layouts'
-import {Player, VideoProvider} from '@skillrecordings/player'
-
+import {Player, VideoProvider, HLSSource} from '@skillrecordings/player'
+// https://stream.mux.com/Wxle5yzErvilJ02C13zuv8OSeROvfwsjS.m3u8
 const PlayerPage = () => {
   return (
     <VideoProvider>
       <Player>
-        <source
-          src="https://stream.mux.com/DS00Spx1CV902MCtPj5WknGlR102V5HFkDe/high.mp4"
-          type="video/mp4"
-        />
+        <HLSSource src="https://bitdash-a.akamaihd.net/content/MI201109210084_1/m3u8s/f08e80da-bf1d-4e3d-8899-f0f6155f6efa.m3u8" />
       </Player>
     </VideoProvider>
   )
