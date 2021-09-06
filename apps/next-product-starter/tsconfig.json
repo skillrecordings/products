@@ -5,7 +5,6 @@
     "baseUrl": "./src/",
     "rootDir": "src",
     "outDir": "dist",
-    "jsxImportSource": "@emotion/react"
   },
   "include": ["src", "next-env.d.ts"]
 }
