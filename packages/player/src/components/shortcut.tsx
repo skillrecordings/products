@@ -38,13 +38,14 @@ export const Shortcut: React.FC<ShortcutProps> = ({
   ...props
 }) => {
   const {videoService} = React.useContext(VideoContext)
+  const duration = useSelector(videoService, selectDuration)
+  const currentTime = useSelector(videoService, selectCurrentTime)
   const playbackRate = useSelector(videoService, selectPlaybackRate)
   const hasStarted = useSelector(videoService, selectHasStarted)
   const isActive = useSelector(videoService, selectIsActive)
   const readyState = useSelector(videoService, selectReadyState)
   const volume = useSelector(videoService, selectVolume)
-  const duration = useSelector(videoService, selectDuration)
-  const currentTime = useSelector(videoService, selectCurrentTime)
+
   const paused = useSelector(videoService, selectIsPaused)
 
   const shortCutsRef = React.useRef<any[]>([])

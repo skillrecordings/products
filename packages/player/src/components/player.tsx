@@ -13,12 +13,17 @@ import {TimeDivider} from './time-controls/time-divider'
 import {DurationDisplay} from './time-controls/duration-display'
 import {RemainingTimeDisplay} from './time-controls/remaining-time-display'
 import {PlaybackRateMenuButton} from './controls/playback-rate-menu-button'
+import {ForwardReplayControl} from './controls/forward-replay-control'
+import {FullscreenToggle} from './controls/fullscreen-toggle'
+import {MutableRefObject} from 'react'
 
 export const Player: React.FC = ({children}) => {
   const {videoService} = React.useContext(VideoContext)
   const handleActivity = () => videoService.send('ACTIVITY')
+  const fullscreenContainerRef = React.useRef<HTMLDivElement>(null)
   return (
     <div
+      ref={fullscreenContainerRef}
       onMouseDown={handleActivity}
       onMouseMove={handleActivity}
       onKeyDown={handleActivity}
@@ -28,16 +33,23 @@ export const Player: React.FC = ({children}) => {
       <div className="cueplayer-react-controls-enabled">
         <Video>{children}</Video>
       </div>
-      <VideoControlBar />
+      <VideoControlBar fullscreenElement={fullscreenContainerRef.current} />
       <Shortcut />
     </div>
   )
 }
 
-const VideoControlBar = () => {
+const VideoControlBar: React.FC<{
+  fullscreenElement?: HTMLElement | null
+}> = ({fullscreenElement}) => {
+  if (fullscreenElement === null) {
+    fullscreenElement = undefined
+  }
   return (
     <div className="cueplayer-react-control-bar">
       <PlayToggle />
+      <ForwardReplayControl mode="replay" />
+      <ForwardReplayControl />
       <VolumeMenuButton />
       <CurrentTimeDisplay />
       <TimeDivider />
@@ -45,6 +57,7 @@ const VideoControlBar = () => {
       <ProgressControl />
       <RemainingTimeDisplay />
       <PlaybackRateMenuButton />
+      <FullscreenToggle fullscreenElement={fullscreenElement} />
     </div>
   )
 }
@@ -96,3 +109,6 @@ export const selectSeekTime = (state: StateFrom<typeof videoMachine>) =>
 
 export const selectPlaybackRate = (state: StateFrom<typeof videoMachine>) =>
   state.context.playbackRate ?? 1.0
+
+export const selectIsFullscreen = (state: StateFrom<typeof videoMachine>) =>
+  state.context.isFullscreen
