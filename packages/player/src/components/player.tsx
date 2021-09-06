@@ -6,9 +6,12 @@ import {Shortcut} from './shortcut'
 import {PlayToggle} from './controls/play-toggle'
 import {VolumeMenuButton} from './controls/volume-menu-button'
 import {ProgressControl} from './controls/progress-control'
-import {CurrentTimeDisplay} from './controls/current-time-display'
+import {CurrentTimeDisplay} from './time-controls/current-time-display'
 import {VideoContext} from '../context/video-context'
 import {videoMachine} from '../machines/video-machine'
+import {TimeDivider} from './time-controls/time-divider'
+import {DurationDisplay} from './time-controls/duration-display'
+import {RemainingTimeDisplay} from './time-controls/remaining-time-display'
 
 export const Player: React.FC = ({children}) => {
   const {videoService} = React.useContext(VideoContext)
@@ -36,10 +39,25 @@ const VideoControlBar = () => {
       <PlayToggle />
       <VolumeMenuButton />
       <CurrentTimeDisplay />
+      <TimeDivider />
+      <DurationDisplay />
       <ProgressControl />
+      <RemainingTimeDisplay />
     </div>
   )
 }
+
+export const selectFormattedRemainingTime = (
+  state: StateFrom<typeof videoMachine>,
+) =>
+  formatVideoTime(
+    (state.context.video?.duration ?? 0) -
+      (state.context.video?.currentTime ?? 0),
+  )
+
+export const selectFormattedDuration = (
+  state: StateFrom<typeof videoMachine>,
+) => formatVideoTime(state.context.video?.duration)
 
 export const selectFormattedTime = (state: StateFrom<typeof videoMachine>) =>
   formatVideoTime(
