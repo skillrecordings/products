@@ -16,6 +16,9 @@ import {PlaybackRateMenuButton} from './controls/playback-rate-menu-button'
 import {ForwardReplayControl} from './controls/forward-replay-control'
 import {FullscreenToggle} from './controls/fullscreen-toggle'
 import {MutableRefObject} from 'react'
+import {LoadingSpinner} from './loading-spinner'
+import {BigPlayButton} from './big-play-button'
+import {Bezel} from './bezel'
 
 export const Player: React.FC = ({children}) => {
   const {videoService} = React.useContext(VideoContext)
@@ -32,6 +35,9 @@ export const Player: React.FC = ({children}) => {
     >
       <div className="cueplayer-react-controls-enabled">
         <Video>{children}</Video>
+        <BigPlayButton />
+        <Bezel />
+        <LoadingSpinner />
       </div>
       <VideoControlBar fullscreenElement={fullscreenContainerRef.current} />
       <Shortcut />
@@ -112,3 +118,15 @@ export const selectPlaybackRate = (state: StateFrom<typeof videoMachine>) =>
 
 export const selectIsFullscreen = (state: StateFrom<typeof videoMachine>) =>
   state.context.isFullscreen
+
+export const selectHasStarted = (state: StateFrom<typeof videoMachine>) =>
+  state.context.hasStarted || false
+
+export const selectCurrentSrc = (state: StateFrom<typeof videoMachine>) =>
+  state.context.video?.currentSrc
+
+export const selectIsPaused = (state: StateFrom<typeof videoMachine>) =>
+  state.matches('ready.paused')
+
+export const selectHasFailed = (state: StateFrom<typeof videoMachine>) =>
+  state.matches('failure')

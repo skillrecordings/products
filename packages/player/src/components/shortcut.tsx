@@ -3,16 +3,13 @@ import {VideoContext} from '../context/video-context'
 import {useSelector} from '@xstate/react'
 import {StateFrom} from 'xstate'
 import {videoMachine} from '../machines/video-machine'
-import {selectPlaybackRate} from './player'
+import {selectHasStarted, selectIsPaused, selectPlaybackRate} from './player'
 
 type ShortcutProps = {
   clickable?: boolean
   dblclickable?: boolean
   shortcuts?: any[]
 }
-
-const selectHasStarted = (state: StateFrom<typeof videoMachine>) =>
-  state.context.hasStarted || false
 
 const selectIsActive = (state: StateFrom<typeof videoMachine>) =>
   state.context.isActive || false
@@ -29,19 +26,17 @@ const selectCurrentTime = (state: StateFrom<typeof videoMachine>) =>
 const selectDuration = (state: StateFrom<typeof videoMachine>) =>
   state.context.video?.duration ?? 0
 
-const selectIsPaused = (state: StateFrom<typeof videoMachine>) =>
-  state.matches('ready.paused')
-
 export const Shortcut: React.FC<ShortcutProps> = ({
   clickable = false,
   dblclickable = false,
   ...props
 }) => {
   const {videoService} = React.useContext(VideoContext)
+  const hasStarted = useSelector(videoService, selectHasStarted)
   const duration = useSelector(videoService, selectDuration)
   const currentTime = useSelector(videoService, selectCurrentTime)
   const playbackRate = useSelector(videoService, selectPlaybackRate)
-  const hasStarted = useSelector(videoService, selectHasStarted)
+
   const isActive = useSelector(videoService, selectIsActive)
   const readyState = useSelector(videoService, selectReadyState)
   const volume = useSelector(videoService, selectVolume)
@@ -52,9 +47,9 @@ export const Shortcut: React.FC<ShortcutProps> = ({
 
   const togglePlay = React.useCallback(() => {
     if (paused) {
-      videoService.send('PLAY')
+      videoService.send({type: 'PLAY', source: 'shortcut'})
     } else {
-      videoService.send('PAUSE')
+      videoService.send({type: 'PAUSE', source: 'shortcut'})
     }
   }, [paused, videoService])
 
@@ -70,7 +65,7 @@ export const Shortcut: React.FC<ShortcutProps> = ({
       },
       {
         keyCode: 70, // f
-        handle: () => console.log('toggle fullscreen'),
+        handle: () => videoService.send({type: 'TOGGLE_FULLSCREEN'}),
       },
       {
         keyCode: 37, // Left arrow
@@ -82,6 +77,7 @@ export const Shortcut: React.FC<ShortcutProps> = ({
           videoService.send({
             type: 'SEEKING',
             seekingTime: seekingTime > 0 ? seekingTime : 0,
+            source: 'shortcut',
           })
         },
       },
@@ -95,6 +91,7 @@ export const Shortcut: React.FC<ShortcutProps> = ({
           videoService.send({
             type: 'SEEKING',
             seekingTime: seekingTime > 0 ? seekingTime : 0,
+            source: 'shortcut',
           })
         },
       },
@@ -108,6 +105,7 @@ export const Shortcut: React.FC<ShortcutProps> = ({
           videoService.send({
             type: 'SEEKING',
             seekingTime: seekingTime < duration ? seekingTime : duration,
+            source: 'shortcut',
           })
         },
       },
@@ -121,6 +119,7 @@ export const Shortcut: React.FC<ShortcutProps> = ({
           videoService.send({
             type: 'SEEKING',
             seekingTime: seekingTime < duration ? seekingTime : duration,
+            source: 'shortcut',
           })
         },
       },
@@ -130,7 +129,11 @@ export const Shortcut: React.FC<ShortcutProps> = ({
           if (!hasStarted) {
             return
           }
-          videoService.send({type: 'SEEKING', seekingTime: 0})
+          videoService.send({
+            type: 'SEEKING',
+            seekingTime: 0,
+            source: 'shortcut',
+          })
         },
       },
       {
@@ -140,7 +143,11 @@ export const Shortcut: React.FC<ShortcutProps> = ({
             return
           }
           // Go to end of video
-          videoService.send({type: 'SEEKING', seekingTime: duration})
+          videoService.send({
+            type: 'SEEKING',
+            seekingTime: duration,
+            source: 'shortcut',
+          })
         },
       },
       {
@@ -151,7 +158,11 @@ export const Shortcut: React.FC<ShortcutProps> = ({
           if (v > 1) {
             v = 1
           }
-          videoService.send({type: 'VOLUME_CHANGE', volume: v < 1.0 ? v : 1.0})
+          videoService.send({
+            type: 'VOLUME_CHANGE',
+            volume: v < 1.0 ? v : 1.0,
+            source: 'shortcut',
+          })
         },
       },
       {
@@ -163,7 +174,11 @@ export const Shortcut: React.FC<ShortcutProps> = ({
             v = 0
           }
           //TODO difference between volume down and volume off actions
-          videoService.send({type: 'VOLUME_CHANGE', volume: v > 0 ? v : 0})
+          videoService.send({
+            type: 'VOLUME_CHANGE',
+            volume: v > 0 ? v : 0,
+            source: 'shortcut',
+          })
         },
       },
       {
@@ -189,6 +204,7 @@ export const Shortcut: React.FC<ShortcutProps> = ({
           videoService.send({
             type: 'PLAYBACKRATE_CHANGE',
             playbackRate: newPlaybackRate,
+            source: 'shortcut',
           })
         },
       },
@@ -212,6 +228,7 @@ export const Shortcut: React.FC<ShortcutProps> = ({
           videoService.send({
             type: 'PLAYBACKRATE_CHANGE',
             playbackRate: newPlaybackRate,
+            source: 'shortcut',
           })
         },
       },
