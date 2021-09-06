@@ -4,7 +4,8 @@
   "compilerOptions": {
     "baseUrl": "./src/",
     "rootDir": "src",
-    "outDir": "dist"
+    "outDir": "dist",
+    "jsxImportSource": "@emotion/react"
   },
   "include": ["src", "next-env.d.ts"]
 }
