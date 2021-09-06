@@ -3,17 +3,17 @@ import {SyntheticEvent} from 'react'
 import {useSelector} from '@xstate/react'
 import {Slider} from '../slider'
 import cx from 'classnames'
+import {LoadProgressBar} from './load-progress-bar'
+import {PlayProgressBar} from './play-progress-bar'
+import {VideoContext} from '../../context/video-context'
+import {getPointerPosition} from '../../utils'
 import {
   selectCurrentTime,
   selectDuration,
   selectFormattedTime,
   selectPercent,
   selectSeekTime,
-} from '../player'
-import {LoadProgressBar} from './load-progress-bar'
-import {PlayProgressBar} from './play-progress-bar'
-import {VideoContext} from '../../context/video-context'
-import {getPointerPosition} from '../../utils'
+} from '../../selectors'
 
 export const SeekBar: React.FC<any> = React.forwardRef<HTMLDivElement, any>(
   (props, ref) => {

@@ -1,8 +1,8 @@
 import * as React from 'react'
 import {VideoContext} from '../context/video-context'
 import {useSelector} from '@xstate/react'
-import {selectHasStarted, selectIsPaused} from './player'
 import cx from 'classnames'
+import {selectHasStarted, selectIsPaused} from '../selectors'
 
 type PosterImageType = {
   poster: string

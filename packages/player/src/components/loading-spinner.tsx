@@ -1,8 +1,8 @@
 import * as React from 'react'
 import {VideoContext} from '../context/video-context'
 import {useSelector} from '@xstate/react'
-import {selectHasFailed} from './player'
 import cx from 'classnames'
+import {selectHasFailed} from '../selectors'
 
 type LoadingSpinnerType = {
   className?: string

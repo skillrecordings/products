@@ -6,7 +6,7 @@ import {SyntheticEvent} from 'react'
 import {VolumeLevel} from './volume-level'
 import {VideoContext} from '../../context/video-context'
 import {getPointerPosition} from '../../utils'
-import {selectMuted, selectVolume} from '../player'
+import {selectMuted, selectVolume} from '../../selectors'
 
 export const VolumeBar: React.FC<any> = (props) => {
   const {className} = props

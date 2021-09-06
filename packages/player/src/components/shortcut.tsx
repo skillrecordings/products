@@ -11,7 +11,7 @@ import {
   selectPlaybackRate,
   selectReadyState,
   selectVolume,
-} from './player'
+} from '../selectors'
 
 type ShortcutProps = {
   clickable?: boolean

@@ -2,7 +2,7 @@ import * as React from 'react'
 import cx from 'classnames'
 import {VideoContext} from '../../context/video-context'
 import {useSelector} from '@xstate/react'
-import {selectFormattedRemainingTime} from '../player'
+import {selectFormattedRemainingTime} from '../../selectors'
 
 export const RemainingTimeDisplay: React.FC<any> = ({className}) => {
   const {videoService} = React.useContext(VideoContext)

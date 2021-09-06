@@ -2,7 +2,7 @@ import * as React from 'react'
 import Hls from 'hls.js'
 import {VideoContext} from '../context/video-context'
 import {useSelector} from '@xstate/react'
-import {selectVideo} from './player'
+import {selectVideo} from '../selectors'
 
 type HLSSourceProps = {
   hlsConfig?: any

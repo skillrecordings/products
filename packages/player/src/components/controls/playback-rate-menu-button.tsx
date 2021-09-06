@@ -3,7 +3,7 @@ import cx from 'classnames'
 import {MenuButton} from '../menu/menu-button'
 import {VideoContext} from '../../context/video-context'
 import {useSelector} from '@xstate/react'
-import {selectPlaybackRate} from '../player'
+import {selectPlaybackRate} from '../../selectors'
 
 type PlaybackRateMenuButtonProps = {
   className?: string
