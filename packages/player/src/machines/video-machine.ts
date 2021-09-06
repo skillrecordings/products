@@ -58,7 +58,7 @@ export const videoMachine = createMachine<VideoStateContext, VideoEvent>({
       actions: assign({
         videoRef: (_context, event) => event.videoRef,
         readyState: (_context, event) =>
-          event.videoRef?.current.readyState ?? 0,
+          event.videoRef?.current?.readyState ?? 0,
       }),
     },
     ACTIVITY: {
@@ -88,7 +88,7 @@ export const videoMachine = createMachine<VideoStateContext, VideoEvent>({
           target: 'ready',
           actions: assign({
             readyState: (context, _event) =>
-              context.videoRef?.current.readyState ?? 0,
+              context.videoRef?.current?.readyState ?? 0,
             waiting: (_context, _event) => false,
           }),
         },
