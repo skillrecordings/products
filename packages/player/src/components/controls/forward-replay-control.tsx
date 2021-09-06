@@ -1,7 +1,7 @@
 import * as React from 'react'
 import {VideoContext} from '../../context/video-context'
 import {useSelector} from '@xstate/react'
-import {selectCurrentTime, selectDuration} from '../player'
+import {selectVideo} from '../player'
 
 type ForwardReplayControlProps = {
   mode?: 'forward' | 'replay'
@@ -13,8 +13,7 @@ export const ForwardReplayControl: React.FC<ForwardReplayControlProps> =
     (props, ref) => {
       const {seconds = 10, className, mode = 'forward'} = props
       const {videoService} = React.useContext(VideoContext)
-      const duration = useSelector(videoService, selectDuration)
-      const currentTime = useSelector(videoService, selectCurrentTime)
+      const video = useSelector(videoService, selectVideo)
       const classNames = [
         'cueplayer-react-control',
         'cueplayer-react-button',
@@ -30,14 +29,16 @@ export const ForwardReplayControl: React.FC<ForwardReplayControlProps> =
 
       function handleClick() {
         // Depends mode to implement different actions
+        if (!video) return
         if (mode === 'forward') {
-          const seekingTime = currentTime + seconds
+          const seekingTime = video.currentTime + seconds
           videoService.send({
             type: 'SEEKING',
-            seekingTime: seekingTime < duration ? seekingTime : duration,
+            seekingTime:
+              seekingTime < video.duration ? seekingTime : video.duration,
           })
         } else {
-          const seekingTime = currentTime - seconds
+          const seekingTime = video.currentTime - seconds
           videoService.send({
             type: 'SEEKING',
             seekingTime: seekingTime > 0 ? seekingTime : 0,

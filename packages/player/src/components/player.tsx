@@ -130,3 +130,6 @@ export const selectIsPaused = (state: StateFrom<typeof videoMachine>) =>
 
 export const selectHasFailed = (state: StateFrom<typeof videoMachine>) =>
   state.matches('failure')
+
+export const selectVideo = (state: StateFrom<typeof videoMachine>) =>
+  state.context.video
