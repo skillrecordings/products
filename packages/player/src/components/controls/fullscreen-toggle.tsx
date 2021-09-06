@@ -1,7 +1,7 @@
 import * as React from 'react'
 import cx from 'classnames'
 import {ForwardedRef, MutableRefObject} from 'react'
-import {VideoContext} from '../../context/video-context'
+import {useVideo} from '../../context/video-context'
 import {useSelector} from '@xstate/react'
 import {selectIsFullscreen, selectRootElem} from '../../selectors'
 
@@ -13,7 +13,7 @@ type FullscrenToggleProps = {
 export const FullscreenToggle: React.FC<FullscrenToggleProps> =
   React.forwardRef<HTMLButtonElement, FullscrenToggleProps>((props, ref) => {
     const {className} = props
-    const {videoService} = React.useContext(VideoContext)
+    const videoService = useVideo()
     const isFullscreen = useSelector(videoService, selectIsFullscreen)
     const rootElem = useSelector(videoService, selectRootElem)
 

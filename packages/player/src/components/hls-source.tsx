@@ -1,6 +1,6 @@
 import * as React from 'react'
 import Hls from 'hls.js'
-import {VideoContext} from '../context/video-context'
+import {useVideo} from '../context/video-context'
 import {useSelector} from '@xstate/react'
 import {selectVideo} from '../selectors'
 
@@ -21,7 +21,7 @@ type HLSSourceProps = {
  * @constructor
  */
 export const HLSSource: React.FC<HLSSourceProps> = ({src, type, hlsConfig}) => {
-  const {videoService} = React.useContext(VideoContext)
+  const videoService = useVideo()
   const video = useSelector(videoService, selectVideo)
 
   React.useEffect(() => {

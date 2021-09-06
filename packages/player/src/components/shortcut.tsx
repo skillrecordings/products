@@ -1,5 +1,5 @@
 import * as React from 'react'
-import {VideoContext} from '../context/video-context'
+import {useVideo} from '../context/video-context'
 import {useSelector} from '@xstate/react'
 
 import {
@@ -32,7 +32,7 @@ export const Shortcut: React.FC<ShortcutProps> = ({
   dblclickable = false,
   ...props
 }) => {
-  const {videoService} = React.useContext(VideoContext)
+  const videoService = useVideo()
 
   const hasStarted = useSelector(videoService, selectHasStarted)
   const duration = useSelector(videoService, selectDuration)

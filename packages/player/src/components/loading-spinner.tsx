@@ -1,5 +1,5 @@
 import * as React from 'react'
-import {VideoContext} from '../context/video-context'
+import {useVideo} from '../context/video-context'
 import {useSelector} from '@xstate/react'
 import cx from 'classnames'
 import {selectHasFailed} from '../selectors'
@@ -9,7 +9,7 @@ type LoadingSpinnerType = {
 }
 
 export const LoadingSpinner: React.FC<LoadingSpinnerType> = ({className}) => {
-  const {videoService} = React.useContext(VideoContext)
+  const videoService = useVideo()
   const error = useSelector(videoService, selectHasFailed)
 
   if (error) {

@@ -1,6 +1,6 @@
 import * as React from 'react'
 import cx from 'classnames'
-import {VideoContext} from '../context/video-context'
+import {useVideo} from '../context/video-context'
 import {useSelector} from '@xstate/react'
 import {selectCurrentSrc, selectHasStarted} from '../selectors'
 
@@ -8,7 +8,7 @@ export const BigPlayButton: React.FC<any> = ({
   className,
   position = 'center',
 }) => {
-  const {videoService} = React.useContext(VideoContext)
+  const videoService = useVideo()
   const hasStarted = useSelector(videoService, selectHasStarted)
   const currentSrc = useSelector(videoService, selectCurrentSrc)
 

@@ -3,6 +3,7 @@ import * as React from 'react'
 import {createContext} from 'react'
 import {useInterpret} from '@xstate/react'
 import {videoMachine} from '../machines/video-machine'
+import {defaultActions} from '../actions'
 
 interface VideoContextType {
   videoService: ActorRefFrom<typeof videoMachine>
@@ -10,40 +11,27 @@ interface VideoContextType {
 
 export const VideoContext = createContext({} as VideoContextType)
 
+export const useVideo = () => {
+  const {videoService} = React.useContext(VideoContext)
+
+  return videoService
+}
+
+/**
+ * This is where the magic happens for the video player. The `videoService` is
+ * the running xstate machine that we can use to interact with our global state
+ * and the shared context of the video player.
+ *
+ * TODO: allow some actions to be passed in here
+ *
+ * @param props
+ * @constructor
+ *
+ * @see {@link https://dev.to/mpocock1/how-to-manage-global-state-with-xstate-and-react-3if5}
+ */
 export const VideoProvider: React.FC = (props) => {
   const videoService = useInterpret(videoMachine, {
-    actions: {
-      setPlaybackRate: (context, event) => {
-        // These threw type errors if the event type wasn't specified
-        // assuming that the machine under the hood doesn't
-        // have enough context since these actions are very separated
-        // from the config.
-        if (context.videoRef && event.type === 'PLAYBACKRATE_CHANGE')
-          context.videoRef.current.playbackRate = event.playbackRate
-      },
-      setVolume: (context, event) => {
-        if (context.videoRef && event.type === 'VOLUME_CHANGE')
-          context.videoRef.current.volume = event.volume ?? 0.8
-      },
-      toggleMute: (context, _event) => {
-        if (context.videoRef)
-          context.videoRef.current.muted = !context.videoRef.current.muted
-      },
-      playVideo: (context, _event) => {
-        const {videoRef} = context
-        videoRef?.current?.play()
-      },
-      pauseVideo: (context, _event) => {
-        const {videoRef} = context
-        videoRef?.current?.pause()
-      },
-      seekVideo: (context, _event) => {
-        const {videoRef, seekingTime} = context
-        if (videoRef)
-          videoRef.current.currentTime =
-            seekingTime ?? videoRef.current.currentTime
-      },
-    },
+    actions: defaultActions,
   })
 
   return (

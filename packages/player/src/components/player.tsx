@@ -4,7 +4,7 @@ import {useSelector} from '@xstate/react'
 
 import {Video} from './video'
 import {Shortcut} from './shortcut'
-import {VideoContext} from '../context/video-context'
+import {useVideo} from '../context/video-context'
 import {LoadingSpinner} from './loading-spinner'
 import {BigPlayButton} from './big-play-button'
 import {Bezel} from './bezel'
@@ -36,7 +36,7 @@ export const Player: React.FC<PlayerProps> = ({
   container = null,
 }) => {
   const containerRef = React.useRef(container)
-  const {videoService} = React.useContext(VideoContext)
+  const videoService = useVideo()
   const isActive = useSelector(videoService, selectIsActive)
   const hasStarted = useSelector(videoService, selectHasStarted)
   const paused = useSelector(videoService, selectIsPaused)
