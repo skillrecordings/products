@@ -10,6 +10,7 @@ import {
   selectIsPaused,
   selectPlaybackRate,
   selectReadyState,
+  selectRootElem,
   selectVolume,
 } from '../selectors'
 
@@ -19,21 +20,28 @@ type ShortcutProps = {
   shortcuts?: any[]
 }
 
+/**
+ * defines keyboard shortcuts for the video player
+ * @param clickable
+ * @param dblclickable
+ * @param props
+ * @constructor
+ */
 export const Shortcut: React.FC<ShortcutProps> = ({
   clickable = false,
   dblclickable = false,
   ...props
 }) => {
   const {videoService} = React.useContext(VideoContext)
+
   const hasStarted = useSelector(videoService, selectHasStarted)
   const duration = useSelector(videoService, selectDuration)
   const currentTime = useSelector(videoService, selectCurrentTime)
   const playbackRate = useSelector(videoService, selectPlaybackRate)
-
+  const rootElem = useSelector(videoService, selectRootElem)
   const isActive = useSelector(videoService, selectIsActive)
   const readyState = useSelector(videoService, selectReadyState)
   const volume = useSelector(videoService, selectVolume)
-
   const paused = useSelector(videoService, selectIsPaused)
 
   const shortCutsRef = React.useRef<any[]>([])
@@ -58,7 +66,8 @@ export const Shortcut: React.FC<ShortcutProps> = ({
       },
       {
         keyCode: 70, // f
-        handle: () => videoService.send({type: 'TOGGLE_FULLSCREEN'}),
+        handle: () =>
+          videoService.send({type: 'TOGGLE_FULLSCREEN', element: rootElem}),
       },
       {
         keyCode: 37, // Left arrow
@@ -273,6 +282,7 @@ export const Shortcut: React.FC<ShortcutProps> = ({
     hasStarted,
     playbackRate,
     props.shortcuts,
+    rootElem,
     togglePlay,
     videoService,
     volume,
