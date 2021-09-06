@@ -34,6 +34,29 @@ type PlayerProps = {
   height?: string | number
 }
 
+const usePlayerState = () => {
+  const videoService = useVideo()
+  const hasStarted = useSelector(videoService, selectHasStarted)
+  const isActive = useSelector(videoService, selectIsActive)
+  const paused = useSelector(videoService, selectIsPaused)
+
+  const isSeeking = useSelector(videoService, selectIsSeeking)
+  const isFullscreen = useSelector(videoService, selectIsFullscreen)
+  const isWaiting = useSelector(videoService, selectIsWaiting)
+  const video = useSelector(videoService, selectVideo)
+
+  return {
+    videoService,
+    isActive,
+    hasStarted,
+    isSeeking,
+    paused,
+    isFullscreen,
+    isWaiting,
+    video,
+  }
+}
+
 /**
  * The primary player instance. Must be a descendent by a {VideoProvider}.
  * @param props {PlayerProps}
@@ -42,14 +65,16 @@ type PlayerProps = {
 export const Player: React.FC<PlayerProps> = (props) => {
   const {children, className, container = null, fluid = true} = props
   const containerRef = React.useRef(container)
-  const videoService = useVideo()
-  const isActive = useSelector(videoService, selectIsActive)
-  const hasStarted = useSelector(videoService, selectHasStarted)
-  const isSeeking = useSelector(videoService, selectIsSeeking)
-  const paused = useSelector(videoService, selectIsPaused)
-  const isFullscreen = useSelector(videoService, selectIsFullscreen)
-  const isWaiting = useSelector(videoService, selectIsWaiting)
-  const video = useSelector(videoService, selectVideo)
+  const {
+    videoService,
+    isActive,
+    hasStarted,
+    isSeeking,
+    paused,
+    isFullscreen,
+    isWaiting,
+    video,
+  } = usePlayerState()
   const handleActivity = () => videoService.send('ACTIVITY')
 
   function setWidthOrHeight(style: any, name: string, value: string | number) {
