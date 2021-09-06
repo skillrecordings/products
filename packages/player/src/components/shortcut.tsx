@@ -20,6 +20,33 @@ type ShortcutProps = {
   shortcuts?: any[]
 }
 
+const useShortcutState = () => {
+  const videoService = useVideo()
+  const hasStarted = useSelector(videoService, selectHasStarted)
+  const isActive = useSelector(videoService, selectIsActive)
+  const paused = useSelector(videoService, selectIsPaused)
+
+  const duration = useSelector(videoService, selectDuration)
+  const currentTime = useSelector(videoService, selectCurrentTime)
+  const playbackRate = useSelector(videoService, selectPlaybackRate)
+  const rootElem = useSelector(videoService, selectRootElem)
+  const readyState = useSelector(videoService, selectReadyState)
+  const volume = useSelector(videoService, selectVolume)
+
+  return {
+    videoService,
+    hasStarted,
+    duration,
+    currentTime,
+    playbackRate,
+    rootElem,
+    isActive,
+    readyState,
+    volume,
+    paused,
+  }
+}
+
 /**
  * defines keyboard shortcuts for the video player
  * @param clickable
@@ -32,17 +59,18 @@ export const Shortcut: React.FC<ShortcutProps> = ({
   dblclickable = false,
   ...props
 }) => {
-  const videoService = useVideo()
-
-  const hasStarted = useSelector(videoService, selectHasStarted)
-  const duration = useSelector(videoService, selectDuration)
-  const currentTime = useSelector(videoService, selectCurrentTime)
-  const playbackRate = useSelector(videoService, selectPlaybackRate)
-  const rootElem = useSelector(videoService, selectRootElem)
-  const isActive = useSelector(videoService, selectIsActive)
-  const readyState = useSelector(videoService, selectReadyState)
-  const volume = useSelector(videoService, selectVolume)
-  const paused = useSelector(videoService, selectIsPaused)
+  const {
+    videoService,
+    hasStarted,
+    duration,
+    currentTime,
+    playbackRate,
+    rootElem,
+    isActive,
+    readyState,
+    volume,
+    paused,
+  } = useShortcutState()
 
   const shortCutsRef = React.useRef<any[]>([])
 
