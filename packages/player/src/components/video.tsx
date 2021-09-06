@@ -57,13 +57,14 @@ export const Video: React.FC<VideoProps> = ({
       crossOrigin={crossOrigin}
       ref={(c: HTMLVideoElement) => {
         videoElemRef.current = c
-        videoService.send({type: 'REGISTER', video: videoElemRef})
+        videoService.send({type: 'REGISTER', videoRef: videoElemRef})
+
         // sometimes the event handlers aren't registered before the
         // `canPlay` event is fired (caching, for instance) so we want
         // to check and see if it's ready as soon as we get a ref to
         // the HTMLVideoElement and "manually" fire an event
         if (c && c.readyState > 3) {
-          videoService.send({type: 'LOADED', video: videoElemRef})
+          videoService.send('LOADED')
         }
       }}
       muted={muted}
@@ -74,10 +75,10 @@ export const Video: React.FC<VideoProps> = ({
       poster={poster}
       src={src}
       onCanPlay={(_event) => {
-        videoService.send({type: 'LOADED', video: videoElemRef})
+        videoService.send('LOADED')
       }}
       onCanPlayThrough={(_event) => {
-        videoService.send({type: 'LOADED', video: videoElemRef})
+        videoService.send('LOADED')
       }}
       onTimeUpdate={() => {
         videoService.send('TIMING')

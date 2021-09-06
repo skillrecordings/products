@@ -4,8 +4,8 @@ import {MutableRefObject} from 'react'
 
 export type VideoEvent =
   | {type: 'VOLUME_CHANGE'; volume: number; source?: string}
-  | {type: 'LOADED'; video: MutableRefObject<HTMLVideoElement>}
-  | {type: 'REGISTER'; video: MutableRefObject<HTMLVideoElement>}
+  | {type: 'LOADED'}
+  | {type: 'REGISTER'; videoRef: MutableRefObject<HTMLVideoElement>}
   | {type: 'PLAY'; source?: string}
   | {type: 'TOGGLE_MUTE'}
   | {type: 'TOGGLE_FULLSCREEN'; element?: HTMLElement}
@@ -47,7 +47,7 @@ export const videoMachine = createMachine<VideoStateContext, VideoEvent>({
     seekingTime: undefined,
     hasStarted: false,
     isActive: false,
-    readyState: -1,
+    readyState: 0,
     volume: 0.8,
     playbackRate: 1,
     isFullscreen: false,
@@ -56,7 +56,9 @@ export const videoMachine = createMachine<VideoStateContext, VideoEvent>({
   on: {
     REGISTER: {
       actions: assign({
-        videoRef: (_context, event) => event.video,
+        videoRef: (_context, event) => event.videoRef,
+        readyState: (_context, event) =>
+          event.videoRef?.current.readyState ?? 0,
       }),
     },
     ACTIVITY: {
@@ -85,8 +87,8 @@ export const videoMachine = createMachine<VideoStateContext, VideoEvent>({
         LOADED: {
           target: 'ready',
           actions: assign({
-            videoRef: (_context, event) => event.video,
-            readyState: (_context, event) => event.video.current.readyState,
+            readyState: (context, _event) =>
+              context.videoRef?.current.readyState ?? 0,
             waiting: (_context, _event) => false,
           }),
         },
