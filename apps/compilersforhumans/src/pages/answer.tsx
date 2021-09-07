@@ -71,7 +71,7 @@ export async function getStaticProps() {
     },
     codegen: {
       question: `## As we’ve just discussed, codegen takes an AST and gives us back code in string form. So where in this three step compilation process are all of our changes happening?`,
-      type: `essay`,
+      type: `multiple-choice`,
       tagId: 2514839, // ec - c4h - 005 codegen completed
       correct: ['transform'],
       answer: `The answer is transform. Code is easiest to change when its in the form of an AST. The goal of the parsing step is to create the AST and the goal of the codegen step is to transform the AST back into code.`,
