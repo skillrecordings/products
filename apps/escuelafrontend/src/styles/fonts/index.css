@@ -1,0 +1,193 @@
+@font-face {
+  font-family: 'Fibra One';
+  font-weight: 300;
+  font-style: normal;
+  src: url('/fonts/a63b6402-9ef1-4f29-8a6e-59b137f5ee8e.woff2') format('woff2'),
+    url('/fonts/7c7cb482-0d7d-460f-8a78-025802dfa911.woff') format('woff');
+}
+@font-face {
+  font-family: 'Fibra One';
+  font-weight: 300;
+  font-style: italic;
+  src: url('/fonts/f302f1a2-4c7e-48d9-a288-a0a411727745.woff2') format('woff2'),
+    url('/fonts/849725e2-2644-4326-8182-b0e69b7342b0.woff') format('woff');
+}
+@font-face {
+  font-family: 'Fibra One';
+  font-weight: 400;
+  font-style: normal;
+  src: url('/fonts/e64ac397-3bc3-4dc3-a1dc-b77ecc36f202.woff2') format('woff2'),
+    url('/fonts/e76d97aa-2f27-4b86-93ba-1c9625675026.woff') format('woff');
+}
+@font-face {
+  font-family: 'Fibra One';
+  font-weight: 400;
+  font-style: italic;
+  src: url('/fonts/41e0e7a2-dba2-4271-a2b5-0dbadfcad47b.woff2') format('woff2'),
+    url('/fonts/8c550bd3-722f-4741-911f-f0162c8a82b4.woff') format('woff');
+}
+@font-face {
+  font-family: 'Fibra One';
+  font-weight: 600;
+  font-style: normal;
+  src: url('/fonts/92e28de5-8595-45f6-9d8e-a094fcb0592c.woff2') format('woff2'),
+    url('/fonts/5e22d85f-8be3-4445-9f5e-8ba382677fe2.woff') format('woff');
+}
+@font-face {
+  font-family: 'Fibra One';
+  font-weight: 600;
+  font-style: italic;
+  src: url('/fonts/d2b3dfc4-3d9b-413a-8873-d6396d8ee447.woff2') format('woff2'),
+    url('/fonts/a9c9a7ce-4aba-40ab-831a-44ad8133f067.woff') format('woff');
+}
+@font-face {
+  font-family: 'Fibra One';
+  font-weight: 700;
+  font-style: normal;
+  font-display: optional;
+  src: url('/fonts/f0f7918a-6c09-4345-a519-2bf54215f05c.woff2') format('woff2'),
+    url('/fonts/c9c3cd7d-c142-46f3-a083-d2d8e80fd885.woff') format('woff');
+}
+@font-face {
+  font-family: 'Fibra One';
+  font-weight: 700;
+  font-style: italic;
+  src: url('/fonts/f493818a-9935-471b-a775-4908b59dcb14.woff2') format('woff2'),
+    url('/fonts/3e9934cd-0ce7-441a-b90d-dd9ad56ef1ca.woff') format('woff');
+}
+@font-face {
+  font-family: 'Fibra One';
+  font-weight: 800;
+  font-style: normal;
+  font-display: optional;
+  src: url('/fonts/2b34360d-61b4-4f6f-85a7-7c6da6d6f8ef.woff2') format('woff2'),
+    url('/fonts/a1f3c79b-054e-45f6-89d6-5515a80abbaa.woff') format('woff');
+}
+@font-face {
+  font-family: 'Fibra One';
+  font-weight: 800;
+  font-style: italic;
+  src: url('/fonts/eb82ba7e-6627-47b1-8d40-ad34c685ed00.woff2') format('woff2'),
+    url('/fonts/e32fedd3-a15f-4f82-af9c-cc36eb0bc4ab.woff') format('woff');
+}
+@font-face {
+  font-family: 'Fibra One';
+  font-weight: 900;
+  font-style: normal;
+  src: url('/fonts/b59ac63d-d5da-40ae-9b23-217ad478cb5f.woff2') format('woff2'),
+    url('/fonts/9b3ce32e-1c02-49e4-878f-1bcaac4d67d5.woff') format('woff');
+}
+@font-face {
+  font-family: 'Fibra One';
+  font-weight: 900;
+  font-style: italic;
+  src: url('/fonts/6d07d3b8-4dd7-4cb1-a442-5397276a6fcf.woff2') format('woff2'),
+    url('/fonts/6b4554ea-7205-4227-abeb-ff84cff36b9f.woff') format('woff');
+}
+@font-face {
+  font-family: 'Sicret Mono';
+  font-weight: 500;
+  font-style: normal;
+  src: url('/fonts/0f7a309e-5a51-459c-987f-edc463144306.woff2') format('woff2'),
+    url('/fonts/32fd1ad6-de02-46ea-9ee9-4c638568398b.woff') format('woff');
+}
+@font-face {
+  font-family: 'Sicret Mono';
+  font-weight: 600;
+  font-style: normal;
+  src: url('/fonts/05376940-1219-46ac-96dc-e678fc5fce84.woff2') format('woff2'),
+    url('/fonts/68a6602e-3175-47bb-8589-c01c7b67578e.woff') format('woff');
+}
+@font-face {
+  font-family: 'Input Mono';
+  font-weight: 600;
+  font-style: normal;
+  src: url('/fonts/Input-Mono-Regular.woff2') format('woff2');
+}
+/* @font-face {
+  font-family: 'Typold W05 Book_500';
+  src: url('/fonts/66ee67ba-68c9-4399-997e-5bd92fce4a08.woff2') format('woff2'),
+    url('/fonts/21bb88ee-cb31-43dc-89c5-44a105248283.woff') format('woff');
+} */
+@font-face {
+  font-family: 'Typold';
+  font-weight: 300;
+  font-style: normal;
+  src: url('/fonts/3a522c0c-3114-4d3f-a6dc-908d1e7e370d.woff2') format('woff2'),
+    url('/fonts/cfc4b095-d2c0-4ce6-a101-849a7b4a8dbb.woff') format('woff');
+}
+@font-face {
+  font-family: 'Typold';
+  font-weight: 300;
+  font-style: italic;
+  src: url('/fonts/87a2bed1-7951-4094-948f-0d391488cd73.woff2') format('woff2'),
+    url('/fonts/a34faf3f-40ab-4b4e-aa49-7253f2460913.woff') format('woff');
+}
+@font-face {
+  font-family: 'Typold';
+  font-weight: 400;
+  font-style: normal;
+  font-display: optional;
+  src: url('/fonts/81f9ae10-5315-4e91-97f5-9e42d0bca0c4.woff2') format('woff2'),
+    url('/fonts/51166ceb-df8a-4d7a-86bc-aee004b33aa8.woff') format('woff');
+}
+@font-face {
+  font-family: 'Typold';
+  font-weight: 400;
+  font-style: italic;
+  src: url('/fonts/9c4655dd-76af-4c12-98a7-6798c5deebf1.woff2') format('woff2'),
+    url('/fonts/c16ba8f5-4976-4dc6-8a7c-316827d551cc.woff') format('woff');
+}
+/* @font-face {
+  font-family: 'Typold W05 Regular';
+  src: url('/fonts/51821ed1-a703-4278-824b-10fb307e2fe8.woff2') format('woff2'),
+    url('/fonts/f7d6e44d-a314-4960-bea9-ddaf6fc65732.woff') format('woff');
+}
+@font-face {
+  font-family: 'Typold W05 Italic';
+  src: url('/fonts/9747cedf-2c02-4c71-a1c7-7c3ab276100e.woff2') format('woff2'),
+    url('/fonts/9667160e-b9e7-4757-94ff-e6f53ed0d69c.woff') format('woff');
+} */
+@font-face {
+  font-family: 'Typold';
+  font-weight: 500;
+  font-style: normal;
+  src: url('/fonts/21d6eca2-bec8-4a45-8112-35d4f0f43120.woff2') format('woff2'),
+    url('/fonts/77903626-8d43-4a26-8c79-68f31fe63ca4.woff') format('woff');
+}
+@font-face {
+  font-family: 'Typold';
+  font-weight: 500;
+  font-style: italic;
+  src: url('/fonts/ce7ddfef-dfa2-439f-bc05-04423bcdb95a.woff2') format('woff2'),
+    url('/fonts/c613d172-95ef-43a0-8302-ee0fb6016759.woff') format('woff');
+}
+@font-face {
+  font-family: 'Typold';
+  font-weight: 700;
+  font-style: normal;
+  src: url('/fonts/cc61343c-23a3-4b4a-baa4-8271b4d94d96.woff2') format('woff2'),
+    url('/fonts/24b84cab-f3fb-452e-a031-287607afb198.woff') format('woff');
+}
+@font-face {
+  font-family: 'Typold';
+  font-weight: 700;
+  font-style: italic;
+  src: url('/fonts/a82b1f9d-b48e-4a61-8c7a-9a4231f60090.woff2') format('woff2'),
+    url('/fonts/ebd171a4-b30b-4498-a98b-3643ac51d41d.woff') format('woff');
+}
+@font-face {
+  font-family: 'Typold';
+  font-weight: 800;
+  font-style: normal;
+  font-display: optional;
+  src: url('/fonts/b0d0f7e4-cad2-4a92-9814-e3f3a4500d6b.woff2') format('woff2'),
+    url('/fonts/07b672b7-7685-4a2c-bdea-583ee1f98c80.woff') format('woff');
+}
+@font-face {
+  font-family: 'Typold';
+  font-weight: 800;
+  font-style: italic;
+  src: url('/fonts/d0bed1ca-2294-4475-8726-da4f617beff3.woff2') format('woff2'),
+    url('/fonts/4fbb2ca9-48c9-4043-ae7b-62bba85958e3.woff') format('woff');
+}
