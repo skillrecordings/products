@@ -68,8 +68,7 @@ export const HLSSource: React.FC<HLSSourceProps> = ({
       })
     }
 
-    const canUseNative =
-      video?.canPlayType('application/vnd.apple.mpegurl') ?? false
+    const canUseNative = video.canPlayType('application/vnd.apple.mpegurl')
     const shouldUseNative = canUseNative && !Hls.isSupported()
 
     // Check for Media Source support
