@@ -28,8 +28,6 @@ export const HLSSource: React.FC<HLSSourceProps> = ({
   const videoService = useVideo()
   const video = useSelector(videoService, selectVideo)
 
-  console.log('HLS SOURCE')
-
   React.useEffect(() => {
     let hls: Hls | null = null
 
@@ -39,8 +37,6 @@ export const HLSSource: React.FC<HLSSourceProps> = ({
       if (hls != null) {
         hls.destroy()
       }
-
-      console.log({video})
 
       hls = new Hls({
         enableWorker: false,
