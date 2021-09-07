@@ -25,40 +25,40 @@ export const HLSSource: React.FC<HLSSourceProps> = ({
   type = 'application/x-mpegURL',
   hlsConfig,
 }) => {
-  const [hlsSupported, sethlsSupported] = React.useState(true)
+  const [hlsSupported, setHlsSupported] = React.useState(true)
 
   const videoService = useVideo()
   const video = useSelector(videoService, selectVideo)
 
   React.useEffect(() => {
-    let hls: Hls
+    let hls: Hls | null = null
 
     function _initPlayer() {
       if (hls != null) {
         hls.destroy()
       }
 
-      const newHls = new Hls({
+      hls = new Hls({
         enableWorker: false,
         ...hlsConfig,
       })
 
       if (video) {
-        newHls.attachMedia(video)
+        hls.attachMedia(video)
       }
 
-      newHls.on(Hls.Events.MEDIA_ATTACHED, () => {
-        newHls.loadSource(src)
+      hls.on(Hls.Events.MEDIA_ATTACHED, () => {
+        hls?.loadSource(src)
       })
 
-      newHls.on(Hls.Events.ERROR, function (event, data) {
+      hls.on(Hls.Events.ERROR, function (event, data) {
         if (data.fatal) {
           switch (data.type) {
             case Hls.ErrorTypes.NETWORK_ERROR:
-              newHls.startLoad()
+              hls?.startLoad()
               break
             case Hls.ErrorTypes.MEDIA_ERROR:
-              newHls.recoverMediaError()
+              hls?.recoverMediaError()
               break
             default:
               _initPlayer()
@@ -66,16 +66,18 @@ export const HLSSource: React.FC<HLSSourceProps> = ({
           }
         }
       })
-
-      hls = newHls
     }
 
+    const canUseNative =
+      video?.canPlayType('application/vnd.apple.mpegurl') ?? false
+    const shouldUseNative = canUseNative && !Hls.isSupported()
+
     // Check for Media Source support
-    if (Hls.isSupported()) {
-      sethlsSupported(true)
+    if (!shouldUseNative) {
+      setHlsSupported(true)
       _initPlayer()
     } else {
-      sethlsSupported(false)
+      setHlsSupported(false)
     }
 
     return () => {
