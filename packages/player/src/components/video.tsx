@@ -51,8 +51,6 @@ export const Video: React.FC<VideoProps> = ({
   const videoElemRef = React.useRef<any>(null)
   const videoService = useVideo()
 
-  console.log('VIDEO')
-
   return (
     <video
       className={cx([`cueplayer-react-video`, className])}
@@ -61,14 +59,12 @@ export const Video: React.FC<VideoProps> = ({
       ref={(c: HTMLVideoElement) => {
         videoElemRef.current = c
         videoService.send({type: 'REGISTER', videoRef: videoElemRef})
-        console.log('REGISTERED')
 
         // sometimes the event handlers aren't registered before the
         // `canPlay` event is fired (caching, for instance) so we want
         // to check and see if it's ready as soon as we get a ref to
         // the HTMLVideoElement and "manually" fire an event
         if (c && c.readyState > 3) {
-          console.log('READY STATE IS HERE')
           videoService.send('LOADED')
         }
       }}
@@ -80,11 +76,9 @@ export const Video: React.FC<VideoProps> = ({
       poster={poster}
       src={src}
       onCanPlay={(_event) => {
-        console.log('CAN PLAY')
         videoService.send('LOADED')
       }}
       onCanPlayThrough={(_event) => {
-        console.log('CAN PLAY THROUGH')
         videoService.send('LOADED')
       }}
       onTimeUpdate={() => {
