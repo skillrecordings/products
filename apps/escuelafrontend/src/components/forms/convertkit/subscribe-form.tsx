@@ -1,0 +1,60 @@
+import useConvertkit from 'hooks/use-convertkit'
+import * as React from 'react'
+
+const SubscribeForm: React.FC<{onSubmit?: () => void; className?: string}> = ({
+  onSubmit,
+  className = 'relative py-16 lg:py-40 xl:py-48 md:py-32 sm:py-24',
+}) => {
+  const {subscriber} = useConvertkit()
+  return !subscriber ? (
+    <div id="subscribe" className={className}>
+      <h1 className="pb-4 mx-auto text-xl sm:text-2xl md:text-3xl font-fibra">
+        Mejora tus Habilidades con <strong>Contenido Profesional</strong> de
+        Ingeniería de Front-End
+      </h1>
+      <h4 className="text-base md:text-lg opacity-75">
+        Suscribete para enterarte de los nuevos cursos, artículos, y eventos de
+        Escuela Frontend!
+      </h4>
+      <form
+        className="grid w-full grid-cols-1 gap-8 py-8 mx-auto"
+        action={`https://app.convertkit.com/forms/${process.env.NEXT_PUBLIC_CONVERTKIT_SIGNUP_FORM}/subscriptions`}
+        method="post"
+      >
+        <div className="flex flex-col">
+          <input
+            className="px-4 py-3 text-lg bg-gray-100 dark:bg-gray-900 border-none rounded-xl form-input"
+            id="fields[first_name]"
+            name="fields[first_name]"
+            type="text"
+            placeholder="Tu nombre"
+          />
+        </div>
+        <div className="flex flex-col">
+          <input
+            className="px-4 py-3 text-lg bg-gray-100 dark:bg-gray-900 border-none rounded-xl form-input "
+            id="email_address"
+            name="email_address"
+            type="email"
+            placeholder="Tu correo electrónico"
+            required
+          />
+        </div>
+        <button
+          type="submit"
+          className="px-4 py-4 text-lg font-semibold text-center group hover:shadow-xl inline-flex justify-center items-center  rounded-xl text-white bg-blue-600 hover:bg-blue-700 hover:-translate-y-1 hover:scale-105 transform transition-all ease-in-out duration-200"
+          onClick={() => {
+            onSubmit && onSubmit()
+          }}
+        >
+          <span className="text-base sm:text-xl">Suscríbete</span>
+        </button>
+      </form>
+      <div className="mt-2 text-sm text-center opacity-60">
+        Sin spam, cancele en cualquier momento.
+      </div>
+    </div>
+  ) : null
+}
+
+export default SubscribeForm
