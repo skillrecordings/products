@@ -1,29 +1,30 @@
 // add a comment here
 export default {
-  defaultTitle: 'Skill Recordings',
-  description: 'Lorem ipsum dolor sit amet.',
-  author: 'Skill Recordings',
+  defaultTitle: 'KCD Bundle',
+  description:
+    'Get Testing JavaScript and Epic React workshops at lower price!',
+  author: 'Kent C. Dodds',
   favicon: '/favicon.ico',
-  email: 'team@skillrecordings.com',
-  siteUrl: 'skillrecordings.com',
+  email: 'team@kentcdodds.com',
+  siteUrl: 'kcdbundle.com',
   additionalMetaTags: [
-    {property: 'author', content: 'The Author'},
+    {property: 'author', content: 'Kent C. Dodds'},
     {
       property: 'keywords',
-      content: '',
+      content: 'epic react, testing javascript, bundle',
     },
   ],
   twitter: {
     cardType: 'summary_large_image',
-    handle: '@skillrecordings',
-    site: '@skillrecordings',
+    handle: '@kentcdodds',
+    site: '@kentcdodds',
   },
   openGraph: {
     type: 'website',
-    site_name: 'Skill Recordings',
+    site_name: 'KCD Bundle',
     profile: {
-      firstName: 'Author',
-      lastName: '',
+      firstName: 'Kent',
+      lastName: 'C. Dodds',
     },
     images: [
       {

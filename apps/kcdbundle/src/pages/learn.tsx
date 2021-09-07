@@ -4,7 +4,6 @@ import Layout from '@skillrecordings/react/dist/layouts'
 import Link from 'next/link'
 import useLoginRequired from 'hooks/use-required-login'
 import {usePurchasedBundle} from 'hooks/use-purchased-bundle'
-import getBundles from 'utils/get-bundles'
 import {Resource, SellableResource} from '@skillrecordings/types'
 import get from 'lodash/get'
 import find from 'lodash/find'
@@ -200,7 +199,7 @@ const Learn: FunctionComponent<Props> = ({bundles}) => {
 // }
 
 export const getStaticProps = async () => {
-  const bundles = getBundles()
+  // const bundles = getBundles()
   //   const chapters = bookFilePaths
   //     // Remove file extensions for page paths
   //     .filter((path) => path !== '00-front-matter.mdx')
@@ -211,7 +210,7 @@ export const getStaticProps = async () => {
   //     })
   return {
     props: {
-      bundles,
+      // bundles,
       //  chapters
     },
   }
