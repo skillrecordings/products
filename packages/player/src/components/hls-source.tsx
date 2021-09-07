@@ -20,7 +20,12 @@ type HLSSourceProps = {
  * @param hlsConfig
  * @constructor
  */
-export const HLSSource: React.FC<HLSSourceProps> = ({src, type, hlsConfig}) => {
+export const HLSSource: React.FC<HLSSourceProps> = ({
+  src,
+  type = 'application/x-mpegURL',
+  hlsConfig,
+}) => {
+  const [hlsSupported, sethlsSupported] = React.useState(true)
   const videoService = useVideo()
   const video = useSelector(videoService, selectVideo)
 
@@ -66,7 +71,10 @@ export const HLSSource: React.FC<HLSSourceProps> = ({src, type, hlsConfig}) => {
 
     // Check for Media Source support
     if (Hls.isSupported()) {
+      sethlsSupported(true)
       _initPlayer()
+    } else {
+      sethlsSupported(false)
     }
 
     return () => {
@@ -76,5 +84,6 @@ export const HLSSource: React.FC<HLSSourceProps> = ({src, type, hlsConfig}) => {
     }
   }, [hlsConfig, video, src])
 
-  return <source src={src} type={type || 'application/x-mpegURL'} />
+  // Fallback to using a regular video player if HLS is supported by default in the user's browser
+  return hlsSupported ? null : <source src={src} type={type} />
 }

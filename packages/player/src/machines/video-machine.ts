@@ -17,6 +17,7 @@ export type VideoEvent =
   | {type: 'END'}
   | {type: 'PLAYBACKRATE_CHANGE'; playbackRate: number; source?: string}
   | {type: 'WAITING'}
+  | {type: 'DONE_WAITING'}
   | {type: 'FAIL'}
 
 export interface VideoStateContext {
@@ -72,9 +73,18 @@ export const videoMachine = createMachine<VideoStateContext, VideoEvent>({
       }),
     },
     WAITING: {
-      actions: assign({
-        waiting: (_context, _event) => true,
-      }),
+      actions: [
+        assign({
+          waiting: (_context, _event) => true,
+        }),
+      ],
+    },
+    DONE_WAITING: {
+      actions: [
+        assign({
+          waiting: (_context, _event) => false,
+        }),
+      ],
     },
     ACTIVITY: {
       actions: [

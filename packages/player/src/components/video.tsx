@@ -87,6 +87,9 @@ export const Video: React.FC<VideoProps> = ({
       onWaiting={() => {
         videoService.send('WAITING')
       }}
+      onPlaying={() => {
+        videoService.send('DONE_WAITING')
+      }}
       tabIndex={-1}
     >
       {children}
