@@ -23,12 +23,12 @@ cd apps/next-product-starter && pnpm run dev
 
 ## Adding a Project to Vercel
 
-The build command needs to be scoped to the specific project so we aren't building all of the repos for every single run.
+The build command needs to be scoped to the specific project so we aren't building all of the repos for every single run. The `-w` flag runs ppm in the root of the project so all projects are built.
 
 `build`:
 
 ```
-cd ../../ && pnpm build -- --scope="rust-adventure --includeDependencies
+pnpm build -w -- --scope="rust-adventure" --includeDependencies
 ```
 
 The install command needs to also add `pnpn` and then run install.
