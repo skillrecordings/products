@@ -4,7 +4,7 @@ This is an exploratory project using Turborepo and pnpm to create a monorepo wor
 
 ## Get Started
 
-You'll need [pnpm](https://twitter.com/pnpmjs) installed.
+You'll need [PNPM](https://twitter.com/pnpmjs) installed.
 
 pnpm is used here based on [significant performance gains](https://twitter.com/jaredpalmer/status/1422574985323950083?s=20) reported by Jared Palmer from a customer.
 

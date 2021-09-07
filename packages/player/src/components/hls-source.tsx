@@ -26,6 +26,7 @@ export const HLSSource: React.FC<HLSSourceProps> = ({
   hlsConfig,
 }) => {
   const [hlsSupported, sethlsSupported] = React.useState(true)
+
   const videoService = useVideo()
   const video = useSelector(videoService, selectVideo)
 
