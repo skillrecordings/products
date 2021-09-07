@@ -34,13 +34,13 @@ type VideoProps = {
  */
 export const Video: React.FC<VideoProps> = ({
   children,
-  loop,
+  loop = false,
   poster,
   preload = 'auto',
   src,
-  autoPlay,
-  playsInline,
-  muted,
+  autoPlay = false,
+  playsInline = false,
+  muted = false,
   crossOrigin,
   id,
   className,
@@ -89,6 +89,9 @@ export const Video: React.FC<VideoProps> = ({
       }}
       onPlaying={() => {
         videoService.send('DONE_WAITING')
+      }}
+      onStalled={() => {
+        videoService.send('WAITING')
       }}
       tabIndex={-1}
     >
