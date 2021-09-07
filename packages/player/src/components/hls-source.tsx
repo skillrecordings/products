@@ -75,7 +75,7 @@ export const HLSSource: React.FC<HLSSourceProps> = ({
     if (!shouldUseNative) {
       _initPlayer()
     } else {
-      videoService.send('LOADED')
+      video.load()
     }
 
     return () => {
