@@ -71,19 +71,32 @@ export const HLSSource: React.FC<HLSSourceProps> = ({
     const canUseNative = video.canPlayType('application/vnd.apple.mpegurl')
     const shouldUseNative = canUseNative && !Hls.isSupported()
 
+    function handleExitedFullscreenOnIphone() {
+      videoService.send('PAUSE')
+    }
+
     // Check for Media Source support
     if (!shouldUseNative) {
       _initPlayer()
     } else {
       video.load()
+      video.addEventListener(
+        'webkitendfullscreen',
+        handleExitedFullscreenOnIphone,
+        false,
+      )
     }
 
     return () => {
       if (hls) {
         hls.destroy()
       }
+      video.removeEventListener(
+        'webkitendfullscreen',
+        handleExitedFullscreenOnIphone,
+      )
     }
-  }, [hlsConfig, video, src])
+  }, [hlsConfig, video, src, videoService])
 
   // Fallback to using a regular video player if HLS is supported by default in the user's browser
   return <source src={src} type={type} />

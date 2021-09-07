@@ -85,13 +85,15 @@ export const Video: React.FC<VideoProps> = ({
         videoService.send('TIMING')
       }}
       onWaiting={() => {
+        console.log('WAITING')
         videoService.send('WAITING')
       }}
       onPlaying={() => {
         videoService.send('DONE_WAITING')
       }}
       onStalled={() => {
-        videoService.send('WAITING')
+        console.log('STALLED')
+        // videoService.send('WAITING')
       }}
       tabIndex={-1}
     >

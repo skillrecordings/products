@@ -34,6 +34,10 @@ export const VideoProvider: React.FC = (props) => {
     actions: defaultActions,
   })
 
+  videoService.onTransition((state) => {
+    console.log(state.value)
+  })
+
   return (
     <VideoContext.Provider value={{videoService}}>
       {props.children}
