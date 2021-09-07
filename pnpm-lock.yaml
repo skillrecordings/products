@@ -554,6 +554,7 @@ importers:
       '@skillrecordings/config': link:../../packages/config
       '@skillrecordings/convertkit': link:../../packages/convertkit
       '@skillrecordings/cookies': link:../../packages/cookies
+      '@skillrecordings/player': link:../../packages/player
       '@skillrecordings/quiz': link:../../packages/quiz
       '@skillrecordings/react': link:../../packages/react
       '@skillrecordings/stripe': link:../../packages/stripe
@@ -610,7 +611,6 @@ importers:
       '@babel/plugin-transform-react-jsx': 7.14.9
       '@emotion/babel-preset-css-prop': 10.2.1
       '@mdx-js/loader': 1.6.22_react@17.0.2
-      '@skillrecordings/player': link:../../packages/player
       '@skillrecordings/scripts': link:../../packages/scripts
       '@skillrecordings/tsconfig': link:../../packages/tsconfig
       '@skillrecordings/types': link:../../packages/types
@@ -931,6 +931,7 @@ importers:
       '@skillrecordings/config': link:../../packages/config
       '@skillrecordings/convertkit': link:../../packages/convertkit
       '@skillrecordings/cookies': link:../../packages/cookies
+      '@skillrecordings/player': link:../../packages/player
       '@skillrecordings/quiz': link:../../packages/quiz
       '@skillrecordings/react': link:../../packages/react
       '@skillrecordings/stripe': link:../../packages/stripe
@@ -984,7 +985,6 @@ importers:
       '@emotion/babel-preset-css-prop': 11.2.0
       '@emotion/react': 11.4.1_9280ae23271fd1e8184f767af1a90e55
       '@mdx-js/loader': 1.6.22_react@17.0.2
-      '@skillrecordings/player': link:../../packages/player
       '@skillrecordings/scripts': link:../../packages/scripts
       '@skillrecordings/tsconfig': link:../../packages/tsconfig
       '@skillrecordings/types': link:../../packages/types
