@@ -4,8 +4,10 @@ import ConvertkitSubscribeForm from 'components/forms/convertkit'
 import Layout from 'layouts'
 import LandingCopy from 'components/landing-copy.mdx'
 import Animation from 'components/animation'
+import {useRouter} from 'next/router'
 
 export default function Home() {
+  const router = useRouter()
   return (
     <Layout>
       <div className="absolute top-0 w-full min-h-screen">
@@ -36,7 +38,7 @@ export default function Home() {
           <h3 className="font-bold lg:text-7xl sm:text-5xl text-4xl pb-8 text-center">
             Learn about Compilers
           </h3>
-          <ConvertkitSubscribeForm />
+          <ConvertkitSubscribeForm onSubmit={() => router.push('/confirmed')} />
         </div>
         <div
           aria-hidden="true"
