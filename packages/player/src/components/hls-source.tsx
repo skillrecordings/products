@@ -29,12 +29,12 @@ export const HLSSource: React.FC<HLSSourceProps> = ({
   const video = useSelector(videoService, selectVideo)
 
   React.useEffect(() => {
-    let hls: Hls | null = null
+    let hls: Hls
 
     if (!video) return
 
     function _initPlayer() {
-      if (hls != null) {
+      if (hls) {
         hls.destroy()
       }
 
@@ -48,17 +48,17 @@ export const HLSSource: React.FC<HLSSourceProps> = ({
       }
 
       hls.on(Hls.Events.MEDIA_ATTACHED, () => {
-        hls?.loadSource(src)
+        hls.loadSource(src)
       })
 
       hls.on(Hls.Events.ERROR, function (event, data) {
         if (data.fatal) {
           switch (data.type) {
             case Hls.ErrorTypes.NETWORK_ERROR:
-              hls?.startLoad()
+              hls.startLoad()
               break
             case Hls.ErrorTypes.MEDIA_ERROR:
-              hls?.recoverMediaError()
+              hls.recoverMediaError()
               break
             default:
               _initPlayer()
@@ -79,7 +79,7 @@ export const HLSSource: React.FC<HLSSourceProps> = ({
     }
 
     return () => {
-      if (hls != null) {
+      if (hls) {
         hls.destroy()
       }
     }
