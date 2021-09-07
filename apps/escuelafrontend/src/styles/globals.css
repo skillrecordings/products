@@ -1,0 +1,128 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import '@reach/dialog/styles.css';
+@import './fonts/index.css';
+
+#__next {
+  @apply font-typold;
+  h1,
+  h2 {
+    @apply font-fibra;
+  }
+}
+
+::selection {
+  @apply bg-indigo-600;
+  color: #fefefe;
+}
+
+.prose pre {
+  @apply sm:-mx-5 bg-gray-900 dark:bg-gray-800;
+}
+
+.prose code {
+  @apply bg-gray-200;
+}
+
+pre::-webkit-scrollbar {
+  /* display: none; */
+}
+
+.light-nav > nav {
+  @apply text-white;
+}
+
+.prose-lg img {
+  @apply rounded;
+}
+
+/*
+This will hide the focus indicator if the element receives focus via the mouse,
+but it will still show up on keyboard focus.
+*/
+.js-focus-visible :focus:not(.focus-visible) {
+  outline: none;
+}
+
+.hero-gradiente {
+  background: linear-gradient(
+    222.77deg,
+    rgb(26 176 191) 35.03%,
+    rgb(89 191 202) 56.14%
+  );
+}
+
+.react-landing-page-gradiente {
+  background: linear-gradient(180deg, #150d42 0%, #4926ad 100%);
+}
+
+.margin-hero {
+  padding: 30rem;
+}
+
+[data-reach-dialog-overlay] {
+  @apply backdrop-filter backdrop-blur-lg dark:bg-opacity-80 bg-opacity-80 z-50 p-1 md:p-8;
+}
+
+.hero-animation-1 {
+  animation: HeroAnimation 6s 0.1s forwards;
+}
+
+.hero-animation-2 {
+  animation: HeroAnimation 7s 0.2s forwards;
+}
+
+.hero-animation-3 {
+  animation: HeroAnimation 8s 0.3s forwards;
+}
+
+.hero-animation-4 {
+  animation: HeroAnimation 9s 0.4s forwards;
+}
+
+@keyframes HeroAnimation {
+  0% {
+    transform: translateY(0px);
+  }
+  100% {
+    transform: translateY(60px);
+  }
+}
+
+.secondary-animation {
+  animation: SecondaryAnimation 2s 0.4s forwards
+    cubic-bezier(0.075, 0.8, 0.17, 1);
+}
+
+@keyframes SecondaryAnimation {
+  0% {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0px);
+  }
+}
+
+@keyframes InitialLoadAnimation {
+  0% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0px);
+  }
+}
+
+.initial-load-hero {
+  animation: InitialLoadAnimation 1s 0.4s forwards
+    cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.top-wave {
+  top: 32rem;
+}

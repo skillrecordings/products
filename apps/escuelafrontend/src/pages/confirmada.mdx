@@ -1,0 +1,28 @@
+export const productTitle = config.title
+
+export const Message = () => (
+  <>
+    <p>
+      Recibirás correos acerca de {productTitle}. Cada correo electrónico que
+      enviemos tendrá un enlace para que canceles la suscripción en la parte
+      inferior.
+    </p>
+    <p>¡No dudes en usarlo si no deseas recibir nuestros correos!</p>
+  </>
+)
+
+# ¡Suscripción confirmada!
+
+<Message />
+
+<div className="italic">
+  Gracias,
+  <br />
+  El equipo de {productTitle}
+</div>
+
+import config from '../config.json'
+
+export default ({children}) => (
+  <div className="prose dark:prose-dark prose-lg mx-auto py-24">{children}</div>
+)

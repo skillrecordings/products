@@ -1,0 +1,36 @@
+{
+  "title": "Escuela Frontend",
+  "titleTemplate": "%s | escuelafrontend.com",
+  "author": "Escuela Frontend",
+  "description": "Conviértete en un Frontend Developer Profesional. Accede a contenido de alta calidad para construir una carrera exitosa como Frontend Developer.",
+  "favicon": "/favicon.ico",
+  "email": "equipo@escuelafrontend.com",
+  "siteUrl": "escuelafrontend.com",
+  "additionalMetaTags": [
+    {"property": "author", "content": "Escuela Frontend"},
+    {
+      "property": "keywords",
+      "content": "Curso de Frontend, Carrera Profesional de Frontend, Escuela Frontend, React, React Hooks, JavaScript, TypeScript, State Management"
+    }
+  ],
+  "twitter": {
+    "cardType": "summary_large_image",
+    "handle": "@EscuelaFrontend",
+    "site": "EscuelaFrontend"
+  },
+  "openGraph": {
+    "type": "website",
+    "site_name": "Escuela Frontend",
+    "profile": {
+      "firstName": "Lauro",
+      "lastName": "Silva"
+    },
+    "images": [
+      {
+        "url": "https://res.cloudinary.com/escuela-frontend/image/upload/v1625385219/assets/main-og-image_buic7g.png",
+        "width": 1280,
+        "height": 720
+      }
+    ]
+  }
+}

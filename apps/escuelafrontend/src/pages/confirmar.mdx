@@ -1,0 +1,27 @@
+export const productTitle = config.title
+export const supportEmail = config.email
+
+export const Message = () => (
+  <p>
+    Si no ves el mensaje después de unos minutos, revisa tu carpeta de spam y
+    agrega <code>{supportEmail}</code> a tus contactos.
+  </p>
+)
+
+## ¡Muchas gracias por registrarte! Hay un último paso.
+
+Por favor, revisa tu inbox. Te acabamos de enviar un correo. Deberás hacer clic en el enlace de confirmación para recibir más correos.
+
+<Message />
+
+<div className="italic">
+  Gracias,
+  <br />
+  El equipo de {productTitle}
+</div>
+
+import config from '../config.json'
+
+export default ({children}) => (
+  <div className="prose dark:prose-dark prose-lg mx-auto py-24">{children}</div>
+)
