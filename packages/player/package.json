@@ -18,11 +18,15 @@
   },
   "dependencies": {
     "@emotion/react": "^11.4.1",
+    "@skillrecordings/analytics": "workspace:*",
+    "@skillrecordings/react": "workspace:*",
+    "@tippyjs/react": "^4.2.5",
     "@xstate/react": "^1.5.1",
     "classnames": "^2.3.1",
     "hls.js": "1.0.7",
     "react": "17.0.2",
     "react-dom": "17.0.2",
+    "react-markdown": "^5.0.3",
     "screenfull": "^5.1.0",
     "xstate": "^4.23.1"
   },
