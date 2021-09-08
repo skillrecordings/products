@@ -6,25 +6,14 @@ import Layout from 'layouts'
 const Answer = ({questions}: any) => {
   return (
     <Layout noIndex meta={{title: 'Quiz'}}>
-      <QuizAnswerPage questions={questions} />
+      <QuizAnswerPage
+        questions={questions}
+        author={'John & Laurie'}
+        title="Compilers for Humans"
+      />
     </Layout>
   )
 }
-
-//TODO: apply styling differences
-
-// <Layout noIndex meta={{title: 'Quiz'}}>
-// <header>
-// <Link href="/">
-//   <a aria-label="Home" className="sm:w-36 w-28 sm:mt-6 mt-4 absolute">
-//   <h1 className="sr-only">Quiz</h1>
-// </a>
-// </Link>
-// </header>
-// <div className="px-5 max-w-screen-sm w-full mx-auto flex items-center justify-center xl:pt-36 md:pt-32 pt-24 sm:pb-16 pb-8">
-// {QuestionToShow()}
-// </div>
-// </Layout>
 
 export async function getStaticProps() {
   // pass the questions in as static (or dynamic!) props
