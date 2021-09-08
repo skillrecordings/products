@@ -108,10 +108,8 @@ export const videoMachine = createMachine<VideoStateContext, VideoEvent>({
       actions: [
         assign({
           metadataTracks: (context, event) => {
-            console.log('ACTIVATE', event.track)
             event.track.mode = 'showing'
             if (context.metadataTracks.indexOf(event.track) < 0) {
-              console.log('ADD IT!!')
               context.metadataTracks.push(event.track)
             }
             return [...context.metadataTracks]
