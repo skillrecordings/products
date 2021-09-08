@@ -1018,18 +1018,19 @@ importers:
       '@mdx-js/react': ^1.6.22
       '@next/mdx': ^11.1.0
       '@reach/dialog': ^0.16.0
-      '@skillrecordings/analytics': '*'
-      '@skillrecordings/auth': '*'
-      '@skillrecordings/axios': '*'
-      '@skillrecordings/commerce': '*'
-      '@skillrecordings/config': '*'
-      '@skillrecordings/convertkit': '*'
-      '@skillrecordings/cookies': '*'
+      '@skillrecordings/analytics': workspace:*
+      '@skillrecordings/auth': workspace:*
+      '@skillrecordings/axios': workspace:*
+      '@skillrecordings/commerce': workspace:*
+      '@skillrecordings/config': workspace:*
+      '@skillrecordings/convertkit': workspace:*
+      '@skillrecordings/cookies': workspace:*
+      '@skillrecordings/quiz': workspace:*
       '@skillrecordings/scripts': '*'
-      '@skillrecordings/time': '*'
+      '@skillrecordings/time': workspace:*
       '@skillrecordings/tsconfig': ^0.0.5
       '@skillrecordings/types': '*'
-      '@skillrecordings/viewer': '*'
+      '@skillrecordings/viewer': workspace:*
       '@stripe/stripe-js': ^1.16.0
       '@tailwindcss/aspect-ratio': ^0.2.1
       '@tailwindcss/forms': ^0.3.3
@@ -1115,6 +1116,7 @@ importers:
       '@skillrecordings/config': link:../../packages/config
       '@skillrecordings/convertkit': link:../../packages/convertkit
       '@skillrecordings/cookies': link:../../packages/cookies
+      '@skillrecordings/quiz': link:../../packages/quiz
       '@skillrecordings/time': link:../../packages/time
       '@skillrecordings/viewer': link:../../packages/viewer
       '@stripe/stripe-js': 1.16.0
