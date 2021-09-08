@@ -11,7 +11,7 @@ import {
 // This generates the params based on the presence of `stripePriceId`
 // If its there, then we just need to send the id and quantity
 // if not, then we send the sellable params
-export const getStripeCheckoutParams = (
+export const getStripeCheckoutParams: any = (
   machineContext: CommerceMachineContext,
 ) => {
   const {
@@ -23,29 +23,30 @@ export const getStripeCheckoutParams = (
     stripePriceId,
   } = machineContext
 
-  if (!sellable) {
-    throw new Error('sellable is undefined')
+  if (!sellable && !stripePriceId) {
+    throw new Error('sellable or stripePriceId is undefined')
   }
 
-  const result = isEmpty(stripePriceId)
-    ? {
-        sellables: [
-          pickBy({
-            site: sellable.site,
-            sellable_id: sellable.slug,
-            sellable: sellable.type.toLowerCase(),
-            bulk,
-            quantity,
-            upgrade_from_sellable_id: upgradeFromSellable?.slug,
-            upgrade_from_sellable: upgradeFromSellable?.type,
-          }),
-        ],
-        code: appliedCoupon,
-      }
-    : {
-        stripe_price_id: stripePriceId,
-        quantity,
-      }
+  const result =
+    isEmpty(stripePriceId) && sellable
+      ? {
+          sellables: [
+            pickBy({
+              site: sellable.site,
+              sellable_id: sellable.slug,
+              sellable: sellable.type.toLowerCase(),
+              bulk,
+              quantity,
+              upgrade_from_sellable_id: upgradeFromSellable?.slug,
+              upgrade_from_sellable: upgradeFromSellable?.type,
+            }),
+          ],
+          code: appliedCoupon,
+        }
+      : {
+          stripe_price_id: stripePriceId,
+          quantity,
+        }
 
   return pickBy(result)
 }
@@ -96,31 +97,33 @@ export const getPriceParams = (
     stripePriceId,
   } = machineContext
 
-  if (!sellable) {
-    throw new Error('sellable is undefined')
+  if (!sellable && !stripePriceId) {
+    throw new Error('sellable or stripePriceId is undefined')
   }
 
-  const {site, id: sellable_id, type} = sellable
+  if (sellable) {
+    const {site, id: sellable_id, type} = sellable
 
-  const upgradeParams = pickBy({
-    upgrade_from_sellable_id: upgradeFromSellable?.slug,
-    upgrade_from_sellable: upgradeFromSellable?.type,
-  })
+    const upgradeParams = pickBy({
+      upgrade_from_sellable_id: upgradeFromSellable?.slug,
+      upgrade_from_sellable: upgradeFromSellable?.type,
+    })
 
-  const sellableStuff: EggheadSellableParam = {
-    sellable_id,
-    sellable: type.toLowerCase(),
-    ...(!!upgradeParams && upgradeParams),
-    ...(!!quantity && {quantity}),
+    const sellableStuff: EggheadSellableParam = {
+      sellable_id,
+      sellable: type.toLowerCase(),
+      ...(!!upgradeParams && upgradeParams),
+      ...(!!quantity && {quantity}),
+    }
+
+    return pickBy({
+      sellables: [sellableStuff],
+      site: process.env.NEXT_PUBLIC_SITE_NAME || 'TEST_PRODUCT',
+      code: appliedCoupon,
+    })
+  } else {
+    return {id: stripePriceId}
   }
-
-  return isEmpty(stripePriceId)
-    ? pickBy({
-        sellables: [sellableStuff],
-        site: process.env.NEXT_PUBLIC_SITE_NAME || 'TEST_PRODUCT',
-        code: appliedCoupon,
-      })
-    : {id: stripePriceId}
 }
 
 export const eggheadPriceCheckUrl = `/api/prices`
