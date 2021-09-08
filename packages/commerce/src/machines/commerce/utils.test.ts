@@ -30,7 +30,7 @@ describe('getPriceParams', () => {
       stripePriceId: 'abc123',
     })
     const params = getPriceParams(machineContext)
-    expect(params).toMatchObject({id: 'abc123'})
+    expect(params).toStrictEqual({id: 'abc123'})
   })
 
   it('errors when sellable is null', () => {
