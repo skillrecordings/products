@@ -24,8 +24,6 @@ export const CueBar: React.FC<any> = ({
 
   const cues = useNotesCues()
 
-  console.log({cues})
-
   return disableCompletely || isEmpty(cues) ? null : (
     <div className={classNames('cueplayer-react-cue-bar', className)}>
       {cues.map((noteCue: any) => {

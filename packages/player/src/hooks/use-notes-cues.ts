@@ -39,8 +39,6 @@ export const useNotesCues = () => {
    */
   let cueCount = cueCountFromTracks(metadataTracks)
 
-  console.log({cueCount, metadataTracks, textTracks})
-
   /**
    * parse the metadata tracks when the total cue count changes and set
    * the cues in local state to return
