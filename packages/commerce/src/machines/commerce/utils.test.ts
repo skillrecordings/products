@@ -28,10 +28,9 @@ describe('getPriceParams', () => {
   it('returns the stripe price id as {id}', () => {
     const machineContext = getContext({
       stripePriceId: 'abc123',
-      sellable,
     })
     const params = getPriceParams(machineContext)
-    expect(params).toStrictEqual({id: 'abc123'})
+    expect(params).toMatchObject({id: 'abc123'})
   })
 
   it('errors when sellable is null', () => {
