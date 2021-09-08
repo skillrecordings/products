@@ -10,7 +10,9 @@ import shuffle from 'lodash/shuffle'
 const MultipleChoiceQuestion: FunctionComponent<{
   question: Question
   questions: Questions
-}> = ({question, questions}) => {
+  author?: string
+  title?: string
+}> = ({question, questions, author, title}) => {
   const {
     formik,
     onAnswer,
@@ -104,6 +106,8 @@ const MultipleChoiceQuestion: FunctionComponent<{
           question={question}
           questions={questions}
           answeredCorrectly={answeredCorrectly}
+          author={author}
+          title={title}
         />
       )}
     </form>

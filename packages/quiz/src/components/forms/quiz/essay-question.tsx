@@ -9,7 +9,9 @@ import CompletedMessage from './completed'
 const EssayQuestion: FunctionComponent<{
   question: Question
   questions: Questions
-}> = ({question, questions}) => {
+  author?: string
+  title?: string
+}> = ({question, questions, author, title}) => {
   const {formik, onAnswer, isAnswered, answeredCorrectly, isSubmitting} =
     useQuestion(question, questions)
 
@@ -59,6 +61,8 @@ const EssayQuestion: FunctionComponent<{
           questions={questions}
           question={question}
           neutral={true}
+          author={author}
+          title={title}
         />
       )}
     </form>

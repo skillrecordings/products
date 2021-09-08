@@ -15,7 +15,7 @@ const CompletedMessage: React.FC<{
   question,
   questions,
   title = 'Skill Recordings Product',
-  author = 'The Teacher',
+  author = 'Your Instructor',
 }) => {
   const questionsKeys: string[] = Object.keys(questions)
   const lastQuestionKey: string = last(questionsKeys) || ''

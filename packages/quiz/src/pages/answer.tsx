@@ -8,9 +8,11 @@ import type {Question, Questions} from '@skillrecordings/types'
 
 type AnswerProps = {
   questions: Questions
+  author?: string
+  title?: string
 }
 
-const Answer: React.FC<AnswerProps> = ({questions}) => {
+const Answer: React.FC<AnswerProps> = ({questions, author, title}) => {
   const router = useRouter()
   const [currentQuestion, setCurrentQuestion] = React.useState<Question>()
 
@@ -32,6 +34,8 @@ const Answer: React.FC<AnswerProps> = ({questions}) => {
           <MultipleChoiceQuestion
             question={currentQuestion as Question}
             questions={questions}
+            author={author}
+            title={title}
           />
         )
       default:
@@ -39,6 +43,8 @@ const Answer: React.FC<AnswerProps> = ({questions}) => {
           <EssayQuestion
             question={currentQuestion as Question}
             questions={questions}
+            author={author}
+            title={title}
           />
         )
     }
