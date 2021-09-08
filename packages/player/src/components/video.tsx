@@ -41,7 +41,7 @@ export const Video: React.FC<VideoProps> = ({
   autoPlay = false,
   playsInline = false,
   muted = false,
-  crossOrigin,
+  crossOrigin = 'anonymous',
   id,
   className,
 }) => {
