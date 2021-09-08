@@ -36,6 +36,12 @@ const Layout: FunctionComponent<LayoutProps> = ({
         }}
         canonical={url}
         noindex={noIndex}
+        additionalMetaTags={[
+          {
+            name: 'google-site-verification',
+            content: 'NYJ_fuwXe8EEG56oW0-ty0TO5k3MWz_VA9m_vOI-7cw',
+          },
+        ]}
       />
       <div className={`flex flex-col min-h-screen ${className}`}>
         <Navigation />
