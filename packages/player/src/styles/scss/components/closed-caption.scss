@@ -1,0 +1,13 @@
+.cueplayer-react {
+  .cueplayer-react-closed-caption {
+    cursor: pointer;
+    @include flex(none);
+    @extend .cueplayer-react-icon;
+    @extend .cueplayer-react-icon-closed-caption;
+  }
+
+  video::-webkit-media-text-track-container {
+    -webkit-transform: translateY(-30px);
+    transform: translateY(-30px);
+  }
+}

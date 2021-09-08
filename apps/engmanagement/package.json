@@ -103,7 +103,6 @@
     "eslint-plugin-react": "^7.24.0",
     "eslint-plugin-react-hooks": "^4.2.0",
     "husky": "^5.2.0",
-    "jest": "^27.0.4",
     "lint-staged": "^11.0.0",
     "next-compose-plugins": "^2.2.1",
     "next-images": "^1.8.1",

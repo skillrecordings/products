@@ -4,7 +4,7 @@
   "compilerOptions": {
     "baseUrl": "./src/",
     "rootDir": "src",
-    "outDir": "dist"
+    "outDir": "dist",
   },
   "include": ["src", "next-env.d.ts"]
 }
