@@ -1768,11 +1768,14 @@ importers:
       '@emotion/babel-plugin': ^11.3.0
       '@emotion/babel-preset-css-prop': ^11.2.0
       '@emotion/react': ^11.4.1
+      '@skillrecordings/analytics': workspace:*
+      '@skillrecordings/react': workspace:*
       '@skillrecordings/scripts': workspace:*
       '@skillrecordings/tsconfig': workspace:*
       '@skillrecordings/types': workspace:*
       '@testing-library/jest-dom': ^5.14.1
       '@testing-library/react': ^11.2.5
+      '@tippyjs/react': ^4.2.5
       '@types/react': '*'
       '@types/react-dom': ^17.0.9
       '@xstate/react': ^1.5.1
@@ -1784,17 +1787,22 @@ importers:
       node-sass: ^6.0.1
       react: 17.0.2
       react-dom: 17.0.2
+      react-markdown: ^5.0.3
       react-test-renderer: ^17.0.2
       screenfull: ^5.1.0
       typescript: ^4.2.4
       xstate: ^4.23.1
     dependencies:
       '@emotion/react': 11.4.1_9280ae23271fd1e8184f767af1a90e55
+      '@skillrecordings/analytics': link:../analytics
+      '@skillrecordings/react': link:../react
+      '@tippyjs/react': 4.2.5_react-dom@17.0.2+react@17.0.2
       '@xstate/react': 1.5.1_49beb093bbd7c35e54ba0f39a3d61311
       classnames: 2.3.1
       hls.js: 1.0.7
       react: 17.0.2
       react-dom: 17.0.2_react@17.0.2
+      react-markdown: 5.0.3_9280ae23271fd1e8184f767af1a90e55
       screenfull: 5.1.0
       xstate: 4.23.1
     devDependencies:
@@ -1885,6 +1893,7 @@ importers:
       '@skillrecordings/viewer': workspace:*
       '@testing-library/jest-dom': ^5.14.1
       '@testing-library/react': ^11.2.5
+      '@tippyjs/react': ^4.2.5
       '@types/react': '*'
       '@types/react-dom': ^17.0.9
       '@xstate/react': ^1.5.1
@@ -1898,9 +1907,11 @@ importers:
       next: 11.1.0
       next-seo: ^4.26.0
       next-themes: ^0.0.15
+      prism-react-renderer: ^1.2.1
       query-string: ^7.0.1
       react: 17.0.2
       react-dom: 17.0.2
+      react-scroll: ^1.8.4
       react-test-renderer: ^17.0.2
       typescript: ^4.2.4
       xstate: ^4.23.1
@@ -1913,6 +1924,7 @@ importers:
       '@skillrecordings/convertkit': link:../convertkit
       '@skillrecordings/cookies': link:../cookies
       '@skillrecordings/viewer': link:../viewer
+      '@tippyjs/react': 4.2.5_react-dom@17.0.2+react@17.0.2
       '@types/react': 17.0.17
       '@types/react-dom': 17.0.9
       '@xstate/react': 1.5.1_49beb093bbd7c35e54ba0f39a3d61311
@@ -1922,9 +1934,11 @@ importers:
       next: 11.1.0_f31b35bdaa3b7c2fce82404f09d2dac4
       next-seo: 4.26.0_7df30a00c1bfce1004e3004b7e801a78
       next-themes: 0.0.15_7df30a00c1bfce1004e3004b7e801a78
+      prism-react-renderer: 1.2.1_react@17.0.2
       query-string: 7.0.1
       react: 17.0.2
       react-dom: 17.0.2_react@17.0.2
+      react-scroll: 1.8.4_react-dom@17.0.2+react@17.0.2
       xstate: 4.23.1
       yup: 0.32.9
     devDependencies:
@@ -8384,7 +8398,6 @@ packages:
       domelementtype: 2.2.0
       domhandler: 4.2.0
       entities: 2.2.0
-    dev: true
 
   /domain-browser/1.2.0:
     resolution: {integrity: sha512-jnjyiM6eRyZl2H+W8Q/zLMA481hzi0eszAaBUzIVnmYVDBbnLxVNnfu1HgEBvCbL+71FrxMl3E6lpKH7Ge3OXA==}
@@ -8398,7 +8411,6 @@ packages:
 
   /domelementtype/2.2.0:
     resolution: {integrity: sha512-DtBMo82pv1dFtUmHyr48beiuq792Sxohr+8Hm9zoxklYPfa6n0Z3Byjj2IV7bmr2IyqClnqEQhfgHJJ5QF0R5A==}
-    dev: true
 
   /domexception/1.0.1:
     resolution: {integrity: sha512-raigMkn7CJNNo6Ihro1fzG7wr3fHuYVytzquZKX5n0yizGsTcYgzdIUwj1X9pK0VvjeihV+XiclP+DjwbsSKug==}
@@ -8413,12 +8425,18 @@ packages:
       webidl-conversions: 5.0.0
     dev: false
 
+  /domhandler/3.3.0:
+    resolution: {integrity: sha512-J1C5rIANUbuYK+FuFL98650rihynUOEzRLxW+90bKZRWB6A1X1Tf82GxR1qAWLyfNPRvjqfip3Q5tdYlmAa9lA==}
+    engines: {node: '>= 4'}
+    dependencies:
+      domelementtype: 2.2.0
+    dev: false
+
   /domhandler/4.2.0:
     resolution: {integrity: sha512-zk7sgt970kzPks2Bf+dwT/PLzghLnsivb9CcxkvR8Mzr66Olr0Ofd8neSbglHJHaHa2MadfoSdNlKYAaafmWfA==}
     engines: {node: '>= 4'}
     dependencies:
       domelementtype: 2.2.0
-    dev: true
 
   /domutils/2.7.0:
     resolution: {integrity: sha512-8eaHa17IwJUPAiB+SoTYBo5mCdeMgdcAoXJ59m6DT1vw+5iLS3gNoqYaRowaBKtGVrOF1Jz4yDTgYKLK2kvfJg==}
@@ -8426,7 +8444,6 @@ packages:
       dom-serializer: 1.3.2
       domelementtype: 2.2.0
       domhandler: 4.2.0
-    dev: true
 
   /dot-case/2.1.1:
     resolution: {integrity: sha1-NNzzf1Co6TwrO8qLt/uRVcfaO+4=}
@@ -8546,7 +8563,6 @@ packages:
 
   /entities/2.2.0:
     resolution: {integrity: sha512-p92if5Nz619I0w+akJrLZH0MX0Pb5DX39XOwQTtXSdQQOaYH03S1uIQp4mhOZtAXrxq4ViO67YTiLBo2638o9A==}
-    dev: true
 
   /env-paths/2.2.1:
     resolution: {integrity: sha512-+h1lkLKhZMTYjog1VEpJNG7NZJWcuc2DDk/qsqSTRRCOXiLjeQ1d1/udrUGhqMxUgAlwKNZ0cf2uqan5GLuS2A==}
@@ -10680,6 +10696,18 @@ packages:
     engines: {node: '>=8'}
     dev: true
 
+  /html-to-react/1.4.5_react@17.0.2:
+    resolution: {integrity: sha512-KONZUDFPg5OodWaQu2ymfkDmU0JA7zB1iPfvyHehTmMUZnk0DS7/TyCMTzsLH6b4BvxX15g88qZCXFhJWktsmA==}
+    peerDependencies:
+      react: ^16.0 || ^17.0
+    dependencies:
+      domhandler: 3.3.0
+      htmlparser2: 5.0.1
+      lodash.camelcase: 4.3.0
+      ramda: 0.27.1
+      react: 17.0.2
+    dev: false
+
   /html-tokenize/2.0.1:
     resolution: {integrity: sha512-QY6S+hZ0f5m1WT8WffYN+Hg+xm/w5I8XeUcAq/ZYP5wVC8xbKi4Whhru3FtrAebD5EhBW8rmFzkDI6eCAuFe2w==}
     hasBin: true
@@ -10696,6 +10724,15 @@ packages:
 
   /html-void-elements/2.0.0:
     resolution: {integrity: sha512-4OYzQQsBt0G9bJ/nM9/DDsjm4+fVdzAaPJJcWk5QwA3GIAPxQEeOR0rsI8HbDHQz5Gta8pVvGnnTNSbZVEVvkQ==}
+    dev: false
+
+  /htmlparser2/5.0.1:
+    resolution: {integrity: sha512-vKZZra6CSe9qsJzh0BjBGXo8dvzNsq/oGvsjfRdOrrryfeD9UOBEEQdeoqCRmKZchF5h2zOBMQ6YuQ0uRUmdbQ==}
+    dependencies:
+      domelementtype: 2.2.0
+      domhandler: 3.3.0
+      domutils: 2.7.0
+      entities: 2.2.0
     dev: false
 
   /http-cache-semantics/4.1.0:
@@ -12928,6 +12965,10 @@ packages:
     resolution: {integrity: sha512-mKnC+QJ9pWVzv+C4/U3rRsHapFfHvQFoFB92e52xeyGMcX6/OlIl78je1u8vePzYZSkkogMPJ2yjxxsb89cxyw==}
     dev: false
 
+  /lodash.camelcase/4.3.0:
+    resolution: {integrity: sha1-soqmKIorn8ZRA1x3EfZathkDMaY=}
+    dev: false
+
   /lodash.castarray/4.4.0:
     resolution: {integrity: sha1-wCUTUV4wna3dTCTGDP3c9ZdtkRU=}
     dev: false
@@ -13185,6 +13226,12 @@ packages:
       hash-base: 3.1.0
       inherits: 2.0.4
       safe-buffer: 5.2.1
+    dev: false
+
+  /mdast-add-list-metadata/1.0.1:
+    resolution: {integrity: sha512-fB/VP4MJ0LaRsog7hGPxgOrSL3gE/2uEdZyDuSEnKCv/8IkYHiDkIQSbChiJoHyxZZXZ9bzckyRk+vNxFzh8rA==}
+    dependencies:
+      unist-util-visit-parents: 1.1.2
     dev: false
 
   /mdast-squeeze-paragraphs/4.0.0:
@@ -15587,6 +15634,14 @@ packages:
     engines: {node: '>= 0.8'}
     dev: true
 
+  /prism-react-renderer/1.2.1_react@17.0.2:
+    resolution: {integrity: sha512-w23ch4f75V1Tnz8DajsYKvY5lF7H1+WvzvLUcF0paFxkTHSp42RS0H5CttdN2Q8RR3DRGZ9v5xD/h3n8C8kGmg==}
+    peerDependencies:
+      react: '>=0.14.9'
+    dependencies:
+      react: 17.0.2
+    dev: false
+
   /prismjs/1.23.0:
     resolution: {integrity: sha512-c29LVsqOaLbBHuIbsTxaKENh1N2EQBOHaWv7gkHN4dgRbxSREqDnDbtFJYdpPauS4YCplMSNCABQ6Eeor69bAA==}
     optionalDependencies:
@@ -15757,7 +15812,6 @@ packages:
 
   /ramda/0.27.1:
     resolution: {integrity: sha512-PgIdVpn5y5Yns8vqb8FzBUEYn98V3xcPgawAkkgj0YJ0qDsnHCiNmZYfOGMgOvoB0eWFLpYbhxUR3mxfDIMvpw==}
-    dev: true
 
   /randombytes/2.1.0:
     resolution: {integrity: sha512-vYl3iOX+4CKUWuxGi9Ukhie6fsqXqS9FE2Zaic4tNFD2N2QQaXOMFbuKK4QmDHC0JO6B1Zp41J0LpT0oR68amQ==}
@@ -15880,6 +15934,28 @@ packages:
   /react-is/17.0.2:
     resolution: {integrity: sha512-w2GsyukL62IJnlaff/nRegPQR94C/XXamvMWmSHRJ4y7Ts/4ocGRmTHvOs8PSE6pB3dWOrD/nueuU5sduBsQ4w==}
 
+  /react-markdown/5.0.3_9280ae23271fd1e8184f767af1a90e55:
+    resolution: {integrity: sha512-jDWOc1AvWn0WahpjW6NK64mtx6cwjM4iSsLHJPNBqoAgGOVoIdJMqaKX4++plhOtdd4JksdqzlDibgPx6B/M2w==}
+    peerDependencies:
+      '@types/react': '>=16'
+      react: '>=16'
+    dependencies:
+      '@types/mdast': 3.0.7
+      '@types/react': 17.0.17
+      '@types/unist': 2.0.6
+      html-to-react: 1.4.5_react@17.0.2
+      mdast-add-list-metadata: 1.0.1
+      prop-types: 15.7.2
+      react: 17.0.2
+      react-is: 16.13.1
+      remark-parse: 9.0.0
+      unified: 9.2.2
+      unist-util-visit: 2.0.3
+      xtend: 4.0.2
+    transitivePeerDependencies:
+      - supports-color
+    dev: false
+
   /react-markdown/6.0.3_9280ae23271fd1e8184f767af1a90e55:
     resolution: {integrity: sha512-kQbpWiMoBHnj9myLlmZG9T1JdoT/OEyHK7hqM6CqFT14MAkgWiWBUYijLyBmxbntaN6dCDicPcUhWhci1QYodg==}
     peerDependencies:
@@ -15994,6 +16070,18 @@ packages:
 
   /react-scroll/1.8.3_react-dom@17.0.2+react@17.0.2:
     resolution: {integrity: sha512-BpEMPUIkLuu3BGZYeaCxDA4tk4Hd25f7da9qGb3a2FY8gURtaVaA62q/Vk2/DChP/4GETp5WMbvkRLaMLzVgwg==}
+    peerDependencies:
+      react: ^15.5.4 || ^16.0.0 || ^17.0.0
+      react-dom: ^15.5.4 || ^16.0.0 || ^17.0.0
+    dependencies:
+      lodash.throttle: 4.1.1
+      prop-types: 15.7.2
+      react: 17.0.2
+      react-dom: 17.0.2_react@17.0.2
+    dev: false
+
+  /react-scroll/1.8.4_react-dom@17.0.2+react@17.0.2:
+    resolution: {integrity: sha512-J9rFqmdzularCXJoK2vleHVg2//y9Fs6zh7K13x7Yz3Y1kHPfQ/TTq029L09q1Gr5/5JjFLBOB2Sa3yYIqyTyQ==}
     peerDependencies:
       react: ^15.5.4 || ^16.0.0 || ^17.0.0
       react-dom: ^15.5.4 || ^16.0.0 || ^17.0.0
@@ -18710,6 +18798,10 @@ packages:
     resolution: {integrity: sha512-SdfAl8fsDclywZpfMDTVDxA2V7LjtRDTOFd44wUJamgl6OlVngsqWjxvermMYf60elWHbxhuRCZml7AnuXCaSA==}
     dependencies:
       '@types/unist': 2.0.6
+    dev: false
+
+  /unist-util-visit-parents/1.1.2:
+    resolution: {integrity: sha512-yvo+MMLjEwdc3RhhPYSximset7rwjMrdt9E41Smmvg25UQIenzrN83cRnF1JMzoMi9zZOQeYXHSDf7p+IQkW3Q==}
     dev: false
 
   /unist-util-visit-parents/2.1.2:

@@ -3,9 +3,12 @@
 @import "~@skillrecordings/quiz/dist/styles.css";
 @import '~@reach/dialog/styles.css';
 
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@import "cueplayer.css";
 
 /*
 This will hide the focus indicator if the element receives focus via the mouse,

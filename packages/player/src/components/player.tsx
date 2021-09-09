@@ -9,6 +9,7 @@ import {LoadingSpinner} from './loading-spinner'
 import {BigPlayButton} from './big-play-button'
 import {Bezel} from './bezel'
 import {ControlBar} from './control-bar'
+import {CueBar} from './controls/cue-bar'
 
 import * as browser from '../utils/browser'
 
@@ -75,6 +76,7 @@ export const Player: React.FC<PlayerProps> = (props) => {
     isWaiting,
     video,
   } = usePlayerState()
+
   const handleActivity = () => videoService.send('ACTIVITY')
 
   function setWidthOrHeight(style: any, name: string, value: string | number) {
@@ -187,6 +189,7 @@ export const Player: React.FC<PlayerProps> = (props) => {
         <Bezel />
         <LoadingSpinner />
       </div>
+      <CueBar />
       <ControlBar />
       <Shortcut />
     </div>

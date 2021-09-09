@@ -18,6 +18,7 @@ export type VideoEvent =
   | {type: 'PLAYBACKRATE_CHANGE'; playbackRate: number; source?: string}
   | {type: 'WAITING'}
   | {type: 'DONE_WAITING'}
+  | {type: 'ACTIVATE_METADATA_TRACK'; track: TextTrack}
   | {type: 'FAIL'}
 
 export interface VideoStateContext {
@@ -38,6 +39,7 @@ export interface VideoStateContext {
   lastAction: string | undefined
   waiting: boolean
   seeking: boolean
+  metadataTracks: TextTrack[]
 }
 
 export const videoMachine = createMachine<VideoStateContext, VideoEvent>({
@@ -58,6 +60,7 @@ export const videoMachine = createMachine<VideoStateContext, VideoEvent>({
     isFullscreen: false,
     lastAction: undefined,
     seeking: false,
+    metadataTracks: [],
   },
   on: {
     SET_ROOT_ELEM: {
@@ -101,6 +104,19 @@ export const videoMachine = createMachine<VideoStateContext, VideoEvent>({
         'toggleFullscreen',
       ],
     },
+    ACTIVATE_METADATA_TRACK: {
+      actions: [
+        assign({
+          metadataTracks: (context, event) => {
+            event.track.mode = 'showing'
+            if (context.metadataTracks.indexOf(event.track) < 0) {
+              context.metadataTracks.push(event.track)
+            }
+            return [...context.metadataTracks]
+          },
+        }),
+      ],
+    },
   },
   states: {
     loading: {
@@ -137,6 +153,7 @@ export const videoMachine = createMachine<VideoStateContext, VideoEvent>({
             'setVolume',
           ],
         },
+
         TOGGLE_MUTE: {
           actions: ['toggleMute'],
         },

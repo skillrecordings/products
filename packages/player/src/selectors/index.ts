@@ -32,6 +32,15 @@ export const selectPercent = (state: StateFrom<typeof videoMachine>) => {
   return percent >= 1 ? 1 : percent
 }
 
+export const selectTextTracks = (state: StateFrom<typeof videoMachine>) => {
+  const video = state.context.videoRef?.current
+  if (!video) return
+  return video.textTracks
+}
+
+export const selectMetadataTracks = (state: StateFrom<typeof videoMachine>) =>
+  state.context.metadataTracks
+
 export const selectIsActive = (state: StateFrom<typeof videoMachine>) =>
   state.context.isActive || false
 
