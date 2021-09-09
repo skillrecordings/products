@@ -1,6 +1,6 @@
 import * as React from 'react'
 import cx from 'classnames'
-import {Slider} from '../slider'
+import {Slider} from '../core/slider'
 import {useSelector} from '@xstate/react'
 import {SyntheticEvent} from 'react'
 import {VolumeLevel} from './volume-level'

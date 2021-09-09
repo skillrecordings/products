@@ -6,7 +6,7 @@ import {VolumeBar} from '../volume-control/volume-bar'
 import {useVideo} from '../../context/video-context'
 import {selectMuted, selectVolume} from '../../selectors'
 
-export const VolumeMenuButton: React.FC<any> = (props) => {
+export const VolumeMenuButtonControl: React.FC<any> = (props) => {
   const {className, vertical = false, alwaysShowVolume} = props
   const [active, setActive] = React.useState(false)
   const videoService = useVideo()

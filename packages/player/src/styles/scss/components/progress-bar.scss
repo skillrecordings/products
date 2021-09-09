@@ -1,0 +1,14 @@
+.cueplayer-react .cueplayer-react-progress-bar {
+  display: flex;
+  width: 100%;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 32px;
+
+  @include background-color-with-alpha(
+                  $cueplayer-react-primary-background-color,
+                  $cueplayer-react-primary-background-transparency
+  );
+}

@@ -1,5 +1,5 @@
 import * as React from 'react'
-import {ClickableComponent} from '../clickable-component'
+import {ClickableComponent} from '../core/clickable-component'
 import cx from 'classnames'
 import {Popup} from './popup'
 
