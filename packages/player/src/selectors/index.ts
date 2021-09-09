@@ -94,3 +94,9 @@ export const selectReadyState = (state: StateFrom<typeof videoMachine>) =>
 
 export const selectIsSeeking = (state: StateFrom<typeof videoMachine>) =>
   state.context.seeking
+
+export const selectActiveCues = (state: StateFrom<typeof videoMachine>) =>
+  state.context.activeCues
+
+export const selectCuesMuted = (state: StateFrom<typeof videoMachine>) =>
+  state.context.cuesMuted

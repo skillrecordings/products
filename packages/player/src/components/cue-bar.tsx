@@ -2,13 +2,17 @@ import * as React from 'react'
 import classNames from 'classnames'
 import {isEmpty} from 'lodash'
 import Tippy from '@tippyjs/react'
-import {scroller} from 'react-scroll'
 import {track} from '@skillrecordings/analytics'
 import {useNotesCues} from '../hooks/use-notes-cues'
 import CodeBlock from '@skillrecordings/react/dist/components/code-block'
 import {useVideo} from '../context/video-context'
 import {useSelector} from '@xstate/react'
-import {selectDuration, selectVideo} from '../selectors'
+import {
+  selectActiveCues,
+  selectCuesMuted,
+  selectDuration,
+  selectVideo,
+} from '../selectors'
 import {useCue} from '../hooks/use-cue'
 import {ElementType} from 'react'
 import ReactMarkdown from 'react-markdown'
@@ -68,21 +72,18 @@ const MutePopupButton: React.FC<any> = () => {
 }
 
 const NoteCue: React.FC<any> = ({cue, duration, className}) => {
+  // TODO: Removed all of the sidebar related stuff so that needs to be sonsidered
+  // and shouldn't be so specific/coupled to this
   const [visible, setVisible] = React.useState(false)
   const [clickedOpen, setClickedOpen] = React.useState(false)
   const videoService = useVideo()
   const video = useSelector(videoService, selectVideo)
-  const muteNotes = false
-  const activeSidebarTab = 1
+  const activeCues = useSelector(videoService, selectActiveCues)
 
-  const scrollToActiveNote = () => {
-    scroller.scrollTo('active-note', {
-      duration: 0,
-      delay: 0,
-      offset: -16,
-      containerId: 'notes-tab-scroll-container',
-    })
-  }
+  const cuesMuted = useSelector(videoService, selectCuesMuted)
+
+  // sidebar
+  // const activeSidebarTab = 1
 
   useCue(cue)
 
@@ -90,14 +91,21 @@ const NoteCue: React.FC<any> = ({cue, duration, className}) => {
     setVisible(true)
     setClickedOpen(true)
     // if we seek to the correct time, the note is displayed
-    // actions.seek(cue.startTime)
-    // actions.pause()
-    //TODO: Activate and do stuff
+    videoService.send({
+      type: 'SEEKING',
+      seekingTime: Number(cue.startTime),
+      source: 'cue',
+    })
+    videoService.send('END_SEEKING')
+    videoService.send('PAUSE')
+
     track('opened cue', {cue: cue.text})
+
+    // sidebar
     // !muteNotes && setPlayerPrefs({activeSidebarTab: 1})
-    if (activeSidebarTab === 1) {
-      scrollToActiveNote()
-    }
+    // if (activeSidebarTab === 1) {
+    //   scrollToActiveNote()
+    // }
   }
 
   const clickClose = () => {
@@ -105,16 +113,16 @@ const NoteCue: React.FC<any> = ({cue, duration, className}) => {
     setVisible(false)
   }
 
-  const cueActive = false //player.activeMetadataTrackCues.includes(cue)
+  const cueActive = activeCues.includes(cue)
   const seeking = video?.seeking
   const playerReadyEnough = (video?.readyState ?? 0) > 0
 
   React.useEffect(() => {
-    const isVisible = !muteNotes && cueActive && !seeking && playerReadyEnough
+    const isVisible = !cuesMuted && cueActive && !seeking && playerReadyEnough
     if (!clickedOpen) {
       setVisible(isVisible)
     }
-  }, [clickedOpen, cueActive, seeking, muteNotes, playerReadyEnough])
+  }, [clickedOpen, cueActive, seeking, cuesMuted, playerReadyEnough])
 
   // added seeking to the list here but getting some janky perf issues
 
@@ -128,11 +136,12 @@ const NoteCue: React.FC<any> = ({cue, duration, className}) => {
     note = {text: cue.text}
   }
 
-  React.useEffect(() => {
-    if (visible && activeSidebarTab === 1) {
-      scrollToActiveNote()
-    }
-  }, [visible])
+  // sidebar
+  // React.useEffect(() => {
+  //   if (visible && activeSidebarTab === 1) {
+  //     scrollToActiveNote()
+  //   }
+  // }, [visible])
 
   const customRenderers: {[nodeType: string]: ElementType} = {
     code: (props: any) => {
