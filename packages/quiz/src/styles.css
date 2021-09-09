@@ -1,0 +1,12 @@
+[data-sr-quiz-submit] {
+  background: rgba(79, 70, 229, 1);
+  color: yellow;
+  border: 4px solid green;
+  &:hover {
+    background: green;
+  }
+}
+[data-sr-quiz-submit][disabled] {
+  cursor: not-allowed;
+  background: gray;
+}

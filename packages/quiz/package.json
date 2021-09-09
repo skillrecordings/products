@@ -11,8 +11,10 @@
   ],
   "scripts": {
     "test": "jest",
-    "dev": "tsc -w",
-    "build": "tsc",
+    "dev": "tsc -w & pnpm watch:css",
+    "watch:css": "node-sass --output-style expanded --source-map true --source-map-contents true --precision 6 src/styles.css dist/styles.css -w",
+    "build": "tsc & pnpm build:css",
+    "build:css": "node-sass --output-style expanded --source-map true --source-map-contents true --precision 6 src/styles.css dist/styles.css",
     "lint": "TIMING=1 eslint src --fix",
     "clean": "rm -rf .turbo && rm -rf node_modules && rm -rf dist"
   },
@@ -43,6 +45,7 @@
     "@skillrecordings/tsconfig": "^0.0.5",
     "@skillrecordings/types": "^0.0.5",
     "esbuild-node-tsc": "^1.6.1",
+    "node-sass": "^6.0.1",
     "typescript": "^4.2.4"
   },
   "publishConfig": {

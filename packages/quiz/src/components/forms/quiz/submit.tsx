@@ -7,9 +7,10 @@ const SubmitButton: React.FC<{
 }> = ({isAnswered, isSubmitting}) => {
   return (
     <button
+      data-sr-quiz-submit
       type="submit"
       disabled={isAnswered}
-      className={`text-white inline-flex items-center px-6 py-3 text-lg leading-6 font-semibold  rounded-full border-none bg-indigo-600 hover:bg-indigo-800 hover:shadow-xl active:bg-cool-gray-700 transition hover:scale-105 ease-in-out duration-300 shadow-xl ${
+      className={`text-white inline-flex items-center px-6 py-3 text-lg leading-6 font-semibold rounded-full border-none hover:bg-indigo-800 hover:shadow-xl active:bg-cool-gray-700 transition hover:scale-105 ease-in-out duration-300 shadow-xl ${
         isAnswered ? 'cursor-not-allowed' : 'cursor-pointer'
       }
       `}

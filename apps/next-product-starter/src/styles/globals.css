@@ -1,5 +1,6 @@
 @import './icons.css';
 @import "~@skillrecordings/player/dist/skillrecordings-player.css";
+@import "~@skillrecordings/quiz/dist/styles.css";
 @import '~@reach/dialog/styles.css';
 
 @tailwind base;
