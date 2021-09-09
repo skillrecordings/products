@@ -46,17 +46,18 @@ export const CueBar: React.FC<any> = ({
 }
 
 const MutePopupButton: React.FC<any> = () => {
-  const muteNotes = false
-  //TODO: Persist note muting
+  const videoService = useVideo()
+  const cuesMuted = useSelector(videoService, selectCuesMuted)
+
   return (
     <button
       className="text-gray-400 rounded flex-nowrap flex items-center text-xs"
       onClick={() => {
-        track('muted note popup')
-        //TODO: Actually mute it
+        track(cuesMuted ? 'unmuted cues' : 'muted cues')
+        videoService.send('TOGGLE_MUTE_CUES')
       }}
     >
-      {muteNotes ? (
+      {cuesMuted ? (
         <>
           <span className="pr-1">unmute notes</span>
           <IconVolumeOff />
