@@ -59,12 +59,12 @@ const MutePopupButton: React.FC<any> = () => {
     >
       {cuesMuted ? (
         <>
-          <span className="pr-1">unmute notes</span>
+          <span>unmute notes</span>
           <IconVolumeOff />
         </>
       ) : (
         <>
-          <span className="pr-1">mute notes</span>
+          <span>mute notes</span>
           <IconVolumeOn />
         </>
       )}

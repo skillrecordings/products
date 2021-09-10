@@ -1,8 +1,3 @@
-/* control bar */
-.cueplayer-react .cueplayer-react-control-bar {
-  @apply flex bg-gray-900 z-[10] h-10;
-}
-
 .cueplayer-react .cueplayer-react-fullscreen {
   @apply relative;
 }

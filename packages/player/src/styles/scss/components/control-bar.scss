@@ -2,11 +2,10 @@
   display: flex;
   width: 100%;
   // removes absolute positioning which should be optional for "overlay" style
-  height: 32px;
-
+  height: 40px;
   @include background-color-with-alpha(
-                  $cueplayer-react-primary-background-color,
-                  $cueplayer-react-primary-background-transparency
+    $cueplayer-react-primary-background-color,
+    $cueplayer-react-primary-background-transparency
   );
 }
 
@@ -41,13 +40,13 @@
 
 // Don't hide the control bar if it's audio
 .cueplayer-react-audio.cueplayer-react-has-started.cueplayer-react-user-inactive.cueplayer-react-playing
-.cueplayer-react-control-bar {
+  .cueplayer-react-control-bar {
   opacity: 1;
   visibility: visible;
 }
 
 // IE 8 + 9 Support
 .cueplayer-react-has-started.cueplayer-react-no-flex
-.cueplayer-react-control-bar {
+  .cueplayer-react-control-bar {
   display: table;
 }
