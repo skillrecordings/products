@@ -27,32 +27,32 @@
   .cueplayer-react-cue-note-active {
     opacity: 1;
   }
-  .cue-popup-content {
+  .cueplayer-react-cue-popup-content {
     border-radius: 4px;
     background: white;
     padding: 6px 9px;
   }
-  .cue-popup-header {
+  .cueplayer-react-cue-popup-header {
     display: flex;
     justify-content: flex-end;
     flex-wrap: nowrap;
   }
-  .cue-popup-body {
+  .cueplayer-react-cue-popup-body {
     overflow: hidden;
     display: -webkit-box;
     -webkit-box-orient: vertical;
     -webkit-line-clamp: 6;
     line-height: 1.5;
   }
-  .cue-popup-close-button,
-  .cue-popup-mute-button {
+  .cueplayer-react-cue-popup-close-button,
+  .cueplayer-react-cue-popup-mute-button {
     flex-wrap: nowrap;
     color: #9ca3af;
     display: flex;
     align-items: center;
     font-size: 12px;
   }
-  .cue-popup-close-button {
+  .cueplayer-react-cue-popup-close-button {
     margin-left: 6px;
   }
 }

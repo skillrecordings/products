@@ -159,14 +159,17 @@ const NoteCue: React.FC<any> = ({cue, duration, className}) => {
       offset={[0, 30]}
       interactive={true}
       content={
-        <div className="cue-popup-content">
-          <div className="cue-popup-header">
+        <div className="cueplayer-react-cue-popup-content">
+          <div className="cueplayer-react-cue-popup-header">
             <MutePopupButton />
-            <button className="cue-popup-close-button" onClick={clickClose}>
+            <button
+              className="cueplayer-react-cue-popup-close-button"
+              onClick={clickClose}
+            >
               <IconX />
             </button>
           </div>
-          <div className="cue-popup-body prose">
+          <div className="cueplayer-react-cue-popup-body prose">
             {/* @ts-ignore */}
             <ReactMarkdown renderers={customRenderers}>
               {note.text}
