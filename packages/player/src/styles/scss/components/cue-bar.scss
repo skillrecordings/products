@@ -1,4 +1,4 @@
-.cueplayer-react .cueplayer-react-cue-bar {
+.cueplayer-react-cue-bar {
   display: flex;
   width: 100%;
   height: 24px;
@@ -7,30 +7,52 @@
     $cueplayer-react-primary-background-color,
     $cueplayer-react-primary-background-transparency
   );
-}
-
-/* cue note */
-.cueplayer-react-cue-bar .cueplayer-react-cue-note {
-  position: absolute;
-  width: 6px;
-  cursor: pointer;
-  height: 100%;
-  background-color: white;
-}
-
-/* cue note */
-.cueplayer-react-cue-bar .cueplayer-react-cue-note-learner {
-  position: absolute;
-  height: 100%;
-  width: 6px;
-  background-color: orange;
-  cursor: pointer;
-}
-
-.cueplayer-react-cue-bar .cueplayer-react-cue-note-inactive {
-  opacity: 0.5;
-}
-
-.cueplayer-react-cue-bar .cueplayer-react-cue-note-active {
-  opacity: 1;
+  .cueplayer-react-cue-note {
+    position: absolute;
+    width: 6px;
+    cursor: pointer;
+    height: 100%;
+    background-color: white;
+  }
+  .cueplayer-react-cue-note-learner {
+    position: absolute;
+    height: 100%;
+    width: 6px;
+    background-color: orange;
+    cursor: pointer;
+  }
+  .cueplayer-react-cue-note-inactive {
+    opacity: 0.5;
+  }
+  .cueplayer-react-cue-note-active {
+    opacity: 1;
+  }
+  .cue-popup-content {
+    border-radius: 4px;
+    background: white;
+    padding: 6px 9px;
+  }
+  .cue-popup-header {
+    display: flex;
+    justify-content: flex-end;
+    flex-wrap: nowrap;
+  }
+  .cue-popup-body {
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 6;
+    line-height: 1.5;
+  }
+  .cue-popup-close-button,
+  .cue-popup-mute-button {
+    flex-wrap: nowrap;
+    color: #9ca3af;
+    display: flex;
+    align-items: center;
+    font-size: 12px;
+  }
+  .cue-popup-close-button {
+    margin-left: 6px;
+  }
 }
