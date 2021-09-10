@@ -1,11 +1,11 @@
 .cueplayer-react .cueplayer-react-cue-bar {
   display: flex;
   width: 100%;
-  height: 32px;
-
+  height: 24px;
+  position: relative;
   @include background-color-with-alpha(
-                  $cueplayer-react-primary-background-color,
-                  $cueplayer-react-primary-background-transparency
+    $cueplayer-react-primary-background-color,
+    $cueplayer-react-primary-background-transparency
   );
 }
 
@@ -14,27 +14,23 @@
   position: absolute;
   width: 6px;
   cursor: pointer;
-  height: 32px;
+  height: 100%;
   background-color: white;
 }
 
 /* cue note */
 .cueplayer-react-cue-bar .cueplayer-react-cue-note-learner {
   position: absolute;
-  height: 32px;
+  height: 100%;
   width: 6px;
   background-color: orange;
   cursor: pointer;
 }
 
-.cueplayer-react-cue-bar
-.cueplayer-react-cue-note-inactive {
+.cueplayer-react-cue-bar .cueplayer-react-cue-note-inactive {
   opacity: 0.5;
 }
 
-.cueplayer-react-cue-bar
-.cueplayer-react-cue-note-active {
-  opacity: 1.0;
+.cueplayer-react-cue-bar .cueplayer-react-cue-note-active {
+  opacity: 1;
 }
-
-
