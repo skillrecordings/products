@@ -1,12 +1,3 @@
-
-
-
-
-.tippy-content {
-  user-select: text !important;
-}
-
-
 /* control bar */
 .cueplayer-react .cueplayer-react-control-bar {
   @apply flex bg-gray-900 z-[10] h-10;
