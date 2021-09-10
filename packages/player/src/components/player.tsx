@@ -12,7 +12,6 @@ import {ControlBar} from './control-bar'
 
 import {CueBar} from './cue-bar'
 
-
 import * as browser from '../utils/browser'
 
 import {
@@ -99,7 +98,7 @@ export const Player: React.FC<PlayerProps> = (props) => {
     })
   }
 
-  function getStyle() {
+  function getAspectRatioStyle() {
     const {
       aspectRatio: propsAspectRatio,
       height: propsHeight,
@@ -163,7 +162,6 @@ export const Player: React.FC<PlayerProps> = (props) => {
         containerRef.current = container ? container : c
         videoService.send({type: 'SET_ROOT_ELEM', rootElemRef: containerRef})
       }}
-      style={getStyle()}
       onMouseDown={handleActivity}
       onMouseMove={handleActivity}
       onKeyDown={handleActivity}
@@ -186,7 +184,10 @@ export const Player: React.FC<PlayerProps> = (props) => {
         className,
       )}
     >
-      <div className="cueplayer-react-controls-enabled">
+      <div
+        style={getAspectRatioStyle()}
+        className="cueplayer-react-video-holder"
+      >
         <Video>{children}</Video>
         <BigPlayButton />
         <Bezel />
