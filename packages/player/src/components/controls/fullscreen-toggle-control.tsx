@@ -10,7 +10,7 @@ type FullscrenToggleProps = {
   ref?: ForwardedRef<HTMLButtonElement>
 }
 
-export const FullscreenToggle: React.FC<FullscrenToggleProps> =
+export const FullscreenToggleControl: React.FC<FullscrenToggleProps> =
   React.forwardRef<HTMLButtonElement, FullscrenToggleProps>((props, ref) => {
     const {className} = props
     const videoService = useVideo()

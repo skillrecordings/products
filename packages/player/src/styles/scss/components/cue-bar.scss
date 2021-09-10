@@ -1,0 +1,40 @@
+.cueplayer-react .cueplayer-react-cue-bar {
+  display: flex;
+  width: 100%;
+  height: 32px;
+
+  @include background-color-with-alpha(
+                  $cueplayer-react-primary-background-color,
+                  $cueplayer-react-primary-background-transparency
+  );
+}
+
+/* cue note */
+.cueplayer-react-cue-bar .cueplayer-react-cue-note {
+  position: absolute;
+  width: 6px;
+  cursor: pointer;
+  height: 32px;
+  background-color: white;
+}
+
+/* cue note */
+.cueplayer-react-cue-bar .cueplayer-react-cue-note-learner {
+  position: absolute;
+  height: 32px;
+  width: 6px;
+  background-color: orange;
+  cursor: pointer;
+}
+
+.cueplayer-react-cue-bar
+.cueplayer-react-cue-note-inactive {
+  opacity: 0.5;
+}
+
+.cueplayer-react-cue-bar
+.cueplayer-react-cue-note-active {
+  opacity: 1.0;
+}
+
+

@@ -1,48 +1,11 @@
 
 
-/* cue note */
-.cueplayer-react-cue-bar .cueplayer-react-cue-note {
-  position: absolute;
-  height: 100%;
-  width: 6px;
-  background-color: gray;
-  cursor: pointer;
-}
 
-/* cue note */
-.cueplayer-react-cue-bar .cueplayer-react-cue-note-learner {
-  position: absolute;
-  height: 100%;
-  width: 6px;
-  background-color: orange;
-  cursor: pointer;
-}
-
-.cueplayer-react-cue-bar
-  .cueplayer-react-cue-note.cueplayer-react-cue-note-active {
-  @apply bg-white opacity-100;
-}
-
-.cueplayer-react-cue-bar
-  .cueplayer-react-cue-note.cueplayer-react-cue-note-inactive {
-  @apply bg-white opacity-50;
-}
 
 .tippy-content {
   user-select: text !important;
 }
 
-/* progress bar */
-.cueplayer-react .cueplayer-react-progress-control {
-  @apply bottom-0 w-full h-6 absolute flex px-2;
-  transform: translateY(1.5rem);
-}
-
-/* cue bar */
-.cueplayer-react .cueplayer-react-cue-bar {
-  @apply bottom-0 h-4 z-10 absolute left-2 right-3 flex;
-  transform: translateY(2.5rem);
-}
 
 /* control bar */
 .cueplayer-react .cueplayer-react-control-bar {

@@ -1,5 +1,6 @@
 import {assign, createMachine} from 'xstate'
 import {MutableRefObject} from 'react'
+import {isEqual, remove} from 'lodash'
 
 export type VideoEvent =
   | {type: 'VOLUME_CHANGE'; volume: number; source?: string}
@@ -19,6 +20,10 @@ export type VideoEvent =
   | {type: 'WAITING'}
   | {type: 'DONE_WAITING'}
   | {type: 'ACTIVATE_METADATA_TRACK'; track: TextTrack}
+  | {type: 'ACTIVATE_CUE'; cue: VTTCue}
+  | {type: 'DEACTIVATE_CUE'; cue: VTTCue}
+  | {type: 'CLEAR_CUES'}
+  | {type: 'TOGGLE_MUTE_CUES'}
   | {type: 'FAIL'}
 
 export interface VideoStateContext {
@@ -40,6 +45,8 @@ export interface VideoStateContext {
   waiting: boolean
   seeking: boolean
   metadataTracks: TextTrack[]
+  activeCues: VTTCue[]
+  cuesMuted: boolean
 }
 
 export const videoMachine = createMachine<VideoStateContext, VideoEvent>({
@@ -61,6 +68,8 @@ export const videoMachine = createMachine<VideoStateContext, VideoEvent>({
     lastAction: undefined,
     seeking: false,
     metadataTracks: [],
+    activeCues: [],
+    cuesMuted: false,
   },
   on: {
     SET_ROOT_ELEM: {
@@ -117,6 +126,46 @@ export const videoMachine = createMachine<VideoStateContext, VideoEvent>({
         }),
       ],
     },
+    ACTIVATE_CUE: {
+      actions: [
+        assign({
+          activeCues: (_context, event) => {
+            // return context.activeCues.includes(event.cue)
+            //   ? context.activeCues
+            //   : [...context.activeCues, event.cue]
+
+            //TODO: Gracefully handle multiple active cues
+            return [event.cue]
+          },
+        }),
+      ],
+    },
+    DEACTIVATE_CUE: {
+      actions: [
+        assign({
+          activeCues: (context, event) => {
+            remove(context.activeCues, (cue) => {
+              return isEqual(event.cue, cue)
+            })
+            return [...context.activeCues]
+          },
+        }),
+      ],
+    },
+    CLEAR_CUES: {
+      actions: [
+        assign({
+          activeCues: (_context, _event) => [],
+        }),
+      ],
+    },
+    TOGGLE_MUTE_CUES: {
+      actions: [
+        assign({
+          cuesMuted: (context, _event) => !context.cuesMuted,
+        }),
+      ],
+    },
   },
   states: {
     loading: {
@@ -170,6 +219,7 @@ export const videoMachine = createMachine<VideoStateContext, VideoEvent>({
             assign({
               seekingTime: (context, event) => event.seekingTime,
               seeking: (_context, _event) => true,
+              hasStarted: (_context, _event) => true,
             }),
             'seekVideo',
           ],

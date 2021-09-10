@@ -1,6 +1,6 @@
 import * as React from 'react'
 import cx from 'classnames'
-import {ClickableComponent} from '../clickable-component'
+import {ClickableComponent} from '../core/clickable-component'
 import {Menu} from './menu'
 import {MenuItem} from './menu-item'
 

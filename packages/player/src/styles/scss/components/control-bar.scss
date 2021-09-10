@@ -1,10 +1,7 @@
 .cueplayer-react .cueplayer-react-control-bar {
   display: flex;
   width: 100%;
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
+  // removes absolute positioning which should be optional for "overlay" style
   height: 32px;
 
   @include background-color-with-alpha(
