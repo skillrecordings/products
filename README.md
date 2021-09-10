@@ -1,4 +1,4 @@
-# turbo-playground
+# Skill Recordings Projects
 
 This is an exploratory project using Turborepo and pnpm to create a monorepo working environment for multiple applications and a shared common core library (or set of libraries.
 
