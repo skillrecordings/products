@@ -2,17 +2,17 @@ import * as React from 'react'
 import cx from 'classnames'
 import {useSelector} from '@xstate/react'
 
+import {useVideo} from '../context/video-context'
+import * as browser from '../utils/browser'
+
 import {Video} from './video'
 import {Shortcut} from './shortcut'
-import {useVideo} from '../context/video-context'
 import {LoadingSpinner} from './loading-spinner'
 import {BigPlayButton} from './big-play-button'
 import {Bezel} from './bezel'
 import {ControlBar} from './control-bar'
-
+import {ProgressBar} from './progress-bar'
 import {CueBar} from './cue-bar'
-
-import * as browser from '../utils/browser'
 
 import {
   selectHasStarted,
@@ -23,7 +23,6 @@ import {
   selectIsWaiting,
   selectVideo,
 } from '../selectors'
-import {ProgressBar} from './progress-bar'
 
 type PlayerProps = {
   container?: HTMLElement
