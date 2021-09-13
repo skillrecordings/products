@@ -4,11 +4,13 @@ import axios from 'axios'
 import {useFormik} from 'formik'
 import Spinner from 'components/spinner'
 import * as Yup from 'yup'
+import {useRouter} from 'next/router'
 
 const ConvertkitSubscribeAndTagForm: React.FC<{tag?: string; idNum?: string}> =
   ({tag, idNum = '1'}) => {
     const {subscriber} = useConvertkit()
     const [submitting, setSubmitting] = React.useState<boolean>(false)
+    const router = useRouter()
 
     const formik = useFormik({
       initialValues: {
@@ -26,10 +28,14 @@ const ConvertkitSubscribeAndTagForm: React.FC<{tag?: string; idNum?: string}> =
         setSubmitting(true)
         axios
           .post('/api/convertkit/subscribe', {...values, tag})
-          .catch((err) => console.log(err))
+          .catch((err) => {
+            formik.setStatus('error')
+            console.log(err)
+          })
           .finally(() => {
-            setSubmitting(false)
-            formik.setStatus('submitted')
+            // setSubmitting(false)
+            // formik.setStatus('submitted')
+            router.push(`${router.asPath}?continue=true`)
           })
       },
       validateOnChange: false,
@@ -46,68 +52,81 @@ const ConvertkitSubscribeAndTagForm: React.FC<{tag?: string; idNum?: string}> =
       'focus:outline-none focus:ring-2 focus:ring-orange-300 border-none rounded-lg bg-white text-black placeholder-coolGray-400 w-full'
     const labelClassName = 'block pb-1 font-medium'
 
-    return formik.status === 'submitted' ? (
-      <div className="text-lg py-4">
-        Thanks! I'll keep you in the loop on my upcoming workshops.
-      </div>
-    ) : (
-      <form
-        onSubmit={formik.handleSubmit}
-        className="max-w-xs mx-auto space-y-4"
-      >
-        <div>
-          <label htmlFor={`first_name_${idNum}`} className={labelClassName}>
-            First Name
-          </label>
-          <div className="relative mt-1 rounded-md">
-            <input
-              value={formik.values.first_name}
-              onChange={formik.handleChange}
-              id={`first_name_${idNum}`}
-              name="first_name"
-              className={inputClassName}
-              placeholder="Your first name"
-              type="text"
-            />
-          </div>
-        </div>
-
-        <div>
-          <label htmlFor={`email_address_${idNum}`} className={labelClassName}>
-            Email<span className="text-orange-300">*</span>
-          </label>
-          <div className="relative mt-1 rounded-md ">
-            <input
-              value={formik.values.email_address}
-              onChange={formik.handleChange}
-              id={`email_address_${idNum}`}
-              name="email_address"
-              className={inputClassName}
-              placeholder="Your email address"
-              type="email"
-              required
-            />
-          </div>
-        </div>
-        <div className="flex flex-col items-center w-full justify-center">
-          <button
-            type="submit"
-            className="px-6 py-3 rounded-lg text-lg border-orange-400 font-semibold mt-4 hover:scale-105 transition-all duration-300 ease-in-out border shadow-inner bg-orange-400 bg-opacity-5 hover:bg-opacity-20"
+    return (
+      <>
+        {formik.status === 'submitted' ? (
+          <div className="text-lg py-4">Thanks!</div>
+        ) : (
+          <form
+            onSubmit={formik.handleSubmit}
+            className="max-w-xs mx-auto space-y-4"
           >
-            {submitting ? (
-              <div className="px-14">
-                <span className="sr-only">Submitting</span>
-                <Spinner />
+            <div>
+              <label htmlFor="first_name" className={labelClassName}>
+                First Name
+              </label>
+              <div className="relative mt-1 rounded-md">
+                <input
+                  value={formik.values.first_name}
+                  onChange={formik.handleChange}
+                  id="first_name"
+                  name="first_name"
+                  className={inputClassName}
+                  placeholder="Your first name"
+                  type="text"
+                />
               </div>
-            ) : (
-              'Subscribe & Continue Reading'
-            )}
-          </button>
-          <div className="text-gray-200 opacity-60 pt-8 italic text-center">
-            No spam, unsubscribe any time.
+            </div>
+
+            <div>
+              <label
+                htmlFor={`email_address_${idNum}`}
+                className={labelClassName}
+              >
+                Email<span className="text-orange-300">*</span>
+              </label>
+              <div className="relative mt-1 rounded-md ">
+                <input
+                  value={formik.values.email_address}
+                  onChange={formik.handleChange}
+                  id="email_address"
+                  name="email_address"
+                  className={inputClassName}
+                  placeholder="Your email address"
+                  type="email"
+                  required
+                />
+              </div>
+            </div>
+            <div className="flex flex-col items-center w-full justify-center">
+              <button
+                type="submit"
+                className="px-6 py-3 rounded-lg text-lg border-orange-400 font-semibold mt-4 hover:scale-105 transition-all duration-300 ease-in-out border shadow-inner bg-orange-400 bg-opacity-5 hover:bg-opacity-20"
+              >
+                {submitting ? (
+                  <div className="px-14">
+                    <span className="sr-only">Submitting</span>
+                    <Spinner />
+                  </div>
+                ) : (
+                  'Continue Reading'
+                )}
+              </button>
+              <div className="text-gray-200 opacity-60 pt-8 italic text-center">
+                No spam, unsubscribe any time.
+              </div>
+            </div>
+          </form>
+        )}
+        {formik.status === 'error' && (
+          <div className="text-lg py-4">
+            Something went wrong.{' '}
+            <span aria-label="grinning face with sweat" role="img">
+              😅
+            </span>
           </div>
-        </div>
-      </form>
+        )}
+      </>
     )
   }
 

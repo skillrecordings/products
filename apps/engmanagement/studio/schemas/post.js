@@ -28,7 +28,7 @@ export default {
     {
       name: 'ckTagId',
       title: 'Convertkit Tag ID',
-      type: 'string',
+      type: 'number',
       description:
         'If "Subscribers Only" is true and this Tag ID is set, only tagged subscribers will see full article. Others will be asked to subscribe, which will tag them accordingly.',
     },
