@@ -4,7 +4,7 @@ export const AUTH_CLIENT_ID = process.env.NEXT_PUBLIC_CLIENT_ID
 export const AUTH_REDIRECT_URL = process.env.NEXT_PUBLIC_REDIRECT_URI
 
 export const CK_SUBSCRIBER_KEY =
-  process.env.NEXT_PUBLIC_CK_SUBSCRIBER_KEY || 'ck_subscriber_id'
+  process.env.NEXT_PUBLIC_CONVERTKIT_SUBSCRIBER_KEY || 'ck_subscriber_id'
 export const CONVERTKIT_BASE_URL =
   process.env.CONVERTKIT_BASE_URL || 'https://api.convertkit.com/v3/'
 export const CONVERTKIT_API_SECRET = process.env.CONVERTKIT_API_SECRET

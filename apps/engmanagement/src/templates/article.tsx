@@ -14,7 +14,6 @@ import {
   LinkedIn,
   Hacker,
 } from 'components/share'
-import {useRouter} from 'next/router'
 import ConvertkitSubscribeForm from '@skillrecordings/convertkit/dist/forms'
 
 type ArticleTemplateProps = {

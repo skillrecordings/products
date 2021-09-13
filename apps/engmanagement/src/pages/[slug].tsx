@@ -13,6 +13,8 @@ import {useNextSanityImage} from 'next-sanity-image'
 import Image from 'next/image'
 import {useConvertkit} from '@skillrecordings/convertkit'
 import {TheFutureOfRemoteWorkBackground} from 'components/backgrounds'
+import {useRouter} from 'next/router'
+import toast, {Toaster} from 'react-hot-toast'
 
 type ArticleProps = {
   post: {
@@ -49,8 +51,21 @@ const Article = ({
     ogImage,
     subscribersOnly,
   } = post
-
+  const router = useRouter()
   const {subscriber} = useConvertkit()
+  console.log({ckTagId})
+
+  React.useEffect(() => {
+    if (router.query.continue && authorized) {
+      toast('Enjoy!')
+      document.getElementById('continue')?.scrollIntoView()
+      window.history.replaceState(
+        null,
+        document.title,
+        window.location.pathname,
+      )
+    }
+  }, [authorized, router])
 
   const MainImage = () => {
     const imageProps: any = useNextSanityImage(sanityClient, mainImage)
@@ -71,6 +86,7 @@ const Article = ({
   }
   return (
     <div className={`bg-[${backgroundColor}]`}>
+      <Toaster />
       <ArticleTemplate
         footer={authorized}
         subscribeForm={!subscribersOnly && isEmpty(subscriber)}
@@ -103,6 +119,7 @@ const Article = ({
             <div className="w-full">
               <h3 className="sm:text-4xl text-3xl font-bold leading-none font-brandon text-center">
                 Read the rest of this article
+                {/* Unlock this chapter for free */}
               </h3>
               <h4 className="text-center text-xl text-orange-300 pt-4 pb-10">
                 This article is for subscribers only. Enter your email to

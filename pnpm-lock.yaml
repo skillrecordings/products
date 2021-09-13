@@ -313,6 +313,7 @@ importers:
       react: ^17.0.2
       react-countdown: ^2.3.2
       react-dom: ^17.0.2
+      react-hot-toast: ^2.1.1
       react-markdown: ^6.0.2
       react-scroll: ^1.8.2
       react-stripe-checkout: ^2.6.3
@@ -379,6 +380,7 @@ importers:
       react: 17.0.2
       react-countdown: 2.3.2_react-dom@17.0.2+react@17.0.2
       react-dom: 17.0.2_react@17.0.2
+      react-hot-toast: 2.1.1_react-dom@17.0.2+react@17.0.2
       react-markdown: 6.0.3_9280ae23271fd1e8184f767af1a90e55
       react-scroll: 1.8.3_react-dom@17.0.2+react@17.0.2
       react-stripe-checkout: 2.6.3
@@ -6385,7 +6387,7 @@ packages:
   /axios/0.21.1:
     resolution: {integrity: sha512-dKQiRHxGD9PPRIUNIWvZhPTPpl1rf/OxTYKsqKUDjBwYylTvV7SjSHJb9ratfyzM6wCdLCOYLzs73qpg5c4iGA==}
     dependencies:
-      follow-redirects: 1.14.1_debug@2.6.9
+      follow-redirects: 1.14.1
     transitivePeerDependencies:
       - debug
     dev: false
@@ -9679,6 +9681,16 @@ packages:
     resolution: {integrity: sha512-Rwix9pBtC1Nuy5wysTmKy+UjbDJpIfg8eHjw0rjZ1mX4GNLz1Bmd16uDpI3Gk1i70Fgcs8Csg2lPm8HULFg9DQ==}
     dev: false
 
+  /follow-redirects/1.14.1:
+    resolution: {integrity: sha512-HWqDgT7ZEkqRzBvc2s64vSZ/hfOceEol3ac/7tKwzuvEyWx3/4UegXh5oBOIotkGsObyk3xznnSRVADBgWSQVg==}
+    engines: {node: '>=4.0'}
+    peerDependencies:
+      debug: '*'
+    peerDependenciesMeta:
+      debug:
+        optional: true
+    dev: false
+
   /follow-redirects/1.14.1_debug@2.6.9:
     resolution: {integrity: sha512-HWqDgT7ZEkqRzBvc2s64vSZ/hfOceEol3ac/7tKwzuvEyWx3/4UegXh5oBOIotkGsObyk3xznnSRVADBgWSQVg==}
     engines: {node: '>=4.0'}
@@ -10278,6 +10290,12 @@ packages:
       static-eval: 2.1.0
       through2: 2.0.5
       xtend: 4.0.2
+    dev: false
+
+  /goober/2.0.41:
+    resolution: {integrity: sha512-kwjegMT5018zWydhOQlQneCgCtrKJaPsru7TaBWmTYV0nsMeUrM6L6O8JmNYb9UbPMgWcmtf+9p4Y3oJabIH1A==}
+    peerDependencies:
+      csstype: ^2.6.2
     dev: false
 
   /good-listener/1.2.2:
@@ -15839,6 +15857,20 @@ packages:
       use-sidecar: 1.0.5_react@17.0.2
     transitivePeerDependencies:
       - '@types/react'
+    dev: false
+
+  /react-hot-toast/2.1.1_react-dom@17.0.2+react@17.0.2:
+    resolution: {integrity: sha512-Odrp4wue0fHh0pOfZt5H+9nWCMtqs3wdlFSzZPp7qsxfzmbE26QmGWIh6hG43CukiPeOjA8WQhBJU8JwtWvWbQ==}
+    engines: {node: '>=10'}
+    peerDependencies:
+      react: '>=16'
+      react-dom: '>=16'
+    dependencies:
+      goober: 2.0.41
+      react: 17.0.2
+      react-dom: 17.0.2_react@17.0.2
+    transitivePeerDependencies:
+      - csstype
     dev: false
 
   /react-is/16.13.1:
