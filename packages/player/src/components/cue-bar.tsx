@@ -51,7 +51,7 @@ const MutePopupButton: React.FC<any> = () => {
 
   return (
     <button
-      className="cue-popup-mute-button"
+      className="cueplayer-react-cue-popup-mute-button"
       onClick={() => {
         track(cuesMuted ? 'unmuted cues' : 'muted cues')
         videoService.send('TOGGLE_MUTE_CUES')
