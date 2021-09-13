@@ -49,7 +49,6 @@
       .cueplayer-react-volume-level {
         height: 100%;
       }
-
     }
   }
 
@@ -69,7 +68,6 @@
       font-size: 0.9em; // Doing this to match the handle on play progress.
     }
   }
-
 
   .cueplayer-react-slider-vertical .cueplayer-react-volume-level {
     width: 0.3em;
@@ -91,29 +89,32 @@
     }
   }
 
-
   // The volume menu button is like menu buttons (captions/subtitles) but works
   // a little differently. It needs to be possible to tab to the volume slider
   // without hitting space bar on the menu button. To do this we're not using
   // display:none to hide the slider menu by default, and instead setting the
   // width and height to zero.
-  .cueplayer-react-menu-button-popup.cueplayer-react-volume-menu-button .cueplayer-react-menu {
+  .cueplayer-react-menu-button-popup.cueplayer-react-volume-menu-button
+    .cueplayer-react-menu {
     display: block;
     width: 0;
     height: 0;
     border-top-color: transparent;
   }
 
-  .cueplayer-react-menu-button-popup.cueplayer-react-volume-menu-button-vertical .cueplayer-react-menu {
+  .cueplayer-react-menu-button-popup.cueplayer-react-volume-menu-button-vertical
+    .cueplayer-react-menu {
     left: 0.5em;
     height: 8em;
   }
 
-  .cueplayer-react-menu-button-popup.cueplayer-react-volume-menu-button-horizontal .cueplayer-react-menu {
+  .cueplayer-react-menu-button-popup.cueplayer-react-volume-menu-button-horizontal
+    .cueplayer-react-menu {
     left: -2em;
   }
 
-  .cueplayer-react-menu-button-popup.cueplayer-react-volume-menu-button .cueplayer-react-menu-content {
+  .cueplayer-react-menu-button-popup.cueplayer-react-volume-menu-button
+    .cueplayer-react-menu-content {
     height: 0;
     width: 0;
 
@@ -122,28 +123,38 @@
     overflow-y: hidden;
   }
 
-  .cueplayer-react-volume-menu-button-vertical:hover .cueplayer-react-menu-content,
-  .cueplayer-react-volume-menu-button-vertical:focus .cueplayer-react-menu-content,
-  .cueplayer-react-volume-menu-button-vertical.cueplayer-react-slider-active .cueplayer-react-menu-content,
-  .cueplayer-react-volume-menu-button-vertical .cueplayer-react-lock-showing .cueplayer-react-menu-content {
+  .cueplayer-react-volume-menu-button-vertical:hover
+    .cueplayer-react-menu-content,
+  .cueplayer-react-volume-menu-button-vertical:focus
+    .cueplayer-react-menu-content,
+  .cueplayer-react-volume-menu-button-vertical.cueplayer-react-slider-active
+    .cueplayer-react-menu-content,
+  .cueplayer-react-volume-menu-button-vertical
+    .cueplayer-react-lock-showing
+    .cueplayer-react-menu-content {
     height: 8em;
     width: 2.9em;
   }
 
-  .cueplayer-react-volume-menu-button-horizontal:hover .cueplayer-react-menu-content,
-  .cueplayer-react-volume-menu-button-horizontal:focus .cueplayer-react-menu-content,
-  .cueplayer-react-volume-menu-button-horizontal .cueplayer-react-slider-active .cueplayer-react-menu-content,
-  .cueplayer-react-volume-menu-button-horizontal .cueplayer-react-lock-showing .cueplayer-react-menu-content {
-    height: 2.9em;
-    width: 8em;
+  .cueplayer-react-volume-menu-button-horizontal:hover
+    .cueplayer-react-menu-content,
+  .cueplayer-react-volume-menu-button-horizontal:focus
+    .cueplayer-react-menu-content,
+  .cueplayer-react-volume-menu-button-horizontal
+    .cueplayer-react-slider-active
+    .cueplayer-react-menu-content,
+  .cueplayer-react-volume-menu-button-horizontal
+    .cueplayer-react-lock-showing
+    .cueplayer-react-menu-content {
+    height: 2.5rem;
+    display: flex;
+    align-items: center;
   }
 
-  .cueplayer-react-volume-menu-button.cueplayer-react-menu-button-inline .cueplayer-react-menu-content {
+  .cueplayer-react-volume-menu-button.cueplayer-react-menu-button-inline
+    .cueplayer-react-menu-content {
     // An inline volume should never have a menu background color.
     //  This protects it from external changes to background colors.
     background-color: transparent !important;
   }
-
 }
-
-

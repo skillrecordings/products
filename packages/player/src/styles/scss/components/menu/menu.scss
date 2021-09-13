@@ -7,7 +7,6 @@
   }
 }
 
-
 .cueplayer-react-menu {
   .cueplayer-react-menu-content {
     display: block;
@@ -28,9 +27,11 @@
     &:focus,
     &:hover {
       outline: 0;
-      @include background-color-with-alpha($cueplayer-react-secondary-background-color, $cueplayer-react-secondary-background-transparency);
+      @include background-color-with-alpha(
+        $cueplayer-react-secondary-background-color,
+        $cueplayer-react-secondary-background-transparency
+      );
     }
-
 
     &.cueplayer-react-selected,
     &.cueplayer-react-selected:focus,
@@ -49,7 +50,6 @@
       font-weight: bold;
       cursor: default;
     }
-
   }
 }
 
