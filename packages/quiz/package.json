@@ -12,7 +12,7 @@
   "scripts": {
     "test": "jest",
     "dev": "tsc -w & pnpm watch:css",
-    "watch:css": "node-sass --output-style expanded --source-map true --source-map-contents true --precision 6 src/styles.css dist/styles.css -w",
+    "watch:css": "pnpm build:css -- -w",
     "build": "tsc & pnpm build:css",
     "build:css": "node-sass --output-style expanded --source-map true --source-map-contents true --precision 6 src/styles.css dist/styles.css",
     "lint": "TIMING=1 eslint src --fix",
