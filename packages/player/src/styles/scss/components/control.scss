@@ -12,8 +12,9 @@
   @include flex(none);
 
   &:before {
-    font-size: 1.8em;
-    line-height: 1.67;
+    font-size: 2.3em;
+    line-height: 2.5rem;
+    height: 2.5rem;
 
     @extend %cueplayer-react-icon-default;
   }
@@ -22,12 +23,10 @@
   &:focus:before,
   &:hover:before,
   &:focus {
-    text-shadow: 0em 0em 1em $cueplayer-react-primary-foreground-color,
-    0em 0em 0.5em $cueplayer-react-primary-foreground-color;
+    text-shadow: 0em 0em 0.5em $cueplayer-react-primary-foreground-color,
+      0em 0em 0.5em $cueplayer-react-primary-foreground-color;
   }
-
 }
-
 
 // Hide control text visually, but have it available for screenreaders
 .cueplayer-react .cueplayer-react-control-text {
@@ -38,4 +37,8 @@
 .cueplayer-react-no-flex .cueplayer-react-control {
   display: table-cell;
   vertical-align: middle;
+}
+
+.cueplayer-react-current-time-display {
+  font-variant-numeric: tabular-nums;
 }
