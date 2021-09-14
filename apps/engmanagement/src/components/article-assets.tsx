@@ -167,4 +167,42 @@ const TheFutureOfRemoteWorkBackground = () => {
   )
 }
 
-export {TheFutureOfRemoteWorkBackground}
+const TheValueOfValuesExample: React.FC<{number?: Number}> = ({
+  children,
+  number,
+}) => {
+  const childrenArr: React.ReactNode[] = React.Children.toArray(children)
+  const firstElement: React.ReactNode = childrenArr[0]
+  const header: React.ReactNode =
+    React.isValidElement(firstElement) &&
+    React.createElement(
+      'div',
+      {
+        className: 'text-3xl font-semibold font-din uppercase relative z-10',
+      },
+      firstElement.props.children,
+    )
+  const byline: React.ReactNode = childrenArr.filter(
+    (ch: React.ReactNode, i) =>
+      React.isValidElement(ch) && ch.props.mdxType === 'Byline',
+  )
+  const body: React.ReactNode = childrenArr.filter(
+    (ch: React.ReactNode) =>
+      React.isValidElement(ch) && ch.props.mdxType === 'Body',
+  )
+
+  return (
+    <section className="lg:-mx-10 sm:-mx-5 -mx-2 sm:px-10 px-8 bg-black pt-4 sm:pt-6 rounded-lg overflow-hidden shadow-xl bg-opacity-90 sm:my-16 my-10 relative space-y-8">
+      <div className="font-din text-7xl absolute right-8 top-10 text-transparent bg-gradient-to-t from-gray-900 via-gray-800 to-gray-700 bg-clip-text pointer-events-none">
+        {number && ('0' + number).slice(-2)}
+      </div>
+      <div>{header}</div>
+      <div className="italic">{byline}</div>
+      <div className="pb-12 lg:-mx-10 sm:-mx-10 -mx-8 sm:px-10 px-8 border-l-2 border-orange-400">
+        {body}
+      </div>
+    </section>
+  )
+}
+
+export {TheFutureOfRemoteWorkBackground, TheValueOfValuesExample}
