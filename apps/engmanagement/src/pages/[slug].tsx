@@ -53,7 +53,6 @@ const Article = ({
   } = post
   const router = useRouter()
   const {subscriber} = useConvertkit()
-  console.log({ckTagId})
 
   React.useEffect(() => {
     if (router.query.continue && authorized) {

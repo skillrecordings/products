@@ -70,7 +70,7 @@ module.exports = {
               marginBottom: defaultTheme.spacing['10'],
             },
             li: {
-              marginBottom: defaultTheme.spacing['8'],
+              marginBottom: defaultTheme.spacing['4'],
             },
             h2: {
               fontFamily: theme('fontFamily.din').join(', '),
