@@ -12,7 +12,10 @@ import checkSubscriber from 'utils/check-subscriber'
 import {useNextSanityImage} from 'next-sanity-image'
 import Image from 'next/image'
 import {useConvertkit} from '@skillrecordings/convertkit'
-import {TheFutureOfRemoteWorkBackground} from 'components/backgrounds'
+import {
+  TheFutureOfRemoteWorkBackground,
+  TheValueOfValuesExample,
+} from 'components/article-assets'
 import {useRouter} from 'next/router'
 import toast, {Toaster} from 'react-hot-toast'
 
@@ -75,7 +78,7 @@ const Article = ({
         {...imageProps}
         alt=""
         layout="fill"
-        className="md:object-contain object-cover object-top select-none pointer-events-none"
+        className="xl:object-contain object-cover object-top select-none pointer-events-none"
         quality={100}
         placeholder="blur"
         loading="eager"
@@ -107,7 +110,10 @@ const Article = ({
           },
         }}
       >
-        <MDXRemote {...source} />
+        <MDXRemote
+          {...source}
+          components={{Example: TheValueOfValuesExample}}
+        />
         {!authorized && (
           <div className="absolute -mx-5 bottom-0 h-96 bg-gradient-to-b from-transparent to-[#111725] w-full" />
         )}
