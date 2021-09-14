@@ -115,11 +115,11 @@ const Article = ({
           components={{Example: TheValueOfValuesExample}}
         />
         {!authorized && (
-          <div className="absolute -mx-5 bottom-0 h-96 bg-gradient-to-b from-transparent to-[#111725] w-full" />
+          <div className="absolute bottom-0 h-96 bg-gradient-to-b from-transparent to-[#111725] w-full" />
         )}
       </ArticleTemplate>
       {!authorized && (
-        <section className=" max-w-screen-md w-full mx-auto sm:pb-48 pb-28">
+        <section className="-mt-8 px-5 max-w-screen-md w-full mx-auto sm:pb-48 pb-28">
           <div className="flex items-start justify-center py-24 px-5 bg-gray-800 rounded-lg">
             <div className="w-full">
               <h3 className="sm:text-4xl text-3xl font-bold leading-none font-brandon text-center">
