@@ -4,7 +4,7 @@ import cx from 'classnames'
 import {useVideo} from '../../context/video-context'
 import {selectPaused} from '../../selectors'
 
-export const PlayToggle: React.FC<any> = React.forwardRef<
+export const PlayToggleControl: React.FC<any> = React.forwardRef<
   HTMLButtonElement,
   any
 >(({className}, ref) => {

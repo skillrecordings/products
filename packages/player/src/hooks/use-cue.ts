@@ -1,15 +1,17 @@
 import * as React from 'react'
+import {useVideo} from '../context/video-context'
 
 export const useCue = (cue: VTTCue) => {
+  const videoService = useVideo()
   const setActive = React.useCallback(
     function setActive(active) {
       if (active) {
-        console.log('activate cue', cue)
+        videoService.send({type: 'ACTIVATE_CUE', cue})
       } else {
-        console.log('deactivate cue', cue)
+        videoService.send({type: 'DEACTIVATE_CUE', cue})
       }
     },
-    [cue],
+    [cue, videoService],
   )
 
   React.useEffect(() => {

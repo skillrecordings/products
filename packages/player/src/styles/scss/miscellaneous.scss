@@ -1,0 +1,12 @@
+/* Hide some controls in mobile resolution */
+.cueplayer-react .cueplayer-react-control.cueplayer-react-replay-control,
+.cueplayer-react .cueplayer-react-control.cueplayer-react-forward-control,
+.cueplayer-react .cueplayer-react-control.cueplayer-react-volume-menu-button,
+.cueplayer-react .cueplayer-react-control.cueplayer-react-current-time,
+.cueplayer-react .cueplayer-react-time-divider,
+.cueplayer-react .cueplayer-react-control.cueplayer-react-duration {
+  display: none;
+  @media (min-width: 640px) {
+    display: inline-block;
+  }
+}

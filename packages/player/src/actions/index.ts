@@ -34,9 +34,10 @@ export const defaultActions: ActionFunctionMap<VideoStateContext, VideoEvent> =
     },
     seekVideo: (context, _event) => {
       const {videoRef, seekingTime} = context
-      if (videoRef)
+      if (videoRef) {
         videoRef.current.currentTime =
           seekingTime ?? videoRef.current.currentTime
+      }
     },
     toggleFullscreen: (_context, event) => {
       if (screenfull.isEnabled && event.type === 'TOGGLE_FULLSCREEN') {

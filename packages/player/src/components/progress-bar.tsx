@@ -2,12 +2,12 @@ import * as React from 'react'
 import {useSelector} from '@xstate/react'
 import {MouseEvent} from 'react'
 import cx from 'classnames'
-import {SeekBar} from '../seek-bar'
-import {useVideo} from '../../context/video-context'
-import {findElPosition, getPointerPosition} from '../../utils'
-import {selectDuration} from '../../selectors'
+import {SeekBar} from './seek-bar'
+import {useVideo} from '../context/video-context'
+import {findElPosition, getPointerPosition} from '../utils'
+import {selectDuration} from '../selectors'
 
-export const ProgressControl: React.FC<any> = (props) => {
+export const ProgressBar: React.FC<any> = (props) => {
   const videoService = useVideo()
   const duration = useSelector(videoService, selectDuration)
   const [mouseTime, setMouseTime] = React.useState({time: 0, position: 0})
@@ -31,10 +31,7 @@ export const ProgressControl: React.FC<any> = (props) => {
   return (
     <div
       onMouseMove={handleMouseMove}
-      className={cx(
-        'cueplayer-react-progress-control cueplayer-react-control',
-        props.className,
-      )}
+      className={cx('cueplayer-react-progress-bar', props.className)}
     >
       <SeekBar mouseTime={mouseTime} ref={seekBar} {...props} />
     </div>

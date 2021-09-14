@@ -1,7 +1,7 @@
 import * as React from 'react'
 import {SyntheticEvent} from 'react'
 import {useSelector} from '@xstate/react'
-import {Slider} from '../slider'
+import {Slider} from '../core/slider'
 import cx from 'classnames'
 import {LoadProgressBar} from './load-progress-bar'
 import {PlayProgressBar} from './play-progress-bar'

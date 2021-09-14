@@ -1,29 +1,29 @@
 import * as React from 'react'
-import {PlayToggle} from './controls/play-toggle'
+import {PlayToggleControl} from './controls/play-toggle-control'
 import {ForwardReplayControl} from './controls/forward-replay-control'
-import {VolumeMenuButton} from './controls/volume-menu-button'
+import {VolumeMenuButtonControl} from './controls/volume-menu-button-control'
 import {CurrentTimeDisplay} from './time-controls/current-time-display'
 import {TimeDivider} from './time-controls/time-divider'
 import {DurationDisplay} from './time-controls/duration-display'
 import {ProgressControl} from './controls/progress-control'
 import {RemainingTimeDisplay} from './time-controls/remaining-time-display'
-import {PlaybackRateMenuButton} from './controls/playback-rate-menu-button'
-import {FullscreenToggle} from './controls/fullscreen-toggle'
+import {PlaybackRateMenuButtonControl} from './controls/playback-rate-menu-button-control'
+import {FullscreenToggleControl} from './controls/fullscreen-toggle-control'
 
 export const ControlBar: React.FC = () => {
   return (
     <div className="cueplayer-react-control-bar">
-      <PlayToggle />
+      <PlayToggleControl />
       <ForwardReplayControl mode="replay" />
       <ForwardReplayControl />
-      <VolumeMenuButton />
+      <VolumeMenuButtonControl />
       <CurrentTimeDisplay />
       <TimeDivider />
       <DurationDisplay />
       <ProgressControl />
       <RemainingTimeDisplay />
-      <PlaybackRateMenuButton />
-      <FullscreenToggle />
+      <PlaybackRateMenuButtonControl />
+      <FullscreenToggleControl />
     </div>
   )
 }
