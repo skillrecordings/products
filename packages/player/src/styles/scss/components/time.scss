@@ -1,9 +1,8 @@
 .cueplayer-react {
-
   .cueplayer-react-time-control {
     @include flex(none);
-    font-size: 1em;
-    line-height: 3em;
+    font-size: 1.3em;
+    line-height: 2.5rem;
     min-width: 2em;
     width: auto;
     padding-left: 1em;

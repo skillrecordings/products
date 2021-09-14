@@ -51,7 +51,7 @@ const MutePopupButton: React.FC<any> = () => {
 
   return (
     <button
-      className="text-gray-400 rounded flex-nowrap flex items-center text-xs"
+      className="cueplayer-react-cue-popup-mute-button"
       onClick={() => {
         track(cuesMuted ? 'unmuted cues' : 'muted cues')
         videoService.send('TOGGLE_MUTE_CUES')
@@ -59,12 +59,12 @@ const MutePopupButton: React.FC<any> = () => {
     >
       {cuesMuted ? (
         <>
-          <span className="pr-1">unmute notes</span>
+          <span>unmute notes</span>
           <IconVolumeOff />
         </>
       ) : (
         <>
-          <span className="pr-1">mute notes</span>
+          <span>mute notes</span>
           <IconVolumeOn />
         </>
       )}
@@ -159,17 +159,17 @@ const NoteCue: React.FC<any> = ({cue, duration, className}) => {
       offset={[0, 30]}
       interactive={true}
       content={
-        <div className="py-1">
-          <div className="flex justify-end space-x-2">
+        <div className="cueplayer-react-cue-popup-content">
+          <div className="cueplayer-react-cue-popup-header">
             <MutePopupButton />
             <button
-              className="text-gray-400 rounded flex-nowrap flex items-center text-xs"
+              className="cueplayer-react-cue-popup-close-button"
               onClick={clickClose}
             >
               <IconX />
             </button>
           </div>
-          <div className="line-clamp-6 prose-sm prose leading-normal">
+          <div className="cueplayer-react-cue-popup-body prose">
             {/* @ts-ignore */}
             <ReactMarkdown renderers={customRenderers}>
               {note.text}
