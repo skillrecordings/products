@@ -28,10 +28,9 @@ module.exports = {
           css: {
             color: theme('colors.gray.700'),
             code: {
-              // color: theme('colors.gray.200'),
-              padding: '0.3rem 0.5rem 0.4rem',
-
+              padding: '0.2rem',
               borderRadius: theme('borderRadius.sm'),
+              fontWeight: 'inherit',
             },
             'code:before': {
               content: '""',

@@ -19,7 +19,7 @@ const EssayQuestion: FunctionComponent<{
     <form onSubmit={onAnswer} className="w-full">
       <legend className="lg:text-4xl sm:text-3xl text-2xl font-semibold pb-6">
         <Markdown
-          className="prose sm:prose-xl prose-lg dark:prose-dark"
+          className="prose lg:prose-xl sm:prose-lg dark:prose-dark"
           children={question?.question}
         />
       </legend>
