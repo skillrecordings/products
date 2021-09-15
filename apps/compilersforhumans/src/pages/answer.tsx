@@ -6,11 +6,13 @@ import Layout from 'layouts'
 const Answer = ({questions}: any) => {
   return (
     <Layout noIndex meta={{title: 'Quiz'}}>
-      <QuizAnswerPage
-        questions={questions}
-        author={'John & Laurie'}
-        title="Compilers for Humans"
-      />
+      <div className="p-5">
+        <QuizAnswerPage
+          questions={questions}
+          author={'John & Laurie'}
+          title="Compilers for Humans"
+        />
+      </div>
     </Layout>
   )
 }
@@ -24,7 +26,7 @@ export async function getStaticProps() {
       tagId: 2514815, // ec - c4h - 001 Welcome completed
     },
     transpilation: {
-      question: `## You tried to use the new findLast array method and your project won’t build, what failed?`,
+      question: `## You tried to use the new \`findLast\` array method and your project won’t build, what failed?`,
       type: `multiple-choice`,
       tagId: 2514822, // ec - c4h - 002 Three Steps completed
       correct: ['parsing'],
