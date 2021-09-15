@@ -7,6 +7,7 @@ import Image from 'next/image'
 import BookCover from '../../public/images/engineering-management-for-the-rest-of-us-book-mockup-front@2x.jpg'
 import SarahDrasner from '../../public/images/sarah-drasner@2x.jpg'
 import AngieJones from '../../public/images/angie-jones@2x.png'
+import SubscribeAndTag from '@skillrecordings/convertkit/dist/forms/subscribe-and-tag'
 
 export default function Home() {
   return (
@@ -78,7 +79,11 @@ export default function Home() {
             </div>
             <div className="uppercase">Subscribe to get notified</div>
           </h2>
-          <ConvertkitSubscribeForm
+          <SubscribeAndTag
+            tagId={2621433}
+            onSuccessRedirectUrl="/the-value-of-values?continue=true"
+          />
+          {/* <ConvertkitSubscribeForm
             classNames={{
               input:
                 'w-full bg-gray-900 sm:text-xl text-lg px-5 py-4 rounded-lg text-white placeholder-gray-300 border-gray-700 shadow-inner focus:ring-0 focus:border-orange-300',
@@ -90,7 +95,7 @@ export default function Home() {
               buttonContainer: 'w-full flex items-center justify-center py-8',
               comment: 'text-lg text-center text-gray-200',
             }}
-          />
+          /> */}
         </div>
       </section>
     </Layout>

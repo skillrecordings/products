@@ -1724,28 +1724,34 @@ importers:
       '@skillrecordings/axios': workspace:*
       '@skillrecordings/config': workspace:*
       '@skillrecordings/cookies': workspace:*
+      '@skillrecordings/react': workspace:*
       '@skillrecordings/scripts': workspace:*
       '@skillrecordings/tsconfig': workspace:*
       '@skillrecordings/types': workspace:*
       axios: ^0.21.1
       cookie: ^0.4.1
       esbuild-node-tsc: ^1.6.1
+      formik: ^2.2.9
       framer-motion: ^4.1.17
       next: 11.1.0
       query-string: ^7.0.1
       react-use: ^17.2.4
       typescript: ^4.2.4
+      yup: ^0.32.9
     dependencies:
       '@reach/dialog': 0.16.0
       '@skillrecordings/axios': link:../axios
       '@skillrecordings/config': link:../config
       '@skillrecordings/cookies': link:../cookies
+      '@skillrecordings/react': link:../react
       axios: 0.21.1
       cookie: 0.4.1
+      formik: 2.2.9
       framer-motion: 4.1.17
       next: 11.1.0_typescript@4.3.5
       query-string: 7.0.1
       react-use: 17.2.4
+      yup: 0.32.9
     devDependencies:
       '@skillrecordings/scripts': link:../scripts
       '@skillrecordings/tsconfig': link:../tsconfig

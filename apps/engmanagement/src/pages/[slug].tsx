@@ -5,7 +5,7 @@ import {MDXRemote, MDXRemoteSerializeResult} from 'next-mdx-remote'
 import isEmpty from 'lodash/isEmpty'
 import find from 'lodash/find'
 import ArticleTemplate from 'templates/article'
-import ConvertkitSubscribeAndTagForm from 'components/convertkit-subscribe-and-tag'
+import ConvertkitSubscribeAndTagForm from 'components/articles/cta'
 import groq from 'groq'
 import {sanityClient} from 'utils/sanity-client'
 import checkSubscriber from 'utils/check-subscriber'
@@ -15,7 +15,7 @@ import {useConvertkit} from '@skillrecordings/convertkit'
 import {
   TheFutureOfRemoteWorkBackground,
   TheValueOfValuesExample,
-} from 'components/article-assets'
+} from 'components/articles/assets'
 import {useRouter} from 'next/router'
 import toast, {Toaster} from 'react-hot-toast'
 

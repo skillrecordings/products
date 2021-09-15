@@ -7,6 +7,7 @@ import '../styles/globals.css'
 import 'focus-visible'
 import {ViewerProvider} from '@skillrecordings/viewer'
 import {ConvertkitProvider} from '@skillrecordings/convertkit'
+import '@skillrecordings/react/dist/styles.css'
 
 declare global {
   interface Window {

@@ -38,3 +38,22 @@ but it will still show up on keyboard focus.
 .js-focus-visible:focus:not(.focus-visible) {
   outline: none;
 }
+
+[data-sr-convertkit-subscribe-form] {
+  @apply space-y-6 w-full max-w-md mx-auto flex flex-col;
+  [data-sr-input] {
+    @apply w-full bg-gray-900 sm:text-xl px-5 py-4 rounded-lg text-white placeholder-gray-300 border-gray-700 shadow-inner focus:ring-0 focus:border-orange-300;
+  }
+  [data-sr-input-label] {
+    @apply sm:text-lg text-base block pb-2;
+    [data-sr-input-asterisk] {
+      @apply text-orange-300;
+    }
+  }
+  [data-sr-button='primary'] {
+    @apply sm:px-20 px-16 py-4 text-lg font-semibold self-center bg-orange-400 bg-opacity-90 hover:bg-opacity-100 border-2 border-orange-400 text-white rounded-lg transform hover:shadow-xl hover:scale-105 focus:scale-95 transition-all ease-in-out duration-200 focus:outline-none outline-none focus:ring-2 focus:ring-orange-200;
+  }
+  [data-sr-button='primary'][disabled] {
+    @apply opacity-80 cursor-wait hover:scale-100;
+  }
+}
