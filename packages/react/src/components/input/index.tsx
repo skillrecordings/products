@@ -27,7 +27,11 @@ const Input: React.FC<InputProps> = ({name, label, ...rest}) => {
     <div data-sr-input-wrapper>
       <Label htmlFor={name}>
         {label}
-        {required && <span data-sr-input-asterisk>*</span>}
+        {required && (
+          <abbr title="required" data-sr-input-asterisk>
+            *
+          </abbr>
+        )}
       </Label>
       <input data-sr-input id={name} {...rest} />
     </div>
