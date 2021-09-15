@@ -47,20 +47,20 @@ const ButtonContent: React.FC<ButtonContentProps> = (props) => {
   )
 }
 
-const ButtonIcon: React.FC<any> = (props) => {
+const ButtonIcon: React.FC<JSX.IntrinsicElements['span']> = (props) => {
   const {children, ...rest} = props
 
   const _children = React.isValidElement(children)
     ? React.cloneElement(children, {
         'aria-hidden': true,
         focusable: false,
-      } as any)
+      })
     : children
 
   return (
-    <div data-sr-button-icon {...rest}>
+    <span data-sr-button-icon {...rest}>
       {_children}
-    </div>
+    </span>
   )
 }
 
@@ -77,9 +77,9 @@ const Button: React.FC<ButtonProps> = ({
 
   return (
     <button
+      {...rest}
       data-sr-button={kind}
       disabled={isLoading || rest.disabled}
-      {...rest}
     >
       {isLoading ? (
         <>
