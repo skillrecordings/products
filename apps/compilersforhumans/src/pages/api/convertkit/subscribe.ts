@@ -1,19 +1,24 @@
 import {NextApiRequest, NextApiResponse} from 'next'
 import {convertkitAxios} from '@skillrecordings/axios'
-
 import serverCookie from 'cookie'
 import {CK_SUBSCRIBER_KEY} from '@skillrecordings/config'
 
-const TRIGGER_C4H_TAG_ID = 2514021
+const TRIGGER_EMAIL_COURSE_TAG_ID = 2514021
 
 const subscriber = async (req: NextApiRequest, res: NextApiResponse) => {
   if (req.method === 'POST') {
     try {
-      const url = `/tags/${TRIGGER_C4H_TAG_ID}/subscribe`
-      const {email, first_name, fields} = req.body
+      const {
+        email_address,
+        first_name,
+        fields,
+        tag = TRIGGER_EMAIL_COURSE_TAG_ID,
+      } = req.body
+
+      const url = `/tags/${tag}/subscribe`
       const subscriber = await convertkitAxios
         .post(url, {
-          email,
+          email: email_address,
           first_name,
           fields,
           api_key: process.env.NEXT_PUBLIC_CONVERTKIT_TOKEN,
