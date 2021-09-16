@@ -9,7 +9,7 @@
 
 .prose {
   code {
-    @apply dark:bg-gray-800 dark:text-white bg-white;
+    @apply dark:bg-gray-800 dark:text-white bg-gray-100;
   }
 }
 
