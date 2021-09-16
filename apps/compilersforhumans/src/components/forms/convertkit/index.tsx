@@ -34,7 +34,7 @@ const ConvertkitSubscribeForm: React.FC<ConvertkitSubscribeFormProps> = ({
     },
   })
   const inputClassName =
-    'autofill:text-fill-black autofill:caret-black dark:bg-black w-full text-lg py-2 px-4 leading-7 border-gray-200 rounded-md focus:ring-violet-400 focus:ring-2 focus:outline-none focus:border-transparent placeholder-gray-400'
+    'autofill:text-fill-black dark:autofill:text-fill-white autofill:caret-black dark:autofill:caret-white dark:bg-black w-full text-lg py-2 px-4 leading-7 border-gray-200 rounded-md autofill:border-violet-400 focus:ring-violet-400 focus:ring-2 focus:outline-none focus:border-transparent placeholder-gray-400'
 
   return (
     <div id="subscribe" className="w-full">
