@@ -9,7 +9,7 @@
 
 .prose {
   code {
-    @apply dark:bg-gray-800 dark:text-white bg-white;
+    @apply dark:bg-gray-800 dark:text-white bg-gray-100;
   }
 }
 
@@ -32,6 +32,37 @@
 }
 
 .text-stroke-white {
+}
+
+/* Fix Autocomplete styles for color themes */
+
+@media (prefers-color-scheme: dark) {
+  input:-webkit-autofill,
+  input:-webkit-autofill:hover,
+  input:-webkit-autofill:focus,
+  textarea:-webkit-autofill,
+  textarea:-webkit-autofill:hover,
+  textarea:-webkit-autofill:focus,
+  select:-webkit-autofill,
+  select:-webkit-autofill:hover,
+  select:-webkit-autofill:focus {
+    -webkit-text-fill-color: white;
+    -webkit-box-shadow: 0 0 0px 1000px rgb(39, 39, 46) inset;
+  }
+}
+
+@media (prefers-color-scheme: light) {
+  input:-webkit-autofill,
+  input:-webkit-autofill:hover,
+  input:-webkit-autofill:focus,
+  textarea:-webkit-autofill,
+  textarea:-webkit-autofill:hover,
+  textarea:-webkit-autofill:focus,
+  select:-webkit-autofill,
+  select:-webkit-autofill:hover,
+  select:-webkit-autofill:focus {
+    -webkit-box-shadow: 0 0 0px 1000px rgb(239, 236, 244) inset;
+  }
 }
 
 /*

@@ -1,6 +1,6 @@
 import * as React from 'react'
 import * as THREE from 'three'
-import {Canvas, useFrame, useThree, extend, useLoader} from '@react-three/fiber'
+import {Canvas, useFrame, extend, useLoader} from '@react-three/fiber'
 import {isBrowser} from 'utils/is-browser'
 import {useTheme} from 'next-themes'
 import {shaderMaterial} from '@react-three/drei'
@@ -93,8 +93,9 @@ const Scene = ({theme}: any) => {
   )
 }
 
-const Animation: React.FC<{className?: string}> = ({className = ''}) => {
+const Blob: React.FC<{className?: string}> = ({className = ''}) => {
   const {resolvedTheme: theme} = useTheme()
+
   return (
     <Canvas
       camera={{fov: 12, position: [0, 0, 5]}}
@@ -109,4 +110,4 @@ const Animation: React.FC<{className?: string}> = ({className = ''}) => {
   )
 }
 
-export default Animation
+export default Blob
