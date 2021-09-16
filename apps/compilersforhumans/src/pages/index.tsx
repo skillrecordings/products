@@ -1,18 +1,25 @@
 import * as React from 'react'
-// import ConvertkitSubscribeForm from '@skillrecordings/convertkit/dist/forms'
 import ConvertkitSubscribeForm from 'components/forms/convertkit'
 import Layout from 'layouts'
 import LandingCopy from 'components/landing-copy.mdx'
-import Animation from 'components/animation'
+import Blob from 'components/blob'
 import {useRouter} from 'next/router'
+import {WEBGL} from 'utils/webgl'
 
 export default function Home() {
   const router = useRouter()
+  const [hasWebGLSupport, setWebGLSupport] = React.useState<boolean>(false)
+  React.useEffect(() => {
+    setWebGLSupport(WEBGL.isWebGLAvailable())
+  }, [])
+
   return (
     <Layout>
-      <div className="absolute top-0 w-full min-h-screen">
-        <Animation className="min-h-[80vh] w-screen" />
-      </div>
+      {hasWebGLSupport && (
+        <div className="absolute top-0 w-full min-h-screen">
+          <Blob className="min-h-[80vh] w-screen" />
+        </div>
+      )}
       <div className="flex flex-col relative z-10">
         <header className="md:p-16 p-5 text-center min-h-[80vh] flex items-center justify-center">
           <div className="pt-40 sm:pb-16 pb-24">
