@@ -14,11 +14,11 @@ const ConvertkitSubscribeForm: React.FC<ConvertkitSubscribeFormProps> = ({
   const [isSubmitting, setSubmitting] = React.useState<boolean>(false)
   const formik = useFormik({
     initialValues: {
-      email: '',
+      email_address: '',
       first_name: '',
     },
     validationSchema: Yup.object({
-      email: Yup.string().required('Enter Your Email'),
+      email_address: Yup.string().required('Enter Your Email'),
       first_name: Yup.string(),
     }),
 
@@ -34,7 +34,7 @@ const ConvertkitSubscribeForm: React.FC<ConvertkitSubscribeFormProps> = ({
     },
   })
   const inputClassName =
-    'autofill:text-fill-black autofill:caret-black dark:bg-black w-full text-lg py-2 px-4 leading-7 border-gray-200 rounded-md focus:ring-violet-400 focus:ring-2 focus:outline-none focus:border-transparent placeholder-gray-400'
+    'autofill:text-fill-black dark:autofill:text-fill-white autofill:caret-black dark:autofill:caret-white dark:bg-black w-full text-lg py-2 px-4 leading-7 border-gray-200 rounded-md autofill:border-violet-400 focus:ring-violet-400 focus:ring-2 focus:outline-none focus:border-transparent placeholder-gray-400'
 
   return (
     <div id="subscribe" className="w-full">
@@ -64,13 +64,13 @@ const ConvertkitSubscribeForm: React.FC<ConvertkitSubscribeFormProps> = ({
           <div>
             <input
               placeholder="you@company.com"
-              id="email"
+              id="email_address"
               type="email"
-              name="email"
+              name="email_address"
               className={inputClassName}
               required
               onChange={formik.handleChange}
-              value={formik.values.email}
+              value={formik.values.email_address}
             />
           </div>
         </div>

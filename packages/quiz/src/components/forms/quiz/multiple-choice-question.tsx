@@ -33,7 +33,7 @@ const MultipleChoiceQuestion: FunctionComponent<{
     <form onSubmit={onAnswer} className="w-full">
       <legend className="lg:text-4xl sm:text-3xl text-2xl font-semibold pb-6">
         <Markdown
-          className="prose sm:prose-xl prose-lg dark:prose-dark"
+          className="prose lg:prose-xl sm:prose-lg dark:prose-dark"
           children={question?.question}
         />
       </legend>
@@ -41,14 +41,14 @@ const MultipleChoiceQuestion: FunctionComponent<{
         {choices?.map((choice: any) => (
           <label
             key={choice.answer}
-            className={`text-lg font-medium group flex sm:items-center items-baseline rounded-lg sm:p-4 p-3 mb-2 border transition-all ease-in-our duration-200 ${
+            className={`text-lg font-medium group flex items-center rounded-lg sm:p-4 p-3 mb-2 border transition-all ease-in-our duration-200 ${
               isAnswered ? 'cursor-default' : 'cursor-pointer'
             }  ${
               isAnswered
                 ? isCorrectAnswer(choice)
                   ? 'bg-teal-50 text-teal-600 border-teal-200 dark:bg-teal-500 dark:bg-opacity-10 dark:text-teal-100 dark:border-teal-500'
                   : 'bg-pink-50 text-pink-600 border-pink-100 dark:bg-pink-500 dark:bg-opacity-10 dark:border-pink-500 dark:text-pink-100'
-                : 'border-gray-100 bg-gray-50 hover:bg-gray-100 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700'
+                : 'border-gray-200 bg-gray-100 hover:bg-gray-200 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700'
             }`}
           >
             <input
@@ -61,9 +61,9 @@ const MultipleChoiceQuestion: FunctionComponent<{
                 hasMultipleCorrectAnswers
                   ? 'sm:translate-y-0'
                   : 'sm:-translate-y-px'
-              } border-gray-400 translate-y-1`}
+              } border-gray-400 `}
             />
-            <div className="flex sm:flex-row flex-col sm:items-center justify-between relative w-full pl-2 leading-tighter">
+            <div className="flex sm:flex-row flex-col sm:items-center items-start justify-between relative w-full pl-2 leading-tighter">
               <span className="flex-grow">{choice.label}</span>
               {isAnswered && (
                 <span
