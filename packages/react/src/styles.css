@@ -19,21 +19,9 @@
 [data-sr-button] {
   display: flex;
   gap: 0.5rem;
-}
-
-[data-sr-button='primary'] {
   padding: 0.5rem 1rem;
   background: hotpink;
   color: white;
-}
-
-[data-sr-button='secondary'] {
-  padding: 0.5rem 1rem;
-  border: 2px solid hotpink;
-  color: hotpink;
-}
-
-[data-sr-button='tertiary'] {
 }
 
 [data-sr-button][disabled] {
