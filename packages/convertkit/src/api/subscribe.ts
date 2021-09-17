@@ -1,9 +1,12 @@
 import {NextApiRequest, NextApiResponse} from 'next'
 import {convertkitAxios} from '@skillrecordings/axios'
 import serverCookie from 'cookie'
-import {CONVERTKIT_SIGNUP_FORM, CONVERTKIT_TOKEN} from '@skillrecordings/config'
+import {
+  CONVERTKIT_SIGNUP_FORM,
+  CONVERTKIT_TOKEN,
+  CK_SUBSCRIBER_KEY,
+} from '@skillrecordings/config'
 
-const CK_SUBSCRIBER_KEY = process.env.NEXT_PUBLIC_CONVERTKIT_SUBSCRIBER_KEY
 const subscribe = async (req: NextApiRequest, res: NextApiResponse) => {
   if (req.method === 'POST') {
     try {
