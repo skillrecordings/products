@@ -9,6 +9,8 @@ export const CONVERTKIT_BASE_URL =
   process.env.CONVERTKIT_BASE_URL || 'https://api.convertkit.com/v3/'
 export const CONVERTKIT_API_SECRET = process.env.CONVERTKIT_API_SECRET
 export const CONVERTKIT_TOKEN = process.env.NEXT_PUBLIC_CONVERTKIT_TOKEN
+export const CONVERTKIT_SIGNUP_FORM =
+  process.env.NEXT_PUBLIC_CONVERTKIT_SIGNUP_FORM
 
 // TODO: create unique keys for site authorization
 export const USER_KEY = process.env.NEXT_PUBLIC_USER_KEY || 'user'
