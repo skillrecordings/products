@@ -1,10 +1,11 @@
 import React from 'react'
 import Image from 'next/image'
-import {useConvertkit} from '@skillrecordings/convertkit'
+import {useRouter} from 'next/router'
 import config from '../../config'
 
 const ConfirmEmailPage: React.FC = () => {
-  const {subscriber} = useConvertkit()
+  const router = useRouter()
+  const emailAddress = router?.query.email_address
 
   return (
     <div data-sr-confirm-email="free-chapter">
@@ -17,8 +18,15 @@ const ConfirmEmailPage: React.FC = () => {
           />
           <h1>Check your inbox</h1>
           <h2>
-            A link to "The Value of Values" chapter just got sent to{' '}
-            {subscriber?.email_address && <b>{subscriber.email_address}</b>}.
+            A link to "The Value of Values" chapter just got sent
+            {emailAddress ? (
+              <>
+                {' '}
+                to <b>{emailAddress}</b>.
+              </>
+            ) : (
+              <>.</>
+            )}
           </h2>
         </header>
         <div>

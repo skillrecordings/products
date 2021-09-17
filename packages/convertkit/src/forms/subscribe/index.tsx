@@ -1,33 +1,69 @@
 import * as React from 'react'
 import * as Yup from 'yup'
 import axios from 'axios'
+import queryString from 'query-string'
 import {useFormik} from 'formik'
 import {useRouter} from 'next/router'
 import {CK_SUBSCRIBER_KEY} from '@skillrecordings/config'
 import {Input, Button} from '@skillrecordings/react/dist/components'
 
-import queryString from 'query-string'
-
-type SubscribeFormProps = {
-  tag?: number
-  form?: number
-  sequence?: number
+type SubscribeFormOptions = {
+  /**
+   * The content of submit button.
+   * @type string
+   */
   actionLabel?: string
-  onSuccessRedirectUrl?: string
+  /**
+   * The URL to redirect to after succesfully submitting a form. Default is `/confirm`.
+   * Submitted `email_address` will be automatically passed as URL param.
+   * Providing `false` value will skip the redirect entirely.
+   * @type string | false
+   */
+  onSuccessRedirectUrl?: string | false
 }
 
+type SubscribeFormProps =
+  | ({
+      /**
+       * Tag ID to tag a subscriber. It will also subscribe them.
+       * @type number
+       */
+      tag: number
+      form?: never
+      sequence?: never
+    } & SubscribeFormOptions)
+  | ({
+      tag?: never
+      /**
+       * Form ID to subscribe to. Default is `process.env.NEXT_PUBLIC_CONVERTKIT_SIGNUP_FORM`.
+       * @type number
+       */
+      form: number
+      sequence?: never
+    } & SubscribeFormOptions)
+  | ({
+      tag?: never
+      form?: never
+      /**
+       * Sequence ID to subscribe to.
+       * @type number
+       */
+      sequence: number
+    } & SubscribeFormOptions)
+  | ({tag?: never; form?: never; sequence?: never} & SubscribeFormOptions)
+
 const SubscribeForm: React.FC<SubscribeFormProps> = ({
-  children,
   tag,
   form,
   sequence,
-  actionLabel = 'Submit',
+  actionLabel = 'Subscribe',
   onSuccessRedirectUrl = '/confirm',
 }) => {
   const [isSubmitting, setSubmitting] = React.useState<boolean>(false)
   const router = useRouter()
 
   const formik = useFormik({
+    initialStatus: '',
     initialValues: {
       email_address: '',
       first_name: '',
@@ -42,7 +78,7 @@ const SubscribeForm: React.FC<SubscribeFormProps> = ({
     onSubmit: async (values) => {
       setSubmitting(true)
       axios
-        .post('/api/convertkit/subscribe', {...values, tag, sequence, form})
+        .post('/api/convertkit/subscribe', {...values, tag, form, sequence})
         .catch((err) => {
           formik.setStatus('error')
           console.log(err)
@@ -51,7 +87,10 @@ const SubscribeForm: React.FC<SubscribeFormProps> = ({
           if (onSuccessRedirectUrl) {
             const url = queryString.stringifyUrl({
               url: onSuccessRedirectUrl,
-              query: {[CK_SUBSCRIBER_KEY]: res.data.id},
+              query: {
+                [CK_SUBSCRIBER_KEY]: res.data.id,
+                email_address: values.email_address,
+              },
             })
             router.push(url)
           } else {
@@ -64,45 +103,33 @@ const SubscribeForm: React.FC<SubscribeFormProps> = ({
   })
 
   return (
-    <>
-      {children}
-      {formik.status === 'submitted' && (
-        <div className="text-lg py-4">Thanks!</div>
-      )}
+    <form
+      data-sr-convertkit-subscribe-form={formik.status}
+      onSubmit={formik.handleSubmit}
+    >
       {!formik.status && (
-        <form
-          data-sr-convertkit-subscribe-form
-          onSubmit={formik.handleSubmit}
-          className="max-w-xs mx-auto space-y-4"
-        >
+        <>
           <Input
-            name="first_name"
             label="First Name"
+            name="first_name"
             onChange={formik.handleChange}
-            placeholder="Your preferred name"
+            placeholder="Preferred name"
             type="text"
           />
           <Input
-            name="email_address"
             label="Email"
+            name="email_address"
             onChange={formik.handleChange}
-            placeholder="Your email address"
+            placeholder="you@company.com"
             type="email"
             required
           />
-
           <Button isLoading={isSubmitting}>{actionLabel}</Button>
-          <div className="flex flex-col items-center w-full justify-center">
-            <div className="text-gray-200 opacity-60 pt-8 italic text-center">
-              No spam, unsubscribe any time.
-            </div>
-          </div>
-        </form>
+        </>
       )}
-      {formik.status === 'error' && (
-        <div className="text-lg py-4">Something went wrong.</div>
-      )}
-    </>
+      {formik.status === 'submitted' && <p>Thanks!</p>}
+      {formik.status === 'error' && <p>Something went wrong.</p>}
+    </form>
   )
 }
 
