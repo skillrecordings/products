@@ -24,7 +24,7 @@ actionLabel: 'Subscribe'
 
 ### Subscribe to default form
 
-By default the form will subscribe to form id provided by environment variable and redirect to Confirm page with email address and subscriber id provided as query params.
+By default the form will subscribe to form id provided by environment variable and redirect to `/confirm` with email address and subscriber id passed as query params.
 
 ```tsx
 <SubscribeForm />
