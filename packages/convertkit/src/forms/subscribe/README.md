@@ -17,6 +17,7 @@ CONVERTKIT_BASE_URL=https://api.convertkit.com/v3/
 ```tsx
 form: process.env.NEXT_PUBLIC_CONVERTKIT_SIGNUP_FORM
 onSuccessRedirectUrl: '/confirm?ck_subscriber_id=123456&email_address=you@company.com'
+onSuccess: () => router.push(onSuccessRedirectUrl)
 actionLabel: 'Subscribe'
 successMessage: 'Thanks!'
 errorMessage: 'Something went wrong.'
@@ -32,10 +33,10 @@ By default the form will subscribe to form id provided by environment variable a
 <SubscribeForm />
 ```
 
-If you don't want to redirect to a new page after submitting, set `onSuccessRedirectUrl` to `false`.
+You can customize onSuccess function or pass `false` if you wish to skip it entirely.
 
 ```tsx
-<SubscribeForm onSuccessRedirectUrl={false} />
+<SubscribeForm onSuccess={() => console.log('success!')} />
 ```
 
 ### Subscribe to a custom form
