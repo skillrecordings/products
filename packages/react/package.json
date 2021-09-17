@@ -23,7 +23,6 @@
     "@skillrecordings/auth": "workspace:*",
     "@skillrecordings/axios": "workspace:*",
     "@skillrecordings/config": "workspace:*",
-    "@skillrecordings/convertkit": "workspace:*",
     "@skillrecordings/cookies": "workspace:*",
     "@skillrecordings/viewer": "workspace:*",
     "@tippyjs/react": "^4.2.5",
