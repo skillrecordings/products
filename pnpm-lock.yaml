@@ -1893,7 +1893,6 @@ importers:
       '@skillrecordings/auth': workspace:*
       '@skillrecordings/axios': workspace:*
       '@skillrecordings/config': workspace:*
-      '@skillrecordings/convertkit': workspace:*
       '@skillrecordings/cookies': workspace:*
       '@skillrecordings/scripts': workspace:*
       '@skillrecordings/tsconfig': workspace:*
@@ -1930,7 +1929,6 @@ importers:
       '@skillrecordings/auth': link:../auth
       '@skillrecordings/axios': link:../axios
       '@skillrecordings/config': link:../config
-      '@skillrecordings/convertkit': link:../convertkit
       '@skillrecordings/cookies': link:../cookies
       '@skillrecordings/viewer': link:../viewer
       '@tippyjs/react': 4.2.5_react-dom@17.0.2+react@17.0.2
@@ -6395,7 +6393,7 @@ packages:
   /axios/0.21.1:
     resolution: {integrity: sha512-dKQiRHxGD9PPRIUNIWvZhPTPpl1rf/OxTYKsqKUDjBwYylTvV7SjSHJb9ratfyzM6wCdLCOYLzs73qpg5c4iGA==}
     dependencies:
-      follow-redirects: 1.14.1
+      follow-redirects: 1.14.1_debug@2.6.9
     transitivePeerDependencies:
       - debug
     dev: false
@@ -9687,16 +9685,6 @@ packages:
 
   /focus-visible/5.2.0:
     resolution: {integrity: sha512-Rwix9pBtC1Nuy5wysTmKy+UjbDJpIfg8eHjw0rjZ1mX4GNLz1Bmd16uDpI3Gk1i70Fgcs8Csg2lPm8HULFg9DQ==}
-    dev: false
-
-  /follow-redirects/1.14.1:
-    resolution: {integrity: sha512-HWqDgT7ZEkqRzBvc2s64vSZ/hfOceEol3ac/7tKwzuvEyWx3/4UegXh5oBOIotkGsObyk3xznnSRVADBgWSQVg==}
-    engines: {node: '>=4.0'}
-    peerDependencies:
-      debug: '*'
-    peerDependenciesMeta:
-      debug:
-        optional: true
     dev: false
 
   /follow-redirects/1.14.1_debug@2.6.9:
