@@ -52,40 +52,26 @@ const PlayerPage = () => {
           )}
         </Player>
       </VideoProvider>
-      <VideoResourceList
-        videoResources={videos}
-        selectedVideo={currentVideo}
-        onSelected={(videoResource: VideoResource) => {
-          setCurrentVideo(videoResource)
-        }}
-      />
+      <VideoResourceList>
+        {videos.map((videoResource) => {
+          return (
+            <li
+              style={{padding: '10px'}}
+              onClick={() => setCurrentVideo(videoResource)}
+            >
+              {videoResource === currentVideo ? '*' : ''} {videoResource.title}
+            </li>
+          )
+        })}
+      </VideoResourceList>
     </Layout>
   )
 }
 
-type VideoResourceListProps = {
-  videoResources: VideoResource[]
-  onSelected: (videoResource: VideoResource) => void
-  selectedVideo: VideoResource
-}
-
-const VideoResourceList: React.FC<VideoResourceListProps> = ({
-  videoResources,
-  onSelected = noop,
-  selectedVideo,
-}) => {
+const VideoResourceList: React.FC = ({children}) => {
   return (
     <div>
-      {videoResources.map((videoResource) => {
-        return (
-          <li
-            style={{padding: '10px'}}
-            onClick={() => onSelected(videoResource)}
-          >
-            {videoResource === selectedVideo ? '*' : ''} {videoResource.title}
-          </li>
-        )
-      })}
+      <ul>{children}</ul>
     </div>
   )
 }
