@@ -20,6 +20,7 @@ export type VideoEvent =
   | {type: 'WAITING'}
   | {type: 'DONE_WAITING'}
   | {type: 'ACTIVATE_METADATA_TRACK'; track: TextTrack}
+  | {type: 'CLEAR_METADATA_TRACKS'}
   | {type: 'ACTIVATE_CUE'; cue: VTTCue}
   | {type: 'DEACTIVATE_CUE'; cue: VTTCue}
   | {type: 'CLEAR_CUES'}
@@ -78,11 +79,13 @@ export const videoMachine = createMachine<VideoStateContext, VideoEvent>({
       }),
     },
     REGISTER: {
-      actions: assign({
-        videoRef: (_context, event) => event.videoRef,
-        readyState: (_context, event) =>
-          event.videoRef?.current?.readyState ?? 0,
-      }),
+      actions: [
+        assign({
+          videoRef: (_context, event) => event.videoRef,
+          readyState: (_context, event) =>
+            event.videoRef?.current?.readyState ?? 0,
+        }),
+      ],
     },
     WAITING: {
       actions: [
@@ -111,6 +114,14 @@ export const videoMachine = createMachine<VideoStateContext, VideoEvent>({
           isFullscreen: (context, _event) => !context.isFullscreen,
         }),
         'toggleFullscreen',
+      ],
+    },
+    CLEAR_METADATA_TRACKS: {
+      actions: [
+        assign({
+          metadataTracks: (_context, _event) => [],
+          activeCues: (_context, _event) => [],
+        }),
       ],
     },
     ACTIVATE_METADATA_TRACK: {
