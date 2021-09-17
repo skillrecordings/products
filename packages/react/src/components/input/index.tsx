@@ -1,13 +1,12 @@
 import React, {InputHTMLAttributes, LabelHTMLAttributes} from 'react'
 
-interface InputOptions {}
+type InputOptions = {}
 
-interface InputProps
-  extends InputHTMLAttributes<HTMLInputElement>,
-    InputOptions {
-  name: string
-  label: string
-}
+type InputProps = InputHTMLAttributes<HTMLInputElement> &
+  InputOptions & {
+    name: string
+    label: string
+  }
 
 const Label: React.FC<LabelHTMLAttributes<HTMLLabelElement>> = ({
   children,
