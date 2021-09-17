@@ -20,6 +20,16 @@ type SubscribeFormOptions = {
    * @type string | false
    */
   onSuccessRedirectUrl?: string | false
+  /**
+   * Message to display after succesfully submitting the form.
+   * @type string | React.ReactElement
+   */
+  successMessage?: string | React.ReactElement
+  /**
+   * Message to display if there was an error submitting the form.
+   * @type string | React.ReactElement
+   */
+  errorMessage?: string | React.ReactElement
 }
 
 type SubscribeFormProps =
@@ -56,6 +66,8 @@ const SubscribeForm: React.FC<SubscribeFormProps> = ({
   tag,
   form,
   sequence,
+  errorMessage = <p>Something went wrong.</p>,
+  successMessage = <p>Thanks!</p>,
   actionLabel = 'Subscribe',
   onSuccessRedirectUrl = '/confirm',
 }) => {
@@ -74,6 +86,7 @@ const SubscribeForm: React.FC<SubscribeFormProps> = ({
         .required('Required'),
       first_name: Yup.string(),
     }),
+    validateOnChange: false,
     enableReinitialize: true,
     onSubmit: async (values) => {
       setSubmitting(true)
@@ -95,11 +108,10 @@ const SubscribeForm: React.FC<SubscribeFormProps> = ({
             router.push(url)
           } else {
             setSubmitting(false)
-            formik.setStatus('submitted')
+            formik.setStatus('success')
           }
         })
     },
-    validateOnChange: false,
   })
 
   return (
@@ -127,8 +139,18 @@ const SubscribeForm: React.FC<SubscribeFormProps> = ({
           <Button isLoading={isSubmitting}>{actionLabel}</Button>
         </>
       )}
-      {formik.status === 'submitted' && <p>Thanks!</p>}
-      {formik.status === 'error' && <p>Something went wrong.</p>}
+      {formik.status === 'success' &&
+        (React.isValidElement(successMessage) ? (
+          successMessage
+        ) : (
+          <p>{successMessage}</p>
+        ))}
+      {formik.status === 'error' &&
+        (React.isValidElement(errorMessage) ? (
+          errorMessage
+        ) : (
+          <p>{errorMessage}</p>
+        ))}
     </form>
   )
 }
