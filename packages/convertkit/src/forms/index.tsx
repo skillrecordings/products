@@ -1,3 +1,5 @@
+// This component should be deprecated in favor of `./subscribe/index.tsx`
+
 import * as React from 'react'
 
 const FORM_ID = process.env.NEXT_PUBLIC_CONVERTKIT_SIGNUP_FORM
