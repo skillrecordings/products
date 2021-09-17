@@ -1909,6 +1909,7 @@ importers:
       next: 11.1.0
       next-seo: ^4.26.0
       next-themes: ^0.0.15
+      node-sass: ^6.0.1
       prism-react-renderer: ^1.2.1
       query-string: ^7.0.1
       react: 17.0.2
@@ -1933,7 +1934,7 @@ importers:
       axios: 0.21.1
       formik: 2.2.9_react@17.0.2
       lodash: 4.17.21
-      next: 11.1.0_f31b35bdaa3b7c2fce82404f09d2dac4
+      next: 11.1.0_d23913fae905660a596189f6b35fb8a9
       next-seo: 4.26.0_7df30a00c1bfce1004e3004b7e801a78
       next-themes: 0.0.15_7df30a00c1bfce1004e3004b7e801a78
       prism-react-renderer: 1.2.1_react@17.0.2
@@ -1953,6 +1954,7 @@ importers:
       babel-jest: 27.1.0
       esbuild-node-tsc: 1.6.1_typescript@4.3.5
       msw: 0.34.0
+      node-sass: 6.0.1
       react-test-renderer: 17.0.2_react@17.0.2
       typescript: 4.3.5
 
@@ -13863,7 +13865,7 @@ packages:
       react: '>=16.0.0'
       react-dom: '>=16.0.0'
     dependencies:
-      next: 11.1.0_f31b35bdaa3b7c2fce82404f09d2dac4
+      next: 11.1.0_d23913fae905660a596189f6b35fb8a9
       react: 17.0.2
       react-dom: 17.0.2_react@17.0.2
     dev: false
@@ -13923,7 +13925,7 @@ packages:
       react: '*'
       react-dom: '*'
     dependencies:
-      next: 11.1.0_f31b35bdaa3b7c2fce82404f09d2dac4
+      next: 11.1.0_d23913fae905660a596189f6b35fb8a9
       react: 17.0.2
       react-dom: 17.0.2_react@17.0.2
     dev: false
@@ -14011,6 +14013,83 @@ packages:
       vm-browserify: 1.1.2
       watchpack: 2.1.1
     transitivePeerDependencies:
+      - typescript
+      - webpack
+    dev: false
+
+  /next/11.1.0_d23913fae905660a596189f6b35fb8a9:
+    resolution: {integrity: sha512-GHBk/c7Wyr6YbFRFZF37I0X7HKzkHHI8pur/loyXo5AIE8wdkbGPGO0ds3vNAO6f8AxZAKGCRYtAzoGlVLoifA==}
+    engines: {node: '>=12.0.0'}
+    hasBin: true
+    peerDependencies:
+      fibers: '>= 3.1.0'
+      node-sass: ^4.0.0 || ^5.0.0
+      react: ^17.0.2
+      react-dom: ^17.0.2
+      sass: ^1.3.0
+    peerDependenciesMeta:
+      fibers:
+        optional: true
+      node-sass:
+        optional: true
+      sass:
+        optional: true
+    dependencies:
+      '@babel/runtime': 7.12.5
+      '@hapi/accept': 5.0.2
+      '@next/env': 11.1.0
+      '@next/polyfill-module': 11.1.0
+      '@next/react-dev-overlay': 11.1.0_react-dom@17.0.2+react@17.0.2
+      '@next/react-refresh-utils': 11.1.0_react-refresh@0.8.3
+      '@node-rs/helper': 1.2.1
+      assert: 2.0.0
+      ast-types: 0.13.2
+      browserify-zlib: 0.2.0
+      browserslist: 4.16.6
+      buffer: 5.6.0
+      caniuse-lite: 1.0.30001249
+      chalk: 2.4.2
+      chokidar: 3.5.1
+      constants-browserify: 1.0.0
+      crypto-browserify: 3.12.0
+      cssnano-simple: 3.0.0_postcss@8.2.15
+      domain-browser: 4.19.0
+      encoding: 0.1.13
+      etag: 1.8.1
+      find-cache-dir: 3.3.1
+      get-orientation: 1.1.2
+      https-browserify: 1.0.0
+      image-size: 1.0.0
+      jest-worker: 27.0.0-next.5
+      native-url: 0.3.4
+      node-fetch: 2.6.1
+      node-html-parser: 1.4.9
+      node-libs-browser: 2.2.1
+      node-sass: 6.0.1
+      os-browserify: 0.3.0
+      p-limit: 3.1.0
+      path-browserify: 1.0.1
+      pnp-webpack-plugin: 1.6.4_typescript@4.3.5
+      postcss: 8.2.15
+      process: 0.11.10
+      querystring-es3: 0.2.1
+      raw-body: 2.4.1
+      react: 17.0.2
+      react-dom: 17.0.2_react@17.0.2
+      react-is: 17.0.2
+      react-refresh: 0.8.3
+      stream-browserify: 3.0.0
+      stream-http: 3.1.1
+      string_decoder: 1.3.0
+      styled-jsx: 4.0.0_react@17.0.2
+      timers-browserify: 2.0.12
+      tty-browserify: 0.0.1
+      use-subscription: 1.5.1_react@17.0.2
+      util: 0.12.3
+      vm-browserify: 1.1.2
+      watchpack: 2.1.1
+    transitivePeerDependencies:
+      - '@babel/core'
       - typescript
       - webpack
     dev: false

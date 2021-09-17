@@ -1,0 +1,33 @@
+/* inputs */
+
+[data-sr-input] {
+  width: 100%;
+  color: black;
+}
+
+[data-sr-input-label] {
+  padding-bottom: 0.2rem;
+  display: block;
+}
+
+[data-sr-input-asterisk] {
+  color: hotpink;
+}
+
+/* buttons */
+
+[data-sr-button] {
+  display: flex;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  background: hotpink;
+  color: white;
+}
+
+[data-sr-button][disabled] {
+  opacity: 0.8;
+  cursor: wait;
+}
+
+[data-sr-button-icon] {
+}
