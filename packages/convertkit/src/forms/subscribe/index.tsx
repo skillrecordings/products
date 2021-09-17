@@ -14,12 +14,23 @@ type SubscribeFormOptions = {
    */
   actionLabel?: string
   /**
+   * Function called when the form has been succesfully submitted.
+   * By default, it will redirect to `onSuccessRedirectUrl` with `email_address` passed as URL param.
+   * You can pass `false` to skip it entirely.
+   * @type () => void | false
+   */
+  onSuccess?:
+    | ((
+        res: {data: {id: string}; [key: string]: any},
+        values: {email_address: string; first_name: string},
+      ) => void)
+    | false
+  /**
    * The URL to redirect to after succesfully submitting a form. Default is `/confirm`.
    * Submitted `email_address` will be automatically passed as URL param.
-   * Providing `false` value will skip the redirect entirely.
-   * @type string | false
+   * @type string
    */
-  onSuccessRedirectUrl?: string | false
+  onSuccessRedirectUrl?: string
   /**
    * Message to display after succesfully submitting the form.
    * @type string | React.ReactElement
@@ -70,6 +81,16 @@ const SubscribeForm: React.FC<SubscribeFormProps> = ({
   successMessage = <p>Thanks!</p>,
   actionLabel = 'Subscribe',
   onSuccessRedirectUrl = '/confirm',
+  onSuccess = async (res: any, values: any) => {
+    const url = queryString.stringifyUrl({
+      url: onSuccessRedirectUrl,
+      query: {
+        [CK_SUBSCRIBER_KEY]: res.data.id,
+        email_address: values.email_address,
+      },
+    })
+    return await router.push(url)
+  },
 }) => {
   const [isSubmitting, setSubmitting] = React.useState<boolean>(false)
   const router = useRouter()
@@ -92,24 +113,18 @@ const SubscribeForm: React.FC<SubscribeFormProps> = ({
       setSubmitting(true)
       axios
         .post('/api/convertkit/subscribe', {...values, tag, form, sequence})
-        .catch((err) => {
+        .catch((error) => {
           formik.setStatus('error')
-          console.log(err)
+          console.log(error)
         })
         .then((res: any) => {
-          if (onSuccessRedirectUrl) {
-            const url = queryString.stringifyUrl({
-              url: onSuccessRedirectUrl,
-              query: {
-                [CK_SUBSCRIBER_KEY]: res.data.id,
-                email_address: values.email_address,
-              },
-            })
-            router.push(url)
-          } else {
-            setSubmitting(false)
-            formik.setStatus('success')
+          if (onSuccess) {
+            onSuccess(res, values)
           }
+        })
+        .finally(() => {
+          setSubmitting(false)
+          formik.setStatus('success')
         })
     },
   })
@@ -136,7 +151,9 @@ const SubscribeForm: React.FC<SubscribeFormProps> = ({
             type="email"
             required
           />
-          <Button isLoading={isSubmitting}>{actionLabel}</Button>
+          <Button isLoading={isSubmitting} type="submit">
+            {actionLabel}
+          </Button>
         </>
       )}
       {formik.status === 'success' &&
