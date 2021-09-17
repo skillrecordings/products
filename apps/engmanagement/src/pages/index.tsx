@@ -7,7 +7,7 @@ import Image from 'next/image'
 import BookCover from '../../public/images/engineering-management-for-the-rest-of-us-book-mockup-front@2x.jpg'
 import SarahDrasner from '../../public/images/sarah-drasner@2x.jpg'
 import AngieJones from '../../public/images/angie-jones@2x.png'
-import SubscribeAndTag from '@skillrecordings/convertkit/dist/forms/subscribe-and-tag'
+import SubscribeForm from '@skillrecordings/convertkit/dist/forms/subscribe'
 
 export default function Home() {
   return (
@@ -79,9 +79,9 @@ export default function Home() {
             </div>
             <div className="uppercase">Subscribe to get notified</div>
           </h2>
-          <SubscribeAndTag
-            tagId={2621433}
-            onSuccessRedirectUrl="/the-value-of-values?continue=true"
+          <SubscribeForm
+            // tag={2621433}
+            onSuccessRedirectUrl="/confirm?continue=true"
           />
           {/* <ConvertkitSubscribeForm
             classNames={{

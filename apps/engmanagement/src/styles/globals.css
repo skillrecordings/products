@@ -57,3 +57,38 @@ but it will still show up on keyboard focus.
     @apply opacity-80 cursor-wait hover:scale-100;
   }
 }
+
+[data-sr-confirm-email] {
+  article {
+    @apply max-w-2xl text-center space-y-5 mx-auto py-24;
+  }
+  header {
+    @apply space-y-5;
+    h1 {
+      @apply text-orange-200 uppercase font-semibold tracking-wide;
+    }
+    h2 {
+      @apply font-medium text-3xl;
+    }
+    img {
+    }
+  }
+  p {
+    @apply opacity-80 prose prose-lg;
+  }
+  footer {
+    @apply flex flex-col pt-6 text-gray-200 text-lg;
+    img {
+    }
+  }
+}
+[data-sr-confirm-email='free-chapter'] {
+  article {
+    @apply max-w-lg;
+  }
+  header {
+    h1 {
+      @apply text-xl;
+    }
+  }
+}

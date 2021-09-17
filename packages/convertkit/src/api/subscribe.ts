@@ -1,21 +1,35 @@
 import {NextApiRequest, NextApiResponse} from 'next'
 import {convertkitAxios} from '@skillrecordings/axios'
 import serverCookie from 'cookie'
+import {CONVERTKIT_SIGNUP_FORM, CONVERTKIT_TOKEN} from '@skillrecordings/config'
 
 const CK_SUBSCRIBER_KEY = process.env.NEXT_PUBLIC_CONVERTKIT_SUBSCRIBER_KEY
 const subscribe = async (req: NextApiRequest, res: NextApiResponse) => {
   if (req.method === 'POST') {
     try {
-      const {email_address, first_name, fields, tag} = req.body
-      const url = tag
-        ? `/tags/${tag}/subscribe`
-        : `/forms/${process.env.NEXT_PUBLIC_CONVERTKIT_SIGNUP_FORM}/subscribe`
+      const {
+        email_address,
+        first_name,
+        fields,
+        form = CONVERTKIT_SIGNUP_FORM,
+        tag,
+        sequence,
+      } = req.body
+      const getSubscribeUrl = () => {
+        if (tag) {
+          return `/tags/${tag}/subscribe`
+        }
+        if (sequence) {
+          return `/sequences/${sequence}/subscribe`
+        }
+        return `/forms/${form}/subscribe`
+      }
       const subscriber = await convertkitAxios
-        .post(url, {
+        .post(getSubscribeUrl(), {
           email: email_address,
           first_name,
           fields,
-          api_key: process.env.NEXT_PUBLIC_CONVERTKIT_TOKEN,
+          api_key: CONVERTKIT_TOKEN,
         })
         .then(({data}) => {
           return data.subscription.subscriber
@@ -34,7 +48,7 @@ const subscribe = async (req: NextApiRequest, res: NextApiResponse) => {
       res.setHeader('Set-Cookie', convertkitCookie)
 
       res.status(200).json(subscriber)
-    } catch (error) {
+    } catch (error: any) {
       console.log(error)
       res.status(200).end(error.message)
     }
