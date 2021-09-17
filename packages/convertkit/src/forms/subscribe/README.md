@@ -18,6 +18,8 @@ CONVERTKIT_BASE_URL=https://api.convertkit.com/v3/
 form: process.env.NEXT_PUBLIC_CONVERTKIT_SIGNUP_FORM
 onSuccessRedirectUrl: '/confirm?ck_subscriber_id=123456&email_address=you@company.com'
 actionLabel: 'Subscribe'
+successMessage: 'Thanks!'
+errorMessage: 'Something went wrong.'
 ```
 
 ## Examples
