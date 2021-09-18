@@ -77,3 +77,7 @@ This component can be styled using following attributes:
 [data-sr-convertkit-subscribe-form='submitted'] {}
 [data-sr-convertkit-subscribe-form='error'] {}
 ```
+
+## Improvements
+
+- Currently we're picking an endpoint based on whether `tag`, `form` or `sequence` id is provided. But since ConvertKit let’s us send an arbitrary number of tags to any of these endpoints, we should update the logic to allow that.

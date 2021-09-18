@@ -14,24 +14,6 @@ type SubscribeFormOptions = {
    */
   actionLabel?: string
   /**
-   * Function called when the form has been succesfully submitted.
-   * By default, it will redirect to `onSuccessRedirectUrl` with `email_address` passed as URL param.
-   * You can pass `false` to skip it entirely.
-   * @type () => void | false
-   */
-  onSuccess?:
-    | ((
-        res: {data: {id: string}; [key: string]: any},
-        values: {email_address: string; first_name: string},
-      ) => void)
-    | false
-  /**
-   * The URL to redirect to after succesfully submitting a form. Default is `/confirm`.
-   * Submitted `email_address` will be automatically passed as URL param.
-   * @type string
-   */
-  onSuccessRedirectUrl?: string
-  /**
    * Message to display after succesfully submitting the form.
    * @type string | React.ReactElement
    */
@@ -41,7 +23,33 @@ type SubscribeFormOptions = {
    * @type string | React.ReactElement
    */
   errorMessage?: string | React.ReactElement
-}
+} & SubscribeFormOnSuccessOptions
+
+type SubscribeFormOnSuccessOptions =
+  | {
+      /**
+       * Function called when the form has been succesfully submitted.
+       * By default, it will redirect to `onSuccessRedirectUrl` with `email_address` passed as URL param.
+       * You can pass `false` to skip it entirely.
+       * @type () => void | false
+       */
+      onSuccess:
+        | ((
+            res: {data: {id: string}; [key: string]: any},
+            values: {email_address: string; first_name: string},
+          ) => void)
+        | false
+      onSuccessRedirectUrl?: never
+    }
+  | {
+      onSuccess?: never
+      /**
+       * The URL to redirect to after succesfully submitting a form. Default is `/confirm`.
+       * Submitted `email_address` will be automatically passed as URL param.
+       * @type string
+       */
+      onSuccessRedirectUrl?: string
+    }
 
 type SubscribeFormProps =
   | ({
@@ -81,7 +89,7 @@ const SubscribeForm: React.FC<SubscribeFormProps> = ({
   successMessage = <p>Thanks!</p>,
   actionLabel = 'Subscribe',
   onSuccessRedirectUrl = '/confirm',
-  onSuccess = async (res: any, values: any) => {
+  onSuccess = (res, values) => {
     const url = queryString.stringifyUrl({
       url: onSuccessRedirectUrl,
       query: {
@@ -89,7 +97,7 @@ const SubscribeForm: React.FC<SubscribeFormProps> = ({
         email_address: values.email_address,
       },
     })
-    return await router.push(url)
+    return router.push(url)
   },
 }) => {
   const [isSubmitting, setSubmitting] = React.useState<boolean>(false)
