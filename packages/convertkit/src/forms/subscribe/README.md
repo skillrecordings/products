@@ -1,3 +1,5 @@
+# Subscribe Form
+
 Form component with first name and email address fields to subscribe to a form, tag, or sequence in ConvertKit.
 
 ## Requirements
@@ -23,7 +25,7 @@ successMessage: 'Thanks!'
 errorMessage: 'Something went wrong.'
 ```
 
-## Examples
+## Usage
 
 ### Subscribe to default form
 
