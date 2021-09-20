@@ -6,6 +6,34 @@
   @apply bg-brand-pink-500 text-white;
 }
 
+[data-sr-convertkit-subscribe-form] {
+  @apply space-y-4 w-full;
+  [data-sr-input] {
+    @apply autofill:caret-black autofill:text-fill-black autofill:border-pink-400 autofill:bg-white w-full rounded-lg border border-gray-400 focus:ring-2 focus:ring-brand-pink-500 focus:outline-none focus:border-transparent;
+  }
+  [data-sr-input-label] {
+    @apply block pb-1;
+  }
+  [data-sr-button] {
+    @apply mx-auto;
+  }
+  [data-sr-input-asterisk] {
+    @apply text-pink-500;
+  }
+}
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+textarea:-webkit-autofill,
+textarea:-webkit-autofill:hover,
+textarea:-webkit-autofill:focus,
+select:-webkit-autofill,
+select:-webkit-autofill:hover,
+select:-webkit-autofill:focus {
+  -webkit-box-shadow: 0 0 0px 1000px rgb(243, 227, 235) inset !important;
+}
+
 /*
 This will hide the focus indicator if the element receives focus via the mouse,
 but it will still show up on keyboard focus.
