@@ -72,15 +72,11 @@ const SubscribeToConvertkitForm: React.FC<SubscribeFormProps> = ({
         .post(subscribeApiURL, {email_address, first_name, form: formId})
         .then((response: any) => {
           const subscriber: ConvertkitSubscriber = response.data
-          if (onSuccess) {
-            onSuccess(subscriber)
-          }
+          onSuccess(subscriber)
           formik.setStatus('success')
         })
         .catch((error) => {
-          if (onError) {
-            onError(error)
-          }
+          onError(error)
           formik.setStatus('error')
           console.log(error)
         })
