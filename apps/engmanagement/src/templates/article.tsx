@@ -14,7 +14,7 @@ import {
   LinkedIn,
   Hacker,
 } from 'components/share'
-import ConvertkitSubscribeForm from '@skillrecordings/convertkit/dist/forms'
+import SubscribeForm from '@skillrecordings/convertkit/dist/forms/subscribe'
 
 type ArticleTemplateProps = {
   meta?: any
@@ -173,26 +173,13 @@ const ArticleTemplate: React.FC<ArticleTemplateProps> = ({
           </footer>
         )}
         {subscribeForm && (
-          <section className=" max-w-screen-md w-full mx-auto sm:pb-48 pb-28">
+          <section className="max-w-screen-md w-full mx-auto sm:pb-48 pb-28">
             <div className="flex items-start justify-center ">
               <div className="w-full">
                 <h3 className="sm:text-5xl text-4xl font-medium pb-10 leading-none font-din uppercase text-center">
                   Subscribe for More
                 </h3>
-                <ConvertkitSubscribeForm
-                  classNames={{
-                    form: 'max-w-xs mx-auto space-y-4',
-                    input:
-                      'focus:outline-none focus:ring-2 focus:ring-orange-300 border-none rounded-lg bg-white text-black placeholder-coolGray-400 w-full',
-                    label: 'block pb-1 font-medium',
-                    asterisk: 'text-orange-300',
-                    buttonContainer: 'flex items-center w-full justify-center',
-                    button:
-                      'px-6 py-3 rounded-lg border-orange-400 font-semibold mt-4 hover:scale-105 transition-all duration-300 ease-in-out border shadow-inner bg-orange-400 bg-opacity-5 hover:bg-opacity-20',
-                    comment:
-                      'text-center text-sm text-gray-300 opacity-60 pt-6',
-                  }}
-                />
+                <SubscribeForm />
               </div>
             </div>
           </section>
