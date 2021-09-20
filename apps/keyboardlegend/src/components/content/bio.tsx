@@ -19,6 +19,9 @@ export const ProfilePics = () => {
       }
     }, duration)
     setCurrentImage(images[idx])
+    return () => {
+      setCurrentImage(images[0])
+    }
   }, [idx, images])
 
   return (

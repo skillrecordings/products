@@ -23,6 +23,7 @@ type SubscribeFormOptions = {
    * @type string | React.ReactElement
    */
   errorMessage?: string | React.ReactElement
+  button?: React.ReactElement
 } & SubscribeFormOnSuccessOptions
 
 type SubscribeFormOnSuccessOptions =
@@ -84,6 +85,7 @@ type SubscribeFormProps =
 const SubscribeForm: React.FC<SubscribeFormProps> = ({
   tag,
   form,
+  button,
   sequence,
   errorMessage = <p>Something went wrong.</p>,
   successMessage = <p>Thanks!</p>,
@@ -159,9 +161,16 @@ const SubscribeForm: React.FC<SubscribeFormProps> = ({
             type="email"
             required
           />
-          <Button isLoading={isSubmitting} type="submit">
-            {actionLabel}
-          </Button>
+          {button ? (
+            React.cloneElement(button, {
+              isLoading: isSubmitting,
+              type: 'submit',
+            })
+          ) : (
+            <Button isLoading={isSubmitting} type="submit">
+              {actionLabel}
+            </Button>
+          )}
         </>
       )}
       {formik.status === 'success' &&

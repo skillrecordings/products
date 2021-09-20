@@ -25,6 +25,7 @@
     "@skillrecordings/convertkit": "workspace:*",
     "@skillrecordings/cookies": "workspace:*",
     "@skillrecordings/quiz": "workspace:*",
+    "@skillrecordings/react": "workspace:*",
     "@skillrecordings/time": "workspace:*",
     "@skillrecordings/viewer": "workspace:*",
     "@stripe/stripe-js": "^1.16.0",

@@ -832,6 +832,7 @@ importers:
       '@skillrecordings/convertkit': workspace:*
       '@skillrecordings/cookies': workspace:*
       '@skillrecordings/quiz': workspace:*
+      '@skillrecordings/react': workspace:*
       '@skillrecordings/scripts': workspace:*
       '@skillrecordings/time': workspace:*
       '@skillrecordings/tsconfig': ^0.0.5
@@ -921,6 +922,7 @@ importers:
       '@skillrecordings/convertkit': link:../../packages/convertkit
       '@skillrecordings/cookies': link:../../packages/cookies
       '@skillrecordings/quiz': link:../../packages/quiz
+      '@skillrecordings/react': link:../../packages/react
       '@skillrecordings/time': link:../../packages/time
       '@skillrecordings/viewer': link:../../packages/viewer
       '@stripe/stripe-js': 1.16.0
