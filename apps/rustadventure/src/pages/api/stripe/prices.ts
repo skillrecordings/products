@@ -1,5 +1,5 @@
 import {NextApiRequest, NextApiResponse} from 'next'
-import {fetchStripePrice} from '../../../utils/stripe'
+import {fetchStripePrice} from '@skillrecordings/stripe'
 
 async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method !== 'GET') {
