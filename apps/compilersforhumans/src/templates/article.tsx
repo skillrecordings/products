@@ -1,7 +1,5 @@
 import * as React from 'react'
 import Layout from 'layouts'
-//TODO: Check form styling
-import PoliteConvertkitForm from '@skillrecordings/convertkit/dist/forms/polite'
 import config from '../config'
 
 type ArticleTemplateProps = {
@@ -31,9 +29,6 @@ const ArticleTemplate: React.FC<ArticleTemplateProps> = ({meta, children}) => {
             : config.additionalMetaTags[0].content}
         </footer>
       </article>
-      <PoliteConvertkitForm peakingContent={'Hello!'}>
-        <p>Subscribe today!</p>
-      </PoliteConvertkitForm>
     </Layout>
   )
 }
