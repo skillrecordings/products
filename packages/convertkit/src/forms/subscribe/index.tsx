@@ -101,6 +101,7 @@ const SubscribeForm: React.FC<SubscribeFormProps> = ({
     })
     return router.push(url)
   },
+  ...rest
 }) => {
   const [isSubmitting, setSubmitting] = React.useState<boolean>(false)
   const router = useRouter()
@@ -143,6 +144,7 @@ const SubscribeForm: React.FC<SubscribeFormProps> = ({
     <form
       data-sr-convertkit-subscribe-form={formik.status}
       onSubmit={formik.handleSubmit}
+      {...rest}
     >
       {!formik.status && (
         <>

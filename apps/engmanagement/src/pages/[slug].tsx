@@ -12,6 +12,7 @@ import checkSubscriber from 'utils/check-subscriber'
 import {useNextSanityImage} from 'next-sanity-image'
 import Image from 'next/image'
 import {useConvertkit} from '@skillrecordings/convertkit'
+import SubscribeForm from '@skillrecordings/convertkit/dist/forms/subscribe'
 import {
   TheFutureOfRemoteWorkBackground,
   TheValueOfValuesExample,
@@ -25,7 +26,7 @@ type ArticleProps = {
     slug: string
     mainImage?: any
     description?: string
-    ckTagId?: string
+    ckTagId?: number
     publishedAt: Date
     ogImage: {
       url: string
@@ -124,13 +125,30 @@ const Article = ({
             <div className="w-full">
               <h3 className="sm:text-4xl text-3xl font-bold leading-none font-brandon text-center">
                 Read the rest of this article
-                {/* Unlock this chapter for free */}
               </h3>
               <h4 className="text-center text-xl text-orange-300 pt-4 pb-10">
                 This article is for subscribers only. Enter your email to
                 continue reading.
               </h4>
-              <ConvertkitSubscribeAndTagForm tag={ckTagId} />
+              {ckTagId ? (
+                <SubscribeForm
+                  data-sr-convertkit-subscribe-form="article"
+                  tag={ckTagId}
+                  actionLabel="Continue Reading"
+                  onSuccessRedirectUrl={`${router.asPath}?continue=true`}
+                  successMessage="Thanks! The article is being unlocked..."
+                />
+              ) : (
+                <SubscribeForm
+                  data-sr-convertkit-subscribe-form="article"
+                  actionLabel="Continue Reading"
+                  onSuccessRedirectUrl={`${router.asPath}?continue=true`}
+                  successMessage="Thanks! The article is being unlocked..."
+                />
+              )}
+              <div className="text-gray-200 opacity-60 pt-8 italic text-center">
+                No spam, unsubscribe any time.
+              </div>
             </div>
           </div>
         </section>

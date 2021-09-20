@@ -1,13 +1,13 @@
-<h1 class="text-orange-200 uppercase font-semibold tracking-wide">
+<h1 className="text-orange-200 uppercase font-semibold tracking-wide">
   Just one last step and you are signed up...
 </h1>
 
-<h2 class="font-medium text-3xl">
+<h2 className="font-medium text-3xl">
   Please check your inbox for an email that just got sent. You'll need to click
   the confirmation link to receive any further emails.
 </h2>
 
-<p class="opacity-80 prose prose-lg">
+<p className="opacity-80 prose prose-lg">
   If you don't see the email after a few minutes, you might check your spam
   folder or other filters and add <code>sarah.drasner@gmail.com</code> to your
   contacts.
@@ -19,10 +19,10 @@ import Image from 'next/image'
 
 export default ({children}) => (
   <Layout meta={{title: 'Confirm'}}>
-    <div class="max-w-2xl text-center space-y-5 mx-auto py-24">
+    <div className="max-w-2xl text-center space-y-5 mx-auto py-24">
       <Image src={'/images/email-notification.svg'} width={100} height={100} />
       {children}
-      <div class="flex flex-col pt-6 text-gray-200 text-lg">
+      <div className="flex flex-col pt-6 text-gray-200 text-lg">
         <i>Thanks,</i>
         <div>
           <Image
