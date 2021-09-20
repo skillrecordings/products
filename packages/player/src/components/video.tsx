@@ -1,6 +1,7 @@
 import * as React from 'react'
 import {useVideo} from '../context/video-context'
 import cx from 'classnames'
+import {useMetadataTrackList} from '../hooks/use-metadata-track-list'
 
 type VideoProps = {
   loop?: boolean
@@ -50,6 +51,8 @@ export const Video: React.FC<VideoProps> = ({
   //to the videoService and update our state machine context
   const videoElemRef = React.useRef<any>(null)
   const videoService = useVideo()
+
+  useMetadataTrackList()
 
   return (
     <video
