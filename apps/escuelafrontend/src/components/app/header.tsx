@@ -12,7 +12,7 @@ export default function Navigation() {
   return (
     <div className="border-b border-gray-200 dark:border-gray-800 px-5 py-5">
       <Popover className="max-w-screen-xl mx-auto w-full">
-        {({open}) => (
+        {({open, close}) => (
           <>
             <div className="flex justify-between items-center md:justify-start md:space-x-10">
               <Link href="/">
@@ -66,7 +66,7 @@ export default function Navigation() {
                   <div className="pt-5 pb-6 px-5">
                     <div className="flex items-center justify-between">
                       <Link href="/">
-                        <a>
+                        <a onClick={() => close()}>
                           <Logo />
                         </a>
                       </Link>
@@ -81,12 +81,18 @@ export default function Navigation() {
                   <div className="py-6 px-5 divide-y-2 dark:divide-gray-100 dark:divide-opacity-10 divide-gray-800 divide-opacity-10">
                     <div className="grid grid-cols-1 gap-4">
                       <Link href="/articulos">
-                        <a className="text-base font-medium text-gray-700 hover:text-gray-900 dark:text-gray-200 dark:hover:text-gray-100">
+                        <a
+                          onClick={() => close()}
+                          className="text-base font-medium text-gray-700 hover:text-gray-900 dark:text-gray-200 dark:hover:text-gray-100"
+                        >
                           Artículos
                         </a>
                       </Link>
                       <Link href="/react">
-                        <a className="text-base font-medium text-gray-700 hover:text-gray-900 dark:text-gray-200 dark:hover:text-gray-100">
+                        <a
+                          onClick={() => close()}
+                          className="text-base font-medium text-gray-700 hover:text-gray-900 dark:text-gray-200 dark:hover:text-gray-100"
+                        >
                           Aprende React
                         </a>
                       </Link>
