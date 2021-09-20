@@ -1,6 +1,6 @@
 import * as React from 'react'
 import Layout from '@skillrecordings/react/dist/layouts'
-import PoliteConvertkitForm from '@skillrecordings/convertkit/dist/forms/polite'
+import PopupSubscribeForm from '@skillrecordings/convertkit/dist/forms/popup'
 import config from 'config'
 
 type ArticleTemplateProps = {
@@ -30,9 +30,9 @@ const ArticleTemplate: React.FC<ArticleTemplateProps> = ({meta, children}) => {
             : config.additionalMetaTags[0].content}
         </footer>
       </article>
-      <PoliteConvertkitForm peakingContent={'Hello!'}>
+      <PopupSubscribeForm peakingContent={'Hello!'}>
         <p>Subscribe today!</p>
-      </PoliteConvertkitForm>
+      </PopupSubscribeForm>
     </Layout>
   )
 }

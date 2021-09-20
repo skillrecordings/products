@@ -2,16 +2,16 @@ import * as React from 'react'
 import {useViewportScroll} from 'framer-motion'
 import {useLocalStorage} from 'react-use'
 import {Dialog} from '@reach/dialog'
-import ConvertkitSubscribeForm from '../index'
+import SubscribeForm from '../subscribe'
 
 //TODO: separate the styling and the behavior so that it can be customized
 
-function usePoliteConvertkitForm(
+function usePopupConvertkitForm(
   threshold: 0.6 | 0.7 | 0.75 | 0.8 | 0.85 | 0.9, // 1 is 100% of page height
 ) {
   // TODO: get user preference from CK or Customer.io
   const [dismissed, setDismissed, _removeDismissedPreference] = useLocalStorage(
-    'dismissed-polite-message',
+    'dismissed-popup-form',
     'false',
   )
 
@@ -55,7 +55,7 @@ function usePoliteConvertkitForm(
   }
 }
 
-const PoliteConvertkitForm = ({children, peakingContent}: any) => {
+const PopupConvertkitForm = ({children, peakingContent}: any) => {
   const {
     peaking,
     handleClose,
@@ -63,7 +63,7 @@ const PoliteConvertkitForm = ({children, peakingContent}: any) => {
     dismissed,
     handleOpen,
     handleDismissForever,
-  } = usePoliteConvertkitForm(0.7)
+  } = usePopupConvertkitForm(0.7)
 
   return dismissed !== 'true' ? (
     <>
@@ -99,11 +99,11 @@ const PoliteConvertkitForm = ({children, peakingContent}: any) => {
         aria-label="subscribe"
       >
         <div className="pb-4">{children}</div>
-        <ConvertkitSubscribeForm onSubmit={() => handleDismissForever()} />
+        <SubscribeForm />
       </Dialog>
     </>
   ) : null
 }
 
-export default PoliteConvertkitForm
-export {usePoliteConvertkitForm}
+export default PopupConvertkitForm
+export {usePopupConvertkitForm}

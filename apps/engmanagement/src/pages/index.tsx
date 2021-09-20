@@ -1,7 +1,6 @@
 import * as React from 'react'
 import Layout from 'layouts'
 import LandingCopy from 'components/landing-copy.mdx'
-import ConvertkitSubscribeForm from '@skillrecordings/convertkit/dist/forms'
 import get from 'lodash/get'
 import Image from 'next/image'
 import BookCover from '../../public/images/engineering-management-for-the-rest-of-us-book-mockup-front@2x.jpg'
