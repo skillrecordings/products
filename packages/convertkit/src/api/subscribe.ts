@@ -11,7 +11,7 @@ const subscribe = async (req: NextApiRequest, res: NextApiResponse) => {
   if (req.method === 'POST') {
     try {
       const {
-        email_address,
+        email,
         first_name,
         fields,
         form = CONVERTKIT_SIGNUP_FORM,
@@ -29,7 +29,7 @@ const subscribe = async (req: NextApiRequest, res: NextApiResponse) => {
       }
       const subscriber = await convertkitAxios
         .post(getEndpoint(), {
-          email: email_address,
+          email,
           first_name,
           fields,
           api_key: CONVERTKIT_TOKEN,
@@ -50,7 +50,7 @@ const subscribe = async (req: NextApiRequest, res: NextApiResponse) => {
 
       res.setHeader('Set-Cookie', convertkitCookie)
 
-      res.status(200).json(subscriber)
+      res.status(200).json({...subscriber, email, first_name})
     } catch (error: any) {
       console.log(error)
       res.status(200).end(error.message)
