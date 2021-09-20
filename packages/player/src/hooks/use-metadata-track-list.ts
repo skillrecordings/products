@@ -47,7 +47,6 @@ export const useMetadataTrackList = () => {
       })
 
       tracks.forEach((track) => {
-        console.log('activating metadata track')
         videoService.send({type: 'ACTIVATE_METADATA_TRACK', track})
       })
     }
