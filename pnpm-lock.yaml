@@ -824,18 +824,19 @@ importers:
       '@mdx-js/loader': ^1.6.22
       '@next/mdx': ^11.1.0
       '@reach/dialog': ^0.16.0
-      '@skillrecordings/analytics': '*'
-      '@skillrecordings/auth': '*'
-      '@skillrecordings/axios': '*'
-      '@skillrecordings/commerce': '*'
-      '@skillrecordings/config': '*'
-      '@skillrecordings/convertkit': '*'
-      '@skillrecordings/cookies': '*'
-      '@skillrecordings/scripts': '*'
-      '@skillrecordings/time': '*'
+      '@skillrecordings/analytics': workspace:*
+      '@skillrecordings/auth': workspace:*
+      '@skillrecordings/axios': workspace:*
+      '@skillrecordings/commerce': workspace:*
+      '@skillrecordings/config': workspace:*
+      '@skillrecordings/convertkit': workspace:*
+      '@skillrecordings/cookies': workspace:*
+      '@skillrecordings/quiz': workspace:*
+      '@skillrecordings/scripts': workspace:*
+      '@skillrecordings/time': workspace:*
       '@skillrecordings/tsconfig': ^0.0.5
-      '@skillrecordings/types': '*'
-      '@skillrecordings/viewer': '*'
+      '@skillrecordings/types': workspace:*
+      '@skillrecordings/viewer': workspace:*
       '@stripe/stripe-js': ^1.16.0
       '@tailwindcss/aspect-ratio': ^0.2.1
       '@tailwindcss/forms': ^0.3.3
@@ -919,6 +920,7 @@ importers:
       '@skillrecordings/config': link:../../packages/config
       '@skillrecordings/convertkit': link:../../packages/convertkit
       '@skillrecordings/cookies': link:../../packages/cookies
+      '@skillrecordings/quiz': link:../../packages/quiz
       '@skillrecordings/time': link:../../packages/time
       '@skillrecordings/viewer': link:../../packages/viewer
       '@stripe/stripe-js': 1.16.0
@@ -6395,7 +6397,7 @@ packages:
   /axios/0.21.1:
     resolution: {integrity: sha512-dKQiRHxGD9PPRIUNIWvZhPTPpl1rf/OxTYKsqKUDjBwYylTvV7SjSHJb9ratfyzM6wCdLCOYLzs73qpg5c4iGA==}
     dependencies:
-      follow-redirects: 1.14.1_debug@2.6.9
+      follow-redirects: 1.14.1
     transitivePeerDependencies:
       - debug
     dev: false
@@ -9687,6 +9689,16 @@ packages:
 
   /focus-visible/5.2.0:
     resolution: {integrity: sha512-Rwix9pBtC1Nuy5wysTmKy+UjbDJpIfg8eHjw0rjZ1mX4GNLz1Bmd16uDpI3Gk1i70Fgcs8Csg2lPm8HULFg9DQ==}
+    dev: false
+
+  /follow-redirects/1.14.1:
+    resolution: {integrity: sha512-HWqDgT7ZEkqRzBvc2s64vSZ/hfOceEol3ac/7tKwzuvEyWx3/4UegXh5oBOIotkGsObyk3xznnSRVADBgWSQVg==}
+    engines: {node: '>=4.0'}
+    peerDependencies:
+      debug: '*'
+    peerDependenciesMeta:
+      debug:
+        optional: true
     dev: false
 
   /follow-redirects/1.14.1_debug@2.6.9:
