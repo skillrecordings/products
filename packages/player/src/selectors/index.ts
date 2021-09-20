@@ -43,6 +43,18 @@ export const selectTextTracks = (
 export const selectMetadataTracks = (state: StateFrom<typeof videoMachine>) =>
   state.context.metadataTracks
 
+export const selectCues = (state: StateFrom<typeof videoMachine>) => {
+  const noteTracks: any[] = state.context.metadataTracks.filter(
+    (track: TextTrack) => {
+      return track.label === 'notes'
+    },
+  )
+
+  return noteTracks.reduce((acc: VTTCue[], track: TextTrack) => {
+    return [...acc, ...Array.from(track.cues || [])]
+  }, [])
+}
+
 export const selectIsActive = (state: StateFrom<typeof videoMachine>) =>
   state.context.isActive || false
 

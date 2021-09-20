@@ -3,7 +3,6 @@ import classNames from 'classnames'
 import {isEmpty} from 'lodash'
 import Tippy from '@tippyjs/react'
 import {track} from '@skillrecordings/analytics'
-import {useNotesCues} from '../hooks/use-notes-cues'
 import CodeBlock from '@skillrecordings/react/dist/components/code-block'
 import {useVideo} from '../context/video-context'
 import {useSelector} from '@xstate/react'
@@ -16,6 +15,7 @@ import {
 import {useCue} from '../hooks/use-cue'
 import {ElementType} from 'react'
 import ReactMarkdown from 'react-markdown'
+import {useMetadataCues} from '../hooks/use-metadata-cues'
 
 export const CueBar: React.FC<any> = ({
   className,
@@ -25,8 +25,7 @@ export const CueBar: React.FC<any> = ({
 }) => {
   const videoService = useVideo()
   const duration = useSelector(videoService, selectDuration)
-
-  const cues = useNotesCues()
+  const cues = useMetadataCues()
 
   return disableCompletely || isEmpty(cues) ? null : (
     <div className={classNames('cueplayer-react-cue-bar', className)}>

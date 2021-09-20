@@ -1,7 +1,14 @@
 import * as React from 'react'
 import Layout from '@skillrecordings/react/dist/layouts'
-import {Player, VideoProvider, HLSSource} from '@skillrecordings/player'
-import {first, noop} from 'lodash'
+import {
+  Player,
+  VideoProvider,
+  HLSSource,
+  useMetadataCues,
+  useVideo,
+  selectActiveCues,
+} from '@skillrecordings/player'
+import {useSelector} from '@xstate/react'
 
 type VideoResource = {
   title: string
@@ -39,7 +46,6 @@ const PlayerPage = () => {
               kind="subtitles"
               srcLang="en"
               label="English"
-              default
             />
           )}
           {currentVideo.notesUrl && (
@@ -51,20 +57,59 @@ const PlayerPage = () => {
             />
           )}
         </Player>
+        <VideoResourceList>
+          {videos.map((videoResource) => {
+            return (
+              <li
+                style={{padding: '10px'}}
+                onClick={() => setCurrentVideo(videoResource)}
+                key={videoResource.url}
+              >
+                {videoResource.title === currentVideo.title ? '*' : ''}{' '}
+                {videoResource.title}
+              </li>
+            )
+          })}
+        </VideoResourceList>
+        <VideoCueList>
+          <VideoCueNotes />
+        </VideoCueList>
       </VideoProvider>
-      <VideoResourceList>
-        {videos.map((videoResource) => {
-          return (
-            <li
-              style={{padding: '10px'}}
-              onClick={() => setCurrentVideo(videoResource)}
-            >
-              {videoResource === currentVideo ? '*' : ''} {videoResource.title}
-            </li>
-          )
-        })}
-      </VideoResourceList>
     </Layout>
+  )
+}
+
+const VideoCueNotes: React.FC<any> = ({children}) => {
+  const cues = useMetadataCues()
+  const videoService = useVideo()
+  const activeCues = useSelector(videoService, selectActiveCues)
+
+  return (
+    <>
+      {cues.map((cue: VTTCue) => {
+        let note: {text: string; type?: string}
+        const active = activeCues.includes(cue)
+        try {
+          note = JSON.parse(cue.text)
+        } catch (e) {
+          note = {text: cue.text}
+        }
+        return (
+          <li key={note.text}>
+            {active ? '***' : ''}
+            {note.text}
+          </li>
+        )
+      })}
+    </>
+  )
+}
+
+const VideoCueList: React.FC<any> = ({children}) => {
+  return (
+    <div>
+      <ul>{children}</ul>
+    </div>
   )
 }
 
