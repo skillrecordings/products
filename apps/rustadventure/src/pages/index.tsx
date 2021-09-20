@@ -1,13 +1,11 @@
 import * as React from 'react'
-import ConvertkitSubscribeForm from 'components/forms/convertkit'
 import Layout from 'layouts'
 import LandingCopy from 'components/landing-copy.mdx'
 import FerrisCodingAnimation from 'components/ferris/ferris-coding-animation'
 import {FerrisOnCogwheel} from 'components/ferris'
-import {useRouter} from 'next/router'
+import SubscribeForm from '@skillrecordings/convertkit/dist/forms/subscribe'
 
 export default function Home() {
-  const router = useRouter()
   return (
     <Layout
       meta={{title: 'Learn to build reliable and efficient software in Rust'}}
@@ -41,9 +39,10 @@ export default function Home() {
               </h3>
             </div>
             <div className="max-w-sm mx-auto">
-              <ConvertkitSubscribeForm
-                onSubmit={() => router.push('/confirmed')}
-              />
+              <SubscribeForm tag={2475256} onSuccessRedirectUrl="/confirmed" />
+              <div className="text-xs opacity-50 pt-8 italic text-center">
+                No spam, and you are free to unsubscribe at any time.
+              </div>
             </div>
           </div>
         </section>
