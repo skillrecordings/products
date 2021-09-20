@@ -2,7 +2,7 @@ import * as React from 'react'
 import ConvertkitSubscribeForm from 'components/forms/convertkit'
 import Layout from 'layouts'
 import LandingCopy from 'components/landing-copy.mdx'
-import FerrisCodingAnimation from 'components/ferris-coding-animation'
+import FerrisCodingAnimation from 'components/ferris/ferris-coding-animation'
 import {FerrisOnCogwheel} from 'components/ferris'
 import {useRouter} from 'next/router'
 
