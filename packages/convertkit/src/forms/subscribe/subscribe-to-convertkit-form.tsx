@@ -51,6 +51,29 @@ const SubscribeToConvertkitForm: React.FC<SubscribeFormProps> = ({
 }) => {
   const [isSubmitting, setSubmitting] = React.useState<boolean>(false)
 
+  const handleOnSubmit = async (values: {
+    email_address: string
+    first_name: string
+  }) => {
+    const {email_address, first_name} = values
+    setSubmitting(true)
+    axios
+      .post(subscribeApiURL, {email_address, first_name, form: formId})
+      .then((response: any) => {
+        const subscriber: ConvertkitSubscriber = response.data
+        onSuccess(subscriber)
+        formik.setStatus('success')
+      })
+      .catch((error) => {
+        onError(error)
+        formik.setStatus('error')
+        console.log(error)
+      })
+      .finally(() => {
+        setSubmitting(false)
+      })
+  }
+
   const formik = useFormik({
     initialStatus: '',
     initialValues: {
@@ -65,25 +88,7 @@ const SubscribeToConvertkitForm: React.FC<SubscribeFormProps> = ({
     }),
     validateOnChange: false,
     enableReinitialize: true,
-    onSubmit: async (values) => {
-      const {email_address, first_name} = values
-      setSubmitting(true)
-      axios
-        .post(subscribeApiURL, {email_address, first_name, form: formId})
-        .then((response: any) => {
-          const subscriber: ConvertkitSubscriber = response.data
-          onSuccess(subscriber)
-          formik.setStatus('success')
-        })
-        .catch((error) => {
-          onError(error)
-          formik.setStatus('error')
-          console.log(error)
-        })
-        .finally(() => {
-          setSubmitting(false)
-        })
-    },
+    onSubmit: handleOnSubmit,
   })
 
   return (
