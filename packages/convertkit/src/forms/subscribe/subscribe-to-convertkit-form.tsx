@@ -54,20 +54,22 @@ const SubscribeToConvertkitForm: React.FC<SubscribeFormProps> = ({
   const formik = useFormik({
     initialStatus: '',
     initialValues: {
-      email: '',
+      email_address: '',
       first_name: '',
     },
     validationSchema: Yup.object().shape({
-      email: Yup.string().email('Invalid email address').required('Required'),
+      email_address: Yup.string()
+        .email('Invalid email address')
+        .required('Required'),
       first_name: Yup.string(),
     }),
     validateOnChange: false,
     enableReinitialize: true,
     onSubmit: async (values) => {
-      const {email, first_name} = values
+      const {email_address, first_name} = values
       setSubmitting(true)
       axios
-        .post(subscribeApiURL, {email, first_name, form: formId})
+        .post(subscribeApiURL, {email_address, first_name, form: formId})
         .then((response: any) => {
           const subscriber: ConvertkitSubscriber = response.data
           if (onSuccess) {
@@ -105,7 +107,7 @@ const SubscribeToConvertkitForm: React.FC<SubscribeFormProps> = ({
           />
           <Input
             label="Email"
-            name="email"
+            name="email_address"
             onChange={formik.handleChange}
             placeholder="you@company.com"
             type="email"
