@@ -130,22 +130,15 @@ const Article = ({
                 This article is for subscribers only. Enter your email to
                 continue reading.
               </h4>
-              {ckTagId ? (
-                <SubscribeForm
-                  data-sr-convertkit-subscribe-form="article"
-                  tag={ckTagId}
-                  actionLabel="Continue Reading"
-                  onSuccessRedirectUrl={`${router.asPath}?continue=true`}
-                  successMessage="Thanks! The article is being unlocked..."
-                />
-              ) : (
-                <SubscribeForm
-                  data-sr-convertkit-subscribe-form="article"
-                  actionLabel="Continue Reading"
-                  onSuccessRedirectUrl={`${router.asPath}?continue=true`}
-                  successMessage="Thanks! The article is being unlocked..."
-                />
-              )}
+              <SubscribeForm
+                // subscribing to 2610221 form will trigger automation tagging
+                // with ckTagId that matches the one coming from Sanity
+                form={2610221}
+                data-sr-convertkit-subscribe-form="article"
+                actionLabel="Continue Reading"
+                onSuccessRedirectUrl={`${router.asPath}?continue=true`}
+                successMessage="Thanks! The article is being unlocked..."
+              />
               <div className="text-gray-200 opacity-60 pt-8 italic text-center">
                 No spam, unsubscribe any time.
               </div>

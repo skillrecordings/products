@@ -11,6 +11,8 @@ export const CONVERTKIT_API_SECRET = process.env.CONVERTKIT_API_SECRET
 export const CONVERTKIT_TOKEN = process.env.NEXT_PUBLIC_CONVERTKIT_TOKEN
 export const CONVERTKIT_SIGNUP_FORM =
   process.env.NEXT_PUBLIC_CONVERTKIT_SIGNUP_FORM
+export const CONVERTKIT_SUBSCRIBE_API_URL =
+  process.env.NEXT_PUBLIC_SUBSCRIBE_API_URL || '/api/convertkit/subscribe'
 
 // TODO: create unique keys for site authorization
 export const USER_KEY = process.env.NEXT_PUBLIC_USER_KEY || 'user'
