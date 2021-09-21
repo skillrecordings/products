@@ -31,16 +31,14 @@ export const redirectUrlBuilder = (
   subscriber: ConvertkitSubscriber,
   path: string,
 ) => {
-  if (subscriber) {
-    const url = queryString.stringifyUrl({
-      url: path,
-      query: {
-        [CK_SUBSCRIBER_KEY]: subscriber.id,
-        email_address: subscriber.email,
-      },
-    })
-    return url
-  }
+  const url = queryString.stringifyUrl({
+    url: path,
+    query: {
+      [CK_SUBSCRIBER_KEY]: subscriber.id,
+      email_address: subscriber.email,
+    },
+  })
+  return url
 }
 
 /**
