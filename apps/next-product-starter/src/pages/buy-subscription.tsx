@@ -22,6 +22,7 @@ import {
   getBundleDescription,
 } from 'utils/get-bundle-metadata'
 import PurchaseBundle from '@skillrecordings/commerce/dist/components/purchase-bundle'
+import {useCommerceMachine} from '@skillrecordings/commerce'
 
 type BuyProps = {
   bundles: SellableResource[]
@@ -29,6 +30,11 @@ type BuyProps = {
 
 const Buy: FunctionComponent<BuyProps> = ({bundles}) => {
   const sellable = bundles[0]
+
+  const [state, send] = useCommerceMachine({
+    pricingApiUrl: 'http://app.egghead.af:5000/api/v1/next/pricing',
+  })
+
   return (
     <Layout meta={{title: `Buy ${config.defaultTitle}`}}>
       <CommerceContainer>

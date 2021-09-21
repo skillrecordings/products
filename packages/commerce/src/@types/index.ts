@@ -18,6 +18,12 @@ export type EggheadPriceParams = {
   code?: string
 }
 
+export type EggheadSubscriptionPriceParams = {
+  site: string
+  code?: string
+  quantity?: number
+}
+
 export interface CommerceMachineContext {
   sellable?: SellableResource
   upgradeFromSellable?: SellableResource

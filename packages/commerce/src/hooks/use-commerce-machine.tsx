@@ -33,7 +33,7 @@ type UseCommerceMachineProps = {
   pricingApiUrl?: string
 }
 
-export const useCommerceMachine: any = ({
+export const useCommerceMachine = ({
   sellable,
   upgradeFromSellable,
   stripePriceId,
@@ -47,7 +47,7 @@ export const useCommerceMachine: any = ({
       stripePriceId,
       pricingApiUrl,
     })
-  }, [sellableSlug, upgradeFromSellable])
+  }, [pricingApiUrl, sellable, stripePriceId, upgradeFromSellable])
 
   return useMachine(commerceMachine)
 }

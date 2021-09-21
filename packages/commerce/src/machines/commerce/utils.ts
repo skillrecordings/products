@@ -5,6 +5,7 @@ import {
   CommerceMachineContext,
   EggheadPriceParams,
   EggheadSellableParam,
+  EggheadSubscriptionPriceParams,
   StripePriceParams,
 } from '../../@types'
 
@@ -21,9 +22,10 @@ export const getStripeCheckoutParams: any = (
     upgradeFromSellable,
     bulk,
     stripePriceId,
+    pricingApiUrl,
   } = machineContext
 
-  if (!sellable && !stripePriceId) {
+  if (!sellable && !stripePriceId && !pricingApiUrl) {
     throw new Error('sellable or stripePriceId is undefined')
   }
 
@@ -88,16 +90,19 @@ export const checkoutSessionFetcher = (
 // The Stripe Price is fetched from stripe
 export const getPriceParams = (
   machineContext: CommerceMachineContext,
-): EggheadPriceParams | StripePriceParams => {
+): EggheadPriceParams | StripePriceParams | EggheadSubscriptionPriceParams => {
   const {
     quantity,
     appliedCoupon,
     sellable,
     upgradeFromSellable,
     stripePriceId,
+    pricingApiUrl,
   } = machineContext
 
-  if (!sellable && !stripePriceId) {
+  console.log(pricingApiUrl)
+
+  if (!sellable && !stripePriceId && !pricingApiUrl) {
     throw new Error('sellable or stripePriceId is undefined')
   }
 
@@ -121,6 +126,10 @@ export const getPriceParams = (
       site: process.env.NEXT_PUBLIC_SITE_NAME || 'TEST_PRODUCT',
       code: appliedCoupon,
     })
+  } else if (pricingApiUrl) {
+    return {
+      site: 'egghead.io',
+    }
   } else {
     return {id: stripePriceId}
   }
@@ -130,7 +139,7 @@ export const eggheadPriceCheckUrl = `/api/prices`
 export const stripePriceCheckUrl = `/api/stripe/prices`
 
 export const priceFetcher = (machineContext: CommerceMachineContext) => {
-  const {stripePriceId} = machineContext
+  const {stripePriceId, pricingApiUrl} = machineContext
   const params = getPriceParams(machineContext)
 
   return isEmpty(stripePriceId)
