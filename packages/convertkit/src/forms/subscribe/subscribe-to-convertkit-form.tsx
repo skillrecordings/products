@@ -35,7 +35,7 @@ export const redirectUrlBuilder = (
     url: path,
     query: {
       [CK_SUBSCRIBER_KEY]: subscriber.id,
-      email_address: subscriber.email,
+      email: subscriber.email,
     },
   })
   return url
