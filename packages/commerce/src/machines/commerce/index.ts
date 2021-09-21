@@ -24,6 +24,7 @@ const commerceMachine = createMachine<CommerceMachineContext, CommerceEvent>(
       bulk: false,
       quantity: 1,
       stripePriceId: undefined,
+      pricingApiUrl: `${process.env.NEXT_PUBLIC_AUTH_DOMAIN}/api/v1/sellable_purchases`,
     },
     states: {
       // check the coupon directly into fetching price
@@ -167,6 +168,7 @@ const commerceMachine = createMachine<CommerceMachineContext, CommerceEvent>(
               email,
               upgradeFromSellable,
               bulk,
+              pricingApiUrl,
             } = context
 
             if (!sellable) {
@@ -176,7 +178,7 @@ const commerceMachine = createMachine<CommerceMachineContext, CommerceEvent>(
             if (process.env.NEXT_PUBLIC_AUTH_DOMAIN) {
               return axios
                 .post(
-                  `${process.env.NEXT_PUBLIC_AUTH_DOMAIN}/api/v1/sellable_purchases`,
+                  pricingApiUrl,
                   pickBy({
                     site: process.env.NEXT_PUBLIC_SITE_NAME,
                     sellable_id,

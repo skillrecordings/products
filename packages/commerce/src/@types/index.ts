@@ -34,6 +34,7 @@ export interface CommerceMachineContext {
   stripeCheckoutData?: any
   stripe?: any
   stripePriceId?: string
+  pricingApiUrl: string
 }
 
 export type CommerceEvent =
