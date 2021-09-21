@@ -37,7 +37,7 @@ type SubscribeFormOnSuccessOptions =
       onSuccess:
         | ((
             res: {data: {id: string}; [key: string]: any},
-            values: {email_address: string; first_name: string},
+            values: {email: string; first_name: string},
           ) => void)
         | false
       onSuccessRedirectUrl?: never
@@ -96,7 +96,7 @@ const SubscribeForm: React.FC<SubscribeFormProps> = ({
       url: onSuccessRedirectUrl,
       query: {
         [CK_SUBSCRIBER_KEY]: res.data.id,
-        email_address: values.email_address,
+        email_address: values.email,
       },
     })
     return router.push(url)
@@ -109,13 +109,11 @@ const SubscribeForm: React.FC<SubscribeFormProps> = ({
   const formik = useFormik({
     initialStatus: '',
     initialValues: {
-      email_address: '',
+      email: '',
       first_name: '',
     },
     validationSchema: Yup.object().shape({
-      email_address: Yup.string()
-        .email('Invalid email address')
-        .required('Required'),
+      email: Yup.string().email('Invalid email address').required('Required'),
       first_name: Yup.string(),
     }),
     validateOnChange: false,
@@ -157,7 +155,7 @@ const SubscribeForm: React.FC<SubscribeFormProps> = ({
           />
           <Input
             label="Email"
-            name="email_address"
+            name="email"
             onChange={formik.handleChange}
             placeholder="you@company.com"
             type="email"
