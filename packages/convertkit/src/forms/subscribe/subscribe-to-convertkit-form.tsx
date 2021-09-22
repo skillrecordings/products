@@ -6,7 +6,9 @@ import {Input, Button} from '@skillrecordings/react/dist/components'
 import {
   CONVERTKIT_SUBSCRIBE_API_URL,
   CONVERTKIT_SIGNUP_FORM,
+  CK_SUBSCRIBER_KEY,
 } from '@skillrecordings/config'
+import queryString from 'query-string'
 
 type ConvertkitSubscriber = {
   id: string
@@ -25,6 +27,20 @@ type SubscribeFormProps = {
   subscribeApiURL?: string
 }
 
+export const redirectUrlBuilder = (
+  subscriber: ConvertkitSubscriber,
+  path: string,
+) => {
+  const url = queryString.stringifyUrl({
+    url: path,
+    query: {
+      [CK_SUBSCRIBER_KEY]: subscriber.id,
+      email: subscriber.email,
+    },
+  })
+  return url
+}
+
 /**
  * This form posts to a designated api URL (assumes /api/convertkit/subscribe
  * by default)
@@ -39,7 +55,7 @@ type SubscribeFormProps = {
  * @param rest anything else!
  * @constructor
  */
-const SubscribeToConvertkitForm: React.FC<SubscribeFormProps> = ({
+export const SubscribeToConvertkitForm: React.FC<SubscribeFormProps> = ({
   formId = CONVERTKIT_SIGNUP_FORM,
   submitButtonElem,
   errorMessage = <p>Something went wrong.</p>,
