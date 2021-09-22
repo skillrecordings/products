@@ -6,7 +6,7 @@ importers:
     specifiers:
       '@changesets/changelog-github': ^0.2.7
       '@changesets/cli': ^2.16.0
-      cypress: ^8.2.0
+      cypress: ^8.4.1
       husky: ^7.0.1
       lint-staged: ^10.5.3
       plop: ^2.7.4
@@ -16,7 +16,7 @@ importers:
     devDependencies:
       '@changesets/changelog-github': 0.2.8
       '@changesets/cli': 2.16.0
-      cypress: 8.2.0
+      cypress: 8.4.1
       husky: 7.0.1
       lint-staged: 10.5.4
       plop: 2.7.4
@@ -3819,8 +3819,8 @@ packages:
     engines: {node: '>=4.0.0'}
     dev: true
 
-  /@cypress/request/2.88.5:
-    resolution: {integrity: sha512-TzEC1XMi1hJkywWpRfD2clreTa/Z+lOrXDCxxBTBPEcY5azdPi56A6Xw+O4tWJnaJH3iIE7G5aDXZC6JgRZLcA==}
+  /@cypress/request/2.88.6:
+    resolution: {integrity: sha512-z0UxBE/+qaESAHY9p9sM2h8Y4XqtsbDCt0/DPOrqA/RZgKi4PkxdpXyK4wCCnSk1xHqWHZZAE+gV6aDAR6+caQ==}
     engines: {node: '>= 6'}
     dependencies:
       aws-sign2: 0.7.0
@@ -3836,13 +3836,12 @@ packages:
       isstream: 0.1.2
       json-stringify-safe: 5.0.1
       mime-types: 2.1.32
-      oauth-sign: 0.9.0
       performance-now: 2.1.0
       qs: 6.5.2
       safe-buffer: 5.2.1
       tough-cookie: 2.5.0
       tunnel-agent: 0.6.0
-      uuid: 3.4.0
+      uuid: 8.3.2
     dev: true
 
   /@cypress/xvfb/1.2.4:
@@ -5672,7 +5671,7 @@ packages:
   /@types/yauzl/2.9.2:
     resolution: {integrity: sha512-8uALY5LTvSuHgloDVUvWP3pIauILm+8/0pDMokuDYIoNsOkSwd5AiHBTSEJjKTDcZr5z8UpgOWZkxBF4iJftoA==}
     dependencies:
-      '@types/node': 16.4.13
+      '@types/node': 16.6.0
     dev: true
     optional: true
 
@@ -8018,13 +8017,13 @@ packages:
       stream-transform: 2.1.0
     dev: true
 
-  /cypress/8.2.0:
-    resolution: {integrity: sha512-jg7S5VxxslwsgEyAkCE9ZCkFADxOUY1bSWScp1cWnga88K0TZgFQ0zdxyG9Mw/4spLGuvkriIZ62am+TR6C04w==}
+  /cypress/8.4.1:
+    resolution: {integrity: sha512-itJXq0Vx3sXCUrDyBi2IUrkxVu/gTTp1VhjB5tzGgkeCR8Ae+/T8WV63rsZ7fS8Tpq7LPPXiyoM/sEdOX7cR6A==}
     engines: {node: '>=12.0.0'}
     hasBin: true
     requiresBuild: true
     dependencies:
-      '@cypress/request': 2.88.5
+      '@cypress/request': 2.88.6
       '@cypress/xvfb': 1.2.4
       '@types/node': 14.17.9
       '@types/sinonjs__fake-timers': 6.0.3
@@ -19089,6 +19088,11 @@ packages:
   /uuid/3.4.0:
     resolution: {integrity: sha512-HjSDRw6gZE5JMggctHBcjVak08+KEVhSIiDzFnT9S9aegmp85S/bReBVTb4QTFaRNptJ9kuYaNhnbNEOkbKb/A==}
     deprecated: Please upgrade  to version 7 or higher.  Older versions may use Math.random() in certain circumstances, which is known to be problematic.  See https://v8.dev/blog/math-random for details.
+    hasBin: true
+    dev: true
+
+  /uuid/8.3.2:
+    resolution: {integrity: sha512-+NYs2QeMWy+GWFOEm9xnn6HCDp0l7QBD7ml8zLUmJ+93Q5NF0NocErnwkTkXVFNiX3/fpC6afS8Dhb/gz7R7eg==}
     hasBin: true
     dev: true
 
