@@ -31,7 +31,7 @@
   "devDependencies": {
     "@changesets/changelog-github": "^0.2.7",
     "@changesets/cli": "^2.16.0",
-    "cypress": "^8.2.0",
+    "cypress": "^8.4.1",
     "husky": "^7.0.1",
     "lint-staged": "^10.5.3",
     "plop": "^2.7.4",
