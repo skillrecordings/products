@@ -22,8 +22,8 @@ const Home = () => {
               {/* <div className="h-[2px] w-24 absolute left-0 -translate-x-28 bg-black" />{' '} */}
               What's Inside
             </h2>
-            <TestingSection />
             <EpicReactSection />
+            <TestingSection />
           </div>
         </div>
       </main>
