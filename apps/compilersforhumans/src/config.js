@@ -1,22 +1,21 @@
 export default {
   defaultTitle: 'Compilers for Humans',
   titleTemplate: '%s | Compilers for Humans',
-  author: 'John Otander and Laurie Barth',
+  author: 'The C4H Team',
   description:
     'Compilers of Humans will teach you about compilers, with practical examples you can use today in your web development workflows.',
   email: 'team@compilersforhumans.com',
   siteUrl: 'compilersforhumans.com',
   additionalMetaTags: [
-    {property: 'author', content: 'John Otander and Laurie Barth'},
+    {property: 'author', content: 'The C4H Team'},
     {
       property: 'keywords',
-      content:
-        'javascript, jsx, frameworks, html, css, compilers, compiler, otander',
+      content: 'javascript, jsx, frameworks, html, css, compilers, compiler',
     },
   ],
   twitter: {
     cardType: 'summary_large_image',
-    handle: '4lpine',
+    handle: 'c4h_team',
   },
   openGraph: {
     title: 'Compilers for Humans',
@@ -25,7 +24,7 @@ export default {
     type: 'website',
     site_name: 'Compilers for Humans',
     profile: {
-      firstName: 'John & Laurie',
+      firstName: 'C4H',
     },
     images: [
       {

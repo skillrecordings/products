@@ -9,7 +9,7 @@ const Answer = ({questions}: any) => {
       <div className="p-5">
         <QuizAnswerPage
           questions={questions}
-          author={'John & Laurie'}
+          author={'The C4H Team'}
           title="Compilers for Humans"
         />
       </div>
