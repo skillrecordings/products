@@ -1,0 +1,12 @@
+:root {
+  --sidepanel-width: 300px;
+  --video-aspect-ratio: 56.25%;
+}
+
+.video-with-sidepanel-holder {
+  max-width: calc((75vh * 1.77777) + var(--sidepanel-width));
+}
+
+.video-holder:before {
+  padding-bottom: var(--video-aspect-ratio);
+}

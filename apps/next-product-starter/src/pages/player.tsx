@@ -10,6 +10,23 @@ import {
 } from '@skillrecordings/player'
 import {useSelector} from '@xstate/react'
 
+const SidePanel: React.FC<{children: any}> = ({children}) => {
+  return (
+    <div className="lg:col-span-3">
+      <div className="relative h-full">
+        <div className="lg:absolute inset-0 w-full flex flex-col">
+          <header className="relative z-[1] flex-shrink-0">some header</header>
+          <div className="flex-grow relative">
+            <div className="lg:absolute inset-0 overflow-y-auto">
+              {children}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  )
+}
+
 type VideoResource = {
   title: string
   url: string
@@ -38,42 +55,48 @@ const PlayerPage = () => {
   return (
     <Layout>
       <VideoProvider>
-        <Player className="font-sans">
-          <HLSSource src={currentVideo.url} />
-          {currentVideo.subtitlesUrl && (
-            <track
-              src={currentVideo.subtitlesUrl}
-              kind="subtitles"
-              srcLang="en"
-              label="English"
-            />
-          )}
-          {currentVideo.notesUrl && (
-            <track
-              id="notes"
-              src={currentVideo.notesUrl}
-              kind="metadata"
-              label="notes"
-            />
-          )}
-        </Player>
-        <VideoResourceList>
-          {videos.map((videoResource) => {
-            return (
-              <li
-                style={{padding: '10px'}}
-                onClick={() => setCurrentVideo(videoResource)}
-                key={videoResource.url}
-              >
-                {videoResource.title === currentVideo.title ? '*' : ''}{' '}
-                {videoResource.title}
-              </li>
-            )
-          })}
-        </VideoResourceList>
-        <VideoCueList>
-          <VideoCueNotes />
-        </VideoCueList>
+        <div className="relative grid grid-cols-1 lg:grid-cols-12 w-full mx-auto gap-6 lg:gap-0 video-with-sidepanel-holder">
+          <div className="relative before:float-left after:clear-both after:table lg:col-span-9 video-holder">
+            <Player className="font-sans">
+              <HLSSource src={currentVideo.url} />
+              {currentVideo.subtitlesUrl && (
+                <track
+                  src={currentVideo.subtitlesUrl}
+                  kind="subtitles"
+                  srcLang="en"
+                  label="English"
+                />
+              )}
+              {currentVideo.notesUrl && (
+                <track
+                  id="notes"
+                  src={currentVideo.notesUrl}
+                  kind="metadata"
+                  label="notes"
+                />
+              )}
+            </Player>
+          </div>
+          <SidePanel>
+            <VideoResourceList>
+              {videos.map((videoResource) => {
+                return (
+                  <li
+                    style={{padding: '10px'}}
+                    onClick={() => setCurrentVideo(videoResource)}
+                    key={videoResource.url}
+                  >
+                    {videoResource.title === currentVideo.title ? '*' : ''}{' '}
+                    {videoResource.title}
+                  </li>
+                )
+              })}
+            </VideoResourceList>
+            <VideoCueList>
+              <VideoCueNotes />
+            </VideoCueList>
+          </SidePanel>
+        </div>
       </VideoProvider>
     </Layout>
   )
