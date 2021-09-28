@@ -10,23 +10,6 @@ import {
 } from '@skillrecordings/player'
 import {useSelector} from '@xstate/react'
 
-const SidePanel: React.FC<{children: any}> = ({children}) => {
-  return (
-    <div className="lg:col-span-3">
-      <div className="relative h-full">
-        <div className="lg:absolute inset-0 w-full flex flex-col">
-          <header className="relative z-[1] flex-shrink-0">some header</header>
-          <div className="flex-grow relative">
-            <div className="lg:absolute inset-0 overflow-y-auto">
-              {children}
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  )
-}
-
 type VideoResource = {
   title: string
   url: string
@@ -82,12 +65,14 @@ const PlayerPage = () => {
               {videos.map((videoResource) => {
                 return (
                   <li
-                    style={{padding: '10px'}}
-                    onClick={() => setCurrentVideo(videoResource)}
                     key={videoResource.url}
+                    onClick={() => setCurrentVideo(videoResource)}
+                    className="border-b border-gray-800"
                   >
-                    {videoResource.title === currentVideo.title ? '*' : ''}{' '}
-                    {videoResource.title}
+                    <VideoResourceItem
+                      videoResource={videoResource}
+                      isActive={videoResource.title === currentVideo.title}
+                    />
                   </li>
                 )
               })}
@@ -145,3 +130,37 @@ const VideoResourceList: React.FC = ({children}) => {
 }
 
 export default PlayerPage
+
+const SidePanel: React.FC<{children: any}> = ({children}) => {
+  return (
+    <div className="lg:col-span-3">
+      <div className="relative h-full">
+        <div className="lg:absolute inset-0 w-full flex flex-col">
+          <header className="relative z-[1] flex-shrink-0 p-3 bg-gray-700">
+            some header
+          </header>
+          <div className="flex-grow relative border-b border-r border-gray-800">
+            <div className="lg:absolute inset-0 overflow-y-auto">
+              {children}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  )
+}
+
+const VideoResourceItem: React.FC<{
+  videoResource: VideoResource
+  isActive: boolean
+}> = ({videoResource: {title, url, subtitlesUrl, notesUrl}, isActive}) => {
+  return (
+    <div
+      className={`p-3 cursor-pointer ${
+        isActive ? 'bg-white text-black' : 'bg-black text-white'
+      }`}
+    >
+      {title}
+    </div>
+  )
+}
