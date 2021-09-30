@@ -21,10 +21,10 @@ import Emma from '../../public/emma-bostian--square@2x.jpg'
 
 export default function Home() {
   const {height: viewportHeight} = useWindowSize()
-  const [mounted, setMounted] = React.useState(false)
-  React.useLayoutEffect(() => {
-    setMounted(true)
-  }, [])
+  const [isTallViewport, setIsTallViewport] = React.useState(false)
+  React.useEffect(() => {
+    setIsTallViewport(viewportHeight > 1000)
+  }, [viewportHeight])
   const router = useRouter()
 
   return (
@@ -38,11 +38,7 @@ export default function Home() {
       <Layout nav={null} meta={{title: config.defaultTitle}}>
         <header
           className={`flex md:flex-row flex-col relative w-full h-full overflow-hidden border-b border-white border-opacity-5 ${
-            mounted
-              ? viewportHeight > 1000
-                ? 'lg:min-h-[800px]'
-                : 'lg:min-h-screen'
-              : 'lg:min-h-screen'
+            isTallViewport ? 'lg:min-h-[800px]' : 'lg:min-h-screen'
           } `}
         >
           <div
@@ -74,6 +70,8 @@ export default function Home() {
             >
               <div className="relative sm:w-auto w-12 z-30 flex items-center justify-center rounded-full overflow-hidden p-px border border-brand-brightYellow">
                 <Image
+                  priority={true}
+                  placeholder="blur"
                   src={Emma}
                   alt="Emma Bostian"
                   quality={100}
@@ -109,9 +107,9 @@ export default function Home() {
           <section className="lg:py-40 sm:py-32 py-24">
             <Bio />
           </section>
-          <section className=" flex flex-col items-center justify-center w-full relative overflow-hidden">
+          <section className="flex flex-col items-center justify-center w-full relative overflow-hidden">
             <Image src={HorizontalGridImage} />
-            <div className="flex flex-col items-center justify-center w-full relative z-10 sm:py-32 py-24">
+            <div className="flex flex-col items-center justify-center w-full relative z-10 sm:py-32 py-24 px-5">
               {/* <Blocks1 className="lg:hidden block sm:p-2 p-5" /> */}
               <h3 className="pb-2 font-serif sm:text-8xl text-7xl text-brand-text text-center">
                 Co<span className="font-serif-star">m</span>ing S

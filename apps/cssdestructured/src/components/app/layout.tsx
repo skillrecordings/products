@@ -61,6 +61,7 @@ const Layout: FunctionComponent<LayoutProps> = ({
             className="fixed w-full h-screen top-0 pointer-events-none block z-10"
           >
             <Image
+              priority={true}
               quality={100}
               src={Noise}
               layout="fill"

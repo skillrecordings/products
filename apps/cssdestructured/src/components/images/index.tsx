@@ -83,7 +83,7 @@ const GridVisual = () => {
   return (
     <svg
       aria-hidden
-      className="md:absolute xl:right-0 lg:-right-48 md:-right-16 h-full md:rotate-0 rotate-90 md:translate-y-0 translate-y-5"
+      className="md:absolute xl:right-0 lg:-right-40 md:-right-16 h-full md:rotate-0 rotate-90 md:translate-y-0 translate-y-5"
       xmlns="http://www.w3.org/2000/svg"
       preserveAspectRatio="xMidYMid meet"
       // width="640"
@@ -91,9 +91,7 @@ const GridVisual = () => {
       fill="none"
       viewBox="0 0 640 680"
     >
-      <g
-      // clip-path="url(#clip0)"
-      >
+      <g>
         <path
           fill="#D44B36"
           d="M477 277v-129h129a129.002 129.002 0 01-129 129z"
@@ -313,11 +311,6 @@ const GridVisual = () => {
           d="M381.09 243.39v.15l95.49-.15v95.49a95.49 95.49 0 01-95.49-95.49z"
         />
       </g>
-      <defs>
-        <clipPath id="clip0">
-          <path fill="#fff" d="M0 0h639.98v680H0z" />
-        </clipPath>
-      </defs>
     </svg>
   )
 }
