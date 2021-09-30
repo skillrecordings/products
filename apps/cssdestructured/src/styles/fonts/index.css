@@ -1,0 +1,31 @@
+/* Webfont: BlanchSage-Bold */
+
+@font-face {
+  font-family: 'BlanchSage';
+  src: url('./bs.woff2') format('woff2'),
+    /* Modern Browsers */ url('./bs.otf') format('opentype'); /* Safari, Android, iOS */
+  font-style: normal;
+  font-weight: bold;
+  text-rendering: optimizeLegibility;
+  font-display: block;
+}
+
+.font-serif-star {
+  font-feature-settings: 'salt' 1;
+}
+
+.font-serif-alt {
+  font-feature-settings: 'salt' 2;
+}
+
+/* Webfont: LeoRounded-Pro-Bold */
+
+@font-face {
+  font-family: 'LeoRounded';
+  src: url('./lrp.woff2') format('woff2'),
+    /* Modern Browsers */ url('./lrp.otf') format('opentype'); /* Safari, Android, iOS */
+  font-style: normal;
+  font-weight: bold;
+  text-rendering: optimizeLegibility;
+  font-display: block;
+}

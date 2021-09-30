@@ -1,0 +1,39 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+@import '@reach/dialog/styles.css';
+@import './fonts/index.css';
+@import './icons.css';
+
+::selection {
+  @apply bg-brand-orange;
+}
+
+[data-sr-convertkit-subscribe-form] {
+  @apply w-full max-w-xs flex flex-col;
+  [data-sr-input] {
+    @apply rounded-sm mb-4 w-full block bg-black text-white bg-opacity-20 border border-brand-yellow border-opacity-30 placeholder-brand-text placeholder-opacity-60 focus:ring focus:ring-1 focus:ring-brand-yellow focus:border-transparent autofill:border-brand-yellow;
+  }
+  [data-sr-input-label] {
+    @apply inline-block pb-1;
+  }
+  [data-sr-input-asterisk] {
+    @apply text-brand-brightYellow;
+  }
+}
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+textarea:-webkit-autofill,
+textarea:-webkit-autofill:hover,
+textarea:-webkit-autofill:focus,
+select:-webkit-autofill,
+select:-webkit-autofill:hover,
+select:-webkit-autofill:focus {
+  -webkit-box-shadow: 0 0 0px 1000px rgba(0, 0, 0, 0.2) inset !important;
+}
+
+.js-focus-visible :focus:not(.focus-visible) {
+  outline: none;
+}

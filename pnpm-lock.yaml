@@ -231,6 +231,201 @@ importers:
       tailwindcss: 2.2.7_7b69a43ec4689fa7484dee35f79a7806
       typescript: 4.3.5
 
+  apps/cssdestructured:
+    specifiers:
+      '@babel/plugin-transform-react-jsx': ^7.14.9
+      '@mdx-js/loader': ^1.6.22
+      '@next/mdx': ^11.1.0
+      '@reach/dialog': ^0.16.0
+      '@skillrecordings/analytics': workspace:*
+      '@skillrecordings/auth': workspace:*
+      '@skillrecordings/axios': workspace:*
+      '@skillrecordings/commerce': workspace:*
+      '@skillrecordings/config': workspace:*
+      '@skillrecordings/convertkit': workspace:*
+      '@skillrecordings/cookies': workspace:*
+      '@skillrecordings/quiz': workspace:*
+      '@skillrecordings/react': workspace:*
+      '@skillrecordings/scripts': workspace:*
+      '@skillrecordings/time': workspace:*
+      '@skillrecordings/tsconfig': ^0.0.5
+      '@skillrecordings/types': workspace:*
+      '@skillrecordings/viewer': workspace:*
+      '@stripe/stripe-js': ^1.16.0
+      '@tailwindcss/aspect-ratio': ^0.2.1
+      '@tailwindcss/forms': ^0.3.3
+      '@tailwindcss/typography': ^0.4.1
+      '@testing-library/jest-dom': ^5.14.1
+      '@testing-library/react': ^12.0.0
+      '@tippyjs/react': ^4.2.5
+      '@types/cookie': ^0.4.1
+      '@types/lodash': ^4.14.172
+      '@types/node': ^16.6.0
+      '@types/pluralize': ^0.0.29
+      '@types/react': '*'
+      '@types/react-scroll': ^1.8.3
+      '@typescript-eslint/eslint-plugin': ^4.29.1
+      '@typescript-eslint/parser': ^4.29.1
+      '@xstate/react': ^1.5.1
+      assert: ^2.0.0
+      autoprefixer: ^10.3.1
+      axios: ^0.21.1
+      babel-jest: ^27.0.6
+      client-oauth2: ^4.3.3
+      commander: ^8.1.0
+      cookie: ^0.4.1
+      date-fns: ^2.23.0
+      dotenv-flow: ^3.2.0
+      eslint: ^7.32.0
+      eslint-config-next: ^11.1.0
+      eslint-config-prettier: ^8.3.0
+      eslint-plugin-jsx-a11y: ^6.4.1
+      eslint-plugin-prettier: ^3.4.0
+      eslint-plugin-react: ^7.24.0
+      eslint-plugin-react-hooks: ^4.2.0
+      focus-visible: ^5.2.0
+      formik: ^2.2.9
+      framer-motion: ^4.1.17
+      husky: ^7.0.1
+      lint-staged: ^11.1.2
+      lodash: ^4.17.21
+      mdx-prism: ^0.3.4
+      msw: ^0.34.0
+      next: 11.1.0
+      next-compose-plugins: ^2.2.1
+      next-images: ^1.8.1
+      next-seo: ^4.26.0
+      next-sitemap: ^1.6.148
+      next-themes: ^0.0.15
+      pluralize: ^8.0.0
+      postcss: ^8.3.6
+      postcss-focus-visible: ^6.0.1
+      postcss-nested: ^5.0.6
+      postcss-preset-env: ^6.7.0
+      prettier: ^2.3.2
+      query-string: ^7.0.1
+      react: 17.0.2
+      react-countdown: ^2.3.2
+      react-dom: 17.0.2
+      react-hot-toast: ^2.1.1
+      react-markdown: ^6.0.3
+      react-scroll: ^1.8.3
+      react-stripe-checkout: ^2.6.3
+      react-test-renderer: ^17.0.2
+      react-use: ^17.2.4
+      react-use-clipboard: ^1.0.7
+      rehype: ^12.0.0
+      rehype-shiki: ^0.0.9
+      remark-code-titles: ^0.1.1
+      remark-footnotes: ^3.0.0
+      remark-slug: ^6.0.0
+      simplebar-react: ^2.3.5
+      stripe: ^8.169.0
+      swr: ^0.5.6
+      tailwindcss: ^2.2.7
+      tailwindcss-autofill: ^0.1.0
+      tailwindcss-text-fill: ^0.1.2
+      typescript: ^4.3.5
+      xstate: ^4.23.1
+      yup: ^0.32.9
+    dependencies:
+      '@next/mdx': 11.1.0_@mdx-js+loader@1.6.22
+      '@reach/dialog': 0.16.0_9c423dff26c1034f6157071c372957fe
+      '@skillrecordings/analytics': link:../../packages/analytics
+      '@skillrecordings/auth': link:../../packages/auth
+      '@skillrecordings/axios': link:../../packages/axios
+      '@skillrecordings/commerce': link:../../packages/commerce
+      '@skillrecordings/config': link:../../packages/config
+      '@skillrecordings/convertkit': link:../../packages/convertkit
+      '@skillrecordings/cookies': link:../../packages/cookies
+      '@skillrecordings/quiz': link:../../packages/quiz
+      '@skillrecordings/react': link:../../packages/react
+      '@skillrecordings/time': link:../../packages/time
+      '@skillrecordings/viewer': link:../../packages/viewer
+      '@stripe/stripe-js': 1.16.0
+      '@tailwindcss/aspect-ratio': 0.2.1_tailwindcss@2.2.7
+      '@tailwindcss/forms': 0.3.3_tailwindcss@2.2.7
+      '@tailwindcss/typography': 0.4.1_tailwindcss@2.2.7
+      '@tippyjs/react': 4.2.5_react-dom@17.0.2+react@17.0.2
+      '@types/lodash': 4.14.172
+      '@xstate/react': 1.5.1_49beb093bbd7c35e54ba0f39a3d61311
+      autoprefixer: 10.3.1_postcss@8.3.6
+      axios: 0.21.1
+      client-oauth2: 4.3.3
+      cookie: 0.4.1
+      date-fns: 2.23.0
+      dotenv-flow: 3.2.0
+      formik: 2.2.9_react@17.0.2
+      framer-motion: 4.1.17_react-dom@17.0.2+react@17.0.2
+      lodash: 4.17.21
+      mdx-prism: 0.3.4
+      next: 11.1.0_f31b35bdaa3b7c2fce82404f09d2dac4
+      next-seo: 4.26.0_7df30a00c1bfce1004e3004b7e801a78
+      next-sitemap: 1.6.148_next@11.1.0
+      next-themes: 0.0.15_7df30a00c1bfce1004e3004b7e801a78
+      pluralize: 8.0.0
+      postcss: 8.3.6
+      query-string: 7.0.1
+      react: 17.0.2
+      react-countdown: 2.3.2_react-dom@17.0.2+react@17.0.2
+      react-dom: 17.0.2_react@17.0.2
+      react-hot-toast: 2.1.1_react-dom@17.0.2+react@17.0.2
+      react-markdown: 6.0.3_9280ae23271fd1e8184f767af1a90e55
+      react-scroll: 1.8.4_react-dom@17.0.2+react@17.0.2
+      react-stripe-checkout: 2.6.3
+      react-use: 17.2.4_react-dom@17.0.2+react@17.0.2
+      react-use-clipboard: 1.0.7_react-dom@17.0.2+react@17.0.2
+      rehype: 12.0.0
+      rehype-shiki: 0.0.9
+      remark-code-titles: 0.1.2
+      remark-footnotes: 3.0.0
+      remark-slug: 6.1.0
+      simplebar-react: 2.3.5_react-dom@17.0.2+react@17.0.2
+      stripe: 8.169.0
+      swr: 0.5.6_react@17.0.2
+      tailwindcss-autofill: 0.1.0_tailwindcss@2.2.7
+      tailwindcss-text-fill: 0.1.2_tailwindcss@2.2.7
+      xstate: 4.23.1
+      yup: 0.32.9
+    devDependencies:
+      '@babel/plugin-transform-react-jsx': 7.14.9
+      '@mdx-js/loader': 1.6.22_react@17.0.2
+      '@skillrecordings/scripts': link:../../packages/scripts
+      '@skillrecordings/tsconfig': link:../../packages/tsconfig
+      '@skillrecordings/types': link:../../packages/types
+      '@testing-library/jest-dom': 5.14.1
+      '@testing-library/react': 12.0.0_react-dom@17.0.2+react@17.0.2
+      '@types/cookie': 0.4.1
+      '@types/node': 16.6.0
+      '@types/pluralize': 0.0.29
+      '@types/react': 17.0.17
+      '@types/react-scroll': 1.8.3
+      '@typescript-eslint/eslint-plugin': 4.29.1_d4376362794b743c19f4cba25c7fc6f5
+      '@typescript-eslint/parser': 4.29.1_eslint@7.32.0+typescript@4.3.5
+      assert: 2.0.0
+      babel-jest: 27.1.0
+      commander: 8.1.0
+      eslint: 7.32.0
+      eslint-config-next: 11.1.0_5976364cb0ac16872ff3eea1a55e5ca2
+      eslint-config-prettier: 8.3.0_eslint@7.32.0
+      eslint-plugin-jsx-a11y: 6.4.1_eslint@7.32.0
+      eslint-plugin-prettier: 3.4.0_5a48a349ffec60f5257b5f148f5199c3
+      eslint-plugin-react: 7.24.0_eslint@7.32.0
+      eslint-plugin-react-hooks: 4.2.0_eslint@7.32.0
+      focus-visible: 5.2.0
+      husky: 7.0.1
+      lint-staged: 11.1.2
+      msw: 0.34.0
+      next-compose-plugins: 2.2.1
+      next-images: 1.8.1
+      postcss-focus-visible: 6.0.1_postcss@8.3.6
+      postcss-nested: 5.0.6_postcss@8.3.6
+      postcss-preset-env: 6.7.0
+      prettier: 2.3.2
+      react-test-renderer: 17.0.2_react@17.0.2
+      tailwindcss: 2.2.7_7b69a43ec4689fa7484dee35f79a7806
+      typescript: 4.3.5
+
   apps/engmanagement:
     specifiers:
       '@asbjorn/eslint-plugin-groq': ^1.0.0
@@ -2125,13 +2320,13 @@ packages:
     engines: {node: '>=6.9.0'}
     dependencies:
       '@babel/code-frame': 7.14.5
-      '@babel/generator': 7.15.0
+      '@babel/generator': 7.15.4
       '@babel/helper-module-transforms': 7.15.0
       '@babel/helpers': 7.14.8
-      '@babel/parser': 7.15.2
-      '@babel/template': 7.14.5
-      '@babel/traverse': 7.15.0
-      '@babel/types': 7.15.0
+      '@babel/parser': 7.15.5
+      '@babel/template': 7.15.4
+      '@babel/traverse': 7.15.4
+      '@babel/types': 7.15.4
       convert-source-map: 1.8.0
       debug: 4.3.2
       gensync: 1.0.0-beta.2
@@ -2180,7 +2375,6 @@ packages:
       '@babel/types': 7.15.4
       jsesc: 2.5.2
       source-map: 0.5.7
-    dev: false
 
   /@babel/helper-annotate-as-pure/7.14.5:
     resolution: {integrity: sha512-EivH9EgBIb+G8ij1B2jAwSH36WnGvkQSEC6CkX/6v6ZFlw5fVOHvsgGF4uiEHO2GzMvunZb6tDLQEQSdrdocrA==}
@@ -2193,7 +2387,6 @@ packages:
     engines: {node: '>=6.9.0'}
     dependencies:
       '@babel/types': 7.15.4
-    dev: false
 
   /@babel/helper-builder-binary-assignment-operator-visitor/7.14.5:
     resolution: {integrity: sha512-YTA/Twn0vBXDVGJuAX6PwW7x5zQei1luDDo2Pl6q1qZ7hVNl0RZrhHCQG/ArGpR29Vl7ETiB8eJyrvpuRp300w==}
@@ -2313,7 +2506,6 @@ packages:
       '@babel/helper-get-function-arity': 7.15.4
       '@babel/template': 7.15.4
       '@babel/types': 7.15.4
-    dev: false
 
   /@babel/helper-get-function-arity/7.14.5:
     resolution: {integrity: sha512-I1Db4Shst5lewOM4V+ZKJzQ0JGGaZ6VY1jYvMghRjqs6DWgxLCIyFt30GlnKkfUeFLpJt2vzbMVEXVSXlIFYUg==}
@@ -2326,7 +2518,6 @@ packages:
     engines: {node: '>=6.9.0'}
     dependencies:
       '@babel/types': 7.15.4
-    dev: false
 
   /@babel/helper-hoist-variables/7.14.5:
     resolution: {integrity: sha512-R1PXiz31Uc0Vxy4OEOm07x0oSjKAdPPCh3tPivn/Eo8cvz6gveAeuyUUPB21Hoiif0uoPQSSdhIPS3352nvdyQ==}
@@ -2339,7 +2530,6 @@ packages:
     engines: {node: '>=6.9.0'}
     dependencies:
       '@babel/types': 7.15.4
-    dev: false
 
   /@babel/helper-member-expression-to-functions/7.15.0:
     resolution: {integrity: sha512-Jq8H8U2kYiafuj2xMTPQwkTBnEEdGKpT35lJEQsRRjnG0LW3neucsaMWLgKcwu3OHKNeYugfw+Z20BXBSEs2Lg==}
@@ -2451,7 +2641,6 @@ packages:
     engines: {node: '>=6.9.0'}
     dependencies:
       '@babel/types': 7.15.4
-    dev: false
 
   /@babel/helper-validator-identifier/7.14.9:
     resolution: {integrity: sha512-pQYxPY0UP6IHISRitNe8bsijHex4TWZXi2HwKVsjPiltzlhse2znVcm9Ace510VT1kxIHjGJCZZQBX2gJDbo0g==}
@@ -2499,7 +2688,6 @@ packages:
     resolution: {integrity: sha512-2hQstc6I7T6tQsWzlboMh3SgMRPaS4H6H7cPQsJkdzTzEGqQrpLDsE2BGASU5sBPoEQyHzeqU6C8uKbFeEk6sg==}
     engines: {node: '>=6.0.0'}
     hasBin: true
-    dev: false
 
   /@babel/plugin-bugfix-v8-spread-parameters-in-optional-chaining/7.14.5_@babel+core@7.15.0:
     resolution: {integrity: sha512-ZoJS2XCKPBfTmL122iP6NM9dOg+d4lc9fFk3zxc8iDjvt8Pk4+TlsHSKhIPf6X+L5ORCdBzqMZDjL/WHj7WknQ==}
@@ -3249,11 +3437,11 @@ packages:
     peerDependencies:
       '@babel/core': ^7.0.0-0
     dependencies:
-      '@babel/helper-annotate-as-pure': 7.14.5
+      '@babel/helper-annotate-as-pure': 7.15.4
       '@babel/helper-module-imports': 7.14.5
       '@babel/helper-plugin-utils': 7.14.5
       '@babel/plugin-syntax-jsx': 7.14.5
-      '@babel/types': 7.15.0
+      '@babel/types': 7.15.4
     dev: true
 
   /@babel/plugin-transform-react-jsx/7.14.9_@babel+core@7.15.0:
@@ -3536,7 +3724,6 @@ packages:
       '@babel/code-frame': 7.14.5
       '@babel/parser': 7.15.5
       '@babel/types': 7.15.4
-    dev: false
 
   /@babel/traverse/7.15.0:
     resolution: {integrity: sha512-392d8BN0C9eVxVWd8H6x9WfipgVH5IaIoLp23334Sc1vbKKWINnvwRpb4us0xtPaCumlwbTtIYNA0Dv/32sVFw==}
@@ -3569,7 +3756,6 @@ packages:
       globals: 11.12.0
     transitivePeerDependencies:
       - supports-color
-    dev: false
 
   /@babel/types/7.15.0:
     resolution: {integrity: sha512-OBvfqnllOIdX4ojTHpwZbpvz4j3EWyjkZEdmjH0/cgsd6QOdSgU8rLSk6ard/pcW7rlmjdVSX/AWOaORR1uNOQ==}
@@ -3584,7 +3770,6 @@ packages:
     dependencies:
       '@babel/helper-validator-identifier': 7.14.9
       to-fast-properties: 2.0.0
-    dev: false
 
   /@babel/types/7.8.3:
     resolution: {integrity: sha512-jBD+G8+LWpMBBWvVcdr4QysjUE4mU/syrhN17o1u3gx0/WzJB1kwiVZAXRtWbsIPOwW8pF/YJV5+nmetPzepXg==}
@@ -5258,7 +5443,7 @@ packages:
       chalk: 4.1.2
       dom-accessibility-api: 0.5.7
       lz-string: 1.4.4
-      pretty-format: 27.0.6
+      pretty-format: 27.1.0
     dev: true
 
   /@testing-library/jest-dom/5.14.1:
@@ -6649,8 +6834,8 @@ packages:
     resolution: {integrity: sha512-CewFeM9Vv2gM7Yr9n5eyyLVPRSiBnk6lKZRjgwYnGKSl9M14TMn2vkN02wTF04OGuSDLEzlWiMzvjXuW9mB6Gw==}
     engines: {node: ^10.13.0 || ^12.13.0 || ^14.15.0 || >=15.0.0}
     dependencies:
-      '@babel/template': 7.14.5
-      '@babel/types': 7.15.0
+      '@babel/template': 7.15.4
+      '@babel/types': 7.15.4
       '@types/babel__core': 7.1.15
       '@types/babel__traverse': 7.14.2
 
@@ -9690,7 +9875,6 @@ packages:
 
   /focus-visible/5.2.0:
     resolution: {integrity: sha512-Rwix9pBtC1Nuy5wysTmKy+UjbDJpIfg8eHjw0rjZ1mX4GNLz1Bmd16uDpI3Gk1i70Fgcs8Csg2lPm8HULFg9DQ==}
-    dev: false
 
   /follow-redirects/1.14.1:
     resolution: {integrity: sha512-HWqDgT7ZEkqRzBvc2s64vSZ/hfOceEol3ac/7tKwzuvEyWx3/4UegXh5oBOIotkGsObyk3xznnSRVADBgWSQVg==}
@@ -13874,7 +14058,7 @@ packages:
       react: '>=16.0.0'
       react-dom: '>=16.0.0'
     dependencies:
-      next: 11.1.0_d23913fae905660a596189f6b35fb8a9
+      next: 11.1.0_f31b35bdaa3b7c2fce82404f09d2dac4
       react: 17.0.2
       react-dom: 17.0.2_react@17.0.2
     dev: false
@@ -13934,7 +14118,7 @@ packages:
       react: '*'
       react-dom: '*'
     dependencies:
-      next: 11.1.0_d23913fae905660a596189f6b35fb8a9
+      next: 11.1.0_f31b35bdaa3b7c2fce82404f09d2dac4
       react: 17.0.2
       react-dom: 17.0.2_react@17.0.2
     dev: false
@@ -15296,6 +15480,15 @@ packages:
       postcss: 7.0.36
     dev: true
 
+  /postcss-focus-visible/6.0.1_postcss@8.3.6:
+    resolution: {integrity: sha512-UddLlBmJ78Nu7OrKME70EKxCPBdxTx7pKIyD3GDNRM8Tnq19zmscT9QzsvR8gygz0i0nNUjMtSz4N3AEWZ5R/Q==}
+    engines: {node: '>=12'}
+    peerDependencies:
+      postcss: ^8.3
+    dependencies:
+      postcss: 8.3.6
+    dev: true
+
   /postcss-focus-within/3.0.0:
     resolution: {integrity: sha512-W0APui8jQeBKbCGZudW37EeMCjDeVxKgiYfIIEo8Bdh5SpB9sxds/Iq8SEuzS0Q4YFOlG7EPFulbbxujpkrV2w==}
     engines: {node: '>=6.0.0'}
@@ -15628,16 +15821,6 @@ packages:
       react-is: 17.0.2
     dev: true
 
-  /pretty-format/27.0.6:
-    resolution: {integrity: sha512-8tGD7gBIENgzqA+UBzObyWqQ5B778VIFZA/S66cclyd5YkFLYs2Js7gxDKf0MXtTc9zcS7t1xhdfcElJ3YIvkQ==}
-    engines: {node: ^10.13.0 || ^12.13.0 || ^14.15.0 || >=15.0.0}
-    dependencies:
-      '@jest/types': 27.1.0
-      ansi-regex: 5.0.0
-      ansi-styles: 5.2.0
-      react-is: 17.0.2
-    dev: true
-
   /pretty-format/27.1.0:
     resolution: {integrity: sha512-4aGaud3w3rxAO6OXmK3fwBFQ0bctIOG3/if+jYEFGNGIs0EvuidQm3bZ9mlP2/t9epLNC/12czabfy7TZNSwVA==}
     engines: {node: ^10.13.0 || ^12.13.0 || ^14.15.0 || >=15.0.0}
@@ -15646,7 +15829,6 @@ packages:
       ansi-regex: 5.0.0
       ansi-styles: 5.2.0
       react-is: 17.0.2
-    dev: false
 
   /pretty-hrtime/1.0.3:
     resolution: {integrity: sha1-t+PqQkNaTJsnWdmeDyAesZWALuE=}

@@ -1,0 +1,36 @@
+export const product = config.defaultTitle
+export const name = config.author
+export const firstName = config.openGraph.profile.firstName
+
+<h1 className="font-display text-brand-brightYellow tracking-wider">
+  confirmed!
+</h1>
+
+<h2 className="sm:text-xl text-lg py-4">
+  You'll receive emails from me ({name}) about CSS.
+</h2>
+
+<p className="max-w-sm opacity-75">
+  Every email we send will have a handy unsubscribe link at the bottom. Please
+  feel free to use it if you don't want to receive emails about this!
+</p>
+
+import config from '../config'
+import Layout from 'components/app/layout'
+import {ConfirmedSubscription} from 'components/images'
+
+export default ({children}) => {
+  return (
+    <Layout meta={{title: 'Subscription confirmed'}}>
+      <div className="max-w-xl text-center flex flex-col items-center space-y-5 mx-auto px-5">
+        <ConfirmedSubscription />
+        {children}
+        <div className="text-sm opacity-75 italic pt-4">
+          Thanks,
+          <br />
+          {firstName}
+        </div>
+      </div>
+    </Layout>
+  )
+}
