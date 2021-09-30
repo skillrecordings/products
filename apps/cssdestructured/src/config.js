@@ -26,7 +26,7 @@ export default {
     },
     images: [
       {
-        url: 'https://res.cloudinary.com/dg3gyk0gu/image/upload/v1628845298/keyboardlegend/card_2x.png',
+        url: 'https://res.cloudinary.com/dg3gyk0gu/image/upload/v1633003949/cssdestructured/card_2x.png',
         width: 1280,
         height: 720,
       },
