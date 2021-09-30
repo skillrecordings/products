@@ -22,7 +22,7 @@ import Emma from '../../public/emma-bostian--square@2x.jpg'
 export default function Home() {
   const {height: viewportHeight} = useWindowSize()
   const [mounted, setMounted] = React.useState(false)
-  React.useEffect(() => {
+  React.useLayoutEffect(() => {
     setMounted(true)
   }, [])
   const router = useRouter()
@@ -37,18 +37,15 @@ export default function Home() {
       />
       <Layout nav={null} meta={{title: config.defaultTitle}}>
         <header
-          // className={`grid md:grid-rows-1 md:grid-cols-2 grid-rows-2 grid-cols-1 gap-16 relative w-full h-full overflow-hidden ${
-          //   mounted &&
-          //   (viewportHeight > 1000 ? 'lg:min-h-[800px]' : 'lg:min-h-screen')
-          // } max-h-[120vh]`}
           className={`flex md:flex-row flex-col relative w-full h-full overflow-hidden border-b border-white border-opacity-5 ${
-            mounted &&
-            (viewportHeight > 1000 ? 'lg:min-h-[800px]' : 'lg:min-h-screen')
+            mounted
+              ? viewportHeight > 1000
+                ? 'lg:min-h-[800px]'
+                : 'lg:min-h-screen'
+              : 'lg:min-h-screen'
           } `}
         >
-          {/* <div className="md:pl-8 relative z-10 flex-grow flex "> */}
           <div
-            // className="w-full flex flex-col items-center place-self-center"
             className={`md:w-1/2 w-full flex flex-col items-center md:justify-between justify-start md:py-16 py-8 md:pl-8`}
           >
             <Link href="/" passHref aria-label="Home">
