@@ -9,9 +9,8 @@ import {
 } from '@skillrecordings/convertkit'
 import Link from 'next/link'
 import Image from 'next/image'
-import {Logo, Left, Right, Bottom, GridVisual, Blocks1} from 'components/images'
+import {Logo, GridVisual} from 'components/images'
 import {scroller, Element as ScrollElement} from 'react-scroll'
-import {useWindowSize} from 'react-use'
 import HorizontalGridImage from '../../public/assets/bottom.svg'
 import {WithStars} from 'components/mdx/highlights'
 import Bio from 'components/content/bio'
@@ -20,11 +19,6 @@ import {useRouter} from 'next/router'
 import Emma from '../../public/emma-bostian--square@2x.jpg'
 
 export default function Home() {
-  const {height: viewportHeight} = useWindowSize()
-  const [isTallViewport, setIsTallViewport] = React.useState(false)
-  React.useEffect(() => {
-    setIsTallViewport(viewportHeight > 1000)
-  }, [viewportHeight])
   const router = useRouter()
 
   return (
@@ -36,11 +30,7 @@ export default function Home() {
         description={config.description}
       />
       <Layout nav={null} meta={{title: config.defaultTitle}}>
-        <header
-          className={`flex md:flex-row flex-col relative w-full h-full overflow-hidden border-b border-white border-opacity-5 ${
-            isTallViewport ? 'lg:min-h-[800px]' : 'lg:min-h-screen'
-          } `}
-        >
+        <header className="flex md:flex-row flex-col relative w-full overflow-hidden border-b border-white border-opacity-5 lg:max-h-[860px] md:max-h-[560px] lg:h-screen h-full">
           <div
             className={`md:w-1/2 w-full flex flex-col items-center md:justify-between justify-start md:py-16 py-8 md:pl-8`}
           >
