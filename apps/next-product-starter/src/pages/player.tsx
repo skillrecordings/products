@@ -61,27 +61,33 @@ const PlayerPage = () => {
               )}
             </Player>
           </div>
-          <SidePanel>
-            <VideoResourceList>
-              {videos.map((videoResource) => {
-                return (
-                  <li
-                    key={videoResource.url}
-                    onClick={() => setCurrentVideo(videoResource)}
-                    className="border-b border-gray-800"
-                  >
-                    <VideoResourceItem
-                      videoResource={videoResource}
-                      isActive={videoResource.title === currentVideo.title}
-                    />
-                  </li>
-                )
-              })}
-            </VideoResourceList>
-            <VideoCueList>
-              <VideoCueNotes />
-            </VideoCueList>
-          </SidePanel>
+          <div className="lg:col-span-3">
+            <SidePanel
+              resourceList={
+                <VideoResourceList>
+                  {videos.map((videoResource) => {
+                    return (
+                      <li
+                        key={videoResource.url}
+                        onClick={() => setCurrentVideo(videoResource)}
+                        className="border-b border-gray-800"
+                      >
+                        <VideoResourceItem
+                          videoResource={videoResource}
+                          isActive={videoResource.title === currentVideo.title}
+                        />
+                      </li>
+                    )
+                  })}
+                </VideoResourceList>
+              }
+              videoCuesList={
+                <VideoCueList>
+                  <VideoCueNotes />
+                </VideoCueList>
+              }
+            />
+          </div>
         </div>
       </VideoProvider>
     </Layout>
