@@ -1,0 +1,9 @@
+.cueplayer-react-side-panel {
+  [data-reach-tab] {
+    color: white;
+    opacity: 0.5;
+    &[data-selected] {
+      opacity: 1;
+    }
+  }
+}

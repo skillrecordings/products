@@ -94,46 +94,8 @@ const PlayerPage = () => {
   )
 }
 
-const VideoCueNotes: React.FC<any> = ({children}) => {
-  const cues = useMetadataCues()
-  const videoService = useVideo()
-  const activeCues = useSelector(videoService, selectActiveCues)
-
-  return (
-    <>
-      {cues.map((cue: VTTCue) => {
-        let note: {text: string; type?: string}
-        const active = activeCues.includes(cue)
-        try {
-          note = JSON.parse(cue.text)
-        } catch (e) {
-          note = {text: cue.text}
-        }
-        return (
-          <li key={note.text}>
-            {active ? '***' : ''}
-            {note.text}
-          </li>
-        )
-      })}
-    </>
-  )
-}
-
-const VideoCueList: React.FC<any> = ({children}) => {
-  return (
-    <div>
-      <ul>{children}</ul>
-    </div>
-  )
-}
-
 const VideoResourceList: React.FC = ({children}) => {
-  return (
-    <div>
-      <ul>{children}</ul>
-    </div>
-  )
+  return <ul>{children}</ul>
 }
 
 const VideoResourceItem: React.FC<{
@@ -148,6 +110,40 @@ const VideoResourceItem: React.FC<{
     >
       {title}
     </div>
+  )
+}
+
+const VideoCueList: React.FC<any> = ({children}) => {
+  return <ul className="break-words">{children}</ul>
+}
+
+const VideoCueNotes: React.FC<any> = ({children}) => {
+  const cues = useMetadataCues()
+  const videoService = useVideo()
+  const activeCues = useSelector(videoService, selectActiveCues)
+
+  return (
+    <>
+      {cues.map((cue: VTTCue) => {
+        let note: {text: string; type?: string}
+        const isActive = activeCues.includes(cue)
+        try {
+          note = JSON.parse(cue.text)
+        } catch (e) {
+          note = {text: cue.text}
+        }
+        return (
+          <li
+            key={note.text}
+            className={`p-3 cursor-pointer border-b border-gray-800 ${
+              isActive ? 'bg-white text-black' : 'bg-black text-white'
+            }`}
+          >
+            {note.text}
+          </li>
+        )
+      })}
+    </>
   )
 }
 
