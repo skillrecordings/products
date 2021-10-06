@@ -1,0 +1,76 @@
+export const meta = {
+  status: 'draft',
+  title: 'Automated Accessibility Testing with JavaScript Workshop',
+  slug: 'automated-accessibility-testing',
+  startDate: 'Late November/Early December 2021',
+  formId: 2662755,
+  description:
+    'This hands-on live remote workshop will teach you how to incorporate the latest accessibility testing tools into your web development workflow.',
+}
+
+Learn advanced techniques for incorporating accessibility into your web development workflow. Using the latest tools, we can write a variety of tests for accessibility and prevent issues from making it to production.
+
+Accessibility automation can typically catch up to 50% of issues, and it's improving by the day. Automation can free up some time to test for accessibility manually, which will also always be necessary. However, by writing reliable automated tests that assert things like keyboard operability, ARIA states, and other common accessibility requirements, we can bake quality into our applications and potentially sleep better at night.
+
+You might wonder, should I use Jest and Testing Library? Cypress? Cypress Component Testing? Puppeteer? Learn about the many automated tools at your disposal and their strengths and weaknesses, and you'll gain understanding of how to configure accessibility tests that serve your team's needs.
+
+This workshop is intended for intermediate to advanced web developers. Some experience with React and JavaScript testing will be helpful, but not required.
+
+## Workshop Agenda
+
+### Intro
+
+- 9:00-9:15 Workshop intro & logistics
+  - Requirements: Git, Node.js 12+, a Text Editor, a browser
+
+### Topic 0: Getting oriented with accessibility and Storybook
+
+- 9:15-9:30: Getting started demonstration & Challenge Instruction
+  - Topics: Component organization, local testing
+- 9:30-9:45 Student Work time
+- 9:45-10:00 Getting started solution
+
+### Topic 1: Accessibility unit testing with Jest
+
+- 10:00-10:15 Unit testing Demonstration & Challenge Introduction
+  - Topics: Testing of a mega-menu component
+- 10:15-10:30 Student work time
+- 10:30-10:45 Unit testing Solution
+
+### Topic 2: Component testing with Cypress
+
+- 10:45-11:00 Cypress Component Testing Demonstration & Challenge Intro
+  - Topics: Testing for accessible names, ARIA states
+- 11:00-11:15 Student work time
+- 11:15-11:30 Cypress Component Testing Solution
+
+### Topic 3: Integration testing with Cypress
+
+- 11:30-11:45 Integration Testing Demonstration & Challenge Intro
+  - Topics: Cypress setup overview, testing across components, focus management, running cypress-axe
+- 11:45-12:00 Student Work Time
+
+### Lunch Break - 12:00-12:30
+
+- 12:30-12:45 Integration testing Solution
+
+### Topic 4: Functional Testing with Puppeteer
+
+- 12:45-1:00 Functional Testing Demonstration & Challenge Intro
+  - Topics: Keyboard testing of UI components
+- 1:00-1:15 Student Work Time
+- 1:15-1:30 Puppeteer Solution
+
+### Topic 5: Testing Accessibility with Continuous Integration
+
+- 1:30-1:45 CI Testing Demonstration & Challenge
+  - Topics: CI setup, getting tests passing
+- 1:45-2:00 Student Work Time
+- 2:00-2:15 CI Testing Solution
+
+### Next Steps / Q&A
+
+- 2:15-2:45 Next steps, Q&A
+
+import WorkshopLayout from 'layouts/workshop'
+export default WorkshopLayout

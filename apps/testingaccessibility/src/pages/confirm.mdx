@@ -1,0 +1,20 @@
+# Thanks so much for signing up! There’s one last step.
+
+Please check your inbox for an email that just got sent. You'll need to click the confirmation link to receive any further emails.
+
+If you don't see the email after a few minutes, you might check your spam folder or other filters and add `marcy@testingaccessibility.com` to your contacts.
+
+<br />
+
+_Thanks,_<br />
+_Marcy_
+
+import Layout from 'components/app/layout'
+
+export default ({children}) => (
+  <Layout meta={{title: 'Confirm your subscription'}}>
+    <main className="sm:py-40 py-32 px-8 max-w-screen-sm mx-auto flex flex-col items-center justify-center">
+      <div className="prose px-5 max-w-none">{children}</div>
+    </main>
+  </Layout>
+)

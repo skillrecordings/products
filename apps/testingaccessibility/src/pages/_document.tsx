@@ -1,0 +1,38 @@
+import * as React from 'react'
+import Document, {
+  Html,
+  Head,
+  Main,
+  NextScript,
+  DocumentContext,
+} from 'next/document'
+
+export default class MyDocument extends Document {
+  static async getInitialProps(ctx: DocumentContext) {
+    const initialProps = await Document.getInitialProps(ctx)
+    return {
+      ...initialProps,
+      styles: <>{initialProps.styles}</>,
+    }
+  }
+
+  render() {
+    return (
+      <Html>
+        <Head>
+          <link rel="icon" href="/favicon.png" />
+          <link
+            rel="mask-icon"
+            href="/mask-icon.svg"
+            sizes="any"
+            color="#DA6E47"
+          />
+        </Head>
+        <body className="text-black bg-white">
+          <Main />
+          <NextScript />
+        </body>
+      </Html>
+    )
+  }
+}
