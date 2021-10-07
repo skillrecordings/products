@@ -1,9 +1,9 @@
 import {NextApiRequest, NextApiResponse} from 'next'
 import {convertkitAxios} from '@skillrecordings/axios'
-import {fetchConvertkitSubscriberFromServerCookie} from '@skillrecordings/convertkit'
 import isEmpty from 'lodash/isEmpty'
 import find from 'lodash/find'
 import {CONVERTKIT_BASE_URL} from '@skillrecordings/config'
+import fetchConvertkitSubscriberFromServerCookie from '../../utils/fetch-convertkit-subscriber'
 
 if (!CONVERTKIT_BASE_URL)
   throw new Error('No Convertkit API Base Url Found: CONVERTKIT_BASE_URL')
