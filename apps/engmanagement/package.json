@@ -45,7 +45,7 @@
     "date-fns": "^2.22.1",
     "dotenv-flow": "^3.2.0",
     "focus-visible": "^5.2.0",
-    "formik": "^2.2.8",
+    "formik": "2.2.8",
     "framer-motion": "^4.1.17",
     "gray-matter": "^4.0.3",
     "groq": "^2.15.0",

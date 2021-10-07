@@ -24,7 +24,7 @@
     "@skillrecordings/react": "workspace:*",
     "axios": "^0.21.1",
     "cookie": "^0.4.1",
-    "formik": "^2.2.8",
+    "formik": "2.2.8",
     "framer-motion": "^4.1.17",
     "next": "11.1.0",
     "query-string": "^7.0.1",

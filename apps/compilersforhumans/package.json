@@ -46,7 +46,7 @@
     "date-fns": "^2.22.1",
     "dotenv-flow": "^3.2.0",
     "focus-visible": "^5.2.0",
-    "formik": "^2.2.8",
+    "formik": "2.2.8",
     "framer-motion": "^4.1.17",
     "glsl-noise": "^0.0.0",
     "glslify": "^7.1.1",
