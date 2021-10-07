@@ -1,31 +1,21 @@
 import * as React from 'react'
+import groq from 'groq'
+import {serialize} from 'next-mdx-remote/serialize'
+import {MDXRemote, MDXRemoteSerializeResult} from 'next-mdx-remote'
+import {GetServerSideProps} from 'next'
+import find from 'lodash/find'
+import isEmpty from 'lodash/isEmpty'
+import {sanityClient} from 'utils/sanity-client'
 import Layout from 'components/app/layout'
 import Image from 'next/image'
 import {Wave} from 'components/images'
 import Link from 'next/link'
 import {SubscribeToConvertkitForm} from '@skillrecordings/convertkit'
 
-const WorkshopLayout: React.FC<{meta: any}> = ({children, meta}) => {
-  const {
-    title,
-    startDate,
-    endDate,
-    status,
-    formId,
-    description,
-    displayDate,
-    displayTime,
-  } = meta
-  const draft = status === 'draft' || false
-  const upcoming = status === 'upcoming' || true // !draft ? isFuture(date) : true
-  const date: any = !draft ? new Date(startDate) : startDate
-  const endTime = endDate && new Date(endDate)
+const WorkshopPage: React.FC<any> = ({workshop, source}) => {
+  const {title, date, ckFormId, description, status} = workshop
 
-  const DisplayDate = () => (
-    <time dateTime={JSON.stringify(date)}>
-      {displayDate} {displayTime}
-    </time>
-  )
+  const DisplayDate = () => <time dateTime={date}>{date}</time>
   return (
     <Layout meta={{title, description}}>
       <div data-workshop-interest>
@@ -42,7 +32,7 @@ const WorkshopLayout: React.FC<{meta: any}> = ({children, meta}) => {
             {title}
           </h1>
           <div className="pt-8 text-lg">
-            {upcoming && !draft ? (
+            {date && status === 'scheduled' ? (
               <div className="group px-5 py-2 rounded-full shadow-xl flex items-center space-x-2 bg-white bg-opacity-5 transition-all ease-in-out duration-150  focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500">
                 <CalendarIcon /> <DisplayDate />
               </div>
@@ -53,14 +43,14 @@ const WorkshopLayout: React.FC<{meta: any}> = ({children, meta}) => {
               </div>
             )}
           </div>
-          {upcoming && (
+          {ckFormId && (
             <div className="-mb-48 mt-16 max-w-screen-md w-full">
               <div className="rounded-3xl p-8 bg-white text-black shadow-xl relative z-20 w-full ">
                 <h2 className="text-xl font-bold text-left pb-4 mb-8 border-b border-gray-100">
                   Interested in this workshop?
                 </h2>
                 <SubscribeToConvertkitForm
-                  formId={formId}
+                  formId={ckFormId}
                   actionLabel="Join the waitlist"
                   successMessage="Thanks! I'll keep you in the loop on my upcoming workshops."
                 />
@@ -76,11 +66,14 @@ const WorkshopLayout: React.FC<{meta: any}> = ({children, meta}) => {
             />
           </div>
         </header>
-        <main>
+        <main className="px-5">
           <div className="py-32 mx-auto prose xl:prose-xl lg:prose-lg max-w-screen-sm">
-            {children}
+            <MDXRemote
+              {...source}
+              //   components={{Example: TheValueOfValuesExample}}
+            />
           </div>
-          {upcoming && (
+          {ckFormId && (
             <div className=" max-w-screen-md w-full mx-auto">
               <div className="rounded-3xl p-8 bg-white text-black border-4 border-gray-100 relative z-20 w-full">
                 <div className="flex sm:flex-row flex-col items-center w-full justify-between pb-4 mb-8 border-b border-gray-100">
@@ -93,7 +86,7 @@ const WorkshopLayout: React.FC<{meta: any}> = ({children, meta}) => {
                   </div>
                 </div>
                 <SubscribeToConvertkitForm
-                  formId={formId}
+                  formId={ckFormId}
                   actionLabel="Join the waitlist"
                   successMessage="Thanks! I'll keep you in the loop on my upcoming workshops."
                 />
@@ -101,7 +94,7 @@ const WorkshopLayout: React.FC<{meta: any}> = ({children, meta}) => {
             </div>
           )}
         </main>
-        <footer>
+        <footer className="px-5">
           <section className="flex flex-col items-center max-w-screen-lg py-24 mx-auto md:flex-row md:space-x-16">
             <div className="flex flex-col items-center py-16 space-y-4 text-center sm:py-24 sm:flex-row sm:items-start sm:text-left sm:space-x-8 sm:space-y-0">
               <div className="flex-shrink-0">
@@ -155,4 +148,42 @@ const CalendarIcon: React.FC<{className?: string}> = ({className}) => {
   )
 }
 
-export default WorkshopLayout
+const workshopQuery = groq`*[_type == "workshop" && slug.current == $slug][0]{
+    title,
+    'slug': slug.current,
+    date,
+    ckFormId,
+    body,
+    status,
+    description,
+    ogImage,
+    }`
+
+const allWorkshopsQuery = groq`
+    *[_type == "workshop"]{
+      "slug": slug.current
+    }`
+
+export const getServerSideProps: GetServerSideProps = async (context: any) => {
+  const allWorkshops = await sanityClient.fetch(allWorkshopsQuery)
+  const currentWorkshop = find(allWorkshops, {slug: context.params.slug})
+
+  if (isEmpty(currentWorkshop)) {
+    return {
+      notFound: true,
+    }
+  }
+
+  const data = await sanityClient.fetch(workshopQuery, {
+    slug: currentWorkshop.slug,
+  })
+
+  const {body, ...workshop} = data
+  const mdxSource = await serialize(body)
+
+  return {
+    props: {workshop: workshop, source: mdxSource},
+  }
+}
+
+export default WorkshopPage

@@ -29,7 +29,7 @@ const Navigation: FunctionComponent<NavigationProps> = () => {
       <div className="text-right sm:pr-3">
         <Link href="/workshops" passHref>
           <a className="inline-block px-4 py-2 leading-5 transition-all duration-200 ease-in-out transform bg-white rounded-full hover:opacity-100 opacity-90 bg-opacity-5 hover:bg-opacity-10 hover:scale-105 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500">
-            Workshops
+            Upcoming Workshops
           </a>
         </Link>
       </div>
