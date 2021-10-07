@@ -42,7 +42,7 @@
     "cookie": "^0.4.1",
     "date-fns": "^2.23.0",
     "dotenv-flow": "^3.2.0",
-    "formik": "^2.2.9",
+    "formik": "^2.2.8",
     "framer-motion": "^4.1.17",
     "lodash": "^4.17.21",
     "mdx-prism": "^0.3.4",
