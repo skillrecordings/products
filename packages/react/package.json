@@ -32,7 +32,7 @@
     "axios": "^0.21.1",
     "formik": "2.2.8",
     "lodash": "^4.17.21",
-    "next": "11.1.0",
+    "next": "11.1.2",
     "next-seo": "^4.26.0",
     "next-themes": "^0.0.15",
     "prism-react-renderer": "^1.2.1",
