@@ -78,7 +78,7 @@
     "tailwindcss-text-fill": "^0.1.2",
     "three": "^0.130.1",
     "xstate": "^4.23.0",
-    "yup": "^0.32.9"
+    "yup": "^0.28.1"
   },
   "devDependencies": {
     "@babel/plugin-transform-react-jsx": "^7.14.5",

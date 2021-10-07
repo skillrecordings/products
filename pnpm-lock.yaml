@@ -126,7 +126,7 @@ importers:
       three: ^0.130.1
       typescript: ^4.3.5
       xstate: ^4.23.0
-      yup: ^0.32.9
+      yup: ^0.28.1
     dependencies:
       '@next/mdx': 11.1.0_@mdx-js+loader@1.6.22
       '@reach/dialog': 0.15.3_9c423dff26c1034f6157071c372957fe
@@ -192,7 +192,7 @@ importers:
       tailwindcss-text-fill: 0.1.2_tailwindcss@2.2.7
       three: 0.130.1
       xstate: 4.23.1
-      yup: 0.32.9
+      yup: 0.28.5
     devDependencies:
       '@babel/plugin-transform-react-jsx': 7.14.9
       '@mdx-js/loader': 1.6.22_react@17.0.2
@@ -327,7 +327,7 @@ importers:
       tailwindcss-text-fill: ^0.1.2
       typescript: ^4.3.5
       xstate: ^4.23.1
-      yup: ^0.32.9
+      yup: ^0.28.1
     dependencies:
       '@next/mdx': 11.1.0_@mdx-js+loader@1.6.22
       '@reach/dialog': 0.16.0_9c423dff26c1034f6157071c372957fe
@@ -386,7 +386,7 @@ importers:
       tailwindcss-autofill: 0.1.0_tailwindcss@2.2.7
       tailwindcss-text-fill: 0.1.2_tailwindcss@2.2.7
       xstate: 4.23.1
-      yup: 0.32.9
+      yup: 0.28.5
     devDependencies:
       '@babel/plugin-transform-react-jsx': 7.14.9
       '@mdx-js/loader': 1.6.22_react@17.0.2
@@ -524,7 +524,7 @@ importers:
       tailwindcss: ^2.2.4
       typescript: ^4.3.3
       xstate: ^4.20.0
-      yup: ^0.32.9
+      yup: ^0.28.1
     dependencies:
       '@asbjorn/eslint-plugin-groq': 1.0.0_groq@2.15.0
       '@next/mdx': 11.1.0_@mdx-js+loader@1.6.22
@@ -588,7 +588,7 @@ importers:
       stripe: 8.169.0
       swr: 0.5.6_react@17.0.2
       xstate: 4.23.1
-      yup: 0.32.9
+      yup: 0.28.5
     devDependencies:
       '@babel/plugin-transform-react-jsx': 7.14.9
       '@mdx-js/loader': 1.6.22_react@17.0.2
@@ -728,7 +728,7 @@ importers:
       tailwindcss: ^2.2.7
       typescript: ^4.3.5
       xstate: ^4.18.0
-      yup: ^0.32.9
+      yup: ^0.28.1
     dependencies:
       '@47ng/check-env': 2.0.2
       '@emotion/core': 10.1.1_react@17.0.2
@@ -798,7 +798,7 @@ importers:
       simplebar-react: 2.3.5_react-dom@17.0.2+react@17.0.2
       stripe: 8.169.0
       xstate: 4.23.1
-      yup: 0.32.9
+      yup: 0.28.5
     devDependencies:
       '@babel/plugin-transform-react-jsx': 7.14.9
       '@emotion/babel-preset-css-prop': 10.2.1
@@ -922,7 +922,7 @@ importers:
       tailwindcss: ^2.2.7
       typescript: ^4.3.5
       xstate: ^4.23.1
-      yup: ^0.32.9
+      yup: ^0.28.1
     dependencies:
       '@next/mdx': 11.1.0_@mdx-js+loader@1.6.22
       '@reach/dialog': 0.16.0_9c423dff26c1034f6157071c372957fe
@@ -977,7 +977,7 @@ importers:
       remark-slug: 6.1.0
       swr: 0.5.6_react@17.0.2
       xstate: 4.23.1
-      yup: 0.32.9
+      yup: 0.28.5
     devDependencies:
       '@babel/plugin-transform-react-jsx': 7.14.9
       '@mdx-js/loader': 1.6.22_react@17.0.2
@@ -1105,7 +1105,7 @@ importers:
       tailwindcss-text-fill: ^0.1.2
       typescript: ^4.3.5
       xstate: ^4.23.1
-      yup: ^0.32.9
+      yup: ^0.28.1
     dependencies:
       '@next/mdx': 11.1.0_@mdx-js+loader@1.6.22
       '@reach/dialog': 0.16.0_9c423dff26c1034f6157071c372957fe
@@ -1162,7 +1162,7 @@ importers:
       tailwindcss-autofill: 0.1.0_tailwindcss@2.2.7
       tailwindcss-text-fill: 0.1.2_tailwindcss@2.2.7
       xstate: 4.23.1
-      yup: 0.32.9
+      yup: 0.28.5
     devDependencies:
       '@babel/plugin-transform-react-jsx': 7.14.9
       '@mdx-js/loader': 1.6.22_react@17.0.2
@@ -1294,7 +1294,7 @@ importers:
       tailwindcss: ^2.2.7
       typescript: ^4.3.5
       xstate: ^4.23.1
-      yup: ^0.32.9
+      yup: ^0.28.1
     dependencies:
       '@next/mdx': 11.1.0_@mdx-js+loader@1.6.22
       '@reach/dialog': 0.16.0_9c423dff26c1034f6157071c372957fe
@@ -1352,7 +1352,7 @@ importers:
       remark-slug: 6.1.0
       swr: 0.5.6_react@17.0.2
       xstate: 4.23.1
-      yup: 0.32.9
+      yup: 0.28.5
     devDependencies:
       '@babel/plugin-transform-react-jsx': 7.14.9
       '@emotion/babel-plugin': 11.3.0
@@ -1485,7 +1485,7 @@ importers:
       tailwindcss: ^2.2.7
       typescript: ^4.3.5
       xstate: ^4.23.1
-      yup: ^0.32.9
+      yup: ^0.28.1
     dependencies:
       '@mdx-js/react': 1.6.22_react@17.0.2
       '@next/mdx': 11.1.0_f56c41adb6190c4680be4a1c0222355d
@@ -1542,7 +1542,7 @@ importers:
       stripe: 8.169.0
       swr: 0.5.6_react@17.0.2
       xstate: 4.23.1
-      yup: 0.32.9
+      yup: 0.28.5
     devDependencies:
       '@babel/plugin-transform-react-jsx': 7.14.9
       '@mdx-js/loader': 1.6.22_react@17.0.2
@@ -1674,7 +1674,7 @@ importers:
       tailwindcss-text-fill: ^0.1.2
       typescript: ^4.3.5
       xstate: ^4.23.1
-      yup: ^0.32.9
+      yup: ^0.28.1
     dependencies:
       '@next/mdx': 11.1.0_@mdx-js+loader@1.6.22
       '@reach/dialog': 0.16.0_9c423dff26c1034f6157071c372957fe
@@ -1731,7 +1731,7 @@ importers:
       tailwindcss-autofill: 0.1.0_tailwindcss@2.2.7
       tailwindcss-text-fill: 0.1.2_tailwindcss@2.2.7
       xstate: 4.23.1
-      yup: 0.32.9
+      yup: 0.28.5
     devDependencies:
       '@babel/plugin-transform-react-jsx': 7.14.9
       '@mdx-js/loader': 1.6.22_react@17.0.2
@@ -1866,7 +1866,7 @@ importers:
       tailwindcss-text-fill: ^0.1.2
       typescript: ^4.3.5
       xstate: ^4.23.1
-      yup: ^0.32.9
+      yup: ^0.28.1
     dependencies:
       '@next/mdx': 11.1.0_@mdx-js+loader@1.6.22
       '@reach/dialog': 0.16.0_9c423dff26c1034f6157071c372957fe
@@ -1926,7 +1926,7 @@ importers:
       tailwindcss-autofill: 0.1.0_tailwindcss@2.2.7
       tailwindcss-text-fill: 0.1.2_tailwindcss@2.2.7
       xstate: 4.23.1
-      yup: 0.32.9
+      yup: 0.28.5
     devDependencies:
       '@babel/plugin-transform-react-jsx': 7.14.9
       '@mdx-js/loader': 1.6.22_react@17.0.2
@@ -2068,7 +2068,7 @@ importers:
       stripe: ^8.167.0
       typescript: ^4.2.4
       xstate: ^4.23.1
-      yup: ^0.32.9
+      yup: ^0.28.1
     dependencies:
       '@reach/dialog': 0.16.0
       '@skillrecordings/auth': link:../auth
@@ -2088,7 +2088,7 @@ importers:
       react-stripe-checkout: 2.6.3
       stripe: 8.168.0
       xstate: 4.23.1
-      yup: 0.32.9
+      yup: 0.28.5
     devDependencies:
       '@skillrecordings/scripts': link:../scripts
       '@skillrecordings/tsconfig': link:../tsconfig
@@ -2135,7 +2135,7 @@ importers:
       query-string: ^7.0.1
       react-use: ^17.2.4
       typescript: ^4.2.4
-      yup: ^0.32.9
+      yup: ^0.28.1
     dependencies:
       '@reach/dialog': 0.16.0
       '@skillrecordings/axios': link:../axios
@@ -2149,7 +2149,7 @@ importers:
       next: 11.1.2_typescript@4.3.5
       query-string: 7.0.1
       react-use: 17.2.4
-      yup: 0.32.9
+      yup: 0.28.5
     devDependencies:
       '@skillrecordings/scripts': link:../scripts
       '@skillrecordings/tsconfig': link:../tsconfig
@@ -2256,7 +2256,7 @@ importers:
       react-markdown: ^6.0.3
       typescript: ^4.2.4
       xstate: ^4.23.1
-      yup: ^0.32.9
+      yup: ^0.28.1
     dependencies:
       '@skillrecordings/analytics': link:../analytics
       '@skillrecordings/auth': link:../auth
@@ -2277,7 +2277,7 @@ importers:
       react-dom: 17.0.2_react@17.0.2
       react-markdown: 6.0.3_9280ae23271fd1e8184f767af1a90e55
       xstate: 4.23.1
-      yup: 0.32.9
+      yup: 0.28.5
     devDependencies:
       '@skillrecordings/scripts': link:../scripts
       '@skillrecordings/tsconfig': link:../tsconfig
@@ -2321,7 +2321,7 @@ importers:
       react-test-renderer: ^17.0.2
       typescript: ^4.2.4
       xstate: ^4.23.1
-      yup: ^0.32.9
+      yup: ^0.28.1
     dependencies:
       '@skillrecordings/analytics': link:../analytics
       '@skillrecordings/auth': link:../auth
@@ -2345,7 +2345,7 @@ importers:
       react-dom: 17.0.2_react@17.0.2
       react-scroll: 1.8.4_react-dom@17.0.2+react@17.0.2
       xstate: 4.23.1
-      yup: 0.32.9
+      yup: 0.28.5
     devDependencies:
       '@skillrecordings/scripts': link:../scripts
       '@skillrecordings/tsconfig': link:../tsconfig
@@ -10045,6 +10045,11 @@ packages:
     deprecated: flatten is deprecated in favor of utility frameworks such as lodash.
     dev: true
 
+  /fn-name/3.0.0:
+    resolution: {integrity: sha512-eNMNr5exLoavuAMhIUVsOKF79SWd/zG104ef6sxBTSw+cZc6BXdQXDvYcGvp0VbxVVSp1XDUNoz7mg1xMtSznA==}
+    engines: {node: '>=8'}
+    dev: false
+
   /focus-lock/0.9.1:
     resolution: {integrity: sha512-/2Nj60Cps6yOLSO+CkVbeSKfwfns5XbX6HOedIK9PdzODP04N9c3xqOcPXayN0WsT9YjJvAnXmI0NdqNIDf5Kw==}
     engines: {node: '>=10'}
@@ -14125,10 +14130,6 @@ packages:
 
   /nano-pubsub/1.0.2:
     resolution: {integrity: sha1-NM53b3r5WZFbj3rP6N1rnGbzvek=}
-    dev: false
-
-  /nanoclone/0.2.1:
-    resolution: {integrity: sha512-wynEP02LmIbLpcYw8uBKpcfF6dmg2vcpKqxeH5UcoKEYdExslsdUA4ugFauuaeYdTB76ez6gJW8XAZ6CgkXYxA==}
     dev: false
 
   /nanoid/3.1.23:
@@ -18247,6 +18248,10 @@ packages:
   /symbol-tree/3.2.4:
     resolution: {integrity: sha512-9QNk5KwDF+Bvz+PyObkmSYjI5ksVUYtjW7AU22r2NKcfLJcXp96hkDWU3+XndOsUb+AQ9QhfzfCT2O+CNWT5Tw==}
 
+  /synchronous-promise/2.0.15:
+    resolution: {integrity: sha512-k8uzYIkIVwmT+TcglpdN50pS2y1BDcUnBPK9iJeGu0Pl1lOI8pD6wtzgw91Pjpe+RxtTncw32tLxs/R0yNL2Mg==}
+    dev: false
+
   /table/5.4.6:
     resolution: {integrity: sha512-wmEc8m4fjnob4gt5riFRtTu/6+4rSe12TpAELNSqHMfF3IqnA+CH37USM6/YR3qRZv7e56kAEAtd6nKZaxe0Ug==}
     engines: {node: '>=6.0.0'}
@@ -19796,16 +19801,15 @@ packages:
     resolution: {integrity: sha512-rVksvsnNCdJ/ohGc6xgPwyN8eheCxsiLM8mxuE/t/mOVqJewPuO1miLpTHQiRgTKCLexL4MeAFVagts7HmNZ2Q==}
     engines: {node: '>=10'}
 
-  /yup/0.32.9:
-    resolution: {integrity: sha512-Ci1qN+i2H0XpY7syDQ0k5zKQ/DoxO0LzPg8PAR/X4Mpj6DqaeCoIYEEjDJwhArh3Fa7GWbQQVDZKeXYlSH4JMg==}
-    engines: {node: '>=10'}
+  /yup/0.28.5:
+    resolution: {integrity: sha512-7JZcvpUGUxMKoaEtcoMEM8lCWRaueGNH/A3EhL/UWqfbFm3uloiI+x59Yq4nzhbbYWUTwAsCteaZOJ+VbqI1uw==}
     dependencies:
-      '@babel/runtime': 7.14.8
-      '@types/lodash': 4.14.172
+      '@babel/runtime': 7.15.3
+      fn-name: 3.0.0
       lodash: 4.17.21
       lodash-es: 4.17.21
-      nanoclone: 0.2.1
       property-expr: 2.0.4
+      synchronous-promise: 2.0.15
       toposort: 2.0.2
     dev: false
 

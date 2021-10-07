@@ -29,7 +29,7 @@
     "next": "11.1.2",
     "query-string": "^7.0.1",
     "react-use": "^17.2.4",
-    "yup": "^0.32.9"
+    "yup": "^0.28.1"
   },
   "devDependencies": {
     "@skillrecordings/scripts": "workspace:*",

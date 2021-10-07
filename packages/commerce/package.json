@@ -35,7 +35,7 @@
     "react-stripe-checkout": "^2.6.3",
     "stripe": "^8.167.0",
     "xstate": "^4.23.1",
-    "yup": "^0.32.9"
+    "yup": "^0.28.1"
   },
   "devDependencies": {
     "@skillrecordings/scripts": "workspace:*",

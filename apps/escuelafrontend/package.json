@@ -82,7 +82,7 @@
     "simplebar-react": "^2.3.5",
     "stripe": "^8.144.0",
     "xstate": "^4.18.0",
-    "yup": "^0.32.9"
+    "yup": "^0.28.1"
   },
   "devDependencies": {
     "@babel/plugin-transform-react-jsx": "^7.12.16",

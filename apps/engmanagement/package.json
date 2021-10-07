@@ -76,7 +76,7 @@
     "stripe": "^8.155.0",
     "swr": "^0.5.6",
     "xstate": "^4.20.0",
-    "yup": "^0.32.9"
+    "yup": "^0.28.1"
   },
   "devDependencies": {
     "@babel/plugin-transform-react-jsx": "^7.14.5",
