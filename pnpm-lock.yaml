@@ -2126,6 +2126,7 @@ importers:
       '@skillrecordings/scripts': workspace:*
       '@skillrecordings/tsconfig': workspace:*
       '@skillrecordings/types': workspace:*
+      '@types/yup': ^0.29.13
       axios: ^0.21.1
       cookie: ^0.4.1
       esbuild-node-tsc: ^1.6.1
@@ -2154,6 +2155,7 @@ importers:
       '@skillrecordings/scripts': link:../scripts
       '@skillrecordings/tsconfig': link:../tsconfig
       '@skillrecordings/types': link:../types
+      '@types/yup': 0.29.13
       esbuild-node-tsc: 1.6.1_typescript@4.3.5
       typescript: 4.3.5
 
@@ -6056,6 +6058,10 @@ packages:
       '@types/node': 16.6.0
     dev: true
     optional: true
+
+  /@types/yup/0.29.13:
+    resolution: {integrity: sha512-qRyuv+P/1t1JK1rA+elmK1MmCL1BapEzKKfbEhDBV/LMMse4lmhZ/XbgETI39JveDJRpLjmToOI6uFtMW/WR2g==}
+    dev: true
 
   /@typescript-eslint/eslint-plugin/2.34.0_2b015b1c4b7c4a3ed9a197dc233b1a35:
     resolution: {integrity: sha512-4zY3Z88rEE99+CNvTbXSyovv2z9PNOVffTWD2W8QF5s2prBQtwN2zadqERcrHpcR7O/+KMI3fcTAmUUhK/iQcQ==}

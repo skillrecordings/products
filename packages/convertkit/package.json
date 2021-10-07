@@ -35,6 +35,7 @@
     "@skillrecordings/scripts": "workspace:*",
     "@skillrecordings/tsconfig": "workspace:*",
     "@skillrecordings/types": "workspace:*",
+    "@types/yup": "^0.29.13",
     "esbuild-node-tsc": "^1.6.1",
     "typescript": "^4.2.4"
   },
