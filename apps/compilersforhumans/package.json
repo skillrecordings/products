@@ -46,13 +46,13 @@
     "date-fns": "^2.22.1",
     "dotenv-flow": "^3.2.0",
     "focus-visible": "^5.2.0",
-    "formik": "^2.2.9",
+    "formik": "2.2.8",
     "framer-motion": "^4.1.17",
     "glsl-noise": "^0.0.0",
     "glslify": "^7.1.1",
     "lodash": "^4.17.21",
     "mdx-prism": "^0.3.3",
-    "next": "11.0.1",
+    "next": "11.1.2",
     "next-seo": "^4.26.0",
     "next-sitemap": "^1.6.140",
     "next-themes": "^0.0.15",
@@ -78,7 +78,7 @@
     "tailwindcss-text-fill": "^0.1.2",
     "three": "^0.130.1",
     "xstate": "^4.23.0",
-    "yup": "^0.32.9"
+    "yup": "^0.28.1"
   },
   "devDependencies": {
     "@babel/plugin-transform-react-jsx": "^7.14.5",
