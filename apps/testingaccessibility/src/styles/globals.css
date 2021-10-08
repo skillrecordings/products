@@ -1,0 +1,75 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+@import '@reach/dialog/styles.css';
+@import './fonts/index.css';
+@import './icons.css';
+
+body {
+  @apply text-black;
+}
+
+:root {
+  --reach-skip-nav: 1;
+}
+
+[data-sr-convertkit-subscribe-form] {
+  @apply flex flex-col w-full max-w-[320px] mx-auto;
+  [data-sr-input] {
+    @apply block mb-4 w-full px-4 py-3 text-white placeholder-white placeholder-opacity-50 bg-gray-900 bg-opacity-50 border border-white border-opacity-20 rounded-2xl sm:text-base sm:leading-6;
+  }
+  [data-sr-input-label] {
+    @apply font-medium;
+  }
+  [data-sr-input-asterisk] {
+  }
+  [data-sr-button] {
+    @apply flex text-center items-center justify-center px-8 py-4 mt-5 text-xl font-semibold leading-6 tracking-tight text-white transition duration-300 ease-in-out transform border-none rounded-full shadow-xl bg-gradient-to-r from-blue-600 to-indigo-600 focus:outline-none focus:ring-1 focus:ring-yellow-500 hover:scale-105;
+  }
+}
+
+[data-workshop-interest] {
+  [data-sr-convertkit-subscribe-form] {
+    @apply w-full flex md:flex-row flex-col md:items-end justify-center max-w-none md:space-x-5 space-x-0 md:space-y-0 space-y-5 text-left;
+    [data-sr-input] {
+      @apply inline-block w-full px-4 py-3 mb-0 placeholder-gray-500 placeholder-opacity-50 bg-gray-100 border border-white border-opacity-20 focus:border-transparent rounded-2xl focus:outline-none focus:ring-2 focus:ring-blue-500 sm:text-base sm:leading-6;
+    }
+    [data-sr-input-label] {
+      @apply font-medium;
+    }
+    [data-sr-input-asterisk] {
+    }
+    [data-sr-button] {
+      @apply inline-flex items-center px-8 py-3 mt-0 text-base flex-shrink-0 font-semibold leading-6 tracking-tight text-white transition duration-300 ease-in-out transform border-none rounded-full shadow-xl bg-gradient-to-r from-blue-600 to-indigo-600 focus:outline-none focus:ring-2 focus:ring-black hover:scale-105;
+    }
+  }
+}
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+textarea:-webkit-autofill,
+textarea:-webkit-autofill:hover,
+textarea:-webkit-autofill:focus,
+select:-webkit-autofill,
+select:-webkit-autofill:hover,
+select:-webkit-autofill:focus {
+  -webkit-box-shadow: 0 0 0px 1000px rgba(0, 0, 0, 0.2) inset !important;
+}
+
+[data-reach-skip-nav-link] {
+  border: 0;
+  clip: rect(0 0 0 0);
+  height: 1px;
+  width: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  position: absolute;
+}
+
+[data-reach-skip-nav-link]:focus {
+  @apply px-5 py-3 text-lg font-semibold bg-white rounded-md overflow-hidden fixed top-5 left-5 w-auto h-auto;
+  z-index: 1;
+  clip: auto;
+}

@@ -1,7 +1,6 @@
 import * as React from 'react'
 import {get, isEmpty, keys} from 'lodash'
 import {useRouter} from 'next/router'
-import Link from 'next/link'
 import EssayQuestion from '../components/forms/quiz/essay-question'
 import MultipleChoiceQuestion from '../components/forms/quiz/multiple-choice-question'
 import type {Question, Questions} from '@skillrecordings/types'
@@ -53,13 +52,6 @@ const Answer: React.FC<AnswerProps> = ({questions, author, title}) => {
   return (
     <>
       <DevTools questions={questions} />
-      <header>
-        <Link href="/">
-          <a aria-label="Home" className="sm:w-36 w-28 sm:mt-6 mt-4 absolute">
-            <h1 className="sr-only">Quiz</h1>
-          </a>
-        </Link>
-      </header>
       <div className="max-w-screen-sm w-full mx-auto flex items-center justify-center xl:pt-36 md:pt-32 pt-24 sm:pb-16 pb-8">
         {QuestionToShow(questions)}
       </div>
