@@ -1837,6 +1837,7 @@ importers:
       next: 11.1.2
       next-compose-plugins: ^2.2.1
       next-images: ^1.8.1
+      next-mdx-remote: ^3.0.5
       next-seo: ^4.26.0
       next-sitemap: ^1.6.148
       next-themes: ^0.0.15
@@ -1908,6 +1909,7 @@ importers:
       lodash: 4.17.21
       mdx-prism: 0.3.4
       next: 11.1.2_f31b35bdaa3b7c2fce82404f09d2dac4
+      next-mdx-remote: 3.0.5_react-dom@17.0.2+react@17.0.2
       next-seo: 4.26.0_6fbf59523517da779df50d355b375324
       next-sitemap: 1.6.148_next@11.1.2
       next-themes: 0.0.15_6fbf59523517da779df50d355b375324
@@ -6810,7 +6812,7 @@ packages:
   /axios/0.21.1:
     resolution: {integrity: sha512-dKQiRHxGD9PPRIUNIWvZhPTPpl1rf/OxTYKsqKUDjBwYylTvV7SjSHJb9ratfyzM6wCdLCOYLzs73qpg5c4iGA==}
     dependencies:
-      follow-redirects: 1.14.1_debug@2.6.9
+      follow-redirects: 1.14.1
     transitivePeerDependencies:
       - debug
     dev: false
@@ -10089,6 +10091,16 @@ packages:
 
   /focus-visible/5.2.0:
     resolution: {integrity: sha512-Rwix9pBtC1Nuy5wysTmKy+UjbDJpIfg8eHjw0rjZ1mX4GNLz1Bmd16uDpI3Gk1i70Fgcs8Csg2lPm8HULFg9DQ==}
+
+  /follow-redirects/1.14.1:
+    resolution: {integrity: sha512-HWqDgT7ZEkqRzBvc2s64vSZ/hfOceEol3ac/7tKwzuvEyWx3/4UegXh5oBOIotkGsObyk3xznnSRVADBgWSQVg==}
+    engines: {node: '>=4.0'}
+    peerDependencies:
+      debug: '*'
+    peerDependenciesMeta:
+      debug:
+        optional: true
+    dev: false
 
   /follow-redirects/1.14.1_debug@2.6.9:
     resolution: {integrity: sha512-HWqDgT7ZEkqRzBvc2s64vSZ/hfOceEol3ac/7tKwzuvEyWx3/4UegXh5oBOIotkGsObyk3xznnSRVADBgWSQVg==}
@@ -14238,6 +14250,22 @@ packages:
       - supports-color
     dev: false
 
+  /next-mdx-remote/3.0.5_react-dom@17.0.2+react@17.0.2:
+    resolution: {integrity: sha512-m9OD2GBuqvz/IeM/h4kufQ7GEdaCaZ4owqkCQ+yoxzCIM7jVQYK9JWXNVcyPP/Y6FBS00fLH03Hn5VFdvkFf0A==}
+    peerDependencies:
+      react: '>=16.x <=17.x'
+      react-dom: '>=16.x <=17.x'
+    dependencies:
+      '@mdx-js/mdx': 1.6.22
+      '@mdx-js/react': 1.6.22_react@17.0.2
+      esbuild: 0.12.19
+      pkg-dir: 5.0.0
+      react: 17.0.2
+      react-dom: 17.0.2_react@17.0.2
+    transitivePeerDependencies:
+      - supports-color
+    dev: false
+
   /next-sanity-image/3.1.5_0267be62cc2881c9cbc374676332cbe9:
     resolution: {integrity: sha512-0WjBW5ahHA3jSq5VO7Rsda62/DkoX9GREkkT/cwIdYIsaWI+c55xth10lDvllP8Z3kfqLp7B5Fb0vITMS/CE7w==}
     peerDependencies:
@@ -14258,7 +14286,7 @@ packages:
       react: '>=16.0.0'
       react-dom: '>=16.0.0'
     dependencies:
-      next: 11.1.2_d23913fae905660a596189f6b35fb8a9
+      next: 11.1.2_f31b35bdaa3b7c2fce82404f09d2dac4
       react: 17.0.2
       react-dom: 17.0.2_react@17.0.2
     dev: false
@@ -14294,7 +14322,7 @@ packages:
       react: '*'
       react-dom: '*'
     dependencies:
-      next: 11.1.2_d23913fae905660a596189f6b35fb8a9
+      next: 11.1.2_f31b35bdaa3b7c2fce82404f09d2dac4
       react: 17.0.2
       react-dom: 17.0.2_react@17.0.2
     dev: false
