@@ -1977,7 +1977,6 @@ importers:
       '@emotion/babel-plugin': ^11.3.0
       '@emotion/babel-preset-css-prop': ^11.2.0
       '@emotion/react': ^11.4.1
-      '@reach/tabs': ^0.16.1
       '@skillrecordings/analytics': workspace:*
       '@skillrecordings/react': workspace:*
       '@skillrecordings/scripts': workspace:*
@@ -2005,7 +2004,6 @@ importers:
       xstate: ^4.23.1
     dependencies:
       '@emotion/react': 11.4.1_9280ae23271fd1e8184f767af1a90e55
-      '@reach/tabs': 0.16.1_react-dom@17.0.2+react@17.0.2
       '@skillrecordings/analytics': link:../analytics
       '@skillrecordings/react': link:../react
       '@tippyjs/react': 4.2.5_react-dom@17.0.2+react@17.0.2
@@ -5019,30 +5017,6 @@ packages:
     resolution: {integrity: sha512-xDu17cEfh7Kid/d95kB6tZsLOmSWKCZKtprnhVepjsSaCij+lM3mItSJDuuHDMbCWTh8Ejmebwb+KONcCJ0eXQ==}
     dev: false
 
-  /@reach/auto-id/0.16.0_react-dom@17.0.2+react@17.0.2:
-    resolution: {integrity: sha512-5ssbeP5bCkM39uVsfQCwBBL+KT8YColdnMN5/Eto6Rj7929ql95R3HZUOkKIvj7mgPtEb60BLQxd1P3o6cjbmg==}
-    peerDependencies:
-      react: ^16.8.0 || 17.x
-      react-dom: ^16.8.0 || 17.x
-    dependencies:
-      '@reach/utils': 0.16.0_react-dom@17.0.2+react@17.0.2
-      react: 17.0.2
-      react-dom: 17.0.2_react@17.0.2
-      tslib: 2.3.0
-    dev: false
-
-  /@reach/descendants/0.16.1_react-dom@17.0.2+react@17.0.2:
-    resolution: {integrity: sha512-3WZgRnD9O4EORKE31rrduJDiPFNMOjUkATx0zl192ZxMq3qITe4tUj70pS5IbJl/+v9zk78JwyQLvA1pL7XAPA==}
-    peerDependencies:
-      react: ^16.8.0 || 17.x
-      react-dom: ^16.8.0 || 17.x
-    dependencies:
-      '@reach/utils': 0.16.0_react-dom@17.0.2+react@17.0.2
-      react: 17.0.2
-      react-dom: 17.0.2_react@17.0.2
-      tslib: 2.3.0
-    dev: false
-
   /@reach/dialog/0.15.3_9c423dff26c1034f6157071c372957fe:
     resolution: {integrity: sha512-fF9Wkk4CCuKqRLko92hhElV2mZJpYhq7F97aP0iLyP31xz14/hcFnM3/qocxnKW5V1nA41xl0/yZfxljfyuwig==}
     peerDependencies:
@@ -5124,21 +5098,6 @@ packages:
       react-dom: ^16.8.0 || 17.x
     dependencies:
       '@reach/utils': 0.16.0_react-dom@17.0.2+react@17.0.2
-      react: 17.0.2
-      react-dom: 17.0.2_react@17.0.2
-      tslib: 2.3.0
-    dev: false
-
-  /@reach/tabs/0.16.1_react-dom@17.0.2+react@17.0.2:
-    resolution: {integrity: sha512-g5Mbi9jtOWuhU1T2zeqrHWtgkZ2PLrGhMQy9W8NR8WLZ5W9/B9etfFICXfwG+QL3+2HATqGLkJftpScvUP+hcA==}
-    peerDependencies:
-      react: ^16.8.0 || 17.x
-      react-dom: ^16.8.0 || 17.x
-    dependencies:
-      '@reach/auto-id': 0.16.0_react-dom@17.0.2+react@17.0.2
-      '@reach/descendants': 0.16.1_react-dom@17.0.2+react@17.0.2
-      '@reach/utils': 0.16.0_react-dom@17.0.2+react@17.0.2
-      prop-types: 15.7.2
       react: 17.0.2
       react-dom: 17.0.2_react@17.0.2
       tslib: 2.3.0
