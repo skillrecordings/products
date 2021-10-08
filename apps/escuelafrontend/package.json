@@ -52,12 +52,12 @@
     "emotion": "^10.0.27",
     "emotion-server": "^10.0.27",
     "focus-visible": "^5.2.0",
-    "formik": "^2.2.9",
+    "formik": "2.2.8",
     "framer-motion": "^4.0.0",
     "groq": "^2.2.6",
     "lodash": "^4.17.21",
     "mdx-prism": "^0.3.4",
-    "next": "^11.1.0",
+    "next": "^11.1.2",
     "next-mdx-remote": "^2.1.4",
     "next-seo": "^4.26.0",
     "next-sitemap": "^1.6.148",
@@ -82,7 +82,7 @@
     "simplebar-react": "^2.3.5",
     "stripe": "^8.144.0",
     "xstate": "^4.18.0",
-    "yup": "^0.32.9"
+    "yup": "^0.28.1"
   },
   "devDependencies": {
     "@babel/plugin-transform-react-jsx": "^7.12.16",

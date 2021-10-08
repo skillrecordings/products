@@ -45,13 +45,13 @@
     "date-fns": "^2.22.1",
     "dotenv-flow": "^3.2.0",
     "focus-visible": "^5.2.0",
-    "formik": "^2.2.9",
+    "formik": "2.2.8",
     "framer-motion": "^4.1.17",
     "gray-matter": "^4.0.3",
     "groq": "^2.15.0",
     "lodash": "^4.17.21",
     "mdx-prism": "^0.3.3",
-    "next": "^11.1.0",
+    "next": "^11.1.2",
     "next-mdx-remote": "^3.0.4",
     "next-sanity-image": "^3.1.5",
     "next-seo": "^4.25.1",
@@ -76,7 +76,7 @@
     "stripe": "^8.155.0",
     "swr": "^0.5.6",
     "xstate": "^4.20.0",
-    "yup": "^0.32.9"
+    "yup": "^0.28.1"
   },
   "devDependencies": {
     "@babel/plugin-transform-react-jsx": "^7.14.5",
