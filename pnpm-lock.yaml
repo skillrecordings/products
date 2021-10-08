@@ -1837,8 +1837,6 @@ importers:
       next: 11.1.2
       next-compose-plugins: ^2.2.1
       next-images: ^1.8.1
-      next-mdx-remote: ^3.0.5
-      next-sanity-image: ^3.1.5
       next-seo: ^4.26.0
       next-sitemap: ^1.6.148
       next-themes: ^0.0.15
@@ -6812,7 +6810,7 @@ packages:
   /axios/0.21.1:
     resolution: {integrity: sha512-dKQiRHxGD9PPRIUNIWvZhPTPpl1rf/OxTYKsqKUDjBwYylTvV7SjSHJb9ratfyzM6wCdLCOYLzs73qpg5c4iGA==}
     dependencies:
-      follow-redirects: 1.14.1
+      follow-redirects: 1.14.1_debug@2.6.9
     transitivePeerDependencies:
       - debug
     dev: false
@@ -10092,7 +10090,7 @@ packages:
   /focus-visible/5.2.0:
     resolution: {integrity: sha512-Rwix9pBtC1Nuy5wysTmKy+UjbDJpIfg8eHjw0rjZ1mX4GNLz1Bmd16uDpI3Gk1i70Fgcs8Csg2lPm8HULFg9DQ==}
 
-  /follow-redirects/1.14.1:
+  /follow-redirects/1.14.1_debug@2.6.9:
     resolution: {integrity: sha512-HWqDgT7ZEkqRzBvc2s64vSZ/hfOceEol3ac/7tKwzuvEyWx3/4UegXh5oBOIotkGsObyk3xznnSRVADBgWSQVg==}
     engines: {node: '>=4.0'}
     peerDependencies:
@@ -10100,6 +10098,8 @@ packages:
     peerDependenciesMeta:
       debug:
         optional: true
+    dependencies:
+      debug: 2.6.9
     dev: false
 
   /for-in/1.0.2:
@@ -10344,7 +10344,7 @@ packages:
       create-error-class: 3.0.2
       debug: 2.6.9
       decompress-response: 3.3.0
-      follow-redirects: 1.14.1
+      follow-redirects: 1.14.1_debug@2.6.9
       form-urlencoded: 2.0.9
       in-publish: 2.0.1
       into-stream: 3.1.0
