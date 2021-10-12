@@ -24,12 +24,13 @@ const Bio = () => {
         </div>
       </div>
       <div className="sm:pl-16 w-full">
-        <p className="sm:text-7xl text-6xl font-bold font-serif text-brand-text">
-          H<span className="font-serif-star">i</span>,
-        </p>
         <p className="sm:text-lg">
-          I’m Emma Bostian, your instructor for the CSS Destructured course.
-          Nice to meet you!
+          I’m Emma Bostian, a Software Engineer at Spotify and author of{' '}
+          <em>De-Coding the Technical Interview Process</em>.
+          <br />
+          I've been responsible for assessing the CSS skill level for
+          job-seeking devs (many of whom, advanced beginners) and building
+          complex UIs using CSS as a core tool.
         </p>
       </div>
     </div>
