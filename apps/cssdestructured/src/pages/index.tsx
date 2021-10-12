@@ -41,11 +41,12 @@ export default function Home() {
             </Link>
             <div className="text-center py-24">
               <h1 className="font-serif lg:text-8xl sm:text-7xl text-6xl lg:leading-[60%] sm:leading-[60%] leading-[60%] text-brand-text">
-                <span className="font-serif-star">L</span>orem Ipsum <br />
-                Dolor Sits A<span className="font-serif-star">m</span>et
+                <span className="font-serif-star">A</span> Holistic Approach
+                <br />
+                to Learning <span className="font-serif-star">C</span>SS
               </h1>
               <h2 className="sm:text-base text-xs font-display text-brand-mustard sm:pt-4 pt-3 tracking-wider">
-                PoRta iPsUm DoLoR
+                embrace Your expertise
               </h2>
             </div>
             <Button
