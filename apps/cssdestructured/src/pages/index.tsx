@@ -92,12 +92,9 @@ export default function Home() {
         </header>
         <ScrollElement name="content" />
         <main className="flex flex-col w-full min-h-screen justify-center">
-          <article className="prose sm:prose-xl w-full max-w-2xl mx-auto lg:pt-32 sm:pt-24 pt-8 px-5">
+          <article className="prose sm:prose-xl w-full max-w-2xl mx-auto lg:pt-32 sm:pt-24 pt-8 px-5 lg:pb-32 sm:pb-32 pb-32">
             <LandingCopy />
           </article>
-          <section className="lg:py-40 sm:py-32 py-24">
-            <Bio />
-          </section>
           <section className="flex flex-col items-center justify-center w-full relative overflow-hidden">
             <Image src={HorizontalGridImage} />
             <div className="flex flex-col items-center justify-center w-full relative z-10 sm:py-32 py-24 px-5">
