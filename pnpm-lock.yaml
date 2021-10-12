@@ -92,7 +92,7 @@ importers:
       lodash: ^4.17.21
       mdx-prism: ^0.3.3
       msw: ^0.34.0
-      next: 11.1.3-canary.64
+      next: canary
       next-compose-plugins: ^2.2.1
       next-images: ^1.8.1
       next-seo: ^4.26.0
@@ -291,7 +291,7 @@ importers:
       lodash: ^4.17.21
       mdx-prism: ^0.3.4
       msw: ^0.34.0
-      next: 11.1.2
+      next: canary
       next-compose-plugins: ^2.2.1
       next-images: ^1.8.1
       next-seo: ^4.26.0
@@ -359,10 +359,10 @@ importers:
       framer-motion: 4.1.17_react-dom@17.0.2+react@17.0.2
       lodash: 4.17.21
       mdx-prism: 0.3.4
-      next: 11.1.2_f31b35bdaa3b7c2fce82404f09d2dac4
-      next-seo: 4.26.0_6fbf59523517da779df50d355b375324
-      next-sitemap: 1.6.148_next@11.1.2
-      next-themes: 0.0.15_6fbf59523517da779df50d355b375324
+      next: 11.1.3-canary.64_react-dom@17.0.2+react@17.0.2
+      next-seo: 4.26.0_6914b24747a8221f36dda7ce7f637e29
+      next-sitemap: 1.6.148_next@11.1.3-canary.64
+      next-themes: 0.0.15_6914b24747a8221f36dda7ce7f637e29
       pluralize: 8.0.0
       postcss: 8.3.6
       query-string: 7.0.1
@@ -406,7 +406,7 @@ importers:
       babel-jest: 27.1.0
       commander: 8.1.0
       eslint: 7.32.0
-      eslint-config-next: 11.1.0_4feb0b759ba905fa0097207da1a096c2
+      eslint-config-next: 11.1.0_c56f2a194f6ee657d9171b798a85796c
       eslint-config-prettier: 8.3.0_eslint@7.32.0
       eslint-plugin-jsx-a11y: 6.4.1_eslint@7.32.0
       eslint-plugin-prettier: 3.4.0_5a48a349ffec60f5257b5f148f5199c3
@@ -893,7 +893,7 @@ importers:
       lodash: ^4.17.21
       mdx-prism: ^0.3.4
       msw: ^0.34.0
-      next: 11.1.2
+      next: canary
       next-compose-plugins: ^2.2.1
       next-images: ^1.8.1
       next-seo: ^4.26.0
@@ -956,10 +956,10 @@ importers:
       framer-motion: 4.1.17_react-dom@17.0.2+react@17.0.2
       lodash: 4.17.21
       mdx-prism: 0.3.4
-      next: 11.1.2_f31b35bdaa3b7c2fce82404f09d2dac4
-      next-seo: 4.26.0_6fbf59523517da779df50d355b375324
-      next-sitemap: 1.6.148_next@11.1.2
-      next-themes: 0.0.15_6fbf59523517da779df50d355b375324
+      next: 11.1.3-canary.64_react-dom@17.0.2+react@17.0.2
+      next-seo: 4.26.0_6914b24747a8221f36dda7ce7f637e29
+      next-sitemap: 1.6.148_next@11.1.3-canary.64
+      next-themes: 0.0.15_6914b24747a8221f36dda7ce7f637e29
       pluralize: 8.0.0
       postcss: 8.3.6
       query-string: 7.0.1
@@ -997,7 +997,7 @@ importers:
       babel-jest: 27.0.6
       commander: 8.1.0
       eslint: 7.32.0
-      eslint-config-next: 11.1.0_4feb0b759ba905fa0097207da1a096c2
+      eslint-config-next: 11.1.0_c56f2a194f6ee657d9171b798a85796c
       eslint-config-prettier: 8.3.0_eslint@7.32.0
       eslint-plugin-jsx-a11y: 6.4.1_eslint@7.32.0
       eslint-plugin-prettier: 3.4.0_5a48a349ffec60f5257b5f148f5199c3
@@ -1073,7 +1073,7 @@ importers:
       lodash: ^4.17.21
       mdx-prism: ^0.3.4
       msw: ^0.34.0
-      next: 11.1.2
+      next: canary
       next-compose-plugins: ^2.2.1
       next-images: ^1.8.1
       next-seo: ^4.26.0
@@ -1138,10 +1138,10 @@ importers:
       framer-motion: 4.1.17_react-dom@17.0.2+react@17.0.2
       lodash: 4.17.21
       mdx-prism: 0.3.4
-      next: 11.1.2_f31b35bdaa3b7c2fce82404f09d2dac4
-      next-seo: 4.26.0_6fbf59523517da779df50d355b375324
-      next-sitemap: 1.6.148_next@11.1.2
-      next-themes: 0.0.15_6fbf59523517da779df50d355b375324
+      next: 11.1.3-canary.64_react-dom@17.0.2+react@17.0.2
+      next-seo: 4.26.0_6914b24747a8221f36dda7ce7f637e29
+      next-sitemap: 1.6.148_next@11.1.3-canary.64
+      next-themes: 0.0.15_6914b24747a8221f36dda7ce7f637e29
       pluralize: 8.0.0
       postcss: 8.3.6
       query-string: 7.0.1
@@ -1182,7 +1182,7 @@ importers:
       babel-jest: 27.0.6
       commander: 8.1.0
       eslint: 7.32.0
-      eslint-config-next: 11.1.0_4feb0b759ba905fa0097207da1a096c2
+      eslint-config-next: 11.1.0_c56f2a194f6ee657d9171b798a85796c
       eslint-config-prettier: 8.3.0_eslint@7.32.0
       eslint-plugin-jsx-a11y: 6.4.1_eslint@7.32.0
       eslint-plugin-prettier: 3.4.0_5a48a349ffec60f5257b5f148f5199c3
@@ -1454,7 +1454,7 @@ importers:
       lodash: ^4.17.21
       mdx-prism: ^0.3.4
       msw: ^0.34.0
-      next: 11.1.2
+      next: canary
       next-compose-plugins: ^2.2.1
       next-images: ^1.8.1
       next-seo: ^4.26.0
@@ -1519,10 +1519,10 @@ importers:
       framer-motion: 4.1.17_react-dom@17.0.2+react@17.0.2
       lodash: 4.17.21
       mdx-prism: 0.3.4
-      next: 11.1.2_f31b35bdaa3b7c2fce82404f09d2dac4
-      next-seo: 4.26.0_6fbf59523517da779df50d355b375324
-      next-sitemap: 1.6.148_next@11.1.2
-      next-themes: 0.0.15_6fbf59523517da779df50d355b375324
+      next: 11.1.3-canary.64_react-dom@17.0.2+react@17.0.2
+      next-seo: 4.26.0_6914b24747a8221f36dda7ce7f637e29
+      next-sitemap: 1.6.148_next@11.1.3-canary.64
+      next-themes: 0.0.15_6914b24747a8221f36dda7ce7f637e29
       pluralize: 8.0.0
       postcss: 8.3.6
       query-string: 7.0.1
@@ -1564,7 +1564,7 @@ importers:
       babel-jest: 27.0.6
       commander: 8.1.0
       eslint: 7.32.0
-      eslint-config-next: 11.1.0_4feb0b759ba905fa0097207da1a096c2
+      eslint-config-next: 11.1.0_c56f2a194f6ee657d9171b798a85796c
       eslint-config-prettier: 8.3.0_eslint@7.32.0
       eslint-plugin-jsx-a11y: 6.4.1_eslint@7.32.0
       eslint-plugin-prettier: 3.4.0_5a48a349ffec60f5257b5f148f5199c3
@@ -1641,7 +1641,7 @@ importers:
       mdx-embed: ^0.0.19
       mdx-prism: ^0.3.4
       msw: ^0.34.0
-      next: 11.1.2
+      next: canary
       next-compose-plugins: ^2.2.1
       next-images: ^1.8.1
       next-seo: ^4.26.0
@@ -1706,10 +1706,10 @@ importers:
       lodash: 4.17.21
       mdx-embed: 0.0.19_react-dom@17.0.2+react@17.0.2
       mdx-prism: 0.3.4
-      next: 11.1.2_f31b35bdaa3b7c2fce82404f09d2dac4
-      next-seo: 4.26.0_6fbf59523517da779df50d355b375324
-      next-sitemap: 1.6.148_next@11.1.2
-      next-themes: 0.0.15_6fbf59523517da779df50d355b375324
+      next: 11.1.3-canary.64_react-dom@17.0.2+react@17.0.2
+      next-seo: 4.26.0_6914b24747a8221f36dda7ce7f637e29
+      next-sitemap: 1.6.148_next@11.1.3-canary.64
+      next-themes: 0.0.15_6914b24747a8221f36dda7ce7f637e29
       pluralize: 8.0.0
       postcss: 8.3.6
       query-string: 7.0.1
@@ -1751,7 +1751,7 @@ importers:
       babel-jest: 27.0.6
       commander: 8.1.0
       eslint: 7.32.0
-      eslint-config-next: 11.1.0_4feb0b759ba905fa0097207da1a096c2
+      eslint-config-next: 11.1.0_c56f2a194f6ee657d9171b798a85796c
       eslint-config-prettier: 8.3.0_eslint@7.32.0
       eslint-plugin-jsx-a11y: 6.4.1_eslint@7.32.0
       eslint-plugin-prettier: 3.4.0_5a48a349ffec60f5257b5f148f5199c3
@@ -2071,7 +2071,7 @@ importers:
       formik: 2.2.8
       framer-motion: ^4.1.17
       msw: ^0.34.0
-      next: 11.1.2
+      next: canary
       react-countdown: ^2.3.2
       react-stripe-checkout: ^2.6.3
       react-test-renderer: ^17.0.2
@@ -2093,7 +2093,7 @@ importers:
       date-fns: 2.23.0
       formik: 2.2.8
       framer-motion: 4.1.17
-      next: 11.1.2_typescript@4.3.5
+      next: 11.1.3-canary.64
       react-countdown: 2.3.2
       react-stripe-checkout: 2.6.3
       stripe: 8.168.0
@@ -2142,7 +2142,7 @@ importers:
       esbuild-node-tsc: ^1.6.1
       formik: 2.2.8
       framer-motion: ^4.1.17
-      next: 11.1.2
+      next: canary
       query-string: ^7.0.1
       react-use: ^17.2.4
       typescript: ^4.2.4
@@ -2157,7 +2157,7 @@ importers:
       cookie: 0.4.1
       formik: 2.2.8
       framer-motion: 4.1.17
-      next: 11.1.2_typescript@4.3.5
+      next: 11.1.3-canary.64
       query-string: 7.0.1
       react-use: 17.2.4
       yup: 0.28.5
@@ -2321,7 +2321,7 @@ importers:
       formik: 2.2.8
       lodash: ^4.17.21
       msw: ^0.34.0
-      next: 11.1.2
+      next: canary
       next-seo: ^4.26.0
       next-themes: ^0.0.15
       node-sass: ^6.0.1
@@ -2348,9 +2348,9 @@ importers:
       axios: 0.21.1
       formik: 2.2.8_react@17.0.2
       lodash: 4.17.21
-      next: 11.1.2_d23913fae905660a596189f6b35fb8a9
-      next-seo: 4.26.0_6fbf59523517da779df50d355b375324
-      next-themes: 0.0.15_6fbf59523517da779df50d355b375324
+      next: 11.1.3-canary.64_5279b6a9968930e548f4294a41797f58
+      next-seo: 4.26.0_6914b24747a8221f36dda7ce7f637e29
+      next-themes: 0.0.15_6914b24747a8221f36dda7ce7f637e29
       prism-react-renderer: 1.2.1_react@17.0.2
       query-string: 7.0.1
       react: 17.0.2
@@ -2413,11 +2413,11 @@ importers:
       '@skillrecordings/tsconfig': workspace:*
       '@skillrecordings/types': workspace:*
       esbuild-node-tsc: ^1.6.1
-      next: 11.1.2
+      next: canary
       stripe: ^8.169.0
       typescript: ^4.2.4
     dependencies:
-      next: 11.1.2_typescript@4.3.5
+      next: 11.1.3-canary.64
       stripe: 8.169.0
     devDependencies:
       '@skillrecordings/scripts': link:../scripts
@@ -5145,6 +5145,25 @@ packages:
       strip-ansi: 6.0.0
     dev: false
 
+  /@next/react-dev-overlay/11.1.3-canary.64:
+    resolution: {integrity: sha512-Qw1tSOOXgzLVcGtJD/GR7XXgFbgIqly+jrIi9UKaDdpSaDLR/rQ7CF3DVyQWbWVcdAXUzg3wutrfSnOfyuyrpA==}
+    peerDependencies:
+      react: ^17.0.2
+      react-dom: ^17.0.2
+    dependencies:
+      '@babel/code-frame': 7.12.11
+      anser: 1.4.9
+      chalk: 4.0.0
+      classnames: 2.2.6
+      css.escape: 1.5.1
+      data-uri-to-buffer: 3.0.1
+      platform: 1.3.6
+      shell-quote: 1.7.2
+      source-map: 0.8.0-beta.0
+      stacktrace-parser: 0.1.10
+      strip-ansi: 6.0.0
+    dev: false
+
   /@next/react-dev-overlay/11.1.3-canary.64_react-dom@17.0.2+react@17.0.2:
     resolution: {integrity: sha512-Qw1tSOOXgzLVcGtJD/GR7XXgFbgIqly+jrIi9UKaDdpSaDLR/rQ7CF3DVyQWbWVcdAXUzg3wutrfSnOfyuyrpA==}
     peerDependencies:
@@ -6164,6 +6183,7 @@ packages:
 
   /@types/yauzl/2.9.2:
     resolution: {integrity: sha512-8uALY5LTvSuHgloDVUvWP3pIauILm+8/0pDMokuDYIoNsOkSwd5AiHBTSEJjKTDcZr5z8UpgOWZkxBF4iJftoA==}
+    requiresBuild: true
     dependencies:
       '@types/node': 16.6.0
     dev: true
@@ -6896,7 +6916,7 @@ packages:
   /axios/0.21.1:
     resolution: {integrity: sha512-dKQiRHxGD9PPRIUNIWvZhPTPpl1rf/OxTYKsqKUDjBwYylTvV7SjSHJb9ratfyzM6wCdLCOYLzs73qpg5c4iGA==}
     dependencies:
-      follow-redirects: 1.14.1
+      follow-redirects: 1.14.1_debug@2.6.9
     transitivePeerDependencies:
       - debug
     dev: false
@@ -7968,6 +7988,7 @@ packages:
 
   /clipboard/2.0.8:
     resolution: {integrity: sha512-Y6WO0unAIQp5bLmk1zdThRhgJt/x3ks6f30s3oE3H1mgIEU33XyQjEf8gsf6DxC7NPX8Y1SsNWjUjL/ywLnnbQ==}
+    requiresBuild: true
     dependencies:
       good-listener: 1.2.2
       select: 1.1.2
@@ -8068,6 +8089,7 @@ packages:
   /colors/1.4.0:
     resolution: {integrity: sha512-a+UqTh4kgZg/SlGvfbzDHpgRu7AAQOmmqRHJnxhRZICKFUT91brVhNNt58CMWU9PsBbv3PDCZUHbVxuDiH2mtA==}
     engines: {node: '>=0.1.90'}
+    requiresBuild: true
     dev: true
     optional: true
 
@@ -10202,7 +10224,7 @@ packages:
   /focus-visible/5.2.0:
     resolution: {integrity: sha512-Rwix9pBtC1Nuy5wysTmKy+UjbDJpIfg8eHjw0rjZ1mX4GNLz1Bmd16uDpI3Gk1i70Fgcs8Csg2lPm8HULFg9DQ==}
 
-  /follow-redirects/1.14.1:
+  /follow-redirects/1.14.1_debug@2.6.9:
     resolution: {integrity: sha512-HWqDgT7ZEkqRzBvc2s64vSZ/hfOceEol3ac/7tKwzuvEyWx3/4UegXh5oBOIotkGsObyk3xznnSRVADBgWSQVg==}
     engines: {node: '>=4.0'}
     peerDependencies:
@@ -10210,6 +10232,8 @@ packages:
     peerDependenciesMeta:
       debug:
         optional: true
+    dependencies:
+      debug: 2.6.9
     dev: false
 
   /for-in/1.0.2:
@@ -10403,6 +10427,7 @@ packages:
     resolution: {integrity: sha512-xiqMQR4xAeHTuB9uWm+fFRcIOgKBMiOBP+eXiyT7jsgVCq1bkVygt00oASowB7EdtpOHaaPgKt812P9ab+DDKA==}
     engines: {node: ^8.16.0 || ^10.6.0 || >=11.0.0}
     os: [darwin]
+    requiresBuild: true
     optional: true
 
   /function-bind/1.1.1:
@@ -10454,7 +10479,7 @@ packages:
       create-error-class: 3.0.2
       debug: 2.6.9
       decompress-response: 3.3.0
-      follow-redirects: 1.14.1
+      follow-redirects: 1.14.1_debug@2.6.9
       form-urlencoded: 2.0.9
       in-publish: 2.0.1
       into-stream: 3.1.0
@@ -14384,7 +14409,7 @@ packages:
       react: '>=16.0.0'
       react-dom: '>=16.0.0'
     dependencies:
-      next: 11.1.3-canary.64_react-dom@17.0.2+react@17.0.2
+      next: 11.1.3-canary.64_5279b6a9968930e548f4294a41797f58
       react: 17.0.2
       react-dom: 17.0.2_react@17.0.2
     dev: false
@@ -14444,7 +14469,7 @@ packages:
       react: '*'
       react-dom: '*'
     dependencies:
-      next: 11.1.3-canary.64_react-dom@17.0.2+react@17.0.2
+      next: 11.1.3-canary.64_5279b6a9968930e548f4294a41797f58
       react: 17.0.2
       react-dom: 17.0.2_react@17.0.2
     dev: false
@@ -14459,88 +14484,6 @@ packages:
       next: 11.1.2_f31b35bdaa3b7c2fce82404f09d2dac4
       react: 17.0.2
       react-dom: 17.0.2_react@17.0.2
-    dev: false
-
-  /next/11.1.2_d23913fae905660a596189f6b35fb8a9:
-    resolution: {integrity: sha512-azEYL0L+wFjv8lstLru3bgvrzPvK0P7/bz6B/4EJ9sYkXeW8r5Bjh78D/Ol7VOg0EIPz0CXoe72hzAlSAXo9hw==}
-    engines: {node: '>=12.0.0'}
-    hasBin: true
-    peerDependencies:
-      fibers: '>= 3.1.0'
-      node-sass: ^4.0.0 || ^5.0.0
-      react: ^17.0.2
-      react-dom: ^17.0.2
-      sass: ^1.3.0
-    peerDependenciesMeta:
-      fibers:
-        optional: true
-      node-sass:
-        optional: true
-      sass:
-        optional: true
-    dependencies:
-      '@babel/runtime': 7.15.3
-      '@hapi/accept': 5.0.2
-      '@next/env': 11.1.2
-      '@next/polyfill-module': 11.1.2
-      '@next/react-dev-overlay': 11.1.2_react-dom@17.0.2+react@17.0.2
-      '@next/react-refresh-utils': 11.1.2_react-refresh@0.8.3
-      '@node-rs/helper': 1.2.1
-      assert: 2.0.0
-      ast-types: 0.13.2
-      browserify-zlib: 0.2.0
-      browserslist: 4.16.6
-      buffer: 5.6.0
-      caniuse-lite: 1.0.30001249
-      chalk: 2.4.2
-      chokidar: 3.5.1
-      constants-browserify: 1.0.0
-      crypto-browserify: 3.12.0
-      cssnano-simple: 3.0.0_postcss@8.2.15
-      domain-browser: 4.19.0
-      encoding: 0.1.13
-      etag: 1.8.1
-      find-cache-dir: 3.3.1
-      get-orientation: 1.1.2
-      https-browserify: 1.0.0
-      image-size: 1.0.0
-      jest-worker: 27.0.0-next.5
-      native-url: 0.3.4
-      node-fetch: 2.6.1
-      node-html-parser: 1.4.9
-      node-libs-browser: 2.2.1
-      node-sass: 6.0.1
-      os-browserify: 0.3.0
-      p-limit: 3.1.0
-      path-browserify: 1.0.1
-      pnp-webpack-plugin: 1.6.4_typescript@4.3.5
-      postcss: 8.2.15
-      process: 0.11.10
-      querystring-es3: 0.2.1
-      raw-body: 2.4.1
-      react: 17.0.2
-      react-dom: 17.0.2_react@17.0.2
-      react-is: 17.0.2
-      react-refresh: 0.8.3
-      stream-browserify: 3.0.0
-      stream-http: 3.1.1
-      string_decoder: 1.3.0
-      styled-jsx: 4.0.1_react@17.0.2
-      timers-browserify: 2.0.12
-      tty-browserify: 0.0.1
-      use-subscription: 1.5.1_react@17.0.2
-      util: 0.12.4
-      vm-browserify: 1.1.2
-      watchpack: 2.1.1
-    optionalDependencies:
-      '@next/swc-darwin-arm64': 11.1.2
-      '@next/swc-darwin-x64': 11.1.2
-      '@next/swc-linux-x64-gnu': 11.1.2
-      '@next/swc-win32-x64-msvc': 11.1.2
-    transitivePeerDependencies:
-      - '@babel/core'
-      - typescript
-      - webpack
     dev: false
 
   /next/11.1.2_f31b35bdaa3b7c2fce82404f09d2dac4:
@@ -14700,6 +14643,161 @@ packages:
     transitivePeerDependencies:
       - '@babel/core'
       - typescript
+      - webpack
+    dev: false
+
+  /next/11.1.3-canary.64:
+    resolution: {integrity: sha512-TjDJ2ZnGbPPVQBbbcGsMhwXKZPJNVLZSwtE8Z0K7SoF+5xWQD8Yl23Yd6RZic9VuKpokRqIkcY0YPx2v7N4cGQ==}
+    engines: {node: '>=12.0.0'}
+    hasBin: true
+    peerDependencies:
+      fibers: '>= 3.1.0'
+      node-sass: ^4.0.0 || ^5.0.0 || ^6.0.0
+      react: ^17.0.2
+      react-dom: ^17.0.2
+      sass: ^1.3.0
+    peerDependenciesMeta:
+      fibers:
+        optional: true
+      node-sass:
+        optional: true
+      sass:
+        optional: true
+    dependencies:
+      '@babel/runtime': 7.15.4
+      '@hapi/accept': 5.0.2
+      '@next/env': 11.1.3-canary.64
+      '@next/polyfill-module': 11.1.3-canary.64
+      '@next/react-dev-overlay': 11.1.3-canary.64
+      '@next/react-refresh-utils': 11.1.3-canary.64_react-refresh@0.8.3
+      '@node-rs/helper': 1.2.1
+      assert: 2.0.0
+      browserify-zlib: 0.2.0
+      browserslist: 4.16.6
+      buffer: 5.6.0
+      caniuse-lite: 1.0.30001249
+      chalk: 2.4.2
+      chokidar: 3.5.1
+      constants-browserify: 1.0.0
+      crypto-browserify: 3.12.0
+      cssnano-simple: 3.0.0_postcss@8.2.15
+      domain-browser: 4.19.0
+      encoding: 0.1.13
+      etag: 1.8.1
+      find-cache-dir: 3.3.1
+      get-orientation: 1.1.2
+      https-browserify: 1.0.0
+      image-size: 1.0.0
+      jest-worker: 27.0.0-next.5
+      native-url: 0.3.4
+      node-fetch: 2.6.1
+      node-html-parser: 1.4.9
+      node-libs-browser: 2.2.1
+      os-browserify: 0.3.0
+      p-limit: 3.1.0
+      path-browserify: 1.0.1
+      postcss: 8.2.15
+      process: 0.11.10
+      querystring-es3: 0.2.1
+      raw-body: 2.4.1
+      react-is: 17.0.2
+      react-refresh: 0.8.3
+      stream-browserify: 3.0.0
+      stream-http: 3.1.1
+      string_decoder: 1.3.0
+      styled-jsx: 5.0.0-beta.2
+      timers-browserify: 2.0.12
+      tty-browserify: 0.0.1
+      use-subscription: 1.5.1
+      util: 0.12.4
+      vm-browserify: 1.1.2
+      watchpack: 2.1.1
+    optionalDependencies:
+      '@next/swc-darwin-arm64': 11.1.3-canary.64
+      '@next/swc-darwin-x64': 11.1.3-canary.64
+      '@next/swc-linux-x64-gnu': 11.1.3-canary.64
+      '@next/swc-win32-x64-msvc': 11.1.3-canary.64
+    transitivePeerDependencies:
+      - '@babel/core'
+      - webpack
+    dev: false
+
+  /next/11.1.3-canary.64_5279b6a9968930e548f4294a41797f58:
+    resolution: {integrity: sha512-TjDJ2ZnGbPPVQBbbcGsMhwXKZPJNVLZSwtE8Z0K7SoF+5xWQD8Yl23Yd6RZic9VuKpokRqIkcY0YPx2v7N4cGQ==}
+    engines: {node: '>=12.0.0'}
+    hasBin: true
+    peerDependencies:
+      fibers: '>= 3.1.0'
+      node-sass: ^4.0.0 || ^5.0.0 || ^6.0.0
+      react: ^17.0.2
+      react-dom: ^17.0.2
+      sass: ^1.3.0
+    peerDependenciesMeta:
+      fibers:
+        optional: true
+      node-sass:
+        optional: true
+      sass:
+        optional: true
+    dependencies:
+      '@babel/runtime': 7.15.4
+      '@hapi/accept': 5.0.2
+      '@next/env': 11.1.3-canary.64
+      '@next/polyfill-module': 11.1.3-canary.64
+      '@next/react-dev-overlay': 11.1.3-canary.64_react-dom@17.0.2+react@17.0.2
+      '@next/react-refresh-utils': 11.1.3-canary.64_react-refresh@0.8.3
+      '@node-rs/helper': 1.2.1
+      assert: 2.0.0
+      browserify-zlib: 0.2.0
+      browserslist: 4.16.6
+      buffer: 5.6.0
+      caniuse-lite: 1.0.30001249
+      chalk: 2.4.2
+      chokidar: 3.5.1
+      constants-browserify: 1.0.0
+      crypto-browserify: 3.12.0
+      cssnano-simple: 3.0.0_postcss@8.2.15
+      domain-browser: 4.19.0
+      encoding: 0.1.13
+      etag: 1.8.1
+      find-cache-dir: 3.3.1
+      get-orientation: 1.1.2
+      https-browserify: 1.0.0
+      image-size: 1.0.0
+      jest-worker: 27.0.0-next.5
+      native-url: 0.3.4
+      node-fetch: 2.6.1
+      node-html-parser: 1.4.9
+      node-libs-browser: 2.2.1
+      node-sass: 6.0.1
+      os-browserify: 0.3.0
+      p-limit: 3.1.0
+      path-browserify: 1.0.1
+      postcss: 8.2.15
+      process: 0.11.10
+      querystring-es3: 0.2.1
+      raw-body: 2.4.1
+      react: 17.0.2
+      react-dom: 17.0.2_react@17.0.2
+      react-is: 17.0.2
+      react-refresh: 0.8.3
+      stream-browserify: 3.0.0
+      stream-http: 3.1.1
+      string_decoder: 1.3.0
+      styled-jsx: 5.0.0-beta.2_react@17.0.2
+      timers-browserify: 2.0.12
+      tty-browserify: 0.0.1
+      use-subscription: 1.5.1_react@17.0.2
+      util: 0.12.4
+      vm-browserify: 1.1.2
+      watchpack: 2.1.1
+    optionalDependencies:
+      '@next/swc-darwin-arm64': 11.1.3-canary.64
+      '@next/swc-darwin-x64': 11.1.3-canary.64
+      '@next/swc-linux-x64-gnu': 11.1.3-canary.64
+      '@next/swc-win32-x64-msvc': 11.1.3-canary.64
+    transitivePeerDependencies:
+      - '@babel/core'
       - webpack
     dev: false
 
@@ -14871,6 +14969,7 @@ packages:
 
   /node-notifier/6.0.0:
     resolution: {integrity: sha512-SVfQ/wMw+DesunOm5cKqr6yDcvUTDl/yc97ybGHMrteNEY6oekXpNpS3lZwgLlwz0FLgHoiW28ZpmBHUDg37cw==}
+    requiresBuild: true
     dependencies:
       growly: 1.3.0
       is-wsl: 2.2.0
@@ -18423,6 +18522,26 @@ packages:
       stylis-rule-sheet: 0.0.10_stylis@3.5.4
     dev: false
 
+  /styled-jsx/5.0.0-beta.2:
+    resolution: {integrity: sha512-yDVSNs7o2TK1w2S+S1zMuAn2x7nuodg3jtcalfCIJasVtGMx3pziOEI2GR5OY2qrA6C9RaAAPQWl8DR7BvHcHg==}
+    engines: {node: '>= 12.0.0'}
+    peerDependencies:
+      '@babel/core': '*'
+      react: '>= 16.8.0 || 17.x.x || 18.x.x'
+    peerDependenciesMeta:
+      '@babel/core':
+        optional: true
+    dependencies:
+      '@babel/plugin-syntax-jsx': 7.14.5
+      '@babel/types': 7.15.0
+      convert-source-map: 1.7.0
+      loader-utils: 1.2.3
+      source-map: 0.7.3
+      string-hash: 1.1.3
+      stylis: 3.5.4
+      stylis-rule-sheet: 0.0.10_stylis@3.5.4
+    dev: false
+
   /styled-jsx/5.0.0-beta.2_react@17.0.2:
     resolution: {integrity: sha512-yDVSNs7o2TK1w2S+S1zMuAn2x7nuodg3jtcalfCIJasVtGMx3pziOEI2GR5OY2qrA6C9RaAAPQWl8DR7BvHcHg==}
     engines: {node: '>= 12.0.0'}
@@ -19236,6 +19355,7 @@ packages:
     resolution: {integrity: sha512-JhS3hmcVaXlp/xSo3PKY5R0JqKs5M3IV+exdLHW99qKvKivPO4Z8qbej6mte17SOPqAOVMjt/XGgWacnFSzM3g==}
     engines: {node: '>=0.8.0'}
     hasBin: true
+    requiresBuild: true
     dev: true
     optional: true
 

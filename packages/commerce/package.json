@@ -30,7 +30,7 @@
     "date-fns": "^2.23.0",
     "formik": "2.2.8",
     "framer-motion": "^4.1.17",
-    "next": "11.1.2",
+    "next": "canary",
     "react-countdown": "^2.3.2",
     "react-stripe-checkout": "^2.6.3",
     "stripe": "^8.167.0",
