@@ -308,6 +308,7 @@ importers:
       react-countdown: ^2.3.2
       react-dom: 17.0.2
       react-hot-toast: ^2.1.1
+      react-intersection-observer-hook: ^2.0.3
       react-markdown: ^6.0.3
       react-scroll: ^1.8.3
       react-stripe-checkout: ^2.6.3
@@ -370,6 +371,7 @@ importers:
       react-countdown: 2.3.2_react-dom@17.0.2+react@17.0.2
       react-dom: 17.0.2_react@17.0.2
       react-hot-toast: 2.1.1_react-dom@17.0.2+react@17.0.2
+      react-intersection-observer-hook: 2.0.3_react@17.0.2
       react-markdown: 6.0.3_9280ae23271fd1e8184f767af1a90e55
       react-scroll: 1.8.4_react-dom@17.0.2+react@17.0.2
       react-stripe-checkout: 2.6.3
@@ -16264,6 +16266,14 @@ packages:
       react-dom: 17.0.2_react@17.0.2
     transitivePeerDependencies:
       - csstype
+    dev: false
+
+  /react-intersection-observer-hook/2.0.3_react@17.0.2:
+    resolution: {integrity: sha512-6LcrY/oUtZqn7HbwLTgSk43/KdZD5LZJsWUOwQB11aMPi3OkjyDcm2dwAQ1ydlbrSDlL4fHUNXisNt4B470UJg==}
+    peerDependencies:
+      react: '>=16.8.0'
+    dependencies:
+      react: 17.0.2
     dev: false
 
   /react-is/16.13.1:

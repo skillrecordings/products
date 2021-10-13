@@ -54,7 +54,7 @@ module.exports = {
             },
             a: {
               color: theme('colors.brand.brightYellow'),
-              textDecoration: 'none',
+              textDecoration: 'underline',
             },
             ul: {
               padding: '1rem 0',
