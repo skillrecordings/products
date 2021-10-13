@@ -13,7 +13,6 @@ import {Logo, GridVisual} from 'components/images'
 import {scroller, Element as ScrollElement} from 'react-scroll'
 import HorizontalGridImage from '../../public/assets/bottom.svg'
 import {WithStars} from 'components/mdx/highlights'
-import Bio from 'components/content/bio'
 import Button from '@skillrecordings/react/dist/components/button'
 import {useRouter} from 'next/router'
 import Emma from '../../public/emma-bostian--square@2x.jpg'
@@ -40,13 +39,13 @@ export default function Home() {
               </a>
             </Link>
             <div className="text-center py-24">
-              <h1 className="font-serif lg:text-8xl sm:text-7xl text-6xl lg:leading-[60%] sm:leading-[60%] leading-[60%] text-brand-text">
-                <span className="font-serif-star">A</span> Holistic Approach
+              <h1 className="font-serif lg:text-7xl sm:text-7xl text-6xl lg:leading-[60%] sm:leading-[60%] leading-[60%] text-brand-text">
+                A Holistic Approach
                 <br />
                 to Learning <span className="font-serif-star">C</span>SS
               </h1>
               <h2 className="sm:text-base text-xs font-display text-brand-mustard sm:pt-4 pt-3 tracking-wider">
-                embrace Your expertise
+                eMbRace Your eXperTise
               </h2>
             </div>
             <Button
@@ -92,13 +91,12 @@ export default function Home() {
         </header>
         <ScrollElement name="content" />
         <main className="flex flex-col w-full min-h-screen justify-center">
-          <article className="prose sm:prose-xl w-full max-w-2xl mx-auto lg:pt-32 sm:pt-24 pt-8 px-5 lg:pb-32 sm:pb-32 pb-32">
+          <article className="prose sm:prose-xl w-full max-w-2xl mx-auto lg:pt-24 sm:pt-24 pt-12 px-5 lg:pb-32 sm:pb-32 pb-32">
             <LandingCopy />
           </article>
           <section className="flex flex-col items-center justify-center w-full relative overflow-hidden">
             <Image src={HorizontalGridImage} />
             <div className="flex flex-col items-center justify-center w-full relative z-10 sm:py-32 py-24 px-5">
-              {/* <Blocks1 className="lg:hidden block sm:p-2 p-5" /> */}
               <h3 className="pb-2 font-serif sm:text-8xl text-7xl text-brand-text text-center">
                 Co<span className="font-serif-star">m</span>ing S
                 <span className="font-serif-alt">oo</span>n!

@@ -5,7 +5,7 @@ import Image from 'next/image'
 
 const Bio = () => {
   return (
-    <div className="flex sm:flex-row flex-col items-center max-w-screen-md mx-auto w-full px-5">
+    <div className="flex sm:flex-row flex-col items-center max-w-screen-md mx-auto w-full">
       <div className="relative sm:max-w-[250px] max-w-[180px]">
         <Image
           src={EmmaBostian}
@@ -23,11 +23,19 @@ const Bio = () => {
           />
         </div>
       </div>
-      <div className="sm:pl-16 w-full">
-        <p className="sm:text-lg">
+      <div className="sm:pl-10 w-full sm:text-xl">
+        <p>
           I’m Emma Bostian, a Software Engineer at Spotify and author of{' '}
-          <em>De-Coding the Technical Interview Process</em>.
-          <br />
+          <a
+            href="https://technicalinterviews.dev"
+            target="_blank"
+            className="text-brand-brightYellow underline" rel="noreferrer"
+          >
+            De-Coding the Technical Interview Process
+          </a>
+          .
+        </p>
+        <p>
           I've been responsible for assessing the CSS skill level for
           job-seeking devs (many of whom, advanced beginners) and building
           complex UIs using CSS as a core tool.
