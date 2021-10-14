@@ -22,6 +22,10 @@
   }
 }
 
+.prose figure figcaption {
+  @apply text-brand-cream sm:text-base text-xs font-display tracking-wider !important;
+}
+
 input:-webkit-autofill,
 input:-webkit-autofill:hover,
 input:-webkit-autofill:focus,
