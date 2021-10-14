@@ -17,12 +17,35 @@
   animation: spin 50s linear infinite;
 }
 
+.list--check {
+  @apply leading-tight pl-5 relative my-2;
+}
+.list--check::before {
+  @apply left-0 top-1 absolute w-4 h-4;
+  content: '';
+  background-image: url("data:image/svg+xml,%3Csvg width='12' height='10' viewBox='0 0 8 6' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M7.97539 0.991311C7.97766 1.25351 7.87687 1.50611 7.69471 1.69471L3.69471 5.69471C3.50718 5.88218 3.25288 5.9875 2.98771 5.9875C2.72255 5.9875 2.46824 5.88218 2.28071 5.69471L0.280712 3.69471C0.0985542 3.50611 -0.00224062 3.25351 3.78025e-05 2.99131C0.00231622 2.72911 0.107485 2.4783 0.292894 2.29289C0.478302 2.10749 0.729114 2.00232 0.991311 2.00004C1.25351 1.99776 1.50611 2.09855 1.69471 2.28071L2.98771 3.57371L6.28071 0.280712C6.46931 0.0985542 6.72192 -0.00224062 6.98411 3.78025e-05C7.24631 0.00231622 7.49712 0.107485 7.68253 0.292894C7.86794 0.478302 7.97311 0.729114 7.97539 0.991311Z' fill='%239CA3AF'/%3E%3C/svg%3E%0A");
+  background-repeat: no-repeat;
+}
+
+del {
+  text-decoration: none;
+  @apply relative flex items-center justify-center;
+}
+del::before {
+  content: '';
+  @apply absolute w-full h-[2px] bg-current rotate-[-19deg];
+}
+
 /*
 This will hide the focus indicator if the element receives focus via the mouse,
 but it will still show up on keyboard focus.
 */
 .js-focus-visible :focus:not(.focus-visible) {
   outline: none;
+}
+
+abbr {
+  @apply no-underline !important;
 }
 
 @import '@reach/dialog/styles.css';
