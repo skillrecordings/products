@@ -1,7 +1,7 @@
 // add a comment here
 export default {
   defaultTitle: 'CSS Destructured',
-  description: "Learning CSS doesn't have to suck",
+  description: 'A Holistic Approach to Learning CSS',
   author: 'Emma Bostian',
   favicon: '/favicon.ico',
   email: 'emma@cssdestructured.com',
