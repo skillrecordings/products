@@ -4,6 +4,7 @@
 @import '@reach/dialog/styles.css';
 @import './fonts/index.css';
 @import './icons.css';
+@import '@skillrecordings/quiz/dist/styles/index.css';
 
 ::selection {
   @apply bg-brand-orange;
@@ -20,6 +21,10 @@
   [data-sr-input-asterisk] {
     @apply text-brand-brightYellow;
   }
+}
+
+.prose figure figcaption {
+  @apply text-brand-cream sm:text-base text-xs font-display tracking-wider !important;
 }
 
 input:-webkit-autofill,

@@ -8,8 +8,8 @@ const Answer = ({questions}: any) => {
     <Layout noIndex meta={{title: 'Quiz'}}>
       <QuizAnswerPage
         questions={questions}
-        author={'Cassidy Williams'}
-        title="Keyboard Legend"
+        author={'Emma Bostian'}
+        title="CSS Destructured"
       />
     </Layout>
   )
