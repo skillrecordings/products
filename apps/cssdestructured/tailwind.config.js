@@ -4,6 +4,7 @@ const tailwindCommonConfig = require('@skillrecordings/scripts/tailwind.config')
 
 module.exports = {
   ...tailwindCommonConfig,
+  darkMode: 'class',
   theme: {
     extend: {
       colors: {
@@ -61,6 +62,7 @@ module.exports = {
             },
             'ul > li:before': {
               content: '"✦"',
+              top: '0.33em',
               width: '0 !important',
               color: theme('colors.brand.brightYellow'),
               fontSize: theme('fontSize.xs'),
@@ -70,6 +72,9 @@ module.exports = {
               margin: '0px !important',
             },
           },
+        },
+        dark: {
+          css: {},
         },
       }),
     },

@@ -43,7 +43,7 @@ module.exports = {
         dark: {
           css: {
             color: theme('colors.gray.100'),
-            '*': {color: theme('colors.gray.100')},
+            '*, code': {color: theme('colors.gray.100')},
             strong: {color: theme('colors.gray.100')},
             'h1, h2, h3, h4': {
               color: theme('colors.gray.100'),

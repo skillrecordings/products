@@ -4,6 +4,7 @@
 @import '@reach/dialog/styles.css';
 @import './fonts/index.css';
 @import './icons.css';
+@import '@skillrecordings/quiz/dist/styles/index.css';
 
 ::selection {
   @apply bg-brand-orange;

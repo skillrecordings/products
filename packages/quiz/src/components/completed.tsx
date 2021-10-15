@@ -28,7 +28,7 @@ const CompletedMessage: React.FC<{
   return (
     <>
       {neutral ? (
-        <div className="pt-10 prose prose-lg text-center sm:prose-xl dark:prose-dark">
+        <div data-sr-quiz-completed>
           {isLast ? (
             <p tabIndex={-1} ref={answeredMessageRef}>
               {srMessage}
@@ -50,7 +50,7 @@ const CompletedMessage: React.FC<{
           </p>
         </div>
       ) : answeredCorrectly ? (
-        <div className="pt-10 mt-10 prose prose-lg text-center border-t border-gray-200 sm:prose-xl dark:prose-dark dark:border-gray-700">
+        <div data-sr-quiz-completed="correct">
           <p tabIndex={-1} ref={answeredMessageRef}>
             Nice work. You chose the correct answer!
           </p>
@@ -68,7 +68,7 @@ const CompletedMessage: React.FC<{
           </p>
         </div>
       ) : (
-        <div className="pt-10 mt-10 prose prose-lg text-center border-t border-gray-200 sm:prose-xl dark:prose-dark dark:border-gray-700">
+        <div data-sr-quiz-completed="incorrect">
           <p tabIndex={-1} ref={answeredMessageRef}>
             You chose an incorrect answer, but don't worry. Just go back and
             re-read the email and check out any linked resources. You can

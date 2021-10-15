@@ -1,6 +1,6 @@
 import axios from 'axios'
 import {useFormik} from 'formik'
-import {every, find, isArray, map} from 'lodash'
+import {every, isArray} from 'lodash'
 import isEmpty from 'lodash/isEmpty'
 import type {Question, Questions} from '@skillrecordings/types'
 import React from 'react'
@@ -19,6 +19,7 @@ function useQuestion(question: Question, questions: Questions) {
   const hasMultipleCorrectAnswers = isArray(correct)
   const isAnswered = !isEmpty(answer)
   const [isSubmitting, setSubmitting] = React.useState<boolean>(false)
+
   const formik = useFormik({
     initialValues: {
       answer: null,
@@ -35,7 +36,6 @@ function useQuestion(question: Question, questions: Questions) {
         : Yup.string()
             .nullable()
             .required(`Can't stay empty. Mind to elaborate? :)`),
-      // comment: Yup.string().nullable().required(),
     }),
     onSubmit: async (values) => {
       setSubmitting(true)
