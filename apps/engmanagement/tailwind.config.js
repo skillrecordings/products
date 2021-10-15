@@ -4,6 +4,7 @@ const tailwindCommonConfig = require('@skillrecordings/scripts/tailwind.config')
 
 module.exports = {
   ...tailwindCommonConfig,
+  darkMode: 'class',
   theme: {
     extend: {
       colors: {

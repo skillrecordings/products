@@ -3,8 +3,8 @@ import {FunctionComponent} from 'react'
 import Markdown from 'react-markdown'
 import type {Question, Questions} from '@skillrecordings/types'
 import useQuestion from '../../../hooks/use-quiz-question'
-import SubmitButton from './submit'
-import CompletedMessage from './completed'
+import SubmitButton from '../../submit'
+import CompletedMessage from '../../completed'
 
 const EssayQuestion: FunctionComponent<{
   question: Question
@@ -12,49 +12,48 @@ const EssayQuestion: FunctionComponent<{
   author?: string
   title?: string
 }> = ({question, questions, author, title}) => {
-  const {formik, onAnswer, isAnswered, answeredCorrectly, isSubmitting} =
-    useQuestion(question, questions)
+  const {formik, onAnswer, isAnswered, isSubmitting} = useQuestion(
+    question,
+    questions,
+  )
 
   return (
-    <form onSubmit={onAnswer} className="w-full">
-      <legend className="lg:text-4xl sm:text-3xl text-2xl font-semibold pb-6">
-        <Markdown
-          className="prose lg:prose-xl sm:prose-lg dark:prose-dark"
-          children={question?.question}
-        />
+    <form data-sr-quiz-form="essay" onSubmit={onAnswer}>
+      <legend data-sr-quiz-question>
+        <Markdown children={question?.question} />
       </legend>
-      <label>
-        <span className="text-xl font-medium pb-2 inline-block text-gray-800 dark:text-gray-300">
-          Please explain:
-        </span>
-        <textarea
-          disabled={isAnswered}
-          name="answer"
-          onChange={formik.handleChange}
-          rows={6}
-          className="form-textarea w-full text-lg dark:bg-gray-800 dark:text-white rounded-lg dark:placeholder-gray-500"
-          placeholder="Type your answer here..."
-        />
+      <label data-sr-quiz-form-label htmlFor="answer">
+        Your answer
       </label>
+      <textarea
+        required
+        data-sr-quiz-form-textarea
+        disabled={isAnswered}
+        name="answer"
+        id="answer"
+        onChange={formik.handleChange}
+        rows={6}
+        placeholder="Type your answer here..."
+      />
+
       {!isAnswered && (
-        <div className="w-full py-5">
+        <>
           {formik.errors.answer && (
-            <div className="pb-5 font-medium text-lg">
-              <span role="img" aria-label="Alert">
+            <div data-sr-quiz-form-error>
+              <span role="img" aria-label="alert">
                 ⚠️
               </span>{' '}
               {formik.errors.answer}
             </div>
           )}
           <SubmitButton isSubmitting={isSubmitting} isAnswered={isAnswered} />
-        </div>
+        </>
       )}
 
       {isAnswered && question?.answer && (
-        <Markdown
-          children={question.answer}
-          className="prose sm:prose-xl prose-lg pt-5"
-        />
+        <div data-sr-quiz-form-answer>
+          <Markdown children={question.answer} />
+        </div>
       )}
       {isAnswered && (
         <CompletedMessage
