@@ -19,8 +19,6 @@ function useQuestion(question: Question, questions: Questions) {
   const hasMultipleCorrectAnswers = isArray(correct)
   const isAnswered = !isEmpty(answer)
   const [isSubmitting, setSubmitting] = React.useState<boolean>(false)
-  // const getQuestionType = (question: Question) => question.correct ? (isArray(question.correct) ? 'multiple-choice' : 'single-choice') : 'essay'
-  // const questionType = getQuestionType(question)
 
   const formik = useFormik({
     initialValues: {
