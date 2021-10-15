@@ -13,7 +13,7 @@
     "test": "jest",
     "dev": "tsc -w & pnpm build:css -- -w",
     "build": "tsc && pnpm build:css",
-    "build:css": "node-sass --output-style expanded --source-map true --source-map-contents true --precision 6 src/styles -o dist/styles",
+    "build:css": "node-sass --output-style expanded --source-map true --source-map-contents true --precision 6 src/styles/index.css -o dist/styles",
     "lint": "TIMING=1 eslint src --fix",
     "clean": "rm -rf .turbo && rm -rf node_modules && rm -rf dist"
   },
