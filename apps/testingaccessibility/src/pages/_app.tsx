@@ -26,7 +26,7 @@ function MyApp({Component, pageProps}: AppProps) {
       <DefaultSeo {...config} />
       <ConvertkitProvider>
         <ViewerProvider>
-          <ThemeProvider>
+          <ThemeProvider forcedTheme="light" attribute="class">
             <MDXProvider components={MDXComponents}>
               <Component {...pageProps} />
             </MDXProvider>
