@@ -1,19 +1,19 @@
 import * as React from 'react'
+import type {Question, Questions, Choice} from '@skillrecordings/types'
 import Markdown from 'react-markdown'
 import shuffle from 'lodash/shuffle'
-import type {Question, Questions} from '@skillrecordings/types'
+import some from 'lodash/some'
 import useQuestion from '../hooks/use-quiz-question'
 import SubmitButton from './submit'
 import CompletedMessage from './completed'
-
-type Choice = any
 
 const QuestionToShow: React.FunctionComponent<{
   question: Question
   questions: Questions
   author?: string
   title?: string
-}> = ({question, questions, author, title}) => {
+  markdownProps?: any
+}> = ({question, questions, author, title, markdownProps}) => {
   const {
     formik,
     onAnswer,
@@ -24,56 +24,63 @@ const QuestionToShow: React.FunctionComponent<{
     isAnswered,
   } = useQuestion(question, questions)
 
-  const [choices, setChoices] = React.useState<Choice>()
+  const [choices, setChoices] = React.useState<Choice[]>()
 
   React.useEffect(() => {
     question?.choices && setChoices(shuffle(question.choices))
   }, [])
 
+  const hasImage = choices && some(choices, (ch) => ch.image)
+
   return (
     <form data-sr-quiz-form onSubmit={onAnswer}>
       <legend data-sr-quiz-question>
-        <Markdown children={question?.question} />
+        <Markdown {...markdownProps} children={question?.question} />
       </legend>
       {choices ? (
         <fieldset disabled={isAnswered}>
           <legend data-sr-quiz-form-label>Your answer</legend>
           <ul data-sr-quiz-choices aria-required={true}>
-            {choices.map((choice: any) => (
-              <li>
-                <label
-                  data-sr-quiz-choice={
-                    isAnswered
-                      ? isCorrectAnswer(choice)
-                        ? 'correct'
-                        : 'incorrect'
-                      : ''
-                  }
-                  key={choice.answer}
-                >
-                  <input
-                    data-sr-quiz-input
-                    type={hasMultipleCorrectAnswers ? 'checkbox' : 'radio'}
-                    name="answer"
-                    value={choice.answer}
-                    onChange={formik.handleChange}
-                    disabled={isAnswered}
-                  />
-                  <div data-sr-quiz-input-label>
-                    {choice.label}
-                    {isAnswered && (
-                      <span
-                        data-sr-quiz-answered={
-                          isCorrectAnswer(choice) ? 'correct' : 'incorrect'
-                        }
-                      >
-                        {isCorrectAnswer(choice) ? 'correct' : 'incorrect'}
-                      </span>
-                    )}
-                  </div>
-                </label>
-              </li>
-            ))}
+            {choices.map((choice: Choice) => {
+              return (
+                <li key={choice.answer}>
+                  <label
+                    data-sr-quiz-choice={
+                      isAnswered
+                        ? isCorrectAnswer(choice)
+                          ? 'correct'
+                          : 'incorrect'
+                        : ''
+                    }
+                    key={choice.answer}
+                  >
+                    <input
+                      data-sr-quiz-input
+                      type={hasMultipleCorrectAnswers ? 'checkbox' : 'radio'}
+                      name="answer"
+                      value={choice.answer}
+                      onChange={formik.handleChange}
+                      disabled={isAnswered}
+                    />
+                    <div data-sr-quiz-input-label>
+                      {hasImage && (
+                        <img src={choice.image} alt={choice.answer} />
+                      )}
+                      {choice.label}
+                      {isAnswered && (
+                        <span
+                          data-sr-quiz-answered={
+                            isCorrectAnswer(choice) ? 'correct' : 'incorrect'
+                          }
+                        >
+                          {isCorrectAnswer(choice) ? 'correct' : 'incorrect'}
+                        </span>
+                      )}
+                    </div>
+                  </label>
+                </li>
+              )
+            })}
           </ul>
         </fieldset>
       ) : (

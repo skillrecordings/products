@@ -461,6 +461,7 @@ importers:
       '@types/pluralize': ^0.0.29
       '@types/react': '*'
       '@types/react-scroll': ^1.8.3
+      '@types/react-syntax-highlighter': ^13.5.2
       '@typescript-eslint/eslint-plugin': ^4.29.1
       '@typescript-eslint/parser': ^4.29.1
       '@xstate/react': ^1.5.1
@@ -509,6 +510,7 @@ importers:
       react-markdown: ^6.0.3
       react-scroll: ^1.8.3
       react-stripe-checkout: ^2.6.3
+      react-syntax-highlighter: ^15.4.4
       react-test-renderer: ^17.0.2
       react-use: ^17.2.4
       react-use-clipboard: ^1.0.7
@@ -573,6 +575,7 @@ importers:
       react-markdown: 6.0.3_9280ae23271fd1e8184f767af1a90e55
       react-scroll: 1.8.4_react-dom@17.0.2+react@17.0.2
       react-stripe-checkout: 2.6.3
+      react-syntax-highlighter: 15.4.4_react@17.0.2
       react-use: 17.2.4_react-dom@17.0.2+react@17.0.2
       react-use-clipboard: 1.0.7_react-dom@17.0.2+react@17.0.2
       rehype: 12.0.0
@@ -601,6 +604,7 @@ importers:
       '@types/pluralize': 0.0.29
       '@types/react': 17.0.17
       '@types/react-scroll': 1.8.3
+      '@types/react-syntax-highlighter': 13.5.2
       '@typescript-eslint/eslint-plugin': 4.29.1_d4376362794b743c19f4cba25c7fc6f5
       '@typescript-eslint/parser': 4.29.1_eslint@7.32.0+typescript@4.3.5
       assert: 2.0.0
@@ -6005,6 +6009,12 @@ packages:
       '@types/react': 17.0.17
     dev: true
 
+  /@types/react-syntax-highlighter/13.5.2:
+    resolution: {integrity: sha512-sRZoKZBGKaE7CzMvTTgz+0x/aVR58ZYUTfB7HN76vC+yQnvo1FWtzNARBt0fGqcLGEVakEzMu/CtPzssmanu8Q==}
+    dependencies:
+      '@types/react': 17.0.17
+    dev: true
+
   /@types/react/17.0.17:
     resolution: {integrity: sha512-nrfi7I13cAmrd0wje8czYpf5SFbryczCtPzFc6ijqvdjKcyA3tCvGxwchOUlxb2ucBPuJ9Y3oUqKrRqZvrz0lw==}
     dependencies:
@@ -9916,6 +9926,12 @@ packages:
     dependencies:
       reusify: 1.0.4
 
+  /fault/1.0.4:
+    resolution: {integrity: sha512-CJ0HCB5tL5fYTEA7ToAq5+kTwd++Borf1/bifxd9iT70QcXr4MRrO3Llf8Ifs70q+SJcGHFtnIE/Nw6giCtECA==}
+    dependencies:
+      format: 0.2.2
+    dev: false
+
   /fb-watchman/2.0.1:
     resolution: {integrity: sha512-DkPJKQeY6kKwmuMretBhr7G6Vodr7bFwDYTXIkfG1gjvNpaxBTQV3PbXg6bR1c1UP4jPOX0jHUbbHANL9vRjVg==}
     dependencies:
@@ -10169,6 +10185,11 @@ packages:
 
   /form-urlencoded/2.0.9:
     resolution: {integrity: sha512-fWUzNiOnYa126vFAT6TFXd1mhJrvD8IqmQ9ilZPjkLYQfaRreBr5fIUoOpPlWtqaAG64nzoE7u5zSetifab9IA==}
+    dev: false
+
+  /format/0.2.2:
+    resolution: {integrity: sha1-1hcBB+nv3E7TDJ3DkBbflCtctYs=}
+    engines: {node: '>=0.4.x'}
     dev: false
 
   /formik/2.2.8:
@@ -11049,6 +11070,10 @@ packages:
 
   /hey-listen/1.0.8:
     resolution: {integrity: sha512-COpmrF2NOg4TBWUJ5UVyaCU2A88wEMkUPK4hNqyCkqHbxT92BbvfjoSozkAIIm6XhicGlJHhFdullInrdhwU8Q==}
+    dev: false
+
+  /highlight.js/10.7.3:
+    resolution: {integrity: sha512-tzcUFauisWKNHaRkN4Wjl/ZA07gENAjFl3J/c480dprkGTg5EQstgaNFqBfUqCq54kZRIEcreTsAgF/m2quD7A==}
     dev: false
 
   /hls.js/1.0.7:
@@ -13528,6 +13553,13 @@ packages:
     resolution: {integrity: sha512-tqNXrS78oMOE73NMxK4EMLQsQowWf8jKooH9g7xPavRT706R6bkQJ6DY2Te7QukaZsulxa30wQ7bk0pm4XiHmA==}
     engines: {node: '>=8'}
     dev: true
+
+  /lowlight/1.20.0:
+    resolution: {integrity: sha512-8Ktj+prEb1RoCPkEOrPMYUN/nCggB7qAWe3a7OpMjWQkh3l2RD5wKRQ+o8Q8YuI9RG/xs95waaI/E6ym/7NsTw==}
+    dependencies:
+      fault: 1.0.4
+      highlight.js: 10.7.3
+    dev: false
 
   /lru-cache/4.1.5:
     resolution: {integrity: sha512-sWZlbEP2OsHNkXrMl5GYk/jKk70MBng6UU4YI/qGDYbgf6YbP4EvmqISbXCoJiRKs+1bSpFHVgQxvJ17F2li5g==}
@@ -16483,6 +16515,19 @@ packages:
       invariant: 2.2.4
       react: 17.0.2
       tslib: 1.14.1
+    dev: false
+
+  /react-syntax-highlighter/15.4.4_react@17.0.2:
+    resolution: {integrity: sha512-PsOFHNTzkb3OroXdoR897eKN5EZ6grht1iM+f1lJSq7/L0YVnkJaNVwC3wEUYPOAmeyl5xyer1DjL6MrumO6Zw==}
+    peerDependencies:
+      react: '>= 0.14.0'
+    dependencies:
+      '@babel/runtime': 7.15.3
+      highlight.js: 10.7.3
+      lowlight: 1.20.0
+      prismjs: 1.23.0
+      react: 17.0.2
+      refractor: 3.3.0
     dev: false
 
   /react-test-renderer/17.0.2:

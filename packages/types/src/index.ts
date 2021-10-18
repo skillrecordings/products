@@ -100,7 +100,7 @@ export type Question = {
   tagId: number
   correct?: string[] | string
   answer?: string
-  choices?: {answer: string; label: string}[]
+  choices?: Choice[]
 }
 
 export type Questions = {
@@ -109,5 +109,6 @@ export type Questions = {
 
 export type Choice = {
   answer: string
-  label: string
+  label?: string
+  image?: string
 }
