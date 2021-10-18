@@ -235,6 +235,7 @@ importers:
     specifiers:
       '@babel/plugin-transform-react-jsx': ^7.14.9
       '@mdx-js/loader': ^1.6.22
+      '@mdx-js/react': ^1.6.22
       '@next/mdx': ^11.1.0
       '@reach/dialog': ^0.16.0
       '@skillrecordings/analytics': workspace:*
@@ -260,6 +261,7 @@ importers:
       '@tippyjs/react': ^4.2.5
       '@types/cookie': ^0.4.1
       '@types/lodash': ^4.14.172
+      '@types/mdx-js__react': ^1.5.4
       '@types/node': ^16.6.0
       '@types/pluralize': ^0.0.29
       '@types/react': '*'
@@ -330,7 +332,8 @@ importers:
       xstate: ^4.23.1
       yup: ^0.28.1
     dependencies:
-      '@next/mdx': 11.1.0_@mdx-js+loader@1.6.22
+      '@mdx-js/react': 1.6.22_react@17.0.2
+      '@next/mdx': 11.1.0_f56c41adb6190c4680be4a1c0222355d
       '@reach/dialog': 0.16.0_9c423dff26c1034f6157071c372957fe
       '@skillrecordings/analytics': link:../../packages/analytics
       '@skillrecordings/auth': link:../../packages/auth
@@ -398,6 +401,7 @@ importers:
       '@testing-library/jest-dom': 5.14.1
       '@testing-library/react': 12.0.0_react-dom@17.0.2+react@17.0.2
       '@types/cookie': 0.4.1
+      '@types/mdx-js__react': 1.5.4
       '@types/node': 16.6.0
       '@types/pluralize': 0.0.29
       '@types/react': 17.0.17
@@ -1397,6 +1401,7 @@ importers:
     specifiers:
       '@babel/plugin-transform-react-jsx': ^7.14.9
       '@mdx-js/loader': ^1.6.22
+      '@mdx-js/react': ^1.6.22
       '@next/mdx': ^11.1.0
       '@reach/dialog': ^0.16.0
       '@skillrecordings/analytics': '*'
@@ -1420,6 +1425,7 @@ importers:
       '@tippyjs/react': ^4.2.5
       '@types/cookie': ^0.4.1
       '@types/lodash': ^4.14.172
+      '@types/mdx-js__react': ^1.5.4
       '@types/node': ^16.6.0
       '@types/pluralize': ^0.0.29
       '@types/react': '*'
@@ -1487,7 +1493,8 @@ importers:
       xstate: ^4.23.1
       yup: ^0.28.1
     dependencies:
-      '@next/mdx': 11.1.0_@mdx-js+loader@1.6.22
+      '@mdx-js/react': 1.6.22_react@17.0.2
+      '@next/mdx': 11.1.0_f56c41adb6190c4680be4a1c0222355d
       '@reach/dialog': 0.16.0_9c423dff26c1034f6157071c372957fe
       '@skillrecordings/analytics': link:../../packages/analytics
       '@skillrecordings/auth': link:../../packages/auth
@@ -1515,7 +1522,7 @@ importers:
       formik: 2.2.8_react@17.0.2
       framer-motion: 4.1.17_react-dom@17.0.2+react@17.0.2
       lodash: 4.17.21
-      mdx-embed: 0.0.19_react-dom@17.0.2+react@17.0.2
+      mdx-embed: 0.0.19_f5e160408787c83703822bac205321c8
       mdx-prism: 0.3.4
       next: 11.1.2_f31b35bdaa3b7c2fce82404f09d2dac4
       next-seo: 4.26.0_6fbf59523517da779df50d355b375324
@@ -1552,6 +1559,7 @@ importers:
       '@testing-library/jest-dom': 5.14.1
       '@testing-library/react': 12.0.0_react-dom@17.0.2+react@17.0.2
       '@types/cookie': 0.4.1
+      '@types/mdx-js__react': 1.5.4
       '@types/node': 16.6.0
       '@types/pluralize': 0.0.29
       '@types/react': 17.0.17
@@ -1585,6 +1593,7 @@ importers:
       '@asbjorn/eslint-plugin-groq': ^1.0.0
       '@babel/plugin-transform-react-jsx': ^7.14.9
       '@mdx-js/loader': ^1.6.22
+      '@mdx-js/react': ^1.6.22
       '@next/mdx': ^11.1.0
       '@reach/dialog': ^0.16.0
       '@reach/skip-nav': ^0.16.0
@@ -1613,6 +1622,7 @@ importers:
       '@tippyjs/react': ^4.2.5
       '@types/cookie': ^0.4.1
       '@types/lodash': ^4.14.172
+      '@types/mdx-js__react': ^1.5.4
       '@types/node': ^16.6.0
       '@types/pluralize': ^0.0.29
       '@types/react': '*'
@@ -1685,7 +1695,8 @@ importers:
       yup: ^0.28.1
     dependencies:
       '@asbjorn/eslint-plugin-groq': 1.0.0_groq@2.15.0
-      '@next/mdx': 11.1.0_@mdx-js+loader@1.6.22
+      '@mdx-js/react': 1.6.22_react@17.0.2
+      '@next/mdx': 11.1.0_f56c41adb6190c4680be4a1c0222355d
       '@reach/dialog': 0.16.0_9c423dff26c1034f6157071c372957fe
       '@reach/skip-nav': 0.16.0_react-dom@17.0.2+react@17.0.2
       '@sanity/block-content-to-react': 3.0.0_react@17.0.2
@@ -1757,6 +1768,7 @@ importers:
       '@testing-library/jest-dom': 5.14.1
       '@testing-library/react': 12.0.0_react-dom@17.0.2+react@17.0.2
       '@types/cookie': 0.4.1
+      '@types/mdx-js__react': 1.5.4
       '@types/node': 16.6.0
       '@types/pluralize': 0.0.29
       '@types/react': 17.0.17
@@ -4889,6 +4901,16 @@ packages:
       '@mdx-js/loader': 1.6.22_react@17.0.2
     dev: false
 
+  /@next/mdx/11.1.0_f56c41adb6190c4680be4a1c0222355d:
+    resolution: {integrity: sha512-X+NwSByGr9HuPkGs1nrzhmJ5qqQbv6CpEA3dJKEYHaDe7YzEUCM00Y7abxOzowXhUXeDdAHJ7IeIV4GZMhdcpg==}
+    peerDependencies:
+      '@mdx-js/loader': '>=0.15.0'
+      '@mdx-js/react': '*'
+    dependencies:
+      '@mdx-js/loader': 1.6.22_react@17.0.2
+      '@mdx-js/react': 1.6.22_react@17.0.2
+    dev: false
+
   /@next/polyfill-module/11.1.2:
     resolution: {integrity: sha512-xZmixqADM3xxtqBV0TpAwSFzWJP0MOQzRfzItHXf1LdQHWb0yofHHC+7eOrPFic8+ZGz5y7BdPkkgR1S25OymA==}
     dev: false
@@ -5718,6 +5740,12 @@ packages:
     resolution: {integrity: sha512-YwR7OK8aPmaBvMMUi+pZXBNoW2unbVbfok4YRqGMJBe1dpDlzpRkJrYEYmvjxgs5JhuQmKfDexrN98u941Zasg==}
     dependencies:
       '@types/unist': 2.0.6
+
+  /@types/mdx-js__react/1.5.4:
+    resolution: {integrity: sha512-hce+Hymj3cEMOma13eQRhpT3mhQrOkN4CAYEwKWB/qj2BiuUrrTpCkOShEERGmLVgDc3nxF4Dc0k7W999EQxnQ==}
+    dependencies:
+      '@types/react': 17.0.17
+    dev: true
 
   /@types/minimatch/3.0.5:
     resolution: {integrity: sha512-Klz949h02Gz2uZCMGwDUSDS1YBlTdDDgbWHi+81l29tQALUtvz4rAYi5uoVhE5Lagoq6DeqAUlbrHvW/mXDgdQ==}
@@ -13552,7 +13580,7 @@ packages:
   /mdurl/1.0.1:
     resolution: {integrity: sha1-/oWy7HWlkDfyrf7BAP1sYBdhFS4=}
 
-  /mdx-embed/0.0.19_react-dom@17.0.2+react@17.0.2:
+  /mdx-embed/0.0.19_f5e160408787c83703822bac205321c8:
     resolution: {integrity: sha512-0HEXkQqP7GuNE3kOWoj4FPdOWbACNpObeoUpTQe1BXrqcTR0KBGckCs30K+ypRuutQPo0L3IZsCLBMQqLMYaug==}
     peerDependencies:
       '@mdx-js/mdx': ^1.6.16
@@ -13560,6 +13588,7 @@ packages:
       react: ^16.13.1
       react-dom: ^16.13.1
     dependencies:
+      '@mdx-js/react': 1.6.22_react@17.0.2
       react: 17.0.2
       react-dom: 17.0.2_react@17.0.2
     dev: false
@@ -14055,7 +14084,7 @@ packages:
       react: '>=16.0.0'
       react-dom: '>=16.0.0'
     dependencies:
-      next: 11.1.2_d23913fae905660a596189f6b35fb8a9
+      next: 11.1.2_f31b35bdaa3b7c2fce82404f09d2dac4
       react: 17.0.2
       react-dom: 17.0.2_react@17.0.2
     dev: false
@@ -14091,7 +14120,7 @@ packages:
       react: '*'
       react-dom: '*'
     dependencies:
-      next: 11.1.2_d23913fae905660a596189f6b35fb8a9
+      next: 11.1.2_f31b35bdaa3b7c2fce82404f09d2dac4
       react: 17.0.2
       react-dom: 17.0.2_react@17.0.2
     dev: false
