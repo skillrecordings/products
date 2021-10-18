@@ -34,11 +34,11 @@
   }
 
   [data-sr-quiz-completed='correct'] {
-    @apply pt-10 mt-10 prose prose-lg text-center border-t border-gray-200 sm:prose-xl dark:prose-dark dark:border-gray-700;
+    @apply pt-10 mt-10 prose prose-lg text-center border-t border-black border-opacity-10 sm:prose-xl dark:prose-dark dark:border-white dark:border-opacity-10;
   }
 
   [data-sr-quiz-completed='incorrect'] {
-    @apply pt-10 mt-10 prose prose-lg text-center border-t border-gray-200 sm:prose-xl dark:prose-dark dark:border-gray-700;
+    @apply pt-10 mt-10 prose prose-lg text-center border-t border-black border-opacity-10 sm:prose-xl dark:prose-dark dark:border-white dark:border-opacity-10;
   }
 
   [data-sr-quiz-error] {
