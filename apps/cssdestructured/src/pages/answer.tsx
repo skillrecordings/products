@@ -45,6 +45,8 @@ export async function getStaticProps() {
   // pass the questions in as static (or dynamic!) props
   const questions: Questions = {
     rendering: {
+      type: `multiple-image-choice`,
+      tagId: 1234567, // TODO:
       question: `
 ### Given the following HTML and CSS code, select the correct render tree.
 
@@ -76,14 +78,10 @@ export async function getStaticProps() {
 </main>
 ~~~
 `,
-      type: `multiple-image-choice`,
-      tagId: 1234567,
       correct: 'a',
-      answer: `This is an answer.`,
       choices: [
         {
           answer: 'a',
-          label: 'ABCD',
           image:
             'https://res.cloudinary.com/dg3gyk0gu/image/upload/v1634565007/css-destructured-quiz/01-a.png',
         },
