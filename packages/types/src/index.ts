@@ -96,7 +96,7 @@ export type Achievement = {
 
 export type Question = {
   question: string
-  type: 'multiple-choice' | 'essay'
+  type: 'multiple-choice' | 'multiple-image-choice' | 'essay'
   tagId: number
   correct?: string[] | string
   answer?: string

@@ -33,8 +33,8 @@ const QuestionToShow: React.FunctionComponent<{
   const hasImage = choices && some(choices, (ch) => ch.image)
 
   return (
-    <form data-sr-quiz-form onSubmit={onAnswer}>
-      <legend data-sr-quiz-question>
+    <form data-sr-quiz-question-type={question.type} onSubmit={onAnswer}>
+      <legend data-sr-quiz-question-content>
         <Markdown {...markdownProps} children={question?.question} />
       </legend>
       {choices ? (
@@ -54,6 +54,9 @@ const QuestionToShow: React.FunctionComponent<{
                     }
                     key={choice.answer}
                   >
+                    {choice.image && (
+                      <img src={choice.image} alt={choice.answer} />
+                    )}
                     <input
                       data-sr-quiz-input
                       type={hasMultipleCorrectAnswers ? 'checkbox' : 'radio'}
@@ -63,9 +66,6 @@ const QuestionToShow: React.FunctionComponent<{
                       disabled={isAnswered}
                     />
                     <div data-sr-quiz-input-label>
-                      {hasImage && (
-                        <img src={choice.image} alt={choice.answer} />
-                      )}
                       {choice.label}
                       {isAnswered && (
                         <span
