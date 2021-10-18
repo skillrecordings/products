@@ -1,0 +1,9 @@
+# *
+User-agent: *
+Allow: /
+
+# Host
+Host: https://rustadventure.dev
+
+# Sitemaps
+Sitemap: https://rustadventure.dev/sitemap.xml

@@ -1,0 +1,20 @@
+{
+  "/_app": "pages/_app.js",
+  "/_document": "pages/_document.js",
+  "/answer": "pages/answer.js",
+  "/api/answer": "pages/api/answer.js",
+  "/api/convertkit/subscribe": "pages/api/convertkit/subscribe.js",
+  "/api/prices": "pages/api/prices.js",
+  "/api/stripe/prices": "pages/api/stripe/prices.js",
+  "/api/subscriber": "pages/api/subscriber.js",
+  "/api/users/current": "pages/api/users/current.js",
+  "/confirm": "pages/confirm.html",
+  "/confirmed": "pages/confirmed.html",
+  "/excited": "pages/excited.html",
+  "/": "pages/index.html",
+  "/redirect": "pages/redirect.html",
+  "/thanks": "pages/thanks.js",
+  "/unsubscribed": "pages/unsubscribed.html",
+  "/_error": "pages/_error.js",
+  "/404": "pages/404.html"
+}
