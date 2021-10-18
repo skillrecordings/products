@@ -76,13 +76,14 @@ export async function getStaticProps() {
 </main>
 ~~~
 `,
-      type: `multiple-choice`,
+      type: `multiple-image-choice`,
       tagId: 1234567,
       correct: 'a',
       answer: `This is an answer.`,
       choices: [
         {
           answer: 'a',
+          label: 'ABCD',
           image:
             'https://res.cloudinary.com/dg3gyk0gu/image/upload/v1634565007/css-destructured-quiz/01-a.png',
         },
