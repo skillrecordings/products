@@ -40,18 +40,7 @@ module.exports = {
               color: theme('colors.brand.text'),
             },
             'h1, h2, h3, h4': {
-              fontFamily: theme('fontFamily.serif').join(', '),
-              textAlign: 'center',
-              lineHeight: '0.6 !important',
-            },
-            h1: {
-              fontSize: '500% !important',
-            },
-            h2: {
-              fontSize: '400% !important',
-            },
-            h3: {
-              fontSize: '330% !important',
+              lineHeight: theme('lineHeight.tight'),
             },
             a: {
               color: theme('colors.brand.brightYellow'),

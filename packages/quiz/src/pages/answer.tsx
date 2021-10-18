@@ -8,9 +8,15 @@ type AnswerProps = {
   questions: Questions
   author?: string
   title?: string
+  markdownProps?: any
 }
 
-const Answer: React.FC<AnswerProps> = ({questions, author, title}) => {
+const Answer: React.FC<AnswerProps> = ({
+  questions,
+  author,
+  title,
+  markdownProps,
+}) => {
   const router = useRouter()
   const [currentQuestion, setCurrentQuestion] = React.useState<Question>()
 
@@ -25,12 +31,11 @@ const Answer: React.FC<AnswerProps> = ({questions, author, title}) => {
   return (
     <>
       <DevTools questions={questions} />
-      <div
-        data-sr-quiz
-        className="max-w-screen-sm w-full mx-auto flex items-center justify-center xl:pt-36 md:pt-32 pt-24 sm:pb-16 pb-8"
-      >
+      <div data-sr-quiz>
+        <h1>Quiz</h1>
         {currentQuestion && (
           <QuestionToShow
+            markdownProps={markdownProps}
             question={currentQuestion as Question}
             questions={questions}
             author={author}
