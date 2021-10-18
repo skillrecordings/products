@@ -15,6 +15,7 @@
     "format": "prettier --write './**/*.{js,jsx,ts,tsx,css,md,mdx,json}' --config ./.prettierrc"
   },
   "dependencies": {
+    "@mdx-js/react": "^1.6.22",
     "@next/mdx": "^11.1.0",
     "@reach/dialog": "^0.16.0",
     "@skillrecordings/analytics": "*",
@@ -81,6 +82,7 @@
     "@testing-library/jest-dom": "^5.14.1",
     "@testing-library/react": "^12.0.0",
     "@types/cookie": "^0.4.1",
+    "@types/mdx-js__react": "^1.5.4",
     "@types/node": "^16.6.0",
     "@types/pluralize": "^0.0.29",
     "@types/react": "*",
