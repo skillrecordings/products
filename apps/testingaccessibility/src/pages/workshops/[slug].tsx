@@ -53,7 +53,7 @@ const WorkshopPage: React.FC<any> = ({workshop, source}) => {
     ckFormId ? (
       <div className={className}>
         <div className="flex flex-col items-center rounded-3xl p-8 bg-white text-black border-4 border-gray-100 relative z-20 w-full">
-          <div className="flex sm:flex-row flex-col items-center w-full justify-between pb-4 border-b border-gray-100">
+          <div className="mb-4 flex sm:flex-row flex-col items-center w-full justify-between pb-4 border-b border-gray-100">
             <h2 className="text-xl font-bold text-left ">
               Interested in this workshop?
             </h2>
