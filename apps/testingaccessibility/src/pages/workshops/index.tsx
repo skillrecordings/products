@@ -38,7 +38,7 @@ const Workshops: React.FC<any> = ({workshops: workshopGroups}) => {
           <div className="pb-16 mx-auto max-w-screen-sm w-full">
             {workshopGroups.map(({title, workshops}: any) => {
               return (
-                <>
+                <div key={title}>
                   <h2 className="font-mono uppercase text-sm font-semibold pb-8 pt-16">
                     {title}
                   </h2>
@@ -46,10 +46,13 @@ const Workshops: React.FC<any> = ({workshops: workshopGroups}) => {
                     {workshops
                       .filter(({published}: any) => published)
                       .map((workshop: any) => (
-                        <WorkshopItem workshop={workshop} />
+                        <WorkshopItem
+                          key={workshop.title}
+                          workshop={workshop}
+                        />
                       ))}
                   </div>
-                </>
+                </div>
               )
             })}
           </div>
@@ -115,7 +118,7 @@ const WorkshopItem = ({workshop}: any) => {
       {slug && (
         <Link href={`/workshops/${slug}`} passHref>
           <a className="px-5 py-3 rounded-full hover:bg-indigo-600 transition-all ease-in-out duration-300 bg-indigo-500 text-white  font-semibold inline-flex">
-            View more and sign-up{' '}
+            Sign up for the workshop{' '}
             <span role="img" aria-label="arrow right" className="pl-2">
               →
             </span>
