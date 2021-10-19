@@ -26,9 +26,10 @@ export default {
     },
     {
       name: 'url',
-      title: 'Reservation URL',
+      title: 'Ti.to reservation url',
       type: 'url',
-      description: 'Link to ti.to page.',
+      description:
+        'Example: `https://ti.to/marcy-sutton/...`. If present, users will be able to buy a ticket.',
     },
     {
       title: 'Published',
