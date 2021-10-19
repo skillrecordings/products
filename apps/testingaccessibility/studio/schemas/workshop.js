@@ -26,9 +26,9 @@ export default {
     },
     {
       name: 'url',
-      title: 'External URL',
+      title: 'Reservation URL',
       type: 'url',
-      description: 'ti.to URL.',
+      description: 'Link to ti.to page.',
     },
     {
       title: 'Published',

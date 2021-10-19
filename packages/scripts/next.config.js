@@ -9,6 +9,9 @@ const IMAGE_HOST_DOMAINS = [
 ]
 
 const nextConfig = {
+  experimental: {
+    scrollRestoration: true,
+  },
   eslint: {
     ignoreDuringBuilds: true, // 😭
   },
