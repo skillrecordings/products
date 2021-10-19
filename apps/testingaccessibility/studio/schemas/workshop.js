@@ -25,6 +25,12 @@ export default {
         'Form ID to subscribe to. (Set up automation in ConvertKit to tag subscribers after submitting specific form)',
     },
     {
+      name: 'url',
+      title: 'External URL',
+      type: 'url',
+      description: 'ti.to URL.',
+    },
+    {
       title: 'Published',
       name: 'published',
       type: 'boolean',

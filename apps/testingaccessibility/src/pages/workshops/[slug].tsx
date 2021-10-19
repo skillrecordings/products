@@ -13,16 +13,50 @@ import Link from 'next/link'
 import {SubscribeToConvertkitForm} from '@skillrecordings/convertkit'
 
 const WorkshopPage: React.FC<any> = ({workshop, source}) => {
-  const {title, date, ckFormId, description, status} = workshop
+  const {title, date, ckFormId, description, status, url} = workshop
 
   const DisplayDate = () => <time dateTime={date}>{date}</time>
+
+  const CTA = ({className = 'max-w-screen-md w-full mx-auto'}: any) =>
+    ckFormId || url ? (
+      <div className={className}>
+        <div className="flex flex-col items-center rounded-3xl p-8 bg-white text-black border-4 border-gray-100 relative z-20 w-full">
+          <div className="flex sm:flex-row flex-col items-center w-full justify-between pb-4 mb-8 border-b border-gray-100">
+            <h2 className="text-xl font-bold text-left ">
+              Interested in this workshop?
+            </h2>
+            <div className="flex items-center space-x-2">
+              <CalendarIcon className="text-gray-500" />
+              <DisplayDate />
+            </div>
+          </div>
+          {url ? (
+            <a
+              className="inline-flex text-center items-center justify-center px-8 py-4 text-xl font-semibold leading-6 tracking-tight text-white transition duration-300 ease-in-out transform border-none rounded-full shadow-xl bg-gradient-to-r from-blue-600 to-indigo-600 focus:outline-none focus:ring-1 focus:ring-yellow-500 hover:scale-105"
+              href={url}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Reserve your spot
+            </a>
+          ) : (
+            <SubscribeToConvertkitForm
+              formId={ckFormId}
+              actionLabel="Join the waitlist"
+              successMessage="Thanks! I'll keep you in the loop on my upcoming workshops."
+            />
+          )}
+        </div>
+      </div>
+    ) : null
+
   return (
     <Layout meta={{title, description}}>
       <div data-workshop-interest>
         <header className="relative px-5 text-white bg-black pb-32 pt-8 flex flex-col items-center justify-center text-center">
           <Link href="/workshops">
             <a className="group text-indigo-100 relative hover:text-white font-normal px-4 py-2 hover:bg-opacity-5 bg-opacity-0 bg-white rounded-full transition-all ease-in-out duration-300 opacity-80 hover:opacity-90 ">
-              <span aria-role="img" aria-label="left arrow">
+              <span role="img" aria-label="left arrow">
                 ←
               </span>{' '}
               All Workshops
@@ -43,7 +77,8 @@ const WorkshopPage: React.FC<any> = ({workshop, source}) => {
               </div>
             )}
           </div>
-          {ckFormId && (
+          <CTA className="-mb-48 mt-16 max-w-screen-md w-full" />
+          {/* {ckFormId && (
             <div className="-mb-48 mt-16 max-w-screen-md w-full">
               <div className="rounded-3xl p-8 bg-white text-black shadow-xl relative z-20 w-full ">
                 <h2 className="text-xl font-bold text-left pb-4 mb-8 border-b border-gray-100">
@@ -56,7 +91,7 @@ const WorkshopPage: React.FC<any> = ({workshop, source}) => {
                 />
               </div>
             </div>
-          )}
+          )} */}
           <div className="absolute bottom-0 h-16 w-full overflow-hidden">
             <Wave
               preserveAspectRatio="none"
@@ -73,7 +108,8 @@ const WorkshopPage: React.FC<any> = ({workshop, source}) => {
               //   components={{Example: TheValueOfValuesExample}}
             />
           </div>
-          {ckFormId && (
+          <CTA />
+          {/* {ckFormId && (
             <div className=" max-w-screen-md w-full mx-auto">
               <div className="rounded-3xl p-8 bg-white text-black border-4 border-gray-100 relative z-20 w-full">
                 <div className="flex sm:flex-row flex-col items-center w-full justify-between pb-4 mb-8 border-b border-gray-100">
@@ -92,7 +128,7 @@ const WorkshopPage: React.FC<any> = ({workshop, source}) => {
                 />
               </div>
             </div>
-          )}
+          )} */}
         </main>
         <footer className="px-5">
           <section className="flex flex-col items-center max-w-screen-lg py-24 mx-auto md:flex-row md:space-x-16">
@@ -157,6 +193,7 @@ const workshopQuery = groq`*[_type == "workshop" && slug.current == $slug][0]{
     status,
     description,
     ogImage,
+    url
     }`
 
 const allWorkshopsQuery = groq`

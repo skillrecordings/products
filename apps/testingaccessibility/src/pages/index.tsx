@@ -40,7 +40,7 @@ const Home: React.FC = () => {
               </div>
             </div>
           </header>
-          <main className="relative z-10 flex-grow w-full pt-8">
+          <main className="relative z-10 flex-grow w-full pt-8 px-5">
             <article className="max-w-screen-md pt-16 mx-auto prose prose-lg lg:prose-xl">
               <LandingCopy />
             </article>
