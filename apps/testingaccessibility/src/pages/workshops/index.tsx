@@ -142,7 +142,7 @@ const workshopsQuery = groq`*[_type == "workshops"]{
 
 export const getServerSideProps: GetServerSideProps = async () => {
   const data = await sanityClient.fetch(workshopsQuery)
-  console.log(data[0].workshops)
+
   return {
     props: {workshops: data},
   }
