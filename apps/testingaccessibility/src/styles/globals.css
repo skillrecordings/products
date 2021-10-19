@@ -17,7 +17,7 @@ body {
 [data-sr-convertkit-subscribe-form] {
   @apply flex flex-col w-full max-w-[320px] mx-auto;
   [data-sr-input] {
-    @apply block mb-4 w-full px-4 py-3 text-white placeholder-white placeholder-opacity-50 bg-gray-900 bg-opacity-50 border border-white border-opacity-20 rounded-2xl sm:text-base sm:leading-6;
+    @apply block mb-4 w-full px-4 py-3 text-black placeholder-white placeholder-opacity-50 bg-gray-900 bg-opacity-50 border border-white border-opacity-20 rounded-2xl sm:text-base sm:leading-6;
   }
   [data-sr-input-label] {
     @apply font-medium;
