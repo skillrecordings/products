@@ -3,8 +3,8 @@
   "version": "0.1.1",
   "private": true,
   "scripts": {
-    "dev": "next dev -p 3011",
-    "start": "next start -p 3011",
+    "dev": "next dev -p 3013",
+    "start": "next start -p 3013",
     "integration": "cypress run",
     "build": "NODE_ENV=production next build",
     "postbuild": "NODE_ENV=production next-sitemap",
