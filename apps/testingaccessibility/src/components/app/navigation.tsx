@@ -13,8 +13,9 @@ const Navigation: FunctionComponent<NavigationProps> = () => {
   const [data, setData] = React.useState<any>()
 
   const scheduledWorkshopsQuery = groq`
-*[_type == "workshop" && ckFormId != null]{
-  ckFormId
+*[_type == "workshop" && ckFormId != null && published == true]{
+  ckFormId,
+  published
 }`
 
   async function fetchData() {
