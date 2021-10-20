@@ -1,4 +1,5 @@
 import * as React from 'react'
+import Script from 'next/script'
 import groq from 'groq'
 import {serialize} from 'next-mdx-remote/serialize'
 import {MDXRemote, MDXRemoteSerializeResult} from 'next-mdx-remote'
@@ -20,6 +21,8 @@ const WorkshopPage: React.FC<any> = ({workshop, source}) => {
   const ReservationWidget = ({
     className = 'max-w-screen-md w-full mx-auto',
   }: any) => {
+    const event = url.replace('https://ti.to/', '')
+
     return (
       <div className={className}>
         <div className="flex flex-col items-center rounded-3xl p-8 bg-white text-black border-4 border-gray-100 relative z-20 w-full">
@@ -32,6 +35,9 @@ const WorkshopPage: React.FC<any> = ({workshop, source}) => {
               <DisplayDate />
             </div>
           </div>
+          {/* @ts-ignore */}
+          {/* TODO: check accessibility of tito-widget */}
+          {/* <tito-widget event={event} /> */}
           <a
             href={url}
             className="inline-flex items-center px-8 py-4 mt-8 text-base flex-shrink-0 font-semibold leading-6 tracking-tight text-white transition duration-300 ease-in-out transform border-none rounded-full shadow-xl bg-gradient-to-r from-blue-600 to-indigo-600 focus:outline-none focus:ring-2 focus:ring-black hover:scale-105"
@@ -50,7 +56,7 @@ const WorkshopPage: React.FC<any> = ({workshop, source}) => {
     id,
   }: any) =>
     ckFormId ? (
-      <div className={className}>
+      <div data-workshop-interest className={className}>
         <div className="flex flex-col items-center rounded-3xl p-8 bg-white text-black border-4 border-gray-100 relative z-20 w-full">
           <div className="mb-4 flex sm:flex-row flex-col items-center w-full justify-between pb-4 border-b border-gray-100">
             <h2 className="text-xl font-bold text-left ">
@@ -73,8 +79,9 @@ const WorkshopPage: React.FC<any> = ({workshop, source}) => {
 
   return (
     <>
+      {/* <Script src="https://js.tito.io/v2" async /> */}
       <Layout meta={{title, description}}>
-        <div data-workshop-interest>
+        <div>
           <header className="relative px-5 text-white bg-black pb-32 pt-8 flex flex-col items-center justify-center text-center">
             <Link href="/workshops">
               <a className="group text-indigo-100 relative hover:text-white font-normal px-4 py-2 hover:bg-opacity-5 bg-opacity-0 bg-white rounded-full transition-all ease-in-out duration-300 opacity-80 hover:opacity-90 ">
