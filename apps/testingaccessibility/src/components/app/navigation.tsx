@@ -49,10 +49,7 @@ const Navigation: FunctionComponent<NavigationProps> = () => {
           <a className="relative group sm:text-base text-xs inline-block sm:px-4 px-3 sm:py-2 py-1.5 leading-5 transition-all duration-200 ease-in-out transform bg-white rounded-full hover:opacity-100 opacity-90 bg-opacity-5 hover:bg-opacity-10 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500">
             Upcoming Workshops{' '}
             {data && data.length > 0 && (
-              <span
-                aria-label="Number of upcoming workshops"
-                className="absolute right-0 top-1 rounded-full inline-flex leading-none bg-pink-300 bg-opacity-100 -translate-y-1 group-hover:bg-yellow-400 transition-all ease-in-out duration-200 text-black w-4 h-4 items-center justify-center font-mono sm:text-[0.7rem] text-[0.6rem] font-extrabold"
-              >
+              <span className="absolute right-0 top-1 rounded-full inline-flex leading-none bg-pink-300 bg-opacity-100 -translate-y-1 group-hover:bg-yellow-400 transition-all ease-in-out duration-200 text-black w-4 h-4 items-center justify-center font-mono sm:text-[0.7rem] text-[0.6rem] font-extrabold">
                 {data.length}
               </span>
             )}
