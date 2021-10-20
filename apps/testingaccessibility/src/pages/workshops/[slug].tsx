@@ -11,45 +11,44 @@ import Image from 'next/image'
 import {Wave} from 'components/images'
 import Link from 'next/link'
 import {SubscribeToConvertkitForm} from '@skillrecordings/convertkit'
-import Script from 'next/script'
 
 const WorkshopPage: React.FC<any> = ({workshop, source}) => {
   const {title, date, ckFormId, description, status, url} = workshop
 
   const DisplayDate = () => <time dateTime={date}>{date}</time>
+
   const ReservationWidget = ({
     className = 'max-w-screen-md w-full mx-auto',
   }: any) => {
-    const event = url.replace('https://ti.to/', '')
-
     return (
       <div className={className}>
         <div className="flex flex-col items-center rounded-3xl p-8 bg-white text-black border-4 border-gray-100 relative z-20 w-full">
           <div className="flex sm:flex-row flex-col items-center w-full justify-between pb-4 border-b border-gray-100">
-            <h2 className="text-xl font-bold text-left ">Reserve your spot</h2>
+            <h2 className="text-xl font-bold text-left ">
+              Sign up for this workshop
+            </h2>
             <div className="flex items-center space-x-2">
               <CalendarIcon className="text-gray-500" />
               <DisplayDate />
             </div>
           </div>
-          {/* @ts-ignore */}
-          <tito-widget event={event} />
-
-          <div className="opacity-70 text-sm pb-2">or</div>
           <a
             href={url}
-            className="flex items-center text-blue-500 underline"
+            className="inline-flex items-center px-8 py-4 mt-8 text-base flex-shrink-0 font-semibold leading-6 tracking-tight text-white transition duration-300 ease-in-out transform border-none rounded-full shadow-xl bg-gradient-to-r from-blue-600 to-indigo-600 focus:outline-none focus:ring-2 focus:ring-black hover:scale-105"
             target="_blank"
             rel="noopener noreferrer"
           >
-            <span className="pr-2">Visit reservation page</span>
-            <i className="gg-arrow-top-right scale-75" aria-hidden />{' '}
+            <span className="pr-2">Reserve your spot</span>
+            <i className="gg-arrow-right scale-75" aria-hidden />{' '}
           </a>
         </div>
       </div>
     )
   }
-  const InterestForm = ({className = 'max-w-screen-md w-full mx-auto'}: any) =>
+  const InterestForm = ({
+    className = 'max-w-screen-md w-full mx-auto',
+    id,
+  }: any) =>
     ckFormId ? (
       <div className={className}>
         <div className="flex flex-col items-center rounded-3xl p-8 bg-white text-black border-4 border-gray-100 relative z-20 w-full">
@@ -62,11 +61,11 @@ const WorkshopPage: React.FC<any> = ({workshop, source}) => {
               <DisplayDate />
             </div>
           </div>
-
           <SubscribeToConvertkitForm
             formId={ckFormId}
             actionLabel="Join the waitlist"
             successMessage="Thanks! I'll keep you in the loop on my upcoming workshops."
+            id={id}
           />
         </div>
       </div>
@@ -74,7 +73,6 @@ const WorkshopPage: React.FC<any> = ({workshop, source}) => {
 
   return (
     <>
-      <Script src="https://js.tito.io/v2" async />
       <Layout meta={{title, description}}>
         <div data-workshop-interest>
           <header className="relative px-5 text-white bg-black pb-32 pt-8 flex flex-col items-center justify-center text-center">
@@ -102,9 +100,12 @@ const WorkshopPage: React.FC<any> = ({workshop, source}) => {
               )}
             </div>
             {url ? (
-              <ReservationWidget className="-mb-48 mt-16 max-w-screen-sm w-full" />
+              <ReservationWidget className="-mb-48 mt-16 max-w-screen-md w-full" />
             ) : (
-              <InterestForm className="-mb-48 mt-16 max-w-screen-md w-full" />
+              <InterestForm
+                id="top"
+                className="-mb-48 mt-16 max-w-screen-md w-full"
+              />
             )}
             <div className="absolute bottom-0 h-16 w-full overflow-hidden">
               <Wave
@@ -119,7 +120,7 @@ const WorkshopPage: React.FC<any> = ({workshop, source}) => {
             <div className="py-32 mx-auto prose xl:prose-xl lg:prose-lg max-w-screen-sm">
               <MDXRemote {...source} />
             </div>
-            {url ? <ReservationWidget /> : <InterestForm />}
+            {url ? <ReservationWidget /> : <InterestForm id="bottom" />}
           </main>
           <footer className="px-5">
             <section className="flex flex-col items-center max-w-screen-lg py-24 mx-auto md:flex-row md:space-x-16">

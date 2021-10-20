@@ -19,12 +19,12 @@ const Label: React.FC<LabelHTMLAttributes<HTMLLabelElement>> = ({
   )
 }
 
-const Input: React.FC<InputProps> = ({name, label, ...rest}) => {
+const Input: React.FC<InputProps> = ({name, label, id, ...rest}) => {
   const {required} = rest
 
   return (
     <div data-sr-input-wrapper>
-      <Label htmlFor={name}>
+      <Label htmlFor={id}>
         {label}
         {required && (
           <abbr title="required" data-sr-input-asterisk>
@@ -32,7 +32,7 @@ const Input: React.FC<InputProps> = ({name, label, ...rest}) => {
           </abbr>
         )}
       </Label>
-      <input data-sr-input id={name} {...rest} />
+      <input data-sr-input name={name} id={id} {...rest} />
     </div>
   )
 }
