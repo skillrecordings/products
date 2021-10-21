@@ -45,7 +45,7 @@ const Layout: FunctionComponent<LayoutProps> = ({
       />
       <SkipNavLink>Skip navigation and go to content</SkipNavLink>
       {nav ? nav : isNull(nav) ? null : <Navigation />}
-      <div className={`flex flex-col min-h-screen bg-white ${className}`}>
+      <div className={`flex flex-col bg-white ${className}`}>
         <SkipNavContent>
           <div className="flex-grow flex flex-col justify-center">
             {children}

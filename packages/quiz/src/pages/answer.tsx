@@ -1,8 +1,12 @@
 import * as React from 'react'
 import {get, isEmpty, keys} from 'lodash'
 import {useRouter} from 'next/router'
-import type {Question, Questions} from '@skillrecordings/types'
-import QuestionToShow from '../components/question'
+import type {Questions} from '@skillrecordings/types'
+import MultipleImageChoice from '../components/question/multiple-image-choice'
+import MultipleChoice from '../components/question/multiple-choice'
+import Essay from '../components/question/essay'
+import {useQuizQuestion} from '..'
+import {QuestionProps} from '../components/question/index'
 
 type AnswerProps = {
   questions: Questions
@@ -17,32 +21,30 @@ const Answer: React.FC<AnswerProps> = ({
   title,
   markdownProps,
 }) => {
-  const router = useRouter()
-  const [currentQuestion, setCurrentQuestion] = React.useState<Question>()
+  const question = useQuizQuestion(questions)
 
-  React.useEffect(() => {
-    const param: any = get(router.query, 'question')
-    if (!isEmpty(param)) {
-      const question = get(questions, param)
-      setCurrentQuestion(question)
+  function questionToShow(question: QuestionProps) {
+    switch (question.currentQuestion.type) {
+      case 'essay': {
+        return <Essay question={question} />
+      }
+      case 'multiple-choice': {
+        return <MultipleChoice question={question} />
+      }
+      case 'multiple-image-choice': {
+        return <MultipleImageChoice question={question} />
+      }
+      default:
+        return null
     }
-  }, [router])
+  }
 
   return (
     <>
-      <DevTools questions={questions} />
-      <div data-sr-quiz>
-        <h1>Quiz</h1>
-        {currentQuestion && (
-          <QuestionToShow
-            markdownProps={markdownProps}
-            question={currentQuestion as Question}
-            questions={questions}
-            author={author}
-            title={title}
-          />
-        )}
+      <div data-sr-quiz="">
+        {question.currentQuestion && questionToShow(question)}
       </div>
+      <DevTools questions={questions} />
     </>
   )
 }

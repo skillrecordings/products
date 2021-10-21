@@ -94,7 +94,7 @@ export type Achievement = {
   }
 }
 
-export type Question = {
+export type QuestionResource = {
   question: string
   type: 'multiple-choice' | 'multiple-image-choice' | 'essay'
   tagId: number
@@ -104,7 +104,7 @@ export type Question = {
 }
 
 export type Questions = {
-  [key: string]: Question
+  [key: string]: QuestionResource
 }
 
 export type Choice = {
