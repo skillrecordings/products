@@ -82,21 +82,25 @@ export async function getStaticProps() {
       choices: [
         {
           answer: 'a',
+          label: 'A',
           image:
             'https://res.cloudinary.com/dg3gyk0gu/image/upload/v1634565007/css-destructured-quiz/01-a.png',
         },
         {
           answer: 'b',
+          label: 'B',
           image:
             'https://res.cloudinary.com/dg3gyk0gu/image/upload/v1634565007/css-destructured-quiz/01-b.png',
         },
         {
           answer: 'c',
+          label: 'C',
           image:
             'https://res.cloudinary.com/dg3gyk0gu/image/upload/v1634565007/css-destructured-quiz/01-c.png',
         },
         {
           answer: 'd',
+          label: 'D',
           image:
             'https://res.cloudinary.com/dg3gyk0gu/image/upload/v1634565007/css-destructured-quiz/01-d.png',
         },
