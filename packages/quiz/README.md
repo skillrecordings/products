@@ -59,3 +59,12 @@ const question = useQuestion({
 
 return questionToShow(question)
 ```
+
+**Answer programmatically**
+
+```jsx
+const question = useQuestion({
+  currentQuestion,
+  currentAnswer: 'true',
+})
+```
