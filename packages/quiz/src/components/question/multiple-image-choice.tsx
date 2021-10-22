@@ -13,19 +13,17 @@ import {
 const MultipleImageChoice: React.FC<{
   question: QuestionProps
 }> = ({question}) => {
-  return question ? (
-    <>
-      <Question {...question}>
-        <QuestionHeader />
-        <QuestionBody>
-          <QuestionChoices />
-          <QuestionSubmit>Submit</QuestionSubmit>
-          <QuestionAnswer />
-        </QuestionBody>
-        <QuestionFooter />
-      </Question>
-    </>
-  ) : null
+  return (
+    <Question {...question}>
+      <QuestionHeader />
+      <QuestionBody>
+        <QuestionChoices />
+        <QuestionSubmit>Submit</QuestionSubmit>
+        <QuestionAnswer />
+      </QuestionBody>
+      <QuestionFooter />
+    </Question>
+  )
 }
 
 export default MultipleImageChoice

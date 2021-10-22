@@ -13,7 +13,7 @@ import {
 const MultipleChoice: React.FC<{
   question: QuestionProps
 }> = ({question}) => {
-  return question ? (
+  return (
     <Question {...question}>
       <QuestionHeader />
       <QuestionBody>
@@ -23,7 +23,7 @@ const MultipleChoice: React.FC<{
       </QuestionBody>
       <QuestionFooter />
     </Question>
-  ) : null
+  )
 }
 
 export default MultipleChoice
