@@ -21,6 +21,7 @@ export interface AvailableUpgrade {
 }
 
 export type SellableResource = Resource & {
+  sellable_id?: string
   price: number
   full_price: number
   site?: string

@@ -25,6 +25,8 @@ type SubscribeFormProps = {
   onSuccess?: (subscriber?: ConvertkitSubscriber) => void
   formId?: number
   subscribeApiURL?: string
+  id?: string
+  [rest: string]: any
 }
 
 export const redirectUrlBuilder = (
@@ -64,6 +66,7 @@ export const SubscribeToConvertkitForm: React.FC<SubscribeFormProps> = ({
   onError = () => {},
   onSuccess = () => {},
   subscribeApiURL = CONVERTKIT_SUBSCRIBE_API_URL,
+  id,
   ...rest
 }) => {
   const [isSubmitting, setSubmitting] = React.useState<boolean>(false)
@@ -117,6 +120,7 @@ export const SubscribeToConvertkitForm: React.FC<SubscribeFormProps> = ({
           <Input
             label="First Name"
             name="first_name"
+            id={`first_name_${id}`}
             onChange={formik.handleChange}
             placeholder="Preferred name"
             type="text"
@@ -124,6 +128,7 @@ export const SubscribeToConvertkitForm: React.FC<SubscribeFormProps> = ({
           <Input
             label="Email"
             name="email"
+            id={`email_${id}`}
             onChange={formik.handleChange}
             placeholder="you@company.com"
             type="email"

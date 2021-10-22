@@ -1,3 +1,7 @@
+## Edit content
+
+Edit workshops with Sanity at [testingaccessibility.sanity.studio](https://testingaccessibility.sanity.studio/).
+
 ## Start developing
 
 Copy the template `.env.template` file to `.env.local` and `.env.production`.
