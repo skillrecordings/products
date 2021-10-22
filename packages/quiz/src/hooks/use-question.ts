@@ -37,7 +37,15 @@ export default function useQuestion({
 
   React.useEffect(() => {
     currentQuestion && send('LOAD_QUESTION', {currentQuestion})
-    currentAnswer && send('ANSWER', {answer: currentAnswer})
+    currentAnswer &&
+      currentQuestion &&
+      send('ANSWER', {
+        answer: isArray(currentQuestion.correct)
+          ? !isArray(currentAnswer)
+            ? currentAnswer.split(',')
+            : currentAnswer
+          : currentAnswer,
+      })
   }, [currentQuestion, currentAnswer, send])
 
   React.useEffect(() => {
