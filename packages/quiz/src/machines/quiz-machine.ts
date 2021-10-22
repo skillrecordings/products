@@ -92,7 +92,6 @@ const quizMachine = createMachine<QuizContext, QuizEvent>(
               context.currentQuestion.correct?.includes(a),
             ),
           )
-
         return hasMultipleCorrectAnswers
           ? allCorrect
           : context.currentQuestion.correct === context.answer

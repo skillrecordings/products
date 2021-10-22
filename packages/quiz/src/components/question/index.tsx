@@ -8,6 +8,7 @@ import {FormikValues} from '../../hooks/use-question'
 import ReactMarkdown from 'react-markdown'
 import {QuizConfig} from '../../config'
 import {useId} from '@reach/auto-id'
+import isArray from 'lodash/isArray'
 import {FormikProps} from 'formik'
 import SyntaxHighlighter, {
   SyntaxHighlighterProps,
@@ -147,8 +148,13 @@ const QuestionChoice = React.forwardRef(function QuestionChoice(
   {children, choice, index, as: Comp = 'li', ...props},
   forwardRef,
 ) {
-  const {isAnswered, formik, hasMultipleCorrectAnswers, isCorrectChoice} =
-    React.useContext(QuestionContext)
+  const {
+    isAnswered,
+    formik,
+    hasMultipleCorrectAnswers,
+    isCorrectChoice,
+    answer,
+  } = React.useContext(QuestionContext)
   const alpha = Array.from(Array(26)).map((_, i) => i + 65)
   const alphabet = alpha.map((x) => String.fromCharCode(x))
 
@@ -165,7 +171,11 @@ const QuestionChoice = React.forwardRef(function QuestionChoice(
         <input
           name="answer"
           value={choice.answer}
-          checked={formik.initialValues.answer === choice.answer || undefined}
+          checked={
+            (isArray(answer)
+              ? answer?.includes(choice.answer)
+              : answer === choice.answer) || undefined
+          }
           onChange={formik.handleChange}
           onBlur={formik.handleBlur}
           disabled={isAnswered}
