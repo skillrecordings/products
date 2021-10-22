@@ -195,6 +195,7 @@ const QuestionInput = React.forwardRef(function QuestionInput(
         rows={6}
         name="answer"
         id="answer"
+        value={formik.initialValues.answer || undefined}
         onChange={formik.handleChange}
         onBlur={formik.handleBlur}
         disabled={isAnswered}
