@@ -1,9 +1,9 @@
 /* ——— QUIZ ——— */
 [data-sr-quiz] {
-  @apply p-5 flex flex-col items-center justify-center;
+  @apply p-5 w-full flex flex-col items-center justify-center;
 }
 
-/* ——— QUIZ QUESTION ——— */
+/* ——— QUESTION ——— */
 [data-sr-quiz-question] {
   @apply w-full max-w-screen-sm mx-auto;
 
@@ -13,6 +13,9 @@
 
     pre {
       @apply p-0;
+      & > div {
+        @apply p-10;
+      }
     }
   }
 

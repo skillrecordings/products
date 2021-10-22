@@ -103,7 +103,7 @@ export type QuestionResource = {
   choices?: Choice[]
 }
 
-export type Questions = {
+export type QuestionSet = {
   [key: string]: QuestionResource
 }
 

@@ -1,29 +1,20 @@
 import * as React from 'react'
 import findKey from 'lodash/findKey'
 import axios from 'axios'
-import {QuizContext} from '../machines/quiz-machine'
+import {QuizContext, QuizEvent} from '../machines/quiz-machine'
 
-export default async function submitAnswer(context: QuizContext) {
+export default async function handleSubmitAnswer(context: QuizContext) {
   const {
     currentQuestion,
     currentQuestion: {tagId},
-    questions,
+    questionSet,
     answer,
   } = context
-  return axios
-    .post('/api/answer', {
-      tagId,
-      survey: {
-        id: findKey(questions, currentQuestion),
-        answer,
-      },
-    })
-    .catch((err) => {
-      //   setError(err)
-    })
-    .then(() => {
-      console.log('submit-answer', 'DONE')
-      //   setAnswer(values)
-      //   setSubmitting(false)
-    })
+  return axios.post('/api/answer', {
+    tagId,
+    survey: {
+      id: findKey(questionSet, currentQuestion),
+      answer,
+    },
+  })
 }

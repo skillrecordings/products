@@ -1,27 +1,51 @@
 import * as React from 'react'
-import {get, isEmpty, keys} from 'lodash'
-import {useRouter} from 'next/router'
-import type {Questions} from '@skillrecordings/types'
 import MultipleImageChoice from '../components/question/multiple-image-choice'
 import MultipleChoice from '../components/question/multiple-choice'
-import Essay from '../components/question/essay'
-import {useQuizQuestion} from '..'
 import {QuestionProps} from '../components/question/index'
+import {QuestionResource, QuestionSet} from '@skillrecordings/types'
+import Essay from '../components/question/essay'
+import get from 'lodash/get'
+import keys from 'lodash/keys'
+import {useRouter} from 'next/router'
+import useQuestion from '../hooks/use-question'
+import {QuizConfig} from '../config'
 
 type AnswerProps = {
-  questions: Questions
+  questionSet: QuestionSet
+  config?: QuizConfig
   author?: string
   title?: string
   markdownProps?: any
 }
 
 const Answer: React.FC<AnswerProps> = ({
-  questions,
+  config,
+  questionSet,
   author,
   title,
   markdownProps,
 }) => {
-  const question = useQuizQuestion(questions)
+  const router = useRouter()
+
+  const [currentQuestion, setCurrentQuestion] =
+    React.useState<QuestionResource>()
+  const [currentAnswer, setCurrentAnswer] = React.useState<string | string[]>()
+
+  React.useEffect(() => {
+    const currentQuestionId = get(router.query, 'question', '')
+    const currentQuestion = get(questionSet, currentQuestionId)
+    setCurrentQuestion(currentQuestion)
+    const currentAnswer = get(router.query, 'a')
+    setCurrentAnswer(currentAnswer)
+  }, [router])
+
+  const question = useQuestion({
+    currentQuestion,
+    questionSet,
+    config,
+    currentAnswer,
+  })
+  // const question = useQuestion(currentQuestion, questionSet,)
 
   function questionToShow(question: QuestionProps) {
     switch (question.currentQuestion.type) {
@@ -35,7 +59,7 @@ const Answer: React.FC<AnswerProps> = ({
         return <MultipleImageChoice question={question} />
       }
       default:
-        return null
+        return 'error: undefined question type'
     }
   }
 
@@ -44,12 +68,12 @@ const Answer: React.FC<AnswerProps> = ({
       <div data-sr-quiz="">
         {question.currentQuestion && questionToShow(question)}
       </div>
-      <DevTools questions={questions} />
+      <DevTools questionSet={questionSet} />
     </>
   )
 }
 
-export const sampleQuestions: Questions = {
+export const sampleQuestions: QuestionSet = {
   essay: {
     question: `## Lorem ipsum dolor sit amet?`,
     type: `essay`,
@@ -99,7 +123,7 @@ export const sampleQuestions: Questions = {
   },
 }
 
-const DevTools: React.FC<{questions: Questions}> = ({questions}) => {
+const DevTools: React.FC<{questionSet: QuestionSet}> = ({questionSet}) => {
   const [hidden, setHidden] = React.useState(false)
   const router = useRouter()
   if (process.env.NODE_ENV !== 'development' || hidden) {
@@ -121,7 +145,7 @@ const DevTools: React.FC<{questions: Questions}> = ({questions}) => {
         Questions:
       </span>
       <ol className="list-decimal list-inside">
-        {keys(questions).map((q) => (
+        {keys(questionSet).map((q) => (
           <li className="pb-1" key={q}>
             <a
               href={`/answer?question=${q}`}

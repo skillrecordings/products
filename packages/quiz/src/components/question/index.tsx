@@ -1,16 +1,17 @@
 import * as React from 'react'
-import {Choice, QuestionResource, Questions} from '@skillrecordings/types'
+import {Choice, QuestionResource, QuestionSet} from '@skillrecordings/types'
+import {nightOwl} from 'react-syntax-highlighter/dist/cjs/styles/hljs'
 import Button from '@skillrecordings/react/dist/components/button'
 import type * as Polymorphic from '@reach/utils/polymorphic'
 import {createNamedContext} from '@reach/utils/context'
+import {FormikValues} from '../../hooks/use-question'
 import ReactMarkdown from 'react-markdown'
+import {QuizConfig} from '../../config'
 import {useId} from '@reach/auto-id'
 import {FormikProps} from 'formik'
-import last from 'lodash/last'
 import SyntaxHighlighter, {
   SyntaxHighlighterProps,
 } from 'react-syntax-highlighter'
-import {nightOwl} from 'react-syntax-highlighter/dist/esm/styles/hljs'
 
 const QuestionContext = createNamedContext<InternalQuestionContextValue>(
   'QuestionContext',
@@ -24,14 +25,18 @@ type InternalQuestionContextValue = {
 type QuestionProps = {
   horizontal?: boolean
   currentQuestion: QuestionResource
-  questions: Questions
-  formik: FormikProps<{answer: null | string}>
+  questionSet?: QuestionSet
+  formik: FormikProps<FormikValues>
   onSubmit: () => void
   hasMultipleCorrectAnswers: boolean
   isCorrectChoice: (choice: Choice) => boolean
   isSubmitting: boolean
   answeredCorrectly: boolean
   isAnswered: boolean
+  answer: string | string[]
+  isLast: boolean
+  answeredNeutral: boolean
+  config: QuizConfig
 }
 
 const questionDefaultClasses = ``
@@ -90,6 +95,7 @@ const QuestionHeader = React.forwardRef(function QuestionHeader(
                 children={String(children).replace(/\n$/, '')}
                 style={syntaxHighlighterTheme}
                 language={match[1]}
+                customStyle={{padding: '1rem'}}
                 PreTag="div"
                 {...props}
               />
@@ -123,8 +129,8 @@ const QuestionChoices = React.forwardRef(function QuestionChoices(
   return (
     <Comp {...props} ref={forwardRef} data-sr-quiz-question-choices="">
       {children}
-      {currentQuestion?.choices?.map((choice) => {
-        return <QuestionChoice key={choice.answer} choice={choice} />
+      {currentQuestion?.choices?.map((choice, i) => {
+        return <QuestionChoice key={choice.answer} choice={choice} index={i} />
       })}
 
       {errors?.answer}
@@ -134,14 +140,17 @@ const QuestionChoices = React.forwardRef(function QuestionChoices(
 
 type QuestionChoiceProps = {
   choice: Choice
+  index: number
 }
 
 const QuestionChoice = React.forwardRef(function QuestionChoice(
-  {children, choice, as: Comp = 'li', ...props},
+  {children, choice, index, as: Comp = 'li', ...props},
   forwardRef,
 ) {
   const {isAnswered, formik, hasMultipleCorrectAnswers, isCorrectChoice} =
     React.useContext(QuestionContext)
+  const alpha = Array.from(Array(26)).map((_, i) => i + 65)
+  const alphabet = alpha.map((x) => String.fromCharCode(x))
 
   return (
     <Comp
@@ -156,12 +165,13 @@ const QuestionChoice = React.forwardRef(function QuestionChoice(
         <input
           name="answer"
           value={choice.answer}
+          checked={formik.initialValues.answer === choice.answer || undefined}
           onChange={formik.handleChange}
           onBlur={formik.handleBlur}
           disabled={isAnswered}
           type={hasMultipleCorrectAnswers ? 'checkbox' : 'radio'}
         />
-        <p>{choice.label}</p>
+        <p>{choice.label || alphabet[index]}</p>
         {isAnswered && (
           <span>{isCorrectChoice(choice) ? 'correct' : 'incorrect'}</span>
         )}
@@ -250,89 +260,33 @@ const QuestionFooter = React.forwardRef(function QuestionFooter(
   {children, as: Comp = 'footer', ...props},
   forwardRef,
 ) {
-  const {isAnswered, currentQuestion, questions, answeredCorrectly} =
+  const {isAnswered, answeredNeutral, isLast, answeredCorrectly, config} =
     React.useContext(QuestionContext)
-  const questionsKeys: string[] = Object.keys(questions)
-  const lastQuestionKey: string = last(questionsKeys) || ''
-  const isLast: boolean =
-    questions[lastQuestionKey]?.tagId === currentQuestion?.tagId
-  const srMessage = <span className="sr-only">Quiz complete.&nbsp;</span>
-  const answeredMessageRef: any = React.useRef()
-  const neutral: boolean = !currentQuestion?.correct
+  const focusRef: any = React.useRef()
   React.useEffect(() => {
-    isAnswered && answeredMessageRef.current.focus()
+    isAnswered && focusRef.current.focus()
   }, [isAnswered])
+
+  const {afterCompletionMessages} = config // getConfig('PRODUCT_TITLE', 'AUTHOR')
+
   return isAnswered ? (
     <Comp {...props} ref={forwardRef} data-sr-quiz-question-footer="">
-      {children}
-      <>
-        {neutral ? (
-          <div>
-            {isLast ? (
-              <p tabIndex={-1} ref={answeredMessageRef}>
-                {srMessage}
-                This was the last lesson from the {'TITLE'} email course. We
-                hope you learned something new, and we look forward to sharing
-                more in the future!
-              </p>
-            ) : (
-              <p tabIndex={-1} ref={answeredMessageRef}>
-                {srMessage}
-                <span>
-                  Thanks for submitting your answer! We'll send the next lesson
-                  in 5-10 minutes. Check your inbox.
-                </span>
-              </p>
-            )}
-            <p>
-              Thanks, <br /> {'AUTHOR'}
-            </p>
-          </div>
-        ) : answeredCorrectly ? (
-          <div>
-            <p tabIndex={-1} ref={answeredMessageRef}>
-              Nice work. You chose the correct answer!
-            </p>
-            {isLast ? (
-              <p>
-                This was the last lesson from the {'TITLE'} email course. We
-                hope you learned something new, and I look forward to sharing
-                more in the future!
-              </p>
-            ) : (
-              <p>
-                We'll send the next lesson in 5-10 minutes. Check your inbox.
-              </p>
-            )}
-            <p>
-              Thanks, <br /> {'AUTHOR'}
-            </p>
-          </div>
-        ) : (
-          <div>
-            <p tabIndex={-1} ref={answeredMessageRef}>
-              You chose an incorrect answer, but don't worry. Just go back and
-              re-read the email and check out any linked resources. You can
-              refresh the page if you'd like to try again! 👍
-            </p>
-            {isLast ? (
-              <p>
-                This was the last lesson from the {'TITLE'} email course. We
-                hope you learned something new, and I look forward to sharing
-                more in the future!
-              </p>
-            ) : (
-              <p>
-                We'll send the next email in 5-10 minutes too so you can learn
-                more.
-              </p>
-            )}
-            <p>
-              Thanks, <br /> {'AUTHOR'}
-            </p>
-          </div>
-        )}
-      </>
+      <div ref={focusRef} tabIndex={-1}>
+        <ReactMarkdown>
+          {answeredNeutral
+            ? isLast
+              ? afterCompletionMessages.neutral.last
+              : afterCompletionMessages.neutral.default
+            : answeredCorrectly
+            ? isLast
+              ? afterCompletionMessages.correct.last
+              : afterCompletionMessages.correct.default
+            : isLast
+            ? afterCompletionMessages.incorrect.last
+            : afterCompletionMessages.incorrect.default}
+        </ReactMarkdown>
+        {children}
+      </div>
     </Comp>
   ) : null
 }) as Polymorphic.ForwardRefComponent<'footer', QuestionFooterProps>
