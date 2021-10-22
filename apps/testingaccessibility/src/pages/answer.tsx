@@ -1,23 +1,25 @@
 import * as React from 'react'
 import {QuizAnswerPage} from '@skillrecordings/quiz'
-import {Questions} from '@skillrecordings/types'
+import {QuestionSet} from '@skillrecordings/types'
 import Layout from 'components/app/layout'
+import getConfig from '@skillrecordings/quiz/dist/config'
 
-const Answer = ({questions}: any) => {
+const Answer: React.FC<{questionSet: QuestionSet}> = ({questionSet}) => {
   return (
     <Layout noIndex meta={{title: 'Quiz'}}>
-      <QuizAnswerPage
-        questions={questions}
-        author={'Marcy Sutton'}
-        title="Testing Accessibility"
-      />
+      <div className="h-full w-full flex flex-col items-center justify-center py-24">
+        <QuizAnswerPage
+          questionSet={questionSet}
+          config={getConfig('Testing Accessibility', 'Marcy Sutton')}
+        />
+      </div>
     </Layout>
   )
 }
 
 export async function getStaticProps() {
   // pass the questions in as static (or dynamic!) props
-  const questions: Questions = {
+  const questionSet: QuestionSet = {
     welcome: {
       question: `## From the list in the email, what is a new workflow step or approach you could take to evaluate websites or applications for accessibility?`,
       type: `essay`,
@@ -116,7 +118,7 @@ export async function getStaticProps() {
     },
   }
   return {
-    props: {questions},
+    props: {questionSet},
   }
 }
 

@@ -1,5 +1,4 @@
 import * as React from 'react'
-import {Questions} from '@skillrecordings/types'
 import {
   Question,
   QuestionHeader,

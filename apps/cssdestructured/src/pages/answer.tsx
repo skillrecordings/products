@@ -1,49 +1,51 @@
 import * as React from 'react'
 import {QuizAnswerPage} from '@skillrecordings/quiz'
-import {Questions} from '@skillrecordings/types'
+import {QuestionSet} from '@skillrecordings/types'
 import Layout from 'components/app/layout'
 import {Prism as SyntaxHighlighter} from 'react-syntax-highlighter'
 import {nord as theme} from 'react-syntax-highlighter/dist/cjs/styles/prism'
+import getConfig from '@skillrecordings/quiz/dist/config'
 
-const Answer = ({questions}: any) => {
+const Answer: React.FC<{questionSet: QuestionSet}> = ({questionSet}) => {
   return (
     <Layout noIndex meta={{title: 'Quiz'}}>
-      <QuizAnswerPage
-        questions={questions}
-        author={'Emma Bostian'}
-        title="CSS Destructured"
-        markdownProps={{
-          components: {
-            code({node, inline, className, children, ...props}: any) {
-              const match = /language-(\w+)/.exec(className || '')
-              return !inline && match ? (
-                <SyntaxHighlighter
-                  className="text-sm"
-                  customStyle={{
-                    background: 'rgba(0,0,0,0.5)',
-                  }}
-                  children={String(children).replace(/\n$/, '')}
-                  style={theme}
-                  language={match[1]}
-                  PreTag="div"
-                  {...props}
-                />
-              ) : (
-                <code className={className} {...props}>
-                  {children}
-                </code>
-              )
-            },
-          },
-        }}
-      />
+      <div className="py-16">
+        <QuizAnswerPage
+          questionSet={questionSet}
+          config={getConfig('CSS Destructured', 'Emma Bostian')}
+          // markdownProps={{
+          //   components: {
+          //     code({node, inline, className, children, ...props}: any) {
+          //       const match = /language-(\w+)/.exec(className || '')
+          //       return !inline && match ? (
+          //         <SyntaxHighlighter
+          //           className="text-sm"
+          //           customStyle={{
+          //             background: 'rgba(0,0,0,0.5)',
+          //           }}
+          //           children={String(children).replace(/\n$/, '')}
+          //           style={theme}
+          //           language={match[1]}
+          //           PreTag="div"
+          //           {...props}
+          //         />
+          //       ) : (
+          //         <code className={className} {...props}>
+          //           {children}
+          //         </code>
+          //       )
+          //     },
+          //   },
+          // }}
+        />
+      </div>
     </Layout>
   )
 }
 
 export async function getStaticProps() {
   // pass the questions in as static (or dynamic!) props
-  const questions: Questions = {
+  const questionSet: QuestionSet = {
     rendering: {
       type: `multiple-image-choice`,
       tagId: 1234567, // TODO:
@@ -82,25 +84,21 @@ export async function getStaticProps() {
       choices: [
         {
           answer: 'a',
-          label: 'A',
           image:
             'https://res.cloudinary.com/dg3gyk0gu/image/upload/v1634565007/css-destructured-quiz/01-a.png',
         },
         {
           answer: 'b',
-          label: 'B',
           image:
             'https://res.cloudinary.com/dg3gyk0gu/image/upload/v1634565007/css-destructured-quiz/01-b.png',
         },
         {
           answer: 'c',
-          label: 'C',
           image:
             'https://res.cloudinary.com/dg3gyk0gu/image/upload/v1634565007/css-destructured-quiz/01-c.png',
         },
         {
           answer: 'd',
-          label: 'D',
           image:
             'https://res.cloudinary.com/dg3gyk0gu/image/upload/v1634565007/css-destructured-quiz/01-d.png',
         },
@@ -108,7 +106,7 @@ export async function getStaticProps() {
     },
   }
   return {
-    props: {questions},
+    props: {questionSet},
   }
 }
 
