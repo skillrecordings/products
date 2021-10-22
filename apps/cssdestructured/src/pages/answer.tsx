@@ -2,8 +2,6 @@ import * as React from 'react'
 import {QuizAnswerPage} from '@skillrecordings/quiz'
 import {QuestionSet} from '@skillrecordings/types'
 import Layout from 'components/app/layout'
-import {Prism as SyntaxHighlighter} from 'react-syntax-highlighter'
-import {nord as theme} from 'react-syntax-highlighter/dist/cjs/styles/prism'
 import getConfig from '@skillrecordings/quiz/dist/config'
 
 const Answer: React.FC<{questionSet: QuestionSet}> = ({questionSet}) => {
@@ -13,30 +11,6 @@ const Answer: React.FC<{questionSet: QuestionSet}> = ({questionSet}) => {
         <QuizAnswerPage
           questionSet={questionSet}
           config={getConfig('CSS Destructured', 'Emma Bostian')}
-          // markdownProps={{
-          //   components: {
-          //     code({node, inline, className, children, ...props}: any) {
-          //       const match = /language-(\w+)/.exec(className || '')
-          //       return !inline && match ? (
-          //         <SyntaxHighlighter
-          //           className="text-sm"
-          //           customStyle={{
-          //             background: 'rgba(0,0,0,0.5)',
-          //           }}
-          //           children={String(children).replace(/\n$/, '')}
-          //           style={theme}
-          //           language={match[1]}
-          //           PreTag="div"
-          //           {...props}
-          //         />
-          //       ) : (
-          //         <code className={className} {...props}>
-          //           {children}
-          //         </code>
-          //       )
-          //     },
-          //   },
-          // }}
         />
       </div>
     </Layout>
