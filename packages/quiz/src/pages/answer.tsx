@@ -1,14 +1,11 @@
 import * as React from 'react'
-import MultipleImageChoice from '../components/question/multiple-image-choice'
-import MultipleChoice from '../components/question/multiple-choice'
-import {QuestionProps} from '../components/question/index'
 import {QuestionResource, QuestionSet} from '@skillrecordings/types'
-import Essay from '../components/question/essay'
-import get from 'lodash/get'
-import keys from 'lodash/keys'
-import {useRouter} from 'next/router'
+import questionToShow from '../components/question-to-show'
 import useQuestion from '../hooks/use-question'
+import {useRouter} from 'next/router'
 import {QuizConfig} from '../config'
+import keys from 'lodash/keys'
+import get from 'lodash/get'
 
 type AnswerProps = {
   questionSet: QuestionSet
@@ -45,23 +42,8 @@ const Answer: React.FC<AnswerProps> = ({
     config,
     currentAnswer,
   })
-  // const question = useQuestion(currentQuestion, questionSet,)
 
-  function questionToShow(question: QuestionProps) {
-    switch (question.currentQuestion.type) {
-      case 'essay': {
-        return <Essay question={question} />
-      }
-      case 'multiple-choice': {
-        return <MultipleChoice question={question} />
-      }
-      case 'multiple-image-choice': {
-        return <MultipleImageChoice question={question} />
-      }
-      default:
-        return 'error: undefined question type'
-    }
-  }
+  console.log(currentQuestion)
 
   return (
     <>

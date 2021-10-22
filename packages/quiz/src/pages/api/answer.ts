@@ -24,10 +24,12 @@ const answer = async (req: NextApiRequest, res: NextApiResponse) => {
         : `survey-${survey.id}`
 
       // Subscribe user to tag
-      await convertkitAxios.post(`/tags/${tagId}/subscribe`, {
-        api_key: process.env.NEXT_PUBLIC_CONVERTKIT_TOKEN,
-        email: subscriber.email_address,
-      })
+      if (tagId) {
+        await convertkitAxios.post(`/tags/${tagId}/subscribe`, {
+          api_key: process.env.NEXT_PUBLIC_CONVERTKIT_TOKEN,
+          email: subscriber.email_address,
+        })
+      }
 
       // Create question field if it doesn't exist
       const fieldExists = !isEmpty(
