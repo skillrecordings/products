@@ -97,7 +97,7 @@ export type Achievement = {
 export type QuestionResource = {
   question: string
   type: 'multiple-choice' | 'multiple-image-choice' | 'essay'
-  tagId: number
+  tagId?: number
   correct?: string[] | string
   answer?: string
   choices?: Choice[]

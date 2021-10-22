@@ -88,7 +88,6 @@ export default function useQuestion({
       send('ANSWER', {answer: values.answer})
     },
     validateOnChange: false,
-    // validateOnMount: true,
     enableReinitialize: true,
   })
 
