@@ -38,7 +38,7 @@ export default function useQuestion({
   React.useEffect(() => {
     currentQuestion && send('LOAD_QUESTION', {currentQuestion})
     currentAnswer && send('ANSWER', {answer: currentAnswer})
-  }, [currentQuestion])
+  }, [currentQuestion, currentAnswer, send])
 
   React.useEffect(() => {
     if (process.env.NODE_ENV === 'development') {

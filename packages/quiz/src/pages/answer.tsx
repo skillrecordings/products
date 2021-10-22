@@ -25,7 +25,7 @@ const Answer: React.FC<AnswerProps> = ({config, questionSet}) => {
     setCurrentQuestion(currentQuestion)
     const currentAnswer = get(router.query, 'a')
     setCurrentAnswer(currentAnswer)
-  }, [router])
+  }, [router, questionSet])
 
   const question = useQuestion({
     currentQuestion,
