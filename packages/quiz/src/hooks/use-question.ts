@@ -20,7 +20,7 @@ type useQuestionTypes = {
   currentQuestion: QuestionResource | undefined
   questionSet?: QuestionSet
   config?: QuizConfig
-  currentAnswer?: string | string[]
+  currentAnswer?: string | string[] | undefined
 }
 
 export default function useQuestion({
@@ -35,16 +35,19 @@ export default function useQuestion({
     },
   })
 
+  const parsedCurrentAnswer =
+    currentAnswer && currentQuestion && isArray(currentQuestion.correct)
+      ? isArray(currentAnswer)
+        ? currentAnswer
+        : currentAnswer.split(',')
+      : currentAnswer
+
   React.useEffect(() => {
     currentQuestion && send('LOAD_QUESTION', {currentQuestion})
     currentAnswer &&
       currentQuestion &&
       send('ANSWER', {
-        answer: isArray(currentQuestion.correct)
-          ? !isArray(currentAnswer)
-            ? currentAnswer.split(',')
-            : currentAnswer
-          : currentAnswer,
+        answer: parsedCurrentAnswer,
       })
   }, [currentQuestion, currentAnswer, send])
 
@@ -111,6 +114,7 @@ export default function useQuestion({
     questionSet,
     formik,
     isLast,
+    currentAnswer,
     answer: state.context.answer,
     config: config || getConfig('PRODUCT_TITLE', 'AUTHOR'),
   }
