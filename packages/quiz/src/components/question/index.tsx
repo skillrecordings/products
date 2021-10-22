@@ -38,6 +38,7 @@ type QuestionProps = {
   isLast: boolean
   answeredNeutral: boolean
   config: QuizConfig
+  currentAnswer: string | string[] | undefined
 }
 
 const questionDefaultClasses = ``
@@ -154,6 +155,7 @@ const QuestionChoice = React.forwardRef(function QuestionChoice(
     hasMultipleCorrectAnswers,
     isCorrectChoice,
     answer,
+    currentAnswer,
   } = React.useContext(QuestionContext)
   const alpha = Array.from(Array(26)).map((_, i) => i + 65)
   const alphabet = alpha.map((x) => String.fromCharCode(x))
@@ -172,9 +174,11 @@ const QuestionChoice = React.forwardRef(function QuestionChoice(
           name="answer"
           value={choice.answer}
           checked={
-            (isArray(answer)
-              ? answer?.includes(choice.answer)
-              : answer === choice.answer) || undefined
+            currentAnswer
+              ? isArray(answer)
+                ? answer?.includes(choice.answer)
+                : answer === choice.answer
+              : undefined
           }
           onChange={formik.handleChange}
           onBlur={formik.handleBlur}
