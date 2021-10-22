@@ -1,7 +1,7 @@
 /**
  * @jest-environment jsdom
  */
-import React from 'react'
+import * as React from 'react'
 import {renderHook} from '@testing-library/react-hooks'
 import {QuestionResource} from '@skillrecordings/types'
 import {useQuestion} from '../index'
@@ -40,7 +40,9 @@ describe('can render questions', () => {
     expect(current).not.toBeUndefined()
     current && render(<Essay question={current} />)
     const submitButton = screen.getByRole('button')
-    expect(submitButton).toBeEnabled()
+    expect(submitButton).not.toBeUndefined()
+    const content = screen.getByText(ESSAY_QUESTION.question)
+    expect(content).not.toBeUndefined()
   })
 
   it('renders multiple-choice question', () => {
@@ -52,6 +54,8 @@ describe('can render questions', () => {
     expect(current).not.toBeUndefined()
     current && render(<Essay question={current} />)
     const submitButton = screen.getByRole('button')
-    expect(submitButton).toBeEnabled()
+    expect(submitButton).not.toBeUndefined()
+    const content = screen.getByText(MULTIPLE_CHOICE_QUESTION.question)
+    expect(content).not.toBeUndefined()
   })
 })
