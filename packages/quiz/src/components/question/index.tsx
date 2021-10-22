@@ -211,8 +211,6 @@ const QuestionBody = React.forwardRef(function QuestionBody(
   {children, as: Comp = 'div', ...props},
   forwardRef,
 ) {
-  const {horizontal} = React.useContext(QuestionContext)
-
   return (
     <Comp {...props} ref={forwardRef} data-sr-quiz-question-body="">
       {children}

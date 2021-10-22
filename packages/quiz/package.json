@@ -10,7 +10,7 @@
     "dist/**"
   ],
   "scripts": {
-    "test": "jest",
+    "test": "jest --setupFiles dotenv-flow/config",
     "dev": "tsc -w & pnpm build:css -- -w",
     "build": "tsc && pnpm build:css",
     "build:css": "node-sass --output-style expanded --source-map true --source-map-contents true --precision 6 src/styles/index.css -o dist/styles",
@@ -47,9 +47,15 @@
     "@skillrecordings/scripts": "^0.0.5",
     "@skillrecordings/tsconfig": "^0.0.5",
     "@skillrecordings/types": "^0.0.5",
+    "@testing-library/jest-dom": "^5.14.1",
+    "@testing-library/react": "^12.1.2",
+    "@testing-library/react-hooks": "^7.0.2",
     "@types/reach__auto-id": "^0.3.1",
+    "assert": "^2.0.0",
+    "babel-jest": "^27.3.1",
     "esbuild-node-tsc": "^1.6.1",
     "node-sass": "^6.0.1",
+    "react-test-renderer": "^17.0.2",
     "typescript": "^4.2.4"
   },
   "publishConfig": {

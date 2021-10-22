@@ -1,7 +1,6 @@
-import * as React from 'react'
 import findKey from 'lodash/findKey'
 import axios from 'axios'
-import {QuizContext, QuizEvent} from '../machines/quiz-machine'
+import {QuizContext} from '../machines/quiz-machine'
 
 export default async function handleSubmitAnswer(context: QuizContext) {
   const {
