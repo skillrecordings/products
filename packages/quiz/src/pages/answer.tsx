@@ -10,18 +10,9 @@ import get from 'lodash/get'
 type AnswerProps = {
   questionSet: QuestionSet
   config?: QuizConfig
-  author?: string
-  title?: string
-  markdownProps?: any
 }
 
-const Answer: React.FC<AnswerProps> = ({
-  config,
-  questionSet,
-  author,
-  title,
-  markdownProps,
-}) => {
+const Answer: React.FC<AnswerProps> = ({config, questionSet}) => {
   const router = useRouter()
 
   const [currentQuestion, setCurrentQuestion] =
@@ -42,8 +33,6 @@ const Answer: React.FC<AnswerProps> = ({
     config,
     currentAnswer,
   })
-
-  console.log(currentQuestion)
 
   return (
     <>

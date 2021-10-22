@@ -68,3 +68,11 @@ const question = useQuestion({
   currentAnswer: 'true',
 })
 ```
+
+### Styles
+
+**Import default styles**
+
+```css
+@import '@skillrecordings/quiz/dist/styles/index.css';
+```
