@@ -2,7 +2,7 @@ import * as React from 'react'
 import {GetServerSideProps, GetServerSidePropsContext} from 'next'
 import getConfig from '@skillrecordings/quiz/dist/config'
 import {QuizAnswerPage, transformSanityQuiz} from '@skillrecordings/quiz'
-import {QuestionSet} from '@skillrecordings/types'
+import {QuestionSet, QuizResource} from '@skillrecordings/types'
 import {sanityClient} from 'utils/sanity-client'
 import Layout from 'components/app/layout'
 import isEmpty from 'lodash/isEmpty'
@@ -10,7 +10,7 @@ import groq from 'groq'
 
 const QUIZ_SLUG = 'email-course'
 
-const Answer: React.FC<{quiz: any}> = ({quiz}) => {
+const Answer: React.FC<{quiz: QuizResource}> = ({quiz}) => {
   const questionSet: QuestionSet = transformSanityQuiz(quiz)
 
   return (
