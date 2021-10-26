@@ -1,7 +1,8 @@
 // add a comment here
 export default {
   defaultTitle: 'Build Accessible Web Apps',
-  description: 'Learn how to build accessible web applications.',
+  description:
+    'Learn how to build accessible web applications with Marcy Sutton.',
   author: 'Marcy Sutton',
   favicon: '/favicon.ico',
   email: 'marcy@testingaccessibility.com',

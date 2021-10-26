@@ -4,6 +4,7 @@ import Navigation from './navigation'
 import isNull from 'lodash/isNull'
 import {Toaster} from 'react-hot-toast'
 import {SkipNavContent, SkipNavLink} from '@reach/skip-nav'
+import config from 'config'
 
 type LayoutProps = {
   meta?: any
@@ -20,7 +21,7 @@ const Layout: FunctionComponent<LayoutProps> = ({
   nav,
 }) => {
   const {
-    title,
+    title = config.defaultTitle,
     description,
     titleAppendSiteName = false,
     url,
