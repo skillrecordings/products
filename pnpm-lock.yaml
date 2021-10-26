@@ -433,6 +433,8 @@ importers:
       '@mdx-js/react': ^1.6.22
       '@next/mdx': ^11.1.0
       '@reach/dialog': ^0.16.0
+      '@sanity/block-content-to-react': ^3.0.0
+      '@sanity/client': ^2.21.3
       '@skillrecordings/analytics': workspace:*
       '@skillrecordings/auth': workspace:*
       '@skillrecordings/axios': workspace:*
@@ -484,6 +486,7 @@ importers:
       focus-visible: ^5.2.0
       formik: 2.2.8
       framer-motion: ^4.1.17
+      groq: ^2.15.0
       husky: ^7.0.1
       lint-staged: ^11.1.2
       lodash: ^4.17.21
@@ -532,6 +535,8 @@ importers:
       '@mdx-js/react': 1.6.22_react@17.0.2
       '@next/mdx': 11.1.0_f56c41adb6190c4680be4a1c0222355d
       '@reach/dialog': 0.16.0_9c423dff26c1034f6157071c372957fe
+      '@sanity/block-content-to-react': 3.0.0_react@17.0.2
+      '@sanity/client': 2.21.3
       '@skillrecordings/analytics': link:../../packages/analytics
       '@skillrecordings/auth': link:../../packages/auth
       '@skillrecordings/axios': link:../../packages/axios
@@ -558,6 +563,7 @@ importers:
       dotenv-flow: 3.2.0
       formik: 2.2.8_react@17.0.2
       framer-motion: 4.1.17_react-dom@17.0.2+react@17.0.2
+      groq: 2.15.0
       lodash: 4.17.21
       mdx-prism: 0.3.4
       next: 11.1.2_f31b35bdaa3b7c2fce82404f09d2dac4
@@ -5667,6 +5673,18 @@ packages:
       object-assign: 4.1.1
     dev: false
 
+  /@sanity/client/2.21.3:
+    resolution: {integrity: sha512-ZivM+S8f/pbuT4Ie76fCwaUFW2m58v6lJAbLQBjAjL3ijW2Snwg4nlyLPOwn7zPdCvojGtKpD9Eo6stI0DbXgg==}
+    dependencies:
+      '@sanity/eventsource': 2.14.0
+      '@sanity/generate-help-url': 2.18.0
+      '@sanity/observable': 2.0.9
+      deep-assign: 2.0.0
+      get-it: 5.0.5
+      make-error: 1.3.6
+      object-assign: 4.1.1
+    dev: false
+
   /@sanity/eventsource/2.14.0:
     resolution: {integrity: sha512-U1FgPUwB9//bGT5OO1VgtamSCM2Z3vpWP3mCgN8vPmEUJ0cofAWO+turDbOILahuicH8u7Xnmd+GSB33p4Mg9A==}
     dependencies:
@@ -10312,18 +10330,6 @@ packages:
         optional: true
     dev: false
 
-  /follow-redirects/1.14.1_debug@2.6.9:
-    resolution: {integrity: sha512-HWqDgT7ZEkqRzBvc2s64vSZ/hfOceEol3ac/7tKwzuvEyWx3/4UegXh5oBOIotkGsObyk3xznnSRVADBgWSQVg==}
-    engines: {node: '>=4.0'}
-    peerDependencies:
-      debug: '*'
-    peerDependenciesMeta:
-      debug:
-        optional: true
-    dependencies:
-      debug: 2.6.9
-    dev: false
-
   /for-in/1.0.2:
     resolution: {integrity: sha1-gQaNKVqBQuwKxybG4iAMMPttXoA=}
     engines: {node: '>=0.10.0'}
@@ -10566,7 +10572,7 @@ packages:
       create-error-class: 3.0.2
       debug: 2.6.9
       decompress-response: 3.3.0
-      follow-redirects: 1.14.1_debug@2.6.9
+      follow-redirects: 1.14.1
       form-urlencoded: 2.0.9
       in-publish: 2.0.1
       into-stream: 3.1.0
