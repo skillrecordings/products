@@ -94,6 +94,12 @@ export type Achievement = {
   }
 }
 
+export type QuizResource = {
+  title: string
+  slug: string
+  questions: QuestionSet
+}
+
 export type QuestionResource = {
   question: string
   type: 'multiple-choice' | 'multiple-image-choice' | 'essay'

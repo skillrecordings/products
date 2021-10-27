@@ -1,10 +1,18 @@
 import * as React from 'react'
-import {QuizAnswerPage} from '@skillrecordings/quiz'
-import {QuestionSet} from '@skillrecordings/types'
-import Layout from 'components/app/layout'
+import {GetServerSideProps, GetServerSidePropsContext} from 'next'
 import getConfig from '@skillrecordings/quiz/dist/config'
+import {QuizAnswerPage, transformSanityQuiz} from '@skillrecordings/quiz'
+import {QuestionSet, QuizResource} from '@skillrecordings/types'
+import {sanityClient} from 'utils/sanity-client'
+import Layout from 'components/app/layout'
+import isEmpty from 'lodash/isEmpty'
+import groq from 'groq'
 
-const Answer: React.FC<{questionSet: QuestionSet}> = ({questionSet}) => {
+const QUIZ_SLUG = 'email-course'
+
+const Answer: React.FC<{quiz: QuizResource}> = ({quiz}) => {
+  const questionSet: QuestionSet = transformSanityQuiz(quiz)
+
   return (
     <Layout noIndex meta={{title: 'Quiz'}}>
       <div className="py-16">
@@ -17,70 +25,38 @@ const Answer: React.FC<{questionSet: QuestionSet}> = ({questionSet}) => {
   )
 }
 
-export async function getStaticProps() {
-  // pass the questions in as static (or dynamic!) props
-  const questionSet: QuestionSet = {
-    rendering: {
-      type: `multiple-image-choice`,
-      tagId: 1234567, // TODO:
-      question: `
-### Given the following HTML and CSS code, select the correct render tree.
-
-~~~html
-<style>
-	.title {
-		color: blue;
-		font-size: 1.2rem;
-	}
-
-	#about-me {
-		font-family: 'Tahoma', sans-serif;
-	}
-
-	img {
-		width: 200px;
-		height: 350px;
-	}
-
-	h2 {
-		font-weight: bold;
-	}
-</style>
-
-<main>
-	<h1 class='title'>Welcome to my site!</h1>
-	<p id='about-me'>Here you can find information about me!</p>
-	<img src='/photo.jpg' alt='My photo' />
-</main>
-~~~
-`,
-      correct: 'a',
-      choices: [
-        {
-          answer: 'a',
-          image:
-            'https://res.cloudinary.com/dg3gyk0gu/image/upload/v1634565007/css-destructured-quiz/01-a.png',
-        },
-        {
-          answer: 'b',
-          image:
-            'https://res.cloudinary.com/dg3gyk0gu/image/upload/v1634565007/css-destructured-quiz/01-b.png',
-        },
-        {
-          answer: 'c',
-          image:
-            'https://res.cloudinary.com/dg3gyk0gu/image/upload/v1634565007/css-destructured-quiz/01-c.png',
-        },
-        {
-          answer: 'd',
-          image:
-            'https://res.cloudinary.com/dg3gyk0gu/image/upload/v1634565007/css-destructured-quiz/01-d.png',
-        },
-      ],
+const quizQuery = groq`*[_type == "quiz" && slug.current == $slug][0]{
+  title,
+  'slug': slug.current,
+  questions[] {
+    id,
+    type,
+    tagId,
+    answer,
+    'question': body,
+    'correct': choices[correct == true].value,
+    choices[] {
+      'answer': value,
+      label,
+      correct,
+      'image': image.asset->url
     },
   }
+  }`
+
+export const getServerSideProps: GetServerSideProps = async (
+  context: GetServerSidePropsContext,
+) => {
+  const data = await sanityClient.fetch(quizQuery, {slug: QUIZ_SLUG})
+
+  if (isEmpty(data)) {
+    return {
+      notFound: true,
+    }
+  }
+
   return {
-    props: {questionSet},
+    props: {quiz: data},
   }
 }
 
