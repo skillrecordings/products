@@ -26,19 +26,23 @@ const Experience = () => {
   React.useEffect(() => {
     if (tagId && !isEmpty(subscriber)) {
       axios
-        .post('/api/convertkit/subscribe', {...subscriber, tag: tagId})
+        .post('/api/convertkit/subscribe', {
+          ...subscriber,
+          tag: tagId,
+          email: subscriber?.email_address,
+        })
         .catch((err) => console.log(err))
     }
   }, [tagId, subscriber])
 
   console.log(`use ck ${useConvertkit}`)
-  console.log(`subscriber: ${subscriber}`)
+  console.log(`subscriber: ${JSON.stringify(subscriber)}`)
   return (
     <>
       <div className="prose dark:prose-dark prose-lg max-w-md mx-auto py-24">
         <h1>Thanks!</h1>
         <p>
-          Thanks for letting me know you're a {message(tagId)}.<br />
+          Thanks for letting me know you're {message(tagId)}.<br />
           I'm sure you'll find something helpful in CSS Destructured!
         </p>
         <p>
