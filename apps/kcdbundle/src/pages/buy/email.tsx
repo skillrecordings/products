@@ -119,14 +119,10 @@ const BuyEmailForm: React.FC<BuyEmailFormProps> = ({
                   validationSchema={emailFormSchema}
                   onSubmit={(values) => {
                     setIsSubmitted(true)
-                    requestsPurchases(values.email)
-                      .then((email: string) => {
-                        console.log('WE DID IT', email)
-                      })
-                      .catch(() => {
-                        setIsSubmitted(false)
-                        setIsError(true)
-                      })
+                    requestsPurchases(values.email).catch(() => {
+                      setIsSubmitted(false)
+                      setIsError(true)
+                    })
                   }}
                 >
                   {(props) => {
