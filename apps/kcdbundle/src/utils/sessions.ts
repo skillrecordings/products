@@ -7,7 +7,7 @@ const CHECKOUT_SESSION_URL =
 
 export async function createCheckoutSession(
   sellables: SellableResource[],
-  site: string = 'kcdbundle',
+  site: string = process.env.NEXT_PUBLIC_SITE_NAME || '',
 ) {
   if (!CHECKOUT_SESSION_URL) throw Error('no checkout session URL')
 
@@ -16,7 +16,6 @@ export async function createCheckoutSession(
       CHECKOUT_SESSION_URL,
       pickBy({
         sellables,
-        code: appliedCoupon,
         client_id: process.env.NEXT_PUBLIC_CLIENT_ID,
         site,
         success_url:
