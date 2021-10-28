@@ -35,8 +35,6 @@ const Experience = () => {
     }
   }, [tagId, subscriber])
 
-  console.log(`use ck ${useConvertkit}`)
-  console.log(`subscriber: ${JSON.stringify(subscriber)}`)
   return (
     <>
       <div className="prose dark:prose-dark prose-lg max-w-md mx-auto py-24">
