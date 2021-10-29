@@ -202,8 +202,8 @@ const BuyEmailForm: React.FC<BuyEmailFormProps> = ({
                 </div>
               )}
               {isError && (
-                <div className="text-text">
-                  <p>
+                <div className="text-center">
+                  <p className="text-lg">
                     There are no upgrades available{' '}
                     <span role="img" aria-label="sweating">
                       😅
@@ -212,9 +212,14 @@ const BuyEmailForm: React.FC<BuyEmailFormProps> = ({
 
                   <p className="pt-3">
                     It looks like you've already purchased all the products in
-                    this bundle! If that seems like an error please email
-                    {process.env.NEXT_PUBLIC_SUPPORT_EMAIL} with any info and we
-                    will help you ASAP.
+                    this bundle! If that seems like an error please email{' '}
+                    <a
+                      className="text-indigo-500 underline"
+                      href={`mailto:${process.env.NEXT_PUBLIC_SUPPORT_EMAIL}`}
+                    >
+                      {process.env.NEXT_PUBLIC_SUPPORT_EMAIL}
+                    </a>{' '}
+                    with any info and we will help you ASAP.
                   </p>
                 </div>
               )}
