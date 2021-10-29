@@ -1,18 +1,13 @@
 import * as React from 'react'
 import Link from 'next/link'
-// import config from '../../config.json'
-// import {useViewer} from 'contexts/viewer-context'
 
 const Navigation = () => {
-  // const {viewer, isAuthenticated, logout} = useViewer()
   return (
     <nav className="absolute z-10 sm:p-8 p-5 top-0 left-0 w-full flex items-center justify-between print:hidden text-white">
       <Link href="/">
-        <a className="w-[4.5rem] block animate-spin rounded-full focus:outline-none focus:ring-violet-500 focus:ring-2 p-1">
+        <a className="w-[4.5rem] block animate-logo rounded-full focus:outline-none focus:ring-violet-500 focus:ring-2 p-1">
           <svg
-            aria-hidden="true"
-            // width="280"
-            // height="274"
+            aria-hidden
             viewBox="0 0 280 274"
             fill="none"
             xmlns="http://www.w3.org/2000/svg"
@@ -27,15 +22,6 @@ const Navigation = () => {
           <span className="sr-only">KCD Bundle</span>
         </a>
       </Link>
-
-      {/* <Link href="/">
-        <a className="dark:hover:text-rose-300 hover:text-rose-500 text-lg font-bold tracking-tight leading-tight">
-          {config.title}
-        </a>
-      </Link> */}
-      {/* <div className="flex space-x-3 items-center">
-        {isAuthenticated() && <button onClick={logout}>log out</button>}
-      </div> */}
     </nav>
   )
 }

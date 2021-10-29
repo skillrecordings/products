@@ -1,12 +1,15 @@
 import * as React from 'react'
 import * as yup from 'yup'
 import {Formik} from 'formik'
-import Layout from '@skillrecordings/react/dist/layouts'
+import Layout from 'layouts'
 import Image from 'next/image'
+import Spinner from '@skillrecordings/react/dist/components/spinner'
+import Button from '@skillrecordings/react/dist/components/button'
 import axios from '@skillrecordings/axios'
 import {createCheckoutSession} from '../../utils/sessions'
 import {loadStripe} from '@stripe/stripe-js/pure'
 import {isEmpty} from 'lodash'
+import BundleImage from '../../../public/images/bundle@2x.png'
 
 const emailFormSchema = yup.object().shape({
   email: yup.string().email().required('enter your email'),
@@ -76,15 +79,21 @@ const BuyEmailForm: React.FC<BuyEmailFormProps> = ({
   }
 
   return (
-    <Layout meta={{title: `Log in to My Product`}}>
+    <Layout meta={{title: `Log in to My Product`}} noFooter>
       <div
         className={
           className
             ? className
-            : 'w-full mx-auto md:py-32 py-16 flex flex-col items-center justify-center'
+            : 'w-full mx-auto md:py-32 py-16 flex flex-col items-center justify-center px-5'
         }
       >
-        <Image src="/placeholder-rect.svg" width={150} height={150} alt="" />
+        <Image
+          src={BundleImage}
+          placeholder="blur"
+          alt=""
+          width={1020 / 4}
+          height={694 / 4}
+        />
         <div className="sm:mx-auto rounded-lg mt-10">
           {isSubmitted && (
             <h2 className="text-center text-3xl leading-9 font-bold">
@@ -105,7 +114,7 @@ const BuyEmailForm: React.FC<BuyEmailFormProps> = ({
                 <h2 className="text-center text-3xl leading-9 font-bold">
                   First we need your correct email address!
                 </h2>
-                <p>
+                <p className="text-center">
                   If you've bought anything from KCD in the past, please use the
                   same email.
                 </p>
@@ -168,13 +177,14 @@ const BuyEmailForm: React.FC<BuyEmailFormProps> = ({
                           </div>
 
                           <div className="flex justify-center items-center w-full">
-                            <button
+                            <Button
                               type="submit"
-                              disabled={isSubmitting}
-                              className="w-full mt-4 transition-all duration-150 ease-in-out bg-gradient-to-b from-gray-700 to-gray-800 hover:from-gray-800 hover:to-gray-900  text-white hover:shadow-xl font-semibold py-3 px-5 rounded-md"
+                              isDisabled={isSubmitting}
+                              isLoading={isSubmitting}
+                              className="mt-4 w-full flex items-center justify-center text-center bg-gradient-to-t from-blue-600 to-blue-500 rounded-md text-white px-5 py-4 font-medium shadow-md hover:scale-105 transition-all ease-in-out duration-200 hover:shadow-lg border border-blue-700 border-opacity-20"
                             >
                               {button}
-                            </button>
+                            </Button>
                           </div>
                         </form>
                       </>
@@ -184,6 +194,7 @@ const BuyEmailForm: React.FC<BuyEmailFormProps> = ({
               )}
               {isSubmitted && (
                 <div className="text-center leading-tight space-y-4">
+                  <Spinner className="w-8 h-8 mx-auto origin-center" />
                   <h3 className="text-xl leading-tighter font-semibold">
                     We are loading Stripe Checkout to complete your purchase.
                   </h3>

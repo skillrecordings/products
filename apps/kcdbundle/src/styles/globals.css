@@ -13,7 +13,7 @@
     transform: rotate(360deg);
   }
 }
-.animate-spin {
+.animate-logo {
   animation: spin 50s linear infinite;
 }
 

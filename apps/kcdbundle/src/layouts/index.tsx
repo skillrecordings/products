@@ -7,12 +7,14 @@ type LayoutProps = {
   meta?: any
   noIndex?: boolean
   className?: string
+  noFooter?: boolean
 }
 
 const Layout: FunctionComponent<LayoutProps> = ({
   children,
   className,
   meta,
+  noFooter = false,
   noIndex,
 }) => {
   const {
@@ -42,7 +44,7 @@ const Layout: FunctionComponent<LayoutProps> = ({
         <main className="flex-grow flex flex-col justify-center">
           {children}
         </main>
-        <Footer />
+        {!noFooter && <Footer />}
       </div>
     </>
   )
