@@ -1,6 +1,5 @@
 import * as React from 'react'
 import {Choice, QuestionResource, QuestionSet} from '@skillrecordings/types'
-import {nightOwl} from 'react-syntax-highlighter/dist/cjs/styles/hljs'
 import Button from '@skillrecordings/react/dist/components/button'
 import type * as Polymorphic from '@reach/utils/polymorphic'
 import {createNamedContext} from '@reach/utils/context'
@@ -39,6 +38,7 @@ type QuestionProps = {
   answeredNeutral: boolean
   config: QuizConfig
   currentAnswer: string | string[] | undefined
+  syntaxHighlighterTheme?: any
 }
 
 const questionDefaultClasses = ``
@@ -69,15 +69,14 @@ const Question = React.forwardRef(function Question(
   )
 }) as Polymorphic.ForwardRefComponent<'form', QuestionProps>
 
-type QuestionHeaderProps = {
-  syntaxHighlighterTheme?: any
-}
+type QuestionHeaderProps = {}
 
 const QuestionHeader = React.forwardRef(function QuestionHeader(
-  {children, syntaxHighlighterTheme = nightOwl, as: Comp = 'legend', ...props},
+  {children, as: Comp = 'legend', ...props},
   forwardRef,
 ) {
-  const {currentQuestion} = React.useContext(QuestionContext)
+  const {currentQuestion, syntaxHighlighterTheme} =
+    React.useContext(QuestionContext)
 
   return (
     <Comp {...props} ref={forwardRef} data-sr-quiz-question-header="">
@@ -238,12 +237,41 @@ const QuestionAnswer = React.forwardRef(function QuestionAnswer(
   {children, as: Comp = 'div', ...props},
   forwardRef,
 ) {
-  const {isAnswered, currentQuestion} = React.useContext(QuestionContext)
+  const {isAnswered, syntaxHighlighterTheme, currentQuestion} =
+    React.useContext(QuestionContext)
 
   return isAnswered ? (
     <Comp {...props} ref={forwardRef} data-sr-quiz-question-answer="">
       {currentQuestion.answer && (
-        <ReactMarkdown>{currentQuestion.answer}</ReactMarkdown>
+        <ReactMarkdown
+          components={{
+            code({
+              node,
+              inline,
+              className,
+              children,
+              ...props
+            }: SyntaxHighlighterProps) {
+              const match = /language-(\w+)/.exec(className || '')
+              return !inline && match ? (
+                <SyntaxHighlighter
+                  children={String(children).replace(/\n$/, '')}
+                  style={syntaxHighlighterTheme}
+                  language={match[1]}
+                  customStyle={{padding: '1rem'}}
+                  PreTag="div"
+                  {...props}
+                />
+              ) : (
+                <code className={className} {...props}>
+                  {children}
+                </code>
+              )
+            },
+          }}
+        >
+          {currentQuestion.answer}
+        </ReactMarkdown>
       )}
       {children}
     </Comp>
