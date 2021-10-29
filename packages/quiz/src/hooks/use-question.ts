@@ -5,6 +5,7 @@ import type {
   Choice,
   QuestionResource,
 } from '@skillrecordings/types'
+import {nightOwl} from 'react-syntax-highlighter/dist/cjs/styles/hljs'
 import {QuestionProps} from '../components/question/index'
 import quizMachine from '../machines/quiz-machine'
 import {useFormik, FormikProps} from 'formik'
@@ -21,6 +22,7 @@ type useQuestionTypes = {
   questionSet?: QuestionSet
   config?: QuizConfig
   currentAnswer?: string | string[] | undefined
+  syntaxHighlighterTheme?: any
 }
 
 export default function useQuestion({
@@ -28,6 +30,7 @@ export default function useQuestion({
   questionSet,
   config,
   currentAnswer,
+  syntaxHighlighterTheme,
 }: useQuestionTypes): QuestionProps {
   const [state, send] = useMachine(quizMachine, {
     context: {
@@ -117,5 +120,6 @@ export default function useQuestion({
     currentAnswer,
     answer: state.context.answer,
     config: config || getConfig('PRODUCT_TITLE', 'AUTHOR'),
+    syntaxHighlighterTheme: syntaxHighlighterTheme || nightOwl,
   }
 }
