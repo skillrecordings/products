@@ -15,7 +15,7 @@ const Answer: React.FC<{quiz: QuizResource}> = ({quiz}) => {
 
   return (
     <Layout noIndex meta={{title: 'Quiz'}}>
-      <div className="py-16">
+      <div className="sm:pt-16 sm:pb-16 pt-0 pb-16">
         <QuizAnswerPage
           questionSet={questionSet}
           config={getConfig('CSS Destructured', 'Emma Bostian')}

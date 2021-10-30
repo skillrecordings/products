@@ -4,14 +4,11 @@ import Button from '@skillrecordings/react/dist/components/button'
 import type * as Polymorphic from '@reach/utils/polymorphic'
 import {createNamedContext} from '@reach/utils/context'
 import {FormikValues} from '../../hooks/use-question'
-import ReactMarkdown from 'react-markdown'
 import {QuizConfig} from '../../config'
 import {useId} from '@reach/auto-id'
 import isArray from 'lodash/isArray'
 import {FormikProps} from 'formik'
-import SyntaxHighlighter, {
-  SyntaxHighlighterProps,
-} from 'react-syntax-highlighter'
+import Markdown from '../markdown'
 
 const QuestionContext = createNamedContext<InternalQuestionContextValue>(
   'QuestionContext',
@@ -81,35 +78,9 @@ const QuestionHeader = React.forwardRef(function QuestionHeader(
   return (
     <Comp {...props} ref={forwardRef} data-sr-quiz-question-header="">
       {children}
-      <ReactMarkdown
-        components={{
-          code({
-            node,
-            inline,
-            className,
-            children,
-            ...props
-          }: SyntaxHighlighterProps) {
-            const match = /language-(\w+)/.exec(className || '')
-            return !inline && match ? (
-              <SyntaxHighlighter
-                children={String(children).replace(/\n$/, '')}
-                style={syntaxHighlighterTheme}
-                language={match[1]}
-                customStyle={{padding: '1rem'}}
-                PreTag="div"
-                {...props}
-              />
-            ) : (
-              <code className={className} {...props}>
-                {children}
-              </code>
-            )
-          },
-        }}
-      >
+      <Markdown syntaxHighlighterTheme={syntaxHighlighterTheme}>
         {currentQuestion?.question}
-      </ReactMarkdown>
+      </Markdown>
     </Comp>
   )
 }) as Polymorphic.ForwardRefComponent<'legend', QuestionHeaderProps>
@@ -243,35 +214,9 @@ const QuestionAnswer = React.forwardRef(function QuestionAnswer(
   return isAnswered ? (
     <Comp {...props} ref={forwardRef} data-sr-quiz-question-answer="">
       {currentQuestion.answer && (
-        <ReactMarkdown
-          components={{
-            code({
-              node,
-              inline,
-              className,
-              children,
-              ...props
-            }: SyntaxHighlighterProps) {
-              const match = /language-(\w+)/.exec(className || '')
-              return !inline && match ? (
-                <SyntaxHighlighter
-                  children={String(children).replace(/\n$/, '')}
-                  style={syntaxHighlighterTheme}
-                  language={match[1]}
-                  customStyle={{padding: '1rem'}}
-                  PreTag="div"
-                  {...props}
-                />
-              ) : (
-                <code className={className} {...props}>
-                  {children}
-                </code>
-              )
-            },
-          }}
-        >
+        <Markdown syntaxHighlighterTheme={syntaxHighlighterTheme}>
           {currentQuestion.answer}
-        </ReactMarkdown>
+        </Markdown>
       )}
       {children}
     </Comp>
@@ -301,19 +246,25 @@ const QuestionFooter = React.forwardRef(function QuestionFooter(
   {children, as: Comp = 'footer', ...props},
   forwardRef,
 ) {
-  const {isAnswered, answeredNeutral, isLast, answeredCorrectly, config} =
-    React.useContext(QuestionContext)
+  const {
+    isAnswered,
+    answeredNeutral,
+    isLast,
+    answeredCorrectly,
+    syntaxHighlighterTheme,
+    config,
+  } = React.useContext(QuestionContext)
   const focusRef: any = React.useRef()
   React.useEffect(() => {
     isAnswered && focusRef.current.focus()
   }, [isAnswered])
 
-  const {afterCompletionMessages} = config // getConfig('PRODUCT_TITLE', 'AUTHOR')
+  const {afterCompletionMessages} = config
 
   return isAnswered ? (
     <Comp {...props} ref={forwardRef} data-sr-quiz-question-footer="">
       <div ref={focusRef} tabIndex={-1}>
-        <ReactMarkdown>
+        <Markdown syntaxHighlighterTheme={syntaxHighlighterTheme}>
           {answeredNeutral
             ? isLast
               ? afterCompletionMessages.neutral.last
@@ -325,7 +276,7 @@ const QuestionFooter = React.forwardRef(function QuestionFooter(
             : isLast
             ? afterCompletionMessages.incorrect.last
             : afterCompletionMessages.incorrect.default}
-        </ReactMarkdown>
+        </Markdown>
         {children}
       </div>
     </Comp>

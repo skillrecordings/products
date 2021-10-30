@@ -9,13 +9,10 @@
 
   /* ——— HEADER ——— */
   [data-sr-quiz-question-header] {
-    @apply prose dark:prose-dark pb-6 max-w-none;
+    @apply prose dark:prose-dark pb-6 max-w-none w-full;
 
     pre {
       @apply p-0;
-      & > div {
-        @apply p-10;
-      }
     }
   }
 
