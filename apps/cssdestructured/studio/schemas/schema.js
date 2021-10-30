@@ -9,6 +9,11 @@ import blockContent from './blockContent'
 import quiz from './quiz'
 import question from './question'
 import choice from './choice'
+import code from './questions/code'
+import essay from './questions/essay'
+import multipleChoice from './questions/multiple-choice'
+import multipleImageChoice from './questions/multiple-image-choice'
+import codeFile from './code-file'
 
 // Then we give our schema to the builder and provide the result to Sanity
 export default createSchema({
@@ -22,6 +27,11 @@ export default createSchema({
     quiz,
     question,
     choice,
+    essay,
+    multipleChoice,
+    multipleImageChoice,
+    code,
+    codeFile,
     // When added to this list, object types can be used as
     // { type: 'typename' } in other document schemas
     blockContent,

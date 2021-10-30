@@ -9,6 +9,12 @@ import {useId} from '@reach/auto-id'
 import isArray from 'lodash/isArray'
 import {FormikProps} from 'formik'
 import Markdown from '../markdown'
+import {
+  SandpackProvider,
+  SandpackLayout,
+  SandpackCodeEditor,
+  useCodeSandboxLink,
+} from '@codesandbox/sandpack-react'
 
 const QuestionContext = createNamedContext<InternalQuestionContextValue>(
   'QuestionContext',
@@ -189,6 +195,62 @@ const QuestionInput = React.forwardRef(function QuestionInput(
   )
 }) as Polymorphic.ForwardRefComponent<'div', QuestionInputProps>
 
+type QuestionCodeSandboxProps = {}
+
+const QuestionCodeSandbox = React.forwardRef(function QuestionCodeSandbox(
+  {children, as: Comp = 'div', ...props},
+  forwardRef,
+) {
+  const {formik} = React.useContext(QuestionContext)
+
+  const codeSandboxUrl = useCodeSandboxLink()
+
+  React.useEffect(() => {
+    formik.setValues({answer: codeSandboxUrl})
+  }, [codeSandboxUrl])
+
+  return (
+    <Comp {...props} ref={forwardRef} data-sr-quiz-question-input="">
+      <SandpackLayout theme="night-owl">
+        <SandpackCodeEditor customStyle={{height: 400}} />
+      </SandpackLayout>
+    </Comp>
+  )
+}) as Polymorphic.ForwardRefComponent<'div', QuestionCodeSandboxProps>
+
+type QuestionCodeProps = {}
+
+const QuestionCode = React.forwardRef(function QuestionCode(
+  {children, as: Comp = 'div', ...props},
+  forwardRef,
+) {
+  const {currentQuestion} = React.useContext(QuestionContext)
+
+  return (
+    <Comp {...props} ref={forwardRef} data-sr-quiz-question-input="">
+      {currentQuestion.type === 'code' && currentQuestion.code ? (
+        <SandpackProvider
+          customSetup={{
+            entry: `/${currentQuestion.code[0].filename}`,
+            files: currentQuestion.code?.reduce(
+              (a, v) => ({
+                ...a,
+                [v.filename]: {code: v.code, active: v.active},
+              }),
+              {},
+            ),
+          }}
+        >
+          {children}
+          <QuestionCodeSandbox />
+        </SandpackProvider>
+      ) : (
+        children
+      )}
+    </Comp>
+  )
+}) as Polymorphic.ForwardRefComponent<'div', QuestionCodeProps>
+
 type QuestionBodyProps = {}
 
 const QuestionBody = React.forwardRef(function QuestionBody(
@@ -293,6 +355,7 @@ export type {
   QuestionAnswerProps,
   QuestionFooterProps,
   QuestionSubmitProps,
+  QuestionCodeProps,
 }
 
 export {
@@ -305,4 +368,5 @@ export {
   QuestionAnswer,
   QuestionFooter,
   QuestionSubmit,
+  QuestionCode,
 }

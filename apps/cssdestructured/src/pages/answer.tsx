@@ -35,6 +35,11 @@ const quizQuery = groq`*[_type == "quiz" && slug.current == $slug][0]{
     answer,
     'question': body,
     'correct': choices[correct == true].value,
+    code[] {
+      filename,
+      active,
+      code
+    },
     choices[] {
       'answer': value,
       label,

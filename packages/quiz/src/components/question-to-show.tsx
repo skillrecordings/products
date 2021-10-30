@@ -3,6 +3,7 @@ import MultipleImageChoice from './question/multiple-image-choice'
 import MultipleChoice from './question/multiple-choice'
 import {QuestionProps} from './question'
 import Essay from './question/essay'
+import Code from './question/code'
 
 export default function questionToShow(question: QuestionProps) {
   if (!question.currentQuestion) return
@@ -10,6 +11,9 @@ export default function questionToShow(question: QuestionProps) {
   switch (question.currentQuestion.type) {
     case 'essay': {
       return <Essay question={question} />
+    }
+    case 'code': {
+      return <Code question={question} />
     }
     case 'multiple-choice': {
       return <MultipleChoice question={question} />

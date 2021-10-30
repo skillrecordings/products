@@ -19,6 +19,7 @@
   },
   "dependencies": {
     "@accessible/use-conditional-focus": "^3.0.1",
+    "@codesandbox/sandpack-react": "^0.1.15",
     "@reach/auto-id": "^0.16.0",
     "@reach/utils": "^0.16.0",
     "@skillrecordings/analytics": "workspace:*",
