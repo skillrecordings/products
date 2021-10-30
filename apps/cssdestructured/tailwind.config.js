@@ -33,6 +33,14 @@ module.exports = {
         serif: ['BlanchSage', ...defaultTheme.fontFamily.serif],
         display: ['LeoRounded', ...defaultTheme.fontFamily.sans],
       },
+      gridTemplateRows: {
+        'max-content': 'max-content',
+      },
+      spacing: {
+        '5vw': '5vw',
+        '8vw': '8vw',
+        '10vw': '10vw',
+      },
       typography: (theme) => ({
         DEFAULT: {
           css: {
