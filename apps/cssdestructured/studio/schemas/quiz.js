@@ -24,7 +24,6 @@ export default {
       validation: (Rule) =>
         Rule.min(1).error('A quiz must have at least one question'),
       of: [
-        {type: 'question'},
         {type: 'multipleChoice'},
         {type: 'multipleImageChoice'},
         {type: 'essay'},
