@@ -37,17 +37,23 @@ const Experience = () => {
 
   return (
     <Layout>
-      <div className="prose dark:prose-dark prose-lg max-w-md mx-auto py-24">
-        <h1>Thanks!</h1>
-        <p>
-          Thanks for letting me know you're {message(tagId)}.<br />
-          I'm sure you'll find something helpful in CSS Destructured!
-        </p>
-        <p>
-          Watch your inbox for more,
-          <br />
-          Emma
-        </p>
+      <div className="pt-8 pb-24 h-full flex flex-col items-center justify-center flex-grow">
+        <header className="text-center flex flex-col items-center justify-center">
+          <h1 className="flex items-center sm:text-4xl text-3xl font-semibold pb-5">
+            Thanks!
+          </h1>
+        </header>
+        <main className="prose dark:prose-dark sm:prose-lg max-w-md mx-auto px-5 leading-tight text-center">
+          <p>
+            Thanks for letting me know you're {message(tagId)}. I'm sure you'll
+            find something helpful in CSS Destructured!
+          </p>
+          <p>
+            Watch your inbox for more,
+            <br />
+            Emma
+          </p>
+        </main>
       </div>
     </Layout>
   )
