@@ -1,8 +1,8 @@
 export default {
-  name: 'question',
-  title: 'Question',
+  name: 'multipleChoice',
+  title: 'Multiple choice',
   type: 'object',
-  description: 'A question.',
+  description: 'Question with multiple choices.',
   fields: [
     {
       name: 'id',
@@ -13,15 +13,8 @@ export default {
       name: 'type',
       type: 'string',
       title: 'Question type',
-      options: {
-        list: [
-          {title: 'Multiple Choice', value: 'multiple-choice'},
-          {title: 'Multiple Image Choice', value: 'multiple-image-choice'},
-          {title: 'Essay', value: 'essay'},
-          {title: 'Code', value: 'code'},
-        ],
-        layout: 'radio', // <-- defaults to 'dropdown'
-      },
+      initialValue: 'multiple-choice',
+      readOnly: true,
     },
     {name: 'tagId', title: 'ConvertKit Tag ID', type: 'string'},
     {
