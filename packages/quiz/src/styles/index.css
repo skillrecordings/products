@@ -85,6 +85,9 @@
   /* ——— ANSWER ——— */
   [data-sr-quiz-question-answer] {
     @apply prose dark:prose-dark pt-5 max-w-none;
+    pre {
+      @apply p-0 mb-5;
+    }
   }
 
   /* ——— FOOTER ——— */
