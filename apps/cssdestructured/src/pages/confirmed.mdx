@@ -22,14 +22,16 @@ import {ConfirmedSubscription} from 'components/images'
 export default ({children}) => {
   return (
     <Layout meta={{title: 'Subscription confirmed'}}>
-      <div className="max-w-xl text-center flex flex-col items-center space-y-5 mx-auto px-5">
-        <ConfirmedSubscription />
-        {children}
-        <div className="text-sm opacity-75 italic pt-4">
-          Thanks,
+      <div className="prose dark:prose-dark prose-lg max-w-md mx-auto py-24">
+        <h1>You're Confirmed!</h1>
+        <p>
+          Thanks for confirming your email address– you're all set to receive CSS Destructured emails from me.
+        </p>
+        <p>
+          <em>Thanks,</em>
           <br />
-          {firstName}
-        </div>
+          <em>Emma</em>
+        </p>
       </div>
     </Layout>
   )
