@@ -4,6 +4,7 @@ import Navigation from './navigation'
 import isNull from 'lodash/isNull'
 import {Toaster} from 'react-hot-toast'
 import {SkipNavContent, SkipNavLink} from '@reach/skip-nav'
+import config from 'config'
 
 type LayoutProps = {
   meta?: any
@@ -20,7 +21,7 @@ const Layout: FunctionComponent<LayoutProps> = ({
   nav,
 }) => {
   const {
-    title,
+    title = config.defaultTitle,
     description,
     titleAppendSiteName = false,
     url,
@@ -45,7 +46,7 @@ const Layout: FunctionComponent<LayoutProps> = ({
       />
       <SkipNavLink>Skip navigation and go to content</SkipNavLink>
       {nav ? nav : isNull(nav) ? null : <Navigation />}
-      <div className={`flex flex-col min-h-screen bg-white ${className}`}>
+      <div className={`flex flex-col bg-white ${className}`}>
         <SkipNavContent>
           <div className="flex-grow flex flex-col justify-center">
             {children}

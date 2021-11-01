@@ -1,31 +1,52 @@
 import React from 'react'
 import Layout from 'layouts'
 import bundle from '../data/bundle'
-import Link from 'next/link'
 import get from 'lodash/get'
 import Image from 'next/image'
 import Markdown from 'react-markdown'
 import LandingCopy from 'components/content/homepage.mdx'
 import Header from 'components/hero'
+import Purchase from 'components/commerce/purchase'
+import MoneyBackGuaranteeBadge from '../../public/images/money-back-guarantee-badge@2x.png'
 
 const Home = () => {
   return (
     <Layout className=" dark:bg-gray-900 bg-white-50">
       <Header currentPrice={0} />
       <main>
-        <article className="prose sm:prose-lg mx-auto lg:pt-24 sm:pt-16 pt-8">
+        <article className="prose sm:prose-lg mx-auto lg:pt-24 sm:pt-16 pt-8 px-5">
           <LandingCopy />
         </article>
-        <div className="sm:flex border-t border-gray-100 items-center justify-center py-16 mt-24 sm:-mx-10 -mx-5 sm:px-10 px-5 bg-gradient-to-r from-white via-gray-50 to-gray-100">
+        <div className="sm:flex items-center justify-center sm:py-24 py-8 mt-24 sm:px-10 px-5 bg-gradient-to-r from-white via-gray-50 to-gray-100">
           <div className="relative max-w-screen-xl space-y-16">
-            <h2 className="text-center lg:text-5xl md:text-4xl text-4xl pt-8 font-extrabold">
-              {/* <div className="h-[2px] w-24 absolute left-0 -translate-x-28 bg-black" />{' '} */}
+            <h2 className="text-center lg:text-5xl md:text-4xl text-4xl sm:pt-8 pt-16 font-extrabold">
               What's Inside
             </h2>
             <EpicReactSection />
             <TestingSection />
           </div>
         </div>
+        <section className="bg-gray-100 w-full sm:px-10 px-5 sm:py-24 py-16">
+          <div className="pb-32 max-w-screen-sm mx-auto w-full">
+            <h2 className="text-center md:text-5xl text-4xl pt-8 font-extrabold">
+              Get Really Good at React and Testing JavaScript
+            </h2>
+            <p className="text-center text-blue-500 pt-4 text-lg font-medium">
+              For a special discounted price
+            </p>
+          </div>
+          <Purchase />
+          <div className="flex justify-center pt-16">
+            <Image
+              src={MoneyBackGuaranteeBadge}
+              alt="30 day money back guarantee"
+              width={90}
+              height={90}
+              quality={100}
+              placeholder="blur"
+            />
+          </div>
+        </section>
       </main>
     </Layout>
   )
@@ -34,7 +55,7 @@ const Home = () => {
 const TestingSection = () => {
   const testingJS = get(bundle, 'testing-js')
   return (
-    <section className="md:grid grid-cols-5 lg:gap-16 gap-10 py-8">
+    <section className="md:grid grid-cols-5 lg:gap-16 gap-10 sm:py-8 py-0">
       <div className="col-span-3">
         <BundleSectionContent {...testingJS} />
       </div>
@@ -117,18 +138,18 @@ const Bundle = ({
         } px-5 pt-5 lg:pb-0 pb-5 rounded-t-lg`}
       >
         <div>
-          <h4 className="text-2xl font-bold pr-3 leading-none">{title}</h4>
-          <div className="pt-2 flex items-center">
+          <h4 className="lg:text-3xl text-2xl font-bold pr-3 leading-none">
+            {title}
+          </h4>
+          <div className="pt-4 flex items-center">
             <Image
-              src="/kent-c-dodds@2x.jpg"
+              src="/images/kent-c-dodds@2x.jpg"
               alt="Kent C. Dodds"
-              width={40}
-              height={40}
+              width={32}
+              height={32}
               className="rounded-full"
             />
-            <div className="sm:pl-2 pl-1 md:text-base text-sm font-medium">
-              Kent C. Dodds
-            </div>
+            <div className="pl-1 text-sm font-medium">Kent C. Dodds</div>
           </div>
         </div>
         <div className="-translate-y-9 flex items-center justify-center bg-white shadow-md rounded-md overflow-hidden">
@@ -174,15 +195,15 @@ const Bundle = ({
         </ul>
       </div>
       <footer className="p-5 space-y-2 border-t border-gray-50 mt-8">
-        <div className="">
+        <div>
           <a
             className=" text-center opacity-80 items-center justify-center flex w-full font-medium hover:opacity-100 transition-all ease-in-out duration-200 rounded-md px-5 lg:text-base text-sm text-gray-800"
             href={url}
             target="_blank"
             rel="noopener noreferrer"
           >
+            <span className="pr-2">Visit {name}</span>{' '}
             <span className="gg-arrow-top-right scale-75" />
-            <span className="pl-2">Open {name}</span>{' '}
           </a>
         </div>
       </footer>
@@ -212,7 +233,7 @@ const BundleSectionContent = ({
       </div>
       <h3 className="sm:text-4xl text-3xl font-bold pb-5">{title}</h3>
       <Markdown className="prose sm:prose-lg">{copy}</Markdown>
-      <div className="grid sm:mt-10 mt-4">
+      <div className="grid sm:mt-10 mt-4 sm:pb-0 pb-8">
         <p className="font-bold sm:text-2xl text-2xl sm:text-left text-center sm:pb-6 pb-10 pt-10">
           What other developers are saying
         </p>
@@ -223,9 +244,10 @@ const BundleSectionContent = ({
     </div>
   )
 }
+
 const Review = ({text, author, className = ''}: any) => {
   return (
-    <blockquote className={`relative ${className}`}>
+    <blockquote className={`italic relative ${className}`}>
       {/* <div className="text-4xl opacity-50 absolute -left-2">“</div> */}
       <Markdown className="prose md:prose-lg">{text}</Markdown>
       <div className="flex items-center pt-2">

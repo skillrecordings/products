@@ -1,11 +1,25 @@
 import * as React from 'react'
-
 import {QuizAnswerPage} from '@skillrecordings/quiz'
-import {Questions} from '@skillrecordings/types'
+import {QuestionSet} from '@skillrecordings/types'
+import getConfig from '@skillrecordings/quiz/dist/config'
+import Layout from '@skillrecordings/react/dist/layouts'
+
+const Answer: React.FC<{questionSet: QuestionSet}> = ({questionSet}) => {
+  return (
+    <Layout noIndex meta={{title: 'Quiz'}}>
+      <div className="h-full w-full flex flex-col items-center justify-center py-24 px-5">
+        <QuizAnswerPage
+          questionSet={questionSet}
+          config={getConfig('Product', 'Author')}
+        />
+      </div>
+    </Layout>
+  )
+}
 
 export async function getStaticProps() {
   // pass the questions in as static (or dynamic!) props
-  const questions: Questions = {
+  const questionSet: QuestionSet = {
     essay: {
       question: `## Lorem ipsum dolor sit amet?`,
       type: `essay`,
@@ -55,8 +69,8 @@ export async function getStaticProps() {
     },
   }
   return {
-    props: {questions},
+    props: {questionSet},
   }
 }
 
-export default QuizAnswerPage
+export default Answer

@@ -7,12 +7,14 @@ type LayoutProps = {
   meta?: any
   noIndex?: boolean
   className?: string
+  noFooter?: boolean
 }
 
 const Layout: FunctionComponent<LayoutProps> = ({
   children,
   className,
   meta,
+  noFooter = false,
   noIndex,
 }) => {
   const {
@@ -37,12 +39,12 @@ const Layout: FunctionComponent<LayoutProps> = ({
         canonical={url}
         noindex={noIndex}
       />
-      <div className={`md:p-10 p-5 flex flex-col min-h-screen ${className}`}>
+      <div className={`flex flex-col min-h-screen ${className}`}>
         <Navigation />
         <main className="flex-grow flex flex-col justify-center">
           {children}
         </main>
-        <Footer />
+        {!noFooter && <Footer />}
       </div>
     </>
   )

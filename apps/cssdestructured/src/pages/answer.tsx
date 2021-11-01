@@ -1,32 +1,67 @@
 import * as React from 'react'
-import {QuizAnswerPage} from '@skillrecordings/quiz'
-import {Questions} from '@skillrecordings/types'
+import {GetServerSideProps, GetServerSidePropsContext} from 'next'
+import getConfig from '@skillrecordings/quiz/dist/config'
+import {QuizAnswerPage, transformSanityQuiz} from '@skillrecordings/quiz'
+import {QuestionSet, QuizResource} from '@skillrecordings/types'
+import {sanityClient} from 'utils/sanity-client'
 import Layout from 'components/app/layout'
+import isEmpty from 'lodash/isEmpty'
+import groq from 'groq'
 
-const Answer = ({questions}: any) => {
+const QUIZ_SLUG = 'email-course'
+
+const Answer: React.FC<{quiz: QuizResource}> = ({quiz}) => {
+  const questionSet: QuestionSet = transformSanityQuiz(quiz)
+
   return (
     <Layout noIndex meta={{title: 'Quiz'}}>
-      <QuizAnswerPage
-        questions={questions}
-        author={'Cassidy Williams'}
-        title="Keyboard Legend"
-      />
+      <div className="sm:pt-16 sm:pb-16 pt-0 pb-16">
+        <QuizAnswerPage
+          questionSet={questionSet}
+          config={getConfig('CSS Destructured', 'Emma Bostian')}
+        />
+      </div>
     </Layout>
   )
 }
 
-export async function getStaticProps() {
-  // pass the questions in as static (or dynamic!) props
-  const questions: Questions = {
-    welcome: {
-      question: `Is this a welcome question?`,
-      type: `essay`,
-      answer: `Yes, it indeed is.`,
-      tagId: 1234567, // TODO
+const quizQuery = groq`*[_type == "quiz" && slug.current == $slug][0]{
+  title,
+  'slug': slug.current,
+  questions[] {
+    id,
+    type,
+    tagId,
+    answer,
+    'question': body,
+    'correct': choices[correct == true].value,
+    code[] {
+      filename,
+      active,
+      code
+    },
+    choices[] {
+      'answer': value,
+      label,
+      correct,
+      'image': image.asset->url
     },
   }
+  }`
+
+export const getServerSideProps: GetServerSideProps = async (
+  context: GetServerSidePropsContext,
+) => {
+  const data = await sanityClient.fetch(quizQuery, {slug: QUIZ_SLUG})
+
+  if (isEmpty(data)) {
+    return {
+      notFound: true,
+    }
+  }
+
   return {
-    props: {questions},
+    props: {quiz: data},
   }
 }
 

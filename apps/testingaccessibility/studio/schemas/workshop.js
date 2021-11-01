@@ -1,6 +1,6 @@
 export default {
   name: 'workshop',
-  title: 'Workshop',
+  title: 'Workshops',
   type: 'document',
   fields: [
     {
@@ -23,6 +23,13 @@ export default {
       type: 'number',
       description:
         'Form ID to subscribe to. (Set up automation in ConvertKit to tag subscribers after submitting specific form)',
+    },
+    {
+      name: 'url',
+      title: 'Ti.to reservation url',
+      type: 'url',
+      description:
+        'Example: `https://ti.to/marcy-sutton/...`. If present, users will be able to buy a ticket.',
     },
     {
       title: 'Published',

@@ -5,7 +5,7 @@ import Image from 'next/image'
 
 const Hero = ({currentPrice}: any) => {
   return (
-    <header className="relative z-0 min-h-[100vh] flex md:flex-row flex-col items-center justify-center md:-mx-10 -mx-5 md:-mt-10 -mt-5 bg-white">
+    <header className="relative z-0 min-h-[100vh] flex md:flex-row flex-col items-center justify-center bg-white">
       <div>
         <div className="flex flex-col items-center justify-center space-y-5 h-full w-full">
           <div className="md:flex hidden items-center justify-center max-w-2xl">

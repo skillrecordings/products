@@ -2,6 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 @import './icons.css';
+@import '@skillrecordings/quiz/dist/styles/index.css';
 
 ::selection {
   @apply bg-black text-white dark:bg-white dark:text-black;

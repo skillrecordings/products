@@ -94,20 +94,33 @@ export type Achievement = {
   }
 }
 
-export type Question = {
-  question: string
-  type: 'multiple-choice' | 'essay'
-  tagId: number
-  correct?: string[] | string
-  answer?: string
-  choices?: {answer: string; label: string}[]
+export type QuizResource = {
+  title: string
+  slug: string
+  questions: QuestionSet
 }
 
-export type Questions = {
-  [key: string]: Question
+export type QuestionResource = {
+  question: string
+  type: 'multiple-choice' | 'multiple-image-choice' | 'essay' | 'code'
+  tagId?: number
+  correct?: string[] | string
+  answer?: string
+  choices?: Choice[]
+  template?: string
+  code?: {
+    filename: string
+    active: boolean
+    code: string
+  }[]
+}
+
+export type QuestionSet = {
+  [key: string]: QuestionResource
 }
 
 export type Choice = {
   answer: string
-  label: string
+  label?: string
+  image?: string
 }

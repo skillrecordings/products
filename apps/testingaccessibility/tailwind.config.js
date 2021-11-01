@@ -4,6 +4,7 @@ const tailwindCommonConfig = require('@skillrecordings/scripts/tailwind.config')
 
 module.exports = {
   ...tailwindCommonConfig,
+  darkMode: 'class',
   theme: {
     extend: {
       minHeight: {
@@ -42,7 +43,7 @@ module.exports = {
               transition: 'all 150ms ease-in-out',
             },
             'a:hover': {
-              color: `${theme('colors.indigo.600')} !important`,
+              color: `${theme('colors.blue.700')} !important`,
               transition: 'all 150ms ease-in-out',
             },
             'h1,h2,h4,h5': {
@@ -63,6 +64,9 @@ module.exports = {
               content: '"" !important',
             },
           },
+        },
+        dark: {
+          css: {},
         },
       }),
     },

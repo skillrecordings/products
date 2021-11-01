@@ -68,7 +68,7 @@ const Layout: FunctionComponent<LayoutProps> = ({
               objectFit="cover"
               aria-hidden
               alt=""
-              className="bg-blend-soft-light opacity-[7%]"
+              className="bg-blend-soft-light opacity-[5%]"
             />
           </div>
         )}

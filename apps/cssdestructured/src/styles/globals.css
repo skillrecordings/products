@@ -4,15 +4,29 @@
 @import '@reach/dialog/styles.css';
 @import './fonts/index.css';
 @import './icons.css';
+@import '@skillrecordings/quiz/dist/styles/index.css';
+
+/* ——— QUESTION ——— */
+[data-sr-quiz-question] {
+  /* ——— TEXTAREA ——— */
+  [data-sr-quiz-question-input] {
+    label {
+      @apply font-medium;
+    }
+    textarea {
+      @apply w-full bg-black bg-opacity-10 border border-white border-opacity-20 dark:text-white rounded-lg placeholder-white placeholder-opacity-50  !important;
+    }
+  }
+}
 
 ::selection {
-  @apply bg-brand-orange;
+  @apply bg-white bg-opacity-10;
 }
 
 [data-sr-convertkit-subscribe-form] {
   @apply w-full max-w-xs flex flex-col;
   [data-sr-input] {
-    @apply rounded-sm mb-4 w-full block bg-black text-white bg-opacity-20 border border-brand-yellow border-opacity-30 placeholder-brand-text placeholder-opacity-60 focus:ring focus:ring-1 focus:ring-brand-yellow focus:border-transparent autofill:border-brand-yellow;
+    @apply rounded-sm mb-4 w-full block bg-black text-white bg-opacity-20 border border-brand-yellow border-opacity-30 placeholder-brand-text placeholder-opacity-60 focus:ring-1 focus:ring-brand-yellow focus:border-transparent autofill:border-brand-yellow;
   }
   [data-sr-input-label] {
     @apply inline-block pb-1;

@@ -3,8 +3,8 @@
   "version": "0.1.1",
   "private": true,
   "scripts": {
-    "dev": "next dev -p 3011",
-    "start": "next start -p 3011",
+    "dev": "next dev -p 3013",
+    "start": "next start -p 3013",
     "integration": "cypress run",
     "build": "NODE_ENV=production next build",
     "postbuild": "NODE_ENV=production next-sitemap",
@@ -16,6 +16,7 @@
   },
   "dependencies": {
     "@asbjorn/eslint-plugin-groq": "^1.0.0",
+    "@mdx-js/react": "^1.6.22",
     "@next/mdx": "^11.1.0",
     "@reach/dialog": "^0.16.0",
     "@reach/skip-nav": "^0.16.0",
@@ -89,6 +90,7 @@
     "@testing-library/jest-dom": "^5.14.1",
     "@testing-library/react": "^12.0.0",
     "@types/cookie": "^0.4.1",
+    "@types/mdx-js__react": "^1.5.4",
     "@types/node": "^16.6.0",
     "@types/pluralize": "^0.0.29",
     "@types/react": "*",

@@ -1,4 +1,6 @@
-export {default as useQuizQuestion} from './hooks/use-quiz-question'
+export {default as useQuestion} from './hooks/use-question'
 export {default as QuizAnswerPage} from './pages/answer'
 export {default as quizAnswerApiHandler} from './pages/api/answer'
-export * from './components/forms/quiz'
+export {default as questionToShow} from './components/question-to-show'
+export {default as getConfig} from './config'
+export {default as transformSanityQuiz} from './utils/transform-sanity-quiz'

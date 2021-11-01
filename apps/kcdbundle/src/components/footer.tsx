@@ -3,9 +3,9 @@ import Link from 'next/link'
 
 const Footer = () => {
   return (
-    <footer className="pt-24 print:hidden flex w-full items-center justify-center">
+    <footer className="py-24 print:hidden flex w-full items-center justify-center">
       <Link href="/terms">
-        <a>Terms & Conditions</a>
+        <a className="text-sm">Terms & Conditions</a>
       </Link>
     </footer>
   )

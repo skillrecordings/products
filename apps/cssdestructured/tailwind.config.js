@@ -4,6 +4,7 @@ const tailwindCommonConfig = require('@skillrecordings/scripts/tailwind.config')
 
 module.exports = {
   ...tailwindCommonConfig,
+  darkMode: 'class',
   theme: {
     extend: {
       colors: {
@@ -32,6 +33,14 @@ module.exports = {
         serif: ['BlanchSage', ...defaultTheme.fontFamily.serif],
         display: ['LeoRounded', ...defaultTheme.fontFamily.sans],
       },
+      gridTemplateRows: {
+        'max-content': 'max-content',
+      },
+      spacing: {
+        '5vw': '5vw',
+        '8vw': '8vw',
+        '10vw': '10vw',
+      },
       typography: (theme) => ({
         DEFAULT: {
           css: {
@@ -39,18 +48,7 @@ module.exports = {
               color: theme('colors.brand.text'),
             },
             'h1, h2, h3, h4': {
-              fontFamily: theme('fontFamily.serif').join(', '),
-              textAlign: 'center',
-              lineHeight: '0.6 !important',
-            },
-            h1: {
-              fontSize: '500% !important',
-            },
-            h2: {
-              fontSize: '400% !important',
-            },
-            h3: {
-              fontSize: '330% !important',
+              lineHeight: theme('lineHeight.tight'),
             },
             a: {
               color: theme('colors.brand.brightYellow'),
@@ -61,6 +59,7 @@ module.exports = {
             },
             'ul > li:before': {
               content: '"✦"',
+              top: '0.33em',
               width: '0 !important',
               color: theme('colors.brand.brightYellow'),
               fontSize: theme('fontSize.xs'),
@@ -70,6 +69,9 @@ module.exports = {
               margin: '0px !important',
             },
           },
+        },
+        dark: {
+          css: {},
         },
       }),
     },

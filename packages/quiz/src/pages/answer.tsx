@@ -1,65 +1,56 @@
 import * as React from 'react'
-import {get, isEmpty, keys} from 'lodash'
+import {QuestionResource, QuestionSet} from '@skillrecordings/types'
+import questionToShow from '../components/question-to-show'
+import useQuestion from '../hooks/use-question'
 import {useRouter} from 'next/router'
-import EssayQuestion from '../components/forms/quiz/essay-question'
-import MultipleChoiceQuestion from '../components/forms/quiz/multiple-choice-question'
-import type {Question, Questions} from '@skillrecordings/types'
+import {QuizConfig} from '../config'
+import keys from 'lodash/keys'
+import get from 'lodash/get'
 
 type AnswerProps = {
-  questions: Questions
-  author?: string
-  title?: string
+  questionSet: QuestionSet
+  config?: QuizConfig
+  syntaxHighlighterTheme?: any
 }
 
-const Answer: React.FC<AnswerProps> = ({questions, author, title}) => {
+const Answer: React.FC<AnswerProps> = ({
+  config,
+  questionSet,
+  syntaxHighlighterTheme,
+}) => {
   const router = useRouter()
-  const [currentQuestion, setCurrentQuestion] = React.useState<Question>()
+
+  const [currentQuestion, setCurrentQuestion] =
+    React.useState<QuestionResource>()
+  const [currentAnswer, setCurrentAnswer] = React.useState<string | string[]>()
 
   React.useEffect(() => {
-    const param: any = get(router.query, 'question')
-    if (!isEmpty(param)) {
-      const question = get(questions, param)
-      setCurrentQuestion(question)
-    }
-  }, [router])
+    const currentQuestionId = get(router.query, 'question', '')
+    const currentQuestion = get(questionSet, currentQuestionId)
+    setCurrentQuestion(currentQuestion)
+    const currentAnswer = get(router.query, 'a')
+    setCurrentAnswer(currentAnswer)
+  }, [router, questionSet])
 
-  const QuestionToShow = (questions: Questions) => {
-    if (!currentQuestion) {
-      return null
-    }
-    switch (currentQuestion.type as string) {
-      case 'multiple-choice':
-        return (
-          <MultipleChoiceQuestion
-            question={currentQuestion as Question}
-            questions={questions}
-            author={author}
-            title={title}
-          />
-        )
-      default:
-        return (
-          <EssayQuestion
-            question={currentQuestion as Question}
-            questions={questions}
-            author={author}
-            title={title}
-          />
-        )
-    }
-  }
+  const question = useQuestion({
+    currentQuestion,
+    questionSet,
+    config,
+    currentAnswer,
+    syntaxHighlighterTheme,
+  })
 
   return (
     <>
-      <DevTools questions={questions} />
-      <div className="max-w-screen-sm w-full mx-auto flex items-center justify-center xl:pt-36 md:pt-32 pt-24 sm:pb-16 pb-8">
-        {QuestionToShow(questions)}
+      <div data-sr-quiz="">
+        {question.currentQuestion && questionToShow(question)}
       </div>
+      <DevTools questionSet={questionSet} />
     </>
   )
 }
 
-export const sampleQuestions: Questions = {
+export const sampleQuestions: QuestionSet = {
   essay: {
     question: `## Lorem ipsum dolor sit amet?`,
     type: `essay`,
@@ -109,7 +100,7 @@ export const sampleQuestions: Questions = {
   },
 }
 
-const DevTools: React.FC<{questions: Questions}> = ({questions}) => {
+const DevTools: React.FC<{questionSet: QuestionSet}> = ({questionSet}) => {
   const [hidden, setHidden] = React.useState(false)
   const router = useRouter()
   if (process.env.NODE_ENV !== 'development' || hidden) {
@@ -131,7 +122,7 @@ const DevTools: React.FC<{questions: Questions}> = ({questions}) => {
         Questions:
       </span>
       <ol className="list-decimal list-inside">
-        {keys(questions).map((q) => (
+        {keys(questionSet).map((q) => (
           <li className="pb-1" key={q}>
             <a
               href={`/answer?question=${q}`}
