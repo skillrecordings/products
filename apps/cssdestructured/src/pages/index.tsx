@@ -40,7 +40,7 @@ export default function Home() {
             </Link>
             <div className="text-center py-24">
               <h1 className="font-serif lg:text-7xl sm:text-7xl text-6xl lg:leading-[60%] sm:leading-[60%] leading-[60%] text-brand-text">
-                A Holistic Approach
+                A Comprehensive Approach
                 <br />
                 to Learning <span className="font-serif-star">C</span>SS
               </h1>
@@ -98,11 +98,11 @@ export default function Home() {
             <Image src={HorizontalGridImage} />
             <div className="flex flex-col items-center justify-center w-full relative z-10 sm:py-32 py-24 px-5">
               <h3 className="pb-2 font-serif sm:text-8xl text-7xl text-brand-text text-center">
-                Co<span className="font-serif-star">m</span>ing S
-                <span className="font-serif-alt">oo</span>n!
+                Grow your <span className="font-serif-star">C</span>SS confiden
+                <span className="font-serif-alt">ce</span>.
               </h3>
               <div className="font-display pb-8 tracking-wide text-brand-cream text-center max-w-[30ch]">
-                sUbscRibe to get noTified aboUt uPdates to This couRse
+                Join the free email course today!
               </div>
               <SubscribeToConvertkitForm
                 onSuccess={(subscriber: any) => {
