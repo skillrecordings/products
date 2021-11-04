@@ -57,9 +57,13 @@ const BuyEmailForm: React.FC<BuyEmailFormProps> = ({
       .post('/api/users', {email})
       .then(({data}) => data)
 
+    console.debug(purchases)
+
     const availableToUpgrade = sellables.filter((sellable) => {
       return !purchases.includes(sellable.site)
     })
+
+    console.debug(purchases)
 
     if (isEmpty(availableToUpgrade)) {
       throw new Error('no upgrade available')
@@ -128,7 +132,8 @@ const BuyEmailForm: React.FC<BuyEmailFormProps> = ({
                   validationSchema={emailFormSchema}
                   onSubmit={(values) => {
                     setIsSubmitted(true)
-                    requestsPurchases(values.email).catch(() => {
+                    requestsPurchases(values.email).catch((e: any) => {
+                      console.error(e)
                       setIsSubmitted(false)
                       setIsError(true)
                     })

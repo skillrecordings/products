@@ -40,7 +40,9 @@ const current = async (req: NextApiRequest, res: NextApiResponse) => {
       })
       .catch((error) => {
         console.error(error)
-        res.status(error.response.status).end(error.response.statusText)
+        res
+          .status(error.response?.status ?? 500)
+          .end(error.response?.statusText ?? error.message)
       })
   } else {
     res.status(200).end()
