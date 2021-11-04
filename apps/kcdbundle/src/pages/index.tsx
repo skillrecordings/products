@@ -40,8 +40,8 @@ const Home = () => {
             <Image
               src={MoneyBackGuaranteeBadge}
               alt="30 day money back guarantee"
-              width={90}
-              height={90}
+              width={172}
+              height={173}
               quality={100}
               placeholder="blur"
             />

@@ -47,7 +47,8 @@ const Hero = ({currentPrice}: any) => {
       <div className="flex flex-col justify-center border-opacity-90 px-5">
         <div className="max-w-screen-sm mx-auto flex flex-col justify-center md:items-start items-center w-full md:text-left text-center">
           <h1 className="lg:text-5xl md:text-4xl text-3xl font-extrabold">
-            The Proven Path to Building Professional-grade React Apps
+            The Proven Path to Building Professional-grade Well Tested React
+            Apps
           </h1>
           <h2 className="lg:text-xl sm:text-lg pt-4 leading-tight text-primary-600">
             Now available at an unbeatable price

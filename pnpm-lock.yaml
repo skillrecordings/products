@@ -12,7 +12,7 @@ importers:
       plop: ^2.7.4
       prettier: ^2.3.2
       tsdx: ^0.14.1
-      turbo: ^0.8.4
+      turbo: ^0.8.5-next.1
     devDependencies:
       '@changesets/changelog-github': 0.2.8
       '@changesets/cli': 2.16.0
@@ -22,7 +22,7 @@ importers:
       plop: 2.7.4
       prettier: 2.3.2
       tsdx: 0.14.1
-      turbo: 0.8.4
+      turbo: 0.8.5-next.1
 
   apps/badass:
     specifiers:
@@ -14863,7 +14863,7 @@ packages:
       react: '>=16.0.0'
       react-dom: '>=16.0.0'
     dependencies:
-      next: 11.1.2_f31b35bdaa3b7c2fce82404f09d2dac4
+      next: 11.1.2_d23913fae905660a596189f6b35fb8a9
       react: 17.0.2
       react-dom: 17.0.2_react@17.0.2
     dev: false
@@ -14899,7 +14899,7 @@ packages:
       react: '*'
       react-dom: '*'
     dependencies:
-      next: 11.1.2_f31b35bdaa3b7c2fce82404f09d2dac4
+      next: 11.1.2_d23913fae905660a596189f6b35fb8a9
       react: 17.0.2
       react-dom: 17.0.2_react@17.0.2
     dev: false
@@ -19515,8 +19515,8 @@ packages:
     dependencies:
       safe-buffer: 5.2.1
 
-  /turbo/0.8.4:
-    resolution: {integrity: sha512-8vL18yIXqU5sHf+W5SvaVl+xKeD2p++Txlo7PmwWx1HLyNBWV4W2es0YfNnRTTEm7ads8Q0DD/PdF8JaiQXK7Q==}
+  /turbo/0.8.5-next.1:
+    resolution: {integrity: sha512-58GCHwAYIOcjBkb69tdwlkboDEvo+1wm+UABDOJUlr5niz4/H7kqYsq/hynJfpijbLYtaTEWRdrl6YfX8w1fgw==}
     hasBin: true
     requiresBuild: true
     dependencies:
