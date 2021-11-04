@@ -2,10 +2,11 @@ import * as React from 'react'
 import Image from 'next/image'
 import EpicPlusTestingImage from '../../../public/images/pricing@2x.png'
 import ParityCouponMessage from './parity-coupon-message'
+import Link from 'next/link'
 
 const Purchase = () => {
   const [state] = React.useState<any>({
-    price: 499,
+    price: 559,
     fullPrice: 931,
     quantity: 1,
     bulk: false,
@@ -78,13 +79,11 @@ const Purchase = () => {
   const PurchaseButton = () => {
     return (
       <div className="sm:px-10 px-5 py-2 w-full">
-        <button
-          type="button"
-          className="w-full flex items-center justify-center text-center bg-gradient-to-t from-blue-600 to-blue-500 rounded-md text-white px-5 py-4 font-medium shadow-md hover:scale-105 transition-all ease-in-out duration-200 hover:shadow-lg border border-blue-700 border-opacity-20"
-          onClick={() => {}}
-        >
-          Level Up as a Web Developer
-        </button>
+        <Link href="/buy/email">
+          <a className="w-full flex items-center justify-center text-center bg-gradient-to-t from-blue-600 to-blue-500 rounded-md text-white px-5 py-4 font-medium shadow-md hover:scale-105 transition-all ease-in-out duration-200 hover:shadow-lg border border-blue-700 border-opacity-20">
+            Level Up as a Web Developer
+          </a>
+        </Link>
       </div>
     )
   }
@@ -148,7 +147,11 @@ const Purchase = () => {
                 </div>
                 <ul>
                   {items.map((item) => {
-                    return <li className="list--check">{item}</li>
+                    return (
+                      <li key={item} className="list--check">
+                        {item}
+                      </li>
+                    )
                   })}
                 </ul>
                 {i === 0 && (
@@ -180,27 +183,7 @@ const Purchase = () => {
         </div>
         <form className="w-full flex flex-col items-center space-y-5">
           <PriceBox />
-          <QuantitySelect />
           <PurchaseButton />
-          <div className="px-5">
-            <ParityCouponMessage
-              isPPP={isPPP}
-              countryName="Czechia"
-              onApply={() => {
-                setIsPPP(!isPPP)
-              }}
-              onDismiss={() => {
-                setIsPPP(!isPPP)
-              }}
-              coupon={{
-                coupon_code: '1',
-                coupon_discount: 0.4,
-                coupon_expires_at: 1640349647,
-                coupon_region_restricted_to: 'CZ',
-                coupon_region_restricted_to_name: 'Czechia',
-              }}
-            />
-          </div>
           <WhatsInside />
         </form>
       </div>

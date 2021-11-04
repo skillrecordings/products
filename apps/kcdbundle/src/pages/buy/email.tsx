@@ -79,7 +79,7 @@ const BuyEmailForm: React.FC<BuyEmailFormProps> = ({
   }
 
   return (
-    <Layout meta={{title: `Log in to My Product`}} noFooter>
+    <Layout meta={{title: `Confirm your email address`}} noFooter>
       <div
         className={
           className
@@ -102,7 +102,7 @@ const BuyEmailForm: React.FC<BuyEmailFormProps> = ({
           )}
           {isError && (
             <h2 className="text-center text-3xl leading-9 font-bold">
-              You've already bought this bundle!
+              Records show that you've already bought everything in this bundle!
             </h2>
           )}
           {!isSubmitted &&
