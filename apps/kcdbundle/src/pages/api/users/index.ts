@@ -35,11 +35,14 @@ const current = async (req: NextApiRequest, res: NextApiResponse) => {
                 return slugs.includes(purchase.site)
               })
               .map((purchase: any) => {
-                return purchase.site
+                return {
+                  site: purchase.site,
+                  stripe_customer_id: purchase.stripe_customer_id,
+                }
               })
           : []
 
-        res.status(200).json(uniq(purchases))
+        res.status(200).json(purchases)
       })
       .catch((error) => {
         console.error(error)

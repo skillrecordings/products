@@ -29,37 +29,42 @@ function getTokenFromCookieHeaders(serverCookies: string = '') {
 export default async function fetchConvertkitSubscriberFromServerCookie(
   header: string,
 ) {
-  if (!CONVERTKIT_API_SECRET) throw new Error('No Convertkit Secret Key Found')
+  try {
+    if (!CONVERTKIT_API_SECRET)
+      throw new Error('No Convertkit Secret Key Found')
 
-  const {convertkitId, eggheadToken} = getTokenFromCookieHeaders(header)
+    const {convertkitId, eggheadToken} = getTokenFromCookieHeaders(header)
 
-  let subscriber
+    let subscriber
 
-  if (!convertkitId) {
-    const eggheadUser = await fetchEggheadUser(eggheadToken)
-    if (isEmpty(eggheadUser))
-      throw new Error('unable to load convertkit subscriber')
-    subscriber = await convertkitAxios
-      .get(
-        `/subscribers?api_secret=${CONVERTKIT_API_SECRET}&email_address=${eggheadUser.email}`,
-      )
-      .then(({data}) => first(data.subscribers))
-  } else {
-    subscriber = await convertkitAxios
-      .get(`/subscribers/${convertkitId}?api_secret=${CONVERTKIT_API_SECRET}`)
-      .then(({data}) => data.subscriber)
+    if (!convertkitId) {
+      const eggheadUser = await fetchEggheadUser(eggheadToken)
+      if (isEmpty(eggheadUser))
+        throw new Error('unable to load convertkit subscriber')
+      subscriber = await convertkitAxios
+        .get(
+          `/subscribers?api_secret=${CONVERTKIT_API_SECRET}&email_address=${eggheadUser.email}`,
+        )
+        .then(({data}) => first(data.subscribers))
+    } else {
+      subscriber = await convertkitAxios
+        .get(`/subscribers/${convertkitId}?api_secret=${CONVERTKIT_API_SECRET}`)
+        .then(({data}) => data.subscriber)
+    }
+
+    if (isEmpty(subscriber))
+      throw new Error('no convertkit subscriber was loaded')
+
+    const tags = await convertkitAxios
+      .get(`/subscribers/${subscriber.id}/tags?api_key=${CONVERTKIT_TOKEN}`)
+      .then(({data}) => data.tags)
+
+    subscriber = {...subscriber, tags}
+
+    const ckCookie = serializeConvertkitCookie(subscriber.id)
+
+    return [subscriber, ckCookie]
+  } catch (e) {
+    console.error(e)
   }
-
-  if (isEmpty(subscriber))
-    throw new Error('no convertkit subscriber was loaded')
-
-  const tags = await convertkitAxios
-    .get(`/subscribers/${subscriber.id}/tags?api_key=${CONVERTKIT_TOKEN}`)
-    .then(({data}) => data.tags)
-
-  subscriber = {...subscriber, tags}
-
-  const ckCookie = serializeConvertkitCookie(subscriber.id)
-
-  return [subscriber, ckCookie]
 }
