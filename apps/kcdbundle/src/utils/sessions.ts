@@ -7,9 +7,15 @@ const CHECKOUT_SESSION_URL =
 
 export async function createCheckoutSession(
   sellables: SellableResource[],
-  site: string = process.env.NEXT_PUBLIC_SITE_NAME || '',
+  email?: string,
+  stripe_customer_id?: string,
 ) {
   if (!CHECKOUT_SESSION_URL) throw Error('no checkout session URL')
+
+  if (sellables.length === 1) {
+    sellables[0].description =
+      "Since you've already purchased part of the bundle you can complete your bundle with this discounted course!"
+  }
 
   return axios
     .post(
@@ -17,10 +23,12 @@ export async function createCheckoutSession(
       pickBy({
         sellables,
         client_id: process.env.NEXT_PUBLIC_CLIENT_ID,
-        site,
+        site: process.env.NEXT_PUBLIC_SITE_NAME || '',
         success_url:
           process.env.NEXT_PUBLIC_STRIPE_CHECKOUT_SESSIONS_SUCCESS_URL,
         cancel_url: process.env.NEXT_PUBLIC_STRIPE_CHECKOUT_SESSIONS_CANCEL_URL,
+        email,
+        stripe_customer_id,
       }),
     )
     .then(({data}) => data)

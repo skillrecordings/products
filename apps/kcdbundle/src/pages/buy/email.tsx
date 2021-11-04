@@ -8,7 +8,7 @@ import Button from '@skillrecordings/react/dist/components/button'
 import axios from '@skillrecordings/axios'
 import {createCheckoutSession} from '../../utils/sessions'
 import {loadStripe} from '@stripe/stripe-js/pure'
-import {isEmpty} from 'lodash'
+import {isEmpty, find, get} from 'lodash'
 import BundleImage from '../../../public/images/bundle@2x.png'
 
 const emailFormSchema = yup.object().shape({
@@ -57,19 +57,26 @@ const BuyEmailForm: React.FC<BuyEmailFormProps> = ({
       .post('/api/users', {email})
       .then(({data}) => data)
 
-    console.debug(purchases)
+    const stripe_customer_id = get(
+      find(purchases, (purchase) => purchase.stripe_customer_id),
+      'stripe_customer_id',
+    )
 
     const availableToUpgrade = sellables.filter((sellable) => {
-      return !purchases.includes(sellable.site)
+      return !find(purchases, (purchase: any) => {
+        return purchase.site === sellable.site
+      })
     })
-
-    console.debug(purchases)
 
     if (isEmpty(availableToUpgrade)) {
       throw new Error('no upgrade available')
     }
 
-    return createCheckoutSession(availableToUpgrade).then(async (data) => {
+    return createCheckoutSession(
+      availableToUpgrade,
+      email,
+      stripe_customer_id,
+    ).then(async (data) => {
       if (!process.env.NEXT_PUBLIC_STRIPE_TOKEN)
         throw new Error('no stripe token')
 
