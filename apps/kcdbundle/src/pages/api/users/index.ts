@@ -27,13 +27,14 @@ const current = async (req: NextApiRequest, res: NextApiResponse) => {
         {headers},
       )
       .then(({data}) => {
+        console.log(data.purchased)
         const purchases = data.purchased
           .filter((purchase: any) => {
-            const slugs = ['epic-react-pro-e28f', 'pro-testing']
-            return slugs.includes(purchase.slug)
+            const slugs = ['epic_react', 'pro_testing']
+            return slugs.includes(purchase.site)
           })
           .map((purchase: any) => {
-            return purchase.slug
+            return purchase.site
           })
 
         res.status(200).json(uniq(purchases))
