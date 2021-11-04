@@ -58,7 +58,7 @@ const BuyEmailForm: React.FC<BuyEmailFormProps> = ({
       .then(({data}) => data)
 
     const availableToUpgrade = sellables.filter((sellable) => {
-      return !purchases.includes(sellable.sellable_id)
+      return !purchases.includes(sellable.site)
     })
 
     if (isEmpty(availableToUpgrade)) {
