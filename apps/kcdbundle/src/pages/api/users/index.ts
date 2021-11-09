@@ -27,20 +27,28 @@ const current = async (req: NextApiRequest, res: NextApiResponse) => {
         {headers},
       )
       .then(({data}) => {
+        console.log(data)
         const purchases = data.purchased
-          .filter((purchase: any) => {
-            const slugs = ['epic-react-pro-e28f', 'pro-testing']
-            return slugs.includes(purchase.slug)
-          })
-          .map((purchase: any) => {
-            return purchase.slug
-          })
+          ? data.purchased
+              .filter((purchase: any) => {
+                const slugs = ['epic_react', 'pro_testing']
+                return slugs.includes(purchase.site)
+              })
+              .map((purchase: any) => {
+                return {
+                  site: purchase.site,
+                  stripe_customer_id: purchase.stripe_customer_id,
+                }
+              })
+          : []
 
-        res.status(200).json(uniq(purchases))
+        res.status(200).json(purchases)
       })
       .catch((error) => {
         console.error(error)
-        res.status(error.response.status).end(error.response.statusText)
+        res
+          .status(error.response?.status ?? 500)
+          .end(error.response?.statusText ?? error.message)
       })
   } else {
     res.status(200).end()
