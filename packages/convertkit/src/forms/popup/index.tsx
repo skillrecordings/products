@@ -4,7 +4,7 @@ import {useLocalStorage} from 'react-use'
 import {Dialog} from '@reach/dialog'
 import SubscribeToConvertkitForm, {
   SubscribeFormProps,
-} from '../subscribe/subscribe-to-convertkit-form'
+} from '../subscribe-to-convertkit'
 
 //TODO: separate the styling and the behavior so that it can be customized
 
