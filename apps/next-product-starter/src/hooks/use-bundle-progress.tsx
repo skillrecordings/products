@@ -22,7 +22,7 @@ const useBundleProgress = (bundle: any) => {
   const swrKey = url ? [url] : null
   const {data}: any = useSWR(swrKey, fetcher, {
     revalidateOnMount: true,
-    initialData: progressDefault,
+    fallbackData: progressDefault,
     onSuccess: (progress) => writeStorage(progress),
   })
 
