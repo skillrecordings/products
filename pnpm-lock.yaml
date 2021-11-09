@@ -1220,10 +1220,10 @@ importers:
 
   apps/keyboardlegend:
     specifiers:
-      '@babel/plugin-transform-react-jsx': ^7.14.9
+      '@babel/plugin-transform-react-jsx': ^7.16.0
       '@mdx-js/loader': ^1.6.22
-      '@next/mdx': ^11.1.0
-      '@reach/dialog': ^0.16.0
+      '@next/mdx': ^12.0.3
+      '@reach/dialog': ^0.16.2
       '@skillrecordings/analytics': workspace:*
       '@skillrecordings/auth': workspace:*
       '@skillrecordings/axios': workspace:*
@@ -1235,85 +1235,85 @@ importers:
       '@skillrecordings/react': workspace:*
       '@skillrecordings/scripts': workspace:*
       '@skillrecordings/time': workspace:*
-      '@skillrecordings/tsconfig': ^0.0.5
+      '@skillrecordings/tsconfig': workspace:^0.0.5
       '@skillrecordings/types': workspace:*
       '@skillrecordings/viewer': workspace:*
-      '@stripe/stripe-js': ^1.16.0
-      '@tailwindcss/aspect-ratio': ^0.2.1
-      '@tailwindcss/forms': ^0.3.3
+      '@stripe/stripe-js': ^1.21.1
+      '@tailwindcss/aspect-ratio': ^0.3.0
+      '@tailwindcss/forms': ^0.3.4
       '@tailwindcss/typography': ^0.4.1
-      '@testing-library/jest-dom': ^5.14.1
-      '@testing-library/react': ^12.0.0
-      '@tippyjs/react': ^4.2.5
+      '@testing-library/jest-dom': ^5.15.0
+      '@testing-library/react': ^12.1.2
+      '@tippyjs/react': ^4.2.6
       '@types/cookie': ^0.4.1
-      '@types/lodash': ^4.14.172
-      '@types/node': ^16.6.0
+      '@types/lodash': ^4.14.176
+      '@types/node': ^16.11.7
       '@types/pluralize': ^0.0.29
       '@types/react': '*'
       '@types/react-scroll': ^1.8.3
-      '@typescript-eslint/eslint-plugin': ^4.29.1
-      '@typescript-eslint/parser': ^4.29.1
-      '@xstate/react': ^1.5.1
+      '@typescript-eslint/eslint-plugin': ^5.3.1
+      '@typescript-eslint/parser': ^5.3.1
+      '@xstate/react': ^1.6.2
       assert: ^2.0.0
-      autoprefixer: ^10.3.1
-      axios: ^0.21.1
-      babel-jest: ^27.0.6
+      autoprefixer: ^10.4.0
+      axios: ^0.24.0
+      babel-jest: ^27.3.1
       client-oauth2: ^4.3.3
-      commander: ^8.1.0
+      commander: ^8.3.0
       cookie: ^0.4.1
-      date-fns: ^2.23.0
+      date-fns: ^2.25.0
       dotenv-flow: ^3.2.0
-      eslint: ^7.32.0
-      eslint-config-next: ^11.1.0
+      eslint: ^8.2.0
+      eslint-config-next: ^12.0.3
       eslint-config-prettier: ^8.3.0
       eslint-plugin-jsx-a11y: ^6.4.1
-      eslint-plugin-prettier: ^3.4.0
-      eslint-plugin-react: ^7.24.0
-      eslint-plugin-react-hooks: ^4.2.0
+      eslint-plugin-prettier: ^4.0.0
+      eslint-plugin-react: ^7.26.1
+      eslint-plugin-react-hooks: ^4.3.0
       focus-visible: ^5.2.0
-      formik: 2.2.8
-      framer-motion: ^4.1.17
-      husky: ^7.0.1
-      lint-staged: ^11.1.2
+      formik: 2.2.9
+      framer-motion: ^5.2.1
+      husky: ^7.0.4
+      lint-staged: ^11.2.6
       lodash: ^4.17.21
       mdx-prism: ^0.3.4
-      msw: ^0.34.0
-      next: 11.1.2
+      msw: ^0.35.0
+      next: 12.0.3
       next-compose-plugins: ^2.2.1
-      next-images: ^1.8.1
-      next-seo: ^4.26.0
-      next-sitemap: ^1.6.148
+      next-images: ^1.8.2
+      next-seo: ^4.28.1
+      next-sitemap: ^1.6.203
       next-themes: ^0.0.15
       pluralize: ^8.0.0
-      postcss: ^8.3.6
+      postcss: ^8.3.11
       postcss-nested: ^5.0.6
       postcss-preset-env: ^6.7.0
-      prettier: ^2.3.2
+      prettier: ^2.4.1
       query-string: ^7.0.1
       react: 17.0.2
       react-countdown: ^2.3.2
       react-dom: 17.0.2
-      react-markdown: ^6.0.3
-      react-scroll: ^1.8.3
+      react-markdown: ^7.1.0
+      react-scroll: ^1.8.4
       react-stripe-checkout: ^2.6.3
       react-test-renderer: ^17.0.2
-      react-use: ^17.2.4
+      react-use: ^17.3.1
       react-use-clipboard: ^1.0.7
       rehype: ^12.0.0
-      remark-code-titles: ^0.1.1
-      remark-footnotes: ^3.0.0
-      remark-slug: ^6.0.0
-      stripe: ^8.169.0
-      swr: ^0.5.6
-      tailwindcss: ^2.2.7
+      remark-code-titles: ^0.1.2
+      remark-footnotes: ^4.0.1
+      remark-slug: ^7.0.1
+      stripe: ^8.186.1
+      swr: ^1.0.1
+      tailwindcss: ^2.2.19
       tailwindcss-autofill: ^0.1.0
       tailwindcss-text-fill: ^0.1.2
-      typescript: ^4.3.5
-      xstate: ^4.23.1
-      yup: ^0.28.1
+      typescript: ^4.4.4
+      xstate: ^4.26.0
+      yup: ^0.32.11
     dependencies:
-      '@next/mdx': 11.1.0_@mdx-js+loader@1.6.22
-      '@reach/dialog': 0.16.0_9c423dff26c1034f6157071c372957fe
+      '@next/mdx': 12.0.3_@mdx-js+loader@1.6.22
+      '@reach/dialog': 0.16.2_c8c53a2a5a2c84791ce34d6dbdd05753
       '@skillrecordings/analytics': link:../../packages/analytics
       '@skillrecordings/auth': link:../../packages/auth
       '@skillrecordings/axios': link:../../packages/axios
@@ -1325,85 +1325,85 @@ importers:
       '@skillrecordings/react': link:../../packages/react
       '@skillrecordings/time': link:../../packages/time
       '@skillrecordings/viewer': link:../../packages/viewer
-      '@stripe/stripe-js': 1.16.0
-      '@tailwindcss/aspect-ratio': 0.2.1_tailwindcss@2.2.7
-      '@tailwindcss/forms': 0.3.3_tailwindcss@2.2.7
-      '@tailwindcss/typography': 0.4.1_tailwindcss@2.2.7
-      '@tippyjs/react': 4.2.5_react-dom@17.0.2+react@17.0.2
-      '@types/lodash': 4.14.172
-      '@xstate/react': 1.5.1_49beb093bbd7c35e54ba0f39a3d61311
-      autoprefixer: 10.3.1_postcss@8.3.6
-      axios: 0.21.1
+      '@stripe/stripe-js': 1.21.1
+      '@tailwindcss/aspect-ratio': 0.3.0_tailwindcss@2.2.19
+      '@tailwindcss/forms': 0.3.4_tailwindcss@2.2.19
+      '@tailwindcss/typography': 0.4.1_tailwindcss@2.2.19
+      '@tippyjs/react': 4.2.6_react-dom@17.0.2+react@17.0.2
+      '@types/lodash': 4.14.176
+      '@xstate/react': 1.6.2_a6167658b64f8fb59fb632da3d39755a
+      autoprefixer: 10.4.0_postcss@8.3.11
+      axios: 0.24.0
       client-oauth2: 4.3.3
       cookie: 0.4.1
-      date-fns: 2.23.0
+      date-fns: 2.25.0
       dotenv-flow: 3.2.0
       focus-visible: 5.2.0
-      formik: 2.2.8_react@17.0.2
-      framer-motion: 4.1.17_react-dom@17.0.2+react@17.0.2
+      formik: 2.2.9_react@17.0.2
+      framer-motion: 5.2.1_react-dom@17.0.2+react@17.0.2
       lodash: 4.17.21
       mdx-prism: 0.3.4
-      next: 11.1.2_f31b35bdaa3b7c2fce82404f09d2dac4
-      next-seo: 4.26.0_6fbf59523517da779df50d355b375324
-      next-sitemap: 1.6.148_next@11.1.2
-      next-themes: 0.0.15_6fbf59523517da779df50d355b375324
+      next: 12.0.3_react-dom@17.0.2+react@17.0.2
+      next-seo: 4.28.1_72b2f1fb664d51f286fb64a58e104b48
+      next-sitemap: 1.6.203_next@12.0.3
+      next-themes: 0.0.15_72b2f1fb664d51f286fb64a58e104b48
       pluralize: 8.0.0
-      postcss: 8.3.6
+      postcss: 8.3.11
       query-string: 7.0.1
       react: 17.0.2
       react-countdown: 2.3.2_react-dom@17.0.2+react@17.0.2
       react-dom: 17.0.2_react@17.0.2
-      react-markdown: 6.0.3_9280ae23271fd1e8184f767af1a90e55
-      react-scroll: 1.8.3_react-dom@17.0.2+react@17.0.2
+      react-markdown: 7.1.0_27d7f75f5fffc1228c129be468caca5c
+      react-scroll: 1.8.4_react-dom@17.0.2+react@17.0.2
       react-stripe-checkout: 2.6.3
-      react-use: 17.2.4_react-dom@17.0.2+react@17.0.2
+      react-use: 17.3.1_react-dom@17.0.2+react@17.0.2
       react-use-clipboard: 1.0.7_react-dom@17.0.2+react@17.0.2
       rehype: 12.0.0
       remark-code-titles: 0.1.2
-      remark-footnotes: 3.0.0
-      remark-slug: 6.1.0
-      stripe: 8.169.0
-      swr: 0.5.6_react@17.0.2
-      tailwindcss-autofill: 0.1.0_tailwindcss@2.2.7
-      tailwindcss-text-fill: 0.1.2_tailwindcss@2.2.7
-      xstate: 4.23.1
-      yup: 0.28.5
+      remark-footnotes: 4.0.1
+      remark-slug: 7.0.1
+      stripe: 8.186.1
+      swr: 1.0.1_react@17.0.2
+      tailwindcss-autofill: 0.1.0_tailwindcss@2.2.19
+      tailwindcss-text-fill: 0.1.2_tailwindcss@2.2.19
+      xstate: 4.26.0
+      yup: 0.32.11
     devDependencies:
-      '@babel/plugin-transform-react-jsx': 7.14.9
+      '@babel/plugin-transform-react-jsx': 7.16.0
       '@mdx-js/loader': 1.6.22_react@17.0.2
       '@skillrecordings/scripts': link:../../packages/scripts
       '@skillrecordings/tsconfig': link:../../packages/tsconfig
       '@skillrecordings/types': link:../../packages/types
-      '@testing-library/jest-dom': 5.14.1
-      '@testing-library/react': 12.0.0_react-dom@17.0.2+react@17.0.2
+      '@testing-library/jest-dom': 5.15.0
+      '@testing-library/react': 12.1.2_react-dom@17.0.2+react@17.0.2
       '@types/cookie': 0.4.1
-      '@types/node': 16.6.0
+      '@types/node': 16.11.7
       '@types/pluralize': 0.0.29
-      '@types/react': 17.0.17
+      '@types/react': 17.0.34
       '@types/react-scroll': 1.8.3
-      '@typescript-eslint/eslint-plugin': 4.29.1_d4376362794b743c19f4cba25c7fc6f5
-      '@typescript-eslint/parser': 4.29.1_eslint@7.32.0+typescript@4.3.5
+      '@typescript-eslint/eslint-plugin': 5.3.1_4653b7803b7453f5f37717b7e1448517
+      '@typescript-eslint/parser': 5.3.1_eslint@8.2.0+typescript@4.4.4
       assert: 2.0.0
-      babel-jest: 27.0.6
-      commander: 8.1.0
-      eslint: 7.32.0
-      eslint-config-next: 11.1.0_4feb0b759ba905fa0097207da1a096c2
-      eslint-config-prettier: 8.3.0_eslint@7.32.0
-      eslint-plugin-jsx-a11y: 6.4.1_eslint@7.32.0
-      eslint-plugin-prettier: 3.4.0_5a48a349ffec60f5257b5f148f5199c3
-      eslint-plugin-react: 7.24.0_eslint@7.32.0
-      eslint-plugin-react-hooks: 4.2.0_eslint@7.32.0
-      husky: 7.0.1
-      lint-staged: 11.1.2
-      msw: 0.34.0
+      babel-jest: 27.3.1
+      commander: 8.3.0
+      eslint: 8.2.0
+      eslint-config-next: 12.0.3_e9c082f2e039b7a856024a994f87ff12
+      eslint-config-prettier: 8.3.0_eslint@8.2.0
+      eslint-plugin-jsx-a11y: 6.4.1_eslint@8.2.0
+      eslint-plugin-prettier: 4.0.0_307f015733298e29da9050ea0cee5b9e
+      eslint-plugin-react: 7.26.1_eslint@8.2.0
+      eslint-plugin-react-hooks: 4.3.0_eslint@8.2.0
+      husky: 7.0.4
+      lint-staged: 11.2.6
+      msw: 0.35.0
       next-compose-plugins: 2.2.1
-      next-images: 1.8.1
-      postcss-nested: 5.0.6_postcss@8.3.6
+      next-images: 1.8.2
+      postcss-nested: 5.0.6_postcss@8.3.11
       postcss-preset-env: 6.7.0
-      prettier: 2.3.2
+      prettier: 2.4.1
       react-test-renderer: 17.0.2_react@17.0.2
-      tailwindcss: 2.2.7_7b69a43ec4689fa7484dee35f79a7806
-      typescript: 4.3.5
+      tailwindcss: 2.2.19_0c54bdadaf9d9c9c6c134cb2c6c061a3
+      typescript: 4.4.4
 
   apps/next-product-starter:
     specifiers:
