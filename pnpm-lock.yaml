@@ -1041,10 +1041,10 @@ importers:
 
   apps/kcdbundle:
     specifiers:
-      '@babel/plugin-transform-react-jsx': ^7.14.9
+      '@babel/plugin-transform-react-jsx': ^7.16.0
       '@mdx-js/loader': ^1.6.22
-      '@next/mdx': ^11.1.0
-      '@reach/dialog': ^0.16.0
+      '@next/mdx': ^12.0.3
+      '@reach/dialog': ^0.16.2
       '@skillrecordings/analytics': workspace:*
       '@skillrecordings/auth': workspace:*
       '@skillrecordings/axios': workspace:*
@@ -1060,77 +1060,77 @@ importers:
       '@skillrecordings/tsconfig': workspace:*
       '@skillrecordings/types': workspace:*
       '@skillrecordings/viewer': workspace:*
-      '@stripe/stripe-js': ^1.16.0
-      '@tailwindcss/aspect-ratio': ^0.2.1
-      '@tailwindcss/forms': ^0.3.3
+      '@stripe/stripe-js': ^1.21.1
+      '@tailwindcss/aspect-ratio': ^0.3.0
+      '@tailwindcss/forms': ^0.3.4
       '@tailwindcss/typography': ^0.4.1
-      '@testing-library/jest-dom': ^5.14.1
-      '@testing-library/react': ^12.0.0
-      '@tippyjs/react': ^4.2.5
+      '@testing-library/jest-dom': ^5.15.0
+      '@testing-library/react': ^12.1.2
+      '@tippyjs/react': ^4.2.6
       '@types/cookie': ^0.4.1
-      '@types/lodash': ^4.14.172
-      '@types/node': ^16.6.0
+      '@types/lodash': ^4.14.176
+      '@types/node': ^16.11.7
       '@types/pluralize': ^0.0.29
       '@types/react': '*'
       '@types/react-scroll': ^1.8.3
-      '@typescript-eslint/eslint-plugin': ^4.29.1
-      '@typescript-eslint/parser': ^4.29.1
-      '@xstate/react': ^1.5.1
+      '@typescript-eslint/eslint-plugin': ^5.3.1
+      '@typescript-eslint/parser': ^5.3.1
+      '@xstate/react': ^1.6.2
       assert: ^2.0.0
-      autoprefixer: ^10.3.1
-      axios: ^0.21.1
-      babel-jest: ^27.0.6
+      autoprefixer: ^10.4.0
+      axios: ^0.24.0
+      babel-jest: ^27.3.1
       client-oauth2: ^4.3.3
-      commander: ^8.1.0
+      commander: ^8.3.0
       cookie: ^0.4.1
-      date-fns: ^2.23.0
+      date-fns: ^2.25.0
       dotenv-flow: ^3.2.0
-      eslint: ^7.32.0
-      eslint-config-next: ^11.1.0
+      eslint: ^8.2.0
+      eslint-config-next: ^12.0.3
       eslint-config-prettier: ^8.3.0
       eslint-plugin-jsx-a11y: ^6.4.1
-      eslint-plugin-prettier: ^3.4.0
-      eslint-plugin-react: ^7.24.0
-      eslint-plugin-react-hooks: ^4.2.0
+      eslint-plugin-prettier: ^4.0.0
+      eslint-plugin-react: ^7.26.1
+      eslint-plugin-react-hooks: ^4.3.0
       focus-visible: ^5.2.0
-      formik: 2.2.8
-      framer-motion: ^4.1.17
+      formik: 2.2.9
+      framer-motion: ^5.2.1
       lodash: ^4.17.21
       mdx-prism: ^0.3.4
-      msw: ^0.34.0
-      next: 11.1.2
+      msw: ^0.35.0
+      next: 12.0.3
       next-compose-plugins: ^2.2.1
-      next-images: ^1.8.1
-      next-seo: ^4.26.0
-      next-sitemap: ^1.6.148
+      next-images: ^1.8.2
+      next-seo: ^4.28.1
+      next-sitemap: ^1.6.203
       next-themes: ^0.0.15
       pluralize: ^8.0.0
-      postcss: ^8.3.6
+      postcss: ^8.3.11
       postcss-nested: ^5.0.6
       postcss-preset-env: ^6.7.0
-      prettier: ^2.3.2
+      prettier: ^2.4.1
       query-string: ^7.0.1
       react: 17.0.2
       react-countdown: ^2.3.2
       react-dom: 17.0.2
-      react-markdown: ^6.0.3
-      react-scroll: ^1.8.3
+      react-markdown: ^7.1.0
+      react-scroll: ^1.8.4
       react-stripe-checkout: ^2.6.3
       react-test-renderer: ^17.0.2
-      react-use: ^17.2.4
+      react-use: ^17.3.1
       react-use-clipboard: ^1.0.7
       rehype: ^12.0.0
-      remark-code-titles: ^0.1.1
-      remark-footnotes: ^3.0.0
-      remark-slug: ^6.0.0
-      swr: ^0.5.6
-      tailwindcss: ^2.2.7
-      typescript: ^4.3.5
-      xstate: ^4.23.1
-      yup: ^0.28.1
+      remark-code-titles: ^0.1.2
+      remark-footnotes: ^4.0.1
+      remark-slug: ^7.0.1
+      swr: ^1.0.1
+      tailwindcss: ^2.2.19
+      typescript: ^4.4.4
+      xstate: ^4.26.0
+      yup: ^0.32.11
     dependencies:
-      '@next/mdx': 11.1.0_@mdx-js+loader@1.6.22
-      '@reach/dialog': 0.16.0_9c423dff26c1034f6157071c372957fe
+      '@next/mdx': 12.0.3_@mdx-js+loader@1.6.22
+      '@reach/dialog': 0.16.2_c8c53a2a5a2c84791ce34d6dbdd05753
       '@skillrecordings/analytics': link:../../packages/analytics
       '@skillrecordings/auth': link:../../packages/auth
       '@skillrecordings/axios': link:../../packages/axios
@@ -1143,80 +1143,80 @@ importers:
       '@skillrecordings/stripe': link:../../packages/stripe
       '@skillrecordings/time': link:../../packages/time
       '@skillrecordings/viewer': link:../../packages/viewer
-      '@stripe/stripe-js': 1.16.0
-      '@tailwindcss/aspect-ratio': 0.2.1_tailwindcss@2.2.7
-      '@tailwindcss/forms': 0.3.3_tailwindcss@2.2.7
-      '@tailwindcss/typography': 0.4.1_tailwindcss@2.2.7
-      '@tippyjs/react': 4.2.5_react-dom@17.0.2+react@17.0.2
-      '@types/lodash': 4.14.172
-      '@xstate/react': 1.5.1_49beb093bbd7c35e54ba0f39a3d61311
-      autoprefixer: 10.3.1_postcss@8.3.6
-      axios: 0.21.1
+      '@stripe/stripe-js': 1.21.1
+      '@tailwindcss/aspect-ratio': 0.3.0_tailwindcss@2.2.19
+      '@tailwindcss/forms': 0.3.4_tailwindcss@2.2.19
+      '@tailwindcss/typography': 0.4.1_tailwindcss@2.2.19
+      '@tippyjs/react': 4.2.6_react-dom@17.0.2+react@17.0.2
+      '@types/lodash': 4.14.176
+      '@xstate/react': 1.6.2_a6167658b64f8fb59fb632da3d39755a
+      autoprefixer: 10.4.0_postcss@8.3.11
+      axios: 0.24.0
       client-oauth2: 4.3.3
       cookie: 0.4.1
-      date-fns: 2.23.0
+      date-fns: 2.25.0
       dotenv-flow: 3.2.0
       focus-visible: 5.2.0
-      formik: 2.2.8_react@17.0.2
-      framer-motion: 4.1.17_react-dom@17.0.2+react@17.0.2
+      formik: 2.2.9_react@17.0.2
+      framer-motion: 5.2.1_react-dom@17.0.2+react@17.0.2
       lodash: 4.17.21
       mdx-prism: 0.3.4
-      next: 11.1.2_f31b35bdaa3b7c2fce82404f09d2dac4
-      next-seo: 4.26.0_6fbf59523517da779df50d355b375324
-      next-sitemap: 1.6.148_next@11.1.2
-      next-themes: 0.0.15_6fbf59523517da779df50d355b375324
+      next: 12.0.3_react-dom@17.0.2+react@17.0.2
+      next-seo: 4.28.1_72b2f1fb664d51f286fb64a58e104b48
+      next-sitemap: 1.6.203_next@12.0.3
+      next-themes: 0.0.15_72b2f1fb664d51f286fb64a58e104b48
       pluralize: 8.0.0
-      postcss: 8.3.6
+      postcss: 8.3.11
       query-string: 7.0.1
       react: 17.0.2
       react-countdown: 2.3.2_react-dom@17.0.2+react@17.0.2
       react-dom: 17.0.2_react@17.0.2
-      react-markdown: 6.0.3_9280ae23271fd1e8184f767af1a90e55
-      react-scroll: 1.8.3_react-dom@17.0.2+react@17.0.2
+      react-markdown: 7.1.0_27d7f75f5fffc1228c129be468caca5c
+      react-scroll: 1.8.4_react-dom@17.0.2+react@17.0.2
       react-stripe-checkout: 2.6.3
-      react-use: 17.2.4_react-dom@17.0.2+react@17.0.2
+      react-use: 17.3.1_react-dom@17.0.2+react@17.0.2
       react-use-clipboard: 1.0.7_react-dom@17.0.2+react@17.0.2
       rehype: 12.0.0
       remark-code-titles: 0.1.2
-      remark-footnotes: 3.0.0
-      remark-slug: 6.1.0
-      swr: 0.5.6_react@17.0.2
-      xstate: 4.23.1
-      yup: 0.28.5
+      remark-footnotes: 4.0.1
+      remark-slug: 7.0.1
+      swr: 1.0.1_react@17.0.2
+      xstate: 4.26.0
+      yup: 0.32.11
     devDependencies:
-      '@babel/plugin-transform-react-jsx': 7.14.9
+      '@babel/plugin-transform-react-jsx': 7.16.0
       '@mdx-js/loader': 1.6.22_react@17.0.2
       '@skillrecordings/scripts': link:../../packages/scripts
       '@skillrecordings/tsconfig': link:../../packages/tsconfig
       '@skillrecordings/types': link:../../packages/types
-      '@testing-library/jest-dom': 5.14.1
-      '@testing-library/react': 12.0.0_react-dom@17.0.2+react@17.0.2
+      '@testing-library/jest-dom': 5.15.0
+      '@testing-library/react': 12.1.2_react-dom@17.0.2+react@17.0.2
       '@types/cookie': 0.4.1
-      '@types/node': 16.6.0
+      '@types/node': 16.11.7
       '@types/pluralize': 0.0.29
-      '@types/react': 17.0.17
+      '@types/react': 17.0.34
       '@types/react-scroll': 1.8.3
-      '@typescript-eslint/eslint-plugin': 4.29.1_d4376362794b743c19f4cba25c7fc6f5
-      '@typescript-eslint/parser': 4.29.1_eslint@7.32.0+typescript@4.3.5
+      '@typescript-eslint/eslint-plugin': 5.3.1_4653b7803b7453f5f37717b7e1448517
+      '@typescript-eslint/parser': 5.3.1_eslint@8.2.0+typescript@4.4.4
       assert: 2.0.0
-      babel-jest: 27.0.6
-      commander: 8.1.0
-      eslint: 7.32.0
-      eslint-config-next: 11.1.0_4feb0b759ba905fa0097207da1a096c2
-      eslint-config-prettier: 8.3.0_eslint@7.32.0
-      eslint-plugin-jsx-a11y: 6.4.1_eslint@7.32.0
-      eslint-plugin-prettier: 3.4.0_5a48a349ffec60f5257b5f148f5199c3
-      eslint-plugin-react: 7.24.0_eslint@7.32.0
-      eslint-plugin-react-hooks: 4.2.0_eslint@7.32.0
-      msw: 0.34.0
+      babel-jest: 27.3.1
+      commander: 8.3.0
+      eslint: 8.2.0
+      eslint-config-next: 12.0.3_e9c082f2e039b7a856024a994f87ff12
+      eslint-config-prettier: 8.3.0_eslint@8.2.0
+      eslint-plugin-jsx-a11y: 6.4.1_eslint@8.2.0
+      eslint-plugin-prettier: 4.0.0_307f015733298e29da9050ea0cee5b9e
+      eslint-plugin-react: 7.26.1_eslint@8.2.0
+      eslint-plugin-react-hooks: 4.3.0_eslint@8.2.0
+      msw: 0.35.0
       next-compose-plugins: 2.2.1
-      next-images: 1.8.1
-      postcss-nested: 5.0.6_postcss@8.3.6
+      next-images: 1.8.2
+      postcss-nested: 5.0.6_postcss@8.3.11
       postcss-preset-env: 6.7.0
-      prettier: 2.3.2
+      prettier: 2.4.1
       react-test-renderer: 17.0.2_react@17.0.2
-      tailwindcss: 2.2.7_7b69a43ec4689fa7484dee35f79a7806
-      typescript: 4.3.5
+      tailwindcss: 2.2.19_0c54bdadaf9d9c9c6c134cb2c6c061a3
+      typescript: 4.4.4
 
   apps/keyboardlegend:
     specifiers:
@@ -6435,29 +6435,6 @@ packages:
       - supports-color
     dev: true
 
-  /@jest/transform/27.0.6:
-    resolution: {integrity: sha512-rj5Dw+mtIcntAUnMlW/Vju5mr73u8yg+irnHwzgtgoeI6cCPOvUwQ0D1uQtc/APmWgvRweEb1g05pkUpxH3iCA==}
-    engines: {node: ^10.13.0 || ^12.13.0 || ^14.15.0 || >=15.0.0}
-    dependencies:
-      '@babel/core': 7.15.0
-      '@jest/types': 27.0.6
-      babel-plugin-istanbul: 6.0.0
-      chalk: 4.1.2
-      convert-source-map: 1.8.0
-      fast-json-stable-stringify: 2.1.0
-      graceful-fs: 4.2.8
-      jest-haste-map: 27.0.6
-      jest-regex-util: 27.0.6
-      jest-util: 27.0.6
-      micromatch: 4.0.4
-      pirates: 4.0.1
-      slash: 3.0.0
-      source-map: 0.6.1
-      write-file-atomic: 3.0.3
-    transitivePeerDependencies:
-      - supports-color
-    dev: true
-
   /@jest/transform/27.1.0:
     resolution: {integrity: sha512-ZRGCA2ZEVJ00ubrhkTG87kyLbN6n55g1Ilq0X9nJb5bX3MhMp3O6M7KG+LvYu+nZRqG5cXsQnJEdZbdpTAV8pQ==}
     engines: {node: ^10.13.0 || ^12.13.0 || ^14.15.0 || >=15.0.0}
@@ -6533,6 +6510,7 @@ packages:
       '@types/node': 16.6.0
       '@types/yargs': 16.0.4
       chalk: 4.1.2
+    dev: false
 
   /@jest/types/27.1.0:
     resolution: {integrity: sha512-pRP5cLIzN7I7Vp6mHKRSaZD7YpBTK7hawx5si8trMKqk4+WOdK8NEKOTO2G8PKWD1HbKMVckVB6/XHh/olhf2g==}
@@ -6676,12 +6654,6 @@ packages:
     resolution: {integrity: sha512-QcdlpcwIH9dYcVlNAU+gXaqHA/omskbRlb+R3vN7LlB2EgLt+9WQwbokcHOsNyt4pI7kDM67W4tr9l7dWnlGdQ==}
     dev: false
 
-  /@next/eslint-plugin-next/11.1.0:
-    resolution: {integrity: sha512-HjLhyshV+ANzTDCFLN1UZMQIyYwZkCdhydfIcOQQVCrqLSd0hCi+AYIGqWfDPhXmP7aeOuKQsmhRmdennQV2qw==}
-    dependencies:
-      glob: 7.1.7
-    dev: true
-
   /@next/eslint-plugin-next/12.0.3:
     resolution: {integrity: sha512-P7i+bMypneQcoRN+CX79xssvvIJCaw7Fndzbe7/lB0+LyRbVvGVyMUsFmLLbSxtZq4hvFMJ1p8wML/gsulMZWQ==}
     dependencies:
@@ -6690,15 +6662,6 @@ packages:
 
   /@next/mdx/10.2.3_@mdx-js+loader@1.6.22:
     resolution: {integrity: sha512-hseekptFqOCxLbdaNDS/yelaG2Q2uaNDilnRjq8Uv/LWHuZ9F2cp7ndwTolW9acJsbDedamKRMgdw4V2Fz0pUA==}
-    peerDependencies:
-      '@mdx-js/loader': '>=0.15.0'
-      '@mdx-js/react': '*'
-    dependencies:
-      '@mdx-js/loader': 1.6.22_react@17.0.2
-    dev: false
-
-  /@next/mdx/11.1.0_@mdx-js+loader@1.6.22:
-    resolution: {integrity: sha512-X+NwSByGr9HuPkGs1nrzhmJ5qqQbv6CpEA3dJKEYHaDe7YzEUCM00Y7abxOzowXhUXeDdAHJ7IeIV4GZMhdcpg==}
     peerDependencies:
       '@mdx-js/loader': '>=0.15.0'
       '@mdx-js/react': '*'
@@ -7282,10 +7245,6 @@ packages:
       estree-walker: 1.0.1
       picomatch: 2.3.0
       rollup: 1.32.1
-    dev: true
-
-  /@rushstack/eslint-patch/1.0.6:
-    resolution: {integrity: sha512-Myxw//kzromB9yWgS8qYGuGVf91oBUUJpNvy5eM50sqvmKLbKjwLxohJnkWGTeeI9v9IBMtPLxz5Gc60FIfvCA==}
     dev: true
 
   /@rushstack/eslint-patch/1.1.0:
@@ -8897,6 +8856,7 @@ packages:
       call-bind: 1.0.2
       define-properties: 1.1.3
       es-abstract: 1.18.5
+    dev: false
 
   /array.prototype.flat/1.2.5:
     resolution: {integrity: sha512-KaYU+S+ndVqyUnignHftkwc58o3uVU1jzczILJ1tN2YaIZpFIKBiP/x/j97E5MVPsaCloPbqWLB/8qCTVvT2qg==}
@@ -9164,24 +9124,6 @@ packages:
       '@types/babel__core': 7.1.15
       babel-plugin-istanbul: 6.0.0
       babel-preset-jest: 26.6.2
-      chalk: 4.1.2
-      graceful-fs: 4.2.8
-      slash: 3.0.0
-    transitivePeerDependencies:
-      - supports-color
-    dev: true
-
-  /babel-jest/27.0.6:
-    resolution: {integrity: sha512-iTJyYLNc4wRofASmofpOc5NK9QunwMk+TLFgGXsTFS8uEqmd8wdI7sga0FPe2oVH3b5Agt/EAK1QjPEuKL8VfA==}
-    engines: {node: ^10.13.0 || ^12.13.0 || ^14.15.0 || >=15.0.0}
-    peerDependencies:
-      '@babel/core': ^7.8.0
-    dependencies:
-      '@jest/transform': 27.0.6
-      '@jest/types': 27.0.6
-      '@types/babel__core': 7.1.15
-      babel-plugin-istanbul: 6.0.0
-      babel-preset-jest: 27.0.6
       chalk: 4.1.2
       graceful-fs: 4.2.8
       slash: 3.0.0
@@ -10452,11 +10394,6 @@ packages:
     engines: {node: '>= 10'}
     dev: true
 
-  /commander/8.1.0:
-    resolution: {integrity: sha512-mf45ldcuHSYShkplHHGKWb4TrmwQadxOn7v4WuhDJy0ZVoY5JFajaRDKD0PNe5qXzBX0rhovjTnP6Kz9LETcuA==}
-    engines: {node: '>= 12'}
-    dev: true
-
   /commander/8.3.0:
     resolution: {integrity: sha512-OkTL9umf+He2DZkUq8f8J9of7yL6RJKI24dVITBmNfZBmri9zYZQrKkuXiKhyfPSu8tUhnVBB1iKXevvnlR4Ww==}
     engines: {node: '>= 12'}
@@ -11650,32 +11587,6 @@ packages:
       lodash.zip: 4.2.0
     dev: false
 
-  /eslint-config-next/11.1.0_4feb0b759ba905fa0097207da1a096c2:
-    resolution: {integrity: sha512-8KeBg3qUEhM06vhzvs9MwZl2lsSfu3bm0wa3QVTc9kBdFxSRY6Gu/1GM0FKzWG0sQmWqzjLbynazczu/037Ibw==}
-    peerDependencies:
-      eslint: ^7.23.0
-      next: '>=10.2.0'
-      typescript: '>=3.3.1'
-    peerDependenciesMeta:
-      typescript:
-        optional: true
-    dependencies:
-      '@next/eslint-plugin-next': 11.1.0
-      '@rushstack/eslint-patch': 1.0.6
-      '@typescript-eslint/parser': 4.29.1_eslint@7.32.0+typescript@4.3.5
-      eslint: 7.32.0
-      eslint-import-resolver-node: 0.3.5
-      eslint-import-resolver-typescript: 2.4.0_44936d22002d8391d694a30a93d20642
-      eslint-plugin-import: 2.24.0_eslint@7.32.0
-      eslint-plugin-jsx-a11y: 6.4.1_eslint@7.32.0
-      eslint-plugin-react: 7.24.0_eslint@7.32.0
-      eslint-plugin-react-hooks: 4.2.0_eslint@7.32.0
-      next: 11.1.2_f31b35bdaa3b7c2fce82404f09d2dac4
-      typescript: 4.3.5
-    transitivePeerDependencies:
-      - supports-color
-    dev: true
-
   /eslint-config-next/12.0.3_e9c082f2e039b7a856024a994f87ff12:
     resolution: {integrity: sha512-q+mX6jhk3HrCo39G18MLhiC6f8zJnTA00f30RSuVUWsv45SQUm6r62oXVqrbAgMEybe0yx/GDRvfA6LvSolw6Q==}
     peerDependencies:
@@ -11794,30 +11705,13 @@ packages:
     dependencies:
       debug: 3.2.7
       resolve: 1.20.0
+    dev: false
 
   /eslint-import-resolver-node/0.3.6:
     resolution: {integrity: sha512-0En0w03NRVMn9Uiyn8YRPDKvWjxCWkslUEhGNTdGx15RvPJYQ+lbOlqrlNI2vEAs4pDYK4f/HN2TbDmk5TP0iw==}
     dependencies:
       debug: 3.2.7
       resolve: 1.20.0
-    dev: true
-
-  /eslint-import-resolver-typescript/2.4.0_44936d22002d8391d694a30a93d20642:
-    resolution: {integrity: sha512-useJKURidCcldRLCNKWemr1fFQL1SzB3G4a0li6lFGvlc5xGe1hY343bvG07cbpCzPuM/lK19FIJB3XGFSkplA==}
-    engines: {node: '>=4'}
-    peerDependencies:
-      eslint: '*'
-      eslint-plugin-import: '*'
-    dependencies:
-      debug: 4.3.2
-      eslint: 7.32.0
-      eslint-plugin-import: 2.24.0_eslint@7.32.0
-      glob: 7.1.7
-      is-glob: 4.0.1
-      resolve: 1.20.0
-      tsconfig-paths: 3.10.1
-    transitivePeerDependencies:
-      - supports-color
     dev: true
 
   /eslint-import-resolver-typescript/2.5.0_3f013334cb52440e201498cdb6b29798:
@@ -11844,6 +11738,7 @@ packages:
     dependencies:
       debug: 3.2.7
       pkg-dir: 2.0.0
+    dev: false
 
   /eslint-module-utils/2.7.1:
     resolution: {integrity: sha512-fjoetBXQZq2tSTWZ9yWVl2KuFrTZZH3V+9iD1V1RfpDgxzJR+mPd/KZmMiA8gbPqdBzpNiEHOuT7IYEWxrH0zQ==}
@@ -11897,6 +11792,7 @@ packages:
       read-pkg-up: 3.0.0
       resolve: 1.20.0
       tsconfig-paths: 3.10.1
+    dev: false
 
   /eslint-plugin-import/2.25.2_eslint@6.8.0:
     resolution: {integrity: sha512-qCwQr9TYfoBHOFcVGKY9C9unq05uOxxdklmBXLVvcwo68y5Hta6/GzCZEMx2zQiu0woKNEER0LE7ZgaOfBU14g==}
@@ -15321,26 +15217,6 @@ packages:
       fsevents: 2.3.2
     dev: true
 
-  /jest-haste-map/27.0.6:
-    resolution: {integrity: sha512-4ldjPXX9h8doB2JlRzg9oAZ2p6/GpQUNAeiYXqcpmrKbP0Qev0wdZlxSMOmz8mPOEnt4h6qIzXFLDi8RScX/1w==}
-    engines: {node: ^10.13.0 || ^12.13.0 || ^14.15.0 || >=15.0.0}
-    dependencies:
-      '@jest/types': 27.0.6
-      '@types/graceful-fs': 4.1.5
-      '@types/node': 16.6.0
-      anymatch: 3.1.2
-      fb-watchman: 2.0.1
-      graceful-fs: 4.2.8
-      jest-regex-util: 27.0.6
-      jest-serializer: 27.0.6
-      jest-util: 27.0.6
-      jest-worker: 27.0.6
-      micromatch: 4.0.4
-      walker: 1.0.7
-    optionalDependencies:
-      fsevents: 2.3.2
-    dev: true
-
   /jest-haste-map/27.1.0:
     resolution: {integrity: sha512-7mz6LopSe+eA6cTFMf10OfLLqRoIPvmMyz5/OnSXnHO7hB0aDP1iIeLWCXzAcYU5eIJVpHr12Bk9yyq2fTW9vg==}
     engines: {node: ^10.13.0 || ^12.13.0 || ^14.15.0 || >=15.0.0}
@@ -15852,6 +15728,7 @@ packages:
       graceful-fs: 4.2.8
       is-ci: 3.0.0
       picomatch: 2.3.0
+    dev: false
 
   /jest-util/27.1.0:
     resolution: {integrity: sha512-edSLD2OneYDKC6gZM1yc+wY/877s/fuJNoM1k3sOEpzFyeptSmke3SLnk1dDHk9CgTA+58mnfx3ew3J11Kes/w==}
@@ -15970,15 +15847,6 @@ packages:
       merge-stream: 2.0.0
       supports-color: 8.1.1
     dev: false
-
-  /jest-worker/27.0.6:
-    resolution: {integrity: sha512-qupxcj/dRuA3xHPMUd40gr2EaAurFbkwzOh7wfPaeE9id7hyjURRQoqNfHifHK3XjJU6YJJUQKILGUnwGPEOCA==}
-    engines: {node: '>= 10.13.0'}
-    dependencies:
-      '@types/node': 16.6.0
-      merge-stream: 2.0.0
-      supports-color: 8.1.1
-    dev: true
 
   /jest-worker/27.1.0:
     resolution: {integrity: sha512-mO4PHb2QWLn9yRXGp7rkvXLAYuxwhq1ZYUo0LoDhg8wqvv4QizP1ZWEJOeolgbEgAWZLIEU0wsku8J+lGWfBhg==}
@@ -16209,6 +16077,7 @@ packages:
 
   /json-parse-better-errors/1.0.2:
     resolution: {integrity: sha512-mrqyZKfX5EhL7hvqcV6WG1yYjnjeuYDzDhhcAAUrq8Po85NBQBJP+ZDUT75qZQ98IkUoBqdkExkukOU7Ts2wrw==}
+    dev: false
 
   /json-parse-even-better-errors/2.3.1:
     resolution: {integrity: sha512-xyFwyhro/JEof6Ghe2iz2NcXoj2sloNsWr/XsERDK/oiPCfaNhl5ONfp+jQdAZRQQ0IJWNzH9zIZF7li91kh2w==}
@@ -16482,6 +16351,7 @@ packages:
       parse-json: 4.0.0
       pify: 3.0.0
       strip-bom: 3.0.0
+    dev: false
 
   /load-yaml-file/0.2.0:
     resolution: {integrity: sha512-OfCBkGEw4nN6JLtgRidPX6QxjBQGQf72q3si2uvqyFEMbycSFFHwAZeXx6cJgFM9wmLrf9zBwCP3Ivqa+LLZPw==}
@@ -18867,6 +18737,7 @@ packages:
     dependencies:
       error-ex: 1.3.2
       json-parse-better-errors: 1.0.2
+    dev: false
 
   /parse-json/5.2.0:
     resolution: {integrity: sha512-ayCKvm/phCGxOkYRSCM82iDwct8/EonSEgCSxWxD7ve6jHggsFl4fZVQBPRNgQoKiuV/odhFrGzQXZwbifC8Rg==}
@@ -19050,6 +18921,7 @@ packages:
     engines: {node: '>=4'}
     dependencies:
       find-up: 2.1.0
+    dev: false
 
   /platform/1.3.6:
     resolution: {integrity: sha512-fnWVljUchTro6RiCFvCXBbNhJc2NijN7oIQxbwsyL0buWJPG85v81ehlHI9fXrJsMNgTofEoWIQeClKpgxFLrg==}
@@ -20515,6 +20387,7 @@ packages:
     dependencies:
       find-up: 2.1.0
       read-pkg: 3.0.0
+    dev: false
 
   /read-pkg-up/7.0.1:
     resolution: {integrity: sha512-zK0TB7Xd6JpCLmlLmufqykGE+/TlOePD6qKClNW7hHDKFh/J7/7gCWGR7joEQEW1bKq3a3yUZSObOoWLFQ4ohg==}
@@ -20532,6 +20405,7 @@ packages:
       load-json-file: 4.0.0
       normalize-package-data: 2.5.0
       path-type: 3.0.0
+    dev: false
 
   /read-pkg/5.2.0:
     resolution: {integrity: sha512-Ug69mNOpfvKDAc2Q8DRpMjjzdtrnv9HcSMX+4VsZxD1aZ6ZzrIE7rlzXBtWTyhULSMKg076AW6WR5iZpD0JiOg==}
@@ -22377,15 +22251,6 @@ packages:
       upper-case: 1.1.3
     dev: true
 
-  /swr/0.5.6_react@17.0.2:
-    resolution: {integrity: sha512-Bmx3L4geMZjYT5S2Z6EE6/5Cx6v1Ka0LhqZKq8d6WL2eu9y6gHWz3dUzfIK/ymZVHVfwT/EweFXiYGgfifei3w==}
-    peerDependencies:
-      react: ^16.11.0 || ^17.0.0
-    dependencies:
-      dequal: 2.0.2
-      react: 17.0.2
-    dev: false
-
   /swr/1.0.1_react@17.0.2:
     resolution: {integrity: sha512-EPQAxSjoD4IaM49rpRHK0q+/NzcwoT8c0/Ylu/u3/6mFj/CWnQVjNJ0MV2Iuw/U+EJSd2TX5czdAwKPYZIG0YA==}
     peerDependencies:
@@ -22953,6 +22818,7 @@ packages:
       json5: 2.2.0
       minimist: 1.2.5
       strip-bom: 3.0.0
+    dev: false
 
   /tsconfig-paths/3.11.0:
     resolution: {integrity: sha512-7ecdYDnIdmv639mmDwslG6KQg1Z9STTz1j7Gcz0xa+nshh/gKDAHcPxRbWOsA3SPp0tXP2leTcY9Kw+NAkfZzA==}
