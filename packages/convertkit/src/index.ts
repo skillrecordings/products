@@ -9,7 +9,7 @@ import fetchConvertkitSubscriberFromServerCookie from './utils/fetch-convertkit-
 export {
   SubscribeToConvertkitForm,
   redirectUrlBuilder,
-} from './forms/subscribe/subscribe-to-convertkit-form'
+} from './forms/subscribe-to-convertkit'
 
 export {
   useConvertkit,
