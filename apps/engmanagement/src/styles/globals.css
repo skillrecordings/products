@@ -30,6 +30,8 @@ select:-webkit-autofill:focus {
   -webkit-box-shadow: 0 0 0px 1000px #111725 inset !important;
 }
 
+/* ——— subscribe form ——— */
+
 [data-sr-convertkit-subscribe-form] {
   @apply w-full max-w-sm mx-auto flex flex-col;
   [data-sr-input] {
@@ -45,6 +47,8 @@ select:-webkit-autofill:focus {
     @apply text-orange-300;
   }
 }
+
+/* ——— subscribe form on articles ——— */
 
 [data-sr-convertkit-subscribe-form='article'] {
   @apply max-w-xs mx-auto space-y-4 flex flex-col;

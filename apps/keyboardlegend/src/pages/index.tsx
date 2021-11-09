@@ -4,9 +4,14 @@ import {Signature, ThumbsUp, Grid1} from 'components/images'
 import LandingCopy from 'components/content/landing-copy.mdx'
 import Button from 'components/button'
 import {CourseJsonLd} from 'next-seo'
-import SubcribeForm from '@skillrecordings/convertkit/dist/forms/subscribe'
+import {
+  SubscribeToConvertkitForm,
+  redirectUrlBuilder,
+} from '@skillrecordings/convertkit'
+import {useRouter} from 'next/dist/client/router'
 
 export default function Home() {
+  const router = useRouter()
   return (
     <>
       <CourseJsonLd
@@ -51,7 +56,18 @@ export default function Home() {
               future!
             </h4>
             <div className="max-w-xs mx-auto w-full py-16">
-              <SubcribeForm button={<Button>Sign Up</Button>} />
+              <SubscribeToConvertkitForm
+                onSuccess={(subscriber: any) => {
+                  if (subscriber) {
+                    const redirectUrl = redirectUrlBuilder(
+                      subscriber,
+                      '/confirm',
+                    )
+                    router.push(redirectUrl)
+                  }
+                }}
+                submitButtonElem={<Button>Sign Up</Button>}
+              />
               <div className="text-sm text-gray-500 text-center pt-10">
                 No spam, unsubscribe any time.
               </div>

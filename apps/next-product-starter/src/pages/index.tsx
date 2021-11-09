@@ -1,5 +1,5 @@
 import * as React from 'react'
-import SubscribeForm from '@skillrecordings/convertkit/dist/forms/subscribe'
+import {SubscribeToConvertkitForm} from '@skillrecordings/convertkit'
 import Link from 'next/link'
 import Layout from '@skillrecordings/react/dist/layouts'
 
@@ -139,7 +139,7 @@ const content: Item[] = [
     items: [
       {
         label: 'Subscribe Form',
-        component: <SubscribeForm />,
+        component: <SubscribeToConvertkitForm />,
       },
     ],
   },

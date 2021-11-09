@@ -5,14 +5,16 @@ import {MDXRemote, MDXRemoteSerializeResult} from 'next-mdx-remote'
 import isEmpty from 'lodash/isEmpty'
 import find from 'lodash/find'
 import ArticleTemplate from 'templates/article'
-import ConvertkitSubscribeAndTagForm from 'components/convertkit-subscribe-and-tag'
 import groq from 'groq'
 import {sanityClient} from 'utils/sanity-client'
 import checkSubscriber from 'utils/check-subscriber'
 import {useNextSanityImage} from 'next-sanity-image'
 import Image from 'next/image'
 import {useConvertkit} from '@skillrecordings/convertkit'
-import SubscribeForm from '@skillrecordings/convertkit/dist/forms/subscribe'
+import {
+  SubscribeToConvertkitForm,
+  redirectUrlBuilder,
+} from '@skillrecordings/convertkit'
 import {
   TheFutureOfRemoteWorkBackground,
   TheValueOfValuesExample,
@@ -130,14 +132,21 @@ const Article = ({
                 This article is for subscribers only. Enter your email to
                 continue reading.
               </h4>
-              <SubscribeForm
-                // subscribing to 2610221 form will trigger automation tagging
-                // with ckTagId that matches the one coming from Sanity
-                form={2610221}
+              <SubscribeToConvertkitForm
+                formId={2610221}
                 data-sr-convertkit-subscribe-form="article"
                 actionLabel="Continue Reading"
-                onSuccessRedirectUrl={`${router.asPath}?continue=true`}
-                successMessage="Thanks! The article is being unlocked..."
+                onSuccess={(subscriber: any) => {
+                  if (subscriber) {
+                    const redirectUrl = redirectUrlBuilder(
+                      subscriber,
+                      '/confirm',
+                      {title},
+                    )
+                    router.push(redirectUrl)
+                  }
+                }}
+                successMessage="Thanks! A link to access this article just got sent to your email address."
               />
               <div className="text-gray-200 opacity-60 pt-8 italic text-center">
                 No spam, unsubscribe any time.

@@ -32,12 +32,16 @@ type SubscribeFormProps = {
 export const redirectUrlBuilder = (
   subscriber: ConvertkitSubscriber,
   path: string,
+  queryParams?: {
+    [key: string]: string
+  },
 ) => {
   const url = queryString.stringifyUrl({
     url: path,
     query: {
       [CK_SUBSCRIBER_KEY]: subscriber.id,
       email: subscriber.email,
+      ...queryParams,
     },
   })
   return url
@@ -120,7 +124,7 @@ export const SubscribeToConvertkitForm: React.FC<SubscribeFormProps> = ({
           <Input
             label="First Name"
             name="first_name"
-            id={`first_name_${id}`}
+            id={id ? `first_name_${id}` : 'first_name'}
             onChange={formik.handleChange}
             placeholder="Preferred name"
             type="text"
@@ -128,7 +132,7 @@ export const SubscribeToConvertkitForm: React.FC<SubscribeFormProps> = ({
           <Input
             label="Email"
             name="email"
-            id={`email_${id}`}
+            id={id ? `email_${id}` : 'email'}
             onChange={formik.handleChange}
             placeholder="you@company.com"
             type="email"
