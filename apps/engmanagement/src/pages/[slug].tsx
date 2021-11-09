@@ -10,8 +10,8 @@ import {sanityClient} from 'utils/sanity-client'
 import checkSubscriber from 'utils/check-subscriber'
 import {useNextSanityImage} from 'next-sanity-image'
 import Image from 'next/image'
-import {useConvertkit} from '@skillrecordings/convertkit'
 import {
+  useConvertkit,
   SubscribeToConvertkitForm,
   redirectUrlBuilder,
 } from '@skillrecordings/convertkit'

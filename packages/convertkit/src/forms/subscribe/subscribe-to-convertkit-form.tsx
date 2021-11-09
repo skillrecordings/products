@@ -16,7 +16,7 @@ type ConvertkitSubscriber = {
   first_name: string
 }
 
-type SubscribeFormProps = {
+export type SubscribeFormProps = {
   actionLabel?: string
   successMessage?: string | React.ReactElement
   errorMessage?: string | React.ReactElement

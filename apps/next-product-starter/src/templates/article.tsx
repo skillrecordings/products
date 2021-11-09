@@ -30,9 +30,7 @@ const ArticleTemplate: React.FC<ArticleTemplateProps> = ({meta, children}) => {
             : config.additionalMetaTags[0].content}
         </footer>
       </article>
-      <PopupSubscribeForm peakingContent={'Hello!'}>
-        <p>Subscribe today!</p>
-      </PopupSubscribeForm>
+      <PopupSubscribeForm peakingContent={'Hello!'} />
     </Layout>
   )
 }

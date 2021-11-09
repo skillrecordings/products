@@ -2,7 +2,9 @@ import * as React from 'react'
 import {useViewportScroll} from 'framer-motion'
 import {useLocalStorage} from 'react-use'
 import {Dialog} from '@reach/dialog'
-import SubscribeForm from '../subscribe'
+import SubscribeToConvertkitForm, {
+  SubscribeFormProps,
+} from '../subscribe/subscribe-to-convertkit-form'
 
 //TODO: separate the styling and the behavior so that it can be customized
 
@@ -55,7 +57,17 @@ function usePopupConvertkitForm(
   }
 }
 
-const PopupConvertkitForm = ({children, peakingContent}: any) => {
+type PopupConvertkitFormProps = {
+  children?: React.ReactNode
+  peakingContent?: React.ReactNode
+  subscribeFormProps?: SubscribeFormProps
+}
+
+const PopupConvertkitForm: React.FC<PopupConvertkitFormProps> = ({
+  children,
+  peakingContent,
+  subscribeFormProps,
+}) => {
   const {
     peaking,
     handleClose,
@@ -98,8 +110,11 @@ const PopupConvertkitForm = ({children, peakingContent}: any) => {
         onDismiss={() => handleDismissForever()}
         aria-label="subscribe"
       >
-        <div className="pb-4">{children}</div>
-        <SubscribeForm />
+        {children ? (
+          children
+        ) : (
+          <SubscribeToConvertkitForm {...subscribeFormProps} />
+        )}
       </Dialog>
     </>
   ) : null

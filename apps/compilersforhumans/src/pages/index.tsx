@@ -1,10 +1,13 @@
 import * as React from 'react'
-import ConvertkitSubscribeForm from 'components/forms/convertkit'
 import Layout from 'layouts'
 import LandingCopy from 'components/landing-copy.mdx'
 import Blob from 'components/blob'
 import {useRouter} from 'next/router'
 import {WEBGL} from 'utils/webgl'
+import {
+  SubscribeToConvertkitForm,
+  redirectUrlBuilder,
+} from '@skillrecordings/convertkit'
 
 export default function Home() {
   const router = useRouter()
@@ -42,10 +45,20 @@ export default function Home() {
       </div>
       <section>
         <div className="max-w-screen-lg text-lg mx-auto px-5 lg:py-40 sm:py-24 py-16 flex flex-col items-center justify-center">
-          <h3 className="font-bold lg:text-7xl sm:text-5xl text-4xl pb-8 text-center">
+          <h3 className="font-bold lg:text-7xl sm:text-5xl text-4xl sm:pb-10 pb-6 text-center">
             Learn about Compilers
           </h3>
-          <ConvertkitSubscribeForm onSubmit={() => router.push('/confirmed')} />
+          <SubscribeToConvertkitForm
+            onSuccess={(subscriber: any) => {
+              if (subscriber) {
+                const redirectUrl = redirectUrlBuilder(subscriber, '/confirm')
+                router.push(redirectUrl)
+              }
+            }}
+          />
+          <div className="text-xs opacity-50 pt-8 italic text-center">
+            No spam, and you are free to unsubscribe at any time.
+          </div>
         </div>
         <div
           aria-hidden="true"
