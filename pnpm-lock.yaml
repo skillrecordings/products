@@ -1790,14 +1790,14 @@ importers:
   apps/testingaccessibility:
     specifiers:
       '@asbjorn/eslint-plugin-groq': ^1.0.0
-      '@babel/plugin-transform-react-jsx': ^7.14.9
+      '@babel/plugin-transform-react-jsx': ^7.16.0
       '@mdx-js/loader': ^1.6.22
       '@mdx-js/react': ^1.6.22
-      '@next/mdx': ^11.1.0
-      '@reach/dialog': ^0.16.0
+      '@next/mdx': ^12.0.3
+      '@reach/dialog': ^0.16.2
       '@reach/skip-nav': ^0.16.0
       '@sanity/block-content-to-react': ^3.0.0
-      '@sanity/client': ^2.21.0
+      '@sanity/client': ^2.21.7
       '@skillrecordings/analytics': workspace:*
       '@skillrecordings/auth': workspace:*
       '@skillrecordings/axios': workspace:*
@@ -1809,97 +1809,97 @@ importers:
       '@skillrecordings/react': workspace:*
       '@skillrecordings/scripts': workspace:*
       '@skillrecordings/time': workspace:*
-      '@skillrecordings/tsconfig': ^0.0.5
+      '@skillrecordings/tsconfig': workspace:^0.0.5
       '@skillrecordings/types': workspace:*
       '@skillrecordings/viewer': workspace:*
-      '@stripe/stripe-js': ^1.16.0
-      '@tailwindcss/aspect-ratio': ^0.2.1
-      '@tailwindcss/forms': ^0.3.3
+      '@stripe/stripe-js': ^1.21.1
+      '@tailwindcss/aspect-ratio': ^0.3.0
+      '@tailwindcss/forms': ^0.3.4
       '@tailwindcss/typography': ^0.4.1
-      '@testing-library/jest-dom': ^5.14.1
-      '@testing-library/react': ^12.0.0
-      '@tippyjs/react': ^4.2.5
+      '@testing-library/jest-dom': ^5.15.0
+      '@testing-library/react': ^12.1.2
+      '@tippyjs/react': ^4.2.6
       '@types/cookie': ^0.4.1
-      '@types/lodash': ^4.14.172
-      '@types/mdx-js__react': ^1.5.4
-      '@types/node': ^16.6.0
+      '@types/lodash': ^4.14.176
+      '@types/mdx-js__react': ^1.5.5
+      '@types/node': ^16.11.7
       '@types/pluralize': ^0.0.29
       '@types/react': '*'
       '@types/react-scroll': ^1.8.3
-      '@typescript-eslint/eslint-plugin': ^4.29.1
-      '@typescript-eslint/parser': ^4.29.1
-      '@xstate/react': ^1.5.1
+      '@typescript-eslint/eslint-plugin': ^5.3.1
+      '@typescript-eslint/parser': ^5.3.1
+      '@xstate/react': ^1.6.2
       assert: ^2.0.0
-      autoprefixer: ^10.3.1
-      axios: ^0.21.1
-      babel-jest: ^27.0.6
+      autoprefixer: ^10.4.0
+      axios: ^0.24.0
+      babel-jest: ^27.3.1
       client-oauth2: ^4.3.3
-      commander: ^8.1.0
+      commander: ^8.3.0
       cookie: ^0.4.1
-      date-fns: ^2.23.0
+      date-fns: ^2.25.0
       dotenv-flow: ^3.2.0
-      eslint: ^7.32.0
-      eslint-config-next: ^11.1.0
+      eslint: ^8.2.0
+      eslint-config-next: ^12.0.3
       eslint-config-prettier: ^8.3.0
       eslint-plugin-jsx-a11y: ^6.4.1
-      eslint-plugin-prettier: ^3.4.0
-      eslint-plugin-react: ^7.24.0
-      eslint-plugin-react-hooks: ^4.2.0
+      eslint-plugin-prettier: ^4.0.0
+      eslint-plugin-react: ^7.26.1
+      eslint-plugin-react-hooks: ^4.3.0
       focus-visible: ^5.2.0
-      formik: 2.2.8
-      framer-motion: ^4.1.17
+      formik: 2.2.9
+      framer-motion: ^5.2.1
       groq: ^2.15.0
-      husky: ^7.0.1
-      lint-staged: ^11.1.2
+      husky: ^7.0.4
+      lint-staged: ^11.2.6
       lodash: ^4.17.21
       mdx-prism: ^0.3.4
-      msw: ^0.34.0
-      next: 11.1.2
+      msw: ^0.35.0
+      next: 12.0.3
       next-compose-plugins: ^2.2.1
-      next-images: ^1.8.1
-      next-mdx-remote: ^3.0.5
-      next-seo: ^4.26.0
-      next-sitemap: ^1.6.148
+      next-images: ^1.8.2
+      next-mdx-remote: ^3.0.8
+      next-seo: ^4.28.1
+      next-sitemap: ^1.6.203
       next-themes: ^0.0.15
       pluralize: ^8.0.0
-      postcss: ^8.3.6
+      postcss: ^8.3.11
       postcss-focus-visible: ^6.0.1
       postcss-nested: ^5.0.6
       postcss-preset-env: ^6.7.0
-      prettier: ^2.3.2
+      prettier: ^2.4.1
       query-string: ^7.0.1
       react: 17.0.2
       react-countdown: ^2.3.2
       react-dom: 17.0.2
       react-hot-toast: ^2.1.1
-      react-markdown: ^6.0.3
-      react-scroll: ^1.8.3
+      react-markdown: ^7.1.0
+      react-scroll: ^1.8.4
       react-stripe-checkout: ^2.6.3
       react-test-renderer: ^17.0.2
-      react-use: ^17.2.4
+      react-use: ^17.3.1
       react-use-clipboard: ^1.0.7
       rehype: ^12.0.0
       rehype-shiki: ^0.0.9
-      remark-code-titles: ^0.1.1
-      remark-footnotes: ^3.0.0
-      remark-slug: ^6.0.0
-      simplebar-react: ^2.3.5
-      stripe: ^8.169.0
-      swr: ^0.5.6
-      tailwindcss: ^2.2.7
+      remark-code-titles: ^0.1.2
+      remark-footnotes: ^4.0.1
+      remark-slug: ^7.0.1
+      simplebar-react: ^2.3.6
+      stripe: ^8.186.1
+      swr: ^1.0.1
+      tailwindcss: ^2.2.19
       tailwindcss-autofill: ^0.1.0
       tailwindcss-text-fill: ^0.1.2
-      typescript: ^4.3.5
-      xstate: ^4.23.1
-      yup: ^0.28.1
+      typescript: ^4.4.4
+      xstate: ^4.26.0
+      yup: ^0.32.11
     dependencies:
       '@asbjorn/eslint-plugin-groq': 1.0.0_groq@2.15.0
       '@mdx-js/react': 1.6.22_react@17.0.2
-      '@next/mdx': 11.1.0_f56c41adb6190c4680be4a1c0222355d
-      '@reach/dialog': 0.16.0_9c423dff26c1034f6157071c372957fe
+      '@next/mdx': 12.0.3_f56c41adb6190c4680be4a1c0222355d
+      '@reach/dialog': 0.16.2_c8c53a2a5a2c84791ce34d6dbdd05753
       '@reach/skip-nav': 0.16.0_react-dom@17.0.2+react@17.0.2
       '@sanity/block-content-to-react': 3.0.0_react@17.0.2
-      '@sanity/client': 2.21.0
+      '@sanity/client': 2.21.7
       '@skillrecordings/analytics': link:../../packages/analytics
       '@skillrecordings/auth': link:../../packages/auth
       '@skillrecordings/axios': link:../../packages/axios
@@ -1911,92 +1911,92 @@ importers:
       '@skillrecordings/react': link:../../packages/react
       '@skillrecordings/time': link:../../packages/time
       '@skillrecordings/viewer': link:../../packages/viewer
-      '@stripe/stripe-js': 1.16.0
-      '@tailwindcss/aspect-ratio': 0.2.1_tailwindcss@2.2.7
-      '@tailwindcss/forms': 0.3.3_tailwindcss@2.2.7
-      '@tailwindcss/typography': 0.4.1_tailwindcss@2.2.7
-      '@tippyjs/react': 4.2.5_react-dom@17.0.2+react@17.0.2
-      '@types/lodash': 4.14.172
-      '@xstate/react': 1.5.1_49beb093bbd7c35e54ba0f39a3d61311
-      autoprefixer: 10.3.1_postcss@8.3.6
-      axios: 0.21.1
+      '@stripe/stripe-js': 1.21.1
+      '@tailwindcss/aspect-ratio': 0.3.0_tailwindcss@2.2.19
+      '@tailwindcss/forms': 0.3.4_tailwindcss@2.2.19
+      '@tailwindcss/typography': 0.4.1_tailwindcss@2.2.19
+      '@tippyjs/react': 4.2.6_react-dom@17.0.2+react@17.0.2
+      '@types/lodash': 4.14.176
+      '@xstate/react': 1.6.2_a6167658b64f8fb59fb632da3d39755a
+      autoprefixer: 10.4.0_postcss@8.3.11
+      axios: 0.24.0
       client-oauth2: 4.3.3
       cookie: 0.4.1
-      date-fns: 2.23.0
+      date-fns: 2.25.0
       dotenv-flow: 3.2.0
-      formik: 2.2.8_react@17.0.2
-      framer-motion: 4.1.17_react-dom@17.0.2+react@17.0.2
+      formik: 2.2.9_react@17.0.2
+      framer-motion: 5.2.1_react-dom@17.0.2+react@17.0.2
       groq: 2.15.0
       lodash: 4.17.21
       mdx-prism: 0.3.4
-      next: 11.1.2_f31b35bdaa3b7c2fce82404f09d2dac4
-      next-mdx-remote: 3.0.5_react-dom@17.0.2+react@17.0.2
-      next-seo: 4.26.0_6fbf59523517da779df50d355b375324
-      next-sitemap: 1.6.148_next@11.1.2
-      next-themes: 0.0.15_6fbf59523517da779df50d355b375324
+      next: 12.0.3_react-dom@17.0.2+react@17.0.2
+      next-mdx-remote: 3.0.8_react-dom@17.0.2+react@17.0.2
+      next-seo: 4.28.1_72b2f1fb664d51f286fb64a58e104b48
+      next-sitemap: 1.6.203_next@12.0.3
+      next-themes: 0.0.15_72b2f1fb664d51f286fb64a58e104b48
       pluralize: 8.0.0
-      postcss: 8.3.6
+      postcss: 8.3.11
       query-string: 7.0.1
       react: 17.0.2
       react-countdown: 2.3.2_react-dom@17.0.2+react@17.0.2
       react-dom: 17.0.2_react@17.0.2
       react-hot-toast: 2.1.1_react-dom@17.0.2+react@17.0.2
-      react-markdown: 6.0.3_9280ae23271fd1e8184f767af1a90e55
+      react-markdown: 7.1.0_27d7f75f5fffc1228c129be468caca5c
       react-scroll: 1.8.4_react-dom@17.0.2+react@17.0.2
       react-stripe-checkout: 2.6.3
-      react-use: 17.2.4_react-dom@17.0.2+react@17.0.2
+      react-use: 17.3.1_react-dom@17.0.2+react@17.0.2
       react-use-clipboard: 1.0.7_react-dom@17.0.2+react@17.0.2
       rehype: 12.0.0
       rehype-shiki: 0.0.9
       remark-code-titles: 0.1.2
-      remark-footnotes: 3.0.0
-      remark-slug: 6.1.0
-      simplebar-react: 2.3.5_react-dom@17.0.2+react@17.0.2
-      stripe: 8.169.0
-      swr: 0.5.6_react@17.0.2
-      tailwindcss-autofill: 0.1.0_tailwindcss@2.2.7
-      tailwindcss-text-fill: 0.1.2_tailwindcss@2.2.7
-      xstate: 4.23.1
-      yup: 0.28.5
+      remark-footnotes: 4.0.1
+      remark-slug: 7.0.1
+      simplebar-react: 2.3.6_react-dom@17.0.2+react@17.0.2
+      stripe: 8.186.1
+      swr: 1.0.1_react@17.0.2
+      tailwindcss-autofill: 0.1.0_tailwindcss@2.2.19
+      tailwindcss-text-fill: 0.1.2_tailwindcss@2.2.19
+      xstate: 4.26.0
+      yup: 0.32.11
     devDependencies:
-      '@babel/plugin-transform-react-jsx': 7.14.9
+      '@babel/plugin-transform-react-jsx': 7.16.0
       '@mdx-js/loader': 1.6.22_react@17.0.2
       '@skillrecordings/scripts': link:../../packages/scripts
       '@skillrecordings/tsconfig': link:../../packages/tsconfig
       '@skillrecordings/types': link:../../packages/types
-      '@testing-library/jest-dom': 5.14.1
-      '@testing-library/react': 12.0.0_react-dom@17.0.2+react@17.0.2
+      '@testing-library/jest-dom': 5.15.0
+      '@testing-library/react': 12.1.2_react-dom@17.0.2+react@17.0.2
       '@types/cookie': 0.4.1
-      '@types/mdx-js__react': 1.5.4
-      '@types/node': 16.6.0
+      '@types/mdx-js__react': 1.5.5
+      '@types/node': 16.11.7
       '@types/pluralize': 0.0.29
-      '@types/react': 17.0.17
+      '@types/react': 17.0.34
       '@types/react-scroll': 1.8.3
-      '@typescript-eslint/eslint-plugin': 4.29.1_d4376362794b743c19f4cba25c7fc6f5
-      '@typescript-eslint/parser': 4.29.1_eslint@7.32.0+typescript@4.3.5
+      '@typescript-eslint/eslint-plugin': 5.3.1_4653b7803b7453f5f37717b7e1448517
+      '@typescript-eslint/parser': 5.3.1_eslint@8.2.0+typescript@4.4.4
       assert: 2.0.0
-      babel-jest: 27.1.0
-      commander: 8.1.0
-      eslint: 7.32.0
-      eslint-config-next: 11.1.0_4feb0b759ba905fa0097207da1a096c2
-      eslint-config-prettier: 8.3.0_eslint@7.32.0
-      eslint-plugin-jsx-a11y: 6.4.1_eslint@7.32.0
-      eslint-plugin-prettier: 3.4.0_5a48a349ffec60f5257b5f148f5199c3
-      eslint-plugin-react: 7.24.0_eslint@7.32.0
-      eslint-plugin-react-hooks: 4.2.0_eslint@7.32.0
+      babel-jest: 27.3.1
+      commander: 8.3.0
+      eslint: 8.2.0
+      eslint-config-next: 12.0.3_e9c082f2e039b7a856024a994f87ff12
+      eslint-config-prettier: 8.3.0_eslint@8.2.0
+      eslint-plugin-jsx-a11y: 6.4.1_eslint@8.2.0
+      eslint-plugin-prettier: 4.0.0_307f015733298e29da9050ea0cee5b9e
+      eslint-plugin-react: 7.26.1_eslint@8.2.0
+      eslint-plugin-react-hooks: 4.3.0_eslint@8.2.0
       focus-visible: 5.2.0
-      husky: 7.0.1
-      lint-staged: 11.1.2
-      msw: 0.34.0
+      husky: 7.0.4
+      lint-staged: 11.2.6
+      msw: 0.35.0
       next-compose-plugins: 2.2.1
-      next-images: 1.8.1
-      postcss-focus-visible: 6.0.1_postcss@8.3.6
-      postcss-nested: 5.0.6_postcss@8.3.6
+      next-images: 1.8.2
+      postcss-focus-visible: 6.0.1_postcss@8.3.11
+      postcss-nested: 5.0.6_postcss@8.3.11
       postcss-preset-env: 6.7.0
-      prettier: 2.3.2
+      prettier: 2.4.1
       react-test-renderer: 17.0.2_react@17.0.2
-      tailwindcss: 2.2.7_7b69a43ec4689fa7484dee35f79a7806
-      typescript: 4.3.5
+      tailwindcss: 2.2.19_0c54bdadaf9d9c9c6c134cb2c6c061a3
+      typescript: 4.4.4
 
   packages/analytics:
     specifiers:
@@ -6706,16 +6706,6 @@ packages:
       '@mdx-js/loader': 1.6.22_react@17.0.2
     dev: false
 
-  /@next/mdx/11.1.0_f56c41adb6190c4680be4a1c0222355d:
-    resolution: {integrity: sha512-X+NwSByGr9HuPkGs1nrzhmJ5qqQbv6CpEA3dJKEYHaDe7YzEUCM00Y7abxOzowXhUXeDdAHJ7IeIV4GZMhdcpg==}
-    peerDependencies:
-      '@mdx-js/loader': '>=0.15.0'
-      '@mdx-js/react': '*'
-    dependencies:
-      '@mdx-js/loader': 1.6.22_react@17.0.2
-      '@mdx-js/react': 1.6.22_react@17.0.2
-    dev: false
-
   /@next/mdx/12.0.3_@mdx-js+loader@1.6.22:
     resolution: {integrity: sha512-/d606qZl00Ros4V4LRyZMRlQGm3v3tCEmoyVNt/ewEU5NA2u+TMXWjGTx1hIfKv2KkvqAsUa5BzU7VDPuPijuw==}
     peerDependencies:
@@ -7114,7 +7104,7 @@ packages:
       '@reach/utils': 0.16.0_react-dom@17.0.2+react@17.0.2
       react: 17.0.2
       react-dom: 17.0.2_react@17.0.2
-      tslib: 2.3.0
+      tslib: 2.3.1
     dev: false
 
   /@reach/utils/0.16.0:
@@ -7341,18 +7331,6 @@ packages:
     dependencies:
       '@sanity/eventsource': 2.14.0
       '@sanity/generate-help-url': 2.15.0
-      '@sanity/observable': 2.0.9
-      deep-assign: 2.0.0
-      get-it: 5.0.5
-      make-error: 1.3.6
-      object-assign: 4.1.1
-    dev: false
-
-  /@sanity/client/2.21.0:
-    resolution: {integrity: sha512-cR/X7jv7plhVO7stawpDJ8Sk9QIPvdpDmGqusuMAfYdzswtyBUoMt/c7PSX3Gd/38VcXWB64HYk4lF7DcmhFQw==}
-    dependencies:
-      '@sanity/eventsource': 2.14.0
-      '@sanity/generate-help-url': 2.18.0
       '@sanity/observable': 2.0.9
       deep-assign: 2.0.0
       get-it: 5.0.5
@@ -7903,12 +7881,6 @@ packages:
   /@types/mdurl/1.0.2:
     resolution: {integrity: sha512-eC4U9MlIcu2q0KQmXszyn5Akca/0jrQmwDRgpAMJai7qBWq4amIQhZyNau4VYGtCeALvW1/NtjzJJ567aZxfKA==}
     dev: false
-
-  /@types/mdx-js__react/1.5.4:
-    resolution: {integrity: sha512-hce+Hymj3cEMOma13eQRhpT3mhQrOkN4CAYEwKWB/qj2BiuUrrTpCkOShEERGmLVgDc3nxF4Dc0k7W999EQxnQ==}
-    dependencies:
-      '@types/react': 17.0.17
-    dev: true
 
   /@types/mdx-js__react/1.5.5:
     resolution: {integrity: sha512-k8pnaP6JXVlQh18HgL5X6sYFNC/qZnzO7R2+HsmwrwUd+JnnsU0d9lyyT0RQrHg1anxDU36S98TI/fsGtmYqqg==}
@@ -11621,6 +11593,7 @@ packages:
     resolution: {integrity: sha512-5NuT1G6THW7l3fsSCDkcPepn24R0XtyPjKoqKHD8LfhqMXzCdz0mrS9HgO6hIhzVT7zt0T+JGbzCqF5AH8hS9w==}
     hasBin: true
     requiresBuild: true
+    dev: true
 
   /esbuild/0.12.29:
     resolution: {integrity: sha512-w/XuoBCSwepyiZtIRsKsetiLDUVGPVw1E/R3VTFSecIy8UR7Cq3SOtwKHJMFoVqqVG36aGkzh4e8BvpO1Fdc7g==}
@@ -12961,18 +12934,6 @@ packages:
         optional: true
     dev: false
 
-  /follow-redirects/1.14.5_debug@2.6.9:
-    resolution: {integrity: sha512-wtphSXy7d4/OR+MvIFbCVBDzZ5520qV8XfPklSN5QtxuMUJZ+b0Wnst1e1lCDocfzuCkHqj8k0FpZqO+UIaKNA==}
-    engines: {node: '>=4.0'}
-    peerDependencies:
-      debug: '*'
-    peerDependenciesMeta:
-      debug:
-        optional: true
-    dependencies:
-      debug: 2.6.9
-    dev: false
-
   /for-in/1.0.2:
     resolution: {integrity: sha1-gQaNKVqBQuwKxybG4iAMMPttXoA=}
     engines: {node: '>=0.10.0'}
@@ -13253,7 +13214,7 @@ packages:
       create-error-class: 3.0.2
       debug: 2.6.9
       decompress-response: 3.3.0
-      follow-redirects: 1.14.5_debug@2.6.9
+      follow-redirects: 1.14.5
       form-urlencoded: 2.0.9
       in-publish: 2.0.1
       into-stream: 3.1.0
@@ -14171,12 +14132,6 @@ packages:
   /husky/5.2.0:
     resolution: {integrity: sha512-AM8T/auHXRBxlrfPVLKP6jt49GCM2Zz47m8G3FOMsLmTv8Dj/fKVWE0Rh2d4Qrvmy131xEsdQnb3OXRib67PGg==}
     engines: {node: '>= 10'}
-    hasBin: true
-    dev: true
-
-  /husky/7.0.1:
-    resolution: {integrity: sha512-gceRaITVZ+cJH9sNHqx5tFwbzlLCVxtVZcusME8JYQ8Edy5mpGDOqD8QBCdMhpyo9a+JXddnujQ4rpY2Ff9SJA==}
-    engines: {node: '>=12'}
     hasBin: true
     dev: true
 
@@ -16482,28 +16437,6 @@ packages:
       - supports-color
     dev: true
 
-  /lint-staged/11.1.2:
-    resolution: {integrity: sha512-6lYpNoA9wGqkL6Hew/4n1H6lRqF3qCsujVT0Oq5Z4hiSAM7S6NksPJ3gnr7A7R52xCtiZMcEUNNQ6d6X5Bvh9w==}
-    hasBin: true
-    dependencies:
-      chalk: 4.1.2
-      cli-truncate: 2.1.0
-      commander: 7.2.0
-      cosmiconfig: 7.0.0
-      debug: 4.3.2
-      enquirer: 2.3.6
-      execa: 5.1.1
-      listr2: 3.11.0_enquirer@2.3.6
-      log-symbols: 4.1.0
-      micromatch: 4.0.4
-      normalize-path: 3.0.0
-      please-upgrade-node: 3.2.0
-      string-argv: 0.3.1
-      stringify-object: 3.3.0
-    transitivePeerDependencies:
-      - supports-color
-    dev: true
-
   /lint-staged/11.2.6:
     resolution: {integrity: sha512-Vti55pUnpvPE0J9936lKl0ngVeTdSZpEdTNhASbkaWX7J5R9OEifo1INBGQuGW4zmy6OG+TcWPJ3m5yuy5Q8Tg==}
     hasBin: true
@@ -16522,22 +16455,6 @@ packages:
       string-argv: 0.3.1
       stringify-object: 3.3.0
       supports-color: 8.1.1
-    dev: true
-
-  /listr2/3.11.0_enquirer@2.3.6:
-    resolution: {integrity: sha512-XLJVe2JgXCyQTa3FbSv11lkKExYmEyA4jltVo8z4FX10Vt1Yj8IMekBfwim0BSOM9uj1QMTJvDQQpHyuPbB/dQ==}
-    engines: {node: '>=10.0.0'}
-    peerDependencies:
-      enquirer: '>= 2.3.0 < 3'
-    dependencies:
-      cli-truncate: 2.1.0
-      colorette: 1.2.2
-      enquirer: 2.3.6
-      log-update: 4.0.0
-      p-map: 4.0.0
-      rxjs: 6.6.7
-      through: 2.3.8
-      wrap-ansi: 7.0.0
     dev: true
 
   /listr2/3.13.3_enquirer@2.3.6:
@@ -17809,22 +17726,6 @@ packages:
       '@babel/preset-typescript': 7.15.0_@babel+core@7.15.0
       '@mdx-js/mdx': 1.6.22
       '@mdx-js/react': 1.6.22_react@17.0.2
-      react: 17.0.2
-      react-dom: 17.0.2_react@17.0.2
-    transitivePeerDependencies:
-      - supports-color
-    dev: false
-
-  /next-mdx-remote/3.0.5_react-dom@17.0.2+react@17.0.2:
-    resolution: {integrity: sha512-m9OD2GBuqvz/IeM/h4kufQ7GEdaCaZ4owqkCQ+yoxzCIM7jVQYK9JWXNVcyPP/Y6FBS00fLH03Hn5VFdvkFf0A==}
-    peerDependencies:
-      react: '>=16.x <=17.x'
-      react-dom: '>=16.x <=17.x'
-    dependencies:
-      '@mdx-js/mdx': 1.6.22
-      '@mdx-js/react': 1.6.22_react@17.0.2
-      esbuild: 0.12.19
-      pkg-dir: 5.0.0
       react: 17.0.2
       react-dom: 17.0.2_react@17.0.2
     transitivePeerDependencies:
@@ -19395,15 +19296,6 @@ packages:
       postcss: ^8.3
     dependencies:
       postcss: 8.3.11
-    dev: true
-
-  /postcss-focus-visible/6.0.1_postcss@8.3.6:
-    resolution: {integrity: sha512-UddLlBmJ78Nu7OrKME70EKxCPBdxTx7pKIyD3GDNRM8Tnq19zmscT9QzsvR8gygz0i0nNUjMtSz4N3AEWZ5R/Q==}
-    engines: {node: '>=12'}
-    peerDependencies:
-      postcss: ^8.3
-    dependencies:
-      postcss: 8.3.6
     dev: true
 
   /postcss-focus-within/3.0.0:
@@ -22538,14 +22430,6 @@ packages:
       tailwindcss: 2.2.19_0c54bdadaf9d9c9c6c134cb2c6c061a3
     dev: false
 
-  /tailwindcss-autofill/0.1.0_tailwindcss@2.2.7:
-    resolution: {integrity: sha512-U7P+smNko8729EIe/FOXJvcoZt6LAzexevBuZ8pkrdoazAoabUGFdE/xOaGTb9P7rzkNp4OGH0WeE8Y8UvnDtw==}
-    peerDependencies:
-      tailwindcss: ^2.0.2
-    dependencies:
-      tailwindcss: 2.2.7_7b69a43ec4689fa7484dee35f79a7806
-    dev: false
-
   /tailwindcss-text-fill/0.1.2_tailwindcss@2.2.19:
     resolution: {integrity: sha512-zhff4E8tjWVriuiFBRtnw1n6R9HfaEGVTixUbiF8tnlzzbFTPLY+1a5LRWp6cE0T46GUVoXIQIa5rw1zc7NOqg==}
     peerDependencies:
@@ -22553,15 +22437,6 @@ packages:
     dependencies:
       flatten-tailwindcss-theme: 0.1.1
       tailwindcss: 2.2.19_0c54bdadaf9d9c9c6c134cb2c6c061a3
-    dev: false
-
-  /tailwindcss-text-fill/0.1.2_tailwindcss@2.2.7:
-    resolution: {integrity: sha512-zhff4E8tjWVriuiFBRtnw1n6R9HfaEGVTixUbiF8tnlzzbFTPLY+1a5LRWp6cE0T46GUVoXIQIa5rw1zc7NOqg==}
-    peerDependencies:
-      tailwindcss: ^2.0.2
-    dependencies:
-      flatten-tailwindcss-theme: 0.1.1
-      tailwindcss: 2.2.7_7b69a43ec4689fa7484dee35f79a7806
     dev: false
 
   /tailwindcss/2.2.19_0c54bdadaf9d9c9c6c134cb2c6c061a3:
