@@ -48,8 +48,7 @@
         ],
         "outputs": [
           "dist/**",
-          ".next/**",
-          "!.next/cache/**/*"
+          ".next/**"
         ]
       },
       "postbuild": {
@@ -64,13 +63,6 @@
       "test": {
         "dependsOn": [
           "^build"
-        ]
-      },
-      "deploy": {
-        "dependsOn": [
-          "build",
-          "test",
-          "lint"
         ]
       },
       "lint": {
