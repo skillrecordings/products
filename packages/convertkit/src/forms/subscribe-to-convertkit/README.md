@@ -87,4 +87,4 @@ This component can be styled using following attributes:
 | ------------- | -------------------------------------- | --------------------------------------------------------------------- |
 | `subscriber`  | `ConvertkitSubscriber`                 | convertkit subscriber object, can be passed from `onSuccess` function |
 | `path`        | `string`                               | path to navigate to with `next/router`                                |
-| `queryParams` | `{ [key: string]: string } (optional)` | additional query params                                               |
+| `queryParams` | `{ [key: string]: string }`            | additional query params (optional)                                    |
