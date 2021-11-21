@@ -108,7 +108,7 @@ export default class MyDocument extends Document {
             }}
           />
         </Head>
-        <body className="dark:bg-gray-900 bg-gray-50 dark:text-white text-black transition-colors duration-500 ease-in-out">
+        <body className="text-black transition-colors duration-500 ease-in-out dark:bg-gray-900 bg-gray-50 dark:text-white">
           <Main />
           <NextScript />
         </body>

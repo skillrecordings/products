@@ -1,4 +1,4 @@
-import useConvertkit from 'hooks/use-convertkit'
+import {useConvertkit} from '@skillrecordings/convertkit'
 import * as React from 'react'
 
 const SubscribeForm: React.FC<{onSubmit?: () => void; className?: string}> = ({
@@ -12,7 +12,7 @@ const SubscribeForm: React.FC<{onSubmit?: () => void; className?: string}> = ({
         Mejora tus Habilidades con <strong>Contenido Profesional</strong> de
         Ingeniería de Front-End
       </h1>
-      <h4 className="text-base md:text-lg opacity-75">
+      <h4 className="text-base opacity-75 md:text-lg">
         Suscribete para enterarte de los nuevos cursos, artículos, y eventos de
         Escuela Frontend!
       </h4>
@@ -23,7 +23,7 @@ const SubscribeForm: React.FC<{onSubmit?: () => void; className?: string}> = ({
       >
         <div className="flex flex-col">
           <input
-            className="px-4 py-3 text-lg bg-gray-100 dark:bg-gray-900 border-none rounded-xl form-input"
+            className="px-4 py-3 text-lg bg-gray-100 border-none dark:bg-gray-900 rounded-xl form-input"
             id="fields[first_name]"
             name="fields[first_name]"
             type="text"
@@ -32,7 +32,7 @@ const SubscribeForm: React.FC<{onSubmit?: () => void; className?: string}> = ({
         </div>
         <div className="flex flex-col">
           <input
-            className="px-4 py-3 text-lg bg-gray-100 dark:bg-gray-900 border-none rounded-xl form-input "
+            className="px-4 py-3 text-lg bg-gray-100 border-none dark:bg-gray-900 rounded-xl form-input "
             id="email_address"
             name="email_address"
             type="email"
@@ -42,7 +42,7 @@ const SubscribeForm: React.FC<{onSubmit?: () => void; className?: string}> = ({
         </div>
         <button
           type="submit"
-          className="px-4 py-4 text-lg font-semibold text-center group hover:shadow-xl inline-flex justify-center items-center  rounded-xl text-white bg-blue-600 hover:bg-blue-700 hover:-translate-y-1 hover:scale-105 transform transition-all ease-in-out duration-200"
+          className="inline-flex items-center justify-center px-4 py-4 text-lg font-semibold text-center text-white transition-all duration-200 ease-in-out transform bg-blue-600 group hover:shadow-xl rounded-xl hover:bg-blue-700 hover:-translate-y-1 hover:scale-105"
           onClick={() => {
             onSubmit && onSubmit()
           }}

@@ -56,7 +56,7 @@ const ArticleTemplate: React.FC<ArticleTemplateProps> = ({meta}) => {
       />
 
       <article>
-        <header className="pb-52 pt-32 bg-gradient-to-t from-gray-200 to-gray-100  dark:bg-gradient-to-t dark:from-gray-800 dark:to-gray-900 -m-5 px-5  flex flex-col items-center justify-center transition-colors ease-in-out duration-500 mb-8">
+        <header className="flex flex-col items-center justify-center px-5 pt-32 mb-8 -m-5 transition-colors duration-500 ease-in-out pb-52 bg-gradient-to-t from-gray-200 to-gray-100 dark:bg-gradient-to-t dark:from-gray-800 dark:to-gray-900">
           {tag && (
             <Image
               src={tag.image}
@@ -69,7 +69,7 @@ const ArticleTemplate: React.FC<ArticleTemplateProps> = ({meta}) => {
             />
           )}
           {title && (
-            <h1 className="py-10 text-center max-w-screen-xl lg:text-6xl md:text-5xl sm:text-4xl text-3xl w-full font-extrabold leading-tighter">
+            <h1 className="w-full max-w-screen-xl py-10 text-3xl font-extrabold text-center lg:text-6xl md:text-5xl sm:text-4xl leading-tighter">
               {title}
             </h1>
           )}
@@ -78,14 +78,14 @@ const ArticleTemplate: React.FC<ArticleTemplateProps> = ({meta}) => {
 
         <HeroWave duration={60} />
 
-        <main className="prose dark:prose-dark lg:prose-xl prose-lg mx-auto max-w-screen-md mt-10">
+        <main className="max-w-screen-md mx-auto mt-10 prose prose-lg dark:prose-dark lg:prose-xl">
           {content}
         </main>
       </article>
 
       {relatedResources && (
-        <section className="lg:py-24 sm:py-16 py-10 mx-auto max-w-screen-xl">
-          <h2 className="py-16 mb-10 text-center lg:text-5xl md:text-4xl sm:text-3xl text-2xl w-full font-extrabold leading-tighter max-w-screen-lg m-auto">
+        <section className="max-w-screen-xl py-10 mx-auto lg:py-24 sm:py-16">
+          <h2 className="w-full max-w-screen-lg py-16 m-auto mb-10 text-2xl font-extrabold text-center lg:text-5xl md:text-4xl sm:text-3xl leading-tighter">
             Artículos Relacionados
           </h2>
 
@@ -103,7 +103,7 @@ const ArticleTemplate: React.FC<ArticleTemplateProps> = ({meta}) => {
 
       <PoliteConvertkitForm
         peakingContent={
-          <div className="w-56 text-md font-medium leading-tight">
+          <div className="w-56 font-medium leading-tight text-md">
             ¿Quieres mejorar tus habilidades de frontend?
           </div>
         }

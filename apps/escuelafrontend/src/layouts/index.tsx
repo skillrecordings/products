@@ -36,7 +36,7 @@ const Layout: FunctionComponent<LayoutProps> = ({
         noindex={noIndex}
       />
       <div className={`${className}`}>
-        <main className="flex-grow flex flex-col justify-center">
+        <main className="flex flex-col justify-center flex-grow">
           {children}
         </main>
       </div>
