@@ -7,12 +7,10 @@ const subscriber = async (req: NextApiRequest, res: NextApiResponse) => {
       const cookieHeader = req.headers.cookie as string
       const [subscriber, ckCookie] =
         await fetchConvertkitSubscriberFromServerCookie(cookieHeader)
-
       res.setHeader('Set-Cookie', ckCookie)
       res.setHeader('Cache-Control', 'max-age=10')
       res.status(200).json(subscriber)
     } catch (error) {
-      console.log(error)
       res.status(200).end()
     }
   } else {

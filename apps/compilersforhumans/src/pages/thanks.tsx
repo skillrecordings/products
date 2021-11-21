@@ -10,7 +10,7 @@ const ThanksPage = ({displayEmail}: any) => {
   const {refreshViewer} = useViewer()
   React.useEffect(() => {
     refreshViewer?.()
-  }, [])
+  }, [refreshViewer])
 
   const emailText =
     displayEmail && displayEmail !== 'undefined' ? `**${displayEmail}**` : ''

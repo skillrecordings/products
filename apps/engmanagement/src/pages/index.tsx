@@ -6,9 +6,15 @@ import Image from 'next/image'
 import BookCover from '../../public/images/engineering-management-for-the-rest-of-us-book-mockup-front@2x.jpg'
 import SarahDrasner from '../../public/images/sarah-drasner@2x.jpg'
 import AngieJones from '../../public/images/angie-jones@2x.png'
-import SubscribeForm from '@skillrecordings/convertkit/dist/forms/subscribe'
+import {
+  SubscribeToConvertkitForm,
+  redirectUrlBuilder,
+} from '@skillrecordings/convertkit'
+import {useRouter} from 'next/router'
 
 export default function Home() {
+  const router = useRouter()
+
   return (
     <Layout hideNav={true}>
       <div className="absolute top-0 left-0 w-full h-2 bg-gray-700" />
@@ -78,7 +84,14 @@ export default function Home() {
             </div>
             <div className="uppercase">Subscribe to get notified</div>
           </h2>
-          <SubscribeForm />
+          <SubscribeToConvertkitForm
+            onSuccess={(subscriber: any) => {
+              if (subscriber) {
+                const redirectUrl = redirectUrlBuilder(subscriber, '/confirm')
+                router.push(redirectUrl)
+              }
+            }}
+          />
           <div className="text-lg text-center text-gray-200 pt-16">
             No spam, unsubscribe any time.
           </div>

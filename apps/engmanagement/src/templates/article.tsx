@@ -14,7 +14,11 @@ import {
   LinkedIn,
   Hacker,
 } from 'components/share'
-import SubscribeForm from '@skillrecordings/convertkit/dist/forms/subscribe'
+import {
+  SubscribeToConvertkitForm,
+  redirectUrlBuilder,
+} from '@skillrecordings/convertkit'
+import {useRouter} from 'next/router'
 
 type ArticleTemplateProps = {
   meta?: any
@@ -95,6 +99,7 @@ const ArticleTemplate: React.FC<ArticleTemplateProps> = ({
     url: 'https://twitter.com/sarah_edo',
   }
   const dateFormatted = published && format(new Date(published), 'MMMM dd, y')
+  const router = useRouter()
 
   return (
     <Layout
@@ -179,7 +184,17 @@ const ArticleTemplate: React.FC<ArticleTemplateProps> = ({
                 <h3 className="sm:text-5xl text-4xl font-medium pb-10 leading-none font-din uppercase text-center">
                   Subscribe for More
                 </h3>
-                <SubscribeForm />
+                <SubscribeToConvertkitForm
+                  onSuccess={(subscriber: any) => {
+                    if (subscriber) {
+                      const redirectUrl = redirectUrlBuilder(
+                        subscriber,
+                        '/confirm',
+                      )
+                      router.push(redirectUrl)
+                    }
+                  }}
+                />
               </div>
             </div>
           </section>
