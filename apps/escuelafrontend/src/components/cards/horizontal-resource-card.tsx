@@ -6,7 +6,7 @@ import Markdown from '../markdown'
 const HorizontalResourceCard: React.FC<any> = ({
   resource,
   location,
-  className = 'sm:p-8 p-5',
+  className = 'p-5 sm:p-8',
   ...props
 }) => {
   className = `${className} text-black h-full dark:text-white bg-white dark:bg-gray-800 backdrop-filter backdrop-blur-lg dark:bg-opacity-80 bg-opacity-80 hover:shadow-xl rounded-xl overflow-hidden hover:-translate-y-2 hover:scale-105 transform transition-all ease-in-out duration-300 flex flex-col justify-start items-between shadow`
@@ -24,14 +24,14 @@ const HorizontalResourceCard: React.FC<any> = ({
                   height={40}
                   quality={100}
                   alt={resource.tag.name}
-                  className="rounded-md relative z-10"
+                  className="relative z-10 rounded-md"
                   priority={true}
                 />
               </span>
             )}
 
             {resource.title && (
-              <h3 className="text-2xl font-fibra leading-tight font-bold">
+              <h3 className="text-2xl font-bold leading-tight font-fibra">
                 {resource.title}
               </h3>
             )}
@@ -53,7 +53,7 @@ const HorizontalResourceCard: React.FC<any> = ({
             )}
 
             {resource.description && (
-              <div className="prose dark:prose-dark dark:prose-dark-sm prose-sm max-w-none">
+              <div className="prose-sm prose dark:prose-dark dark:prose-dark-sm max-w-none">
                 <Markdown>{resource.description}</Markdown>
               </div>
             )}

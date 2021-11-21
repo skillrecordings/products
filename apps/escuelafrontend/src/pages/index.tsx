@@ -12,41 +12,41 @@ export default function Home({allArticles}: any) {
   return (
     <>
       <div className="flex-grow">
-        <section className="relative overflow-hidden w-auto -m-5 top-0 -z-10 hero-gradiente">
+        <section className="relative top-0 w-auto -m-5 overflow-hidden -z-10 hero-gradiente">
           <div
-            className="absolute w-full bg-no-repeat bg-left-top bg-contain md:bg-cover -z-10 h-full top-32 hero-animation-1"
+            className="absolute w-full h-full bg-left-top bg-no-repeat bg-contain md:bg-cover -z-10 top-32 hero-animation-1"
             style={{
               backgroundImage: `url(/images/hero-image-1.svg)`,
             }}
           ></div>
 
           <div
-            className="absolute w-full bg-no-repeat bg-left-top bg-contain md:bg-cover h-full top-64 -z-10 hero-animation-2"
+            className="absolute w-full h-full bg-left-top bg-no-repeat bg-contain md:bg-cover top-64 -z-10 hero-animation-2"
             style={{
               backgroundImage: `url(/images/hero-image-2.svg)`,
             }}
           ></div>
           <div
-            className="absolute w-full bg-no-repeat bg-left-top bg-contain  md:bg-cover h-full top-96 -z-10 hero-animation-3"
+            className="absolute w-full h-full bg-left-top bg-no-repeat bg-contain md:bg-cover top-96 -z-10 hero-animation-3"
             style={{
               backgroundImage: `url(/images/hero-image-3.svg)`,
             }}
           ></div>
 
           <div
-            className="absolute w-full bg-no-repeat bg-left-top bg-cover top-64 -z-10 h-full hero-animation-4"
+            className="absolute w-full h-full bg-left-top bg-no-repeat bg-cover top-64 -z-10 hero-animation-4"
             style={{
               backgroundImage: `url(/images/hero-image-4.svg)`,
             }}
           ></div>
 
-          <div className="relative px-4 sm:pb-96 pb-80 pt-48 opacity-0 initial-load-hero">
-            <h1 className="lg:text-6xl md:text-5xl sm:text-4xl text-3xl font-extrabold max-w-screen-lg text-white transition-all ease-in-out duration-500 text-center mx-auto">
+          <div className="relative px-4 pt-48 opacity-0 sm:pb-96 pb-80 initial-load-hero">
+            <h1 className="max-w-screen-lg mx-auto text-3xl font-extrabold text-center text-white transition-all duration-500 ease-in-out lg:text-6xl md:text-5xl sm:text-4xl">
               Conviértete en un Frontend Developer Profesional
             </h1>
-            <p className="mt-6 max-w-lg mx-auto text-center text-xl sm:text-2xl md:text-3xl text-white sm:max-w-3xl">
+            <p className="max-w-lg mx-auto mt-6 text-xl text-center text-white sm:text-2xl md:text-3xl sm:max-w-3xl">
               <span className="opacity-80">Accede a contenido de</span>{' '}
-              <strong className="opacity-100 text-white">alta calidad</strong>{' '}
+              <strong className="text-white opacity-100">alta calidad</strong>{' '}
               <span className="opacity-80">
                 para construir una carrera exitosa como Frontend Developer
               </span>
@@ -56,12 +56,12 @@ export default function Home({allArticles}: any) {
 
         <HeroWave />
 
-        <div className="mx-auto max-w-screen-xl -mt-48">
+        <div className="max-w-screen-xl mx-auto -mt-48">
           <Jumbotron resource={jumbutron} />
         </div>
 
-        <section className="lg:py-24 sm:py-16 py-10 mx-auto max-w-screen-xl">
-          <h2 className="py-16 mb-10 text-center lg:text-5xl md:text-4xl sm:text-3xl text-2xl w-full font-extrabold leading-tighter max-w-screen-lg m-auto">
+        <section className="max-w-screen-xl py-10 mx-auto lg:py-24 sm:py-16">
+          <h2 className="w-full max-w-screen-lg py-16 m-auto mb-10 text-2xl font-extrabold text-center lg:text-5xl md:text-4xl sm:text-3xl leading-tighter">
             Artículos Recientes
           </h2>
 

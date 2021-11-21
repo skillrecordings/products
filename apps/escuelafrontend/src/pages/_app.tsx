@@ -5,7 +5,6 @@ import config from '../config.json'
 import {ThemeProvider} from 'next-themes'
 import '../styles/globals.css'
 import 'focus-visible'
-import {ViewerProvider} from 'contexts/viewer-context'
 import {useEffect} from 'react'
 import {useRouter} from 'next/router'
 import * as gtag from '../lib/gtag'
@@ -46,11 +45,9 @@ const App: React.FC<AppProps> = ({Component, pageProps}) => {
   return (
     <>
       <DefaultSeo {...config} />
-      <ViewerProvider>
-        <ThemeProvider attribute="class" defaultTheme="system">
-          {getLayout(Component, pageProps)}
-        </ThemeProvider>
-      </ViewerProvider>
+      <ThemeProvider attribute="class" defaultTheme="system">
+        {getLayout(Component, pageProps)}
+      </ThemeProvider>
     </>
   )
 }
