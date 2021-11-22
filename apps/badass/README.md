@@ -9,7 +9,7 @@ cp .env.template .env.production
 
 `.env.production` will need new values for every variable.
 
-Then install dependencies and start the server.
+Then install dependencies and start the server:
 
 ```shell
 yarn
