@@ -28,7 +28,7 @@ export const defaultContext = {
   bulk: false,
   quantity: 1,
   stripePriceId: undefined,
-} as CommerceMachineContext
+} as unknown as CommerceMachineContext
 
 export const response200 = [
   {

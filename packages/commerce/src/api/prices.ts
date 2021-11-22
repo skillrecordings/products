@@ -32,7 +32,7 @@ const pricesHandler = async (req: NextApiRequest, res: NextApiResponse) => {
           console.error(error)
           res.status(500).end(error.message)
         })
-    } catch (error) {
+    } catch (error: any) {
       console.log(error)
       res.status(500).end(error.message)
     }
