@@ -12,7 +12,7 @@
     "test": "jest",
     "dev": "tsc -w & pnpm build:css -- -w",
     "build": "tsc && pnpm build:css",
-    "build:css": "node-sass --output-style expanded --source-map true --source-map-contents true --precision 6 src/styles/scss/index.scss dist/skillrecordings-player.css",
+    "build:css": "sass --style expanded src/styles/scss/index.scss dist/skillrecordings-player.css",
     "lint": "TIMING=1 eslint src --fix",
     "clean": "rm -rf .turbo && rm -rf node_modules && rm -rf dist"
   },
@@ -44,7 +44,7 @@
     "assert": "^2.0.0",
     "babel-jest": "^27.1.0",
     "msw": "^0.34.0",
-    "node-sass": "^6.0.1",
+    "sass": "^1.43.4",
     "react-test-renderer": "^17.0.2",
     "typescript": "^4.2.4"
   },
