@@ -16,9 +16,9 @@
     "clean": "rm -rf .turbo && rm -rf node_modules && rm -rf dist"
   },
   "devDependencies": {
-    "@skillrecordings/scripts": "workspace:*",
-    "@skillrecordings/tsconfig": "workspace:*",
-    "@skillrecordings/types": "workspace:*",
+    "@skillrecordings/scripts": "*",
+    "@skillrecordings/tsconfig": "*",
+    "@skillrecordings/types": "*",
     "typescript": "^4.2.4"
   },
   "publishConfig": {

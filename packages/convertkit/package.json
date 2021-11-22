@@ -18,10 +18,10 @@
   },
   "dependencies": {
     "@reach/dialog": "^0.16.0",
-    "@skillrecordings/axios": "workspace:*",
-    "@skillrecordings/config": "workspace:*",
-    "@skillrecordings/cookies": "workspace:*",
-    "@skillrecordings/react": "workspace:*",
+    "@skillrecordings/axios": "*",
+    "@skillrecordings/config": "*",
+    "@skillrecordings/cookies": "*",
+    "@skillrecordings/react": "*",
     "axios": "^0.21.1",
     "cookie": "^0.4.1",
     "formik": "2.2.8",
@@ -32,9 +32,9 @@
     "yup": "^0.28.1"
   },
   "devDependencies": {
-    "@skillrecordings/scripts": "workspace:*",
-    "@skillrecordings/tsconfig": "workspace:*",
-    "@skillrecordings/types": "workspace:*",
+    "@skillrecordings/scripts": "*",
+    "@skillrecordings/tsconfig": "*",
+    "@skillrecordings/types": "*",
     "@types/yup": "^0.29.13",
     "esbuild-node-tsc": "^1.6.1",
     "typescript": "^4.2.4"

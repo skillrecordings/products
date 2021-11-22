@@ -1,0 +1,132 @@
+Arguments: 
+  /Users/jared/Library/pnpm/nodejs/16.13.0/bin/node /Users/jared/.yarn/bin/yarn.js
+
+PATH: 
+  /Users/jared/.yarn/bin:/Users/jared/.config/yarn/global/node_modules/.bin:/Users/jared/Library/pnpm:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/Users/jared/.yarn/bin:/Users/jared/.config/yarn/global/node_modules/.bin:/Users/jared/Library/pnpm:/opt/homebrew/bin:/opt/homebrew/sbin:/Users/jared/.cargo/bin:/Users/jared/go/bin:/opt/homebrew/opt/go/libexec/bin:/Users/jared/go/bin:/opt/homebrew/opt/go/libexec/bin
+
+Yarn version: 
+  1.22.15
+
+Node version: 
+  16.13.0
+
+Platform: 
+  darwin x64
+
+Trace: 
+  Error: ENOENT: no such file or directory, copyfile '/Users/jared/Library/Caches/Yarn/v6/npm-ignore-5.1.9-9ec1a5cbe8e1446ec60d4420060d43aa6e7382fb-integrity/node_modules/ignore/LICENSE-MIT' -> '/Users/jared/dev/skillrecordings/products/apps/escuelafrontend/node_modules/@typescript-eslint/eslint-plugin/node_modules/ignore/LICENSE-MIT'
+
+npm manifest: 
+  {
+    "name": "products",
+    "private": true,
+    "workspaces": [
+      "packages/*",
+      "apps/*"
+    ],
+    "version": "1.0.0",
+    "scripts": {
+      "build": "turbo run build postbuild",
+      "build:ci": "turbo run build test lint postbuild",
+      "pre-commit": "lint-staged",
+      "clean": "rm -rf node_modules && pnpm -r exec -- rm -rf .turbo node_modules .next dist",
+      "format": "pnpm run format:index && pnpm run format:src",
+      "format:index": "prettier --write \"*.{js,ts,json,md}\"",
+      "format:src": "prettier --write",
+      "lint": "TIMING=1 eslint --fix",
+      "test": "turbo run test",
+      "start": "turbo run start",
+      "changeset": "changeset",
+      "release": "changeset publish",
+      "version:canary": "changeset version --snapshot canary",
+      "release:canary": "changeset publish --tag canary",
+      "prepare": "husky install"
+    },
+    "author": "Joel Hooks",
+    "license": "ISC",
+    "lint-staged": {
+      "**/*.{ts,tsx,js,jsx}": [
+        "pnpm run format",
+        "pnpm run lint"
+      ]
+    },
+    "devDependencies": {
+      "@changesets/changelog-github": "^0.2.8",
+      "@changesets/cli": "^2.18.0",
+      "cypress": "^8.7.0",
+      "husky": "^7.0.4",
+      "lint-staged": "^10.5.4",
+      "plop": "^2.7.6",
+      "prettier": "^2.4.1",
+      "tsdx": "^0.14.1",
+      "turbo": "^0.8.5-next.2"
+    },
+    "turbo": {
+      "baseBranch": "origin/main",
+      "pipeline": {
+        "build": {
+          "dependsOn": [
+            "^build"
+          ],
+          "outputs": [
+            "dist/**",
+            ".next/**",
+            "!.next/cache/**/*"
+          ]
+        },
+        "postbuild": {
+          "dependsOn": [
+            "build"
+          ],
+          "outputs": [
+            "public/sitemap.xml",
+            "public/robots.txt"
+          ]
+        },
+        "test": {
+          "dependsOn": [
+            "^build"
+          ]
+        },
+        "lint": {
+          "outputs": [],
+          "dependsOn": [
+            "^build"
+          ]
+        },
+        "start": {
+          "dependsOn": [
+            "^build"
+          ]
+        },
+        "integration": {
+          "outputs": [],
+          "dependsOn": [
+            "^build"
+          ]
+        },
+        "dev": {
+          "cache": false
+        },
+        "clean": {
+          "cache": false
+        }
+      }
+    },
+    "prettier": {
+      "printWidth": 80,
+      "tabWidth": 2,
+      "useTabs": false,
+      "semi": false,
+      "singleQuote": true,
+      "trailingComma": "all",
+      "bracketSpacing": false,
+      "jsxBracketSameLine": false
+    }
+  }
+
+yarn manifest: 
+  No manifest
+
+Lockfile: 
+  No lockfile

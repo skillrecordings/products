@@ -4,13 +4,11 @@ This is an exploratory project using Turborepo and pnpm to create a monorepo wor
 
 ## Get Started
 
-You'll need [PNPM](https://twitter.com/pnpmjs) installed.
-
-pnpm is used here based on [significant performance gains](https://twitter.com/jaredpalmer/status/1422574985323950083?s=20) reported by Jared Palmer from a customer.
+You'll need [Yarn](https://classic.yarnpkg.com/lang/en/) installed.
 
 ```bash
-pnpm i
-pnpm turbo run build
+yarn i
+yarn turbo run build
 ```
 
 This will build (and cache) the library packages and applications.
@@ -18,7 +16,7 @@ This will build (and cache) the library packages and applications.
 You can start the template next.js app:
 
 ```bash
-cd apps/next-product-starter && pnpm run dev
+cd apps/next-product-starter && yarn dev
 ```
 
 ## Adding a Project to Vercel
@@ -28,15 +26,7 @@ The build command needs to be scoped to the specific project so we aren't buildi
 `build`:
 
 ```
-pnpm build -w -- --scope="rust-adventure" --includeDependencies
-```
-
-The install command needs to also add `pnpn` and then run install.
-
-`install`:
-
-```bash
-npm i pnpm -g && pnpm i
+cd ../.. && yarn turbo run build --scope="rust-adventure" --includeDependencies
 ```
 
 ## Develop locally using vercel

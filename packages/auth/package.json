@@ -16,10 +16,10 @@
     "clean": "rm -rf .turbo && rm -rf node_modules && rm -rf dist"
   },
   "dependencies": {
-    "@skillrecordings/analytics": "workspace:*",
-    "@skillrecordings/axios": "workspace:*",
-    "@skillrecordings/config": "workspace:*",
-    "@skillrecordings/cookies": "workspace:*",
+    "@skillrecordings/analytics": "*",
+    "@skillrecordings/axios": "*",
+    "@skillrecordings/config": "*",
+    "@skillrecordings/cookies": "*",
     "axios": "^0.21.1",
     "client-oauth2": "^4.3.3",
     "jsdom": "^17.0.0",
@@ -28,9 +28,9 @@
     "next": "11.1.2"
   },
   "devDependencies": {
-    "@skillrecordings/scripts": "workspace:*",
-    "@skillrecordings/tsconfig": "workspace:*",
-    "@skillrecordings/types": "workspace:*",
+    "@skillrecordings/scripts": "*",
+    "@skillrecordings/tsconfig": "*",
+    "@skillrecordings/types": "*",
     "@types/jsdom": "^16.2.13",
     "jest-localstorage-mock": "^2.4.14",
     "typescript": "^4.2.4"

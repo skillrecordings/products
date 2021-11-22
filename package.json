@@ -1,14 +1,17 @@
 {
-  "name": "turbo-playground",
+  "name": "products",
+  "private": true,
+  "workspaces": [
+    "packages/*",
+    "apps/*"
+  ],
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
   "scripts": {
     "build": "turbo run build postbuild",
     "build:ci": "turbo run build test lint postbuild",
     "pre-commit": "lint-staged",
     "clean": "rm -rf node_modules && pnpm -r exec -- rm -rf .turbo node_modules .next dist",
-    "format": "pnpm run format:index && pnpm run format:src",
+    "format": "yarn format:index && yarn format:src",
     "format:index": "prettier --write \"*.{js,ts,json,md}\"",
     "format:src": "prettier --write",
     "lint": "TIMING=1 eslint --fix",
@@ -24,8 +27,8 @@
   "license": "ISC",
   "lint-staged": {
     "**/*.{ts,tsx,js,jsx}": [
-      "pnpm run format",
-      "pnpm run lint"
+      "yarn format",
+      "yarn lint"
     ]
   },
   "devDependencies": {
@@ -64,13 +67,6 @@
       "test": {
         "dependsOn": [
           "^build"
-        ]
-      },
-      "deploy": {
-        "dependsOn": [
-          "build",
-          "test",
-          "lint"
         ]
       },
       "lint": {

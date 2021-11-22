@@ -5,7 +5,7 @@ This form posts to a designated api URL (assumes `/api/convertkit/subscribe` by 
 ## Installation
 
 ```bash
-pnpm add @skillrecordings/convertkit
+yarn add @skillrecordings/convertkit
 ```
 
 ## Requirements
@@ -83,8 +83,8 @@ This component can be styled using following attributes:
 
 ## Props
 
-| Arguments     | Type                                   | Description                                                           |
-| ------------- | -------------------------------------- | --------------------------------------------------------------------- |
-| `subscriber`  | `ConvertkitSubscriber`                 | convertkit subscriber object, can be passed from `onSuccess` function |
-| `path`        | `string`                               | path to navigate to with `next/router`                                |
-| `queryParams` | `{ [key: string]: string }`            | additional query params (optional)                                    |
+| Arguments     | Type                        | Description                                                           |
+| ------------- | --------------------------- | --------------------------------------------------------------------- |
+| `subscriber`  | `ConvertkitSubscriber`      | convertkit subscriber object, can be passed from `onSuccess` function |
+| `path`        | `string`                    | path to navigate to with `next/router`                                |
+| `queryParams` | `{ [key: string]: string }` | additional query params (optional)                                    |
