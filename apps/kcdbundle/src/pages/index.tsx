@@ -8,11 +8,12 @@ import LandingCopy from 'components/content/homepage.mdx'
 import Header from 'components/hero'
 import Purchase from 'components/commerce/purchase'
 import MoneyBackGuaranteeBadge from '../../public/images/money-back-guarantee-badge@2x.png'
+import {Element} from 'react-scroll'
 
 const Home = () => {
   return (
     <Layout className=" dark:bg-gray-900 bg-white-50">
-      <Header currentPrice={0} />
+      <Header />
       <main>
         <article className="prose sm:prose-lg mx-auto lg:pt-24 sm:pt-16 pt-8 px-5">
           <LandingCopy />
@@ -26,6 +27,7 @@ const Home = () => {
             <TestingSection />
           </div>
         </div>
+        <Element name="buy" />
         <section className="bg-gray-100 w-full sm:px-10 px-5 sm:py-24 py-16">
           <div className="pb-32 max-w-screen-sm mx-auto w-full">
             <h2 className="text-center md:text-5xl text-4xl pt-8 font-extrabold">
