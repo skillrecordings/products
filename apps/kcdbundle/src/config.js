@@ -1,12 +1,12 @@
 // add a comment here
 export default {
   defaultTitle: 'KCD Bundle',
-  description:
-    'Get Testing JavaScript and Epic React workshops at lower price!',
+  description: 'Get Testing JavaScript and Epic React workshops for 40% off',
   author: 'Kent C. Dodds',
   favicon: '/favicon.ico',
   email: 'team@kentcdodds.com',
   siteUrl: 'kcdbundle.com',
+  titleTemplate: '%s | KCD Bundle',
   additionalMetaTags: [
     {property: 'author', content: 'Kent C. Dodds'},
     {
@@ -20,6 +20,8 @@ export default {
     site: '@kentcdodds',
   },
   openGraph: {
+    title: 'KCD Bundle',
+    description: 'Get Testing JavaScript and Epic React workshops for 40% off',
     type: 'website',
     site_name: 'KCD Bundle',
     profile: {
