@@ -109,7 +109,7 @@ export default function Home() {
                   if (subscriber) {
                     const redirectUrl = redirectUrlBuilder(
                       subscriber,
-                      '/confirmed',
+                      '/confirm',
                     )
                     router.push(redirectUrl)
                   }

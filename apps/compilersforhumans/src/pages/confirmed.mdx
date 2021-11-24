@@ -2,7 +2,9 @@ export const product = config.defaultTitle
 export const names = config.author
 export const firstName = config.openGraph.profile.firstName
 
-<h1 className="text-teal-500 uppercase font-medium tracking-wide">Confirmed!</h1>
+<h1 className="text-teal-500 uppercase font-medium tracking-wide">
+  Confirmed!
+</h1>
 
 <h2 className="font-medium text-3xl">
   You'll receive emails from us ({names}) about {product}.
@@ -39,7 +41,7 @@ export default ({children}) => {
   return (
     <Layout meta={{title: 'Subscription confirmed'}}>
       <div className="max-w-lg text-center space-y-5 mx-auto py-24">
-        <div classNameName="w-24 h-24 mx-auto rounded-full dark:bg-gray-700 bg-gray-200 bg-opacity-50">
+        <div className="w-24 h-24 mx-auto rounded-full dark:bg-gray-700 bg-gray-200 bg-opacity-50">
           <EmailConfirmed />
         </div>
         {children}

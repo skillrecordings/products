@@ -28,7 +28,7 @@ export default {
     },
     images: [
       {
-        url: '/card@2x.png',
+        url: 'https://kcdbundle.com/card@2x.png',
         width: 1280,
         height: 720,
       },

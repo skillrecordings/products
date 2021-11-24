@@ -13,7 +13,7 @@
     "test": "jest --setupFiles dotenv-flow/config",
     "dev": "tsc -w & pnpm build:css -- -w",
     "build": "tsc && pnpm build:css",
-    "build:css": "node-sass --output-style expanded --source-map true --source-map-contents true --precision 6 src/styles/index.css -o dist/styles",
+    "build:css": "sass --embed-sources --style expanded src/styles/index.scss dist/styles/index.css",
     "lint": "TIMING=1 eslint src --fix",
     "clean": "rm -rf .turbo && rm -rf node_modules && rm -rf dist"
   },
@@ -55,7 +55,7 @@
     "assert": "^2.0.0",
     "babel-jest": "^27.3.1",
     "esbuild-node-tsc": "^1.6.1",
-    "node-sass": "^6.0.1",
+    "sass": "^1.43.4",
     "react-test-renderer": "^17.0.2",
     "typescript": "^4.2.4"
   },
