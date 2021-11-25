@@ -36,12 +36,17 @@ const PlayerPage = () => {
     videos[0],
   )
 
+  const neededRef = React.useRef<any>(null)
+
   return (
     <Layout>
       <VideoProvider>
-        <div className="relative grid grid-cols-1 lg:grid-cols-12 w-full mx-auto gap-6 lg:gap-0 video-with-sidepanel-holder">
+        <div
+          className="relative grid w-full grid-cols-1 gap-6 mx-auto lg:grid-cols-12 lg:gap-0 video-with-sidepanel-holder"
+          ref={neededRef}
+        >
           <div className="relative before:float-left after:clear-both after:table lg:col-span-9 video-holder">
-            <Player className="font-sans">
+            <Player className="font-sans" container={neededRef.current}>
               <HLSSource src={currentVideo.url} />
               {currentVideo.subtitlesUrl && (
                 <track
