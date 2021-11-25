@@ -1,4 +1,5 @@
 import * as React from 'react'
+import cx from 'classnames'
 import Layout from '@skillrecordings/react/dist/layouts'
 import {
   Player,
@@ -7,6 +8,8 @@ import {
   useMetadataCues,
   useVideo,
   selectActiveCues,
+  selectWithSidePanel,
+  selectIsFullscreen,
   SidePanel,
 } from '@skillrecordings/player'
 import {useSelector} from '@xstate/react'
@@ -36,12 +39,115 @@ const PlayerPage = () => {
     videos[0],
   )
 
+  const fullscreenWrapperRef = React.useRef<HTMLDivElement>(null)
+  const PlayerWrapper: React.ForwardRefExoticComponent<any> = React.forwardRef<
+    HTMLDivElement,
+    any
+  >((props, ref) => {
+    console.log('REF INSIDE PlayerWrapper:', ref)
+    const {render} = props
+    const videoService = useVideo()
+    const withSidePanel = useSelector(videoService, selectWithSidePanel)
+    return (
+      <div ref={ref} id="player-wrapper">
+        {render(withSidePanel, ref)}
+      </div>
+    )
+  })
+
+  const [isMounted, setMounted] = React.useState<boolean>(false)
+  React.useEffect(() => {
+    setMounted(true)
+  }, [fullscreenWrapperRef])
+
+  console.log('INITIAL REF:', fullscreenWrapperRef)
+
   return (
     <Layout>
       <VideoProvider>
-        <div className="relative grid grid-cols-1 lg:grid-cols-12 w-full mx-auto gap-6 lg:gap-0 video-with-sidepanel-holder">
-          <div className="relative before:float-left after:clear-both after:table lg:col-span-9 video-holder">
-            <Player className="font-sans">
+        {/* <PlayerWrapper
+          ref={fullscreenWrapperRef}
+          render={(withSidePanel: boolean, ref: HTMLDivElement) => {
+            console.log('REF INSIDE RENDER PROP:', ref)
+            return (
+              <div className="relative grid w-full grid-cols-12 gap-0 mx-auto video-with-sidepanel-holder">
+                <div
+                  className={cx(
+                    'relative before:float-left after:clear-both after:table video-holder',
+                    withSidePanel ? 'col-span-9' : 'col-span-12',
+                    'col-span-9',
+                  )}
+                >
+                  <Player className="font-sans" container={ref}>
+                    <HLSSource src={currentVideo.url} />
+                    {currentVideo.subtitlesUrl && (
+                      <track
+                        src={currentVideo.subtitlesUrl}
+                        kind="subtitles"
+                        srcLang="en"
+                        label="English"
+                      />
+                    )}
+                    {currentVideo.notesUrl && (
+                      <track
+                        id="notes"
+                        src={currentVideo.notesUrl}
+                        kind="metadata"
+                        label="notes"
+                      />
+                    )}
+                  </Player>
+                </div>
+                {withSidePanel && isMounted && (
+                  <div className="col-span-3">
+                    <SidePanel
+                      resourceList={
+                        <VideoResourceList>
+                          {videos.map((videoResource) => {
+                            return (
+                              <li
+                                key={videoResource.url}
+                                onClick={() => setCurrentVideo(videoResource)}
+                                className="border-b border-gray-800"
+                              >
+                                <VideoResourceItem
+                                  videoResource={videoResource}
+                                  isActive={
+                                    videoResource.title === currentVideo.title
+                                  }
+                                />
+                              </li>
+                            )
+                          })}
+                        </VideoResourceList>
+                      }
+                      videoCuesList={
+                        <VideoCueList>
+                          <VideoCueNotes />
+                        </VideoCueList>
+                      }
+                    />
+                  </div>
+                )}
+              </div>
+            )
+          }}
+        /> */}
+
+        <div
+          className="relative grid w-full grid-cols-12 gap-0 mx-auto video-with-sidepanel-holder"
+          ref={fullscreenWrapperRef}
+        >
+          <div
+            className={cx(
+              'relative before:float-left after:clear-both after:table video-holder',
+              'col-span-9',
+            )}
+          >
+            <Player
+              className="font-sans"
+              container={fullscreenWrapperRef.current || undefined}
+            >
               <HLSSource src={currentVideo.url} />
               {currentVideo.subtitlesUrl && (
                 <track
@@ -61,7 +167,7 @@ const PlayerPage = () => {
               )}
             </Player>
           </div>
-          <div className="lg:col-span-3">
+          <div className="col-span-3">
             <SidePanel
               resourceList={
                 <VideoResourceList>
