@@ -183,14 +183,16 @@ export const Player: React.FC<PlayerProps> = (props) => {
         className,
       )}
     >
-      <div
-        style={getAspectRatioStyle()}
-        className="cueplayer-react-video-holder"
-      >
-        <Video>{children}</Video>
-        <BigPlayButton />
-        <Bezel />
-        <LoadingSpinner />
+      <div className="fullscreen-wrapper">
+        <div
+          style={getAspectRatioStyle()}
+          className="cueplayer-react-video-holder"
+        >
+          <Video>{children}</Video>
+          <BigPlayButton />
+          <Bezel />
+          <LoadingSpinner />
+        </div>
       </div>
       <ProgressBar />
       <CueBar />
