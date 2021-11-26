@@ -188,7 +188,10 @@ export const Player: React.FC<PlayerProps> = (props) => {
           fullscreen: isFullscreen,
         })}
       >
-        <div style={getAspectRatioStyle()}>
+        <div
+          style={getAspectRatioStyle()}
+          className="cueplayer-react-video-holder"
+        >
           <Video>{children}</Video>
           <BigPlayButton />
           <Bezel />
