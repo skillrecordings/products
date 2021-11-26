@@ -12,7 +12,6 @@
 }
 
 .fullscreen-wrapper.fullscreen {
-  background: green;
   height: calc(100vh - 88px);
   display: flex;
   justify-content: center;
