@@ -36,35 +36,46 @@ const PlayerPage = () => {
     videos[0],
   )
 
-  const neededRef = React.useRef<any>(null)
+  const [isMounted, setMounted] = React.useState<boolean>(false)
+
+  const fullscreenWrapperRef = React.useRef<any>(null)
+
+  React.useEffect(() => {
+    setMounted(true)
+  }, [fullscreenWrapperRef.current])
 
   return (
     <Layout>
       <VideoProvider>
         <div
           className="relative grid w-full grid-cols-12 gap-0 mx-auto video-with-sidepanel-holder"
-          ref={neededRef}
+          ref={fullscreenWrapperRef}
         >
           <div className="relative col-span-9 before:float-left after:clear-both after:table video-holder">
-            <Player className="font-sans" container={neededRef.current}>
-              <HLSSource src={currentVideo.url} />
-              {currentVideo.subtitlesUrl && (
-                <track
-                  src={currentVideo.subtitlesUrl}
-                  kind="subtitles"
-                  srcLang="en"
-                  label="English"
-                />
-              )}
-              {currentVideo.notesUrl && (
-                <track
-                  id="notes"
-                  src={currentVideo.notesUrl}
-                  kind="metadata"
-                  label="notes"
-                />
-              )}
-            </Player>
+            {isMounted && (
+              <Player
+                className="font-sans"
+                container={fullscreenWrapperRef.current}
+              >
+                <HLSSource src={currentVideo.url} />
+                {currentVideo.subtitlesUrl && (
+                  <track
+                    src={currentVideo.subtitlesUrl}
+                    kind="subtitles"
+                    srcLang="en"
+                    label="English"
+                  />
+                )}
+                {currentVideo.notesUrl && (
+                  <track
+                    id="notes"
+                    src={currentVideo.notesUrl}
+                    kind="metadata"
+                    label="notes"
+                  />
+                )}
+              </Player>
+            )}
           </div>
           <div className="col-span-3">
             <SidePanel
