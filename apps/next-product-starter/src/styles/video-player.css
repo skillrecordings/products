@@ -10,3 +10,15 @@
 .video-holder:before {
   padding-bottom: var(--video-aspect-ratio);
 }
+
+.video-with-sidepanel-holder:fullscreen .fullscreen-wrapper {
+  background: green;
+  height: calc(100vh - 88px);
+  display: flex;
+  justify-content: center;
+}
+.video-with-sidepanel-holder:fullscreen .cueplayer-react-video-holder {
+  height: 100% !important;
+  width: calc((100vh - 88px) * 1.77777) !important;
+  padding: 0 !important;
+}

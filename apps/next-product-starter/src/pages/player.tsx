@@ -42,10 +42,10 @@ const PlayerPage = () => {
     <Layout>
       <VideoProvider>
         <div
-          className="relative grid w-full grid-cols-1 gap-6 mx-auto lg:grid-cols-12 lg:gap-0 video-with-sidepanel-holder"
+          className="relative grid w-full grid-cols-12 gap-0 mx-auto video-with-sidepanel-holder"
           ref={neededRef}
         >
-          <div className="relative before:float-left after:clear-both after:table lg:col-span-9 video-holder">
+          <div className="relative col-span-9 before:float-left after:clear-both after:table video-holder">
             <Player className="font-sans" container={neededRef.current}>
               <HLSSource src={currentVideo.url} />
               {currentVideo.subtitlesUrl && (
@@ -66,7 +66,7 @@ const PlayerPage = () => {
               )}
             </Player>
           </div>
-          <div className="lg:col-span-3">
+          <div className="col-span-3">
             <SidePanel
               resourceList={
                 <VideoResourceList>
