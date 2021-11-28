@@ -39,7 +39,7 @@ const PlayerPage = () => {
     videos[0],
   )
 
-  const fullscreenWrapperRef = React.useRef<any>(null)
+  const fullscreenWrapperRef = React.useRef<HTMLDivElement>(null)
   const PlayerWrapper: React.ForwardRefExoticComponent<any> = React.forwardRef<
     HTMLDivElement,
     any
@@ -50,83 +50,153 @@ const PlayerPage = () => {
     const withSidePanel = useSelector(videoService, selectWithSidePanel)
     return (
       <div ref={ref} id="player-wrapper">
-        {render(withSidePanel)}
+        {render(withSidePanel, ref)}
       </div>
     )
   })
 
+  console.log('fullscreenWrapperRef:', fullscreenWrapperRef)
+
+  const [isMounted, setMounted] = React.useState<boolean>(false)
+  React.useEffect(() => {
+    setMounted(true)
+  }, [fullscreenWrapperRef.current])
+
   return (
     <Layout>
       <VideoProvider>
-        <PlayerWrapper
+        {/* <PlayerWrapper
           ref={fullscreenWrapperRef}
-          render={(withSidePanel: boolean) => {
+          render={(withSidePanel: boolean, ref: HTMLDivElement) => {
             return (
-              <div className="relative grid w-full grid-cols-12 gap-0 mx-auto video-with-sidepanel-holder">
-                <div
-                  className={cx(
-                    'relative before:float-left after:clear-both after:table video-holder',
-                    withSidePanel ? 'col-span-9' : 'col-span-12',
-                  )}
-                >
-                  <Player
-                    className="font-sans"
-                    container={fullscreenWrapperRef.current}
+              isMounted && (
+                <div className="relative grid w-full grid-cols-12 gap-0 mx-auto video-with-sidepanel-holder">
+                  <div
+                    className={cx(
+                      'relative before:float-left after:clear-both after:table video-holder',
+                      withSidePanel ? 'col-span-9' : 'col-span-12',
+                      'col-span-9',
+                    )}
                   >
-                    <HLSSource src={currentVideo.url} />
-                    {currentVideo.subtitlesUrl && (
-                      <track
-                        src={currentVideo.subtitlesUrl}
-                        kind="subtitles"
-                        srcLang="en"
-                        label="English"
-                      />
-                    )}
-                    {currentVideo.notesUrl && (
-                      <track
-                        id="notes"
-                        src={currentVideo.notesUrl}
-                        kind="metadata"
-                        label="notes"
-                      />
-                    )}
-                  </Player>
-                </div>
-                {withSidePanel && (
-                  <div className="col-span-3">
-                    <SidePanel
-                      resourceList={
-                        <VideoResourceList>
-                          {videos.map((videoResource) => {
-                            return (
-                              <li
-                                key={videoResource.url}
-                                onClick={() => setCurrentVideo(videoResource)}
-                                className="border-b border-gray-800"
-                              >
-                                <VideoResourceItem
-                                  videoResource={videoResource}
-                                  isActive={
-                                    videoResource.title === currentVideo.title
-                                  }
-                                />
-                              </li>
-                            )
-                          })}
-                        </VideoResourceList>
-                      }
-                      videoCuesList={
-                        <VideoCueList>
-                          <VideoCueNotes />
-                        </VideoCueList>
-                      }
-                    />
+                    <Player className="font-sans" container={ref.current}>
+                      <HLSSource src={currentVideo.url} />
+                      {currentVideo.subtitlesUrl && (
+                        <track
+                          src={currentVideo.subtitlesUrl}
+                          kind="subtitles"
+                          srcLang="en"
+                          label="English"
+                        />
+                      )}
+                      {currentVideo.notesUrl && (
+                        <track
+                          id="notes"
+                          src={currentVideo.notesUrl}
+                          kind="metadata"
+                          label="notes"
+                        />
+                      )}
+                    </Player>
                   </div>
-                )}
-              </div>
+                  {withSidePanel && (
+                    <div className="col-span-3">
+                      <SidePanel
+                        resourceList={
+                          <VideoResourceList>
+                            {videos.map((videoResource) => {
+                              return (
+                                <li
+                                  key={videoResource.url}
+                                  onClick={() => setCurrentVideo(videoResource)}
+                                  className="border-b border-gray-800"
+                                >
+                                  <VideoResourceItem
+                                    videoResource={videoResource}
+                                    isActive={
+                                      videoResource.title === currentVideo.title
+                                    }
+                                  />
+                                </li>
+                              )
+                            })}
+                          </VideoResourceList>
+                        }
+                        videoCuesList={
+                          <VideoCueList>
+                            <VideoCueNotes />
+                          </VideoCueList>
+                        }
+                      />
+                    </div>
+                  )}
+                </div>
+              )
             )
           }}
-        />
+        /> */}
+
+        <div
+          className="relative grid w-full grid-cols-12 gap-0 mx-auto video-with-sidepanel-holder"
+          ref={fullscreenWrapperRef}
+        >
+          <div
+            className={cx(
+              'relative before:float-left after:clear-both after:table video-holder',
+              // withSidePanel ? 'col-span-9' : 'col-span-12',
+              'col-span-9',
+            )}
+          >
+            <Player
+              className="font-sans"
+              container={fullscreenWrapperRef.current || undefined}
+            >
+              <HLSSource src={currentVideo.url} />
+              {currentVideo.subtitlesUrl && (
+                <track
+                  src={currentVideo.subtitlesUrl}
+                  kind="subtitles"
+                  srcLang="en"
+                  label="English"
+                />
+              )}
+              {currentVideo.notesUrl && (
+                <track
+                  id="notes"
+                  src={currentVideo.notesUrl}
+                  kind="metadata"
+                  label="notes"
+                />
+              )}
+            </Player>
+          </div>
+          <div className="col-span-3">
+            <SidePanel
+              resourceList={
+                <VideoResourceList>
+                  {videos.map((videoResource) => {
+                    return (
+                      <li
+                        key={videoResource.url}
+                        onClick={() => setCurrentVideo(videoResource)}
+                        className="border-b border-gray-800"
+                      >
+                        <VideoResourceItem
+                          videoResource={videoResource}
+                          isActive={videoResource.title === currentVideo.title}
+                        />
+                      </li>
+                    )
+                  })}
+                </VideoResourceList>
+              }
+              videoCuesList={
+                <VideoCueList>
+                  <VideoCueNotes />
+                </VideoCueList>
+              }
+            />
+          </div>
+        </div>
       </VideoProvider>
     </Layout>
   )
