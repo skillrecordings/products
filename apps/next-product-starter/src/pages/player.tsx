@@ -61,7 +61,6 @@ const PlayerPage = () => {
   }, [fullscreenWrapperRef])
 
   console.log('INITIAL REF:', fullscreenWrapperRef)
-  console.log('git test')
 
   return (
     <Layout>
