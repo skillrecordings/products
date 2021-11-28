@@ -1,4 +1,5 @@
 import * as React from 'react'
+import cx from 'classnames'
 import Layout from '@skillrecordings/react/dist/layouts'
 import {
   Player,
@@ -7,6 +8,8 @@ import {
   useMetadataCues,
   useVideo,
   selectActiveCues,
+  selectWithSidePanel,
+  selectIsFullscreen,
   SidePanel,
 } from '@skillrecordings/player'
 import {useSelector} from '@xstate/react'
@@ -36,75 +39,94 @@ const PlayerPage = () => {
     videos[0],
   )
 
-  const [isMounted, setMounted] = React.useState<boolean>(false)
-
   const fullscreenWrapperRef = React.useRef<any>(null)
-
-  React.useEffect(() => {
-    setMounted(true)
-  }, [fullscreenWrapperRef.current])
+  const PlayerWrapper: React.ForwardRefExoticComponent<any> = React.forwardRef<
+    HTMLDivElement,
+    any
+  >((props, ref) => {
+    console.log('ref:', ref)
+    const {render} = props
+    const videoService = useVideo()
+    const withSidePanel = useSelector(videoService, selectWithSidePanel)
+    return (
+      <div ref={ref} id="player-wrapper">
+        {render(withSidePanel)}
+      </div>
+    )
+  })
 
   return (
     <Layout>
       <VideoProvider>
-        <div
-          className="relative grid w-full grid-cols-12 gap-0 mx-auto video-with-sidepanel-holder"
+        <PlayerWrapper
           ref={fullscreenWrapperRef}
-        >
-          <div className="relative col-span-9 before:float-left after:clear-both after:table video-holder">
-            {isMounted && (
-              <Player
-                className="font-sans"
-                container={fullscreenWrapperRef.current}
-              >
-                <HLSSource src={currentVideo.url} />
-                {currentVideo.subtitlesUrl && (
-                  <track
-                    src={currentVideo.subtitlesUrl}
-                    kind="subtitles"
-                    srcLang="en"
-                    label="English"
-                  />
+          render={(withSidePanel: boolean) => {
+            return (
+              <div className="relative grid w-full grid-cols-12 gap-0 mx-auto video-with-sidepanel-holder">
+                <div
+                  className={cx(
+                    'relative before:float-left after:clear-both after:table video-holder',
+                    withSidePanel ? 'col-span-9' : 'col-span-12',
+                  )}
+                >
+                  <Player
+                    className="font-sans"
+                    container={fullscreenWrapperRef.current}
+                  >
+                    <HLSSource src={currentVideo.url} />
+                    {currentVideo.subtitlesUrl && (
+                      <track
+                        src={currentVideo.subtitlesUrl}
+                        kind="subtitles"
+                        srcLang="en"
+                        label="English"
+                      />
+                    )}
+                    {currentVideo.notesUrl && (
+                      <track
+                        id="notes"
+                        src={currentVideo.notesUrl}
+                        kind="metadata"
+                        label="notes"
+                      />
+                    )}
+                  </Player>
+                </div>
+                {withSidePanel && (
+                  <div className="col-span-3">
+                    <SidePanel
+                      resourceList={
+                        <VideoResourceList>
+                          {videos.map((videoResource) => {
+                            return (
+                              <li
+                                key={videoResource.url}
+                                onClick={() => setCurrentVideo(videoResource)}
+                                className="border-b border-gray-800"
+                              >
+                                <VideoResourceItem
+                                  videoResource={videoResource}
+                                  isActive={
+                                    videoResource.title === currentVideo.title
+                                  }
+                                />
+                              </li>
+                            )
+                          })}
+                        </VideoResourceList>
+                      }
+                      videoCuesList={
+                        <VideoCueList>
+                          <VideoCueNotes />
+                        </VideoCueList>
+                      }
+                    />
+                  </div>
                 )}
-                {currentVideo.notesUrl && (
-                  <track
-                    id="notes"
-                    src={currentVideo.notesUrl}
-                    kind="metadata"
-                    label="notes"
-                  />
-                )}
-              </Player>
-            )}
-          </div>
-          <div className="col-span-3">
-            <SidePanel
-              resourceList={
-                <VideoResourceList>
-                  {videos.map((videoResource) => {
-                    return (
-                      <li
-                        key={videoResource.url}
-                        onClick={() => setCurrentVideo(videoResource)}
-                        className="border-b border-gray-800"
-                      >
-                        <VideoResourceItem
-                          videoResource={videoResource}
-                          isActive={videoResource.title === currentVideo.title}
-                        />
-                      </li>
-                    )
-                  })}
-                </VideoResourceList>
-              }
-              videoCuesList={
-                <VideoCueList>
-                  <VideoCueNotes />
-                </VideoCueList>
-              }
-            />
-          </div>
-        </div>
+              </div>
+            )
+          }}
+        />
       </VideoProvider>
     </Layout>
   )

@@ -82,6 +82,9 @@ export const selectPlaybackRate = (state: StateFrom<typeof videoMachine>) =>
 export const selectIsFullscreen = (state: StateFrom<typeof videoMachine>) =>
   state.context.isFullscreen
 
+export const selectWithSidePanel = (state: StateFrom<typeof videoMachine>) =>
+  state.context.withSidePanel
+
 export const selectHasStarted = (state: StateFrom<typeof videoMachine>) =>
   state.context.hasStarted || false
 
