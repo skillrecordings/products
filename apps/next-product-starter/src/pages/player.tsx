@@ -40,6 +40,7 @@ const PlayerPage = () => {
   )
 
   const fullscreenWrapperRef = React.useRef<HTMLDivElement>(null)
+
   const PlayerWrapper: React.ForwardRefExoticComponent<any> = React.forwardRef<
     HTMLDivElement,
     any
@@ -65,6 +66,7 @@ const PlayerPage = () => {
   return (
     <Layout>
       <VideoProvider>
+        {/* Uncomment the block below to see the broken version with SidePanelToggle */}
         {/* <PlayerWrapper
           ref={fullscreenWrapperRef}
           render={(withSidePanel: boolean, ref: HTMLDivElement) => {
@@ -134,6 +136,7 @@ const PlayerPage = () => {
           }}
         /> */}
 
+        {/* Comment out the block below to see the working version with no SidePanelToggle working */}
         <div
           className="relative grid w-full grid-cols-12 gap-0 mx-auto video-with-sidepanel-holder"
           ref={fullscreenWrapperRef}
