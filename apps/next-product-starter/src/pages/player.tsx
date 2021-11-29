@@ -44,11 +44,6 @@ const PlayerPage = () => {
 
   const fullscreenWrapperRef = React.useRef<HTMLDivElement>(null)
 
-  const [isMounted, setMounted] = React.useState<boolean>(false)
-  React.useEffect(() => {
-    setMounted(true)
-  }, [fullscreenWrapperRef])
-
   return (
     <>
       <div
@@ -84,7 +79,7 @@ const PlayerPage = () => {
             )}
           </Player>
         </div>
-        {withSidePanel && isMounted && (
+        {withSidePanel && (
           <div className="col-span-3">
             <SidePanel
               resourceList={
