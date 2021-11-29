@@ -21,7 +21,8 @@ export const SidePanelToggleControl: React.FC<SidePanelToggleProps> = ({
       className={cx(
         className,
         {
-          'cueplayer-react-side-panel-control-disabled': !withSidePanel,
+          'cueplayer-react-icon-format-indent-decrease': !withSidePanel,
+          'cueplayer-react-icon-format-indent-increase': withSidePanel,
         },
         'cueplayer-react-side-panel-control cueplayer-react-control cueplayer-react-button cueplayer-react-icon',
       )}
@@ -29,7 +30,9 @@ export const SidePanelToggleControl: React.FC<SidePanelToggleProps> = ({
       tabIndex={0}
       onClick={handleClick}
     >
-      <span>{withSidePanel ? '1' : '0'}</span>
+      <span className="cueplayer-react-control-text">
+        {withSidePanel ? '1' : '0'}
+      </span>
     </button>
   )
 }
