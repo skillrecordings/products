@@ -10,6 +10,7 @@ export type VideoEvent =
   | {type: 'PLAY'; source?: string}
   | {type: 'TOGGLE_MUTE'}
   | {type: 'TOGGLE_FULLSCREEN'; element?: HTMLElement | null}
+  | {type: 'EXIT_FULLSCREEN'; element?: HTMLElement | null}
   | {type: 'TOGGLE_SIDE_PANEL'}
   | {type: 'SEEKING'; seekingTime: number; source?: string}
   | {type: 'END_SEEKING'}
@@ -117,6 +118,13 @@ export const videoMachine = createMachine<VideoStateContext, VideoEvent>({
           isFullscreen: (context, _event) => !context.isFullscreen,
         }),
         'toggleFullscreen',
+      ],
+    },
+    EXIT_FULLSCREEN: {
+      actions: [
+        assign({
+          isFullscreen: (context) => false,
+        }),
       ],
     },
     TOGGLE_SIDE_PANEL: {
