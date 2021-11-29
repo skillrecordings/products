@@ -39,22 +39,10 @@ const PlayerPage = () => {
     videos[0],
   )
 
-  const fullscreenWrapperRef = React.useRef<HTMLDivElement>(null)
+  const videoService = useVideo()
+  const withSidePanel = useSelector(videoService, selectWithSidePanel)
 
-  const PlayerWrapper: React.ForwardRefExoticComponent<any> = React.forwardRef<
-    HTMLDivElement,
-    any
-  >((props, ref) => {
-    console.log('REF INSIDE PlayerWrapper:', ref)
-    const {render} = props
-    const videoService = useVideo()
-    const withSidePanel = useSelector(videoService, selectWithSidePanel)
-    return (
-      <div ref={ref} id="player-wrapper">
-        {render(withSidePanel, ref)}
-      </div>
-    )
-  })
+  const fullscreenWrapperRef = React.useRef<HTMLDivElement>(null)
 
   const [isMounted, setMounted] = React.useState<boolean>(false)
   React.useEffect(() => {
@@ -64,112 +52,41 @@ const PlayerPage = () => {
   console.log('INITIAL REF:', fullscreenWrapperRef)
 
   return (
-    <Layout>
-      <VideoProvider>
-        {/* Uncomment the block below to see the broken version with SidePanelToggle */}
-        {/* <PlayerWrapper
-          ref={fullscreenWrapperRef}
-          render={(withSidePanel: boolean, ref: HTMLDivElement) => {
-            console.log('REF INSIDE RENDER PROP:', ref)
-            return (
-              <div className="relative grid w-full grid-cols-12 gap-0 mx-auto video-with-sidepanel-holder">
-                <div
-                  className={cx(
-                    'relative before:float-left after:clear-both after:table video-holder',
-                    withSidePanel ? 'col-span-9' : 'col-span-12',
-                    'col-span-9',
-                  )}
-                >
-                  <Player className="font-sans" container={ref}>
-                    <HLSSource src={currentVideo.url} />
-                    {currentVideo.subtitlesUrl && (
-                      <track
-                        src={currentVideo.subtitlesUrl}
-                        kind="subtitles"
-                        srcLang="en"
-                        label="English"
-                      />
-                    )}
-                    {currentVideo.notesUrl && (
-                      <track
-                        id="notes"
-                        src={currentVideo.notesUrl}
-                        kind="metadata"
-                        label="notes"
-                      />
-                    )}
-                  </Player>
-                </div>
-                {withSidePanel && isMounted && (
-                  <div className="col-span-3">
-                    <SidePanel
-                      resourceList={
-                        <VideoResourceList>
-                          {videos.map((videoResource) => {
-                            return (
-                              <li
-                                key={videoResource.url}
-                                onClick={() => setCurrentVideo(videoResource)}
-                                className="border-b border-gray-800"
-                              >
-                                <VideoResourceItem
-                                  videoResource={videoResource}
-                                  isActive={
-                                    videoResource.title === currentVideo.title
-                                  }
-                                />
-                              </li>
-                            )
-                          })}
-                        </VideoResourceList>
-                      }
-                      videoCuesList={
-                        <VideoCueList>
-                          <VideoCueNotes />
-                        </VideoCueList>
-                      }
-                    />
-                  </div>
-                )}
-              </div>
-            )
-          }}
-        /> */}
-
-        {/* Comment out the block below to see the working version with no SidePanelToggle working */}
+    <>
+      <div
+        className="relative grid w-full grid-cols-12 gap-0 mx-auto video-with-sidepanel-holder"
+        ref={fullscreenWrapperRef}
+      >
         <div
-          className="relative grid w-full grid-cols-12 gap-0 mx-auto video-with-sidepanel-holder"
-          ref={fullscreenWrapperRef}
+          className={cx(
+            'relative before:float-left after:clear-both after:table video-holder',
+            withSidePanel ? 'col-span-9' : 'col-span-12',
+          )}
         >
-          <div
-            className={cx(
-              'relative before:float-left after:clear-both after:table video-holder',
-              'col-span-9',
-            )}
+          <Player
+            className="font-sans"
+            container={fullscreenWrapperRef.current || undefined}
           >
-            <Player
-              className="font-sans"
-              container={fullscreenWrapperRef.current || undefined}
-            >
-              <HLSSource src={currentVideo.url} />
-              {currentVideo.subtitlesUrl && (
-                <track
-                  src={currentVideo.subtitlesUrl}
-                  kind="subtitles"
-                  srcLang="en"
-                  label="English"
-                />
-              )}
-              {currentVideo.notesUrl && (
-                <track
-                  id="notes"
-                  src={currentVideo.notesUrl}
-                  kind="metadata"
-                  label="notes"
-                />
-              )}
-            </Player>
-          </div>
+            <HLSSource src={currentVideo.url} />
+            {currentVideo.subtitlesUrl && (
+              <track
+                src={currentVideo.subtitlesUrl}
+                kind="subtitles"
+                srcLang="en"
+                label="English"
+              />
+            )}
+            {currentVideo.notesUrl && (
+              <track
+                id="notes"
+                src={currentVideo.notesUrl}
+                kind="metadata"
+                label="notes"
+              />
+            )}
+          </Player>
+        </div>
+        {withSidePanel && isMounted && (
           <div className="col-span-3">
             <SidePanel
               resourceList={
@@ -197,9 +114,9 @@ const PlayerPage = () => {
               }
             />
           </div>
-        </div>
-      </VideoProvider>
-    </Layout>
+        )}
+      </div>
+    </>
   )
 }
 
@@ -256,4 +173,14 @@ const VideoCueNotes: React.FC<any> = ({children}) => {
   )
 }
 
-export default PlayerPage
+const Page = () => {
+  return (
+    <Layout>
+      <VideoProvider>
+        <PlayerPage />
+      </VideoProvider>
+    </Layout>
+  )
+}
+
+export default Page
