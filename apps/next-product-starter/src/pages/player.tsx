@@ -49,8 +49,6 @@ const PlayerPage = () => {
     setMounted(true)
   }, [fullscreenWrapperRef])
 
-  console.log('INITIAL REF:', fullscreenWrapperRef)
-
   return (
     <>
       <div
