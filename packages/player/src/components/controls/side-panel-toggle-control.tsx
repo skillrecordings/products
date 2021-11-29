@@ -30,9 +30,7 @@ export const SidePanelToggleControl: React.FC<SidePanelToggleProps> = ({
       tabIndex={0}
       onClick={handleClick}
     >
-      <span className="cueplayer-react-control-text">
-        {withSidePanel ? '1' : '0'}
-      </span>
+      <span className="cueplayer-react-control-text">Toggle side panel</span>
     </button>
   )
 }
