@@ -4,18 +4,44 @@
   height: 100%;
   border-color: #27272a;
   border-style: solid;
-  border-width: 0 0 0 1px;
+  border-width: 1px;
+  background: black;
+  [data-reach-tabs] {
+    position: static;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+  }
   [data-reach-tab-list] {
-    background: black;
+    position: relative;
+    z-index: 1;
+    flex-shrink: 0;
+    border-bottom: 1px solid #27272a;
+  }
+  [data-reach-tab-panels] {
+    position: relative;
+    flex-grow: 1;
   }
   [data-reach-tab-panel] {
-    background: black;
+    inset: 0;
+    overflow-y: scroll;
   }
   [data-reach-tab] {
     color: white;
     opacity: 0.5;
+    padding: 8px 12px;
+    font-weight: 600;
     &[data-selected] {
       opacity: 1;
+    }
+  }
+}
+
+@media (min-width: 1024px) {
+  .cueplayer-react-side-panel {
+    [data-reach-tabs],
+    [data-reach-tab-panel] {
+      position: absolute;
     }
   }
 }
