@@ -1,6 +1,7 @@
 import * as React from 'react'
 import cx from 'classnames'
-import {useVideo, selectIsFullscreen} from '@skillrecordings/player'
+import {useVideo} from '../context/video-context'
+import {selectIsFullscreen} from '../selectors'
 import {useSelector} from '@xstate/react'
 import {Tab, TabList, TabPanel, TabPanels, Tabs} from '@reach/tabs'
 
