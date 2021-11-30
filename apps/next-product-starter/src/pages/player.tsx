@@ -9,7 +9,6 @@ import {
   useVideo,
   selectActiveCues,
   selectWithSidePanel,
-  selectIsFullscreen,
   SidePanel,
 } from '@skillrecordings/player'
 import {useSelector} from '@xstate/react'
@@ -55,7 +54,7 @@ const PlayerPage = () => {
   return (
     <>
       <div
-        className="relative grid w-full grid-cols-12 video-with-sidepanel-holder"
+        className="relative w-full space-y-6 lg:grid lg:grid-cols-12 lg:space-y-0"
         ref={fullscreenWrapperRef}
       >
         <div

@@ -1,4 +1,7 @@
 import * as React from 'react'
+import cx from 'classnames'
+import {useVideo, selectIsFullscreen} from '@skillrecordings/player'
+import {useSelector} from '@xstate/react'
 import {Tab, TabList, TabPanel, TabPanels, Tabs} from '@reach/tabs'
 
 type SidePanelProps = {
@@ -10,8 +13,14 @@ export const SidePanel: React.FC<SidePanelProps> = ({
   resourceList,
   videoCuesList,
 }) => {
+  const videoService = useVideo()
+  const isFullscreen = useSelector(videoService, selectIsFullscreen)
   return (
-    <div className="cueplayer-react-side-panel">
+    <div
+      className={cx('cueplayer-react-side-panel', {
+        'with-fullscreen': isFullscreen,
+      })}
+    >
       <Tabs>
         <TabList>
           {resourceList && <Tab>Lessons</Tab>}

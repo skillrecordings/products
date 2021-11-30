@@ -21,10 +21,13 @@
   [data-reach-tab-panels] {
     position: relative;
     flex-grow: 1;
+    height: 368px;
   }
   [data-reach-tab-panel] {
+    position: absolute;
     inset: 0;
     overflow-y: scroll;
+    overscroll-behavior: contain;
   }
   [data-reach-tab] {
     color: white;
@@ -37,11 +40,27 @@
   }
 }
 
+.cueplayer-react-fullscreen .cueplayer-react-side-panel-control {
+  display: none;
+}
+
+.cueplayer-react-side-panel.with-fullscreen {
+  display: none;
+}
+
 @media (min-width: 1024px) {
   .cueplayer-react-side-panel {
-    [data-reach-tabs],
-    [data-reach-tab-panel] {
+    [data-reach-tabs] {
       position: absolute;
     }
+    [data-reach-tab-panels] {
+      height: auto;
+    }
+    &.with-fullscreen {
+      display: block;
+    }
+  }
+  .cueplayer-react-fullscreen .cueplayer-react-side-panel-control {
+    display: inline-block;
   }
 }
