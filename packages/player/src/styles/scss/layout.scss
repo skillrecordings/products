@@ -44,12 +44,6 @@
   &.cueplayer-react-16-9,
   &.cueplayer-react-4-3 {
     width: 100%;
-    .cueplayer-react-video-holder {
-      width: 100%;
-      max-width: 100%;
-      height: 0;
-      position: relative;
-    }
   }
 
   &.cueplayer-react-16-9 {
@@ -83,6 +77,48 @@
 
     &.cueplayer-react-user-inactive {
       cursor: none;
+    }
+  }
+
+  // Fullscreen
+  .fullscreen-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    &.fullscreen {
+      height: calc(100vh - 88px);
+      display: flex;
+      justify-content: center;
+      .cueplayer-react-video-holder {
+        height: 100% !important;
+        width: calc((100vh - 88px) * 1.77777) !important;
+        padding: 0 !important;
+      }
+    }
+  }
+  .fullscreen-wrapper
+    .fullscreen-wrapper.fullscreen
+    .cueplayer-react-video-holder {
+    height: 100% !important;
+    width: calc((100vh - 88px) * 1.77777) !important;
+    padding: 0 !important;
+  }
+  .cueplayer-react-video-holder {
+    width: 100%;
+    max-width: 100%;
+    height: 0;
+    position: relative;
+  }
+  .cueplayer-react-video-wrapper {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    max-width: calc(75vh * 1.77777);
+  }
+  &.cueplayer-react-fullscreen {
+    .cueplayer-react-video-wrapper {
+      max-width: 100%;
     }
   }
 }

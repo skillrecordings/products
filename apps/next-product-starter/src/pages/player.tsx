@@ -35,6 +35,8 @@ const PlayerPage = () => {
     },
   ]
 
+  const [mounted, setMounted] = React.useState<boolean>(false)
+
   const [currentVideo, setCurrentVideo] = React.useState<VideoResource>(
     videos[0],
   )
@@ -44,10 +46,16 @@ const PlayerPage = () => {
 
   const fullscreenWrapperRef = React.useRef<HTMLDivElement>(null)
 
+  React.useEffect(() => {
+    if (fullscreenWrapperRef) {
+      setMounted(true)
+    }
+  }, [fullscreenWrapperRef])
+
   return (
     <>
       <div
-        className="relative grid w-full grid-cols-12 gap-0 mx-auto video-with-sidepanel-holder"
+        className="relative grid w-full grid-cols-12 video-with-sidepanel-holder"
         ref={fullscreenWrapperRef}
       >
         <div
@@ -56,28 +64,30 @@ const PlayerPage = () => {
             withSidePanel ? 'col-span-9' : 'col-span-12',
           )}
         >
-          <Player
-            className="font-sans"
-            container={fullscreenWrapperRef.current || undefined}
-          >
-            <HLSSource src={currentVideo.url} />
-            {currentVideo.subtitlesUrl && (
-              <track
-                src={currentVideo.subtitlesUrl}
-                kind="subtitles"
-                srcLang="en"
-                label="English"
-              />
-            )}
-            {currentVideo.notesUrl && (
-              <track
-                id="notes"
-                src={currentVideo.notesUrl}
-                kind="metadata"
-                label="notes"
-              />
-            )}
-          </Player>
+          {mounted && (
+            <Player
+              className="font-sans"
+              container={fullscreenWrapperRef.current || undefined}
+            >
+              <HLSSource src={currentVideo.url} />
+              {currentVideo.subtitlesUrl && (
+                <track
+                  src={currentVideo.subtitlesUrl}
+                  kind="subtitles"
+                  srcLang="en"
+                  label="English"
+                />
+              )}
+              {currentVideo.notesUrl && (
+                <track
+                  id="notes"
+                  src={currentVideo.notesUrl}
+                  kind="metadata"
+                  label="notes"
+                />
+              )}
+            </Player>
+          )}
         </div>
         {withSidePanel && (
           <div className="col-span-3">
