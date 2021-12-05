@@ -6,7 +6,7 @@ import Link from 'next/link'
 
 const Purchase = () => {
   const [state] = React.useState<any>({
-    price: 559,
+    price: 838,
     fullPrice: 931,
     quantity: 1,
     bulk: false,
@@ -56,7 +56,7 @@ const Purchase = () => {
           {fullPrice}
         </del>
         <div className="text-xs uppercase leading-none font-bold text-blue-500">
-          Save 40%
+          Save 10%
         </div>
       </div>
     )
