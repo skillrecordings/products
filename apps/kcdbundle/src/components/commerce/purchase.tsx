@@ -6,7 +6,7 @@ import Link from 'next/link'
 
 const Purchase = () => {
   const [state] = React.useState<any>({
-    price: 838,
+    price: 837,
     fullPrice: 931,
     quantity: 1,
     bulk: false,
