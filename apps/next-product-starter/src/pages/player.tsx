@@ -32,6 +32,126 @@ const PlayerPage = () => {
       title: 'Random Video',
       url: 'https://bitdash-a.akamaihd.net/content/MI201109210084_1/m3u8s/f08e80da-bf1d-4e3d-8899-f0f6155f6efa.m3u8',
     },
+    {
+      title: 'Create a New Supabase Project 0',
+      url: `https://d2c5owlt6rorc3.cloudfront.net/egghead-create-a-new-supabase-project-lEG2O_feW/hls/egghead-create-a-new-supabase-project-lEG2O_feW.m3u8`,
+      subtitlesUrl: `https://app.egghead.io/api/v1/lessons/javascript-create-a-new-supabase-project/subtitles`,
+      notesUrl: `https://gist.githubusercontent.com/joelhooks/d16c649f7d258289cbbc622d8867c608/raw/45f875698610140c28ec991c1aad1979dbf1a990/test.vtt`,
+    },
+    {
+      title: 'Random Video 1',
+      url: 'https://bitdash-a.akamaihd.net/content/MI201109210084_1/m3u8s/f08e80da-bf1d-4e3d-8899-f0f6155f6efa.m3u8',
+    },
+    {
+      title: 'Create a New Supabase Project 2',
+      url: `https://d2c5owlt6rorc3.cloudfront.net/egghead-create-a-new-supabase-project-lEG2O_feW/hls/egghead-create-a-new-supabase-project-lEG2O_feW.m3u8`,
+      subtitlesUrl: `https://app.egghead.io/api/v1/lessons/javascript-create-a-new-supabase-project/subtitles`,
+      notesUrl: `https://gist.githubusercontent.com/joelhooks/d16c649f7d258289cbbc622d8867c608/raw/45f875698610140c28ec991c1aad1979dbf1a990/test.vtt`,
+    },
+    {
+      title: 'Random Video 3',
+      url: 'https://bitdash-a.akamaihd.net/content/MI201109210084_1/m3u8s/f08e80da-bf1d-4e3d-8899-f0f6155f6efa.m3u8',
+    },
+    {
+      title: 'Create a New Supabase Project 4',
+      url: `https://d2c5owlt6rorc3.cloudfront.net/egghead-create-a-new-supabase-project-lEG2O_feW/hls/egghead-create-a-new-supabase-project-lEG2O_feW.m3u8`,
+      subtitlesUrl: `https://app.egghead.io/api/v1/lessons/javascript-create-a-new-supabase-project/subtitles`,
+      notesUrl: `https://gist.githubusercontent.com/joelhooks/d16c649f7d258289cbbc622d8867c608/raw/45f875698610140c28ec991c1aad1979dbf1a990/test.vtt`,
+    },
+    {
+      title: 'Random Video 5',
+      url: 'https://bitdash-a.akamaihd.net/content/MI201109210084_1/m3u8s/f08e80da-bf1d-4e3d-8899-f0f6155f6efa.m3u8',
+    },
+    {
+      title: 'Create a New Supabase Project 6',
+      url: `https://d2c5owlt6rorc3.cloudfront.net/egghead-create-a-new-supabase-project-lEG2O_feW/hls/egghead-create-a-new-supabase-project-lEG2O_feW.m3u8`,
+      subtitlesUrl: `https://app.egghead.io/api/v1/lessons/javascript-create-a-new-supabase-project/subtitles`,
+      notesUrl: `https://gist.githubusercontent.com/joelhooks/d16c649f7d258289cbbc622d8867c608/raw/45f875698610140c28ec991c1aad1979dbf1a990/test.vtt`,
+    },
+    {
+      title: 'Random Video 7',
+      url: 'https://bitdash-a.akamaihd.net/content/MI201109210084_1/m3u8s/f08e80da-bf1d-4e3d-8899-f0f6155f6efa.m3u8',
+    },
+    {
+      title: 'Create a New Supabase Project 8',
+      url: `https://d2c5owlt6rorc3.cloudfront.net/egghead-create-a-new-supabase-project-lEG2O_feW/hls/egghead-create-a-new-supabase-project-lEG2O_feW.m3u8`,
+      subtitlesUrl: `https://app.egghead.io/api/v1/lessons/javascript-create-a-new-supabase-project/subtitles`,
+      notesUrl: `https://gist.githubusercontent.com/joelhooks/d16c649f7d258289cbbc622d8867c608/raw/45f875698610140c28ec991c1aad1979dbf1a990/test.vtt`,
+    },
+    {
+      title: 'Random Video 9',
+      url: 'https://bitdash-a.akamaihd.net/content/MI201109210084_1/m3u8s/f08e80da-bf1d-4e3d-8899-f0f6155f6efa.m3u8',
+    },
+    {
+      title: 'Create a New Supabase Project 10',
+      url: `https://d2c5owlt6rorc3.cloudfront.net/egghead-create-a-new-supabase-project-lEG2O_feW/hls/egghead-create-a-new-supabase-project-lEG2O_feW.m3u8`,
+      subtitlesUrl: `https://app.egghead.io/api/v1/lessons/javascript-create-a-new-supabase-project/subtitles`,
+      notesUrl: `https://gist.githubusercontent.com/joelhooks/d16c649f7d258289cbbc622d8867c608/raw/45f875698610140c28ec991c1aad1979dbf1a990/test.vtt`,
+    },
+    {
+      title: 'Random Video 11',
+      url: 'https://bitdash-a.akamaihd.net/content/MI201109210084_1/m3u8s/f08e80da-bf1d-4e3d-8899-f0f6155f6efa.m3u8',
+    },
+    {
+      title: 'Create a New Supabase Project 12',
+      url: `https://d2c5owlt6rorc3.cloudfront.net/egghead-create-a-new-supabase-project-lEG2O_feW/hls/egghead-create-a-new-supabase-project-lEG2O_feW.m3u8`,
+      subtitlesUrl: `https://app.egghead.io/api/v1/lessons/javascript-create-a-new-supabase-project/subtitles`,
+      notesUrl: `https://gist.githubusercontent.com/joelhooks/d16c649f7d258289cbbc622d8867c608/raw/45f875698610140c28ec991c1aad1979dbf1a990/test.vtt`,
+    },
+    {
+      title: 'Random Video 13',
+      url: 'https://bitdash-a.akamaihd.net/content/MI201109210084_1/m3u8s/f08e80da-bf1d-4e3d-8899-f0f6155f6efa.m3u8',
+    },
+    {
+      title: 'Create a New Supabase Project 14',
+      url: `https://d2c5owlt6rorc3.cloudfront.net/egghead-create-a-new-supabase-project-lEG2O_feW/hls/egghead-create-a-new-supabase-project-lEG2O_feW.m3u8`,
+      subtitlesUrl: `https://app.egghead.io/api/v1/lessons/javascript-create-a-new-supabase-project/subtitles`,
+      notesUrl: `https://gist.githubusercontent.com/joelhooks/d16c649f7d258289cbbc622d8867c608/raw/45f875698610140c28ec991c1aad1979dbf1a990/test.vtt`,
+    },
+    {
+      title: 'Random Video 15',
+      url: 'https://bitdash-a.akamaihd.net/content/MI201109210084_1/m3u8s/f08e80da-bf1d-4e3d-8899-f0f6155f6efa.m3u8',
+    },
+    {
+      title: 'Create a New Supabase Project 16',
+      url: `https://d2c5owlt6rorc3.cloudfront.net/egghead-create-a-new-supabase-project-lEG2O_feW/hls/egghead-create-a-new-supabase-project-lEG2O_feW.m3u8`,
+      subtitlesUrl: `https://app.egghead.io/api/v1/lessons/javascript-create-a-new-supabase-project/subtitles`,
+      notesUrl: `https://gist.githubusercontent.com/joelhooks/d16c649f7d258289cbbc622d8867c608/raw/45f875698610140c28ec991c1aad1979dbf1a990/test.vtt`,
+    },
+    {
+      title: 'Random Video 17',
+      url: 'https://bitdash-a.akamaihd.net/content/MI201109210084_1/m3u8s/f08e80da-bf1d-4e3d-8899-f0f6155f6efa.m3u8',
+    },
+    {
+      title: 'Create a New Supabase Project 18',
+      url: `https://d2c5owlt6rorc3.cloudfront.net/egghead-create-a-new-supabase-project-lEG2O_feW/hls/egghead-create-a-new-supabase-project-lEG2O_feW.m3u8`,
+      subtitlesUrl: `https://app.egghead.io/api/v1/lessons/javascript-create-a-new-supabase-project/subtitles`,
+      notesUrl: `https://gist.githubusercontent.com/joelhooks/d16c649f7d258289cbbc622d8867c608/raw/45f875698610140c28ec991c1aad1979dbf1a990/test.vtt`,
+    },
+    {
+      title: 'Random Video 19',
+      url: 'https://bitdash-a.akamaihd.net/content/MI201109210084_1/m3u8s/f08e80da-bf1d-4e3d-8899-f0f6155f6efa.m3u8',
+    },
+    {
+      title: 'Create a New Supabase Project 20',
+      url: `https://d2c5owlt6rorc3.cloudfront.net/egghead-create-a-new-supabase-project-lEG2O_feW/hls/egghead-create-a-new-supabase-project-lEG2O_feW.m3u8`,
+      subtitlesUrl: `https://app.egghead.io/api/v1/lessons/javascript-create-a-new-supabase-project/subtitles`,
+      notesUrl: `https://gist.githubusercontent.com/joelhooks/d16c649f7d258289cbbc622d8867c608/raw/45f875698610140c28ec991c1aad1979dbf1a990/test.vtt`,
+    },
+    {
+      title: 'Random Video 21',
+      url: 'https://bitdash-a.akamaihd.net/content/MI201109210084_1/m3u8s/f08e80da-bf1d-4e3d-8899-f0f6155f6efa.m3u8',
+    },
+    {
+      title: 'Create a New Supabase Project 22',
+      url: `https://d2c5owlt6rorc3.cloudfront.net/egghead-create-a-new-supabase-project-lEG2O_feW/hls/egghead-create-a-new-supabase-project-lEG2O_feW.m3u8`,
+      subtitlesUrl: `https://app.egghead.io/api/v1/lessons/javascript-create-a-new-supabase-project/subtitles`,
+      notesUrl: `https://gist.githubusercontent.com/joelhooks/d16c649f7d258289cbbc622d8867c608/raw/45f875698610140c28ec991c1aad1979dbf1a990/test.vtt`,
+    },
+    {
+      title: 'Random Video 23',
+      url: 'https://bitdash-a.akamaihd.net/content/MI201109210084_1/m3u8s/f08e80da-bf1d-4e3d-8899-f0f6155f6efa.m3u8',
+    },
   ]
 
   const [mounted, setMounted] = React.useState<boolean>(false)
@@ -93,20 +213,11 @@ const PlayerPage = () => {
             <SidePanel
               resourceList={
                 <VideoResourceList>
-                  {videos.map((videoResource) => {
-                    return (
-                      <li
-                        key={videoResource.url}
-                        onClick={() => setCurrentVideo(videoResource)}
-                        className="border-b border-gray-800"
-                      >
-                        <VideoResourceItem
-                          videoResource={videoResource}
-                          isActive={videoResource.title === currentVideo.title}
-                        />
-                      </li>
-                    )
-                  })}
+                  <VideoResources
+                    resources={videos}
+                    currentVideo={currentVideo}
+                    setCurrentVideo={setCurrentVideo}
+                  />
                 </VideoResourceList>
               }
               videoCuesList={
@@ -126,30 +237,62 @@ const VideoResourceList: React.FC = ({children}) => {
   return <ul>{children}</ul>
 }
 
-const VideoResourceItem: React.FC<{
-  videoResource: VideoResource
-  isActive: boolean
-}> = ({videoResource: {title, url, subtitlesUrl, notesUrl}, isActive}) => {
-  return (
-    <div
-      className={`p-3 cursor-pointer ${
-        isActive ? 'bg-white text-black' : 'bg-black text-white'
-      }`}
-    >
-      {title}
-    </div>
-  )
+type VideoResourcesProps = {
+  resources: any
+  currentVideo: any
+  setCurrentVideo: any
+}
+
+const VideoResources: React.FC<VideoResourcesProps> = ({
+  resources,
+  currentVideo,
+  setCurrentVideo,
+}) => {
+  const scrollToRef = React.useRef<any>(null)
+  React.useEffect(() => {
+    if (scrollToRef.current !== null) {
+      scrollToRef.current.scrollIntoView({behavior: 'smooth'})
+    }
+  }, [currentVideo])
+  return resources.map((videoResource: VideoResource) => {
+    const isActive = videoResource.title === currentVideo.title
+    return (
+      <li
+        ref={isActive ? scrollToRef : null}
+        key={videoResource.url}
+        onClick={() => setCurrentVideo(videoResource)}
+        className="border-b border-gray-800"
+      >
+        <div
+          className={`p-3 cursor-pointer ${
+            isActive ? 'bg-white text-black' : 'bg-black text-white'
+          }`}
+        >
+          {videoResource.title}
+        </div>
+      </li>
+    )
+  })
 }
 
 const VideoCueList: React.FC<any> = ({children}) => {
-  return <ul className="break-words">{children}</ul>
+  return (
+    <>
+      <ul className="break-words">{children}</ul>
+    </>
+  )
 }
 
 const VideoCueNotes: React.FC<any> = ({children}) => {
   const cues = useMetadataCues()
   const videoService = useVideo()
   const activeCues = useSelector(videoService, selectActiveCues)
-
+  const scrollToRef = React.useRef<any>(null)
+  React.useEffect(() => {
+    if (scrollToRef.current !== null) {
+      scrollToRef.current.scrollIntoView({behavior: 'smooth'})
+    }
+  }, [activeCues])
   return (
     <>
       {cues.map((cue: VTTCue) => {
@@ -162,6 +305,7 @@ const VideoCueNotes: React.FC<any> = ({children}) => {
         }
         return (
           <li
+            ref={isActive ? scrollToRef : null}
             key={note.text}
             className={`p-3 cursor-pointer border-b border-gray-800 ${
               isActive ? 'bg-white text-black' : 'bg-black text-white'
