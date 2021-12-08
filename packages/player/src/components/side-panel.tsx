@@ -6,12 +6,12 @@ import {useSelector} from '@xstate/react'
 import {Tab, TabList, TabPanel, TabPanels, Tabs} from '@reach/tabs'
 
 type SidePanelProps = {
-  resourceList?: React.ReactNode
+  videoResourcesList?: React.ReactNode
   videoCuesList?: React.ReactNode
 }
 
 export const SidePanel: React.FC<SidePanelProps> = ({
-  resourceList,
+  videoResourcesList,
   videoCuesList,
 }) => {
   const videoService = useVideo()
@@ -24,11 +24,11 @@ export const SidePanel: React.FC<SidePanelProps> = ({
     >
       <Tabs>
         <TabList>
-          {resourceList && <Tab>Lessons</Tab>}
+          {videoResourcesList && <Tab>Lessons</Tab>}
           {videoCuesList && <Tab>Notes</Tab>}
         </TabList>
         <TabPanels>
-          {resourceList && <TabPanel>{resourceList}</TabPanel>}
+          {videoResourcesList && <TabPanel>{videoResourcesList}</TabPanel>}
           {videoCuesList && <TabPanel>{videoCuesList}</TabPanel>}
         </TabPanels>
       </Tabs>
