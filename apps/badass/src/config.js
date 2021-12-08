@@ -3,10 +3,10 @@ export default {
   defaultTitle: 'Build a Badass Course Platform',
   description:
     'Design, implement, produce, and ship high-quality courses that sell.',
-  author: 'badass',
+  author: 'devbadass',
   favicon: '/favicon.ico',
   email: 'team@skillrecordings.com',
-  siteUrl: 'skillrecordings.com',
+  siteUrl: 'badass.dev',
   additionalMetaTags: [
     {property: 'author', content: 'The Author'},
     {
@@ -16,15 +16,15 @@ export default {
   ],
   twitter: {
     cardType: 'summary_large_image',
-    handle: '@skillrecordings',
-    site: '@skillrecordings',
+    handle: '@devbadass',
+    site: '@devbadass',
   },
   openGraph: {
     type: 'website',
-    site_name: 'Skill Recordings',
+    site_name: 'Build a Badass Course Platform',
     profile: {
-      firstName: 'Author',
-      lastName: '',
+      firstName: 'Badass',
+      lastName: 'Course Platform',
     },
     images: [
       {
