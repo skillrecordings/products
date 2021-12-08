@@ -1,4 +1,5 @@
 import * as React from 'react'
+import cx from 'classnames'
 import Layout from '@skillrecordings/react/dist/layouts'
 import {
   Player,
@@ -7,6 +8,8 @@ import {
   useMetadataCues,
   useVideo,
   selectActiveCues,
+  selectWithSidePanel,
+  SidePanel,
 } from '@skillrecordings/player'
 import {useSelector} from '@xstate/react'
 
@@ -31,52 +34,115 @@ const PlayerPage = () => {
     },
   ]
 
+  const [mounted, setMounted] = React.useState<boolean>(false)
+
   const [currentVideo, setCurrentVideo] = React.useState<VideoResource>(
     videos[0],
   )
 
+  const videoService = useVideo()
+  const withSidePanel = useSelector(videoService, selectWithSidePanel)
+
+  const fullscreenWrapperRef = React.useRef<HTMLDivElement>(null)
+
+  React.useEffect(() => {
+    if (fullscreenWrapperRef) {
+      setMounted(true)
+    }
+  }, [fullscreenWrapperRef])
+
   return (
-    <Layout>
-      <VideoProvider>
-        <Player className="font-sans">
-          <HLSSource src={currentVideo.url} />
-          {currentVideo.subtitlesUrl && (
-            <track
-              src={currentVideo.subtitlesUrl}
-              kind="subtitles"
-              srcLang="en"
-              label="English"
-            />
+    <>
+      <div
+        className="relative w-full space-y-6 lg:grid lg:grid-cols-12 lg:space-y-0"
+        ref={fullscreenWrapperRef}
+      >
+        <div
+          className={cx(
+            'relative before:float-left after:clear-both after:table video-holder',
+            withSidePanel ? 'col-span-9' : 'col-span-12',
           )}
-          {currentVideo.notesUrl && (
-            <track
-              id="notes"
-              src={currentVideo.notesUrl}
-              kind="metadata"
-              label="notes"
-            />
+        >
+          {mounted && (
+            <Player
+              className="font-sans"
+              container={fullscreenWrapperRef.current || undefined}
+            >
+              <HLSSource src={currentVideo.url} />
+              {currentVideo.subtitlesUrl && (
+                <track
+                  src={currentVideo.subtitlesUrl}
+                  kind="subtitles"
+                  srcLang="en"
+                  label="English"
+                />
+              )}
+              {currentVideo.notesUrl && (
+                <track
+                  id="notes"
+                  src={currentVideo.notesUrl}
+                  kind="metadata"
+                  label="notes"
+                />
+              )}
+            </Player>
           )}
-        </Player>
-        <VideoResourceList>
-          {videos.map((videoResource) => {
-            return (
-              <li
-                style={{padding: '10px'}}
-                onClick={() => setCurrentVideo(videoResource)}
-                key={videoResource.url}
-              >
-                {videoResource.title === currentVideo.title ? '*' : ''}{' '}
-                {videoResource.title}
-              </li>
-            )
-          })}
-        </VideoResourceList>
-        <VideoCueList>
-          <VideoCueNotes />
-        </VideoCueList>
-      </VideoProvider>
-    </Layout>
+        </div>
+        {withSidePanel && (
+          <div className="col-span-3">
+            <SidePanel
+              resourceList={
+                <VideoResourceList>
+                  {videos.map((videoResource) => {
+                    return (
+                      <li
+                        key={videoResource.url}
+                        onClick={() => setCurrentVideo(videoResource)}
+                        className="border-b border-gray-800"
+                      >
+                        <VideoResourceItem
+                          videoResource={videoResource}
+                          isActive={videoResource.title === currentVideo.title}
+                        />
+                      </li>
+                    )
+                  })}
+                </VideoResourceList>
+              }
+              videoCuesList={
+                <VideoCueList>
+                  <VideoCueNotes />
+                </VideoCueList>
+              }
+            />
+          </div>
+        )}
+      </div>
+    </>
   )
+}
+
+const VideoResourceList: React.FC = ({children}) => {
+  return <ul>{children}</ul>
+}
+
+const VideoResourceItem: React.FC<{
+  videoResource: VideoResource
+  isActive: boolean
+}> = ({videoResource: {title, url, subtitlesUrl, notesUrl}, isActive}) => {
+  return (
+    <div
+      className={`p-3 cursor-pointer ${
+        isActive ? 'bg-white text-black' : 'bg-black text-white'
+      }`}
+    >
+      {title}
+    </div>
+  )
+}
+
+const VideoCueList: React.FC<any> = ({children}) => {
+  return <ul className="break-words">{children}</ul>
 }
 
 const VideoCueNotes: React.FC<any> = ({children}) => {
@@ -88,15 +154,19 @@ const VideoCueNotes: React.FC<any> = ({children}) => {
     <>
       {cues.map((cue: VTTCue) => {
         let note: {text: string; type?: string}
-        const active = activeCues.includes(cue)
+        const isActive = activeCues.includes(cue)
         try {
           note = JSON.parse(cue.text)
         } catch (e) {
           note = {text: cue.text}
         }
         return (
-          <li key={note.text}>
-            {active ? '***' : ''}
+          <li
+            key={note.text}
+            className={`p-3 cursor-pointer border-b border-gray-800 ${
+              isActive ? 'bg-white text-black' : 'bg-black text-white'
+            }`}
+          >
             {note.text}
           </li>
         )
@@ -105,20 +175,14 @@ const VideoCueNotes: React.FC<any> = ({children}) => {
   )
 }
 
-const VideoCueList: React.FC<any> = ({children}) => {
+const Page = () => {
   return (
-    <div>
-      <ul>{children}</ul>
-    </div>
+    <Layout>
+      <VideoProvider>
+        <PlayerPage />
+      </VideoProvider>
+    </Layout>
   )
 }
 
-const VideoResourceList: React.FC = ({children}) => {
-  return (
-    <div>
-      <ul>{children}</ul>
-    </div>
-  )
-}
-
-export default PlayerPage
+export default Page

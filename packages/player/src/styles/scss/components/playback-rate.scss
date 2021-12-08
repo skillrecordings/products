@@ -1,5 +1,8 @@
 .cueplayer-react {
   .cueplayer-react-playback-rate {
+    display: flex;
+    align-items: center;
+    justify-content: center;
     .cueplayer-react-playback-rate-value {
       font-size: 1.3em;
       line-height: 2.5rem;

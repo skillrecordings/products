@@ -24,7 +24,6 @@
   user-select: $string;
 }
 
-
 @mixin border-radius($radius) {
   -webkit-border-radius: $radius;
   -moz-border-radius: $radius;
@@ -35,7 +34,6 @@
   background-color: $color;
   background-color: rgba($color, $alpha);
 }
-
 
 @mixin transform($transform) {
   -moz-transform: $transform;
@@ -106,8 +104,10 @@
   position: absolute;
   top: 0;
   left: 0;
+  bottom: 0;
   width: 100%;
   height: 100%;
+  margin: auto;
 }
 
 %cueplayer-react-icon-default {

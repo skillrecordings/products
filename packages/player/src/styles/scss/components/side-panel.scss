@@ -1,0 +1,66 @@
+.cueplayer-react-side-panel {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  border-color: #27272a;
+  border-style: solid;
+  border-width: 1px;
+  background: black;
+  [data-reach-tabs] {
+    position: static;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+  }
+  [data-reach-tab-list] {
+    position: relative;
+    z-index: 1;
+    flex-shrink: 0;
+    border-bottom: 1px solid #27272a;
+  }
+  [data-reach-tab-panels] {
+    position: relative;
+    flex-grow: 1;
+    height: 368px;
+  }
+  [data-reach-tab-panel] {
+    position: absolute;
+    inset: 0;
+    overflow-y: scroll;
+    overscroll-behavior: contain;
+  }
+  [data-reach-tab] {
+    color: white;
+    opacity: 0.5;
+    padding: 8px 12px;
+    font-weight: 600;
+    &[data-selected] {
+      opacity: 1;
+    }
+  }
+}
+
+.cueplayer-react-fullscreen .cueplayer-react-side-panel-control {
+  display: none;
+}
+
+.cueplayer-react-side-panel.with-fullscreen {
+  display: none;
+}
+
+@media (min-width: 1024px) {
+  .cueplayer-react-side-panel {
+    [data-reach-tabs] {
+      position: absolute;
+    }
+    [data-reach-tab-panels] {
+      height: auto;
+    }
+    &.with-fullscreen {
+      display: block;
+    }
+  }
+  .cueplayer-react-fullscreen .cueplayer-react-side-panel-control {
+    display: inline-block;
+  }
+}

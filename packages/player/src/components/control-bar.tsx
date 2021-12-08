@@ -9,6 +9,7 @@ import {ProgressControl} from './controls/progress-control'
 import {RemainingTimeDisplay} from './time-controls/remaining-time-display'
 import {PlaybackRateMenuButtonControl} from './controls/playback-rate-menu-button-control'
 import {FullscreenToggleControl} from './controls/fullscreen-toggle-control'
+import {SidePanelToggleControl} from './controls/side-panel-toggle-control'
 
 export const ControlBar: React.FC = () => {
   return (
@@ -23,6 +24,7 @@ export const ControlBar: React.FC = () => {
       <ProgressControl />
       <RemainingTimeDisplay />
       <PlaybackRateMenuButtonControl />
+      <SidePanelToggleControl />
       <FullscreenToggleControl />
     </div>
   )
