@@ -12,7 +12,7 @@ importers:
       plop: ^2.7.6
       prettier: ^2.4.1
       tsdx: ^0.14.1
-      turbo: ^1.0.4
+      turbo: ^1.0.6
     devDependencies:
       '@changesets/changelog-github': 0.2.8
       '@changesets/cli': 2.18.0
@@ -22,7 +22,7 @@ importers:
       plop: 2.7.6
       prettier: 2.4.1
       tsdx: 0.14.1
-      turbo: 1.0.4
+      turbo: 1.0.6
 
   apps/badass:
     specifiers:
@@ -9019,7 +9019,7 @@ packages:
   /axios/0.24.0:
     resolution: {integrity: sha512-Q6cWsys88HoPgAaFAVUb0WpPk0O8iTeisR9IMqy9G8AbO4NlpVknrnQS03zzF9PGAWgO3cgletO3VjV/P7VztA==}
     dependencies:
-      follow-redirects: 1.14.5
+      follow-redirects: 1.14.5_debug@2.6.9
     transitivePeerDependencies:
       - debug
     dev: false
@@ -10163,6 +10163,7 @@ packages:
 
   /clipboard/2.0.8:
     resolution: {integrity: sha512-Y6WO0unAIQp5bLmk1zdThRhgJt/x3ks6f30s3oE3H1mgIEU33XyQjEf8gsf6DxC7NPX8Y1SsNWjUjL/ywLnnbQ==}
+    requiresBuild: true
     dependencies:
       good-listener: 1.2.2
       select: 1.1.2
@@ -12712,7 +12713,7 @@ packages:
         optional: true
     dev: false
 
-  /follow-redirects/1.14.5:
+  /follow-redirects/1.14.5_debug@2.6.9:
     resolution: {integrity: sha512-wtphSXy7d4/OR+MvIFbCVBDzZ5520qV8XfPklSN5QtxuMUJZ+b0Wnst1e1lCDocfzuCkHqj8k0FpZqO+UIaKNA==}
     engines: {node: '>=4.0'}
     peerDependencies:
@@ -12720,6 +12721,8 @@ packages:
     peerDependenciesMeta:
       debug:
         optional: true
+    dependencies:
+      debug: 2.6.9
     dev: false
 
   /for-in/1.0.2:
@@ -12976,7 +12979,7 @@ packages:
       create-error-class: 3.0.2
       debug: 2.6.9
       decompress-response: 3.3.0
-      follow-redirects: 1.14.5
+      follow-redirects: 1.14.5_debug@2.6.9
       form-urlencoded: 2.0.9
       in-publish: 2.0.1
       into-stream: 3.1.0
@@ -22528,8 +22531,8 @@ packages:
     dependencies:
       safe-buffer: 5.2.1
 
-  /turbo/1.0.4:
-    resolution: {integrity: sha512-lPT/DNI7FiD+BBAjugyL5A24PA9g2DmLaErUCz6bGHfIlzPg1pawlX8GbZUCeCHA/DX/gCP8VP0BxGKb71c1Jw==}
+  /turbo/1.0.6:
+    resolution: {integrity: sha512-sAbPHCm8usX3a27WHfWmAqt+wHxk/5Z6tqLqqI1MIzFoSEtmLZWyXOTxpi+60fwfwivOdW97cTsrZbkezVhGyw==}
     hasBin: true
     requiresBuild: true
     dependencies:
