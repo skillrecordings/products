@@ -1,4 +1,5 @@
 import * as React from 'react'
+import cx from 'classnames'
 import Layout from '@skillrecordings/react/dist/layouts'
 import {
   Player,
@@ -7,6 +8,8 @@ import {
   useMetadataCues,
   useVideo,
   selectActiveCues,
+  selectWithSidePanel,
+  SidePanel,
 } from '@skillrecordings/player'
 import {useSelector} from '@xstate/react'
 
@@ -31,94 +34,165 @@ const PlayerPage = () => {
     },
   ]
 
+  const [mounted, setMounted] = React.useState<boolean>(false)
+
   const [currentVideo, setCurrentVideo] = React.useState<VideoResource>(
     videos[0],
   )
 
-  return (
-    <Layout>
-      <VideoProvider>
-        <Player className="font-sans">
-          <HLSSource src={currentVideo.url} />
-          {currentVideo.subtitlesUrl && (
-            <track
-              src={currentVideo.subtitlesUrl}
-              kind="subtitles"
-              srcLang="en"
-              label="English"
-            />
-          )}
-          {currentVideo.notesUrl && (
-            <track
-              id="notes"
-              src={currentVideo.notesUrl}
-              kind="metadata"
-              label="notes"
-            />
-          )}
-        </Player>
-        <VideoResourceList>
-          {videos.map((videoResource) => {
-            return (
-              <li
-                style={{padding: '10px'}}
-                onClick={() => setCurrentVideo(videoResource)}
-                key={videoResource.url}
-              >
-                {videoResource.title === currentVideo.title ? '*' : ''}{' '}
-                {videoResource.title}
-              </li>
-            )
-          })}
-        </VideoResourceList>
-        <VideoCueList>
-          <VideoCueNotes />
-        </VideoCueList>
-      </VideoProvider>
-    </Layout>
-  )
-}
-
-const VideoCueNotes: React.FC<any> = ({children}) => {
-  const cues = useMetadataCues()
   const videoService = useVideo()
-  const activeCues = useSelector(videoService, selectActiveCues)
+  const withSidePanel = useSelector(videoService, selectWithSidePanel)
+
+  const fullscreenWrapperRef = React.useRef<HTMLDivElement>(null)
+
+  React.useEffect(() => {
+    if (fullscreenWrapperRef) {
+      setMounted(true)
+    }
+  }, [fullscreenWrapperRef])
 
   return (
     <>
+      <div
+        className="relative w-full space-y-6 lg:grid lg:grid-cols-12 lg:space-y-0"
+        ref={fullscreenWrapperRef}
+      >
+        <div
+          className={cx(
+            'relative before:float-left after:clear-both after:table video-holder',
+            withSidePanel ? 'col-span-9' : 'col-span-12',
+          )}
+        >
+          {mounted && (
+            <Player
+              className="font-sans"
+              container={fullscreenWrapperRef.current || undefined}
+            >
+              <HLSSource src={currentVideo.url} />
+              {currentVideo.subtitlesUrl && (
+                <track
+                  src={currentVideo.subtitlesUrl}
+                  kind="subtitles"
+                  srcLang="en"
+                  label="English"
+                />
+              )}
+              {currentVideo.notesUrl && (
+                <track
+                  id="notes"
+                  src={currentVideo.notesUrl}
+                  kind="metadata"
+                  label="notes"
+                />
+              )}
+            </Player>
+          )}
+        </div>
+        {withSidePanel && (
+          <div className="col-span-3">
+            <SidePanel
+              videoResourcesList={
+                <VideoResourcesList
+                  resources={videos}
+                  currentVideo={currentVideo}
+                  setCurrentVideo={setCurrentVideo}
+                />
+              }
+              videoCuesList={<VideoCuesList />}
+            />
+          </div>
+        )}
+      </div>
+    </>
+  )
+}
+
+type VideoResourcesListProps = {
+  resources: VideoResource[]
+  currentVideo: VideoResource
+  setCurrentVideo: (video: VideoResource) => void
+}
+
+const VideoResourcesList: React.FC<VideoResourcesListProps> = ({
+  resources,
+  currentVideo,
+  setCurrentVideo,
+}) => {
+  const scrollToRef = React.useRef<any>(null)
+  React.useEffect(() => {
+    if (scrollToRef.current) {
+      scrollToRef.current.scrollIntoView({behavior: 'smooth'})
+    }
+  }, [currentVideo])
+  return (
+    <ul>
+      {resources.map((videoResource: VideoResource) => {
+        const isActive = videoResource.title === currentVideo.title
+        return (
+          <li
+            ref={isActive ? scrollToRef : null}
+            key={videoResource.url}
+            onClick={() => setCurrentVideo(videoResource)}
+            className="border-b border-gray-800"
+          >
+            <div
+              className={`p-3 cursor-pointer ${
+                isActive ? 'bg-white text-black' : 'bg-black text-white'
+              }`}
+            >
+              {videoResource.title}
+            </div>
+          </li>
+        )
+      })}
+    </ul>
+  )
+}
+
+const VideoCuesList: React.FC<any> = () => {
+  const cues = useMetadataCues()
+  const videoService = useVideo()
+  const activeCues = useSelector(videoService, selectActiveCues)
+  const scrollToRef = React.useRef<any>(null)
+  React.useEffect(() => {
+    if (scrollToRef.current) {
+      scrollToRef.current.scrollIntoView({behavior: 'smooth'})
+    }
+  }, [activeCues])
+  return (
+    <ul className="break-words">
       {cues.map((cue: VTTCue) => {
         let note: {text: string; type?: string}
-        const active = activeCues.includes(cue)
+        const isActive = activeCues.includes(cue)
         try {
           note = JSON.parse(cue.text)
         } catch (e) {
           note = {text: cue.text}
         }
         return (
-          <li key={note.text}>
-            {active ? '***' : ''}
+          <li
+            ref={isActive ? scrollToRef : null}
+            key={note.text}
+            className={`p-3 cursor-pointer border-b border-gray-800 ${
+              isActive ? 'bg-white text-black' : 'bg-black text-white'
+            }`}
+          >
             {note.text}
           </li>
         )
       })}
-    </>
+    </ul>
   )
 }
 
-const VideoCueList: React.FC<any> = ({children}) => {
+const Page = () => {
   return (
-    <div>
-      <ul>{children}</ul>
-    </div>
+    <Layout>
+      <VideoProvider>
+        <PlayerPage />
+      </VideoProvider>
+    </Layout>
   )
 }
 
-const VideoResourceList: React.FC = ({children}) => {
-  return (
-    <div>
-      <ul>{children}</ul>
-    </div>
-  )
-}
-
-export default PlayerPage
+export default Page

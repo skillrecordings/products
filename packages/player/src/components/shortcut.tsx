@@ -74,6 +74,15 @@ export const Shortcut: React.FC<ShortcutProps> = ({
 
   const shortCutsRef = React.useRef<any[]>([])
 
+  React.useEffect(() => {
+    document.addEventListener('fullscreenchange', (e) => {
+      const isFullscreenOff = false === !!document.fullscreenElement
+      if (isFullscreenOff) {
+        videoService.send({type: 'EXIT_FULLSCREEN', element: rootElem})
+      }
+    })
+  }, [])
+
   const togglePlay = React.useCallback(() => {
     if (paused) {
       videoService.send({type: 'PLAY', source: 'shortcut'})

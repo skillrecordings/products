@@ -9,6 +9,11 @@
   );
 }
 
+.cueplayer-react:not(.cueplayer-react-cues-active)
+  .cueplayer-react-control-bar {
+  height: 48px;
+}
+
 // Video has started playing
 .cueplayer-react-has-started .cueplayer-react-control-bar {
   @include display-flex;

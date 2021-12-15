@@ -5,3 +5,7 @@
   width: 100%;
   height: 24px;
 }
+.cueplayer-react:not(.cueplayer-react-cues-active)
+  .cueplayer-react-progress-bar {
+  height: 40px;
+}

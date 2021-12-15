@@ -10,6 +10,8 @@ export type VideoEvent =
   | {type: 'PLAY'; source?: string}
   | {type: 'TOGGLE_MUTE'}
   | {type: 'TOGGLE_FULLSCREEN'; element?: HTMLElement | null}
+  | {type: 'EXIT_FULLSCREEN'; element?: HTMLElement | null}
+  | {type: 'TOGGLE_SIDE_PANEL'}
   | {type: 'SEEKING'; seekingTime: number; source?: string}
   | {type: 'END_SEEKING'}
   | {type: 'TIMING'}
@@ -42,6 +44,7 @@ export interface VideoStateContext {
   volume: number
   playbackRate: number
   isFullscreen: boolean
+  withSidePanel: boolean
   lastAction: string | undefined
   waiting: boolean
   seeking: boolean
@@ -66,6 +69,7 @@ export const videoMachine = createMachine<VideoStateContext, VideoEvent>({
     volume: 0.8,
     playbackRate: 1,
     isFullscreen: false,
+    withSidePanel: true,
     lastAction: undefined,
     seeking: false,
     metadataTracks: [],
@@ -114,6 +118,20 @@ export const videoMachine = createMachine<VideoStateContext, VideoEvent>({
           isFullscreen: (context, _event) => !context.isFullscreen,
         }),
         'toggleFullscreen',
+      ],
+    },
+    EXIT_FULLSCREEN: {
+      actions: [
+        assign({
+          isFullscreen: (context) => false,
+        }),
+      ],
+    },
+    TOGGLE_SIDE_PANEL: {
+      actions: [
+        assign({
+          withSidePanel: (context, _event) => !context.withSidePanel,
+        }),
       ],
     },
     CLEAR_METADATA_TRACKS: {

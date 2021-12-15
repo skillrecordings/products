@@ -1,6 +1,7 @@
 .cueplayer-react {
   .cueplayer-react-time-control {
-    @include flex(none);
+    display: flex;
+    align-items: center;
     font-size: 1.3em;
     line-height: 2.5rem;
     min-width: 2em;

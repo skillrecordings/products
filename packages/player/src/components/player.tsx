@@ -1,8 +1,9 @@
 import * as React from 'react'
 import cx from 'classnames'
+import {isEmpty} from 'lodash'
 import {useSelector} from '@xstate/react'
-
 import {useVideo} from '../context/video-context'
+import {useMetadataCues} from '../hooks/use-metadata-cues'
 import * as browser from '../utils/browser'
 
 import {Video} from './video'
@@ -18,6 +19,7 @@ import {
   selectHasStarted,
   selectIsActive,
   selectIsFullscreen,
+  selectWithSidePanel,
   selectIsPaused,
   selectIsSeeking,
   selectIsWaiting,
@@ -44,6 +46,7 @@ const usePlayerState = () => {
 
   const isSeeking = useSelector(videoService, selectIsSeeking)
   const isFullscreen = useSelector(videoService, selectIsFullscreen)
+  const withSidePanel = useSelector(videoService, selectWithSidePanel)
   const isWaiting = useSelector(videoService, selectIsWaiting)
   const video = useSelector(videoService, selectVideo)
 
@@ -54,6 +57,7 @@ const usePlayerState = () => {
     isSeeking,
     paused,
     isFullscreen,
+    withSidePanel,
     isWaiting,
     video,
   }
@@ -74,9 +78,11 @@ export const Player: React.FC<PlayerProps> = (props) => {
     isSeeking,
     paused,
     isFullscreen,
+    withSidePanel,
     isWaiting,
     video,
   } = usePlayerState()
+  const cues = useMetadataCues()
 
   const handleActivity = () => videoService.send('ACTIVITY')
 
@@ -174,23 +180,32 @@ export const Player: React.FC<PlayerProps> = (props) => {
           'cueplayer-react-seeking': isSeeking,
           'cueplayer-react-fluid': fluid,
           'cueplayer-react-fullscreen': isFullscreen,
+          'cueplayer-react-with-side-panel': withSidePanel,
           'cueplayer-react-user-inactive': !isActive,
           'cueplayer-react-user-active': isActive,
           'cueplayer-react-workinghover': !browser.IS_IOS,
-          // 'cueplayer-react-cues-active': !isEmpty(activeMetadataTracks),
+          'cueplayer-react-cues-active': !isEmpty(cues),
         },
         'cueplayer-react',
         className,
       )}
     >
       <div
-        style={getAspectRatioStyle()}
-        className="cueplayer-react-video-holder"
+        className={cx('fullscreen-wrapper', {
+          fullscreen: isFullscreen,
+        })}
       >
-        <Video>{children}</Video>
-        <BigPlayButton />
-        <Bezel />
-        <LoadingSpinner />
+        <div className="cueplayer-react-video-wrapper">
+          <div
+            style={getAspectRatioStyle()}
+            className="cueplayer-react-video-holder"
+          >
+            <Video>{children}</Video>
+            <BigPlayButton />
+            <Bezel />
+            <LoadingSpinner />
+          </div>
+        </div>
       </div>
       <ProgressBar />
       <CueBar />

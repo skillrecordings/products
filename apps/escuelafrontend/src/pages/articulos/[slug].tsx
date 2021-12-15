@@ -1,3 +1,4 @@
+import * as React from 'react'
 import groq from 'groq'
 import {sanityClient} from 'utils/sanity-client'
 import ArticleTemplate from '../../templates/article'
