@@ -3,7 +3,7 @@ import classNames from 'classnames'
 import {isEmpty} from 'lodash'
 import Tippy from '@tippyjs/react'
 import {track} from '@skillrecordings/analytics'
-import CodeBlock from '@skillrecordings/react/dist/components/code-block'
+import CodeBlock from './code-block'
 import {useVideo} from '../context/video-context'
 import {useSelector} from '@xstate/react'
 import {
@@ -72,8 +72,6 @@ const MutePopupButton: React.FC<any> = () => {
 }
 
 const NoteCue: React.FC<any> = ({cue, duration, className}) => {
-  // TODO: Removed all of the sidebar related stuff so that needs to be sonsidered
-  // and shouldn't be so specific/coupled to this
   const [visible, setVisible] = React.useState(false)
   const [clickedOpen, setClickedOpen] = React.useState(false)
   const videoService = useVideo()
@@ -81,9 +79,6 @@ const NoteCue: React.FC<any> = ({cue, duration, className}) => {
   const activeCues = useSelector(videoService, selectActiveCues)
 
   const cuesMuted = useSelector(videoService, selectCuesMuted)
-
-  // sidebar
-  // const activeSidebarTab = 1
 
   useCue(cue)
 
@@ -100,12 +95,6 @@ const NoteCue: React.FC<any> = ({cue, duration, className}) => {
     videoService.send('PAUSE')
 
     track('opened cue', {cue: cue.text})
-
-    // sidebar
-    // !muteNotes && setPlayerPrefs({activeSidebarTab: 1})
-    // if (activeSidebarTab === 1) {
-    //   scrollToActiveNote()
-    // }
   }
 
   const clickClose = () => {
@@ -136,13 +125,6 @@ const NoteCue: React.FC<any> = ({cue, duration, className}) => {
     note = {text: cue.text}
   }
 
-  // sidebar
-  // React.useEffect(() => {
-  //   if (visible && activeSidebarTab === 1) {
-  //     scrollToActiveNote()
-  //   }
-  // }, [visible])
-
   const customRenderers: {[nodeType: string]: ElementType} = {
     code: (props: any) => {
       return <CodeBlock {...props} />
@@ -168,7 +150,7 @@ const NoteCue: React.FC<any> = ({cue, duration, className}) => {
               <IconX />
             </button>
           </div>
-          <div className="cueplayer-react-cue-popup-body prose">
+          <div className="prose cueplayer-react-cue-popup-body">
             {/* @ts-ignore */}
             <ReactMarkdown renderers={customRenderers}>
               {note.text}

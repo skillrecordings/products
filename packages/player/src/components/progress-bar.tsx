@@ -1,6 +1,5 @@
 import * as React from 'react'
 import {useSelector} from '@xstate/react'
-import {MouseEvent} from 'react'
 import cx from 'classnames'
 import {SeekBar} from './seek-bar'
 import {useVideo} from '../context/video-context'
@@ -13,7 +12,7 @@ export const ProgressBar: React.FC<any> = (props) => {
   const [mouseTime, setMouseTime] = React.useState({time: 0, position: 0})
   const seekBar = React.useRef(null)
 
-  function handleMouseMove(event: MouseEvent) {
+  function handleMouseMove(event: React.MouseEvent) {
     if (!event.pageX) {
       return
     }
