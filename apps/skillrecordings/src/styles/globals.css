@@ -3,3 +3,7 @@
 @tailwind utilities;
 
 @import './fonts.css';
+
+.twitter-tweet-rendered {
+  @apply overflow-hidden bg-transparent rounded-xl;
+}
