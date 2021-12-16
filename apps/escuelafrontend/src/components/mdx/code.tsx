@@ -65,10 +65,10 @@ const CodeBlock: FunctionComponent<CodeBlockProps> = ({
 
   return (
     <div>
-      {/* <div className="relative px-5 py-4 bg-gray-800 border border-gray-700 -mx-5 md:rounded-md mb-5 overflow-hidden"> */}
+      {/* <div className="relative px-5 py-4 mb-5 -mx-5 overflow-hidden bg-gray-800 border border-gray-700 md:rounded-md"> */}
       {labeled && (
         <>
-          <div className="pb-3 sm:px-0 sm:pt-0 pt-0 text-gray-200 text-xs font-bold select-none pointer-events-none">
+          <div className="pt-0 pb-3 text-xs font-bold text-gray-200 pointer-events-none select-none sm:px-0 sm:pt-0">
             {language.replace('language-', '')}
             <span className="ml-2 font-normal">{filePath}</span>
           </div>
@@ -76,7 +76,7 @@ const CodeBlock: FunctionComponent<CodeBlockProps> = ({
         </>
       )}
       <div>
-        <pre className="sm:mx-0 sm:px-0 px-5 py-0 text-gray-200">
+        <pre className="px-5 py-0 text-gray-200 sm:mx-0 sm:px-0">
           <code>{linesNodes}</code>
         </pre>
       </div>
@@ -92,7 +92,7 @@ const Line: FunctionComponent<{highlight?: boolean}> = ({
 }) => <div className={highlight ? 'bg-gray-800' : ''}>{children}</div>
 
 const Number: FunctionComponent = ({children}) => (
-  <span className="line-number text-gray-500 text-xs w-7 inline-block select-none pointer-events-none">
+  <span className="inline-block text-xs text-gray-500 pointer-events-none select-none line-number w-7">
     {children}
   </span>
 )
@@ -103,7 +103,7 @@ const CopyToClipboard: FunctionComponent<{code: string}> = ({code}) => {
     <button
       onClick={setCopied}
       aria-label="Copy code to clipboard"
-      className="p-2 absolute top-0 right-3 text-gray-200 hover:text-gray-300 outline-none"
+      className="absolute top-0 p-2 text-gray-200 outline-none right-3 hover:text-gray-300"
     >
       {isCopied ? (
         //   prettier-ignore

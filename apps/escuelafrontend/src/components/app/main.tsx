@@ -3,8 +3,8 @@ import {FunctionComponent} from 'react'
 
 const Main: FunctionComponent = ({children}) => {
   return (
-    <div className="p-5 flex flex-col min-h-screen">
-      <main className="flex-grow flex flex-col justify-center">{children}</main>
+    <div className="flex flex-col min-h-screen p-5">
+      <main className="flex flex-col justify-center flex-grow">{children}</main>
     </div>
   )
 }

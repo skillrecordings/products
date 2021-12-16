@@ -6,14 +6,14 @@ type WaveProps = {
 }
 
 const HeroWave: React.FC<WaveProps> = ({
-  className = 'fill-current dark:text-gray-900 text-gray-50 transition-colors duration-100 ease-in-out',
+  className = 'transition-colors duration-100 ease-in-out fill-current dark:text-gray-900 text-gray-50',
   duration = '20',
 }) => {
   className = `${className} `
   duration = `${duration}`
 
   return (
-    <section className="-m-5 relative -mt-40">
+    <section className="relative -m-5 -mt-40">
       <svg
         width="100%"
         height="172"

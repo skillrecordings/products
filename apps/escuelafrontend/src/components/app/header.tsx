@@ -2,7 +2,7 @@ import * as React from 'react'
 import Link from 'next/link'
 import {Dialog} from '@reach/dialog'
 import SubscribeForm from 'components/forms/convertkit/subscribe-form'
-import useConvertkit from 'hooks/use-convertkit'
+import {useConvertkit} from '@skillrecordings/convertkit'
 import {Fragment} from 'react'
 import {Popover, Transition} from '@headlessui/react'
 import {MenuIcon, XIcon} from '@heroicons/react/outline'
@@ -10,28 +10,28 @@ import Logo from '../logo'
 
 export default function Navigation() {
   return (
-    <div className="border-b border-gray-200 dark:border-gray-800 px-5 py-5">
-      <Popover className="max-w-screen-xl mx-auto w-full">
+    <div className="px-5 py-5 border-b border-gray-200 dark:border-gray-800">
+      <Popover className="w-full max-w-screen-xl mx-auto">
         {({open, close}) => (
           <>
-            <div className="flex justify-between items-center md:justify-start md:space-x-10">
+            <div className="flex items-center justify-between md:justify-start md:space-x-10">
               <Link href="/">
                 <a>
                   <Logo />
                 </a>
               </Link>
-              <div className="-mr-2 -my-2 md:hidden">
+              <div className="-my-2 -mr-2 md:hidden">
                 <Popover.Button>
                   <span className="sr-only">Open menu</span>
                   <MenuIcon
-                    className="h-8 w-8 transition ease-in dark:text-white text-gray-900 text-opacity-40 dark:text-opacity-40 hover:text-opacity-100"
+                    className="w-8 h-8 text-gray-900 transition ease-in dark:text-white text-opacity-40 dark:text-opacity-40 hover:text-opacity-100"
                     aria-hidden="true"
                   />
                 </Popover.Button>
               </div>
               <div className="hidden md:flex-1 md:flex md:items-center md:justify-between">
                 <span className="flex space-x-10" />
-                <div className="flex items-center md:ml-12 gap-8">
+                <div className="flex items-center gap-8 md:ml-12">
                   <Link href="/articulos">
                     <a className="text-base font-medium text-gray-700 hover:text-gray-900 dark:text-gray-200 dark:hover:text-gray-100">
                       Artículos
@@ -60,10 +60,10 @@ export default function Navigation() {
               <Popover.Panel
                 focus
                 static
-                className="absolute top-0 inset-x-0 p-2 transition transform origin-top-right md:hidden z-50"
+                className="absolute inset-x-0 top-0 z-50 p-2 transition origin-top-right transform md:hidden"
               >
-                <div className="rounded-lg shadow-lg ring-1 ring-black ring-opacity-5 bg-white dark:bg-gray-800 backdrop-filter backdrop-blur-3xl dark:bg-opacity-80 bg-opacity-80 z-10">
-                  <div className="pt-5 pb-6 px-5">
+                <div className="z-10 bg-white rounded-lg shadow-lg ring-1 ring-black ring-opacity-5 dark:bg-gray-800 backdrop-filter backdrop-blur-3xl dark:bg-opacity-80 bg-opacity-80">
+                  <div className="px-5 pt-5 pb-6">
                     <div className="flex items-center justify-between">
                       <Link href="/">
                         <a onClick={() => close()}>
@@ -71,14 +71,14 @@ export default function Navigation() {
                         </a>
                       </Link>
                       <div className="-mr-2">
-                        <Popover.Button className="p-2 inline-flex items-center justify-center focus:outline-none focus:ring-2 focus:ring-inset focus:ring-blue-500 bg-gray-200 dark:bg-gray-600 rounded-full top-3 right-3 text-gray-900 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-500">
+                        <Popover.Button className="inline-flex items-center justify-center p-2 text-gray-900 bg-gray-200 rounded-full focus:outline-none focus:ring-2 focus:ring-inset focus:ring-blue-500 dark:bg-gray-600 top-3 right-3 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-500">
                           <span className="sr-only">Close menu</span>
-                          <XIcon className="h-6 w-6" aria-hidden="true" />
+                          <XIcon className="w-6 h-6" aria-hidden="true" />
                         </Popover.Button>
                       </div>
                     </div>
                   </div>
-                  <div className="py-6 px-5 divide-y-2 dark:divide-gray-100 dark:divide-opacity-10 divide-gray-800 divide-opacity-10">
+                  <div className="px-5 py-6 divide-y-2 divide-gray-800 dark:divide-gray-100 dark:divide-opacity-10 divide-opacity-10">
                     <div className="grid grid-cols-1 gap-4">
                       <Link href="/articulos">
                         <a
@@ -119,7 +119,7 @@ const Subscribe = () => {
     <>
       <button
         type="button"
-        className="inline-flex items-center justify-center px-4 py-2 border border-transparent rounded-xl shadow-sm text-base text-white bg-blue-600 hover:bg-blue-700"
+        className="inline-flex items-center justify-center px-4 py-2 text-base text-white bg-blue-600 border border-transparent shadow-sm rounded-xl hover:bg-blue-700"
         onClick={() => setOpen(true)}
       >
         <svg
@@ -145,17 +145,17 @@ const Subscribe = () => {
             />
           </g>
         </svg>
-        <div className="pl-4 pb-1 font-semibold">Únete al Newsletter</div>
+        <div className="pb-1 pl-4 font-semibold">Únete al Newsletter</div>
       </button>
       <Dialog
         isOpen={open}
         onDismiss={() => setOpen(false)}
         aria-label="subscribe"
-        className="relative w-full max-w-screen-sm rounded-3xl shadow-xl bg-gray-100 dark:bg-gray-800 backdrop-filter backdrop-blur-3xl dark:bg-opacity-80 bg-opacity-80 border border-gray-200 dark:border-gray-800 opacity-0 secondary-animation"
+        className="relative w-full max-w-screen-sm bg-gray-100 border border-gray-200 shadow-xl opacity-0 rounded-3xl dark:bg-gray-800 backdrop-filter backdrop-blur-3xl dark:bg-opacity-80 bg-opacity-80 dark:border-gray-800 secondary-animation"
       >
-        <SubscribeForm className="text-center max-w-md mx-auto my-5" />
+        <SubscribeForm className="max-w-md mx-auto my-5 text-center" />
         <button
-          className="absolute p-3 bg-gray-200 dark:bg-gray-600 rounded-full top-3 right-3 text-gray-900 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-500"
+          className="absolute p-3 text-gray-900 bg-gray-200 rounded-full dark:bg-gray-600 top-3 right-3 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-500"
           type="button"
           aria-label="close"
           onClick={() => setOpen(false)}
