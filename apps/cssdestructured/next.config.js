@@ -1,19 +1,5 @@
 const withPlugins = require('next-compose-plugins')
 const withImages = require('next-images')
-const rehypeShiki = require(`rehype-shiki`)
-const withMDX = require(`@next/mdx`)({
-  options: {
-    rehypePlugins: [
-      [
-        rehypeShiki,
-        {
-          theme: 'Material-Theme-Palenight',
-          useBackground: false,
-        },
-      ],
-    ],
-  },
-})
 
 const IMAGE_HOST_DOMAINS = [
   `res.cloudinary.com`,
@@ -25,13 +11,23 @@ const nextConfig = {
   eslint: {
     ignoreDuringBuilds: true, // 😭
   },
-  webpack: (config, {isServer}) => {
-    // Fixes npm packages that depend on `fs` module
-    if (!isServer) {
-      config.node = {
-        fs: 'empty',
-      }
-    }
+  pageExtensions: ['md', 'mdx', 'tsx', 'ts', 'jsx', 'js'],
+  webpack(config, options) {
+    config.module.rules.push({
+      test: /\.mdx?$/,
+      use: [
+        // The default `babel-loader` used by Next:
+        options.defaultLoaders.babel,
+        {
+          loader: '@mdx-js/loader',
+          /** @type {import('@mdx-js/loader').Options} */
+          options: {
+            /* jsxImportSource: …, otherOptions… */
+          },
+        },
+      ],
+    })
+
     return config
   },
   reactStrictMode: true,
@@ -43,12 +39,4 @@ const nextConfig = {
   },
 }
 
-module.exports = withPlugins(
-  [
-    withImages(),
-    withMDX({
-      pageExtensions: ['ts', 'tsx', 'mdx'],
-    }),
-  ],
-  nextConfig,
-)
+module.exports = withPlugins([withImages()], nextConfig)

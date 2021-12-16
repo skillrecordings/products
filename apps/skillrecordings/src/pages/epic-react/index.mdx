@@ -1,10 +1,18 @@
+import CaseStudyTemplate from 'templates/case-study'
+import WorkflowSteps from 'components/icons/epic-react/workflow-steps'
+import Screenshots from '../../../public/epic-react/screenshots@2x.png'
+import HeaderImage from '../../../public/epic-react/header@2x.png'
+import CourseCards from '../../../public/epic-react/course-cards@2x.png'
+
 export const meta = {
   title: `Launching Epic React`,
   description: `Learn how Epic React came to be.`,
+  published: 'October 2020',
+  image: HeaderImage,
   url: `https://epicreact.dev`,
   client: {
     name: 'Kent C. Dodds',
-    label: 'React expert, educator, client',
+    label: 'React expert',
     image: {
       url: '/epic-react/kent@2x.png',
     },
@@ -22,41 +30,6 @@ export const meta = {
   ogImage: {
     url: 'https://skillrecordings.com/epic-react/share-card@2x.png',
   },
-  contributors: [{name: 'Meg Cumby'}],
-  toc: [
-    {
-      url: '#how-it-all-began',
-      label: 'How it all began',
-    },
-    {
-      url: '#designing-the-content',
-      label: 'Designing the content',
-    },
-    {
-      url: '#producing-the-content-with-a-relentless-focus-on-quality',
-      label: 'Producing the content with a relentless focus on quality',
-    },
-    {
-      url: '#making-the-learning-experience-delightful-with-stunning-visuals',
-      label: 'Making the learning experience delightful with stunning visuals',
-    },
-    {
-      url: '#developing-custom-courseware-with-egghead-infrastructure',
-      label: 'Developing custom courseware with egghead infrastructure',
-    },
-    {
-      url: '#getting-people-excited-about-epic-react',
-      label: 'Getting people excited about Epic React',
-    },
-    {
-      url: '#working-together-in-a-trusted-relationship',
-      label: 'Working together in a trusted relationship',
-    },
-    {
-      url: '#-🥳-launching-epic-react',
-      label: '🚀 🥳 Launching Epic React',
-    },
-  ],
   contributors: [
     {
       name: 'Meg Cumby',
@@ -67,86 +40,9 @@ export const meta = {
   ],
 }
 
-import {
-  Section,
-  Header,
-  Client,
-  CaseLink,
-  ContributorProfileCard,
-} from 'templates/case-study'
-import WorkflowSteps from 'components/icons/epic-react/workflow-steps'
-
-export const Aside = () => (
-  <div className="flex flex-col lg:items-center items-center md:space-y-12">
-    <Client {...meta.client}>
-      <blockquote className="pt-6 text-center sm:text-lg text-blueGray-100 font-serif italic">
-        {`"I'm able to make the biggest impact for my time with Skill Recordings. I absolutely recommend it for anybody who wants to teach and reach a wide
-        audience of people"`}
-      </blockquote>
-    </Client>
-    <CaseLink label="EpicReact.dev" url={meta.url} />
-    {meta.toc && (
-      <div className="text-white w-full sm:pt-0 py-4">
-        <h4 className="uppercase tracking-wider font-semibold pb-2 text-blueGray-300">
-          Table of contents
-        </h4>
-        <ol className="list-inside">
-          {meta.toc.map((link) => (
-            <li className="py-2 list-decimal" key={link.url}>
-              <Link href={link.url}>
-                <a className="cursor-pointer hover:underline lg:text-xl text-lg leading-tight">
-                  {link.label}
-                </a>
-              </Link>
-            </li>
-          ))}
-        </ol>
-      </div>
-    )}
-  </div>
-)
-
-export const Contributors = () => {
-  return (
-    <footer className="flex items-center justify-center bg-blueGray-900 text-white py-24">
-      <div className="max-w-screen-md">
-        {meta.contributors.map((person) => {
-          return (
-            <a
-              key={person.link}
-              href={person.link}
-              className="flex items-center group"
-            >
-              <Image
-                className="rounded-full"
-                src={person.image}
-                alt={person.name}
-                width={64}
-                height={64}
-              />
-              <div className="flex flex-col sm:pl-3 pl-2">
-                <div>{'Written by'}</div>
-                <div className="sm:text-xl text-lg font-medium group-hover:underline">
-                  {person.name}
-                </div>
-              </div>
-            </a>
-          )
-        })}
-      </div>
-    </footer>
-  )
+export default ({children}) => {
+  return <CaseStudyTemplate meta={meta}>{children}</CaseStudyTemplate>
 }
-
-<Header
-  meta={meta}
-  image={{url: '/epic-react/epic-react-screenshots@2x.png', alt: ''}}
-  className="bg-gradient-to-b to-purple-600 from-indigo-600 text-white sm:pt-56 pt-40 text-center px-5"
-/>
-
-<Section containerClassName="bg-blueGray-900" className="text-white" aside={<Aside/>}>
-
-### How it all began...
 
 Spending a few years of teaching React through courses, live workshops, and blogposts, Kent realized there was a gap in resources to learn the framework.
 
@@ -162,25 +58,25 @@ Except this time it was going to be _so much bigger_.
 
 And use a whole new workshop structure to get the concepts to stick in people's brains. 🧠
 
-</Section>
-
-<Section containerClassName="bg-gradient-to-t from-blueGray-900 to-blueGray-800" className="text-white" title="Designing the content">
+## Designing the content
 
 Kent had already designed and delivered several workshops on the Epic React topics he planned to cover, so he had a great foundation to build on already.
 
-He and egghead team member <span className="text-purple-300 font-bold">Taylor Bell</span> collaborated in planning sessions in the early stages to flesh out Kent's initial ideas — dialing in the desired learner outcomes, defining what skills they'd come away with to reach those goals, and working out a plan to meet those goals through a series of modules.
+He and egghead team member **Taylor Bell** collaborated in planning sessions in the early stages to flesh out Kent's initial ideas — dialing in the desired learner outcomes, defining what skills they'd come away with to reach those goals, and working out a plan to meet those goals through a series of modules.
 
-<ContributorProfileCard
-  contributors={[{
-    name: "Taylor Bell",
-    image: '/team/taylor@2x.jpg'
-  }]}
+<ContributorProfile
+  contributors={[
+    {
+      name: 'Taylor Bell',
+      image: '/team/taylor@2x.jpg',
+    },
+  ]}
   label="Learning Design Support"
 >
-
-Taylor worked with Kent during the workshop design process to help define the learner outcomes and concepts that would be taught in each of the modules, as well as the plan to achieve those outcomes.
-
-</ContributorProfileCard>
+  Taylor worked with Kent during the workshop design process to help define the
+  learner outcomes and concepts that would be taught in each of the modules, as
+  well as the plan to achieve those outcomes.
+</ContributorProfile>
 
 ### Using more 🌎 real-world examples and introducing a 👐🏼 hands-on learning format
 
@@ -200,17 +96,13 @@ Going through the workshops, you spend more time with your hands on the keyboard
 
 > “The point is for people to expose themselves to the problem and try to figure out the solution so that they get all the right questions in their minds," says Kent.
 
-"Then, when they see the solution, those questions are answered one by one. That helps with retention a great deal, rather than just being briefly exposed to the problem and just watching me solve it. **I want to make sure that when I'm teaching somebody something that they actually remember it.**”
-
 ### 🧪 Testing and improving the content based on learner feedback
 
 Before recording the material, Kent road-tested it a final time with developers through a series of eight remote live workshops to identify what worked for them and what didn't. He reviewed feedback on every single exercise from workshop attendees, and was able to pinpoint how to improve things to really make sure what he was teaching would stick with people and be helpful to them. One of the bigger changes he made was in the last workshop, in which Kent taught how to build a React application from scratch.
 
 > “It was a very difficult workshop to deliver in the amount of time and it just wasn't sinking in for people," says Kent. "I realized that what I really had wasn't one workshop — it was actually four. I expanded that workshop to four modules and I was able to add a bunch of exercises and give people a lot more time to work through things.”
 
-</Section>
-
-<Section containerClassName="bg-gradient-to-t from-blueGray-900 to-blueGray-800" className="text-white" title="Producing the content with a relentless focus on quality">
+## Producing the content with a relentless focus on quality
 
 With the content solidified and improvements made based on the learner feedback he received, Kent turned his attention to recording.
 
@@ -220,7 +112,7 @@ Finding the energy and the quiet time to **record about 350 videos** with four k
 
 As Kent finished the raw videos, our content production team (Haze Provinsal, Lucas Minter, Cree Provinsal, Zac Jones and Lauro Silva) jumped in to handle the rest of the production and review process to ensure the final product was the absolutely best, most high-quality product possible.
 
-<ContributorProfileCard rotate={"rotate-2"} contributors={[
+<ContributorProfile contributors={[
 {
 name: "Zac Jones",
 image: "/team/zac@2x.jpg"
@@ -247,87 +139,54 @@ label="Content Excellence Team"
 
 We **edited the raw footage for each of the ~350 videos** so they were polished, free of distractions, and delivered the highest value-per-minute possible for the viewer.
 
-</ContributorProfileCard>
+</ContributorProfile>
 
 **Each video was reviewed by four or five team members** to catch and fix all the small, yet important details — everything from small editing blips through to any UX issues with the flow of the modules. We even had a few egghead community members test out one of the modules to get a fresh perspective on the workflow and make sure we didn't miss anything in the review process. We also took care of ordering and reviewing transcripts to make sure they're accurate.
 
-</Section>
-
-<Section containerClassName="bg-gradient-to-t from-blueGray-900 to-blueGray-800" className="text-white" title="Making the learning experience delightful with stunning visuals">
+## ✨ Making the learning experience delightful with stunning visuals
 
 You can't help but be drawn in by the stunning visual work that's gone into [EpicReact.dev](https://epicreact.dev).
 
-<div className="xl:-mx-16 lg:-mx-10 -mx-5">
-  <Image
-    src="/epic-react/screenshots@2x.png"
-    alt="screenshots of EpicReact.dev site"
-    width={2196}
-    height={2971}
-    quality={100}
-  />
-</div>
-
-<ContributorProfileCard contributors={[{
+<ContributorProfile contributors={[{
   name: "Vojta Holik",
   image: '/team/vojta@2x.jpg'
 }]}
 label={`UI Design & Development`}
 >
 
-Vojta Holik worked his magic to present the workshop beautifully, inside and out, to make it easy to access and use. He's responsible for pretty much all of the UI/UX design work on the site and in the workshop itself, including all the delightful animations.
+Vojta Holik, egghead Designer/Developer worked his magic to present the workshop beautifully, inside and out, to make it easy to access and use. He's responsible for pretty much all of the UI/UX design work on the site and in the workshop itself, including all the delightful animations.
 
-</ContributorProfileCard>
+</ContributorProfile>
 
-<div className="grid sm:grid-cols-2 grid-cols-1 xl:-mx-16 lg:-mx-10 sm:-mx-5 sm:gap-8 sm:pb-8">
-<div>
+> "Vojta is constantly making really awesome things for me to package my stuff in," says Kent.<br/><br/>"I'm so not a designer. It's like I make this beautiful ice cream sundae and I give it to Vojta in a cardboard box and he swaps out that cardboard box for this beautiful glass bowl to deliver my delicious ice cream in. All of a sudden, that ice cream takes on a whole different meaning. The presentation makes such a difference in your perception of the content as well as your experience in consuming it."
 
-> “Vojta is constantly making really awesome things for me to package my stuff in,” says Kent.
-
-"I'm so not a designer. It's like I make this beautiful ice cream sundae and I give it to Vojta in a cardboard box and he swaps out that cardboard box for this beautiful glass bowl to deliver my delicious ice cream in. All of a sudden, that ice cream takes on a whole different meaning. The presentation makes such a difference in your perception of the content as well as your experience in consuming it."
-
-</div>
-<Tweet tweetLink="kentcdodds/status/1236186943420952579" theme="dark"  />
-</div>
+<Tweet tweetLink="kentcdodds/status/1236186943420952579" />
 
 The space theme ties all the visual work together. egghead Art Director Maggie Appleton explains that coming up with a compelling visual theme goes beyond providing a beautiful presentation. It communicates more effectively and gives people the emotional connection to purchase the workshop and to more easily engage and stick with the material.
 
-<ContributorProfileCard rotate={"rotate-0"} contributors={[
-{
-  name: "Maggie Appleton",
-  image: '/team/maggie@2x.jpg'
+<ContributorProfile contributors={[{
+    name: "Maggie Appleton",
+    image: '/team/maggie@2x.jpg'
 },
 {
-  name: "David Gil",
-  image: '/team/david-gil@2x.jpg'
+    name: "Gustavo Henrique",
+    image: '/team/gustavo-henrique@2x.jpg'
 },
 {
-  name: "Gustavo Henrique",
-  image: '/team/gustavo-henrique@2x.jpg'
-},
-]}
-label={`Art Direction & Illustration`}
->
+    name: "David Gil",
+    image: '/team/david-gil@2x.jpg'
+}]}
+label={`Art Direction & Illustration`}>
 
 Maggie provided the guidance and art direction on how to translate Epic React workshop concepts into visual space metaphors that would be easy to grasp. She brought in the talents of freelance illustrators David Gil and Gustavo Henrique to do the 3D artwork that would be used throughout the workshop material.
 
-</ContributorProfileCard>
+</ContributorProfile>
 
-<div className="sm:-mx-10">
-  <Image
-    src="/epic-react/illustrations@2x.png"
-    alt="some illustrations from EpicReact.dev"
-    width={1167}
-    height={1149}
-    quality={100}
-  />
-</div>
+_TODO: Examples of the 3D artwork by David Gil and Gustavo Henrique, with Art Direction by Maggie Appleton_
 
-_Examples of the 3D artwork by David Gil and Gustavo Henrique, with Art Direction by Maggie Appleton_
+<Image src={CourseCards} placeholder="blur" alt="" aria-hidden />
 
-</Section>
-
-<Section containerClassName="bg-gradient-to-t from-blueGray-900 to-blueGray-800" className="text-white" title="Developing custom courseware with egghead infrastructure
-">
+## 💻 Developing custom courseware with egghead infrastructure
 
 We handled all the development and infrastructure work for Epic React, with egghead's Joel Hooks serving as the technical architect and lead developer and Ian Jones supporting the back-end development.
 
@@ -335,35 +194,29 @@ We built the Epic React site using Gatsby and MDX, with egghead's infrastructure
 
 However, Epic React's new structure required us to do some clever workarounds with the tech for content delivery — pulling the right content needed and keep track of user progress in a way that made sense, without having to do a database overhaul or essentially inventing new technology. We essentially developed bespoke courseware to provide the instructor led hands-on learning experience with extreme depth.
 
-</Section>
-
-<Section containerClassName="bg-gradient-to-t from-blueGray-900 to-blueGray-800" className="text-white" title="Getting people excited about Epic React" titleClassName="max-w-screen-md">
+## 📣 Getting people excited about Epic React
 
 As Epic React got closer to being ready to launch, we set out a marketing strategy and handled details for Kent such as setting up a mailing list sign up, writing and updating site copy, creating social share images, setting out the launch discounts and their timing, and collaborating with him to create and execute a launch plan to give people a chance to get excited about the release. We helped him plan out the articles and emails he'd write to share React tips and tricks and give people a taste of what's in the course.
 
-> “It's laid out all so perfectly nicely — I knew exactly what I need to write about and when to write about it," says Kent. "I didn't need to make decisions or do it in a haphazard way.”
+> "It's laid out all so perfectly nicely — I knew exactly what I need to write about and when to write about it," says Kent. "I didn't need to make decisions or do it in a haphazard way."
 
 Kent puts a lot of additional effort to get people excited about Epic React and to answer people's questions about it and about React more generally — from livestreams to office hours to being very active on Twitter. He's also done a lot of community building, creating the [KCD Discord](https://kentcdodds.com/discord) for developers to interact with each other in a friendly and positive environment as they learn (whether it's Kent material or something else) and facilitating group learning opportunities with [Learning Clubs](https://kentcdodds.com/clubs).
 
-</Section>
-
-<Section containerClassName="bg-gradient-to-t from-blueGray-900 to-blueGray-800" className="text-white" title="Working together in a trusted relationship" titleClassName="max-w-screen-md">
+## Working together in a trusted relationship
 
 Collaborating on a launch like this requires a trusted relationship and making well-researched decisions that will help achieve the goal of creating a successful product that has a huge reach and impact.
 
 Kent puts an incredible amount of work to improve the lives of thousands developers by sharing his knowledge. He counts on us to be a trusted advisor to help him reach that goal with experienced production management, coordination and advice. We act in the best interest of Kent and who he serves, working with Kent to prioritize and resolve any needs or issues standing in the way of success.
 
-> “egghead's constantly helping me overcome obstacles," he says. "If I have a question or need anything, I just ask. Joel will either convince me that I don't actually need it — which happens often and I don't mind, because he's normally right. Or he and the team will just get it for me.”
+> "egghead's constantly helping me overcome obstacles," he says. "If I have a question or need anything, I just ask. Joel will either convince me that I don't actually need it — which happens often and I don't mind, because he's normally right. Or he and the team will just get it for me."
 
-</Section>
-
-<Section containerClassName="bg-gradient-to-t from-blueGray-900 to-blueGray-800" className="text-white" title="🚀 🥳 Launching Epic React">
+## 🚀 🥳 Launching Epic React
 
 Epic React's release was the result of a ton of planning, care and attention being put into the important details — large and small — across every part of the experience.
 
-**After 18 months of planning and building and an absolutely massive amount of effort, [Epic React launched](http://epicreact.Dev) on September 29.**
+**After 18 months of planning and building and an absolutely massive amount of effort, Epic React launched on September 29, 2020.**
 
-<Tweet tweetLink="kentcdodds/status/1310990076029972480" theme="dark" />
+<Tweet tweetLink="kentcdodds/status/1310990076029972480" />
 
 The response was overwhelming. With anticipation building up for months, **about 6,000 people bought within the first 4 days of sales, with 4000 people buying it within the very first 24 hours.** Thanks to our ability to support purchasing power parity, more people from around the world are able to access it.
 
@@ -373,33 +226,23 @@ Pretty much immediately after launch, people who bought Epic React were already 
 
 Take a look at just a handful of the [awesome things people who bought Epic React have to say](https://epicreact.dev/tweets/):
 
-<div className="grid sm:grid-cols-2 grid-cols-1 gap-5">
-  <Tweet tweetLink="denvercoder/status/1311878063286816768" theme="dark" />
-  <Tweet tweetLink="lizzSoup/status/1311403774041354241" theme="dark" />
-  <Tweet tweetLink="PTolideh/status/1311507868303208449" theme="dark" />
-  <Tweet tweetLink="dcgoodwin2112/status/1311467223043670022" theme="dark" />
+<div className="sm:grid sm:grid-cols-2 gap-5">
+  <Tweet tweetLink="denvercoder/status/1311878063286816768" />
+  <Tweet tweetLink="PTolideh/status/1311507868303208449" />
+  <Tweet tweetLink="dcgoodwin2112/status/1311467223043670022" />
+  <Tweet tweetLink="lizzSoup/status/1311403774041354241" />
 </div>
 
 Kent says he couldn't be happier about how things went with the launch.
 
-> “I'm blown away," he says. "I mean, I knew it was going to be successful. It's hard to build something as great as Epic React and not have confidence that it will do well. We had great success selling tickets to each of the live workshops. **But I honestly was overwhelmed by the enthusiasm and excitement by the general developer community.”**
+> "I'm blown away," he says. "I mean, I knew it was going to be successful. It's hard to build something as great as Epic React and not have confidence that it will do well. We had great success selling tickets to each of the live workshops. But I honestly was overwhelmed by the enthusiasm and excitement by the general developer community."
 
 One of the delightful surprises of the launch was seeing how many people have been sharing their learnings with each other. Members of [Kent's community discord](https://kentcdodds.com/discord) have been super enthusiastic and eager to help others going through Epic React. The community members even built an [FAQ](https://epicreact.dev/faq/) to provide some additional support.
 
-> **“It's been amazing to watch the community be there for each other answering questions about React generally, course material, or even helping with technical support,”** says Kent. “I've received a tremendous amount of open source pull requests to improve the course material as well, which has been such a wonderful thing to see.”
+> "It's been amazing to watch the community be there for each other answering questions about React generally, course material, or even helping with technical support," says Kent. "I've received a tremendous amount of open source pull requests to improve the course material as well, which has been such a wonderful thing to see."
 
 At each step of the process of building Epic React, the focus has been on creating an amazing and valuable experience for developers to help them increase their confidence, reduce overwhelm, and level up their skills in developing React applications with solid foundations.
 
 Kent points to the synergistic relationship with egghead to be able to accomplish far more than going it alone. With egghead being a fiduciary and providing support, it frees up Kent to focus on creating the most helpful content possible rather than being worried about the hundreds of other details involved in creating Epic React.
 
-> “I feel I'm a much better instructor because I don't have to deal with all that extra stuff that doesn't have anything to do with teaching people React,” says Kent. “The end product is way better than what egghead or I could have done individually. **We end up having way more success and being way more successful at getting people to learn.”**
-
-</Section>
-
-<Contributors />
-
-import CaseStudyTemplate from 'templates/case-study'
-
-export default ({children}) => {
-  return <CaseStudyTemplate meta={meta}>{children}</CaseStudyTemplate>
-}
+> "I feel I'm a much better instructor because I don't have to deal with all that extra stuff that doesn't have anything to do with teaching people React," says Kent. "The end product is way better than what egghead or I could have done individually. **We end up having way more success and being way more successful at getting people to learn."**
