@@ -2,7 +2,7 @@
   "name": "@skillrecordings/player",
   "description": "Internal, shared utilities",
   "author": "Joel Hooks",
-  "version": "0.0.1",
+  "version": "0.0.4",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "files": [
@@ -17,6 +17,7 @@
     "clean": "rm -rf .turbo && rm -rf node_modules && rm -rf dist"
   },
   "dependencies": {
+    "@babel/core": "^7.16.5",
     "@emotion/react": "^11.4.1",
     "@reach/tabs": "^0.16.4",
     "@skillrecordings/analytics": "workspace:*",
@@ -26,6 +27,7 @@
     "classnames": "^2.3.1",
     "hls.js": "1.0.7",
     "lodash": "^4.17.21",
+    "prism-react-renderer": "^1.2.1",
     "react": "17.0.2",
     "react-dom": "17.0.2",
     "react-markdown": "^5.0.3",
