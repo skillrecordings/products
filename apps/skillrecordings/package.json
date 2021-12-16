@@ -15,7 +15,6 @@
     "format": "prettier --write './**/*.{js,jsx,ts,tsx,css,md,mdx,json}' --config ./.prettierrc"
   },
   "dependencies": {
-    "@mdx-js/loader": "^2.0.0-rc.2",
     "@mdx-js/react": "^1.6.22",
     "@next/mdx": "^12.0.3",
     "@reach/dialog": "^0.16.2",
@@ -70,6 +69,7 @@
     "yup": "^0.32.11"
   },
   "devDependencies": {
+    "@mdx-js/loader": "^1.6.22",
     "@babel/plugin-transform-react-jsx": "^7.16.0",
     "@skillrecordings/scripts": "workspace:*",
     "@skillrecordings/tsconfig": "workspace:^0.0.5",

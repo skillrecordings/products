@@ -38,6 +38,7 @@ export default function Home() {
           {caseStudies.map(({title, image, slug, styles, url, description}) => {
             return (
               <article
+                key={slug}
                 className={`grid sm:grid-cols-2 grid-cols-1 items-center justify-center ${styles.section}`}
               >
                 <div className="flex items-center justify-center">
