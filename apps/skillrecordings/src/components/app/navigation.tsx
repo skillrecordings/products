@@ -1,7 +1,5 @@
 import * as React from 'react'
-import Logo from 'components/icons/sr-logo'
 import Link from 'next/link'
-import cx from 'classNames'
 import {useTheme} from 'next-themes'
 import {motion} from 'framer-motion'
 
