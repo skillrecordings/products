@@ -46,7 +46,7 @@ const CaseStudyTemplate: React.FC<CaseStudyTemplateProps> = ({
               )}
             </div>
           </div>
-          <div className="pt-16 max-w-screen-lg mx-auto w-full">
+          <div className="pt-16 max-w-screen-lg mx-auto w-full flex items-center justify-center">
             <Image src={meta.image} placeholder="blur" />
           </div>
         </header>
