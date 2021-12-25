@@ -1,7 +1,7 @@
 // add a comment here
 export default {
   defaultTitle: 'Skill Recordings',
-  description: 'A guide to mechanical keyboards by Cassidy Williams.',
+  description: 'Artisanal learning products.',
   author: 'Skill Recordings',
   favicon: '/favicon.ico',
   email: 'team@skillrecordings.com',
