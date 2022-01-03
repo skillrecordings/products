@@ -59,7 +59,7 @@ const PlayerPage = () => {
       >
         <div
           className={cx(
-            'relative before:float-left after:clear-both after:table video-holder',
+            'relative before:float-left after:clear-both after:table',
             withSidePanel ? 'col-span-9' : 'col-span-12',
           )}
         >
