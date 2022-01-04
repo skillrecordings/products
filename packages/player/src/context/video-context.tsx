@@ -29,9 +29,12 @@ export const useVideo = () => {
  *
  * @see {@link https://dev.to/mpocock1/how-to-manage-global-state-with-xstate-and-react-3if5}
  */
-export const VideoProvider: React.FC = (props) => {
+export const VideoProvider: React.FC<{actions?: any}> = ({
+  actions = {},
+  children,
+}) => {
   const videoService = useInterpret(videoMachine, {
-    actions: defaultActions,
+    actions: {...defaultActions, ...actions},
   })
 
   // see all state changes
@@ -41,7 +44,7 @@ export const VideoProvider: React.FC = (props) => {
 
   return (
     <VideoContext.Provider value={{videoService}}>
-      {props.children}
+      {children}
     </VideoContext.Provider>
   )
 }
