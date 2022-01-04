@@ -45,4 +45,5 @@ export const defaultActions: ActionFunctionMap<VideoStateContext, VideoEvent> =
         screenfull.toggle(element)
       }
     },
+    onVideoEnded: (_context, _event) => {},
   }

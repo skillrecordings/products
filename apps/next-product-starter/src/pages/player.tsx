@@ -188,7 +188,13 @@ const VideoCuesList: React.FC<any> = () => {
 const Page = () => {
   return (
     <Layout>
-      <VideoProvider>
+      <VideoProvider
+        actions={{
+          onVideoEnded: (_context: any, _event: any) => {
+            console.log('do stuff')
+          },
+        }}
+      >
         <PlayerPage />
       </VideoProvider>
     </Layout>

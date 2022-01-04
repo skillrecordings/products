@@ -295,7 +295,10 @@ export const videoMachine = createMachine<VideoStateContext, VideoEvent>({
             },
           },
         },
-        ended: {on: {PLAY: 'playing'}},
+        ended: {
+          entry: ['onVideoEnded'],
+          on: {PLAY: 'playing'},
+        },
       },
     },
     failure: {
