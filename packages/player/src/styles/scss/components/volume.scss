@@ -84,7 +84,7 @@
 
     // Volume handle
     &:before {
-      top: -0.3em;
+      top: -0.35em;
       right: -0.5em;
     }
   }
@@ -149,6 +149,15 @@
     height: 2.5rem;
     display: flex;
     align-items: center;
+  }
+
+  .cueplayer-react-volume-menu-button-horizontal {
+    width: 12em;
+    .cueplayer-react-menu .cueplayer-react-menu-content {
+      height: 2.5rem;
+      display: flex;
+      align-items: center;
+    }
   }
 
   .cueplayer-react-volume-menu-button.cueplayer-react-menu-button-inline

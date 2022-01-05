@@ -18,11 +18,13 @@ export const ControlBar: React.FC = () => {
       <ForwardReplayControl mode="replay" />
       <ForwardReplayControl />
       <VolumeMenuButtonControl />
-      <CurrentTimeDisplay />
-      <TimeDivider />
-      <DurationDisplay />
-      <ProgressControl />
-      <RemainingTimeDisplay />
+      <div className="cueplayer-player-control-bar-expander">
+        <CurrentTimeDisplay />
+        <TimeDivider />
+        <DurationDisplay />
+      </div>
+      {/* <ProgressControl /> */}
+      {/* <RemainingTimeDisplay /> */}
       <PlaybackRateMenuButtonControl />
       <SidePanelToggleControl />
       <FullscreenToggleControl />

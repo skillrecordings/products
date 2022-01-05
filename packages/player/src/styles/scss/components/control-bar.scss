@@ -55,3 +55,9 @@
   .cueplayer-react-control-bar {
   display: table;
 }
+
+.cueplayer-player-control-bar-expander {
+  display: flex;
+  flex-grow: 1;
+  justify-content: center;
+}
