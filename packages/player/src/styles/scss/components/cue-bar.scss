@@ -1,5 +1,6 @@
 .cueplayer-react-cue-bar {
   display: flex;
+  align-items: center;
   width: 100%;
   height: 24px;
   position: relative;
@@ -10,24 +11,30 @@
   );
   .cueplayer-react-cue-note {
     position: absolute;
-    width: 6px;
+    width: 16px;
+    height: 16px;
     cursor: pointer;
-    height: 100%;
     background-color: white;
+    border-radius: 50%;
+    transform: translate(-50%);
+    border: 1px solid green;
   }
   .cueplayer-react-cue-note-learner {
     position: absolute;
-    height: 100%;
-    width: 6px;
-    background-color: orange;
+    width: 16px;
+    height: 16px;
     cursor: pointer;
+    background-color: orange;
+    border-radius: 50%;
+    transform: translate(-50%);
+    border: 1px solid green;
   }
-  .cueplayer-react-cue-note-inactive {
-    opacity: 0.5;
-  }
-  .cueplayer-react-cue-note-active {
-    opacity: 1;
-  }
+  // .cueplayer-react-cue-note-inactive {
+  //   opacity: 0.5;
+  // }
+  // .cueplayer-react-cue-note-active {
+  //   opacity: 1;
+  // }
   .cueplayer-react-cue-popup-content {
     border-radius: 4px;
     background: white;
