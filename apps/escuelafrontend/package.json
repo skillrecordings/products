@@ -59,7 +59,7 @@
     "mdx-prism": "^0.3.4",
     "next": "^11.1.2",
     "next-mdx-remote": "^2.1.4",
-    "next-seo": "^4.26.0",
+    "next-seo": "^4.28.1",
     "next-sitemap": "^1.6.148",
     "next-themes": "^0.0.15",
     "postcss": "^8.2.10",

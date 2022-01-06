@@ -904,7 +904,7 @@ importers:
       next-compose-plugins: ^2.2.1
       next-images: ^1.7.0
       next-mdx-remote: ^2.1.4
-      next-seo: ^4.26.0
+      next-seo: ^4.28.1
       next-sitemap: ^1.6.148
       next-themes: ^0.0.15
       postcss: ^8.2.10
@@ -980,7 +980,7 @@ importers:
       mdx-prism: 0.3.4
       next: 11.1.2_f31b35bdaa3b7c2fce82404f09d2dac4
       next-mdx-remote: 2.1.4_react-dom@17.0.2+react@17.0.2
-      next-seo: 4.26.0_6fbf59523517da779df50d355b375324
+      next-seo: 4.28.1_6fbf59523517da779df50d355b375324
       next-sitemap: 1.6.148_next@11.1.2
       next-themes: 0.0.15_6fbf59523517da779df50d355b375324
       postcss: 8.3.6
@@ -13752,7 +13752,7 @@ packages:
       source-map: 0.6.1
       wordwrap: 1.0.0
     optionalDependencies:
-      uglify-js: 3.14.3
+      uglify-js: 3.14.5
     dev: true
 
   /har-schema/2.0.0:
@@ -17734,6 +17734,18 @@ packages:
       react-dom: 17.0.2_react@17.0.2
     dev: false
 
+  /next-seo/4.28.1_6fbf59523517da779df50d355b375324:
+    resolution: {integrity: sha512-WZgwdM+UhpNF3A37zFllzmPhnOVJ9vYeYlc0n3Z/kYfz/QQgy8NEdncNNggS9dU4JD8xriaCcyknhy5OsrFsJw==}
+    peerDependencies:
+      next: ^8.1.1-canary.54 || >=9.0.0
+      react: '>=16.0.0'
+      react-dom: '>=16.0.0'
+    dependencies:
+      next: 11.1.2_f31b35bdaa3b7c2fce82404f09d2dac4
+      react: 17.0.2
+      react-dom: 17.0.2_react@17.0.2
+    dev: false
+
   /next-seo/4.28.1_72b2f1fb664d51f286fb64a58e104b48:
     resolution: {integrity: sha512-WZgwdM+UhpNF3A37zFllzmPhnOVJ9vYeYlc0n3Z/kYfz/QQgy8NEdncNNggS9dU4JD8xriaCcyknhy5OsrFsJw==}
     peerDependencies:
@@ -17777,7 +17789,7 @@ packages:
       react: '*'
       react-dom: '*'
     dependencies:
-      next: 11.1.2_bf3a1301f4084feb226bd851df78340c
+      next: 11.1.2_f31b35bdaa3b7c2fce82404f09d2dac4
       react: 17.0.2
       react-dom: 17.0.2_react@17.0.2
     dev: false
@@ -23011,8 +23023,8 @@ packages:
     hasBin: true
     dev: true
 
-  /uglify-js/3.14.3:
-    resolution: {integrity: sha512-mic3aOdiq01DuSVx0TseaEzMIVqebMZ0Z3vaeDhFEh9bsc24hV1TFvN74reA2vs08D0ZWfNjAcJ3UbVLaBss+g==}
+  /uglify-js/3.14.5:
+    resolution: {integrity: sha512-qZukoSxOG0urUTvjc2ERMTcAy+BiFh3weWAkeurLwjrCba73poHmG3E36XEjd/JGukMzwTL7uCxZiAexj8ppvQ==}
     engines: {node: '>=0.8.0'}
     hasBin: true
     requiresBuild: true
