@@ -1,12 +1,18 @@
 .cueplayer-react .cueplayer-react-control-bar {
   display: flex;
+  flex-flow: row nowrap;
+  place-content: stretch flex-start;
+  align-items: center;
   width: 100%;
-  // removes absolute positioning which should be optional for "overlay" style
   height: 40px;
+  position: relative;
   @include background-color-with-alpha(
     $cueplayer-react-primary-background-color,
     $cueplayer-react-primary-background-transparency
   );
+  .cueplayer-react-control {
+    height: auto;
+  }
 }
 
 .cueplayer-react:not(.cueplayer-react-cues-active)
@@ -56,8 +62,22 @@
   display: table;
 }
 
-.cueplayer-player-control-bar-expander {
+.cueplayer-react-control-bar-left-part,
+.cueplayer-react-control-bar-center-part,
+.cueplayer-react-control-bar-right-part {
+  flex: 1 1 0%;
   display: flex;
-  flex-grow: 1;
-  justify-content: center;
+  flex-flow: row nowrap;
+}
+
+.cueplayer-react-control-bar-left-part {
+  place-content: stretch flex-start;
+}
+
+.cueplayer-react-control-bar-center-part {
+  place-content: stretch center;
+}
+
+.cueplayer-react-control-bar-right-part {
+  place-content: stretch flex-end;
 }
