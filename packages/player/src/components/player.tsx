@@ -207,10 +207,12 @@ export const Player: React.FC<PlayerProps> = (props) => {
           </div>
         </div>
       </div>
-      <ProgressBar />
-      <CueBar />
-      <ControlBar />
-      <Shortcut />
+      <div className="cueplayer-react-controls-holder">
+        <ProgressBar />
+        <CueBar />
+        <ControlBar />
+        <Shortcut />
+      </div>
     </div>
   )
 }
