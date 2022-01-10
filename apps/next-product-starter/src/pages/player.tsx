@@ -119,19 +119,12 @@ const VideoResourcesList: React.FC<VideoResourcesListProps> = ({
   currentVideo,
   setCurrentVideo,
 }) => {
-  // const scrollToRef = React.useRef<any>(null)
-  // React.useEffect(() => {
-  //   if (scrollToRef.current) {
-  //     scrollToRef.current.scrollIntoView({behavior: 'smooth'})
-  //   }
-  // }, [currentVideo])
   return (
     <ul>
       {resources.map((videoResource: VideoResource) => {
         const isActive = videoResource.title === currentVideo.title
         return (
           <li
-            // ref={isActive ? scrollToRef : null}
             key={videoResource.url}
             onClick={() => setCurrentVideo(videoResource)}
             className="border-b border-gray-800"
@@ -154,12 +147,6 @@ const VideoCuesList: React.FC<any> = () => {
   const cues = useMetadataCues()
   const videoService = useVideo()
   const activeCues = useSelector(videoService, selectActiveCues)
-  // const scrollToRef = React.useRef<any>(null)
-  // React.useEffect(() => {
-  //   if (scrollToRef.current) {
-  //     scrollToRef.current.scrollIntoView({behavior: 'smooth'})
-  //   }
-  // }, [activeCues])
 
   const clickOpen = (cue: any) => {
     videoService.send({
@@ -186,7 +173,6 @@ const VideoCuesList: React.FC<any> = () => {
         console.log('cue.startTime:', cue.startTime)
         return (
           <li
-            // ref={isActive ? scrollToRef : null}
             key={note.text}
             className={`p-3 cursor-pointer border-b border-gray-800 ${
               isActive ? 'bg-white text-black' : 'bg-black text-white'
