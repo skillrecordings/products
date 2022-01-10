@@ -145,9 +145,6 @@ const VideoResourcesList: React.FC<VideoResourcesListProps> = ({
 
 const VideoCue: React.FC<any> = ({cue, note, isActive}) => {
   const cueRef = React.useRef<any>(null)
-  if (cueRef.current) {
-    console.log('cueRef:', cueRef.current.offsetTop)
-  }
   const videoService = useVideo()
 
   const clickOpen = (cue: any) => {
@@ -158,14 +155,20 @@ const VideoCue: React.FC<any> = ({cue, note, isActive}) => {
     })
     videoService.send('END_SEEKING')
     videoService.send('PAUSE')
-
     track('opened cue', {cue: cue.text})
   }
+
+  React.useEffect(() => {
+    if (isActive && cueRef.current) {
+      cueRef.current.scrollIntoView({behavior: 'smooth'})
+    }
+  }, [isActive, cueRef])
+
   return (
     <li
       ref={cueRef}
       key={note.text}
-      className={`p-3 cursor-pointer border-b border-gray-800 break-words ${
+      className={`p-3 cursor-pointer border-b border-gray-800 break-words last:border-0 ${
         isActive ? 'bg-white text-black' : 'bg-black text-white'
       }`}
       onClick={() => clickOpen(cue)}
