@@ -143,10 +143,12 @@ const VideoResourcesList: React.FC<VideoResourcesListProps> = ({
   )
 }
 
-const VideoCuesList: React.FC<any> = () => {
-  const cues = useMetadataCues()
+const VideoCue: React.FC<any> = ({cue, note, isActive}) => {
+  const cueRef = React.useRef<any>(null)
+  if (cueRef.current) {
+    console.log('cueRef:', cueRef.current.offsetTop)
+  }
   const videoService = useVideo()
-  const activeCues = useSelector(videoService, selectActiveCues)
 
   const clickOpen = (cue: any) => {
     videoService.send({
@@ -159,9 +161,26 @@ const VideoCuesList: React.FC<any> = () => {
 
     track('opened cue', {cue: cue.text})
   }
-
   return (
-    <ul className="break-words">
+    <li
+      ref={cueRef}
+      key={note.text}
+      className={`p-3 cursor-pointer border-b border-gray-800 break-words ${
+        isActive ? 'bg-white text-black' : 'bg-black text-white'
+      }`}
+      onClick={() => clickOpen(cue)}
+    >
+      {note.text}
+    </li>
+  )
+}
+
+const VideoCuesList: React.FC<any> = () => {
+  const cues = useMetadataCues()
+  const videoService = useVideo()
+  const activeCues = useSelector(videoService, selectActiveCues)
+  return (
+    <ul>
       {cues.map((cue: VTTCue) => {
         let note: {text: string; type?: string}
         const isActive = activeCues.includes(cue)
@@ -170,17 +189,8 @@ const VideoCuesList: React.FC<any> = () => {
         } catch (e) {
           note = {text: cue.text}
         }
-        console.log('cue.startTime:', cue.startTime)
         return (
-          <li
-            key={note.text}
-            className={`p-3 cursor-pointer border-b border-gray-800 ${
-              isActive ? 'bg-white text-black' : 'bg-black text-white'
-            }`}
-            onClick={() => clickOpen(cue)}
-          >
-            {note.text}
-          </li>
+          <VideoCue key={note.text} cue={cue} isActive={isActive} note={note} />
         )
       })}
     </ul>
