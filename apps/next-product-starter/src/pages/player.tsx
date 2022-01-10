@@ -1,5 +1,6 @@
 import * as React from 'react'
 import cx from 'classnames'
+import {track} from '@skillrecordings/analytics'
 import Layout from '@skillrecordings/react/dist/layouts'
 import {
   Player,
@@ -118,19 +119,19 @@ const VideoResourcesList: React.FC<VideoResourcesListProps> = ({
   currentVideo,
   setCurrentVideo,
 }) => {
-  const scrollToRef = React.useRef<any>(null)
-  React.useEffect(() => {
-    if (scrollToRef.current) {
-      scrollToRef.current.scrollIntoView({behavior: 'smooth'})
-    }
-  }, [currentVideo])
+  // const scrollToRef = React.useRef<any>(null)
+  // React.useEffect(() => {
+  //   if (scrollToRef.current) {
+  //     scrollToRef.current.scrollIntoView({behavior: 'smooth'})
+  //   }
+  // }, [currentVideo])
   return (
     <ul>
       {resources.map((videoResource: VideoResource) => {
         const isActive = videoResource.title === currentVideo.title
         return (
           <li
-            ref={isActive ? scrollToRef : null}
+            // ref={isActive ? scrollToRef : null}
             key={videoResource.url}
             onClick={() => setCurrentVideo(videoResource)}
             className="border-b border-gray-800"
@@ -153,12 +154,25 @@ const VideoCuesList: React.FC<any> = () => {
   const cues = useMetadataCues()
   const videoService = useVideo()
   const activeCues = useSelector(videoService, selectActiveCues)
-  const scrollToRef = React.useRef<any>(null)
-  React.useEffect(() => {
-    if (scrollToRef.current) {
-      scrollToRef.current.scrollIntoView({behavior: 'smooth'})
-    }
-  }, [activeCues])
+  // const scrollToRef = React.useRef<any>(null)
+  // React.useEffect(() => {
+  //   if (scrollToRef.current) {
+  //     scrollToRef.current.scrollIntoView({behavior: 'smooth'})
+  //   }
+  // }, [activeCues])
+
+  const clickOpen = (cue: any) => {
+    videoService.send({
+      type: 'SEEKING',
+      seekingTime: Number(cue.startTime),
+      source: 'cue',
+    })
+    videoService.send('END_SEEKING')
+    videoService.send('PAUSE')
+
+    track('opened cue', {cue: cue.text})
+  }
+
   return (
     <ul className="break-words">
       {cues.map((cue: VTTCue) => {
@@ -169,13 +183,15 @@ const VideoCuesList: React.FC<any> = () => {
         } catch (e) {
           note = {text: cue.text}
         }
+        console.log('cue.startTime:', cue.startTime)
         return (
           <li
-            ref={isActive ? scrollToRef : null}
+            // ref={isActive ? scrollToRef : null}
             key={note.text}
             className={`p-3 cursor-pointer border-b border-gray-800 ${
               isActive ? 'bg-white text-black' : 'bg-black text-white'
             }`}
+            onClick={() => clickOpen(cue)}
           >
             {note.text}
           </li>
