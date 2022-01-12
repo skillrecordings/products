@@ -61,7 +61,7 @@ const NoteCue: React.FC<any> = ({cue, duration, className}) => {
 
   const startPosition = `${(cue.startTime / duration) * 100}%`
 
-  let note: {text: string; type?: string}
+  let note: {text: string; type?: string; image?: string}
 
   try {
     note = JSON.parse(cue.text)
@@ -81,17 +81,20 @@ const NoteCue: React.FC<any> = ({cue, duration, className}) => {
       theme="light"
       maxWidth={300}
       appendTo="parent"
-      offset={[0, 30]}
+      offset={[0, 15]}
       interactive={true}
-      visible={visible || mouseOverTippy}
+      duration={0}
+      trigger="mouseenter focus"
+      delay={20}
+      // visible={visible || mouseOverTippy}
       content={
         <div
-          onMouseMove={() => setMouseOverTippy(true)}
-          onMouseLeave={() => setTimeout(() => setMouseOverTippy(false), 300)}
+          // onMouseMove={() => setMouseOverTippy(true)}
+          // onMouseLeave={() => setTimeout(() => setMouseOverTippy(false), 200)}
           className="cueplayer-react-cue-popup-content"
         >
-          <div className="cueplayer-react-cue-popup-header">header here</div>
-          <div className="prose cueplayer-react-cue-popup-body">
+          {/* <div className="cueplayer-react-cue-popup-header">header here</div> */}
+          <div className="cueplayer-react-cue-popup-body">
             {/* @ts-ignore */}
             <ReactMarkdown renderers={customRenderers}>
               {note.text}
@@ -102,8 +105,8 @@ const NoteCue: React.FC<any> = ({cue, duration, className}) => {
     >
       <div
         onClick={clickOpen}
-        onMouseEnter={() => setVisible(true)}
-        onMouseLeave={() => setTimeout(() => setVisible(false), 300)}
+        // onMouseEnter={() => setVisible(true)}
+        // onMouseLeave={() => setTimeout(() => setVisible(false), 200)}
         className={classNames(
           `${
             note.type === 'learner'
@@ -112,7 +115,13 @@ const NoteCue: React.FC<any> = ({cue, duration, className}) => {
           }`,
           className,
         )}
-        style={{left: startPosition}}
+        style={{
+          left: startPosition,
+          backgroundImage: `url(${note.image})`,
+          backgroundColor: note.image ? 'transparent' : `#b8c1cf`,
+          border: note.image ? 'none' : '1px solid #20222b',
+          backgroundSize: 'contain',
+        }}
       />
     </Tippy>
   )

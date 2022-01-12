@@ -1,6 +1,7 @@
 .cueplayer-react {
   .cueplayer-react-mute-control,
   .cueplayer-react-volume-menu-button {
+    font-size: 0.85em;
     cursor: pointer;
     @include flex(none);
     @extend .cueplayer-react-icon;
@@ -65,7 +66,7 @@
     // Volume handle
     &:before {
       position: absolute;
-      font-size: 0.9em; // Doing this to match the handle on play progress.
+      font-size: 1.1em;
     }
   }
 

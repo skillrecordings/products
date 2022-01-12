@@ -2,32 +2,26 @@
   display: flex;
   align-items: center;
   width: 100%;
-  height: 24px;
+  height: 30px;
   position: relative;
   border-bottom: 1px solid black;
-  @include background-color-with-alpha(
-    $cueplayer-react-primary-background-color,
-    $cueplayer-react-primary-background-transparency
-  );
+  background-color: $cueplayer-react-primary-background-color;
   .cueplayer-react-cue-note {
     position: absolute;
     width: 16px;
     height: 16px;
     cursor: pointer;
-    background-color: white;
     border-radius: 50%;
     transform: translate(-50%);
-    border: 1px solid green;
   }
   .cueplayer-react-cue-note-learner {
     position: absolute;
     width: 16px;
     height: 16px;
     cursor: pointer;
-    background-color: orange;
+    background-color: $cueplayer-react-primary-active-background-color;
     border-radius: 50%;
     transform: translate(-50%);
-    border: 1px solid green;
   }
   // .cueplayer-react-cue-note-inactive {
   //   opacity: 0.5;
@@ -36,9 +30,9 @@
   //   opacity: 1;
   // }
   .cueplayer-react-cue-popup-content {
-    border-radius: 4px;
-    background: white;
-    padding: 6px 9px;
+    border-radius: 5px;
+    background: $cueplayer-react-primary-background-color;
+    padding: 10px;
   }
   .cueplayer-react-cue-popup-header {
     display: flex;
@@ -46,11 +40,12 @@
     flex-wrap: nowrap;
   }
   .cueplayer-react-cue-popup-body {
+    @extend %cueplayer-react-cue-popup-markdown;
     overflow: hidden;
     display: -webkit-box;
     -webkit-box-orient: vertical;
     -webkit-line-clamp: 6;
-    line-height: 1.5;
+    line-height: 1.33;
   }
   .cueplayer-react-cue-popup-close-button,
   .cueplayer-react-cue-popup-mute-button {
