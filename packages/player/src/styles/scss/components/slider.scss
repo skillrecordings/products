@@ -9,7 +9,7 @@
     $cueplayer-react-secondary-background-transparency
   );
 
-  &:focus {
-    @include box-shadow(0 0 1em $cueplayer-react-primary-foreground-color);
-  }
+  // &:focus {
+  //   @include box-shadow(0 0 1em $cueplayer-react-primary-foreground-color);
+  // }
 }

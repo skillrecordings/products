@@ -199,6 +199,9 @@ export const Player: React.FC<PlayerProps> = (props) => {
           <div
             style={getAspectRatioStyle()}
             className="cueplayer-react-video-holder"
+            onClick={() => {
+              videoService.send(paused ? 'PLAY' : 'PAUSE')
+            }}
           >
             <Video>{children}</Video>
             <BigPlayButton />

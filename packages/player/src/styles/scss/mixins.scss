@@ -114,3 +114,14 @@
   @extend %cueplayer-react-fill-parent;
   text-align: center;
 }
+
+%cueplayer-react-cue-popup-markdown {
+  font-size: 14px;
+  color: white;
+  a {
+    color: $cueplayer-react-tertiary-foreground-color;
+  }
+  pre {
+    margin-top: 8px;
+  }
+}

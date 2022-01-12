@@ -14,8 +14,9 @@ export const ControlBar: React.FC = () => {
     <div className="cueplayer-react-control-bar">
       <div className="cueplayer-react-control-bar-left-part">
         <PlayToggleControl />
-        <ForwardReplayControl mode="replay" />
-        <ForwardReplayControl />
+        {/* <ForwardReplayControl mode="replay" />
+        <ForwardReplayControl /> */}
+        <PlaybackRateMenuButtonControl />
         <VolumeMenuButtonControl />
       </div>
       <div className="cueplayer-react-control-bar-center-part">
@@ -24,7 +25,6 @@ export const ControlBar: React.FC = () => {
         <DurationDisplay />
       </div>
       <div className="cueplayer-react-control-bar-right-part">
-        <PlaybackRateMenuButtonControl />
         <SidePanelToggleControl />
         <FullscreenToggleControl />
       </div>

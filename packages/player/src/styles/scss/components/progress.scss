@@ -1,4 +1,3 @@
-
 .cueplayer-react .cueplayer-react-progress-control {
   @include flex(auto);
   @include display-flex(center);
@@ -13,12 +12,13 @@
 .cueplayer-react .cueplayer-react-progress-holder {
   @include flex(auto);
   @include transition(all 0.2s);
-  height: 0.3em;
-}
-
-// We need an increased hit area on hover
-.cueplayer-react .cueplayer-react-progress-control:hover .cueplayer-react-progress-holder {
-  font-size: 1.666666666666666666em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  // We need an increased hit area on hover
+  height: 2em;
+  margin: -0.7em 0;
 }
 
 /* If we let the font size grow as much as everything else, the current time tooltip ends up
@@ -26,41 +26,57 @@
  to avoid a weird hitch when you roll off the hover. */
 
 // Also show the current time tooltip
-.cueplayer-react .cueplayer-react-progress-control:hover .cueplayer-react-time-tooltip,
-.cueplayer-react .cueplayer-react-progress-control:hover .cueplayer-react-mouse-display:after,
-.cueplayer-react .cueplayer-react-progress-control:hover .cueplayer-react-play-progress:after {
+.cueplayer-react
+  .cueplayer-react-progress-control:hover
+  .cueplayer-react-time-tooltip,
+.cueplayer-react
+  .cueplayer-react-progress-control:hover
+  .cueplayer-react-mouse-display:after,
+.cueplayer-react
+  .cueplayer-react-progress-control:hover
+  .cueplayer-react-play-progress:after {
   visibility: visible;
   font-size: 0.6em;
 }
 
 // Progress Bars
-.cueplayer-react .cueplayer-react-progress-holder .cueplayer-react-play-progress,
-.cueplayer-react .cueplayer-react-progress-holder .cueplayer-react-load-progress,
-.cueplayer-react .cueplayer-react-progress-holder .cueplayer-react-tooltip-progress-bar,
-.cueplayer-react .cueplayer-react-progress-holder .cueplayer-react-load-progress div {
+.cueplayer-react
+  .cueplayer-react-progress-holder
+  .cueplayer-react-play-progress,
+.cueplayer-react
+  .cueplayer-react-progress-holder
+  .cueplayer-react-load-progress,
+.cueplayer-react
+  .cueplayer-react-progress-holder
+  .cueplayer-react-tooltip-progress-bar,
+.cueplayer-react
+  .cueplayer-react-progress-holder
+  .cueplayer-react-load-progress
+  div {
   position: absolute;
   display: block;
-  height: 0.3em;
+  height: $cueplayer-react-progress-bar-height;
   margin: 0;
   padding: 0;
   // updated by javascript during playback
   width: 0;
   // Needed for IE6
   left: 0;
-  top: 0;
 }
 
 .cueplayer-react .cueplayer-react-play-progress {
   background-color: $cueplayer-react-primary-foreground-color;
-  @extend .cueplayer-react-icon;
-  @extend .cueplayer-react-icon-circle;
+  // @extend .cueplayer-react-icon;
+  // @extend .cueplayer-react-icon-circle;
 
   // Progress handle
   &:before {
     position: absolute;
-    top: -0.333333333333333em;
-    right: -0.5em;
-    font-size: 0.9em;
+    width: 2px;
+    height: 100%;
+    top: 0;
+    right: 0;
+    background-color: $cueplayer-react-primary-foreground-color;
   }
 }
 
@@ -88,7 +104,9 @@
   z-index: 1;
 }
 
-.cueplayer-react .cueplayer-react-progress-control .cueplayer-react-keep-tooltips-inside:after {
+.cueplayer-react
+  .cueplayer-react-progress-control
+  .cueplayer-react-keep-tooltips-inside:after {
   display: none;
 }
 
@@ -96,7 +114,10 @@
   // For IE8 we'll lighten the color
   background: lighten($cueplayer-react-secondary-background-color, 25%);
   // Otherwise we'll rely on stacked opacities
-  background: rgba($cueplayer-react-secondary-background-color, $cueplayer-react-secondary-background-transparency);
+  background: rgba(
+    $cueplayer-react-secondary-background-color,
+    $cueplayer-react-secondary-background-transparency
+  );
 }
 
 // there are child elements of the load progress bar that represent the
@@ -124,7 +145,9 @@
   visibility: hidden;
 }
 
-.cueplayer-react .cueplayer-react-progress-control .cueplayer-react-mouse-display {
+.cueplayer-react
+  .cueplayer-react-progress-control
+  .cueplayer-react-mouse-display {
   display: none;
   position: absolute;
   width: 1px;
@@ -133,29 +156,43 @@
   z-index: 1;
 }
 
-.cueplayer-react-no-flex .cueplayer-react-progress-control .cueplayer-react-mouse-display {
+.cueplayer-react-no-flex
+  .cueplayer-react-progress-control
+  .cueplayer-react-mouse-display {
   z-index: 0;
 }
 
-.cueplayer-react .cueplayer-react-progress-control:hover .cueplayer-react-mouse-display {
+.cueplayer-react
+  .cueplayer-react-progress-control:hover
+  .cueplayer-react-mouse-display {
   display: block;
 }
 
-.cueplayer-react.cueplayer-react-user-inactive .cueplayer-react-progress-control .cueplayer-react-mouse-display,
-.cueplayer-react.cueplayer-react-user-inactive .cueplayer-react-progress-control .cueplayer-react-mouse-display:after {
+.cueplayer-react.cueplayer-react-user-inactive
+  .cueplayer-react-progress-control
+  .cueplayer-react-mouse-display,
+.cueplayer-react.cueplayer-react-user-inactive
+  .cueplayer-react-progress-control
+  .cueplayer-react-mouse-display:after {
   visibility: hidden;
   opacity: 0;
-  $trans: visibility 1.0s, opacity 1.0s;
+  $trans: visibility 1s, opacity 1s;
   @include transition($trans);
 }
 
-.cueplayer-react.cueplayer-react-user-inactive.cueplayer-react-no-flex .cueplayer-react-progress-control .cueplayer-react-mouse-display,
-.cueplayer-react.cueplayer-react-user-inactive.cueplayer-react-no-flex .cueplayer-react-progress-control .cueplayer-react-mouse-display:after {
+.cueplayer-react.cueplayer-react-user-inactive.cueplayer-react-no-flex
+  .cueplayer-react-progress-control
+  .cueplayer-react-mouse-display,
+.cueplayer-react.cueplayer-react-user-inactive.cueplayer-react-no-flex
+  .cueplayer-react-progress-control
+  .cueplayer-react-mouse-display:after {
   display: none;
 }
 
 .cueplayer-react .cueplayer-react-mouse-display .cueplayer-react-time-tooltip,
-.cueplayer-react .cueplayer-react-progress-control .cueplayer-react-mouse-display:after {
+.cueplayer-react
+  .cueplayer-react-progress-control
+  .cueplayer-react-mouse-display:after {
   color: #fff;
   @include background-color-with-alpha(#000, 0.8);
 }

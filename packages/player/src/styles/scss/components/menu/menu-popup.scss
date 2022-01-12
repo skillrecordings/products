@@ -1,5 +1,6 @@
 .cueplayer-react {
   .cueplayer-react-menu-button-popup .cueplayer-react-menu {
+    z-index: 20;
     display: none;
     position: absolute;
     bottom: 0;
@@ -14,11 +15,12 @@
     ); // Same as ul background
 
     .cueplayer-react-menu-content {
+      @include box-shadow(0 1em 3em -1em rgba(0, 0, 0.1));
       @include background-color-with-alpha(
         $cueplayer-react-primary-background-color,
         1
       );
-
+      border-radius: 3px;
       position: absolute;
       width: 100%;
       bottom: 2em;
@@ -32,11 +34,18 @@
       padding-top: 8px;
       padding-bottom: 8px;
       font-size: 12px;
-      &:hover,
       &.cueplayer-react-selected {
         text-shadow: none;
         color: $cueplayer-react-primary-foreground-color;
-        background-color: $cueplayer-react-primary-active-background-color;
+        background-color: $cueplayer-react-secondary-background-color;
+      }
+      &:hover {
+        text-shadow: none;
+        color: $cueplayer-react-primary-foreground-color;
+        background-color: darken(
+          $cueplayer-react-secondary-background-color,
+          20%
+        );
       }
     }
   }

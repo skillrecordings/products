@@ -20,12 +20,13 @@
   }
 
   // Replacement for focus outline
-  &:focus:before,
-  &:hover:before,
-  &:focus {
-    text-shadow: 0em 0em 0.5em $cueplayer-react-primary-foreground-color,
-      0em 0em 0.5em $cueplayer-react-primary-foreground-color;
-  }
+  // Blurry one that doesnt look good
+  // &:focus:before,
+  // &:hover:before,
+  // &:focus {
+  //   text-shadow: 0em 0em 0.5em $cueplayer-react-primary-foreground-color,
+  //     0em 0em 0.5em $cueplayer-react-primary-foreground-color;
+  // }
 }
 
 // Hide control text visually, but have it available for screenreaders
