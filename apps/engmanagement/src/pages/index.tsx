@@ -77,21 +77,38 @@ export default function Home() {
         <ChapterGuide />
       </section>
       <section className="bg-gray-800 -m-5 lg:py-48 sm:py-32 py-16 p-5 lg:mt-32 sm:mt-24 mt-16">
-        <div className="max-w-screen-sm w-full mx-auto">
-          <h2 className="font-din text-center w-full inline-block lg:text-6xl sm:text-5xl text-5xl tracking-wide md:pb-20 sm:pb-16 pb-16">
-            <div className="text-orange-300 sm:text-4xl text-3xl pb-6 font-souvenir tracking-tight">
-              Coming Soon
-            </div>
-            <div className="uppercase">Subscribe to get notified</div>
-          </h2>
+        <div className="max-w-screen-md w-full mx-auto">
+          <div className="text-center w-full inline-block  md:pb-20 sm:pb-16 pb-10">
+            <h2 className="uppercase font-din  lg:text-6xl sm:text-5xl text-5xl tracking-wide">
+              Get a sneak peek at the book
+            </h2>
+            <p className="text-orange-300 sm:text-3xl text-2xl pt-2 font-souvenir tracking-tight">
+              Free chapter delivered to your inbox.
+            </p>
+          </div>
+          {/* free chapter form */}
           <SubscribeToConvertkitForm
+            formId={2610221} // the-value-of-values article
+            actionLabel="Get Free Chapter"
+            onSuccess={(subscriber: any) => {
+              if (subscriber) {
+                const redirectUrl = redirectUrlBuilder(subscriber, '/confirm', {
+                  title: 'Free Chapter',
+                })
+                router.push(redirectUrl)
+              }
+            }}
+            successMessage="Thanks! A link to access this article just got sent to your email address."
+          />
+          {/* regular subscribe form */}
+          {/* <SubscribeToConvertkitForm
             onSuccess={(subscriber: any) => {
               if (subscriber) {
                 const redirectUrl = redirectUrlBuilder(subscriber, '/confirm')
                 router.push(redirectUrl)
               }
             }}
-          />
+          /> */}
           <div className="text-lg text-center text-gray-200 pt-16">
             No spam, unsubscribe any time.
           </div>

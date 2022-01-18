@@ -9,7 +9,7 @@ const Confirm = () => {
   const emailAddress = router.query.email
 
   return (
-    <Layout meta={{title: 'Confirm your email'}}>
+    <Layout hideNav meta={{title: 'Confirm your email'}}>
       <div className="max-w-2xl text-center space-y-5 mx-auto py-24">
         <Image
           src={'/images/email-notification.svg'}
