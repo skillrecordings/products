@@ -6,7 +6,7 @@ import {track} from '@skillrecordings/analytics'
 import CodeBlock from './code-block'
 import {useVideo} from '../context/video-context'
 import {useSelector} from '@xstate/react'
-import {selectDuration} from '../selectors'
+import {selectDuration, selectViewer} from '../selectors'
 import {useCue} from '../hooks/use-cue'
 import {ElementType} from 'react'
 import ReactMarkdown from 'react-markdown'
@@ -24,10 +24,10 @@ export const CueBar: React.FC<any> = ({
 
   return disableCompletely || isEmpty(cues) ? null : (
     <div className={classNames('cueplayer-react-cue-bar', className)}>
-      {cues.map((noteCue: any) => {
+      {cues.map((noteCue: any, i: number) => {
         return (
           <NoteCue
-            key={noteCue.text}
+            key={`${noteCue.text}-${i}`}
             cue={noteCue}
             duration={duration}
             player={player}
@@ -40,9 +40,11 @@ export const CueBar: React.FC<any> = ({
 }
 
 const NoteCue: React.FC<any> = ({cue, duration, className}) => {
-  const [visible, setVisible] = React.useState(false)
-  const [mouseOverTippy, setMouseOverTippy] = React.useState(false)
+  // const [visible, setVisible] = React.useState(false)
+  // const [mouseOverTippy, setMouseOverTippy] = React.useState(false)
+
   const videoService = useVideo()
+  const viewer = useSelector(videoService, selectViewer)
 
   useCue(cue)
 
@@ -81,11 +83,12 @@ const NoteCue: React.FC<any> = ({cue, duration, className}) => {
       theme="light"
       maxWidth={300}
       appendTo="parent"
-      offset={[0, 15]}
+      offset={[0, 12]}
       interactive={true}
-      duration={0}
+      duration={400}
       trigger="mouseenter focus"
       delay={20}
+      inertia={true}
       // visible={visible || mouseOverTippy}
       content={
         <div
@@ -117,9 +120,10 @@ const NoteCue: React.FC<any> = ({cue, duration, className}) => {
         )}
         style={{
           left: startPosition,
-          backgroundImage: `url(${note.image})`,
+          backgroundImage: `url(${note.image || viewer.avatar_url})`,
           backgroundColor: note.image ? 'transparent' : `#b8c1cf`,
-          border: note.image ? 'none' : '1px solid #20222b',
+          border: '1px solid #20222b',
+          // border: note.image ? 'none' : '1px solid #20222b',
           backgroundSize: 'contain',
         }}
       />

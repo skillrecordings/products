@@ -19,8 +19,17 @@ export const selectFormattedTime = (state: StateFrom<typeof videoMachine>) =>
     state.context.videoRef?.current?.duration,
   )
 
+export const selectResource = (state: StateFrom<typeof videoMachine>) =>
+  state.context.resource ?? {}
+
 export const selectRootElem = (state: StateFrom<typeof videoMachine>) =>
   state.context.rootElemRef?.current ?? null
+
+export const selectCueFormElem = (state: StateFrom<typeof videoMachine>) =>
+  state.context.cueFormElemRef?.current ?? null
+
+export const selectVideoElem = (state: StateFrom<typeof videoMachine>) =>
+  state.context.videoRef?.current ?? null
 
 export const selectPercent = (state: StateFrom<typeof videoMachine>) => {
   if (!state.context.videoRef?.current) return 0
@@ -97,6 +106,13 @@ export const selectCurrentSrc = (state: StateFrom<typeof videoMachine>) =>
 export const selectIsPaused = (state: StateFrom<typeof videoMachine>) =>
   state.matches('ready.paused')
 
+export const selectIsTakingNote = (state: StateFrom<typeof videoMachine>) =>
+  state.matches('taking_note')
+
+export const selectIsSubmittingCueNote = (
+  state: StateFrom<typeof videoMachine>,
+) => state.context.isSubmittingCueNote || false
+
 export const selectHasFailed = (state: StateFrom<typeof videoMachine>) =>
   state.matches('failure')
 
@@ -117,3 +133,16 @@ export const selectActiveCues = (state: StateFrom<typeof videoMachine>) =>
 
 export const selectCuesMuted = (state: StateFrom<typeof videoMachine>) =>
   state.context.cuesMuted
+
+export const selectCueNoteVisibility = (
+  state: StateFrom<typeof videoMachine>,
+) => state.context.writingCueNoteVisibility
+
+export const selectIsWritingCue = (state: StateFrom<typeof videoMachine>) =>
+  state.context.writingCueNote
+
+export const selectLastAction = (state: StateFrom<typeof videoMachine>) =>
+  state.context.lastAction
+
+export const selectViewer = (state: StateFrom<typeof videoMachine>) =>
+  state.context.viewer

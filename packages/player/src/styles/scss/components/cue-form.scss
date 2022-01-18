@@ -1,0 +1,86 @@
+.cueplayer-react-cue-form {
+  margin: 15px auto;
+  position: relative;
+  max-width: 500px;
+  border-radius: 5px;
+  border-top: 1px solid #0f1014;
+  background-color: lighten($cueplayer-react-primary-background-color, 10%);
+  &:focus-within {
+    background-color: lighten($cueplayer-react-primary-background-color, 15%);
+  }
+  .cueplayer-react-cue-form-input-container {
+    display: flex;
+    align-items: center;
+  }
+  .cueplayer-react-cue-form-input-actions {
+    display: flex;
+    justify-content: space-between;
+    padding: 5px;
+    gap: 5px;
+  }
+  .cueplayer-react-cue-form-image {
+    position: absolute;
+    left: 5px;
+    border-radius: 50%;
+  }
+  .cueplayer-react-cue-form-input {
+    width: 100%;
+    border: none;
+    font-size: 14px;
+    border-radius: 5px;
+    &::placeholder,
+    &-webkit-input-placeholder,
+    &-ms-input-placeholder {
+      color: lighten($cueplayer-react-primary-background-color, 40%);
+    }
+    background-color: transparent;
+    color: $cueplayer-react-primary-foreground-color;
+    padding: 0.5em 1em 0.5em 2.6em;
+    &:focus {
+      outline: none;
+      border: none;
+      box-shadow: none;
+    }
+  }
+  .cueplayer-react-cue-form-loader {
+    position: absolute;
+    left: 10px;
+  }
+  .cueplayer-react-cue-form-visibility-select {
+    opacity: 0.8;
+    &:hover {
+      opacity: 1;
+    }
+    position: relative;
+    svg {
+      pointer-events: none;
+      position: absolute;
+      left: 6px;
+      color: darken($cueplayer-react-primary-foreground-color, 50%);
+      top: calc(50% - 6px);
+      width: 12px;
+      height: 12px;
+    }
+    select {
+      padding: 8px 24px;
+      line-height: 1;
+      color: $cueplayer-react-primary-foreground-color;
+      border: none;
+      font-size: 12px;
+      border-radius: 5px;
+      appearance: none;
+      background: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAcAAAAHCAYAAADEUlfTAAAAG0lEQVR42mNgwAfKy8v/48I4FeA0AacVDFQBAP9wJkE/KhUMAAAAAElFTkSuQmCC')
+        no-repeat scroll 90% 55% $cueplayer-react-primary-background-color;
+    }
+  }
+  .cueplayer-react-cue-form-submit-button {
+    padding: 2px 10px;
+    font-size: 12px;
+    font-weight: 500;
+    border-radius: 5px;
+    background: $cueplayer-react-tertiary-foreground-color;
+  }
+  .cueplayer-react-cue-form-submit-button:disabled {
+    opacity: 0.6;
+  }
+}

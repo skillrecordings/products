@@ -81,6 +81,7 @@ export type Viewer = {
   timezone: string
   opted_out: boolean
   purchased: any[]
+  avatar_url: string
   accounts: StripeAccount[]
 }
 

@@ -60,6 +60,7 @@ export const SeekBar: React.FC<any> = React.forwardRef<HTMLDivElement, any>(
         newTime = duration
       }
       videoService.send({type: 'SEEKING', seekingTime: newTime})
+      videoService.send({type: 'END_SEEKING'})
     }
 
     function stepBack() {
@@ -68,6 +69,7 @@ export const SeekBar: React.FC<any> = React.forwardRef<HTMLDivElement, any>(
         newTime = 0
       }
       videoService.send({type: 'SEEKING', seekingTime: newTime})
+      videoService.send({type: 'END_SEEKING'})
     }
 
     function getPercent() {
@@ -87,8 +89,9 @@ export const SeekBar: React.FC<any> = React.forwardRef<HTMLDivElement, any>(
         onMouseMove={handleMouseMove}
         onMouseUp={handleMouseUp}
         getPercent={getPercent}
-        stepForward={stepForward}
-        stepBack={stepBack}
+        // these clash with > and < shortcuts
+        // stepForward={stepForward}
+        // stepBack={stepBack}
       >
         <LoadProgressBar />
         {/*<MouseTimeDisplay duration={duration} mouseTime={mouseTime} />*/}

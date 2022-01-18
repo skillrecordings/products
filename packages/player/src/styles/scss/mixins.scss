@@ -116,8 +116,9 @@
 }
 
 %cueplayer-react-cue-popup-markdown {
-  font-size: 14px;
-  color: white;
+  font-size: 13px;
+  line-height: 1.3;
+  color: $cueplayer-react-primary-foreground-color;
   a {
     color: $cueplayer-react-tertiary-foreground-color;
   }
