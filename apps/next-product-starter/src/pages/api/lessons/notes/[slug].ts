@@ -24,7 +24,6 @@ const notes = async (req: NextApiRequest, res: NextApiResponse) => {
       const tableName =
         process.env.RESOURCE_NOTES_TABLE_NAME || 'resource_notes'
 
-      console.log('startTime: ', req.body.startTime)
       const {data = [], error} = await supabase.from(tableName).insert([
         {
           user_id: req.body.contact_id,
