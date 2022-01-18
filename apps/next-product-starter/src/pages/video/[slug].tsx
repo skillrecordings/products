@@ -47,22 +47,13 @@ export const VIEWER = [
   },
 ]
 
-const resources: VideoResource[] = [
+const sidePanelResources: any = [
   {
     title: 'Create a New Supabase Project',
-    url: `https://d2c5owlt6rorc3.cloudfront.net/egghead-create-a-new-supabase-project-lEG2O_feW/hls/egghead-create-a-new-supabase-project-lEG2O_feW.m3u8`,
-    subtitlesUrl: `https://app.egghead.io/api/v1/lessons/javascript-create-a-new-supabase-project/subtitles`,
-    staff_notes_url:
-      'https://cdn.jsdelivr.net/gh/eggheadio/eggheadio-course-notes/build-a-real-time-data-syncing-chat-application-with-supabase-and-next-js-84e58958/notes/01_supabase-create-a-new-supabase-project.md',
     slug: `supabase-create-a-new-supabase-project`,
   },
   {
     title: 'Understand and Use Interpolation in JSX',
-    url: 'https://d2c5owlt6rorc3.cloudfront.net/egghead-v2-08-understand-and-use-interpolation-in-jsx-HkkplFIHU/hls/egghead-v2-08-understand-and-use-interpolation-in-jsx-HkkplFIHU.m3u8',
-    subtitlesUrl:
-      'https://app.egghead.io/api/v1/lessons/react-understand-and-use-interpolation-in-jsx/subtitles',
-    notesUrl:
-      'https://gist.githubusercontent.com/vojtaholik/db8c0e68b559d504b93a535473232fbc/raw/19c3b17390b421464584d23ba25e0dfd83987061/gistfile1.txt',
     slug: 'react-understand-and-use-interpolation-in-jsx',
   },
 ]
@@ -132,7 +123,7 @@ const PlayerPage = ({resource}: any) => {
             <SidePanel
               videoResourcesList={
                 <VideoResourcesList
-                  resources={resources}
+                  resources={sidePanelResources}
                   currentResource={currentResource}
                   setCurrentResource={setCurrentResource}
                 />
