@@ -3,6 +3,7 @@ export {VideoProvider, useVideo} from './context/video-context'
 export {HLSSource} from './components/hls-source'
 export {CueBar} from './components/cue-bar'
 export {SidePanel} from './components/side-panel'
+export {CueForm} from './components/cue-form'
 
 export {useMetadataCues} from './hooks/use-metadata-cues'
 

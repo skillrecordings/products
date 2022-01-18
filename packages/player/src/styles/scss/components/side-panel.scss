@@ -2,10 +2,8 @@
   position: relative;
   width: 100%;
   height: 100%;
-  border-color: #27272a;
-  border-style: solid;
-  border-width: 1px;
-  background: black;
+  border-left: 1px solid #0f1014;
+  background: $cueplayer-react-primary-background-color;
   [data-reach-tabs] {
     position: static;
     inset: 0;
@@ -16,7 +14,7 @@
     position: relative;
     z-index: 1;
     flex-shrink: 0;
-    border-bottom: 1px solid #27272a;
+    border-bottom: 1px solid #0f1014;
   }
   [data-reach-tab-panels] {
     position: relative;
@@ -33,7 +31,7 @@
     color: white;
     opacity: 0.5;
     padding: 8px 12px;
-    font-weight: 600;
+    font-size: 14px;
     &[data-selected] {
       opacity: 1;
     }
@@ -63,4 +61,34 @@
   .cueplayer-react-fullscreen .cueplayer-react-side-panel-control {
     display: inline-block;
   }
+}
+
+.cueplayer-react-side-panel-comment {
+  border-bottom: 1px solid #0f1014;
+  padding: 16px;
+  border-left: 3px solid transparent;
+}
+
+.cueplayer-react-side-panel-comment-inactive {
+  cursor: pointer;
+  &:hover {
+    $trans: background 0.1s;
+    @include transition($trans);
+    background: lighten($cueplayer-react-primary-background-color, 5%);
+  }
+}
+.cueplayer-react-side-panel-comment-active {
+  cursor: default;
+  background: #0f1014;
+  border-left: 3px solid $cueplayer-react-tertiary-foreground-color;
+}
+
+.cueplayer-react-side-panel-comment-body {
+  display: flex;
+}
+
+.cueplayer-react-side-panel-comment-image {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
 }

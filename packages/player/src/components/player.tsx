@@ -14,6 +14,7 @@ import {Bezel} from './bezel'
 import {ControlBar} from './control-bar'
 import {ProgressBar} from './progress-bar'
 import {CueBar} from './cue-bar'
+import {CueForm} from './cue-form'
 
 import {
   selectHasStarted,
@@ -24,6 +25,7 @@ import {
   selectIsSeeking,
   selectIsWaiting,
   selectVideo,
+  selectViewer,
 } from '../selectors'
 
 type PlayerProps = {
@@ -49,6 +51,7 @@ const usePlayerState = () => {
   const withSidePanel = useSelector(videoService, selectWithSidePanel)
   const isWaiting = useSelector(videoService, selectIsWaiting)
   const video = useSelector(videoService, selectVideo)
+  const viewer = useSelector(videoService, selectViewer)
 
   return {
     videoService,
@@ -60,6 +63,7 @@ const usePlayerState = () => {
     withSidePanel,
     isWaiting,
     video,
+    viewer,
   }
 }
 
@@ -81,6 +85,7 @@ export const Player: React.FC<PlayerProps> = (props) => {
     withSidePanel,
     isWaiting,
     video,
+    viewer,
   } = usePlayerState()
   const cues = useMetadataCues()
 
@@ -203,7 +208,10 @@ export const Player: React.FC<PlayerProps> = (props) => {
               videoService.send(paused ? 'PLAY' : 'PAUSE')
             }}
           >
-            <Video>{children}</Video>
+            <Video>
+              {children}
+              {/* <track id="notes" src={userCues} kind="metadata" label="notes" /> */}
+            </Video>
             <BigPlayButton />
             <Bezel />
             <LoadingSpinner />
@@ -215,6 +223,7 @@ export const Player: React.FC<PlayerProps> = (props) => {
         <CueBar />
         <ControlBar />
         <Shortcut />
+        {!isEmpty(viewer) && <CueForm />}
       </div>
     </div>
   )

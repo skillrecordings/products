@@ -10,9 +10,11 @@
   // Need to fix centered page layouts
   text-align: left;
 
-  border: 6px solid rgba($cueplayer-react-primary-background-color, $cueplayer-react-primary-background-transparency);
-  // border: 6px solid rgba(43, 51, 63, 0.5);
-
+  border: 6px solid
+    rgba(
+      $cueplayer-react-primary-background-color,
+      $cueplayer-react-primary-background-transparency
+    );
   box-sizing: border-box;
   background-clip: padding-box;
   width: 50px;
@@ -21,7 +23,7 @@
 
   &:before,
   &:after {
-    content: "";
+    content: '';
     position: absolute;
     margin: -6px;
     box-sizing: inherit;
@@ -32,12 +34,15 @@
     border: inherit;
     border-color: transparent;
     border-top-color: white;
-    -webkit-animation: cueplayer-react-spinner-spin 1.1s cubic-bezier(0.6, 0.2, 0, 0.8) infinite, cueplayer-react-spinner-fade 1.1s linear infinite;
-    animation: cueplayer-react-spinner-spin 1.1s cubic-bezier(0.6, 0.2, 0, 0.8) infinite, cueplayer-react-spinner-fade 1.1s linear infinite;
+    -webkit-animation: cueplayer-react-spinner-spin 1.1s
+        cubic-bezier(0.6, 0.2, 0, 0.8) infinite,
+      cueplayer-react-spinner-fade 1.1s linear infinite;
+    animation: cueplayer-react-spinner-spin 1.1s cubic-bezier(0.6, 0.2, 0, 0.8)
+        infinite,
+      cueplayer-react-spinner-fade 1.1s linear infinite;
   }
 }
 
-.cueplayer-react-seeking .cueplayer-react-loading-spinner,
 .cueplayer-react-waiting .cueplayer-react-loading-spinner {
   display: block;
 }
@@ -101,5 +106,3 @@
     border-top-color: $cueplayer-react-secondary-background-color;
   }
 }
-
-

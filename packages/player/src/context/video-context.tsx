@@ -29,12 +29,14 @@ export const useVideo = () => {
  *
  * @see {@link https://dev.to/mpocock1/how-to-manage-global-state-with-xstate-and-react-3if5}
  */
-export const VideoProvider: React.FC<{actions?: any}> = ({
+export const VideoProvider: React.FC<{actions?: any; services?: any}> = ({
   actions = {},
   children,
+  services,
 }) => {
   const videoService = useInterpret(videoMachine, {
     actions: {...defaultActions, ...actions},
+    services,
   })
 
   // see all state changes

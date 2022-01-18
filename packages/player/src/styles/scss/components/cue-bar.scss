@@ -8,16 +8,16 @@
   background-color: $cueplayer-react-primary-background-color;
   .cueplayer-react-cue-note {
     position: absolute;
-    width: 16px;
-    height: 16px;
+    width: 20px;
+    height: 20px;
     cursor: pointer;
     border-radius: 50%;
     transform: translate(-50%);
   }
   .cueplayer-react-cue-note-learner {
     position: absolute;
-    width: 16px;
-    height: 16px;
+    width: 20px;
+    height: 20px;
     cursor: pointer;
     background-color: $cueplayer-react-primary-active-background-color;
     border-radius: 50%;
@@ -45,7 +45,6 @@
     display: -webkit-box;
     -webkit-box-orient: vertical;
     -webkit-line-clamp: 6;
-    line-height: 1.33;
   }
   .cueplayer-react-cue-popup-close-button,
   .cueplayer-react-cue-popup-mute-button {

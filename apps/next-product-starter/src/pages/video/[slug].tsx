@@ -1,0 +1,293 @@
+import * as React from 'react'
+import cx from 'classnames'
+import {track} from '@skillrecordings/analytics'
+import Layout from '@skillrecordings/react/dist/layouts'
+import {
+  Player,
+  VideoProvider,
+  HLSSource,
+  useMetadataCues,
+  useVideo,
+  selectActiveCues,
+  selectWithSidePanel,
+  selectViewer,
+  SidePanel,
+} from '@skillrecordings/player'
+import {useSelector} from '@xstate/react'
+import ReactMarkdown from 'react-markdown'
+import classNames from 'classnames'
+import {
+  VideoEvent,
+  VideoStateContext,
+} from '@skillrecordings/player/dist/machines/video-machine'
+import addCueNote from 'lib/add-cue-note'
+
+type VideoResource = {
+  title: string
+  url: string
+  slug: string
+  subtitlesUrl?: string
+  staff_notes_url?: string
+  notesUrl?: string
+}
+
+export const VIEWER = [
+  {
+    contact_id: 'vojta-testing',
+    avatar_url:
+      'https://d2eip9sf3oo6c2.cloudfront.net/users/avatars/000/173/301/medium/m2.png',
+  },
+  {
+    contact_id: 'lauro-testing',
+    avatar_url: 'https://avatars.githubusercontent.com/u/57044804?v=4',
+  },
+  {
+    contact_id: 'joel-testing',
+    avatar_url: 'https://avatars.githubusercontent.com/u/86834?v=4',
+  },
+]
+
+const resources: VideoResource[] = [
+  {
+    title: 'Create a New Supabase Project',
+    url: `https://d2c5owlt6rorc3.cloudfront.net/egghead-create-a-new-supabase-project-lEG2O_feW/hls/egghead-create-a-new-supabase-project-lEG2O_feW.m3u8`,
+    subtitlesUrl: `https://app.egghead.io/api/v1/lessons/javascript-create-a-new-supabase-project/subtitles`,
+    staff_notes_url:
+      'https://cdn.jsdelivr.net/gh/eggheadio/eggheadio-course-notes/build-a-real-time-data-syncing-chat-application-with-supabase-and-next-js-84e58958/notes/01_supabase-create-a-new-supabase-project.md',
+    slug: `supabase-create-a-new-supabase-project`,
+  },
+  {
+    title: 'Understand and Use Interpolation in JSX',
+    url: 'https://d2c5owlt6rorc3.cloudfront.net/egghead-v2-08-understand-and-use-interpolation-in-jsx-HkkplFIHU/hls/egghead-v2-08-understand-and-use-interpolation-in-jsx-HkkplFIHU.m3u8',
+    subtitlesUrl:
+      'https://app.egghead.io/api/v1/lessons/react-understand-and-use-interpolation-in-jsx/subtitles',
+    notesUrl:
+      'https://gist.githubusercontent.com/vojtaholik/db8c0e68b559d504b93a535473232fbc/raw/19c3b17390b421464584d23ba25e0dfd83987061/gistfile1.txt',
+    slug: 'react-understand-and-use-interpolation-in-jsx',
+  },
+]
+
+const PlayerPage = ({resource}: any) => {
+  const [mounted, setMounted] = React.useState<boolean>(false)
+
+  const [currentResource, setCurrentResource] = React.useState<any>(resource)
+
+  const videoService = useVideo()
+  const withSidePanel = useSelector(videoService, selectWithSidePanel)
+  const viewer = useSelector(videoService, selectViewer)
+
+  const fullscreenWrapperRef = React.useRef<HTMLDivElement>(null)
+
+  React.useEffect(() => {
+    // @ts-ignore
+    videoService.send('LOAD_RESOURCE', {resource: currentResource})
+  }, [])
+
+  React.useEffect(() => {
+    if (fullscreenWrapperRef) {
+      setMounted(true)
+    }
+  }, [fullscreenWrapperRef])
+
+  return (
+    <>
+      <div
+        className="relative w-full space-y-6 lg:grid lg:grid-cols-12 lg:space-y-0"
+        ref={fullscreenWrapperRef}
+      >
+        <div
+          className={cx(
+            'relative before:float-left after:clear-both after:table',
+            withSidePanel ? 'col-span-9' : 'col-span-12',
+          )}
+        >
+          {mounted && (
+            <Player
+              className="font-sans"
+              container={fullscreenWrapperRef.current || undefined}
+            >
+              <HLSSource src={currentResource?.media_urls?.hls_url} />
+
+              {currentResource.subtitles_url && (
+                <track
+                  src={currentResource?.subtitles_url}
+                  kind="subtitles"
+                  srcLang="en"
+                  label="English"
+                />
+              )}
+              {true && ( // TODO: check if has notes
+                <track
+                  id="notes"
+                  src={`/api/lessons/notes/${currentResource.slug}?staff_notes_url=${currentResource.staff_notes_url}&contact_id=${viewer.contact_id}`}
+                  kind="metadata"
+                  label="notes"
+                />
+              )}
+            </Player>
+          )}
+        </div>
+        {withSidePanel && (
+          <div className="col-span-3">
+            <SidePanel
+              videoResourcesList={
+                <VideoResourcesList
+                  resources={resources}
+                  currentResource={currentResource}
+                  setCurrentResource={setCurrentResource}
+                />
+              }
+              videoCuesList={<VideoCuesList />}
+            />
+          </div>
+        )}
+      </div>
+    </>
+  )
+}
+
+type VideoResourcesListProps = {
+  resources: VideoResource[]
+  currentResource: any
+  setCurrentResource: (video: VideoResource) => void
+}
+
+const VideoResourcesList: React.FC<VideoResourcesListProps> = ({
+  resources,
+  currentResource,
+}) => {
+  return (
+    <ul>
+      {resources.map((videoResource: VideoResource) => {
+        const isActive = videoResource.slug === currentResource.slug
+        return (
+          <li key={videoResource.url} className="border-b border-gray-800">
+            <a href={videoResource.slug}>
+              <div
+                className={`p-3 cursor-pointer leading-tight text-sm font-semibold  bg-transparent ${
+                  isActive
+                    ? 'bg-black bg-opacity-30'
+                    : 'hover:bg-white hover:bg-opacity-5'
+                }`}
+              >
+                {videoResource.title}
+              </div>
+            </a>
+          </li>
+        )
+      })}
+    </ul>
+  )
+}
+
+const VideoCue: React.FC<any> = ({cue, note, isActive}) => {
+  const cueRef = React.useRef<any>(null)
+  const videoService = useVideo()
+  const viewer = useSelector(videoService, selectViewer)
+  const clickOpen = (cue: any) => {
+    videoService.send({
+      type: 'SEEKING',
+      seekingTime: Number(cue.startTime),
+      source: 'cue',
+    })
+    videoService.send('END_SEEKING')
+    videoService.send('PAUSE')
+    track('opened cue', {cue: cue.text})
+  }
+
+  React.useEffect(() => {
+    if (isActive && cueRef.current) {
+      cueRef.current.scrollIntoView({behavior: 'smooth'})
+    }
+  }, [isActive, cueRef])
+
+  return (
+    <li
+      ref={cueRef}
+      key={note.text}
+      className={`cueplayer-react-side-panel-comment ${classNames({
+        'cueplayer-react-side-panel-comment-active': isActive,
+        'cueplayer-react-side-panel-comment-inactive': !isActive,
+      })}`}
+      onClick={() => clickOpen(cue)}
+    >
+      <img
+        src={note.image || viewer.avatar_url}
+        alt=""
+        className="cueplayer-react-side-panel-comment-image"
+      />
+      <div className="cueplayer-react-side-panel-comment-body">
+        {/* <span className="">{cue.startTime}</span> */}
+        <ReactMarkdown className="prose dark:prose-dark prose-sm">
+          {note.text}
+        </ReactMarkdown>
+      </div>
+    </li>
+  )
+}
+
+const VideoCuesList: React.FC<any> = () => {
+  const cues = useMetadataCues()
+  const videoService = useVideo()
+  const activeCues = useSelector(videoService, selectActiveCues)
+
+  return (
+    <ul>
+      {cues.map((cue: VTTCue) => {
+        let note: {text: string; type?: string}
+        const isActive = activeCues.includes(cue)
+        try {
+          note = JSON.parse(cue.text)
+        } catch (e) {
+          note = {text: cue.text}
+        }
+        return (
+          <VideoCue key={note.text} cue={cue} isActive={isActive} note={note} />
+        )
+      })}
+    </ul>
+  )
+}
+
+const Page = ({data}: any) => {
+  return (
+    <Layout>
+      <VideoProvider
+        services={{
+          addCueNote,
+          loadViewer:
+            (context: VideoStateContext, _event: VideoEvent) => async () => {
+              context.viewer = VIEWER[1] as any
+            },
+        }}
+        actions={{
+          onVideoEnded: (_context: any, _event: any) => {
+            console.log('do stuff')
+          },
+        }}
+      >
+        <PlayerPage resource={data} />
+      </VideoProvider>
+    </Layout>
+  )
+}
+
+export async function getServerSideProps(context: any) {
+  const res = await getLesson(context.params.slug)
+  const data = await res.json()
+
+  if (!data) {
+    return {
+      notFound: true,
+    }
+  }
+
+  return {props: {data}}
+}
+
+export async function getLesson(slug: string): Promise<any> {
+  const lesson = await fetch(`https://app.egghead.io/api/v1/lessons/${slug}`)
+  return lesson
+}
+
+export default Page
