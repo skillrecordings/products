@@ -29,9 +29,7 @@ export default async function checkSubscriber(
 
   // if tagId is passed then check if subscriber is tagged
   // if not, simply check if they're subscribed
-  const subscribed: boolean = tagId
-    ? (subscriber && !isEmpty(find(subscriber.tags, {id: tagId}))) || false
-    : !isEmpty(subscriber)
+  const subscribed: boolean = !isEmpty(subscriber)
 
   return subscribed
 }
