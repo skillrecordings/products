@@ -63,6 +63,9 @@ module.exports = {
             'a:hover': {
               color: theme('colors.orange.200'),
             },
+            hr: {
+              borderColor: theme('colors.gray.800'),
+            },
           },
         },
         xl: {
