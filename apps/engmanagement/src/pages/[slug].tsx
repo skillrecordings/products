@@ -7,7 +7,6 @@ import find from 'lodash/find'
 import ArticleTemplate from 'templates/article'
 import groq from 'groq'
 import {sanityClient} from 'utils/sanity-client'
-import checkSubscriber from 'utils/check-subscriber'
 import {useNextSanityImage} from 'next-sanity-image'
 import Image from 'next/image'
 import {
@@ -21,8 +20,7 @@ import {
 } from 'components/article-assets'
 import {useRouter} from 'next/router'
 import toast, {Toaster} from 'react-hot-toast'
-import get from 'lodash/get'
-import {ACCESS_TOKEN_KEY, CK_SUBSCRIBER_KEY} from '@skillrecordings/config'
+import {CK_SUBSCRIBER_KEY} from '@skillrecordings/config'
 import * as serverCookie from 'cookie'
 
 type ArticleProps = {
