@@ -18,17 +18,6 @@ export default async function checkSubscriber(
       ? await fetchConvertkitSubscriberFromServerCookie(cookieHeader)
       : [null]
 
-  // test
-  // const subscriber = {
-  //   tags: [
-  //     {
-  //       id: '123456',
-  //     },
-  //   ],
-  // }
-
-  // if tagId is passed then check if subscriber is tagged
-  // if not, simply check if they're subscribed
   const subscribed: boolean = !isEmpty(subscriber)
 
   return subscribed

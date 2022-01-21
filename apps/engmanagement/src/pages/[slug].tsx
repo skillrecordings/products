@@ -21,6 +21,9 @@ import {
 } from 'components/article-assets'
 import {useRouter} from 'next/router'
 import toast, {Toaster} from 'react-hot-toast'
+import get from 'lodash/get'
+import {ACCESS_TOKEN_KEY, CK_SUBSCRIBER_KEY} from '@skillrecordings/config'
+import * as serverCookie from 'cookie'
 
 type ArticleProps = {
   post: {
@@ -181,9 +184,20 @@ const allPostsQuery = groq`
   }
 `
 
+function getConvertkitFromCookieHeaders(serverCookies: string = '') {
+  return CK_SUBSCRIBER_KEY
+    ? serverCookie.parse(serverCookies)[CK_SUBSCRIBER_KEY]
+    : ''
+}
+
 export const getServerSideProps: GetServerSideProps = async (context: any) => {
   const allPosts = await sanityClient.fetch(allPostsQuery)
   const currentPost = find(allPosts, {slug: context.params.slug})
+  const cookieHeader = context.req.headers.cookie as string
+
+  const convertkitId =
+    context.query[CK_SUBSCRIBER_KEY] ||
+    getConvertkitFromCookieHeaders(cookieHeader)
 
   if (isEmpty(currentPost)) {
     return {
@@ -195,9 +209,7 @@ export const getServerSideProps: GetServerSideProps = async (context: any) => {
     slug: currentPost.slug,
   })
 
-  const authorized = initialData.subscribersOnly
-    ? await checkSubscriber(context, initialData.ckTagId)
-    : true
+  const authorized = initialData.subscribersOnly ? !isEmpty(convertkitId) : true
 
   const {body: fullBody} =
     authorized &&
