@@ -131,7 +131,6 @@ ${JSON.stringify(note)}\n\n`
 }
 
 const parseMdxNotesFile = async (text: string) => {
-  // @ts-ignore
   const file = new VFile(text.trimStart())
 
   function extractNotes() {

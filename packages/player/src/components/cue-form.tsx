@@ -86,8 +86,7 @@ export const CueForm: React.FC = () => {
               defaultValue={cueNoteVisibility}
               onChange={(e) => {
                 const state = e.target.value
-                // @ts-ignore
-                videoService.send('TOGGLE_CUE_STATE', {visibility: state})
+                videoService.send({type: 'TOGGLE_CUE_STATE', visibility: state})
               }}
             >
               <option value="published">Everyone</option>

@@ -79,11 +79,9 @@ const PlayerPage = ({resource}: any) => {
 
   React.useEffect(() => {
     setCurrentResource(resource)
-    // @ts-ignore
-    videoService.send('LOAD_RESOURCE', {resource: currentResource})
-    // @ts-ignore
+    videoService.send({type: 'LOAD_RESOURCE', resource: currentResource})
     // reset overlay if we change a lesson
-    videoService.send('SET_OVERLAY', {overlay: null})
+    videoService.send({type: 'SET_OVERLAY', overlay: null})
   }, [router])
 
   React.useEffect(() => {

@@ -34,8 +34,7 @@ const LessonFinishedOverlay: React.FC<{nextResource?: any}> = ({
         <button
           onClick={() => {
             videoService.send('PLAY')
-            // @ts-ignore
-            videoService.send('SET_OVERLAY', {overlay: null})
+            videoService.send({type: 'SET_OVERLAY', overlay: null})
           }}
         >
           Replay

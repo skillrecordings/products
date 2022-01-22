@@ -47,7 +47,7 @@ export type VideoEvent =
   | {type: 'TOGGLE_CUE_STATE'; visibility: string}
   | {type: 'STARTED_TYPING'}
   | {type: 'TOGGLE_AUTOPLAY'}
-  | {type: 'SET_OVERLAY'; overlay: React.ReactElement}
+  | {type: 'SET_OVERLAY'; overlay: React.ReactElement | null}
 
 export interface VideoStateContext {
   rootElemRef: MutableRefObject<HTMLElement | null> | null
