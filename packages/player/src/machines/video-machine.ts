@@ -1,7 +1,8 @@
 import {assign, createMachine} from 'xstate'
-import {MutableRefObject} from 'react'
+import React, {MutableRefObject} from 'react'
 import {isEqual, isEmpty, remove} from 'lodash'
 import type {LessonResource, Viewer} from '@skillrecordings/types'
+import {getPlayerPrefs, savePlayerPrefs} from '../hooks/use-player-prefs'
 
 export type VideoEvent =
   | {type: 'VOLUME_CHANGE'; volume: number; source?: string}
@@ -45,6 +46,8 @@ export type VideoEvent =
   | {type: 'CANCELLED'}
   | {type: 'TOGGLE_CUE_STATE'; visibility: string}
   | {type: 'STARTED_TYPING'}
+  | {type: 'TOGGLE_AUTOPLAY'}
+  | {type: 'SET_OVERLAY'; overlay: React.ReactElement}
 
 export interface VideoStateContext {
   rootElemRef: MutableRefObject<HTMLElement | null> | null
@@ -54,6 +57,7 @@ export interface VideoStateContext {
   // HLS would get destroyed and recreated repeatedly
   videoRef: MutableRefObject<HTMLVideoElement> | undefined
   resource: LessonResource
+  autoplay: boolean
   viewer: Viewer
   duration: number
   currentTime: number
@@ -74,6 +78,7 @@ export interface VideoStateContext {
   writingCueNote: boolean
   isSubmittingCueNote: boolean
   writingCueNoteVisibility: string
+  overlay: React.ReactElement | null
 }
 
 export const videoMachine = createMachine<VideoStateContext, VideoEvent>(
@@ -84,6 +89,7 @@ export const videoMachine = createMachine<VideoStateContext, VideoEvent>(
       resource: {} as LessonResource,
       viewer: {} as Viewer,
       rootElemRef: null,
+      autoplay: getPlayerPrefs().autoplay,
       cueFormElemRef: null,
       videoRef: undefined,
       waiting: true,
@@ -105,6 +111,7 @@ export const videoMachine = createMachine<VideoStateContext, VideoEvent>(
       writingCueNote: false,
       isSubmittingCueNote: false,
       writingCueNoteVisibility: 'draft',
+      overlay: null,
     },
     on: {
       SET_ROOT_ELEM: {
@@ -123,6 +130,13 @@ export const videoMachine = createMachine<VideoStateContext, VideoEvent>(
             videoRef: (_context, event) => event.videoRef,
             readyState: (_context, event) =>
               event.videoRef?.current?.readyState ?? 0,
+          }),
+        ],
+      },
+      SET_OVERLAY: {
+        actions: [
+          assign({
+            overlay: (_context, event) => event.overlay,
           }),
         ],
       },
@@ -264,6 +278,16 @@ export const videoMachine = createMachine<VideoStateContext, VideoEvent>(
           }),
         ],
       },
+      TOGGLE_AUTOPLAY: {
+        actions: [
+          assign({
+            autoplay: (context, _event) => {
+              savePlayerPrefs({autoplay: !context.autoplay})
+              return !context.autoplay
+            },
+          }),
+        ],
+      },
     },
     states: {
       loading: {
@@ -292,6 +316,7 @@ export const videoMachine = createMachine<VideoStateContext, VideoEvent>(
               waiting: (_context, _event) => false,
             }),
           },
+
           FAIL: 'failure',
         },
       },
@@ -315,7 +340,6 @@ export const videoMachine = createMachine<VideoStateContext, VideoEvent>(
               'setVolume',
             ],
           },
-
           TOGGLE_MUTE: {
             actions: ['toggleMute'],
           },
@@ -372,7 +396,12 @@ export const videoMachine = createMachine<VideoStateContext, VideoEvent>(
           },
           ended: {
             entry: ['onVideoEnded'],
-            on: {PLAY: 'playing'},
+            on: {
+              PLAY: {
+                target: 'playing',
+                actions: ['playVideo'],
+              },
+            },
           },
         },
       },

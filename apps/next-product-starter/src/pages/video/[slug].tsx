@@ -1,7 +1,7 @@
 import * as React from 'react'
 import cx from 'classnames'
 import {track} from '@skillrecordings/analytics'
-import Layout from '@skillrecordings/react/dist/layouts'
+import Link from 'next/link'
 import {
   Player,
   VideoProvider,
@@ -21,6 +21,9 @@ import {
   VideoStateContext,
 } from '@skillrecordings/player/dist/machines/video-machine'
 import addCueNote from 'lib/add-cue-note'
+import {useRouter} from 'next/router'
+import {indexOf, find} from 'lodash'
+import LessonFinishedOverlay from 'components/video-overlays/lesson-finished'
 
 type VideoResource = {
   title: string
@@ -53,12 +56,17 @@ const sidePanelResources: any = [
     slug: `supabase-create-a-new-supabase-project`,
   },
   {
+    title: 'Query Data From Supabase Using Next.js',
+    slug: 'supabase-query-data-from-supabase-using-next-js',
+  },
+  {
     title: 'Understand and Use Interpolation in JSX',
     slug: 'react-understand-and-use-interpolation-in-jsx',
   },
 ]
 
 const PlayerPage = ({resource}: any) => {
+  const router = useRouter()
   const [mounted, setMounted] = React.useState<boolean>(false)
 
   const [currentResource, setCurrentResource] = React.useState<any>(resource)
@@ -70,9 +78,13 @@ const PlayerPage = ({resource}: any) => {
   const fullscreenWrapperRef = React.useRef<HTMLDivElement>(null)
 
   React.useEffect(() => {
+    setCurrentResource(resource)
     // @ts-ignore
     videoService.send('LOAD_RESOURCE', {resource: currentResource})
-  }, [])
+    // @ts-ignore
+    // reset overlay if we change a lesson
+    videoService.send('SET_OVERLAY', {overlay: null})
+  }, [router])
 
   React.useEffect(() => {
     if (fullscreenWrapperRef) {
@@ -98,7 +110,6 @@ const PlayerPage = ({resource}: any) => {
               container={fullscreenWrapperRef.current || undefined}
             >
               <HLSSource src={currentResource?.media_urls?.hls_url} />
-
               {currentResource.subtitles_url && (
                 <track
                   src={currentResource?.subtitles_url}
@@ -107,14 +118,13 @@ const PlayerPage = ({resource}: any) => {
                   label="English"
                 />
               )}
-              {true && ( // TODO: check if has notes
-                <track
-                  id="notes"
-                  src={`/api/lessons/notes/${currentResource.slug}?staff_notes_url=${currentResource.staff_notes_url}&contact_id=${viewer.contact_id}`}
-                  kind="metadata"
-                  label="notes"
-                />
-              )}
+              {/* TODO: check if has notes */}
+              <track
+                id="notes"
+                src={`/api/lessons/notes/${currentResource.slug}?staff_notes_url=${currentResource.staff_notes_url}&contact_id=${viewer.contact_id}`}
+                kind="metadata"
+                label="notes"
+              />
             </Player>
           )}
         </div>
@@ -125,7 +135,6 @@ const PlayerPage = ({resource}: any) => {
                 <VideoResourcesList
                   resources={sidePanelResources}
                   currentResource={currentResource}
-                  setCurrentResource={setCurrentResource}
                 />
               }
               videoCuesList={<VideoCuesList />}
@@ -140,7 +149,6 @@ const PlayerPage = ({resource}: any) => {
 type VideoResourcesListProps = {
   resources: VideoResource[]
   currentResource: any
-  setCurrentResource: (video: VideoResource) => void
 }
 
 const VideoResourcesList: React.FC<VideoResourcesListProps> = ({
@@ -153,17 +161,19 @@ const VideoResourcesList: React.FC<VideoResourcesListProps> = ({
         const isActive = videoResource.slug === currentResource.slug
         return (
           <li key={videoResource.url} className="border-b border-gray-800">
-            <a href={videoResource.slug}>
-              <div
-                className={`p-3 cursor-pointer leading-tight text-sm font-semibold  bg-transparent ${
-                  isActive
-                    ? 'bg-black bg-opacity-30'
-                    : 'hover:bg-white hover:bg-opacity-5'
-                }`}
-              >
-                {videoResource.title}
-              </div>
-            </a>
+            <Link href={videoResource.slug}>
+              <a>
+                <div
+                  className={`p-3 cursor-pointer leading-tight text-sm font-semibold  bg-transparent ${
+                    isActive
+                      ? 'bg-black bg-opacity-30'
+                      : 'hover:bg-white hover:bg-opacity-5'
+                  }`}
+                >
+                  {videoResource.title}
+                </div>
+              </a>
+            </Link>
           </li>
         )
       })}
@@ -240,26 +250,35 @@ const VideoCuesList: React.FC<any> = () => {
   )
 }
 
-const Page = ({data}: any) => {
+const Page = ({data, nextLesson}: any) => {
+  const router = useRouter()
   return (
-    <Layout>
+    <main className="">
       <VideoProvider
         services={{
           addCueNote,
           loadViewer:
             (context: VideoStateContext, _event: VideoEvent) => async () => {
-              context.viewer = VIEWER[1] as any
+              context.viewer = VIEWER[0] as any
             },
         }}
         actions={{
-          onVideoEnded: (_context: any, _event: any) => {
-            console.log('do stuff')
+          onVideoEnded: (context: VideoStateContext, event: VideoEvent) => {
+            // if autoplay is on and we have nextLesson, navigate to next lesson
+            if (nextLesson && context.autoplay) {
+              router.push(`/video/${nextLesson.slug}`)
+            }
+            // if not, show default overlay
+            else
+              context.overlay = (
+                <LessonFinishedOverlay nextResource={nextLesson} />
+              )
           },
         }}
       >
         <PlayerPage resource={data} />
       </VideoProvider>
-    </Layout>
+    </main>
   )
 }
 
@@ -267,13 +286,20 @@ export async function getServerSideProps(context: any) {
   const res = await getLesson(context.params.slug)
   const data = await res.json()
 
+  const nextLessonIndex: any =
+    indexOf(sidePanelResources, find(sidePanelResources, {slug: data.slug})) + 1
+  const nextLessonRes = await getLesson(
+    sidePanelResources[nextLessonIndex]?.slug,
+  )
+
+  const nextLessonData = await nextLessonRes.json()
   if (!data) {
     return {
       notFound: true,
     }
   }
 
-  return {props: {data}}
+  return {props: {data, nextLesson: nextLessonData}}
 }
 
 export async function getLesson(slug: string): Promise<any> {

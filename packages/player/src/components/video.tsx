@@ -2,6 +2,8 @@ import * as React from 'react'
 import {useVideo} from '../context/video-context'
 import cx from 'classnames'
 import {useMetadataTrackList} from '../hooks/use-metadata-track-list'
+import {useSelector} from '@xstate/react'
+import {selectPaused, selectIsWaiting, selectCurrentTime} from '../selectors'
 
 type VideoProps = {
   loop?: boolean
@@ -51,6 +53,9 @@ export const Video: React.FC<VideoProps> = ({
   //to the videoService and update our state machine context
   const videoElemRef = React.useRef<any>(null)
   const videoService = useVideo()
+  const paused = useSelector(videoService, selectPaused)
+  const waiting = useSelector(videoService, selectIsWaiting)
+  const currentTime = useSelector(videoService, selectCurrentTime)
 
   useMetadataTrackList()
 
@@ -75,11 +80,18 @@ export const Video: React.FC<VideoProps> = ({
       preload={preload}
       loop={loop}
       playsInline={playsInline}
-      autoPlay={autoPlay}
+      autoPlay={autoPlay && !waiting}
       poster={poster}
       src={src}
+      onClickCapture={(_event) => {
+        videoService.send(paused ? 'PLAY' : 'PAUSE')
+      }}
       onCanPlay={(_event) => {
         videoService.send('LOADED')
+        // start playing if autoplay is on but only when we've finished loading and are at the beginning
+        if (autoPlay && !waiting && currentTime === 0) {
+          videoService.send('PLAY')
+        }
       }}
       onCanPlayThrough={(_event) => {
         videoService.send('LOADED')

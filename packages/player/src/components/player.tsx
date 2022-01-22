@@ -26,6 +26,8 @@ import {
   selectIsWaiting,
   selectVideo,
   selectViewer,
+  selectAutoplay,
+  selectOverlay,
 } from '../selectors'
 
 type PlayerProps = {
@@ -52,6 +54,8 @@ const usePlayerState = () => {
   const isWaiting = useSelector(videoService, selectIsWaiting)
   const video = useSelector(videoService, selectVideo)
   const viewer = useSelector(videoService, selectViewer)
+  const overlay = useSelector(videoService, selectOverlay)
+  const autoplay = useSelector(videoService, selectAutoplay)
 
   return {
     videoService,
@@ -64,6 +68,8 @@ const usePlayerState = () => {
     isWaiting,
     video,
     viewer,
+    overlay,
+    autoplay,
   }
 }
 
@@ -86,6 +92,8 @@ export const Player: React.FC<PlayerProps> = (props) => {
     isWaiting,
     video,
     viewer,
+    overlay,
+    autoplay,
   } = usePlayerState()
   const cues = useMetadataCues()
 
@@ -204,11 +212,9 @@ export const Player: React.FC<PlayerProps> = (props) => {
           <div
             style={getAspectRatioStyle()}
             className="cueplayer-react-video-holder"
-            onClick={() => {
-              videoService.send(paused ? 'PLAY' : 'PAUSE')
-            }}
           >
-            <Video>
+            {overlay}
+            <Video autoPlay={autoplay}>
               {children}
               {/* <track id="notes" src={userCues} kind="metadata" label="notes" /> */}
             </Video>
