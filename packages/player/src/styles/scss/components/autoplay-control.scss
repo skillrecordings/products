@@ -1,0 +1,35 @@
+.cueplayer-react {
+  .cueplayer-react-autoplay-control {
+    cursor: pointer;
+    background: lighten($cueplayer-react-primary-background-color, 20%);
+    position: relative;
+    display: inline-flex;
+    flex-shrink: 0;
+    height: 20px;
+    width: 30px;
+    border: solid 2px transparent;
+    border-radius: 10px;
+    transition: all 0.2s ease-in-out;
+    span {
+      pointer-events: none;
+      display: inline-block;
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      background: lighten($cueplayer-react-primary-background-color, 40%);
+      transition: all 0.2s ease-in-out;
+      transform: translateX(0px);
+    }
+  }
+
+  .cueplayer-react-autoplay-control-enabled span {
+    transform: translateX(10px);
+    background: lighten($cueplayer-react-primary-background-color, 80%);
+  }
+
+  .cueplayer-react-autoplay-control-tooltip {
+    background: darken($cueplayer-react-primary-background-color, 5%);
+    padding: 5px 8px;
+    font-size: 14px;
+  }
+}

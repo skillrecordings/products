@@ -2,19 +2,40 @@ import React from 'react'
 import {selectAutoplay} from '../selectors'
 import {useVideo} from '../context/video-context'
 import {useSelector} from '@xstate/react'
+import Tippy from '@tippyjs/react'
+import classNames from 'classnames'
 
 const AutoplayToggle = () => {
   const videoService = useVideo()
   const autoplay = useSelector(videoService, selectAutoplay)
 
   return (
-    <button
-      onClick={() => {
-        videoService.send('TOGGLE_AUTOPLAY')
-      }}
+    <Tippy
+      interactive={true}
+      inertia={true}
+      content={
+        <div className="cueplayer-react-autoplay-control-tooltip">
+          Autoplay is {autoplay ? 'on' : 'off'}
+        </div>
+      }
+      hideOnClick={false}
+      trigger="mouseenter focus"
     >
-      autoplay is {autoplay ? 'on' : 'off'}
-    </button>
+      <button
+        onClick={() => {
+          videoService.send('TOGGLE_AUTOPLAY')
+        }}
+        type="button"
+        className={`cueplayer-react-autoplay-control ${classNames({
+          'cueplayer-react-autoplay-control-enabled': autoplay,
+        })}`}
+        role="switch"
+        aria-checked={autoplay}
+      >
+        <span className="sr-only">Autoplay</span>
+        <span aria-hidden="true" />
+      </button>
+    </Tippy>
   )
 }
 
