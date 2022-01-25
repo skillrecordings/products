@@ -47,7 +47,6 @@ export type VideoEvent =
   | {type: 'TOGGLE_CUE_STATE'; visibility: string}
   | {type: 'STARTED_TYPING'}
   | {type: 'TOGGLE_AUTOPLAY'}
-  | {type: 'SET_OVERLAY'; overlay: React.ReactElement | null}
 
 export interface VideoStateContext {
   rootElemRef: MutableRefObject<HTMLElement | null> | null
@@ -78,7 +77,6 @@ export interface VideoStateContext {
   writingCueNote: boolean
   isSubmittingCueNote: boolean
   writingCueNoteVisibility: string
-  overlay: React.ReactElement | null
 }
 
 export const videoMachine = createMachine<VideoStateContext, VideoEvent>(
@@ -98,7 +96,7 @@ export const videoMachine = createMachine<VideoStateContext, VideoEvent>(
       seekingTime: undefined,
       hasStarted: false,
       isActive: false,
-      readyState: 0,
+      readyState: -1,
       volume: 0.8,
       playbackRate: 1,
       isFullscreen: false,
@@ -111,7 +109,6 @@ export const videoMachine = createMachine<VideoStateContext, VideoEvent>(
       writingCueNote: false,
       isSubmittingCueNote: false,
       writingCueNoteVisibility: 'draft',
-      overlay: null,
     },
     on: {
       SET_ROOT_ELEM: {
@@ -130,13 +127,6 @@ export const videoMachine = createMachine<VideoStateContext, VideoEvent>(
             videoRef: (_context, event) => event.videoRef,
             readyState: (_context, event) =>
               event.videoRef?.current?.readyState ?? 0,
-          }),
-        ],
-      },
-      SET_OVERLAY: {
-        actions: [
-          assign({
-            overlay: (_context, event) => event.overlay,
           }),
         ],
       },
@@ -301,9 +291,11 @@ export const videoMachine = createMachine<VideoStateContext, VideoEvent>(
         ],
         on: {
           LOAD_RESOURCE: {
-            actions: assign({
-              resource: (_context, event) => event.resource,
-            }),
+            actions: [
+              assign({
+                resource: (_context, event) => event.resource,
+              }),
+            ],
           },
           LOADED: {
             target: 'ready',
@@ -316,7 +308,6 @@ export const videoMachine = createMachine<VideoStateContext, VideoEvent>(
               waiting: (_context, _event) => false,
             }),
           },
-
           FAIL: 'failure',
         },
       },
@@ -350,6 +341,9 @@ export const videoMachine = createMachine<VideoStateContext, VideoEvent>(
               }),
               'setPlaybackRate',
             ],
+          },
+          LOAD_RESOURCE: {
+            target: 'loading',
           },
         },
         states: {

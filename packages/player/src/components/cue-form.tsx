@@ -19,15 +19,19 @@ export const CueForm: React.FC = () => {
   const cueNoteVisibility = useSelector(videoService, selectCueNoteVisibility)
   const viewer = useSelector(videoService, selectViewer)
 
+  React.useEffect(() => {
+    formRef.current &&
+      videoService.send({
+        type: 'SET_CUE_FORM_ELEM',
+        cueFormElemRef: formRef,
+      })
+  }, [])
+
   return (
     <form
       className="cueplayer-react-cue-form"
       ref={(c) => {
         formRef.current = c
-        videoService.send({
-          type: 'SET_CUE_FORM_ELEM',
-          cueFormElemRef: formRef,
-        })
       }}
       onFocus={() => {
         videoService.send({type: 'TAKE_NOTE'})

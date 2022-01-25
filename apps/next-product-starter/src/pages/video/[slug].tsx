@@ -23,7 +23,6 @@ import {
 import addCueNote from 'lib/add-cue-note'
 import {useRouter} from 'next/router'
 import {indexOf, find} from 'lodash'
-import LessonFinishedOverlay from 'components/video-overlays/lesson-finished'
 
 type VideoResource = {
   title: string
@@ -54,14 +53,26 @@ const sidePanelResources: any = [
   {
     title: 'Create a New Supabase Project',
     slug: `supabase-create-a-new-supabase-project`,
+    media_urls: {
+      hls_url:
+        'https://d2c5owlt6rorc3.cloudfront.net/egghead-create-a-new-supabase-project-lEG2O_feW/hls/egghead-create-a-new-supabase-project-lEG2O_feW.m3u8',
+    },
   },
   {
     title: 'Query Data From Supabase Using Next.js',
     slug: 'supabase-query-data-from-supabase-using-next-js',
+    media_urls: {
+      hls_url:
+        'https://d2c5owlt6rorc3.cloudfront.net/egghead-query-data-from-supabase-using-next-js-HUL_qcYXT/hls/egghead-query-data-from-supabase-using-next-js-HUL_qcYXT.m3u8',
+    },
   },
   {
     title: 'Understand and Use Interpolation in JSX',
     slug: 'react-understand-and-use-interpolation-in-jsx',
+    media_urls: {
+      hls_url:
+        'https://d2c5owlt6rorc3.cloudfront.net/egghead-v2-08-understand-and-use-interpolation-in-jsx-HkkplFIHU/hls/egghead-v2-08-understand-and-use-interpolation-in-jsx-HkkplFIHU.m3u8',
+    },
   },
 ]
 
@@ -80,8 +91,7 @@ const PlayerPage = ({resource}: any) => {
   React.useEffect(() => {
     setCurrentResource(resource)
     videoService.send({type: 'LOAD_RESOURCE', resource: currentResource})
-    // reset overlay if we change a lesson
-    videoService.send({type: 'SET_OVERLAY', overlay: null})
+    // return () => {}
   }, [router])
 
   React.useEffect(() => {
@@ -158,7 +168,7 @@ const VideoResourcesList: React.FC<VideoResourcesListProps> = ({
       {resources.map((videoResource: VideoResource) => {
         const isActive = videoResource.slug === currentResource.slug
         return (
-          <li key={videoResource.url} className="border-b border-gray-800">
+          <li key={videoResource.slug} className="border-b border-gray-800">
             <Link href={videoResource.slug}>
               <a>
                 <div
@@ -232,7 +242,7 @@ const VideoCuesList: React.FC<any> = () => {
 
   return (
     <ul>
-      {cues.map((cue: VTTCue) => {
+      {cues.map((cue: VTTCue, i: number) => {
         let note: {text: string; type?: string}
         const isActive = activeCues.includes(cue)
         try {
@@ -241,7 +251,12 @@ const VideoCuesList: React.FC<any> = () => {
           note = {text: cue.text}
         }
         return (
-          <VideoCue key={note.text} cue={cue} isActive={isActive} note={note} />
+          <VideoCue
+            key={note.text + i}
+            cue={cue}
+            isActive={isActive}
+            note={note}
+          />
         )
       })}
     </ul>
@@ -250,6 +265,7 @@ const VideoCuesList: React.FC<any> = () => {
 
 const Page = ({data, nextLesson}: any) => {
   const router = useRouter()
+
   return (
     <main className="">
       <VideoProvider
@@ -266,11 +282,6 @@ const Page = ({data, nextLesson}: any) => {
             if (nextLesson && context.autoplay) {
               router.push(`/video/${nextLesson.slug}`)
             }
-            // if not, show default overlay
-            else
-              context.overlay = (
-                <LessonFinishedOverlay nextResource={nextLesson} />
-              )
           },
         }}
       >

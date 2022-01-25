@@ -149,6 +149,3 @@ export const selectViewer = (state: StateFrom<typeof videoMachine>) =>
 
 export const selectAutoplay = (state: StateFrom<typeof videoMachine>) =>
   state.context.autoplay
-
-export const selectOverlay = (state: StateFrom<typeof videoMachine>) =>
-  state.context.overlay

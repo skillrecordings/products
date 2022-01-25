@@ -10,32 +10,34 @@ const AutoplayToggle = () => {
   const autoplay = useSelector(videoService, selectAutoplay)
 
   return (
-    <Tippy
-      interactive={true}
-      inertia={true}
-      content={
-        <div className="cueplayer-react-autoplay-control-tooltip">
-          Autoplay is {autoplay ? 'on' : 'off'}
-        </div>
-      }
-      hideOnClick={false}
-      trigger="mouseenter focus"
-    >
-      <button
-        onClick={() => {
-          videoService.send('TOGGLE_AUTOPLAY')
-        }}
-        type="button"
-        className={`cueplayer-react-autoplay-control ${classNames({
-          'cueplayer-react-autoplay-control-enabled': autoplay,
-        })}`}
-        role="switch"
-        aria-checked={autoplay}
+    <div>
+      <Tippy
+        interactive={true}
+        inertia={true}
+        content={
+          <div className="cueplayer-react-autoplay-control-tooltip">
+            Autoplay is {autoplay ? 'on' : 'off'}
+          </div>
+        }
+        hideOnClick={false}
+        trigger="mouseenter focus"
       >
-        <span className="sr-only">Autoplay</span>
-        <span aria-hidden="true" />
-      </button>
-    </Tippy>
+        <button
+          onClick={() => {
+            videoService.send('TOGGLE_AUTOPLAY')
+          }}
+          type="button"
+          className={`cueplayer-react-autoplay-control ${classNames({
+            'cueplayer-react-autoplay-control-enabled': autoplay,
+          })}`}
+          role="switch"
+          aria-checked={autoplay}
+        >
+          <span className="sr-only">Autoplay</span>
+          <span aria-hidden="true" />
+        </button>
+      </Tippy>
+    </div>
   )
 }
 

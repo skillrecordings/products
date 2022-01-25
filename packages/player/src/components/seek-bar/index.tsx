@@ -94,7 +94,7 @@ export const SeekBar: React.FC<any> = React.forwardRef<HTMLDivElement, any>(
         // stepBack={stepBack}
       >
         <LoadProgressBar />
-        {/*<MouseTimeDisplay duration={duration} mouseTime={mouseTime} />*/}
+        {/* <MouseTimeDisplay duration={duration} mouseTime={mouseTime} /> */}
         <PlayProgressBar />
       </Slider>
     )

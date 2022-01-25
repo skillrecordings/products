@@ -3,7 +3,14 @@ import {useVideo} from '../context/video-context'
 import cx from 'classnames'
 import {useMetadataTrackList} from '../hooks/use-metadata-track-list'
 import {useSelector} from '@xstate/react'
-import {selectPaused, selectIsWaiting, selectCurrentTime} from '../selectors'
+import {
+  selectPaused,
+  selectIsWaiting,
+  selectCurrentTime,
+  selectAutoplay,
+  selectIsActive,
+  selectReadyState,
+} from '../selectors'
 
 type VideoProps = {
   loop?: boolean
@@ -41,7 +48,6 @@ export const Video: React.FC<VideoProps> = ({
   poster,
   preload = 'auto',
   src,
-  autoPlay = false,
   playsInline = false,
   muted = false,
   crossOrigin = 'anonymous',
@@ -54,10 +60,22 @@ export const Video: React.FC<VideoProps> = ({
   const videoElemRef = React.useRef<any>(null)
   const videoService = useVideo()
   const paused = useSelector(videoService, selectPaused)
-  const waiting = useSelector(videoService, selectIsWaiting)
+  const readyState = useSelector(videoService, selectReadyState)
   const currentTime = useSelector(videoService, selectCurrentTime)
+  const autoplay = useSelector(videoService, selectAutoplay)
 
   useMetadataTrackList()
+
+  React.useEffect(() => {
+    videoService.send({type: 'REGISTER', videoRef: videoElemRef})
+
+    // sometimes the event handlers aren't registered before the
+    // `canPlay` event is fired (caching, for instance) so we want
+    // to check and see if it's ready as soon as we get a ref to
+    // the HTMLVideoElement and "manually" fire an event
+
+    videoElemRef.current.readyState > 3 && videoService.send('LOADED')
+  }, [videoElemRef])
 
   return (
     <video
@@ -66,21 +84,12 @@ export const Video: React.FC<VideoProps> = ({
       crossOrigin={crossOrigin}
       ref={(c: HTMLVideoElement) => {
         videoElemRef.current = c
-        videoService.send({type: 'REGISTER', videoRef: videoElemRef})
-
-        // sometimes the event handlers aren't registered before the
-        // `canPlay` event is fired (caching, for instance) so we want
-        // to check and see if it's ready as soon as we get a ref to
-        // the HTMLVideoElement and "manually" fire an event
-        if (c && c.readyState > 3) {
-          videoService.send('LOADED')
-        }
       }}
       muted={muted}
       preload={preload}
       loop={loop}
       playsInline={playsInline}
-      autoPlay={autoPlay && !waiting}
+      autoPlay={false}
       poster={poster}
       src={src}
       onClickCapture={(_event) => {
@@ -88,8 +97,8 @@ export const Video: React.FC<VideoProps> = ({
       }}
       onCanPlay={(_event) => {
         videoService.send('LOADED')
-        // start playing if autoplay is on but only when we've finished loading and are at the beginning
-        if (autoPlay && !waiting && currentTime === 0) {
+        // only autoplay if player is ready, paused, and at the beginning
+        if (autoplay && paused && readyState > 3 && currentTime === 0) {
           videoService.send('PLAY')
         }
       }}
