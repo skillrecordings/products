@@ -4,6 +4,7 @@ export {HLSSource} from './components/hls-source'
 export {CueBar} from './components/cue-bar'
 export {SidePanel} from './components/side-panel'
 export {CueForm} from './components/cue-form'
+export {getPlayerPrefs, savePlayerPrefs} from './hooks/use-player-prefs'
 
 export {useMetadataCues} from './hooks/use-metadata-cues'
 

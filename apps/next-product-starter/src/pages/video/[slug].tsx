@@ -12,6 +12,7 @@ import {
   selectWithSidePanel,
   selectViewer,
   SidePanel,
+  getPlayerPrefs,
 } from '@skillrecordings/player'
 import {useSelector} from '@xstate/react'
 import ReactMarkdown from 'react-markdown'
@@ -21,6 +22,9 @@ import {
   VideoStateContext,
 } from '@skillrecordings/player/dist/machines/video-machine'
 import addCueNote from 'lib/add-cue-note'
+import {useRouter} from 'next/router'
+import {find, indexOf} from 'lodash'
+import {AutoplayToggle} from '../../components/autoplay-toggle'
 
 type VideoResource = {
   title: string
@@ -70,9 +74,13 @@ const PlayerPage = ({resource}: any) => {
   const fullscreenWrapperRef = React.useRef<HTMLDivElement>(null)
 
   React.useEffect(() => {
-    // @ts-ignore
-    videoService.send('LOAD_RESOURCE', {resource: currentResource})
-  }, [])
+    setCurrentResource(resource)
+    videoService.send({type: 'LOAD_RESOURCE', resource: currentResource})
+
+    if (getPlayerPrefs().autoplay) {
+      videoService.send('PLAY')
+    }
+  }, [resource])
 
   React.useEffect(() => {
     if (fullscreenWrapperRef) {
@@ -94,6 +102,7 @@ const PlayerPage = ({resource}: any) => {
         >
           {mounted && (
             <Player
+              autoPlay={getPlayerPrefs().autoplay}
               className="font-sans"
               container={fullscreenWrapperRef.current || undefined}
             >
@@ -120,6 +129,7 @@ const PlayerPage = ({resource}: any) => {
         </div>
         {withSidePanel && (
           <div className="col-span-3">
+            <AutoplayToggle />
             <SidePanel
               videoResourcesList={
                 <VideoResourcesList
@@ -240,7 +250,8 @@ const VideoCuesList: React.FC<any> = () => {
   )
 }
 
-const Page = ({data}: any) => {
+const Page = ({data, nextLesson}: any) => {
+  const router = useRouter()
   return (
     <Layout>
       <VideoProvider
@@ -253,11 +264,13 @@ const Page = ({data}: any) => {
         }}
         actions={{
           onVideoEnded: (_context: any, _event: any) => {
-            console.log('do stuff')
+            if (getPlayerPrefs().autoplay) {
+              router.push(`/video/${nextLesson.slug}`)
+            }
           },
         }}
       >
-        <PlayerPage resource={data} />
+        <PlayerPage resource={data} nextResource={nextLesson} />
       </VideoProvider>
     </Layout>
   )
@@ -267,13 +280,20 @@ export async function getServerSideProps(context: any) {
   const res = await getLesson(context.params.slug)
   const data = await res.json()
 
+  const nextLessonIndex: any =
+    indexOf(sidePanelResources, find(sidePanelResources, {slug: data.slug})) + 1
+  const nextLessonRes = await getLesson(
+    sidePanelResources[nextLessonIndex]?.slug,
+  )
+
+  const nextLessonData = await nextLessonRes.json()
   if (!data) {
     return {
       notFound: true,
     }
   }
 
-  return {props: {data}}
+  return {props: {data, nextLesson: nextLessonData}}
 }
 
 export async function getLesson(slug: string): Promise<any> {
