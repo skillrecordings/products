@@ -96,7 +96,7 @@ export const videoMachine = createMachine<VideoStateContext, VideoEvent>(
       seekingTime: undefined,
       hasStarted: false,
       isActive: false,
-      readyState: -1,
+      readyState: 0,
       volume: 0.8,
       playbackRate: 1,
       isFullscreen: false,

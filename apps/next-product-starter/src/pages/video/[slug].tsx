@@ -53,26 +53,14 @@ const sidePanelResources: any = [
   {
     title: 'Create a New Supabase Project',
     slug: `supabase-create-a-new-supabase-project`,
-    media_urls: {
-      hls_url:
-        'https://d2c5owlt6rorc3.cloudfront.net/egghead-create-a-new-supabase-project-lEG2O_feW/hls/egghead-create-a-new-supabase-project-lEG2O_feW.m3u8',
-    },
   },
   {
     title: 'Query Data From Supabase Using Next.js',
     slug: 'supabase-query-data-from-supabase-using-next-js',
-    media_urls: {
-      hls_url:
-        'https://d2c5owlt6rorc3.cloudfront.net/egghead-query-data-from-supabase-using-next-js-HUL_qcYXT/hls/egghead-query-data-from-supabase-using-next-js-HUL_qcYXT.m3u8',
-    },
   },
   {
     title: 'Understand and Use Interpolation in JSX',
     slug: 'react-understand-and-use-interpolation-in-jsx',
-    media_urls: {
-      hls_url:
-        'https://d2c5owlt6rorc3.cloudfront.net/egghead-v2-08-understand-and-use-interpolation-in-jsx-HkkplFIHU/hls/egghead-v2-08-understand-and-use-interpolation-in-jsx-HkkplFIHU.m3u8',
-    },
   },
 ]
 
@@ -91,7 +79,6 @@ const PlayerPage = ({resource}: any) => {
   React.useEffect(() => {
     setCurrentResource(resource)
     videoService.send({type: 'LOAD_RESOURCE', resource: currentResource})
-    // return () => {}
   }, [router])
 
   React.useEffect(() => {
