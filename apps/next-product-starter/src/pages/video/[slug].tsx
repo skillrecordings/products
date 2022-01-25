@@ -23,7 +23,7 @@ import {
 } from '@skillrecordings/player/dist/machines/video-machine'
 import addCueNote from 'lib/add-cue-note'
 import {useRouter} from 'next/router'
-import {find, indexOf} from 'lodash'
+import {find, indexOf, isEmpty} from 'lodash'
 import {AutoplayToggle} from '../../components/autoplay-toggle'
 
 type VideoResource = {
@@ -264,7 +264,7 @@ const Page = ({data, nextLesson}: any) => {
         }}
         actions={{
           onVideoEnded: (_context: any, _event: any) => {
-            if (getPlayerPrefs().autoplay) {
+            if (getPlayerPrefs().autoplay && !isEmpty(nextLesson)) {
               router.push(`/video/${nextLesson.slug}`)
             }
           },
