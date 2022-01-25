@@ -372,7 +372,17 @@ export const videoMachine = createMachine<VideoStateContext, VideoEvent>(
           },
           ended: {
             entry: ['onVideoEnded'],
-            on: {PLAY: 'playing'},
+            on: {
+              PLAY: {
+                target: 'playing',
+                actions: [
+                  assign({
+                    hasStarted: (_context, _event) => true,
+                  }),
+                  'playVideo',
+                ],
+              },
+            },
           },
         },
       },

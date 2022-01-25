@@ -38,6 +38,7 @@ type PlayerProps = {
   aspectRatio?: string
   width?: string | number
   height?: string | number
+  autoPlay?: boolean
 }
 
 const usePlayerState = () => {
@@ -73,7 +74,7 @@ const usePlayerState = () => {
  * @constructor
  */
 export const Player: React.FC<PlayerProps> = (props) => {
-  const {children, className, container = null, fluid = true} = props
+  const {children, className, container = null, fluid = true, autoPlay} = props
   const containerRef = React.useRef(container)
   const {
     videoService,
@@ -204,11 +205,8 @@ export const Player: React.FC<PlayerProps> = (props) => {
           <div
             style={getAspectRatioStyle()}
             className="cueplayer-react-video-holder"
-            onClick={() => {
-              videoService.send(paused ? 'PLAY' : 'PAUSE')
-            }}
           >
-            <Video>
+            <Video autoPlay={autoPlay}>
               {children}
               {/* <track id="notes" src={userCues} kind="metadata" label="notes" /> */}
             </Video>
