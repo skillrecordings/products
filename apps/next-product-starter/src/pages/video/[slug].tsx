@@ -1,7 +1,6 @@
 import * as React from 'react'
 import cx from 'classnames'
 import {track} from '@skillrecordings/analytics'
-import Layout from '@skillrecordings/react/dist/layouts'
 import {
   Player,
   VideoProvider,
@@ -13,8 +12,7 @@ import {
   selectViewer,
   SidePanel,
   getPlayerPrefs,
-  selectIsWaiting,
-  selectReadyState,
+  selectVideoElem,
 } from '@skillrecordings/player'
 import {useSelector} from '@xstate/react'
 import ReactMarkdown from 'react-markdown'
@@ -72,8 +70,6 @@ const PlayerPage = ({resource}: any) => {
   const videoService = useVideo()
   const withSidePanel = useSelector(videoService, selectWithSidePanel)
   const viewer = useSelector(videoService, selectViewer)
-  const waiting = useSelector(videoService, selectIsWaiting)
-  const readyState = useSelector(videoService, selectReadyState)
 
   const fullscreenWrapperRef = React.useRef<HTMLDivElement>(null)
 
@@ -81,13 +77,13 @@ const PlayerPage = ({resource}: any) => {
     setCurrentResource(resource)
     videoService.send({type: 'LOAD_RESOURCE', resource: currentResource})
 
-    const timeout = setTimeout(() => {
+    const delayAutoAdvance = setTimeout(() => {
       if (getPlayerPrefs().autoplay) {
         videoService.send({type: 'PLAY'})
       }
     }, 10)
 
-    return () => clearTimeout(timeout)
+    return () => clearTimeout(delayAutoAdvance)
   }, [resource])
 
   React.useEffect(() => {
@@ -260,7 +256,7 @@ const VideoCuesList: React.FC<any> = () => {
 const Page = ({data, nextLesson}: any) => {
   const router = useRouter()
   return (
-    <Layout>
+    <div>
       <VideoProvider
         services={{
           addCueNote,
@@ -279,7 +275,7 @@ const Page = ({data, nextLesson}: any) => {
       >
         <PlayerPage resource={data} nextResource={nextLesson} />
       </VideoProvider>
-    </Layout>
+    </div>
   )
 }
 
