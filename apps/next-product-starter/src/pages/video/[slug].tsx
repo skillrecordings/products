@@ -73,7 +73,8 @@ const PlayerPage = ({resource}: any) => {
     setCurrentResource(resource)
     videoService.send({type: 'LOAD_RESOURCE', resource: currentResource})
 
-    if (getPlayerPrefs().autoplay) {
+    const {autoplay} = getPlayerPrefs()
+    if (autoplay) {
       videoService.send({type: 'PLAY'})
     }
   }, [resource])
