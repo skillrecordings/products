@@ -9,6 +9,9 @@ module.exports = {
     extend: {
       colors: {
         ...colors,
+        player: {
+          bg: '#20222b',
+        },
       },
       screens: {
         print: {raw: 'print'},

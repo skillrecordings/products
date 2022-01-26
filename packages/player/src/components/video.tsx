@@ -57,6 +57,18 @@ export const Video: React.FC<VideoProps> = ({
 
   useMetadataTrackList()
 
+  React.useEffect(() => {
+    videoService.send({type: 'REGISTER', videoRef: videoElemRef})
+
+    // sometimes the event handlers aren't registered before the
+    // `canPlay` event is fired (caching, for instance) so we want
+    // to check and see if it's ready as soon as we get a ref to
+    // the HTMLVideoElement and "manually" fire an event
+    if (videoElemRef.current && videoElemRef.current.readyState > 3) {
+      videoService.send('LOADED')
+    }
+  }, [videoElemRef.current])
+
   return (
     <video
       className={cx([`cueplayer-react-video`, className])}
@@ -64,15 +76,6 @@ export const Video: React.FC<VideoProps> = ({
       crossOrigin={crossOrigin}
       ref={(c: HTMLVideoElement) => {
         videoElemRef.current = c
-        videoService.send({type: 'REGISTER', videoRef: videoElemRef})
-
-        // sometimes the event handlers aren't registered before the
-        // `canPlay` event is fired (caching, for instance) so we want
-        // to check and see if it's ready as soon as we get a ref to
-        // the HTMLVideoElement and "manually" fire an event
-        if (c && c.readyState > 3) {
-          videoService.send('LOADED')
-        }
       }}
       muted={muted}
       preload={preload}
