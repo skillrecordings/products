@@ -373,8 +373,14 @@ export const videoMachine = createMachine<VideoStateContext, VideoEvent>(
           ended: {
             entry: ['onVideoEnded'],
             on: {
+              LOAD_RESOURCE: {
+                actions: assign({
+                  resource: (_context, event) => event.resource,
+                }),
+              },
               PLAY: {
                 target: 'playing',
+                cond: (context, _event) => !context.waiting,
                 actions: [
                   assign({
                     hasStarted: (_context, _event) => true,

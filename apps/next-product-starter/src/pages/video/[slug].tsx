@@ -13,6 +13,8 @@ import {
   selectViewer,
   SidePanel,
   getPlayerPrefs,
+  selectIsWaiting,
+  selectReadyState,
 } from '@skillrecordings/player'
 import {useSelector} from '@xstate/react'
 import ReactMarkdown from 'react-markdown'
@@ -24,7 +26,7 @@ import {
 import addCueNote from 'lib/add-cue-note'
 import {useRouter} from 'next/router'
 import {find, indexOf, isEmpty} from 'lodash'
-import {AutoplayToggle} from '../../components/autoplay-toggle'
+import {AutoplayToggle} from '../../components/player/autoplay-toggle'
 
 type VideoResource = {
   title: string
@@ -70,6 +72,8 @@ const PlayerPage = ({resource}: any) => {
   const videoService = useVideo()
   const withSidePanel = useSelector(videoService, selectWithSidePanel)
   const viewer = useSelector(videoService, selectViewer)
+  const waiting = useSelector(videoService, selectIsWaiting)
+  const readyState = useSelector(videoService, selectReadyState)
 
   const fullscreenWrapperRef = React.useRef<HTMLDivElement>(null)
 
@@ -77,9 +81,13 @@ const PlayerPage = ({resource}: any) => {
     setCurrentResource(resource)
     videoService.send({type: 'LOAD_RESOURCE', resource: currentResource})
 
-    if (getPlayerPrefs().autoplay) {
-      videoService.send('PLAY')
-    }
+    const timeout = setTimeout(() => {
+      if (getPlayerPrefs().autoplay) {
+        videoService.send({type: 'PLAY'})
+      }
+    }, 10)
+
+    return () => clearTimeout(timeout)
   }, [resource])
 
   React.useEffect(() => {
@@ -102,7 +110,6 @@ const PlayerPage = ({resource}: any) => {
         >
           {mounted && (
             <Player
-              autoPlay={getPlayerPrefs().autoplay}
               className="font-sans"
               container={fullscreenWrapperRef.current || undefined}
             >
@@ -129,7 +136,6 @@ const PlayerPage = ({resource}: any) => {
         </div>
         {withSidePanel && (
           <div className="col-span-3">
-            <AutoplayToggle />
             <SidePanel
               videoResourcesList={
                 <VideoResourcesList
@@ -140,6 +146,7 @@ const PlayerPage = ({resource}: any) => {
               }
               videoCuesList={<VideoCuesList />}
             />
+            <AutoplayToggle />
           </div>
         )}
       </div>
@@ -280,18 +287,18 @@ export async function getServerSideProps(context: any) {
   const res = await getLesson(context.params.slug)
   const data = await res.json()
 
-  const nextLessonIndex: any =
-    indexOf(sidePanelResources, find(sidePanelResources, {slug: data.slug})) + 1
-  const nextLessonRes = await getLesson(
-    sidePanelResources[nextLessonIndex]?.slug,
-  )
-
-  const nextLessonData = await nextLessonRes.json()
   if (!data) {
     return {
       notFound: true,
     }
   }
+
+  // next resource
+  const nextLessonIndex =
+    indexOf(sidePanelResources, find(sidePanelResources, {slug: data.slug})) + 1
+  const nextLesson = sidePanelResources[nextLessonIndex]
+  const nextLessonRes = await getLesson(nextLesson?.slug)
+  const nextLessonData = nextLesson ? await nextLessonRes.json() : {}
 
   return {props: {data, nextLesson: nextLessonData}}
 }

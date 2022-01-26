@@ -74,7 +74,7 @@ const usePlayerState = () => {
  * @constructor
  */
 export const Player: React.FC<PlayerProps> = (props) => {
-  const {children, className, container = null, fluid = true, autoPlay} = props
+  const {children, className, container = null, fluid = true} = props
   const containerRef = React.useRef(container)
   const {
     videoService,
@@ -206,7 +206,7 @@ export const Player: React.FC<PlayerProps> = (props) => {
             style={getAspectRatioStyle()}
             className="cueplayer-react-video-holder"
           >
-            <Video autoPlay={autoPlay}>
+            <Video>
               {children}
               {/* <track id="notes" src={userCues} kind="metadata" label="notes" /> */}
             </Video>
