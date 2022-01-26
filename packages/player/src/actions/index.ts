@@ -26,7 +26,16 @@ export const defaultActions: ActionFunctionMap<VideoStateContext, VideoEvent> =
     },
     playVideo: (context, _event) => {
       const {videoRef} = context
-      videoRef?.current?.play()
+
+      // https:developers.google.com/web/updates/2017/06/play-request-was-interrupted#fix
+      const playPromise = videoRef?.current?.play()
+      if (playPromise !== undefined) {
+        playPromise
+          .then(() => {
+            videoRef?.current?.play()
+          })
+          .catch((e: any) => console.log(`PLAY failed: ${e}`))
+      }
     },
     pauseVideo: (context, _event) => {
       const {videoRef} = context
