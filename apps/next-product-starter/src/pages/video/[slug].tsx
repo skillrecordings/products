@@ -12,7 +12,6 @@ import {
   selectViewer,
   SidePanel,
   getPlayerPrefs,
-  selectVideoElem,
 } from '@skillrecordings/player'
 import {useSelector} from '@xstate/react'
 import ReactMarkdown from 'react-markdown'
@@ -64,26 +63,19 @@ const sidePanelResources: any = [
 
 const PlayerPage = ({resource}: any) => {
   const [mounted, setMounted] = React.useState<boolean>(false)
-
   const [currentResource, setCurrentResource] = React.useState<any>(resource)
-
+  const fullscreenWrapperRef = React.useRef<HTMLDivElement>(null)
   const videoService = useVideo()
   const withSidePanel = useSelector(videoService, selectWithSidePanel)
   const viewer = useSelector(videoService, selectViewer)
-
-  const fullscreenWrapperRef = React.useRef<HTMLDivElement>(null)
 
   React.useEffect(() => {
     setCurrentResource(resource)
     videoService.send({type: 'LOAD_RESOURCE', resource: currentResource})
 
-    const delayAutoAdvance = setTimeout(() => {
-      if (getPlayerPrefs().autoplay) {
-        videoService.send({type: 'PLAY'})
-      }
-    }, 10)
-
-    return () => clearTimeout(delayAutoAdvance)
+    if (getPlayerPrefs().autoplay) {
+      videoService.send({type: 'PLAY'})
+    }
   }, [resource])
 
   React.useEffect(() => {
@@ -266,9 +258,13 @@ const Page = ({data, nextLesson}: any) => {
             },
         }}
         actions={{
-          onVideoEnded: (_context: any, _event: any) => {
-            if (getPlayerPrefs().autoplay && !isEmpty(nextLesson)) {
-              router.push(`/video/${nextLesson.slug}`)
+          onVideoEnded: (context: any, _event: any) => {
+            const {autoplay} = getPlayerPrefs()
+            const hasNextLesson = !isEmpty(nextLesson)
+            if (autoplay && hasNextLesson) {
+              router.push(`/video/${nextLesson.slug}`).then(() => {
+                context.videoRef?.current.play()
+              })
             }
           },
         }}
