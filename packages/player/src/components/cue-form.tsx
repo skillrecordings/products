@@ -10,7 +10,7 @@ import {
 
 export const CueForm: React.FC = () => {
   const videoService = useVideo()
-  const formRef: any = React.useRef()
+  const formRef = React.useRef<HTMLFormElement>(null)
   const currentTime = useSelector(videoService, selectCurrentTime)
   const isSubmittingCueNote = useSelector(
     videoService,
@@ -29,9 +29,7 @@ export const CueForm: React.FC = () => {
   return (
     <form
       className="cueplayer-react-cue-form"
-      ref={(c) => {
-        formRef.current = c
-      }}
+      ref={formRef}
       onFocus={() => {
         videoService.send({type: 'TAKE_NOTE'})
       }}
@@ -41,12 +39,12 @@ export const CueForm: React.FC = () => {
       onSubmit={(e) => {
         e.preventDefault()
         const cue = {
-          text: formRef.current.input.value,
+          text: formRef?.current?.input.value,
           startTime: currentTime,
           endTime: currentTime,
         } as VTTCue
 
-        formRef?.current.input.value !== '' &&
+        formRef?.current?.input.value !== '' &&
           videoService.send({
             type: 'SUBMITTED',
             cue: new VTTCue(cue.startTime, cue.endTime, cue.text),

@@ -74,9 +74,7 @@ export const Video: React.FC<VideoProps> = ({
       className={cx([`cueplayer-react-video`, className])}
       id={id}
       crossOrigin={crossOrigin}
-      ref={(c: HTMLVideoElement) => {
-        videoElemRef.current = c
-      }}
+      ref={videoElemRef}
       muted={muted}
       preload={preload}
       loop={loop}
