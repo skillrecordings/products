@@ -23,7 +23,7 @@ import {
 import addCueNote from 'lib/add-cue-note'
 import {useRouter} from 'next/router'
 import {find, indexOf, isEmpty} from 'lodash'
-import {AutoplayToggle} from '../../components/player/autoplay-toggle'
+import {AutoPlayToggle} from '../../components/player/autoplay-toggle'
 
 type VideoResource = {
   title: string
@@ -135,7 +135,7 @@ const PlayerPage = ({resource}: any) => {
               }
               videoCuesList={<VideoCuesList />}
             />
-            <AutoplayToggle />
+            <AutoPlayToggle />
           </div>
         )}
       </div>
