@@ -27,7 +27,7 @@ export const defaultActions: ActionFunctionMap<VideoStateContext, VideoEvent> =
     playVideo: (context, _event) => {
       const {videoRef} = context
 
-      // https://developers.google.com/web/updates/2017/06/play-request-was-interrupted#fix
+      // play() returns a promise https://goo.gl/LdLk22
       const playPromise = videoRef?.current?.play()
       if (playPromise !== undefined) {
         playPromise
