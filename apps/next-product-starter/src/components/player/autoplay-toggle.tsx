@@ -5,10 +5,10 @@ import classNames from 'classnames'
 
 const AutoplayToggle = () => {
   const [autoplayState, setAutoplayState] = React.useState<boolean>(false)
-  const {autoplayPref} = getPlayerPrefs()
+  const {autoplay} = getPlayerPrefs()
 
   React.useEffect(() => {
-    setAutoplayState(autoplayPref)
+    setAutoplayState(autoplay)
   }, [])
 
   return (
@@ -25,7 +25,7 @@ const AutoplayToggle = () => {
       > */}
       <button
         onClick={() => {
-          savePlayerPrefs({autoplay: !autoplayPref})
+          savePlayerPrefs({autoplay: !autoplay})
           setAutoplayState(!autoplayState)
         }}
         type="button"
