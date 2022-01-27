@@ -9,7 +9,7 @@ const AutoPlayToggle = () => {
 
   React.useEffect(() => {
     setIsAutoPlayActive(autoplay)
-  }, [])
+  }, [autoplay])
 
   return (
     <div className="w-full bg-player-bg bg-opacity-80">
