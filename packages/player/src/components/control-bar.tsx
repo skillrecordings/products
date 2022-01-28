@@ -8,6 +8,7 @@ import {DurationDisplay} from './time-controls/duration-display'
 import {PlaybackRateMenuButtonControl} from './controls/playback-rate-menu-button-control'
 import {FullscreenToggleControl} from './controls/fullscreen-toggle-control'
 import {SidePanelToggleControl} from './controls/side-panel-toggle-control'
+import {ClosedCaptionsMenuButtonControl} from './controls/closed-captions-menu-button-control'
 
 export const ControlBar: React.FC = () => {
   return (
@@ -25,6 +26,7 @@ export const ControlBar: React.FC = () => {
         <DurationDisplay />
       </div>
       <div className="cueplayer-react-control-bar-right-part">
+        <ClosedCaptionsMenuButtonControl />
         <SidePanelToggleControl />
         <FullscreenToggleControl />
       </div>
