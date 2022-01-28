@@ -4,6 +4,7 @@ import {isEmpty} from 'lodash'
 import {useSelector} from '@xstate/react'
 import {useVideo} from '../context/video-context'
 import {useMetadataCues} from '../hooks/use-metadata-cues'
+import {useFullscreenControls} from '../hooks/use-fullscreen-controls'
 import * as browser from '../utils/browser'
 
 import {Video} from './video'
@@ -90,7 +91,13 @@ export const Player: React.FC<PlayerProps> = (props) => {
   } = usePlayerState()
   const cues = useMetadataCues()
 
-  const handleActivity = () => videoService.send('ACTIVITY')
+  const {controlsHidden, setControlsHidden, setControlsHovered} =
+    useFullscreenControls()
+
+  const handleActivity = () => {
+    videoService.send('ACTIVITY')
+    isFullscreen && setControlsHidden(false)
+  }
 
   function setWidthOrHeight(style: any, name: string, value: string | number) {
     let styleVal
@@ -176,6 +183,9 @@ export const Player: React.FC<PlayerProps> = (props) => {
       onMouseDown={handleActivity}
       onMouseMove={handleActivity}
       onKeyDown={handleActivity}
+      onPointerMove={() => {
+        setControlsHidden(false)
+      }}
       className={cx(
         {
           'cueplayer-react-controls-enabled': true,
@@ -206,22 +216,29 @@ export const Player: React.FC<PlayerProps> = (props) => {
             style={getAspectRatioStyle()}
             className="cueplayer-react-video-holder"
           >
-            <Video>
-              {children}
-              {/* <track id="notes" src={userCues} kind="metadata" label="notes" /> */}
-            </Video>
+            <Video>{children}</Video>
             <BigPlayButton />
             <Bezel />
             <LoadingSpinner />
           </div>
         </div>
       </div>
-      <div className="cueplayer-react-controls-holder">
+      <div
+        className={cx('cueplayer-react-controls-holder', {
+          hidden: controlsHidden,
+        })}
+        onMouseOver={() => {
+          setControlsHovered(true)
+        }}
+        onMouseOut={() => {
+          setControlsHovered(false)
+        }}
+      >
         <ProgressBar />
         <CueBar />
         <ControlBar />
         <Shortcut />
-        {!isEmpty(viewer) && <CueForm />}
+        {!isEmpty(viewer) && !isFullscreen && <CueForm />}
       </div>
     </div>
   )
