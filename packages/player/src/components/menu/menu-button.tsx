@@ -6,9 +6,14 @@ import {MenuItem} from './menu-item'
 
 export const MenuButton: React.FC<any> = (props) => {
   const [active, setActive] = React.useState(false)
-  const [activateIndex, setActivateIndex] = React.useState(0)
+  const {selected} = props
+  const [activateIndex, setActivateIndex] = React.useState(selected || 0)
   const {inline, className} = props
   const menuButtonRef = React.useRef(null)
+
+  React.useEffect(() => {
+    activateMenuItem(selected)
+  }, [selected])
 
   function handleIndexChange(index: number) {
     const {onSelectItem} = props
