@@ -5,6 +5,7 @@ import {
   VideoStateContext,
 } from '../machines/video-machine'
 import {ActionFunctionMap} from 'xstate'
+import {savePlayerPrefs} from '../hooks/use-player-prefs'
 
 export const defaultActions: ActionFunctionMap<VideoStateContext, VideoEvent> =
   {
@@ -55,4 +56,16 @@ export const defaultActions: ActionFunctionMap<VideoStateContext, VideoEvent> =
       }
     },
     onVideoEnded: (_context, _event) => {},
+    saveSubtitlePreference: (_context, event) => {
+      const {track}: any = event
+      const {id, kind, label, language} = track
+      savePlayerPrefs({
+        subtitle: {
+          id,
+          kind,
+          label,
+          language,
+        },
+      })
+    },
   }
