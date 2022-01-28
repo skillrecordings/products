@@ -225,7 +225,7 @@ export const Player: React.FC<PlayerProps> = (props) => {
       </div>
       <div
         className={cx('cueplayer-react-controls-holder', {
-          hidden: controlsHidden,
+          'cueplayer-react-controls-holder-auto-hide': controlsHidden,
         })}
         onMouseOver={() => {
           setControlsHovered(true)

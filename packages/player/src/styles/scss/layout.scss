@@ -154,7 +154,10 @@
 }
 
 // Hide controls in fullscreen
-.cueplayer-react-fullscreen .cueplayer-react-controls-holder.hidden {
+.cueplayer-react-fullscreen
+  .cueplayer-react-controls-holder.cueplayer-react-controls-holder-auto-hide {
+  // Remain visible for screen reader and keyboard users
+  visibility: visible;
   opacity: 0;
 }
 
