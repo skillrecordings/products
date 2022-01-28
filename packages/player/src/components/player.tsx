@@ -4,7 +4,7 @@ import {isEmpty} from 'lodash'
 import {useSelector} from '@xstate/react'
 import {useVideo} from '../context/video-context'
 import {useMetadataCues} from '../hooks/use-metadata-cues'
-import {useFullscreenControls} from '../hooks/use-fullscreen-controls'
+import {useAutoHideControls} from '../hooks/use-auto-hide-controls'
 import * as browser from '../utils/browser'
 
 import {Video} from './video'
@@ -92,7 +92,7 @@ export const Player: React.FC<PlayerProps> = (props) => {
   const cues = useMetadataCues()
 
   const {controlsHidden, setControlsHidden, setControlsHovered} =
-    useFullscreenControls()
+    useAutoHideControls()
 
   const handleActivity = () => {
     videoService.send('ACTIVITY')

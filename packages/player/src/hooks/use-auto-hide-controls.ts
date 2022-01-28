@@ -4,7 +4,9 @@ import {useSelector} from '@xstate/react'
 import {selectIsFullscreen} from '../selectors'
 import {useVideo} from '../context/video-context'
 
-const useFullscreenControls = () => {
+const DELAY = 1250
+
+const useAutoHideControls = () => {
   const [controlsHovered, setControlsHovered] = React.useState<boolean>(false)
   const [controlsHidden, setControlsHidden] = React.useState<boolean>(false)
 
@@ -17,7 +19,7 @@ const useFullscreenControls = () => {
     const hideControlsInFullscreen = setTimeout(() => {
       if (!browser.IS_IOS && !controlsHovered && isFullscreen)
         setControlsHidden(true)
-    }, 1250)
+    }, DELAY)
 
     return () => clearTimeout(hideControlsInFullscreen)
   }, [isFullscreen, controlsHidden, controlsHovered])
@@ -29,4 +31,4 @@ const useFullscreenControls = () => {
   }
 }
 
-export {useFullscreenControls}
+export {useAutoHideControls}
