@@ -216,17 +216,7 @@ export const videoMachine = createMachine<VideoStateContext, VideoEvent>(
               return [event.track]
             },
           }),
-          (_context, event) => {
-            const {id, kind, label, language} = event.track
-            savePlayerPrefs({
-              subtitle: {
-                id,
-                kind,
-                label,
-                language,
-              },
-            })
-          },
+          'saveSubtitlePreference',
         ],
       },
       CLEAR_METADATA_TRACKS: {
