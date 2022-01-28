@@ -3,6 +3,7 @@ import cx from 'classnames'
 import {useVideo} from '../../context/video-context'
 import {useSelector} from '@xstate/react'
 import {selectWithSidePanel} from '../../selectors'
+import {savePlayerPrefs} from '../../hooks/use-player-prefs'
 
 type SidePanelToggleProps = {
   className?: string
@@ -13,8 +14,10 @@ export const SidePanelToggleControl: React.FC<SidePanelToggleProps> = ({
 }) => {
   const videoService = useVideo()
   const withSidePanel = useSelector(videoService, selectWithSidePanel)
+
   function handleClick() {
     videoService.send({type: 'TOGGLE_SIDE_PANEL'})
+    savePlayerPrefs({theater: !withSidePanel})
   }
   return (
     <button

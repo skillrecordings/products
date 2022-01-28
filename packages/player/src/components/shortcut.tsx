@@ -15,8 +15,8 @@ import {
   selectCueFormElem,
   selectIsWritingCue,
   selectIsTakingNote,
+  selectIsFullscreen,
 } from '../selectors'
-import {focusNode} from '../utils'
 
 type ShortcutProps = {
   clickable?: boolean
@@ -39,6 +39,7 @@ const useShortcutState = () => {
   const cueFormElem = useSelector(videoService, selectCueFormElem)
   const isWritingCue = useSelector(videoService, selectIsWritingCue)
   const isTakingNote = useSelector(videoService, selectIsTakingNote)
+  const isFullscreen = useSelector(videoService, selectIsFullscreen)
 
   return {
     videoService,
@@ -53,6 +54,7 @@ const useShortcutState = () => {
     paused,
     cueFormElem,
     isWritingCue,
+    isFullscreen,
     disableShortcuts: isTakingNote,
   }
 }
@@ -82,6 +84,7 @@ export const Shortcut: React.FC<ShortcutProps> = ({
     paused,
     cueFormElem,
     isWritingCue,
+    isFullscreen,
     disableShortcuts,
   } = useShortcutState()
 
@@ -124,12 +127,14 @@ export const Shortcut: React.FC<ShortcutProps> = ({
           {
             keyCode: 67, // c
             handle: () => {
-              // focus the cue note input
-              cueFormElem?.input?.focus()
-              // start note taking session
-              videoService.send({type: 'TAKE_NOTE', source: 'shortcut'})
-              // pause video playback
-              videoService.send({type: 'CHANGE'})
+              if (!isFullscreen) {
+                // focus the cue note input
+                cueFormElem?.input?.focus()
+                // start note taking session
+                videoService.send({type: 'TAKE_NOTE', source: 'shortcut'})
+                // pause video playback
+                videoService.send({type: 'CHANGE'})
+              }
             },
           },
           {

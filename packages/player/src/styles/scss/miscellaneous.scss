@@ -12,16 +12,6 @@
   }
 }
 
-.cueplayer-react-controls-holder {
-  width: 100%;
-  margin: 0 auto;
-  max-width: calc(75vh * 1.77777);
-}
-
-.cueplayer-react-fullscreen .cueplayer-react-controls-holder {
-  max-width: calc((100vh - 88px) * 1.77777);
-}
-
 .cueplayer-react-sr-only {
   position: absolute;
   width: 1px;
