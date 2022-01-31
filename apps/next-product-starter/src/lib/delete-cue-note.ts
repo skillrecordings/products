@@ -1,4 +1,5 @@
 import axios from 'axios'
+import last from 'lodash/last'
 import {
   VideoEvent,
   VideoStateContext,
@@ -7,8 +8,9 @@ import {
 const deleteCueNote =
   (context: VideoStateContext, _event: VideoEvent) => async (send: any) => {
     const activeCues = context.activeCues
-    const currentCue = activeCues[0]
+    const currentCue: any = last(activeCues)
     const cueId = JSON.parse(currentCue.text).id
+
     await axios
       .delete(`/api/lessons/notes/${context.resource.slug}?id=${cueId}`)
       .catch((e) => {
