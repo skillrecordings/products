@@ -2,6 +2,7 @@ import {assign, createMachine} from 'xstate'
 import {MutableRefObject} from 'react'
 import {isEqual, isEmpty, remove} from 'lodash'
 import type {LessonResource, Viewer} from '@skillrecordings/types'
+import {getPlayerPrefs, savePlayerPrefs} from '../hooks/use-player-prefs'
 
 export type VideoEvent =
   | {type: 'VOLUME_CHANGE'; volume: number; source?: string}
@@ -28,6 +29,8 @@ export type VideoEvent =
   | {type: 'PLAYBACKRATE_CHANGE'; playbackRate: number; source?: string}
   | {type: 'WAITING'}
   | {type: 'DONE_WAITING'}
+  | {type: 'CLEAR_SUBTITLES_TRACKS'}
+  | {type: 'ACTIVATE_SUBTITLES_TRACK'; track: TextTrack}
   | {type: 'ACTIVATE_METADATA_TRACK'; track: TextTrack}
   | {type: 'CLEAR_METADATA_TRACKS'}
   | {type: 'ACTIVATE_CUE'; cue: VTTCue}
@@ -69,6 +72,7 @@ export interface VideoStateContext {
   waiting: boolean
   seeking: boolean
   metadataTracks: TextTrack[]
+  subtitleTracks: TextTrack[]
   activeCues: VTTCue[]
   cuesMuted: boolean
   writingCueNote: boolean
@@ -101,6 +105,7 @@ export const videoMachine = createMachine<VideoStateContext, VideoEvent>(
       seeking: false,
       metadataTracks: [],
       activeCues: [],
+      subtitleTracks: [],
       cuesMuted: false,
       writingCueNote: false,
       isSubmittingCueNote: false,
@@ -158,6 +163,7 @@ export const videoMachine = createMachine<VideoStateContext, VideoEvent>(
         actions: [
           assign({
             isFullscreen: (context, _event) => !context.isFullscreen,
+            withSidePanel: (_context) => false,
           }),
           'toggleFullscreen',
         ],
@@ -165,7 +171,11 @@ export const videoMachine = createMachine<VideoStateContext, VideoEvent>(
       EXIT_FULLSCREEN: {
         actions: [
           assign({
-            isFullscreen: (context) => false,
+            isFullscreen: (_context) => false,
+            withSidePanel: (_context) => {
+              const {theater} = getPlayerPrefs()
+              return theater
+            },
           }),
         ],
       },
@@ -174,6 +184,39 @@ export const videoMachine = createMachine<VideoStateContext, VideoEvent>(
           assign({
             withSidePanel: (context, _event) => !context.withSidePanel,
           }),
+        ],
+      },
+      CLEAR_SUBTITLES_TRACKS: {
+        actions: [
+          assign({
+            subtitleTracks: (context, _event) => {
+              const {videoRef} = context
+              const subtitles = Array.from(
+                videoRef?.current.textTracks || [],
+              ).filter((track) => {
+                return ['subtitles'].includes(track.kind)
+              })
+
+              subtitles.forEach((track) => {
+                track.mode = 'disabled'
+              })
+              return []
+            },
+          }),
+          (_context, _event) => {
+            savePlayerPrefs({subtitle: {}})
+          },
+        ],
+      },
+      ACTIVATE_SUBTITLES_TRACK: {
+        actions: [
+          assign({
+            subtitleTracks: (_context, event) => {
+              event.track.mode = 'showing'
+              return [event.track]
+            },
+          }),
+          'saveSubtitlePreference',
         ],
       },
       CLEAR_METADATA_TRACKS: {
@@ -259,7 +302,7 @@ export const videoMachine = createMachine<VideoStateContext, VideoEvent>(
       END_SEEKING: {
         actions: [
           assign({
-            seekingTime: (context, event) => 0,
+            seekingTime: (_context, _event) => 0,
             seeking: (_context, _event) => false,
           }),
         ],
