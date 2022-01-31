@@ -56,7 +56,6 @@ const NoteCue: React.FC<any> = ({cue, duration, className}) => {
       source: 'cue',
     })
     videoService.send('END_SEEKING')
-    videoService.send('PAUSE')
 
     track('opened cue', {cue: cue.text})
   }
@@ -106,7 +105,8 @@ const NoteCue: React.FC<any> = ({cue, duration, className}) => {
         </div>
       }
     >
-      <div
+      <button
+        type="button"
         onClick={clickOpen}
         // onMouseEnter={() => setVisible(true)}
         // onMouseLeave={() => setTimeout(() => setVisible(false), 200)}

@@ -14,6 +14,8 @@ const SUPABASE_URL = `https://${process.env.RESOURCE_NOTES_DATABASE_ID}.supabase
 const SUPABASE_KEY = process.env.SUPABASE_KEY
 const supabase = SUPABASE_KEY && createClient(SUPABASE_URL, SUPABASE_KEY)
 
+const tableName = process.env.RESOURCE_NOTES_TABLE_NAME || 'resource_notes'
+
 const notes = async (req: NextApiRequest, res: NextApiResponse) => {
   // add note
   if (req.method === 'POST') {
@@ -21,8 +23,6 @@ const notes = async (req: NextApiRequest, res: NextApiResponse) => {
       if (!supabase) {
         throw new Error('Unable to add note.')
       }
-      const tableName =
-        process.env.RESOURCE_NOTES_TABLE_NAME || 'resource_notes'
 
       const {data = [], error} = await supabase.from(tableName).insert([
         {
@@ -45,7 +45,9 @@ const notes = async (req: NextApiRequest, res: NextApiResponse) => {
         throw new Error('Data not loaded')
       }
 
-      res.status(200).json(first(data))
+      const note = first(data)
+
+      res.status(200).json(note)
     } catch (error: any) {
       console.error(error.message)
       res.status(400).end(error.message)
@@ -66,6 +68,19 @@ const notes = async (req: NextApiRequest, res: NextApiResponse) => {
     const notes = await convertNotes(userNotes, staffNotes)
 
     res.status(200).json(notes)
+  }
+  // delete note
+  else if (req.method === 'DELETE') {
+    if (!supabase) {
+      throw new Error('Unable to delete note.')
+    }
+    await supabase
+      .from(tableName)
+      .delete()
+      .match({id: req.query.id})
+      .then(() => {
+        res.status(200).end()
+      })
   } else {
     console.error('unhandled request made')
     res.status(404).end()
@@ -104,6 +119,7 @@ export const convertNotes = async (userNotes: any, staffNotes?: any) => {
   const toNotes = userNotes
     ? userNotes.map((note: any) => {
         return {
+          id: note.id,
           start: note.start_time,
           end: note.end_time,
           text: note.text,

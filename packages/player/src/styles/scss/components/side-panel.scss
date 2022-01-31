@@ -29,11 +29,17 @@
   }
   [data-reach-tab] {
     color: white;
-    opacity: 0.5;
-    padding: 8px 12px;
-    font-size: 14px;
+    opacity: 0.85;
+    padding: 12px 24px;
+    font-size: 15px;
+    border-bottom: 3px solid transparent;
+    &:hover {
+      background: darken($cueplayer-react-primary-background-color, 5%);
+    }
     &[data-selected] {
+      border-bottom-color: $cueplayer-react-tertiary-foreground-color;
       opacity: 1;
+      background: darken($cueplayer-react-primary-background-color, 10%);
     }
   }
 }
@@ -64,6 +70,7 @@
 }
 
 .cueplayer-react-side-panel-comment {
+  position: relative;
   border-bottom: 1px solid #0f1014;
   padding: 16px;
   border-left: 3px solid transparent;
@@ -83,8 +90,60 @@
   border-left: 3px solid $cueplayer-react-tertiary-foreground-color;
 }
 
-.cueplayer-react-side-panel-comment-body {
+.cueplayer-react-side-panel-comment-header {
   display: flex;
+}
+
+.cueplayer-react-side-panel-comment-body {
+  position: relative;
+  padding-top: 5px;
+  display: flex;
+}
+
+.cueplayer-react-side-panel-comment-actions {
+  z-index: 2;
+  visibility: visible;
+  opacity: 0;
+  position: absolute;
+  right: 0px;
+  bottom: 16px;
+  display: flex;
+  justify-content: flex-end;
+
+  .cueplayer-react-side-panel-comment-action {
+    opacity: 0.8;
+    cursor: pointer;
+    padding: 8px;
+    border-radius: 50%;
+    @include flex(none);
+    transition: all ease-in-out 50ms;
+    &.delete {
+      @extend .cueplayer-react-icon;
+      @extend .cueplayer-react-icon-delete-outline;
+    }
+    &.edit {
+      @extend .cueplayer-react-icon;
+      @extend .cueplayer-react-icon-edit;
+    }
+  }
+}
+
+.cueplayer-react-side-panel-comment:hover {
+  .cueplayer-react-side-panel-comment-actions {
+    transition: all ease-in-out 150ms;
+    right: 16px;
+    opacity: 100%;
+    .cueplayer-react-side-panel-comment-action {
+      opacity: 1;
+      transition: all ease-in-out 50ms;
+      &:hover {
+        background-color: lighten(
+          $cueplayer-react-primary-background-color,
+          15%
+        );
+      }
+    }
+  }
 }
 
 .cueplayer-react-side-panel-comment-image {

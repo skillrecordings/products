@@ -39,9 +39,10 @@ export type VideoEvent =
   | {type: 'WRITE'; source?: string}
   | {type: 'WRITING'; source?: string}
   | {type: 'CANCEL'}
+  | {type: 'DELETE_CUE'; cue: VTTCue}
   | {type: 'SUBMITTED'; cue: VTTCue}
   | {type: 'CHANGE'}
-  | {type: 'DONE_SUBMITTING_NOTE'}
+  | {type: 'DONE_SUBMITTING_NOTE'; cue: VTTCue}
   | {type: 'CANCELLED'}
   | {type: 'TOGGLE_CUE_STATE'; visibility: string}
   | {type: 'STARTED_TYPING'}
@@ -197,16 +198,27 @@ export const videoMachine = createMachine<VideoStateContext, VideoEvent>(
           }),
         ],
       },
+      DELETE_CUE: {
+        target: 'deleting_note',
+        actions: [
+          assign({
+            metadataTracks: (context, event) => {
+              context.metadataTracks.forEach((track) =>
+                track.removeCue(event.cue),
+              )
+              return context.metadataTracks
+            },
+          }),
+        ],
+      },
       ACTIVATE_CUE: {
         actions: [
           assign({
-            activeCues: (_context, event) => {
-              // return context.activeCues.includes(event.cue)
-              //   ? context.activeCues
-              //   : [...context.activeCues, event.cue]
-
+            activeCues: (context, event) => {
               //TODO: Gracefully handle multiple active cues
-              return [event.cue]
+              return context.activeCues.includes(event.cue)
+                ? context.activeCues
+                : [...context.activeCues, event.cue]
             },
           }),
         ],
@@ -392,42 +404,67 @@ export const videoMachine = createMachine<VideoStateContext, VideoEvent>(
           },
         },
       },
+      deleting_note: {
+        invoke: {
+          src: 'deleteCueNote',
+          onDone: [
+            {
+              target: 'ready.playing',
+              cond: (context) => context.lastAction === 'PLAY',
+              actions: [
+                assign({
+                  hasStarted: (_context, _event) => true,
+                }),
+                'playVideo',
+              ],
+            },
+            {
+              target: 'ready',
+              cond: (context) => context.lastAction !== 'PLAY',
+            },
+          ],
+        },
+      },
       taking_note: {
         initial: 'focused',
         on: {
           SUBMITTED: {
             target: 'taking_note.submitting',
+
             actions: [
               assign({
                 isSubmittingCueNote: (_context, _event) => true,
-                metadataTracks: (context, event) => {
-                  context.metadataTracks[0].addCue(event.cue)
-                  return context.metadataTracks
-                },
-                hasStarted: (_context, _event) => true,
               }),
             ],
           },
           DONE_SUBMITTING_NOTE: [
             {
               target: 'ready.playing',
+              cond: (context) => context.lastAction === 'PLAY',
               actions: [
                 assign({
                   isSubmittingCueNote: (_context, _event) => false,
                   hasStarted: (_context, _event) => true,
+                  metadataTracks: (context, event) => {
+                    context.metadataTracks[0].addCue(event.cue)
+                    return context.metadataTracks
+                  },
                 }),
                 'playVideo',
               ],
-              cond: (context, event) => context.lastAction === 'PLAY',
             },
             {
               target: 'ready',
+              cond: (context) => context.lastAction !== 'PLAY',
               actions: [
                 assign({
                   isSubmittingCueNote: (_context, _event) => false,
+                  metadataTracks: (context, event) => {
+                    context.metadataTracks[0].addCue(event.cue)
+                    return context.metadataTracks
+                  },
                 }),
               ],
-              cond: (context) => context.lastAction !== 'PLAY',
             },
           ],
           FAIL: {
