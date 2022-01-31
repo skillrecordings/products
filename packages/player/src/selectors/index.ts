@@ -28,9 +28,6 @@ export const selectRootElem = (state: StateFrom<typeof videoMachine>) =>
 export const selectCueFormElem = (state: StateFrom<typeof videoMachine>) =>
   state.context.cueFormElemRef?.current ?? null
 
-export const selectVideoElem = (state: StateFrom<typeof videoMachine>) =>
-  state.context.videoRef?.current ?? null
-
 export const selectPercent = (state: StateFrom<typeof videoMachine>) => {
   if (!state.context.videoRef?.current) return 0
   const {currentTime, duration} = state.context.videoRef.current
@@ -117,7 +114,7 @@ export const selectHasFailed = (state: StateFrom<typeof videoMachine>) =>
   state.matches('failure')
 
 export const selectVideo = (state: StateFrom<typeof videoMachine>) =>
-  state.context.videoRef?.current
+  state.context.videoRef?.current ?? null
 
 export const selectPaused = (state: StateFrom<typeof videoMachine>) =>
   state.context.videoRef?.current?.paused ?? false

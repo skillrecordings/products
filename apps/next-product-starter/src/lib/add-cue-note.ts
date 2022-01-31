@@ -8,7 +8,7 @@ import {LessonResource} from '@skillrecordings/types'
 
 const addCueNote =
   (context: VideoStateContext, _event: VideoEvent) => async (send: any) => {
-    const cue = {
+    const cueNote = {
       text: context?.cueFormElemRef?.current?.input.value,
       startTime: context.currentTime,
       endTime: context.currentTime,
@@ -18,9 +18,9 @@ const addCueNote =
 
     await axios
       .post(`/api/lessons/notes/${resource.slug}`, {
-        text: cue.text,
+        text: cueNote.text,
         startTime: context.currentTime,
-        endTime: context.currentTime + readingTime(cue.text).time / 1000,
+        endTime: context.currentTime + readingTime(cueNote.text).time / 1000,
         state: context.writingCueNoteVisibility,
         contact_id: context.viewer.contact_id,
         image: context.viewer.avatar_url,
@@ -28,11 +28,17 @@ const addCueNote =
       .catch(() => {
         send('FAIL')
       })
-      .then(() => {
-        send('DONE_SUBMITTING_NOTE')
+      .then(({data}: any) => {
+        const cue = new VTTCue(
+          cueNote.startTime,
+          cueNote.endTime,
+          `{"id":"${data.id}","text":"${data.text}","type":"${data.type}","image":"${data.image}","startTime":${data.start_time},"endTime":${data.end_time}}`,
+        )
+        send({type: 'DONE_SUBMITTING_NOTE', cue: cue})
+
+        // reset form
         context.cueFormElemRef?.current?.input.blur()
         context.cueFormElemRef?.current?.reset()
-        // context.cueFormElemRef?.current?.input.value = ''
       })
   }
 
