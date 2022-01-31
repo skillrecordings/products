@@ -78,7 +78,6 @@ const PlayerPage = ({resource}: any) => {
   const videoService = useVideo()
   const withSidePanel = useSelector(videoService, selectWithSidePanel)
   const viewer = useSelector(videoService, selectViewer)
-  const textTracks = useSelector(videoService, selectTextTracks)
   const metadataTracks = useSelector(videoService, selectMetadataTracks)
 
   React.useEffect(() => {
@@ -94,7 +93,7 @@ const PlayerPage = ({resource}: any) => {
     if (fullscreenWrapperRef) {
       setMounted(true)
     }
-  }, [fullscreenWrapperRef, textTracks])
+  }, [fullscreenWrapperRef])
 
   return (
     <>
