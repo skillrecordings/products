@@ -29,11 +29,10 @@ const addCueNote =
         send('FAIL')
       })
       .then(({data}: any) => {
-        const cue = new VTTCue(
-          cueNote.startTime,
-          cueNote.endTime,
-          `{"id":"${data.id}","text":"${data.text}","type":"${data.type}","image":"${data.image}","startTime":${data.start_time},"endTime":${data.end_time}}`,
-        )
+        // pass cue text with props to get an id right
+        // away from response and avoid making another request
+        const cueNoteText = `{"id":"${data.id}","text":"${data.text}","type":"${data.type}","image":"${data.image}","startTime":${data.start_time},"endTime":${data.end_time}}`
+        const cue = new VTTCue(cueNote.startTime, cueNote.endTime, cueNoteText)
         send({type: 'DONE_SUBMITTING_NOTE', cue: cue})
 
         // reset form
