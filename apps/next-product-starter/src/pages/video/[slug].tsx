@@ -172,7 +172,7 @@ const VideoResourcesList: React.FC<VideoResourcesListProps> = ({
         const isActive = videoResource.slug === currentResource.slug
         return (
           <li
-            key={videoResource.url}
+            key={videoResource.slug}
             className="border-b border-black border-opacity-60"
           >
             <Link passHref href={`/video/${videoResource.slug}`}>
@@ -323,7 +323,7 @@ const Page = ({data, nextLesson}: any) => {
           deleteCueNote,
           loadViewer:
             (context: VideoStateContext, _event: VideoEvent) => async () => {
-              context.viewer = VIEWER[1] as any
+              context.viewer = VIEWER[0] as any
             },
         }}
         actions={{
