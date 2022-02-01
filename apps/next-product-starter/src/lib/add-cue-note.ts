@@ -8,7 +8,7 @@ import {LessonResource} from '@skillrecordings/types'
 
 const addCueNote =
   (context: VideoStateContext, _event: VideoEvent) => async (send: any) => {
-    const cueNote = {
+    const noteFromCue = {
       text: context?.cueFormElemRef?.current?.input.value,
       startTime: context.currentTime,
       endTime: context.currentTime,
@@ -18,9 +18,10 @@ const addCueNote =
 
     await axios
       .post(`/api/lessons/notes/${resource.slug}`, {
-        text: cueNote.text,
+        text: noteFromCue.text,
         startTime: context.currentTime,
-        endTime: context.currentTime + readingTime(cueNote.text).time / 1000,
+        endTime:
+          context.currentTime + readingTime(noteFromCue.text).time / 1000,
         state: context.writingCueNoteVisibility,
         contact_id: context.viewer.contact_id,
         image: context.viewer.avatar_url,
@@ -29,10 +30,15 @@ const addCueNote =
         send('FAIL')
       })
       .then(({data}: any) => {
-        // pass cue text with props to get an id right
-        // away from response and avoid making another request
-        const cueNoteText = `{"id":"${data.id}","text":"${data.text}","type":"${data.type}","image":"${data.image}","startTime":${data.start_time},"endTime":${data.end_time}}`
-        const cue = new VTTCue(cueNote.startTime, cueNote.endTime, cueNoteText)
+        // pass cue text with props to get an id right away
+        // from response and avoid making another request
+        const {start_time: startTime, end_time: endTime, ...noteData} = data
+        const cueNoteText = JSON.stringify({startTime, endTime, ...noteData})
+        const cue = new VTTCue(
+          noteFromCue.startTime,
+          noteFromCue.endTime,
+          cueNoteText,
+        )
         send({type: 'DONE_SUBMITTING_NOTE', cue: cue})
 
         // reset form
