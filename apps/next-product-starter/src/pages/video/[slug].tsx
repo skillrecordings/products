@@ -83,6 +83,7 @@ const PlayerPage = ({resource}: any) => {
   React.useEffect(() => {
     setCurrentResource(resource)
     videoService.send({type: 'LOAD_RESOURCE', resource: currentResource})
+
     const {autoplay} = getPlayerPrefs()
     if (autoplay) {
       videoService.send({type: 'PLAY'})
@@ -116,6 +117,7 @@ const PlayerPage = ({resource}: any) => {
 
               {currentResource.subtitles_url && (
                 <track
+                  key={`${currentResource.slug}-subtitles`}
                   src={currentResource?.subtitles_url}
                   kind="subtitles"
                   srcLang="en"
@@ -124,6 +126,7 @@ const PlayerPage = ({resource}: any) => {
               )}
               {metadataTracks && (
                 <track
+                  key={`${currentResource.slug}-metadata`}
                   id="notes"
                   src={`/api/lessons/notes/${currentResource.slug}?staff_notes_url=${currentResource.staff_notes_url}&contact_id=${viewer.contact_id}`}
                   kind="metadata"
