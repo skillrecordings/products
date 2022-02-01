@@ -15,6 +15,7 @@
     z-index: 1;
     flex-shrink: 0;
     border-bottom: 1px solid #0f1014;
+    background: lighten($cueplayer-react-primary-background-color, 10%);
   }
   [data-reach-tab-panels] {
     position: relative;
@@ -34,12 +35,12 @@
     font-size: 15px;
     border-bottom: 3px solid transparent;
     &:hover {
-      background: darken($cueplayer-react-primary-background-color, 5%);
+      background: lighten($cueplayer-react-primary-background-color, 2%);
     }
     &[data-selected] {
       border-bottom-color: $cueplayer-react-tertiary-foreground-color;
       opacity: 1;
-      background: darken($cueplayer-react-primary-background-color, 10%);
+      background: darken($cueplayer-react-primary-background-color, 5%);
     }
   }
 }
