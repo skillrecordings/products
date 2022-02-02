@@ -1,6 +1,7 @@
 import * as React from 'react'
 import cx from 'classnames'
 import {track} from '@skillrecordings/analytics'
+import Link from 'next/link'
 import {
   Player,
   VideoProvider,
@@ -12,6 +13,9 @@ import {
   selectViewer,
   SidePanel,
   getPlayerPrefs,
+  selectMetadataTracks,
+  selectTextTracks,
+  selectIsPaused,
 } from '@skillrecordings/player'
 import {useSelector} from '@xstate/react'
 import ReactMarkdown from 'react-markdown'
@@ -21,9 +25,11 @@ import {
   VideoStateContext,
 } from '@skillrecordings/player/dist/machines/video-machine'
 import addCueNote from 'lib/add-cue-note'
+import deleteCueNote from 'lib/delete-cue-note'
 import {useRouter} from 'next/router'
 import {find, indexOf, isEmpty} from 'lodash'
 import {AutoPlayToggle} from '../../components/player/autoplay-toggle'
+import Tippy from '@tippyjs/react'
 
 type VideoResource = {
   title: string
@@ -59,6 +65,10 @@ const sidePanelResources: any = [
     title: 'Understand and Use Interpolation in JSX',
     slug: 'react-understand-and-use-interpolation-in-jsx',
   },
+  {
+    title: 'A Beginners Guide to React Introduction',
+    slug: 'react-a-beginners-guide-to-react-introduction',
+  },
 ]
 
 const PlayerPage = ({resource}: any) => {
@@ -68,6 +78,7 @@ const PlayerPage = ({resource}: any) => {
   const videoService = useVideo()
   const withSidePanel = useSelector(videoService, selectWithSidePanel)
   const viewer = useSelector(videoService, selectViewer)
+  const metadataTracks = useSelector(videoService, selectMetadataTracks)
 
   React.useEffect(() => {
     setCurrentResource(resource)
@@ -106,14 +117,16 @@ const PlayerPage = ({resource}: any) => {
 
               {currentResource.subtitles_url && (
                 <track
+                  key={`${currentResource.slug}-subtitles`}
                   src={currentResource?.subtitles_url}
                   kind="subtitles"
                   srcLang="en"
                   label="English"
                 />
               )}
-              {true && ( // TODO: check if has notes
+              {metadataTracks && (
                 <track
+                  key={`${currentResource.slug}-metadata`}
                   id="notes"
                   src={`/api/lessons/notes/${currentResource.slug}?staff_notes_url=${currentResource.staff_notes_url}&contact_id=${viewer.contact_id}`}
                   kind="metadata"
@@ -124,7 +137,7 @@ const PlayerPage = ({resource}: any) => {
           )}
         </div>
         {withSidePanel && (
-          <div className="col-span-3">
+          <div className="col-span-3 h-screen flex flex-col">
             <SidePanel
               videoResourcesList={
                 <VideoResourcesList
@@ -153,23 +166,41 @@ const VideoResourcesList: React.FC<VideoResourcesListProps> = ({
   resources,
   currentResource,
 }) => {
+  const videoService = useVideo()
+  const isPaused = useSelector(videoService, selectIsPaused)
   return (
     <ul>
-      {resources.map((videoResource: VideoResource) => {
+      {resources.map((videoResource: VideoResource, i: number) => {
         const isActive = videoResource.slug === currentResource.slug
         return (
-          <li key={videoResource.url} className="border-b border-gray-800">
-            <a href={videoResource.slug}>
-              <div
-                className={`p-3 cursor-pointer leading-tight text-sm font-semibold  bg-transparent ${
+          <li
+            key={videoResource.slug}
+            className="border-b border-black border-opacity-60"
+          >
+            <Link passHref href={`/video/${videoResource.slug}`}>
+              <a
+                onClick={() => {
+                  // in order for autoplay to work properly the video
+                  // needs to be stopped before changing the resource
+                  !isPaused && videoService.send({type: 'PAUSE'})
+                }}
+                className={`pl-2 pr-3 py-4 w-full flex items-baseline gap-2 cursor-pointer leading-tight text-sm font-semibold bg-transparent ${
                   isActive
-                    ? 'bg-black bg-opacity-30'
+                    ? 'bg-black bg-opacity-50'
                     : 'hover:bg-white hover:bg-opacity-5'
                 }`}
               >
+                <span
+                  className={cx('text-xs font-normal', {
+                    'opacity-60': isActive,
+                    'opacity-40': !isActive,
+                  })}
+                >
+                  {i + 1}
+                </span>{' '}
                 {videoResource.title}
-              </div>
-            </a>
+              </a>
+            </Link>
           </li>
         )
       })}
@@ -181,6 +212,7 @@ const VideoCue: React.FC<any> = ({cue, note, isActive}) => {
   const cueRef = React.useRef<any>(null)
   const videoService = useVideo()
   const viewer = useSelector(videoService, selectViewer)
+
   const clickOpen = (cue: any) => {
     videoService.send({
       type: 'SEEKING',
@@ -188,7 +220,7 @@ const VideoCue: React.FC<any> = ({cue, note, isActive}) => {
       source: 'cue',
     })
     videoService.send('END_SEEKING')
-    videoService.send('PAUSE')
+
     track('opened cue', {cue: cue.text})
   }
 
@@ -199,25 +231,56 @@ const VideoCue: React.FC<any> = ({cue, note, isActive}) => {
   }, [isActive, cueRef])
 
   return (
-    <li
-      ref={cueRef}
-      key={note.text}
-      className={`cueplayer-react-side-panel-comment ${classNames({
-        'cueplayer-react-side-panel-comment-active': isActive,
-        'cueplayer-react-side-panel-comment-inactive': !isActive,
-      })}`}
-      onClick={() => clickOpen(cue)}
-    >
-      <img
-        src={note.image || viewer.avatar_url}
-        alt=""
-        className="cueplayer-react-side-panel-comment-image"
-      />
-      <div className="cueplayer-react-side-panel-comment-body">
-        {/* <span className="">{cue.startTime}</span> */}
-        <ReactMarkdown className="prose dark:prose-dark prose-sm">
-          {note.text}
-        </ReactMarkdown>
+    <li ref={cueRef} key={note.text}>
+      <div
+        className={`cueplayer-react-side-panel-comment ${classNames({
+          'cueplayer-react-side-panel-comment-active': isActive,
+          'cueplayer-react-side-panel-comment-inactive': !isActive,
+        })}`}
+      >
+        <div onClick={() => clickOpen(cue)}>
+          <div className="cueplayer-react-side-panel-comment-header">
+            <img
+              src={note.image || viewer.avatar_url}
+              alt=""
+              className="cueplayer-react-side-panel-comment-image"
+            />
+          </div>
+          <div className="cueplayer-react-side-panel-comment-body">
+            <ReactMarkdown className="prose dark:prose-dark prose-sm">
+              {note.text}
+            </ReactMarkdown>
+          </div>
+        </div>
+        <div className="cueplayer-react-side-panel-comment-actions">
+          {note.id && (
+            <>
+              <Tippy
+                placement="bottom"
+                inertia={true}
+                offset={[0, -2]}
+                delay={0}
+                duration={10}
+                content={
+                  <div className="bg-black rounded-md px-2 py-1 text-sm">
+                    delete note
+                  </div>
+                }
+              >
+                <button
+                  className="cueplayer-react-control cueplayer-react-button cueplayer-react-icon cueplayer-react-side-panel-comment-action delete"
+                  onClick={() => {
+                    videoService.send({type: 'ACTIVATE_CUE', cue: cue})
+                    videoService.send({
+                      type: 'DELETE_CUE',
+                      cue: cue,
+                    })
+                  }}
+                />
+              </Tippy>
+            </>
+          )}
+        </div>
       </div>
     </li>
   )
@@ -226,11 +289,12 @@ const VideoCue: React.FC<any> = ({cue, note, isActive}) => {
 const VideoCuesList: React.FC<any> = () => {
   const cues = useMetadataCues()
   const videoService = useVideo()
+
   const activeCues = useSelector(videoService, selectActiveCues)
 
   return (
     <ul>
-      {cues.map((cue: VTTCue) => {
+      {cues.map((cue: VTTCue, i: number) => {
         let note: {text: string; type?: string}
         const isActive = activeCues.includes(cue)
         try {
@@ -239,7 +303,12 @@ const VideoCuesList: React.FC<any> = () => {
           note = {text: cue.text}
         }
         return (
-          <VideoCue key={note.text} cue={cue} isActive={isActive} note={note} />
+          <VideoCue
+            key={note.text + i}
+            cue={cue}
+            isActive={isActive}
+            note={note}
+          />
         )
       })}
     </ul>
@@ -253,9 +322,10 @@ const Page = ({data, nextLesson}: any) => {
       <VideoProvider
         services={{
           addCueNote,
+          deleteCueNote,
           loadViewer:
             (context: VideoStateContext, _event: VideoEvent) => async () => {
-              context.viewer = VIEWER[1] as any
+              context.viewer = VIEWER[0] as any
             },
         }}
         actions={{

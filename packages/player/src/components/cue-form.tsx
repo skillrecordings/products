@@ -44,11 +44,12 @@ export const CueForm: React.FC = () => {
           endTime: currentTime,
         } as VTTCue
 
-        formRef?.current?.input.value !== '' &&
+        if (formRef?.current?.input.value !== '') {
           videoService.send({
             type: 'SUBMITTED',
             cue: new VTTCue(cue.startTime, cue.endTime, cue.text),
           })
+        }
       }}
     >
       <div className="cueplayer-react-cue-form-input-container">

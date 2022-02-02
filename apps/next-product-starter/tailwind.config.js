@@ -11,6 +11,7 @@ module.exports = {
         ...colors,
         player: {
           bg: '#20222b',
+          primary: '#8b84ff',
         },
       },
       screens: {
@@ -34,7 +35,7 @@ module.exports = {
           css: {
             '*': {color: theme('colors.white')},
             a: {
-              color: theme('colors.rose.300'),
+              color: theme('colors.player.primary'),
             },
           },
         },

@@ -61,7 +61,6 @@ export const PlaybackRateMenuButtonControl: React.FC<PlaybackRateMenuButtonProps
         className={cx('cueplayer-react-playback-rate', props.className)}
         onSelectItem={handleSelectItem}
         items={items}
-        selectedIndex={selectedIndex}
       >
         <span className="cueplayer-react-control-text">Playback Rate</span>
         <div className="cueplayer-react-playback-rate-value">
