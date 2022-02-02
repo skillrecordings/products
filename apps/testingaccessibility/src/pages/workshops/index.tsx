@@ -112,7 +112,7 @@ const WorkshopItem = ({workshop}: any) => {
       <Markdown className="prose sm:prose-lg pt-3 pb-6">{description}</Markdown>
       {slug && (
         <Link href={`/workshops/${slug}`} passHref>
-          <a className="px-5 py-3 rounded-full hover:bg-indigo-600 transition-all ease-in-out duration-300 bg-indigo-600 text-white font-semibold inline-flex">
+          <a className="px-5 py-3 rounded-full hover:bg-indigo-600 transition-all ease-in-out duration-300 bg-indigo-600 text-white font-semibold inline-flex" aria-label={`Sign up for the workshop on ${title}`}>
             Sign up for the workshop{' '}
             <i aria-hidden className="pl-2">
               →
