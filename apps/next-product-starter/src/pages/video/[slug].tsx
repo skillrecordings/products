@@ -120,6 +120,7 @@ const PlayerPage = ({resource}: any) => {
               className="font-sans"
               container={fullscreenWrapperRef.current || undefined}
               controls={<div />}
+              overlay={<div />}
             >
               <HLSSource src={currentResource?.media_urls?.hls_url} />
               <track
@@ -129,7 +130,6 @@ const PlayerPage = ({resource}: any) => {
                 srcLang="en"
                 label="English"
               />
-
               {metadataTracks && (
                 <track
                   key={`${currentResource?.slug}-metadata`}

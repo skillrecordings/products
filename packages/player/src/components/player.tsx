@@ -41,6 +41,7 @@ type PlayerProps = {
   height?: string | number
   autoPlay?: boolean
   controls?: React.ReactElement
+  overlay?: React.ReactElement
 }
 
 const usePlayerState = () => {
@@ -76,7 +77,14 @@ const usePlayerState = () => {
  * @constructor
  */
 export const Player: React.FC<PlayerProps> = (props) => {
-  const {children, controls, className, container = null, fluid = true} = props
+  const {
+    children,
+    controls,
+    className,
+    container = null,
+    fluid = true,
+    overlay,
+  } = props
   const containerRef = React.useRef(container)
   const {
     videoService,
@@ -241,6 +249,7 @@ export const Player: React.FC<PlayerProps> = (props) => {
         <Shortcut />
         {!isEmpty(viewer) && !isFullscreen && <CueForm />}
       </div>
+      {overlay}
     </div>
   )
 }
