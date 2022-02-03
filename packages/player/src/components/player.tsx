@@ -40,6 +40,7 @@ type PlayerProps = {
   width?: string | number
   height?: string | number
   autoPlay?: boolean
+  controls?: React.ReactElement
 }
 
 const usePlayerState = () => {
@@ -75,7 +76,7 @@ const usePlayerState = () => {
  * @constructor
  */
 export const Player: React.FC<PlayerProps> = (props) => {
-  const {children, className, container = null, fluid = true} = props
+  const {children, controls, className, container = null, fluid = true} = props
   const containerRef = React.useRef(container)
   const {
     videoService,
@@ -236,7 +237,7 @@ export const Player: React.FC<PlayerProps> = (props) => {
       >
         <ProgressBar />
         <CueBar />
-        <ControlBar />
+        <ControlBar>{controls}</ControlBar>
         <Shortcut />
         {!isEmpty(viewer) && !isFullscreen && <CueForm />}
       </div>

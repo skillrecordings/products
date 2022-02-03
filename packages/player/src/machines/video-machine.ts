@@ -322,16 +322,48 @@ export const videoMachine = createMachine<VideoStateContext, VideoEvent>(
     },
     states: {
       loading: {
-        invoke: {
-          src: 'loadViewer',
-        },
         entry: [
           assign({
             waiting: (_context, _event) => true,
           }),
         ],
+        invoke: [
+          {
+            id: 'fetchLessonDataService',
+            src: 'loadResource',
+            onDone: {
+              actions: [
+                assign({
+                  resource: (_context, event) => {
+                    if (event.type !== 'done.invoke.fetchLessonDataService')
+                      return {}
+                    return {lesson: event.data} as any
+                  },
+                  readyState: (context, _event) =>
+                    context.videoRef?.current?.readyState ?? 0,
+                }),
+              ],
+            },
+          },
+          {
+            id: 'fetchViewerService',
+            src: 'loadViewer',
+            onDone: {
+              actions: [
+                assign({
+                  viewer: (_context, event) => {
+                    if (event.type !== 'done.invoke.fetchViewerService')
+                      return {}
+                    return event.data
+                  },
+                }),
+              ],
+            },
+          },
+        ],
         on: {
           LOAD_RESOURCE: {
+            target: 'loading',
             actions: assign({
               resource: (_context, event) => event.resource,
             }),
@@ -359,6 +391,12 @@ export const videoMachine = createMachine<VideoStateContext, VideoEvent>(
           }),
         ],
         on: {
+          LOAD_RESOURCE: {
+            target: 'loading',
+            actions: assign({
+              resource: (_context, event) => event.resource,
+            }),
+          },
           TAKE_NOTE: {
             target: 'taking_note',
           },
@@ -428,11 +466,6 @@ export const videoMachine = createMachine<VideoStateContext, VideoEvent>(
           ended: {
             entry: ['onVideoEnded'],
             on: {
-              LOAD_RESOURCE: {
-                actions: assign({
-                  resource: (_context, event) => event.resource,
-                }),
-              },
               PLAY: {
                 target: 'playing',
                 cond: (context, _event) => !context.waiting,
@@ -562,6 +595,13 @@ export const videoMachine = createMachine<VideoStateContext, VideoEvent>(
     guards: {
       resourceLoaded: (context, _event) => {
         return !isEmpty(context.resource)
+      },
+    },
+    services: {
+      loadResource: () => {
+        throw new Error(
+          "The VideoMachine's interpreter must implement `loadResource`.",
+        )
       },
     },
   },

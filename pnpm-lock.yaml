@@ -2241,6 +2241,7 @@ importers:
       babel-jest: ^27.1.0
       classnames: ^2.3.1
       hls.js: 1.0.7
+      js-cookie: ^3.0.1
       lodash: ^4.17.21
       msw: ^0.34.0
       prism-react-renderer: ^1.2.1
@@ -2262,6 +2263,7 @@ importers:
       '@xstate/react': 1.5.1_49beb093bbd7c35e54ba0f39a3d61311
       classnames: 2.3.1
       hls.js: 1.0.7
+      js-cookie: 3.0.1
       lodash: 4.17.21
       prism-react-renderer: 1.2.1_react@17.0.2
       react: 17.0.2
@@ -16316,6 +16318,11 @@ packages:
 
   /js-cookie/2.2.1:
     resolution: {integrity: sha512-HvdH2LzI/EAZcUwA8+0nKNtWHqS+ZmijLA30RwZA0bo7ToCckjK5MkGhjED9KoRcXO6BaGI3I9UIzSA1FKFPOQ==}
+    dev: false
+
+  /js-cookie/3.0.1:
+    resolution: {integrity: sha512-+0rgsUXZu4ncpPxRL+lNEptWMOWl9etvPHc/koSRp6MPwpRYAhmk0dUG00J4bxVV3r9uUzfo24wW0knS07SKSw==}
+    engines: {node: '>=12'}
     dev: false
 
   /js-levenshtein/1.1.6:
