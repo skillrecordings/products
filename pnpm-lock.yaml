@@ -2226,7 +2226,6 @@ importers:
       '@emotion/babel-preset-css-prop': ^11.2.0
       '@emotion/react': ^11.4.1
       '@reach/tabs': ^0.16.4
-      '@skillrecordings/analytics': workspace:*
       '@skillrecordings/react': workspace:*
       '@skillrecordings/scripts': workspace:*
       '@skillrecordings/tsconfig': workspace:*
@@ -2257,7 +2256,6 @@ importers:
       '@babel/core': 7.16.5
       '@emotion/react': 11.4.1_213ad9d7f16d5f2143aae0ea44e017d2
       '@reach/tabs': 0.16.4_react-dom@17.0.2+react@17.0.2
-      '@skillrecordings/analytics': link:../analytics
       '@skillrecordings/react': link:../react
       '@tippyjs/react': 4.2.5_react-dom@17.0.2+react@17.0.2
       '@xstate/react': 1.5.1_49beb093bbd7c35e54ba0f39a3d61311

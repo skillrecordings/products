@@ -2,7 +2,6 @@ import * as React from 'react'
 import classNames from 'classnames'
 import {isEmpty} from 'lodash'
 import Tippy from '@tippyjs/react'
-import {track} from '@skillrecordings/analytics'
 import CodeBlock from './code-block'
 import {useVideo} from '../context/video-context'
 import {useSelector} from '@xstate/react'
@@ -57,7 +56,7 @@ const NoteCue: React.FC<any> = ({cue, duration, className}) => {
       source: 'cue',
     })
     videoService.send('END_SEEKING')
-    track('opened cue', {cue: cue.text})
+    // track('opened cue', {cue: cue.text})
   }
 
   const startPosition = `${(cue.startTime / duration) * 100}%`

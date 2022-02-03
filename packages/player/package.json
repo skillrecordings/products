@@ -2,7 +2,7 @@
   "name": "@skillrecordings/player",
   "description": "Internal, shared utilities",
   "author": "Joel Hooks",
-  "version": "0.0.8",
+  "version": "0.1.0",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "files": [
@@ -20,7 +20,6 @@
     "@babel/core": "^7.16.5",
     "@emotion/react": "^11.4.1",
     "@reach/tabs": "^0.16.4",
-    "@skillrecordings/analytics": "workspace:*",
     "@skillrecordings/react": "workspace:*",
     "@tippyjs/react": "^4.2.5",
     "@xstate/react": "^1.5.1",
