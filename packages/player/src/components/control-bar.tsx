@@ -10,7 +10,7 @@ import {FullscreenToggleControl} from './controls/fullscreen-toggle-control'
 import {SidePanelToggleControl} from './controls/side-panel-toggle-control'
 import {ClosedCaptionsMenuButtonControl} from './controls/closed-captions-menu-button-control'
 
-export const ControlBar: React.FC = () => {
+export const ControlBar: React.FC = ({children}) => {
   return (
     <div className="cueplayer-react-control-bar">
       <div className="cueplayer-react-control-bar-left-part">
@@ -26,6 +26,7 @@ export const ControlBar: React.FC = () => {
         <DurationDisplay />
       </div>
       <div className="cueplayer-react-control-bar-right-part">
+        {children}
         <ClosedCaptionsMenuButtonControl />
         <SidePanelToggleControl />
         <FullscreenToggleControl />

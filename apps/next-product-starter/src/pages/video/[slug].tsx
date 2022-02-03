@@ -14,8 +14,8 @@ import {
   SidePanel,
   getPlayerPrefs,
   selectMetadataTracks,
-  selectTextTracks,
-  selectIsPaused,
+  selectResource,
+  selectIsWaiting,
 } from '@skillrecordings/player'
 import {useSelector} from '@xstate/react'
 import ReactMarkdown from 'react-markdown'
@@ -73,22 +73,29 @@ const sidePanelResources: any = [
 
 const PlayerPage = ({resource}: any) => {
   const [mounted, setMounted] = React.useState<boolean>(false)
-  const [currentResource, setCurrentResource] = React.useState<any>(resource)
   const fullscreenWrapperRef = React.useRef<HTMLDivElement>(null)
   const videoService = useVideo()
   const withSidePanel = useSelector(videoService, selectWithSidePanel)
   const viewer = useSelector(videoService, selectViewer)
   const metadataTracks = useSelector(videoService, selectMetadataTracks)
+  const isWaiting = useSelector(videoService, selectIsWaiting)
+  const {lesson: currentResource}: any = useSelector(
+    videoService,
+    selectResource,
+  )
+
+  const {autoplay} = getPlayerPrefs()
 
   React.useEffect(() => {
-    setCurrentResource(resource)
-    videoService.send({type: 'LOAD_RESOURCE', resource: currentResource})
+    videoService.send({type: 'LOAD_RESOURCE', resource: resource})
+  }, [resource.slug])
 
-    const {autoplay} = getPlayerPrefs()
-    if (autoplay) {
+  React.useEffect(() => {
+    // Autoplay
+    if (autoplay && !isWaiting) {
       videoService.send({type: 'PLAY'})
     }
-  }, [resource])
+  }, [isWaiting])
 
   React.useEffect(() => {
     if (fullscreenWrapperRef) {
@@ -112,23 +119,22 @@ const PlayerPage = ({resource}: any) => {
             <Player
               className="font-sans"
               container={fullscreenWrapperRef.current || undefined}
+              controls={<div />}
             >
               <HLSSource src={currentResource?.media_urls?.hls_url} />
+              <track
+                key={`${currentResource?.slug}-subtitles`}
+                src={currentResource?.subtitles_url}
+                kind="subtitles"
+                srcLang="en"
+                label="English"
+              />
 
-              {currentResource.subtitles_url && (
-                <track
-                  key={`${currentResource.slug}-subtitles`}
-                  src={currentResource?.subtitles_url}
-                  kind="subtitles"
-                  srcLang="en"
-                  label="English"
-                />
-              )}
               {metadataTracks && (
                 <track
-                  key={`${currentResource.slug}-metadata`}
+                  key={`${currentResource?.slug}-metadata`}
                   id="notes"
-                  src={`/api/lessons/notes/${currentResource.slug}?staff_notes_url=${currentResource.staff_notes_url}&contact_id=${viewer.contact_id}`}
+                  src={`/api/lessons/notes/${currentResource?.slug}?staff_notes_url=${currentResource?.staff_notes_url}&contact_id=${viewer.contact_id}`}
                   kind="metadata"
                   label="notes"
                 />
@@ -143,7 +149,6 @@ const PlayerPage = ({resource}: any) => {
                 <VideoResourcesList
                   resources={sidePanelResources}
                   currentResource={currentResource}
-                  setCurrentResource={setCurrentResource}
                 />
               }
               videoCuesList={<VideoCuesList />}
@@ -159,19 +164,16 @@ const PlayerPage = ({resource}: any) => {
 type VideoResourcesListProps = {
   resources: VideoResource[]
   currentResource: any
-  setCurrentResource: (video: VideoResource) => void
 }
 
 const VideoResourcesList: React.FC<VideoResourcesListProps> = ({
   resources,
   currentResource,
 }) => {
-  const videoService = useVideo()
-  const isPaused = useSelector(videoService, selectIsPaused)
   return (
     <ul>
       {resources.map((videoResource: VideoResource, i: number) => {
-        const isActive = videoResource.slug === currentResource.slug
+        const isActive = videoResource.slug === currentResource?.slug
         return (
           <li
             key={videoResource.slug}
@@ -179,11 +181,6 @@ const VideoResourcesList: React.FC<VideoResourcesListProps> = ({
           >
             <Link passHref href={`/video/${videoResource.slug}`}>
               <a
-                onClick={() => {
-                  // in order for autoplay to work properly the video
-                  // needs to be stopped before changing the resource
-                  !isPaused && videoService.send({type: 'PAUSE'})
-                }}
                 className={`pl-2 pr-3 py-4 w-full flex items-baseline gap-2 cursor-pointer leading-tight text-sm font-semibold bg-transparent ${
                   isActive
                     ? 'bg-black bg-opacity-50'
@@ -315,32 +312,43 @@ const VideoCuesList: React.FC<any> = () => {
   )
 }
 
-const Page = ({data, nextLesson}: any) => {
+const Page = ({initialLesson, nextLesson}: any) => {
   const router = useRouter()
   return (
     <div>
       <VideoProvider
         services={{
+          loadResource:
+            (_context: VideoStateContext, _event: VideoEvent) => async () => {
+              console.debug('loading video with auth')
+              const res = await getLesson(initialLesson.slug)
+              const loadedLesson = await res.json()
+              console.debug('authed video loaded', {video: loadedLesson})
+
+              return {
+                // ...initialLesson,
+                ...loadedLesson,
+              }
+            },
+          loadViewer:
+            (_context: VideoStateContext, _event: VideoEvent) => async () => {
+              return VIEWER[0]
+            },
           addCueNote,
           deleteCueNote,
-          loadViewer:
-            (context: VideoStateContext, _event: VideoEvent) => async () => {
-              context.viewer = VIEWER[0] as any
-            },
         }}
         actions={{
-          onVideoEnded: (context: any, _event: any) => {
+          onVideoEnded: (_context: VideoStateContext, _event: VideoEvent) => {
             const {autoplay} = getPlayerPrefs()
             const hasNextLesson = !isEmpty(nextLesson)
             if (autoplay && hasNextLesson) {
-              router.push(`/video/${nextLesson.slug}`).then(() => {
-                context.videoRef?.current.play()
-              })
+              console.debug('autoplaying next lesson', {nextLesson})
+              router.push(`/video/${nextLesson.slug}`)
             }
           },
         }}
       >
-        <PlayerPage resource={data} nextResource={nextLesson} />
+        <PlayerPage resource={initialLesson} nextResource={nextLesson} />
       </VideoProvider>
     </div>
   )
@@ -363,7 +371,7 @@ export async function getServerSideProps(context: any) {
   const nextLessonRes = await getLesson(nextLesson?.slug)
   const nextLessonData = nextLesson ? await nextLessonRes.json() : {}
 
-  return {props: {data, nextLesson: nextLessonData}}
+  return {props: {initialLesson: data, nextLesson: nextLessonData}}
 }
 
 export async function getLesson(slug: string): Promise<any> {

@@ -2,7 +2,7 @@ import * as React from 'react'
 import {useSelector} from '@xstate/react'
 import cx from 'classnames'
 import {useVideo} from '../../context/video-context'
-import {selectPaused} from '../../selectors'
+import {selectPaused, selectHasEnded} from '../../selectors'
 
 export const PlayToggleControl: React.FC<any> = React.forwardRef<
   HTMLButtonElement,
@@ -10,6 +10,7 @@ export const PlayToggleControl: React.FC<any> = React.forwardRef<
 >(({className}, ref) => {
   const videoService = useVideo()
   const paused = useSelector(videoService, selectPaused)
+  const ended = useSelector(videoService, selectHasEnded)
   const controlText = paused ? 'Play' : 'Pause'
 
   function handleClick() {
@@ -29,6 +30,7 @@ export const PlayToggleControl: React.FC<any> = React.forwardRef<
         'cueplayer-react-button': true,
         'cueplayer-react-paused': paused,
         'cueplayer-react-playing': !paused,
+        'cueplayer-react-ended': ended,
       })}
       type="button"
       tabIndex={0}

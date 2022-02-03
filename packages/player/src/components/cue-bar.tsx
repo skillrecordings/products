@@ -79,7 +79,6 @@ const NoteCue: React.FC<any> = ({cue, duration, className}) => {
   return (
     <Tippy
       placement="top"
-      theme="light"
       maxWidth={300}
       appendTo="parent"
       offset={[0, 12]}

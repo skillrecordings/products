@@ -113,6 +113,9 @@ export const selectIsSubmittingCueNote = (
 export const selectHasFailed = (state: StateFrom<typeof videoMachine>) =>
   state.matches('failure')
 
+export const selectHasEnded = (state: StateFrom<typeof videoMachine>) =>
+  state.matches('ready.ended')
+
 export const selectVideo = (state: StateFrom<typeof videoMachine>) =>
   state.context.videoRef?.current ?? null
 
