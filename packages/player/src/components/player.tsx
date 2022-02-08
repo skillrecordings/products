@@ -187,7 +187,14 @@ export const Player: React.FC<PlayerProps> = (props) => {
     <div
       ref={(c) => {
         containerRef.current = container ? container : c
-        videoService.send({type: 'SET_ROOT_ELEM', rootElemRef: containerRef})
+        // creating custom object to avoid circular ref error
+        const domNodeRef: any = {
+          node: containerRef,
+          toJSON() {
+            return {}
+          },
+        }
+        videoService.send({type: 'SET_ROOT_ELEM', rootElemRef: domNodeRef})
       }}
       onMouseDown={handleActivity}
       onMouseMove={handleActivity}
