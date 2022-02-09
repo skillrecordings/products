@@ -14,7 +14,7 @@ const addCueNote =
       endTime: context.currentTime,
     } as VTTCue
 
-    const resource = context.resource as LessonResource
+    const {lesson: resource}: any = context.resource as LessonResource
 
     await axios
       .post(`/api/lessons/notes/${resource.slug}`, {
