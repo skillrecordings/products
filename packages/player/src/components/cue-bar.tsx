@@ -21,7 +21,7 @@ export const CueBar: React.FC<any> = ({
   const duration = useSelector(videoService, selectDuration)
   const cues = useMetadataCues()
 
-  return disableCompletely || isEmpty(cues) ? null : (
+  return disableCompletely ? null : (
     <div className={classNames('cueplayer-react-cue-bar', className)}>
       {cues.map((noteCue: any, i: number) => {
         return (

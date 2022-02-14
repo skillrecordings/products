@@ -130,7 +130,7 @@ const PlayerPage = ({resource}: any) => {
                 srcLang="en"
                 label="English"
               />
-              {metadataTracks && (
+              {metadataTracks && currentResource && (
                 <track
                   key={`${currentResource?.slug}-metadata`}
                   id="notes"
