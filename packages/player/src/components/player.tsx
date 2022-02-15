@@ -42,6 +42,7 @@ type PlayerProps = {
   autoPlay?: boolean
   controls?: React.ReactElement
   overlay?: React.ReactElement
+  canAddNotes?: boolean
 }
 
 const usePlayerState = () => {
@@ -84,6 +85,7 @@ export const Player: React.FC<PlayerProps> = (props) => {
     container = null,
     fluid = true,
     overlay,
+    canAddNotes = false,
   } = props
   const containerRef = React.useRef(container)
   const {
@@ -253,8 +255,8 @@ export const Player: React.FC<PlayerProps> = (props) => {
         <ProgressBar />
         <CueBar />
         <ControlBar>{controls}</ControlBar>
-        <Shortcut />
-        {!isEmpty(viewer) && !isFullscreen && <CueForm />}
+        <Shortcut canAddNotes={canAddNotes} />
+        {canAddNotes && <CueForm />}
       </div>
       {overlay}
     </div>

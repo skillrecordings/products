@@ -22,6 +22,7 @@ type ShortcutProps = {
   clickable?: boolean
   dblclickable?: boolean
   shortcuts?: any[]
+  canAddNotes: boolean
 }
 
 const useShortcutState = () => {
@@ -67,8 +68,9 @@ const useShortcutState = () => {
  * @constructor
  */
 export const Shortcut: React.FC<ShortcutProps> = ({
-  clickable = false,
-  dblclickable = false,
+  clickable = true,
+  dblclickable = true,
+  canAddNotes = false,
   ...props
 }) => {
   const {
@@ -83,8 +85,6 @@ export const Shortcut: React.FC<ShortcutProps> = ({
     volume,
     paused,
     cueFormElem,
-    isWritingCue,
-    isFullscreen,
     disableShortcuts,
   } = useShortcutState()
 
@@ -121,13 +121,15 @@ export const Shortcut: React.FC<ShortcutProps> = ({
           },
           {
             keyCode: 70, // f
+            ctrl: false,
             handle: () =>
               videoService.send({type: 'TOGGLE_FULLSCREEN', element: rootElem}),
           },
           {
             keyCode: 67, // c
+            ctrl: false,
             handle: () => {
-              if (!isFullscreen) {
+              if (canAddNotes) {
                 // focus the cue note input
                 cueFormElem?.input?.focus()
                 // start note taking session
@@ -418,7 +420,7 @@ export const Shortcut: React.FC<ShortcutProps> = ({
         return
       }
       togglePlay()
-      // e.preventDefault();
+      e.preventDefault()
     },
     [canBeClicked, clickable, togglePlay],
   )
@@ -428,8 +430,8 @@ export const Shortcut: React.FC<ShortcutProps> = ({
       if (!canBeClicked(e) || !dblclickable) {
         return
       }
-      // this.toggleFullscreen()
-      // e.preventDefault();
+      videoService.send('TOGGLE_FULLSCREEN')
+      e.preventDefault()
     },
     [canBeClicked, dblclickable],
   )

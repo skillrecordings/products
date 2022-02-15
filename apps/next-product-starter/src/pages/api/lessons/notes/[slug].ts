@@ -57,13 +57,15 @@ const notes = async (req: NextApiRequest, res: NextApiResponse) => {
   else if (req.method === 'GET') {
     // TODO: Cache the egghead user so we aren't hammering?
     const contact_id = req.query.contact_id
+    const staff_notes_url = req.query.staff_notes_url
     const {data: userNotes} = await loadUserNotesForResource(
       req.query.slug as string,
       contact_id as string,
     )
-    const staffNotes = await loadStaffNotesForResource(
-      req.query.staff_notes_url as string,
-    )
+
+    const staffNotes = staff_notes_url
+      ? await loadStaffNotesForResource(staff_notes_url as string)
+      : []
 
     const notes = await convertNotes(userNotes, staffNotes)
 

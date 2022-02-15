@@ -2,6 +2,7 @@ import * as React from 'react'
 import cx from 'classnames'
 import {track} from '@skillrecordings/analytics'
 import Link from 'next/link'
+import queryString from 'query-string'
 import {
   Player,
   VideoProvider,
@@ -16,6 +17,7 @@ import {
   selectMetadataTracks,
   selectResource,
   selectIsWaiting,
+  selectIsFullscreen,
 } from '@skillrecordings/player'
 import {useSelector} from '@xstate/react'
 import ReactMarkdown from 'react-markdown'
@@ -69,6 +71,10 @@ const sidePanelResources: any = [
     title: 'A Beginners Guide to React Introduction',
     slug: 'react-a-beginners-guide-to-react-introduction',
   },
+  {
+    title: 'Use the React Effect Hook in Function Components',
+    slug: 'react-use-the-react-effect-hook-in-function-components',
+  },
 ]
 
 const PlayerPage = ({resource}: any) => {
@@ -83,11 +89,13 @@ const PlayerPage = ({resource}: any) => {
     videoService,
     selectResource,
   )
+  const isFullscreen = useSelector(videoService, selectIsFullscreen)
 
   const {autoplay} = getPlayerPrefs()
 
   React.useEffect(() => {
     videoService.send({type: 'LOAD_RESOURCE', resource: resource})
+    videoService.send('ACTIVITY')
   }, [resource.slug])
 
   React.useEffect(() => {
@@ -105,8 +113,12 @@ const PlayerPage = ({resource}: any) => {
 
   return (
     <>
+      <nav className="h-10 bg-black w-full"></nav>
       <div
-        className="relative w-full space-y-6 lg:grid lg:grid-cols-12 lg:space-y-0"
+        className={cx('w-full space-y-6 lg:grid lg:grid-cols-12 lg:space-y-0', {
+          'absolute top-0': isFullscreen,
+          relative: !isFullscreen,
+        })}
         ref={fullscreenWrapperRef}
       >
         <div
@@ -121,20 +133,33 @@ const PlayerPage = ({resource}: any) => {
               container={fullscreenWrapperRef.current || undefined}
               controls={<div />}
               overlay={<div />}
+              canAddNotes={isEmpty(viewer) ? false : !isFullscreen}
             >
-              <HLSSource src={currentResource?.media_urls?.hls_url} />
-              <track
-                key={`${currentResource?.slug}-subtitles`}
-                src={currentResource?.subtitles_url}
-                kind="subtitles"
-                srcLang="en"
-                label="English"
-              />
+              {currentResource?.media_urls.hls_url && (
+                <HLSSource src={currentResource.media_urls.hls_url} />
+              )}
+              {currentResource?.subtitles_url &&
+                currentResource?.media_urls.hls_url && (
+                  <track
+                    key={currentResource.subtitles_url}
+                    src={currentResource.subtitles_url}
+                    kind="subtitles"
+                    srcLang="en"
+                    label="English"
+                  />
+                )}
               {metadataTracks && currentResource && (
                 <track
-                  key={`${currentResource?.slug}-metadata`}
+                  key={currentResource?.slug}
                   id="notes"
-                  src={`/api/lessons/notes/${currentResource?.slug}?staff_notes_url=${currentResource?.staff_notes_url}&contact_id=${viewer.contact_id}`}
+                  src={queryString.stringifyUrl({
+                    url: `/api/lessons/notes/${currentResource?.slug}`,
+                    query: {
+                      staff_notes_url:
+                        currentResource?.staff_notes_url || undefined,
+                      contact_id: viewer?.contact_id,
+                    },
+                  })}
                   kind="metadata"
                   label="notes"
                 />
@@ -143,7 +168,7 @@ const PlayerPage = ({resource}: any) => {
           )}
         </div>
         {withSidePanel && (
-          <div className="col-span-3 h-screen flex flex-col">
+          <div className="col-span-3 h-[calc(100vh-40px)] flex flex-col">
             <SidePanel
               videoResourcesList={
                 <VideoResourcesList
@@ -157,6 +182,7 @@ const PlayerPage = ({resource}: any) => {
           </div>
         )}
       </div>
+      <div className="h-screen bg-black" />
     </>
   )
 }

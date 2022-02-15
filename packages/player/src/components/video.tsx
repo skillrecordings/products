@@ -82,13 +82,6 @@ export const Video: React.FC<VideoProps> = ({
       autoPlay={autoPlay}
       poster={poster}
       src={src}
-      onDoubleClickCapture={() => {
-        videoService.send('TOGGLE_FULLSCREEN')
-        videoService.send(!paused ? 'PLAY' : 'PAUSE')
-      }}
-      onClickCapture={() => {
-        videoService.send(paused ? 'PLAY' : 'PAUSE')
-      }}
       onCanPlay={(_event) => {
         videoService.send('LOADED')
       }}
