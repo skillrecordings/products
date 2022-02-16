@@ -7,7 +7,7 @@ Cuando hayas terminado, tendrás los fundamentos esenciales para crear experienc
 
 Date la oportunidad de empezar este viaje por el ecosistema de React con Matias.
 
-**Próximamente, Octubre 2021**
+**Próximamente**
 
       `,
   },
@@ -112,7 +112,7 @@ Desde hace 6 años que trabajo con React realizando múltiples proyectos de alta
     id: 'jumbotron',
     path: `/react`,
     title: 'React Desde Cero',
-    meta: 'Curso Profesional · Próximamente Octubre, 2021',
+    meta: 'Curso Profesional · Próximamente',
     image: '/images/react-icon-hero.svg',
     description: `En este workshop, aprenderás los fundamentos esenciales para empezar tu carrera profesional como un React developer. Cuando hayas terminado, tendrás los fundamentos esenciales para crear experiencias excelentes para los usuarios de tus aplicaciones.
    `,

@@ -181,7 +181,7 @@ const Waves = () => {
         </div>
         <p className="max-w-lg mx-auto mt-6 text-base text-center text-white sm:text-lg">
           <span className="px-4 py-1 text-xs bg-gray-100 rounded-full backdrop-filter backdrop-blur-lg dark:bg-opacity-30 bg-opacity-30 md:text-base">
-            Curso Profesional · Próximamente Octubre, 2021
+            Curso Profesional · Próximamente
           </span>
         </p>
         <h1 className="max-w-screen-lg mx-auto mt-4 text-3xl font-extrabold text-center text-white transition-all duration-500 ease-in-out lg:text-6xl md:text-5xl sm:text-4xl">
