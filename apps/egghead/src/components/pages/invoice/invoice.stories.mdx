@@ -1,0 +1,21 @@
+import {Meta, Story, Canvas} from '@storybook/addon-docs/blocks'
+import Invoice from './'
+
+export const data = {
+  email: 'user@email.com',
+  full_name: 'Full Name',
+}
+
+import transaction from './mock-transaction'
+
+<Meta title="Components/Users/Invoice" />
+
+# Card Component
+
+<Canvas>
+  <Story name="Default">
+    <div className="p-5">
+      <Invoice viewer={data} transaction={transaction} />
+    </div>
+  </Story>
+</Canvas>

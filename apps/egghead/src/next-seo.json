@@ -1,0 +1,39 @@
+{
+  "title": "Build the portfolio you need to be a badass web developer.",
+  "titleTemplate": "%s | egghead.io",
+  "description": "egghead is your source for the Badass Portfolio Projects you need to climb the career ladder as a modern web developer.",
+  "additionalLinkTags": [
+    {
+      "rel": "search",
+      "type": "application/opensearchdescription+xml",
+      "href": "/opensearch.xml",
+      "title": "egghead"
+    }
+  ],
+  "additionalMetaTags": [
+    {"property": "author", "content": "eggheadio"},
+    {
+      "property": "keywords",
+      "content": ""
+    }
+  ],
+  "twitter": {
+    "cardType": "summary_large_image",
+    "handle": "eggheadio",
+    "site": "eggheadio"
+  },
+  "openGraph": {
+    "type": "website",
+    "title": "Build the portfolio you need to be a badass web developer.",
+    "description": "egghead is your source for the Badass Portfolio Projects you need to climb the career ladder as a modern web developer.",
+    "site_name": "egghead",
+    "profile": {
+      "firstName": "egghead"
+    },
+    "images": [
+      {
+        "url": "https://res.cloudinary.com/dg3gyk0gu/image/upload/v1637345011/egghead-next-pages/home-page/root-og_2x.png"
+      }
+    ]
+  }
+}

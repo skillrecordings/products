@@ -1,0 +1,167 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+@import '../../node_modules/tippy.js/dist/tippy.css';
+@import '../../node_modules/tippy.js/themes/light.css';
+@import '../../node_modules/simplebar/dist/simplebar.min.css';
+@import '../../node_modules/cueplayer-react/dist/cueplayer-react.css';
+@import 'cueplayer.css';
+@import './icons.css';
+
+#__next {
+  @apply flex flex-col min-h-screen text-gray-900;
+}
+
+#__next .prose-reset * {
+  font-size: inherit !important;
+  font-weight: inherit !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+.prose .mt-0 {
+  margin-top: 0;
+}
+
+/* ——— Code Blocks ——— */
+
+code::before {
+  content: none !important;
+}
+
+code::after {
+  content: none !important;
+}
+
+code {
+  font-size: 80% !important;
+}
+
+pre {
+  @apply sm:rounded-md rounded-none !important;
+}
+
+pre > code {
+  font-size: 90% !important;
+}
+
+pre > code {
+  ::selection {
+    @apply bg-blue-700;
+  }
+}
+
+.simplebar-content:after,
+.simplebar-content:before {
+  content: '';
+}
+
+.simplebar-scrollbar:before {
+  @apply bg-gray-500;
+}
+
+/* ——— Player ——— */
+
+@keyframes b {
+  0% {
+    opacity: 0;
+    transform: scale(2);
+  }
+  10% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  90% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(0);
+  }
+}
+
+#egghead-player
+  .bmpui-player-state-paused
+  .bmpui-ui-hugeplaybacktogglebutton.bmpui-off
+  .bmpui-image {
+  transition: opacity 0.3s, transform 0.3s;
+  opacity: 0;
+  transform: scale(0);
+  animation: b 4s cubic-bezier(0.55, 0.055, 0.675, 0.19);
+}
+
+#egghead-player
+  .bmpui-player-state-paused
+  .bmpui-ui-hugeplaybacktogglebutton.bmpui-off:hover
+  .bmpui-image {
+  opacity: 1;
+  transform: scale(1);
+}
+
+#egghead-player .bmpui-ui-watermark {
+  display: none;
+}
+
+/* ——— Algolia UI ——— */
+
+/* ––– Pagination ––– */
+.ais-Pagination-list {
+  @apply space-x-[2px] !important;
+}
+
+.ais-Pagination-item {
+  @apply m-0 !important;
+}
+
+.ais-Pagination-link {
+  @apply dark:bg-gray-700 border dark:bg-opacity-60  dark:text-white  text-gray-700 border-none rounded-sm bg-white hover:bg-gray-100 transition-all ease-out duration-150 !important;
+}
+.ais-Pagination-link:hover {
+  @apply dark:bg-gray-300 bg-gray-700 dark:text-gray-800 text-white !important;
+}
+
+.ais-Pagination-link--selected {
+  @apply dark:bg-white dark:text-gray-900 bg-gray-900 text-white !important;
+}
+.ais-Pagination-link--selected:hover {
+  @apply dark:bg-gray-100 dark:text-gray-900 bg-gray-800 text-white !important;
+}
+
+.ais-Pagination-item--disabled {
+  @apply opacity-50 cursor-not-allowed !important;
+}
+
+/* ——— Sort ——— */
+
+.ais-SortBy-select {
+  @apply sm:pr-8 sm:pl-4 pr-6 pl-2 py-3 sm:text-sm text-xs border-transparent dark:text-white text-gray-900 transition rounded-none bg-transparent dark:hover:bg-gray-800 hover:bg-gray-50;
+}
+
+/* ——— Clear Refinements ——— */
+
+.ais-ClearRefinements-button {
+  @apply bg-transparent dark:text-white text-black !important;
+}
+
+/* ——— Reach UI Tabs ——— */
+
+/* styles all tabs */
+[data-reach-tabs] [data-reach-tab-list] {
+  @apply space-x-1 font-semibold bg-transparent;
+}
+[data-reach-tabs] [data-reach-tab] {
+  @apply px-4 py-3 text-base text-gray-700 transition-colors duration-300 ease-in-out rounded-t-lg dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-black;
+}
+/* styles only the selected tab */
+[data-reach-tabs] [data-reach-tab][data-selected] {
+  @apply text-gray-900 transition-colors duration-300 ease-in-out border-gray-200 bg-gray-50 dark:bg-gray-1000 dark:text-white dark:border-gray-800;
+}
+
+/*
+  This will hide the focus indicator if the element receives focus via the mouse,
+  but it will still show up on keyboard focus.
+*/
+.js-focus-visible :focus:not(.focus-visible) {
+  outline: none;
+}

@@ -1,0 +1,288 @@
+import React, {FunctionComponent} from 'react'
+import {NextSeo} from 'next-seo'
+import Markdown from 'react-markdown'
+import {sanityClient} from 'utils/sanity-client'
+import groq from 'groq'
+import Image from 'next/image'
+import {find} from 'lodash'
+import {track} from 'utils/analytics'
+
+type LandingProps = {
+  course: any
+}
+
+const landingPage: FunctionComponent<LandingProps> = (props) => {
+  const {course} = props
+  const {title, ogImage, path, image, tags} = course
+
+  const introduction: any = find(course?.projects?.content, {
+    label: 'Introduction',
+  })
+  const projectBrief: any = find(course?.projects?.content, {
+    label: 'Project Brief',
+  })
+  const appRequirements: any = find(course?.projects?.content, {
+    label: 'App Requirements',
+  })
+  const appData: any = find(course?.projects?.content, {
+    label: 'App Data',
+  })
+  const developmentStandards: any = find(course?.projects?.content, {
+    label: 'Development Standards',
+  })
+  const stretchGoal: any = find(course?.projects?.content, {
+    label: 'Stretch Goal',
+  })
+  const appDesign: any = find(course?.projects?.content, {
+    label: 'App Design',
+  })
+  const Submission: any = find(course?.projects?.content, {label: 'Submission'})
+
+  const {productCard, productPage} = course?.projects
+
+  return (
+    <>
+      <NextSeo
+        description={course.description}
+        title={title}
+        titleTemplate={'%s | egghead.io'}
+        twitter={{
+          site: `@eggheadio`,
+          cardType: 'summary_large_image',
+        }}
+        openGraph={{
+          title,
+          description: course.description,
+          site_name: 'egghead',
+          images: [
+            {
+              url: ogImage,
+            },
+          ],
+        }}
+      />
+      <div className="pt-5 bg-gray-50 dark:bg-gray-900">
+        <div className="container pb-10 mb-10">
+          <div className="mt-10 mb-16 text-center">
+            <div className="mb-10">
+              <Image priority src={image} height="270" width="270" />
+            </div>
+            <p className="text-lg leading-6 text-gray-500 md:text-2xl">
+              Portfolio Project
+            </p>
+            <h1 className="mt-2 text-2xl font-bold md:text-4xl">
+              {course.projects.title}
+            </h1>
+          </div>
+          <div className="flex flex-col items-start justify-center w-full max-w-screen-md mx-auto mb-16">
+            <main className="w-full prose prose-lg dark:prose-dark dark:prose-a:text-blue-300 prose-a:text-blue-500 max-w-none">
+              <Markdown>{introduction.text}</Markdown>
+              <Markdown>{projectBrief.text}</Markdown>
+              <section className="flex-none w-full sm:flex sm:justify-between sm:mt-4">
+                <Markdown className="col-span-1">
+                  {appRequirements.text}
+                </Markdown>
+                <Markdown className="rounded-md sm:mt-24">
+                  {appData.text}
+                </Markdown>
+              </section>
+              <Markdown>{developmentStandards.text}</Markdown>
+              <section>
+                <h2 className="max-w-xl font-light tracking-tight text-black dark:text-white text-md">
+                  Steps To Get Started
+                </h2>
+                <p>
+                  This project aims to test the skills and understanding you've
+                  gained from The Beginner's Guide to Vue 3. If you are new to
+                  Vue or don't know where to start with the project, watch the
+                  course and come back here after to get started on the project.
+                </p>
+                <CtaButton
+                  text="Watch The Beginner's Guide to Vue 3"
+                  path={course?.path}
+                />
+                <p>
+                  When you're ready to go, you can fork the project challenge
+                  GitHub repository or get started right now in CodeSandbox.
+                </p>
+                <div className="flex flex-col sm:flex-row">
+                  <div className="flex items-center justify-center w-full">
+                    <a
+                      href={course.projects.githubLink}
+                      className="px-5 py-3 mt-4 font-semibold transition-all duration-150 ease-in-out bg-gray-400 rounded-md hover:bg-gray-500 active:bg-gray-600 hover:scale-105 hover:shadow-xl w-52"
+                      title="Open Project in Codesandbox"
+                      rel="noopener noreferrer"
+                      target="_blank"
+                      style={{
+                        color: 'white',
+                        textDecoration: 'none',
+                      }}
+                    >
+                      <div className="flex items-center justify-center text-white">
+                        <Image
+                          src="https://res.cloudinary.com/dg3gyk0gu/image/upload/v1622561606/next.egghead.io/icons/github.svg"
+                          height="20"
+                          width="20"
+                        />
+                        <div
+                          className="ml-2"
+                          style={{
+                            color: 'white',
+                          }}
+                        >
+                          GitHub
+                        </div>
+                      </div>
+                    </a>
+                  </div>
+                  <div className="flex items-center justify-center w-full">
+                    <a
+                      href={course.projects.codesandboxLink}
+                      className="px-5 py-3 mt-4 font-semibold transition-all duration-150 ease-in-out bg-gray-400 rounded-md hover:bg-gray-500 active:bg-gray-600 hover:scale-105 hover:shadow-xl w-52"
+                      title="Open Project in Codesandbox"
+                      rel="noopener noreferrer"
+                      target="_blank"
+                      style={{
+                        color: 'white',
+                        textDecoration: 'none',
+                      }}
+                    >
+                      <div className="flex items-center justify-center">
+                        <Image
+                          src="https://res.cloudinary.com/dg3gyk0gu/image/upload/v1622560912/next.egghead.io/icons/codesandbox.svg"
+                          height="20"
+                          width="20"
+                          layout="fixed"
+                        />
+                        <div
+                          className="ml-2"
+                          style={{
+                            color: 'white',
+                          }}
+                        >
+                          CodeSandbox
+                        </div>
+                      </div>
+                    </a>
+                  </div>
+                </div>
+              </section>
+              <Markdown>{stretchGoal.text}</Markdown>
+              <Markdown>{appDesign.text}</Markdown>
+              <Markdown>{productPage.description}</Markdown>
+              <Image
+                src={productPage.url}
+                height="826"
+                width="736"
+                className="z-0 rounded-md"
+              />
+              <section className="flex-none w-full sm:flex sm:justify-between sm:mt-4">
+                <Markdown className="w-full mr-4 sm:w-1/2">
+                  {productCard.description}
+                </Markdown>
+                <span className="flex justify-center mt-4">
+                  <Image
+                    src={productCard.url}
+                    height="471"
+                    width="296"
+                    layout="fixed"
+                    className="z-0 rounded-md"
+                  />
+                </span>
+              </section>
+              <Markdown>{Submission.text}</Markdown>
+              <a
+                className="inline-flex items-center justify-center px-6 py-4 font-semibold text-white transition-all duration-200 ease-in-out bg-blue-600 rounded-md hover:scale-105 hover:shadow-xl hover:bg-blue-700"
+                title="Share on twitter"
+                onClick={() =>
+                  track(`clicked challenge CTA`, {
+                    course: course.slug,
+                    location: 'Vue 3 fundamentals',
+                  })
+                }
+                href={course.projects.tweetCTA}
+                rel="noopener"
+                style={{
+                  color: 'white',
+                  textDecoration: 'none',
+                }}
+              >
+                Tweet @eggheadio
+              </a>
+            </main>
+          </div>
+        </div>
+      </div>
+    </>
+  )
+}
+
+const CtaButton = ({text, path}: any) => {
+  return (
+    <div className="flex items-center justify-center w-full">
+      <a
+        href={path}
+        className="px-5 py-3 mt-4 font-semibold text-white transition-all duration-150 ease-in-out bg-blue-600 rounded-md hover:bg-blue-700 active:bg-blue-800 hover:scale-105 hover:shadow-xl"
+        title="Open Project in Codesandbox"
+        rel="noopener noreferrer"
+        target="_blank"
+        style={{
+          color: 'white',
+          textDecoration: 'none',
+        }}
+      >
+        {text}
+      </a>
+    </div>
+  )
+}
+
+const courseQuery = groq`
+*[_type == 'resource' && externalId == $courseId]{
+  title,
+  path,
+  tags,
+  image,
+  'ogImage': images[label == 'og-image'][0].url,
+  resources[]{
+    title,
+    path
+  },
+	projects[0] {
+    title,
+    description,
+		content,
+    "productCard": images[label == 'product-card-design'][0] {
+    url,
+    description
+  },
+    "productPage": images[label == 'product-page-design'][0] {
+    url,
+    description
+  },
+  "tweetCTA": urls[label == 'tweetCTA'][0].url,
+  "githubLink": urls[label == 'githubLink'][0].url,
+  "codesandboxLink": urls[label == 'codesandboxLink'][0].url,
+  },
+}[0]`
+
+async function loadCourse(id: number) {
+  const params = {
+    courseId: id,
+  }
+
+  const course = await sanityClient.fetch(courseQuery, params)
+  return course
+}
+
+export async function getStaticProps() {
+  const course = await loadCourse(447579)
+
+  return {
+    props: {
+      course,
+    },
+  }
+}
+
+export default landingPage
