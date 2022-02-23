@@ -2,7 +2,7 @@
   "name": "@skillrecordings/player",
   "description": "Internal, shared utilities",
   "author": "Joel Hooks",
-  "version": "0.1.6",
+  "version": "0.1.7",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "files": [
