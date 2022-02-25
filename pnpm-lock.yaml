@@ -2014,6 +2014,223 @@ importers:
       tailwindcss: 2.2.19_0c54bdadaf9d9c9c6c134cb2c6c061a3
       typescript: 4.4.4
 
+  apps/typescriptcourse:
+    specifiers:
+      '@babel/plugin-transform-react-jsx': ^7.16.0
+      '@emotion/babel-plugin': ^11.3.0
+      '@emotion/babel-preset-css-prop': ^11.2.0
+      '@emotion/react': ^11.5.0
+      '@mdx-js/loader': ^1.6.22
+      '@mdx-js/mdx': ^2.0.0
+      '@mdx-js/react': ^1.6.22
+      '@next/mdx': ^12.0.3
+      '@reach/dialog': ^0.16.2
+      '@skillrecordings/analytics': workspace:*
+      '@skillrecordings/auth': workspace:*
+      '@skillrecordings/axios': workspace:*
+      '@skillrecordings/commerce': workspace:*
+      '@skillrecordings/config': workspace:*
+      '@skillrecordings/convertkit': workspace:*
+      '@skillrecordings/cookies': workspace:*
+      '@skillrecordings/player': workspace:*
+      '@skillrecordings/quiz': workspace:*
+      '@skillrecordings/react': workspace:*
+      '@skillrecordings/scripts': workspace:*
+      '@skillrecordings/stripe': workspace:*
+      '@skillrecordings/time': workspace:*
+      '@skillrecordings/tsconfig': workspace:*
+      '@skillrecordings/types': workspace:*
+      '@skillrecordings/viewer': workspace:*
+      '@stripe/stripe-js': ^1.21.1
+      '@supabase/supabase-js': ^1.29.1
+      '@tailwindcss/aspect-ratio': ^0.3.0
+      '@tailwindcss/forms': ^0.3.4
+      '@tailwindcss/typography': ^0.4.1
+      '@testing-library/jest-dom': ^5.15.0
+      '@testing-library/react': ^12.1.2
+      '@tippyjs/react': ^4.2.6
+      '@types/axios': ^0.14.0
+      '@types/cookie': ^0.4.1
+      '@types/isomorphic-fetch': ^0.0.35
+      '@types/lodash': ^4.14.176
+      '@types/mdx-js__react': ^1.5.4
+      '@types/node': ^16.11.7
+      '@types/pluralize': ^0.0.29
+      '@types/react': '*'
+      '@types/react-scroll': ^1.8.3
+      '@typescript-eslint/eslint-plugin': ^5.3.1
+      '@typescript-eslint/parser': ^5.3.1
+      '@xstate/react': ^1.6.2
+      assert: ^2.0.0
+      autoprefixer: ^10.4.0
+      axios: ^0.24.0
+      babel-jest: ^27.3.1
+      classnames: ^2.3.1
+      client-oauth2: ^4.3.3
+      commander: ^8.3.0
+      cookie: ^0.4.1
+      date-fns: ^2.25.0
+      dotenv-flow: ^3.2.0
+      eslint: ^8.2.0
+      eslint-config-next: ^12.0.3
+      eslint-config-prettier: ^8.3.0
+      eslint-plugin-jsx-a11y: ^6.4.1
+      eslint-plugin-prettier: ^4.0.0
+      eslint-plugin-react: ^7.26.1
+      eslint-plugin-react-hooks: ^4.3.0
+      focus-visible: ^5.2.0
+      formik: 2.2.9
+      framer-motion: ^5.2.1
+      hls.js: 1.0.12
+      isomorphic-fetch: ^3.0.0
+      load-egghead-notes-mdx-url: ^0.1.1
+      lodash: ^4.17.21
+      mdast-util-to-markdown: ^1.2.6
+      mdx-prism: ^0.3.4
+      msw: ^0.35.0
+      next: ^12.0.3
+      next-compose-plugins: ^2.2.1
+      next-images: ^1.8.2
+      next-seo: ^4.28.1
+      next-sitemap: ^1.6.203
+      next-themes: ^0.0.15
+      next-transpile-modules: ^9.0.0
+      pluralize: ^8.0.0
+      postcss: ^8.3.11
+      postcss-nested: ^5.0.6
+      postcss-preset-env: ^6.7.0
+      prettier: ^2.4.1
+      query-string: ^7.0.1
+      react: 17.0.2
+      react-countdown: ^2.3.2
+      react-dom: 17.0.2
+      react-markdown: ^7.1.0
+      react-scroll: ^1.8.4
+      react-stripe-checkout: ^2.6.3
+      react-test-renderer: ^17.0.2
+      react-use: ^17.3.1
+      react-use-clipboard: ^1.0.7
+      reading-time: ^1.5.0
+      rehype: ^12.0.0
+      remark-code-titles: ^0.1.2
+      remark-footnotes: ^4.0.1
+      remark-slug: ^7.0.1
+      swr: ^1.0.1
+      tailwindcss: ^2.2.19
+      typescript: ^4.4.4
+      unist-util-visit: ^2.0.3
+      vfile: ^5.3.0
+      xstate: ^4.26.0
+      yup: ^0.32.11
+    dependencies:
+      '@mdx-js/mdx': 2.0.0
+      '@mdx-js/react': 1.6.22_react@17.0.2
+      '@next/mdx': 12.0.3_f56c41adb6190c4680be4a1c0222355d
+      '@reach/dialog': 0.16.2_c8c53a2a5a2c84791ce34d6dbdd05753
+      '@skillrecordings/analytics': link:../../packages/analytics
+      '@skillrecordings/auth': link:../../packages/auth
+      '@skillrecordings/axios': link:../../packages/axios
+      '@skillrecordings/commerce': link:../../packages/commerce
+      '@skillrecordings/config': link:../../packages/config
+      '@skillrecordings/convertkit': link:../../packages/convertkit
+      '@skillrecordings/cookies': link:../../packages/cookies
+      '@skillrecordings/player': link:../../packages/player
+      '@skillrecordings/quiz': link:../../packages/quiz
+      '@skillrecordings/react': link:../../packages/react
+      '@skillrecordings/stripe': link:../../packages/stripe
+      '@skillrecordings/time': link:../../packages/time
+      '@skillrecordings/viewer': link:../../packages/viewer
+      '@stripe/stripe-js': 1.21.1
+      '@supabase/supabase-js': 1.29.1
+      '@tailwindcss/aspect-ratio': 0.3.0_tailwindcss@2.2.19
+      '@tailwindcss/forms': 0.3.4_tailwindcss@2.2.19
+      '@tailwindcss/typography': 0.4.1_tailwindcss@2.2.19
+      '@tippyjs/react': 4.2.6_react-dom@17.0.2+react@17.0.2
+      '@types/lodash': 4.14.176
+      '@xstate/react': 1.6.2_a6167658b64f8fb59fb632da3d39755a
+      autoprefixer: 10.4.0_postcss@8.3.11
+      axios: 0.24.0
+      classnames: 2.3.1
+      client-oauth2: 4.3.3
+      cookie: 0.4.1
+      date-fns: 2.25.0
+      dotenv-flow: 3.2.0
+      focus-visible: 5.2.0
+      formik: 2.2.9_react@17.0.2
+      framer-motion: 5.2.1_react-dom@17.0.2+react@17.0.2
+      hls.js: 1.0.12
+      isomorphic-fetch: 3.0.0
+      load-egghead-notes-mdx-url: 0.1.1
+      lodash: 4.17.21
+      mdast-util-to-markdown: 1.2.6
+      mdx-prism: 0.3.4
+      next: 12.0.3_react-dom@17.0.2+react@17.0.2
+      next-seo: 4.28.1_72b2f1fb664d51f286fb64a58e104b48
+      next-sitemap: 1.6.203_next@12.0.3
+      next-themes: 0.0.15_72b2f1fb664d51f286fb64a58e104b48
+      next-transpile-modules: 9.0.0
+      pluralize: 8.0.0
+      postcss: 8.3.11
+      query-string: 7.0.1
+      react: 17.0.2
+      react-countdown: 2.3.2_react-dom@17.0.2+react@17.0.2
+      react-dom: 17.0.2_react@17.0.2
+      react-markdown: 7.1.0_27d7f75f5fffc1228c129be468caca5c
+      react-scroll: 1.8.4_react-dom@17.0.2+react@17.0.2
+      react-stripe-checkout: 2.6.3
+      react-use: 17.3.1_react-dom@17.0.2+react@17.0.2
+      react-use-clipboard: 1.0.7_react-dom@17.0.2+react@17.0.2
+      reading-time: 1.5.0
+      rehype: 12.0.0
+      remark-code-titles: 0.1.2
+      remark-footnotes: 4.0.1
+      remark-slug: 7.0.1
+      swr: 1.0.1_react@17.0.2
+      unist-util-visit: 2.0.3
+      vfile: 5.3.0
+      xstate: 4.26.0
+      yup: 0.32.11
+    devDependencies:
+      '@babel/plugin-transform-react-jsx': 7.16.0
+      '@emotion/babel-plugin': 11.3.0
+      '@emotion/babel-preset-css-prop': 11.2.0
+      '@emotion/react': 11.5.0_27d7f75f5fffc1228c129be468caca5c
+      '@mdx-js/loader': 1.6.22_react@17.0.2
+      '@skillrecordings/scripts': link:../../packages/scripts
+      '@skillrecordings/tsconfig': link:../../packages/tsconfig
+      '@skillrecordings/types': link:../../packages/types
+      '@testing-library/jest-dom': 5.15.0
+      '@testing-library/react': 12.1.2_react-dom@17.0.2+react@17.0.2
+      '@types/axios': 0.14.0
+      '@types/cookie': 0.4.1
+      '@types/isomorphic-fetch': 0.0.35
+      '@types/mdx-js__react': 1.5.5
+      '@types/node': 16.11.7
+      '@types/pluralize': 0.0.29
+      '@types/react': 17.0.34
+      '@types/react-scroll': 1.8.3
+      '@typescript-eslint/eslint-plugin': 5.3.1_4653b7803b7453f5f37717b7e1448517
+      '@typescript-eslint/parser': 5.3.1_eslint@8.2.0+typescript@4.4.4
+      assert: 2.0.0
+      babel-jest: 27.3.1
+      commander: 8.3.0
+      eslint: 8.2.0
+      eslint-config-next: 12.0.3_e9c082f2e039b7a856024a994f87ff12
+      eslint-config-prettier: 8.3.0_eslint@8.2.0
+      eslint-plugin-jsx-a11y: 6.4.1_eslint@8.2.0
+      eslint-plugin-prettier: 4.0.0_307f015733298e29da9050ea0cee5b9e
+      eslint-plugin-react: 7.26.1_eslint@8.2.0
+      eslint-plugin-react-hooks: 4.3.0_eslint@8.2.0
+      msw: 0.35.0
+      next-compose-plugins: 2.2.1
+      next-images: 1.8.2
+      postcss-nested: 5.0.6_postcss@8.3.11
+      postcss-preset-env: 6.7.0
+      prettier: 2.4.1
+      react-test-renderer: 17.0.2_react@17.0.2
+      tailwindcss: 2.2.19_0c54bdadaf9d9c9c6c134cb2c6c061a3
+      typescript: 4.4.4
+
   packages/analytics:
     specifiers:
       '@skillrecordings/scripts': workspace:*
@@ -6753,7 +6970,7 @@ packages:
     resolution: {integrity: sha512-3fSvQ02kuvjOI1C1ssqMVBKJpZf6nwoCiSu00zAKh5nrp3SptNtZy/8s5deayHnqxhjD9CWDJ+yqQwuQ0ZafXQ==}
     engines: {node: ^10.13.0 || ^12.13.0 || ^14.15.0 || >=15.0.0}
     dependencies:
-      '@babel/core': 7.16.0
+      '@babel/core': 7.16.5
       '@jest/types': 27.2.5
       babel-plugin-istanbul: 6.1.1
       chalk: 4.1.2
@@ -6884,6 +7101,30 @@ packages:
       unist-util-visit: 2.0.3
     transitivePeerDependencies:
       - supports-color
+
+  /@mdx-js/mdx/2.0.0:
+    resolution: {integrity: sha512-Q/Zv+gdm80qcxpmL/Dtd/b9+UyZjjJUCQeZyywLAQqre648hRYgeGNPu7Bl2hB7M8/WBLXpabQEKW3dmGdDTDQ==}
+    dependencies:
+      '@types/estree-jsx': 0.0.1
+      '@types/mdx': 2.0.1
+      astring: 1.8.1
+      estree-util-build-jsx: 2.0.0
+      estree-util-is-identifier-name: 2.0.0
+      estree-walker: 3.0.1
+      hast-util-to-estree: 2.0.2
+      markdown-extensions: 1.1.1
+      periscopic: 3.0.4
+      remark-mdx: 2.0.0
+      remark-parse: 10.0.0
+      remark-rehype: 10.1.0
+      unified: 10.1.0
+      unist-util-position-from-estree: 1.1.1
+      unist-util-stringify-position: 3.0.0
+      unist-util-visit: 4.1.0
+      vfile: 5.3.0
+    transitivePeerDependencies:
+      - supports-color
+    dev: false
 
   /@mdx-js/mdx/2.0.0-rc.2:
     resolution: {integrity: sha512-hf/kfsQSl/fhFP6s4TRWic7LYDzwsLieD37n90w8CP3U6dsbVhuk+n/OwLSS1pfdb5NJulTV4LQBv4e4h7Y1iw==}
@@ -8023,7 +8264,7 @@ packages:
   /@types/babel__core/7.1.16:
     resolution: {integrity: sha512-EAEHtisTMM+KaKwfWdC3oyllIqswlznXCIVCt7/oRNrh+DhgT4UEBNC/jlADNjvw7UnfbcdkGQcPVZ1xYiLcrQ==}
     dependencies:
-      '@babel/parser': 7.16.2
+      '@babel/parser': 7.16.6
       '@babel/types': 7.16.0
       '@types/babel__generator': 7.6.3
       '@types/babel__template': 7.4.1
@@ -8038,7 +8279,7 @@ packages:
   /@types/babel__template/7.4.1:
     resolution: {integrity: sha512-azBFKemX6kMg5Io+/rdGT0dkGreboUVR0Cdm3fz9QJWpaQGJRQXl7C+6hOTCZcMll7KFyEQpgbYI2lHdsS4U7g==}
     dependencies:
-      '@babel/parser': 7.16.2
+      '@babel/parser': 7.16.6
       '@babel/types': 7.16.0
 
   /@types/babel__traverse/7.14.2:
@@ -9397,7 +9638,7 @@ packages:
       normalize-range: 0.1.2
       picocolors: 1.0.0
       postcss: 8.3.11
-      postcss-value-parser: 4.1.0
+      postcss-value-parser: 4.2.0
     dev: false
 
   /autoprefixer/9.8.8:
@@ -9410,7 +9651,7 @@ packages:
       num2fraction: 1.2.2
       picocolors: 0.2.1
       postcss: 7.0.39
-      postcss-value-parser: 4.1.0
+      postcss-value-parser: 4.2.0
     dev: true
 
   /available-typed-arrays/1.0.5:
@@ -15190,8 +15431,8 @@ packages:
     resolution: {integrity: sha512-czwUz525rkOFDJxfKK6mYfIs9zBKILyrZQxjz3ABhjQXhbhFsSbo1HW/BFcsDnfJYJWA6thRR5/TUY2qs5W99Q==}
     engines: {node: '>=8'}
     dependencies:
-      '@babel/core': 7.16.0
-      '@babel/parser': 7.16.2
+      '@babel/core': 7.16.5
+      '@babel/parser': 7.16.6
       '@istanbuljs/schema': 0.1.3
       istanbul-lib-coverage: 3.2.0
       semver: 6.3.0
@@ -16746,7 +16987,7 @@ packages:
   /load-egghead-notes-mdx-url/0.1.1:
     resolution: {integrity: sha512-/YJ8RmQUH8kwQbWCeN3MA1Aj3GHlQvfp75b5kweoNDdW+MK104bCmshvpV8jkxZLGppFTU+nKJptWefWTyWxNQ==}
     dependencies:
-      '@mdx-js/mdx': 2.0.0-rc.2
+      '@mdx-js/mdx': 2.0.0
       isomorphic-fetch: 3.0.0
       mdast-util-to-markdown: 0.6.5
       remark-frontmatter: 3.0.0
@@ -17247,11 +17488,36 @@ packages:
       vfile-message: 3.0.2
     dev: false
 
+  /mdast-util-mdx-jsx/2.0.1:
+    resolution: {integrity: sha512-oPC7/smPBf7vxnvIYH5y3fPo2lw1rdrswFfSb4i0GTAXRUQv7JUU/t/hbp07dgGdUFTSDOHm5DNamhNg/s2Hrg==}
+    dependencies:
+      '@types/estree-jsx': 0.0.1
+      '@types/hast': 2.3.4
+      '@types/mdast': 3.0.10
+      ccount: 2.0.1
+      mdast-util-to-markdown: 1.3.0
+      parse-entities: 4.0.0
+      stringify-entities: 4.0.2
+      unist-util-remove-position: 4.0.1
+      unist-util-stringify-position: 3.0.0
+      vfile-message: 3.0.2
+    dev: false
+
   /mdast-util-mdx/1.1.0:
     resolution: {integrity: sha512-leKb9uG7laXdyFlTleYV4ZEaCpsxeU1LlkkR/xp35pgKrfV1Y0fNCuOw9vaRc2a9YDpH22wd145Wt7UY5yzeZw==}
     dependencies:
       mdast-util-mdx-expression: 1.1.1
       mdast-util-mdx-jsx: 1.2.0
+      mdast-util-mdxjs-esm: 1.1.1
+    transitivePeerDependencies:
+      - supports-color
+    dev: false
+
+  /mdast-util-mdx/2.0.0:
+    resolution: {integrity: sha512-M09lW0CcBT1VrJUaF/PYxemxxHa7SLDHdSn94Q9FhxjCQfuW7nMAWKWimTmA3OyDMSTH981NN1csW1X+HPSluw==}
+    dependencies:
+      mdast-util-mdx-expression: 1.1.1
+      mdast-util-mdx-jsx: 2.0.1
       mdast-util-mdxjs-esm: 1.1.1
     transitivePeerDependencies:
       - supports-color
@@ -17347,6 +17613,18 @@ packages:
 
   /mdast-util-to-markdown/1.2.6:
     resolution: {integrity: sha512-doJZmTEGagHypWvJ8ltinmwUsT9ZaNgNIQW6Gl7jNdsI1QZkTHTimYW561Niy2s8AEPAqEgV0dIh2UOVlSXUJA==}
+    dependencies:
+      '@types/mdast': 3.0.10
+      '@types/unist': 2.0.6
+      longest-streak: 3.0.1
+      mdast-util-to-string: 3.1.0
+      micromark-util-decode-string: 1.0.1
+      unist-util-visit: 4.1.0
+      zwitch: 2.0.2
+    dev: false
+
+  /mdast-util-to-markdown/1.3.0:
+    resolution: {integrity: sha512-6tUSs4r+KK4JGTTiQ7FfHmVOaDrLQJPmpjD6wPMlHGUVXoG9Vjc3jIeP+uyBWRf8clwB2blM+W7+KrlMYQnftA==}
     dependencies:
       '@types/mdast': 3.0.10
       '@types/unist': 2.0.6
@@ -19892,7 +20170,6 @@ packages:
 
   /postcss-value-parser/4.2.0:
     resolution: {integrity: sha512-1NNCs6uurfkVbeXG4S8JFT9t19m45ICnif8zWLd5oPSZ50QnwMfK+H3jv408d4jw/7Bttv5axS5IiHoLaVNHeQ==}
-    dev: true
 
   /postcss-values-parser/2.0.1:
     resolution: {integrity: sha512-2tLuBsA6P4rYTNKCXYG/71C7j1pU6pK503suYOmn4xYrQIzW+opD+7FAFNuGSdZC/3Qfy334QbeMu7MEb8gOxg==}
@@ -21214,6 +21491,15 @@ packages:
     transitivePeerDependencies:
       - supports-color
 
+  /remark-mdx/2.0.0:
+    resolution: {integrity: sha512-TDnjSv77Oynf+K1deGWZPKSwh3/9hykVAxVm9enAw6BmicCGklREET8s19KYnjGsNPms0pNDJLmp+bnHDVItAQ==}
+    dependencies:
+      mdast-util-mdx: 2.0.0
+      micromark-extension-mdxjs: 1.0.0
+    transitivePeerDependencies:
+      - supports-color
+    dev: false
+
   /remark-mdx/2.0.0-rc.2:
     resolution: {integrity: sha512-TMgFSEVx42/YzJWjDY+GKw7CGSbp3XKqBraXPxFS27r8iD9U6zuOZKXH4MoLl9JqiTOmQi0M1zJwT2YhPs32ug==}
     dependencies:
@@ -22047,6 +22333,7 @@ packages:
 
   /source-map-resolve/0.6.0:
     resolution: {integrity: sha512-KXBr9d/fO/bWo97NXsPIAW1bFSBOuCnjbNTBMO7N59hsv5i9yzRDfcYwwt0l04+VqnKC+EwzvJZIP/qkuMgR/w==}
+    deprecated: See https://github.com/lydell/source-map-resolve#deprecated
     dependencies:
       atob: 2.1.2
       decode-uri-component: 0.2.0
@@ -22790,7 +23077,7 @@ packages:
       postcss-load-config: 3.1.0
       postcss-nested: 5.0.6_postcss@8.3.11
       postcss-selector-parser: 6.0.6
-      postcss-value-parser: 4.1.0
+      postcss-value-parser: 4.2.0
       pretty-hrtime: 1.0.3
       purgecss: 4.0.3
       quick-lru: 5.1.1

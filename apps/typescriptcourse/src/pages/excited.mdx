@@ -1,0 +1,30 @@
+export const firstName = config.openGraph.profile.firstName
+export const productTitle = config.defaultTitle
+
+export const Message = () => (
+  <p>
+    It's great that you want to get started. I'm excited to share {productTitle}{' '}
+    with you.
+  </p>
+)
+
+# Check Your Inbox!
+
+<Message />
+
+<div className="italic">
+  Thanks,
+  <br />
+  {firstName}
+</div>
+
+import config from 'config'
+import Layout from '@skillrecordings/react/dist/layouts'
+
+export default ({children}) => (
+  <Layout>
+    <div className="prose dark:prose-dark prose-lg mx-auto py-24">
+      {children}
+    </div>
+  </Layout>
+)
