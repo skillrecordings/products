@@ -1,7 +1,7 @@
 import * as React from 'react'
 import {SubscribeToConvertkitForm} from '@skillrecordings/convertkit'
 import Link from 'next/link'
-import Layout from '@skillrecordings/react/dist/layouts'
+import Layout from '../components/layout'
 
 export default function Home() {
   return (

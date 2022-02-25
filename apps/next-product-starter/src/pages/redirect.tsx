@@ -1,5 +1,5 @@
 import * as React from 'react'
-import Layout from '@skillrecordings/react/dist/layouts'
+import Layout from '../components/layout'
 
 const Redirect = () => {
   return null
