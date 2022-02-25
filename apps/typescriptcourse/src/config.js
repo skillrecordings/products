@@ -1,6 +1,6 @@
 // add a comment here
 export default {
-  defaultTitle: 'TypeScript Course | Joe Previte',
+  defaultTitle: 'TypeScript Course',
   description: 'Your quick start guide to understanding TypeScript',
   author: 'Joe Previte',
   favicon: '/favicon.ico',

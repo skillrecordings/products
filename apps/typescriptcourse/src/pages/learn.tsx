@@ -1,6 +1,6 @@
 import * as React from 'react'
 import {FunctionComponent} from 'react'
-import Layout from '@skillrecordings/react/dist/layouts'
+import Layout from '../components/layout'
 import Link from 'next/link'
 import useLoginRequired from 'hooks/use-required-login'
 import {usePurchasedBundle} from 'hooks/use-purchased-bundle'

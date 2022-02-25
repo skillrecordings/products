@@ -8,15 +8,15 @@ type ArticleTemplateProps = {
 }
 
 const ArticleTemplate: React.FC<ArticleTemplateProps> = ({meta, children}) => {
-  const {title} = meta
+  const {headline} = meta
 
   return (
     <Layout meta={meta}>
       <article>
         <header>
-          {title && (
+          {headline && (
             <h1 className="lg:text-8xl md:text-6xl text-5xl font-extrabold tracking-tight leading-tight text-center  py-32">
-              {title}
+              {headline}
             </h1>
           )}
         </header>

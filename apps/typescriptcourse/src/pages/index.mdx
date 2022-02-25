@@ -1,0 +1,32 @@
+import config from '../config'
+import {first} from 'lodash'
+import HomeTemplate from '../templates/home'
+
+export const meta = {
+title: config.defaultTitle,
+headline: 'Get Familiar with TypeScript by Migrating an OSS JS Project to TypeScript',
+description: config.description,
+titleAppendSiteName: false,
+url: config.siteUrl,
+ogImage: first(config.openGraph.images),
+}
+
+export default HomeTemplate
+
+## Your quick start guide to understanding TypeScript
+This three-part guide will walk you through the process of migrating real JavaScript code into a tested TypeScript codebase.
+
+You will leverage open-source and unit testing as a tool for learning TypeScript.
+
+You’ll learn how to:
+
+* migrate a JavaScript project to TypeScript
+* leverage TypeScript types in JSDoc blocks
+* write unit test with Jest & TypeScript
+* As engineers, we interact with open source every day. The difference is the level of interaction. This guide will dive into the code head-first and leverage open source as learning tool.
+
+So, buckle up! 🤠
+
+We’re going into the wild west of open-source JavaScript to unearth a project that started 6 years ago.
+
+

@@ -2,7 +2,7 @@ import * as React from 'react'
 import {QuizAnswerPage} from '@skillrecordings/quiz'
 import {QuestionSet} from '@skillrecordings/types'
 import getConfig from '@skillrecordings/quiz/dist/config'
-import Layout from '@skillrecordings/react/dist/layouts'
+import Layout from '../components/layout'
 
 const Answer: React.FC<{questionSet: QuestionSet}> = ({questionSet}) => {
   return (

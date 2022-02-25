@@ -7,6 +7,7 @@
     "start": "next start -p 3015",
     "integration": "cypress run",
     "build": "NODE_ENV=production next build",
+    "build:dev": "pnpm build -w -- --scope=\"typescriptcourse\" --includeDependencies",
     "postbuild": "NODE_ENV=production next-sitemap",
     "build:data": "node src/data/cache-json-data.js -p",
     "build:data:dev": "node src/data/cache-json-data.js",
