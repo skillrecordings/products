@@ -106,5 +106,8 @@
     "trailingComma": "all",
     "bracketSpacing": false,
     "jsxBracketSameLine": false
+  },
+  "dependencies": {
+    "build": "^0.1.4"
   }
 }
