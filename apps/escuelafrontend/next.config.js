@@ -1,12 +1,6 @@
 const withPlugins = require('next-compose-plugins')
 const withImages = require('next-images')
 const withMDX = require('@next/mdx')()
-const checkEnv = require(`@47ng/check-env`).default
-
-// Check that the critical environment variables are set
-checkEnv({
-  required: [`NEXT_PUBLIC_DEPLOYMENT_URL`],
-})
 
 const IMAGE_HOST_DOMAINS = [
   `res.cloudinary.com`,
