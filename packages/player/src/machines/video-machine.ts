@@ -49,6 +49,7 @@ export type VideoEvent =
   | {type: 'CANCELLED'}
   | {type: 'TOGGLE_CUE_STATE'; visibility: string}
   | {type: 'STARTED_TYPING'}
+  | {type: 'TOGGLE_SHORTCUTS_ENABLED'; source?: string}
 
 export interface VideoStateContext {
   rootElemRef: MutableRefObject<HTMLElement | null> | null
@@ -79,6 +80,7 @@ export interface VideoStateContext {
   writingCueNote: boolean
   isSubmittingCueNote: boolean
   writingCueNoteVisibility: string
+  shortcutsEnabled: boolean
 }
 
 export const videoMachine = createMachine<VideoStateContext, VideoEvent>(
@@ -111,6 +113,7 @@ export const videoMachine = createMachine<VideoStateContext, VideoEvent>(
       writingCueNote: false,
       isSubmittingCueNote: false,
       writingCueNoteVisibility: 'draft',
+      shortcutsEnabled: true,
     },
     on: {
       SET_ROOT_ELEM: {
@@ -316,6 +319,13 @@ export const videoMachine = createMachine<VideoStateContext, VideoEvent>(
           assign({
             seekingTime: (_context, _event) => 0,
             seeking: (_context, _event) => false,
+          }),
+        ],
+      },
+      TOGGLE_SHORTCUTS_ENABLED: {
+        actions: [
+          assign({
+            shortcutsEnabled: (context, _event) => !context.shortcutsEnabled,
           }),
         ],
       },
@@ -562,6 +572,16 @@ export const videoMachine = createMachine<VideoStateContext, VideoEvent>(
                 target: 'typing',
               },
             },
+            entry: [
+              assign({
+                shortcutsEnabled: (_context, _event) => false,
+              }),
+            ],
+            exit: [
+              assign({
+                shortcutsEnabled: (_context, _event) => true,
+              }),
+            ],
           },
           typing: {
             entry: ['pauseVideo'],

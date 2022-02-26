@@ -13,9 +13,7 @@ import {
   selectRootElem,
   selectVolume,
   selectCueFormElem,
-  selectIsWritingCue,
-  selectIsTakingNote,
-  selectIsFullscreen,
+  selectShortcutsEnabled,
 } from '../selectors'
 
 type ShortcutProps = {
@@ -30,7 +28,6 @@ const useShortcutState = () => {
   const hasStarted = useSelector(videoService, selectHasStarted)
   const isActive = useSelector(videoService, selectIsActive)
   const paused = useSelector(videoService, selectIsPaused)
-
   const duration = useSelector(videoService, selectDuration)
   const currentTime = useSelector(videoService, selectCurrentTime)
   const playbackRate = useSelector(videoService, selectPlaybackRate)
@@ -38,25 +35,21 @@ const useShortcutState = () => {
   const readyState = useSelector(videoService, selectReadyState)
   const volume = useSelector(videoService, selectVolume)
   const cueFormElem = useSelector(videoService, selectCueFormElem)
-  const isWritingCue = useSelector(videoService, selectIsWritingCue)
-  const isTakingNote = useSelector(videoService, selectIsTakingNote)
-  const isFullscreen = useSelector(videoService, selectIsFullscreen)
+  const shortcutsEnabled = useSelector(videoService, selectShortcutsEnabled)
 
   return {
     videoService,
     hasStarted,
+    isActive,
+    paused,
     duration,
     currentTime,
     playbackRate,
     rootElem,
-    isActive,
     readyState,
     volume,
-    paused,
     cueFormElem,
-    isWritingCue,
-    isFullscreen,
-    disableShortcuts: isTakingNote,
+    shortcutsEnabled,
   }
 }
 
@@ -76,16 +69,16 @@ export const Shortcut: React.FC<ShortcutProps> = ({
   const {
     videoService,
     hasStarted,
+    isActive,
+    paused,
     duration,
     currentTime,
     playbackRate,
     rootElem,
-    isActive,
     readyState,
     volume,
-    paused,
     cueFormElem,
-    disableShortcuts,
+    shortcutsEnabled,
   } = useShortcutState()
 
   const shortCutsRef = React.useRef<any[]>([])
@@ -108,7 +101,7 @@ export const Shortcut: React.FC<ShortcutProps> = ({
   }, [paused, videoService])
 
   const mergeShortcuts = React.useCallback(() => {
-    const standardShortcuts = disableShortcuts
+    const standardShortcuts = !shortcutsEnabled
       ? []
       : [
           {
