@@ -7,6 +7,7 @@ export type LayoutProps = {
   meta?: any
   noIndex?: boolean
   className?: string
+  showNavigation?: boolean
 }
 
 const Layout: React.FC<LayoutProps> = ({
@@ -14,6 +15,7 @@ const Layout: React.FC<LayoutProps> = ({
   className,
   meta,
   noIndex,
+  showNavigation = true,
 }) => {
   const {
     title,
@@ -22,6 +24,8 @@ const Layout: React.FC<LayoutProps> = ({
     url,
     ogImage,
   } = meta || {}
+
+  console.log(showNavigation)
   return (
     <>
       <NextSeo
@@ -38,7 +42,7 @@ const Layout: React.FC<LayoutProps> = ({
         noindex={noIndex}
       />
       <div className={`p-5 flex flex-col min-h-screen ${className}`}>
-        <Navigation title={title} />
+        {showNavigation && <Navigation title={title} />}
         <main className="flex-grow flex flex-col justify-center">
           {children}
         </main>
