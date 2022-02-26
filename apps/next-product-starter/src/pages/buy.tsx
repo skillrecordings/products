@@ -3,7 +3,7 @@ import {FunctionComponent} from 'react'
 import DevBundles from 'data/bundles.development.json'
 import ProdBundles from 'data/bundles.production.json'
 import {SellableResource} from '@skillrecordings/types'
-import Layout from '@skillrecordings/react/dist/layouts'
+import Layout from '../components/layout'
 import config from 'config'
 import ClaimCoupon from '@skillrecordings/commerce/dist/components/claim-coupon'
 import {
