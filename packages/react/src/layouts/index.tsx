@@ -3,7 +3,7 @@ import {NextSeo} from 'next-seo'
 import Navigation from '../components/navigation'
 import Footer from '../components/footer'
 
-type LayoutProps = {
+export type LayoutProps = {
   meta?: any
   noIndex?: boolean
   className?: string
@@ -39,7 +39,9 @@ const Layout: React.FC<LayoutProps> = ({
       />
       <div className={`p-5 flex flex-col min-h-screen ${className}`}>
         <Navigation title={title} />
-        <div className="flex-grow flex flex-col justify-center">{children}</div>
+        <main className="flex-grow flex flex-col justify-center">
+          {children}
+        </main>
         <Footer />
       </div>
     </>

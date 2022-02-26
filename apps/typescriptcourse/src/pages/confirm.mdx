@@ -1,0 +1,33 @@
+export const firstName = config.openGraph.profile.firstName
+export const supportEmail = config.email
+
+export const Message = () => (
+  <p>
+    If you don't see the email after a few minutes, you might check your spam
+    folder or other filters and add <code>{supportEmail}</code> to your
+    contacts.
+  </p>
+)
+
+## Thanks so much for signing up! There's one last step.
+
+Please check your inbox for an email that just got sent. You'll need to click the confirmation link to receive any further emails.
+
+<Message />
+
+<div className="italic">
+  Thanks,
+  <br />
+  {firstName}
+</div>
+
+import config from 'config'
+import Layout from '../components/layout'
+
+export default ({children}) => (
+  <Layout>
+    <div className="prose dark:prose-dark prose-lg mx-auto py-24">
+      {children}
+    </div>
+  </Layout>
+)
