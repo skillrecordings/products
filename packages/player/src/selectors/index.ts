@@ -146,3 +146,6 @@ export const selectLastAction = (state: StateFrom<typeof videoMachine>) =>
 
 export const selectViewer = (state: StateFrom<typeof videoMachine>) =>
   state.context.viewer
+
+export const selectShortcutsEnabled = (state: StateFrom<typeof videoMachine>) =>
+  state.context.shortcutsEnabled
