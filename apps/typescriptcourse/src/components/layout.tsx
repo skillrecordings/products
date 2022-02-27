@@ -2,7 +2,7 @@ import * as React from 'react'
 import DefaultLayout from '@skillrecordings/react/dist/layouts'
 import type {LayoutProps} from '@skillrecordings/react/dist/layouts'
 import config from '../config'
-import {first} from 'lodash'
+import {first, noop} from 'lodash'
 
 const Layout: React.FC<LayoutProps> = ({children, meta, ...props}) => {
   const defaultMeta = {
@@ -15,9 +15,9 @@ const Layout: React.FC<LayoutProps> = ({children, meta, ...props}) => {
 
   return (
     <DefaultLayout
-      showNavigation={false}
       {...props}
       meta={{...defaultMeta, ...meta}}
+      Navigation={() => null}
     >
       {children}
     </DefaultLayout>

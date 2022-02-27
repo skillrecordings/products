@@ -3,9 +3,9 @@ import DarkModeToggle from './color-mode-toggle'
 import Link from 'next/link'
 import {useViewer} from '@skillrecordings/viewer'
 
-const Navigation: React.FC<{title?: string}> = ({
-  title = 'Skill Recordings Product',
-}) => {
+export type NavigationProps = {title?: string}
+
+const Navigation: React.FC<NavigationProps> = ({title = 'Product'}) => {
   const {isAuthenticated, logout} = useViewer()
   return (
     <nav className="w-full flex items-center justify-between print:hidden">

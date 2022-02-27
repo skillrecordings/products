@@ -1,6 +1,6 @@
 import * as React from 'react'
 import {NextSeo} from 'next-seo'
-import Navigation from '../components/navigation'
+import DefaultNavigation, {NavigationProps} from '../components/navigation'
 import Footer from '../components/footer'
 
 export type LayoutProps = {
@@ -8,6 +8,7 @@ export type LayoutProps = {
   noIndex?: boolean
   className?: string
   showNavigation?: boolean
+  Navigation?: React.FC<NavigationProps>
 }
 
 const Layout: React.FC<LayoutProps> = ({
@@ -16,6 +17,7 @@ const Layout: React.FC<LayoutProps> = ({
   meta,
   noIndex,
   showNavigation = true,
+  Navigation = DefaultNavigation,
 }) => {
   const {
     title,
@@ -25,7 +27,6 @@ const Layout: React.FC<LayoutProps> = ({
     ogImage,
   } = meta || {}
 
-  console.log(showNavigation)
   return (
     <>
       <NextSeo
@@ -42,7 +43,7 @@ const Layout: React.FC<LayoutProps> = ({
         noindex={noIndex}
       />
       <div className={`p-5 flex flex-col min-h-screen ${className}`}>
-        {showNavigation && <Navigation title={title} />}
+        <Navigation title={title} />
         <main className="flex-grow flex flex-col justify-center">
           {children}
         </main>
