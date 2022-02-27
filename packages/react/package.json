@@ -34,7 +34,6 @@
     "lodash": "^4.17.21",
     "next": "11.1.2",
     "next-seo": "^4.26.0",
-    "next-themes": "^0.0.15",
     "prism-react-renderer": "^1.2.1",
     "query-string": "^7.0.1",
     "react": "17.0.2",
