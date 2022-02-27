@@ -5,6 +5,7 @@ import config from '../config'
 import {first} from 'lodash'
 import Navigation from './navigation'
 
+
 const Layout: React.FC<LayoutProps> = ({children, meta, ...props}) => {
   const defaultMeta = {
     title: config.defaultTitle,
