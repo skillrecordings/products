@@ -6,6 +6,7 @@ on:
     branches: [main]
 jobs:
   cypress:
+    if: ${{ false }}
     name: Cypress
     runs-on: ubuntu-latest
     steps:
