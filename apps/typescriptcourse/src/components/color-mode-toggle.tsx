@@ -8,7 +8,6 @@ const DarkModeToggle: React.FC = () => {
   React.useEffect(() => setMounted(true), [])
 
   function handleOnClick() {
-    console.log('click', theme, setTheme)
     setTheme(theme === 'dark' ? 'light' : 'dark')
   }
 
