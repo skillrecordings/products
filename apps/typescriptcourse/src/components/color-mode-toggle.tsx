@@ -4,14 +4,19 @@ import {useTheme} from 'next-themes'
 const DarkModeToggle: React.FC = () => {
   const [mounted, setMounted] = React.useState(false)
   const {resolvedTheme: theme, setTheme} = useTheme()
+
   React.useEffect(() => setMounted(true), [])
+
+  function handleOnClick() {
+    setTheme(theme === 'dark' ? 'light' : 'dark')
+  }
 
   return (
     <button
       aria-label="Toggle Color Mode"
       type="button"
       className="p-2"
-      onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
+      onClick={handleOnClick}
     >
       {mounted && (
         <svg
