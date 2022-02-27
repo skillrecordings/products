@@ -14,7 +14,11 @@ const Layout: React.FC<LayoutProps> = ({children, meta, ...props}) => {
   }
 
   return (
-    <DefaultLayout {...props} meta={{...defaultMeta, ...meta}}>
+    <DefaultLayout
+      showNavigation={false}
+      {...props}
+      meta={{...defaultMeta, ...meta}}
+    >
       {children}
     </DefaultLayout>
   )

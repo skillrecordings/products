@@ -13,3 +13,27 @@ but it will still show up on keyboard focus.
 .js-focus-visible :focus:not(.focus-visible) {
   outline: none;
 }
+
+
+[data-sr-convertkit-subscribe-form] {
+  @apply w-full max-w-xs flex flex-col;
+[data-sr-input] {
+  @apply rounded-md py-3 px-4 mb-4 w-full block bg-black text-white bg-opacity-20 border border-opacity-30  placeholder-opacity-60 focus:ring-1 focus:border-transparent ;
+}
+[data-sr-input-label] {
+  @apply inline-block pb-1;
+}
+
+}
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+textarea:-webkit-autofill,
+textarea:-webkit-autofill:hover,
+textarea:-webkit-autofill:focus,
+select:-webkit-autofill,
+select:-webkit-autofill:hover,
+select:-webkit-autofill:focus {
+  -webkit-box-shadow: 0 0 0px 1000px rgba(0, 0, 0, 0.2) inset !important;
+}
