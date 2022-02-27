@@ -4,6 +4,6 @@ import Navigation from './navigation'
 
 test('renders root link', () => {
   const {getByText} = render(<Navigation />)
-  const linkElement = getByText(/Skill Recordings Product/)
+  const linkElement = getByText(/Product/)
   expect(linkElement).toBeInTheDocument()
 })
