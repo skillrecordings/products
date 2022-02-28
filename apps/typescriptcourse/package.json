@@ -16,6 +16,7 @@
     "format": "prettier --write './**/*.{js,jsx,ts,tsx,css,md,mdx,json}' --config ./.prettierrc"
   },
   "dependencies": {
+    "@fontsource/inter": "^4.5.4",
     "@mdx-js/mdx": "^2.0.0",
     "@mdx-js/react": "^1.6.22",
     "@next/mdx": "^12.0.3",
@@ -35,8 +36,6 @@
     "@skillrecordings/viewer": "workspace:*",
     "@stripe/stripe-js": "^1.21.1",
     "@supabase/supabase-js": "^1.29.1",
-    "@tailwindcss/aspect-ratio": "^0.4.0",
-    "@tailwindcss/forms": "^0.4.0",
     "@tailwindcss/typography": "^0.5.2",
     "@tippyjs/react": "^4.2.6",
     "@types/lodash": "^4.14.176",
