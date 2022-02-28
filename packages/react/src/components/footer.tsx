@@ -1,6 +1,8 @@
 import * as React from 'react'
 
-const Footer = () => {
+export type FooterProps = {}
+
+const Footer: React.FC<FooterProps> = () => {
   return <footer className="pt-24 print:hidden">©</footer>
 }
 

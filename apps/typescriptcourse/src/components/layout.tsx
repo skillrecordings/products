@@ -5,7 +5,6 @@ import config from '../config'
 import {first} from 'lodash'
 import Navigation from './navigation'
 
-
 const Layout: React.FC<LayoutProps> = ({children, meta, ...props}) => {
   const defaultMeta = {
     title: config.defaultTitle,
@@ -20,6 +19,7 @@ const Layout: React.FC<LayoutProps> = ({children, meta, ...props}) => {
       {...props}
       meta={{...defaultMeta, ...meta}}
       Navigation={Navigation}
+      Footer={null as any}
     >
       {children}
     </DefaultLayout>

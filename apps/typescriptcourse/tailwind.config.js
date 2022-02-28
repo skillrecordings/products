@@ -1,3 +1,5 @@
+const defaultTheme = require('tailwindcss/defaultTheme')
+
 module.exports = {
   content: [
     './src/**/*.tsx',
@@ -12,10 +14,15 @@ module.exports = {
   theme: {
     extend: {
       colors: {
+        black: '#06070A',
         player: {
           bg: '#20222b',
           primary: '#8b84ff',
         },
+      },
+      fontFamily: {
+        heading: ['Greycliff', ...defaultTheme.fontFamily.sans],
+        sans: ['Inter', ...defaultTheme.fontFamily.sans],
       },
       screens: {
         print: {raw: 'print'},
@@ -45,9 +52,5 @@ module.exports = {
       }),
     },
   },
-  plugins: [
-    require('@tailwindcss/typography'),
-    require('@tailwindcss/forms'),
-    require('@tailwindcss/aspect-ratio'),
-  ],
+  plugins: [require('@tailwindcss/typography')],
 }

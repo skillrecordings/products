@@ -2020,6 +2020,7 @@ importers:
       '@emotion/babel-plugin': ^11.3.0
       '@emotion/babel-preset-css-prop': ^11.2.0
       '@emotion/react': ^11.5.0
+      '@fontsource/inter': ^4.5.4
       '@mdx-js/loader': ^1.6.22
       '@mdx-js/mdx': ^2.0.0
       '@mdx-js/react': ^1.6.22
@@ -2043,8 +2044,6 @@ importers:
       '@skillrecordings/viewer': workspace:*
       '@stripe/stripe-js': ^1.21.1
       '@supabase/supabase-js': ^1.29.1
-      '@tailwindcss/aspect-ratio': ^0.4.0
-      '@tailwindcss/forms': ^0.4.0
       '@tailwindcss/typography': ^0.5.2
       '@testing-library/jest-dom': ^5.15.0
       '@testing-library/react': ^12.1.2
@@ -2123,6 +2122,7 @@ importers:
       xstate: ^4.26.0
       yup: ^0.32.11
     dependencies:
+      '@fontsource/inter': 4.5.4
       '@mdx-js/mdx': 2.0.0
       '@mdx-js/react': 1.6.22_react@17.0.2
       '@next/mdx': 12.0.3_f56c41adb6190c4680be4a1c0222355d
@@ -2142,8 +2142,6 @@ importers:
       '@skillrecordings/viewer': link:../../packages/viewer
       '@stripe/stripe-js': 1.21.1
       '@supabase/supabase-js': 1.29.1
-      '@tailwindcss/aspect-ratio': 0.4.0_tailwindcss@3.0.23
-      '@tailwindcss/forms': 0.4.0_tailwindcss@3.0.23
       '@tailwindcss/typography': 0.5.2_tailwindcss@3.0.23
       '@tippyjs/react': 4.2.6_react-dom@17.0.2+react@17.0.2
       '@types/lodash': 4.14.176
@@ -6497,6 +6495,10 @@ packages:
       - supports-color
     dev: true
 
+  /@fontsource/inter/4.5.4:
+    resolution: {integrity: sha512-D0icTFpt9bWvB/OEXMztYf0bhUQZoDIYpsco5C7GVfxgKDRl8Jdn3N2aHHQqwjgRUUvRuyMv8HrRM8Hrt4U52w==}
+    dev: false
+
   /@hapi/accept/5.0.2:
     resolution: {integrity: sha512-CmzBx/bXUR8451fnZRuZAJRlzgm0Jgu5dltTX/bszmR2lheb9BpyN47Q1RbaGTsvFzn0PXAEs+lXDKfshccYZw==}
     dependencies:
@@ -8000,14 +8002,6 @@ packages:
       tailwindcss: 2.2.19_0c54bdadaf9d9c9c6c134cb2c6c061a3
     dev: false
 
-  /@tailwindcss/aspect-ratio/0.4.0_tailwindcss@3.0.23:
-    resolution: {integrity: sha512-WJu0I4PpqNPuutpaA9zDUq2JXR+lorZ7PbLcKNLmb6GL9/HLfC7w3CRsMhJF4BbYd/lkY6CfXOvkYpuGnZfkpQ==}
-    peerDependencies:
-      tailwindcss: '>=2.0.0 || >=3.0.0 || >=3.0.0-alpha.1'
-    dependencies:
-      tailwindcss: 3.0.23_autoprefixer@10.4.0
-    dev: false
-
   /@tailwindcss/forms/0.3.3_tailwindcss@2.2.7:
     resolution: {integrity: sha512-U8Fi/gq4mSuaLyLtFISwuDYzPB73YzgozjxOIHsK6NXgg/IWD1FLaHbFlWmurAMyy98O+ao74ksdQefsquBV1Q==}
     peerDependencies:
@@ -8024,15 +8018,6 @@ packages:
     dependencies:
       mini-svg-data-uri: 1.4.3
       tailwindcss: 2.2.19_0c54bdadaf9d9c9c6c134cb2c6c061a3
-    dev: false
-
-  /@tailwindcss/forms/0.4.0_tailwindcss@3.0.23:
-    resolution: {integrity: sha512-DeaQBx6EgEeuZPQACvC+mKneJsD8am1uiJugjgQK1+/Vt+Ai0GpFBC2T2fqnUad71WgOxyrZPE6BG1VaI6YqfQ==}
-    peerDependencies:
-      tailwindcss: '>=3.0.0 || >= 3.0.0-alpha.1'
-    dependencies:
-      mini-svg-data-uri: 1.4.3
-      tailwindcss: 3.0.23_autoprefixer@10.4.0
     dev: false
 
   /@tailwindcss/typography/0.4.1_tailwindcss@2.2.19:
