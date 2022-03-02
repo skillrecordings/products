@@ -354,6 +354,7 @@ export const Shortcut: React.FC<ShortcutProps> = ({
     togglePlay,
     videoService,
     volume,
+    shortcutsEnabled,
   ])
 
   const handleKeyPress = React.useCallback(
