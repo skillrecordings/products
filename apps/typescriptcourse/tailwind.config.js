@@ -29,19 +29,6 @@ module.exports = {
       typography: (theme) => ({
         DEFAULT: {
           css: {
-            a: {
-              color: theme('colors.rose.600'),
-            },
-            h1: {
-              paddingTop: '1.25em',
-            },
-            'h1:first-of-type': {
-              paddingTop: 0,
-            },
-          },
-        },
-        dark: {
-          css: {
             '*': {color: theme('colors.white')},
             a: {
               color: theme('colors.player.primary'),

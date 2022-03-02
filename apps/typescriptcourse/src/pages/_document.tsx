@@ -20,7 +20,7 @@ export default class MyDocument extends Document {
     return (
       <Html>
         <Head></Head>
-        <body className="dark:bg-black bg-white dark:text-white text-black transition-colors duration-100 ease-in-out">
+        <body className="bg-black text-white">
           <Main />
           <NextScript />
         </body>

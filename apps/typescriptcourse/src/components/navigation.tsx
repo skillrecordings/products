@@ -1,5 +1,4 @@
 import * as React from 'react'
-import DarkModeToggle from './color-mode-toggle'
 import Link from 'next/link'
 import {useViewer} from '@skillrecordings/viewer'
 import Logo from './logo'
@@ -15,10 +14,7 @@ const Navigation: React.FC<NavigationProps> = ({title = 'Product'}) => {
           <Logo />
         </a>
       </Link>
-      {/* <div className="flex space-x-3 items-center">
-        {isAuthenticated && <button onClick={logout}>log out</button>}
-        <DarkModeToggle />
-      </div> */}
+      {isAuthenticated && <button onClick={logout}>log out</button>}
     </nav>
   )
 }
