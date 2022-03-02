@@ -29,7 +29,7 @@ const HomeTemplate: React.FC<ArticleTemplateProps> = ({meta, children}) => {
         </p>
       </header>
       <article>
-        <div className="opacity-90 relative prose dark:prose-dark max-w-screen-sm mx-auto md:prose-xl dark:prose-li:marker:text-teal-400 dark:prose-li:list-outside dark:prose-ul:pl-5">
+        <div className="opacity-90 relative prose max-w-screen-sm mx-auto md:prose-xl">
           {children}
         </div>
         <section className="relative">
