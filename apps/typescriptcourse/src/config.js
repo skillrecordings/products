@@ -27,7 +27,7 @@ export default {
     },
     images: [
       {
-        url: 'https://res.cloudinary.com/typescript-course/image/upload/v1643999427/TypeScript%20Email%20Course/email-header_2x.png',
+        url: 'https://typescriptcourse.com/card@2x.png',
         width: 1200,
         height: 640,
       },

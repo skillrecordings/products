@@ -1,11 +1,11 @@
 export const firstName = config.openGraph.profile.firstName
 export const supportEmail = config.email
 
-<p className="opacity-80 text-blue-200">
+<p className="opacity-80 text-blue-200 md:text-base text-sm">
   Just one last step and you’re signed up...
 </p>
 
-<h1 className="md:text-4xl text-3xl font-semibold pb-8 pt-4">
+<h1 className="md:text-4xl text-2xl font-semibold pb-8 pt-4">
   Please <strong>click the confirmation link</strong> in an email that just got
   sent.
 </h1>
@@ -16,11 +16,12 @@ export const supportEmail = config.email
 
 export const EmailConfirmImage = () => (
   <Image
-    src="/images/emails/email-confirm@2x.png"
+    src={require('../../public/images/emails/email-confirm@2x.png')}
     width={956 / 2.5}
     height={515 / 2.5}
     quality={100}
     alt="Confirm your email address"
+    placeholder="blur"
   />
 )
 
@@ -56,6 +57,11 @@ import Image from 'next/image'
 
 export default ({children}) => (
   <Layout>
-    <div className="mx-auto py-24 text-center max-w-xl">{children}</div>
+    <div className="bg-noise" aria-hidden="true">
+      <div className="bg-header" />
+    </div>
+    <div className="mx-auto py-24 text-center max-w-xl relative">
+      {children}
+    </div>
   </Layout>
 )
