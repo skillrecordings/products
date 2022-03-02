@@ -9,6 +9,8 @@ import {ConvertkitProvider} from '@skillrecordings/convertkit'
 import {ThemeProvider} from 'next-themes'
 //TODO: build error if this was in the component after moving it to commerce package
 import '@reach/dialog/styles.css'
+import {MDXProvider} from '@mdx-js/react'
+import MDXComponents from 'components/mdx'
 
 declare global {
   interface Window {
@@ -27,7 +29,9 @@ function MyApp({Component, pageProps}: AppProps) {
       <ConvertkitProvider>
         <ViewerProvider>
           <ThemeProvider attribute="class">
-            <Component {...pageProps} />
+            <MDXProvider components={MDXComponents}>
+              <Component {...pageProps} />
+            </MDXProvider>
           </ThemeProvider>
         </ViewerProvider>
       </ConvertkitProvider>

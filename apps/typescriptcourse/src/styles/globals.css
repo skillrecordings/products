@@ -7,6 +7,10 @@
 @tailwind components;
 @tailwind utilities;
 
+:root {
+  @apply selection:text-white selection:bg-blue-600;
+}
+
 h1,
 h2,
 h3,
@@ -14,50 +18,72 @@ h4 {
   @apply font-heading;
 }
 
+.list-check {
+  li {
+    @apply list-none;
+  }
+  li:before {
+    @apply text-teal-200 absolute;
+    content: '✓';
+    width: 20px;
+    height: 20px;
+    font-size: 1.3rem;
+    left: 0;
+  }
+}
+
+.bg-noise {
+  @apply object-contain object-top w-full absolute inset-0 max-h-[1024px];
+
+  background-image: url('/images/backgrounds/header-noise.png');
+}
+
 .bg-header {
-  @apply blur-3xl bg-blend-overlay max-w-screen-2xl mx-auto;
-  background: radial-gradient(
+  @apply blur-3xl bg-blend-overlay max-w-screen-2xl mx-auto w-full h-full absolute inset-0;
+
+  background-image: radial-gradient(
       circle at 55% 60%,
       rgba(164, 59, 246, 0.4),
-      transparent 250px
+      rgba(164, 59, 246, 0) 250px
     ),
     radial-gradient(
       circle at 65% 40%,
       rgba(44, 124, 255, 0.65) 0%,
-      transparent 450px
+      rgba(44, 124, 255, 0) 450px
     ),
     radial-gradient(
       circle at 80% 65%,
       rgba(246, 59, 194, 0.3),
-      transparent 400px
+      rgba(246, 59, 194, 0) 400px
     );
 }
 .bg-subscribe {
-  @apply blur-3xl bg-blend-overlay max-w-screen-2xl mx-auto;
+  @apply blur-3xl bg-blend-overlay max-w-screen-2xl mx-auto w-full max-h-[1024px] absolute inset-0;
+
   background: radial-gradient(
       circle at 25% 25%,
       rgba(59, 224, 246, 0.4),
-      transparent 250px
+      rgba(59, 224, 246, 0) 250px
     ),
     radial-gradient(
       circle at 40% 15%,
       rgba(59, 130, 246, 0.5) 0%,
-      transparent 350px
+      rgba(59, 130, 246, 0) 350px
     ),
     radial-gradient(
       circle at 35% 40%,
       rgba(220, 59, 194, 0.3),
-      transparent 400px
+      rgba(220, 59, 194, 0) 400px
     ),
     radial-gradient(
       circle at 75% 95%,
       rgba(60, 150, 255, 0.2) 0%,
-      transparent 450px
+      rgba(60, 150, 255, 0) 450px
     ),
     radial-gradient(
       circle at 50% 110%,
       rgba(220, 59, 194, 0.3),
-      transparent 300px
+      rgba(220, 59, 194, 0) 300px
     );
 }
 
