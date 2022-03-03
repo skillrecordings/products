@@ -19,6 +19,7 @@ h4 {
 }
 
 .list-check {
+  @apply relative;
   li {
     @apply list-none;
   }

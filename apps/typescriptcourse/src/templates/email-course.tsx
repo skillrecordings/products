@@ -7,6 +7,8 @@ import {
 } from '@skillrecordings/convertkit'
 import {useRouter} from 'next/router'
 import Image from 'next/image'
+import ReactMarkdown from 'react-markdown'
+import rehypeRaw from 'rehype-raw'
 
 type ArticleTemplateProps = {
   meta?: any
@@ -18,11 +20,10 @@ const HomeTemplate: React.FC<ArticleTemplateProps> = ({meta, children}) => {
   return (
     <Layout meta={meta} className="relative">
       <HeaderBackground />
-      <header className="relative text-center max-w-screen-sm mx-auto md:pt-48 pt-36 md:pb-40 pb-24">
+      <header className="relative text-center max-w-screen-sm mx-auto md:pt-48 pt-36 md:pb-32 pb-24">
         <Badge />
-
         <h1 className="md:text-5xl text-4xl font-bold py-4 drop-shadow-lg">
-          {headline}
+          <ReactMarkdown rehypePlugins={[rehypeRaw]}>{headline}</ReactMarkdown>
         </h1>
         <p className="md:text-xl text-lg font-heading opacity-95 text-sky-200">
           Your quick start guide to understanding TypeScript
@@ -34,7 +35,7 @@ const HomeTemplate: React.FC<ArticleTemplateProps> = ({meta, children}) => {
         </div>
         <section className="relative">
           <SubscribeBackground />
-          <div className="relative flex flex-col items-center md:py-32 py-16">
+          <div className="relative flex flex-col items-center md:pt-24 pt-16 md:pb-32 pb-16">
             <Image
               src={require('../../public/images/emails/migrate-js-project-to-ts/thumb@2x.png')}
               quality={100}
