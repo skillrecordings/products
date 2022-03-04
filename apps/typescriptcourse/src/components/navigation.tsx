@@ -12,6 +12,7 @@ const Navigation: React.FC<NavigationProps> = ({title = 'Product'}) => {
       <Link href="/" passHref aria-label="TypeScript Course home page">
         <a data-test-id="navigation-title" className="p-2">
           <Logo />
+          <span className="sr-only">TypeScript Course</span>
         </a>
       </Link>
       {isAuthenticated && <button onClick={logout}>log out</button>}

@@ -5,7 +5,7 @@ export default {
   author: 'Joe Previte',
   favicon: '/favicon.ico',
   email: 'team@typescriptcourse.com',
-  siteUrl: 'typescriptcourse.com',
+  siteUrl: 'https://typescriptcourse.com',
   additionalMetaTags: [
     {property: 'author', content: 'Joe Previte'},
     {

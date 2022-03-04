@@ -6,7 +6,7 @@
     url('./c0657016-5688-455d-848c-84664d859947.woff') format('woff');
   font-weight: 100;
   font-style: normal;
-  font-display: optional;
+  font-display: fallback;
 }
 @font-face {
   font-family: 'Greycliff';
@@ -14,7 +14,7 @@
     url('./b8482ba7-1043-4462-b6a6-e5e80e779d51.woff') format('woff');
   font-weight: 100;
   font-style: italic;
-  font-display: optional;
+  font-display: fallback;
 }
 @font-face {
   font-family: 'Greycliff';
@@ -22,7 +22,7 @@
     url('./5caceed9-6f65-4d74-be14-bf8f06045d6e.woff') format('woff');
   font-weight: 200;
   font-style: normal;
-  font-display: optional;
+  font-display: fallback;
 }
 @font-face {
   font-family: 'Greycliff';
@@ -30,7 +30,7 @@
     url('./799a3816-d181-453f-887d-348ff8777193.woff') format('woff');
   font-weight: 200;
   font-style: italic;
-  font-display: optional;
+  font-display: fallback;
 }
 @font-face {
   font-family: 'Greycliff';
@@ -38,7 +38,7 @@
     url('./3056b105-81b2-4d3f-acbe-f2878977c67e.woff') format('woff');
   font-weight: 300;
   font-style: normal;
-  font-display: optional;
+  font-display: fallback;
 }
 @font-face {
   font-family: 'Greycliff';
@@ -46,7 +46,7 @@
     url('./a067a3eb-7c9f-4f5d-8037-13ea2d48b892.woff') format('woff');
   font-weight: 300;
   font-style: italic;
-  font-display: optional;
+  font-display: fallback;
 }
 @font-face {
   font-family: 'Greycliff';
@@ -54,7 +54,7 @@
     url('./2e88ba9b-de01-4f48-9d3e-fad39aa43f8a.woff') format('woff');
   font-weight: 400;
   font-style: normal;
-  font-display: optional;
+  font-display: fallback;
 }
 @font-face {
   font-family: 'Greycliff';
@@ -62,7 +62,7 @@
     url('./5997bece-ccff-438a-8bea-aee21f915ee1.woff') format('woff');
   font-weight: 400;
   font-style: italic;
-  font-display: optional;
+  font-display: fallback;
 }
 @font-face {
   font-family: 'Greycliff';
@@ -70,7 +70,7 @@
     url('./680f8582-c072-413d-a2ef-3f1f40013b1c.woff') format('woff');
   font-weight: 500;
   font-style: normal;
-  font-display: optional;
+  font-display: fallback;
 }
 @font-face {
   font-family: 'Greycliff';
@@ -78,7 +78,7 @@
     url('./112582af-e72b-4d8d-84b9-621a1baea5ed.woff') format('woff');
   font-weight: 500;
   font-style: italic;
-  font-display: optional;
+  font-display: fallback;
 }
 @font-face {
   font-family: 'Greycliff';
@@ -86,7 +86,7 @@
     url('./6bdd5a6b-aae0-46da-91b0-118d79ec0461.woff') format('woff');
   font-weight: 600;
   font-style: normal;
-  font-display: optional;
+  font-display: fallback;
 }
 @font-face {
   font-family: 'Greycliff';
@@ -94,7 +94,7 @@
     url('./f5105f88-7724-48c9-96a4-f1db43d5e534.woff') format('woff');
   font-weight: 600;
   font-style: italic;
-  font-display: optional;
+  font-display: fallback;
 }
 @font-face {
   font-family: 'Greycliff';
@@ -102,7 +102,7 @@
     url('./556fabc6-528c-4d5e-a4e0-a7bfbb5aed7c.woff') format('woff');
   font-weight: 700;
   font-style: normal;
-  font-display: optional;
+  font-display: fallback;
 }
 @font-face {
   font-family: 'Greycliff';
@@ -110,7 +110,7 @@
     url('./674ddc5e-9e69-416d-9366-41ebf633125c.woff') format('woff');
   font-weight: 700;
   font-style: italic;
-  font-display: optional;
+  font-display: fallback;
 }
 @font-face {
   font-family: 'Greycliff';
@@ -118,7 +118,7 @@
     url('./ef7861a5-3ae8-40ab-92f4-9287b52663ae.woff') format('woff');
   font-weight: 800;
   font-style: normal;
-  font-display: optional;
+  font-display: fallback;
 }
 @font-face {
   font-family: 'Greycliff';
@@ -126,7 +126,7 @@
     url('./8e947726-9b43-40e9-a834-f8627d86ace1.woff') format('woff');
   font-weight: 800;
   font-style: italic;
-  font-display: optional;
+  font-display: fallback;
 }
 @font-face {
   font-family: 'Greycliff';
@@ -134,7 +134,7 @@
     url('./31c7c308-3a2f-4679-9c29-0c5cc20b9894.woff') format('woff');
   font-weight: 900;
   font-style: italic;
-  font-display: optional;
+  font-display: fallback;
 }
 @font-face {
   font-family: 'Greycliff';
@@ -142,5 +142,5 @@
     url('./41337049-7d87-408f-ac2c-5856332bd2f4.woff') format('woff');
   font-weight: 900;
   font-style: normal;
-  font-display: optional;
+  font-display: fallback;
 }
