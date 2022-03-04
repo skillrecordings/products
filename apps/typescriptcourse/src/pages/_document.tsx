@@ -19,7 +19,12 @@ export default class MyDocument extends Document {
   render() {
     return (
       <Html>
-        <Head></Head>
+        <Head>
+          <link
+            href="https://fonts.googleapis.com/css2?family=Inter&display=optional"
+            rel="stylesheet"
+          />
+        </Head>
         <body className="bg-black text-white">
           <Main />
           <NextScript />

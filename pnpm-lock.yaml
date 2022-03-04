@@ -2020,7 +2020,6 @@ importers:
       '@emotion/babel-plugin': ^11.3.0
       '@emotion/babel-preset-css-prop': ^11.2.0
       '@emotion/react': ^11.5.0
-      '@fontsource/inter': ^4.5.4
       '@mdx-js/loader': ^1.6.22
       '@mdx-js/mdx': ^2.0.0
       '@mdx-js/react': ^1.6.22
@@ -2123,7 +2122,6 @@ importers:
       xstate: ^4.26.0
       yup: ^0.32.11
     dependencies:
-      '@fontsource/inter': 4.5.4
       '@mdx-js/mdx': 2.0.0
       '@mdx-js/react': 1.6.22_react@17.0.2
       '@next/mdx': 12.0.3_f56c41adb6190c4680be4a1c0222355d
@@ -6496,10 +6494,6 @@ packages:
     transitivePeerDependencies:
       - supports-color
     dev: true
-
-  /@fontsource/inter/4.5.4:
-    resolution: {integrity: sha512-D0icTFpt9bWvB/OEXMztYf0bhUQZoDIYpsco5C7GVfxgKDRl8Jdn3N2aHHQqwjgRUUvRuyMv8HrRM8Hrt4U52w==}
-    dev: false
 
   /@hapi/accept/5.0.2:
     resolution: {integrity: sha512-CmzBx/bXUR8451fnZRuZAJRlzgm0Jgu5dltTX/bszmR2lheb9BpyN47Q1RbaGTsvFzn0PXAEs+lXDKfshccYZw==}
