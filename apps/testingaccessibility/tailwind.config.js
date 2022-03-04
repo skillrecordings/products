@@ -1,9 +1,16 @@
 const defaultTheme = require('tailwindcss/defaultTheme')
 const colors = require('tailwindcss/colors')
-const tailwindCommonConfig = require('@skillrecordings/scripts/tailwind.config')
 
 module.exports = {
-  ...tailwindCommonConfig,
+  content: [
+    './src/**/*.tsx',
+    './src/**/*.mdx',
+    './node_modules/@skillrecordings/commerce/dist/**/*.js',
+    './node_modules/@skillrecordings/react/dist/**/*.js',
+    './node_modules/@skillrecordings/convertkit/dist/**/*.js',
+    './node_modules/@skillrecordings/quiz/dist/**/*.js',
+    './node_modules/@skillrecordings/player/dist/**/*.js',
+  ],
   darkMode: 'class',
   theme: {
     extend: {
@@ -12,11 +19,6 @@ module.exports = {
         '60vh': '60vh',
       },
       colors: {
-        // gray: colors.blueGray,
-        // purple: colors.violet,
-        // yellow: colors.amber,
-        // brand: colors.purple['600'],
-        ...colors,
         black: '#202040',
       },
       fontFamily: {
