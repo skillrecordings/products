@@ -119,36 +119,32 @@ export const SubscribeToConvertkitForm: React.FC<SubscribeFormProps> = ({
       onSubmit={formik.handleSubmit}
       {...rest}
     >
-      {!formik.status && (
-        <>
-          <Input
-            label="First Name"
-            name="first_name"
-            id={id ? `first_name_${id}` : 'first_name'}
-            onChange={formik.handleChange}
-            placeholder="Preferred name"
-            type="text"
-          />
-          <Input
-            label="Email"
-            name="email"
-            id={id ? `email_${id}` : 'email'}
-            onChange={formik.handleChange}
-            placeholder="you@company.com"
-            type="email"
-            required
-          />
-          {submitButtonElem ? (
-            React.cloneElement(submitButtonElem, {
-              isLoading: isSubmitting,
-              type: 'submit',
-            })
-          ) : (
-            <Button isLoading={isSubmitting} type="submit">
-              {actionLabel}
-            </Button>
-          )}
-        </>
+      <Input
+        label="First Name"
+        name="first_name"
+        id={id ? `first_name_${id}` : 'first_name'}
+        onChange={formik.handleChange}
+        placeholder="Preferred name"
+        type="text"
+      />
+      <Input
+        label="Email"
+        name="email"
+        id={id ? `email_${id}` : 'email'}
+        onChange={formik.handleChange}
+        placeholder="you@company.com"
+        type="email"
+        required
+      />
+      {submitButtonElem ? (
+        React.cloneElement(submitButtonElem, {
+          isLoading: isSubmitting,
+          type: 'submit',
+        })
+      ) : (
+        <Button isLoading={isSubmitting} type="submit">
+          {actionLabel}
+        </Button>
       )}
       {formik.status === 'success' &&
         (React.isValidElement(successMessage) ? (

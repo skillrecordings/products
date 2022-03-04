@@ -101,7 +101,11 @@ h4 {
   [data-sr-button][disabled] {
   }
 }
-[data-sr-convertkit-subscribe-form='submitted'] {
+[data-sr-convertkit-subscribe-form='success'] {
+  @apply text-center;
+  p {
+    @apply pt-8;
+  }
 }
 [data-sr-convertkit-subscribe-form='error'] {
 }

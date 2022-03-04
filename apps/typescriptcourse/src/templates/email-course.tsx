@@ -64,7 +64,7 @@ const HomeTemplate: React.FC<ArticleTemplateProps> = ({meta, children}) => {
               }}
               actionLabel="Start the Course Now!"
               submitButtonElem={
-                <Button className="relative overflow-hidden">
+                <Button className="relative overflow-hidden flex items-center justify-center">
                   <span className="relative z-10">Start the Course Now! </span>
                   <motion.div
                     initial={{
