@@ -73,7 +73,7 @@ This component can be styled using following attributes:
   [data-sr-button][disabled] {
   }
 }
-[data-sr-convertkit-subscribe-form='submitted'] {
+[data-sr-convertkit-subscribe-form='success'] {
 }
 [data-sr-convertkit-subscribe-form='error'] {
 }
@@ -83,8 +83,8 @@ This component can be styled using following attributes:
 
 ## Props
 
-| Arguments     | Type                                   | Description                                                           |
-| ------------- | -------------------------------------- | --------------------------------------------------------------------- |
-| `subscriber`  | `ConvertkitSubscriber`                 | convertkit subscriber object, can be passed from `onSuccess` function |
-| `path`        | `string`                               | path to navigate to with `next/router`                                |
-| `queryParams` | `{ [key: string]: string }`            | additional query params (optional)                                    |
+| Arguments     | Type                        | Description                                                           |
+| ------------- | --------------------------- | --------------------------------------------------------------------- |
+| `subscriber`  | `ConvertkitSubscriber`      | convertkit subscriber object, can be passed from `onSuccess` function |
+| `path`        | `string`                    | path to navigate to with `next/router`                                |
+| `queryParams` | `{ [key: string]: string }` | additional query params (optional)                                    |

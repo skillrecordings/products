@@ -12,15 +12,26 @@ import ReactMarkdown from 'react-markdown'
 import rehypeRaw from 'rehype-raw'
 
 type ArticleTemplateProps = {
-  meta?: any
+  meta: {
+    title: string
+    headline: string
+    description: string
+    titleAppendSiteName: boolean
+    url: string
+    ogImage: string
+    formImage: string
+    headerBgClassName: string
+    formBgClassName: string
+  }
 }
 
 const HomeTemplate: React.FC<ArticleTemplateProps> = ({meta, children}) => {
-  const {headline} = meta
+  const {headline, formImage, headerBgClassName, formBgClassName} = meta
   const router = useRouter()
+
   return (
     <Layout meta={meta} className="relative">
-      <HeaderBackground />
+      <Background className={headerBgClassName} />
       <header className="relative text-center max-w-screen-sm mx-auto md:pt-48 pt-36 md:pb-32 pb-24">
         <Badge />
         <h1 className="md:text-5xl text-4xl font-bold py-4 drop-shadow-lg">
@@ -35,10 +46,10 @@ const HomeTemplate: React.FC<ArticleTemplateProps> = ({meta, children}) => {
           {children}
         </div>
         <section className="relative">
-          <SubscribeBackground />
+          <Background className={formBgClassName} />
           <div className="relative flex flex-col items-center md:pt-24 pt-16 md:pb-32 pb-16">
             <Image
-              src={require('../../public/images/emails/migrate-js-project-to-ts/thumb@2x.png')}
+              src={formImage}
               quality={100}
               placeholder="blur"
               loading="eager"
@@ -63,29 +74,7 @@ const HomeTemplate: React.FC<ArticleTemplateProps> = ({meta, children}) => {
                 }
               }}
               actionLabel="Start the Course Now!"
-              submitButtonElem={
-                <Button className="relative overflow-hidden flex items-center justify-center">
-                  <span className="relative z-10">Start the Course Now! </span>
-                  <motion.div
-                    initial={{
-                      background: 'transparent',
-                    }}
-                    aria-hidden="true"
-                    transition={{
-                      repeat: Infinity,
-                      duration: 3,
-                      repeatDelay: 1.6,
-                    }}
-                    animate={{
-                      background: [
-                        'linear-gradient(to right, rgba(132, 171, 255, 0) -50%, rgba(132, 171, 255, 0) 0%, rgba(132, 171, 255, 0) 100%)',
-                        'linear-gradient(to right, rgba(132, 171, 255, 0) 100%, rgb(132, 171, 255, 1) 200%, rgba(132, 171, 255, 0) 200%)',
-                      ],
-                    }}
-                    className="absolute left-0 top-0 w-full h-full pointer-events-none items-center justify-center space-x-1 bg-white bg-opacity-10 bg-blend-overlay uppercase tracking-wide "
-                  />
-                </Button>
-              }
+              submitButtonElem={<SubscribeButton />}
             />
             <small className="text-sm font-light opacity-60 pt-16 text-blue-100">
               We respect your privacy. Unsubscribe at any time.
@@ -101,6 +90,40 @@ const HomeTemplate: React.FC<ArticleTemplateProps> = ({meta, children}) => {
 }
 
 export default HomeTemplate
+
+const SubscribeButton = () => {
+  return (
+    <Button className="relative overflow-hidden flex items-center justify-center">
+      <span className="relative z-10">Start the Course Now! </span>
+      <motion.div
+        initial={{
+          background: 'transparent',
+        }}
+        aria-hidden="true"
+        transition={{
+          repeat: Infinity,
+          duration: 3,
+          repeatDelay: 1.6,
+        }}
+        animate={{
+          background: [
+            'linear-gradient(to right, rgba(132, 171, 255, 0) -50%, rgba(132, 171, 255, 0) 0%, rgba(132, 171, 255, 0) 100%)',
+            'linear-gradient(to right, rgba(132, 171, 255, 0) 100%, rgb(132, 171, 255, 1) 200%, rgba(132, 171, 255, 0) 200%)',
+          ],
+        }}
+        className="absolute left-0 top-0 w-full h-full pointer-events-none items-center justify-center space-x-1 bg-white bg-opacity-10 bg-blend-overlay uppercase tracking-wide "
+      />
+    </Button>
+  )
+}
+
+const Background: React.FC<{className: string}> = ({className}) => {
+  return (
+    <div className="bg-noise" aria-hidden="true">
+      <div className={className} />
+    </div>
+  )
+}
 
 const Badge = () => {
   return (
@@ -121,22 +144,6 @@ const Badge = () => {
         <i className="gg-mail scale-75 opacity-75 text-blue-200" />
         <span className="opacity-90">email course</span>
       </motion.div>
-    </div>
-  )
-}
-
-const HeaderBackground = () => {
-  return (
-    <div className="bg-noise" aria-hidden="true">
-      <div className="bg-header" />
-    </div>
-  )
-}
-
-const SubscribeBackground = () => {
-  return (
-    <div className="bg-noise" aria-hidden="true">
-      <div className="bg-subscribe" />
     </div>
   )
 }

@@ -6,37 +6,9 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  @apply selection:text-white selection:bg-blue-600;
-}
-
-h1,
-h2,
-h3,
-h4 {
-  @apply font-heading;
-}
-
-.list-check {
-  @apply relative;
-  li {
-    @apply list-none;
-  }
-  li:before {
-    @apply text-teal-200 absolute;
-    content: '✓';
-    width: 20px;
-    height: 20px;
-    font-size: 1.3rem;
-    left: 0;
-  }
-}
-
-.bg-noise {
-  @apply object-contain object-top w-full absolute inset-0 max-h-[1024px];
-
-  background-image: url('/images/backgrounds/header-noise.png');
-}
+/* 
+01-01 backgrounds
+*/
 
 .bg-header {
   @apply blur-3xl bg-blend-overlay max-w-screen-2xl mx-auto w-full h-full absolute inset-0 md:max-h-full max-h-screen;
@@ -57,6 +29,7 @@ h4 {
       rgba(246, 59, 194, 0) 400px
     );
 }
+
 .bg-subscribe {
   @apply blur-3xl bg-blend-overlay max-w-screen-2xl mx-auto w-full max-h-[1024px] absolute inset-0;
 
@@ -87,6 +60,10 @@ h4 {
     );
 }
 
+/* 
+Subscribe Form 
+*/
+
 [data-sr-convertkit-subscribe-form] {
   @apply w-full max-w-[300px] pt-2;
   [data-sr-input] {
@@ -108,6 +85,38 @@ h4 {
   }
 }
 [data-sr-convertkit-subscribe-form='error'] {
+}
+
+:root {
+  @apply selection:text-white selection:bg-blue-600;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  @apply font-heading;
+}
+
+.list-check {
+  @apply relative;
+  li {
+    @apply list-none;
+  }
+  li:before {
+    @apply text-teal-200 absolute;
+    content: '✓';
+    width: 20px;
+    height: 20px;
+    font-size: 1.3rem;
+    left: 0;
+  }
+}
+
+.bg-noise {
+  @apply object-contain object-top w-full absolute inset-0 max-h-[1024px];
+
+  background-image: url('/images/backgrounds/header-noise.png');
 }
 
 /*
