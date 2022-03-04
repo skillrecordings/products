@@ -24,6 +24,20 @@ export default class MyDocument extends Document {
             href="https://fonts.googleapis.com/css2?family=Inter&display=optional"
             rel="stylesheet"
           />
+          <link
+            href="/fonts/b17c688f-34d7-4a50-b068-488ee67b867e.woff2"
+            rel="preload"
+            as="font"
+            type="font/woff2"
+            crossOrigin="anonymous"
+          />
+          <link
+            href="/fonts/0e3d9586-a0fa-479f-aaac-bba06390a42c.woff2"
+            rel="preload"
+            as="font"
+            type="font/woff2"
+            crossOrigin="anonymous"
+          />
         </Head>
         <body className="bg-black text-white">
           <Main />
