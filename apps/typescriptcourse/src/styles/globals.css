@@ -2,7 +2,6 @@
 @import '~@skillrecordings/player/dist/skillrecordings-player.css';
 @import '~@reach/dialog/styles.css';
 @import './fonts/index.css';
-@import '@fontsource/inter/latin.css';
 @tailwind base;
 @tailwind components;
 @tailwind utilities;

@@ -6,6 +6,7 @@ import {
   SubscribeToConvertkitForm,
 } from '@skillrecordings/convertkit'
 import {useRouter} from 'next/router'
+import {Button} from '@skillrecordings/react/dist/components'
 import Image from 'next/image'
 import ReactMarkdown from 'react-markdown'
 import rehypeRaw from 'rehype-raw'
@@ -43,12 +44,13 @@ const HomeTemplate: React.FC<ArticleTemplateProps> = ({meta, children}) => {
               loading="eager"
               width={815 / 2}
               height={404 / 2}
+              alt="Email course"
             />
             <div className="py-8 text-center flex flex-col items-center">
               <h2 className="text-4xl font-bold">
                 Start Using TypeScript Today
               </h2>
-              <h3 className="text-xl max-w-md pt-2 opacity-90 text-blue-200">
+              <h3 className="text-xl font-light max-w-md pt-2 opacity-90 text-blue-200">
                 3 email lessons delivered over 3 days that will give you a taste
                 of real-world TypeScript!
               </h3>
@@ -61,6 +63,29 @@ const HomeTemplate: React.FC<ArticleTemplateProps> = ({meta, children}) => {
                 }
               }}
               actionLabel="Start the Course Now!"
+              submitButtonElem={
+                <Button className="relative overflow-hidden">
+                  <span className="relative z-10">Start the Course Now! </span>
+                  <motion.div
+                    initial={{
+                      background: 'transparent',
+                    }}
+                    aria-hidden="true"
+                    transition={{
+                      repeat: Infinity,
+                      duration: 3,
+                      repeatDelay: 1.6,
+                    }}
+                    animate={{
+                      background: [
+                        'linear-gradient(to right, rgba(132, 171, 255, 0) -50%, rgba(132, 171, 255, 0) 0%, rgba(132, 171, 255, 0) 100%)',
+                        'linear-gradient(to right, rgba(132, 171, 255, 0) 100%, rgb(132, 171, 255, 1) 200%, rgba(132, 171, 255, 0) 200%)',
+                      ],
+                    }}
+                    className="absolute left-0 top-0 w-full h-full pointer-events-none items-center justify-center space-x-1 bg-white bg-opacity-10 bg-blend-overlay uppercase tracking-wide "
+                  />
+                </Button>
+              }
             />
             <small className="text-sm font-light opacity-60 pt-16 text-blue-100">
               We respect your privacy. Unsubscribe at any time.
@@ -81,6 +106,9 @@ const Badge = () => {
   return (
     <div className="mb-2 rounded-full border border-blue-50 border-opacity-10 inline-flex items-center justify-center shadow-xl">
       <motion.div
+        initial={{
+          background: 'transparent',
+        }}
         transition={{repeat: Infinity, duration: 3, repeatDelay: 1.6}}
         animate={{
           background: [
