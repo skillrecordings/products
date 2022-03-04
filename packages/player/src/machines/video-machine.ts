@@ -398,6 +398,7 @@ export const videoMachine = createMachine<VideoStateContext, VideoEvent>(
           assign({
             waiting: (_context, _event) => false,
             isSubmittingCueNote: (_context, _event) => false,
+            shortcutsEnabled: (_context, _event) => true,
           }),
         ],
         on: {
@@ -409,6 +410,11 @@ export const videoMachine = createMachine<VideoStateContext, VideoEvent>(
           },
           TAKE_NOTE: {
             target: 'taking_note',
+            actions: [
+              assign({
+                shortcutsEnabled: (_context, _event) => false,
+              }),
+            ],
           },
           VOLUME_CHANGE: {
             actions: [
@@ -516,7 +522,6 @@ export const videoMachine = createMachine<VideoStateContext, VideoEvent>(
         on: {
           SUBMITTED: {
             target: 'taking_note.submitting',
-
             actions: [
               assign({
                 isSubmittingCueNote: (_context, _event) => true,
@@ -572,16 +577,6 @@ export const videoMachine = createMachine<VideoStateContext, VideoEvent>(
                 target: 'typing',
               },
             },
-            entry: [
-              assign({
-                shortcutsEnabled: (_context, _event) => false,
-              }),
-            ],
-            exit: [
-              assign({
-                shortcutsEnabled: (_context, _event) => true,
-              }),
-            ],
           },
           typing: {
             entry: ['pauseVideo'],
