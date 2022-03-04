@@ -1,7 +1,7 @@
 @import './icons.css';
 @import '~@skillrecordings/player/dist/skillrecordings-player.css';
 @import '~@reach/dialog/styles.css';
-@import './fonts/index.css';
+@import './fonts.css';
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
