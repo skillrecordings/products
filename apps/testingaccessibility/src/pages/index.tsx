@@ -8,9 +8,13 @@ import {
 } from '@skillrecordings/convertkit'
 import Layout from 'components/app/layout'
 import {useRouter} from 'next/router'
+import {useSession} from 'next-auth/react'
 
 const Home: React.FC = () => {
   const router = useRouter()
+  const {data: session, status} = useSession()
+
+  console.log({session, status})
   return (
     <Layout>
       <div>
