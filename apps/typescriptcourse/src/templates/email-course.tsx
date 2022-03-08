@@ -173,7 +173,7 @@ const Bio = () => {
           <p className="text-sm opacity-80">
             I’m an Open Source TypeScript Engineer with a passion for teaching
             and learning. I help developers learn faster through interactive
-            courses, and in my free time, I get people excited about web3 and
+            courses, and in my free time, I get people excited about webdev and
             indie hacking. 👋
           </p>
         </div>
