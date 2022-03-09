@@ -85,7 +85,7 @@ const WorkshopPage: React.FC<any> = ({workshop, source}) => {
           <header className="relative px-5 text-white bg-black pb-32 pt-8 flex flex-col items-center justify-center text-center">
             <Link href="/workshops">
               <a className="group text-indigo-100 relative hover:text-white font-normal px-4 py-2 hover:bg-opacity-5 bg-opacity-0 bg-white rounded-full transition-all ease-in-out duration-300 opacity-80 hover:opacity-90 ">
-                <span role="img" aria-label="left arrow">
+                <span className="pr-1" role="img" aria-label="left arrow">
                   ←
                 </span>{' '}
                 All Workshops

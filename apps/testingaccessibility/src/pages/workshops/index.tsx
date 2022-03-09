@@ -11,15 +11,15 @@ import {sanityClient} from 'utils/sanity-client'
 
 const Workshops: React.FC<any> = ({workshops}) => {
   return (
-    <Layout meta={{title: 'Upcoming Workshops'}}>
+    <Layout meta={{title: 'Accessibility Workshops'}}>
       <header className="relative px-5 overflow-hidden text-white bg-black max-h-[80vh]">
-        <h1 className="max-w-screen-md py-16 mx-auto text-3xl font-extrabold leading-tight text-center sm:text-4xl lg:text-6xl md:text-5xl">
-          Upcoming Workshops
+        <h1 className="max-w-screen-md py-16 pb-4 mx-auto text-3xl font-semibold leading-tight text-center sm:text-4xl lg:text-5xl md:text-4xl">
+          Accessibility Workshops
         </h1>
         <div className="flex items-center justify-center max-w-screen-md mx-auto">
           <Image
             src={WorkshopsImage}
-            alt={'Upcoming workshops'}
+            alt={'Accessibility workshops'}
             quality={100}
             placeholder="blur"
             priority={true}
@@ -34,7 +34,7 @@ const Workshops: React.FC<any> = ({workshops}) => {
       </header>
       <main className="bg-gray-50 px-5">
         <div className="pb-16 mx-auto max-w-screen-sm w-full">
-          <h2 className="font-mono uppercase text-sm font-semibold pb-8 pt-16">
+          <h2 className="font-mono uppercase text-sm font-semibold pb-8 pt-16 text-center">
             Testing Accessibility Workshop Series
           </h2>
           <div className="grid grid-cols-1 gap-5">
@@ -46,8 +46,8 @@ const Workshops: React.FC<any> = ({workshops}) => {
           </div>
         </div>
       </main>
-      <footer>
-        <section className="flex flex-col items-center max-w-screen-lg py-24 mx-auto md:flex-row md:space-x-16">
+      <footer className="bg-gray-50">
+        <section className="flex flex-col items-center max-w-lg py-8 mx-auto md:flex-row md:space-x-16">
           <div className="flex flex-col items-center py-16 space-y-4 text-center sm:py-24 sm:flex-row sm:items-start sm:text-left sm:space-x-8 sm:space-y-0">
             <div className="flex-shrink-0">
               <Image

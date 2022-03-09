@@ -1,0 +1,24 @@
+import * as React from 'react'
+import {
+  Twitter,
+  Facebook,
+  Reddit,
+  CopyToClipboard,
+  LinkedIn,
+  Hacker,
+} from '@skillrecordings/react'
+
+const Share: React.FC<{link: string; message: string}> = ({link, message}) => {
+  return (
+    <div className="flex">
+      <Twitter link={link} message={message} />
+      <Facebook link={link} message={message} />
+      <Reddit link={link} message={message} />
+      <CopyToClipboard link={link} message={message} />
+      <LinkedIn link={link} message={message} />
+      <Hacker link={link} message={message} />
+    </div>
+  )
+}
+
+export default Share
