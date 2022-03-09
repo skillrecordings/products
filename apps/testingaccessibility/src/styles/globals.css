@@ -5,6 +5,7 @@
 @import './fonts/index.css';
 @import './icons.css';
 @import '@skillrecordings/quiz/dist/styles/index.css';
+@import '@skillrecordings/player/dist/skillrecordings-player.css';
 
 body {
   @apply text-black;
@@ -12,6 +13,14 @@ body {
 
 :root {
   --reach-skip-nav: 1;
+}
+
+.cueplayer-react-side-panel-control {
+  visibility: hidden;
+}
+
+.cueplayer-react-cue-bar {
+  display: none;
 }
 
 [data-sr-convertkit-subscribe-form] {

@@ -16,6 +16,7 @@
   },
   "dependencies": {
     "@asbjorn/eslint-plugin-groq": "^2.0.0",
+    "@mdx-js/loader": "^2.0.0",
     "@mdx-js/mdx": "^2.0.0",
     "@mdx-js/react": "^2.0.0",
     "@next/mdx": "^12.1.0",
@@ -30,6 +31,7 @@
     "@skillrecordings/config": "workspace:*",
     "@skillrecordings/convertkit": "workspace:*",
     "@skillrecordings/cookies": "workspace:*",
+    "@skillrecordings/player": "workspace:*",
     "@skillrecordings/quiz": "workspace:*",
     "@skillrecordings/react": "workspace:*",
     "@skillrecordings/time": "workspace:*",
@@ -41,6 +43,7 @@
     "@xstate/react": "^2.0.1",
     "autoprefixer": "^10.4.2",
     "axios": "^0.26.0",
+    "classnames": "^2.3.1",
     "client-oauth2": "^4.3.3",
     "cookie": "^0.4.2",
     "date-fns": "^2.28.0",
@@ -78,8 +81,7 @@
     "tailwindcss-autofill": "^0.1.0",
     "tailwindcss-text-fill": "^0.1.2",
     "xstate": "^4.30.4",
-    "yup": "^0.32.11",
-    "@mdx-js/loader": "^2.0.0"
+    "yup": "^0.32.11"
   },
   "devDependencies": {
     "@babel/plugin-transform-react-jsx": "^7.16.0",
