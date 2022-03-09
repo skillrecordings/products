@@ -10,6 +10,7 @@ import {ConvertkitProvider} from '@skillrecordings/convertkit'
 import '@reach/dialog/styles.css'
 import {MDXProvider} from '@mdx-js/react'
 import MDXComponents from 'components/mdx'
+import {usePageview} from '@skillrecordings/analytics'
 
 declare global {
   interface Window {
@@ -22,6 +23,7 @@ declare global {
 }
 
 function MyApp({Component, pageProps}: AppProps) {
+  usePageview()
   return (
     <>
       <DefaultSeo {...config} />

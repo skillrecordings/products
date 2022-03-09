@@ -6,6 +6,7 @@ import Document, {
   NextScript,
   DocumentContext,
 } from 'next/document'
+import {GoogleSnippet} from '@skillrecordings/analytics'
 
 export default class MyDocument extends Document {
   static async getInitialProps(ctx: DocumentContext) {
@@ -38,6 +39,7 @@ export default class MyDocument extends Document {
             type="font/woff2"
             crossOrigin="anonymous"
           />
+          <GoogleSnippet />
         </Head>
         <body className="bg-black text-white">
           <Main />

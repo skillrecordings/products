@@ -16,7 +16,9 @@
     "clean": "rm -rf .turbo && rm -rf node_modules && rm -rf dist"
   },
   "dependencies": {
-    "@skillrecordings/types": "workspace:*"
+    "@skillrecordings/types": "workspace:*",
+    "react": "^17.0.2",
+    "next": "12.1.0"
   },
   "devDependencies": {
     "@skillrecordings/scripts": "workspace:*",

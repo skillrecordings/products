@@ -9,7 +9,7 @@ import {ViewerProvider} from '@skillrecordings/viewer'
 import {ConvertkitProvider} from '@skillrecordings/convertkit'
 import MDXComponents from 'components/mdx'
 import {MDXProvider} from '@mdx-js/react'
-import {usePageview} from '../hooks/use-pageview'
+import {usePageview} from '@skillrecordings/analytics'
 
 declare global {
   interface Window {

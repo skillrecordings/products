@@ -1,6 +1,6 @@
 import * as React from 'react'
 import {useRouter} from 'next/router'
-import {pageview} from '../utils/ga'
+import {pageview} from './ga'
 
 export const usePageview = () => {
   const router = useRouter()

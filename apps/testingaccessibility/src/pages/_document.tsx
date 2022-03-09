@@ -6,6 +6,7 @@ import Document, {
   NextScript,
   DocumentContext,
 } from 'next/document'
+import {GoogleSnippet} from '@skillrecordings/analytics'
 
 export default class MyDocument extends Document {
   static async getInitialProps(ctx: DocumentContext) {
@@ -27,22 +28,7 @@ export default class MyDocument extends Document {
             sizes="any"
             color="#DA6E47"
           />
-          <script
-            async
-            src={`https://www.googletagmanager.com/gtag/js?id=${process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS}`}
-          />
-          <script
-            dangerouslySetInnerHTML={{
-              __html: `
-            window.dataLayer = window.dataLayer || [];
-            function gtag(){dataLayer.push(arguments);}
-            gtag('js', new Date());
-            gtag('config', '${process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS}', {
-              page_path: window.location.pathname,
-            });
-          `,
-            }}
-          />
+          <GoogleSnippet />
         </Head>
         <body className="text-black bg-white">
           <Main />
