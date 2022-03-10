@@ -22,11 +22,22 @@ type ArticleTemplateProps = {
     formImage: string
     headerBgClassName: string
     formBgClassName: string
+    ckFormId?: number
+    formHeadline: string
+    formSubHeadline: string
   }
 }
 
 const HomeTemplate: React.FC<ArticleTemplateProps> = ({meta, children}) => {
-  const {headline, formImage, headerBgClassName, formBgClassName} = meta
+  const {
+    headline,
+    formImage,
+    headerBgClassName,
+    formBgClassName,
+    ckFormId,
+    formHeadline,
+    formSubHeadline,
+  } = meta
   const router = useRouter()
 
   return (
@@ -58,15 +69,13 @@ const HomeTemplate: React.FC<ArticleTemplateProps> = ({meta, children}) => {
               alt="Email course"
             />
             <div className="py-8 text-center flex flex-col items-center">
-              <h2 className="text-4xl font-bold">
-                Start Using TypeScript Today
-              </h2>
+              <h2 className="text-4xl font-bold">{formHeadline}</h2>
               <h3 className="text-xl font-light max-w-md pt-2 opacity-90 text-blue-200">
-                3 email lessons delivered over 3 days that will give you a taste
-                of real-world TypeScript!
+                {formSubHeadline}
               </h3>
             </div>
             <SubscribeToConvertkitForm
+              formId={ckFormId}
               onSuccess={(subscriber: any) => {
                 if (subscriber) {
                   const redirectUrl = redirectUrlBuilder(subscriber, '/confirm')
@@ -74,7 +83,7 @@ const HomeTemplate: React.FC<ArticleTemplateProps> = ({meta, children}) => {
                 }
               }}
               actionLabel="Start the Course Now!"
-              submitButtonElem={<SubscribeButton />}
+              submitButtonElem={SubscribeButton()}
             />
             <small className="text-sm font-light opacity-60 pt-16 text-blue-100">
               We respect your privacy. Unsubscribe at any time.
