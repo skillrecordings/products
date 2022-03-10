@@ -161,24 +161,25 @@ const Reddit: React.FC<ShareLinkProps> = ({link, message}) => (
   </a>
 )
 
-const CopyToClipboard: React.FC<ShareLinkProps> = ({link}) => {
-  const [copied, copyToClipboard] = useClipboard(link, {
+const CopyToClipboard: React.FC<ShareLinkProps & {onSuccess: () => void}> = ({
+  link,
+  onSuccess,
+}) => {
+  const [_, copyToClipboard] = useClipboard(link, {
     successDuration: 700,
   })
 
   return (
     <button
       type="button"
-      onClick={copyToClipboard}
-      className={`${style} relative `}
+      onClick={() => {
+        copyToClipboard()
+        onSuccess()
+      }}
+      className={`${style} relative text-xs`}
     >
       <span className="sr-only">copy url to clipboard</span>
       {icons.link}
-      {copied && (
-        <div className="absolute w-full text-center bg-black px-2 py-1 text-xs scale-50 rounded-md transition-all animate-ping">
-          copied
-        </div>
-      )}
     </button>
   )
 }
