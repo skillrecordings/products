@@ -1,9 +1,0 @@
-# *
-User-agent: *
-Allow: /
-
-# Host
-Host: https://www.escuelafrontend.com
-
-# Sitemaps
-Sitemap: https://www.escuelafrontend.com/sitemap.xml

@@ -43,6 +43,7 @@ type PlayerProps = {
   controls?: React.ReactElement
   overlay?: React.ReactElement
   canAddNotes?: boolean
+  poster?: string
 }
 
 const usePlayerState = () => {
@@ -86,6 +87,7 @@ export const Player: React.FC<PlayerProps> = (props) => {
     fluid = true,
     overlay,
     canAddNotes = false,
+    poster,
   } = props
   const containerRef = React.useRef(container)
   const {
@@ -234,7 +236,7 @@ export const Player: React.FC<PlayerProps> = (props) => {
             style={getAspectRatioStyle()}
             className="cueplayer-react-video-holder"
           >
-            <Video>{children}</Video>
+            <Video poster={poster}>{children}</Video>
             <BigPlayButton />
             <Bezel />
             <LoadingSpinner />

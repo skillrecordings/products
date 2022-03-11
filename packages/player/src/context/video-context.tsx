@@ -41,9 +41,9 @@ export const VideoProvider: React.FC<{
   })
 
   // see all state changes
-  videoService.onTransition((state) => {
-    console.debug(state)
-  })
+  // videoService.onTransition((state) => {
+  //   console.debug(state.value)
+  // })
 
   return (
     <VideoContext.Provider value={{videoService}}>

@@ -10,6 +10,7 @@ import {ConvertkitProvider} from '@skillrecordings/convertkit'
 import MDXComponents from 'components/mdx'
 import {MDXProvider} from '@mdx-js/react'
 import {SessionProvider} from 'next-auth/react'
+import {usePageview} from '@skillrecordings/analytics'
 
 declare global {
   interface Window {
@@ -18,10 +19,12 @@ declare global {
     fbq: any
     becomeUser: any
     ga: any
+    gtag: any
   }
 }
 
 function MyApp({Component, pageProps}: AppProps) {
+  usePageview()
   return (
     <>
       <DefaultSeo {...config} />

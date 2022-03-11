@@ -4,13 +4,12 @@ import Image from 'next/image'
 import Link from 'next/link'
 import Markdown from 'react-markdown'
 import {Wave} from 'components/images'
-// import {workshops, otherWorkshops} from 'components/content/workshops'
 import WorkshopsImage from '../../../public/assets/workshops@2x.png'
 import groq from 'groq'
 import {GetServerSideProps} from 'next'
 import {sanityClient} from 'utils/sanity-client'
 
-const Workshops: React.FC<any> = ({workshops: workshopGroups}) => {
+const Workshops: React.FC<any> = ({workshops}) => {
   return (
     <Layout meta={{title: 'Upcoming Workshops'}}>
       <header className="relative px-5 overflow-hidden text-white bg-black max-h-[80vh]">
@@ -35,22 +34,16 @@ const Workshops: React.FC<any> = ({workshops: workshopGroups}) => {
       </header>
       <main className="bg-gray-50 px-5">
         <div className="pb-16 mx-auto max-w-screen-sm w-full">
-          {workshopGroups.map(({title, workshops}: any) => {
-            return (
-              <div key={title}>
-                <h2 className="font-mono uppercase text-sm font-semibold pb-8 pt-16">
-                  {title}
-                </h2>
-                <div className="grid grid-cols-1 gap-5">
-                  {workshops
-                    .filter(({published}: any) => published)
-                    .map((workshop: any) => (
-                      <WorkshopItem key={workshop.title} workshop={workshop} />
-                    ))}
-                </div>
-              </div>
-            )
-          })}
+          <h2 className="font-mono uppercase text-sm font-semibold pb-8 pt-16">
+            Testing Accessibility Workshop Series
+          </h2>
+          <div className="grid grid-cols-1 gap-5">
+            {workshops
+              .filter(({published}: any) => published)
+              .map((workshop: any) => {
+                return <WorkshopItem key={workshop.title} workshop={workshop} />
+              })}
+          </div>
         </div>
       </main>
       <footer>
@@ -112,7 +105,10 @@ const WorkshopItem = ({workshop}: any) => {
       <Markdown className="prose sm:prose-lg pt-3 pb-6">{description}</Markdown>
       {slug && (
         <Link href={`/workshops/${slug}`} passHref>
-          <a className="px-5 py-3 rounded-full hover:bg-indigo-600 transition-all ease-in-out duration-300 bg-indigo-600 text-white font-semibold inline-flex" aria-label={`Sign up for the workshop on ${title}`}>
+          <a
+            className="px-5 py-3 rounded-full hover:bg-indigo-600 transition-all ease-in-out duration-300 bg-indigo-600 text-white font-semibold inline-flex"
+            aria-label={`Sign up for the workshop on ${title}`}
+          >
             Sign up for the workshop{' '}
             <i aria-hidden className="pl-2">
               →
@@ -124,16 +120,13 @@ const WorkshopItem = ({workshop}: any) => {
   )
 }
 
-const workshopsQuery = groq`*[_type == "workshops"]{
+const workshopsQuery = groq`*[_type == "workshop"]{
     title,
-    workshops[]->{
-        title,
-        date,
-        description,
-        'slug': slug.current,
-        published
-    }
-    }`
+    date,
+    description,
+    'slug': slug.current,
+    published
+}`
 
 export const getServerSideProps: GetServerSideProps = async () => {
   const data = await sanityClient.fetch(workshopsQuery)
