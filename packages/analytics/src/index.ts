@@ -1,12 +1,15 @@
 import {isFunction, isUndefined} from 'lodash'
 import {Viewer} from '@skillrecordings/types'
+import {pageview, event as gaEvent, GoogleSnippet} from './ga'
+import {usePageview} from './use-pageview'
+
 const DEBUG_ANALYTICS = false
 
-export const USER_KEY = process.env.NEXT_PUBLIC_USER_KEY || 'user'
-export const ACCESS_TOKEN_KEY =
+const USER_KEY = process.env.NEXT_PUBLIC_USER_KEY || 'user'
+const ACCESS_TOKEN_KEY =
   process.env.NEXT_PUBLIC_ACCESS_TOKEN_KEY || 'access_token'
 
-export function getLocalUser() {
+function getLocalUser() {
   if (typeof localStorage === 'undefined') {
     return
   }
@@ -23,14 +26,11 @@ declare global {
     fbq: any
     becomeUser: any
     ga: any
+    gtag: any
   }
 }
 
-export const track = (
-  event: string,
-  paramsOrCallback?: any,
-  callback?: any,
-) => {
+const track = (event: string, paramsOrCallback?: any, callback?: any) => {
   return new Promise(async (resolve) => {
     const ahoy = window.ahoy
     let wasCalled = false
@@ -69,6 +69,8 @@ export const track = (
       window.fbq('trackCustom', event, params)
     }
 
+    gaEvent({action: event, params})
+
     if (window.ga) {
       window.ga('send', {
         hitType: 'event',
@@ -92,7 +94,7 @@ export const track = (
   })
 }
 
-export const identify = (data: Viewer, properties?: any) => {
+const identify = (data: Viewer, properties?: any) => {
   if (
     !data.opted_out &&
     data.email &&
@@ -113,4 +115,16 @@ export const identify = (data: Viewer, properties?: any) => {
     })
   }
   return Promise.resolve(data)
+}
+
+export {
+  identify,
+  track,
+  getLocalUser,
+  ACCESS_TOKEN_KEY,
+  USER_KEY,
+  gaEvent,
+  pageview,
+  usePageview,
+  GoogleSnippet,
 }
