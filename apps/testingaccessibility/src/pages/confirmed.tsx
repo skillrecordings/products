@@ -4,6 +4,7 @@ import {useRouter} from 'next/router'
 import axios from 'axios'
 import isEmpty from 'lodash/isEmpty'
 import {useConvertkit} from '@skillrecordings/convertkit'
+import {countBy} from 'lodash'
 
 const Confirmed = () => {
   const router = useRouter()
@@ -29,6 +30,9 @@ const Confirmed = () => {
     }
   }, [tagId, subscriber])
 
+  const buttonClasses =
+    'text-white text-lg inline-block sm:px-4 px-3 sm:py-2 py-1.5 bg-blue-700 rounded-full'
+
   return (
     <Layout>
       <div className="prose dark:prose-dark prose-lg max-w-md mx-auto py-24">
@@ -42,6 +46,22 @@ const Confirmed = () => {
           <br />
           <em>Marcy</em>
         </p>
+      </div>
+      <div className="prose-lg max-w-md mx-auto py-24">
+        <p className="text-xl font-bold">
+          Which of these sounds most like you?
+        </p>
+        <div className="flex flex-col mx-auto space-y-4 text-white text-sm leading-6 max-w-xs text-center">
+          <a className={buttonClasses} href="/role?tag=2982275">
+            Developer
+          </a>
+          <a className={buttonClasses} href="/role?tag=2982283">
+            QA
+          </a>
+          <a className={buttonClasses} href="/role?tag=2982286">
+            Less-Technical Role
+          </a>
+        </div>
       </div>
     </Layout>
   )
