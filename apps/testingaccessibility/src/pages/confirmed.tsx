@@ -47,7 +47,7 @@ const Confirmed = () => {
           <em>Marcy</em>
         </p>
       </div>
-      <div className="prose-lg max-w-md mx-auto py-24">
+      <div className="prose-lg max-w-md mx-auto py-12">
         <p className="text-xl font-bold">
           Which of these sounds most like you?
         </p>
