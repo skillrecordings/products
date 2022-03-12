@@ -8,19 +8,13 @@ services:
     environment:
       POSTGRES_PASSWORD: postgrespassword
   graphql-engine:
+    env_file:
+      - ".env.development"
     image: hasura/graphql-engine:v2.3.0
     ports:
       - "8080:8080"
     depends_on:
       - "postgres"
     restart: always
-    environment:
-      HASURA_GRAPHQL_METADATA_DATABASE_URL: postgres://postgres:postgrespassword@postgres:5432/postgres
-      PG_DATABASE_URL: postgres://postgres:postgrespassword@postgres:5432/postgres
-      HASURA_GRAPHQL_ENABLE_CONSOLE: "false"
-      HASURA_GRAPHQL_DEV_MODE: "true"
-      HASURA_GRAPHQL_ENABLED_LOG_TYPES: startup, http-log, webhook-log, websocket-log, query-log
-      HASURA_GRAPHQL_ADMIN_SECRET: admin_secret
-      HASURA_GRAPHQL_JWT_SECRET: '{"key": "${NEXTAUTH_SECRET}","type": "HS256"}'
 volumes:
   db_data:
