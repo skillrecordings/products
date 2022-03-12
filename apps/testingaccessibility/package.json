@@ -86,6 +86,9 @@
   },
   "devDependencies": {
     "@babel/plugin-transform-react-jsx": "^7.16.0",
+    "@graphql-codegen/cli": "^2.6.2",
+    "@graphql-codegen/typescript": "^2.4.7",
+    "@graphql-codegen/typescript-graphql-request": "^4.4.2",
     "@skillrecordings/scripts": "workspace:*",
     "@skillrecordings/tsconfig": "workspace:^0.0.5",
     "@skillrecordings/types": "workspace:*",
