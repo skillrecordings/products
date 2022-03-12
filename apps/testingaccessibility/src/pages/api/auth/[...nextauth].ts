@@ -30,7 +30,7 @@ export default NextAuth({
           hasura = {
             'https://hasura.io/jwt/claims': {
               'x-hasura-allowed-roles': ['user', 'admin'],
-              'x-hasura-default-role': 'admin',
+              'x-hasura-default-role': 'user',
               'x-hasura-role': 'admin',
               'x-hasura-user-id': token.id,
             },
