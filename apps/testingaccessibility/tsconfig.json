@@ -12,7 +12,6 @@
   "include": [
     "src",
     "next-env.d.ts",
-    "process.d.ts",
-    "next-auth.d.ts"
+    "process.d.ts"
   ]
 }
