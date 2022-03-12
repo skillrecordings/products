@@ -10,7 +10,7 @@ services:
   graphql-engine:
     env_file:
       - ".env.development"
-    image: hasura/graphql-engine:v2.3.0
+    image: hasura/graphql-engine:v2.3.0.cli-migrations-v3
     ports:
       - "8080:8080"
     depends_on:
