@@ -8,30 +8,11 @@ import {
 } from '@skillrecordings/convertkit'
 import Layout from 'components/app/layout'
 import {useRouter} from 'next/router'
-import {getSession, useSession} from 'next-auth/react'
-import {getToken} from 'next-auth/jwt'
-import {GetServerSideProps} from 'next'
-import {sanityClient} from '../utils/sanity-client'
-import find from 'lodash/find'
-import isEmpty from 'lodash/isEmpty'
-import {serialize} from 'next-mdx-remote/serialize'
-
-export const getServerSideProps: GetServerSideProps = async (context: any) => {
-  const {req} = context
-
-  return {
-    props: {
-      token: await getToken({req, secret: process.env.NEXTAUTH_SECRET}),
-      session: await getSession(context),
-    },
-  }
-}
+import {useSession} from 'next-auth/react'
 
 const Home: React.FC = (props) => {
   const router = useRouter()
-  const data = useSession()
 
-  console.log({props, data})
   return (
     <Layout>
       <div>

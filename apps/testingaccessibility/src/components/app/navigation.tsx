@@ -5,12 +5,14 @@ import {Logo} from 'components/images'
 import {useRouter} from 'next/router'
 import {sanityClient} from 'utils/sanity-client'
 import groq from 'groq'
+import {useSession} from 'next-auth/react'
 
 type NavigationProps = {}
 
 const Navigation: FunctionComponent<NavigationProps> = () => {
   const router = useRouter()
   const [data, setData] = React.useState<any>()
+  const {data: sessionData} = useSession()
 
   const scheduledWorkshopsQuery = groq`
 *[_type == "workshop" && ckFormId != null && published == true]{
@@ -44,7 +46,10 @@ const Navigation: FunctionComponent<NavigationProps> = () => {
           </div>
         </a>
       </Link>
-      <div className="text-right sm:pr-3">
+      <div className="text-right sm:pr-3 flex items-center">
+        {sessionData?.user && (
+          <div className="px-3">Welcome, {sessionData.user.name}!</div>
+        )}
         <Link href="/workshops" passHref>
           <a className="relative group sm:text-base text-xs inline-block sm:px-4 px-3 sm:py-2 py-1.5 leading-5 transition-all duration-200 ease-in-out transform bg-white rounded-full hover:opacity-100 opacity-90 bg-opacity-5 hover:bg-opacity-10 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500">
             Upcoming Workshops{' '}
