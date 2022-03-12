@@ -21,5 +21,6 @@ services:
       HASURA_GRAPHQL_DEV_MODE: "true"
       HASURA_GRAPHQL_ENABLED_LOG_TYPES: startup, http-log, webhook-log, websocket-log, query-log
       HASURA_GRAPHQL_ADMIN_SECRET: admin_secret
+      HASURA_GRAPHQL_JWT_SECRET: '{"key": "${NEXTAUTH_SECRET}","type": "HS256"}'
 volumes:
   db_data:
