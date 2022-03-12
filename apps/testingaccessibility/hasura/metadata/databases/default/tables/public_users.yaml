@@ -4,9 +4,29 @@ table:
 select_permissions:
 - permission:
     columns:
+    - blog
+    - company
+    - email
+    - github
     - id
+    - image
     - name
+    - twitter
     - created_at
+    filter:
+      id:
+        _eq: x-hasura-user-id
+  role: user
+update_permissions:
+- permission:
+    check: null
+    columns:
+    - blog
+    - company
+    - email
+    - image
+    - name
+    - twitter
     filter:
       id:
         _eq: x-hasura-user-id
