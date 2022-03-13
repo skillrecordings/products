@@ -296,7 +296,7 @@ export function HasuraAdapter(): Adapter {
     async createVerificationToken({identifier, expires, token}) {
       console.log('createVerificationToken', {identifier, expires, token})
       const queryText = `
-      mutation insertVierification($expires: Int, $identifier: String, $token: String) {
+      mutation insertVierification($expires: timestamptz, $identifier: String, $token: String) {
         insert_verification_tokens_one(object: {expires: $expires, identifier: $identifier, token: $token}) {
           expires
           identifier
@@ -307,7 +307,7 @@ export function HasuraAdapter(): Adapter {
         query: queryText,
         variables: {
           identifier,
-          expires: Math.floor(Number(expires?.getTime()) / 1000),
+          expires,
           token,
         },
       })
@@ -316,7 +316,7 @@ export function HasuraAdapter(): Adapter {
 
       return {
         ...insert_verification_tokens_one,
-        expires: new Date(insert_verification_tokens_one.expires * 1000),
+        expires: new Date(insert_verification_tokens_one.expires),
       }
     },
     async useVerificationToken({identifier, token}) {
