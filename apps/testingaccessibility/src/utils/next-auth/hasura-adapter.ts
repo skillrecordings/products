@@ -19,23 +19,20 @@ async function makeQuery(query: string) {
 
 export function HasuraAdapter(): Adapter {
   return {
-    async createUser(user) {
-      console.log('createUser', {user})
+    async createUser(data) {
+      console.log('createUser', {data})
       const query = JSON.stringify({
-        query: `mutation {
-            insert_users_one(object: {
-              name: "${user.name}"
-              email: "${user.email}"
-              image: "${user.image}"
-             }
-            ) { 
-              id
-              name
-              email 
-              image
-            }
-          }
+        query: `mutation CreateUser($data: users_insert_input!) {
+                  insert_users_one(object: $data) {
+                    email
+                    emailVerified
+                    id
+                    name
+                    image
+                  }
+                }
           `,
+        variables: {data},
       })
 
       const {insert_users_one} = await makeQuery(query)
@@ -104,21 +101,25 @@ export function HasuraAdapter(): Adapter {
 
       return account.user
     },
-    async updateUser(user) {
-      console.log('updateUser', {user})
-      const queryText = `
-      mutation updateUser($id: uuid!, $email: String, $image: String, $name:String) {
-        update_users_by_pk(pk_columns: {id: $id}, _set: {email: $email, image: $image, name: $name}) {
-          name
-          email
-          image
-        }
-      }
+    async updateUser(data) {
+      console.log('updateUser', {data})
+      const queryText = `mutation UpdateUser($id: uuid!, $data: users_set_input!) {
+                          update_users_by_pk(_set: $data, pk_columns: { id: $id }) {
+                            email
+                            emailVerified
+                            id
+                            image
+                            name
+                          }
+                        }
       `
 
       const query = JSON.stringify({
         query: queryText,
-        variables: user,
+        variables: {
+          id: data.id,
+          data,
+        },
       })
 
       const {update_users_by_pk} = await makeQuery(query)
@@ -129,29 +130,17 @@ export function HasuraAdapter(): Adapter {
       console.log('deleteUser', {userId})
       return
     },
-    async linkAccount(account) {
-      console.log('linkAccount', {account})
-      const mutation = `mutation {
-            insert_accounts_one(object: {
-              provider: "${account.provider}",
-              type: "${account.type}",
-              providerAccountId: "${account.providerAccountId}",
-              access_token: "${account.access_token}",
-              expires_at:" ${Number(account.expires_at)}",
-              refresh_token: "${account.refresh_token}",
-              token_type: "${account.token_type}",
-              scope: "${account.scope}",
-              userId: "${account.userId}"
-            }
-              
-
-            ) { 
+    async linkAccount(data) {
+      console.log('linkAccount', {data})
+      const mutation = `mutation linkAccount($data: accounts_insert_input!) {
+            insert_accounts_one(object: $data) { 
               id
               access_token
               expires_at
               provider
               providerAccountId
               refresh_token
+              refresh_token_expires_in
               scope
               session_state
               token_type
@@ -163,6 +152,7 @@ export function HasuraAdapter(): Adapter {
 
       const query = JSON.stringify({
         query: mutation,
+        variables: {data},
       })
 
       const {insert_accounts_one: updatedAccount} = await makeQuery(query)
@@ -173,23 +163,20 @@ export function HasuraAdapter(): Adapter {
       console.log('unlinkAccount', {providerAccountId, provider})
       return
     },
-    async createSession({sessionToken, userId, expires}) {
-      console.log('createSession', {sessionToken, userId, expires})
-      const mutation = `mutation {
-              insert_sessions_one(object: {
-              expires: "${Math.floor(expires.getTime() / 1000)}", 
-              sessionToken: "${sessionToken}", 
-              userId: "${userId}"}) {
-                expires
-                id
-                sessionToken
-                userId
-              }
-            }
-          `
+    async createSession(data) {
+      console.log('createSession', {data})
+      const mutation = `mutation ($data: sessions_insert_input!){
+                          insert_sessions_one(object: $data) {
+                            expires
+                            id
+                            sessionToken
+                            userId
+                          }
+                      `
 
       const query = JSON.stringify({
         query: mutation,
+        variables: {data},
       })
 
       const {insert_sessions_one} = await makeQuery(query)
@@ -293,23 +280,18 @@ export function HasuraAdapter(): Adapter {
 
       return delete_sessions.returns
     },
-    async createVerificationToken({identifier, expires, token}) {
-      console.log('createVerificationToken', {identifier, expires, token})
-      const queryText = `
-      mutation insertVierification($expires: timestamptz, $identifier: String, $token: String) {
-        insert_verification_tokens_one(object: {expires: $expires, identifier: $identifier, token: $token}) {
-          expires
-          identifier
-          token
-        }
-      }`
+    async createVerificationToken(data) {
+      console.log('createVerificationToken', {data})
+      const queryText = `mutation CreateVerificationToken($data: verification_tokens_insert_input!) {
+                          insert_verification_tokens_one(object: $data) {
+                            expires
+                            identifier
+                            token
+                          }
+                        }`
       const query = JSON.stringify({
         query: queryText,
-        variables: {
-          identifier,
-          expires,
-          token,
-        },
+        variables: {data},
       })
 
       const {insert_verification_tokens_one} = await makeQuery(query)
