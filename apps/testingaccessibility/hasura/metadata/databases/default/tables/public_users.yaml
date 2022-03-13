@@ -16,34 +16,3 @@ array_relationships:
       table:
         name: sessions
         schema: public
-select_permissions:
-- permission:
-    columns:
-    - blog
-    - company
-    - created_at
-    - email
-    - github
-    - id
-    - image
-    - name
-    - twitter
-    filter:
-      id:
-        _eq: x-hasura-user-id
-  role: user
-update_permissions:
-- permission:
-    check: null
-    columns:
-    - blog
-    - company
-    - email
-    - github
-    - image
-    - name
-    - twitter
-    filter:
-      id:
-        _eq: x-hasura-user-id
-  role: user
