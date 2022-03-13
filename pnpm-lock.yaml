@@ -1883,6 +1883,7 @@ importers:
       next-seo: ^5.1.0
       next-sitemap: ^2.5.4
       next-themes: ^0.1.1
+      nodemailer: ^6.7.2
       pluralize: ^8.0.0
       postcss: ^8.4.7
       postcss-focus-visible: ^6.0.4
@@ -1954,11 +1955,12 @@ importers:
       lodash: 4.17.21
       mdx-prism: 0.3.4
       next: 12.1.0_react-dom@17.0.2+react@17.0.2
-      next-auth: 4.2.1_react-dom@17.0.2+react@17.0.2
+      next-auth: 4.2.1_a5abe9a782f257b98b0228cd6e151b08
       next-mdx-remote: 4.0.0_react-dom@17.0.2+react@17.0.2
       next-seo: 5.1.0_caa633a00319350dbda42996613fe26c
       next-sitemap: 2.5.4_next@12.1.0
       next-themes: 0.1.1_caa633a00319350dbda42996613fe26c
+      nodemailer: 6.7.2
       pluralize: 8.0.0
       postcss: 8.4.7
       query-string: 7.1.1
@@ -20952,7 +20954,7 @@ packages:
     resolution: {integrity: sha512-AO81vsIO1k1sM4Zrd6Hu7regmJN1NSiAja10gc4bX3F0wd+9rQmcuHQaHVQCYIEC8iFXnE+mavh23GOt7wBgug==}
     dev: true
 
-  /next-auth/4.2.1_react-dom@17.0.2+react@17.0.2:
+  /next-auth/4.2.1_a5abe9a782f257b98b0228cd6e151b08:
     resolution: {integrity: sha512-XDtt7nqevkNf4EJ2zKAKkI+MFsURf11kx11vPwxrBYA1MHeqWwaWbGOUOI2ekNTvfAg4nTEJJUH3LV2cLrH3Tg==}
     engines: {node: ^12.19.0 || ^14.15.0 || ^16.13.0}
     peerDependencies:
@@ -20967,6 +20969,7 @@ packages:
       '@panva/hkdf': 1.0.1
       cookie: 0.4.2
       jose: 4.6.0
+      nodemailer: 6.7.2
       oauth: 0.9.15
       openid-client: 5.1.4
       preact: 10.6.6
@@ -21770,6 +21773,11 @@ packages:
 
   /node-releases/2.0.2:
     resolution: {integrity: sha512-XxYDdcQ6eKqp/YjI+tb2C5WM2LgjnZrfYg4vgQt49EK268b6gYCHsBLrK2qvJo4FmCtqmKezb0WZFK4fkrZNsg==}
+
+  /nodemailer/6.7.2:
+    resolution: {integrity: sha512-Dz7zVwlef4k5R71fdmxwR8Q39fiboGbu3xgswkzGwczUfjp873rVxt1O46+Fh0j1ORnAC6L9+heI8uUpO6DT7Q==}
+    engines: {node: '>=6.0.0'}
+    dev: false
 
   /normalize-package-data/2.5.0:
     resolution: {integrity: sha512-/5CMN3T0R4XTj4DcGaexo+roZSdSFW/0AOOTROrjxzCG1wrWXEsGbRKevjlIL+ZDE4sZlJr5ED4YW0yqmkK+eA==}

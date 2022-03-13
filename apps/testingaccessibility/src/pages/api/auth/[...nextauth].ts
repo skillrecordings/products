@@ -1,15 +1,21 @@
 import NextAuth from 'next-auth'
 import GithubProvider from 'next-auth/providers/github'
 import GoogleProvider from 'next-auth/providers/google'
+import EmailProvider from 'next-auth/providers/email'
 import jwt from 'jsonwebtoken'
 import {JWT} from 'next-auth/jwt'
-import {isEmpty} from 'lodash'
+import {HasuraAdapter} from 'utils/next-auth/hasura-adapter'
 
 export default NextAuth({
   secret: process.env.NEXTAUTH_SECRET,
+  session: {
+    strategy: 'jwt',
+  },
+  adapter: HasuraAdapter(),
   jwt: {
     secret: process.env.NEXTAUTH_SECRET,
     encode: async ({secret, token, maxAge}) => {
+      console.log('encode token', {token})
       const adminUserIds = (process.env.ADMIN_USER_IDS || '')
         .split(',')
         .map((id) => id.trim())
@@ -49,6 +55,7 @@ export default NextAuth({
         {algorithm: 'HS512'},
       )
 
+      console.log('encode token', {encodedToken})
       return encodedToken
     },
     decode: async (params) => {
@@ -57,6 +64,16 @@ export default NextAuth({
     },
   },
   providers: [
+    EmailProvider({
+      server: {
+        service: 'Postmark',
+        auth: {
+          user: process.env.POSTMARK_KEY,
+          pass: process.env.POSTMARK_KEY,
+        },
+      },
+      from: 'team@testingaccessibility.com',
+    }),
     GithubProvider({
       clientId: process.env.GITHUB_ID,
       clientSecret: process.env.GITHUB_SECRET,
@@ -75,6 +92,7 @@ export default NextAuth({
   ],
   callbacks: {
     async session({session, user, token}) {
+      console.log('session callback', {session, user, token})
       const encodedToken = jwt.sign(token, process.env.NEXTAUTH_SECRET || '', {
         algorithm: 'HS256',
       })
@@ -83,91 +101,12 @@ export default NextAuth({
       return session
     },
     async jwt({token, profile, account, user}) {
+      console.log('jwt callback', {token, profile, account, user})
       if (user) {
-        token.id = `${account?.provider}~${user.id}`
-
-        /**
-         * query the database to see if a user with the above token.id
-         * already exists in the database. if they do not exist we will
-         * make a second call adding them.
-         */
-        const isNewUser = await fetch(
-          process.env.HASURA_GRAPHQL_ENDPOINT || '',
-          {
-            method: 'POST',
-            body: JSON.stringify({
-              query: `query loadUser($user: String) {
-              users(where: {id: {_eq: $user}}) {
-                email
-              }
-            
-            }`,
-              variables: {user: token.id},
-            }),
-            headers: {
-              'content-type': 'application/json',
-              'X-Hasura-Admin-Secret': process.env.HASURA_ADMIN_SECRET || '',
-            },
-          },
-        )
-          .then((response) => response.json())
-          .then(({data}) => isEmpty(data))
-
-        if (isNewUser) {
-          /**
-           * inserts the user into the database, but if we aren't
-           * logging in with github there are a several values
-           * that we won't have yet and can ask later
-           */
-          const query = JSON.stringify({
-            query: `mutation {
-            insert_users_one(object: {
-              id: "${token.id}"
-              name: "${user.name}"
-              email: "${user.email}"
-              image: "${user.image}"
-              ${
-                account?.provider === 'github'
-                  ? `github: "${profile?.login}"`
-                  : ''
-              }
-              ${
-                account?.provider === 'github' && profile?.blog
-                  ? `blog: "${profile?.blog}"`
-                  : ''
-              }
-              ${
-                account?.provider === 'github' && profile?.company
-                  ? `company: "${profile?.company}"`
-                  : ''
-              }
-              ${
-                account?.provider === 'github' && profile?.twitter_username
-                  ? `twitter: "${profile?.twitter_username}"`
-                  : ''
-              }
-             }
-            ) { id }
-          }
-          `,
-          })
-
-          /**
-           * send the above mutation query to insert the new user into
-           * the database
-           */
-          await fetch(process.env.HASURA_GRAPHQL_ENDPOINT || '', {
-            method: 'POST',
-            body: query,
-            headers: {
-              'content-type': 'application/json',
-              'X-Hasura-Admin-Secret': process.env.HASURA_ADMIN_SECRET || '',
-            },
-          })
-        }
+        token.id = user.id
       }
-
       return token
     },
   },
+  debug: true,
 })
