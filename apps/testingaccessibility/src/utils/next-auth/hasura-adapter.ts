@@ -349,7 +349,7 @@ export function HasuraAdapter(): Adapter {
         return {
           identifier: vToken.identifier,
           token: vToken.token,
-          expires: new Date(Number(vToken.expires) * 1000),
+          expires: new Date(vToken.expires),
         }
       } catch (e) {
         return null
