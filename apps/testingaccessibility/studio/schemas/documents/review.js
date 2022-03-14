@@ -32,6 +32,11 @@ export default {
       description: 'Video URL',
     },
     {
+      name: 'subtitlesUrl',
+      title: 'Subtitle track URL',
+      type: 'url',
+    },
+    {
       name: 'videoPoster',
       title: 'Video Poster',
       type: 'string',

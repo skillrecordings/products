@@ -20,6 +20,7 @@ body {
 
 .cueplayer-react-side-panel-control {
   visibility: hidden;
+  width: 0 !important;
 }
 
 .cueplayer-react-cue-bar {
