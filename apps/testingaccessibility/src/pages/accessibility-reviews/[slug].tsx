@@ -26,7 +26,7 @@ import {format} from 'date-fns'
 import {useRouter} from 'next/router'
 
 const Review: React.FC<any> = ({review, body}) => {
-  const {hlsUrl, title, date, description, videoPoster} = review
+  const {hlsUrl, title, date, description, videoPoster, subtitlesUrl} = review
 
   const meta = {
     title,
@@ -81,7 +81,16 @@ const Review: React.FC<any> = ({review, body}) => {
               container={fullscreenWrapperRef.current || undefined}
               poster={videoPoster}
             >
-              <HLSSource src={hlsUrl} />
+              {hlsUrl && <HLSSource src={hlsUrl} />}
+              {subtitlesUrl && (
+                <track
+                  key={subtitlesUrl}
+                  src={subtitlesUrl}
+                  kind="subtitles"
+                  srcLang="en"
+                  label="English"
+                />
+              )}
             </Player>
             <article className={cx('prose md:prose-lg mx-auto py-16 px-5')}>
               <h2>Transcript</h2>
@@ -130,7 +139,8 @@ const reviewQuery = groq`*[_type == "review" && slug.current == $slug][0]{
     description,
     ogImage,
     hlsUrl,
-    videoPoster
+    videoPoster,
+    subtitlesUrl
     }`
 
 const allReviewsQuery = groq`
