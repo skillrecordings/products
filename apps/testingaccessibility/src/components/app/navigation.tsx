@@ -1,15 +1,10 @@
 import * as React from 'react'
-import {FunctionComponent} from 'react'
-import Link from 'next/link'
 import {Logo} from 'components/images'
 import {useRouter} from 'next/router'
-import {sanityClient} from 'utils/sanity-client'
-import groq from 'groq'
+import Link from 'next/link'
 import cx from 'classnames'
 
-type NavigationProps = {}
-
-const Navigation: FunctionComponent<NavigationProps> = () => {
+const Navigation = () => {
   const router = useRouter()
   return (
     <nav className="sm:px-5 px-2 sm:py-2.5 py-2 flex items-center justify-between w-full text-white bg-black">
@@ -30,25 +25,28 @@ const Navigation: FunctionComponent<NavigationProps> = () => {
         </a>
       </Link>
       <div className="flex sm:gap-2">
-        <NavLink href="accessibility-reviews">Accessibility Reviews</NavLink>
-        <NavLink href="workshops">Workshops</NavLink>
+        {/* <NavLink href="/accessibility-reviews">Accessibility Reviews</NavLink> */}
+        <NavLink href="/workshops">Accessibility Workshops</NavLink>
       </div>
     </nav>
   )
 }
 
-const NavLink: React.FC<{href: string}> = ({href, children}) => {
+const NavLink: React.FC<{href: string}> = ({href, children, ...props}) => {
   const router = useRouter()
+  const isActive = router.pathname === href
 
   return (
-    <Link href={`/${href}`} passHref>
+    <Link href={href} passHref>
       <a
+        aria-current={isActive ? 'page' : undefined}
         className={cx(
           'rounded-full hover:bg-white bg-opacity-5 relative group sm:text-base text-sm inline-block sm:px-3 px-2 sm:py-2 py-1.5 leading-5 transition-all duration-200 ease-in-out transform hover:opacity-100 opacity-90 hover:bg-opacity-10 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500',
           {
-            underline: router.pathname === `/${href}`,
+            underline: isActive,
           },
         )}
+        {...props}
       >
         {children}
       </a>
