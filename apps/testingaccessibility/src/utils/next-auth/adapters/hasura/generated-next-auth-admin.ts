@@ -1475,11 +1475,11 @@ export type GetUserQuery = {
   __typename?: 'query_root'
   users_by_pk?: {
     __typename?: 'users'
-    email?: string | null
-    emailVerified?: any | null
-    image?: string | null
     id: any
     name?: string | null
+    email?: string | null
+    image?: string | null
+    emailVerified?: any | null
   } | null
 }
 
@@ -1693,11 +1693,11 @@ export const CreateUserDocument = gql`
 export const GetUserDocument = gql`
   query GetUser($id: uuid!) {
     users_by_pk(id: $id) {
-      email
-      emailVerified
-      image
       id
       name
+      email
+      image
+      emailVerified
     }
   }
 `

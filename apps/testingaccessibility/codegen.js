@@ -1,7 +1,7 @@
 module.exports = {
   overwrite: true,
   generates: {
-    './src/utils/next-auth/admin.ts': {
+    './src/utils/next-auth/adapters/hasura/generated-next-auth-admin.ts': {
       schema: [
         {
           'http://localhost:8080/v1/graphql': {

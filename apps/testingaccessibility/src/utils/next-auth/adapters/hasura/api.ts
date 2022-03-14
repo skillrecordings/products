@@ -1,4 +1,4 @@
-import {getSdk} from './admin'
+import {getSdk} from './generated-next-auth-admin'
 import {GraphQLClient} from 'graphql-request'
 
 export const getAdminSDK = ({
