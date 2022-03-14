@@ -32,7 +32,7 @@ const Workshops: React.FC<any> = ({workshops}) => {
           aria-hidden="true"
         />
       </header>
-      <main className="bg-gray-50 px-5">
+      <main className="bg-gray-50 px-5 flex-grow">
         <div className="pb-16 mx-auto max-w-screen-sm w-full">
           <h2 className="font-mono uppercase text-sm font-semibold pb-8 pt-16 text-center">
             Testing Accessibility Workshop Series

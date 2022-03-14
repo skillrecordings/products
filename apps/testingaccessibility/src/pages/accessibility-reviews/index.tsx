@@ -41,7 +41,7 @@ const Reviews: React.FC<any> = ({reviews}) => {
           aria-hidden="true"
         />
       </header>
-      <main className="bg-gray-50 px-5">
+      <main className="bg-gray-50 px-5 flex-grow">
         <div className="md:py-16 py-10 mx-auto max-w-screen-sm w-full">
           <div className="grid grid-cols-1 gap-5">
             {reviews.map(({title, description, slug, image, date}: any) => {
