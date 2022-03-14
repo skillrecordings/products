@@ -1,7 +1,15 @@
 import {Adapter} from 'next-auth/adapters'
 import {GraphQLClient, gql} from 'graphql-request'
 
-export function HasuraAdapter(endpoint: string, adminSecret: string): Adapter {
+type HasuraAdapterOptions = {
+  endpoint: string
+  adminSecret: string
+}
+
+export function HasuraAdapter({
+  endpoint,
+  adminSecret,
+}: HasuraAdapterOptions): Adapter {
   const client = new GraphQLClient(endpoint, {
     headers: {
       'X-Hasura-Admin-Secret': adminSecret,
@@ -22,9 +30,13 @@ export function HasuraAdapter(endpoint: string, adminSecret: string): Adapter {
         }
       `
 
-      const {insert_users_one} = await client.request(query, {data})
+      const {insert_users_one: user} = await client.request(query, {data})
 
-      return insert_users_one
+      if (!user) {
+        return null
+      }
+
+      return user
     },
     async getUser(id: string) {
       const query = gql`

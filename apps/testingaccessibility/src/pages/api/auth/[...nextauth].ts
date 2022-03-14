@@ -11,7 +11,10 @@ export default NextAuth({
   session: {
     strategy: 'jwt',
   },
-  adapter: HasuraAdapter(),
+  adapter: HasuraAdapter({
+    endpoint: process.env.HASURA_GRAPHQL_ENDPOINT || '',
+    adminSecret: process.env.HASURA_ADMIN_SECRET || '',
+  }),
   jwt: {
     secret: process.env.NEXTAUTH_SECRET,
     encode: async ({secret, token, maxAge}) => {
