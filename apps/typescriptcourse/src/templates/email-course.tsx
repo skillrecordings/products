@@ -10,6 +10,7 @@ import {Button} from '@skillrecordings/react/dist/components'
 import Image from 'next/image'
 import ReactMarkdown from 'react-markdown'
 import rehypeRaw from 'rehype-raw'
+import toast, {Toaster} from 'react-hot-toast'
 
 type ArticleTemplateProps = {
   meta: {
@@ -39,6 +40,15 @@ const HomeTemplate: React.FC<ArticleTemplateProps> = ({meta, children}) => {
     formSubHeadline,
   } = meta
   const router = useRouter()
+
+  React.useEffect(() => {
+    const {query} = router
+    if (query.message) {
+      toast(query.message as string, {
+        icon: '✅',
+      })
+    }
+  }, [router])
 
   return (
     <Layout meta={meta} className="relative">
@@ -94,6 +104,7 @@ const HomeTemplate: React.FC<ArticleTemplateProps> = ({meta, children}) => {
       <footer className="flex items-center justify-center pb-24">
         <Bio />
       </footer>
+      <Toaster />
     </Layout>
   )
 }
