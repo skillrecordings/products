@@ -7,6 +7,7 @@ import richDate from 'part:@sanity/form-builder/input/rich-date/schema'
 
 // We import object and document schemas
 import workshop from './documents/workshop'
+import review from './documents/review'
 
 // Then we give our schema to the builder and provide the result to Sanity
 export default createSchema({
@@ -18,6 +19,7 @@ export default createSchema({
     // The following are document types which will appear
     // in the studio.
     workshop,
+    review,
     // When added to this list, object types can be used as
     // { type: 'typename' } in other document schemas
     richDate,

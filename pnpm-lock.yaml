@@ -1822,6 +1822,7 @@ importers:
       '@skillrecordings/config': workspace:*
       '@skillrecordings/convertkit': workspace:*
       '@skillrecordings/cookies': workspace:*
+      '@skillrecordings/player': workspace:*
       '@skillrecordings/quiz': workspace:*
       '@skillrecordings/react': workspace:*
       '@skillrecordings/scripts': workspace:*
@@ -1848,6 +1849,7 @@ importers:
       autoprefixer: ^10.4.2
       axios: ^0.26.0
       babel-jest: ^27.5.1
+      classnames: ^2.3.1
       client-oauth2: ^4.3.3
       commander: ^8.3.0
       cookie: ^0.4.2
@@ -1924,6 +1926,7 @@ importers:
       '@skillrecordings/config': link:../../packages/config
       '@skillrecordings/convertkit': link:../../packages/convertkit
       '@skillrecordings/cookies': link:../../packages/cookies
+      '@skillrecordings/player': link:../../packages/player
       '@skillrecordings/quiz': link:../../packages/quiz
       '@skillrecordings/react': link:../../packages/react
       '@skillrecordings/time': link:../../packages/time
@@ -1935,6 +1938,7 @@ importers:
       '@xstate/react': 2.0.1_dce5872fe8d1b881c5918704bc9ed66e
       autoprefixer: 10.4.2_postcss@8.4.7
       axios: 0.26.0
+      classnames: 2.3.1
       client-oauth2: 4.3.3
       cookie: 0.4.2
       date-fns: 2.28.0
@@ -2616,6 +2620,7 @@ importers:
       react-dom: 17.0.2
       react-scroll: ^1.8.4
       react-test-renderer: ^17.0.2
+      react-use-clipboard: ^1.0.7
       sass: ^1.43.4
       typescript: ^4.2.4
       xstate: ^4.23.1
@@ -2641,6 +2646,7 @@ importers:
       react: 17.0.2
       react-dom: 17.0.2_react@17.0.2
       react-scroll: 1.8.4_react-dom@17.0.2+react@17.0.2
+      react-use-clipboard: 1.0.7_react-dom@17.0.2+react@17.0.2
       xstate: 4.23.1
       yup: 0.28.5
     devDependencies:
@@ -17843,7 +17849,7 @@ packages:
   /jsonfile/4.0.0:
     resolution: {integrity: sha1-h3Gq4HmbZAdrdmQPygWPnBDjPss=}
     optionalDependencies:
-      graceful-fs: 4.2.8
+      graceful-fs: 4.2.9
     dev: true
 
   /jsonfile/6.1.0:
@@ -17851,7 +17857,7 @@ packages:
     dependencies:
       universalify: 2.0.0
     optionalDependencies:
-      graceful-fs: 4.2.8
+      graceful-fs: 4.2.9
     dev: true
 
   /jsprim/1.4.1:
