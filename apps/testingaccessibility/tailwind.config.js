@@ -57,12 +57,14 @@ module.exports = {
             },
             code: {
               fontSize: '80% !important',
-              background: theme('colors.coolGray.100'),
-              color: `${theme('colors.gray.800')}`,
+              background: theme('colors.gray.100'),
               padding: '3px 5px',
               borderRadius: 5,
             },
-            'code::before, code::after': {
+            'code::before': {
+              content: '"" !important',
+            },
+            'code::after': {
               content: '"" !important',
             },
           },

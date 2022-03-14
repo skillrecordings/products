@@ -43,7 +43,7 @@ const JobRole = () => {
             Thanks!
           </h1>
         </header>
-        <main className="prose dark:prose-dark sm:prose-lg max-w-lg mx-auto px-5 leading-tight text-center">
+        <main className="prose dark:prose-dark sm:prose-lg max-w-screen-sm mx-auto px-5 leading-tight text-center">
           <p>Thanks for letting me know you're {message(tagId)}.</p>
           <p>
             Watch your inbox for more,

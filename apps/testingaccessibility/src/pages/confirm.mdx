@@ -13,8 +13,10 @@ import Layout from 'components/app/layout'
 
 export default ({children}) => (
   <Layout meta={{title: 'Confirm your subscription'}}>
-    <main className="sm:py-40 py-32 max-w-screen-sm mx-auto flex flex-col items-center justify-center">
-      <div className="prose px-5 max-w-none">{children}</div>
+    <main className="lg:py-32 md:py-24 py-10 max-w-screen-sm mx-auto flex flex-col items-center justify-center flex-grow">
+      <div className="md:prose-lg prose px-5 max-w-none text-center">
+        {children}
+      </div>
     </main>
   </Layout>
 )
