@@ -8,7 +8,31 @@ import {
 } from '@skillrecordings/convertkit'
 import Layout from 'components/app/layout'
 import {useRouter} from 'next/router'
-import {useSession} from 'next-auth/react'
+import {getToken, JWT} from 'next-auth/jwt'
+import {GetServerSideProps} from 'next'
+import {getSession} from 'next-auth/react'
+import jwt from 'jsonwebtoken'
+
+export const getServerSideProps: GetServerSideProps = async ({req}) => {
+  const token = await getToken({
+    req,
+    secret: process.env.NEXTAUTH_SECRET,
+    // you have to use the same decoder you use in the auth routes
+    // if you want this to return a value or set `raw: true`
+    decode: async (params) => {
+      if (!params.token) return null
+
+      const verify = jwt.verify(params.token, params.secret)
+      return verify as JWT
+    },
+  })
+
+  return {
+    props: {
+      token,
+    },
+  }
+}
 
 const Home: React.FC = (props) => {
   const router = useRouter()

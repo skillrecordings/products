@@ -35,13 +35,15 @@ export default NextAuth({
           ...hasura,
         } || '',
         secret,
-        {algorithm: 'HS512'},
+        {algorithm: 'HS256'},
       )
 
       return encodedToken
     },
     decode: async (params) => {
-      const verify = jwt.verify(params.token || '', params.secret)
+      if (!params.token) return null
+
+      const verify = jwt.verify(params.token, params.secret)
       return verify as JWT
     },
   },
@@ -73,14 +75,15 @@ export default NextAuth({
     }),
   ],
   callbacks: {
-    // async session({session, user, token}) {
-    //   const encodedToken = jwt.sign(token, process.env.NEXTAUTH_SECRET || '', {
-    //     algorithm: 'HS256',
-    //   })
-    //   session.id = token.id
-    //   session.token = encodedToken
-    //   return session
-    // },
+    async session({session, user, token}) {
+      const encodedToken = jwt.sign(token, process.env.NEXTAUTH_SECRET || '', {
+        algorithm: 'HS256',
+      })
+      // this gives us access to the token in the browser via getSession()
+      session.id = token.id
+      session.token = encodedToken
+      return session
+    },
     async jwt({token, profile, account, user}) {
       if (user) {
         token.id = user.id
@@ -88,5 +91,4 @@ export default NextAuth({
       return token
     },
   },
-  debug: true,
 })
