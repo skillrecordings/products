@@ -4,6 +4,7 @@ import {useRouter} from 'next/router'
 import axios from 'axios'
 import isEmpty from 'lodash/isEmpty'
 import {useConvertkit} from '@skillrecordings/convertkit'
+import {countBy} from 'lodash'
 
 const Confirmed = () => {
   const router = useRouter()
@@ -29,14 +30,35 @@ const Confirmed = () => {
     }
   }, [tagId, subscriber])
 
+  const buttonClasses =
+    'text-white text-lg inline-block sm:px-4 px-3 sm:py-2 py-1.5 bg-blue-700 rounded-full hover:bg-blue-800 transition outline-black'
+
   return (
     <Layout>
-      <div className="prose dark:prose-dark prose-lg max-w-md mx-auto py-24">
-        <h1>You're Confirmed!</h1>
-        <p>
-          Thanks for confirming your email address– you're all set to receive{' '}
-          {message(tagId)} emails from me.
-        </p>
+      <div className="md:py-16 py-10 flex flex-col max-w-screen-lg mx-auto justify-center text-center items-center h-full flex-grow">
+        <div className="prose dark:prose-dark md:prose-lg max-w-md mx-auto ">
+          <h1>You're Confirmed!</h1>
+          <p>
+            Thanks for confirming your email address– you're all set to receive{' '}
+            {message(tagId)} emails from me.
+          </p>
+        </div>
+        <fieldset className="max-w-md mx-auto md:px-8 md:py-8 py-6 px-4 rounded-lg border-2 border-gray-300 my-8">
+          <legend className="md:text-xl text-lg font-bold bg-white px-2">
+            Which of these sounds most like you?
+          </legend>
+          <div className="flex flex-col mx-auto md:space-y-4 space-y-2 text-white text-sm leading-6 max-w-xs text-center">
+            <a className={buttonClasses} href="/role?tag=2982275">
+              Developer
+            </a>
+            <a className={buttonClasses} href="/role?tag=2982283">
+              QA
+            </a>
+            <a className={buttonClasses} href="/role?tag=2982286">
+              Less-Technical Role
+            </a>
+          </div>
+        </fieldset>
         <p>
           <em>Thanks,</em>
           <br />

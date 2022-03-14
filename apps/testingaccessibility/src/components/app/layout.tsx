@@ -1,5 +1,6 @@
 import React, {FunctionComponent} from 'react'
 import {NextSeo} from 'next-seo'
+import cx from 'classnames'
 import Navigation from './navigation'
 import isNull from 'lodash/isNull'
 import {Toaster} from 'react-hot-toast'
@@ -46,13 +47,11 @@ const Layout: FunctionComponent<LayoutProps> = ({
       />
       <SkipNavLink>Skip navigation and go to content</SkipNavLink>
       {nav ? nav : isNull(nav) ? null : <Navigation />}
-      <div className={`flex flex-col bg-white ${className}`}>
-        <SkipNavContent>
-          <div className="flex-grow flex flex-col justify-center">
-            {children}
-          </div>
-        </SkipNavContent>
-      </div>
+      <SkipNavContent
+        className={cx('flex flex-col flex-grow bg-white h-full', className)}
+      >
+        {children}
+      </SkipNavContent>
     </>
   )
 }
