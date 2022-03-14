@@ -70,7 +70,6 @@ export function HasuraAdapter(endpoint: string, adminSecret: string): Adapter {
       return user
     },
     async getUserByAccount({providerAccountId, provider}) {
-      console.log('getUserByAccount', {providerAccountId, provider})
       const query = gql`
         query loadUserForAccount(
           $providerAccountId: String
@@ -187,7 +186,6 @@ export function HasuraAdapter(endpoint: string, adminSecret: string): Adapter {
       }
     },
     async getSessionAndUser(sessionToken) {
-      console.log('getSessionAndUser', {sessionToken})
       const query = gql`
         query loadSessionAndUser($sessionToken: String) {
           sessions(where: {sessionToken: {_eq: $sessionToken}}) {
@@ -253,7 +251,6 @@ export function HasuraAdapter(endpoint: string, adminSecret: string): Adapter {
       return {...session, expires: new Date(session.expires)}
     },
     async deleteSession(sessionToken) {
-      console.log('deleteSession', {sessionToken})
       const query = gql`
         mutation deleteSession($sessionToken: String) {
           delete_sessions(where: {sessionToken: {_eq: $sessionToken}}) {
@@ -277,7 +274,6 @@ export function HasuraAdapter(endpoint: string, adminSecret: string): Adapter {
       return {...session, expires: new Date(session.expires)}
     },
     async createVerificationToken(data) {
-      console.log('createVerificationToken', {data})
       const query = gql`
         mutation CreateVerificationToken(
           $data: verification_tokens_insert_input!
