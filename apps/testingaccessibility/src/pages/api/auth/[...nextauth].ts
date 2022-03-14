@@ -4,7 +4,7 @@ import GoogleProvider from 'next-auth/providers/google'
 import EmailProvider from 'next-auth/providers/email'
 import jwt from 'jsonwebtoken'
 import {JWT} from 'next-auth/jwt'
-import {HasuraAdapter} from 'utils/next-auth/hasura-adapter'
+import {HasuraAdapter} from 'utils/next-auth/adapters/hasura-adapter'
 
 export default NextAuth({
   secret: process.env.NEXTAUTH_SECRET,
