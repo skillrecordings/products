@@ -15,7 +15,6 @@ export default NextAuth({
   jwt: {
     secret: process.env.NEXTAUTH_SECRET,
     encode: async ({secret, token, maxAge}) => {
-      console.log('encode token', {token})
       const adminUserIds = (process.env.ADMIN_USER_IDS || '')
         .split(',')
         .map((id) => id.trim())
@@ -55,7 +54,6 @@ export default NextAuth({
         {algorithm: 'HS512'},
       )
 
-      console.log('encode token', {encodedToken})
       return encodedToken
     },
     decode: async (params) => {
@@ -92,7 +90,6 @@ export default NextAuth({
   ],
   callbacks: {
     async session({session, user, token}) {
-      console.log('session callback', {session, user, token})
       const encodedToken = jwt.sign(token, process.env.NEXTAUTH_SECRET || '', {
         algorithm: 'HS256',
       })
@@ -101,7 +98,6 @@ export default NextAuth({
       return session
     },
     async jwt({token, profile, account, user}) {
-      console.log('jwt callback', {token, profile, account, user})
       if (user) {
         token.id = user.id
       }
