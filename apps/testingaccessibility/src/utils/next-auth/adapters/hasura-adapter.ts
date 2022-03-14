@@ -40,7 +40,7 @@ export function HasuraAdapter({
     },
     async getUser(id: string) {
       const query = gql`
-        query loadUser($id: uuid!) {
+        query GetUser($id: uuid!) {
           users_by_pk(id: $id) {
             id
             name
@@ -68,7 +68,14 @@ export function HasuraAdapter({
           }
         }
       `
-
+      // becomes:
+      // const resp = await adminSdk.QueryUser({
+      //   where: {
+      //     email: {
+      //       _eq: email,
+      //     },
+      //   },
+      // });
       const {users} = await client.request(query, {email})
 
       const user = users?.[0]
@@ -100,6 +107,20 @@ export function HasuraAdapter({
           }
         }
       `
+
+      // moves to
+      // const resp = await adminSdk.QueryUser({
+      //   where: {
+      //     accounts: {
+      //       providerAccountId: {
+      //         _eq: providerAccountId,
+      //       },
+      //       provider: {
+      //         _eq: provider,
+      //       },
+      //     },
+      //   },
+      // });
 
       const {accounts} = await client.request(query, {
         providerAccountId,
@@ -172,7 +193,7 @@ export function HasuraAdapter({
     },
     async createSession(data) {
       const mutation = gql`
-        mutation ($data: sessions_insert_input!) {
+        mutation CreateSession($data: sessions_insert_input!) {
           insert_sessions_one(object: $data) {
             expires
             id
@@ -208,6 +229,7 @@ export function HasuraAdapter({
               name
               image
               email
+              emailVerified
             }
           }
         }
@@ -262,7 +284,7 @@ export function HasuraAdapter({
     },
     async deleteSession(sessionToken) {
       const query = gql`
-        mutation deleteSession($sessionToken: String) {
+        mutation DeleteSession($sessionToken: String) {
           delete_sessions(where: {sessionToken: {_eq: $sessionToken}}) {
             returning {
               expires

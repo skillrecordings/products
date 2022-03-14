@@ -12,7 +12,8 @@
     "build:data:dev": "node src/data/cache-json-data.js",
     "test": "jest",
     "lint": "TIMING=1 eslint src/**/*.{ts,tsx} --fix && tsc --noEmit",
-    "format": "prettier --write './**/*.{js,jsx,ts,tsx,css,md,mdx,json}' --config ./.prettierrc"
+    "format": "prettier --write './**/*.{js,jsx,ts,tsx,css,md,mdx,json}' --config ./.prettierrc",
+    "generate": "graphql-codegen --config codegen.js"
   },
   "dependencies": {
     "@asbjorn/eslint-plugin-groq": "^2.0.0",
@@ -91,6 +92,7 @@
     "@graphql-codegen/cli": "^2.6.2",
     "@graphql-codegen/typescript": "^2.4.7",
     "@graphql-codegen/typescript-graphql-request": "^4.4.2",
+    "@graphql-codegen/typescript-operations": "^2.3.4",
     "@skillrecordings/scripts": "workspace:*",
     "@skillrecordings/tsconfig": "workspace:^0.0.5",
     "@skillrecordings/types": "workspace:*",
