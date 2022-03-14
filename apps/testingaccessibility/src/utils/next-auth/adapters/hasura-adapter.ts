@@ -192,7 +192,7 @@ export function HasuraAdapter({
 
       return {
         ...session,
-        expires: new Date(session.expires * 1000),
+        expires: new Date(session.expires),
       }
     },
     async getSessionAndUser(sessionToken) {
