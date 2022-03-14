@@ -58,19 +58,17 @@ export function HasuraAdapter({
       return user
     },
     async getUserByEmail(email) {
-      const query = JSON.stringify({
-        query: gql`
-          query loadUserByEmail($email: String) {
-            users(where: {email: {_eq: $email}}) {
-              id
-              name
-              email
-              image
-            }
+      const query = gql`
+        query loadUserByEmail($email: String) {
+          users(where: {email: {_eq: $email}}) {
+            id
+            name
+            email
+            image
           }
-        `,
-        variables: {email},
-      })
+        }
+      `
+
       const {users} = await client.request(query, {email})
 
       const user = users?.[0]
@@ -312,17 +310,17 @@ export function HasuraAdapter({
         expires: new Date(verificationToken.expires),
       }
     },
-    async useVerificationToken(data) {
+    async useVerificationToken({identifier, token}) {
       try {
         const query = gql`
-          mutation insertVerification($identifier: String, $token: String) {
+          mutation UseVerificationToken($identifier: String!, $token: String!) {
             delete_verification_tokens(
-              where: {identifier: {_eq: $identifier}, token: {_eq: $token}}
+              where: {token: {_eq: $token}, identifier: {_eq: $identifier}}
             ) {
               returning {
+                expires
                 identifier
                 token
-                expires
               }
             }
           }
@@ -330,14 +328,13 @@ export function HasuraAdapter({
 
         const {delete_verification_tokens: deletedTokens} =
           await client.request(query, {
-            data,
+            identifier,
+            token,
           })
 
-        const deletedToken = deletedTokens?.[0]
+        const deletedToken = deletedTokens?.returning?.[0]
 
-        if (!deletedToken) {
-          return null
-        }
+        if (!deletedToken) return null
 
         return {
           ...deletedToken,
