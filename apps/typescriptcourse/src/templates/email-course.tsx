@@ -29,7 +29,10 @@ type ArticleTemplateProps = {
   }
 }
 
-const HomeTemplate: React.FC<ArticleTemplateProps> = ({meta, children}) => {
+const EmailCourseTemplate: React.FC<ArticleTemplateProps> = ({
+  meta,
+  children,
+}) => {
   const {
     headline,
     formImage,
@@ -51,7 +54,7 @@ const HomeTemplate: React.FC<ArticleTemplateProps> = ({meta, children}) => {
   }, [router])
 
   return (
-    <Layout meta={meta} className="relative">
+    <Layout meta={meta} className="relative bg-black">
       <Background className={headerBgClassName} />
       <header className="relative text-center max-w-screen-sm mx-auto md:pt-48 pt-36 md:pb-32 pb-24">
         <Badge />
@@ -109,7 +112,7 @@ const HomeTemplate: React.FC<ArticleTemplateProps> = ({meta, children}) => {
   )
 }
 
-export default HomeTemplate
+export default EmailCourseTemplate
 
 const SubscribeButton = () => {
   return (
