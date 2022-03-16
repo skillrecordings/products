@@ -7,6 +7,7 @@ This is the Hasura Adapter for [`next-auth`](https://next-auth.js.org). This pac
 This is the migration to set up the Hasura database:
 
 ```sql
+CREATE EXTENSION IF NOT EXISTS pgcrypto;
 SET check_function_bodies = false;
 CREATE TABLE public.accounts (
     id uuid DEFAULT public.gen_random_uuid() NOT NULL,

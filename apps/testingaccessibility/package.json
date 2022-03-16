@@ -12,8 +12,7 @@
     "build:data:dev": "node src/data/cache-json-data.js",
     "test": "jest",
     "lint": "TIMING=1 eslint src/**/*.{ts,tsx} --fix && tsc --noEmit",
-    "format": "prettier --write './**/*.{js,jsx,ts,tsx,css,md,mdx,json}' --config ./.prettierrc",
-    "generate": "graphql-codegen --config codegen.js"
+    "format": "prettier --write './**/*.{js,jsx,ts,tsx,css,md,mdx,json}' --config ./.prettierrc"
   },
   "dependencies": {
     "@asbjorn/eslint-plugin-groq": "^2.0.0",
@@ -32,6 +31,7 @@
     "@skillrecordings/config": "workspace:*",
     "@skillrecordings/convertkit": "workspace:*",
     "@skillrecordings/cookies": "workspace:*",
+    "@skillrecordings/next-auth-hasura-adapter": "workspace:*",
     "@skillrecordings/player": "workspace:*",
     "@skillrecordings/quiz": "workspace:*",
     "@skillrecordings/react": "workspace:*",
