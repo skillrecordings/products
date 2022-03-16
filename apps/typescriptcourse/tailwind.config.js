@@ -13,7 +13,7 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        black: '#06070A',
+        // black: '#06070A',
         player: {
           bg: '#20222b',
           primary: '#8b84ff',
@@ -30,9 +30,6 @@ module.exports = {
         DEFAULT: {
           css: {
             '*': {color: theme('colors.white')},
-            a: {
-              color: theme('colors.player.primary'),
-            },
           },
         },
       }),

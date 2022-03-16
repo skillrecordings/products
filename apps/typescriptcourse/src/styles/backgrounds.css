@@ -2,6 +2,10 @@
 landing page
 */
 
+canvas {
+  @apply bg-gray-900 !important;
+}
+
 .bg-landing-header {
   @apply blur-3xl bg-blend-overlay max-w-screen-2xl mx-auto w-full h-full absolute inset-0 md:max-h-full max-h-screen;
 
@@ -39,6 +43,46 @@ landing page
       circle at 35% 40%,
       rgba(220, 59, 194, 0.3),
       rgba(220, 59, 194, 0) 400px
+    ),
+    radial-gradient(
+      circle at 75% 95%,
+      rgba(60, 150, 255, 0.2) 0%,
+      rgba(60, 150, 255, 0) 450px
+    ),
+    radial-gradient(
+      circle at 50% 110%,
+      rgba(220, 59, 194, 0.3),
+      rgba(220, 59, 194, 0) 300px
+    );
+}
+
+.bg-landing-article {
+  @apply blur-3xl bg-blend-overlay max-w-screen-2xl mx-auto w-full h-full absolute inset-0;
+
+  background: radial-gradient(
+      circle at 25% 25%,
+      rgba(59, 130, 246, 0.3),
+      rgba(59, 224, 246, 0) 500px
+    ),
+    radial-gradient(
+      circle at 50% 15%,
+      rgba(59, 130, 246, 0.1) 0%,
+      rgba(59, 130, 246, 0) 1024px
+    ),
+    radial-gradient(
+      circle at 20% 10%,
+      rgba(59, 130, 246, 0.2) 0%,
+      rgba(59, 130, 246, 0) 500px
+    ),
+    radial-gradient(
+      circle at 80% 18%,
+      rgba(86, 59, 246, 0.2) 0%,
+      rgba(59, 130, 246, 0) 500px
+    ),
+    radial-gradient(
+      circle at 25% 40%,
+      rgba(220, 59, 194, 0.2),
+      rgba(220, 59, 194, 0) 500px
     ),
     radial-gradient(
       circle at 75% 95%,

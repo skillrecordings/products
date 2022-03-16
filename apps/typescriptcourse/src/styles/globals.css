@@ -3,6 +3,7 @@
 @import '~@reach/dialog/styles.css';
 @import './fonts.css';
 @import './backgrounds.css';
+@import './mdx.css';
 @tailwind base;
 @tailwind components;
 @tailwind utilities;

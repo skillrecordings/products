@@ -13,9 +13,6 @@ const withTM = require('next-transpile-modules')(['unist-util-visit'], {
 })
 
 const nextConfig = {
-  experimental: {
-    scrollRestoration: true,
-  },
   eslint: {
     ignoreDuringBuilds: true, // 😭
   },

@@ -41,7 +41,7 @@ export default class MyDocument extends Document {
           />
           <GoogleSnippet />
         </Head>
-        <body className="bg-black text-white">
+        <body className="bg-gray-900 text-white antialiased">
           <Main />
           <NextScript />
         </body>
