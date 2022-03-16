@@ -1,5 +1,5 @@
-import {Adapter} from 'next-auth/adapters'
-import {getAdminSDK} from './api'
+import type {Adapter} from 'next-auth/adapters'
+import {getAdminSDK} from './api/api'
 
 type HasuraAdapterOptions = {
   endpoint: string

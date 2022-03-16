@@ -1,3 +1,6 @@
+/**
+ * This was generated using GraphQL-codegen!
+ */
 import {GraphQLClient} from 'graphql-request'
 import * as Dom from 'graphql-request/dist/types.dom'
 import {gql} from 'graphql-request'
