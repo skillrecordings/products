@@ -46,21 +46,6 @@ h4 {
   @apply font-heading;
 }
 
-.list-check {
-  @apply relative;
-  li {
-    @apply list-none;
-  }
-  li:before {
-    @apply text-teal-200 absolute;
-    content: '✓';
-    width: 20px;
-    height: 20px;
-    font-size: 1.3rem;
-    left: 0;
-  }
-}
-
 .bg-noise {
   @apply object-contain object-top w-full absolute inset-0 max-h-[1024px];
 

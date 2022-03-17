@@ -12,7 +12,7 @@ import ReactMarkdown from 'react-markdown'
 import rehypeRaw from 'rehype-raw'
 import toast, {Toaster} from 'react-hot-toast'
 
-type ArticleTemplateProps = {
+export type EmailCourseTemplateProps = {
   meta: {
     title: string
     headline: string
@@ -29,7 +29,7 @@ type ArticleTemplateProps = {
   }
 }
 
-const EmailCourseTemplate: React.FC<ArticleTemplateProps> = ({
+const EmailCourseTemplate: React.FC<EmailCourseTemplateProps> = ({
   meta,
   children,
 }) => {

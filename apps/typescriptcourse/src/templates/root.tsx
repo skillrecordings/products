@@ -8,30 +8,10 @@ import {
 import {useRouter} from 'next/router'
 import {Button} from '@skillrecordings/react/dist/components'
 import Image from 'next/image'
-import ReactMarkdown from 'react-markdown'
-import rehypeRaw from 'rehype-raw'
+import type {EmailCourseTemplateProps} from './email-course'
 import {Annotation} from 'components/mdx/annotation'
-import Header from 'components/header'
-import {RoughNotation} from 'react-rough-notation'
 
-type ArticleTemplateProps = {
-  meta: {
-    title: string
-    headline: string
-    description: string
-    titleAppendSiteName: boolean
-    url: string
-    ogImage: string
-    formImage: string
-    headerBgClassName: string
-    formBgClassName: string
-    ckFormId?: number
-    formHeadline: string
-    formSubHeadline: string
-  }
-}
-
-const HomeTemplate: React.FC<ArticleTemplateProps> = ({meta, children}) => {
+const HomeTemplate: React.FC<EmailCourseTemplateProps> = ({meta, children}) => {
   const {
     headline,
     formImage,
@@ -49,7 +29,7 @@ const HomeTemplate: React.FC<ArticleTemplateProps> = ({meta, children}) => {
       <Background className={headerBgClassName} />
       <header className="relative flex flex-col items-center justify-center text-center mx-auto md:pt-28 pt-16 md:min-h-[70vh] md:pb-32 pb-24 max-w-screen-xl">
         <Badge />
-        <h1 className="md:text-4xl text-4xl font-bold py-4 drop-shadow-lg max-w-screen-sm">
+        <h1 className="md:text-5xl text-4xl font-bold py-4 drop-shadow-lg max-w-screen-md">
           Your Quick-Start Guide to Confidently Shipping TypeScript Production
           Code Faster and Safer
         </h1>
@@ -75,7 +55,7 @@ const HomeTemplate: React.FC<ArticleTemplateProps> = ({meta, children}) => {
         <div className="opacity-90 relative prose md:prose-p:text-white/90 prose-p:max-w-screen-sm md:prose-p:max-w-screen-sm md:prose-p:mx-auto prose-p:mx-auto md:prose-headings:mx-auto prose-headings:mx-auto w-full md:prose-headings:max-w-screen-sm md:prose-lg prose-p:my-5 md:prose-p:my-8 xl:prose-p:my-10 xl:prose-xl max-w-none">
           {children}
         </div>
-        <section className="relative">
+        <section className="relative pt-4">
           <Background className={formBgClassName} />
           <div className="relative flex flex-col items-center md:pt-24 pt-16 md:pb-32 pb-16">
             <Image
@@ -158,7 +138,7 @@ const Background: React.FC<{className: string}> = ({className}) => {
 
 const Badge = () => {
   return (
-    <div className="mb-2 rounded-full border border-blue-50 border-opacity-10 inline-flex items-center justify-center shadow-xl">
+    <div className="mb-2 rounded-full inline-flex items-center justify-center shadow-xl">
       <motion.div
         initial={{
           background: 'transparent',

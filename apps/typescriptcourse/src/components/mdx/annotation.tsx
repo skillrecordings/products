@@ -2,7 +2,7 @@ import React from 'react'
 import {RoughNotation, RoughNotationGroup} from 'react-rough-notation'
 import {motion, useReducedMotion} from 'framer-motion'
 import {useIntersection} from 'react-use'
-import type {types} from 'react-rough-notation'
+import type {types, RoughNotationProps} from 'react-rough-notation'
 import cx from 'classnames'
 
 const Annotation: React.FC<{
@@ -33,6 +33,7 @@ const Annotation: React.FC<{
         show={show}
         type={type || 'highlight'}
         color="currentColor"
+        padding={0}
         {...props}
       >
         {children}
