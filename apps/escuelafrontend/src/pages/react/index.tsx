@@ -206,6 +206,8 @@ const Instructor: React.FC<any> = ({resource}) => {
             className="object-cover rounded-lg shadow"
             src={resource.imageUrl}
             alt={resource.name}
+            width={200}
+            height={200}
           />
         </div>
         <div className="sm:col-span-2">
