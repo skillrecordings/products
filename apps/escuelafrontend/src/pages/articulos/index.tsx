@@ -6,7 +6,7 @@ import {HorizontalResourceCard} from 'components/cards/horizontal-resource-card'
 const Blog: React.FC = (allArticles: any) => {
   return (
     <div className="max-w-screen-xl mx-auto">
-      <h1 className="w-full max-w-screen-lg py-16 m-auto mb-10 text-3xl font-extrabold text-center lg:text-6xl md:text-5xl sm:text-4xl leading-tighter">
+      <h1 className="w-full max-w-screen-lg py-16 m-auto mb-10 text-4xl font-extrabold tracking-tight text-center text-black transition-all duration-500 ease-in-out dark:text-white md:text-5xl leading-tighter sm:text-5xl lg:text-6xl xl:text-7xl">
         Recursos escritos para dominar el ecosistema de JavaScript.
       </h1>
 

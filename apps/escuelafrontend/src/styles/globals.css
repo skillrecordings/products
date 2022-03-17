@@ -14,7 +14,7 @@
 }
 
 ::selection {
-  @apply bg-indigo-600;
+  @apply bg-blue-600;
   color: #fefefe;
 }
 

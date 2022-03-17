@@ -41,7 +41,7 @@ export default function Home({allArticles}: any) {
           ></div>
 
           <div className="relative z-10 flex flex-col items-center justify-center max-w-screen-lg px-4 pt-48 mx-auto opacity-0 sm:pb-96 pb-80 initial-load-hero">
-            <h1 className="text-4xl font-extrabold tracking-tighter text-center text-white transition-all duration-500 ease-in-out sm:text-5xl lg:text-6xl xl:text-7xl ">
+            <h1 className="text-4xl font-extrabold tracking-tight text-center text-white transition-all duration-500 ease-in-out sm:text-5xl lg:text-6xl xl:text-7xl">
               Conviértete en un Frontend Developer Profesional
             </h1>
             <p className="mt-6 text-xl text-center text-white sm:text-2xl md:text-3xl sm:max-w-3xl">

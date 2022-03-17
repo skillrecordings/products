@@ -1,4 +1,5 @@
 const defaultTheme = require('tailwindcss/defaultTheme')
+const colors = require('tailwindcss/colors')
 
 module.exports = {
   mode: 'jit',
@@ -21,19 +22,7 @@ module.exports = {
       },
       colors: {
         primary: '#3b82f6',
-        gray: {
-          10: '#FFF',
-          50: '#FAFAFA',
-          100: '#EAEAEA',
-          200: '#999',
-          300: '#888',
-          400: '#777',
-          500: '#666',
-          600: '#444',
-          700: '#333',
-          800: '#222',
-          900: '#000',
-        },
+        gray: colors.slate,
       },
       typography: (theme) => ({
         DEFAULT: {
@@ -46,7 +35,19 @@ module.exports = {
               },
               code: {color: '#3b82f6'},
             },
-            code: {color: theme('colors.pink.500')},
+            code: {
+              padding: '3px 5px',
+              fontSize: '95% !important',
+              borderRadius: 5,
+              background: theme('colors.gray.100'),
+              fontFamily: "'Input Mono' !important",
+            },
+            'code::before': {
+              content: "''",
+            },
+            'code::after': {
+              content: "''",
+            },
             'blockquote p:first-of-type::before': false,
             'blockquote p:last-of-type::after': false,
           },
@@ -67,6 +68,18 @@ module.exports = {
             },
             'h2,h3,h4': {
               color: theme('colors.gray.100'),
+            },
+            code: {
+              padding: '3px 5px',
+              fontSize: '95% !important',
+              borderRadius: 5,
+              color: theme('colors.white'),
+              background: theme('colors.gray.700'),
+              fontFamily: "'Input Mono' !important",
+            },
+            'pre > code': {
+              background: 'none',
+              padding: 0,
             },
             hr: {borderColor: theme('colors.gray.700')},
             ol: {
