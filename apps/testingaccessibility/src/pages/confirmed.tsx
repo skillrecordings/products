@@ -55,7 +55,7 @@ const Confirmed = () => {
               QA
             </a>
             <a className={buttonClasses} href="/role?tag=2982286">
-              Less-Technical Role
+              Something Else
             </a>
           </div>
         </fieldset>

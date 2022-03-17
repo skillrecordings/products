@@ -11,6 +11,7 @@
   },
   "include": [
     "src",
-    "next-env.d.ts"
+    "next-env.d.ts",
+    "process.d.ts"
   ]
 }

@@ -1,11 +1,14 @@
 import * as React from 'react'
 import {Logo} from 'components/images'
 import {useRouter} from 'next/router'
+import {useSession} from 'next-auth/react'
 import Link from 'next/link'
 import cx from 'classnames'
 
 const Navigation = () => {
   const router = useRouter()
+  const {data: sessionData} = useSession()
+
   return (
     <nav className="sm:px-5 px-2 sm:py-2.5 py-2 flex items-center justify-between w-full text-white bg-black">
       <Link href="/" aria-label="Home" passHref>
@@ -24,8 +27,10 @@ const Navigation = () => {
           </div>
         </a>
       </Link>
-      <div className="flex sm:gap-2">
-        {/* <NavLink href="/accessibility-reviews">Accessibility Reviews</NavLink> */}
+      <div className="flex items-center">
+        {sessionData?.user && (
+          <div className="px-3">Welcome, {sessionData.user.name}!</div>
+        )}
         <NavLink href="/workshops">Accessibility Workshops</NavLink>
       </div>
     </nav>

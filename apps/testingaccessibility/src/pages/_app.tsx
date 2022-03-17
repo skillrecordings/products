@@ -9,6 +9,7 @@ import {ViewerProvider} from '@skillrecordings/viewer'
 import {ConvertkitProvider} from '@skillrecordings/convertkit'
 import MDXComponents from 'components/mdx'
 import {MDXProvider} from '@mdx-js/react'
+import {SessionProvider} from 'next-auth/react'
 import {usePageview} from '@skillrecordings/analytics'
 
 declare global {
@@ -27,15 +28,17 @@ function MyApp({Component, pageProps}: AppProps) {
   return (
     <>
       <DefaultSeo {...config} />
-      <ConvertkitProvider>
-        <ViewerProvider>
-          <ThemeProvider forcedTheme="light" attribute="class">
-            <MDXProvider components={MDXComponents}>
-              <Component {...pageProps} />
-            </MDXProvider>
-          </ThemeProvider>
-        </ViewerProvider>
-      </ConvertkitProvider>
+      <SessionProvider session={pageProps.session} refetchInterval={0}>
+        <ConvertkitProvider>
+          <ViewerProvider>
+            <ThemeProvider forcedTheme="light" attribute="class">
+              <MDXProvider components={MDXComponents}>
+                <Component {...pageProps} />
+              </MDXProvider>
+            </ThemeProvider>
+          </ViewerProvider>
+        </ConvertkitProvider>
+      </SessionProvider>
     </>
   )
 }
