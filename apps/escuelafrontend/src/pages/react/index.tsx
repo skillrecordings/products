@@ -1,5 +1,4 @@
 import * as React from 'react'
-import Layout from 'layouts'
 import Image from 'next/image'
 import reactPageData from '../../data/react-page-data'
 import {find} from 'lodash'
@@ -197,13 +196,6 @@ const Waves = () => {
     </section>
   )
 }
-
-const includedFeatures = [
-  'Acceso al workshop',
-  'Acesso al material del workshop',
-  'Grabación del workshop',
-  'Desafíos y retos verificados',
-]
 
 const Instructor: React.FC<any> = ({resource}) => {
   return (

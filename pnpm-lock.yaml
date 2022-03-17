@@ -834,12 +834,10 @@ importers:
     specifiers:
       '@47ng/check-env': ^2.1.0
       '@babel/plugin-transform-react-jsx': ^7.17.3
-      '@emotion/babel-preset-css-prop': ^11.2.0
-      '@emotion/core': ^11.0.0
-      '@emotion/styled': ^11.8.1
       '@headlessui/react': ^1.5.0
       '@heroicons/react': ^1.0.6
       '@mdx-js/loader': ^2.1.0
+      '@next/eslint-plugin-next': ^12.1.0
       '@next/mdx': ^12.1.0
       '@reach/dialog': ^0.16.2
       '@sanity/block-content-to-markdown': ^0.0.5
@@ -884,8 +882,6 @@ importers:
       cookie: ^0.4.2
       date-fns: ^2.28.0
       dotenv-flow: ^3.2.0
-      emotion: ^11.0.0
-      emotion-server: ^11.0.0
       eslint: ^8.11.0
       eslint-config-prettier: ^8.5.0
       eslint-plugin-jsx-a11y: ^6.5.1
@@ -924,10 +920,7 @@ importers:
       react-use-clipboard: ^1.0.7
       rehype: ^12.0.1
       rehype-shiki: ^0.0.9
-      remark-code-titles: ^0.1.2
-      remark-footnotes: ^4.0.1
       remark-gfm: ^3.0.1
-      remark-slug: ^7.0.1
       simplebar-react: ^2.3.6
       stripe: ^8.209.0
       tailwindcss: ^3.0.23
@@ -936,10 +929,9 @@ importers:
       yup: ^0.32.11
     dependencies:
       '@47ng/check-env': 2.1.0
-      '@emotion/core': 11.0.0
-      '@emotion/styled': 11.8.1_00d6772dea80510e818fd171caaa025a
       '@headlessui/react': 1.5.0_react-dom@17.0.2+react@17.0.2
       '@heroicons/react': 1.0.6_react@17.0.2
+      '@next/eslint-plugin-next': 12.1.0
       '@next/mdx': 12.1.0_@mdx-js+loader@2.1.0
       '@reach/dialog': 0.16.2_f456dfc349ace84b0ea11d9e6e4ef3ab
       '@sanity/block-content-to-markdown': 0.0.5
@@ -970,8 +962,6 @@ importers:
       cookie: 0.4.2
       date-fns: 2.28.0
       dotenv-flow: 3.2.0
-      emotion: 11.0.0
-      emotion-server: 11.0.0
       focus-visible: 5.2.0
       formik: 2.2.9_react@17.0.2
       framer-motion: 6.2.8_react-dom@17.0.2+react@17.0.2
@@ -996,17 +986,13 @@ importers:
       react-use-clipboard: 1.0.7_react-dom@17.0.2+react@17.0.2
       rehype: 12.0.1
       rehype-shiki: 0.0.9
-      remark-code-titles: 0.1.2
-      remark-footnotes: 4.0.1
       remark-gfm: 3.0.1
-      remark-slug: 7.0.1
       simplebar-react: 2.3.6_react-dom@17.0.2+react@17.0.2
       stripe: 8.209.0
       xstate: 4.30.6
       yup: 0.32.11
     devDependencies:
       '@babel/plugin-transform-react-jsx': 7.17.3
-      '@emotion/babel-preset-css-prop': 11.2.0
       '@mdx-js/loader': 2.1.0
       '@skillrecordings/scripts': link:../../packages/scripts
       '@skillrecordings/tsconfig': link:../../packages/tsconfig
@@ -4134,6 +4120,7 @@ packages:
       '@babel/core': ^7.0.0-0
     dependencies:
       '@babel/helper-plugin-utils': 7.16.7
+    dev: true
 
   /@babel/plugin-syntax-logical-assignment-operators/7.10.4:
     resolution: {integrity: sha512-d8waShlpFDinQ5MtvGU9xDAOzKH47+FFoney2baFIoMr952hKOLp1HR7VszoZvOsV/4+RRszNY7D17ba0te0ig==}
@@ -6025,6 +6012,7 @@ packages:
       find-root: 1.1.0
       source-map: 0.5.7
       stylis: 4.0.13
+    dev: true
 
   /@emotion/babel-preset-css-prop/11.2.0:
     resolution: {integrity: sha512-9XLQm2eLPYTho+Cx1LQTDA1rATjoAaB4O+ds55XDvoAa+Z16Hhg8y5Vihj3C8E6+ilDM8SV5A9Z6z+yj0YIRBg==}
@@ -6069,10 +6057,6 @@ packages:
       stylis: 4.0.10
     dev: true
 
-  /@emotion/core/11.0.0:
-    resolution: {integrity: sha512-w4sE3AmHmyG6RDKf6mIbtHpgJUSJ2uGvPQb8VXFL7hFjMPibE8IiehG8cMX3Ztm4svfCQV6KqusQbeIOkurBcA==}
-    dev: false
-
   /@emotion/hash/0.8.0:
     resolution: {integrity: sha512-kBJtf7PH6aWwZ6fka3zQ0p6SBYzx4fl1LoZXE2RrnYST9Xljm7WfKJrU4g/Xr3Beg72MLrp1AWNUmuYJTL7Cow==}
 
@@ -6083,12 +6067,6 @@ packages:
       '@emotion/memoize': 0.7.4
     dev: false
     optional: true
-
-  /@emotion/is-prop-valid/1.1.2:
-    resolution: {integrity: sha512-3QnhqeL+WW88YjYbQL5gUIkthuMw7a0NGbZ7wfFVk2kg/CK5w8w5FFa0RzWjyY1+sujN0NWbtSHH6OJmWHtJpQ==}
-    dependencies:
-      '@emotion/memoize': 0.7.5
-    dev: false
 
   /@emotion/memoize/0.7.4:
     resolution: {integrity: sha512-Ja/Vfqe3HpuzRsG1oBtWTHk2PGZ7GR+2Vz5iYGelAw8dx32K0y7PjVuxK6z1nMpZOqAFsRUPCkK1YjJ56qJlgw==}
@@ -6161,28 +6139,6 @@ packages:
   /@emotion/sheet/1.0.3:
     resolution: {integrity: sha512-YoX5GyQ4db7LpbmXHMuc8kebtBGP6nZfRC5Z13OKJMixBEwdZrJ914D6yJv/P+ZH/YY3F5s89NYX2hlZAf3SRQ==}
     dev: true
-
-  /@emotion/styled/11.8.1_00d6772dea80510e818fd171caaa025a:
-    resolution: {integrity: sha512-OghEVAYBZMpEquHZwuelXcRjRJQOVayvbmNR0zr174NHdmMgrNkLC6TljKC5h9lZLkN5WGrdUcrKlOJ4phhoTQ==}
-    peerDependencies:
-      '@babel/core': ^7.0.0
-      '@emotion/react': ^11.0.0-rc.0
-      '@types/react': '*'
-      react: '>=16.8.0'
-    peerDependenciesMeta:
-      '@babel/core':
-        optional: true
-      '@types/react':
-        optional: true
-    dependencies:
-      '@babel/runtime': 7.17.7
-      '@emotion/babel-plugin': 11.7.2
-      '@emotion/is-prop-valid': 1.1.2
-      '@emotion/serialize': 1.0.2
-      '@emotion/utils': 1.1.0
-      '@types/react': 17.0.40
-      react: 17.0.2
-    dev: false
 
   /@emotion/unitless/0.7.5:
     resolution: {integrity: sha512-OWORNpfjMsSSUBVrRBVGECkhWcULOAJz9ZW8uK9qgxD+87M7jHRcvh/A96XXNhXTLmKcoYSQtBEX7lHMO7YRwg==}
@@ -7661,7 +7617,6 @@ packages:
     resolution: {integrity: sha512-WFiyvSM2G5cQmh32t/SiQuJ+I2O+FHVlK/RFw5b1565O2kEM/36EXncjt88Pa+X5oSc+1SS+tWxowWJd1lqI+g==}
     dependencies:
       glob: 7.1.7
-    dev: true
 
   /@next/mdx/12.0.3_@mdx-js+loader@1.6.22:
     resolution: {integrity: sha512-/d606qZl00Ros4V4LRyZMRlQGm3v3tCEmoyVNt/ewEU5NA2u+TMXWjGTx1hIfKv2KkvqAsUa5BzU7VDPuPijuw==}
@@ -13402,14 +13357,6 @@ packages:
     engines: {node: '>= 4'}
     dev: true
 
-  /emotion-server/11.0.0:
-    resolution: {integrity: sha512-RVTM78geKL2MxRcl4CkmQZREGtVzoxXKdzVHnAfEn76GCU+fkI6EprVGeVo3tdnENk58QosfqlKgPWQ7MUXwlA==}
-    dev: false
-
-  /emotion/11.0.0:
-    resolution: {integrity: sha512-QW3CRqic3aRw1OBOcnvxaHEpCmxtlGwZ5tM9dV5rY3Rn+F41E8EgTPOqJ5VfsqQ5ZXHDs2zSDyUwGI0ZfC2+5A==}
-    dev: false
-
   /encoding/0.1.13:
     resolution: {integrity: sha512-ETBauow1T35Y/WZMkio9jiM0Z5xjHHmJ4XmjZOq1l/dXz3lr2sRn87nJy20RupqSh1F2m3HHPSp8ShIPQJrJ3A==}
     dependencies:
@@ -15155,6 +15102,7 @@ packages:
 
   /find-root/1.1.0:
     resolution: {integrity: sha512-NKfW6bec6GfKc0SGx1e07QZY9PE99u0Bft/0rzSD5k3sO/vwkVUpDUKVm5Gpp5Ue3YfShPFTX2070tDs5kB9Ng==}
+    dev: true
 
   /find-up/2.1.0:
     resolution: {integrity: sha1-RdG35QbHF93UgndaK3eSCjwMV6c=}

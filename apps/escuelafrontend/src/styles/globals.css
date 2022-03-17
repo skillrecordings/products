@@ -19,7 +19,7 @@
 }
 
 .prose pre {
-  @apply sm:-mx-5 bg-gray-900 dark:bg-gray-800;
+  @apply bg-gray-900 sm:-mx-5 dark:bg-gray-800;
 }
 
 .prose code {
@@ -63,7 +63,7 @@ but it will still show up on keyboard focus.
 }
 
 [data-reach-dialog-overlay] {
-  @apply backdrop-filter backdrop-blur-lg dark:bg-opacity-80 bg-opacity-80 z-50 p-1 md:p-8;
+  @apply z-50 p-1 backdrop-filter backdrop-blur-lg dark:bg-opacity-80 bg-opacity-80 md:p-8;
 }
 
 .hero-animation-1 {

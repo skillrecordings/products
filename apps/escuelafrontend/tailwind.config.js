@@ -1,86 +1,92 @@
 const defaultTheme = require('tailwindcss/defaultTheme')
-const colors = require('tailwindcss/colors')
-const tailwindCommonConfig = require('@skillrecordings/scripts/tailwind.config')
 
 module.exports = {
-  ...tailwindCommonConfig,
+  mode: 'jit',
+  content: [
+    './src/**/*.tsx',
+    './src/**/*.mdx',
+    './node_modules/@skillrecordings/commerce/dist/**/*.js',
+    './node_modules/@skillrecordings/react/dist/**/*.js',
+    './node_modules/@skillrecordings/convertkit/dist/**/*.js',
+    './node_modules/@skillrecordings/quiz/dist/**/*.js',
+    './node_modules/@skillrecordings/player/dist/**/*.js',
+  ],
   darkMode: 'class',
   theme: {
     extend: {
-      zIndex: {
-        '-10': '-10',
-      },
-      colors: {
-        ...colors,
-        black: 'rgb(10, 10, 13)',
-        gray: {...colors.coolGray, 1000: '#0f1521'},
-      },
-      screens: {
-        print: {raw: 'print'},
-      },
       fontFamily: {
         fibra: ['Fibra One', ...defaultTheme.fontFamily.sans],
         typold: ['Typold', ...defaultTheme.fontFamily.sans],
         sicret: ['Sicret Mono', ...defaultTheme.fontFamily.mono],
       },
+      colors: {
+        primary: '#3b82f6',
+        gray: {
+          10: '#FFF',
+          50: '#FAFAFA',
+          100: '#EAEAEA',
+          200: '#999',
+          300: '#888',
+          400: '#777',
+          500: '#666',
+          600: '#444',
+          700: '#333',
+          800: '#111',
+          900: '#000',
+        },
+      },
       typography: (theme) => ({
         DEFAULT: {
           css: {
-            // fontFamily: theme('fontFamily.fibra').join(', '),
+            color: theme('colors.gray.700'),
             a: {
-              color: theme('colors.blue.600'),
+              color: '#3b82f6',
+              '&:hover': {
+                color: theme('colors.blue.300'),
+              },
+              code: {color: '#3b82f6'},
             },
-            h1: {
-              paddingTop: '1.25em',
-            },
-            'h1:first-of-type': {
-              paddingTop: 0,
-            },
-            code: {
-              padding: '3px 5px',
-              fontSize: '80% !important',
-              borderRadius: 5,
-              background: theme('colors.gray.100'),
-              fontFamily: "'Input Mono' !important",
-            },
-            'code::before': {
-              content: "''",
-            },
-            'code::after': {
-              content: "''",
-            },
-            'pre > code': {
-              fontSize: 'inherit !important',
-              // background: theme('colors.gray.800'),
-              // margin: '0 !important',
-              // padding: '0 !important',
-            },
+            code: {color: theme('colors.pink.500')},
+            'blockquote p:first-of-type::before': false,
+            'blockquote p:last-of-type::after': false,
           },
         },
         dark: {
           css: {
-            '*': {color: theme('colors.white')},
+            color: theme('colors.gray.200'),
             a: {
-              color: theme('colors.blue.400'),
+              color: '#3b82f6',
+              '&:hover': {
+                color: theme('colors.blue.300'),
+              },
+              code: {color: '#3b82f6'},
             },
-            code: {
-              padding: '3px 5px',
-              borderRadius: 5,
-              color: theme('colors.white'),
-              background: theme('colors.gray.800'),
+            blockquote: {
+              borderLeftColor: theme('colors.gray.700'),
+              color: theme('colors.gray.300'),
             },
-            'pre > code': {
-              background: 'none',
-              padding: 0,
+            'h2,h3,h4': {
+              color: theme('colors.gray.100'),
             },
+            hr: {borderColor: theme('colors.gray.700')},
+            ol: {
+              li: {
+                '&:before': {color: theme('colors.gray.500')},
+              },
+            },
+            ul: {
+              li: {
+                '&:before': {backgroundColor: theme('colors.gray.500')},
+              },
+            },
+            strong: {color: theme('colors.gray.100')},
           },
         },
       }),
     },
   },
-  plugins: [
-    require('@tailwindcss/typography'),
-    require('@tailwindcss/forms'),
-    require('@tailwindcss/aspect-ratio'),
-  ],
+  variants: {
+    typography: ['dark'],
+  },
+  plugins: [require('@tailwindcss/typography')],
 }

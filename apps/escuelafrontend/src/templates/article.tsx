@@ -6,8 +6,7 @@ import {FunctionComponent} from 'react'
 import Link from 'next/link'
 import {NextSeo} from 'next-seo'
 import {useRouter} from 'next/router'
-import mdxComponents from 'components/mdx'
-import hydrate from 'next-mdx-remote/hydrate'
+import {serialize} from 'next-mdx-remote/serialize'
 import HeroWave from 'components/waves/hero-wave'
 import {HorizontalResourceCard} from 'components/cards/horizontal-resource-card'
 
@@ -25,7 +24,7 @@ const ArticleTemplate: React.FC<ArticleTemplateProps> = ({meta}) => {
     relatedResources = {},
   } = meta
 
-  const content = hydrate(body, {components: mdxComponents})
+  const content = serialize(body)
   const router = useRouter()
 
   const url = process.env.NEXT_PUBLIC_DEPLOYMENT_URL + router.asPath

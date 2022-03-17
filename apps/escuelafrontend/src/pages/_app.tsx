@@ -45,6 +45,7 @@ const App: React.FC<AppProps> = ({Component, pageProps}) => {
   return (
     <>
       <DefaultSeo {...config} />
+
       <ThemeProvider attribute="class" defaultTheme="system">
         {getLayout(Component, pageProps)}
       </ThemeProvider>
