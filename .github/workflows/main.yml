@@ -43,4 +43,4 @@ jobs:
 
 
       - name: build
-        run: pnpm run build:ci -- --cache-dir=".turbo"
+        run: pnpm run build:ci -- --cache-dir=".turbo" --team=skillrecordings --token=${{ secrets.VERCEL_TOKEN }}
