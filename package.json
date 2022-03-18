@@ -3,6 +3,11 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
+  "homepage": "https://github.com/skillrecordings/products/",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/skillrecordings/products.git"
+  },
   "scripts": {
     "build": "turbo run build postbuild",
     "build:ci": "turbo run build test lint postbuild",
