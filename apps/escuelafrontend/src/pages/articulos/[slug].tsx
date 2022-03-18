@@ -2,8 +2,7 @@ import * as React from 'react'
 import groq from 'groq'
 import {sanityClient} from 'utils/sanity-client'
 import ArticleTemplate from '../../templates/article'
-import renderToString from 'next-mdx-remote/render-to-string'
-import mdxComponents from 'components/mdx'
+import {serialize} from 'next-mdx-remote/serialize'
 
 const Post = (props: any) => {
   return <ArticleTemplate meta={props} />
@@ -55,14 +54,8 @@ export async function getStaticProps(context: any) {
     slug: context.params.slug,
   })
 
-  const mdxSource = await renderToString(body, {
-    components: mdxComponents,
+  const mdxSource = await serialize(body, {
     mdxOptions: {
-      remarkPlugins: [
-        require(`remark-slug`),
-        require(`remark-footnotes`),
-        require(`remark-code-titles`),
-      ],
       rehypePlugins: [
         [
           require(`rehype-shiki`),
@@ -74,6 +67,7 @@ export async function getStaticProps(context: any) {
       ],
     },
   })
+
   return {
     props: {...post, body: mdxSource},
     revalidate: 1,
