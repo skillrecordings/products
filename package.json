@@ -106,5 +106,6 @@
     "trailingComma": "all",
     "bracketSpacing": false,
     "jsxBracketSameLine": false
-  }
+  },
+  "packageManager": "pnpm@6.23.1"
 }
