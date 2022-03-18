@@ -17,7 +17,16 @@ jobs:
         uses: actions/setup-node@v1
         with:
           version: 14.x
-
+          
+      - name: Turbo Cache
+        id: turbo-cache
+        uses: actions/cache@v2
+        with:
+          path: node_modules/.cache/turbo
+          key: turbo-${{ github.job }}-${{ github.ref_name }}-${{ github.sha }}
+          restore-keys: |
+            turbo-${{ github.job }}-${{ github.ref_name }}-
+            
       - name: Cache pnpm modules
         uses: actions/cache@v2
         with:
@@ -30,10 +39,8 @@ jobs:
         with:
           version: 6.0.2
           run_install: true
+      
+
 
       - name: build
-        env:
-          TURBO_TOKEN: ${{ secrets.TURBO_REPO_API_KEY }}
-          TURBO_TEAM: skill-recordings
-          TURBO_PROJECT: turbo-playground
-        run: pnpm run build:ci
+        run: pnpm run build:ci --cache-dir=".turbo"
