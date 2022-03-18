@@ -43,4 +43,4 @@ jobs:
 
 
       - name: build
-        run: pnpm run build:ci
+        run: pnpm run build:ci -- --cache-dir=".turbo"
