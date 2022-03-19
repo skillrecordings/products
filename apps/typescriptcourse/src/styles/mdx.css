@@ -11,16 +11,16 @@
   ul {
     @apply list-none p-0;
     li {
-      @apply pr-4 pl-3 py-3 bg-black bg-opacity-50 m-0 mb-[2px] before:content-['・'] before:scale-110 before:pr-2 before:text-blue-400 before:flex flex last:rounded-b-lg first:rounded-t-lg text-white/90 origin-top;
+      @apply mt-2 first:mt-0 pr-4 pl-3 py-3 bg-black bg-opacity-50 m-0 mb-[2px] before:content-['・'] before:scale-110 before:pr-2 before:text-blue-400 before:flex flex rounded-lg text-white/90 origin-top shadow-xl;
     }
   }
 }
 
 .list-grid {
   ul {
-    @apply origin-top rounded-lg overflow-hidden list-none p-0 grid sm:grid-cols-3 grid-cols-2 gap-0.5 auto-rows-fr;
+    @apply origin-top rounded-lg overflow-hidden list-none p-0 grid sm:grid-cols-3 grid-cols-2 gap-3 auto-rows-fr;
     li {
-      @apply origin-top px-5 text-center justify-center py-5 bg-black bg-opacity-50 m-0 leading-tight inline-flex items-center min-h-max text-white/90;
+      @apply rounded-lg origin-top px-5 text-center justify-center py-5 bg-black bg-opacity-50 m-0 leading-tight inline-flex items-center min-h-max text-white/90;
     }
   }
 }

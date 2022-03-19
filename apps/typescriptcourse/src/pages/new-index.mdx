@@ -17,7 +17,7 @@ export const meta = {
   formImage: require('../../public/images/emails/migrate-js-project-to-ts/thumb@2x.png'),
   headerBgClassName: 'bg-landing-header',
   formBgClassName: 'bg-landing-form',
-  ckFormId: 2971550, // TypeScript Email Course,
+  ckFormId: 3071922, // ALL TypeScript Email Course
   formHeadline: 'Start Using TypeScript Today',
   formSubHeadline: 'Lorem ipsum dolor sit amet, lorem ipsum',
 }
@@ -38,7 +38,7 @@ But to get the most out of TypeScript, you won’t be able to stop there and cal
 
 **You’ll need to understand:**
 
-<AnimatedList className="list-table pb-10 mx-auto max-w-screen-md px-6">
+<AnimatedList className="list-table pb-10 mx-auto max-w-screen-md sm:px-10 px-5">
 
 - How to configure TypeScript
 - How to incrementally fix TypeScript errors
@@ -50,7 +50,7 @@ But to get the most out of TypeScript, you won’t be able to stop there and cal
 
 **and not to mention fundamental TypeScript concepts:**
 
-<AnimatedGrid className="list-grid pb-8 mx-auto max-w-screen-md px-6">
+<AnimatedGrid className="list-grid pb-8 mx-auto max-w-screen-md sm:px-10 px-5">
 
 - Interfaces
 - Type Aliases
@@ -71,11 +71,12 @@ It’s a ton of knowledge and skills that you need to stack to climb the hill of
 The good news?
 
 <br/>
-<Annotation type="underline" strokeWidth={6} className="max-w-screen-sm font-bold text-3xl mb-5 font-heading flex items-center justify-center text-center mx-auto">
+<p className="text-center"><Annotation type="underline" strokeWidth={6} className="max-w-screen-sm font-bold sm:text-3xl text-xl mb-5 font-heading flex items-center justify-center text-center mx-auto">
   
 TypeScript is totally worth it!
 
 </Annotation>
+</p>
 
 <br />
 
@@ -101,7 +102,7 @@ Wouldn’t it be nice to take a shortcut and start harvesting the benefits of us
 
 A single resource that taught you and your team:
 
-<AnimatedList className="list-table mx-auto max-w-screen-md px-6">
+<AnimatedList className="list-table mx-auto max-w-screen-md sm:px-10 px-5">
 
 - How to leverage the powers of TypeScript as well as how to write better code? Better meaning: more type-safe, well-tested, and documented.
 - How to develop better intuition about APIs, documentation, maintenance, and refactoring code with TypeScript.
@@ -110,12 +111,12 @@ A single resource that taught you and your team:
 
 </AnimatedList>
 
-<p className="text-center text-xl pt-8">Pause for a second.</p>
+<p className="text-center sm:text-xl pt-8">Pause for a second.</p>
 
 <Annotation
   type="underline"
   strokeWidth={2}
-  className="text-center text-xl flex items-center justify-center mb-16"
+  className="text-center sm:text-xl flex items-center justify-center mb-16"
 >
   Think.
 </Annotation>
@@ -126,7 +127,7 @@ Picture yourself weeks from now, staring at a TypeScript codebase, and whisperin
 
 That’s exactly what TypeScript Course is designed to do!
 
-<section className="bg-gradient-to-b from-black to-transparent bg-opacity-75 border-t border-gray-800 mt-24 pb-8">
+<section className="bg-gradient-to-b from-black/50 to-transparent bg-opacity-75 border-t border-gray-800 mt-24 pb-8">
 
 <h2 className="text-center py-8">
   There{' '}
@@ -142,7 +143,7 @@ The course will start from the very beginning of the TypeScript journey, and qui
 
 <h2 className="text-center py-8">Here's what you'll receive</h2>
 
-<CheckList className="mb-16 max-w-screen-sm mx-auto">
+<CheckList className="mb-16 max-w-screen-sm mx-auto sm:px-0 px-5">
 
 - 3 standalone modules designed to be completed within hours… so you can make progress fast.
 - Each module contains carefully crafted lessons that are just the right length and complexity for learning and retention.
@@ -156,10 +157,16 @@ The course will start from the very beginning of the TypeScript journey, and qui
 
 <EmailCourses />
 
-<h2 className="text-center pb-10">
-  This is a learning environment that optimizes{' '}
-  <Annotation type="underline" multiline strokeWidth={6} padding={0}>
-    for practical, real-world experience.
+<h2 className="text-center pb-10 sm:px-0 px-5">
+  This is a learning environment that optimizes for{' '}
+  <Annotation
+    type="underline"
+    multiline
+    strokeWidth={6}
+    padding={0}
+    animationDuration={1000}
+  >
+    practical, real-world experience.
   </Annotation>
 </h2>
 
@@ -171,8 +178,13 @@ Open source is a learning pattern that you will leverage through this course. An
 
 As you progress through this course, you will write small tests so that you can then take your existing software design skills and ship some great systems.
 
-<p className="text-center pb-5">
-  <Annotation type="underline" strokeWidth={2}>
+<p className="text-center pb-5 sm:pt-0 pt-5">
+  <Annotation
+    type="underline"
+    strokeWidth={2}
+    animationDuration={1500}
+    iterations={2}
+  >
     <strong>This course doesn’t stop there.</strong>
   </Annotation>
 </p>
@@ -196,21 +208,21 @@ export const emailCourses = [
   {
     title: 'Migrate an Open Source JS project to TypeScript',
     description:
-      'you will dive head-first into the TypeScript code by migrating **dotpather**, an open-source project. The goal is to empower you to lead TypeScript migration efforts across your team.',
+      'Dive head-first into the TypeScript code by migrating **dotpather**, an open-source project. The goal is to empower you to lead TypeScript migration efforts across your team.',
     path: 'migrate-js-project-to-typescript',
     image: require('../../public/images/emails/migrate-js-project-to-ts/icon.svg'),
   },
   {
     title: 'Build a TypeScript project From Scratch',
     description:
-      'you will build a streak counter from scratch (without templates or special bundlers). The goal is to provide you with practical experience by building TypeScript projects from zero all the way to sharing that code with the world.',
+      'Build a streak counter from scratch (without templates or special bundlers). The goal is to provide you with practical experience by building TypeScript projects from zero all the way to sharing that code with the world.',
     path: 'migrate-js-project-to-typescript',
     image: require('../../public/images/emails/build-ts-project-from-scratch/icon.svg'),
   },
   {
     title: 'Learn How to Navigate a TypeScript Codebase',
     description:
-      'you will learn how to navigate TypeScript codebases using an open source project. The goal is to teach you the formula for navigating new codebases and advance your TypeScript skills along the way.',
+      'Learn how to navigate TypeScript codebases using an open source project. The goal is to teach you the formula for navigating new codebases and advance your TypeScript skills along the way.',
     path: 'migrate-js-project-to-typescript',
     image: require('../../public/images/emails/navigate-ts-codebase/icon.svg'),
   },
@@ -231,13 +243,13 @@ export const EmailCourses = () => {
 export const Card = ({resource, idx}) => {
   const {title, description, path, image} = resource
   return (
-    <div className="group transition ease-in-out duration-200 not-prose flex flex-col justify-between relative">
-      <div className="flex gap-10">
+    <div className="sm:px-0 px-5 group transition ease-in-out duration-200 not-prose flex flex-col justify-between relative">
+      <div className="flex sm:flex-row flex-col sm:gap-10">
         <div className="flex justify-center flex-shrink-0">
           <Image src={image} height={150} alt={title} />
         </div>
         <div>
-          <p className="text-2xl font-bold font-heading pt-8 inline-flex">
+          <p className="sm:text-2xl text-xl font-bold font-heading pt-8 inline-flex">
             {title}
           </p>
           <p className="text-base pt-4 pb-7 opacity-80 leading-relaxed">

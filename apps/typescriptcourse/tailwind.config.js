@@ -1,4 +1,5 @@
 const defaultTheme = require('tailwindcss/defaultTheme')
+const plugin = require('tailwindcss/plugin')
 
 module.exports = {
   content: [
@@ -35,5 +36,12 @@ module.exports = {
       }),
     },
   },
-  plugins: [require('@tailwindcss/typography')],
+  plugins: [
+    require('@tailwindcss/typography'),
+    plugin(({addVariant}) => {
+      addVariant('supports-backdrop-blur', '@supports (backdrop-filter: none)')
+      addVariant('firefox', '@supports (-moz-appearance: none)')
+      addVariant('safari', '@supports selector(:nth-child(1 of x))')
+    }),
+  ],
 }

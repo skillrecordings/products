@@ -26,6 +26,7 @@ export type EmailCourseTemplateProps = {
     ckFormId?: number
     formHeadline: string
     formSubHeadline: string
+    headerImage?: string
   }
 }
 
@@ -41,6 +42,7 @@ const EmailCourseTemplate: React.FC<EmailCourseTemplateProps> = ({
     ckFormId,
     formHeadline,
     formSubHeadline,
+    headerImage,
   } = meta
   const router = useRouter()
 
@@ -54,10 +56,11 @@ const EmailCourseTemplate: React.FC<EmailCourseTemplateProps> = ({
   }, [router])
 
   return (
-    <Layout meta={meta} className="relative bg-black">
+    <Layout withFooter meta={meta} className="relative">
       <Background className={headerBgClassName} />
-      <header className="relative text-center max-w-screen-sm mx-auto md:pt-48 pt-36 md:pb-32 pb-24">
-        <Badge />
+      <header className="relative text-center max-w-screen-sm mx-auto md:pt-24 pt-16 md:pb-32 pb-24">
+        {/* <Badge /> */}
+        {headerImage && <Image src={headerImage} alt={headline} />}
         <h1 className="md:text-5xl text-4xl font-bold py-4 drop-shadow-lg">
           <ReactMarkdown rehypePlugins={[rehypeRaw]}>{headline}</ReactMarkdown>
         </h1>
@@ -104,9 +107,6 @@ const EmailCourseTemplate: React.FC<EmailCourseTemplateProps> = ({
           </div>
         </section>
       </article>
-      <footer className="flex items-center justify-center pb-24">
-        <Bio />
-      </footer>
       <Toaster />
     </Layout>
   )
@@ -141,11 +141,7 @@ const SubscribeButton = () => {
 }
 
 const Background: React.FC<{className: string}> = ({className}) => {
-  return (
-    <div className="bg-noise" aria-hidden="true">
-      <div className={className} />
-    </div>
-  )
+  return <div aria-hidden="true" className={className} />
 }
 
 const Badge = () => {
@@ -162,7 +158,7 @@ const Badge = () => {
             'linear-gradient(to right, rgba(255, 255, 255, 0) 100%, rgba(255, 255, 255, 0.6) 200%, rgba(255, 255, 255, 0) 200%)',
           ],
         }}
-        className="items-center justify-center space-x-1 bg-white bg-opacity-10 bg-blend-overlay backdrop-blur-sm backdrop-brightness-125 uppercase text-xs font-medium tracking-wide leading-5 rounded-full px-4 py-1.5 inline-flex"
+        className="items-center justify-center space-x-1 bg-white bg-opacity-10 bg-blend-overlay supports-backdrop-blur:backdrop-blur-sm backdrop-brightness-125 uppercase text-xs font-medium tracking-wide leading-5 rounded-full px-4 py-1.5 inline-flex"
       >
         <i className="gg-mail scale-75 opacity-75 text-blue-200" />
         <span className="opacity-90">email course</span>
@@ -185,14 +181,14 @@ const Bio = () => {
         />
       </div>
       <div className="space-y-2">
-        <div className="rounded-r-lg rounded-t-lg px-4 p-3 bg-white backdrop-blur-sm backdrop-brightness-110 bg-opacity-5 border border-white border-opacity-10 relative flex items-center justify-center">
+        <div className="rounded-r-lg rounded-t-lg px-4 p-3 bg-white supports-backdrop-blur:backdrop-blur-sm backdrop-brightness-110 bg-opacity-5 border border-white border-opacity-10 relative flex items-center justify-center">
           <div className="absolute left-[-13px] bottom-[-1px] w-0 h-0 border-[6px] rotate-90 border-[rgba(255,255,255,0.14)_rgba(255,255,255,0.14)_transparent_transparent]" />
           <p className="opacity-90">
             Hey, I’m Joe. Your instructor for this TypeScript Course, nice to
             meet you. 😊
           </p>
         </div>
-        <div className="rounded-lg px-4 p-3 bg-white backdrop-blur-sm backdrop-brightness-110 bg-opacity-5 border border-white border-opacity-10">
+        <div className="rounded-lg px-4 p-3 bg-white supports-backdrop-blur:backdrop-blur-sm backdrop-brightness-110 bg-opacity-5 border border-white border-opacity-10">
           <p className="text-sm opacity-80">
             I’m an Open Source TypeScript Engineer with a passion for teaching
             and learning. I help developers learn faster through interactive

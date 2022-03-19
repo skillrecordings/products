@@ -8,9 +8,12 @@ const IMAGE_HOST_DOMAINS = [
   `cdn.sanity.io`,
 ]
 
-const withTM = require('next-transpile-modules')(['unist-util-visit'], {
-  debug: true,
-})
+const withTM = require('next-transpile-modules')(
+  ['unist-util-visit', 'three'],
+  {
+    debug: true,
+  },
+)
 
 const nextConfig = {
   eslint: {

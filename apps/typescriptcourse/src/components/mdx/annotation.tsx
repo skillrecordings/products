@@ -1,15 +1,21 @@
 import React from 'react'
-import {RoughNotation, RoughNotationGroup} from 'react-rough-notation'
+import {RoughNotation} from 'react-rough-notation'
 import {motion, useReducedMotion} from 'framer-motion'
 import {useIntersection} from 'react-use'
-import type {types, RoughNotationProps} from 'react-rough-notation'
+import type {RoughNotationProps} from 'react-rough-notation'
 import cx from 'classnames'
 
-const Annotation: React.FC<{
-  type?: types
+type AnnotationProps = {
   children: any
   className?: string
-}> = ({type, children, className, ...props}) => {
+} & RoughNotationProps
+
+const Annotation: React.FC<AnnotationProps> = ({
+  type,
+  children,
+  className,
+  ...props
+}) => {
   const shouldReduceMotion = useReducedMotion()
   const intersectionRef = React.useRef(null)
   const intersection = useIntersection(intersectionRef, {
@@ -27,13 +33,14 @@ const Annotation: React.FC<{
   return (
     <motion.span ref={intersectionRef} className={cx('not-prose', className)}>
       <RoughNotation
-        animationDuration={1000}
+        animationDuration={500}
         animationDelay={200}
         animate={shouldReduceMotion ? false : true}
         show={show}
         type={type || 'highlight'}
         color="currentColor"
         padding={0}
+        iterations={1}
         {...props}
       >
         {children}
@@ -42,4 +49,42 @@ const Annotation: React.FC<{
   )
 }
 
-export {Annotation}
+const SimpleAnnotation: React.FC<AnnotationProps> = ({
+  type,
+  children,
+  className,
+  ...props
+}) => {
+  const shouldReduceMotion = useReducedMotion()
+  const intersectionRef = React.useRef(null)
+  const intersection = useIntersection(intersectionRef, {
+    root: null,
+    rootMargin: '0px',
+    threshold: 1,
+  })
+  const isIntersecting =
+    intersection && intersection.intersectionRatio < 1 ? false : true
+  const [show, setShow] = React.useState(false)
+  React.useEffect(() => {
+    intersection && isIntersecting && setShow(isIntersecting)
+  }, [intersection, isIntersecting])
+
+  return (
+    <motion.span
+      ref={intersectionRef}
+      className={cx('not-prose relative z-10', className)}
+      initial={{
+        backgroundImage: 'linear-gradient(rgb(37, 99, 235), rgb(37, 99, 235))',
+        backgroundPosition: '0% 100%',
+        backgroundRepeat: 'no-repeat',
+        backgroundSize: '0% 3px',
+      }}
+      whileInView={{backgroundSize: '100% 3px'}}
+      transition={{duration: 1, type: 'spring', stiffness: 50}}
+    >
+      {children}
+    </motion.span>
+  )
+}
+
+export {Annotation, SimpleAnnotation}

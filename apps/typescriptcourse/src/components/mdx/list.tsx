@@ -13,7 +13,7 @@ const AnimatedList: React.FC<{className?: string}> = ({
     show: {
       opacity: 1,
       transition: {
-        staggerChildren: 0.35,
+        staggerChildren: 0.25,
       },
     },
   }

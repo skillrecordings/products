@@ -2047,7 +2047,7 @@ importers:
       '@next/mdx': ^12.0.3
       '@reach/dialog': ^0.16.2
       '@react-three/drei': ^7.20.2
-      '@react-three/fiber': ^7.0.18
+      '@react-three/fiber': ^7.0.26
       '@skillrecordings/analytics': workspace:*
       '@skillrecordings/auth': workspace:*
       '@skillrecordings/axios': workspace:*
@@ -2195,7 +2195,6 @@ importers:
       next-seo: 4.28.1_72b2f1fb664d51f286fb64a58e104b48
       next-sitemap: 1.6.203_next@12.0.3
       next-themes: 0.1.1_72b2f1fb664d51f286fb64a58e104b48
-      next-transpile-modules: 9.0.0
       pluralize: 8.0.0
       postcss: 8.3.11
       query-string: 7.0.1
@@ -2254,6 +2253,7 @@ importers:
       msw: 0.35.0
       next-compose-plugins: 2.2.1
       next-images: 1.8.2
+      next-transpile-modules: 9.0.0
       postcss-nested: 5.0.6_postcss@8.3.11
       postcss-preset-env: 6.7.0
       prettier: 2.5.1
@@ -9482,7 +9482,7 @@ packages:
       lodash.castarray: 4.4.0
       lodash.isplainobject: 4.0.6
       lodash.merge: 4.6.2
-      tailwindcss: 3.0.23_autoprefixer@10.4.2
+      tailwindcss: 3.0.23_autoprefixer@10.4.0
 
   /@testing-library/dom/7.31.2:
     resolution: {integrity: sha512-3UqjCpey6HiTZT92vODYLPxTBWlM8ZOOjr3LX5F37/VRipW2M1kX6I/Cm4VXzteZqfGfagg8yXywpcOgQBlNsQ==}
@@ -11323,7 +11323,7 @@ packages:
   /axios/0.24.0:
     resolution: {integrity: sha512-Q6cWsys88HoPgAaFAVUb0WpPk0O8iTeisR9IMqy9G8AbO4NlpVknrnQS03zzF9PGAWgO3cgletO3VjV/P7VztA==}
     dependencies:
-      follow-redirects: 1.14.5_debug@2.6.9
+      follow-redirects: 1.14.5
     transitivePeerDependencies:
       - debug
 
@@ -14072,7 +14072,6 @@ packages:
     dependencies:
       graceful-fs: 4.2.8
       tapable: 2.2.1
-    dev: false
 
   /enquirer/2.3.6:
     resolution: {integrity: sha512-yjNnPr315/FjS4zIsUxYguYUPP2e1NK4d7E7ZOLiyYCcbFBiTMyID+2wvm2w6+pZ/odMA7cRkjhsPbltwBOrLg==}
@@ -15798,6 +15797,15 @@ packages:
   /focus-visible/5.2.0:
     resolution: {integrity: sha512-Rwix9pBtC1Nuy5wysTmKy+UjbDJpIfg8eHjw0rjZ1mX4GNLz1Bmd16uDpI3Gk1i70Fgcs8Csg2lPm8HULFg9DQ==}
 
+  /follow-redirects/1.14.5:
+    resolution: {integrity: sha512-wtphSXy7d4/OR+MvIFbCVBDzZ5520qV8XfPklSN5QtxuMUJZ+b0Wnst1e1lCDocfzuCkHqj8k0FpZqO+UIaKNA==}
+    engines: {node: '>=4.0'}
+    peerDependencies:
+      debug: '*'
+    peerDependenciesMeta:
+      debug:
+        optional: true
+
   /follow-redirects/1.14.5_debug@2.6.9:
     resolution: {integrity: sha512-wtphSXy7d4/OR+MvIFbCVBDzZ5520qV8XfPklSN5QtxuMUJZ+b0Wnst1e1lCDocfzuCkHqj8k0FpZqO+UIaKNA==}
     engines: {node: '>=4.0'}
@@ -15808,6 +15816,7 @@ packages:
         optional: true
     dependencies:
       debug: 2.6.9
+    dev: false
 
   /follow-redirects/1.14.9:
     resolution: {integrity: sha512-MQDfihBQYMcyy5dhRDJUHcw7lb2Pv/TuE6xP1vyraLukNDHKbDxDNaOE3NbCAdKQApno+GPRyo1YAp89yCjK4w==}
@@ -21445,7 +21454,6 @@ packages:
     dependencies:
       enhanced-resolve: 5.8.3
       escalade: 3.1.1
-    dev: false
 
   /next/11.1.2_bf3a1301f4084feb226bd851df78340c:
     resolution: {integrity: sha512-azEYL0L+wFjv8lstLru3bgvrzPvK0P7/bz6B/4EJ9sYkXeW8r5Bjh78D/Ol7VOg0EIPz0CXoe72hzAlSAXo9hw==}
@@ -27056,7 +27064,6 @@ packages:
   /tapable/2.2.1:
     resolution: {integrity: sha512-GNzQvQTOIP6RyTfE2Qxb8ZVlNmw0n88vp1szwWRimP02mnTsx3Wtn5qRdqY9w2XduFNUgvOwhNnQsjwCp+kqaQ==}
     engines: {node: '>=6'}
-    dev: false
 
   /term-size/1.2.0:
     resolution: {integrity: sha1-RYuDiH8oj8Vtb/+/rSYuJmOO+mk=}

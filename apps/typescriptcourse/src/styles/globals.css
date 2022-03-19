@@ -15,7 +15,7 @@ Subscribe Form
 [data-sr-convertkit-subscribe-form] {
   @apply w-full max-w-[300px] pt-2;
   [data-sr-input] {
-    @apply placeholder:font-light font-normal mb-2 w-full bg-white bg-opacity-10 rounded-xl px-5 py-4 placeholder:text-white placeholder:text-opacity-80 border border-white border-opacity-10 shadow-inner backdrop-blur-sm backdrop-brightness-125 focus:bg-opacity-20 focus:border-opacity-30 focus:ring-0;
+    @apply placeholder:font-light font-normal mb-2 w-full bg-white bg-opacity-10 rounded-xl px-5 py-4 placeholder:text-white placeholder:text-opacity-80 border border-white border-opacity-10 shadow-inner supports-backdrop-blur:backdrop-blur-sm backdrop-brightness-125 focus:bg-opacity-20 focus:border-opacity-30 focus:ring-0;
   }
   [data-sr-input-label] {
     @apply sr-only;
@@ -26,6 +26,7 @@ Subscribe Form
   [data-sr-button][disabled] {
   }
 }
+
 [data-sr-convertkit-subscribe-form='success'] {
   @apply text-center;
   p {
@@ -44,12 +45,6 @@ h2,
 h3,
 h4 {
   @apply font-heading;
-}
-
-.bg-noise {
-  @apply object-contain object-top w-full absolute inset-0 max-h-[1024px];
-
-  background-image: url('/images/backgrounds/header-noise.png');
 }
 
 /*

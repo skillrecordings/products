@@ -1,10 +1,8 @@
-import {motion} from 'framer-motion'
-
 const Logo = () => {
   return (
     <>
       <svg
-        className="p-0.5 text-blue-400"
+        className="p-0.5 text-blue-300"
         xmlns="http://www.w3.org/2000/svg"
         width="193"
         height="32"

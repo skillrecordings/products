@@ -6,8 +6,9 @@ canvas {
   @apply bg-gray-900 !important;
 }
 
+/* 
 .bg-landing-header {
-  @apply blur-3xl bg-blend-overlay max-w-screen-2xl mx-auto w-full h-full absolute inset-0 md:max-h-full max-h-screen;
+  @apply blur-3xl safari:blur-none firefox:bg-blend-normal safari:bg-blend-normal bg-blend-overlay mx-auto w-full h-full absolute inset-0 md:max-h-full max-h-screen;
 
   background-image: radial-gradient(
       circle at 55% 60%,
@@ -27,7 +28,7 @@ canvas {
 }
 
 .bg-landing-form {
-  @apply blur-3xl bg-blend-overlay max-w-screen-2xl mx-auto w-full max-h-[1024px] absolute inset-0;
+  @apply blur-3xl safari:blur-none mx-auto w-full max-h-[1024px] absolute inset-0;
 
   background: radial-gradient(
       circle at 25% 25%,
@@ -57,7 +58,7 @@ canvas {
 }
 
 .bg-landing-article {
-  @apply blur-3xl bg-blend-overlay max-w-screen-2xl mx-auto w-full h-full absolute inset-0;
+  @apply blur-3xl safari:blur-none mx-auto w-full h-full absolute inset-0;
 
   background: radial-gradient(
       circle at 25% 25%,
@@ -94,4 +95,4 @@ canvas {
       rgba(220, 59, 194, 0.3),
       rgba(220, 59, 194, 0) 300px
     );
-}
+} */
