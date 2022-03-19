@@ -21,8 +21,6 @@ export type EmailCourseTemplateProps = {
     url: string
     ogImage: string
     formImage: string
-    headerBgClassName: string
-    formBgClassName: string
     ckFormId?: number
     formHeadline: string
     formSubHeadline: string
@@ -37,8 +35,6 @@ const EmailCourseTemplate: React.FC<EmailCourseTemplateProps> = ({
   const {
     headline,
     formImage,
-    headerBgClassName,
-    formBgClassName,
     ckFormId,
     formHeadline,
     formSubHeadline,
@@ -57,9 +53,7 @@ const EmailCourseTemplate: React.FC<EmailCourseTemplateProps> = ({
 
   return (
     <Layout withFooter meta={meta} className="relative">
-      <Background className={headerBgClassName} />
       <header className="relative text-center max-w-screen-sm mx-auto md:pt-24 pt-16 md:pb-32 pb-24">
-        {/* <Badge /> */}
         {headerImage && <Image src={headerImage} alt={headline} />}
         <h1 className="md:text-5xl text-4xl font-bold py-4 drop-shadow-lg">
           <ReactMarkdown rehypePlugins={[rehypeRaw]}>{headline}</ReactMarkdown>
@@ -73,7 +67,6 @@ const EmailCourseTemplate: React.FC<EmailCourseTemplateProps> = ({
           {children}
         </div>
         <section className="relative">
-          <Background className={formBgClassName} />
           <div className="relative flex flex-col items-center md:pt-24 pt-16 md:pb-32 pb-16">
             <Image
               src={formImage}
@@ -137,66 +130,5 @@ const SubscribeButton = () => {
         className="absolute left-0 top-0 w-full h-full pointer-events-none items-center justify-center space-x-1 bg-white bg-opacity-10 bg-blend-overlay uppercase tracking-wide "
       />
     </Button>
-  )
-}
-
-const Background: React.FC<{className: string}> = ({className}) => {
-  return <div aria-hidden="true" className={className} />
-}
-
-const Badge = () => {
-  return (
-    <div className="mb-2 rounded-full border border-blue-50 border-opacity-10 inline-flex items-center justify-center shadow-xl">
-      <motion.div
-        initial={{
-          background: 'transparent',
-        }}
-        transition={{repeat: Infinity, duration: 3, repeatDelay: 1.6}}
-        animate={{
-          background: [
-            'linear-gradient(to right, rgba(255, 255, 255, 0) -50%, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0) 100%)',
-            'linear-gradient(to right, rgba(255, 255, 255, 0) 100%, rgba(255, 255, 255, 0.6) 200%, rgba(255, 255, 255, 0) 200%)',
-          ],
-        }}
-        className="items-center justify-center space-x-1 bg-white bg-opacity-10 bg-blend-overlay supports-backdrop-blur:backdrop-blur-sm backdrop-brightness-125 uppercase text-xs font-medium tracking-wide leading-5 rounded-full px-4 py-1.5 inline-flex"
-      >
-        <i className="gg-mail scale-75 opacity-75 text-blue-200" />
-        <span className="opacity-90">email course</span>
-      </motion.div>
-    </div>
-  )
-}
-
-const Bio = () => {
-  return (
-    <div className="text-sm flex items-start space-x-2 max-w-md">
-      <div className="flex-shrink-0 border-2 border-white border-opacity-90 flex items-center justify-center rounded-full overflow-hidden">
-        <Image
-          src={require('../../public/images/joe-previte.jpeg')}
-          alt="Joe Previte"
-          quality={100}
-          width={60}
-          height={60}
-          loading="eager"
-        />
-      </div>
-      <div className="space-y-2">
-        <div className="rounded-r-lg rounded-t-lg px-4 p-3 bg-white supports-backdrop-blur:backdrop-blur-sm backdrop-brightness-110 bg-opacity-5 border border-white border-opacity-10 relative flex items-center justify-center">
-          <div className="absolute left-[-13px] bottom-[-1px] w-0 h-0 border-[6px] rotate-90 border-[rgba(255,255,255,0.14)_rgba(255,255,255,0.14)_transparent_transparent]" />
-          <p className="opacity-90">
-            Hey, I’m Joe. Your instructor for this TypeScript Course, nice to
-            meet you. 😊
-          </p>
-        </div>
-        <div className="rounded-lg px-4 p-3 bg-white supports-backdrop-blur:backdrop-blur-sm backdrop-brightness-110 bg-opacity-5 border border-white border-opacity-10">
-          <p className="text-sm opacity-80">
-            I’m an Open Source TypeScript Engineer with a passion for teaching
-            and learning. I help developers learn faster through interactive
-            courses, and in my free time, I get people excited about webdev and
-            indie hacking. 👋
-          </p>
-        </div>
-      </div>
-    </div>
   )
 }

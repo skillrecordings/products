@@ -15,15 +15,7 @@ import toast, {Toaster} from 'react-hot-toast'
 import {Element} from 'react-scroll'
 
 const HomeTemplate: React.FC<EmailCourseTemplateProps> = ({meta, children}) => {
-  const {
-    headline,
-    formImage,
-    headerBgClassName,
-    formBgClassName,
-    ckFormId,
-    formHeadline,
-    formSubHeadline,
-  } = meta
+  const {headline, formImage, ckFormId, formHeadline, formSubHeadline} = meta
   const router = useRouter()
 
   React.useEffect(() => {
@@ -74,7 +66,6 @@ const HomeTemplate: React.FC<EmailCourseTemplateProps> = ({meta, children}) => {
         </div>
         <section className="relative pt-4">
           <Element name="course" />
-          <Background className={formBgClassName} />
           <div className="sm:px-0 px-5 relative flex flex-col items-center md:pt-24 pt-16 md:pb-32 pb-16">
             <Image
               src={formImage}
@@ -158,12 +149,5 @@ const SubscribeButton = () => {
 }
 
 const Background: React.FC<{className: string}> = ({className}) => {
-  return (
-    <div
-      //  className="bg-noise"
-      aria-hidden="true"
-    >
-      <div className={className} />
-    </div>
-  )
+  return <div aria-hidden="true" className={className} />
 }

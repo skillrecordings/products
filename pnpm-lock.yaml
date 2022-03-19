@@ -2428,6 +2428,7 @@ importers:
       cookie: ^0.4.1
       esbuild-node-tsc: ^1.6.1
       formik: 2.2.8
+      framer-motion: ^6.2.8
       next: 11.1.2
       query-string: ^7.0.1
       react-use: ^17.2.4
@@ -2442,6 +2443,7 @@ importers:
       axios: 0.21.1
       cookie: 0.4.1
       formik: 2.2.8
+      framer-motion: 6.2.8
       next: 11.1.2_typescript@4.3.5
       query-string: 7.0.1
       react-use: 17.2.4
@@ -15996,6 +15998,21 @@ packages:
       popmotion: 11.0.0
       react: 17.0.2
       react-dom: 17.0.2_react@17.0.2
+      style-value-types: 5.0.0
+      tslib: 2.3.1
+    optionalDependencies:
+      '@emotion/is-prop-valid': 0.8.8
+    dev: false
+
+  /framer-motion/6.2.8:
+    resolution: {integrity: sha512-4PtBWFJ6NqR350zYVt9AsFDtISTqsdqna79FvSYPfYDXuuqFmiKtZdkTnYPslnsOMedTW0pEvaQ7eqjD+sA+HA==}
+    peerDependencies:
+      react: '>=16.8 || ^17.0.0 || ^18.0.0'
+      react-dom: '>=16.8 || ^17.0.0 || ^18.0.0'
+    dependencies:
+      framesync: 6.0.1
+      hey-listen: 1.0.8
+      popmotion: 11.0.3
       style-value-types: 5.0.0
       tslib: 2.3.1
     optionalDependencies:
