@@ -6,7 +6,7 @@
     "dev": "next dev -p 3013",
     "start": "next start -p 3013",
     "integration": "cypress run",
-    "build": "NODE_ENV=production next build",
+    "build": "NODE_ENV=production prisma generate && next build",
     "postbuild": "NODE_ENV=production next-sitemap",
     "build:data": "node src/data/cache-json-data.js -p",
     "build:data:dev": "node src/data/cache-json-data.js",
