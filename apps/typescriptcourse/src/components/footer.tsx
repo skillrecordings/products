@@ -91,7 +91,7 @@ const NavLink: React.FC<{href: string; index: number}> = ({
         {...props}
       >
         <span className="font-mono font-semibold pr-2 opacity-80 text-sm">
-          0{index + 1}
+          {isActive ? ' → ' : `0${index + 1}`}
         </span>
         <strong className="underline decoration-white/30 underline-offset-2">
           {children}

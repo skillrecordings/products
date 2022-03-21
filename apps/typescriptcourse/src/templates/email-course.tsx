@@ -11,6 +11,7 @@ import Image from 'next/image'
 import ReactMarkdown from 'react-markdown'
 import rehypeRaw from 'rehype-raw'
 import toast, {Toaster} from 'react-hot-toast'
+import {Element} from 'react-scroll'
 
 export type EmailCourseTemplateProps = {
   meta: {
@@ -53,7 +54,7 @@ const EmailCourseTemplate: React.FC<EmailCourseTemplateProps> = ({
 
   return (
     <Layout withFooter meta={meta} className="relative">
-      <header className="relative text-center max-w-screen-sm mx-auto md:pt-24 pt-16 md:pb-32 pb-24">
+      <header className="relative text-center max-w-screen-sm mx-auto md:pt-24 pt-16 md:pb-32 pb-24 md:px-0 px-5">
         {headerImage && <Image src={headerImage} alt={headline} />}
         <h1 className="md:text-5xl text-4xl font-bold py-4 drop-shadow-lg">
           <ReactMarkdown rehypePlugins={[rehypeRaw]}>{headline}</ReactMarkdown>
@@ -63,10 +64,11 @@ const EmailCourseTemplate: React.FC<EmailCourseTemplateProps> = ({
         </p>
       </header>
       <article>
-        <div className="opacity-90 relative prose max-w-screen-sm mx-auto md:prose-xl">
+        <div className="opacity-90 relative prose max-w-screen-sm mx-auto md:prose-xl md:px-0 px-5">
           {children}
         </div>
-        <section className="relative">
+        <section className="relative md:px-0 px-5">
+          <Element name="course" />
           <div className="relative flex flex-col items-center md:pt-24 pt-16 md:pb-32 pb-16">
             <Image
               src={formImage}
