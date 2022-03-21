@@ -40,11 +40,11 @@ export default function Home({allArticles}: any) {
             }}
           ></div>
 
-          <div className="relative px-4 pt-48 opacity-0 sm:pb-96 pb-80 initial-load-hero">
-            <h1 className="max-w-screen-lg mx-auto text-3xl font-extrabold text-center text-white transition-all duration-500 ease-in-out lg:text-6xl md:text-5xl sm:text-4xl">
+          <div className="relative z-10 flex flex-col items-center justify-center max-w-screen-lg px-4 pt-48 mx-auto opacity-0 sm:pb-96 pb-80 initial-load-hero">
+            <h1 className="text-4xl font-extrabold tracking-tight text-center text-white transition-all duration-500 ease-in-out sm:text-5xl lg:text-6xl xl:text-7xl">
               Conviértete en un Frontend Developer Profesional
             </h1>
-            <p className="max-w-lg mx-auto mt-6 text-xl text-center text-white sm:text-2xl md:text-3xl sm:max-w-3xl">
+            <p className="mt-6 text-xl text-center text-white sm:text-2xl md:text-3xl sm:max-w-3xl">
               <span className="opacity-80">Accede a contenido de</span>{' '}
               <strong className="text-white opacity-100">alta calidad</strong>{' '}
               <span className="opacity-80">

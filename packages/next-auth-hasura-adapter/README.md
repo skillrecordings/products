@@ -1,5 +1,7 @@
 # Hasura Adapter - NextAuth.js
 
+This directly uses code from [Jason Brown's next-auth-hasura-adapter](https://github.com/browniefed/next-auth-hasura-adapter) 
+
 ## Overview
 
 This is the Hasura Adapter for [`next-auth`](https://next-auth.js.org). This package can only be used in conjunction with the primary `next-auth` package. It is not a standalone package.

@@ -1,5 +1,4 @@
 import * as React from 'react'
-import Layout from 'layouts'
 import Image from 'next/image'
 import reactPageData from '../../data/react-page-data'
 import {find} from 'lodash'
@@ -198,22 +197,17 @@ const Waves = () => {
   )
 }
 
-const includedFeatures = [
-  'Acceso al workshop',
-  'Acesso al material del workshop',
-  'Grabación del workshop',
-  'Desafíos y retos verificados',
-]
-
 const Instructor: React.FC<any> = ({resource}) => {
   return (
     <div key={resource.name} className="max-w-screen-md mx-auto">
       <div className="space-y-4 sm:grid sm:grid-cols-3 sm:items-start sm:gap-6 sm:space-y-0">
         <div className="aspect-w-3 aspect-h-2 sm:aspect-w-3 sm:aspect-h-4">
-          <img
+          <Image
             className="object-cover rounded-lg shadow"
             src={resource.imageUrl}
             alt={resource.name}
+            width={200}
+            height={200}
           />
         </div>
         <div className="sm:col-span-2">

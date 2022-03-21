@@ -2,9 +2,14 @@
   "name": "@skillrecordings/next-auth-hasura-adapter",
   "description": "Internal, shared utilities",
   "author": "Joel Hooks",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
+  "homepage": "https://github.com/skillrecordings/products/blob/main/packages/next-auth-hasura-adapter/README.md",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/skillrecordings/products.git"
+  },
   "files": [
     "dist/**"
   ],
