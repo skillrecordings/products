@@ -11,7 +11,9 @@ export const meta = {
   titleAppendSiteName: false,
   url: config.siteUrl,
   headerImage: require('../../public/images/emails/migrate-js-project-to-ts/icon.svg'),
-  ogImage: first(config.openGraph.images),
+  ogImage: {
+    url: 'https://typescriptcourse.com/images/emails/migrate-js-project-to-ts/card@2x.png',
+  },
   formImage: require('../../public/images/emails/migrate-js-project-to-ts/thumb@2x.png'),
   ckFormId: 3071907, // 01 Migrate to TS
   formHeadline: 'Start Using TypeScript Today',
