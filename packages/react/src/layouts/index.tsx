@@ -14,7 +14,7 @@ export type LayoutProps = {
 
 const Layout: React.FC<LayoutProps> = ({
   children,
-  className,
+  className = 'p-5 flex flex-col min-h-screen',
   meta,
   noIndex,
   showNavigation = true,
@@ -44,7 +44,7 @@ const Layout: React.FC<LayoutProps> = ({
         canonical={url}
         noindex={noIndex}
       />
-      <div className={`p-5 flex flex-col min-h-screen ${className}`}>
+      <div className={className}>
         <Navigation title={title} />
         <div className="flex-grow flex flex-col justify-center">{children}</div>
         {Footer && <Footer />}

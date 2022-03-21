@@ -1,4 +1,5 @@
 const defaultTheme = require('tailwindcss/defaultTheme')
+const plugin = require('tailwindcss/plugin')
 
 module.exports = {
   content: [
@@ -13,7 +14,7 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        black: '#06070A',
+        // black: '#06070A',
         player: {
           bg: '#20222b',
           primary: '#8b84ff',
@@ -30,13 +31,17 @@ module.exports = {
         DEFAULT: {
           css: {
             '*': {color: theme('colors.white')},
-            a: {
-              color: theme('colors.player.primary'),
-            },
           },
         },
       }),
     },
   },
-  plugins: [require('@tailwindcss/typography')],
+  plugins: [
+    require('@tailwindcss/typography'),
+    plugin(({addVariant}) => {
+      addVariant('supports-backdrop-blur', '@supports (backdrop-filter: none)')
+      addVariant('firefox', '@supports (-moz-appearance: none)')
+      addVariant('safari', '@supports selector(:nth-child(1 of x))')
+    }),
+  ],
 }

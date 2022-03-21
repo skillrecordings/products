@@ -8,39 +8,14 @@ import {
 import {useRouter} from 'next/router'
 import {Button} from '@skillrecordings/react/dist/components'
 import Image from 'next/image'
-import ReactMarkdown from 'react-markdown'
-import rehypeRaw from 'rehype-raw'
+import type {EmailCourseTemplateProps} from './email-course'
+import StarsBackground from 'components/stars-background'
+import AnimatedBadge from 'components/mdx/badge'
 import toast, {Toaster} from 'react-hot-toast'
 import {Element} from 'react-scroll'
 
-export type EmailCourseTemplateProps = {
-  meta: {
-    title: string
-    headline: string
-    description: string
-    titleAppendSiteName: boolean
-    url: string
-    ogImage: string
-    formImage: string
-    ckFormId?: number
-    formHeadline: string
-    formSubHeadline: string
-    headerImage?: string
-  }
-}
-
-const EmailCourseTemplate: React.FC<EmailCourseTemplateProps> = ({
-  meta,
-  children,
-}) => {
-  const {
-    headline,
-    formImage,
-    ckFormId,
-    formHeadline,
-    formSubHeadline,
-    headerImage,
-  } = meta
+const HomeTemplate: React.FC<EmailCourseTemplateProps> = ({meta, children}) => {
+  const {headline, formImage, ckFormId, formHeadline, formSubHeadline} = meta
   const router = useRouter()
 
   React.useEffect(() => {
@@ -53,23 +28,45 @@ const EmailCourseTemplate: React.FC<EmailCourseTemplateProps> = ({
   }, [router])
 
   return (
-    <Layout withFooter meta={meta} className="relative">
-      <header className="relative text-center max-w-screen-sm mx-auto md:pt-24 pt-16 md:pb-32 pb-24 md:px-0 px-5">
-        {headerImage && <Image src={headerImage} alt={headline} />}
-        <h1 className="md:text-5xl text-4xl font-bold py-4 drop-shadow-lg">
-          <ReactMarkdown rehypePlugins={[rehypeRaw]}>{headline}</ReactMarkdown>
+    <Layout withFooter meta={meta} className="flex flex-col min-h-screen">
+      <StarsBackground />
+      <header className="pointer-events-none relative flex flex-col items-center justify-center text-center mx-auto md:pt-28 pt-16 md:min-h-[70vh] md:pb-32 pb-24 max-w-screen-xl">
+        <AnimatedBadge
+          icon={<i className="gg-mail scale-75 opacity-75 text-blue-300" />}
+        >
+          new email course
+        </AnimatedBadge>
+        <h1 className="lg:text-5xl md:text-5xl text-3xl font-bold py-8 drop-shadow-lg max-w-screen-md lg:max-w-screen-lg px-8 text-gray-100">
+          Your Quick-Start Guide to Confidently Shipping{' '}
+          <span className="bg-gradient-to-l from-fuchsia-300 to-blue-400 bg-clip-text text-transparent">
+            TypeScript Production Code
+          </span>{' '}
+          Faster and Safer
         </h1>
-        <p className="md:text-xl text-lg font-heading opacity-95 text-sky-200">
-          Your quick start guide to understanding TypeScript
-        </p>
+
+        <div className="flex items-center justify-center gap-2 pt-2 text-blue-100">
+          <div className="flex-shrink-0 border-2 shadow-xl flex items-center justify-center rounded-full overflow-hidden">
+            <Image
+              className="rounded-full"
+              src={require('../../public/images/joe-previte.jpeg')}
+              alt="Joe Previte"
+              quality={100}
+              width={40}
+              height={40}
+              loading="eager"
+            />
+          </div>
+          <span>Joe Previte</span>
+        </div>
       </header>
-      <article>
-        <div className="opacity-90 relative prose max-w-screen-sm mx-auto md:prose-xl md:px-0 px-5">
+      <article className="relative">
+        <div className="bg-landing-article" />
+        <div className="opacity-90 relative prose md:prose-p:text-white/90 prose-p:px-5 prose-p:max-w-screen-sm md:prose-p:max-w-screen-sm md:prose-p:mx-auto prose-p:mx-auto md:prose-headings:mx-auto prose-headings:mx-auto w-full md:prose-headings:max-w-screen-sm md:prose-lg prose-p:my-5 md:prose-p:my-8 xl:prose-p:my-10 xl:prose-xl max-w-none">
           {children}
         </div>
-        <section className="relative md:px-0 px-5">
+        <section className="relative pt-4">
           <Element name="course" />
-          <div className="relative flex flex-col items-center md:pt-24 pt-16 md:pb-32 pb-16">
+          <div className="sm:px-0 px-5 relative flex flex-col items-center md:pt-24 pt-16 md:pb-32 pb-16">
             <Image
               src={formImage}
               quality={100}
@@ -80,11 +77,12 @@ const EmailCourseTemplate: React.FC<EmailCourseTemplateProps> = ({
               alt="Email course"
             />
             <div className="py-8 text-center flex flex-col items-center">
-              <h2 className="text-4xl font-bold">{formHeadline}</h2>
-              <h3 className="text-xl font-light max-w-md pt-2 opacity-90 text-blue-200">
+              <h2 className="sm:text-4xl text-3xl font-bold">{formHeadline}</h2>
+              <h3 className="text-xl max-w-md pt-2 opacity-90 text-blue-200">
                 {formSubHeadline}
               </h3>
             </div>
+
             <SubscribeToConvertkitForm
               formId={ckFormId}
               onSuccess={(subscriber: any) => {
@@ -107,7 +105,7 @@ const EmailCourseTemplate: React.FC<EmailCourseTemplateProps> = ({
   )
 }
 
-export default EmailCourseTemplate
+export default HomeTemplate
 
 const SubscribeButton = () => {
   return (
@@ -133,4 +131,8 @@ const SubscribeButton = () => {
       />
     </Button>
   )
+}
+
+const Background: React.FC<{className: string}> = ({className}) => {
+  return <div aria-hidden="true" className={className} />
 }
