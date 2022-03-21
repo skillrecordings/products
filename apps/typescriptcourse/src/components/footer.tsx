@@ -25,7 +25,7 @@ const Footer = () => {
   const isRoot = router.pathname === '/new-index'
   return (
     <footer className="w-full flex flex-col bg-black/30 items-center justify-center pb-40 pt-16">
-      <div className="flex md:flex-row flex-col max-w-screen-lg w-full md:justify-between justify-center md:items-start items-center md:px-0 px-5">
+      <div className="flex md:flex-row flex-col max-w-screen-lg w-full md:justify-between justify-center md:items-start items-center lg:px-0 md:px-10 px-5">
         <nav aria-label="Secondary Navigation">
           {/* {!isRoot && <NavLink href="/new-index">All modules</NavLink>} */}
           <div className="flex items-center gap-3 pb-10">
