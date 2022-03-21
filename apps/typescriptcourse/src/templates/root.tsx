@@ -109,42 +109,27 @@ export default HomeTemplate
 
 const SubscribeButton = () => {
   return (
-    <div className="relative">
-      <Button className="relative overflow-hidden flex items-center justify-center">
-        <span className="relative z-10">Start the Course Now! </span>
-        <motion.div
-          initial={{
-            background: 'transparent',
-          }}
-          aria-hidden="true"
-          transition={{
-            repeat: Infinity,
-            duration: 3,
-            repeatDelay: 1.6,
-          }}
-          animate={{
-            background: [
-              'linear-gradient(to right, rgba(132, 171, 255, 0) -50%, rgba(132, 171, 255, 0) 0%, rgba(132, 171, 255, 0) 100%)',
-              'linear-gradient(to right, rgba(132, 171, 255, 0) 100%, rgb(132, 171, 255, 1) 200%, rgba(132, 171, 255, 0) 200%)',
-            ],
-          }}
-          className="absolute left-0 top-0 w-full h-full pointer-events-none items-center justify-center space-x-1 bg-white bg-opacity-10 bg-blend-overlay uppercase tracking-wide "
-        />
-      </Button>
-      <svg
-        className="rotate-[26deg] sm:absolute hidden -right-24 -top-36 scale-50 text-blue-400"
-        xmlns="http://www.w3.org/2000/svg"
-        width="81"
-        height="251"
-        fill="none"
-        viewBox="0 0 81 251"
-      >
-        <path
-          fill="currentColor"
-          d="M26.026 236.556c8.195-1.904 16.18-3.597 25.214-5.712-.63 5.501-3.992 8.675-7.774 9.944-11.347 3.809-22.904 7.406-34.67 9.945C2.072 252.214-1.5 247.347.6 240.788c3.362-11.002 7.354-21.793 11.136-32.796.21-.635.42-1.481.84-1.693 1.472-1.058 3.153-1.692 4.834-2.539.63 1.481 2.1 2.962 1.89 4.232-.63 4.443-1.68 8.675-2.52 12.907-.421 2.327-1.051 4.443 0 7.829 2.52-2.328 5.252-4.655 7.774-6.983C74.565 171.387 85.07 95.85 51.24 33.219c-4.412-8.04-9.665-15.446-14.498-23.274-1.681-2.751-3.152-5.502-4.833-8.252C32.33 1.058 32.96.635 33.38 0c1.891.635 4.413.846 5.673 2.327 4.413 4.655 8.826 9.31 12.608 14.6C89.483 69.401 90.954 142.4 54.813 198.894c-6.934 10.791-15.76 20.312-23.744 30.257-1.681 2.116-3.572 3.808-5.463 5.713-.21.423 0 1.058.42 1.692z"
-        />
-      </svg>
-    </div>
+    <Button className="relative overflow-hidden flex items-center justify-center">
+      <span className="relative z-10">Start the Course Now! </span>
+      <motion.div
+        initial={{
+          background: 'transparent',
+        }}
+        aria-hidden="true"
+        transition={{
+          repeat: Infinity,
+          duration: 3,
+          repeatDelay: 1.6,
+        }}
+        animate={{
+          background: [
+            'linear-gradient(to right, rgba(132, 171, 255, 0) -50%, rgba(132, 171, 255, 0) 0%, rgba(132, 171, 255, 0) 100%)',
+            'linear-gradient(to right, rgba(132, 171, 255, 0) 100%, rgb(132, 171, 255, 1) 200%, rgba(132, 171, 255, 0) 200%)',
+          ],
+        }}
+        className="absolute left-0 top-0 w-full h-full pointer-events-none items-center justify-center space-x-1 bg-white bg-opacity-10 bg-blend-overlay uppercase tracking-wide "
+      />
+    </Button>
   )
 }
 
