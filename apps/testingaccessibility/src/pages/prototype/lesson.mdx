@@ -1,0 +1,334 @@
+# Refactoring Markup for Keyboard Interactivity
+
+The Mega Menu at the top of the Home and About pages is an important feature of the site, but as we’ve discovered it currently only works with the mouse.
+
+In this module, we’ll refactor the menu so that it can work with the keyboard.
+
+## Inspect the Mega Menu Markup in DevTools
+
+---
+
+When we inspect the first menu item in DevTools, several problems become apparent.
+
+The menu is made up of several divs, which are not focusable nor operable from a keyboard. There are also several nested divs, which aren't written semantically to add structure.
+
+![Chrome DevTools inspecting the "Plan Your Trip" menu item. It's divs all the way down!](/images/Untitled.jpeg)
+
+Chrome DevTools inspecting the "Plan Your Trip" menu item. It's divs all the way down!
+
+### **Using DevTools to Check for Style States by Forcing Element State**
+
+---
+
+DevTools allows us to force element states like focus and hover. This is useful for checking for styling states that can give the user visual cues about an item's interactivity.
+
+However, in the case of the CampSpots menu, forcing element state for focus in DevTools doesn't change the styling at all.
+
+Since we can't interact with the menu with our keyboard, we'll see what happens when we interact with the mouse:
+
+![Gif of the mouse interacting with the menu.](/images/Untitled.gif)
+
+Gif of the mouse interacting with the menu.
+
+The menu shows hover states and expands when the mouse hovers over each option.
+
+Now that we know what the menu's mouse behavior is, we can formulate a plan of attack for making it keyboard accessible.
+
+<aside>
+💡 A user who relies on the keyboard and has to Tab through items that a mouse user doesn't have to see is not provided a one-to-one experience. Keyboard users should be able to skip past irrelevant items, such as in a closed menu.
+
+</aside>
+
+### 📼 Finding Issues & Determining Desired Menu Behavior
+
+[https://www.loom.com/share/0b8631e99513419ab5343e0d32e1b295](https://www.loom.com/share/0b8631e99513419ab5343e0d32e1b295)
+
+<details>
+<summary>Video Transcript</summary>
+
+So for keyboard testing, I always start there because it can uncover issues that impact screen reader, users, as well as keyboard users. And it's sadly common. Just how little keyboard accessibility is thought of even on big sites that really need it web applications where people pay their bills or do their banking.
+You know, there's legal space that requires accessibility and yet. It's unfortunately common. So it might make you cringe a little bit. And then we can use that cringe to motivate us to fix it. So what I typically do is hit the tab key, just start tabbing. And I'm seeing a lot of tab stops that are, I'm looking at the bottom down here in the status bar.
+And because this is a prototype, they are a bunch of links that have just the hash symbol in there. But if I keep tabbing, I can somewhere there there's the link to the about page. So I know I'm, I'm moving through this mega nav, but it's not open. It's not showing me where I am on the screen, which is a huge problem.
+But if I keep tabbing to see what is keyboard accessible, cause the tab key is what, how you would reach things. So here I'm in the form. I see my cursor blinking and the first input. Excuse me, then the second input. But then I skipped right by the submit button too. There's no focus style. It's not even reachable.
+So there's some major problem here with the submit button. I guess one exception would be if the, if the form had required fields or something and the submit was disabled until you filled out the form, but that is not the case with this type of form. It should just be reachable. There's no form validation there yet.
+Now I think I'm back. Yeah. Back at the top of the browser. So we've got some issues here and I see this a lot. So what's going on? We've got a way to hover. So each of these sections, so the PR to break down these problems in the mega NAB, because that's mostly where we're going to focus in this first section is that I can't see where I am on the top items.
+They seem to be focused bubble. So I'm, I'm doing control click here. I'm going to go inspect let's inspect the site.
+It's a div all the way down. So that's not focusing will it's not operable from a keyboard and it's not Symantec at all. We'll talk about semantics a little bit later. But the first problem is that we can't reach this item. It's completely mouse dependent. What I can do just to see kind of the shape of the, the solution or the shape of the problem over here in the developer tools we've got this little hover thing.
+You can force a state, so I'm going to force the hover state. And see if any styles pop up. So we've got the nav item and then the menu attached to it is right below. And so, yeah, there's, it's just very Not not working at all. And I'm not even really seeing anything from this for Solomon state at the moment.
+But the first thing I know we need to do is make these top items, make them into something focused full, so probably button elements. Since they're going, their action will be to open the associated sub menu. And this can get a bit subjective in how you design it. So the top items, I'm choosing buttons because they're not going to navigate the user anywhere.
+They're purely a toggle to open the sub. And then so say I, I, I want to be able to focus on here. I want it to be able to hit the enter key and have it opened the sub menu. I also want to make it so that if this sub menus, if these aren't open, I don't want focus to go inside of it. So when I was hitting tab, a bunch of times going through here, Let's see.
+So I'm going through all of these hidden items that I shouldn't be able to see. And one tip that I can show you that I use quite often. If I'm confused about where I am, I'm going to in Chrome developer tools, I can create a live expression. I can say document dot. Body thought add event listener. This is a hack I use all the time.
+I'm gonna say focus in. So I'm gonna focus on the, on the document body, just as like a, a hacking test. And in this callback function, this is the kind of thing that you can certainly, I would copy and paste it. If I didn't know it by heart, from typing it so much, I'm going to console dot log document.active element.
+And make sure that's closed. And then, so that now that live expression has been accepted by Chrome it's attaches a listener to the body on focus, which is a, an event that will it'll focus in and log whatever element is the active element for every focus. So I'm going through here find a camping spot.
+Events passes. So yeah. Where are these events pass this trip ideas. So I'm, that's a way that I can see what am I focused on inside of here. And. That shouldn't happen if these menus are closed. So imagine if you're relying on the keyboard and you're having to focus through things that sighted users aren't, they're not seeing, that's not a one-to-one experience.
+And it can be really irritating to have. Tab through a bunch of stuff that you can't skip by when everyone else visually is skipping by it. So we want to hide that stuff probably with display none, or, you know, some way to make sure that those items are not focused double when they're not needed.
+So that's the general problem that we want to work work through on the.
+
+</details>
+
+## 🛠 Challenge 1: Fix Mega Menu Markup to Enable Keyboard Navigation
+
+---
+
+Before we dive in, let's capture exactly what the interactions with the mega menu should be:
+
+- The keyboard should be able to select a top-level menu item.
+- The submenu should be able to toggle open and closed if an `active` CSS class is applied.
+- Hitting Tab should not focus items in submenus that are not opened.
+
+Only worry about making changes to the HTML & CSS for now— we'll work on the JavaScript next!
+
+**📼 An Overview of the Header & Menu Markup**
+
+[https://www.loom.com/share/bdfc31868d8f49e6a69da5a73932748b](https://www.loom.com/share/bdfc31868d8f49e6a69da5a73932748b)
+
+<details>
+<summary>Video Transcript</summary>
+  Okay. So I've got a, I've got my focus now on vs code. I'm going to go into exercises. Start here is our HTML, which if you're often in, you know, JavaScript land with react or some other JavaScript framework, this might be, you know, taking you back to only HTML, but it is so useful still, and really refreshing to be able to, to just write some vanilla code here.
+  So I've got our index page and there's this include that parcel and post HTML or allowing us to, so this way, when we make changes to the header, we only have to make them in one place instead of having to do it in two pages, which would be a nightmare. So if I go into includes, this is where I can find our header.
+  And there's some SVG in here. Since this was sort of a prototype. I put the SVG in line. But if you were building this out for production, you might use another approach. Maybe it's done server side or, yeah. There's different ways to embed this Fiji, but if it's kind of in your face, you can envious code over here on the left.
+  You can toggle to collapse any verbose code or code that you don't need. So in our header, we've got a whole lot of dibs. We've got a, an anchor for the logo and that was reachable because it's an actual anchor with an ATF that's working. Okay. And within our mega menu, this is really where the.
+
+</details>
+
+### ✅ Solution Part 1: Changing divs to buttons
+
+---
+
+The code for the Mega Menu is inside of the `_includes` directory.
+
+Inside of the Header are are several divs.
+
+Each of the navigation menu items ("Plan Your Trip", "Ways to Stay", and "Resources") are all divs.
+
+The first thing to do is change them to button elements instead.
+
+<aside>
+😎 VSCode Tip: You can double click inside of the opening `div` and hit `CMD+D` on Mac (`CTRL+D` on Windows) to select both start and end tags for simultaneous editing.
+
+</aside>
+
+![Screenshot of the menu code diff](/images/Untitled.png)
+
+Screenshot of the menu code diff
+
+When all three menu items have been switched to buttons, we are able to Tab through them but the styling is off.
+
+![Navigation button styles don't match the rest of the menu.](/images/Untitled-1.png)
+
+Navigation button styles don't match the rest of the menu.
+
+**📼 Fixing Menu Markup** (Challenge 1 - Solution Part 1)
+
+[https://www.loom.com/share/292ebccba1a246c883c9800e3f3ab628](https://www.loom.com/share/292ebccba1a246c883c9800e3f3ab628)
+
+<details>
+<summary>Video Transcript</summary>
+
+So the plan, your trip, that first one, I'm going to make it into a button. So I actually double clicked the first div. And if I do command D on my Mac, I can select the opening tag and the closing tag and change it to a button. So there's our first one. I am going to collapse the mega menu sub menu next to it.
+So I can see the next item and do that one at the same time. So I'm making these into buttons. And collapse that sub menu go to the third one for resources, change it to a button. I'm going to do command S to save. We'll go back over to our browser. Hey, we've got some buttons, but they look terrible. So we have some CSS changes to make, which honestly is sometimes the reason why this happens is that developers.
+I mean, I'm not going to say there were all, you know, where this comes about from being lazy. Maybe it's just uninformed or there's other constraints that make it hard to style. But we do need to go over to our CSS and make some changes, so, oh, and before I do that, let me go back to the browser. I want to tab through here and see.
+We don't have any focus styles. So let's see what's going on there. I inspect these buttons and I go over here to our little force element state and go to focus.
+Oh, here. So under there is a wild card selector in our style sheet that says, outline zero. If I turn that off, I should be able to. C, but it is not showing me kind of wonder if there's something going on with my browser. Cause if I forced focus on here, I should see an outline, but we'll, we'll just ignore that for now.
+But I do see that outline none on the wildcard selector.
+
+</details>
+
+### ✅ Solution Part 2: Updating Menu Button Styling
+
+---
+
+When we inspect the buttons in DevTools, we can see that there's a wildcard selector with a rule of `outline: 0;` that we need to remove. When this rule is in place, there's no way for the user to have visual feedback as to which element is focused.
+
+The stylesheet has classes for `.megamenu-navitem` which we can update to be associated with the buttons.
+
+We don't want the buttons to have a border, so we will set `border: none;`.
+
+The background color can be transparent. Setting `display: inline-block;` will fix the slightly rounded button shape that looks off since they are inside of a Flexbox container.
+
+![Screenshot of Mega menu nav item CSS diff](/images/Untitled-2.png)
+
+Screenshot of Mega menu nav item CSS diff
+
+Buttons can look a bit off sometimes, especially in desktop and iOS Safari. This is in part because of some styling defaults that need to be overwritten (and is sometimes why the button element is disregarded).
+
+For more consistent styling, we'll add a CSS rule for our nav buttons to have `-webkit-appearance: none;`.
+
+At this point, we can see that our top-level menu items are focusable and the styling looks good!
+
+However, we are still able to Tab through the submenu items that aren't displayed on the screen.
+
+<aside>
+💡 **Tip:** Holding the Shift key while refreshing the browser will allow you to clear the browser's cache. This is useful if you aren't seeing expected CSS changes take place.
+
+</aside>
+
+![Screenshot of the properly styled nav items, but the submenu is still being registered.](/images/Untitled-3.png)
+
+Screenshot of the properly styled nav items, but the submenu is still being registered.
+
+<aside>
+🤔 Notice how long this stylesheet is? The reason there are so many class names is because there aren't very many semantic hooks into our markup. As the workshop progresses, we will continue to clean up our styles to be more semantic.
+
+</aside>
+
+**📼 Fixing Menu Nav Styling to Match Original Design** (Challenge 1 - Solution Part 2)
+
+[https://www.loom.com/share/039870cbacfa4366aa7b27445cff6d31](https://www.loom.com/share/039870cbacfa4366aa7b27445cff6d31)
+
+<details>
+<summary>Video Transcript</summary>
+
+So let's do that. Our style sheet is in styles that CSS. So these files and exercises start are all the ones that you will make changes to. And if you wanted to look ahead, An exercise keyboard. There is a structure here that you could look at the styles that I have there. If you would like, you might also find that there is a JavaScript file in there.
+Cause ultimately we can do a lot with CSS, but we're going to need some JavaScript to make the mega menu stay open when we want. And when we get into the later parts of the workshop, we'll be adding some aria to it, to indicate the state of the mega menu. But since we're just looking at keyboard for now, we'll stay over here and our, our exercises start CSS.
+So the first thing let's get this outline done out of there and that better. I feel like Barbara. So we've got outlined on out of there. Let's look at our, our header, the class names for this, which there's a whole lot of CSS classes here because they were, there was no semantic hooks otherwise. So if I have.
+I don't know if I had one parent class on the mega menu and then it had more semantic lists or buttons, or, you know, if other parts of the webpages, if we had section elements or things that we could use, those tag names and our selectors, I could cut down on the number of CSS classes, but since this was div soup, all the way down, It needed some sort of identifier.
+So that's why you might find more CSS classes than you would otherwise. So yeah, when you're refactoring and making things more semantic and more accessible throughout the workshop, we can certainly cut down on some of these CSS classes. But in these buttons, they are called mega menu nav item. And there's also this thing that says header main item.
+So that's kind of a clue that later on, when we're looking at semantics, we will go in and change some of these or wrap these in headers so that they create headings in each of these sections. But for now, let's go find mega menu nav item. I'm going to go mega menu, nav item. And I'm looking at the clock for now.
+So we've got this it's got a color on it. It had a border that I think we don't want some to say border none. I'm gonna make it a transparent background color. Let's see, what else did it have? It may have some like funky style, like shape because I changed it from a div to a button. So I'm going to change it to display in line blocks.
+So it sits in line. It is inside of a Flexbox container. But buttons sometimes like, especially in safari, you'll be like, why is this off by two pixels or whatever? And it's because buttons have in their user the user agent style sheet, which is the default one that the browser supply, there can be some defaults that you have to override.
+One other one I happen to know about as WebKit appearance, none that affects safari and iOS safari. So I'm going to hit refresh. Before we go into our working session. Let's see. And if you're not seeing changes to the CSS, hold the shift key and refresh and then parcel will, or the browser cache will update.
+So that got these to sit in line. So at least the, the buttons now. We are we're part of the way there, so I can focus on the top items. We're still having issues with the mega menus being like there, you can still tap through the things that you should. So, what we need to do is if this is not open we need to make it display none.
+So there's gonna have to be an active CSS class that we add. So let's say when it's open, I add active JavaScript, we'll be toggling that. And I think what we'll end up doing is I'm going to write some JavaScript. I'll, I'll be in this section. And as you do your. I'm going to keep working over here too.
+You're welcome to what just watch along if you want. But what I'm going to do is write some JavaScript that will hook into this act of it'll apply the act of class when I click or use my keyboard. And if I hit the escape key or I hit enter again on the same item, or I hit enter on the next item it will close that and remove that act of class.
+So that'll give us some styling hooks. We can hide the mega menu sub menus if they're not open and when they are open one at a time.
+
+</details>
+
+### ✅ Solution Part 3: Fixing Submenu Item Tabbing
+
+---
+
+With the way that the submenu is currently set up, the submenu opens when the mouse hovers over a menu item. We can see this in our `styles.css` file in the `.megamenu-section:hover` rules.
+
+The first thing to do in order to fix the submenu issue is to make it `display: none;` when it's not open. This is the easiest way to allow a keyboard user to Tab through the top-level menu items without having to navigate through each of the hidden submenu items.
+
+![Diff of the change from display:flex to display:none](/images/Untitled-4.png)
+
+Diff of the change from display:flex to display:none
+
+Note that in the menu there's a carat that appears to show that a menu item is active.
+
+![A carat indicates the menu is active.](/images/Untitled-5.png)
+
+A carat indicates the menu is active.
+
+As a subjective choice, I'm only going to show the carat if the submenu is open (i.e. it has the `active` class applied).
+
+In the CSS, I'll remove the `:hover` psuedo-class from `.megamenu-section` and update it to `display: flex;` if it has the `.active` class.
+
+![Diff of the megamenu-section CSS changes](/images/Untitled-6.png)
+
+Diff of the megamenu-section CSS changes
+
+Now in my browser, I can manually add the `active` class to my first `megamenu-section`, and I can see that the submenu is displayed.
+
+![Untitled](/images/Untitled-1.jpeg)
+
+Design-wise it would be good to retain the background color we saw when a menu item was hovered, so I'll add a declaration for that rule:
+
+```css
+.megamenu-section.active .megamenu-navitem,
+.megamenu-section:hover .megamenu-navitem {
+  background-color: #f2f2f3;
+}
+```
+
+**📼 Mega Menu CSS Fixes** (Challenge 01 - Solution Part 3)
+
+[https://www.loom.com/share/a96c6eb96a9241f1b007d52691986a7a](https://www.loom.com/share/a96c6eb96a9241f1b007d52691986a7a)
+
+<details>
+<summary>Video Transcript</summary>
+
+Okay. So I've fixed that part. I'm going to keep going through the CSS and here's where things get interesting. We've got a hover and it's all CSS driven. And I got this inspiration from w three schools. Don't use them as a resource because they have stuff like this. So I think the hover I'm going to keep.
+This background color. When I hover over an item, I think that can stay as a hover since it has a focus outline, but the first thing I want to do. Is so mega menu, sub menu, that's that sibling of the buttons. And I coded it that way so that it would be easy to refactor this to be accessible. So the button that you're focused on and the sub menu are there siblings, as opposed to being in completely different parts of the page, but I'm going to say display none on these mega menu sub menus to start out, and then we will.
+Be able to tab through here and skip by. So that's way more ergonomic. Now, if I'm a keyboard user and I don't want to like say I'm trying to get to the about page. I don't want to have to tab through every tab stop and the mega menu to do that. So now I can just skip on by. So I'm going to make a design decision here too.
+When I hit the enter key on this item, I'm going to open that sub menu and apply the, the act of class. And I'm going to look through here a little bit more. So there is a. Little carrot that applies when I hover over an item, that's what I want to show that indicates it as pinned open when I click cause I'm going to, I'm going to remove the hover of the mega menu completely.
+And that is a bit of a subjective choice. Because sometimes, you know, your design team might really want it hover menu. And it can be done. It will get more complicated. So if I'm making the choice to make it only open on, on click and that will also facilitate touch devices and clicking can be done from the keyboard to that's the enter key on something that is either a button element or has a key here.
+Okay. So I am going to change this from a hover to mega menu section and when it has an active class and it will get that little carrot. So the. Mega menu section. I don't want that to hover anymore either. I want that to have an active class and instead of displaying none, that's when I'll say that it's display flex.
+So display block is often, you know, we're flipping between display none or display block there's other display values, so we can use display flex or display grid whatever we need to, when it's visible and rendered to have the shape. So that makes it the flex makes it easier to style the children.
+So let's see. Now if I I'm gonna do a hard refresh here. So if I got the hover states, if I go in here to mega menu section the first one, and I can just, hard-code this active class in here. We've got to make a venue. And so that's, that's kind of the end state of what we want. And so we're going to toggle that with JavaScript.
+So if I take this class off and I put it on the next one, let's do this little test. Well, I am, we've got another mega menu. And so we've got that little carrot. That'll indicate it as open. I think we probably want the hover state, maybe of the parent item, this little gray background to also show on the active state.
+So I'll go back to my vs code and that one. Background color right here. Mega menu, section, colon, hover, mega menu, nav item. I'm going to copy that. And I'm going to add another CSS declaration here and say if that's active. So if we hover or if it's active, And maybe you could make these slightly different styles too, but for now, I'm going to do that at least to have it show something when it's, when it's open.
+So let's do this before we add our JavaScript. Okay. Cool.
+
+</details>
+
+## 🛠 Challenge 2: Enable Keyboard Interactivity for the Home page Search Button
+
+---
+
+Inspecting the search button on the homepage shows us that it is a custom div with an `onClick` event.
+
+Replace the custom div “button” to use a focusable element by default.
+
+<aside>
+💡 **Hint:** *these UI controls are meant to submit forms, not navigate the user anywhere. Note that there are several semantic issues with building a form made out of divs, but for now we are only concerned with keyboard accessibility.*
+
+</aside>
+
+### ✅ Solution: Replace the div with a button
+
+---
+
+The first thing to do is to switch the Submit button to not only have a CSS class of `.button` but to be an actual button element.
+
+<aside>
+💡 Adding `type="submit"` to our button won't do anything with how the markup is now. This is because our form is inside of divs instead of a form element. We will revisit this later.
+
+</aside>
+
+The "Send" button on the About page can be fixed the same way.
+
+![Diff of the Search button](/images/Untitled-7.png)
+
+Diff of the Search button
+
+### 🎓 Extra Credit: Update the Search Button Focus Style
+
+---
+
+With this fix in place, we are now able to Tab to reach our submit button. However, the default blue focus outline used by the browser is hard to see around our dark search button.
+
+![The default blue outline used by web browsers is hard to distinguish next the dark background color of our search button.](/images/Untitled-8.png)
+
+The default blue outline used by web browsers is hard to distinguish next the dark background color of our search button.
+
+As an Extra Credit exercise, update the focus styling to stand out more against the button and section background colors.
+
+**📼 Fixing the Home Page Search Button** (Challenge 2 - Solution)
+
+[https://www.loom.com/share/393259f1f8014bbc8023d4c0f893e8b0](https://www.loom.com/share/393259f1f8014bbc8023d4c0f893e8b0)
+
+<details>
+<summary>Video Transcript</summary>
+
+So here it is buttons submit. You would think with a class name, like button that it would, it would be an actual button, but it is not. So let's make this a button. I can select it properly. Now we've got a, a button and it's not inside of a form. So it's going to behave a little bit differently than if it were.
+So if I added types of mint or something that would only be relevant if we were inside of a forum, which we aren't yet, but we will a little bit later. So now if I come back here and refresh the page, I can skip by those nav items. That's so nice. And if I come down here, I can see, or, well, I can kind of see it, the submit button.
+What I would do opt to do, I think is give it a custom focus style because the default browser blue outline is not very visible on that black background. So we want to have enough contrast between the focus style and whatever's being focused. And since I have a custom submit button, Pretty easily add a custom submit or a custom focused style.
+
+</details>
+
+## 🛠 Challenge 3: Fix the About Page Submit Button
+
+---
+
+There’s another pesky div “button” on the About page. Replace the div with a more accessible element similar to the Homepage.
+
+**📼 Fixing the About Page Submit Button (Solution)**
+
+[https://www.loom.com/share/7e4ffc0daf1345c08f8ecd710bc3ad82](https://www.loom.com/share/7e4ffc0daf1345c08f8ecd710bc3ad82)
+
+<details>
+<summary>Video Transcript</summary>
+
+I'm going to go over to our about page and see what's going on there for accessibility. I did hide the menu and I haven't fixed it yet with the scripting. So I'm going to manually go over here to the about page, but this is in pretty good shape now that we have that outline none. It's amazing.
+Like you have one outline none and it affects the whole site. So you take that out of there. It can improve things quite a bit. But I did see that we skipped by our send button and I think it's a similar situation of our other submit button. It's really a submit button, but it's called button send, cause it has a, the word send and an arrow, but it could be button submit and just another type of button submit.
+The one on the homepage only has an icon and this one actually has some texts, so they have some styling differences, but I think you could, we can reason that this is a submit button. So I'm going to go over to about and go find our. Button send let's change that to a button. And if I refresh, I can.
+
+</details>
+
+---
+
+Next lesson
