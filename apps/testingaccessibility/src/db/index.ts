@@ -5,7 +5,7 @@ export * from '@prisma/client'
 let prisma: PrismaClient
 
 declare module globalThis {
-  let prisma: PrismaClient | undefined
+  let prisma: PrismaClient
 }
 
 if (process.env.NODE_ENV === 'production') {
