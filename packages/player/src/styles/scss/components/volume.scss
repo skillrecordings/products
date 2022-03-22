@@ -45,6 +45,7 @@
   .cueplayer-react-volume-bar {
     width: 6em;
     position: relative;
+    @include display-flex(center);
 
     .cueplayer-react-volume-slider {
       opacity: 0;
