@@ -1,17 +1,19 @@
 import * as React from 'react'
 import {useSelector} from '@xstate/react'
+import {PopupButton} from '../popup/popup-button'
 import cx from 'classnames'
 import {VolumeBar} from '../volume-control/volume-bar'
 import {useVideo} from '../../context/video-context'
 import {selectMuted, selectVolume} from '../../selectors'
 
 export const VolumeMenuButtonControl: React.FC<any> = (props) => {
-  const {className, alwaysShowVolume} = props
-  const [isActive, setActive] = React.useState(alwaysShowVolume)
+  const {className, vertical = false, alwaysShowVolume} = props
+  const [active, setActive] = React.useState(false)
   const videoService = useVideo()
   const volume = useSelector(videoService, selectVolume)
   const muted = useSelector(videoService, selectMuted)
 
+  const inline = !vertical
   const level = volumeLevel()
 
   function volumeLevel() {
@@ -35,41 +37,30 @@ export const VolumeMenuButtonControl: React.FC<any> = (props) => {
   }
 
   function handleBlur() {
-    !alwaysShowVolume && setActive(false)
+    setActive(false)
   }
 
   return (
-    <div className="cueplayer-react-volume-control" aria-label="Volume Control">
-      <button
-        onFocus={handleFocus}
-        onBlur={handleBlur}
-        onMouseEnter={handleFocus}
-        onMouseLeave={handleBlur}
-        title={muted ? 'Unmute' : 'Mute'}
-        aria-label={muted ? 'Unmute' : 'Mute'}
-        role="button"
-        onClick={handleClick}
-        className={cx(
-          className,
-          {
-            'cueplayer-react-vol-muted': muted,
-            'cueplayer-react-vol-0': level === 0 && !muted,
-            'cueplayer-react-vol-1': level === 1,
-            'cueplayer-react-vol-2': level === 2,
-            'cueplayer-react-vol-3': level === 3,
-          },
-          'cueplayer-react-volume-menu-button',
-          'cueplayer-react-control',
-          'cueplayer-react-button',
-          'cueplayer-react-menu-button',
-        )}
-      />
-      <VolumeBar
-        onMouseEnter={handleFocus}
-        onMouseLeave={handleBlur}
-        isActive={isActive}
-        {...props}
-      />
-    </div>
+    <PopupButton
+      className={cx(
+        className,
+        {
+          'cueplayer-react-volume-menu-button-vertical': vertical,
+          'cueplayer-react-volume-menu-button-horizontal': !vertical,
+          'cueplayer-react-vol-muted': muted,
+          'cueplayer-react-vol-0': level === 0 && !muted,
+          'cueplayer-react-vol-1': level === 1,
+          'cueplayer-react-vol-2': level === 2,
+          'cueplayer-react-vol-3': level === 3,
+          'cueplayer-react-slider-active': alwaysShowVolume || active,
+          'cueplayer-react-lock-showing': alwaysShowVolume || active,
+        },
+        'cueplayer-react-volume-menu-button',
+      )}
+      onClick={handleClick}
+      inline={inline}
+    >
+      <VolumeBar onFocus={handleFocus} onBlur={handleBlur} {...props} />
+    </PopupButton>
   )
 }
