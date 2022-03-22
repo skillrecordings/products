@@ -19,6 +19,7 @@
   "dependencies": {
     "@babel/core": "^7.16.5",
     "@emotion/react": "^11.4.1",
+    "@reach/slider": "^0.16.0",
     "@reach/tabs": "^0.16.4",
     "@skillrecordings/react": "workspace:*",
     "@tippyjs/react": "^4.2.5",
