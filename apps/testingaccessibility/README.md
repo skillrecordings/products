@@ -26,3 +26,35 @@ pnpm dev
 We are using next-auth for authentication via JWTs. You'll need to get it running locally!
 
 ### Install Tools
+
+https://docs.planetscale.com/tutorials/automatic-prisma-migrations
+
+Install the [Planetscale CLI](https://github.com/planetscale/cli).
+
+```bash
+pscale auth login
+```
+
+```bash
+pscale connect testing-accessibility main --port 3309
+```
+
+Changes to your schema in Planetscale happen on a branch:
+
+```bash
+pscale branch create testing-accessibility some-branch-name
+```
+
+Changes to the schema are pushed and **Planetscale handles the migrations**.
+
+```bash
+npx prisma db push
+```
+
+When the branch is ready, it gets a deploy request made:
+
+```bash
+pscale deploy-request create testing-accessibility some-branch-name
+```
+
+
