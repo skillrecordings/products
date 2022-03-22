@@ -2,9 +2,10 @@
   /*
   Volume Container
   */
-  .cueplayer-react-volume-control {
-    @include display-flex(center);
-  }
+
+  /*
+  .cueplayer-react-volume-control {}
+  */
 
   /*
   Volume Button
@@ -15,6 +16,7 @@
 
   .cueplayer-react-mute-control,
   .cueplayer-react-volume-menu-button {
+    align-self: stretch;
     font-size: 0.85em;
     cursor: pointer;
     @include flex(none);
