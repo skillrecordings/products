@@ -27,6 +27,14 @@ We are using next-auth for authentication via JWTs. You'll need to get it runnin
 
 ### Install Tools
 
+Generate the Prisma Client:
+
+```bash
+npx prisma generate
+```
+
+This generates to an ignored folder that is recognized as an output for Turbo.
+
 https://docs.planetscale.com/tutorials/automatic-prisma-migrations
 
 Install the [Planetscale CLI](https://github.com/planetscale/cli).
