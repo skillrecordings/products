@@ -8,8 +8,150 @@
     $cueplayer-react-secondary-background-color,
     $cueplayer-react-secondary-background-transparency
   );
+  /* 
+   &:focus {
+     @include box-shadow(0 0 1em $cueplayer-react-primary-foreground-color);
+   } 
+   */
+}
 
-  // &:focus {
-  //   @include box-shadow(0 0 1em $cueplayer-react-primary-foreground-color);
-  // }
+/* 
+Reach UI Slider
+https://reach.tech/slider
+*/
+
+:root {
+  --reach-slider: 1;
+}
+
+.cueplayer-react {
+  [data-reach-slider-input] {
+    max-width: 100%;
+  }
+
+  [data-reach-slider-input][data-orientation='horizontal'] {
+    height: 0.25rem;
+  }
+
+  [data-reach-slider-input][data-orientation='vertical'] {
+    width: 0.5rem;
+    /* the height is somewhat arbitrary but necessary for vertical sliders for
+  basic functionality */
+    height: 250px;
+    max-height: 100%;
+  }
+
+  [data-reach-slider-input][data-disabled] {
+    opacity: 0.5;
+    pointer-events: none;
+  }
+
+  [data-reach-slider-track] {
+    position: relative;
+    border-radius: 0.25rem;
+    @include background-color-with-alpha(
+      $cueplayer-react-primary-foreground-color,
+      0.2
+    );
+  }
+
+  [data-reach-slider-track][data-orientation='horizontal'] {
+    width: 100%;
+    height: inherit;
+  }
+
+  [data-reach-slider-track][data-orientation='vertical'] {
+    width: inherit;
+    height: 100%;
+  }
+
+  /* This pseudo element provides an invisible area that increases the touch
+target size of the track */
+  [data-reach-slider-track]::before {
+    content: '';
+    position: absolute;
+    height: 2.5rem;
+  }
+
+  [data-reach-slider-track][data-orientation='horizontal']::before {
+    width: 100%;
+    height: 1.5rem;
+    top: calc(-0.5rem - 1px);
+    left: 0;
+  }
+
+  [data-reach-slider-track][data-orientation='vertical']::before {
+    width: 1.5rem;
+    height: 100%;
+    top: 0;
+    left: calc(-0.5rem - 1px);
+  }
+
+  [data-reach-slider-handle] {
+    width: 16px;
+    height: 16px;
+    @include background-color-with-alpha(
+      $cueplayer-react-primary-foreground-color,
+      1
+    );
+    border-radius: 10px;
+    z-index: 1;
+    transform-origin: center;
+  }
+
+  [data-reach-slider-handle][aria-orientation='horizontal'] {
+    top: 50%;
+    transform: translateY(-50%);
+  }
+
+  [data-reach-slider-handle][aria-orientation='horizontal']:focus {
+    transform: translateY(-50%);
+  }
+
+  [data-reach-slider-handle][aria-orientation='vertical'] {
+    left: 50%;
+    transform: translateX(-50%);
+  }
+
+  [data-reach-slider-range] {
+    border-radius: inherit;
+    @include background-color-with-alpha(
+      $cueplayer-react-primary-foreground-color,
+      0.5
+    );
+    left: 0;
+    bottom: 0;
+  }
+
+  [data-reach-slider-range][data-orientation='horizontal'] {
+    height: 100%;
+  }
+
+  [data-reach-slider-range][data-orientation='vertical'] {
+    width: 100%;
+  }
+
+  [data-reach-slider-marker] {
+    background: hsl(0, 0%, 50%);
+    transform-origin: center;
+  }
+
+  [data-reach-slider-marker][data-orientation='horizontal'] {
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 3px;
+    height: 0.75rem;
+  }
+
+  [data-reach-slider-marker][data-orientation='vertical'] {
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 0.75rem;
+    height: 3px;
+  }
+
+  /* 
+  [data-reach-slider-marker][data-state="at-value"],
+  [data-reach-slider-marker][data-state="under-value"] {}
+  */
 }
