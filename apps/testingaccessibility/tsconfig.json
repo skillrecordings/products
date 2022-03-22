@@ -13,5 +13,8 @@
     "src",
     "next-env.d.ts",
     "process.d.ts"
+  ],
+  "exclude": [
+    "src/generated"
   ]
 }
