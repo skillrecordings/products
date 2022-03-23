@@ -1,9 +1,6 @@
 import type {NextApiRequest, NextApiResponse} from 'next'
-import Stripe from 'stripe'
+import {stripe} from '../../../utils/stripe'
 
-const stripe = new Stripe(process.env.STRIPE_SECRET_TOKEN, {
-  apiVersion: '2020-08-27',
-})
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse,
@@ -11,6 +8,19 @@ export default async function handler(
   if (req.method === 'POST') {
     try {
       // Create Checkout Sessions from body params.
+
+      // const prices = await stripe.prices.list({
+      //   active: true,
+      //   product: req.body.product_id,
+      //   expand: ['data.tiers'],
+      // })
+      //
+      // const promotionCode = await stripe.promotionCodes.create({
+      //   coupon: coupon.identifier,
+      // })
+      //
+      // stripe.coupons.list()
+
       const session = await stripe.checkout.sessions.create({
         discounts: [
           {
@@ -35,7 +45,7 @@ export default async function handler(
       } else {
         res.status(500).json({error: 'no Stripe session URL'})
       }
-    } catch (err) {
+    } catch (err: any) {
       res.status(err.statusCode || 500).json(err.message)
     }
   } else {

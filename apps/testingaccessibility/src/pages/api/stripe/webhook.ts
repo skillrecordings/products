@@ -1,10 +1,6 @@
-import Stripe from 'stripe'
 import {buffer} from 'micro'
 import type {NextApiRequest, NextApiResponse} from 'next'
-
-const stripe = new Stripe(process.env.STRIPE_SECRET_TOKEN, {
-  apiVersion: '2020-08-27',
-})
+import {stripe} from '../../../utils/stripe'
 
 const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET
 
@@ -28,7 +24,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
       } else {
         console.warn(`Unhandled event type: ${event.type}`)
       }
-    } catch (err) {
+    } catch (err: any) {
       res.status(400).send(`Webhook Error: ${err.message}`)
       return
     }

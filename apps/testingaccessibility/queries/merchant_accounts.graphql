@@ -1,0 +1,25 @@
+query getMerchantAccount($id: uuid!) {
+  merchant_accounts_by_pk(id: $id) {
+    id
+    merchant_coupons {
+      type
+      percentage_discount
+      id
+      identifier
+    }
+    payment_processor_id
+  }
+}
+
+query getMerchantAccounts {
+  merchant_accounts {
+    id
+    merchant_coupons {
+      type
+      percentage_discount
+      id
+      identifier
+    }
+    payment_processor_id
+  }
+}

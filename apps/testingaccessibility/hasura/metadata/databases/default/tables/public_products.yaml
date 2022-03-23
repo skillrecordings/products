@@ -2,6 +2,13 @@ table:
   name: products
   schema: public
 array_relationships:
+- name: coupons
+  using:
+    foreign_key_constraint_on:
+      column: restricted_to_product_id
+      table:
+        name: coupons
+        schema: public
 - name: merchant_products
   using:
     foreign_key_constraint_on:

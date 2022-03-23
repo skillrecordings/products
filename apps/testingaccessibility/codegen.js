@@ -1,32 +1,35 @@
+const common = {
+  schema: [
+    {
+      'http://localhost:8080/v1/graphql': {
+        headers: {
+          'x-hasura-role': 'admin',
+          'x-hasura-admin-secret': 'admin_secret',
+        },
+      },
+    },
+  ],
+  plugins: [
+    'typescript',
+    'typescript-operations',
+    'typescript-graphql-request',
+  ],
+
+  config: {
+    preResolveTypes: true,
+    skipTypename: false,
+    enumsAsTypes: true,
+    constEnums: true,
+    gqlImport: 'graphql-request#gql',
+  },
+}
+
 module.exports = {
   overwrite: true,
   generates: {
-    './src/utils/next-auth/adapters/hasura/generated-next-auth-admin.ts': {
-      schema: [
-        {
-          'http://localhost:8080/v1/graphql': {
-            headers: {
-              'x-hasura-role': 'admin',
-              'x-hasura-admin-secret': 'admin_secret',
-            },
-          },
-        },
-      ],
+    './src/lib/generated-api.ts': {
       documents: ['./queries/*.graphql'],
-      plugins: [
-        'typescript',
-        'typescript-operations',
-        'typescript-graphql-request',
-      ],
-
-      config: {
-        preResolveTypes: true,
-        skipTypename: false,
-        enumsAsTypes: true,
-        constEnums: true,
-        // documentMode: 'string',
-        gqlImport: 'graphql-request#gql',
-      },
+      ...common,
     },
   },
 }

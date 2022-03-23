@@ -1902,6 +1902,7 @@ importers:
       remark-code-titles: ^0.1.2
       remark-footnotes: ^4.0.1
       remark-slug: ^7.0.1
+      short-uuid: ^4.2.0
       simplebar-react: ^2.3.6
       stripe: ^8.186.1
       swr: ^1.2.2
@@ -1980,6 +1981,7 @@ importers:
       remark-code-titles: 0.1.2
       remark-footnotes: 4.0.1
       remark-slug: 7.0.1
+      short-uuid: 4.2.0
       simplebar-react: 2.3.6_react-dom@17.0.2+react@17.0.2
       stripe: 8.186.1
       swr: 1.2.2_react@17.0.2
@@ -10192,6 +10194,10 @@ packages:
     resolution: {integrity: sha512-VbqNsoz55SYGczauuup0MFUyXNQviSpFTj1RQtFzmQLk18qbVSpTFFGMT293rmDaQuKCT6InmbuEyUne4mTuxQ==}
     engines: {node: '>=12'}
     dev: true
+
+  /any-base/1.1.0:
+    resolution: {integrity: sha512-uMgjozySS8adZZYePpaWs8cxB9/kdzmpX6SgJZ+wbz1K5eYk5QMYDVJaZKhxyIHUdnnJkfR7SVgStgH7LkGUyg==}
+    dev: false
 
   /any-observable/0.3.0:
     resolution: {integrity: sha512-/FQM1EDkTsf63Ub2C6O7GuYFDsSXUwsaZDurV0np41ocwq0jthUAYCmhBX9f+KwlaCgIuWyr/4WlUQUBfKfZog==}
@@ -25287,6 +25293,14 @@ packages:
       vscode-textmate: github.com/octref/vscode-textmate/e65aabe2227febda7beaad31dd0fca1228c5ddf3_onigasm@2.2.5
     transitivePeerDependencies:
       - oniguruma
+    dev: false
+
+  /short-uuid/4.2.0:
+    resolution: {integrity: sha512-r3cxuPPZSuF0QkKsK9bBR7u+7cwuCRzWzgjPh07F5N2iIUNgblnMHepBY16xgj5t1lG9iOP9k/TEafY1qhRzaw==}
+    engines: {node: '>=8'}
+    dependencies:
+      any-base: 1.1.0
+      uuid: 8.3.2
     dev: false
 
   /side-channel/1.0.4:

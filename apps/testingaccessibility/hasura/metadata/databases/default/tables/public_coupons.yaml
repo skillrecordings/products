@@ -5,6 +5,9 @@ object_relationships:
 - name: merchant_coupon
   using:
     foreign_key_constraint_on: merchant_coupon_id
+- name: restricted_to_product
+  using:
+    foreign_key_constraint_on: restricted_to_product_id
 array_relationships:
 - name: purchases
   using:

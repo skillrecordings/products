@@ -5,6 +5,9 @@ object_relationships:
 - name: merchant_account
   using:
     foreign_key_constraint_on: merchant_account_id
+- name: merchant_customer
+  using:
+    foreign_key_constraint_on: merchant_customer_id
 - name: merchant_price
   using:
     foreign_key_constraint_on: price_id

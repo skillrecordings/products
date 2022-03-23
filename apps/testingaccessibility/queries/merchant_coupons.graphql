@@ -1,0 +1,21 @@
+query getCouponsForTypeAndDiscount($status: Int = 1, $percentage_discount: numeric, $type: String) {
+  merchant_coupons(where: {status: {_eq: $status}, percentage_discount: {_eq: $percentage_discount}, type: {_eq: $type}}) {
+    percentage_discount
+    type
+    identifier
+    id
+    merchant_account {
+      id
+      payment_processor_id
+    }
+  }
+}
+
+query getMerchantCoupon($id: uuid!) {
+  merchant_coupons_by_pk(id: $id) {
+    type
+    identifier
+    percentage_discount
+    id
+  }
+}

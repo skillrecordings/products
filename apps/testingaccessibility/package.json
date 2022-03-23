@@ -12,7 +12,8 @@
     "build:data:dev": "node src/data/cache-json-data.js",
     "test": "jest",
     "lint": "TIMING=1 eslint src/**/*.{ts,tsx} --fix && tsc --noEmit",
-    "format": "prettier --write './**/*.{js,jsx,ts,tsx,css,md,mdx,json}' --config ./.prettierrc"
+    "format": "prettier --write './**/*.{js,jsx,ts,tsx,css,md,mdx,json}' --config ./.prettierrc",
+    "generate": "graphql-codegen --config codegen.js"
   },
   "dependencies": {
     "@asbjorn/eslint-plugin-groq": "^2.0.0",
@@ -83,6 +84,7 @@
     "remark-code-titles": "^0.1.2",
     "remark-footnotes": "^4.0.1",
     "remark-slug": "^7.0.1",
+    "short-uuid": "^4.2.0",
     "simplebar-react": "^2.3.6",
     "stripe": "^8.186.1",
     "swr": "^1.2.2",

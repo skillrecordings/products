@@ -1,0 +1,12 @@
+query getCouponForCode($code: String!) {
+  coupons(distinct_on: code, where: {code: {_eq: $code}}) {
+    code
+    percentage_discount
+    status
+    max_uses
+    used_count
+    expires_at
+    restricted_to_product_id
+    merchant_coupon_id
+  }
+}
