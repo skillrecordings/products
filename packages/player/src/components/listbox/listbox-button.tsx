@@ -2,12 +2,15 @@ import * as React from 'react'
 import cx from 'classnames'
 import indexOf from 'lodash/indexOf'
 import find from 'lodash/find'
+import flatten from 'lodash/flatten'
 import {
   ListboxInput,
   ListboxButton as ListboxButtonEl,
   ListboxPopover,
   ListboxList,
+  ListboxGroup,
   ListboxOption,
+  ListboxGroupLabel,
 } from '@reach/listbox'
 
 export type ListboxItem = {
@@ -16,8 +19,13 @@ export type ListboxItem = {
   [key: string]: any
 }
 
-type ListboxProps = {
+export type ListboxGroup = {
+  label: string
   items: ListboxItem[]
+}
+
+type ListboxProps = {
+  items: ListboxGroup[]
   selectedItem: ListboxItem
   className?: string
   onSelectItem: (props: any) => void
@@ -32,9 +40,10 @@ export const ListboxButton: React.FC<ListboxProps> = ({
   onSelectItem,
   title,
 }) => {
+  const values = flatten(items.map((group) => group.items.map((item) => item)))
   const handleChange = (value: string) => {
-    const currentItem = find(items, {value})
-    const currentItemIndex = indexOf(items, currentItem)
+    const currentItem = find(values, {value})
+    const currentItemIndex = indexOf(values, currentItem)
     onSelectItem(currentItemIndex)
   }
 
@@ -56,8 +65,19 @@ export const ListboxButton: React.FC<ListboxProps> = ({
             </ListboxButtonEl>
             <ListboxPopover portal={false}>
               <ListboxList>
-                {items.map((item: any) => (
-                  <ListboxOption value={item.value}>{item.label}</ListboxOption>
+                {items.map((group: any) => (
+                  <>
+                    <ListboxGroupLabel>{group.label}</ListboxGroupLabel>
+                    {group.items.map((item: any) => (
+                      <ListboxOption
+                        aria-label={item.label + ' speed'}
+                        value={item.value}
+                        key={item.value}
+                      >
+                        {item.label}
+                      </ListboxOption>
+                    ))}
+                  </>
                 ))}
               </ListboxList>
             </ListboxPopover>

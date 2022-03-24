@@ -1,6 +1,10 @@
 import * as React from 'react'
 import cx from 'classnames'
-import {ListboxItem, ListboxButton} from '../listbox/listbox-button'
+import {
+  ListboxItem,
+  ListboxButton,
+  ListboxGroup,
+} from '../listbox/listbox-button'
 import {useVideo} from '../../context/video-context'
 import {useSelector} from '@xstate/react'
 import find from 'lodash/find'
@@ -27,6 +31,11 @@ export const PlaybackRateMenuButtonControl: React.FC<PlaybackRateMenuButtonProps
       label: `${rate}×`,
       value: `${rate}`,
     }))
+
+    const group: ListboxGroup = {
+      label: 'Speed',
+      items,
+    }
     const selectedItem: ListboxItem =
       find(items, {value: selected.toString()}) || items[3]
 
@@ -67,8 +76,8 @@ export const PlaybackRateMenuButtonControl: React.FC<PlaybackRateMenuButtonProps
           )}
           selectedItem={selectedItem}
           onSelectItem={handleSelectItem}
-          items={items}
           title={title}
+          items={[group]}
         >
           <span className="cueplayer-react-control-text">Playback Rate</span>
           <div className="cueplayer-react-playback-rate-value">
