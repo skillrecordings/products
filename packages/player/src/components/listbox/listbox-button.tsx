@@ -70,7 +70,7 @@ export const ListboxButton: React.FC<ListboxProps> = ({
                     <ListboxGroupLabel>{group.label}</ListboxGroupLabel>
                     {group.items.map((item: any) => (
                       <ListboxOption
-                        aria-label={item.label + ' speed'}
+                        aria-label={item.label}
                         value={item.value}
                         key={item.value}
                       >
