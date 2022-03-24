@@ -66,6 +66,16 @@ In the `seed_data` folder is a database dump. The command line you need to acces
 psql postgres://postgres:postgrespassword@postgres:5432/postgres < /data/dump
 ```
 
+This will have some errors but should populate the database.
+
+Because we skipped some steps you'll need to let Hasura know:
+
+```bash
+hasura metadata apply
+hasura migrate apply --skip-execution --up all
+hasura migrate status
+```
+
 This should set up the basics that are associated with the **test mode** Stripe account
 
 
