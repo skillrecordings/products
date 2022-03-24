@@ -66,7 +66,7 @@ export const ListboxButton: React.FC<ListboxProps> = ({
             <ListboxPopover portal={false}>
               <ListboxList>
                 {items.map((group: any) => (
-                  <>
+                  <div key={group.label}>
                     <ListboxGroupLabel>{group.label}</ListboxGroupLabel>
                     {group.items.map((item: any) => (
                       <ListboxOption
@@ -77,7 +77,7 @@ export const ListboxButton: React.FC<ListboxProps> = ({
                         {item.label}
                       </ListboxOption>
                     ))}
-                  </>
+                  </div>
                 ))}
               </ListboxList>
             </ListboxPopover>
