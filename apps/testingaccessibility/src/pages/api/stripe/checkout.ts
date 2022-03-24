@@ -1,5 +1,9 @@
 import type {NextApiRequest, NextApiResponse} from 'next'
 import {stripe} from '../../../utils/stripe'
+import {getAdminSDK} from '../../../lib/api'
+import shortid from 'short-uuid'
+import {add} from 'date-fns'
+import {nanoid} from 'nanoid'
 
 export default async function handler(
   req: NextApiRequest,
@@ -7,6 +11,8 @@ export default async function handler(
 ) {
   if (req.method === 'POST') {
     try {
+      const {getProduct, getCouponForCode, getMerchantCoupon} = getAdminSDK()
+      const {productId, quantity = 1, couponId} = req.query
       // Create Checkout Sessions from body params.
 
       // const prices = await stripe.prices.list({
@@ -21,17 +27,56 @@ export default async function handler(
       //
       // stripe.coupons.list()
 
+      const {products_by_pk: loadedProduct} = await getProduct({id: productId})
+
+      let merchantCoupon
+
+      if (couponId) {
+        try {
+          const {merchant_coupons_by_pk} = await getMerchantCoupon({
+            id: couponId,
+          })
+          merchantCoupon = merchant_coupons_by_pk
+        } catch (e) {
+          console.error(`failed to lookup coupon [${couponId}]`)
+        }
+      }
+
+      let discounts = []
+
+      console.log(merchantCoupon)
+
+      if (merchantCoupon?.identifier) {
+        const {id} = await stripe.promotionCodes.create({
+          coupon: merchantCoupon.identifier,
+          max_redemptions: 1,
+          expires_at: Math.floor(
+            add(new Date(), {minutes: 30}).getTime() / 1000,
+          ),
+        })
+        discounts.push({
+          promotion_code: id,
+        })
+      }
+
+      if (!loadedProduct) {
+        throw new Error('No product was found')
+      }
+
+      const price =
+        loadedProduct.merchant_products?.[0].merchant_prices?.[0].identifier
+
+      if (!price) {
+        throw new Error('No price for product')
+      }
+
       const session = await stripe.checkout.sessions.create({
-        discounts: [
-          {
-            promotion_code: 'promo_1KgFzTGkhzh8cL1J7ExMreR1',
-          },
-        ],
+        discounts,
         line_items: [
           {
             // TODO: replace this with the `price` of the product you want to sell
-            price: 'price_1KgEazGkhzh8cL1JGXoMA493',
-            quantity: 1,
+            price,
+            quantity: Number(quantity),
           },
         ],
         payment_method_types: ['card'],

@@ -1,15 +1,35 @@
 import * as React from 'react'
 import {CheckCircleIcon} from '@heroicons/react/outline'
+import {useQuery} from 'react-query'
 
 const tier = {
   name: 'Professional',
   href: '#',
-  price: 875,
+  id: '47dfbe08-e4e1-464c-8a11-f14377f2f149',
   description: 'Lorem ipsum dolor sit amet consectetur, adipisicing elit.',
   features: ['Community Forum', 'Access to everything'],
 }
 
 export const Pricing = () => {
+  const [coupon, setCoupon] = React.useState()
+  const [quantity, setQuantity] = React.useState(1)
+  const {data} = useQuery(['pricing', coupon, quantity], () =>
+    fetch('/api/prices', {
+      method: 'POST',
+      body: JSON.stringify({
+        productId: tier.id,
+        coupon,
+        quantity,
+      }),
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    }).then((res) => res.json()),
+  )
+
+  const availableCoupon = data?.availableCoupons?.[0]
+  const appliedCoupon = data?.appliedCoupons?.[0]
+
   return (
     <section>
       <div className="pt-12 sm:pt-16 lg:pt-24">
@@ -37,8 +57,28 @@ export const Pricing = () => {
                     </h3>
                   </div>
                   <div className="mt-4 flex items-baseline text-6xl font-extrabold">
-                    ${tier.price}
+                    ${data?.calculatedPrice}
                   </div>
+                  {availableCoupon ? (
+                    <div
+                      onClick={() => {
+                        setCoupon(availableCoupon.id)
+                      }}
+                    >
+                      {availableCoupon.type}
+                    </div>
+                  ) : null}
+                  <input
+                    type="number"
+                    min={1}
+                    max={102}
+                    step={1}
+                    onChange={(e) => {
+                      setCoupon(undefined)
+                      setQuantity(Number(e.target.value))
+                    }}
+                    value={quantity}
+                  />
                 </div>
                 <div className="flex-1 flex flex-col justify-between px-6 pt-6 pb-8 bg-gray-50 space-y-6 sm:p-10 sm:pt-6">
                   <ul role="list" className="space-y-4">
@@ -56,7 +96,10 @@ export const Pricing = () => {
                       </li>
                     ))}
                   </ul>
-                  <form action="/api/stripe/checkout" method="POST">
+                  <form
+                    action={`/api/stripe/checkout?productId=${data?.id}&couponId=${appliedCoupon?.id}&quantity=${quantity}`}
+                    method="POST"
+                  >
                     <section>
                       <button
                         className="w-full flex items-center justify-center px-5 py-3 border border-transparent text-base font-medium rounded-md text-white bg-black hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500"

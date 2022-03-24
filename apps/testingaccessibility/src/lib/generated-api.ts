@@ -6263,6 +6263,16 @@ export type GetProductQuery = {
       status: number
       unit_amount: any
     }>
+    merchant_products: Array<{
+      __typename?: 'merchant_products'
+      id: any
+      identifier?: string | null
+      merchant_prices: Array<{
+        __typename?: 'merchant_prices'
+        id: any
+        identifier?: string | null
+      }>
+    }>
   } | null
 }
 
@@ -6635,6 +6645,14 @@ export const GetProductDocument = gql`
       id
       name
       status
+      merchant_products {
+        id
+        identifier
+        merchant_prices {
+          id
+          identifier
+        }
+      }
     }
   }
 `

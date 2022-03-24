@@ -24,6 +24,14 @@ query getProduct($id: uuid!) {
     id
     name
     status
+    merchant_products {
+      id
+      identifier
+      merchant_prices {
+        id
+        identifier
+      }
+    }
   }
 }
 
