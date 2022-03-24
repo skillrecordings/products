@@ -335,6 +335,7 @@ export const videoMachine = createMachine<VideoStateContext, VideoEvent>(
         entry: [
           assign({
             waiting: (_context, _event) => true,
+            playbackRate: (_context, _event) => getPlayerPrefs().playbackRate,
           }),
         ],
         invoke: [

@@ -1,17 +1,12 @@
-.cueplayer-react {
-  .cueplayer-react-playback-rate {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    .cueplayer-react-playback-rate-value {
-      font-size: 1.3em;
-      line-height: 2.5rem;
-      text-align: center;
-    }
-
-    .cueplayer-react-menu {
-      width: 4em;
-      left: 0em;
-    }
+.cueplayer-react .cueplayer-react-playback-rate {
+  @include display-flex(center);
+  font-size: 1.3em;
+  .cueplayer-react-playback-rate-button {
+    width: 2.5rem;
+    @include display-flex(center, center);
+  }
+  .cueplayer-react-playback-rate-value {
+    line-height: 2.5rem;
+    text-align: center;
   }
 }
