@@ -25,7 +25,7 @@
   }
 
   [data-reach-listbox-popover]:focus-within {
-    outline: $cueplayer-react-secondary-background-color auto 2px;
+    outline: $cueplayer-react-secondary-background-color solid 2px;
   }
 
   [data-reach-listbox-popover][hidden] {
