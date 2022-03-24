@@ -1,8 +1,9 @@
 import * as React from 'react'
 import cx from 'classnames'
-import {MenuButton} from '../menu/menu-button'
+import {ListboxItem, ListboxButton} from '../listbox/listbox-button'
 import {useVideo} from '../../context/video-context'
 import {useSelector} from '@xstate/react'
+import find from 'lodash/find'
 import {selectPlaybackRate} from '../../selectors'
 
 type PlaybackRateMenuButtonProps = {
@@ -21,10 +22,13 @@ export const PlaybackRateMenuButtonControl: React.FC<PlaybackRateMenuButtonProps
       selected = playbackRate,
       onChange,
     } = props
-    const items = rates.map((rate) => ({
-      label: `${rate}x`,
-      value: rate,
+
+    const items: ListboxItem[] = rates.map((rate) => ({
+      label: `${rate}×`,
+      value: `${rate}`,
     }))
+    const selectedItem: ListboxItem =
+      find(items, {value: selected.toString()}) || items[3]
 
     const handleSelectItem = React.useCallback(
       (index: number) => {
@@ -41,12 +45,6 @@ export const PlaybackRateMenuButtonControl: React.FC<PlaybackRateMenuButtonProps
       [onChange, rates, videoService],
     )
 
-    // remember 0  is a "false" in JS 🥴
-    const selectedIndex =
-      rates.indexOf(selected) > -1
-        ? rates.indexOf(selected)
-        : rates.indexOf(playbackRate) || 0
-
     React.useEffect(() => {
       const selectedIndex =
         rates.indexOf(selected) > -1
@@ -56,16 +54,27 @@ export const PlaybackRateMenuButtonControl: React.FC<PlaybackRateMenuButtonProps
       handleSelectItem(selectedIndex)
     }, [handleSelectItem, playbackRate, rates, selected])
 
+    const title = `${
+      playbackRate?.toString() === '1' ? 'Normal' : playbackRate
+    } playback speed`
+
     return (
-      <MenuButton
-        className={cx('cueplayer-react-playback-rate', props.className)}
-        onSelectItem={handleSelectItem}
-        items={items}
-      >
-        <span className="cueplayer-react-control-text">Playback Rate</span>
-        <div className="cueplayer-react-playback-rate-value">
-          {`${playbackRate.toFixed(2)}x`}
-        </div>
-      </MenuButton>
+      <div className="cueplayer-react-playback-rate">
+        <ListboxButton
+          className={cx(
+            'cueplayer-react-playback-rate-button',
+            props.className,
+          )}
+          selectedItem={selectedItem}
+          onSelectItem={handleSelectItem}
+          items={items}
+          title={title}
+        >
+          <span className="cueplayer-react-control-text">Playback Rate</span>
+          <div className="cueplayer-react-playback-rate-value">
+            {`${playbackRate.toFixed(2)}x`}
+          </div>
+        </ListboxButton>
+      </div>
     )
   }
