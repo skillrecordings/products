@@ -23,46 +23,37 @@ pnpm dev
 
 ## Authentication in Development
 
-We are using next-auth for authentication via JWTs. You'll need to get it running locally!
+We are using Hasura+next-auth for authentication via JWTs. You'll need to get it running locally!
 
 ### Install Tools
 
-Generate the Prisma Client:
+[Install Docker](https://docs.docker.com/get-docker/)
+[Install the Hasura CLI](https://hasura.io/docs/latest/graphql/core/hasura-cli/install-hasura-cli.html#install-hasura-cli)
 
-```bash
-npx prisma generate
+### Start the Hasura server
+
+This starts the Hasura GraphQL Engine and a Postgres database
+
+```shell
+docker compose up -d
+```
+You can launch the Hasura console using the CLI
+
+```shell
+cd hasura
+hasura console
 ```
 
-This generates to an ignored folder that is recognized as an output for Turbo.
+Changes to the data model in the Hasura console will automatically create migrations:
 
-https://docs.planetscale.com/tutorials/automatic-prisma-migrations
+[Hasura Creates Migrations Automatically (Docs)](https://hasura.io/docs/latest/graphql/core/migrations/migrations-setup.html#step-5-add-a-new-table-and-see-how-migrations-and-metadata-is-updated)
 
-Install the [Planetscale CLI](https://github.com/planetscale/cli).
+You can "squash" migrations for version control:
 
-```bash
-pscale auth login
-```
+[Squash Hasura Migrations](https://hasura.io/docs/latest/graphql/core/migrations/migrations-setup.html#step-6-squash-migrations-and-add-checkpoints-to-version-control)
 
-```bash
-pscale connect testing-accessibility main --port 3309
-```
+Incoming migrations are automatically applied when you start the container, but there's lots more to read about migrations:
 
-Changes to your schema in Planetscale happen on a branch:
-
-```bash
-pscale branch create testing-accessibility some-branch-name
-```
-
-Changes to the schema are pushed and **Planetscale handles the migrations**.
-
-```bash
-npx prisma db push
-```
-
-When the branch is ready, it gets a deploy request made:
-
-```bash
-pscale deploy-request create testing-accessibility some-branch-name
-```
+[Hasura Migrations Docs](https://hasura.io/docs/latest/graphql/core/migrations)
 
 
