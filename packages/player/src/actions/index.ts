@@ -14,8 +14,12 @@ export const defaultActions: ActionFunctionMap<VideoStateContext, VideoEvent> =
       // assuming that the machine under the hood doesn't
       // have enough context since these actions are very separated
       // from the config.
-      if (context.videoRef && event.type === 'PLAYBACKRATE_CHANGE')
+      if (context.videoRef && event.type === 'PLAYBACKRATE_CHANGE') {
         context.videoRef.current.playbackRate = event.playbackRate
+        savePlayerPrefs({
+          playbackRate: event.playbackRate,
+        })
+      }
     },
     setVolume: (context, event) => {
       if (context.videoRef && event.type === 'VOLUME_CHANGE')

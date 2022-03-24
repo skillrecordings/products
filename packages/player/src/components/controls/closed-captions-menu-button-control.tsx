@@ -1,9 +1,13 @@
 import * as React from 'react'
 import cx from 'classnames'
-import find from 'lodash/find'
-import indexOf from 'lodash/indexOf'
 import isEmpty from 'lodash/isEmpty'
-import {MenuButton} from '../menu/menu-button'
+import first from 'lodash/first'
+import last from 'lodash/last'
+import {
+  ListboxItem,
+  ListboxButton,
+  ListboxGroup,
+} from '../listbox/listbox-button'
 import {useSubtitlesTrackList} from '../../hooks/use-subtitles-track-list'
 
 type ClosedCaptionsMenuButtonProps = {
@@ -18,27 +22,36 @@ export const ClosedCaptionsMenuButtonControl: React.FC<ClosedCaptionsMenuButtonP
     const {subtitles, activateSubtitlesTrack, clearSubtitlesTracks} =
       useSubtitlesTrackList()
 
-    const items = [
-      ...subtitles.map((track) => ({
-        label: `${track.label}`,
-        value: track.language,
-      })),
+    const items: ListboxItem[] = [
+      ...subtitles.map((track: TextTrack) => {
+        return {
+          mode: track.mode,
+          value: track.language,
+          label: track.label,
+        }
+      }),
       {
         label: 'Off',
-        value: {},
+        value: 'off',
       },
     ]
 
-    const activeTrack =
-      subtitles && subtitles.filter((track) => track.mode === 'showing')
-
-    const activeItemIndex = indexOf(
-      items,
-      find(items, (track) => track.value === activeTrack[0]?.language),
+    const activeTrack: any = first(
+      items.filter(
+        (track: TextTrack | ListboxItem) => track.mode === 'showing',
+      ),
     )
 
-    const lastItemIndex = items.length - 1
-    const selectedIndex = isEmpty(activeTrack) ? lastItemIndex : activeItemIndex
+    const activeItem: ListboxItem = isEmpty(activeTrack)
+      ? last(items)
+      : activeTrack
+
+    const groups: ListboxGroup[] = [
+      {
+        label: 'Closed Captions',
+        items,
+      },
+    ]
 
     const handleSelectItem = React.useCallback(
       (index: number) => {
@@ -49,13 +62,18 @@ export const ClosedCaptionsMenuButtonControl: React.FC<ClosedCaptionsMenuButtonP
     )
 
     return !isEmpty(subtitles) ? (
-      <MenuButton
-        className={cx('cueplayer-react-closed-caption', props.className)}
-        onSelectItem={handleSelectItem}
-        items={items}
-        selected={selectedIndex}
-      >
-        <span className="cueplayer-react-control-text">Subtitles</span>
-      </MenuButton>
+      <div className="cueplayer-react-closed-caption">
+        <ListboxButton
+          className={cx(props.className)}
+          selectedItem={activeItem}
+          onSelectItem={handleSelectItem}
+          items={groups}
+          title={'Closed captions'}
+        >
+          <span className="cueplayer-react-control-text">
+            {activeItem.label} subtitles
+          </span>
+        </ListboxButton>
+      </div>
     ) : null
   }
