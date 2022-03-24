@@ -13,7 +13,8 @@
     "test": "jest",
     "lint": "TIMING=1 eslint src/**/*.{ts,tsx} --fix && tsc --noEmit",
     "format": "prettier --write './**/*.{js,jsx,ts,tsx,css,md,mdx,json}' --config ./.prettierrc",
-    "generate": "graphql-codegen --config codegen.js"
+    "generate": "graphql-codegen --config codegen.js",
+    "generate:schema": "gq http://localhost:8080/v1/graphql -H \"X-Hasura-Admin-Secret: admin_secret\" --introspect > ./queries/schema.graphql"
   },
   "dependencies": {
     "@asbjorn/eslint-plugin-groq": "^2.0.0",
@@ -125,6 +126,7 @@
     "eslint-plugin-react": "^7.29.3",
     "eslint-plugin-react-hooks": "^4.3.0",
     "focus-visible": "^5.2.0",
+    "graphqurl": "^1.0.1",
     "husky": "^7.0.4",
     "lint-staged": "^11.2.6",
     "msw": "^0.35.0",

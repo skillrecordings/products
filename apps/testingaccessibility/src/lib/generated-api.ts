@@ -23,65 +23,6 @@ export type Scalars = {
   uuid: any
 }
 
-/** Boolean expression to compare columns of type "Boolean". All fields are combined with logical 'AND'. */
-export type Boolean_Comparison_Exp = {
-  _eq?: InputMaybe<Scalars['Boolean']>
-  _gt?: InputMaybe<Scalars['Boolean']>
-  _gte?: InputMaybe<Scalars['Boolean']>
-  _in?: InputMaybe<Array<Scalars['Boolean']>>
-  _is_null?: InputMaybe<Scalars['Boolean']>
-  _lt?: InputMaybe<Scalars['Boolean']>
-  _lte?: InputMaybe<Scalars['Boolean']>
-  _neq?: InputMaybe<Scalars['Boolean']>
-  _nin?: InputMaybe<Array<Scalars['Boolean']>>
-}
-
-/** Boolean expression to compare columns of type "Int". All fields are combined with logical 'AND'. */
-export type Int_Comparison_Exp = {
-  _eq?: InputMaybe<Scalars['Int']>
-  _gt?: InputMaybe<Scalars['Int']>
-  _gte?: InputMaybe<Scalars['Int']>
-  _in?: InputMaybe<Array<Scalars['Int']>>
-  _is_null?: InputMaybe<Scalars['Boolean']>
-  _lt?: InputMaybe<Scalars['Int']>
-  _lte?: InputMaybe<Scalars['Int']>
-  _neq?: InputMaybe<Scalars['Int']>
-  _nin?: InputMaybe<Array<Scalars['Int']>>
-}
-
-/** Boolean expression to compare columns of type "String". All fields are combined with logical 'AND'. */
-export type String_Comparison_Exp = {
-  _eq?: InputMaybe<Scalars['String']>
-  _gt?: InputMaybe<Scalars['String']>
-  _gte?: InputMaybe<Scalars['String']>
-  /** does the column match the given case-insensitive pattern */
-  _ilike?: InputMaybe<Scalars['String']>
-  _in?: InputMaybe<Array<Scalars['String']>>
-  /** does the column match the given POSIX regular expression, case insensitive */
-  _iregex?: InputMaybe<Scalars['String']>
-  _is_null?: InputMaybe<Scalars['Boolean']>
-  /** does the column match the given pattern */
-  _like?: InputMaybe<Scalars['String']>
-  _lt?: InputMaybe<Scalars['String']>
-  _lte?: InputMaybe<Scalars['String']>
-  _neq?: InputMaybe<Scalars['String']>
-  /** does the column NOT match the given case-insensitive pattern */
-  _nilike?: InputMaybe<Scalars['String']>
-  _nin?: InputMaybe<Array<Scalars['String']>>
-  /** does the column NOT match the given POSIX regular expression, case insensitive */
-  _niregex?: InputMaybe<Scalars['String']>
-  /** does the column NOT match the given pattern */
-  _nlike?: InputMaybe<Scalars['String']>
-  /** does the column NOT match the given POSIX regular expression, case sensitive */
-  _nregex?: InputMaybe<Scalars['String']>
-  /** does the column NOT match the given SQL regular expression */
-  _nsimilar?: InputMaybe<Scalars['String']>
-  /** does the column match the given POSIX regular expression, case sensitive */
-  _regex?: InputMaybe<Scalars['String']>
-  /** does the column match the given SQL regular expression */
-  _similar?: InputMaybe<Scalars['String']>
-}
-
 /** columns and relationships of "accounts" */
 export type Accounts = {
   __typename?: 'accounts'
@@ -528,6 +469,19 @@ export type Bigint_Comparison_Exp = {
   _lte?: InputMaybe<Scalars['bigint']>
   _neq?: InputMaybe<Scalars['bigint']>
   _nin?: InputMaybe<Array<Scalars['bigint']>>
+}
+
+/** Boolean expression to compare columns of type "Boolean". All fields are combined with logical 'AND'. */
+export type Boolean_Comparison_Exp = {
+  _eq?: InputMaybe<Scalars['Boolean']>
+  _gt?: InputMaybe<Scalars['Boolean']>
+  _gte?: InputMaybe<Scalars['Boolean']>
+  _in?: InputMaybe<Array<Scalars['Boolean']>>
+  _is_null?: InputMaybe<Scalars['Boolean']>
+  _lt?: InputMaybe<Scalars['Boolean']>
+  _lte?: InputMaybe<Scalars['Boolean']>
+  _neq?: InputMaybe<Scalars['Boolean']>
+  _nin?: InputMaybe<Array<Scalars['Boolean']>>
 }
 
 /** columns and relationships of "coupons" */
@@ -982,6 +936,19 @@ export type Coupons_Variance_Order_By = {
   used_count?: InputMaybe<Order_By>
 }
 
+/** Boolean expression to compare columns of type "Int". All fields are combined with logical 'AND'. */
+export type Int_Comparison_Exp = {
+  _eq?: InputMaybe<Scalars['Int']>
+  _gt?: InputMaybe<Scalars['Int']>
+  _gte?: InputMaybe<Scalars['Int']>
+  _in?: InputMaybe<Array<Scalars['Int']>>
+  _is_null?: InputMaybe<Scalars['Boolean']>
+  _lt?: InputMaybe<Scalars['Int']>
+  _lte?: InputMaybe<Scalars['Int']>
+  _neq?: InputMaybe<Scalars['Int']>
+  _nin?: InputMaybe<Array<Scalars['Int']>>
+}
+
 /** columns and relationships of "merchant_accounts" */
 export type Merchant_Accounts = {
   __typename?: 'merchant_accounts'
@@ -995,6 +962,10 @@ export type Merchant_Accounts = {
   merchant_coupons: Array<Merchant_Coupons>
   /** An aggregate relationship */
   merchant_coupons_aggregate: Merchant_Coupons_Aggregate
+  /** An array relationship */
+  merchant_customers: Array<Merchant_Customers>
+  /** An aggregate relationship */
+  merchant_customers_aggregate: Merchant_Customers_Aggregate
   /** An array relationship */
   merchant_prices: Array<Merchant_Prices>
   /** An aggregate relationship */
@@ -1041,6 +1012,24 @@ export type Merchant_AccountsMerchant_Coupons_AggregateArgs = {
   offset?: InputMaybe<Scalars['Int']>
   order_by?: InputMaybe<Array<Merchant_Coupons_Order_By>>
   where?: InputMaybe<Merchant_Coupons_Bool_Exp>
+}
+
+/** columns and relationships of "merchant_accounts" */
+export type Merchant_AccountsMerchant_CustomersArgs = {
+  distinct_on?: InputMaybe<Array<Merchant_Customers_Select_Column>>
+  limit?: InputMaybe<Scalars['Int']>
+  offset?: InputMaybe<Scalars['Int']>
+  order_by?: InputMaybe<Array<Merchant_Customers_Order_By>>
+  where?: InputMaybe<Merchant_Customers_Bool_Exp>
+}
+
+/** columns and relationships of "merchant_accounts" */
+export type Merchant_AccountsMerchant_Customers_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Merchant_Customers_Select_Column>>
+  limit?: InputMaybe<Scalars['Int']>
+  offset?: InputMaybe<Scalars['Int']>
+  order_by?: InputMaybe<Array<Merchant_Customers_Order_By>>
+  where?: InputMaybe<Merchant_Customers_Bool_Exp>
 }
 
 /** columns and relationships of "merchant_accounts" */
@@ -1123,6 +1112,7 @@ export type Merchant_Accounts_Bool_Exp = {
   id?: InputMaybe<Uuid_Comparison_Exp>
   merchant_charges?: InputMaybe<Merchant_Charges_Bool_Exp>
   merchant_coupons?: InputMaybe<Merchant_Coupons_Bool_Exp>
+  merchant_customers?: InputMaybe<Merchant_Customers_Bool_Exp>
   merchant_prices?: InputMaybe<Merchant_Prices_Bool_Exp>
   merchant_products?: InputMaybe<Merchant_Products_Bool_Exp>
   payment_processor_id?: InputMaybe<String_Comparison_Exp>
@@ -1145,6 +1135,7 @@ export type Merchant_Accounts_Insert_Input = {
   id?: InputMaybe<Scalars['uuid']>
   merchant_charges?: InputMaybe<Merchant_Charges_Arr_Rel_Insert_Input>
   merchant_coupons?: InputMaybe<Merchant_Coupons_Arr_Rel_Insert_Input>
+  merchant_customers?: InputMaybe<Merchant_Customers_Arr_Rel_Insert_Input>
   merchant_prices?: InputMaybe<Merchant_Prices_Arr_Rel_Insert_Input>
   merchant_products?: InputMaybe<Merchant_Products_Arr_Rel_Insert_Input>
   payment_processor_id?: InputMaybe<Scalars['String']>
@@ -1198,6 +1189,7 @@ export type Merchant_Accounts_Order_By = {
   id?: InputMaybe<Order_By>
   merchant_charges_aggregate?: InputMaybe<Merchant_Charges_Aggregate_Order_By>
   merchant_coupons_aggregate?: InputMaybe<Merchant_Coupons_Aggregate_Order_By>
+  merchant_customers_aggregate?: InputMaybe<Merchant_Customers_Aggregate_Order_By>
   merchant_prices_aggregate?: InputMaybe<Merchant_Prices_Aggregate_Order_By>
   merchant_products_aggregate?: InputMaybe<Merchant_Products_Aggregate_Order_By>
   payment_processor_id?: InputMaybe<Order_By>
@@ -4159,6 +4151,10 @@ export type Prices_Variance_Order_By = {
 /** columns and relationships of "products" */
 export type Products = {
   __typename?: 'products'
+  /** An array relationship */
+  coupons: Array<Coupons>
+  /** An aggregate relationship */
+  coupons_aggregate: Coupons_Aggregate
   created_at: Scalars['timestamptz']
   id: Scalars['uuid']
   key?: Maybe<Scalars['String']>
@@ -4176,6 +4172,24 @@ export type Products = {
   /** An aggregate relationship */
   purchases_aggregate: Purchases_Aggregate
   status: Scalars['Int']
+}
+
+/** columns and relationships of "products" */
+export type ProductsCouponsArgs = {
+  distinct_on?: InputMaybe<Array<Coupons_Select_Column>>
+  limit?: InputMaybe<Scalars['Int']>
+  offset?: InputMaybe<Scalars['Int']>
+  order_by?: InputMaybe<Array<Coupons_Order_By>>
+  where?: InputMaybe<Coupons_Bool_Exp>
+}
+
+/** columns and relationships of "products" */
+export type ProductsCoupons_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Coupons_Select_Column>>
+  limit?: InputMaybe<Scalars['Int']>
+  offset?: InputMaybe<Scalars['Int']>
+  order_by?: InputMaybe<Array<Coupons_Order_By>>
+  where?: InputMaybe<Coupons_Bool_Exp>
 }
 
 /** columns and relationships of "products" */
@@ -4272,6 +4286,7 @@ export type Products_Bool_Exp = {
   _and?: InputMaybe<Array<Products_Bool_Exp>>
   _not?: InputMaybe<Products_Bool_Exp>
   _or?: InputMaybe<Array<Products_Bool_Exp>>
+  coupons?: InputMaybe<Coupons_Bool_Exp>
   created_at?: InputMaybe<Timestamptz_Comparison_Exp>
   id?: InputMaybe<Uuid_Comparison_Exp>
   key?: InputMaybe<String_Comparison_Exp>
@@ -4294,6 +4309,7 @@ export type Products_Inc_Input = {
 
 /** input type for inserting data into table "products" */
 export type Products_Insert_Input = {
+  coupons?: InputMaybe<Coupons_Arr_Rel_Insert_Input>
   created_at?: InputMaybe<Scalars['timestamptz']>
   id?: InputMaybe<Scalars['uuid']>
   key?: InputMaybe<Scalars['String']>
@@ -4349,6 +4365,7 @@ export type Products_On_Conflict = {
 
 /** Ordering options when selecting data from "products". */
 export type Products_Order_By = {
+  coupons_aggregate?: InputMaybe<Coupons_Aggregate_Order_By>
   created_at?: InputMaybe<Order_By>
   id?: InputMaybe<Order_By>
   key?: InputMaybe<Order_By>
@@ -5290,6 +5307,39 @@ export type Sessions_Update_Column =
   | 'sessionToken'
   /** column name */
   | 'userId'
+
+/** Boolean expression to compare columns of type "String". All fields are combined with logical 'AND'. */
+export type String_Comparison_Exp = {
+  _eq?: InputMaybe<Scalars['String']>
+  _gt?: InputMaybe<Scalars['String']>
+  _gte?: InputMaybe<Scalars['String']>
+  /** does the column match the given case-insensitive pattern */
+  _ilike?: InputMaybe<Scalars['String']>
+  _in?: InputMaybe<Array<Scalars['String']>>
+  /** does the column match the given POSIX regular expression, case insensitive */
+  _iregex?: InputMaybe<Scalars['String']>
+  _is_null?: InputMaybe<Scalars['Boolean']>
+  /** does the column match the given pattern */
+  _like?: InputMaybe<Scalars['String']>
+  _lt?: InputMaybe<Scalars['String']>
+  _lte?: InputMaybe<Scalars['String']>
+  _neq?: InputMaybe<Scalars['String']>
+  /** does the column NOT match the given case-insensitive pattern */
+  _nilike?: InputMaybe<Scalars['String']>
+  _nin?: InputMaybe<Array<Scalars['String']>>
+  /** does the column NOT match the given POSIX regular expression, case insensitive */
+  _niregex?: InputMaybe<Scalars['String']>
+  /** does the column NOT match the given pattern */
+  _nlike?: InputMaybe<Scalars['String']>
+  /** does the column NOT match the given POSIX regular expression, case sensitive */
+  _nregex?: InputMaybe<Scalars['String']>
+  /** does the column NOT match the given SQL regular expression */
+  _nsimilar?: InputMaybe<Scalars['String']>
+  /** does the column match the given POSIX regular expression, case sensitive */
+  _regex?: InputMaybe<Scalars['String']>
+  /** does the column match the given SQL regular expression */
+  _similar?: InputMaybe<Scalars['String']>
+}
 
 export type Subscription_Root = {
   __typename?: 'subscription_root'
