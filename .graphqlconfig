@@ -1,0 +1,23 @@
+{
+  "name": "Testing Accessibility GraphQL Schema",
+  "projects": {
+    "testingaccessibility": {
+      "documents": [
+        "/apps/testingaccessibility/queries/**"
+      ],
+      "extensions": {
+        "endpoints": {
+          "Hasura GraphQL Endpoint": {
+            "url": "http://localhost:8080/v1/graphql",
+            "headers": {
+              "user-agent": "JS GraphQL",
+              "x-hasura-role": "admin",
+              "x-hasura-admin-secret": "admin_secret"
+            },
+            "introspect": false
+          }
+        }
+      }
+    }
+  }
+}
