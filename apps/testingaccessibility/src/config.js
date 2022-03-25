@@ -20,7 +20,7 @@ export default {
   },
   openGraph: {
     type: 'website',
-    site_name: '"Testing Accessibility"',
+    site_name: 'Testing Accessibility',
     profile: {
       firstName: 'Marcy',
       lastName: 'Sutton',
