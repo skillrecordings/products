@@ -1,0 +1,7668 @@
+schema {
+  query: query_root
+  mutation: mutation_root
+  subscription: subscription_root
+}
+
+"""whether this query should be cached (Hasura Cloud only)"""
+directive @cached(
+  """measured in seconds"""
+  ttl: Int! = 60
+
+  """refresh the cache entry"""
+  refresh: Boolean! = false
+) on QUERY
+
+"""
+Boolean expression to compare columns of type "Boolean". All fields are combined with logical 'AND'.
+"""
+input Boolean_comparison_exp {
+  _eq: Boolean
+  _gt: Boolean
+  _gte: Boolean
+  _in: [Boolean!]
+  _is_null: Boolean
+  _lt: Boolean
+  _lte: Boolean
+  _neq: Boolean
+  _nin: [Boolean!]
+}
+
+"""
+Boolean expression to compare columns of type "Int". All fields are combined with logical 'AND'.
+"""
+input Int_comparison_exp {
+  _eq: Int
+  _gt: Int
+  _gte: Int
+  _in: [Int!]
+  _is_null: Boolean
+  _lt: Int
+  _lte: Int
+  _neq: Int
+  _nin: [Int!]
+}
+
+"""
+Boolean expression to compare columns of type "String". All fields are combined with logical 'AND'.
+"""
+input String_comparison_exp {
+  _eq: String
+  _gt: String
+  _gte: String
+
+  """does the column match the given case-insensitive pattern"""
+  _ilike: String
+  _in: [String!]
+
+  """
+  does the column match the given POSIX regular expression, case insensitive
+  """
+  _iregex: String
+  _is_null: Boolean
+
+  """does the column match the given pattern"""
+  _like: String
+  _lt: String
+  _lte: String
+  _neq: String
+
+  """does the column NOT match the given case-insensitive pattern"""
+  _nilike: String
+  _nin: [String!]
+
+  """
+  does the column NOT match the given POSIX regular expression, case insensitive
+  """
+  _niregex: String
+
+  """does the column NOT match the given pattern"""
+  _nlike: String
+
+  """
+  does the column NOT match the given POSIX regular expression, case sensitive
+  """
+  _nregex: String
+
+  """does the column NOT match the given SQL regular expression"""
+  _nsimilar: String
+
+  """
+  does the column match the given POSIX regular expression, case sensitive
+  """
+  _regex: String
+
+  """does the column match the given SQL regular expression"""
+  _similar: String
+}
+
+"""
+columns and relationships of "accounts"
+"""
+type accounts {
+  access_token: String
+  expires_at: bigint
+  id: uuid!
+  id_token: String
+  oauth_token: String
+  oauth_token_secret: String
+  provider: String!
+  providerAccountId: String!
+  refresh_token: String
+  refresh_token_expires_in: Int
+  scope: String
+  session_state: String
+  token_type: String
+  type: String!
+
+  """An object relationship"""
+  user: users!
+  userId: uuid!
+}
+
+"""
+aggregated selection of "accounts"
+"""
+type accounts_aggregate {
+  aggregate: accounts_aggregate_fields
+  nodes: [accounts!]!
+}
+
+"""
+aggregate fields of "accounts"
+"""
+type accounts_aggregate_fields {
+  avg: accounts_avg_fields
+  count(columns: [accounts_select_column!], distinct: Boolean): Int!
+  max: accounts_max_fields
+  min: accounts_min_fields
+  stddev: accounts_stddev_fields
+  stddev_pop: accounts_stddev_pop_fields
+  stddev_samp: accounts_stddev_samp_fields
+  sum: accounts_sum_fields
+  var_pop: accounts_var_pop_fields
+  var_samp: accounts_var_samp_fields
+  variance: accounts_variance_fields
+}
+
+"""
+order by aggregate values of table "accounts"
+"""
+input accounts_aggregate_order_by {
+  avg: accounts_avg_order_by
+  count: order_by
+  max: accounts_max_order_by
+  min: accounts_min_order_by
+  stddev: accounts_stddev_order_by
+  stddev_pop: accounts_stddev_pop_order_by
+  stddev_samp: accounts_stddev_samp_order_by
+  sum: accounts_sum_order_by
+  var_pop: accounts_var_pop_order_by
+  var_samp: accounts_var_samp_order_by
+  variance: accounts_variance_order_by
+}
+
+"""
+input type for inserting array relation for remote table "accounts"
+"""
+input accounts_arr_rel_insert_input {
+  data: [accounts_insert_input!]!
+
+  """upsert condition"""
+  on_conflict: accounts_on_conflict
+}
+
+"""aggregate avg on columns"""
+type accounts_avg_fields {
+  expires_at: Float
+  refresh_token_expires_in: Float
+}
+
+"""
+order by avg() on columns of table "accounts"
+"""
+input accounts_avg_order_by {
+  expires_at: order_by
+  refresh_token_expires_in: order_by
+}
+
+"""
+Boolean expression to filter rows from the table "accounts". All fields are combined with a logical 'AND'.
+"""
+input accounts_bool_exp {
+  _and: [accounts_bool_exp!]
+  _not: accounts_bool_exp
+  _or: [accounts_bool_exp!]
+  access_token: String_comparison_exp
+  expires_at: bigint_comparison_exp
+  id: uuid_comparison_exp
+  id_token: String_comparison_exp
+  oauth_token: String_comparison_exp
+  oauth_token_secret: String_comparison_exp
+  provider: String_comparison_exp
+  providerAccountId: String_comparison_exp
+  refresh_token: String_comparison_exp
+  refresh_token_expires_in: Int_comparison_exp
+  scope: String_comparison_exp
+  session_state: String_comparison_exp
+  token_type: String_comparison_exp
+  type: String_comparison_exp
+  user: users_bool_exp
+  userId: uuid_comparison_exp
+}
+
+"""
+unique or primary key constraints on table "accounts"
+"""
+enum accounts_constraint {
+  """unique or primary key constraint"""
+  accounts_pkey
+}
+
+"""
+input type for incrementing numeric columns in table "accounts"
+"""
+input accounts_inc_input {
+  expires_at: bigint
+  refresh_token_expires_in: Int
+}
+
+"""
+input type for inserting data into table "accounts"
+"""
+input accounts_insert_input {
+  access_token: String
+  expires_at: bigint
+  id: uuid
+  id_token: String
+  oauth_token: String
+  oauth_token_secret: String
+  provider: String
+  providerAccountId: String
+  refresh_token: String
+  refresh_token_expires_in: Int
+  scope: String
+  session_state: String
+  token_type: String
+  type: String
+  user: users_obj_rel_insert_input
+  userId: uuid
+}
+
+"""aggregate max on columns"""
+type accounts_max_fields {
+  access_token: String
+  expires_at: bigint
+  id: uuid
+  id_token: String
+  oauth_token: String
+  oauth_token_secret: String
+  provider: String
+  providerAccountId: String
+  refresh_token: String
+  refresh_token_expires_in: Int
+  scope: String
+  session_state: String
+  token_type: String
+  type: String
+  userId: uuid
+}
+
+"""
+order by max() on columns of table "accounts"
+"""
+input accounts_max_order_by {
+  access_token: order_by
+  expires_at: order_by
+  id: order_by
+  id_token: order_by
+  oauth_token: order_by
+  oauth_token_secret: order_by
+  provider: order_by
+  providerAccountId: order_by
+  refresh_token: order_by
+  refresh_token_expires_in: order_by
+  scope: order_by
+  session_state: order_by
+  token_type: order_by
+  type: order_by
+  userId: order_by
+}
+
+"""aggregate min on columns"""
+type accounts_min_fields {
+  access_token: String
+  expires_at: bigint
+  id: uuid
+  id_token: String
+  oauth_token: String
+  oauth_token_secret: String
+  provider: String
+  providerAccountId: String
+  refresh_token: String
+  refresh_token_expires_in: Int
+  scope: String
+  session_state: String
+  token_type: String
+  type: String
+  userId: uuid
+}
+
+"""
+order by min() on columns of table "accounts"
+"""
+input accounts_min_order_by {
+  access_token: order_by
+  expires_at: order_by
+  id: order_by
+  id_token: order_by
+  oauth_token: order_by
+  oauth_token_secret: order_by
+  provider: order_by
+  providerAccountId: order_by
+  refresh_token: order_by
+  refresh_token_expires_in: order_by
+  scope: order_by
+  session_state: order_by
+  token_type: order_by
+  type: order_by
+  userId: order_by
+}
+
+"""
+response of any mutation on the table "accounts"
+"""
+type accounts_mutation_response {
+  """number of rows affected by the mutation"""
+  affected_rows: Int!
+
+  """data from the rows affected by the mutation"""
+  returning: [accounts!]!
+}
+
+"""
+on_conflict condition type for table "accounts"
+"""
+input accounts_on_conflict {
+  constraint: accounts_constraint!
+  update_columns: [accounts_update_column!]! = []
+  where: accounts_bool_exp
+}
+
+"""Ordering options when selecting data from "accounts"."""
+input accounts_order_by {
+  access_token: order_by
+  expires_at: order_by
+  id: order_by
+  id_token: order_by
+  oauth_token: order_by
+  oauth_token_secret: order_by
+  provider: order_by
+  providerAccountId: order_by
+  refresh_token: order_by
+  refresh_token_expires_in: order_by
+  scope: order_by
+  session_state: order_by
+  token_type: order_by
+  type: order_by
+  user: users_order_by
+  userId: order_by
+}
+
+"""primary key columns input for table: accounts"""
+input accounts_pk_columns_input {
+  id: uuid!
+}
+
+"""
+select columns of table "accounts"
+"""
+enum accounts_select_column {
+  """column name"""
+  access_token
+
+  """column name"""
+  expires_at
+
+  """column name"""
+  id
+
+  """column name"""
+  id_token
+
+  """column name"""
+  oauth_token
+
+  """column name"""
+  oauth_token_secret
+
+  """column name"""
+  provider
+
+  """column name"""
+  providerAccountId
+
+  """column name"""
+  refresh_token
+
+  """column name"""
+  refresh_token_expires_in
+
+  """column name"""
+  scope
+
+  """column name"""
+  session_state
+
+  """column name"""
+  token_type
+
+  """column name"""
+  type
+
+  """column name"""
+  userId
+}
+
+"""
+input type for updating data in table "accounts"
+"""
+input accounts_set_input {
+  access_token: String
+  expires_at: bigint
+  id: uuid
+  id_token: String
+  oauth_token: String
+  oauth_token_secret: String
+  provider: String
+  providerAccountId: String
+  refresh_token: String
+  refresh_token_expires_in: Int
+  scope: String
+  session_state: String
+  token_type: String
+  type: String
+  userId: uuid
+}
+
+"""aggregate stddev on columns"""
+type accounts_stddev_fields {
+  expires_at: Float
+  refresh_token_expires_in: Float
+}
+
+"""
+order by stddev() on columns of table "accounts"
+"""
+input accounts_stddev_order_by {
+  expires_at: order_by
+  refresh_token_expires_in: order_by
+}
+
+"""aggregate stddev_pop on columns"""
+type accounts_stddev_pop_fields {
+  expires_at: Float
+  refresh_token_expires_in: Float
+}
+
+"""
+order by stddev_pop() on columns of table "accounts"
+"""
+input accounts_stddev_pop_order_by {
+  expires_at: order_by
+  refresh_token_expires_in: order_by
+}
+
+"""aggregate stddev_samp on columns"""
+type accounts_stddev_samp_fields {
+  expires_at: Float
+  refresh_token_expires_in: Float
+}
+
+"""
+order by stddev_samp() on columns of table "accounts"
+"""
+input accounts_stddev_samp_order_by {
+  expires_at: order_by
+  refresh_token_expires_in: order_by
+}
+
+"""aggregate sum on columns"""
+type accounts_sum_fields {
+  expires_at: bigint
+  refresh_token_expires_in: Int
+}
+
+"""
+order by sum() on columns of table "accounts"
+"""
+input accounts_sum_order_by {
+  expires_at: order_by
+  refresh_token_expires_in: order_by
+}
+
+"""
+update columns of table "accounts"
+"""
+enum accounts_update_column {
+  """column name"""
+  access_token
+
+  """column name"""
+  expires_at
+
+  """column name"""
+  id
+
+  """column name"""
+  id_token
+
+  """column name"""
+  oauth_token
+
+  """column name"""
+  oauth_token_secret
+
+  """column name"""
+  provider
+
+  """column name"""
+  providerAccountId
+
+  """column name"""
+  refresh_token
+
+  """column name"""
+  refresh_token_expires_in
+
+  """column name"""
+  scope
+
+  """column name"""
+  session_state
+
+  """column name"""
+  token_type
+
+  """column name"""
+  type
+
+  """column name"""
+  userId
+}
+
+"""aggregate var_pop on columns"""
+type accounts_var_pop_fields {
+  expires_at: Float
+  refresh_token_expires_in: Float
+}
+
+"""
+order by var_pop() on columns of table "accounts"
+"""
+input accounts_var_pop_order_by {
+  expires_at: order_by
+  refresh_token_expires_in: order_by
+}
+
+"""aggregate var_samp on columns"""
+type accounts_var_samp_fields {
+  expires_at: Float
+  refresh_token_expires_in: Float
+}
+
+"""
+order by var_samp() on columns of table "accounts"
+"""
+input accounts_var_samp_order_by {
+  expires_at: order_by
+  refresh_token_expires_in: order_by
+}
+
+"""aggregate variance on columns"""
+type accounts_variance_fields {
+  expires_at: Float
+  refresh_token_expires_in: Float
+}
+
+"""
+order by variance() on columns of table "accounts"
+"""
+input accounts_variance_order_by {
+  expires_at: order_by
+  refresh_token_expires_in: order_by
+}
+
+scalar bigint
+
+"""
+Boolean expression to compare columns of type "bigint". All fields are combined with logical 'AND'.
+"""
+input bigint_comparison_exp {
+  _eq: bigint
+  _gt: bigint
+  _gte: bigint
+  _in: [bigint!]
+  _is_null: Boolean
+  _lt: bigint
+  _lte: bigint
+  _neq: bigint
+  _nin: [bigint!]
+}
+
+"""
+columns and relationships of "coupons"
+"""
+type coupons {
+  code: String!
+  created_at: timestamptz!
+  default: Boolean!
+  expires_at: timestamptz
+  id: uuid!
+  max_uses: Int!
+
+  """An object relationship"""
+  merchant_coupon: merchant_coupons
+  merchant_coupon_id: uuid
+  percentage_discount: numeric!
+
+  """An array relationship"""
+  purchases(
+    """distinct select on columns"""
+    distinct_on: [purchases_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [purchases_order_by!]
+
+    """filter the rows returned"""
+    where: purchases_bool_exp
+  ): [purchases!]!
+
+  """An aggregate relationship"""
+  purchases_aggregate(
+    """distinct select on columns"""
+    distinct_on: [purchases_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [purchases_order_by!]
+
+    """filter the rows returned"""
+    where: purchases_bool_exp
+  ): purchases_aggregate!
+
+  """An object relationship"""
+  restricted_to_product: products
+  restricted_to_product_id: uuid
+  status: Int!
+  used_count: Int!
+}
+
+"""
+aggregated selection of "coupons"
+"""
+type coupons_aggregate {
+  aggregate: coupons_aggregate_fields
+  nodes: [coupons!]!
+}
+
+"""
+aggregate fields of "coupons"
+"""
+type coupons_aggregate_fields {
+  avg: coupons_avg_fields
+  count(columns: [coupons_select_column!], distinct: Boolean): Int!
+  max: coupons_max_fields
+  min: coupons_min_fields
+  stddev: coupons_stddev_fields
+  stddev_pop: coupons_stddev_pop_fields
+  stddev_samp: coupons_stddev_samp_fields
+  sum: coupons_sum_fields
+  var_pop: coupons_var_pop_fields
+  var_samp: coupons_var_samp_fields
+  variance: coupons_variance_fields
+}
+
+"""
+order by aggregate values of table "coupons"
+"""
+input coupons_aggregate_order_by {
+  avg: coupons_avg_order_by
+  count: order_by
+  max: coupons_max_order_by
+  min: coupons_min_order_by
+  stddev: coupons_stddev_order_by
+  stddev_pop: coupons_stddev_pop_order_by
+  stddev_samp: coupons_stddev_samp_order_by
+  sum: coupons_sum_order_by
+  var_pop: coupons_var_pop_order_by
+  var_samp: coupons_var_samp_order_by
+  variance: coupons_variance_order_by
+}
+
+"""
+input type for inserting array relation for remote table "coupons"
+"""
+input coupons_arr_rel_insert_input {
+  data: [coupons_insert_input!]!
+
+  """upsert condition"""
+  on_conflict: coupons_on_conflict
+}
+
+"""aggregate avg on columns"""
+type coupons_avg_fields {
+  max_uses: Float
+  percentage_discount: Float
+  status: Float
+  used_count: Float
+}
+
+"""
+order by avg() on columns of table "coupons"
+"""
+input coupons_avg_order_by {
+  max_uses: order_by
+  percentage_discount: order_by
+  status: order_by
+  used_count: order_by
+}
+
+"""
+Boolean expression to filter rows from the table "coupons". All fields are combined with a logical 'AND'.
+"""
+input coupons_bool_exp {
+  _and: [coupons_bool_exp!]
+  _not: coupons_bool_exp
+  _or: [coupons_bool_exp!]
+  code: String_comparison_exp
+  created_at: timestamptz_comparison_exp
+  default: Boolean_comparison_exp
+  expires_at: timestamptz_comparison_exp
+  id: uuid_comparison_exp
+  max_uses: Int_comparison_exp
+  merchant_coupon: merchant_coupons_bool_exp
+  merchant_coupon_id: uuid_comparison_exp
+  percentage_discount: numeric_comparison_exp
+  purchases: purchases_bool_exp
+  restricted_to_product: products_bool_exp
+  restricted_to_product_id: uuid_comparison_exp
+  status: Int_comparison_exp
+  used_count: Int_comparison_exp
+}
+
+"""
+unique or primary key constraints on table "coupons"
+"""
+enum coupons_constraint {
+  """unique or primary key constraint"""
+  coupons_code_key
+
+  """unique or primary key constraint"""
+  coupons_pkey
+}
+
+"""
+input type for incrementing numeric columns in table "coupons"
+"""
+input coupons_inc_input {
+  max_uses: Int
+  percentage_discount: numeric
+  status: Int
+  used_count: Int
+}
+
+"""
+input type for inserting data into table "coupons"
+"""
+input coupons_insert_input {
+  code: String
+  created_at: timestamptz
+  default: Boolean
+  expires_at: timestamptz
+  id: uuid
+  max_uses: Int
+  merchant_coupon: merchant_coupons_obj_rel_insert_input
+  merchant_coupon_id: uuid
+  percentage_discount: numeric
+  purchases: purchases_arr_rel_insert_input
+  restricted_to_product: products_obj_rel_insert_input
+  restricted_to_product_id: uuid
+  status: Int
+  used_count: Int
+}
+
+"""aggregate max on columns"""
+type coupons_max_fields {
+  code: String
+  created_at: timestamptz
+  expires_at: timestamptz
+  id: uuid
+  max_uses: Int
+  merchant_coupon_id: uuid
+  percentage_discount: numeric
+  restricted_to_product_id: uuid
+  status: Int
+  used_count: Int
+}
+
+"""
+order by max() on columns of table "coupons"
+"""
+input coupons_max_order_by {
+  code: order_by
+  created_at: order_by
+  expires_at: order_by
+  id: order_by
+  max_uses: order_by
+  merchant_coupon_id: order_by
+  percentage_discount: order_by
+  restricted_to_product_id: order_by
+  status: order_by
+  used_count: order_by
+}
+
+"""aggregate min on columns"""
+type coupons_min_fields {
+  code: String
+  created_at: timestamptz
+  expires_at: timestamptz
+  id: uuid
+  max_uses: Int
+  merchant_coupon_id: uuid
+  percentage_discount: numeric
+  restricted_to_product_id: uuid
+  status: Int
+  used_count: Int
+}
+
+"""
+order by min() on columns of table "coupons"
+"""
+input coupons_min_order_by {
+  code: order_by
+  created_at: order_by
+  expires_at: order_by
+  id: order_by
+  max_uses: order_by
+  merchant_coupon_id: order_by
+  percentage_discount: order_by
+  restricted_to_product_id: order_by
+  status: order_by
+  used_count: order_by
+}
+
+"""
+response of any mutation on the table "coupons"
+"""
+type coupons_mutation_response {
+  """number of rows affected by the mutation"""
+  affected_rows: Int!
+
+  """data from the rows affected by the mutation"""
+  returning: [coupons!]!
+}
+
+"""
+input type for inserting object relation for remote table "coupons"
+"""
+input coupons_obj_rel_insert_input {
+  data: coupons_insert_input!
+
+  """upsert condition"""
+  on_conflict: coupons_on_conflict
+}
+
+"""
+on_conflict condition type for table "coupons"
+"""
+input coupons_on_conflict {
+  constraint: coupons_constraint!
+  update_columns: [coupons_update_column!]! = []
+  where: coupons_bool_exp
+}
+
+"""Ordering options when selecting data from "coupons"."""
+input coupons_order_by {
+  code: order_by
+  created_at: order_by
+  default: order_by
+  expires_at: order_by
+  id: order_by
+  max_uses: order_by
+  merchant_coupon: merchant_coupons_order_by
+  merchant_coupon_id: order_by
+  percentage_discount: order_by
+  purchases_aggregate: purchases_aggregate_order_by
+  restricted_to_product: products_order_by
+  restricted_to_product_id: order_by
+  status: order_by
+  used_count: order_by
+}
+
+"""primary key columns input for table: coupons"""
+input coupons_pk_columns_input {
+  id: uuid!
+}
+
+"""
+select columns of table "coupons"
+"""
+enum coupons_select_column {
+  """column name"""
+  code
+
+  """column name"""
+  created_at
+
+  """column name"""
+  default
+
+  """column name"""
+  expires_at
+
+  """column name"""
+  id
+
+  """column name"""
+  max_uses
+
+  """column name"""
+  merchant_coupon_id
+
+  """column name"""
+  percentage_discount
+
+  """column name"""
+  restricted_to_product_id
+
+  """column name"""
+  status
+
+  """column name"""
+  used_count
+}
+
+"""
+input type for updating data in table "coupons"
+"""
+input coupons_set_input {
+  code: String
+  created_at: timestamptz
+  default: Boolean
+  expires_at: timestamptz
+  id: uuid
+  max_uses: Int
+  merchant_coupon_id: uuid
+  percentage_discount: numeric
+  restricted_to_product_id: uuid
+  status: Int
+  used_count: Int
+}
+
+"""aggregate stddev on columns"""
+type coupons_stddev_fields {
+  max_uses: Float
+  percentage_discount: Float
+  status: Float
+  used_count: Float
+}
+
+"""
+order by stddev() on columns of table "coupons"
+"""
+input coupons_stddev_order_by {
+  max_uses: order_by
+  percentage_discount: order_by
+  status: order_by
+  used_count: order_by
+}
+
+"""aggregate stddev_pop on columns"""
+type coupons_stddev_pop_fields {
+  max_uses: Float
+  percentage_discount: Float
+  status: Float
+  used_count: Float
+}
+
+"""
+order by stddev_pop() on columns of table "coupons"
+"""
+input coupons_stddev_pop_order_by {
+  max_uses: order_by
+  percentage_discount: order_by
+  status: order_by
+  used_count: order_by
+}
+
+"""aggregate stddev_samp on columns"""
+type coupons_stddev_samp_fields {
+  max_uses: Float
+  percentage_discount: Float
+  status: Float
+  used_count: Float
+}
+
+"""
+order by stddev_samp() on columns of table "coupons"
+"""
+input coupons_stddev_samp_order_by {
+  max_uses: order_by
+  percentage_discount: order_by
+  status: order_by
+  used_count: order_by
+}
+
+"""aggregate sum on columns"""
+type coupons_sum_fields {
+  max_uses: Int
+  percentage_discount: numeric
+  status: Int
+  used_count: Int
+}
+
+"""
+order by sum() on columns of table "coupons"
+"""
+input coupons_sum_order_by {
+  max_uses: order_by
+  percentage_discount: order_by
+  status: order_by
+  used_count: order_by
+}
+
+"""
+update columns of table "coupons"
+"""
+enum coupons_update_column {
+  """column name"""
+  code
+
+  """column name"""
+  created_at
+
+  """column name"""
+  default
+
+  """column name"""
+  expires_at
+
+  """column name"""
+  id
+
+  """column name"""
+  max_uses
+
+  """column name"""
+  merchant_coupon_id
+
+  """column name"""
+  percentage_discount
+
+  """column name"""
+  restricted_to_product_id
+
+  """column name"""
+  status
+
+  """column name"""
+  used_count
+}
+
+"""aggregate var_pop on columns"""
+type coupons_var_pop_fields {
+  max_uses: Float
+  percentage_discount: Float
+  status: Float
+  used_count: Float
+}
+
+"""
+order by var_pop() on columns of table "coupons"
+"""
+input coupons_var_pop_order_by {
+  max_uses: order_by
+  percentage_discount: order_by
+  status: order_by
+  used_count: order_by
+}
+
+"""aggregate var_samp on columns"""
+type coupons_var_samp_fields {
+  max_uses: Float
+  percentage_discount: Float
+  status: Float
+  used_count: Float
+}
+
+"""
+order by var_samp() on columns of table "coupons"
+"""
+input coupons_var_samp_order_by {
+  max_uses: order_by
+  percentage_discount: order_by
+  status: order_by
+  used_count: order_by
+}
+
+"""aggregate variance on columns"""
+type coupons_variance_fields {
+  max_uses: Float
+  percentage_discount: Float
+  status: Float
+  used_count: Float
+}
+
+"""
+order by variance() on columns of table "coupons"
+"""
+input coupons_variance_order_by {
+  max_uses: order_by
+  percentage_discount: order_by
+  status: order_by
+  used_count: order_by
+}
+
+"""
+columns and relationships of "merchant_accounts"
+"""
+type merchant_accounts {
+  created_at: timestamptz!
+  id: uuid!
+
+  """An array relationship"""
+  merchant_charges(
+    """distinct select on columns"""
+    distinct_on: [merchant_charges_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [merchant_charges_order_by!]
+
+    """filter the rows returned"""
+    where: merchant_charges_bool_exp
+  ): [merchant_charges!]!
+
+  """An aggregate relationship"""
+  merchant_charges_aggregate(
+    """distinct select on columns"""
+    distinct_on: [merchant_charges_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [merchant_charges_order_by!]
+
+    """filter the rows returned"""
+    where: merchant_charges_bool_exp
+  ): merchant_charges_aggregate!
+
+  """An array relationship"""
+  merchant_coupons(
+    """distinct select on columns"""
+    distinct_on: [merchant_coupons_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [merchant_coupons_order_by!]
+
+    """filter the rows returned"""
+    where: merchant_coupons_bool_exp
+  ): [merchant_coupons!]!
+
+  """An aggregate relationship"""
+  merchant_coupons_aggregate(
+    """distinct select on columns"""
+    distinct_on: [merchant_coupons_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [merchant_coupons_order_by!]
+
+    """filter the rows returned"""
+    where: merchant_coupons_bool_exp
+  ): merchant_coupons_aggregate!
+
+  """An array relationship"""
+  merchant_customers(
+    """distinct select on columns"""
+    distinct_on: [merchant_customers_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [merchant_customers_order_by!]
+
+    """filter the rows returned"""
+    where: merchant_customers_bool_exp
+  ): [merchant_customers!]!
+
+  """An aggregate relationship"""
+  merchant_customers_aggregate(
+    """distinct select on columns"""
+    distinct_on: [merchant_customers_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [merchant_customers_order_by!]
+
+    """filter the rows returned"""
+    where: merchant_customers_bool_exp
+  ): merchant_customers_aggregate!
+
+  """An array relationship"""
+  merchant_prices(
+    """distinct select on columns"""
+    distinct_on: [merchant_prices_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [merchant_prices_order_by!]
+
+    """filter the rows returned"""
+    where: merchant_prices_bool_exp
+  ): [merchant_prices!]!
+
+  """An aggregate relationship"""
+  merchant_prices_aggregate(
+    """distinct select on columns"""
+    distinct_on: [merchant_prices_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [merchant_prices_order_by!]
+
+    """filter the rows returned"""
+    where: merchant_prices_bool_exp
+  ): merchant_prices_aggregate!
+
+  """An array relationship"""
+  merchant_products(
+    """distinct select on columns"""
+    distinct_on: [merchant_products_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [merchant_products_order_by!]
+
+    """filter the rows returned"""
+    where: merchant_products_bool_exp
+  ): [merchant_products!]!
+
+  """An aggregate relationship"""
+  merchant_products_aggregate(
+    """distinct select on columns"""
+    distinct_on: [merchant_products_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [merchant_products_order_by!]
+
+    """filter the rows returned"""
+    where: merchant_products_bool_exp
+  ): merchant_products_aggregate!
+  payment_processor_id: String!
+  status: Int!
+}
+
+"""
+aggregated selection of "merchant_accounts"
+"""
+type merchant_accounts_aggregate {
+  aggregate: merchant_accounts_aggregate_fields
+  nodes: [merchant_accounts!]!
+}
+
+"""
+aggregate fields of "merchant_accounts"
+"""
+type merchant_accounts_aggregate_fields {
+  avg: merchant_accounts_avg_fields
+  count(columns: [merchant_accounts_select_column!], distinct: Boolean): Int!
+  max: merchant_accounts_max_fields
+  min: merchant_accounts_min_fields
+  stddev: merchant_accounts_stddev_fields
+  stddev_pop: merchant_accounts_stddev_pop_fields
+  stddev_samp: merchant_accounts_stddev_samp_fields
+  sum: merchant_accounts_sum_fields
+  var_pop: merchant_accounts_var_pop_fields
+  var_samp: merchant_accounts_var_samp_fields
+  variance: merchant_accounts_variance_fields
+}
+
+"""aggregate avg on columns"""
+type merchant_accounts_avg_fields {
+  status: Float
+}
+
+"""
+Boolean expression to filter rows from the table "merchant_accounts". All fields are combined with a logical 'AND'.
+"""
+input merchant_accounts_bool_exp {
+  _and: [merchant_accounts_bool_exp!]
+  _not: merchant_accounts_bool_exp
+  _or: [merchant_accounts_bool_exp!]
+  created_at: timestamptz_comparison_exp
+  id: uuid_comparison_exp
+  merchant_charges: merchant_charges_bool_exp
+  merchant_coupons: merchant_coupons_bool_exp
+  merchant_customers: merchant_customers_bool_exp
+  merchant_prices: merchant_prices_bool_exp
+  merchant_products: merchant_products_bool_exp
+  payment_processor_id: String_comparison_exp
+  status: Int_comparison_exp
+}
+
+"""
+unique or primary key constraints on table "merchant_accounts"
+"""
+enum merchant_accounts_constraint {
+  """unique or primary key constraint"""
+  merchant_accounts_pkey
+}
+
+"""
+input type for incrementing numeric columns in table "merchant_accounts"
+"""
+input merchant_accounts_inc_input {
+  status: Int
+}
+
+"""
+input type for inserting data into table "merchant_accounts"
+"""
+input merchant_accounts_insert_input {
+  created_at: timestamptz
+  id: uuid
+  merchant_charges: merchant_charges_arr_rel_insert_input
+  merchant_coupons: merchant_coupons_arr_rel_insert_input
+  merchant_customers: merchant_customers_arr_rel_insert_input
+  merchant_prices: merchant_prices_arr_rel_insert_input
+  merchant_products: merchant_products_arr_rel_insert_input
+  payment_processor_id: String
+  status: Int
+}
+
+"""aggregate max on columns"""
+type merchant_accounts_max_fields {
+  created_at: timestamptz
+  id: uuid
+  payment_processor_id: String
+  status: Int
+}
+
+"""aggregate min on columns"""
+type merchant_accounts_min_fields {
+  created_at: timestamptz
+  id: uuid
+  payment_processor_id: String
+  status: Int
+}
+
+"""
+response of any mutation on the table "merchant_accounts"
+"""
+type merchant_accounts_mutation_response {
+  """number of rows affected by the mutation"""
+  affected_rows: Int!
+
+  """data from the rows affected by the mutation"""
+  returning: [merchant_accounts!]!
+}
+
+"""
+input type for inserting object relation for remote table "merchant_accounts"
+"""
+input merchant_accounts_obj_rel_insert_input {
+  data: merchant_accounts_insert_input!
+
+  """upsert condition"""
+  on_conflict: merchant_accounts_on_conflict
+}
+
+"""
+on_conflict condition type for table "merchant_accounts"
+"""
+input merchant_accounts_on_conflict {
+  constraint: merchant_accounts_constraint!
+  update_columns: [merchant_accounts_update_column!]! = []
+  where: merchant_accounts_bool_exp
+}
+
+"""Ordering options when selecting data from "merchant_accounts"."""
+input merchant_accounts_order_by {
+  created_at: order_by
+  id: order_by
+  merchant_charges_aggregate: merchant_charges_aggregate_order_by
+  merchant_coupons_aggregate: merchant_coupons_aggregate_order_by
+  merchant_customers_aggregate: merchant_customers_aggregate_order_by
+  merchant_prices_aggregate: merchant_prices_aggregate_order_by
+  merchant_products_aggregate: merchant_products_aggregate_order_by
+  payment_processor_id: order_by
+  status: order_by
+}
+
+"""primary key columns input for table: merchant_accounts"""
+input merchant_accounts_pk_columns_input {
+  id: uuid!
+}
+
+"""
+select columns of table "merchant_accounts"
+"""
+enum merchant_accounts_select_column {
+  """column name"""
+  created_at
+
+  """column name"""
+  id
+
+  """column name"""
+  payment_processor_id
+
+  """column name"""
+  status
+}
+
+"""
+input type for updating data in table "merchant_accounts"
+"""
+input merchant_accounts_set_input {
+  created_at: timestamptz
+  id: uuid
+  payment_processor_id: String
+  status: Int
+}
+
+"""aggregate stddev on columns"""
+type merchant_accounts_stddev_fields {
+  status: Float
+}
+
+"""aggregate stddev_pop on columns"""
+type merchant_accounts_stddev_pop_fields {
+  status: Float
+}
+
+"""aggregate stddev_samp on columns"""
+type merchant_accounts_stddev_samp_fields {
+  status: Float
+}
+
+"""aggregate sum on columns"""
+type merchant_accounts_sum_fields {
+  status: Int
+}
+
+"""
+update columns of table "merchant_accounts"
+"""
+enum merchant_accounts_update_column {
+  """column name"""
+  created_at
+
+  """column name"""
+  id
+
+  """column name"""
+  payment_processor_id
+
+  """column name"""
+  status
+}
+
+"""aggregate var_pop on columns"""
+type merchant_accounts_var_pop_fields {
+  status: Float
+}
+
+"""aggregate var_samp on columns"""
+type merchant_accounts_var_samp_fields {
+  status: Float
+}
+
+"""aggregate variance on columns"""
+type merchant_accounts_variance_fields {
+  status: Float
+}
+
+"""
+columns and relationships of "merchant_charges"
+"""
+type merchant_charges {
+  created_at: timestamptz!
+  id: uuid!
+  identifier: String
+
+  """An object relationship"""
+  merchant_account: merchant_accounts!
+  merchant_account_id: uuid!
+
+  """An object relationship"""
+  merchant_customer: merchant_customers
+  merchant_customer_id: uuid
+
+  """An object relationship"""
+  merchant_price: merchant_prices!
+  merchant_price_id: uuid!
+
+  """An object relationship"""
+  merchant_product: merchant_products!
+  merchant_product_id: uuid!
+
+  """An object relationship"""
+  price: prices!
+  price_id: uuid!
+
+  """An object relationship"""
+  purchase: purchases!
+  purchase_id: uuid!
+  status: Int!
+
+  """An object relationship"""
+  user: users!
+  user_id: uuid!
+}
+
+"""
+aggregated selection of "merchant_charges"
+"""
+type merchant_charges_aggregate {
+  aggregate: merchant_charges_aggregate_fields
+  nodes: [merchant_charges!]!
+}
+
+"""
+aggregate fields of "merchant_charges"
+"""
+type merchant_charges_aggregate_fields {
+  avg: merchant_charges_avg_fields
+  count(columns: [merchant_charges_select_column!], distinct: Boolean): Int!
+  max: merchant_charges_max_fields
+  min: merchant_charges_min_fields
+  stddev: merchant_charges_stddev_fields
+  stddev_pop: merchant_charges_stddev_pop_fields
+  stddev_samp: merchant_charges_stddev_samp_fields
+  sum: merchant_charges_sum_fields
+  var_pop: merchant_charges_var_pop_fields
+  var_samp: merchant_charges_var_samp_fields
+  variance: merchant_charges_variance_fields
+}
+
+"""
+order by aggregate values of table "merchant_charges"
+"""
+input merchant_charges_aggregate_order_by {
+  avg: merchant_charges_avg_order_by
+  count: order_by
+  max: merchant_charges_max_order_by
+  min: merchant_charges_min_order_by
+  stddev: merchant_charges_stddev_order_by
+  stddev_pop: merchant_charges_stddev_pop_order_by
+  stddev_samp: merchant_charges_stddev_samp_order_by
+  sum: merchant_charges_sum_order_by
+  var_pop: merchant_charges_var_pop_order_by
+  var_samp: merchant_charges_var_samp_order_by
+  variance: merchant_charges_variance_order_by
+}
+
+"""
+input type for inserting array relation for remote table "merchant_charges"
+"""
+input merchant_charges_arr_rel_insert_input {
+  data: [merchant_charges_insert_input!]!
+
+  """upsert condition"""
+  on_conflict: merchant_charges_on_conflict
+}
+
+"""aggregate avg on columns"""
+type merchant_charges_avg_fields {
+  status: Float
+}
+
+"""
+order by avg() on columns of table "merchant_charges"
+"""
+input merchant_charges_avg_order_by {
+  status: order_by
+}
+
+"""
+Boolean expression to filter rows from the table "merchant_charges". All fields are combined with a logical 'AND'.
+"""
+input merchant_charges_bool_exp {
+  _and: [merchant_charges_bool_exp!]
+  _not: merchant_charges_bool_exp
+  _or: [merchant_charges_bool_exp!]
+  created_at: timestamptz_comparison_exp
+  id: uuid_comparison_exp
+  identifier: String_comparison_exp
+  merchant_account: merchant_accounts_bool_exp
+  merchant_account_id: uuid_comparison_exp
+  merchant_customer: merchant_customers_bool_exp
+  merchant_customer_id: uuid_comparison_exp
+  merchant_price: merchant_prices_bool_exp
+  merchant_price_id: uuid_comparison_exp
+  merchant_product: merchant_products_bool_exp
+  merchant_product_id: uuid_comparison_exp
+  price: prices_bool_exp
+  price_id: uuid_comparison_exp
+  purchase: purchases_bool_exp
+  purchase_id: uuid_comparison_exp
+  status: Int_comparison_exp
+  user: users_bool_exp
+  user_id: uuid_comparison_exp
+}
+
+"""
+unique or primary key constraints on table "merchant_charges"
+"""
+enum merchant_charges_constraint {
+  """unique or primary key constraint"""
+  merchant_charges_pkey
+}
+
+"""
+input type for incrementing numeric columns in table "merchant_charges"
+"""
+input merchant_charges_inc_input {
+  status: Int
+}
+
+"""
+input type for inserting data into table "merchant_charges"
+"""
+input merchant_charges_insert_input {
+  created_at: timestamptz
+  id: uuid
+  identifier: String
+  merchant_account: merchant_accounts_obj_rel_insert_input
+  merchant_account_id: uuid
+  merchant_customer: merchant_customers_obj_rel_insert_input
+  merchant_customer_id: uuid
+  merchant_price: merchant_prices_obj_rel_insert_input
+  merchant_price_id: uuid
+  merchant_product: merchant_products_obj_rel_insert_input
+  merchant_product_id: uuid
+  price: prices_obj_rel_insert_input
+  price_id: uuid
+  purchase: purchases_obj_rel_insert_input
+  purchase_id: uuid
+  status: Int
+  user: users_obj_rel_insert_input
+  user_id: uuid
+}
+
+"""aggregate max on columns"""
+type merchant_charges_max_fields {
+  created_at: timestamptz
+  id: uuid
+  identifier: String
+  merchant_account_id: uuid
+  merchant_customer_id: uuid
+  merchant_price_id: uuid
+  merchant_product_id: uuid
+  price_id: uuid
+  purchase_id: uuid
+  status: Int
+  user_id: uuid
+}
+
+"""
+order by max() on columns of table "merchant_charges"
+"""
+input merchant_charges_max_order_by {
+  created_at: order_by
+  id: order_by
+  identifier: order_by
+  merchant_account_id: order_by
+  merchant_customer_id: order_by
+  merchant_price_id: order_by
+  merchant_product_id: order_by
+  price_id: order_by
+  purchase_id: order_by
+  status: order_by
+  user_id: order_by
+}
+
+"""aggregate min on columns"""
+type merchant_charges_min_fields {
+  created_at: timestamptz
+  id: uuid
+  identifier: String
+  merchant_account_id: uuid
+  merchant_customer_id: uuid
+  merchant_price_id: uuid
+  merchant_product_id: uuid
+  price_id: uuid
+  purchase_id: uuid
+  status: Int
+  user_id: uuid
+}
+
+"""
+order by min() on columns of table "merchant_charges"
+"""
+input merchant_charges_min_order_by {
+  created_at: order_by
+  id: order_by
+  identifier: order_by
+  merchant_account_id: order_by
+  merchant_customer_id: order_by
+  merchant_price_id: order_by
+  merchant_product_id: order_by
+  price_id: order_by
+  purchase_id: order_by
+  status: order_by
+  user_id: order_by
+}
+
+"""
+response of any mutation on the table "merchant_charges"
+"""
+type merchant_charges_mutation_response {
+  """number of rows affected by the mutation"""
+  affected_rows: Int!
+
+  """data from the rows affected by the mutation"""
+  returning: [merchant_charges!]!
+}
+
+"""
+on_conflict condition type for table "merchant_charges"
+"""
+input merchant_charges_on_conflict {
+  constraint: merchant_charges_constraint!
+  update_columns: [merchant_charges_update_column!]! = []
+  where: merchant_charges_bool_exp
+}
+
+"""Ordering options when selecting data from "merchant_charges"."""
+input merchant_charges_order_by {
+  created_at: order_by
+  id: order_by
+  identifier: order_by
+  merchant_account: merchant_accounts_order_by
+  merchant_account_id: order_by
+  merchant_customer: merchant_customers_order_by
+  merchant_customer_id: order_by
+  merchant_price: merchant_prices_order_by
+  merchant_price_id: order_by
+  merchant_product: merchant_products_order_by
+  merchant_product_id: order_by
+  price: prices_order_by
+  price_id: order_by
+  purchase: purchases_order_by
+  purchase_id: order_by
+  status: order_by
+  user: users_order_by
+  user_id: order_by
+}
+
+"""primary key columns input for table: merchant_charges"""
+input merchant_charges_pk_columns_input {
+  id: uuid!
+}
+
+"""
+select columns of table "merchant_charges"
+"""
+enum merchant_charges_select_column {
+  """column name"""
+  created_at
+
+  """column name"""
+  id
+
+  """column name"""
+  identifier
+
+  """column name"""
+  merchant_account_id
+
+  """column name"""
+  merchant_customer_id
+
+  """column name"""
+  merchant_price_id
+
+  """column name"""
+  merchant_product_id
+
+  """column name"""
+  price_id
+
+  """column name"""
+  purchase_id
+
+  """column name"""
+  status
+
+  """column name"""
+  user_id
+}
+
+"""
+input type for updating data in table "merchant_charges"
+"""
+input merchant_charges_set_input {
+  created_at: timestamptz
+  id: uuid
+  identifier: String
+  merchant_account_id: uuid
+  merchant_customer_id: uuid
+  merchant_price_id: uuid
+  merchant_product_id: uuid
+  price_id: uuid
+  purchase_id: uuid
+  status: Int
+  user_id: uuid
+}
+
+"""aggregate stddev on columns"""
+type merchant_charges_stddev_fields {
+  status: Float
+}
+
+"""
+order by stddev() on columns of table "merchant_charges"
+"""
+input merchant_charges_stddev_order_by {
+  status: order_by
+}
+
+"""aggregate stddev_pop on columns"""
+type merchant_charges_stddev_pop_fields {
+  status: Float
+}
+
+"""
+order by stddev_pop() on columns of table "merchant_charges"
+"""
+input merchant_charges_stddev_pop_order_by {
+  status: order_by
+}
+
+"""aggregate stddev_samp on columns"""
+type merchant_charges_stddev_samp_fields {
+  status: Float
+}
+
+"""
+order by stddev_samp() on columns of table "merchant_charges"
+"""
+input merchant_charges_stddev_samp_order_by {
+  status: order_by
+}
+
+"""aggregate sum on columns"""
+type merchant_charges_sum_fields {
+  status: Int
+}
+
+"""
+order by sum() on columns of table "merchant_charges"
+"""
+input merchant_charges_sum_order_by {
+  status: order_by
+}
+
+"""
+update columns of table "merchant_charges"
+"""
+enum merchant_charges_update_column {
+  """column name"""
+  created_at
+
+  """column name"""
+  id
+
+  """column name"""
+  identifier
+
+  """column name"""
+  merchant_account_id
+
+  """column name"""
+  merchant_customer_id
+
+  """column name"""
+  merchant_price_id
+
+  """column name"""
+  merchant_product_id
+
+  """column name"""
+  price_id
+
+  """column name"""
+  purchase_id
+
+  """column name"""
+  status
+
+  """column name"""
+  user_id
+}
+
+"""aggregate var_pop on columns"""
+type merchant_charges_var_pop_fields {
+  status: Float
+}
+
+"""
+order by var_pop() on columns of table "merchant_charges"
+"""
+input merchant_charges_var_pop_order_by {
+  status: order_by
+}
+
+"""aggregate var_samp on columns"""
+type merchant_charges_var_samp_fields {
+  status: Float
+}
+
+"""
+order by var_samp() on columns of table "merchant_charges"
+"""
+input merchant_charges_var_samp_order_by {
+  status: order_by
+}
+
+"""aggregate variance on columns"""
+type merchant_charges_variance_fields {
+  status: Float
+}
+
+"""
+order by variance() on columns of table "merchant_charges"
+"""
+input merchant_charges_variance_order_by {
+  status: order_by
+}
+
+"""
+columns and relationships of "merchant_coupons"
+"""
+type merchant_coupons {
+  """An array relationship"""
+  coupons(
+    """distinct select on columns"""
+    distinct_on: [coupons_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [coupons_order_by!]
+
+    """filter the rows returned"""
+    where: coupons_bool_exp
+  ): [coupons!]!
+
+  """An aggregate relationship"""
+  coupons_aggregate(
+    """distinct select on columns"""
+    distinct_on: [coupons_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [coupons_order_by!]
+
+    """filter the rows returned"""
+    where: coupons_bool_exp
+  ): coupons_aggregate!
+  id: uuid!
+  identifier: String
+
+  """An object relationship"""
+  merchant_account: merchant_accounts!
+  merchant_account_id: uuid!
+  percentage_discount: numeric!
+  status: Int!
+  type: String
+}
+
+"""
+aggregated selection of "merchant_coupons"
+"""
+type merchant_coupons_aggregate {
+  aggregate: merchant_coupons_aggregate_fields
+  nodes: [merchant_coupons!]!
+}
+
+"""
+aggregate fields of "merchant_coupons"
+"""
+type merchant_coupons_aggregate_fields {
+  avg: merchant_coupons_avg_fields
+  count(columns: [merchant_coupons_select_column!], distinct: Boolean): Int!
+  max: merchant_coupons_max_fields
+  min: merchant_coupons_min_fields
+  stddev: merchant_coupons_stddev_fields
+  stddev_pop: merchant_coupons_stddev_pop_fields
+  stddev_samp: merchant_coupons_stddev_samp_fields
+  sum: merchant_coupons_sum_fields
+  var_pop: merchant_coupons_var_pop_fields
+  var_samp: merchant_coupons_var_samp_fields
+  variance: merchant_coupons_variance_fields
+}
+
+"""
+order by aggregate values of table "merchant_coupons"
+"""
+input merchant_coupons_aggregate_order_by {
+  avg: merchant_coupons_avg_order_by
+  count: order_by
+  max: merchant_coupons_max_order_by
+  min: merchant_coupons_min_order_by
+  stddev: merchant_coupons_stddev_order_by
+  stddev_pop: merchant_coupons_stddev_pop_order_by
+  stddev_samp: merchant_coupons_stddev_samp_order_by
+  sum: merchant_coupons_sum_order_by
+  var_pop: merchant_coupons_var_pop_order_by
+  var_samp: merchant_coupons_var_samp_order_by
+  variance: merchant_coupons_variance_order_by
+}
+
+"""
+input type for inserting array relation for remote table "merchant_coupons"
+"""
+input merchant_coupons_arr_rel_insert_input {
+  data: [merchant_coupons_insert_input!]!
+
+  """upsert condition"""
+  on_conflict: merchant_coupons_on_conflict
+}
+
+"""aggregate avg on columns"""
+type merchant_coupons_avg_fields {
+  percentage_discount: Float
+  status: Float
+}
+
+"""
+order by avg() on columns of table "merchant_coupons"
+"""
+input merchant_coupons_avg_order_by {
+  percentage_discount: order_by
+  status: order_by
+}
+
+"""
+Boolean expression to filter rows from the table "merchant_coupons". All fields are combined with a logical 'AND'.
+"""
+input merchant_coupons_bool_exp {
+  _and: [merchant_coupons_bool_exp!]
+  _not: merchant_coupons_bool_exp
+  _or: [merchant_coupons_bool_exp!]
+  coupons: coupons_bool_exp
+  id: uuid_comparison_exp
+  identifier: String_comparison_exp
+  merchant_account: merchant_accounts_bool_exp
+  merchant_account_id: uuid_comparison_exp
+  percentage_discount: numeric_comparison_exp
+  status: Int_comparison_exp
+  type: String_comparison_exp
+}
+
+"""
+unique or primary key constraints on table "merchant_coupons"
+"""
+enum merchant_coupons_constraint {
+  """unique or primary key constraint"""
+  merchant_coupons_pkey
+}
+
+"""
+input type for incrementing numeric columns in table "merchant_coupons"
+"""
+input merchant_coupons_inc_input {
+  percentage_discount: numeric
+  status: Int
+}
+
+"""
+input type for inserting data into table "merchant_coupons"
+"""
+input merchant_coupons_insert_input {
+  coupons: coupons_arr_rel_insert_input
+  id: uuid
+  identifier: String
+  merchant_account: merchant_accounts_obj_rel_insert_input
+  merchant_account_id: uuid
+  percentage_discount: numeric
+  status: Int
+  type: String
+}
+
+"""aggregate max on columns"""
+type merchant_coupons_max_fields {
+  id: uuid
+  identifier: String
+  merchant_account_id: uuid
+  percentage_discount: numeric
+  status: Int
+  type: String
+}
+
+"""
+order by max() on columns of table "merchant_coupons"
+"""
+input merchant_coupons_max_order_by {
+  id: order_by
+  identifier: order_by
+  merchant_account_id: order_by
+  percentage_discount: order_by
+  status: order_by
+  type: order_by
+}
+
+"""aggregate min on columns"""
+type merchant_coupons_min_fields {
+  id: uuid
+  identifier: String
+  merchant_account_id: uuid
+  percentage_discount: numeric
+  status: Int
+  type: String
+}
+
+"""
+order by min() on columns of table "merchant_coupons"
+"""
+input merchant_coupons_min_order_by {
+  id: order_by
+  identifier: order_by
+  merchant_account_id: order_by
+  percentage_discount: order_by
+  status: order_by
+  type: order_by
+}
+
+"""
+response of any mutation on the table "merchant_coupons"
+"""
+type merchant_coupons_mutation_response {
+  """number of rows affected by the mutation"""
+  affected_rows: Int!
+
+  """data from the rows affected by the mutation"""
+  returning: [merchant_coupons!]!
+}
+
+"""
+input type for inserting object relation for remote table "merchant_coupons"
+"""
+input merchant_coupons_obj_rel_insert_input {
+  data: merchant_coupons_insert_input!
+
+  """upsert condition"""
+  on_conflict: merchant_coupons_on_conflict
+}
+
+"""
+on_conflict condition type for table "merchant_coupons"
+"""
+input merchant_coupons_on_conflict {
+  constraint: merchant_coupons_constraint!
+  update_columns: [merchant_coupons_update_column!]! = []
+  where: merchant_coupons_bool_exp
+}
+
+"""Ordering options when selecting data from "merchant_coupons"."""
+input merchant_coupons_order_by {
+  coupons_aggregate: coupons_aggregate_order_by
+  id: order_by
+  identifier: order_by
+  merchant_account: merchant_accounts_order_by
+  merchant_account_id: order_by
+  percentage_discount: order_by
+  status: order_by
+  type: order_by
+}
+
+"""primary key columns input for table: merchant_coupons"""
+input merchant_coupons_pk_columns_input {
+  id: uuid!
+}
+
+"""
+select columns of table "merchant_coupons"
+"""
+enum merchant_coupons_select_column {
+  """column name"""
+  id
+
+  """column name"""
+  identifier
+
+  """column name"""
+  merchant_account_id
+
+  """column name"""
+  percentage_discount
+
+  """column name"""
+  status
+
+  """column name"""
+  type
+}
+
+"""
+input type for updating data in table "merchant_coupons"
+"""
+input merchant_coupons_set_input {
+  id: uuid
+  identifier: String
+  merchant_account_id: uuid
+  percentage_discount: numeric
+  status: Int
+  type: String
+}
+
+"""aggregate stddev on columns"""
+type merchant_coupons_stddev_fields {
+  percentage_discount: Float
+  status: Float
+}
+
+"""
+order by stddev() on columns of table "merchant_coupons"
+"""
+input merchant_coupons_stddev_order_by {
+  percentage_discount: order_by
+  status: order_by
+}
+
+"""aggregate stddev_pop on columns"""
+type merchant_coupons_stddev_pop_fields {
+  percentage_discount: Float
+  status: Float
+}
+
+"""
+order by stddev_pop() on columns of table "merchant_coupons"
+"""
+input merchant_coupons_stddev_pop_order_by {
+  percentage_discount: order_by
+  status: order_by
+}
+
+"""aggregate stddev_samp on columns"""
+type merchant_coupons_stddev_samp_fields {
+  percentage_discount: Float
+  status: Float
+}
+
+"""
+order by stddev_samp() on columns of table "merchant_coupons"
+"""
+input merchant_coupons_stddev_samp_order_by {
+  percentage_discount: order_by
+  status: order_by
+}
+
+"""aggregate sum on columns"""
+type merchant_coupons_sum_fields {
+  percentage_discount: numeric
+  status: Int
+}
+
+"""
+order by sum() on columns of table "merchant_coupons"
+"""
+input merchant_coupons_sum_order_by {
+  percentage_discount: order_by
+  status: order_by
+}
+
+"""
+update columns of table "merchant_coupons"
+"""
+enum merchant_coupons_update_column {
+  """column name"""
+  id
+
+  """column name"""
+  identifier
+
+  """column name"""
+  merchant_account_id
+
+  """column name"""
+  percentage_discount
+
+  """column name"""
+  status
+
+  """column name"""
+  type
+}
+
+"""aggregate var_pop on columns"""
+type merchant_coupons_var_pop_fields {
+  percentage_discount: Float
+  status: Float
+}
+
+"""
+order by var_pop() on columns of table "merchant_coupons"
+"""
+input merchant_coupons_var_pop_order_by {
+  percentage_discount: order_by
+  status: order_by
+}
+
+"""aggregate var_samp on columns"""
+type merchant_coupons_var_samp_fields {
+  percentage_discount: Float
+  status: Float
+}
+
+"""
+order by var_samp() on columns of table "merchant_coupons"
+"""
+input merchant_coupons_var_samp_order_by {
+  percentage_discount: order_by
+  status: order_by
+}
+
+"""aggregate variance on columns"""
+type merchant_coupons_variance_fields {
+  percentage_discount: Float
+  status: Float
+}
+
+"""
+order by variance() on columns of table "merchant_coupons"
+"""
+input merchant_coupons_variance_order_by {
+  percentage_discount: order_by
+  status: order_by
+}
+
+"""
+columns and relationships of "merchant_customers"
+"""
+type merchant_customers {
+  created_at: timestamptz!
+  id: uuid!
+  identifier: String!
+
+  """An object relationship"""
+  merchant_account: merchant_accounts!
+  merchant_account_id: uuid!
+
+  """An array relationship"""
+  merchant_charges(
+    """distinct select on columns"""
+    distinct_on: [merchant_charges_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [merchant_charges_order_by!]
+
+    """filter the rows returned"""
+    where: merchant_charges_bool_exp
+  ): [merchant_charges!]!
+
+  """An aggregate relationship"""
+  merchant_charges_aggregate(
+    """distinct select on columns"""
+    distinct_on: [merchant_charges_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [merchant_charges_order_by!]
+
+    """filter the rows returned"""
+    where: merchant_charges_bool_exp
+  ): merchant_charges_aggregate!
+  status: Int
+
+  """An object relationship"""
+  user: users!
+  user_id: uuid!
+}
+
+"""
+aggregated selection of "merchant_customers"
+"""
+type merchant_customers_aggregate {
+  aggregate: merchant_customers_aggregate_fields
+  nodes: [merchant_customers!]!
+}
+
+"""
+aggregate fields of "merchant_customers"
+"""
+type merchant_customers_aggregate_fields {
+  avg: merchant_customers_avg_fields
+  count(columns: [merchant_customers_select_column!], distinct: Boolean): Int!
+  max: merchant_customers_max_fields
+  min: merchant_customers_min_fields
+  stddev: merchant_customers_stddev_fields
+  stddev_pop: merchant_customers_stddev_pop_fields
+  stddev_samp: merchant_customers_stddev_samp_fields
+  sum: merchant_customers_sum_fields
+  var_pop: merchant_customers_var_pop_fields
+  var_samp: merchant_customers_var_samp_fields
+  variance: merchant_customers_variance_fields
+}
+
+"""
+order by aggregate values of table "merchant_customers"
+"""
+input merchant_customers_aggregate_order_by {
+  avg: merchant_customers_avg_order_by
+  count: order_by
+  max: merchant_customers_max_order_by
+  min: merchant_customers_min_order_by
+  stddev: merchant_customers_stddev_order_by
+  stddev_pop: merchant_customers_stddev_pop_order_by
+  stddev_samp: merchant_customers_stddev_samp_order_by
+  sum: merchant_customers_sum_order_by
+  var_pop: merchant_customers_var_pop_order_by
+  var_samp: merchant_customers_var_samp_order_by
+  variance: merchant_customers_variance_order_by
+}
+
+"""
+input type for inserting array relation for remote table "merchant_customers"
+"""
+input merchant_customers_arr_rel_insert_input {
+  data: [merchant_customers_insert_input!]!
+
+  """upsert condition"""
+  on_conflict: merchant_customers_on_conflict
+}
+
+"""aggregate avg on columns"""
+type merchant_customers_avg_fields {
+  status: Float
+}
+
+"""
+order by avg() on columns of table "merchant_customers"
+"""
+input merchant_customers_avg_order_by {
+  status: order_by
+}
+
+"""
+Boolean expression to filter rows from the table "merchant_customers". All fields are combined with a logical 'AND'.
+"""
+input merchant_customers_bool_exp {
+  _and: [merchant_customers_bool_exp!]
+  _not: merchant_customers_bool_exp
+  _or: [merchant_customers_bool_exp!]
+  created_at: timestamptz_comparison_exp
+  id: uuid_comparison_exp
+  identifier: String_comparison_exp
+  merchant_account: merchant_accounts_bool_exp
+  merchant_account_id: uuid_comparison_exp
+  merchant_charges: merchant_charges_bool_exp
+  status: Int_comparison_exp
+  user: users_bool_exp
+  user_id: uuid_comparison_exp
+}
+
+"""
+unique or primary key constraints on table "merchant_customers"
+"""
+enum merchant_customers_constraint {
+  """unique or primary key constraint"""
+  merchant_customers_pkey
+}
+
+"""
+input type for incrementing numeric columns in table "merchant_customers"
+"""
+input merchant_customers_inc_input {
+  status: Int
+}
+
+"""
+input type for inserting data into table "merchant_customers"
+"""
+input merchant_customers_insert_input {
+  created_at: timestamptz
+  id: uuid
+  identifier: String
+  merchant_account: merchant_accounts_obj_rel_insert_input
+  merchant_account_id: uuid
+  merchant_charges: merchant_charges_arr_rel_insert_input
+  status: Int
+  user: users_obj_rel_insert_input
+  user_id: uuid
+}
+
+"""aggregate max on columns"""
+type merchant_customers_max_fields {
+  created_at: timestamptz
+  id: uuid
+  identifier: String
+  merchant_account_id: uuid
+  status: Int
+  user_id: uuid
+}
+
+"""
+order by max() on columns of table "merchant_customers"
+"""
+input merchant_customers_max_order_by {
+  created_at: order_by
+  id: order_by
+  identifier: order_by
+  merchant_account_id: order_by
+  status: order_by
+  user_id: order_by
+}
+
+"""aggregate min on columns"""
+type merchant_customers_min_fields {
+  created_at: timestamptz
+  id: uuid
+  identifier: String
+  merchant_account_id: uuid
+  status: Int
+  user_id: uuid
+}
+
+"""
+order by min() on columns of table "merchant_customers"
+"""
+input merchant_customers_min_order_by {
+  created_at: order_by
+  id: order_by
+  identifier: order_by
+  merchant_account_id: order_by
+  status: order_by
+  user_id: order_by
+}
+
+"""
+response of any mutation on the table "merchant_customers"
+"""
+type merchant_customers_mutation_response {
+  """number of rows affected by the mutation"""
+  affected_rows: Int!
+
+  """data from the rows affected by the mutation"""
+  returning: [merchant_customers!]!
+}
+
+"""
+input type for inserting object relation for remote table "merchant_customers"
+"""
+input merchant_customers_obj_rel_insert_input {
+  data: merchant_customers_insert_input!
+
+  """upsert condition"""
+  on_conflict: merchant_customers_on_conflict
+}
+
+"""
+on_conflict condition type for table "merchant_customers"
+"""
+input merchant_customers_on_conflict {
+  constraint: merchant_customers_constraint!
+  update_columns: [merchant_customers_update_column!]! = []
+  where: merchant_customers_bool_exp
+}
+
+"""Ordering options when selecting data from "merchant_customers"."""
+input merchant_customers_order_by {
+  created_at: order_by
+  id: order_by
+  identifier: order_by
+  merchant_account: merchant_accounts_order_by
+  merchant_account_id: order_by
+  merchant_charges_aggregate: merchant_charges_aggregate_order_by
+  status: order_by
+  user: users_order_by
+  user_id: order_by
+}
+
+"""primary key columns input for table: merchant_customers"""
+input merchant_customers_pk_columns_input {
+  id: uuid!
+}
+
+"""
+select columns of table "merchant_customers"
+"""
+enum merchant_customers_select_column {
+  """column name"""
+  created_at
+
+  """column name"""
+  id
+
+  """column name"""
+  identifier
+
+  """column name"""
+  merchant_account_id
+
+  """column name"""
+  status
+
+  """column name"""
+  user_id
+}
+
+"""
+input type for updating data in table "merchant_customers"
+"""
+input merchant_customers_set_input {
+  created_at: timestamptz
+  id: uuid
+  identifier: String
+  merchant_account_id: uuid
+  status: Int
+  user_id: uuid
+}
+
+"""aggregate stddev on columns"""
+type merchant_customers_stddev_fields {
+  status: Float
+}
+
+"""
+order by stddev() on columns of table "merchant_customers"
+"""
+input merchant_customers_stddev_order_by {
+  status: order_by
+}
+
+"""aggregate stddev_pop on columns"""
+type merchant_customers_stddev_pop_fields {
+  status: Float
+}
+
+"""
+order by stddev_pop() on columns of table "merchant_customers"
+"""
+input merchant_customers_stddev_pop_order_by {
+  status: order_by
+}
+
+"""aggregate stddev_samp on columns"""
+type merchant_customers_stddev_samp_fields {
+  status: Float
+}
+
+"""
+order by stddev_samp() on columns of table "merchant_customers"
+"""
+input merchant_customers_stddev_samp_order_by {
+  status: order_by
+}
+
+"""aggregate sum on columns"""
+type merchant_customers_sum_fields {
+  status: Int
+}
+
+"""
+order by sum() on columns of table "merchant_customers"
+"""
+input merchant_customers_sum_order_by {
+  status: order_by
+}
+
+"""
+update columns of table "merchant_customers"
+"""
+enum merchant_customers_update_column {
+  """column name"""
+  created_at
+
+  """column name"""
+  id
+
+  """column name"""
+  identifier
+
+  """column name"""
+  merchant_account_id
+
+  """column name"""
+  status
+
+  """column name"""
+  user_id
+}
+
+"""aggregate var_pop on columns"""
+type merchant_customers_var_pop_fields {
+  status: Float
+}
+
+"""
+order by var_pop() on columns of table "merchant_customers"
+"""
+input merchant_customers_var_pop_order_by {
+  status: order_by
+}
+
+"""aggregate var_samp on columns"""
+type merchant_customers_var_samp_fields {
+  status: Float
+}
+
+"""
+order by var_samp() on columns of table "merchant_customers"
+"""
+input merchant_customers_var_samp_order_by {
+  status: order_by
+}
+
+"""aggregate variance on columns"""
+type merchant_customers_variance_fields {
+  status: Float
+}
+
+"""
+order by variance() on columns of table "merchant_customers"
+"""
+input merchant_customers_variance_order_by {
+  status: order_by
+}
+
+"""
+columns and relationships of "merchant_prices"
+"""
+type merchant_prices {
+  created_at: timestamptz!
+  id: uuid!
+  identifier: String
+
+  """An object relationship"""
+  merchant_account: merchant_accounts!
+  merchant_account_id: uuid!
+
+  """An array relationship"""
+  merchant_charges(
+    """distinct select on columns"""
+    distinct_on: [merchant_charges_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [merchant_charges_order_by!]
+
+    """filter the rows returned"""
+    where: merchant_charges_bool_exp
+  ): [merchant_charges!]!
+
+  """An aggregate relationship"""
+  merchant_charges_aggregate(
+    """distinct select on columns"""
+    distinct_on: [merchant_charges_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [merchant_charges_order_by!]
+
+    """filter the rows returned"""
+    where: merchant_charges_bool_exp
+  ): merchant_charges_aggregate!
+
+  """An object relationship"""
+  merchant_product: merchant_products!
+  merchant_product_id: uuid!
+
+  """An object relationship"""
+  price: prices!
+  price_id: uuid!
+  status: numeric!
+}
+
+"""
+aggregated selection of "merchant_prices"
+"""
+type merchant_prices_aggregate {
+  aggregate: merchant_prices_aggregate_fields
+  nodes: [merchant_prices!]!
+}
+
+"""
+aggregate fields of "merchant_prices"
+"""
+type merchant_prices_aggregate_fields {
+  avg: merchant_prices_avg_fields
+  count(columns: [merchant_prices_select_column!], distinct: Boolean): Int!
+  max: merchant_prices_max_fields
+  min: merchant_prices_min_fields
+  stddev: merchant_prices_stddev_fields
+  stddev_pop: merchant_prices_stddev_pop_fields
+  stddev_samp: merchant_prices_stddev_samp_fields
+  sum: merchant_prices_sum_fields
+  var_pop: merchant_prices_var_pop_fields
+  var_samp: merchant_prices_var_samp_fields
+  variance: merchant_prices_variance_fields
+}
+
+"""
+order by aggregate values of table "merchant_prices"
+"""
+input merchant_prices_aggregate_order_by {
+  avg: merchant_prices_avg_order_by
+  count: order_by
+  max: merchant_prices_max_order_by
+  min: merchant_prices_min_order_by
+  stddev: merchant_prices_stddev_order_by
+  stddev_pop: merchant_prices_stddev_pop_order_by
+  stddev_samp: merchant_prices_stddev_samp_order_by
+  sum: merchant_prices_sum_order_by
+  var_pop: merchant_prices_var_pop_order_by
+  var_samp: merchant_prices_var_samp_order_by
+  variance: merchant_prices_variance_order_by
+}
+
+"""
+input type for inserting array relation for remote table "merchant_prices"
+"""
+input merchant_prices_arr_rel_insert_input {
+  data: [merchant_prices_insert_input!]!
+
+  """upsert condition"""
+  on_conflict: merchant_prices_on_conflict
+}
+
+"""aggregate avg on columns"""
+type merchant_prices_avg_fields {
+  status: Float
+}
+
+"""
+order by avg() on columns of table "merchant_prices"
+"""
+input merchant_prices_avg_order_by {
+  status: order_by
+}
+
+"""
+Boolean expression to filter rows from the table "merchant_prices". All fields are combined with a logical 'AND'.
+"""
+input merchant_prices_bool_exp {
+  _and: [merchant_prices_bool_exp!]
+  _not: merchant_prices_bool_exp
+  _or: [merchant_prices_bool_exp!]
+  created_at: timestamptz_comparison_exp
+  id: uuid_comparison_exp
+  identifier: String_comparison_exp
+  merchant_account: merchant_accounts_bool_exp
+  merchant_account_id: uuid_comparison_exp
+  merchant_charges: merchant_charges_bool_exp
+  merchant_product: merchant_products_bool_exp
+  merchant_product_id: uuid_comparison_exp
+  price: prices_bool_exp
+  price_id: uuid_comparison_exp
+  status: numeric_comparison_exp
+}
+
+"""
+unique or primary key constraints on table "merchant_prices"
+"""
+enum merchant_prices_constraint {
+  """unique or primary key constraint"""
+  merchant_prices_pkey
+}
+
+"""
+input type for incrementing numeric columns in table "merchant_prices"
+"""
+input merchant_prices_inc_input {
+  status: numeric
+}
+
+"""
+input type for inserting data into table "merchant_prices"
+"""
+input merchant_prices_insert_input {
+  created_at: timestamptz
+  id: uuid
+  identifier: String
+  merchant_account: merchant_accounts_obj_rel_insert_input
+  merchant_account_id: uuid
+  merchant_charges: merchant_charges_arr_rel_insert_input
+  merchant_product: merchant_products_obj_rel_insert_input
+  merchant_product_id: uuid
+  price: prices_obj_rel_insert_input
+  price_id: uuid
+  status: numeric
+}
+
+"""aggregate max on columns"""
+type merchant_prices_max_fields {
+  created_at: timestamptz
+  id: uuid
+  identifier: String
+  merchant_account_id: uuid
+  merchant_product_id: uuid
+  price_id: uuid
+  status: numeric
+}
+
+"""
+order by max() on columns of table "merchant_prices"
+"""
+input merchant_prices_max_order_by {
+  created_at: order_by
+  id: order_by
+  identifier: order_by
+  merchant_account_id: order_by
+  merchant_product_id: order_by
+  price_id: order_by
+  status: order_by
+}
+
+"""aggregate min on columns"""
+type merchant_prices_min_fields {
+  created_at: timestamptz
+  id: uuid
+  identifier: String
+  merchant_account_id: uuid
+  merchant_product_id: uuid
+  price_id: uuid
+  status: numeric
+}
+
+"""
+order by min() on columns of table "merchant_prices"
+"""
+input merchant_prices_min_order_by {
+  created_at: order_by
+  id: order_by
+  identifier: order_by
+  merchant_account_id: order_by
+  merchant_product_id: order_by
+  price_id: order_by
+  status: order_by
+}
+
+"""
+response of any mutation on the table "merchant_prices"
+"""
+type merchant_prices_mutation_response {
+  """number of rows affected by the mutation"""
+  affected_rows: Int!
+
+  """data from the rows affected by the mutation"""
+  returning: [merchant_prices!]!
+}
+
+"""
+input type for inserting object relation for remote table "merchant_prices"
+"""
+input merchant_prices_obj_rel_insert_input {
+  data: merchant_prices_insert_input!
+
+  """upsert condition"""
+  on_conflict: merchant_prices_on_conflict
+}
+
+"""
+on_conflict condition type for table "merchant_prices"
+"""
+input merchant_prices_on_conflict {
+  constraint: merchant_prices_constraint!
+  update_columns: [merchant_prices_update_column!]! = []
+  where: merchant_prices_bool_exp
+}
+
+"""Ordering options when selecting data from "merchant_prices"."""
+input merchant_prices_order_by {
+  created_at: order_by
+  id: order_by
+  identifier: order_by
+  merchant_account: merchant_accounts_order_by
+  merchant_account_id: order_by
+  merchant_charges_aggregate: merchant_charges_aggregate_order_by
+  merchant_product: merchant_products_order_by
+  merchant_product_id: order_by
+  price: prices_order_by
+  price_id: order_by
+  status: order_by
+}
+
+"""primary key columns input for table: merchant_prices"""
+input merchant_prices_pk_columns_input {
+  id: uuid!
+}
+
+"""
+select columns of table "merchant_prices"
+"""
+enum merchant_prices_select_column {
+  """column name"""
+  created_at
+
+  """column name"""
+  id
+
+  """column name"""
+  identifier
+
+  """column name"""
+  merchant_account_id
+
+  """column name"""
+  merchant_product_id
+
+  """column name"""
+  price_id
+
+  """column name"""
+  status
+}
+
+"""
+input type for updating data in table "merchant_prices"
+"""
+input merchant_prices_set_input {
+  created_at: timestamptz
+  id: uuid
+  identifier: String
+  merchant_account_id: uuid
+  merchant_product_id: uuid
+  price_id: uuid
+  status: numeric
+}
+
+"""aggregate stddev on columns"""
+type merchant_prices_stddev_fields {
+  status: Float
+}
+
+"""
+order by stddev() on columns of table "merchant_prices"
+"""
+input merchant_prices_stddev_order_by {
+  status: order_by
+}
+
+"""aggregate stddev_pop on columns"""
+type merchant_prices_stddev_pop_fields {
+  status: Float
+}
+
+"""
+order by stddev_pop() on columns of table "merchant_prices"
+"""
+input merchant_prices_stddev_pop_order_by {
+  status: order_by
+}
+
+"""aggregate stddev_samp on columns"""
+type merchant_prices_stddev_samp_fields {
+  status: Float
+}
+
+"""
+order by stddev_samp() on columns of table "merchant_prices"
+"""
+input merchant_prices_stddev_samp_order_by {
+  status: order_by
+}
+
+"""aggregate sum on columns"""
+type merchant_prices_sum_fields {
+  status: numeric
+}
+
+"""
+order by sum() on columns of table "merchant_prices"
+"""
+input merchant_prices_sum_order_by {
+  status: order_by
+}
+
+"""
+update columns of table "merchant_prices"
+"""
+enum merchant_prices_update_column {
+  """column name"""
+  created_at
+
+  """column name"""
+  id
+
+  """column name"""
+  identifier
+
+  """column name"""
+  merchant_account_id
+
+  """column name"""
+  merchant_product_id
+
+  """column name"""
+  price_id
+
+  """column name"""
+  status
+}
+
+"""aggregate var_pop on columns"""
+type merchant_prices_var_pop_fields {
+  status: Float
+}
+
+"""
+order by var_pop() on columns of table "merchant_prices"
+"""
+input merchant_prices_var_pop_order_by {
+  status: order_by
+}
+
+"""aggregate var_samp on columns"""
+type merchant_prices_var_samp_fields {
+  status: Float
+}
+
+"""
+order by var_samp() on columns of table "merchant_prices"
+"""
+input merchant_prices_var_samp_order_by {
+  status: order_by
+}
+
+"""aggregate variance on columns"""
+type merchant_prices_variance_fields {
+  status: Float
+}
+
+"""
+order by variance() on columns of table "merchant_prices"
+"""
+input merchant_prices_variance_order_by {
+  status: order_by
+}
+
+"""
+columns and relationships of "merchant_products"
+"""
+type merchant_products {
+  created_at: timestamptz!
+  id: uuid!
+  identifier: String
+
+  """An object relationship"""
+  merchant_account: merchant_accounts!
+  merchant_account_id: uuid!
+
+  """An array relationship"""
+  merchant_charges(
+    """distinct select on columns"""
+    distinct_on: [merchant_charges_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [merchant_charges_order_by!]
+
+    """filter the rows returned"""
+    where: merchant_charges_bool_exp
+  ): [merchant_charges!]!
+
+  """An aggregate relationship"""
+  merchant_charges_aggregate(
+    """distinct select on columns"""
+    distinct_on: [merchant_charges_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [merchant_charges_order_by!]
+
+    """filter the rows returned"""
+    where: merchant_charges_bool_exp
+  ): merchant_charges_aggregate!
+
+  """An array relationship"""
+  merchant_prices(
+    """distinct select on columns"""
+    distinct_on: [merchant_prices_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [merchant_prices_order_by!]
+
+    """filter the rows returned"""
+    where: merchant_prices_bool_exp
+  ): [merchant_prices!]!
+
+  """An aggregate relationship"""
+  merchant_prices_aggregate(
+    """distinct select on columns"""
+    distinct_on: [merchant_prices_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [merchant_prices_order_by!]
+
+    """filter the rows returned"""
+    where: merchant_prices_bool_exp
+  ): merchant_prices_aggregate!
+
+  """An object relationship"""
+  product: products!
+  product_id: uuid!
+  status: Int!
+}
+
+"""
+aggregated selection of "merchant_products"
+"""
+type merchant_products_aggregate {
+  aggregate: merchant_products_aggregate_fields
+  nodes: [merchant_products!]!
+}
+
+"""
+aggregate fields of "merchant_products"
+"""
+type merchant_products_aggregate_fields {
+  avg: merchant_products_avg_fields
+  count(columns: [merchant_products_select_column!], distinct: Boolean): Int!
+  max: merchant_products_max_fields
+  min: merchant_products_min_fields
+  stddev: merchant_products_stddev_fields
+  stddev_pop: merchant_products_stddev_pop_fields
+  stddev_samp: merchant_products_stddev_samp_fields
+  sum: merchant_products_sum_fields
+  var_pop: merchant_products_var_pop_fields
+  var_samp: merchant_products_var_samp_fields
+  variance: merchant_products_variance_fields
+}
+
+"""
+order by aggregate values of table "merchant_products"
+"""
+input merchant_products_aggregate_order_by {
+  avg: merchant_products_avg_order_by
+  count: order_by
+  max: merchant_products_max_order_by
+  min: merchant_products_min_order_by
+  stddev: merchant_products_stddev_order_by
+  stddev_pop: merchant_products_stddev_pop_order_by
+  stddev_samp: merchant_products_stddev_samp_order_by
+  sum: merchant_products_sum_order_by
+  var_pop: merchant_products_var_pop_order_by
+  var_samp: merchant_products_var_samp_order_by
+  variance: merchant_products_variance_order_by
+}
+
+"""
+input type for inserting array relation for remote table "merchant_products"
+"""
+input merchant_products_arr_rel_insert_input {
+  data: [merchant_products_insert_input!]!
+
+  """upsert condition"""
+  on_conflict: merchant_products_on_conflict
+}
+
+"""aggregate avg on columns"""
+type merchant_products_avg_fields {
+  status: Float
+}
+
+"""
+order by avg() on columns of table "merchant_products"
+"""
+input merchant_products_avg_order_by {
+  status: order_by
+}
+
+"""
+Boolean expression to filter rows from the table "merchant_products". All fields are combined with a logical 'AND'.
+"""
+input merchant_products_bool_exp {
+  _and: [merchant_products_bool_exp!]
+  _not: merchant_products_bool_exp
+  _or: [merchant_products_bool_exp!]
+  created_at: timestamptz_comparison_exp
+  id: uuid_comparison_exp
+  identifier: String_comparison_exp
+  merchant_account: merchant_accounts_bool_exp
+  merchant_account_id: uuid_comparison_exp
+  merchant_charges: merchant_charges_bool_exp
+  merchant_prices: merchant_prices_bool_exp
+  product: products_bool_exp
+  product_id: uuid_comparison_exp
+  status: Int_comparison_exp
+}
+
+"""
+unique or primary key constraints on table "merchant_products"
+"""
+enum merchant_products_constraint {
+  """unique or primary key constraint"""
+  merchant_products_pkey
+}
+
+"""
+input type for incrementing numeric columns in table "merchant_products"
+"""
+input merchant_products_inc_input {
+  status: Int
+}
+
+"""
+input type for inserting data into table "merchant_products"
+"""
+input merchant_products_insert_input {
+  created_at: timestamptz
+  id: uuid
+  identifier: String
+  merchant_account: merchant_accounts_obj_rel_insert_input
+  merchant_account_id: uuid
+  merchant_charges: merchant_charges_arr_rel_insert_input
+  merchant_prices: merchant_prices_arr_rel_insert_input
+  product: products_obj_rel_insert_input
+  product_id: uuid
+  status: Int
+}
+
+"""aggregate max on columns"""
+type merchant_products_max_fields {
+  created_at: timestamptz
+  id: uuid
+  identifier: String
+  merchant_account_id: uuid
+  product_id: uuid
+  status: Int
+}
+
+"""
+order by max() on columns of table "merchant_products"
+"""
+input merchant_products_max_order_by {
+  created_at: order_by
+  id: order_by
+  identifier: order_by
+  merchant_account_id: order_by
+  product_id: order_by
+  status: order_by
+}
+
+"""aggregate min on columns"""
+type merchant_products_min_fields {
+  created_at: timestamptz
+  id: uuid
+  identifier: String
+  merchant_account_id: uuid
+  product_id: uuid
+  status: Int
+}
+
+"""
+order by min() on columns of table "merchant_products"
+"""
+input merchant_products_min_order_by {
+  created_at: order_by
+  id: order_by
+  identifier: order_by
+  merchant_account_id: order_by
+  product_id: order_by
+  status: order_by
+}
+
+"""
+response of any mutation on the table "merchant_products"
+"""
+type merchant_products_mutation_response {
+  """number of rows affected by the mutation"""
+  affected_rows: Int!
+
+  """data from the rows affected by the mutation"""
+  returning: [merchant_products!]!
+}
+
+"""
+input type for inserting object relation for remote table "merchant_products"
+"""
+input merchant_products_obj_rel_insert_input {
+  data: merchant_products_insert_input!
+
+  """upsert condition"""
+  on_conflict: merchant_products_on_conflict
+}
+
+"""
+on_conflict condition type for table "merchant_products"
+"""
+input merchant_products_on_conflict {
+  constraint: merchant_products_constraint!
+  update_columns: [merchant_products_update_column!]! = []
+  where: merchant_products_bool_exp
+}
+
+"""Ordering options when selecting data from "merchant_products"."""
+input merchant_products_order_by {
+  created_at: order_by
+  id: order_by
+  identifier: order_by
+  merchant_account: merchant_accounts_order_by
+  merchant_account_id: order_by
+  merchant_charges_aggregate: merchant_charges_aggregate_order_by
+  merchant_prices_aggregate: merchant_prices_aggregate_order_by
+  product: products_order_by
+  product_id: order_by
+  status: order_by
+}
+
+"""primary key columns input for table: merchant_products"""
+input merchant_products_pk_columns_input {
+  id: uuid!
+}
+
+"""
+select columns of table "merchant_products"
+"""
+enum merchant_products_select_column {
+  """column name"""
+  created_at
+
+  """column name"""
+  id
+
+  """column name"""
+  identifier
+
+  """column name"""
+  merchant_account_id
+
+  """column name"""
+  product_id
+
+  """column name"""
+  status
+}
+
+"""
+input type for updating data in table "merchant_products"
+"""
+input merchant_products_set_input {
+  created_at: timestamptz
+  id: uuid
+  identifier: String
+  merchant_account_id: uuid
+  product_id: uuid
+  status: Int
+}
+
+"""aggregate stddev on columns"""
+type merchant_products_stddev_fields {
+  status: Float
+}
+
+"""
+order by stddev() on columns of table "merchant_products"
+"""
+input merchant_products_stddev_order_by {
+  status: order_by
+}
+
+"""aggregate stddev_pop on columns"""
+type merchant_products_stddev_pop_fields {
+  status: Float
+}
+
+"""
+order by stddev_pop() on columns of table "merchant_products"
+"""
+input merchant_products_stddev_pop_order_by {
+  status: order_by
+}
+
+"""aggregate stddev_samp on columns"""
+type merchant_products_stddev_samp_fields {
+  status: Float
+}
+
+"""
+order by stddev_samp() on columns of table "merchant_products"
+"""
+input merchant_products_stddev_samp_order_by {
+  status: order_by
+}
+
+"""aggregate sum on columns"""
+type merchant_products_sum_fields {
+  status: Int
+}
+
+"""
+order by sum() on columns of table "merchant_products"
+"""
+input merchant_products_sum_order_by {
+  status: order_by
+}
+
+"""
+update columns of table "merchant_products"
+"""
+enum merchant_products_update_column {
+  """column name"""
+  created_at
+
+  """column name"""
+  id
+
+  """column name"""
+  identifier
+
+  """column name"""
+  merchant_account_id
+
+  """column name"""
+  product_id
+
+  """column name"""
+  status
+}
+
+"""aggregate var_pop on columns"""
+type merchant_products_var_pop_fields {
+  status: Float
+}
+
+"""
+order by var_pop() on columns of table "merchant_products"
+"""
+input merchant_products_var_pop_order_by {
+  status: order_by
+}
+
+"""aggregate var_samp on columns"""
+type merchant_products_var_samp_fields {
+  status: Float
+}
+
+"""
+order by var_samp() on columns of table "merchant_products"
+"""
+input merchant_products_var_samp_order_by {
+  status: order_by
+}
+
+"""aggregate variance on columns"""
+type merchant_products_variance_fields {
+  status: Float
+}
+
+"""
+order by variance() on columns of table "merchant_products"
+"""
+input merchant_products_variance_order_by {
+  status: order_by
+}
+
+"""mutation root"""
+type mutation_root {
+  """
+  delete data from the table: "accounts"
+  """
+  delete_accounts(
+    """filter the rows which have to be deleted"""
+    where: accounts_bool_exp!
+  ): accounts_mutation_response
+
+  """
+  delete single row from the table: "accounts"
+  """
+  delete_accounts_by_pk(id: uuid!): accounts
+
+  """
+  delete data from the table: "coupons"
+  """
+  delete_coupons(
+    """filter the rows which have to be deleted"""
+    where: coupons_bool_exp!
+  ): coupons_mutation_response
+
+  """
+  delete single row from the table: "coupons"
+  """
+  delete_coupons_by_pk(id: uuid!): coupons
+
+  """
+  delete data from the table: "merchant_accounts"
+  """
+  delete_merchant_accounts(
+    """filter the rows which have to be deleted"""
+    where: merchant_accounts_bool_exp!
+  ): merchant_accounts_mutation_response
+
+  """
+  delete single row from the table: "merchant_accounts"
+  """
+  delete_merchant_accounts_by_pk(id: uuid!): merchant_accounts
+
+  """
+  delete data from the table: "merchant_charges"
+  """
+  delete_merchant_charges(
+    """filter the rows which have to be deleted"""
+    where: merchant_charges_bool_exp!
+  ): merchant_charges_mutation_response
+
+  """
+  delete single row from the table: "merchant_charges"
+  """
+  delete_merchant_charges_by_pk(id: uuid!): merchant_charges
+
+  """
+  delete data from the table: "merchant_coupons"
+  """
+  delete_merchant_coupons(
+    """filter the rows which have to be deleted"""
+    where: merchant_coupons_bool_exp!
+  ): merchant_coupons_mutation_response
+
+  """
+  delete single row from the table: "merchant_coupons"
+  """
+  delete_merchant_coupons_by_pk(id: uuid!): merchant_coupons
+
+  """
+  delete data from the table: "merchant_customers"
+  """
+  delete_merchant_customers(
+    """filter the rows which have to be deleted"""
+    where: merchant_customers_bool_exp!
+  ): merchant_customers_mutation_response
+
+  """
+  delete single row from the table: "merchant_customers"
+  """
+  delete_merchant_customers_by_pk(id: uuid!): merchant_customers
+
+  """
+  delete data from the table: "merchant_prices"
+  """
+  delete_merchant_prices(
+    """filter the rows which have to be deleted"""
+    where: merchant_prices_bool_exp!
+  ): merchant_prices_mutation_response
+
+  """
+  delete single row from the table: "merchant_prices"
+  """
+  delete_merchant_prices_by_pk(id: uuid!): merchant_prices
+
+  """
+  delete data from the table: "merchant_products"
+  """
+  delete_merchant_products(
+    """filter the rows which have to be deleted"""
+    where: merchant_products_bool_exp!
+  ): merchant_products_mutation_response
+
+  """
+  delete single row from the table: "merchant_products"
+  """
+  delete_merchant_products_by_pk(id: uuid!): merchant_products
+
+  """
+  delete data from the table: "prices"
+  """
+  delete_prices(
+    """filter the rows which have to be deleted"""
+    where: prices_bool_exp!
+  ): prices_mutation_response
+
+  """
+  delete single row from the table: "prices"
+  """
+  delete_prices_by_pk(id: uuid!): prices
+
+  """
+  delete data from the table: "products"
+  """
+  delete_products(
+    """filter the rows which have to be deleted"""
+    where: products_bool_exp!
+  ): products_mutation_response
+
+  """
+  delete single row from the table: "products"
+  """
+  delete_products_by_pk(id: uuid!): products
+
+  """
+  delete data from the table: "purchases"
+  """
+  delete_purchases(
+    """filter the rows which have to be deleted"""
+    where: purchases_bool_exp!
+  ): purchases_mutation_response
+
+  """
+  delete single row from the table: "purchases"
+  """
+  delete_purchases_by_pk(id: uuid!): purchases
+
+  """
+  delete data from the table: "sessions"
+  """
+  delete_sessions(
+    """filter the rows which have to be deleted"""
+    where: sessions_bool_exp!
+  ): sessions_mutation_response
+
+  """
+  delete single row from the table: "sessions"
+  """
+  delete_sessions_by_pk(id: uuid!): sessions
+
+  """
+  delete data from the table: "users"
+  """
+  delete_users(
+    """filter the rows which have to be deleted"""
+    where: users_bool_exp!
+  ): users_mutation_response
+
+  """
+  delete single row from the table: "users"
+  """
+  delete_users_by_pk(id: uuid!): users
+
+  """
+  delete data from the table: "verification_tokens"
+  """
+  delete_verification_tokens(
+    """filter the rows which have to be deleted"""
+    where: verification_tokens_bool_exp!
+  ): verification_tokens_mutation_response
+
+  """
+  delete single row from the table: "verification_tokens"
+  """
+  delete_verification_tokens_by_pk(token: String!): verification_tokens
+
+  """
+  insert data into the table: "accounts"
+  """
+  insert_accounts(
+    """the rows to be inserted"""
+    objects: [accounts_insert_input!]!
+
+    """upsert condition"""
+    on_conflict: accounts_on_conflict
+  ): accounts_mutation_response
+
+  """
+  insert a single row into the table: "accounts"
+  """
+  insert_accounts_one(
+    """the row to be inserted"""
+    object: accounts_insert_input!
+
+    """upsert condition"""
+    on_conflict: accounts_on_conflict
+  ): accounts
+
+  """
+  insert data into the table: "coupons"
+  """
+  insert_coupons(
+    """the rows to be inserted"""
+    objects: [coupons_insert_input!]!
+
+    """upsert condition"""
+    on_conflict: coupons_on_conflict
+  ): coupons_mutation_response
+
+  """
+  insert a single row into the table: "coupons"
+  """
+  insert_coupons_one(
+    """the row to be inserted"""
+    object: coupons_insert_input!
+
+    """upsert condition"""
+    on_conflict: coupons_on_conflict
+  ): coupons
+
+  """
+  insert data into the table: "merchant_accounts"
+  """
+  insert_merchant_accounts(
+    """the rows to be inserted"""
+    objects: [merchant_accounts_insert_input!]!
+
+    """upsert condition"""
+    on_conflict: merchant_accounts_on_conflict
+  ): merchant_accounts_mutation_response
+
+  """
+  insert a single row into the table: "merchant_accounts"
+  """
+  insert_merchant_accounts_one(
+    """the row to be inserted"""
+    object: merchant_accounts_insert_input!
+
+    """upsert condition"""
+    on_conflict: merchant_accounts_on_conflict
+  ): merchant_accounts
+
+  """
+  insert data into the table: "merchant_charges"
+  """
+  insert_merchant_charges(
+    """the rows to be inserted"""
+    objects: [merchant_charges_insert_input!]!
+
+    """upsert condition"""
+    on_conflict: merchant_charges_on_conflict
+  ): merchant_charges_mutation_response
+
+  """
+  insert a single row into the table: "merchant_charges"
+  """
+  insert_merchant_charges_one(
+    """the row to be inserted"""
+    object: merchant_charges_insert_input!
+
+    """upsert condition"""
+    on_conflict: merchant_charges_on_conflict
+  ): merchant_charges
+
+  """
+  insert data into the table: "merchant_coupons"
+  """
+  insert_merchant_coupons(
+    """the rows to be inserted"""
+    objects: [merchant_coupons_insert_input!]!
+
+    """upsert condition"""
+    on_conflict: merchant_coupons_on_conflict
+  ): merchant_coupons_mutation_response
+
+  """
+  insert a single row into the table: "merchant_coupons"
+  """
+  insert_merchant_coupons_one(
+    """the row to be inserted"""
+    object: merchant_coupons_insert_input!
+
+    """upsert condition"""
+    on_conflict: merchant_coupons_on_conflict
+  ): merchant_coupons
+
+  """
+  insert data into the table: "merchant_customers"
+  """
+  insert_merchant_customers(
+    """the rows to be inserted"""
+    objects: [merchant_customers_insert_input!]!
+
+    """upsert condition"""
+    on_conflict: merchant_customers_on_conflict
+  ): merchant_customers_mutation_response
+
+  """
+  insert a single row into the table: "merchant_customers"
+  """
+  insert_merchant_customers_one(
+    """the row to be inserted"""
+    object: merchant_customers_insert_input!
+
+    """upsert condition"""
+    on_conflict: merchant_customers_on_conflict
+  ): merchant_customers
+
+  """
+  insert data into the table: "merchant_prices"
+  """
+  insert_merchant_prices(
+    """the rows to be inserted"""
+    objects: [merchant_prices_insert_input!]!
+
+    """upsert condition"""
+    on_conflict: merchant_prices_on_conflict
+  ): merchant_prices_mutation_response
+
+  """
+  insert a single row into the table: "merchant_prices"
+  """
+  insert_merchant_prices_one(
+    """the row to be inserted"""
+    object: merchant_prices_insert_input!
+
+    """upsert condition"""
+    on_conflict: merchant_prices_on_conflict
+  ): merchant_prices
+
+  """
+  insert data into the table: "merchant_products"
+  """
+  insert_merchant_products(
+    """the rows to be inserted"""
+    objects: [merchant_products_insert_input!]!
+
+    """upsert condition"""
+    on_conflict: merchant_products_on_conflict
+  ): merchant_products_mutation_response
+
+  """
+  insert a single row into the table: "merchant_products"
+  """
+  insert_merchant_products_one(
+    """the row to be inserted"""
+    object: merchant_products_insert_input!
+
+    """upsert condition"""
+    on_conflict: merchant_products_on_conflict
+  ): merchant_products
+
+  """
+  insert data into the table: "prices"
+  """
+  insert_prices(
+    """the rows to be inserted"""
+    objects: [prices_insert_input!]!
+
+    """upsert condition"""
+    on_conflict: prices_on_conflict
+  ): prices_mutation_response
+
+  """
+  insert a single row into the table: "prices"
+  """
+  insert_prices_one(
+    """the row to be inserted"""
+    object: prices_insert_input!
+
+    """upsert condition"""
+    on_conflict: prices_on_conflict
+  ): prices
+
+  """
+  insert data into the table: "products"
+  """
+  insert_products(
+    """the rows to be inserted"""
+    objects: [products_insert_input!]!
+
+    """upsert condition"""
+    on_conflict: products_on_conflict
+  ): products_mutation_response
+
+  """
+  insert a single row into the table: "products"
+  """
+  insert_products_one(
+    """the row to be inserted"""
+    object: products_insert_input!
+
+    """upsert condition"""
+    on_conflict: products_on_conflict
+  ): products
+
+  """
+  insert data into the table: "purchases"
+  """
+  insert_purchases(
+    """the rows to be inserted"""
+    objects: [purchases_insert_input!]!
+
+    """upsert condition"""
+    on_conflict: purchases_on_conflict
+  ): purchases_mutation_response
+
+  """
+  insert a single row into the table: "purchases"
+  """
+  insert_purchases_one(
+    """the row to be inserted"""
+    object: purchases_insert_input!
+
+    """upsert condition"""
+    on_conflict: purchases_on_conflict
+  ): purchases
+
+  """
+  insert data into the table: "sessions"
+  """
+  insert_sessions(
+    """the rows to be inserted"""
+    objects: [sessions_insert_input!]!
+
+    """upsert condition"""
+    on_conflict: sessions_on_conflict
+  ): sessions_mutation_response
+
+  """
+  insert a single row into the table: "sessions"
+  """
+  insert_sessions_one(
+    """the row to be inserted"""
+    object: sessions_insert_input!
+
+    """upsert condition"""
+    on_conflict: sessions_on_conflict
+  ): sessions
+
+  """
+  insert data into the table: "users"
+  """
+  insert_users(
+    """the rows to be inserted"""
+    objects: [users_insert_input!]!
+
+    """upsert condition"""
+    on_conflict: users_on_conflict
+  ): users_mutation_response
+
+  """
+  insert a single row into the table: "users"
+  """
+  insert_users_one(
+    """the row to be inserted"""
+    object: users_insert_input!
+
+    """upsert condition"""
+    on_conflict: users_on_conflict
+  ): users
+
+  """
+  insert data into the table: "verification_tokens"
+  """
+  insert_verification_tokens(
+    """the rows to be inserted"""
+    objects: [verification_tokens_insert_input!]!
+
+    """upsert condition"""
+    on_conflict: verification_tokens_on_conflict
+  ): verification_tokens_mutation_response
+
+  """
+  insert a single row into the table: "verification_tokens"
+  """
+  insert_verification_tokens_one(
+    """the row to be inserted"""
+    object: verification_tokens_insert_input!
+
+    """upsert condition"""
+    on_conflict: verification_tokens_on_conflict
+  ): verification_tokens
+
+  """
+  update data of the table: "accounts"
+  """
+  update_accounts(
+    """increments the numeric columns with given value of the filtered values"""
+    _inc: accounts_inc_input
+
+    """sets the columns of the filtered rows to the given values"""
+    _set: accounts_set_input
+
+    """filter the rows which have to be updated"""
+    where: accounts_bool_exp!
+  ): accounts_mutation_response
+
+  """
+  update single row of the table: "accounts"
+  """
+  update_accounts_by_pk(
+    """increments the numeric columns with given value of the filtered values"""
+    _inc: accounts_inc_input
+
+    """sets the columns of the filtered rows to the given values"""
+    _set: accounts_set_input
+    pk_columns: accounts_pk_columns_input!
+  ): accounts
+
+  """
+  update data of the table: "coupons"
+  """
+  update_coupons(
+    """increments the numeric columns with given value of the filtered values"""
+    _inc: coupons_inc_input
+
+    """sets the columns of the filtered rows to the given values"""
+    _set: coupons_set_input
+
+    """filter the rows which have to be updated"""
+    where: coupons_bool_exp!
+  ): coupons_mutation_response
+
+  """
+  update single row of the table: "coupons"
+  """
+  update_coupons_by_pk(
+    """increments the numeric columns with given value of the filtered values"""
+    _inc: coupons_inc_input
+
+    """sets the columns of the filtered rows to the given values"""
+    _set: coupons_set_input
+    pk_columns: coupons_pk_columns_input!
+  ): coupons
+
+  """
+  update data of the table: "merchant_accounts"
+  """
+  update_merchant_accounts(
+    """increments the numeric columns with given value of the filtered values"""
+    _inc: merchant_accounts_inc_input
+
+    """sets the columns of the filtered rows to the given values"""
+    _set: merchant_accounts_set_input
+
+    """filter the rows which have to be updated"""
+    where: merchant_accounts_bool_exp!
+  ): merchant_accounts_mutation_response
+
+  """
+  update single row of the table: "merchant_accounts"
+  """
+  update_merchant_accounts_by_pk(
+    """increments the numeric columns with given value of the filtered values"""
+    _inc: merchant_accounts_inc_input
+
+    """sets the columns of the filtered rows to the given values"""
+    _set: merchant_accounts_set_input
+    pk_columns: merchant_accounts_pk_columns_input!
+  ): merchant_accounts
+
+  """
+  update data of the table: "merchant_charges"
+  """
+  update_merchant_charges(
+    """increments the numeric columns with given value of the filtered values"""
+    _inc: merchant_charges_inc_input
+
+    """sets the columns of the filtered rows to the given values"""
+    _set: merchant_charges_set_input
+
+    """filter the rows which have to be updated"""
+    where: merchant_charges_bool_exp!
+  ): merchant_charges_mutation_response
+
+  """
+  update single row of the table: "merchant_charges"
+  """
+  update_merchant_charges_by_pk(
+    """increments the numeric columns with given value of the filtered values"""
+    _inc: merchant_charges_inc_input
+
+    """sets the columns of the filtered rows to the given values"""
+    _set: merchant_charges_set_input
+    pk_columns: merchant_charges_pk_columns_input!
+  ): merchant_charges
+
+  """
+  update data of the table: "merchant_coupons"
+  """
+  update_merchant_coupons(
+    """increments the numeric columns with given value of the filtered values"""
+    _inc: merchant_coupons_inc_input
+
+    """sets the columns of the filtered rows to the given values"""
+    _set: merchant_coupons_set_input
+
+    """filter the rows which have to be updated"""
+    where: merchant_coupons_bool_exp!
+  ): merchant_coupons_mutation_response
+
+  """
+  update single row of the table: "merchant_coupons"
+  """
+  update_merchant_coupons_by_pk(
+    """increments the numeric columns with given value of the filtered values"""
+    _inc: merchant_coupons_inc_input
+
+    """sets the columns of the filtered rows to the given values"""
+    _set: merchant_coupons_set_input
+    pk_columns: merchant_coupons_pk_columns_input!
+  ): merchant_coupons
+
+  """
+  update data of the table: "merchant_customers"
+  """
+  update_merchant_customers(
+    """increments the numeric columns with given value of the filtered values"""
+    _inc: merchant_customers_inc_input
+
+    """sets the columns of the filtered rows to the given values"""
+    _set: merchant_customers_set_input
+
+    """filter the rows which have to be updated"""
+    where: merchant_customers_bool_exp!
+  ): merchant_customers_mutation_response
+
+  """
+  update single row of the table: "merchant_customers"
+  """
+  update_merchant_customers_by_pk(
+    """increments the numeric columns with given value of the filtered values"""
+    _inc: merchant_customers_inc_input
+
+    """sets the columns of the filtered rows to the given values"""
+    _set: merchant_customers_set_input
+    pk_columns: merchant_customers_pk_columns_input!
+  ): merchant_customers
+
+  """
+  update data of the table: "merchant_prices"
+  """
+  update_merchant_prices(
+    """increments the numeric columns with given value of the filtered values"""
+    _inc: merchant_prices_inc_input
+
+    """sets the columns of the filtered rows to the given values"""
+    _set: merchant_prices_set_input
+
+    """filter the rows which have to be updated"""
+    where: merchant_prices_bool_exp!
+  ): merchant_prices_mutation_response
+
+  """
+  update single row of the table: "merchant_prices"
+  """
+  update_merchant_prices_by_pk(
+    """increments the numeric columns with given value of the filtered values"""
+    _inc: merchant_prices_inc_input
+
+    """sets the columns of the filtered rows to the given values"""
+    _set: merchant_prices_set_input
+    pk_columns: merchant_prices_pk_columns_input!
+  ): merchant_prices
+
+  """
+  update data of the table: "merchant_products"
+  """
+  update_merchant_products(
+    """increments the numeric columns with given value of the filtered values"""
+    _inc: merchant_products_inc_input
+
+    """sets the columns of the filtered rows to the given values"""
+    _set: merchant_products_set_input
+
+    """filter the rows which have to be updated"""
+    where: merchant_products_bool_exp!
+  ): merchant_products_mutation_response
+
+  """
+  update single row of the table: "merchant_products"
+  """
+  update_merchant_products_by_pk(
+    """increments the numeric columns with given value of the filtered values"""
+    _inc: merchant_products_inc_input
+
+    """sets the columns of the filtered rows to the given values"""
+    _set: merchant_products_set_input
+    pk_columns: merchant_products_pk_columns_input!
+  ): merchant_products
+
+  """
+  update data of the table: "prices"
+  """
+  update_prices(
+    """increments the numeric columns with given value of the filtered values"""
+    _inc: prices_inc_input
+
+    """sets the columns of the filtered rows to the given values"""
+    _set: prices_set_input
+
+    """filter the rows which have to be updated"""
+    where: prices_bool_exp!
+  ): prices_mutation_response
+
+  """
+  update single row of the table: "prices"
+  """
+  update_prices_by_pk(
+    """increments the numeric columns with given value of the filtered values"""
+    _inc: prices_inc_input
+
+    """sets the columns of the filtered rows to the given values"""
+    _set: prices_set_input
+    pk_columns: prices_pk_columns_input!
+  ): prices
+
+  """
+  update data of the table: "products"
+  """
+  update_products(
+    """increments the numeric columns with given value of the filtered values"""
+    _inc: products_inc_input
+
+    """sets the columns of the filtered rows to the given values"""
+    _set: products_set_input
+
+    """filter the rows which have to be updated"""
+    where: products_bool_exp!
+  ): products_mutation_response
+
+  """
+  update single row of the table: "products"
+  """
+  update_products_by_pk(
+    """increments the numeric columns with given value of the filtered values"""
+    _inc: products_inc_input
+
+    """sets the columns of the filtered rows to the given values"""
+    _set: products_set_input
+    pk_columns: products_pk_columns_input!
+  ): products
+
+  """
+  update data of the table: "purchases"
+  """
+  update_purchases(
+    """sets the columns of the filtered rows to the given values"""
+    _set: purchases_set_input
+
+    """filter the rows which have to be updated"""
+    where: purchases_bool_exp!
+  ): purchases_mutation_response
+
+  """
+  update single row of the table: "purchases"
+  """
+  update_purchases_by_pk(
+    """sets the columns of the filtered rows to the given values"""
+    _set: purchases_set_input
+    pk_columns: purchases_pk_columns_input!
+  ): purchases
+
+  """
+  update data of the table: "sessions"
+  """
+  update_sessions(
+    """sets the columns of the filtered rows to the given values"""
+    _set: sessions_set_input
+
+    """filter the rows which have to be updated"""
+    where: sessions_bool_exp!
+  ): sessions_mutation_response
+
+  """
+  update single row of the table: "sessions"
+  """
+  update_sessions_by_pk(
+    """sets the columns of the filtered rows to the given values"""
+    _set: sessions_set_input
+    pk_columns: sessions_pk_columns_input!
+  ): sessions
+
+  """
+  update data of the table: "users"
+  """
+  update_users(
+    """sets the columns of the filtered rows to the given values"""
+    _set: users_set_input
+
+    """filter the rows which have to be updated"""
+    where: users_bool_exp!
+  ): users_mutation_response
+
+  """
+  update single row of the table: "users"
+  """
+  update_users_by_pk(
+    """sets the columns of the filtered rows to the given values"""
+    _set: users_set_input
+    pk_columns: users_pk_columns_input!
+  ): users
+
+  """
+  update data of the table: "verification_tokens"
+  """
+  update_verification_tokens(
+    """sets the columns of the filtered rows to the given values"""
+    _set: verification_tokens_set_input
+
+    """filter the rows which have to be updated"""
+    where: verification_tokens_bool_exp!
+  ): verification_tokens_mutation_response
+
+  """
+  update single row of the table: "verification_tokens"
+  """
+  update_verification_tokens_by_pk(
+    """sets the columns of the filtered rows to the given values"""
+    _set: verification_tokens_set_input
+    pk_columns: verification_tokens_pk_columns_input!
+  ): verification_tokens
+}
+
+scalar numeric
+
+"""
+Boolean expression to compare columns of type "numeric". All fields are combined with logical 'AND'.
+"""
+input numeric_comparison_exp {
+  _eq: numeric
+  _gt: numeric
+  _gte: numeric
+  _in: [numeric!]
+  _is_null: Boolean
+  _lt: numeric
+  _lte: numeric
+  _neq: numeric
+  _nin: [numeric!]
+}
+
+"""column ordering options"""
+enum order_by {
+  """in ascending order, nulls last"""
+  asc
+
+  """in ascending order, nulls first"""
+  asc_nulls_first
+
+  """in ascending order, nulls last"""
+  asc_nulls_last
+
+  """in descending order, nulls first"""
+  desc
+
+  """in descending order, nulls first"""
+  desc_nulls_first
+
+  """in descending order, nulls last"""
+  desc_nulls_last
+}
+
+"""
+columns and relationships of "prices"
+"""
+type prices {
+  created_at: timestamptz!
+  id: uuid!
+
+  """An array relationship"""
+  merchant_charges(
+    """distinct select on columns"""
+    distinct_on: [merchant_charges_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [merchant_charges_order_by!]
+
+    """filter the rows returned"""
+    where: merchant_charges_bool_exp
+  ): [merchant_charges!]!
+
+  """An aggregate relationship"""
+  merchant_charges_aggregate(
+    """distinct select on columns"""
+    distinct_on: [merchant_charges_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [merchant_charges_order_by!]
+
+    """filter the rows returned"""
+    where: merchant_charges_bool_exp
+  ): merchant_charges_aggregate!
+
+  """An array relationship"""
+  merchant_prices(
+    """distinct select on columns"""
+    distinct_on: [merchant_prices_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [merchant_prices_order_by!]
+
+    """filter the rows returned"""
+    where: merchant_prices_bool_exp
+  ): [merchant_prices!]!
+
+  """An aggregate relationship"""
+  merchant_prices_aggregate(
+    """distinct select on columns"""
+    distinct_on: [merchant_prices_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [merchant_prices_order_by!]
+
+    """filter the rows returned"""
+    where: merchant_prices_bool_exp
+  ): merchant_prices_aggregate!
+  nickname: String
+
+  """An object relationship"""
+  product: products!
+  product_id: uuid!
+  status: Int!
+  unit_amount: numeric!
+}
+
+"""
+aggregated selection of "prices"
+"""
+type prices_aggregate {
+  aggregate: prices_aggregate_fields
+  nodes: [prices!]!
+}
+
+"""
+aggregate fields of "prices"
+"""
+type prices_aggregate_fields {
+  avg: prices_avg_fields
+  count(columns: [prices_select_column!], distinct: Boolean): Int!
+  max: prices_max_fields
+  min: prices_min_fields
+  stddev: prices_stddev_fields
+  stddev_pop: prices_stddev_pop_fields
+  stddev_samp: prices_stddev_samp_fields
+  sum: prices_sum_fields
+  var_pop: prices_var_pop_fields
+  var_samp: prices_var_samp_fields
+  variance: prices_variance_fields
+}
+
+"""
+order by aggregate values of table "prices"
+"""
+input prices_aggregate_order_by {
+  avg: prices_avg_order_by
+  count: order_by
+  max: prices_max_order_by
+  min: prices_min_order_by
+  stddev: prices_stddev_order_by
+  stddev_pop: prices_stddev_pop_order_by
+  stddev_samp: prices_stddev_samp_order_by
+  sum: prices_sum_order_by
+  var_pop: prices_var_pop_order_by
+  var_samp: prices_var_samp_order_by
+  variance: prices_variance_order_by
+}
+
+"""
+input type for inserting array relation for remote table "prices"
+"""
+input prices_arr_rel_insert_input {
+  data: [prices_insert_input!]!
+
+  """upsert condition"""
+  on_conflict: prices_on_conflict
+}
+
+"""aggregate avg on columns"""
+type prices_avg_fields {
+  status: Float
+  unit_amount: Float
+}
+
+"""
+order by avg() on columns of table "prices"
+"""
+input prices_avg_order_by {
+  status: order_by
+  unit_amount: order_by
+}
+
+"""
+Boolean expression to filter rows from the table "prices". All fields are combined with a logical 'AND'.
+"""
+input prices_bool_exp {
+  _and: [prices_bool_exp!]
+  _not: prices_bool_exp
+  _or: [prices_bool_exp!]
+  created_at: timestamptz_comparison_exp
+  id: uuid_comparison_exp
+  merchant_charges: merchant_charges_bool_exp
+  merchant_prices: merchant_prices_bool_exp
+  nickname: String_comparison_exp
+  product: products_bool_exp
+  product_id: uuid_comparison_exp
+  status: Int_comparison_exp
+  unit_amount: numeric_comparison_exp
+}
+
+"""
+unique or primary key constraints on table "prices"
+"""
+enum prices_constraint {
+  """unique or primary key constraint"""
+  prices_pkey
+}
+
+"""
+input type for incrementing numeric columns in table "prices"
+"""
+input prices_inc_input {
+  status: Int
+  unit_amount: numeric
+}
+
+"""
+input type for inserting data into table "prices"
+"""
+input prices_insert_input {
+  created_at: timestamptz
+  id: uuid
+  merchant_charges: merchant_charges_arr_rel_insert_input
+  merchant_prices: merchant_prices_arr_rel_insert_input
+  nickname: String
+  product: products_obj_rel_insert_input
+  product_id: uuid
+  status: Int
+  unit_amount: numeric
+}
+
+"""aggregate max on columns"""
+type prices_max_fields {
+  created_at: timestamptz
+  id: uuid
+  nickname: String
+  product_id: uuid
+  status: Int
+  unit_amount: numeric
+}
+
+"""
+order by max() on columns of table "prices"
+"""
+input prices_max_order_by {
+  created_at: order_by
+  id: order_by
+  nickname: order_by
+  product_id: order_by
+  status: order_by
+  unit_amount: order_by
+}
+
+"""aggregate min on columns"""
+type prices_min_fields {
+  created_at: timestamptz
+  id: uuid
+  nickname: String
+  product_id: uuid
+  status: Int
+  unit_amount: numeric
+}
+
+"""
+order by min() on columns of table "prices"
+"""
+input prices_min_order_by {
+  created_at: order_by
+  id: order_by
+  nickname: order_by
+  product_id: order_by
+  status: order_by
+  unit_amount: order_by
+}
+
+"""
+response of any mutation on the table "prices"
+"""
+type prices_mutation_response {
+  """number of rows affected by the mutation"""
+  affected_rows: Int!
+
+  """data from the rows affected by the mutation"""
+  returning: [prices!]!
+}
+
+"""
+input type for inserting object relation for remote table "prices"
+"""
+input prices_obj_rel_insert_input {
+  data: prices_insert_input!
+
+  """upsert condition"""
+  on_conflict: prices_on_conflict
+}
+
+"""
+on_conflict condition type for table "prices"
+"""
+input prices_on_conflict {
+  constraint: prices_constraint!
+  update_columns: [prices_update_column!]! = []
+  where: prices_bool_exp
+}
+
+"""Ordering options when selecting data from "prices"."""
+input prices_order_by {
+  created_at: order_by
+  id: order_by
+  merchant_charges_aggregate: merchant_charges_aggregate_order_by
+  merchant_prices_aggregate: merchant_prices_aggregate_order_by
+  nickname: order_by
+  product: products_order_by
+  product_id: order_by
+  status: order_by
+  unit_amount: order_by
+}
+
+"""primary key columns input for table: prices"""
+input prices_pk_columns_input {
+  id: uuid!
+}
+
+"""
+select columns of table "prices"
+"""
+enum prices_select_column {
+  """column name"""
+  created_at
+
+  """column name"""
+  id
+
+  """column name"""
+  nickname
+
+  """column name"""
+  product_id
+
+  """column name"""
+  status
+
+  """column name"""
+  unit_amount
+}
+
+"""
+input type for updating data in table "prices"
+"""
+input prices_set_input {
+  created_at: timestamptz
+  id: uuid
+  nickname: String
+  product_id: uuid
+  status: Int
+  unit_amount: numeric
+}
+
+"""aggregate stddev on columns"""
+type prices_stddev_fields {
+  status: Float
+  unit_amount: Float
+}
+
+"""
+order by stddev() on columns of table "prices"
+"""
+input prices_stddev_order_by {
+  status: order_by
+  unit_amount: order_by
+}
+
+"""aggregate stddev_pop on columns"""
+type prices_stddev_pop_fields {
+  status: Float
+  unit_amount: Float
+}
+
+"""
+order by stddev_pop() on columns of table "prices"
+"""
+input prices_stddev_pop_order_by {
+  status: order_by
+  unit_amount: order_by
+}
+
+"""aggregate stddev_samp on columns"""
+type prices_stddev_samp_fields {
+  status: Float
+  unit_amount: Float
+}
+
+"""
+order by stddev_samp() on columns of table "prices"
+"""
+input prices_stddev_samp_order_by {
+  status: order_by
+  unit_amount: order_by
+}
+
+"""aggregate sum on columns"""
+type prices_sum_fields {
+  status: Int
+  unit_amount: numeric
+}
+
+"""
+order by sum() on columns of table "prices"
+"""
+input prices_sum_order_by {
+  status: order_by
+  unit_amount: order_by
+}
+
+"""
+update columns of table "prices"
+"""
+enum prices_update_column {
+  """column name"""
+  created_at
+
+  """column name"""
+  id
+
+  """column name"""
+  nickname
+
+  """column name"""
+  product_id
+
+  """column name"""
+  status
+
+  """column name"""
+  unit_amount
+}
+
+"""aggregate var_pop on columns"""
+type prices_var_pop_fields {
+  status: Float
+  unit_amount: Float
+}
+
+"""
+order by var_pop() on columns of table "prices"
+"""
+input prices_var_pop_order_by {
+  status: order_by
+  unit_amount: order_by
+}
+
+"""aggregate var_samp on columns"""
+type prices_var_samp_fields {
+  status: Float
+  unit_amount: Float
+}
+
+"""
+order by var_samp() on columns of table "prices"
+"""
+input prices_var_samp_order_by {
+  status: order_by
+  unit_amount: order_by
+}
+
+"""aggregate variance on columns"""
+type prices_variance_fields {
+  status: Float
+  unit_amount: Float
+}
+
+"""
+order by variance() on columns of table "prices"
+"""
+input prices_variance_order_by {
+  status: order_by
+  unit_amount: order_by
+}
+
+"""
+columns and relationships of "products"
+"""
+type products {
+  """An array relationship"""
+  coupons(
+    """distinct select on columns"""
+    distinct_on: [coupons_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [coupons_order_by!]
+
+    """filter the rows returned"""
+    where: coupons_bool_exp
+  ): [coupons!]!
+
+  """An aggregate relationship"""
+  coupons_aggregate(
+    """distinct select on columns"""
+    distinct_on: [coupons_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [coupons_order_by!]
+
+    """filter the rows returned"""
+    where: coupons_bool_exp
+  ): coupons_aggregate!
+  created_at: timestamptz!
+  id: uuid!
+  key: String
+
+  """An array relationship"""
+  merchant_products(
+    """distinct select on columns"""
+    distinct_on: [merchant_products_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [merchant_products_order_by!]
+
+    """filter the rows returned"""
+    where: merchant_products_bool_exp
+  ): [merchant_products!]!
+
+  """An aggregate relationship"""
+  merchant_products_aggregate(
+    """distinct select on columns"""
+    distinct_on: [merchant_products_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [merchant_products_order_by!]
+
+    """filter the rows returned"""
+    where: merchant_products_bool_exp
+  ): merchant_products_aggregate!
+  name: String
+
+  """An array relationship"""
+  prices(
+    """distinct select on columns"""
+    distinct_on: [prices_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [prices_order_by!]
+
+    """filter the rows returned"""
+    where: prices_bool_exp
+  ): [prices!]!
+
+  """An aggregate relationship"""
+  prices_aggregate(
+    """distinct select on columns"""
+    distinct_on: [prices_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [prices_order_by!]
+
+    """filter the rows returned"""
+    where: prices_bool_exp
+  ): prices_aggregate!
+
+  """An array relationship"""
+  purchases(
+    """distinct select on columns"""
+    distinct_on: [purchases_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [purchases_order_by!]
+
+    """filter the rows returned"""
+    where: purchases_bool_exp
+  ): [purchases!]!
+
+  """An aggregate relationship"""
+  purchases_aggregate(
+    """distinct select on columns"""
+    distinct_on: [purchases_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [purchases_order_by!]
+
+    """filter the rows returned"""
+    where: purchases_bool_exp
+  ): purchases_aggregate!
+  status: Int!
+}
+
+"""
+aggregated selection of "products"
+"""
+type products_aggregate {
+  aggregate: products_aggregate_fields
+  nodes: [products!]!
+}
+
+"""
+aggregate fields of "products"
+"""
+type products_aggregate_fields {
+  avg: products_avg_fields
+  count(columns: [products_select_column!], distinct: Boolean): Int!
+  max: products_max_fields
+  min: products_min_fields
+  stddev: products_stddev_fields
+  stddev_pop: products_stddev_pop_fields
+  stddev_samp: products_stddev_samp_fields
+  sum: products_sum_fields
+  var_pop: products_var_pop_fields
+  var_samp: products_var_samp_fields
+  variance: products_variance_fields
+}
+
+"""aggregate avg on columns"""
+type products_avg_fields {
+  status: Float
+}
+
+"""
+Boolean expression to filter rows from the table "products". All fields are combined with a logical 'AND'.
+"""
+input products_bool_exp {
+  _and: [products_bool_exp!]
+  _not: products_bool_exp
+  _or: [products_bool_exp!]
+  coupons: coupons_bool_exp
+  created_at: timestamptz_comparison_exp
+  id: uuid_comparison_exp
+  key: String_comparison_exp
+  merchant_products: merchant_products_bool_exp
+  name: String_comparison_exp
+  prices: prices_bool_exp
+  purchases: purchases_bool_exp
+  status: Int_comparison_exp
+}
+
+"""
+unique or primary key constraints on table "products"
+"""
+enum products_constraint {
+  """unique or primary key constraint"""
+  products_pkey
+}
+
+"""
+input type for incrementing numeric columns in table "products"
+"""
+input products_inc_input {
+  status: Int
+}
+
+"""
+input type for inserting data into table "products"
+"""
+input products_insert_input {
+  coupons: coupons_arr_rel_insert_input
+  created_at: timestamptz
+  id: uuid
+  key: String
+  merchant_products: merchant_products_arr_rel_insert_input
+  name: String
+  prices: prices_arr_rel_insert_input
+  purchases: purchases_arr_rel_insert_input
+  status: Int
+}
+
+"""aggregate max on columns"""
+type products_max_fields {
+  created_at: timestamptz
+  id: uuid
+  key: String
+  name: String
+  status: Int
+}
+
+"""aggregate min on columns"""
+type products_min_fields {
+  created_at: timestamptz
+  id: uuid
+  key: String
+  name: String
+  status: Int
+}
+
+"""
+response of any mutation on the table "products"
+"""
+type products_mutation_response {
+  """number of rows affected by the mutation"""
+  affected_rows: Int!
+
+  """data from the rows affected by the mutation"""
+  returning: [products!]!
+}
+
+"""
+input type for inserting object relation for remote table "products"
+"""
+input products_obj_rel_insert_input {
+  data: products_insert_input!
+
+  """upsert condition"""
+  on_conflict: products_on_conflict
+}
+
+"""
+on_conflict condition type for table "products"
+"""
+input products_on_conflict {
+  constraint: products_constraint!
+  update_columns: [products_update_column!]! = []
+  where: products_bool_exp
+}
+
+"""Ordering options when selecting data from "products"."""
+input products_order_by {
+  coupons_aggregate: coupons_aggregate_order_by
+  created_at: order_by
+  id: order_by
+  key: order_by
+  merchant_products_aggregate: merchant_products_aggregate_order_by
+  name: order_by
+  prices_aggregate: prices_aggregate_order_by
+  purchases_aggregate: purchases_aggregate_order_by
+  status: order_by
+}
+
+"""primary key columns input for table: products"""
+input products_pk_columns_input {
+  id: uuid!
+}
+
+"""
+select columns of table "products"
+"""
+enum products_select_column {
+  """column name"""
+  created_at
+
+  """column name"""
+  id
+
+  """column name"""
+  key
+
+  """column name"""
+  name
+
+  """column name"""
+  status
+}
+
+"""
+input type for updating data in table "products"
+"""
+input products_set_input {
+  created_at: timestamptz
+  id: uuid
+  key: String
+  name: String
+  status: Int
+}
+
+"""aggregate stddev on columns"""
+type products_stddev_fields {
+  status: Float
+}
+
+"""aggregate stddev_pop on columns"""
+type products_stddev_pop_fields {
+  status: Float
+}
+
+"""aggregate stddev_samp on columns"""
+type products_stddev_samp_fields {
+  status: Float
+}
+
+"""aggregate sum on columns"""
+type products_sum_fields {
+  status: Int
+}
+
+"""
+update columns of table "products"
+"""
+enum products_update_column {
+  """column name"""
+  created_at
+
+  """column name"""
+  id
+
+  """column name"""
+  key
+
+  """column name"""
+  name
+
+  """column name"""
+  status
+}
+
+"""aggregate var_pop on columns"""
+type products_var_pop_fields {
+  status: Float
+}
+
+"""aggregate var_samp on columns"""
+type products_var_samp_fields {
+  status: Float
+}
+
+"""aggregate variance on columns"""
+type products_variance_fields {
+  status: Float
+}
+
+"""
+columns and relationships of "purchases"
+"""
+type purchases {
+  city: String
+  country: String
+
+  """An object relationship"""
+  coupon: coupons
+  coupon_id: uuid
+  created_at: timestamptz!
+  id: uuid!
+  ip_address: String
+
+  """An array relationship"""
+  merchant_charges(
+    """distinct select on columns"""
+    distinct_on: [merchant_charges_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [merchant_charges_order_by!]
+
+    """filter the rows returned"""
+    where: merchant_charges_bool_exp
+  ): [merchant_charges!]!
+
+  """An aggregate relationship"""
+  merchant_charges_aggregate(
+    """distinct select on columns"""
+    distinct_on: [merchant_charges_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [merchant_charges_order_by!]
+
+    """filter the rows returned"""
+    where: merchant_charges_bool_exp
+  ): merchant_charges_aggregate!
+
+  """An object relationship"""
+  product: products
+  product_id: uuid
+
+  """An object relationship"""
+  purchase: purchases!
+  state: String
+  upgraded_from_purchase_id: uuid!
+
+  """An array relationship"""
+  upgraded_purchases(
+    """distinct select on columns"""
+    distinct_on: [purchases_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [purchases_order_by!]
+
+    """filter the rows returned"""
+    where: purchases_bool_exp
+  ): [purchases!]!
+
+  """An aggregate relationship"""
+  upgraded_purchases_aggregate(
+    """distinct select on columns"""
+    distinct_on: [purchases_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [purchases_order_by!]
+
+    """filter the rows returned"""
+    where: purchases_bool_exp
+  ): purchases_aggregate!
+
+  """An object relationship"""
+  user: users
+  user_id: uuid
+}
+
+"""
+aggregated selection of "purchases"
+"""
+type purchases_aggregate {
+  aggregate: purchases_aggregate_fields
+  nodes: [purchases!]!
+}
+
+"""
+aggregate fields of "purchases"
+"""
+type purchases_aggregate_fields {
+  count(columns: [purchases_select_column!], distinct: Boolean): Int!
+  max: purchases_max_fields
+  min: purchases_min_fields
+}
+
+"""
+order by aggregate values of table "purchases"
+"""
+input purchases_aggregate_order_by {
+  count: order_by
+  max: purchases_max_order_by
+  min: purchases_min_order_by
+}
+
+"""
+input type for inserting array relation for remote table "purchases"
+"""
+input purchases_arr_rel_insert_input {
+  data: [purchases_insert_input!]!
+
+  """upsert condition"""
+  on_conflict: purchases_on_conflict
+}
+
+"""
+Boolean expression to filter rows from the table "purchases". All fields are combined with a logical 'AND'.
+"""
+input purchases_bool_exp {
+  _and: [purchases_bool_exp!]
+  _not: purchases_bool_exp
+  _or: [purchases_bool_exp!]
+  city: String_comparison_exp
+  country: String_comparison_exp
+  coupon: coupons_bool_exp
+  coupon_id: uuid_comparison_exp
+  created_at: timestamptz_comparison_exp
+  id: uuid_comparison_exp
+  ip_address: String_comparison_exp
+  merchant_charges: merchant_charges_bool_exp
+  product: products_bool_exp
+  product_id: uuid_comparison_exp
+  purchase: purchases_bool_exp
+  state: String_comparison_exp
+  upgraded_from_purchase_id: uuid_comparison_exp
+  upgraded_purchases: purchases_bool_exp
+  user: users_bool_exp
+  user_id: uuid_comparison_exp
+}
+
+"""
+unique or primary key constraints on table "purchases"
+"""
+enum purchases_constraint {
+  """unique or primary key constraint"""
+  purchases_pkey
+}
+
+"""
+input type for inserting data into table "purchases"
+"""
+input purchases_insert_input {
+  city: String
+  country: String
+  coupon: coupons_obj_rel_insert_input
+  coupon_id: uuid
+  created_at: timestamptz
+  id: uuid
+  ip_address: String
+  merchant_charges: merchant_charges_arr_rel_insert_input
+  product: products_obj_rel_insert_input
+  product_id: uuid
+  purchase: purchases_obj_rel_insert_input
+  state: String
+  upgraded_from_purchase_id: uuid
+  upgraded_purchases: purchases_arr_rel_insert_input
+  user: users_obj_rel_insert_input
+  user_id: uuid
+}
+
+"""aggregate max on columns"""
+type purchases_max_fields {
+  city: String
+  country: String
+  coupon_id: uuid
+  created_at: timestamptz
+  id: uuid
+  ip_address: String
+  product_id: uuid
+  state: String
+  upgraded_from_purchase_id: uuid
+  user_id: uuid
+}
+
+"""
+order by max() on columns of table "purchases"
+"""
+input purchases_max_order_by {
+  city: order_by
+  country: order_by
+  coupon_id: order_by
+  created_at: order_by
+  id: order_by
+  ip_address: order_by
+  product_id: order_by
+  state: order_by
+  upgraded_from_purchase_id: order_by
+  user_id: order_by
+}
+
+"""aggregate min on columns"""
+type purchases_min_fields {
+  city: String
+  country: String
+  coupon_id: uuid
+  created_at: timestamptz
+  id: uuid
+  ip_address: String
+  product_id: uuid
+  state: String
+  upgraded_from_purchase_id: uuid
+  user_id: uuid
+}
+
+"""
+order by min() on columns of table "purchases"
+"""
+input purchases_min_order_by {
+  city: order_by
+  country: order_by
+  coupon_id: order_by
+  created_at: order_by
+  id: order_by
+  ip_address: order_by
+  product_id: order_by
+  state: order_by
+  upgraded_from_purchase_id: order_by
+  user_id: order_by
+}
+
+"""
+response of any mutation on the table "purchases"
+"""
+type purchases_mutation_response {
+  """number of rows affected by the mutation"""
+  affected_rows: Int!
+
+  """data from the rows affected by the mutation"""
+  returning: [purchases!]!
+}
+
+"""
+input type for inserting object relation for remote table "purchases"
+"""
+input purchases_obj_rel_insert_input {
+  data: purchases_insert_input!
+
+  """upsert condition"""
+  on_conflict: purchases_on_conflict
+}
+
+"""
+on_conflict condition type for table "purchases"
+"""
+input purchases_on_conflict {
+  constraint: purchases_constraint!
+  update_columns: [purchases_update_column!]! = []
+  where: purchases_bool_exp
+}
+
+"""Ordering options when selecting data from "purchases"."""
+input purchases_order_by {
+  city: order_by
+  country: order_by
+  coupon: coupons_order_by
+  coupon_id: order_by
+  created_at: order_by
+  id: order_by
+  ip_address: order_by
+  merchant_charges_aggregate: merchant_charges_aggregate_order_by
+  product: products_order_by
+  product_id: order_by
+  purchase: purchases_order_by
+  state: order_by
+  upgraded_from_purchase_id: order_by
+  upgraded_purchases_aggregate: purchases_aggregate_order_by
+  user: users_order_by
+  user_id: order_by
+}
+
+"""primary key columns input for table: purchases"""
+input purchases_pk_columns_input {
+  id: uuid!
+}
+
+"""
+select columns of table "purchases"
+"""
+enum purchases_select_column {
+  """column name"""
+  city
+
+  """column name"""
+  country
+
+  """column name"""
+  coupon_id
+
+  """column name"""
+  created_at
+
+  """column name"""
+  id
+
+  """column name"""
+  ip_address
+
+  """column name"""
+  product_id
+
+  """column name"""
+  state
+
+  """column name"""
+  upgraded_from_purchase_id
+
+  """column name"""
+  user_id
+}
+
+"""
+input type for updating data in table "purchases"
+"""
+input purchases_set_input {
+  city: String
+  country: String
+  coupon_id: uuid
+  created_at: timestamptz
+  id: uuid
+  ip_address: String
+  product_id: uuid
+  state: String
+  upgraded_from_purchase_id: uuid
+  user_id: uuid
+}
+
+"""
+update columns of table "purchases"
+"""
+enum purchases_update_column {
+  """column name"""
+  city
+
+  """column name"""
+  country
+
+  """column name"""
+  coupon_id
+
+  """column name"""
+  created_at
+
+  """column name"""
+  id
+
+  """column name"""
+  ip_address
+
+  """column name"""
+  product_id
+
+  """column name"""
+  state
+
+  """column name"""
+  upgraded_from_purchase_id
+
+  """column name"""
+  user_id
+}
+
+type query_root {
+  """An array relationship"""
+  accounts(
+    """distinct select on columns"""
+    distinct_on: [accounts_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [accounts_order_by!]
+
+    """filter the rows returned"""
+    where: accounts_bool_exp
+  ): [accounts!]!
+
+  """An aggregate relationship"""
+  accounts_aggregate(
+    """distinct select on columns"""
+    distinct_on: [accounts_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [accounts_order_by!]
+
+    """filter the rows returned"""
+    where: accounts_bool_exp
+  ): accounts_aggregate!
+
+  """fetch data from the table: "accounts" using primary key columns"""
+  accounts_by_pk(id: uuid!): accounts
+
+  """An array relationship"""
+  coupons(
+    """distinct select on columns"""
+    distinct_on: [coupons_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [coupons_order_by!]
+
+    """filter the rows returned"""
+    where: coupons_bool_exp
+  ): [coupons!]!
+
+  """An aggregate relationship"""
+  coupons_aggregate(
+    """distinct select on columns"""
+    distinct_on: [coupons_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [coupons_order_by!]
+
+    """filter the rows returned"""
+    where: coupons_bool_exp
+  ): coupons_aggregate!
+
+  """fetch data from the table: "coupons" using primary key columns"""
+  coupons_by_pk(id: uuid!): coupons
+
+  """
+  fetch data from the table: "merchant_accounts"
+  """
+  merchant_accounts(
+    """distinct select on columns"""
+    distinct_on: [merchant_accounts_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [merchant_accounts_order_by!]
+
+    """filter the rows returned"""
+    where: merchant_accounts_bool_exp
+  ): [merchant_accounts!]!
+
+  """
+  fetch aggregated fields from the table: "merchant_accounts"
+  """
+  merchant_accounts_aggregate(
+    """distinct select on columns"""
+    distinct_on: [merchant_accounts_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [merchant_accounts_order_by!]
+
+    """filter the rows returned"""
+    where: merchant_accounts_bool_exp
+  ): merchant_accounts_aggregate!
+
+  """
+  fetch data from the table: "merchant_accounts" using primary key columns
+  """
+  merchant_accounts_by_pk(id: uuid!): merchant_accounts
+
+  """An array relationship"""
+  merchant_charges(
+    """distinct select on columns"""
+    distinct_on: [merchant_charges_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [merchant_charges_order_by!]
+
+    """filter the rows returned"""
+    where: merchant_charges_bool_exp
+  ): [merchant_charges!]!
+
+  """An aggregate relationship"""
+  merchant_charges_aggregate(
+    """distinct select on columns"""
+    distinct_on: [merchant_charges_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [merchant_charges_order_by!]
+
+    """filter the rows returned"""
+    where: merchant_charges_bool_exp
+  ): merchant_charges_aggregate!
+
+  """
+  fetch data from the table: "merchant_charges" using primary key columns
+  """
+  merchant_charges_by_pk(id: uuid!): merchant_charges
+
+  """An array relationship"""
+  merchant_coupons(
+    """distinct select on columns"""
+    distinct_on: [merchant_coupons_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [merchant_coupons_order_by!]
+
+    """filter the rows returned"""
+    where: merchant_coupons_bool_exp
+  ): [merchant_coupons!]!
+
+  """An aggregate relationship"""
+  merchant_coupons_aggregate(
+    """distinct select on columns"""
+    distinct_on: [merchant_coupons_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [merchant_coupons_order_by!]
+
+    """filter the rows returned"""
+    where: merchant_coupons_bool_exp
+  ): merchant_coupons_aggregate!
+
+  """
+  fetch data from the table: "merchant_coupons" using primary key columns
+  """
+  merchant_coupons_by_pk(id: uuid!): merchant_coupons
+
+  """An array relationship"""
+  merchant_customers(
+    """distinct select on columns"""
+    distinct_on: [merchant_customers_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [merchant_customers_order_by!]
+
+    """filter the rows returned"""
+    where: merchant_customers_bool_exp
+  ): [merchant_customers!]!
+
+  """An aggregate relationship"""
+  merchant_customers_aggregate(
+    """distinct select on columns"""
+    distinct_on: [merchant_customers_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [merchant_customers_order_by!]
+
+    """filter the rows returned"""
+    where: merchant_customers_bool_exp
+  ): merchant_customers_aggregate!
+
+  """
+  fetch data from the table: "merchant_customers" using primary key columns
+  """
+  merchant_customers_by_pk(id: uuid!): merchant_customers
+
+  """An array relationship"""
+  merchant_prices(
+    """distinct select on columns"""
+    distinct_on: [merchant_prices_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [merchant_prices_order_by!]
+
+    """filter the rows returned"""
+    where: merchant_prices_bool_exp
+  ): [merchant_prices!]!
+
+  """An aggregate relationship"""
+  merchant_prices_aggregate(
+    """distinct select on columns"""
+    distinct_on: [merchant_prices_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [merchant_prices_order_by!]
+
+    """filter the rows returned"""
+    where: merchant_prices_bool_exp
+  ): merchant_prices_aggregate!
+
+  """fetch data from the table: "merchant_prices" using primary key columns"""
+  merchant_prices_by_pk(id: uuid!): merchant_prices
+
+  """An array relationship"""
+  merchant_products(
+    """distinct select on columns"""
+    distinct_on: [merchant_products_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [merchant_products_order_by!]
+
+    """filter the rows returned"""
+    where: merchant_products_bool_exp
+  ): [merchant_products!]!
+
+  """An aggregate relationship"""
+  merchant_products_aggregate(
+    """distinct select on columns"""
+    distinct_on: [merchant_products_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [merchant_products_order_by!]
+
+    """filter the rows returned"""
+    where: merchant_products_bool_exp
+  ): merchant_products_aggregate!
+
+  """
+  fetch data from the table: "merchant_products" using primary key columns
+  """
+  merchant_products_by_pk(id: uuid!): merchant_products
+
+  """An array relationship"""
+  prices(
+    """distinct select on columns"""
+    distinct_on: [prices_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [prices_order_by!]
+
+    """filter the rows returned"""
+    where: prices_bool_exp
+  ): [prices!]!
+
+  """An aggregate relationship"""
+  prices_aggregate(
+    """distinct select on columns"""
+    distinct_on: [prices_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [prices_order_by!]
+
+    """filter the rows returned"""
+    where: prices_bool_exp
+  ): prices_aggregate!
+
+  """fetch data from the table: "prices" using primary key columns"""
+  prices_by_pk(id: uuid!): prices
+
+  """
+  fetch data from the table: "products"
+  """
+  products(
+    """distinct select on columns"""
+    distinct_on: [products_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [products_order_by!]
+
+    """filter the rows returned"""
+    where: products_bool_exp
+  ): [products!]!
+
+  """
+  fetch aggregated fields from the table: "products"
+  """
+  products_aggregate(
+    """distinct select on columns"""
+    distinct_on: [products_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [products_order_by!]
+
+    """filter the rows returned"""
+    where: products_bool_exp
+  ): products_aggregate!
+
+  """fetch data from the table: "products" using primary key columns"""
+  products_by_pk(id: uuid!): products
+
+  """An array relationship"""
+  purchases(
+    """distinct select on columns"""
+    distinct_on: [purchases_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [purchases_order_by!]
+
+    """filter the rows returned"""
+    where: purchases_bool_exp
+  ): [purchases!]!
+
+  """An aggregate relationship"""
+  purchases_aggregate(
+    """distinct select on columns"""
+    distinct_on: [purchases_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [purchases_order_by!]
+
+    """filter the rows returned"""
+    where: purchases_bool_exp
+  ): purchases_aggregate!
+
+  """fetch data from the table: "purchases" using primary key columns"""
+  purchases_by_pk(id: uuid!): purchases
+
+  """
+  fetch data from the table: "sessions"
+  """
+  sessions(
+    """distinct select on columns"""
+    distinct_on: [sessions_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [sessions_order_by!]
+
+    """filter the rows returned"""
+    where: sessions_bool_exp
+  ): [sessions!]!
+
+  """An aggregate relationship"""
+  sessions_aggregate(
+    """distinct select on columns"""
+    distinct_on: [sessions_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [sessions_order_by!]
+
+    """filter the rows returned"""
+    where: sessions_bool_exp
+  ): sessions_aggregate!
+
+  """fetch data from the table: "sessions" using primary key columns"""
+  sessions_by_pk(id: uuid!): sessions
+
+  """
+  fetch data from the table: "users"
+  """
+  users(
+    """distinct select on columns"""
+    distinct_on: [users_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [users_order_by!]
+
+    """filter the rows returned"""
+    where: users_bool_exp
+  ): [users!]!
+
+  """
+  fetch aggregated fields from the table: "users"
+  """
+  users_aggregate(
+    """distinct select on columns"""
+    distinct_on: [users_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [users_order_by!]
+
+    """filter the rows returned"""
+    where: users_bool_exp
+  ): users_aggregate!
+
+  """fetch data from the table: "users" using primary key columns"""
+  users_by_pk(id: uuid!): users
+
+  """
+  fetch data from the table: "verification_tokens"
+  """
+  verification_tokens(
+    """distinct select on columns"""
+    distinct_on: [verification_tokens_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [verification_tokens_order_by!]
+
+    """filter the rows returned"""
+    where: verification_tokens_bool_exp
+  ): [verification_tokens!]!
+
+  """
+  fetch aggregated fields from the table: "verification_tokens"
+  """
+  verification_tokens_aggregate(
+    """distinct select on columns"""
+    distinct_on: [verification_tokens_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [verification_tokens_order_by!]
+
+    """filter the rows returned"""
+    where: verification_tokens_bool_exp
+  ): verification_tokens_aggregate!
+
+  """
+  fetch data from the table: "verification_tokens" using primary key columns
+  """
+  verification_tokens_by_pk(token: String!): verification_tokens
+}
+
+"""
+columns and relationships of "sessions"
+"""
+type sessions {
+  expires: timestamptz
+  id: uuid!
+  sessionToken: String!
+
+  """An object relationship"""
+  user: users!
+  userId: uuid!
+}
+
+"""
+aggregated selection of "sessions"
+"""
+type sessions_aggregate {
+  aggregate: sessions_aggregate_fields
+  nodes: [sessions!]!
+}
+
+"""
+aggregate fields of "sessions"
+"""
+type sessions_aggregate_fields {
+  count(columns: [sessions_select_column!], distinct: Boolean): Int!
+  max: sessions_max_fields
+  min: sessions_min_fields
+}
+
+"""
+order by aggregate values of table "sessions"
+"""
+input sessions_aggregate_order_by {
+  count: order_by
+  max: sessions_max_order_by
+  min: sessions_min_order_by
+}
+
+"""
+input type for inserting array relation for remote table "sessions"
+"""
+input sessions_arr_rel_insert_input {
+  data: [sessions_insert_input!]!
+
+  """upsert condition"""
+  on_conflict: sessions_on_conflict
+}
+
+"""
+Boolean expression to filter rows from the table "sessions". All fields are combined with a logical 'AND'.
+"""
+input sessions_bool_exp {
+  _and: [sessions_bool_exp!]
+  _not: sessions_bool_exp
+  _or: [sessions_bool_exp!]
+  expires: timestamptz_comparison_exp
+  id: uuid_comparison_exp
+  sessionToken: String_comparison_exp
+  user: users_bool_exp
+  userId: uuid_comparison_exp
+}
+
+"""
+unique or primary key constraints on table "sessions"
+"""
+enum sessions_constraint {
+  """unique or primary key constraint"""
+  sessions_pkey
+}
+
+"""
+input type for inserting data into table "sessions"
+"""
+input sessions_insert_input {
+  expires: timestamptz
+  id: uuid
+  sessionToken: String
+  user: users_obj_rel_insert_input
+  userId: uuid
+}
+
+"""aggregate max on columns"""
+type sessions_max_fields {
+  expires: timestamptz
+  id: uuid
+  sessionToken: String
+  userId: uuid
+}
+
+"""
+order by max() on columns of table "sessions"
+"""
+input sessions_max_order_by {
+  expires: order_by
+  id: order_by
+  sessionToken: order_by
+  userId: order_by
+}
+
+"""aggregate min on columns"""
+type sessions_min_fields {
+  expires: timestamptz
+  id: uuid
+  sessionToken: String
+  userId: uuid
+}
+
+"""
+order by min() on columns of table "sessions"
+"""
+input sessions_min_order_by {
+  expires: order_by
+  id: order_by
+  sessionToken: order_by
+  userId: order_by
+}
+
+"""
+response of any mutation on the table "sessions"
+"""
+type sessions_mutation_response {
+  """number of rows affected by the mutation"""
+  affected_rows: Int!
+
+  """data from the rows affected by the mutation"""
+  returning: [sessions!]!
+}
+
+"""
+on_conflict condition type for table "sessions"
+"""
+input sessions_on_conflict {
+  constraint: sessions_constraint!
+  update_columns: [sessions_update_column!]! = []
+  where: sessions_bool_exp
+}
+
+"""Ordering options when selecting data from "sessions"."""
+input sessions_order_by {
+  expires: order_by
+  id: order_by
+  sessionToken: order_by
+  user: users_order_by
+  userId: order_by
+}
+
+"""primary key columns input for table: sessions"""
+input sessions_pk_columns_input {
+  id: uuid!
+}
+
+"""
+select columns of table "sessions"
+"""
+enum sessions_select_column {
+  """column name"""
+  expires
+
+  """column name"""
+  id
+
+  """column name"""
+  sessionToken
+
+  """column name"""
+  userId
+}
+
+"""
+input type for updating data in table "sessions"
+"""
+input sessions_set_input {
+  expires: timestamptz
+  id: uuid
+  sessionToken: String
+  userId: uuid
+}
+
+"""
+update columns of table "sessions"
+"""
+enum sessions_update_column {
+  """column name"""
+  expires
+
+  """column name"""
+  id
+
+  """column name"""
+  sessionToken
+
+  """column name"""
+  userId
+}
+
+type subscription_root {
+  """An array relationship"""
+  accounts(
+    """distinct select on columns"""
+    distinct_on: [accounts_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [accounts_order_by!]
+
+    """filter the rows returned"""
+    where: accounts_bool_exp
+  ): [accounts!]!
+
+  """An aggregate relationship"""
+  accounts_aggregate(
+    """distinct select on columns"""
+    distinct_on: [accounts_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [accounts_order_by!]
+
+    """filter the rows returned"""
+    where: accounts_bool_exp
+  ): accounts_aggregate!
+
+  """fetch data from the table: "accounts" using primary key columns"""
+  accounts_by_pk(id: uuid!): accounts
+
+  """An array relationship"""
+  coupons(
+    """distinct select on columns"""
+    distinct_on: [coupons_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [coupons_order_by!]
+
+    """filter the rows returned"""
+    where: coupons_bool_exp
+  ): [coupons!]!
+
+  """An aggregate relationship"""
+  coupons_aggregate(
+    """distinct select on columns"""
+    distinct_on: [coupons_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [coupons_order_by!]
+
+    """filter the rows returned"""
+    where: coupons_bool_exp
+  ): coupons_aggregate!
+
+  """fetch data from the table: "coupons" using primary key columns"""
+  coupons_by_pk(id: uuid!): coupons
+
+  """
+  fetch data from the table: "merchant_accounts"
+  """
+  merchant_accounts(
+    """distinct select on columns"""
+    distinct_on: [merchant_accounts_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [merchant_accounts_order_by!]
+
+    """filter the rows returned"""
+    where: merchant_accounts_bool_exp
+  ): [merchant_accounts!]!
+
+  """
+  fetch aggregated fields from the table: "merchant_accounts"
+  """
+  merchant_accounts_aggregate(
+    """distinct select on columns"""
+    distinct_on: [merchant_accounts_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [merchant_accounts_order_by!]
+
+    """filter the rows returned"""
+    where: merchant_accounts_bool_exp
+  ): merchant_accounts_aggregate!
+
+  """
+  fetch data from the table: "merchant_accounts" using primary key columns
+  """
+  merchant_accounts_by_pk(id: uuid!): merchant_accounts
+
+  """An array relationship"""
+  merchant_charges(
+    """distinct select on columns"""
+    distinct_on: [merchant_charges_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [merchant_charges_order_by!]
+
+    """filter the rows returned"""
+    where: merchant_charges_bool_exp
+  ): [merchant_charges!]!
+
+  """An aggregate relationship"""
+  merchant_charges_aggregate(
+    """distinct select on columns"""
+    distinct_on: [merchant_charges_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [merchant_charges_order_by!]
+
+    """filter the rows returned"""
+    where: merchant_charges_bool_exp
+  ): merchant_charges_aggregate!
+
+  """
+  fetch data from the table: "merchant_charges" using primary key columns
+  """
+  merchant_charges_by_pk(id: uuid!): merchant_charges
+
+  """An array relationship"""
+  merchant_coupons(
+    """distinct select on columns"""
+    distinct_on: [merchant_coupons_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [merchant_coupons_order_by!]
+
+    """filter the rows returned"""
+    where: merchant_coupons_bool_exp
+  ): [merchant_coupons!]!
+
+  """An aggregate relationship"""
+  merchant_coupons_aggregate(
+    """distinct select on columns"""
+    distinct_on: [merchant_coupons_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [merchant_coupons_order_by!]
+
+    """filter the rows returned"""
+    where: merchant_coupons_bool_exp
+  ): merchant_coupons_aggregate!
+
+  """
+  fetch data from the table: "merchant_coupons" using primary key columns
+  """
+  merchant_coupons_by_pk(id: uuid!): merchant_coupons
+
+  """An array relationship"""
+  merchant_customers(
+    """distinct select on columns"""
+    distinct_on: [merchant_customers_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [merchant_customers_order_by!]
+
+    """filter the rows returned"""
+    where: merchant_customers_bool_exp
+  ): [merchant_customers!]!
+
+  """An aggregate relationship"""
+  merchant_customers_aggregate(
+    """distinct select on columns"""
+    distinct_on: [merchant_customers_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [merchant_customers_order_by!]
+
+    """filter the rows returned"""
+    where: merchant_customers_bool_exp
+  ): merchant_customers_aggregate!
+
+  """
+  fetch data from the table: "merchant_customers" using primary key columns
+  """
+  merchant_customers_by_pk(id: uuid!): merchant_customers
+
+  """An array relationship"""
+  merchant_prices(
+    """distinct select on columns"""
+    distinct_on: [merchant_prices_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [merchant_prices_order_by!]
+
+    """filter the rows returned"""
+    where: merchant_prices_bool_exp
+  ): [merchant_prices!]!
+
+  """An aggregate relationship"""
+  merchant_prices_aggregate(
+    """distinct select on columns"""
+    distinct_on: [merchant_prices_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [merchant_prices_order_by!]
+
+    """filter the rows returned"""
+    where: merchant_prices_bool_exp
+  ): merchant_prices_aggregate!
+
+  """fetch data from the table: "merchant_prices" using primary key columns"""
+  merchant_prices_by_pk(id: uuid!): merchant_prices
+
+  """An array relationship"""
+  merchant_products(
+    """distinct select on columns"""
+    distinct_on: [merchant_products_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [merchant_products_order_by!]
+
+    """filter the rows returned"""
+    where: merchant_products_bool_exp
+  ): [merchant_products!]!
+
+  """An aggregate relationship"""
+  merchant_products_aggregate(
+    """distinct select on columns"""
+    distinct_on: [merchant_products_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [merchant_products_order_by!]
+
+    """filter the rows returned"""
+    where: merchant_products_bool_exp
+  ): merchant_products_aggregate!
+
+  """
+  fetch data from the table: "merchant_products" using primary key columns
+  """
+  merchant_products_by_pk(id: uuid!): merchant_products
+
+  """An array relationship"""
+  prices(
+    """distinct select on columns"""
+    distinct_on: [prices_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [prices_order_by!]
+
+    """filter the rows returned"""
+    where: prices_bool_exp
+  ): [prices!]!
+
+  """An aggregate relationship"""
+  prices_aggregate(
+    """distinct select on columns"""
+    distinct_on: [prices_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [prices_order_by!]
+
+    """filter the rows returned"""
+    where: prices_bool_exp
+  ): prices_aggregate!
+
+  """fetch data from the table: "prices" using primary key columns"""
+  prices_by_pk(id: uuid!): prices
+
+  """
+  fetch data from the table: "products"
+  """
+  products(
+    """distinct select on columns"""
+    distinct_on: [products_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [products_order_by!]
+
+    """filter the rows returned"""
+    where: products_bool_exp
+  ): [products!]!
+
+  """
+  fetch aggregated fields from the table: "products"
+  """
+  products_aggregate(
+    """distinct select on columns"""
+    distinct_on: [products_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [products_order_by!]
+
+    """filter the rows returned"""
+    where: products_bool_exp
+  ): products_aggregate!
+
+  """fetch data from the table: "products" using primary key columns"""
+  products_by_pk(id: uuid!): products
+
+  """An array relationship"""
+  purchases(
+    """distinct select on columns"""
+    distinct_on: [purchases_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [purchases_order_by!]
+
+    """filter the rows returned"""
+    where: purchases_bool_exp
+  ): [purchases!]!
+
+  """An aggregate relationship"""
+  purchases_aggregate(
+    """distinct select on columns"""
+    distinct_on: [purchases_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [purchases_order_by!]
+
+    """filter the rows returned"""
+    where: purchases_bool_exp
+  ): purchases_aggregate!
+
+  """fetch data from the table: "purchases" using primary key columns"""
+  purchases_by_pk(id: uuid!): purchases
+
+  """
+  fetch data from the table: "sessions"
+  """
+  sessions(
+    """distinct select on columns"""
+    distinct_on: [sessions_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [sessions_order_by!]
+
+    """filter the rows returned"""
+    where: sessions_bool_exp
+  ): [sessions!]!
+
+  """An aggregate relationship"""
+  sessions_aggregate(
+    """distinct select on columns"""
+    distinct_on: [sessions_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [sessions_order_by!]
+
+    """filter the rows returned"""
+    where: sessions_bool_exp
+  ): sessions_aggregate!
+
+  """fetch data from the table: "sessions" using primary key columns"""
+  sessions_by_pk(id: uuid!): sessions
+
+  """
+  fetch data from the table: "users"
+  """
+  users(
+    """distinct select on columns"""
+    distinct_on: [users_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [users_order_by!]
+
+    """filter the rows returned"""
+    where: users_bool_exp
+  ): [users!]!
+
+  """
+  fetch aggregated fields from the table: "users"
+  """
+  users_aggregate(
+    """distinct select on columns"""
+    distinct_on: [users_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [users_order_by!]
+
+    """filter the rows returned"""
+    where: users_bool_exp
+  ): users_aggregate!
+
+  """fetch data from the table: "users" using primary key columns"""
+  users_by_pk(id: uuid!): users
+
+  """
+  fetch data from the table: "verification_tokens"
+  """
+  verification_tokens(
+    """distinct select on columns"""
+    distinct_on: [verification_tokens_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [verification_tokens_order_by!]
+
+    """filter the rows returned"""
+    where: verification_tokens_bool_exp
+  ): [verification_tokens!]!
+
+  """
+  fetch aggregated fields from the table: "verification_tokens"
+  """
+  verification_tokens_aggregate(
+    """distinct select on columns"""
+    distinct_on: [verification_tokens_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [verification_tokens_order_by!]
+
+    """filter the rows returned"""
+    where: verification_tokens_bool_exp
+  ): verification_tokens_aggregate!
+
+  """
+  fetch data from the table: "verification_tokens" using primary key columns
+  """
+  verification_tokens_by_pk(token: String!): verification_tokens
+}
+
+scalar timestamptz
+
+"""
+Boolean expression to compare columns of type "timestamptz". All fields are combined with logical 'AND'.
+"""
+input timestamptz_comparison_exp {
+  _eq: timestamptz
+  _gt: timestamptz
+  _gte: timestamptz
+  _in: [timestamptz!]
+  _is_null: Boolean
+  _lt: timestamptz
+  _lte: timestamptz
+  _neq: timestamptz
+  _nin: [timestamptz!]
+}
+
+"""
+columns and relationships of "users"
+"""
+type users {
+  """An array relationship"""
+  accounts(
+    """distinct select on columns"""
+    distinct_on: [accounts_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [accounts_order_by!]
+
+    """filter the rows returned"""
+    where: accounts_bool_exp
+  ): [accounts!]!
+
+  """An aggregate relationship"""
+  accounts_aggregate(
+    """distinct select on columns"""
+    distinct_on: [accounts_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [accounts_order_by!]
+
+    """filter the rows returned"""
+    where: accounts_bool_exp
+  ): accounts_aggregate!
+  email: String
+  emailVerified: timestamptz
+  id: uuid!
+  image: String
+
+  """An array relationship"""
+  merchant_charges(
+    """distinct select on columns"""
+    distinct_on: [merchant_charges_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [merchant_charges_order_by!]
+
+    """filter the rows returned"""
+    where: merchant_charges_bool_exp
+  ): [merchant_charges!]!
+
+  """An aggregate relationship"""
+  merchant_charges_aggregate(
+    """distinct select on columns"""
+    distinct_on: [merchant_charges_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [merchant_charges_order_by!]
+
+    """filter the rows returned"""
+    where: merchant_charges_bool_exp
+  ): merchant_charges_aggregate!
+
+  """An array relationship"""
+  merchant_customers(
+    """distinct select on columns"""
+    distinct_on: [merchant_customers_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [merchant_customers_order_by!]
+
+    """filter the rows returned"""
+    where: merchant_customers_bool_exp
+  ): [merchant_customers!]!
+
+  """An aggregate relationship"""
+  merchant_customers_aggregate(
+    """distinct select on columns"""
+    distinct_on: [merchant_customers_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [merchant_customers_order_by!]
+
+    """filter the rows returned"""
+    where: merchant_customers_bool_exp
+  ): merchant_customers_aggregate!
+  name: String
+
+  """An array relationship"""
+  purchases(
+    """distinct select on columns"""
+    distinct_on: [purchases_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [purchases_order_by!]
+
+    """filter the rows returned"""
+    where: purchases_bool_exp
+  ): [purchases!]!
+
+  """An aggregate relationship"""
+  purchases_aggregate(
+    """distinct select on columns"""
+    distinct_on: [purchases_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [purchases_order_by!]
+
+    """filter the rows returned"""
+    where: purchases_bool_exp
+  ): purchases_aggregate!
+
+  """
+  fetch data from the table: "sessions"
+  """
+  sessions(
+    """distinct select on columns"""
+    distinct_on: [sessions_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [sessions_order_by!]
+
+    """filter the rows returned"""
+    where: sessions_bool_exp
+  ): [sessions!]!
+
+  """An aggregate relationship"""
+  sessions_aggregate(
+    """distinct select on columns"""
+    distinct_on: [sessions_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [sessions_order_by!]
+
+    """filter the rows returned"""
+    where: sessions_bool_exp
+  ): sessions_aggregate!
+}
+
+"""
+aggregated selection of "users"
+"""
+type users_aggregate {
+  aggregate: users_aggregate_fields
+  nodes: [users!]!
+}
+
+"""
+aggregate fields of "users"
+"""
+type users_aggregate_fields {
+  count(columns: [users_select_column!], distinct: Boolean): Int!
+  max: users_max_fields
+  min: users_min_fields
+}
+
+"""
+Boolean expression to filter rows from the table "users". All fields are combined with a logical 'AND'.
+"""
+input users_bool_exp {
+  _and: [users_bool_exp!]
+  _not: users_bool_exp
+  _or: [users_bool_exp!]
+  accounts: accounts_bool_exp
+  email: String_comparison_exp
+  emailVerified: timestamptz_comparison_exp
+  id: uuid_comparison_exp
+  image: String_comparison_exp
+  merchant_charges: merchant_charges_bool_exp
+  merchant_customers: merchant_customers_bool_exp
+  name: String_comparison_exp
+  purchases: purchases_bool_exp
+  sessions: sessions_bool_exp
+}
+
+"""
+unique or primary key constraints on table "users"
+"""
+enum users_constraint {
+  """unique or primary key constraint"""
+  users_email_key
+
+  """unique or primary key constraint"""
+  users_pkey
+}
+
+"""
+input type for inserting data into table "users"
+"""
+input users_insert_input {
+  accounts: accounts_arr_rel_insert_input
+  email: String
+  emailVerified: timestamptz
+  id: uuid
+  image: String
+  merchant_charges: merchant_charges_arr_rel_insert_input
+  merchant_customers: merchant_customers_arr_rel_insert_input
+  name: String
+  purchases: purchases_arr_rel_insert_input
+  sessions: sessions_arr_rel_insert_input
+}
+
+"""aggregate max on columns"""
+type users_max_fields {
+  email: String
+  emailVerified: timestamptz
+  id: uuid
+  image: String
+  name: String
+}
+
+"""aggregate min on columns"""
+type users_min_fields {
+  email: String
+  emailVerified: timestamptz
+  id: uuid
+  image: String
+  name: String
+}
+
+"""
+response of any mutation on the table "users"
+"""
+type users_mutation_response {
+  """number of rows affected by the mutation"""
+  affected_rows: Int!
+
+  """data from the rows affected by the mutation"""
+  returning: [users!]!
+}
+
+"""
+input type for inserting object relation for remote table "users"
+"""
+input users_obj_rel_insert_input {
+  data: users_insert_input!
+
+  """upsert condition"""
+  on_conflict: users_on_conflict
+}
+
+"""
+on_conflict condition type for table "users"
+"""
+input users_on_conflict {
+  constraint: users_constraint!
+  update_columns: [users_update_column!]! = []
+  where: users_bool_exp
+}
+
+"""Ordering options when selecting data from "users"."""
+input users_order_by {
+  accounts_aggregate: accounts_aggregate_order_by
+  email: order_by
+  emailVerified: order_by
+  id: order_by
+  image: order_by
+  merchant_charges_aggregate: merchant_charges_aggregate_order_by
+  merchant_customers_aggregate: merchant_customers_aggregate_order_by
+  name: order_by
+  purchases_aggregate: purchases_aggregate_order_by
+  sessions_aggregate: sessions_aggregate_order_by
+}
+
+"""primary key columns input for table: users"""
+input users_pk_columns_input {
+  id: uuid!
+}
+
+"""
+select columns of table "users"
+"""
+enum users_select_column {
+  """column name"""
+  email
+
+  """column name"""
+  emailVerified
+
+  """column name"""
+  id
+
+  """column name"""
+  image
+
+  """column name"""
+  name
+}
+
+"""
+input type for updating data in table "users"
+"""
+input users_set_input {
+  email: String
+  emailVerified: timestamptz
+  id: uuid
+  image: String
+  name: String
+}
+
+"""
+update columns of table "users"
+"""
+enum users_update_column {
+  """column name"""
+  email
+
+  """column name"""
+  emailVerified
+
+  """column name"""
+  id
+
+  """column name"""
+  image
+
+  """column name"""
+  name
+}
+
+scalar uuid
+
+"""
+Boolean expression to compare columns of type "uuid". All fields are combined with logical 'AND'.
+"""
+input uuid_comparison_exp {
+  _eq: uuid
+  _gt: uuid
+  _gte: uuid
+  _in: [uuid!]
+  _is_null: Boolean
+  _lt: uuid
+  _lte: uuid
+  _neq: uuid
+  _nin: [uuid!]
+}
+
+"""
+columns and relationships of "verification_tokens"
+"""
+type verification_tokens {
+  expires: timestamptz
+  identifier: String!
+  token: String!
+}
+
+"""
+aggregated selection of "verification_tokens"
+"""
+type verification_tokens_aggregate {
+  aggregate: verification_tokens_aggregate_fields
+  nodes: [verification_tokens!]!
+}
+
+"""
+aggregate fields of "verification_tokens"
+"""
+type verification_tokens_aggregate_fields {
+  count(columns: [verification_tokens_select_column!], distinct: Boolean): Int!
+  max: verification_tokens_max_fields
+  min: verification_tokens_min_fields
+}
+
+"""
+Boolean expression to filter rows from the table "verification_tokens". All fields are combined with a logical 'AND'.
+"""
+input verification_tokens_bool_exp {
+  _and: [verification_tokens_bool_exp!]
+  _not: verification_tokens_bool_exp
+  _or: [verification_tokens_bool_exp!]
+  expires: timestamptz_comparison_exp
+  identifier: String_comparison_exp
+  token: String_comparison_exp
+}
+
+"""
+unique or primary key constraints on table "verification_tokens"
+"""
+enum verification_tokens_constraint {
+  """unique or primary key constraint"""
+  verification_tokens_pkey
+}
+
+"""
+input type for inserting data into table "verification_tokens"
+"""
+input verification_tokens_insert_input {
+  expires: timestamptz
+  identifier: String
+  token: String
+}
+
+"""aggregate max on columns"""
+type verification_tokens_max_fields {
+  expires: timestamptz
+  identifier: String
+  token: String
+}
+
+"""aggregate min on columns"""
+type verification_tokens_min_fields {
+  expires: timestamptz
+  identifier: String
+  token: String
+}
+
+"""
+response of any mutation on the table "verification_tokens"
+"""
+type verification_tokens_mutation_response {
+  """number of rows affected by the mutation"""
+  affected_rows: Int!
+
+  """data from the rows affected by the mutation"""
+  returning: [verification_tokens!]!
+}
+
+"""
+on_conflict condition type for table "verification_tokens"
+"""
+input verification_tokens_on_conflict {
+  constraint: verification_tokens_constraint!
+  update_columns: [verification_tokens_update_column!]! = []
+  where: verification_tokens_bool_exp
+}
+
+"""Ordering options when selecting data from "verification_tokens"."""
+input verification_tokens_order_by {
+  expires: order_by
+  identifier: order_by
+  token: order_by
+}
+
+"""primary key columns input for table: verification_tokens"""
+input verification_tokens_pk_columns_input {
+  token: String!
+}
+
+"""
+select columns of table "verification_tokens"
+"""
+enum verification_tokens_select_column {
+  """column name"""
+  expires
+
+  """column name"""
+  identifier
+
+  """column name"""
+  token
+}
+
+"""
+input type for updating data in table "verification_tokens"
+"""
+input verification_tokens_set_input {
+  expires: timestamptz
+  identifier: String
+  token: String
+}
+
+"""
+update columns of table "verification_tokens"
+"""
+enum verification_tokens_update_column {
+  """column name"""
+  expires
+
+  """column name"""
+  identifier
+
+  """column name"""
+  token
+}
+

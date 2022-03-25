@@ -1,0 +1,64 @@
+query getProducts {
+  products(where: {status: {_eq: 1}}) {
+    prices(where: {status: {_eq: 1}}) {
+      id
+      nickname
+      status
+      unit_amount
+    }
+    key
+    id
+    name
+    status
+  }
+}
+
+query getProduct($id: uuid!) {
+  products_by_pk(id: $id) {
+    prices(where: {status: {_eq: 1}}) {
+      id
+      nickname
+      status
+      unit_amount
+    }
+    id
+    name
+    status
+    merchant_products {
+      id
+      identifier
+      merchant_prices {
+        id
+        identifier
+      }
+    }
+  }
+}
+
+
+query getProductsAndCoupons($status: Int = 1) {
+  products(where: {status: {_eq: $status}}) {
+    prices(where: {status: {_eq: $status}}) {
+      id
+      nickname
+      unit_amount
+      merchant_prices {
+        id
+        identifier
+      }
+    }
+    key
+    id
+    name
+  }
+  merchant_coupons {
+    percentage_discount
+    type
+    identifier
+    id
+    merchant_account {
+      id
+      payment_processor_id
+    }
+  }
+}

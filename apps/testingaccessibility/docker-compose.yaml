@@ -5,6 +5,7 @@ services:
     restart: always
     volumes:
       - db_data:/var/lib/postgresql/data
+      - ./seed_data:/data
     environment:
       POSTGRES_PASSWORD: postgrespassword
   graphql-engine:
