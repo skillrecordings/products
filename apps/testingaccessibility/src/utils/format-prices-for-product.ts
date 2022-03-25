@@ -76,10 +76,10 @@ export async function formatPricesForProduct({
         throw new Error('Invalid coupon.')
       }
 
-      const calculatedPrice = getCalculatedPriced(
-        defaultPriceProduct.unitPrice,
-        coupon.percentage_discount,
-      )
+      const calculatedPrice = getCalculatedPriced({
+        unitPrice: defaultPriceProduct.unitPrice,
+        percentOfDiscount: coupon.percentage_discount,
+      })
 
       return {
         ...defaultPriceProduct,
@@ -99,10 +99,10 @@ export async function formatPricesForProduct({
     const {identifier, ...merchantCouponWithoutIdentifier} = merchantCoupon
     return {
       ...defaultPriceProduct,
-      calculatedPrice: getCalculatedPriced(
-        defaultPriceProduct.unitPrice,
-        merchantCoupon.percentage_discount,
-      ),
+      calculatedPrice: getCalculatedPriced({
+        unitPrice: defaultPriceProduct.unitPrice,
+        percentOfDiscount: merchantCoupon.percentage_discount,
+      }),
       appliedCoupon: merchantCouponWithoutIdentifier,
     }
   } else if (pppAvailable) {
@@ -119,11 +119,11 @@ export async function formatPricesForProduct({
 
     return {
       ...defaultPriceProduct,
-      calculatedPrice: getCalculatedPriced(
-        defaultPriceProduct.unitPrice,
-        bulkCoupon.percentage_discount,
+      calculatedPrice: getCalculatedPriced({
+        unitPrice: defaultPriceProduct.unitPrice,
+        percentOfDiscount: bulkCoupon.percentage_discount,
         quantity,
-      ),
+      }),
       ...(bulkCoupon && {appliedCoupon: bulkCoupon}),
     }
   }

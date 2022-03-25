@@ -29,17 +29,12 @@ test('product with quantity under 5 calculatedPrice multiplies unitPrice', async
 
 test('product with quantity 5 calculatedPrice to have discount applied', async () => {
   const quantity = 5
-  const expectedDiscountMultiplier = 0.05
   const product = await formatPricesForProduct({
     productId: DEFAULT_PRODUCT_ID,
     quantity,
   })
-  const expectedCalculatedPrice = getCalculatedPriced(
-    product?.unitPrice,
-    quantity,
-    expectedDiscountMultiplier,
-  )
-  expect(product?.calculatedPrice).toBe(expectedCalculatedPrice)
+
+  expect(product?.calculatedPrice).toBe(475)
 })
 
 test('product no available coupons if country is "US"', async () => {
