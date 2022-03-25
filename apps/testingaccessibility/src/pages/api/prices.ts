@@ -11,7 +11,7 @@ const pricesHandler = async (req: NextApiRequest, res: NextApiResponse) => {
 
       const {code, quantity, productId, coupon: couponId} = req.body
 
-      const product = formatPricesForProduct({
+      const product = await formatPricesForProduct({
         productId,
         country,
         quantity,
