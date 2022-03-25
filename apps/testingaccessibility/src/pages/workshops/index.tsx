@@ -120,12 +120,13 @@ const WorkshopItem = ({workshop}: any) => {
   )
 }
 
-const workshopsQuery = groq`*[_type == "workshop"]{
+const workshopsQuery = groq`*[_type == "workshop"] | order(order asc){
     title,
     date,
     description,
     'slug': slug.current,
-    published
+    published,
+    order
 }`
 
 export const getServerSideProps: GetServerSideProps = async () => {

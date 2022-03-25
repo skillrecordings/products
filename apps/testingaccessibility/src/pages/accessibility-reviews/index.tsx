@@ -119,14 +119,15 @@ const Reviews: React.FC<any> = ({reviews}) => {
   )
 }
 
-const reviewsQuery = groq`*[_type == "review"]{
+const reviewsQuery = groq`*[_type == "review"] | order(order asc){
     title,
     description,
     'slug': slug.current,
     hlsUrl,
     published,
     image,
-    date
+    date,
+    order
 }`
 
 export const getServerSideProps: GetServerSideProps = async () => {
