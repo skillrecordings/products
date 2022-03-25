@@ -1,4 +1,4 @@
-query getCouponForCode($code: String!) {
+query getCouponForCode($code: String!) @cached {
   coupons(distinct_on: code, where: {code: {_eq: $code}}) {
     code
     percentage_discount

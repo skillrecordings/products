@@ -1,4 +1,4 @@
-query getProducts {
+query getProducts @cached {
   products(where: {status: {_eq: 1}}) {
     prices(where: {status: {_eq: 1}}) {
       id
@@ -13,7 +13,7 @@ query getProducts {
   }
 }
 
-query getProduct($id: uuid!) {
+query getProduct($id: uuid!) @cached {
   products_by_pk(id: $id) {
     prices(where: {status: {_eq: 1}}) {
       id
@@ -36,7 +36,7 @@ query getProduct($id: uuid!) {
 }
 
 
-query getProductsAndCoupons($status: Int = 1) {
+query getProductsAndCoupons($status: Int = 1) @cached {
   products(where: {status: {_eq: $status}}) {
     prices(where: {status: {_eq: $status}}) {
       id

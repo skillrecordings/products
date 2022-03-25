@@ -6542,7 +6542,7 @@ export type UseVerificationTokenMutation = {
 }
 
 export const GetCouponForCodeDocument = gql`
-  query getCouponForCode($code: String!) {
+  query getCouponForCode($code: String!) @cached {
     coupons(distinct_on: code, where: {code: {_eq: $code}}) {
       code
       percentage_discount
@@ -6556,7 +6556,7 @@ export const GetCouponForCodeDocument = gql`
   }
 `
 export const GetMerchantAccountDocument = gql`
-  query getMerchantAccount($id: uuid!) {
+  query getMerchantAccount($id: uuid!) @cached {
     merchant_accounts_by_pk(id: $id) {
       id
       merchant_coupons {
@@ -6570,7 +6570,7 @@ export const GetMerchantAccountDocument = gql`
   }
 `
 export const GetMerchantAccountsDocument = gql`
-  query getMerchantAccounts {
+  query getMerchantAccounts @cached {
     merchant_accounts {
       id
       merchant_coupons {
@@ -6588,7 +6588,7 @@ export const GetCouponsForTypeAndDiscountDocument = gql`
     $status: Int = 1
     $percentage_discount: numeric
     $type: String
-  ) {
+  ) @cached {
     merchant_coupons(
       where: {
         status: {_eq: $status}
@@ -6608,7 +6608,7 @@ export const GetCouponsForTypeAndDiscountDocument = gql`
   }
 `
 export const GetMerchantCouponDocument = gql`
-  query getMerchantCoupon($id: uuid!) {
+  query getMerchantCoupon($id: uuid!) @cached {
     merchant_coupons_by_pk(id: $id) {
       type
       identifier
@@ -6618,7 +6618,7 @@ export const GetMerchantCouponDocument = gql`
   }
 `
 export const GetProductsDocument = gql`
-  query getProducts {
+  query getProducts @cached {
     products(where: {status: {_eq: 1}}) {
       prices(where: {status: {_eq: 1}}) {
         id
@@ -6634,7 +6634,7 @@ export const GetProductsDocument = gql`
   }
 `
 export const GetProductDocument = gql`
-  query getProduct($id: uuid!) {
+  query getProduct($id: uuid!) @cached {
     products_by_pk(id: $id) {
       prices(where: {status: {_eq: 1}}) {
         id
@@ -6657,7 +6657,7 @@ export const GetProductDocument = gql`
   }
 `
 export const GetProductsAndCouponsDocument = gql`
-  query getProductsAndCoupons($status: Int = 1) {
+  query getProductsAndCoupons($status: Int = 1) @cached {
     products(where: {status: {_eq: $status}}) {
       prices(where: {status: {_eq: $status}}) {
         id

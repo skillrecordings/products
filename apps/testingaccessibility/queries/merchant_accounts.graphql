@@ -1,4 +1,4 @@
-query getMerchantAccount($id: uuid!) {
+query getMerchantAccount($id: uuid!) @cached {
   merchant_accounts_by_pk(id: $id) {
     id
     merchant_coupons {
@@ -11,7 +11,7 @@ query getMerchantAccount($id: uuid!) {
   }
 }
 
-query getMerchantAccounts {
+query getMerchantAccounts @cached {
   merchant_accounts {
     id
     merchant_coupons {

@@ -1,4 +1,4 @@
-query getCouponsForTypeAndDiscount($status: Int = 1, $percentage_discount: numeric, $type: String) {
+query getCouponsForTypeAndDiscount($status: Int = 1, $percentage_discount: numeric, $type: String) @cached{
   merchant_coupons(where: {status: {_eq: $status}, percentage_discount: {_eq: $percentage_discount}, type: {_eq: $type}}) {
     percentage_discount
     type
@@ -11,7 +11,7 @@ query getCouponsForTypeAndDiscount($status: Int = 1, $percentage_discount: numer
   }
 }
 
-query getMerchantCoupon($id: uuid!) {
+query getMerchantCoupon($id: uuid!) @cached {
   merchant_coupons_by_pk(id: $id) {
     type
     identifier
