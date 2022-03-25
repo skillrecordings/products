@@ -1,82 +1,82 @@
-import {graphql} from 'msw'
-import {getAdminSDK} from '../lib/api'
-import {setupServer} from 'msw/node'
 import {formatPricesForProduct} from './format-prices-for-product'
+import {server} from '../mock/setupTests'
+import {DEFAULT_PRODUCT_ID, VALID_INDIA_COUPON_ID} from '../mock/handlers'
+import {getCalculatedPriced} from './get-calculated-price'
 
-process.env.HASURA_GRAPHQL_ENDPOINT = 'http://localhost:8080/v1/graphql'
-process.env.HASURA_ADMIN_SECRET = 'admin_secret'
-
-export const handlers = [
-  graphql.query('getCouponsForTypeAndDiscount', (req, res, ctx) => {
-    return res(
-      ctx.data({
-        coupons: [
-          {
-            id: 'test coupon',
-            type: req?.body?.variables.type,
-            percentage_discount: req?.body?.variables.percentage_discount,
-          },
-        ],
-      }),
-    )
-  }),
-  graphql.query('getMerchantCoupon', (req, res, ctx) => {
-    return res(
-      ctx.data({
-        merchant_coupons_by_pk: {
-          percentage_discount: 0.5,
-        },
-      }),
-    )
-  }),
-  graphql.query('getCouponForCode', (req, res, ctx) => {
-    return res(
-      ctx.data({
-        coupons: [
-          {
-            restricted_to_product_id: 'test',
-            percentage_discount: 0.5,
-          },
-        ],
-      }),
-    )
-  }),
-  graphql.query('getProduct', (req, res, ctx) => {
-    const {id} = req?.body?.variables
-    return res(
-      ctx.data({
-        products_by_pk: {
-          id,
-        },
-      }),
-    )
-  }),
-]
-
-export const server = setupServer(...handlers)
-
-beforeAll(() => {
-  server.listen({
-    onUnhandledRequest(req) {
-      console.error(
-        'Found an unhandled %s request to %s body %s',
-        req.method,
-        req.url.href,
-        req.body,
-      )
-    },
-  })
-})
+beforeAll(() => server.listen())
 afterEach(() => server.resetHandlers())
 afterAll(() => server.close())
 
-test('will return a mock result', async () => {
-  const {getProduct} = getAdminSDK()
-  const id = 'this is my id'
+test('basic product returns product', async () => {
+  const product = await formatPricesForProduct({productId: DEFAULT_PRODUCT_ID})
+  expect(product).toBeDefined()
+})
 
-  const product = await formatPricesForProduct({productId: id})
-  // const {products_by_pk: product} = await getProduct({
-  //   id,
-  // })
-  expect(product?.id).toBe(id)
+test('basic product calculatedPrice matches unitPrice', async () => {
+  const product = await formatPricesForProduct({productId: DEFAULT_PRODUCT_ID})
+  expect(product?.calculatedPrice).toBe(product?.unitPrice)
+})
+
+test('product with quantity under 5 calculatedPrice multiplies unitPrice', async () => {
+  const quantity = 2
+  const product = await formatPricesForProduct({
+    productId: DEFAULT_PRODUCT_ID,
+    quantity,
+  })
+  const expectedPrice = product?.unitPrice * quantity
+  expect(product?.calculatedPrice).toBe(expectedPrice)
+})
+
+test('product with quantity 5 calculatedPrice to have discount applied', async () => {
+  const quantity = 5
+  const expectedDiscountMultiplier = 0.05
+  const product = await formatPricesForProduct({
+    productId: DEFAULT_PRODUCT_ID,
+    quantity,
+  })
+  const expectedCalculatedPrice = getCalculatedPriced(
+    product?.unitPrice,
+    quantity,
+    expectedDiscountMultiplier,
+  )
+  expect(product?.calculatedPrice).toBe(expectedCalculatedPrice)
+})
+
+test('product no available coupons if country is "US"', async () => {
+  const product = await formatPricesForProduct({
+    productId: DEFAULT_PRODUCT_ID,
+    country: 'US',
+  })
+
+  expect(product?.availableCoupons.length).toBe(0)
+})
+
+test('product should have available coupons if country is "IN"', async () => {
+  const product = await formatPricesForProduct({
+    productId: DEFAULT_PRODUCT_ID,
+    country: 'IN',
+  })
+
+  expect(product?.availableCoupons.length).toBeGreaterThan(0)
+})
+
+test('product should have applied coupon present if "IN" and valid couponId', async () => {
+  const product = await formatPricesForProduct({
+    productId: DEFAULT_PRODUCT_ID,
+    couponId: VALID_INDIA_COUPON_ID,
+    country: 'IN',
+  })
+
+  expect(product?.appliedCoupon).toBeDefined()
+})
+
+test('product should calculate discount if country is "IN" and couponId', async () => {
+  const product = await formatPricesForProduct({
+    productId: DEFAULT_PRODUCT_ID,
+    couponId: VALID_INDIA_COUPON_ID,
+    country: 'IN',
+  })
+  const expectedPrice = 25
+
+  expect(product?.calculatedPrice).toBe(expectedPrice)
 })

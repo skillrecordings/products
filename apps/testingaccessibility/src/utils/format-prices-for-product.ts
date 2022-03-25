@@ -2,6 +2,7 @@ import {first} from 'lodash'
 import {getAdminSDK} from '../lib/api'
 import {getPPPDiscountPercent} from './parity-coupon'
 import {getBulkDiscountPercent} from './bulk-coupon'
+import {getCalculatedPriced} from './get-calculated-price'
 
 type FormatPricesForProductOptions = {
   productId: string
@@ -9,6 +10,15 @@ type FormatPricesForProductOptions = {
   quantity?: number
   code?: string
   couponId?: string
+}
+
+type FormattedPrice = {
+  id: string
+  quantity: number
+  unitPrice: number
+  calculatedPrice: number
+  availableCoupons: any[]
+  appliedCoupon?: any
 }
 
 export async function formatPricesForProduct({
@@ -42,7 +52,11 @@ export async function formatPricesForProduct({
   const pppDiscountPercent = getPPPDiscountPercent(country)
   const bulkCouponPercent = getBulkDiscountPercent(quantity)
 
-  const defaultPriceProduct = {
+  const pppApplied = quantity === 1 && couponId && pppDiscountPercent > 0
+  const pppAvailable = quantity === 1 && pppDiscountPercent > 0
+  const bulkDiscountAvailable = bulkCouponPercent > 0
+
+  const defaultPriceProduct: FormattedPrice = {
     ...noPricesProduct,
     quantity,
     unitPrice: firstPrice.unit_amount,
@@ -73,7 +87,7 @@ export async function formatPricesForProduct({
         appliedCoupon: coupon,
       }
     }
-  } else if (quantity === 1 && couponId && pppDiscountPercent > 0) {
+  } else if (pppApplied) {
     const {merchant_coupons_by_pk: merchantCoupon} = await getMerchantCoupon({
       id: couponId,
     })
@@ -91,7 +105,7 @@ export async function formatPricesForProduct({
       ),
       appliedCoupon: merchantCouponWithoutIdentifier,
     }
-  } else if (quantity === 1 && pppDiscountPercent > 0) {
+  } else if (pppAvailable) {
     // no PPP for bulk
     const pppCoupons = await couponForType('ppp', pppDiscountPercent)
 
@@ -99,7 +113,7 @@ export async function formatPricesForProduct({
       ...defaultPriceProduct,
       availableCoupons: pppCoupons,
     }
-  } else if (bulkCouponPercent > 0) {
+  } else if (bulkDiscountAvailable) {
     const bulkCoupons = await couponForType('bulk', bulkCouponPercent)
     const bulkCoupon = bulkCoupons[0]
 
@@ -113,6 +127,8 @@ export async function formatPricesForProduct({
       ...(bulkCoupon && {appliedCoupon: bulkCoupon}),
     }
   }
+
+  return defaultPriceProduct
 }
 
 async function couponForType(type: string, percentage_discount: number) {
@@ -127,14 +143,4 @@ async function couponForType(type: string, percentage_discount: number) {
     const {identifier, ...rest} = coupon
     return rest
   })
-}
-
-function getCalculatedPriced(
-  totalPrice: number,
-  percentOfDiscount: number,
-  quantity: number = 1,
-) {
-  return (
-    totalPrice - Number((totalPrice * percentOfDiscount).toFixed(2)) * quantity
-  )
 }
