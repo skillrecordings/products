@@ -14,7 +14,8 @@
     "@sanity/default-login",
     "@sanity/desk-tool",
     "markdown",
-    "@sanity/rich-date-input"
+    "@sanity/rich-date-input",
+    "order-documents"
   ],
   "env": {
     "development": {
