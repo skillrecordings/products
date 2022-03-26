@@ -1,6 +1,7 @@
 import * as React from 'react'
 import {CheckCircleIcon} from '@heroicons/react/outline'
 import {useQuery} from 'react-query'
+import {useDebounce} from '@skillrecordings/react'
 
 const tier = {
   name: 'Professional',
@@ -13,7 +14,10 @@ const tier = {
 export const Pricing = () => {
   const [coupon, setCoupon] = React.useState()
   const [quantity, setQuantity] = React.useState(1)
-  const {data} = useQuery(['pricing', coupon, quantity], () =>
+
+  const debouncedQuantity: number = useDebounce<number>(quantity, 250)
+
+  const {data} = useQuery(['pricing', coupon, debouncedQuantity], () =>
     fetch('/api/prices', {
       method: 'POST',
       body: JSON.stringify({

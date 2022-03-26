@@ -5,8 +5,20 @@ query getCouponForCode($code: String!) @cached {
     status
     max_uses
     used_count
-    expires_at
+    expires
     restricted_to_product_id
     merchant_coupon_id
   }
 }
+
+query getCoupon($id: uuid!) {
+    coupons_by_pk(id: $id) {
+        max_uses
+        expires
+        id
+        percentage_discount
+        used_count
+        merchant_coupon_id
+  }
+}
+

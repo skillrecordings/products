@@ -487,10 +487,10 @@ export type Boolean_Comparison_Exp = {
 /** columns and relationships of "coupons" */
 export type Coupons = {
   __typename?: 'coupons'
-  code: Scalars['String']
+  code?: Maybe<Scalars['String']>
   created_at: Scalars['timestamptz']
   default: Scalars['Boolean']
-  expires_at?: Maybe<Scalars['timestamptz']>
+  expires?: Maybe<Scalars['timestamptz']>
   id: Scalars['uuid']
   max_uses: Scalars['Int']
   /** An object relationship */
@@ -602,7 +602,7 @@ export type Coupons_Bool_Exp = {
   code?: InputMaybe<String_Comparison_Exp>
   created_at?: InputMaybe<Timestamptz_Comparison_Exp>
   default?: InputMaybe<Boolean_Comparison_Exp>
-  expires_at?: InputMaybe<Timestamptz_Comparison_Exp>
+  expires?: InputMaybe<Timestamptz_Comparison_Exp>
   id?: InputMaybe<Uuid_Comparison_Exp>
   max_uses?: InputMaybe<Int_Comparison_Exp>
   merchant_coupon?: InputMaybe<Merchant_Coupons_Bool_Exp>
@@ -635,7 +635,7 @@ export type Coupons_Insert_Input = {
   code?: InputMaybe<Scalars['String']>
   created_at?: InputMaybe<Scalars['timestamptz']>
   default?: InputMaybe<Scalars['Boolean']>
-  expires_at?: InputMaybe<Scalars['timestamptz']>
+  expires?: InputMaybe<Scalars['timestamptz']>
   id?: InputMaybe<Scalars['uuid']>
   max_uses?: InputMaybe<Scalars['Int']>
   merchant_coupon?: InputMaybe<Merchant_Coupons_Obj_Rel_Insert_Input>
@@ -653,7 +653,7 @@ export type Coupons_Max_Fields = {
   __typename?: 'coupons_max_fields'
   code?: Maybe<Scalars['String']>
   created_at?: Maybe<Scalars['timestamptz']>
-  expires_at?: Maybe<Scalars['timestamptz']>
+  expires?: Maybe<Scalars['timestamptz']>
   id?: Maybe<Scalars['uuid']>
   max_uses?: Maybe<Scalars['Int']>
   merchant_coupon_id?: Maybe<Scalars['uuid']>
@@ -667,7 +667,7 @@ export type Coupons_Max_Fields = {
 export type Coupons_Max_Order_By = {
   code?: InputMaybe<Order_By>
   created_at?: InputMaybe<Order_By>
-  expires_at?: InputMaybe<Order_By>
+  expires?: InputMaybe<Order_By>
   id?: InputMaybe<Order_By>
   max_uses?: InputMaybe<Order_By>
   merchant_coupon_id?: InputMaybe<Order_By>
@@ -682,7 +682,7 @@ export type Coupons_Min_Fields = {
   __typename?: 'coupons_min_fields'
   code?: Maybe<Scalars['String']>
   created_at?: Maybe<Scalars['timestamptz']>
-  expires_at?: Maybe<Scalars['timestamptz']>
+  expires?: Maybe<Scalars['timestamptz']>
   id?: Maybe<Scalars['uuid']>
   max_uses?: Maybe<Scalars['Int']>
   merchant_coupon_id?: Maybe<Scalars['uuid']>
@@ -696,7 +696,7 @@ export type Coupons_Min_Fields = {
 export type Coupons_Min_Order_By = {
   code?: InputMaybe<Order_By>
   created_at?: InputMaybe<Order_By>
-  expires_at?: InputMaybe<Order_By>
+  expires?: InputMaybe<Order_By>
   id?: InputMaybe<Order_By>
   max_uses?: InputMaybe<Order_By>
   merchant_coupon_id?: InputMaybe<Order_By>
@@ -734,7 +734,7 @@ export type Coupons_Order_By = {
   code?: InputMaybe<Order_By>
   created_at?: InputMaybe<Order_By>
   default?: InputMaybe<Order_By>
-  expires_at?: InputMaybe<Order_By>
+  expires?: InputMaybe<Order_By>
   id?: InputMaybe<Order_By>
   max_uses?: InputMaybe<Order_By>
   merchant_coupon?: InputMaybe<Merchant_Coupons_Order_By>
@@ -761,7 +761,7 @@ export type Coupons_Select_Column =
   /** column name */
   | 'default'
   /** column name */
-  | 'expires_at'
+  | 'expires'
   /** column name */
   | 'id'
   /** column name */
@@ -782,7 +782,7 @@ export type Coupons_Set_Input = {
   code?: InputMaybe<Scalars['String']>
   created_at?: InputMaybe<Scalars['timestamptz']>
   default?: InputMaybe<Scalars['Boolean']>
-  expires_at?: InputMaybe<Scalars['timestamptz']>
+  expires?: InputMaybe<Scalars['timestamptz']>
   id?: InputMaybe<Scalars['uuid']>
   max_uses?: InputMaybe<Scalars['Int']>
   merchant_coupon_id?: InputMaybe<Scalars['uuid']>
@@ -869,7 +869,7 @@ export type Coupons_Update_Column =
   /** column name */
   | 'default'
   /** column name */
-  | 'expires_at'
+  | 'expires'
   /** column name */
   | 'id'
   /** column name */
@@ -6139,15 +6139,32 @@ export type GetCouponForCodeQuery = {
   __typename?: 'query_root'
   coupons: Array<{
     __typename?: 'coupons'
-    code: string
+    code?: string | null
     percentage_discount: any
     status: number
     max_uses: number
     used_count: number
-    expires_at?: any | null
+    expires?: any | null
     restricted_to_product_id?: any | null
     merchant_coupon_id?: any | null
   }>
+}
+
+export type GetCouponQueryVariables = Exact<{
+  id: Scalars['uuid']
+}>
+
+export type GetCouponQuery = {
+  __typename?: 'query_root'
+  coupons_by_pk?: {
+    __typename?: 'coupons'
+    max_uses: number
+    expires?: any | null
+    id: any
+    percentage_discount: any
+    used_count: number
+    merchant_coupon_id?: any | null
+  } | null
 }
 
 export type GetMerchantAccountQueryVariables = Exact<{
@@ -6549,8 +6566,20 @@ export const GetCouponForCodeDocument = gql`
       status
       max_uses
       used_count
-      expires_at
+      expires
       restricted_to_product_id
+      merchant_coupon_id
+    }
+  }
+`
+export const GetCouponDocument = gql`
+  query getCoupon($id: uuid!) {
+    coupons_by_pk(id: $id) {
+      max_uses
+      expires
+      id
+      percentage_discount
+      used_count
       merchant_coupon_id
     }
   }
@@ -6880,6 +6909,20 @@ export function getSdk(
             {...requestHeaders, ...wrappedRequestHeaders},
           ),
         'getCouponForCode',
+        'query',
+      )
+    },
+    getCoupon(
+      variables: GetCouponQueryVariables,
+      requestHeaders?: Dom.RequestInit['headers'],
+    ): Promise<GetCouponQuery> {
+      return withWrapper(
+        (wrappedRequestHeaders) =>
+          client.request<GetCouponQuery>(GetCouponDocument, variables, {
+            ...requestHeaders,
+            ...wrappedRequestHeaders,
+          }),
+        'getCoupon',
         'query',
       )
     },
