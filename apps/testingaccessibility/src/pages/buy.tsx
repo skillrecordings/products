@@ -57,7 +57,7 @@ export const getServerSideProps: GetServerSideProps = async ({req, query}) => {
     props: {
       token,
       ...(couponFromCode && {couponFromCode}),
-      activeSaleCoupon,
+      ...(activeSaleCoupon && {activeSaleCoupon}),
     },
   }
 }
