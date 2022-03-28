@@ -11,8 +11,12 @@ const tier = {
   features: ['Community Forum', 'Access to everything'],
 }
 
-export const Pricing = () => {
-  const [coupon, setCoupon] = React.useState()
+export const Pricing: React.FC<{activeSaleCoupon: any}> = ({
+  activeSaleCoupon,
+}) => {
+  const [coupon, setCoupon] = React.useState(
+    activeSaleCoupon ? activeSaleCoupon.merchant_coupon_id : undefined,
+  )
   const [quantity, setQuantity] = React.useState(1)
 
   const debouncedQuantity: number = useDebounce<number>(quantity, 250)
@@ -32,7 +36,7 @@ export const Pricing = () => {
   )
 
   const availableCoupon = data?.availableCoupons?.[0]
-  const appliedCoupon = data?.appliedCoupons?.[0]
+  const appliedCoupon = data?.appliedCoupon
 
   return (
     <section>

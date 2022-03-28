@@ -2749,6 +2749,7 @@ importers:
       eslint-plugin-react: ^7.20.3
       eslint-plugin-react-hooks: ^4.0.8
       jest: ^27.1.0
+      jest-expect-message: ^1.0.2
       ts-jest: ^27.0.4
       typescript: ^4.2.4
     dependencies:
@@ -2768,6 +2769,7 @@ importers:
       typescript: 4.3.5
     devDependencies:
       '@types/jest': 26.0.24
+      jest-expect-message: 1.0.2
 
   packages/stripe:
     specifiers:
@@ -18610,6 +18612,10 @@ packages:
       jest-mock: 27.1.0
       jest-util: 27.1.0
     dev: false
+
+  /jest-expect-message/1.0.2:
+    resolution: {integrity: sha512-WFiXMgwS2lOqQZt1iJMI/hOXpUm32X+ApsuzYcQpW5m16Pv6/Gd9kgC+Q+Q1YVNU04kYcAOv9NXMnjg6kKUy6Q==}
+    dev: true
 
   /jest-get-type/25.2.6:
     resolution: {integrity: sha512-DxjtyzOHjObRM+sM1knti6or+eOgcGU4xVSb2HNP1TqO4ahsT+rqZg+nyqHWJSvWgKC5cG3QjGFBqxLghiF/Ig==}

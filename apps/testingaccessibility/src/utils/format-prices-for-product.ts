@@ -21,6 +21,14 @@ type FormattedPrice = {
   appliedCoupon?: any
 }
 
+/**
+ *
+ * @param productId
+ * @param country
+ * @param quantity
+ * @param code
+ * @param couponId
+ */
 export async function formatPricesForProduct({
   productId,
   country = 'US',
@@ -52,16 +60,47 @@ export async function formatPricesForProduct({
   const pppDiscountPercent = getPPPDiscountPercent(country)
   const bulkCouponPercent = getBulkDiscountPercent(quantity)
 
-  const pppApplied = quantity === 1 && couponId && pppDiscountPercent > 0
-  const pppAvailable = quantity === 1 && pppDiscountPercent > 0
-  const bulkDiscountAvailable = bulkCouponPercent > 0
+  // if there's a coupon implied because an id is passed in, load it to verify
+  const {merchant_coupons_by_pk: appliedCoupon} = couponId
+    ? await getMerchantCoupon({
+        id: couponId,
+      })
+    : {merchant_coupons_by_pk: undefined}
 
-  const defaultPriceProduct: FormattedPrice = {
+  const pppApplied =
+    quantity === 1 && appliedCoupon?.type === 'ppp' && pppDiscountPercent > 0
+
+  // pick the bigger discount during a sale
+  const appliedCouponLessThanPPP = appliedCoupon
+    ? appliedCoupon.percentage_discount < pppDiscountPercent
+    : true
+  const appliedCouponLessThanBulk = appliedCoupon
+    ? appliedCoupon.percentage_discount < bulkCouponPercent
+    : true
+
+  const pppAvailable =
+    quantity === 1 && pppDiscountPercent > 0 && appliedCouponLessThanPPP
+  const bulkDiscountAvailable =
+    bulkCouponPercent > 0 && appliedCouponLessThanBulk && !pppApplied
+
+  let defaultPriceProduct: FormattedPrice = {
     ...noPricesProduct,
     quantity,
     unitPrice: firstPrice.unit_amount,
     calculatedPrice: firstPrice.unit_amount * quantity,
     availableCoupons: [],
+  }
+
+  if (appliedCoupon?.type === 'site') {
+    defaultPriceProduct = {
+      ...defaultPriceProduct,
+      calculatedPrice: getCalculatedPriced({
+        unitPrice: defaultPriceProduct.unitPrice,
+        percentOfDiscount: appliedCoupon.percentage_discount,
+        quantity,
+      }),
+      appliedCoupon,
+    }
   }
 
   // no ppp or bulk if you're applying a code
@@ -88,20 +127,19 @@ export async function formatPricesForProduct({
       }
     }
   } else if (pppApplied) {
-    const {merchant_coupons_by_pk: merchantCoupon} = await getMerchantCoupon({
-      id: couponId,
-    })
-
     const invalidCoupon =
-      pppDiscountPercent !== merchantCoupon?.percentage_discount
+      pppDiscountPercent !== appliedCoupon.percentage_discount
 
-    if (invalidCoupon || !merchantCoupon) throw new Error('Invalid coupon')
-    const {identifier, ...merchantCouponWithoutIdentifier} = merchantCoupon
+    if (invalidCoupon || appliedCoupon.type !== 'ppp')
+      throw new Error('Invalid coupon')
+
+    const {identifier, ...merchantCouponWithoutIdentifier} = appliedCoupon
+
     return {
       ...defaultPriceProduct,
       calculatedPrice: getCalculatedPriced({
         unitPrice: defaultPriceProduct.unitPrice,
-        percentOfDiscount: merchantCoupon.percentage_discount,
+        percentOfDiscount: appliedCoupon.percentage_discount,
       }),
       appliedCoupon: merchantCouponWithoutIdentifier,
     }

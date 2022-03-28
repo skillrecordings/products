@@ -22,3 +22,13 @@ query getCoupon($id: uuid!) {
   }
 }
 
+query getActiveDefaultCoupons($now: timestamptz) {
+  coupons(where: {default: {_eq: true}, expires: {_gt: $now}}) {
+    expires
+    percentage_discount
+    merchant_coupon_id
+    status
+  }
+}
+
+
