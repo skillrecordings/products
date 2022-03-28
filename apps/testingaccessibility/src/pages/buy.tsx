@@ -20,9 +20,19 @@ export const getServerSideProps: GetServerSideProps = async ({req, query}) => {
     },
   })
 
+  const {getActiveDefaultCoupons} = getAdminSDK()
+
+  const {coupons: defaultCoupons} = await getActiveDefaultCoupons({
+    now: new Date(),
+  })
+  let activeSaleCoupon
+
+  if (defaultCoupons?.length > 0) {
+    activeSaleCoupon = defaultCoupons[0]
+  }
+
   const {code} = query
   let couponFromCode
-  let couponRedeemable = false
 
   if (code) {
     const {getCoupon} = getAdminSDK()
@@ -46,7 +56,8 @@ export const getServerSideProps: GetServerSideProps = async ({req, query}) => {
   return {
     props: {
       token,
-      couponFromCode,
+      ...(couponFromCode && {couponFromCode}),
+      activeSaleCoupon,
     },
   }
 }
@@ -55,11 +66,11 @@ const Course: React.FC<{
   couponFromCode: string
   token: string
   couponRedeemable: boolean
-}> = ({couponFromCode, token, couponRedeemable}) => {
-  console.log({couponFromCode, token})
+  activeSaleCoupon: any
+}> = ({couponFromCode, token, couponRedeemable, activeSaleCoupon}) => {
   return (
     <div>
-      <Pricing />
+      <Pricing activeSaleCoupon={activeSaleCoupon} />
     </div>
   )
 }

@@ -6167,6 +6167,21 @@ export type GetCouponQuery = {
   } | null
 }
 
+export type GetActiveDefaultCouponsQueryVariables = Exact<{
+  now?: InputMaybe<Scalars['timestamptz']>
+}>
+
+export type GetActiveDefaultCouponsQuery = {
+  __typename?: 'query_root'
+  coupons: Array<{
+    __typename?: 'coupons'
+    expires?: any | null
+    percentage_discount: any
+    merchant_coupon_id?: any | null
+    status: number
+  }>
+}
+
 export type GetMerchantAccountQueryVariables = Exact<{
   id: Scalars['uuid']
 }>
@@ -6584,6 +6599,16 @@ export const GetCouponDocument = gql`
     }
   }
 `
+export const GetActiveDefaultCouponsDocument = gql`
+  query getActiveDefaultCoupons($now: timestamptz) {
+    coupons(where: {default: {_eq: true}, expires: {_gt: $now}}) {
+      expires
+      percentage_discount
+      merchant_coupon_id
+      status
+    }
+  }
+`
 export const GetMerchantAccountDocument = gql`
   query getMerchantAccount($id: uuid!) @cached {
     merchant_accounts_by_pk(id: $id) {
@@ -6923,6 +6948,21 @@ export function getSdk(
             ...wrappedRequestHeaders,
           }),
         'getCoupon',
+        'query',
+      )
+    },
+    getActiveDefaultCoupons(
+      variables?: GetActiveDefaultCouponsQueryVariables,
+      requestHeaders?: Dom.RequestInit['headers'],
+    ): Promise<GetActiveDefaultCouponsQuery> {
+      return withWrapper(
+        (wrappedRequestHeaders) =>
+          client.request<GetActiveDefaultCouponsQuery>(
+            GetActiveDefaultCouponsDocument,
+            variables,
+            {...requestHeaders, ...wrappedRequestHeaders},
+          ),
+        'getActiveDefaultCoupons',
         'query',
       )
     },

@@ -2,6 +2,8 @@ import {graphql} from 'msw'
 
 export const DEFAULT_PRODUCT_ID = 'default-product-id'
 export const VALID_INDIA_COUPON_ID = 'valid-coupon-india'
+export const SITE_SALE_COUPON_ID = 'valid-coupon-site-sale'
+export const LARGE_SITE_SALE_COUPON_ID = 'valid-coupon-site-sale-large'
 
 export const handlers = [
   graphql.query('getCouponsForTypeAndDiscount', (req, res, ctx) => {
@@ -24,7 +26,20 @@ export const handlers = [
     switch (id) {
       case VALID_INDIA_COUPON_ID:
         coupon = {
+          type: 'ppp',
           percentage_discount: 0.75,
+        }
+        break
+      case SITE_SALE_COUPON_ID:
+        coupon = {
+          type: 'site',
+          percentage_discount: 0.2,
+        }
+        break
+      case LARGE_SITE_SALE_COUPON_ID:
+        coupon = {
+          type: 'site',
+          percentage_discount: 0.8,
         }
         break
       default:
