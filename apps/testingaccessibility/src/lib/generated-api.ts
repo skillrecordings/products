@@ -1286,21 +1286,34 @@ export type Merchant_Charges = {
   merchant_customer?: Maybe<Merchant_Customers>
   merchant_customer_id?: Maybe<Scalars['uuid']>
   /** An object relationship */
-  merchant_price: Merchant_Prices
-  merchant_price_id: Scalars['uuid']
-  /** An object relationship */
   merchant_product: Merchant_Products
   merchant_product_id: Scalars['uuid']
-  /** An object relationship */
-  price: Prices
-  price_id: Scalars['uuid']
-  /** An object relationship */
-  purchase: Purchases
-  purchase_id: Scalars['uuid']
+  /** An array relationship */
+  purchases: Array<Purchases>
+  /** An aggregate relationship */
+  purchases_aggregate: Purchases_Aggregate
   status: Scalars['Int']
   /** An object relationship */
   user: Users
   user_id: Scalars['uuid']
+}
+
+/** columns and relationships of "merchant_charges" */
+export type Merchant_ChargesPurchasesArgs = {
+  distinct_on?: InputMaybe<Array<Purchases_Select_Column>>
+  limit?: InputMaybe<Scalars['Int']>
+  offset?: InputMaybe<Scalars['Int']>
+  order_by?: InputMaybe<Array<Purchases_Order_By>>
+  where?: InputMaybe<Purchases_Bool_Exp>
+}
+
+/** columns and relationships of "merchant_charges" */
+export type Merchant_ChargesPurchases_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Purchases_Select_Column>>
+  limit?: InputMaybe<Scalars['Int']>
+  offset?: InputMaybe<Scalars['Int']>
+  order_by?: InputMaybe<Array<Purchases_Order_By>>
+  where?: InputMaybe<Purchases_Bool_Exp>
 }
 
 /** aggregated selection of "merchant_charges" */
@@ -1377,14 +1390,9 @@ export type Merchant_Charges_Bool_Exp = {
   merchant_account_id?: InputMaybe<Uuid_Comparison_Exp>
   merchant_customer?: InputMaybe<Merchant_Customers_Bool_Exp>
   merchant_customer_id?: InputMaybe<Uuid_Comparison_Exp>
-  merchant_price?: InputMaybe<Merchant_Prices_Bool_Exp>
-  merchant_price_id?: InputMaybe<Uuid_Comparison_Exp>
   merchant_product?: InputMaybe<Merchant_Products_Bool_Exp>
   merchant_product_id?: InputMaybe<Uuid_Comparison_Exp>
-  price?: InputMaybe<Prices_Bool_Exp>
-  price_id?: InputMaybe<Uuid_Comparison_Exp>
-  purchase?: InputMaybe<Purchases_Bool_Exp>
-  purchase_id?: InputMaybe<Uuid_Comparison_Exp>
+  purchases?: InputMaybe<Purchases_Bool_Exp>
   status?: InputMaybe<Int_Comparison_Exp>
   user?: InputMaybe<Users_Bool_Exp>
   user_id?: InputMaybe<Uuid_Comparison_Exp>
@@ -1409,14 +1417,9 @@ export type Merchant_Charges_Insert_Input = {
   merchant_account_id?: InputMaybe<Scalars['uuid']>
   merchant_customer?: InputMaybe<Merchant_Customers_Obj_Rel_Insert_Input>
   merchant_customer_id?: InputMaybe<Scalars['uuid']>
-  merchant_price?: InputMaybe<Merchant_Prices_Obj_Rel_Insert_Input>
-  merchant_price_id?: InputMaybe<Scalars['uuid']>
   merchant_product?: InputMaybe<Merchant_Products_Obj_Rel_Insert_Input>
   merchant_product_id?: InputMaybe<Scalars['uuid']>
-  price?: InputMaybe<Prices_Obj_Rel_Insert_Input>
-  price_id?: InputMaybe<Scalars['uuid']>
-  purchase?: InputMaybe<Purchases_Obj_Rel_Insert_Input>
-  purchase_id?: InputMaybe<Scalars['uuid']>
+  purchases?: InputMaybe<Purchases_Arr_Rel_Insert_Input>
   status?: InputMaybe<Scalars['Int']>
   user?: InputMaybe<Users_Obj_Rel_Insert_Input>
   user_id?: InputMaybe<Scalars['uuid']>
@@ -1430,10 +1433,7 @@ export type Merchant_Charges_Max_Fields = {
   identifier?: Maybe<Scalars['String']>
   merchant_account_id?: Maybe<Scalars['uuid']>
   merchant_customer_id?: Maybe<Scalars['uuid']>
-  merchant_price_id?: Maybe<Scalars['uuid']>
   merchant_product_id?: Maybe<Scalars['uuid']>
-  price_id?: Maybe<Scalars['uuid']>
-  purchase_id?: Maybe<Scalars['uuid']>
   status?: Maybe<Scalars['Int']>
   user_id?: Maybe<Scalars['uuid']>
 }
@@ -1445,10 +1445,7 @@ export type Merchant_Charges_Max_Order_By = {
   identifier?: InputMaybe<Order_By>
   merchant_account_id?: InputMaybe<Order_By>
   merchant_customer_id?: InputMaybe<Order_By>
-  merchant_price_id?: InputMaybe<Order_By>
   merchant_product_id?: InputMaybe<Order_By>
-  price_id?: InputMaybe<Order_By>
-  purchase_id?: InputMaybe<Order_By>
   status?: InputMaybe<Order_By>
   user_id?: InputMaybe<Order_By>
 }
@@ -1461,10 +1458,7 @@ export type Merchant_Charges_Min_Fields = {
   identifier?: Maybe<Scalars['String']>
   merchant_account_id?: Maybe<Scalars['uuid']>
   merchant_customer_id?: Maybe<Scalars['uuid']>
-  merchant_price_id?: Maybe<Scalars['uuid']>
   merchant_product_id?: Maybe<Scalars['uuid']>
-  price_id?: Maybe<Scalars['uuid']>
-  purchase_id?: Maybe<Scalars['uuid']>
   status?: Maybe<Scalars['Int']>
   user_id?: Maybe<Scalars['uuid']>
 }
@@ -1476,10 +1470,7 @@ export type Merchant_Charges_Min_Order_By = {
   identifier?: InputMaybe<Order_By>
   merchant_account_id?: InputMaybe<Order_By>
   merchant_customer_id?: InputMaybe<Order_By>
-  merchant_price_id?: InputMaybe<Order_By>
   merchant_product_id?: InputMaybe<Order_By>
-  price_id?: InputMaybe<Order_By>
-  purchase_id?: InputMaybe<Order_By>
   status?: InputMaybe<Order_By>
   user_id?: InputMaybe<Order_By>
 }
@@ -1491,6 +1482,13 @@ export type Merchant_Charges_Mutation_Response = {
   affected_rows: Scalars['Int']
   /** data from the rows affected by the mutation */
   returning: Array<Merchant_Charges>
+}
+
+/** input type for inserting object relation for remote table "merchant_charges" */
+export type Merchant_Charges_Obj_Rel_Insert_Input = {
+  data: Merchant_Charges_Insert_Input
+  /** upsert condition */
+  on_conflict?: InputMaybe<Merchant_Charges_On_Conflict>
 }
 
 /** on_conflict condition type for table "merchant_charges" */
@@ -1509,14 +1507,9 @@ export type Merchant_Charges_Order_By = {
   merchant_account_id?: InputMaybe<Order_By>
   merchant_customer?: InputMaybe<Merchant_Customers_Order_By>
   merchant_customer_id?: InputMaybe<Order_By>
-  merchant_price?: InputMaybe<Merchant_Prices_Order_By>
-  merchant_price_id?: InputMaybe<Order_By>
   merchant_product?: InputMaybe<Merchant_Products_Order_By>
   merchant_product_id?: InputMaybe<Order_By>
-  price?: InputMaybe<Prices_Order_By>
-  price_id?: InputMaybe<Order_By>
-  purchase?: InputMaybe<Purchases_Order_By>
-  purchase_id?: InputMaybe<Order_By>
+  purchases_aggregate?: InputMaybe<Purchases_Aggregate_Order_By>
   status?: InputMaybe<Order_By>
   user?: InputMaybe<Users_Order_By>
   user_id?: InputMaybe<Order_By>
@@ -1540,13 +1533,7 @@ export type Merchant_Charges_Select_Column =
   /** column name */
   | 'merchant_customer_id'
   /** column name */
-  | 'merchant_price_id'
-  /** column name */
   | 'merchant_product_id'
-  /** column name */
-  | 'price_id'
-  /** column name */
-  | 'purchase_id'
   /** column name */
   | 'status'
   /** column name */
@@ -1559,10 +1546,7 @@ export type Merchant_Charges_Set_Input = {
   identifier?: InputMaybe<Scalars['String']>
   merchant_account_id?: InputMaybe<Scalars['uuid']>
   merchant_customer_id?: InputMaybe<Scalars['uuid']>
-  merchant_price_id?: InputMaybe<Scalars['uuid']>
   merchant_product_id?: InputMaybe<Scalars['uuid']>
-  price_id?: InputMaybe<Scalars['uuid']>
-  purchase_id?: InputMaybe<Scalars['uuid']>
   status?: InputMaybe<Scalars['Int']>
   user_id?: InputMaybe<Scalars['uuid']>
 }
@@ -1624,13 +1608,7 @@ export type Merchant_Charges_Update_Column =
   /** column name */
   | 'merchant_customer_id'
   /** column name */
-  | 'merchant_price_id'
-  /** column name */
   | 'merchant_product_id'
-  /** column name */
-  | 'price_id'
-  /** column name */
-  | 'purchase_id'
   /** column name */
   | 'status'
   /** column name */
@@ -2366,10 +2344,6 @@ export type Merchant_Prices = {
   /** An object relationship */
   merchant_account: Merchant_Accounts
   merchant_account_id: Scalars['uuid']
-  /** An array relationship */
-  merchant_charges: Array<Merchant_Charges>
-  /** An aggregate relationship */
-  merchant_charges_aggregate: Merchant_Charges_Aggregate
   /** An object relationship */
   merchant_product: Merchant_Products
   merchant_product_id: Scalars['uuid']
@@ -2377,24 +2351,6 @@ export type Merchant_Prices = {
   price: Prices
   price_id: Scalars['uuid']
   status: Scalars['numeric']
-}
-
-/** columns and relationships of "merchant_prices" */
-export type Merchant_PricesMerchant_ChargesArgs = {
-  distinct_on?: InputMaybe<Array<Merchant_Charges_Select_Column>>
-  limit?: InputMaybe<Scalars['Int']>
-  offset?: InputMaybe<Scalars['Int']>
-  order_by?: InputMaybe<Array<Merchant_Charges_Order_By>>
-  where?: InputMaybe<Merchant_Charges_Bool_Exp>
-}
-
-/** columns and relationships of "merchant_prices" */
-export type Merchant_PricesMerchant_Charges_AggregateArgs = {
-  distinct_on?: InputMaybe<Array<Merchant_Charges_Select_Column>>
-  limit?: InputMaybe<Scalars['Int']>
-  offset?: InputMaybe<Scalars['Int']>
-  order_by?: InputMaybe<Array<Merchant_Charges_Order_By>>
-  where?: InputMaybe<Merchant_Charges_Bool_Exp>
 }
 
 /** aggregated selection of "merchant_prices" */
@@ -2469,7 +2425,6 @@ export type Merchant_Prices_Bool_Exp = {
   identifier?: InputMaybe<String_Comparison_Exp>
   merchant_account?: InputMaybe<Merchant_Accounts_Bool_Exp>
   merchant_account_id?: InputMaybe<Uuid_Comparison_Exp>
-  merchant_charges?: InputMaybe<Merchant_Charges_Bool_Exp>
   merchant_product?: InputMaybe<Merchant_Products_Bool_Exp>
   merchant_product_id?: InputMaybe<Uuid_Comparison_Exp>
   price?: InputMaybe<Prices_Bool_Exp>
@@ -2494,7 +2449,6 @@ export type Merchant_Prices_Insert_Input = {
   identifier?: InputMaybe<Scalars['String']>
   merchant_account?: InputMaybe<Merchant_Accounts_Obj_Rel_Insert_Input>
   merchant_account_id?: InputMaybe<Scalars['uuid']>
-  merchant_charges?: InputMaybe<Merchant_Charges_Arr_Rel_Insert_Input>
   merchant_product?: InputMaybe<Merchant_Products_Obj_Rel_Insert_Input>
   merchant_product_id?: InputMaybe<Scalars['uuid']>
   price?: InputMaybe<Prices_Obj_Rel_Insert_Input>
@@ -2557,13 +2511,6 @@ export type Merchant_Prices_Mutation_Response = {
   returning: Array<Merchant_Prices>
 }
 
-/** input type for inserting object relation for remote table "merchant_prices" */
-export type Merchant_Prices_Obj_Rel_Insert_Input = {
-  data: Merchant_Prices_Insert_Input
-  /** upsert condition */
-  on_conflict?: InputMaybe<Merchant_Prices_On_Conflict>
-}
-
 /** on_conflict condition type for table "merchant_prices" */
 export type Merchant_Prices_On_Conflict = {
   constraint: Merchant_Prices_Constraint
@@ -2578,7 +2525,6 @@ export type Merchant_Prices_Order_By = {
   identifier?: InputMaybe<Order_By>
   merchant_account?: InputMaybe<Merchant_Accounts_Order_By>
   merchant_account_id?: InputMaybe<Order_By>
-  merchant_charges_aggregate?: InputMaybe<Merchant_Charges_Aggregate_Order_By>
   merchant_product?: InputMaybe<Merchant_Products_Order_By>
   merchant_product_id?: InputMaybe<Order_By>
   price?: InputMaybe<Prices_Order_By>
@@ -3779,10 +3725,6 @@ export type Prices = {
   created_at: Scalars['timestamptz']
   id: Scalars['uuid']
   /** An array relationship */
-  merchant_charges: Array<Merchant_Charges>
-  /** An aggregate relationship */
-  merchant_charges_aggregate: Merchant_Charges_Aggregate
-  /** An array relationship */
   merchant_prices: Array<Merchant_Prices>
   /** An aggregate relationship */
   merchant_prices_aggregate: Merchant_Prices_Aggregate
@@ -3792,24 +3734,6 @@ export type Prices = {
   product_id: Scalars['uuid']
   status: Scalars['Int']
   unit_amount: Scalars['numeric']
-}
-
-/** columns and relationships of "prices" */
-export type PricesMerchant_ChargesArgs = {
-  distinct_on?: InputMaybe<Array<Merchant_Charges_Select_Column>>
-  limit?: InputMaybe<Scalars['Int']>
-  offset?: InputMaybe<Scalars['Int']>
-  order_by?: InputMaybe<Array<Merchant_Charges_Order_By>>
-  where?: InputMaybe<Merchant_Charges_Bool_Exp>
-}
-
-/** columns and relationships of "prices" */
-export type PricesMerchant_Charges_AggregateArgs = {
-  distinct_on?: InputMaybe<Array<Merchant_Charges_Select_Column>>
-  limit?: InputMaybe<Scalars['Int']>
-  offset?: InputMaybe<Scalars['Int']>
-  order_by?: InputMaybe<Array<Merchant_Charges_Order_By>>
-  where?: InputMaybe<Merchant_Charges_Bool_Exp>
 }
 
 /** columns and relationships of "prices" */
@@ -3901,7 +3825,6 @@ export type Prices_Bool_Exp = {
   _or?: InputMaybe<Array<Prices_Bool_Exp>>
   created_at?: InputMaybe<Timestamptz_Comparison_Exp>
   id?: InputMaybe<Uuid_Comparison_Exp>
-  merchant_charges?: InputMaybe<Merchant_Charges_Bool_Exp>
   merchant_prices?: InputMaybe<Merchant_Prices_Bool_Exp>
   nickname?: InputMaybe<String_Comparison_Exp>
   product?: InputMaybe<Products_Bool_Exp>
@@ -3925,7 +3848,6 @@ export type Prices_Inc_Input = {
 export type Prices_Insert_Input = {
   created_at?: InputMaybe<Scalars['timestamptz']>
   id?: InputMaybe<Scalars['uuid']>
-  merchant_charges?: InputMaybe<Merchant_Charges_Arr_Rel_Insert_Input>
   merchant_prices?: InputMaybe<Merchant_Prices_Arr_Rel_Insert_Input>
   nickname?: InputMaybe<Scalars['String']>
   product?: InputMaybe<Products_Obj_Rel_Insert_Input>
@@ -4003,7 +3925,6 @@ export type Prices_On_Conflict = {
 export type Prices_Order_By = {
   created_at?: InputMaybe<Order_By>
   id?: InputMaybe<Order_By>
-  merchant_charges_aggregate?: InputMaybe<Merchant_Charges_Aggregate_Order_By>
   merchant_prices_aggregate?: InputMaybe<Merchant_Prices_Aggregate_Order_By>
   nickname?: InputMaybe<Order_By>
   product?: InputMaybe<Products_Order_By>
@@ -4469,17 +4390,16 @@ export type Purchases = {
   created_at: Scalars['timestamptz']
   id: Scalars['uuid']
   ip_address?: Maybe<Scalars['String']>
-  /** An array relationship */
-  merchant_charges: Array<Merchant_Charges>
-  /** An aggregate relationship */
-  merchant_charges_aggregate: Merchant_Charges_Aggregate
+  /** An object relationship */
+  merchant_charge?: Maybe<Merchant_Charges>
+  merchant_charge_id?: Maybe<Scalars['uuid']>
   /** An object relationship */
   product?: Maybe<Products>
   product_id?: Maybe<Scalars['uuid']>
   /** An object relationship */
-  purchase: Purchases
+  purchase?: Maybe<Purchases>
   state?: Maybe<Scalars['String']>
-  upgraded_from_purchase_id: Scalars['uuid']
+  upgraded_from_purchase_id?: Maybe<Scalars['uuid']>
   /** An array relationship */
   upgraded_purchases: Array<Purchases>
   /** An aggregate relationship */
@@ -4487,24 +4407,6 @@ export type Purchases = {
   /** An object relationship */
   user?: Maybe<Users>
   user_id?: Maybe<Scalars['uuid']>
-}
-
-/** columns and relationships of "purchases" */
-export type PurchasesMerchant_ChargesArgs = {
-  distinct_on?: InputMaybe<Array<Merchant_Charges_Select_Column>>
-  limit?: InputMaybe<Scalars['Int']>
-  offset?: InputMaybe<Scalars['Int']>
-  order_by?: InputMaybe<Array<Merchant_Charges_Order_By>>
-  where?: InputMaybe<Merchant_Charges_Bool_Exp>
-}
-
-/** columns and relationships of "purchases" */
-export type PurchasesMerchant_Charges_AggregateArgs = {
-  distinct_on?: InputMaybe<Array<Merchant_Charges_Select_Column>>
-  limit?: InputMaybe<Scalars['Int']>
-  offset?: InputMaybe<Scalars['Int']>
-  order_by?: InputMaybe<Array<Merchant_Charges_Order_By>>
-  where?: InputMaybe<Merchant_Charges_Bool_Exp>
 }
 
 /** columns and relationships of "purchases" */
@@ -4572,7 +4474,8 @@ export type Purchases_Bool_Exp = {
   created_at?: InputMaybe<Timestamptz_Comparison_Exp>
   id?: InputMaybe<Uuid_Comparison_Exp>
   ip_address?: InputMaybe<String_Comparison_Exp>
-  merchant_charges?: InputMaybe<Merchant_Charges_Bool_Exp>
+  merchant_charge?: InputMaybe<Merchant_Charges_Bool_Exp>
+  merchant_charge_id?: InputMaybe<Uuid_Comparison_Exp>
   product?: InputMaybe<Products_Bool_Exp>
   product_id?: InputMaybe<Uuid_Comparison_Exp>
   purchase?: InputMaybe<Purchases_Bool_Exp>
@@ -4597,7 +4500,8 @@ export type Purchases_Insert_Input = {
   created_at?: InputMaybe<Scalars['timestamptz']>
   id?: InputMaybe<Scalars['uuid']>
   ip_address?: InputMaybe<Scalars['String']>
-  merchant_charges?: InputMaybe<Merchant_Charges_Arr_Rel_Insert_Input>
+  merchant_charge?: InputMaybe<Merchant_Charges_Obj_Rel_Insert_Input>
+  merchant_charge_id?: InputMaybe<Scalars['uuid']>
   product?: InputMaybe<Products_Obj_Rel_Insert_Input>
   product_id?: InputMaybe<Scalars['uuid']>
   purchase?: InputMaybe<Purchases_Obj_Rel_Insert_Input>
@@ -4617,6 +4521,7 @@ export type Purchases_Max_Fields = {
   created_at?: Maybe<Scalars['timestamptz']>
   id?: Maybe<Scalars['uuid']>
   ip_address?: Maybe<Scalars['String']>
+  merchant_charge_id?: Maybe<Scalars['uuid']>
   product_id?: Maybe<Scalars['uuid']>
   state?: Maybe<Scalars['String']>
   upgraded_from_purchase_id?: Maybe<Scalars['uuid']>
@@ -4631,6 +4536,7 @@ export type Purchases_Max_Order_By = {
   created_at?: InputMaybe<Order_By>
   id?: InputMaybe<Order_By>
   ip_address?: InputMaybe<Order_By>
+  merchant_charge_id?: InputMaybe<Order_By>
   product_id?: InputMaybe<Order_By>
   state?: InputMaybe<Order_By>
   upgraded_from_purchase_id?: InputMaybe<Order_By>
@@ -4646,6 +4552,7 @@ export type Purchases_Min_Fields = {
   created_at?: Maybe<Scalars['timestamptz']>
   id?: Maybe<Scalars['uuid']>
   ip_address?: Maybe<Scalars['String']>
+  merchant_charge_id?: Maybe<Scalars['uuid']>
   product_id?: Maybe<Scalars['uuid']>
   state?: Maybe<Scalars['String']>
   upgraded_from_purchase_id?: Maybe<Scalars['uuid']>
@@ -4660,6 +4567,7 @@ export type Purchases_Min_Order_By = {
   created_at?: InputMaybe<Order_By>
   id?: InputMaybe<Order_By>
   ip_address?: InputMaybe<Order_By>
+  merchant_charge_id?: InputMaybe<Order_By>
   product_id?: InputMaybe<Order_By>
   state?: InputMaybe<Order_By>
   upgraded_from_purchase_id?: InputMaybe<Order_By>
@@ -4698,7 +4606,8 @@ export type Purchases_Order_By = {
   created_at?: InputMaybe<Order_By>
   id?: InputMaybe<Order_By>
   ip_address?: InputMaybe<Order_By>
-  merchant_charges_aggregate?: InputMaybe<Merchant_Charges_Aggregate_Order_By>
+  merchant_charge?: InputMaybe<Merchant_Charges_Order_By>
+  merchant_charge_id?: InputMaybe<Order_By>
   product?: InputMaybe<Products_Order_By>
   product_id?: InputMaybe<Order_By>
   purchase?: InputMaybe<Purchases_Order_By>
@@ -4729,6 +4638,8 @@ export type Purchases_Select_Column =
   /** column name */
   | 'ip_address'
   /** column name */
+  | 'merchant_charge_id'
+  /** column name */
   | 'product_id'
   /** column name */
   | 'state'
@@ -4745,6 +4656,7 @@ export type Purchases_Set_Input = {
   created_at?: InputMaybe<Scalars['timestamptz']>
   id?: InputMaybe<Scalars['uuid']>
   ip_address?: InputMaybe<Scalars['String']>
+  merchant_charge_id?: InputMaybe<Scalars['uuid']>
   product_id?: InputMaybe<Scalars['uuid']>
   state?: InputMaybe<Scalars['String']>
   upgraded_from_purchase_id?: InputMaybe<Scalars['uuid']>
@@ -4765,6 +4677,8 @@ export type Purchases_Update_Column =
   | 'id'
   /** column name */
   | 'ip_address'
+  /** column name */
+  | 'merchant_charge_id'
   /** column name */
   | 'product_id'
   /** column name */
@@ -6164,6 +6078,7 @@ export type GetCouponQuery = {
     percentage_discount: any
     used_count: number
     merchant_coupon_id?: any | null
+    restricted_to_product_id?: any | null
   } | null
 }
 
@@ -6180,6 +6095,22 @@ export type GetActiveDefaultCouponsQuery = {
     merchant_coupon_id?: any | null
     status: number
   }>
+}
+
+export type UpdateCouponMutationVariables = Exact<{
+  id: Scalars['uuid']
+  data: Coupons_Set_Input
+}>
+
+export type UpdateCouponMutation = {
+  __typename?: 'mutation_root'
+  update_coupons_by_pk?: {
+    __typename?: 'coupons'
+    id: any
+    max_uses: number
+    used_count: number
+    status: number
+  } | null
 }
 
 export type GetMerchantAccountQueryVariables = Exact<{
@@ -6220,6 +6151,45 @@ export type GetMerchantAccountsQuery = {
   }>
 }
 
+export type CreateMerchantChargeMutationVariables = Exact<{
+  data: Merchant_Charges_Insert_Input
+}>
+
+export type CreateMerchantChargeMutation = {
+  __typename?: 'mutation_root'
+  insert_merchant_charges_one?: {
+    __typename?: 'merchant_charges'
+    id: any
+    identifier?: string | null
+    merchant_customer_id?: any | null
+    merchant_account_id: any
+    merchant_product_id: any
+    user_id: any
+  } | null
+}
+
+export type GetMerchantChargeQueryVariables = Exact<{
+  identifier: Scalars['String']
+}>
+
+export type GetMerchantChargeQuery = {
+  __typename?: 'query_root'
+  merchant_charges: Array<{
+    __typename?: 'merchant_charges'
+    id: any
+    identifier?: string | null
+    user_id: any
+    status: number
+    merchant_product_id: any
+    merchant_customer_id?: any | null
+    purchases: Array<{
+      __typename?: 'purchases'
+      id: any
+      product?: {__typename?: 'products'; id: any; name?: string | null} | null
+    }>
+  }>
+}
+
 export type GetCouponsForTypeAndDiscountQueryVariables = Exact<{
   status?: InputMaybe<Scalars['Int']>
   percentage_discount?: InputMaybe<Scalars['numeric']>
@@ -6255,6 +6225,52 @@ export type GetMerchantCouponQuery = {
     percentage_discount: any
     id: any
   } | null
+}
+
+export type CreateMerchantCustomerMutationVariables = Exact<{
+  data: Merchant_Customers_Insert_Input
+}>
+
+export type CreateMerchantCustomerMutation = {
+  __typename?: 'mutation_root'
+  insert_merchant_customers_one?: {
+    __typename?: 'merchant_customers'
+    id: any
+    identifier: string
+    merchant_account_id: any
+    user_id: any
+  } | null
+}
+
+export type GetMerchantCustomerForUserQueryVariables = Exact<{
+  user_id: Scalars['uuid']
+}>
+
+export type GetMerchantCustomerForUserQuery = {
+  __typename?: 'query_root'
+  merchant_customers: Array<{
+    __typename?: 'merchant_customers'
+    id: any
+    identifier: string
+    user_id: any
+  }>
+}
+
+export type GetMerchantProductByIdentifierQueryVariables = Exact<{
+  identifier: Scalars['String']
+}>
+
+export type GetMerchantProductByIdentifierQuery = {
+  __typename?: 'query_root'
+  merchant_products: Array<{
+    __typename?: 'merchant_products'
+    id: any
+    identifier?: string | null
+    merchant_account_id: any
+    product_id: any
+    product: {__typename?: 'products'; id: any; name?: string | null}
+    merchant_prices: Array<{__typename?: 'merchant_prices'; id: any}>
+  }>
 }
 
 export type GetProductsQueryVariables = Exact<{[key: string]: never}>
@@ -6345,6 +6361,35 @@ export type GetProductsAndCouponsQuery = {
   }>
 }
 
+export type GetPurchaseQueryVariables = Exact<{
+  id: Scalars['uuid']
+}>
+
+export type GetPurchaseQuery = {
+  __typename?: 'query_root'
+  purchases_by_pk?: {
+    __typename?: 'purchases'
+    id: any
+    product?: {__typename?: 'products'; id: any; name?: string | null} | null
+    user?: {__typename?: 'users'; email?: string | null; id: any} | null
+  } | null
+}
+
+export type CreatePurchaseMutationVariables = Exact<{
+  data: Purchases_Insert_Input
+}>
+
+export type CreatePurchaseMutation = {
+  __typename?: 'mutation_root'
+  insert_purchases_one?: {
+    __typename?: 'purchases'
+    id: any
+    coupon_id?: any | null
+    product_id?: any | null
+    user_id?: any | null
+  } | null
+}
+
 export type CreateUserMutationVariables = Exact<{
   data: Users_Insert_Input
 }>
@@ -6374,6 +6419,11 @@ export type GetUserQuery = {
     email?: string | null
     image?: string | null
     emailVerified?: any | null
+    purchases: Array<{
+      __typename?: 'purchases'
+      id: any
+      product?: {__typename?: 'products'; id: any; name?: string | null} | null
+    }>
   } | null
 }
 
@@ -6596,6 +6646,7 @@ export const GetCouponDocument = gql`
       percentage_discount
       used_count
       merchant_coupon_id
+      restricted_to_product_id
     }
   }
 `
@@ -6605,6 +6656,16 @@ export const GetActiveDefaultCouponsDocument = gql`
       expires
       percentage_discount
       merchant_coupon_id
+      status
+    }
+  }
+`
+export const UpdateCouponDocument = gql`
+  mutation updateCoupon($id: uuid!, $data: coupons_set_input!) {
+    update_coupons_by_pk(_set: $data, pk_columns: {id: $id}) {
+      id
+      max_uses
+      used_count
       status
     }
   }
@@ -6634,6 +6695,37 @@ export const GetMerchantAccountsDocument = gql`
         identifier
       }
       payment_processor_id
+    }
+  }
+`
+export const CreateMerchantChargeDocument = gql`
+  mutation createMerchantCharge($data: merchant_charges_insert_input!) {
+    insert_merchant_charges_one(object: $data) {
+      id
+      identifier
+      merchant_customer_id
+      merchant_account_id
+      merchant_product_id
+      user_id
+    }
+  }
+`
+export const GetMerchantChargeDocument = gql`
+  query getMerchantCharge($identifier: String!) {
+    merchant_charges(where: {identifier: {_eq: $identifier}}) {
+      id
+      identifier
+      user_id
+      status
+      merchant_product_id
+      merchant_customer_id
+      purchases {
+        id
+        product {
+          id
+          name
+        }
+      }
     }
   }
 `
@@ -6668,6 +6760,42 @@ export const GetMerchantCouponDocument = gql`
       identifier
       percentage_discount
       id
+    }
+  }
+`
+export const CreateMerchantCustomerDocument = gql`
+  mutation createMerchantCustomer($data: merchant_customers_insert_input!) {
+    insert_merchant_customers_one(object: $data) {
+      id
+      identifier
+      merchant_account_id
+      user_id
+    }
+  }
+`
+export const GetMerchantCustomerForUserDocument = gql`
+  query getMerchantCustomerForUser($user_id: uuid!) {
+    merchant_customers(where: {user_id: {_eq: $user_id}}) {
+      id
+      identifier
+      user_id
+    }
+  }
+`
+export const GetMerchantProductByIdentifierDocument = gql`
+  query getMerchantProductByIdentifier($identifier: String!) {
+    merchant_products(where: {identifier: {_eq: $identifier}}) {
+      id
+      identifier
+      product {
+        id
+        name
+      }
+      merchant_prices {
+        id
+      }
+      merchant_account_id
+      product_id
     }
   }
 `
@@ -6738,6 +6866,31 @@ export const GetProductsAndCouponsDocument = gql`
     }
   }
 `
+export const GetPurchaseDocument = gql`
+  query getPurchase($id: uuid!) {
+    purchases_by_pk(id: $id) {
+      id
+      product {
+        id
+        name
+      }
+      user {
+        email
+        id
+      }
+    }
+  }
+`
+export const CreatePurchaseDocument = gql`
+  mutation createPurchase($data: purchases_insert_input!) {
+    insert_purchases_one(object: $data) {
+      id
+      coupon_id
+      product_id
+      user_id
+    }
+  }
+`
 export const CreateUserDocument = gql`
   mutation CreateUser($data: users_insert_input!) {
     insert_users_one(object: $data) {
@@ -6757,6 +6910,13 @@ export const GetUserDocument = gql`
       email
       image
       emailVerified
+      purchases {
+        id
+        product {
+          id
+          name
+        }
+      }
     }
   }
 `
@@ -6966,6 +7126,21 @@ export function getSdk(
         'query',
       )
     },
+    updateCoupon(
+      variables: UpdateCouponMutationVariables,
+      requestHeaders?: Dom.RequestInit['headers'],
+    ): Promise<UpdateCouponMutation> {
+      return withWrapper(
+        (wrappedRequestHeaders) =>
+          client.request<UpdateCouponMutation>(
+            UpdateCouponDocument,
+            variables,
+            {...requestHeaders, ...wrappedRequestHeaders},
+          ),
+        'updateCoupon',
+        'mutation',
+      )
+    },
     getMerchantAccount(
       variables: GetMerchantAccountQueryVariables,
       requestHeaders?: Dom.RequestInit['headers'],
@@ -6996,6 +7171,36 @@ export function getSdk(
         'query',
       )
     },
+    createMerchantCharge(
+      variables: CreateMerchantChargeMutationVariables,
+      requestHeaders?: Dom.RequestInit['headers'],
+    ): Promise<CreateMerchantChargeMutation> {
+      return withWrapper(
+        (wrappedRequestHeaders) =>
+          client.request<CreateMerchantChargeMutation>(
+            CreateMerchantChargeDocument,
+            variables,
+            {...requestHeaders, ...wrappedRequestHeaders},
+          ),
+        'createMerchantCharge',
+        'mutation',
+      )
+    },
+    getMerchantCharge(
+      variables: GetMerchantChargeQueryVariables,
+      requestHeaders?: Dom.RequestInit['headers'],
+    ): Promise<GetMerchantChargeQuery> {
+      return withWrapper(
+        (wrappedRequestHeaders) =>
+          client.request<GetMerchantChargeQuery>(
+            GetMerchantChargeDocument,
+            variables,
+            {...requestHeaders, ...wrappedRequestHeaders},
+          ),
+        'getMerchantCharge',
+        'query',
+      )
+    },
     getCouponsForTypeAndDiscount(
       variables?: GetCouponsForTypeAndDiscountQueryVariables,
       requestHeaders?: Dom.RequestInit['headers'],
@@ -7023,6 +7228,51 @@ export function getSdk(
             {...requestHeaders, ...wrappedRequestHeaders},
           ),
         'getMerchantCoupon',
+        'query',
+      )
+    },
+    createMerchantCustomer(
+      variables: CreateMerchantCustomerMutationVariables,
+      requestHeaders?: Dom.RequestInit['headers'],
+    ): Promise<CreateMerchantCustomerMutation> {
+      return withWrapper(
+        (wrappedRequestHeaders) =>
+          client.request<CreateMerchantCustomerMutation>(
+            CreateMerchantCustomerDocument,
+            variables,
+            {...requestHeaders, ...wrappedRequestHeaders},
+          ),
+        'createMerchantCustomer',
+        'mutation',
+      )
+    },
+    getMerchantCustomerForUser(
+      variables: GetMerchantCustomerForUserQueryVariables,
+      requestHeaders?: Dom.RequestInit['headers'],
+    ): Promise<GetMerchantCustomerForUserQuery> {
+      return withWrapper(
+        (wrappedRequestHeaders) =>
+          client.request<GetMerchantCustomerForUserQuery>(
+            GetMerchantCustomerForUserDocument,
+            variables,
+            {...requestHeaders, ...wrappedRequestHeaders},
+          ),
+        'getMerchantCustomerForUser',
+        'query',
+      )
+    },
+    getMerchantProductByIdentifier(
+      variables: GetMerchantProductByIdentifierQueryVariables,
+      requestHeaders?: Dom.RequestInit['headers'],
+    ): Promise<GetMerchantProductByIdentifierQuery> {
+      return withWrapper(
+        (wrappedRequestHeaders) =>
+          client.request<GetMerchantProductByIdentifierQuery>(
+            GetMerchantProductByIdentifierDocument,
+            variables,
+            {...requestHeaders, ...wrappedRequestHeaders},
+          ),
+        'getMerchantProductByIdentifier',
         'query',
       )
     },
@@ -7067,6 +7317,35 @@ export function getSdk(
           ),
         'getProductsAndCoupons',
         'query',
+      )
+    },
+    getPurchase(
+      variables: GetPurchaseQueryVariables,
+      requestHeaders?: Dom.RequestInit['headers'],
+    ): Promise<GetPurchaseQuery> {
+      return withWrapper(
+        (wrappedRequestHeaders) =>
+          client.request<GetPurchaseQuery>(GetPurchaseDocument, variables, {
+            ...requestHeaders,
+            ...wrappedRequestHeaders,
+          }),
+        'getPurchase',
+        'query',
+      )
+    },
+    createPurchase(
+      variables: CreatePurchaseMutationVariables,
+      requestHeaders?: Dom.RequestInit['headers'],
+    ): Promise<CreatePurchaseMutation> {
+      return withWrapper(
+        (wrappedRequestHeaders) =>
+          client.request<CreatePurchaseMutation>(
+            CreatePurchaseDocument,
+            variables,
+            {...requestHeaders, ...wrappedRequestHeaders},
+          ),
+        'createPurchase',
+        'mutation',
       )
     },
     CreateUser(

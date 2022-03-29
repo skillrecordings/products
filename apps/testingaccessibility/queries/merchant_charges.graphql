@@ -1,0 +1,28 @@
+mutation createMerchantCharge($data: merchant_charges_insert_input!) {
+  insert_merchant_charges_one(object: $data) {
+    id
+    identifier
+    merchant_customer_id
+    merchant_account_id
+    merchant_product_id
+    user_id
+  }
+}
+
+query getMerchantCharge($identifier: String!) {
+  merchant_charges(where: {identifier: {_eq: $identifier}}) {
+    id
+    identifier
+    user_id
+    status
+    merchant_product_id
+    merchant_customer_id
+    purchases {
+      id
+      product {
+        id
+        name
+      }
+    }
+  }
+}

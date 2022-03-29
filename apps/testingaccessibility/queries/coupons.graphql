@@ -12,21 +12,32 @@ query getCouponForCode($code: String!) @cached {
 }
 
 query getCoupon($id: uuid!) {
-    coupons_by_pk(id: $id) {
-        max_uses
-        expires
-        id
-        percentage_discount
-        used_count
-        merchant_coupon_id
+  coupons_by_pk(id: $id) {
+    max_uses
+    expires
+    id
+    percentage_discount
+    used_count
+    merchant_coupon_id
+    restricted_to_product_id
   }
 }
+
 
 query getActiveDefaultCoupons($now: timestamptz) {
   coupons(where: {default: {_eq: true}, expires: {_gt: $now}}) {
     expires
     percentage_discount
     merchant_coupon_id
+    status
+  }
+}
+
+mutation updateCoupon($id: uuid!, $data: coupons_set_input!) {
+  update_coupons_by_pk(_set: $data, pk_columns: { id: $id }) {
+    id
+    max_uses
+    used_count
     status
   }
 }

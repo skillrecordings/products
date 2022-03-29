@@ -2,6 +2,7 @@ import * as React from 'react'
 import {CheckCircleIcon} from '@heroicons/react/outline'
 import {useQuery} from 'react-query'
 import {useDebounce} from '@skillrecordings/react'
+import {FormattedPrice} from '../utils/format-prices-for-product'
 
 const tier = {
   name: 'Professional',
@@ -21,22 +22,24 @@ export const Pricing: React.FC<{activeSaleCoupon: any}> = ({
 
   const debouncedQuantity: number = useDebounce<number>(quantity, 250)
 
-  const {data} = useQuery(['pricing', coupon, debouncedQuantity], () =>
-    fetch('/api/prices', {
-      method: 'POST',
-      body: JSON.stringify({
-        productId: tier.id,
-        coupon,
-        quantity,
-      }),
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    }).then((res) => res.json()),
+  const {data: formattedPrice} = useQuery<FormattedPrice>(
+    ['pricing', coupon, debouncedQuantity],
+    () =>
+      fetch('/api/prices', {
+        method: 'POST',
+        body: JSON.stringify({
+          productId: tier.id,
+          coupon,
+          quantity,
+        }),
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      }).then((res) => res.json()),
   )
 
-  const availableCoupon = data?.availableCoupons?.[0]
-  const appliedCoupon = data?.appliedCoupon
+  const availableCoupon = formattedPrice?.availableCoupons?.[0]
+  const appliedCoupon = formattedPrice?.appliedCoupon
 
   return (
     <section>
@@ -65,8 +68,29 @@ export const Pricing: React.FC<{activeSaleCoupon: any}> = ({
                     </h3>
                   </div>
                   <div className="mt-4 flex items-baseline text-6xl font-extrabold">
-                    ${data?.calculatedPrice}
+                    ${formattedPrice?.calculatedPrice}
                   </div>
+                  {appliedCoupon ? (
+                    <div>
+                      <div className="mt-4 flex items-baseline text-2xl font-extrabold">
+                        {`${Math.floor(
+                          appliedCoupon.percentage_discount * 100,
+                        )}% off of $${
+                          (formattedPrice.unitPrice || 0) *
+                          (formattedPrice.quantity || 0)
+                        }`}
+                      </div>
+                      {appliedCoupon.type === 'site' ? (
+                        <div>There is a sale!</div>
+                      ) : null}
+                      {appliedCoupon.type === 'ppp' ? (
+                        <div>For regional discount.</div>
+                      ) : null}
+                      {appliedCoupon.type === 'bulk' ? (
+                        <div>Team discount.</div>
+                      ) : null}
+                    </div>
+                  ) : null}
                   {availableCoupon ? (
                     <div
                       onClick={() => {
@@ -105,7 +129,7 @@ export const Pricing: React.FC<{activeSaleCoupon: any}> = ({
                     ))}
                   </ul>
                   <form
-                    action={`/api/stripe/checkout?productId=${data?.id}&couponId=${appliedCoupon?.id}&quantity=${quantity}`}
+                    action={`/api/stripe/checkout?productId=${formattedPrice?.id}&couponId=${appliedCoupon?.id}&quantity=${quantity}`}
                     method="POST"
                   >
                     <section>

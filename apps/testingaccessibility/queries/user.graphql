@@ -15,8 +15,16 @@ query GetUser($id: uuid!) {
     email
     image
     emailVerified
+    purchases {
+      id
+      product {
+        id
+        name
+      }
+    }
   }
 }
+
 
 query QueryUser($where: users_bool_exp!) {
   users(where: $where) {
