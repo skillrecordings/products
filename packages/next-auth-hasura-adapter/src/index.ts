@@ -1,16 +1,18 @@
 import type {Adapter} from 'next-auth/adapters'
-import {getAdminSDK} from './api/api'
+import {getAdminSDK as defaultAdminSdk} from './api/api'
 
 type HasuraAdapterOptions = {
   endpoint: string
   adminSecret: string
+  getAdminSdk?: any
 }
 
 export function HasuraAdapter({
   endpoint,
   adminSecret,
+  getAdminSdk = defaultAdminSdk,
 }: HasuraAdapterOptions): Adapter {
-  const adminSdk = getAdminSDK({
+  const adminSdk = getAdminSdk({
     endpoint,
     adminSecret,
   })
@@ -34,13 +36,7 @@ export function HasuraAdapter({
         return null
       }
 
-      return {
-        id: user.id,
-        email: user.email,
-        emailVerified: user.emailVerified,
-        image: user.image,
-        name: user.name,
-      }
+      return user
     },
     async getUserByEmail(email) {
       const {users} = await adminSdk.QueryUser({
@@ -57,13 +53,7 @@ export function HasuraAdapter({
         return null
       }
 
-      return {
-        id: user.id,
-        email: user.email,
-        emailVerified: user.emailVerified,
-        image: user.image,
-        name: user.name,
-      }
+      return user
     },
     async getUserByAccount({providerAccountId, provider}) {
       const {users} = await adminSdk.QueryUser({
@@ -82,13 +72,7 @@ export function HasuraAdapter({
       const user = users?.[0]
       if (!user) return null
 
-      return {
-        id: user.id,
-        email: user.email,
-        emailVerified: user.emailVerified,
-        image: user.image,
-        name: user.name,
-      }
+      return user
     },
     async updateUser(data) {
       const {update_users_by_pk: user} = await adminSdk.UpdateUser({
@@ -150,13 +134,7 @@ export function HasuraAdapter({
           sessionToken: sessionUser.sessionToken,
           expires: new Date(sessionUser.expires),
         },
-        user: {
-          id: sessionUser.user.id,
-          email: sessionUser.user.email,
-          emailVerified: sessionUser.user.emailVerified,
-          image: sessionUser.user.image,
-          name: sessionUser.user.name,
-        },
+        user: sessionUser.user,
       }
     },
     async updateSession(data) {

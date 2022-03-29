@@ -1,0 +1,15 @@
+query getMerchantProductByIdentifier($identifier: String!) {
+  merchant_products(where: {identifier: {_eq: $identifier}}) {
+    id
+    identifier
+    product {
+      id
+      name
+    }
+    merchant_prices {
+      id
+    }
+    merchant_account_id
+    product_id
+  }
+}

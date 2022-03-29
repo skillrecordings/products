@@ -11,11 +11,3 @@ object_relationships:
 - name: price
   using:
     foreign_key_constraint_on: price_id
-array_relationships:
-- name: merchant_charges
-  using:
-    foreign_key_constraint_on:
-      column: price_id
-      table:
-        name: merchant_charges
-        schema: public

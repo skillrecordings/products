@@ -5,6 +5,9 @@ object_relationships:
 - name: coupon
   using:
     foreign_key_constraint_on: coupon_id
+- name: merchant_charge
+  using:
+    foreign_key_constraint_on: merchant_charge_id
 - name: product
   using:
     foreign_key_constraint_on: product_id
@@ -15,13 +18,6 @@ object_relationships:
   using:
     foreign_key_constraint_on: user_id
 array_relationships:
-- name: merchant_charges
-  using:
-    foreign_key_constraint_on:
-      column: purchase_id
-      table:
-        name: merchant_charges
-        schema: public
 - name: upgraded_purchases
   using:
     foreign_key_constraint_on:

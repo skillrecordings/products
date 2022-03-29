@@ -4,6 +4,30 @@ import {getPPPDiscountPercent} from './parity-coupon'
 import {getBulkDiscountPercent} from './bulk-coupon'
 import {getCalculatedPriced} from './get-calculated-price'
 
+// TODO: create specific errors when there is an issue
+// TODO: investigate upgrades using ad hoc pricing or fixed discount
+// ad hoc: calculate the price difference between the two tiers
+// where the product is immediately archived on the strip side
+// but give the product a standard name/identifier to track upgrade
+// revenue
+// fixed discount: Upgrade to [Tier] is a product and the cost is a ratio
+// of the tier you are upgrading from. Basic -> Pro
+// TODO: Return the upgrade price for the product
+// TODO: Checkout with ad hoc upgrade pricing
+// TODO: Checkout with generated dynamic coupon
+// https://stripe.com/docs/products-prices/manage-prices#ad-hoc-prices
+// no upgrade for a bulk purchase
+// upgrade price to a product requires
+// - product is a higher tier
+// - valid purchase of the qualifying upgradeable product
+// - upgrade From X to Y cost -> (Target Product Price - Purchase Price) * 1.1
+// 10% premium for an upgrade
+// TODO: Display Coupon Errors
+// TODO: Display Applied Site Coupon w/ Expiration
+// TODO: Three tiers: Foundations / Pro / Team
+// departure from the three tiers we've used in the past and the third tier
+// is for teams
+
 type FormatPricesForProductOptions = {
   productId: string
   country?: string
@@ -12,7 +36,7 @@ type FormatPricesForProductOptions = {
   couponId?: string
 }
 
-type FormattedPrice = {
+export type FormattedPrice = {
   id: string
   quantity: number
   unitPrice: number

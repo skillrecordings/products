@@ -8,31 +8,17 @@ object_relationships:
 - name: merchant_customer
   using:
     foreign_key_constraint_on: merchant_customer_id
-- name: merchant_price
-  using:
-    foreign_key_constraint_on: price_id
 - name: merchant_product
   using:
     foreign_key_constraint_on: merchant_product_id
-- name: price
-  using:
-    foreign_key_constraint_on: merchant_price_id
-- name: purchase
-  using:
-    foreign_key_constraint_on: purchase_id
 - name: user
   using:
     foreign_key_constraint_on: user_id
-select_permissions:
-- permission:
-    columns:
-    - id
-    - identifier
-    - merchant_account_id
-    - price_id
-    - purchase_id
-    - status
-    filter:
-      user_id:
-        _eq: X-Hasura-User-Id
-  role: user
+array_relationships:
+- name: purchases
+  using:
+    foreign_key_constraint_on:
+      column: merchant_charge_id
+      table:
+        name: purchases
+        schema: public
