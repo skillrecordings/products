@@ -1,12 +1,13 @@
-import NextAuth from 'next-auth'
+import NextAuth, {NextAuthOptions} from 'next-auth'
 import GithubProvider from 'next-auth/providers/github'
 import GoogleProvider from 'next-auth/providers/google'
 import EmailProvider from 'next-auth/providers/email'
 import jwt from 'jsonwebtoken'
 import {JWT} from 'next-auth/jwt'
 import {HasuraAdapter} from '@skillrecordings/next-auth-hasura-adapter'
+import {getAdminSDK} from '../../../lib/api'
 
-export default NextAuth({
+export const nextAuthOptions: NextAuthOptions = {
   secret: process.env.NEXTAUTH_SECRET,
   session: {
     strategy: 'jwt',
@@ -14,6 +15,7 @@ export default NextAuth({
   adapter: HasuraAdapter({
     endpoint: process.env.HASURA_PROJECT_ENDPOINT,
     adminSecret: process.env.HASURA_ADMIN_SECRET,
+    getAdminSdk: getAdminSDK,
   }),
   jwt: {
     secret: process.env.NEXTAUTH_SECRET,
@@ -87,8 +89,11 @@ export default NextAuth({
     async jwt({token, profile, account, user}) {
       if (user) {
         token.id = user.id
+        token.purchases = user.purchases
       }
       return token
     },
   },
-})
+}
+
+export default NextAuth(nextAuthOptions)
