@@ -25,7 +25,7 @@ model Account {
   oauth_token              String?
   userId                   String  
   refresh_token_expires_in Int?
-  user                     User   @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Restrict)
+  user                     User   @relation(fields: [userId], references: [id], onDelete: Cascade)
   @@unique([provider, providerAccountId])
 }
 
@@ -41,8 +41,8 @@ model Coupon {
   usedCount                Int               @default(0)
   percentageDiscount       Decimal           @db.Decimal(3,2)
   restrictedToProductId    String?
-  merchantCoupon           MerchantCoupon?   @relation(fields: [merchantCouponId], references: [id], onDelete: Cascade, onUpdate: Restrict)
-  product                  Product?          @relation(fields: [restrictedToProductId], references: [id], onDelete: Cascade, onUpdate: Restrict)
+  merchantCoupon           MerchantCoupon?   @relation(fields: [merchantCouponId], references: [id], onDelete: Cascade)
+  product                  Product?          @relation(fields: [restrictedToProductId], references: [id], onDelete: Cascade)
   purchases                Purchase[]
 }
 
@@ -68,10 +68,10 @@ model MerchantCharge {
   merchantProductId   String
   createdAt           DateTime           @default(now())
   merchantCustomerId  String
-  merchantAccount     MerchantAccount    @relation(fields: [merchantAccountId], references: [id], onDelete: Cascade, onUpdate: Restrict)
-  merchantCustomer    MerchantCustomer?  @relation(fields: [merchantCustomerId], references: [id], onDelete: Cascade, onUpdate: Restrict)
-  merchantProduct     MerchantProduct    @relation(fields: [merchantProductId], references: [id], onDelete: Cascade, onUpdate: Restrict)
-  user                User               @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Restrict)
+  merchantAccount     MerchantAccount    @relation(fields: [merchantAccountId], references: [id], onDelete: Cascade)
+  merchantCustomer    MerchantCustomer?  @relation(fields: [merchantCustomerId], references: [id], onDelete: Cascade)
+  merchantProduct     MerchantProduct    @relation(fields: [merchantProductId], references: [id], onDelete: Cascade)
+  user                User               @relation(fields: [userId], references: [id], onDelete: Cascade)
   purchase            Purchase[]
 }
 
@@ -82,7 +82,7 @@ model MerchantCoupon {
   merchantAccountId   String
   percentageDiscount  Decimal           @db.Decimal(3,2)
   type                String?
-  merchantAccount     MerchantAccount   @relation(fields: [merchantAccountId], references: [id], onDelete: Cascade, onUpdate: Restrict)
+  merchantAccount     MerchantAccount   @relation(fields: [merchantAccountId], references: [id], onDelete: Cascade)
   coupon              Coupon[]
 }
 
@@ -93,8 +93,8 @@ model MerchantCustomer {
   identifier          String             @unique
   createdAt           DateTime           @default(now())
   status              Int?               @default(0)
-  merchantAccount     MerchantAccount    @relation(fields: [merchantAccountId], references: [id], onDelete: Cascade, onUpdate: Restrict)
-  user                User               @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Restrict)
+  merchantAccount     MerchantAccount    @relation(fields: [merchantAccountId], references: [id], onDelete: Cascade)
+  user                User               @relation(fields: [userId], references: [id], onDelete: Cascade)
   merchantCharges     MerchantCharge[]
 }
 
@@ -106,9 +106,9 @@ model MerchantPrice {
   identifier          String?           @unique
   createdAt           DateTime          @default(now())
   priceId             String?
-  merchantAccount     MerchantAccount   @relation(fields: [merchantAccountId], references: [id], onDelete: Cascade, onUpdate: Restrict)
-  merchantProduct     MerchantProduct   @relation(fields: [merchantProductId], references: [id], onDelete: Cascade, onUpdate: Restrict)
-  price               Price?            @relation(fields: [priceId], references: [id], onDelete: Cascade, onUpdate: Restrict)
+  merchantAccount     MerchantAccount   @relation(fields: [merchantAccountId], references: [id], onDelete: Cascade)
+  merchantProduct     MerchantProduct   @relation(fields: [merchantProductId], references: [id], onDelete: Cascade)
+  price               Price?            @relation(fields: [priceId], references: [id], onDelete: Cascade)
 }
 
 model MerchantProduct {
@@ -118,20 +118,20 @@ model MerchantProduct {
   status             Int                @default(0)
   identifier         String?            @unique
   createdAt          DateTime           @default(now()) 
-  merchantAccount    MerchantAccount    @relation(fields: [merchantAccountId], references: [id], onDelete: Cascade, onUpdate: Restrict)
-  product            Product            @relation(fields: [productId], references: [id], onDelete: Cascade, onUpdate: Restrict)
+  merchantAccount    MerchantAccount    @relation(fields: [merchantAccountId], references: [id], onDelete: Cascade)
+  product            Product            @relation(fields: [productId], references: [id], onDelete: Cascade)
   merchantCharges    MerchantCharge[]
   merchantPrices     MerchantPrice[]
 }
 
 model Price {
   id              String            @id @default(uuid()) 
-  productId       String
+  productId       String?
   nickname        String?
   status          Int               @default(0)
   unitAmount      Decimal           @db.Decimal(10,2)
   createdAt       DateTime          @default(now())
-  product         Product           @relation(fields: [productId], references: [id], onDelete: Cascade, onUpdate: Restrict)
+  product         Product?           @relation(fields: [productId], references: [id], onDelete: Cascade)
   merchantPrices  MerchantPrice[]
 }
 
@@ -158,10 +158,10 @@ model Purchase {
   couponId                String?
   productId               String?
   merchantChargeId        String?           
-  coupon                  Coupon?            @relation(fields: [couponId], references: [id], onDelete: Cascade, onUpdate: Restrict)
-  merchantCharge          MerchantCharge?    @relation(fields: [merchantChargeId], references: [id], onDelete: Cascade, onUpdate: Restrict)
-  product                 Product?           @relation(fields: [productId], references: [id], onDelete: Cascade, onUpdate: Restrict)
-  user                    User?              @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Restrict)
+  coupon                  Coupon?            @relation(fields: [couponId], references: [id], onDelete: Cascade)
+  merchantCharge          MerchantCharge?    @relation(fields: [merchantChargeId], references: [id], onDelete: Cascade)
+  product                 Product?           @relation(fields: [productId], references: [id], onDelete: Cascade)
+  user                    User?              @relation(fields: [userId], references: [id], onDelete: Cascade)
 
 }
 
@@ -170,7 +170,7 @@ model Session {
   sessionToken   String
   userId         String?
   expires        DateTime?
-  user           User?      @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Restrict)
+  user           User?      @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model User {

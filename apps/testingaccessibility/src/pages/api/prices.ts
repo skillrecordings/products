@@ -5,7 +5,7 @@ import {formatPricesForProduct} from '../../utils/format-prices-for-product'
 const pricesHandler = async (req: NextApiRequest, res: NextApiResponse) => {
   if (req.method === 'POST') {
     try {
-      const country = (req.headers['x-vercel-ip-country'] as string) || 'IN'
+      const country = (req.headers['x-vercel-ip-country'] as string) || 'US'
 
       console.info(`request from ${country}`)
 
