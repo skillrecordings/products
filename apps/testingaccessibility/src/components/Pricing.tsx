@@ -7,7 +7,7 @@ import {FormattedPrice} from '../utils/format-prices-for-product'
 const tier = {
   name: 'Professional',
   href: '#',
-  id: 'cl1e7vgtp0038dr5g5q5ymled',
+  id: 'd8b8a8a3-7d70-4445-a265-fcd04e2ef6ea',
   description: 'Lorem ipsum dolor sit amet consectetur, adipisicing elit.',
   features: ['Community Forum', 'Access to everything'],
 }
