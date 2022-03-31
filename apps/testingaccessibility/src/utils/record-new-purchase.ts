@@ -1,20 +1,9 @@
-import {getAdminSDK} from '../lib/api'
 import {stripe} from './stripe'
 import {Stripe} from 'stripe'
-import {first, isEmpty} from 'lodash'
+import {first} from 'lodash'
+import prisma from '../db'
 
-export async function recordNewPurchase(checkoutSessionId: string) {
-  const {
-    QueryUser,
-    CreateUser,
-    getMerchantProductByIdentifier,
-    createPurchase,
-    createMerchantCharge,
-    createMerchantCustomer,
-    getMerchantCustomerForUser,
-    getMerchantCharge,
-  } = getAdminSDK()
-
+async function stripeData(checkoutSessionId: string) {
   const checkoutSession = await stripe.checkout.sessions.retrieve(
     checkoutSessionId,
     {
@@ -26,89 +15,84 @@ export async function recordNewPurchase(checkoutSessionId: string) {
     },
   )
 
-  const {users} = await QueryUser({
-    where: {
-      email: {
-        _eq: checkoutSession.customer_details?.email,
-      },
-    },
-  })
-
-  let user
-
   const {customer, line_items, payment_intent} = checkoutSession
   const {email, name, id: stripeCustomerId} = customer as Stripe.Customer
-
   const lineItem = first(line_items?.data) as Stripe.LineItem
   const stripePrice = lineItem.price
-  const stripeProduct = stripePrice?.product as Stripe.Product
+  const {id: stripeProductId} = stripePrice?.product as Stripe.Product
   const {charges} = payment_intent as Stripe.PaymentIntent
+  const stripeChargeId = first<Stripe.Charge>(charges.data)?.id as string
 
-  const {merchant_products} = await getMerchantProductByIdentifier({
-    identifier: stripeProduct?.id,
-  })
-
-  const merchantProduct = merchant_products?.[0]
-
-  if (isEmpty(users)) {
-    const {insert_users_one} = await CreateUser({
-      data: {email, name},
-    })
-    user = insert_users_one
-  } else {
-    user = users?.[0]
+  return {
+    stripeCustomerId,
+    email,
+    name,
+    stripeProductId,
+    stripeChargeId,
   }
+}
 
-  let merchantCustomer
+export async function recordNewPurchase(checkoutSessionId: string) {
+  const {stripeCustomerId, email, name, stripeProductId, stripeChargeId} =
+    await stripeData(checkoutSessionId)
 
-  const {merchant_customers} = await getMerchantCustomerForUser({
-    user_id: user?.id,
-  })
+  if (!email) throw new Error(`no-email-${checkoutSessionId}`)
 
-  if (merchant_customers?.length > 0) {
-    merchantCustomer = merchant_customers?.[0]
-  } else {
-    const {insert_merchant_customers_one} = await createMerchantCustomer({
-      data: {
+  return await prisma.$transaction(async (prisma) => {
+    const user = await prisma.user.upsert({
+      where: {
+        email,
+      },
+      update: {
+        name,
+      },
+      create: {
+        email,
+        name,
+      },
+    })
+
+    const merchantProduct = await prisma.merchantProduct.findFirst({
+      where: {
+        identifier: stripeProductId,
+      },
+    })
+
+    if (!merchantProduct)
+      throw new Error(`no-associated-product-${checkoutSessionId}`)
+
+    const merchantCustomer = await prisma.merchantCustomer.upsert({
+      where: {
         identifier: stripeCustomerId,
-        user_id: user?.id,
-        merchant_account_id: merchantProduct.merchant_account_id,
+      },
+      update: {
+        userId: user.id,
+      },
+      create: {
+        userId: user.id,
+        identifier: stripeCustomerId,
+        merchantAccountId: merchantProduct.merchantAccountId,
       },
     })
-    merchantCustomer = insert_merchant_customers_one
-  }
 
-  const chargeId = first<Stripe.Charge>(charges.data)?.id as string
+    const merchantCharge = await prisma.merchantCharge.create({
+      data: {
+        userId: user.id,
+        identifier: stripeChargeId,
+        merchantAccountId: merchantProduct.merchantAccountId,
+        merchantProductId: merchantProduct.id,
+        merchantCustomerId: merchantCustomer.id,
+      },
+    })
 
-  const {merchant_charges} = await getMerchantCharge({
-    identifier: chargeId,
+    const purchase = await prisma.purchase.create({
+      data: {
+        userId: user.id,
+        productId: merchantProduct.productId,
+        merchantChargeId: merchantCharge.id,
+      },
+    })
+
+    return {purchase, user}
   })
-
-  let purchase
-
-  if (isEmpty(merchant_charges)) {
-    const {insert_merchant_charges_one} = await createMerchantCharge({
-      data: {
-        identifier: first<Stripe.Charge>(charges.data)?.id,
-        merchant_product_id: merchantProduct.id,
-        merchant_account_id: merchantProduct.merchant_account_id,
-        merchant_customer_id: merchantCustomer?.id,
-        user_id: user?.id,
-      },
-    })
-
-    const {insert_purchases_one} = await createPurchase({
-      data: {
-        user_id: user?.id,
-        product_id: merchantProduct.product_id,
-        merchant_charge_id: insert_merchant_charges_one?.id,
-      },
-    })
-
-    purchase = insert_purchases_one
-  } else {
-    purchase = merchant_charges?.[0].purchases?.[0]
-  }
-
-  return {purchase, user}
 }

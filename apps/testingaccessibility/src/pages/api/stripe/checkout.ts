@@ -1,9 +1,8 @@
 import type {NextApiRequest, NextApiResponse} from 'next'
 import {stripe} from '../../../utils/stripe'
-import {getAdminSDK} from '../../../lib/api'
-import shortid from 'short-uuid'
 import {add} from 'date-fns'
-import {nanoid} from 'nanoid'
+import {getSdk} from '../../../lib/prisma-api'
+import prisma from '../../../db'
 
 export default async function handler(
   req: NextApiRequest,
@@ -11,19 +10,29 @@ export default async function handler(
 ) {
   if (req.method === 'POST') {
     try {
-      const {getProduct, getMerchantCoupon} = getAdminSDK()
+      const {getMerchantCoupon} = getSdk()
       const {productId, quantity = 1, couponId} = req.query
 
-      const {products_by_pk: loadedProduct} = await getProduct({id: productId})
+      const loadedProduct = await prisma.product.findFirst({
+        where: {id: productId as string},
+        include: {
+          merchantProducts: {
+            include: {
+              merchantPrices: true,
+            },
+          },
+        },
+      })
 
       let merchantCoupon
 
       if (couponId) {
         try {
-          const {merchant_coupons_by_pk} = await getMerchantCoupon({
-            id: couponId,
+          merchantCoupon = await getMerchantCoupon({
+            where: {
+              id: couponId as string,
+            },
           })
-          merchantCoupon = merchant_coupons_by_pk
         } catch (e) {
           console.error(`failed to lookup coupon [${couponId}]`)
         }
@@ -49,7 +58,7 @@ export default async function handler(
       }
 
       const price =
-        loadedProduct.merchant_products?.[0].merchant_prices?.[0].identifier
+        loadedProduct.merchantProducts?.[0].merchantPrices?.[0].identifier
 
       if (!price) {
         throw new Error('No price for product')

@@ -4,37 +4,23 @@ import GoogleProvider from 'next-auth/providers/google'
 import EmailProvider from 'next-auth/providers/email'
 import jwt from 'jsonwebtoken'
 import {JWT} from 'next-auth/jwt'
-import {HasuraAdapter} from '@skillrecordings/next-auth-hasura-adapter'
-import {getAdminSDK} from '../../../lib/api'
+import {PrismaAdapter} from '@next-auth/prisma-adapter'
+import prisma from '../../../db'
 
 export const nextAuthOptions: NextAuthOptions = {
   secret: process.env.NEXTAUTH_SECRET,
   session: {
     strategy: 'jwt',
   },
-  adapter: HasuraAdapter({
-    endpoint: process.env.HASURA_PROJECT_ENDPOINT,
-    adminSecret: process.env.HASURA_ADMIN_SECRET,
-    getAdminSdk: getAdminSDK,
-  }),
+  adapter: PrismaAdapter(prisma),
   jwt: {
     secret: process.env.NEXTAUTH_SECRET,
     encode: async ({secret, token, maxAge}) => {
-      const hasura = token && {
-        'https://hasura.io/jwt/claims': {
-          'x-hasura-allowed-roles': ['user'],
-          'x-hasura-default-role': 'user',
-          'x-hasura-role': 'user',
-          'x-hasura-user-id': token.id,
-        },
-      }
-
       const encodedToken = jwt.sign(
         {
           ...token,
           iat: Date.now() / 1000,
           exp: Math.floor(Date.now() / 1000) + 24 * 60 * 60,
-          ...hasura,
         } || '',
         secret,
         {algorithm: 'HS256'},
@@ -89,7 +75,6 @@ export const nextAuthOptions: NextAuthOptions = {
     async jwt({token, profile, account, user}) {
       if (user) {
         token.id = user.id
-        token.purchases = user.purchases
       }
       return token
     },
