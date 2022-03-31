@@ -11,7 +11,7 @@
     "build:data": "node src/data/cache-json-data.js -p",
     "build:data:dev": "node src/data/cache-json-data.js",
     "test": "jest",
-    "lint": "TIMING=1 eslint src/**/*.{ts,tsx} --fix && tsc --noEmit",
+    "lint": "TIMING=1 prisma generate && eslint src/**/*.{ts,tsx} --fix && tsc --noEmit",
     "format": "prettier --write './**/*.{js,jsx,ts,tsx,css,md,mdx,json}' --config ./.prettierrc",
     "build:docker": "cd ../../ && docker build . -f apps/testingaccessibility/Dockerfile -t my-awesome-app:latest --build-arg SCOPE=testingaccessibility"
   },
