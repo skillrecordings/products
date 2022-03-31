@@ -1,14 +1,11 @@
 import type {NextApiRequest, NextApiResponse} from 'next'
-import {getAdminSDK} from '../../lib/api'
 import {validateCoupon} from '../../utils/validate-coupon'
-import {isEmpty} from 'lodash'
 import {sendServerEmail} from '../../utils/send-server-email'
 import {nextAuthOptions} from './auth/[...nextauth]'
+import prisma from '../../db'
 
 const redeemHandler = async (req: NextApiRequest, res: NextApiResponse) => {
   if (req.method === 'GET') {
-    const {getCoupon, updateCoupon, QueryUser, CreateUser, createPurchase} =
-      getAdminSDK()
     try {
       const country = (req.headers['x-vercel-ip-country'] as string) || 'US'
       const {email: baseEmail, couponId} = req.query
@@ -17,55 +14,59 @@ const redeemHandler = async (req: NextApiRequest, res: NextApiResponse) => {
 
       const email = String(baseEmail).replace(' ', '+')
 
-      const {coupons_by_pk: coupon} = await getCoupon({id: couponId})
+      const coupon = await prisma.coupon.findFirst({
+        where: {id: couponId as string},
+      })
 
       const validation = validateCoupon(coupon)
 
       if (coupon && validation.isValid) {
-        const {users} = await QueryUser({
+        let user = await prisma.user.findFirst({
           where: {
-            email: {
-              _eq: email as string,
-            },
+            email,
           },
         })
 
-        let user
-
-        if (isEmpty(users)) {
-          const {insert_users_one} = await CreateUser({
+        if (!user) {
+          user = await prisma.user.create({
             data: {email: email as string},
           })
-
-          user = insert_users_one
-
-          const {insert_purchases_one: purchase} = await createPurchase({
-            data: {
-              user_id: user?.id,
-              coupon_id: coupon.id,
-              product_id: coupon.restricted_to_product_id,
-            },
-          })
-
-          res.redirect(303, `/thanks/redeem?purchaseId=${purchase?.id}`)
-
-          await sendServerEmail({
-            email: user?.email as string,
-            nextAuthOptions,
-          })
-
-          await updateCoupon({
-            id: coupon.id,
-            data: {used_count: coupon.used_count + 1},
-          })
-        } else {
-          // TODO: Handle user already existing with purchases etc
         }
+
+        if (!user) throw new Error(`unable-to-create-user`)
+
+        const existingPurchase = await prisma.purchase.findFirst({
+          where: {
+            userId: user.id,
+          },
+        })
+
+        if (existingPurchase) throw new Error('already-purchased')
+
+        const purchase = await prisma.purchase.create({
+          data: {
+            userId: user.id,
+            couponId: coupon.id,
+            productId: coupon.restrictedToProductId,
+          },
+        })
+
+        await sendServerEmail({
+          email: user.email,
+          nextAuthOptions,
+        })
+
+        await prisma.coupon.update({
+          where: {id: coupon.id},
+          data: {
+            usedCount: coupon.usedCount + 1,
+          },
+        })
+
+        res.redirect(303, `/thanks/redeem?purchaseId=${purchase?.id}`)
+        return
       } else {
-        // TODO: Send to an error page because the coupon isn't valid
-        // likely a toast on the /buy page so they can purchase as needed
-        // but we can also inform the original purchaser if it is a used
-        // up code or whatever
+        throw new Error(`coupon-is-invalid`)
       }
     } catch (error: any) {
       res.status(500).json({error: true, message: error.message})

@@ -1,12 +1,16 @@
 import * as React from 'react'
 import {GetServerSideProps} from 'next'
-import {getAdminSDK} from '../../lib/api'
+import prisma from '../../db'
 
 export const getServerSideProps: GetServerSideProps = async ({req, query}) => {
   const {purchaseId} = query
-  const {getPurchase} = getAdminSDK()
 
-  const {purchases_by_pk: purchase} = await getPurchase({id: purchaseId})
+  const purchase = await prisma.purchase.findFirst({
+    where: {id: purchaseId as string},
+    include: {
+      user: true,
+    },
+  })
 
   return {
     props: {

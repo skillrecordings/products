@@ -1,10 +1,9 @@
 import React from 'react'
 import {Pricing} from '../components/Pricing'
 import {GetServerSideProps} from 'next'
-import {getAdminSDK} from '../lib/api'
-import {isBefore} from 'date-fns'
 import RedeemDialog from '../components/redeem-dialog'
 import {validateCoupon} from '../utils/validate-coupon'
+import {getSdk} from '../lib/prisma-api'
 
 const Course: React.FC<{
   couponFromCode: any
@@ -34,25 +33,20 @@ const Course: React.FC<{
 export default Course
 
 export const getServerSideProps: GetServerSideProps = async ({req, query}) => {
-  const {getActiveDefaultCoupons} = getAdminSDK()
-
-  const {coupons: defaultCoupons} = await getActiveDefaultCoupons({
-    now: new Date(),
+  const {getCoupon} = getSdk()
+  const activeSaleCoupon = await getCoupon({
+    where: {
+      default: true,
+      expires: {
+        gte: new Date(),
+      },
+    },
   })
-  let activeSaleCoupon
-
-  if (defaultCoupons?.length > 0) {
-    activeSaleCoupon = defaultCoupons[0]
-  }
 
   const {code} = query
-  let couponFromCode
 
-  if (code) {
-    const {getCoupon} = getAdminSDK()
-    const {coupons_by_pk: loadedCoupon} = await getCoupon({id: code})
-    couponFromCode = loadedCoupon
-  }
+  let couponFromCode =
+    code && (await getCoupon({where: {id: query.code as string}}))
 
   if (couponFromCode) {
     couponFromCode = {

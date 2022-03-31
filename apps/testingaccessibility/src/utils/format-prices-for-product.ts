@@ -1,8 +1,8 @@
-import {first} from 'lodash'
-import {getAdminSDK} from '../lib/api'
 import {getPPPDiscountPercent} from './parity-coupon'
 import {getBulkDiscountPercent} from './bulk-coupon'
 import {getCalculatedPriced} from './get-calculated-price'
+import {getSdk} from '../lib/prisma-api'
+import {Context, defaultContext} from '../lib/context'
 
 // TODO: create specific errors when there is an issue
 // TODO: investigate upgrades using ad hoc pricing or fixed discount
@@ -34,6 +34,7 @@ type FormatPricesForProductOptions = {
   quantity?: number
   code?: string
   couponId?: string
+  ctx?: Context
 }
 
 export type FormattedPrice = {
@@ -52,6 +53,7 @@ export type FormattedPrice = {
  * @param quantity
  * @param code
  * @param couponId
+ * @param {Context} ctx the Prisma context
  */
 export async function formatPricesForProduct({
   productId,
@@ -59,47 +61,49 @@ export async function formatPricesForProduct({
   quantity = 1,
   code,
   couponId,
+  ctx = defaultContext,
 }: FormatPricesForProductOptions) {
-  const {getProduct, getCouponForCode, getMerchantCoupon} = getAdminSDK()
-
+  const {getProduct, getMerchantCoupon, getCoupon, getPrice} = getSdk(ctx)
   if (quantity > 101) {
     throw new Error(
       'Please contact support and we will help you with your team order ASAP!',
     )
   }
 
-  const {products_by_pk: loadedProduct} = await getProduct({id: productId})
+  const product = await getProduct({
+    where: {id: productId},
+    include: {
+      prices: true,
+    },
+  })
 
-  if (!loadedProduct) {
-    throw new Error('No product was found')
+  if (!product) {
+    throw new Error(`no-product-found-${productId}`)
   }
 
-  const {prices, ...noPricesProduct} = loadedProduct
-  const firstPrice = first(prices)
+  const price = await getPrice({where: {productId}})
 
-  if (!firstPrice) {
-    throw new Error(`No valid price found for product [${productId}]`)
-  }
+  if (!price) throw new Error(`no-price-found-${productId}`)
 
   const pppDiscountPercent = getPPPDiscountPercent(country)
   const bulkCouponPercent = getBulkDiscountPercent(quantity)
 
   // if there's a coupon implied because an id is passed in, load it to verify
-  const {merchant_coupons_by_pk: appliedCoupon} = couponId
-    ? await getMerchantCoupon({
-        id: couponId,
-      })
-    : {merchant_coupons_by_pk: undefined}
+  const appliedCoupon = couponId
+    ? await getMerchantCoupon({where: {id: couponId}})
+    : undefined
+
+  console.log({appliedCoupon, couponId})
 
   const pppApplied =
     quantity === 1 && appliedCoupon?.type === 'ppp' && pppDiscountPercent > 0
 
   // pick the bigger discount during a sale
   const appliedCouponLessThanPPP = appliedCoupon
-    ? appliedCoupon.percentage_discount < pppDiscountPercent
+    ? appliedCoupon.percentageDiscount.toNumber() < pppDiscountPercent
     : true
   const appliedCouponLessThanBulk = appliedCoupon
-    ? appliedCoupon.percentage_discount < bulkCouponPercent
+    ? appliedCoupon.percentageDiscount.toNumber() < bulkCouponPercent
     : true
 
   const pppAvailable =
@@ -108,10 +112,10 @@ export async function formatPricesForProduct({
     bulkCouponPercent > 0 && appliedCouponLessThanBulk && !pppApplied
 
   let defaultPriceProduct: FormattedPrice = {
-    ...noPricesProduct,
+    ...product,
     quantity,
-    unitPrice: firstPrice.unit_amount,
-    calculatedPrice: firstPrice.unit_amount * quantity,
+    unitPrice: price.unitAmount.toNumber(),
+    calculatedPrice: price.unitAmount.toNumber() * quantity,
     availableCoupons: [],
   }
 
@@ -120,7 +124,7 @@ export async function formatPricesForProduct({
       ...defaultPriceProduct,
       calculatedPrice: getCalculatedPriced({
         unitPrice: defaultPriceProduct.unitPrice,
-        percentOfDiscount: appliedCoupon.percentage_discount,
+        percentOfDiscount: appliedCoupon.percentageDiscount.toNumber(),
         quantity,
       }),
       appliedCoupon,
@@ -129,19 +133,18 @@ export async function formatPricesForProduct({
 
   // no ppp or bulk if you're applying a code
   if (code) {
-    const {coupons} = await getCouponForCode({code})
-    const coupon = first(coupons)
+    const coupon = await getCoupon({where: {code}})
 
     if (!coupon) throw new Error(`No coupon found for code [${code}`)
 
     if (coupon) {
-      if (coupon.restricted_to_product_id !== productId) {
+      if (coupon.restrictedToProductId !== productId) {
         throw new Error('Invalid coupon.')
       }
 
       const calculatedPrice = getCalculatedPriced({
         unitPrice: defaultPriceProduct.unitPrice,
-        percentOfDiscount: coupon.percentage_discount,
+        percentOfDiscount: coupon.percentageDiscount.toNumber(),
       })
 
       return {
@@ -152,7 +155,7 @@ export async function formatPricesForProduct({
     }
   } else if (pppApplied) {
     const invalidCoupon =
-      pppDiscountPercent !== appliedCoupon.percentage_discount
+      pppDiscountPercent !== appliedCoupon.percentageDiscount.toNumber()
 
     if (invalidCoupon || appliedCoupon.type !== 'ppp')
       throw new Error('Invalid coupon')
@@ -163,27 +166,27 @@ export async function formatPricesForProduct({
       ...defaultPriceProduct,
       calculatedPrice: getCalculatedPriced({
         unitPrice: defaultPriceProduct.unitPrice,
-        percentOfDiscount: appliedCoupon.percentage_discount,
+        percentOfDiscount: appliedCoupon.percentageDiscount.toNumber(),
       }),
       appliedCoupon: merchantCouponWithoutIdentifier,
     }
   } else if (pppAvailable) {
     // no PPP for bulk
-    const pppCoupons = await couponForType('ppp', pppDiscountPercent)
+    const pppCoupons = await couponForType('ppp', pppDiscountPercent, ctx)
 
     return {
       ...defaultPriceProduct,
       availableCoupons: pppCoupons,
     }
   } else if (bulkDiscountAvailable) {
-    const bulkCoupons = await couponForType('bulk', bulkCouponPercent)
+    const bulkCoupons = await couponForType('bulk', bulkCouponPercent, ctx)
     const bulkCoupon = bulkCoupons[0]
 
     return {
       ...defaultPriceProduct,
       calculatedPrice: getCalculatedPriced({
         unitPrice: defaultPriceProduct.unitPrice,
-        percentOfDiscount: bulkCoupon.percentage_discount,
+        percentOfDiscount: bulkCoupon.percentageDiscount.toNumber(),
         quantity,
       }),
       ...(bulkCoupon && {appliedCoupon: bulkCoupon}),
@@ -193,14 +196,18 @@ export async function formatPricesForProduct({
   return defaultPriceProduct
 }
 
-async function couponForType(type: string, percentage_discount: number) {
-  const {getCouponsForTypeAndDiscount} = getAdminSDK()
-  const {merchant_coupons} = await getCouponsForTypeAndDiscount({
-    type,
-    percentage_discount,
-  })
+async function couponForType(
+  type: string,
+  percentageDiscount: number,
+  ctx: Context,
+) {
+  const {getMerchantCoupons} = getSdk(ctx)
+  const merchantCoupons =
+    (await getMerchantCoupons({
+      where: {type, percentageDiscount},
+    })) || []
 
-  return merchant_coupons.map((coupon) => {
+  return merchantCoupons.map((coupon) => {
     // for pricing we don't need the identifier so strip it here
     const {identifier, ...rest} = coupon
     return rest
