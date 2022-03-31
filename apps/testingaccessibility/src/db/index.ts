@@ -1,4 +1,6 @@
-import {PrismaClient} from '@prisma/client'
+import {PrismaClient} from '../generated/client'
+
+export * from '../generated/client'
 
 let prisma: PrismaClient
 

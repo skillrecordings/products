@@ -7,7 +7,7 @@ import {FormattedPrice} from '../utils/format-prices-for-product'
 const tier = {
   name: 'Professional',
   href: '#',
-  id: '47dfbe08-e4e1-464c-8a11-f14377f2f149',
+  id: 'cl1e7vgtp0038dr5g5q5ymled',
   description: 'Lorem ipsum dolor sit amet consectetur, adipisicing elit.',
   features: ['Community Forum', 'Access to everything'],
 }
@@ -74,7 +74,7 @@ export const Pricing: React.FC<{activeSaleCoupon: any}> = ({
                     <div>
                       <div className="mt-4 flex items-baseline text-2xl font-extrabold">
                         {`${Math.floor(
-                          appliedCoupon.percentage_discount * 100,
+                          appliedCoupon.percentageDiscount * 100,
                         )}% off of $${
                           (formattedPrice.unitPrice || 0) *
                           (formattedPrice.quantity || 0)

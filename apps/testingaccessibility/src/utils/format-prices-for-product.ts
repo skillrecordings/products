@@ -93,8 +93,6 @@ export async function formatPricesForProduct({
     ? await getMerchantCoupon({where: {id: couponId}})
     : undefined
 
-  console.log({appliedCoupon, couponId})
-
   const pppApplied =
     quantity === 1 && appliedCoupon?.type === 'ppp' && pppDiscountPercent > 0
 
@@ -207,7 +205,7 @@ async function couponForType(
       where: {type, percentageDiscount},
     })) || []
 
-  return merchantCoupons.map((coupon) => {
+  return merchantCoupons.map((coupon: any) => {
     // for pricing we don't need the identifier so strip it here
     const {identifier, ...rest} = coupon
     return rest

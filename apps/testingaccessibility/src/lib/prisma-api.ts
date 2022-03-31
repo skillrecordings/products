@@ -1,4 +1,4 @@
-import {Prisma} from '@prisma/client'
+import {Prisma} from '../generated/client'
 import {Context, defaultContext} from './context'
 
 export function getSdk(ctx: Context = defaultContext) {
