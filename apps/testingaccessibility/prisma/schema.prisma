@@ -1,7 +1,6 @@
 generator client {
   provider = "prisma-client-js"
   previewFeatures = ["referentialIntegrity", "interactiveTransactions"]
-  output   = "../src/generated/client"
 }
 
 datasource db {

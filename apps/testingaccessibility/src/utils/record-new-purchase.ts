@@ -32,7 +32,9 @@ async function stripeData(checkoutSessionId: string) {
   }
 }
 
-export async function recordNewPurchase(checkoutSessionId: string) {
+export async function recordNewPurchase(
+  checkoutSessionId: string,
+): Promise<{user: any; purchase: any}> {
   const {stripeCustomerId, email, name, stripeProductId, stripeChargeId} =
     await stripeData(checkoutSessionId)
 
