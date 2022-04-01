@@ -1,7 +1,7 @@
 import * as React from 'react'
 import groq from 'groq'
 import {sanityClient} from 'utils/sanity-client'
-import ArticleTemplate from '../../templates/article'
+import ArticleTemplate from '../../layouts/article'
 import {serialize} from 'next-mdx-remote/serialize'
 
 const Post = (props: any) => {
