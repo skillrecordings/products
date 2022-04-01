@@ -4,11 +4,12 @@ import {GetServerSideProps} from 'next'
 import RedeemDialog from '../components/redeem-dialog'
 import {validateCoupon} from '../utils/validate-coupon'
 import {getSdk} from '../lib/prisma-api'
+import {Decimal} from '@prisma/client/runtime'
 
 const Course: React.FC<{
   couponFromCode: any
   activeSaleCoupon: any
-}> = ({couponFromCode, activeSaleCoupon}) => {
+}> = ({couponFromCode}) => {
   const [validCoupon, setValidCoupon] = React.useState(false)
 
   React.useEffect(() => {
@@ -25,7 +26,7 @@ const Course: React.FC<{
           couponId={couponFromCode.id}
         />
       )}
-      <Pricing activeSaleCoupon={activeSaleCoupon} />
+      <Pricing />
     </div>
   )
 }
@@ -34,14 +35,6 @@ export default Course
 
 export const getServerSideProps: GetServerSideProps = async ({req, query}) => {
   const {getCoupon} = getSdk()
-  const activeSaleCoupon = await getCoupon({
-    where: {
-      default: true,
-      expires: {
-        gte: new Date(),
-      },
-    },
-  })
 
   const {code} = query
 
@@ -57,8 +50,19 @@ export const getServerSideProps: GetServerSideProps = async ({req, query}) => {
 
   return {
     props: {
-      ...(couponFromCode && {couponFromCode}),
-      ...(activeSaleCoupon && {activeSaleCoupon}),
+      ...(couponFromCode && {couponFromCode: transform(couponFromCode)}),
     },
   }
+}
+
+function transform(result: any) {
+  for (const resultKey in result) {
+    if (result[resultKey] instanceof Date) {
+      result[resultKey] = result[resultKey].toISOString()
+    } else if (result[resultKey] instanceof Decimal) {
+      result[resultKey] = result[resultKey].toNumber()
+    }
+  }
+
+  return result
 }

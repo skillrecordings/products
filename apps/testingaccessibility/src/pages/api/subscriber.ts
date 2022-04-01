@@ -1,5 +1,6 @@
 import {NextApiRequest, NextApiResponse} from 'next'
 import {fetchConvertkitSubscriberFromServerCookie} from '@skillrecordings/convertkit'
+import {withSentry} from '@sentry/nextjs'
 
 const subscriber = async (req: NextApiRequest, res: NextApiResponse) => {
   if (req.method === 'GET') {
@@ -21,4 +22,4 @@ const subscriber = async (req: NextApiRequest, res: NextApiResponse) => {
   }
 }
 
-export default subscriber
+export default withSentry(subscriber)

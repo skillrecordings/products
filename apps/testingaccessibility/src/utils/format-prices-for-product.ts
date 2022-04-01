@@ -151,7 +151,7 @@ export async function formatPricesForProduct({
         appliedCoupon: coupon,
       }
     }
-  } else if (pppApplied) {
+  } else if (appliedCoupon && pppApplied) {
     const invalidCoupon =
       pppDiscountPercent !== appliedCoupon.percentageDiscount.toNumber()
 

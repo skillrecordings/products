@@ -3,6 +3,7 @@ import {validateCoupon} from '../../utils/validate-coupon'
 import {sendServerEmail} from '../../utils/send-server-email'
 import {nextAuthOptions} from './auth/[...nextauth]'
 import prisma from '../../db'
+import {withSentry} from '@sentry/nextjs'
 
 const redeemHandler = async (req: NextApiRequest, res: NextApiResponse) => {
   if (req.method === 'GET') {
@@ -77,4 +78,4 @@ const redeemHandler = async (req: NextApiRequest, res: NextApiResponse) => {
   }
 }
 
-export default redeemHandler
+export default withSentry(redeemHandler)

@@ -3,8 +3,9 @@ import {stripe} from '../../../utils/stripe'
 import {add} from 'date-fns'
 import {getSdk} from '../../../lib/prisma-api'
 import prisma from '../../../db'
+import {withSentry} from '@sentry/nextjs'
 
-export default async function handler(
+export default withSentry(async function handler(
   req: NextApiRequest,
   res: NextApiResponse,
 ) {
@@ -90,4 +91,4 @@ export default async function handler(
     res.setHeader('Allow', 'POST')
     res.status(405).end('Method Not Allowed')
   }
-}
+})

@@ -30,6 +30,7 @@
     "@reach/skip-nav": "^0.16.0",
     "@sanity/block-content-to-react": "^3.0.0",
     "@sanity/client": "^3.1.0",
+    "@sentry/nextjs": "^6.19.3",
     "@skillrecordings/analytics": "workspace:*",
     "@skillrecordings/auth": "workspace:*",
     "@skillrecordings/axios": "workspace:*",
@@ -60,6 +61,7 @@
     "graphql-request": "^4.1.0",
     "graphql-tag": "^2.12.6",
     "groq": "^2.15.0",
+    "honeycomb-beeline": "^3.3.0",
     "jsonwebtoken": "^8.5.1",
     "lodash": "^4.17.21",
     "mdx-prism": "^0.3.4",
@@ -162,5 +164,8 @@
     "trailingComma": "all",
     "bracketSpacing": false,
     "jsxBracketSameLine": false
+  },
+  "resolutions": {
+    "jest-environment-jsdom": "27.4.6"
   }
 }

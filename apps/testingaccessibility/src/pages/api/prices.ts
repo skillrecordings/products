@@ -1,15 +1,21 @@
 import type {NextApiRequest, NextApiResponse} from 'next'
+import {withSentry} from '@sentry/nextjs'
 
 import {formatPricesForProduct} from '../../utils/format-prices-for-product'
+import {getSdk} from '../../lib/prisma-api'
 
 const pricesHandler = async (req: NextApiRequest, res: NextApiResponse) => {
   if (req.method === 'POST') {
     try {
-      const country = (req.headers['x-vercel-ip-country'] as string) || 'US'
+      const country = (req.headers['x-vercel-ip-country'] as string) || 'IN'
+      const {getDefaultCouponId} = getSdk()
+      const {code, quantity, productId, coupon} = req.body
+
+      const activeSaleCouponId = await getDefaultCouponId(productId)
 
       console.info(`request from ${country}`)
 
-      const {code, quantity, productId, coupon: couponId} = req.body
+      const couponId = coupon ? coupon : activeSaleCouponId
 
       const product = await formatPricesForProduct({
         productId,
@@ -29,4 +35,4 @@ const pricesHandler = async (req: NextApiRequest, res: NextApiResponse) => {
   }
 }
 
-export default pricesHandler
+export default withSentry(pricesHandler)

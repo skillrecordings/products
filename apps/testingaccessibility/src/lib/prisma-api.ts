@@ -18,5 +18,27 @@ export function getSdk(ctx: Context = defaultContext) {
     async getMerchantCoupons(options: Prisma.MerchantCouponFindManyArgs) {
       return await ctx.prisma.merchantCoupon.findMany(options)
     },
+    async getDefaultCouponId(productId?: string) {
+      const activeSaleCoupon = await ctx.prisma.coupon.findFirst({
+        where: {
+          default: true,
+          expires: {
+            gte: new Date(),
+          },
+        },
+        select: {
+          restrictedToProductId: true,
+          merchantCouponId: true,
+        },
+      })
+
+      if (activeSaleCoupon) {
+        const {restrictedToProductId, merchantCouponId} = activeSaleCoupon
+        const validForProductId =
+          restrictedToProductId && restrictedToProductId === productId
+
+        if (validForProductId) return merchantCouponId
+      }
+    },
   }
 }

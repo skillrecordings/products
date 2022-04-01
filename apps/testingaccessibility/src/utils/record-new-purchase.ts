@@ -38,21 +38,16 @@ export async function recordNewPurchase(
   const {stripeCustomerId, email, name, stripeProductId, stripeChargeId} =
     await stripeData(checkoutSessionId)
 
+  console.log({stripeCustomerId, email, name, stripeProductId, stripeChargeId})
+
   if (!email) throw new Error(`no-email-${checkoutSessionId}`)
 
   return await prisma.$transaction(async (prisma) => {
-    const user = await prisma.user.upsert({
-      where: {
-        email,
-      },
-      update: {
-        name,
-      },
-      create: {
-        email,
-        name,
-      },
-    })
+    let user = await prisma.user.findUnique({where: {email}})
+
+    if (!user) {
+      user = await prisma.user.create({data: {email, name}})
+    }
 
     const merchantProduct = await prisma.merchantProduct.findFirst({
       where: {
@@ -63,19 +58,21 @@ export async function recordNewPurchase(
     if (!merchantProduct)
       throw new Error(`no-associated-product-${checkoutSessionId}`)
 
-    const merchantCustomer = await prisma.merchantCustomer.upsert({
+    let merchantCustomer = await prisma.merchantCustomer.findUnique({
       where: {
         identifier: stripeCustomerId,
       },
-      update: {
-        userId: user.id,
-      },
-      create: {
-        userId: user.id,
-        identifier: stripeCustomerId,
-        merchantAccountId: merchantProduct.merchantAccountId,
-      },
     })
+
+    if (!merchantCustomer) {
+      merchantCustomer = await prisma.merchantCustomer.create({
+        data: {
+          userId: user.id,
+          identifier: stripeCustomerId,
+          merchantAccountId: merchantProduct.merchantAccountId,
+        },
+      })
+    }
 
     const merchantCharge = await prisma.merchantCharge.create({
       data: {
