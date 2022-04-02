@@ -64,7 +64,7 @@ export const getServerSideProps: GetServerSideProps = async ({req, query}) => {
   }
 }
 
-const Learn: React.FC<{
+const Welcome: React.FC<{
   purchase: {
     merchantChargeId: string | null
     bulkCoupon: {id: string} | null
@@ -140,4 +140,4 @@ const Learn: React.FC<{
   )
 }
 
-export default Learn
+export default Welcome
