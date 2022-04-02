@@ -43,4 +43,6 @@ jobs:
 
 
       - name: build
+        env:
+          SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
         run: pnpm run build:ci -- --cache-dir=".turbo" --team=skillrecordings --token=${{ secrets.VERCEL_TOKEN }}
