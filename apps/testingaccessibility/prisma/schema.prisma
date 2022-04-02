@@ -147,6 +147,17 @@ model Product {
   merchantProducts  MerchantProduct[]
   prices            Price[]
   purchases         Purchase[]
+  upgradableTo      UpgradableProducts[] @relation("UpgradeToProduct")
+  upgradableFrom    UpgradableProducts[] @relation("UpgradeFromProduct")
+}
+
+
+model UpgradableProducts {
+  upgradableTo       Product     @relation(name: "UpgradeToProduct", fields: [upgradableToId], references: [id])
+  upgradableToId     String
+  upgradableFrom     Product    @relation(name: "UpgradeFromProduct", fields: [upgradableFromId], references: [id])
+  upgradableFromId   String
+  @@id([upgradableToId, upgradableFromId])
 }
 
 model Purchase {
@@ -160,6 +171,9 @@ model Purchase {
   couponId                String?
   productId               String?
   merchantChargeId        String?
+  upgradedFromId          String?
+  upgradedFrom            Purchase?           @relation(name: "UpgradedToPurchase", fields: [upgradedFromId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  upgradedTo              Purchase?           @relation("UpgradedToPurchase")
   bulkCoupon              Coupon?            @relation("BulkCoupon")
   coupon                  Coupon?            @relation(name: "StandardPurchase", fields: [couponId], references: [id], onDelete: Cascade)
   merchantCharge          MerchantCharge?    @relation(fields: [merchantChargeId], references: [id], onDelete: Cascade)
