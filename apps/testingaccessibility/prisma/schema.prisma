@@ -41,9 +41,11 @@ model Coupon {
   usedCount                Int               @default(0)
   percentageDiscount       Decimal           @db.Decimal(3,2)
   restrictedToProductId    String?
+  bulkPurchaseId           String?
+  bulkPurchase             Purchase?         @relation(name: "BulkCoupon", fields: [bulkPurchaseId], references: [id], onDelete: NoAction, onUpdate: NoAction)
   merchantCoupon           MerchantCoupon?   @relation(fields: [merchantCouponId], references: [id], onDelete: Cascade)
   product                  Product?          @relation(fields: [restrictedToProductId], references: [id], onDelete: Cascade)
-  purchases                Purchase[]
+  purchases                Purchase[]        @relation("StandardPurchase")
 }
 
 model MerchantAccount {
@@ -157,8 +159,9 @@ model Purchase {
   country                 String?
   couponId                String?
   productId               String?
-  merchantChargeId        String?           
-  coupon                  Coupon?            @relation(fields: [couponId], references: [id], onDelete: Cascade)
+  merchantChargeId        String?
+  bulkCoupon              Coupon?            @relation("BulkCoupon")
+  coupon                  Coupon?            @relation(name: "StandardPurchase", fields: [couponId], references: [id], onDelete: Cascade)
   merchantCharge          MerchantCharge?    @relation(fields: [merchantChargeId], references: [id], onDelete: Cascade)
   product                 Product?           @relation(fields: [productId], references: [id], onDelete: Cascade)
   user                    User?              @relation(fields: [userId], references: [id], onDelete: Cascade)

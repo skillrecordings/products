@@ -4,11 +4,10 @@ import {GetServerSideProps} from 'next'
 import RedeemDialog from '../components/redeem-dialog'
 import {validateCoupon} from '../utils/validate-coupon'
 import {getSdk} from '../lib/prisma-api'
-import {Decimal} from '@prisma/client/runtime'
+import {serialize} from '../utils/prisma-next-serializer'
 
 const Course: React.FC<{
   couponFromCode: any
-  activeSaleCoupon: any
 }> = ({couponFromCode}) => {
   const [validCoupon, setValidCoupon] = React.useState(false)
 
@@ -50,19 +49,7 @@ export const getServerSideProps: GetServerSideProps = async ({req, query}) => {
 
   return {
     props: {
-      ...(couponFromCode && {couponFromCode: transform(couponFromCode)}),
+      ...(couponFromCode && {couponFromCode: serialize(couponFromCode)}),
     },
   }
-}
-
-function transform(result: any) {
-  for (const resultKey in result) {
-    if (result[resultKey] instanceof Date) {
-      result[resultKey] = result[resultKey].toISOString()
-    } else if (result[resultKey] instanceof Decimal) {
-      result[resultKey] = result[resultKey].toNumber()
-    }
-  }
-
-  return result
 }

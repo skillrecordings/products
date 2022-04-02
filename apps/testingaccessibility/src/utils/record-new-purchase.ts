@@ -2,6 +2,20 @@ import {stripe} from './stripe'
 import {Stripe} from 'stripe'
 import {first} from 'lodash'
 import prisma from '../db'
+import * as Sentry from '@sentry/nextjs'
+import {getSdk} from '../lib/prisma-api'
+
+export class PurchaseError extends Error {
+  checkoutSessionId: string
+  email?: string
+
+  constructor(message: string, checkoutSessionId: string, email?: string) {
+    super(message)
+    this.name = 'CouponRedemptionError'
+    this.checkoutSessionId = checkoutSessionId
+    this.email = email
+  }
+}
 
 async function stripeData(checkoutSessionId: string) {
   const checkoutSession = await stripe.checkout.sessions.retrieve(
@@ -19,6 +33,7 @@ async function stripeData(checkoutSessionId: string) {
   const {email, name, id: stripeCustomerId} = customer as Stripe.Customer
   const lineItem = first(line_items?.data) as Stripe.LineItem
   const stripePrice = lineItem.price
+  const quantity = lineItem.quantity || 1
   const {id: stripeProductId} = stripePrice?.product as Stripe.Product
   const {charges} = payment_intent as Stripe.PaymentIntent
   const stripeChargeId = first<Stripe.Charge>(charges.data)?.id as string
@@ -29,69 +44,79 @@ async function stripeData(checkoutSessionId: string) {
     name,
     stripeProductId,
     stripeChargeId,
+    quantity,
   }
 }
 
 export async function recordNewPurchase(
   checkoutSessionId: string,
 ): Promise<{user: any; purchase: any}> {
-  const {stripeCustomerId, email, name, stripeProductId, stripeChargeId} =
-    await stripeData(checkoutSessionId)
+  const {
+    findOrCreateUser,
+    findOrCreateMerchantCustomer,
+    createMerchantChargeAndPurchase,
+  } = getSdk()
 
-  console.log({stripeCustomerId, email, name, stripeProductId, stripeChargeId})
+  const {
+    stripeCustomerId,
+    email,
+    name,
+    stripeProductId,
+    stripeChargeId,
+    quantity,
+  } = await stripeData(checkoutSessionId)
 
-  if (!email) throw new Error(`no-email-${checkoutSessionId}`)
-
-  return await prisma.$transaction(async (prisma) => {
-    let user = await prisma.user.findUnique({where: {email}})
-
-    if (!user) {
-      user = await prisma.user.create({data: {email, name}})
-    }
-
-    const merchantProduct = await prisma.merchantProduct.findFirst({
-      where: {
-        identifier: stripeProductId,
-      },
-    })
-
-    if (!merchantProduct)
-      throw new Error(`no-associated-product-${checkoutSessionId}`)
-
-    let merchantCustomer = await prisma.merchantCustomer.findUnique({
-      where: {
-        identifier: stripeCustomerId,
-      },
-    })
-
-    if (!merchantCustomer) {
-      merchantCustomer = await prisma.merchantCustomer.create({
-        data: {
-          userId: user.id,
-          identifier: stripeCustomerId,
-          merchantAccountId: merchantProduct.merchantAccountId,
-        },
-      })
-    }
-
-    const merchantCharge = await prisma.merchantCharge.create({
-      data: {
-        userId: user.id,
-        identifier: stripeChargeId,
-        merchantAccountId: merchantProduct.merchantAccountId,
-        merchantProductId: merchantProduct.id,
-        merchantCustomerId: merchantCustomer.id,
-      },
-    })
-
-    const purchase = await prisma.purchase.create({
-      data: {
-        userId: user.id,
-        productId: merchantProduct.productId,
-        merchantChargeId: merchantCharge.id,
-      },
-    })
-
-    return {purchase, user}
+  Sentry.addBreadcrumb({
+    category: 'commerce',
+    level: Sentry.Severity.Info,
+    message: `recording a new purchase ${checkoutSessionId} ${email}`,
   })
+
+  if (!email) throw new PurchaseError(`no-email`, checkoutSessionId)
+
+  const {user} = await findOrCreateUser(email, name)
+
+  const merchantProduct = await prisma.merchantProduct.findFirst({
+    where: {
+      identifier: stripeProductId,
+    },
+  })
+
+  if (!merchantProduct)
+    throw new PurchaseError(`no-associated-product`, checkoutSessionId, email)
+  const {id: merchantProductId, productId, merchantAccountId} = merchantProduct
+
+  const {id: merchantCustomerId} = await findOrCreateMerchantCustomer({
+    userId: user.id,
+    identifier: stripeCustomerId,
+    merchantAccountId,
+  })
+
+  const [_merchantCharge, purchase] = await createMerchantChargeAndPurchase({
+    userId: user.id,
+    stripeChargeId,
+    merchantAccountId,
+    merchantProductId,
+    merchantCustomerId,
+    productId,
+  })
+
+  if (purchase && quantity > 1) {
+    Sentry.addBreadcrumb({
+      category: 'commerce',
+      level: Sentry.Severity.Info,
+      message: `creating a bulk coupon ${checkoutSessionId} ${purchase.id}`,
+    })
+    await prisma.coupon.create({
+      data: {
+        bulkPurchaseId: purchase.id,
+        restrictedToProductId: productId,
+        maxUses: quantity,
+        percentageDiscount: 1.0,
+        status: 1,
+      },
+    })
+  }
+
+  return {purchase, user}
 }
