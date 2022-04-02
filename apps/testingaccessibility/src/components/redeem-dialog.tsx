@@ -27,6 +27,9 @@ const RedeemDialog = ({open = false, couponId}: RedeemDialogProps) => {
           email,
           couponId,
         }),
+        headers: {
+          'Content-Type': 'application/json',
+        },
       }).then((response) => response.json())
 
       router.push(`/thanks/redeem?purchaseId=${purchase?.id}`)
