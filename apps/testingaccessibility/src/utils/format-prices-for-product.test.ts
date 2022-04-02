@@ -183,7 +183,6 @@ test('product should calculate discount if country is "IN" and couponId', async 
     ctx,
   })
 
-  console.log(product)
   const expectedPrice = 25
 
   expect(expectedPrice).toBe(product?.calculatedPrice)

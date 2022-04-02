@@ -1,6 +1,7 @@
 import {NextAuthOptions} from 'next-auth'
 
 import {createHash, randomBytes} from 'crypto'
+import * as Sentry from '@sentry/nextjs'
 
 const baseUrl = process.env.NEXTAUTH_URL || process.env.VERCEL_URL
 
@@ -26,6 +27,12 @@ export async function sendServerEmail({
   const emailProvider: any = nextAuthOptions.providers.find(
     (provider) => provider.id === 'email',
   )
+
+  Sentry.addBreadcrumb({
+    category: 'auth',
+    message: `sending magic link to ${email}`,
+    level: Sentry.Severity.Info,
+  })
 
   callbackUrl = (callbackUrl || baseUrl) as string
 

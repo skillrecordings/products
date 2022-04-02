@@ -18,7 +18,7 @@ export const Pricing: React.FC = () => {
 
   const debouncedQuantity: number = useDebounce<number>(quantity, 250)
 
-  const {data: formattedPrice} = useQuery<FormattedPrice>(
+  const {data: formattedPrice, status} = useQuery<FormattedPrice>(
     ['pricing', coupon, debouncedQuantity],
     () =>
       fetch('/api/prices', {
@@ -64,7 +64,10 @@ export const Pricing: React.FC = () => {
                     </h3>
                   </div>
                   <div className="mt-4 flex items-baseline text-6xl font-extrabold">
-                    ${formattedPrice?.calculatedPrice}
+                    $
+                    {status === 'loading'
+                      ? ` --`
+                      : `${formattedPrice?.calculatedPrice}`}
                   </div>
                   {appliedCoupon ? (
                     <div>

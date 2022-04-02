@@ -13,7 +13,6 @@ const subscriber = async (req: NextApiRequest, res: NextApiResponse) => {
       res.setHeader('Cache-Control', 'max-age=10')
       res.status(200).json(subscriber)
     } catch (error) {
-      console.log('convertkit error')
       res.status(200).end()
     }
   } else {
@@ -23,3 +22,9 @@ const subscriber = async (req: NextApiRequest, res: NextApiResponse) => {
 }
 
 export default withSentry(subscriber)
+
+export const config = {
+  api: {
+    externalResolver: true,
+  },
+}

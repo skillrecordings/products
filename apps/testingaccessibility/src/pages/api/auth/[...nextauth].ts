@@ -6,6 +6,7 @@ import {PrismaAdapter} from '@next-auth/prisma-adapter'
 import prisma from '../../../db'
 import {createTransport} from 'nodemailer'
 import {withSentry} from '@sentry/nextjs'
+import {getSdk} from '../../../lib/prisma-api'
 
 export const nextAuthOptions: NextAuthOptions = {
   secret: process.env.NEXTAUTH_SECRET,
@@ -15,25 +16,6 @@ export const nextAuthOptions: NextAuthOptions = {
   adapter: PrismaAdapter(prisma),
   jwt: {
     secret: process.env.NEXTAUTH_SECRET,
-    encode: async ({secret, token, maxAge}) => {
-      const encodedToken = jwt.sign(
-        {
-          ...token,
-          iat: Date.now() / 1000,
-          exp: Math.floor(Date.now() / 1000) + 24 * 60 * 60,
-        } || '',
-        secret,
-        {algorithm: 'HS256'},
-      )
-
-      return encodedToken
-    },
-    decode: async (params) => {
-      if (!params.token) return null
-
-      const verify = jwt.verify(params.token, params.secret)
-      return verify as JWT
-    },
   },
   providers: [
     EmailProvider({
@@ -50,6 +32,12 @@ export const nextAuthOptions: NextAuthOptions = {
         url,
         provider: {server, from},
       }) => {
+        const {getUserByEmail} = getSdk()
+
+        const user = await getUserByEmail(email)
+
+        if (!user) return
+
         const {host} = new URL(url)
         const transport = createTransport(server)
         await transport.sendMail({
@@ -79,9 +67,20 @@ export const nextAuthOptions: NextAuthOptions = {
       return token
     },
   },
+  pages: {
+    signIn: '/login',
+    error: '/error',
+    verifyRequest: '/check-your-email',
+  },
 }
 
 export default withSentry(NextAuth(nextAuthOptions))
+
+export const config = {
+  api: {
+    externalResolver: true,
+  },
+}
 
 function html({url, host, email}: Record<'url' | 'host' | 'email', string>) {
   // Insert invisible space into domains and email address to prevent both the
