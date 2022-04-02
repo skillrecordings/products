@@ -9,7 +9,7 @@ export async function middleware(req: NextApiRequest, ev: NextFetchEvent) {
   // You could also check for any property on the session object,
   // like role === "admin" or name === "John Doe", etc.
   if (!session)
-    return NextResponse.redirect(`${process.env.NEXTAUTH_URL}/api/auth/signin`)
+    return NextResponse.redirect(`${process.env.NEXTAUTH_URL}/login`)
 
   // If user is authenticated, continue.
   return NextResponse.next()
