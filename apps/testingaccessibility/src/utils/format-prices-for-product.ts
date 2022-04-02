@@ -4,23 +4,9 @@ import {getCalculatedPriced} from './get-calculated-price'
 import {getSdk} from '../lib/prisma-api'
 import {Context, defaultContext} from '../lib/context'
 
-// TODO: create specific errors when there is an issue
-// TODO: investigate upgrades using ad hoc pricing or fixed discount
-// ad hoc: calculate the price difference between the two tiers
-// where the product is immediately archived on the strip side
-// but give the product a standard name/identifier to track upgrade
-// revenue
-// fixed discount: Upgrade to [Tier] is a product and the cost is a ratio
-// of the tier you are upgrading from. Basic -> Pro
+// TODO: dynamic stripe coupon matching % discount of upgrade ⭐️
 // TODO: Return the upgrade price for the product
-// TODO: Checkout with ad hoc upgrade pricing
-// TODO: Checkout with generated dynamic coupon
-// https://stripe.com/docs/products-prices/manage-prices#ad-hoc-prices
-// no upgrade for a bulk purchase
-// upgrade price to a product requires
-// - product is a higher tier
-// - valid purchase of the qualifying upgradeable product
-// - upgrade From X to Y cost -> (Target Product Price - Purchase Price) * 1.1
+// TODO: Checkout with dynamic stripe coupon upgrade pricing
 // 10% premium for an upgrade
 // TODO: Display Coupon Errors
 // TODO: Display Applied Site Coupon w/ Expiration
