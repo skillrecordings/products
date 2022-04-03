@@ -12,18 +12,64 @@ export const getServerSideProps: GetServerSideProps = async ({req, query}) => {
   const token = await getDecodedToken(req)
 
   if (purchaseId) {
-    const purchase = await prisma.purchase.findUnique({
+    const allPurchases = await prisma.purchase.findMany({
+      where: {
+        userId: token?.sub,
+      },
+      select: {
+        id: true,
+        productId: true,
+      },
+    })
+    const purchase = await prisma.purchase.findFirst({
       where: {
         id: purchaseId as string,
+        userId: token?.sub,
       },
       select: {
         merchantChargeId: true,
         bulkCoupon: {
           select: {
             id: true,
+            maxUses: true,
+            usedCount: true,
           },
         },
         product: {
+          select: {
+            id: true,
+            name: true,
+          },
+        },
+      },
+    })
+
+    if (!purchase) {
+      return {
+        redirect: {
+          destination: '/learn',
+          permanent: false,
+        },
+      }
+    }
+
+    const availableUpgrades = await prisma.upgradableProducts.findMany({
+      where: {
+        AND: [
+          {
+            upgradableFromId: purchase?.product?.id,
+          },
+          {
+            NOT: {
+              upgradableToId: {
+                in: allPurchases.map(({productId}) => productId),
+              },
+            },
+          },
+        ],
+      },
+      select: {
+        upgradableTo: {
           select: {
             id: true,
             name: true,
@@ -56,6 +102,7 @@ export const getServerSideProps: GetServerSideProps = async ({req, query}) => {
       props: {
         purchase: serialize(purchase),
         existingPurchase,
+        availableUpgrades,
       },
     }
   }
@@ -67,21 +114,26 @@ export const getServerSideProps: GetServerSideProps = async ({req, query}) => {
 const Welcome: React.FC<{
   purchase: {
     merchantChargeId: string | null
-    bulkCoupon: {id: string} | null
-    product: {id: string; name: string | null} | null
+    bulkCoupon: {id: string; maxUses: number; usedCount: number} | null
+    product: {id: string; name: string}
   }
   existingPurchase: {
     id: string
-    product: {id: string; name: string | null} | null
+    product: {id: string; name: string}
   }
   token: any
-}> = ({purchase, token, existingPurchase}) => {
+  availableUpgrades: {upgradableTo: {id: string; name: string}}[]
+}> = ({purchase, token, existingPurchase, availableUpgrades}) => {
   const {data: session, status} = useSession()
   const [personalPurchase, setPersonalPurchase] = React.useState(
     purchase.bulkCoupon ? existingPurchase : purchase,
   )
+
+  const redemptionsLeft =
+    purchase.bulkCoupon &&
+    purchase.bulkCoupon.maxUses > purchase.bulkCoupon.usedCount
   const [canRedeem, setCanRedeem] = React.useState(
-    Boolean(purchase.bulkCoupon && !existingPurchase),
+    Boolean(redemptionsLeft && !existingPurchase),
   )
 
   async function handleSelfRedeem() {
@@ -116,11 +168,11 @@ const Welcome: React.FC<{
           {purchase.merchantChargeId}
         </Link>
       </p>
-      {purchase.bulkCoupon ? (
+      {redemptionsLeft ? (
         <div>
           <p>
             send to colleagues:{' '}
-            {`${process.env.NEXT_PUBLIC_URL}?code=${purchase.bulkCoupon.id}`}
+            {`${process.env.NEXT_PUBLIC_URL}?code=${purchase?.bulkCoupon?.id}`}
           </p>
           {canRedeem ? (
             <button
@@ -134,6 +186,9 @@ const Welcome: React.FC<{
             <p>access this content yourself: {existingPurchase.id}</p>
           ) : null}
         </div>
+      ) : null}
+      {availableUpgrades ? (
+        <div>available upgrades: {JSON.stringify(availableUpgrades)}</div>
       ) : null}
       <p>raw purchase: {JSON.stringify(purchase)}</p>
     </div>

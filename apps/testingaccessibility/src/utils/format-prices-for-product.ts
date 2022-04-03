@@ -5,6 +5,7 @@ import {getSdk} from '../lib/prisma-api'
 import {Context, defaultContext} from '../lib/context'
 
 // TODO: dynamic stripe coupon matching % discount of upgrade ⭐️
+// https://stripe.com/docs/api/coupons/create
 // TODO: Return the upgrade price for the product
 // TODO: Checkout with dynamic stripe coupon upgrade pricing
 // 10% premium for an upgrade
