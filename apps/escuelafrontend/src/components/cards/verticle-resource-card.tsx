@@ -42,7 +42,7 @@ const VerticalResourceCard: React.FC<VerticalResourceCardProps> = ({
             {featuredResource == true ? (
               <p
                 aria-hidden
-                className="uppercase font-medium lg:text-[0.65rem] text-[0.55rem] pb-5 text-gray-700 dark:text-indigo-100 opacity-60"
+                className="uppercase font-regular lg:text-[0.75rem] text-[0.55rem] pb-2 text-gray-700 dark:text-indigo-100 opacity-60"
               >
                 Recurso destacado
               </p>
@@ -72,7 +72,7 @@ const VerticalResourceCard: React.FC<VerticalResourceCardProps> = ({
           </div>
 
           {banner == true ? (
-            <div className="absolute top-0 left-0 z-20 w-full h-2 bg-gradient-to-r from-gray-400 to-gray-300"></div>
+            <div className="absolute top-0 left-0 z-20 w-full h-1 bg-gradient-to-r from-gray-400 to-gray-300"></div>
           ) : null}
         </div>
       </a>

@@ -93,7 +93,9 @@ const Instructor: FunctionComponent<{
             <h1 className="text-3xl font-bold leading-tight font-fibra">
               {name}
             </h1>
-            <p className="text-sm uppercase">{title}</p>
+            <p className="uppercase font-regular lg:text-[0.75rem] text-[0.55rem] pb-2 text-gray-700 dark:text-indigo-100 opacity-60">
+              {title}
+            </p>
             <div className="mt-2">
               <ul className="flex justify-center space-x-5 md:justify-start">
                 {twitter && (
