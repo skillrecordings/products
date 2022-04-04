@@ -16,10 +16,8 @@ const allResourcesQuery = groq`*[_type == "person" && slug.current == $slug][0]{
   "slug": slug.current,
   "instructorResource": *[_type=='collaborator' && references(^._id)]{ 
     "instructor": {
-      role,
       'slug': person->slug.current,
       'name': person->name,
-      'path': person->website,
       'twitter': person->twitter,
       'image': person->image.url
     },
@@ -33,10 +31,8 @@ const allResourcesQuery = groq`*[_type == "person" && slug.current == $slug][0]{
         "image": image.url
       },
       "instructor": collaborators[0]->{
-        role,
         'slug': person->slug.current,
         'name': person->name,
-        'path': person->website,
         'twitter': person->twitter,
         'image': person->image.url
       },
