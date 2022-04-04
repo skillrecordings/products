@@ -12,17 +12,13 @@ const tier = {
   features: ['Community Forum', 'Access to everything'],
 }
 
-export const Pricing: React.FC<{activeSaleCoupon: any}> = ({
-  activeSaleCoupon,
-}) => {
-  const [coupon, setCoupon] = React.useState(
-    activeSaleCoupon ? activeSaleCoupon.merchant_coupon_id : undefined,
-  )
+export const Pricing: React.FC = () => {
+  const [coupon, setCoupon] = React.useState()
   const [quantity, setQuantity] = React.useState(1)
 
   const debouncedQuantity: number = useDebounce<number>(quantity, 250)
 
-  const {data: formattedPrice} = useQuery<FormattedPrice>(
+  const {data: formattedPrice, status} = useQuery<FormattedPrice>(
     ['pricing', coupon, debouncedQuantity],
     () =>
       fetch('/api/prices', {
@@ -68,7 +64,10 @@ export const Pricing: React.FC<{activeSaleCoupon: any}> = ({
                     </h3>
                   </div>
                   <div className="mt-4 flex items-baseline text-6xl font-extrabold">
-                    ${formattedPrice?.calculatedPrice}
+                    $
+                    {status === 'loading'
+                      ? ` --`
+                      : `${formattedPrice?.calculatedPrice}`}
                   </div>
                   {appliedCoupon ? (
                     <div>
@@ -76,8 +75,8 @@ export const Pricing: React.FC<{activeSaleCoupon: any}> = ({
                         {`${Math.floor(
                           appliedCoupon.percentageDiscount * 100,
                         )}% off of $${
-                          (formattedPrice.unitPrice || 0) *
-                          (formattedPrice.quantity || 0)
+                          (formattedPrice?.unitPrice || 0) *
+                          (formattedPrice?.quantity || 0)
                         }`}
                       </div>
                       {appliedCoupon.type === 'site' ? (

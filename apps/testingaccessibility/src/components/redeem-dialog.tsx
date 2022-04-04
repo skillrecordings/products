@@ -20,8 +20,19 @@ const RedeemDialog = ({open = false, couponId}: RedeemDialogProps) => {
       email: '',
     },
     validationSchema,
-    onSubmit: ({email}) => {
-      router.push(`/api/redeem?email=${email}&couponId=${couponId}`)
+    onSubmit: async ({email}) => {
+      const purchase = await fetch(`/api/redeem`, {
+        method: 'post',
+        body: JSON.stringify({
+          email,
+          couponId,
+        }),
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      }).then((response) => response.json())
+
+      router.push(`/thanks/redeem?purchaseId=${purchase?.id}`)
     },
   })
   return (

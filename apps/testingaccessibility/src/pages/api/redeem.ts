@@ -3,45 +3,75 @@ import {validateCoupon} from '../../utils/validate-coupon'
 import {sendServerEmail} from '../../utils/send-server-email'
 import {nextAuthOptions} from './auth/[...nextauth]'
 import prisma from '../../db'
+import {withSentry} from '@sentry/nextjs'
+import {getSdk} from '../../lib/prisma-api'
+import * as Sentry from '@sentry/nextjs'
+
+export class CouponRedemptionError extends Error {
+  couponId: string
+  email: string
+  existingPurchaseId?: string
+
+  constructor(
+    message: string,
+    couponId: string,
+    email: string,
+    existingPurchaseId?: string,
+  ) {
+    super(message)
+    this.name = 'CouponRedemptionError'
+    this.couponId = couponId
+    this.email = email
+    this.existingPurchaseId = existingPurchaseId
+  }
+}
 
 const redeemHandler = async (req: NextApiRequest, res: NextApiResponse) => {
-  if (req.method === 'GET') {
+  if (req.method === 'POST') {
     try {
-      const country = (req.headers['x-vercel-ip-country'] as string) || 'US'
-      const {email: baseEmail, couponId} = req.query
+      const {findOrCreateUser, getCoupon} = getSdk()
+
+      const {email: baseEmail, couponId, sendEmail = true} = req.body
 
       if (!baseEmail) throw new Error('invalid-email')
 
+      // something in the chain strips out the plus and leaves a space
       const email = String(baseEmail).replace(' ', '+')
 
-      const coupon = await prisma.coupon.findFirst({
-        where: {id: couponId as string},
+      const coupon = await getCoupon({
+        where: {id: couponId},
       })
 
-      const validation = validateCoupon(coupon)
+      const couponValidation = validateCoupon(coupon)
 
-      if (coupon && validation.isValid) {
-        let user = await prisma.user.findFirst({
-          where: {
+      if (coupon && couponValidation.isValid) {
+        const {user, isNewUser} = await findOrCreateUser(email)
+
+        if (!user)
+          throw new CouponRedemptionError(
+            `unable-to-create-user`,
+            couponId as string,
             email,
-          },
-        })
-
-        if (!user) {
-          user = await prisma.user.create({
-            data: {email: email as string},
-          })
-        }
-
-        if (!user) throw new Error(`unable-to-create-user`)
+          )
 
         const existingPurchase = await prisma.purchase.findFirst({
           where: {
             userId: user.id,
+            productId: coupon.restrictedToProductId,
+            bulkCoupon: null,
+          },
+          select: {
+            id: true,
           },
         })
 
-        if (existingPurchase) throw new Error('already-purchased')
+        if (existingPurchase)
+          throw new CouponRedemptionError(
+            'already-purchased',
+            couponId as string,
+            email,
+            existingPurchase.id,
+          )
 
         const purchase = await prisma.purchase.create({
           data: {
@@ -51,24 +81,33 @@ const redeemHandler = async (req: NextApiRequest, res: NextApiResponse) => {
           },
         })
 
-        await sendServerEmail({
-          email: user.email,
-          nextAuthOptions,
-        })
+        if (sendEmail)
+          await sendServerEmail({
+            email: user.email,
+            callbackUrl: `${process.env.NEXTAUTH_URL}/learn/welcome?purchaseId=${purchase.id}`,
+            nextAuthOptions,
+          })
 
         await prisma.coupon.update({
           where: {id: coupon.id},
           data: {
-            usedCount: coupon.usedCount + 1,
+            usedCount: {
+              increment: 1,
+            },
           },
         })
 
-        res.redirect(303, `/thanks/redeem?purchaseId=${purchase?.id}`)
+        res.status(200).json(purchase)
         return
       } else {
-        throw new Error(`coupon-is-invalid`)
+        throw new CouponRedemptionError(
+          `coupon-is-invalid`,
+          couponId as string,
+          email,
+        )
       }
     } catch (error: any) {
+      Sentry.captureException(error)
       res.status(500).json({error: true, message: error.message})
     }
   } else {
@@ -77,4 +116,10 @@ const redeemHandler = async (req: NextApiRequest, res: NextApiResponse) => {
   }
 }
 
-export default redeemHandler
+export default withSentry(redeemHandler)
+
+export const config = {
+  api: {
+    externalResolver: true,
+  },
+}

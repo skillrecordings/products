@@ -28,6 +28,16 @@ import {Context, defaultContext} from '../lib/context'
 // departure from the three tiers we've used in the past and the third tier
 // is for teams
 
+export class PriceFormattingError extends Error {
+  options: FormatPricesForProductOptions
+
+  constructor(message: string, options: FormatPricesForProductOptions) {
+    super(message)
+    this.name = 'PriceFormattingError'
+    this.options = options
+  }
+}
+
 type FormatPricesForProductOptions = {
   productId: string
   country?: string
@@ -47,28 +57,24 @@ export type FormattedPrice = {
 }
 
 /**
+ * Creates a verified price for a given product based on the unit price
+ * of the product, coupons, and other factors.
  *
- * @param productId
- * @param country
- * @param quantity
- * @param code
- * @param couponId
- * @param {Context} ctx the Prisma context
+ * @param {FormatPricesForProductOptions} options the Prisma context
  */
-export async function formatPricesForProduct({
-  productId,
-  country = 'US',
-  quantity = 1,
-  code,
-  couponId,
-  ctx = defaultContext,
-}: FormatPricesForProductOptions) {
+export async function formatPricesForProduct(
+  options: FormatPricesForProductOptions,
+) {
+  const {ctx = defaultContext, ...noContextOptions} = options
+  const {
+    productId,
+    country = 'US',
+    quantity = 1,
+    code,
+    couponId,
+  } = noContextOptions
+
   const {getProduct, getMerchantCoupon, getCoupon, getPrice} = getSdk(ctx)
-  if (quantity > 101) {
-    throw new Error(
-      'Please contact support and we will help you with your team order ASAP!',
-    )
-  }
 
   const product = await getProduct({
     where: {id: productId},
@@ -78,12 +84,12 @@ export async function formatPricesForProduct({
   })
 
   if (!product) {
-    throw new Error(`no-product-found-${productId}`)
+    throw new PriceFormattingError(`no-product-found`, noContextOptions)
   }
 
   const price = await getPrice({where: {productId}})
 
-  if (!price) throw new Error(`no-price-found-${productId}`)
+  if (!price) throw new PriceFormattingError(`no-price-found`, noContextOptions)
 
   const pppDiscountPercent = getPPPDiscountPercent(country)
   const bulkCouponPercent = getBulkDiscountPercent(quantity)
@@ -133,11 +139,14 @@ export async function formatPricesForProduct({
   if (code) {
     const coupon = await getCoupon({where: {code}})
 
-    if (!coupon) throw new Error(`No coupon found for code [${code}`)
+    if (!coupon) throw new PriceFormattingError(`no-coupon`, noContextOptions)
 
     if (coupon) {
       if (coupon.restrictedToProductId !== productId) {
-        throw new Error('Invalid coupon.')
+        throw new PriceFormattingError(
+          'coupon-not-valid-for-product',
+          noContextOptions,
+        )
       }
 
       const calculatedPrice = getCalculatedPriced({
@@ -151,12 +160,15 @@ export async function formatPricesForProduct({
         appliedCoupon: coupon,
       }
     }
-  } else if (pppApplied) {
+  } else if (appliedCoupon && pppApplied) {
     const invalidCoupon =
       pppDiscountPercent !== appliedCoupon.percentageDiscount.toNumber()
 
     if (invalidCoupon || appliedCoupon.type !== 'ppp')
-      throw new Error('Invalid coupon')
+      throw new PriceFormattingError(
+        'coupon-not-valid-for-ppp',
+        noContextOptions,
+      )
 
     const {identifier, ...merchantCouponWithoutIdentifier} = appliedCoupon
 
