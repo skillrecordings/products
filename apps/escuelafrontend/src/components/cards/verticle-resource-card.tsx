@@ -2,19 +2,23 @@ import * as React from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 
-type HorizontalResourceCardProps = {
+type VerticalResourceCardProps = {
   resource?: any
   location?: string
   className?: string
+  banner?: boolean
+  featuredResource?: boolean
 }
 
-const HorizontalResourceCard: React.FC<HorizontalResourceCardProps> = ({
+const VerticalResourceCard: React.FC<VerticalResourceCardProps> = ({
   resource,
   location,
-  className = 'p-5 sm:p-8 ',
+  className = 'px-5 py-12 sm:px-8',
+  banner = false,
+  featuredResource = false,
   ...props
 }) => {
-  className = `${className} text-black h-full dark:text-white bg-white dark:bg-gray-800 backdrop-filter backdrop-blur-lg dark:bg-opacity-80 bg-opacity-80 hover:shadow-md rounded-xl overflow-hidden hover:-translate-y-2 hover:scale-[1.01] transform transition-all ease-in-out duration-300 flex flex-col justify-start items-between shadow`
+  className = `${className} flex flex-col items-center justify-center h-full overflow-hidden text-center text-black transition-all duration-300 ease-in-out transform bg-white shadow dark:text-white dark:bg-gray-800 backdrop-filter backdrop-blur-lg dark:bg-opacity-80 bg-opacity-80 hover:shadow-md rounded-xl hover:-translate-y-2 hover:scale-[1.01] items-between relative z-10`
 
   return (
     <Link href={resource.path}>
@@ -25,8 +29,8 @@ const HorizontalResourceCard: React.FC<HorizontalResourceCardProps> = ({
               <span>
                 <Image
                   src={resource.tag.image}
-                  width={40}
-                  height={40}
+                  width={200}
+                  height={200}
                   quality={100}
                   alt={resource.tag.name}
                   className="relative z-10 rounded-md"
@@ -35,6 +39,15 @@ const HorizontalResourceCard: React.FC<HorizontalResourceCardProps> = ({
               </span>
             )}
 
+            {featuredResource == true ? (
+              <p
+                aria-hidden
+                className="uppercase font-medium lg:text-[0.65rem] text-[0.55rem] pb-5 text-gray-700 dark:text-indigo-100 opacity-60"
+              >
+                Recurso destacado
+              </p>
+            ) : null}
+
             {resource.title && (
               <h3 className="text-2xl font-bold leading-tight font-fibra">
                 {resource.title}
@@ -42,7 +55,7 @@ const HorizontalResourceCard: React.FC<HorizontalResourceCardProps> = ({
             )}
 
             {resource.author && (
-              <div className="flex items-center space-x-2">
+              <div className="flex items-center justify-center mt-1 mb-2 space-x-2 text-xs">
                 <Image
                   src={resource.author.image}
                   alt={resource.author.name}
@@ -57,10 +70,14 @@ const HorizontalResourceCard: React.FC<HorizontalResourceCardProps> = ({
               </div>
             )}
           </div>
+
+          {banner == true ? (
+            <div className="absolute top-0 left-0 z-20 w-full h-2 bg-gradient-to-r from-gray-400 to-gray-300"></div>
+          ) : null}
         </div>
       </a>
     </Link>
   )
 }
 
-export {HorizontalResourceCard}
+export {VerticalResourceCard}

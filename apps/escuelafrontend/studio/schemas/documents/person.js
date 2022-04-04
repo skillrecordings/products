@@ -40,6 +40,35 @@ export default {
       type: 'url',
       description: 'Full URL',
     },
+    {
+      name: 'title',
+      title: 'Title',
+      type: 'string',
+      description:
+        'External title that instructors use, e.g, "Software Engineer"',
+    },
+    {
+      name: 'bio',
+      title: 'Instructor Bio',
+      type: 'markdown',
+      description: 'Max length 500 characters',
+      options: {
+        maxLength: 500,
+      },
+    },
+    {
+      name: 'featuredResource',
+      description: 'Featured resource on instructor profiles',
+      title: 'Featured Resource',
+      type: 'array',
+      of: [
+        {
+          type: 'reference',
+          title: 'Resources Refs',
+          to: [{type: 'post'}],
+        },
+      ],
+    },
   ],
   preview: {
     select: {

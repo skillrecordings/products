@@ -19,7 +19,20 @@ const allResourcesQuery = groq`*[_type == "person" && slug.current == $slug][0]{
       'slug': person->slug.current,
       'name': person->name,
       'twitter': person->twitter,
-      'image': person->image.url
+      'website': person->website,
+      'image': person->image.url,
+      'bio': person->bio,
+      'title': person->title,
+      "featuredResource": person->featuredResource[]-> {
+        title,
+        slug,
+        path,
+        publishedAt,
+        "tag": softwarelibraries[0]-> {
+          name,
+          "image": image.url
+        },
+      }
     },
     "allArticles": *[_type=='post' && references(^._id)]{ 
       title,
