@@ -18,7 +18,7 @@ const VerticalResourceCard: React.FC<VerticalResourceCardProps> = ({
   featuredResource = false,
   ...props
 }) => {
-  className = `${className} flex flex-col items-center justify-center h-full overflow-hidden text-center text-black transition-all duration-300 ease-in-out transform bg-white shadow dark:text-white dark:bg-gray-800 backdrop-filter backdrop-blur-lg dark:bg-opacity-80 bg-opacity-80 hover:shadow-md rounded-xl hover:-translate-y-2 hover:scale-[1.01] items-between relative z-10`
+  className = `${className} flex flex-col items-center justify-center h-full overflow-hidden text-center text-black transition-all duration-300 ease-in-out transform bg-white shadow dark:text-white dark:bg-gray-800 backdrop-filter backdrop-blur-lg dark:bg-opacity-80 bg-opacity-80 hover:shadow-md rounded-xl hover:-translate-y-2 hover:scale-[1.01] items-between relative z-10 dark:border dark:border-gray-700 dark:border-opacity-50`
 
   return (
     <Link href={resource.path}>
@@ -42,7 +42,7 @@ const VerticalResourceCard: React.FC<VerticalResourceCardProps> = ({
             {featuredResource == true ? (
               <p
                 aria-hidden
-                className="uppercase font-regular lg:text-[0.75rem] text-[0.55rem] pb-2 text-gray-700 dark:text-indigo-100 opacity-60"
+                className="uppercase font-regular text-[0.75rem] pb-2 text-gray-700 dark:text-gray-100 opacity-60"
               >
                 Recurso destacado
               </p>
@@ -72,7 +72,21 @@ const VerticalResourceCard: React.FC<VerticalResourceCardProps> = ({
           </div>
 
           {banner == true ? (
-            <div className="absolute top-0 left-0 z-20 w-full h-1 bg-gradient-to-r from-gray-400 to-gray-300"></div>
+            <div
+              className={`${
+                resource.tag.slug === 'react'
+                  ? 'from-[#60dafa] to-[#27d0fd]'
+                  : resource.tag.slug === 'javascript'
+                  ? ' bg-[#f0db4e]'
+                  : resource.tag.slug === 'next-js'
+                  ? 'from-gray-300 to-gray-400'
+                  : resource.tag.slug === 'npm'
+                  ? 'bg-[#d60100]'
+                  : resource.tag.slug === 'typescript'
+                  ? 'from-blue-300 to-blue-400'
+                  : 'from-gray-300 to-gray-400'
+              } absolute top-0 left-0 z-20 w-full h-1 `}
+            ></div>
           ) : null}
         </div>
       </a>

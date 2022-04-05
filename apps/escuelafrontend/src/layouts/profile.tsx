@@ -14,6 +14,7 @@ const ProfileTemplate: React.FC<ProfileTemplateProps> = ({meta}) => {
   const {allArticles = {}, instructor = {name: 'Unknown instructor'}} = meta
 
   const featuredResource = instructor.featuredResource
+
   return (
     <>
       <div className="z-50 grid max-w-screen-xl grid-cols-1 gap-0 mx-auto mt-5 lg:gap-8 lg:grid-cols-3">
@@ -93,9 +94,13 @@ const Instructor: FunctionComponent<{
             <h1 className="text-3xl font-bold leading-tight font-fibra">
               {name}
             </h1>
-            <p className="uppercase font-regular lg:text-[0.75rem] text-[0.55rem] pb-2 text-gray-700 dark:text-indigo-100 opacity-60">
-              {title}
-            </p>
+
+            {title && (
+              <p className="uppercase font-regular text-[0.75rem] pb-2 text-gray-700 dark:text-gray-100 opacity-60">
+                {title}
+              </p>
+            )}
+
             <div className="mt-2">
               <ul className="flex justify-center space-x-5 md:justify-start">
                 {twitter && (
@@ -153,7 +158,7 @@ const Instructor: FunctionComponent<{
         <hr className="border border-gray-500 border-opacity-10" />
         <div>
           {bio && (
-            <Markdown className="leading-tight prose dark:prose-dark">
+            <Markdown className="prose prose-lg dark:prose-dark">
               {bio}
             </Markdown>
           )}

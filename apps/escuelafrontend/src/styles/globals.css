@@ -5,25 +5,22 @@
 @import '@reach/dialog/styles.css';
 @import './fonts/index.css';
 
-#__next {
-  @apply font-typold;
-  h1,
-  h2 {
-    @apply font-fibra;
-  }
-}
-
 ::selection {
   @apply bg-blue-600;
   color: #fefefe;
 }
 
 .prose pre {
-  @apply bg-gray-900 sm:-mx-5 dark:bg-gray-800;
+  @apply p-4 bg-gray-900 dark:bg-gray-800 dark:border dark:border-gray-700 dark:border-opacity-50;
 }
 
 .prose code {
-  @apply bg-gray-200;
+  @apply bg-gray-200 px-0.5 font-normal py-0.5 border border-gray-100 dark:border-gray-800 rounded-lg;
+}
+
+.prose pre code {
+  @apply p-0;
+  border: initial;
 }
 
 pre::-webkit-scrollbar {

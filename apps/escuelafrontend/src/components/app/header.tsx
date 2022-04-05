@@ -145,7 +145,7 @@ const Subscribe = () => {
             />
           </g>
         </svg>
-        <div className="pb-1 pl-4 font-semibold">Únete al Newsletter</div>
+        <div className="pl-4 font-semibold">Únete al Newsletter</div>
       </button>
       <Dialog
         isOpen={open}

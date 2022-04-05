@@ -30,6 +30,7 @@ const allResourcesQuery = groq`*[_type == "person" && slug.current == $slug][0]{
         publishedAt,
         "tag": softwarelibraries[0]-> {
           name,
+          "slug": slug.current,
           "image": image.url
         },
       }

@@ -16,13 +16,23 @@ module.exports = {
   theme: {
     extend: {
       fontFamily: {
-        fibra: ['Fibra One', ...defaultTheme.fontFamily.sans],
-        typold: ['Typold', ...defaultTheme.fontFamily.sans],
+        sans: ['IBM Plex Sans', ...defaultTheme.fontFamily.sans],
         sicret: ['Sicret Mono', ...defaultTheme.fontFamily.mono],
       },
       colors: {
         primary: '#3b82f6',
-        gray: colors.slate,
+        gray: {
+          50: '#FFF',
+          100: '#FAFAFA',
+          200: '#EAEAEA',
+          300: '#999',
+          400: '#888',
+          500: '#666',
+          600: '#444',
+          700: '#333',
+          800: '#111',
+          900: '#000',
+        },
       },
       typography: (theme) => ({
         DEFAULT: {
@@ -37,10 +47,10 @@ module.exports = {
             },
             code: {
               padding: '3px 5px',
-              fontSize: '95% !important',
+              fontSize: '90% !important',
               borderRadius: 5,
               background: theme('colors.gray.100'),
-              fontFamily: "'Input Mono' !important",
+              fontFamily: "'IBM Plex Mono' !important",
             },
             'code::before': {
               content: "''",
@@ -71,7 +81,7 @@ module.exports = {
             },
             code: {
               padding: '3px 5px',
-              fontSize: '95% !important',
+              fontSize: '90% !important',
               borderRadius: 5,
               color: theme('colors.white'),
               background: theme('colors.gray.700'),
