@@ -17,7 +17,7 @@ const ProfileTemplate: React.FC<ProfileTemplateProps> = ({meta}) => {
 
   return (
     <>
-      <div className="z-50 grid max-w-screen-xl grid-cols-1 gap-0 mx-auto mt-5 lg:gap-8 lg:grid-cols-3">
+      <div className="grid max-w-screen-xl grid-cols-1 gap-0 mx-auto mt-5 lg:gap-8 lg:grid-cols-3">
         <div className="col-span-2 mb-8 lg:mb-0">
           {instructor && <Instructor instructor={instructor} />}
         </div>
@@ -76,7 +76,7 @@ const Instructor: FunctionComponent<{
   const {name, image, twitter, bio, website, title} = instructor
 
   return (
-    <div className="z-50 h-full p-10 text-black transition-all duration-200 ease-in-out transform bg-white shadow md:p-20 dark:text-white dark:bg-gray-800 rounded-xl">
+    <div className="h-full p-10 text-black transition-all duration-200 ease-in-out transform bg-white rounded shadow md:p-20 dark:text-white dark:bg-gray-800">
       <div className="grid gap-10">
         <div className="grid items-center grid-cols-1 text-center md:text-left md:grid-cols-[150px,auto] gap-5">
           <div>

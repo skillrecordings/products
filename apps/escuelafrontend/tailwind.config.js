@@ -47,10 +47,10 @@ module.exports = {
             },
             code: {
               padding: '3px 5px',
-              fontSize: '90% !important',
+              fontSize: '95% !important',
               borderRadius: 5,
               background: theme('colors.gray.100'),
-              fontFamily: "'IBM Plex Mono' !important",
+              fontFamily: ['IBM Plex Mono', ...defaultTheme.fontFamily.mono],
             },
             'code::before': {
               content: "''",
@@ -81,11 +81,11 @@ module.exports = {
             },
             code: {
               padding: '3px 5px',
-              fontSize: '90% !important',
+              fontSize: '95% !important',
               borderRadius: 5,
               color: theme('colors.white'),
               background: theme('colors.gray.700'),
-              fontFamily: "'Input Mono' !important",
+              fontFamily: ['IBM Plex Mono', ...defaultTheme.fontFamily.mono],
             },
             'pre > code': {
               background: 'none',

@@ -15,7 +15,7 @@
 }
 
 .prose code {
-  @apply bg-gray-200 px-0.5 font-normal py-0.5 border border-gray-100 dark:border-gray-800 rounded-lg;
+  @apply bg-gray-200 px-0.5 font-normal py-0.5 border border-gray-100 dark:border-gray-800 rounded;
 }
 
 .prose pre code {
