@@ -18,7 +18,9 @@ const VerticalResourceCard: React.FC<VerticalResourceCardProps> = ({
   featuredResource = false,
   ...props
 }) => {
+
   className = `${className} flex flex-col items-center justify-center h-full overflow-hidden text-center text-black transition-all duration-300 ease-in-out transform bg-white shadow dark:text-white dark:bg-gray-800 backdrop-filter backdrop-blur-lg dark:bg-opacity-80 bg-opacity-80 hover:shadow-md rounded hover:-translate-y-2 hover:scale-[1.01] items-between relative z-10 dark:border dark:border-gray-700 dark:border-opacity-50`
+
 
   return (
     <Link href={resource.path}>
@@ -40,10 +42,8 @@ const VerticalResourceCard: React.FC<VerticalResourceCardProps> = ({
             )}
 
             {featuredResource == true ? (
-              <p
-                aria-hidden
-                className="uppercase font-regular text-[0.75rem] pb-2 text-gray-700 dark:text-gray-100 opacity-60"
-              >
+              <p aria-hidden
+                className="uppercase font-regular text-[0.75rem] pb-2 text-gray-700 dark:text-gray-100 opacity-60">
                 Recurso destacado
               </p>
             ) : null}

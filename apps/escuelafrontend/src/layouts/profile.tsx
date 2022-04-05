@@ -100,7 +100,6 @@ const Instructor: FunctionComponent<{
                 {title}
               </p>
             )}
-
             <div className="mt-2">
               <ul className="flex justify-center space-x-5 md:justify-start">
                 {twitter && (
