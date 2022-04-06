@@ -60,6 +60,7 @@ export const SeekBar: React.FC<any> = (props) => {
         })
         videoService.send('END_SEEKING')
       }}
+      aria-label="seek slider"
       getAriaValueText={(value) => {
         const currentValue = Number(value.toFixed(0))
 
