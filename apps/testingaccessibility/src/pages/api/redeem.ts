@@ -81,6 +81,7 @@ const redeemHandler = async (req: NextApiRequest, res: NextApiResponse) => {
             userId: user.id,
             couponId: coupon.id,
             productId: coupon.restrictedToProductId as string,
+            totalAmount: 0,
           },
         })
 
