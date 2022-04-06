@@ -57,17 +57,17 @@ export const CueForm: React.FC = () => {
           <LoadingIndicator />
         ) : (
           <img
+            alt={viewer.name}
             src={viewer.avatar_url}
             className="cueplayer-react-cue-form-image"
             width={24}
             height={24}
           />
         )}
-
-        {/* https://github.com/ianstormtaylor/slate looks awesome if we wanted wysiwyg editor */}
         <input
           disabled={isSubmittingCueNote}
           autoComplete="off"
+          aria-label="Leave your note here (required)"
           placeholder="Leave your note here..."
           className="cueplayer-react-cue-form-input"
           id="input"

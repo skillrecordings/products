@@ -33,9 +33,14 @@ export function convertTimeWithTitles(seconds: number, options: any = {}) {
 
   let result = ''
 
-  if (hours) result += hours + 'h '
-  if (mins) result += mins + 'm '
-  if (secs && !hours && showSeconds) result += secs + 's'
+  const longForm = get(options, 'longForm', false)
+  const hoursAppend = longForm ? ' hours ' : 'h '
+  const minsAppend = longForm ? ' minutes ' : 'm '
+  const secondsAppend = longForm ? ' seconds' : 's'
+
+  if (hours) result += hours + hoursAppend
+  if (mins) result += mins + minsAppend
+  if (secs && !hours && showSeconds) result += secs.toFixed(0) + secondsAppend
 
   return result.trim()
 }

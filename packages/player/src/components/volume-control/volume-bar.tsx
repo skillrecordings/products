@@ -44,6 +44,7 @@ export const VolumeBar: React.FC<any> = ({isActive, ...props}) => {
       step={0.05}
       handleAlignment="contain"
       getAriaValueText={(value) => formattedVolume(muted ? volume : value)}
+      aria-label="volume slider"
       onChange={(newValue) => {
         checkMuted()
         videoService.send({type: 'VOLUME_CHANGE', volume: newValue})

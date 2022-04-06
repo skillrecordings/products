@@ -1,9 +1,66 @@
 .cueplayer-react .cueplayer-react-progress-bar {
   display: flex;
   width: 100%;
-  height: $cueplayer-react-progress-bar-height;
   position: relative;
   z-index: 1;
+
+  .cueplayer-react-progress-slider {
+    opacity: 0.85;
+    @include transition(opacity 100ms cubic-bezier(0.65, 0, 0.35, 1));
+
+    [data-reach-slider-handle] {
+      opacity: 0;
+      @include transition(opacity 100ms cubic-bezier(0.65, 0, 0.35, 1));
+    }
+
+    .cueplayer-react-progress-slider-highlight {
+      @include background-color-with-alpha(
+        $cueplayer-react-primary-foreground-color,
+        0.2
+      );
+      position: absolute;
+      left: 0;
+      height: 100%;
+    }
+  }
+
+  .cueplayer-react-progress-slider-active {
+    opacity: 1;
+    @include transition(opacity 100ms cubic-bezier(0.65, 0, 0.35, 1));
+
+    [data-reach-slider-handle] {
+      opacity: 1;
+      @include transition(opacity 100ms cubic-bezier(0.65, 0, 0.35, 1));
+      &:focus {
+        outline: 2px solid
+          lighten($cueplayer-react-tertiary-foreground-color, 10%);
+      }
+    }
+  }
+
+  [data-reach-slider-marker][data-orientation='horizontal'] {
+    transform: translate(0, -50%);
+    height: $cueplayer-react-progress-bar-height;
+    @include background-color-with-alpha(
+      lighten($cueplayer-react-primary-background-color, 15%),
+      1
+    );
+  }
+
+  [data-reach-slider-input] {
+    height: $cueplayer-react-progress-bar-height;
+    // border-radius: 0;
+  }
+  [data-reach-slider-track] {
+    border-radius: 0;
+  }
+
+  [data-reach-slider-range] {
+    @include background-color-with-alpha(
+      $cueplayer-react-tertiary-foreground-color,
+      1
+    );
+  }
 }
 
 // if there are no notes

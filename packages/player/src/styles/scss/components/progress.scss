@@ -113,11 +113,6 @@
 .cueplayer-react .cueplayer-react-load-progress {
   // For IE8 we'll lighten the color
   background: lighten($cueplayer-react-secondary-background-color, 25%);
-  // Otherwise we'll rely on stacked opacities
-  background: rgba(
-    $cueplayer-react-secondary-background-color,
-    $cueplayer-react-secondary-background-transparency
-  );
 }
 
 // there are child elements of the load progress bar that represent the
