@@ -2528,6 +2528,7 @@ importers:
       '@reach/tabs': ^0.16.4
       '@skillrecordings/react': workspace:*
       '@skillrecordings/scripts': workspace:*
+      '@skillrecordings/time': workspace:^0.0.1
       '@skillrecordings/tsconfig': workspace:*
       '@skillrecordings/types': workspace:*
       '@testing-library/jest-dom': ^5.14.1
@@ -2559,6 +2560,7 @@ importers:
       '@reach/slider': 0.16.0_react-dom@17.0.2+react@17.0.2
       '@reach/tabs': 0.16.4_react-dom@17.0.2+react@17.0.2
       '@skillrecordings/react': link:../react
+      '@skillrecordings/time': link:../time
       '@tippyjs/react': 4.2.5_react-dom@17.0.2+react@17.0.2
       '@xstate/react': 1.5.1_49beb093bbd7c35e54ba0f39a3d61311
       classnames: 2.3.1
