@@ -3,10 +3,10 @@
   "description": "Internal, shared utilities",
   "author": "Joel Hooks",
   "version": "0.0.1",
-  "main": "./dist/src/index.js",
-  "types": "./dist/src/index.d.ts",
+  "main": "files/src/index.js",
+  "types": "files/src/index.d.ts",
   "files": [
-    "dist/src/**"
+    "files/src/**"
   ],
   "publishConfig": {
     "access": "public"
