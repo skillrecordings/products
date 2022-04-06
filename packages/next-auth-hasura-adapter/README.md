@@ -77,7 +77,7 @@ export default NextAuth({
   // https://next-auth.js.org/configuration/providers
   providers: [],
   adapter: HasuraAdapter({
-    endpoint: process.env.HASURA_GRAPHQL_ENDPOINT,
+    endpoint: process.env.HASURA_PROJECT_ENDPOINT,
     adminSecret: process.env.HASURA_ADMIN_SECRET,
   })
 })

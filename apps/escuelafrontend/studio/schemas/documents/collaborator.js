@@ -14,11 +14,6 @@ export default {
       description: 'Most likely Escuela Frontend',
     },
     {
-      name: 'title',
-      title: 'Title',
-      type: 'string',
-    },
-    {
       name: 'role',
       title: 'Role',
       type: 'string',
@@ -38,16 +33,15 @@ export default {
   ],
   preview: {
     select: {
-      title: 'title',
       role: 'role',
       name: 'person.name',
       department: 'department',
       media: 'person.image.url',
     },
     prepare(selection) {
-      const {name, title, department, media, role} = selection
+      const {name, department, media, role} = selection
       return {
-        title: `${name}${title ? ` • ${title}` : ''}`,
+        title: `${name}`,
         subtitle: `${role}${department ? ` • ${department}` : ''}`,
         media: <img src={media} alt={`${name}`} />,
       }

@@ -1,0 +1,15 @@
+table:
+  name: merchant_coupons
+  schema: public
+object_relationships:
+- name: merchant_account
+  using:
+    foreign_key_constraint_on: merchant_account_id
+array_relationships:
+- name: coupons
+  using:
+    foreign_key_constraint_on:
+      column: merchant_coupon_id
+      table:
+        name: coupons
+        schema: public

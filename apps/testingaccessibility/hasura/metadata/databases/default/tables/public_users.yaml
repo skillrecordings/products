@@ -9,6 +9,27 @@ array_relationships:
       table:
         name: accounts
         schema: public
+- name: merchant_charges
+  using:
+    foreign_key_constraint_on:
+      column: user_id
+      table:
+        name: merchant_charges
+        schema: public
+- name: merchant_customers
+  using:
+    foreign_key_constraint_on:
+      column: user_id
+      table:
+        name: merchant_customers
+        schema: public
+- name: purchases
+  using:
+    foreign_key_constraint_on:
+      column: user_id
+      table:
+        name: purchases
+        schema: public
 - name: sessions
   using:
     foreign_key_constraint_on:

@@ -1,0 +1,3 @@
+table:
+  name: merchant_codes
+  schema: public

@@ -1,0 +1,18 @@
+table:
+  name: merchant_customers
+  schema: public
+object_relationships:
+- name: merchant_account
+  using:
+    foreign_key_constraint_on: merchant_account_id
+- name: user
+  using:
+    foreign_key_constraint_on: user_id
+array_relationships:
+- name: merchant_charges
+  using:
+    foreign_key_constraint_on:
+      column: merchant_customer_id
+      table:
+        name: merchant_charges
+        schema: public
