@@ -2,7 +2,7 @@
   "name": "@skillrecordings/player",
   "description": "Internal, shared utilities",
   "author": "Joel Hooks",
-  "version": "0.11.16",
+  "version": "0.11.19",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "files": [
@@ -23,6 +23,7 @@
     "@reach/slider": "^0.16.0",
     "@reach/tabs": "^0.16.4",
     "@skillrecordings/react": "workspace:*",
+    "@skillrecordings/time": "workspace:^0.0.1",
     "@tippyjs/react": "^4.2.5",
     "@xstate/react": "^1.5.1",
     "classnames": "^2.3.1",

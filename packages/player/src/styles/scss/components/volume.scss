@@ -3,9 +3,17 @@
   Volume Container
   */
 
-  /*
-  .cueplayer-react-volume-control {}
-  */
+  .cueplayer-react-volume-control {
+    [data-reach-slider-input][data-orientation='horizontal'] {
+      height: 0.15rem;
+    }
+
+    [data-reach-slider-handle] {
+      width: 10px;
+      height: 10px;
+      border-radius: 5px;
+    }
+  }
 
   /*
   Volume Button
@@ -57,16 +65,6 @@
       @include transition(opacity 0.2s ease-in-out);
       opacity: 1;
     }
-  }
-
-  [data-reach-slider-input][data-orientation='horizontal'] {
-    height: 0.15rem;
-  }
-
-  [data-reach-slider-handle] {
-    width: 10px;
-    height: 10px;
-    border-radius: 5px;
   }
 
   /* Enlarge interactive area of the slider */

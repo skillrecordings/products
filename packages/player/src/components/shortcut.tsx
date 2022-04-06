@@ -390,11 +390,20 @@ export const Shortcut: React.FC<ShortcutProps> = ({
         )
       })[0]
 
+      // check if progress bar slider is focused
+      const activeElement = document.activeElement
+      const seekBarElement = document.querySelector(
+        '[data-reach-slider-handle]',
+      )
+      const isSeekBarFocused = activeElement?.isEqualNode(seekBarElement)
+
+      // only enable shortcuts if video element, document body, or progress bar is focused
       if (
         shortcut &&
         shortcutsEnabled &&
         (document.activeElement?.nodeName === 'BODY' ||
-          document.activeElement?.nodeName === 'VIDEO')
+          document.activeElement?.nodeName === 'VIDEO' ||
+          isSeekBarFocused)
       ) {
         shortcut.handle()
         e.preventDefault()
