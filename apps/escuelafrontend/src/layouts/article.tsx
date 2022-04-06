@@ -54,7 +54,7 @@ const ArticleTemplate: React.FC<ArticleTemplateProps> = ({meta}) => {
       />
 
       <article>
-        <header className="flex flex-col items-center justify-center px-5 pt-32 mb-8 -m-5 transition-colors duration-500 ease-in-out pb-52 bg-gradient-to-t from-gray-100 to-gray-50 dark:bg-gradient-to-t dark:from-gray-800 dark:to-gray-900">
+        <header className="flex flex-col items-center justify-center px-5 pt-32 mb-8 -m-5 transition-colors duration-500 ease-in-out pb-52 bg-gradient-to-t from-gray-200 to-gray-100 dark:bg-gradient-to-t dark:from-gray-800 dark:to-gray-900">
           {tag && (
             <Image
               src={tag.image}
@@ -114,20 +114,16 @@ export default ArticleTemplate
 
 const Author: FunctionComponent<{
   author: {
-    name: string
+    slug?: string
+    name?: string
     image?: any
-    twitter?: string
-    website?: string
-    role?: string
   }
 }> = ({author}) => {
-  const {name, image, twitter, website, role} = author
+  const {slug, name, image} = author
 
-  const path = twitter || website
-
-  const Profile = () => (
-    <>
-      {image && (
+  return (
+    <Link href={'/instructores/' + slug}>
+      <a className="items-center space-x-2 text-center">
         <Image
           src={image}
           width={56}
@@ -137,24 +133,11 @@ const Author: FunctionComponent<{
           className="rounded-full"
           priority={true}
         />
-      )}
-      <div className="leading-tight">
-        <span className="text-xs uppercase opacity-75">{role}</span>
-        <div className="font-semibold">{name}</div>
-      </div>
-    </>
+
+        <div className="leading-tight">
+          <div className="font-semibold">{name}</div>
+        </div>
+      </a>
+    </Link>
   )
-  return name ? (
-    path ? (
-      <Link href={path}>
-        <a className="inline-flex items-center space-x-2" target="_blank">
-          <Profile />
-        </a>
-      </Link>
-    ) : (
-      <div className="inline-flex items-center space-x-2">
-        <Profile />
-      </div>
-    )
-  ) : null
 }

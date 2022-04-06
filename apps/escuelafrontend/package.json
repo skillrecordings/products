@@ -6,6 +6,7 @@
     "dev": "next dev -p 3011",
     "start": "next start -p 3011",
     "integration": "cypress run",
+    "clean": "rm -rf node_modules && pnpm -r exec -- rm -rf .turbo node_modules .next dist",
     "build": "NODE_ENV=production next build",
     "build:dev": "pnpm build -w -- --scope=\"escuelafrontend\" --includeDependencies",
     "postbuild": "NODE_ENV=production next-sitemap",

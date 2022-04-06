@@ -4,17 +4,17 @@ import {sanityClient} from 'utils/sanity-client'
 import ArticleTemplate from '../../layouts/article'
 import {serialize} from 'next-mdx-remote/serialize'
 
-const Post = (props: any) => {
+const Course = (props: any) => {
   return <ArticleTemplate meta={props} />
 }
 
-const allPostsQuery = groq`
-  *[_type == "post" && publishedAt < now()]{
+const allCoursesQuery = groq`
+  *[_type == "course" && publishedAt < now()]{
     "slug": slug.current
   }
 `
 
-const query = groq`*[_type == "post" && slug.current == $slug][0]{
+const query = groq`*[_type == "course" && slug.current == $slug][0]{
   title,
   body,
   seo,
@@ -50,7 +50,7 @@ const query = groq`*[_type == "post" && slug.current == $slug][0]{
 }`
 
 export async function getStaticProps(context: any) {
-  const {body = '', ...post} = await sanityClient.fetch(query, {
+  const {body = '', ...course} = await sanityClient.fetch(query, {
     slug: context.params.slug,
   })
 
@@ -69,18 +69,18 @@ export async function getStaticProps(context: any) {
   })
 
   return {
-    props: {...post, body: mdxSource},
+    props: {...course, body: mdxSource},
     revalidate: 1,
   }
 }
 
 export async function getStaticPaths() {
-  const allPosts = await sanityClient.fetch(allPostsQuery)
+  const allCourses = await sanityClient.fetch(allCoursesQuery)
 
-  const paths = allPosts.map((post: {slug: string}) => {
+  const paths = allCourses.map((course: {slug: string}) => {
     return {
       params: {
-        slug: post.slug,
+        slug: course.slug,
       },
     }
   })
@@ -91,4 +91,4 @@ export async function getStaticPaths() {
   }
 }
 
-export default Post
+export default Course

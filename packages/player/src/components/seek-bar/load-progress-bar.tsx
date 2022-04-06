@@ -3,6 +3,7 @@ import {useSelector} from '@xstate/react'
 import cx from 'classnames'
 import {useVideo} from '../../context/video-context'
 import {selectBuffered, selectDuration} from '../../selectors'
+import {SliderMarker} from '@reach/slider'
 
 export const LoadProgressBar: React.FC<any> = ({className}) => {
   const videoService = useVideo()
@@ -21,12 +22,12 @@ export const LoadProgressBar: React.FC<any> = ({className}) => {
   // get the percent width of a time compared to the total end
   function percentify(time: number, end: number) {
     const percent = time / end || 0 // no NaN
-    return `${(percent >= 1 ? 1 : percent) * 100}%`
+    return (percent >= 1 ? 1 : percent) * 100
   }
 
   // the width of the progress bar
   const style = {width: '0%'}
-  style.width = percentify(bufferedEnd, duration)
+  style.width = `${percentify(bufferedEnd, duration)}%`
 
   let parts: any[] | undefined = []
 
@@ -36,10 +37,10 @@ export const LoadProgressBar: React.FC<any> = ({className}) => {
     const end = buffered.end(i)
     // set the percent based on the width of the progress bar (bufferedEnd)
     const part = (
-      <div
+      <SliderMarker
+        value={percentify(start, bufferedEnd)}
         style={{
-          left: percentify(start, bufferedEnd),
-          width: percentify(end - start, bufferedEnd),
+          width: percentify(end - start, bufferedEnd) + '%',
         }}
         key={`part-${i}`}
       />
@@ -56,7 +57,9 @@ export const LoadProgressBar: React.FC<any> = ({className}) => {
       style={style}
       className={cx('cueplayer-react-load-progress', className)}
     >
-      <span className="cueplayer-react-control-text">Loaded: 0%</span>
+      <span className="cueplayer-react-control-text">
+        Loaded: {percentify(bufferedEnd, duration).toFixed(0)}%
+      </span>
       {parts}
     </div>
   )
