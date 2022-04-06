@@ -1,6 +1,5 @@
 import * as React from 'react'
 import classNames from 'classnames'
-import {isEmpty} from 'lodash'
 import Tippy from '@tippyjs/react'
 import CodeBlock from './code-block'
 import {useVideo} from '../context/video-context'
@@ -10,6 +9,7 @@ import {useCue} from '../hooks/use-cue'
 import {ElementType} from 'react'
 import ReactMarkdown from 'react-markdown'
 import {useMetadataCues} from '../hooks/use-metadata-cues'
+import {convertTimeWithTitles} from '@skillrecordings/time'
 
 export const CueBar: React.FC<any> = ({
   className,
@@ -39,9 +39,6 @@ export const CueBar: React.FC<any> = ({
 }
 
 const NoteCue: React.FC<any> = ({cue, duration, className}) => {
-  // const [visible, setVisible] = React.useState(false)
-  // const [mouseOverTippy, setMouseOverTippy] = React.useState(false)
-
   const videoService = useVideo()
   const viewer = useSelector(videoService, selectViewer)
 
@@ -86,16 +83,9 @@ const NoteCue: React.FC<any> = ({cue, duration, className}) => {
       trigger="mouseenter focus"
       delay={20}
       inertia={true}
-      // visible={visible || mouseOverTippy}
       content={
-        <div
-          // onMouseMove={() => setMouseOverTippy(true)}
-          // onMouseLeave={() => setTimeout(() => setMouseOverTippy(false), 200)}
-          className="cueplayer-react-cue-popup-content"
-        >
-          {/* <div className="cueplayer-react-cue-popup-header">header here</div> */}
+        <div id={cue.startTime} className="cueplayer-react-cue-popup-content">
           <div className="cueplayer-react-cue-popup-body">
-            {/* @ts-ignore */}
             <ReactMarkdown renderers={customRenderers}>
               {note.text}
             </ReactMarkdown>
@@ -104,10 +94,13 @@ const NoteCue: React.FC<any> = ({cue, duration, className}) => {
       }
     >
       <button
+        aria-label={`jump to note at ${convertTimeWithTitles(cue.startTime, {
+          showSeconds: true,
+          longForm: true,
+        })}`}
+        aria-describedby={cue.startTime}
         type="button"
         onClick={clickOpen}
-        // onMouseEnter={() => setVisible(true)}
-        // onMouseLeave={() => setTimeout(() => setVisible(false), 200)}
         className={classNames(
           `${
             note.type === 'learner'
