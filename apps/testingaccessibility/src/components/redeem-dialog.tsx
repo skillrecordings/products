@@ -10,7 +10,7 @@ const validationSchema = Yup.object().shape({
 
 interface RedeemDialogProps {
   open: boolean
-  couponId: boolean
+  couponId: string
 }
 
 const RedeemDialog = ({open = false, couponId}: RedeemDialogProps) => {

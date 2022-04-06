@@ -1821,6 +1821,7 @@ importers:
       '@skillrecordings/react': workspace:*
       '@skillrecordings/scripts': workspace:*
       '@skillrecordings/time': workspace:*
+      '@skillrecordings/tracing': workspace:*
       '@skillrecordings/tsconfig': workspace:^0.0.5
       '@skillrecordings/types': workspace:*
       '@skillrecordings/viewer': workspace:*
@@ -1848,6 +1849,7 @@ importers:
       babel-jest: ^27.5.1
       classnames: ^2.3.1
       client-oauth2: ^4.3.3
+      coffee-script: ^1.12.7
       commander: ^8.3.0
       cookie: ^0.4.2
       crypto: ^1.0.1
@@ -1948,6 +1950,7 @@ importers:
       '@skillrecordings/quiz': link:../../packages/quiz
       '@skillrecordings/react': link:../../packages/react
       '@skillrecordings/time': link:../../packages/time
+      '@skillrecordings/tracing': link:../../packages/tracing
       '@skillrecordings/viewer': link:../../packages/viewer
       '@stripe/stripe-js': 1.21.1
       '@tailwindcss/typography': 0.5.2_tailwindcss@3.0.23
@@ -1958,6 +1961,7 @@ importers:
       axios: 0.26.0
       classnames: 2.3.1
       client-oauth2: 4.3.3
+      coffee-script: 1.12.7
       cookie: 0.4.2
       crypto: 1.0.1
       date-fns: 2.28.0
@@ -2811,6 +2815,9 @@ importers:
       '@skillrecordings/tsconfig': link:../tsconfig
       '@skillrecordings/types': link:../types
       typescript: 4.3.5
+
+  packages/tracing:
+    specifiers: {}
 
   packages/tsconfig:
     specifiers: {}
@@ -12495,6 +12502,13 @@ packages:
       lz-string: 1.4.4
     dev: false
 
+  /coffee-script/1.12.7:
+    resolution: {integrity: sha512-fLeEhqwymYat/MpTPUjSKHVYYl0ec2mOyALEMLmzr5i1isuG+6jfI2j2d5oBO3VIzgUXgBVIcOT9uH1TFxBckw==}
+    engines: {node: '>=0.8.0'}
+    deprecated: CoffeeScript on NPM has moved to "coffeescript" (no hyphen)
+    hasBin: true
+    dev: false
+
   /collapse-white-space/1.0.6:
     resolution: {integrity: sha512-jEovNnrhMuqyCcjfEJA56v0Xq8SkIoPKDyaHahwo3POf4qcSXqMYuwNcOTzp74vTsR9Tn08z4MxWqAhcekogkQ==}
 
@@ -14257,7 +14271,7 @@ packages:
       eslint: '*'
       eslint-plugin-import: '*'
     dependencies:
-      debug: 4.3.4
+      debug: 4.3.2
       eslint: 8.10.0
       eslint-plugin-import: 2.25.2_eslint@8.10.0
       glob: 7.2.0
