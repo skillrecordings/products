@@ -4,6 +4,9 @@ import {v4} from 'uuid'
 
 export function getSdk(ctx: Context = defaultContext) {
   return {
+    async getPurchase(args: Prisma.PurchaseFindUniqueArgs) {
+      return await ctx.prisma.purchase.findUnique(args)
+    },
     async getPurchasesForUser(userId: string) {
       return await ctx.prisma.purchase.findMany({
         where: {
@@ -12,6 +15,7 @@ export function getSdk(ctx: Context = defaultContext) {
         select: {
           id: true,
           merchantChargeId: true,
+          productId: true,
           product: {
             select: {
               id: true,
@@ -28,6 +32,7 @@ export function getSdk(ctx: Context = defaultContext) {
       merchantAccountId: string
       merchantProductId: string
       merchantCustomerId: string
+      stripeChargeAmount: number
     }) {
       const {
         userId,
@@ -36,6 +41,7 @@ export function getSdk(ctx: Context = defaultContext) {
         merchantProductId,
         merchantCustomerId,
         productId,
+        stripeChargeAmount,
       } = options
 
       // we are using uuids so we can generate this!
@@ -61,6 +67,7 @@ export function getSdk(ctx: Context = defaultContext) {
           userId,
           productId,
           merchantChargeId,
+          totalAmount: stripeChargeAmount,
         },
       })
 

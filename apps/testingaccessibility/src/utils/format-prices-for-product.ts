@@ -4,14 +4,9 @@ import {getCalculatedPriced} from './get-calculated-price'
 import {getSdk} from '../lib/prisma-api'
 import {Context, defaultContext} from '../lib/context'
 
-// TODO: dynamic stripe coupon matching % discount of upgrade ⭐️
-// https://stripe.com/docs/api/coupons/create
-// TODO: Return the upgrade price for the product
-// TODO: Checkout with dynamic stripe coupon upgrade pricing
 // 10% premium for an upgrade
 // TODO: Display Coupon Errors
 // TODO: Display Applied Site Coupon w/ Expiration
-// TODO: Three tiers: Foundations / Pro / Team
 // departure from the three tiers we've used in the past and the third tier
 // is for teams
 
@@ -32,6 +27,7 @@ type FormatPricesForProductOptions = {
   code?: string
   couponId?: string
   ctx?: Context
+  upgradeFromPurchaseId?: string
 }
 
 export type FormattedPrice = {
@@ -41,6 +37,7 @@ export type FormattedPrice = {
   calculatedPrice: number
   availableCoupons: any[]
   appliedCoupon?: any
+  upgradeFromPurchaseId?: string
 }
 
 /**
@@ -51,7 +48,7 @@ export type FormattedPrice = {
  */
 export async function formatPricesForProduct(
   options: FormatPricesForProductOptions,
-) {
+): Promise<FormattedPrice> {
   const {ctx = defaultContext, ...noContextOptions} = options
   const {
     productId,
@@ -59,9 +56,28 @@ export async function formatPricesForProduct(
     quantity = 1,
     code,
     couponId,
+    upgradeFromPurchaseId,
   } = noContextOptions
 
-  const {getProduct, getMerchantCoupon, getCoupon, getPrice} = getSdk(ctx)
+  const {getProduct, getMerchantCoupon, getCoupon, getPrice, getPurchase} =
+    getSdk(ctx)
+
+  const upgradeFromPurchase = upgradeFromPurchaseId
+    ? await getPurchase({
+        where: {
+          id: upgradeFromPurchaseId,
+        },
+        select: {
+          bulkCoupon: {
+            select: {
+              id: true,
+            },
+          },
+          totalAmount: true,
+          productId: true,
+        },
+      })
+    : false
 
   const product = await getProduct({
     where: {id: productId},
@@ -106,8 +122,17 @@ export async function formatPricesForProduct(
     ...product,
     quantity,
     unitPrice: price.unitAmount.toNumber(),
-    calculatedPrice: price.unitAmount.toNumber() * quantity,
+    calculatedPrice: getCalculatedPriced({
+      unitPrice: price.unitAmount.toNumber(),
+      ...(upgradeFromPurchase && {
+        fixedDiscount: upgradeFromPurchase.totalAmount.toNumber(),
+      }),
+      quantity,
+    }),
     availableCoupons: [],
+    ...(upgradeFromPurchase && {
+      upgradeFromPurchaseId,
+    }),
   }
 
   if (appliedCoupon?.type === 'site') {
@@ -116,9 +141,15 @@ export async function formatPricesForProduct(
       calculatedPrice: getCalculatedPriced({
         unitPrice: defaultPriceProduct.unitPrice,
         percentOfDiscount: appliedCoupon.percentageDiscount.toNumber(),
+        ...(upgradeFromPurchase && {
+          fixedDiscount: upgradeFromPurchase.totalAmount.toNumber(),
+        }),
         quantity,
       }),
       appliedCoupon,
+      ...(upgradeFromPurchase && {
+        upgradeFromPurchaseId,
+      }),
     }
   }
 
@@ -139,12 +170,18 @@ export async function formatPricesForProduct(
       const calculatedPrice = getCalculatedPriced({
         unitPrice: defaultPriceProduct.unitPrice,
         percentOfDiscount: coupon.percentageDiscount.toNumber(),
+        ...(upgradeFromPurchase && {
+          fixedDiscount: upgradeFromPurchase.totalAmount.toNumber(),
+        }),
       })
 
       return {
         ...defaultPriceProduct,
         calculatedPrice,
         appliedCoupon: coupon,
+        ...(upgradeFromPurchase && {
+          upgradeFromPurchaseId,
+        }),
       }
     }
   } else if (appliedCoupon && pppApplied) {
@@ -164,8 +201,14 @@ export async function formatPricesForProduct(
       calculatedPrice: getCalculatedPriced({
         unitPrice: defaultPriceProduct.unitPrice,
         percentOfDiscount: appliedCoupon.percentageDiscount.toNumber(),
+        ...(upgradeFromPurchase && {
+          fixedDiscount: upgradeFromPurchase.totalAmount.toNumber(),
+        }),
       }),
       appliedCoupon: merchantCouponWithoutIdentifier,
+      ...(upgradeFromPurchase && {
+        upgradeFromPurchaseId,
+      }),
     }
   } else if (pppAvailable) {
     // no PPP for bulk
@@ -173,7 +216,16 @@ export async function formatPricesForProduct(
 
     return {
       ...defaultPriceProduct,
+      calculatedPrice: getCalculatedPriced({
+        unitPrice: defaultPriceProduct.unitPrice,
+        ...(upgradeFromPurchase && {
+          fixedDiscount: upgradeFromPurchase.totalAmount.toNumber(),
+        }),
+      }),
       availableCoupons: pppCoupons,
+      ...(upgradeFromPurchase && {
+        upgradeFromPurchaseId,
+      }),
     }
   } else if (bulkDiscountAvailable) {
     const bulkCoupons = await couponForType('bulk', bulkCouponPercent, ctx)

@@ -5,6 +5,10 @@ import {getSdk} from '../../../lib/prisma-api'
 import prisma from '../../../db'
 import {withSentry} from '@sentry/nextjs'
 import * as Sentry from '@sentry/nextjs'
+import {setupHttpTracing} from '@skillrecordings/tracing'
+import {tracer} from '../../../utils/honeycomb-tracer'
+import {first} from 'lodash'
+import {getCalculatedPriced} from '../../../utils/get-calculated-price'
 
 export class CheckoutError extends Error {
   couponId?: string
@@ -24,10 +28,11 @@ export const config = {
   },
 }
 
-export default withSentry(async function handler(
+export default withSentry(async function stripeCheckoutHandler(
   req: NextApiRequest,
   res: NextApiResponse,
 ) {
+  setupHttpTracing({name: stripeCheckoutHandler.name, tracer, req, res})
   if (req.method === 'POST') {
     try {
       Sentry.addBreadcrumb({
@@ -35,11 +40,60 @@ export default withSentry(async function handler(
         level: Sentry.Severity.Info,
       })
       const {getMerchantCoupon} = getSdk()
-      const {productId, quantity = 1, couponId} = req.query
+      const {
+        productId,
+        quantity: queryQuantity = 1,
+        couponId,
+        userId,
+        upgradeFromPurchaseId,
+      } = req.query
+
+      const quantity = Number(queryQuantity)
+
+      const user = userId
+        ? await prisma.user.findUnique({
+            where: {
+              id: userId as string,
+            },
+            include: {
+              merchantCustomers: true,
+            },
+          })
+        : false
+
+      const upgradeFromPurchase = upgradeFromPurchaseId
+        ? await prisma.purchase.findUnique({
+            where: {
+              id: upgradeFromPurchaseId as string,
+            },
+            include: {
+              product: true,
+            },
+          })
+        : false
+
+      const availableUpgrade =
+        quantity === 1 && upgradeFromPurchase
+          ? await prisma.upgradableProducts.findFirst({
+              where: {
+                upgradableFromId: upgradeFromPurchase.productId,
+                upgradableToId: productId as string,
+              },
+            })
+          : false
+
+      // TODO: validate purchase
+      // TODO: Create coupon for customer
+
+      const customerId =
+        user && user.merchantCustomers
+          ? first(user.merchantCustomers)?.identifier
+          : false
 
       const loadedProduct = await prisma.product.findFirst({
         where: {id: productId as string},
         include: {
+          prices: true,
           merchantProducts: {
             include: {
               merchantPrices: true,
@@ -56,9 +110,51 @@ export default withSentry(async function handler(
           })
         : false
 
+      const stripeCoupon =
+        merchantCoupon && merchantCoupon.identifier
+          ? await stripe.coupons.retrieve(merchantCoupon.identifier)
+          : false
+
+      const stripeCouponPercentOff =
+        stripeCoupon && stripeCoupon.percent_off
+          ? stripeCoupon.percent_off / 100
+          : 0
+
       let discounts = []
 
-      if (merchantCoupon && merchantCoupon.identifier) {
+      if (
+        availableUpgrade &&
+        upgradeFromPurchase &&
+        loadedProduct &&
+        customerId
+      ) {
+        const fullPrice = loadedProduct.prices?.[0].unitAmount.toNumber()
+        const calculatedPrice = getCalculatedPriced({
+          unitPrice: fullPrice,
+          percentOfDiscount: stripeCouponPercentOff || 0,
+          quantity: 1,
+          fixedDiscount: upgradeFromPurchase.totalAmount.toNumber(),
+        })
+
+        const coupon = await stripe.coupons.create({
+          amount_off: (fullPrice - calculatedPrice) * 100,
+          name: `Upgrade from ${upgradeFromPurchase.product.name}`,
+          max_redemptions: 1,
+          redeem_by: Math.floor(
+            add(new Date(), {minutes: 30}).getTime() / 1000,
+          ),
+          currency: 'USD',
+          applies_to: {
+            products: [
+              loadedProduct.merchantProducts?.[0].identifier as string,
+            ],
+          },
+        })
+
+        discounts.push({
+          coupon: coupon.id,
+        })
+      } else if (merchantCoupon && merchantCoupon.identifier) {
         const {id} = await stripe.promotionCodes.create({
           coupon: merchantCoupon.identifier,
           max_redemptions: 1,
@@ -98,6 +194,12 @@ export default withSentry(async function handler(
         mode: 'payment',
         success_url: `${req.headers.origin}/thanks/purchase?session_id={CHECKOUT_SESSION_ID}`,
         cancel_url: `${req.headers.origin}/buy`,
+        ...(customerId && {customer: customerId}),
+        metadata: {
+          ...(Boolean(availableUpgrade && upgradeFromPurchase) && {
+            upgradeFromPurchaseId: upgradeFromPurchaseId as string,
+          }),
+        },
       })
 
       if (session.url) {

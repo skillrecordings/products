@@ -1,7 +1,8 @@
 type GetCalculatePriceOptions = {
   unitPrice: number
-  percentOfDiscount: number
+  percentOfDiscount?: number
   quantity?: number
+  fixedDiscount?: number
 }
 
 /**
@@ -11,12 +12,19 @@ type GetCalculatePriceOptions = {
  * @param {string} unitPrice
  * @param {number} percentOfDiscount
  * @param {number} quantity
+ * @param {number} fixedDiscount
  */
 export function getCalculatedPriced({
   unitPrice,
-  percentOfDiscount,
+  percentOfDiscount = 0,
   quantity = 1,
+  fixedDiscount = 0,
 }: GetCalculatePriceOptions) {
   const fullPrice = unitPrice * quantity
-  return Number((fullPrice * (1 - percentOfDiscount)).toFixed(2))
+  const discountMultiplier = 1 - percentOfDiscount
+  const calculatedPrice = (
+    (fullPrice - fixedDiscount) *
+    discountMultiplier
+  ).toFixed(2)
+  return Number(calculatedPrice)
 }

@@ -36,7 +36,9 @@ async function stripeData(checkoutSessionId: string) {
   const quantity = lineItem.quantity || 1
   const {id: stripeProductId} = stripePrice?.product as Stripe.Product
   const {charges} = payment_intent as Stripe.PaymentIntent
-  const stripeChargeId = first<Stripe.Charge>(charges.data)?.id as string
+  const stripeCharge = first<Stripe.Charge>(charges.data)
+  const stripeChargeId = stripeCharge?.id as string
+  const stripeChargeAmount = stripeCharge?.amount || 0
 
   return {
     stripeCustomerId,
@@ -45,6 +47,7 @@ async function stripeData(checkoutSessionId: string) {
     stripeProductId,
     stripeChargeId,
     quantity,
+    stripeChargeAmount,
   }
 }
 
@@ -64,6 +67,7 @@ export async function recordNewPurchase(
     stripeProductId,
     stripeChargeId,
     quantity,
+    stripeChargeAmount,
   } = await stripeData(checkoutSessionId)
 
   Sentry.addBreadcrumb({
@@ -99,6 +103,7 @@ export async function recordNewPurchase(
     merchantProductId,
     merchantCustomerId,
     productId,
+    stripeChargeAmount,
   })
 
   if (purchase && quantity > 1) {

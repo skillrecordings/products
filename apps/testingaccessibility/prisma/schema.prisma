@@ -164,6 +164,7 @@ model Purchase {
   id                      String           @id @default(uuid())
   userId                  String?
   createdAt               DateTime          @default(now())
+  totalAmount             Decimal
   ip_address              String?
   city                    String?
   state                   String?
@@ -172,8 +173,8 @@ model Purchase {
   productId               String
   merchantChargeId        String?
   upgradedFromId          String?
-  upgradedFrom            Purchase?           @relation(name: "UpgradedToPurchase", fields: [upgradedFromId], references: [id], onDelete: NoAction, onUpdate: NoAction)
-  upgradedTo              Purchase?           @relation("UpgradedToPurchase")
+  upgradedFrom            Purchase?          @relation(name: "UpgradedToPurchase", fields: [upgradedFromId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  upgradedTo              Purchase?          @relation("UpgradedToPurchase")
   bulkCoupon              Coupon?            @relation("BulkCoupon")
   coupon                  Coupon?            @relation(name: "StandardPurchase", fields: [couponId], references: [id], onDelete: Cascade)
   merchantCharge          MerchantCharge?    @relation(fields: [merchantChargeId], references: [id], onDelete: Cascade)

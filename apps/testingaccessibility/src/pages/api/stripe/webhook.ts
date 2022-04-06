@@ -6,10 +6,16 @@ import {nextAuthOptions} from '../auth/[...nextauth]'
 import {recordNewPurchase} from '../../../utils/record-new-purchase'
 import {withSentry} from '@sentry/nextjs'
 import * as Sentry from '@sentry/nextjs'
+import {setupHttpTracing} from '@skillrecordings/tracing'
+import {tracer} from '../../../utils/honeycomb-tracer'
 
 const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET
 
-const handler = async (req: NextApiRequest, res: NextApiResponse) => {
+const stripeWebhookHandler = async (
+  req: NextApiRequest,
+  res: NextApiResponse,
+) => {
+  setupHttpTracing({name: stripeWebhookHandler.name, tracer, req, res})
   if (req.method === 'POST') {
     const buf = await buffer(req)
     const sig = req.headers['stripe-signature']
@@ -31,6 +37,8 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
         })
 
         res.status(200).send(`This works!`)
+      } else {
+        res.status(200).send(`not-handled`)
       }
     } catch (err: any) {
       Sentry.captureException(err)
@@ -43,7 +51,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   }
 }
 
-export default withSentry(handler)
+export default withSentry(stripeWebhookHandler)
 
 export const config = {
   api: {

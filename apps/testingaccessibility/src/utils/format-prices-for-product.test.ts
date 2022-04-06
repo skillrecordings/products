@@ -188,28 +188,56 @@ test('product should calculate discount if country is "IN" and couponId', async 
   expect(expectedPrice).toBe(product?.calculatedPrice)
 })
 
-const DEFAULT_PRODUCT_ID = 'cl1e7vgtp0038dr5g5q5ymled'
+test('applies fixed discount for previous purchase', async () => {
+  const mockPurchase = {
+    productId: DEFAULT_PRODUCT_ID,
+    userId: 'default-user',
+    createdAt: new Date(),
+    totalAmount: new Decimal(25),
+  }
+  // @ts-ignore
+  mockCtx.prisma.purchase.findUnique.mockResolvedValue(mockPurchase)
+
+  const product = await formatPricesForProduct({
+    productId: DEFAULT_PRODUCT_ID,
+    upgradeFromPurchaseId: UPGRADE_PURCHASE_ID,
+    ctx,
+  })
+
+  const expectedPrice = mockPrice.unitAmount
+    .minus(mockPurchase.totalAmount)
+    .toNumber()
+
+  expect(expectedPrice).toBe(product?.calculatedPrice)
+})
+
+const UPGRADE_PURCHASE_ID = 'upgrade-product-id'
+const DEFAULT_PRODUCT_ID = 'default-product-id'
 const VALID_INDIA_COUPON_ID = 'valid-india-coupon-id'
 const SITE_SALE_COUPON_ID = 'valid-site-coupon-id'
 const LARGE_SITE_SALE_COUPON_ID = 'valid-jumbo-coupon-id'
 
-function mockDefaultProduct() {
-  mockCtx.prisma.product.findFirst.mockResolvedValue({
-    id: DEFAULT_PRODUCT_ID,
-    name: 'professional',
-    createdAt: new Date(),
-    key: 'hey',
-    status: 1,
-  })
+const mockProduct = {
+  id: DEFAULT_PRODUCT_ID,
+  name: 'professional',
+  createdAt: new Date(),
+  key: 'hey',
+  status: 1,
+}
 
-  mockCtx.prisma.price.findFirst.mockResolvedValue({
-    id: 'price-id',
-    createdAt: new Date(),
-    status: 1,
-    productId: DEFAULT_PRODUCT_ID,
-    nickname: 'bah',
-    unitAmount: new Decimal(100),
-  })
+const mockPrice = {
+  id: 'price-id',
+  createdAt: new Date(),
+  status: 1,
+  productId: DEFAULT_PRODUCT_ID,
+  nickname: 'bah',
+  unitAmount: new Decimal(100),
+}
+
+function mockDefaultProduct() {
+  mockCtx.prisma.product.findFirst.mockResolvedValue(mockProduct)
+
+  mockCtx.prisma.price.findFirst.mockResolvedValue(mockPrice)
 }
 
 function getMockCoupon(type: string, percentageDiscount: number) {

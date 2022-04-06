@@ -6,6 +6,8 @@ import prisma from '../../db'
 import {withSentry} from '@sentry/nextjs'
 import {getSdk} from '../../lib/prisma-api'
 import * as Sentry from '@sentry/nextjs'
+import {setupHttpTracing} from '@skillrecordings/tracing'
+import {tracer} from '../../utils/honeycomb-tracer'
 
 export class CouponRedemptionError extends Error {
   couponId: string
@@ -27,6 +29,7 @@ export class CouponRedemptionError extends Error {
 }
 
 const redeemHandler = async (req: NextApiRequest, res: NextApiResponse) => {
+  setupHttpTracing({name: redeemHandler.name, tracer, req, res})
   if (req.method === 'POST') {
     try {
       const {findOrCreateUser, getCoupon} = getSdk()
@@ -57,7 +60,7 @@ const redeemHandler = async (req: NextApiRequest, res: NextApiResponse) => {
         const existingPurchase = await prisma.purchase.findFirst({
           where: {
             userId: user.id,
-            productId: coupon.restrictedToProductId,
+            productId: coupon.restrictedToProductId as string,
             bulkCoupon: null,
           },
           select: {
@@ -77,7 +80,7 @@ const redeemHandler = async (req: NextApiRequest, res: NextApiResponse) => {
           data: {
             userId: user.id,
             couponId: coupon.id,
-            productId: coupon.restrictedToProductId,
+            productId: coupon.restrictedToProductId as string,
           },
         })
 
