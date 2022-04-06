@@ -6,6 +6,7 @@ import schemaTypes from 'all:part:@sanity/base/schema-type'
 
 // We import document schemas
 import post from './documents/post'
+import course from './documents/course'
 import person from './documents/person'
 import library from './documents/software-library'
 import collaborator from './documents/collaborator'
@@ -24,6 +25,7 @@ export default createSchema({
     // The following are document types which will appear
     // in the studio.
     post,
+    course,
     person,
     library,
     collaborator,

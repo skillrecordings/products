@@ -14,7 +14,8 @@ const HorizontalResourceCard: React.FC<HorizontalResourceCardProps> = ({
   className = 'p-5 sm:p-8 ',
   ...props
 }) => {
-  className = `${className} text-black h-full dark:text-white bg-white dark:bg-gray-800 backdrop-filter backdrop-blur-lg dark:bg-opacity-80 bg-opacity-80 hover:shadow-md rounded-xl overflow-hidden hover:-translate-y-2 hover:scale-[1.01] transform transition-all ease-in-out duration-300 flex flex-col justify-start items-between shadow`
+
+  className = `${className} text-black h-full dark:text-white bg-white dark:bg-gray-800 backdrop-filter backdrop-blur-lg dark:bg-opacity-80 bg-opacity-80 hover:shadow-md rounded overflow-hidden hover:-translate-y-2 hover:scale-[1.01] transform transition-all ease-in-out duration-300 flex flex-col justify-start items-between shadow dark:border dark:border-gray-700 dark:border-opacity-50`
 
   return (
     <Link href={resource.path}>
@@ -29,7 +30,7 @@ const HorizontalResourceCard: React.FC<HorizontalResourceCardProps> = ({
                   height={40}
                   quality={100}
                   alt={resource.tag.name}
-                  className="relative z-10 rounded-md"
+                  className="relative z-10 rounded-sm"
                   priority={true}
                 />
               </span>

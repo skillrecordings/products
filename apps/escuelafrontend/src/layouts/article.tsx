@@ -54,7 +54,7 @@ const ArticleTemplate: React.FC<ArticleTemplateProps> = ({meta}) => {
       />
 
       <article>
-        <header className="flex flex-col items-center justify-center px-5 pt-32 mb-8 -m-5 transition-colors duration-500 ease-in-out pb-52 bg-gradient-to-t from-gray-100 to-gray-50 dark:bg-gradient-to-t dark:from-gray-800 dark:to-gray-900">
+        <header className="flex flex-col items-center justify-center px-5 pt-32 mb-8 -m-5 transition-colors duration-500 ease-in-out pb-52 bg-gradient-to-t from-gray-200 to-gray-100 dark:bg-gradient-to-t dark:from-gray-800 dark:to-gray-900">
           {tag && (
             <Image
               src={tag.image}

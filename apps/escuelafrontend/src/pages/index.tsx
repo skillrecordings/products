@@ -3,12 +3,8 @@ import groq from 'groq'
 import {sanityClient} from 'utils/sanity-client'
 import HeroWave from 'components/waves/hero-wave'
 import {HorizontalResourceCard} from 'components/cards/horizontal-resource-card'
-import Jumbotron from 'components/pages/home/jumbotron'
-import {find} from 'lodash'
-import reactPageData from '../data/react-page-data'
 
 export default function Home({allArticles}: any) {
-  const jumbutron: any = find(reactPageData, {id: 'jumbotron'})
   return (
     <>
       <div className="flex-grow">
@@ -55,10 +51,6 @@ export default function Home({allArticles}: any) {
         </section>
 
         <HeroWave />
-
-        <div className="max-w-screen-xl mx-auto -mt-48">
-          <Jumbotron resource={jumbutron} />
-        </div>
 
         <section className="max-w-screen-xl py-10 mx-auto lg:py-24 sm:py-16">
           <h2 className="w-full max-w-screen-lg py-16 m-auto mb-10 text-2xl font-extrabold text-center lg:text-5xl md:text-4xl sm:text-3xl leading-tighter">
