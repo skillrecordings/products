@@ -27,53 +27,46 @@ We are using Hasura+next-auth for authentication via JWTs. You'll need to get it
 
 ### Install Tools
 
-[Install Docker](https://docs.docker.com/get-docker/)
-[Install the Hasura CLI](https://hasura.io/docs/latest/graphql/core/hasura-cli/install-hasura-cli.html#install-hasura-cli)
-
-### Start the Hasura server
-
-This starts the Hasura GraphQL Engine and a Postgres database
-
-```shell
-docker compose up -d
-```
-You can launch the Hasura console using the CLI
-
-```shell
-cd hasura
-hasura console
+```bash
+brew install planetscale/tap/pscale
 ```
 
-Changes to the data model in the Hasura console will automatically create migrations:
+You'll need to login:
 
-[Hasura Creates Migrations Automatically (Docs)](https://hasura.io/docs/latest/graphql/core/migrations/migrations-setup.html#step-5-add-a-new-table-and-see-how-migrations-and-metadata-is-updated)
+```bash
+ pscale auth login
+```
 
-You can "squash" migrations for version control:
+### Create a .env
 
-[Squash Hasura Migrations](https://hasura.io/docs/latest/graphql/core/migrations/migrations-setup.html#step-6-squash-migrations-and-add-checkpoints-to-version-control)
+Prisma looks here by default for the connection URL:
 
-Incoming migrations are automatically applied when you start the container, but there's lots more to read about migrations:
+```bash
+DATABASE_URL='mysql://root@127.0.0.1:3309/testing-accessibility'
+```
 
-[Hasura Migrations Docs](https://hasura.io/docs/latest/graphql/core/migrations)
+### Connect to the Planetscale database
+
+```bash
+pscale connect testing-accessibility next-steps --port 3309
+```
+
+### Migrate any schema changes
+
+If you make changes to the schema via Prisma you'll need to push it to the DB. We don't use Prisma migrations and let Planetscale handle it:
+
+```bash
+npx prisma db push
+```
 
 ### Seed Data
 
-In the `seed_data` folder is a database dump. The command line you need to access the database is run in the Docker container.
+When you make a new branch in Planetscale it doesn't bring data over.
 
-![psql console from docker](https://p-ZmFjNlQ.b3.n0.cdn.getcloudapp.com/items/rRu17y1L/4693bd91-b729-4766-88df-f28468e90f8e.png?v=b5f3970d0f72b461e7735058d6a74ce2)
-
-```bash
-psql postgres://postgres:postgrespassword@postgres:5432/postgres < /data/dump
-```
-
-This will have some errors but should populate the database.
-
-Because we skipped some steps you'll need to let Hasura know:
+In the `seed_data` folder is a database dump.
 
 ```bash
-hasura metadata apply
-hasura migrate apply --skip-execution --up all
-hasura migrate status
+pscale database restore-dump testing-accessibility next-steps --dir ./seed_data/pscale_data_dump
 ```
 
 This should set up the basics that are associated with the **test mode** Stripe account
