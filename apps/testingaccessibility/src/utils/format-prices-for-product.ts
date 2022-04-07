@@ -3,6 +3,7 @@ import {getBulkDiscountPercent} from './bulk-coupon'
 import {getCalculatedPriced} from './get-calculated-price'
 import {getSdk} from '../lib/prisma-api'
 import {Context, defaultContext} from '../lib/context'
+import {SpanContext} from '@vercel/tracing-js'
 
 // 10% premium for an upgrade
 // TODO: Display Coupon Errors
@@ -48,6 +49,7 @@ export type FormattedPrice = {
  */
 export async function formatPricesForProduct(
   options: FormatPricesForProductOptions,
+  childOf?: SpanContext,
 ): Promise<FormattedPrice> {
   const {ctx = defaultContext, ...noContextOptions} = options
   const {
@@ -60,7 +62,7 @@ export async function formatPricesForProduct(
   } = noContextOptions
 
   const {getProduct, getMerchantCoupon, getCoupon, getPrice, getPurchase} =
-    getSdk({ctx})
+    getSdk({ctx, spanContext: childOf})
 
   const upgradeFromPurchase = upgradeFromPurchaseId
     ? await getPurchase({
@@ -117,8 +119,6 @@ export async function formatPricesForProduct(
     quantity === 1 && pppDiscountPercent > 0 && appliedCouponLessThanPPP
   const bulkDiscountAvailable =
     bulkCouponPercent > 0 && appliedCouponLessThanBulk && !pppApplied
-
-  console.log({upgradeFromPurchase})
 
   let defaultPriceProduct: FormattedPrice = {
     ...product,

@@ -87,9 +87,13 @@ export const getServerSideProps: GetServerSideProps = async ({
   query,
   res,
 }) => {
-  const spanContext = setupHttpTracing({name: '/buy', tracer, req, res})
+  const spanContext = setupHttpTracing({
+    name: getServerSideProps.name,
+    tracer,
+    req,
+    res,
+  })
 
-  console.log({spanContext})
   const {getCoupon, getPurchasesForUser} = getSdk({
     ctx: defaultContext,
     spanContext,

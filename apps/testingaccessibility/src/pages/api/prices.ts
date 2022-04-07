@@ -9,13 +9,19 @@ import {tracer} from '../../utils/honeycomb-tracer'
 import prisma from '../../db'
 import {find, first} from 'lodash'
 import {Purchase} from '@prisma/client'
+import {defaultContext} from '../../lib/context'
 
 const pricesHandler = async (req: NextApiRequest, res: NextApiResponse) => {
-  setupHttpTracing({name: pricesHandler.name, tracer, req, res})
+  const spanContext = setupHttpTracing({
+    name: pricesHandler.name,
+    tracer,
+    req,
+    res,
+  })
   if (req.method === 'POST') {
     try {
       const country = (req.headers['x-vercel-ip-country'] as string) || 'US'
-      const {getDefaultCouponId} = getSdk()
+      const {getDefaultCouponId} = getSdk({ctx: defaultContext, spanContext})
       const {code, quantity, productId, coupon, purchases, userId} = req.body
 
       const availableUpgrades = purchases
@@ -61,14 +67,17 @@ const pricesHandler = async (req: NextApiRequest, res: NextApiResponse) => {
 
       if (quantity > 100) throw new Error(`contact-for-pricing`)
 
-      const product = await formatPricesForProduct({
-        productId,
-        country,
-        quantity,
-        code,
-        couponId,
-        ...(upgradeFromPurchaseId && {upgradeFromPurchaseId}),
-      })
+      const product = await formatPricesForProduct(
+        {
+          productId,
+          country,
+          quantity,
+          code,
+          couponId,
+          ...(upgradeFromPurchaseId && {upgradeFromPurchaseId}),
+        },
+        spanContext,
+      )
 
       res.status(200).json(product)
     } catch (error: any) {
