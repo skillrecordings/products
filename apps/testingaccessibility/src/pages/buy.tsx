@@ -47,20 +47,20 @@ const Buy: React.FC<{
         <Pricing
           product={{
             name: 'Foundation',
-            id: 'c9bc6947-3476-4b67-9fd7-67da51423ca3',
+            id: 'c5b03b0d-9971-4981-8ad2-cae7ebb75bf4',
           }}
           purchased={purchasedProductIds.includes(
-            'c9bc6947-3476-4b67-9fd7-67da51423ca3',
+            'c5b03b0d-9971-4981-8ad2-cae7ebb75bf4',
           )}
           purchases={purchases}
         />
         <Pricing
           product={{
             name: 'Core',
-            id: '22815ffd-dcea-4316-b053-84f8850e3274',
+            id: '3db63974-0863-4797-a095-1c6a901144e4',
           }}
           purchased={purchasedProductIds.includes(
-            '22815ffd-dcea-4316-b053-84f8850e3274',
+            '3db63974-0863-4797-a095-1c6a901144e4',
           )}
           purchases={purchases}
         />
