@@ -7,7 +7,7 @@ import Logo from '../logo'
 
 export default function Navigation() {
   return (
-    <div className="px-5 py-5 border-b border-gray-100 dark:border-gray-800">
+    <div className="px-5 py-5">
       <Popover className="w-full max-w-screen-xl mx-auto">
         {({open, close}) => (
           <>

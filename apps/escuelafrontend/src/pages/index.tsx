@@ -57,7 +57,7 @@ export default function Home({allArticles}: any) {
             Artículos Recientes
           </h2>
 
-          <div className={`grid grid-cols-1 md:grid-cols-2 gap-8`}>
+          <div className={`grid grid-cols-1 md:grid-cols-3 gap-8`}>
             {allArticles.map((resource: any) => {
               return (
                 <div key={resource.path}>
