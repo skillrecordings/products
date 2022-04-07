@@ -6,7 +6,7 @@ import {nextAuthOptions} from '../auth/[...nextauth]'
 import {recordNewPurchase} from '../../../utils/record-new-purchase'
 import {withSentry} from '@sentry/nextjs'
 import * as Sentry from '@sentry/nextjs'
-import {setupHttpTracing} from '@skillrecordings/tracing'
+import {setupHttpTracing} from '@vercel/tracing-js'
 import {tracer} from '../../../utils/honeycomb-tracer'
 
 const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET
