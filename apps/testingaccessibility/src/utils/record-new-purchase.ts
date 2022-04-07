@@ -8,12 +8,19 @@ import {getSdk} from '../lib/prisma-api'
 export class PurchaseError extends Error {
   checkoutSessionId: string
   email?: string
+  productId?: string
 
-  constructor(message: string, checkoutSessionId: string, email?: string) {
+  constructor(
+    message: string,
+    checkoutSessionId: string,
+    email?: string,
+    productId?: string,
+  ) {
     super(message)
-    this.name = 'CouponRedemptionError'
+    this.name = 'PurchaseError'
     this.checkoutSessionId = checkoutSessionId
     this.email = email
+    this.productId = productId
   }
 }
 
@@ -87,7 +94,12 @@ export async function recordNewPurchase(
   })
 
   if (!merchantProduct)
-    throw new PurchaseError(`no-associated-product`, checkoutSessionId, email)
+    throw new PurchaseError(
+      `no-associated-product`,
+      checkoutSessionId,
+      email,
+      stripeProductId,
+    )
   const {id: merchantProductId, productId, merchantAccountId} = merchantProduct
 
   const {id: merchantCustomerId} = await findOrCreateMerchantCustomer({

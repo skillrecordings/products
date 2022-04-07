@@ -60,7 +60,7 @@ export async function formatPricesForProduct(
   } = noContextOptions
 
   const {getProduct, getMerchantCoupon, getCoupon, getPrice, getPurchase} =
-    getSdk(ctx)
+    getSdk({ctx})
 
   const upgradeFromPurchase = upgradeFromPurchaseId
     ? await getPurchase({
@@ -117,6 +117,8 @@ export async function formatPricesForProduct(
     quantity === 1 && pppDiscountPercent > 0 && appliedCouponLessThanPPP
   const bulkDiscountAvailable =
     bulkCouponPercent > 0 && appliedCouponLessThanBulk && !pppApplied
+
+  console.log({upgradeFromPurchase})
 
   let defaultPriceProduct: FormattedPrice = {
     ...product,
@@ -250,7 +252,7 @@ async function couponForType(
   percentageDiscount: number,
   ctx: Context,
 ) {
-  const {getMerchantCoupons} = getSdk(ctx)
+  const {getMerchantCoupons} = getSdk({ctx})
   const merchantCoupons =
     (await getMerchantCoupons({
       where: {type, percentageDiscount},

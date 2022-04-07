@@ -279,7 +279,7 @@ const MOCK_INDIA_COUPON = {
 }
 
 async function expectedPriceForDefaultCoupon(quantity: number = 1) {
-  const {getMerchantCoupon} = getSdk(ctx)
+  const {getMerchantCoupon} = getSdk({ctx})
   const appliedCouponId = SITE_SALE_COUPON_ID
   const appliedCoupon = await getMerchantCoupon({
     where: {id: appliedCouponId},
