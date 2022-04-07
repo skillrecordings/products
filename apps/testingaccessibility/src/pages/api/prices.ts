@@ -4,7 +4,7 @@ import * as Sentry from '@sentry/nextjs'
 
 import {formatPricesForProduct} from '../../utils/format-prices-for-product'
 import {getSdk} from '../../lib/prisma-api'
-import {setupHttpTracing} from '@skillrecordings/tracing'
+import {setupHttpTracing} from '@vercel/tracing-js'
 import {tracer} from '../../utils/honeycomb-tracer'
 import prisma from '../../db'
 import {find, first} from 'lodash'

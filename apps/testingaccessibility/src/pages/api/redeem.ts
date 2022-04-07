@@ -6,7 +6,7 @@ import prisma from '../../db'
 import {withSentry} from '@sentry/nextjs'
 import {getSdk} from '../../lib/prisma-api'
 import * as Sentry from '@sentry/nextjs'
-import {setupHttpTracing} from '@skillrecordings/tracing'
+import {setupHttpTracing} from '@vercel/tracing-js'
 import {tracer} from '../../utils/honeycomb-tracer'
 
 export class CouponRedemptionError extends Error {
