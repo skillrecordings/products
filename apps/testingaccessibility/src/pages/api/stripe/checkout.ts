@@ -82,9 +82,6 @@ export default withSentry(async function stripeCheckoutHandler(
             })
           : false
 
-      // TODO: validate purchase
-      // TODO: Create coupon for customer
-
       const customerId =
         user && user.merchantCustomers
           ? first(user.merchantCustomers)?.identifier

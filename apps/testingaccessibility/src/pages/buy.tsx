@@ -9,6 +9,7 @@ import {setupHttpTracing} from '@vercel/tracing-js'
 import {tracer} from '../utils/honeycomb-tracer'
 import {getDecodedToken} from '../utils/get-decoded-token'
 import {Purchase, Coupon} from '@prisma/client'
+import {defaultContext} from '../lib/context'
 
 const Buy: React.FC<{
   couponFromCode?: {isValid: boolean; id: string}
@@ -86,8 +87,13 @@ export const getServerSideProps: GetServerSideProps = async ({
   query,
   res,
 }) => {
-  setupHttpTracing({name: '/buy', tracer, req, res})
-  const {getCoupon, getPurchasesForUser} = getSdk()
+  const spanContext = setupHttpTracing({name: '/buy', tracer, req, res})
+
+  console.log({spanContext})
+  const {getCoupon, getPurchasesForUser} = getSdk({
+    ctx: defaultContext,
+    spanContext,
+  })
   const token = await getDecodedToken(req)
 
   const purchases = token

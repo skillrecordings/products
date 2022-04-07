@@ -42,6 +42,7 @@ const stripeWebhookHandler = async (
       }
     } catch (err: any) {
       Sentry.captureException(err)
+      console.error(err)
       res.status(400).send(`Webhook Error: ${err.message}`)
       return
     }
