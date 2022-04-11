@@ -21,6 +21,20 @@ pnpm i
 pnpm dev
 ```
 
+### Strip CLI
+
+You'll need the [Strip CLI](https://stripe.com/docs/stripe-cli) to capture web hooks locally.
+
+When you run the CLI it gives you your webhook signing secret that you can set in `.env.local`.
+
+The Stripe test secret token is also required! 
+
+see: `.env.local.template`
+
+### Postmark
+
+A postmark API key is required. You can find one for this project in the vercel environment variables.
+
 ## Authentication in Development
 
 We are using Hasura+next-auth for authentication via JWTs. You'll need to get it running locally!
