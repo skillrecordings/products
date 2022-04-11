@@ -37,6 +37,12 @@ You'll need to login:
  pscale auth login
 ```
 
+And then switch to skill-recordings org:
+
+```bash
+pscale org switch skill-recordings
+```
+
 ### Create a .env
 
 Prisma looks here by default for the connection URL:
