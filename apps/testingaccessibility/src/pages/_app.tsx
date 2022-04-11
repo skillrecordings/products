@@ -35,7 +35,7 @@ function MyApp({Component, pageProps}: AppProps) {
         <SessionProvider session={pageProps.session} refetchInterval={0}>
           <ConvertkitProvider>
             <ViewerProvider>
-              <ThemeProvider forcedTheme="light" attribute="class">
+              <ThemeProvider enableSystem={false} attribute="class">
                 <MDXProvider components={MDXComponents}>
                   <Component {...pageProps} />
                 </MDXProvider>
