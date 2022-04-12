@@ -1,8 +1,8 @@
 import React from 'react'
 
 export default {
-  name: 'package',
-  title: 'Package',
+  name: 'product',
+  title: 'Product',
   type: 'document',
   fields: [
     {
