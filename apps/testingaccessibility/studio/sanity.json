@@ -16,7 +16,8 @@
     "markdown",
     "@sanity/rich-date-input",
     "order-documents",
-    "@sanity/code-input"
+    "@sanity/code-input",
+    "mux-input"
   ],
   "env": {
     "development": {
