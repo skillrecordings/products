@@ -8,6 +8,11 @@ export default {
   title: 'Video',
   fields: [
     {
+      name: 'video',
+      type: 'mux.video',
+      title: 'Video',
+    },
+    {
       name: 'url',
       type: 'url',
       title: 'HLS URL',
