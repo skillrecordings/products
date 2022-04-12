@@ -15,11 +15,14 @@
     "@sanity/desk-tool",
     "markdown",
     "@sanity/rich-date-input",
-    "order-documents"
+    "order-documents",
+    "@sanity/code-input"
   ],
   "env": {
     "development": {
-      "plugins": ["@sanity/vision"]
+      "plugins": [
+        "@sanity/vision"
+      ]
     }
   },
   "parts": [
