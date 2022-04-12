@@ -20,7 +20,7 @@ export default {
       },
     },
     {
-      name: 'section',
+      name: 'sections',
       title: 'Sections',
       type: 'array',
       of: [{type: 'reference', to: [{type: 'section'}]}],
