@@ -11,8 +11,8 @@ export default {
       type: 'string',
     },
     {
-      name: 'id',
-      title: 'ID',
+      name: 'productId',
+      title: 'Product ID',
       type: 'string',
     },
     {
