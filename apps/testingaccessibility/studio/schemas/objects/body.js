@@ -1,3 +1,5 @@
+// TODO: Exercises (don't have to have solutions), Challenges (always have solutions, sometimes multiple parts)
+
 export default {
   name: 'body',
   type: 'array',
@@ -18,5 +20,6 @@ export default {
     {type: 'bodyImage'},
     {type: 'bodyVideo'},
     {type: 'code'},
+    {type: 'callout'},
   ],
 }

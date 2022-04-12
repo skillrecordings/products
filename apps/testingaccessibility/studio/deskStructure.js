@@ -4,22 +4,30 @@ import reviews from './src/structure/accessibility-reviews'
 import sections from './src/structure/sections'
 import lessons from './src/structure/lessons'
 import modules from './src/structure/modules'
-import packages from './src/structure/packages'
+import products from './src/structure/products'
 
 const hiddenDocTypes = (listItem) =>
-  !['workshop', 'review', 'package', 'module', 'section', 'lesson'].includes(
-    listItem.getId(),
-  )
+  ![
+    'workshop',
+    'review',
+    'product',
+    'module',
+    'section',
+    'lesson',
+    'tag',
+  ].includes(listItem.getId())
 
 export default () =>
   S.list()
     .title('Testing Accessibility')
     .items([
       ...S.documentTypeListItems().filter(hiddenDocTypes),
-      packages,
+      products,
+      S.divider(),
       modules,
       sections,
       lessons,
+      S.divider(),
       workshops,
       reviews,
     ])

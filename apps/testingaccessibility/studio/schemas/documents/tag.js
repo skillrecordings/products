@@ -1,35 +1,25 @@
 import React from 'react'
 
 export default {
-  name: 'lesson',
-  title: 'Lesson',
+  name: 'tag',
+  title: 'Tag',
   type: 'document',
   fields: [
     {
       name: 'title',
       title: 'Title',
       type: 'string',
+      description: 'capitalized',
+      validation: (Rule) => Rule.regex(/^[A-Z][a-zA-Z0-9]*$/).required(),
     },
     {
-      name: 'slug',
-      title: 'Slug',
-      type: 'slug',
-      options: {
-        source: 'title',
-        maxLength: 96,
-      },
+      name: 'value',
+      title: 'Value',
+      type: 'string',
+      description: 'in kebab-case',
+      validation: (Rule) => Rule.regex(/^[a-z0-9-]+$/).required(),
     },
-    {name: 'body', title: 'Body', type: 'body'},
     {name: 'image', title: 'Image', type: 'externalImage'},
-    {
-      name: 'tags',
-      title: 'Tags',
-      type: 'array',
-      of: [{type: 'reference', to: [{type: 'tag'}]}],
-      options: {
-        layout: 'tags',
-      },
-    },
   ],
   preview: {
     select: {
