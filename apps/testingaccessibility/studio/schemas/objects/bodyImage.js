@@ -20,6 +20,7 @@ export default {
       name: 'alt',
       type: 'string',
       title: 'Alternative text',
+      validation: (Rule) => Rule.required(),
     },
   ],
   preview: {
@@ -29,7 +30,7 @@ export default {
       return (
         <>
           <div>
-            <img src={url} alt={alt} />
+            <img width="100%" height="auto" src={url} alt={alt} />
           </div>
           {alt && <b>{alt}</b>} {caption && <i>caption: {caption}</i>}
         </>
