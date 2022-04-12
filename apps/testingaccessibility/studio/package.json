@@ -15,6 +15,7 @@
   ],
   "dependencies": {
     "@sanity/base": "^2.29.2",
+    "@sanity/code-input": "^2.29.5",
     "@sanity/components": "^2.14.0",
     "@sanity/core": "^2.28.1",
     "@sanity/default-layout": "^2.29.2",
@@ -25,6 +26,7 @@
     "prop-types": "^15.7",
     "react": "^17.0",
     "react-dom": "^17.0",
+    "react-hls-player": "^3.0.7",
     "react-icons": "^4.3.1",
     "sanity-plugin-markdown": "^2.0.2",
     "sanity-plugin-order-documents": "^0.0.22",
