@@ -905,6 +905,7 @@ importers:
       next-seo: ^5.1.0
       next-sitemap: ^2.5.10
       next-themes: ^0.1.1
+      playwright: ^1.21.0
       playwright-aws-lambda: ^0.7.0
       playwright-core: ^1.21.0
       postcss: ^8.4.12
@@ -980,6 +981,7 @@ importers:
       next-seo: 5.1.0_caa633a00319350dbda42996613fe26c
       next-sitemap: 2.5.10_next@12.1.0
       next-themes: 0.1.1_caa633a00319350dbda42996613fe26c
+      playwright: 1.21.0
       playwright-aws-lambda: 0.7.0_playwright-core@1.21.0
       playwright-core: 1.21.0
       postcss: 8.4.12
@@ -23024,6 +23026,19 @@ packages:
       ws: 8.4.2
       yauzl: 2.10.0
       yazl: 2.5.1
+    transitivePeerDependencies:
+      - bufferutil
+      - supports-color
+      - utf-8-validate
+    dev: false
+
+  /playwright/1.21.0:
+    resolution: {integrity: sha512-OH5ZFoiS0HkBZzhb7HPVeE8lEx3PO/AaKgoQfgs1NbmwFPqHgPzfKFa3fO+VM27WqTLjtYOL6hM03sWnJhT3ig==}
+    engines: {node: '>=12'}
+    hasBin: true
+    requiresBuild: true
+    dependencies:
+      playwright-core: 1.21.0
     transitivePeerDependencies:
       - bufferutil
       - supports-color
