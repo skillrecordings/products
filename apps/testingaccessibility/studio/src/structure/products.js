@@ -4,12 +4,6 @@ import {FiPackage} from 'react-icons/fi'
 const products = S.listItem()
   .title('Products')
   .icon(FiPackage)
-  .child(
-    S.list()
-      .title('Products')
-      .items([
-        S.documentTypeListItem('product').title('All Products').icon(FiPackage),
-      ]),
-  )
+  .child(S.documentTypeList('product').title('All Products'))
 
 export default products
