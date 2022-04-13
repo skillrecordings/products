@@ -905,7 +905,7 @@ importers:
       next-seo: ^5.1.0
       next-sitemap: ^2.5.10
       next-themes: ^0.1.1
-      playwright: ^1.21.0
+      playwright: 1.15.0
       playwright-aws-lambda: ^0.7.0
       playwright-core: ^1.21.0
       postcss: ^8.4.12
@@ -981,7 +981,7 @@ importers:
       next-seo: 5.1.0_caa633a00319350dbda42996613fe26c
       next-sitemap: 2.5.10_next@12.1.0
       next-themes: 0.1.1_caa633a00319350dbda42996613fe26c
-      playwright: 1.21.0
+      playwright: 1.15.0
       playwright-aws-lambda: 0.7.0_playwright-core@1.21.0
       playwright-core: 1.21.0
       postcss: 8.4.12
@@ -12680,7 +12680,6 @@ packages:
   /commander/6.2.1:
     resolution: {integrity: sha512-U7VdrJFnJgo4xjrHpTzu0yrHPGImdsmD95ZlgYSEajAn2JKzDhDTPG9kBTefmObL2w/ngeZnilk+OV9CG3d7UA==}
     engines: {node: '>= 6'}
-    dev: true
 
   /commander/7.2.0:
     resolution: {integrity: sha512-QrWXB+ZQSVPmIWIhtEO9H+gwHaMGYiF5ChvoJ+K9ZGHG/sVsa6yiesAD1GC/x46sET00Xlwo1u49RVVVzvcSkw==}
@@ -23088,13 +23087,26 @@ packages:
       - utf-8-validate
     dev: false
 
-  /playwright/1.21.0:
-    resolution: {integrity: sha512-OH5ZFoiS0HkBZzhb7HPVeE8lEx3PO/AaKgoQfgs1NbmwFPqHgPzfKFa3fO+VM27WqTLjtYOL6hM03sWnJhT3ig==}
+  /playwright/1.15.0:
+    resolution: {integrity: sha512-JtagFVjNvccP1rIixHB/4KbR+BzMTJLty6mo71YLatvJR9ZH+PX8DLlhw1KDdIH2YGMSQGf2ihh4KAp9tsklxQ==}
     engines: {node: '>=12'}
     hasBin: true
     requiresBuild: true
     dependencies:
-      playwright-core: 1.21.0
+      commander: 6.2.1
+      debug: 4.3.4
+      extract-zip: 2.0.1
+      https-proxy-agent: 5.0.0
+      jpeg-js: 0.4.3
+      mime: 2.6.0
+      pngjs: 5.0.0
+      progress: 2.0.3
+      proper-lockfile: 4.1.2
+      proxy-from-env: 1.1.0
+      rimraf: 3.0.2
+      stack-utils: 2.0.5
+      ws: 7.5.5
+      yazl: 2.5.1
     transitivePeerDependencies:
       - bufferutil
       - supports-color
@@ -23134,6 +23146,11 @@ packages:
   /pngjs/4.0.1:
     resolution: {integrity: sha512-rf5+2/ioHeQxR6IxuYNYGFytUyG3lma/WW1nsmjeHlWwtb2aByla6dkVc8pmJ9nplzkTA0q2xx7mMWrOTqT4Gg==}
     engines: {node: '>=8.0.0'}
+    dev: false
+
+  /pngjs/5.0.0:
+    resolution: {integrity: sha512-40QW5YalBNfQo5yRYmiw7Yz6TKKVr3h6970B2YE+3fQpsWcrbj1PzJgxeJ19DRQjhMbKPIuMY8rFaXc8moolVw==}
+    engines: {node: '>=10.13.0'}
     dev: false
 
   /pngjs/6.0.0:
@@ -29675,7 +29692,6 @@ packages:
         optional: true
       utf-8-validate:
         optional: true
-    dev: true
 
   /ws/8.4.2:
     resolution: {integrity: sha512-Kbk4Nxyq7/ZWqr/tarI9yIt/+iNNFOjBXEWgTb4ydaNHBNGgvf2QHbS9fdfsndfjFlFwEd4Al+mw83YkaD10ZA==}
