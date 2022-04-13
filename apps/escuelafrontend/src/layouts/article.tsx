@@ -9,6 +9,7 @@ import HeroWave from 'components/waves/hero-wave'
 import {HorizontalResourceCard} from 'components/cards/horizontal-resource-card'
 import {MDXRemote} from 'next-mdx-remote'
 import mdxComponents from 'components/mdx'
+import qs from 'query-string'
 
 type ArticleTemplateProps = {
   meta?: any
@@ -24,10 +25,23 @@ const ArticleTemplate: React.FC<ArticleTemplateProps> = ({meta}) => {
     relatedResources = {},
   } = meta
 
+  /* NextSeo urls */
   const router = useRouter()
+  const urlmain = process.env.NEXT_PUBLIC_DEPLOYMENT_URL + router.asPath
+  const canonicalUrl = seo.canonical ? seo.canonical : urlmain
+  let url = `${process.env.NEXT_PUBLIC_VERCEL_URL}${router.asPath}`
 
-  const url = process.env.NEXT_PUBLIC_DEPLOYMENT_URL + router.asPath
-  const canonicalUrl = seo.canonical ? seo.canonical : url
+  /*  opengraphImage */
+  const contentType = 'article'
+  const tagImage = tag.image
+  const tagSlug = tag.slug
+  const authorImage = author.image
+  const authorName = author.name
+  console.log(tagImage)
+  const query = {title, contentType, tagImage, authorImage, authorName, tagSlug}
+  const opengraphImage = `${
+    process.env.NEXT_PUBLIC_VERCEL_URL
+  }/api/opengraph?${qs.stringify(query)}`
 
   return (
     <>
@@ -38,12 +52,9 @@ const ArticleTemplate: React.FC<ArticleTemplateProps> = ({meta}) => {
           title: seo.ogTitle || title,
           description: seo.ogDescription,
           url,
-          images: [
-            {
-              url: seo.ogImage || tag.image,
-              alt: title,
-            },
-          ],
+          images: opengraphImage
+            ? [{url: opengraphImage, width: 1200, height: 630}]
+            : undefined,
         }}
         twitter={{
           cardType: seo.cardType || 'summary_large_image',
