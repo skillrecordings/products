@@ -9,6 +9,7 @@ const IMAGE_HOST_DOMAINS = [
 ]
 
 const nextConfig = {
+  webpack5: true,
   reactStrictMode: true,
   images: {
     domains: IMAGE_HOST_DOMAINS,
