@@ -66,8 +66,8 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       <body>
           <div class="grid p-16 absolute">
            <div class="flex justify-between"> 
-            <img src="${tagImage}" class="h-20 w-20 rounded-full" />
-            <img src="${logo}" class="h-20 w-20 rounded-full" />
+            <img src="${tagImage}" class="h-20 w-20" />
+            <img src="${logo}" class="h-20 w-20" />
            </div>
             <h1 class="resize text-white font-extrabold text-6xl leading-none mt-24">${title}</h1>   
            <div class="absolute top-96 left-16 flex items-center gap-4 mt-24">
