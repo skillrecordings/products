@@ -3,6 +3,8 @@
 @tailwind utilities;
 @import '@reach/dialog/styles.css';
 @import './fonts/index.css';
+@import './prism-theme.css';
+@import './nprogress.css';
 @import './icons.css';
 @import '@skillrecordings/quiz/dist/styles/index.css';
 @import '@skillrecordings/player/dist/skillrecordings-player.css';
