@@ -16,10 +16,6 @@ import {
   HLSSource,
   selectIsFullscreen,
 } from '@skillrecordings/player'
-import {
-  VideoStateContext,
-  VideoEvent,
-} from '@skillrecordings/player/dist/machines/video-machine'
 import {serialize} from 'next-mdx-remote/serialize'
 import {MDXRemote} from 'next-mdx-remote'
 import {format} from 'date-fns'
@@ -114,18 +110,7 @@ const Review: React.FC<any> = ({review, body}) => {
 
 const Page: React.FC<any> = (props) => {
   return (
-    <VideoProvider
-      services={{
-        loadResource:
-          (_context: VideoStateContext, _event: VideoEvent) => async () => {
-            return {}
-          },
-        loadViewer:
-          (_context: VideoStateContext, _event: VideoEvent) => async () => {
-            return {}
-          },
-      }}
-    >
+    <VideoProvider>
       <Review {...props} />
     </VideoProvider>
   )

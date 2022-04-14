@@ -12,6 +12,7 @@ import {MDXProvider} from '@mdx-js/react'
 import {SessionProvider} from 'next-auth/react'
 import {usePageview} from '@skillrecordings/analytics'
 import {QueryClient, QueryClientProvider} from 'react-query'
+import {initNProgress} from 'utils/nprogress'
 
 const queryClient = new QueryClient()
 
@@ -25,6 +26,8 @@ declare global {
     gtag: any
   }
 }
+
+initNProgress()
 
 function MyApp({Component, pageProps}: AppProps) {
   usePageview()

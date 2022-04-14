@@ -1,6 +1,5 @@
 import React from 'react'
 import ReactHlsPlayer from 'react-hls-player'
-// import ReactMarkdown from 'react-markdown'
 
 export default {
   name: 'bodyVideo',
