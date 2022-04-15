@@ -34,7 +34,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       ? `#565656`
       : null
 
-  const logo = `${process.env.NEXT_PUBLIC_VERCEL_URL}/logo.png`
+  const logo = `https://res.cloudinary.com/escuela-frontend/image/upload/v1650057620/assets/logo_cx4qxa.png`
 
   const article = `
   <!DOCTYPE html>
