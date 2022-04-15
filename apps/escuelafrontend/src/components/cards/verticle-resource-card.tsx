@@ -84,7 +84,7 @@ const VerticalResourceCard: React.FC<VerticalResourceCardProps> = ({
                   ? 'bg-[#d60100]'
                   : resource.tag.slug === 'typescript'
                   ? 'bg-blue-400'
-                  : 'bg-gray-3400'
+                  : 'bg-gray-400'
               } absolute top-0 left-0 z-20 w-full h-1 `}
             ></div>
           ) : null}
