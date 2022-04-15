@@ -17,7 +17,7 @@ const ProfileTemplate: React.FC<ProfileTemplateProps> = ({meta}) => {
   const {allArticles = {}, instructor = {name: 'Unknown instructor'}} = meta
 
   const featuredResource = instructor.featuredResource
-  const tagSlug = featuredResource[0].tag.slug
+  const tagSlug = featuredResource && featuredResource[0].tag.slug
 
   /* NextSeo urls */
   const router = useRouter()
@@ -199,7 +199,7 @@ const Instructor: FunctionComponent<{
         <hr className="border border-gray-500 border-opacity-10" />
         <div>
           {bio && (
-            <Markdown className="prose prose-lg dark:prose-dark">
+            <Markdown className="leading-snug prose prose-lg  dark:prose-dark">
               {bio}
             </Markdown>
           )}
