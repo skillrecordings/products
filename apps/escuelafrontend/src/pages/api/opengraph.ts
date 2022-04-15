@@ -2,8 +2,15 @@ import {launchChromium} from 'playwright-aws-lambda'
 import {NextApiRequest, NextApiResponse} from 'next'
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
-  const {title, contentType, tagImage, authorImage, authorName, tagSlug} =
-    req.query
+  const {
+    instructorImage,
+    instructorName,
+    instructorRole,
+    contentType,
+    tagImage,
+    tagSlug,
+    title,
+  } = req.query
   const browser = await launchChromium()
 
   const context = await browser.newContext()
@@ -31,15 +38,14 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
   const article = `
   <!DOCTYPE html>
   <html>
-      <meta charset="utf-8">
-      <title>Generated Image</title>
-      <meta name="viewport" content="width=device-width, initial-scale=1">
-      <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet">
-
-      <style>
-@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital@0;1&family=IBM+Plex+Sans:wght@700&display=swap');
-</style>
-      <style>
+     <meta charset="utf-8">
+     <title>Generated Image</title>
+     <meta name="viewport" content="width=device-width, initial-scale=1">
+     <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet">
+     <style>
+        @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital@0;1&family=IBM+Plex+Sans:wght@700&display=swap');
+     </style>
+     <style>
         body {
           background-image: linear-gradient(#131313, black);
           background-size: cover;                
@@ -61,196 +67,133 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
           height: .75rem;
           width: 100%;
         }
-      </style>
-     
-      <body>
-          <div class="grid p-16 absolute">
+     </style>
+     <body>
+        <div class="grid p-16 py-24 absolute">
            <div class="flex justify-between"> 
-            <img src="${tagImage}" class="h-20 w-20" />
-            <img src="${logo}" class="h-20 w-20" />
+              <img src="${tagImage}" class="h-20 w-20 rounded-sm" />
+              <img src="${logo}" class="h-20 w-20" />
            </div>
-            <h1 class="resize text-white font-extrabold text-6xl leading-none mt-24">${title}</h1>   
+           <h1 class="resize text-white font-extrabold text-6xl leading-none mt-16">${title}</h1>
            <div class="absolute top-96 left-16 flex items-center gap-4 mt-24">
-            <div>
-              <img src="${authorImage}" class="h-20 w-20 rounded-full" />
-            </div>
-            <p class="text-white font-bold text-2xl leading-tighter">${authorName}</p>  
+              <div>
+                 <img src="${instructorImage}" class="h-20 w-20 rounded-full" />
+              </div>
+              <p class="text-white font-semibold text-2xl leading-tighter font-sans">${instructorName}</p>
            </div>
-          </div>
-          <div class="banner"></div>
-      </body>
+        </div>
+        <div class="banner"></div>
+     </body>
   </html>
 `.trim()
 
   const profile = `
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-<style>
-   
-</style>
-<link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet">
-
-
-<style>
-body{
-    margin: 0; 
-    padding:0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 1200px;
-    height: 630px;
-    background-color: #000;
-    font-family: 'Articulat', sans-serif;
-}
-
-.resize{
-    position: absolute;
-    top: 135px;
-    left: 100px;
-    position: absolute;
-    width: 700px;
-    height: 130px;
-    color: #ffffff;
-    line-height: 1.1;
-}
-
-.avatar{
-    // position: absolute;
-    // left: 75px;
-    // top: 474px;
-}
-
-.created{
-    position: absolute;
-    left: 200px;
-    top: 475px;
-}
-
-.author{
-    // position: absolute;
-    // left: 200px;
-    // top: 510px;
-}
-
-.logo{
-  position: absolute;
-  right: 100px;
-  top: 100px;
-}
-
-</style>
-<img src="${logo}" class="logo" />
-
-}
-
-<script src="https://unpkg.com/textfit@2.4.0/textFit.js"></script>
-<script>
-    textFit(document.querySelector('.resize'), { multiLine: true})
-</script>
-</body>
-</html>
+  <!DOCTYPE html>
+  <html>
+     <meta charset="utf-8">
+     <title>Generated Image</title>
+     <meta name="viewport" content="width=device-width, initial-scale=1">
+     <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet">
+     <style>
+        @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital@0;1&family=IBM+Plex+Sans:wght@700&display=swap');
+     </style>
+     <style>
+        body {
+          background-image: linear-gradient(#131313, black);
+          background-size: cover;                
+          background-repeat: no-repeat;
+          margin: 0; 
+          padding:0;
+          width: 1200px;
+          height: 630px;
+          justify-content: center;
+          align-items: center;
+          font-family: 'IBM Plex Sans', sans-serif;
+        }
+        .banner {
+          background-color: ${bannerColor};
+          position: absolute;
+          top: 0px;
+          left: 0px;
+          z-index: 100;
+          height: .75rem;
+          width: 100%;
+        }
+        .text-color {
+          color: ${bannerColor};
+        }
+     </style>
+     <body>
+        <div class="px-16 py-24 absolute">
+          <div class="grid grid-cols-10 gap-10">
+            <div class=" col-span-6">
+              <div class="flex items-center gap-6 w-full">
+              <img src="${logo}" class="h-20 w-20" />
+              </div>
+              <div class="mt-24">
+                <h1 class="resize text-white font-extrabold text-6xl leading-none mb-2">${instructorName}</h1>
+                <p class="text-color font-medium text-3xl font-sans">${instructorRole}<p>
+              </div>
+            </div>
+            <div class=" col-span-4">
+             <img src="${instructorImage}" class="h-330 w-330 rounded-md" />
+            </div>
+          </div>
+        </div>
+        <div class="banner"></div>
+     </body>
+  </html>
 `.trim()
 
   const course = `
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-<style>
-@font-face {
-  font-family: 'IBM Plex Sans';
-  font-style: italic;
-  font-weight: 100 900;
-  font-display: optional;
-  src: url('/fonts/ibm-plex-sans-var-italic.woff2') format('woff2');
-}
-
-</style>
-<style>
-body{
-  margin: 0; 
-  padding:0;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 1200px;
-  height: 630px;
-  background-color: #000;
-  font-family: 'IBM Plex Sans', sans-serif;
-}
-
-</style>
-<link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet">
-
-<style>
-body{
-    margin: 0; 
-    padding:0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 1200px;
-    height: 630px;
-    background-color: #000;
-    font-family: 'Articulat', sans-serif;
-}
-
-.resize{
-    position: absolute;
-    top: 135px;
-    left: 100px;
-    position: absolute;
-    width: 700px;
-    height: 130px;
-    color: #ffffff;
-    line-height: 1.1;
-}
-
-.avatar{
-    // position: absolute;
-    // left: 75px;
-    // top: 474px;
-}
-
-.created{
-    position: absolute;
-    left: 200px;
-    top: 475px;
-}
-
-.author{
-    // position: absolute;
-    // left: 200px;
-    // top: 510px;
-}
-
-.logo{
-  position: absolute;
-  right: 100px;
-  top: 100px;
-}
-
-</style>
-<img src="${logo}" class="" />
-<div class="resize">course</div>
-
-
-<script src="https://unpkg.com/textfit@2.4.0/textFit.js"></script>
-<script>
-    textFit(document.querySelector('.resize'), { multiLine: true})
-</script>
-</body>
+  <!DOCTYPE html>
+<html>
+   <meta charset="utf-8">
+   <title>Generated Image</title>
+   <meta name="viewport" content="width=device-width, initial-scale=1">
+   <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet">
+   <style>
+      @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital@0;1&family=IBM+Plex+Sans:wght@700&display=swap');
+   </style>
+   <style>
+      body {
+        background-image: linear-gradient(#131313, black);
+        background-size: cover;                
+        background-repeat: no-repeat;
+        margin: 0; 
+        padding:0;
+        width: 1200px;
+        height: 630px;
+        justify-content: center;
+        align-items: center;
+        font-family: 'IBM Plex Sans', sans-serif;
+      }
+      .banner {
+        background-color: ${bannerColor};
+        position: absolute;
+        top: 0px;
+        left: 0px;
+        z-index: 100;
+        height: .75rem;
+        width: 100%;
+      }
+   </style>
+   <body>
+      <div class="grid p-16 absolute">
+         <div class="flex justify-between"> 
+            <img src="${tagImage}" class="h-20 w-20" />
+            <img src="${logo}" class="h-20 w-20" />
+         </div>
+         <h1 class="resize text-white font-extrabold text-6xl leading-none mt-24">${title}</h1>
+         <div class="absolute top-96 left-16 flex items-center gap-4 mt-24">
+            <div>
+               <img src="${instructorImage}" class="h-20 w-20 rounded-full" />
+            </div>
+            <p class="text-white font-bold text-2xl leading-tighter">${instructorName}</p>
+         </div>
+      </div>
+      <div class="banner"></div>
+   </body>
 </html>
 `.trim()
 
