@@ -31,7 +31,7 @@ const allArticlesQuery = groq`
   slug,
   path,
   publishedAt,
-  "author": collaborators[0]->{
+  "instructor": collaborators[0]->{
     title,
     'slug': person->slug.current,
     'name': person->name,

@@ -5,6 +5,9 @@ import {HorizontalResourceCard} from 'components/cards/horizontal-resource-card'
 import Markdown from 'react-markdown'
 import Link from 'next/link'
 import {VerticalResourceCard} from 'components/cards/verticle-resource-card'
+import {useRouter} from 'next/router'
+import qs from 'query-string'
+import {NextSeo} from 'next-seo'
 
 type ProfileTemplateProps = {
   meta?: any
@@ -14,9 +17,48 @@ const ProfileTemplate: React.FC<ProfileTemplateProps> = ({meta}) => {
   const {allArticles = {}, instructor = {name: 'Unknown instructor'}} = meta
 
   const featuredResource = instructor.featuredResource
+  const tagSlug = featuredResource[0].tag.slug
+
+  /* NextSeo urls */
+  const router = useRouter()
+  let url = `${process.env.NEXT_PUBLIC_VERCEL_URL}${router.asPath}`
+
+  /*  opengraphImage */
+  const contentType = 'profile'
+  const instructorImage = instructor.image
+  const instructorName = instructor.name
+  const instructorRole = instructor.role
+  const query = {
+    contentType,
+    instructorImage,
+    instructorName,
+    instructorRole,
+    tagSlug,
+  }
+  const opengraphImage = `${
+    process.env.NEXT_PUBLIC_VERCEL_URL
+  }/api/opengraph?${qs.stringify(query)}`
 
   return (
     <>
+      <NextSeo
+        title={instructor.name}
+        description={instructor.bio}
+        openGraph={{
+          title: 'Escuela Frontend' || instructor.name,
+          description: instructor.name,
+          url,
+          type: 'profile',
+          images: opengraphImage
+            ? [{url: opengraphImage, width: 1200, height: 630}]
+            : undefined,
+        }}
+        twitter={{
+          cardType: 'summary_large_image',
+          site: 'Escuela Frontend',
+          handle: '@EscuelaFrontend',
+        }}
+      />
       <div className="grid max-w-screen-xl grid-cols-1 gap-0 mx-auto mt-5 lg:gap-8 lg:grid-cols-3">
         <div className="col-span-2 mb-8 lg:mb-0">
           {instructor && <Instructor instructor={instructor} />}

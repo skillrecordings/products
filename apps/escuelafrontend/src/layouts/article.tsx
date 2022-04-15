@@ -18,11 +18,13 @@ type ArticleTemplateProps = {
 const ArticleTemplate: React.FC<ArticleTemplateProps> = ({meta}) => {
   const {
     title = 'Missing title',
-    author = {name: 'Unknown Author'},
+    instructor = {name: 'Unknown Instructor'},
     seo = {},
     body = ``,
     tag = {name: 'Unknown Tag'},
     relatedResources = {},
+    publishedTime,
+    modifiedTime,
   } = meta
 
   /* NextSeo urls */
@@ -35,10 +37,16 @@ const ArticleTemplate: React.FC<ArticleTemplateProps> = ({meta}) => {
   const contentType = 'article'
   const tagImage = tag.image
   const tagSlug = tag.slug
-  const authorImage = author.image
-  const authorName = author.name
-  console.log(tagImage)
-  const query = {title, contentType, tagImage, authorImage, authorName, tagSlug}
+  const instructorImage = instructor.image
+  const instructorName = instructor.name
+  const query = {
+    title,
+    contentType,
+    tagImage,
+    instructorImage,
+    instructorName,
+    tagSlug,
+  }
   const opengraphImage = `${
     process.env.NEXT_PUBLIC_VERCEL_URL
   }/api/opengraph?${qs.stringify(query)}`
@@ -52,6 +60,13 @@ const ArticleTemplate: React.FC<ArticleTemplateProps> = ({meta}) => {
           title: seo.ogTitle || title,
           description: seo.ogDescription,
           url,
+          type: 'article',
+          article: {
+            publishedTime: publishedTime,
+            modifiedTime: modifiedTime,
+            authors: [instructor.name],
+            tags: [tag.name],
+          },
           images: opengraphImage
             ? [{url: opengraphImage, width: 1200, height: 630}]
             : undefined,
@@ -82,7 +97,7 @@ const ArticleTemplate: React.FC<ArticleTemplateProps> = ({meta}) => {
               {title}
             </h1>
           )}
-          {author && <Author author={author} />}
+          {instructor && <Instructor instructor={instructor} />}
         </header>
 
         <HeroWave duration={60} />
@@ -123,14 +138,14 @@ const ArticleTemplate: React.FC<ArticleTemplateProps> = ({meta}) => {
 
 export default ArticleTemplate
 
-const Author: FunctionComponent<{
-  author: {
+const Instructor: FunctionComponent<{
+  instructor: {
     slug?: string
     name?: string
     image?: any
   }
-}> = ({author}) => {
-  const {slug, name, image} = author
+}> = ({instructor}) => {
+  const {slug, name, image} = instructor
 
   return (
     <Link href={'/instructores/' + slug}>
