@@ -27,12 +27,12 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       : tagSlug == 'javascript'
       ? `#f0db4e`
       : tagSlug == 'typescript'
-      ? `#d60100`
+      ? `#3077c6`
       : tagSlug == 'npm'
-      ? `#3b82f6`
+      ? `#d60100`
       : tagSlug == 'next-js'
       ? `#565656`
-      : null
+      : `#565656`
 
   const logo = `https://res.cloudinary.com/escuela-frontend/image/upload/v1650057620/assets/logo_cx4qxa.png`
 
