@@ -80,7 +80,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
               <div>
                  <img src="${instructorImage}" class="h-20 w-20 rounded-full" />
               </div>
-              <p class="text-white font-semibold text-2xl leading-tighter font-sans">${instructorName}</p>
+              <p class="text-white font-semibold text-2xl leading-tighter font-sans ml-2">${instructorName}</p>
            </div>
         </div>
         <div class="banner"></div>
@@ -133,7 +133,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
               </div>
               <div class="mt-24">
                 <h1 class="resize text-white font-extrabold text-6xl leading-none mb-2">${instructorName}</h1>
-                <p class="text-color font-medium text-3xl font-sans">${instructorRole}<p>
+                <p class="text-color text-3xl">${instructorRole}<p>
               </div>
             </div>
             <div class=" col-span-4">
