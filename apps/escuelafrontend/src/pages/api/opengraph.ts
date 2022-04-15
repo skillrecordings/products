@@ -20,17 +20,18 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     height: 630,
   })
 
+  /* new tags need to be updated below */
   const bannerColor =
     tagSlug == 'react'
       ? `#60dafa`
       : tagSlug == 'javascript'
       ? `#f0db4e`
       : tagSlug == 'typescript'
-      ? `#greene`
+      ? `#d60100`
       : tagSlug == 'npm'
-      ? `#purple`
+      ? `#3b82f6`
       : tagSlug == 'next-js'
-      ? `#brown`
+      ? `#565656`
       : null
 
   const logo = `${process.env.NEXT_PUBLIC_VERCEL_URL}/logo.png`
