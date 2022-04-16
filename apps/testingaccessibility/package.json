@@ -148,6 +148,7 @@
     "postcss-nested": "^5.0.6",
     "postcss-preset-env": "^7.4.2",
     "prettier": "^2.5.1",
+    "prettier-plugin-sort-class-names": "^3.0.1",
     "prisma": "^3.13.0-dev.6",
     "react-test-renderer": "^17.0.2",
     "tailwindcss": "^3.0.23",
@@ -172,7 +173,10 @@
     "singleQuote": true,
     "trailingComma": "all",
     "bracketSpacing": false,
-    "jsxBracketSameLine": false
+    "jsxBracketSameLine": false,
+    "plugins": [
+      "prettier-plugin-sort-class-names"
+    ]
   },
   "resolutions": {
     "jest-environment-jsdom": "27.4.6"
