@@ -97,7 +97,7 @@ const SecretSauceSection: React.FC<any> = ({content}) => {
       <p className="font-condensed text-badass-yellow-300 sm:text-2xl text-xl">
         {content.caption}
       </p>
-      <h2 className="max-w-lg font-heading sm:text-3xl text-xl pt-4">
+      <h2 className="max-w-xl font-heading sm:text-3xl text-xl pt-4">
         {content.heading}
       </h2>
       <div className="absolute sm:-bottom-5 -bottom-16 sm:-translate-x-72 -translate-x-40">

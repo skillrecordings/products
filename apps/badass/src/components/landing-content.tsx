@@ -99,8 +99,8 @@ export const projects = {
         <svg
           aria-hidden="true"
           xmlns="http://www.w3.org/2000/svg"
-          width="40"
-          height="45"
+          width="33"
+          height="37"
           fill="none"
           viewBox="0 0 40 45"
           className="text-badass-cyan-400"
@@ -121,8 +121,8 @@ export const projects = {
         <svg
           aria-hidden="true"
           xmlns="http://www.w3.org/2000/svg"
-          width="44"
-          height="46"
+          width="40"
+          height="41"
           fill="none"
           viewBox="0 0 44 46"
         >

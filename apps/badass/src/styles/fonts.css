@@ -21,7 +21,6 @@
   src: url('/fonts/Espiritu-Script.woff2') format('woff2'),
     url('/fonts/Espiritu-Script.woff') format('woff');
   font-weight: normal;
-  font-style: italic;
   font-display: block;
 }
 
