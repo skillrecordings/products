@@ -185,7 +185,7 @@ export const projects = {
           fill="none"
           viewBox="0 0 53 41"
         >
-          <g clip-path="url(#a)">
+          <g clipPath="url(#a)">
             <path
               stroke="#000"
               strokeWidth="2.89"

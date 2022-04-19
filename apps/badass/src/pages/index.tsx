@@ -129,7 +129,10 @@ const ProjectsSection: React.FC<any> = ({content}) => {
         {content.items.map((project: any) => {
           const {title, byline, image} = project
           return (
-            <li className="flex flex-col items-center justify-center sm:w-1/2 sm:pb-16 pb-10">
+            <li
+              key={title}
+              className="flex flex-col items-center justify-center sm:w-1/2 sm:pb-16 pb-10"
+            >
               {image}
               <p className="font-heading sm:text-2xl text-xl pt-3 pb-2">
                 {title}
