@@ -48,6 +48,7 @@ const Header: React.FC<any> = ({content}) => {
         placeholder="blur"
         quality={100}
         priority
+        loading="eager"
         alt="illustration of amanita muscoria mushroom with a level up label and little floating stars around it"
       />
       <p className="font-condensed text-badass-pink-500 sm:text-3xl text-xl">
@@ -70,6 +71,7 @@ const SecretSauceSection: React.FC<any> = ({content}) => {
       <div className="relative translate-y-10">
         <div className="absolute sm:translate-x-40 translate-x-28 translate-y-8">
           <Image
+            loading="eager"
             src={ImageSecretSauce}
             placeholder="blur"
             width={850}
@@ -81,6 +83,7 @@ const SecretSauceSection: React.FC<any> = ({content}) => {
         </div>
         <div className="sm:translate-y-24 translate-y-16">
           <Image
+            loading="eager"
             src={ImageSecretSauceDrop}
             placeholder="blur"
             width={512}
@@ -104,10 +107,12 @@ const SecretSauceSection: React.FC<any> = ({content}) => {
           height={108}
           alt="stars"
           aria-hidden="true"
+          loading="eager"
         />
       </div>
       <div className="absolute sm:-bottom-5 -bottom-16 sm:translate-x-72 translate-x-40">
         <Image
+          loading="eager"
           src={ImageStars2}
           width={72}
           height={72}
@@ -157,6 +162,7 @@ const StrategySessionForm: React.FC<any> = ({content}) => {
       <div className="relative max-w-2xl mx-auto flex flex-col items-center">
         <div className="absolute sm:-left-24 sm:top-0 -top-16 sm:w-auto w-36 z-20">
           <Image
+            loading="eager"
             aria-hidden="true"
             src={ImageFish}
             width={160}
@@ -166,6 +172,7 @@ const StrategySessionForm: React.FC<any> = ({content}) => {
         </div>
         <div className="absolute right-[-116px] z-20 sm:block hidden">
           <Image
+            loading="eager"
             aria-hidden="true"
             src={ImageFormMushroomRight}
             width={196}
@@ -175,6 +182,7 @@ const StrategySessionForm: React.FC<any> = ({content}) => {
         </div>
         <div className="absolute -left-24 -bottom-24 z-20 sm:block hidden">
           <Image
+            loading="eager"
             aria-hidden="true"
             src={ImageFormMushroomLeft}
             width={280 / 1.1}
@@ -184,6 +192,7 @@ const StrategySessionForm: React.FC<any> = ({content}) => {
         </div>
         <div className="absolute -right-40 bottom-8 z-0 sm:block hidden">
           <Image
+            loading="eager"
             aria-hidden="true"
             src={ImageFormLeaf}
             width={338 / 1.1}
