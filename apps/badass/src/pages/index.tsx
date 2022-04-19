@@ -1,181 +1,226 @@
-/* This example requires Tailwind CSS v2.0+ */
 import * as React from 'react'
-import {Fragment} from 'react'
-import {Popover, Transition} from '@headlessui/react'
-import {MenuIcon, XIcon} from '@heroicons/react/outline'
+import Image from 'next/image'
+import Layout from 'components/layout'
+import {
+  projects,
+  headerContent,
+  secretSauceContent,
+  strategySessionContent,
+} from 'components/landing-content'
+import {
+  redirectUrlBuilder,
+  SubscribeToConvertkitForm,
+} from '@skillrecordings/convertkit'
+import {useRouter} from 'next/router'
 
-const navigation = [
-  {name: 'Product', href: '#'},
-  {name: 'Features', href: '#'},
-  {name: 'Marketplace', href: '#'},
-  {name: 'Company', href: '#'},
-]
+import ImageLevelUp from '../../public/assets/level-up@2x.png'
+import ImageSecretSauce from '../../public/assets/secret-sauce@2x.png'
+import ImageSecretSauceDrop from '../../public/assets/secret-sauce-drop@2x.png'
+import ImageFormMushroomRight from '../../public/assets/form-mushroom-right@2x.png'
+import ImageFormMushroomLeft from '../../public/assets/form-mushroom-left@2x.png'
+import ImageFormLeaf from '../../public/assets/form-leaf@2x.png'
+import ImageFish from '../../public/assets/fish@2x.png'
+import ImageStars1 from '../../public/assets/stars-1@2x.png'
+import ImageStars2 from '../../public/assets/stars-2@2x.png'
 
-export default function Example() {
+const LandingPage = () => {
   return (
-    <div className="relative bg-white overflow-hidden">
-      <div className="relative pt-6 pb-16 sm:pb-24">
-        <main className="mt-16 mx-auto max-w-7xl px-4 sm:mt-24">
-          <div className="text-center">
-            <h1 className="text-4xl tracking-tight font-extrabold text-gray-900 sm:text-5xl md:text-6xl">
-              Build Your Course Platform to Ship Courses the Sell
-            </h1>
-            <p className="mt-3 max-w-md mx-auto text-base text-gray-500 sm:text-lg md:mt-5 md:text-xl md:max-w-3xl">
-              Take ownership of your educational content and deliver
-              high-quality online courses that effectively meet the needs of
-              learners.
-            </p>
-            <div className="mt-5 max-w-md mx-auto sm:flex sm:justify-center md:mt-8">
-              <div className="rounded-md shadow">
-                <a
-                  href="#"
-                  className="w-full flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 md:py-4 md:text-lg md:px-10"
-                >
-                  Get started
-                </a>
-              </div>
-            </div>
-          </div>
-        </main>
+    <Layout className="overflow-hidden">
+      <Header content={headerContent} />
+      <main>
+        <SecretSauceSection content={secretSauceContent} />
+        <ProjectsSection content={projects} />
+        <StrategySessionForm content={strategySessionContent} />
+      </main>
+    </Layout>
+  )
+}
+
+export default LandingPage
+
+const Header: React.FC<any> = ({content}) => {
+  return (
+    <header className="lg:min-h-[calc(100vh-200px)] flex flex-col items-center lg:justify-center justify-start text-center px-5">
+      <Image
+        src={ImageLevelUp}
+        width={688}
+        height={516}
+        placeholder="blur"
+        quality={100}
+        priority
+        loading="eager"
+        alt="illustration of amanita muscoria mushroom with a level up label and little floating stars around it"
+      />
+      <p className="font-condensed text-badass-pink-500 sm:text-3xl text-xl">
+        {content.caption}
+      </p>
+      <h1 className="font-heading sm:text-4xl text-3xl max-w-[24ch] pb-4 pt-6">
+        {content.heading}
+      </h1>
+      <p className="text-badass-gray max-w-md">{content.byline}</p>
+      <p className="font-script text-badass-yellow-300 text-3xl pt-4">
+        {content.callout}
+      </p>
+    </header>
+  )
+}
+
+const SecretSauceSection: React.FC<any> = ({content}) => {
+  return (
+    <section className="relative sm:pb-16 pb-0 flex flex-col items-center justify-center text-center px-5">
+      <div className="relative translate-y-10">
+        <div className="absolute sm:translate-x-40 translate-x-28 translate-y-8">
+          <Image
+            loading="eager"
+            src={ImageSecretSauce}
+            placeholder="blur"
+            width={850}
+            height={426}
+            quality={100}
+            alt="a dripping bottle of badass secret sauce"
+            aria-hidden="true"
+          />
+        </div>
+        <div className="sm:translate-y-24 translate-y-16">
+          <Image
+            loading="eager"
+            src={ImageSecretSauceDrop}
+            placeholder="blur"
+            width={512}
+            height={512}
+            quality={100}
+            alt="a shining drop from badass secret sauce"
+            aria-hidden="true"
+          />
+        </div>
       </div>
-      <div className="relative py-10 bg-white overflow-hidden">
-        <div className="relative px-4 sm:px-6 lg:px-8">
-          <div className="text-lg max-w-prose mx-auto">
-            <h1>
-              <span className="block text-base text-center text-indigo-600 font-semibold tracking-wide uppercase">
-                Introducing
-              </span>
-              <span className="mt-2 block text-3xl text-center leading-8 font-extrabold tracking-tight text-gray-900 sm:text-4xl">
-                Your step-by-step guide to designing, producing, and launching
-                badass courses.
-              </span>
-            </h1>
-            <p className="mt-8 text-xl text-gray-500 leading-8">
-              Aliquet nec orci mattis amet quisque ullamcorper neque, nibh sem.
-              At arcu, sit dui mi, nibh dui, diam eget aliquam. Quisque id at
-              vitae feugiat egestas ac. Diam nulla orci at in viverra
-              scelerisque eget. Eleifend egestas fringilla sapien.
-            </p>
-          </div>
-          <div className="mt-6 prose prose-indigo prose-lg text-gray-500 mx-auto">
-            <p>
-              Faucibus commodo massa rhoncus, volutpat.{' '}
-              <strong>Dignissim</strong> sed <strong>eget risus enim</strong>.
-              Mattis mauris semper sed amet vitae sed turpis id. Id dolor
-              praesent donec est. Odio penatibus risus viverra tellus varius sit
-              neque erat velit. Faucibus commodo massa rhoncus, volutpat.
-              Dignissim sed eget risus enim.{' '}
-              <a href="#">Mattis mauris semper</a> sed amet vitae sed turpis id.
-            </p>
-            <ul role="list">
-              <li>Quis elit egestas venenatis mattis dignissim.</li>
-              <li>
-                Cras cras lobortis vitae vivamus ultricies facilisis tempus.
-              </li>
-              <li>Orci in sit morbi dignissim metus diam arcu pretium.</li>
-            </ul>
-            <p>
-              Quis semper vulputate aliquam venenatis egestas sagittis quisque
-              orci. Donec commodo sit viverra aliquam porttitor ultrices gravida
-              eu. Tincidunt leo, elementum mattis elementum ut nisl, justo,
-              amet, mattis. Nunc purus, diam commodo tincidunt turpis. Amet,
-              duis sed elit interdum dignissim.
-            </p>
-            <h2>From beginner to expert in 30 days</h2>
-            <p>
-              Id orci tellus laoreet id ac. Dolor, aenean leo, ac etiam
-              consequat in. Convallis arcu ipsum urna nibh. Pharetra, euismod
-              vitae interdum mauris enim, consequat vulputate nibh. Maecenas
-              pellentesque id sed tellus mauris, ultrices mauris. Tincidunt enim
-              cursus ridiculus mi. Pellentesque nam sed nullam sed diam turpis
-              ipsum eu a sed convallis diam.
-            </p>
-            <blockquote>
-              <p>
-                Sagittis scelerisque nulla cursus in enim consectetur quam.
-                Dictum urna sed consectetur neque tristique pellentesque.
-                Blandit amet, sed aenean erat arcu morbi.
+      <p className="font-condensed text-badass-yellow-300 sm:text-2xl text-xl">
+        {content.caption}
+      </p>
+      <h2 className="max-w-lg font-heading sm:text-3xl text-xl pt-4">
+        {content.heading}
+      </h2>
+      <div className="absolute sm:-bottom-5 -bottom-16 sm:-translate-x-72 -translate-x-40">
+        <Image
+          src={ImageStars1}
+          width={159}
+          height={108}
+          alt="stars"
+          aria-hidden="true"
+          loading="eager"
+        />
+      </div>
+      <div className="absolute sm:-bottom-5 -bottom-16 sm:translate-x-72 translate-x-40">
+        <Image
+          loading="eager"
+          src={ImageStars2}
+          width={72}
+          height={72}
+          alt="stars"
+          aria-hidden="true"
+        />
+      </div>
+    </section>
+  )
+}
+
+const ProjectsSection: React.FC<any> = ({content}) => {
+  return (
+    <section className="flex flex-col items-center justify-center py-16 text-center px-5">
+      <h2 className="font-condensed text-badass-pink-500 sm:text-3xl text-2xl">
+        {content.caption}
+      </h2>
+      <ul className="flex sm:flex-row flex-col max-w-screen-md sm:flex-wrap sm:items-start items-center justify-center pt-20">
+        {content.items.map((project: any) => {
+          const {title, byline, image} = project
+          return (
+            <li
+              key={title}
+              className="flex flex-col items-center justify-center sm:w-1/2 sm:pb-16 pb-10"
+            >
+              {image}
+              <p className="font-heading sm:text-2xl text-xl pt-3 pb-2">
+                {title}
               </p>
-            </blockquote>
-            <p>
-              Faucibus commodo massa rhoncus, volutpat. Dignissim sed eget risus
-              enim. Mattis mauris semper sed amet vitae sed turpis id. Id dolor
-              praesent donec est. Odio penatibus risus viverra tellus varius sit
-              neque erat velit.
-            </p>
-            <figure>
-              <img
-                className="w-full rounded-lg"
-                src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-1.2.1&auto=format&fit=facearea&w=1310&h=873&q=80&facepad=3"
-                alt=""
-                width={1310}
-                height={873}
-              />
-              <figcaption>
-                Sagittis scelerisque nulla cursus in enim consectetur quam.
-              </figcaption>
-            </figure>
-            <h2>Everything you need to get up and running</h2>
-            <p>
-              Purus morbi dignissim senectus mattis <a href="#">adipiscing</a>.
-              Amet, massa quam varius orci dapibus volutpat cras. In amet eu
-              ridiculus leo sodales cursus tristique. Tincidunt sed tempus ut
-              viverra ridiculus non molestie. Gravida quis fringilla amet eget
-              dui tempor dignissim. Facilisis auctor venenatis varius nunc,
-              congue erat ac. Cras fermentum convallis quam.
-            </p>
-            <p>
-              Faucibus commodo massa rhoncus, volutpat. Dignissim sed eget risus
-              enim. Mattis mauris semper sed amet vitae sed turpis id. Id dolor
-              praesent donec est. Odio penatibus risus viverra tellus varius sit
-              neque erat velit.
-            </p>
+              <p className="text-badass-gray">{byline}</p>
+            </li>
+          )
+        })}
+      </ul>
+      <p className="font-script text-3xl text-badass-yellow-300 pt-4">
+        {content.byline}
+      </p>
+    </section>
+  )
+}
+
+const StrategySessionForm: React.FC<any> = ({content}) => {
+  const router = useRouter()
+
+  return (
+    <section className="flex flex-col itesm-center justify-center sm:pt-16 sm:pb-16 pt-8">
+      <div className="relative max-w-2xl mx-auto flex flex-col items-center">
+        <div className="absolute sm:-left-24 sm:top-0 -top-16 sm:w-auto w-36 z-20">
+          <Image
+            loading="eager"
+            aria-hidden="true"
+            src={ImageFish}
+            width={160}
+            height={136}
+            alt="a fish"
+          />
+        </div>
+        <div className="absolute right-[-116px] z-20 sm:block hidden">
+          <Image
+            loading="eager"
+            aria-hidden="true"
+            src={ImageFormMushroomRight}
+            width={196}
+            height={478}
+            alt="mushroom"
+          />
+        </div>
+        <div className="absolute -left-24 -bottom-24 z-20 sm:block hidden">
+          <Image
+            loading="eager"
+            aria-hidden="true"
+            src={ImageFormMushroomLeft}
+            width={280 / 1.1}
+            height={459 / 1.1}
+            alt="a mushroom"
+          />
+        </div>
+        <div className="absolute -right-40 bottom-8 z-0 sm:block hidden">
+          <Image
+            loading="eager"
+            aria-hidden="true"
+            src={ImageFormLeaf}
+            width={338 / 1.1}
+            height={449 / 1.1}
+            alt="a mushroom"
+          />
+        </div>
+        <div className="bg-[#082C1B] sm:px-20 sm:py-20 px-5 py-16 rounded-md relative z-10">
+          <h2 className="font-heading sm:text-4xl text-3xl text-center">
+            {content.heading}
+          </h2>
+          <div className="pt-10 pb-5 space-y-5 opacity-80 sm:text-lg">
+            {content.description}
           </div>
+          <SubscribeToConvertkitForm
+            actionLabel={content.button}
+            onSuccess={(subscriber: any) => {
+              if (subscriber) {
+                const redirectUrl = redirectUrlBuilder(subscriber, '/confirm')
+                router.push(redirectUrl)
+              }
+            }}
+          />
+          <p className="text-center pt-8 text-sm opacity-50 max-w-xs mx-auto">
+            {content.info}
+          </p>
         </div>
       </div>
-      <div className="bg-white py-10 sm:py-24">
-        <div className="relative sm:py-16">
-          <div className="mx-auto max-w-md px-4 sm:max-w-3xl sm:px-6 lg:max-w-7xl lg:px-8">
-            <div className="relative rounded-2xl px-6 py-10 bg-indigo-600 overflow-hidden shadow-xl sm:px-12 sm:py-20">
-              <div className="relative">
-                <div className="sm:text-center">
-                  <h2 className="text-3xl font-extrabold text-white tracking-tight sm:text-4xl">
-                    Get notified when we&rsquo;re launching.
-                  </h2>
-                  <p className="mt-6 mx-auto max-w-2xl text-lg text-indigo-200">
-                    Sagittis scelerisque nulla cursus in enim consectetur quam.
-                    Dictum urna sed consectetur neque tristique pellentesque.
-                  </p>
-                </div>
-                <form
-                  action="#"
-                  className="mt-12 sm:mx-auto sm:max-w-lg sm:flex"
-                >
-                  <div className="min-w-0 flex-1">
-                    <label htmlFor="cta-email" className="sr-only">
-                      Email address
-                    </label>
-                    <input
-                      id="cta-email"
-                      type="email"
-                      className="block w-full border border-transparent rounded-md px-5 py-3 text-base text-gray-900 placeholder-gray-500 shadow-sm focus:outline-none focus:border-transparent focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-indigo-600"
-                      placeholder="Enter your email"
-                    />
-                  </div>
-                  <div className="mt-4 sm:mt-0 sm:ml-3">
-                    <button
-                      type="submit"
-                      className="block w-full rounded-md border border-transparent px-5 py-3 bg-indigo-500 text-base font-medium text-white shadow hover:bg-indigo-400 focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-indigo-600 sm:px-10"
-                    >
-                      Notify me
-                    </button>
-                  </div>
-                </form>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
+    </section>
   )
 }
