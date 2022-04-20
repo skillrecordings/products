@@ -1,6 +1,10 @@
 import React from 'react'
 import type {ArbitraryTypedObject, PortableTextBlock} from '@portabletext/types'
-import {PortableText, PortableTextComponents} from '@portabletext/react'
+import {
+  PortableText,
+  PortableTextComponents,
+  PortableTextMarkComponentProps,
+} from '@portabletext/react'
 import {useSelector} from '@xstate/react'
 import {
   HLSSource,
@@ -43,7 +47,19 @@ const Video: React.FC<{url: string; title: string}> = ({url, title}) => {
   )
 }
 
+// https://github.com/portabletext/react-portabletext
+
 const PortableTextComponents: PortableTextComponents = {
+  marks: {
+    emoji: ({text, value}: EmojiProps) => {
+      const label = value.emoji.label
+      return (
+        <span role="img" aria-label={label} aria-hidden={!label}>
+          {text}
+        </span>
+      )
+    },
+  },
   types: {
     bodyVideo: ({value}: BodyVideoProps) => {
       const {url, title, caption} = value
@@ -95,6 +111,8 @@ const PortableTextComponents: PortableTextComponents = {
     },
   },
 }
+
+type EmojiProps = PortableTextMarkComponentProps<any>
 
 type CalloutProps = {
   value: {
