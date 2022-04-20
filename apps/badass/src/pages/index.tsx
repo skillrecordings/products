@@ -67,7 +67,7 @@ const Header: React.FC<any> = ({content}) => {
 
 const SecretSauceSection: React.FC<any> = ({content}) => {
   return (
-    <section className="relative sm:pb-16 pb-0 flex flex-col items-center justify-center text-center px-5">
+    <section className="relative sm:pb-16 pb-8 flex flex-col items-center justify-center text-center px-5">
       <div className="relative translate-y-10">
         <div className="absolute sm:translate-x-40 translate-x-28 translate-y-8">
           <Image
@@ -127,6 +127,14 @@ const SecretSauceSection: React.FC<any> = ({content}) => {
 const ProjectsSection: React.FC<any> = ({content}) => {
   return (
     <section className="flex flex-col items-center justify-center py-16 text-center px-5">
+      <div
+        className="font-symbol sm:pb-32 pb-24 text-2xl sm:scale-90 scale-75"
+        aria-hidden="true"
+      >
+        <span className="inline-block rotate-180 text-badass-gray">!</span>{' '}
+        <span className="text-badass-yellow-300 text-3xl">*</span>{' '}
+        <span className=" text-badass-gray">!</span>
+      </div>
       <h2 className="font-condensed text-badass-pink-500 sm:text-3xl text-2xl">
         {content.caption}
       </h2>
@@ -147,7 +155,7 @@ const ProjectsSection: React.FC<any> = ({content}) => {
           )
         })}
       </ul>
-      <p className="font-script text-3xl text-badass-yellow-300 pt-4">
+      <p className="font-script text-3xl sm:scale-110 text-badass-yellow-300 pt-16">
         {content.byline}
       </p>
     </section>
@@ -158,7 +166,7 @@ const StrategySessionForm: React.FC<any> = ({content}) => {
   const router = useRouter()
 
   return (
-    <section className="flex flex-col itesm-center justify-center sm:pt-16 sm:pb-16 pt-8">
+    <section className="flex flex-col itesm-center justify-center sm:pt-16 sm:pb-16 pt-12">
       <div className="relative max-w-2xl mx-auto flex flex-col items-center">
         <div className="absolute sm:-left-24 sm:top-0 -top-16 sm:w-auto w-36 z-20">
           <Image

@@ -22,7 +22,23 @@ export const strategySessionContent = {
       </p>
     </>
   ),
-  button: "Let's Get Started",
+  button: (
+    <>
+      <span
+        className="font-symbol lowercase sm:text-5xl text-3xl"
+        aria-hidden="true"
+      >
+        o
+      </span>
+      <span className="px-1">Let's Get Started</span>{' '}
+      <span
+        className="font-symbol lowercase sm:text-5xl text-3xl"
+        aria-hidden="true"
+      >
+        r
+      </span>
+    </>
+  ),
   info: `There's no obligation. This isn't a sales pitch. We respect your privacy. Unsubscribe at any time.`,
 }
 
