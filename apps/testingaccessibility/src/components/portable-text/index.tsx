@@ -98,14 +98,19 @@ const PortableTextComponents: PortableTextComponents = {
       const {body, type} = value
 
       return (
-        <div className={cx(`p-5 rounded-lg`, getCalloutStyles(type))}>
-          <div>
-            <span role="img" aria-label={getCalloutImage(type).alt}>
-              {getCalloutImage(type).src}
-            </span>{' '}
-            <b className="font-bold">{getCalloutTitle(type)}</b>
+        <div
+          className={cx(
+            `flex space-x-3 p-5 rounded-lg`,
+            getCalloutStyles(type),
+          )}
+        >
+          <div role="img" aria-label={getCalloutImage(type).alt}>
+            {getCalloutImage(type).src}
+          </div>{' '}
+          {/* <b className="font-bold">{getCalloutTitle(type)}</b> */}
+          <div className="first-of-type:prose-p:mt-0 last-of-type:prose-p:mb-0">
+            <PortableText value={body} />
           </div>
-          <PortableText value={body} />
         </div>
       )
     },

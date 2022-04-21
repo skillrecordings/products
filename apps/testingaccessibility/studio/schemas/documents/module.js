@@ -33,8 +33,7 @@ export default {
     {
       name: 'body',
       title: 'Body',
-      type: 'array',
-      of: [{type: 'block'}, {type: 'bodyImage'}, {type: 'bodyVideo'}],
+      type: 'body',
     },
     {name: 'image', title: 'Image', type: 'externalImage'},
   ],

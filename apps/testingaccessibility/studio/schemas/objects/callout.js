@@ -47,10 +47,7 @@ export default {
       }
       return (
         <div style={{padding: 10, background: 'rgba(0,0,0,0.05)'}}>
-          <b>
-            {getImage().src} {type}:
-          </b>{' '}
-          {body}
+          <b>{getImage().src}</b> {body}
           <PortableText value={body} />
         </div>
       )

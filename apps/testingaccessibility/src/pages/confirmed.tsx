@@ -36,7 +36,7 @@ const Confirmed = () => {
   return (
     <Layout>
       <div className="md:py-16 py-10 flex flex-col max-w-screen-lg mx-auto justify-center text-center items-center h-full flex-grow">
-        <div className="prose dark:prose-dark md:prose-lg max-w-md mx-auto ">
+        <div className="prose md:prose-lg max-w-md mx-auto ">
           <h1>You're Confirmed!</h1>
           <p>
             Thanks for confirming your email address– you're all set to receive{' '}
