@@ -16,8 +16,6 @@ import Layout from 'components/app/layout'
 import isEmpty from 'lodash/isEmpty'
 import Image from 'next/image'
 import Link from 'next/link'
-import Router from 'next/dist/server/router'
-import {WithRouterProps} from 'next/dist/client/with-router'
 
 type ArticleTemplateProps = {
   article: SanityDocument

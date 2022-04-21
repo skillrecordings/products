@@ -62,11 +62,11 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   // find current article based on the slug
   const currentArticle: {slug: string; subscribersOnly: boolean} | undefined =
     find(allArticles, {
-      slug: params?.slug as string,
+      slug: params?.article as string,
     })
 
   // if the article doesn't exist
-  if (isEmpty(find(allArticles, {slug: params?.slug as string}))) {
+  if (isEmpty(find(allArticles, {slug: params?.article as string}))) {
     return {
       notFound: true,
     }
