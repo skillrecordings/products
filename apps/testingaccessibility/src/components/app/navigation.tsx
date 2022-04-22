@@ -31,7 +31,8 @@ const Navigation = () => {
         {sessionData?.user && (
           <div className="px-3">Welcome, {sessionData.user.name}!</div>
         )}
-        <NavLink href="/workshops">Accessibility Workshops</NavLink>
+        <NavLink href="/workshops">Workshops</NavLink>
+        <NavLink href="/articles">Articles</NavLink>
       </div>
     </nav>
   )
