@@ -54,6 +54,7 @@ function getConvertkitFromCookieHeaders(serverCookies: string = '') {
 }
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
+  context.res.setHeader('Cache-Control', 's-maxage=1, stale-while-revalidate')
   const {params} = context
   const hasSubscribed = await checkSubscriber(context)
 
