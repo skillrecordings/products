@@ -12,6 +12,7 @@ import {SessionProvider} from 'next-auth/react'
 import {usePageview} from '@skillrecordings/analytics'
 import {QueryClient, QueryClientProvider} from 'react-query'
 import {initNProgress} from 'utils/nprogress'
+import {ProgressProvider} from 'context/progress-context'
 
 const queryClient = new QueryClient()
 
@@ -38,7 +39,9 @@ function MyApp({Component, pageProps}: AppProps) {
           <ConvertkitProvider>
             <ViewerProvider>
               <MDXProvider components={MDXComponents}>
-                <Component {...pageProps} />
+                <ProgressProvider>
+                  <Component {...pageProps} />
+                </ProgressProvider>
               </MDXProvider>
             </ViewerProvider>
           </ConvertkitProvider>
