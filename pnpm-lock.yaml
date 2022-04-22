@@ -1797,6 +1797,7 @@ importers:
     specifiers:
       '@asbjorn/eslint-plugin-groq': ^2.0.0
       '@babel/plugin-transform-react-jsx': ^7.16.0
+      '@headlessui/react': ^1.5.0
       '@heroicons/react': ^1.0.6
       '@mdx-js/loader': ^2.0.0
       '@mdx-js/mdx': ^2.0.0
@@ -1828,6 +1829,7 @@ importers:
       '@skillrecordings/types': workspace:*
       '@skillrecordings/viewer': workspace:*
       '@stripe/stripe-js': ^1.21.1
+      '@supabase/supabase-js': ^1.29.1
       '@tailwindcss/typography': ^0.5.2
       '@testing-library/jest-dom': ^5.15.0
       '@testing-library/react': ^12.1.2
@@ -1931,6 +1933,7 @@ importers:
       yup: ^0.32.11
     dependencies:
       '@asbjorn/eslint-plugin-groq': 2.0.0
+      '@headlessui/react': 1.5.0_react-dom@17.0.2+react@17.0.2
       '@heroicons/react': 1.0.6_react@17.0.2
       '@mdx-js/loader': 2.0.0
       '@mdx-js/mdx': 2.0.0
@@ -1959,6 +1962,7 @@ importers:
       '@skillrecordings/time': link:../../packages/time
       '@skillrecordings/viewer': link:../../packages/viewer
       '@stripe/stripe-js': 1.21.1
+      '@supabase/supabase-js': 1.29.1
       '@tailwindcss/typography': 0.5.2_tailwindcss@3.0.23
       '@tippyjs/react': 4.2.6_react-dom@17.0.2+react@17.0.2
       '@types/lodash': 4.14.179
@@ -9075,13 +9079,17 @@ packages:
   /@supabase/gotrue-js/1.21.7:
     resolution: {integrity: sha512-YnL4cO3Q+ugatWEtgCEnLt+Wwi0VpOVTPSSjSSUho2x3cH7+juRBTrVbYky/W6YVgAw/ZJrVUFPh/NcUCUhdmw==}
     dependencies:
-      cross-fetch: 3.1.4
+      cross-fetch: 3.1.5
+    transitivePeerDependencies:
+      - encoding
     dev: false
 
   /@supabase/postgrest-js/0.35.1:
     resolution: {integrity: sha512-N9IOxwgKvek2HqVrC3Usr6hUWvzy53vebsoqLqUBaelu8StATTrhdqaw+9IKthQsn8qoB9A0XD2vN39SGlgd/A==}
     dependencies:
-      cross-fetch: 3.1.4
+      cross-fetch: 3.1.5
+    transitivePeerDependencies:
+      - encoding
     dev: false
 
   /@supabase/realtime-js/1.3.4:
@@ -9094,7 +9102,9 @@ packages:
   /@supabase/storage-js/1.5.0:
     resolution: {integrity: sha512-ki2HT9FrCYRN3yoqWqX+u47TUHQ8lgSStAqV/97kMov1z2d+iIlqGBGVcaGDqq4NvK8CipG8IJARYM72oX+afA==}
     dependencies:
-      cross-fetch: 3.1.4
+      cross-fetch: 3.1.5
+    transitivePeerDependencies:
+      - encoding
     dev: false
 
   /@supabase/supabase-js/1.29.1:
@@ -9104,6 +9114,8 @@ packages:
       '@supabase/postgrest-js': 0.35.1
       '@supabase/realtime-js': 1.3.4
       '@supabase/storage-js': 1.5.0
+    transitivePeerDependencies:
+      - encoding
     dev: false
 
   /@szmarczak/http-timer/1.1.2:
@@ -13086,12 +13098,6 @@ packages:
 
   /crelt/1.0.5:
     resolution: {integrity: sha512-+BO9wPPi+DWTDcNYhr/W90myha8ptzftZT+LwcmUbbok0rcP/fequmFYCw8NMoH7pkAZQzU78b3kYrlua5a9eA==}
-    dev: false
-
-  /cross-fetch/3.1.4:
-    resolution: {integrity: sha512-1eAtFWdIubi6T4XPy6ei9iUFoKpUkIF971QLN8lIvvvwueI65+Nw5haMNKUwfJxabqlIIDODJKGrQ66gxC0PbQ==}
-    dependencies:
-      node-fetch: 2.6.1
     dev: false
 
   /cross-fetch/3.1.5:

@@ -8,6 +8,8 @@ import PortableTextComponents from 'components/portable-text'
 import Layout from 'components/app/layout'
 import Link from 'next/link'
 import cx from 'classnames'
+import {useProgress} from 'context/progress-context'
+import {Switch} from '@headlessui/react'
 
 type LessonTemplateProps = {
   module: SanityDocument
@@ -27,6 +29,45 @@ const LessonTemplate: React.FC<LessonTemplateProps> = ({
     find(lessons, {slug: lesson.slug}),
   )
   const router = useRouter()
+
+  const {completedLessons, toggleLessonComplete} = useProgress()
+  const isCurrentLessonCompleted = completedLessons?.includes(lesson.slug)
+
+  const ProgressToggle = () => {
+    const [enabled, setEnabled] = React.useState(isCurrentLessonCompleted)
+    function classNames(...classes: any) {
+      return classes.filter(Boolean).join(' ')
+    }
+
+    return (
+      <Switch.Group as="div" className="flex items-center">
+        <Switch.Label as="span" className="mr-3">
+          <span className="text-gray-900">Mark as completed</span>
+        </Switch.Label>
+        <Switch
+          checked={enabled}
+          onChange={() => {
+            setEnabled(!enabled)
+            toggleLessonComplete(lesson.slug).catch(() => {
+              setEnabled(isCurrentLessonCompleted)
+            })
+          }}
+          className={classNames(
+            enabled ? 'bg-indigo-600' : 'bg-gray-200',
+            'relative inline-flex flex-shrink-0 h-6 w-11 border-2 border-transparent rounded-full cursor-pointer transition-colors ease-in-out duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500',
+          )}
+        >
+          <span
+            aria-hidden="true"
+            className={classNames(
+              enabled ? 'translate-x-5' : 'translate-x-0',
+              'pointer-events-none inline-block h-5 w-5 rounded-full bg-white shadow transform ring-0 transition ease-in-out duration-200',
+            )}
+          />
+        </Switch>
+      </Switch.Group>
+    )
+  }
 
   return (
     <Layout className="bg-gray-100">
@@ -114,6 +155,9 @@ const LessonTemplate: React.FC<LessonTemplateProps> = ({
               </VideoProvider>
             </div>
           </article>
+          <div className="py-16">
+            <ProgressToggle />
+          </div>
         </main>
       </div>
     </Layout>
