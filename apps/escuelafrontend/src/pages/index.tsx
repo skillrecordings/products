@@ -57,7 +57,7 @@ export default function Home({allArticles}: any) {
             Artículos Recientes
           </h2>
 
-          <div className={`grid grid-cols-1 md:grid-cols-2 gap-8`}>
+          <div className={`grid grid-cols-1 md:grid-cols-3 gap-8`}>
             {allArticles.map((resource: any) => {
               return (
                 <div key={resource.path}>
@@ -78,7 +78,7 @@ const allArticlesQuery = groq`
   slug,
   path,
   publishedAt,
-  "author": collaborators[0]->{
+  "instructor": collaborators[0]->{
     title,
     'slug': person->slug.current,
     'name': person->name,
@@ -93,7 +93,7 @@ const allArticlesQuery = groq`
     name,
     "image": image.url
   }
-}[0..5]
+}[0..8]
 `
 
 export async function getStaticProps() {

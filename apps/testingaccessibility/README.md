@@ -21,15 +21,21 @@ pnpm i
 pnpm dev
 ```
 
-### Strip CLI
+### Stripe CLI
 
 You'll need the [Strip CLI](https://stripe.com/docs/stripe-cli) to capture web hooks locally.
 
 When you run the CLI it gives you your webhook signing secret that you can set in `.env.local`.
 
-The Stripe test secret token is also required! 
+The Stripe test secret token is also required!
 
 see: `.env.local.template`
+
+Listen to webhook:
+
+```bash
+stripe listen --forward-to localhost:3013/api/stripe/webhook
+```
 
 ### Postmark
 
@@ -79,6 +85,14 @@ If you make changes to the schema via Prisma you'll need to push it to the DB. W
 npx prisma db push
 ```
 
+### Prisma studio
+
+Start prisma studio:
+
+```bash
+npx prisma studio
+```
+
 ### Seed Data
 
 When you make a new branch in Planetscale it doesn't bring data over.
@@ -90,5 +104,3 @@ pscale database restore-dump testing-accessibility next-steps --dir ./seed_data/
 ```
 
 This should set up the basics that are associated with the **test mode** Stripe account
-
-

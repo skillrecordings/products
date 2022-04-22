@@ -4,6 +4,7 @@ import useClipboard from 'react-use-clipboard'
 type ShareLinkProps = {
   link: string
   message?: string
+  className?: string
 }
 
 const links = {
@@ -122,48 +123,64 @@ const icons = {
   ),
 }
 
-const style =
+const defaultStyle =
   'rounded-lg bg-gray-400 bg-opacity-10 hover:bg-opacity-20 transition-all ease-in-out duration-200 flex items-center justify-center p-3 m-1'
 
-const Twitter: React.FC<ShareLinkProps> = ({link, message}) => (
+const Twitter: React.FC<ShareLinkProps> = ({
+  link,
+  message,
+  className = defaultStyle,
+  children,
+}) => (
   <a
     href={links.twitter(link, message)}
-    className={style}
+    className={className}
     target="_blank"
     rel="noopener noreferrer"
   >
-    <span className="sr-only">share on twitter</span>
     {icons.twitter}
+    {children || <span className="sr-only">share on twitter</span>}
   </a>
 )
 
-const Facebook: React.FC<ShareLinkProps> = ({link}) => (
+const Facebook: React.FC<ShareLinkProps> = ({
+  link,
+  className = defaultStyle,
+  children,
+}) => (
   <a
     href={links.facebook(link)}
-    className={style}
+    className={className}
     target="_blank"
     rel="noopener noreferrer"
   >
-    <span className="sr-only">share on facebook</span>
     {icons.facebook}
+    {children || <span className="sr-only">share on facebook</span>}
   </a>
 )
 
-const Reddit: React.FC<ShareLinkProps> = ({link, message}) => (
+const Reddit: React.FC<ShareLinkProps> = ({
+  link,
+  message,
+  className = defaultStyle,
+  children,
+}) => (
   <a
     href={links.reddit(link, message)}
-    className={style}
+    className={className}
     target="_blank"
     rel="noopener noreferrer"
   >
-    <span className="sr-only">share on reddit</span>
     {icons.reddit}
+    {children || <span className="sr-only">share on reddit</span>}
   </a>
 )
 
 const CopyToClipboard: React.FC<ShareLinkProps & {onSuccess: () => void}> = ({
   link,
   onSuccess,
+  className = defaultStyle + ' relative text-xs',
+  children,
 }) => {
   const [_, copyToClipboard] = useClipboard(link, {
     successDuration: 700,
@@ -176,35 +193,44 @@ const CopyToClipboard: React.FC<ShareLinkProps & {onSuccess: () => void}> = ({
         copyToClipboard()
         onSuccess()
       }}
-      className={`${style} relative text-xs`}
+      className={className}
     >
-      <span className="sr-only">copy url to clipboard</span>
       {icons.link}
+      {children || <span className="sr-only">copy url to clipboard</span>}
     </button>
   )
 }
 
-const LinkedIn: React.FC<ShareLinkProps> = ({link}) => (
+const LinkedIn: React.FC<ShareLinkProps> = ({
+  link,
+  className = defaultStyle,
+  children,
+}) => (
   <a
     href={links.linkedin(link)}
-    className={style}
+    className={className}
     target="_blank"
     rel="noopener noreferrer"
   >
-    <span className="sr-only">share on linkedin</span>
     {icons.linkedin}
+    {children || <span className="sr-only">share on linkedin</span>}
   </a>
 )
 
-const Hacker: React.FC<ShareLinkProps> = ({link, message}) => (
+const Hacker: React.FC<ShareLinkProps> = ({
+  link,
+  message,
+  className = defaultStyle,
+  children,
+}) => (
   <a
     href={links.hacker(link, message)}
-    className={style}
+    className={className}
     target="_blank"
     rel="noopener noreferrer"
   >
-    <span className="sr-only">share on hacker news</span>
     {icons.hacker}
+    {children || <span className="sr-only">share on hacker news</span>}
   </a>
 )
 

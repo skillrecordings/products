@@ -189,6 +189,7 @@ function getConvertkitFromCookieHeaders(serverCookies: string = '') {
 }
 
 export const getServerSideProps: GetServerSideProps = async (context: any) => {
+  context.res.setHeader('Cache-Control', 's-maxage=1, stale-while-revalidate')
   const allPosts = await sanityClient.fetch(allPostsQuery)
   const currentPost = find(allPosts, {slug: context.params.slug})
   const cookieHeader = context.req.headers.cookie as string

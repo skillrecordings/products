@@ -9,6 +9,7 @@ import HeroWave from 'components/waves/hero-wave'
 import {HorizontalResourceCard} from 'components/cards/horizontal-resource-card'
 import {MDXRemote} from 'next-mdx-remote'
 import mdxComponents from 'components/mdx'
+import qs from 'query-string'
 
 type ArticleTemplateProps = {
   meta?: any
@@ -17,17 +18,38 @@ type ArticleTemplateProps = {
 const ArticleTemplate: React.FC<ArticleTemplateProps> = ({meta}) => {
   const {
     title = 'Missing title',
-    author = {name: 'Unknown Author'},
+    instructor = {name: 'Unknown Instructor'},
     seo = {},
     body = ``,
     tag = {name: 'Unknown Tag'},
     relatedResources = {},
+    publishedTime,
+    modifiedTime,
   } = meta
 
+  /* NextSeo urls */
   const router = useRouter()
+  const urlmain = process.env.NEXT_PUBLIC_DEPLOYMENT_URL + router.asPath
+  const canonicalUrl = seo.canonical ? seo.canonical : urlmain
+  let url = `${process.env.NEXT_PUBLIC_VERCEL_URL}${router.asPath}`
 
-  const url = process.env.NEXT_PUBLIC_DEPLOYMENT_URL + router.asPath
-  const canonicalUrl = seo.canonical ? seo.canonical : url
+  /*  opengraphImage */
+  const contentType = 'article'
+  const tagImage = tag.image
+  const tagSlug = tag.slug
+  const instructorImage = instructor.image
+  const instructorName = instructor.name
+  const query = {
+    title,
+    contentType,
+    tagImage,
+    instructorImage,
+    instructorName,
+    tagSlug,
+  }
+  const opengraphImage = `${
+    process.env.NEXT_PUBLIC_VERCEL_URL
+  }/api/opengraph?${qs.stringify(query)}`
 
   return (
     <>
@@ -38,12 +60,16 @@ const ArticleTemplate: React.FC<ArticleTemplateProps> = ({meta}) => {
           title: seo.ogTitle || title,
           description: seo.ogDescription,
           url,
-          images: [
-            {
-              url: seo.ogImage || tag.image,
-              alt: title,
-            },
-          ],
+          type: 'article',
+          article: {
+            publishedTime: publishedTime,
+            modifiedTime: modifiedTime,
+            authors: [instructor.name],
+            tags: [tag.name],
+          },
+          images: opengraphImage
+            ? [{url: opengraphImage, width: 1200, height: 630}]
+            : undefined,
         }}
         twitter={{
           cardType: seo.cardType || 'summary_large_image',
@@ -71,7 +97,7 @@ const ArticleTemplate: React.FC<ArticleTemplateProps> = ({meta}) => {
               {title}
             </h1>
           )}
-          {author && <Author author={author} />}
+          {instructor && <Instructor instructor={instructor} />}
         </header>
 
         <HeroWave duration={60} />
@@ -112,14 +138,14 @@ const ArticleTemplate: React.FC<ArticleTemplateProps> = ({meta}) => {
 
 export default ArticleTemplate
 
-const Author: FunctionComponent<{
-  author: {
+const Instructor: FunctionComponent<{
+  instructor: {
     slug?: string
     name?: string
     image?: any
   }
-}> = ({author}) => {
-  const {slug, name, image} = author
+}> = ({instructor}) => {
+  const {slug, name, image} = instructor
 
   return (
     <Link href={'/instructores/' + slug}>
