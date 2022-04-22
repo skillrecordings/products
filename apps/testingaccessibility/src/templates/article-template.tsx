@@ -68,9 +68,9 @@ export default ArticleTemplate
 
 const Header: React.FC<{title: string; date: string}> = ({title, date}) => {
   return (
-    <header className="md:pt-24 pt-10 sm:pb-16 pb-10 w-full border-b border-gray-200 bg-black text-gray-100 relative">
+    <header className="md:pt-10 pt-8 sm:pb-16 pb-10 w-full border-b border-gray-200 bg-black text-gray-100 relative">
       <div className="flex flex-col items-center max-w-screen-md mx-auto w-full relative z-10">
-        <Link href="/articles">
+        <Link passHref href="/articles">
           <a className="group text-indigo-100 relative hover:text-white font-normal px-4 py-2 hover:bg-opacity-5 bg-opacity-0 bg-white rounded-full transition-all ease-in-out duration-300 opacity-80 hover:opacity-90 ">
             <span className="pr-1" role="img" aria-hidden="true">
               ←

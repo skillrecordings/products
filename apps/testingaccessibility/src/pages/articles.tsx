@@ -3,25 +3,30 @@ import Layout from 'components/app/layout'
 import Link from 'next/link'
 import Image from 'next/image'
 import {Wave} from 'components/images'
-import ReviewsImage from '../../../public/assets/reviews@2x.png'
+import ReviewsImage from '../../public/assets/reviews@2x.png'
 import groq from 'groq'
 import {GetServerSideProps} from 'next'
 import {sanityClient} from 'utils/sanity-client'
 import {format} from 'date-fns'
+import {SanityDocument} from '@sanity/client'
 
 const meta = {
-  title: 'Accessibility Reviews',
+  title: 'Accessibility Articles',
   ogImage: {
-    url: 'https://res.cloudinary.com/dg3gyk0gu/image/upload/v1646816239/testingaccessibility.com/accessibility-reviews/accessibility-reviews-card_2x.png',
+    url: 'https://testingaccessibility.com/assets/accessibility-articles-card@2x.png',
   },
 }
 
-const Reviews: React.FC<any> = ({reviews}) => {
+type ArticlesProps = {
+  articles: SanityDocument[]
+}
+
+const Articles: React.FC<ArticlesProps> = ({articles}) => {
   return (
     <Layout meta={meta}>
       <header className="relative px-5 overflow-hidden text-white bg-black max-h-[80vh]">
         <h1 className="max-w-screen-md py-16 mx-auto text-3xl font-semibold leading-tight text-center sm:text-4xl lg:text-5xl md:text-4xl">
-          Accessibility Reviews
+          Accessibility Articles
         </h1>
         <div className="flex items-center justify-center max-w-screen-md mx-auto">
           <Image
@@ -44,53 +49,55 @@ const Reviews: React.FC<any> = ({reviews}) => {
       <main className="bg-gray-50 px-5 flex-grow">
         <div className="md:py-16 py-10 mx-auto max-w-screen-sm w-full">
           <div className="grid grid-cols-1 gap-5">
-            {reviews.map(({title, description, slug, image, date}: any) => {
-              return (
-                <div
-                  key={slug}
-                  className="flex sm:flex-row flex-col sm:text-left text-center items-center gap-5 p-8 bg-white shadow-sm rounded-lg"
-                >
-                  <div className="flex-shrink-0">
-                    <Image
+            {articles.map(
+              ({title, slug, description, date}: SanityDocument) => {
+                return (
+                  <div
+                    key={slug}
+                    className="flex sm:flex-row flex-col sm:text-left text-center items-center gap-5 p-8 bg-white shadow-sm rounded-lg"
+                  >
+                    <div className="flex-shrink-0">
+                      {/* <Image
                       src={image}
                       alt={title}
                       width={60}
                       height={60}
                       className="rounded-md"
-                    />
-                  </div>
-                  <div className="flex w-full sm:justify-between justify-center">
-                    <div>
-                      <Link href={`/accessibility-reviews/${slug}`} passHref>
-                        <a className="text-3xl font-semibold hover:underline">
-                          {title.replace('Accessibility Review of ', '')}
+                    /> */}
+                    </div>
+                    <div className="flex w-full sm:justify-between justify-center">
+                      <div>
+                        <Link href={`/${slug}`} passHref>
+                          <a className="text-3xl font-semibold hover:underline">
+                            {title.replace('Accessibility Review of ', '')}
+                          </a>
+                        </Link>
+                        <time
+                          dateTime={date}
+                          className="block opacity-80 sm:text-base text-sm"
+                        >
+                          {format(new Date(date), 'MMMM d, yyyy')}
+                        </time>
+                        {description && <p>{description}</p>}
+                      </div>
+                    </div>
+                    {slug && (
+                      <Link href={`/${slug}`} passHref>
+                        <a
+                          className="flex-shrink-0 px-5 py-3 rounded-full hover:bg-indigo-600 transition-all ease-in-out duration-300 bg-indigo-600 text-white font-semibold inline-flex"
+                          aria-label={`Sign up for the workshop on ${title}`}
+                        >
+                          Read
+                          <i aria-hidden className="pl-2">
+                            →
+                          </i>
                         </a>
                       </Link>
-                      <time
-                        dateTime={date}
-                        className="block opacity-80 sm:text-base text-sm"
-                      >
-                        {format(new Date(date), 'MMMM d, yyyy')}
-                      </time>
-                      <p>{description}</p>
-                    </div>
+                    )}
                   </div>
-                  {slug && (
-                    <Link href={`/accessibility-reviews/${slug}`} passHref>
-                      <a
-                        className="flex-shrink-0 px-5 py-3 rounded-full hover:bg-indigo-600 transition-all ease-in-out duration-300 bg-indigo-600 text-white font-semibold inline-flex"
-                        aria-label={`Sign up for the workshop on ${title}`}
-                      >
-                        Watch the review
-                        <i aria-hidden className="pl-2">
-                          →
-                        </i>
-                      </a>
-                    </Link>
-                  )}
-                </div>
-              )
-            })}
+                )
+              },
+            )}
           </div>
         </div>
       </main>
@@ -122,23 +129,24 @@ const Reviews: React.FC<any> = ({reviews}) => {
   )
 }
 
-const reviewsQuery = groq`*[_type == "review"] | order(order asc){
+const articlesQuery = groq`*[_type == "article"] | order(date asc){
     title,
-    description,
     'slug': slug.current,
-    hlsUrl,
+    description,
+    body,
     published,
     image,
-    date,
-    order
+    date
 }`
 
-export const getServerSideProps: GetServerSideProps = async () => {
-  const data = await sanityClient.fetch(reviewsQuery)
+export const getServerSideProps: GetServerSideProps = async (context) => {
+  context.res.setHeader('Cache-Control', 's-maxage=1, stale-while-revalidate')
+
+  const data = await sanityClient.fetch(articlesQuery)
 
   return {
-    props: {reviews: data},
+    props: {articles: data},
   }
 }
 
-export default Reviews
+export default Articles
