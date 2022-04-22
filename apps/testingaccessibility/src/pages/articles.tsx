@@ -76,7 +76,7 @@ const Articles: React.FC<ArticlesProps> = ({articles}) => {
                           dateTime={date}
                           className="block opacity-80 sm:text-base text-sm"
                         >
-                          {format(new Date(date), 'MMMM d, yyyy')}
+                          {format(new Date(date), 'dd MMMM, y')}
                         </time>
                         {description && <p>{description}</p>}
                       </div>
