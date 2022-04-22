@@ -9,6 +9,17 @@ datasource db {
     referentialIntegrity = "prisma"
 }
 
+model LessonProgress {
+  id                       String  @id @default(uuid())
+  userId                   String
+  lessonSlug               String
+  lessonVersion            String?
+  completedAt              DateTime?
+  updatedAt                DateTime?
+  createdAt                DateTime          @default(now())
+  user                     User              @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
 model Account {
   id                       String  @id @default(uuid()) 
   type                     String
@@ -202,6 +213,7 @@ model User {
   merchantCustomers  MerchantCustomer[]
   purchases          Purchase[]
   sessions           Session[]
+  lessonProgresses   LessonProgress[]
 }
 
 model VerificationToken {
