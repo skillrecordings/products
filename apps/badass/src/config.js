@@ -28,9 +28,9 @@ export default {
     },
     images: [
       {
-        url: '/card@2x.png',
-        width: 1280,
-        height: 720,
+        url: 'https://badass.dev/card@2x.png',
+        width: 1200,
+        height: 628,
       },
     ],
   },

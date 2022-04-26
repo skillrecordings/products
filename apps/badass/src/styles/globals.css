@@ -1,15 +1,44 @@
 @import './icons.css';
 @import '~@skillrecordings/player/dist/skillrecordings-player.css';
 @import '~@reach/dialog/styles.css';
+@import './fonts.css';
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
+:root {
+  color-scheme: dark;
+}
+
+body {
+  @apply antialiased bg-black text-white font-sans;
+}
+
+[data-sr-convertkit-subscribe-form] {
+  @apply max-w-sm mx-auto;
+
+  [data-sr-input] {
+    @apply bg-black py-3 px-4 bg-opacity-40 rounded-md w-full focus:ring-badass-pink-400 border-none;
+  }
+  [data-sr-input-label] {
+    @apply flex pt-4 pb-1;
+  }
+  [data-sr-button] {
+    @apply bg-badass-pink-600 px-8 py-4 font-heading uppercase rounded-md mt-8 w-full flex items-center justify-center hover:scale-105 transition hover:shadow-xl;
+  }
+  [data-sr-button][disabled] {
+  }
+}
+[data-sr-convertkit-subscribe-form='success'] {
+}
+[data-sr-convertkit-subscribe-form='error'] {
+}
+
 /*
 This will hide the focus indicator if the element receives focus via the mouse,
 but it will still show up on keyboard focus.
 */
-.js-focus-visible :focus:not(.focus-visible) {
+[data-js-focus-visible] :focus:not([data-focus-visible-added]) {
   outline: none;
 }

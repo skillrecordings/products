@@ -31,7 +31,7 @@ const Unsubscribed = () => {
 
   return (
     <Layout>
-      <div className="prose dark:prose-dark prose-lg max-w-md mx-auto py-24">
+      <div className="prose prose-lg max-w-md mx-auto py-24">
         <h1>Unsubscribed</h1>
         <p>
           You've been removed from the {message(tagId)} and won't receive any

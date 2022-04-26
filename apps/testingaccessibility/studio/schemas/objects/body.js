@@ -1,5 +1,6 @@
-// TODO: Exercises (don't have to have solutions), Challenges (always have solutions, sometimes multiple parts)
+import {HiOutlineEmojiHappy, HiLink} from 'react-icons/hi'
 
+// TODO: Exercises (don't have to have solutions), Challenges (always have solutions, sometimes multiple parts)
 export default {
   name: 'body',
   type: 'array',
@@ -15,7 +16,50 @@ export default {
       //   {title: 'H5', value: 'h5'},
       //   {title: 'H6', value: 'h6'},
       //   {title: 'Quote', value: 'blockquote'}
-      // ]
+      // ],
+      marks: {
+        annotations: [
+          {
+            name: 'internalLink',
+            type: 'object',
+            title: 'Internal link',
+            blockEditor: {
+              icon: HiLink,
+            },
+            fields: [
+              {
+                name: 'reference',
+                type: 'reference',
+                title: 'Reference',
+                to: [{type: 'lesson'}, {type: 'section'}, {type: 'module'}],
+              },
+            ],
+          },
+          {
+            name: 'emoji',
+            type: 'object',
+            title: 'Emoji',
+            blockEditor: {
+              icon: HiOutlineEmojiHappy,
+            },
+            fields: [
+              {
+                name: 'emoji',
+                title: 'Emoji',
+                type: 'object',
+                fields: [
+                  {
+                    name: 'label',
+                    type: 'string',
+                    title: 'Label',
+                    validation: (Rule) => Rule.required(),
+                  },
+                ],
+              },
+            ],
+          },
+        ],
+      },
     },
     {type: 'bodyImage'},
     {type: 'bodyVideo'},

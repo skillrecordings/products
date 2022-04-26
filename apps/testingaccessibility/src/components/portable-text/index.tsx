@@ -1,6 +1,10 @@
 import React from 'react'
 import type {ArbitraryTypedObject, PortableTextBlock} from '@portabletext/types'
-import {PortableText, PortableTextComponents} from '@portabletext/react'
+import {
+  PortableText,
+  PortableTextComponents,
+  PortableTextMarkComponentProps,
+} from '@portabletext/react'
 import {useSelector} from '@xstate/react'
 import {
   HLSSource,
@@ -43,7 +47,19 @@ const Video: React.FC<{url: string; title: string}> = ({url, title}) => {
   )
 }
 
+// https://github.com/portabletext/react-portabletext
+
 const PortableTextComponents: PortableTextComponents = {
+  marks: {
+    emoji: ({text, value}: EmojiProps) => {
+      const label = value.emoji.label
+      return (
+        <span role="img" aria-label={label} aria-hidden={!label}>
+          {text}
+        </span>
+      )
+    },
+  },
   types: {
     bodyVideo: ({value}: BodyVideoProps) => {
       const {url, title, caption} = value
@@ -82,19 +98,26 @@ const PortableTextComponents: PortableTextComponents = {
       const {body, type} = value
 
       return (
-        <div className={cx(`p-5 rounded-lg`, getCalloutStyles(type))}>
-          <div>
-            <span role="img" aria-label={getCalloutImage(type).alt}>
-              {getCalloutImage(type).src}
-            </span>{' '}
-            <b className="font-bold">{getCalloutTitle(type)}</b>
+        <div
+          className={cx(
+            `flex space-x-3 p-5 rounded-lg`,
+            getCalloutStyles(type),
+          )}
+        >
+          <div role="img" aria-label={getCalloutImage(type).alt}>
+            {getCalloutImage(type).src}
+          </div>{' '}
+          {/* <b className="font-bold">{getCalloutTitle(type)}</b> */}
+          <div className="first-of-type:prose-p:mt-0 last-of-type:prose-p:mb-0">
+            <PortableText value={body} />
           </div>
-          <PortableText value={body} />
         </div>
       )
     },
   },
 }
+
+type EmojiProps = PortableTextMarkComponentProps<any>
 
 type CalloutProps = {
   value: {

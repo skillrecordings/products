@@ -19,7 +19,7 @@ const query = groq`*[_type == "course" && slug.current == $slug][0]{
   body,
   seo,
   "slug": slug.current,
-  "author": collaborators[0]->{
+  "instructor": collaborators[0]->{
     role,
     'slug': person->slug.current,
     'name': person->name,
@@ -35,7 +35,7 @@ const query = groq`*[_type == "course" && slug.current == $slug][0]{
     title,
     slug,
     path,
-    "author": collaborators[0]->{
+    "instructor": collaborators[0]->{
       'name': person->name,
       'image': person->image.url
     },

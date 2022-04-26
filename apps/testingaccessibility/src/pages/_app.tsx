@@ -2,7 +2,6 @@ import React from 'react'
 import {AppProps} from 'next/app'
 import {DefaultSeo} from 'next-seo'
 import config from 'config'
-import {ThemeProvider} from 'next-themes'
 import 'focus-visible'
 import '../styles/globals.css'
 import {ViewerProvider} from '@skillrecordings/viewer'
@@ -38,11 +37,9 @@ function MyApp({Component, pageProps}: AppProps) {
         <SessionProvider session={pageProps.session} refetchInterval={0}>
           <ConvertkitProvider>
             <ViewerProvider>
-              <ThemeProvider enableSystem={false} attribute="class">
-                <MDXProvider components={MDXComponents}>
-                  <Component {...pageProps} />
-                </MDXProvider>
-              </ThemeProvider>
+              <MDXProvider components={MDXComponents}>
+                <Component {...pageProps} />
+              </MDXProvider>
             </ViewerProvider>
           </ConvertkitProvider>
         </SessionProvider>
