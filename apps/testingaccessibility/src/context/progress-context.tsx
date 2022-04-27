@@ -41,7 +41,7 @@ export const ProgressProvider: React.FC = ({children}) => {
   return (
     <ProgressContext.Provider
       value={{
-        progress: progress,
+        progress,
         isLoadingProgress,
         toggleLessonComplete: async (slug: string) => {
           await toggleLessonProgressForUser({slug}).then(() => fetchProgress())
