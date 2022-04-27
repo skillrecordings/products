@@ -17,7 +17,9 @@ const JobRole = () => {
       case 2982283:
         return 'in QA'
       case 2982286:
-        return 'in a non-developer role'
+        return 'interested in Testing Accessibility'
+      case 3080794:
+        return 'a manager'
       default:
         return 'interested in Testing Accessibility'
     }
