@@ -1,12 +1,6 @@
 import {LessonProgress} from '@prisma/client'
 import {SanityDocument} from '@sanity/client'
-import {createClient} from '@supabase/supabase-js'
 import axios from 'axios'
-
-const SUPABASE_URL = `https://${process.env.PROGRESS_DATABASE_ID}.supabase.co`
-const SUPABASE_KEY = process.env.SUPABASE_KEY
-export const supabase = SUPABASE_KEY && createClient(SUPABASE_URL, SUPABASE_KEY)
-export const progressTable = process.env.PROGRESS_TABLE_NAME || 'users_dev'
 
 type ProgressProps = {
   slug: string
