@@ -34,9 +34,11 @@ export default {
     select: {url: 'url', title: 'title', transcript: 'caption'},
     component: ({value}) => {
       const {url, transcript, title} = value
-      const poster = url
-        .replace('stream.mux.com', 'image.mux.com')
-        .replace('.m3u8', '/thumbnail.png?width=800&height=500&fit_mode=pad')
+      const poster =
+        url &&
+        url
+          .replace('stream.mux.com', 'image.mux.com')
+          .replace('.m3u8', '/thumbnail.png?width=800&height=500&fit_mode=pad')
       return (
         <div>
           <details>
