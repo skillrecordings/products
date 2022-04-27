@@ -1,102 +1,106 @@
 import * as React from 'react'
 import {SyntheticEvent} from 'react'
 import {useSelector} from '@xstate/react'
-import {Slider} from '../core/slider'
 import cx from 'classnames'
-import {LoadProgressBar} from './load-progress-bar'
-import {PlayProgressBar} from './play-progress-bar'
 import {useVideo} from '../../context/video-context'
+import {convertTimeWithTitles} from '@skillrecordings/time'
 import {getPointerPosition} from '../../utils'
+import {selectCurrentTime, selectDuration} from '../../selectors'
 import {
-  selectCurrentTime,
-  selectDuration,
-  selectFormattedTime,
-  selectPercent,
-  selectSeekTime,
-} from '../../selectors'
+  SliderHandle,
+  SliderInput,
+  SliderRange,
+  SliderTrack,
+} from '@reach/slider'
+import {LoadProgressBar} from './load-progress-bar'
 
-export const SeekBar: React.FC<any> = React.forwardRef<HTMLDivElement, any>(
-  (props, ref) => {
-    // currentTime, seekingTime, duration, buffered
-    const videoService = useVideo()
-    const formattedTime = useSelector(videoService, selectFormattedTime)
-    const percent = useSelector(videoService, selectPercent)
-    const duration = useSelector(videoService, selectDuration)
-    const currentTime = useSelector(videoService, selectCurrentTime)
-    const seekingTime = useSelector(videoService, selectSeekTime)
+export const SeekBar: React.FC<any> = (props) => {
+  const videoService = useVideo()
+  const duration = useSelector(videoService, selectDuration)
+  const currentTime = useSelector(videoService, selectCurrentTime)
+  const ref = React.useRef(null)
+  const [isActive, setActive] = React.useState(false)
+  const [mousePosition, setMousePosition] = React.useState(0)
 
-    function calculateDistance(event: Event | SyntheticEvent) {
-      // forwarding refs made for a bit of a weird situation with
-      // the typing but there IS a ref here
-      // @ts-ignore
-      const node = ref?.current
-      const position = getPointerPosition(node, event)
-      return position.x
-    }
+  const handleMouseEnter = (e: SyntheticEvent) => {
+    return setActive(true)
+  }
 
-    function getNewTime(event: Event | SyntheticEvent) {
-      const distance = calculateDistance(event)
-      const newTime = distance * duration
-      // Don't let video end while scrubbing.
-      return newTime === duration ? newTime - 0.1 : newTime
-    }
+  const handleMouseLeave = () => {
+    return setActive(false)
+  }
 
-    function handleMouseDown() {}
+  function calculateDistance(event: Event | SyntheticEvent) {
+    const node = ref?.current
+    const position = getPointerPosition(node, event)
+    return position.x
+  }
 
-    function handleMouseUp(event: Event | SyntheticEvent) {
-      const newTime = getNewTime(event)
-      videoService.send({type: 'SEEKING', seekingTime: newTime})
-      videoService.send('END_SEEKING')
-    }
+  return (
+    <SliderInput
+      ref={ref}
+      onMouseMoveCapture={(e: SyntheticEvent) => {
+        setMousePosition(calculateDistance(e))
+      }}
+      onMouseOut={() => {
+        setMousePosition(0)
+      }}
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
+      style={{width: '100%'}}
+      min={0}
+      max={duration}
+      value={currentTime}
+      step={0.5}
+      handleAlignment="contain"
+      onChange={(newValue) => {
+        videoService.send({
+          type: 'SEEKING',
+          seekingTime: newValue,
+        })
+        videoService.send('END_SEEKING')
+      }}
+      aria-label="seek slider"
+      getAriaValueText={(value) => {
+        const currentValue = Number(value.toFixed(0))
 
-    function handleMouseMove(event: Event | SyntheticEvent) {
-      const newTime = getNewTime(event)
-      videoService.send({type: 'SEEKING', seekingTime: newTime})
-    }
+        const currentTime =
+          currentValue === 0
+            ? '0 seconds'
+            : convertTimeWithTitles(currentValue, {
+                showSeconds: true,
+                longForm: true,
+              })
+        return (
+          currentTime +
+          ` of ${convertTimeWithTitles(duration, {
+            showSeconds: true,
+            longForm: true,
+          })}`
+        )
+      }}
+    >
+      {({hasFocus}) => {
+        const isVisible = hasFocus || isActive
 
-    function stepForward() {
-      let newTime = currentTime + 10
-      if (newTime > duration) {
-        newTime = duration
-      }
-      videoService.send({type: 'SEEKING', seekingTime: newTime})
-      videoService.send({type: 'END_SEEKING'})
-    }
-
-    function stepBack() {
-      let newTime = currentTime - 10
-      if (newTime < 0) {
-        newTime = 0
-      }
-      videoService.send({type: 'SEEKING', seekingTime: newTime})
-      videoService.send({type: 'END_SEEKING'})
-    }
-
-    function getPercent() {
-      const time = seekingTime || currentTime
-      const percent = time / duration
-      return percent >= 1 ? 1 : percent
-    }
-
-    return (
-      <Slider
-        ref={ref}
-        label="video progress bar"
-        className={cx('cueplayer-react-progress-holder', props.className)}
-        valuenow={(percent * 100).toFixed(2)}
-        valuetext={formattedTime}
-        onMouseDown={handleMouseDown}
-        onMouseMove={handleMouseMove}
-        onMouseUp={handleMouseUp}
-        getPercent={getPercent}
-        // these clash with > and < shortcuts
-        // stepForward={stepForward}
-        // stepBack={stepBack}
-      >
-        <LoadProgressBar />
-        {/*<MouseTimeDisplay duration={duration} mouseTime={mouseTime} />*/}
-        <PlayProgressBar />
-      </Slider>
-    )
-  },
-)
+        return (
+          <SliderTrack
+            className={cx('cueplayer-react-progress-slider', {
+              'cueplayer-react-progress-slider-active': isVisible,
+            })}
+          >
+            <LoadProgressBar />
+            <div
+              className={cx('cueplayer-react-progress-slider-highlight')}
+              style={{
+                width: mousePosition * 100 + '%',
+              }}
+            />
+            <SliderRange />
+            <SliderHandle />
+          </SliderTrack>
+        )
+      }}
+    </SliderInput>
+  )
+}

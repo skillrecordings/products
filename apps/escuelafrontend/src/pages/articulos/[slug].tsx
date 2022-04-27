@@ -1,9 +1,8 @@
 import * as React from 'react'
 import groq from 'groq'
 import {sanityClient} from 'utils/sanity-client'
-import ArticleTemplate from '../../templates/article'
-import renderToString from 'next-mdx-remote/render-to-string'
-import mdxComponents from 'components/mdx'
+import ArticleTemplate from '../../layouts/article'
+import {serialize} from 'next-mdx-remote/serialize'
 
 const Post = (props: any) => {
   return <ArticleTemplate meta={props} />
@@ -16,11 +15,13 @@ const allPostsQuery = groq`
 `
 
 const query = groq`*[_type == "post" && slug.current == $slug][0]{
+  "publishedTime": _createdAt,
+  "modifiedTime": _updatedAt,
   title,
   body,
   seo,
   "slug": slug.current,
-  "author": collaborators[0]->{
+  "instructor": collaborators[0]->{
     role,
     'slug': person->slug.current,
     'name': person->name,
@@ -30,13 +31,14 @@ const query = groq`*[_type == "post" && slug.current == $slug][0]{
   },
 	"tag": softwarelibraries[0]-> {
     name,
+    "slug": slug.current,
     "image": image.url
   },
   "relatedResources": related[]-> {
     title,
     slug,
     path,
-    "author": collaborators[0]->{
+    "instructor": collaborators[0]->{
       'name': person->name,
       'image': person->image.url
     },
@@ -55,14 +57,8 @@ export async function getStaticProps(context: any) {
     slug: context.params.slug,
   })
 
-  const mdxSource = await renderToString(body, {
-    components: mdxComponents,
+  const mdxSource = await serialize(body, {
     mdxOptions: {
-      remarkPlugins: [
-        require(`remark-slug`),
-        require(`remark-footnotes`),
-        require(`remark-code-titles`),
-      ],
       rehypePlugins: [
         [
           require(`rehype-shiki`),
@@ -74,6 +70,7 @@ export async function getStaticProps(context: any) {
       ],
     },
   })
+
   return {
     props: {...post, body: mdxSource},
     revalidate: 1,

@@ -21,39 +21,86 @@ pnpm i
 pnpm dev
 ```
 
+### Stripe CLI
+
+You'll need the [Strip CLI](https://stripe.com/docs/stripe-cli) to capture web hooks locally.
+
+When you run the CLI it gives you your webhook signing secret that you can set in `.env.local`.
+
+The Stripe test secret token is also required!
+
+see: `.env.local.template`
+
+Listen to webhook:
+
+```bash
+stripe listen --forward-to localhost:3013/api/stripe/webhook
+```
+
+### Postmark
+
+A postmark API key is required. You can find one for this project in the vercel environment variables.
+
 ## Authentication in Development
 
 We are using Hasura+next-auth for authentication via JWTs. You'll need to get it running locally!
 
 ### Install Tools
 
-[Install Docker](https://docs.docker.com/get-docker/)
-[Install the Hasura CLI](https://hasura.io/docs/latest/graphql/core/hasura-cli/install-hasura-cli.html#install-hasura-cli)
-
-### Start the Hasura server
-
-This starts the Hasura GraphQL Engine and a Postgres database
-
-```shell
-docker compose up -d
-```
-You can launch the Hasura console using the CLI
-
-```shell
-cd hasura
-hasura console
+```bash
+brew install planetscale/tap/pscale
 ```
 
-Changes to the data model in the Hasura console will automatically create migrations:
+You'll need to login:
 
-[Hasura Creates Migrations Automatically (Docs)](https://hasura.io/docs/latest/graphql/core/migrations/migrations-setup.html#step-5-add-a-new-table-and-see-how-migrations-and-metadata-is-updated)
+```bash
+ pscale auth login
+```
 
-You can "squash" migrations for version control:
+And then switch to skill-recordings org:
 
-[Squash Hasura Migrations](https://hasura.io/docs/latest/graphql/core/migrations/migrations-setup.html#step-6-squash-migrations-and-add-checkpoints-to-version-control)
+```bash
+pscale org switch skill-recordings
+```
 
-Incoming migrations are automatically applied when you start the container, but there's lots more to read about migrations:
+### Create a .env
 
-[Hasura Migrations Docs](https://hasura.io/docs/latest/graphql/core/migrations)
+Prisma looks here by default for the connection URL:
 
+```bash
+DATABASE_URL='mysql://root@127.0.0.1:3309/testing-accessibility'
+```
 
+### Connect to the Planetscale database
+
+```bash
+pscale connect testing-accessibility next-steps --port 3309
+```
+
+### Migrate any schema changes
+
+If you make changes to the schema via Prisma you'll need to push it to the DB. We don't use Prisma migrations and let Planetscale handle it:
+
+```bash
+npx prisma db push
+```
+
+### Prisma studio
+
+Start prisma studio:
+
+```bash
+npx prisma studio
+```
+
+### Seed Data
+
+When you make a new branch in Planetscale it doesn't bring data over.
+
+In the `seed_data` folder is a database dump.
+
+```bash
+pscale database restore-dump testing-accessibility next-steps --dir ./seed_data/pscale_data_dump
+```
+
+This should set up the basics that are associated with the **test mode** Stripe account

@@ -46,7 +46,10 @@ const Reviews: React.FC<any> = ({reviews}) => {
           <div className="grid grid-cols-1 gap-5">
             {reviews.map(({title, description, slug, image, date}: any) => {
               return (
-                <div className="flex sm:flex-row flex-col sm:text-left text-center items-center gap-5 p-8 bg-white shadow-sm rounded-lg">
+                <div
+                  key={slug}
+                  className="flex sm:flex-row flex-col sm:text-left text-center items-center gap-5 p-8 bg-white shadow-sm rounded-lg"
+                >
                   <div className="flex-shrink-0">
                     <Image
                       src={image}
@@ -119,14 +122,15 @@ const Reviews: React.FC<any> = ({reviews}) => {
   )
 }
 
-const reviewsQuery = groq`*[_type == "review"]{
+const reviewsQuery = groq`*[_type == "review"] | order(order asc){
     title,
     description,
     'slug': slug.current,
     hlsUrl,
     published,
     image,
-    date
+    date,
+    order
 }`
 
 export const getServerSideProps: GetServerSideProps = async () => {

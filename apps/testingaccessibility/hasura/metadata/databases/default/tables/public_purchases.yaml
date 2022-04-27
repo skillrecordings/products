@@ -1,0 +1,35 @@
+table:
+  name: purchases
+  schema: public
+object_relationships:
+- name: coupon
+  using:
+    foreign_key_constraint_on: coupon_id
+- name: merchant_charge
+  using:
+    foreign_key_constraint_on: merchant_charge_id
+- name: product
+  using:
+    foreign_key_constraint_on: product_id
+- name: purchase
+  using:
+    foreign_key_constraint_on: upgraded_from_purchase_id
+- name: user
+  using:
+    foreign_key_constraint_on: user_id
+array_relationships:
+- name: upgraded_purchases
+  using:
+    foreign_key_constraint_on:
+      column: upgraded_from_purchase_id
+      table:
+        name: purchases
+        schema: public
+select_permissions:
+- permission:
+    columns:
+    - product_id
+    filter:
+      user_id:
+        _eq: X-Hasura-User-Id
+  role: user

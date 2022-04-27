@@ -26,7 +26,9 @@ const Layout: FunctionComponent<LayoutProps> = ({
     description,
     titleAppendSiteName = false,
     url,
+    type = 'website',
     ogImage,
+    date,
   } = meta || {}
 
   return (
@@ -39,8 +41,12 @@ const Layout: FunctionComponent<LayoutProps> = ({
         openGraph={{
           title,
           description,
+          type,
           url,
           images: ogImage ? [ogImage] : undefined,
+          article: {
+            publishedTime: date,
+          },
         }}
         canonical={url}
         noindex={noIndex}

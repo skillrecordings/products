@@ -3,6 +3,11 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
+  "homepage": "https://github.com/skillrecordings/products/",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/skillrecordings/products.git"
+  },
   "scripts": {
     "build": "turbo run build postbuild",
     "build:ci": "turbo run build test lint postbuild",
@@ -37,65 +42,7 @@
     "plop": "^2.7.6",
     "prettier": "^2.4.1",
     "tsdx": "^0.14.1",
-    "turbo": "^1.0.6"
-  },
-  "turbo": {
-    "baseBranch": "origin/main",
-    "pipeline": {
-      "build": {
-        "dependsOn": [
-          "^build"
-        ],
-        "outputs": [
-          "dist/**",
-          ".next/**"
-        ]
-      },
-      "postbuild": {
-        "dependsOn": [
-          "build"
-        ],
-        "outputs": [
-          "public/sitemap.xml",
-          "public/robots.txt"
-        ]
-      },
-      "test": {
-        "dependsOn": [
-          "^build"
-        ]
-      },
-      "deploy": {
-        "dependsOn": [
-          "build",
-          "test",
-          "lint"
-        ]
-      },
-      "lint": {
-        "outputs": [],
-        "dependsOn": [
-          "^build"
-        ]
-      },
-      "start": {
-        "dependsOn": [
-          "^build"
-        ]
-      },
-      "integration": {
-        "outputs": [],
-        "dependsOn": [
-          "^build"
-        ]
-      },
-      "dev": {
-        "cache": false
-      },
-      "clean": {
-        "cache": false
-      }
-    }
+    "turbo": "^1.1.6"
   },
   "prettier": {
     "printWidth": 80,
@@ -106,5 +53,6 @@
     "trailingComma": "all",
     "bracketSpacing": false,
     "jsxBracketSameLine": false
-  }
+  },
+  "packageManager": "pnpm@6.23.1"
 }

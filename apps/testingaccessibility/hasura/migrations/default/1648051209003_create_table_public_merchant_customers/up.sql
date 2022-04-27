@@ -1,0 +1,2 @@
+CREATE TABLE "public"."merchant_customers" ("id" uuid NOT NULL DEFAULT gen_random_uuid(), "user_id" uuid NOT NULL, "merchant_account_id" uuid NOT NULL, "identifier" text NOT NULL, "created_at" timestamptz NOT NULL DEFAULT now(), PRIMARY KEY ("id") , FOREIGN KEY ("user_id") REFERENCES "public"."users"("id") ON UPDATE restrict ON DELETE cascade, FOREIGN KEY ("merchant_account_id") REFERENCES "public"."merchant_accounts"("id") ON UPDATE restrict ON DELETE cascade, UNIQUE ("id"));
+CREATE EXTENSION IF NOT EXISTS pgcrypto;

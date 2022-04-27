@@ -1,0 +1,32 @@
+table:
+  name: products
+  schema: public
+array_relationships:
+- name: coupons
+  using:
+    foreign_key_constraint_on:
+      column: restricted_to_product_id
+      table:
+        name: coupons
+        schema: public
+- name: merchant_products
+  using:
+    foreign_key_constraint_on:
+      column: product_id
+      table:
+        name: merchant_products
+        schema: public
+- name: prices
+  using:
+    foreign_key_constraint_on:
+      column: product_id
+      table:
+        name: prices
+        schema: public
+- name: purchases
+  using:
+    foreign_key_constraint_on:
+      column: product_id
+      table:
+        name: purchases
+        schema: public

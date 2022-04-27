@@ -8,10 +8,8 @@ function usePoliteConvertkitForm(
   threshold: 0.6 | 0.7 | 0.75 | 0.8 | 0.85 | 0.9, // 1 is 100% of page height
 ) {
   // TODO: get user preference from CK or Customer.io
-  const [dismissed, setDismissed, _removeDismissedPreference] = useLocalStorage(
-    'dismissed-polite-message',
-    'false',
-  )
+  const [dismissed, setDismissed /*_removeDismissedPreference */] =
+    useLocalStorage('dismissed-polite-message', 'false')
 
   const {scrollYProgress} = useViewportScroll()
   const [peaking, setPeaking] = React.useState<boolean>(false)
@@ -77,7 +75,7 @@ const PoliteConvertkitForm = ({children, peakingContent}: any) => {
             <div className="pt-4 space-x-2">
               <button
                 type="button"
-                className="px-3 py-1 text-white bg-transparent rounded-md bg-gray-900 bg-opacity-20"
+                className="px-3 py-1 text-white bg-transparent bg-gray-900 rounded-md bg-opacity-20"
                 onClick={() => handleDismissForever()}
               >
                 No
@@ -117,7 +115,7 @@ const PoliteConvertkitForm = ({children, peakingContent}: any) => {
         isOpen={opened}
         onDismiss={() => handleClose()}
         aria-label="subscribe"
-        className="relative w-full max-w-screen-sm rounded-3xl shadow-xl bg-gray-100 dark:bg-gray-800 backdrop-filter backdrop-blur-3xl dark:bg-opacity-80 bg-opacity-80 opacity-0 secondary-animation"
+        className="relative w-full max-w-screen-sm bg-gray-100 shadow-xl opacity-0 rounded-3xl dark:bg-gray-800 backdrop-filter backdrop-blur-3xl dark:bg-opacity-80 bg-opacity-80 secondary-animation"
       >
         <SubscribeForm
           className="p-5"

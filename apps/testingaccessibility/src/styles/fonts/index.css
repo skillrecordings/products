@@ -4,6 +4,7 @@
     url('./4cba04f5-c469-4d71-b23e-461370a77916.woff') format('woff');
   font-weight: 300;
   font-style: normal;
+  font-display:optional
 }
 @font-face {
   font-family: 'Aestetico';
@@ -11,6 +12,7 @@
     url('./7e737334-94a8-476a-be43-b6a241ad8e45.woff') format('woff');
   font-weight: 300;
   font-style: italic;
+  font-display:optional
 }
 @font-face {
   font-family: 'Aestetico';
@@ -18,6 +20,7 @@
     url('./42aff737-0e51-41bb-9d34-b321401a14dd.woff') format('woff');
   font-weight: 400;
   font-style: normal;
+  font-display:optional
 }
 @font-face {
   font-family: 'Aestetico';
@@ -25,6 +28,7 @@
     url('./3502aef4-fbb7-4a7f-a422-eb0987e7d15c.woff') format('woff');
   font-weight: 400;
   font-style: italic;
+  font-display:optional
 }
 @font-face {
   font-family: 'Aestetico';
@@ -32,6 +36,7 @@
     url('./64e3e7a8-8981-4e7c-bbfd-00de8f2eaf10.woff') format('woff');
   font-weight: 500;
   font-style: normal;
+  font-display:optional
 }
 @font-face {
   font-family: 'Aestetico';
@@ -39,6 +44,7 @@
     url('./82931578-c42e-456a-82c8-60c9096d97dd.woff') format('woff');
   font-weight: 500;
   font-style: italic;
+  font-display:optional
 }
 @font-face {
   font-family: 'Aestetico';
@@ -46,6 +52,7 @@
     url('./21df5cbc-0094-4eaf-9036-b67cbc59be8e.woff') format('woff');
   font-weight: 600;
   font-style: normal;
+  font-display:optional
 }
 @font-face {
   font-family: 'Aestetico';
@@ -53,6 +60,7 @@
     url('./76515ea3-186f-4b8d-8633-093d87f69ee3.woff') format('woff');
   font-weight: 600;
   font-style: italic;
+  font-display:optional
 }
 @font-face {
   font-family: 'Aestetico';
@@ -60,6 +68,7 @@
     url('./6b80e9b8-fe07-41c7-b0ca-a08f51d8851f.woff') format('woff');
   font-weight: 700;
   font-style: normal;
+  font-display:optional
 }
 @font-face {
   font-family: 'Aestetico';
@@ -67,6 +76,7 @@
     url('./e23c6ab6-1232-4621-a6a8-db892a597031.woff') format('woff');
   font-weight: 700;
   font-style: italic;
+  font-display:optional
 }
 @font-face {
   font-family: 'Aestetico';
@@ -74,6 +84,7 @@
     url('./d557b260-e3ea-4243-90bb-374a6c2775d3.woff') format('woff');
   font-weight: 800;
   font-style: normal;
+  font-display:optional
 }
 @font-face {
   font-family: 'Aestetico';
@@ -81,6 +92,7 @@
     url('./c772abec-c02d-4b3e-896b-e88893b5905a.woff') format('woff');
   font-weight: 800;
   font-style: italic;
+  font-display:optional
 }
 @font-face {
   font-family: 'Aestetico';
@@ -88,6 +100,7 @@
     url('./16410121-7fdd-40ad-9e9b-583acbec9881.woff') format('woff');
   font-weight: 900;
   font-style: normal;
+  font-display:optional
 }
 @font-face {
   font-family: 'Aestetico';
@@ -95,6 +108,7 @@
     url('./1f72506d-3076-460d-8cff-ae70e14490d9.woff') format('woff');
   font-weight: 900;
   font-style: italic;
+  font-display:optional
 }
 @font-face {
   font-family: 'Ahkio';
@@ -102,6 +116,7 @@
     url('./09898f99-5240-4678-9dc2-770e5c74097b.woff') format('woff');
   font-weight: 400;
   font-style: normal;
+  font-display:optional
 }
 @font-face {
   font-family: 'Ahkio';
@@ -109,4 +124,5 @@
     url('./af03c36b-9595-4dd3-9fec-af6b6bd149d1.woff') format('woff');
   font-weight: 700;
   font-style: normal;
+  font-display:optional
 }

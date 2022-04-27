@@ -1,0 +1,36 @@
+{
+  "baseBranch": "origin/main",
+  "pipeline": {
+    "build": {
+      "dependsOn": ["^build"],
+      "outputs": ["dist/**", ".next/**", "src/generated/**"]
+    },
+    "postbuild": {
+      "dependsOn": ["build"],
+      "outputs": ["public/sitemap.xml", "public/robots.txt"]
+    },
+    "test": {
+      "dependsOn": ["^build"]
+    },
+    "deploy": {
+      "dependsOn": ["build", "test", "lint"]
+    },
+    "lint": {
+      "outputs": [],
+      "dependsOn": ["^build"]
+    },
+    "start": {
+      "dependsOn": ["^build"]
+    },
+    "integration": {
+      "outputs": [],
+      "dependsOn": ["^build"]
+    },
+    "dev": {
+      "cache": false
+    },
+    "clean": {
+      "cache": false
+    }
+  }
+}

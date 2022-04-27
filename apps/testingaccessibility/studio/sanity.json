@@ -14,11 +14,17 @@
     "@sanity/default-login",
     "@sanity/desk-tool",
     "markdown",
-    "@sanity/rich-date-input"
+    "@sanity/rich-date-input",
+    "order-documents",
+    "@sanity/code-input",
+    "mux-input",
+    "cloudinary"
   ],
   "env": {
     "development": {
-      "plugins": ["@sanity/vision"]
+      "plugins": [
+        "@sanity/vision"
+      ]
     }
   },
   "parts": [

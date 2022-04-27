@@ -10,7 +10,7 @@ const DarkModeToggle: React.FC = () => {
     <button
       aria-label="Toggle Color Mode"
       type="button"
-      className="flex items-center px-3 py-2 space-x-1 text-black transition-colors duration-200 ease-in-out border border-gray-200 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 dark:border-gray-800 dark:text-white"
+      className="flex items-center px-3 py-2 space-x-1 text-black transition-colors duration-200 ease-in-out border border-gray-200 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 dark:text-white dark:bg-gray-800 dark:border dark:border-gray-700 dark:border-opacity-50"
       onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
     >
       <svg

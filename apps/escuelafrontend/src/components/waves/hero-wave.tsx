@@ -6,7 +6,7 @@ type WaveProps = {
 }
 
 const HeroWave: React.FC<WaveProps> = ({
-  className = 'transition-colors duration-100 ease-in-out fill-current dark:text-gray-900 text-gray-50',
+  className = 'text-gray-100 transition-colors duration-100 ease-in-out fill-current dark:text-gray-900',
   duration = '20',
 }) => {
   className = `${className} `

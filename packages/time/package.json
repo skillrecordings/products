@@ -2,7 +2,7 @@
   "name": "@skillrecordings/time",
   "description": "Internal, shared utilities",
   "author": "Joel Hooks",
-  "version": "0.0.1",
+  "version": "0.0.11",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "files": [

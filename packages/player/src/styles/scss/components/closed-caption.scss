@@ -1,13 +1,18 @@
-.cueplayer-react {
-  .cueplayer-react-closed-caption {
-    cursor: pointer;
-    @include flex(none);
+.cueplayer-react .cueplayer-react-closed-caption {
+  [data-reach-listbox-popover] {
+    font-size: 1.3em;
+  }
+  @include display-flex(center);
+  .cueplayer-react-menu-button {
+    @include display-flex(center);
+    min-height: 2.5rem;
+    @include display-flex(center);
     @extend .cueplayer-react-icon;
     @extend .cueplayer-react-icon-closed-caption;
   }
+}
 
-  video::-webkit-media-text-track-container {
-    -webkit-transform: translateY(-30px);
-    transform: translateY(-30px);
-  }
+video::-webkit-media-text-track-container {
+  -webkit-transform: translateY(-30px);
+  transform: translateY(-30px);
 }

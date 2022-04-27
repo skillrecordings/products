@@ -5,25 +5,22 @@
 @import '@reach/dialog/styles.css';
 @import './fonts/index.css';
 
-#__next {
-  @apply font-typold;
-  h1,
-  h2 {
-    @apply font-fibra;
-  }
-}
-
 ::selection {
-  @apply bg-indigo-600;
+  @apply bg-blue-600;
   color: #fefefe;
 }
 
 .prose pre {
-  @apply sm:-mx-5 bg-gray-900 dark:bg-gray-800;
+  @apply p-4 bg-gray-900 dark:bg-gray-800 dark:border dark:border-gray-700 dark:border-opacity-50;
 }
 
 .prose code {
-  @apply bg-gray-200;
+  @apply bg-gray-200 px-0.5 font-normal py-0.5 border border-gray-100 dark:border-gray-800 rounded;
+}
+
+.prose pre code {
+  @apply p-0;
+  border: initial;
 }
 
 pre::-webkit-scrollbar {
@@ -63,7 +60,7 @@ but it will still show up on keyboard focus.
 }
 
 [data-reach-dialog-overlay] {
-  @apply backdrop-filter backdrop-blur-lg dark:bg-opacity-80 bg-opacity-80 z-50 p-1 md:p-8;
+  @apply z-50 p-1 backdrop-filter backdrop-blur-lg dark:bg-opacity-80 bg-opacity-80 md:p-8;
 }
 
 .hero-animation-1 {

@@ -11,7 +11,6 @@ module.exports = {
     './node_modules/@skillrecordings/quiz/dist/**/*.js',
     './node_modules/@skillrecordings/player/dist/**/*.js',
   ],
-  darkMode: 'class',
   theme: {
     extend: {
       minHeight: {
@@ -54,6 +53,7 @@ module.exports = {
             pre: {
               backgroundColor: '#011627',
               color: `${theme('colors.white')}`,
+              overflow: 'auto',
             },
             code: {
               fontSize: '80% !important',
