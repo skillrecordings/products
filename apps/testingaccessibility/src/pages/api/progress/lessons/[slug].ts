@@ -1,69 +1,42 @@
-import {first, get, isEmpty} from 'lodash'
 import {NextApiRequest, NextApiResponse} from 'next'
 import {getDecodedToken} from 'utils/get-decoded-token'
-import {progressTable, supabase} from 'utils/progress'
+import {serialize} from '../../../../utils/prisma-next-serializer'
+import {getSdk} from '../../../../lib/prisma-api'
+import {withSentry} from '@sentry/nextjs'
+import {setupHttpTracing} from '@vercel/tracing-js'
+import {tracer} from '../../../../utils/honeycomb-tracer'
+import {defaultContext} from '../../../../lib/context'
 
 const setProgress = async (req: NextApiRequest, res: NextApiResponse) => {
+  const spanContext = setupHttpTracing({
+    name: setProgress.name,
+    tracer,
+    req,
+    res,
+  })
   const sessionToken = await getDecodedToken(req)
-
-  // set progress
   if (req.method === 'POST') {
     try {
+      const {toggleLessonProgressForUser} = getSdk({
+        ctx: defaultContext,
+        spanContext,
+      })
+      const {slug} = req.query
+
       if (!sessionToken || !sessionToken.sub) {
-        return res.status(401).end('Not Authorized')
+        return res.status(403).end('Not Authorized')
       }
-      if (!supabase) {
-        throw new Error('Unable to set progress.')
+
+      if (!slug) {
+        throw new Error('lesson slug is not optional')
       }
-      const completed = await supabase
-        .from(progressTable)
-        .select('completed')
-        .eq('user_id', sessionToken.sub)
 
-      const allCompletedForUser = get(first(completed.data), 'completed')
-      const isCurrentCompleted = allCompletedForUser?.includes(req.query.slug)
+      const lessonProgress = toggleLessonProgressForUser({
+        userId: sessionToken.sub,
+        lessonSlug: slug as string,
+      })
 
-      // postgres timestamptz format
-      const now = new Date(Date.now()).toISOString()
-
-      if (isCurrentCompleted) {
-        // remove current lesson from completed array (toggle complete status)
-        const allCompletedWithoutCurrent = allCompletedForUser?.filter(
-          (slug: string) => slug !== req.query.slug,
-        )
-        const {data = [], error} = await supabase
-          .from(progressTable)
-          .update({
-            updated_at: now,
-            completed: allCompletedWithoutCurrent,
-          })
-          .match({user_id: sessionToken.sub})
-
-        if (error) {
-          console.error(error)
-          throw new Error('Data not loaded')
-        }
-
-        const progress = data
-        res.status(200).json(progress)
-      } else {
-        // insert current lesson into completed array
-        const {data = [], error} = await supabase.from(progressTable).upsert({
-          user_id: sessionToken.sub,
-          updated_at: now,
-          completed: !isEmpty(allCompletedForUser)
-            ? [req.query.slug, ...allCompletedForUser]
-            : [req.query.slug],
-        })
-
-        if (error) {
-          console.error(error)
-          throw new Error('Data not loaded')
-        }
-
-        const progress = data
-        res.status(200).json(progress)
-      }
+      res.status(200).json(serialize(lessonProgress))
     } catch (error: any) {
       console.error(error.message)
       res.status(400).end(error.message)
@@ -71,4 +44,10 @@ const setProgress = async (req: NextApiRequest, res: NextApiResponse) => {
   }
 }
 
-export default setProgress
+export default withSentry(setProgress)
+
+export const config = {
+  api: {
+    externalResolver: true,
+  },
+}
