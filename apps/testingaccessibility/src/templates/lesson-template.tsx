@@ -83,6 +83,7 @@ const LessonTemplate: React.FC<LessonTemplateProps> = ({
                 {lessons.map((lesson: SanityDocument, i: number) => {
                   const {title, slug} = lesson
                   const isActive = router.query.lesson === slug
+                  const isCompleted = find(progress, {lessonSlug: slug})
                   return (
                     <li className="pb-3" key={slug}>
                       <Link
@@ -106,7 +107,7 @@ const LessonTemplate: React.FC<LessonTemplateProps> = ({
                             },
                           )}
                         >
-                          {title}
+                          {isCompleted && '✅'} {title}
                         </a>
                       </Link>
                     </li>
