@@ -6,15 +6,9 @@ export default {
   title: 'Image',
   fields: [
     {
-      name: 'url',
-      type: 'url',
-      title: 'Image URL',
-      validation: (Rule) => Rule.required(),
-    },
-    {
-      name: 'caption',
-      title: 'Caption',
-      type: 'mediaCaption',
+      type: 'cloudinary.asset',
+      name: 'image',
+      description: 'This asset is served from Cloudinary',
     },
     {
       name: 'alt',
@@ -22,18 +16,25 @@ export default {
       title: 'Alternative text',
       validation: (Rule) => Rule.required(),
     },
+    {
+      name: 'caption',
+      title: 'Caption',
+      type: 'mediaCaption',
+    },
   ],
   preview: {
-    select: {url: 'url', alt: 'alt', caption: 'caption'},
+    select: {image: 'image', alt: 'alt', caption: 'caption'},
     component: ({value}) => {
-      const {url, alt, caption} = value
-      return (
+      const {alt, caption, image} = value
+      return image ? (
         <>
           <div>
-            <img width="100%" height="auto" src={url} alt={alt} />
+            <img width="100%" height="auto" src={image.url} alt={alt} />
           </div>
           {alt && <b>{alt}</b>} {caption && <i>caption: {caption}</i>}
         </>
+      ) : (
+        <div>⚠️ missing image</div>
       )
     },
   },
