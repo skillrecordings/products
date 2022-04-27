@@ -17,7 +17,8 @@
     "@sanity/rich-date-input",
     "order-documents",
     "@sanity/code-input",
-    "mux-input"
+    "mux-input",
+    "cloudinary"
   ],
   "env": {
     "development": {
