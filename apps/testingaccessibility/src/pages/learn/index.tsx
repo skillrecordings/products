@@ -64,7 +64,7 @@ const Learn: React.FC<{purchases: Purchase[]; product: SanityDocument}> = ({
     <Layout className="p-5">
       <h1 className="font-bold text-lg">{title}</h1>
       {modules.map((module: SanityDocument) => (
-        <ol className="list-decimal px-5">
+        <ol className="list-decimal px-5" key={module.slug}>
           <li>
             <Link
               href={{pathname: '/learn/[module]', query: {module: module.slug}}}
@@ -76,7 +76,7 @@ const Learn: React.FC<{purchases: Purchase[]; product: SanityDocument}> = ({
           {module.sections && (
             <ol className="list-decimal px-5">
               {module.sections.map((section: SanityDocument) => (
-                <>
+                <div key={section.slug}>
                   <li>
                     <Link
                       href={{
@@ -91,7 +91,7 @@ const Learn: React.FC<{purchases: Purchase[]; product: SanityDocument}> = ({
                   {section.lessons && (
                     <ol className="list-decimal px-5">
                       {section.lessons.map((lesson: SanityDocument) => (
-                        <li>
+                        <li key={lesson.slug}>
                           <Link
                             href={{
                               pathname: '/learn/[module]/[section]/[lesson]',
@@ -109,7 +109,7 @@ const Learn: React.FC<{purchases: Purchase[]; product: SanityDocument}> = ({
                       ))}
                     </ol>
                   )}
-                </>
+                </div>
               ))}
             </ol>
           )}

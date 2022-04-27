@@ -3,11 +3,13 @@ import {VideoProvider} from '@skillrecordings/player'
 import {PortableText} from '@portabletext/react'
 import {SanityDocument} from '@sanity/client'
 import {useRouter} from 'next/router'
-import {find, indexOf} from 'lodash'
 import PortableTextComponents from 'components/portable-text'
 import Layout from 'components/app/layout'
 import Link from 'next/link'
 import cx from 'classnames'
+import find from 'lodash/find'
+import indexOf from 'lodash/indexOf'
+import isEmpty from 'lodash/isEmpty'
 import {useProgress} from 'context/progress-context'
 import {Switch} from '@headlessui/react'
 
@@ -22,16 +24,14 @@ const LessonTemplate: React.FC<LessonTemplateProps> = ({
   section,
   lesson,
 }) => {
-  const {title, body} = lesson
+  const {title, body, slug} = lesson
   const {lessons} = section
-  const currentLessonIndex = indexOf(
-    lessons,
-    find(lessons, {slug: lesson.slug}),
-  )
+  const currentLessonIndex = indexOf(lessons, find(lessons, {slug}))
   const router = useRouter()
 
-  const {completedLessons, toggleLessonComplete} = useProgress()
-  const isCurrentLessonCompleted = completedLessons?.includes(lesson.slug)
+  const {progress, toggleLessonComplete} = useProgress()
+  const currentLessonProgress = find(progress, {lessonSlug: slug})
+  const isCurrentLessonCompleted = !isEmpty(currentLessonProgress?.completedAt)
 
   const ProgressToggle = () => {
     const [enabled, setEnabled] = React.useState(isCurrentLessonCompleted)
@@ -48,13 +48,16 @@ const LessonTemplate: React.FC<LessonTemplateProps> = ({
           checked={enabled}
           onChange={() => {
             setEnabled(!enabled)
-            toggleLessonComplete(lesson.slug).catch(() => {
+            toggleLessonComplete(slug).catch(() => {
               setEnabled(isCurrentLessonCompleted)
             })
           }}
-          className={classNames(
-            enabled ? 'bg-indigo-600' : 'bg-gray-200',
-            'relative inline-flex flex-shrink-0 h-6 w-11 border-2 border-transparent rounded-full cursor-pointer transition-colors ease-in-out duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500',
+          className={cx(
+            'relative inline-flex flex-shrink-0 h-6 w-11 border-2 border-transparent rounded-full cursor-pointer transition-colors ease-in-out duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500',
+            {
+              'bg-green-600': enabled,
+              'bg-gray-200': !enabled,
+            },
           )}
         >
           <span

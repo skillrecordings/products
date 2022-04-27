@@ -1,16 +1,19 @@
-import {first, get} from 'lodash'
 import React from 'react'
-import {getProgressForUser, setProgressForUser} from 'utils/progress'
+import {
+  getLessonProgressForUser,
+  toggleLessonProgressForUser,
+} from 'utils/progress'
+import {LessonProgress} from '@prisma/client'
 
 type ProgressContextType = {
-  completedLessons: string[]
-  isLoading: boolean
+  progress: LessonProgress[]
+  isLoadingProgress: boolean
   toggleLessonComplete: (slug: string) => Promise<any>
 }
 
 const defaultProgressContext: ProgressContextType = {
-  completedLessons: [],
-  isLoading: true,
+  progress: [],
+  isLoadingProgress: true,
   toggleLessonComplete: async () => {},
 }
 
@@ -21,13 +24,14 @@ export function useProgress() {
 export const ProgressContext = React.createContext(defaultProgressContext)
 
 export const ProgressProvider: React.FC = ({children}) => {
-  const [loadingProgress, setLoadingProgress] = React.useState<boolean>(true)
+  const [isLoadingProgress, setIsLoadingProgress] =
+    React.useState<boolean>(true)
   const [progress, setProgress] = React.useState<any>()
 
   const fetchProgress = React.useCallback(async () => {
-    const progress = await getProgressForUser()
-    setProgress(get(first(progress), 'completed'))
-    setLoadingProgress(false)
+    const progress = await getLessonProgressForUser()
+    setProgress(progress)
+    setIsLoadingProgress(false)
   }, [])
 
   React.useEffect(() => {
@@ -37,18 +41,10 @@ export const ProgressProvider: React.FC = ({children}) => {
   return (
     <ProgressContext.Provider
       value={{
-        completedLessons: progress,
-        isLoading: loadingProgress,
-        toggleLessonComplete: (slug: string) => {
-          return new Promise((resolve) => {
-            setProgressForUser({slug}).then(() => {
-              fetchProgress()
-                .catch(console.error)
-                .then(() => {
-                  resolve(true)
-                })
-            })
-          })
+        progress: progress,
+        isLoadingProgress,
+        toggleLessonComplete: async (slug: string) => {
+          await toggleLessonProgressForUser({slug}).then(() => fetchProgress())
         },
       }}
     >
