@@ -76,10 +76,12 @@ const PortableTextComponents: PortableTextComponents = {
       )
     },
     bodyImage: ({value}: BodyImageProps) => {
-      const {url, alt, caption} = value
+      const {alt, caption, image} = value
+      if (!image) return <figure>⚠️ missing image</figure>
+      const {url, width, height} = image
       return (
-        <figure className="relative w-full aspect-w-8 aspect-h-5">
-          <Image src={url} alt={alt} layout="fill" objectFit="contain" />
+        <figure>
+          <Image src={url} alt={alt} width={width} height={height} />
           {caption && <figcaption>{caption}</figcaption>}
         </figure>
       )
@@ -136,9 +138,13 @@ type BodyVideoProps = {
 
 type BodyImageProps = {
   value: {
-    url: string
     alt: string
     caption: PortableTextBlock | ArbitraryTypedObject
+    image: {
+      url: string
+      width: number
+      height: number
+    }
   }
 }
 

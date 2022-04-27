@@ -30,6 +30,7 @@
     "react-hls-player": "^3.0.7",
     "react-icons": "^4.3.1",
     "sanity-mux-player": "^0.0.27",
+    "sanity-plugin-cloudinary": "^0.2.2",
     "sanity-plugin-markdown": "^2.0.2",
     "sanity-plugin-mux-input": "^1.1.1",
     "sanity-plugin-order-documents": "^0.0.22",
