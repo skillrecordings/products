@@ -3,7 +3,6 @@ import {Context, defaultContext} from './context'
 import {v4} from 'uuid'
 import {SpanContext} from '@vercel/tracing-js'
 import {tracer} from '../utils/honeycomb-tracer'
-import {Decimal} from '@prisma/client/runtime'
 
 type SDKOptions = {ctx?: Context; spanContext?: SpanContext}
 
@@ -15,6 +14,54 @@ export function getSdk(
   {ctx = defaultContext, spanContext}: SDKOptions = {ctx: defaultContext},
 ) {
   return {
+    async toggleLessonProgressForUser({
+      userId,
+      lessonSlug,
+    }: {
+      userId: string
+      lessonSlug: string
+    }) {
+      const span = startSpan('toggleLessonProgressForUser', spanContext)
+      let lessonProgress = await ctx.prisma.lessonProgress.findFirst({
+        where: {
+          userId,
+          lessonSlug,
+        },
+      })
+
+      const now = new Date()
+
+      if (lessonProgress) {
+        if (lessonProgress.completedAt) {
+          lessonProgress = await ctx.prisma.lessonProgress.update({
+            where: {id: lessonProgress.id},
+            data: {
+              completedAt: null,
+              updatedAt: now,
+            },
+          })
+        } else {
+          lessonProgress = await ctx.prisma.lessonProgress.update({
+            where: {id: lessonProgress.id},
+            data: {
+              completedAt: now,
+              updatedAt: now,
+            },
+          })
+        }
+      } else {
+        lessonProgress = await ctx.prisma.lessonProgress.create({
+          data: {
+            userId,
+            lessonSlug,
+            completedAt: now,
+            updatedAt: now,
+          },
+        })
+      }
+      span.finish()
+      return lessonProgress
+    },
     async getPurchase(args: Prisma.PurchaseFindUniqueArgs) {
       return await ctx.prisma.purchase.findUnique(args)
     },
