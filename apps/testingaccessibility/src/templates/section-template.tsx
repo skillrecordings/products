@@ -5,6 +5,9 @@ import {SanityDocument} from '@sanity/client'
 import PortableTextComponents from 'components/portable-text'
 import Layout from 'components/app/layout'
 import Link from 'next/link'
+import {getSectionProgressForUser} from 'utils/progress'
+import {useProgress} from 'context/progress-context'
+import {find} from 'lodash'
 
 type SectionTemplateProps = {
   section: SanityDocument
@@ -13,6 +16,10 @@ type SectionTemplateProps = {
 
 const SectionTemplate: React.FC<SectionTemplateProps> = ({section, module}) => {
   const {slug: sectionSlug, title, body, lessons} = section
+  const {progress} = useProgress()
+  const {completedLessons, isCompleted, percentCompleted} =
+    getSectionProgressForUser(progress, lessons)
+
   return (
     <Layout>
       <div className="container grid grid-cols-12">
@@ -37,7 +44,10 @@ const SectionTemplate: React.FC<SectionTemplateProps> = ({section, module}) => {
             </ol>
           </nav>
           <article>
-            <h1 className="text-4xl font-bold pb-5">{title}</h1>
+            <h1 className="text-4xl font-bold pb-5">
+              {isCompleted && '✅'}
+              {title}
+            </h1>
             <div className="prose max-w-none">
               <VideoProvider
                 services={{loadResource: () => {}, loadViewer: () => {}}}
@@ -57,6 +67,7 @@ const SectionTemplate: React.FC<SectionTemplateProps> = ({section, module}) => {
               <ol className="list-decimal pl-4">
                 {lessons.map((lesson: SanityDocument) => {
                   const {title, slug} = lesson
+                  const isCompleted = find(completedLessons, {lessonSlug: slug})
                   return (
                     <li className="py-1" key={slug}>
                       <Link
@@ -70,7 +81,9 @@ const SectionTemplate: React.FC<SectionTemplateProps> = ({section, module}) => {
                         }}
                         passHref
                       >
-                        <a className="underline">{title}</a>
+                        <a className="underline">
+                          {isCompleted && '✅'} {title}
+                        </a>
                       </Link>
                     </li>
                   )

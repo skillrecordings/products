@@ -1,10 +1,10 @@
 import {NextApiRequest, NextApiResponse} from 'next'
 import {getDecodedToken} from 'utils/get-decoded-token'
-import prisma from '../../../db'
-import {serialize} from '../../../utils/prisma-next-serializer'
+import prisma from 'db'
+import {serialize} from 'utils/prisma-next-serializer'
 import {withSentry} from '@sentry/nextjs'
 import {setupHttpTracing} from '@vercel/tracing-js'
-import {tracer} from '../../../utils/honeycomb-tracer'
+import {tracer} from 'utils/honeycomb-tracer'
 
 const getProgress = async (req: NextApiRequest, res: NextApiResponse) => {
   setupHttpTracing({

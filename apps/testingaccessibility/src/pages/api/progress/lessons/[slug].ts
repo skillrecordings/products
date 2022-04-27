@@ -1,15 +1,18 @@
 import {NextApiRequest, NextApiResponse} from 'next'
 import {getDecodedToken} from 'utils/get-decoded-token'
-import {serialize} from '../../../../utils/prisma-next-serializer'
-import {getSdk} from '../../../../lib/prisma-api'
+import {serialize} from 'utils/prisma-next-serializer'
+import {getSdk} from 'lib/prisma-api'
 import {withSentry} from '@sentry/nextjs'
 import {setupHttpTracing} from '@vercel/tracing-js'
-import {tracer} from '../../../../utils/honeycomb-tracer'
-import {defaultContext} from '../../../../lib/context'
+import {tracer} from 'utils/honeycomb-tracer'
+import {defaultContext} from 'lib/context'
 
-const setProgress = async (req: NextApiRequest, res: NextApiResponse) => {
+const toggleLessonProgressForUser = async (
+  req: NextApiRequest,
+  res: NextApiResponse,
+) => {
   const spanContext = setupHttpTracing({
-    name: setProgress.name,
+    name: toggleLessonProgressForUser.name,
     tracer,
     req,
     res,
@@ -31,11 +34,10 @@ const setProgress = async (req: NextApiRequest, res: NextApiResponse) => {
         throw new Error('lesson slug is not optional')
       }
 
-      const lessonProgress = toggleLessonProgressForUser({
+      const lessonProgress = await toggleLessonProgressForUser({
         userId: sessionToken.sub,
         lessonSlug: slug as string,
       })
-
       res.status(200).json(serialize(lessonProgress))
     } catch (error: any) {
       console.error(error.message)
@@ -44,7 +46,7 @@ const setProgress = async (req: NextApiRequest, res: NextApiResponse) => {
   }
 }
 
-export default withSentry(setProgress)
+export default withSentry(toggleLessonProgressForUser)
 
 export const config = {
   api: {
