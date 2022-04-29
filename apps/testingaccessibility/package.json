@@ -38,6 +38,7 @@
     "@reach/skip-nav": "^0.16.0",
     "@sanity/block-content-to-react": "^3.0.0",
     "@sanity/client": "^3.1.0",
+    "@sanity/webhook": "^1.0.2",
     "@sentry/nextjs": "^6.19.3",
     "@skillrecordings/analytics": "workspace:*",
     "@skillrecordings/auth": "workspace:*",
