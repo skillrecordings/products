@@ -10,6 +10,7 @@ import last from 'lodash/last'
 import get from 'lodash/get'
 import Link from 'next/link'
 import groq from 'groq'
+import Search from 'components/search/autocomplete'
 
 const productQuery = groq`*[_type == "product" && productId == $productId][0]{
   title,
@@ -62,6 +63,7 @@ const Learn: React.FC<{purchases: Purchase[]; product: SanityDocument}> = ({
   const {title, modules} = product
   return (
     <Layout className="p-5">
+      <Search product={product} />
       <h1 className="font-bold text-lg">{title}</h1>
       {modules.map((module: SanityDocument) => (
         <ol className="list-decimal px-5" key={module.slug}>
