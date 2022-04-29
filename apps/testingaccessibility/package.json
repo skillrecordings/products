@@ -16,6 +16,12 @@
     "build:docker": "cd ../../ && docker build . -f apps/testingaccessibility/Dockerfile -t my-awesome-app:latest --build-arg SCOPE=testingaccessibility"
   },
   "dependencies": {
+    "@algolia/autocomplete-core": "^1.6.2",
+    "@algolia/autocomplete-js": "^1.6.2",
+    "@algolia/autocomplete-plugin-tags": "^1.6.2",
+    "@algolia/autocomplete-preset-algolia": "^1.6.2",
+    "@algolia/autocomplete-theme-classic": "^1.6.2",
+    "@algolia/client-search": "^4.13.0",
     "@asbjorn/eslint-plugin-groq": "^2.0.0",
     "@headlessui/react": "^1.5.0",
     "@heroicons/react": "^1.0.6",
@@ -51,6 +57,7 @@
     "@types/lodash": "^4.14.179",
     "@vercel/tracing-js": "^0.5.1",
     "@xstate/react": "^2.0.1",
+    "algoliasearch": "^4.13.0",
     "autoprefixer": "^10.4.2",
     "axios": "^0.26.0",
     "classnames": "^2.3.1",
@@ -99,6 +106,7 @@
     "remark-code-titles": "^0.1.2",
     "remark-footnotes": "^4.0.1",
     "remark-slug": "^7.0.1",
+    "sanity-algolia": "^1.0.2",
     "short-uuid": "^4.2.0",
     "shortid": "^2.2.16",
     "simplebar-react": "^2.3.6",

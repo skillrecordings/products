@@ -8,6 +8,7 @@
 @import './icons.css';
 @import '@skillrecordings/quiz/dist/styles/index.css';
 @import '@skillrecordings/player/dist/skillrecordings-player.css';
+@import '@algolia/autocomplete-theme-classic/dist/theme.css';
 
 body {
   @apply text-black;
