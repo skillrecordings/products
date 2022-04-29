@@ -1818,6 +1818,7 @@ importers:
       '@reach/skip-nav': ^0.16.0
       '@sanity/block-content-to-react': ^3.0.0
       '@sanity/client': ^3.1.0
+      '@sanity/webhook': ^1.0.2
       '@sentry/nextjs': ^6.19.3
       '@skillrecordings/analytics': workspace:*
       '@skillrecordings/auth': workspace:*
@@ -1961,6 +1962,7 @@ importers:
       '@reach/skip-nav': 0.16.0_react-dom@17.0.2+react@17.0.2
       '@sanity/block-content-to-react': 3.0.0_react@17.0.2
       '@sanity/client': 3.1.0
+      '@sanity/webhook': 1.0.2
       '@sentry/nextjs': 6.19.3_next@12.1.1+react@17.0.2
       '@skillrecordings/analytics': link:../../packages/analytics
       '@skillrecordings/auth': link:../../packages/auth
@@ -9006,6 +9008,14 @@ packages:
     engines: {node: '>=0.10.0'}
     dev: false
 
+  /@sanity/webhook/1.0.2:
+    resolution: {integrity: sha512-WV31Y8XNKOULoYTgKe3BF5ErVDD8XlS81EcRjj0kNOKuPrVfHDzxwymop4HNTGt6vxrVnTTAfR/XoWL3jFeC5g==}
+    engines: {node: '>=12.0.0'}
+    dependencies:
+      base64url: 3.0.1
+      tslib: 2.3.1
+    dev: false
+
   /@sentry/browser/6.19.3:
     resolution: {integrity: sha512-E8UA6IN8z9hL6aGzOHUzqgNZiBwARkA89i8ncKB9QU1/+jl7598ZLziN4+uyPeZiRquEz8Ub7Ve1eacs1u+fbw==}
     engines: {node: '>=6'}
@@ -11508,7 +11518,7 @@ packages:
   /axios/0.26.0:
     resolution: {integrity: sha512-lKoGLMYtHvFrPVt3r+RBMp9nh34N0M8zEfCWqdWZx6phynIEhQqAdydpyBAAG211zlhX9Rgu08cOamy6XjE5Og==}
     dependencies:
-      follow-redirects: 1.14.9_debug@2.6.9
+      follow-redirects: 1.14.9
     transitivePeerDependencies:
       - debug
     dev: false
@@ -12069,6 +12079,11 @@ packages:
 
   /base64-js/1.5.1:
     resolution: {integrity: sha512-AKpaYlHn8t4SVbOHCy+b5+KKgvR4vrsD8vbvrbiQJps7fKDTkjkDry6ji0rUJjC0kzbNePLwzxq8iypo41qeWA==}
+
+  /base64url/3.0.1:
+    resolution: {integrity: sha512-ir1UPr3dkwexU7FdV8qBBbNDRUhMmIekYMFZfi+C/sLNnRESKPl23nB9b2pltqfOQNnGzsDdId90AEtG5tCx4A==}
+    engines: {node: '>=6.0.0'}
+    dev: false
 
   /bcrypt-pbkdf/1.0.2:
     resolution: {integrity: sha1-pDAdOJtqQ/m2f/PKEaP2Y342Dp4=}

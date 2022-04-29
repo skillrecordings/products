@@ -5,7 +5,9 @@ import {sanityAlgolia} from 'utils/algolia'
 import {setupHttpTracing} from '@vercel/tracing-js'
 import {withSentry} from '@sentry/nextjs'
 import {tracer} from 'utils/honeycomb-tracer'
-import get from 'lodash/get'
+import {isValidRequest} from '@sanity/webhook'
+
+const secret = process.env.NEXT_PUBLIC_ALGOLIA_API_WRITE_KEY as string
 
 const addRecords = async (req: NextApiRequest, res: NextApiResponse) => {
   setupHttpTracing({
@@ -14,16 +16,16 @@ const addRecords = async (req: NextApiRequest, res: NextApiResponse) => {
     req,
     res,
   })
-  // Basic security to prevent others from hitting this API
-  const key = get(req.query, 'key')
-  if (key !== process.env.NEXT_PUBLIC_ALGOLIA_API_WRITE_KEY) {
-    res.status(401).send('Unauthorized')
-  } else {
-    await sanityAlgolia
-      .webhookSync(sanityClient as SanityClient, req.body)
-      .then(() => res.status(200).send('Success!'))
-      .catch((err: any) => res.status(500).send(`Something went wrong! ${err}`))
+
+  if (!isValidRequest(req, secret)) {
+    res.status(401).json({success: false, message: 'Invalid signature'})
+    return
   }
+
+  await sanityAlgolia
+    .webhookSync(sanityClient as SanityClient, req.body)
+    .then(() => res.status(200).send('Success!'))
+    .catch((err: any) => res.status(500).send(`Something went wrong! ${err}`))
 }
 
 export default withSentry(addRecords)
