@@ -2,14 +2,44 @@ import {SanityDocument} from '@sanity/client'
 import find from 'lodash/find'
 import isEmpty from 'lodash/isEmpty'
 
+type Module = {
+  slug: string
+  sections: Section[]
+} & SanityDocument
+
+type Section = {
+  slug: string
+  lessons: Lesson[]
+} & SanityDocument
+
+type Lesson = {
+  slug: string
+} & SanityDocument
+
+type GetLessonPathProps =
+  | {
+      module: string
+      section: string
+      lesson: string
+    }
+  | {}
+
+type GetSectionPathProps =
+  | {
+      module: string
+      section: string
+    }
+  | {}
+
 export const getPathForLesson = (
   lessonSlug: string,
-  modules: SanityDocument[],
-) => {
+  modules: Module[],
+): GetLessonPathProps => {
   let path = {}
-  modules?.map((module: any) => {
-    module.sections.forEach((section: any) => {
-      if (!isEmpty(find(section.lessons, {slug: lessonSlug}))) {
+  modules?.map((module: Module) => {
+    module.sections.forEach((section: Section) => {
+      const currentLessonInSections = find(section.lessons, {slug: lessonSlug})
+      if (!isEmpty(currentLessonInSections)) {
         path = {
           module: module.slug,
           section: section.slug,
@@ -20,13 +50,15 @@ export const getPathForLesson = (
   })
   return path
 }
+
 export const getPathForSection = (
   sectionSlug: string,
-  modules: SanityDocument[],
-) => {
+  modules: Module[],
+): GetSectionPathProps => {
   let path = {}
-  modules?.forEach((module: any) => {
-    if (!isEmpty(find(module?.sections, {slug: sectionSlug}))) {
+  modules?.forEach((module: Module) => {
+    const currentSectionInModule = find(module?.sections, {slug: sectionSlug})
+    if (!isEmpty(currentSectionInModule)) {
       path = {
         module: module.slug,
         section: sectionSlug,
