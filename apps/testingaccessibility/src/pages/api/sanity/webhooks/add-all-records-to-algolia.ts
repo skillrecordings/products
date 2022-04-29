@@ -8,12 +8,12 @@ import get from 'lodash/get'
 
 const secret = process.env.NEXT_PUBLIC_ALGOLIA_API_WRITE_KEY as string
 
-export const addAllRecords = async (
+export const addAllRecordsToAlgolia = async (
   req: NextApiRequest,
   res: NextApiResponse,
 ) => {
   setupHttpTracing({
-    name: addAllRecords.name,
+    name: addAllRecordsToAlgolia.name,
     tracer,
     req,
     res,
@@ -21,7 +21,7 @@ export const addAllRecords = async (
   // Basic security to prevent others from hitting this API
   const s = get(req.query, 's')
   if (s !== secret) {
-    res.status(401).json({success: false, message: 'Invalid signature'})
+    res.status(403).json({success: false, message: 'Invalid signature'})
     return
   }
 
@@ -39,9 +39,9 @@ export const addAllRecords = async (
     .then(() => {
       res.status(200).send('Success!')
     })
-    .catch((err) => {
-      res.status(500).send(`Something went wrong! ${err}`)
+    .catch((error) => {
+      res.status(500).json({success: false, message: error})
     })
 }
 
-export default withSentry(addAllRecords)
+export default withSentry(addAllRecordsToAlgolia)
