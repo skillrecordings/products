@@ -4,6 +4,7 @@ import {
   toggleLessonProgressForUser,
 } from 'utils/progress'
 import {LessonProgress} from '@prisma/client'
+import {useSession} from 'next-auth/react'
 
 type ProgressContextType = {
   progress: LessonProgress[]
@@ -26,17 +27,25 @@ export const ProgressContext = React.createContext(defaultProgressContext)
 export const ProgressProvider: React.FC = ({children}) => {
   const [isLoadingProgress, setIsLoadingProgress] =
     React.useState<boolean>(true)
-  const [progress, setProgress] = React.useState<any>()
+  const [progress, setProgress] = React.useState<LessonProgress[]>([])
+  const {status} = useSession()
 
   const fetchProgress = React.useCallback(async () => {
-    const progress = await getLessonProgressForUser()
-    setProgress(progress)
-    setIsLoadingProgress(false)
-  }, [])
+    if (status === 'authenticated') {
+      const progress = await getLessonProgressForUser()
+      setProgress(progress)
+    }
+
+    if (status !== 'loading') {
+      setIsLoadingProgress(false)
+    }
+  }, [status])
 
   React.useEffect(() => {
-    fetchProgress().catch(console.error)
-  }, [fetchProgress])
+    if (status === 'authenticated') {
+      fetchProgress().catch(console.error)
+    }
+  }, [fetchProgress, status])
 
   return (
     <ProgressContext.Provider
