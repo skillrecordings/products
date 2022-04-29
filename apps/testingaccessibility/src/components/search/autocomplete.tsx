@@ -5,7 +5,8 @@ import {
   parseAlgoliaHitHighlight,
   getAlgoliaResults,
 } from '@algolia/autocomplete-preset-algolia'
-import {highlight, searchClient} from 'utils/algolia'
+import {searchClient} from 'utils/algolia'
+import {highlight} from 'components/search/highlight'
 import {useAutocomplete} from 'hooks'
 import type {Hit} from '@algolia/client-search'
 import {useRouter} from 'next/router'
