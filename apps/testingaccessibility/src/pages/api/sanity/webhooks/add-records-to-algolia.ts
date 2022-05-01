@@ -29,7 +29,11 @@ const addRecordsToAlgolia = async (
       console.log(req.body)
       console.log(ids)
 
-      await sanityAlgolia.webhookSync(sanityClient as any, ids)
+      await sanityAlgolia
+        .webhookSync(sanityClient as any, {ids})
+        .catch((e: any) => {
+          throw e
+        })
 
       res.status(200).send('Success!')
     }
