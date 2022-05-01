@@ -30,9 +30,15 @@ const addRecordsToAlgolia = async (
   } catch (error) {
     console.error(error)
     if (error instanceof Error) {
-      res.status(500).json({success: false, message: error.message})
+      res
+        .status(500)
+        .json({success: false, message: error.message, body: req.body})
     } else {
-      res.status(500).json({success: false, message: 'unknown error occurred'})
+      res.status(500).json({
+        success: false,
+        message: 'unknown error occurred',
+        body: req.body,
+      })
     }
   }
 }
