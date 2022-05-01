@@ -35,7 +35,7 @@ export const addAllRecordsToAlgolia = async (
     }
   } catch (error) {
     console.error(error)
-    res.status(500).json({success: false, message: error.message})
+    res.status(500).json({success: false, message: error?.message})
   }
 }
 
