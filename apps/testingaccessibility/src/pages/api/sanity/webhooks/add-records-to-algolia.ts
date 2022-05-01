@@ -6,8 +6,6 @@ import {withSentry} from '@sentry/nextjs'
 import {tracer} from 'utils/honeycomb-tracer'
 import {isValidRequest} from '@sanity/webhook'
 
-const secret = process.env.NEXT_PUBLIC_ALGOLIA_API_WRITE_KEY
-
 const addRecordsToAlgolia = async (
   req: NextApiRequest,
   res: NextApiResponse,
@@ -20,7 +18,7 @@ const addRecordsToAlgolia = async (
   })
 
   try {
-    if (!isValidRequest(req, secret)) {
+    if (!isValidRequest(req, process.env.SANITY_WEBHOOK_SECRET)) {
       res.status(403).json({success: false, message: 'Invalid signature'})
     } else {
       await sanityAlgolia.webhookSync(sanityClient as any, req.body)
