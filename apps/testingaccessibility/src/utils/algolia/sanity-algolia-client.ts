@@ -1,5 +1,6 @@
 import algoliaSearchClientCreator from 'algoliasearch'
 import sanityAlgoliaIndexer from 'sanity-algolia'
+import isNull from 'lodash/isNull'
 
 const algoliaAppId = process.env.NEXT_PUBLIC_ALGOLIA_APPLICATION_ID
 const algoliaApiWriteKey = process.env.ALGOLIA_API_WRITE_KEY
@@ -61,7 +62,7 @@ export const sanityAlgolia: any = sanityAlgoliaIndexer(
               title: lesson.title,
               path: lesson.slug.current,
               type: 'lesson',
-              excerpt: toPlainText(lesson.body),
+              excerpt: isNull(lesson.body) ? '' : toPlainText(lesson.body),
             }
           }),
         }
@@ -70,7 +71,7 @@ export const sanityAlgolia: any = sanityAlgoliaIndexer(
         return {
           title: document.title,
           path: document.slug,
-          excerpt: toPlainText(document.body),
+          excerpt: isNull(document.body) ? '' : toPlainText(document.body),
           tags: document?.tags?.map((tag: any) => {
             return {
               title: tag.title,
@@ -86,6 +87,9 @@ export const sanityAlgolia: any = sanityAlgoliaIndexer(
 )
 
 function toPlainText(blocks = []): any {
+  if (!blocks) {
+    return ''
+  }
   return (
     blocks
       // loop through each block
