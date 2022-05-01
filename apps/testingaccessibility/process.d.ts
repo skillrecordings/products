@@ -11,6 +11,8 @@ declare namespace NodeJS {
     POSTMARK_KEY: string
     STRIPE_SECRET_TOKEN: string
     STRIPE_WEBHOOK_SECRET: string
-    NEXT_PUBLIC_ALGOLIA_API_WRITE_KEY: string
+    ALGOLIA_API_WRITE_KEY: string
+    SANITY_WEBHOOK_SECRET: string
+    NEXT_PUBLIC_ALGOLIA_APPLICATION_ID: string
   }
 }

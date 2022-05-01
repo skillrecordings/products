@@ -1,19 +1,22 @@
-import algoliasearch from 'algoliasearch'
-import indexer, {flattenBlocks} from 'sanity-algolia'
+import algoliaSearchClientCreator from 'algoliasearch'
+import sanityAlgoliaIndexer from 'sanity-algolia'
 
-const appId = process.env.NEXT_PUBLIC_ALGOLIA_APPLICATION_ID as string
-const apiKey = process.env.NEXT_PUBLIC_ALGOLIA_API_WRITE_KEY as string
+const algoliaAppId = process.env.NEXT_PUBLIC_ALGOLIA_APPLICATION_ID
+const algoliaApiWriteKey = process.env.ALGOLIA_API_WRITE_KEY
 
-export const algolia = algoliasearch(appId, apiKey)
+export const algoliaSearchClient = algoliaSearchClientCreator(
+  algoliaAppId,
+  algoliaApiWriteKey,
+)
 
-const index = algolia.initIndex('lessons')
+const index = algoliaSearchClient.initIndex('lessons')
 index.setSettings({
   // attributeForDistinct: 'title',
   attributesForFaceting: ['type'],
   distinct: false,
 })
 
-export const sanityAlgolia: any = indexer(
+export const sanityAlgolia: any = sanityAlgoliaIndexer(
   {
     lesson: {
       index,
