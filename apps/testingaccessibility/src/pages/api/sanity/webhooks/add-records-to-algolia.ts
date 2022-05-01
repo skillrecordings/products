@@ -21,9 +21,15 @@ const addRecordsToAlgolia = async (
     if (!isValidRequest(req, process.env.SANITY_WEBHOOK_SECRET)) {
       res.status(403).json({success: false, message: 'Invalid signature'})
     } else {
+      const ids = {
+        created: req.body.ids.created.filter((id: any) => !!id),
+        updated: req.body.ids.updated.filter((id: any) => !!id),
+        deleted: req.body.ids.deleted.filter((id: any) => !!id),
+      }
       console.log(req.body)
+      console.log(ids)
 
-      await sanityAlgolia.webhookSync(sanityClient as any, req.body)
+      await sanityAlgolia.webhookSync(sanityClient as any, ids)
 
       res.status(200).send('Success!')
     }
