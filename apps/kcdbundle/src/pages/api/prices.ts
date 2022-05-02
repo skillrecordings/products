@@ -31,8 +31,18 @@ const pricesHandler = async (req: NextApiRequest, res: NextApiResponse) => {
       ).then((response) => response.json())
       res.status(200).json(prices)
     } catch (error) {
-      console.log(error)
-      res.status(500).end(error.message)
+      console.error(error)
+      if (error instanceof Error) {
+        res
+          .status(500)
+          .json({success: false, message: error.message, body: req.body})
+      } else {
+        res.status(500).json({
+          success: false,
+          message: 'unknown error occurred',
+          body: req.body,
+        })
+      }
     }
   } else {
     console.error('non-GET request made')
