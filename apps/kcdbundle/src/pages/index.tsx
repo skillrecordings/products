@@ -12,7 +12,11 @@ import {Element} from 'react-scroll'
 
 const Home = () => {
   return (
-    <Layout className="bg-white-50">
+    <Layout
+      className="bg-white-50"
+      meta={{ogImage: {url: 'https://kcdbundle.com/card-sale-40@2x.png'}}} // 40% off
+      // meta={{ogImage: {url: 'https://kcdbundle.com/card-sale-20@2x.png'}}} // 20% off
+    >
       <Header />
       <main>
         <article className="prose sm:prose-lg mx-auto lg:pt-24 sm:pt-16 pt-8 px-5">
