@@ -20,7 +20,7 @@ const Purchase = () => {
         return data
       })
       .catch((err) => console.debug(err.message))
-    setState({...first(prices), full_price: 83700})
+    setState({...first(prices), full_price: 93100})
   }, [])
 
   React.useEffect(() => {
