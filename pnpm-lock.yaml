@@ -1072,7 +1072,7 @@ importers:
       babel-jest: ^27.3.1
       client-oauth2: ^4.3.3
       commander: ^8.3.0
-      cookie: ^0.4.1
+      cookie: ^0.4.2
       date-fns: ^2.25.0
       dotenv-flow: ^3.2.0
       eslint: ^8.2.0
@@ -1143,7 +1143,7 @@ importers:
       autoprefixer: 10.4.0_postcss@8.3.11
       axios: 0.24.0
       client-oauth2: 4.3.3
-      cookie: 0.4.1
+      cookie: 0.4.2
       date-fns: 2.25.0
       dotenv-flow: 3.2.0
       focus-visible: 5.2.0
@@ -9246,7 +9246,7 @@ packages:
       lodash.castarray: 4.4.0
       lodash.isplainobject: 4.0.6
       lodash.merge: 4.6.2
-      tailwindcss: 3.0.23_autoprefixer@10.4.2
+      tailwindcss: 3.0.23_autoprefixer@10.4.4
 
   /@tailwindcss/typography/0.5.2_tailwindcss@3.0.24:
     resolution: {integrity: sha512-coq8DBABRPFcVhVIk6IbKyyHUt7YTEC/C992tatFB+yEx5WGBQrCgsSFjxHUr8AWXphWckadVJbominEduYBqw==}
@@ -16232,18 +16232,6 @@ packages:
         optional: true
     dev: false
 
-  /follow-redirects/1.14.9_debug@2.6.9:
-    resolution: {integrity: sha512-MQDfihBQYMcyy5dhRDJUHcw7lb2Pv/TuE6xP1vyraLukNDHKbDxDNaOE3NbCAdKQApno+GPRyo1YAp89yCjK4w==}
-    engines: {node: '>=4.0'}
-    peerDependencies:
-      debug: '*'
-    peerDependenciesMeta:
-      debug:
-        optional: true
-    dependencies:
-      debug: 2.6.9
-    dev: false
-
   /for-in/1.0.2:
     resolution: {integrity: sha1-gQaNKVqBQuwKxybG4iAMMPttXoA=}
     engines: {node: '>=0.10.0'}
@@ -16571,7 +16559,7 @@ packages:
       create-error-class: 3.0.2
       debug: 2.6.9
       decompress-response: 3.3.0
-      follow-redirects: 1.14.9_debug@2.6.9
+      follow-redirects: 1.14.9
       form-urlencoded: 2.0.9
       in-publish: 2.0.1
       into-stream: 3.1.0
@@ -16596,7 +16584,7 @@ packages:
       create-error-class: 3.0.2
       debug: 2.6.9
       decompress-response: 6.0.0
-      follow-redirects: 1.14.9_debug@2.6.9
+      follow-redirects: 1.14.9
       form-urlencoded: 2.0.9
       into-stream: 3.1.0
       is-plain-object: 2.0.4
