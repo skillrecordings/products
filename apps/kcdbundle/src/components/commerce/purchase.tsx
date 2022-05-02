@@ -8,24 +8,24 @@ import get from 'lodash/get'
 import Spinner from '@skillrecordings/react/dist/components/spinner'
 
 const Purchase = () => {
-  const [state, setState] = React.useState<any>()
+  const [state] = React.useState<any>({price: 55800, full_price: 93100})
 
   const price = get(state, 'price')
   const fullPrice = get(state, 'full_price')
 
-  const fetchPrice = React.useCallback(async () => {
-    const prices = await axios
-      .get(`/api/stripe/prices?id=${process.env.NEXT_PUBLIC_STRIPE_PRICE_ID}`)
-      .then(({data}) => {
-        return data
-      })
-      .catch((err) => console.debug(err.message))
-    setState({...first(prices), full_price: 93100})
-  }, [])
+  // const fetchPrice = React.useCallback(async () => {
+  //   const prices = await axios
+  //     .get(`/api/stripe/prices?id=${process.env.NEXT_PUBLIC_STRIPE_PRICE_ID}`)
+  //     .then(({data}) => {
+  //       return data
+  //     })
+  //     .catch((err) => console.debug(err.message))
+  //   setState({...first(prices), price: 55800, full_price: 93100})
+  // }, [])
 
-  React.useEffect(() => {
-    fetchPrice()
-  }, [fetchPrice])
+  // React.useEffect(() => {
+  //   fetchPrice()
+  // }, [fetchPrice])
 
   const centsToDollars = (cents: number) => {
     return Number((cents / 100).toFixed())
