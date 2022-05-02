@@ -14,6 +14,7 @@ const Home = () => {
   return (
     <Layout
       className="bg-white-50"
+      // spring sale
       meta={{ogImage: {url: 'https://kcdbundle.com/card-sale-40@2x.png'}}} // 40% off
       // meta={{ogImage: {url: 'https://kcdbundle.com/card-sale-20@2x.png'}}} // 20% off
     >
