@@ -1,36 +1,44 @@
 import * as React from 'react'
 import Image from 'next/image'
 import EpicPlusTestingImage from '../../../public/images/pricing@2x.png'
-import ParityCouponMessage from './parity-coupon-message'
 import Link from 'next/link'
+import axios from '@skillrecordings/axios'
+import first from 'lodash/first'
+import get from 'lodash/get'
+import Spinner from '@skillrecordings/react/dist/components/spinner'
 
 const Purchase = () => {
-  const [state] = React.useState<any>({
-    price: 837,
-    fullPrice: 931,
-    quantity: 1,
-    bulk: false,
-  })
+  const [state, setState] = React.useState<any>()
 
-  const {price, fullPrice, quantity} = state
-  const [isPPP, setIsPPP] = React.useState<boolean>(false)
-  const QuantitySelect = () => {
-    return (
-      <div className="flex items-center">
-        <label htmlFor="quantity" className="pr-2 text-sm">
-          Quantity
-        </label>
-        <input
-          onChange={() => {}}
-          value={quantity}
-          type="number"
-          min={1}
-          max={1000}
-          id="quantity"
-          className="bg-gray-100 rounded-md border-none max-w-[60px] py-1.5"
-        />
-      </div>
-    )
+  const price = get(state, 'price')
+  const fullPrice = get(state, 'full_price')
+
+  const fetchPrice = React.useCallback(async () => {
+    const prices = await axios
+      .get(`/api/stripe/prices?id=${process.env.NEXT_PUBLIC_STRIPE_PRICE_ID}`)
+      .then(({data}) => {
+        return data
+      })
+      .catch((err) => console.debug(err.message))
+    setState({...first(prices), full_price: 83700})
+  }, [])
+
+  React.useEffect(() => {
+    fetchPrice()
+  }, [fetchPrice])
+
+  const centsToDollars = (cents: number) => {
+    return Number((cents / 100).toFixed())
+  }
+
+  const displayPrice = centsToDollars(price)
+  const displayFullPrice = centsToDollars(fullPrice)
+
+  const displayPercentOff = () => {
+    if (!state) return
+    const percentOff: number =
+      ((displayFullPrice - displayPrice) / displayFullPrice) * 100
+    return Number(percentOff.toFixed())
   }
 
   const DisplayPrice = () => {
@@ -43,20 +51,34 @@ const Purchase = () => {
           <span className="font-bold text-lg">$</span>
         </div>
         <span className="text-5xl font-bold tabular-nums">
-          {price ? price : '-—-'}
+          {displayPrice ? displayPrice : <Spinner />}
         </span>
       </div>
     )
   }
 
   const FullPrice = () => {
+    if (price === fullPrice)
+      // kcd bundle price defaults to 10% off if we account for original prices of TA and ER
+      // we want to respect that even with dynamic pricing in place
+      return (
+        <div className="flex flex-col pl-2">
+          <del className="text-3xl font-medium text-gray-500 tabular-nums leading-none">
+            {/* ER + TA original prices */}
+            {599 + 332}
+          </del>
+          <div className="text-xs uppercase leading-none font-bold text-blue-500">
+            Save 10%
+          </div>
+        </div>
+      )
     return (
       <div className="flex flex-col pl-2">
         <del className="text-3xl font-medium text-gray-500 tabular-nums leading-none">
-          {fullPrice}
+          {displayFullPrice}
         </del>
         <div className="text-xs uppercase leading-none font-bold text-blue-500">
-          Save 10%
+          Save {displayPercentOff()}%
         </div>
       </div>
     )
@@ -129,7 +151,7 @@ const Purchase = () => {
         <div className="p-5">
           {contents.map(({title, byline, image, items}, i) => {
             return (
-              <div className="px-4 pt-4">
+              <div className="px-4 pt-4" key={title}>
                 <div className="pb-2 flex items-center">
                   <Image
                     src={image}
