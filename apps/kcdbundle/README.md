@@ -153,3 +153,4 @@ stripe_webhook_api_key = site_tenant.stripe_webhook_api_key
 stripe_secret_key = site_tenant.stripe_secret_key # this will be set if the product has already been set up
 stripe_public_key = site_tenant.stripe_publishable_key # this will be set if the product has already been set up
 ```
+
