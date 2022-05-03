@@ -42,7 +42,7 @@
     "plop": "^2.7.6",
     "prettier": "^2.4.1",
     "tsdx": "^0.14.1",
-    "turbo": "^1.1.6"
+    "turbo": "^1.2.6"
   },
   "prettier": {
     "printWidth": 80,
