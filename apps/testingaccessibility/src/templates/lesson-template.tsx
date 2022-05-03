@@ -151,12 +151,7 @@ const LessonTemplate: React.FC<LessonTemplateProps> = ({
           <article className="py-5 mx-auto">
             <h1 className="text-4xl font-bold pb-10">{title}</h1>
             <div className="prose md:prose-lg max-w-none">
-              <VideoProvider>
-                <PortableText
-                  value={body}
-                  components={PortableTextComponents}
-                />
-              </VideoProvider>
+              <PortableText value={body} components={PortableTextComponents} />
             </div>
           </article>
           <div className="py-16">

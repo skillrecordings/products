@@ -13,10 +13,6 @@ module.exports = {
   ],
   theme: {
     extend: {
-      minHeight: {
-        '80vh': '80vh',
-        '60vh': '60vh',
-      },
       colors: {
         black: '#202040',
       },

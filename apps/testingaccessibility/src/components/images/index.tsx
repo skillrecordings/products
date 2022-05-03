@@ -3,6 +3,7 @@ import React from 'react'
 const Logo: React.FC<{className?: string}> = ({className = ''}) => {
   return (
     <svg
+      className={className}
       xmlns="http://www.w3.org/2000/svg"
       viewBox="0 0 37 47"
       focusable="false"
