@@ -36,7 +36,7 @@
     "axios": "^0.24.0",
     "classnames": "^2.3.1",
     "client-oauth2": "^4.3.3",
-    "cookie": "^0.4.1",
+    "cookie": "^0.5.0",
     "date-fns": "^2.25.0",
     "dotenv-flow": "^3.2.0",
     "focus-visible": "^5.2.0",
