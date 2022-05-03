@@ -6,6 +6,7 @@
     "dev": "next dev -p 3012",
     "start": "next start -p 3012",
     "integration": "cypress run",
+    "clean": "rm -rf node_modules && pnpm -r exec -- rm -rf .turbo node_modules .next dist",
     "build": "NODE_ENV=production next build",
     "postbuild": "NODE_ENV=production next-sitemap",
     "build:data": "node src/data/cache-json-data.js -p",
