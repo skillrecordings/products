@@ -77,7 +77,7 @@ const Invoice: React.FC<{
   const created = fromUnixTime(charge.created)
   const date = format(created, 'MMMM d, y')
   const amount = charge.amount / 100 + '.00'
-  const instructorName = 'Marcy Sutton Todd'
+  const instructorName = 'Marcy Sutton-Todd'
   const productName = `Testing Accessibility by ${instructorName}`
 
   return (
