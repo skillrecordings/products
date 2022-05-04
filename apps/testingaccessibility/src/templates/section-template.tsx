@@ -49,14 +49,7 @@ const SectionTemplate: React.FC<SectionTemplateProps> = ({section, module}) => {
               {title}
             </h1>
             <div className="prose max-w-none">
-              <VideoProvider
-                services={{loadResource: () => {}, loadViewer: () => {}}}
-              >
-                <PortableText
-                  value={body}
-                  components={PortableTextComponents}
-                />
-              </VideoProvider>
+              <PortableText value={body} components={PortableTextComponents} />
             </div>
           </article>
         </main>

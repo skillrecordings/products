@@ -33,7 +33,7 @@ const Layout: FunctionComponent<LayoutProps> = ({
 
   return (
     <>
-      <Toaster position="bottom-center" />
+      <Toaster position="top-center" />
       <NextSeo
         title={title}
         description={description}
@@ -54,7 +54,7 @@ const Layout: FunctionComponent<LayoutProps> = ({
       <SkipNavLink>Skip navigation and go to content</SkipNavLink>
       {nav ? nav : isNull(nav) ? null : <Navigation />}
       <SkipNavContent
-        className={cx('flex flex-col flex-grow bg-white h-full', className)}
+        className={cx('flex flex-col flex-grow h-full', className)}
       >
         {children}
       </SkipNavContent>

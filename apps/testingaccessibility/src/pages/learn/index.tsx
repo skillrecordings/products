@@ -1,5 +1,6 @@
 import * as React from 'react'
 import {getDecodedToken} from '../../utils/get-decoded-token'
+import {serialize} from 'utils/prisma-next-serializer'
 import {sanityClient} from 'utils/sanity-client'
 import {SanityDocument} from '@sanity/client'
 import {GetServerSideProps} from 'next'
@@ -46,7 +47,7 @@ export const getServerSideProps: GetServerSideProps = async ({req}) => {
     return {
       props: {
         product,
-        purchases,
+        purchases: purchases.map(serialize),
       },
     }
   }

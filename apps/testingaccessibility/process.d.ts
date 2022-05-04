@@ -14,5 +14,6 @@ declare namespace NodeJS {
     ALGOLIA_API_WRITE_KEY: string
     SANITY_WEBHOOK_SECRET: string
     NEXT_PUBLIC_ALGOLIA_APPLICATION_ID: string
+    NEXT_PUBLIC_SELLING_LIVE: string
   }
 }

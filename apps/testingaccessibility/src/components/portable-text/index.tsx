@@ -11,6 +11,7 @@ import {
   Player,
   selectIsFullscreen,
   useVideo,
+  VideoProvider,
 } from '@skillrecordings/player'
 import js from 'refractor/lang/javascript'
 import Refractor from 'react-refractor'
@@ -65,7 +66,9 @@ const PortableTextComponents: PortableTextComponents = {
       const {url, title, caption} = value
       return (
         <figure>
-          <Video url={url} title={title} />
+          <VideoProvider>
+            <Video url={url} title={title} />
+          </VideoProvider>
           <figcaption>
             <details>
               <summary>Video Transcript</summary>
@@ -98,7 +101,6 @@ const PortableTextComponents: PortableTextComponents = {
     },
     callout: ({value}: CalloutProps) => {
       const {body, type} = value
-
       return (
         <div
           className={cx(
