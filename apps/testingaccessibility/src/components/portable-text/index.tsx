@@ -54,7 +54,7 @@ const Video: React.FC<{url: string; title: string}> = ({url, title}) => {
 const PortableTextComponents: PortableTextComponents = {
   marks: {
     emoji: ({text, value}: EmojiProps) => {
-      const label = value.emoji.label
+      const label = value?.emoji?.label || ''
       return (
         <span role="img" aria-label={label} aria-hidden={!label}>
           {text}
