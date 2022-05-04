@@ -155,56 +155,59 @@ const NavLink: React.FC<{href: string}> = ({href, children, ...props}) => {
 type MenuLinkProps = {
   href: string
   className?: string
-  [rest: string]: any
-}
-
-const MenuLink: React.FC<MenuLinkProps> = ({href, children, ...rest}) => {
-  return (
-    <Link href={href}>
-      <a
-        className={`${
-          rest.active ? 'bg-blue-500 text-white' : 'text-gray-900'
-        } group flex w-full items-center rounded-md px-2 py-2 text-base`}
-        {...rest}
-      >
-        {children}
-      </a>
-    </Link>
-  )
-}
-
-const SignOutButton: React.FC<{
-  className?: string
   active?: boolean
   [rest: string]: any
-}> = ({className, active, ...restProps}) => {
-  const router = useRouter()
-  const handleSignOut = async () => {
-    const data = await signOut({
-      redirect: false,
-      callbackUrl: '/',
-    }).then((data) => {
-      toast.success('Signed out successfully')
-      return data
-    })
-    await router.push(data.url)
-  }
-  return (
-    <button
-      onClick={handleSignOut}
-      className={
-        !isEmpty(className)
-          ? className
-          : `${
-              active ? 'bg-blue-500 text-white' : 'text-gray-900'
-            } group flex w-full items-center rounded-md px-2 py-2 text-base`
-      }
-      {...restProps}
-    >
-      Sign Out
-    </button>
-  )
 }
+
+const MenuLink = React.forwardRef<HTMLAnchorElement, MenuLinkProps>(
+  ({href, children, active, ...rest}, ref) => {
+    return (
+      <Link href={href} passHref>
+        <a
+          ref={ref}
+          className={`${
+            active ? 'bg-blue-500 text-white' : 'text-gray-900'
+          } group flex w-full items-center rounded-md px-2 py-2 text-base`}
+          {...rest}
+        >
+          {children}
+        </a>
+      </Link>
+    )
+  },
+)
+
+const SignOutButton = React.forwardRef<HTMLButtonElement, MenuLinkProps>(
+  ({className, active, ...rest}, ref) => {
+    const router = useRouter()
+    const handleSignOut = async () => {
+      const data = await signOut({
+        redirect: false,
+        callbackUrl: '/',
+      }).then((data) => {
+        toast.success('Signed out successfully')
+        return data
+      })
+      await router.push(data.url)
+    }
+    return (
+      <button
+        ref={ref}
+        onClick={handleSignOut}
+        className={
+          !isEmpty(className)
+            ? className
+            : `${
+                active ? 'bg-blue-500 text-white' : 'text-gray-900'
+              } group flex w-full items-center rounded-md px-2 py-2 text-base`
+        }
+        {...rest}
+      >
+        Sign Out
+      </button>
+    )
+  },
+)
 
 const AccountMenu: React.FC = () => {
   return (
@@ -225,7 +228,7 @@ const AccountMenu: React.FC = () => {
           <div className="px-1 py-1">
             <Menu.Item>
               {(props) => (
-                <MenuLink href="/invoices" passHref {...props}>
+                <MenuLink href="/invoices" {...props}>
                   Invoices
                 </MenuLink>
               )}

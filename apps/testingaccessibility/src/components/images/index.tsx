@@ -9,24 +9,7 @@ const Logo: React.FC<{className?: string}> = ({className = ''}) => {
       focusable="false"
       aria-hidden="true"
     >
-      <defs>
-        <radialGradient
-          id="them-a"
-          cx="65.149%"
-          cy="0%"
-          r="137.21%"
-          fx="65.149%"
-          fy="0%"
-          gradientTransform="scale(-1 -.7658) rotate(-72.12 0 .895)"
-        >
-          <stop offset="-10%" stopColor="#EFF8FF" />
-          <stop offset="30%" stopColor="#FFB119" />
-          <stop offset="80%" stopColor="#ff4dcf" />
-          <stop offset="150%" stopColor="#9141fa" />
-        </radialGradient>
-      </defs>
       <path
-        // fill="url(#them-a)"
         fill="#fff"
         stroke="#111129"
         strokeWidth="2"

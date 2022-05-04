@@ -1,22 +1,19 @@
 import * as React from 'react'
+import {serialize} from 'utils/prisma-next-serializer'
 import {useLocalStorage} from 'react-use'
 import {GetServerSideProps} from 'next'
 import {Logo} from 'components/images'
+import {getSdk} from 'lib/prisma-api'
 import {stripe} from 'utils/stripe'
 import {Stripe} from 'stripe'
 import fromUnixTime from 'date-fns/fromUnixTime'
 import Layout from 'components/app/layout'
 import format from 'date-fns/format'
 import prisma from '../../db'
-import cx from 'classnames'
-import {isEmpty} from 'lodash'
-import {getSdk} from 'lib/prisma-api'
-import {serialize} from 'utils/prisma-next-serializer'
 
 export const getServerSideProps: GetServerSideProps = async ({query, res}) => {
   const {merchantChargeId} = query
   const {getProduct} = getSdk()
-
   if (merchantChargeId) {
     const merchantCharge = await prisma.merchantCharge.findUnique({
       where: {
@@ -80,16 +77,21 @@ const Invoice: React.FC<{
   const instructorName = 'Marcy Sutton-Todd'
   const productName = `Testing Accessibility by ${instructorName}`
 
+  const [isMounted, setIsMounted] = React.useState(false)
+  React.useEffect(() => {
+    setIsMounted(true)
+  }, [])
+
   return (
     <Layout
       meta={{title: `Invoice ${merchantChargeId}`}}
       className="bg-gray-50"
     >
-      <div className="max-w-screen-md mx-auto py-10">
+      <main className="max-w-screen-md mx-auto py-10">
         <div className="flex sm:flex-row flex-col items-center justify-between py-5 print:hidden">
-          <h2 className="text-lg font-medium leading-tight sm:mb-0 mb-4">
+          <h1 className="text-lg font-medium leading-tight sm:mb-0 mb-4">
             Your Invoice for {productName}
-          </h2>
+          </h1>
           <button
             onClick={() => {
               window.print()
@@ -109,7 +111,7 @@ const Invoice: React.FC<{
                 </span>
               </div>
               <div>
-                <h5 className="uppercase text-xs mb-2 text-gray-500">From</h5>
+                <p className="uppercase text-xs mb-2 text-gray-500">From</p>
                 <span className="font-semibold">{productName}</span>
                 <br />
                 co egghead.io LLC
@@ -123,15 +125,15 @@ const Invoice: React.FC<{
             </div>
             <div className="grid grid-cols-3 pb-64">
               <div className="col-span-2">
-                <h5 className="text-2xl font-bold mb-2">Invoice</h5>
+                <p className="text-2xl font-bold mb-2">Invoice</p>
                 Invoice ID: <strong>{merchantChargeId}</strong>
                 <br />
                 Created: <strong>{date}</strong>
               </div>
               <div className="pt-12">
-                <h5 className="uppercase text-xs mb-2 text-gray-500">
+                <p className="uppercase text-xs mb-2 text-gray-500">
                   Invoice For
-                </h5>
+                </p>
                 <div>
                   {charge.billing_details.name}
                   <br />
@@ -143,18 +145,17 @@ const Invoice: React.FC<{
                   <br />
                   {charge.billing_details.address?.country} */}
                 </div>
-                <textarea
-                  className={cx(
-                    'mt-4 form-textarea placeholder-gray-700 border border-gray-200 bg-gray-50 w-full h-full print:p-0 print:border-none print:bg-transparent',
-                    {
-                      'print:hidden': isEmpty(invoiceMetadata),
-                    },
-                  )}
-                  value={invoiceMetadata}
-                  onChange={(e) => setInvoiceMetadata(e.target.value)}
-                  placeholder="Enter additional info here (optional)"
-                />
-                <div className="print:block hidden">{invoiceMetadata}</div>
+                {isMounted && (
+                  <>
+                    <textarea
+                      className="print:hidden mt-4 form-textarea placeholder-gray-700 border border-gray-200 bg-gray-50 w-full h-full print:p-0 print:border-none print:bg-transparent"
+                      value={invoiceMetadata}
+                      onChange={(e) => setInvoiceMetadata(e.target.value)}
+                      placeholder="Enter additional info here (optional)"
+                    />
+                    <div className="print:block hidden">{invoiceMetadata}</div>
+                  </>
+                )}
               </div>
             </div>
             <table className="table-auto w-full text-left">
@@ -202,7 +203,7 @@ const Invoice: React.FC<{
             </div>
           </div>
         </div>
-      </div>
+      </main>
     </Layout>
   )
 }
