@@ -30,6 +30,18 @@ export default function Home() {
       },
       url: 'https://technicalinterviews.dev',
     },
+    {
+      title: 'Launching Just JavaScript',
+      slug: 'just-javascript',
+      description:
+        'Learn how we helped develop and launch Just JavaScript, a distilled mental model of how JavaScript works by Dan Abramov and Maggie Appleton.',
+      image: require('../../public/just-javascript/thumbnail@2x.png'),
+      styles: {
+        button: cx('bg-black text-white'),
+        section: cx('bg-[#FDFEFF] text-black'),
+      },
+      url: 'https://justjavascript.com',
+    },
   ]
   return (
     <>
