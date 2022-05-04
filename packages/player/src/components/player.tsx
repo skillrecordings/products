@@ -30,6 +30,7 @@ import {
 } from '../selectors'
 
 type PlayerProps = {
+  children?: any
   container?: HTMLElement
   className?: string
   fluid?: boolean
@@ -44,6 +45,7 @@ type PlayerProps = {
   overlay?: React.ReactElement
   canAddNotes?: boolean
   poster?: string
+  enableGlobalShortcuts?: boolean
 }
 
 const usePlayerState = () => {
@@ -88,6 +90,7 @@ export const Player: React.FC<PlayerProps> = (props) => {
     overlay,
     canAddNotes = false,
     poster,
+    enableGlobalShortcuts = true,
   } = props
   const containerRef = React.useRef(container)
   const {
@@ -198,7 +201,10 @@ export const Player: React.FC<PlayerProps> = (props) => {
             return {}
           },
         }
-        videoService.send({type: 'SET_ROOT_ELEM', rootElemRef: domNodeRef})
+        videoService.send({
+          type: 'SET_ROOT_ELEM',
+          rootElemRef: domNodeRef,
+        })
       }}
       onMouseDown={handleActivity}
       onMouseMove={handleActivity}
@@ -257,7 +263,10 @@ export const Player: React.FC<PlayerProps> = (props) => {
         <ProgressBar />
         <CueBar />
         <ControlBar>{controls}</ControlBar>
-        <Shortcut canAddNotes={canAddNotes} />
+        <Shortcut
+          enableGlobalShortcuts={enableGlobalShortcuts}
+          canAddNotes={canAddNotes}
+        />
         {canAddNotes && <CueForm />}
       </div>
       {overlay}

@@ -14,6 +14,7 @@ import {
   selectVolume,
   selectCueFormElem,
   selectShortcutsEnabled,
+  selectVideo,
 } from '../selectors'
 
 type ShortcutProps = {
@@ -21,6 +22,7 @@ type ShortcutProps = {
   dblclickable?: boolean
   shortcuts?: any[]
   canAddNotes: boolean
+  enableGlobalShortcuts?: boolean
 }
 
 const useShortcutState = () => {
@@ -33,6 +35,7 @@ const useShortcutState = () => {
   const playbackRate = useSelector(videoService, selectPlaybackRate)
   const rootElem = useSelector(videoService, selectRootElem)
   const readyState = useSelector(videoService, selectReadyState)
+  const video = useSelector(videoService, selectVideo)
   const volume = useSelector(videoService, selectVolume)
   const cueFormElem = useSelector(videoService, selectCueFormElem)
   const shortcutsEnabled = useSelector(videoService, selectShortcutsEnabled)
@@ -50,6 +53,7 @@ const useShortcutState = () => {
     volume,
     cueFormElem,
     shortcutsEnabled,
+    video,
   }
 }
 
@@ -58,12 +62,15 @@ const useShortcutState = () => {
  * @param clickable
  * @param dblclickable
  * @param props
+ * @param canAddNotes
+ * @param enableGlobalShortcuts
  * @constructor
  */
 export const Shortcut: React.FC<ShortcutProps> = ({
   clickable = true,
   dblclickable = true,
   canAddNotes = false,
+  enableGlobalShortcuts,
   ...props
 }) => {
   const {
@@ -445,15 +452,35 @@ export const Shortcut: React.FC<ShortcutProps> = ({
 
   React.useEffect(() => {
     shortCutsRef.current = mergeShortcuts()
-    document.addEventListener('keydown', handleKeyPress)
-    document.addEventListener('click', handleClick)
-    document.addEventListener('dblclick', handleDoubleClick)
-    return () => {
-      document.removeEventListener('keydown', handleKeyPress)
-      document.removeEventListener('click', handleClick)
-      document.removeEventListener('dblclick', handleDoubleClick)
+    if (!enableGlobalShortcuts && rootElem) {
+      rootElem.addEventListener('keydown', handleKeyPress)
+      rootElem.addEventListener('click', handleClick)
+      rootElem.addEventListener('dblclick', handleDoubleClick)
+
+      return () => {
+        rootElem.removeEventListener('keydown', handleKeyPress)
+        rootElem.removeEventListener('click', handleClick)
+        rootElem.removeEventListener('dblclick', handleDoubleClick)
+      }
+    } else {
+      document.addEventListener('keydown', handleKeyPress)
+      document.addEventListener('click', handleClick)
+      document.addEventListener('dblclick', handleDoubleClick)
+
+      return () => {
+        document.removeEventListener('keydown', handleKeyPress)
+        document.removeEventListener('click', handleClick)
+        document.removeEventListener('dblclick', handleDoubleClick)
+      }
     }
-  }, [handleClick, handleDoubleClick, handleKeyPress, mergeShortcuts])
+  }, [
+    handleClick,
+    handleDoubleClick,
+    handleKeyPress,
+    mergeShortcuts,
+    rootElem,
+    enableGlobalShortcuts,
+  ])
 
   return null
 }

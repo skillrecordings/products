@@ -22,8 +22,10 @@ export const selectFormattedTime = (state: StateFrom<typeof videoMachine>) =>
 export const selectResource = (state: StateFrom<typeof videoMachine>) =>
   state.context.resource ?? {}
 
-export const selectRootElem = (state: StateFrom<typeof videoMachine>) =>
-  state.context.rootElemRef?.current ?? null
+export const selectRootElem = (state: StateFrom<typeof videoMachine>) => {
+  // @ts-ignore
+  return state.context.rootElemRef?.node.current ?? null
+}
 
 export const selectCueFormElem = (state: StateFrom<typeof videoMachine>) =>
   state.context.cueFormElemRef?.current ?? null

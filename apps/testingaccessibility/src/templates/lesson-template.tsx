@@ -1,17 +1,16 @@
 import React from 'react'
-import {VideoProvider} from '@skillrecordings/player'
+import {useProgress} from 'context/progress-context'
 import {PortableText} from '@portabletext/react'
 import {SanityDocument} from '@sanity/client'
+import {Switch} from '@headlessui/react'
 import {useRouter} from 'next/router'
 import PortableTextComponents from 'components/portable-text'
 import Layout from 'components/app/layout'
-import Link from 'next/link'
-import cx from 'classnames'
-import find from 'lodash/find'
 import indexOf from 'lodash/indexOf'
 import isEmpty from 'lodash/isEmpty'
-import {useProgress} from 'context/progress-context'
-import {Switch} from '@headlessui/react'
+import find from 'lodash/find'
+import Link from 'next/link'
+import cx from 'classnames'
 
 type LessonTemplateProps = {
   module: SanityDocument
