@@ -36,6 +36,7 @@ const Video: React.FC<{url: string; title: string}> = ({url, title}) => {
       })}
     >
       <Player
+        enableGlobalShortcuts={false}
         aria-label={title}
         container={fullscreenWrapperRef.current || undefined}
         aspectRatio="8:5"

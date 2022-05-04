@@ -35,7 +35,9 @@ export const FullscreenToggleControl: React.FC<FullscrenToggleProps> =
         tabIndex={0}
         onClick={handleClick}
       >
-        <span className="cueplayer-react-control-text">Non-Fullscreen</span>
+        <span className="cueplayer-react-control-text">
+          {isFullscreen ? 'Exit full screen (f)' : 'Full screen (f)'}
+        </span>
       </button>
     )
   })
