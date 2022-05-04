@@ -399,7 +399,7 @@ export const Shortcut: React.FC<ShortcutProps> = ({
 
       // check if progress bar slider is focused
       const activeElement = document.activeElement
-      const seekBarElement = document.querySelector(
+      const seekBarElement = rootElem.querySelector(
         '[data-reach-slider-handle]',
       )
       const isSeekBarFocused = activeElement?.isEqualNode(seekBarElement)
