@@ -1,4 +1,5 @@
 import * as React from 'react'
+import {DownloadIcon} from '@heroicons/react/outline'
 import {serialize} from 'utils/prisma-next-serializer'
 import {useLocalStorage} from 'react-use'
 import {GetServerSideProps} from 'next'
@@ -87,21 +88,22 @@ const Invoice: React.FC<{
       meta={{title: `Invoice ${merchantChargeId}`}}
       className="bg-gray-50"
     >
-      <main className="max-w-screen-md mx-auto py-10">
-        <div className="flex sm:flex-row flex-col items-center justify-between py-5 print:hidden">
-          <h1 className="text-lg font-medium leading-tight sm:mb-0 mb-4">
-            Your Invoice for {productName}
+      <main className="max-w-screen-md mx-auto">
+        <div className="flex flex-col items-center justify-center text-center pb-8 pt-12 print:hidden">
+          <h1 className="text-2xl font-bold leading-tight">
+            Your Invoice for Testing Accessibility
           </h1>
           <button
             onClick={() => {
               window.print()
             }}
-            className="flex items-center leading-6 px-5 py-3 rounded-md bg-blue-600 text-white hover:bg-blue-700 transition-colors ease-in-out duration-200"
+            className="my-4 flex items-center leading-6 px-5 py-3 text-sm font-semibold rounded-md bg-blue-600 text-white hover:bg-blue-700 transition-colors ease-in-out duration-200"
           >
-            Download PDF or Print
+            <span className="pr-2">Download PDF or Print</span>
+            <DownloadIcon aria-hidden="true" className="w-5" />
           </button>
         </div>
-        <div className="bg-white rounded-md shadow-md print:shadow-none">
+        <div className="bg-white rounded-t-md shadow-xl print:shadow-none">
           <div className="px-10 py-16">
             <div className="grid grid-cols-3 w-full justify-between items-start">
               <div className="col-span-2 flex items-center">
@@ -148,7 +150,7 @@ const Invoice: React.FC<{
                 {isMounted && (
                   <>
                     <textarea
-                      className="print:hidden mt-4 form-textarea placeholder-gray-700 border border-gray-200 bg-gray-50 w-full h-full print:p-0 print:border-none print:bg-transparent"
+                      className="print:hidden mt-4 form-textarea placeholder-gray-700 border-2 border-blue-500 rounded-md bg-gray-50 w-full h-full print:p-0 print:border-none print:bg-transparent"
                       value={invoiceMetadata}
                       onChange={(e) => setInvoiceMetadata(e.target.value)}
                       placeholder="Enter additional info here (optional)"

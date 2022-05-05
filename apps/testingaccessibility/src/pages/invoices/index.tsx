@@ -8,6 +8,7 @@ import Link from 'next/link'
 import {serialize} from 'utils/prisma-next-serializer'
 import {format} from 'date-fns'
 import {DocumentTextIcon} from '@heroicons/react/outline'
+import {ChevronRightIcon} from '@heroicons/react/solid'
 
 export const getServerSideProps: GetServerSideProps = async ({req, query}) => {
   const sessionToken = await getDecodedToken(req)
@@ -29,15 +30,14 @@ export const getServerSideProps: GetServerSideProps = async ({req, query}) => {
 const Learn: React.FC<{purchases: Purchase[]}> = ({purchases = []}) => {
   return (
     <Layout meta={{title: 'Invoices'}} className="bg-gray-50 p-5">
-      <main className="max-w-lg mx-auto w-full sm:py-10 py-5">
+      <main className="max-w-xl mx-auto w-full sm:py-8 py-5">
         <h1 className="text-3xl font-bold pb-4">Your Invoices</h1>
         <ul className="flex flex-col gap-2">
-          {purchases.map((purchase: any) => {
+          {purchases.map((purchase: Purchase | any) => {
             return (
               <li key={purchase.merchantChargeId}>
-                {/* {JSON.stringify(purchase)} */}
-                <Link href={`/invoices/${purchase.merchantChargeId}`}>
-                  <a className="flex gap-2 bg-white p-5 rounded-md shadow-sm">
+                <div className="flex sm:flex-row flex-col justify-between sm:items-center bg-white p-5 rounded-md shadow-sm">
+                  <div className="flex gap-2 w-full">
                     <div>
                       <DocumentTextIcon
                         aria-hidden
@@ -45,16 +45,27 @@ const Learn: React.FC<{purchases: Purchase[]}> = ({purchases = []}) => {
                       />
                     </div>
                     <div>
-                      <h2 className="text-lg font-semibold">
+                      <h2 className="text-lg font-semibold leading-tight">
                         Testing Accessibility ({purchase.product.name}){' '}
                       </h2>
-                      <div className="opacity-80">
-                        {format(new Date(purchase.createdAt), 'MMMM d, y')}
+                      <div className="opacity-80 flex font-medium text-sm sm:pt-0 pt-2">
+                        <span className="after:content-['・']">
+                          USD {purchase.totalAmount}.00
+                        </span>
+                        <span>
+                          {format(new Date(purchase.createdAt), 'MMMM d, y')}
+                        </span>
                       </div>
                     </div>
-                    {/* {purchase.merchantChargeId} */}
-                  </a>
-                </Link>
+                  </div>
+                  <Link href={`/invoices/${purchase.merchantChargeId}`}>
+                    <a className="sm:mt-0 mt-5 flex-shrink-0 text-blue-500 hover:text-blue-600 font-semibold flex items-center sm:justify-center justify-end rounded-md px-3 py-2 hover:bg-gray-100 hover:bg-opacity-60 transition">
+                      <span className="pr-0.5">View Invoice</span>
+                      <ChevronRightIcon aria-hidden="true" className="w-5" />
+                    </a>
+                  </Link>
+                  {/* {purchase.merchantChargeId} */}
+                </div>
               </li>
             )
           })}

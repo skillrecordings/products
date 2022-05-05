@@ -76,6 +76,7 @@ export function getSdk(
           merchantChargeId: true,
           productId: true,
           createdAt: true,
+          totalAmount: true,
           product: {
             select: {
               id: true,
