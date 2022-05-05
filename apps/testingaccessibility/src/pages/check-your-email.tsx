@@ -3,14 +3,26 @@ import * as React from 'react'
 
 const CheckYourEmail = () => {
   return (
-    <Layout meta={{title: 'Check your email'}}>
-      <div className="prose mx-auto my-16">
-        <h1>Check your email!</h1>
+    <Layout
+      meta={{title: 'Login to Testing Accessibility'}}
+      className="flex flex-col h-full sm:min-h-[calc(100vh-64px)] min-h-[calc(100vh-56px)] p-5"
+    >
+      <div
+        className="flex-grow w-full mx-auto md:pb-32 py-16 flex flex-col items-center justify-center"
+        style={{
+          backgroundImage: "url('/assets/pattern-topography.svg')",
+        }}
+      >
+        <div className="sm:mx-auto rounded-lg max-w-md text-center">
+          <h1 className="text-center text-3xl leading-9 font-extrabold pb-4">
+            Check your email
+          </h1>
 
-        <p>
-          If you bought the course, a login link will been sent to your email!
-          Use it and you&apos;ll be able to access the content 🚀
-        </p>
+          <p>
+            If you bought the course, a login link will been sent to your email!
+            Use it and you&apos;ll be able to access the content.
+          </p>
+        </div>
       </div>
     </Layout>
   )

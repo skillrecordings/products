@@ -80,7 +80,7 @@ const Autocomplete = (props: any) => {
           <SearchIcon className="w-5 h-5" />
         </label>
         <input
-          className="focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 py-3 sm:text-sm bg-transparent border-none"
+          className="focus:ring-blue-500 focus:border-blue-500 block w-full text-sm pl-10 py-3 bg-transparent border-none"
           ref={inputRef}
           {...autocomplete.getInputProps({
             inputElement: inputRef.current as unknown as HTMLInputElement,
@@ -100,7 +100,6 @@ const Autocomplete = (props: any) => {
                 {items.length > 0 && (
                   <ul className="w-full" {...autocomplete.getListProps()}>
                     {items.map((item: Hit<any>) => {
-                      console.log(item)
                       const selected = autocomplete.getItemProps({
                         item,
                         source,

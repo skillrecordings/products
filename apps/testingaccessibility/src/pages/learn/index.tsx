@@ -142,8 +142,8 @@ export const Sections: React.FC<any> = ({module}) => {
                 <Image
                   src={section.image.url}
                   alt={section.image.alt}
-                  width={256}
-                  height={256}
+                  width={300}
+                  height={300}
                   quality={100}
                 />
               </div>

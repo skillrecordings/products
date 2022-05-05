@@ -154,7 +154,7 @@ const LessonTemplate: React.FC<LessonTemplateProps> = ({
         <main className="col-span-9 bg-white px-16">
           <article className="py-16 mx-auto">
             <h1 className="text-5xl font-extrabold pb-10">{title}</h1>
-            <hr className="w-8 border-2 border-gray-300 mb-16" />
+            <hr className="w-8 border border-gray-300 mb-16" />
             <div className="prose md:prose-lg max-w-none">
               <PortableText value={body} components={PortableTextComponents} />
             </div>

@@ -2,6 +2,8 @@ import * as React from 'react'
 import {getCsrfToken, getProviders} from 'next-auth/react'
 import {useForm} from 'react-hook-form'
 import {GetServerSideProps} from 'next'
+import Image from 'next/image'
+import Layout from 'components/app/layout'
 
 const Login: React.FC<{csrfToken: string}> = ({csrfToken}) => {
   const {
@@ -10,15 +12,33 @@ const Login: React.FC<{csrfToken: string}> = ({csrfToken}) => {
   } = useForm()
 
   return (
-    <>
-      <div className="w-full mx-auto md:py-32 py-16 flex flex-col items-center justify-center">
-        <div className="sm:mx-auto rounded-lg mt-10">
-          <h2 className="text-center text-3xl leading-9 font-bold">
-            Log in to the course platform
-          </h2>
+    <Layout
+      meta={{title: 'Login to Testing Accessibility'}}
+      className="flex flex-col h-full sm:min-h-[calc(100vh-64px)] min-h-[calc(100vh-56px)] p-5"
+    >
+      <div
+        className="flex-grow w-full mx-auto md:pb-40 pb-16 py-16 flex flex-col items-center justify-center"
+        style={{
+          backgroundImage: "url('/assets/pattern-topography.svg')",
+        }}
+      >
+        <div className="sm:mx-auto rounded-lg">
+          <div className="max-w-sm mx-auto flex items-center justify-center w-full">
+            <Image
+              placeholder="blur"
+              src={require('../../public/assets/testing-accessibility-sign@2x.png')}
+              alt="a wooden sign with Testing Accessibility text on it"
+              quality={100}
+              width={200}
+              height={200}
+            />
+          </div>
+          <h1 className="text-center text-3xl leading-9 font-bold pt-4">
+            Log in to Testing Accessibility
+          </h1>
 
-          <div className="sm:mt-8 mt-4 sm:mx-auto sm:w-full sm:max-w-xl">
-            <div className="pb-8">
+          <div className="sm:mt-8 mt-4 sm:mx-auto sm:w-full sm:max-w-md">
+            <div>
               <form className="" method="post" action="/api/auth/signin/email">
                 <label
                   htmlFor="email"
@@ -47,13 +67,13 @@ const Login: React.FC<{csrfToken: string}> = ({csrfToken}) => {
                   <input
                     id="email"
                     type="email"
-                    placeholder="you@company.com"
-                    className="mb-3 focus:ring-blue-500 focus:border-blue-500  py-3 text-gray-900 placeholder-gray-400 focus:ring-tomato-500 focus:border-tomato-500 block w-full pl-10 border-2 border-gray-200 rounded-md"
+                    placeholder="you@example.com"
+                    className="mb-3 focus:ring-blue-500 focus:border-blue-500  py-3 text-gray-900 placeholder-gray-400 block w-full pl-10 border-2 border-gray-200 rounded-md"
                     {...register('email', {required: true})}
                   />
                 </div>
 
-                <button className="w-full flex items-center justify-center px-5 py-3 border border-transparent text-base font-medium rounded-md text-white bg-black hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500">
+                <button className="w-full flex items-center justify-center px-5 py-3 border border-transparent text-base font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 transition focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
                   Email me a login link
                 </button>
               </form>
@@ -61,7 +81,7 @@ const Login: React.FC<{csrfToken: string}> = ({csrfToken}) => {
           </div>
         </div>
       </div>
-    </>
+    </Layout>
   )
 }
 

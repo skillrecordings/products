@@ -197,6 +197,7 @@ const SignOutButton = React.forwardRef<HTMLButtonElement, MenuLinkProps>(
     return (
       <button
         ref={ref}
+        {...rest}
         onClick={handleSignOut}
         className={
           !isEmpty(className)
@@ -205,7 +206,6 @@ const SignOutButton = React.forwardRef<HTMLButtonElement, MenuLinkProps>(
                 active ? 'bg-blue-500 text-white' : 'text-gray-900'
               } group flex w-full items-center rounded-md px-2 py-2 font-normal`
         }
-        {...rest}
       >
         <span className="pr-2">Sign Out</span>
         <LogoutIcon className="w-4" aria-hidden="true" />

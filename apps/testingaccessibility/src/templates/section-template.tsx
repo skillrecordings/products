@@ -44,7 +44,7 @@ const SectionTemplate: React.FC<SectionTemplateProps> = ({section, module}) => {
           )}
           <article className="mx-auto pt-16">
             <h1 className="text-5xl font-extrabold pb-10">{title}</h1>
-            <hr className="w-8 border-2 border-gray-300 mb-10" />
+            <hr className="w-8 border border-gray-300 mb-10" />
             <div className="prose md:prose-lg max-w-none">
               <PortableText value={body} components={PortableTextComponents} />
             </div>
