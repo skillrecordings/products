@@ -4,7 +4,7 @@ import NProgress from 'nprogress'
 export function initNProgress() {
   let timer: any
   const delay = 500
-  NProgress.configure({showSpinner: false})
+  NProgress.configure({showSpinner: false, trickleSpeed: 100})
 
   const handleStartLoading = () => {
     timer = setTimeout(() => {

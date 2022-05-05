@@ -1,5 +1,6 @@
 import React from 'react'
 import type {ArbitraryTypedObject, PortableTextBlock} from '@portabletext/types'
+import {getPathForLesson, getPathForSection} from 'utils/get-resource-paths'
 import {
   PortableText,
   PortableTextComponents,
@@ -16,6 +17,7 @@ import {
 import js from 'refractor/lang/javascript'
 import Refractor from 'react-refractor'
 import Image from 'next/image'
+import Link from 'next/link'
 import cx from 'classnames'
 
 Refractor.registerLanguage(js)
@@ -35,16 +37,23 @@ const Video: React.FC<{url: string; title: string}> = ({url, title}) => {
         relative: !isFullscreen,
       })}
     >
-      <Player
-        enableGlobalShortcuts={false}
-        aria-label={title}
-        container={fullscreenWrapperRef.current || undefined}
-        aspectRatio="8:5"
-        className={'font-sans'}
-        poster={poster}
-      >
-        {url && <HLSSource src={url} />}
-      </Player>
+      {title && (
+        <strong className="font-bold">
+          <span className="sr-only">Video:</span> {title}
+        </strong>
+      )}
+      <div className="rounded-sm overflow-hidden">
+        <Player
+          enableGlobalShortcuts={false}
+          aria-label={title}
+          container={fullscreenWrapperRef.current || undefined}
+          aspectRatio="8:5"
+          className={'font-sans'}
+          poster={poster}
+        >
+          {url && <HLSSource src={url} />}
+        </Player>
+      </div>
     </div>
   )
 }
@@ -59,6 +68,45 @@ const PortableTextComponents: PortableTextComponents = {
         <span role="img" aria-label={label} aria-hidden={!label}>
           {text}
         </span>
+      )
+    },
+    internalLink: ({value, children}: InternalLinkProps) => {
+      const {slug = {}, type = 'lesson', modules} = value
+      const resourceSlug = slug.current
+
+      const getPath = () => {
+        switch (type) {
+          case 'lesson':
+            return {
+              pathname: '/learn/[module]/[section]/[lesson]',
+              query: getPathForLesson(resourceSlug, modules),
+            }
+          case 'section':
+            return {
+              pathname: '/learn/[module]/[section]',
+              query: getPathForSection(resourceSlug, modules),
+            }
+          default:
+            return {
+              pathname: '/learn/[module]',
+              query: {module: resourceSlug},
+            }
+        }
+      }
+      return (
+        <Link href={getPath()}>
+          <a>{children}</a>
+        </Link>
+      )
+    },
+    link: ({value, children}) => {
+      const {blank, href} = value
+      return blank ? (
+        <a href={href} target="_blank" rel="noopener noreferrer">
+          {children}
+        </a>
+      ) : (
+        <a href={href}>{children}</a>
       )
     },
   },
@@ -85,7 +133,14 @@ const PortableTextComponents: PortableTextComponents = {
       const {url, width, height} = image
       return (
         <figure>
-          <Image src={url} alt={alt} width={width} height={height} />
+          <Image
+            src={url}
+            alt={alt}
+            width={width}
+            height={height}
+            quality={100}
+            className="rounded-sm"
+          />
           {caption && <figcaption>{caption}</figcaption>}
         </figure>
       )
@@ -121,6 +176,8 @@ const PortableTextComponents: PortableTextComponents = {
     },
   },
 }
+
+type InternalLinkProps = any
 
 type EmojiProps = PortableTextMarkComponentProps<any>
 

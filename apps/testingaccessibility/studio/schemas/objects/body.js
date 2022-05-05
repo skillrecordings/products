@@ -1,4 +1,4 @@
-import {HiOutlineEmojiHappy, HiLink} from 'react-icons/hi'
+import {HiOutlineEmojiHappy, HiExternalLink, HiLink} from 'react-icons/hi'
 
 // TODO: Exercises (don't have to have solutions), Challenges (always have solutions, sometimes multiple parts)
 export default {
@@ -19,6 +19,27 @@ export default {
       // ],
       marks: {
         annotations: [
+          {
+            name: 'link',
+            type: 'object',
+            title: 'External link',
+            blockEditor: {
+              icon: HiExternalLink,
+            },
+            fields: [
+              {
+                name: 'href',
+                type: 'url',
+                title: 'URL',
+              },
+              {
+                title: 'Open in new tab',
+                name: 'blank',
+                description: 'Read https://css-tricks.com/use-target_blank/',
+                type: 'boolean',
+              },
+            ],
+          },
           {
             name: 'internalLink',
             type: 'object',

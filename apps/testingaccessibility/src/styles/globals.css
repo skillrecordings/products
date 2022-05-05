@@ -2,23 +2,17 @@
 @tailwind components;
 @tailwind utilities;
 @import '@reach/dialog/styles.css';
-@import './fonts/index.css';
 @import './prism-theme.css';
 @import './nprogress.css';
 @import './icons.css';
-@import '@skillrecordings/quiz/dist/styles/index.css';
+@import './quiz.css';
 @import '@skillrecordings/player/dist/skillrecordings-player.css';
-@import '@algolia/autocomplete-theme-classic/dist/theme.css';
-
-body {
-  @apply text-black;
-}
 
 :root {
   --reach-skip-nav: 1;
 }
 #__next {
-  @apply flex flex-col min-h-screen;
+  @apply flex flex-col min-h-screen text-gray-900 bg-gray-50 antialiased;
 }
 
 .cueplayer-react-side-panel-control {
@@ -31,7 +25,7 @@ body {
 }
 
 [data-sr-convertkit-subscribe-form] {
-  @apply flex flex-col w-full max-w-[320px] mx-auto;
+  @apply flex flex-col w-full max-w-[340px] mx-auto;
   [data-sr-input] {
     @apply block mb-4 w-full px-4 py-3 text-white placeholder-white placeholder-opacity-60 bg-gray-900 bg-opacity-50 border border-white border-opacity-20 rounded-2xl sm:text-base sm:leading-6;
   }
@@ -91,7 +85,38 @@ body {
 }
 
 [data-reach-skip-nav-link]:focus {
-  @apply px-5 py-3 text-lg font-semibold bg-white rounded-md overflow-hidden fixed top-5 left-5 w-auto h-auto;
+  @apply px-4 py-2 text-lg font-semibold bg-white rounded-md overflow-hidden fixed top-5 left-5 w-auto h-auto;
   z-index: 1;
   clip: auto;
+}
+
+[data-reach-skip-link]:focus {
+  @apply z-50 left-2 top-2 flex items-center justify-center text-base outline-orange-500;
+}
+
+/*
+  This will hide the focus indicator if the element receives focus via the mouse,
+  but it will still show up on keyboard focus.
+*/
+/* .js-focus-visible :focus:not(.focus-visible) { outline: none; } */
+
+[data-js-focus-visible] :focus:not([data-focus-visible-added]) {
+  @apply outline-none;
+}
+
+/*
+  Optionally: Define a strong focus indicator for keyboard focus.
+  If you choose to skip this step then the browser's default focus
+  indicator will be displayed instead.
+*/
+.js-focus-visible .focus-visible {
+  @apply outline-none ring-2 ring-blue-500;
+}
+
+/* [data-js-focus-visible] [data-focus-visible-added] {
+  @apply outline-2 outline-orange-500;
+} */
+
+#rewardId {
+  @apply w-full z-50;
 }

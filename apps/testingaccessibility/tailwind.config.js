@@ -1,5 +1,4 @@
 const defaultTheme = require('tailwindcss/defaultTheme')
-const colors = require('tailwindcss/colors')
 
 module.exports = {
   content: [
@@ -17,8 +16,7 @@ module.exports = {
         black: '#202040',
       },
       fontFamily: {
-        sans: ['Aestetico', ...defaultTheme.fontFamily.sans],
-        serif: ['Ahkio', ...defaultTheme.fontFamily.serif],
+        sans: ['Public Sans', ...defaultTheme.fontFamily.sans],
       },
       lineHeight: {
         tighter: '1.1',
@@ -34,39 +32,38 @@ module.exports = {
       typography: (theme) => ({
         DEFAULT: {
           css: {
+            color: theme('colors.gray.700'),
             a: {
-              color: `${theme('colors.blue.600')} !important`,
+              color: theme('colors.blue.600'),
               textDecoration: 'underline',
               transition: 'all 150ms ease-in-out',
             },
             'a:hover': {
-              color: `${theme('colors.blue.700')} !important`,
+              color: theme('colors.blue.700'),
               transition: 'all 150ms ease-in-out',
             },
             'h1,h2,h4,h5': {
-              color: `${theme('colors.black')} !important`,
+              color: theme('colors.gray.800'),
+              fontFamily: theme('fontFamily.sans').join(', '),
             },
             pre: {
               backgroundColor: '#011627',
-              color: `${theme('colors.white')}`,
+              color: theme('colors.white'),
               overflow: 'auto',
             },
             code: {
-              fontSize: '80% !important',
+              fontSize: '80%',
               background: theme('colors.gray.100'),
               padding: '3px 5px',
               borderRadius: 5,
             },
             'code::before': {
-              content: '"" !important',
+              content: '""',
             },
             'code::after': {
-              content: '"" !important',
+              content: '""',
             },
           },
-        },
-        dark: {
-          css: {},
         },
       }),
     },

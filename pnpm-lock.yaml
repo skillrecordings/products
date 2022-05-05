@@ -1799,7 +1799,6 @@ importers:
       '@algolia/autocomplete-js': ^1.6.2
       '@algolia/autocomplete-plugin-tags': ^1.6.2
       '@algolia/autocomplete-preset-algolia': ^1.6.2
-      '@algolia/autocomplete-theme-classic': ^1.6.2
       '@algolia/client-search': ^4.13.0
       '@asbjorn/eslint-plugin-groq': ^2.0.0
       '@babel/plugin-transform-react-jsx': ^7.16.0
@@ -1915,6 +1914,7 @@ importers:
       react-markdown: ^8.0.0
       react-query: ^3.34.17
       react-refractor: ^2.1.7
+      react-rewards: ^2.0.3
       react-scroll: ^1.8.6
       react-stripe-checkout: ^2.6.3
       react-test-renderer: ^17.0.2
@@ -1944,7 +1944,6 @@ importers:
       '@algolia/autocomplete-js': 1.6.2_7938c62af9e2e3908b5b052ce2305b13
       '@algolia/autocomplete-plugin-tags': 1.6.2
       '@algolia/autocomplete-preset-algolia': 1.6.2_7938c62af9e2e3908b5b052ce2305b13
-      '@algolia/autocomplete-theme-classic': 1.6.2
       '@algolia/client-search': 4.13.0
       '@asbjorn/eslint-plugin-groq': 2.0.0
       '@headlessui/react': 1.6.1_react-dom@17.0.2+react@17.0.2
@@ -2021,6 +2020,7 @@ importers:
       react-markdown: 8.0.0_27d7f75f5fffc1228c129be468caca5c
       react-query: 3.34.17_react-dom@17.0.2+react@17.0.2
       react-refractor: 2.1.7_react@17.0.2
+      react-rewards: 2.0.3_react-dom@17.0.2+react@17.0.2
       react-scroll: 1.8.6_react-dom@17.0.2+react@17.0.2
       react-stripe-checkout: 2.6.3
       react-use: 17.3.2_react-dom@17.0.2+react@17.0.2
@@ -2960,10 +2960,6 @@ packages:
 
   /@algolia/autocomplete-shared/1.6.2:
     resolution: {integrity: sha512-Js7N8EgKsRgaclDde70rF07VOdC+Zb6VLXTIWkJnO6+EI9zbXm/mT2StGVcpNuQ+UN8ZF/bVZLjuVBypOk8bUQ==}
-    dev: false
-
-  /@algolia/autocomplete-theme-classic/1.6.2:
-    resolution: {integrity: sha512-RUMAbqGEEQwj/l1y4pqY5yJ/8m7JHtDX+G9q+MTzhkMTO5zoKQ3n2FtbhPuiSdp0bULVJ0pRsTb5PTAe/rSdzg==}
     dev: false
 
   /@algolia/cache-browser-local-storage/4.13.0:
@@ -25326,6 +25322,16 @@ packages:
       tslib: 1.14.1
       use-callback-ref: 1.2.5_9280ae23271fd1e8184f767af1a90e55
       use-sidecar: 1.0.5_react@17.0.2
+    dev: false
+
+  /react-rewards/2.0.3_react-dom@17.0.2+react@17.0.2:
+    resolution: {integrity: sha512-qww5Jtk2HmCjR9wc7+0c2iP8oCQzENZn8pnoJGi0S6o+6dAD25+ZoagLSWdoBLGVwxfP5kFBjv3VZ6L8fPk6lg==}
+    peerDependencies:
+      react: ^15.0.0 || ^16.0.0 || ^17.0.0
+      react-dom: ^15.0.0 || ^16.0.0 || ^17.0.0
+    dependencies:
+      react: 17.0.2
+      react-dom: 17.0.2_react@17.0.2
     dev: false
 
   /react-rough-notation/1.0.2_react-dom@17.0.2+react@17.0.2:

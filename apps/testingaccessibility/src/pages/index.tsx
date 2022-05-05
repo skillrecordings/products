@@ -24,7 +24,7 @@ const Home: React.FC = (props) => {
   const router = useRouter()
 
   return (
-    <Layout>
+    <Layout className="bg-white">
       <div>
         <div className="flex flex-col justify-between min-h-screen">
           <header className="relative pb-32 overflow-hidden text-white bg-black pt-14">

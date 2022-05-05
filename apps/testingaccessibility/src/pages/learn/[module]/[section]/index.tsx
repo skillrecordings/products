@@ -29,7 +29,29 @@ const allSectionsQuery = groq`*[_type == "section"]{
 const sectionQuery = groq`*[_type == "section" && slug.current == $slug][0]{
   title,
   "slug": slug.current,
-  body,
+  body[]{
+      ...,
+      markDefs[]{
+        ...,
+      _type == "internalLink" => {
+        "_id": @.reference->_id,
+        "slug": @.reference->slug,
+        "type": @.reference->_type,
+        "modules": *[_type=='module']{
+          "slug": slug.current,
+          sections[]->{
+            "slug": slug.current,
+            lessons[]->{
+              "slug": slug.current,
+            }
+          }
+        }
+      }
+    }
+  },
+  image{
+    url
+  },
   lessons[]->{
     title,
     "slug": slug.current

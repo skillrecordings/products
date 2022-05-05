@@ -1,5 +1,6 @@
 import * as React from 'react'
 import {ChevronDownIcon, MenuIcon} from '@heroicons/react/solid'
+import {LogoutIcon} from '@heroicons/react/outline'
 import {isSellingLive} from 'utils/is-selling-live'
 import {useSession, signOut} from 'next-auth/react'
 import {Menu, Transition} from '@headlessui/react'
@@ -15,10 +16,12 @@ const Navigation = () => {
   const isSignedIn = Boolean(sessionData?.user)
   const isLoadingUser = sessionStatus === 'loading'
   return (
-    <nav className="sm:h-14 h-12 sm:px-3 px-2 sm:py-2.5 py-2 flex items-center justify-between w-full text-white bg-black print:hidden">
-      <NavLogo />
-      <DesktopNav isSignedIn={isSignedIn} isLoadingUser={isLoadingUser} />
-      <MobileNav isSignedIn={isSignedIn} isLoadingUser={isLoadingUser} />
+    <nav className="text-sm font-semibold sticky top-0 z-30 sm:h-16 h-14 lg:px-0 px-2 flex items-center w-full bg-white shadow-sm print:hidden">
+      <div className="flex items-center w-full h-full py-[2px] max-w-screen-lg mx-auto justify-between">
+        <NavLogo />
+        <DesktopNav isSignedIn={isSignedIn} isLoadingUser={isLoadingUser} />
+        <MobileNav isSignedIn={isSignedIn} isLoadingUser={isLoadingUser} />
+      </div>
     </nav>
   )
 }
@@ -31,7 +34,7 @@ type NavProps = {
 const DesktopNav: React.FC<NavProps> = ({isLoadingUser, isSignedIn}) => {
   return (
     <div
-      className={cx('sm:flex hidden w-full sm:pl-8 pl-5 gap-2', {
+      className={cx('sm:flex hidden w-full pl-10 gap-2 h-full', {
         'justify-between': isSellingLive,
         'justify-end': !isSellingLive,
       })}
@@ -54,7 +57,7 @@ const MobileNav: React.FC<NavProps> = ({isLoadingUser, isSignedIn}) => {
     <Menu as="div" className="sm:hidden relative inline-block text-left z-10">
       {({open}) => (
         <>
-          <Menu.Button className="flex items-center justify-center p-2 outline-none focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 rounded-md">
+          <Menu.Button className="flex items-center justify-center p-2 outline-none rounded-md">
             <span className="sr-only">
               {open ? 'Close' : 'Open'} Site Navigation
             </span>
@@ -91,7 +94,7 @@ const MobileNav: React.FC<NavProps> = ({isLoadingUser, isSignedIn}) => {
               </div>
               {!isLoadingUser && isSellingLive && (
                 <div className="px-1 pt-2 pb-1">
-                  <div className="text-blue-600 text-xs px-2 py-2 uppercase tracking-wide font-medium">
+                  <div className="text-blue-600 text-xs px-2 py-2 uppercase tracking-wide font-semibold">
                     Account
                   </div>
                   {isSignedIn ? (
@@ -127,7 +130,7 @@ const MobileNav: React.FC<NavProps> = ({isLoadingUser, isSignedIn}) => {
 }
 
 const NavSlots: React.FC = ({children}) => {
-  return <div className="gap-1 flex items-center">{children}</div>
+  return <div className="flex items-center">{children}</div>
 }
 
 const NavLink: React.FC<{href: string}> = ({href, children, ...props}) => {
@@ -139,9 +142,10 @@ const NavLink: React.FC<{href: string}> = ({href, children, ...props}) => {
       <a
         aria-current={isActive ? 'page' : undefined}
         className={cx(
-          'sm:px-3 px-2 py-2 rounded-md hover:bg-white bg-opacity-5 group sm:text-base text-sm inline-block transition-all duration-200 ease-in-out outline-none hover:opacity-100 opacity-90 hover:bg-opacity-10 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500',
+          'relative px-5 h-full flex items-center justify-center hover:bg-gray-50 group transition outline-none hover:opacity-100 opacity-90 text-sm',
           {
-            underline: isActive,
+            'after:content-[""] after:absolute after:w-full after:h-[2px] after:bottom-[-2px] after:left-0 after:bg-blue-500':
+              isActive,
           },
         )}
         {...props}
@@ -167,7 +171,7 @@ const MenuLink = React.forwardRef<HTMLAnchorElement, MenuLinkProps>(
           ref={ref}
           className={`${
             active ? 'bg-blue-500 text-white' : 'text-gray-900'
-          } group flex w-full items-center rounded-md px-2 py-2 text-base`}
+          } group flex w-full items-center rounded-md px-2 py-2`}
           {...rest}
         >
           {children}
@@ -199,11 +203,12 @@ const SignOutButton = React.forwardRef<HTMLButtonElement, MenuLinkProps>(
             ? className
             : `${
                 active ? 'bg-blue-500 text-white' : 'text-gray-900'
-              } group flex w-full items-center rounded-md px-2 py-2 text-base`
+              } group flex w-full items-center rounded-md px-2 py-2 font-normal`
         }
         {...rest}
       >
-        Sign Out
+        <span className="pr-2">Sign Out</span>
+        <LogoutIcon className="w-4" aria-hidden="true" />
       </button>
     )
   },
@@ -211,8 +216,8 @@ const SignOutButton = React.forwardRef<HTMLButtonElement, MenuLinkProps>(
 
 const AccountMenu: React.FC = () => {
   return (
-    <Menu as="div" className="relative inline-block text-left z-10">
-      <Menu.Button className="flex items-center px-3 py-2 hover:bg-white hover:bg-opacity-5 rounded-md focus:outline-none outline-none focus-visible:ring-2 focus-visible:ring-blue-500">
+    <Menu as="div" className="relative inline-block text-left z-10 h-full">
+      <Menu.Button className="flex h-full justify-center items-center px-3 py-2 hover:bg-gray-50 transition font-semibold">
         Account <ChevronDownIcon className="w-3 ml-1" aria-hidden="true" />
       </Menu.Button>
       <Transition
@@ -224,7 +229,7 @@ const AccountMenu: React.FC = () => {
         leaveFrom="transform opacity-100 scale-100"
         leaveTo="transform opacity-0 scale-95"
       >
-        <Menu.Items className="absolute right-0 mt-1 w-24 origin-top-right divide-y divide-gray-100 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+        <Menu.Items className="absolute right-0 w-28 -mt-1 origin-top-right divide-y divide-gray-100 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
           <div className="px-1 py-1">
             <Menu.Item>
               {(props) => (
@@ -233,6 +238,8 @@ const AccountMenu: React.FC = () => {
                 </MenuLink>
               )}
             </Menu.Item>
+          </div>
+          <div className="px-1 py-1">
             <Menu.Item>
               {({active}) => <SignOutButton active={active} />}
             </Menu.Item>
@@ -252,17 +259,20 @@ const NavLogo = () => {
   return (
     <Link href="/" aria-label="Home" passHref>
       <a
-        className="flex-shrink-0 flex items-center group focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500"
+        className={cx(
+          'h-full group flex-shrink-0 flex items-center group p-1 after:content-[""] relative after:absolute after:-right-6 after:h-5 after:w-px sm:after:bg-gray-200',
+          {
+            'after:bg-transparent sm:after:bg-transparent': !isSellingLive,
+          },
+        )}
         tabIndex={router.pathname === '/' ? -1 : 0}
       >
-        <div className="pr-1 sm:pr-2 sm:w-8 w-6">
-          <Logo />
-        </div>
-        <div className="flex flex-col leading-tight ">
-          <div className="font-semibold lg:text-lg sm:text-base text-sm leading-tighter">
+        <Logo className="w-8" />
+        <div className="pl-1 flex flex-col leading-tight">
+          <div className="font-bold text-xs uppercase leading-none">
             <span className="sr-only">Home page of&nbsp;</span>
-            <span className="sm:inline-block block">Testing</span>
-            Accessibility <span className="sr-only">&nbsp;.com</span>
+            <span className="block">Testing</span> Accessibility{' '}
+            <span className="sr-only">&nbsp;.com</span>
           </div>
         </div>
       </a>
