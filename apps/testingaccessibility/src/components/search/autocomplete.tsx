@@ -11,6 +11,7 @@ import {useAutocomplete} from 'hooks'
 import type {Hit} from '@algolia/client-search'
 import {useRouter} from 'next/router'
 import {SearchIcon} from '@heroicons/react/solid'
+import cx from 'classnames'
 
 const Autocomplete = (props: any) => {
   const inputRef = React.useRef(null)
@@ -19,7 +20,7 @@ const Autocomplete = (props: any) => {
     id: 'testing-accessibility-search',
     defaultActiveItemId: 0,
     placeholder: 'Search resources',
-    debug: true,
+    debug: process.env.NODE_ENV === 'development',
     navigator: {
       navigate({itemUrl}) {
         router.push(itemUrl)
@@ -67,43 +68,46 @@ const Autocomplete = (props: any) => {
   })
 
   return (
-    <div className="aa-Autocomplete" {...autocomplete.getRootProps({})}>
+    <div className="relative" {...autocomplete.getRootProps({})}>
       <form
-        className="aa-Form"
+        className="relative"
         {...autocomplete.getFormProps({inputElement: inputRef.current})}
       >
-        <div className="aa-InputWrapperPrefix">
-          <label
-            className="aa-Label flex items-center justify-center px-3"
-            {...autocomplete.getLabelProps({})}
-          >
-            <SearchIcon />
-          </label>
-        </div>
-        <div className="aa-InputWrapper">
-          <input
-            className="aa-Input"
-            ref={inputRef}
-            {...autocomplete.getInputProps({
-              inputElement: inputRef.current as unknown as HTMLInputElement,
-            })}
-          />
-        </div>
+        <label
+          className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none"
+          {...autocomplete.getLabelProps({})}
+        >
+          <SearchIcon className="w-5 h-5" />
+        </label>
+        <input
+          className="focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 py-3 sm:text-sm bg-transparent border-none"
+          ref={inputRef}
+          {...autocomplete.getInputProps({
+            inputElement: inputRef.current as unknown as HTMLInputElement,
+          })}
+        />
       </form>
-      <div className="aa-Panel" {...autocomplete.getPanelProps({})}>
+      <div
+        className="absolute  z-50 w-full"
+        {...autocomplete.getPanelProps({})}
+      >
         {state.isOpen &&
           state.collections.map((collection: any, index: any) => {
             const {source, items} = collection
 
             return (
-              <div key={`source-${index}`} className="aa-Source">
+              <div key={`source-${index}`} className="p-1 bg-white rounded-md">
                 {items.length > 0 && (
-                  <ul className="aa-List" {...autocomplete.getListProps()}>
+                  <ul className="w-full" {...autocomplete.getListProps()}>
                     {items.map((item: Hit<any>) => {
+                      console.log(item)
+                      const selected = autocomplete.getItemProps({
+                        item,
+                        source,
+                      })['aria-selected']
                       return (
                         <li
                           key={item.objectID}
-                          className="aa-Item"
                           {...autocomplete.getItemProps({
                             item,
                             source,
@@ -116,7 +120,14 @@ const Autocomplete = (props: any) => {
                             }}
                             passHref
                           >
-                            <a className="flex items-center justify-between w-full">
+                            <a
+                              className={cx(
+                                'flex items-center justify-between px-3 py-2 rounded-md w-full transition',
+                                {
+                                  'bg-gray-100': selected,
+                                },
+                              )}
+                            >
                               <span>
                                 {highlight(
                                   parseAlgoliaHitHighlight({
@@ -125,7 +136,7 @@ const Autocomplete = (props: any) => {
                                   }),
                                 )}
                               </span>
-                              <span>{item.type}</span>
+                              <span className="text-sm">{item.type}</span>
                             </a>
                           </Link>
                         </li>

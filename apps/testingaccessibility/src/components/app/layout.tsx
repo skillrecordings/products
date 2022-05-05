@@ -32,7 +32,7 @@ const Layout: FunctionComponent<LayoutProps> = ({
   } = meta || {}
 
   return (
-    <>
+    <div className="relative">
       <Toaster position="top-center" />
       <NextSeo
         title={title}
@@ -51,14 +51,16 @@ const Layout: FunctionComponent<LayoutProps> = ({
         canonical={url}
         noindex={noIndex}
       />
-      <SkipNavLink>Skip navigation and go to content</SkipNavLink>
+      <SkipNavLink className="z-50">
+        Skip navigation and go to content
+      </SkipNavLink>
       {nav ? nav : isNull(nav) ? null : <Navigation />}
       <SkipNavContent
         className={cx('flex flex-col flex-grow h-full', className)}
       >
         {children}
       </SkipNavContent>
-    </>
+    </div>
   )
 }
 

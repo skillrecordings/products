@@ -25,7 +25,7 @@ const Articles: React.FC<ArticlesProps> = ({articles}) => {
   return (
     <Layout meta={meta}>
       <header className="relative px-5 overflow-hidden text-white bg-black max-h-[80vh]">
-        <h1 className="max-w-screen-md py-16 mx-auto text-3xl font-semibold leading-tight text-center sm:text-4xl lg:text-5xl md:text-4xl">
+        <h1 className="max-w-screen-md pb-16 sm:pt-24 pt-16 mx-auto text-3xl font-bold leading-tight text-center sm:text-4xl lg:text-5xl md:text-4xl">
           Accessibility Articles
         </h1>
         <div className="flex items-center justify-center max-w-screen-md mx-auto">

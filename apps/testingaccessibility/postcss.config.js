@@ -5,6 +5,5 @@ module.exports = {
     autoprefixer: {
       flexbox: 'no-2009',
     },
-    'postcss-focus-visible': {},
   },
 }

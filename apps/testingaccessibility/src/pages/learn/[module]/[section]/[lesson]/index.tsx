@@ -16,7 +16,26 @@ import groq from 'groq'
 const lessonQuery = groq`*[_type == "lesson" && slug.current == $slug][0]{
   title,
   "slug": slug.current,
-  body
+  body[]{
+      ...,
+      markDefs[]{
+        ...,
+      _type == "internalLink" => {
+        "_id": @.reference->_id,
+        "slug": @.reference->slug,
+        "type": @.reference->_type,
+        "modules": *[_type=='module']{
+          "slug": slug.current,
+          sections[]->{
+            "slug": slug.current,
+            lessons[]->{
+              "slug": slug.current,
+            }
+          }
+        }
+      }
+    }
+  },
   }`
 
 const allLessonsQuery = groq`*[_type == "lesson"]{

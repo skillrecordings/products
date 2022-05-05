@@ -29,13 +29,37 @@ const moduleQuery = groq`*[_type == "module" && slug.current == $slug][0]{
   "slug": slug.current,
   body,
   sections[]->{
-    title,
-    "slug": slug.current,
-    lessons[]->{
       title,
-      "slug": slug.current
+      "slug": slug.current,
+      body[]{
+      ...,
+      markDefs[]{
+        ...,
+      _type == "internalLink" => {
+        "_id": @.reference->_id,
+        "slug": @.reference->slug,
+        "type": @.reference->_type,
+        "modules": *[_type=='module']{
+          "slug": slug.current,
+          sections[]->{
+            "slug": slug.current,
+            lessons[]->{
+              "slug": slug.current,
+            }
+          }
+        }
+      }
     }
-  }
+      },
+      image{
+        url,
+        alt
+      },
+      lessons[]->{
+        title,
+        "slug": slug.current
+      }
+    }
   }`
 
 export const getServerSideProps: GetServerSideProps = async ({req, params}) => {

@@ -190,13 +190,7 @@ const Invoice: React.FC<{
             <div className="flex flex-col items-end py-16">
               <div>
                 <span className="mr-3">Total</span>
-                <strong>
-                  {charge.currency.toUpperCase()} {amount}
-                </strong>
-              </div>
-              <div className="font-bold">
-                <span className="mr-3 text-lg">Amount Due</span>
-                <strong>
+                <strong className="text-lg">
                   {charge.currency.toUpperCase()} {amount}
                 </strong>
               </div>
