@@ -59,6 +59,10 @@ const productQuery = groq`*[_type == "product" && productId == $productId][0]{
 const sectionQuery = groq`*[_type == "section" && slug.current == $slug][0]{
   title,
   "slug": slug.current,
+  image {
+    url,
+    alt
+  },
   lessons[]->{
     title,
     "slug": slug.current

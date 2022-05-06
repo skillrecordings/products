@@ -3,6 +3,7 @@ import {CheckIcon, ChevronRightIcon} from '@heroicons/react/solid'
 import {useProgress} from 'context/progress-context'
 import {PortableText} from '@portabletext/react'
 import {SanityDocument} from '@sanity/client'
+import {LessonProgress} from '@prisma/client'
 import {Switch} from '@headlessui/react'
 import {useReward} from 'react-rewards'
 import {useRouter} from 'next/router'
@@ -13,6 +14,7 @@ import Spinner from 'components/spinner'
 import indexOf from 'lodash/indexOf'
 import isEmpty from 'lodash/isEmpty'
 import pluralize from 'pluralize'
+import Image from 'next/image'
 import find from 'lodash/find'
 import Link from 'next/link'
 import cx from 'classnames'
@@ -29,11 +31,11 @@ const LessonTemplate: React.FC<LessonTemplateProps> = ({
   lesson,
 }) => {
   const {title, body, slug} = lesson
-  const {lessons} = section
+  const {lessons, image} = section
   const currentLessonIndex = indexOf(lessons, find(lessons, {slug}))
   const router = useRouter()
 
-  const {progress, toggleLessonComplete} = useProgress()
+  const {progress, toggleLessonComplete, isLoadingProgress} = useProgress()
   const currentLessonProgress = find(progress, {lessonSlug: slug})
   const isCurrentLessonCompleted = !isEmpty(currentLessonProgress?.completedAt)
 
@@ -122,8 +124,8 @@ const LessonTemplate: React.FC<LessonTemplateProps> = ({
 
   return (
     <Layout className="bg-white">
-      <div className="bg-gray-100">
-        <div className="max-w-screen-lg mx-auto w-full py-4 lg:px-2 px-4">
+      <div className="bg-gray-50">
+        <div className="max-w-screen-lg mx-auto w-full py-4 lg:px-1 px-2 overflow-x-auto">
           <BreadcrumbNav
             module={module}
             section={section}
@@ -131,57 +133,41 @@ const LessonTemplate: React.FC<LessonTemplateProps> = ({
           />
         </div>
       </div>
-      <div className="max-w-screen-lg mx-auto grid grid-cols-12 flex-grow bg-white">
-        <aside className="col-span-3">
-          {lessons && (
-            <nav aria-label="lesson navigator" className="px-2 py-8">
-              <h3 className="font-bold pb-4">Lesson Navigator</h3>
-              <ol role="list" className="list-none flex flex-col pl-2">
-                {lessons.map((lesson: SanityDocument, i: number) => {
-                  const {title, slug} = lesson
-                  const isActive = router.query.lesson === slug
-                  const isCompleted = find(progress, {
-                    lessonSlug: slug,
-                  })?.completedAt
-                  return (
-                    <li className="pb-3 group" key={slug}>
-                      <Link
-                        href={{
-                          pathname: '/learn/[module]/[section]/[lesson]',
-                          query: {
-                            module: module.slug,
-                            section: section.slug,
-                            lesson: slug,
-                          },
-                        }}
-                        passHref
-                      >
-                        <a
-                          data-index={i + 1}
-                          className={cx(
-                            `text-sm pl-5 relative flex after:font-semibold after:text-gray-500 after:flex after:items-center after:justify-center after:text-[0.55em] after:font-mono after:absolute after:content-[attr(data-index)] after:w-5 after:h-5 after:border after:border-gray-300 after:bg-white after:-left-2.5 after:rounded-full after:top-0.5 group-last-of-type:before:hidden before:absolute before:h-full before:left-[0] before:w-[1px] before:bg-gray-300 before:top-4`,
-                            {
-                              'font-semibold': isActive,
-                              '': !isActive,
-                            },
-                          )}
-                        >
-                          {isCompleted && '✅'} {title}
-                        </a>
-                      </Link>
-                    </li>
-                  )
-                })}
-              </ol>
-            </nav>
-          )}
-        </aside>
-        <main className="col-span-9 bg-white px-16">
-          <article className="py-16 mx-auto">
-            <h1 className="text-5xl font-extrabold pb-10">{title}</h1>
-            <hr className="w-8 border border-gray-300 mb-16" />
-            <div className="prose md:prose-lg max-w-none">
-              <PortableText value={body} components={PortableTextComponents} />
+      <div className="max-w-screen-lg w-full mx-auto flex-grow bg-white ">
+        <main className="py-10 bg-white lg:px-0 px-4">
+          <article className="mx-auto">
+            <header className="flex md:flex-row flex-col items-center justify-between lg:pb-10 sm:pb-16 pb-16">
+              <h1 className="w-full tracking-tight lg:text-5xl sm:text-4xl text-4xl font-extrabold lg:max-w-screen-sm md:text-left text-center md:pb-0 pb-12 lg:px-0 px-10">
+                {title}
+              </h1>
+              <div className="flex items-center justify-center max-w-xs">
+                <Image
+                  src={image.url}
+                  alt={image.alt}
+                  quality={100}
+                  width={360}
+                  height={360}
+                />
+              </div>
+            </header>
+            <div className="relative flex w-full lg:grid flex-col sm:grid-cols-12 gap-8 md:border-t border-gray-100 pt-10">
+              <div className="prose lg:prose-lg max-w-none sm:col-span-9">
+                <PortableText
+                  value={body}
+                  components={PortableTextComponents}
+                />
+              </div>
+              <div className="col-span-3">
+                <LessonNavigator
+                  className="pt-1.5 lg:block hidden"
+                  lessons={lessons}
+                  progress={progress}
+                  module={module}
+                  section={section}
+                  currentLessonIndex={currentLessonIndex}
+                  isLoadingProgress={isLoadingProgress}
+                />
+              </div>
             </div>
           </article>
         </main>
@@ -204,7 +190,7 @@ const LessonTemplate: React.FC<LessonTemplateProps> = ({
                 There {pluralize('is', numberOfLessonsLeftInSection)}{' '}
                 {numberOfLessonsLeftInSection} more{' '}
                 {pluralize('lesson', numberOfLessonsLeftInSection)} in this
-                section
+                section.
               </p>
               <Link
                 passHref
@@ -220,6 +206,90 @@ const LessonTemplate: React.FC<LessonTemplateProps> = ({
         </div>
       </section>
     </Layout>
+  )
+}
+
+type LessonNavigatorProps = {
+  lessons: SanityDocument[]
+  progress: LessonProgress[]
+  module: SanityDocument
+  section: SanityDocument
+  currentLessonIndex: number
+  isLoadingProgress: boolean
+  className?: string
+}
+
+const LessonNavigator: React.FC<LessonNavigatorProps> = ({
+  lessons,
+  progress,
+  module,
+  section,
+  currentLessonIndex,
+  isLoadingProgress,
+  className = '',
+}) => {
+  const router = useRouter()
+  if (!lessons) return null
+  return (
+    <aside className={className}>
+      <nav aria-label="lesson navigator">
+        <strong className="font-bold pb-4 flex">
+          <span>Lessons</span>
+          {isLoadingProgress && (
+            <Spinner aria-hidden="true" className="ml-2 w-4 opacity-60" />
+          )}
+        </strong>
+        <ol role="list" className="list-none flex flex-col pl-2">
+          {lessons.map((lesson: SanityDocument, i: number) => {
+            const {title, slug} = lesson
+            const isActive = router.query.lesson === slug
+            const isCompleted = find(progress, {
+              lessonSlug: slug,
+            })?.completedAt
+            return (
+              <li className=" group" key={slug}>
+                <Link
+                  href={{
+                    pathname: '/learn/[module]/[section]/[lesson]',
+                    query: {
+                      module: module.slug,
+                      section: section.slug,
+                      lesson: slug,
+                    },
+                  }}
+                  passHref
+                >
+                  <a
+                    data-index={isCompleted ? '✓' : i + 1}
+                    aria-current={currentLessonIndex === i ? 'page' : undefined}
+                    aria-label={`${title} ${isCompleted ? '(completed)' : ''}`}
+                    className={cx(
+                      `text-sm pl-5 pt-0.5 py-5 hover:text-gray-900 text-gray-700 relative flex after:font-semibold after:flex after:items-center after:justify-center after:font-mono after:absolute after:content-[attr(data-index)] after:w-5 after:h-5 after:border after:bg-white after:-left-2.5 after:rounded-full after:top-0.5 group-last-of-type:before:hidden before:absolute before:h-full before:left-[0] before:w-[1px] before:bg-gray-200 before:top-4`,
+                      {
+                        'font-bold after:border-gray-500 after:text-gray-800 after:font-bold text-gray-900':
+                          isActive && !isCompleted,
+                        '': !isActive,
+                        'after:text-[0.55em] after:text-gray-500 after:border-gray-300':
+                          !isCompleted,
+                        'after:text-sm after:text-white after:border-green-600 after:bg-green-600':
+                          isCompleted && !isActive,
+                        'after:text-white after:border-green-600 after:bg-green-600 font-bold':
+                          isCompleted && isActive,
+                      },
+                    )}
+                  >
+                    {title}{' '}
+                    {isCompleted && (
+                      <span className="sr-only">(completed)</span>
+                    )}
+                  </a>
+                </Link>
+              </li>
+            )
+          })}
+        </ol>
+      </nav>
+    </aside>
   )
 }
 

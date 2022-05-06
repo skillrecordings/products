@@ -54,7 +54,7 @@ const BreadcrumbNav: React.FC<BreadcrumbProps> = ({
 
   return (
     <nav className="flex" aria-label="Breadcrumb">
-      <ol role="list" className="flex items-center space-x-4">
+      <ol role="list" className="flex items-center sm:space-x-4 space-x-2">
         <li>
           <Link href="/learn">
             <a className="text-gray-400 hover:text-gray-500 w-5 block">
@@ -63,13 +63,11 @@ const BreadcrumbNav: React.FC<BreadcrumbProps> = ({
             </a>
           </Link>
         </li>
-
         {pages.map((page: Page, i: number) => {
           if (!page) return null
           const isLast = i + 1 === pages.length
-
           return (
-            <li key={page.title}>
+            <li key={page.title} className="flex-shrink-0">
               <div className="flex items-center">
                 <ChevronRightIcon
                   className="flex-shrink-0 h-5 w-5 text-gray-400"
@@ -82,14 +80,14 @@ const BreadcrumbNav: React.FC<BreadcrumbProps> = ({
                       query: page.query,
                     }}
                   >
-                    <a className="ml-4 text-sm font-semibold text-gray-700 hover:text-gray-800">
+                    <a className="flex-shrink-0 sm:ml-4 ml-2 text-sm font-semibold text-gray-700 hover:text-gray-800">
                       {page.title}
                     </a>
                   </Link>
                 ) : (
                   <span
                     aria-current="page"
-                    className="ml-4 text-sm font-medium text-gray-600"
+                    className="flex-shrink-0 sm:ml-4 ml-2 text-sm font-medium text-gray-600"
                   >
                     {page.title}
                   </span>

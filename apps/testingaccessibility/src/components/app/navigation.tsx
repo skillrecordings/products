@@ -260,7 +260,7 @@ const NavLogo = () => {
     <Link href="/" aria-label="Home" passHref>
       <a
         className={cx(
-          'h-full group text-gray-900 bg-white flex-shrink-0 flex items-center group p-1 after:content-[""] relative after:absolute after:-right-6 after:h-5 after:w-px sm:after:bg-gray-200',
+          'h-full group text-gray-900 bg-white flex-shrink-0 flex items-center group after:content-[""] relative after:absolute after:-right-6 after:h-5 after:w-px sm:after:bg-gray-200',
           {
             'after:bg-transparent sm:after:bg-transparent': !isSellingLive,
           },

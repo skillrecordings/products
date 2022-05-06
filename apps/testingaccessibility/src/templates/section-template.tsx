@@ -12,6 +12,7 @@ import indexOf from 'lodash/indexOf'
 import find from 'lodash/find'
 import Image from 'next/image'
 import Link from 'next/link'
+import cx from 'classnames'
 
 type SectionTemplateProps = {
   section: SanityDocument
@@ -26,8 +27,6 @@ const SectionTemplate: React.FC<SectionTemplateProps> = ({
 }) => {
   const {slug: sectionSlug, title, body, lessons, image} = section
   const {progress} = useProgress()
-  const {completedLessons, isCompleted, percentCompleted} =
-    getSectionProgressForUser(progress, lessons)
 
   const currentSectionIndex = indexOf(
     module.sections,
@@ -36,14 +35,14 @@ const SectionTemplate: React.FC<SectionTemplateProps> = ({
   const nextUpSection = module.sections[currentSectionIndex + 1]
 
   return (
-    <Layout className="bg-white">
+    <Layout className="bg-white flex-grow">
       <div className="bg-gray-100">
-        <div className="max-w-screen-lg mx-auto w-full py-4 lg:px-2 px-4">
+        <div className="max-w-screen-lg mx-auto w-full py-4 lg:px-1 px-2 overflow-x-auto">
           <BreadcrumbNav module={module} section={section} />
         </div>
       </div>
       <div className="max-w-screen-lg mx-auto flex-grow bg-white">
-        <main className="bg-white flex lg:flex-row flex-col xl:px-0 px-5 py-8 lg:gap-16 gap-5">
+        <main className="bg-white flex lg:flex-row flex-col xl:px-0 px-5 py-12 lg:gap-16 gap-5">
           {image.url && (
             <div className="flex-shrink-0 md:block flex items-center justify-center">
               <Image
@@ -57,7 +56,7 @@ const SectionTemplate: React.FC<SectionTemplateProps> = ({
           )}
           <article className="mx-auto pt-16">
             <h1 className="text-5xl font-extrabold pb-10">{title}</h1>
-            <hr className="w-8 border border-gray-300 mb-10" />
+
             <div className="prose lg:prose-lg max-w-none">
               <PortableText value={body} components={PortableTextComponents} />
             </div>
@@ -65,18 +64,21 @@ const SectionTemplate: React.FC<SectionTemplateProps> = ({
               {lessons && (
                 <nav aria-label="lesson navigator" className="">
                   <h2 className="font-bold text-xl">Lessons</h2>
-                  <ol className="list-decimal pt-2 divide-y divide-gray-200">
-                    {lessons.map((lesson: SanityDocument) => {
+                  <ol className="list-none divide-y divide-gray-100">
+                    {lessons.map((lesson: SanityDocument, i: number) => {
                       const {title, slug} = lesson
-                      const isCompleted = find(completedLessons, {
+                      const isCompleted = find(progress, {
                         lessonSlug: slug,
-                      })
+                      })?.completedAt
                       return (
                         <li
                           key={slug}
-                          className="marker:text-xs marker:text-gray-500"
+                          className="group marker:text-xs marker:text-gray-500"
                         >
                           <Link
+                            aria-label={`${title} ${
+                              isCompleted ? '(completed)' : ''
+                            }`}
                             href={{
                               pathname: '/learn/[module]/[section]/[lesson]',
                               query: {
@@ -87,9 +89,26 @@ const SectionTemplate: React.FC<SectionTemplateProps> = ({
                             }}
                             passHref
                           >
-                            <a className="text-blue-600 px-3 w-full py-3 flex font-semibold hover:bg-gray-50 transition">
-                              {isCompleted && '✅'} {title}
+                            <a
+                              data-index={isCompleted ? '✓' : i + 1}
+                              className={cx(
+                                `before:absolute pl-8 hover:bg-gray-50 w-full font-semibold py-4 hover:text-gray-900 text-gray-700 relative items-center inline-flex before:font-semibold before:flex before:items-center before:justify-center before:font-mono before:content-[attr(data-index)] before:w-5 before:h-5 before:border before:bg-white before:left-0 before:rounded-full`,
+                                {
+                                  'before:text-[0.55em] before:text-gray-500 before:border-gray-300':
+                                    !isCompleted,
+                                  'before:text-sm before:text-white before:border-green-600 before:bg-green-600':
+                                    isCompleted,
+                                },
+                              )}
+                            >
+                              {title}{' '}
+                              {isCompleted && (
+                                <span className="sr-only">(completed)</span>
+                              )}
                             </a>
+                            {/* <a className="text-blue-600 px-3 w-full py-3 flex font-semibold hover:bg-gray-50 transition">
+                              {isCompleted && '✅'} {title}
+                            </a> */}
                           </Link>
                         </li>
                       )

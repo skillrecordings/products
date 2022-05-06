@@ -117,7 +117,11 @@ const Learn: React.FC<{purchases: Purchase[]; product: SanityDocument}> = ({
                 </a>
               </Link>
             </li>
-            {module.sections && <Sections module={module} />}
+            {module.sections && (
+              <li className="list-none">
+                <Sections module={module} />
+              </li>
+            )}
           </ol>
         ))}
       </main>
@@ -127,84 +131,85 @@ const Learn: React.FC<{purchases: Purchase[]; product: SanityDocument}> = ({
 
 export const Sections: React.FC<any> = ({module}) => {
   return (
-    <li className="list-none">
-      <ol className="pt-16">
-        {module.sections.map((section: SanityDocument, i: number) => {
-          const isIntroSection = i === 0
+    <ol className="pt-16">
+      {module.sections.map((section: SanityDocument, i: number) => {
+        const isIntroSection = i === 0
 
-          return (
-            <li
-              key={section.slug}
-              className={cx(
-                'lg:pb-32 sm:pb-28 pb-20 flex gap-10 max-w-screen-md mx-auto w-full',
-                {
-                  'items-center': isIntroSection,
-                },
+        return (
+          <li
+            key={section.slug}
+            className={cx(
+              'lg:pb-32 sm:pb-28 pb-20 flex md:flex-row flex-col gap-10 max-w-screen-md mx-auto w-full',
+              {
+                'items-center': isIntroSection,
+              },
+            )}
+          >
+            <div className="flex items-start justify-start flex-shrink-0">
+              <Image
+                src={section.image.url}
+                alt={section.image.alt}
+                width={300}
+                height={300}
+                quality={100}
+              />
+            </div>
+            <div className="w-full">
+              {!isIntroSection && (
+                <span className="uppercase font-bold text-sm text-gray-600 leading-none block pb-2">
+                  Section {i++}
+                </span>
               )}
-            >
-              <div className="flex items-start justify-start flex-shrink-0">
-                <Image
-                  src={section.image.url}
-                  alt={section.image.alt}
-                  width={300}
-                  height={300}
-                  quality={100}
-                />
-              </div>
-              <div>
-                {!isIntroSection && (
-                  <span className="uppercase font-bold text-sm text-gray-600 leading-none block pb-2">
-                    Section {i++}
-                  </span>
-                )}
-                <Link
-                  href={{
-                    pathname: '/learn/[module]/[section]',
-                    query: {
-                      module: module.slug,
-                      section: section.slug,
-                    },
-                  }}
-                  passHref
-                >
-                  <a className="hover:underline  text-[1.6rem] font-bold inline-block leading-tight">
-                    {section.title}
-                  </a>
-                </Link>
-                {isIntroSection && (
-                  <div>
-                    <Link
-                      href={{
-                        pathname: '/learn/[module]/[section]',
-                        query: {
-                          module: module.slug,
-                          section: section.slug,
-                        },
-                      }}
-                      passHref
-                    >
-                      <a className="uppercase font-bold text-xs text-white px-3 py-2 hover:bg-blue-700 transition leading-none inline-flex bg-blue-600 rounded-md mt-2">
-                        Start Here
-                      </a>
-                    </Link>
-                  </div>
-                )}
-                {isIntroSection ? null : (
-                  <div className="prose pt-5">
-                    <PortableText
-                      components={PortableTextComponents}
-                      value={section.body}
-                    />
-                  </div>
-                )}
-                {section.lessons && (
-                  <div className="pt-8">
-                    <strong>Lessons</strong>
-                    <ol className="list-decimal pt-2 divide-y divide-gray-200">
-                      {section.lessons.map((lesson: SanityDocument) => (
+              <Link
+                href={{
+                  pathname: '/learn/[module]/[section]',
+                  query: {
+                    module: module.slug,
+                    section: section.slug,
+                  },
+                }}
+                passHref
+              >
+                <a className="hover:underline text-[1.6rem] font-bold inline-block leading-tight">
+                  {section.title}
+                </a>
+              </Link>
+              {isIntroSection && (
+                <div>
+                  <Link
+                    href={{
+                      pathname: '/learn/[module]/[section]',
+                      query: {
+                        module: module.slug,
+                        section: section.slug,
+                      },
+                    }}
+                    passHref
+                  >
+                    <a className="uppercase font-bold text-xs text-white px-3 py-2 hover:bg-teal-700 transition leading-none inline-flex bg-teal-600 rounded-md mt-2">
+                      Start Here
+                    </a>
+                  </Link>
+                </div>
+              )}
+              {isIntroSection ? null : (
+                <div className="prose pt-5">
+                  <PortableText
+                    components={PortableTextComponents}
+                    value={section.body}
+                  />
+                </div>
+              )}
+              {section.lessons && (
+                <div className="pt-8">
+                  <strong>Lessons</strong>
+                  <ol className="list-none pt-2 divide-y divide-gray-100">
+                    {section.lessons.map(
+                      (lesson: SanityDocument, i: number) => (
                         <li
+                          data-index={i + 1}
                           key={lesson.slug}
-                          className="marker:text-xs marker:text-gray-500"
+                          className="relative flex items-baseline before:pt-4 before:opacity-60 before:absolute before:content-[attr(data-index)] before:text-xs marker:text-gray-400 hover:bg-white before:pl-2 -mx-2"
                         >
                           <Link
                             href={{
@@ -217,21 +222,21 @@ export const Sections: React.FC<any> = ({module}) => {
                             }}
                             passHref
                           >
-                            <a className="text-blue-600 px-3 w-full py-3 flex font-semibold hover:bg-gray-100 transition">
+                            <a className="text-gray-800 hover:text-gray-900 px-3 py-3 font-semibold transition pl-6 inline-flex">
                               {lesson.title}
                             </a>
                           </Link>
                         </li>
-                      ))}
-                    </ol>
-                  </div>
-                )}
-              </div>
-            </li>
-          )
-        })}
-      </ol>
-    </li>
+                      ),
+                    )}
+                  </ol>
+                </div>
+              )}
+            </div>
+          </li>
+        )
+      })}
+    </ol>
   )
 }
 
