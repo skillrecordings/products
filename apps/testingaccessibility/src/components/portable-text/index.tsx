@@ -30,29 +30,31 @@ const Video: React.FC<{url: string; title: string}> = ({url, title}) => {
     .replace('stream.mux.com', 'image.mux.com')
     .replace('.m3u8', '/thumbnail.png?width=1600&height=1000&fit_mode=pad')
   return (
-    <div
-      ref={fullscreenWrapperRef}
-      className={cx('w-full', {
-        'absolute top-0 left-0 z-50': isFullscreen,
-        relative: !isFullscreen,
-      })}
-    >
+    <div>
       {title && (
-        <strong className="font-bold">
+        <strong className="font-semibold inline-block pb-2">
           <span className="sr-only">Video:</span> {title}
         </strong>
       )}
-      <div className="rounded-sm overflow-hidden">
-        <Player
-          enableGlobalShortcuts={false}
-          aria-label={title}
-          container={fullscreenWrapperRef.current || undefined}
-          aspectRatio="8:5"
-          className={'font-sans'}
-          poster={poster}
-        >
-          {url && <HLSSource src={url} />}
-        </Player>
+      <div
+        ref={fullscreenWrapperRef}
+        className={cx('w-full', {
+          'absolute top-0 left-0 z-50': isFullscreen,
+          relative: !isFullscreen,
+        })}
+      >
+        <div className="rounded-md overflow-hidden">
+          <Player
+            enableGlobalShortcuts={false}
+            aria-label={title}
+            container={fullscreenWrapperRef.current || undefined}
+            aspectRatio="8:5"
+            className={'font-sans'}
+            poster={poster}
+          >
+            {url && <HLSSource src={url} />}
+          </Player>
+        </div>
       </div>
     </div>
   )
@@ -168,7 +170,7 @@ const PortableTextComponents: PortableTextComponents = {
             {getCalloutImage(type).src}
           </div>{' '}
           {/* <b className="font-bold">{getCalloutTitle(type)}</b> */}
-          <div className="first-of-type:prose-p:mt-0 last-of-type:prose-p:mb-0">
+          <div className="min-w-0 first-of-type:prose-p:mt-0 last-of-type:prose-p:mb-0">
             <PortableText value={body} />
           </div>
         </div>

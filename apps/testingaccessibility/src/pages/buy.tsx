@@ -1,5 +1,5 @@
 import React from 'react'
-import {Pricing} from '../components/Pricing'
+import {Pricing} from '../components/pricing'
 import {GetServerSideProps} from 'next'
 import RedeemDialog from '../components/redeem-dialog'
 import {validateCoupon} from '../utils/validate-coupon'

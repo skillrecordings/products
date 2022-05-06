@@ -18,6 +18,7 @@ const productQuery = groq`*[_type == "product" && productId == $productId][0]{
     title,
     "slug": slug.current,
     sections[]->{
+      title,
       "slug": slug.current
     }
   }
@@ -50,7 +51,8 @@ const sectionQuery = groq`*[_type == "section" && slug.current == $slug][0]{
     }
   },
   image{
-    url
+    url,
+    alt
   },
   lessons[]->{
     title,
@@ -103,7 +105,7 @@ export const getServerSideProps: GetServerSideProps = async ({req, params}) => {
       },
     }
   }
-
+  const modules = product.modules
   const module = find(product.modules, (module: SanityDocument) =>
     module.sections.includes(currentSection),
   )
@@ -113,17 +115,22 @@ export const getServerSideProps: GetServerSideProps = async ({req, params}) => {
   })
 
   return {
-    props: {section: data, module},
+    props: {section: data, module, modules},
   }
 }
 
 type SectionPageProps = {
   module: SanityDocument
   section: SanityDocument
+  modules: SanityDocument[]
 }
 
-const SectionPage: React.FC<SectionPageProps> = ({module, section}) => {
-  return <SectionTemplate module={module} section={section} />
+const SectionPage: React.FC<SectionPageProps> = ({
+  module,
+  section,
+  modules,
+}) => {
+  return <SectionTemplate module={module} section={section} modules={modules} />
 }
 
 export default SectionPage

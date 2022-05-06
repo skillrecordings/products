@@ -99,7 +99,7 @@ const Learn: React.FC<{purchases: Purchase[]; product: SanityDocument}> = ({
         </div>
       </header>
       <main className="max-w-screen-lg mx-auto w-full p-5 pt-16">
-        <h1 className="text-center uppercase text-xs leading-none font-bold text-pink-500">
+        <h1 className="text-center uppercase text-xs leading-none font-bold text-pink-700">
           {title}
         </h1>
         {modules.map((module: SanityDocument) => (
@@ -127,16 +127,20 @@ const Learn: React.FC<{purchases: Purchase[]; product: SanityDocument}> = ({
 
 export const Sections: React.FC<any> = ({module}) => {
   return (
-    <ol className="pt-16">
-      {module.sections.map((section: SanityDocument, i: number) => {
-        const isIntroSection = i === 0
+    <li className="list-none">
+      <ol className="pt-16">
+        {module.sections.map((section: SanityDocument, i: number) => {
+          const isIntroSection = i === 0
 
-        return (
-          <div key={section.slug} className="lg:pb-32 sm:pb-28 pb-20">
+          return (
             <li
-              className={cx('flex gap-10 max-w-screen-md mx-auto w-full', {
-                'items-center': isIntroSection,
-              })}
+              key={section.slug}
+              className={cx(
+                'lg:pb-32 sm:pb-28 pb-20 flex gap-10 max-w-screen-md mx-auto w-full',
+                {
+                  'items-center': isIntroSection,
+                },
+              )}
             >
               <div className="flex items-start justify-start flex-shrink-0">
                 <Image
@@ -179,7 +183,7 @@ export const Sections: React.FC<any> = ({module}) => {
                       }}
                       passHref
                     >
-                      <a className="uppercase font-bold text-xs text-white px-3 py-2 hover:bg-blue-600 transition leading-none inline-flex bg-blue-500 rounded-md mt-2">
+                      <a className="uppercase font-bold text-xs text-white px-3 py-2 hover:bg-blue-700 transition leading-none inline-flex bg-blue-600 rounded-md mt-2">
                         Start Here
                       </a>
                     </Link>
@@ -224,10 +228,10 @@ export const Sections: React.FC<any> = ({module}) => {
                 )}
               </div>
             </li>
-          </div>
-        )
-      })}
-    </ol>
+          )
+        })}
+      </ol>
+    </li>
   )
 }
 

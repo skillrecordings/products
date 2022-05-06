@@ -260,7 +260,7 @@ const NavLogo = () => {
     <Link href="/" aria-label="Home" passHref>
       <a
         className={cx(
-          'h-full group flex-shrink-0 flex items-center group p-1 after:content-[""] relative after:absolute after:-right-6 after:h-5 after:w-px sm:after:bg-gray-200',
+          'h-full group text-gray-900 bg-white flex-shrink-0 flex items-center group p-1 after:content-[""] relative after:absolute after:-right-6 after:h-5 after:w-px sm:after:bg-gray-200',
           {
             'after:bg-transparent sm:after:bg-transparent': !isSellingLive,
           },
@@ -268,12 +268,8 @@ const NavLogo = () => {
         tabIndex={router.pathname === '/' ? -1 : 0}
       >
         <Logo className="w-8" />
-        <div className="pl-1 flex flex-col leading-tight">
-          <div className="font-bold text-xs uppercase leading-none">
-            <span className="sr-only">Home page of&nbsp;</span>
-            <span className="block">Testing</span> Accessibility{' '}
-            <span className="sr-only">&nbsp;.com</span>
-          </div>
+        <div className="pl-1 flex flex-col font-bold text-xs uppercase leading-none">
+          <span className="block">Testing</span> <span>Accessibility</span>
         </div>
       </a>
     </Link>
