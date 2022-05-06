@@ -14,10 +14,10 @@ const Login: React.FC<{csrfToken: string}> = ({csrfToken}) => {
   return (
     <Layout
       meta={{title: 'Login to Testing Accessibility'}}
-      className="flex flex-col h-full sm:min-h-[calc(100vh-64px)] min-h-[calc(100vh-56px)] p-5"
+      className="flex flex-col h-full sm:min-h-[calc(100vh-64px)] min-h-[calc(100vh-56px)]"
     >
       <div
-        className="flex-grow w-full mx-auto md:pb-40 pb-16 py-16 flex flex-col items-center justify-center"
+        className="flex-grow w-full mx-auto md:pb-40 pb-16 py-16 flex flex-col items-center justify-center p-5"
         style={{
           backgroundImage: "url('/assets/pattern-topography.svg')",
         }}

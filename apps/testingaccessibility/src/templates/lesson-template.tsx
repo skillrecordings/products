@@ -196,7 +196,7 @@ const LessonTemplate: React.FC<LessonTemplateProps> = ({
                 passHref
                 href={`/learn/${module.slug}/${section.slug}/${nextLesson.slug}`}
               >
-                <a className="hover:shadow-md transition-all mt-4 inline-flex items-center justify-center text-gray-800 font-medium px-4 py-3 rounded-md bg-white shadow-sm">
+                <a className="transition-all mt-4 inline-flex items-center justify-center font-medium px-5 py-3 rounded-md bg-gray-900 text-white">
                   <span>{nextLesson.title}</span>
                   <ChevronRightIcon className="w-5" aria-hidden="true" />
                 </a>

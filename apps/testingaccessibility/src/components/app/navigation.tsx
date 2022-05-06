@@ -4,8 +4,8 @@ import {LogoutIcon} from '@heroicons/react/outline'
 import {isSellingLive} from 'utils/is-selling-live'
 import {useSession, signOut} from 'next-auth/react'
 import {Menu, Transition} from '@headlessui/react'
+import {NextRouter, useRouter} from 'next/router'
 import {Logo} from 'components/images'
-import {useRouter} from 'next/router'
 import isEmpty from 'lodash/isEmpty'
 import toast from 'react-hot-toast'
 import Link from 'next/link'
@@ -35,7 +35,7 @@ const DesktopNav: React.FC<NavProps> = ({isLoadingUser, isSignedIn}) => {
   return (
     <div
       className={cx('sm:flex hidden w-full pl-10 gap-2 h-full', {
-        'justify-between': isSellingLive,
+        'justify-between': isSellingLive || isSignedIn,
         'justify-end': !isSellingLive,
       })}
     >
@@ -43,7 +43,7 @@ const DesktopNav: React.FC<NavProps> = ({isLoadingUser, isSignedIn}) => {
         <NavLink href={isSignedIn ? '/learn' : '/workshops'}>Workshops</NavLink>
         <NavLink href="/articles">Articles</NavLink>
       </NavSlots>
-      {!isLoadingUser && isSellingLive && (
+      {!isLoadingUser && (isSellingLive || isSignedIn) && (
         <NavSlots>
           {isSignedIn ? <AccountMenu /> : <RestorePurchasesLink />}
         </NavSlots>
@@ -181,24 +181,25 @@ const MenuLink = React.forwardRef<HTMLAnchorElement, MenuLinkProps>(
   },
 )
 
+export const handleSignOut = async (router: NextRouter) => {
+  const data = await signOut({
+    redirect: false,
+    callbackUrl: '/',
+  }).then((data) => {
+    toast.success('Signed out successfully')
+    return data
+  })
+  await router.push(data.url)
+}
+
 const SignOutButton = React.forwardRef<HTMLButtonElement, MenuLinkProps>(
   ({className, active, ...rest}, ref) => {
     const router = useRouter()
-    const handleSignOut = async () => {
-      const data = await signOut({
-        redirect: false,
-        callbackUrl: '/',
-      }).then((data) => {
-        toast.success('Signed out successfully')
-        return data
-      })
-      await router.push(data.url)
-    }
     return (
       <button
         ref={ref}
         {...rest}
-        onClick={handleSignOut}
+        onClick={() => handleSignOut(router)}
         className={
           !isEmpty(className)
             ? className

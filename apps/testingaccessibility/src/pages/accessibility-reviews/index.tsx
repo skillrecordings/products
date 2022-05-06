@@ -110,7 +110,7 @@ const Reviews: React.FC<any> = ({reviews}) => {
             <div>
               <div className="opacity-80">Your Instructor</div>
               <div className="text-3xl font-bold">Marcy Sutton</div>
-              <p className="mt-2 text-xl leading-relaxed">
+              <p className="mt-2 leading-relaxed">
                 Marcy is an award-winning accessibility specialist and freelance
                 web developer.
               </p>

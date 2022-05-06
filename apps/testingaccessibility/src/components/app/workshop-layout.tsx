@@ -117,7 +117,7 @@ const WorkshopLayout: React.FC<{meta: any}> = ({children, meta}) => {
               <div>
                 <div className="opacity-80">Instructor</div>
                 <div className="text-3xl font-bold">Marcy Sutton</div>
-                <p className="mt-2 text-xl leading-relaxed">
+                <p className="mt-2 leading-relaxed">
                   Marcy is an award-winning accessibility specialist and
                   freelance web developer.
                 </p>

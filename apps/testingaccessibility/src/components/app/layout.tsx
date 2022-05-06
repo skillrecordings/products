@@ -1,17 +1,21 @@
 import React, {FunctionComponent} from 'react'
+import {SkipNavContent, SkipNavLink} from '@reach/skip-nav'
+import {isSellingLive} from 'utils/is-selling-live'
+import {useSession} from 'next-auth/react'
+import {Toaster} from 'react-hot-toast'
 import {NextSeo} from 'next-seo'
-import cx from 'classnames'
 import Navigation from './navigation'
 import isNull from 'lodash/isNull'
-import {Toaster} from 'react-hot-toast'
-import {SkipNavContent, SkipNavLink} from '@reach/skip-nav'
+import Footer from './footer'
 import config from 'config'
+import cx from 'classnames'
 
 type LayoutProps = {
   meta?: any
   noIndex?: boolean
   className?: string
   nav?: React.ReactElement | null
+  footer?: React.ReactElement | null
 }
 
 const Layout: FunctionComponent<LayoutProps> = ({
@@ -20,6 +24,7 @@ const Layout: FunctionComponent<LayoutProps> = ({
   meta,
   noIndex,
   nav,
+  footer,
 }) => {
   const {
     title = config.defaultTitle,
@@ -30,7 +35,8 @@ const Layout: FunctionComponent<LayoutProps> = ({
     ogImage,
     date,
   } = meta || {}
-
+  const {data: sessionData} = useSession()
+  const isSignedIn = Boolean(sessionData?.user)
   return (
     <div className="relative">
       <Toaster position="top-center" />
@@ -56,9 +62,14 @@ const Layout: FunctionComponent<LayoutProps> = ({
       </SkipNavLink>
       {nav ? nav : isNull(nav) ? null : <Navigation />}
       <SkipNavContent
-        className={cx('flex flex-col flex-grow h-full', className)}
+        className={cx(
+          'flex flex-col flex-grow h-full sm:min-h-[calc(100vh-64px)] min-h-[calc(100vh-56px)]',
+          className,
+        )}
       >
         {children}
+        {(isSellingLive || isSignedIn) &&
+          (footer ? footer : isNull(footer) ? null : <Footer />)}
       </SkipNavContent>
     </div>
   )

@@ -86,6 +86,7 @@ const Invoice: React.FC<{
   return (
     <Layout
       meta={{title: `Invoice ${merchantChargeId}`}}
+      footer={null}
       className="bg-gray-50"
     >
       <main className="max-w-screen-md mx-auto">

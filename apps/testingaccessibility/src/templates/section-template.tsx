@@ -35,14 +35,14 @@ const SectionTemplate: React.FC<SectionTemplateProps> = ({
   const nextUpSection = module.sections[currentSectionIndex + 1]
 
   return (
-    <Layout className="bg-white flex-grow">
+    <Layout className="bg-gray-50 flex-grow">
       <div className="bg-gray-100">
         <div className="max-w-screen-lg mx-auto w-full py-4 lg:px-1 px-2 overflow-x-auto">
           <BreadcrumbNav module={module} section={section} />
         </div>
       </div>
-      <div className="max-w-screen-lg mx-auto flex-grow bg-white">
-        <main className="bg-white flex lg:flex-row flex-col xl:px-0 px-5 py-12 lg:gap-16 gap-5">
+      <div className="max-w-screen-lg mx-auto flex-grow">
+        <main className="flex lg:flex-row flex-col xl:px-0 px-5 py-12 lg:gap-16 gap-5">
           {image.url && (
             <div className="flex-shrink-0 md:block flex items-center justify-center">
               <Image
@@ -54,7 +54,7 @@ const SectionTemplate: React.FC<SectionTemplateProps> = ({
               />
             </div>
           )}
-          <article className="mx-auto pt-16">
+          <article className="mx-auto pt-8">
             <h1 className="text-5xl font-extrabold pb-10">{title}</h1>
 
             <div className="prose lg:prose-lg max-w-none">
@@ -92,7 +92,7 @@ const SectionTemplate: React.FC<SectionTemplateProps> = ({
                             <a
                               data-index={isCompleted ? '✓' : i + 1}
                               className={cx(
-                                `before:absolute pl-8 hover:bg-gray-50 w-full font-semibold py-4 hover:text-gray-900 text-gray-700 relative items-center inline-flex before:font-semibold before:flex before:items-center before:justify-center before:font-mono before:content-[attr(data-index)] before:w-5 before:h-5 before:border before:bg-white before:left-0 before:rounded-full`,
+                                ` -mx-3 px-3 hover:bg-white w-full font-semibold py-4 hover:text-gray-900 text-gray-700 relative items-center inline-flex before:font-semibold before:flex before:items-center before:justify-center before:font-mono before:content-[attr(data-index)] before:w-5 before:h-5 before:border before:bg-white before:left-0 before:rounded-full`,
                                 {
                                   'before:text-[0.55em] before:text-gray-500 before:border-gray-300':
                                     !isCompleted,
@@ -101,7 +101,7 @@ const SectionTemplate: React.FC<SectionTemplateProps> = ({
                                 },
                               )}
                             >
-                              {title}{' '}
+                              <span className="pl-3">{title} </span>
                               {isCompleted && (
                                 <span className="sr-only">(completed)</span>
                               )}
@@ -123,7 +123,7 @@ const SectionTemplate: React.FC<SectionTemplateProps> = ({
       {nextUpSection && currentSectionIndex === 0 && (
         <section
           role="contentinfo"
-          className="w-full pt-16 pb-24 bg-gray-50 flex items-center justify-center gap-5 shadow-inner"
+          className="w-full py-16 bg-gray-50 flex items-center justify-center gap-5"
         >
           <Link
             href={{
@@ -131,7 +131,7 @@ const SectionTemplate: React.FC<SectionTemplateProps> = ({
               query: getPathForSection(nextUpSection.slug, modules as any),
             }}
           >
-            <a className="px-5 py-4 rounded-md bg-blue-600 hover:bg-blue-700 transition text-white flex">
+            <a className="px-5 py-4 rounded-md bg-gray-900 transition text-white flex">
               <span className="pr-1">
                 Next Up:{' '}
                 <span className="font-semibold">{nextUpSection.title}</span>

@@ -29,8 +29,8 @@ export const getServerSideProps: GetServerSideProps = async ({req, query}) => {
 
 const Learn: React.FC<{purchases: Purchase[]}> = ({purchases = []}) => {
   return (
-    <Layout meta={{title: 'Invoices'}} className="bg-gray-50 p-5">
-      <main className="max-w-xl mx-auto w-full sm:py-8 py-5">
+    <Layout meta={{title: 'Invoices'}} className="bg-gray-50">
+      <main className="max-w-xl mx-auto w-full sm:py-16 py-8 flex-grow h-full px-5 flex flex-col">
         <h1 className="text-3xl font-bold pb-4">Your Invoices</h1>
         <ul className="flex flex-col gap-2">
           {purchases.map((purchase: Purchase | any) => {

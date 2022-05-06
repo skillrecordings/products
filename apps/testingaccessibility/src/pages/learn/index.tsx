@@ -186,7 +186,7 @@ export const Sections: React.FC<any> = ({module}) => {
                     }}
                     passHref
                   >
-                    <a className="uppercase font-bold text-xs text-white px-3 py-2 hover:bg-teal-700 transition leading-none inline-flex bg-teal-600 rounded-md mt-2">
+                    <a className="uppercase font-bold text-xs text-white px-3 py-2 hover:bg-teal-800 transition leading-none inline-flex bg-teal-700 rounded-md mt-2">
                       Start Here
                     </a>
                   </Link>
