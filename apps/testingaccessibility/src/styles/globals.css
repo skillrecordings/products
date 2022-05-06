@@ -11,6 +11,7 @@
 :root {
   --reach-skip-nav: 1;
 }
+
 #__next {
   @apply flex flex-col min-h-screen text-gray-900 bg-gray-50 antialiased;
 }
