@@ -121,10 +121,7 @@ const SectionTemplate: React.FC<SectionTemplateProps> = ({
         </main>
       </div>
       {nextUpSection && currentSectionIndex === 0 && (
-        <section
-          role="contentinfo"
-          className="w-full py-16 bg-gray-50 flex items-center justify-center gap-5"
-        >
+        <div className="w-full py-16 bg-gray-50 flex items-center justify-center gap-5">
           <Link
             href={{
               pathname: '/learn/[module]/[section]',
@@ -139,7 +136,7 @@ const SectionTemplate: React.FC<SectionTemplateProps> = ({
               <ChevronRightIcon className="w-4" aria-hidden="true" />
             </a>
           </Link>
-        </section>
+        </div>
       )}
     </Layout>
   )

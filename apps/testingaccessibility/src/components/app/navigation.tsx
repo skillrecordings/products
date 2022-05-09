@@ -16,7 +16,10 @@ const Navigation = () => {
   const isSignedIn = Boolean(sessionData?.user)
   const isLoadingUser = sessionStatus === 'loading'
   return (
-    <nav className="text-sm font-semibold sticky top-0 z-30 sm:h-16 h-14 lg:px-0 px-2 flex items-center w-full bg-white shadow-sm print:hidden">
+    <nav
+      aria-label="Footer"
+      className="text-sm font-semibold sticky top-0 z-30 sm:h-16 h-14 lg:px-0 px-2 flex items-center w-full bg-white shadow-sm print:hidden"
+    >
       <div className="flex items-center w-full h-full py-[2px] max-w-screen-lg mx-auto justify-between">
         <NavLogo />
         <DesktopNav isSignedIn={isSignedIn} isLoadingUser={isLoadingUser} />

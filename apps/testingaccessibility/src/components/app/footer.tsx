@@ -12,7 +12,10 @@ const Footer: React.FC<FooterProps> = () => {
     <footer>
       <div className="w-full bg-white flex items-center justify-end relative overflow-hidden">
         <div className="lg:p-5 sm:p-12 p-8 max-w-screen-lg mx-auto w-full sm:h-[373px] lg:py-16 sm:py-16 py-10 flex flex-col justify-between">
-          <div className="md:grid flex flex-col grid-cols-4 lg:gap-5 gap-10">
+          <nav
+            aria-label="Main"
+            className="md:grid flex flex-col grid-cols-4 lg:gap-5 gap-10"
+          >
             <div>
               <strong className="text-pink-700 font-semibold">Learn</strong>
               <ul className="pt-4">
@@ -58,7 +61,7 @@ const Footer: React.FC<FooterProps> = () => {
                 </li>
               </ul>
             </div>
-          </div>
+          </nav>
           <div className="w-full items-center flex gap-5 sm:pt-0 pt-16">
             <small>© Testing Accessibility</small>
             <Link href="/terms">

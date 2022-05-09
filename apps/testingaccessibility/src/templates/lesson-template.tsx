@@ -33,7 +33,6 @@ const LessonTemplate: React.FC<LessonTemplateProps> = ({
   const {title, body, slug} = lesson
   const {lessons, image} = section
   const currentLessonIndex = indexOf(lessons, find(lessons, {slug}))
-  const router = useRouter()
 
   const {progress, toggleLessonComplete, isLoadingProgress} = useProgress()
   const currentLessonProgress = find(progress, {lessonSlug: slug})
@@ -124,87 +123,89 @@ const LessonTemplate: React.FC<LessonTemplateProps> = ({
 
   return (
     <Layout className="bg-white">
-      <div className="bg-gray-50">
-        <div className="max-w-screen-lg mx-auto w-full py-4 lg:px-1 px-2 overflow-x-auto">
-          <BreadcrumbNav
-            module={module}
-            section={section}
-            lesson={lessons[currentLessonIndex]}
-          />
+      <main>
+        <div className="bg-gray-50">
+          <div className="max-w-screen-lg mx-auto w-full py-4 lg:px-1 px-2 overflow-x-auto">
+            <BreadcrumbNav
+              module={module}
+              section={section}
+              lesson={lessons[currentLessonIndex]}
+            />
+          </div>
         </div>
-      </div>
-      <div className="max-w-screen-lg w-full mx-auto flex-grow bg-white ">
-        <main className="py-10 bg-white lg:px-0 px-4">
-          <article className="mx-auto">
-            <header className="flex md:flex-row flex-col items-center justify-between lg:pb-10 sm:pb-16 pb-16">
-              <h1 className="w-full tracking-tight lg:text-5xl sm:text-4xl text-4xl font-extrabold lg:max-w-screen-sm md:text-left text-center md:pb-0 pb-12 lg:px-0 px-10">
-                {title}
-              </h1>
-              <div className="flex items-center justify-center max-w-xs">
-                <Image
-                  src={image.url}
-                  alt={image.alt}
-                  quality={100}
-                  width={360}
-                  height={360}
-                />
+        <div className="max-w-screen-lg w-full mx-auto flex-grow bg-white ">
+          <div className="py-10 bg-white lg:px-0 px-4">
+            <article className="mx-auto">
+              <header className="flex md:flex-row flex-col items-center justify-between lg:pb-10 sm:pb-16 pb-16">
+                <h1 className="w-full tracking-tight lg:text-5xl sm:text-4xl text-4xl font-extrabold lg:max-w-screen-sm md:text-left text-center md:pb-0 pb-12 lg:px-0 px-10">
+                  {title}
+                </h1>
+                <div className="flex items-center justify-center max-w-xs">
+                  <Image
+                    src={image.url}
+                    alt={image.alt}
+                    quality={100}
+                    width={360}
+                    height={360}
+                  />
+                </div>
+              </header>
+              <div className="relative flex w-full lg:grid flex-col sm:grid-cols-12 gap-8 md:border-t border-gray-100 pt-10">
+                <div className="prose lg:prose-lg max-w-none sm:col-span-9">
+                  <PortableText
+                    value={body}
+                    components={PortableTextComponents}
+                  />
+                </div>
+                <div className="col-span-3">
+                  <LessonNavigator
+                    className="pt-1.5 lg:block hidden"
+                    lessons={lessons}
+                    progress={progress}
+                    module={module}
+                    section={section}
+                    currentLessonIndex={currentLessonIndex}
+                    isLoadingProgress={isLoadingProgress}
+                  />
+                </div>
               </div>
-            </header>
-            <div className="relative flex w-full lg:grid flex-col sm:grid-cols-12 gap-8 md:border-t border-gray-100 pt-10">
-              <div className="prose lg:prose-lg max-w-none sm:col-span-9">
-                <PortableText
-                  value={body}
-                  components={PortableTextComponents}
-                />
-              </div>
-              <div className="col-span-3">
-                <LessonNavigator
-                  className="pt-1.5 lg:block hidden"
-                  lessons={lessons}
-                  progress={progress}
-                  module={module}
-                  section={section}
-                  currentLessonIndex={currentLessonIndex}
-                  isLoadingProgress={isLoadingProgress}
-                />
-              </div>
-            </div>
-          </article>
-        </main>
-      </div>
-      <section role="contentinfo" className="py-16 bg-gray-50 w-full">
-        <div
-          className={cx(
-            'max-w-screen-lg mx-auto w-full items-center justify-center lg:divide-x divide-gray-200 lg:gap-0 gap-16',
-            {
-              'grid lg:grid-cols-2 grid-cols-1': nextLesson,
-              flex: !nextLesson,
-            },
-          )}
-        >
-          <ProgressToggle />
-          {nextLesson && (
-            <div className="text-center">
-              <p className="text-xl font-bold pb-1">Up next</p>
-              <p className="text-gray-700">
-                There {pluralize('is', numberOfLessonsLeftInSection)}{' '}
-                {numberOfLessonsLeftInSection} more{' '}
-                {pluralize('lesson', numberOfLessonsLeftInSection)} in this
-                section.
-              </p>
-              <Link
-                passHref
-                href={`/learn/${module.slug}/${section.slug}/${nextLesson.slug}`}
-              >
-                <a className="transition-all mt-4 inline-flex items-center justify-center font-medium px-5 py-3 rounded-md bg-gray-900 text-white">
-                  <span>{nextLesson.title}</span>
-                  <ChevronRightIcon className="w-5" aria-hidden="true" />
-                </a>
-              </Link>
-            </div>
-          )}
+            </article>
+          </div>
         </div>
-      </section>
+        <div className="py-16 bg-gray-50 w-full">
+          <div
+            className={cx(
+              'max-w-screen-lg mx-auto w-full items-center justify-center lg:divide-x divide-gray-200 lg:gap-0 gap-16',
+              {
+                'grid lg:grid-cols-2 grid-cols-1': nextLesson,
+                flex: !nextLesson,
+              },
+            )}
+          >
+            <ProgressToggle />
+            {nextLesson && (
+              <div className="text-center">
+                <p className="text-xl font-bold pb-1">Up next</p>
+                <p className="text-gray-700">
+                  There {pluralize('is', numberOfLessonsLeftInSection)}{' '}
+                  {numberOfLessonsLeftInSection} more{' '}
+                  {pluralize('lesson', numberOfLessonsLeftInSection)} in this
+                  section.
+                </p>
+                <Link
+                  passHref
+                  href={`/learn/${module.slug}/${section.slug}/${nextLesson.slug}`}
+                >
+                  <a className="transition-all mt-4 inline-flex items-center justify-center font-medium px-5 py-3 rounded-md bg-gray-900 text-white">
+                    <span>{nextLesson.title}</span>
+                    <ChevronRightIcon className="w-5" aria-hidden="true" />
+                  </a>
+                </Link>
+              </div>
+            )}
+          </div>
+        </div>
+      </main>
     </Layout>
   )
 }
