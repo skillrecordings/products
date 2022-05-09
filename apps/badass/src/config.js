@@ -1,8 +1,8 @@
 // add a comment here
 export default {
-  defaultTitle: 'Build a Badass Course Platform',
+  defaultTitle: 'Make Life-Changing Money Teaching What You Know',
   description:
-    'Design, implement, produce, and ship high-quality courses that sell.',
+    'Research, design, produce, and deliver high-quality courses that sell.',
   author: 'devbadass',
   favicon: '/favicon.ico',
   email: 'team@skillrecordings.com',
