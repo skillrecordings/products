@@ -30,6 +30,8 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       ? `#3077c6`
       : tagSlug == 'npm'
       ? `#d60100`
+      : tagSlug == 'remix'
+      ? `#e4efff`
       : tagSlug == 'next-js'
       ? `#565656`
       : `#565656`
