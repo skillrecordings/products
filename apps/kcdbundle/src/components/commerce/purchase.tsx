@@ -1,38 +1,65 @@
 import * as React from 'react'
-import Image from 'next/image'
 import EpicPlusTestingImage from '../../../public/images/pricing@2x.png'
-import Link from 'next/link'
-import axios from '@skillrecordings/axios'
-import first from 'lodash/first'
-import get from 'lodash/get'
 import Spinner from '@skillrecordings/react/dist/components/spinner'
+import Countdown from './countdown'
+import Image from 'next/image'
+import Link from 'next/link'
+import find from 'lodash/find'
+import get from 'lodash/get'
+import axios from 'axios'
 
 const Purchase = () => {
-  const [state] = React.useState<any>({price: 55800, full_price: 93100})
+  const [state, setState] = React.useState<any>()
+  const epicReactId = 'epic-react-pro-e28f'
+  const testingJavaScriptId = 'pro-testing'
 
-  const price = get(state, 'price')
-  const fullPrice = get(state, 'full_price')
+  const epicReactPrices = find(state, {slug: epicReactId})
+  const testingJavaScriptPrices = find(state, {slug: testingJavaScriptId})
 
-  // const fetchPrice = React.useCallback(async () => {
-  //   const prices = await axios
-  //     .get(`/api/stripe/prices?id=${process.env.NEXT_PUBLIC_STRIPE_PRICE_ID}`)
-  //     .then(({data}) => {
-  //       return data
-  //     })
-  //     .catch((err) => console.debug(err.message))
-  //   setState({...first(prices), price: 55800, full_price: 93100})
-  // }, [])
+  const price =
+    get(epicReactPrices, 'price') + get(testingJavaScriptPrices, 'price')
 
-  // React.useEffect(() => {
-  //   fetchPrice()
-  // }, [fetchPrice])
+  const fullPrice =
+    get(epicReactPrices, 'full_price') +
+    get(testingJavaScriptPrices, 'full_price')
 
-  const centsToDollars = (cents: number) => {
-    return Number((cents / 100).toFixed())
-  }
+  const fetchPrice = React.useCallback(async () => {
+    const body = JSON.stringify({
+      site: 'kcdbundle',
+      sellables: [
+        {
+          site: 'epic_react',
+          sellable_id: 'epic-react-pro-e28f',
+          sellable: 'playlist',
+          quantity: 1,
+        },
+        {
+          site: 'pro_testing',
+          sellable_id: 'pro-testing',
+          sellable: 'playlist',
+          quantity: 1,
+        },
+      ],
+    })
+    await axios
+      .post(`https://app.egghead.io/api/v1/sellable_purchases/prices`, body, {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      })
+      .then(({data}) => setState(data))
+      .catch((err) => console.debug(err.message))
+  }, [])
 
-  const displayPrice = centsToDollars(price)
-  const displayFullPrice = centsToDollars(fullPrice)
+  React.useEffect(() => {
+    fetchPrice()
+  }, [fetchPrice])
+
+  const expiresAt =
+    Number(epicReactPrices?.coupon?.coupon_expires_at) * 1000 || false
+
+  const displayPrice = price
+  const displayFullPrice = fullPrice
 
   const displayPercentOff = () => {
     if (!state) return
@@ -51,31 +78,19 @@ const Purchase = () => {
           <span className="font-bold text-lg">$</span>
         </div>
         <span className="text-5xl font-bold tabular-nums">
-          {displayPrice ? displayPrice : <Spinner />}
+          {displayPrice ? displayPrice : <Spinner className="my-3" />}
         </span>
       </div>
     )
   }
 
   const FullPrice = () => {
-    if (price === fullPrice)
-      // kcd bundle price defaults to 10% off if we account for original prices of TA and ER
-      // we want to respect that even with dynamic pricing in place
-      return (
-        <div className="flex flex-col pl-2">
-          <del className="text-3xl font-medium text-gray-500 tabular-nums leading-none">
-            {/* ER + TA original prices */}
-            {599 + 332}
-          </del>
-          <div className="text-xs uppercase leading-none font-bold text-blue-500">
-            Save 10%
-          </div>
-        </div>
-      )
+    if (!displayPrice) return null
+
     return (
       <div className="flex flex-col pl-2">
         <del className="text-3xl font-medium text-gray-500 tabular-nums leading-none">
-          {displayFullPrice}
+          {displayFullPrice.toString()}
         </del>
         <div className="text-xs uppercase leading-none font-bold text-blue-500">
           Save {displayPercentOff()}%
@@ -206,6 +221,11 @@ const Purchase = () => {
         <form className="w-full flex flex-col items-center space-y-5">
           <PriceBox />
           <PurchaseButton />
+          {expiresAt && (
+            <div className="sm:px-5 px-2 w-full">
+              <Countdown date={expiresAt} />
+            </div>
+          )}
           <WhatsInside />
         </form>
       </div>
