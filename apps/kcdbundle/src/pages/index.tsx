@@ -14,8 +14,7 @@ const Home = () => {
   return (
     <Layout
       className="bg-white-50"
-      meta={{ogImage: {url: 'https://kcdbundle.com/card-sale-40@2x.png'}}} // 40% off
-      // meta={{ogImage: {url: 'https://kcdbundle.com/card-sale-20@2x.png'}}} // 20% off
+      meta={{ogImage: {url: 'https://kcdbundle.com/card-sale-25@2x.png'}}} // 25% off
     >
       <Header />
       <main>
