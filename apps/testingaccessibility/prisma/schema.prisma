@@ -9,6 +9,16 @@ datasource db {
     referentialIntegrity = "prisma"
 }
 
+model Comment {
+  id                       String  @id @default(uuid())
+  userId                   String
+  text                     String
+  context                  Json?
+  updatedAt                DateTime?
+  createdAt                DateTime          @default(now())
+  user                     User              @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
 model LessonProgress {
   id                       String  @id @default(uuid())
   userId                   String
@@ -214,6 +224,7 @@ model User {
   purchases          Purchase[]
   sessions           Session[]
   lessonProgresses   LessonProgress[]
+  comments           Comment[]
 }
 
 model VerificationToken {
