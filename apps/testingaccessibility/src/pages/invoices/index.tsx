@@ -1,16 +1,16 @@
 import * as React from 'react'
 import {getDecodedToken} from '../../utils/get-decoded-token'
-import {getSdk} from '../../lib/prisma-api'
-import {GetServerSideProps} from 'next'
-import {Product, Purchase} from '@prisma/client'
-import Layout from 'components/app/layout'
-import Link from 'next/link'
-import {serialize} from 'utils/prisma-next-serializer'
-import {format} from 'date-fns'
 import {DocumentTextIcon} from '@heroicons/react/outline'
 import {ChevronRightIcon} from '@heroicons/react/solid'
+import {serialize} from 'utils/prisma-next-serializer'
+import {getSdk} from '../../lib/prisma-api'
+import {Purchase} from '@prisma/client'
+import {GetServerSideProps} from 'next'
+import {format} from 'date-fns'
+import Layout from 'components/app/layout'
+import Link from 'next/link'
 
-export const getServerSideProps: GetServerSideProps = async ({req, query}) => {
+export const getServerSideProps: GetServerSideProps = async ({req}) => {
   const sessionToken = await getDecodedToken(req)
   const {getPurchasesForUser} = getSdk()
 
@@ -59,12 +59,11 @@ const Learn: React.FC<{purchases: Purchase[]}> = ({purchases = []}) => {
                     </div>
                   </div>
                   <Link href={`/invoices/${purchase.merchantChargeId}`}>
-                    <a className="sm:mt-0 mt-5 flex-shrink-0 text-blue-500 hover:text-blue-600 font-semibold flex items-center sm:justify-center justify-end rounded-md px-3 py-2 hover:bg-gray-100 hover:bg-opacity-60 transition">
+                    <a className="sm:mt-0 mt-5 flex-shrink-0 text-blue-600 hover:text-blue-700 font-semibold flex items-center sm:justify-center justify-end rounded-md px-3 py-2 hover:bg-gray-100 hover:bg-opacity-60 transition">
                       <span className="pr-0.5">View Invoice</span>
                       <ChevronRightIcon aria-hidden="true" className="w-5" />
                     </a>
                   </Link>
-                  {/* {purchase.merchantChargeId} */}
                 </div>
               </li>
             )

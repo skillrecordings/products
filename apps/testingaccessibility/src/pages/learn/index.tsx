@@ -1,8 +1,11 @@
 import * as React from 'react'
 import {getDecodedToken} from '../../utils/get-decoded-token'
 import {serialize} from 'utils/prisma-next-serializer'
+import {useProgress} from 'context/progress-context'
 import {PortableText} from '@portabletext/react'
 import {sanityClient} from 'utils/sanity-client'
+import {getNextUpLesson} from 'utils/progress'
+import {LessonProgress} from '@prisma/client'
 import {SanityDocument} from '@sanity/client'
 import {GetServerSideProps} from 'next'
 import {Purchase} from '@prisma/client'
@@ -11,6 +14,7 @@ import PortableTextComponents from 'components/portable-text'
 import Search from 'components/search/autocomplete'
 import Layout from 'components/app/layout'
 import last from 'lodash/last'
+import find from 'lodash/find'
 import get from 'lodash/get'
 import Link from 'next/link'
 import cx from 'classnames'
@@ -90,11 +94,13 @@ const Learn: React.FC<{purchases: Purchase[]; product: SanityDocument}> = ({
   product,
 }) => {
   const {title, modules} = product
+  const {progress, isLoadingProgress} = useProgress()
+  const nextUpLesson = !isLoadingProgress && getNextUpLesson(progress, modules)
 
   return (
     <Layout>
       <header className="w-full bg-gray-100">
-        <div className="mx-auto py-[2px] w-full max-w-screen-lg">
+        <div className="mx-auto py-[2px] w-full max-w-screen-lg flex">
           <Search product={product} />
         </div>
       </header>
@@ -103,7 +109,7 @@ const Learn: React.FC<{purchases: Purchase[]; product: SanityDocument}> = ({
           {title}
         </h1>
         {modules.map((module: SanityDocument) => (
-          <ol className="" key={module.slug}>
+          <ol key={module.slug}>
             <li className="w-full text-center pb-8">
               <Link
                 href={{
@@ -112,14 +118,14 @@ const Learn: React.FC<{purchases: Purchase[]; product: SanityDocument}> = ({
                 }}
                 passHref
               >
-                <a className="hover:underline text-2xl font-medium pt-2 inline-flex">
+                <a className="hover:underline text-2xl font-medium mt-2 inline-flex">
                   {module.title}
                 </a>
               </Link>
             </li>
             {module.sections && (
               <li className="list-none">
-                <Sections module={module} />
+                <Sections progress={progress} module={module} />
               </li>
             )}
           </ol>
@@ -129,7 +135,12 @@ const Learn: React.FC<{purchases: Purchase[]; product: SanityDocument}> = ({
   )
 }
 
-export const Sections: React.FC<any> = ({module}) => {
+type SectionsProps = {
+  progress: LessonProgress[]
+  module: SanityDocument
+}
+
+export const Sections: React.FC<SectionsProps> = ({progress, module}) => {
   return (
     <ol className="pt-16">
       {module.sections.map((section: SanityDocument, i: number) => {
@@ -145,7 +156,7 @@ export const Sections: React.FC<any> = ({module}) => {
               },
             )}
           >
-            <div className="flex items-start justify-start flex-shrink-0">
+            <div className="flex items-start md:justify-start justify-center flex-shrink-0">
               <Image
                 src={section.image.url}
                 alt={section.image.alt}
@@ -154,7 +165,12 @@ export const Sections: React.FC<any> = ({module}) => {
                 quality={100}
               />
             </div>
-            <div className="w-full">
+            <div
+              className={cx('w-full', {
+                'flex flex-col justify-center md:text-left text-center':
+                  isIntroSection,
+              })}
+            >
               {!isIntroSection && (
                 <span className="uppercase font-bold text-sm text-gray-600 leading-none block pb-2">
                   Section {i++}
@@ -205,29 +221,51 @@ export const Sections: React.FC<any> = ({module}) => {
                   <strong>Lessons</strong>
                   <ol className="list-none pt-2 divide-y divide-gray-100">
                     {section.lessons.map(
-                      (lesson: SanityDocument, i: number) => (
-                        <li
-                          data-index={i + 1}
-                          key={lesson.slug}
-                          className="relative flex items-baseline before:pt-4 before:opacity-60 before:absolute before:content-[attr(data-index)] before:text-xs marker:text-gray-400 hover:bg-white before:pl-2 -mx-2"
-                        >
-                          <Link
-                            href={{
-                              pathname: '/learn/[module]/[section]/[lesson]',
-                              query: {
-                                module: module.slug,
-                                section: section.slug,
-                                lesson: lesson.slug,
-                              },
-                            }}
-                            passHref
+                      (lesson: SanityDocument, i: number) => {
+                        const isCompleted = find(progress, {
+                          lessonSlug: lesson.slug,
+                        })?.completedAt
+
+                        return (
+                          <li
+                            key={lesson.slug}
+                            className="relative flex items-baseline before:pt-4 before:opacity-60 before:absolute before:content-[attr(data-index)] before:text-xs marker:text-gray-400 before:pl-2 -mx-2 group"
                           >
-                            <a className="text-gray-800 hover:text-gray-900 px-3 py-3 font-semibold transition pl-6 inline-flex">
-                              {lesson.title}
-                            </a>
-                          </Link>
-                        </li>
-                      ),
+                            <Link
+                              href={{
+                                pathname: '/learn/[module]/[section]/[lesson]',
+                                query: {
+                                  module: module.slug,
+                                  section: section.slug,
+                                  lesson: lesson.slug,
+                                },
+                              }}
+                              passHref
+                            >
+                              <a
+                                aria-label={`${lesson.title} ${
+                                  isCompleted ? '(completed)' : ''
+                                }`}
+                                data-index={isCompleted ? '✓' : i + 1}
+                                className={cx(
+                                  `group-hover:bg-white text-gray-800 hover:text-gray-900 -mx-3 px-3 w-full font-semibold py-4 transition relative items-center inline-flex before:font-semibold before:flex before:items-center before:justify-center before:font-mono before:content-[attr(data-index)] before:w-5 before:h-5 before:left-0 before:rounded-full before:flex-shrink-0`,
+                                  {
+                                    'before:text-xs before:text-gray-500':
+                                      !isCompleted,
+                                    'before:text-sm before:text-white before:border-green-600 before:bg-green-600':
+                                      isCompleted,
+                                  },
+                                )}
+                              >
+                                <span className="pl-3">{lesson.title} </span>
+                                {isCompleted && (
+                                  <span className="sr-only">(completed)</span>
+                                )}
+                              </a>
+                            </Link>
+                          </li>
+                        )
+                      },
                     )}
                   </ol>
                 </div>

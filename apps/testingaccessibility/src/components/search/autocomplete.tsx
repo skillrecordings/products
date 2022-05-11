@@ -68,7 +68,7 @@ const Autocomplete = (props: any) => {
   })
 
   return (
-    <div className="relative" {...autocomplete.getRootProps({})}>
+    <div className="relative flex-grow" {...autocomplete.getRootProps({})}>
       <form
         className="relative"
         {...autocomplete.getFormProps({inputElement: inputRef.current})}
