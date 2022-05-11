@@ -1,10 +1,10 @@
 import React from 'react'
-import {SanityDocument} from '@sanity/client'
-import Layout from 'components/app/layout'
-import {useProgress} from 'context/progress-context'
 import {getModuleProgressForUser} from 'utils/progress'
-import BreadcrumbNav from 'components/breadcrumb'
+import {useProgress} from 'context/progress-context'
+import {SanityDocument} from '@sanity/client'
 import {Sections} from 'pages/learn'
+import BreadcrumbNav from 'components/breadcrumb'
+import Layout from 'components/app/layout'
 
 type ModuleTemplateProps = {
   module: SanityDocument
@@ -27,7 +27,7 @@ const ModuleTemplate: React.FC<ModuleTemplateProps> = ({module}) => {
           <h1 className="text-4xl text-center font-bold pb-5">
             {isCompleted && ' ✅'} {title}
           </h1>
-          {sections && <Sections module={module} />}
+          {sections && <Sections progress={progress} module={module} />}
         </main>
       </div>
     </Layout>

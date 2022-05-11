@@ -49,8 +49,10 @@ const productQuery = groq`*[_type == "product" && productId == $productId][0]{
     title,
     sections[]->{
       "slug": slug.current,
+      title,
       lessons[]->{
         "slug": slug.current,
+        title
       }
     }
   }

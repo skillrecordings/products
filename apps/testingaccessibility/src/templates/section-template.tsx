@@ -76,9 +76,6 @@ const SectionTemplate: React.FC<SectionTemplateProps> = ({
                           className="group marker:text-xs marker:text-gray-500"
                         >
                           <Link
-                            aria-label={`${title} ${
-                              isCompleted ? '(completed)' : ''
-                            }`}
                             href={{
                               pathname: '/learn/[module]/[section]/[lesson]',
                               query: {
@@ -90,9 +87,12 @@ const SectionTemplate: React.FC<SectionTemplateProps> = ({
                             passHref
                           >
                             <a
+                              aria-label={`${title} ${
+                                isCompleted ? '(completed)' : ''
+                              }`}
                               data-index={isCompleted ? '✓' : i + 1}
                               className={cx(
-                                ` -mx-3 px-3 hover:bg-white w-full font-semibold py-4 hover:text-gray-900 text-gray-700 relative items-center inline-flex before:font-semibold before:flex before:items-center before:justify-center before:font-mono before:content-[attr(data-index)] before:w-5 before:h-5 before:border before:bg-white before:left-0 before:rounded-full`,
+                                ` -mx-3 px-3 hover:bg-white w-full font-semibold py-4 hover:text-gray-900 text-gray-700 relative items-center inline-flex before:font-semibold before:flex before:items-center before:justify-center before:font-mono before:content-[attr(data-index)] before:w-5 before:h-5 before:border before:bg-white before:left-0 before:rounded-full before:flex-shrink-0`,
                                 {
                                   'before:text-[0.55em] before:text-gray-500 before:border-gray-300':
                                     !isCompleted,
