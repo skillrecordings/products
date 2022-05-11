@@ -13,6 +13,9 @@ const nextConfig = {
   eslint: {
     ignoreDuringBuilds: true, // 😭
   },
+  experimental: {
+    scrollRestoration: true,
+  },
   productionBrowserSourceMaps: true,
   webpack: (config, {isServer}) => {
     // Fixes npm packages that depend on `fs` module
