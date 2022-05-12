@@ -1,7 +1,7 @@
 // add a comment here
 export default {
   defaultTitle: 'KCD Bundle',
-  description: 'Get Testing JavaScript and Epic React workshops for 40% off',
+  description: 'Get Testing JavaScript and Epic React workshops for 25% off',
   author: 'Kent C. Dodds',
   favicon: '/favicon.ico',
   email: 'team@kentcdodds.com',
