@@ -1,0 +1,8 @@
+#!/bin/bash
+
+# Description:
+#   Sets up the Stripe CLI to listen
+# Usage:
+#   bin/stripe
+
+stripe listen --forward-to localhost:3013/api/stripe/webhook

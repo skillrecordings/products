@@ -1,0 +1,27 @@
+#!/bin/bash
+
+# Description:
+#   Ensures the database is running and accessible.
+# Usage:
+#   bin/data
+
+organization='skill-recordings'
+product='testing-accessibility'
+branch='next-steps'
+port=3309
+
+# Ensure DATABASE_URL is set in .env file
+if [ -f ".env" ]; then
+  echo "'.env' already exists. Leaving it untouched."
+else
+  echo "Generating '.env' with DATABASE_URL"
+  echo "DATABASE_URL='mysql://root@127.0.0.1:$port/$product'" > .env
+fi
+
+
+# Ensure it's using the Skill Recordings Organization
+pscale org switch $organization
+
+
+# Ensure it's connected
+pscale connect $product $branch --port $port
