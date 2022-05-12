@@ -2,6 +2,21 @@
 
 Edit workshops with Sanity at [testingaccessibility.sanity.studio](https://testingaccessibility.sanity.studio/).
 
+## Shortcuts
+
+### Setup
+- `bin/doctor` ensures you have all of the necessary system-level dependencies installed.
+- `bin/setup` helps get everything in place to begin developing locally. (It runs `bin/doctor` first.)
+
+### Developing
+- `bin/data` connects to Planetscale to make the database server accessible.
+- `bin/stripe` starts listening for Stripe Webhook events.
+- `bin/serve` starts the development server.
+
+### Database
+- `bin/migrate` pushes database changes to the DB.
+- `bin/seed` can be used to seed the database when using a new branch.
+
 ## Start developing
 
 Copy the template `.env.template` file to `.env.local`.
@@ -23,7 +38,7 @@ pnpm dev
 
 ### Stripe CLI
 
-You'll need the [Strip CLI](https://stripe.com/docs/stripe-cli) to capture web hooks locally.
+You'll need the [Stripe CLI](https://stripe.com/docs/stripe-cli) to capture web hooks locally.
 
 When you run the CLI it gives you your webhook signing secret that you can set in `.env.local`.
 
@@ -54,7 +69,7 @@ brew install planetscale/tap/pscale
 You'll need to login:
 
 ```bash
- pscale auth login
+pscale auth login
 ```
 
 And then switch to skill-recordings org:
