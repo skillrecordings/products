@@ -6,8 +6,9 @@
 #   bin/data
 
 organization='skill-recordings'
-product='testing-accessibility'
-branch='next-steps'
+database='testing-accessibility'
+git_branch=`git rev-parse --abbrev-ref HEAD`
+planetscale_branch=${$git_branch///-} # Substitute '-' for '/' for Planetscale
 port=3309
 
 # Ensure DATABASE_URL is set in .env file
@@ -15,13 +16,16 @@ if [ -f ".env" ]; then
   echo "'.env' already exists. Leaving it untouched."
 else
   echo "Generating '.env' with DATABASE_URL"
-  echo "DATABASE_URL='mysql://root@127.0.0.1:$port/$product'" > .env
+  echo "DATABASE_URL='mysql://root@127.0.0.1:$port/$database'" > .env
 fi
-
 
 # Ensure it's using the Skill Recordings Organization
 pscale org switch $organization
 
 
+# Switch to (and create if necessary) a branch of the database
+pscale branch switch $planetscale_branch --database $database --create
+
+
 # Ensure it's connected
-pscale connect $product $branch --port $port
+pscale connect $database $planetscale_branch --port $port
