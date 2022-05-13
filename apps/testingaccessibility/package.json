@@ -10,7 +10,7 @@
     "build": "NODE_ENV=production prisma generate && next build",
     "build:data": "node src/data/cache-json-data.js -p",
     "build:data:dev": "node src/data/cache-json-data.js",
-    "test": "jest",
+    "test": "prisma generate && jest",
     "lint": "TIMING=1 prisma generate && eslint src/**/*.{ts,tsx} --fix && tsc --noEmit",
     "format": "prettier --write './**/*.{js,jsx,ts,tsx,css,md,mdx,json}' --config ./.prettierrc",
     "build:docker": "cd ../../ && docker build . -f apps/testingaccessibility/Dockerfile -t my-awesome-app:latest --build-arg SCOPE=testingaccessibility"
@@ -79,7 +79,7 @@
     "mdx-prism": "^0.3.4",
     "micro": "^9.3.4",
     "nanoid": "^3.3.1",
-    "next": "12.1.5",
+    "next": "12.1.6",
     "next-auth": "^4.2.1",
     "next-mdx-remote": "^4.0.0",
     "next-seo": "^5.1.0",
