@@ -42,13 +42,13 @@ const SectionTemplate: React.FC<SectionTemplateProps> = ({
         </div>
       </div>
       <div className="max-w-screen-lg mx-auto flex-grow">
-        <main className="flex lg:flex-row flex-col xl:px-0 px-5 py-12 lg:gap-16 gap-5">
+        <main className="flex lg:flex-row flex-col xl:px-0 px-5 py-12 lg:gap-10 gap-5">
           {image.url && (
             <div className="flex-shrink-0 md:block flex items-center justify-center">
               <Image
                 src={image.url}
-                width={512 / 1.5}
-                height={512 / 1.5}
+                width={512 / 1.2}
+                height={512 / 1.2}
                 quality={100}
                 alt={image.alt}
               />
