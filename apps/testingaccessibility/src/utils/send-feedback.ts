@@ -1,4 +1,4 @@
-type FeedbackContext = {
+export type FeedbackContext = {
   url: string
   category: 'general' | 'help'
   emotion: ':heart_eyes:' | ':unicorn_face:' | ':sob:'

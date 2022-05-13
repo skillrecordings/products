@@ -1,5 +1,6 @@
 import React, {FunctionComponent} from 'react'
 import {SkipNavContent, SkipNavLink} from '@reach/skip-nav'
+import {useFeedback} from 'context/feedback-context'
 import {isSellingLive} from 'utils/is-selling-live'
 import {useSession} from 'next-auth/react'
 import {Toaster} from 'react-hot-toast'
@@ -37,9 +38,11 @@ const Layout: FunctionComponent<LayoutProps> = ({
   } = meta || {}
   const {data: sessionData} = useSession()
   const isSignedIn = Boolean(sessionData?.user)
+  const {isFeedbackDialogOpen, feedbackComponent} = useFeedback()
   return (
     <div className="relative">
       <Toaster position="top-center" />
+      {isFeedbackDialogOpen && feedbackComponent}
       <NextSeo
         title={title}
         description={description}
