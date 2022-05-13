@@ -18,7 +18,7 @@
   "dependencies": {
     "@skillrecordings/types": "workspace:*",
     "react": "^17.0.2",
-    "next": "12.1.5"
+    "next": "12.1.6"
   },
   "devDependencies": {
     "@skillrecordings/scripts": "workspace:*",
