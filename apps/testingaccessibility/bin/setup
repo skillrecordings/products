@@ -1,0 +1,63 @@
+#!/bin/bash
+
+# Description:
+#   Prepares a local development environment.
+# Usage:
+#   bin/setup
+
+start_red="\x1B[31m"
+start_green="\x1B[32m"
+start_gray="\x1B[90m"
+reset_color="\x1B[0m"
+
+# Run the checks to ensure all of the commands are installed, and provide installation guidance if
+#   a command is missing
+bin/doctor
+
+# Ensure local environment secrets are configured
+echo
+echo "Setting up local environment variables..."
+if [ -f ".env.local" ]; then
+  echo "'.env.local' already exists. Leaving it untouched."
+else
+  echo "Generating '.env.local' from '.env.template'"
+  cp .env.template .env.local
+  echo " Make sure to specify values for the secrets in \`.env.local\`"
+  echo
+  echo "$start_gray--------------------------$reset_color"
+  cat .env.local
+  echo "$start_gray--------------------------$reset_color"
+fi
+
+# Install project dependencies
+echo
+echo "Installing local project dependencies with 'pnpm i"
+pnpm i
+
+
+# Ensure planetscale login
+echo
+echo "Logging into Planetscale with 'auth login'"
+pscale auth login
+
+
+# Provide guidance for any remaining manual steps...
+echo
+echo "Update '.env.local' with the following to ensure everything can run successfully:"
+
+# 1. Set GITHUB_ID & GITHUB_SECRET from <url>
+echo
+echo "- Authentication:"
+echo "  Set GITHUB_ID & GITHUB_SECRET from <url>"
+
+# 2. Set STRIPE_SECRET_TOKEN from <url>
+echo
+echo "- Billing:"
+echo "  Set STRIPE_SECRET_TOKEN from https://dashboard.stripe.com/apikeys (Note: Make sure you're in Development mode and viewing the Testing Accessibility Account)"
+echo "  Set STRIPE_WEBHOOK_SECRET after running 'stripe listen --forward-to localhost:3013/api/stripe/webhook'"
+
+# 3. Set POSTMARK_KEY from <url>
+echo
+echo "- Transactional Email:"
+echo "  Set POSTMARK_KEY from <url>"
+echo
