@@ -13,6 +13,7 @@ import {usePageview} from '@skillrecordings/analytics'
 import {QueryClient, QueryClientProvider} from 'react-query'
 import {initNProgress} from 'utils/nprogress'
 import {ProgressProvider} from 'context/progress-context'
+import {FeedbackProvider} from 'context/feedback-context'
 
 const queryClient = new QueryClient()
 
@@ -40,7 +41,9 @@ function MyApp({Component, pageProps}: AppProps) {
             <ViewerProvider>
               <MDXProvider components={MDXComponents}>
                 <ProgressProvider>
-                  <Component {...pageProps} />
+                  <FeedbackProvider>
+                    <Component {...pageProps} />
+                  </FeedbackProvider>
                 </ProgressProvider>
               </MDXProvider>
             </ViewerProvider>

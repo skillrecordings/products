@@ -1,14 +1,15 @@
 import type {NextApiRequest, NextApiResponse} from 'next'
-import {withSentry} from '@sentry/nextjs'
 import * as Sentry from '@sentry/nextjs'
+import {getDecodedToken} from '../../utils/get-decoded-token'
 import {setupHttpTracing} from '@vercel/tracing-js'
 import {tracer} from '../../utils/honeycomb-tracer'
-import {getDecodedToken} from '../../utils/get-decoded-token'
-import nodemailer from 'nodemailer'
+import {getEmoji} from 'utils/get-feedback-emoji'
+import {withSentry} from '@sentry/nextjs'
+import {htmlToText} from 'html-to-text'
 import postmarkTransport from 'nodemailer-postmark-transport'
+import sanitizeHtml from 'sanitize-html'
+import nodemailer from 'nodemailer'
 import prisma from '../../db'
-import parseMarkdown from 'markdown-it'
-import removeMarkdown from 'remove-markdown'
 
 const transport = nodemailer.createTransport(
   postmarkTransport({
@@ -28,18 +29,21 @@ const feedbackHandler = async (req: NextApiRequest, res: NextApiResponse) => {
           id: token?.sub,
         },
       })
-
       if (!user) {
         res.status(403).end('not authorized')
       } else {
         const comment = await prisma.comment.create({
           data: {
             userId: user.id,
-            text: req.body.text,
+            text: htmlToText(req.body.text),
             context: req.body.context,
             updatedAt: new Date(),
           },
         })
+
+        const html = `${
+          getEmoji(req.body.context.emotion).image
+        } ${sanitizeHtml(req.body.text)} <i>${req.body.context.url}</i>`
 
         const info = await transport.sendMail({
           from: `Testing Accessibility Feedback <${process.env.NEXT_PUBLIC_SUPPORT_EMAIL}>`,
@@ -48,8 +52,8 @@ const feedbackHandler = async (req: NextApiRequest, res: NextApiResponse) => {
           subject: `Feedback from ${
             user.name ? user.name : user.email
           } about Testing Accessibility`,
-          text: removeMarkdown(comment.text),
-          html: parseMarkdown().render(comment.text),
+          text: comment.text,
+          html,
         })
 
         //TODO: maybe send to slack?

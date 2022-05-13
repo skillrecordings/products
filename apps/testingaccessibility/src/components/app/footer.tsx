@@ -1,4 +1,5 @@
 import React from 'react'
+import {useFeedback} from 'context/feedback-context'
 import {handleSignOut} from './navigation'
 import {useRouter} from 'next/router'
 import Image from 'next/image'
@@ -8,6 +9,7 @@ type FooterProps = {}
 
 const Footer: React.FC<FooterProps> = () => {
   const router = useRouter()
+  const {setIsFeedbackDialogOpen} = useFeedback()
   return (
     <footer>
       <div className="w-full bg-white flex items-center justify-end relative overflow-hidden">
@@ -39,8 +41,10 @@ const Footer: React.FC<FooterProps> = () => {
                   <NavLink href="/invoices">Invoices</NavLink>
                 </li>
                 <li>
-                  <NavLink onClick={() => alert('⚠️ To be implemented')}>
-                    Send Feedback
+                  <NavLink
+                    onClick={() => setIsFeedbackDialogOpen(true, 'footer')}
+                  >
+                    Feedback
                   </NavLink>
                 </li>
                 <li>
