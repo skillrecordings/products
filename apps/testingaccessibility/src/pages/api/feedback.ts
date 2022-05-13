@@ -43,7 +43,7 @@ const feedbackHandler = async (req: NextApiRequest, res: NextApiResponse) => {
 
         const html = `${
           getEmoji(req.body.context.emotion).image
-        } ${sanitizeHtml(req.body.text)}`
+        } ${sanitizeHtml(req.body.text)} <i>${req.body.context.url}</i>`
 
         const info = await transport.sendMail({
           from: `Testing Accessibility Feedback <${process.env.NEXT_PUBLIC_SUPPORT_EMAIL}>`,
