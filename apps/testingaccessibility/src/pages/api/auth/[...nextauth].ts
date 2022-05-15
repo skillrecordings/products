@@ -20,6 +20,7 @@ export const nextAuthOptions: NextAuthOptions = {
   providers: [
     EmailProvider({
       server: {
+        // @ts-ignore
         service: 'Postmark',
         auth: {
           user: process.env.POSTMARK_KEY,
