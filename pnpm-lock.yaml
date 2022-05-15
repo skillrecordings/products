@@ -629,7 +629,6 @@ importers:
       '@babel/core': ^7.16.5
       '@babel/plugin-transform-react-jsx': ^7.16.0
       '@mdx-js/loader': ^1.6.22
-      '@mdx-js/react': ^2.1.1
       '@next-auth/prisma-adapter': ^1.0.3
       '@next/mdx': ^12.0.3
       '@prisma/client': ^3.15.0-dev.1
@@ -707,7 +706,6 @@ importers:
       next-seo: ^4.28.1
       next-sitemap: ^1.6.203
       next-themes: ^0.0.15
-      node-fetch: ^3.2.4
       nodemailer: ^6.7.2
       pluralize: ^8.0.0
       postcss: ^8.3.11
@@ -742,9 +740,8 @@ importers:
       yup: ^0.32.11
     dependencies:
       '@asbjorn/eslint-plugin-groq': 1.0.0_groq@2.15.0
-      '@mdx-js/react': 2.1.1_react@17.0.2
       '@next-auth/prisma-adapter': 1.0.3_139bb8cb9bad5679bccd0aeaef64a5a4
-      '@next/mdx': 12.0.3_22cbb22b412651b96a3cf74908652610
+      '@next/mdx': 12.0.3_@mdx-js+loader@1.6.22
       '@prisma/client': 3.15.0-dev.1_prisma@3.15.0-dev.1
       '@reach/dialog': 0.16.2_c8c53a2a5a2c84791ce34d6dbdd05753
       '@sanity/block-content-to-react': 3.0.0_react@17.0.2
@@ -769,7 +766,7 @@ importers:
       '@tippyjs/react': 4.2.6_react-dom@17.0.2+react@17.0.2
       '@types/lodash': 4.14.176
       '@types/nodemailer': 6.4.4
-      '@vercel/tracing-js': 0.5.1_node-fetch@3.2.4
+      '@vercel/tracing-js': 0.5.1
       '@xstate/react': 1.6.2_a6167658b64f8fb59fb632da3d39755a
       autoprefixer: 10.4.0_postcss@8.3.11
       axios: 0.24.0
@@ -793,7 +790,6 @@ importers:
       next-seo: 4.28.1_72b2f1fb664d51f286fb64a58e104b48
       next-sitemap: 1.6.203_next@12.0.3
       next-themes: 0.0.15_72b2f1fb664d51f286fb64a58e104b48
-      node-fetch: 3.2.4
       nodemailer: 6.7.2
       pluralize: 8.0.0
       postcss: 8.3.11
@@ -7273,16 +7269,6 @@ packages:
       react: 17.0.2
     dev: false
 
-  /@mdx-js/react/2.1.1_react@17.0.2:
-    resolution: {integrity: sha512-7zlZDf5xmWH8I0kFE4DG91COOkxjaW9DX5f1HWztZpFcVua2gJgMYfIkFaDpO/DH/tWi6Mz+OheW4194r15igg==}
-    peerDependencies:
-      react: '>=16'
-    dependencies:
-      '@types/mdx': 2.0.1
-      '@types/react': 17.0.34
-      react: 17.0.2
-    dev: false
-
   /@mdx-js/util/1.6.22:
     resolution: {integrity: sha512-H1rQc1ZOHANWBvPcW+JpGwr+juXSxM8Q8YCkm3GhZd8REu1fHR3z99CErO1p9pkcfcxZnMdIZdIsXkOHY0NilA==}
 
@@ -7358,16 +7344,6 @@ packages:
     resolution: {integrity: sha512-WFiyvSM2G5cQmh32t/SiQuJ+I2O+FHVlK/RFw5b1565O2kEM/36EXncjt88Pa+X5oSc+1SS+tWxowWJd1lqI+g==}
     dependencies:
       glob: 7.1.7
-
-  /@next/mdx/12.0.3_22cbb22b412651b96a3cf74908652610:
-    resolution: {integrity: sha512-/d606qZl00Ros4V4LRyZMRlQGm3v3tCEmoyVNt/ewEU5NA2u+TMXWjGTx1hIfKv2KkvqAsUa5BzU7VDPuPijuw==}
-    peerDependencies:
-      '@mdx-js/loader': '>=0.15.0'
-      '@mdx-js/react': '*'
-    dependencies:
-      '@mdx-js/loader': 1.6.22_react@17.0.2
-      '@mdx-js/react': 2.1.1_react@17.0.2
-    dev: false
 
   /@next/mdx/12.0.3_@mdx-js+loader@1.6.22:
     resolution: {integrity: sha512-/d606qZl00Ros4V4LRyZMRlQGm3v3tCEmoyVNt/ewEU5NA2u+TMXWjGTx1hIfKv2KkvqAsUa5BzU7VDPuPijuw==}
@@ -10919,18 +10895,6 @@ packages:
       - supports-color
     dev: false
 
-  /@vercel/tracing-js/0.5.1_node-fetch@3.2.4:
-    resolution: {integrity: sha512-e1LT4I1k9YTOBW6nY22JuTwnmJQCJpmM2jbSw2clzP5prLvdMCgvnQmbUHunVlf8ST/uSUjzzsTqdjiZVRorcg==}
-    engines: {node: '>=8'}
-    peerDependencies:
-      node-fetch: '*'
-    dependencies:
-      libhoney: 1.3.0
-      node-fetch: 3.2.4
-    transitivePeerDependencies:
-      - supports-color
-    dev: false
-
   /@webassemblyjs/ast/1.11.1:
     resolution: {integrity: sha512-ukBh14qFLjxTQNTXocdyksN5QdM28S1CxHt2rdskFyL+xFV7VremuBLVbmCePj+URalXBENx/9Lm7lnhihtCSw==}
     dependencies:
@@ -14029,11 +13993,6 @@ packages:
     engines: {node: '>= 6'}
     dev: false
 
-  /data-uri-to-buffer/4.0.0:
-    resolution: {integrity: sha512-Vr3mLBA8qWmcuschSLAOogKgQ/Jwxulv3RNE4FXnYWRGujzrRWQI4m12fQqRkwX06C0KanhLr4hK+GydchZsaA==}
-    engines: {node: '>= 12'}
-    dev: false
-
   /data-urls/1.1.0:
     resolution: {integrity: sha512-YTWYI9se1P55u58gL5GkQHW4P6VJBJ5iBT+B5a7i2Tjadhv52paJG0qHX4A0OR6/t52odI64KP2YvFpkDOi3eQ==}
     dependencies:
@@ -16707,14 +16666,6 @@ packages:
     dependencies:
       pend: 1.2.0
 
-  /fetch-blob/3.1.5:
-    resolution: {integrity: sha512-N64ZpKqoLejlrwkIAnb9iLSA3Vx/kjgzpcDhygcqJ2KKjky8nCgUQ+dzXtbrLaWZGZNmNfQTsiQ0weZ1svglHg==}
-    engines: {node: ^12.20 || >= 14.13}
-    dependencies:
-      node-domexception: 1.0.0
-      web-streams-polyfill: 3.2.0
-    dev: false
-
   /fflate/0.6.10:
     resolution: {integrity: sha512-IQrh3lEPM93wVCEczc9SaAOvkmcoQn/G8Bo1e8ZPlY3X3bnAxWaBdvTdvM1hP62iZp0BXWDy4vTAy4fF0+Dlpg==}
     dev: false
@@ -16950,18 +16901,6 @@ packages:
         optional: true
     dev: false
 
-  /follow-redirects/1.14.9_debug@2.6.9:
-    resolution: {integrity: sha512-MQDfihBQYMcyy5dhRDJUHcw7lb2Pv/TuE6xP1vyraLukNDHKbDxDNaOE3NbCAdKQApno+GPRyo1YAp89yCjK4w==}
-    engines: {node: '>=4.0'}
-    peerDependencies:
-      debug: '*'
-    peerDependenciesMeta:
-      debug:
-        optional: true
-    dependencies:
-      debug: 2.6.9
-    dev: false
-
   /for-in/1.0.2:
     resolution: {integrity: sha1-gQaNKVqBQuwKxybG4iAMMPttXoA=}
     engines: {node: '>=0.10.0'}
@@ -17026,13 +16965,6 @@ packages:
       node-domexception: 1.0.0
       web-streams-polyfill: 4.0.0-beta.1
     dev: true
-
-  /formdata-polyfill/4.0.10:
-    resolution: {integrity: sha512-buewHzMvYL29jdeQTVILecSaZKnt/RJWjoZCF5OW60Z67/GmSLBkOFM7qh1PI3zFNtJbaZL5eQu1vLfazOwj4g==}
-    engines: {node: '>=12.20.0'}
-    dependencies:
-      fetch-blob: 3.1.5
-    dev: false
 
   /formidable/1.2.6:
     resolution: {integrity: sha512-KcpbcpuLNOwrEjnbpMC0gS+X8ciDoZE1kkqzat4a8vrprf+s9pKNQ/QIwWfbfs4ltgmFl3MD177SNTkve3BwGQ==}
@@ -17296,7 +17228,7 @@ packages:
       create-error-class: 3.0.2
       debug: 2.6.9
       decompress-response: 3.3.0
-      follow-redirects: 1.14.9_debug@2.6.9
+      follow-redirects: 1.14.9
       form-urlencoded: 2.0.9
       in-publish: 2.0.1
       into-stream: 3.1.0
@@ -22372,7 +22304,7 @@ packages:
       react-dom: '*'
     dependencies:
       css-tree: 1.1.3
-      csstype: 3.0.11
+      csstype: 3.0.8
       fastest-stable-stringify: 2.0.2
       inline-style-prefixer: 6.0.0
       react: 17.0.2
@@ -22502,8 +22434,8 @@ packages:
       nodemailer: 6.7.2
       oauth: 0.9.15
       openid-client: 5.1.4
-      preact: 10.7.2
-      preact-render-to-string: 5.2.0_preact@10.7.2
+      preact: 10.6.6
+      preact-render-to-string: 5.1.20_preact@10.6.6
       react: 17.0.2
       react-dom: 17.0.2_react@17.0.2
       uuid: 8.3.2
@@ -23271,6 +23203,7 @@ packages:
   /node-domexception/1.0.0:
     resolution: {integrity: sha512-/jKZoMpw0F8GRwl4/eLROPA3cfcXtLApP0QzLmUT/HuPCZWyB7IY9ZrMeKw2O/nFIqPQB3PVM9aYm0F312AXDQ==}
     engines: {node: '>=10.5.0'}
+    dev: true
 
   /node-emoji/1.11.0:
     resolution: {integrity: sha512-wo2DpQkQp7Sjm2A0cq+sN7EHKO6Sl0ctXeBdFZrL9T9+UywORbufTcTZxom8YqpLQt/FqNMUkOpkZrJVYSKD3A==}
@@ -23299,15 +23232,6 @@ packages:
         optional: true
     dependencies:
       whatwg-url: 5.0.0
-
-  /node-fetch/3.2.4:
-    resolution: {integrity: sha512-WvYJRN7mMyOLurFR2YpysQGuwYrJN+qrrpHjJDuKMcSPdfFccRUla/kng2mz6HWSBxJcqPbvatS6Gb4RhOzCJw==}
-    engines: {node: ^12.20.0 || ^14.13.1 || >=16.0.0}
-    dependencies:
-      data-uri-to-buffer: 4.0.0
-      fetch-blob: 3.1.5
-      formdata-polyfill: 4.0.10
-    dev: false
 
   /node-gyp-build/4.3.0:
     resolution: {integrity: sha512-iWjXZvmboq0ja1pUGULQBexmxq8CV4xBhX7VDOTbL7ZR4FOowwY/VOtRxBN/yKxmdGoIp4j5ysNT4u3S2pDQ3Q==}
@@ -25556,7 +25480,6 @@ packages:
     dependencies:
       preact: 10.6.6
       pretty-format: 3.8.0
-    dev: true
 
   /preact-render-to-string/5.2.0_preact@10.7.2:
     resolution: {integrity: sha512-+RGwSW78Cl+NsZRUbFW1MGB++didsfqRk+IyRVTaqy+3OjtpKK/6HgBtfszUX0YXMfo41k2iaQSseAHGKEwrbg==}
@@ -31035,6 +30958,7 @@ packages:
   /web-streams-polyfill/3.2.0:
     resolution: {integrity: sha512-EqPmREeOzttaLRm5HS7io98goBgZ7IVz79aDvqjD0kYXLtFZTc0T/U6wHTPKyIjb+MdN7DFIIX6hgdBEpWmfPA==}
     engines: {node: '>= 8'}
+    dev: true
 
   /web-streams-polyfill/4.0.0-beta.1:
     resolution: {integrity: sha512-3ux37gEX670UUphBF9AMCq8XM6iQ8Ac6A+DSRRjDoRBm1ufCkaCDdNVbaqq60PsEkdNlLKrGtv/YBP4EJXqNtQ==}
