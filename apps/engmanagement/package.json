@@ -4,13 +4,13 @@
   "private": true,
   "scripts": {
     "dev": "next dev -p 3007",
-    "build": "NODE_ENV=production next build",
+    "build": "NODE_ENV=production prisma generate && next build",
     "postbuild": "NODE_ENV=production next-sitemap",
     "build:data": "node src/data/cache-json-data.js -p",
     "build:data:dev": "node src/data/cache-json-data.js",
     "start": "next start -p 3007",
-    "test": "jest",
-    "lint": "TIMING=1 eslint src/**/*.{ts,tsx} --fix && tsc --noEmit",
+    "test": "prisma generate && jest",
+    "lint": "TIMING=1 prisma generate && eslint src/**/*.{ts,tsx} --fix && tsc --noEmit",
     "format": "prettier --write './**/*.{js,jsx,ts,tsx,css,md,mdx,json}' --config ./.prettierrc"
   },
   "dependencies": {
