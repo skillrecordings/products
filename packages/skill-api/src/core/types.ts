@@ -1,39 +1,19 @@
+import {JWT} from 'next-auth/jwt'
+import {SkillRecordingsOptions} from '../next'
 import {NextApiRequest, NextApiResponse} from 'next'
+import {IncomingRequest} from './index'
+import {PrismaClient} from '@prisma/client'
 
 export type SkillRecordingsAction = 'send-feedback' | 'test'
-
-export interface IncomingRequest {
-  /** @default "http://localhost:3000" */
-  host?: string
-  method?: string
-  cookies?: Record<string, string>
-  headers?: Record<string, any>
-  query?: Record<string, any>
-  body?: Record<string, any>
-  action: SkillRecordingsAction
-  providerId?: string
-  error?: string
-}
 
 export interface SkillRecordingsHeader {
   key: string
   value: string
 }
 
-export interface OutgoingResponse<
-  Body extends string | Record<string, any> | any[] = any,
-> {
-  status?: number
-  headers?: SkillRecordingsHeader[]
-  body?: Body
-  redirect?: string
-  cookies?: any[]
-}
-
-export interface SkillRecordingsOptions {}
-
 export interface SkillRecordingsHandlerParams {
   req: IncomingRequest
+  token: JWT | null
   options: SkillRecordingsOptions
 }
 
@@ -63,3 +43,17 @@ export interface SkillRecordingsRequest extends NextApiRequest {
 
 /** @internal */
 export type SkillRecordingsResponse<T = any> = NextApiResponse<T>
+
+export type SendFeedbackFromUserOptions = {
+  userId: string
+  feedbackText: string
+  context?: FeedbackContext
+  prisma: PrismaClient
+}
+
+export type FeedbackContext = {
+  url?: string
+  category?: 'general' | 'help'
+  emotion?: ':heart_eyes:' | ':unicorn_face:' | ':sob:'
+  location?: string
+}

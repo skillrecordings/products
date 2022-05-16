@@ -1,6 +1,7 @@
 import renderToString from 'preact-render-to-string'
 import TestPage from './test'
-import {IncomingRequest, InternalOptions, OutgoingResponse} from '../types'
+import {InternalOptions} from '../types'
+import {IncomingRequest, OutgoingResponse} from '../index'
 
 type RenderPageParams = {
   query?: IncomingRequest['query']
