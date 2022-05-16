@@ -1,7 +1,6 @@
-client/
-core/
-db/
-lib/
-next/
-index.d.ts
-index.js
+./client/
+./core/
+./lib/
+./next/
+./index.d.ts
+./index.js
