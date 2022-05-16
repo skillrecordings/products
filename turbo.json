@@ -14,7 +14,7 @@
         "client/**",
         "core/**",
         "index.d.ts",
-        "index.js",
+        "index.js"
       ]
     },
     "postbuild": {
