@@ -1,4 +1,6 @@
-import {IncomingRequest, InternalOptions, SkillRecordingsOptions} from './types'
+import {SkillRecordingsOptions} from '../next'
+import {InternalOptions} from './types'
+import {IncomingRequest} from './index'
 
 interface InitParams {
   host?: string

@@ -5,6 +5,18 @@
       "dependsOn": ["^build"],
       "outputs": ["dist/**", ".next/**", "src/generated/**"]
     },
+    "skill-api#build": {
+      "dependsOn": ["^build"],
+      "outputs": [
+        "lib/**",
+        "css/**",
+        "next/**",
+        "client/**",
+        "core/**",
+        "index.d.ts",
+        "index.js",
+      ]
+    },
     "postbuild": {
       "dependsOn": ["build"],
       "outputs": ["public/sitemap.xml", "public/robots.txt"]
