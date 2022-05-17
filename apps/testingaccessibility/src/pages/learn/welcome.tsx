@@ -3,13 +3,15 @@ import {GetServerSideProps} from 'next'
 import prisma from '../../db'
 import Link from 'next/link'
 import {serialize} from '../../utils/prisma-next-serializer'
-import {useRouter} from 'next/router'
-import {getSession, useSession} from 'next-auth/react'
-import {getDecodedToken} from '../../utils/get-decoded-token'
+import {useSession} from 'next-auth/react'
+import {getToken} from 'next-auth/jwt'
 
 export const getServerSideProps: GetServerSideProps = async ({req, query}) => {
   const {purchaseId} = query
-  const token = await getDecodedToken(req)
+  const token = await getToken({
+    req,
+    secret: process.env.NEXTAUTH_SECRET,
+  })
 
   if (purchaseId) {
     const allPurchases = await prisma.purchase.findMany({

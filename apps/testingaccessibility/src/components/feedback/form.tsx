@@ -1,12 +1,13 @@
 import React from 'react'
 import * as Yup from 'yup'
 import {CategoryField, EmotionField, FeedbackField} from './fields'
-import {FeedbackContext, sendFeedback} from 'utils/send-feedback'
 import {useFeedback} from 'context/feedback-context'
 import {Formik, Form, FormikHelpers} from 'formik'
 import {CheckIcon} from '@heroicons/react/solid'
 import {XCircleIcon} from '@heroicons/react/outline'
 import Spinner from 'components/spinner'
+import {sendFeedback} from '@skillrecordings/skill-api/client'
+import {FeedbackContext} from '@skillrecordings/skill-api'
 
 type FeedbackFormValues = {
   text: string

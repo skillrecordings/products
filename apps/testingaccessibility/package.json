@@ -40,6 +40,7 @@
     "@sanity/webhook": "^1.0.2",
     "@sentry/nextjs": "^6.19.3",
     "@skillrecordings/analytics": "workspace:*",
+    "@skillrecordings/skill-api": "workspace:*",
     "@skillrecordings/auth": "workspace:*",
     "@skillrecordings/axios": "workspace:*",
     "@skillrecordings/commerce": "workspace:*",

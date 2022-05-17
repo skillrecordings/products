@@ -3,7 +3,7 @@ import type {
   SkillRecordingsRequest,
   SkillRecordingsResponse,
 } from '../core/types'
-import {getDecodedToken} from '../lib/get-decoded-token'
+import {getDecodedToken} from '../client/get-decoded-token'
 import {SkillRecordingsHandler} from '../core'
 import type {NextApiRequest, NextApiResponse} from 'next'
 import type {PrismaClient} from '@prisma/client'
@@ -22,7 +22,7 @@ async function SkillRecordingsNextHandler(
   options: SkillRecordingsOptions,
 ) {
   const {skillRecordings, ...query} = req.query
-  const token = await getDecodedToken(req)
+  const token = await getDecodedToken({req})
 
   const handler = await SkillRecordingsHandler({
     req: {
