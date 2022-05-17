@@ -22,7 +22,7 @@ const Login: React.FC<{csrfToken: string}> = ({csrfToken}) => {
           backgroundImage: "url('/assets/pattern-topography.svg')",
         }}
       >
-        <div className="sm:mx-auto rounded-lg">
+        <main className="sm:mx-auto rounded-lg">
           <div className="max-w-sm mx-auto flex items-center justify-center w-full">
             <Image
               placeholder="blur"
@@ -79,7 +79,7 @@ const Login: React.FC<{csrfToken: string}> = ({csrfToken}) => {
               </form>
             </div>
           </div>
-        </div>
+        </main>
       </div>
     </Layout>
   )

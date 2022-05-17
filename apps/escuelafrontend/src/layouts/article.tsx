@@ -47,8 +47,9 @@ const ArticleTemplate: React.FC<ArticleTemplateProps> = ({meta}) => {
     instructorName,
     tagSlug,
   }
+
   const opengraphImage = `${
-    process.env.NEXT_PUBLIC_VERCEL_URL
+    process.env.NEXT_PUBLIC_DEPLOYMENT_URL
   }/api/opengraph?${qs.stringify(query)}`
 
   return (
