@@ -50,7 +50,7 @@ const Learn: React.FC<{purchases: Purchase[]}> = ({purchases = []}) => {
                       </h2>
                       <div className="opacity-80 flex font-medium text-sm sm:pt-0 pt-2">
                         <span className="after:content-['・']">
-                          USD {purchase.totalAmount}.00
+                          USD {purchase.totalAmount}
                         </span>
                         <span>
                           {format(new Date(purchase.createdAt), 'MMMM d, y')}
