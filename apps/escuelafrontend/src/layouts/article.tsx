@@ -48,14 +48,9 @@ const ArticleTemplate: React.FC<ArticleTemplateProps> = ({meta}) => {
     tagSlug,
   }
 
-  let opengraphImage = `${
-    process.env.NEXT_PUBLIC_VERCEL_URL
-  }/api/cloudinary-cache?${qs.stringify(query)}`
-
-  if (!opengraphImage.startsWith('http'))
-    opengraphImage = `https://${opengraphImage}`
-
-  console.log(opengraphImage)
+  const opengraphImage = `${
+    process.env.NEXT_PUBLIC_DEPLOYMENT_URL
+  }/api/opengraph?${qs.stringify(query)}`
 
   return (
     <>

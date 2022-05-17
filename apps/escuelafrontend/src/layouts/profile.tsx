@@ -36,7 +36,7 @@ const ProfileTemplate: React.FC<ProfileTemplateProps> = ({meta}) => {
     tagSlug,
   }
   const opengraphImage = `${
-    process.env.NEXT_PUBLIC_VERCEL_URL
+    process.env.NEXT_PUBLIC_DEPLOYMENT_URL
   }/api/opengraph?${qs.stringify(query)}`
 
   return (
@@ -199,7 +199,7 @@ const Instructor: FunctionComponent<{
         <hr className="border border-gray-500 border-opacity-10" />
         <div>
           {bio && (
-            <Markdown className="leading-snug prose prose-lg  dark:prose-dark">
+            <Markdown className="leading-snug prose prose-lg dark:prose-dark">
               {bio}
             </Markdown>
           )}
