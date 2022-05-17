@@ -5,7 +5,7 @@
       "dependsOn": ["^build"],
       "outputs": ["dist/**", ".next/**", "src/generated/**"]
     },
-    "skill-api#build": {
+    "@skillrecordings/skill-api#build": {
       "dependsOn": ["^build"],
       "outputs": [
         "lib/**",
