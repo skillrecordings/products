@@ -35,8 +35,7 @@
     "@skillrecordings/scripts": "workspace:*",
     "@skillrecordings/tsconfig": "workspace:*",
     "@skillrecordings/types": "workspace:*",
-    "next-auth": "^4.2.1",
-    "typescript": "^4.2.4"
+    "next-auth": "^4.2.1"
   },
   "publishConfig": {
     "access": "public"

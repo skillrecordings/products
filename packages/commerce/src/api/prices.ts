@@ -33,8 +33,17 @@ const pricesHandler = async (req: NextApiRequest, res: NextApiResponse) => {
           res.status(500).end(error.message)
         })
     } catch (error) {
-      console.log(error)
-      res.status(500).end(error.message)
+      if (error instanceof Error) {
+        res
+          .status(500)
+          .json({success: false, message: error.message, body: req.body})
+      } else {
+        res.status(500).json({
+          success: false,
+          message: 'unknown error occurred',
+          body: req.body,
+        })
+      }
     }
   } else {
     console.error('non-POST request made')
