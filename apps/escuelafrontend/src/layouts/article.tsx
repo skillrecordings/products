@@ -47,9 +47,15 @@ const ArticleTemplate: React.FC<ArticleTemplateProps> = ({meta}) => {
     instructorName,
     tagSlug,
   }
-  const opengraphImage = `${
+
+  let opengraphImage = `${
     process.env.NEXT_PUBLIC_VERCEL_URL
-  }/api/opengraph?${qs.stringify(query)}`
+  }/api/cloudinary-cache?${qs.stringify(query)}`
+
+  if (!opengraphImage.startsWith('http'))
+    opengraphImage = `https://${opengraphImage}`
+
+  console.log(opengraphImage)
 
   return (
     <>
