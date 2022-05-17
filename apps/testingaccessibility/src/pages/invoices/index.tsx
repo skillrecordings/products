@@ -1,5 +1,4 @@
 import * as React from 'react'
-import {getDecodedToken} from '../../utils/get-decoded-token'
 import {DocumentTextIcon} from '@heroicons/react/outline'
 import {ChevronRightIcon} from '@heroicons/react/solid'
 import {serialize} from 'utils/prisma-next-serializer'
@@ -9,9 +8,13 @@ import {GetServerSideProps} from 'next'
 import {format} from 'date-fns'
 import Layout from 'components/app/layout'
 import Link from 'next/link'
+import {getToken} from 'next-auth/jwt'
 
 export const getServerSideProps: GetServerSideProps = async ({req}) => {
-  const sessionToken = await getDecodedToken(req)
+  const sessionToken = await getToken({
+    req,
+    secret: process.env.NEXTAUTH_SECRET,
+  })
   const {getPurchasesForUser} = getSdk()
 
   if (sessionToken && sessionToken.sub) {

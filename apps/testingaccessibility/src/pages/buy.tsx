@@ -7,9 +7,9 @@ import {getSdk} from '../lib/prisma-api'
 import {serialize} from '../utils/prisma-next-serializer'
 import {setupHttpTracing} from '@vercel/tracing-js'
 import {tracer} from '../utils/honeycomb-tracer'
-import {getDecodedToken} from '../utils/get-decoded-token'
 import {Purchase, Coupon} from '@prisma/client'
 import {defaultContext} from '../lib/context'
+import {getToken} from 'next-auth/jwt'
 
 const Buy: React.FC<{
   couponFromCode?: {isValid: boolean; id: string}
@@ -82,11 +82,8 @@ const Buy: React.FC<{
 
 export default Buy
 
-export const getServerSideProps: GetServerSideProps = async ({
-  req,
-  query,
-  res,
-}) => {
+export const getServerSideProps: GetServerSideProps = async (context) => {
+  const {req, query, res} = context
   const spanContext = setupHttpTracing({
     name: getServerSideProps.name,
     tracer,
@@ -98,7 +95,10 @@ export const getServerSideProps: GetServerSideProps = async ({
     ctx: defaultContext,
     spanContext,
   })
-  const token = await getDecodedToken(req)
+  const token = await getToken({
+    req,
+    secret: process.env.NEXTAUTH_SECRET,
+  })
 
   const purchases = token
     ? await getPurchasesForUser(token.sub as string)

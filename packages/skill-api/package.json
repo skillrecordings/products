@@ -8,7 +8,7 @@
     "./client": "./client/index.js",
     "./core": "./core/index.js",
     "./next": "./next/index.js",
-    "./db": "./db/_utils.js"
+    "./lib": "./lib/index.js"
   },
   "files": [
     "lib",
@@ -42,6 +42,7 @@
   "peerDependencies": {
     "next-auth": "^4.3.4",
     "nodemailer": "^6.6.5",
+    "nodemailer-postmark-transport": "^5.2.1",
     "react": "^17.0.2 || ^18",
     "react-dom": "^17.0.2 || ^18"
   },

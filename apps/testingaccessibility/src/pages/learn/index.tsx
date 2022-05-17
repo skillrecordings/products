@@ -1,25 +1,21 @@
 import * as React from 'react'
-import {getDecodedToken} from '../../utils/get-decoded-token'
 import {serialize} from 'utils/prisma-next-serializer'
 import {useProgress} from 'context/progress-context'
 import {PortableText} from '@portabletext/react'
-import {sanityClient} from 'utils/sanity-client'
 import {getNextUpLesson} from 'utils/progress'
 import {LessonProgress} from '@prisma/client'
 import {SanityDocument} from '@sanity/client'
 import {GetServerSideProps} from 'next'
 import {Purchase} from '@prisma/client'
-import {getSdk} from 'lib/prisma-api'
 import PortableTextComponents from 'components/portable-text'
 import Search from 'components/search/autocomplete'
 import Layout from 'components/app/layout'
-import last from 'lodash/last'
 import find from 'lodash/find'
-import get from 'lodash/get'
 import Link from 'next/link'
 import cx from 'classnames'
 import groq from 'groq'
 import Image from 'next/image'
+import {getPurchasedProduct} from '../../server/get-purchased-product'
 
 const productQuery = groq`*[_type == "product" && productId == $productId][0]{
   title,
@@ -63,19 +59,9 @@ const productQuery = groq`*[_type == "product" && productId == $productId][0]{
   }`
 
 export const getServerSideProps: GetServerSideProps = async ({req}) => {
-  const sessionToken = await getDecodedToken(req)
+  const {product, purchases} = await getPurchasedProduct(req, productQuery)
 
-  if (sessionToken && sessionToken.sub) {
-    const {getPurchasesForUser} = getSdk()
-    const purchases = await getPurchasesForUser(sessionToken.sub)
-
-    // TODO: make sure we always get the highest ranking tier
-    const productId = purchases && get(last(purchases), 'productId')
-
-    // fetch product from sanity based on user's productId associated with their purchase
-    const product = await sanityClient.fetch(productQuery, {
-      productId,
-    })
+  if (purchases) {
     return {
       props: {
         product,
@@ -83,7 +69,6 @@ export const getServerSideProps: GetServerSideProps = async ({req}) => {
       },
     }
   }
-
   return {
     props: {},
   }

@@ -1,10 +1,10 @@
 import {NextApiRequest, NextApiResponse} from 'next'
-import {getDecodedToken} from 'utils/get-decoded-token'
 import prisma from 'db'
 import {serialize} from 'utils/prisma-next-serializer'
 import {withSentry} from '@sentry/nextjs'
 import {setupHttpTracing} from '@vercel/tracing-js'
 import {tracer} from 'utils/honeycomb-tracer'
+import {getToken} from 'next-auth/jwt'
 
 const getProgress = async (req: NextApiRequest, res: NextApiResponse) => {
   setupHttpTracing({
@@ -13,7 +13,10 @@ const getProgress = async (req: NextApiRequest, res: NextApiResponse) => {
     req,
     res,
   })
-  const sessionToken = await getDecodedToken(req)
+  const sessionToken = await getToken({
+    req,
+    secret: process.env.NEXTAUTH_SECRET,
+  })
 
   if (req.method === 'GET') {
     try {

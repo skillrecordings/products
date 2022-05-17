@@ -1,5 +1,4 @@
 import React from 'react'
-import {getDecodedToken} from 'utils/get-decoded-token'
 import {sanityClient} from 'utils/sanity-client'
 import {SanityDocument} from '@sanity/client'
 import {GetServerSideProps} from 'next'
@@ -12,6 +11,8 @@ import find from 'lodash/find'
 import uniq from 'lodash/uniq'
 import get from 'lodash/get'
 import groq from 'groq'
+import {getToken} from 'next-auth/jwt'
+import {getPurchasedProduct} from '../../../../../server/get-purchased-product'
 
 const lessonQuery = groq`*[_type == "lesson" && slug.current == $slug][0]{
   title,
@@ -42,22 +43,6 @@ const allLessonsQuery = groq`*[_type == "lesson"]{
   "slug": slug.current,
   }`
 
-const productQuery = groq`*[_type == "product" && productId == $productId][0]{
-  productId,
-  modules[]->{
-    "slug": slug.current,
-    title,
-    sections[]->{
-      "slug": slug.current,
-      title,
-      lessons[]->{
-        "slug": slug.current,
-        title
-      }
-    }
-  }
-  }`
-
 const sectionQuery = groq`*[_type == "section" && slug.current == $slug][0]{
   title,
   "slug": slug.current,
@@ -72,20 +57,8 @@ const sectionQuery = groq`*[_type == "section" && slug.current == $slug][0]{
   }`
 
 export const getServerSideProps: GetServerSideProps = async ({req, params}) => {
-  const sessionToken = await getDecodedToken(req)
-  const {getPurchasesForUser} = getSdk()
-  const purchases =
-    sessionToken &&
-    sessionToken.sub &&
-    (await getPurchasesForUser(sessionToken.sub))
-  const productId = purchases && get(last(purchases), 'productId')
-
-  // fetch product from sanity based on user's productId associated with their purchase
-  const product = await sanityClient.fetch(productQuery, {
-    productId: productId,
-  })
-
   // get array of available lessons
+  const {product} = await getPurchasedProduct(req)
   const lessons: {slug: string}[] = flatten(
     product.modules.map((module: SanityDocument) =>
       flatten(

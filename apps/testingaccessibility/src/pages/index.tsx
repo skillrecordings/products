@@ -9,10 +9,13 @@ import {
 import Layout from 'components/app/layout'
 import {useRouter} from 'next/router'
 import {GetServerSideProps} from 'next'
-import {getDecodedToken} from '../utils/get-decoded-token'
+import {getToken} from 'next-auth/jwt'
 
 export const getServerSideProps: GetServerSideProps = async ({req}) => {
-  const token = await getDecodedToken(req)
+  const token = await getToken({
+    req,
+    secret: process.env.NEXTAUTH_SECRET,
+  })
   return {
     props: {
       token,

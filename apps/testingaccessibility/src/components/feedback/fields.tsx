@@ -1,6 +1,5 @@
 import React from 'react'
 import {useEditor, EditorContent} from '@tiptap/react'
-import {getEmoji} from 'utils/get-feedback-emoji'
 import {CheckIcon} from '@heroicons/react/solid'
 import {RadioGroup} from '@headlessui/react'
 import {useField} from 'formik'
@@ -9,6 +8,7 @@ import Highlight from '@tiptap/extension-highlight'
 import StarterKit from '@tiptap/starter-kit'
 import Link from '@tiptap/extension-link'
 import cx from 'classnames'
+import {getEmoji} from '@skillrecordings/skill-api/client'
 
 export const FeedbackField: React.FC<any> = ({
   errors,

@@ -1,6 +1,6 @@
 import {htmlToText} from 'html-to-text'
 import sanitizeHtml from 'sanitize-html'
-import {getEmoji} from '../../lib/get-feedback-emoji'
+import {getEmoji} from '../../client/get-feedback-emoji'
 import {SendFeedbackFromUserOptions} from '../types'
 import {sendPostmarkEmail} from '../../lib/postmark'
 import {OutgoingResponse} from '../index'

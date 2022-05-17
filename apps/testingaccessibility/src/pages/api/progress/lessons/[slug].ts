@@ -1,11 +1,11 @@
 import {NextApiRequest, NextApiResponse} from 'next'
-import {getDecodedToken} from 'utils/get-decoded-token'
 import {serialize} from 'utils/prisma-next-serializer'
 import {getSdk} from 'lib/prisma-api'
 import {withSentry} from '@sentry/nextjs'
 import {setupHttpTracing} from '@vercel/tracing-js'
 import {tracer} from 'utils/honeycomb-tracer'
 import {defaultContext} from 'lib/context'
+import {getToken} from 'next-auth/jwt'
 
 const toggleLessonProgressForUser = async (
   req: NextApiRequest,
@@ -17,7 +17,10 @@ const toggleLessonProgressForUser = async (
     req,
     res,
   })
-  const sessionToken = await getDecodedToken(req)
+  const sessionToken = await getToken({
+    req,
+    secret: process.env.NEXTAUTH_SECRET,
+  })
   if (req.method === 'POST') {
     try {
       const {toggleLessonProgressForUser} = getSdk({
