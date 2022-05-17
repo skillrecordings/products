@@ -1,12 +1,12 @@
-import {
+import type {
   SkillRecordingsAction,
   SkillRecordingsRequest,
   SkillRecordingsResponse,
 } from '../core/types'
 import {getDecodedToken} from '../lib/get-decoded-token'
 import {SkillRecordingsHandler} from '../core'
-import {NextApiRequest, NextApiResponse} from 'next'
-import {PrismaClient} from '@prisma/client'
+import type {NextApiRequest, NextApiResponse} from 'next'
+import type {PrismaClient} from '@prisma/client'
 
 /** Extract the host from the environment */
 export function detectHost(forwardedHost: any) {
@@ -61,6 +61,14 @@ async function SkillRecordingsNextHandler(
 
   return res.send(handler.body)
 }
+
+function SkillRecordings(options: SkillRecordingsOptions): any
+
+function SkillRecordings(
+  req: NextApiRequest,
+  res: NextApiResponse,
+  options: SkillRecordingsOptions,
+): any
 
 function SkillRecordings(
   ...args:
