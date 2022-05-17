@@ -19,8 +19,7 @@
   "devDependencies": {
     "@skillrecordings/scripts": "workspace:*",
     "@skillrecordings/tsconfig": "workspace:*",
-    "@skillrecordings/types": "workspace:*",
-    "typescript": "^4.2.4"
+    "@skillrecordings/types": "workspace:*"
   },
   "publishConfig": {
     "access": "public"

@@ -106,8 +106,7 @@
     "postcss-preset-env": "^6.7.0",
     "prettier": "^2.4.1",
     "react-test-renderer": "^17.0.2",
-    "tailwindcss": "^2.2.19",
-    "typescript": "^4.4.4"
+    "tailwindcss": "^2.2.19"
   },
   "lint-staged": {
     "*.{js,json,md,mdx,ts,tsx}": [

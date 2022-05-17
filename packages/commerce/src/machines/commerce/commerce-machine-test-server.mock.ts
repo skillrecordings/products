@@ -24,7 +24,7 @@ export const sellable: SellableResource = {
 
 export const defaultContext = {
   sellable,
-  upgradeFromSellable: null,
+  upgradeFromSellable: undefined,
   bulk: false,
   quantity: 1,
   stripePriceId: undefined,

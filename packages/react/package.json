@@ -54,8 +54,7 @@
     "esbuild-node-tsc": "^1.6.1",
     "msw": "^0.34.0",
     "react-test-renderer": "^17.0.2",
-    "sass": "^1.43.4",
-    "typescript": "^4.2.4"
+    "sass": "^1.43.4"
   },
   "publishConfig": {
     "access": "public"

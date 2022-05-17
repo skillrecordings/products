@@ -16,5 +16,7 @@ declare namespace NodeJS {
     NEXT_PUBLIC_ALGOLIA_APPLICATION_ID: string
     NEXT_PUBLIC_SELLING_LIVE: string
     NEXT_PUBLIC_SUPPORT_EMAIL: string
+    EMAIL_SERVER_HOST: string
+    EMAIL_SERVER_PORT: number
   }
 }

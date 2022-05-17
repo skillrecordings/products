@@ -14,8 +14,7 @@
   },
   "devDependencies": {
     "@skillrecordings/scripts": "workspace:*",
-    "@skillrecordings/tsconfig": "workspace:*",
-    "typescript": "^4.2.4"
+    "@skillrecordings/tsconfig": "workspace:*"
   },
   "jest": {
     "preset": "@skillrecordings/scripts/jest/node"
