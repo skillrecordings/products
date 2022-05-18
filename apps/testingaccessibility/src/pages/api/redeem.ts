@@ -88,7 +88,7 @@ const redeemHandler = async (req: NextApiRequest, res: NextApiResponse) => {
         if (sendEmail)
           await sendServerEmail({
             email: user.email,
-            callbackUrl: `${process.env.NEXTAUTH_URL}/learn/welcome?purchaseId=${purchase.id}`,
+            callbackUrl: `${process.env.NEXTAUTH_URL}/welcome?purchaseId=${purchase.id}`,
             nextAuthOptions,
           })
 
