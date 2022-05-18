@@ -67,6 +67,7 @@ const Login: React.FC<{csrfToken: string}> = ({csrfToken}) => {
                   <input
                     id="email"
                     type="email"
+                    required={true}
                     placeholder="you@example.com"
                     className="mb-3 focus:ring-blue-500 focus:border-blue-500  py-3 text-gray-900 placeholder-gray-400 block w-full pl-10 border-2 border-gray-200 rounded-md"
                     {...register('email', {required: true})}
