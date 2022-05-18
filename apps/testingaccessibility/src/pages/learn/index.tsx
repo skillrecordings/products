@@ -1,4 +1,5 @@
 import * as React from 'react'
+import {getPurchasedProduct} from 'server/get-purchased-product'
 import {serialize} from 'utils/prisma-next-serializer'
 import {useProgress} from 'context/progress-context'
 import {PortableText} from '@portabletext/react'
@@ -15,7 +16,6 @@ import Link from 'next/link'
 import cx from 'classnames'
 import groq from 'groq'
 import Image from 'next/image'
-import {getPurchasedProduct} from '../../server/get-purchased-product'
 
 const productQuery = groq`*[_type == "product" && productId == $productId][0]{
   title,

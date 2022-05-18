@@ -1,4 +1,5 @@
 import React from 'react'
+import {getPurchasedProduct} from 'server/get-purchased-product'
 import {sanityClient} from 'utils/sanity-client'
 import {SanityDocument} from '@sanity/client'
 import {GetServerSideProps} from 'next'
@@ -7,7 +8,6 @@ import flatten from 'lodash/flatten'
 import isEmpty from 'lodash/isEmpty'
 import find from 'lodash/find'
 import groq from 'groq'
-import {getPurchasedProduct} from '../../../server/get-purchased-product'
 
 const allModulesQuery = groq`*[_type == "module"]{
       "slug": slug.current
