@@ -1,9 +1,9 @@
 import {sanityClient} from 'utils/sanity-client'
 import {getToken} from 'next-auth/jwt'
-import {getSdk} from 'lib/prisma-api'
 import last from 'lodash/last'
 import get from 'lodash/get'
 import groq from 'groq'
+import {isArray} from 'lodash'
 
 const defaultProductQuery = groq`*[_type == "product" && productId == $productId][0]{
   productId,
@@ -31,15 +31,12 @@ export async function getPurchasedProduct(
   req: any,
   productQuery: string = defaultProductQuery,
 ) {
-  const sessionToken = await getToken({
-    req,
-    secret: process.env.NEXTAUTH_SECRET,
-  })
+  const sessionToken = await getToken({req})
   if (sessionToken && sessionToken.sub) {
-    const {getPurchasesForUser} = getSdk()
-    const purchases = await getPurchasesForUser(sessionToken.sub)
+    // no need to reload purchases since they are on the session
+    const purchases = sessionToken.purchases
 
-    if (purchases) {
+    if (isArray(purchases)) {
       const productId = get(last(purchases), 'productId')
 
       // fetch product from sanity based on user's productId associated with their purchase

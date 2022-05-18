@@ -53,6 +53,12 @@ export const nextAuthOptions: NextAuthOptions = {
   ],
   callbacks: {
     async session({session, user, token}) {
+      if (token?.id) {
+        const {getPurchasesForUser} = getSdk()
+        const purchases = await getPurchasesForUser(token.id as string)
+        token.purchases = purchases
+      }
+
       const encodedToken = jwt.sign(token, process.env.NEXTAUTH_SECRET || '', {
         algorithm: 'HS256',
       })
