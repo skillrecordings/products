@@ -4,10 +4,9 @@ import {NextApiRequest} from 'next'
 import {getToken} from 'next-auth/jwt'
 
 export async function middleware(req: NextApiRequest, ev: NextFetchEvent) {
-  const session = await getToken({
-    req,
-    secret: process.env.NEXTAUTH_SECRET,
-  })
+  const session = await getToken({req})
+
+  // TODO: Check sessions.purchases for valid purchase for this path
 
   // You could also check for any property on the session object,
   // like role === "admin" or name === "John Doe", etc.
