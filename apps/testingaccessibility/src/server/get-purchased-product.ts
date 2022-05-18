@@ -1,8 +1,8 @@
+import {sanityClient} from 'utils/sanity-client'
 import {getToken} from 'next-auth/jwt'
-import {getSdk} from '../lib/prisma-api'
-import get from 'lodash/get'
+import {getSdk} from 'lib/prisma-api'
 import last from 'lodash/last'
-import {sanityClient} from '../utils/sanity-client'
+import get from 'lodash/get'
 import groq from 'groq'
 
 const defaultProductQuery = groq`*[_type == "product" && productId == $productId][0]{

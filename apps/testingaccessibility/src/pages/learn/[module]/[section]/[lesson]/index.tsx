@@ -1,18 +1,14 @@
 import React from 'react'
+import {getPurchasedProduct} from 'server/get-purchased-product'
 import {sanityClient} from 'utils/sanity-client'
 import {SanityDocument} from '@sanity/client'
 import {GetServerSideProps} from 'next'
-import {getSdk} from 'lib/prisma-api'
 import LessonTemplate from 'templates/lesson-template'
 import flatten from 'lodash/flatten'
 import isEmpty from 'lodash/isEmpty'
-import last from 'lodash/last'
 import find from 'lodash/find'
 import uniq from 'lodash/uniq'
-import get from 'lodash/get'
 import groq from 'groq'
-import {getToken} from 'next-auth/jwt'
-import {getPurchasedProduct} from '../../../../../server/get-purchased-product'
 
 const lessonQuery = groq`*[_type == "lesson" && slug.current == $slug][0]{
   title,
