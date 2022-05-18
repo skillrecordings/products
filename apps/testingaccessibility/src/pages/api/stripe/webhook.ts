@@ -32,7 +32,7 @@ const stripeWebhookHandler = async (
 
         await sendServerEmail({
           email: user.email as string,
-          callbackUrl: `${process.env.NEXTAUTH_URL}/learn/welcome?purchaseId=${purchase.id}`,
+          callbackUrl: `${process.env.NEXTAUTH_URL}/welcome?purchaseId=${purchase.id}`,
           nextAuthOptions,
         })
 
