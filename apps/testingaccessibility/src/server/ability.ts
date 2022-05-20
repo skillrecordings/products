@@ -3,7 +3,7 @@ import {intersection, isNull, isString, some} from 'lodash'
 import {Purchase} from '@prisma/client'
 
 type Actions = 'manage' | 'invite' | 'view'
-type Subjects = 'Team' | 'Purchase' | 'Content' | 'all'
+type Subjects = 'Team' | 'Purchase' | 'Content' | 'Product' | 'all'
 type AppAbility = Ability<[Actions, Subjects]>
 
 export async function getAbilityFromToken(token: any) {
@@ -35,6 +35,11 @@ function defineAbilityFor(token: any) {
 
   if (hasValidPurchase(token.purchases)) {
     can('view', 'Content')
+    can('view', 'Product', {
+      productId: {
+        $in: token.purchases.map((purchase: Purchase) => purchase.productId),
+      },
+    })
   }
 
   return build()
