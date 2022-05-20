@@ -31,10 +31,10 @@ export async function getPurchasedProduct(
   req: any,
   productQuery: string = defaultProductQuery,
 ) {
-  const sessionToken = await getToken({req})
-  if (sessionToken && sessionToken.sub) {
+  const token = await getToken({req})
+  if (token && token.sub) {
     // no need to reload purchases since they are on the session
-    const purchases = sessionToken.purchases
+    const purchases = token.purchases
 
     if (isArray(purchases)) {
       const productId = get(last(purchases), 'productId')
@@ -45,8 +45,9 @@ export async function getPurchasedProduct(
           productId: productId,
         }),
         purchases,
+        token,
       }
     }
   }
-  return {product: {modules: []}}
+  return {product: {modules: []}, token}
 }
