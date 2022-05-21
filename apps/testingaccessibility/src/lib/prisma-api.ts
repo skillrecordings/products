@@ -77,7 +77,12 @@ export function getSdk(
           productId: true,
           createdAt: true,
           totalAmount: true,
-          bulkCoupon: true,
+          bulkCoupon: {
+            select: {
+              maxUses: true,
+              usedCount: true,
+            },
+          },
           product: {
             select: {
               id: true,
