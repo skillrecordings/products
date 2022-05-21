@@ -16,7 +16,7 @@ import Link from 'next/link'
 import cx from 'classnames'
 import groq from 'groq'
 import Image from 'next/image'
-import {getAbilityFromToken, hasValidBulkPurchase} from '../../server/ability'
+import {getAbilityFromToken, hasAvailableSeats} from '../../server/ability'
 import {getToken} from 'next-auth/jwt'
 import {subject} from '@casl/ability'
 

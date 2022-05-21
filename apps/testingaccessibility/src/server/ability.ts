@@ -1,6 +1,6 @@
-import {AbilityBuilder, Ability, defineAbility} from '@casl/ability'
-import {intersection, isNull, isString, some} from 'lodash'
-import {Purchase} from '@prisma/client'
+import {AbilityBuilder, Ability} from '@casl/ability'
+import {isNull, isUndefined, some} from 'lodash'
+import {Coupon, Purchase} from '@prisma/client'
 
 type Actions = 'manage' | 'invite' | 'view'
 type Subjects = 'Team' | 'Purchase' | 'Content' | 'Product' | 'all'
@@ -10,27 +10,43 @@ export async function getAbilityFromToken(token: any) {
   return defineAbilityFor(token)
 }
 
-export function hasValidBulkPurchase(purchases?: any[]) {
+export function bulkCouponHasSeats(coupon: Coupon) {
+  return coupon.usedCount < coupon.maxUses
+}
+
+export function hasBulkPurchase(purchases?: any[]) {
   return some(purchases, (purchase) => {
     return !isNull(purchase.bulkCoupon)
   })
 }
 
+export function hasAvailableSeats(purchases?: any[]) {
+  return some(purchases, (purchase) => {
+    return (
+      !isNull(purchase.bulkCoupon) && bulkCouponHasSeats(purchase.bulkCoupon)
+    )
+  })
+}
+
 export function hasValidPurchase(purchases?: any[]) {
   return some(purchases, (purchase) => {
-    return isNull(purchase.bulkCoupon)
+    return isNull(purchase.bulkCoupon) || isUndefined(purchase.bulkCoupon)
   })
 }
 
 /**
  * @see {@link https://casl.js.org/v5/en/guide/define-rules#ability-builder-class|AbilityBuilder}
- * @param viewerRoles an array of roles for the current viewer
+ * @param token the JWT session token from next-auth with purchases
  */
 function defineAbilityFor(token: any) {
   const {can, build} = new AbilityBuilder<AppAbility>(Ability)
 
-  if (hasValidBulkPurchase(token.purchases)) {
+  if (hasAvailableSeats(token.purchases)) {
     can('invite', 'Team')
+  }
+
+  if (hasBulkPurchase(token.purchases)) {
+    can('view', 'Team')
   }
 
   if (hasValidPurchase(token.purchases)) {
