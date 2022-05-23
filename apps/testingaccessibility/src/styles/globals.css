@@ -28,7 +28,7 @@
 [data-sr-convertkit-subscribe-form] {
   @apply flex flex-col w-full max-w-[340px] mx-auto;
   [data-sr-input] {
-    @apply block mb-4 w-full px-4 py-3 text-white placeholder-white placeholder-opacity-60 bg-gray-900 bg-opacity-50 border border-white border-opacity-20 rounded-lg shadow sm:text-base sm:leading-6;
+    @apply block mb-4 w-full px-4 py-3 text-white placeholder-white placeholder-opacity-60 bg-green-800 bg-opacity-50 border border-white border-opacity-20 rounded-lg shadow sm:text-base sm:leading-6;
   }
   [data-sr-input-label] {
     @apply font-medium pb-1 inline-block;
@@ -37,7 +37,7 @@
     @apply opacity-50;
   }
   [data-sr-button] {
-    @apply mt-4 flex items-center justify-center rounded-lg text-black bg-white hover:bg-opacity-100 transition pt-4 pb-5 font-dinosaur font-bold text-lg focus-visible:ring-offset-2;
+    @apply mt-4 flex items-center justify-center rounded-lg text-black bg-white/95 hover:bg-opacity-100 transition pt-4 pb-5 font-dinosaur font-bold text-lg focus-visible:ring-offset-2 hover:scale-105 hover:-rotate-1 hover:bg-white;
   }
 }
 
@@ -112,7 +112,7 @@
   indicator will be displayed instead.
 */
 .js-focus-visible .focus-visible {
-  @apply outline-none ring-2 ring-orange-500;
+  @apply outline-none ring-2 ring-green-500;
 }
 
 /* [data-js-focus-visible] [data-focus-visible-added] {

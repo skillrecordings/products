@@ -12,11 +12,11 @@ import {sanityClient} from 'utils/sanity-client'
 const Workshops: React.FC<any> = ({workshops}) => {
   return (
     <Layout meta={{title: 'Accessibility Workshops'}}>
-      <header className="relative px-5 overflow-hidden text-white bg-black max-h-[80vh]">
-        <h1 className="max-w-screen-md py-16 pb-4 mx-auto text-3xl font-semibold leading-tight text-center sm:text-4xl lg:text-5xl md:text-4xl">
+      <header className="relative px-5 py-16 overflow-hidden text-black bg-sand-50">
+        <h1 className="max-w-screen-md mx-auto text-3xl font-semibold leading-tight text-center sm:text-4xl lg:text-5xl md:text-4xl">
           Accessibility Workshops
         </h1>
-        <div className="flex items-center justify-center max-w-screen-md mx-auto">
+        {/* <div className="flex items-center justify-center max-w-screen-md mx-auto">
           <Image
             src={WorkshopsImage}
             alt={'Accessibility workshops'}
@@ -30,7 +30,7 @@ const Workshops: React.FC<any> = ({workshops}) => {
           className="absolute bottom-0 left-0 z-10 w-full transform scale-150 sm:scale-100 text-gray-50"
           focusable="false"
           aria-hidden="true"
-        />
+        /> */}
       </header>
       <main className="bg-gray-50 px-5 flex-grow">
         <div className="pb-16 mx-auto max-w-screen-sm w-full">

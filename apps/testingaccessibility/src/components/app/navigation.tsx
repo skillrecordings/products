@@ -98,7 +98,7 @@ const MobileNav: React.FC<NavProps> = ({isLoadingUser, isSignedIn}) => {
               </div>
               {!isLoadingUser && isSellingLive && (
                 <div className="px-1 pt-2 pb-1">
-                  <div className="text-orange-600 text-xs px-2 py-2 uppercase tracking-wide font-bold">
+                  <div className="text-green-600 text-xs px-2 py-2 uppercase tracking-wide font-bold">
                     Account
                   </div>
                   {isSignedIn ? (
@@ -146,9 +146,9 @@ const NavLink: React.FC<{href: string}> = ({href, children, ...props}) => {
       <a
         aria-current={isActive ? 'page' : undefined}
         className={cx(
-          'relative px-5 h-full flex items-center justify-center hover:bg-[#F8F3ED] hover:bg-opacity-50 group transition outline-none hover:opacity-100 opacity-90 text-sm',
+          'relative px-5 h-full flex items-center justify-center hover:bg-gray-100 hover:bg-opacity-50 group transition outline-none hover:opacity-100 opacity-90 text-sm',
           {
-            'after:content-[""] after:absolute after:w-full after:h-[2px] after:bottom-[-2px] after:left-0 after:bg-orange-600':
+            'after:content-[""] after:absolute after:w-full after:h-[2px] after:bottom-[-2px] after:left-0 after:bg-green-500':
               isActive,
           },
         )}

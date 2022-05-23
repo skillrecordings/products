@@ -4,11 +4,16 @@ import {handleSignOut} from './navigation'
 import {useRouter} from 'next/router'
 import Image from 'next/image'
 import Link from 'next/link'
+import {useSession, signOut} from 'next-auth/react'
 
 type FooterProps = {}
 
 const Footer: React.FC<FooterProps> = () => {
   const router = useRouter()
+  const {data: sessionData, status: sessionStatus} = useSession()
+  const isSignedIn = Boolean(sessionData?.user)
+  const isLoadingUser = sessionStatus === 'loading'
+
   const {setIsFeedbackDialogOpen} = useFeedback()
   return (
     <footer>
@@ -34,26 +39,30 @@ const Footer: React.FC<FooterProps> = () => {
                 </li>
               </ul>
             </div>
-            <div>
-              <strong className="text-orange-700 font-semibold">Account</strong>
-              <ul className="pt-4">
-                <li>
-                  <NavLink href="/invoices">Invoices</NavLink>
-                </li>
-                <li>
-                  <NavLink
-                    onClick={() => setIsFeedbackDialogOpen(true, 'footer')}
-                  >
-                    Feedback
-                  </NavLink>
-                </li>
-                <li>
-                  <NavLink onClick={() => handleSignOut(router)}>
-                    Sign Out
-                  </NavLink>
-                </li>
-              </ul>
-            </div>
+            {isSignedIn && (
+              <div>
+                <strong className="text-orange-700 font-semibold">
+                  Account
+                </strong>
+                <ul className="pt-4">
+                  <li>
+                    <NavLink href="/invoices">Invoices</NavLink>
+                  </li>
+                  <li>
+                    <NavLink
+                      onClick={() => setIsFeedbackDialogOpen(true, 'footer')}
+                    >
+                      Feedback
+                    </NavLink>
+                  </li>
+                  <li>
+                    <NavLink onClick={() => handleSignOut(router)}>
+                      Sign Out
+                    </NavLink>
+                  </li>
+                </ul>
+              </div>
+            )}
             <div>
               <strong className="text-orange-700 font-semibold">About</strong>
               <ul className="pt-4">

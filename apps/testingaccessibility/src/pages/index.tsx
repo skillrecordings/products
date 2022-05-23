@@ -30,25 +30,26 @@ const Home: React.FC = (props) => {
     <Layout className="bg-white">
       <div>
         <div className="flex flex-col justify-between min-h-screen overflow-hidden">
-          <header className="relative text-[#000] bg-[#F8F3ED] lg:pt-32 sm:pt-24 pt-24">
+          <header className="relative text-white bg-green-700 lg:pt-32 sm:pt-24 pt-24">
             <div className="flex flex-col items-center justify-center w-full">
               <div className="flex flex-col items-center justify-center text-center px-8">
-                <h1 className="lg:max-w-screen-sm sm:max-w-lg md:text-4xl sm:text-3xl text-3xl font-aglet-sans font-bold lg:text-5xl leading-tighter">
+                <h1 className="lg:max-w-screen-sm md:max-w-lg md:text-4xl sm:text-3xl text-3xl font-aglet-sans font-bold lg:text-6xl leading-tighter max-w-sm">
                   <span className="inline-flex">
                     Learn How to Build Accessible Web Apps
                   </span>{' '}
-                  <span className="font-chauncy pt-8 text-lg text-center text-orange-600 md:text-xl uppercase italic">
+                  <span className="font-chauncy pt-8 lg:text-2xl text-lg text-center text-orange-200 md:text-xl uppercase italic">
                     with Marcy Sutton
                   </span>
                 </h1>
               </div>
-              <div className="sm:translate-y-20 translate-y-12 drop-shadow-2xl sm:w-auto w-[130%]">
+              <div className="sm:translate-y-20 translate-y-16 drop-shadow-2xl sm:w-auto ">
                 <Image
                   className=""
                   src={require('../../public/assets/travel-journal@2x.png')}
-                  width={1800 / 2}
-                  height={1259 / 2}
+                  width={1800 / 1.8}
+                  height={1259 / 1.8}
                   quality={100}
+                  placeholder="blur"
                   priority={true}
                   alt="an opened travel journal with testing accessibility stickers"
                 />
@@ -64,7 +65,7 @@ const Home: React.FC = (props) => {
             </div>
             <section
               id="subscribe"
-              className="relative flex flex-col items-center justify-center overflow-hidden text-white bg-[#181C27] sm:px-16 px-5 sm:py-32 py-16"
+              className="relative flex flex-col items-center justify-center overflow-hidden text-white bg-green-700 sm:px-16 px-5 sm:py-32 py-16"
             >
               <div className="flex flex-col items-center mb-8">
                 <Image
@@ -95,6 +96,9 @@ const Home: React.FC = (props) => {
                 }}
                 actionLabel="Start Testing Accessibility →"
               />
+              <p className="pt-8 opacity-80 text-sm">
+                We respect your privacy. Unsubscribe at any time.
+              </p>
             </section>
           </main>
         </div>
