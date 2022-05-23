@@ -132,7 +132,7 @@ export const SubscribeToConvertkitForm: React.FC<SubscribeFormProps> = ({
         name="email"
         id={id ? `email_${id}` : 'email'}
         onChange={formik.handleChange}
-        placeholder="you@company.com"
+        placeholder="you@example.com"
         type="email"
         required
       />

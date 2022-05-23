@@ -24,6 +24,10 @@ module.exports = {
         black: '#202040',
       },
       fontFamily: {
+        'aglet-slab': ['aglet-slab', ...defaultTheme.fontFamily.serif],
+        'aglet-sans': ['aglet-sans', ...defaultTheme.fontFamily.sans],
+        chauncy: ['chauncy-pro', ...defaultTheme.fontFamily.serif],
+        dinosaur: ['dinosaur', ...defaultTheme.fontFamily.sans],
         sans: ['Public Sans', ...defaultTheme.fontFamily.sans],
       },
       lineHeight: {
