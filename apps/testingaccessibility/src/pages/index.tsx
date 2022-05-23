@@ -30,7 +30,7 @@ const Home: React.FC = (props) => {
     <Layout className="bg-white">
       <div>
         <div className="flex flex-col justify-between min-h-screen overflow-hidden">
-          <header className="relative text-white bg-green-700 lg:pt-32 sm:pt-24 pt-24">
+          <header className="relative text-white bg-green-700 lg:pt-32 sm:pt-24 pt-24 bg-noise">
             <div className="flex flex-col items-center justify-center w-full">
               <div className="flex flex-col items-center justify-center text-center px-8">
                 <h1 className="lg:max-w-screen-sm md:max-w-lg md:text-4xl sm:text-3xl text-3xl font-aglet-sans font-bold lg:text-6xl leading-tighter max-w-sm">
@@ -57,7 +57,7 @@ const Home: React.FC = (props) => {
             </div>
           </header>
           <main className="w-full sm:pt-28 pt-10">
-            <article className="max-w-none prose-p:max-w-screen-sm prose-ul:sm:pr-0 prose-ul:pr-5 prose-p:w-full md:prose-p:px-0 prose-p:px-5 md:prose-headings:px-0 prose-headings:px-5 prose-headings:max-w-screen-sm prose-p:mx-auto prose-headings:mx-auto prose-ul:max-w-screen-sm prose-ul:mx-auto pt-16 text-gray-800 prose prose-lg prose-p:py-2 prose-h2:max-w-[23ch] prose-h2:font-bold prose-h2:pt-0 prose-headings:py-8 prose-p:font-sans prose-li:font-sans prose-h2:font-aglet-sans prose-h3:font-chauncy prose-h3:uppercase prose-headings:text-center prose-h3:italic sm:prose-h3:pt-10 prose-h3:pt-0 sm:prose-h3:pb-14 prose-h3:pb-5 sm:prose-h3:max-w-[36ch] prose-h3:max-w-[30ch] prose-h3:mx-auto prose-h3:text-orange-600 lg:prose-xl">
+            <article className="max-w-none prose-p:max-w-screen-sm prose-ul:sm:pr-0 prose-ul:pr-5 prose-p:w-full md:prose-p:px-0 prose-p:px-5 md:prose-headings:px-0 prose-headings:px-5 prose-headings:max-w-screen-sm prose-p:mx-auto prose-headings:mx-auto prose-ul:max-w-screen-sm prose-ul:mx-auto pt-16 text-gray-800 prose prose-lg prose-p:py-2 prose-h2:max-w-[23ch] prose-h2:font-bold prose-h2:pt-0 prose-headings:py-8 prose-p:font-sans prose-li:font-sans prose-h2:font-aglet-sans prose-h3:font-chauncy prose-h3:uppercase prose-headings:text-center prose-h3:italic sm:prose-h3:pt-10 prose-h3:pt-0 sm:prose-h3:pb-14 prose-h3:pb-5 sm:prose-h3:max-w-[36ch] prose-h3:max-w-[30ch] prose-h3:mx-auto prose-h3:text-sand-600 lg:prose-xl">
               <LandingCopy />
             </article>
             <div className="max-w-screen-md mx-auto">
@@ -65,22 +65,22 @@ const Home: React.FC = (props) => {
             </div>
             <section
               id="subscribe"
-              className="relative flex flex-col items-center justify-center overflow-hidden text-white bg-green-700 sm:px-16 px-5 sm:py-32 py-16"
+              className="relative flex flex-col items-center justify-center overflow-hidden text-white bg-noise bg-green-700 sm:px-16 px-5 lg:pb-32 sm:pb-24 pb-16 sm:pt-24 pt-10"
             >
               <div className="flex flex-col items-center mb-8">
                 <Image
-                  src={'/assets/logo-mark@2x.png'}
-                  className="invert"
+                  aria-hidden="true"
+                  src={'/assets/email@2x.png'}
                   alt=""
-                  width={80}
-                  height={80}
+                  width={300}
+                  height={180}
                   quality={100}
                 />
               </div>
               <h2 className="max-w-md font-aglet-sans mx-auto -mt-4 sm:text-4xl text-3xl leading-none text-center md:text-5xl font-bold sm:mt-0">
                 Join my exclusive 6-part email course
               </h2>
-              <h3 className="max-w-sm leading-tight font-chauncy uppercase italic pt-6 pb-10 text-2xl text-center text-orange-200">
+              <h3 className="max-w-md leading-tight font-chauncy uppercase font-bold italic pt-6 pb-10 text-2xl text-center text-orange-200">
                 And learn more about building and testing accessible web
                 applications
               </h3>

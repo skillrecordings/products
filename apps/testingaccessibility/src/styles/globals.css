@@ -37,7 +37,7 @@
     @apply opacity-50;
   }
   [data-sr-button] {
-    @apply mt-4 flex items-center justify-center rounded-lg text-black bg-white/95 hover:bg-opacity-100 transition pt-4 pb-5 font-dinosaur font-bold text-lg focus-visible:ring-offset-2 hover:scale-105 hover:-rotate-1 hover:bg-white;
+    @apply mt-4 flex items-center justify-center rounded-lg text-black bg-yellow-500 hover:bg-opacity-100 transition pt-4 pb-5 font-dinosaur font-bold text-lg focus-visible:ring-yellow-200 hover:scale-105 hover:-rotate-1 hover:bg-yellow-400;
   }
 }
 
