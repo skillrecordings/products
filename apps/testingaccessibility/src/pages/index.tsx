@@ -45,8 +45,8 @@ const Home: React.FC = (props) => {
                 <Image
                   className=""
                   src={require('../../public/assets/travel-journal@2x.png')}
-                  width={1800 / 1.8}
-                  height={1259 / 1.8}
+                  width={2048 / 2}
+                  height={1427 / 2}
                   quality={100}
                   placeholder="blur"
                   priority={true}

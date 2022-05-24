@@ -272,15 +272,17 @@ export const NavLogo = () => {
         )}
         tabIndex={router.pathname === '/' ? -1 : 0}
       >
-        <Image
-          src={require('../../../public/assets/logo-mark@2x.png')}
-          quality={100}
-          alt=""
-          aria-hidden="true"
-          width={34}
-          height={34}
-          priority
-        />
+        <div className="w-8 flex items-center justify-center">
+          <Image
+            src={require('../../../public/assets/logo-mark@2x.png')}
+            quality={100}
+            alt=""
+            aria-hidden="true"
+            width={64}
+            height={64}
+            priority
+          />
+        </div>
         <div className="pl-1 flex flex-col font-bold text-xs uppercase leading-none font-dinosaur">
           <span className="block">Testing</span> <span>Accessibility</span>
         </div>
