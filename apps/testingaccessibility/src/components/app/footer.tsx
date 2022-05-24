@@ -5,6 +5,7 @@ import {useRouter} from 'next/router'
 import Image from 'next/image'
 import Link from 'next/link'
 import {useSession, signOut} from 'next-auth/react'
+import {isSellingLive} from 'utils/is-selling-live'
 
 type FooterProps = {}
 
@@ -18,22 +19,24 @@ const Footer: React.FC<FooterProps> = () => {
   return (
     <footer>
       <div className="w-full bg-white flex items-center justify-end relative overflow-hidden">
-        <div className="lg:p-5 sm:p-12 p-8 max-w-screen-lg mx-auto w-full sm:h-[373px] lg:py-16 sm:py-16 py-10 flex flex-col justify-between">
+        <div className="lg:p-5 sm:p-12 p-5 max-w-screen-lg mx-auto w-full sm:h-[373px] lg:py-16 sm:py-16 py-10 flex flex-col justify-between">
           <nav
-            aria-label="Main"
-            className="md:grid flex flex-col grid-cols-4 lg:gap-5 gap-10"
+            aria-label="footer"
+            className="md:grid flex flex-col grid-cols-5 lg:gap-5 gap-10"
           >
             <div>
               <strong className="text-orange-700 font-semibold">Learn</strong>
               <ul className="pt-4">
                 <li>
-                  <NavLink href="/workshops">Workshops</NavLink>
+                  <NavLink href={isSignedIn ? '/learn' : '/workshops'}>
+                    Workshops
+                  </NavLink>
                 </li>
-                <li>
+                {/* <li>
                   <NavLink href="/accessibility-reviews">
                     Accessibility Reviews
                   </NavLink>
-                </li>
+                </li> */}
                 <li>
                   <NavLink href="/articles">Articles</NavLink>
                 </li>
@@ -63,17 +66,19 @@ const Footer: React.FC<FooterProps> = () => {
                 </ul>
               </div>
             )}
-            <div>
-              <strong className="text-orange-700 font-semibold">About</strong>
-              <ul className="pt-4">
-                <li>
-                  <NavLink href="/faq">FAQ</NavLink>
-                </li>
-                <li>
-                  <NavLink href="/credits">Credits</NavLink>
-                </li>
-              </ul>
-            </div>
+            {isSellingLive && (
+              <div>
+                <strong className="text-orange-700 font-semibold">About</strong>
+                <ul className="pt-4">
+                  <li>
+                    <NavLink href="/faq">FAQ</NavLink>
+                  </li>
+                  <li>
+                    <NavLink href="/credits">Credits</NavLink>
+                  </li>
+                </ul>
+              </div>
+            )}
           </nav>
           <div className="w-full items-center flex gap-8 sm:pt-0 pt-16">
             <small className="font-dinosaur text-sm">

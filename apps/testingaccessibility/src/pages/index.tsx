@@ -37,7 +37,7 @@ const Home: React.FC = (props) => {
                   <span className="inline-flex">
                     Learn How to Build Accessible Web Apps
                   </span>{' '}
-                  <span className="font-chauncy pt-8 lg:text-2xl text-lg text-center text-orange-200 md:text-xl uppercase italic">
+                  <span className="font-aglet-slab pt-8 lg:text-2xl text-lg text-center text-orange-200 md:text-xl font-normal">
                     with Marcy Sutton
                   </span>
                 </h1>
@@ -57,7 +57,7 @@ const Home: React.FC = (props) => {
             </div>
           </header>
           <main className="w-full sm:pt-28 pt-10">
-            <article className="max-w-none prose-p:max-w-screen-sm prose-ul:sm:pr-0 prose-ul:pr-5 prose-p:w-full md:prose-p:px-0 prose-p:px-5 md:prose-headings:px-0 prose-headings:px-5 prose-headings:max-w-screen-sm prose-p:mx-auto prose-headings:mx-auto prose-ul:max-w-screen-sm prose-ul:mx-auto pt-16 text-gray-800 prose prose-lg prose-p:py-2 prose-h2:max-w-[23ch] prose-h2:font-bold prose-h2:pt-0 prose-headings:py-8 prose-p:font-sans prose-li:font-sans prose-h2:font-aglet-sans prose-h3:font-chauncy prose-h3:uppercase prose-headings:text-center prose-h3:italic sm:prose-h3:pt-10 prose-h3:pt-0 sm:prose-h3:pb-14 prose-h3:pb-5 sm:prose-h3:max-w-[36ch] prose-h3:max-w-[30ch] prose-h3:mx-auto prose-h3:text-sand-600 lg:prose-xl">
+            <article className="max-w-none prose-p:max-w-screen-sm prose-ul:sm:pr-0 prose-ul:pr-5 prose-p:w-full md:prose-p:px-0 prose-p:px-5 md:prose-headings:px-0 prose-headings:px-5 prose-headings:max-w-screen-sm prose-p:mx-auto prose-headings:mx-auto prose-ul:max-w-screen-sm prose-ul:mx-auto pt-16 text-gray-800 prose prose-lg prose-p:py-2 prose-h2:max-w-[23ch] prose-h2:text-green-800 prose-h2:font-bold prose-h2:pt-0 prose-headings:py-8 prose-p:font-aglet-slab prose-li:font-aglet-slab prose-h2:font-aglet-sans prose-h3:font-aglet-slab prose-h3:font-semibold prose-headings:text-center sm:prose-h3:pt-10 prose-h3:pt-0 sm:prose-h3:pb-14 prose-h3:pb-5 sm:prose-h3:max-w-[30ch] prose-h3:max-w-[30ch] prose-h3:mx-auto prose-h3:text-sand-600 lg:prose-xl">
               <LandingCopy />
             </article>
             <div className="max-w-screen-md mx-auto">
@@ -70,7 +70,9 @@ const Home: React.FC = (props) => {
               <div className="flex flex-col items-center mb-8">
                 <Image
                   aria-hidden="true"
-                  src={'/assets/email@2x.png'}
+                  src={require('../../public/assets/email@2x.png')}
+                  placeholder="blur"
+                  priority
                   alt=""
                   width={300}
                   height={180}
@@ -80,9 +82,9 @@ const Home: React.FC = (props) => {
               <h2 className="max-w-md font-aglet-sans mx-auto -mt-4 sm:text-4xl text-3xl leading-none text-center md:text-5xl font-bold sm:mt-0">
                 Join my exclusive 6-part email course
               </h2>
-              <h3 className="max-w-md leading-tight font-chauncy uppercase font-bold italic pt-6 pb-10 text-2xl text-center text-orange-200">
+              <h3 className="max-w-md leading-tight font-aglet-slab font-normal pt-6 pb-10 text-2xl text-center text-orange-200">
                 And learn more about building and testing accessible web
-                applications
+                applications.
               </h3>
               <SubscribeToConvertkitForm
                 onSuccess={(subscriber: any) => {
@@ -118,6 +120,7 @@ const AboutMarcy = () => {
             width={160}
             height={160}
             quality={100}
+            priority
             alt="smiling Marcy Sutton holding a cat and standing next to a microphone"
           />
         </div>

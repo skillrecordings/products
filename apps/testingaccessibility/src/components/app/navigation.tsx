@@ -18,8 +18,8 @@ const Navigation = () => {
   const isLoadingUser = sessionStatus === 'loading'
   return (
     <nav
-      aria-label="Footer"
-      className="text-sm font-dinosaur font-medium sticky top-0 z-30 sm:h-16 h-14 lg:px-0 px-2 flex items-center w-full bg-white shadow-sm print:hidden"
+      aria-label="main"
+      className="text-sm font-dinosaur font-medium sticky top-0 z-30 sm:h-16 h-14 xl:px-0 px-2 flex items-center w-full bg-white shadow-sm print:hidden"
     >
       <div className="flex items-center w-full h-full py-[2px] max-w-screen-lg mx-auto justify-between">
         <NavLogo />
@@ -174,7 +174,7 @@ const MenuLink = React.forwardRef<HTMLAnchorElement, MenuLinkProps>(
         <a
           ref={ref}
           className={`${
-            active ? 'bg-[#F8F3ED]' : 'text-gray-900'
+            active ? 'bg-gray-100' : 'text-gray-900'
           } group flex w-full items-center rounded-md px-2 py-2`}
           {...rest}
         >
@@ -208,7 +208,7 @@ const SignOutButton = React.forwardRef<HTMLButtonElement, MenuLinkProps>(
           !isEmpty(className)
             ? className
             : `${
-                active ? 'bg-[#F8F3ED]' : 'text-gray-900'
+                active ? 'bg-gray-100' : 'text-gray-900'
               } group flex w-full items-center rounded-md px-2 py-2 font-normal`
         }
       >

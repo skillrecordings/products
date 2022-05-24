@@ -251,8 +251,14 @@ const UpNext: React.FC<UpNextProps> = ({
             {pluralize('lesson', numberOfLessonsLeftInSection)} in this section.
           </p>
           <Link
-            passHref
-            href={`/learn/${module.slug}/${section.slug}/${nextLesson.slug}`}
+            href={{
+              pathname: '/learn/[module]/[section]/[lesson]',
+              query: {
+                module: module.slug,
+                section: section.slug,
+                lesson: nextLesson.slug,
+              },
+            }}
           >
             <a className="transition-all mt-4 inline-flex items-center justify-center font-medium px-5 py-3 rounded-md bg-gray-900 text-white">
               <span>{nextLesson.title}</span>
@@ -267,8 +273,14 @@ const UpNext: React.FC<UpNextProps> = ({
             <p className="text-xl font-bold pb-1">Up next</p>
             <p className="text-gray-700">{nextSection.title}</p>
             <Link
-              passHref
-              href={`/learn/${module.slug}/${nextSection.slug}/${nextSectionLesson.slug}`}
+              href={{
+                pathname: '/learn/[module]/[section]/[lesson]',
+                query: {
+                  module: module.slug,
+                  section: nextSection.slug,
+                  lesson: nextSectionLesson.slug,
+                },
+              }}
             >
               <a className="transition-all mt-4 inline-flex items-center justify-center font-medium px-5 py-3 rounded-md bg-gray-900 text-white">
                 <span>{nextSectionLesson.title}</span>
