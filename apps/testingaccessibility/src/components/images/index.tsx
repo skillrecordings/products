@@ -26,16 +26,4 @@ const Logo: React.FC<{className?: string}> = ({className = ''}) => {
   )
 }
 
-const Wave: React.FC<any> = (props) => {
-  return (
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 32" {...props}>
-      <path
-        className={props.className || 'text-white'}
-        fill="currentColor"
-        fillRule="evenodd"
-        d="M0,32 L1440,32 L1440,7.66197183 C1379.33333,-2.55399061 1309.33333,-2.55399061 1230,7.66197183 C1111,22.9859155 1055,4.05633803 870,7.66197183 C685,11.2676056 694.966744,28.8239308 510,7.66197183 C380,-7.21126761 292.891693,16.0924317 182,18.028169 C135.12854,18.8463623 74.461873,15.3909632 0,7.66197183 L0,32 Z"
-      />
-    </svg>
-  )
-}
-export {Logo, Wave}
+export {Logo}

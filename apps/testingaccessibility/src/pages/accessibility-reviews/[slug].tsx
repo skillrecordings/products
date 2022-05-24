@@ -38,17 +38,17 @@ const Review: React.FC<any> = ({review, body}) => {
   const isFullscreen = useSelector(videoService, selectIsFullscreen)
 
   return (
-    <Layout meta={meta}>
-      <header className="md:pb-24 pb-8 md:pt-16 pt-8 text-center md:bg-gray-100 bg-gray-50">
+    <Layout meta={meta} className="bg-gray-50">
+      <header className="flex flex-col items-center relative px-5 pt-16 pb-24 overflow-hidden text-white bg-green-700 bg-noise">
         <Link href="/accessibility-reviews" passHref>
-          <a className="sm:text-base text-sm group relative font-normal px-4 py-2 inline-flex hover:shadow-md bg-white rounded-full transition-all ease-in-out duration-300 opacity-90 hover:opacity-100">
+          <a className="group text-white/80 relative hover:text-white font-normal px-4 py-2 hover:bg-opacity-5 bg-opacity-0 bg-white rounded-full transition">
             <span className="pr-1" role="img" aria-label="left arrow">
               ←
             </span>{' '}
             All Reviews
           </a>
         </Link>
-        <h1 className="py-5 md:text-5xl sm:text-4xl text-3xl font-bold">
+        <h1 className="max-w-screen-md font-aglet-slab font-bold mx-auto leading-none text-center text-3xl sm:text-4xl lg:text-5xl py-4">
           {title}
         </h1>
         <time
@@ -60,39 +60,36 @@ const Review: React.FC<any> = ({review, body}) => {
         </time>
       </header>
       <main>
-        <div className={cx('bg-[#fff]')}>
-          <div
-            className={cx('w-full', {
-              'absolute top-0': isFullscreen,
-              'max-w-screen-lg mx-auto md:-translate-y-8 relative':
-                !isFullscreen,
+        <div
+          className={cx('w-full', {
+            'absolute top-0': isFullscreen,
+            'max-w-screen-lg mx-auto md:-translate-y-8 relative': !isFullscreen,
+          })}
+          ref={fullscreenWrapperRef}
+        >
+          <Player
+            aspectRatio="8:5"
+            className={cx('font-sans', {
+              'lg:rounded-md lg:overflow-hidden shadow-2xl': !isFullscreen,
             })}
-            ref={fullscreenWrapperRef}
+            container={fullscreenWrapperRef.current || undefined}
+            poster={videoPoster}
           >
-            <Player
-              aspectRatio="8:5"
-              className={cx('font-sans', {
-                'lg:rounded-md lg:overflow-hidden shadow-2xl': !isFullscreen,
-              })}
-              container={fullscreenWrapperRef.current || undefined}
-              poster={videoPoster}
-            >
-              {hlsUrl && <HLSSource src={hlsUrl} />}
-              {subtitlesUrl && (
-                <track
-                  key={subtitlesUrl}
-                  src={subtitlesUrl}
-                  kind="subtitles"
-                  srcLang="en"
-                  label="English"
-                />
-              )}
-            </Player>
-            <article className={cx('prose md:prose-lg mx-auto py-16 px-5')}>
-              <h2>Transcript</h2>
-              <MDXRemote {...body} />
-            </article>
-          </div>
+            {hlsUrl && <HLSSource src={hlsUrl} />}
+            {subtitlesUrl && (
+              <track
+                key={subtitlesUrl}
+                src={subtitlesUrl}
+                kind="subtitles"
+                srcLang="en"
+                label="English"
+              />
+            )}
+          </Player>
+          <article className={cx('prose md:prose-lg mx-auto py-16 px-5')}>
+            <h2>Transcript</h2>
+            <MDXRemote {...body} />
+          </article>
         </div>
       </main>
       <footer className="flex flex-col items-center justify-center pb-16 text-center">

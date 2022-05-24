@@ -1,8 +1,6 @@
 import * as React from 'react'
 import Layout from 'components/app/layout'
 import Link from 'next/link'
-import Image from 'next/image'
-import {Wave} from 'components/images'
 import Markdown from 'react-markdown'
 import groq from 'groq'
 import {GetServerSideProps} from 'next'

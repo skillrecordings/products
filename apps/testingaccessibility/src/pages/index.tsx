@@ -1,5 +1,4 @@
 import * as React from 'react'
-import {Wave} from 'components/images'
 import Image from 'next/image'
 import LandingCopy from 'components/content/landing-copy.mdx'
 import {

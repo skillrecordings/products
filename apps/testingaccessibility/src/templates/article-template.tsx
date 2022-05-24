@@ -3,7 +3,6 @@ import {PortableText, toPlainText} from '@portabletext/react'
 import {LinkedIn, Twitter} from '@skillrecordings/react'
 import {CalendarIcon} from '@heroicons/react/outline'
 import {SanityDocument} from '@sanity/client'
-import {Wave} from 'components/images'
 import {NextRouter, useRouter} from 'next/router'
 import {format} from 'date-fns'
 import {

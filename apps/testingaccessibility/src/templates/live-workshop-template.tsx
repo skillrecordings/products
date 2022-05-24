@@ -2,7 +2,6 @@ import * as React from 'react'
 import {SubscribeToConvertkitForm} from '@skillrecordings/convertkit'
 import {MDXRemote} from 'next-mdx-remote'
 import Layout from 'components/app/layout'
-import Image from 'next/image'
 import Link from 'next/link'
 
 const LiveWorkshopTemplate: React.FC<any> = ({workshop, source}) => {
