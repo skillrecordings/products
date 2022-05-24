@@ -1,5 +1,4 @@
 import * as React from 'react'
-import {Wave} from 'components/images'
 import Image from 'next/image'
 import LandingCopy from 'components/content/landing-copy.mdx'
 import {
@@ -29,61 +28,62 @@ const Home: React.FC = (props) => {
   return (
     <Layout className="bg-white">
       <div>
-        <div className="flex flex-col justify-between min-h-screen">
-          <header className="relative pb-32 overflow-hidden text-white bg-black pt-14">
+        <div className="flex flex-col justify-between min-h-screen overflow-hidden">
+          <header className="relative text-white bg-green-700 lg:pt-32 sm:pt-24 pt-24 bg-noise">
             <div className="flex flex-col items-center justify-center w-full">
-              <Image
-                src={'/assets/a11y@2x.png'}
-                width={774 / 2}
-                height={540 / 2}
-                quality={100}
-                priority={true}
-                alt="accessibility symbol with colorful gradient in background"
-              />
-              <Wave
-                preserveAspectRatio="none"
-                className="absolute bottom-0 left-0 w-full transform scale-150 sm:scale-100"
-              />
-              <div className="flex flex-col items-center justify-center text-center">
-                <h1 className="max-w-screen-sm text-4xl font-bold md:text-6xl leading-tighter">
-                  Learn How to Build Accessible Web Apps
-                  <br />
-                  <span className="mt-5 text-xl text-center text-yellow-300 md:text-2xl">
+              <div className="flex flex-col items-center justify-center text-center px-8">
+                <h1 className="lg:max-w-screen-sm md:max-w-lg md:text-4xl sm:text-3xl text-3xl font-aglet-sans font-bold lg:text-6xl leading-tighter max-w-sm">
+                  <span className="inline-flex">
+                    Learn How to Build Accessible Web Apps
+                  </span>{' '}
+                  <span className="font-aglet-slab pt-8 lg:text-2xl text-lg text-center text-orange-200 md:text-xl font-normal">
                     with Marcy Sutton
                   </span>
                 </h1>
               </div>
+              <div className="sm:translate-y-20 translate-y-16 drop-shadow-2xl sm:w-auto ">
+                <Image
+                  className=""
+                  src={require('../../public/assets/travel-journal@2x.png')}
+                  width={1800 / 1.8}
+                  height={1259 / 1.8}
+                  quality={100}
+                  placeholder="blur"
+                  priority={true}
+                  alt="an opened travel journal with testing accessibility stickers"
+                />
+              </div>
             </div>
           </header>
-          <main className="relative z-10 flex-grow w-full pt-8 px-5">
-            <article className="max-w-screen-md pt-16 mx-auto prose prose-lg lg:prose-xl">
+          <main className="w-full sm:pt-28 pt-10">
+            <article className="max-w-none prose-p:max-w-screen-sm prose-ul:sm:pr-0 prose-ul:pr-5 prose-p:w-full md:prose-p:px-0 prose-p:px-5 md:prose-headings:px-0 prose-headings:px-5 prose-headings:max-w-screen-sm prose-p:mx-auto prose-headings:mx-auto prose-ul:max-w-screen-sm prose-ul:mx-auto pt-16 text-gray-800 prose prose-lg prose-p:py-2 prose-h2:max-w-[23ch] prose-h2:text-green-800 prose-h2:font-bold prose-h2:pt-0 prose-headings:py-8 prose-p:font-aglet-slab prose-li:font-aglet-slab prose-h2:font-aglet-sans prose-h3:font-aglet-slab prose-h3:font-semibold prose-headings:text-center sm:prose-h3:pt-10 prose-h3:pt-0 sm:prose-h3:pb-14 prose-h3:pb-5 sm:prose-h3:max-w-[30ch] prose-h3:max-w-[30ch] prose-h3:mx-auto prose-h3:text-sand-600 lg:prose-xl">
               <LandingCopy />
             </article>
             <div className="max-w-screen-md mx-auto">
               <AboutMarcy />
             </div>
-          </main>
-          <footer>
-            <div
+            <section
               id="subscribe"
-              className="relative flex flex-col items-center justify-center px-10 py-24 overflow-hidden text-white bg-black sm:px-16 sm:py-40 min-h-60vh"
+              className="relative flex flex-col items-center justify-center overflow-hidden text-white bg-noise bg-green-700 sm:px-16 px-5 lg:pb-32 sm:pb-24 pb-16 sm:pt-24 pt-10"
             >
               <div className="flex flex-col items-center mb-8">
                 <Image
-                  src={'/assets/mail@2x.png'}
+                  aria-hidden="true"
+                  src={require('../../public/assets/email@2x.png')}
+                  placeholder="blur"
+                  priority
                   alt=""
-                  width={456 / 2}
-                  height={356 / 2}
+                  width={300}
+                  height={180}
                   quality={100}
                 />
               </div>
-              <h2 className="max-w-screen-lg mx-auto -mt-4 text-4xl font-semibold leading-none text-center sm:text-5xl sm:font-bold sm:mt-0">
-                Learn more about building and testing accessible web
-                applications.
+              <h2 className="max-w-md font-aglet-sans mx-auto -mt-4 sm:text-4xl text-3xl leading-none text-center md:text-5xl font-bold sm:mt-0">
+                Join my exclusive 6-part email course
               </h2>
-              <h3 className="pt-6 pb-10 text-2xl font-normal text-center text-yellow-300">
-                Join my exclusive 6-part email course, and be notified of
-                upcoming live workshops.
+              <h3 className="max-w-md leading-tight font-aglet-slab font-normal pt-6 pb-10 text-2xl text-center text-orange-200">
+                And learn more about building and testing accessible web
+                applications.
               </h3>
               <SubscribeToConvertkitForm
                 onSuccess={(subscriber: any) => {
@@ -97,14 +97,11 @@ const Home: React.FC = (props) => {
                 }}
                 actionLabel="Start Testing Accessibility →"
               />
-              <Wave
-                preserveAspectRatio="none"
-                className="absolute -top-px left-0 w-full transform scale-150 sm:scale-100 rotate-180"
-                focusable="false"
-                aria-hidden="true"
-              />
-            </div>
-          </footer>
+              <p className="pt-8 opacity-80 text-sm">
+                We respect your privacy. Unsubscribe at any time.
+              </p>
+            </section>
+          </main>
         </div>
       </div>
     </Layout>
@@ -113,25 +110,30 @@ const Home: React.FC = (props) => {
 
 const AboutMarcy = () => {
   return (
-    <div className="flex flex-col items-center py-16 space-y-4 text-center sm:py-24 sm:flex-row sm:items-start sm:text-left sm:space-x-8 sm:space-y-0">
-      <div className="flex-shrink-0">
-        <Image
-          className="rounded-full"
-          src={'/marcy-sutton.jpg'}
-          width={120}
-          height={120}
-          quality={100}
-          alt="smiling Marcy Sutton holding a cat and standing next to a microphone"
-        />
-      </div>
-      <div>
-        <h2 className="text-3xl font-bold">Hi, I'm Marcy Sutton.</h2>
-        <p className="mt-2 text-xl leading-relaxed">
-          I'm an award-winning accessibility specialist and freelance web
-          developer. In this self-paced workshop, you will benefit from my years
-          of experience as a senior engineer and educator as you learn how to
-          build a culture of accessibility at your organization.
-        </p>
+    <div className="sm:py-24 py-10 sm:px-10 px-8">
+      <div className="sm:mt-0 -mt-24 flex flex-col items-center space-y-4 sm:flex-row sm:items-start  sm:space-x-8 sm:space-y-0 ">
+        <div className="flex-shrink-0">
+          <Image
+            className="rounded-full"
+            src={'/marcy-sutton.jpg'}
+            width={160}
+            height={160}
+            quality={100}
+            priority
+            alt="smiling Marcy Sutton holding a cat and standing next to a microphone"
+          />
+        </div>
+        <div>
+          <h2 className="text-3xl font-bold font-aglet-sans">
+            Hi, I'm Marcy Sutton
+          </h2>
+          <p className="pt-4 sm:text-lg leading-loose text-gray-800">
+            I'm an award-winning accessibility specialist and freelance web
+            developer. In this self-paced workshop, you will benefit from my
+            years of experience as a senior engineer and educator as you learn
+            how to build a culture of accessibility at your organization.
+          </p>
+        </div>
       </div>
     </div>
   )

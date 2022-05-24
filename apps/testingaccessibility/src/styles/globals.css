@@ -28,15 +28,16 @@
 [data-sr-convertkit-subscribe-form] {
   @apply flex flex-col w-full max-w-[340px] mx-auto;
   [data-sr-input] {
-    @apply block mb-4 w-full px-4 py-3 text-white placeholder-white placeholder-opacity-60 bg-gray-900 bg-opacity-50 border border-white border-opacity-20 rounded-2xl sm:text-base sm:leading-6;
+    @apply block mb-4 w-full px-4 py-3 text-white placeholder-white placeholder-opacity-60 bg-green-800 bg-opacity-50 border border-white border-opacity-20 rounded-lg shadow sm:text-base sm:leading-6;
   }
   [data-sr-input-label] {
-    @apply font-medium;
+    @apply font-medium pb-1 inline-block;
   }
   [data-sr-input-asterisk] {
+    @apply opacity-50;
   }
   [data-sr-button] {
-    @apply flex text-center items-center justify-center px-8 py-4 mt-5 text-xl font-semibold leading-6 tracking-tight text-white transition duration-300 ease-in-out transform border-none rounded-full shadow-xl bg-gradient-to-r from-blue-600 to-indigo-600 focus:outline-none focus:ring-1 focus:ring-yellow-500 hover:scale-105;
+    @apply mt-4 flex items-center justify-center rounded-lg text-black bg-yellow-500 hover:bg-opacity-100 transition pt-4 pb-5 font-dinosaur font-bold text-lg focus-visible:ring-yellow-200 hover:scale-105 hover:-rotate-1 hover:bg-yellow-400;
   }
 }
 
@@ -59,17 +60,18 @@
 
 [data-article] {
   [data-sr-convertkit-subscribe-form] {
-    @apply w-full flex flex-col justify-center max-w-none space-y-5 text-left;
+    @apply w-full flex flex-col justify-center max-w-none text-left;
     [data-sr-input] {
-      @apply inline-block w-full px-4 py-3 text-black mb-0 placeholder-gray-700 placeholder-opacity-70 bg-gray-200 border border-white border-opacity-20 focus:border-transparent rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 sm:text-base sm:leading-6;
+      @apply block w-full px-4 py-3 text-white placeholder-white placeholder-opacity-60 bg-green-800 bg-opacity-50 border border-white border-opacity-20 rounded-lg shadow sm:text-base sm:leading-6;
     }
     [data-sr-input-label] {
-      @apply font-medium;
+      @apply font-medium pb-1 inline-block;
     }
     [data-sr-input-asterisk] {
+      @apply opacity-50;
     }
     [data-sr-button] {
-      @apply inline-flex items-center px-8 py-4 mt-0 text-lg flex-shrink-0 font-semibold leading-6 tracking-tight text-white transition duration-300 ease-in-out transform border-none rounded-full shadow-xl bg-gradient-to-r from-blue-600 to-indigo-600 focus:outline-none focus:ring-2 focus:ring-black hover:scale-105;
+      @apply mt-4 flex items-center justify-center rounded-lg text-black bg-yellow-500 hover:bg-opacity-100 transition pt-4 pb-5 font-dinosaur font-bold text-lg focus-visible:ring-yellow-200 hover:scale-105 hover:-rotate-1 hover:bg-yellow-400;
     }
   }
 }
@@ -111,7 +113,7 @@
   indicator will be displayed instead.
 */
 .js-focus-visible .focus-visible {
-  @apply outline-none ring-2 ring-blue-500;
+  @apply outline-none ring-2 ring-green-500;
 }
 
 /* [data-js-focus-visible] [data-focus-visible-added] {

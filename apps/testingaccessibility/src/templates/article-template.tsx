@@ -3,7 +3,6 @@ import {PortableText, toPlainText} from '@portabletext/react'
 import {LinkedIn, Twitter} from '@skillrecordings/react'
 import {CalendarIcon} from '@heroicons/react/outline'
 import {SanityDocument} from '@sanity/client'
-import {Wave} from 'components/images'
 import {NextRouter, useRouter} from 'next/router'
 import {format} from 'date-fns'
 import {
@@ -47,19 +46,21 @@ const ArticleTemplate: React.FC<ArticleTemplateProps> = ({
       }}
     >
       <Header title={title} date={date} />
-      <div className="max-w-screen-md mx-auto w-full">
-        <main className="md:pt-16 pt-10 lg:px-0 px-5">
-          <article className="prose md:prose-lg lg:prose-xl max-w-none">
-            <PortableText value={body} components={PortableTextComponents} />
-            {!hasSubscribed && subscribersOnly && (
-              <div className="absolute bottom-0 left-0 w-full bg-gradient-to-t from-white to-transparent h-80 z-10" />
-            )}
-          </article>
-        </main>
-      </div>
-      <footer data-article="" className="mt-16 py-16 w-full bg-black">
-        {getCTA({subscribersOnly, hasSubscribed, cta, router})}
-      </footer>
+      <main>
+        <div className="max-w-screen-sm mx-auto w-full">
+          <div className="md:pt-16 pt-10 lg:px-0 px-5">
+            <article className="prose md:prose-lg md:prose-code:text-sm max-w-none">
+              <PortableText value={body} components={PortableTextComponents} />
+              {!hasSubscribed && subscribersOnly && (
+                <div className="absolute bottom-0 left-0 w-full bg-gradient-to-t from-white to-transparent h-80 z-10" />
+              )}
+            </article>
+          </div>
+        </div>
+        <section data-article="">
+          {getCTA({subscribersOnly, hasSubscribed, cta, router})}
+        </section>
+      </main>
     </Layout>
   )
 }
@@ -68,20 +69,20 @@ export default ArticleTemplate
 
 const Header: React.FC<{title: string; date: string}> = ({title, date}) => {
   return (
-    <header className="md:pt-24 sm:pt-16 pt-8 sm:pb-16 pb-10 w-full border-b border-gray-200 bg-black text-gray-100 relative">
+    <header className="flex flex-col items-center relative px-5 pt-16 pb-8 overflow-hidden text-white bg-green-700 bg-noise">
       <div className="flex flex-col items-center max-w-screen-md mx-auto w-full relative z-10">
         <Link passHref href="/articles">
-          <a className="group text-indigo-100 relative hover:text-white font-normal px-4 py-2 hover:bg-opacity-5 bg-opacity-0 bg-white rounded-full transition-all ease-in-out duration-300 opacity-80 hover:opacity-90 ">
+          <a className="sm:text-base text-sm group text-white/80 relative hover:text-white font-normal px-4 py-2 hover:bg-opacity-5 bg-opacity-0 bg-white rounded-full transition opacity-80 hover:opacity-90">
             <span className="pr-1" role="img" aria-hidden="true">
               ←
             </span>{' '}
             All Articles
           </a>
         </Link>
-        <h1 className="px-5 sm:pb-28 pb-10 pt-5 md:text-5xl sm:text-4xl text-3xl font-extrabold text-center">
+        <h1 className="pb-16 max-w-screen-md font-aglet-slab font-bold mx-auto leading-none text-center text-3xl sm:text-4xl lg:text-5xl py-4">
           {title}
         </h1>
-        <div className="lg:px-0 px-5 w-full flex md:flex-row flex-col md:space-y-0 space-y-3 items-center justify-between">
+        <div className="lg:px-0 px-5 w-full flex md:flex-row flex-col md:space-y-0 space-y-3 items-center justify-between max-w-screen-sm">
           <Author />
           <div className="flex space-x-5 items-center">
             <time dateTime={date} className="text-sm flex items-center">
@@ -95,22 +96,17 @@ const Header: React.FC<{title: string; date: string}> = ({title, date}) => {
           </div>
         </div>
       </div>
-      <div className="absolute -bottom-px h-16 w-full overflow-hidden text-white">
-        <Wave
-          preserveAspectRatio="none"
-          className="absolute bottom-0 left-0 z-10 w-full transform scale-150 sm:scale-100"
-          focusable="false"
-          aria-hidden="true"
-        />
-      </div>
     </header>
   )
 }
 
 const CTAContainer: React.FC = ({children}) => {
   return (
-    <section className="max-w-md mx-auto rounded-xl bg-white shadow-2xl md:p-12 sm:p-8 p-5">
-      <div className="pb-8 flex flex-col items-center">{children}</div>
+    <section
+      id="subscribe"
+      className="mt-16 relative flex flex-col items-center justify-center overflow-hidden text-white bg-noise bg-green-700 sm:px-16 px-5 lg:pb-24 pb-16 sm:pt-24 pt-10"
+    >
+      <div className="pb-8 flex flex-col items-center max-w-sm">{children}</div>
     </section>
   )
 }
@@ -146,14 +142,14 @@ const getCTA: React.FC<GetCTAProps> = ({
       return (
         <CTAContainer>
           <Image
-            src={'/assets/mail.svg'}
-            alt="email icon"
-            width={456 / 4}
-            height={356 / 4}
+            src={'/assets/email@2x.png'}
+            alt=""
+            width={300}
+            height={180}
             quality={100}
             aria-hidden="true"
           />
-          <div className="pt-4 pb-8 flex flex-col items-center prose lg:prose-xl sm:prose-lg prose-p:text-base prose-p:max-w-[30ch] prose-headings:font-bold text-center">
+          <div className="pt-4 pb-8 flex flex-col items-center prose text-white prose-headings:text-white sm:prose-lg prose-p:leading-normal prose-headings:font-aglet-slab prose-p:max-w-[30ch] prose-headings:font-bold sm:prose-h2:text-4xl text-center">
             <PortableText
               value={cta.body}
               components={PortableTextComponents}
@@ -174,7 +170,7 @@ const getCTA: React.FC<GetCTAProps> = ({
     case !isEmpty(cta.ckFormId):
       return (
         <CTAContainer>
-          <div className="pb-8 flex flex-col items-center prose lg:prose-xl sm:prose-lg prose-p:text-base prose-p:max-w-[30ch] prose-headings:font-bold text-center">
+          <div className="pb-8 flex flex-col items-center prose prose-p:font-aglet-slab prose-li:font-aglet-slab prose-p:max-w-[30ch] prose-headings:font-bold text-center">
             <PortableText
               value={cta.body}
               components={PortableTextComponents}
@@ -265,9 +261,7 @@ const Author = () => {
         loading="eager"
         className="rounded-full"
       />
-      <span className="pl-2 font-medium md:text-lg leading-tight">
-        Marcy Sutton
-      </span>
+      <span className="pl-2 font-medium leading-tight">Marcy Sutton</span>
     </div>
   )
 }

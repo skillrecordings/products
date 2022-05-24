@@ -71,8 +71,7 @@ const Layout: FunctionComponent<LayoutProps> = ({
         )}
       >
         {children}
-        {(isSellingLive || isSignedIn) &&
-          (footer ? footer : isNull(footer) ? null : <Footer />)}
+        {footer ? footer : isNull(footer) ? null : <Footer />}
       </SkipNavContent>
     </div>
   )

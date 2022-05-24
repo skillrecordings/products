@@ -10,6 +10,7 @@ import isEmpty from 'lodash/isEmpty'
 import toast from 'react-hot-toast'
 import Link from 'next/link'
 import cx from 'classnames'
+import Image from 'next/image'
 
 const Navigation = () => {
   const {data: sessionData, status: sessionStatus} = useSession()
@@ -17,8 +18,8 @@ const Navigation = () => {
   const isLoadingUser = sessionStatus === 'loading'
   return (
     <nav
-      aria-label="Footer"
-      className="text-sm font-semibold sticky top-0 z-30 sm:h-16 h-14 lg:px-0 px-2 flex items-center w-full bg-white shadow-sm print:hidden"
+      aria-label="main"
+      className="text-sm font-dinosaur font-medium sticky top-0 z-30 sm:h-16 h-14 xl:px-0 px-2 flex items-center w-full bg-white shadow-sm print:hidden"
     >
       <div className="flex items-center w-full h-full py-[2px] max-w-screen-lg mx-auto justify-between">
         <NavLogo />
@@ -97,7 +98,7 @@ const MobileNav: React.FC<NavProps> = ({isLoadingUser, isSignedIn}) => {
               </div>
               {!isLoadingUser && isSellingLive && (
                 <div className="px-1 pt-2 pb-1">
-                  <div className="text-blue-600 text-xs px-2 py-2 uppercase tracking-wide font-semibold">
+                  <div className="text-green-600 text-xs px-2 py-2 uppercase tracking-wide font-bold">
                     Account
                   </div>
                   {isSignedIn ? (
@@ -145,9 +146,9 @@ const NavLink: React.FC<{href: string}> = ({href, children, ...props}) => {
       <a
         aria-current={isActive ? 'page' : undefined}
         className={cx(
-          'relative px-5 h-full flex items-center justify-center hover:bg-gray-50 group transition outline-none hover:opacity-100 opacity-90 text-sm',
+          'relative px-5 h-full flex items-center justify-center hover:bg-gray-100 hover:bg-opacity-50 group transition outline-none hover:opacity-100 opacity-90 text-sm',
           {
-            'after:content-[""] after:absolute after:w-full after:h-[2px] after:bottom-[-2px] after:left-0 after:bg-blue-500':
+            'after:content-[""] after:absolute after:w-full after:h-[2px] after:bottom-[-2px] after:left-0 after:bg-green-500':
               isActive,
           },
         )}
@@ -173,7 +174,7 @@ const MenuLink = React.forwardRef<HTMLAnchorElement, MenuLinkProps>(
         <a
           ref={ref}
           className={`${
-            active ? 'bg-blue-500 text-white' : 'text-gray-900'
+            active ? 'bg-gray-100' : 'text-gray-900'
           } group flex w-full items-center rounded-md px-2 py-2`}
           {...rest}
         >
@@ -207,7 +208,7 @@ const SignOutButton = React.forwardRef<HTMLButtonElement, MenuLinkProps>(
           !isEmpty(className)
             ? className
             : `${
-                active ? 'bg-blue-500 text-white' : 'text-gray-900'
+                active ? 'bg-gray-100' : 'text-gray-900'
               } group flex w-full items-center rounded-md px-2 py-2 font-normal`
         }
       >
@@ -221,7 +222,7 @@ const SignOutButton = React.forwardRef<HTMLButtonElement, MenuLinkProps>(
 const AccountMenu: React.FC = () => {
   return (
     <Menu as="div" className="relative inline-block text-left z-10 h-full">
-      <Menu.Button className="flex h-full justify-center items-center px-3 py-2 hover:bg-gray-50 transition font-semibold">
+      <Menu.Button className="flex h-full justify-center items-center px-3 py-2 hover:bg-[#F8F3ED] hover:bg-opacity-50 transition font-medium">
         Account <ChevronDownIcon className="w-3 ml-1" aria-hidden="true" />
       </Menu.Button>
       <Transition
@@ -258,7 +259,7 @@ const RestorePurchasesLink = () => {
   return <NavLink href="/login">Restore Purchases</NavLink>
 }
 
-const NavLogo = () => {
+export const NavLogo = () => {
   const router = useRouter()
   return (
     <Link href="/" aria-label="Home" passHref>
@@ -271,8 +272,16 @@ const NavLogo = () => {
         )}
         tabIndex={router.pathname === '/' ? -1 : 0}
       >
-        <Logo className="w-8" />
-        <div className="pl-1 flex flex-col font-bold text-xs uppercase leading-none">
+        <Image
+          src={require('../../../public/assets/logo-mark@2x.png')}
+          quality={100}
+          alt=""
+          aria-hidden="true"
+          width={34}
+          height={34}
+        />
+        {/* <Logo className="w-8" /> */}
+        <div className="pl-1 flex flex-col font-bold text-xs uppercase leading-none font-dinosaur">
           <span className="block">Testing</span> <span>Accessibility</span>
         </div>
       </a>
