@@ -16,6 +16,9 @@ import Link from 'next/link'
 import cx from 'classnames'
 import groq from 'groq'
 import Image from 'next/image'
+import {getAbilityFromToken, hasAvailableSeats} from '../../server/ability'
+import {getToken} from 'next-auth/jwt'
+import {subject} from '@casl/ability'
 
 const productQuery = groq`*[_type == "product" && productId == $productId][0]{
   title,
@@ -59,7 +62,18 @@ const productQuery = groq`*[_type == "product" && productId == $productId][0]{
   }`
 
 export const getServerSideProps: GetServerSideProps = async ({req}) => {
-  const {product, purchases} = await getPurchasedProduct(req, productQuery)
+  const {product, purchases, token} = await getPurchasedProduct(
+    req,
+    productQuery,
+  )
+  const ability = await getAbilityFromToken(token)
+
+  console.log(`can invite team members: ${ability.can('invite', 'Team')}`)
+  console.log(`can view content: ${ability.can('view', 'Content')}`)
+
+  console.log(
+    `can view product: ${ability.can('view', subject('Product', product))}`,
+  )
 
   if (purchases) {
     return {
