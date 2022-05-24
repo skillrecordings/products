@@ -17,7 +17,8 @@ const Confirm = () => (
           quality={100}
           placeholder="blur"
           src={NewMailImage}
-          alt="a wooden sign with the words 'check your inbox'"
+          alt=""
+          aria-hidden="true"
         />
         <div>
           <p className="sm:text-lg text-sand-100">

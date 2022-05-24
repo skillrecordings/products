@@ -42,7 +42,8 @@ const ThanksVerify: React.FC<{name: string; email: string}> = ({
             quality={100}
             placeholder="blur"
             src={NewMailImage}
-            alt="a wooden sign with the words 'check your inbox'"
+            aria-hidden="true"
+            alt=""
           />
           <div>
             <p className=" text-sand-100 sm:text-lg">
