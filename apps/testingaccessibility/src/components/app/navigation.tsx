@@ -279,8 +279,8 @@ export const NavLogo = () => {
           aria-hidden="true"
           width={34}
           height={34}
+          priority
         />
-        {/* <Logo className="w-8" /> */}
         <div className="pl-1 flex flex-col font-bold text-xs uppercase leading-none font-dinosaur">
           <span className="block">Testing</span> <span>Accessibility</span>
         </div>

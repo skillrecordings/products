@@ -105,7 +105,7 @@ const LiveWorkshopTemplate: React.FC<any> = ({workshop, source}) => {
                   className="-mb-48 mt-16 max-w-screen-md w-full"
                 />
               ))}
-            <div className="py-24 mx-auto prose prose-lg prose-headings:font-aglet-sans prose-p:font-aglet-slab prose-li:font-aglet-slab max-w-screen-sm">
+            <div className="sm:py-24 py-16 mx-auto prose sm:prose-lg prose-headings:font-aglet-sans prose-p:font-aglet-slab prose-li:font-aglet-slab max-w-screen-sm">
               <MDXRemote {...source} />
             </div>
             {published &&
