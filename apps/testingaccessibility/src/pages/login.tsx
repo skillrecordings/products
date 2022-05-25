@@ -14,26 +14,22 @@ const Login: React.FC<{csrfToken: string}> = ({csrfToken}) => {
   return (
     <Layout
       meta={{title: 'Login to Testing Accessibility'}}
-      className="flex flex-col h-full sm:min-h-[calc(100vh-64px)] min-h-[calc(100vh-56px)]"
+      className="bg-green-700 bg-noise"
     >
-      <div
-        className="flex-grow w-full mx-auto md:pb-40 pb-16 py-16 flex flex-col items-center justify-center p-5"
-        style={{
-          backgroundImage: "url('/assets/pattern-topography.svg')",
-        }}
-      >
+      <div className="flex-grow w-full mx-auto md:pb-40 pb-16 md:pt-16 pt-0 flex flex-col items-center justify-center p-5 text-white">
         <main className="sm:mx-auto rounded-lg">
           <div className="max-w-sm mx-auto flex items-center justify-center w-full">
             <Image
               placeholder="blur"
-              src={require('../../public/assets/testing-accessibility-sign@2x.png')}
+              src={require('../../public/assets/lighthouse@2x.png')}
               alt="a wooden sign with Testing Accessibility text on it"
               quality={100}
-              width={200}
-              height={200}
+              width={1024 / 4}
+              height={1024 / 4}
+              priority
             />
           </div>
-          <h1 className="text-center text-3xl leading-9 font-bold pt-4">
+          <h1 className="text-center text-3xl leading-9 font-bold pt-4 font-aglet-slab">
             Log in to Testing Accessibility
           </h1>
 
@@ -54,7 +50,7 @@ const Login: React.FC<{csrfToken: string}> = ({csrfToken}) => {
                 <div className="mt-1 relative rounded-md shadow-sm">
                   <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                     <svg
-                      className="h-5 w-5 text-gray-400"
+                      className="h-5 w-5 text-white/50"
                       xmlns="http://www.w3.org/2000/svg"
                       viewBox="0 0 20 20"
                       fill="currentColor"
@@ -69,12 +65,12 @@ const Login: React.FC<{csrfToken: string}> = ({csrfToken}) => {
                     type="email"
                     required={true}
                     placeholder="you@example.com"
-                    className="mb-3 focus:ring-blue-500 focus:border-blue-500  py-3 text-gray-900 placeholder-gray-400 block w-full pl-10 border-2 border-gray-200 rounded-md"
+                    className="mb-3 focus:ring-green-500 focus:border-green-500 py-3 text-white placeholder-white/50 block w-full pl-10 border border-white border-opacity-20 bg-green-800/50 rounded-md"
                     {...register('email', {required: true})}
                   />
                 </div>
 
-                <button className="w-full flex items-center justify-center px-5 py-3 border border-transparent text-base font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 transition focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                <button className="w-full flex items-center justify-center mt-5 px-5 pb-4 pt-3 border border-transparent text-lg font-semibold rounded-md text-black bg-yellow-500 hover:bg-yellow-400 transition focus:outline-none focus:ring-2 focus:ring-yellow-200 font-dinosaur">
                   Email me a login link
                 </button>
               </form>
