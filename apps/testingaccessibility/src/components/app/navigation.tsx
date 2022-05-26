@@ -5,17 +5,42 @@ import {isSellingLive} from 'utils/is-selling-live'
 import {useSession, signOut} from 'next-auth/react'
 import {Menu, Transition} from '@headlessui/react'
 import {NextRouter, useRouter} from 'next/router'
-import {Logo} from 'components/images'
 import isEmpty from 'lodash/isEmpty'
 import toast from 'react-hot-toast'
 import Link from 'next/link'
 import cx from 'classnames'
 import Image from 'next/image'
+import {useUser} from '../../context/user-context'
+import {getAbilityFromToken} from '../../server/ability'
+import {useQuery} from 'react-query'
+
+// TODO: This is a temporary solution to get the ability from the token
+//       It's named poorly and is clumping stuff together, but it works!
+function useRefinedSession() {
+  const {data, status} = useSession()
+  const {user} = useUser()
+
+  const isSignedIn = Boolean(data?.user)
+  const isLoadingUser = status === 'loading'
+
+  // this is all client side so it isn't secure secure but for display
+  // purposes it's fine
+  const {data: ability} = useQuery(
+    ['ability', user],
+    async () => await getAbilityFromToken(user),
+  )
+
+  return {
+    isSignedIn,
+    isLoadingUser,
+    data,
+    status,
+    user,
+    ability,
+  }
+}
 
 const Navigation = () => {
-  const {data: sessionData, status: sessionStatus} = useSession()
-  const isSignedIn = Boolean(sessionData?.user)
-  const isLoadingUser = sessionStatus === 'loading'
   return (
     <nav
       aria-label="main"
@@ -23,19 +48,20 @@ const Navigation = () => {
     >
       <div className="flex items-center w-full h-full py-[2px] max-w-screen-lg mx-auto justify-between">
         <NavLogo />
-        <DesktopNav isSignedIn={isSignedIn} isLoadingUser={isLoadingUser} />
-        <MobileNav isSignedIn={isSignedIn} isLoadingUser={isLoadingUser} />
+        <DesktopNav />
+        <MobileNav />
       </div>
     </nav>
   )
 }
 
-type NavProps = {
-  isSignedIn: boolean
-  isLoadingUser: boolean
-}
+const DesktopNav: React.FC = () => {
+  // "signed in" and etc could be abilities instead
+  const {isSignedIn, isLoadingUser, ability} = useRefinedSession()
 
-const DesktopNav: React.FC<NavProps> = ({isLoadingUser, isSignedIn}) => {
+  console.log(`can invite team members: ${ability?.can('invite', 'Team')}`)
+  console.log(`can view content: ${ability?.can('view', 'Content')}`)
+
   return (
     <div
       className={cx('sm:flex hidden w-full pl-10 gap-2 h-full', {
@@ -56,7 +82,8 @@ const DesktopNav: React.FC<NavProps> = ({isLoadingUser, isSignedIn}) => {
   )
 }
 
-const MobileNav: React.FC<NavProps> = ({isLoadingUser, isSignedIn}) => {
+const MobileNav: React.FC = () => {
+  const {isSignedIn, isLoadingUser} = useRefinedSession()
   return (
     <Menu as="div" className="sm:hidden relative inline-block text-left z-10">
       {({open}) => (
