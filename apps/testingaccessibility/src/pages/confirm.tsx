@@ -13,8 +13,8 @@ const Confirm = () => (
       <div className="flex flex-col max-w-lg mx-auto w-full gap-5 items-center text-center">
         <Image
           priority
-          width={500 / 2.25}
-          height={451 / 2.25}
+          width={460 / 2}
+          height={368 / 2}
           quality={100}
           placeholder="blur"
           src={NewMailImage}
