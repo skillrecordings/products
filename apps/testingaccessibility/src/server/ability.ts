@@ -41,6 +41,8 @@ export function hasValidPurchase(purchases?: any[]) {
 function defineAbilityFor(token: any) {
   const {can, build} = new AbilityBuilder<AppAbility>(Ability)
 
+  console.log({token})
+
   if (hasAvailableSeats(token.purchases)) {
     can('invite', 'Team')
   }
