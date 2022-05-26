@@ -5,6 +5,7 @@ import Image from 'next/image'
 
 const Confirm = () => (
   <Layout
+    footer={null}
     meta={{title: 'Confirm your subscription'}}
     className="bg-green-700 bg-noise"
   >
@@ -37,8 +38,8 @@ const Confirm = () => (
             src={Signature}
             aria-hidden="true"
             alt="Thank you, Marcy"
-            width={300 / 2.3}
-            height={164 / 2.3}
+            width={300 / 2}
+            height={164 / 2}
             quality={100}
             priority
           />

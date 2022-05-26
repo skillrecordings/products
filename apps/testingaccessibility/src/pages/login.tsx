@@ -13,6 +13,7 @@ const Login: React.FC<{csrfToken: string}> = ({csrfToken}) => {
 
   return (
     <Layout
+      footer={null}
       meta={{title: 'Login to Testing Accessibility'}}
       className="bg-green-700 bg-noise"
     >
