@@ -10,16 +10,7 @@ import toast from 'react-hot-toast'
 import Link from 'next/link'
 import cx from 'classnames'
 import Image from 'next/image'
-import {getCurrentAbility} from '../../server/ability'
-
-function useCurrentAbility() {
-  const {data: sessionData, status} = useSession()
-
-  return {
-    status,
-    ability: getCurrentAbility({rules: sessionData?.rules}),
-  }
-}
+import {useCurrentAbility} from '../../hooks/use-current-ability'
 
 function useNavState() {
   const {ability, status} = useCurrentAbility()
