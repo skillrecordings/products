@@ -5,6 +5,7 @@ import {
 } from 'utils/progress'
 import {LessonProgress} from '@prisma/client'
 import {useSession} from 'next-auth/react'
+import {useQuery} from 'react-query'
 
 type ProgressContextType = {
   progress: LessonProgress[]
@@ -25,35 +26,30 @@ export function useProgress() {
 export const ProgressContext = React.createContext(defaultProgressContext)
 
 export const ProgressProvider: React.FC = ({children}) => {
-  const [isLoadingProgress, setIsLoadingProgress] =
-    React.useState<boolean>(true)
-  const [progress, setProgress] = React.useState<LessonProgress[]>([])
   const {status} = useSession()
 
-  const fetchProgress = React.useCallback(async () => {
+  const {
+    data: progress,
+    status: loadingProgressStatus,
+    refetch,
+  } = useQuery(['load progress', status], async () => {
     if (status === 'authenticated') {
       const progress = await getLessonProgressForUser()
-      setProgress(progress)
+      return progress
+    } else {
+      return []
     }
+  })
 
-    if (status !== 'loading') {
-      setIsLoadingProgress(false)
-    }
-  }, [status])
-
-  React.useEffect(() => {
-    if (status === 'authenticated') {
-      fetchProgress().catch(console.error)
-    }
-  }, [fetchProgress, status])
+  console.log({loadingProgressStatus, progress})
 
   return (
     <ProgressContext.Provider
       value={{
         progress,
-        isLoadingProgress,
+        isLoadingProgress: loadingProgressStatus === 'loading',
         toggleLessonComplete: async (slug: string) => {
-          await toggleLessonProgressForUser({slug}).then(() => fetchProgress())
+          return await toggleLessonProgressForUser({slug}).finally(refetch)
         },
       }}
     >
