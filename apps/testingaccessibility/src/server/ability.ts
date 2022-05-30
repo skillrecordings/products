@@ -21,9 +21,9 @@ type ViewerAbilityInput = {
  * to define a set of rules (purchases)
  * @param viewerAbilityInput
  */
-export async function getCurrentAbility(
+export function getCurrentAbility(
   viewerAbilityInput: ViewerAbilityInput,
-): Promise<AppAbility> {
+): AppAbility {
   return defineAbilityFor(viewerAbilityInput)
 }
 
@@ -37,9 +37,9 @@ export async function getCurrentAbility(
  * @see {@link https://casl.js.org/v5/en/guide/define-rules#ability-builder-class|AbilityBuilder}
  * @param viewerAbilityInput
  */
-export async function defineAbilityFor(viewerAbilityInput: ViewerAbilityInput) {
+export function defineAbilityFor(viewerAbilityInput: ViewerAbilityInput) {
   const rules = isEmpty(viewerAbilityInput.rules)
-    ? await defineRulesForPurchases(viewerAbilityInput.purchases || [])
+    ? defineRulesForPurchases(viewerAbilityInput.purchases || [])
     : viewerAbilityInput.rules
   return new AppAbility(rules)
 }
@@ -49,7 +49,7 @@ export async function defineAbilityFor(viewerAbilityInput: ViewerAbilityInput) {
  *
  * @param purchases
  */
-export async function defineRulesForPurchases(purchases: any[]) {
+export function defineRulesForPurchases(purchases: any[]) {
   const {can, rules} = new AbilityBuilder(AppAbility)
 
   if (hasAvailableSeats(purchases)) {
@@ -59,8 +59,6 @@ export async function defineRulesForPurchases(purchases: any[]) {
   if (hasBulkPurchase(purchases)) {
     can('view', 'Team')
   }
-
-  console.log({purchases})
 
   if (hasValidPurchase(purchases)) {
     can('view', 'Content')

@@ -10,37 +10,30 @@ import toast from 'react-hot-toast'
 import Link from 'next/link'
 import cx from 'classnames'
 import Image from 'next/image'
-import {useUser} from '../../context/user-context'
 import {getCurrentAbility} from '../../server/ability'
-import {useQuery} from 'react-query'
 
-// TODO: This is a temporary solution to get the ability from the token
-//       It's named poorly and is clumping stuff together, but it works!
-function useRefinedSession() {
+function useCurrentAbility() {
   const {data: sessionData, status} = useSession()
-  const {user} = useUser()
 
-  const isSignedIn = Boolean(sessionData?.user)
-  const isLoadingUser = status === 'loading'
+  return {
+    status,
+    ability: getCurrentAbility({rules: sessionData?.rules}),
+  }
+}
 
-  // this is all client side so it isn't secure secure but for display
-  // purposes it's fine
-  const {data: ability} = useQuery(
-    ['ability', user],
-    async () => await getCurrentAbility({rules: sessionData?.rules}),
-    {
-      enabled: isSignedIn && !isLoadingUser,
-      staleTime: 0,
-    },
+function useNavState() {
+  const {ability, status} = useCurrentAbility()
+
+  console.log(
+    `DesktopNav: can invite team members: ${ability?.can('invite', 'Team')}`,
+  )
+  console.log(
+    `DesktopNav: can view content: ${ability?.can('view', 'Content')}`,
   )
 
   return {
-    isSignedIn,
-    isLoadingUser,
-    sessionData,
-    status,
-    user,
-    ability,
+    isSignedIn: status === 'authenticated',
+    isLoadingUser: status === 'loading',
   }
 }
 
@@ -60,15 +53,7 @@ const Navigation = () => {
 }
 
 const DesktopNav: React.FC = () => {
-  // "signed in" and etc could be abilities instead
-  const {isSignedIn, isLoadingUser, ability} = useRefinedSession()
-
-  console.log(
-    `DesktopNav: can invite team members: ${ability?.can('invite', 'Team')}`,
-  )
-  console.log(
-    `DesktopNav: can view content: ${ability?.can('view', 'Content')}`,
-  )
+  const {isSignedIn, isLoadingUser} = useNavState()
 
   return (
     <div
@@ -91,7 +76,7 @@ const DesktopNav: React.FC = () => {
 }
 
 const MobileNav: React.FC = () => {
-  const {isSignedIn, isLoadingUser} = useRefinedSession()
+  const {isSignedIn, isLoadingUser} = useNavState()
   return (
     <Menu as="div" className="sm:hidden relative inline-block text-left z-10">
       {({open}) => (
