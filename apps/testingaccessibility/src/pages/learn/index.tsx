@@ -63,10 +63,14 @@ const productQuery = groq`*[_type == "product" && productId == $productId][0]{
 
 export const getServerSideProps: GetServerSideProps = async ({req}) => {
   const session = await getSession({req})
-  console.log({session})
+
+  // TODO: instead of fetching the product we can generate rules on the session
+  //       which may mean we can avoid this async call but it also isn't hurting
+  //       anything right now. The ability isn't being used to make any decisions
+  //       at this point.
   const {product, purchases} = await getPurchasedProduct(req, productQuery)
 
-  const ability = await getCurrentAbility({purchases: purchases})
+  const ability = getCurrentAbility({rules: session?.rules})
 
   console.log(
     `LEARN: can invite team members: ${ability.can('invite', 'Team')}`,

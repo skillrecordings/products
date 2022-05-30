@@ -14,7 +14,6 @@ import {QueryClient, QueryClientProvider} from 'react-query'
 import {initNProgress} from 'utils/nprogress'
 import {ProgressProvider} from 'context/progress-context'
 import {FeedbackProvider} from 'context/feedback-context'
-import {UserProvider} from '../context/user-context'
 
 const queryClient = new QueryClient()
 
@@ -37,21 +36,19 @@ function MyApp({Component, pageProps}: AppProps) {
     <>
       <DefaultSeo {...config} />
       <QueryClientProvider client={queryClient}>
-        <UserProvider user={pageProps.token}>
-          <SessionProvider session={pageProps.session} refetchInterval={0}>
-            <ConvertkitProvider>
-              <ViewerProvider>
-                <MDXProvider components={MDXComponents}>
-                  <ProgressProvider>
-                    <FeedbackProvider>
-                      <Component {...pageProps} />
-                    </FeedbackProvider>
-                  </ProgressProvider>
-                </MDXProvider>
-              </ViewerProvider>
-            </ConvertkitProvider>
-          </SessionProvider>
-        </UserProvider>
+        <SessionProvider session={pageProps.session} refetchInterval={0}>
+          <ConvertkitProvider>
+            <ViewerProvider>
+              <MDXProvider components={MDXComponents}>
+                <ProgressProvider>
+                  <FeedbackProvider>
+                    <Component {...pageProps} />
+                  </FeedbackProvider>
+                </ProgressProvider>
+              </MDXProvider>
+            </ViewerProvider>
+          </ConvertkitProvider>
+        </SessionProvider>
       </QueryClientProvider>
     </>
   )
