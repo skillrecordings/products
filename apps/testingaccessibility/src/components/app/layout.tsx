@@ -1,8 +1,6 @@
 import React, {FunctionComponent} from 'react'
 import {SkipNavContent, SkipNavLink} from '@reach/skip-nav'
 import {useFeedback} from 'context/feedback-context'
-import {isSellingLive} from 'utils/is-selling-live'
-import {useSession} from 'next-auth/react'
 import {Toaster} from 'react-hot-toast'
 import {NextSeo} from 'next-seo'
 import Navigation from './navigation'
@@ -10,6 +8,7 @@ import isNull from 'lodash/isNull'
 import Footer from './footer'
 import config from 'config'
 import cx from 'classnames'
+import {useNavState} from '../../hooks/use-nav-state'
 
 type LayoutProps = {
   meta?: any
@@ -36,8 +35,7 @@ const Layout: FunctionComponent<LayoutProps> = ({
     ogImage,
     date,
   } = meta || {}
-  const {data: sessionData} = useSession()
-  const isSignedIn = Boolean(sessionData?.user)
+  const {isSignedIn} = useNavState()
   const {isFeedbackDialogOpen, feedbackComponent} = useFeedback()
   return (
     <div className="relative">
