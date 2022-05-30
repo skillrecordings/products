@@ -6,6 +6,7 @@ import {
 import type {LessonProgress} from '@prisma/client'
 import {useSession} from 'next-auth/react'
 import {useQuery} from 'react-query'
+import {last} from 'lodash'
 
 type ProgressContextType = {
   progress: LessonProgress[]
@@ -25,26 +26,35 @@ export function useProgress() {
 
 export const ProgressContext = React.createContext(defaultProgressContext)
 
-export const ProgressProvider: React.FC = ({children}) => {
-  const {status} = useSession()
+function useLoadProgress() {
+  const {status: sessionStatus} = useSession()
 
   const {
-    data: progress,
+    data,
     status: loadingProgressStatus,
     refetch,
-  } = useQuery(['load progress', status], async () => {
-    if (status === 'authenticated') {
+  } = useQuery(['load progress', sessionStatus], async ({queryKey}) => {
+    if (last(queryKey) === 'authenticated') {
       return await getLessonProgressForUser()
     } else {
       return []
     }
   })
 
+  return {
+    progress: data,
+    status: loadingProgressStatus,
+    refetch,
+  }
+}
+
+export const ProgressProvider: React.FC = ({children}) => {
+  const {progress, status, refetch} = useLoadProgress()
   return (
     <ProgressContext.Provider
       value={{
         progress,
-        isLoadingProgress: loadingProgressStatus === 'loading',
+        isLoadingProgress: status === 'loading',
         toggleLessonComplete: async (slug: string) => {
           return await toggleLessonProgressForUser({slug}).finally(refetch)
         },
