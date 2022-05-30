@@ -7,6 +7,7 @@ import prisma from '../../../db'
 import {createTransport} from 'nodemailer'
 import {withSentry} from '@sentry/nextjs'
 import {getSdk} from '../../../lib/prisma-api'
+import {defineRulesForPurchases} from '../../../server/ability'
 
 export const nextAuthOptions: NextAuthOptions = {
   secret: process.env.NEXTAUTH_SECRET,
@@ -57,14 +58,17 @@ export const nextAuthOptions: NextAuthOptions = {
         const {getPurchasesForUser} = getSdk()
         const purchases = await getPurchasesForUser(token.id as string)
         token.purchases = purchases
+        session.rules = await defineRulesForPurchases(purchases)
       }
 
       const encodedToken = jwt.sign(token, process.env.NEXTAUTH_SECRET || '', {
         algorithm: 'HS256',
       })
+
       // this gives us access to the token in the browser via getSession()
       session.id = token.id
       session.token = encodedToken
+
       return session
     },
     async jwt({token, profile, account, user}) {

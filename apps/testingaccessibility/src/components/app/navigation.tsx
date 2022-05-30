@@ -11,29 +11,33 @@ import Link from 'next/link'
 import cx from 'classnames'
 import Image from 'next/image'
 import {useUser} from '../../context/user-context'
-import {getAbilityFromToken} from '../../server/ability'
+import {getCurrentAbility} from '../../server/ability'
 import {useQuery} from 'react-query'
 
 // TODO: This is a temporary solution to get the ability from the token
 //       It's named poorly and is clumping stuff together, but it works!
 function useRefinedSession() {
-  const {data, status} = useSession()
+  const {data: sessionData, status} = useSession()
   const {user} = useUser()
 
-  const isSignedIn = Boolean(data?.user)
+  const isSignedIn = Boolean(sessionData?.user)
   const isLoadingUser = status === 'loading'
 
   // this is all client side so it isn't secure secure but for display
   // purposes it's fine
   const {data: ability} = useQuery(
     ['ability', user],
-    async () => await getAbilityFromToken(user),
+    async () => await getCurrentAbility({rules: sessionData?.rules}),
+    {
+      enabled: isSignedIn && !isLoadingUser,
+      staleTime: 0,
+    },
   )
 
   return {
     isSignedIn,
     isLoadingUser,
-    data,
+    sessionData,
     status,
     user,
     ability,
@@ -59,8 +63,12 @@ const DesktopNav: React.FC = () => {
   // "signed in" and etc could be abilities instead
   const {isSignedIn, isLoadingUser, ability} = useRefinedSession()
 
-  console.log(`can invite team members: ${ability?.can('invite', 'Team')}`)
-  console.log(`can view content: ${ability?.can('view', 'Content')}`)
+  console.log(
+    `DesktopNav: can invite team members: ${ability?.can('invite', 'Team')}`,
+  )
+  console.log(
+    `DesktopNav: can view content: ${ability?.can('view', 'Content')}`,
+  )
 
   return (
     <div

@@ -16,9 +16,9 @@ import Link from 'next/link'
 import cx from 'classnames'
 import groq from 'groq'
 import Image from 'next/image'
-import {getAbilityFromToken, hasAvailableSeats} from '../../server/ability'
-import {getToken} from 'next-auth/jwt'
+import {getCurrentAbility} from '../../server/ability'
 import {subject} from '@casl/ability'
+import {getSession} from 'next-auth/react'
 
 const productQuery = groq`*[_type == "product" && productId == $productId][0]{
   title,
@@ -62,17 +62,22 @@ const productQuery = groq`*[_type == "product" && productId == $productId][0]{
   }`
 
 export const getServerSideProps: GetServerSideProps = async ({req}) => {
-  const {product, purchases, token} = await getPurchasedProduct(
-    req,
-    productQuery,
-  )
-  const ability = await getAbilityFromToken(token)
+  const session = await getSession({req})
+  console.log({session})
+  const {product, purchases} = await getPurchasedProduct(req, productQuery)
 
-  console.log(`can invite team members: ${ability.can('invite', 'Team')}`)
-  console.log(`can view content: ${ability.can('view', 'Content')}`)
+  const ability = await getCurrentAbility({purchases: purchases})
 
   console.log(
-    `can view product: ${ability.can('view', subject('Product', product))}`,
+    `LEARN: can invite team members: ${ability.can('invite', 'Team')}`,
+  )
+  console.log(`LEARN: can view content: ${ability.can('view', 'Content')}`)
+
+  console.log(
+    `LEARN: can view product: ${ability.can(
+      'view',
+      subject('Product', product),
+    )}`,
   )
 
   if (purchases) {
@@ -89,7 +94,6 @@ export const getServerSideProps: GetServerSideProps = async ({req}) => {
 }
 
 const Learn: React.FC<{purchases: Purchase[]; product: SanityDocument}> = ({
-  purchases,
   product,
 }) => {
   const {title, modules} = product
