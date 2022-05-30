@@ -10,23 +10,7 @@ import toast from 'react-hot-toast'
 import Link from 'next/link'
 import cx from 'classnames'
 import Image from 'next/image'
-import {useCurrentAbility} from '../../hooks/use-current-ability'
-
-function useNavState() {
-  const {ability, status} = useCurrentAbility()
-
-  console.log(
-    `DesktopNav: can invite team members: ${ability?.can('invite', 'Team')}`,
-  )
-  console.log(
-    `DesktopNav: can view content: ${ability?.can('view', 'Content')}`,
-  )
-
-  return {
-    isSignedIn: status === 'authenticated',
-    isLoadingUser: status === 'loading',
-  }
-}
+import {useNavState} from '../../hooks/use-nav-state'
 
 const Navigation = () => {
   return (

@@ -4,16 +4,14 @@ import {handleSignOut} from './navigation'
 import {useRouter} from 'next/router'
 import Image from 'next/image'
 import Link from 'next/link'
-import {useSession, signOut} from 'next-auth/react'
 import {isSellingLive} from 'utils/is-selling-live'
+import {useNavState} from '../../hooks/use-nav-state'
 
 type FooterProps = {}
 
 const Footer: React.FC<FooterProps> = () => {
   const router = useRouter()
-  const {data: sessionData, status: sessionStatus} = useSession()
-  const isSignedIn = Boolean(sessionData?.user)
-  const isLoadingUser = sessionStatus === 'loading'
+  const {isSignedIn} = useNavState()
 
   const {setIsFeedbackDialogOpen} = useFeedback()
   return (
