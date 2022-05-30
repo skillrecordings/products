@@ -1,64 +1,75 @@
-import {AbilityBuilder, Ability} from '@casl/ability'
-import {isNull, isUndefined, some} from 'lodash'
-import {Coupon, Purchase} from '@prisma/client'
+import {AbilityBuilder, Ability, AbilityClass} from '@casl/ability'
+import {isEmpty} from 'lodash'
+import {
+  hasAvailableSeats,
+  hasBulkPurchase,
+  hasValidPurchase,
+} from '../utils/purchase-validators'
 
 type Actions = 'manage' | 'invite' | 'view'
 type Subjects = 'Team' | 'Purchase' | 'Content' | 'Product' | 'all'
 type AppAbility = Ability<[Actions, Subjects]>
+const AppAbility = Ability as AbilityClass<AppAbility>
 
-export async function getAbilityFromToken(token: any) {
-  return defineAbilityFor(token)
-}
-
-export function bulkCouponHasSeats(coupon: Coupon) {
-  return coupon.usedCount < coupon.maxUses
-}
-
-export function hasBulkPurchase(purchases?: any[]) {
-  return some(purchases, (purchase) => {
-    return !isNull(purchase.bulkCoupon)
-  })
-}
-
-export function hasAvailableSeats(purchases?: any[]) {
-  return some(purchases, (purchase) => {
-    return (
-      !isNull(purchase.bulkCoupon) && bulkCouponHasSeats(purchase.bulkCoupon)
-    )
-  })
-}
-
-export function hasValidPurchase(purchases?: any[]) {
-  return some(purchases, (purchase) => {
-    return isNull(purchase.bulkCoupon) || isUndefined(purchase.bulkCoupon)
-  })
+type ViewerAbilityInput = {
+  purchases?: any[]
+  rules?: any
 }
 
 /**
- * @see {@link https://casl.js.org/v5/en/guide/define-rules#ability-builder-class|AbilityBuilder}
- * @param token the JWT session token from next-auth with purchases
+ * Creates an ability uses cached rules or the properties
+ * to define a set of rules (purchases)
+ * @param viewerAbilityInput
  */
-function defineAbilityFor(token: any) {
-  const {can, build} = new AbilityBuilder<AppAbility>(Ability)
+export async function getCurrentAbility(
+  viewerAbilityInput: ViewerAbilityInput,
+): Promise<AppAbility> {
+  return defineAbilityFor(viewerAbilityInput)
+}
 
-  console.log({token})
+/**
+ * factory to create an instance of an app ability
+ * to use and determine if the viewer has access to
+ * various things
+ *
+ * if the input has a set of rules, use those rules
+ * otherwise, use the purchases and create rules
+ * @see {@link https://casl.js.org/v5/en/guide/define-rules#ability-builder-class|AbilityBuilder}
+ * @param viewerAbilityInput
+ */
+export async function defineAbilityFor(viewerAbilityInput: ViewerAbilityInput) {
+  const rules = isEmpty(viewerAbilityInput.rules)
+    ? await defineRulesForPurchases(viewerAbilityInput.purchases || [])
+    : viewerAbilityInput.rules
+  return new AppAbility(rules)
+}
 
-  if (hasAvailableSeats(token.purchases)) {
+/**
+ * Creates a structure of rules to use in the ability from list of purchases
+ *
+ * @param purchases
+ */
+export async function defineRulesForPurchases(purchases: any[]) {
+  const {can, rules} = new AbilityBuilder(AppAbility)
+
+  if (hasAvailableSeats(purchases)) {
     can('invite', 'Team')
   }
 
-  if (hasBulkPurchase(token.purchases)) {
+  if (hasBulkPurchase(purchases)) {
     can('view', 'Team')
   }
 
-  if (hasValidPurchase(token.purchases)) {
+  console.log({purchases})
+
+  if (hasValidPurchase(purchases)) {
     can('view', 'Content')
     can('view', 'Product', {
       productId: {
-        $in: token.purchases.map((purchase: Purchase) => purchase.productId),
+        $in: purchases?.map((purchase: any) => purchase.productId),
       },
     })
   }
 
-  return build()
+  return rules
 }
