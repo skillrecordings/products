@@ -41,8 +41,6 @@ export const ProgressProvider: React.FC = ({children}) => {
     }
   })
 
-  console.log({loadingProgressStatus, progress})
-
   return (
     <ProgressContext.Provider
       value={{
