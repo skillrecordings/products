@@ -3,7 +3,7 @@ import {
   getLessonProgressForUser,
   toggleLessonProgressForUser,
 } from 'utils/progress'
-import {LessonProgress} from '@prisma/client'
+import type {LessonProgress} from '@prisma/client'
 import {useSession} from 'next-auth/react'
 import {useQuery} from 'react-query'
 
@@ -34,8 +34,7 @@ export const ProgressProvider: React.FC = ({children}) => {
     refetch,
   } = useQuery(['load progress', status], async () => {
     if (status === 'authenticated') {
-      const progress = await getLessonProgressForUser()
-      return progress
+      return await getLessonProgressForUser()
     } else {
       return []
     }
