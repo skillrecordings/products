@@ -9,10 +9,6 @@ export async function middleware(req: NextApiRequest, ev: NextFetchEvent) {
   if (!session)
     return NextResponse.redirect(`${process.env.NEXTAUTH_URL}/login`)
 
-  const canViewTeam = hasBulkPurchase(session.purchases)
-  if (!canViewTeam)
-    return NextResponse.redirect(`${process.env.NEXTAUTH_URL}/learn`)
-
   // If user is authenticated and can invite team, continue.
   return NextResponse.next()
 }
