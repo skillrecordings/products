@@ -1,5 +1,5 @@
 import * as React from 'react'
-import {ChevronDownIcon, MenuIcon} from '@heroicons/react/solid'
+import {ChevronDownIcon, MenuIcon, PlusIcon} from '@heroicons/react/solid'
 import {LogoutIcon} from '@heroicons/react/outline'
 import {isSellingLive} from 'utils/is-selling-live'
 import {useSession, signOut} from 'next-auth/react'
@@ -28,7 +28,7 @@ const Navigation = () => {
 }
 
 const DesktopNav: React.FC = () => {
-  const {isSignedIn, isLoadingUser} = useNavState()
+  const {isSignedIn, isLoadingUser, canViewTeam} = useNavState()
 
   return (
     <div
@@ -43,6 +43,7 @@ const DesktopNav: React.FC = () => {
       </NavSlots>
       {!isLoadingUser && (isSellingLive || isSignedIn) && (
         <NavSlots>
+          {canViewTeam && <NavLink href="/team">Invite Team</NavLink>}
           {isSignedIn ? <AccountMenu /> : <RestorePurchasesLink />}
         </NavSlots>
       )}
@@ -51,7 +52,7 @@ const DesktopNav: React.FC = () => {
 }
 
 const MobileNav: React.FC = () => {
-  const {isSignedIn, isLoadingUser} = useNavState()
+  const {isSignedIn, isLoadingUser, canViewTeam} = useNavState()
   return (
     <Menu as="div" className="sm:hidden relative inline-block text-left z-10">
       {({open}) => (
@@ -98,6 +99,15 @@ const MobileNav: React.FC = () => {
                   </div>
                   {isSignedIn ? (
                     <>
+                      {canViewTeam && (
+                        <Menu.Item>
+                          {(props) => (
+                            <MenuLink href="/team" {...props}>
+                              Invite Team
+                            </MenuLink>
+                          )}
+                        </Menu.Item>
+                      )}
                       <Menu.Item>
                         {(props) => (
                           <MenuLink href="/invoices" {...props}>
@@ -141,7 +151,7 @@ const NavLink: React.FC<{href: string}> = ({href, children, ...props}) => {
       <a
         aria-current={isActive ? 'page' : undefined}
         className={cx(
-          'relative px-5 h-full flex items-center justify-center hover:bg-gray-100 hover:bg-opacity-50 group transition outline-none hover:opacity-100 opacity-90 text-sm',
+          'relative px-5 h-full flex items-center gap-1 justify-center hover:bg-gray-100 hover:bg-opacity-50 group transition outline-none hover:opacity-100 opacity-90 text-sm',
           {
             'after:content-[""] after:absolute after:w-full after:h-[2px] after:bottom-[-2px] after:left-0 after:bg-green-500':
               isActive,
@@ -218,7 +228,7 @@ const AccountMenu: React.FC = () => {
   return (
     <Menu as="div" className="relative inline-block text-left z-10 h-full">
       <Menu.Button className="flex h-full justify-center items-center px-3 py-2 hover:bg-[#F8F3ED] hover:bg-opacity-50 transition font-medium">
-        Account <ChevronDownIcon className="w-3 ml-1" aria-hidden="true" />
+        Account <ChevronDownIcon className="w-3 ml-1 mt-1" aria-hidden="true" />
       </Menu.Button>
       <Transition
         as={React.Fragment}
