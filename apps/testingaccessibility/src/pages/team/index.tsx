@@ -152,10 +152,10 @@ const TeamPage: React.FC<TeamPageProps> = ({
               <UserGroupIcon className="w-5 text-green-500" /> Invite your team
             </h1>
             <InviteTeam
-              setPersonalPurchase={setPersonalPurchase}
               session={session}
               purchase={purchase}
               existingPurchase={existingPurchase}
+              setPersonalPurchase={setPersonalPurchase}
             />
             {personalPurchase && (
               <div className="flex sm:flex-row flex-col-reverse items-center justify-between pt-5 mt-5 border-t border-gray-100 sm:gap-10 gap-5">

@@ -159,15 +159,15 @@ const Welcome: React.FC<{
             <h1 className="font-bold lg:text-5xl sm:text-4xl text-3xl font-aglet-sans">
               Welcome to Testing Accessibility
             </h1>
-            <h2 className="pt-4 lg:text-2xl sm:text-xl text-lg max-w-md font-aglet-slab text-orange-200">
+            {/* <h2 className="pt-4 lg:text-2xl sm:text-xl text-lg font-medium max-w-sm font-aglet-slab text-orange-200">
               Thanks so much for purchasing{' '}
               {purchase.bulkCoupon
                 ? `${purchase.product?.name} team license!`
                 : `${purchase.product?.name} license!`}
-            </h2>
+            </h2> */}
           </header>
           <div className="bg-white rounded-md sm:px-8 px-5 py-5 flex items-center justify-between">
-            <h3 className="font-semibold flex items-center gap-1 text-xl font-dinosaur">
+            <h3 className="font-semibold flex items-center gap-1 text-xl">
               <DocumentTextIcon
                 aria-hidden="true"
                 className="w-5 h-5 text-green-500"
@@ -202,12 +202,12 @@ const Welcome: React.FC<{
           )}
           <Share />
           {personalPurchase && (
-            <div className="p-8 flex items-center text-center relative before:absolute before:content-[''] before:w-px before:h-10 before:bg-yellow-500 before:-top-10 mt-10 flex-col">
+            <div className="p-8 flex items-center text-center relative flex-col">
               <h3 className="font-semibold flex items-center gap-1 text-2xl font-dinosaur pb-8 text-white">
                 <span>Ready to get started?</span>
               </h3>
               <Link href={`/learn`}>
-                <a className="text-green-900 text-lg font-dinosaur bg-yellow-500 px-8 pt-4 pb-5 hover:-rotate-1 hover:scale-105 transition-all hover:bg-yellow-400 rounded-md flex-shrink-0 font-semibold">
+                <a className="text-green-900 text-lg font-dinosaur bg-yellow-500 px-5 pt-3 pb-4 hover:-rotate-1 hover:scale-105 transition-all hover:bg-yellow-400 rounded-md flex-shrink-0 font-semibold">
                   Start Testing Accessibility{' '}
                   <span role="img" aria-hidden="true">
                     →
@@ -224,14 +224,14 @@ const Welcome: React.FC<{
 
 const Share = () => {
   return (
-    <div className="p-8 flex flex-col items-center text-center max-w-sm mx-auto gap-5">
-      <h3 className="text-white font-medium font-dinosaur text-xl gap-1">
+    <div className="px-8 pt-16 pb-8 flex flex-col items-center text-center max-w-lg mx-auto gap-5">
+      <p className="text-white font-semibold text-lg gap-1">
         Please consider telling your friends about Testing Accessibility, it
         would help me to get a word out.{' '}
         <span aria-hidden="true" role="img" aria-label="smiling face">
           😊
         </span>
-      </h3>
+      </p>
       <a
         href={TWEET}
         rel="noopener noreferrer"

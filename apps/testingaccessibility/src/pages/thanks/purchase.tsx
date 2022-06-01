@@ -5,6 +5,7 @@ import {Stripe} from 'stripe'
 import Layout from 'components/app/layout'
 import Image from 'next/image'
 import NewMailImage from '../../../public/assets/new-mail@2x.png'
+import {MailIcon} from '@heroicons/react/outline'
 
 export const getServerSideProps: GetServerSideProps = async ({req, query}) => {
   const {session_id} = query
@@ -46,16 +47,20 @@ const ThanksVerify: React.FC<{name: string; email: string}> = ({
             alt=""
           />
           <div>
-            <p className=" text-sand-100 sm:text-lg">
+            <p className="text-orange-200 font-aglet-slab text-xl font-medium">
               Thank you for purchasing Testing Accessibility!
             </p>
             <h1 className="max-w-lg mx-auto font-bold lg:text-4xl text-3xl py-5 font-aglet-sans">
               Please check your inbox for a login link that just got sent.
-              <code className="px-5 py-2 rounded-md bg-black/20 inline-block my-10 font-aglet-sans font-semibold sm:text-2xl text-xl">
+              <code className="px-6 py-3 rounded-md bg-white inline-flex items-center gap-2 font-sans text-black my-10 font-semibold sm:text-xl text-lg">
+                <MailIcon
+                  className="w-5 h-5 text-green-500"
+                  aria-hidden="true"
+                />{' '}
                 {email}
               </code>
             </h1>
-            <p className="text-sand-100 text-lg leading-relaxed mx-auto">
+            <p className="text-sand-100 max-w-md font-medium leading-relaxed mx-auto">
               As a final step to access the course you need to check your inbox
               (<strong>{email}</strong>) where you will find an email from{' '}
               <strong>{process.env.NEXT_PUBLIC_SUPPORT_EMAIL}</strong> with a
