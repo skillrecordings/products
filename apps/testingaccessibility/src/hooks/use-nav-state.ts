@@ -10,5 +10,6 @@ export function useNavState() {
     isSignedIn: status === 'authenticated',
     isLoadingUser: status === 'loading',
     canViewTeam: ability.can('view', 'Team'),
+    canViewInvoice: ability.can('view', 'Invoice'),
   }
 }

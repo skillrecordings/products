@@ -9,6 +9,10 @@ export async function middleware(req: NextApiRequest, ev: NextFetchEvent) {
   if (!session)
     return NextResponse.redirect(`${process.env.NEXTAUTH_URL}/login`)
 
+  // Ideally this would use hasBulkPurchase() from utils/purchase-validators.ts
+  // but that was throwing an error "Dynamic Code Evaluation (e. g. 'eval',
+  // 'new Function') not allowed in Middleware pages/team/_middleware"
+  // likely because of lodash
   const hasBulkPurchase = session.purchases.some((purchase: any) => {
     return purchase.bulkCoupon !== null
   })
