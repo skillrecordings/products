@@ -1,7 +1,7 @@
 import React from 'react'
 import Layout from 'components/app/layout'
 import prisma from 'db'
-import {get, last} from 'lodash'
+import {find, get, isNull} from 'lodash'
 import {serialize} from 'utils/prisma-next-serializer'
 import {GetServerSideProps} from 'next'
 import {getPurchasedProduct} from 'server/get-purchased-product'
@@ -14,7 +14,10 @@ export const getServerSideProps: GetServerSideProps = async ({req}) => {
   const {purchases, token} = await getPurchasedProduct(req)
 
   if (purchases) {
-    const purchaseId = get(last(purchases), 'id')
+    const purchaseId = get(
+      find(purchases, (purchase: any) => !isNull(purchase.bulkCoupon)),
+      'id',
+    )
 
     if (purchaseId) {
       const allPurchases = await prisma.purchase.findMany({
@@ -148,7 +151,7 @@ const TeamPage: React.FC<TeamPageProps> = ({
       <main className="flex flex-col flex-grow items-center justify-center py-16 mx-auto w-full p-5">
         <div className="bg-white rounded-lg max-w-lg w-full">
           <div className="sm:px-8 px-5 sm:py-8 py-5 bg-white rounded-lg">
-            <h1 className="flex items-center gap-2 text-xl font-dinosaur font-semibold">
+            <h1 className="flex items-center gap-2 text-xl font-bold">
               <UserGroupIcon className="w-5 text-green-500" /> Invite your team
             </h1>
             <InviteTeam

@@ -166,29 +166,31 @@ const Welcome: React.FC<{
                 : `${purchase.product?.name} license!`}
             </h2> */}
           </header>
-          <div className="bg-white rounded-md sm:px-8 px-5 py-5 flex items-center justify-between">
-            <h3 className="font-semibold flex items-center gap-1 text-xl">
-              <DocumentTextIcon
-                aria-hidden="true"
-                className="w-5 h-5 text-green-500"
-              />
-              <span>Invoice</span>
-            </h3>
-            <Link href={`/invoices/${purchase.merchantChargeId}`}>
-              <a
-                target="_blank"
-                className="border bg-green-500 hover:bg-green-600 text-white transition px-4 py-2 rounded-md flex-shrink-0 font-semibold"
-              >
-                Get your invoice{' '}
-                <span role="img" aria-hidden="true">
-                  →
-                </span>
-              </a>
-            </Link>
-          </div>
+          {purchase.merchantChargeId && (
+            <div className="bg-white rounded-md sm:px-8 px-5 py-5 flex items-center justify-between">
+              <h3 className="font-bold flex items-center gap-1 text-xl">
+                <DocumentTextIcon
+                  aria-hidden="true"
+                  className="w-5 h-5 text-green-500"
+                />
+                <span>Invoice</span>
+              </h3>
+              <Link href={`/invoices/${purchase.merchantChargeId}`}>
+                <a
+                  target="_blank"
+                  className="border bg-green-500 hover:bg-green-600 text-white transition px-4 py-2 rounded-md flex-shrink-0 font-semibold"
+                >
+                  Get your invoice{' '}
+                  <span role="img" aria-hidden="true">
+                    →
+                  </span>
+                </a>
+              </Link>
+            </div>
+          )}
           {redemptionsLeft && (
             <div className="sm:px-8 px-5 sm:py-8 py-5 bg-white rounded-lg">
-              <h3 className="flex items-center gap-2 text-xl font-dinosaur font-semibold">
+              <h3 className="flex items-center gap-2 text-xl font-bold">
                 <UserGroupIcon className="w-5 text-green-500" /> Invite your
                 team
               </h3>
@@ -203,7 +205,14 @@ const Welcome: React.FC<{
           <Share />
           {personalPurchase && (
             <div className="p-8 flex items-center text-center relative flex-col">
-              <h3 className="font-semibold flex items-center gap-1 text-2xl font-dinosaur pb-8 text-white">
+              <Image
+                src={require('../../../public/assets/divider-trees@2x.png')}
+                alt=""
+                width={100 / 1.5}
+                height={66 / 1.5}
+                aria-hidden="true"
+              />
+              <h3 className="pt-12 font-semibold flex items-center gap-1 sm:text-3xl text-2xl font-dinosaur pb-8 text-white">
                 <span>Ready to get started?</span>
               </h3>
               <Link href={`/learn`}>
@@ -224,7 +233,7 @@ const Welcome: React.FC<{
 
 const Share = () => {
   return (
-    <div className="px-8 pt-16 pb-8 flex flex-col items-center text-center max-w-lg mx-auto gap-5">
+    <div className="px-8 pt-12 pb-5 flex flex-col items-center text-center max-w-lg mx-auto gap-5">
       <p className="text-white font-semibold text-lg gap-1">
         Please consider telling your friends about Testing Accessibility, it
         would help me to get a word out.{' '}
