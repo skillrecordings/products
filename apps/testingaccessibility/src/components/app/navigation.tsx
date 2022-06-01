@@ -16,7 +16,7 @@ const Navigation = () => {
   return (
     <nav
       aria-label="main"
-      className="text-sm font-dinosaur font-medium sticky top-0 z-30 sm:h-16 h-14 xl:px-0 px-2 flex items-center w-full bg-white shadow-sm print:hidden"
+      className="font-nav text-sm font-medium sticky top-0 z-30 sm:h-16 h-14 xl:px-0 px-2 flex items-center w-full bg-white shadow-sm print:hidden"
     >
       <div className="flex items-center w-full h-full py-[2px] max-w-screen-lg mx-auto justify-between">
         <NavLogo />
@@ -292,7 +292,7 @@ export const NavLogo = () => {
             priority
           />
         </div>
-        <div className="pl-1 flex flex-col font-bold text-xs uppercase leading-none font-dinosaur">
+        <div className="pl-1 flex flex-col font-bold text-xs uppercase leading-none font-nav">
           <span className="block">Testing</span> <span>Accessibility</span>
         </div>
       </a>

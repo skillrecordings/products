@@ -15,7 +15,7 @@ type Page =
   | SanityDocument
 
 type BreadcrumbProps = {
-  module: Page
+  module?: Page
   section?: Page
   lesson?: Page
 }
@@ -31,17 +31,21 @@ const BreadcrumbNav: React.FC<BreadcrumbProps> = ({
   )
   const pages: Page[] | any = [
     {
-      title: module?.title,
-      slug: module?.slug,
-      pathname: '/learn/[module]',
-      query: {module: module?.slug},
+      ...(module && {
+        title: module?.title,
+        slug: module?.slug,
+        pathname: '/learn/[module]',
+        query: {module: module?.slug},
+      }),
     },
     {
       ...(section && {
         title: section?.title,
         slug: section?.slug,
-        pathname: '/learn/[module]/[section]',
-        query: {module: module?.slug, section: section?.slug},
+        pathname: module ? '/learn/[module]/[section]' : '/[section]',
+        query: module
+          ? {module: module?.slug, section: section?.slug}
+          : {section: section?.slug},
       }),
     },
     {
@@ -53,7 +57,7 @@ const BreadcrumbNav: React.FC<BreadcrumbProps> = ({
   ].filter((p) => !isEmpty(p))
 
   return (
-    <nav className="flex" aria-label="Breadcrumb">
+    <nav className="flex font-nav" aria-label="Breadcrumb">
       <ol role="list" className="flex items-center sm:space-x-4 space-x-2">
         <li>
           <Link href="/learn">
@@ -70,7 +74,7 @@ const BreadcrumbNav: React.FC<BreadcrumbProps> = ({
             <li key={page.title} className="flex-shrink-0">
               <div className="flex items-center">
                 <ChevronRightIcon
-                  className="flex-shrink-0 h-5 w-5 text-gray-400"
+                  className="flex-shrink-0 h-5 w-5 text-gray-400 pt-1"
                   aria-hidden="true"
                 />
                 {page.pathname && !isLast ? (
@@ -80,7 +84,7 @@ const BreadcrumbNav: React.FC<BreadcrumbProps> = ({
                       query: page.query,
                     }}
                   >
-                    <a className="flex-shrink-0 sm:ml-4 ml-2 text-sm font-semibold text-gray-700 hover:text-gray-800">
+                    <a className="flex-shrink-0 sm:ml-4 ml-2 text-sm font-medium text-gray-800 hover:text-gray-800 hover:underline">
                       {page.title}
                     </a>
                   </Link>

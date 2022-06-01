@@ -1970,8 +1970,6 @@ importers:
       stripe: ^8.186.1
       swr: ^1.2.2
       tailwindcss: ^3.0.24
-      tailwindcss-autofill: ^0.1.0
-      tailwindcss-text-fill: ^0.1.2
       uuid: ^8.3.2
       xstate: ^4.30.4
       yup: ^0.32.11
@@ -2086,8 +2084,6 @@ importers:
       simplebar-react: 2.3.6_react-dom@17.0.2+react@17.0.2
       stripe: 8.186.1
       swr: 1.2.2_react@17.0.2
-      tailwindcss-autofill: 0.1.0_tailwindcss@3.0.24
-      tailwindcss-text-fill: 0.1.2_tailwindcss@3.0.24
       uuid: 8.3.2
       xstate: 4.30.4
       yup: 0.32.11
@@ -13097,7 +13093,7 @@ packages:
   /axios/0.25.0:
     resolution: {integrity: sha512-cD8FOb0tRH3uuEe6+evtAbgJtfxr7ly3fQjYcMcuPlgkwVS9xboaVIpcDV+cYQe+yGykgwZCs1pzjntcGa6l5g==}
     dependencies:
-      follow-redirects: 1.14.9_debug@2.6.9
+      follow-redirects: 1.14.9
     transitivePeerDependencies:
       - debug
     dev: false
@@ -13105,7 +13101,7 @@ packages:
   /axios/0.26.0:
     resolution: {integrity: sha512-lKoGLMYtHvFrPVt3r+RBMp9nh34N0M8zEfCWqdWZx6phynIEhQqAdydpyBAAG211zlhX9Rgu08cOamy6XjE5Og==}
     dependencies:
-      follow-redirects: 1.14.9_debug@2.6.9
+      follow-redirects: 1.14.9
     transitivePeerDependencies:
       - debug
     dev: false
@@ -16627,10 +16623,10 @@ packages:
       eslint-import-resolver-webpack:
         optional: true
     dependencies:
-      '@typescript-eslint/parser': 5.13.0_eslint@8.10.0+typescript@4.6.4
+      '@typescript-eslint/parser': 5.13.0_eslint@8.11.0+typescript@4.6.4
       debug: 3.2.7
       eslint-import-resolver-node: 0.3.6
-      eslint-import-resolver-typescript: 2.5.0_f3fbe6cccc54a54726558cf825417e93
+      eslint-import-resolver-typescript: 2.5.0_9f6761aeebd4737758d378578983791d
       find-up: 2.1.0
       pkg-dir: 2.0.0
     transitivePeerDependencies:
@@ -18287,18 +18283,6 @@ packages:
         optional: true
     dev: false
 
-  /follow-redirects/1.14.9_debug@2.6.9:
-    resolution: {integrity: sha512-MQDfihBQYMcyy5dhRDJUHcw7lb2Pv/TuE6xP1vyraLukNDHKbDxDNaOE3NbCAdKQApno+GPRyo1YAp89yCjK4w==}
-    engines: {node: '>=4.0'}
-    peerDependencies:
-      debug: '*'
-    peerDependenciesMeta:
-      debug:
-        optional: true
-    dependencies:
-      debug: 2.6.9
-    dev: false
-
   /for-in/1.0.2:
     resolution: {integrity: sha1-gQaNKVqBQuwKxybG4iAMMPttXoA=}
     engines: {node: '>=0.10.0'}
@@ -18627,7 +18611,7 @@ packages:
       create-error-class: 3.0.2
       debug: 2.6.9
       decompress-response: 3.3.0
-      follow-redirects: 1.14.9_debug@2.6.9
+      follow-redirects: 1.14.9
       form-urlencoded: 2.0.9
       in-publish: 2.0.1
       into-stream: 3.1.0
@@ -18654,7 +18638,7 @@ packages:
       create-error-class: 3.0.2
       debug: 2.6.9
       decompress-response: 6.0.0
-      follow-redirects: 1.14.9_debug@2.6.9
+      follow-redirects: 1.14.9
       form-urlencoded: 2.0.9
       into-stream: 3.1.0
       is-plain-object: 2.0.4
@@ -31474,14 +31458,6 @@ packages:
       tailwindcss: 2.2.19_0c54bdadaf9d9c9c6c134cb2c6c061a3
     dev: false
 
-  /tailwindcss-autofill/0.1.0_tailwindcss@3.0.24:
-    resolution: {integrity: sha512-U7P+smNko8729EIe/FOXJvcoZt6LAzexevBuZ8pkrdoazAoabUGFdE/xOaGTb9P7rzkNp4OGH0WeE8Y8UvnDtw==}
-    peerDependencies:
-      tailwindcss: ^2.0.2
-    dependencies:
-      tailwindcss: 3.0.24
-    dev: false
-
   /tailwindcss-text-fill/0.1.2_tailwindcss@2.2.19:
     resolution: {integrity: sha512-zhff4E8tjWVriuiFBRtnw1n6R9HfaEGVTixUbiF8tnlzzbFTPLY+1a5LRWp6cE0T46GUVoXIQIa5rw1zc7NOqg==}
     peerDependencies:
@@ -31489,15 +31465,6 @@ packages:
     dependencies:
       flatten-tailwindcss-theme: 0.1.1
       tailwindcss: 2.2.19_0c54bdadaf9d9c9c6c134cb2c6c061a3
-    dev: false
-
-  /tailwindcss-text-fill/0.1.2_tailwindcss@3.0.24:
-    resolution: {integrity: sha512-zhff4E8tjWVriuiFBRtnw1n6R9HfaEGVTixUbiF8tnlzzbFTPLY+1a5LRWp6cE0T46GUVoXIQIa5rw1zc7NOqg==}
-    peerDependencies:
-      tailwindcss: ^2.0.2
-    dependencies:
-      flatten-tailwindcss-theme: 0.1.1
-      tailwindcss: 3.0.24
     dev: false
 
   /tailwindcss/2.2.19_0c54bdadaf9d9c9c6c134cb2c6c061a3:

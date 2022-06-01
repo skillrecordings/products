@@ -126,8 +126,6 @@
     "simplebar-react": "^2.3.6",
     "stripe": "^8.186.1",
     "swr": "^1.2.2",
-    "tailwindcss-autofill": "^0.1.0",
-    "tailwindcss-text-fill": "^0.1.2",
     "uuid": "^8.3.2",
     "xstate": "^4.30.4",
     "yup": "^0.32.11"

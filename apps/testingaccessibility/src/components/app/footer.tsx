@@ -15,12 +15,12 @@ const Footer: React.FC<FooterProps> = () => {
 
   const {setIsFeedbackDialogOpen} = useFeedback()
   return (
-    <footer>
+    <footer className="font-nav">
       <div className="w-full bg-white flex items-center justify-end relative overflow-hidden">
-        <div className="lg:p-5 sm:p-12 p-5 max-w-screen-lg mx-auto w-full sm:h-[373px] lg:py-16 sm:py-16 py-10 flex flex-col justify-between">
+        <div className="lg:p-5 sm:p-12 p-5 max-w-screen-lg mx-auto w-full sm:h-[373px] lg:py-12 sm:py-12 py-10 flex flex-col justify-between">
           <nav
             aria-label="footer"
-            className="md:grid flex flex-col grid-cols-5 lg:gap-5 gap-10"
+            className="md:grid flex flex-col lg:grid-cols-6 grid-cols-5 lg:gap-5 gap-10"
           >
             <div>
               <strong className="text-orange-700 font-semibold">Learn</strong>
@@ -81,13 +81,9 @@ const Footer: React.FC<FooterProps> = () => {
             )}
           </nav>
           <div className="w-full items-center flex gap-8 sm:pt-0 pt-16">
-            <small className="font-dinosaur text-sm">
-              © Testing Accessibility
-            </small>
+            <small className="text-sm">© Testing Accessibility</small>
             <Link href="/terms">
-              <a className="hover:underline font-dinosaur text-sm">
-                Terms & Conditions
-              </a>
+              <a className="hover:underline text-sm">Terms & Conditions</a>
             </Link>
           </div>
         </div>
@@ -121,7 +117,7 @@ const NavLink: React.FC<NavLinkProps> = ({
     return (
       <button
         onClick={onClick}
-        className="py-1 inline-flex text-base font-dinosaur font-medium hover:underline transition"
+        className="py-1 inline-flex text-base font-medium hover:underline transition"
         {...props}
       >
         {children}
@@ -131,7 +127,7 @@ const NavLink: React.FC<NavLinkProps> = ({
   if (href) {
     return (
       <Link href={href} {...props}>
-        <a className="py-1 inline-flex text-base font-dinosaur font-medium hover:underline transition">
+        <a className="py-1 inline-flex text-base font-medium hover:underline transition">
           {children}
         </a>
       </Link>

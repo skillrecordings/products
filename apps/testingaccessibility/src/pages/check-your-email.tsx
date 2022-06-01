@@ -22,7 +22,7 @@ const CheckYourEmail = () => {
             aria-hidden="true"
             alt=""
           />
-          <h1 className="text-center text-3xl leading-9 font-bold font-aglet-slab">
+          <h1 className="text-center text-3xl leading-9 font-bold font-heading">
             Check your email
           </h1>
           <p className="text-sand-100">

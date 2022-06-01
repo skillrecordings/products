@@ -116,7 +116,7 @@ const PortableTextComponents: PortableTextComponents = {
     bodyVideo: ({value}: BodyVideoProps) => {
       const {url, title, caption} = value
       return (
-        <figure>
+        <figure id="video">
           <VideoProvider>
             <Video url={url} title={title} />
           </VideoProvider>
@@ -160,20 +160,39 @@ const PortableTextComponents: PortableTextComponents = {
     callout: ({value}: CalloutProps) => {
       const {body, type} = value
       return (
-        <div
-          className={cx(
-            `flex space-x-3 p-5 rounded-md`,
-            getCalloutStyles(type),
-          )}
-        >
-          <div role="img" aria-label={getCalloutImage(type).alt}>
-            {getCalloutImage(type).src}
-          </div>{' '}
+        <div className={cx(`p-5 mb-4 rounded-md`, getCalloutStyles(type))}>
+          <div>
+            <span
+              role="img"
+              aria-label={getCalloutImage(type).alt}
+              className="text-lg font-bold"
+            >
+              {getCalloutImage(type).src}
+            </span>
+            <span className="pl-2 font-semibold">{getCalloutTitle(type)}</span>
+          </div>
           {/* <b className="font-bold">{getCalloutTitle(type)}</b> */}
           <div className="min-w-0 first-of-type:prose-p:mt-0 last-of-type:prose-p:mb-0">
             <PortableText value={body} />
           </div>
         </div>
+      )
+    },
+    divider: ({value}: DividerProps) => {
+      const {image} = value
+      console.log({image})
+      return image ? (
+        <div className="flex items-center justify-center pt-10">
+          <Image
+            src={image}
+            alt=""
+            aria-hidden="true"
+            width={100 / 1.2}
+            height={66 / 1.2}
+          />
+        </div>
+      ) : (
+        <hr />
       )
     },
   },
@@ -182,6 +201,10 @@ const PortableTextComponents: PortableTextComponents = {
 type InternalLinkProps = any
 
 type EmojiProps = PortableTextMarkComponentProps<any>
+
+type DividerProps = {
+  value: {image?: string}
+}
 
 type CalloutProps = {
   value: {
@@ -223,11 +246,11 @@ const getCalloutStyles = (type: string): string => {
     case 'tip':
       return 'bg-moss-100 text-green-800'
     case 'big-idea':
-      return 'bg-blue-100 text-blue-800'
+      return 'bg-blue-100 text-cyan-900'
     case 'reflection':
       return 'bg-orange-100 text-orange-800'
     case 'caution':
-      return 'bg-red-100 text-red-800'
+      return 'bg-pink-100 text-pink-900'
     default:
       return 'bg-gray-100 text-gray-800'
   }

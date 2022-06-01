@@ -90,15 +90,15 @@ const Invoice: React.FC<{
       className="bg-gray-50"
     >
       <main className="max-w-screen-md mx-auto">
-        <div className="flex flex-col items-center justify-center text-center pb-8 pt-12 print:hidden">
-          <h1 className="text-2xl font-bold leading-tight">
+        <div className="flex md:flex-row flex-col items-center justify-between md:text-left text-center pb-8 pt-12 print:hidden">
+          <h1 className="sm:text-3xl text-2xl font-bold leading-tight font-heading max-w-md">
             Your Invoice for Testing Accessibility
           </h1>
           <button
             onClick={() => {
               window.print()
             }}
-            className="my-4 flex items-center leading-6 px-5 py-3 text-sm font-semibold rounded-md bg-blue-600 text-white hover:bg-blue-700 transition-colors ease-in-out duration-200"
+            className="my-4 flex items-center leading-6 px-5 py-3 text-sm font-semibold rounded-md bg-green-600 text-white hover:bg-green-700 transition-colors ease-in-out duration-200"
           >
             <span className="pr-2">Download PDF or Print</span>
             <DownloadIcon aria-hidden="true" className="w-5" />

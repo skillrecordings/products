@@ -28,7 +28,7 @@ const LiveWorkshopTemplate: React.FC<any> = ({workshop, source}) => {
           </div>
           <a
             href={url}
-            className="bg-green-600 text-white flex items-center font-dinosaur font-medium rounded-md px-5 py-3"
+            className="bg-green-600 text-white flex items-center font-medium rounded-md px-5 py-3"
             target="_blank"
             rel="noopener noreferrer"
           >
@@ -79,7 +79,7 @@ const LiveWorkshopTemplate: React.FC<any> = ({workshop, source}) => {
                 All Workshops
               </a>
             </Link>
-            <h1 className="max-w-screen-md font-aglet-slab font-bold mx-auto leading-none text-center text-3xl sm:text-4xl lg:text-5xl py-4">
+            <h1 className="max-w-screen-md font-heading font-bold mx-auto leading-none text-center text-3xl sm:text-4xl lg:text-5xl py-4">
               {title}
             </h1>
             <div className="pt-4">
@@ -105,7 +105,7 @@ const LiveWorkshopTemplate: React.FC<any> = ({workshop, source}) => {
                   className="-mb-48 mt-16 max-w-screen-md w-full"
                 />
               ))}
-            <div className="sm:py-24 py-16 mx-auto prose sm:prose-lg prose-headings:font-aglet-sans prose-p:font-aglet-slab prose-li:font-aglet-slab max-w-screen-sm">
+            <div className="sm:py-24 py-16 mx-auto prose sm:prose-lg prose-headings:font-heading max-w-screen-sm">
               <MDXRemote {...source} />
             </div>
             {published &&

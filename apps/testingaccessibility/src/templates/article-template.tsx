@@ -79,7 +79,7 @@ const Header: React.FC<{title: string; date: string}> = ({title, date}) => {
             All Articles
           </a>
         </Link>
-        <h1 className="pb-16 max-w-screen-md font-aglet-slab font-bold mx-auto leading-none text-center text-3xl sm:text-4xl lg:text-5xl py-4">
+        <h1 className="pb-16 max-w-screen-md font-heading font-bold mx-auto leading-none text-center text-3xl sm:text-4xl lg:text-5xl py-4">
           {title}
         </h1>
         <div className="lg:px-0 px-5 w-full flex md:flex-row flex-col md:space-y-0 space-y-3 items-center justify-between max-w-screen-sm">
@@ -149,7 +149,7 @@ const getCTA: React.FC<GetCTAProps> = ({
             quality={100}
             aria-hidden="true"
           />
-          <div className="pt-4 pb-8 flex flex-col items-center prose text-white prose-headings:text-white sm:prose-lg prose-p:leading-normal prose-headings:font-aglet-slab prose-p:max-w-[30ch] prose-headings:font-bold sm:prose-h2:text-4xl text-center">
+          <div className="pt-4 pb-8 flex flex-col items-center prose text-white prose-headings:text-white sm:prose-lg prose-p:leading-normal prose-headings:font-heading prose-p:max-w-[30ch] prose-headings:font-bold lg:prose-headings:font-bold sm:prose-h2:text-4xl text-center">
             <PortableText
               value={cta.body}
               components={PortableTextComponents}
@@ -170,7 +170,7 @@ const getCTA: React.FC<GetCTAProps> = ({
     case !isEmpty(cta.ckFormId):
       return (
         <CTAContainer>
-          <div className="pb-8 flex flex-col items-center prose prose-p:font-aglet-slab prose-li:font-aglet-slab prose-p:max-w-[30ch] prose-headings:font-bold text-center">
+          <div className="pb-8 flex flex-col items-center prose prose-p:max-w-[30ch] prose-headings:font-bold text-center">
             <PortableText
               value={cta.body}
               components={PortableTextComponents}

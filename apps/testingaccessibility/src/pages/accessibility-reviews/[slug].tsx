@@ -48,7 +48,7 @@ const Review: React.FC<any> = ({review, body}) => {
             All Reviews
           </a>
         </Link>
-        <h1 className="max-w-screen-md font-aglet-slab font-bold mx-auto leading-none text-center text-3xl sm:text-4xl lg:text-5xl py-4">
+        <h1 className="max-w-screen-md font-heading font-bold mx-auto leading-none text-center text-3xl sm:text-4xl lg:text-5xl py-4">
           {title}
         </h1>
         <time

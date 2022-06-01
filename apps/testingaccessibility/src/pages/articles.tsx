@@ -23,7 +23,7 @@ const Articles: React.FC<ArticlesProps> = ({articles}) => {
   return (
     <Layout meta={meta}>
       <header className="relative px-5 py-28 overflow-hidden text-white bg-green-700 bg-noise">
-        <h1 className="max-w-screen-md font-aglet-slab font-bold mx-auto leading-none text-center text-3xl sm:text-4xl lg:text-5xl">
+        <h1 className="max-w-screen-md font-heading font-bold mx-auto leading-none text-center text-3xl sm:text-4xl lg:text-5xl">
           Accessibility Articles
         </h1>
       </header>
@@ -38,14 +38,14 @@ const Articles: React.FC<ArticlesProps> = ({articles}) => {
                       <div>
                         <Link href={`/${slug}`} passHref>
                           <a className="group">
-                            <h2 className="text-green-600 group-hover:underline sm:text-3xl font-aglet-slab text-xl font-bold">
+                            <h2 className="text-green-600 group-hover:underline sm:text-3xl font-heading text-xl font-bold">
                               {title}
                             </h2>
                           </a>
                         </Link>
                         <time
                           dateTime={date}
-                          className="block pt-1 text-lg font-dinosaur font-medium"
+                          className="block pt-1 font-semibold pb-5"
                         >
                           {format(new Date(date), 'dd MMMM, y')}
                         </time>
@@ -59,7 +59,7 @@ const Articles: React.FC<ArticlesProps> = ({articles}) => {
                     {slug && (
                       <Link href={`/${slug}`} passHref>
                         <a
-                          className="px-3 py-2 rounded-md hover:bg-moss-200/50 transition bg-moss-100 text-green-600 font-semibold inline-flex"
+                          className="font-nav px-3 py-2 rounded-md hover:bg-moss-200/50 transition bg-moss-100 text-green-600 font-semibold inline-flex"
                           aria-label={`Sign up for the workshop on ${title}`}
                         >
                           Read

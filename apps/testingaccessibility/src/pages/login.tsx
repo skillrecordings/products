@@ -30,7 +30,7 @@ const Login: React.FC<{csrfToken: string}> = ({csrfToken}) => {
               priority
             />
           </div>
-          <h1 className="text-center text-3xl leading-9 font-bold pt-4 font-aglet-slab">
+          <h1 className="text-center text-3xl leading-9 font-bold pt-4 font-heading">
             Log in to Testing Accessibility
           </h1>
 
@@ -71,7 +71,7 @@ const Login: React.FC<{csrfToken: string}> = ({csrfToken}) => {
                   />
                 </div>
 
-                <button className="w-full flex items-center justify-center mt-5 px-5 pb-4 pt-3 border border-transparent text-lg font-semibold rounded-md text-black bg-yellow-500 hover:bg-yellow-400 transition focus:outline-none focus:ring-2 focus:ring-yellow-200 font-dinosaur">
+                <button className="w-full flex items-center justify-center mt-5 px-5 py-4 pt-3 font-nav border border-transparent text-lg font-semibold rounded-md text-black bg-yellow-500 hover:bg-yellow-400 transition focus:outline-none focus:ring-2 focus:ring-yellow-200">
                   Email me a login link
                 </button>
               </form>

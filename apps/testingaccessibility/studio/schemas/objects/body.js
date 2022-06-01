@@ -86,5 +86,6 @@ export default {
     {type: 'bodyVideo'},
     {type: 'code'},
     {type: 'callout'},
+    {type: 'divider'},
   ],
 }

@@ -18,7 +18,7 @@ const Reviews: React.FC<any> = ({reviews}) => {
   return (
     <Layout meta={meta}>
       <header className="relative px-5 py-28 overflow-hidden text-white bg-green-700 bg-noise">
-        <h1 className="max-w-screen-md font-aglet-slab font-bold mx-auto leading-none text-center text-3xl sm:text-4xl lg:text-5xl">
+        <h1 className="max-w-screen-md font-heading font-bold mx-auto leading-none text-center text-3xl sm:text-4xl lg:text-5xl">
           Accessibility Reviews
         </h1>
       </header>
@@ -43,14 +43,11 @@ const Reviews: React.FC<any> = ({reviews}) => {
                   <div className="flex w-full sm:justify-between justify-center">
                     <div>
                       <Link href={`/accessibility-reviews/${slug}`} passHref>
-                        <a className="text-green-600 group-hover:underline sm:text-3xl font-aglet-slab text-xl font-bold">
+                        <a className="text-green-600 group-hover:underline sm:text-3xl font-heading text-xl font-bold">
                           {title.replace('Accessibility Review of ', '')}
                         </a>
                       </Link>
-                      <time
-                        dateTime={date}
-                        className="block font-dinosaur font-medium"
-                      >
+                      <time dateTime={date} className="block font-medium">
                         {format(new Date(date), 'MMMM d, yyyy')}
                       </time>
                       <p>{description}</p>

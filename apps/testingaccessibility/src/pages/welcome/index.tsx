@@ -176,10 +176,10 @@ const Header: React.FC = () => {
         height={200}
         alt="a shining lighthouse"
       />
-      <h1 className="font-bold lg:text-5xl sm:text-4xl text-3xl font-aglet-sans">
+      <h1 className="font-bold lg:text-5xl sm:text-4xl text-3xl font-heading">
         Welcome to Testing Accessibility
       </h1>
-      {/* <h2 className="pt-4 lg:text-2xl sm:text-xl text-lg font-medium max-w-sm font-aglet-slab text-orange-200">
+      {/* <h2 className="pt-4 lg:text-2xl sm:text-xl text-lg font-medium max-w-sm font-heading text-orange-200">
       Thanks so much for purchasing{' '}
       {purchase.bulkCoupon
         ? `${purchase.product?.name} team license!`
@@ -235,11 +235,11 @@ const GetStarted: React.FC = () => {
         height={66 / 1.5}
         aria-hidden="true"
       />
-      <h2 className="pt-12 font-semibold flex items-center gap-1 sm:text-3xl text-2xl font-dinosaur pb-8 text-white">
+      <h2 className="pt-12 font-semibold flex items-center gap-1 sm:text-3xl text-2xl pb-8 text-white">
         <span>Ready to get started?</span>
       </h2>
       <Link href={`/learn`}>
-        <a className="text-green-900 text-lg font-dinosaur bg-yellow-500 px-5 pt-3 pb-4 hover:-rotate-1 hover:scale-105 transition-all hover:bg-yellow-400 rounded-md flex-shrink-0 font-semibold">
+        <a className="text-green-900 text-lg bg-yellow-500 px-5 pt-3 pb-4 hover:-rotate-1 hover:scale-105 transition-all hover:bg-yellow-400 rounded-md flex-shrink-0 font-semibold">
           Start Testing Accessibility{' '}
           <span role="img" aria-hidden="true">
             →

@@ -19,9 +19,10 @@ import Image from 'next/image'
 import find from 'lodash/find'
 import Link from 'next/link'
 import cx from 'classnames'
+import {useSession} from 'next-auth/react'
 
 type LessonTemplateProps = {
-  module: SanityDocument
+  module?: SanityDocument
   section: SanityDocument
   lesson: SanityDocument
 }
@@ -31,10 +32,10 @@ const LessonTemplate: React.FC<LessonTemplateProps> = ({
   section,
   lesson,
 }) => {
+  const {data: session} = useSession()
   const {title, body, slug} = lesson
   const {lessons, image} = section
   const currentLessonIndex = indexOf(lessons, find(lessons, {slug}))
-
   const {progress, toggleLessonComplete, isLoadingProgress} = useProgress()
   const currentLessonProgress = find(progress, {lessonSlug: slug})
   const isCurrentLessonCompleted = !isEmpty(currentLessonProgress?.completedAt)
@@ -42,6 +43,7 @@ const LessonTemplate: React.FC<LessonTemplateProps> = ({
   const nextLesson = lessons[currentLessonIndex + 1]
   const prevLesson = lessons[currentLessonIndex - 1] ?? null
   const nextSection =
+    module &&
     module.sections[
       indexOf(module.sections, find(module.sections, {slug: section.slug})) + 1
     ]
@@ -58,40 +60,45 @@ const LessonTemplate: React.FC<LessonTemplateProps> = ({
             />
           </div>
         </div>
-        <div className="max-w-screen-lg w-full mx-auto flex-grow bg-white ">
-          <div className="py-10 bg-white lg:px-0 px-4">
-            <article className="mx-auto">
-              <header className="flex md:flex-row flex-col items-center justify-between lg:pb-10 sm:pb-16 pb-16">
-                <h1 className="w-full tracking-tight lg:text-5xl sm:text-4xl text-4xl font-extrabold lg:max-w-screen-sm md:text-left text-center md:pb-0 pb-12 lg:px-0 px-10">
-                  {title}
-                </h1>
+        <div className=" w-full mx-auto flex-grow bg-white ">
+          <div className="">
+            <article className="bg-green-700 bg-noise">
+              <header className="py-10 px-4 max-w-screen-lg mx-auto rounded-md text-white flex md:flex-row flex-col items-center justify-center gap-5">
                 <div className="flex items-center justify-center max-w-xs">
                   <Image
                     src={image.url}
                     alt={image.alt}
                     quality={100}
-                    width={360}
-                    height={360}
+                    width={240}
+                    height={240}
                   />
                 </div>
+                <h1 className="font-heading w-full lg:text-[2.5rem] leading-tighter text-3xl font-bold lg:max-w-xl md:text-left text-center md:pb-0 pb-5 lg:px-0 px-10">
+                  {title}
+                </h1>
               </header>
-              <div className="relative flex w-full lg:grid flex-col sm:grid-cols-12 gap-8 md:border-t border-gray-100 pt-10">
-                <div className="prose lg:prose-lg max-w-none sm:col-span-9">
-                  <PortableText
-                    value={body}
-                    components={PortableTextComponents}
-                  />
-                </div>
-                <div className="col-span-3">
-                  <LessonNavigator
-                    className="pt-1.5 lg:block hidden"
-                    lessons={lessons}
-                    progress={progress}
-                    module={module}
-                    section={section}
-                    currentLessonIndex={currentLessonIndex}
-                    isLoadingProgress={isLoadingProgress}
-                  />
+              <div className="bg-white px-4">
+                <div className="relative max-w-screen-lg mx-auto flex w-full lg:grid flex-col sm:grid-cols-12 lg:gap-16 gap-5 md:border-t border-gray-100 lg:py-14 py-0">
+                  <div className="col-span-3">
+                    <LessonNavigator
+                      className="pt-1.5 lg:block hidden"
+                      lessons={lessons}
+                      progress={progress}
+                      module={module}
+                      section={section}
+                      currentLessonIndex={currentLessonIndex}
+                      isLoadingProgress={isLoadingProgress}
+                    />
+                  </div>
+                  <div
+                    className="sm:col-span-8 max-w-none prose-p:max-w-screen-sm prose-ul:sm:pr-0 prose-ul:pr-5 prose-p:w-full prose-ul:max-w-screen-sm prose-ul:mx-auto text-gray-800 prose prose-p:py-2 prose-h2:text-green-800 prose-h2:font-display prose-h3:font-display prose-headings:text-left prose-h3:text-green-800 lg:prose-lg"
+                    //  className="prose lg:prose-lg max-w-none sm:col-span-8"
+                  >
+                    <PortableText
+                      value={body}
+                      components={PortableTextComponents}
+                    />
+                  </div>
                 </div>
               </div>
             </article>
@@ -102,16 +109,19 @@ const LessonTemplate: React.FC<LessonTemplateProps> = ({
             className={cx(
               'max-w-screen-lg mx-auto w-full items-center justify-center lg:divide-x divide-gray-200 lg:gap-10 gap-16',
               {
-                'grid lg:grid-cols-2 grid-cols-1': nextLesson || nextSection,
+                'grid lg:grid-cols-2 grid-cols-1':
+                  (nextLesson || nextSection) && session,
                 flex: !nextLesson || !nextSection,
               },
             )}
           >
-            <ProgressToggle
-              isCurrentLessonCompleted={isCurrentLessonCompleted}
-              toggleLessonComplete={toggleLessonComplete}
-              slug={slug}
-            />
+            {session && (
+              <ProgressToggle
+                isCurrentLessonCompleted={isCurrentLessonCompleted}
+                toggleLessonComplete={toggleLessonComplete}
+                slug={slug}
+              />
+            )}
             <UpNext
               module={module}
               section={section}
@@ -221,7 +231,7 @@ const ProgressToggle: React.FC<ProgressToggleProps> = ({
 }
 
 type UpNextProps = {
-  module: SanityDocument
+  module?: SanityDocument
   section: SanityDocument
   nextLesson: SanityDocument
   nextSection: SanityDocument
@@ -252,12 +262,19 @@ const UpNext: React.FC<UpNextProps> = ({
           </p>
           <Link
             href={{
-              pathname: '/learn/[module]/[section]/[lesson]',
-              query: {
-                module: module.slug,
-                section: section.slug,
-                lesson: nextLesson.slug,
-              },
+              pathname: module
+                ? '/learn/[module]/[section]/[lesson]'
+                : '/[section]/[lesson]',
+              query: module
+                ? {
+                    module: module.slug,
+                    section: section.slug,
+                    lesson: nextLesson.slug,
+                  }
+                : {
+                    section: section.slug,
+                    lesson: nextLesson.slug,
+                  },
             }}
           >
             <a className="transition-all mt-4 inline-flex items-center justify-center font-medium px-5 py-3 rounded-md bg-gray-900 text-white">
@@ -274,12 +291,19 @@ const UpNext: React.FC<UpNextProps> = ({
             <p className="text-gray-700">{nextSection.title}</p>
             <Link
               href={{
-                pathname: '/learn/[module]/[section]/[lesson]',
-                query: {
-                  module: module.slug,
-                  section: nextSection.slug,
-                  lesson: nextSectionLesson.slug,
-                },
+                pathname: module
+                  ? '/learn/[module]/[section]/[lesson]'
+                  : '/[section]/[lesson]',
+                query: module
+                  ? {
+                      module: module.slug,
+                      section: nextSection.slug,
+                      lesson: nextSectionLesson.slug,
+                    }
+                  : {
+                      section: nextSection.slug,
+                      lesson: nextSectionLesson.slug,
+                    },
               }}
             >
               <a className="transition-all mt-4 inline-flex items-center justify-center font-medium px-5 py-3 rounded-md bg-gray-900 text-white">
@@ -297,7 +321,7 @@ const UpNext: React.FC<UpNextProps> = ({
 type LessonNavigatorProps = {
   lessons: SanityDocument[]
   progress: LessonProgress[]
-  module: SanityDocument
+  module?: SanityDocument
   section: SanityDocument
   currentLessonIndex: number
   isLoadingProgress: boolean
@@ -335,12 +359,19 @@ const LessonNavigator: React.FC<LessonNavigatorProps> = ({
               <li className=" group" key={slug}>
                 <Link
                   href={{
-                    pathname: '/learn/[module]/[section]/[lesson]',
-                    query: {
-                      module: module.slug,
-                      section: section.slug,
-                      lesson: slug,
-                    },
+                    pathname: module
+                      ? '/learn/[module]/[section]/[lesson]'
+                      : '/[section]/[lesson]',
+                    query: module
+                      ? {
+                          module: module.slug,
+                          section: section.slug,
+                          lesson: slug,
+                        }
+                      : {
+                          section: section.slug,
+                          lesson: slug,
+                        },
                   }}
                   passHref
                 >

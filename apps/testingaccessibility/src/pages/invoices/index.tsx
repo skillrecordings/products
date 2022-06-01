@@ -32,9 +32,11 @@ export const getServerSideProps: GetServerSideProps = async ({req}) => {
 
 const Learn: React.FC<{purchases: Purchase[]}> = ({purchases = []}) => {
   return (
-    <Layout meta={{title: 'Invoices'}} className="bg-gray-50">
-      <main className="max-w-xl mx-auto w-full sm:py-16 py-8 flex-grow h-full px-5 flex flex-col">
-        <h1 className="text-3xl font-bold pb-4">Your Invoices</h1>
+    <Layout meta={{title: 'Invoices'}} className="bg-green-700 bg-noise">
+      <main className="max-w-2xl mx-auto w-full sm:py-16 py-8 flex-grow h-full px-5 flex flex-col">
+        <h1 className="text-3xl font-medium pb-4 text-white font-heading">
+          Your Invoices
+        </h1>
         <ul className="flex flex-col gap-2">
           {purchases
             .filter((purchase: Purchase) => purchase.merchantChargeId)
@@ -46,14 +48,14 @@ const Learn: React.FC<{purchases: Purchase[]}> = ({purchases = []}) => {
                       <div>
                         <DocumentTextIcon
                           aria-hidden
-                          className="w-6 text-blue-500"
+                          className="w-6 text-green-500"
                         />
                       </div>
                       <div>
                         <h2 className="text-lg font-semibold leading-tight">
                           Testing Accessibility ({purchase.product.name}){' '}
                         </h2>
-                        <div className="opacity-80 flex font-medium text-sm sm:pt-0 pt-2">
+                        <div className="opacity-80 flex text-sm sm:pt-1 pt-2">
                           <span className="after:content-['・']">
                             USD {purchase.totalAmount}
                           </span>
@@ -64,7 +66,7 @@ const Learn: React.FC<{purchases: Purchase[]}> = ({purchases = []}) => {
                       </div>
                     </div>
                     <Link href={`/invoices/${purchase.merchantChargeId}`}>
-                      <a className="sm:mt-0 mt-5 flex-shrink-0 text-blue-600 hover:text-blue-700 font-semibold flex items-center sm:justify-center justify-end rounded-md px-3 py-2 hover:bg-gray-100 hover:bg-opacity-60 transition">
+                      <a className="sm:mt-0 mt-5 flex-shrink-0 text-green-600 font-medium flex items-center sm:justify-center justify-end rounded-md px-3 py-2 hover:bg-moss-50 hover:bg-opacity-60 transition text-sm">
                         <span className="pr-0.5">View Invoice</span>
                         <ChevronRightIcon aria-hidden="true" className="w-5" />
                       </a>

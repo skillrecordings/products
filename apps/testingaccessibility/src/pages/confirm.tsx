@@ -25,7 +25,7 @@ const Confirm = () => (
           <p className="sm:text-lg text-sand-100">
             Thanks so much for signing up! There’s one last step.
           </p>
-          <h1 className="font-bold lg:text-4xl sm:text-3xl text-2xl py-8 font-aglet-slab">
+          <h1 className="font-bold lg:text-4xl sm:text-3xl text-2xl py-8 font-heading">
             Please check your inbox for an email that just got sent.
           </h1>
           <p className="text-sand-100 sm:text-lg leading-relaxed mx-auto pb-8">

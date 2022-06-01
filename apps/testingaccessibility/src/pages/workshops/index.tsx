@@ -14,7 +14,7 @@ const Workshops: React.FC<any> = ({workshops}) => {
   return (
     <Layout meta={{title: 'Accessibility Workshops'}}>
       <header className="relative px-5 py-28 overflow-hidden text-white bg-green-700 bg-noise">
-        <h1 className="max-w-screen-md font-aglet-slab font-bold mx-auto leading-none text-center text-3xl sm:text-4xl lg:text-5xl">
+        <h1 className="max-w-screen-md font-heading font-bold mx-auto leading-none text-center text-3xl sm:text-4xl lg:text-5xl">
           Accessibility Workshops
         </h1>
       </header>
@@ -23,7 +23,7 @@ const Workshops: React.FC<any> = ({workshops}) => {
           {upcomingWorkshops.length !== 0 && (
             <>
               <div className="relative flex-shrink-0">
-                <h2 className="font-dinosaur text-xl font-medium sticky top-24 inline-block w-full border-b pb-4 border-moss-100">
+                <h2 className="text-xl font-medium sticky top-24 inline-block w-full border-b pb-4 border-moss-100">
                   Upcoming workshops
                 </h2>
               </div>
@@ -39,7 +39,7 @@ const Workshops: React.FC<any> = ({workshops}) => {
           {pastWorkshops.length !== 0 && (
             <>
               <div className="relative flex-shrink-0">
-                <h2 className="font-dinosaur text-xl font-medium sticky top-24 inline-block w-full border-b pb-4 border-moss-100">
+                <h2 className="text-lg font-bold sticky top-24 inline-block w-full border-b pb-4 border-moss-100">
                   Past workshops
                 </h2>
               </div>
@@ -62,16 +62,13 @@ const WorkshopItem = ({workshop}: any) => {
   const {title, description, slug, date, published} = workshop
 
   const DisplayDate = () => (
-    <time
-      className="block pt-1 text-lg font-dinosaur font-medium"
-      dateTime={date}
-    >
+    <time className="block pt-8 font-medium" dateTime={date}>
       {date}
     </time>
   )
 
   const WorkshopTitle = () => (
-    <h3 className="group-hover:underline sm:text-2xl font-aglet-slab text-xl font-bold">
+    <h3 className="group-hover:underline sm:text-2xl font-heading text-xl font-bold">
       {title}
     </h3>
   )
@@ -93,7 +90,7 @@ const WorkshopItem = ({workshop}: any) => {
       {slug && (
         <Link href={`/workshops/${slug}`} passHref>
           <a
-            className="px-3 py-2 rounded-md hover:bg-moss-200/50 transition bg-moss-100 text-green-600 font-semibold inline-flex"
+            className="font-nav px-3 py-2 rounded-md hover:bg-moss-200/50 transition bg-moss-100 text-green-600 font-semibold inline-flex"
             aria-label={`Sign up for the workshop on ${title}`}
           >
             {published ? (

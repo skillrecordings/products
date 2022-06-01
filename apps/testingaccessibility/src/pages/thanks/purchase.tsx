@@ -47,10 +47,10 @@ const ThanksVerify: React.FC<{name: string; email: string}> = ({
             alt=""
           />
           <div>
-            <p className="text-orange-200 font-aglet-slab text-xl font-medium">
+            <p className="text-orange-200 font-heading text-xl font-medium">
               Thank you for purchasing Testing Accessibility!
             </p>
-            <h1 className="max-w-lg mx-auto font-bold lg:text-4xl text-3xl py-5 font-aglet-sans">
+            <h1 className="max-w-lg mx-auto font-bold lg:text-4xl text-3xl py-5">
               Please check your inbox for a login link that just got sent.
               <code className="px-6 py-3 rounded-md bg-white inline-flex items-center gap-2 font-sans text-black my-10 font-semibold sm:text-xl text-lg">
                 <MailIcon

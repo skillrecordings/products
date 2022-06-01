@@ -16,8 +16,8 @@ import cx from 'classnames'
 
 type SectionTemplateProps = {
   section: SanityDocument
-  module: SanityDocument
-  modules: SanityDocument[]
+  module?: SanityDocument
+  modules?: SanityDocument[]
 }
 
 const SectionTemplate: React.FC<SectionTemplateProps> = ({
@@ -28,11 +28,10 @@ const SectionTemplate: React.FC<SectionTemplateProps> = ({
   const {slug: sectionSlug, title, body, lessons, image} = section
   const {progress} = useProgress()
 
-  const currentSectionIndex = indexOf(
-    module.sections,
-    find(module.sections, {slug: sectionSlug}),
-  )
-  const nextUpSection = module.sections[currentSectionIndex + 1]
+  const currentSectionIndex = module
+    ? indexOf(module.sections, find(module.sections, {slug: sectionSlug}))
+    : -1
+  const nextUpSection = module && module.sections[currentSectionIndex + 1]
 
   return (
     <Layout className="bg-gray-50 flex-grow">
@@ -42,19 +41,21 @@ const SectionTemplate: React.FC<SectionTemplateProps> = ({
         </div>
       </div>
       <div className="max-w-screen-lg mx-auto flex-grow">
-        <main className="flex lg:flex-row flex-col xl:px-0 px-5 py-12 lg:gap-10 gap-5">
-          {image.url && (
-            <div className="flex-shrink-0 md:block flex items-center justify-center">
-              <Image
-                src={image.url}
-                width={512 / 1.2}
-                height={512 / 1.2}
-                quality={100}
-                alt={image.alt}
-              />
-            </div>
-          )}
-          <article className="mx-auto pt-8">
+        <main className="grid md:grid-cols-12 grid-cols-1 xl:px-0 px-5 py-12 lg:gap-10 gap-5">
+          <div className="col-span-5">
+            {image.url && (
+              <div className="flex-shrink-0 md:block flex items-center justify-center">
+                <Image
+                  src={image.url}
+                  width={512 / 1.2}
+                  height={512 / 1.2}
+                  quality={100}
+                  alt={image.alt}
+                />
+              </div>
+            )}
+          </div>
+          <article className="col-span-7 pt-8">
             <h1 className="text-5xl font-extrabold pb-10">{title}</h1>
 
             <div className="prose lg:prose-lg max-w-none">
@@ -62,8 +63,11 @@ const SectionTemplate: React.FC<SectionTemplateProps> = ({
             </div>
             <section className="pt-10">
               {lessons && (
-                <nav aria-label="lesson navigator" className="">
-                  <h2 className="font-bold text-xl">Lessons</h2>
+                <nav
+                  aria-label="lesson navigator"
+                  className="p-5 bg-white border border-gray-100 rounded-md"
+                >
+                  <h2 className="font-bold text-xl pb-2">Lessons</h2>
                   <ol className="list-none divide-y divide-gray-100">
                     {lessons.map((lesson: SanityDocument, i: number) => {
                       const {title, slug} = lesson
@@ -77,12 +81,19 @@ const SectionTemplate: React.FC<SectionTemplateProps> = ({
                         >
                           <Link
                             href={{
-                              pathname: '/learn/[module]/[section]/[lesson]',
-                              query: {
-                                module: module.slug,
-                                section: sectionSlug,
-                                lesson: slug,
-                              },
+                              pathname: module
+                                ? '/learn/[module]/[section]/[lesson]'
+                                : '/[section]/[lesson]',
+                              query: module
+                                ? {
+                                    module: module.slug,
+                                    section: sectionSlug,
+                                    lesson: slug,
+                                  }
+                                : {
+                                    section: sectionSlug,
+                                    lesson: slug,
+                                  },
                             }}
                             passHref
                           >
@@ -92,7 +103,7 @@ const SectionTemplate: React.FC<SectionTemplateProps> = ({
                               }`}
                               data-index={isCompleted ? '✓' : i + 1}
                               className={cx(
-                                ` -mx-3 px-3 hover:bg-white w-full font-semibold py-4 hover:text-gray-900 text-gray-700 relative items-center inline-flex before:font-semibold before:flex before:items-center before:justify-center before:font-mono before:content-[attr(data-index)] before:w-5 before:h-5 before:border before:bg-white before:left-0 before:rounded-full before:flex-shrink-0`,
+                                `px-3 hover:bg-gray-50 w-full font-semibold py-4 hover:text-gray-900 text-gray-700 relative items-center inline-flex before:font-semibold before:flex before:items-center before:justify-center before:font-mono before:content-[attr(data-index)] before:w-5 before:h-5 before:border before:bg-white before:left-0 before:rounded-full before:flex-shrink-0`,
                                 {
                                   'before:text-[0.55em] before:text-gray-500 before:border-gray-300':
                                     !isCompleted,
@@ -106,9 +117,6 @@ const SectionTemplate: React.FC<SectionTemplateProps> = ({
                                 <span className="sr-only">(completed)</span>
                               )}
                             </a>
-                            {/* <a className="text-blue-600 px-3 w-full py-3 flex font-semibold hover:bg-gray-50 transition">
-                              {isCompleted && '✅'} {title}
-                            </a> */}
                           </Link>
                         </li>
                       )
@@ -130,7 +138,7 @@ const SectionTemplate: React.FC<SectionTemplateProps> = ({
           >
             <a className="px-5 py-4 rounded-md bg-gray-900 transition text-white flex">
               <span className="pr-1">
-                Next Up:{' '}
+                Up next:{' '}
                 <span className="font-semibold">{nextUpSection.title}</span>
               </span>
               <ChevronRightIcon className="w-4" aria-hidden="true" />

@@ -13,7 +13,7 @@ export function highlight(
     if (isHighlighted) {
       return (
         // eslint-disable-next-line react/no-array-index-key
-        <Tag key={index} className="bg-blue-100 text-blue-900 rounded-sm">
+        <Tag key={index} className="bg-green-200/30 text-green-800 rounded-sm">
           {value}
         </Tag>
       )
