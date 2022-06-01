@@ -5,13 +5,13 @@ import {useRouter} from 'next/router'
 import Image from 'next/image'
 import Link from 'next/link'
 import {isSellingLive} from 'utils/is-selling-live'
-import {useNavState} from '../../hooks/use-nav-state'
+import {useNavState} from 'hooks/use-nav-state'
 
 type FooterProps = {}
 
 const Footer: React.FC<FooterProps> = () => {
   const router = useRouter()
-  const {isSignedIn} = useNavState()
+  const {isSignedIn, canViewInvoice} = useNavState()
 
   const {setIsFeedbackDialogOpen} = useFeedback()
   return (
@@ -46,9 +46,11 @@ const Footer: React.FC<FooterProps> = () => {
                   Account
                 </strong>
                 <ul className="pt-4">
-                  <li>
-                    <NavLink href="/invoices">Invoices</NavLink>
-                  </li>
+                  {canViewInvoice && (
+                    <li>
+                      <NavLink href="/invoices">Invoices</NavLink>
+                    </li>
+                  )}
                   <li>
                     <NavLink
                       onClick={() => setIsFeedbackDialogOpen(true, 'footer')}
