@@ -117,7 +117,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   return {
     props: {
       ...(couponFromCode && {couponFromCode: serialize(couponFromCode)}),
-      ...(purchases && {...purchases.map(serialize)}),
+      ...(purchases && {purchases: [...purchases.map(serialize)]}),
     },
   }
 }
