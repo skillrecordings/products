@@ -39,7 +39,7 @@ export const VolumeMenuButtonControl: React.FC<any> = (props) => {
   }
 
   return (
-    <div className="cueplayer-react-volume-control" aria-label="Volume Control">
+    <div className="cueplayer-react-volume-control">
       <button
         onFocus={handleFocus}
         onBlur={handleBlur}
