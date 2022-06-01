@@ -1,16 +1,16 @@
 import * as React from 'react'
-import {ChevronDownIcon, MenuIcon, PlusIcon} from '@heroicons/react/solid'
+import {ChevronDownIcon, MenuIcon} from '@heroicons/react/solid'
+import {useNavState} from '../../hooks/use-nav-state'
 import {LogoutIcon} from '@heroicons/react/outline'
 import {isSellingLive} from 'utils/is-selling-live'
-import {useSession, signOut} from 'next-auth/react'
 import {Menu, Transition} from '@headlessui/react'
 import {NextRouter, useRouter} from 'next/router'
+import {signOut} from 'next-auth/react'
 import isEmpty from 'lodash/isEmpty'
 import toast from 'react-hot-toast'
 import Link from 'next/link'
 import cx from 'classnames'
 import Image from 'next/image'
-import {useNavState} from '../../hooks/use-nav-state'
 
 const Navigation = () => {
   return (
