@@ -91,7 +91,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     res,
   })
 
-  const {getCoupon, getPurchasesForUser} = getSdk({
+  const {getCoupon} = getSdk({
     ctx: defaultContext,
     spanContext,
   })
@@ -100,9 +100,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     secret: process.env.NEXTAUTH_SECRET,
   })
 
-  const purchases = token
-    ? await getPurchasesForUser(token.sub as string)
-    : false
+  const purchases = token ? (token.purchases as any) : false
 
   const {code} = query
 

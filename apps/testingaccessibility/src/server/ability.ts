@@ -4,11 +4,10 @@ import {
   hasAvailableSeats,
   hasBulkPurchase,
   hasValidPurchase,
-  hasInvoice,
 } from '../utils/purchase-validators'
 
 type Actions = 'manage' | 'invite' | 'view'
-type Subjects = 'Team' | 'Purchase' | 'Content' | 'Product' | 'Invoice' | 'all'
+type Subjects = 'Team' | 'Purchase' | 'Content' | 'Product' | 'all'
 type AppAbility = Ability<[Actions, Subjects]>
 const AppAbility = Ability as AbilityClass<AppAbility>
 
@@ -68,10 +67,6 @@ export function defineRulesForPurchases(purchases: any[]) {
         $in: purchases?.map((purchase: any) => purchase.productId),
       },
     })
-  }
-
-  if (hasInvoice(purchases)) {
-    can('view', 'Invoice')
   }
 
   return rules
