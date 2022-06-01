@@ -1,16 +1,14 @@
 import * as React from 'react'
-import {GetServerSideProps} from 'next'
-import prisma from '../../db'
-import Link from 'next/link'
 import {DocumentTextIcon, UserGroupIcon} from '@heroicons/react/outline'
 import {serialize} from '../../utils/prisma-next-serializer'
 import {useSession} from 'next-auth/react'
+import {GetServerSideProps} from 'next'
 import {getToken} from 'next-auth/jwt'
 import InviteTeam from 'components/team'
 import Layout from 'components/app/layout'
 import Image from 'next/image'
-
-const TWEET = `https://twitter.com/intent/tweet/?text=Just purchased TestingAccessibility.com by @MarcySutton`
+import prisma from '../../db'
+import Link from 'next/link'
 
 export const getServerSideProps: GetServerSideProps = async ({req, query}) => {
   const {purchaseId} = query
@@ -149,89 +147,111 @@ const Welcome: React.FC<{
     >
       <main className="flex flex-col flex-grow items-center justify-center sm:py-16 py-8 mx-auto w-full px-5">
         <div className=" max-w-lg w-full gap-3 flex flex-col">
-          <header className="text-white text-center pb-8 flex flex-col items-center">
-            <Image
-              src={require('../../../public/assets/lighthouse@2x.png')}
-              width={200}
-              height={200}
-              alt="a shining lighthouse"
-            />
-            <h1 className="font-bold lg:text-5xl sm:text-4xl text-3xl font-aglet-sans">
-              Welcome to Testing Accessibility
-            </h1>
-            {/* <h2 className="pt-4 lg:text-2xl sm:text-xl text-lg font-medium max-w-sm font-aglet-slab text-orange-200">
-              Thanks so much for purchasing{' '}
-              {purchase.bulkCoupon
-                ? `${purchase.product?.name} team license!`
-                : `${purchase.product?.name} license!`}
-            </h2> */}
-          </header>
-          {purchase.merchantChargeId && (
-            <div className="bg-white rounded-md sm:px-8 px-5 py-5 flex items-center justify-between">
-              <h3 className="font-bold flex items-center gap-1 text-xl">
-                <DocumentTextIcon
-                  aria-hidden="true"
-                  className="w-5 h-5 text-green-500"
-                />
-                <span>Invoice</span>
-              </h3>
-              <Link href={`/invoices/${purchase.merchantChargeId}`}>
-                <a
-                  target="_blank"
-                  className="border bg-green-500 hover:bg-green-600 text-white transition px-4 py-2 rounded-md flex-shrink-0 font-semibold"
-                >
-                  Get your invoice{' '}
-                  <span role="img" aria-hidden="true">
-                    →
-                  </span>
-                </a>
-              </Link>
-            </div>
-          )}
+          <Header />
+          {purchase.merchantChargeId && <Invoice purchase={purchase} />}
           {redemptionsLeft && (
-            <div className="sm:px-8 px-5 sm:py-8 py-5 bg-white rounded-lg">
-              <h3 className="flex items-center gap-2 text-xl font-bold">
-                <UserGroupIcon className="w-5 text-green-500" /> Invite your
-                team
-              </h3>
+            <Invite>
               <InviteTeam
                 setPersonalPurchase={setPersonalPurchase}
                 session={session}
                 purchase={purchase}
                 existingPurchase={existingPurchase}
               />
-            </div>
+            </Invite>
           )}
           <Share />
-          {personalPurchase && (
-            <div className="p-8 flex items-center text-center relative flex-col">
-              <Image
-                src={require('../../../public/assets/divider-trees@2x.png')}
-                alt=""
-                width={100 / 1.5}
-                height={66 / 1.5}
-                aria-hidden="true"
-              />
-              <h3 className="pt-12 font-semibold flex items-center gap-1 sm:text-3xl text-2xl font-dinosaur pb-8 text-white">
-                <span>Ready to get started?</span>
-              </h3>
-              <Link href={`/learn`}>
-                <a className="text-green-900 text-lg font-dinosaur bg-yellow-500 px-5 pt-3 pb-4 hover:-rotate-1 hover:scale-105 transition-all hover:bg-yellow-400 rounded-md flex-shrink-0 font-semibold">
-                  Start Testing Accessibility{' '}
-                  <span role="img" aria-hidden="true">
-                    →
-                  </span>
-                </a>
-              </Link>
-            </div>
-          )}
+          {personalPurchase && <GetStarted />}
         </div>
       </main>
     </Layout>
   )
 }
 
-const Share = () => {
+const Header: React.FC = () => {
+  return (
+    <header className="text-white text-center pb-8 flex flex-col items-center">
+      <Image
+        src={require('../../../public/assets/lighthouse@2x.png')}
+        width={200}
+        height={200}
+        alt="a shining lighthouse"
+      />
+      <h1 className="font-bold lg:text-5xl sm:text-4xl text-3xl font-aglet-sans">
+        Welcome to Testing Accessibility
+      </h1>
+      {/* <h2 className="pt-4 lg:text-2xl sm:text-xl text-lg font-medium max-w-sm font-aglet-slab text-orange-200">
+      Thanks so much for purchasing{' '}
+      {purchase.bulkCoupon
+        ? `${purchase.product?.name} team license!`
+        : `${purchase.product?.name} license!`}
+    </h2> */}
+    </header>
+  )
+}
+
+const Invoice: React.FC<{purchase: any}> = ({purchase}: any) => {
+  return (
+    <div className="bg-white rounded-md sm:px-8 px-5 py-5 flex items-center justify-between">
+      <h2 className="font-bold flex items-center gap-1 text-xl">
+        <DocumentTextIcon
+          aria-hidden="true"
+          className="w-5 h-5 text-green-500"
+        />
+        <span>Invoice</span>
+      </h2>
+      <Link href={`/invoices/${purchase.merchantChargeId}`}>
+        <a
+          target="_blank"
+          className="border bg-green-500 hover:bg-green-600 text-white transition px-4 py-2 rounded-md flex-shrink-0 font-semibold"
+        >
+          Get your invoice{' '}
+          <span role="img" aria-hidden="true">
+            →
+          </span>
+        </a>
+      </Link>
+    </div>
+  )
+}
+
+const Invite: React.FC = ({children}) => {
+  return (
+    <div className="sm:px-8 px-5 sm:py-8 py-5 bg-white rounded-lg">
+      <h3 className="flex items-center gap-2 text-xl font-bold">
+        <UserGroupIcon className="w-5 text-green-500" /> Invite your team
+      </h3>
+      {children}
+    </div>
+  )
+}
+
+const GetStarted: React.FC = () => {
+  return (
+    <div className="p-8 flex items-center text-center relative flex-col">
+      <Image
+        src={require('../../../public/assets/divider-trees@2x.png')}
+        alt=""
+        width={100 / 1.5}
+        height={66 / 1.5}
+        aria-hidden="true"
+      />
+      <h2 className="pt-12 font-semibold flex items-center gap-1 sm:text-3xl text-2xl font-dinosaur pb-8 text-white">
+        <span>Ready to get started?</span>
+      </h2>
+      <Link href={`/learn`}>
+        <a className="text-green-900 text-lg font-dinosaur bg-yellow-500 px-5 pt-3 pb-4 hover:-rotate-1 hover:scale-105 transition-all hover:bg-yellow-400 rounded-md flex-shrink-0 font-semibold">
+          Start Testing Accessibility{' '}
+          <span role="img" aria-hidden="true">
+            →
+          </span>
+        </a>
+      </Link>
+    </div>
+  )
+}
+
+const Share: React.FC = () => {
+  const tweet = `https://twitter.com/intent/tweet/?text=Just purchased TestingAccessibility.com by @MarcySutton`
   return (
     <div className="px-8 pt-12 pb-5 flex flex-col items-center text-center max-w-lg mx-auto gap-5">
       <p className="text-white font-semibold text-lg gap-1">
@@ -242,11 +262,10 @@ const Share = () => {
         </span>
       </p>
       <a
-        href={TWEET}
+        href={tweet}
         rel="noopener noreferrer"
         target="_blank"
         className="text-white px-3 py-2 rounded-md border border-orange-200/40 hover:bg-white/5 transition flex items-center gap-2"
-        // style={{background: '#1e7bc1'}}
       >
         <TwitterIcon /> Share with your friends!
       </a>
