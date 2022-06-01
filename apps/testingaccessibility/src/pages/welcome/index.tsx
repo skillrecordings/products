@@ -163,7 +163,7 @@ const Welcome: React.FC<{
             <h1 className="font-bold lg:text-5xl sm:text-4xl text-3xl font-aglet-sans">
               Welcome to Testing Accessibility
             </h1>
-            <h2 className="pt-4 text-2xl max-w-md font-aglet-slab text-orange-200">
+            <h2 className="pt-4 lg:text-2xl sm:text-xl text-lg max-w-md font-aglet-slab text-orange-200">
               Thanks so much for purchasing{' '}
               {purchase.bulkCoupon
                 ? `${purchase.product?.name} team license!`
@@ -179,7 +179,10 @@ const Welcome: React.FC<{
               <span>Invoice</span>
             </h3>
             <Link href={`/invoices/${purchase.merchantChargeId}`}>
-              <a className="border bg-green-500 hover:bg-green-600 text-white transition px-4 py-2 rounded-md flex-shrink-0 font-semibold">
+              <a
+                target="_blank"
+                className="border bg-green-500 hover:bg-green-600 text-white transition px-4 py-2 rounded-md flex-shrink-0 font-semibold"
+              >
                 Get your invoice{' '}
                 <span role="img" aria-hidden="true">
                   →
