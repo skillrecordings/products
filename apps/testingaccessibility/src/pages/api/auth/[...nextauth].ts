@@ -59,6 +59,8 @@ export const nextAuthOptions: NextAuthOptions = {
         const purchases = await getPurchasesForUser(token.id as string)
         token.purchases = purchases
         session.rules = defineRulesForPurchases(purchases)
+      } else {
+        token.purchases = []
       }
 
       const encodedToken = jwt.sign(token, process.env.NEXTAUTH_SECRET || '', {
