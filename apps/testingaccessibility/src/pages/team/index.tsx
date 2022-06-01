@@ -5,7 +5,7 @@ import {get, last} from 'lodash'
 import {serialize} from 'utils/prisma-next-serializer'
 import {GetServerSideProps} from 'next'
 import {getPurchasedProduct} from 'server/get-purchased-product'
-import InviteTeam from 'components/team/invite-team'
+import InviteTeam from 'components/team'
 import {UserGroupIcon} from '@heroicons/react/outline'
 import Link from 'next/link'
 import {useSession} from 'next-auth/react'
@@ -152,7 +152,7 @@ const TeamPage: React.FC<TeamPageProps> = ({
               <UserGroupIcon className="w-5 text-green-500" /> Invite your team
             </h1>
             <InviteTeam
-              setPersonalPurchase={personalPurchase}
+              setPersonalPurchase={setPersonalPurchase}
               session={session}
               purchase={purchase}
               existingPurchase={existingPurchase}

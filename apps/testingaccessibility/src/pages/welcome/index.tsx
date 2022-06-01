@@ -6,7 +6,7 @@ import {DocumentTextIcon, UserGroupIcon} from '@heroicons/react/outline'
 import {serialize} from '../../utils/prisma-next-serializer'
 import {useSession} from 'next-auth/react'
 import {getToken} from 'next-auth/jwt'
-import InviteTeam from 'components/team/invite-team'
+import InviteTeam from 'components/team'
 import Layout from 'components/app/layout'
 import Image from 'next/image'
 
@@ -140,10 +140,6 @@ const Welcome: React.FC<{
   const redemptionsLeft =
     purchase.bulkCoupon &&
     purchase.bulkCoupon.maxUses > purchase.bulkCoupon.usedCount
-
-  const numberOfRedemptionsLeft =
-    purchase?.bulkCoupon &&
-    purchase?.bulkCoupon.maxUses - purchase.bulkCoupon.usedCount
 
   return (
     <Layout
