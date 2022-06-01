@@ -1,29 +1,36 @@
-import Layout from 'components/app/layout'
 import * as React from 'react'
+import Layout from 'components/app/layout'
+import NewMailImage from '../../public/assets/new-mail@2x.png'
+import Image from 'next/image'
 
 const CheckYourEmail = () => {
   return (
     <Layout
-      meta={{title: 'Login to Testing Accessibility'}}
-      className="flex flex-col h-full sm:min-h-[calc(100vh-64px)] min-h-[calc(100vh-56px)]"
+      footer={null}
+      meta={{title: 'Log in to Testing Accessibility'}}
+      className="bg-green-700 bg-noise"
     >
-      <div
-        className="flex-grow w-full mx-auto py-16 flex flex-col items-center justify-center p-5"
-        style={{
-          backgroundImage: "url('/assets/pattern-topography.svg')",
-        }}
-      >
-        <main className="sm:mx-auto rounded-lg max-w-md text-center">
-          <h1 className="text-center text-3xl leading-9 font-extrabold pb-4">
+      <main className="flex flex-col flex-grow items-center justify-center pt-5 pb-16 px-5 text-white">
+        <div className="flex flex-col max-w-md mx-auto w-full gap-5 items-center text-center">
+          <Image
+            priority
+            width={460 / 2}
+            height={368 / 2}
+            quality={100}
+            placeholder="blur"
+            src={NewMailImage}
+            aria-hidden="true"
+            alt=""
+          />
+          <h1 className="text-center text-3xl leading-9 font-bold font-aglet-slab">
             Check your email
           </h1>
-
-          <p>
+          <p className="text-sand-100">
             If you bought the course, a login link will been sent to your email!
             Use it and you&apos;ll be able to access the content.
           </p>
-        </main>
-      </div>
+        </div>
+      </main>
     </Layout>
   )
 }

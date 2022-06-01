@@ -14,7 +14,7 @@ const Login: React.FC<{csrfToken: string}> = ({csrfToken}) => {
   return (
     <Layout
       footer={null}
-      meta={{title: 'Login to Testing Accessibility'}}
+      meta={{title: 'Log in to Testing Accessibility'}}
       className="bg-green-700 bg-noise"
     >
       <div className="flex-grow w-full mx-auto md:pb-40 pb-16 md:pt-16 pt-0 flex flex-col items-center justify-center p-5 text-white">
