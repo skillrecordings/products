@@ -24,3 +24,9 @@ export function hasValidPurchase(purchases?: any[]) {
     return isNull(purchase.bulkCoupon) || isUndefined(purchase.bulkCoupon)
   })
 }
+
+export function hasInvoice(purchases?: any[]) {
+  return some(purchases, (purchase) => {
+    return !isNull(purchase.merchantChargeId)
+  })
+}
