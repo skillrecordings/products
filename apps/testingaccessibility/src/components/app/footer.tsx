@@ -11,7 +11,7 @@ type FooterProps = {}
 
 const Footer: React.FC<FooterProps> = () => {
   const router = useRouter()
-  const {isSignedIn} = useNavState()
+  const {isSignedIn, canViewInvoice, canViewTeam} = useNavState()
 
   const {setIsFeedbackDialogOpen} = useFeedback()
   return (
@@ -46,9 +46,16 @@ const Footer: React.FC<FooterProps> = () => {
                   Account
                 </strong>
                 <ul className="pt-4">
-                  <li>
-                    <NavLink href="/invoices">Invoices</NavLink>
-                  </li>
+                  {canViewTeam && (
+                    <li>
+                      <NavLink href="/team">Invite Team</NavLink>
+                    </li>
+                  )}
+                  {canViewInvoice && (
+                    <li>
+                      <NavLink href="/invoices">Invoices</NavLink>
+                    </li>
+                  )}
                   <li>
                     <NavLink
                       onClick={() => setIsFeedbackDialogOpen(true, 'footer')}
