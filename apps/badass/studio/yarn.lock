@@ -1291,7 +1291,7 @@
   resolved "https://registry.npmjs.org/@sanity/asset-utils/-/asset-utils-1.2.3.tgz#a90c7895c6506405d64c2363db131923ba1fa6ef"
   integrity sha512-0eOR0D6zcqd6nEmAGIJ93ibRGO6ocYzQ5aEuyYvngHy5MDDjUfC821UnF/YPIcxiMXg2DLDjWd4EPt9F8frKNQ==
 
-"@sanity/base@2.30.1", "@sanity/base@^2.29.5":
+"@sanity/base@2.30.1", "@sanity/base@^2.28.2", "@sanity/base@^2.29.5":
   version "2.30.1"
   resolved "https://registry.yarnpkg.com/@sanity/base/-/base-2.30.1.tgz#95e8b38cb45585a5a27b97713de5411ef7b8c801"
   integrity sha512-sAEB2gP1+njnD7ZxiubWarUeER1ZdiOX8cr1dikc8koO2dyXQGt/CaQHBwMHeZ7cTHoUFL3o6e9MEHDXkXz0rw==
@@ -1624,7 +1624,7 @@
     lodash "^4.17.15"
     sanity-diff-patch "^1.0.9"
 
-"@sanity/form-builder@2.30.1", "@sanity/form-builder@^2.30.1":
+"@sanity/form-builder@2.30.1", "@sanity/form-builder@^2.29.1", "@sanity/form-builder@^2.30.1":
   version "2.30.1"
   resolved "https://registry.npmjs.org/@sanity/form-builder/-/form-builder-2.30.1.tgz#bf582e17a7859a03ff17b42915814c321093ab90"
   integrity sha512-tivWg15eQi6zNm9DXkE9MxqmFvMi9BekOnUY+V3KApLEBHiLgv0T1SXy9tCwjvgDKdXLg++CBZPw2MczO1pDNA==
@@ -1930,7 +1930,7 @@
     react-popper "^2.2.5"
     react-refractor "^2.1.5"
 
-"@sanity/ui@^0.37.9":
+"@sanity/ui@^0.37.5", "@sanity/ui@^0.37.9":
   version "0.37.11"
   resolved "https://registry.npmjs.org/@sanity/ui/-/ui-0.37.11.tgz#4e8d8327f5b126471bdb0f11931d35ac10ac0f06"
   integrity sha512-4/mEdfeHLwDulLUzzpuSmMhQky6bktb+XYx2LMb/GJlc791eNrszUHplTf1dEd+907hYYZTs9n1lWjM7D6ANBw==
@@ -9853,6 +9853,17 @@ sanity-plugin-order-documents@^0.0.22:
     react-dnd-html5-backend "^14.1.0"
     react-select "^5.2.1"
     react-tippy "^1.4.0"
+
+sanity-plugin-taxonomy-manager@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.npmjs.org/sanity-plugin-taxonomy-manager/-/sanity-plugin-taxonomy-manager-1.0.0.tgz#8e34a9f971882525a9380e914c448cd17957f0b4"
+  integrity sha512-YBfHxX2fMlw/adGwmg9EdC9bBtVMIMjvSzSR4xl/LU+d/PRbgdauvtchC8S8IS4nEIid3fbBekCMLu3p/aj7Ew==
+  dependencies:
+    "@reach/auto-id" "^0.16.0"
+    "@sanity/base" "^2.28.2"
+    "@sanity/form-builder" "^2.29.1"
+    "@sanity/ui" "^0.37.5"
+    react-icons "^4.3.1"
 
 sanity-secrets@^0.0.6:
   version "0.0.6"
