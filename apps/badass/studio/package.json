@@ -35,6 +35,7 @@
     "sanity-plugin-markdown": "^2.1.1",
     "sanity-plugin-mux-input": "^1.1.1",
     "sanity-plugin-order-documents": "^0.0.22",
+    "sanity-plugin-taxonomy-manager": "^1.0.0",
     "styled-components": "^5.2.0"
   },
   "devDependencies": {
