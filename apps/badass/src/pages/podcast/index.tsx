@@ -1,6 +1,7 @@
 import * as React from 'react'
 import {GetServerSideProps} from 'next'
 import {getPodcast, Podcast} from '../../lib/podcast'
+import Layout from '../../components/layout'
 
 export const getServerSideProps: GetServerSideProps = async ({
   req,
@@ -18,7 +19,7 @@ export const getServerSideProps: GetServerSideProps = async ({
 
 const Podcast: React.FC<{podcast: Podcast}> = ({podcast}) => {
   return (
-    <div>
+    <Layout>
       <h1>{podcast.title}</h1>
       <ul>
         {podcast.seasons.map((season) => (
@@ -39,7 +40,7 @@ const Podcast: React.FC<{podcast: Podcast}> = ({podcast}) => {
           </li>
         ))}
       </ul>
-    </div>
+    </Layout>
   )
 }
 
