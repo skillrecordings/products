@@ -1,5 +1,48 @@
 import React from 'react'
 
+export const genericCallToActionContent = {
+  heading:
+    'Lets work together on your strategy to design, produce, and sell your course online.',
+  description: (
+    <>
+      <p>
+        You're an expert with an idea for a course you'd like to sell, but don't
+        know where to start.
+      </p>
+      <p>
+        You've got a full internet of options for designing and selling your
+        course.
+      </p>
+      <p>
+        Narrow down your options and get on the right path to successfully
+        selling your course.
+      </p>
+      <p>
+        Get direct expert feedback on your course idea by{' '}
+        <strong>entering your email below.</strong>
+      </p>
+    </>
+  ),
+  button: (
+    <>
+      <span
+        className="font-symbol lowercase sm:text-5xl text-3xl"
+        aria-hidden="true"
+      >
+        o
+      </span>
+      <span className="px-1">Let's Get Started</span>{' '}
+      <span
+        className="font-symbol lowercase sm:text-5xl text-3xl"
+        aria-hidden="true"
+      >
+        r
+      </span>
+    </>
+  ),
+  info: `There's no obligation. This isn't a sales pitch. We respect your privacy. Unsubscribe at any time.`,
+}
+
 export const strategySessionContent = {
   heading: 'Schedule a Strategy Session for your Course',
   description: (

@@ -5,7 +5,7 @@ import {
   projects,
   headerContent,
   secretSauceContent,
-  strategySessionContent,
+  genericCallToActionContent,
 } from 'components/landing-content'
 import {
   redirectUrlBuilder,
@@ -30,7 +30,7 @@ const LandingPage = () => {
       <main>
         <SecretSauceSection content={secretSauceContent} />
         <ProjectsSection content={projects} />
-        <StrategySessionForm content={strategySessionContent} />
+        <CallToActionForm content={genericCallToActionContent} />
       </main>
     </Layout>
   )
@@ -162,7 +162,7 @@ const ProjectsSection: React.FC<any> = ({content}) => {
   )
 }
 
-const StrategySessionForm: React.FC<any> = ({content}) => {
+const CallToActionForm: React.FC<any> = ({content}) => {
   const router = useRouter()
 
   return (
