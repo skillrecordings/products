@@ -23,7 +23,7 @@ export type PodcastEpisode = {
   slug: string
   description: string
   summary: string
-  simplecastUrl: string
+  simplecastId: string
   coverArtUrl: string
 }
 
