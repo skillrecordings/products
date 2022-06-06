@@ -3,7 +3,11 @@ import * as React from 'react'
 import {GetServerSideProps} from 'next'
 import Layout from '../../../components/layout'
 import PodcastPlayer from '../../../components/podcast-player'
-import {getPodcastEpisode, getPodcastSeason} from '../../../lib/podcast'
+import {
+  getPodcastEpisode,
+  getPodcastSeason,
+  PodcastEpisode,
+} from '../../../lib/podcast'
 
 export const getServerSideProps: GetServerSideProps = async ({
   req,
@@ -36,7 +40,7 @@ export const getServerSideProps: GetServerSideProps = async ({
     }
   }
 }
-const PodcastEpisode: React.FC<{episode?: any}> = ({episode}) => {
+const PodcastEpisode: React.FC<{episode: PodcastEpisode}> = ({episode}) => {
   return (
     <Layout>
       <PodcastPlayer simplecastId={episode.simplecastId} />
