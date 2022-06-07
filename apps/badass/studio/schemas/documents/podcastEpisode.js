@@ -96,6 +96,15 @@ export default {
       },
     },
     {
+      name: 'concepts',
+      title: 'Concepts',
+      type: 'array',
+      options: {
+        layout: 'tags',
+      },
+      of: [{type: 'reference', weak: true, to: [{type: 'skosConcept'}]}],
+    },
+    {
       name: 'tags',
       title: 'Tags',
       type: 'array',
