@@ -122,6 +122,13 @@ export default {
       title: 'Cover art',
       type: 'image',
     },
+    {
+      name: 'transcript',
+      title: 'Transcript',
+      description:
+        'A markdown transcript of the episode recording.',
+      type: 'markdown',
+    },
   ],
   orderings: [
     {
