@@ -47,26 +47,6 @@ const Buy: React.FC<{
       <div className="flex flex-row justify-center">
         <Pricing
           product={{
-            name: 'Foundation',
-            id: 'c5b03b0d-9971-4981-8ad2-cae7ebb75bf4',
-          }}
-          purchased={purchasedProductIds.includes(
-            'c5b03b0d-9971-4981-8ad2-cae7ebb75bf4',
-          )}
-          purchases={purchases}
-        />
-        <Pricing
-          product={{
-            name: 'Core',
-            id: '3db63974-0863-4797-a095-1c6a901144e4',
-          }}
-          purchased={purchasedProductIds.includes(
-            '3db63974-0863-4797-a095-1c6a901144e4',
-          )}
-          purchases={purchases}
-        />
-        <Pricing
-          product={{
             name: 'Professional',
             id: 'd8b8a8a3-7d70-4445-a265-fcd04e2ef6ea',
           }}

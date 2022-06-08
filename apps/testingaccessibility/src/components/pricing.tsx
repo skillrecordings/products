@@ -9,7 +9,13 @@ import {useSession} from 'next-auth/react'
 const tier = {
   href: '#',
   description: 'Lorem ipsum dolor sit amet consectetur, adipisicing elit.',
-  features: ['Community Forum', 'Access to everything'],
+  features: ['Community Forum', 'Workbook & Sticker Pack'],
+  modules: [
+    'Foundations of Accessibility',
+    'Design & People Skills for Accessibility',
+    'Manual Accessibility Testing',
+    'Automated Accessibility Testing',
+  ],
 }
 
 export const Pricing: React.FC<{
@@ -106,6 +112,23 @@ export const Pricing: React.FC<{
                   />
                 </div>
                 <div className="flex-1 flex flex-col justify-between px-6 pt-6 pb-8 bg-gray-50 space-y-6 sm:p-10 sm:pt-6">
+                  <h3>Modules:</h3>
+                  <ul role="list" className="space-y-4">
+                    {tier.modules.map((feature) => (
+                      <li key={feature} className="flex items-start">
+                        <div className="flex-shrink-0">
+                          <CheckCircleIcon
+                            className="h-6 w-6 text-green-500"
+                            aria-hidden="true"
+                          />
+                        </div>
+                        <p className="ml-3 text-base text-gray-700">
+                          {feature}
+                        </p>
+                      </li>
+                    ))}
+                  </ul>
+                  <h3>Also included:</h3>
                   <ul role="list" className="space-y-4">
                     {tier.features.map((feature) => (
                       <li key={feature} className="flex items-start">
