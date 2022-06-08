@@ -133,6 +133,7 @@ const PortableTextComponents: PortableTextComponents = {
       const {alt, caption, image} = value
       if (!image) return <figure>⚠️ missing image</figure>
       const {url, width, height} = image
+
       return (
         <figure>
           <Image
@@ -143,7 +144,11 @@ const PortableTextComponents: PortableTextComponents = {
             quality={100}
             className="rounded-sm"
           />
-          {caption && <figcaption>{caption}</figcaption>}
+          {caption && (
+            <figcaption>
+              <PortableText value={caption} />
+            </figcaption>
+          )}
         </figure>
       )
     },
