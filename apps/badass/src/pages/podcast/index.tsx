@@ -9,39 +9,17 @@ export const getServerSideProps: GetServerSideProps = async ({
   params,
 }) => {
   res.setHeader('Cache-Control', 's-maxage=1, stale-while-revalidate')
-  const podcast = await getPodcast('badass-courses')
+
   return {
-    props: {
-      podcast,
+    redirect: {
+      destination: '/podcast/course-builders',
+      permanent: false,
     },
   }
 }
 
 const Podcast: React.FC<{podcast: Podcast}> = ({podcast}) => {
-  return (
-    <Layout>
-      <h1>{podcast.title}</h1>
-      <ul>
-        {podcast.seasons.map((season) => (
-          <li key={season.slug}>
-            <a href={`/podcast/${season.slug}`}>
-              <h2>{season.title}</h2>
-            </a>
-            <h3>Episodes:</h3>
-            <ul>
-              {season.episodes.map((episode) => (
-                <li key={episode.slug}>
-                  <a href={`/podcast/${season.slug}/${episode.slug}`}>
-                    {episode.title}
-                  </a>
-                </li>
-              ))}
-            </ul>
-          </li>
-        ))}
-      </ul>
-    </Layout>
-  )
+  return <Layout>Ih oh! We shouldn't see this.</Layout>
 }
 
 export default Podcast

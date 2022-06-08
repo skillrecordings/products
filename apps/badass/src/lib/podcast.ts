@@ -27,6 +27,7 @@ export type PodcastEpisode = {
   coverArtUrl: string
   transcript: string
   links: PodcastLink[]
+  duration: string
 }
 
 export type PodcastLink = {

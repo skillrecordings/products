@@ -74,6 +74,7 @@ importers:
       babel-jest: ^27.3.1
       classnames: ^2.3.1
       client-oauth2: ^4.3.3
+      clsx: ^1.1.1
       commander: ^8.3.0
       cookie: ^0.4.1
       date-fns: ^2.25.0
@@ -151,6 +152,7 @@ importers:
       axios: 0.24.0
       classnames: 2.3.1
       client-oauth2: 4.3.3
+      clsx: 1.1.1
       cookie: 0.4.1
       date-fns: 2.25.0
       dotenv-flow: 3.2.0
@@ -14608,6 +14610,11 @@ packages:
       proxy-agent: 5.0.0
     transitivePeerDependencies:
       - supports-color
+    dev: false
+
+  /clsx/1.1.1:
+    resolution: {integrity: sha512-6/bPho624p3S2pMyvP5kKBPXnI3ufHLObBFCfgx+LkeR5lg2XYy2hqZqUf45ypD8COn2bhgGJSUE+l5dhNBieA==}
+    engines: {node: '>=6'}
     dev: false
 
   /co/4.6.0:

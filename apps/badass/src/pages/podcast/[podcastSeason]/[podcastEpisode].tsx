@@ -28,7 +28,7 @@ export const getServerSideProps: GetServerSideProps = async ({
     } else {
       return {
         redirect: {
-          destination: '/podcast',
+          destination: '/podcast/course-builders',
           permanent: false,
         },
       }
@@ -36,7 +36,7 @@ export const getServerSideProps: GetServerSideProps = async ({
   } else {
     return {
       redirect: {
-        destination: '/podcast',
+        destination: '/podcast/course-builders',
         permanent: false,
       },
     }
