@@ -1,7 +1,7 @@
 require('dotenv-flow').config()
-
+/** @type {import('next-sitemap').IConfig} */
 module.exports = {
-  siteUrl: `https://keyboardlegend.dev`,
+  siteUrl: `https://testingaccessibility.com`,
   changefreq: 'daily',
   priority: 0.7,
   sitemapSize: 5000,
@@ -13,5 +13,11 @@ module.exports = {
     '/redirect',
     '/unsubscribed',
     '/answer',
+    '/login',
+    '/thanks/*',
+    '/welcome',
+    '/team',
+    '/error',
+    '/check-your-email',
   ],
 }

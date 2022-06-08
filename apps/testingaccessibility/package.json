@@ -8,6 +8,7 @@
     "integration": "cypress run",
     "clean": "rm -rf node_modules && pnpm -r exec -- rm -rf .turbo node_modules .next dist",
     "build": "NODE_ENV=production prisma generate && next build",
+    "postbuild": "next-sitemap",
     "build:data": "node src/data/cache-json-data.js -p",
     "build:data:dev": "node src/data/cache-json-data.js",
     "test": "prisma generate && jest",

@@ -13118,7 +13118,7 @@ packages:
   /axios/0.25.0:
     resolution: {integrity: sha512-cD8FOb0tRH3uuEe6+evtAbgJtfxr7ly3fQjYcMcuPlgkwVS9xboaVIpcDV+cYQe+yGykgwZCs1pzjntcGa6l5g==}
     dependencies:
-      follow-redirects: 1.14.9
+      follow-redirects: 1.14.9_debug@2.6.9
     transitivePeerDependencies:
       - debug
     dev: false
@@ -13126,7 +13126,7 @@ packages:
   /axios/0.26.0:
     resolution: {integrity: sha512-lKoGLMYtHvFrPVt3r+RBMp9nh34N0M8zEfCWqdWZx6phynIEhQqAdydpyBAAG211zlhX9Rgu08cOamy6XjE5Og==}
     dependencies:
-      follow-redirects: 1.14.9
+      follow-redirects: 1.14.9_debug@2.6.9
     transitivePeerDependencies:
       - debug
     dev: false
@@ -16648,10 +16648,10 @@ packages:
       eslint-import-resolver-webpack:
         optional: true
     dependencies:
-      '@typescript-eslint/parser': 5.13.0_eslint@8.11.0+typescript@4.6.4
+      '@typescript-eslint/parser': 5.13.0_eslint@8.10.0+typescript@4.6.4
       debug: 3.2.7
       eslint-import-resolver-node: 0.3.6
-      eslint-import-resolver-typescript: 2.5.0_9f6761aeebd4737758d378578983791d
+      eslint-import-resolver-typescript: 2.5.0_f3fbe6cccc54a54726558cf825417e93
       find-up: 2.1.0
       pkg-dir: 2.0.0
     transitivePeerDependencies:
@@ -18653,7 +18653,7 @@ packages:
       create-error-class: 3.0.2
       debug: 2.6.9
       decompress-response: 3.3.0
-      follow-redirects: 1.14.9
+      follow-redirects: 1.14.9_debug@2.6.9
       form-urlencoded: 2.0.9
       in-publish: 2.0.1
       into-stream: 3.1.0
