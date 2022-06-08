@@ -57,7 +57,7 @@ export default {
       name: 'description',
       title: 'Description',
       description: `An episode description is a string containing one or more sentences describing your episode to potential listeners. You can specify up to 4000 characters.`,
-      type: 'text',
+      type: 'markdown',
       validation: (Rule) => Rule.max(4000),
     },
     {
@@ -125,8 +125,7 @@ export default {
     {
       name: 'transcript',
       title: 'Transcript',
-      description:
-        'A markdown transcript of the episode recording.',
+      description: 'A markdown transcript of the episode recording.',
       type: 'markdown',
     },
   ],

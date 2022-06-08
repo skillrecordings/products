@@ -25,6 +25,7 @@ export type PodcastEpisode = {
   summary: string
   simplecastId: string
   coverArtUrl: string
+  transcript: string
 }
 
 export async function getPodcast(podcastSlug: string) {
@@ -99,6 +100,7 @@ export async function getPodcastEpisode(podcastEpisodeSlug: string) {
     summary,
     'slug': slug.current,
     simplecastId,
+    transcript,
     'season': season[0]->{
       title,
       "slug": slug.current,
