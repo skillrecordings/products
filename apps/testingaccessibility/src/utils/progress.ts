@@ -65,17 +65,19 @@ export const getModuleProgressForUser = (
   progress: LessonProgress[],
   moduleSections: SanityDocument[],
 ) => {
-  if (isEmpty(progress) || isEmpty(moduleSections)) {
+  if (!progress || !moduleSections) {
     return {}
   }
 
-  let completedSectionsInModule = moduleSections.map((section) => {
+  let completedSectionsInModule: string[] = []
+
+  moduleSections.forEach((section) => {
     const {isCompleted: isSectionCompleted} = getSectionProgressForUser(
       progress,
       section.lessons,
     )
     if (isSectionCompleted) {
-      return section.slug
+      return completedSectionsInModule.push(section.slug)
     }
   })
 
