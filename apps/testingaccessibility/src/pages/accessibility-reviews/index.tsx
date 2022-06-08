@@ -2,10 +2,9 @@ import * as React from 'react'
 import Layout from 'components/app/layout'
 import Link from 'next/link'
 import Image from 'next/image'
-import groq from 'groq'
 import {GetServerSideProps} from 'next'
-import {sanityClient} from 'utils/sanity-client'
 import {format} from 'date-fns'
+import {getAllReviews} from '../../lib/reviews'
 
 const meta = {
   title: 'Accessibility Reviews',
@@ -73,22 +72,11 @@ const Reviews: React.FC<any> = ({reviews}) => {
   )
 }
 
-const reviewsQuery = groq`*[_type == "review"] | order(order asc){
-    title,
-    description,
-    'slug': slug.current,
-    hlsUrl,
-    published,
-    image,
-    date,
-    order
-}`
-
-export const getServerSideProps: GetServerSideProps = async () => {
-  const data = await sanityClient.fetch(reviewsQuery)
+export const getServerSideProps: GetServerSideProps = async (context) => {
+  const reviews = await getAllReviews()
 
   return {
-    props: {reviews: data},
+    props: {reviews},
   }
 }
 
