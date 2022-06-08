@@ -130,9 +130,9 @@ const allReviewsQuery = groq`
           "slug": slug.current
         }`
 
-export const getServerSideProps: GetServerSideProps = async (context: any) => {
+export const getServerSideProps: GetServerSideProps = async (context) => {
   const allReviews = await sanityClient.fetch(allReviewsQuery)
-  const currentReview = find(allReviews, {slug: context.params.slug})
+  const currentReview = find(allReviews, {slug: context.params?.slug})
 
   if (isEmpty(currentReview)) {
     return {

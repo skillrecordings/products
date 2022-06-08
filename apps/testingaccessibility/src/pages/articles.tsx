@@ -2,11 +2,10 @@ import * as React from 'react'
 import Layout from 'components/app/layout'
 import Link from 'next/link'
 import Markdown from 'react-markdown'
-import groq from 'groq'
 import {GetServerSideProps} from 'next'
-import {sanityClient} from 'utils/sanity-client'
 import {format} from 'date-fns'
 import {SanityDocument} from '@sanity/client'
+import {getAllArticles} from '../lib/articles'
 
 const meta = {
   title: 'Accessibility Articles',
@@ -80,23 +79,13 @@ const Articles: React.FC<ArticlesProps> = ({articles}) => {
   )
 }
 
-const articlesQuery = groq`*[_type == "article"] | order(date asc){
-    title,
-    'slug': slug.current,
-    description,
-    body,
-    published,
-    image,
-    date
-}`
-
 export const getServerSideProps: GetServerSideProps = async (context) => {
   context.res.setHeader('Cache-Control', 's-maxage=1, stale-while-revalidate')
 
-  const data = await sanityClient.fetch(articlesQuery)
+  const articles = await getAllArticles()
 
   return {
-    props: {articles: data},
+    props: {articles},
   }
 }
 

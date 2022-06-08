@@ -7,6 +7,7 @@ module.exports = {
   sitemapSize: 5000,
   generateRobotsTxt: true,
   exclude: [
+    '/server-sitemap.xml',
     '/confirm',
     '/confirmed',
     '/excited',
@@ -20,4 +21,7 @@ module.exports = {
     '/error',
     '/check-your-email',
   ],
+  robotsTxtOptions: {
+    additionalSitemaps: ['https://testingaccessibility.com/server-sitemap.xml'],
+  },
 }
