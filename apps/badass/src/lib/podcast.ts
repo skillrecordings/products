@@ -26,6 +26,13 @@ export type PodcastEpisode = {
   simplecastId: string
   coverArtUrl: string
   transcript: string
+  links: PodcastLink[]
+}
+
+export type PodcastLink = {
+  URL: string
+  title: string
+  excerpt: string
 }
 
 export async function getPodcast(podcastSlug: string) {
@@ -100,6 +107,11 @@ export async function getPodcastEpisode(podcastEpisodeSlug: string) {
     summary,
     'slug': slug.current,
     simplecastId,
+    'links': linkList[] {
+      URL,
+      title,
+      excerpt
+    },
     transcript,
     'season': season[0]->{
       title,

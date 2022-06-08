@@ -9,6 +9,7 @@ import {
   PodcastEpisode,
 } from '../../../lib/podcast'
 import Markdown from 'react-markdown'
+import {isEmpty} from 'lodash'
 
 export const getServerSideProps: GetServerSideProps = async ({
   req,
@@ -47,10 +48,18 @@ const PodcastEpisode: React.FC<{episode: PodcastEpisode}> = ({episode}) => {
       <main className="prose">
         <h1>{episode.title}</h1>
         <PodcastPlayer simplecastId={episode.simplecastId} />
-        <section className="relative sm:pb-16 pb-8 flex flex-col items-center justify-center  px-5">
+        <section className="relative sm:pb-12 pb-6 flex flex-col px-5">
           <Markdown className="prose">{episode.description}</Markdown>
         </section>
-        <section className="relative sm:pb-16 pb-8 flex flex-col items-center justify-center  px-5">
+        {isEmpty(episode.links) ? null : (
+          <section className="relative sm:pb-12 pb-6 flex flex-col px-5">
+            <h2>Links</h2>
+            {episode.links.map((link) => {
+              return <a href={link.URL}>{link.title}</a>
+            })}
+          </section>
+        )}
+        <section className="relative sm:pb-12 pb-6 flex flex-col px-5">
           <h2>Transcript</h2>
           <Markdown className="prose">{episode.transcript}</Markdown>
         </section>
