@@ -55,7 +55,7 @@ const HomePage = () => {
           <div className="bg-white lg:w-8"></div>
           <div className="flex-1 px-4 pt-24 space-y-10 text-center pb-44 bg-gradient-to-r from-gray-100 to-gray-50">
             <p className="inline-block px-5 py-1 text-xs tracking-wider text-gray-500 uppercase rounded-full sm:text-sm bg-gradient-to-r from-gray-200 to-gray-100">
-              New Video Course
+              Live Workshop
             </p>
             <h1 className="text-4xl font-extrabold tracking-tight text-gray-900 sm:text-5xl md:text-6xl">
               Advanced TypeScript
@@ -75,12 +75,10 @@ const HomePage = () => {
         <div className="px-4">
           <div className="relative block max-w-2xl p-6 mx-auto -mt-16 text-lg bg-white rounded shadow-2xl sm:p-10 sm:px-16">
             <p className="mb-6 text-center text-gray-700 sm:text-xl sm:leading-8">
-              Sign up for exclusive video updates and a{' '}
-              <span className="font-semibold text-gray-800">big discount</span>{' '}
-              when the course launches
+              Join the Waiting List
             </p>
             <SubscribeToConvertkitForm
-              actionLabel="get more details"
+              actionLabel="Save Your Spot"
               onSuccess={(subscriber: any) => {
                 if (subscriber) {
                   const redirectUrl = redirectUrlBuilder(subscriber, '/confirm')
@@ -109,16 +107,16 @@ const HomePage = () => {
           ></Quote>
           <div className="max-w-2xl mx-auto prose sm:prose-lg">
             <p>
-              I want to make a video course that brings together everything I've
-              learned as a TS engineer and OSS maintainer for XState. We'll be
-              covering <b>all the tricks the docs don't teach you</b>.
+              This workshop brings together everything I've learned as a TS
+              engineer and OSS maintainer for XState. We'll be covering{' '}
+              <b>all the tricks the docs don't teach you</b>.
             </p>
             <p>
               We'll start at an intermediate level, and work up into a
               super-advanced level. It's going to be{' '}
-              <b>the most advanced TS course on the market</b>. I want to turn
-              you into your company's resident TypeScript wizard - the one they
-              turn to for advice.
+              <b>the most advanced TS workshop avaialble anywhere</b>. IYou'll
+              be the company's resident TypeScript wizard - the one they turn to
+              for advice.
             </p>
             <p>To learn more, check out the trailer below.</p>
             <iframe
@@ -135,14 +133,13 @@ const HomePage = () => {
               Fundamentals
             </h1>
             <p>
-              We'll go through all the fundamentals of advanced TS. We'll look
-              at generics, conditional types, mapped types, tuples - everything
-              you need to feel confident looking at complicated TS code.
+              You'll the fundamentals of advanced TS. You'll learn about at
+              generics, conditional types, mapped types, tuples - everything you
+              need to feel confident looking at complicated TS code.
             </p>
             <p>
-              I'll assume you have a <b>beginner's knowledge of TypeScript</b>.
-              We'll start from the complicated stuff (generics!) and work
-              upwards.
+              You'll need a beginner's knowledge of TypeScript since we'll start
+              from the complicated stuff (generics!) and work upwards.
             </p>
           </div>
           <div className="max-w-2xl mx-auto my-16 prose sm:prose-lg">
@@ -188,9 +185,8 @@ const HomePage = () => {
           ></Quote>
           <div className="max-w-2xl mx-auto my-16 prose sm:prose-lg">
             <p>
-              I'm so excited to work on this, and I can't wait to tell you more
-              about it. I'll make sure to keep you updated on, and{' '}
-              <b>I'll only email you if I think you'll find it useful</b>.
+              This is your opportunity to learn next-level TypeScript that you
+              can apply to your projects today.
             </p>
             <p></p>
           </div>
