@@ -25,7 +25,7 @@ body {
     @apply flex pt-4 pb-1;
   }
   [data-sr-button] {
-    @apply bg-badass-pink-600 px-8 py-4 font-heading uppercase rounded-md mt-8 w-full flex items-center justify-center hover:scale-105 transition hover:shadow-xl;
+    @apply block w-full px-4 py-2 font-semibold tracking-wide text-center text-white uppercase rounded bg-gradient-to-r from-indigo-600 to-blue-500;
   }
   [data-sr-button][disabled] {
   }
