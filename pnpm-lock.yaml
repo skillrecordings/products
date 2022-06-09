@@ -32,6 +32,7 @@ importers:
     specifiers:
       '@preconstruct/next': ^3.0.1
       '@skillrecordings/convertkit': workspace:^0.0.1
+      '@skillrecordings/scripts': workspace:^0.0.5
       '@tailwindcss/aspect-ratio': ^0.4.0
       '@tailwindcss/forms': ^0.5.2
       '@tailwindcss/typography': ^0.5.2
@@ -54,6 +55,7 @@ importers:
     dependencies:
       '@preconstruct/next': 3.0.1
       '@skillrecordings/convertkit': link:../../packages/convertkit
+      '@skillrecordings/scripts': link:../../packages/scripts
       '@tailwindcss/aspect-ratio': 0.4.0_tailwindcss@3.0.24
       '@tailwindcss/forms': 0.5.2_tailwindcss@3.0.24
       next: 12.1.6_react-dom@17.0.2+react@17.0.2
