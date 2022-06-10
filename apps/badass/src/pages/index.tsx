@@ -166,7 +166,7 @@ const CallToActionForm: React.FC<any> = ({content}) => {
   const router = useRouter()
 
   return (
-    <section className="flex flex-col itesm-center justify-center sm:pt-16 sm:pb-16 pt-12">
+    <section className="flex flex-col items-center justify-center sm:pt-16 sm:pb-16 pt-12">
       <div className="relative max-w-2xl mx-auto flex flex-col items-center">
         <div className="absolute sm:-left-24 sm:top-0 -top-16 sm:w-auto w-36 z-20">
           <Image
