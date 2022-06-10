@@ -9,17 +9,14 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@preconstruct/next": "^3.0.1",
     "@skillrecordings/convertkit": "workspace:^0.0.1",
     "@skillrecordings/scripts": "workspace:^0.0.5",
     "@tailwindcss/aspect-ratio": "^0.4.0",
     "@tailwindcss/forms": "^0.5.2",
-    "next": "^12.1.5",
+    "next": "^12.1.6",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-hook-form": "^7.29.0",
-    "remark-frontmatter": "^4.0.1",
-    "unified": "^10.1.2",
     "zod": "^3.14.4"
   },
   "devDependencies": {
