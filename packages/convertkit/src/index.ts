@@ -6,10 +6,10 @@ import {
 
 import fetchConvertkitSubscriberFromServerCookie from './utils/fetch-convertkit-subscriber'
 
-export {
-  SubscribeToConvertkitForm,
-  redirectUrlBuilder,
-} from './forms/subscribe-to-convertkit'
+export * from './forms/subscribe-to-convertkit'
+export * from './hooks/use-convertkit-form'
+
+export * from './utils/redirect-url-builder'
 
 export {
   useConvertkit,
