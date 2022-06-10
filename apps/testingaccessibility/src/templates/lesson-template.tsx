@@ -64,15 +64,17 @@ const LessonTemplate: React.FC<LessonTemplateProps> = ({
           <div className="">
             <article className="bg-green-700 bg-noise">
               <header className="py-10 px-4 max-w-screen-lg mx-auto rounded-md text-white flex md:flex-row flex-col items-center justify-center gap-5">
-                <div className="flex items-center justify-center max-w-xs">
-                  <Image
-                    src={image.url}
-                    alt={image.alt}
-                    quality={100}
-                    width={240}
-                    height={240}
-                  />
-                </div>
+                {image && (
+                  <div className="flex items-center justify-center max-w-xs">
+                    <Image
+                      src={image.url}
+                      alt={image.alt}
+                      quality={100}
+                      width={240}
+                      height={240}
+                    />
+                  </div>
+                )}
                 <h1 className="font-heading w-full lg:text-[2.5rem] leading-tighter text-3xl font-bold lg:max-w-xl md:text-left text-center md:pb-0 pb-5 lg:px-0 px-10">
                   {title}
                 </h1>
