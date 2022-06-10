@@ -58,7 +58,7 @@ export const getServerSideProps: GetServerSideProps = async ({req, params}) => {
   const lessons: {slug: string}[] = flatten(
     product.modules.map((module: SanityDocument) =>
       flatten(
-        module.sections.map((section: SanityDocument) =>
+        module?.sections?.map((section: SanityDocument) =>
           uniq(section.lessons?.map((lesson: SanityDocument) => lesson)),
         ),
       ),

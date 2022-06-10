@@ -32,7 +32,6 @@ const SectionTemplate: React.FC<SectionTemplateProps> = ({
     ? indexOf(module.sections, find(module.sections, {slug: sectionSlug}))
     : -1
   const nextUpSection = module && module.sections[currentSectionIndex + 1]
-
   return (
     <Layout className="bg-gray-50 flex-grow">
       <div className="bg-gray-100">
@@ -43,7 +42,7 @@ const SectionTemplate: React.FC<SectionTemplateProps> = ({
       <div className="max-w-screen-lg mx-auto flex-grow">
         <main className="grid md:grid-cols-12 grid-cols-1 xl:px-0 px-5 py-12 lg:gap-10 gap-5">
           <div className="col-span-5">
-            {image.url && (
+            {image && (
               <div className="flex-shrink-0 md:block flex items-center justify-center">
                 <Image
                   src={image.url}

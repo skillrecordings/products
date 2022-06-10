@@ -152,7 +152,7 @@ export const Sections: React.FC<SectionsProps> = ({progress, module}) => {
     <ol className="pt-16">
       {module.sections.map((section: SanityDocument, i: number) => {
         const isIntroSection = i === 0
-
+        const {image} = section
         return (
           <li
             key={section.slug}
@@ -163,15 +163,17 @@ export const Sections: React.FC<SectionsProps> = ({progress, module}) => {
               },
             )}
           >
-            <div className="flex items-start md:justify-start justify-center flex-shrink-0">
-              <Image
-                src={section.image.url}
-                alt={section.image.alt}
-                width={300}
-                height={300}
-                quality={100}
-              />
-            </div>
+            {image && (
+              <div className="flex items-start md:justify-start justify-center flex-shrink-0">
+                <Image
+                  src={image.url}
+                  alt={image.alt}
+                  width={300}
+                  height={300}
+                  quality={100}
+                />
+              </div>
+            )}
             <div
               className={cx('w-full', {
                 'flex flex-col justify-center md:text-left text-center':

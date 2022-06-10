@@ -51,7 +51,7 @@ export const getServerSideProps: GetServerSideProps = async ({req, params}) => {
   // get array of available sections
   const sections: {slug: string}[] = flatten(
     product.modules.map((module: SanityDocument) =>
-      module.sections.map((section: SanityDocument) => section),
+      module?.sections?.map((section: SanityDocument) => section),
     ),
   )
 
@@ -81,7 +81,7 @@ export const getServerSideProps: GetServerSideProps = async ({req, params}) => {
   }
   const modules = product.modules
   const module = find(product.modules, (module: SanityDocument) =>
-    module.sections.includes(currentSection),
+    module?.sections?.includes(currentSection),
   )
 
   const data = await sanityClient.fetch(sectionQuery, {
