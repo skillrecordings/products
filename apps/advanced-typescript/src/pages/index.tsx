@@ -19,7 +19,7 @@ const HomePage = () => {
         />
 
         <meta property="og:type" content="website" />
-        <meta property="og:url" content={`https://mattpocock.com`} />
+        <meta property="og:url" content={`https://advancedtypescript.dev`} />
         <meta
           property="og:title"
           content={`Advanced TypeScript - Become a TS Wizard`}
@@ -30,13 +30,13 @@ const HomePage = () => {
         />
         <meta
           property="og:image"
-          content={`https://mattpocock.com/og-image.png`}
+          content={`https://advancedtypescript.dev/og-image.png`}
         />
 
         <meta name="twitter:card" content="summary_large_image" />
         <meta
           name="twitter:image"
-          content={`https://mattpocock.com/og-image.png`}
+          content={`https://advancedtypescript.dev/og-image.png`}
         />
         <meta
           name="twitter:title"
@@ -46,8 +46,8 @@ const HomePage = () => {
           name="twitter:description"
           content={`Learn the tricks open-source libraries use to build dynamic, robust types.`}
         />
-        <meta property="twitter:domain" content="mattpocock.com" />
-        <meta property="twitter:url" content="https://mattpocock.com" />
+        <meta property="twitter:domain" content="advancedtypescript.dev" />
+        <meta property="twitter:url" content="https://advancedtypescript.dev" />
       </Head>
       <main>
         <div className="flex overflow-hidden">
@@ -118,15 +118,6 @@ const HomePage = () => {
               be the company's resident TypeScript wizard - the one they turn to
               for advice.
             </p>
-            <p>To learn more, check out the trailer below.</p>
-            <iframe
-              width="100%"
-              className="my-16 h-72 sm:h-96"
-              src="https://www.youtube.com/embed/Lk-lSc2CeuU"
-              title="YouTube video player"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-              allowFullScreen
-            ></iframe>
           </div>
           <div className="max-w-2xl mx-auto my-16 prose sm:prose-lg ">
             <h1 className="tracking-tight text-center text-gray-800 ">
@@ -251,10 +242,6 @@ const Quote = (props: {img: string; quote: string; from: string}) => {
       </div>
     </div>
   )
-}
-
-const Bold: React.FC = ({children}) => {
-  return <span className="font-bold">{children}</span>
 }
 
 export default HomePage
