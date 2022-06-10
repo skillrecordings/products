@@ -50,6 +50,10 @@ export const redirectUrlBuilder = (
 /**
  * This form posts to a designated api URL (assumes /api/convertkit/subscribe
  * by default)
+ *
+ * TODO: using forward refs would allow us to export the component parts of the
+ * which might make styling and compose-ability more obvious/robust
+ *
  * @param formId the Convertkit form id, defaults to `process.env.NEXT_PUBLIC_CONVERTKIT_SIGNUP_FORM`
  * @param submitButtonElem an element to use as the button for the form submit
  * @param errorMessage A string or element representing the message shown on error
