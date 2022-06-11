@@ -16,7 +16,8 @@ const modules = [
     href: '/build-a-typescript-project-from-scratch',
   },
   {
-    title: 'Navigate a TypeScript Codebase',
+    title: 'Navigate a TypeScript Codebase Effectively',
+    href: '/navigate-a-typescript-codebase',
   },
 ]
 
@@ -24,8 +25,8 @@ const Footer = () => {
   const router = useRouter()
   const isRoot = router.pathname === '/new-index'
   return (
-    <footer className="w-full flex flex-col bg-black/30 items-center justify-center pb-40 pt-16">
-      <div className="flex md:flex-row flex-col max-w-screen-lg w-full md:justify-between justify-center md:items-start items-center lg:px-0 md:px-10 px-5">
+    <footer className="flex flex-col items-center justify-center w-full pt-16 pb-40 bg-black/30">
+      <div className="flex flex-col items-center justify-center w-full max-w-screen-lg px-5 md:flex-row md:justify-between md:items-start lg:px-0 md:px-10">
         <nav aria-label="Secondary Navigation">
           {/* {!isRoot && <NavLink href="/new-index">All modules</NavLink>} */}
           <div className="flex items-center gap-3 pb-10">
@@ -63,7 +64,7 @@ const Footer = () => {
             })}
           </ul>
         </nav>
-        <div className="md:pt-0 pt-16">
+        <div className="pt-16 md:pt-0">
           <Bio />
         </div>
       </div>
@@ -90,7 +91,7 @@ const NavLink: React.FC<{href: string; index: number}> = ({
         })}
         {...props}
       >
-        <span className="font-mono font-semibold pr-2 opacity-80 text-sm">
+        <span className="pr-2 font-mono text-sm font-semibold opacity-80">
           {isActive ? ' → ' : `0${index + 1}`}
         </span>
         <strong className="underline decoration-white/30 underline-offset-2">
