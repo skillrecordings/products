@@ -212,6 +212,12 @@ model Session {
   user           User?      @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
+enum Role {
+    User
+    ADMIN
+    SUPERADMIN
+}
+
 model User {
   id                 String               @id @default(uuid()) 
   name               String?
@@ -225,6 +231,7 @@ model User {
   sessions           Session[]
   lessonProgresses   LessonProgress[]
   comments           Comment[]
+  roles              Role                   @default(User)
 }
 
 model VerificationToken {
