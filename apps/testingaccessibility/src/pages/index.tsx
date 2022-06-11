@@ -9,24 +9,32 @@ import Layout from 'components/app/layout'
 import {useRouter} from 'next/router'
 import {GetServerSideProps} from 'next'
 import {getToken} from 'next-auth/jwt'
+import {getCouponForCode} from '../server/get-coupon-for-code'
+import {serialize} from '../utils/prisma-next-serializer'
+import {useCoupon} from '../hooks/use-coupon'
 
-export const getServerSideProps: GetServerSideProps = async ({req}) => {
+export const getServerSideProps: GetServerSideProps = async ({req, query}) => {
   const token = await getToken({
     req,
     secret: process.env.NEXTAUTH_SECRET,
   })
+  const couponFromCode = await getCouponForCode(query.code as string)
   return {
     props: {
       token,
+      ...(couponFromCode && {couponFromCode: serialize(couponFromCode)}),
     },
   }
 }
 
-const Home: React.FC = (props) => {
+const Home: React.FC<{couponFromCode?: {isValid: boolean; id: string}}> = ({
+  couponFromCode,
+}) => {
   const router = useRouter()
-
+  const {validCoupon, RedeemDialogForCoupon} = useCoupon(couponFromCode)
   return (
     <Layout className="bg-white">
+      {validCoupon ? <RedeemDialogForCoupon /> : null}
       <div>
         <div className="flex flex-col justify-between min-h-screen overflow-hidden">
           <header className="relative text-white bg-green-700 lg:pt-32 sm:pt-24 pt-24 bg-noise">

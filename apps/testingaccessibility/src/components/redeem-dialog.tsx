@@ -45,7 +45,7 @@ const RedeemDialog = ({open = false, couponId}: RedeemDialogProps) => {
           Enter the email address you wish to be associated with your license.
         </AlertDialogPrimitive.Description>
         <form onSubmit={formik.handleSubmit}>
-          <div className="flex justify-end mt-2">
+          <div className="flex justify-start mt-2">
             <label htmlFor="email">email address:</label>
             <input
               id="email"
@@ -65,7 +65,7 @@ const RedeemDialog = ({open = false, couponId}: RedeemDialogProps) => {
                 className="flex py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500"
                 type="submit"
               >
-                Yes, invite user
+                Yes, Claim License
               </button>
             </AlertDialogPrimitive.Action>
           </div>
