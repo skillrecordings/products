@@ -67,7 +67,7 @@ const PortableTextComponents: PortableTextComponents = {
     emoji: ({text, value}: EmojiProps) => {
       const label = value?.emoji?.label || ''
       return (
-        <span role="img" aria-label={label} aria-hidden={!label}>
+        <span role={label ? "img" : "presentation"} aria-label={label} aria-hidden={!label}>
           {text}
         </span>
       )
