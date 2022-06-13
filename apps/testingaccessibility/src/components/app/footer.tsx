@@ -23,7 +23,7 @@ const Footer: React.FC<FooterProps> = () => {
             className="md:grid flex flex-col lg:grid-cols-6 grid-cols-5 lg:gap-5 gap-10"
           >
             <div>
-              <strong className="text-orange-700 font-semibold">Learn</strong>
+              <h2 className="text-orange-700 font-semibold">Learn</h2>
               <ul className="pt-4">
                 <li>
                   <NavLink href={isSignedIn ? '/learn' : '/workshops'}>
@@ -42,9 +42,9 @@ const Footer: React.FC<FooterProps> = () => {
             </div>
             {isSignedIn && (
               <div>
-                <strong className="text-orange-700 font-semibold">
+                <h2 className="text-orange-700 font-semibold">
                   Account
-                </strong>
+                </h2>
                 <ul className="pt-4">
                   {canViewTeam && (
                     <li>
@@ -73,7 +73,7 @@ const Footer: React.FC<FooterProps> = () => {
             )}
             {isSellingLive && (
               <div>
-                <strong className="text-orange-700 font-semibold">About</strong>
+                <h2 className="text-orange-700 font-semibold">About</h2>
                 <ul className="pt-4">
                   <li>
                     <NavLink href="/faq">FAQ</NavLink>
