@@ -33,10 +33,10 @@ const Articles: React.FC<ArticlesProps> = ({articles}) => {
               ({title, slug, description, date}: SanityDocument) => {
                 return (
                   <div key={slug} className="gap-5">
-                    <div className="flex w-full sm:justify-between justify-center">
+                    <div className="flex w-full sm:justify-between justify-left">
                       <div>
                         <Link href={`/${slug}`} passHref>
-                          <a className="group">
+                          <a className="group block">
                             <h2 className="text-green-600 group-hover:underline sm:text-3xl font-heading text-xl font-bold">
                               {title}
                             </h2>
@@ -59,7 +59,7 @@ const Articles: React.FC<ArticlesProps> = ({articles}) => {
                       <Link href={`/${slug}`} passHref>
                         <a
                           className="font-nav px-3 py-2 rounded-md hover:bg-moss-200/50 transition bg-moss-100 text-green-600 font-semibold inline-flex"
-                          aria-label={`Sign up for the workshop on ${title}`}
+                          aria-label={`Read ${title}`}
                         >
                           Read
                           <i aria-hidden className="pl-2">
