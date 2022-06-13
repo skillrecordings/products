@@ -1,37 +1,25 @@
 import React from 'react'
 import {Pricing} from '../components/pricing'
 import {GetServerSideProps} from 'next'
-import RedeemDialog from '../components/redeem-dialog'
-import {validateCoupon} from '../utils/validate-coupon'
-import {getSdk} from '../lib/prisma-api'
 import {serialize} from '../utils/prisma-next-serializer'
 import {setupHttpTracing} from '@vercel/tracing-js'
 import {tracer} from '../utils/honeycomb-tracer'
 import {Purchase, Coupon} from '@prisma/client'
-import {defaultContext} from '../lib/context'
 import {getToken} from 'next-auth/jwt'
+import {useCoupon} from '../hooks/use-coupon'
+import {getCouponForCode} from '../server/get-coupon-for-code'
 
 const Buy: React.FC<{
   couponFromCode?: {isValid: boolean; id: string}
   purchases?: Purchase[]
 }> = ({couponFromCode, purchases = []}) => {
-  const [validCoupon, setValidCoupon] = React.useState(false)
   const purchasedProductIds = purchases.map((purchase) => purchase.productId)
 
-  React.useEffect(() => {
-    setTimeout(() => {
-      setValidCoupon(Boolean(couponFromCode && couponFromCode.isValid))
-    }, 0)
-  }, [])
+  const {validCoupon, RedeemDialogForCoupon} = useCoupon(couponFromCode)
 
   return (
     <div>
-      {validCoupon && couponFromCode && (
-        <RedeemDialog
-          open={couponFromCode.isValid}
-          couponId={couponFromCode.id}
-        />
-      )}
+      {validCoupon ? <RedeemDialogForCoupon /> : null}
       <div className="pt-12 sm:pt-16 lg:pt-24">
         <div className="max-w-7xl mx-auto text-center px-4 sm:px-6 lg:px-8">
           <div className="max-w-3xl mx-auto space-y-4 lg:max-w-none">
@@ -64,35 +52,16 @@ export default Buy
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const {req, query, res} = context
-  const spanContext = setupHttpTracing({
+  setupHttpTracing({
     name: getServerSideProps.name,
     tracer,
     req,
     res,
   })
 
-  const {getCoupon} = getSdk({
-    ctx: defaultContext,
-    spanContext,
-  })
-  const token = await getToken({
-    req,
-    secret: process.env.NEXTAUTH_SECRET,
-  })
-
+  const token = await getToken({req})
   const purchases = token ? (token.purchases as any) : false
-
-  const {code} = query
-
-  let couponFromCode =
-    code && (await getCoupon({where: {id: query.code as string}}))
-
-  if (couponFromCode) {
-    couponFromCode = {
-      ...couponFromCode,
-      ...validateCoupon(couponFromCode),
-    }
-  }
+  const couponFromCode = await getCouponForCode(query.code as string)
 
   return {
     props: {

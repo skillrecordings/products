@@ -53,11 +53,16 @@ export const nextAuthOptions: NextAuthOptions = {
     }),
   ],
   callbacks: {
-    async session({session, user, token}) {
+    async session({session, token}) {
       if (token?.id) {
         const {getPurchasesForUser} = getSdk()
+        const user = await prisma.user.findUnique({
+          where: {id: token.id as string},
+        })
+        session.roles = user?.roles || []
         const purchases = await getPurchasesForUser(token.id as string)
         token.purchases = purchases
+        token.roles = user?.roles || []
         session.rules = defineRulesForPurchases(purchases)
       } else {
         token.purchases = []
