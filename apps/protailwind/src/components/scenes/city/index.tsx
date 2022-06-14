@@ -103,57 +103,59 @@ const Scene: React.FC<SceneProps> = ({
         // legacy
         linear
       >
-        {camera}
-        <OrbitControls
-          enableZoom={enableOrbitControls}
-          enableRotate={enableOrbitControls}
-          enablePan={enableOrbitControls}
-          autoRotateSpeed={autoRotateSpeed}
-          autoRotate={autoRotate}
-          maxPolarAngle={Math.PI / 2.1}
-        />
-        <fog attach="fog" args={[backgroundColor, 50, 200]} />
-        <color attach="background" args={[backgroundColor]} />
-        <EffectComposer multisampling={8} autoClear={false}>
-          <HueSaturation hue={hue} saturation={saturation} />
-          <BrightnessContrast brightness={brightness} contrast={contrast} />
-          <DepthOfField
-            focusDistance={0}
-            focalLength={0.4}
-            bokehScale={30}
-            height={480}
-            width={480}
-          />
-          <Noise opacity={0.15} blendFunction={BlendFunction.SOFT_LIGHT} />
-        </EffectComposer>
-        <ambientLight
-          castShadow
-          intensity={1.3}
-          color="#4D5B7B"
-          position={[0, 20, 120]}
-        />
-        <spotLight
-          castShadow
-          intensity={0.2}
-          color="#fff"
-          position={[0, 20, 120]}
-        />
-        <spotLight
-          castShadow
-          intensity={0.24}
-          color="#fff"
-          position={[0, 80, 200]}
-        />
         <React.Suspense fallback={null}>
+          {camera}
+          <OrbitControls
+            enableZoom={enableOrbitControls}
+            enableRotate={enableOrbitControls}
+            enablePan={enableOrbitControls}
+            autoRotateSpeed={autoRotateSpeed}
+            autoRotate={autoRotate}
+            maxPolarAngle={Math.PI / 2.1}
+          />
+          <fog attach="fog" args={[backgroundColor, 50, 200]} />
+          <color attach="background" args={[backgroundColor]} />
+          <EffectComposer multisampling={8} autoClear={false}>
+            <HueSaturation hue={hue} saturation={saturation} />
+            <BrightnessContrast brightness={brightness} contrast={contrast} />
+            <DepthOfField
+              focusDistance={0}
+              focalLength={0.4}
+              bokehScale={30}
+              height={480}
+              width={480}
+            />
+            <Noise opacity={0.15} blendFunction={BlendFunction.SOFT_LIGHT} />
+          </EffectComposer>
+          <ambientLight
+            castShadow
+            intensity={1.3}
+            color="#4D5B7B"
+            position={[0, 20, 120]}
+          />
+          <spotLight
+            castShadow
+            intensity={0.2}
+            color="#fff"
+            position={[0, 20, 120]}
+          />
+          <spotLight
+            castShadow
+            intensity={0.24}
+            color="#fff"
+            position={[0, 80, 200]}
+          />
+
           <CityModel color={modelColor} />
+
+          <Particles
+            ref={particlesRef}
+            count={particlesCount}
+            mouse={mouse}
+            cursorLight={cursorLight}
+          />
+          <Plane backgroundColor={backgroundColor} />
         </React.Suspense>
-        <Particles
-          ref={particlesRef}
-          count={particlesCount}
-          mouse={mouse}
-          cursorLight={cursorLight}
-        />
-        <Plane backgroundColor={backgroundColor} />
       </Canvas>
     </div>
   )
