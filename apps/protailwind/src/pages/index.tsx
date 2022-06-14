@@ -51,7 +51,7 @@ const Home: NextPage = () => {
           {questions.map(({body, title, alt}, i) => (
             <motion.li
               key={title}
-              className="flex gap-10 items-center leading-normal p-10 m-0 group"
+              className="flex sm:gap-10 gap-6 items-center leading-normal sm:p-10 p-6 m-0 group"
             >
               <motion.span
                 viewport={{once: true}}
@@ -119,14 +119,14 @@ const Home: NextPage = () => {
             〜
           </p>
         </div>
-        <section className="pt-10 pb-48 relative px-5">
+        <section className=" relative ">
           <div className="absolute left-0 bottom-0 overflow-hidden w-full h-[700px]">
             <CityScene camera={<Camera animateOnScroll={false} />} />
             <div className="absolute top-0 left-0 w-full h-56 bg-gradient-to-b from-slate-900 to-slate-900/0" />
           </div>
-          <div className="relative w-full flex flex-col items-center justify-center">
+          <div className="pt-10 sm:pb-48 pb-32 px-5 relative w-full flex flex-col items-center justify-center">
             <div className="text-center pb-16">
-              <h2 className="font-heading lg:text-5xl text-4xl font-bold text-slate-50">
+              <h2 className="font-heading sm:text-5xl text-[2.5rem] leading-none font-bold text-slate-50">
                 Learn to use Tailwind CSS like a pro
               </h2>
               <p className="pt-4 text-indigo-300">
@@ -147,9 +147,9 @@ const Home: NextPage = () => {
             </p>
           </div>
         </section>
-        <section className="flex items-center justify-center py-16 px-5">
+        <section className="flex items-center justify-center lg:py-32 sm:py-16 py-10 sm:mt-0 -mt-20 px-5 relative z-10">
           <div className="flex md:flex-row flex-col md:items-start items-center justify-center max-w-screen-sm gap-10">
-            <div className="flex-shrink-0 shadow-xl rounded-full flex items-center justify-center">
+            <div className="flex-shrink-0 shadow-xl rounded-full flex items-center justify-center ring ring-offset-1 ring-white/10">
               <Image
                 src={Simon}
                 width={150}
@@ -185,11 +185,11 @@ const Header = () => {
     <header className="relative min-h-[calc(100vh+200px)]">
       <div className="sticky top-0 min-h-screen">
         <CityScene />
-        <div className="absolute w-full h-full flex items-center text-center justify-center flex-col pointer-events-none">
+        <div className="absolute w-full h-full flex items-center text-center justify-center flex-col sm:pointer-events-none">
           <p className="font-display uppercase sm:text-xl text-lg tracking-wide text-amber-400">
             New course by Simon Vrachliotis
           </p>
-          <h1 className="pt-3 pb-8 lg:text-8xl md:text-7xl text-6xl font-heading font-bold max-w-screen-sm">
+          <h1 className="pt-3 pb-8 lg:text-8xl md:text-7xl sm:text-6xl text-[3.3rem] leading-none font-heading font-bold max-w-screen-sm">
             Learn to use Tailwind at scale
           </h1>
           <p className="font-light font-display sm:text-3xl text-2xl max-w-md text-slate-200 opacity-80">
@@ -197,7 +197,7 @@ const Header = () => {
             team
           </p>
         </div>
-        <div className="absolute left-0 bottom-0 w-full h-48 bg-gradient-to-b from-transparent to-slate-900 pointer-events-none" />
+        <div className="absolute left-0 bottom-0 w-full h-48 bg-gradient-to-b from-transparent to-slate-900 sm:pointer-events-none" />
       </div>
     </header>
   )
