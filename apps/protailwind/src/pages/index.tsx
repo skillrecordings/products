@@ -39,7 +39,7 @@ const Home: NextPage = () => {
   const router = useRouter()
 
   return (
-    <Layout>
+    <Layout meta={{titleAppendSiteName: false}}>
       <Header />
       <main className="font-light text-slate-300 sm:text-2xl text-xl leading-normal bg-slate-900">
         <p className="max-w-lg mx-auto md:px-0 px-5">
