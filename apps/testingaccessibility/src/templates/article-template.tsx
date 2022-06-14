@@ -72,7 +72,7 @@ const Header: React.FC<{title: string; date: string}> = ({title, date}) => {
     <header className="flex flex-col items-center relative px-5 pt-16 pb-8 overflow-hidden text-white bg-green-700 bg-noise">
       <div className="flex flex-col items-center max-w-screen-md mx-auto w-full relative z-10">
         <Link passHref href="/articles">
-          <a className="sm:text-base text-sm group text-white/80 relative hover:text-white font-normal px-4 py-2 hover:bg-opacity-5 bg-opacity-0 bg-white rounded-full transition opacity-80 hover:opacity-90">
+          <a className="sm:text-base text-sm group text-white relative hover:text-white font-normal px-4 py-2 hover:bg-opacity-10 bg-opacity-0 bg-white rounded-full transition opacity-80 hover:opacity-90 focus-visible:ring-white focus-visible:opacity-100">
             <span className="pr-1" role="presentation" aria-hidden="true">
               ←
             </span>{' '}
@@ -237,7 +237,7 @@ const Share: React.FC<{title: string}> = ({title}) => {
   const router = useRouter()
   const url = process.env.NEXT_PUBLIC_URL + router.asPath
   const className =
-    'p-3 hover:bg-white hover:bg-opacity-10 transition rounded-full'
+    'p-3 hover:bg-white hover:bg-opacity-10 transition rounded-full focus-visible:ring-white'
   const message = `${title} by @marcysutton`
 
   return (
