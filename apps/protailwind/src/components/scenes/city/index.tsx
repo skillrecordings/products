@@ -144,7 +144,9 @@ const Scene: React.FC<SceneProps> = ({
           color="#fff"
           position={[0, 80, 200]}
         />
-        <CityModel color={modelColor} />
+        <React.Suspense fallback={null}>
+          <CityModel color={modelColor} />
+        </React.Suspense>
         <Particles
           ref={particlesRef}
           count={particlesCount}
