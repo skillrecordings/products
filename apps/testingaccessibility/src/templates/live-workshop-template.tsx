@@ -73,7 +73,7 @@ const LiveWorkshopTemplate: React.FC<any> = ({workshop, source}) => {
           <header className="flex flex-col items-center relative px-5 py-16 overflow-hidden text-white bg-green-700 bg-noise">
             <Link href="/workshops">
               <a className="group text-white/80 relative hover:text-white font-normal px-4 py-2 hover:bg-opacity-5 bg-opacity-0 bg-white rounded-full transition opacity-80 hover:opacity-90">
-                <span className="pr-1" role="img" aria-label="left arrow">
+                <span className="pr-1" role="presentation" aria-hidden="true">
                   ←
                 </span>{' '}
                 All Workshops

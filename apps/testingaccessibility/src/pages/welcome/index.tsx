@@ -205,7 +205,7 @@ const Invoice: React.FC<{purchase: any}> = ({purchase}: any) => {
           className="border bg-green-500 hover:bg-green-600 text-white transition px-4 py-2 rounded-md flex-shrink-0 font-semibold"
         >
           Get your invoice{' '}
-          <span role="img" aria-hidden="true">
+          <span role="presentation" aria-hidden="true">
             →
           </span>
         </a>
@@ -241,7 +241,7 @@ const GetStarted: React.FC = () => {
       <Link href={`/learn`}>
         <a className="text-green-900 text-lg bg-yellow-500 px-5 pt-3 pb-4 hover:-rotate-1 hover:scale-105 transition-all hover:bg-yellow-400 rounded-md flex-shrink-0 font-semibold">
           Start Testing Accessibility{' '}
-          <span role="img" aria-hidden="true">
+          <span role="presentation" aria-hidden="true">
             →
           </span>
         </a>
@@ -257,7 +257,7 @@ const Share: React.FC = () => {
       <p className="text-white font-semibold text-lg gap-1">
         Please consider telling your friends about Testing Accessibility, it
         would help me to get a word out.{' '}
-        <span aria-hidden="true" role="img" aria-label="smiling face">
+        <span role="img" aria-label="smiling face">
           😊
         </span>
       </p>

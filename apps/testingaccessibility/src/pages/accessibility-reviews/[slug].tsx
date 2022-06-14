@@ -42,7 +42,7 @@ const Review: React.FC<any> = ({review, body}) => {
       <header className="flex flex-col items-center relative px-5 pt-16 pb-24 overflow-hidden text-white bg-green-700 bg-noise">
         <Link href="/accessibility-reviews" passHref>
           <a className="group text-white/80 relative hover:text-white font-normal px-4 py-2 hover:bg-opacity-5 bg-opacity-0 bg-white rounded-full transition">
-            <span className="pr-1" role="img" aria-label="left arrow">
+            <span className="pr-1" role="presentation" aria-hidden="true">
               ←
             </span>{' '}
             All Reviews

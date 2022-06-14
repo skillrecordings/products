@@ -15,7 +15,7 @@ import {useNavState} from '../../hooks/use-nav-state'
 const Navigation = () => {
   return (
     <nav
-      aria-label="main"
+      aria-label="top"
       className="font-nav text-sm font-medium sticky top-0 z-30 sm:h-16 h-14 xl:px-0 px-2 flex items-center w-full bg-white shadow-sm print:hidden"
     >
       <div className="flex items-center w-full h-full py-[2px] max-w-screen-lg mx-auto justify-between">

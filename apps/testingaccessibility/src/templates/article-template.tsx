@@ -73,7 +73,7 @@ const Header: React.FC<{title: string; date: string}> = ({title, date}) => {
       <div className="flex flex-col items-center max-w-screen-md mx-auto w-full relative z-10">
         <Link passHref href="/articles">
           <a className="sm:text-base text-sm group text-white/80 relative hover:text-white font-normal px-4 py-2 hover:bg-opacity-5 bg-opacity-0 bg-white rounded-full transition opacity-80 hover:opacity-90">
-            <span className="pr-1" role="img" aria-hidden="true">
+            <span className="pr-1" role="presentation" aria-hidden="true">
               ←
             </span>{' '}
             All Articles
