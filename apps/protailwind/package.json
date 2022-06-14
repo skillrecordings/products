@@ -1,0 +1,90 @@
+{
+  "name": "protailwind",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev -p 3017",
+    "start": "next start -p 3017",
+    "integration": "cypress run",
+    "clean": "rm -rf node_modules && pnpm -r exec -- rm -rf .turbo node_modules .next dist",
+    "build": "NODE_ENV=production prisma generate && next build",
+    "postbuild": "NODE_ENV=production next-sitemap",
+    "test": "prisma generate && jest",
+    "lint": "TIMING=1 prisma generate && eslint src/**/*.{ts,tsx} --fix && tsc --noEmit",
+    "format": "prettier --write './**/*.{js,jsx,ts,tsx,css,md,mdx,json}' --config ./.prettierrc"
+  },
+  "dependencies": {
+    "@prisma/client": "^3.15.1",
+    "@react-three/drei": "8.16.0",
+    "@react-three/fiber": "7.0.26",
+    "@react-three/postprocessing": "^2.3.2",
+    "@sentry/nextjs": "^6.19.3",
+    "@skillrecordings/analytics": "workspace:*",
+    "@skillrecordings/auth": "workspace:*",
+    "@skillrecordings/axios": "workspace:*",
+    "@skillrecordings/commerce": "workspace:*",
+    "@skillrecordings/config": "workspace:*",
+    "@skillrecordings/convertkit": "workspace:*",
+    "@skillrecordings/cookies": "workspace:*",
+    "@skillrecordings/player": "workspace:*",
+    "@skillrecordings/quiz": "workspace:*",
+    "@skillrecordings/react": "workspace:*",
+    "@skillrecordings/skill-api": "workspace:*",
+    "@skillrecordings/time": "workspace:*",
+    "@skillrecordings/viewer": "workspace:*",
+    "classnames": "^2.3.1",
+    "focus-visible": "^5.2.0",
+    "framer-motion": "^6.3.11",
+    "framer-motion-3d": "^6.2.8",
+    "leva": "^0.9.27",
+    "next": "12.1.6",
+    "next-compose-plugins": "^2.2.1",
+    "next-seo": "^5.4.0",
+    "next-sitemap": "^3.0.5",
+    "react": "17.0.2",
+    "react-dom": "17.0.2",
+    "react-query": "^3.39.1",
+    "three": "^0.141.0"
+  },
+  "devDependencies": {
+    "@skillrecordings/scripts": "workspace:*",
+    "@skillrecordings/tsconfig": "workspace:^0.0.5",
+    "@skillrecordings/types": "workspace:*",
+    "@types/node": "17.0.41",
+    "@types/react": "*",
+    "@types/three": "^0.141.0",
+    "@typescript-eslint/eslint-plugin": "^5.27.1",
+    "@typescript-eslint/parser": "^5.27.1",
+    "autoprefixer": "^10.4.7",
+    "eslint": "8.17.0",
+    "eslint-config-next": "12.1.6",
+    "eslint-plugin-react-hooks": "^4.5.0",
+    "postcss": "^8.4.14",
+    "prisma": "^3.15.1",
+    "tailwindcss": "^3.1.2"
+  },
+  "lint-staged": {
+    "*.{js,json,md,mdx,ts,tsx}": [
+      "prettier --write"
+    ],
+    "src/**/*.{ts,tsx,md,mdx,js}": [
+      "prettier --write"
+    ]
+  },
+  "jest": {
+    "preset": "@skillrecordings/scripts/jest/next"
+  },
+  "prettier": {
+    "printWidth": 80,
+    "tabWidth": 2,
+    "useTabs": false,
+    "semi": false,
+    "singleQuote": true,
+    "trailingComma": "all",
+    "bracketSpacing": false,
+    "jsxBracketSameLine": false
+  },
+  "resolutions": {
+    "jest-environment-jsdom": "27.4.6"
+  }
+}
