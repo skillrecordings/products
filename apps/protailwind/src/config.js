@@ -26,7 +26,7 @@ export default {
     },
     images: [
       {
-        url: 'https://protailwind.com/card@2x.png',
+        url: `${process.env.VERCEL_URL}/card@2x.png`,
         width: 1280,
         height: 720,
       },
