@@ -1,4 +1,5 @@
-import type {AppProps} from 'next/app'
+import React from 'react'
+import {AppProps} from 'next/app'
 import '../styles/globals.css'
 import 'focus-visible'
 import {ConvertkitProvider} from '@skillrecordings/convertkit'

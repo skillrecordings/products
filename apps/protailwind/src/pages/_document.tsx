@@ -1,8 +1,9 @@
+import * as React from 'react'
 import {Html, Head, Main, NextScript} from 'next/document'
 
 export default function Document() {
   return (
-    <Html>
+    <Html lang="en">
       <Head>
         <link rel="stylesheet" href="https://use.typekit.net/phg4qbq.css" />
       </Head>

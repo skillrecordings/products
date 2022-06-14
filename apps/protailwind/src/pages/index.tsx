@@ -197,7 +197,7 @@ const Header = () => {
             team
           </p>
         </div>
-        <div className="absolute left-0 bottom-0 w-full h-48 bg-gradient-to-b from-transparent to-slate-900" />
+        <div className="absolute left-0 bottom-0 w-full h-48 bg-gradient-to-b from-transparent to-slate-900 pointer-events-none" />
       </div>
     </header>
   )

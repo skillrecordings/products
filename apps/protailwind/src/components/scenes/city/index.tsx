@@ -100,7 +100,7 @@ const Scene: React.FC<SceneProps> = ({
         resize={{scroll: false, offsetSize: true}}
         dpr={[1, 2]}
         ref={canvasRef}
-        legacy
+        // legacy
         linear
       >
         {camera}

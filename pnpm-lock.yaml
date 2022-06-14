@@ -1768,7 +1768,7 @@ importers:
       '@skillrecordings/tsconfig': link:../../packages/tsconfig
       '@skillrecordings/types': link:../../packages/types
       '@types/node': 17.0.41
-      '@types/react': 18.0.12
+      '@types/react': 17.0.45
       '@types/three': 0.141.0
       '@typescript-eslint/eslint-plugin': 5.27.1_0b4a428db583c587288630f3d93a6d5a
       '@typescript-eslint/parser': 5.27.1_eslint@8.17.0+typescript@4.6.4
@@ -12014,14 +12014,6 @@ packages:
 
   /@types/react/17.0.45:
     resolution: {integrity: sha512-YfhQ22Lah2e3CHPsb93tRwIGNiSwkuz1/blk4e6QrWS0jQzCSNbGLtOEYhPg02W0yGTTmpajp7dCTbBAMN3qsg==}
-    dependencies:
-      '@types/prop-types': 15.7.4
-      '@types/scheduler': 0.16.2
-      csstype: 3.0.11
-    dev: true
-
-  /@types/react/18.0.12:
-    resolution: {integrity: sha512-duF1OTASSBQtcigUvhuiTB1Ya3OvSy+xORCiEf20H0P0lzx+/KeVsA99U5UjLXSbyo1DRJDlLKqTeM1ngosqtg==}
     dependencies:
       '@types/prop-types': 15.7.4
       '@types/scheduler': 0.16.2
