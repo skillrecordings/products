@@ -28,7 +28,7 @@ const HomeTemplate: React.FC<EmailCourseTemplateProps> = ({meta, children}) => {
   }, [router])
 
   return (
-    <Layout withFooter meta={meta} className="flex flex-col min-h-screen">
+    <Layout meta={meta} className="flex flex-col min-h-screen">
       <StarsBackground />
       <header className="pointer-events-none relative flex flex-col items-center justify-center text-center mx-auto md:pt-28 pt-16 md:min-h-[70vh] md:pb-32 pb-24 max-w-screen-xl">
         <AnimatedBadge
