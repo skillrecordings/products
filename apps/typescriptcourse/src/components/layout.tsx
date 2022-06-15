@@ -1,34 +1,55 @@
 import * as React from 'react'
-import DefaultLayout from '@skillrecordings/react/dist/layouts'
-import type {LayoutProps} from '@skillrecordings/react/dist/layouts'
-import config from '../config'
-import {first} from 'lodash'
-import Navigation from './navigation'
-import Footer from './footer'
+import {NextSeo} from 'next-seo'
+import Navigation, {NavigationProps} from 'components/navigation'
+import Footer from 'components/footer'
+import config from 'config'
+import isNull from 'lodash/isNull'
 
-const Layout: React.FC<LayoutProps & {withFooter?: boolean}> = ({
+export type LayoutProps = {
+  meta?: any
+  noIndex?: boolean
+  className?: string
+  navigation?: React.FC<NavigationProps> | null
+  footer?: React.FC<any> | null
+}
+
+const Layout: React.FC<LayoutProps> = ({
   children,
-  withFooter,
+  className = 'flex flex-col min-h-screen',
   meta,
-  ...props
+  noIndex,
+  navigation,
+  footer,
 }) => {
-  const defaultMeta = {
-    title: config.defaultTitle,
-    description: config.description,
-    titleAppendSiteName: false,
-    url: config.siteUrl,
-    ogImage: first(config.openGraph.images),
-  }
+  const {
+    title = config.defaultTitle,
+    description,
+    titleAppendSiteName = false,
+    url,
+    ogImage,
+  } = meta || {}
 
   return (
-    <DefaultLayout
-      {...props}
-      meta={{...defaultMeta, ...meta}}
-      Navigation={Navigation}
-      Footer={withFooter ? Footer : (null as any)}
-    >
-      {children}
-    </DefaultLayout>
+    <>
+      <NextSeo
+        title={title}
+        description={description}
+        titleTemplate={titleAppendSiteName ? undefined : '%s'}
+        openGraph={{
+          title,
+          description,
+          url,
+          images: ogImage ? [ogImage] : undefined,
+        }}
+        canonical={url}
+        noindex={noIndex}
+      />
+      <div className={className}>
+        {navigation ? navigation : isNull(navigation) ? null : <Navigation />}
+        <div className="flex-grow flex flex-col justify-center">{children}</div>
+        {footer ? footer : isNull(footer) ? null : <Footer />}
+      </div>
+    </>
   )
 }
 
