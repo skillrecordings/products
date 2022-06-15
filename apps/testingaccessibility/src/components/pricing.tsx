@@ -4,7 +4,6 @@ import {useQuery} from 'react-query'
 import {useDebounce} from '@skillrecordings/react'
 import {FormattedPrice} from '../utils/format-prices-for-product'
 import {Purchase} from '@prisma/client'
-import {useSession} from 'next-auth/react'
 
 const tier = {
   href: '#',
@@ -18,18 +17,33 @@ const tier = {
   ],
 }
 
-export const Pricing: React.FC<{
+type PricingProps = {
   product: {name: string; id: string}
   purchased?: boolean
   purchases?: Purchase[]
-}> = ({product, purchased = false, purchases = []}) => {
+  userId?: string
+}
+
+/**
+ * Pricing component for the product.
+ * @param product
+ * @param purchased
+ * @param purchases
+ * @param userId - If user is logged in, this is the user's ID.
+ * @constructor
+ */
+export const Pricing: React.FC<PricingProps> = ({
+  product,
+  purchased = false,
+  purchases = [],
+  userId,
+}) => {
   const [coupon, setCoupon] = React.useState()
   const [quantity, setQuantity] = React.useState(1)
-  const {data: session} = useSession()
   const debouncedQuantity: number = useDebounce<number>(quantity, 250)
 
   const {data: formattedPrice, status} = useQuery<FormattedPrice>(
-    ['pricing', coupon, debouncedQuantity, product.id, session?.id],
+    ['pricing', coupon, debouncedQuantity, product.id, userId],
     () =>
       fetch('/api/prices', {
         method: 'POST',
@@ -38,7 +52,7 @@ export const Pricing: React.FC<{
           coupon,
           quantity,
           purchases,
-          ...(session && {userId: session?.id}),
+          userId,
         }),
         headers: {
           'Content-Type': 'application/json',
@@ -160,7 +174,7 @@ export const Pricing: React.FC<{
                       action={`/api/stripe/checkout?productId=${
                         formattedPrice?.id
                       }&couponId=${appliedCoupon?.id}&quantity=${quantity}${
-                        session?.user ? `&userId=${session.id}` : ``
+                        userId ? `&userId=${userId}` : ``
                       }${
                         formattedPrice?.upgradeFromPurchaseId
                           ? `&upgradeFromPurchaseId=${formattedPrice?.upgradeFromPurchaseId}`
