@@ -3,7 +3,7 @@ import {getPurchasedProduct} from 'server/get-purchased-product'
 import {serialize} from 'utils/prisma-next-serializer'
 import {useProgress} from 'context/progress-context'
 import {PortableText} from '@portabletext/react'
-import {getNextUpLesson} from 'utils/progress'
+import {getModuleProgressForUser, getNextUpLesson} from 'utils/progress'
 import {LessonProgress} from '@prisma/client'
 import {SanityDocument} from '@sanity/client'
 import {GetServerSideProps} from 'next'
@@ -26,6 +26,10 @@ const productQuery = groq`*[_type == "product" && productId == $productId][0]{
   modules[]->{
     title,
     "slug": slug.current,
+    image{
+        url,
+        alt
+      },
     sections[]->{
       title,
       "slug": slug.current,
@@ -105,38 +109,87 @@ const Learn: React.FC<{purchases: Purchase[]; product: SanityDocument}> = ({
   const nextUpLesson = !isLoadingProgress && getNextUpLesson(progress, modules)
 
   return (
-    <Layout>
+    <Layout className="bg-green-700 bg-noise">
       <header className="w-full bg-gray-100">
         <div className="mx-auto py-[2px] w-full max-w-screen-lg flex">
           <Search product={product} />
         </div>
       </header>
-      <main className="max-w-screen-lg mx-auto w-full p-5 pt-16">
-        <h1 className="text-center uppercase text-xs leading-none font-bold text-pink-700">
+      <main className="max-w-screen-md mx-auto w-full lg:p-1 p-5 lg:pt-10 pt-10 lg:pb-32 pb-16">
+        {/* <h1 className="font-nav text-center text-2xl leading-none font-bold text-white py-10">
           {title}
-        </h1>
-        {modules.map((module: SanityDocument) => (
-          <ol key={module.slug}>
-            <li className="w-full text-center pb-8">
-              <Link
-                href={{
-                  pathname: '/learn/[module]',
-                  query: {module: module.slug},
-                }}
-                passHref
-              >
-                <a className="hover:underline text-2xl font-medium mt-2 inline-flex">
-                  {module.title}
-                </a>
-              </Link>
-            </li>
-            {module.sections && (
-              <li className="list-none">
-                <Sections progress={progress} module={module} />
-              </li>
-            )}
-          </ol>
-        ))}
+        </h1> */}
+        <div className="grid grid-cols-1 gap-16 w-full">
+          {modules.map((module: SanityDocument) => {
+            const {title, slug, image, sections} = module
+            const {completedSections, isCompleted} = getModuleProgressForUser(
+              progress,
+              sections,
+            )
+            return (
+              <ol key={slug} className="text-white">
+                <li className="flex md:flex-row flex-col items-center justify-center">
+                  <Link
+                    href={{
+                      pathname: '/learn/[module]',
+                      query: {module: slug},
+                    }}
+                    passHref
+                  >
+                    <a className="flex items-center justify-center flex-shrink-0">
+                      <Image
+                        src={image.url}
+                        alt={image.alt}
+                        width={350}
+                        height={350}
+                        quality={100}
+                      />
+                    </a>
+                  </Link>
+                  <div className=" w-full">
+                    <Link
+                      href={{
+                        pathname: '/learn/[module]',
+                        query: {module: slug},
+                      }}
+                      passHref
+                    >
+                      <a className="hover:underline text-4xl leading-tight font-bold mt-2 inline-flex font-heading">
+                        {title}
+                      </a>
+                    </Link>
+                    <ol className="pt-5 font-display list-decimal list-inside">
+                      {sections?.map((section: SanityDocument) => {
+                        const {title} = section
+                        return (
+                          <li className="marker:text-sand-100 hover:underline  py-1 text-sand- text-lg transition">
+                            <Link
+                              href={{
+                                pathname: '/learn/[module]/[section]',
+                                query: {
+                                  module: module.slug,
+                                  section: section.slug,
+                                },
+                              }}
+                              passHref
+                            >
+                              <a className="inline-flex">{title}</a>
+                            </Link>
+                          </li>
+                        )
+                      })}
+                    </ol>
+                  </div>
+                </li>
+                {/* {sections && (
+                <li className="list-none">
+                  <Sections progress={progress} module={module} />
+                </li>
+              )} */}
+              </ol>
+            )
+          })}
+        </div>
       </main>
     </Layout>
   )

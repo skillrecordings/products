@@ -67,7 +67,11 @@ const PortableTextComponents: PortableTextComponents = {
     emoji: ({text, value}: EmojiProps) => {
       const label = value?.emoji?.label || ''
       return (
-        <span role={label ? "img" : "presentation"} aria-label={label} aria-hidden={!label}>
+        <span
+          role={label ? 'img' : 'presentation'}
+          aria-label={label}
+          aria-hidden={!label}
+        >
           {text}
         </span>
       )
@@ -185,7 +189,6 @@ const PortableTextComponents: PortableTextComponents = {
     },
     divider: ({value}: DividerProps) => {
       const {image} = value
-      console.log({image})
       return image ? (
         <div className="flex items-center justify-center pt-10">
           <Image
