@@ -53,7 +53,7 @@ export async function getPodcast(podcastSlug: string) {
       description
     },
     'coverArtUrl': coverArt.asset->url,
-    'episodes': *[_type == "podcastEpisode" && season[0]->slug.current == ^.slug.current][]{
+    'episodes': episodes[]->{
       title,
       description,
       duration,
@@ -83,7 +83,7 @@ export async function getPodcastSeason(podcastSeasonSlug: string) {
       'coverArtUrl': coverArt.asset->url
     },
     'coverArtUrl': coverArt.asset->url,
-    'episodes': *[_type == "podcastEpisode" && season[0]->slug.current == ^.slug.current][]{
+    'episodes': episodes[]->{
       title,
       description,
       duration,
