@@ -2356,7 +2356,7 @@ importers:
       next: ^12.0.3
       next-compose-plugins: ^2.2.1
       next-images: ^1.8.2
-      next-seo: ^4.28.1
+      next-seo: ^5.4.0
       next-sitemap: ^1.6.203
       next-themes: ^0.1.1
       next-transpile-modules: ^9.0.0
@@ -2433,7 +2433,7 @@ importers:
       mdast-util-to-markdown: 1.2.6
       mdx-prism: 0.3.4
       next: 12.0.3_react-dom@17.0.2+react@17.0.2
-      next-seo: 4.28.1_72b2f1fb664d51f286fb64a58e104b48
+      next-seo: 5.4.0_72b2f1fb664d51f286fb64a58e104b48
       next-sitemap: 1.6.203_next@12.0.3
       next-themes: 0.1.1_72b2f1fb664d51f286fb64a58e104b48
       pluralize: 8.0.0
@@ -2902,7 +2902,7 @@ importers:
       lodash: ^4.17.21
       msw: ^0.34.0
       next: 11.1.2
-      next-seo: ^4.26.0
+      next-seo: ^5.4.0
       prism-react-renderer: ^1.2.1
       query-string: ^7.0.1
       react: 17.0.2
@@ -2928,7 +2928,7 @@ importers:
       formik: 2.2.8_react@17.0.2
       lodash: 4.17.21
       next: 11.1.2_3d1c9522d14fb82ea66798898ccb9caf
-      next-seo: 4.26.0_6fbf59523517da779df50d355b375324
+      next-seo: 5.4.0_6fbf59523517da779df50d355b375324
       prism-react-renderer: 1.2.1_react@17.0.2
       query-string: 7.0.1
       react: 17.0.2
@@ -25513,18 +25513,6 @@ packages:
       react: 17.0.2
     dev: false
 
-  /next-seo/4.26.0_6fbf59523517da779df50d355b375324:
-    resolution: {integrity: sha512-5TqywQ3XAwqdmEU1AyNZjR7WdDKFTkDD8aBtgQelPvzBUEy8i0mTjtiw+09jhiHFNik6FqS8uPKCaYcY6jRgSQ==}
-    peerDependencies:
-      next: ^8.1.1-canary.54 || >=9.0.0
-      react: '>=16.0.0'
-      react-dom: '>=16.0.0'
-    dependencies:
-      next: 11.1.2_3d1c9522d14fb82ea66798898ccb9caf
-      react: 17.0.2
-      react-dom: 17.0.2_react@17.0.2
-    dev: false
-
   /next-seo/4.28.1_72b2f1fb664d51f286fb64a58e104b48:
     resolution: {integrity: sha512-WZgwdM+UhpNF3A37zFllzmPhnOVJ9vYeYlc0n3Z/kYfz/QQgy8NEdncNNggS9dU4JD8xriaCcyknhy5OsrFsJw==}
     peerDependencies:
@@ -25557,6 +25545,30 @@ packages:
       react-dom: '>=16.0.0'
     dependencies:
       next: 12.1.6_react-dom@17.0.2+react@17.0.2
+      react: 17.0.2
+      react-dom: 17.0.2_react@17.0.2
+    dev: false
+
+  /next-seo/5.4.0_6fbf59523517da779df50d355b375324:
+    resolution: {integrity: sha512-R9DhajPwJnR/lsF2hZ8cN8uqr5CVITsRrCG1AF5+ufcaybKYOvnH8sH9MaH4/hpkps3PQ9H71S7J7SPYixAYzQ==}
+    peerDependencies:
+      next: ^8.1.1-canary.54 || >=9.0.0
+      react: '>=16.0.0'
+      react-dom: '>=16.0.0'
+    dependencies:
+      next: 11.1.2_3d1c9522d14fb82ea66798898ccb9caf
+      react: 17.0.2
+      react-dom: 17.0.2_react@17.0.2
+    dev: false
+
+  /next-seo/5.4.0_72b2f1fb664d51f286fb64a58e104b48:
+    resolution: {integrity: sha512-R9DhajPwJnR/lsF2hZ8cN8uqr5CVITsRrCG1AF5+ufcaybKYOvnH8sH9MaH4/hpkps3PQ9H71S7J7SPYixAYzQ==}
+    peerDependencies:
+      next: ^8.1.1-canary.54 || >=9.0.0
+      react: '>=16.0.0'
+      react-dom: '>=16.0.0'
+    dependencies:
+      next: 12.0.3_react-dom@17.0.2+react@17.0.2
       react: 17.0.2
       react-dom: 17.0.2_react@17.0.2
     dev: false
