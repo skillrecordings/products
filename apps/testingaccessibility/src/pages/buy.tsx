@@ -12,7 +12,8 @@ import {getCouponForCode} from '../server/get-coupon-for-code'
 const Buy: React.FC<{
   couponFromCode?: {isValid: boolean; id: string}
   purchases?: Purchase[]
-}> = ({couponFromCode, purchases = []}) => {
+  userId?: string
+}> = ({couponFromCode, purchases = [], userId}) => {
   const purchasedProductIds = purchases.map((purchase) => purchase.productId)
 
   const {validCoupon, RedeemDialogForCoupon} = useCoupon(couponFromCode)
@@ -34,6 +35,7 @@ const Buy: React.FC<{
       </div>
       <div className="flex flex-row justify-center">
         <Pricing
+          userId={userId}
           product={{
             name: 'Professional',
             id: 'd8b8a8a3-7d70-4445-a265-fcd04e2ef6ea',
@@ -65,6 +67,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 
   return {
     props: {
+      userId: token?.id,
       ...(couponFromCode && {couponFromCode: serialize(couponFromCode)}),
       ...(purchases && {purchases: [...purchases.map(serialize)]}),
     },

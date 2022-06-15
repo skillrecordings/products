@@ -15,9 +15,15 @@ export default {
     },
     {
       name: 'podcast',
-      description: 'Choose podcast(s) to publish this episode in',
+      description: 'Choose podcast(s) to publish this season in',
       type: 'array',
       of: [{type: 'reference', weak: true, to: [{type: 'podcast'}]}],
+    },
+    {
+      name: 'episodes',
+      description: 'Choose episodes(s) of this season',
+      type: 'array',
+      of: [{type: 'reference', weak: true, to: [{type: 'podcastEpisode'}]}],
     },
     {
       name: 'subtitle',
