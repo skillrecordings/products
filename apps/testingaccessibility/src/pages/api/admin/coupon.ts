@@ -29,6 +29,7 @@ const redeemHandler = async (req: NextApiRequest, res: NextApiResponse) => {
           data: {
             percentageDiscount: 1,
             maxUses: 1,
+            restrictedToProductId: process.env.NEXT_PUBLIC_DEFAULT_PRODUCT_ID,
           },
         })
         codes += `${process.env.NEXT_PUBLIC_URL}?code=${coupon.id}\n`

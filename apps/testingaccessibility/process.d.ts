@@ -18,5 +18,6 @@ declare namespace NodeJS {
     NEXT_PUBLIC_SUPPORT_EMAIL: string
     EMAIL_SERVER_HOST: string
     EMAIL_SERVER_PORT: number
+    NEXT_PUBLIC_DEFAULT_PRODUCT_ID: string
   }
 }

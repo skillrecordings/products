@@ -36,6 +36,8 @@ const redeemHandler = async (req: NextApiRequest, res: NextApiResponse) => {
 
       const {email: baseEmail, couponId, sendEmail = true} = req.body
 
+      console.log({baseEmail, couponId, sendEmail})
+
       if (!baseEmail) throw new Error('invalid-email')
 
       // something in the chain strips out the plus and leaves a space
@@ -57,10 +59,16 @@ const redeemHandler = async (req: NextApiRequest, res: NextApiResponse) => {
             email,
           )
 
+        console.log({coupon})
+
+        const productId =
+          (coupon.restrictedToProductId as string) ||
+          process.env.NEXT_PUBLIC_DEFAULT_PRODUCT_ID
+
         const existingPurchase = await prisma.purchase.findFirst({
           where: {
             userId: user.id,
-            productId: coupon.restrictedToProductId as string,
+            productId,
             bulkCoupon: null,
           },
           select: {
@@ -80,7 +88,7 @@ const redeemHandler = async (req: NextApiRequest, res: NextApiResponse) => {
           data: {
             userId: user.id,
             couponId: coupon.id,
-            productId: coupon.restrictedToProductId as string,
+            productId,
             totalAmount: 0,
           },
         })

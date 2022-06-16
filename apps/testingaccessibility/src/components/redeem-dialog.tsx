@@ -32,7 +32,15 @@ const RedeemDialog = ({open = false, couponId}: RedeemDialogProps) => {
         },
       }).then((response) => response.json())
 
-      router.push(`/thanks/redeem?purchaseId=${purchase?.id}`)
+      console.log({purchase})
+
+      debugger
+
+      if (purchase.error) {
+        console.error(purchase.message)
+      } else {
+        router.push(`/thanks/redeem?purchaseId=${purchase?.id}`)
+      }
     },
   })
   return (
