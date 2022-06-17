@@ -74,13 +74,13 @@ const Autocomplete = (props: any) => {
         {...autocomplete.getFormProps({inputElement: inputRef.current})}
       >
         <label
-          className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none"
+          className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-white/75"
           {...autocomplete.getLabelProps({})}
         >
           <SearchIcon className="w-5 h-5" />
         </label>
         <input
-          className="block w-full text-sm pl-10 py-3.5 bg-transparent border-none"
+          className="block w-full text-sm pl-10 py-3.5 bg-transparent border-none placeholder:text-white/75 text-white rounded-md"
           ref={inputRef}
           {...autocomplete.getInputProps({
             inputElement: inputRef.current as unknown as HTMLInputElement,

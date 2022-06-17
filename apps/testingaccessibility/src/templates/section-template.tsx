@@ -89,29 +89,48 @@ const SectionTemplate: React.FC<SectionTemplateProps> = ({
           </article>
         </main>
       </div>
-      {session && !lessons && (
-        <ProgressToggle
-          isCurrentLessonCompleted={isCurrentLessonCompleted}
-          toggleLessonComplete={toggleLessonComplete}
-          slug={sectionSlug}
-        />
-      )}
-      {nextUpSection && currentSectionIndex === 0 && (
-        <div className="w-full py-16 bg-gray-50 flex items-center justify-center gap-5">
-          <Link
-            href={{
-              pathname: '/learn/[module]/[section]',
-              query: getPathForSection(nextUpSection.slug, modules as any),
-            }}
+      {!lessons && (
+        <div className="py-16 bg-green-700 bg-noise text-white w-full">
+          <div
+            className={cx(
+              'max-w-screen-lg mx-auto w-full items-center justify-center lg:divide-x divide-green-800/75 lg:gap-10 gap-16',
+              {
+                'grid lg:grid-cols-2 grid-cols-1': nextUpSection && session,
+                flex: !nextUpSection,
+              },
+            )}
           >
-            <a className="px-5 py-4 rounded-md bg-gray-900 transition text-white flex">
-              <span className="pr-1">
-                Up next:{' '}
-                <span className="font-semibold">{nextUpSection.title}</span>
-              </span>
-              <ChevronRightIcon className="w-4" aria-hidden="true" />
-            </a>
-          </Link>
+            {session && !lessons && (
+              <ProgressToggle
+                isCurrentLessonCompleted={isCurrentLessonCompleted}
+                toggleLessonComplete={toggleLessonComplete}
+                slug={sectionSlug}
+              />
+            )}
+            {nextUpSection && currentSectionIndex === 0 && (
+              <div className="w-full py-16 flex items-center justify-center gap-5">
+                <Link
+                  href={{
+                    pathname: '/learn/[module]/[section]',
+                    query: getPathForSection(
+                      nextUpSection.slug,
+                      modules as any,
+                    ),
+                  }}
+                >
+                  <a className="focus-visible:ring-amber-500 transition-all mt-4 inline-flex items-center justify-center font-medium px-5 py-3 rounded-md bg-white shadow-lg hover:bg-white/90 text-black">
+                    <span className="pr-1">
+                      Up next:{' '}
+                      <span className="font-semibold">
+                        {nextUpSection.title}
+                      </span>
+                    </span>
+                    <ChevronRightIcon className="w-4" aria-hidden="true" />
+                  </a>
+                </Link>
+              </div>
+            )}
+          </div>
         </div>
       )}
     </Layout>

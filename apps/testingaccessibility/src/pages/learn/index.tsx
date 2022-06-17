@@ -11,14 +11,14 @@ import {SanityDocument} from '@sanity/client'
 import {GetServerSideProps} from 'next'
 import {Purchase} from '@prisma/client'
 import Search from 'components/search/autocomplete'
+import isEmpty from 'lodash/isEmpty'
 import Layout from 'components/app/layout'
 import Link from 'next/link'
 import groq from 'groq'
 import Image from 'next/image'
 import cx from 'classnames'
-import {getCurrentAbility} from '../../server/ability'
-import {subject} from '@casl/ability'
 import {getSession} from 'next-auth/react'
+import {getPathForLesson} from 'utils/get-resource-paths'
 
 const productQuery = groq`*[_type == "product" && productId == $productId][0]{
   title,
@@ -74,20 +74,6 @@ export const getServerSideProps: GetServerSideProps = async ({req}) => {
   //       at this point.
   const {product, purchases} = await getPurchasedProduct(req, productQuery)
 
-  const ability = getCurrentAbility({rules: session?.rules})
-
-  console.log(
-    `LEARN: can invite team members: ${ability.can('invite', 'Team')}`,
-  )
-  console.log(`LEARN: can view content: ${ability.can('view', 'Content')}`)
-
-  console.log(
-    `LEARN: can view product: ${ability.can(
-      'view',
-      subject('Product', product),
-    )}`,
-  )
-
   if (purchases) {
     return {
       props: {
@@ -110,12 +96,34 @@ const Learn: React.FC<{purchases: Purchase[]; product: SanityDocument}> = ({
 
   return (
     <Layout className="bg-green-700 bg-noise">
-      <header className="w-full bg-gray-100">
+      <header className="w-full bg-green-800/40">
         <div className="mx-auto py-[2px] w-full max-w-screen-lg flex">
           <Search product={product} />
         </div>
       </header>
       <main className="max-w-screen-md mx-auto w-full lg:p-1 p-5 lg:pt-10 pt-10 lg:pb-32 pb-16">
+        <header className="pt-10 pb-24 text-white flex flex-col items-center justify-center">
+          <h1 className="font-heading text-5xl font-bold text-center max-w-lg">
+            Testing Accessibility Workshops
+          </h1>
+          <Link
+            href={
+              nextUpLesson
+                ? {
+                    pathname: '/learn/[module]/[section]/[lesson]',
+                    query: getPathForLesson(nextUpLesson.slug, product.modules),
+                  }
+                : {
+                    pathname: '/learn/[module]',
+                    query: {module: 'foundations-of-accessibility'},
+                  }
+            }
+          >
+            <a className="mt-8 px-4 py-2 rounded-md border border-white/20 hover:bg-white/5 transition">
+              {isEmpty(progress) ? 'Start' : 'Continue'} Learning
+            </a>
+          </Link>
+        </header>
         {/* <h1 className="font-nav text-center text-2xl leading-none font-bold text-white py-10">
           {title}
         </h1> */}
@@ -153,7 +161,7 @@ const Learn: React.FC<{purchases: Purchase[]; product: SanityDocument}> = ({
                       }}
                       passHref
                     >
-                      <a className="hover:underline sm:text-4xl text-3xl leading-tight font-bold mt-2 inline-flex font-heading md:text-left text-center focus-visible:ring-white">
+                      <a className="hover:underline sm:text-4xl text-3xl leading-tight font-bold mt-2 inline-flex justify-center w-full font-heading md:text-left text-center focus-visible:ring-white">
                         {title}
                       </a>
                     </Link>

@@ -200,7 +200,7 @@ module.exports = {
             figure: {
               marginTop: em(24, 16),
             },
-            '#video': {
+            '.video': {
               marginTop: em(48, 16),
               marginBottom: em(48, 16),
             },

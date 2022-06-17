@@ -122,7 +122,7 @@ const PortableTextComponents: PortableTextComponents = {
     bodyVideo: ({value}: BodyVideoProps) => {
       const {url, title, caption} = value
       return (
-        <figure id="video">
+        <figure className="video">
           <VideoProvider>
             <Video url={url} title={title} />
           </VideoProvider>
