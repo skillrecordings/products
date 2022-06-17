@@ -15,12 +15,14 @@ import {
   VideoProvider,
 } from '@skillrecordings/player'
 import js from 'refractor/lang/javascript'
+import markdown from 'refractor/lang/markdown'
 import Refractor from 'react-refractor'
 import Image from 'next/image'
 import Link from 'next/link'
 import cx from 'classnames'
 
 Refractor.registerLanguage(js)
+Refractor.registerLanguage(markdown)
 
 const Video: React.FC<{url: string; title: string}> = ({url, title}) => {
   const fullscreenWrapperRef = React.useRef<HTMLDivElement>(null)
@@ -30,7 +32,7 @@ const Video: React.FC<{url: string; title: string}> = ({url, title}) => {
     .replace('stream.mux.com', 'image.mux.com')
     .replace('.m3u8', '/thumbnail.png?width=1600&height=1000&fit_mode=pad')
   return (
-    <div>
+    <div className="">
       {title && (
         <strong className="font-semibold inline-block pb-2">
           <span className="sr-only">Video:</span> {title}
@@ -126,8 +128,12 @@ const PortableTextComponents: PortableTextComponents = {
           </VideoProvider>
           <figcaption>
             <details>
-              <summary>Video Transcript</summary>
-              <PortableText value={caption} />
+              <summary className="cursor-pointer text-gray-500 hover:text-gray-700 transition">
+                Video Transcript
+              </summary>
+              <div className="text-gray-600">
+                <PortableText value={caption} />
+              </div>
             </details>
           </figcaption>
         </figure>
@@ -139,14 +145,14 @@ const PortableTextComponents: PortableTextComponents = {
       const {url, width, height} = image
 
       return (
-        <figure>
+        <figure className="flex items-center justify-center">
           <Image
             src={url}
             alt={alt}
             width={width}
             height={height}
             quality={100}
-            className="rounded-sm"
+            className="rounded-md"
           />
           {caption && (
             <figcaption>
@@ -160,7 +166,7 @@ const PortableTextComponents: PortableTextComponents = {
       const {language, code, highlightedLines} = value
       return (
         <Refractor
-          language={language}
+          language={language || 'javascript'}
           value={code}
           markers={highlightedLines}
         />
@@ -169,7 +175,9 @@ const PortableTextComponents: PortableTextComponents = {
     callout: ({value}: CalloutProps) => {
       const {body, type} = value
       return (
-        <div className={cx(`p-5 mb-4 rounded-md`, getCalloutStyles(type))}>
+        <div
+          className={cx(`p-5 sm:my-8 my-4 rounded-md`, getCalloutStyles(type))}
+        >
           <div>
             <span
               role="img"

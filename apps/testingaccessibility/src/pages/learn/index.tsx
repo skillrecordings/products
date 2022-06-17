@@ -2,20 +2,20 @@ import * as React from 'react'
 import {getPurchasedProduct} from 'server/get-purchased-product'
 import {serialize} from 'utils/prisma-next-serializer'
 import {useProgress} from 'context/progress-context'
-import {PortableText} from '@portabletext/react'
-import {getModuleProgressForUser, getNextUpLesson} from 'utils/progress'
-import {LessonProgress} from '@prisma/client'
+import {
+  getModuleProgressForUser,
+  getNextUpLesson,
+  getSectionProgressForUser,
+} from 'utils/progress'
 import {SanityDocument} from '@sanity/client'
 import {GetServerSideProps} from 'next'
 import {Purchase} from '@prisma/client'
-import PortableTextComponents from 'components/portable-text'
 import Search from 'components/search/autocomplete'
 import Layout from 'components/app/layout'
-import find from 'lodash/find'
 import Link from 'next/link'
-import cx from 'classnames'
 import groq from 'groq'
 import Image from 'next/image'
+import cx from 'classnames'
 import {getCurrentAbility} from '../../server/ability'
 import {subject} from '@casl/ability'
 import {getSession} from 'next-auth/react'
@@ -120,7 +120,7 @@ const Learn: React.FC<{purchases: Purchase[]; product: SanityDocument}> = ({
           {title}
         </h1> */}
         <div className="grid grid-cols-1 gap-16 w-full">
-          {modules.map((module: SanityDocument) => {
+          {modules.map((module: SanityDocument, i: number) => {
             const {title, slug, image, sections} = module
             const {completedSections, isCompleted} = getModuleProgressForUser(
               progress,
@@ -128,25 +128,24 @@ const Learn: React.FC<{purchases: Purchase[]; product: SanityDocument}> = ({
             )
             return (
               <ol key={slug} className="text-white">
-                <li className="flex md:flex-row flex-col items-center justify-center">
-                  <Link
-                    href={{
-                      pathname: '/learn/[module]',
-                      query: {module: slug},
-                    }}
-                    passHref
+                <li className="flex md:flex-row flex-col md:items-start items-center justify-center">
+                  <div
+                    className={cx(
+                      'flex items-center justify-center flex-shrink-0 hover:rotate-0 transition ease-in-out duration-300',
+                      {'md:-rotate-2': i % 2 === 0},
+                      {'md:rotate-2': i % 2 === 1},
+                    )}
                   >
-                    <a className="flex items-center justify-center flex-shrink-0">
-                      <Image
-                        src={image.url}
-                        alt={image.alt}
-                        width={350}
-                        height={350}
-                        quality={100}
-                      />
-                    </a>
-                  </Link>
-                  <div className=" w-full">
+                    <Image
+                      className="drop-shadow-xl"
+                      src={image.url}
+                      alt={image.alt}
+                      width={350}
+                      height={350}
+                      quality={100}
+                    />
+                  </div>
+                  <div className="w-full md:pt-16">
                     <Link
                       href={{
                         pathname: '/learn/[module]',
@@ -154,15 +153,24 @@ const Learn: React.FC<{purchases: Purchase[]; product: SanityDocument}> = ({
                       }}
                       passHref
                     >
-                      <a className="hover:underline text-4xl leading-tight font-bold mt-2 inline-flex font-heading">
+                      <a className="hover:underline sm:text-4xl text-3xl leading-tight font-bold mt-2 inline-flex font-heading md:text-left text-center focus-visible:ring-white">
                         {title}
                       </a>
                     </Link>
-                    <ol className="pt-5 font-display list-decimal list-inside">
-                      {sections?.map((section: SanityDocument) => {
+                    <ol className="pt-5 list-none">
+                      {sections?.map((section: SanityDocument, i: number) => {
                         const {title} = section
+                        const {isCompleted} = getSectionProgressForUser(
+                          progress,
+                          section.lessons,
+                        )
+
                         return (
-                          <li className="marker:text-sand-100 hover:underline  py-1 text-sand- text-lg transition">
+                          <li
+                            key={title}
+                            // className="group marker:text-sand-100 marker:pr-2 marker:text-sm marker:font-mono py-1 text-sand-100 text-lg transition"
+                            className="md:-ml-4 relative flex items-baseline before:opacity-60 before:absolute before:content-[attr(data-index)] before:text-xs marker:text-gray-400 before:pl-2 group "
+                          >
                             <Link
                               href={{
                                 pathname: '/learn/[module]/[section]',
@@ -173,7 +181,25 @@ const Learn: React.FC<{purchases: Purchase[]; product: SanityDocument}> = ({
                               }}
                               passHref
                             >
-                              <a className="inline-flex">{title}</a>
+                              <a
+                                aria-label={`${title} ${
+                                  isCompleted ? '(completed)' : ''
+                                }`}
+                                data-index={isCompleted ? '✓' : i + 1}
+                                className={cx(
+                                  `group rounded-md pl-4 group-hover:bg-green-800/20 text-sand-100 hover:text-white focus-visible:ring-white w-full font-medium py-4 transition relative items-center inline-flex before:font-semibold before:flex before:items-center before:justify-center before:font-mono before:content-[attr(data-index)] before:w-5 before:h-5 before:left-0 before:rounded-full before:flex-shrink-0`,
+                                  {
+                                    'before:text-[0.55em] before:text-sans-500/50 before:border before:border-white/20':
+                                      !isCompleted,
+                                    'before:text-sm before:text-white  before:bg-green-500':
+                                      isCompleted,
+                                  },
+                                )}
+                              >
+                                <span className="inline-flex pl-2">
+                                  {title}
+                                </span>
+                              </a>
                             </Link>
                           </li>
                         )
@@ -181,162 +207,12 @@ const Learn: React.FC<{purchases: Purchase[]; product: SanityDocument}> = ({
                     </ol>
                   </div>
                 </li>
-                {/* {sections && (
-                <li className="list-none">
-                  <Sections progress={progress} module={module} />
-                </li>
-              )} */}
               </ol>
             )
           })}
         </div>
       </main>
     </Layout>
-  )
-}
-
-type SectionsProps = {
-  progress: LessonProgress[]
-  module: SanityDocument
-}
-
-export const Sections: React.FC<SectionsProps> = ({progress, module}) => {
-  return (
-    <ol className="pt-16">
-      {module.sections.map((section: SanityDocument, i: number) => {
-        const isIntroSection = i === 0
-        const {image} = section
-        return (
-          <li
-            key={section.slug}
-            className={cx(
-              'lg:pb-32 sm:pb-28 pb-20 flex md:flex-row flex-col gap-10 max-w-screen-md mx-auto w-full',
-              {
-                'items-center': isIntroSection,
-              },
-            )}
-          >
-            {image && (
-              <div className="flex items-start md:justify-start justify-center flex-shrink-0">
-                <Image
-                  src={image.url}
-                  alt={image.alt}
-                  width={300}
-                  height={300}
-                  quality={100}
-                />
-              </div>
-            )}
-            <div
-              className={cx('w-full', {
-                'flex flex-col justify-center md:text-left text-center':
-                  isIntroSection,
-              })}
-            >
-              {!isIntroSection && (
-                <span className="uppercase font-bold text-sm text-gray-600 leading-none block pb-2">
-                  Section {i++}
-                </span>
-              )}
-              <Link
-                href={{
-                  pathname: '/learn/[module]/[section]',
-                  query: {
-                    module: module.slug,
-                    section: section.slug,
-                  },
-                }}
-                passHref
-              >
-                <a className="hover:underline text-[1.6rem] font-bold inline-block leading-tight">
-                  {section.title}
-                </a>
-              </Link>
-              {isIntroSection && (
-                <div>
-                  <Link
-                    href={{
-                      pathname: '/learn/[module]/[section]',
-                      query: {
-                        module: module.slug,
-                        section: section.slug,
-                      },
-                    }}
-                    passHref
-                  >
-                    <a className="uppercase font-bold text-xs text-white px-3 py-2 hover:bg-green-700 transition leading-none inline-flex bg-green-600 rounded-md mt-2">
-                      Start Here
-                    </a>
-                  </Link>
-                </div>
-              )}
-              {isIntroSection ? null : (
-                <div className="prose pt-5">
-                  <PortableText
-                    components={PortableTextComponents}
-                    value={section.body}
-                  />
-                </div>
-              )}
-              {section.lessons && (
-                <div className="pt-8">
-                  <strong>Lessons</strong>
-                  <ol className="list-none pt-2 divide-y divide-gray-100">
-                    {section.lessons.map(
-                      (lesson: SanityDocument, i: number) => {
-                        const isCompleted = find(progress, {
-                          lessonSlug: lesson.slug,
-                        })?.completedAt
-
-                        return (
-                          <li
-                            key={lesson.slug}
-                            className="relative flex items-baseline before:pt-4 before:opacity-60 before:absolute before:content-[attr(data-index)] before:text-xs marker:text-gray-400 before:pl-2 -mx-2 group"
-                          >
-                            <Link
-                              href={{
-                                pathname: '/learn/[module]/[section]/[lesson]',
-                                query: {
-                                  module: module.slug,
-                                  section: section.slug,
-                                  lesson: lesson.slug,
-                                },
-                              }}
-                              passHref
-                            >
-                              <a
-                                aria-label={`${lesson.title} ${
-                                  isCompleted ? '(completed)' : ''
-                                }`}
-                                data-index={isCompleted ? '✓' : i + 1}
-                                className={cx(
-                                  `group-hover:bg-white text-gray-800 hover:text-gray-900 -mx-3 px-3 w-full font-semibold py-4 transition relative items-center inline-flex before:font-semibold before:flex before:items-center before:justify-center before:font-mono before:content-[attr(data-index)] before:w-5 before:h-5 before:left-0 before:rounded-full before:flex-shrink-0`,
-                                  {
-                                    'before:text-xs before:text-gray-500':
-                                      !isCompleted,
-                                    'before:text-sm before:text-white before:border-green-600 before:bg-green-600':
-                                      isCompleted,
-                                  },
-                                )}
-                              >
-                                <span className="pl-3">{lesson.title} </span>
-                                {isCompleted && (
-                                  <span className="sr-only">(completed)</span>
-                                )}
-                              </a>
-                            </Link>
-                          </li>
-                        )
-                      },
-                    )}
-                  </ol>
-                </div>
-              )}
-            </div>
-          </li>
-        )
-      })}
-    </ol>
   )
 }
 

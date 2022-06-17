@@ -1,7 +1,6 @@
 import {getServerSideSitemap, getServerSideSitemapIndex} from 'next-sitemap'
 import {GetServerSideProps} from 'next'
 import {getAllArticles} from '../../lib/articles'
-import article from '../[article]'
 import {getAllReviews} from '../../lib/reviews'
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {

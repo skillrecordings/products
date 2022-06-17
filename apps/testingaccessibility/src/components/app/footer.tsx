@@ -4,6 +4,7 @@ import {handleSignOut} from './navigation'
 import {useRouter} from 'next/router'
 import Image from 'next/image'
 import Link from 'next/link'
+import toast from 'react-hot-toast'
 import {isSellingLive} from 'utils/is-selling-live'
 import {useNavState} from '../../hooks/use-nav-state'
 
@@ -42,9 +43,7 @@ const Footer: React.FC<FooterProps> = () => {
             </div>
             {isSignedIn && (
               <div>
-                <h2 className="text-orange-700 font-semibold">
-                  Account
-                </h2>
+                <h2 className="text-orange-700 font-semibold">Account</h2>
                 <ul className="pt-4">
                   {canViewTeam && (
                     <li>
@@ -64,7 +63,12 @@ const Footer: React.FC<FooterProps> = () => {
                     </NavLink>
                   </li>
                   <li>
-                    <NavLink onClick={() => handleSignOut(router)}>
+                    <NavLink
+                      onClick={async () => {
+                        await handleSignOut(router)
+                        toast.success('Signed out successfully')
+                      }}
+                    >
                       Sign Out
                     </NavLink>
                   </li>

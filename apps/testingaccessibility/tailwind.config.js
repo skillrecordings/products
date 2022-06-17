@@ -105,26 +105,30 @@ module.exports = {
             },
             h1: {
               fontSize: em(36, 16),
-              marginTop: '0',
+              marginTop: em(48, 36),
               marginBottom: em(32, 36),
               lineHeight: round(40 / 36),
+              fontFamily: theme('fontFamily.heading').join(', '),
             },
             h2: {
               fontSize: em(24, 16),
               marginTop: em(48, 24),
               marginBottom: em(24, 24),
               lineHeight: round(32 / 24),
+              fontFamily: theme('fontFamily.heading').join(', '),
             },
             h3: {
               fontSize: em(20, 16),
               marginTop: em(32, 20),
               marginBottom: em(12, 20),
               lineHeight: round(32 / 20),
+              fontFamily: theme('fontFamily.heading').join(', '),
             },
             h4: {
               marginTop: em(24, 16),
               marginBottom: em(8, 16),
               lineHeight: round(24 / 16),
+              fontFamily: theme('fontFamily.heading').join(', '),
             },
             video: {
               marginTop: em(32, 16),
@@ -139,9 +143,9 @@ module.exports = {
               color: theme('colors.green.700'),
               transition: 'all 150ms ease-in-out',
             },
-            'h1,h2,h4,h5': {
+            'h1, h2, h3, h4, h5': {
               color: theme('colors.gray.800'),
-              fontFamily: theme('fontFamily.sans').join(', '),
+              fontFamily: theme('fontFamily.heading').join(', '),
             },
             pre: {
               backgroundColor: '#011627',
@@ -170,7 +174,7 @@ module.exports = {
             },
             h1: {
               fontSize: em(48, 18),
-              marginTop: '0',
+              marginTop: em(56, 48),
               marginBottom: em(40, 48),
               lineHeight: round(48 / 48),
             },
@@ -198,6 +202,7 @@ module.exports = {
             },
             '#video': {
               marginTop: em(48, 16),
+              marginBottom: em(48, 16),
             },
           },
         },

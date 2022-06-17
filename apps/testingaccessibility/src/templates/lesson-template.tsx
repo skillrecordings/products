@@ -34,7 +34,8 @@ const LessonTemplate: React.FC<LessonTemplateProps> = ({
 }) => {
   const {data: session} = useSession()
   const {title, body, slug} = lesson
-  const {lessons, image} = section
+  const {lessons} = section
+  const image = section?.image ?? module?.image
   const currentLessonIndex = indexOf(lessons, find(lessons, {slug}))
   const {progress, toggleLessonComplete, isLoadingProgress} = useProgress()
   const currentLessonProgress = find(progress, {lessonSlug: slug})
@@ -60,28 +61,28 @@ const LessonTemplate: React.FC<LessonTemplateProps> = ({
             />
           </div>
         </div>
-        <div className=" w-full mx-auto flex-grow bg-white ">
+        <div className="w-full mx-auto flex-grow bg-white ">
           <div className="">
             <article className="bg-green-700 bg-noise">
-              <header className="py-10 px-4 max-w-screen-lg mx-auto rounded-md text-white flex md:flex-row flex-col items-center justify-center gap-5">
-                {image && (
+              <header className="py-10 min-h-[260px] px-4 max-w-screen-lg mx-auto rounded-md text-white flex md:flex-row flex-col items-center justify-center gap-5">
+                {/* {image && (
                   <div className="flex items-center justify-center max-w-xs">
                     <Image
                       src={image.url}
                       alt={image.alt}
                       quality={100}
-                      width={240}
-                      height={240}
+                      width={180}
+                      height={180}
                     />
                   </div>
-                )}
-                <h1 className="font-heading w-full lg:text-[2.5rem] leading-tighter text-3xl font-bold lg:max-w-xl md:text-left text-center md:pb-0 pb-5 lg:px-0 px-10">
+                )} */}
+                <h1 className="text-center font-heading md:text-5xl text-4xl font-bold">
                   {title}
                 </h1>
               </header>
               <div className="bg-white px-4">
-                <div className="relative max-w-screen-lg mx-auto flex w-full lg:grid flex-col sm:grid-cols-12 lg:gap-16 gap-5 md:border-t border-gray-100 lg:py-14 py-0">
-                  <div className="col-span-3">
+                <div className="relative max-w-screen-sm mx-auto flex w-full lg:grid flex-col sm:grid-cols-8 lg:gap-16 gap-5 md:border-t border-gray-100 lg:py-14 py-8">
+                  {/* <div className="col-span-3">
                     <LessonNavigator
                       className="pt-1.5 lg:block hidden"
                       lessons={lessons}
@@ -91,11 +92,8 @@ const LessonTemplate: React.FC<LessonTemplateProps> = ({
                       currentLessonIndex={currentLessonIndex}
                       isLoadingProgress={isLoadingProgress}
                     />
-                  </div>
-                  <div
-                    className="sm:col-span-8 max-w-none prose-p:max-w-screen-sm prose-ul:sm:pr-0 prose-ul:pr-5 prose-p:w-full prose-ul:max-w-screen-sm prose-ul:mx-auto text-gray-800 prose prose-p:py-2 prose-h2:text-green-800 prose-h2:font-display prose-h3:font-display prose-headings:text-left prose-h3:text-green-800 lg:prose-lg"
-                    //  className="prose lg:prose-lg max-w-none sm:col-span-8"
-                  >
+                  </div> */}
+                  <div className="sm:col-span-8 max-w-none md:prose-figure:-mx-8 prose-figure:mx-0 prose-ul:sm:pr-0 prose-ul:pr-5 prose-p:w-full prose-ul:max-w-screen-sm prose-ul:mx-auto text-gray-800 prose prose-h2:text-green-800 prose-headings:text-left prose-h3:text-green-800 lg:prose-lg">
                     <PortableText
                       value={body}
                       components={PortableTextComponents}
@@ -144,7 +142,7 @@ type ProgressToggleProps = {
   slug: string
 }
 
-const ProgressToggle: React.FC<ProgressToggleProps> = ({
+export const ProgressToggle: React.FC<ProgressToggleProps> = ({
   isCurrentLessonCompleted,
   toggleLessonComplete,
   slug,
@@ -255,7 +253,7 @@ const UpNext: React.FC<UpNextProps> = ({
   return (
     <>
       {nextLesson ? (
-        <div className="text-center">
+        <div className="text-center flex flex-col px-5">
           <p className="text-xl font-bold pb-1">Up next</p>
           <p className="text-gray-700">
             There {pluralize('is', numberOfLessonsLeftInSection)}{' '}
@@ -279,7 +277,7 @@ const UpNext: React.FC<UpNextProps> = ({
                   },
             }}
           >
-            <a className="transition-all mt-4 inline-flex items-center justify-center font-medium px-5 py-3 rounded-md bg-gray-900 text-white">
+            <a className="transition-all mt-4 inline-flex items-center justify-center font-medium px-5 py-3 rounded-md bg-green-600 bg-noise shadow-lg hover:bg-green-700 text-white">
               <span>{nextLesson.title}</span>
               <ChevronRightIcon className="w-5" aria-hidden="true" />
             </a>
@@ -308,7 +306,7 @@ const UpNext: React.FC<UpNextProps> = ({
                     },
               }}
             >
-              <a className="transition-all mt-4 inline-flex items-center justify-center font-medium px-5 py-3 rounded-md bg-gray-900 text-white">
+              <a className="transition-all mt-4 inline-flex items-center justify-center font-medium px-5 py-3 rounded-md bg-green-600 bg-noise shadow-lg hover:bg-green-700 text-white">
                 <span>{nextSectionLesson.title}</span>
                 <ChevronRightIcon className="w-5" aria-hidden="true" />
               </a>

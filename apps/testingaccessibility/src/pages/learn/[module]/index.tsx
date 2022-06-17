@@ -17,6 +17,10 @@ const moduleQuery = groq`*[_type == "module" && slug.current == $slug][0]{
   title,
   "slug": slug.current,
   body,
+  image{
+        url,
+        alt
+      },
   sections[]->{
       title,
       "slug": slug.current,

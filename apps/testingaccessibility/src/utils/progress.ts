@@ -115,8 +115,8 @@ export const getNextUpLesson = (
   if (isEmpty(progressSortedByLastCompleted)) return null
 
   const allLessons = modules
-    .flatMap((m) => m.sections)
-    .flatMap((s) => s.lessons)
+    .flatMap((m) => m?.sections)
+    .flatMap((s) => s?.lessons)
 
   const unfinishedLessons = allLessons.filter(
     (l) => !progressSortedByLastCompleted.includes(l),

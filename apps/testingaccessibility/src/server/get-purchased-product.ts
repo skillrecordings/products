@@ -10,6 +10,9 @@ const defaultProductQuery = groq`*[_type == "product" && productId == $productId
   modules[]->{
     "slug": slug.current,
     title,
+    image {
+      url, alt
+    },
     sections[]->{
       "slug": slug.current,
       title,
