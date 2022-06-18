@@ -112,21 +112,32 @@ const Home: NextPage = () => {
             </strong>{' '}
             with Tailwind CSS, sign up below!
           </p>
-          <p
-            className="text-amber-300 text-center text-3xl pt-10"
-            aria-hidden="true"
-          >
-            〜
-          </p>
+          <div className="pt-8">
+            <svg
+              className="text-amber-300 mx-auto"
+              role="presentation"
+              aria-hidden="true"
+              width="28"
+              height="28"
+              viewBox="0 0 28 28"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M14.0001 0.000167999C13.369 5.15074 13.1601 8.42196 11.9274 10.5329C9.91165 13.1568 6.41815 13.4073 0 14.0001C6.31427 14.7635 9.72775 14.9298 11.7491 17.3337C13.2595 19.4622 13.5144 22.7542 14 28C14.8236 21.1958 14.9527 17.7605 17.9354 15.8047C20.0562 14.7798 23.2215 14.5567 28 14C22.0752 13.2737 18.6385 13.1075 16.5923 11.2974C14.8608 9.23457 14.6771 5.80884 14.0001 0V0.000167999Z"
+                fill="currentColor"
+              />
+            </svg>
+          </div>
         </div>
-        <section className=" relative ">
+        <section className="relative">
           <div className="absolute left-0 bottom-0 overflow-hidden w-full h-[700px]">
             <CityScene camera={<Camera animateOnScroll={false} />} />
             <div className="absolute top-0 left-0 w-full h-56 bg-gradient-to-b from-slate-900 to-slate-900/0" />
           </div>
           <div className="pt-10 sm:pb-48 pb-32 px-5 relative w-full flex flex-col items-center justify-center">
             <div className="text-center pb-16">
-              <h2 className="font-heading sm:text-5xl text-[2.5rem] leading-none font-bold text-slate-50">
+              <h2 className="font-heading sm:text-6xl text-[2.5rem] leading-none font-bold text-slate-50">
                 Learn to use Tailwind CSS like a pro
               </h2>
               <p className="pt-4 text-indigo-300">
