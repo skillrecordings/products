@@ -1,7 +1,9 @@
 import React from 'react'
 import type {ArbitraryTypedObject, PortableTextBlock} from '@portabletext/types'
 import {getPathForLesson, getPathForSection} from 'utils/get-resource-paths'
+import {ChevronDownIcon, ChevronUpIcon} from '@heroicons/react/solid'
 import {
+  toPlainText,
   PortableText,
   PortableTextComponents,
   PortableTextMarkComponentProps,
@@ -14,15 +16,20 @@ import {
   useVideo,
   VideoProvider,
 } from '@skillrecordings/player'
-import js from 'refractor/lang/javascript'
-import markdown from 'refractor/lang/markdown'
-import Refractor from 'react-refractor'
+import speakingurl from 'speakingurl'
 import Image from 'next/image'
 import Link from 'next/link'
 import cx from 'classnames'
 
+import Refractor from 'react-refractor'
+import js from 'refractor/lang/javascript'
+import markdown from 'refractor/lang/markdown'
+import yaml from 'refractor/lang/yaml'
+import Spinner from 'components/spinner'
+
 Refractor.registerLanguage(js)
 Refractor.registerLanguage(markdown)
+Refractor.registerLanguage(yaml)
 
 const Video: React.FC<{url: string; title: string}> = ({url, title}) => {
   const fullscreenWrapperRef = React.useRef<HTMLDivElement>(null)
@@ -62,9 +69,55 @@ const Video: React.FC<{url: string; title: string}> = ({url, title}) => {
   )
 }
 
+const BodyImage = ({value}: BodyImageProps) => {
+  const {alt, caption, image} = value
+  const [isLoading, setIsLoading] = React.useState<boolean>(true)
+  if (!image) return <figure>⚠️ missing image</figure>
+  const {url, width, height} = image
+  return (
+    <figure
+      className={cx('flex items-center justify-center relative', {
+        'bg-gray-100': isLoading,
+      })}
+    >
+      <Image
+        onLoadingComplete={() => {
+          setIsLoading(false)
+        }}
+        src={url}
+        alt={alt}
+        width={width}
+        height={height}
+        quality={100}
+        className="rounded-md"
+      />
+      {isLoading && <Spinner className="w-8 h-8 absolute" />}
+      {caption && (
+        <figcaption>
+          <PortableText value={caption} />
+        </figcaption>
+      )}
+    </figure>
+  )
+}
+
 // https://github.com/portabletext/react-portabletext
 
 const PortableTextComponents: PortableTextComponents = {
+  block: {
+    h1: ({children, value}) => {
+      return <h1 id={speakingurl(toPlainText(value))}>{children}</h1>
+    },
+    h2: ({children, value}) => {
+      return <h2 id={speakingurl(toPlainText(value))}>{children}</h2>
+    },
+    h3: ({children, value}) => {
+      return <h3 id={speakingurl(toPlainText(value))}>{children}</h3>
+    },
+    h4: ({children, value}) => {
+      return <h4 id={speakingurl(toPlainText(value))}>{children}</h4>
+    },
+  },
   marks: {
     emoji: ({text, value}: EmojiProps) => {
       const label = value?.emoji?.label || ''
@@ -127,9 +180,20 @@ const PortableTextComponents: PortableTextComponents = {
             <Video url={url} title={title} />
           </VideoProvider>
           <figcaption>
-            <details>
-              <summary className="cursor-pointer text-gray-500 hover:text-gray-700 transition">
-                Video Transcript
+            <details
+              className="group marker:text-transparent"
+              aria-label="Video transcript"
+              role="contentinfo"
+            >
+              <summary className="inline-flex space-x-2 items-center cursor-pointer text-gray-600 hover:text-gray-800 transition">
+                <span
+                  aria-hidden="true"
+                  className="group-hover:bg-gray-50 p-1 rounded-full border border-gray-200 flex items-center justify-center transition"
+                >
+                  <ChevronDownIcon className="group-open:hidden w-4 h-4" />
+                  <ChevronUpIcon className="group-open:block hidden w-4 h-4" />
+                </span>
+                <span className="text-base">Video Transcript</span>
               </summary>
               <div className="text-gray-600">
                 <PortableText value={caption} />
@@ -139,29 +203,7 @@ const PortableTextComponents: PortableTextComponents = {
         </figure>
       )
     },
-    bodyImage: ({value}: BodyImageProps) => {
-      const {alt, caption, image} = value
-      if (!image) return <figure>⚠️ missing image</figure>
-      const {url, width, height} = image
-
-      return (
-        <figure className="flex items-center justify-center">
-          <Image
-            src={url}
-            alt={alt}
-            width={width}
-            height={height}
-            quality={100}
-            className="rounded-md"
-          />
-          {caption && (
-            <figcaption>
-              <PortableText value={caption} />
-            </figcaption>
-          )}
-        </figure>
-      )
-    },
+    bodyImage: ({value}: BodyImageProps) => <BodyImage value={value} />,
     code: ({value}: CodeProps) => {
       const {language, code, highlightedLines} = value
       return (

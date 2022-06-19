@@ -80,7 +80,7 @@ const Autocomplete = (props: any) => {
           <SearchIcon className="w-5 h-5" />
         </label>
         <input
-          className="block w-full text-sm pl-10 py-3.5 bg-transparent border-none placeholder:text-white/75 text-white rounded-md"
+          className="block w-full text-sm pl-10 py-3.5 bg-transparent border-none placeholder:text-white/75 text-white rounded-sm focus-visible:ring-white/60"
           ref={inputRef}
           {...autocomplete.getInputProps({
             inputElement: inputRef.current as unknown as HTMLInputElement,

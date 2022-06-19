@@ -10,6 +10,7 @@
 
 :root {
   --reach-skip-nav: 1;
+  scroll-padding-top: 80px;
 }
 
 #__next {
@@ -122,4 +123,17 @@
 
 #rewardId {
   @apply w-full z-50;
+}
+
+/* player theme */
+
+.cueplayer-react .cueplayer-react-progress-bar [data-reach-slider-range] {
+  @apply bg-green-600;
+}
+
+.cueplayer-react
+  .cueplayer-react-progress-bar
+  .cueplayer-react-progress-slider
+  [data-reach-slider-handle]:focus {
+  @apply outline-green-500;
 }

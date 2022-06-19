@@ -17,6 +17,7 @@ import {ProgressToggle} from './lesson-template'
 import {useSession} from 'next-auth/react'
 import {isEmpty} from 'lodash'
 import {LessonProgress} from '@prisma/client'
+import TableOfContents from 'components/portable-text/table-of-contents'
 
 type SectionTemplateProps = {
   section: SanityDocument
@@ -76,9 +77,14 @@ const SectionTemplate: React.FC<SectionTemplateProps> = ({
             />
           </div>
         )}
-        <main className="mx-auto xl:px-0 px-5 py-10 sm:pb-24 pb-16 lg:gap-10 gap-5">
+        <main className="mx-auto xl:px-0 px-5 py-5 sm:pb-24 pb-16 lg:gap-10 gap-5">
           <article className="max-w-screen-sm mx-auto col-span-7">
-            <div className="">
+            {!lessons && (
+              <div className="pb-8">
+                <TableOfContents value={body} />
+              </div>
+            )}
+            <div>
               <div className="prose lg:prose-lg max-w-none">
                 <PortableText
                   value={body}

@@ -4,9 +4,11 @@ import {useProgress} from 'context/progress-context'
 import {PortableText} from '@portabletext/react'
 import {SanityDocument} from '@sanity/client'
 import {LessonProgress} from '@prisma/client'
+import {useSession} from 'next-auth/react'
 import {Switch} from '@headlessui/react'
 import {useReward} from 'react-rewards'
 import {useRouter} from 'next/router'
+import TableOfContents from 'components/portable-text/table-of-contents'
 import PortableTextComponents from 'components/portable-text'
 import BreadcrumbNav from 'components/breadcrumb'
 import Layout from 'components/app/layout'
@@ -15,11 +17,9 @@ import indexOf from 'lodash/indexOf'
 import isEmpty from 'lodash/isEmpty'
 import pluralize from 'pluralize'
 import first from 'lodash/first'
-import Image from 'next/image'
 import find from 'lodash/find'
 import Link from 'next/link'
 import cx from 'classnames'
-import {useSession} from 'next-auth/react'
 
 type LessonTemplateProps = {
   module?: SanityDocument
@@ -64,7 +64,7 @@ const LessonTemplate: React.FC<LessonTemplateProps> = ({
         <div className="w-full mx-auto flex-grow bg-white ">
           <div className="">
             <article className="bg-green-700 bg-noise">
-              <header className="py-10 min-h-[260px] px-4 max-w-screen-lg mx-auto rounded-md text-white flex md:flex-row flex-col items-center justify-center gap-5">
+              <header className="py-16 min-h-[300px] px-4 max-w-screen-lg mx-auto rounded-md text-white flex flex-col items-center justify-center">
                 {/* {image && (
                   <div className="flex items-center justify-center max-w-xs">
                     <Image
@@ -81,19 +81,20 @@ const LessonTemplate: React.FC<LessonTemplateProps> = ({
                 </h1>
               </header>
               <div className="bg-white px-4">
-                <div className="relative max-w-screen-sm mx-auto flex w-full lg:grid flex-col sm:grid-cols-8 lg:gap-16 gap-5 md:border-t border-gray-100 lg:py-14 py-8">
+                <TableOfContents value={body} />
+                <div className="relative flex flex-col lg:py-10 py-8 max-w-screen-md w-full mx-auto">
                   {/* <div className="col-span-3">
                     <LessonNavigator
-                      className="pt-1.5 lg:block hidden"
-                      lessons={lessons}
-                      progress={progress}
-                      module={module}
-                      section={section}
-                      currentLessonIndex={currentLessonIndex}
-                      isLoadingProgress={isLoadingProgress}
+                    className="pt-1.5 lg:block hidden"
+                    lessons={lessons}
+                    progress={progress}
+                    module={module}
+                    section={section}
+                    currentLessonIndex={currentLessonIndex}
+                    isLoadingProgress={isLoadingProgress}
                     />
                   </div> */}
-                  <div className="sm:col-span-8 max-w-none md:prose-figure:-mx-8 prose-figure:mx-0 prose-ul:sm:pr-0 prose-ul:pr-5 prose-p:w-full prose-ul:max-w-screen-sm prose-ul:mx-auto text-gray-800 prose prose-h2:text-green-800 prose-headings:text-left prose-h3:text-green-800 lg:prose-lg">
+                  <div className="max-w-none xl:prose-pre:text-base md:prose-pre:text-base prose-pre:text-xs prose-ul:sm:pr-0 prose-ul:pr-5 prose-p:w-full  prose-ul:mx-auto text-gray-800 prose prose-h2:text-green-800 prose-headings:text-left prose-h3:text-green-800 md:prose-lg xl:prose-xl">
                     <PortableText
                       value={body}
                       components={PortableTextComponents}

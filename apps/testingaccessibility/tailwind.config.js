@@ -135,12 +135,13 @@ module.exports = {
               marginBottom: em(32, 16),
             },
             a: {
-              color: theme('colors.green.600'),
+              color: theme('colors.green.500'),
               textDecoration: 'underline',
               transition: 'all 150ms ease-in-out',
             },
             'a:hover': {
-              color: theme('colors.green.700'),
+              color: theme('colors.green.600'),
+              background: theme('colors.moss.50'),
               transition: 'all 150ms ease-in-out',
             },
             'h1, h2, h3, h4, h5': {

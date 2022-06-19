@@ -119,7 +119,7 @@ const Learn: React.FC<{purchases: Purchase[]; product: SanityDocument}> = ({
                   }
             }
           >
-            <a className="mt-8 px-4 py-2 rounded-md border border-white/20 hover:bg-white/5 transition">
+            <a className="mt-8 px-4 py-2 rounded-md border border-white/20 hover:bg-white/5 transition focus-visible:ring-white">
               {isEmpty(progress) ? 'Start' : 'Continue'} Learning
             </a>
           </Link>
