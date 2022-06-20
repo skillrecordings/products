@@ -201,7 +201,6 @@ model Purchase {
   merchantCharge          MerchantCharge?    @relation(fields: [merchantChargeId], references: [id], onDelete: Cascade)
   product                 Product            @relation(fields: [productId], references: [id], onDelete: Cascade)
   user                    User?              @relation(fields: [userId], references: [id], onDelete: Cascade)
-
 }
 
 model Session {
