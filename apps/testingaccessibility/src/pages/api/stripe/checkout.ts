@@ -34,6 +34,8 @@ export default withSentry(async function stripeCheckoutHandler(
 ) {
   setupHttpTracing({name: stripeCheckoutHandler.name, tracer, req, res})
   if (req.method === 'POST') {
+    const ip_address = req.headers['x-forwarded-for'] as string
+
     try {
       Sentry.addBreadcrumb({
         category: 'checkout',
@@ -196,6 +198,7 @@ export default withSentry(async function stripeCheckoutHandler(
           ...(Boolean(availableUpgrade && upgradeFromPurchase) && {
             upgradeFromPurchaseId: upgradeFromPurchaseId as string,
           }),
+          ip_address,
         },
       })
 
