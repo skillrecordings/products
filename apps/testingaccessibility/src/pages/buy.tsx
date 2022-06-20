@@ -67,7 +67,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 
   return {
     props: {
-      userId: token?.id,
+      ...(token?.id ? {userId: token?.id} : {}),
       ...(couponFromCode && {couponFromCode: serialize(couponFromCode)}),
       ...(purchases && {purchases: [...purchases.map(serialize)]}),
     },
