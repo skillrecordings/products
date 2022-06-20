@@ -2,7 +2,6 @@ import type {NextPage} from 'next'
 import React from 'react'
 import CityScene from 'components/scenes/city'
 import Camera from 'components/scenes/city/camera'
-import {motion} from 'framer-motion'
 import Simon from '../../public/assets/simon-vrachliotis.png'
 import {
   SubscribeToConvertkitForm,
@@ -47,38 +46,25 @@ const Home: NextPage = () => {
           with its primitive utilities, in a team environment, you'll eventually
           ask yourself:
         </p>
-        <motion.ol className="py-16 px-5 max-w-screen-md mx-auto list-none p-0 divide-y divide-slate-800">
+        <ol className="py-16 px-5 max-w-screen-md mx-auto list-none p-0 divide-y divide-slate-800">
           {questions.map(({body, title, alt}, i) => (
-            <motion.li
+            <li
               key={title}
               className="flex sm:gap-10 gap-6 items-center leading-normal sm:p-10 p-6 m-0 group"
             >
-              <motion.span
-                viewport={{once: true}}
-                whileInView={{
-                  color: [
-                    'rgb(100, 116, 139)',
-                    'rgb(245, 158, 11)',
-                    'rgb(100, 116, 139)',
-                  ],
-                }}
-                transition={{
-                  duration: 1,
-                  delay: i / 1.3,
-                  repeatDelay: questions.length,
-                }}
+              <span
                 aria-hidden="true"
-                className="flex-shrink-0 text-4xl font-display font-bold p-2 opacity-70 group-hover:opacity-100 "
+                className="flex-shrink-0 text-4xl font-display font-bold p-2 opacity-50 group-hover:opacity-100 group-hover:text-yellow-500 transition ease-in-out duration-300"
               >
                 {alt}
-              </motion.span>
+              </span>
               <div className="flex flex-col">
                 <span className="leading-normal">{body}</span>
               </div>
-            </motion.li>
+            </li>
           ))}
-        </motion.ol>
-        <div className="pb-16 mx-auto w-full max-w-screen-sm relative z-10 space-y-10 md:px-0 px-5">
+        </ol>
+        <div className="sm:pb-16 pb-5 mx-auto w-full max-w-screen-sm relative z-10 space-y-10 md:px-0 px-5">
           <p>
             Those are tricky questions.{' '}
             <strong className="text-teal-300 font-semibold">
@@ -112,23 +98,7 @@ const Home: NextPage = () => {
             </strong>{' '}
             with Tailwind CSS, sign up below!
           </p>
-          <div className="pt-8">
-            <svg
-              className="text-amber-300 mx-auto"
-              role="presentation"
-              aria-hidden="true"
-              width="28"
-              height="28"
-              viewBox="0 0 28 28"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                d="M14.0001 0.000167999C13.369 5.15074 13.1601 8.42196 11.9274 10.5329C9.91165 13.1568 6.41815 13.4073 0 14.0001C6.31427 14.7635 9.72775 14.9298 11.7491 17.3337C13.2595 19.4622 13.5144 22.7542 14 28C14.8236 21.1958 14.9527 17.7605 17.9354 15.8047C20.0562 14.7798 23.2215 14.5567 28 14C22.0752 13.2737 18.6385 13.1075 16.5923 11.2974C14.8608 9.23457 14.6771 5.80884 14.0001 0V0.000167999Z"
-                fill="currentColor"
-              />
-            </svg>
-          </div>
+          <DividerStar />
         </div>
         <section className="relative">
           <div className="absolute left-0 bottom-0 overflow-hidden w-full h-[700px]">
@@ -211,5 +181,27 @@ const Header = () => {
         <div className="absolute left-0 bottom-0 w-full h-48 bg-gradient-to-b from-transparent to-slate-900 sm:pointer-events-none" />
       </div>
     </header>
+  )
+}
+
+const DividerStar = () => {
+  return (
+    <div className="pt-8">
+      <svg
+        className="text-amber-300 mx-auto"
+        role="presentation"
+        aria-hidden="true"
+        width="28"
+        height="28"
+        viewBox="0 0 28 28"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          d="M14.0001 0.000167999C13.369 5.15074 13.1601 8.42196 11.9274 10.5329C9.91165 13.1568 6.41815 13.4073 0 14.0001C6.31427 14.7635 9.72775 14.9298 11.7491 17.3337C13.2595 19.4622 13.5144 22.7542 14 28C14.8236 21.1958 14.9527 17.7605 17.9354 15.8047C20.0562 14.7798 23.2215 14.5567 28 14C22.0752 13.2737 18.6385 13.1075 16.5923 11.2974C14.8608 9.23457 14.6771 5.80884 14.0001 0V0.000167999Z"
+          fill="currentColor"
+        />
+      </svg>
+    </div>
   )
 }
