@@ -8,7 +8,7 @@ import {SanityDocument} from '@sanity/client'
 import {getAllArticles} from '../lib/articles'
 
 const meta = {
-  title: 'Accessibility Articles',
+  title: 'Badass Articles',
   ogImage: {
     url: 'https://testingaccessibility.com/assets/accessibility-articles-card@2x.png',
   },
