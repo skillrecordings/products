@@ -47,9 +47,11 @@ export const getSectionProgressForUser = (
     ({lessonSlug, completedAt}) =>
       sectionLessonsSlugs.includes(lessonSlug) && completedAt,
   )
+
   const numberOfLessons = sectionLessons.length
   const numberOfCompletedLessons = completedLessonsInSection.length
-  const isCompleted = numberOfCompletedLessons === numberOfLessons
+  const isCompleted =
+    numberOfCompletedLessons > 0 && numberOfCompletedLessons === numberOfLessons
   const percentCompleted = Math.round(
     (100 * numberOfCompletedLessons) / numberOfLessons,
   )
