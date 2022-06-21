@@ -15,6 +15,8 @@ import Layout from 'components/layout'
 import isEmpty from 'lodash/isEmpty'
 import Image from 'next/image'
 import Link from 'next/link'
+import {CallToActionForm} from '../components/call-to-action-form'
+import {genericCallToActionContent} from '../components/landing-content'
 
 type ArticleTemplateProps = {
   article: SanityDocument
@@ -48,7 +50,7 @@ const ArticleTemplate: React.FC<ArticleTemplateProps> = ({
       <Header title={title} date={date} />
       <main>
         <div className="max-w-screen-sm mx-auto w-full">
-          <div className="md:pt-16 pt-10 lg:px-0 px-5">
+          <div className="md:pt-16 pt-10 lg:px-0 px-5 pb-16">
             <article className="prose md:prose-lg md:prose-code:text-sm max-w-none">
               <PortableText value={body} components={PortableTextComponents} />
               {!hasSubscribed && subscribersOnly && (
@@ -190,7 +192,7 @@ const getCTA: React.FC<GetCTAProps> = ({
       )
 
     default:
-      return null
+      return <CallToActionForm content={genericCallToActionContent} />
   }
 }
 
