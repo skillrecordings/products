@@ -84,6 +84,7 @@ export async function getPodcastSeason(podcastSeasonSlug: string) {
     },
     'coverArtUrl': coverArt.asset->url,
     'episodes': episodes[]->{
+      _updatedAt,
       title,
       description,
       duration,
