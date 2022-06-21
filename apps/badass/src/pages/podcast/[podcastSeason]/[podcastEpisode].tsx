@@ -10,6 +10,8 @@ import {
 } from '../../../lib/podcast'
 import Markdown from 'react-markdown'
 import {isEmpty} from 'lodash'
+import {genericCallToActionContent} from '../../../components/landing-content'
+import {CallToActionForm} from '../../../components/call-to-action-form'
 
 export const getServerSideProps: GetServerSideProps = async ({
   req,
@@ -59,6 +61,9 @@ const PodcastEpisode: React.FC<{episode: PodcastEpisode}> = ({episode}) => {
             })}
           </section>
         )}
+
+        <CallToActionForm content={genericCallToActionContent} />
+
         <section className="relative sm:pb-12 pb-6 flex flex-col px-5">
           <h2>Transcript</h2>
           <Markdown className="prose">{episode.transcript}</Markdown>

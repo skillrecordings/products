@@ -4,7 +4,7 @@ export const genericCallToActionContent = {
   heading:
     'Lets work together on your strategy to design, produce, and sell your course online.',
   description: (
-    <>
+    <div>
       <p>
         You're an expert with an idea for a course you'd like to sell, but don't
         know where to start.
@@ -21,24 +21,24 @@ export const genericCallToActionContent = {
         Get direct expert feedback on your course idea by{' '}
         <strong>entering your email below.</strong>
       </p>
-    </>
+    </div>
   ),
   button: (
-    <>
+    <div className="flex flex-row justify-center align-middle items-center mx-auto">
       <span
         className="font-symbol lowercase sm:text-5xl text-3xl"
         aria-hidden="true"
       >
         o
       </span>
-      <span className="px-1">Let's Get Started</span>{' '}
+      <span className="px-2">Let's Get Started</span>{' '}
       <span
         className="font-symbol lowercase sm:text-5xl text-3xl"
         aria-hidden="true"
       >
         r
       </span>
-    </>
+    </div>
   ),
   info: `There's no obligation. This isn't a sales pitch. We respect your privacy. Unsubscribe at any time.`,
 }
