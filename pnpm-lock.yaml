@@ -153,6 +153,7 @@ importers:
       react: 17.0.2
       react-countdown: ^2.3.2
       react-dom: 17.0.2
+      react-hot-toast: ^2.2.0
       react-markdown: ^8.0.2
       react-refractor: ^2.1.7
       react-scroll: ^1.8.7
@@ -220,6 +221,7 @@ importers:
       react: 17.0.2
       react-countdown: 2.3.2_react-dom@17.0.2+react@17.0.2
       react-dom: 17.0.2_react@17.0.2
+      react-hot-toast: 2.2.0_react-dom@17.0.2+react@17.0.2
       react-markdown: 8.0.2_27d7f75f5fffc1228c129be468caca5c
       react-refractor: 2.1.7_react@17.0.2
       react-scroll: 1.8.7_react-dom@17.0.2+react@17.0.2

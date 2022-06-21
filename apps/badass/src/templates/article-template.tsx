@@ -33,6 +33,7 @@ const ArticleTemplate: React.FC<ArticleTemplateProps> = ({
 
   return (
     <Layout
+      className="overflow-hidden"
       meta={{
         title,
         description: shortDescription,

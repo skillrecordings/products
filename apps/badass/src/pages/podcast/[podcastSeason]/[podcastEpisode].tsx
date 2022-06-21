@@ -44,8 +44,8 @@ export const getServerSideProps: GetServerSideProps = async ({
 }
 const PodcastEpisode: React.FC<{episode: PodcastEpisode}> = ({episode}) => {
   return (
-    <Layout>
-      <main className="prose">
+    <Layout className="overflow-hidden">
+      <main className="prose px-5 py-28 max-w-screen-sm mx-auto">
         <h1>{episode.title}</h1>
         <PodcastPlayer simplecastId={episode.simplecastId} />
         <section className="relative sm:pb-12 pb-6 flex flex-col px-5">

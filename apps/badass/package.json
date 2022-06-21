@@ -65,6 +65,7 @@
     "react": "17.0.2",
     "react-countdown": "^2.3.2",
     "react-dom": "17.0.2",
+    "react-hot-toast": "^2.2.0",
     "react-markdown": "^8.0.2",
     "react-refractor": "^2.1.7",
     "react-scroll": "^1.8.7",
