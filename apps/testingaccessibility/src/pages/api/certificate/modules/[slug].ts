@@ -60,7 +60,7 @@ const generateModuleCertificate = async (
         return res.status(403).end('Not Authorized')
       }
 
-      // finally get current module
+      // get the current module
       const module = await getModule(currentModuleSlug?.slug as string)
 
       // check user progress
@@ -80,7 +80,7 @@ const generateModuleCertificate = async (
           .end(`You must complete the module in order to get a certificate.`)
       }
 
-      // finally start drawing a pdf
+      // draw a pdf
       await drawModuleCertificatePdf(req, res, sessionToken, module)
     } catch (error: any) {
       Sentry.captureException(error)
