@@ -1,20 +1,26 @@
 import React from 'react'
 import {Dialog, Transition} from '@headlessui/react'
-import {useFeedback} from 'context/feedback-context'
 import {XIcon} from '@heroicons/react/solid'
 
-const FeedbackDialog: React.FC = ({children}) => {
-  const {isFeedbackDialogOpen, setIsFeedbackDialogOpen} = useFeedback()
+type DialogProps = {
+  handleCloseDialog: () => void
+  isOpen: boolean
+  title: string
+}
+
+const DialogComp: React.FC<DialogProps> = ({
+  handleCloseDialog,
+  children,
+  isOpen,
+  title,
+}) => {
   const closeButtonRef = React.useRef<HTMLButtonElement>(null)
-  const handleCloseDialog = () => {
-    setIsFeedbackDialogOpen(false, 'navigation')
-  }
 
   return (
-    <Transition appear show={isFeedbackDialogOpen} as={React.Fragment}>
+    <Transition appear show={isOpen} as={React.Fragment}>
       <Dialog
         initialFocus={closeButtonRef}
-        open={isFeedbackDialogOpen}
+        open={isOpen}
         onClose={handleCloseDialog}
         as="div"
         className="relative z-50"
@@ -49,7 +55,7 @@ const FeedbackDialog: React.FC = ({children}) => {
                   as="h1"
                   className="text-xl border-b border-gray-200 font-bold leading-6 text-gray-900 pb-3 w-full mb-3 inline-block"
                 >
-                  Tell us what you think!
+                  {title}
                 </Dialog.Title>
                 <div className="mt-2">{children}</div>
                 <CloseButton
@@ -76,7 +82,7 @@ const CloseButton = React.forwardRef<HTMLButtonElement, CloseButtonProps>(
         <button
           ref={ref}
           type="button"
-          className="inline-flex justify-center rounded-md hover:bg-gray-100 hover:shadow-inner border border-transparent p-2 text-sm font-medium focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 transition"
+          className="inline-flex justify-center rounded-md hover:bg-gray-100 hover:shadow-inner border border-transparent p-2 text-sm font-medium focus:outline-none focus-visible:ring-2 focus-visible:ring-green-500 focus-visible:ring-offset-2 transition"
           onClick={handleCloseDialog}
         >
           <XIcon className="w-5 h-5" aria-hidden="true" />
@@ -87,4 +93,4 @@ const CloseButton = React.forwardRef<HTMLButtonElement, CloseButtonProps>(
   },
 )
 
-export default FeedbackDialog
+export default DialogComp

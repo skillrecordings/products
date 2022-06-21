@@ -4,17 +4,18 @@ import {
   getSectionProgressForUser,
 } from 'utils/progress'
 import {useProgress} from 'context/progress-context'
-import {SanityDocument} from '@sanity/client'
+import {CheckIcon} from '@heroicons/react/solid'
 import {PortableText} from '@portabletext/react'
-import PortableTextComponents from 'components/portable-text'
-import find from 'lodash/find'
-import cx from 'classnames'
-import BreadcrumbNav from 'components/breadcrumb'
-import Link from 'next/link'
-import Layout from 'components/app/layout'
-import Image from 'next/image'
+import {SanityDocument} from '@sanity/client'
 import {LessonProgress} from '@prisma/client'
+import PortableTextComponents from 'components/portable-text'
+import BreadcrumbNav from 'components/breadcrumb'
+import Layout from 'components/app/layout'
 import pluralize from 'pluralize'
+import find from 'lodash/find'
+import Image from 'next/image'
+import Link from 'next/link'
+import cx from 'classnames'
 
 type ModuleTemplateProps = {
   module: SanityDocument
@@ -44,16 +45,21 @@ const ModuleTemplate: React.FC<ModuleTemplateProps> = ({module}) => {
             </div>
             <div className="md:text-left text-center max-w-lg">
               <h1 className="font-heading md:text-5xl text-4xl font-bold">
-                {isCompleted && ' ✅'} {title}
+                {title}
               </h1>
               <div className="pt-5 font-display flex items-center md:justify-start justify-center gap-2 text-sand-100">
                 <span>
-                  {sections?.length} {pluralize('section', sections?.length)}
+                  {sections?.length +
+                    ' ' +
+                    pluralize('section', sections?.length)}
                 </span>
-                <span className="opacity-70">・</span>
+                <span className="opacity-70" aria-hidden="true">
+                  ・
+                </span>
                 <span>
-                  {allLessonsInModule?.length}{' '}
-                  {pluralize('lesson', allLessonsInModule?.length)}
+                  {allLessonsInModule?.length +
+                    ' ' +
+                    pluralize('lesson', allLessonsInModule?.length)}
                 </span>
               </div>
             </div>
@@ -95,7 +101,7 @@ const Sections: React.FC<SectionsProps> = ({progress, module}) => {
               'bg-white p-8 md:rounded-lg flex md:flex-row flex-col max-w-screen-md mx-auto w-full',
             )}
           >
-            <div className={cx('w-full')}>
+            <div className="w-full">
               <div className="flex items-center gap-3">
                 <span
                   aria-hidden="true"
@@ -107,7 +113,7 @@ const Sections: React.FC<SectionsProps> = ({progress, module}) => {
                     },
                   )}
                 >
-                  {isCompleted ? '✓' : i + 1}
+                  {isCompleted ? <CheckIcon className="w-4 h-4" /> : i + 1}
                 </span>
                 <Link
                   href={{
@@ -120,15 +126,17 @@ const Sections: React.FC<SectionsProps> = ({progress, module}) => {
                   passHref
                 >
                   <a className="hover:underline text-3xl font-bold font-heading inline-block leading-tight">
-                    {section.title}{' '}
-                    {isCompleted && (
-                      <span className="sr-only">(completed)</span>
-                    )}{' '}
-                    {i === 0 && module.sections.length > 1 && (
-                      <span className="font-display font-medium text-xl">
-                        (start here)
-                      </span>
-                    )}
+                    <h2>
+                      {section.title}{' '}
+                      {isCompleted && (
+                        <span className="sr-only">(completed)</span>
+                      )}{' '}
+                      {i === 0 && module.sections.length > 1 && (
+                        <span className="font-display font-medium text-xl">
+                          (start here)
+                        </span>
+                      )}
+                    </h2>
                   </a>
                 </Link>
               </div>

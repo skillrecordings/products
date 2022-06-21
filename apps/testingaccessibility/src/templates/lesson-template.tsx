@@ -37,6 +37,7 @@ const LessonTemplate: React.FC<LessonTemplateProps> = ({
   const {lessons} = section
   const image = section?.image ?? module?.image
   const currentLessonIndex = indexOf(lessons, find(lessons, {slug}))
+  const currentLessonIndexDisplay = currentLessonIndex + 1
   const {progress, toggleLessonComplete, isLoadingProgress} = useProgress()
   const currentLessonProgress = find(progress, {lessonSlug: slug})
   const isCurrentLessonCompleted = !isEmpty(currentLessonProgress?.completedAt)
@@ -64,7 +65,7 @@ const LessonTemplate: React.FC<LessonTemplateProps> = ({
         <div className="w-full mx-auto flex-grow bg-white ">
           <div className="">
             <article className="bg-green-700 bg-noise">
-              <header className="py-16 min-h-[300px] px-4 max-w-screen-lg mx-auto rounded-md text-white flex flex-col items-center justify-center">
+              <header className="relative py-16 min-h-[300px] px-4 max-w-screen-lg mx-auto rounded-md text-white flex flex-col items-center justify-center">
                 {/* {image && (
                   <div className="flex items-center justify-center max-w-xs">
                     <Image
@@ -79,6 +80,12 @@ const LessonTemplate: React.FC<LessonTemplateProps> = ({
                 <h1 className="text-center font-heading md:text-5xl text-4xl font-bold">
                   {title}
                 </h1>
+                <div
+                  aria-hidden="true"
+                  className="absolute text-[250px] font-nav opacity-10 mix-blend-overlay pb-10 font-bold pointer-events-none"
+                >
+                  {('0' + currentLessonIndexDisplay).slice(-2)}
+                </div>
               </header>
               <div className="bg-white px-4">
                 <TableOfContents value={body} />
