@@ -2,9 +2,9 @@ import {GetServerSidePropsContext} from 'next'
 import get from 'lodash/get'
 import isEmpty from 'lodash/isEmpty'
 import {CK_SUBSCRIBER_KEY, ACCESS_TOKEN_KEY} from '@skillrecordings/config'
-import {fetchConvertkitSubscriberFromServerCookie} from '@skillrecordings/convertkit'
+import fetchConvertkitSubscriberFromServerCookie from './fetch-convertkit-subscriber'
 
-export default async function checkSubscriber(
+export async function checkIfConvertkitSubscriber(
   context: GetServerSidePropsContext,
   tagId?: number,
 ) {
