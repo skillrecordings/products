@@ -1,74 +1,25 @@
 import React from 'react'
-import {getPurchasedProduct} from 'server/get-purchased-product'
-import {sanityClient} from 'utils/sanity-client'
+import {
+  getAllModuleSlugs,
+  getAvailableModulesForUser,
+  getModule,
+} from 'lib/modules'
+import ModuleTemplate from 'templates/module-template'
 import {SanityDocument} from '@sanity/client'
 import {GetServerSideProps} from 'next'
-import ModuleTemplate from 'templates/module-template'
-import flatten from 'lodash/flatten'
 import isEmpty from 'lodash/isEmpty'
 import find from 'lodash/find'
-import groq from 'groq'
-
-const allModulesQuery = groq`*[_type == "module"]{
-      "slug": slug.current
-  }`
-
-const moduleQuery = groq`*[_type == "module" && slug.current == $slug][0]{
-  title,
-  "slug": slug.current,
-  body,
-  image{
-        url,
-        alt
-      },
-  sections[]->{
-      title,
-      "slug": slug.current,
-      body[]{
-      ...,
-      markDefs[]{
-        ...,
-      _type == "internalLink" => {
-        "_id": @.reference->_id,
-        "slug": @.reference->slug,
-        "type": @.reference->_type,
-        "modules": *[_type=='module']{
-          "slug": slug.current,
-          sections[]->{
-            "slug": slug.current,
-            lessons[]->{
-              "slug": slug.current,
-            }
-          }
-        }
-      }
-    }
-      },
-      image{
-        url,
-        alt
-      },
-      lessons[]->{
-        title,
-        "slug": slug.current
-      }
-    }
-  }`
 
 export const getServerSideProps: GetServerSideProps = async ({req, params}) => {
-  const {product} = await getPurchasedProduct(req)
-
   // get array of available modules
-  const modules: {slug: string}[] = flatten(
-    product.modules.map((module: SanityDocument) => module),
-  )
+  const availableModules = await getAvailableModulesForUser(req)
 
   // determine current module based on the url
-  const currentModule: {slug: string} | undefined = find(modules, {
+  const currentModule: {slug: string} | undefined = find(availableModules, {
     slug: params?.module as string,
   })
 
-  const allModules = await sanityClient.fetch(allModulesQuery)
+  const allModules = await getAllModuleSlugs()
 
   // if the module doesn't exist
   if (isEmpty(find(allModules, {slug: params?.module}))) {
@@ -88,9 +39,7 @@ export const getServerSideProps: GetServerSideProps = async ({req, params}) => {
     }
   }
 
-  const data = await sanityClient.fetch(moduleQuery, {
-    slug: currentModule?.slug,
-  })
+  const data = await getModule(currentModule?.slug as string)
 
   return {
     props: {module: data},
