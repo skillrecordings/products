@@ -10,6 +10,8 @@ import {
 } from '../../../lib/podcast'
 import Markdown from 'react-markdown'
 import {isEmpty} from 'lodash'
+import {genericCallToActionContent} from '../../../components/landing-content'
+import {CallToActionForm} from '../../../components/call-to-action-form'
 
 export const getServerSideProps: GetServerSideProps = async ({
   req,
@@ -44,8 +46,8 @@ export const getServerSideProps: GetServerSideProps = async ({
 }
 const PodcastEpisode: React.FC<{episode: PodcastEpisode}> = ({episode}) => {
   return (
-    <Layout>
-      <main className="prose">
+    <Layout className="overflow-hidden">
+      <main className="prose px-5 py-28 max-w-screen-sm mx-auto">
         <h1>{episode.title}</h1>
         <PodcastPlayer simplecastId={episode.simplecastId} />
         <section className="relative sm:pb-12 pb-6 flex flex-col px-5">
@@ -59,6 +61,9 @@ const PodcastEpisode: React.FC<{episode: PodcastEpisode}> = ({episode}) => {
             })}
           </section>
         )}
+
+        <CallToActionForm content={genericCallToActionContent} />
+
         <section className="relative sm:pb-12 pb-6 flex flex-col px-5">
           <h2>Transcript</h2>
           <Markdown className="prose">{episode.transcript}</Markdown>

@@ -5,9 +5,7 @@ import {GetServerSideProps} from 'next'
 import ArticleTemplate from 'templates/article-template'
 import isEmpty from 'lodash/isEmpty'
 import find from 'lodash/find'
-import * as serverCookie from 'cookie'
 import groq from 'groq'
-import {CK_SUBSCRIBER_KEY} from '@skillrecordings/config'
 import {checkIfConvertkitSubscriber} from '@skillrecordings/convertkit'
 
 const previewArticleQuery = groq`*[_type == "article" && slug.current == $slug][0]{
@@ -46,12 +44,6 @@ const allArticlesQuery = groq`*[_type == "article"]{
   "slug": slug.current,
   subscribersOnly
   }`
-
-function getConvertkitFromCookieHeaders(serverCookies: string = '') {
-  return CK_SUBSCRIBER_KEY
-    ? serverCookie.parse(serverCookies)[CK_SUBSCRIBER_KEY]
-    : ''
-}
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const {params} = context

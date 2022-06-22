@@ -78,6 +78,7 @@ importers:
       '@heroicons/react': ^1.0.6
       '@mdx-js/loader': ^1.6.22
       '@next/mdx': ^12.1.5
+      '@portabletext/react': ^1.0.6
       '@reach/dialog': ^0.16.2
       '@sanity/client': ^3.3.1
       '@sentry/nextjs': ^6.19.3
@@ -152,12 +153,15 @@ importers:
       react: 17.0.2
       react-countdown: ^2.3.2
       react-dom: 17.0.2
+      react-hot-toast: ^2.2.0
       react-markdown: ^8.0.2
+      react-refractor: ^2.1.7
       react-scroll: ^1.8.7
       react-stripe-checkout: ^2.6.3
       react-test-renderer: ^17.0.2
       react-use: ^17.3.2
       react-use-clipboard: ^1.0.8
+      refractor: ^4.5.0
       rehype: ^12.0.1
       remark-code-titles: ^0.1.2
       remark-footnotes: ^4.0.1
@@ -170,6 +174,7 @@ importers:
       '@headlessui/react': 1.5.0_react-dom@17.0.2+react@17.0.2
       '@heroicons/react': 1.0.6_react@17.0.2
       '@next/mdx': 12.1.5_@mdx-js+loader@1.6.22
+      '@portabletext/react': 1.0.6_react@17.0.2
       '@reach/dialog': 0.16.2_c8c53a2a5a2c84791ce34d6dbdd05753
       '@sanity/client': 3.3.1
       '@sentry/nextjs': 6.19.3_next@12.1.5+react@17.0.2
@@ -216,11 +221,14 @@ importers:
       react: 17.0.2
       react-countdown: 2.3.2_react-dom@17.0.2+react@17.0.2
       react-dom: 17.0.2_react@17.0.2
+      react-hot-toast: 2.2.0_react-dom@17.0.2+react@17.0.2
       react-markdown: 8.0.2_27d7f75f5fffc1228c129be468caca5c
+      react-refractor: 2.1.7_react@17.0.2
       react-scroll: 1.8.7_react-dom@17.0.2+react@17.0.2
       react-stripe-checkout: 2.6.3
       react-use: 17.3.2_react-dom@17.0.2+react@17.0.2
       react-use-clipboard: 1.0.8_react-dom@17.0.2+react@17.0.2
+      refractor: 4.5.0
       rehype: 12.0.1
       remark-code-titles: 0.1.2
       remark-footnotes: 4.0.1
@@ -30364,7 +30372,7 @@ packages:
     dependencies:
       '@babel/runtime': 7.18.3
       focus-lock: 0.9.2
-      prop-types: 15.7.2
+      prop-types: 15.8.1
       react: 17.0.2
       react-clientside-effect: 1.2.5_react@17.0.2
       use-callback-ref: 1.2.5_27d7f75f5fffc1228c129be468caca5c
