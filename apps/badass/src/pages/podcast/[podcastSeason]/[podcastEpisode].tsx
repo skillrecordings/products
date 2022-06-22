@@ -12,6 +12,7 @@ import Markdown from 'react-markdown'
 import {isEmpty} from 'lodash'
 import {genericCallToActionContent} from '../../../components/landing-content'
 import {CallToActionForm} from '../../../components/call-to-action-form'
+import {useRouter} from 'next/router'
 
 export const getServerSideProps: GetServerSideProps = async ({
   req,
@@ -45,8 +46,23 @@ export const getServerSideProps: GetServerSideProps = async ({
   }
 }
 const PodcastEpisode: React.FC<{episode: PodcastEpisode}> = ({episode}) => {
+  const {title, summary, publishedAt} = episode
+
   return (
-    <Layout className="overflow-hidden">
+    <Layout
+      className="overflow-hidden"
+      meta={{
+        title,
+        description: summary,
+        type: 'article',
+        date: publishedAt,
+        url: `${process.env.NEXT_PUBLIC_URL}/podcast/course_builders/${episode.slug}`,
+        titleAppendSiteName: true,
+        article: {
+          publishedTime: publishedAt,
+        },
+      }}
+    >
       <main className="prose px-5 py-28 max-w-screen-sm mx-auto">
         <h1>{episode.title}</h1>
         <PodcastPlayer simplecastId={episode.simplecastId} />
@@ -57,7 +73,11 @@ const PodcastEpisode: React.FC<{episode: PodcastEpisode}> = ({episode}) => {
           <section className="relative sm:pb-12 pb-6 flex flex-col px-5">
             <h2>Links</h2>
             {episode.links.map((link) => {
-              return <a href={link.URL}>{link.title}</a>
+              return (
+                <a key={link.URL} href={link.URL}>
+                  {link.title}
+                </a>
+              )
             })}
           </section>
         )}

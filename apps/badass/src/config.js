@@ -3,12 +3,12 @@ export default {
   defaultTitle: 'Make Life-Changing Money Teaching What You Know',
   description:
     'Research, design, produce, and deliver high-quality courses that sell.',
-  author: 'devbadass',
+  author: 'badass_courses',
   favicon: '/favicon.ico',
-  email: 'team@skillrecordings.com',
+  email: 'team@badass.dev',
   siteUrl: 'badass.dev',
   additionalMetaTags: [
-    {property: 'author', content: 'The Author'},
+    {property: 'author', content: 'Joel Hooks'},
     {
       property: 'keywords',
       content: '',
@@ -16,15 +16,15 @@ export default {
   ],
   twitter: {
     cardType: 'summary_large_image',
-    handle: '@devbadass',
-    site: '@devbadass',
+    handle: '@badass_courses',
+    site: '@badass_courses',
   },
   openGraph: {
     type: 'website',
-    site_name: 'Build a Badass Course Platform',
+    site_name: 'Badass Courses',
     profile: {
-      firstName: 'Badass',
-      lastName: 'Course Platform',
+      firstName: 'Joel',
+      lastName: 'Hooks',
     },
     images: [
       {

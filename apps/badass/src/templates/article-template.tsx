@@ -44,6 +44,7 @@ const ArticleTemplate: React.FC<ArticleTemplateProps> = ({
         article: {
           publishedTime: date,
         },
+        url: `${process.env.NEXT_PUBLIC_URL}/${article.slug}`,
         ogImage,
       }}
     >
