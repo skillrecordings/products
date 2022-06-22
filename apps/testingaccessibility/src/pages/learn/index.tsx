@@ -7,18 +7,19 @@ import {
   getNextUpLesson,
   getSectionProgressForUser,
 } from 'utils/progress'
+import {getPathForLesson} from 'utils/get-resource-paths'
 import {SanityDocument} from '@sanity/client'
+import {getSession} from 'next-auth/react'
 import {GetServerSideProps} from 'next'
 import {Purchase} from '@prisma/client'
 import Search from 'components/search/autocomplete'
-import isEmpty from 'lodash/isEmpty'
+import GetCertificate from 'components/certificate'
 import Layout from 'components/app/layout'
-import Link from 'next/link'
-import groq from 'groq'
+import isEmpty from 'lodash/isEmpty'
 import Image from 'next/image'
+import Link from 'next/link'
 import cx from 'classnames'
-import {getSession} from 'next-auth/react'
-import {getPathForLesson} from 'utils/get-resource-paths'
+import groq from 'groq'
 
 const productQuery = groq`*[_type == "product" && productId == $productId][0]{
   title,
@@ -162,7 +163,7 @@ const Learn: React.FC<{purchases: Purchase[]; product: SanityDocument}> = ({
                       passHref
                     >
                       <a className="hover:underline sm:text-4xl text-3xl leading-tight font-bold mt-2 inline-flex justify-center w-full font-heading md:text-left text-center focus-visible:ring-white">
-                        {title}
+                        <h2>{title}</h2>
                       </a>
                     </Link>
                     <ol className="pt-5 list-none">
@@ -176,8 +177,7 @@ const Learn: React.FC<{purchases: Purchase[]; product: SanityDocument}> = ({
                         return (
                           <li
                             key={title}
-                            // className="group marker:text-sand-100 marker:pr-2 marker:text-sm marker:font-mono py-1 text-sand-100 text-lg transition"
-                            className="md:-ml-4 relative flex items-baseline before:opacity-60 before:absolute before:content-[attr(data-index)] before:text-xs marker:text-gray-400 before:pl-2 group "
+                            className="group md:-ml-4 relative flex items-baseline before:opacity-60 before:absolute before:content-[attr(data-index)] before:text-xs marker:text-gray-400 before:pl-2"
                           >
                             <Link
                               href={{
@@ -195,9 +195,9 @@ const Learn: React.FC<{purchases: Purchase[]; product: SanityDocument}> = ({
                                 }`}
                                 data-index={isCompleted ? '✓' : i + 1}
                                 className={cx(
-                                  `group rounded-md pl-4 group-hover:bg-green-800/20 text-sand-100 hover:text-white focus-visible:ring-white w-full font-medium py-4 transition relative items-center inline-flex before:font-semibold before:flex before:items-center before:justify-center before:font-mono before:content-[attr(data-index)] before:w-5 before:h-5 before:left-0 before:rounded-full before:flex-shrink-0`,
+                                  `after:content-[""] after:absolute after:left-[21.5px] after:top-0 group-first-of-type:after:top-1/2 group-first-of-type:after:h-1/2 after:w-px after:bg-white/5 after:h-full group rounded-md pl-3 group-hover:bg-green-800/20 text-sand-100 hover:text-white focus-visible:ring-white w-full font-medium py-4 transition relative items-center inline-flex before:font-semibold before:z-10 before:flex before:items-center before:justify-center before:font-mono before:content-[attr(data-index)] before:w-5 before:h-5 before:left-0 before:rounded-full before:flex-shrink-0`,
                                   {
-                                    'before:text-[0.55em] before:text-sans-500/50 before:border before:border-white/20':
+                                    'before:text-[0.55em] before:text-sans-500/50 before:border before:border-white/20 before:bg-green-700 before:bg-noise':
                                       !isCompleted,
                                     'before:text-sm before:text-white  before:bg-green-500':
                                       isCompleted,
@@ -212,6 +212,20 @@ const Learn: React.FC<{purchases: Purchase[]; product: SanityDocument}> = ({
                           </li>
                         )
                       })}
+
+                      {sections?.length > 0 && (
+                        <li
+                          key={`certificate-${title}`}
+                          className={cx(
+                            `w-full group mt-7 after:content-[""] after:absolute after:left-[21.5px] after:bottom-1/2 after:w-px after:bg-white/5 after:h-full md:-ml-4 relative flex items-baseline group`,
+                          )}
+                        >
+                          <GetCertificate
+                            isAvailable={isCompleted ?? false}
+                            module={module}
+                          />
+                        </li>
+                      )}
                     </ol>
                   </div>
                 </li>
