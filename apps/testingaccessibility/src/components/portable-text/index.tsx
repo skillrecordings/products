@@ -324,6 +324,8 @@ const getCalloutTitle = (type: string): string => {
       return 'Reflection'
     case 'caution':
       return 'Caution'
+    case 'exercise':
+      return 'Exercise'
     default:
       return 'Callout'
   }
@@ -339,6 +341,8 @@ const getCalloutImage = (type: string): {alt: string; src: string} => {
       return {alt: 'smiling face with sunglasses', src: '😎'}
     case 'caution':
       return {alt: 'warning', src: '⚠️'}
+    case 'exercise':
+      return {alt: 'memo', src: '📝'}
     default:
       return {alt: 'speech baloon', src: '💬'}
   }
