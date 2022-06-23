@@ -41,6 +41,8 @@ export default {
             return {alt: 'smiling face with sunglasses', src: '😎'}
           case 'Caution':
             return {alt: 'warning', src: '⚠️'}
+          case 'Exercise':
+            return {alt: 'pencil', src: '📝'}
           default:
             return {alt: 'speech baloon', src: '💬'}
         }
