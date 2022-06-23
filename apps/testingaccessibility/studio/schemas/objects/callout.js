@@ -18,6 +18,7 @@ export default {
           {title: 'Big Idea', value: 'big-idea'},
           {title: 'Reflection', value: 'reflection'},
           {title: 'Caution', value: 'caution'},
+          {title: 'Exercise', value: 'exercise'},
         ],
       },
     },
