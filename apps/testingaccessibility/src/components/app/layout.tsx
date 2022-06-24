@@ -16,6 +16,7 @@ type LayoutProps = {
   className?: string
   nav?: React.ReactElement | null
   footer?: React.ReactElement | null
+  skipNavContent?: any
 }
 
 const Layout: FunctionComponent<LayoutProps> = ({
@@ -25,6 +26,7 @@ const Layout: FunctionComponent<LayoutProps> = ({
   noIndex,
   nav,
   footer,
+  skipNavContent = <SkipNavContent />,
 }) => {
   const {
     title = config.defaultTitle,
@@ -62,7 +64,8 @@ const Layout: FunctionComponent<LayoutProps> = ({
         Skip navigation and go to content
       </SkipNavLink>
       {nav ? nav : isNull(nav) ? null : <Navigation />}
-      <SkipNavContent
+      {skipNavContent}
+      <div
         className={cx(
           'flex flex-col flex-grow h-full sm:min-h-[calc(100vh-64px)] min-h-[calc(100vh-56px)]',
           className,
@@ -70,7 +73,7 @@ const Layout: FunctionComponent<LayoutProps> = ({
       >
         {children}
         {footer ? footer : isNull(footer) ? null : <Footer />}
-      </SkipNavContent>
+      </div>
     </div>
   )
 }

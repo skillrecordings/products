@@ -4,6 +4,7 @@ import {getSectionProgressForUser} from 'utils/progress'
 import {ChevronRightIcon} from '@heroicons/react/solid'
 import {useProgress} from 'context/progress-context'
 import {PortableText} from '@portabletext/react'
+import {SkipNavContent} from '@reach/skip-nav'
 import {SanityDocument} from '@sanity/client'
 import PortableTextComponents from 'components/portable-text'
 import BreadcrumbNav from 'components/breadcrumb'
@@ -42,12 +43,13 @@ const SectionTemplate: React.FC<SectionTemplateProps> = ({
     : -1
   const nextUpSection = module && module.sections[currentSectionIndex + 1]
   return (
-    <Layout className="flex-grow">
+    <Layout className="flex-grow" meta={{title}} skipNavContent={null}>
       <div className="bg-gray-100">
         <div className="max-w-screen-lg mx-auto w-full py-4 lg:px-1 px-2 overflow-x-auto">
           <BreadcrumbNav module={module} section={section} />
         </div>
       </div>
+      <SkipNavContent />
       <div className="flex-grow">
         <header className="bg-green-700 bg-noise text-white pt-8 pb-12 px-5">
           <div className="flex items-center justify-center gap-5 max-w-screen-sm mx-auto min-h-[180px]">

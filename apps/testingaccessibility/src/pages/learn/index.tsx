@@ -96,7 +96,10 @@ const Learn: React.FC<{purchases: Purchase[]; product: SanityDocument}> = ({
   const nextUpLesson = !isLoadingProgress && getNextUpLesson(progress, modules)
 
   return (
-    <Layout className="bg-green-700 bg-noise">
+    <Layout
+      className="bg-green-700 bg-noise"
+      meta={{title: 'Testing Accessibility Workshops'}}
+    >
       <header className="w-full bg-green-800/40">
         <div className="mx-auto py-[2px] w-full max-w-screen-lg flex">
           <Search product={product} />

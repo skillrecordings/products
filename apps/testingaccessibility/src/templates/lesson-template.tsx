@@ -2,6 +2,7 @@ import React from 'react'
 import {CheckIcon, ChevronRightIcon} from '@heroicons/react/solid'
 import {useProgress} from 'context/progress-context'
 import {PortableText} from '@portabletext/react'
+import {SkipNavContent} from '@reach/skip-nav'
 import {SanityDocument} from '@sanity/client'
 import {LessonProgress} from '@prisma/client'
 import {useSession} from 'next-auth/react'
@@ -51,7 +52,12 @@ const LessonTemplate: React.FC<LessonTemplateProps> = ({
     ]
 
   return (
-    <Layout className="bg-white">
+    <Layout
+      key={currentLessonIndex}
+      meta={{title}}
+      className="bg-white"
+      skipNavContent={null}
+    >
       <main>
         <div className="bg-gray-50">
           <div className="max-w-screen-lg mx-auto w-full py-4 lg:px-1 px-2 overflow-x-auto">
@@ -62,21 +68,11 @@ const LessonTemplate: React.FC<LessonTemplateProps> = ({
             />
           </div>
         </div>
-        <div className="w-full mx-auto flex-grow bg-white ">
-          <div className="">
+        <SkipNavContent />
+        <div className="w-full mx-auto flex-grow bg-white">
+          <div>
             <article className="bg-green-700 bg-noise">
               <header className="relative py-16 min-h-[300px] px-4 max-w-screen-lg mx-auto rounded-md text-white flex flex-col items-center justify-center">
-                {/* {image && (
-                  <div className="flex items-center justify-center max-w-xs">
-                    <Image
-                      src={image.url}
-                      alt={image.alt}
-                      quality={100}
-                      width={180}
-                      height={180}
-                    />
-                  </div>
-                )} */}
                 <h1 className="text-center font-heading md:text-5xl text-4xl font-bold">
                   {title}
                 </h1>
@@ -90,17 +86,6 @@ const LessonTemplate: React.FC<LessonTemplateProps> = ({
               <div className="bg-white px-4">
                 <TableOfContents value={body} />
                 <div className="relative flex flex-col lg:py-10 py-8 max-w-screen-md w-full mx-auto">
-                  {/* <div className="col-span-3">
-                    <LessonNavigator
-                    className="pt-1.5 lg:block hidden"
-                    lessons={lessons}
-                    progress={progress}
-                    module={module}
-                    section={section}
-                    currentLessonIndex={currentLessonIndex}
-                    isLoadingProgress={isLoadingProgress}
-                    />
-                  </div> */}
                   <div className="max-w-none xl:prose-pre:text-base md:prose-pre:text-base prose-pre:text-xs prose-ul:sm:pr-0 prose-ul:pr-5 prose-p:w-full  prose-ul:mx-auto text-gray-800 prose prose-h2:text-green-800 prose-headings:text-left prose-h3:text-green-800 md:prose-lg xl:prose-xl">
                     <PortableText
                       value={body}
@@ -269,6 +254,7 @@ const UpNext: React.FC<UpNextProps> = ({
             {pluralize('lesson', numberOfLessonsLeftInSection)} in this section.
           </p>
           <Link
+            passHref
             href={{
               pathname: module
                 ? '/learn/[module]/[section]/[lesson]'
@@ -298,6 +284,7 @@ const UpNext: React.FC<UpNextProps> = ({
             <p className="text-2xl font-heading font-bold pb-1">Up next</p>
             <p className="text-sand-100">{nextSection.title}</p>
             <Link
+              passHref
               href={{
                 pathname: module
                   ? '/learn/[module]/[section]/[lesson]'

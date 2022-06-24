@@ -6,6 +6,7 @@ import {
 import {useProgress} from 'context/progress-context'
 import {CheckIcon} from '@heroicons/react/solid'
 import {PortableText} from '@portabletext/react'
+import {SkipNavContent} from '@reach/skip-nav'
 import {SanityDocument} from '@sanity/client'
 import {LessonProgress} from '@prisma/client'
 import PortableTextComponents from 'components/portable-text'
@@ -31,12 +32,13 @@ const ModuleTemplate: React.FC<ModuleTemplateProps> = ({module}) => {
   )
 
   return (
-    <Layout>
+    <Layout meta={{title}} skipNavContent={null}>
       <header className="bg-gray-100">
         <div className="max-w-screen-lg mx-auto w-full py-4 lg:px-2 px-4">
           <BreadcrumbNav module={module} />
         </div>
       </header>
+      <SkipNavContent />
       <main className="w-full bg-gray-100">
         <div className="bg-green-700 bg-noise py-10 text-white">
           <div className="max-w-screen-lg flex md:flex-row flex-col items-center justify-center mx-auto px-5">
