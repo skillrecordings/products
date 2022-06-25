@@ -25,11 +25,15 @@ import Refractor from 'react-refractor'
 import js from 'refractor/lang/javascript'
 import markdown from 'refractor/lang/markdown'
 import yaml from 'refractor/lang/yaml'
+import jsx from 'refractor/lang/jsx'
+import css from 'refractor/lang/css'
 import Spinner from 'components/spinner'
 
 Refractor.registerLanguage(js)
 Refractor.registerLanguage(markdown)
+Refractor.registerLanguage(jsx)
 Refractor.registerLanguage(yaml)
+Refractor.registerLanguage(css)
 
 const Video: React.FC<{url: string; title: string}> = ({url, title}) => {
   const fullscreenWrapperRef = React.useRef<HTMLDivElement>(null)
