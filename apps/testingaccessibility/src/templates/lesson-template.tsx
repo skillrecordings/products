@@ -37,6 +37,12 @@ const LessonTemplate: React.FC<LessonTemplateProps> = ({
   const {title, body, slug} = lesson
   const {lessons} = section
   const image = section?.image ?? module?.image
+  const ogImage = {
+    url: `https://share-cards.vercel.app/api/resource?title=${encodeURI(
+      title,
+    )}&image=${image.url}`,
+    alt: title,
+  }
   const currentLessonIndex = indexOf(lessons, find(lessons, {slug}))
   const currentLessonIndexDisplay = currentLessonIndex + 1
   const {progress, toggleLessonComplete, isLoadingProgress} = useProgress()
@@ -54,7 +60,10 @@ const LessonTemplate: React.FC<LessonTemplateProps> = ({
   return (
     <Layout
       key={currentLessonIndex}
-      meta={{title}}
+      meta={{
+        title,
+        ogImage,
+      }}
       className="bg-white"
       skipNavContent={null}
     >

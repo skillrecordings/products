@@ -33,6 +33,12 @@ const SectionTemplate: React.FC<SectionTemplateProps> = ({
 }) => {
   const {slug: sectionSlug, title, body, lessons} = section
   const image = section.image ?? module?.image
+  const ogImage = {
+    url: `https://share-cards.vercel.app/api/resource?title=${encodeURI(
+      title,
+    )}&image=${image.url}`,
+    alt: title,
+  }
   const {progress, toggleLessonComplete} = useProgress()
   const {data: session} = useSession()
   const currentLessonProgress = find(progress, {lessonSlug: sectionSlug})
@@ -43,7 +49,7 @@ const SectionTemplate: React.FC<SectionTemplateProps> = ({
     : -1
   const nextUpSection = module && module.sections[currentSectionIndex + 1]
   return (
-    <Layout className="flex-grow" meta={{title}} skipNavContent={null}>
+    <Layout className="flex-grow" meta={{title, ogImage}} skipNavContent={null}>
       <div className="bg-gray-100">
         <div className="max-w-screen-lg mx-auto w-full py-4 lg:px-1 px-2 overflow-x-auto">
           <BreadcrumbNav module={module} section={section} />

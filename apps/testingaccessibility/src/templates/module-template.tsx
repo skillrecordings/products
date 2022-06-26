@@ -24,6 +24,12 @@ type ModuleTemplateProps = {
 
 const ModuleTemplate: React.FC<ModuleTemplateProps> = ({module}) => {
   const {slug, title, body, sections, image} = module
+  const ogImage = {
+    url: `https://share-cards.vercel.app/api/resource?title=${encodeURI(
+      title,
+    )}&image=${image.url}`,
+    alt: title,
+  }
   const {progress} = useProgress()
   const {completedSections, percentCompleted, isCompleted} =
     getModuleProgressForUser(progress, sections)
@@ -32,7 +38,7 @@ const ModuleTemplate: React.FC<ModuleTemplateProps> = ({module}) => {
   )
 
   return (
-    <Layout meta={{title}} skipNavContent={null}>
+    <Layout meta={{title, ogImage}} skipNavContent={null}>
       <header className="bg-gray-100">
         <div className="max-w-screen-lg mx-auto w-full py-4 lg:px-2 px-4">
           <BreadcrumbNav module={module} />
