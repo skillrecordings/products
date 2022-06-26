@@ -4,6 +4,7 @@ import {LinkedIn, Twitter} from '@skillrecordings/react'
 import {CalendarIcon} from '@heroicons/react/outline'
 import {SanityDocument} from '@sanity/client'
 import {NextRouter, useRouter} from 'next/router'
+import {getOgImage} from 'utils/get-og-image'
 import {format} from 'date-fns'
 import {
   redirectUrlBuilder,
@@ -25,14 +26,15 @@ const ArticleTemplate: React.FC<ArticleTemplateProps> = ({
   article,
   hasSubscribed,
 }) => {
-  const {title, description, body, subscribersOnly, date, cta, ogImage} =
-    article
+  const {title, description, body, subscribersOnly, date, cta} = article
+  const ogImage = getOgImage(title)
   const shortDescription =
     description || toPlainText(body).substring(0, 157) + '...'
   const router = useRouter()
 
   return (
     <Layout
+      key={title}
       className="bg-white"
       meta={{
         title,

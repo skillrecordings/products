@@ -15,9 +15,10 @@ import Image from 'next/image'
 import Link from 'next/link'
 import cx from 'classnames'
 import {ProgressToggle} from './lesson-template'
+import {getOgImage} from 'utils/get-og-image'
+import {LessonProgress} from '@prisma/client'
 import {useSession} from 'next-auth/react'
 import {isEmpty} from 'lodash'
-import {LessonProgress} from '@prisma/client'
 import TableOfContents from 'components/portable-text/table-of-contents'
 
 type SectionTemplateProps = {
@@ -33,12 +34,7 @@ const SectionTemplate: React.FC<SectionTemplateProps> = ({
 }) => {
   const {slug: sectionSlug, title, body, lessons} = section
   const image = section.image ?? module?.image
-  const ogImage = {
-    url: `https://share-cards.vercel.app/api/resource?title=${encodeURI(
-      title,
-    )}&image=${image.url}`,
-    alt: title,
-  }
+  const ogImage = getOgImage(title, image.url)
   const {progress, toggleLessonComplete} = useProgress()
   const {data: session} = useSession()
   const currentLessonProgress = find(progress, {lessonSlug: sectionSlug})

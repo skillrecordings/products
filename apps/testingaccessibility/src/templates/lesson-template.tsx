@@ -4,6 +4,7 @@ import {useProgress} from 'context/progress-context'
 import {PortableText} from '@portabletext/react'
 import {SkipNavContent} from '@reach/skip-nav'
 import {SanityDocument} from '@sanity/client'
+import {getOgImage} from 'utils/get-og-image'
 import {LessonProgress} from '@prisma/client'
 import {useSession} from 'next-auth/react'
 import {Switch} from '@headlessui/react'
@@ -37,12 +38,7 @@ const LessonTemplate: React.FC<LessonTemplateProps> = ({
   const {title, body, slug} = lesson
   const {lessons} = section
   const image = section?.image ?? module?.image
-  const ogImage = {
-    url: `https://share-cards.vercel.app/api/resource?title=${encodeURI(
-      title,
-    )}&image=${image.url}`,
-    alt: title,
-  }
+  const ogImage = getOgImage(title, image.url)
   const currentLessonIndex = indexOf(lessons, find(lessons, {slug}))
   const currentLessonIndexDisplay = currentLessonIndex + 1
   const {progress, toggleLessonComplete, isLoadingProgress} = useProgress()

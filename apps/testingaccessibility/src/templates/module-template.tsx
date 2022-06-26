@@ -7,6 +7,7 @@ import {useProgress} from 'context/progress-context'
 import {CheckIcon} from '@heroicons/react/solid'
 import {PortableText} from '@portabletext/react'
 import {SkipNavContent} from '@reach/skip-nav'
+import {getOgImage} from 'utils/get-og-image'
 import {SanityDocument} from '@sanity/client'
 import {LessonProgress} from '@prisma/client'
 import PortableTextComponents from 'components/portable-text'
@@ -24,12 +25,7 @@ type ModuleTemplateProps = {
 
 const ModuleTemplate: React.FC<ModuleTemplateProps> = ({module}) => {
   const {slug, title, body, sections, image} = module
-  const ogImage = {
-    url: `https://share-cards.vercel.app/api/resource?title=${encodeURI(
-      title,
-    )}&image=${image.url}`,
-    alt: title,
-  }
+  const ogImage = getOgImage(title, image.url)
   const {progress} = useProgress()
   const {completedSections, percentCompleted, isCompleted} =
     getModuleProgressForUser(progress, sections)
