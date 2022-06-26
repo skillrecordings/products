@@ -210,9 +210,10 @@ const PortableTextComponents: PortableTextComponents = {
     bodyImage: ({value}: BodyImageProps) => <BodyImage value={value} />,
     code: ({value}: CodeProps) => {
       const {language, code, highlightedLines} = value
+
       return (
         <Refractor
-          language={language || 'javascript'}
+          language={Refractor.hasLanguage(language) ? language : 'javascript'}
           value={code}
           markers={highlightedLines}
         />
