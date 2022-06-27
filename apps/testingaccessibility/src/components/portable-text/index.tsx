@@ -213,7 +213,13 @@ const PortableTextComponents: PortableTextComponents = {
 
       return (
         <Refractor
-          language={Refractor.hasLanguage(language) ? language : 'javascript'}
+          language={
+            language
+              ? Refractor.hasLanguage(language)
+                ? language
+                : 'javascript'
+              : 'javascript'
+          }
           value={code}
           markers={highlightedLines}
         />
