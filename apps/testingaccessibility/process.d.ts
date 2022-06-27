@@ -19,5 +19,6 @@ declare namespace NodeJS {
     EMAIL_SERVER_HOST: string
     EMAIL_SERVER_PORT: number
     NEXT_PUBLIC_DEFAULT_PRODUCT_ID: string
+    NEXT_PUBLIC_OG_IMAGE_URI: string
   }
 }

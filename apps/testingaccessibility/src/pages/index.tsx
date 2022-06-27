@@ -49,7 +49,7 @@ const Home: React.FC<{couponFromCode?: {isValid: boolean; id: string}}> = ({
                   </span>
                 </h1>
               </div>
-              <div className="sm:translate-y-20 translate-y-16 drop-shadow-2xl sm:w-auto ">
+              <div className="sm:translate-y-20 translate-y-16 drop-shadow-2xl sm:w-auto">
                 <Image
                   className=""
                   src={require('../../public/assets/travel-journal@2x.png')}
