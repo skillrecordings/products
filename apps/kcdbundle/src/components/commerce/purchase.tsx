@@ -13,8 +13,8 @@ const Purchase = () => {
   const epicReactId = 'epic-react-pro-e28f'
   const testingJavaScriptId = 'pro-testing'
 
-  let epicReactPrices = find(state, {slug: epicReactId})
-  let testingJavaScriptPrices = find(state, {slug: testingJavaScriptId})
+  const epicReactPrices = find(state, {slug: epicReactId})
+  const testingJavaScriptPrices = find(state, {slug: testingJavaScriptId})
 
   let price =
     get(epicReactPrices, 'price') + get(testingJavaScriptPrices, 'price')
