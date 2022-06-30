@@ -82,6 +82,9 @@ export const Video: React.FC<VideoProps> = ({
       autoPlay={autoPlay}
       poster={poster}
       src={src}
+      onError={() => {
+        console.error('video player had an error')
+      }}
       onCanPlay={(_event) => {
         videoService.send('LOADED')
       }}
