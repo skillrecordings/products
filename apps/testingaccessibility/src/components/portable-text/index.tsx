@@ -137,7 +137,7 @@ const PortableTextComponents: PortableTextComponentsProps = {
       )
     },
     internalLink: ({value, children}: InternalLinkProps) => {
-      const {slug = {}, type = 'lesson', modules} = value
+      const {slug = {}, type = 'lesson', hash, modules} = value
       const resourceSlug = slug.current
 
       const getPath = () => {
@@ -146,16 +146,19 @@ const PortableTextComponents: PortableTextComponentsProps = {
             return {
               pathname: '/learn/[module]/[section]/[lesson]',
               query: getPathForLesson(resourceSlug, modules),
+              hash,
             }
           case 'section':
             return {
               pathname: '/learn/[module]/[section]',
               query: getPathForSection(resourceSlug, modules),
+              hash,
             }
           default:
             return {
               pathname: '/learn/[module]',
               query: {module: resourceSlug},
+              hash,
             }
         }
       }

@@ -21,6 +21,7 @@ const lessonQuery = groq`*[_type == "lesson" && slug.current == $slug][0]{
         "_id": @.reference->_id,
         "slug": @.reference->slug,
         "type": @.reference->_type,
+        "hash": hash.current,
         "modules": *[_type=='module']{
           "slug": slug.current,
           sections[]->{
@@ -42,6 +43,7 @@ const lessonQuery = groq`*[_type == "lesson" && slug.current == $slug][0]{
             "_id": @.reference->_id,
             "slug": @.reference->slug,
             "type": @.reference->_type,
+            "hash": hash.current,
             "modules": *[_type=='module']{
               "slug": slug.current,
               sections[]->{
