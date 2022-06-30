@@ -8,6 +8,7 @@ import {
   getSectionProgressForUser,
 } from 'utils/progress'
 import {getPathForLesson} from 'utils/get-resource-paths'
+import {ChevronRightIcon} from '@heroicons/react/solid'
 import {SanityDocument} from '@sanity/client'
 import {getSession} from 'next-auth/react'
 import {GetServerSideProps} from 'next'
@@ -123,8 +124,9 @@ const Learn: React.FC<{purchases: Purchase[]; product: SanityDocument}> = ({
                   }
             }
           >
-            <a className="mt-8 px-4 py-2 rounded-md border border-white/20 hover:bg-white/5 transition focus-visible:ring-white">
-              {isEmpty(progress) ? 'Start' : 'Continue'} Learning
+            <a className="flex items-center font-medium gap-2 mt-8 px-4 py-2.5 rounded-md border border-white/20 hover:bg-white/5 transition focus-visible:ring-white">
+              {isEmpty(progress) ? 'Start' : 'Continue'} Learning{' '}
+              <ChevronRightIcon aria-hidden="true" className="w-4 h-4 mt-0.5" />
             </a>
           </Link>
         </header>

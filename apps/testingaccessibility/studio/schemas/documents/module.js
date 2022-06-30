@@ -31,6 +31,12 @@ export default {
       type: 'markdown',
     },
     {
+      name: 'resources',
+      title: 'Resources',
+      type: 'array',
+      of: [{type: 'externalLink'}, {type: 'internalLink'}],
+    },
+    {
       name: 'body',
       title: 'Body',
       type: 'body',

@@ -24,6 +24,8 @@ import feature from './objects/feature'
 import externalImage from './objects/externalImage'
 import callout from './objects/callout'
 import divider from './objects/divider'
+import internalLink from './objects/internalLink'
+import externalLink from './objects/externalLink'
 
 // Then we give our schema to the builder and provide the result to Sanity
 export default createSchema({
@@ -52,6 +54,8 @@ export default createSchema({
     feature,
     callout,
     divider,
+    externalLink,
+    internalLink,
     // When added to this list, object types can be used as
     // { type: 'typename' } in other document schemas
     richDate,

@@ -25,10 +25,33 @@ export async function getModule(slug: string) {
         title,
         "slug": slug.current,
         body,
-        image{
-              url,
-              alt
-            },
+        resources[] {
+          _type,
+          label,
+          href,
+          image {
+            url,
+            alt
+          },
+          _type == "internalLink" => {
+              "_id": @.reference->_id,
+              "slug": @.reference->slug,
+              "type": @.reference->_type,
+              "modules": *[_type=='module']{
+                "slug": slug.current,
+                sections[]->{
+                  "slug": slug.current,
+                  lessons[]->{
+                    "slug": slug.current,
+                  }
+                }
+              }
+            }
+        },
+        image {
+          url,
+          alt
+        },
         sections[]->{
             title,
             "slug": slug.current,

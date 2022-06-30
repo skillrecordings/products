@@ -10,7 +10,7 @@ import {SkipNavContent} from '@reach/skip-nav'
 import {getOgImage} from 'utils/get-og-image'
 import {SanityDocument} from '@sanity/client'
 import {LessonProgress} from '@prisma/client'
-import PortableTextComponents from 'components/portable-text'
+import PortableTextComponents, {InternalLink} from 'components/portable-text'
 import BreadcrumbNav from 'components/breadcrumb'
 import Layout from 'components/app/layout'
 import pluralize from 'pluralize'
@@ -24,7 +24,7 @@ type ModuleTemplateProps = {
 }
 
 const ModuleTemplate: React.FC<ModuleTemplateProps> = ({module}) => {
-  const {slug, title, body, sections, image} = module
+  const {slug, title, body, sections, image, resources} = module
   const ogImage = getOgImage(title, image.url)
   const {progress} = useProgress()
   const {completedSections, percentCompleted, isCompleted} =
@@ -66,9 +66,15 @@ const ModuleTemplate: React.FC<ModuleTemplateProps> = ({module}) => {
                     pluralize('lesson', allLessonsInModule?.length)}
                 </span>
               </div>
+              {resources && (
+                <div className="pt-5">
+                  <Resources resources={resources} />
+                </div>
+              )}
             </div>
           </div>
         </div>
+
         <div className="pb-10 md:-mt-5">
           {sections && <Sections progress={progress} module={module} />}
         </div>
@@ -82,6 +88,69 @@ export default ModuleTemplate
 type SectionsProps = {
   progress: LessonProgress[]
   module: SanityDocument
+}
+
+type Resource = {
+  label: string
+  href: string
+  _type: string
+  image?: {
+    url: string
+    alt: string
+  }
+}
+
+const Resources: React.FC<{resources: Resource[]}> = ({resources}) => {
+  return (
+    <div className="flex md:justify-start justify-center flex-wrap gap-3 max-w-screen-md mx-auto w-full md:p-0 p-5">
+      {resources.map((resource) => {
+        const {label, href, _type: type, image} = resource
+        const ResourceBox: React.FC = ({children}) => {
+          return (
+            <div
+              className={cx(
+                'group-hover:underline flex items-center gap-2 font-medium px-2 py-1.5 rounded-md bg-black/10 group-hover:bg-black/20 text-sm',
+                {
+                  'pr-4': image,
+                },
+              )}
+            >
+              {image && (
+                <Image
+                  src={image.url}
+                  alt={image.alt}
+                  width={28}
+                  height={28}
+                  quality={100}
+                />
+              )}
+              {children}
+            </div>
+          )
+        }
+        if (type === 'internalLink') {
+          return (
+            <InternalLink key={href} value={resource} className="group">
+              <ResourceBox>{label}</ResourceBox>
+            </InternalLink>
+          )
+        }
+        if (type === 'externalLink') {
+          return (
+            <a
+              key={href}
+              className="group"
+              href={href}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <ResourceBox>{label}</ResourceBox>
+            </a>
+          )
+        }
+      })}
+    </div>
+  )
 }
 
 const Sections: React.FC<SectionsProps> = ({progress, module}) => {

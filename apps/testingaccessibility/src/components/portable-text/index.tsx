@@ -115,7 +115,11 @@ const BodyImage = ({value}: BodyImageProps) => {
   )
 }
 
-const InternalLink: React.FC<InternalLinkProps> = ({value, children}) => {
+export const InternalLink: React.FC<InternalLinkProps> = ({
+  value,
+  children,
+  ...props
+}) => {
   const {slug = {}, type = 'lesson', hash, modules} = value
   const resourceSlug = slug.current
 
@@ -143,7 +147,7 @@ const InternalLink: React.FC<InternalLinkProps> = ({value, children}) => {
   }
   return (
     <Link href={getPath()}>
-      <a>{children}</a>
+      <a {...props}>{children}</a>
     </Link>
   )
 }
