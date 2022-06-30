@@ -75,34 +75,93 @@ const Video: React.FC<{url: string; title: string}> = ({url, title}) => {
 }
 
 const BodyImage = ({value}: BodyImageProps) => {
-  const {alt, caption, image} = value
+  const {alt, caption, image, href} = value
   const [isLoading, setIsLoading] = React.useState<boolean>(true)
   if (!image) return <figure>⚠️ missing image</figure>
   const {url, width, height} = image
+  const Figure = () => {
+    return (
+      <figure
+        className={cx('flex items-center justify-center relative', {
+          'bg-gray-100': isLoading,
+        })}
+      >
+        <Image
+          onLoadingComplete={() => {
+            setIsLoading(false)
+          }}
+          src={url}
+          alt={alt}
+          width={width}
+          height={height}
+          quality={100}
+          className="rounded-md"
+        />
+        {isLoading && <Spinner className="w-8 h-8 absolute" />}
+        {caption && (
+          <figcaption>
+            <PortableText value={caption} />
+          </figcaption>
+        )}
+      </figure>
+    )
+  }
+  return href ? (
+    <ExternalLink value={{...value, blank: true}} className="flex">
+      <Figure />
+    </ExternalLink>
+  ) : (
+    <Figure />
+  )
+}
+
+const InternalLink: React.FC<InternalLinkProps> = ({value, children}) => {
+  const {slug = {}, type = 'lesson', hash, modules} = value
+  const resourceSlug = slug.current
+
+  const getPath = () => {
+    switch (type) {
+      case 'lesson':
+        return {
+          pathname: '/learn/[module]/[section]/[lesson]',
+          query: getPathForLesson(resourceSlug, modules),
+          hash,
+        }
+      case 'section':
+        return {
+          pathname: '/learn/[module]/[section]',
+          query: getPathForSection(resourceSlug, modules),
+          hash,
+        }
+      default:
+        return {
+          pathname: '/learn/[module]',
+          query: {module: resourceSlug},
+          hash,
+        }
+    }
+  }
   return (
-    <figure
-      className={cx('flex items-center justify-center relative', {
-        'bg-gray-100': isLoading,
-      })}
-    >
-      <Image
-        onLoadingComplete={() => {
-          setIsLoading(false)
-        }}
-        src={url}
-        alt={alt}
-        width={width}
-        height={height}
-        quality={100}
-        className="rounded-md"
-      />
-      {isLoading && <Spinner className="w-8 h-8 absolute" />}
-      {caption && (
-        <figcaption>
-          <PortableText value={caption} />
-        </figcaption>
-      )}
-    </figure>
+    <Link href={getPath()}>
+      <a>{children}</a>
+    </Link>
+  )
+}
+
+const ExternalLink: React.FC<ExternalLinkProps> = ({
+  value,
+  children,
+  ...props
+}) => {
+  const {blank, href} = value
+  return blank ? (
+    <a href={href} target="_blank" rel="noopener noreferrer" {...props}>
+      {children}
+    </a>
+  ) : (
+    <a href={href} {...props}>
+      {children}
+    </a>
   )
 }
 
@@ -137,46 +196,10 @@ const PortableTextComponents: PortableTextComponentsProps = {
       )
     },
     internalLink: ({value, children}: InternalLinkProps) => {
-      const {slug = {}, type = 'lesson', hash, modules} = value
-      const resourceSlug = slug.current
-
-      const getPath = () => {
-        switch (type) {
-          case 'lesson':
-            return {
-              pathname: '/learn/[module]/[section]/[lesson]',
-              query: getPathForLesson(resourceSlug, modules),
-              hash,
-            }
-          case 'section':
-            return {
-              pathname: '/learn/[module]/[section]',
-              query: getPathForSection(resourceSlug, modules),
-              hash,
-            }
-          default:
-            return {
-              pathname: '/learn/[module]',
-              query: {module: resourceSlug},
-              hash,
-            }
-        }
-      }
-      return (
-        <Link href={getPath()}>
-          <a>{children}</a>
-        </Link>
-      )
+      return <InternalLink value={value}>{children}</InternalLink>
     },
     link: ({value, children}) => {
-      const {blank, href} = value
-      return blank ? (
-        <a href={href} target="_blank" rel="noopener noreferrer">
-          {children}
-        </a>
-      ) : (
-        <a href={href}>{children}</a>
-      )
+      return <ExternalLink value={value}>{children}</ExternalLink>
     },
   },
   types: {
@@ -276,6 +299,7 @@ const PortableTextComponents: PortableTextComponentsProps = {
 }
 
 type InternalLinkProps = any
+type ExternalLinkProps = any
 
 type EmojiProps = PortableTextMarkComponentProps<any>
 
@@ -302,11 +326,13 @@ type BodyImageProps = {
   value: {
     alt: string
     caption: PortableTextBlock | ArbitraryTypedObject
+    link?: string
     image: {
       url: string
       width: number
       height: number
     }
+    href?: string
   }
 }
 

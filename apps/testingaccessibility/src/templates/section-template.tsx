@@ -54,7 +54,7 @@ const SectionTemplate: React.FC<SectionTemplateProps> = ({
       <SkipNavContent />
       <div className="flex-grow">
         <header className="bg-green-700 bg-noise text-white pt-8 pb-12 px-5">
-          <div className="flex items-center justify-center gap-5 max-w-screen-sm mx-auto min-h-[180px]">
+          <div className="flex items-center justify-center gap-5 max-w-screen-md mx-auto min-h-[180px]">
             <h1 className="font-heading md:text-5xl text-4xl font-bold w-full">
               {title}
             </h1>
@@ -72,7 +72,7 @@ const SectionTemplate: React.FC<SectionTemplateProps> = ({
           </div>
         </header>
         {lessons && (
-          <div className="-mt-4 max-w-screen-sm w-full mx-auto">
+          <div className="-mt-4 max-w-screen-md w-full mx-auto">
             <LessonsNavigator
               lessons={lessons}
               progress={progress}
@@ -82,7 +82,7 @@ const SectionTemplate: React.FC<SectionTemplateProps> = ({
           </div>
         )}
         <main className="mx-auto xl:px-0 px-5 py-5 sm:pb-24 pb-16 lg:gap-10 gap-5">
-          <article className="max-w-screen-sm mx-auto col-span-7">
+          <article className="max-w-screen-md mx-auto col-span-7">
             {!lessons && (
               <div className="pb-8">
                 <TableOfContents value={body} />
@@ -165,7 +165,7 @@ const LessonsNavigator = ({
       aria-label="lesson navigator"
       className="sm:p-8 p-4 bg-white border border-gray-100 sm:rounded-md shadow-xl"
     >
-      <h2 className="font-semibold uppercase text-xs text-green-800 pb-2">
+      <h2 className="font-semibold uppercase sm:text-sm text-xs text-green-800 pb-2">
         Lessons
       </h2>
       <ol className="list-none divide-y divide-gray-100">
@@ -201,7 +201,7 @@ const LessonsNavigator = ({
                   aria-label={`${title} ${isCompleted ? '(completed)' : ''}`}
                   data-index={isCompleted ? '✓' : i + 1}
                   className={cx(
-                    `px-3 hover:bg-gray-50 w-full font-semibold py-4 hover:text-gray-900 text-gray-700 relative items-center inline-flex before:font-semibold before:flex before:items-center before:justify-center before:font-mono before:content-[attr(data-index)] before:w-5 before:h-5 before:border before:left-0 before:rounded-full before:flex-shrink-0`,
+                    `px-3 sm:text-lg hover:bg-gray-50 w-full font-semibold py-4 hover:text-gray-900 text-gray-700 relative items-center inline-flex before:font-semibold before:flex before:items-center before:justify-center before:font-mono before:content-[attr(data-index)] before:w-5 before:h-5 before:border before:left-0 before:rounded-full before:flex-shrink-0`,
                     {
                       'before:text-[0.55em] before:text-gray-500 before:border-gray-300':
                         !isCompleted,
