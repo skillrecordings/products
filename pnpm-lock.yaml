@@ -41,6 +41,7 @@ importers:
       eslint: 8.10.0
       eslint-config-next: 12.1.0
       next: ^12.1.6
+      next-sitemap: ^2.5.4
       postcss: ^8.4.12
       postcss-nested: ^5.0.6
       react: ^17.0.2
@@ -55,6 +56,7 @@ importers:
       '@tailwindcss/aspect-ratio': 0.4.0_tailwindcss@3.0.24
       '@tailwindcss/forms': 0.5.2_tailwindcss@3.0.24
       next: 12.1.6_react-dom@17.0.2+react@17.0.2
+      next-sitemap: 2.5.20_next@12.1.6
       react: 17.0.2
       react-dom: 17.0.2_react@17.0.2
       react-hook-form: 7.29.0_react@17.0.2
@@ -26358,6 +26360,18 @@ packages:
       '@corex/deepmerge': 2.6.148
       minimist: 1.2.6
       next: 12.1.5_react-dom@17.0.2+react@17.0.2
+    dev: false
+
+  /next-sitemap/2.5.20_next@12.1.6:
+    resolution: {integrity: sha512-Qbm4N2WGA6VHemFN0C9PNWQav9RKwMEbVrNgVvDQhG0sDBmNBgKii54WklOjCvVJVHgQPgtXLBhlNaJGS+RVQA==}
+    engines: {node: '>=14.18'}
+    hasBin: true
+    peerDependencies:
+      next: '*'
+    dependencies:
+      '@corex/deepmerge': 2.6.148
+      minimist: 1.2.6
+      next: 12.1.6_react-dom@17.0.2+react@17.0.2
     dev: false
 
   /next-sitemap/2.5.4_next@12.1.6:
