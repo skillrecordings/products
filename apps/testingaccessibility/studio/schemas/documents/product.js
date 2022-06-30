@@ -33,7 +33,18 @@ export default {
       type: 'array',
       of: [{type: 'reference', to: [{type: 'module'}]}],
     },
+    {
+      name: 'action',
+      title: 'Call to action',
+      type: 'string',
+    },
     {name: 'image', title: 'Image', type: 'externalImage'},
+    {
+      name: 'order',
+      title: 'Order',
+      type: 'number',
+      hidden: true,
+    },
   ],
   preview: {
     select: {

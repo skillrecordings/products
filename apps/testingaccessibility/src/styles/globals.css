@@ -7,6 +7,7 @@
 @import './icons.css';
 @import './quiz.css';
 @import '@skillrecordings/player/dist/skillrecordings-player.css';
+@import './pricing.css';
 
 :root {
   --reach-skip-nav: 1;
