@@ -10,8 +10,6 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const articles = await getAllArticles()
   const reviews = await getAllReviews()
 
-  console.log({reviews})
-
   return getServerSideSitemap(ctx, [
     ...articles.map((article: any) => {
       return {
