@@ -19,6 +19,7 @@ export default {
           {title: 'Reflection', value: 'reflection'},
           {title: 'Caution', value: 'caution'},
           {title: 'Exercise', value: 'exercise'},
+          {title: 'Link', value: 'link'},
         ],
       },
     },
@@ -44,6 +45,8 @@ export default {
             return {alt: 'warning', src: '⚠️'}
           case 'Exercise':
             return {alt: 'pencil', src: '📝'}
+          case 'Link':
+            return {alt: 'waving hand', src: '👋'}
           default:
             return {alt: 'speech baloon', src: '💬'}
         }

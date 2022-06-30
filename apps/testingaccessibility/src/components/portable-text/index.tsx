@@ -5,7 +5,7 @@ import {ChevronDownIcon, ChevronUpIcon} from '@heroicons/react/solid'
 import {
   toPlainText,
   PortableText,
-  PortableTextComponents,
+  PortableTextComponents as PortableTextComponentsProps,
   PortableTextMarkComponentProps,
 } from '@portabletext/react'
 import {useSelector} from '@xstate/react'
@@ -16,7 +16,9 @@ import {
   useVideo,
   VideoProvider,
 } from '@skillrecordings/player'
+import Spinner from 'components/spinner'
 import speakingurl from 'speakingurl'
+import isEmpty from 'lodash/isEmpty'
 import Image from 'next/image'
 import Link from 'next/link'
 import cx from 'classnames'
@@ -27,7 +29,6 @@ import markdown from 'refractor/lang/markdown'
 import yaml from 'refractor/lang/yaml'
 import jsx from 'refractor/lang/jsx'
 import css from 'refractor/lang/css'
-import Spinner from 'components/spinner'
 
 Refractor.registerLanguage(js)
 Refractor.registerLanguage(markdown)
@@ -107,7 +108,7 @@ const BodyImage = ({value}: BodyImageProps) => {
 
 // https://github.com/portabletext/react-portabletext
 
-const PortableTextComponents: PortableTextComponents = {
+const PortableTextComponents: PortableTextComponentsProps = {
   block: {
     h1: ({children, value}) => {
       return <h1 id={speakingurl(toPlainText(value))}>{children}</h1>
@@ -227,23 +228,27 @@ const PortableTextComponents: PortableTextComponents = {
     },
     callout: ({value}: CalloutProps) => {
       const {body, type} = value
+      const title = getCalloutTitle(type)
+      const image = getCalloutImage(type)
       return (
         <div
-          className={cx(`p-5 sm:my-8 my-4 rounded-md`, getCalloutStyles(type))}
+          className={cx(`p-5 sm:my-8 my-4 rounded-md`, getCalloutStyles(type), {
+            'sm:flex': isEmpty(title),
+          })}
         >
           <div>
             <span
               role="img"
-              aria-label={getCalloutImage(type).alt}
+              aria-label={image.alt}
               className="text-lg font-bold"
             >
-              {getCalloutImage(type).src}
+              {image.src}
             </span>
-            <span className="pl-2 font-semibold">{getCalloutTitle(type)}</span>
+            <span className="pl-2 font-semibold">{title}</span>
           </div>
           {/* <b className="font-bold">{getCalloutTitle(type)}</b> */}
           <div className="min-w-0 first-of-type:prose-p:mt-0 last-of-type:prose-p:mb-0">
-            <PortableText value={body} />
+            <PortableText value={body} components={PortableTextComponents} />
           </div>
         </div>
       )
@@ -320,6 +325,8 @@ const getCalloutStyles = (type: string): string => {
       return 'bg-orange-100 text-orange-800'
     case 'caution':
       return 'bg-pink-100 text-pink-900'
+    case 'link':
+      return 'bg-yellow-100 text-yellow-900'
     default:
       return 'bg-gray-100 text-gray-800'
   }
@@ -337,6 +344,8 @@ const getCalloutTitle = (type: string): string => {
       return 'Caution'
     case 'exercise':
       return 'Exercise'
+    case 'link':
+      return ''
     default:
       return 'Callout'
   }
@@ -354,6 +363,8 @@ const getCalloutImage = (type: string): {alt: string; src: string} => {
       return {alt: 'warning', src: '⚠️'}
     case 'exercise':
       return {alt: 'memo', src: '📝'}
+    case 'link':
+      return {alt: 'waving hand', src: '👋'}
     default:
       return {alt: 'speech baloon', src: '💬'}
   }

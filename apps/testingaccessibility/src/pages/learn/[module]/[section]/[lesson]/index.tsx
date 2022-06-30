@@ -16,7 +16,7 @@ const lessonQuery = groq`*[_type == "lesson" && slug.current == $slug][0]{
   body[]{
       ...,
       markDefs[]{
-        ...,
+      ...,
       _type == "internalLink" => {
         "_id": @.reference->_id,
         "slug": @.reference->slug,
@@ -31,8 +31,31 @@ const lessonQuery = groq`*[_type == "lesson" && slug.current == $slug][0]{
           }
         }
       }
+    },
+    _type == "callout" => {
+        ...,
+        body[]{
+          ...,
+          markDefs[]{
+          ...,
+          _type == "internalLink" => {
+            "_id": @.reference->_id,
+            "slug": @.reference->slug,
+            "type": @.reference->_type,
+            "modules": *[_type=='module']{
+              "slug": slug.current,
+              sections[]->{
+                "slug": slug.current,
+                lessons[]->{
+                  "slug": slug.current,
+                }
+              }
+            }
+          }
+        }
+      }
     }
-  },
+  }
   }`
 
 const allLessonsQuery = groq`*[_type == "lesson"]{
