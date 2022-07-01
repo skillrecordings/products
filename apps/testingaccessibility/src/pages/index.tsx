@@ -8,33 +8,25 @@ import {
 import Layout from 'components/app/layout'
 import {useRouter} from 'next/router'
 import {GetServerSideProps} from 'next'
-import {getToken} from 'next-auth/jwt'
-import {getCouponForCode} from '../server/get-coupon-for-code'
-import {serialize} from '../utils/prisma-next-serializer'
 import {useCoupon} from '../hooks/use-coupon'
+import {CommerceProps, propsForCommerce} from '../utils/props-for-commerce'
+import {PrimaryNewsletterCta} from '../components/primary-newsletter-cta'
+import {isSellingLive} from '../utils/is-selling-live'
+import {PricingTiers} from '../components/product-tiers'
 
 export const getServerSideProps: GetServerSideProps = async ({req, query}) => {
-  const token = await getToken({
-    req,
-    secret: process.env.NEXTAUTH_SECRET,
-  })
-  const couponFromCode = await getCouponForCode(query.code as string)
-  return {
-    props: {
-      token,
-      ...(couponFromCode && {couponFromCode: serialize(couponFromCode)}),
-    },
-  }
+  return await propsForCommerce({req, query})
 }
 
-const Home: React.FC<{couponFromCode?: {isValid: boolean; id: string}}> = ({
+const Home: React.FC<CommerceProps> = ({
   couponFromCode,
+  purchases = [],
+  userId,
+  products,
+  couponIdFromCoupon,
 }) => {
-  const router = useRouter()
-  const {validCoupon, RedeemDialogForCoupon} = useCoupon(couponFromCode)
   return (
     <Layout className="bg-white">
-      {validCoupon ? <RedeemDialogForCoupon /> : null}
       <div>
         <div className="flex flex-col justify-between min-h-screen overflow-hidden">
           <header className="relative text-white bg-green-700 lg:pt-32 sm:pt-24 pt-24 bg-noise">
@@ -70,46 +62,34 @@ const Home: React.FC<{couponFromCode?: {isValid: boolean; id: string}}> = ({
             <div className="max-w-screen-md mx-auto">
               <AboutMarcy />
             </div>
-            <section
-              id="subscribe"
-              className="relative flex flex-col items-center justify-center overflow-hidden text-white bg-noise bg-green-700 sm:px-16 px-5 lg:pb-32 sm:pb-24 pb-16 sm:pt-24 pt-10"
-            >
-              <div className="flex flex-col items-center mb-8">
-                <Image
-                  aria-hidden="true"
-                  src={require('../../public/assets/email@2x.png')}
-                  placeholder="blur"
-                  priority
-                  alt=""
-                  width={300}
-                  height={180}
-                  quality={100}
-                />
+            {isSellingLive ? (
+              <div className="flex flex-col justify-center items-center bg-green-700 bg-noise pb-32">
+                <div className="pb-80 pt-24 text-white">
+                  <div className="max-w-7xl mx-auto text-center px-4 sm:px-6 lg:px-8">
+                    <div className="max-w-3xl mx-auto space-y-4 lg:max-w-none">
+                      <h2 className="text-3xl  font-extrabold sm:text-4xl lg:text-5xl">
+                        Pricing
+                      </h2>
+                      <p className="text-xl max-w-lg mx-auto">
+                        Learn the skills that will help you level up your
+                        career!
+                      </p>
+                    </div>
+                  </div>
+                </div>
+                <div className="px-5">
+                  <PricingTiers
+                    products={products}
+                    userId={userId}
+                    purchases={purchases}
+                    couponIdFromCoupon={couponIdFromCoupon}
+                    couponFromCode={couponFromCode}
+                  />
+                </div>
               </div>
-              <h2 className="max-w-lg font-heading mx-auto -mt-4 sm:text-4xl text-3xl leading-none text-center md:text-5xl font-bold sm:mt-0">
-                Join my exclusive{' '}
-                <span className="whitespace-nowrap">6-part</span> email course
-              </h2>
-              <h3 className="max-w-md leading-tight pt-6 pb-16 text-xl text-center text-orange-200">
-                And learn more about building and testing accessible web
-                applications.
-              </h3>
-              <SubscribeToConvertkitForm
-                onSuccess={(subscriber: any) => {
-                  if (subscriber) {
-                    const redirectUrl = redirectUrlBuilder(
-                      subscriber,
-                      '/confirm',
-                    )
-                    router.push(redirectUrl)
-                  }
-                }}
-                actionLabel="Start Testing Accessibility →"
-              />
-              <p className="pt-8 opacity-80 text-sm">
-                We respect your privacy. Unsubscribe at any time.
-              </p>
-            </section>
+            ) : (
+              <PrimaryNewsletterCta />
+            )}
           </main>
         </div>
       </div>

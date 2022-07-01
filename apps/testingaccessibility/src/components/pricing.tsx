@@ -15,6 +15,7 @@ type PricingProps = {
   purchases?: Purchase[]
   userId?: string
   index: number
+  couponId?: string
 }
 
 /**
@@ -32,13 +33,15 @@ export const Pricing: React.FC<PricingProps> = ({
   purchases = [],
   userId,
   index,
+  couponId,
 }) => {
   const [coupon, setCoupon] = React.useState()
   const [quantity, setQuantity] = React.useState(1)
   const debouncedQuantity: number = useDebounce<number>(quantity, 250)
   const {productId, name, image, modules, features, action} = product
+
   const {data: formattedPrice, status} = useQuery<FormattedPrice>(
-    ['pricing', coupon, debouncedQuantity, productId, userId],
+    ['pricing', coupon, debouncedQuantity, productId, userId, couponId],
     () =>
       fetch('/api/prices', {
         method: 'POST',
@@ -48,6 +51,7 @@ export const Pricing: React.FC<PricingProps> = ({
           quantity,
           purchases,
           userId,
+          siteCouponId: couponId,
         }),
         headers: {
           'Content-Type': 'application/json',

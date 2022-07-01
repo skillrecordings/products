@@ -7,7 +7,11 @@ import {tracer} from '../utils/honeycomb-tracer'
 type SDKOptions = {ctx?: Context; spanContext?: SpanContext}
 
 function startSpan(name: string, childOf?: SpanContext) {
-  return tracer.startSpan(name, {childOf})
+  if (process.env.NODE_ENV === 'production') {
+    return tracer.startSpan(name, {childOf})
+  }
+
+  return {finish: () => {}}
 }
 
 export function getSdk(
@@ -239,7 +243,7 @@ export function getSdk(
       span.finish()
       return merchantCoupons
     },
-    async getDefaultCouponId(productId?: string) {
+    async getDefaultCoupon(productId?: string) {
       const span = startSpan('getDefaultCouponId', spanContext)
       const activeSaleCoupon = await ctx.prisma.coupon.findFirst({
         where: {
@@ -250,18 +254,19 @@ export function getSdk(
         },
         select: {
           restrictedToProductId: true,
-          merchantCouponId: true,
+          merchantCoupon: true,
         },
       })
 
       span.finish()
 
       if (activeSaleCoupon) {
-        const {restrictedToProductId, merchantCouponId} = activeSaleCoupon
-        const validForProductId =
-          restrictedToProductId && restrictedToProductId === productId
+        const {restrictedToProductId, merchantCoupon} = activeSaleCoupon
+        const validForProductId = restrictedToProductId
+          ? restrictedToProductId === productId
+          : true
 
-        if (validForProductId) return merchantCouponId
+        if (validForProductId) return merchantCoupon
       }
     },
   }

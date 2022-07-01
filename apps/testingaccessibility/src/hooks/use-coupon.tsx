@@ -1,9 +1,9 @@
 import React from 'react'
 import RedeemDialog from '../components/redeem-dialog'
 
-type Coupon = {isValid: boolean; id: string}
+type CouponValidator = {isValid: boolean; id: string; isRedeemable: boolean}
 
-export function useCoupon(coupon?: Coupon) {
+export function useCoupon(coupon?: CouponValidator) {
   const [validCoupon, setValidCoupon] = React.useState(false)
   React.useEffect(() => {
     setTimeout(() => {
@@ -13,6 +13,7 @@ export function useCoupon(coupon?: Coupon) {
 
   return {
     validCoupon,
+    redeemableCoupon: validCoupon && coupon?.isRedeemable,
     RedeemDialogForCoupon: () => {
       return coupon ? (
         <RedeemDialog open={validCoupon} couponId={coupon.id} />
