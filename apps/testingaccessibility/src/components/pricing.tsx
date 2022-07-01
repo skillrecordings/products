@@ -1,27 +1,20 @@
 import * as React from 'react'
-import {CheckCircleIcon} from '@heroicons/react/outline'
-import {useQuery} from 'react-query'
-import {useDebounce} from '@skillrecordings/react'
 import {FormattedPrice} from '../utils/format-prices-for-product'
+import {CheckCircleIcon} from '@heroicons/react/outline'
+import {useDebounce} from '@skillrecordings/react'
+import type {SanityProduct} from 'pages/buy'
 import {Purchase} from '@prisma/client'
-
-const tier = {
-  href: '#',
-  description: 'Lorem ipsum dolor sit amet consectetur, adipisicing elit.',
-  features: ['Community Forum', 'Workbook & Sticker Pack'],
-  modules: [
-    'Foundations of Accessibility',
-    'Design & People Skills for Accessibility',
-    'Manual Accessibility Testing',
-    'Automated Accessibility Testing',
-  ],
-}
+import {useQuery} from 'react-query'
+import Spinner from './spinner'
+import Image from 'next/image'
+import cx from 'classnames'
 
 type PricingProps = {
-  product: {name: string; id: string}
+  product: SanityProduct
   purchased?: boolean
   purchases?: Purchase[]
   userId?: string
+  index: number
 }
 
 /**
@@ -30,6 +23,7 @@ type PricingProps = {
  * @param purchased
  * @param purchases
  * @param userId - If user is logged in, this is the user's ID.
+ * @param index
  * @constructor
  */
 export const Pricing: React.FC<PricingProps> = ({
@@ -37,18 +31,19 @@ export const Pricing: React.FC<PricingProps> = ({
   purchased = false,
   purchases = [],
   userId,
+  index,
 }) => {
   const [coupon, setCoupon] = React.useState()
   const [quantity, setQuantity] = React.useState(1)
   const debouncedQuantity: number = useDebounce<number>(quantity, 250)
-
+  const {productId, name, image, modules, features, action} = product
   const {data: formattedPrice, status} = useQuery<FormattedPrice>(
-    ['pricing', coupon, debouncedQuantity, product.id, userId],
+    ['pricing', coupon, debouncedQuantity, productId, userId],
     () =>
       fetch('/api/prices', {
         method: 'POST',
         body: JSON.stringify({
-          productId: product.id,
+          productId,
           coupon,
           quantity,
           purchases,
@@ -62,144 +57,190 @@ export const Pricing: React.FC<PricingProps> = ({
 
   const availableCoupon = formattedPrice?.availableCoupons?.[0]
   const appliedCoupon = formattedPrice?.appliedCoupon
+  const percentOffLabel =
+    appliedCoupon &&
+    `${Math.floor(appliedCoupon.percentageDiscount * 100)}% off of $${
+      (formattedPrice?.unitPrice || 0) * (formattedPrice?.quantity || 0)
+    }`
 
   return (
-    <section>
-      <div className="mt-8 pb-12 sm:mt-12 sm:pb-16 lg:mt-16 lg:pb-24">
-        <div className="relative">
-          <div className="absolute inset-0 h-3/4" />
-          <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="max-w-md mx-auto space-y-4 lg:gap-5 lg:space-y-0">
-              <div className="flex flex-col rounded-lg shadow-lg overflow-hidden">
-                <div className="px-6 py-8 sm:p-10 sm:pb-6">
-                  <div>
-                    <h3 className="inline-flex px-4 py-1 rounded-full text-sm font-semibold tracking-wide uppercase bg-indigo-100 text-indigo-600">
-                      {product.name}
-                    </h3>
-                  </div>
-                  <div className="mt-4 flex items-baseline text-6xl font-extrabold">
-                    $
-                    {status === 'loading'
-                      ? ` --`
-                      : `${formattedPrice?.calculatedPrice}`}
-                  </div>
-                  {appliedCoupon ? (
-                    <div>
-                      <div className="mt-4 flex items-baseline text-2xl font-extrabold">
-                        {`${Math.floor(
-                          appliedCoupon.percentageDiscount * 100,
-                        )}% off of $${
-                          (formattedPrice?.unitPrice || 0) *
-                          (formattedPrice?.quantity || 0)
-                        }`}
-                      </div>
-                      {appliedCoupon.type === 'site' ? (
-                        <div>There is a sale!</div>
-                      ) : null}
-                      {appliedCoupon.type === 'ppp' ? (
-                        <div>For regional discount.</div>
-                      ) : null}
+    <div className="relative flex flex-col items-center">
+      <div className="absolute top-[-248px] w-full h-full max-w-[400px] max-h-[400px]">
+        <Image
+          src={image.url}
+          alt={image.alt}
+          quality={100}
+          layout={'fill'}
+          objectFit="cover"
+          aria-hidden="true"
+        />
+      </div>
+      <article className="bg-white rounded-md flex flex-col items-center justify-center">
+        <div className={cx('pt-24 flex flex-col items-center')}>
+          <span
+            data-pricing-product-name-badge={index}
+            className="inline-flex px-4 py-1 pb-1.5 rounded-full font-nav text-sm font-semibold tracking-wide uppercase"
+          >
+            {name}
+          </span>
+          <div className="mt-4 flex items-baseline text-6xl font-bold font-heading">
+            {status === 'loading' ? (
+              <div className="pt-4 pb-3">
+                <span className="sr-only">Loading price</span>
+                <Spinner aria-hidden="true" className="w-8 h-8" />
+              </div>
+            ) : (
+              <>
+                <sup
+                  aria-hidden="true"
+                  className="text-lg -translate-y-4 pr-0.5 opacity-90"
+                >
+                  US
+                </sup>
+                <div aria-live="polite">
+                  {'$' + formattedPrice?.calculatedPrice}
+                  {appliedCoupon && (
+                    <div className="sr-only">
                       {appliedCoupon.type === 'bulk' ? (
-                        <div>Team discount.</div>
-                      ) : null}
+                        <div className="font-medium">Team discount.</div>
+                      ) : null}{' '}
+                      {percentOffLabel}
                     </div>
-                  ) : null}
-                  {availableCoupon ? (
-                    <div
-                      onClick={() => {
-                        setCoupon(availableCoupon.id)
-                      }}
-                    >
-                      {availableCoupon.type}
-                    </div>
-                  ) : null}
-                  <input
-                    type="number"
-                    min={1}
-                    max={102}
-                    step={1}
-                    onChange={(e) => {
-                      setCoupon(undefined)
-                      setQuantity(Number(e.target.value))
-                    }}
-                    value={quantity}
-                  />
-                </div>
-                <div className="flex-1 flex flex-col justify-between px-6 pt-6 pb-8 bg-gray-50 space-y-6 sm:p-10 sm:pt-6">
-                  <h3>Modules:</h3>
-                  <ul role="list" className="space-y-4">
-                    {tier.modules.map((feature) => (
-                      <li key={feature} className="flex items-start">
-                        <div className="flex-shrink-0">
-                          <CheckCircleIcon
-                            className="h-6 w-6 text-green-500"
-                            aria-hidden="true"
-                          />
-                        </div>
-                        <p className="ml-3 text-base text-gray-700">
-                          {feature}
-                        </p>
-                      </li>
-                    ))}
-                  </ul>
-                  <h3>Also included:</h3>
-                  <ul role="list" className="space-y-4">
-                    {tier.features.map((feature) => (
-                      <li key={feature} className="flex items-start">
-                        <div className="flex-shrink-0">
-                          <CheckCircleIcon
-                            className="h-6 w-6 text-green-500"
-                            aria-hidden="true"
-                          />
-                        </div>
-                        <p className="ml-3 text-base text-gray-700">
-                          {feature}
-                        </p>
-                      </li>
-                    ))}
-                  </ul>
-                  {purchased ? (
-                    <section>
-                      <button
-                        className="disabled w-full flex items-center justify-center px-5 py-3 border border-transparent text-base font-medium rounded-md text-white bg-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500"
-                        type="submit"
-                        role="link"
-                        disabled
-                      >
-                        Purchased
-                      </button>
-                    </section>
-                  ) : (
-                    <form
-                      action={`/api/stripe/checkout?productId=${
-                        formattedPrice?.id
-                      }&couponId=${appliedCoupon?.id}&quantity=${quantity}${
-                        userId ? `&userId=${userId}` : ``
-                      }${
-                        formattedPrice?.upgradeFromPurchaseId
-                          ? `&upgradeFromPurchaseId=${formattedPrice?.upgradeFromPurchaseId}`
-                          : ``
-                      }`}
-                      method="POST"
-                    >
-                      <section>
-                        <button
-                          className="w-full flex items-center justify-center px-5 py-3 border border-transparent text-base font-medium rounded-md text-white bg-black hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500"
-                          type="submit"
-                        >
-                          {formattedPrice?.upgradeFromPurchaseId
-                            ? `Upgrade Now`
-                            : `Buy Now`}
-                        </button>
-                      </section>
-                    </form>
                   )}
                 </div>
+              </>
+            )}
+          </div>
+          <div className="text-sm opacity-80 pt-2">yours forever</div>
+          {appliedCoupon ? (
+            <div className="text-center">
+              <div className="mt-4 text-2xl font-bold text-green-700">
+                {percentOffLabel}
               </div>
+              {appliedCoupon.type === 'site' ? (
+                <div className="font-medium">There is a sale!</div>
+              ) : null}
+              {appliedCoupon.type === 'ppp' ? (
+                <div className="font-medium">For regional discount.</div>
+              ) : null}
+              {appliedCoupon.type === 'bulk' ? (
+                <div className="font-medium">Team discount.</div>
+              ) : null}
             </div>
+          ) : null}
+          {availableCoupon ? (
+            <div
+              onClick={() => {
+                setCoupon(availableCoupon.id)
+              }}
+            >
+              {availableCoupon.type}
+            </div>
+          ) : null}
+        </div>
+        {purchased ? (
+          <div className="w-full px-8">
+            <button
+              data-pricing-product-checkout-button={index}
+              className="flex text-center px-5 py-4 font-nav font-semibold items-center justify-center rounded-md w-full text-lg gap-1"
+              type="submit"
+              role="link"
+              disabled
+            >
+              <CheckCircleIcon aria-hidden="true" className="mt-0.5 w-6 h-6" />{' '}
+              Purchased
+            </button>
+          </div>
+        ) : (
+          <form
+            action={`/api/stripe/checkout?productId=${
+              formattedPrice?.id
+            }&couponId=${appliedCoupon?.id}&quantity=${quantity}${
+              userId ? `&userId=${userId}` : ``
+            }${
+              formattedPrice?.upgradeFromPurchaseId
+                ? `&upgradeFromPurchaseId=${formattedPrice?.upgradeFromPurchaseId}`
+                : ``
+            }`}
+            method="POST"
+            className="pt-8 xl:px-12 px-5 flex flex-col items-center justify-center w-full"
+          >
+            <div className="mb-5">
+              <label className=" flex items-center gap-3">
+                <span className="opacity-80">Seats</span>
+                <input
+                  className="bg-gray-100 border border-gray-200 pl-3 py-2 rounded-md font-bold font-mono"
+                  type="number"
+                  min={1}
+                  max={102}
+                  step={1}
+                  onChange={(e) => {
+                    setCoupon(undefined)
+                    setQuantity(Number(e.target.value))
+                  }}
+                  value={quantity}
+                  id={`${quantity}-${name}`}
+                  required={true}
+                />
+              </label>
+            </div>
+            <button
+              data-pricing-product-checkout-button={index}
+              className="flex text-center px-5 py-4 pb-[1.1rem] font-nav font-semibold items-center justify-center rounded-md w-full text-lg transition"
+              type="submit"
+            >
+              <span className="relative z-10">
+                {formattedPrice?.upgradeFromPurchaseId
+                  ? `Upgrade Now`
+                  : action || `Ship Accessible Apps Like a Pro`}
+              </span>
+            </button>
+          </form>
+        )}
+        <div className="pt-10 w-full">
+          <div className="relative flex items-center justify-center before:left-0 before:content-[''] before:w-full before:h-px before:bg-gray-100 before:absolute">
+            <span className="relative bg-white px-4 uppercase text-xs font-medium text-gray-500">
+              includes
+            </span>
           </div>
         </div>
-      </div>
-    </section>
+        <div className="flex-1 flex flex-col justify-between px-6 pt-6 pb-8 space-y-6 xl:p-10 sm:p-5 p-3 sm:pt-6">
+          <strong className="font-medium">Modules</strong>
+          <ul role="list" className="space-y-3">
+            {modules.map((module: {title: string}) => (
+              <li key={module.title} className="flex items-start">
+                <div className="flex-shrink-0">
+                  <CheckCircleIcon
+                    className="h-6 w-6 text-green-500"
+                    aria-hidden="true"
+                  />
+                </div>
+                <p className="ml-3 text-base text-gray-700">{module.title}</p>
+              </li>
+            ))}
+          </ul>
+          {features && (
+            <>
+              <strong className="font-medium">Bonuses</strong>
+              <ul role="list" className="space-y-4">
+                {features.map((feature: {value: string}) => (
+                  <li key={feature.value} className="flex items-start">
+                    <div className="flex-shrink-0">
+                      <CheckCircleIcon
+                        className="h-6 w-6 text-green-500"
+                        aria-hidden="true"
+                      />
+                    </div>
+                    <p className="ml-3 text-base text-gray-700">
+                      {feature.value}
+                    </p>
+                  </li>
+                ))}
+              </ul>
+            </>
+          )}
+        </div>
+      </article>
+    </div>
   )
 }
