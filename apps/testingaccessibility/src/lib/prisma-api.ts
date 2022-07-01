@@ -1,8 +1,9 @@
-import {Prisma} from '@prisma/client'
+import {Prisma, Purchase} from '@prisma/client'
 import {Context, defaultContext} from './context'
 import {v4} from 'uuid'
 import {SpanContext} from '@vercel/tracing-js'
 import {tracer} from '../utils/honeycomb-tracer'
+import prisma from '../db'
 
 type SDKOptions = {ctx?: Context; spanContext?: SpanContext}
 
@@ -18,6 +19,56 @@ export function getSdk(
   {ctx = defaultContext, spanContext}: SDKOptions = {ctx: defaultContext},
 ) {
   return {
+    async couponForIdOrCode({
+      code,
+      couponId,
+    }: {
+      code?: string
+      couponId?: string
+    }) {
+      return await prisma.coupon.findFirst({
+        where: {
+          OR: [
+            {
+              OR: [{id: couponId}, {code}],
+              expires: {
+                gte: new Date(),
+              },
+            },
+            {OR: [{id: couponId}, {code}], expires: null},
+          ],
+        },
+        include: {
+          merchantCoupon: true,
+        },
+      })
+    },
+    async availableUpgradesForProduct(purchases: any, productId: string) {
+      return purchases
+        ? await prisma.upgradableProducts.findMany({
+            where: {
+              upgradableFromId: {
+                in: purchases.map(({productId}: Purchase) => productId),
+              },
+              upgradableToId: productId,
+            },
+            select: {
+              upgradableTo: {
+                select: {
+                  id: true,
+                  name: true,
+                },
+              },
+              upgradableFrom: {
+                select: {
+                  id: true,
+                  name: true,
+                },
+              },
+            },
+          })
+        : []
+    },
     async toggleLessonProgressForUser({
       userId,
       lessonSlug,
