@@ -6,17 +6,9 @@ import {formatPricesForProduct} from '../../utils/format-prices-for-product'
 import {getSdk} from '../../lib/prisma-api'
 import {setupHttpTracing} from '@vercel/tracing-js'
 import {tracer} from '../../utils/honeycomb-tracer'
-import prisma from '../../db'
 import {find} from 'lodash'
-import {Coupon, Purchase} from '@prisma/client'
 import {defaultContext} from '../../lib/context'
-
-function couponIsValid(coupon?: Coupon | null) {
-  if (!coupon) return false
-  if (coupon.usedCount >= coupon.maxUses) return false
-  if (coupon.expires && coupon.expires < new Date()) return false
-  return true
-}
+import {getActiveCouponId} from '../../utils/get-active-coupon-id'
 
 const pricesHandler = async (req: NextApiRequest, res: NextApiResponse) => {
   const spanContext = setupHttpTracing({
@@ -27,12 +19,13 @@ const pricesHandler = async (req: NextApiRequest, res: NextApiResponse) => {
   })
   if (req.method === 'POST') {
     try {
+      const {availableUpgradesForProduct} = getSdk({
+        ctx: defaultContext,
+        spanContext,
+      })
+
       const country = (req.headers['x-vercel-ip-country'] as string) || 'US'
-      const {getDefaultCoupon, availableUpgradesForProduct, couponForIdOrCode} =
-        getSdk({
-          ctx: defaultContext,
-          spanContext,
-        })
+
       const {code, quantity, productId, coupon, purchases, siteCouponId} =
         req.body
 
@@ -51,46 +44,13 @@ const pricesHandler = async (req: NextApiRequest, res: NextApiResponse) => {
             return upgradeProductIds.includes(purchase.productId)
           })?.id
 
-      let couponId = null
-
-      const activeDefaultSiteSaleCoupon = await getDefaultCoupon(productId)
-
-      const incomingCoupon = await couponForIdOrCode({
-        couponId: siteCouponId,
+      const couponId = await getActiveCouponId({
+        siteCouponId,
+        coupon,
         code,
+        productId,
+        spanContext,
       })
-
-      if (
-        // compare the discounts if there is a coupon and site/sale running
-        incomingCoupon?.merchantCoupon &&
-        couponIsValid(incomingCoupon) &&
-        activeDefaultSiteSaleCoupon
-      ) {
-        const {merchantCoupon} = incomingCoupon
-        if (
-          merchantCoupon.percentageDiscount >
-          activeDefaultSiteSaleCoupon.percentageDiscount
-        ) {
-          couponId = merchantCoupon.id
-        } else {
-          couponId = activeDefaultSiteSaleCoupon.id
-        }
-      } else if (
-        // if it's a coupon, use it
-        incomingCoupon?.merchantCoupon &&
-        couponIsValid(incomingCoupon)
-      ) {
-        couponId = incomingCoupon.merchantCoupon.id
-      } else if (
-        // if a sale is running, use that
-        activeDefaultSiteSaleCoupon
-      ) {
-        couponId = activeDefaultSiteSaleCoupon.id
-      }
-
-      console.info(`request from ${country}`)
-
-      couponId = coupon ? coupon : couponId
 
       if (quantity > 100) throw new Error(`contact-for-pricing`)
 
