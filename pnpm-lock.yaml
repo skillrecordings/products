@@ -2780,7 +2780,7 @@ importers:
       assert: ^2.0.0
       babel-jest: ^27.1.0
       classnames: ^2.3.1
-      hls.js: 1.0.7
+      hls.js: 1.1.5
       js-cookie: ^3.0.1
       lodash: ^4.17.21
       msw: ^0.34.0
@@ -2803,7 +2803,7 @@ importers:
       '@tippyjs/react': 4.2.5_react-dom@17.0.2+react@17.0.2
       '@xstate/react': 1.5.1_49beb093bbd7c35e54ba0f39a3d61311
       classnames: 2.3.1
-      hls.js: 1.0.7
+      hls.js: 1.1.5
       js-cookie: 3.0.1
       lodash: 4.17.21
       prism-react-renderer: 1.2.1_react@17.0.2
@@ -20862,8 +20862,8 @@ packages:
     resolution: {integrity: sha512-YnyujGMZAofraBzl5PjPI6kw7HMt/Dhpnr+PrTtmoIApKUPFmeKWqvdIGhdmxQcrSHoCHDEqSX79m+Zpu924Kg==}
     dev: false
 
-  /hls.js/1.0.7:
-    resolution: {integrity: sha512-NsGaksvOuYNyTmu/w239EtYFMadFzIoDkmStc1FDRcrGmvxOfMGKad/hLj4NHoE8H1S+Q8dT7HufMJJ6yiht7g==}
+  /hls.js/1.1.5:
+    resolution: {integrity: sha512-mQX5TSNtJEzGo5HPpvcQgCu+BWoKDQM6YYtg/KbgWkmVAcqOCvSTi0SuqG2ZJLXxIzdnFcKU2z7Mrw/YQWhPOA==}
     dev: false
 
   /hmac-drbg/1.0.1:
@@ -30388,7 +30388,7 @@ packages:
     dependencies:
       '@babel/runtime': 7.18.3
       focus-lock: 0.9.2
-      prop-types: 15.7.2
+      prop-types: 15.8.1
       react: 17.0.2
       react-clientside-effect: 1.2.5_react@17.0.2
       use-callback-ref: 1.2.5_9280ae23271fd1e8184f767af1a90e55

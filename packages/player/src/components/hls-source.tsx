@@ -52,6 +52,7 @@ export const HLSSource: React.FC<HLSSourceProps> = ({
       })
 
       hls.on(Hls.Events.ERROR, function (event, data) {
+        console.error('HLS streaming error', {event, data})
         if (data.fatal) {
           switch (data.type) {
             case Hls.ErrorTypes.NETWORK_ERROR:
