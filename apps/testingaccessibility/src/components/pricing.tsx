@@ -5,6 +5,7 @@ import {useDebounce} from '@skillrecordings/react'
 import type {SanityProduct} from 'pages/buy'
 import {Purchase} from '@prisma/client'
 import {useQuery} from 'react-query'
+import pluralize from 'pluralize'
 import Image from 'next/image'
 import cx from 'classnames'
 
@@ -78,10 +79,21 @@ export const Pricing: React.FC<PricingProps> = ({
             {name}
           </span>
           <div className="mt-4 flex items-baseline text-6xl font-bold font-heading">
-            <sup className="text-lg -translate-y-4 pr-0.5 opacity-90">US</sup>$
-            {status === 'loading'
-              ? ` --`
-              : `${formattedPrice?.calculatedPrice}`}
+            <sup
+              aria-hidden="true"
+              className="text-lg -translate-y-4 pr-0.5 opacity-90"
+            >
+              US
+            </sup>
+            <span aria-hidden="true">$</span>
+            {status === 'loading' ? (
+              ` --`
+            ) : (
+              <div aria-live="polite">
+                <span className="sr-only">US$</span>
+                {formattedPrice?.calculatedPrice}
+              </div>
+            )}
           </div>
           <div className="text-sm opacity-80 pt-2">yours forever</div>
           {appliedCoupon ? (
@@ -142,27 +154,24 @@ export const Pricing: React.FC<PricingProps> = ({
             method="POST"
             className="pt-8 xl:px-12 px-5 flex flex-col items-center justify-center w-full"
           >
-            <div className="flex items-center mb-5 gap-3">
-              <label
-                className="flex opacity-80"
-                htmlFor={`${quantity}-${name}`}
-              >
-                Seats
+            <div className="mb-5">
+              <label className=" flex items-center gap-3">
+                <span className="opacity-80">Seats</span>
+                <input
+                  className="bg-gray-100 border border-gray-200 pl-3 py-2 rounded-md font-bold font-mono"
+                  type="number"
+                  min={1}
+                  max={102}
+                  step={1}
+                  onChange={(e) => {
+                    setCoupon(undefined)
+                    setQuantity(Number(e.target.value))
+                  }}
+                  value={quantity}
+                  id={`${quantity}-${name}`}
+                  required={true}
+                />
               </label>
-              <input
-                className="bg-gray-100 border border-gray-200 pl-3 py-2 rounded-md font-bold font-mono"
-                type="number"
-                min={1}
-                max={102}
-                step={1}
-                onChange={(e) => {
-                  setCoupon(undefined)
-                  setQuantity(Number(e.target.value))
-                }}
-                value={quantity}
-                id={`${quantity}-${name}`}
-                required={true}
-              />
             </div>
             <button
               data-pricing-product-checkout-button={index}
