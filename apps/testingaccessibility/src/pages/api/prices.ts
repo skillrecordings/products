@@ -11,7 +11,7 @@ import {find} from 'lodash'
 import {Coupon, Purchase} from '@prisma/client'
 import {defaultContext} from '../../lib/context'
 
-function couponIsValid(coupon?: Coupon) {
+function couponIsValid(coupon?: Coupon | null) {
   if (!coupon) return false
   if (coupon.usedCount >= coupon.maxUses) return false
   if (coupon.expires && coupon.expires < new Date()) return false
@@ -28,34 +28,18 @@ const pricesHandler = async (req: NextApiRequest, res: NextApiResponse) => {
   if (req.method === 'POST') {
     try {
       const country = (req.headers['x-vercel-ip-country'] as string) || 'US'
-      const {getDefaultCoupon} = getSdk({ctx: defaultContext, spanContext})
+      const {getDefaultCoupon, availableUpgradesForProduct, couponForIdOrCode} =
+        getSdk({
+          ctx: defaultContext,
+          spanContext,
+        })
       const {code, quantity, productId, coupon, purchases, siteCouponId} =
         req.body
 
-      const availableUpgrades = purchases
-        ? await prisma.upgradableProducts.findMany({
-            where: {
-              upgradableFromId: {
-                in: purchases.map(({productId}: Purchase) => productId),
-              },
-              upgradableToId: productId,
-            },
-            select: {
-              upgradableTo: {
-                select: {
-                  id: true,
-                  name: true,
-                },
-              },
-              upgradableFrom: {
-                select: {
-                  id: true,
-                  name: true,
-                },
-              },
-            },
-          })
-        : []
+      const availableUpgrades = await availableUpgradesForProduct(
+        purchases,
+        productId,
+      )
 
       const upgradeFromPurchaseId = req.body.upgradeFromPurchaseId
         ? req.body.upgradeFromPurchaseId
@@ -71,36 +55,17 @@ const pricesHandler = async (req: NextApiRequest, res: NextApiResponse) => {
 
       const activeDefaultSiteSaleCoupon = await getDefaultCoupon(productId)
 
-      const incomingCoupon =
-        (siteCouponId || code) &&
-        (await prisma.coupon.findFirst({
-          where: {
-            OR: [
-              {
-                OR: [{id: siteCouponId}, {code}],
-                expires: {
-                  gte: new Date(),
-                },
-              },
-              {OR: [{id: siteCouponId}, {code}], expires: null},
-            ],
-          },
-          select: {
-            usedCount: true,
-            maxUses: true,
-            expires: true,
-            merchantCoupon: {
-              select: {
-                id: true,
-                percentageDiscount: true,
-              },
-            },
-          },
-        }))
+      const incomingCoupon = await couponForIdOrCode({
+        couponId: siteCouponId,
+        code,
+      })
 
-      console.log(incomingCoupon, code)
-
-      if (couponIsValid(incomingCoupon) && activeDefaultSiteSaleCoupon) {
+      if (
+        // compare the discounts if there is a coupon and site/sale running
+        incomingCoupon?.merchantCoupon &&
+        couponIsValid(incomingCoupon) &&
+        activeDefaultSiteSaleCoupon
+      ) {
         const {merchantCoupon} = incomingCoupon
         if (
           merchantCoupon.percentageDiscount >
@@ -110,9 +75,16 @@ const pricesHandler = async (req: NextApiRequest, res: NextApiResponse) => {
         } else {
           couponId = activeDefaultSiteSaleCoupon.id
         }
-      } else if (couponIsValid(incomingCoupon)) {
+      } else if (
+        // if it's a coupon, use it
+        incomingCoupon?.merchantCoupon &&
+        couponIsValid(incomingCoupon)
+      ) {
         couponId = incomingCoupon.merchantCoupon.id
-      } else if (activeDefaultSiteSaleCoupon) {
+      } else if (
+        // if a sale is running, use that
+        activeDefaultSiteSaleCoupon
+      ) {
         couponId = activeDefaultSiteSaleCoupon.id
       }
 
