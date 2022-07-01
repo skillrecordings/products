@@ -13,7 +13,7 @@ import Layout from 'components/app/layout'
 import groq from 'groq'
 import cx from 'classnames'
 
-const ONLY_PRO_TIER_AVAILABLE = false
+const ONLY_PRO_TIER_AVAILABLE = true
 
 export type SanityProduct = {
   productId: string
