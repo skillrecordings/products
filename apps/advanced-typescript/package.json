@@ -5,7 +5,8 @@
   "scripts": {
     "dev": "next dev -p 3016",
     "start": "next start -p 3016",
-    "build": "next build",
+    "build": "NODE_ENV=production next build",
+    "postbuild": "NODE_ENV=production next-sitemap",
     "lint": "next lint"
   },
   "dependencies": {
@@ -14,6 +15,7 @@
     "@tailwindcss/aspect-ratio": "^0.4.0",
     "@tailwindcss/forms": "^0.5.2",
     "next": "^12.1.6",
+    "next-sitemap": "^2.5.4",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-hook-form": "^7.29.0",
