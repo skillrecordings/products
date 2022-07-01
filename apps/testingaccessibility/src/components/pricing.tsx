@@ -5,7 +5,7 @@ import {useDebounce} from '@skillrecordings/react'
 import type {SanityProduct} from 'pages/buy'
 import {Purchase} from '@prisma/client'
 import {useQuery} from 'react-query'
-import pluralize from 'pluralize'
+import Spinner from './spinner'
 import Image from 'next/image'
 import cx from 'classnames'
 
@@ -79,20 +79,37 @@ export const Pricing: React.FC<PricingProps> = ({
             {name}
           </span>
           <div className="mt-4 flex items-baseline text-6xl font-bold font-heading">
-            <sup
-              aria-hidden="true"
-              className="text-lg -translate-y-4 pr-0.5 opacity-90"
-            >
-              US
-            </sup>
-            <span aria-hidden="true">$</span>
             {status === 'loading' ? (
-              ` --`
-            ) : (
-              <div aria-live="polite">
-                <span className="sr-only">US$</span>
-                {formattedPrice?.calculatedPrice}
+              <div className="pt-4 pb-3">
+                <span className="sr-only">Loading price</span>
+                <Spinner aria-hidden="true" className="w-8 h-8" />
               </div>
+            ) : (
+              <>
+                <sup
+                  aria-hidden="true"
+                  className="text-lg -translate-y-4 pr-0.5 opacity-90"
+                >
+                  US
+                </sup>
+                <div aria-live="polite">
+                  {'$' + formattedPrice?.calculatedPrice}
+                  {appliedCoupon && (
+                    <div className="sr-only">
+                      {appliedCoupon.type === 'bulk' ? (
+                        <div className="font-medium">Team discount.</div>
+                      ) : null}
+                      {' — '}
+                      {`${Math.floor(
+                        appliedCoupon.percentageDiscount * 100,
+                      )}% off of $${
+                        (formattedPrice?.unitPrice || 0) *
+                        (formattedPrice?.quantity || 0)
+                      }`}
+                    </div>
+                  )}
+                </div>
+              </>
             )}
           </div>
           <div className="text-sm opacity-80 pt-2">yours forever</div>
