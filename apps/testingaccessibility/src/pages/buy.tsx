@@ -13,8 +13,6 @@ import Layout from 'components/app/layout'
 import groq from 'groq'
 import cx from 'classnames'
 
-const ONLY_PRO_TIER_AVAILABLE = true
-
 export type SanityProduct = {
   productId: string
   name: string
@@ -68,7 +66,6 @@ const Buy: React.FC<{
                 <div
                   key={product.name}
                   className={cx('hover:opacity-100 transition', {
-                    hidden: ONLY_PRO_TIER_AVAILABLE && !isPro,
                     'lg:mt-40 opacity-80 max-w-sm mx-auto': isFirst,
                     'lg:mt-20 opacity-90 max-w-sm mx-auto': isLast,
                     // switch up order when stacked vertically
