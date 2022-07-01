@@ -2,12 +2,12 @@ import * as React from 'react'
 import {FormattedPrice} from '../utils/format-prices-for-product'
 import {CheckCircleIcon} from '@heroicons/react/outline'
 import {useDebounce} from '@skillrecordings/react'
-import type {SanityProduct} from 'pages/buy'
 import {Purchase} from '@prisma/client'
 import {useQuery} from 'react-query'
 import Spinner from './spinner'
 import Image from 'next/image'
 import cx from 'classnames'
+import {SanityProduct} from '../utils/props-for-commerce'
 
 type PricingProps = {
   product: SanityProduct
