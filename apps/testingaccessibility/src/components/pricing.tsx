@@ -8,24 +8,12 @@ import {useQuery} from 'react-query'
 import Image from 'next/image'
 import cx from 'classnames'
 
-const tier = {
-  href: '#',
-  description: 'Lorem ipsum dolor sit amet consectetur, adipisicing elit.',
-  features: ['Community Forum', 'Workbook & Sticker Pack'],
-  modules: [
-    'Foundations of Accessibility',
-    'Design & People Skills for Accessibility',
-    'Manual Accessibility Testing',
-    'Automated Accessibility Testing',
-  ],
-}
-
 type PricingProps = {
   product: SanityProduct
   purchased?: boolean
   purchases?: Purchase[]
   userId?: string
-  rank: number
+  index: number
 }
 
 /**
@@ -34,7 +22,7 @@ type PricingProps = {
  * @param purchased
  * @param purchases
  * @param userId - If user is logged in, this is the user's ID.
- * @param rank
+ * @param index
  * @constructor
  */
 export const Pricing: React.FC<PricingProps> = ({
@@ -42,19 +30,19 @@ export const Pricing: React.FC<PricingProps> = ({
   purchased = false,
   purchases = [],
   userId,
-  rank,
+  index,
 }) => {
   const [coupon, setCoupon] = React.useState()
   const [quantity, setQuantity] = React.useState(1)
   const debouncedQuantity: number = useDebounce<number>(quantity, 250)
-  const {id, name, image, modules, features, action} = product
+  const {productId, name, image, modules, features, action} = product
   const {data: formattedPrice, status} = useQuery<FormattedPrice>(
-    ['pricing', coupon, debouncedQuantity, id, userId],
+    ['pricing', coupon, debouncedQuantity, productId, userId],
     () =>
       fetch('/api/prices', {
         method: 'POST',
         body: JSON.stringify({
-          productId: id,
+          productId,
           coupon,
           quantity,
           purchases,
@@ -78,12 +66,13 @@ export const Pricing: React.FC<PricingProps> = ({
           quality={100}
           layout={'fill'}
           objectFit="cover"
+          aria-hidden="true"
         />
       </div>
       <article className="bg-white rounded-md flex flex-col items-center justify-center">
         <div className={cx('pt-24 flex flex-col items-center')}>
           <span
-            data-pricing-product-name-badge={rank}
+            data-pricing-product-name-badge={index}
             className="inline-flex px-4 py-1 pb-1.5 rounded-full font-nav text-sm font-semibold tracking-wide uppercase"
           >
             {name}
@@ -129,7 +118,7 @@ export const Pricing: React.FC<PricingProps> = ({
         {purchased ? (
           <div className="w-full px-8">
             <button
-              data-pricing-product-checkout-button={rank}
+              data-pricing-product-checkout-button={index}
               className="flex text-center px-5 py-4 font-nav font-semibold items-center justify-center rounded-md w-full text-lg gap-1"
               type="submit"
               role="link"
@@ -154,7 +143,10 @@ export const Pricing: React.FC<PricingProps> = ({
             className="pt-8 xl:px-12 px-5 flex flex-col items-center justify-center w-full"
           >
             <div className="flex items-center mb-5 gap-3">
-              <label className="flex opacity-80" htmlFor="quantity">
+              <label
+                className="flex opacity-80"
+                htmlFor={`${quantity}-${name}`}
+              >
                 Seats
               </label>
               <input
@@ -168,13 +160,12 @@ export const Pricing: React.FC<PricingProps> = ({
                   setQuantity(Number(e.target.value))
                 }}
                 value={quantity}
-                id="quantity"
-                name="quantity"
+                id={`${quantity}-${name}`}
                 required={true}
               />
             </div>
             <button
-              data-pricing-product-checkout-button={rank}
+              data-pricing-product-checkout-button={index}
               className="flex text-center px-5 py-4 pb-[1.1rem] font-nav font-semibold items-center justify-center rounded-md w-full text-lg transition"
               type="submit"
             >
@@ -194,7 +185,7 @@ export const Pricing: React.FC<PricingProps> = ({
           </div>
         </div>
         <div className="flex-1 flex flex-col justify-between px-6 pt-6 pb-8 space-y-6 xl:p-10 sm:p-5 p-3 sm:pt-6">
-          <strong className="font-medium">Modules:</strong>
+          <strong className="font-medium">Modules</strong>
           <ul role="list" className="space-y-3">
             {modules.map((module: {title: string}) => (
               <li key={module.title} className="flex items-start">
@@ -210,7 +201,7 @@ export const Pricing: React.FC<PricingProps> = ({
           </ul>
           {features && (
             <>
-              <strong className="font-medium">Bonuses:</strong>
+              <strong className="font-medium">Bonuses</strong>
               <ul role="list" className="space-y-4">
                 {features.map((feature: {value: string}) => (
                   <li key={feature.value} className="flex items-start">

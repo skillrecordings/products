@@ -9,15 +9,14 @@ import {getToken} from 'next-auth/jwt'
 import {useCoupon} from '../hooks/use-coupon'
 import {getCouponForCode} from '../server/get-coupon-for-code'
 import {sanityClient} from 'utils/sanity-client'
-import {SanityDocument} from '@sanity/client'
 import Layout from 'components/app/layout'
 import groq from 'groq'
 import cx from 'classnames'
 
-const ONLY_PRO_TIER_AVAILABLE = true
+const ONLY_PRO_TIER_AVAILABLE = false
 
 export type SanityProduct = {
-  id: string
+  productId: string
   name: string
   action: string
   image: {
@@ -80,9 +79,9 @@ const Buy: React.FC<{
                   <Pricing
                     userId={userId}
                     product={product}
-                    purchased={purchasedProductIds.includes(product.id)}
+                    purchased={purchasedProductIds.includes(product.productId)}
                     purchases={purchases}
-                    rank={i}
+                    index={i}
                   />
                 </div>
               )
@@ -122,7 +121,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 
 const productsQuery = groq`*[_type == "product"] | order(order asc) {
   "name": title,
-  "id": productId,
+  productId,
   action,
   order,
   image {
