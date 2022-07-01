@@ -37,7 +37,7 @@ export const defaultActions: ActionFunctionMap<VideoStateContext, VideoEvent> =
       if (playPromise !== undefined) {
         playPromise
           .then(() => {
-            videoRef?.current?.play()
+            return videoRef?.current?.play()
           })
           .catch((e: any) => console.log(`PLAY failed: ${e}`))
       }
