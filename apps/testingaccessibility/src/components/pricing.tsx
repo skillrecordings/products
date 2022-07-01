@@ -57,6 +57,11 @@ export const Pricing: React.FC<PricingProps> = ({
 
   const availableCoupon = formattedPrice?.availableCoupons?.[0]
   const appliedCoupon = formattedPrice?.appliedCoupon
+  const percentOffLabel =
+    appliedCoupon &&
+    `${Math.floor(appliedCoupon.percentageDiscount * 100)}% off of $${
+      (formattedPrice?.unitPrice || 0) * (formattedPrice?.quantity || 0)
+    }`
 
   return (
     <div className="relative flex flex-col items-center">
@@ -98,14 +103,8 @@ export const Pricing: React.FC<PricingProps> = ({
                     <div className="sr-only">
                       {appliedCoupon.type === 'bulk' ? (
                         <div className="font-medium">Team discount.</div>
-                      ) : null}
-                      {' — '}
-                      {`${Math.floor(
-                        appliedCoupon.percentageDiscount * 100,
-                      )}% off of $${
-                        (formattedPrice?.unitPrice || 0) *
-                        (formattedPrice?.quantity || 0)
-                      }`}
+                      ) : null}{' '}
+                      {percentOffLabel}
                     </div>
                   )}
                 </div>
@@ -116,12 +115,7 @@ export const Pricing: React.FC<PricingProps> = ({
           {appliedCoupon ? (
             <div className="text-center">
               <div className="mt-4 text-2xl font-bold text-green-700">
-                {`${Math.floor(
-                  appliedCoupon.percentageDiscount * 100,
-                )}% off of $${
-                  (formattedPrice?.unitPrice || 0) *
-                  (formattedPrice?.quantity || 0)
-                }`}
+                {percentOffLabel}
               </div>
               {appliedCoupon.type === 'site' ? (
                 <div className="font-medium">There is a sale!</div>
