@@ -1,17 +1,10 @@
 import * as React from 'react'
 import cx from 'classnames'
 import {Pricing} from './pricing'
-import {Purchase} from '@prisma/client'
 import {useCoupon} from '../hooks/use-coupon'
-import {CouponForCode, SanityProduct} from '../utils/props-for-commerce'
+import {CommerceProps} from '../utils/props-for-commerce'
 
-export const PricingTiers: React.FC<{
-  products: SanityProduct[]
-  userId?: string
-  purchases?: Purchase[]
-  couponIdFromCoupon?: string
-  couponFromCode?: CouponForCode
-}> = ({
+export const PricingTiers: React.FC<CommerceProps> = ({
   couponFromCode,
   products,
   userId,
