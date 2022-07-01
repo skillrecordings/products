@@ -27,7 +27,7 @@ const pricesHandler = async (req: NextApiRequest, res: NextApiResponse) => {
   })
   if (req.method === 'POST') {
     try {
-      const country = (req.headers['x-vercel-ip-country'] as string) || 'IN'
+      const country = (req.headers['x-vercel-ip-country'] as string) || 'US'
       const {getDefaultCoupon} = getSdk({ctx: defaultContext, spanContext})
       const {code, quantity, productId, coupon, purchases, siteCouponId} =
         req.body
