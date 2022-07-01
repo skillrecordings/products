@@ -26,7 +26,7 @@ export function getSdk(
       code?: string
       couponId?: string
     }) {
-      return await prisma.coupon.findFirst({
+      return await ctx.prisma.coupon.findFirst({
         where: {
           OR: [
             {
@@ -45,7 +45,7 @@ export function getSdk(
     },
     async availableUpgradesForProduct(purchases: any, productId: string) {
       return purchases
-        ? await prisma.upgradableProducts.findMany({
+        ? await ctx.prisma.upgradableProducts.findMany({
             where: {
               upgradableFromId: {
                 in: purchases.map(({productId}: Purchase) => productId),
