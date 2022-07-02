@@ -3,18 +3,42 @@
   "version": "0.1.1",
   "private": true,
   "scripts": {
-    "dev": "next dev -p 3013",
-    "start": "next start -p 3013",
-    "integration": "cypress run",
-    "clean": "rm -rf node_modules && pnpm -r exec -- rm -rf .turbo node_modules .next dist",
     "build": "NODE_ENV=production prisma generate && next build",
     "postbuild": "NODE_ENV=production next-sitemap",
     "build:data": "node src/data/cache-json-data.js -p",
     "build:data:dev": "node src/data/cache-json-data.js",
-    "test": "prisma generate && jest",
-    "lint": "TIMING=1 prisma generate && eslint src/**/*.{ts,tsx} --fix && tsc --noEmit",
+    "build:docker": "cd ../../ && docker build . -f apps/testingaccessibility/Dockerfile -t my-awesome-app:latest --build-arg SCOPE=testingaccessibility",
+    "clean": "rm -rf node_modules && pnpm -r exec -- rm -rf .turbo node_modules .next dist",
+    "dev": "next dev -p 3013",
     "format": "prettier --write './**/*.{js,jsx,ts,tsx,css,md,mdx,json}' --config ./.prettierrc",
-    "build:docker": "cd ../../ && docker build . -f apps/testingaccessibility/Dockerfile -t my-awesome-app:latest --build-arg SCOPE=testingaccessibility"
+    "integration": "cypress run",
+    "lint": "TIMING=1 prisma generate && eslint src/**/*.{ts,tsx} --fix && tsc --noEmit",
+    "start": "next start -p 3013",
+    "test": "prisma generate && jest"
+  },
+  "lint-staged": {
+    "*.{js,json,md,mdx,ts,tsx}": [
+      "prettier --write"
+    ],
+    "src/**/*.{ts,tsx,md,mdx,js}": [
+      "prettier --write"
+    ]
+  },
+  "prettier": {
+    "bracketSpacing": false,
+    "jsxBracketSameLine": false,
+    "printWidth": 80,
+    "semi": false,
+    "singleQuote": true,
+    "tabWidth": 2,
+    "trailingComma": "all",
+    "useTabs": false
+  },
+  "jest": {
+    "preset": "@skillrecordings/scripts/jest/next"
+  },
+  "resolutions": {
+    "jest-environment-jsdom": "27.4.6"
   },
   "dependencies": {
     "@algolia/autocomplete-core": "^1.6.2",
@@ -153,11 +177,9 @@
     "@types/mdx-js__react": "^1.5.5",
     "@types/micro": "^7.3.7",
     "@types/mjml": "^4.7.0",
-    "@types/node": "^16.11.7",
     "@types/nprogress": "^0.2.0",
     "@types/pdfkit": "^0.12.6",
     "@types/pluralize": "^0.0.29",
-    "@types/react": "^17.0.42",
     "@types/react-scroll": "^1.8.3",
     "@types/sanitize-html": "^2.6.2",
     "@types/speakingurl": "^13.0.3",
@@ -188,29 +210,5 @@
     "prisma": "^3.15.2",
     "react-test-renderer": "^17.0.2",
     "tailwindcss": "^3.0.24"
-  },
-  "lint-staged": {
-    "*.{js,json,md,mdx,ts,tsx}": [
-      "prettier --write"
-    ],
-    "src/**/*.{ts,tsx,md,mdx,js}": [
-      "prettier --write"
-    ]
-  },
-  "jest": {
-    "preset": "@skillrecordings/scripts/jest/next"
-  },
-  "prettier": {
-    "printWidth": 80,
-    "tabWidth": 2,
-    "useTabs": false,
-    "semi": false,
-    "singleQuote": true,
-    "trailingComma": "all",
-    "bracketSpacing": false,
-    "jsxBracketSameLine": false
-  },
-  "resolutions": {
-    "jest-environment-jsdom": "27.4.6"
   }
 }

@@ -1,19 +1,22 @@
 {
   "name": "@skillrecordings/time",
+  "version": "0.0.11",
   "description": "Internal, shared utilities",
   "author": "Joel Hooks",
-  "version": "0.0.11",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "files": [
     "dist/**"
   ],
   "scripts": {
-    "test": "jest",
-    "dev": "tsc -w",
     "build": "tsc",
+    "clean": "rm -rf .turbo && rm -rf node_modules && rm -rf dist",
+    "dev": "tsc -w",
     "lint": "TIMING=1 eslint src --fix",
-    "clean": "rm -rf .turbo && rm -rf node_modules && rm -rf dist"
+    "test": "jest"
+  },
+  "jest": {
+    "preset": "@skillrecordings/scripts/jest/node"
   },
   "devDependencies": {
     "@skillrecordings/scripts": "workspace:*",
@@ -22,9 +25,6 @@
   },
   "publishConfig": {
     "access": "public"
-  },
-  "jest": {
-    "preset": "@skillrecordings/scripts/jest/node"
   },
   "gitHead": "3398ceeb143d5fddcf11268741c2747856814119"
 }

@@ -1,24 +1,37 @@
 {
   "name": "@skillrecordings/next-auth-hasura-adapter",
-  "description": "Internal, shared utilities",
-  "author": "Joel Hooks",
   "version": "0.0.2",
-  "main": "./dist/index.js",
-  "types": "./dist/index.d.ts",
+  "description": "Internal, shared utilities",
   "homepage": "https://github.com/skillrecordings/products/blob/main/packages/next-auth-hasura-adapter/README.md",
   "repository": {
     "type": "git",
     "url": "https://github.com/skillrecordings/products.git"
   },
+  "author": "Joel Hooks",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
   "files": [
     "dist/**"
   ],
   "scripts": {
-    "test": "jest",
-    "dev": "tsc -w",
     "build": "tsc",
+    "clean": "rm -rf .turbo && rm -rf node_modules && rm -rf dist",
+    "dev": "tsc -w",
     "lint": "TIMING=1 eslint src --fix",
-    "clean": "rm -rf .turbo && rm -rf node_modules && rm -rf dist"
+    "test": "jest"
+  },
+  "jest": {
+    "passWithNoTests": true,
+    "preset": "@skillrecordings/scripts/jest/node",
+    "resetMocks": false,
+    "setupFiles": [
+      "jest-localstorage-mock"
+    ],
+    "setupFilesAfterEnv": [
+      "<rootDir>/setupTests.js"
+    ],
+    "testEnvironment": "jsdom",
+    "testURL": "http://localhost:3000"
   },
   "dependencies": {
     "@skillrecordings/config": "workspace:*",
@@ -39,19 +52,6 @@
   },
   "publishConfig": {
     "access": "public"
-  },
-  "jest": {
-    "preset": "@skillrecordings/scripts/jest/node",
-    "resetMocks": false,
-    "setupFiles": [
-      "jest-localstorage-mock"
-    ],
-    "passWithNoTests": true,
-    "testEnvironment": "jsdom",
-    "setupFilesAfterEnv": [
-      "<rootDir>/setupTests.js"
-    ],
-    "testURL": "http://localhost:3000"
   },
   "gitHead": "3398ceeb143d5fddcf11268741c2747856814119"
 }

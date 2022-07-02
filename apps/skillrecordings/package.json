@@ -3,17 +3,38 @@
   "version": "0.1.1",
   "private": true,
   "scripts": {
-    "dev": "next dev -p 3012",
-    "start": "next start -p 3012",
-    "integration": "cypress run",
-    "clean": "rm -rf node_modules && pnpm -r exec -- rm -rf .turbo node_modules .next dist",
     "build": "NODE_ENV=production next build",
     "postbuild": "NODE_ENV=production next-sitemap",
     "build:data": "node src/data/cache-json-data.js -p",
     "build:data:dev": "node src/data/cache-json-data.js",
-    "test": "jest",
+    "clean": "rm -rf node_modules && pnpm -r exec -- rm -rf .turbo node_modules .next dist",
+    "dev": "next dev -p 3012",
+    "format": "prettier --write './**/*.{js,jsx,ts,tsx,css,md,mdx,json}' --config ./.prettierrc",
+    "integration": "cypress run",
     "lint": "TIMING=1 eslint src/**/*.{ts,tsx} --fix && tsc --noEmit",
-    "format": "prettier --write './**/*.{js,jsx,ts,tsx,css,md,mdx,json}' --config ./.prettierrc"
+    "start": "next start -p 3012",
+    "test": "jest"
+  },
+  "lint-staged": {
+    "*.{js,json,md,mdx,ts,tsx}": [
+      "prettier --write"
+    ],
+    "src/**/*.{ts,tsx,md,mdx,js}": [
+      "prettier --write"
+    ]
+  },
+  "prettier": {
+    "bracketSpacing": false,
+    "jsxBracketSameLine": false,
+    "printWidth": 80,
+    "semi": false,
+    "singleQuote": true,
+    "tabWidth": 2,
+    "trailingComma": "all",
+    "useTabs": false
+  },
+  "jest": {
+    "preset": "@skillrecordings/scripts/jest/next"
   },
   "dependencies": {
     "@mdx-js/react": "^1.6.22",
@@ -70,8 +91,8 @@
     "yup": "^0.32.11"
   },
   "devDependencies": {
-    "@mdx-js/loader": "^1.6.22",
     "@babel/plugin-transform-react-jsx": "^7.16.0",
+    "@mdx-js/loader": "^1.6.22",
     "@skillrecordings/scripts": "workspace:*",
     "@skillrecordings/tsconfig": "workspace:^0.0.5",
     "@skillrecordings/types": "workspace:*",
@@ -79,9 +100,7 @@
     "@testing-library/react": "^12.1.2",
     "@types/cookie": "^0.4.1",
     "@types/mdx-js__react": "^1.5.5",
-    "@types/node": "^16.11.7",
     "@types/pluralize": "^0.0.29",
-    "@types/react": "^17.0.42",
     "@types/react-scroll": "^1.8.3",
     "@typescript-eslint/eslint-plugin": "^5.3.1",
     "@typescript-eslint/parser": "^5.3.1",
@@ -105,26 +124,5 @@
     "prettier": "^2.4.1",
     "react-test-renderer": "^17.0.2",
     "tailwindcss": "^3.0.2"
-  },
-  "lint-staged": {
-    "*.{js,json,md,mdx,ts,tsx}": [
-      "prettier --write"
-    ],
-    "src/**/*.{ts,tsx,md,mdx,js}": [
-      "prettier --write"
-    ]
-  },
-  "jest": {
-    "preset": "@skillrecordings/scripts/jest/next"
-  },
-  "prettier": {
-    "printWidth": 80,
-    "tabWidth": 2,
-    "useTabs": false,
-    "semi": false,
-    "singleQuote": true,
-    "trailingComma": "all",
-    "bracketSpacing": false,
-    "jsxBracketSameLine": false
   }
 }

@@ -3,15 +3,39 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev -p 3017",
-    "start": "next start -p 3017",
-    "integration": "cypress run",
-    "clean": "rm -rf node_modules && pnpm -r exec -- rm -rf .turbo node_modules .next dist",
     "build": "NODE_ENV=production prisma generate && next build",
     "postbuild": "NODE_ENV=production next-sitemap",
-    "test": "prisma generate && jest",
+    "clean": "rm -rf node_modules && pnpm -r exec -- rm -rf .turbo node_modules .next dist",
+    "dev": "next dev -p 3017",
+    "format": "prettier --write './**/*.{js,jsx,ts,tsx,css,md,mdx,json}' --config ./.prettierrc",
+    "integration": "cypress run",
     "lint": "TIMING=1 prisma generate && eslint src/**/*.{ts,tsx} --fix && tsc --noEmit",
-    "format": "prettier --write './**/*.{js,jsx,ts,tsx,css,md,mdx,json}' --config ./.prettierrc"
+    "start": "next start -p 3017",
+    "test": "prisma generate && jest"
+  },
+  "lint-staged": {
+    "*.{js,json,md,mdx,ts,tsx}": [
+      "prettier --write"
+    ],
+    "src/**/*.{ts,tsx,md,mdx,js}": [
+      "prettier --write"
+    ]
+  },
+  "prettier": {
+    "bracketSpacing": false,
+    "jsxBracketSameLine": false,
+    "printWidth": 80,
+    "semi": false,
+    "singleQuote": true,
+    "tabWidth": 2,
+    "trailingComma": "all",
+    "useTabs": false
+  },
+  "jest": {
+    "preset": "@skillrecordings/scripts/jest/next"
+  },
+  "resolutions": {
+    "jest-environment-jsdom": "27.4.6"
   },
   "dependencies": {
     "@prisma/client": "^3.15.1",
@@ -50,8 +74,6 @@
     "@skillrecordings/scripts": "workspace:*",
     "@skillrecordings/tsconfig": "workspace:^0.0.5",
     "@skillrecordings/types": "workspace:*",
-    "@types/node": "17.0.41",
-    "@types/react": "^17.0.42",
     "@types/three": "^0.141.0",
     "@typescript-eslint/eslint-plugin": "^5.27.1",
     "@typescript-eslint/parser": "^5.27.1",
@@ -62,29 +84,5 @@
     "postcss": "^8.4.14",
     "prisma": "^3.15.1",
     "tailwindcss": "^3.1.2"
-  },
-  "lint-staged": {
-    "*.{js,json,md,mdx,ts,tsx}": [
-      "prettier --write"
-    ],
-    "src/**/*.{ts,tsx,md,mdx,js}": [
-      "prettier --write"
-    ]
-  },
-  "jest": {
-    "preset": "@skillrecordings/scripts/jest/next"
-  },
-  "prettier": {
-    "printWidth": 80,
-    "tabWidth": 2,
-    "useTabs": false,
-    "semi": false,
-    "singleQuote": true,
-    "trailingComma": "all",
-    "bracketSpacing": false,
-    "jsxBracketSameLine": false
-  },
-  "resolutions": {
-    "jest-environment-jsdom": "27.4.6"
   }
 }

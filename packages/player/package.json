@@ -1,20 +1,24 @@
 {
   "name": "@skillrecordings/player",
+  "version": "0.11.22",
   "description": "Internal, shared utilities",
   "author": "Joel Hooks",
-  "version": "0.11.22",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "files": [
     "dist/**"
   ],
   "scripts": {
-    "test": "jest",
-    "dev": "tsc -w & pnpm build:css -- -w",
     "build": "tsc && pnpm build:css",
     "build:css": "sass --style expanded src/styles/scss/index.scss dist/skillrecordings-player.css",
+    "clean": "rm -rf .turbo && rm -rf node_modules && rm -rf dist",
+    "dev": "tsc -w & pnpm build:css -- -w",
     "lint": "TIMING=1 eslint src --fix",
-    "clean": "rm -rf .turbo && rm -rf node_modules && rm -rf dist"
+    "test": "jest"
+  },
+  "jest": {
+    "preset": "@skillrecordings/scripts/jest/node",
+    "testEnvironment": "jsdom"
   },
   "dependencies": {
     "@babel/core": "^7.16.5",
@@ -45,8 +49,6 @@
     "@skillrecordings/types": "workspace:*",
     "@testing-library/jest-dom": "^5.14.1",
     "@testing-library/react": "^11.2.5",
-    "@types/react": "^17.0.42",
-    "@types/react-dom": "^17.0.9",
     "assert": "^2.0.0",
     "babel-jest": "^27.1.0",
     "msw": "^0.34.0",
@@ -55,10 +57,6 @@
   },
   "publishConfig": {
     "access": "public"
-  },
-  "jest": {
-    "testEnvironment": "jsdom",
-    "preset": "@skillrecordings/scripts/jest/node"
   },
   "gitHead": "3398ceeb143d5fddcf11268741c2747856814119"
 }
