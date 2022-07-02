@@ -1,7 +1,15 @@
 import {isBefore} from 'date-fns'
 import {Coupon} from '@prisma/client'
 
-export const validateCoupon = (coupon: Coupon) => {
+export const validateCoupon = (coupon: Coupon | null) => {
+  if (!coupon) {
+    return {
+      isValid: false,
+      isRedeemable: false,
+      error: 'coupon-not-found',
+    }
+  }
+
   const isUsedUp =
     coupon.maxUses > 0 ? coupon.usedCount > coupon.maxUses : false
 
