@@ -29,7 +29,7 @@
     "@skillrecordings/convertkit": "workspace:*",
     "@skillrecordings/cookies": "workspace:*",
     "@skillrecordings/react": "workspace:*",
-    "@types/react": "*",
+    "@types/react": "^17.0.42",
     "@types/react-dom": "^17.0.9",
     "@xstate/react": "^1.5.1",
     "axios": "^0.21.1",

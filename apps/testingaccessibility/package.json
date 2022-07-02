@@ -157,7 +157,7 @@
     "@types/nprogress": "^0.2.0",
     "@types/pdfkit": "^0.12.6",
     "@types/pluralize": "^0.0.29",
-    "@types/react": "*",
+    "@types/react": "^17.0.42",
     "@types/react-scroll": "^1.8.3",
     "@types/sanitize-html": "^2.6.2",
     "@types/speakingurl": "^13.0.3",

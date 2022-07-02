@@ -97,7 +97,7 @@
     "@testing-library/react": "^12.1.4",
     "@types/cookie": "^0.4.1",
     "@types/node": "^17.0.21",
-    "@types/react": "*",
+    "@types/react": "^17.0.42",
     "@types/react-scroll": "^1.8.3",
     "@typescript-eslint/eslint-plugin": "^5.15.0",
     "@typescript-eslint/parser": "^5.15.0",
