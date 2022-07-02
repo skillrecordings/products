@@ -23,14 +23,18 @@
     ]
   },
   "dependencies": {
-    "@skillrecordings/types": "workspace:*",
-    "next": "12.1.6",
-    "react": "^17.0.2"
+    "@skillrecordings/types": "workspace:*"
   },
   "devDependencies": {
     "@skillrecordings/scripts": "workspace:*",
     "@skillrecordings/tsconfig": "workspace:*",
-    "jest-localstorage-mock": "^2.4.14"
+    "jest-localstorage-mock": "^2.4.14",
+    "next": "^12.1.6",
+    "react": "17.0.2"
+  },
+  "peerDependencies": {
+    "next": ">= 11.1.2 < 13",
+    "react": "^17.0.2 < 18.0.0"
   },
   "publishConfig": {
     "access": "public"

@@ -29,23 +29,26 @@
     "testURL": "http://localhost:3000"
   },
   "dependencies": {
-    "@skillrecordings/analytics": "workspace:*",
-    "@skillrecordings/axios": "workspace:*",
-    "@skillrecordings/config": "workspace:*",
-    "@skillrecordings/cookies": "workspace:*",
-    "axios": "^0.21.1",
-    "client-oauth2": "^4.3.3",
-    "jsdom": "^17.0.0",
-    "mockdate": "^3.0.5",
-    "msw": "^0.34.0",
-    "next": "11.1.2"
+    "@skillrecordings/analytics": "0.0.5",
+    "@skillrecordings/axios": "0.0.1",
+    "@skillrecordings/config": "0.0.1",
+    "@skillrecordings/cookies": "0.0.1",
+    "axios": "^0.26.0",
+    "client-oauth2": "^4.3.3"
   },
   "devDependencies": {
-    "@skillrecordings/scripts": "workspace:*",
-    "@skillrecordings/tsconfig": "workspace:*",
-    "@skillrecordings/types": "workspace:*",
+    "@skillrecordings/scripts": "0.0.5",
+    "@skillrecordings/tsconfig": "0.0.5",
+    "@skillrecordings/types": "0.0.5",
     "@types/jsdom": "^16.2.13",
-    "jest-localstorage-mock": "^2.4.14"
+    "jest-localstorage-mock": "^2.4.14",
+    "jsdom": "^17.0.0",
+    "mockdate": "^3.0.5",
+    "msw": "^0.35.0",
+    "next": "^12.1.6"
+  },
+  "peerDependencies": {
+    "next": ">= 11.1.2 < 13"
   },
   "publishConfig": {
     "access": "public"

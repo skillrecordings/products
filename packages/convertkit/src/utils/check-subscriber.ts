@@ -8,16 +8,21 @@ export async function checkIfConvertkitSubscriber(
   context: GetServerSidePropsContext,
   tagId?: number,
 ) {
-  const cookieHeader = context.req.headers.cookie as string
-  const eggheadToken = get(context.req.cookies, ACCESS_TOKEN_KEY)
-  const convertkitId = get(context.req.cookies, CK_SUBSCRIBER_KEY)
+  try {
+    const cookieHeader = context.req.headers.cookie as string
+    const eggheadToken = get(context.req.cookies, ACCESS_TOKEN_KEY)
+    const convertkitId = get(context.req.cookies, CK_SUBSCRIBER_KEY)
 
-  const [subscriber] =
-    convertkitId || eggheadToken
-      ? await fetchConvertkitSubscriberFromServerCookie(cookieHeader)
-      : [null]
+    const [subscriber] =
+      convertkitId || eggheadToken
+        ? await fetchConvertkitSubscriberFromServerCookie(cookieHeader)
+        : [null]
 
-  const subscribed: boolean = !isEmpty(subscriber)
+    const subscribed: boolean = !isEmpty(subscriber)
 
-  return subscribed
+    return subscribed
+  } catch (error) {
+    console.error(error)
+    return false
+  }
 }

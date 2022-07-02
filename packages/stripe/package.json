@@ -19,15 +19,17 @@
   "jest": {
     "preset": "@skillrecordings/scripts/jest/node"
   },
-  "dependencies": {
-    "next": "11.1.2",
-    "stripe": "^8.169.0"
-  },
   "devDependencies": {
     "@skillrecordings/scripts": "workspace:*",
     "@skillrecordings/tsconfig": "workspace:*",
     "@skillrecordings/types": "workspace:*",
-    "esbuild-node-tsc": "^1.6.1"
+    "esbuild-node-tsc": "^1.6.1",
+    "next": "^12.1.6",
+    "stripe": "^8.186.1"
+  },
+  "peerDependencies": {
+    "next": ">= 11.1.2 < 13",
+    "stripe": "^8.186.1"
   },
   "publishConfig": {
     "access": "public"
