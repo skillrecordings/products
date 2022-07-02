@@ -51,7 +51,7 @@
     "@skillrecordings/tsconfig": "workspace:^0.0.5",
     "@skillrecordings/types": "workspace:*",
     "@types/node": "17.0.41",
-    "@types/react": "*",
+    "@types/react": "^17.0.42",
     "@types/three": "^0.141.0",
     "@typescript-eslint/eslint-plugin": "^5.27.1",
     "@typescript-eslint/parser": "^5.27.1",
