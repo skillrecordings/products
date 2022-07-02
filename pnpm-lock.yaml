@@ -141,7 +141,7 @@ importers:
       eslint-plugin-react-hooks: ^4.3.0
       focus-visible: ^5.2.0
       formik: 2.2.9
-      framer-motion: ^5.2.1
+      framer-motion: ^6.3.0
       groq: ^2.15.0
       hls.js: 1.1.5
       lodash: ^4.17.21
@@ -214,7 +214,7 @@ importers:
       dotenv-flow: 3.2.0
       focus-visible: 5.2.0
       formik: 2.2.9_react@17.0.2
-      framer-motion: 5.2.1_react-dom@17.0.2+react@17.0.2
+      framer-motion: 6.3.11_react-dom@17.0.2+react@17.0.2
       groq: 2.15.0
       hls.js: 1.1.5
       lodash: 4.17.21
@@ -9470,7 +9470,7 @@ packages:
       '@sentry/tracing': 6.19.3
       '@sentry/utils': 6.19.3
       '@sentry/webpack-plugin': 1.18.8
-      next: 12.1.6_08e041ced5dbc85933fef7a25e63a057
+      next: 12.1.6_react-dom@17.0.2+react@17.0.2
       react: 17.0.2
       tslib: 1.14.1
     transitivePeerDependencies:
