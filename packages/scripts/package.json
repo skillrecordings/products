@@ -1,12 +1,12 @@
 {
   "name": "@skillrecordings/scripts",
   "version": "0.0.5",
+  "private": true,
   "license": "BUSL-1.1",
   "main": "index.js",
-  "private": true,
   "bin": {
-    "jest": "./node_modules/jest/bin/jest.js",
-    "eslint": "./node_modules/eslint/bin/eslint.js"
+    "eslint": "./node_modules/eslint/bin/eslint.js",
+    "jest": "./node_modules/jest/bin/jest.js"
   },
   "files": [
     "jest",
@@ -35,7 +35,7 @@
   },
   "devDependencies": {
     "@types/jest": "^27.5.1",
-    "jest-expect-message": "^1.0.2",
-    "jest-environment-jsdom": "27.4.6"
+    "jest-environment-jsdom": "27.4.6",
+    "jest-expect-message": "^1.0.2"
   }
 }

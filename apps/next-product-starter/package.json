@@ -3,16 +3,29 @@
   "version": "0.1.1",
   "private": true,
   "scripts": {
-    "dev": "next dev -p 3004",
-    "start": "next start -p 3004",
-    "integration": "cypress run",
     "build": "NODE_ENV=production next build",
     "postbuild": "NODE_ENV=production next-sitemap",
     "build:data": "node src/data/cache-json-data.js -p",
     "build:data:dev": "node src/data/cache-json-data.js",
-    "test": "jest",
+    "dev": "next dev -p 3004",
+    "format": "prettier --write './**/*.{js,jsx,ts,tsx,css,md,mdx,json}' --config ./.prettierrc",
+    "integration": "cypress run",
     "lint": "TIMING=1 eslint src/**/*.{ts,tsx} --fix && tsc --noEmit",
-    "format": "prettier --write './**/*.{js,jsx,ts,tsx,css,md,mdx,json}' --config ./.prettierrc"
+    "start": "next start -p 3004",
+    "test": "jest"
+  },
+  "prettier": {
+    "bracketSpacing": false,
+    "jsxBracketSameLine": false,
+    "printWidth": 80,
+    "semi": false,
+    "singleQuote": true,
+    "tabWidth": 2,
+    "trailingComma": "all",
+    "useTabs": false
+  },
+  "jest": {
+    "preset": "@skillrecordings/scripts/jest/next"
   },
   "dependencies": {
     "@mdx-js/mdx": "^2.0.0-rc.2",
@@ -34,7 +47,7 @@
     "@skillrecordings/viewer": "workspace:*",
     "@stripe/stripe-js": "^1.21.1",
     "@supabase/supabase-js": "^1.29.1",
-    "@tailwindcss/aspect-ratio": "^0.3.0",
+    "@tailwindcss/aspect-ratio": "^0.4.0",
     "@tailwindcss/forms": "^0.3.4",
     "@tailwindcss/typography": "^0.4.1",
     "@tippyjs/react": "^4.2.6",
@@ -98,9 +111,7 @@
     "@types/cookie": "^0.4.1",
     "@types/isomorphic-fetch": "^0.0.35",
     "@types/mdx-js__react": "^1.5.4",
-    "@types/node": "^16.11.7",
     "@types/pluralize": "^0.0.29",
-    "@types/react": "^17.0.42",
     "@types/react-scroll": "^1.8.3",
     "@typescript-eslint/eslint-plugin": "^5.3.1",
     "@typescript-eslint/parser": "^5.3.1",
@@ -122,18 +133,5 @@
     "prettier": "^2.4.1",
     "react-test-renderer": "^17.0.2",
     "tailwindcss": "^2.2.19"
-  },
-  "jest": {
-    "preset": "@skillrecordings/scripts/jest/next"
-  },
-  "prettier": {
-    "printWidth": 80,
-    "tabWidth": 2,
-    "useTabs": false,
-    "semi": false,
-    "singleQuote": true,
-    "trailingComma": "all",
-    "bracketSpacing": false,
-    "jsxBracketSameLine": false
   }
 }

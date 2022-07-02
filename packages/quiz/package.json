@@ -2,20 +2,23 @@
   "name": "@skillrecordings/quiz",
   "version": "0.0.1",
   "description": "",
-  "author": "Joel Hooks",
   "license": "ISC",
+  "author": "Joel Hooks",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "files": [
     "dist/**"
   ],
   "scripts": {
-    "test": "jest --setupFiles dotenv-flow/config",
-    "dev": "tsc -w & pnpm build:css -- -w",
     "build": "tsc && pnpm build:css",
     "build:css": "sass --embed-sources --style expanded src/styles/index.scss dist/styles/index.css",
+    "clean": "rm -rf .turbo && rm -rf node_modules && rm -rf dist",
+    "dev": "tsc -w & pnpm build:css -- -w",
     "lint": "TIMING=1 eslint src --fix",
-    "clean": "rm -rf .turbo && rm -rf node_modules && rm -rf dist"
+    "test": "jest --setupFiles dotenv-flow/config"
+  },
+  "jest": {
+    "preset": "@skillrecordings/scripts/jest/node"
   },
   "dependencies": {
     "@accessible/use-conditional-focus": "^3.0.1",
@@ -29,8 +32,6 @@
     "@skillrecordings/convertkit": "workspace:*",
     "@skillrecordings/cookies": "workspace:*",
     "@skillrecordings/react": "workspace:*",
-    "@types/react": "^17.0.42",
-    "@types/react-dom": "^17.0.9",
     "@xstate/react": "^1.5.1",
     "axios": "^0.21.1",
     "formik": "2.2.8",
@@ -55,13 +56,10 @@
     "assert": "^2.0.0",
     "babel-jest": "^27.3.1",
     "esbuild-node-tsc": "^1.6.1",
-    "sass": "^1.43.4",
-    "react-test-renderer": "^17.0.2"
+    "react-test-renderer": "^17.0.2",
+    "sass": "^1.43.4"
   },
   "publishConfig": {
     "access": "public"
-  },
-  "jest": {
-    "preset": "@skillrecordings/scripts/jest/node"
   }
 }

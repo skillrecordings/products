@@ -3,15 +3,21 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev -p 3007",
     "build": "NODE_ENV=production prisma generate && next build",
     "postbuild": "NODE_ENV=production next-sitemap",
     "build:data": "node src/data/cache-json-data.js -p",
     "build:data:dev": "node src/data/cache-json-data.js",
-    "start": "next start -p 3007",
-    "test": "prisma generate && jest",
+    "dev": "next dev -p 3007",
+    "format": "prettier --write './**/*.{js,jsx,ts,tsx,css,md,mdx,json}' --config ./.prettierrc",
     "lint": "TIMING=1 prisma generate && eslint src/**/*.{ts,tsx} --fix && tsc --noEmit",
-    "format": "prettier --write './**/*.{js,jsx,ts,tsx,css,md,mdx,json}' --config ./.prettierrc"
+    "start": "next start -p 3007",
+    "test": "prisma generate && jest"
+  },
+  "jest": {
+    "preset": "@skillrecordings/scripts/jest/next"
+  },
+  "resolutions": {
+    "jest-environment-jsdom": "27.4.6"
   },
   "dependencies": {
     "@asbjorn/eslint-plugin-groq": "^1.0.0",
@@ -24,7 +30,6 @@
     "@sentry/nextjs": "^6.19.3",
     "@skillrecordings/analytics": "workspace:*",
     "@skillrecordings/auth": "workspace:*",
-    "@skillrecordings/skill-api": "workspace:*",
     "@skillrecordings/axios": "workspace:*",
     "@skillrecordings/commerce": "workspace:*",
     "@skillrecordings/config": "workspace:*",
@@ -32,11 +37,12 @@
     "@skillrecordings/cookies": "workspace:*",
     "@skillrecordings/quiz": "workspace:*",
     "@skillrecordings/react": "workspace:*",
+    "@skillrecordings/skill-api": "workspace:*",
     "@skillrecordings/stripe": "workspace:*",
     "@skillrecordings/time": "workspace:*",
     "@skillrecordings/viewer": "workspace:*",
     "@stripe/stripe-js": "^1.21.1",
-    "@tailwindcss/aspect-ratio": "^0.3.0",
+    "@tailwindcss/aspect-ratio": "^0.4.0",
     "@tailwindcss/forms": "^0.3.4",
     "@tailwindcss/typography": "^0.4.1",
     "@tippyjs/react": "^4.2.6",
@@ -102,9 +108,7 @@
     "@testing-library/jest-dom": "^5.15.0",
     "@testing-library/react": "^12.1.2",
     "@types/cookie": "^0.4.1",
-    "@types/node": "^16.11.7",
     "@types/pluralize": "^0.0.29",
-    "@types/react": "^17.0.34",
     "@types/react-scroll": "^1.8.3",
     "@typescript-eslint/eslint-plugin": "^5.3.1",
     "@typescript-eslint/parser": "^5.3.1",
@@ -129,11 +133,5 @@
     "prisma": "^3.15.0-dev.1",
     "react-test-renderer": "^17.0.2",
     "tailwindcss": "^2.2.19"
-  },
-  "resolutions": {
-    "jest-environment-jsdom": "27.4.6"
-  },
-  "jest": {
-    "preset": "@skillrecordings/scripts/jest/next"
   }
 }

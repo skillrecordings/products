@@ -2,19 +2,22 @@
   "name": "@skillrecordings/stripe",
   "version": "0.0.1",
   "description": "",
-  "author": "Joel Hooks",
   "license": "ISC",
+  "author": "Joel Hooks",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "files": [
     "dist/**"
   ],
   "scripts": {
-    "test": "jest",
-    "dev": "tsc -w",
     "build": "tsc",
+    "clean": "rm -rf .turbo && rm -rf node_modules && rm -rf dist",
+    "dev": "tsc -w",
     "lint": "TIMING=1 eslint src --fix",
-    "clean": "rm -rf .turbo && rm -rf node_modules && rm -rf dist"
+    "test": "jest"
+  },
+  "jest": {
+    "preset": "@skillrecordings/scripts/jest/node"
   },
   "dependencies": {
     "next": "11.1.2",
@@ -28,8 +31,5 @@
   },
   "publishConfig": {
     "access": "public"
-  },
-  "jest": {
-    "preset": "@skillrecordings/scripts/jest/node"
   }
 }

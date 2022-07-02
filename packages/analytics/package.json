@@ -1,24 +1,31 @@
 {
   "name": "@skillrecordings/analytics",
+  "version": "0.0.5",
   "description": "Internal, shared utilities",
   "author": "Joel Hooks",
-  "version": "0.0.5",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "files": [
     "dist/**"
   ],
   "scripts": {
-    "test": "jest",
-    "dev": "tsc -w",
     "build": "tsc",
+    "clean": "rm -rf .turbo && rm -rf node_modules && rm -rf dist",
+    "dev": "tsc -w",
     "lint": "TIMING=1 eslint src --fix",
-    "clean": "rm -rf .turbo && rm -rf node_modules && rm -rf dist"
+    "test": "jest"
+  },
+  "jest": {
+    "preset": "@skillrecordings/scripts/jest/node",
+    "resetMocks": false,
+    "setupFiles": [
+      "jest-localstorage-mock"
+    ]
   },
   "dependencies": {
     "@skillrecordings/types": "workspace:*",
-    "react": "^17.0.2",
-    "next": "12.1.6"
+    "next": "12.1.6",
+    "react": "^17.0.2"
   },
   "devDependencies": {
     "@skillrecordings/scripts": "workspace:*",
@@ -27,13 +34,6 @@
   },
   "publishConfig": {
     "access": "public"
-  },
-  "jest": {
-    "preset": "@skillrecordings/scripts/jest/node",
-    "resetMocks": false,
-    "setupFiles": [
-      "jest-localstorage-mock"
-    ]
   },
   "gitHead": "3398ceeb143d5fddcf11268741c2747856814119"
 }

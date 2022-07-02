@@ -2,19 +2,22 @@
   "name": "@skillrecordings/commerce",
   "version": "0.0.1",
   "description": "",
-  "author": "Joel Hooks",
   "license": "ISC",
+  "author": "Joel Hooks",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "files": [
     "dist/**"
   ],
   "scripts": {
-    "test": "jest",
-    "dev": "tsc -w",
     "build": "tsc",
+    "clean": "rm -rf .turbo && rm -rf node_modules && rm -rf dist",
+    "dev": "tsc -w",
     "lint": "TIMING=1 eslint src --fix",
-    "clean": "rm -rf .turbo && rm -rf node_modules && rm -rf dist"
+    "test": "jest"
+  },
+  "jest": {
+    "preset": "@skillrecordings/scripts/jest/next"
   },
   "dependencies": {
     "@reach/dialog": "^0.16.0",
@@ -48,9 +51,6 @@
     "esbuild-node-tsc": "^1.6.1",
     "msw": "^0.34.0",
     "react-test-renderer": "^17.0.2"
-  },
-  "jest": {
-    "preset": "@skillrecordings/scripts/jest/next"
   },
   "publishConfig": {
     "access": "public"

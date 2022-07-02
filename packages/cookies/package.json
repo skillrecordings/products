@@ -1,19 +1,23 @@
 {
   "name": "@skillrecordings/cookies",
+  "version": "0.0.1",
   "description": "Internal, shared utilities",
   "author": "Joel Hooks",
-  "version": "0.0.1",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "files": [
     "dist/**"
   ],
   "scripts": {
-    "test": "jest",
-    "dev": "tsc -w",
     "build": "tsc",
+    "clean": "rm -rf .turbo && rm -rf node_modules && rm -rf dist",
+    "dev": "tsc -w",
     "lint": "TIMING=1 eslint src --fix",
-    "clean": "rm -rf .turbo && rm -rf node_modules && rm -rf dist"
+    "test": "jest"
+  },
+  "jest": {
+    "preset": "@skillrecordings/scripts/jest/node",
+    "testEnvironment": "jsdom"
   },
   "dependencies": {},
   "devDependencies": {
@@ -23,10 +27,6 @@
   },
   "publishConfig": {
     "access": "public"
-  },
-  "jest": {
-    "testEnvironment": "jsdom",
-    "preset": "@skillrecordings/scripts/jest/node"
   },
   "gitHead": "3398ceeb143d5fddcf11268741c2747856814119"
 }

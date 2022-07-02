@@ -2,18 +2,18 @@
   "name": "@skillrecordings/config",
   "version": "0.0.1",
   "description": "",
-  "author": "Joel Hooks",
   "license": "ISC",
+  "author": "Joel Hooks",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "files": [
     "dist/**"
   ],
   "scripts": {
-    "dev": "tsc -w",
     "build": "tsc --jsx react-jsx --outDir dist",
-    "lint": "TIMING=1 eslint src --fix",
-    "clean": "rm -rf .turbo && rm -rf node_modules && rm -rf dist"
+    "clean": "rm -rf .turbo && rm -rf node_modules && rm -rf dist",
+    "dev": "tsc -w",
+    "lint": "TIMING=1 eslint src --fix"
   },
   "devDependencies": {
     "@skillrecordings/scripts": "workspace:*",

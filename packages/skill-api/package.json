@@ -2,7 +2,8 @@
   "name": "@skillrecordings/skill-api",
   "version": "0.0.1",
   "description": "",
-  "main": "index.js",
+  "license": "ISC",
+  "author": "",
   "exports": {
     ".": "./index.js",
     "./client": "./client/index.js",
@@ -10,6 +11,7 @@
     "./next": "./next/index.js",
     "./lib": "./lib/index.js"
   },
+  "main": "index.js",
   "files": [
     "lib",
     "css",
@@ -22,29 +24,27 @@
   ],
   "scripts": {
     "build": "pnpm clean && pnpm build:js",
-    "clean": "rm -rf client core lib next index.d.ts index.js",
-    "build:js": "pnpm clean && tsc && babel --config-file ./config/babel.config.js src --out-dir . --extensions \".tsx,.ts,.js,.jsx\"",
     "build:css": "postcss --config config/postcss.config.js src/**/*.css --base src --dir . && node config/wrap-css.js",
-    "watch:css": "postcss --config config/postcss.config.js --watch src/**/*.css --base src --dir .",
-    "test": "jest --config ./config/jest.config.js",
+    "build:js": "pnpm clean && tsc && babel --config-file ./config/babel.config.js src --out-dir . --extensions \".tsx,.ts,.js,.jsx\"",
+    "clean": "rm -rf client core lib next index.d.ts index.js",
+    "lint": "eslint src config",
     "prepublishOnly": "pnpm build",
     "setup": "pnpm generate-providers",
-    "lint": "eslint src config"
+    "test": "jest --config ./config/jest.config.js",
+    "watch:css": "postcss --config config/postcss.config.js --watch src/**/*.css --base src --dir ."
   },
-  "author": "",
-  "license": "ISC",
+  "eslintIgnore": [
+    "./*.d.ts",
+    "**/tests",
+    "**/__tests__"
+  ],
+  "resolutions": {
+    "jest-environment-jsdom": "27.4.6"
+  },
   "dependencies": {
     "@babel/runtime": "^7.16.3",
-    "nodemailer-postmark-transport": "^5.2.1",
     "preact": "^10.6.3",
     "preact-render-to-string": "^5.1.19"
-  },
-  "peerDependencies": {
-    "next-auth": "^4.3.4",
-    "nodemailer": "^6.6.5",
-    "nodemailer-postmark-transport": "^5.2.1",
-    "react": "^17.0.2 || ^18",
-    "react-dom": "^17.0.2 || ^18"
   },
   "devDependencies": {
     "@babel/cli": "^7.16.0",
@@ -61,11 +61,8 @@
     "@testing-library/react": "^12.1.2",
     "@testing-library/react-hooks": "^7.0.2",
     "@testing-library/user-event": "^13.5.0",
-    "@types/node": "^16.11.12",
     "@types/nodemailer": "^6.4.4",
     "@types/oauth": "^0.9.1",
-    "@types/react": "^17.0.37",
-    "@types/react-dom": "^17.0.11",
     "autoprefixer": "^10.4.0",
     "babel-jest": "^27.4.2",
     "babel-plugin-jsx-pragmatic": "^1.0.2",
@@ -76,6 +73,8 @@
     "msw": "^0.36.3",
     "next": "12.1.6",
     "next-auth": "^4.3.4",
+    "nodemailer": "^6.6.5",
+    "nodemailer-postmark-transport": "^5.2.1",
     "postcss": "^8.4.12",
     "postcss-cli": "^9.0.2",
     "postcss-nested": "^5.0.6",
@@ -83,15 +82,14 @@
     "react-dom": "^17.0.2",
     "whatwg-fetch": "^3.6.2"
   },
-  "resolutions": {
-    "jest-environment-jsdom": "27.4.6"
+  "peerDependencies": {
+    "next-auth": "^4.3.4",
+    "nodemailer": "^6.6.5",
+    "nodemailer-postmark-transport": "^5.2.1",
+    "react": "^17.0.2 || ^18",
+    "react-dom": "^17.0.2 || ^18"
   },
   "engines": {
     "node": "^12.19.0 || ^14.19.0 || ^16.13.0"
-  },
-  "eslintIgnore": [
-    "./*.d.ts",
-    "**/tests",
-    "**/__tests__"
-  ]
+  }
 }

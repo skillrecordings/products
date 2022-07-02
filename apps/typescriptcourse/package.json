@@ -3,17 +3,30 @@
   "version": "0.1.1",
   "private": true,
   "scripts": {
-    "dev": "next dev -p 3015",
-    "start": "next start -p 3015",
-    "integration": "cypress run",
     "build": "NODE_ENV=production next build",
-    "build:dev": "pnpm build -w -- --scope=\"typescriptcourse\" --includeDependencies",
     "postbuild": "NODE_ENV=production next-sitemap",
     "build:data": "node src/data/cache-json-data.js -p",
     "build:data:dev": "node src/data/cache-json-data.js",
-    "test": "jest",
+    "build:dev": "pnpm build -w -- --scope=\"typescriptcourse\" --includeDependencies",
+    "dev": "next dev -p 3015",
+    "format": "prettier --write './**/*.{js,jsx,ts,tsx,css,md,mdx,json}' --config ./.prettierrc",
+    "integration": "cypress run",
     "lint": "TIMING=1 eslint src/**/*.{ts,tsx} --fix && tsc --noEmit",
-    "format": "prettier --write './**/*.{js,jsx,ts,tsx,css,md,mdx,json}' --config ./.prettierrc"
+    "start": "next start -p 3015",
+    "test": "jest"
+  },
+  "prettier": {
+    "bracketSpacing": false,
+    "jsxBracketSameLine": false,
+    "printWidth": 80,
+    "semi": false,
+    "singleQuote": true,
+    "tabWidth": 2,
+    "trailingComma": "all",
+    "useTabs": false
+  },
+  "jest": {
+    "preset": "@skillrecordings/scripts/jest/next"
   },
   "dependencies": {
     "@mdx-js/mdx": "^2.0.0",
@@ -100,9 +113,7 @@
     "@types/cookie": "^0.4.1",
     "@types/isomorphic-fetch": "^0.0.35",
     "@types/mdx-js__react": "^1.5.4",
-    "@types/node": "^16.11.7",
     "@types/pluralize": "^0.0.29",
-    "@types/react": "^17.0.42",
     "@types/react-scroll": "^1.8.3",
     "@types/three": "^0.134.0",
     "@typescript-eslint/eslint-plugin": "^5.3.1",
@@ -126,18 +137,5 @@
     "prettier": "^2.5.1",
     "react-test-renderer": "^17.0.2",
     "tailwindcss": "^3.0.23"
-  },
-  "jest": {
-    "preset": "@skillrecordings/scripts/jest/next"
-  },
-  "prettier": {
-    "printWidth": 80,
-    "tabWidth": 2,
-    "useTabs": false,
-    "semi": false,
-    "singleQuote": true,
-    "trailingComma": "all",
-    "bracketSpacing": false,
-    "jsxBracketSameLine": false
   }
 }

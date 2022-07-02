@@ -3,11 +3,21 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev -p 3016",
-    "start": "next start -p 3016",
     "build": "NODE_ENV=production next build",
     "postbuild": "NODE_ENV=production next-sitemap",
-    "lint": "next lint"
+    "dev": "next dev -p 3016",
+    "lint": "next lint",
+    "start": "next start -p 3016"
+  },
+  "prettier": {
+    "bracketSpacing": false,
+    "jsxBracketSameLine": false,
+    "printWidth": 80,
+    "semi": false,
+    "singleQuote": true,
+    "tabWidth": 2,
+    "trailingComma": "all",
+    "useTabs": false
   },
   "dependencies": {
     "@skillrecordings/convertkit": "workspace:^0.0.1",
@@ -24,7 +34,6 @@
   "devDependencies": {
     "@tailwindcss/typography": "^0.5.2",
     "@types/node": "^17.0.0",
-    "@types/react": "17.0.39",
     "autoprefixer": "^10.4.4",
     "eslint": "8.10.0",
     "eslint-config-next": "12.1.0",
@@ -32,15 +41,5 @@
     "postcss-nested": "^5.0.6",
     "tailwindcss": "^3.0.23",
     "typescript": "^4.5.4"
-  },
-  "prettier": {
-    "printWidth": 80,
-    "tabWidth": 2,
-    "useTabs": false,
-    "semi": false,
-    "singleQuote": true,
-    "trailingComma": "all",
-    "bracketSpacing": false,
-    "jsxBracketSameLine": false
   }
 }
