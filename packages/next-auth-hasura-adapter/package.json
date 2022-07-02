@@ -35,20 +35,20 @@
   },
   "dependencies": {
     "@skillrecordings/config": "workspace:*",
-    "graphql-request": "^4.1.0",
-    "jsdom": "^17.0.0",
-    "mockdate": "^3.0.5",
-    "msw": "^0.34.0"
+    "graphql-request": "^4.1.0"
   },
   "devDependencies": {
     "@graphql-codegen/cli": "^2.6.2",
     "@graphql-codegen/typescript": "^2.4.7",
     "@graphql-codegen/typescript-graphql-request": "^4.4.2",
     "@graphql-codegen/typescript-operations": "^2.3.4",
-    "@skillrecordings/scripts": "workspace:*",
-    "@skillrecordings/tsconfig": "workspace:*",
-    "@skillrecordings/types": "workspace:*",
-    "next-auth": "^4.2.1"
+    "@skillrecordings/scripts": "0.0.5",
+    "@skillrecordings/tsconfig": "0.0.5",
+    "@skillrecordings/types": "0.0.5",
+    "jsdom": "^17.0.0",
+    "mockdate": "^3.0.5",
+    "msw": "^0.35.0",
+    "next-auth": "=4.2.1"
   },
   "publishConfig": {
     "access": "public"

@@ -20,26 +20,29 @@
     "preset": "@skillrecordings/scripts/jest/node"
   },
   "dependencies": {
-    "@reach/dialog": "^0.16.0",
+    "@reach/dialog": "^0.16.2",
     "@skillrecordings/axios": "workspace:*",
     "@skillrecordings/config": "workspace:*",
     "@skillrecordings/cookies": "workspace:*",
     "@skillrecordings/react": "workspace:*",
-    "axios": "^0.21.1",
-    "cookie": "^0.4.1",
-    "formik": "2.2.8",
-    "framer-motion": "^6.2.8",
-    "next": "11.1.2",
-    "query-string": "^7.0.1",
-    "react-use": "^17.2.4",
-    "yup": "^0.28.1"
+    "axios": "^0.26.0",
+    "cookie": "^0.5.0",
+    "formik": "2.2.9",
+    "framer-motion": "^5.2.1",
+    "query-string": "^7.1.1",
+    "react-use": "^17.3.2",
+    "yup": "^0.32.11"
   },
   "devDependencies": {
     "@skillrecordings/scripts": "workspace:*",
     "@skillrecordings/tsconfig": "workspace:*",
     "@skillrecordings/types": "workspace:*",
     "@types/yup": "^0.29.13",
-    "esbuild-node-tsc": "^1.6.1"
+    "esbuild-node-tsc": "^1.6.1",
+    "next": "^12.1.6"
+  },
+  "peerDependencies": {
+    "next": ">= 11.1.2 < 13"
   },
   "publishConfig": {
     "access": "public"

@@ -38,7 +38,7 @@
     "jest-environment-jsdom": "27.4.6"
   },
   "dependencies": {
-    "@prisma/client": "^3.15.1",
+    "@prisma/client": "^3.15.2",
     "@react-three/drei": "8.16.0",
     "@react-three/fiber": "7.0.26",
     "@react-three/postprocessing": "^2.3.2",
@@ -61,7 +61,7 @@
     "framer-motion": "^6.3.11",
     "framer-motion-3d": "^6.2.8",
     "leva": "^0.9.27",
-    "next": "12.1.6",
+    "next": "^12.1.6",
     "next-compose-plugins": "^2.2.1",
     "next-seo": "^5.4.0",
     "next-sitemap": "^3.0.5",
@@ -72,17 +72,14 @@
   },
   "devDependencies": {
     "@skillrecordings/scripts": "workspace:*",
-    "@skillrecordings/tsconfig": "workspace:^0.0.5",
+    "@skillrecordings/tsconfig": "workspace:*",
     "@skillrecordings/types": "workspace:*",
     "@types/three": "^0.141.0",
-    "@typescript-eslint/eslint-plugin": "^5.27.1",
-    "@typescript-eslint/parser": "^5.27.1",
-    "autoprefixer": "^10.4.7",
-    "eslint": "8.17.0",
-    "eslint-config-next": "12.1.6",
-    "eslint-plugin-react-hooks": "^4.5.0",
+    "@typescript-eslint/eslint-plugin": "^5.13.0",
+    "@typescript-eslint/parser": "^5.13.0",
+    "autoprefixer": "^10.4.2",
     "postcss": "^8.4.14",
-    "prisma": "^3.15.1",
+    "prisma": "^3.15.2",
     "tailwindcss": "^3.1.2"
   }
 }

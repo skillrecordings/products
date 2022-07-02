@@ -16,14 +16,17 @@
     "lint": "TIMING=1 eslint src --fix"
   },
   "dependencies": {
-    "@skillrecordings/config": "workspace:*",
-    "axios": "^0.21.1"
+    "@skillrecordings/config": "workspace:*"
   },
   "devDependencies": {
     "@skillrecordings/scripts": "workspace:*",
     "@skillrecordings/tsconfig": "workspace:*",
     "@skillrecordings/types": "workspace:*",
+    "axios": "^0.26.0",
     "esbuild-node-tsc": "^1.6.1"
+  },
+  "peerDependencies": {
+    "axios": "^0.26.0"
   },
   "publishConfig": {
     "access": "public"

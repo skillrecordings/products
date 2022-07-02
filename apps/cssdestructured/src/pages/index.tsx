@@ -1,6 +1,5 @@
 import * as React from 'react'
 import Layout from 'components/app/layout'
-import {CourseJsonLd} from 'next-seo'
 import config from 'config'
 import LandingCopy from 'components/content/landing-copy.mdx'
 import {
@@ -22,12 +21,6 @@ export default function Home() {
 
   return (
     <>
-      <CourseJsonLd
-        courseName={config.defaultTitle}
-        providerName={config.author}
-        providerUrl={config.siteUrl}
-        description={config.description}
-      />
       <Layout nav={null} meta={{title: config.defaultTitle}}>
         <header className="flex md:flex-row flex-col relative w-full overflow-hidden border-b border-white border-opacity-5 lg:max-h-[860px] md:max-h-[560px] lg:h-screen h-full">
           <div
