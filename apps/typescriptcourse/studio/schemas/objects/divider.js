@@ -29,7 +29,7 @@ export default {
             justifyContent: 'center',
           }}
         >
-          <img src={image} width={200 / 1.5} height="100%" />
+          <img src={image} width={400 / 1.5} height="100%" />
         </div>
       ) : (
         <hr />
