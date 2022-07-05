@@ -75,7 +75,7 @@ const TeamInvites = ({teamPurchases}: any) => {
   return (
     <>
       {!isEmpty(teamPurchases) && (
-        <div className="mb-5 p-5 bg-gray-50 dark:bg-coolGray-900 rounded-md print:hidden">
+        <div className="mb-5 p-5 bg-gray-50 dark:bg-gray-900 rounded-md print:hidden">
           <h1 className="text-2xl leading-tight sm:mb-0 px-2 font-bold">
             Invite your team
           </h1>

@@ -114,7 +114,6 @@
     "lint-staged": "^11.2.6",
     "next-compose-plugins": "^2.2.1",
     "next-images": "^1.8.4",
-    "postcss-nested": "^5.0.6",
     "postcss-preset-env": "^7.4.2",
     "prettier": "^2.6.2",
     "react-test-renderer": "^17.0.2",

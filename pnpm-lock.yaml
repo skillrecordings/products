@@ -59,7 +59,6 @@ importers:
       next: ^12.1.6
       next-sitemap: ^3.0.5
       postcss: ^8.4.14
-      postcss-nested: ^5.0.6
       react: 17.0.2
       react-dom: 17.0.2
       react-hook-form: ^7.29.0
@@ -83,7 +82,6 @@ importers:
       eslint: 8.19.0
       eslint-config-custom: link:../../packages/eslint-config-custom
       postcss: 8.4.14
-      postcss-nested: 5.0.6_postcss@8.4.14
       tailwindcss: 3.1.4
       typescript: 4.6.4
 
@@ -150,7 +148,6 @@ importers:
       next-themes: ^0.1.1
       pluralize: ^8.0.0
       postcss: ^8.4.14
-      postcss-nested: ^5.0.6
       postcss-preset-env: ^7.4.2
       prettier: ^2.6.2
       query-string: ^7.1.1
@@ -256,7 +253,6 @@ importers:
       msw: 0.35.0
       next-compose-plugins: 2.2.1
       next-images: 1.8.4
-      postcss-nested: 5.0.6_postcss@8.4.14
       postcss-preset-env: 7.7.2_postcss@8.4.14
       prettier: 2.6.2
       react-test-renderer: 17.0.2_react@17.0.2
@@ -326,7 +322,6 @@ importers:
       next-themes: ^0.1.1
       pluralize: ^8.0.0
       postcss: ^8.4.14
-      postcss-nested: ^5.0.6
       postcss-preset-env: ^7.4.2
       prettier: ^2.6.2
       query-string: ^7.1.1
@@ -437,7 +432,6 @@ importers:
       next-compose-plugins: 2.2.1
       next-images: 1.8.4
       postcss: 8.4.14
-      postcss-nested: 5.0.6_postcss@8.4.14
       postcss-preset-env: 7.7.2_postcss@8.4.14
       prettier: 2.6.2
       react-test-renderer: 17.0.2_react@17.0.2
@@ -505,7 +499,6 @@ importers:
       pluralize: ^8.0.0
       postcss: ^8.4.14
       postcss-focus-visible: ^6.0.4
-      postcss-nested: ^5.0.6
       postcss-preset-env: ^7.4.2
       prettier: ^2.6.2
       query-string: ^7.1.1
@@ -614,7 +607,6 @@ importers:
       next-compose-plugins: 2.2.1
       next-images: 1.8.4
       postcss-focus-visible: 6.0.4_postcss@8.4.14
-      postcss-nested: 5.0.6_postcss@8.4.14
       postcss-preset-env: 7.7.2_postcss@8.4.14
       prettier: 2.6.2
       react-test-renderer: 17.0.2_react@17.0.2
@@ -695,7 +687,6 @@ importers:
       nodemailer-postmark-transport: ^5.2.1
       pluralize: ^8.0.0
       postcss: ^8.4.14
-      postcss-nested: ^5.0.6
       postcss-preset-env: ^7.4.2
       preact: ^10.7.2
       preact-render-to-string: ^5.2.0
@@ -818,7 +809,6 @@ importers:
       lint-staged: 11.2.6
       next-compose-plugins: 2.2.1
       next-images: 1.8.4
-      postcss-nested: 5.0.6_postcss@8.4.14
       postcss-preset-env: 7.7.2_postcss@8.4.14
       prettier: 2.6.2
       prisma: 3.15.2
@@ -891,7 +881,6 @@ importers:
       playwright-aws-lambda: ^0.7.0
       playwright-core: 1.15.0
       postcss: ^8.4.14
-      postcss-nested: ^5.0.6
       postcss-preset-env: ^7.4.2
       prettier: ^2.6.2
       query-string: ^7.1.1
@@ -998,7 +987,6 @@ importers:
       lint-staged: 11.2.6
       next-compose-plugins: 2.2.1
       next-images: 1.8.4
-      postcss-nested: 5.0.6_postcss@8.4.14
       postcss-preset-env: 7.7.2_postcss@8.4.14
       prettier: 2.6.2
       react-test-renderer: 17.0.2_react@17.0.2
@@ -1058,7 +1046,6 @@ importers:
       next-themes: ^0.1.1
       pluralize: ^8.0.0
       postcss: ^8.4.14
-      postcss-nested: ^5.0.6
       postcss-preset-env: ^7.4.2
       prettier: ^2.6.2
       query-string: ^7.1.1
@@ -1149,7 +1136,6 @@ importers:
       msw: 0.35.0
       next-compose-plugins: 2.2.1
       next-images: 1.8.4
-      postcss-nested: 5.0.6_postcss@8.4.14
       postcss-preset-env: 7.7.2_postcss@8.4.14
       prettier: 2.6.2
       react-test-renderer: 17.0.2_react@17.0.2
@@ -1210,7 +1196,6 @@ importers:
       next-themes: ^0.1.1
       pluralize: ^8.0.0
       postcss: ^8.4.14
-      postcss-nested: ^5.0.6
       postcss-preset-env: ^7.4.2
       prettier: ^2.6.2
       query-string: ^7.1.1
@@ -1308,7 +1293,6 @@ importers:
       msw: 0.35.0
       next-compose-plugins: 2.2.1
       next-images: 1.8.4
-      postcss-nested: 5.0.6_postcss@8.4.14
       postcss-preset-env: 7.7.2_postcss@8.4.14
       prettier: 2.6.2
       react-test-renderer: 17.0.2_react@17.0.2
@@ -1383,7 +1367,6 @@ importers:
       next-transpile-modules: ^9.0.0
       pluralize: ^8.0.0
       postcss: ^8.4.14
-      postcss-nested: ^5.0.6
       postcss-preset-env: ^6.7.0
       prettier: ^2.6.2
       query-string: ^7.1.1
@@ -1495,7 +1478,6 @@ importers:
       msw: 0.35.0
       next-compose-plugins: 2.2.1
       next-images: 1.8.4
-      postcss-nested: 5.0.6_postcss@8.4.14
       postcss-preset-env: 6.7.1
       prettier: 2.6.2
       react-test-renderer: 17.0.2_react@17.0.2
@@ -1645,7 +1627,6 @@ importers:
       next-themes: ^0.1.1
       pluralize: ^8.0.0
       postcss: ^8.4.14
-      postcss-nested: ^5.0.6
       postcss-preset-env: ^7.4.2
       prettier: ^2.6.2
       query-string: ^7.1.1
@@ -1739,7 +1720,6 @@ importers:
       msw: 0.35.0
       next-compose-plugins: 2.2.1
       next-images: 1.8.4
-      postcss-nested: 5.0.6_postcss@8.4.14
       postcss-preset-env: 7.7.2_postcss@8.4.14
       prettier: 2.6.2
       react-test-renderer: 17.0.2_react@17.0.2
@@ -1869,7 +1849,6 @@ importers:
       pluralize: ^8.0.0
       postcss: ^8.4.14
       postcss-focus-visible: ^6.0.4
-      postcss-nested: ^5.0.6
       postcss-preset-env: ^7.4.2
       prettier: ^2.6.2
       prisma: ^3.15.2
@@ -2070,7 +2049,6 @@ importers:
       onigasm: 2.2.5
       oniguruma: 7.2.3
       postcss-focus-visible: 6.0.4_postcss@8.4.14
-      postcss-nested: 5.0.6_postcss@8.4.14
       postcss-preset-env: 7.7.2_postcss@8.4.14
       prettier: 2.6.2
       prisma: 3.15.2
@@ -2149,7 +2127,6 @@ importers:
       next-transpile-modules: ^9.0.0
       pluralize: ^8.0.0
       postcss: ^8.4.14
-      postcss-nested: ^5.0.6
       postcss-preset-env: ^7.4.2
       prettier: ^2.6.2
       query-string: ^7.1.1
@@ -2272,7 +2249,6 @@ importers:
       next-compose-plugins: 2.2.1
       next-images: 1.8.4_webpack@5.73.0
       next-transpile-modules: 9.0.0
-      postcss-nested: 5.0.6_postcss@8.4.14
       postcss-preset-env: 7.7.2_postcss@8.4.14
       prettier: 2.6.2
       react-test-renderer: 17.0.2_react@17.0.2
@@ -2794,7 +2770,6 @@ importers:
       nodemailer-postmark-transport: ^5.2.1
       postcss: ^8.4.14
       postcss-cli: ^9.0.2
-      postcss-nested: ^5.0.6
       preact: ^10.7.2
       preact-render-to-string: ^5.2.0
       react: 17.0.2
@@ -2837,7 +2812,6 @@ importers:
       nodemailer-postmark-transport: 5.2.1_nodemailer@6.7.2
       postcss: 8.4.14
       postcss-cli: 9.1.0_postcss@8.4.14
-      postcss-nested: 5.0.6_postcss@8.4.14
       react: 17.0.2
       react-dom: 17.0.2_react@17.0.2
       whatwg-fetch: 3.6.2
