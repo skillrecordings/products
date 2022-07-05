@@ -97,7 +97,7 @@
     "dompurify": "^2.3.6",
     "dotenv-flow": "^3.2.0",
     "formik": "2.2.9",
-    "framer-motion": "^6.2.8",
+    "framer-motion": "^6.4.1",
     "graphql-request": "^4.1.0",
     "graphql-tag": "^2.12.6",
     "groq": "^2.15.0",

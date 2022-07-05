@@ -65,7 +65,7 @@
     "dotenv-flow": "^3.2.0",
     "focus-visible": "^5.2.0",
     "formik": "2.2.9",
-    "framer-motion": "^5.2.1",
+    "framer-motion": "^6.4.1",
     "groq": "^2.15.0",
     "lodash": "^4.17.21",
     "mdx-prism": "^0.3.4",
