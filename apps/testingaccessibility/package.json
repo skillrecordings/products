@@ -198,7 +198,6 @@
     "onigasm": "^2.2.5",
     "oniguruma": "^7.2.3",
     "postcss-focus-visible": "^6.0.4",
-    "postcss-nested": "^5.0.6",
     "postcss-preset-env": "^7.4.2",
     "prettier": "^2.6.2",
     "prisma": "^3.15.2",

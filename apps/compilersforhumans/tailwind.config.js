@@ -10,7 +10,6 @@ module.exports = {
         sans: ['Neue Montreal', ...defaultTheme.fontFamily.sans],
       },
       colors: {
-        ...colors,
         black: colors.gray['900'],
       },
       screens: {

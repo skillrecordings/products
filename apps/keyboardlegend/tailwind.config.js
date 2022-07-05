@@ -1,5 +1,4 @@
 const defaultTheme = require('tailwindcss/defaultTheme')
-const colors = require('tailwindcss/colors')
 const tailwindCommonConfig = require('@skillrecordings/scripts/tailwind.config')
 
 module.exports = {
@@ -8,7 +7,6 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        ...colors,
         brand: {
           pink: {
             50: '#fff8fa',

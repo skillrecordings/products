@@ -184,7 +184,7 @@ const Learn: FunctionComponent<Props> = ({bundles}) => {
 //           {chapters.map((chapter: any, i: string) => (
 //             <li key={chapter.slug}>
 //               <Link href={`/book/${chapter.slug}`}>
-//                 <a className="hover:shadow-lg hover:bg-white dark:hover:bg-coolGray-900 hover:rounded-md hover:border-transparent hover:text-blue-600 dark:hover:text-blue-400 transition-all ease-in-out duration-150 flex p-3 items-center space-x-3 group border-b dark:border-gray-900 border-gray-100 leading-tight">
+//                 <a className="hover:shadow-lg hover:bg-white dark:hover:bg-gray-900 hover:rounded-md hover:border-transparent hover:text-blue-600 dark:hover:text-blue-400 transition-all ease-in-out duration-150 flex p-3 items-center space-x-3 group border-b dark:border-gray-900 border-gray-100 leading-tight">
 //                   <div className="text-xs text-gray-600 dark:text-gray-400">
 //                     {i + 1}
 //                   </div>
