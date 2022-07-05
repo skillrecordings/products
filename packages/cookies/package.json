@@ -23,7 +23,9 @@
   "devDependencies": {
     "@skillrecordings/scripts": "workspace:*",
     "@skillrecordings/tsconfig": "workspace:*",
-    "@skillrecordings/types": "workspace:*"
+    "@skillrecordings/types": "workspace:*",
+    "eslint": "^8.19.0",
+    "eslint-config-custom": "workspace:*"
   },
   "publishConfig": {
     "access": "public"

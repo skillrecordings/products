@@ -4,7 +4,6 @@ const tailwindCommonConfig = require('@skillrecordings/scripts/tailwind.config')
 
 module.exports = {
   ...tailwindCommonConfig,
-  darkMode: 'media',
   theme: {
     extend: {
       fontFamily: {

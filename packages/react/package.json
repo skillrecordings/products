@@ -15,11 +15,7 @@
     "clean": "rm -rf .turbo && rm -rf node_modules && rm -rf dist",
     "dev": "tsc -w & pnpm watch:css",
     "lint": "TIMING=1 eslint src --fix",
-    "test": "jest",
     "watch:css": "pnpm build:css -- -w"
-  },
-  "jest": {
-    "preset": "@skillrecordings/scripts/jest/next"
   },
   "dependencies": {
     "@skillrecordings/analytics": "workspace:*",
@@ -41,19 +37,16 @@
     "@skillrecordings/scripts": "workspace:*",
     "@skillrecordings/tsconfig": "workspace:*",
     "@skillrecordings/types": "workspace:*",
-    "@testing-library/jest-dom": "^5.15.0",
-    "@testing-library/react": "^12.1.2",
     "@xstate/react": "=1.5.1",
-    "assert": "^2.0.0",
-    "babel-jest": "^27.5.1",
     "esbuild-node-tsc": "^1.6.1",
+    "eslint": "^8.19.0",
+    "eslint-config-custom": "workspace:*",
     "lodash": "^4.17.21",
     "msw": "^0.35.0",
     "next": "^12.1.6",
     "next-seo": "^5.4.0",
     "react": "17.0.2",
     "react-dom": "17.0.2",
-    "react-test-renderer": "^17.0.2",
     "sass": "^1.43.4",
     "xstate": "=4.23.1"
   },

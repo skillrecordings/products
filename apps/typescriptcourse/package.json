@@ -100,8 +100,8 @@
     "yup": "^0.32.11"
   },
   "devDependencies": {
-    "@babel/plugin-transform-react-jsx": "^7.16.0",
     "@mdx-js/loader": "^1.6.22",
+    "@next/env": "^12.2.0",
     "@skillrecordings/scripts": "workspace:*",
     "@skillrecordings/tsconfig": "workspace:*",
     "@skillrecordings/types": "workspace:*",
@@ -114,11 +114,11 @@
     "@types/pluralize": "^0.0.29",
     "@types/react-scroll": "^1.8.3",
     "@types/three": "^0.141.0",
-    "@typescript-eslint/eslint-plugin": "^5.13.0",
-    "@typescript-eslint/parser": "^5.13.0",
     "assert": "^2.0.0",
-    "babel-jest": "^27.5.1",
     "commander": "^8.3.0",
+    "csstype": "^3.0.11",
+    "eslint": "^8.19.0",
+    "eslint-config-custom": "workspace:*",
     "msw": "^0.35.0",
     "next-compose-plugins": "^2.2.1",
     "next-images": "^1.8.4",
@@ -127,6 +127,7 @@
     "postcss-preset-env": "^7.4.2",
     "prettier": "^2.6.2",
     "react-test-renderer": "^17.0.2",
-    "tailwindcss": "^3.1.2"
+    "tailwindcss": "^3.1.4",
+    "webpack": "^5.73.0"
   }
 }

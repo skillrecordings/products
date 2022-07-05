@@ -1,5 +1,5 @@
 import renderToString from 'preact-render-to-string'
-import TestPage from './test'
+import TestPage from './sample'
 import {InternalOptions} from '../types'
 import {IncomingRequest, OutgoingResponse} from '../index'
 

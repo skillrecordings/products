@@ -23,7 +23,9 @@
     "@skillrecordings/tsconfig": "workspace:*",
     "@skillrecordings/types": "workspace:*",
     "axios": "^0.26.0",
-    "esbuild-node-tsc": "^1.6.1"
+    "esbuild-node-tsc": "^1.6.1",
+    "eslint": "^8.19.0",
+    "eslint-config-custom": "workspace:*"
   },
   "peerDependencies": {
     "axios": "^0.26.0"

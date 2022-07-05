@@ -41,11 +41,15 @@
     "@skillrecordings/tsconfig": "0.0.5",
     "@skillrecordings/types": "0.0.5",
     "@types/jsdom": "^16.2.13",
+    "eslint": "^8.19.0",
+    "eslint-config-custom": "workspace:*",
     "jest-localstorage-mock": "^2.4.14",
     "jsdom": "^17.0.0",
     "mockdate": "^3.0.5",
     "msw": "^0.35.0",
-    "next": "^12.1.6"
+    "next": "^12.1.6",
+    "react": "17.0.2",
+    "react-dom": "17.0.2"
   },
   "peerDependencies": {
     "next": ">= 11.1.2 < 13"
