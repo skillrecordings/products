@@ -30,7 +30,7 @@
     "lint": "eslint src config",
     "prepublishOnly": "pnpm build",
     "setup": "pnpm generate-providers",
-    "test": "jest --config ./config/jest.config.js",
+    "test": "jest",
     "watch:css": "postcss --config config/postcss.config.js --watch src/**/*.css --base src --dir ."
   },
   "eslintIgnore": [
@@ -38,8 +38,9 @@
     "**/tests",
     "**/__tests__"
   ],
-  "resolutions": {
-    "jest-environment-jsdom": "27.4.6"
+  "jest": {
+    "preset": "@skillrecordings/scripts/jest/node",
+    "testEnvironment": "jsdom"
   },
   "dependencies": {
     "@babel/runtime": "^7.16.3",
@@ -55,7 +56,8 @@
     "@babel/preset-react": "^7.16.0",
     "@babel/preset-typescript": "^7.16.0",
     "@prisma/client": "^3.15.2",
-    "@skillrecordings/tsconfig": "0.0.5",
+    "@skillrecordings/scripts": "workspace:*",
+    "@skillrecordings/tsconfig": "workspace:*",
     "@testing-library/dom": "^8.11.3",
     "@testing-library/jest-dom": "^5.15.0",
     "@testing-library/react": "^12.1.2",
@@ -64,10 +66,11 @@
     "@types/nodemailer": "^6.4.4",
     "@types/oauth": "^0.9.1",
     "autoprefixer": "^10.4.2",
-    "babel-jest": "^27.5.1",
     "babel-plugin-jsx-pragmatic": "^1.0.2",
     "babel-preset-preact": "^2.0.0",
     "cssnano": "^5.0.12",
+    "eslint": "^8.19.0",
+    "eslint-config-custom": "workspace:*",
     "jest": "^27.5.1",
     "jest-watch-typeahead": "^1.0.0",
     "msw": "^0.35.0",

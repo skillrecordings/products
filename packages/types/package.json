@@ -17,7 +17,9 @@
   },
   "devDependencies": {
     "@skillrecordings/scripts": "workspace:*",
-    "@skillrecordings/tsconfig": "workspace:*"
+    "@skillrecordings/tsconfig": "workspace:*",
+    "eslint": "^8.19.0",
+    "eslint-config-custom": "workspace:*"
   },
   "gitHead": "3398ceeb143d5fddcf11268741c2747856814119"
 }

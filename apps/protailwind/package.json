@@ -34,9 +34,6 @@
   "jest": {
     "preset": "@skillrecordings/scripts/jest/next"
   },
-  "resolutions": {
-    "jest-environment-jsdom": "27.4.6"
-  },
   "dependencies": {
     "@prisma/client": "^3.15.2",
     "@react-three/drei": "8.16.0",
@@ -75,11 +72,11 @@
     "@skillrecordings/tsconfig": "workspace:*",
     "@skillrecordings/types": "workspace:*",
     "@types/three": "^0.141.0",
-    "@typescript-eslint/eslint-plugin": "^5.13.0",
-    "@typescript-eslint/parser": "^5.13.0",
     "autoprefixer": "^10.4.2",
+    "eslint": "^8.19.0",
+    "eslint-config-custom": "workspace:*",
     "postcss": "^8.4.14",
     "prisma": "^3.15.2",
-    "tailwindcss": "^3.1.2"
+    "tailwindcss": "^3.1.4"
   }
 }

@@ -5,12 +5,10 @@
   "license": "BUSL-1.1",
   "main": "index.js",
   "bin": {
-    "eslint": "./node_modules/eslint/bin/eslint.js",
     "jest": "./node_modules/jest/bin/jest.js"
   },
   "files": [
     "jest",
-    "eslint-preset.js",
     "postcss.config.js",
     "tailwind.config.js",
     "next.config.js"
@@ -19,23 +17,12 @@
     "clean": "rm -rf .turbo && rm -rf node_modules"
   },
   "dependencies": {
-    "@typescript-eslint/eslint-plugin": "^4.0.0",
-    "@typescript-eslint/parser": "^4.0.0",
-    "babel-eslint": "^10.0.0",
-    "eslint": "^7.5.0",
-    "eslint-config-react-app": "^6.0.0",
-    "eslint-plugin-flowtype": "^5.9.0",
-    "eslint-plugin-import": "^2.24.0",
-    "eslint-plugin-jest": "23.13.1",
-    "eslint-plugin-jsx-a11y": "^6.5.1",
-    "eslint-plugin-react": "^7.29.4",
-    "eslint-plugin-react-hooks": "^4.3.0",
     "jest": "^27.5.1",
-    "ts-jest": "^27.0.4"
+    "ts-jest": "^27.1.5"
   },
   "devDependencies": {
-    "@types/jest": "^27.5.1",
-    "jest-environment-jsdom": "27.4.6",
+    "@types/jest": "^27.5.2",
+    "jest-environment-jsdom": "^27.5.1",
     "jest-expect-message": "^1.0.2"
   }
 }

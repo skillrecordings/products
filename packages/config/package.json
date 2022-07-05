@@ -19,7 +19,9 @@
     "@skillrecordings/scripts": "workspace:*",
     "@skillrecordings/tsconfig": "workspace:*",
     "@skillrecordings/types": "workspace:*",
-    "esbuild-node-tsc": "^1.6.1"
+    "esbuild-node-tsc": "^1.6.1",
+    "eslint": "^8.19.0",
+    "eslint-config-custom": "workspace:*"
   },
   "publishConfig": {
     "access": "public"
