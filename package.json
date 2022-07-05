@@ -23,6 +23,7 @@
     "prepare": "husky install",
     "release": "changeset publish",
     "release:canary": "changeset publish --tag canary",
+    "sort": "npx sort-package-json \"package.json\" \"packages/*/package.json\" \"apps/*/package.json\"",
     "start": "turbo run start",
     "test": "turbo run test",
     "version:canary": "changeset version --snapshot canary"
