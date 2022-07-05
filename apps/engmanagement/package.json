@@ -53,7 +53,7 @@
     "dotenv-flow": "^3.2.0",
     "focus-visible": "^5.2.0",
     "formik": "2.2.9",
-    "framer-motion": "^5.2.1",
+    "framer-motion": "^6.4.1",
     "gray-matter": "^4.0.3",
     "groq": "^2.15.0",
     "jest-mock-extended": "^2.0.4",

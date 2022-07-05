@@ -35,17 +35,23 @@ const Scene = () => {
 }
 
 const StarsBackground = () => {
+  const [isMounted, setIsMounted] = React.useState(false)
+  React.useEffect(() => {
+    setIsMounted(true)
+  }, [])
   return (
     <>
       <div className="absolute left-0 top-0 w-full h-screen bg-gray-900">
-        <Canvas
-          camera={{position: [0, 0, 160]}}
-          dpr={isBrowser() ? window.devicePixelRatio : 1}
-          className="w-full"
-        >
-          <Scene />
-          <color attach="background" args={['rgb(17, 24, 39)']} />
-        </Canvas>
+        {isMounted && (
+          <Canvas
+            camera={{position: [0, 0, 160]}}
+            dpr={isBrowser() ? window.devicePixelRatio : 1}
+            className="w-full"
+          >
+            <Scene />
+            <color attach="background" args={['rgb(17, 24, 39)']} />
+          </Canvas>
+        )}
         <div className="pointer-events-none absolute left-0 top-0 w-full h-full bg-gradient-to-b from-gray-900/50 to-gray-900" />
       </div>
     </>

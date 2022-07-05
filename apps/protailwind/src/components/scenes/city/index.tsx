@@ -28,6 +28,10 @@ const Scene: React.FC<SceneProps> = ({
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const particlesRef = useRef<any>()
   const mouse = useRef([0, 0])
+  const [isMounted, setIsMounted] = React.useState(false)
+  React.useEffect(() => {
+    setIsMounted(true)
+  }, [])
 
   const isMobile =
     typeof window !== 'undefined' &&
@@ -95,68 +99,70 @@ const Scene: React.FC<SceneProps> = ({
   return (
     <div className={className}>
       <Leva hidden={isProduction} collapsed={true} />
-      <Canvas
-        camera={cameraRef as any}
-        resize={{scroll: false, offsetSize: true}}
-        dpr={[1, 2]}
-        ref={canvasRef}
-        // legacy
-        linear
-      >
-        <React.Suspense fallback={null}>
-          {camera}
-          <OrbitControls
-            enableZoom={enableOrbitControls}
-            enableRotate={enableOrbitControls}
-            enablePan={enableOrbitControls}
-            autoRotateSpeed={autoRotateSpeed}
-            autoRotate={autoRotate}
-            maxPolarAngle={Math.PI / 2.1}
-          />
-          <fog attach="fog" args={[backgroundColor, 50, 200]} />
-          <color attach="background" args={[backgroundColor]} />
-          <EffectComposer multisampling={8} autoClear={false}>
-            <HueSaturation hue={hue} saturation={saturation} />
-            <BrightnessContrast brightness={brightness} contrast={contrast} />
-            <DepthOfField
-              focusDistance={0}
-              focalLength={0.4}
-              bokehScale={30}
-              height={480}
-              width={480}
+      {isMounted && (
+        <Canvas
+          camera={cameraRef as any}
+          resize={{scroll: false, offsetSize: true}}
+          dpr={[1, 2]}
+          ref={canvasRef}
+          // legacy
+          linear
+        >
+          <React.Suspense fallback={null}>
+            {camera}
+            <OrbitControls
+              enableZoom={enableOrbitControls}
+              enableRotate={enableOrbitControls}
+              enablePan={enableOrbitControls}
+              autoRotateSpeed={autoRotateSpeed}
+              autoRotate={autoRotate}
+              maxPolarAngle={Math.PI / 2.1}
             />
-            <Noise opacity={0.15} blendFunction={BlendFunction.SOFT_LIGHT} />
-          </EffectComposer>
-          <ambientLight
-            castShadow
-            intensity={1.3}
-            color="#4D5B7B"
-            position={[0, 20, 120]}
-          />
-          <spotLight
-            castShadow
-            intensity={0.2}
-            color="#fff"
-            position={[0, 20, 120]}
-          />
-          <spotLight
-            castShadow
-            intensity={0.24}
-            color="#fff"
-            position={[0, 80, 200]}
-          />
+            <fog attach="fog" args={[backgroundColor, 50, 200]} />
+            <color attach="background" args={[backgroundColor]} />
+            <EffectComposer multisampling={8} autoClear={false}>
+              <HueSaturation hue={hue} saturation={saturation} />
+              <BrightnessContrast brightness={brightness} contrast={contrast} />
+              <DepthOfField
+                focusDistance={0}
+                focalLength={0.4}
+                bokehScale={30}
+                height={480}
+                width={480}
+              />
+              <Noise opacity={0.15} blendFunction={BlendFunction.SOFT_LIGHT} />
+            </EffectComposer>
+            <ambientLight
+              castShadow
+              intensity={1.3}
+              color="#4D5B7B"
+              position={[0, 20, 120]}
+            />
+            <spotLight
+              castShadow
+              intensity={0.2}
+              color="#fff"
+              position={[0, 20, 120]}
+            />
+            <spotLight
+              castShadow
+              intensity={0.24}
+              color="#fff"
+              position={[0, 80, 200]}
+            />
 
-          <CityModel color={modelColor} />
+            <CityModel color={modelColor} />
 
-          <Particles
-            ref={particlesRef}
-            count={particlesCount}
-            mouse={mouse}
-            cursorLight={cursorLight}
-          />
-          <Plane backgroundColor={backgroundColor} />
-        </React.Suspense>
-      </Canvas>
+            <Particles
+              ref={particlesRef}
+              count={particlesCount}
+              mouse={mouse}
+              cursorLight={cursorLight}
+            />
+            <Plane backgroundColor={backgroundColor} />
+          </React.Suspense>
+        </Canvas>
+      )}
     </div>
   )
 }
