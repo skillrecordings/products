@@ -137,7 +137,7 @@ export async function formatPricesForProduct(
     }),
   }
 
-  if (appliedCoupon?.type === 'site') {
+  if (appliedCoupon?.type === 'special') {
     defaultPriceProduct = {
       ...defaultPriceProduct,
       calculatedPrice: getCalculatedPriced({
@@ -196,7 +196,7 @@ export async function formatPricesForProduct(
         noContextOptions,
       )
 
-    const {identifier, ...merchantCouponWithoutIdentifier} = appliedCoupon
+    const {id, ...merchantCouponWithoutIdentifier} = appliedCoupon
 
     return {
       ...defaultPriceProduct,
@@ -208,6 +208,31 @@ export async function formatPricesForProduct(
         }),
       }),
       appliedCoupon: merchantCouponWithoutIdentifier,
+      ...(upgradeFromPurchase && {
+        upgradeFromPurchaseId,
+      }),
+    }
+  } else if (
+    appliedCoupon &&
+    appliedCoupon.type === 'special' &&
+    pppAvailable
+  ) {
+    // no PPP for bulk
+    const pppCoupons = await couponForType('ppp', pppDiscountPercent, ctx)
+
+    const {id, ...merchantCouponWithoutIdentifier} = appliedCoupon
+
+    return {
+      ...defaultPriceProduct,
+      calculatedPrice: getCalculatedPriced({
+        unitPrice: defaultPriceProduct.unitPrice,
+        percentOfDiscount: appliedCoupon.percentageDiscount.toNumber(),
+        ...(upgradeFromPurchase && {
+          fixedDiscount: upgradeFromPurchase.totalAmount.toNumber(),
+        }),
+      }),
+      appliedCoupon: merchantCouponWithoutIdentifier,
+      availableCoupons: pppCoupons,
       ...(upgradeFromPurchase && {
         upgradeFromPurchaseId,
       }),

@@ -233,7 +233,7 @@ export function getSdk(
       span.finish()
       return merchantCoupons
     },
-    async getDefaultCouponId(productId?: string) {
+    async getDefaultCoupon(productId?: string) {
       const span = startSpan('getDefaultCouponId', spanContext)
       const activeSaleCoupon = await ctx.prisma.coupon.findFirst({
         where: {
@@ -244,18 +244,23 @@ export function getSdk(
         },
         select: {
           restrictedToProductId: true,
-          merchantCouponId: true,
+          merchantCoupon: {
+            select: {
+              id: true,
+              percentageDiscount: true,
+            },
+          },
         },
       })
 
       span.finish()
 
       if (activeSaleCoupon) {
-        const {restrictedToProductId, merchantCouponId} = activeSaleCoupon
+        const {restrictedToProductId, merchantCoupon} = activeSaleCoupon
         const validForProductId =
           restrictedToProductId && restrictedToProductId === productId
 
-        if (validForProductId) return merchantCouponId
+        if (validForProductId) return merchantCoupon
       }
     },
   }

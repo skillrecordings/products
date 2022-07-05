@@ -2,12 +2,12 @@ import * as React from 'react'
 import {FormattedPrice} from '../utils/format-prices-for-product'
 import {CheckCircleIcon} from '@heroicons/react/outline'
 import {useDebounce} from '@skillrecordings/react'
-import type {SanityProduct} from 'pages/buy'
 import {Purchase} from '@prisma/client'
 import {useQuery} from 'react-query'
 import Spinner from './spinner'
 import Image from 'next/image'
 import cx from 'classnames'
+import {SanityProduct} from '../utils/props-for-commerce'
 
 type PricingProps = {
   product: SanityProduct
@@ -15,6 +15,7 @@ type PricingProps = {
   purchases?: Purchase[]
   userId?: string
   index: number
+  couponId?: string
 }
 
 /**
@@ -32,13 +33,15 @@ export const Pricing: React.FC<PricingProps> = ({
   purchases = [],
   userId,
   index,
+  couponId,
 }) => {
   const [coupon, setCoupon] = React.useState()
   const [quantity, setQuantity] = React.useState(1)
   const debouncedQuantity: number = useDebounce<number>(quantity, 250)
   const {productId, name, image, modules, features, action} = product
+
   const {data: formattedPrice, status} = useQuery<FormattedPrice>(
-    ['pricing', coupon, debouncedQuantity, productId, userId],
+    ['pricing', coupon, debouncedQuantity, productId, userId, couponId],
     () =>
       fetch('/api/prices', {
         method: 'POST',
@@ -48,6 +51,7 @@ export const Pricing: React.FC<PricingProps> = ({
           quantity,
           purchases,
           userId,
+          siteCouponId: couponId,
         }),
         headers: {
           'Content-Type': 'application/json',
