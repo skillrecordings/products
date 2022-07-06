@@ -32,15 +32,15 @@ export const getServerSideProps: GetServerSideProps = async ({req, query}) => {
       },
     })
 
-    if (!purchase) {
+    if (purchase) {
+      purchaseId = purchase.id
+    } else {
       return {
         redirect: {
           destination: `/thanks/purchase?session_id=${session_id}`,
           permanent: false,
         },
       }
-    } else {
-      purchaseId = purchase.id
     }
   }
 
