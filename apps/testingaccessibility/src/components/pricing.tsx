@@ -37,7 +37,7 @@ export const Pricing: React.FC<PricingProps> = ({
   index,
   couponId,
 }) => {
-  const [coupon, setCoupon] = React.useState<any>()
+  const [coupon, setCoupon] = React.useState<{id: string; type: string}>()
   const [quantity, setQuantity] = React.useState(1)
   const debouncedQuantity: number = useDebounce<number>(quantity, 250)
   const {productId, name, image, modules, features, action} = product
