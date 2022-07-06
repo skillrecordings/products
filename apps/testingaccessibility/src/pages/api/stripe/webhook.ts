@@ -30,10 +30,13 @@ const stripeWebhookHandler = async (
 
         if (!user) throw new Error('no-user-created')
 
+        // TODO: Send different email for upgrades
+
         await sendServerEmail({
           email: user.email as string,
-          callbackUrl: `${process.env.NEXTAUTH_URL}/welcome?purchaseId=${purchase.id}`,
+          callbackUrl: `${process.env.NEXT_PUBLIC_URL}/welcome?purchaseId=${purchase.id}`,
           nextAuthOptions,
+          type: 'purchase',
         })
 
         res.status(200).send(`This works!`)
