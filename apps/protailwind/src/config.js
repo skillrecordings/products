@@ -2,10 +2,12 @@ export default {
   title: 'Pro Tailwind',
   description:
     'Increase development velocity and craft sustainable systems for your team',
-  author: 'Simon Vrachliotis',
-  favicon: '/favicon.ico',
-  email: 'team@protailwind.com',
-  siteUrl: 'protailwind.com',
+  additionalLinkTags: [
+    {
+      rel: 'icon',
+      href: 'https://www.protailwind.com/favicon.ico',
+    },
+  ],
   additionalMetaTags: [
     {property: 'author', content: 'Simon Vrachliotis'},
     {
