@@ -179,7 +179,7 @@ export default withSentry(async function stripeCheckoutHandler(
       }
 
       const successUrl = isUpgrade
-        ? `${process.env.NEXT_PUBLIC_URL}/welcome?session_id={CHECKOUT_SESSION_ID}?upgrade=true`
+        ? `${process.env.NEXT_PUBLIC_URL}/welcome?session_id={CHECKOUT_SESSION_ID}&upgrade=true`
         : `${process.env.NEXT_PUBLIC_URL}/thanks/purchase?session_id={CHECKOUT_SESSION_ID}`
 
       const session = await stripe.checkout.sessions.create({
