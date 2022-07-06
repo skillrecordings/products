@@ -53,6 +53,7 @@ export const getServerSideProps: GetServerSideProps = async ({req, query}) => {
             purchase: serialize(purchase),
             existingPurchase,
             availableUpgrades,
+            upgrade: upgrade === 'true',
           },
         }
       : {
