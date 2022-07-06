@@ -96,6 +96,7 @@
     "date-fns": "^2.28.0",
     "dompurify": "^2.3.6",
     "dotenv-flow": "^3.2.0",
+    "feed": "^4.2.2",
     "formik": "2.2.9",
     "framer-motion": "^6.4.1",
     "graphql-request": "^4.1.0",

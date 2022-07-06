@@ -33,6 +33,12 @@ export default class MyDocument extends Document {
             rel="stylesheet"
           />
           <link href="https://use.typekit.net/ple1qqc.css" rel="stylesheet" />
+          <link
+            rel="alternate"
+            type="application/rss+xml"
+            title="RSS Feed for testingaccessibility.com"
+            href="/rss.xml"
+          />
           <GoogleSnippet />
         </Head>
         <body className="text-black bg-white">
