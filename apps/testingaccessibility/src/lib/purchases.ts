@@ -34,12 +34,7 @@ export async function getPurchaseDetails(purchaseId: string, userId: string) {
   })
 
   if (!purchase) {
-    return {
-      redirect: {
-        destination: '/learn',
-        permanent: false,
-      },
-    }
+    return {}
   }
 
   const availableUpgrades = await prisma.upgradableProducts.findMany({

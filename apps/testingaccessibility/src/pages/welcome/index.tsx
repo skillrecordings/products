@@ -47,14 +47,20 @@ export const getServerSideProps: GetServerSideProps = async ({req, query}) => {
   if (token && isString(purchaseId) && isString(token?.sub)) {
     const {purchase, existingPurchase, availableUpgrades} =
       await getPurchaseDetails(purchaseId, token.sub)
-    return {
-      props: {
-        purchase: serialize(purchase),
-        existingPurchase,
-        availableUpgrades,
-        upgrade: upgrade === 'true',
-      },
-    }
+    return purchase
+      ? {
+          props: {
+            purchase: serialize(purchase),
+            existingPurchase,
+            availableUpgrades,
+          },
+        }
+      : {
+          redirect: {
+            destination: `/`,
+            permanent: false,
+          },
+        }
   }
 
   return {
