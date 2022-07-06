@@ -239,7 +239,12 @@ export async function formatPricesForProduct(
     }
   } else if (pppAvailable) {
     // no PPP for bulk
-    const pppCoupons = await couponForType('ppp', pppDiscountPercent, ctx)
+    const pppCoupons = await couponForType(
+      'ppp',
+      pppDiscountPercent,
+      ctx,
+      country,
+    )
 
     return {
       ...defaultPriceProduct,
@@ -276,6 +281,7 @@ async function couponForType(
   type: string,
   percentageDiscount: number,
   ctx: Context,
+  country?: string,
 ) {
   const {getMerchantCoupons} = getSdk({ctx})
   const merchantCoupons =
@@ -286,6 +292,6 @@ async function couponForType(
   return merchantCoupons.map((coupon: any) => {
     // for pricing we don't need the identifier so strip it here
     const {identifier, ...rest} = coupon
-    return rest
+    return {...rest, ...(country && {country})}
   })
 }

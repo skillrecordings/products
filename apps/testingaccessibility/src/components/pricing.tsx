@@ -1,13 +1,15 @@
 import * as React from 'react'
 import {FormattedPrice} from '../utils/format-prices-for-product'
+import {SanityProduct} from '../utils/props-for-commerce'
 import {CheckCircleIcon} from '@heroicons/react/outline'
+import {getCouponLabel} from 'utils/get-coupon-label'
 import {useDebounce} from '@skillrecordings/react'
 import {Purchase} from '@prisma/client'
 import {useQuery} from 'react-query'
 import Spinner from './spinner'
 import Image from 'next/image'
+import find from 'lodash/find'
 import cx from 'classnames'
-import {SanityProduct} from '../utils/props-for-commerce'
 
 type PricingProps = {
   product: SanityProduct
@@ -35,7 +37,7 @@ export const Pricing: React.FC<PricingProps> = ({
   index,
   couponId,
 }) => {
-  const [coupon, setCoupon] = React.useState()
+  const [coupon, setCoupon] = React.useState<{id: string; type: string}>()
   const [quantity, setQuantity] = React.useState(1)
   const debouncedQuantity: number = useDebounce<number>(quantity, 250)
   const {productId, name, image, modules, features, action} = product
@@ -47,7 +49,7 @@ export const Pricing: React.FC<PricingProps> = ({
         method: 'POST',
         body: JSON.stringify({
           productId,
-          coupon,
+          ...(coupon && {coupon: coupon.id}),
           quantity,
           purchases,
           userId,
@@ -61,11 +63,16 @@ export const Pricing: React.FC<PricingProps> = ({
 
   const availableCoupon = formattedPrice?.availableCoupons?.[0]
   const appliedCoupon = formattedPrice?.appliedCoupon
-  const percentOffLabel =
-    appliedCoupon &&
-    `${Math.floor(appliedCoupon.percentageDiscount * 100)}% off of $${
-      (formattedPrice?.unitPrice || 0) * (formattedPrice?.quantity || 0)
-    }`
+  const fullPrice =
+    (formattedPrice?.unitPrice || 0) * (formattedPrice?.quantity || 0)
+  const percentOff =
+    appliedCoupon && Math.floor(appliedCoupon.percentageDiscount * 100)
+  const percentOffLabel = appliedCoupon && `${percentOff}% off of $${fullPrice}`
+  const pppCoupon = find(
+    formattedPrice?.availableCoupons,
+    (coupon) => coupon.type === 'ppp',
+  )
+  const showPPPBox = (pppCoupon || coupon?.type === 'ppp') && !purchased
 
   return (
     <div className="relative flex flex-col items-center">
@@ -80,6 +87,7 @@ export const Pricing: React.FC<PricingProps> = ({
         />
       </div>
       <article className="bg-white rounded-md flex flex-col items-center justify-center">
+        {appliedCoupon && <Ribbon appliedCoupon={appliedCoupon} />}
         <div className={cx('pt-24 flex flex-col items-center')}>
           <span
             data-pricing-product-name-badge={index}
@@ -97,63 +105,48 @@ export const Pricing: React.FC<PricingProps> = ({
               <>
                 <sup
                   aria-hidden="true"
-                  className="text-lg -translate-y-4 pr-0.5 opacity-90"
+                  className="text-lg -translate-y-4 pr-0.5 opacity-80 font-extrabold"
                 >
                   US
                 </sup>
-                <div aria-live="polite">
+                <div aria-live="polite" className="flex">
                   {'$' + formattedPrice?.calculatedPrice}
                   {appliedCoupon && (
-                    <div className="sr-only">
-                      {appliedCoupon.type === 'bulk' ? (
-                        <div className="font-medium">Team discount.</div>
-                      ) : null}{' '}
-                      {percentOffLabel}
-                    </div>
+                    <>
+                      <div
+                        aria-hidden="true"
+                        className="flex flex-col items-start pl-2"
+                      >
+                        <div className="text-4xl font-semibold opacity-80 relative flex items-center justify-center before:content-[''] before:absolute before:w-full before:scale-110 before:h-[3px] before:bg-green-600 before:opacity-90 before:-rotate-12">
+                          {'$' + fullPrice}
+                        </div>
+                        <div className="text-white bg-green-600 rounded text-sm font-bold uppercase font-sans px-1 text-center tabular-nums">
+                          Save {percentOff}%
+                        </div>
+                      </div>
+                      <div className="sr-only">
+                        {appliedCoupon.type === 'bulk' ? (
+                          <div className="font-medium">Team discount.</div>
+                        ) : null}{' '}
+                        {percentOffLabel}
+                      </div>
+                    </>
                   )}
                 </div>
               </>
             )}
           </div>
           <div className="text-sm opacity-80 pt-2">yours forever</div>
-          {appliedCoupon ? (
-            <div className="text-center">
-              <div className="mt-4 text-2xl font-bold text-green-700">
-                {percentOffLabel}
-              </div>
-              {appliedCoupon.type === 'site' ? (
-                <div className="font-medium">There is a sale!</div>
-              ) : null}
-              {appliedCoupon.type === 'ppp' ? (
-                <div className="font-medium">For regional discount.</div>
-              ) : null}
-              {appliedCoupon.type === 'bulk' ? (
-                <div className="font-medium">Team discount.</div>
-              ) : null}
-            </div>
-          ) : null}
-          {availableCoupon ? (
-            <div
-              onClick={() => {
-                setCoupon(availableCoupon.id)
-              }}
-            >
-              {availableCoupon.type}
-            </div>
-          ) : null}
         </div>
         {purchased ? (
           <div className="w-full px-8">
-            <button
+            <div
               data-pricing-product-checkout-button={index}
-              className="flex text-center px-5 py-4 font-nav font-semibold items-center justify-center rounded-md w-full text-lg gap-1"
-              type="submit"
-              role="link"
-              disabled
+              className="flex text-center px-5 py-4 font-nav font-semibold items-center justify-center rounded-md w-full text-lg gap-1 my-8 shadow-inner bg-green-700 bg-noise text-white after:hidden"
             >
               <CheckCircleIcon aria-hidden="true" className="mt-0.5 w-6 h-6" />{' '}
               Purchased
-            </button>
+            </div>
           </div>
         ) : (
           <form
@@ -176,11 +169,14 @@ export const Pricing: React.FC<PricingProps> = ({
                   className="bg-gray-100 border border-gray-200 pl-3 py-2 rounded-md font-bold font-mono"
                   type="number"
                   min={1}
-                  max={102}
+                  max={100}
                   step={1}
                   onChange={(e) => {
+                    const quantity = Number(e.target.value)
                     setCoupon(undefined)
-                    setQuantity(Number(e.target.value))
+                    setQuantity(
+                      quantity < 1 ? 1 : quantity > 100 ? 100 : quantity,
+                    )
                   }}
                   value={quantity}
                   id={`${quantity}-${name}`}
@@ -190,8 +186,9 @@ export const Pricing: React.FC<PricingProps> = ({
             </div>
             <button
               data-pricing-product-checkout-button={index}
-              className="flex text-center px-5 py-4 pb-[1.1rem] font-nav font-semibold items-center justify-center rounded-md w-full text-lg transition"
+              className="flex text-center px-5 py-4 pb-[1.1rem] font-nav font-semibold items-center justify-center rounded-md w-full text-lg transition disabled:cursor-wait"
               type="submit"
+              disabled={status === 'loading' || status === 'error'}
             >
               <span className="relative z-10">
                 {formattedPrice?.upgradeFromPurchaseId
@@ -200,6 +197,14 @@ export const Pricing: React.FC<PricingProps> = ({
               </span>
             </button>
           </form>
+        )}
+        {showPPPBox && (
+          <RegionalPricingBox
+            pppCoupon={pppCoupon || coupon}
+            activeCoupon={coupon}
+            setActiveCoupon={setCoupon}
+            index={index}
+          />
         )}
         <div className="pt-10 w-full">
           <div className="relative flex items-center justify-center before:left-0 before:content-[''] before:w-full before:h-px before:bg-gray-100 before:absolute">
@@ -245,6 +250,82 @@ export const Pricing: React.FC<PricingProps> = ({
           )}
         </div>
       </article>
+    </div>
+  )
+}
+
+type RegionalPricingBoxProps = {
+  pppCoupon: {
+    country: string
+    percentageDiscount: number
+  }
+  activeCoupon: any
+  setActiveCoupon: (coupon: any) => void
+  index: number
+}
+
+const RegionalPricingBox: React.FC<RegionalPricingBoxProps> = ({
+  pppCoupon,
+  activeCoupon,
+  setActiveCoupon,
+  index,
+}) => {
+  const regionNames = new Intl.DisplayNames(['en'], {type: 'region'})
+  const countryCode = pppCoupon.country
+  const country = regionNames.of(countryCode)
+  const percentOff = Math.floor(pppCoupon.percentageDiscount * 100)
+
+  return (
+    <div data-pricing-product-ppp={index} className="rounded-md mt-5">
+      <div className="space-y-4">
+        <p className="font-medium">
+          We noticed that you're from {country}.{' '}
+          <img
+            className="inline-block"
+            src={`https://hardcore-golick-433858.netlify.app/image?code=${countryCode}`}
+            alt={`${country} flag`}
+          />{' '}
+          To help facilitate global learning, we are offering purchasing power
+          parity pricing.
+        </p>
+        <p className="">
+          Please note that you will only be able to view content from within{' '}
+          {country}, and no bonuses will be provided.
+        </p>
+        <p className="pb-5">If that is something that you need:</p>
+      </div>
+      <label className="tabular-nums accent-green-600 hover:accent-green-500 cursor-pointer flex gap-2 rounded-md bg-gray-100 shadow-inner hover:bg-gray-200 transition p-3 font-medium">
+        <input
+          type="checkbox"
+          checked={Boolean(activeCoupon)}
+          onChange={() => {
+            activeCoupon ? setActiveCoupon(null) : setActiveCoupon(pppCoupon)
+          }}
+        />
+        <span>Activate {percentOff}% off with regional pricing</span>
+      </label>
+    </div>
+  )
+}
+
+type RibbonProps = {
+  appliedCoupon: {
+    type: string
+  }
+}
+
+const Ribbon: React.FC<RibbonProps> = ({appliedCoupon}) => {
+  return (
+    <div className="absolute -top-3 -right-3 aspect-square w-32 overflow-hidden rounded">
+      <div className="absolute top-0 left-0 h-3 w-3 bg-amber-500"></div>
+      <div className="absolute bottom-0 right-0 h-3 w-3 bg-amber-500"></div>
+      <div className="absolute bottom-0 right-0 h-6 w-[141.42%] origin-bottom-right rotate-45 bg-amber-300">
+        {appliedCoupon && (
+          <div className="flex flex-col items-center py-1 text-xs font-bold uppercase">
+            {getCouponLabel(appliedCoupon.type)}
+          </div>
+        )}
+      </div>
     </div>
   )
 }

@@ -5,10 +5,10 @@
     @apply bg-moss-100 text-moss-700;
   }
   [data-pricing-product-name-badge='1'] {
-    @apply bg-yellow-300/20 text-yellow-600;
+    @apply bg-yellow-300/20 text-yellow-700;
   }
   [data-pricing-product-name-badge='2'] {
-    @apply bg-amber-600/20 text-amber-700;
+    @apply bg-amber-600/20 text-amber-800;
   }
 
   /* purchase button */
@@ -23,6 +23,27 @@
     @apply bg-moss-200/50 text-moss-800 hover:bg-moss-200/80;
   }
   [data-pricing-product-checkout-button]:disabled {
-    @apply bg-transparent my-8 shadow-inner bg-green-700 bg-noise text-white after:hidden;
+    @apply cursor-wait;
+  }
+
+  /* PPP box */
+  [data-pricing-product-ppp='0'] {
+    p {
+      @apply sr-only;
+    }
+    label {
+      @apply text-sm;
+    }
+  }
+  [data-pricing-product-ppp='1'] {
+    @apply max-w-sm p-5 border border-gray-200;
+  }
+  [data-pricing-product-ppp='2'] {
+    label {
+      @apply text-sm;
+    }
+    p {
+      @apply sr-only;
+    }
   }
 }
