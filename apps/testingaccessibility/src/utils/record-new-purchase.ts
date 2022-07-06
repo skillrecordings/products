@@ -24,7 +24,7 @@ export class PurchaseError extends Error {
   }
 }
 
-async function stripeData(checkoutSessionId: string) {
+export async function stripeData(checkoutSessionId: string) {
   const checkoutSession = await stripe.checkout.sessions.retrieve(
     checkoutSessionId,
     {

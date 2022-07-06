@@ -121,12 +121,9 @@ export default withSentry(async function stripeCheckoutHandler(
 
       let discounts = []
 
-      if (
-        availableUpgrade &&
-        upgradeFromPurchase &&
-        loadedProduct &&
-        customerId
-      ) {
+      const isUpgrade = Boolean(availableUpgrade && upgradeFromPurchase)
+
+      if (isUpgrade && upgradeFromPurchase && loadedProduct && customerId) {
         const fullPrice = loadedProduct.prices?.[0].unitAmount.toNumber()
         const calculatedPrice = getCalculatedPriced({
           unitPrice: fullPrice,
@@ -181,6 +178,10 @@ export default withSentry(async function stripeCheckoutHandler(
         )
       }
 
+      const successUrl = isUpgrade
+        ? `${process.env.NEXT_PUBLIC_URL}/welcome?session_id={CHECKOUT_SESSION_ID}?upgrade=true`
+        : `${process.env.NEXT_PUBLIC_URL}/thanks/purchase?session_id={CHECKOUT_SESSION_ID}`
+
       const session = await stripe.checkout.sessions.create({
         discounts,
         line_items: [
@@ -191,7 +192,7 @@ export default withSentry(async function stripeCheckoutHandler(
         ],
         payment_method_types: ['card'],
         mode: 'payment',
-        success_url: `${req.headers.origin}/thanks/purchase?session_id={CHECKOUT_SESSION_ID}`,
+        success_url: successUrl,
         cancel_url: `${req.headers.origin}/buy`,
         ...(customerId && {customer: customerId}),
         metadata: {

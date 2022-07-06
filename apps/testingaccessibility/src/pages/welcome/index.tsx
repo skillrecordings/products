@@ -9,43 +9,25 @@ import Layout from 'components/app/layout'
 import Image from 'next/image'
 import prisma from '../../db'
 import Link from 'next/link'
+import {stripeData} from '../../utils/record-new-purchase'
+import {getPurchaseDetails} from '../../lib/purchases'
+import {isString} from 'lodash'
 
 export const getServerSideProps: GetServerSideProps = async ({req, query}) => {
-  const {purchaseId} = query
+  const {purchaseId: purchaseQueryParam, session_id, upgrade} = query
   const token = await getToken({
     req,
     secret: process.env.NEXTAUTH_SECRET,
   })
 
-  if (purchaseId) {
-    const allPurchases = await prisma.purchase.findMany({
-      where: {
-        userId: token?.sub,
-      },
-      select: {
-        id: true,
-        productId: true,
-      },
-    })
+  let purchaseId = purchaseQueryParam
+
+  if (session_id) {
+    const {stripeChargeId} = await stripeData(session_id as string)
     const purchase = await prisma.purchase.findFirst({
       where: {
-        id: purchaseId as string,
-        userId: token?.sub,
-      },
-      select: {
-        merchantChargeId: true,
-        bulkCoupon: {
-          select: {
-            id: true,
-            maxUses: true,
-            usedCount: true,
-          },
-        },
-        product: {
-          select: {
-            id: true,
-            name: true,
-          },
+        merchantCharge: {
+          identifier: stripeChargeId,
         },
       },
     })
@@ -53,67 +35,33 @@ export const getServerSideProps: GetServerSideProps = async ({req, query}) => {
     if (!purchase) {
       return {
         redirect: {
-          destination: '/learn',
+          destination: `/thanks/purchase?session_id=${session_id}`,
           permanent: false,
         },
       }
+    } else {
+      purchaseId = purchase.id
     }
+  }
 
-    const availableUpgrades = await prisma.upgradableProducts.findMany({
-      where: {
-        AND: [
-          {
-            upgradableFromId: purchase?.product?.id,
-          },
-          {
-            NOT: {
-              upgradableToId: {
-                in: allPurchases.map(({productId}) => productId),
-              },
-            },
-          },
-        ],
-      },
-      select: {
-        upgradableTo: {
-          select: {
-            id: true,
-            name: true,
-          },
-        },
-      },
-    })
-
-    const existingPurchase = await prisma.purchase.findFirst({
-      where: {
-        userId: token?.sub,
-        productId: purchase?.product?.id,
-        id: {
-          not: purchaseId as string,
-        },
-        bulkCoupon: null,
-      },
-      select: {
-        id: true,
-        product: {
-          select: {
-            id: true,
-            name: true,
-          },
-        },
-      },
-    })
-
+  if (token && isString(purchaseId) && isString(token?.sub)) {
+    const {purchase, existingPurchase, availableUpgrades} =
+      await getPurchaseDetails(purchaseId, token.sub)
     return {
       props: {
         purchase: serialize(purchase),
         existingPurchase,
         availableUpgrades,
+        upgrade: upgrade === 'true',
       },
     }
   }
+
   return {
-    props: {},
+    redirect: {
+      destination: `/`,
+      permanent: false,
+    },
   }
 }
 
@@ -129,7 +77,8 @@ const Welcome: React.FC<{
   }
   token: any
   availableUpgrades: {upgradableTo: {id: string; name: string}}[]
-}> = ({purchase, token, existingPurchase, availableUpgrades}) => {
+  upgrade: boolean
+}> = ({upgrade, purchase, token, existingPurchase, availableUpgrades}) => {
   const {data: session, status} = useSession()
   const [personalPurchase, setPersonalPurchase] = React.useState(
     purchase.bulkCoupon ? existingPurchase : purchase,
@@ -147,7 +96,7 @@ const Welcome: React.FC<{
     >
       <main className="flex flex-col flex-grow items-center justify-center sm:py-16 py-8 mx-auto w-full px-5">
         <div className=" max-w-lg w-full gap-3 flex flex-col">
-          <Header />
+          <Header upgrade={upgrade} />
           {purchase.merchantChargeId && <Invoice purchase={purchase} />}
           {redemptionsLeft && (
             <Invite>
@@ -159,15 +108,15 @@ const Welcome: React.FC<{
               />
             </Invite>
           )}
-          <Share />
           {personalPurchase && <GetStarted />}
+          <Share />
         </div>
       </main>
     </Layout>
   )
 }
 
-const Header: React.FC = () => {
+const Header: React.FC<{upgrade: boolean}> = ({upgrade}) => {
   return (
     <header className="text-white text-center pb-8 flex flex-col items-center">
       <Image
@@ -177,7 +126,8 @@ const Header: React.FC = () => {
         alt="a shining lighthouse"
       />
       <h1 className="font-bold lg:text-5xl sm:text-4xl text-3xl font-heading">
-        Welcome to Testing Accessibility
+        {upgrade ? `You've Upgraded ` : `Welcome to `}
+        {process.env.NEXT_PUBLIC_SITE_TITLE}
       </h1>
       {/* <h2 className="pt-4 lg:text-2xl sm:text-xl text-lg font-medium max-w-sm font-heading text-orange-200">
       Thanks so much for purchasing{' '}

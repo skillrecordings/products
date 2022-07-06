@@ -1,5 +1,5 @@
 import NextAuth, {NextAuthOptions} from 'next-auth'
-import EmailProvider from 'next-auth/providers/email'
+import EmailProvider, {EmailConfig} from 'next-auth/providers/email'
 import jwt from 'jsonwebtoken'
 import {JWT} from 'next-auth/jwt'
 import {PrismaAdapter} from '@next-auth/prisma-adapter'
@@ -9,6 +9,53 @@ import {withSentry} from '@sentry/nextjs'
 import {getSdk} from '../../../lib/prisma-api'
 import {defineRulesForPurchases} from '../../../server/ability'
 import mjml2html from 'mjml'
+
+export type MagicLinkEmailType =
+  | 'login'
+  | 'signup'
+  | 'reset'
+  | 'purchase'
+  | 'upgrade'
+
+export const sendVerificationRequest = async (params: {
+  identifier: string
+  url: string
+  expires: Date
+  provider: EmailConfig
+  token: string
+  type?: MagicLinkEmailType
+}) => {
+  const {
+    identifier: email,
+    url,
+    provider: {server, from},
+  } = params
+  const {host} = new URL(url)
+  const transport = createTransport(server)
+  const {getUserByEmail} = getSdk()
+
+  let subject
+
+  switch (params.type) {
+    case 'purchase':
+      subject = `Thank you for Purchasing Testing Accessibility (${host})`
+      break
+    default:
+      subject = `Log in to Testing Accessibility (${host})`
+  }
+
+  const user = await getUserByEmail(email)
+
+  if (!user) return
+
+  await transport.sendMail({
+    to: email,
+    from,
+    subject,
+    text: text({url, host}),
+    html: html({url, host, email}),
+  })
+}
 
 export const nextAuthOptions: NextAuthOptions = {
   secret: process.env.NEXTAUTH_SECRET,
@@ -30,27 +77,7 @@ export const nextAuthOptions: NextAuthOptions = {
         },
       },
       from: process.env.NEXT_PUBLIC_SUPPORT_EMAIL,
-      sendVerificationRequest: async ({
-        identifier: email,
-        url,
-        provider: {server, from},
-      }) => {
-        const {getUserByEmail} = getSdk()
-
-        const user = await getUserByEmail(email)
-
-        if (!user) return
-
-        const {host} = new URL(url)
-        const transport = createTransport(server)
-        await transport.sendMail({
-          to: email,
-          from,
-          subject: `Sign in to ${host}`,
-          text: text({url, host}),
-          html: html({url, host, email}),
-        })
-      },
+      sendVerificationRequest,
     }),
   ],
   callbacks: {

@@ -6,16 +6,18 @@ import Layout from 'components/app/layout'
 import Image from 'next/image'
 import NewMailImage from '../../../public/assets/new-mail@2x.png'
 import {MailIcon} from '@heroicons/react/outline'
+import {getCheckoutSession} from '../../lib/stripe'
 
 export const getServerSideProps: GetServerSideProps = async ({req, query}) => {
   const {session_id} = query
 
-  const checkoutSession = await stripe.checkout.sessions.retrieve(
-    session_id as string,
-    {
-      expand: ['customer'],
-    },
-  )
+  if (!session_id) {
+    return {
+      notFound: true,
+    }
+  }
+
+  const checkoutSession = await getCheckoutSession(session_id as string)
 
   const {customer} = checkoutSession
   const {email, name} = customer as Stripe.Customer
