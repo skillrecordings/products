@@ -5,7 +5,7 @@ import 'focus-visible'
 import {ConvertkitProvider} from '@skillrecordings/convertkit'
 import {usePageview} from '@skillrecordings/analytics'
 import {DefaultSeo} from 'next-seo'
-import config from 'config'
+import config from '../config'
 
 function MyApp({Component, pageProps}: AppProps) {
   usePageview()
