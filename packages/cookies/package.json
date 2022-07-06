@@ -19,13 +19,24 @@
     "preset": "@skillrecordings/scripts/jest/node",
     "testEnvironment": "jsdom"
   },
-  "dependencies": {},
+  "dependencies": {
+    "js-cookie": "^3.0.1"
+  },
   "devDependencies": {
     "@skillrecordings/scripts": "workspace:*",
     "@skillrecordings/tsconfig": "workspace:*",
     "@skillrecordings/types": "workspace:*",
+    "@types/cookie": "^0.4.1",
+    "@types/jest": "^27.5.2",
+    "@types/js-cookie": "^3.0.2",
+    "@types/lodash": "^4.14.179",
+    "@types/node": "^17.0.0",
+    "@types/nodemailer": "^6.4.4",
+    "@types/react": "^17.0.42",
+    "@types/react-dom": "^17.0.17",
     "eslint": "^8.19.0",
-    "eslint-config-custom": "workspace:*"
+    "eslint-config-custom": "workspace:*",
+    "typescript": "^4.7.4"
   },
   "publishConfig": {
     "access": "public"
