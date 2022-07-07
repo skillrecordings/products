@@ -187,16 +187,17 @@ module.exports = {
               fontWeight: '600',
             },
             h3: {
-              fontSize: em(24, 18),
+              fontSize: em(28, 18),
               marginTop: em(48, 24),
               marginBottom: em(16, 24),
               lineHeight: round(32 / 24),
               fontWeight: '600',
             },
             h4: {
+              fontSize: em(22, 18),
               marginTop: em(20, 18),
               marginBottom: em(8, 18),
-              lineHeight: round(28 / 18),
+              lineHeight: round(22 / 18),
             },
             figure: {
               marginTop: em(24, 16),
@@ -204,6 +205,40 @@ module.exports = {
             '.video': {
               marginTop: em(48, 16),
               marginBottom: em(48, 16),
+            },
+          },
+        },
+        xl: {
+          css: {
+            fontSize: rem(20),
+            lineHeight: round(36 / 20),
+            p: {
+              marginTop: em(24, 20),
+              marginBottom: em(24, 20),
+            },
+            h1: {
+              fontSize: em(56, 20),
+              marginTop: '0',
+              marginBottom: em(48, 56),
+              lineHeight: round(56 / 56),
+            },
+            h2: {
+              fontSize: em(40, 20),
+              marginTop: em(56, 36),
+              marginBottom: em(32, 36),
+              lineHeight: round(40 / 36),
+            },
+            h3: {
+              fontSize: em(36, 20),
+              marginTop: em(48, 30),
+              marginBottom: em(20, 30),
+              lineHeight: round(40 / 30),
+            },
+            h4: {
+              fontSize: em(30, 20),
+              marginTop: em(36, 20),
+              marginBottom: em(12, 20),
+              lineHeight: round(24 / 20),
             },
           },
         },
