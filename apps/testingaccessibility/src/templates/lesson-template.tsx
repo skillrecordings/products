@@ -163,7 +163,7 @@ export const ProgressToggle: React.FC<ProgressToggleProps> = ({
   }
 
   return (
-    <div className="flex flex-col items-center justify-center rounded-lg relative z-50">
+    <div className="flex flex-col items-center justify-center rounded-lg relative z-20">
       <div className="text-center pb-5">
         <p className="text-2xl font-bold font-heading">Finished this lesson?</p>
         <p className="text-sand-100">
