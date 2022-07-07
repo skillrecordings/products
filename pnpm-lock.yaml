@@ -2254,14 +2254,17 @@ importers:
 
   apps/typescriptcourse:
     specifiers:
+      '@heroicons/react': ^1.0.6
       '@mdx-js/loader': ^1.6.22
       '@mdx-js/mdx': ^2.0.0
       '@mdx-js/react': ^1.6.22
       '@next/env': ^12.2.0
       '@next/mdx': ^12.1.0
+      '@portabletext/react': ^1.0.6
       '@reach/dialog': ^0.16.2
       '@react-three/drei': ^7.20.2
       '@react-three/fiber': ^7.0.27
+      '@sanity/client': ^3.3.2
       '@skillrecordings/analytics': workspace:*
       '@skillrecordings/auth': workspace:*
       '@skillrecordings/axios': workspace:*
@@ -2314,6 +2317,7 @@ importers:
       formik: 2.2.9
       framer-motion: ^6.4.1
       framer-motion-3d: ^6.4.1
+      groq: ^2.15.0
       hls.js: 1.1.5
       isomorphic-fetch: ^3.0.0
       load-egghead-notes-mdx-url: ^0.1.1
@@ -2338,6 +2342,7 @@ importers:
       react-dom: 17.0.2
       react-hot-toast: ^2.2.0
       react-markdown: ^7.1.0
+      react-refractor: ^2.1.7
       react-rough-notation: ^1.0.2
       react-scroll: ^1.8.6
       react-stripe-checkout: ^2.6.3
@@ -2360,12 +2365,15 @@ importers:
       xstate: '=4.23.1'
       yup: ^0.32.11
     dependencies:
+      '@heroicons/react': 1.0.6_react@17.0.2
       '@mdx-js/mdx': 2.0.0
       '@mdx-js/react': 1.6.22_react@17.0.2
       '@next/mdx': 12.1.5_6vwedlnwdegenaf6jioaeirvlu
+      '@portabletext/react': 1.0.6_react@17.0.2
       '@reach/dialog': 0.16.2_k2mvpji5i2ojml6m4ftklg47pa
       '@react-three/drei': 7.20.2_xtnhzy36qq7tbht7fvmyjzsvcy
       '@react-three/fiber': 7.0.29_sb5g6l453mk54n2prv33gp6u6q
+      '@sanity/client': 3.3.2
       '@skillrecordings/analytics': link:../../packages/analytics
       '@skillrecordings/auth': link:../../packages/auth
       '@skillrecordings/axios': link:../../packages/axios
@@ -2394,6 +2402,7 @@ importers:
       formik: 2.2.9_react@17.0.2
       framer-motion: 6.4.1_sfoxds7t5ydpegc3knd667wn6m
       framer-motion-3d: 6.4.1_xtnhzy36qq7tbht7fvmyjzsvcy
+      groq: 2.15.0
       hls.js: 1.1.5
       isomorphic-fetch: 3.0.0
       load-egghead-notes-mdx-url: 0.1.1
@@ -2412,6 +2421,7 @@ importers:
       react-dom: 17.0.2_react@17.0.2
       react-hot-toast: 2.2.0_ha54m6pwxcz4gcusjmwevbhi24
       react-markdown: 7.1.0_hx2b44akkvgcgvvtmk7ds2qk6q
+      react-refractor: 2.1.7_react@17.0.2
       react-rough-notation: 1.0.2_sfoxds7t5ydpegc3knd667wn6m
       react-scroll: 1.8.7_sfoxds7t5ydpegc3knd667wn6m
       react-stripe-checkout: 2.6.3
@@ -12160,7 +12170,6 @@ packages:
       readdirp: 3.6.0
     optionalDependencies:
       fsevents: 2.3.2
-    dev: true
 
   /chokidar/3.5.3:
     resolution: {integrity: sha512-Dr3sfKRP6oTcjf2JmUmFJfeVMvXBdegxB0iVQ5eb2V10uFJUCAS8OByZdVAyVb8xXNz3GjjTgj9kLWsZTqE6kw==}
@@ -20298,7 +20307,7 @@ packages:
       react: '>=16.0.0'
       react-dom: '>=16.0.0'
     dependencies:
-      next: 12.1.6_sfoxds7t5ydpegc3knd667wn6m
+      next: 12.1.6_bra7dgvoeiis5hyys3uir3dssy
       react: 17.0.2
       react-dom: 17.0.2_react@17.0.2
     dev: false
@@ -20434,7 +20443,6 @@ packages:
     transitivePeerDependencies:
       - '@babel/core'
       - babel-plugin-macros
-    dev: true
 
   /next/12.1.6_sfoxds7t5ydpegc3knd667wn6m:
     resolution: {integrity: sha512-cebwKxL3/DhNKfg9tPZDQmbRKjueqykHHbgaoG4VBRH3AHQJ2HO0dbKFiS1hPhe1/qgc2d/hFeadsbPicmLD+A==}
@@ -24139,7 +24147,6 @@ packages:
     hasBin: true
     dependencies:
       chokidar: 3.5.2
-    dev: true
 
   /sax/1.2.4:
     resolution: {integrity: sha512-NqVDv9TpANUjFm0N8uM5GxL36UgKi9/atZw+x7YFnQ8ckwFGKrl4xX4yWtrey3UJm5nP1kUbnYgLopqWNSRhWw==}
