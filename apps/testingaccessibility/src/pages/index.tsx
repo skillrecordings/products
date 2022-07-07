@@ -8,6 +8,7 @@ import {CommerceProps, propsForCommerce} from '../utils/props-for-commerce'
 import {PrimaryNewsletterCta} from '../components/primary-newsletter-cta'
 import {isSellingLive} from '../utils/is-selling-live'
 import {PricingTiers} from '../components/product-tiers'
+import {useCoupon} from 'hooks/use-coupon'
 
 export const getServerSideProps: GetServerSideProps = async ({req, query}) => {
   return await propsForCommerce({req, query})
@@ -20,6 +21,7 @@ const Home: React.FC<CommerceProps> = ({
   products,
   couponIdFromCoupon,
 }) => {
+  const {redeemableCoupon, RedeemDialogForCoupon} = useCoupon(couponFromCode)
   return (
     <Layout className="bg-white">
       <div>
@@ -95,7 +97,10 @@ const Home: React.FC<CommerceProps> = ({
                 </div>
               </div>
             ) : (
-              <PrimaryNewsletterCta />
+              <>
+                {redeemableCoupon ? <RedeemDialogForCoupon /> : null}
+                <PrimaryNewsletterCta />
+              </>
             )}
           </main>
         </div>
