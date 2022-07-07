@@ -48,7 +48,7 @@ const Section: React.FC<SectionProps> = ({children, image, className}) => {
           />
         </div>
       )}
-      <div className="px-5">{children}</div>
+      <div>{children}</div>
     </section>
   )
 }
@@ -79,13 +79,13 @@ const Testimonial: React.FC<TestimonialProps> = ({
       <blockquote
         className={cx(
           className,
-          `p-8 rounded-md relative font-heading text-xl leading-relaxed font-medium max-w-screen-md mx-auto`,
+          `sm:p-8 p-6 sm:rounded-md relative font-heading text-xl leading-relaxed font-medium max-w-screen-md mx-auto`,
         )}
       >
         <span
           aria-hidden="true"
           className={cx(
-            'absolute w-10 h-10 -left-5 -top-2 rounded-full flex items-center justify-center text-white',
+            'absolute w-10 h-10 sm:-left-5 sm:-top-2 left-2 -top-6 rounded-full flex items-center justify-center text-white',
             iconClassName,
           )}
         >
@@ -138,10 +138,10 @@ type ListProps = {
 const ListOfQuestions: React.FC<ListProps> = ({children}) => {
   const childrenArr = React.Children.toArray(children)
   return (
-    <ul className="relative list-none">
+    <ul className="relative list-none sm:px-7 px-4">
       {childrenArr.map((item, i) => {
         return (
-          <li key={i}>
+          <li key={i} className="sm:static relative">
             <span aria-hidden="true" className="absolute left-0 mt-3">
               <Image
                 src={require('../../../public/assets/icons/questionmark.png')}
@@ -167,7 +167,7 @@ type PlansGridProps = {
 
 const PlansGrid: React.FC<PlansGridProps> = ({columns}) => {
   return (
-    <div className="not-prose py-10">
+    <div className="not-prose py-10 sm:px-0 px-5">
       <ul className="grid md:grid-cols-2 grid-cols-1 gap-16 w-full max-w-screen-md mx-auto">
         {columns.map(({title, children}, i) => {
           return (
@@ -205,7 +205,7 @@ type StepsProps = {
 
 const Steps: React.FC<StepsProps> = ({data}) => {
   return (
-    <div className="not-prose max-w-screen-sm mx-auto">
+    <div className="not-prose max-w-screen-sm mx-auto px-5">
       <ul className="space-y-12">
         {data.map(({title, children}, i) => {
           return (
@@ -243,10 +243,10 @@ type WorkshopsListProps = {}
 const WorkshopsList: React.FC<WorkshopsListProps> = () => {
   return (
     <div className="not-prose pt-10">
-      <ul className="text-lg max-w-screen-lg w-full mx-auto space-y-24">
+      <ul className="text-lg max-w-screen-lg w-full mx-auto space-y-24 px-5">
         {workshops.map(({title, description, topics, image}) => {
           return (
-            <li className="flex">
+            <li className="flex md:flex-row flex-col">
               <div className="flex items-start justify-center flex-shrink-0 -mt-10">
                 <Image
                   src={image.url}
