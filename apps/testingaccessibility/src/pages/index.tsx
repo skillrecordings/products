@@ -1,12 +1,7 @@
 import * as React from 'react'
 import Image from 'next/image'
 import LandingCopy from 'components/content/landing-copy.mdx'
-import {
-  SubscribeToConvertkitForm,
-  redirectUrlBuilder,
-} from '@skillrecordings/convertkit'
 import Layout from 'components/app/layout'
-import {useRouter} from 'next/router'
 import {GetServerSideProps} from 'next'
 import {useCoupon} from '../hooks/use-coupon'
 import {CommerceProps, propsForCommerce} from '../utils/props-for-commerce'
@@ -25,6 +20,7 @@ const Home: React.FC<CommerceProps> = ({
   products,
   couponIdFromCoupon,
 }) => {
+  const {redeemableCoupon, RedeemDialogForCoupon} = useCoupon(couponFromCode)
   return (
     <Layout className="bg-white">
       <div>
@@ -88,7 +84,10 @@ const Home: React.FC<CommerceProps> = ({
                 </div>
               </div>
             ) : (
-              <PrimaryNewsletterCta />
+              <>
+                {redeemableCoupon ? <RedeemDialogForCoupon /> : null}
+                <PrimaryNewsletterCta />
+              </>
             )}
           </main>
         </div>
