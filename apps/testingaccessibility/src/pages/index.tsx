@@ -10,8 +10,10 @@ import {isSellingLive} from '../utils/is-selling-live'
 import {PricingTiers} from '../components/product-tiers'
 import {useCoupon} from 'hooks/use-coupon'
 import FAQ from 'components/content/faq-section'
+import {postSaleToSlack} from '../server/post-sale-to-slack'
 
 export const getServerSideProps: GetServerSideProps = async ({req, query}) => {
+  await postSaleToSlack()
   return await propsForCommerce({req, query})
 }
 
