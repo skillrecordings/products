@@ -50,7 +50,7 @@ const redeemHandler = async (req: NextApiRequest, res: NextApiResponse) => {
       const couponValidation = validateCoupon(coupon)
 
       if (coupon && couponValidation.isValid) {
-        const {user, isNewUser} = await findOrCreateUser(email)
+        const {user} = await findOrCreateUser(email)
 
         if (!user)
           throw new CouponRedemptionError(
@@ -58,8 +58,6 @@ const redeemHandler = async (req: NextApiRequest, res: NextApiResponse) => {
             couponId as string,
             email,
           )
-
-        console.log({coupon})
 
         const productId =
           (coupon.restrictedToProductId as string) ||

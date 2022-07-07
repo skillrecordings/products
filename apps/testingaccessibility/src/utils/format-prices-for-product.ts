@@ -137,7 +137,7 @@ export async function formatPricesForProduct(
     }),
   }
 
-  if (appliedCoupon?.type === 'site') {
+  if (appliedCoupon?.type === 'special') {
     defaultPriceProduct = {
       ...defaultPriceProduct,
       calculatedPrice: getCalculatedPriced({
@@ -196,7 +196,7 @@ export async function formatPricesForProduct(
         noContextOptions,
       )
 
-    const {identifier, ...merchantCouponWithoutIdentifier} = appliedCoupon
+    const {id, ...merchantCouponWithoutIdentifier} = appliedCoupon
 
     return {
       ...defaultPriceProduct,
@@ -212,9 +212,39 @@ export async function formatPricesForProduct(
         upgradeFromPurchaseId,
       }),
     }
-  } else if (pppAvailable) {
+  } else if (
+    appliedCoupon &&
+    appliedCoupon.type === 'special' &&
+    pppAvailable
+  ) {
     // no PPP for bulk
     const pppCoupons = await couponForType('ppp', pppDiscountPercent, ctx)
+
+    const {id, ...merchantCouponWithoutIdentifier} = appliedCoupon
+
+    return {
+      ...defaultPriceProduct,
+      calculatedPrice: getCalculatedPriced({
+        unitPrice: defaultPriceProduct.unitPrice,
+        percentOfDiscount: appliedCoupon.percentageDiscount.toNumber(),
+        ...(upgradeFromPurchase && {
+          fixedDiscount: upgradeFromPurchase.totalAmount.toNumber(),
+        }),
+      }),
+      appliedCoupon: merchantCouponWithoutIdentifier,
+      availableCoupons: pppCoupons,
+      ...(upgradeFromPurchase && {
+        upgradeFromPurchaseId,
+      }),
+    }
+  } else if (pppAvailable) {
+    // no PPP for bulk
+    const pppCoupons = await couponForType(
+      'ppp',
+      pppDiscountPercent,
+      ctx,
+      country,
+    )
 
     return {
       ...defaultPriceProduct,
@@ -251,6 +281,7 @@ async function couponForType(
   type: string,
   percentageDiscount: number,
   ctx: Context,
+  country?: string,
 ) {
   const {getMerchantCoupons} = getSdk({ctx})
   const merchantCoupons =
@@ -261,6 +292,6 @@ async function couponForType(
   return merchantCoupons.map((coupon: any) => {
     // for pricing we don't need the identifier so strip it here
     const {identifier, ...rest} = coupon
-    return rest
+    return {...rest, ...(country && {country})}
   })
 }

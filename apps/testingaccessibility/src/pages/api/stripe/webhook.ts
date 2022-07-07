@@ -8,6 +8,9 @@ import {withSentry} from '@sentry/nextjs'
 import * as Sentry from '@sentry/nextjs'
 import {setupHttpTracing} from '@vercel/tracing-js'
 import {tracer} from '../../../utils/honeycomb-tracer'
+import {convertkitAxios} from '@skillrecordings/axios'
+import {tagPurchaseConvertkit} from '../../../server/tag-purchase-convertkit'
+import {postSaleToSlack} from '../../../server/post-sale-to-slack'
 
 const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET
 
@@ -26,15 +29,26 @@ const stripeWebhookHandler = async (
       event = stripe.webhooks.constructEvent(buf, sig as string, webhookSecret)
 
       if (event.type === 'checkout.session.completed') {
-        const {user, purchase} = await recordNewPurchase(event.data.object.id)
+        const {user, purchase, purchaseInfo} = await recordNewPurchase(
+          event.data.object.id,
+        )
 
         if (!user) throw new Error('no-user-created')
 
+        const email = user.email as string
+
+        // TODO: Send different email type for upgrades
+
         await sendServerEmail({
-          email: user.email as string,
-          callbackUrl: `${process.env.NEXTAUTH_URL}/welcome?purchaseId=${purchase.id}`,
+          email,
+          callbackUrl: `${process.env.NEXT_PUBLIC_URL}/welcome?purchaseId=${purchase.id}`,
           nextAuthOptions,
+          type: 'purchase',
         })
+
+        await tagPurchaseConvertkit(email)
+
+        await postSaleToSlack(purchaseInfo, purchase)
 
         res.status(200).send(`This works!`)
       } else {

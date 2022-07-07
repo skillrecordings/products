@@ -1,11 +1,11 @@
 import * as React from 'react'
-import { format, parseISO } from 'date-fns'
+import {format, parseISO} from 'date-fns'
 import get from 'lodash/get'
 import isEmpty from 'lodash/isEmpty'
 import useClipboard from 'react-use-clipboard'
 import Tippy from '@tippyjs/react'
 
-const InviteTeam = ({ teamPurchase }: any) => {
+const InviteTeam = ({teamPurchase}: any) => {
   const [isCopied, setIsCopied] = React.useState(false)
   const [state, copyToClipboard] = useClipboard(teamPurchase?.bulk_coupon_url)
 
@@ -16,7 +16,8 @@ const InviteTeam = ({ teamPurchase }: any) => {
   return (
     <>
       <p className="mt-0 text-sm">
-        Purchased on {format(parseISO(get(teamPurchase, 'created_at')), 'yyyy/MM/dd')}.
+        Purchased on{' '}
+        {format(parseISO(get(teamPurchase, 'created_at')), 'yyyy/MM/dd')}.
       </p>
       <p className="mb-4 mt-4">
         Your team has {teamPurchase.licenses_left} licenses left to claim.{' '}
@@ -29,7 +30,8 @@ const InviteTeam = ({ teamPurchase }: any) => {
           href={teamPurchase.bulk_coupon_url}
           target="_blank"
           aria-label={teamPurchase.bulk_coupon_url}
-          className="font-mono overflow-hidden text-xxs rounded-l-lg bg-transparent hover:bg-gray-100 hover:bg-opacity-25 dark:hover:bg-opacity-10 border border-gray-200 dark:border-gray-700 text-text flex items-center justify-start p-3 transition-all ease-in-out duration-200 leading-none w-full" rel="noreferrer"
+          className="font-mono overflow-hidden text-xxs rounded-l-lg bg-transparent hover:bg-gray-100 hover:bg-opacity-25 dark:hover:bg-opacity-10 border border-gray-200 dark:border-gray-700 text-text flex items-center justify-start p-3 transition-all ease-in-out duration-200 leading-none w-full"
+          rel="noreferrer"
         >
           <span className="whitespace-no-wrap flex items-center text-sm">
             {teamPurchase.bulk_coupon_url}
@@ -69,17 +71,22 @@ const InviteTeam = ({ teamPurchase }: any) => {
   )
 }
 
-const TeamInvites = ({ teamPurchases }: any) => {
+const TeamInvites = ({teamPurchases}: any) => {
   return (
     <>
       {!isEmpty(teamPurchases) && (
-        <div className="mb-5 p-5 bg-gray-50 dark:bg-coolGray-900 rounded-md print:hidden">
-          <h1 className="text-2xl leading-tight sm:mb-0 px-2 font-bold">Invite your team</h1>
+        <div className="mb-5 p-5 bg-gray-50 dark:bg-gray-900 rounded-md print:hidden">
+          <h1 className="text-2xl leading-tight sm:mb-0 px-2 font-bold">
+            Invite your team
+          </h1>
           <div className="p-2">
             {teamPurchases.map((teamPurchase: any) => {
               return (
                 <div>
-                  <InviteTeam key={teamPurchase.id} teamPurchase={teamPurchase} />
+                  <InviteTeam
+                    key={teamPurchase.id}
+                    teamPurchase={teamPurchase}
+                  />
                 </div>
               )
             })}

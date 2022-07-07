@@ -2,28 +2,41 @@
   "name": "@skillrecordings/axios",
   "version": "0.0.1",
   "description": "",
-  "author": "Joel Hooks",
   "license": "ISC",
+  "author": "Joel Hooks",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "files": [
     "dist/**"
   ],
   "scripts": {
-    "dev": "tsc -w",
     "build": "tsc",
-    "lint": "TIMING=1 eslint src --fix",
-    "clean": "rm -rf .turbo && rm -rf node_modules && rm -rf dist"
+    "clean": "rm -rf .turbo && rm -rf node_modules && rm -rf dist",
+    "dev": "tsc -w",
+    "lint": "TIMING=1 eslint src --fix"
   },
   "dependencies": {
-    "@skillrecordings/config": "workspace:*",
-    "axios": "^0.21.1"
+    "@skillrecordings/config": "workspace:*"
   },
   "devDependencies": {
     "@skillrecordings/scripts": "workspace:*",
     "@skillrecordings/tsconfig": "workspace:*",
     "@skillrecordings/types": "workspace:*",
-    "esbuild-node-tsc": "^1.6.1"
+    "@types/cookie": "^0.4.1",
+    "@types/jest": "^27.5.2",
+    "@types/lodash": "^4.14.179",
+    "@types/node": "^17.0.0",
+    "@types/nodemailer": "^6.4.4",
+    "@types/react": "^17.0.42",
+    "@types/react-dom": "^17.0.17",
+    "axios": "^0.26.0",
+    "esbuild-node-tsc": "^1.6.1",
+    "eslint": "^8.19.0",
+    "eslint-config-custom": "workspace:*",
+    "typescript": "^4.7.4"
+  },
+  "peerDependencies": {
+    "axios": "^0.26.0"
   },
   "publishConfig": {
     "access": "public"

@@ -3,20 +3,41 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev -p 3017",
-    "start": "next start -p 3017",
-    "integration": "cypress run",
-    "clean": "rm -rf node_modules && pnpm -r exec -- rm -rf .turbo node_modules .next dist",
     "build": "NODE_ENV=production prisma generate && next build",
     "postbuild": "NODE_ENV=production next-sitemap",
-    "test": "prisma generate && jest",
+    "clean": "rm -rf node_modules && pnpm -r exec -- rm -rf .turbo node_modules .next dist",
+    "dev": "next dev -p 3017",
+    "format": "prettier --write './**/*.{js,jsx,ts,tsx,css,md,mdx,json}' --config ./.prettierrc",
+    "integration": "cypress run",
     "lint": "TIMING=1 prisma generate && eslint src/**/*.{ts,tsx} --fix && tsc --noEmit",
-    "format": "prettier --write './**/*.{js,jsx,ts,tsx,css,md,mdx,json}' --config ./.prettierrc"
+    "start": "next start -p 3017",
+    "test": "prisma generate && jest"
+  },
+  "lint-staged": {
+    "*.{js,json,md,mdx,ts,tsx}": [
+      "prettier --write"
+    ],
+    "src/**/*.{ts,tsx,md,mdx,js}": [
+      "prettier --write"
+    ]
+  },
+  "prettier": {
+    "bracketSpacing": false,
+    "jsxBracketSameLine": false,
+    "printWidth": 80,
+    "semi": false,
+    "singleQuote": true,
+    "tabWidth": 2,
+    "trailingComma": "all",
+    "useTabs": false
+  },
+  "jest": {
+    "preset": "@skillrecordings/scripts/jest/next"
   },
   "dependencies": {
-    "@prisma/client": "^3.15.1",
+    "@prisma/client": "^3.15.2",
     "@react-three/drei": "8.16.0",
-    "@react-three/fiber": "7.0.26",
+    "@react-three/fiber": "7.0.27",
     "@react-three/postprocessing": "^2.3.2",
     "@sentry/nextjs": "^6.19.3",
     "@skillrecordings/analytics": "workspace:*",
@@ -28,18 +49,17 @@
     "@skillrecordings/cookies": "workspace:*",
     "@skillrecordings/player": "workspace:*",
     "@skillrecordings/quiz": "workspace:*",
-    "@skillrecordings/react": "workspace:*",
     "@skillrecordings/skill-api": "workspace:*",
     "@skillrecordings/time": "workspace:*",
     "@skillrecordings/viewer": "workspace:*",
     "classnames": "^2.3.1",
     "focus-visible": "^5.2.0",
-    "framer-motion": "^6.3.11",
-    "framer-motion-3d": "^6.2.8",
+    "framer-motion": "^6.4.1",
+    "framer-motion-3d": "^6.4.1",
     "leva": "^0.9.27",
-    "next": "12.1.6",
+    "next": "^12.1.6",
     "next-compose-plugins": "^2.2.1",
-    "next-seo": "^5.4.0",
+    "next-seo": "^4.29.0",
     "next-sitemap": "^3.0.5",
     "react": "17.0.2",
     "react-dom": "17.0.2",
@@ -48,43 +68,22 @@
   },
   "devDependencies": {
     "@skillrecordings/scripts": "workspace:*",
-    "@skillrecordings/tsconfig": "workspace:^0.0.5",
+    "@skillrecordings/tsconfig": "workspace:*",
     "@skillrecordings/types": "workspace:*",
-    "@types/node": "17.0.41",
+    "@types/cookie": "^0.4.1",
+    "@types/jest": "^27.5.2",
+    "@types/lodash": "^4.14.179",
+    "@types/node": "^17.0.0",
+    "@types/nodemailer": "^6.4.4",
     "@types/react": "^17.0.42",
+    "@types/react-dom": "^17.0.17",
     "@types/three": "^0.141.0",
-    "@typescript-eslint/eslint-plugin": "^5.27.1",
-    "@typescript-eslint/parser": "^5.27.1",
-    "autoprefixer": "^10.4.7",
-    "eslint": "8.17.0",
-    "eslint-config-next": "12.1.6",
-    "eslint-plugin-react-hooks": "^4.5.0",
+    "autoprefixer": "^10.4.2",
+    "eslint": "^8.19.0",
+    "eslint-config-custom": "workspace:*",
     "postcss": "^8.4.14",
-    "prisma": "^3.15.1",
-    "tailwindcss": "^3.1.2"
-  },
-  "lint-staged": {
-    "*.{js,json,md,mdx,ts,tsx}": [
-      "prettier --write"
-    ],
-    "src/**/*.{ts,tsx,md,mdx,js}": [
-      "prettier --write"
-    ]
-  },
-  "jest": {
-    "preset": "@skillrecordings/scripts/jest/next"
-  },
-  "prettier": {
-    "printWidth": 80,
-    "tabWidth": 2,
-    "useTabs": false,
-    "semi": false,
-    "singleQuote": true,
-    "trailingComma": "all",
-    "bracketSpacing": false,
-    "jsxBracketSameLine": false
-  },
-  "resolutions": {
-    "jest-environment-jsdom": "27.4.6"
+    "prisma": "^3.15.2",
+    "tailwindcss": "^3.1.4",
+    "typescript": "^4.7.4"
   }
 }

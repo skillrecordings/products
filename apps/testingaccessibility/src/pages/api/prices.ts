@@ -6,10 +6,9 @@ import {formatPricesForProduct} from '../../utils/format-prices-for-product'
 import {getSdk} from '../../lib/prisma-api'
 import {setupHttpTracing} from '@vercel/tracing-js'
 import {tracer} from '../../utils/honeycomb-tracer'
-import prisma from '../../db'
-import {find, first} from 'lodash'
-import {Purchase} from '@prisma/client'
+import {find} from 'lodash'
 import {defaultContext} from '../../lib/context'
+import {getActiveCouponId} from '../../utils/get-active-coupon-id'
 
 const pricesHandler = async (req: NextApiRequest, res: NextApiResponse) => {
   const spanContext = setupHttpTracing({
@@ -20,34 +19,20 @@ const pricesHandler = async (req: NextApiRequest, res: NextApiResponse) => {
   })
   if (req.method === 'POST') {
     try {
-      const country = (req.headers['x-vercel-ip-country'] as string) || 'US'
-      const {getDefaultCouponId} = getSdk({ctx: defaultContext, spanContext})
-      const {code, quantity, productId, coupon, purchases, userId} = req.body
+      const {availableUpgradesForProduct} = getSdk({
+        ctx: defaultContext,
+        spanContext,
+      })
 
-      const availableUpgrades = purchases
-        ? await prisma.upgradableProducts.findMany({
-            where: {
-              upgradableFromId: {
-                in: purchases.map(({productId}: Purchase) => productId),
-              },
-              upgradableToId: productId,
-            },
-            select: {
-              upgradableTo: {
-                select: {
-                  id: true,
-                  name: true,
-                },
-              },
-              upgradableFrom: {
-                select: {
-                  id: true,
-                  name: true,
-                },
-              },
-            },
-          })
-        : []
+      const country = (req.headers['x-vercel-ip-country'] as string) || 'US'
+
+      const {code, quantity, productId, coupon, purchases, siteCouponId} =
+        req.body
+
+      const availableUpgrades = await availableUpgradesForProduct(
+        purchases,
+        productId,
+      )
 
       const upgradeFromPurchaseId = req.body.upgradeFromPurchaseId
         ? req.body.upgradeFromPurchaseId
@@ -59,11 +44,13 @@ const pricesHandler = async (req: NextApiRequest, res: NextApiResponse) => {
             return upgradeProductIds.includes(purchase.productId)
           })?.id
 
-      const activeSaleCouponId = await getDefaultCouponId(productId)
-
-      console.info(`request from ${country}`)
-
-      const couponId = coupon ? coupon : activeSaleCouponId
+      const couponId = await getActiveCouponId({
+        siteCouponId,
+        coupon,
+        code,
+        productId,
+        spanContext,
+      })
 
       if (quantity > 100) throw new Error(`contact-for-pricing`)
 

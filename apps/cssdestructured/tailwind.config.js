@@ -1,5 +1,4 @@
 const defaultTheme = require('tailwindcss/defaultTheme')
-const colors = require('tailwindcss/colors')
 const tailwindCommonConfig = require('@skillrecordings/scripts/tailwind.config')
 
 module.exports = {
@@ -8,7 +7,6 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        ...colors,
         brand: {
           text: '#FFF8EB',
           cream: '#EFDFC4',
@@ -79,7 +77,6 @@ module.exports = {
   plugins: [
     require('@tailwindcss/typography'),
     require('@tailwindcss/forms'),
-    require('@tailwindcss/aspect-ratio'),
     require('tailwindcss-autofill'),
     require('tailwindcss-text-fill'),
   ],

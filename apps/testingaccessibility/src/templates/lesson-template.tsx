@@ -91,7 +91,7 @@ const LessonTemplate: React.FC<LessonTemplateProps> = ({
               <div className="bg-white px-4">
                 <TableOfContents value={body} />
                 <div className="relative flex flex-col lg:py-10 py-8 max-w-screen-md w-full mx-auto">
-                  <div className="max-w-none xl:prose-pre:text-base md:prose-pre:text-base prose-pre:text-xs prose-ul:sm:pr-0 prose-ul:pr-5 prose-p:w-full  prose-ul:mx-auto text-gray-800 prose prose-h2:text-green-800 prose-headings:text-left prose-h3:text-green-800 md:prose-lg xl:prose-xl">
+                  <div className="max-w-none xl:prose-pre:text-base md:prose-pre:text-base prose-pre:text-xs prose-ul:sm:pr-0 prose-ul:pr-5 prose-p:w-full prose-ul:mx-auto text-gray-800 prose prose-headings:text-left prose-h3:text-green-800 md:prose-lg xl:prose-xl">
                     <PortableText
                       value={body}
                       components={PortableTextComponents}
@@ -163,7 +163,7 @@ export const ProgressToggle: React.FC<ProgressToggleProps> = ({
   }
 
   return (
-    <div className="flex flex-col items-center justify-center rounded-lg relative z-50">
+    <div className="flex flex-col items-center justify-center rounded-lg relative z-20">
       <div className="text-center pb-5">
         <p className="text-2xl font-bold font-heading">Finished this lesson?</p>
         <p className="text-sand-100">

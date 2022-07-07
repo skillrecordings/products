@@ -42,6 +42,8 @@ export const getSectionProgressForUser = (
   if (!progress || !sectionLessons) {
     return {}
   }
+  // TODO: Since sometimes we can complete a section (index) itself,
+  // make this operate with sections and not just its lessons
   const sectionLessonsSlugs: string[] = sectionLessons.map(({slug}) => slug)
   const completedLessonsInSection = progress.filter(
     ({lessonSlug, completedAt}) =>

@@ -17,6 +17,7 @@ import Search from 'components/search/autocomplete'
 import GetCertificate from 'components/certificate'
 import Layout from 'components/app/layout'
 import isEmpty from 'lodash/isEmpty'
+import find from 'lodash/find'
 import Image from 'next/image'
 import Link from 'next/link'
 import cx from 'classnames'
@@ -174,10 +175,13 @@ const Learn: React.FC<{purchases: Purchase[]; product: SanityDocument}> = ({
                     <ol className="pt-5 list-none">
                       {sections?.map((section: SanityDocument, i: number) => {
                         const {title} = section
-                        const {isCompleted} = getSectionProgressForUser(
-                          progress,
-                          section.lessons,
-                        )
+                        const {isCompleted: isSectionCompleted} =
+                          getSectionProgressForUser(progress, section.lessons)
+
+                        const isCompleted =
+                          isSectionCompleted ??
+                          find(progress, {lessonSlug: section.slug})
+                            ?.completedAt
 
                         return (
                           <li

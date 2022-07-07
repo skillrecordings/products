@@ -7,8 +7,6 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        ...colors,
-        gray: colors.coolGray,
         primary: colors.blue,
       },
       fontFamily: {
@@ -34,9 +32,5 @@ module.exports = {
       }),
     },
   },
-  plugins: [
-    require('@tailwindcss/typography'),
-    require('@tailwindcss/forms'),
-    require('@tailwindcss/aspect-ratio'),
-  ],
+  plugins: [require('@tailwindcss/typography'), require('@tailwindcss/forms')],
 }

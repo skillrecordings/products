@@ -4,14 +4,12 @@ const tailwindCommonConfig = require('@skillrecordings/scripts/tailwind.config')
 
 module.exports = {
   ...tailwindCommonConfig,
-  darkMode: 'media',
   theme: {
     extend: {
       fontFamily: {
         sans: ['Neue Montreal', ...defaultTheme.fontFamily.sans],
       },
       colors: {
-        ...colors,
         black: colors.gray['900'],
       },
       screens: {
@@ -62,7 +60,6 @@ module.exports = {
   plugins: [
     require('@tailwindcss/typography'),
     require('@tailwindcss/forms'),
-    require('@tailwindcss/aspect-ratio'),
     require('tailwindcss-autofill'),
     require('tailwindcss-text-fill'),
   ],
