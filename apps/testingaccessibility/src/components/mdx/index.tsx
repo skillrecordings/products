@@ -261,7 +261,9 @@ const WorkshopsList: React.FC<WorkshopsListProps> = () => {
                 <p className="pt-4">{description}</p>
                 {topics && (
                   <>
-                    <strong>Topics include:</strong>
+                    <h4 className="pt-3">
+                      <strong>Topics include:</strong>
+                    </h4>
                     <ul className="pt-6 space-y-4 font-medium">
                       {topics.map((topic) => (
                         <li className="flex gap-2" key={topic}>
