@@ -260,25 +260,29 @@ const WorkshopsList: React.FC<WorkshopsListProps> = () => {
                 <h3 className="font-bold font-heading text-3xl">{title}</h3>
                 <p className="pt-4">{description}</p>
                 {topics && (
-                  <ul className="pt-6 space-y-4 font-medium">
-                    <strong>Topics include:</strong>
-                    {topics.map((topic) => (
-                      <li className="flex gap-2" key={topic}>
-                        <span
-                          aria-hidden="true"
-                          className="pt-0.5 flex-shrink-0"
-                        >
-                          <Image
-                            src={require('../../../public/assets/icons/checkmark.png')}
-                            width={22}
-                            height={22}
-                            alt=""
-                          />
-                        </span>
-                        <span>{topic}</span>
-                      </li>
-                    ))}
-                  </ul>
+                  <>
+                    <h4 className="pt-3">
+                      <strong>Topics include:</strong>
+                    </h4>
+                    <ul className="pt-6 space-y-4 font-medium">
+                      {topics.map((topic) => (
+                        <li className="flex gap-2" key={topic}>
+                          <span
+                            aria-hidden="true"
+                            className="pt-0.5 flex-shrink-0"
+                          >
+                            <Image
+                              src={require('../../../public/assets/icons/checkmark.png')}
+                              width={22}
+                              height={22}
+                              alt=""
+                            />
+                          </span>
+                          <span>{topic}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </>
                 )}
               </div>
             </li>
