@@ -4,14 +4,6 @@ export const faq = [
     answer: `I guarantee it will, but if it doesn’t, send an email to [team@testingaccessibility.com](mailto:team@testingaccessibility.com) within 30 days for a full refund.`,
   },
   {
-    question: `How do “seats” work for team purchases?`,
-    answer: `When purchasing team seats, you will receive a link that can be used to register one account for every seat you buy. The license is non-transferable (you cannot reassign a licensed seat from one person to another).`,
-  },
-  {
-    question: `Does my company own the team licenses?`,
-    answer: `The team licenses are actually single use coupon codes that are distributed to users individually. Companies are not meant to own or keep the licenses. They belong to the individual who claims the coupon code, and cannot be passed around or transferred.`,
-  },
-  {
     question: `Can I customize the invoice with VAT or other company details?`,
     answer: `Yes, there is a text area for you to add any arbitrary information into a printable PDF.`,
   },
