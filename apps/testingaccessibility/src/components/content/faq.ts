@@ -4,27 +4,23 @@ export const faq = [
     answer: `I guarantee it will, but if it doesn’t, send an email to [team@testingaccessibility.com](mailto:team@testingaccessibility.com) within 30 days for a full refund.`,
   },
   {
-    question: `Can I customize the invoice with VAT or other company details?`,
-    answer: `Yes, there is a text area for you to add any arbitrary information into a printable PDF.`,
+    question: `What is the format of the workshops?`,
+    answer: `Each workshop contains text-based lessons along with supplemental video clips from a live workshop session to reinforce what you read. The lesson text is not a transcript of the video– it is instructional content that includes challenges with worked out solutions, links to additional resources, and exercises for you to complete on your own.`,
   },
   {
-    question: `Do you support Purchasing Power Parity (PPP) / regional licenses?`,
-    answer: `Yes! This is automated based on the IP address of the computer you are using to make the purchase. This system isn’t perfect, so the discount does not always display. Note that purchases made with a PPP discount will be restricted to the country they were purchased from and future content and additional materials may not be available.`,
+    question: `What if I already have experience with accessibility? Will I still learn anything?`,
+    answer: `Yes! Accessibility is more than just markup. In addition to nuances of ARIA, throughout the workshop I share my thought processes around planning what to test before writing them. There are also several “over the shoulder” videos that include troubleshooting real issues. I even get comments from workshop attendees who learned about DevTools features they didn’t know existed!`,
   },
   {
-    question: `Can I give a license as a gift?`,
-    answer: `Yes! Just enter their email address instead of your own at time of purchase. They may receive a verification code that you would have to request from them. If you are purchasing with a PPP discount, you must both be in the same country or the person receiving the gift will not be able to access the content.`,
+    question: `What frameworks do you use in the workshops?`,
+    answer: `The Manual Testing workshop uses HTML, CSS, and JS without frameworks. The other development-specific workshops do use React, but lessons are applicable to other frameworks as well. Think of React as an implementation detail.`,
   },
   {
-    question: `If I buy a lower tier, can I upgrade later?`,
-    answer: `Yes! Unless there’s still a discount on the highest tier, you can upgrade by paying the difference at the time you upgrade.`,
+    question: `Do I have to know React?`,
+    answer: `React’s JSX syntax is very similar to HTML, and the lessons are clear enough to follow along with and apply to other frameworks. There are some lessons and challenges that involve React-specific features like hooks and portals. Each of these have comparable features in other frameworks.`,
   },
   {
-    question: `Can I change my email address from the one I bought the course with?`,
-    answer: `Yes, by contacting the support team at team@testingaccessibility.com. You cannot transfer your license to another person.`,
-  },
-  {
-    question: `I have a question not covered here. Can I contact someone?`,
-    answer: `Yes! You can email the support team at [team@testingaccessibility.com](mailto:team@testingaccessibility.com).`,
+    question: `How do seats for team purchases work?`,
+    answer: `Upon purchase, you will receive a link that includes your invoice as well as a team registration link that is valid for the number of seats you bought. These licenses are non-transferable (you cannot reassign a licensed seat from one person to another).`,
   },
 ]
