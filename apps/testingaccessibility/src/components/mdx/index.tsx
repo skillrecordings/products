@@ -263,7 +263,7 @@ const WorkshopsList: React.FC<WorkshopsListProps> = () => {
                   <ul className="pt-6 space-y-4 font-medium">
                     <strong>Topics include:</strong>
                     {topics.map((topic) => (
-                      <li className="flex gap-2">
+                      <li className="flex gap-2" key={topic}>
                         <span
                           aria-hidden="true"
                           className="pt-0.5 flex-shrink-0"
