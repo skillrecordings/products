@@ -60,7 +60,9 @@ const pricesHandler = async (req: NextApiRequest, res: NextApiResponse) => {
           country,
           quantity,
           code,
-          couponId: activeMerchantCoupon ? activeMerchantCoupon.id : coupon,
+          merchantCouponId: activeMerchantCoupon
+            ? activeMerchantCoupon.id
+            : coupon,
           ...(upgradeFromPurchaseId && {upgradeFromPurchaseId}),
         },
         spanContext,

@@ -26,7 +26,7 @@ type FormatPricesForProductOptions = {
   country?: string
   quantity?: number
   code?: string
-  couponId?: string
+  merchantCouponId?: string
   ctx?: Context
   upgradeFromPurchaseId?: string
 }
@@ -57,7 +57,7 @@ export async function formatPricesForProduct(
     country = 'US',
     quantity = 1,
     code,
-    couponId,
+    merchantCouponId,
     upgradeFromPurchaseId,
   } = noContextOptions
 
@@ -100,8 +100,8 @@ export async function formatPricesForProduct(
   const bulkCouponPercent = getBulkDiscountPercent(quantity)
 
   // if there's a coupon implied because an id is passed in, load it to verify
-  const appliedMerchantCoupon = couponId
-    ? await getMerchantCoupon({where: {id: couponId}})
+  const appliedMerchantCoupon = merchantCouponId
+    ? await getMerchantCoupon({where: {id: merchantCouponId}})
     : undefined
 
   const pppApplied =

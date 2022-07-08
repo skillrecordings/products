@@ -79,7 +79,7 @@ for (const quantity of [69, 89, 99]) {
       await formatPricesForProduct({
         productId: DEFAULT_PRODUCT_ID,
         quantity,
-        couponId: SITE_SALE_COUPON_ID,
+        merchantCouponId: SITE_SALE_COUPON_ID,
         ctx,
       })
 
@@ -127,7 +127,7 @@ test('an applied coupon should calculate the correct price even with ppp applied
   const {calculatedPrice} = await formatPricesForProduct({
     productId: DEFAULT_PRODUCT_ID,
     country: 'IN',
-    couponId: SITE_SALE_COUPON_ID,
+    merchantCouponId: SITE_SALE_COUPON_ID,
     ctx,
   })
 
@@ -146,7 +146,7 @@ test('PPP discount available if greater than sale price', async () => {
   const {availableCoupons} = await formatPricesForProduct({
     productId: DEFAULT_PRODUCT_ID,
     country: 'IN',
-    couponId: SITE_SALE_COUPON_ID,
+    merchantCouponId: SITE_SALE_COUPON_ID,
     ctx,
   })
 
@@ -161,7 +161,7 @@ test('PPP discount not available if less than sale price', async () => {
   const {availableCoupons} = await formatPricesForProduct({
     productId: DEFAULT_PRODUCT_ID,
     country: 'IN',
-    couponId: LARGE_SITE_SALE_COUPON_ID,
+    merchantCouponId: LARGE_SITE_SALE_COUPON_ID,
     ctx,
   })
 
@@ -183,7 +183,7 @@ test('product should have applied coupon present if "IN" and valid couponId', as
   mockCtx.prisma.merchantCoupon.findFirst.mockResolvedValue(MOCK_INDIA_COUPON)
   const product = await formatPricesForProduct({
     productId: DEFAULT_PRODUCT_ID,
-    couponId: VALID_INDIA_COUPON_ID,
+    merchantCouponId: VALID_INDIA_COUPON_ID,
     country: 'IN',
     ctx,
   })
@@ -197,7 +197,7 @@ test('product should calculate discount if country is "IN" and couponId', async 
 
   const product = await formatPricesForProduct({
     productId: DEFAULT_PRODUCT_ID,
-    couponId: VALID_INDIA_COUPON_ID,
+    merchantCouponId: VALID_INDIA_COUPON_ID,
     country: 'IN',
     ctx,
   })
@@ -306,7 +306,7 @@ async function expectedPriceForDefaultCoupon(quantity: number = 1) {
   const {calculatedPrice, unitPrice} = await formatPricesForProduct({
     productId: DEFAULT_PRODUCT_ID,
     quantity,
-    couponId: appliedMerchantCouponId,
+    merchantCouponId: appliedMerchantCouponId,
     ctx,
   })
 
