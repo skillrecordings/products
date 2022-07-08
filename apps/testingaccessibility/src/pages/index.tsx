@@ -27,20 +27,23 @@ const Home: React.FC<CommerceProps> = ({
     <Layout className="bg-white">
       <div>
         <div className="flex flex-col justify-between min-h-screen overflow-hidden">
-          <header className="relative text-white bg-green-700 lg:pt-24 sm:pt-24 pt-10 bg-noise">
+          <header className="relative text-white bg-green-700 lg:pt-24 sm:pt-24 pt-12 bg-noise">
             <div className="flex flex-col items-center justify-center w-full">
               <div className="flex flex-col items-center justify-center text-center sm:px-8 px-4">
-                <h1 className="md:max-w-screen-lg lg:text-5xl md:text-5xl sm:text-4xl text-3xl font-heading font-bold lg:leading-tight max-w-lg">
+                <p className="font-display font-medium pb-6 lg:text-xl sm:text-lg text-base text-[#FFC165]">
+                  Testing Accessibility — by Marcy Sutton
+                </p>
+                <h1 className="md:max-w-screen-lg lg:text-5xl md:text-5xl sm:text-4xl text-[2rem] font-heading font-bold leading-tight max-w-lg">
                   <span className="inline-flex">
                     Comprehensive Accessibility Training for Shipping
                     High-Quality Web Applications
                   </span>{' '}
-                  <span className="lg:leading-relaxed max-w-screen-sm font-sans inline-block font-normal pt-8 sm:text-xl text-lg text-center text-moss-200">
-                    A self-paced workshop designed to teach you the principles
-                    and effective patterns of accessibility, from design to
-                    deployment.
-                  </span>
                 </h1>
+                <h2 className="lg:leading-normal max-w-xl font-display inline-block font-normal pt-8 lg:text-xl text-lg text-center text-moss-200">
+                  A self-paced workshop designed to teach you the principles and
+                  effective patterns of accessibility, from design to
+                  deployment.
+                </h2>
               </div>
               <div className="sm:translate-y-32 translate-y-24 drop-shadow-2xl sm:w-auto sm:-mt-24 -mt-8 sm:scale-100 scale-125">
                 <Image
@@ -88,10 +91,10 @@ const Home: React.FC<CommerceProps> = ({
                   </div>
                   <div className="mt-24">
                     <Image
-                      src={require('../../public/assets/icons/guarantee-seal.svg')}
+                      src={require('../../public/assets/guarantee-seal@2x.png')}
                       alt="30 day money back guarantee"
-                      width={157 * 1.2}
-                      height={109 * 1.2}
+                      width={180}
+                      height={180}
                     />
                   </div>
                 </div>
@@ -119,14 +122,14 @@ const Home: React.FC<CommerceProps> = ({
 
 export const AboutMarcy = () => {
   return (
-    <div className="sm:py-24 py-10 sm:px-10 px-8">
-      <div className="sm:mt-0 -mt-24 flex flex-col items-center space-y-4 sm:flex-row sm:items-start  sm:space-x-8 sm:space-y-0 ">
+    <div className="sm:p-16 p-10 rounded-md bg-white">
+      <div className="flex flex-col items-center sm:flex-row sm:items-center sm:space-x-8 sm:space-y-0">
         <div className="flex-shrink-0">
           <Image
             className="rounded-full"
             src={'/marcy-sutton.jpg'}
-            width={160}
-            height={160}
+            width={180}
+            height={180}
             quality={100}
             priority
             alt="smiling Marcy Sutton holding a cat and standing next to a microphone"

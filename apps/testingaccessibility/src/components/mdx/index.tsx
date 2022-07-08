@@ -244,15 +244,15 @@ const WorkshopsList: React.FC<WorkshopsListProps> = () => {
   return (
     <div className="not-prose pt-10">
       <ul className="text-lg max-w-screen-lg w-full mx-auto space-y-24 px-5">
-        {workshops.map(({title, description, topics, image}) => {
+        {workshops.map(({title, description, topics, image}, i) => {
           return (
             <li className="flex md:flex-row flex-col" key={title}>
               <div className="flex items-start justify-center flex-shrink-0 -mt-10">
                 <Image
                   src={image.url}
                   alt={image.alt}
-                  width={330}
-                  height={330}
+                  width={400}
+                  height={400}
                   quality={100}
                 />
               </div>
