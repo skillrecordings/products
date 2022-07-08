@@ -30,7 +30,7 @@ const pricesHandler = async (req: NextApiRequest, res: NextApiResponse) => {
         code,
         quantity,
         productId,
-        coupon: merchantCouponId,
+        merchantCouponId,
         purchases,
         siteCouponId,
       } = req.body

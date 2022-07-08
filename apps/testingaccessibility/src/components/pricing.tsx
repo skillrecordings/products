@@ -27,6 +27,7 @@ type PricingProps = {
  * @param purchases
  * @param userId - If user is logged in, this is the user's ID.
  * @param index
+ * @param couponId
  * @constructor
  */
 export const Pricing: React.FC<PricingProps> = ({
@@ -37,19 +38,22 @@ export const Pricing: React.FC<PricingProps> = ({
   index,
   couponId,
 }) => {
-  const [coupon, setCoupon] = React.useState<{id: string; type: string}>()
+  const [merchantCoupon, setMerchantMerchantCoupon] = React.useState<{
+    id: string
+    type: string
+  }>()
   const [quantity, setQuantity] = React.useState(1)
   const debouncedQuantity: number = useDebounce<number>(quantity, 250)
   const {productId, name, image, modules, features, action} = product
 
   const {data: formattedPrice, status} = useQuery<FormattedPrice>(
-    ['pricing', coupon, debouncedQuantity, productId, userId, couponId],
+    ['pricing', merchantCoupon, debouncedQuantity, productId, userId, couponId],
     () =>
       fetch('/api/prices', {
         method: 'POST',
         body: JSON.stringify({
           productId,
-          ...(coupon && {coupon: coupon.id}),
+          ...(merchantCoupon && {merchantCouponId: merchantCoupon.id}),
           quantity,
           purchases,
           userId,
@@ -74,7 +78,7 @@ export const Pricing: React.FC<PricingProps> = ({
     formattedPrice?.availableCoupons,
     (coupon) => coupon.type === 'ppp',
   )
-  const showPPPBox = (pppCoupon || coupon?.type === 'ppp') && !purchased
+  const showPPPBox = (pppCoupon || merchantCoupon?.type === 'ppp') && !purchased
 
   return (
     <div className="relative flex flex-col items-center">
@@ -177,7 +181,7 @@ export const Pricing: React.FC<PricingProps> = ({
                   step={1}
                   onChange={(e) => {
                     const quantity = Number(e.target.value)
-                    setCoupon(undefined)
+                    setMerchantMerchantCoupon(undefined)
                     setQuantity(
                       quantity < 1 ? 1 : quantity > 100 ? 100 : quantity,
                     )
@@ -204,9 +208,9 @@ export const Pricing: React.FC<PricingProps> = ({
         )}
         {showPPPBox && (
           <RegionalPricingBox
-            pppCoupon={pppCoupon || coupon}
-            activeCoupon={coupon}
-            setActiveCoupon={setCoupon}
+            pppCoupon={pppCoupon || merchantCoupon}
+            activeCoupon={merchantCoupon}
+            setActiveCoupon={setMerchantMerchantCoupon}
             index={index}
           />
         )}
