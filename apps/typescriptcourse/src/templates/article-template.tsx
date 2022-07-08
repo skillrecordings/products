@@ -17,8 +17,8 @@ import Link from 'next/link'
 import cx from 'classnames'
 
 //portable
-
 import speakingurl from 'speakingurl'
+
 import {
   PortableTextComponents as PortableTextComponentsProps,
   PortableTextMarkComponentProps,
