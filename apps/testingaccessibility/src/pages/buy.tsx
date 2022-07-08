@@ -54,9 +54,9 @@ const Buy: React.FC<CommerceProps> = ({
           />
         </div>
       </div>
-      <section className="flex flex-col bg-gray-50">
+      <section className="flex flex-col bg-gray-50" aria-labelledby="header-faq">
         <div className="max-w-screen-lg mx-auto w-full py-24">
-          <h2 className="text-center font-heading lg:text-5xl sm:text-4xl text-3xl font-bold pb-24">
+          <h2 className="text-center font-heading lg:text-5xl sm:text-4xl text-3xl font-bold pb-24" id="header-faq">
             Frequently Asked Questions
           </h2>
           <FAQ />

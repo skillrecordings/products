@@ -98,9 +98,9 @@ const Home: React.FC<CommerceProps> = ({
                     />
                   </div>
                 </div>
-                <section className="flex flex-col bg-gray-50">
+                <section aria-labelledby="header-faq" className="flex flex-col bg-gray-50">
                   <div className="max-w-screen-lg mx-auto w-full py-24">
-                    <h2 className="text-center font-heading lg:text-5xl sm:text-4xl text-3xl font-bold pb-24">
+                    <h2 className="text-center font-heading lg:text-5xl sm:text-4xl text-3xl font-bold pb-24" id="header-faq">
                       Frequently Asked Questions
                     </h2>
                     <FAQ />
