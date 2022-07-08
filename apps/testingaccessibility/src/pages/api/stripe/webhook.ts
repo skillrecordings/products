@@ -11,6 +11,9 @@ import {tracer} from '../../../utils/honeycomb-tracer'
 import {convertkitAxios} from '@skillrecordings/axios'
 import {tagPurchaseConvertkit} from '../../../server/tag-purchase-convertkit'
 import {postSaleToSlack} from '../../../server/post-sale-to-slack'
+import prisma from '../../../db'
+import {PurchaseStatus} from '@prisma/client'
+import {updatePurchaseStatusForCharge} from '../../../lib/purchases'
 
 const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET
 
@@ -50,6 +53,14 @@ const stripeWebhookHandler = async (
 
         await postSaleToSlack(purchaseInfo, purchase)
 
+        res.status(200).send(`This works!`)
+      } else if (event.type === 'charge.refunded') {
+        const chargeId = event.data.object.id
+        await updatePurchaseStatusForCharge(chargeId, PurchaseStatus.Refunded)
+        res.status(200).send(`This works!`)
+      } else if (event.type === 'charge.dispute.created') {
+        const chargeId = event.data.object.id
+        await updatePurchaseStatusForCharge(chargeId, PurchaseStatus.Disputed)
         res.status(200).send(`This works!`)
       } else {
         res.status(200).send(`not-handled`)
