@@ -8,12 +8,11 @@ import {withSentry} from '@sentry/nextjs'
 import * as Sentry from '@sentry/nextjs'
 import {setupHttpTracing} from '@vercel/tracing-js'
 import {tracer} from '../../../utils/honeycomb-tracer'
-import {convertkitAxios} from '@skillrecordings/axios'
 import {tagPurchaseConvertkit} from '../../../server/tag-purchase-convertkit'
-import {postSaleToSlack} from '../../../server/post-sale-to-slack'
 import prisma from '../../../db'
 import {PurchaseStatus} from '@prisma/client'
 import {updatePurchaseStatusForCharge} from '../../../lib/purchases'
+import {postSaleToSlack} from '../../../server/post-to-slack'
 
 const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET
 
