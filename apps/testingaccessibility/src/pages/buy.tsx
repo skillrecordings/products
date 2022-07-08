@@ -18,15 +18,18 @@ const Buy: React.FC<CommerceProps> = ({
   return (
     <Layout>
       <div className="flex flex-col justify-center items-center bg-green-700 bg-noise pb-32">
-        <div className="pb-80 sm:pt-32 pt-24 text-white">
+        <div className="pb-80 sm:pt-24 pt-16 text-white">
           <div className="max-w-7xl mx-auto text-center px-4 sm:px-6 lg:px-8">
             <div className="max-w-3xl mx-auto space-y-4 lg:max-w-none">
-              <h2 className="font-heading font-bold lg:text-5xl sm:text-5xl text-4xl">
+              <p className="font-display font-medium pb-6 lg:text-xl sm:text-lg text-base text-[#FFC165]">
+                Testing Accessibility — by Marcy Sutton
+              </p>
+              <h1 className="font-heading font-bold lg:text-5xl sm:text-5xl text-4xl">
                 Start Building Accessible Applications{' '}
                 <br className="sm:block hidden" />
                 Like a Seasoned Expert
-              </h2>
-              <p className="text-xl max-w-sm mx-auto pt-4 text-sand-100">
+              </h1>
+              <p className="md:text-xl text-lg max-w-sm mx-auto pt-4 text-sand-100">
                 The beautiful thing about learning is that nobody can take it
                 away from you.
               </p>
@@ -44,10 +47,10 @@ const Buy: React.FC<CommerceProps> = ({
         </div>
         <div className="mt-24">
           <Image
-            src={require('../../public/assets/icons/guarantee-seal.svg')}
+            src={require('../../public/assets/guarantee-seal@2x.png')}
             alt="30 day money back guarantee"
-            width={157 * 1.2}
-            height={109 * 1.2}
+            width={180}
+            height={180}
           />
         </div>
       </div>
