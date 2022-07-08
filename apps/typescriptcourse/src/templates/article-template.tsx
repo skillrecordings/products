@@ -46,7 +46,7 @@ const ArticleTemplate: React.FC<ArticleTemplateProps> = ({
   return (
     <Layout className="relative">
       <Header title={title} date={date} />
-      <main>
+      <main className="mb-36">
         <div className="w-full max-w-screen-sm mx-auto">
           <div className="px-5 pt-10 md:pt-16 lg:px-0">
             <article className="prose md:prose-lg md:prose-code:text-sm max-w-none">
@@ -216,7 +216,7 @@ const ContinueReadingSubscribeForm = () => {
         </p>
       </div>
       <SubscribeToConvertkitForm
-        formId={3200722} // request-article
+        formId={3071922} // request-article
         className="article"
         onSuccess={(subscriber: any) => {
           if (subscriber) {
@@ -453,7 +453,7 @@ const getCalloutTitle = (type: string): string => {
 const getCalloutStyles = (type: string): string => {
   switch (type) {
     case 'tip':
-      return 'bg-blue-900 text-blue-100'
+      return 'bg-blue-400 bg-opacity-30 text-blue-100'
     case 'big-idea':
       return 'bg-blue-100 text-cyan-900'
     case 'reflection':
