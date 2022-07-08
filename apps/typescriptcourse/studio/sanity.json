@@ -13,11 +13,14 @@
     "@sanity/default-login",
     "@sanity/desk-tool",
     "@sanity/code-input",
-    "cloudinary"
+    "cloudinary",
+    "taxonomy-manager"
   ],
   "env": {
     "development": {
-      "plugins": ["@sanity/vision"]
+      "plugins": [
+        "@sanity/vision"
+      ]
     }
   },
   "parts": [

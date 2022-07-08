@@ -1196,7 +1196,7 @@
   resolved "https://registry.npmjs.org/@sanity/asset-utils/-/asset-utils-1.2.3.tgz#a90c7895c6506405d64c2363db131923ba1fa6ef"
   integrity sha512-0eOR0D6zcqd6nEmAGIJ93ibRGO6ocYzQ5aEuyYvngHy5MDDjUfC821UnF/YPIcxiMXg2DLDjWd4EPt9F8frKNQ==
 
-"@sanity/base@2.30.1", "@sanity/base@^2.30.1":
+"@sanity/base@2.30.1", "@sanity/base@^2.28.2", "@sanity/base@^2.30.1":
   version "2.30.1"
   resolved "https://registry.npmjs.org/@sanity/base/-/base-2.30.1.tgz#95e8b38cb45585a5a27b97713de5411ef7b8c801"
   integrity sha512-sAEB2gP1+njnD7ZxiubWarUeER1ZdiOX8cr1dikc8koO2dyXQGt/CaQHBwMHeZ7cTHoUFL3o6e9MEHDXkXz0rw==
@@ -1509,7 +1509,7 @@
     lodash "^4.17.15"
     sanity-diff-patch "^1.0.9"
 
-"@sanity/form-builder@2.30.1":
+"@sanity/form-builder@2.30.1", "@sanity/form-builder@^2.29.1":
   version "2.30.1"
   resolved "https://registry.npmjs.org/@sanity/form-builder/-/form-builder-2.30.1.tgz#bf582e17a7859a03ff17b42915814c321093ab90"
   integrity sha512-tivWg15eQi6zNm9DXkE9MxqmFvMi9BekOnUY+V3KApLEBHiLgv0T1SXy9tCwjvgDKdXLg++CBZPw2MczO1pDNA==
@@ -1781,7 +1781,7 @@
     "@types/react" "^17.0.42"
     rxjs "^6.5.3"
 
-"@sanity/ui@^0.37.9":
+"@sanity/ui@^0.37.5", "@sanity/ui@^0.37.9":
   version "0.37.12"
   resolved "https://registry.npmjs.org/@sanity/ui/-/ui-0.37.12.tgz#9b8fb197a988f5914b59d62559679665f26a5904"
   integrity sha512-TWsNnJsG/DETZyc0EqxOjxKJKaTQttDVz5i27LJkNpYv+f/G/ABuO/voroFffgkjA3jf/VZiz8VY4O5AdXsOLQ==
@@ -8364,7 +8364,7 @@ react-icon-base@^2.1.2:
   resolved "https://registry.npmjs.org/react-icon-base/-/react-icon-base-2.1.2.tgz#a17101dad9c1192652356096860a9ab43a0766c7"
   integrity sha512-NRlRo0RPxWRMQT7osj8UCBSSXsGOxhF1pre84ildhuft5S2U382NOs7tg29osWSjbO90L2a3VTCqadA/LnAzHQ==
 
-react-icons@^4.4.0:
+react-icons@^4.3.1, react-icons@^4.4.0:
   version "4.4.0"
   resolved "https://registry.yarnpkg.com/react-icons/-/react-icons-4.4.0.tgz#a13a8a20c254854e1ec9aecef28a95cdf24ef703"
   integrity sha512-fSbvHeVYo/B5/L4VhB7sBA1i2tS8MkT0Hb9t2H1AVPkwGfVHLJCqyr2Py9dKMxsyM63Eng1GkdZfbWj+Fmv8Rg==
@@ -8956,6 +8956,17 @@ sanity-plugin-cloudinary@^0.2.2:
     sanity-secrets "^0.0.6"
     styled-components "^5.2.1"
     video.js "^7.11.7"
+
+sanity-plugin-taxonomy-manager@^1.0.1:
+  version "1.0.1"
+  resolved "https://registry.npmjs.org/sanity-plugin-taxonomy-manager/-/sanity-plugin-taxonomy-manager-1.0.1.tgz#d32e4ef4973550e33a0e4c214100da518f719f20"
+  integrity sha512-PunJavGMbi9jI2kCy9lNafn3t54iq3mFyLfhNzkENGHpcSq7aQuh5tmNp2G8aaS7dUksZEGfOJo1ahZeNmnGIw==
+  dependencies:
+    "@reach/auto-id" "^0.16.0"
+    "@sanity/base" "^2.28.2"
+    "@sanity/form-builder" "^2.29.1"
+    "@sanity/ui" "^0.37.5"
+    react-icons "^4.3.1"
 
 sanity-secrets@^0.0.6:
   version "0.0.6"
