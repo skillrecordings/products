@@ -76,8 +76,6 @@ export const Pricing: React.FC<PricingProps> = ({
   )
   const showPPPBox = (pppCoupon || coupon?.type === 'ppp') && !purchased
 
-  console.log({formattedPrice, status})
-
   return (
     <div className="relative flex flex-col items-center">
       <div className="absolute top-[-248px] w-full h-full max-w-[400px] max-h-[400px]">
