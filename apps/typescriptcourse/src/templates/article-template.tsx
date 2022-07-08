@@ -15,6 +15,7 @@ import isEmpty from 'lodash/isEmpty'
 import Image from 'next/image'
 import Link from 'next/link'
 import cx from 'classnames'
+import Layout from 'components/app/layout'
 
 //portable
 import speakingurl from 'speakingurl'
@@ -43,7 +44,7 @@ const ArticleTemplate: React.FC<ArticleTemplateProps> = ({
   const router = useRouter()
 
   return (
-    <div>
+    <Layout className="relative">
       <Header title={title} date={date} />
       <main>
         <div className="w-full max-w-screen-sm mx-auto">
@@ -60,7 +61,7 @@ const ArticleTemplate: React.FC<ArticleTemplateProps> = ({
           {getCTA({subscribersOnly, hasSubscribed, cta, router})}
         </section>
       </main>
-    </div>
+    </Layout>
   )
 }
 

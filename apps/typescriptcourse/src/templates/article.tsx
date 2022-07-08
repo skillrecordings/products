@@ -1,5 +1,5 @@
 import * as React from 'react'
-import Layout from '../components/layout'
+import Layout from 'components/app/layout'
 import PopupSubscribeForm from '@skillrecordings/convertkit/dist/forms/popup'
 import config from 'config'
 
@@ -15,15 +15,15 @@ const ArticleTemplate: React.FC<ArticleTemplateProps> = ({meta, children}) => {
       <article>
         <header>
           {title && (
-            <h1 className="lg:text-8xl md:text-6xl text-5xl font-extrabold tracking-tight leading-tight text-center  py-32">
+            <h1 className="py-32 text-5xl font-extrabold leading-tight tracking-tight text-center lg:text-8xl md:text-6xl">
               {title}
             </h1>
           )}
         </header>
-        <main className="prose dark:prose-dark lg:prose-xl prose-lg mx-auto py-32 max-w-screen-md">
+        <main className="max-w-screen-md py-32 mx-auto prose prose-lg dark:prose-dark lg:prose-xl">
           {children}
         </main>
-        <footer className="mx-auto max-w-screen-md border-t dark:border-gray-800 border-gray-200 py-16">
+        <footer className="max-w-screen-md py-16 mx-auto border-t border-gray-200 dark:border-gray-800">
           by{' '}
           {meta.contributors
             ? meta.contributors[0].name

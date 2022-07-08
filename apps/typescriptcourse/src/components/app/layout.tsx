@@ -1,7 +1,7 @@
 import * as React from 'react'
 import {NextSeo} from 'next-seo'
-import Navigation, {NavigationProps} from 'components/navigation'
-import Footer from 'components/footer'
+import Navigation, {NavigationProps} from 'components/app/navigation'
+import Footer from 'components/app/footer'
 import config from 'config'
 import isNull from 'lodash/isNull'
 
@@ -46,7 +46,7 @@ const Layout: React.FC<LayoutProps> = ({
       />
       <div className={className}>
         {navigation ? navigation : isNull(navigation) ? null : <Navigation />}
-        <div className="flex-grow flex flex-col justify-center">{children}</div>
+        <div className="flex flex-col justify-center flex-grow">{children}</div>
         {footer ? footer : isNull(footer) ? null : <Footer />}
       </div>
     </>

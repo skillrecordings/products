@@ -5,7 +5,7 @@ import {GetServerSideProps} from 'next'
 import {format} from 'date-fns'
 import {SanityDocument} from '@sanity/client'
 import {getAllArticles} from '../lib/articles'
-
+import Layout from 'components/app/layout'
 const meta = {
   title: 'TypeScript Articles',
   ogImage: {
@@ -19,10 +19,15 @@ type ArticlesProps = {
 
 const Articles: React.FC<ArticlesProps> = ({articles}) => {
   return (
-    <div>
-      <header className="relative px-5 overflow-hidden text-white bg-blue-700 py-28 bg-noise">
+    <Layout meta={meta} className="relative">
+      <header className="relative px-5 overflow-hidden text-white py-28 bg-noise">
         <h1 className="max-w-screen-md mx-auto text-3xl font-bold leading-none text-center font-heading sm:text-4xl lg:text-5xl">
-          TypeScript Articles
+          Written Resources for Navigating the
+          <span className="text-transparent bg-gradient-to-l from-sky-100 to-blue-300 bg-clip-text decoration-clone">
+            {' '}
+            TypeScript
+          </span>{' '}
+          Ecosystem
         </h1>
       </header>
       <main className="flex-grow px-5">
@@ -36,7 +41,7 @@ const Articles: React.FC<ArticlesProps> = ({articles}) => {
                       <div>
                         <Link href={`/${slug}`} passHref>
                           <a className="block group">
-                            <h2 className="text-xl font-bold text-blue-600 group-hover:underline sm:text-3xl font-heading">
+                            <h2 className="text-xl font-bold text-white-200 opacity-80 hover:opacity-80 sm:text-3xl font-heading">
                               {title}
                             </h2>
                           </a>
@@ -57,7 +62,7 @@ const Articles: React.FC<ArticlesProps> = ({articles}) => {
                     {slug && (
                       <Link href={`/${slug}`} passHref>
                         <a
-                          className="inline-flex px-3 py-2 font-semibold text-blue-600 transition rounded-md font-nav hover:bg-moss-200/50 bg-moss-100"
+                          className="relative px-4 py-3 text-sm font-normal text-white transition bg-white bg-opacity-0 rounded-full sm:text-base group hover:text-white hover:bg-opacity-10 opacity-80 hover:opacity-90 focus-visible:ring-white focus-visible:opacity-100"
                           aria-label={`Read ${title}`}
                         >
                           Read
@@ -74,7 +79,7 @@ const Articles: React.FC<ArticlesProps> = ({articles}) => {
           </div>
         </div>
       </main>
-    </div>
+    </Layout>
   )
 }
 
