@@ -26,8 +26,14 @@ const pricesHandler = async (req: NextApiRequest, res: NextApiResponse) => {
 
       const country = (req.headers['x-vercel-ip-country'] as string) || 'US'
 
-      const {code, quantity, productId, coupon, purchases, siteCouponId} =
-        req.body
+      const {
+        code,
+        quantity,
+        productId,
+        coupon: merchantCouponId,
+        purchases,
+        siteCouponId,
+      } = req.body
 
       const availableUpgrades = await availableUpgradesForProduct(
         purchases,
@@ -62,7 +68,7 @@ const pricesHandler = async (req: NextApiRequest, res: NextApiResponse) => {
           code,
           merchantCouponId: activeMerchantCoupon
             ? activeMerchantCoupon.id
-            : coupon,
+            : merchantCouponId,
           ...(upgradeFromPurchaseId && {upgradeFromPurchaseId}),
         },
         spanContext,
