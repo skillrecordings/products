@@ -28,7 +28,7 @@ const Articles: React.FC<ArticlesProps> = ({articles}) => {
           Ecosystem
         </h1>
       </header>
-      <main className="flex-grow px-5">
+      <main className="flex-grow px-5 mb-20">
         <div className="w-full max-w-xl gap-16 pt-16 pb-16 mx-auto">
           <div className="grid grid-cols-1 gap-16">
             {articles.map(({title, slug}: SanityDocument) => {
