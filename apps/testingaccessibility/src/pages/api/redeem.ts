@@ -108,7 +108,8 @@ const redeemHandler = async (req: NextApiRequest, res: NextApiResponse) => {
           },
         })
 
-        await postRedemptionToSlack(user.email, purchase.productId)
+        if (!coupon.bulkPurchaseId)
+          await postRedemptionToSlack(user.email, purchase.productId)
 
         res.status(200).json(purchase)
         return
