@@ -89,12 +89,12 @@ export const Pricing: React.FC<PricingProps> = ({
       <article className="bg-white rounded-md flex flex-col items-center justify-center">
         {appliedCoupon && <Ribbon appliedCoupon={appliedCoupon} />}
         <div className={cx('pt-24 flex flex-col items-center')}>
-          <span
+          <h4
             data-pricing-product-name-badge={index}
             className="inline-flex px-4 py-1 pb-1.5 rounded-full font-nav text-sm font-semibold tracking-wide uppercase"
           >
             {name}
-          </span>
+          </h4>
           <div className="mt-4 flex items-baseline text-6xl font-bold font-heading">
             {status === 'loading' ? (
               <div className="pt-4 pb-3">
@@ -162,40 +162,43 @@ export const Pricing: React.FC<PricingProps> = ({
             method="POST"
             className="pt-8 xl:px-12 px-5 flex flex-col items-center justify-center w-full"
           >
-            <div className="mb-5">
-              <label className=" flex items-center gap-3">
-                <span className="opacity-80">Seats</span>
-                <input
-                  className="bg-gray-100 border border-gray-200 pl-3 py-2 rounded-md font-bold font-mono"
-                  type="number"
-                  min={1}
-                  max={100}
-                  step={1}
-                  onChange={(e) => {
-                    const quantity = Number(e.target.value)
-                    setCoupon(undefined)
-                    setQuantity(
-                      quantity < 1 ? 1 : quantity > 100 ? 100 : quantity,
-                    )
-                  }}
-                  value={quantity}
-                  id={`${quantity}-${name}`}
-                  required={true}
-                />
-              </label>
-            </div>
-            <button
-              data-pricing-product-checkout-button={index}
-              className="flex text-center px-5 py-4 pb-[1.1rem] font-nav font-semibold items-center justify-center rounded-md w-full text-lg transition disabled:cursor-wait"
-              type="submit"
-              disabled={status === 'loading' || status === 'error'}
-            >
-              <span className="relative z-10">
-                {formattedPrice?.upgradeFromPurchaseId
-                  ? `Upgrade Now`
-                  : action || `Ship Accessible Apps Like a Pro`}
-              </span>
-            </button>
+            <fieldset>
+              <legend className="sr-only">{name}</legend>
+              <div className="mb-5 xl:px-12 px-5 flex flex-col items-center justify-center w-full">
+                <label className=" flex items-center gap-3">
+                  <span className="opacity-80">Seats</span>
+                  <input
+                    className="bg-gray-100 border border-gray-200 pl-3 py-2 rounded-md font-bold font-mono"
+                    type="number"
+                    min={1}
+                    max={100}
+                    step={1}
+                    onChange={(e) => {
+                      const quantity = Number(e.target.value)
+                      setCoupon(undefined)
+                      setQuantity(
+                        quantity < 1 ? 1 : quantity > 100 ? 100 : quantity,
+                      )
+                    }}
+                    value={quantity}
+                    id={`${quantity}-${name}`}
+                    required={true}
+                  />
+                </label>
+              </div>
+              <button
+                data-pricing-product-checkout-button={index}
+                className="flex text-center px-5 py-4 pb-[1.1rem] font-nav font-semibold items-center justify-center rounded-md w-full text-lg transition disabled:cursor-wait"
+                type="submit"
+                disabled={status === 'loading' || status === 'error'}
+              >
+                <span className="relative z-10">
+                  {formattedPrice?.upgradeFromPurchaseId
+                    ? `Upgrade Now`
+                    : action || `Ship Accessible Apps Like a Pro`}
+                </span>
+              </button>
+            </fieldset>
           </form>
         )}
         {showPPPBox && (
