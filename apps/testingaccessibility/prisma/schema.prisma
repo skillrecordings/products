@@ -181,6 +181,13 @@ model UpgradableProducts {
   @@id([upgradableToId, upgradableFromId])
 }
 
+enum PurchaseStatus {
+    Valid
+    Refunded
+    Disputed
+    Banned
+}
+
 model Purchase {
   id                      String           @id @default(uuid())
   userId                  String?
@@ -201,6 +208,7 @@ model Purchase {
   merchantCharge          MerchantCharge?    @relation(fields: [merchantChargeId], references: [id], onDelete: Cascade)
   product                 Product            @relation(fields: [productId], references: [id], onDelete: Cascade)
   user                    User?              @relation(fields: [userId], references: [id], onDelete: Cascade)
+  status                  PurchaseStatus     @default(Valid)
 }
 
 model Session {

@@ -1,4 +1,31 @@
 import prisma from '../db'
+import {PurchaseStatus} from '@prisma/client'
+
+export async function updatePurchaseStatusForCharge(
+  chargeId: string,
+  status: PurchaseStatus,
+) {
+  const purchase = await prisma.purchase.findFirst({
+    where: {
+      merchantCharge: {
+        identifier: chargeId,
+      },
+    },
+  })
+
+  if (purchase) {
+    return await prisma.purchase.update({
+      where: {
+        id: purchase.id,
+      },
+      data: {
+        status: status,
+      },
+    })
+  } else {
+    throw new Error(`no-purchase-found-for-charge ${chargeId}`)
+  }
+}
 
 export async function getPurchaseDetails(purchaseId: string, userId: string) {
   const allPurchases = await prisma.purchase.findMany({
