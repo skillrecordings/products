@@ -75,7 +75,7 @@ for (const quantity of [69, 89, 99]) {
       MOCK_SITE_SALE_COUPON,
     )
 
-    const {calculatedPrice, unitPrice, appliedCoupon} =
+    const {calculatedPrice, unitPrice, appliedMerchantCoupon} =
       await formatPricesForProduct({
         productId: DEFAULT_PRODUCT_ID,
         quantity,
@@ -85,7 +85,7 @@ for (const quantity of [69, 89, 99]) {
 
     const expectedPrice = getCalculatedPriced({
       unitPrice,
-      percentOfDiscount: appliedCoupon?.percentageDiscount.toNumber(),
+      percentOfDiscount: appliedMerchantCoupon?.percentageDiscount.toNumber(),
       quantity,
     })
 
@@ -188,7 +188,7 @@ test('product should have applied coupon present if "IN" and valid couponId', as
     ctx,
   })
 
-  expect(product?.appliedCoupon).toBeDefined()
+  expect(product?.appliedMerchantCoupon).toBeDefined()
 })
 
 test('product should calculate discount if country is "IN" and couponId', async () => {
@@ -299,20 +299,21 @@ const MOCK_INDIA_COUPON = {
 
 async function expectedPriceForDefaultCoupon(quantity: number = 1) {
   const {getMerchantCoupon} = getSdk({ctx})
-  const appliedCouponId = SITE_SALE_COUPON_ID
-  const appliedCoupon = await getMerchantCoupon({
-    where: {id: appliedCouponId},
+  const appliedMerchantCouponId = SITE_SALE_COUPON_ID
+  const appliedMerchantCoupon = await getMerchantCoupon({
+    where: {id: appliedMerchantCouponId},
   })
   const {calculatedPrice, unitPrice} = await formatPricesForProduct({
     productId: DEFAULT_PRODUCT_ID,
     quantity,
-    couponId: appliedCouponId,
+    couponId: appliedMerchantCouponId,
     ctx,
   })
 
   const expectedPrice = getCalculatedPriced({
     unitPrice: unitPrice,
-    percentOfDiscount: appliedCoupon?.percentageDiscount.toNumber() || 0,
+    percentOfDiscount:
+      appliedMerchantCoupon?.percentageDiscount.toNumber() || 0,
     quantity,
   })
 
