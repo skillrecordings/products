@@ -5,6 +5,7 @@ import {MockContext, Context, createMockContext} from '../lib/context'
 import {Decimal} from '@prisma/client/runtime'
 import {getSdk} from '../lib/prisma-api'
 import {getBulkDiscountPercent} from './bulk-coupon'
+import {first} from 'lodash'
 
 let mockCtx: MockContext
 let ctx: Context
@@ -177,6 +178,32 @@ test('product should have available coupons if country is "IN"', async () => {
   })
 
   expect(product?.availableCoupons.length).toBeGreaterThan(0)
+})
+
+test('available ppp coupons should have country "IN" set', async () => {
+  mockCtx.prisma.merchantCoupon.findMany.mockResolvedValue([MOCK_INDIA_COUPON])
+  const product = await formatPricesForProduct({
+    productId: DEFAULT_PRODUCT_ID,
+    country: 'IN',
+    ctx,
+  })
+
+  expect(first(product?.availableCoupons).country).toBe('IN')
+})
+
+test('available ppp coupons should have country "IN" set with active sale', async () => {
+  mockCtx.prisma.merchantCoupon.findMany.mockResolvedValue([MOCK_INDIA_COUPON])
+  mockCtx.prisma.merchantCoupon.findFirst.mockResolvedValue(
+    MOCK_SITE_SALE_COUPON,
+  )
+  const product = await formatPricesForProduct({
+    productId: DEFAULT_PRODUCT_ID,
+    couponId: SITE_SALE_COUPON_ID,
+    country: 'IN',
+    ctx,
+  })
+
+  expect(first(product?.availableCoupons).country).toBe('IN')
 })
 
 test('product should have applied coupon present if "IN" and valid couponId', async () => {

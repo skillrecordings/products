@@ -24,7 +24,7 @@ const pricesHandler = async (req: NextApiRequest, res: NextApiResponse) => {
         spanContext,
       })
 
-      const country = (req.headers['x-vercel-ip-country'] as string) || 'US'
+      const country = (req.headers['x-vercel-ip-country'] as string) || 'UA'
 
       const {
         code,

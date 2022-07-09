@@ -219,8 +219,13 @@ export async function formatPricesForProduct(
     appliedMerchantCoupon.type === 'special' &&
     pppAvailable
   ) {
-    // no PPP for bulk
-    const pppCoupons = await couponForType('ppp', pppDiscountPercent, ctx)
+    // PPP + site coupon
+    const pppCoupons = await couponForType(
+      'ppp',
+      pppDiscountPercent,
+      ctx,
+      country,
+    )
 
     const {id, ...merchantCouponWithoutIdentifier} = appliedMerchantCoupon
 

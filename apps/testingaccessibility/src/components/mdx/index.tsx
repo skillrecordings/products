@@ -28,11 +28,18 @@ type SectionProps = {
   children: React.ReactNode
   image?: string
   className?: string
+  ariaLabel?: string
 }
 
-const Section: React.FC<SectionProps> = ({children, image, className}) => {
+const Section: React.FC<SectionProps> = ({
+  children,
+  image,
+  className,
+  ariaLabel,
+}) => {
   return (
     <section
+      aria-label={ariaLabel}
       className={cx(className, {
         'sm:pb-56 pb-24 sm:pt-48 pt-24 relative': image,
       })}
