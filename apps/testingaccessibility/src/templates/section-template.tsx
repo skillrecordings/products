@@ -46,103 +46,105 @@ const SectionTemplate: React.FC<SectionTemplateProps> = ({
   const nextUpSection = module && module.sections[currentSectionIndex + 1]
   return (
     <Layout className="flex-grow" meta={{title, ogImage}} skipNavContent={null}>
-      <div className="bg-gray-100">
-        <div className="max-w-screen-lg mx-auto w-full py-4 lg:px-1 px-2 overflow-x-auto">
-          <BreadcrumbNav module={module} section={section} />
-        </div>
-      </div>
-      <SkipNavContent />
-      <div className="flex-grow">
-        <header className="bg-green-700 bg-noise text-white pt-8 pb-12 px-5">
-          <div className="flex items-center justify-center gap-5 max-w-screen-md mx-auto min-h-[180px]">
-            <h1 className="font-heading md:text-5xl text-4xl font-bold w-full">
-              {title}
-            </h1>
-            {image && (
-              <div className="flex-shrink-0 md:block flex items-center justify-center translate-y-28 sm:-translate-x-2">
-                <Image
-                  src={image.url}
-                  width={150}
-                  height={150}
-                  quality={100}
-                  alt={image.alt}
-                />
-              </div>
-            )}
+      <main>
+        <div className="bg-gray-100">
+          <div className="max-w-screen-lg mx-auto w-full py-4 lg:px-1 px-2 overflow-x-auto">
+            <BreadcrumbNav module={module} section={section} />
           </div>
-        </header>
-        {lessons && (
-          <div className="-mt-4 max-w-screen-md w-full mx-auto">
-            <LessonsNavigator
-              lessons={lessons}
-              progress={progress}
-              sectionSlug={sectionSlug}
-              module={module}
-            />
+        </div>
+        <SkipNavContent />
+        <div className="flex-grow">
+          <header className="bg-green-700 bg-noise text-white pt-8 pb-12 px-5">
+            <div className="flex items-center justify-center gap-5 max-w-screen-md mx-auto min-h-[180px]">
+              <h1 className="font-heading md:text-5xl text-4xl font-bold w-full">
+                {title}
+              </h1>
+              {image && (
+                <div className="flex-shrink-0 md:block flex items-center justify-center translate-y-28 sm:-translate-x-2">
+                  <Image
+                    src={image.url}
+                    width={150}
+                    height={150}
+                    quality={100}
+                    alt={image.alt}
+                  />
+                </div>
+              )}
+            </div>
+          </header>
+          {lessons && (
+            <div className="-mt-4 max-w-screen-md w-full mx-auto">
+              <LessonsNavigator
+                lessons={lessons}
+                progress={progress}
+                sectionSlug={sectionSlug}
+                module={module}
+              />
+            </div>
+          )}
+          <div className="mx-auto xl:px-0 px-5 py-5 sm:pb-24 pb-16 lg:gap-10 gap-5">
+            <article className="max-w-screen-md mx-auto col-span-7">
+              {!lessons && (
+                <div className="pb-8">
+                  <TableOfContents value={body} />
+                </div>
+              )}
+              <div>
+                <div className="prose lg:prose-lg max-w-none">
+                  <PortableText
+                    value={body}
+                    components={PortableTextComponents}
+                  />
+                </div>
+              </div>
+            </article>
+          </div>
+        </div>
+        {!lessons && (
+          <div className="py-16 bg-green-700 bg-noise text-white w-full">
+            <div
+              className={cx(
+                'max-w-screen-lg mx-auto w-full items-center justify-center lg:divide-x divide-green-800/75 lg:gap-10 gap-16',
+                {
+                  'grid lg:grid-cols-2 grid-cols-1': nextUpSection && session,
+                  flex: !nextUpSection,
+                },
+              )}
+            >
+              {session && !lessons && (
+                <ProgressToggle
+                  isCurrentLessonCompleted={isCurrentLessonCompleted}
+                  toggleLessonComplete={toggleLessonComplete}
+                  slug={sectionSlug}
+                />
+              )}
+              {nextUpSection && currentSectionIndex === 0 && (
+                <div className="w-full py-16 flex items-center justify-center gap-5">
+                  <Link
+                    href={{
+                      pathname: '/learn/[module]/[section]',
+                      query: getPathForSection(
+                        nextUpSection.slug,
+                        modules as any,
+                      ),
+                    }}
+                  >
+                    <a className="focus-visible:ring-amber-500 transition-all mt-4 inline-flex items-center justify-center font-medium px-5 py-3 rounded-md bg-white shadow-lg hover:bg-white/90 text-black">
+                      <span className="pr-1">
+                        Up next:{' '}
+                        <span className="font-semibold">
+                          {nextUpSection.title}
+                        </span>
+                      </span>
+                      <ChevronRightIcon className="w-4" aria-hidden="true" />
+                    </a>
+                  </Link>
+                </div>
+              )}
+            </div>
           </div>
         )}
-        <main className="mx-auto xl:px-0 px-5 py-5 sm:pb-24 pb-16 lg:gap-10 gap-5">
-          <article className="max-w-screen-md mx-auto col-span-7">
-            {!lessons && (
-              <div className="pb-8">
-                <TableOfContents value={body} />
-              </div>
-            )}
-            <div>
-              <div className="prose lg:prose-lg max-w-none">
-                <PortableText
-                  value={body}
-                  components={PortableTextComponents}
-                />
-              </div>
-            </div>
-          </article>
-        </main>
-      </div>
-      {!lessons && (
-        <div className="py-16 bg-green-700 bg-noise text-white w-full">
-          <div
-            className={cx(
-              'max-w-screen-lg mx-auto w-full items-center justify-center lg:divide-x divide-green-800/75 lg:gap-10 gap-16',
-              {
-                'grid lg:grid-cols-2 grid-cols-1': nextUpSection && session,
-                flex: !nextUpSection,
-              },
-            )}
-          >
-            {session && !lessons && (
-              <ProgressToggle
-                isCurrentLessonCompleted={isCurrentLessonCompleted}
-                toggleLessonComplete={toggleLessonComplete}
-                slug={sectionSlug}
-              />
-            )}
-            {nextUpSection && currentSectionIndex === 0 && (
-              <div className="w-full py-16 flex items-center justify-center gap-5">
-                <Link
-                  href={{
-                    pathname: '/learn/[module]/[section]',
-                    query: getPathForSection(
-                      nextUpSection.slug,
-                      modules as any,
-                    ),
-                  }}
-                >
-                  <a className="focus-visible:ring-amber-500 transition-all mt-4 inline-flex items-center justify-center font-medium px-5 py-3 rounded-md bg-white shadow-lg hover:bg-white/90 text-black">
-                    <span className="pr-1">
-                      Up next:{' '}
-                      <span className="font-semibold">
-                        {nextUpSection.title}
-                      </span>
-                    </span>
-                    <ChevronRightIcon className="w-4" aria-hidden="true" />
-                  </a>
-                </Link>
-              </div>
-            )}
-          </div>
-        </div>
-      )}
+      </main>
     </Layout>
   )
 }

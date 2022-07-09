@@ -77,6 +77,7 @@ const Autocomplete = (props: any) => {
           className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-white/75"
           {...autocomplete.getLabelProps({})}
         >
+          <span className="sr-only">Search</span>
           <SearchIcon className="w-5 h-5" />
         </label>
         <input

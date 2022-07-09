@@ -272,7 +272,7 @@ const RestorePurchasesLink = () => {
 export const NavLogo = () => {
   const router = useRouter()
   return (
-    <Link href="/" aria-label="Home" passHref>
+    <Link href="/" aria-label="Testing Accessibility Home" passHref>
       <a
         className={cx(
           'h-full group text-gray-900 bg-white flex-shrink-0 flex items-center group after:content-[""] relative after:absolute after:-right-6 after:h-5 after:w-px sm:after:bg-gray-200',

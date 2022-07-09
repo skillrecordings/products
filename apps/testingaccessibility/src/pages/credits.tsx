@@ -20,24 +20,26 @@ const Credits = () => {
       }}
       className="bg-sand-50 text-green-800 bg-noise"
     >
-      <Header />
-      <main className="max-w-screen-lg mx-auto px-5 pb-24">
-        {instructor && <Instructor />}
-        <div className="grid sm:grid-cols-2 lg:gap-24 sm:gap-16 gap-10 max-w-screen-md w-full pt-16 mx-auto">
-          <Team />
-        </div>
-        <div className="flex items-center justify-center pt-24">
-          <Image
-            src={require('../../public/assets/divider-topography-1.png')}
-            alt=""
-            aria-hidden="true"
-            width={571 / 1.3}
-            height={102 / 1.3}
-            quality={100}
-          />
-        </div>
-        <div className="flex lg:flex-row flex-col gap-10 lg:py-32 py-20">
-          <ContentReviewTeam />
+      <main>
+        <Header />
+        <div className="max-w-screen-lg mx-auto px-5 pb-24">
+          {instructor && <Instructor />}
+          <div className="grid sm:grid-cols-2 lg:gap-24 sm:gap-16 gap-10 max-w-screen-md w-full pt-16 mx-auto">
+            <Team />
+          </div>
+          <div className="flex items-center justify-center pt-24">
+            <Image
+              src={require('../../public/assets/divider-topography-1.png')}
+              alt=""
+              aria-hidden="true"
+              width={571 / 1.3}
+              height={102 / 1.3}
+              quality={100}
+            />
+          </div>
+          <div className="flex lg:flex-row flex-col gap-10 lg:py-32 py-20">
+            <ContentReviewTeam />
+          </div>
         </div>
       </main>
     </Layout>

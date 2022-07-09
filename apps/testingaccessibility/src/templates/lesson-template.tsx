@@ -102,7 +102,7 @@ const LessonTemplate: React.FC<LessonTemplateProps> = ({
             </article>
           </div>
         </div>
-        <div className="py-16 bg-green-700 bg-noise text-white w-full">
+        <nav aria-label="Course controls" className="py-16 bg-green-700 bg-noise text-white w-full">
           <div
             className={cx(
               'max-w-screen-lg mx-auto w-full items-center justify-center lg:divide-x divide-green-600/75 divide-dashed lg:gap-10 gap-16',
@@ -128,7 +128,7 @@ const LessonTemplate: React.FC<LessonTemplateProps> = ({
               currentLessonIndex={currentLessonIndex}
             />
           </div>
-        </div>
+        </nav>
       </main>
     </Layout>
   )
@@ -165,7 +165,7 @@ export const ProgressToggle: React.FC<ProgressToggleProps> = ({
   return (
     <div className="flex flex-col items-center justify-center rounded-lg relative z-20">
       <div className="text-center pb-5">
-        <p className="text-2xl font-bold font-heading">Finished this lesson?</p>
+        <h2 className="text-2xl font-bold font-heading">Finished this lesson?</h2>
         <p className="text-sand-100">
           Mark it as complete to track your progress.
         </p>
@@ -252,7 +252,7 @@ const UpNext: React.FC<UpNextProps> = ({
     <>
       {nextLesson ? (
         <div className="text-center flex flex-col items-center px-5">
-          <p className="text-2xl font-heading font-bold pb-1">Up next</p>
+          <h2 className="text-2xl font-heading font-bold pb-1">Up next</h2>
           <p className="text-sand-100">
             There {pluralize('is', numberOfLessonsLeftInSection)}{' '}
             {numberOfLessonsLeftInSection} more{' '}
