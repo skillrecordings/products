@@ -47,21 +47,23 @@ const ArticleTemplate: React.FC<ArticleTemplateProps> = ({
         ogImage,
       }}
     >
-      <Header title={title} date={date} />
       <main>
-        <div className="max-w-screen-sm mx-auto w-full">
-          <div className="md:pt-16 pt-10 lg:px-0 px-5">
-            <article className="prose md:prose-lg md:prose-code:text-sm max-w-none">
-              <PortableText value={body} components={PortableTextComponents} />
-              {!hasSubscribed && subscribersOnly && (
-                <div className="absolute bottom-0 left-0 w-full bg-gradient-to-t from-white to-transparent h-80 z-10" />
-              )}
-            </article>
+        <Header title={title} date={date} />
+        <div>
+          <div className="max-w-screen-sm mx-auto w-full">
+            <div className="md:pt-16 pt-10 lg:px-0 px-5">
+              <article className="prose md:prose-lg md:prose-code:text-sm max-w-none">
+                <PortableText value={body} components={PortableTextComponents} />
+                {!hasSubscribed && subscribersOnly && (
+                  <div className="absolute bottom-0 left-0 w-full bg-gradient-to-t from-white to-transparent h-80 z-10" />
+                )}
+              </article>
+            </div>
           </div>
+          <section data-article="">
+            {getCTA({subscribersOnly, hasSubscribed, cta, router})}
+          </section>
         </div>
-        <section data-article="">
-          {getCTA({subscribersOnly, hasSubscribed, cta, router})}
-        </section>
       </main>
     </Layout>
   )

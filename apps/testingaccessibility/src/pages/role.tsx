@@ -39,21 +39,21 @@ const JobRole = () => {
 
   return (
     <Layout>
-      <div className="pt-8 pb-24 h-full flex flex-col items-center justify-center flex-grow">
+      <main className="pt-8 pb-24 h-full flex flex-col items-center justify-center flex-grow">
         <header className="text-center flex flex-col items-center justify-center">
           <h1 className="flex items-center sm:text-4xl text-3xl font-semibold pb-5">
             Thanks!
           </h1>
         </header>
-        <main className="prose sm:prose-lg max-w-screen-sm mx-auto px-5 leading-tight text-center">
+        <div className="prose sm:prose-lg max-w-screen-sm mx-auto px-5 leading-tight text-center">
           <p>Thanks for letting me know you're {message(tagId)}.</p>
           <p>
             Watch your inbox for more,
             <br />
             Marcy
           </p>
-        </main>
-      </div>
+        </div>
+      </main>
     </Layout>
   )
 }

@@ -25,7 +25,7 @@ const Home: React.FC<CommerceProps> = ({
   const {redeemableCoupon, RedeemDialogForCoupon} = useCoupon(couponFromCode)
   return (
     <Layout className="bg-white">
-      <div>
+      <main>
         <div className="flex flex-col justify-between min-h-screen overflow-hidden">
           <header className="relative text-white bg-green-700 lg:pt-24 sm:pt-24 pt-12 bg-noise">
             <div className="flex flex-col items-center justify-center w-full">
@@ -58,7 +58,7 @@ const Home: React.FC<CommerceProps> = ({
               </div>
             </div>
           </header>
-          <main className="w-full sm:pt-28 pt-16">
+          <div className="w-full sm:pt-28 pt-16">
             <article className="max-w-none prose-p:max-w-screen-sm prose-ul:sm:pr-0 prose-ul:pr-5 prose-p:w-full md:prose-p:px-0 prose-p:px-5 md:prose-headings:px-0 prose-headings:px-5 prose-headings:max-w-screen-sm prose-p:mx-auto prose-headings:mx-auto prose-ul:max-w-screen-sm prose-ul:mx-auto pt-16 text-gray-800 prose prose-lg prose-p:py-2 prose-h2:max-w-[30ch] prose-h2:font-bold prose-h2:pt-0 prose-headings:py-8 prose-p:font-sans prose-li:font-sans prose-h2:font-heading prose-h3:font-heading prose-h3:font-semibold prose-headings:text-center sm:prose-h3:pt-10 prose-h3:pt-0 sm:prose-h3:pb-14 prose-h3:pb-5 sm:prose-h3:max-w-[35ch] prose-h3:max-w-[30ch] prose-h3:mx-auto  lg:prose-xl">
               <NewLandingCopy />
             </article>
@@ -123,9 +123,9 @@ const Home: React.FC<CommerceProps> = ({
                 <PrimaryNewsletterCta />
               </>
             )}
-          </main>
+          </div>
         </div>
-      </div>
+      </main>
     </Layout>
   )
 }

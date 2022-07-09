@@ -60,11 +60,13 @@ const Layout: FunctionComponent<LayoutProps> = ({
         canonical={url}
         noindex={noIndex}
       />
-      <SkipNavLink className="z-50">
-        Skip navigation and go to content
-      </SkipNavLink>
-      {nav ? nav : isNull(nav) ? null : <Navigation />}
-      {skipNavContent}
+      <header aria-label="Global">
+        <SkipNavLink className="z-50">
+          Skip navigation and go to content
+        </SkipNavLink>
+        {nav ? nav : isNull(nav) ? null : <Navigation />}
+        {skipNavContent}
+      </header>
       <div
         className={cx(
           'flex flex-col flex-grow h-full sm:min-h-[calc(100vh-64px)] min-h-[calc(100vh-56px)]',

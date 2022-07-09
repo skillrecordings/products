@@ -35,48 +35,50 @@ const ModuleTemplate: React.FC<ModuleTemplateProps> = ({module}) => {
 
   return (
     <Layout meta={{title, ogImage}} skipNavContent={null}>
-      <header className="bg-gray-100">
-        <div className="max-w-screen-lg mx-auto w-full py-4 lg:px-2 px-4">
-          <BreadcrumbNav module={module} />
-        </div>
-      </header>
-      <SkipNavContent />
-      <main className="w-full bg-gray-100">
-        <div className="bg-green-700 bg-noise py-10 text-white">
-          <div className="max-w-screen-lg flex md:flex-row flex-col items-center justify-center mx-auto px-5">
-            <div>
-              <Image src={image.url} alt={image.alt} width={300} height={300} />
-            </div>
-            <div className="md:text-left text-center max-w-lg">
-              <h1 className="font-heading md:text-5xl text-4xl font-bold">
-                {title}
-              </h1>
-              <div className="pt-5 font-display flex items-center md:justify-start justify-center gap-2 text-sand-100">
-                <span>
-                  {sections?.length +
-                    ' ' +
-                    pluralize('section', sections?.length)}
-                </span>
-                <span className="opacity-70" aria-hidden="true">
-                  ・
-                </span>
-                <span>
-                  {allLessonsInModule?.length +
-                    ' ' +
-                    pluralize('lesson', allLessonsInModule?.length)}
-                </span>
+      <main>
+        <header className="bg-gray-100">
+          <div className="max-w-screen-lg mx-auto w-full py-4 lg:px-2 px-4">
+            <BreadcrumbNav module={module} />
+          </div>
+        </header>
+        <SkipNavContent />
+        <div className="w-full bg-gray-100">
+          <div className="bg-green-700 bg-noise py-10 text-white">
+            <div className="max-w-screen-lg flex md:flex-row flex-col items-center justify-center mx-auto px-5">
+              <div>
+                <Image src={image.url} alt={image.alt} width={300} height={300} />
               </div>
-              {resources && (
-                <div className="pt-5">
-                  <Resources resources={resources} />
+              <div className="md:text-left text-center max-w-lg">
+                <h1 className="font-heading md:text-5xl text-4xl font-bold">
+                  {title}
+                </h1>
+                <div className="pt-5 font-display flex items-center md:justify-start justify-center gap-2 text-sand-100">
+                  <span>
+                    {sections?.length +
+                      ' ' +
+                      pluralize('section', sections?.length)}
+                  </span>
+                  <span className="opacity-70" aria-hidden="true">
+                    ・
+                  </span>
+                  <span>
+                    {allLessonsInModule?.length +
+                      ' ' +
+                      pluralize('lesson', allLessonsInModule?.length)}
+                  </span>
                 </div>
-              )}
+                {resources && (
+                  <div className="pt-5">
+                    <Resources resources={resources} />
+                  </div>
+                )}
+              </div>
             </div>
           </div>
-        </div>
 
-        <div className="pb-10 md:-mt-5">
-          {sections && <Sections progress={progress} module={module} />}
+          <div className="pb-10 md:-mt-5">
+            {sections && <Sections progress={progress} module={module} />}
+          </div>
         </div>
       </main>
     </Layout>
@@ -224,9 +226,9 @@ const Sections: React.FC<SectionsProps> = ({progress, module}) => {
               {section.lessons && (
                 <div className="pt-8">
                   <div className="flex items-center gap-4">
-                    <strong className="uppercase text-xs font-semibold">
+                    <h2 className="uppercase text-xs font-semibold">
                       Lessons
-                    </strong>
+                    </h2>
                     <div className="w-full border-t border-gray-100" />
                   </div>
                   <ol className="list-none pt-2 divide-y divide-gray-100">
