@@ -10,14 +10,12 @@ function couponIsValid(coupon?: Coupon | null) {
   return true
 }
 
-export async function getActiveCouponId({
+export async function getActiveMerchantCoupon({
   productId,
   siteCouponId,
   code,
   spanContext,
-  coupon,
 }: {
-  coupon: string
   productId: string
   siteCouponId: string
   code: string
@@ -28,9 +26,13 @@ export async function getActiveCouponId({
     spanContext,
   })
 
-  let couponId = null
+  let activeMerchantCoupon = null
 
-  const activeDefaultSiteSaleCoupon = await getDefaultCoupon(productId)
+  const defaultCoupons = await getDefaultCoupon(productId)
+
+  const defaultMerchantCoupon = defaultCoupons
+    ? defaultCoupons.defaultMerchantCoupon
+    : null
 
   const incomingCoupon = await couponForIdOrCode({
     couponId: siteCouponId,
@@ -41,29 +43,37 @@ export async function getActiveCouponId({
     // compare the discounts if there is a coupon and site/sale running
     incomingCoupon?.merchantCoupon &&
     couponIsValid(incomingCoupon) &&
-    activeDefaultSiteSaleCoupon
+    defaultMerchantCoupon
   ) {
-    const {merchantCoupon} = incomingCoupon
+    const {merchantCoupon: incomingMerchantCoupon} = incomingCoupon
     if (
-      merchantCoupon.percentageDiscount >
-      activeDefaultSiteSaleCoupon.percentageDiscount
+      incomingMerchantCoupon.percentageDiscount >
+      defaultMerchantCoupon.percentageDiscount
     ) {
-      couponId = merchantCoupon.id
+      activeMerchantCoupon = incomingMerchantCoupon
     } else {
-      couponId = activeDefaultSiteSaleCoupon.id
+      activeMerchantCoupon = defaultMerchantCoupon
     }
   } else if (
     // if it's a coupon, use it
     incomingCoupon?.merchantCoupon &&
     couponIsValid(incomingCoupon)
   ) {
-    couponId = incomingCoupon.merchantCoupon.id
+    activeMerchantCoupon = incomingCoupon.merchantCoupon
   } else if (
     // if a sale is running, use that
-    activeDefaultSiteSaleCoupon
+    defaultMerchantCoupon
   ) {
-    couponId = activeDefaultSiteSaleCoupon.id
+    activeMerchantCoupon = defaultMerchantCoupon
   }
 
-  return coupon ? coupon : couponId
+  const defaultCoupon = defaultCoupons?.defaultCoupon
+
+  return {
+    activeMerchantCoupon,
+    ...(defaultCoupon &&
+      defaultCoupon.merchantCouponId === activeMerchantCoupon?.id && {
+        defaultCoupon,
+      }),
+  }
 }

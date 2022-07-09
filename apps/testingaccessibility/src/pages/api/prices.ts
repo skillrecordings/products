@@ -8,7 +8,7 @@ import {setupHttpTracing} from '@vercel/tracing-js'
 import {tracer} from '../../utils/honeycomb-tracer'
 import {find} from 'lodash'
 import {defaultContext} from '../../lib/context'
-import {getActiveCouponId} from '../../utils/get-active-coupon-id'
+import {getActiveMerchantCoupon} from '../../utils/get-active-merchant-coupon'
 
 const pricesHandler = async (req: NextApiRequest, res: NextApiResponse) => {
   const spanContext = setupHttpTracing({
@@ -26,8 +26,14 @@ const pricesHandler = async (req: NextApiRequest, res: NextApiResponse) => {
 
       const country = (req.headers['x-vercel-ip-country'] as string) || 'UA'
 
-      const {code, quantity, productId, coupon, purchases, siteCouponId} =
-        req.body
+      const {
+        code,
+        quantity,
+        productId,
+        merchantCouponId,
+        purchases,
+        siteCouponId,
+      } = req.body
 
       const availableUpgrades = await availableUpgradesForProduct(
         purchases,
@@ -44,13 +50,13 @@ const pricesHandler = async (req: NextApiRequest, res: NextApiResponse) => {
             return upgradeProductIds.includes(purchase.productId)
           })?.id
 
-      const couponId = await getActiveCouponId({
-        siteCouponId,
-        coupon,
-        code,
-        productId,
-        spanContext,
-      })
+      const {activeMerchantCoupon, defaultCoupon} =
+        await getActiveMerchantCoupon({
+          siteCouponId,
+          code,
+          productId,
+          spanContext,
+        })
 
       if (quantity > 100) throw new Error(`contact-for-pricing`)
 
@@ -60,13 +66,15 @@ const pricesHandler = async (req: NextApiRequest, res: NextApiResponse) => {
           country,
           quantity,
           code,
-          couponId,
+          merchantCouponId: activeMerchantCoupon
+            ? activeMerchantCoupon.id
+            : merchantCouponId,
           ...(upgradeFromPurchaseId && {upgradeFromPurchaseId}),
         },
         spanContext,
       )
 
-      res.status(200).json(product)
+      res.status(200).json({...product, ...(defaultCoupon && {defaultCoupon})})
     } catch (error: any) {
       Sentry.captureException(error)
       res.status(500).json({error: true, message: error.message})
