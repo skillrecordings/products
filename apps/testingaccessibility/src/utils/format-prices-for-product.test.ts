@@ -198,7 +198,7 @@ test('available ppp coupons should have country "IN" set with active sale', asyn
   )
   const product = await formatPricesForProduct({
     productId: DEFAULT_PRODUCT_ID,
-    couponId: SITE_SALE_COUPON_ID,
+    merchantCouponId: SITE_SALE_COUPON_ID,
     country: 'IN',
     ctx,
   })
