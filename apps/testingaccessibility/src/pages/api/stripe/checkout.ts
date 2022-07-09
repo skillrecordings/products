@@ -9,6 +9,7 @@ import {setupHttpTracing} from '@vercel/tracing-js'
 import {tracer} from '../../../utils/honeycomb-tracer'
 import {first} from 'lodash'
 import {getCalculatedPriced} from '../../../utils/get-calculated-price'
+import {PurchaseStatus} from '@prisma/client'
 
 export class CheckoutError extends Error {
   couponId?: string
@@ -64,9 +65,10 @@ export default withSentry(async function stripeCheckoutHandler(
         : false
 
       const upgradeFromPurchase = upgradeFromPurchaseId
-        ? await prisma.purchase.findUnique({
+        ? await prisma.purchase.findFirst({
             where: {
               id: upgradeFromPurchaseId as string,
+              status: PurchaseStatus.Valid,
             },
             include: {
               product: true,
