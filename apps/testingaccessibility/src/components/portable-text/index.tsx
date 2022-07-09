@@ -259,7 +259,7 @@ const PortableTextComponents: PortableTextComponentsProps = {
       const title = getCalloutTitle(type)
       const image = getCalloutImage(type)
       return (
-        <div
+        <figure
           className={cx(`p-5 sm:my-8 my-4 rounded-md`, getCalloutStyles(type), {
             'sm:flex': isEmpty(title),
           })}
@@ -278,7 +278,7 @@ const PortableTextComponents: PortableTextComponentsProps = {
           <div className="min-w-0 first-of-type:prose-p:mt-0 last-of-type:prose-p:mb-0">
             <PortableText value={body} components={PortableTextComponents} />
           </div>
-        </div>
+        </figure>
       )
     },
     divider: ({value}: DividerProps) => {
@@ -385,7 +385,7 @@ const getCalloutTitle = (type: string): string => {
 const getCalloutImage = (type: string): {alt: string; src: string} => {
   switch (type) {
     case 'tip':
-      return {alt: 'light bulp', src: '💡'}
+      return {alt: 'light bulb', src: '💡'}
     case 'big-idea':
       return {alt: 'exploding head', src: '🤯'}
     case 'reflection':
@@ -397,7 +397,7 @@ const getCalloutImage = (type: string): {alt: string; src: string} => {
     case 'link':
       return {alt: 'waving hand', src: '👋'}
     default:
-      return {alt: 'speech baloon', src: '💬'}
+      return {alt: 'speech balloon', src: '💬'}
   }
 }
 
