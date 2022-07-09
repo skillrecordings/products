@@ -159,7 +159,7 @@ const ExternalLink: React.FC<ExternalLinkProps> = ({
 }) => {
   const {blank, href} = value
   return blank ? (
-    <a href={href} target="_blank" rel="noopener noreferrer" {...props}>
+    <a href={href} target="_blank" rel="noopener noreferrer" {...props} title="Link opens in a new window">
       {children}
     </a>
   ) : (

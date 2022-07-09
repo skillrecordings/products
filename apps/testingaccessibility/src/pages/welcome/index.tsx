@@ -160,6 +160,7 @@ const Invoice: React.FC<{purchase: any}> = ({purchase}: any) => {
         <a
           target="_blank"
           className="border bg-green-500 hover:bg-green-600 text-white transition px-4 py-2 rounded-md flex-shrink-0 font-semibold"
+          title="Link opens in a new window"
         >
           Get your invoice{' '}
           <span role="presentation" aria-hidden="true">
