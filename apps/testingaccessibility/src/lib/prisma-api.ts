@@ -303,8 +303,7 @@ export function getSdk(
             gte: new Date(),
           },
         },
-        select: {
-          restrictedToProductId: true,
+        include: {
           merchantCoupon: true,
         },
       })
@@ -312,12 +311,15 @@ export function getSdk(
       span.finish()
 
       if (activeSaleCoupon) {
-        const {restrictedToProductId, merchantCoupon} = activeSaleCoupon
+        const {restrictedToProductId} = activeSaleCoupon
         const validForProductId = restrictedToProductId
           ? restrictedToProductId === productId
           : true
 
-        if (validForProductId) return merchantCoupon
+        const {merchantCoupon: defaultMerchantCoupon, ...defaultCoupon} =
+          activeSaleCoupon
+
+        if (validForProductId) return {defaultMerchantCoupon, defaultCoupon}
       }
     },
   }

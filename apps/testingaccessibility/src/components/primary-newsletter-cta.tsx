@@ -10,6 +10,7 @@ export const PrimaryNewsletterCta: React.FC = () => {
   const router = useRouter()
   return (
     <section
+      aria-label="Email course sign-up"
       id="subscribe"
       className="relative flex flex-col items-center justify-center overflow-hidden text-white bg-noise bg-green-700 sm:px-16 px-5 lg:pb-32 sm:pb-24 pb-16 sm:pt-24 pt-10"
     >
@@ -26,8 +27,8 @@ export const PrimaryNewsletterCta: React.FC = () => {
         />
       </div>
       <h2 className="max-w-lg font-heading mx-auto -mt-4 sm:text-4xl text-3xl leading-none text-center md:text-5xl font-bold sm:mt-0">
-        Join my exclusive <span className="whitespace-nowrap">6-part</span>{' '}
-        email course
+        Join my exclusive, free{' '}
+        <span className="whitespace-nowrap">6-part</span> email course
       </h2>
       <h3 className="max-w-md leading-tight pt-6 pb-16 text-xl text-center text-orange-200">
         And learn more about building and testing accessible web applications.

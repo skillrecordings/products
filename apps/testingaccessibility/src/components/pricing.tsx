@@ -27,6 +27,7 @@ type PricingProps = {
  * @param purchases
  * @param userId - If user is logged in, this is the user's ID.
  * @param index
+ * @param couponId
  * @constructor
  */
 export const Pricing: React.FC<PricingProps> = ({
@@ -37,19 +38,22 @@ export const Pricing: React.FC<PricingProps> = ({
   index,
   couponId,
 }) => {
-  const [coupon, setCoupon] = React.useState<{id: string; type: string}>()
+  const [merchantCoupon, setMerchantMerchantCoupon] = React.useState<{
+    id: string
+    type: string
+  }>()
   const [quantity, setQuantity] = React.useState(1)
   const debouncedQuantity: number = useDebounce<number>(quantity, 250)
   const {productId, name, image, modules, features, action} = product
 
   const {data: formattedPrice, status} = useQuery<FormattedPrice>(
-    ['pricing', coupon, debouncedQuantity, productId, userId, couponId],
+    ['pricing', merchantCoupon, debouncedQuantity, productId, userId, couponId],
     () =>
       fetch('/api/prices', {
         method: 'POST',
         body: JSON.stringify({
           productId,
-          ...(coupon && {coupon: coupon.id}),
+          ...(merchantCoupon && {merchantCouponId: merchantCoupon.id}),
           quantity,
           purchases,
           userId,
@@ -62,17 +66,19 @@ export const Pricing: React.FC<PricingProps> = ({
   )
 
   const availableCoupon = formattedPrice?.availableCoupons?.[0]
-  const appliedCoupon = formattedPrice?.appliedCoupon
+  const appliedMerchantCoupon = formattedPrice?.appliedMerchantCoupon
   const fullPrice =
     (formattedPrice?.unitPrice || 0) * (formattedPrice?.quantity || 0)
   const percentOff =
-    appliedCoupon && Math.floor(appliedCoupon.percentageDiscount * 100)
-  const percentOffLabel = appliedCoupon && `${percentOff}% off of $${fullPrice}`
+    appliedMerchantCoupon &&
+    Math.floor(appliedMerchantCoupon.percentageDiscount * 100)
+  const percentOffLabel =
+    appliedMerchantCoupon && `${percentOff}% off of $${fullPrice}`
   const pppCoupon = find(
     formattedPrice?.availableCoupons,
     (coupon) => coupon.type === 'ppp',
   )
-  const showPPPBox = (pppCoupon || coupon?.type === 'ppp') && !purchased
+  const showPPPBox = (pppCoupon || merchantCoupon?.type === 'ppp') && !purchased
 
   return (
     <div className="relative flex flex-col items-center">
@@ -87,14 +93,16 @@ export const Pricing: React.FC<PricingProps> = ({
         />
       </div>
       <article className="bg-white rounded-md flex flex-col items-center justify-center">
-        {appliedCoupon && <Ribbon appliedCoupon={appliedCoupon} />}
+        {appliedMerchantCoupon && (
+          <Ribbon appliedMerchantCoupon={appliedMerchantCoupon} />
+        )}
         <div className={cx('pt-24 flex flex-col items-center')}>
-          <span
+          <h4
             data-pricing-product-name-badge={index}
             className="inline-flex px-4 py-1 pb-1.5 rounded-full font-nav text-sm font-semibold tracking-wide uppercase"
           >
             {name}
-          </span>
+          </h4>
           <div className="mt-4 flex items-baseline text-6xl font-bold font-heading">
             {status === 'loading' ? (
               <div className="pt-4 pb-3">
@@ -111,7 +119,7 @@ export const Pricing: React.FC<PricingProps> = ({
                 </sup>
                 <div aria-live="polite" className="flex">
                   {'$' + formattedPrice?.calculatedPrice}
-                  {appliedCoupon && (
+                  {appliedMerchantCoupon && (
                     <>
                       <div
                         aria-hidden="true"
@@ -125,7 +133,7 @@ export const Pricing: React.FC<PricingProps> = ({
                         </div>
                       </div>
                       <div className="sr-only">
-                        {appliedCoupon.type === 'bulk' ? (
+                        {appliedMerchantCoupon.type === 'bulk' ? (
                           <div className="font-medium">Team discount.</div>
                         ) : null}{' '}
                         {percentOffLabel}
@@ -152,7 +160,7 @@ export const Pricing: React.FC<PricingProps> = ({
           <form
             action={`/api/stripe/checkout?productId=${
               formattedPrice?.id
-            }&couponId=${appliedCoupon?.id}&quantity=${quantity}${
+            }&couponId=${appliedMerchantCoupon?.id}&quantity=${quantity}${
               userId ? `&userId=${userId}` : ``
             }${
               formattedPrice?.upgradeFromPurchaseId
@@ -162,47 +170,50 @@ export const Pricing: React.FC<PricingProps> = ({
             method="POST"
             className="pt-8 xl:px-12 px-5 flex flex-col items-center justify-center w-full"
           >
-            <div className="mb-5">
-              <label className=" flex items-center gap-3">
-                <span className="opacity-80">Seats</span>
-                <input
-                  className="bg-gray-100 border border-gray-200 pl-3 py-2 rounded-md font-bold font-mono"
-                  type="number"
-                  min={1}
-                  max={100}
-                  step={1}
-                  onChange={(e) => {
-                    const quantity = Number(e.target.value)
-                    setCoupon(undefined)
-                    setQuantity(
-                      quantity < 1 ? 1 : quantity > 100 ? 100 : quantity,
-                    )
-                  }}
-                  value={quantity}
-                  id={`${quantity}-${name}`}
-                  required={true}
-                />
-              </label>
-            </div>
-            <button
-              data-pricing-product-checkout-button={index}
-              className="flex text-center px-5 py-4 pb-[1.1rem] font-nav font-semibold items-center justify-center rounded-md w-full text-lg transition disabled:cursor-wait"
-              type="submit"
-              disabled={status === 'loading' || status === 'error'}
-            >
-              <span className="relative z-10">
-                {formattedPrice?.upgradeFromPurchaseId
-                  ? `Upgrade Now`
-                  : action || `Ship Accessible Apps Like a Pro`}
-              </span>
-            </button>
+            <fieldset>
+              <legend className="sr-only">{name}</legend>
+              <div className="mb-5 xl:px-12 px-5 flex flex-col items-center justify-center w-full">
+                <label className=" flex items-center gap-3">
+                  <span className="opacity-80">Seats</span>
+                  <input
+                    className="bg-gray-100 border border-gray-200 pl-3 py-2 rounded-md font-bold font-mono"
+                    type="number"
+                    min={1}
+                    max={100}
+                    step={1}
+                    onChange={(e) => {
+                      const quantity = Number(e.target.value)
+                      setMerchantMerchantCoupon(undefined)
+                      setQuantity(
+                        quantity < 1 ? 1 : quantity > 100 ? 100 : quantity,
+                      )
+                    }}
+                    value={quantity}
+                    id={`${quantity}-${name}`}
+                    required={true}
+                  />
+                </label>
+              </div>
+              <button
+                data-pricing-product-checkout-button={index}
+                className="flex text-center px-5 py-4 pb-[1.1rem] font-nav font-semibold items-center justify-center rounded-md w-full text-lg transition disabled:cursor-wait"
+                type="submit"
+                disabled={status === 'loading' || status === 'error'}
+              >
+                <span className="relative z-10">
+                  {formattedPrice?.upgradeFromPurchaseId
+                    ? `Upgrade Now`
+                    : action || `Ship Accessible Apps Like a Pro`}
+                </span>
+              </button>
+            </fieldset>
           </form>
         )}
         {showPPPBox && (
           <RegionalPricingBox
-            pppCoupon={pppCoupon || coupon}
-            activeCoupon={coupon}
-            setActiveCoupon={setCoupon}
+            pppCoupon={pppCoupon || merchantCoupon}
+            activeCoupon={merchantCoupon}
+            setActiveCoupon={setMerchantMerchantCoupon}
             index={index}
           />
         )}
@@ -271,6 +282,12 @@ const RegionalPricingBox: React.FC<RegionalPricingBoxProps> = ({
   index,
 }) => {
   const regionNames = new Intl.DisplayNames(['en'], {type: 'region'})
+
+  if (!pppCoupon.country) {
+    console.error('No country found for PPP coupon', {pppCoupon})
+    return null
+  }
+
   const countryCode = pppCoupon.country
   const country = regionNames.of(countryCode)
   const percentOff = Math.floor(pppCoupon.percentageDiscount * 100)
@@ -309,20 +326,20 @@ const RegionalPricingBox: React.FC<RegionalPricingBoxProps> = ({
 }
 
 type RibbonProps = {
-  appliedCoupon: {
+  appliedMerchantCoupon: {
     type: string
   }
 }
 
-const Ribbon: React.FC<RibbonProps> = ({appliedCoupon}) => {
+const Ribbon: React.FC<RibbonProps> = ({appliedMerchantCoupon}) => {
   return (
     <div className="absolute -top-3 -right-3 aspect-square w-32 overflow-hidden rounded">
       <div className="absolute top-0 left-0 h-3 w-3 bg-amber-500"></div>
       <div className="absolute bottom-0 right-0 h-3 w-3 bg-amber-500"></div>
       <div className="absolute bottom-0 right-0 h-6 w-[141.42%] origin-bottom-right rotate-45 bg-amber-300">
-        {appliedCoupon && (
+        {appliedMerchantCoupon && (
           <div className="flex flex-col items-center py-1 text-xs font-bold uppercase">
-            {getCouponLabel(appliedCoupon.type)}
+            {getCouponLabel(appliedMerchantCoupon.type)}
           </div>
         )}
       </div>

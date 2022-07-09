@@ -8,6 +8,7 @@ import {getSdk} from '../../lib/prisma-api'
 import * as Sentry from '@sentry/nextjs'
 import {setupHttpTracing} from '@vercel/tracing-js'
 import {tracer} from '../../utils/honeycomb-tracer'
+import {postRedemptionToSlack} from '../../server/post-to-slack'
 
 export class CouponRedemptionError extends Error {
   couponId: string
@@ -106,6 +107,9 @@ const redeemHandler = async (req: NextApiRequest, res: NextApiResponse) => {
             },
           },
         })
+
+        if (!coupon.bulkPurchaseId)
+          await postRedemptionToSlack(user.email, purchase.productId)
 
         res.status(200).json(purchase)
         return
