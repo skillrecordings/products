@@ -274,6 +274,11 @@ const RegionalPricingBox: React.FC<RegionalPricingBoxProps> = ({
   index,
 }) => {
   const regionNames = new Intl.DisplayNames(['en'], {type: 'region'})
+
+  if (!pppCoupon.country) {
+    return null
+  }
+
   const countryCode = pppCoupon.country
   const country = regionNames.of(countryCode)
   const percentOff = Math.floor(pppCoupon.percentageDiscount * 100)
