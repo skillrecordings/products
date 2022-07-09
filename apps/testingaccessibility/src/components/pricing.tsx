@@ -10,6 +10,7 @@ import Spinner from './spinner'
 import Image from 'next/image'
 import find from 'lodash/find'
 import cx from 'classnames'
+import {usePriceCheck} from '../context/pricing-check-context'
 
 type PricingProps = {
   product: SanityProduct
@@ -45,6 +46,7 @@ export const Pricing: React.FC<PricingProps> = ({
   const [quantity, setQuantity] = React.useState(1)
   const debouncedQuantity: number = useDebounce<number>(quantity, 250)
   const {productId, name, image, modules, features, action} = product
+  const {addPrice, isDowngrade} = usePriceCheck()
 
   const {data: formattedPrice, status} = useQuery<FormattedPrice>(
     ['pricing', merchantCoupon, debouncedQuantity, productId, userId, couponId],
@@ -62,7 +64,12 @@ export const Pricing: React.FC<PricingProps> = ({
         headers: {
           'Content-Type': 'application/json',
         },
-      }).then((res) => res.json()),
+      })
+        .then((res) => res.json())
+        .then((formattedPrice: FormattedPrice) => {
+          addPrice(formattedPrice, productId)
+          return formattedPrice
+        }),
   )
 
   const availableCoupon = formattedPrice?.availableCoupons?.[0]
@@ -78,7 +85,10 @@ export const Pricing: React.FC<PricingProps> = ({
     formattedPrice?.availableCoupons,
     (coupon) => coupon.type === 'ppp',
   )
-  const showPPPBox = (pppCoupon || merchantCoupon?.type === 'ppp') && !purchased
+  const showPPPBox =
+    (pppCoupon || merchantCoupon?.type === 'ppp') &&
+    !purchased &&
+    !isDowngrade(formattedPrice)
 
   return (
     <div className="relative flex flex-col items-center">
@@ -154,6 +164,15 @@ export const Pricing: React.FC<PricingProps> = ({
             >
               <CheckCircleIcon aria-hidden="true" className="mt-0.5 w-6 h-6" />{' '}
               Purchased
+            </div>
+          </div>
+        ) : isDowngrade(formattedPrice) ? (
+          <div className="w-full px-8">
+            <div
+              data-pricing-product-checkout-button={index}
+              className="flex text-center px-5 py-4 font-nav font-semibold items-center justify-center rounded-md w-full text-lg gap-1 my-8 shadow-inner bg-green-700 bg-noise text-white after:hidden"
+            >
+              Unavailable
             </div>
           </div>
         ) : (
@@ -296,13 +315,13 @@ const RegionalPricingBox: React.FC<RegionalPricingBoxProps> = ({
     <div data-pricing-product-ppp={index} className="rounded-md mt-5">
       <div className="space-y-4">
         <p className="font-medium">
-          We noticed that you're from {country}.{' '}
+          We noticed that you're from {country}{' '}
           <img
             className="inline-block"
             src={`https://hardcore-golick-433858.netlify.app/image?code=${countryCode}`}
             alt={`${country} flag`}
-          />{' '}
-          To help facilitate global learning, we are offering purchasing power
+          />
+          . To help facilitate global learning, we are offering purchasing power
           parity pricing.
         </p>
         <p className="">
