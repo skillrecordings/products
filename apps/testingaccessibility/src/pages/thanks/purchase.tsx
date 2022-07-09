@@ -35,7 +35,7 @@ const ThanksVerify: React.FC<{name: string; email: string}> = ({
   email,
 }) => {
   return (
-    <Layout footer={null} className="bg-green-700 bg-noise">
+    <Layout footer={null} className="bg-green-700 bg-noise" meta={{title: "Purchase Successful"}}>
       <main className="flex flex-col flex-grow items-center justify-center pt-5 pb-16 px-5 text-white">
         <div className="flex flex-col max-w-screen-md mx-auto w-full gap-5 items-center text-center">
           <Image
