@@ -217,8 +217,6 @@ const PortableTextComponents: PortableTextComponentsProps = {
           <figcaption>
             <details
               className="group marker:text-transparent"
-              aria-label="Video transcript"
-              role="contentinfo"
             >
               <summary className="inline-flex space-x-2 items-center cursor-pointer text-gray-600 hover:text-gray-800 transition">
                 <span

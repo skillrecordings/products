@@ -226,9 +226,9 @@ const Sections: React.FC<SectionsProps> = ({progress, module}) => {
               {section.lessons && (
                 <div className="pt-8">
                   <div className="flex items-center gap-4">
-                    <strong className="uppercase text-xs font-semibold">
+                    <h2 className="uppercase text-xs font-semibold">
                       Lessons
-                    </strong>
+                    </h2>
                     <div className="w-full border-t border-gray-100" />
                   </div>
                   <ol className="list-none pt-2 divide-y divide-gray-100">
