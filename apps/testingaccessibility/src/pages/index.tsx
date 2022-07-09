@@ -64,7 +64,10 @@ const Home: React.FC<CommerceProps> = ({
             </article>
             {isSellingLive ? (
               <>
-                <section aria-label="Purchasing information" className="flex flex-col justify-center items-center bg-green-700 bg-noise pb-32">
+                <section
+                  aria-label="Purchasing information"
+                  className="flex flex-col justify-center items-center bg-green-700 bg-noise pb-32"
+                >
                   <div className="pb-80 sm:pt-32 pt-24 text-white">
                     <div className="max-w-7xl mx-auto text-center px-4 sm:px-6 lg:px-8">
                       <div className="max-w-3xl mx-auto space-y-4 lg:max-w-none">
@@ -99,9 +102,15 @@ const Home: React.FC<CommerceProps> = ({
                     />
                   </div>
                 </section>
-                <section aria-labelledby="header-faq" className="flex flex-col bg-gray-50">
+                <section
+                  aria-labelledby="header-faq"
+                  className="flex flex-col bg-gray-50"
+                >
                   <div className="max-w-screen-lg mx-auto w-full py-24">
-                    <h2 className="text-center font-heading lg:text-5xl sm:text-4xl text-3xl font-bold pb-24" id="header-faq">
+                    <h2
+                      className="text-center font-heading lg:text-5xl sm:text-4xl text-3xl font-bold pb-24"
+                      id="header-faq"
+                    >
                       Frequently Asked Questions
                     </h2>
                     <FAQ />
