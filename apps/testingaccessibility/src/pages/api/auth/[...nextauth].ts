@@ -158,7 +158,7 @@ function html({url, host, email}: Record<'url' | 'host' | 'email', string>) {
   <mj-body background-color="${backgroundColor}">
     <mj-section padding="10px">
       <mj-column background-color="${backgroundColor}">
-        <mj-image width="180px" src="https://res.cloudinary.com/testing-accessibility/image/upload/v1655584147/logo-email_2x_e0n8tn.png" />
+        <mj-image alt="Testing Accessibility by Marcy Sutton" width="180px" src="https://res.cloudinary.com/testing-accessibility/image/upload/v1655584147/logo-email_2x_e0n8tn.png" />
       </mj-column>
     </mj-section>
     <mj-section padding-top="0">
