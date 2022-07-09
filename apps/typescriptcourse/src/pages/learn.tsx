@@ -1,6 +1,6 @@
 import * as React from 'react'
 import {FunctionComponent} from 'react'
-import Layout from '../components/layout'
+import Layout from '../components/app/layout'
 import Link from 'next/link'
 import useLoginRequired from 'hooks/use-required-login'
 import {usePurchasedBundle} from 'hooks/use-purchased-bundle'
@@ -85,11 +85,11 @@ const Learn: FunctionComponent<Props> = ({bundles}) => {
     <Layout>
       {/* TODO: style and enable this welcome banner */}
       {/* <WelcomeBanner
-        className="max-w-screen-lg mx-auto bg-gradient-to-tr border-2 bg-white border-blue-500 shadow-lg rounded-md w-full text-blue-600 dark:text-white md:text-base text-sm z-0 xl:mb-4 mb-0 xl:mt-0 mt-4"
+        className="z-0 w-full max-w-screen-lg mx-auto mt-4 mb-0 text-sm text-blue-600 bg-white border-2 border-blue-500 rounded-md shadow-lg bg-gradient-to-tr dark:text-white md:text-base xl:mb-4 xl:mt-0"
         {...bannerProps}
       /> */}
-      <div className="grid sm:grid-cols-12 grid-cols-1 max-w-screen-xl w-full mx-auto pt-16 gap-5 h-full flex-grow">
-        <aside className="sm:col-span-3 relative">
+      <div className="grid flex-grow w-full h-full max-w-screen-xl grid-cols-1 gap-5 pt-16 mx-auto sm:grid-cols-12">
+        <aside className="relative sm:col-span-3">
           <div className="space-y-3 sm:sticky top-5">
             <CallToAction
               viewer={viewer}
@@ -105,7 +105,7 @@ const Learn: FunctionComponent<Props> = ({bundles}) => {
             <Achievements purchasedBundle={purchasedBundle} />
           </div>
         </aside>
-        <div className="sm:col-span-9 space-y-3">
+        <div className="space-y-3 sm:col-span-9">
           {sortedModules ? (
             sortedModules.map((module: Resource) => {
               const items: any = get(
@@ -128,7 +128,7 @@ const Learn: FunctionComponent<Props> = ({bundles}) => {
               )
             })
           ) : (
-            <div className="flex w-full h-full items-center justify-center bg-gray-100 dark:bg-gray-900 p-10">
+            <div className="flex items-center justify-center w-full h-full p-10 bg-gray-100 dark:bg-gray-900">
               <Spinner />
             </div>
           )}
@@ -156,7 +156,7 @@ const Learn: FunctionComponent<Props> = ({bundles}) => {
 //   }
 
 //   return (
-//     <div className="mt-16 max-w-screen-md w-full grid md:grid-cols-6 grid-cols-1 mx-auto md:pt-0 pt-5 gap-8">
+//     <div className="grid w-full max-w-screen-md grid-cols-1 gap-8 pt-5 mx-auto mt-16 md:grid-cols-6 md:pt-0">
 //       <div className="flex items-start justify-center col-span-2">
 //         <div className="flex overflow-hidden rounded-lg shadow-xl">
 //           <Image
@@ -167,13 +167,13 @@ const Learn: FunctionComponent<Props> = ({bundles}) => {
 //           />
 //         </div>
 //       </div>
-//       <div className=" space-y-8 col-span-4">
+//       <div className="col-span-4 space-y-8 ">
 //         <h3 className="text-3xl font-bold leading-tight">Pure React Book</h3>
 //         <a
 //           download
 //           target="_blank"
 //           href={bookDownloadUrl}
-//           className="bg-gradient-to-tr leading-tight py-4 px-3 from-blue-500 to-blue-600 hover:from-blue-700 hover:to-blue-800 hover:shadow-xl transition-all ease-in-out duration-300  text-white dark:text-white shadow-inner rounded-md overflow-hidden inline-flex items-center space-x-2"
+//           className="inline-flex items-center px-3 py-4 space-x-2 overflow-hidden leading-tight text-white transition-all duration-300 ease-in-out rounded-md shadow-inner bg-gradient-to-tr from-blue-500 to-blue-600 hover:from-blue-700 hover:to-blue-800 hover:shadow-xl dark:text-white"
 //         >
 //           <div className="pr-4 font-medium">
 //             Download Pure React{' '}
@@ -184,7 +184,7 @@ const Learn: FunctionComponent<Props> = ({bundles}) => {
 //           {chapters.map((chapter: any, i: string) => (
 //             <li key={chapter.slug}>
 //               <Link href={`/book/${chapter.slug}`}>
-//                 <a className="hover:shadow-lg hover:bg-white dark:hover:bg-gray-900 hover:rounded-md hover:border-transparent hover:text-blue-600 dark:hover:text-blue-400 transition-all ease-in-out duration-150 flex p-3 items-center space-x-3 group border-b dark:border-gray-900 border-gray-100 leading-tight">
+//                 <a className="flex items-center p-3 space-x-3 leading-tight transition-all duration-150 ease-in-out border-b border-gray-100 hover:shadow-lg hover:bg-white dark:hover:bg-gray-900 hover:rounded-md hover:border-transparent hover:text-blue-600 dark:hover:text-blue-400 group dark:border-gray-900">
 //                   <div className="text-xs text-gray-600 dark:text-gray-400">
 //                     {i + 1}
 //                   </div>

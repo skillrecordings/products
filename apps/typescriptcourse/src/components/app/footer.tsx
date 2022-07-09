@@ -2,8 +2,8 @@ import React from 'react'
 import Link from 'next/link'
 import {useRouter} from 'next/router'
 import cx from 'classnames'
-import Bio from './bio'
-import Icon from '../../public/android-chrome-192x192.png'
+import Bio from '../bio'
+import Icon from '/public/android-chrome-192x192.png'
 import Image from 'next/image'
 
 const modules = [

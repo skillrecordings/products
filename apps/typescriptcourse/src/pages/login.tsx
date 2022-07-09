@@ -2,7 +2,7 @@ import React, {FunctionComponent} from 'react'
 import * as yup from 'yup'
 import {Formik} from 'formik'
 import {useViewer} from '@skillrecordings/viewer'
-import Layout from '../components/layout'
+import Layout from '../components/app/layout'
 import Image from 'next/image'
 
 const loginSchema = yup.object().shape({
@@ -40,14 +40,14 @@ const LoginForm: FunctionComponent<LoginFormProps> = ({
         }
       >
         <Image src="/placeholder-rect.svg" width={150} height={150} alt="" />
-        <div className="sm:mx-auto rounded-lg mt-10">
+        <div className="mt-10 rounded-lg sm:mx-auto">
           {isSubmitted && (
-            <h2 className="text-center text-3xl leading-9 font-bold">
+            <h2 className="text-3xl font-bold leading-9 text-center">
               Email Sent
             </h2>
           )}
           {isError && (
-            <h2 className="text-center text-3xl leading-9 font-bold">
+            <h2 className="text-3xl font-bold leading-9 text-center">
               Something went wrong!
             </h2>
           )}
@@ -57,13 +57,13 @@ const LoginForm: FunctionComponent<LoginFormProps> = ({
               children
             ) : (
               <>
-                <h2 className="text-center text-3xl leading-9 font-bold">
+                <h2 className="text-3xl font-bold leading-9 text-center">
                   Log in to My Product
                 </h2>
                 <p></p>
               </>
             ))}
-          <div className="sm:mt-8 mt-4 sm:mx-auto sm:w-full sm:max-w-xl">
+          <div className="mt-4 sm:mt-8 sm:mx-auto sm:w-full sm:max-w-xl">
             <div className="pb-8">
               {!isSubmitted && !isError && (
                 <Formik
@@ -94,14 +94,14 @@ const LoginForm: FunctionComponent<LoginFormProps> = ({
                         <form onSubmit={handleSubmit} className={formClassName}>
                           <label
                             htmlFor="email"
-                            className="block leading-5 text-sm font-semibold"
+                            className="block text-sm font-semibold leading-5"
                           >
                             {label}
                           </label>
-                          <div className="mt-1 relative rounded-md shadow-sm">
-                            <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                          <div className="relative mt-1 rounded-md shadow-sm">
+                            <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
                               <svg
-                                className="h-5 w-5 text-gray-400"
+                                className="w-5 h-5 text-gray-400"
                                 xmlns="http://www.w3.org/2000/svg"
                                 viewBox="0 0 20 20"
                                 fill="currentColor"
@@ -118,16 +118,16 @@ const LoginForm: FunctionComponent<LoginFormProps> = ({
                               onChange={handleChange}
                               onBlur={handleBlur}
                               placeholder="you@company.com"
-                              className="py-3 text-gray-900 placeholder-gray-400 focus:ring-tomato-500 focus:border-tomato-500 block w-full pl-10 border-gray-300 rounded-md"
+                              className="block w-full py-3 pl-10 text-gray-900 placeholder-gray-400 border-gray-300 rounded-md focus:ring-tomato-500 focus:border-tomato-500"
                               required
                             />
                           </div>
 
-                          <div className="flex justify-center items-center w-full">
+                          <div className="flex items-center justify-center w-full">
                             <button
                               type="submit"
                               disabled={isSubmitting}
-                              className="w-full mt-4 transition-all duration-150 ease-in-out bg-gradient-to-b from-gray-700 to-gray-800 hover:from-gray-800 hover:to-gray-900  text-white hover:shadow-xl font-semibold py-3 px-5 rounded-md"
+                              className="w-full px-5 py-3 mt-4 font-semibold text-white transition-all duration-150 ease-in-out rounded-md bg-gradient-to-b from-gray-700 to-gray-800 hover:from-gray-800 hover:to-gray-900 hover:shadow-xl"
                             >
                               {button}
                             </button>
@@ -139,8 +139,8 @@ const LoginForm: FunctionComponent<LoginFormProps> = ({
                 </Formik>
               )}
               {isSubmitted && (
-                <div className="text-center leading-tight space-y-4">
-                  <h3 className="text-xl leading-tighter font-semibold">
+                <div className="space-y-4 leading-tight text-center">
+                  <h3 className="text-xl font-semibold leading-tighter">
                     Please check your inbox for your sign in link.
                   </h3>
                   <p>
