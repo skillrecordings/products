@@ -276,6 +276,7 @@ const RegionalPricingBox: React.FC<RegionalPricingBoxProps> = ({
   const regionNames = new Intl.DisplayNames(['en'], {type: 'region'})
 
   if (!pppCoupon.country) {
+    console.error('No country found for PPP coupon', {pppCoupon})
     return null
   }
 
