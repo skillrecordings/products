@@ -31,7 +31,12 @@ type SectionProps = {
   ariaLabel?: string
 }
 
-const Section: React.FC<SectionProps> = ({children, image, className, ariaLabel}) => {
+const Section: React.FC<SectionProps> = ({
+  children,
+  image,
+  className,
+  ariaLabel,
+}) => {
   return (
     <section
       aria-label={ariaLabel}
