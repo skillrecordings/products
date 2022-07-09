@@ -9,6 +9,7 @@ import * as Sentry from '@sentry/nextjs'
 import {setupHttpTracing} from '@vercel/tracing-js'
 import {tracer} from '../../utils/honeycomb-tracer'
 import {postRedemptionToSlack} from '../../server/post-to-slack'
+import {PurchaseStatus} from '@prisma/client'
 
 export class CouponRedemptionError extends Error {
   couponId: string
@@ -69,6 +70,7 @@ const redeemHandler = async (req: NextApiRequest, res: NextApiResponse) => {
             userId: user.id,
             productId,
             bulkCoupon: null,
+            status: PurchaseStatus.Valid,
           },
           select: {
             id: true,
