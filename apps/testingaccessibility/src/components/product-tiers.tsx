@@ -23,7 +23,7 @@ export const PricingTiers: React.FC<CommerceProps> = ({
     <PriceCheckProvider purchasedProductIds={purchasedProductIds}>
       <div className="lg:flex grid lg:gap-8 gap-40">
         {redeemableCoupon ? <RedeemDialogForCoupon /> : null}
-        {products?.reverse().map((product, i) => {
+        {products?.map((product, i) => {
           const isFirst = i === 0
           const isLast = i === products.length - 1
           const isPro = !isFirst && !isLast
