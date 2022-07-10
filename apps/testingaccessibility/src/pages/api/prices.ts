@@ -50,13 +50,21 @@ const pricesHandler = async (req: NextApiRequest, res: NextApiResponse) => {
             return upgradeProductIds.includes(purchase.productId)
           })?.id
 
-      const {activeMerchantCoupon, defaultCoupon} =
-        await getActiveMerchantCoupon({
-          siteCouponId,
-          code,
-          productId,
-          spanContext,
-        })
+      // explicit incoming merchant coupons are honored
+      // without checking for other potential coupons
+      // if there is no explicit incoming merchant coupon
+      // we check for default/global coupon or an incoming code
+      const {activeMerchantCoupon, defaultCoupon} = merchantCouponId
+        ? {
+            activeMerchantCoupon: {id: merchantCouponId},
+            defaultCoupon: false,
+          }
+        : await getActiveMerchantCoupon({
+            siteCouponId,
+            code,
+            productId,
+            spanContext,
+          })
 
       if (quantity > 100) throw new Error(`contact-for-pricing`)
 
@@ -66,9 +74,7 @@ const pricesHandler = async (req: NextApiRequest, res: NextApiResponse) => {
           country,
           quantity,
           code,
-          merchantCouponId: activeMerchantCoupon
-            ? activeMerchantCoupon.id
-            : merchantCouponId,
+          merchantCouponId: activeMerchantCoupon && activeMerchantCoupon.id,
           ...(upgradeFromPurchaseId && {upgradeFromPurchaseId}),
         },
         spanContext,

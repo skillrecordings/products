@@ -11,6 +11,11 @@ import Image from 'next/image'
 import find from 'lodash/find'
 import cx from 'classnames'
 import {usePriceCheck} from '../context/pricing-check-context'
+import {first} from 'lodash'
+
+function getFirstPPPCoupon(availableCoupons: any[] = []) {
+  return find(availableCoupons, (coupon) => coupon.type === 'ppp') || false
+}
 
 type PricingProps = {
   product: SanityProduct
@@ -39,7 +44,7 @@ export const Pricing: React.FC<PricingProps> = ({
   index,
   couponId,
 }) => {
-  const [merchantCoupon, setMerchantMerchantCoupon] = React.useState<{
+  const [merchantCoupon, setMerchantCoupon] = React.useState<{
     id: string
     type: string
   }>()
@@ -72,20 +77,28 @@ export const Pricing: React.FC<PricingProps> = ({
         }),
   )
 
-  const availableCoupon = formattedPrice?.availableCoupons?.[0]
+  const availableCoupon = first(formattedPrice?.availableCoupons)
+
   const appliedMerchantCoupon = formattedPrice?.appliedMerchantCoupon
+
   const fullPrice =
     (formattedPrice?.unitPrice || 0) * (formattedPrice?.quantity || 0)
+
   const percentOff =
     appliedMerchantCoupon &&
     Math.floor(appliedMerchantCoupon.percentageDiscount * 100)
+
   const percentOffLabel =
     appliedMerchantCoupon && `${percentOff}% off of $${fullPrice}`
-  const pppCoupon = find(
-    formattedPrice?.availableCoupons,
-    (coupon) => coupon.type === 'ppp',
-  )
+
+  const pppCoupon = getFirstPPPCoupon(formattedPrice?.availableCoupons)
+
+  // if there is no available coupon, hide the box (it's not a toggle)
+  // only show the box if ppp coupon is available
+  // do not show the box if purchased
+  // do not show the box if it's a downgrade
   const showPPPBox =
+    availableCoupon &&
     (pppCoupon || merchantCoupon?.type === 'ppp') &&
     !purchased &&
     !isDowngrade(formattedPrice)
@@ -202,7 +215,7 @@ export const Pricing: React.FC<PricingProps> = ({
                     step={1}
                     onChange={(e) => {
                       const quantity = Number(e.target.value)
-                      setMerchantMerchantCoupon(undefined)
+                      setMerchantCoupon(undefined)
                       setQuantity(
                         quantity < 1 ? 1 : quantity > 100 ? 100 : quantity,
                       )
@@ -232,7 +245,7 @@ export const Pricing: React.FC<PricingProps> = ({
           <RegionalPricingBox
             pppCoupon={pppCoupon || merchantCoupon}
             activeCoupon={merchantCoupon}
-            setActiveCoupon={setMerchantMerchantCoupon}
+            setActiveCoupon={setMerchantCoupon}
             index={index}
           />
         )}
