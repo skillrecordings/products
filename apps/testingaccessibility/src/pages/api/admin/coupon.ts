@@ -40,9 +40,10 @@ const redeemHandler = async (req: NextApiRequest, res: NextApiResponse) => {
   if (req.method === 'GET') {
     try {
       const {
-        quantity,
+        quantity = '1',
         percentOff = '100',
         productId = process.env.NEXT_PUBLIC_DEFAULT_PRODUCT_ID,
+        maxUses = '1',
       } = req.query
 
       const {getProduct} = getSdk()
@@ -76,7 +77,7 @@ const redeemHandler = async (req: NextApiRequest, res: NextApiResponse) => {
         const coupon = await prisma.coupon.create({
           data: {
             percentageDiscount,
-            maxUses: 1,
+            maxUses: Number(maxUses),
             restrictedToProductId: product.id,
             merchantCouponId: merchantCoupon?.id,
           },
