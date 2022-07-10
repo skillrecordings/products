@@ -47,7 +47,8 @@ export async function propsForCommerce({
   const token = await getToken({req})
   const purchases = token ? (token.purchases as any) : false
   const couponFromCode = await getCouponForCode(query.code as string)
-  const products = await getActiveProducts()
+  const {products} = await getActiveProducts()
+
   const couponIdFromCoupon = (query.coupon as string) || couponFromCode?.id
 
   return {

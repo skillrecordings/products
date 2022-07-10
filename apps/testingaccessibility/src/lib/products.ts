@@ -1,11 +1,13 @@
 import groq from 'groq'
 import {sanityClient} from '../utils/sanity-client'
 
-const productsQuery = groq`*[_type == "product"] | order(order asc) {
+const productsQuery = groq`*[_type == "pricing"][0] {
+  title,
+  subtitle,
+  "products": products[]->{
   "name": title,
   productId,
   action,
-  order,
   image {
     url,
     alt
@@ -16,7 +18,8 @@ const productsQuery = groq`*[_type == "product"] | order(order asc) {
   features[]{
     value
   }
-  }`
+  }
+}`
 
 export const getActiveProducts = async () =>
-  await sanityClient.fetch(productsQuery).then((data) => data.products)
+  await sanityClient.fetch(productsQuery)
