@@ -77,8 +77,6 @@ export const Pricing: React.FC<PricingProps> = ({
         }),
   )
 
-  const availableCoupon = first(formattedPrice?.availableCoupons)
-
   const appliedMerchantCoupon = formattedPrice?.appliedMerchantCoupon
 
   const fullPrice =
@@ -98,7 +96,6 @@ export const Pricing: React.FC<PricingProps> = ({
   // do not show the box if purchased
   // do not show the box if it's a downgrade
   const showPPPBox =
-    availableCoupon &&
     (pppCoupon || merchantCoupon?.type === 'ppp') &&
     !purchased &&
     !isDowngrade(formattedPrice)
