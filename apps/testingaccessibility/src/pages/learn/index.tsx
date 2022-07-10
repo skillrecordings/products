@@ -10,7 +10,6 @@ import {
 import {getPathForLesson} from 'utils/get-resource-paths'
 import {ChevronRightIcon} from '@heroicons/react/solid'
 import {SanityDocument} from '@sanity/client'
-import {getSession} from 'next-auth/react'
 import {GetServerSideProps} from 'next'
 import {Purchase} from '@prisma/client'
 import Search from 'components/search/autocomplete'
@@ -69,8 +68,6 @@ const productQuery = groq`*[_type == "product" && productId == $productId][0]{
   }`
 
 export const getServerSideProps: GetServerSideProps = async ({req}) => {
-  const session = await getSession({req})
-
   // TODO: instead of fetching the product we can generate rules on the session
   //       which may mean we can avoid this async call but it also isn't hurting
   //       anything right now. The ability isn't being used to make any decisions
@@ -118,7 +115,10 @@ const Learn: React.FC<{purchases: Purchase[]; product: SanityDocument}> = ({
                 nextUpLesson
                   ? {
                       pathname: '/learn/[module]/[section]/[lesson]',
-                      query: getPathForLesson(nextUpLesson.slug, product.modules),
+                      query: getPathForLesson(
+                        nextUpLesson.slug,
+                        product.modules,
+                      ),
                     }
                   : {
                       pathname: '/learn/[module]',
@@ -128,7 +128,10 @@ const Learn: React.FC<{purchases: Purchase[]; product: SanityDocument}> = ({
             >
               <a className="flex items-center font-medium gap-2 mt-8 px-4 py-2.5 rounded-md border border-white/20 hover:bg-white/5 transition focus-visible:ring-white">
                 {isEmpty(progress) ? 'Start' : 'Continue'} Learning{' '}
-                <ChevronRightIcon aria-hidden="true" className="w-4 h-4 mt-0.5" />
+                <ChevronRightIcon
+                  aria-hidden="true"
+                  className="w-4 h-4 mt-0.5"
+                />
               </a>
             </Link>
           </header>
@@ -223,7 +226,8 @@ const Learn: React.FC<{purchases: Purchase[]; product: SanityDocument}> = ({
                           )
                         })}
 
-                        {sections?.length > 0 && (
+                        {process.env.NEXT_PUBLIC_CERTIFICATE_ENABLED &&
+                        sections?.length > 0 ? (
                           <li
                             key={`certificate-${title}`}
                             className={cx(
@@ -235,7 +239,7 @@ const Learn: React.FC<{purchases: Purchase[]; product: SanityDocument}> = ({
                               module={module}
                             />
                           </li>
-                        )}
+                        ) : null}
                       </ol>
                     </div>
                   </li>
