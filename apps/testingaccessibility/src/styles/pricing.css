@@ -1,25 +1,25 @@
 #__next {
   /* tier name */
 
-  [data-pricing-product-name-badge='2'] {
+  [data-pricing-product-name-badge='0'] {
     @apply bg-moss-100 text-moss-700;
   }
   [data-pricing-product-name-badge='1'] {
     @apply bg-yellow-300/20 text-yellow-700;
   }
-  [data-pricing-product-name-badge='0'] {
+  [data-pricing-product-name-badge='2'] {
     @apply bg-amber-600/20 text-amber-800;
   }
 
   /* purchase button */
 
-  [data-pricing-product-checkout-button='2'] {
+  [data-pricing-product-checkout-button='0'] {
     @apply bg-moss-200/50 text-moss-800 hover:bg-moss-200/80;
   }
   [data-pricing-product-checkout-button='1'] {
     @apply bg-yellow-400 text-black py-5 hover:bg-yellow-300 relative after:content-[''] shadow-yellow-200 shadow-md after:w-full after:h-full after:blur-xl after:opacity-80 after:bg-yellow-300 after:absolute;
   }
-  [data-pricing-product-checkout-button='0'] {
+  [data-pricing-product-checkout-button='2'] {
     @apply bg-moss-200/50 text-moss-800 hover:bg-moss-200/80;
   }
   [data-pricing-product-checkout-button]:disabled {
