@@ -12,7 +12,12 @@ export const PricingTiers: React.FC<CommerceProps> = ({
   purchases = [],
   couponIdFromCoupon,
 }) => {
-  const {redeemableCoupon, RedeemDialogForCoupon} = useCoupon(couponFromCode)
+  const {redeemableCoupon, RedeemDialogForCoupon, validCoupon} =
+    useCoupon(couponFromCode)
+
+  const couponId =
+    couponIdFromCoupon || (validCoupon ? couponFromCode?.id : undefined)
+
   const purchasedProductIds = purchases.map((purchase) => purchase.productId)
   return (
     <PriceCheckProvider purchasedProductIds={purchasedProductIds}>
@@ -40,7 +45,7 @@ export const PricingTiers: React.FC<CommerceProps> = ({
                 purchased={purchasedProductIds.includes(product.productId)}
                 purchases={purchases}
                 index={i}
-                couponId={couponIdFromCoupon}
+                couponId={couponId}
               />
             </div>
           )
