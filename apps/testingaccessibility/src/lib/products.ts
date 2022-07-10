@@ -19,4 +19,4 @@ const productsQuery = groq`*[_type == "product"] | order(order asc) {
   }`
 
 export const getActiveProducts = async () =>
-  await sanityClient.fetch(productsQuery)
+  await sanityClient.fetch(productsQuery).then((data) => data.products)
