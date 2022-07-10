@@ -206,6 +206,22 @@ test('available ppp coupons should have country "IN" set with active sale', asyn
   expect(first(product?.availableCoupons).country).toBe('IN')
 })
 
+test('sale coupon should have id property when ppp available', async () => {
+  mockCtx.prisma.merchantCoupon.findFirst.mockResolvedValue(MOCK_INDIA_COUPON)
+  mockCtx.prisma.merchantCoupon.findFirst.mockResolvedValue(
+    MOCK_SITE_SALE_COUPON,
+  )
+
+  const product = await formatPricesForProduct({
+    productId: DEFAULT_PRODUCT_ID,
+    merchantCouponId: SITE_SALE_COUPON_ID,
+    country: 'IN',
+    ctx,
+  })
+
+  expect(product.appliedMerchantCoupon.id).toBeDefined()
+})
+
 test('product should have applied coupon present if "IN" and valid couponId', async () => {
   mockCtx.prisma.merchantCoupon.findFirst.mockResolvedValue(MOCK_INDIA_COUPON)
   const product = await formatPricesForProduct({
@@ -232,6 +248,20 @@ test('product should calculate discount if country is "IN" and couponId', async 
   const expectedPrice = 25
 
   expect(expectedPrice).toBe(product?.calculatedPrice)
+})
+
+test('applied ppp coupon should have id property', async () => {
+  mockDefaultProduct()
+  mockCtx.prisma.merchantCoupon.findFirst.mockResolvedValue(MOCK_INDIA_COUPON)
+
+  const product = await formatPricesForProduct({
+    productId: DEFAULT_PRODUCT_ID,
+    merchantCouponId: VALID_INDIA_COUPON_ID,
+    country: 'IN',
+    ctx,
+  })
+
+  expect(product.appliedMerchantCoupon.id).toBeDefined()
 })
 
 test('applies fixed discount for previous purchase', async () => {

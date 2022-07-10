@@ -198,7 +198,8 @@ export async function formatPricesForProduct(
         noContextOptions,
       )
 
-    const {id, ...merchantCouponWithoutIdentifier} = appliedMerchantCoupon
+    const {identifier, merchantAccountId, ...merchantCouponWithoutIdentifier} =
+      appliedMerchantCoupon
 
     return {
       ...defaultPriceProduct,
@@ -227,7 +228,8 @@ export async function formatPricesForProduct(
       country,
     )
 
-    const {id, ...merchantCouponWithoutIdentifier} = appliedMerchantCoupon
+    const {identifier, merchantAccountId, ...merchantCouponWithoutIdentifier} =
+      appliedMerchantCoupon
 
     return {
       ...defaultPriceProduct,
