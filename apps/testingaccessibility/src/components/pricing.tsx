@@ -167,20 +167,14 @@ export const Pricing: React.FC<PricingProps> = ({
         </div>
         {purchased ? (
           <div className="w-full px-8">
-            <div
-              // data-pricing-product-checkout-button={index}
-              className="flex text-center px-5 py-5 font-nav font-semibold items-center justify-center rounded-md w-full text-lg gap-1 my-8 shadow-inner bg-green-700 bg-noise text-white after:hidden"
-            >
+            <div className="flex text-center px-5 py-5 font-nav font-semibold items-center justify-center rounded-md w-full text-lg gap-1 my-8 shadow-inner bg-green-700 bg-noise text-white after:hidden">
               <CheckCircleIcon aria-hidden="true" className="mt-0.5 w-6 h-6" />{' '}
               Purchased
             </div>
           </div>
         ) : isDowngrade(formattedPrice) ? (
           <div className="w-full px-8">
-            <div
-              // data-pricing-product-checkout-button={index}
-              className="flex text-center px-5 py-5 font-nav font-semibold items-center justify-center rounded-md w-full text-lg gap-1 my-8 border-2 border-gray-100 after:hidden"
-            >
+            <div className="flex text-center px-5 py-5 font-nav font-semibold items-center justify-center rounded-md w-full text-lg gap-1 my-8 border-2 border-gray-100 after:hidden">
               Unavailable
             </div>
           </div>
@@ -196,7 +190,7 @@ export const Pricing: React.FC<PricingProps> = ({
                 : ``
             }`}
             method="POST"
-            className="pt-8 xl:px-12 px-5 flex flex-col items-center justify-center w-full"
+            className="pt-8 xl:px-10 px-5 flex flex-col items-center justify-center w-full"
           >
             <fieldset className="w-full">
               <legend className="sr-only">{name}</legend>

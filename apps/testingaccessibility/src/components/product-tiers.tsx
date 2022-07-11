@@ -37,7 +37,7 @@ export const PricingTiers: React.FC<CommerceProps> = ({
                 'lg:mt-48 opacity-80 max-w-sm mx-auto lg:scale-[80%] origin-left':
                   isLast,
                 // switch up order when stacked vertically
-                'row-start-1': isPro,
+                'row-start-1 xl:scale-110': isPro,
                 'row-start-3': isLast,
               })}
             >
