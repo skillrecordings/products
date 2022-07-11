@@ -242,20 +242,32 @@ const PortableTextComponents: PortableTextComponentsProps = {
     },
     bodyImage: ({value}: BodyImageProps) => <BodyImage value={value} />,
     code: ({value}: CodeProps) => {
-      const {language, code, highlightedLines} = value
-
+      const {language, code, highlightedLines, filename: label} = value
       return (
-        <Refractor
-          language={
-            language
-              ? Refractor.hasLanguage(language)
-                ? language
-                : 'javascript'
-              : 'javascript'
-          }
-          value={code}
-          markers={highlightedLines}
-        />
+        <>
+          <pre
+            role="region"
+            aria-label={label ? label : 'code sample'}
+            tabIndex={0}
+            className="sr-only"
+          >
+            <code>{code}</code>
+          </pre>
+          <pre aria-hidden="true">
+            <Refractor
+              inline
+              language={
+                language
+                  ? Refractor.hasLanguage(language)
+                    ? language
+                    : 'javascript'
+                  : 'javascript'
+              }
+              value={code}
+              markers={highlightedLines}
+            />
+          </pre>
+        </>
       )
     },
     callout: ({value}: CalloutProps) => {
@@ -347,6 +359,7 @@ type CodeProps = {
     language: string
     code: string
     highlightedLines: (number | Refractor.Marker)[]
+    filename?: string
   }
 }
 
