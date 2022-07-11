@@ -208,7 +208,7 @@ const Learn: React.FC<{purchases: Purchase[]; product: SanityDocument}> = ({
                                   }`}
                                   data-index={isCompleted ? '✓' : i + 1}
                                   className={cx(
-                                    `after:content-[""] after:absolute after:left-[21.5px] after:top-0 group-first-of-type:after:top-1/2 group-first-of-type:after:h-1/2 after:w-px after:bg-white/5 after:h-full group rounded-md pl-3 group-hover:bg-green-800/20 text-sand-100 hover:text-white focus-visible:ring-white w-full font-medium py-4 transition relative items-center inline-flex before:font-semibold before:z-10 before:flex before:items-center before:justify-center before:font-mono before:content-[attr(data-index)] before:w-5 before:h-5 before:left-0 before:rounded-full before:flex-shrink-0`,
+                                    `after:content-[""] after:absolute after:left-[21.5px] after:top-0 group-first-of-type:after:top-1/2 group-first-of-type:after:h-1/2 after:w-px after:bg-white/20 after:h-full group rounded-md pl-3 group-hover:bg-green-800/20 text-sand-100 hover:text-white focus-visible:ring-white w-full font-medium py-4 transition relative items-center inline-flex before:font-semibold before:z-10 before:flex before:items-center before:justify-center before:font-mono before:content-[attr(data-index)] before:w-5 before:h-5 before:left-0 before:rounded-full before:flex-shrink-0`,
                                     {
                                       'before:text-[0.55em] before:text-sans-500/50 before:border before:border-white/20 before:bg-green-700 before:bg-noise':
                                         !isCompleted,
@@ -231,7 +231,7 @@ const Learn: React.FC<{purchases: Purchase[]; product: SanityDocument}> = ({
                           <li
                             key={`certificate-${title}`}
                             className={cx(
-                              `w-full group mt-7 after:content-[""] after:absolute after:left-[21.5px] after:bottom-1/2 after:w-px after:bg-white/5 after:h-full md:-ml-4 relative flex items-baseline group`,
+                              `w-full group mt-7 after:content-[""] after:absolute after:left-[21.5px] after:bottom-1/2 after:w-px after:bg-white/20 after:h-full md:-ml-4 relative flex items-baseline group`,
                             )}
                           >
                             <GetCertificate

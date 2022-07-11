@@ -2,6 +2,7 @@ import React from 'react'
 import {CheckIcon, ChevronRightIcon} from '@heroicons/react/solid'
 import {useProgress} from 'context/progress-context'
 import {PortableText} from '@portabletext/react'
+import {useReducedMotion} from 'framer-motion'
 import {SkipNavContent} from '@reach/skip-nav'
 import {SanityDocument} from '@sanity/client'
 import {getOgImage} from 'utils/get-og-image'
@@ -102,7 +103,10 @@ const LessonTemplate: React.FC<LessonTemplateProps> = ({
             </article>
           </div>
         </div>
-        <nav aria-label="Course controls" className="py-16 bg-green-700 bg-noise text-white w-full">
+        <nav
+          aria-label="Course controls"
+          className="py-16 bg-green-700 bg-noise text-white w-full"
+        >
           <div
             className={cx(
               'max-w-screen-lg mx-auto w-full items-center justify-center lg:divide-x divide-green-600/75 divide-dashed lg:gap-10 gap-16',
@@ -152,6 +156,7 @@ export const ProgressToggle: React.FC<ProgressToggleProps> = ({
     position: 'absolute',
   })
   const [isEnabled, setEnabled] = React.useState(isCurrentLessonCompleted)
+  const shouldReduceMotion = useReducedMotion()
 
   React.useEffect(() => {
     setEnabled(isCurrentLessonCompleted)
@@ -162,10 +167,25 @@ export const ProgressToggle: React.FC<ProgressToggleProps> = ({
     return classes.filter(Boolean).join(' ')
   }
 
+  const handleOnChange = () => {
+    setEnabled(!isEnabled)
+    setLoading(true)
+    toggleLessonComplete(slug)
+      .then(() => {
+        setLoading(false)
+      })
+      .catch(() => {
+        setLoading(false)
+        setEnabled(isCurrentLessonCompleted)
+      })
+    !isEnabled && !shouldReduceMotion && reward()
+  }
   return (
     <div className="flex flex-col items-center justify-center rounded-lg relative z-20">
       <div className="text-center pb-5">
-        <h2 className="text-2xl font-bold font-heading">Finished this lesson?</h2>
+        <h2 className="text-2xl font-bold font-heading">
+          Finished this lesson?
+        </h2>
         <p className="text-sand-100">
           Mark it as complete to track your progress.
         </p>
@@ -178,20 +198,13 @@ export const ProgressToggle: React.FC<ProgressToggleProps> = ({
           <span className="text-white font-medium">Mark as complete</span>
         </Switch.Label>
         <Switch
-          disabled={isLoading}
+          aria-disabled={isLoading}
           checked={isEnabled}
-          onChange={() => {
-            setEnabled(!isEnabled)
-            setLoading(true)
-            toggleLessonComplete(slug)
-              .then(() => {
-                setLoading(false)
-              })
-              .catch(() => {
-                setLoading(false)
-                setEnabled(isCurrentLessonCompleted)
-              })
-            !isEnabled && reward()
+          onChange={handleOnChange}
+          onKeyDown={(e: React.KeyboardEvent) => {
+            if (e.key === 'Enter') {
+              handleOnChange()
+            }
           }}
           className={cx(
             'relative inline-flex shadow-inner disabled:opacity-80 flex-shrink-0 h-6 w-11 border-2 border-transparent rounded-full cursor-pointer transition-all ease-in-out duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500',

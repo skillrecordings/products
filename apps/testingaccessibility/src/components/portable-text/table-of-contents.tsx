@@ -96,7 +96,7 @@ const TableOfContents = ({value}: PortableTextProps) => {
   return (
     <details
       aria-label="On this page"
-      className="group marker:text-transparent font-medium sm:text-lg border-b border-gray-200 max-w-screen-md w-full mx-auto"
+      className="group marker:text-transparent no-marker font-medium sm:text-lg border-b border-gray-200 max-w-screen-md w-full mx-auto"
     >
       <summary className="hover:cursor-pointer sm:py-5 py-3 flex items-center justify-between">
         <span className="text-green-600">On this page</span>

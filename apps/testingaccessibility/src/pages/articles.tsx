@@ -28,8 +28,8 @@ const Articles: React.FC<ArticlesProps> = ({articles}) => {
           </h1>
         </header>
         <div className="px-5 flex-grow">
-          <div className="pb-16 mx-auto max-w-lg w-full pt-16 gap-16">
-            <div className="grid grid-cols-1 gap-16">
+          <div className="lg:py-16 py-10 mx-auto max-w-screen-lg w-full gap-16">
+            <div className="grid md:grid-cols-2 grid-cols-1 gap-16">
               {articles.map(
                 ({title, slug, description, date}: SanityDocument) => {
                   return (
@@ -38,14 +38,14 @@ const Articles: React.FC<ArticlesProps> = ({articles}) => {
                         <div>
                           <Link href={`/${slug}`} passHref>
                             <a className="group block">
-                              <h2 className="text-green-600 group-hover:underline sm:text-3xl font-heading text-xl font-bold">
+                              <h2 className="text-green-600 group-hover:underline sm:text-3xl font-heading text-2xl font-bold">
                                 {title}
                               </h2>
                             </a>
                           </Link>
                           <time
                             dateTime={date}
-                            className="block pt-1 font-semibold pb-5"
+                            className="block pt-3 text-sm font-medium opacity-80 pb-5"
                           >
                             {format(new Date(date), 'dd MMMM, y')}
                           </time>
@@ -59,7 +59,7 @@ const Articles: React.FC<ArticlesProps> = ({articles}) => {
                       {slug && (
                         <Link href={`/${slug}`} passHref>
                           <a
-                            className="font-nav px-3 py-2 rounded-md hover:bg-moss-200/50 transition bg-moss-100 text-green-600 font-semibold inline-flex"
+                            className="font-nav px-3 py-2 pt-1.5 rounded-md hover:bg-moss-200/50 transition bg-moss-100 text-green-600 font-semibold inline-flex"
                             aria-label={`Read ${title}`}
                           >
                             Read

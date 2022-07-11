@@ -101,7 +101,12 @@ export default {
     },
     {type: 'bodyImage'},
     {type: 'bodyVideo'},
-    {type: 'code'},
+    {
+      type: 'code',
+      options: {
+        withFilename: true,
+      },
+    },
     {type: 'callout'},
     {type: 'divider'},
   ],

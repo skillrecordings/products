@@ -12,11 +12,16 @@ export const PricingTiers: React.FC<CommerceProps> = ({
   purchases = [],
   couponIdFromCoupon,
 }) => {
-  const {redeemableCoupon, RedeemDialogForCoupon} = useCoupon(couponFromCode)
+  const {redeemableCoupon, RedeemDialogForCoupon, validCoupon} =
+    useCoupon(couponFromCode)
+
+  const couponId =
+    couponIdFromCoupon || (validCoupon ? couponFromCode?.id : undefined)
+
   const purchasedProductIds = purchases.map((purchase) => purchase.productId)
   return (
     <PriceCheckProvider purchasedProductIds={purchasedProductIds}>
-      <div className="lg:flex grid lg:gap-5 gap-40">
+      <div className="lg:flex grid xl:gap-16 lg:gap-8 gap-40">
         {redeemableCoupon ? <RedeemDialogForCoupon /> : null}
         {products?.map((product, i) => {
           const isFirst = i === 0
@@ -27,11 +32,13 @@ export const PricingTiers: React.FC<CommerceProps> = ({
             <div
               key={product.name}
               className={cx('hover:opacity-100 transition', {
-                'lg:mt-40 opacity-80 max-w-sm mx-auto': isFirst,
-                'lg:mt-20 opacity-90 max-w-sm mx-auto': isLast,
+                'lg:mt-12 opacity-90 max-w-sm mx-auto lg:scale-95 origin-right':
+                  isFirst,
+                'lg:mt-16 opacity-80 max-w-sm mx-auto lg:scale-[80%] origin-left':
+                  isLast,
                 // switch up order when stacked vertically
-                'row-start-1': isPro,
-                'row-start-3': isFirst,
+                'row-start-1 xl:scale-110': isPro,
+                'row-start-3': isLast,
               })}
             >
               <Pricing
@@ -40,7 +47,7 @@ export const PricingTiers: React.FC<CommerceProps> = ({
                 purchased={purchasedProductIds.includes(product.productId)}
                 purchases={purchases}
                 index={i}
-                couponId={couponIdFromCoupon}
+                couponId={couponId}
               />
             </div>
           )

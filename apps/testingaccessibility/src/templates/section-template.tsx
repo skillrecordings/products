@@ -104,7 +104,7 @@ const SectionTemplate: React.FC<SectionTemplateProps> = ({
           <div className="py-16 bg-green-700 bg-noise text-white w-full">
             <div
               className={cx(
-                'max-w-screen-lg mx-auto w-full items-center justify-center lg:divide-x divide-green-800/75 lg:gap-10 gap-16',
+                'max-w-screen-lg mx-auto w-full items-center justify-center lg:divide-x divide-white/20 lg:gap-10 gap-16',
                 {
                   'grid lg:grid-cols-2 grid-cols-1': nextUpSection && session,
                   flex: !nextUpSection,
@@ -129,7 +129,7 @@ const SectionTemplate: React.FC<SectionTemplateProps> = ({
                       ),
                     }}
                   >
-                    <a className="focus-visible:ring-amber-500 transition-all mt-4 inline-flex items-center justify-center font-medium px-5 py-3 rounded-md bg-white shadow-lg hover:bg-white/90 text-black">
+                    <a className="focus-visible:ring-green-400 transition-all mt-4 inline-flex items-center justify-center font-medium px-5 py-3 rounded-md bg-white shadow-lg hover:bg-white/90 text-black">
                       <span className="pr-1">
                         Up next:{' '}
                         <span className="font-semibold">
