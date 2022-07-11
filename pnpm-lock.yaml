@@ -32,59 +32,6 @@ importers:
       turbo: 1.2.9
       typescript: 4.7.4
 
-  apps/advanced-typescript:
-    specifiers:
-      '@skillrecordings/convertkit': workspace:^0.0.1
-      '@skillrecordings/scripts': workspace:^0.0.5
-      '@tailwindcss/forms': ^0.5.2
-      '@tailwindcss/typography': ^0.5.2
-      '@types/cookie': ^0.4.1
-      '@types/jest': ^27.5.2
-      '@types/lodash': ^4.14.179
-      '@types/node': ^17.0.0
-      '@types/nodemailer': ^6.4.4
-      '@types/react': ^17.0.42
-      '@types/react-dom': ^17.0.17
-      autoprefixer: ^10.4.2
-      eslint: ^8.19.0
-      eslint-config-custom: workspace:*
-      framer-motion: ^6.4.1
-      next: ^12.1.6
-      next-sitemap: ^3.0.5
-      postcss: ^8.4.14
-      react: 17.0.2
-      react-dom: 17.0.2
-      react-hook-form: ^7.29.0
-      tailwindcss: ^3.1.4
-      typescript: ^4.7.4
-      zod: ^3.14.4
-    dependencies:
-      '@skillrecordings/convertkit': link:../../packages/convertkit
-      '@skillrecordings/scripts': link:../../packages/scripts
-      '@tailwindcss/forms': 0.5.2_tailwindcss@3.1.4
-      framer-motion: 6.4.1_sfoxds7t5ydpegc3knd667wn6m
-      next: 12.1.6_sfoxds7t5ydpegc3knd667wn6m
-      next-sitemap: 3.1.7_next@12.1.6
-      react: 17.0.2
-      react-dom: 17.0.2_react@17.0.2
-      react-hook-form: 7.29.0_react@17.0.2
-      zod: 3.17.3
-    devDependencies:
-      '@tailwindcss/typography': 0.5.2_tailwindcss@3.1.4
-      '@types/cookie': 0.4.1
-      '@types/jest': 27.5.2
-      '@types/lodash': 4.14.180
-      '@types/node': 17.0.21
-      '@types/nodemailer': 6.4.4
-      '@types/react': 17.0.45
-      '@types/react-dom': 17.0.17
-      autoprefixer: 10.4.7_postcss@8.4.14
-      eslint: 8.19.0
-      eslint-config-custom: link:../../packages/eslint-config-custom
-      postcss: 8.4.14
-      tailwindcss: 3.1.4
-      typescript: 4.7.4
-
   apps/badass:
     specifiers:
       '@babel/plugin-transform-react-jsx': ^7.16.0
@@ -2252,6 +2199,59 @@ importers:
       typescript: 4.7.4
       webpack: 5.73.0
 
+  apps/total-typescript:
+    specifiers:
+      '@skillrecordings/convertkit': workspace:^0.0.1
+      '@skillrecordings/scripts': workspace:^0.0.5
+      '@tailwindcss/forms': ^0.5.2
+      '@tailwindcss/typography': ^0.5.2
+      '@types/cookie': ^0.4.1
+      '@types/jest': ^27.5.2
+      '@types/lodash': ^4.14.179
+      '@types/node': ^17.0.0
+      '@types/nodemailer': ^6.4.4
+      '@types/react': ^17.0.42
+      '@types/react-dom': ^17.0.17
+      autoprefixer: ^10.4.2
+      eslint: ^8.19.0
+      eslint-config-custom: workspace:*
+      framer-motion: ^6.4.1
+      next: ^12.1.6
+      next-sitemap: ^3.0.5
+      postcss: ^8.4.14
+      react: 17.0.2
+      react-dom: 17.0.2
+      react-hook-form: ^7.29.0
+      tailwindcss: ^3.1.4
+      typescript: ^4.7.4
+      zod: ^3.14.4
+    dependencies:
+      '@skillrecordings/convertkit': link:../../packages/convertkit
+      '@skillrecordings/scripts': link:../../packages/scripts
+      '@tailwindcss/forms': 0.5.2_tailwindcss@3.1.4
+      framer-motion: 6.4.1_sfoxds7t5ydpegc3knd667wn6m
+      next: 12.1.6_sfoxds7t5ydpegc3knd667wn6m
+      next-sitemap: 3.1.7_next@12.1.6
+      react: 17.0.2
+      react-dom: 17.0.2_react@17.0.2
+      react-hook-form: 7.29.0_react@17.0.2
+      zod: 3.17.3
+    devDependencies:
+      '@tailwindcss/typography': 0.5.2_tailwindcss@3.1.4
+      '@types/cookie': 0.4.1
+      '@types/jest': 27.5.2
+      '@types/lodash': 4.14.180
+      '@types/node': 17.0.41
+      '@types/nodemailer': 6.4.4
+      '@types/react': 17.0.45
+      '@types/react-dom': 17.0.17
+      autoprefixer: 10.4.7_postcss@8.4.14
+      eslint: 8.19.0
+      eslint-config-custom: link:../../packages/eslint-config-custom
+      postcss: 8.4.14
+      tailwindcss: 3.1.4
+      typescript: 4.7.4
+
   apps/typescriptcourse:
     specifiers:
       '@heroicons/react': ^1.0.6
@@ -2413,7 +2413,7 @@ importers:
       lodash: 4.17.21
       mdast-util-to-markdown: 1.2.6
       mdx-prism: 0.3.4
-      next: 12.1.6_bdqedtwv3pefsm7666rf4y5ak4
+      next: 12.1.6_sfoxds7t5ydpegc3knd667wn6m
       next-seo: 4.29.0_zhtyyhxvjc4vmyivr6fwl32yja
       next-sitemap: 3.1.7_qrpr57ui5ktfex3mx2i7w34jta
       next-themes: 0.1.1_zhtyyhxvjc4vmyivr6fwl32yja
@@ -7116,7 +7116,6 @@ packages:
       '@types/react': 17.0.45
       hoist-non-react-statics: 3.3.2
       react: 17.0.2
-    dev: false
 
   /@emotion/react/11.5.0_hx2b44akkvgcgvvtmk7ds2qk6q:
     resolution: {integrity: sha512-MYq/bzp3rYbee4EMBORCn4duPQfgpiEB5XzrZEBnUZAL80Qdfr7CEv/T80jwaTl/dnZmt9SnTa8NkTrwFNpLlw==}
@@ -10099,10 +10098,6 @@ packages:
     resolution: {integrity: sha512-noEeJ06zbn3lOh4gqe2v7NMGS33jrulfNqYFDjjEbhpDEHR5VTxgYNQSBqBlJIsBJW3uEYDgD6kvMnrrhGzq8g==}
     dev: false
 
-  /@types/node/17.0.21:
-    resolution: {integrity: sha512-DBZCJbhII3r90XbQxI8Y9IjjiiOGlZ0Hr32omXIZvwwZ7p4DMMXGrKXVyPfuoBOri9XNtL0UK69jYIBIsRX3QQ==}
-    dev: true
-
   /@types/node/17.0.41:
     resolution: {integrity: sha512-xA6drNNeqb5YyV5fO3OAEsnXLfO7uF0whiOfPTz5AeDo8KeZFmODKnvwPymMNO8qE/an8pVY/O50tig2SQCrGw==}
 
@@ -11221,7 +11216,7 @@ packages:
       postcss: ^8.1.0
     dependencies:
       browserslist: 4.21.1
-      caniuse-lite: 1.0.30001340
+      caniuse-lite: 1.0.30001361
       fraction.js: 4.2.0
       normalize-range: 0.1.2
       picocolors: 1.0.0
@@ -11258,7 +11253,7 @@ packages:
   /axios/0.26.1:
     resolution: {integrity: sha512-fPwcX4EvnSHuInCMItEhAGnaSEXRBjtzh9fOtsE6E1G6p7vl7edEeZe11QHf18+6+9gR5PbKV/sGKNaD8YaMeA==}
     dependencies:
-      follow-redirects: 1.15.1
+      follow-redirects: 1.15.1_debug@2.6.9
     transitivePeerDependencies:
       - debug
 
@@ -12007,6 +12002,7 @@ packages:
 
   /caniuse-lite/1.0.30001340:
     resolution: {integrity: sha512-jUNz+a9blQTQVu4uFcn17uAD8IDizPzQkIKh3LCJfg9BkyIqExYYdyc/ZSlWUSKb8iYiXxKsxbv4zYSvkqjrxw==}
+    dev: false
 
   /caniuse-lite/1.0.30001361:
     resolution: {integrity: sha512-ybhCrjNtkFji1/Wto6SSJKkWk6kZgVQsDq5QI83SafsF6FXv2JB4df9eEdH6g8sdGgqTXrFLjAxqBGgYoU3azQ==}
@@ -12176,7 +12172,6 @@ packages:
       readdirp: 3.6.0
     optionalDependencies:
       fsevents: 2.3.2
-    dev: true
 
   /chokidar/3.5.3:
     resolution: {integrity: sha512-Dr3sfKRP6oTcjf2JmUmFJfeVMvXBdegxB0iVQ5eb2V10uFJUCAS8OByZdVAyVb8xXNz3GjjTgj9kLWsZTqE6kw==}
@@ -14852,15 +14847,6 @@ packages:
 
   /focus-visible/5.2.0:
     resolution: {integrity: sha512-Rwix9pBtC1Nuy5wysTmKy+UjbDJpIfg8eHjw0rjZ1mX4GNLz1Bmd16uDpI3Gk1i70Fgcs8Csg2lPm8HULFg9DQ==}
-
-  /follow-redirects/1.15.1:
-    resolution: {integrity: sha512-yLAMQs+k0b2m7cVxpS1VKJVvoz7SS9Td1zss3XRwXj+ZDH00RJgnuLx7E44wx02kQLrdM3aOOy+FpzS7+8OizA==}
-    engines: {node: '>=4.0'}
-    peerDependencies:
-      debug: '*'
-    peerDependenciesMeta:
-      debug:
-        optional: true
 
   /follow-redirects/1.15.1_debug@2.6.9:
     resolution: {integrity: sha512-yLAMQs+k0b2m7cVxpS1VKJVvoz7SS9Td1zss3XRwXj+ZDH00RJgnuLx7E44wx02kQLrdM3aOOy+FpzS7+8OizA==}
@@ -20323,7 +20309,7 @@ packages:
       react: '>=16.0.0'
       react-dom: '>=16.0.0'
     dependencies:
-      next: 12.1.6_bdqedtwv3pefsm7666rf4y5ak4
+      next: 12.1.6_bra7dgvoeiis5hyys3uir3dssy
       react: 17.0.2
       react-dom: 17.0.2_react@17.0.2
     dev: false
@@ -20352,7 +20338,7 @@ packages:
       '@corex/deepmerge': 4.0.29
       '@next/env': 12.2.0
       minimist: 1.2.6
-      next: 12.1.6_bdqedtwv3pefsm7666rf4y5ak4
+      next: 12.1.6_sfoxds7t5ydpegc3knd667wn6m
     dev: false
 
   /next-themes/0.1.1_zhtyyhxvjc4vmyivr6fwl32yja:
@@ -20362,7 +20348,7 @@ packages:
       react: '*'
       react-dom: '*'
     dependencies:
-      next: 12.1.6_bdqedtwv3pefsm7666rf4y5ak4
+      next: 12.1.6_sfoxds7t5ydpegc3knd667wn6m
       react: 17.0.2
       react-dom: 17.0.2_react@17.0.2
     dev: false
@@ -20459,7 +20445,6 @@ packages:
     transitivePeerDependencies:
       - '@babel/core'
       - babel-plugin-macros
-    dev: true
 
   /next/12.1.6_sfoxds7t5ydpegc3knd667wn6m:
     resolution: {integrity: sha512-cebwKxL3/DhNKfg9tPZDQmbRKjueqykHHbgaoG4VBRH3AHQJ2HO0dbKFiS1hPhe1/qgc2d/hFeadsbPicmLD+A==}
@@ -24164,7 +24149,6 @@ packages:
     hasBin: true
     dependencies:
       chokidar: 3.5.2
-    dev: true
 
   /sax/1.2.4:
     resolution: {integrity: sha512-NqVDv9TpANUjFm0N8uM5GxL36UgKi9/atZw+x7YFnQ8ckwFGKrl4xX4yWtrey3UJm5nP1kUbnYgLopqWNSRhWw==}
