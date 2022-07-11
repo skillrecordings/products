@@ -9,6 +9,7 @@ import {
   description,
   contentReviewTeam,
 } from 'components/content/credits'
+import cx from 'classnames'
 
 const Credits = () => {
   return (
@@ -109,8 +110,15 @@ const Team = () => {
     <>
       {drop(team).map((human, i) => {
         const {name, role, description, image, twitter} = human
+        const isLast = team.length - 2 === i
+
         return (
-          <article key={name} className="flex flex-col text-center">
+          <article
+            key={name}
+            className={cx('flex flex-col text-center', {
+              'col-span-2': isLast,
+            })}
+          >
             <div className="flex items-center justify-center drop-shadow-lg">
               <Image
                 className="rounded-full"
@@ -126,7 +134,7 @@ const Team = () => {
               <h1 className="font-heading text-3xl font-bold pt-4">{name}</h1>
               <h2 className="text-sand-600 font-medium">{role}</h2>
               {description && (
-                <ReactMarkdown className="prose font-display pt-4">
+                <ReactMarkdown className="prose font-display pt-4 max-w-lg mx-auto">
                   {description}
                 </ReactMarkdown>
               )}
