@@ -25,7 +25,7 @@ const Credits = () => {
         <Header />
         <div className="max-w-screen-lg mx-auto px-5 pb-24">
           {instructor && <Instructor />}
-          <div className="grid sm:grid-cols-2 lg:gap-24 sm:gap-16 gap-10 max-w-screen-md w-full pt-16 mx-auto">
+          <div className="sm:grid flex flex-col sm:grid-cols-2 lg:gap-24 sm:gap-16 gap-10 max-w-screen-md w-full pt-16 mx-auto">
             <Team />
           </div>
           <div className="flex items-center justify-center pt-24">
