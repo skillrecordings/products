@@ -32,9 +32,9 @@ export const PricingTiers: React.FC<CommerceProps> = ({
             <div
               key={product.name}
               className={cx('hover:opacity-100 transition', {
-                'lg:mt-32 opacity-90 max-w-sm mx-auto lg:scale-95 origin-right':
+                'lg:mt-12 opacity-90 max-w-sm mx-auto lg:scale-95 origin-right':
                   isFirst,
-                'lg:mt-48 opacity-80 max-w-sm mx-auto lg:scale-[80%] origin-left':
+                'lg:mt-16 opacity-80 max-w-sm mx-auto lg:scale-[80%] origin-left':
                   isLast,
                 // switch up order when stacked vertically
                 'row-start-1 xl:scale-110': isPro,
