@@ -138,3 +138,9 @@
   [data-reach-slider-handle]:focus {
   @apply outline-green-500;
 }
+
+.no-marker {
+  ::-webkit-details-marker {
+    display: none;
+  }
+}

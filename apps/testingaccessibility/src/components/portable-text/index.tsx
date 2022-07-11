@@ -159,7 +159,13 @@ const ExternalLink: React.FC<ExternalLinkProps> = ({
 }) => {
   const {blank, href} = value
   return blank ? (
-    <a href={href} target="_blank" rel="noopener noreferrer" {...props} title="Link opens in a new window">
+    <a
+      href={href}
+      target="_blank"
+      rel="noopener noreferrer"
+      {...props}
+      title="Link opens in a new window"
+    >
       {children}
     </a>
   ) : (
@@ -215,9 +221,7 @@ const PortableTextComponents: PortableTextComponentsProps = {
             <Video url={url} title={title} />
           </VideoProvider>
           <figcaption>
-            <details
-              className="group marker:text-transparent"
-            >
+            <details className="group marker:text-transparent no-marker">
               <summary className="inline-flex space-x-2 items-center cursor-pointer text-gray-600 hover:text-gray-800 transition">
                 <span
                   aria-hidden="true"
