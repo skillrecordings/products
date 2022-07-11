@@ -1,5 +1,6 @@
 import * as React from 'react'
 import {FormattedPrice} from '../utils/format-prices-for-product'
+import {usePriceCheck} from '../context/pricing-check-context'
 import {SanityProduct} from '../utils/props-for-commerce'
 import {CheckCircleIcon} from '@heroicons/react/outline'
 import {getCouponLabel} from 'utils/get-coupon-label'
@@ -10,8 +11,6 @@ import Spinner from './spinner'
 import Image from 'next/image'
 import find from 'lodash/find'
 import cx from 'classnames'
-import {usePriceCheck} from '../context/pricing-check-context'
-import {first} from 'lodash'
 
 function getFirstPPPCoupon(availableCoupons: any[] = []) {
   return find(availableCoupons, (coupon) => coupon.type === 'ppp') || false
@@ -169,8 +168,8 @@ export const Pricing: React.FC<PricingProps> = ({
         {purchased ? (
           <div className="w-full px-8">
             <div
-              data-pricing-product-checkout-button={index}
-              className="flex text-center px-5 py-4 font-nav font-semibold items-center justify-center rounded-md w-full text-lg gap-1 my-8 shadow-inner bg-green-700 bg-noise text-white after:hidden"
+              // data-pricing-product-checkout-button={index}
+              className="flex text-center px-5 py-5 font-nav font-semibold items-center justify-center rounded-md w-full text-lg gap-1 my-8 shadow-inner bg-green-700 bg-noise text-white after:hidden"
             >
               <CheckCircleIcon aria-hidden="true" className="mt-0.5 w-6 h-6" />{' '}
               Purchased
@@ -179,8 +178,8 @@ export const Pricing: React.FC<PricingProps> = ({
         ) : isDowngrade(formattedPrice) ? (
           <div className="w-full px-8">
             <div
-              data-pricing-product-checkout-button={index}
-              className="flex text-center px-5 py-4 font-nav font-semibold items-center justify-center rounded-md w-full text-lg gap-1 my-8 shadow-inner bg-green-700 bg-noise text-white after:hidden"
+              // data-pricing-product-checkout-button={index}
+              className="flex text-center px-5 py-5 font-nav font-semibold items-center justify-center rounded-md w-full text-lg gap-1 my-8 border-2 border-gray-100 after:hidden"
             >
               Unavailable
             </div>
@@ -199,7 +198,7 @@ export const Pricing: React.FC<PricingProps> = ({
             method="POST"
             className="pt-8 xl:px-12 px-5 flex flex-col items-center justify-center w-full"
           >
-            <fieldset>
+            <fieldset className="w-full">
               <legend className="sr-only">{name}</legend>
               <div className="mb-5 xl:px-12 px-5 flex flex-col items-center justify-center w-full">
                 <label className=" flex items-center gap-3">
@@ -246,39 +245,54 @@ export const Pricing: React.FC<PricingProps> = ({
             index={index}
           />
         )}
-        <div className="pt-10 w-full">
+        <div className="pt-8 w-full">
           <div className="relative flex items-center justify-center before:left-0 before:content-[''] before:w-full before:h-px before:bg-gray-100 before:absolute">
             <span className="relative bg-white px-4 uppercase text-xs font-medium text-gray-500">
               includes
             </span>
           </div>
         </div>
-        <div className="flex-1 flex flex-col justify-between px-6 pt-6 pb-8 space-y-6 xl:p-10 sm:p-5 p-3 sm:pt-6">
-          <strong className="font-medium">Modules</strong>
-          <ul role="list" className="space-y-3">
-            {modules.map((module: {title: string}) => (
-              <li key={module.title} className="flex items-start">
-                <div className="flex-shrink-0">
-                  <CheckCircleIcon
-                    className="h-6 w-6 text-green-500"
-                    aria-hidden="true"
+        <div className="flex-1 flex flex-col justify-between px-6 pt-6 pb-8 space-y-6 xl:p-8 sm:p-5 p-3 sm:pt-6">
+          {/* <strong className="font-medium">Modules</strong> */}
+          <ul role="list" className="space-y-2 ">
+            {modules.map((module) => (
+              <li key={module.title} className="flex items-center">
+                <div
+                  aria-hidden="true"
+                  className="flex-shrink-0 flex items-center justify-center"
+                >
+                  <Image
+                    src={module.image.url}
+                    width={50}
+                    height={50}
+                    alt={module.image.alt}
                   />
                 </div>
-                <p className="ml-3 text-base text-gray-700">{module.title}</p>
+                <p className="ml-3 text-base text-gray-700 font-medium">
+                  {module.title}
+                </p>
               </li>
             ))}
           </ul>
           {features && (
             <>
-              <strong className="font-medium">Bonuses</strong>
+              <strong className="font-medium">Features</strong>
               <ul role="list" className="space-y-4">
                 {features.map((feature: {value: string}) => (
                   <li key={feature.value} className="flex items-start">
                     <div className="flex-shrink-0">
-                      <CheckCircleIcon
+                      <span aria-hidden="true" className="mt-1">
+                        <Image
+                          src={require('../../public/assets/icons/checkmark.png')}
+                          width={22}
+                          height={22}
+                          alt=""
+                        />
+                      </span>
+                      {/* <CheckCircleIcon
                         className="h-6 w-6 text-green-500"
                         aria-hidden="true"
-                      />
+                      /> */}
                     </div>
                     <p className="ml-3 text-base text-gray-700">
                       {feature.value}

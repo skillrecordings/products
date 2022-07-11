@@ -17,7 +17,7 @@
     @apply bg-moss-200/50 text-moss-800 hover:bg-moss-200/80;
   }
   [data-pricing-product-checkout-button='1'] {
-    @apply bg-yellow-400 text-black py-5 hover:bg-yellow-300 relative after:content-[''] shadow-yellow-200 shadow-md after:w-full after:h-full after:blur-xl after:opacity-80 after:bg-yellow-300 after:absolute;
+    @apply bg-yellow-400 text-black py-5 hover:bg-yellow-300 relative after:content-[''] shadow-yellow-200 shadow-md after:w-full after:h-full after:blur-lg after:opacity-80 after:bg-yellow-300 after:absolute;
   }
   [data-pricing-product-checkout-button='2'] {
     @apply bg-moss-200/50 text-moss-800 hover:bg-moss-200/80;

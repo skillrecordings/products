@@ -13,7 +13,11 @@ const productsQuery = groq`*[_type == "pricing"][0] {
     alt
   },
   modules[]->{
-    title
+    title,
+    image {
+      url,
+      alt
+    }
   },
   features[]{
     value

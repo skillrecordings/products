@@ -21,7 +21,7 @@ export const PricingTiers: React.FC<CommerceProps> = ({
   const purchasedProductIds = purchases.map((purchase) => purchase.productId)
   return (
     <PriceCheckProvider purchasedProductIds={purchasedProductIds}>
-      <div className="lg:flex grid lg:gap-8 gap-40">
+      <div className="lg:flex grid xl:gap-16 lg:gap-8 gap-40">
         {redeemableCoupon ? <RedeemDialogForCoupon /> : null}
         {products?.map((product, i) => {
           const isFirst = i === 0
@@ -32,11 +32,13 @@ export const PricingTiers: React.FC<CommerceProps> = ({
             <div
               key={product.name}
               className={cx('hover:opacity-100 transition', {
-                'lg:mt-10 opacity-90 max-w-sm mx-auto': isFirst,
-                'lg:mt-20 opacity-80 max-w-sm mx-auto': isLast,
+                'lg:mt-32 opacity-90 max-w-sm mx-auto lg:scale-95 origin-right':
+                  isFirst,
+                'lg:mt-48 opacity-80 max-w-sm mx-auto lg:scale-[80%] origin-left':
+                  isLast,
                 // switch up order when stacked vertically
                 'row-start-1': isPro,
-                'row-start-3': isFirst,
+                'row-start-3': isLast,
               })}
             >
               <Pricing
