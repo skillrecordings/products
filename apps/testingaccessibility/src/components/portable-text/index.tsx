@@ -220,7 +220,7 @@ const PortableTextComponents: PortableTextComponentsProps = {
           <VideoProvider>
             <Video url={url} title={title} />
           </VideoProvider>
-          <figcaption tabIndex={0}>
+          <figcaption>
             <details className="group marker:text-transparent no-marker">
               <summary className="inline-flex space-x-2 items-center cursor-pointer text-gray-600 hover:text-gray-800 transition">
                 <span
