@@ -9,6 +9,7 @@ import {
   description,
   contentReviewTeam,
 } from 'components/content/credits'
+import cx from 'classnames'
 
 const Credits = () => {
   return (
@@ -24,7 +25,7 @@ const Credits = () => {
         <Header />
         <div className="max-w-screen-lg mx-auto px-5 pb-24">
           {instructor && <Instructor />}
-          <div className="grid sm:grid-cols-2 lg:gap-24 sm:gap-16 gap-10 max-w-screen-md w-full pt-16 mx-auto">
+          <div className="sm:grid flex flex-col sm:grid-cols-2 lg:gap-24 sm:gap-16 gap-10 max-w-screen-md w-full pt-16 mx-auto">
             <Team />
           </div>
           <div className="flex items-center justify-center pt-24">
@@ -109,8 +110,15 @@ const Team = () => {
     <>
       {drop(team).map((human, i) => {
         const {name, role, description, image, twitter} = human
+        const isLast = team.length - 2 === i
+
         return (
-          <article key={name} className="flex flex-col text-center">
+          <article
+            key={name}
+            className={cx('flex flex-col text-center', {
+              'col-span-2': isLast,
+            })}
+          >
             <div className="flex items-center justify-center drop-shadow-lg">
               <Image
                 className="rounded-full"
@@ -126,7 +134,7 @@ const Team = () => {
               <h1 className="font-heading text-3xl font-bold pt-4">{name}</h1>
               <h2 className="text-sand-600 font-medium">{role}</h2>
               {description && (
-                <ReactMarkdown className="prose font-display pt-4">
+                <ReactMarkdown className="prose font-display pt-4 max-w-lg mx-auto">
                   {description}
                 </ReactMarkdown>
               )}
