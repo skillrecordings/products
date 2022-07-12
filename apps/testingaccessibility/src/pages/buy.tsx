@@ -2,11 +2,12 @@ import React from 'react'
 import {GetServerSideProps} from 'next'
 import {setupHttpTracing} from '@vercel/tracing-js'
 import {tracer} from '../utils/honeycomb-tracer'
-import Layout from 'components/app/layout'
-import {PricingTiers} from '../components/product-tiers'
 import {CommerceProps, propsForCommerce} from '../utils/props-for-commerce'
-import Image from 'next/image'
+import {Element} from 'react-scroll'
+import {PricingTiers} from '../components/product-tiers'
 import FAQ from '../components/content/faq-section'
+import Layout from 'components/app/layout'
+import Image from 'next/image'
 
 const Buy: React.FC<CommerceProps> = ({
   couponFromCode,
@@ -16,7 +17,7 @@ const Buy: React.FC<CommerceProps> = ({
   couponIdFromCoupon,
 }) => {
   return (
-    <Layout meta={{title: 'Buy Testing Accessibility'}}>
+    <Layout meta={{title: 'Buy Testing Accessibility'}} products={products}>
       <main>
         <div className="flex flex-col justify-center items-center bg-green-700 bg-noise pb-32">
           <div className="pb-80 sm:pt-24 pt-16 text-white">
@@ -34,6 +35,7 @@ const Buy: React.FC<CommerceProps> = ({
                   The beautiful thing about learning is that nobody can take it
                   away from you.
                 </p>
+                <Element name="buy" aria-hidden="true" />
               </div>
             </div>
           </div>
@@ -55,9 +57,15 @@ const Buy: React.FC<CommerceProps> = ({
             />
           </div>
         </div>
-        <section className="flex flex-col bg-gray-50" aria-labelledby="header-faq">
+        <section
+          className="flex flex-col bg-gray-50"
+          aria-labelledby="header-faq"
+        >
           <div className="max-w-screen-lg mx-auto w-full py-24">
-            <h2 className="text-center font-heading lg:text-5xl sm:text-4xl text-3xl font-bold pb-24" id="header-faq">
+            <h2
+              className="text-center font-heading lg:text-5xl sm:text-4xl text-3xl font-bold pb-24"
+              id="header-faq"
+            >
               Frequently Asked Questions
             </h2>
             <FAQ />

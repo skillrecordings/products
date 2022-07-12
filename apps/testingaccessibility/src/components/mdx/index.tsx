@@ -268,7 +268,7 @@ const WorkshopsList: React.FC<WorkshopsListProps> = () => {
                 <p className="pt-4">{description}</p>
                 {topics && (
                   <>
-                    <h4 className="pt-3">
+                    <h4 className="pt-8">
                       <strong>Topics include:</strong>
                     </h4>
                     <ul className="pt-6 space-y-4 font-medium">
