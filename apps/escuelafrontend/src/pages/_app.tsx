@@ -11,6 +11,7 @@ import * as gtag from '../lib/gtag'
 import AppLayout from 'components/app/layout'
 import MDXComponents from 'components/mdx'
 import {MDXProvider} from '@mdx-js/react'
+import {SessionProvider} from 'next-auth/react'
 
 declare global {
   interface Window {
@@ -47,12 +48,13 @@ const App: React.FC<AppProps> = ({Component, pageProps}) => {
   return (
     <>
       <DefaultSeo {...config} />
-
-      <ThemeProvider attribute="class" defaultTheme="system">
-        <MDXProvider components={MDXComponents}>
-          {getLayout(Component, pageProps)}
-        </MDXProvider>
-      </ThemeProvider>
+      <SessionProvider session={pageProps.session} refetchInterval={0}>
+        <ThemeProvider attribute="class" defaultTheme="system">
+          <MDXProvider components={MDXComponents}>
+            {getLayout(Component, pageProps)}
+          </MDXProvider>
+        </ThemeProvider>
+      </SessionProvider>
     </>
   )
 }
