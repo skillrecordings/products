@@ -1,6 +1,7 @@
 import React from 'react'
 import {GetServerSideProps} from 'next'
 import {getToken} from 'next-auth/jwt'
+import * as Sentry from '@sentry/nextjs'
 
 export type ErrorType =
   | 'default'
@@ -22,7 +23,7 @@ interface ErrorView {
 export const getServerSideProps: GetServerSideProps = async ({req, query}) => {
   const sessionToken = await getToken({req})
 
-  console.log(query.error)
+  Sentry.captureMessage(`Auth Error: ${query.error}`)
 
   if (sessionToken) {
     return {
