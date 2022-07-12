@@ -63,31 +63,7 @@ export default {
           type: 'string',
           of: [{type: 'string'}],
           options: {
-            list: [
-              {title: 'Email Course (1863867)', value: '1863867'},
-              {
-                title: 'workshop-form-automated-testing (3122427)',
-                value: '3122427',
-              },
-              {
-                title: 'workshop-form-automated-testing (3120060)',
-                value: '3120060',
-              },
-              {
-                title: 'workshop-form-automated-testing (3122424)',
-                value: '3122424',
-              },
-              {
-                title: 'workshop-form-automated-testing (3122425)',
-                value: '3122425',
-              },
-              {
-                title: 'workshop-form-manually-a11y-testing (2662749)',
-                value: '2662749',
-              },
-              {title: 'workshop-form-people (3122421)', value: '3122421'},
-              {title: 'workshop-form-semantics (3122422)', value: '3122422'},
-            ],
+            list: [{title: 'Email Course (3071922)', value: '3071922'}],
             sortable: false,
           },
         },

@@ -33,18 +33,27 @@ type ArticleTemplateProps = {
   hasSubscribed: boolean
 }
 
-const ArticleTemplate: React.FC<ArticleTemplateProps> = ({
+const PortableTextArticleTemplate: React.FC<ArticleTemplateProps> = ({
   article,
   hasSubscribed,
 }) => {
   const {title, description, body, subscribersOnly, date, cta} = article
+
   const ogImage = getOgImage(title)
   const shortDescription =
     description || toPlainText(body).substring(0, 157) + '...'
   const router = useRouter()
 
   return (
-    <Layout className="relative">
+    <Layout
+      className="relative"
+      meta={{
+        ogImage,
+        title,
+        description: shortDescription,
+        url: `${process.env.NEXT_PUBLIC_URL}${router.asPath}`,
+      }}
+    >
       <Header title={title} date={date} />
       <main className="mb-36">
         <div className="w-full max-w-screen-sm mx-auto">
@@ -58,14 +67,37 @@ const ArticleTemplate: React.FC<ArticleTemplateProps> = ({
           </div>
         </div>
         <section data-article="">
-          {getCTA({subscribersOnly, hasSubscribed, cta, router})}
+          {cta ? (
+            <CTAContainer>
+              <div className="pb-8 flex flex-col items-center prose prose-p:max-w-[30ch] prose-headings:font-bold text-center">
+                <PortableText
+                  value={cta.body}
+                  components={PortableTextComponents}
+                />
+              </div>
+              <SubscribeToConvertkitForm
+                className="article"
+                formId={cta.formId}
+                onSuccess={(subscriber: any) => {
+                  if (subscriber) {
+                    const redirectUrl = redirectUrlBuilder(
+                      subscriber,
+                      '/confirm',
+                    )
+                    router.push(redirectUrl)
+                  }
+                }}
+                actionLabel={cta.actionLabel}
+              />
+            </CTAContainer>
+          ) : null}
         </section>
       </main>
     </Layout>
   )
 }
 
-export default ArticleTemplate
+export default PortableTextArticleTemplate
 
 const Header: React.FC<{title: string; date: string}> = ({title, date}) => {
   return (
@@ -104,7 +136,7 @@ const CTAContainer: React.FC = ({children}) => {
   return (
     <section
       id="subscribe"
-      className="relative flex flex-col items-center justify-center px-5 pt-10 pb-16 mt-16 overflow-hidden text-white bg-green-700 bg-noise sm:px-16 lg:pb-24 sm:pt-24"
+      className="relative flex flex-col items-center justify-center px-5 pt-10 pb-16 mt-16 overflow-hidden text-white  bg-noise sm:px-16 lg:pb-24 sm:pt-24"
     >
       <div className="flex flex-col items-center max-w-sm pb-8">{children}</div>
     </section>

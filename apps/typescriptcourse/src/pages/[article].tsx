@@ -2,7 +2,7 @@ import React from 'react'
 import {sanityClient} from 'utils/sanity-client'
 import {SanityDocument} from '@sanity/client'
 import {GetServerSideProps} from 'next'
-import ArticleTemplate from 'templates/article-template'
+import PortableTextArticleTemplate from 'templates/portable-text-article-template'
 import isEmpty from 'lodash/isEmpty'
 import find from 'lodash/find'
 import * as serverCookie from 'cookie'
@@ -97,7 +97,12 @@ type ArticlePageProps = {
 }
 
 const ArticlePage: React.FC<ArticlePageProps> = ({article, hasSubscribed}) => {
-  return <ArticleTemplate article={article} hasSubscribed={hasSubscribed} />
+  return (
+    <PortableTextArticleTemplate
+      article={article}
+      hasSubscribed={hasSubscribed}
+    />
+  )
 }
 
 export default ArticlePage
