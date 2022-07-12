@@ -7,6 +7,7 @@ import {getCouponLabel} from 'utils/get-coupon-label'
 import {useDebounce} from '@skillrecordings/react'
 import {Purchase} from '@prisma/client'
 import {useQuery} from 'react-query'
+import SaleCountdown from './sale-countdown'
 import Spinner from './spinner'
 import Image from 'next/image'
 import find from 'lodash/find'
@@ -231,6 +232,12 @@ export const Pricing: React.FC<PricingProps> = ({
             </fieldset>
           </form>
         )}
+        {!merchantCoupon && (
+          <SaleCountdown
+            coupon={formattedPrice?.defaultCoupon}
+            data-pricing-product-sale-countdown={index}
+          />
+        )}
         {showPPPBox && (
           <RegionalPricingBox
             pppCoupon={pppCoupon || merchantCoupon}
@@ -283,10 +290,6 @@ export const Pricing: React.FC<PricingProps> = ({
                           alt=""
                         />
                       </span>
-                      {/* <CheckCircleIcon
-                        className="h-6 w-6 text-green-500"
-                        aria-hidden="true"
-                      /> */}
                     </div>
                     <p className="ml-3 text-base text-gray-700">
                       {feature.value}
@@ -330,8 +333,11 @@ const RegionalPricingBox: React.FC<RegionalPricingBoxProps> = ({
   const percentOff = Math.floor(pppCoupon.percentageDiscount * 100)
 
   return (
-    <div data-pricing-product-ppp={index} className="rounded-md mt-5">
-      <div className="space-y-4">
+    <div
+      data-pricing-product-ppp={index}
+      className="rounded-md mt-5 sm:px-10 px-5 w-full"
+    >
+      <div className="space-y-4  w-full">
         <p className="font-medium">
           We noticed that you're from {country}{' '}
           <img
@@ -348,7 +354,7 @@ const RegionalPricingBox: React.FC<RegionalPricingBoxProps> = ({
         </p>
         <p className="pb-5">If that is something that you need:</p>
       </div>
-      <label className="tabular-nums accent-green-600 hover:accent-green-500 cursor-pointer flex gap-2 rounded-md bg-gray-100 shadow-inner hover:bg-gray-200 transition p-3 font-medium">
+      <label className="tabular-nums accent-green-600 cursor-pointer flex gap-2  hover:bg-gray-50 rounded-md border border-gray-100 transition p-3 font-medium">
         <input
           type="checkbox"
           checked={Boolean(activeCoupon)}
