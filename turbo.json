@@ -24,9 +24,7 @@
         "$NEXT_PUBLIC_CONVERTKIT_TOKEN",
         "$NEXT_PUBLIC_CONVERTKIT_SIGNUP_FORM"
       ],
-      "outputs": [
-        "dist/**"
-      ]
+      "outputs": ["dist/**"]
     },
     "postbuild": {
       "dependsOn": ["build"],
