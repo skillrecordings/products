@@ -2315,6 +2315,7 @@ importers:
       dotenv-flow: ^3.2.0
       eslint: ^8.19.0
       eslint-config-custom: workspace:*
+      feed: ^4.2.2
       focus-visible: ^5.2.0
       formik: 2.2.9
       framer-motion: ^6.4.1
@@ -2402,6 +2403,7 @@ importers:
       cookie: 0.5.0
       date-fns: 2.28.0
       dotenv-flow: 3.2.0
+      feed: 4.2.2
       focus-visible: 5.2.0
       formik: 2.2.9_react@17.0.2
       framer-motion: 6.4.1_sfoxds7t5ydpegc3knd667wn6m
@@ -7116,6 +7118,7 @@ packages:
       '@types/react': 17.0.45
       hoist-non-react-statics: 3.3.2
       react: 17.0.2
+    dev: false
 
   /@emotion/react/11.5.0_hx2b44akkvgcgvvtmk7ds2qk6q:
     resolution: {integrity: sha512-MYq/bzp3rYbee4EMBORCn4duPQfgpiEB5XzrZEBnUZAL80Qdfr7CEv/T80jwaTl/dnZmt9SnTa8NkTrwFNpLlw==}
@@ -11253,7 +11256,7 @@ packages:
   /axios/0.26.1:
     resolution: {integrity: sha512-fPwcX4EvnSHuInCMItEhAGnaSEXRBjtzh9fOtsE6E1G6p7vl7edEeZe11QHf18+6+9gR5PbKV/sGKNaD8YaMeA==}
     dependencies:
-      follow-redirects: 1.15.1_debug@2.6.9
+      follow-redirects: 1.15.1
     transitivePeerDependencies:
       - debug
 
@@ -14847,6 +14850,15 @@ packages:
 
   /focus-visible/5.2.0:
     resolution: {integrity: sha512-Rwix9pBtC1Nuy5wysTmKy+UjbDJpIfg8eHjw0rjZ1mX4GNLz1Bmd16uDpI3Gk1i70Fgcs8Csg2lPm8HULFg9DQ==}
+
+  /follow-redirects/1.15.1:
+    resolution: {integrity: sha512-yLAMQs+k0b2m7cVxpS1VKJVvoz7SS9Td1zss3XRwXj+ZDH00RJgnuLx7E44wx02kQLrdM3aOOy+FpzS7+8OizA==}
+    engines: {node: '>=4.0'}
+    peerDependencies:
+      debug: '*'
+    peerDependenciesMeta:
+      debug:
+        optional: true
 
   /follow-redirects/1.15.1_debug@2.6.9:
     resolution: {integrity: sha512-yLAMQs+k0b2m7cVxpS1VKJVvoz7SS9Td1zss3XRwXj+ZDH00RJgnuLx7E44wx02kQLrdM3aOOy+FpzS7+8OizA==}
