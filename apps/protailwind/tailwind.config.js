@@ -28,6 +28,12 @@ module.exports = {
               color: theme('colors.slate.200'),
               fontWeight: theme('fontWeight.light'),
             },
+            'code::before': {
+              content: '',
+            },
+            'code::after': {
+              content: '',
+            },
           },
         },
       }),

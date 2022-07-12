@@ -3,6 +3,7 @@ import {
   ACCESS_TOKEN_KEY,
   CONVERTKIT_BASE_URL,
   AUTH_DOMAIN,
+  AUTH_CLIENT_ID,
 } from '@skillrecordings/config'
 
 export const convertkitAxios = axios.create({
@@ -22,9 +23,9 @@ axios.interceptors.request.use(
     const defaultHeaders = authToken
       ? {
           Authorization: `Bearer ${authToken}`,
-          'X-SITE-CLIENT': process.env.NEXT_PUBLIC_CLIENT_ID,
+          'X-SITE-CLIENT': AUTH_CLIENT_ID,
         }
-      : {'X-SITE-CLIENT': process.env.NEXT_PUBLIC_CLIENT_ID}
+      : {'X-SITE-CLIENT': AUTH_CLIENT_ID}
     const headers = {
       ...defaultHeaders,
       ...config.headers,
