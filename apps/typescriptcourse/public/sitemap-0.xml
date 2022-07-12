@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:news="http://www.google.com/schemas/sitemap-news/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml" xmlns:mobile="http://www.google.com/schemas/sitemap-mobile/1.0" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1" xmlns:video="http://www.google.com/schemas/sitemap-video/1.1">
-<url><loc>https://typescriptcourse.com</loc><lastmod>2022-07-12T02:19:58.090Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
-<url><loc>https://typescriptcourse.com/articles</loc><lastmod>2022-07-12T02:19:58.090Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
-<url><loc>https://typescriptcourse.com/build-a-typescript-project-from-scratch</loc><lastmod>2022-07-12T02:19:58.090Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
-<url><loc>https://typescriptcourse.com/invoice</loc><lastmod>2022-07-12T02:19:58.090Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
-<url><loc>https://typescriptcourse.com/learn</loc><lastmod>2022-07-12T02:19:58.090Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
-<url><loc>https://typescriptcourse.com/migrate-an-open-source-javascript-project-to-typescript</loc><lastmod>2022-07-12T02:19:58.090Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
-<url><loc>https://typescriptcourse.com/navigate-a-typescript-codebase</loc><lastmod>2022-07-12T02:19:58.090Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
-<url><loc>https://typescriptcourse.com/thanks</loc><lastmod>2022-07-12T02:19:58.090Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://www.typescriptcourse.com</loc><lastmod>2022-07-12T02:50:34.993Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://www.typescriptcourse.com/articles</loc><lastmod>2022-07-12T02:50:34.993Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://www.typescriptcourse.com/build-a-typescript-project-from-scratch</loc><lastmod>2022-07-12T02:50:34.993Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://www.typescriptcourse.com/invoice</loc><lastmod>2022-07-12T02:50:34.993Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://www.typescriptcourse.com/learn</loc><lastmod>2022-07-12T02:50:34.993Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://www.typescriptcourse.com/migrate-an-open-source-javascript-project-to-typescript</loc><lastmod>2022-07-12T02:50:34.993Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://www.typescriptcourse.com/navigate-a-typescript-codebase</loc><lastmod>2022-07-12T02:50:34.993Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://www.typescriptcourse.com/thanks</loc><lastmod>2022-07-12T02:50:34.993Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
 </urlset>
