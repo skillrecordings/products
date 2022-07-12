@@ -27,7 +27,7 @@
     "@tippyjs/react": "^4.2.6",
     "axios": "^0.26.0",
     "formik": "2.2.9",
-    "next-seo": "^5.4.0",
+    "next-seo": "=5.4.0",
     "prism-react-renderer": "^1.2.1",
     "query-string": "^7.1.1",
     "react-scroll": "^1.8.6",
