@@ -1,7 +1,7 @@
 import React, {FunctionComponent} from 'react'
 import {useSession} from 'next-auth/react'
 import {Toaster} from 'react-hot-toast'
-import {NextSeo} from 'next-seo'
+import {NextSeo} from '@skillrecordings/react'
 import config from 'config'
 
 type LayoutProps = {

@@ -99,7 +99,6 @@ importers:
       next: ^12.1.6
       next-compose-plugins: ^2.2.1
       next-images: ^1.8.4
-      next-seo: '=5.4.0'
       next-sitemap: ^3.0.5
       next-themes: ^0.1.1
       pluralize: ^8.0.0
@@ -170,7 +169,6 @@ importers:
       lodash: 4.17.21
       mdx-prism: 0.3.4
       next: 12.1.6_sfoxds7t5ydpegc3knd667wn6m
-      next-seo: 5.4.0_zhtyyhxvjc4vmyivr6fwl32yja
       next-sitemap: 3.1.7_next@12.1.6
       next-themes: 0.1.1_zhtyyhxvjc4vmyivr6fwl32yja
       pluralize: 8.0.0
@@ -293,7 +291,6 @@ importers:
       next: ^12.1.6
       next-compose-plugins: ^2.2.1
       next-images: ^1.8.4
-      next-seo: '=5.4.0'
       next-sitemap: ^3.0.5
       next-themes: ^0.1.1
       pluralize: ^8.0.0
@@ -362,7 +359,6 @@ importers:
       lodash: 4.17.21
       mdx-prism: 0.3.4
       next: 12.1.6_sfoxds7t5ydpegc3knd667wn6m
-      next-seo: 5.4.0_zhtyyhxvjc4vmyivr6fwl32yja
       next-sitemap: 3.1.7_next@12.1.6
       next-themes: 0.1.1_zhtyyhxvjc4vmyivr6fwl32yja
       pluralize: 8.0.0
@@ -485,7 +481,6 @@ importers:
       next: ^12.1.6
       next-compose-plugins: ^2.2.1
       next-images: ^1.8.4
-      next-seo: '=5.4.0'
       next-sitemap: ^3.0.5
       next-themes: ^0.1.1
       pluralize: ^8.0.0
@@ -551,7 +546,6 @@ importers:
       lodash: 4.17.21
       mdx-prism: 0.3.4
       next: 12.1.6_sfoxds7t5ydpegc3knd667wn6m
-      next-seo: 5.4.0_zhtyyhxvjc4vmyivr6fwl32yja
       next-sitemap: 3.1.7_next@12.1.6
       next-themes: 0.1.1_zhtyyhxvjc4vmyivr6fwl32yja
       pluralize: 8.0.0
@@ -691,7 +685,6 @@ importers:
       next-images: ^1.8.4
       next-mdx-remote: ^3.0.8
       next-sanity-image: ^3.1.7
-      next-seo: '=5.4.0'
       next-sitemap: ^3.0.5
       next-themes: ^0.1.1
       nodemailer: ^6.7.2
@@ -774,7 +767,6 @@ importers:
       next-auth: 4.2.1_uwv6tj4c6jl3tcycfdgw4fi3ba
       next-mdx-remote: 3.0.8_sfoxds7t5ydpegc3knd667wn6m
       next-sanity-image: 3.1.7_ywrprqyr2sqbicvr2xeeymtbda
-      next-seo: 5.4.0_zhtyyhxvjc4vmyivr6fwl32yja
       next-sitemap: 3.1.7_next@12.1.6
       next-themes: 0.1.1_zhtyyhxvjc4vmyivr6fwl32yja
       nodemailer: 6.7.2
@@ -910,7 +902,6 @@ importers:
       next-compose-plugins: ^2.2.1
       next-images: ^1.8.4
       next-mdx-remote: ^4.0.0
-      next-seo: '=5.4.0'
       next-sitemap: ^3.0.5
       next-themes: ^0.1.1
       nodemailer: ^6.7.2
@@ -989,7 +980,6 @@ importers:
       next: 12.1.6_sfoxds7t5ydpegc3knd667wn6m
       next-auth: 4.2.1_uwv6tj4c6jl3tcycfdgw4fi3ba
       next-mdx-remote: 4.0.0_sfoxds7t5ydpegc3knd667wn6m
-      next-seo: 5.4.0_zhtyyhxvjc4vmyivr6fwl32yja
       next-sitemap: 3.1.7_next@12.1.6
       next-themes: 0.1.1_zhtyyhxvjc4vmyivr6fwl32yja
       nodemailer: 6.7.2
@@ -1103,7 +1093,6 @@ importers:
       next: ^12.1.6
       next-compose-plugins: ^2.2.1
       next-images: ^1.8.4
-      next-seo: '=5.4.0'
       next-sitemap: ^3.0.5
       next-themes: ^0.1.1
       pluralize: ^8.0.0
@@ -1161,7 +1150,6 @@ importers:
       lodash: 4.17.21
       mdx-prism: 0.3.4
       next: 12.1.6_sfoxds7t5ydpegc3knd667wn6m
-      next-seo: 5.4.0_zhtyyhxvjc4vmyivr6fwl32yja
       next-sitemap: 3.1.7_next@12.1.6
       next-themes: 0.1.1_zhtyyhxvjc4vmyivr6fwl32yja
       pluralize: 8.0.0
@@ -1269,7 +1257,6 @@ importers:
       next: ^12.1.6
       next-compose-plugins: ^2.2.1
       next-images: ^1.8.4
-      next-seo: '=5.4.0'
       next-sitemap: ^3.0.5
       next-themes: ^0.1.1
       pluralize: ^8.0.0
@@ -1329,7 +1316,6 @@ importers:
       lodash: 4.17.21
       mdx-prism: 0.3.4
       next: 12.1.6_sfoxds7t5ydpegc3knd667wn6m
-      next-seo: 5.4.0_zhtyyhxvjc4vmyivr6fwl32yja
       next-sitemap: 3.1.7_next@12.1.6
       next-themes: 0.1.1_zhtyyhxvjc4vmyivr6fwl32yja
       pluralize: 8.0.0
@@ -1455,7 +1441,6 @@ importers:
       next: ^12.1.6
       next-compose-plugins: ^2.2.1
       next-images: ^1.8.4
-      next-seo: '=5.4.0'
       next-sitemap: ^3.0.5
       next-themes: ^0.1.1
       next-transpile-modules: ^9.0.0
@@ -1526,7 +1511,6 @@ importers:
       mdast-util-to-markdown: 1.2.6
       mdx-prism: 0.3.4
       next: 12.1.6_sfoxds7t5ydpegc3knd667wn6m
-      next-seo: 5.4.0_zhtyyhxvjc4vmyivr6fwl32yja
       next-sitemap: 3.1.7_next@12.1.6
       next-themes: 0.1.1_zhtyyhxvjc4vmyivr6fwl32yja
       next-transpile-modules: 9.0.0
@@ -1626,7 +1610,6 @@ importers:
       leva: ^0.9.27
       next: ^12.1.6
       next-compose-plugins: ^2.2.1
-      next-seo: '=5.4.0'
       next-sitemap: ^3.0.5
       postcss: ^8.4.14
       prisma: ^3.15.2
@@ -1661,7 +1644,6 @@ importers:
       leva: 0.9.27_sfoxds7t5ydpegc3knd667wn6m
       next: 12.1.6_sfoxds7t5ydpegc3knd667wn6m
       next-compose-plugins: 2.2.1
-      next-seo: 5.4.0_zhtyyhxvjc4vmyivr6fwl32yja
       next-sitemap: 3.1.7_next@12.1.6
       react: 17.0.2
       react-dom: 17.0.2_react@17.0.2
@@ -1746,7 +1728,6 @@ importers:
       next: ^12.1.6
       next-compose-plugins: ^2.2.1
       next-images: ^1.8.4
-      next-seo: '=5.4.0'
       next-sitemap: ^3.0.5
       next-themes: ^0.1.1
       pluralize: ^8.0.0
@@ -1803,7 +1784,6 @@ importers:
       mdx-embed: 0.0.22_6xqwaqehq7edoa4cfowcauzbza
       mdx-prism: 0.3.4
       next: 12.1.6_sfoxds7t5ydpegc3knd667wn6m
-      next-seo: 5.4.0_zhtyyhxvjc4vmyivr6fwl32yja
       next-sitemap: 3.1.7_next@12.1.6
       next-themes: 0.1.1_zhtyyhxvjc4vmyivr6fwl32yja
       pluralize: 8.0.0
@@ -1980,7 +1960,6 @@ importers:
       next-compose-plugins: ^2.2.1
       next-images: ^1.8.4
       next-mdx-remote: ^4.0.0
-      next-seo: '=5.4.0'
       next-sitemap: ^3.0.5
       next-themes: ^0.1.1
       nodemailer: ^6.7.2
@@ -2112,7 +2091,6 @@ importers:
       next: 12.1.6_sfoxds7t5ydpegc3knd667wn6m
       next-auth: 4.2.1_uwv6tj4c6jl3tcycfdgw4fi3ba
       next-mdx-remote: 4.0.0_sfoxds7t5ydpegc3knd667wn6m
-      next-seo: 5.4.0_zhtyyhxvjc4vmyivr6fwl32yja
       next-sitemap: 3.1.7_qrpr57ui5ktfex3mx2i7w34jta
       next-themes: 0.1.1_zhtyyhxvjc4vmyivr6fwl32yja
       nodemailer: 6.7.2
@@ -2342,7 +2320,6 @@ importers:
       next: ^12.1.6
       next-compose-plugins: ^2.2.1
       next-images: ^1.8.4
-      next-seo: '=5.4.0'
       next-sitemap: ^3.0.5
       next-themes: ^0.1.1
       next-transpile-modules: ^9.0.0
@@ -2426,7 +2403,6 @@ importers:
       mdast-util-to-markdown: 1.2.6
       mdx-prism: 0.3.4
       next: 12.1.6_sfoxds7t5ydpegc3knd667wn6m
-      next-seo: 5.4.0_zhtyyhxvjc4vmyivr6fwl32yja
       next-sitemap: 3.1.7_qrpr57ui5ktfex3mx2i7w34jta
       next-themes: 0.1.1_zhtyyhxvjc4vmyivr6fwl32yja
       pluralize: 8.0.0
@@ -3088,7 +3064,6 @@ importers:
       lodash: ^4.17.21
       msw: ^0.35.0
       next: ^12.1.6
-      next-seo: '=5.4.0'
       prism-react-renderer: ^1.2.1
       query-string: ^7.1.1
       react: 17.0.2
@@ -3109,7 +3084,6 @@ importers:
       '@tippyjs/react': 4.2.6_sfoxds7t5ydpegc3knd667wn6m
       axios: 0.26.1
       formik: 2.2.9_react@17.0.2
-      next-seo: 5.4.0_zhtyyhxvjc4vmyivr6fwl32yja
       prism-react-renderer: 1.2.1_react@17.0.2
       query-string: 7.1.1
       react-scroll: 1.8.7_sfoxds7t5ydpegc3knd667wn6m
@@ -12184,6 +12158,7 @@ packages:
       readdirp: 3.6.0
     optionalDependencies:
       fsevents: 2.3.2
+    dev: true
 
   /chokidar/3.5.3:
     resolution: {integrity: sha512-Dr3sfKRP6oTcjf2JmUmFJfeVMvXBdegxB0iVQ5eb2V10uFJUCAS8OByZdVAyVb8xXNz3GjjTgj9kLWsZTqE6kw==}
@@ -20314,18 +20289,6 @@ packages:
       react: 17.0.2
     dev: false
 
-  /next-seo/5.4.0_zhtyyhxvjc4vmyivr6fwl32yja:
-    resolution: {integrity: sha512-R9DhajPwJnR/lsF2hZ8cN8uqr5CVITsRrCG1AF5+ufcaybKYOvnH8sH9MaH4/hpkps3PQ9H71S7J7SPYixAYzQ==}
-    peerDependencies:
-      next: ^8.1.1-canary.54 || >=9.0.0
-      react: '>=16.0.0'
-      react-dom: '>=16.0.0'
-    dependencies:
-      next: 12.1.6_bra7dgvoeiis5hyys3uir3dssy
-      react: 17.0.2
-      react-dom: 17.0.2_react@17.0.2
-    dev: false
-
   /next-sitemap/3.1.7_next@12.1.6:
     resolution: {integrity: sha512-8o+rUftEtZ7d3s2BedBLeN0HZHPAtcvliA/YesP/2o7Llb5svvM/pqVBde17MgTEuGMZpHz6nqruHKGCt53G3Q==}
     engines: {node: '>=14.18'}
@@ -20457,6 +20420,7 @@ packages:
     transitivePeerDependencies:
       - '@babel/core'
       - babel-plugin-macros
+    dev: true
 
   /next/12.1.6_sfoxds7t5ydpegc3knd667wn6m:
     resolution: {integrity: sha512-cebwKxL3/DhNKfg9tPZDQmbRKjueqykHHbgaoG4VBRH3AHQJ2HO0dbKFiS1hPhe1/qgc2d/hFeadsbPicmLD+A==}
@@ -24161,6 +24125,7 @@ packages:
     hasBin: true
     dependencies:
       chokidar: 3.5.2
+    dev: true
 
   /sax/1.2.4:
     resolution: {integrity: sha512-NqVDv9TpANUjFm0N8uM5GxL36UgKi9/atZw+x7YFnQ8ckwFGKrl4xX4yWtrey3UJm5nP1kUbnYgLopqWNSRhWw==}

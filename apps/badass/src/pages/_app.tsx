@@ -1,11 +1,11 @@
 import React from 'react'
 import {AppProps} from 'next/app'
-import {DefaultSeo} from 'next-seo'
 import config from 'config'
 import '../styles/globals.css'
 import 'focus-visible'
 import {ViewerProvider} from '@skillrecordings/viewer'
 import {ConvertkitProvider} from '@skillrecordings/convertkit'
+import {DefaultSeo} from '@skillrecordings/react'
 
 //TODO: build error if this was in the component after moving it to commerce package
 import '@reach/dialog/styles.css'
