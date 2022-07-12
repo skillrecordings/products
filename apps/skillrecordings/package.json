@@ -47,6 +47,7 @@
     "@skillrecordings/config": "workspace:*",
     "@skillrecordings/convertkit": "workspace:*",
     "@skillrecordings/cookies": "workspace:*",
+    "@skillrecordings/react": "workspace:*",
     "@skillrecordings/time": "workspace:*",
     "@skillrecordings/viewer": "workspace:*",
     "@stripe/stripe-js": "^1.21.1",

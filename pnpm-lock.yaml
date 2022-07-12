@@ -1586,6 +1586,7 @@ importers:
       '@skillrecordings/cookies': workspace:*
       '@skillrecordings/player': workspace:*
       '@skillrecordings/quiz': workspace:*
+      '@skillrecordings/react': workspace:*
       '@skillrecordings/scripts': workspace:*
       '@skillrecordings/skill-api': workspace:*
       '@skillrecordings/time': workspace:*
@@ -1634,6 +1635,7 @@ importers:
       '@skillrecordings/cookies': link:../../packages/cookies
       '@skillrecordings/player': link:../../packages/player
       '@skillrecordings/quiz': link:../../packages/quiz
+      '@skillrecordings/react': link:../../packages/react
       '@skillrecordings/skill-api': link:../../packages/skill-api
       '@skillrecordings/time': link:../../packages/time
       '@skillrecordings/viewer': link:../../packages/viewer
@@ -1683,6 +1685,7 @@ importers:
       '@skillrecordings/config': workspace:*
       '@skillrecordings/convertkit': workspace:*
       '@skillrecordings/cookies': workspace:*
+      '@skillrecordings/react': workspace:*
       '@skillrecordings/scripts': workspace:*
       '@skillrecordings/time': workspace:*
       '@skillrecordings/tsconfig': workspace:*
@@ -1764,6 +1767,7 @@ importers:
       '@skillrecordings/config': link:../../packages/config
       '@skillrecordings/convertkit': link:../../packages/convertkit
       '@skillrecordings/cookies': link:../../packages/cookies
+      '@skillrecordings/react': link:../../packages/react
       '@skillrecordings/time': link:../../packages/time
       '@skillrecordings/viewer': link:../../packages/viewer
       '@stripe/stripe-js': 1.21.1

@@ -49,6 +49,7 @@
     "@skillrecordings/cookies": "workspace:*",
     "@skillrecordings/player": "workspace:*",
     "@skillrecordings/quiz": "workspace:*",
+    "@skillrecordings/react": "workspace:*",
     "@skillrecordings/skill-api": "workspace:*",
     "@skillrecordings/time": "workspace:*",
     "@skillrecordings/viewer": "workspace:*",
