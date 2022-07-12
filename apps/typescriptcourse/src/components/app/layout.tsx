@@ -7,11 +7,11 @@ import isNull from 'lodash/isNull'
 
 export type LayoutProps = {
   meta?: {
-    title: string
-    description: string
+    title?: string
+    description?: string
     titleAppendSiteName?: boolean
-    url: string
-    ogImage: {url: string; alt: string}
+    url?: string
+    ogImage?: {url: string; alt?: string}
   }
   noIndex?: boolean
   className?: string
