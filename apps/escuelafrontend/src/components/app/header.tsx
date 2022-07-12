@@ -1,9 +1,11 @@
+/* eslint-disable jsx-a11y/anchor-is-valid */
 import * as React from 'react'
 import Link from 'next/link'
 import {Fragment} from 'react'
 import {Popover, Transition} from '@headlessui/react'
 import {MenuIcon, XIcon} from '@heroicons/react/outline'
 import Logo from '../logo'
+import {useSession, signOut} from 'next-auth/react'
 
 export default function Navigation() {
   return (
@@ -29,6 +31,7 @@ export default function Navigation() {
               <div className="hidden md:flex-1 md:flex md:items-center md:justify-between">
                 <span className="flex space-x-10" />
                 <div className="flex items-center gap-8 md:ml-12">
+                  <Auth />
                   <Link href="/cursos">
                     <a className="text-base font-medium text-gray-700 hover:text-gray-900 dark:text-gray-200 dark:hover:text-gray-100">
                       Cursos
@@ -101,5 +104,27 @@ export default function Navigation() {
         )}
       </Popover>
     </div>
+  )
+}
+
+function Auth() {
+  const {data: session} = useSession()
+  if (session) {
+    return (
+      <>
+        <p>Hola {session.user && session.user.email}</p>
+        <button onClick={() => signOut()}>Sign out</button>
+        <Link href="/content">
+          <a className="text-base font-medium text-gray-700 hover:text-gray-900 dark:text-gray-200 dark:hover:text-gray-100">
+            Secrete content
+          </a>
+        </Link>
+      </>
+    )
+  }
+  return (
+    <>
+      <a href="/login">Sign in</a>
+    </>
   )
 }
