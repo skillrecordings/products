@@ -17,6 +17,17 @@
         "index.js"
       ]
     },
+    "@skillrecordings/config#build": {
+      "dependsOn": [
+        "^build",
+        "$CONVERTKIT_API_SECRET",
+        "$NEXT_PUBLIC_CONVERTKIT_TOKEN",
+        "$NEXT_PUBLIC_CONVERTKIT_SIGNUP_FORM"
+      ],
+      "outputs": [
+        "dist/**"
+      ]
+    },
     "postbuild": {
       "dependsOn": ["build"],
       "outputs": ["public/sitemap.xml", "public/robots.txt"]
