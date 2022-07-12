@@ -1,4 +1,6 @@
 import React from 'react'
+import {GetServerSideProps} from 'next'
+import {getToken} from 'next-auth/jwt'
 
 export type ErrorType =
   | 'default'
@@ -14,21 +16,47 @@ interface ErrorView {
   status: number
   heading: string
   message: JSX.Element
-  signin?: JSX.Element
+  Signin?: JSX.Element
+}
+
+export const getServerSideProps: GetServerSideProps = async ({req, query}) => {
+  const sessionToken = await getToken({req})
+
+  console.log(query.error)
+
+  if (sessionToken) {
+    return {
+      redirect: {
+        destination: '/',
+        permanent: false,
+      },
+    }
+  } else if (query.error === 'Verification') {
+    return {
+      redirect: {
+        destination: `/login?error=${query.error}`,
+        permanent: false,
+      },
+    }
+  } else {
+    return {
+      props: {...query},
+    }
+  }
 }
 
 const ErrorPage = (props: ErrorProps) => {
   const {error = 'default'} = props
+
   const errors: Record<ErrorType, ErrorView> = {
     default: {
       status: 200,
       heading: 'Error',
       message: (
-        <p>
-          <a className="site" href="/">
-            {process.env.NEXT_PUBLIC_URL}
-          </a>
-        </p>
+        <div>
+          <p>There is a Something Wrong!</p>
+          <p>Please check the error console.</p>
+        </div>
       ),
     },
     configuration: {
@@ -47,11 +75,6 @@ const ErrorPage = (props: ErrorProps) => {
       message: (
         <div>
           <p>You do not have permission to sign in.</p>
-          <p>
-            <a className="button" href="/login">
-              Sign in
-            </a>
-          </p>
         </div>
       ),
     },
@@ -61,21 +84,34 @@ const ErrorPage = (props: ErrorProps) => {
       message: (
         <div>
           <p>The sign in link is no longer valid.</p>
-          <p>It may have been used already or it may have expired.</p>
+          <p>
+            It may have been used already or it may have expired. Visit the log
+            in page and enter your email to request a new log in link.
+          </p>
         </div>
-      ),
-      signin: (
-        <p>
-          <a className="button" href="/login">
-            Sign in
-          </a>
-        </p>
       ),
     },
   }
 
-  const {status, heading, message, signin} =
-    errors[error.toLowerCase() as ErrorType] ?? errors.default
+  const {
+    status,
+    heading,
+    message,
+    Signin = (
+      <div>
+        <p>
+          Please email{' '}
+          <a href="mailto:team@testingaccessibility.com">
+            team@testingaccessibility.com
+          </a>{' '}
+          if you need help.
+        </p>
+        <a className="site button" href="/login">
+          You can click here to Log In
+        </a>
+      </div>
+    ),
+  } = errors[error.toLowerCase() as ErrorType] ?? errors.default
 
   return (
     <div className="prose mx-auto mt-16">
@@ -84,6 +120,7 @@ const ErrorPage = (props: ErrorProps) => {
         <br /> {message}
       </p>
       <br />
+      {Signin ? Signin : null}
     </div>
   )
 }
