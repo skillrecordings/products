@@ -68,7 +68,7 @@ const Layout: FunctionComponent<LayoutProps> = ({
         <SkipNavLink className="z-50">
           Skip navigation and go to content
         </SkipNavLink>
-        {products && !isSignedIn && <SaleBanner products={products} />}
+        {!isSignedIn && <SaleBanner />}
         {nav ? nav : isNull(nav) ? null : <Navigation />}
         {skipNavContent}
       </header>

@@ -1,25 +1,18 @@
 import React from 'react'
 import Countdown, {CountdownRenderProps, zeroPad} from 'react-countdown'
 import {FormattedPrice} from 'utils/format-prices-for-product'
-import {SanityProduct} from 'utils/props-for-commerce'
 import {useReducedMotion} from 'framer-motion'
 import {scroller} from 'react-scroll'
 import {useQuery} from 'react-query'
-import {first, get} from 'lodash'
+import {useRouter} from 'next/router'
+import Link from 'next/link'
 
-type SaleBannerProps = {
-  products: SanityProduct[]
-}
-
-const SaleBanner: React.FC<SaleBannerProps> = ({products}) => {
-  const productId = get(first(products), 'productId')
+const SaleBanner = () => {
+  const router = useRouter()
   const shouldReduceMotion = useReducedMotion()
   const {data: formattedPrice} = useQuery<FormattedPrice>(['banner'], () =>
     fetch('/api/prices', {
       method: 'POST',
-      body: JSON.stringify({
-        productId,
-      }),
       headers: {
         'Content-Type': 'application/json',
       },
@@ -33,6 +26,31 @@ const SaleBanner: React.FC<SaleBannerProps> = ({products}) => {
 
   const {expires, percentageDiscount} = defaultCoupon
   const percentOff = Math.floor(Number(percentageDiscount) * 100)
+
+  const GoToPricingButton: React.FC = ({children}) => {
+    const isLandingPage = router.pathname === '/' || router.pathname === '/buy'
+    return isLandingPage ? (
+      <button
+        className="ml-2 flex-shrink-0 inline-flex px-2 py-0.5 pb-1 underline rounded-md border hover:bg-moss-50"
+        onClick={() => {
+          scroller.scrollTo('buy', {
+            duration: 1500,
+            smooth: shouldReduceMotion ? false : 'easeInOutQuint',
+          })
+          const buySection = document.getElementById('buy')
+          buySection?.focus()
+        }}
+      >
+        {children}
+      </button>
+    ) : (
+      <Link href="/#buy">
+        <a className="ml-2 flex-shrink-0 inline-flex px-2 py-0.5 pb-1 underline rounded-md border hover:bg-moss-50">
+          {children}
+        </a>
+      </Link>
+    )
+  }
 
   return (
     <div>
@@ -55,17 +73,7 @@ const SaleBanner: React.FC<SaleBannerProps> = ({products}) => {
               renderer={(props) => <CountdownRenderer {...props} />}
             />
           </span>
-          <button
-            className="ml-2 flex-shrink-0 inline-flex px-2 py-0.5 pb-1 underline rounded-md border hover:bg-moss-50"
-            onClick={() => {
-              scroller.scrollTo('buy', {
-                duration: 1500,
-                smooth: shouldReduceMotion ? false : 'easeInOutQuint',
-              })
-            }}
-          >
-            Get {percentOff}% off
-          </button>
+          <GoToPricingButton>Get {percentOff}% off</GoToPricingButton>
         </div>
       </div>
     </div>

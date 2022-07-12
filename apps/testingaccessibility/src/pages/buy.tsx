@@ -17,7 +17,7 @@ const Buy: React.FC<CommerceProps> = ({
   couponIdFromCoupon,
 }) => {
   return (
-    <Layout meta={{title: 'Buy Testing Accessibility'}} products={products}>
+    <Layout meta={{title: 'Buy Testing Accessibility'}}>
       <main>
         <div className="flex flex-col justify-center items-center bg-green-700 bg-noise pb-32">
           <div className="pb-80 sm:pt-24 pt-16 text-white">

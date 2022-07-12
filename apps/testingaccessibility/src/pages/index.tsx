@@ -24,7 +24,7 @@ const Home: React.FC<CommerceProps> = ({
 }) => {
   const {redeemableCoupon, RedeemDialogForCoupon} = useCoupon(couponFromCode)
   return (
-    <Layout className="bg-white" products={products}>
+    <Layout className="bg-white">
       <main>
         <div className="flex flex-col justify-between min-h-screen overflow-hidden">
           <header className="relative text-white bg-green-700 lg:pt-24 sm:pt-24 pt-12 bg-noise">
@@ -66,6 +66,8 @@ const Home: React.FC<CommerceProps> = ({
               <>
                 <Element name="buy" />
                 <section
+                  id="buy"
+                  tabIndex={0}
                   aria-label="Purchasing information"
                   className="relative z-50 flex flex-col justify-center items-center bg-green-700 bg-noise pb-16"
                 >
