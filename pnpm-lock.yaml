@@ -1968,7 +1968,7 @@ importers:
       next-compose-plugins: ^2.2.1
       next-images: ^1.8.4
       next-mdx-remote: ^4.0.0
-      next-seo: ^4.29.0
+      next-seo: ^5.4.0
       next-sitemap: ^3.0.5
       next-themes: ^0.1.1
       nodemailer: ^6.7.2
@@ -2100,7 +2100,7 @@ importers:
       next: 12.1.6_sfoxds7t5ydpegc3knd667wn6m
       next-auth: 4.2.1_uwv6tj4c6jl3tcycfdgw4fi3ba
       next-mdx-remote: 4.0.0_sfoxds7t5ydpegc3knd667wn6m
-      next-seo: 4.29.0_zhtyyhxvjc4vmyivr6fwl32yja
+      next-seo: 5.4.0_zhtyyhxvjc4vmyivr6fwl32yja
       next-sitemap: 3.1.7_qrpr57ui5ktfex3mx2i7w34jta
       next-themes: 0.1.1_zhtyyhxvjc4vmyivr6fwl32yja
       nodemailer: 6.7.2
@@ -20310,6 +20310,18 @@ packages:
       react-dom: '>=16.0.0'
     dependencies:
       next: 12.1.6_bra7dgvoeiis5hyys3uir3dssy
+      react: 17.0.2
+      react-dom: 17.0.2_react@17.0.2
+    dev: false
+
+  /next-seo/5.4.0_zhtyyhxvjc4vmyivr6fwl32yja:
+    resolution: {integrity: sha512-R9DhajPwJnR/lsF2hZ8cN8uqr5CVITsRrCG1AF5+ufcaybKYOvnH8sH9MaH4/hpkps3PQ9H71S7J7SPYixAYzQ==}
+    peerDependencies:
+      next: ^8.1.1-canary.54 || >=9.0.0
+      react: '>=16.0.0'
+      react-dom: '>=16.0.0'
+    dependencies:
+      next: 12.1.6_sfoxds7t5ydpegc3knd667wn6m
       react: 17.0.2
       react-dom: 17.0.2_react@17.0.2
     dev: false
