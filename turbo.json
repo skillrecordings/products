@@ -22,9 +22,11 @@
       "outputs": ["public/sitemap.xml", "public/robots.txt"]
     },
     "test": {
+      "outputs": [],
       "dependsOn": ["^build"]
     },
     "deploy": {
+      "outputs": [],
       "dependsOn": ["build", "test", "lint"]
     },
     "lint": {
@@ -32,6 +34,7 @@
       "dependsOn": ["^build"]
     },
     "start": {
+      "outputs": [],
       "dependsOn": ["^build"]
     },
     "integration": {
