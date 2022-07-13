@@ -36,7 +36,7 @@
     }
   }
   [data-pricing-product-ppp='1'] {
-    @apply max-w-sm p-5 border border-gray-200;
+    @apply max-w-sm p-5 border border-gray-100;
   }
   [data-pricing-product-ppp='2'] {
     label {
@@ -46,4 +46,13 @@
       @apply sr-only;
     }
   }
+}
+
+/* Countdown box */
+[data-pricing-product-sale-countdown='0'] {
+  @apply hidden;
+}
+
+[data-pricing-product-sale-countdown='2'] {
+  @apply hidden;
 }

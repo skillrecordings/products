@@ -1,7 +1,7 @@
 import React, {FunctionComponent} from 'react'
-import {NextSeo} from 'next-seo'
 import Navigation from 'components/navigation'
 import Footer from 'components/footer'
+import {NextSeo} from '@skillrecordings/react'
 
 type LayoutProps = {
   meta?: any

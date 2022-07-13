@@ -1,7 +1,7 @@
 import * as React from 'react'
-import {NextSeo} from 'next-seo'
 import DefaultNavigation, {NavigationProps} from '../components/navigation'
 import DefaultFooter, {FooterProps} from '../components/footer'
+import NextSeo from '../meta/nextSEO'
 
 export type LayoutProps = {
   meta?: any
