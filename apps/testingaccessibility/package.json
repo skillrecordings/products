@@ -17,7 +17,7 @@
     "integration": "cypress run",
     "lint": "TIMING=4 prisma generate && eslint src/**/*.{ts,tsx} --fix && tsc --noEmit",
     "start": "next start -p 3013",
-    "test": "prisma generate && jest"
+    "test": "pnpm generate && jest"
   },
   "lint-staged": {
     "*.{js,json,md,mdx,ts,tsx}": [
