@@ -5,7 +5,7 @@ import Layout from 'components/app/layout'
 import Image from 'next/image'
 import NewMailImage from '../../../public/assets/new-mail@2x.png'
 import {MailIcon} from '@heroicons/react/outline'
-import {PurchaseStatus} from '@prisma/client'
+import {PurchaseStatus} from '../../utils/purchase-status'
 
 export const getServerSideProps: GetServerSideProps = async ({req, query}) => {
   const {purchaseId} = query

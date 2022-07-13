@@ -181,13 +181,6 @@ model UpgradableProducts {
   @@id([upgradableToId, upgradableFromId])
 }
 
-enum PurchaseStatus {
-    Valid
-    Refunded
-    Disputed
-    Banned
-}
-
 model Purchase {
   id                      String           @id @default(uuid())
   userId                  String?
@@ -208,7 +201,7 @@ model Purchase {
   merchantCharge          MerchantCharge?    @relation(fields: [merchantChargeId], references: [id], onDelete: Cascade)
   product                 Product            @relation(fields: [productId], references: [id], onDelete: Cascade)
   user                    User?              @relation(fields: [userId], references: [id], onDelete: Cascade)
-  status                  PurchaseStatus     @default(Valid)
+  status                  String             @default("Valid")
 }
 
 model Session {
@@ -219,11 +212,6 @@ model Session {
   user           User?      @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
-enum Role {
-    User
-    ADMIN
-    SUPERADMIN
-}
 
 model User {
   id                 String               @id @default(uuid()) 
@@ -238,7 +226,7 @@ model User {
   sessions           Session[]
   lessonProgresses   LessonProgress[]
   comments           Comment[]
-  roles              Role                   @default(User)
+  roles              String                   @default("User")
 }
 
 model VerificationToken {

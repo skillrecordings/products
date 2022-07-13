@@ -1,10 +1,11 @@
 import prisma from '../db'
-import {PurchaseStatus} from '@prisma/client'
+import {PurchaseStatus} from '../utils/purchase-status'
+import {Purchase} from '@prisma/client'
 
 export async function updatePurchaseStatusForCharge(
   chargeId: string,
   status: PurchaseStatus,
-) {
+): Promise<Purchase | undefined> {
   const purchase = await prisma.purchase.findFirst({
     where: {
       merchantCharge: {

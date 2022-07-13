@@ -25,7 +25,7 @@
       "dependsOn": ["^build", "generate"]
     },
     "deploy": {
-      "dependsOn": ["generate","build", "test", "lint"]
+      "dependsOn": ["generate", "build", "test", "lint"]
     },
     "generate": {
       "dependsOn": ["^generate"]
