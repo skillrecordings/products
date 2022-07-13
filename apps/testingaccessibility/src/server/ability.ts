@@ -6,7 +6,7 @@ import {
   hasValidPurchase,
   hasInvoice,
 } from '../utils/purchase-validators'
-import {PurchaseStatus} from '@prisma/client'
+import {PurchaseStatus} from '../utils/purchase-status'
 
 type Actions = 'manage' | 'invite' | 'view'
 type Subjects = 'Team' | 'Purchase' | 'Content' | 'Product' | 'Invoice' | 'all'

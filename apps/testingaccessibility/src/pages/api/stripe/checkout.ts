@@ -9,7 +9,7 @@ import {setupHttpTracing} from '@vercel/tracing-js'
 import {tracer} from '../../../utils/honeycomb-tracer'
 import {first} from 'lodash'
 import {getCalculatedPriced} from '../../../utils/get-calculated-price'
-import {PurchaseStatus} from '@prisma/client'
+import {PurchaseStatus} from '../../../utils/purchase-status'
 
 export class CheckoutError extends Error {
   couponId?: string

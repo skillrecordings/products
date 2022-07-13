@@ -9,7 +9,7 @@ import * as Sentry from '@sentry/nextjs'
 import {setupHttpTracing} from '@vercel/tracing-js'
 import {tracer} from '../../utils/honeycomb-tracer'
 import {postRedemptionToSlack} from '../../server/post-to-slack'
-import {PurchaseStatus} from '@prisma/client'
+import {PurchaseStatus} from '../../utils/purchase-status'
 
 export class CouponRedemptionError extends Error {
   couponId: string

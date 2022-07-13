@@ -12,7 +12,6 @@ import Link from 'next/link'
 import {stripeData} from '../../utils/record-new-purchase'
 import {getPurchaseDetails} from '../../lib/purchases'
 import {isString} from 'lodash'
-import {PurchaseStatus} from '@prisma/client'
 
 export const getServerSideProps: GetServerSideProps = async ({req, query}) => {
   const {purchaseId: purchaseQueryParam, session_id, upgrade} = query
