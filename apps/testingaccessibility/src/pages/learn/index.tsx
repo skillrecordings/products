@@ -22,6 +22,8 @@ import Link from 'next/link'
 import cx from 'classnames'
 import groq from 'groq'
 
+const CERTIFICATE_ENABLED = process.env.NEXT_PUBLIC_CERTIFICATE_ENABLED
+
 const productQuery = groq`*[_type == "product" && productId == $productId][0]{
   title,
   productId,
@@ -214,6 +216,11 @@ const Learn: React.FC<{purchases: Purchase[]; product: SanityDocument}> = ({
                                         !isCompleted,
                                       'before:text-sm before:text-white  before:bg-green-500':
                                         isCompleted,
+                                      'after:hidden':
+                                        sections.length === 1 &&
+                                        !CERTIFICATE_ENABLED,
+                                      'group-last-of-type:after:bottom-1/2 group-last-of-type:after:h-1/2':
+                                        !CERTIFICATE_ENABLED,
                                     },
                                   )}
                                 >
@@ -225,9 +232,7 @@ const Learn: React.FC<{purchases: Purchase[]; product: SanityDocument}> = ({
                             </li>
                           )
                         })}
-
-                        {process.env.NEXT_PUBLIC_CERTIFICATE_ENABLED &&
-                        sections?.length > 0 ? (
+                        {CERTIFICATE_ENABLED && sections?.length > 0 ? (
                           <li
                             key={`certificate-${title}`}
                             className={cx(
