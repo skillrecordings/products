@@ -69,7 +69,6 @@ const SaleBanner = () => {
             </span>{' '}
             <Countdown
               date={expires}
-              zeroPadTime={3}
               renderer={(props) => <CountdownRenderer {...props} />}
             />
           </span>
