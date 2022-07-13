@@ -41,35 +41,47 @@ const CountdownRenderer: React.FC<CountdownRenderProps> = ({
     <>
       <div className="px-10 w-full" {...rest}>
         <div className="p-5 text-center rounded-lg mt-5 w-full">
-          <p className="font-medium pb-3">Hurry up! Price goes up in:</p>
+          <p className="font-medium pb-3">Hurry! Price goes up in:</p>
           <div
             aria-hidden="true"
             className="tabular-nums tracking-tight grid grid-cols-4 items-center justify-center max-w-[300px] mx-auto"
           >
-            <Value label="days">{days}</Value>
-            <Value label="hours">{hours}</Value>
-            <Value label="minutes">{zeroPad(hours)}</Value>
-            <Value label="seconds">{zeroPad(seconds)}</Value>
+            <div className="flex flex-col">
+              <span className="text-3xl font-heading font-bold leading-none">
+                {days}
+              </span>
+              <span className="pt-1 text-xs font-medium tracking-wide uppercase text-gray-500">
+                days
+              </span>
+            </div>
+            <div className="flex flex-col">
+              <span className="text-3xl font-heading font-bold leading-none">
+                {hours}
+              </span>
+              <span className="pt-1 text-xs font-medium tracking-wide uppercase text-gray-500">
+                hours
+              </span>
+            </div>
+            <div className="flex flex-col">
+              <span className="text-3xl font-heading font-bold leading-none">
+                {minutes}
+              </span>
+              <span className="pt-1 text-xs font-medium tracking-wide uppercase text-gray-500">
+                minutes
+              </span>
+            </div>
+            <div className="flex flex-col">
+              <span className="text-3xl font-heading font-bold leading-none">
+                {seconds}
+              </span>
+              <span className="pt-1 text-xs font-medium tracking-wide uppercase text-gray-500">
+                seconds
+              </span>
+            </div>
           </div>
           <div className="sr-only">{screenReaderValues}</div>
         </div>
       </div>
     </>
-  )
-}
-
-const Value: React.FC<{children: React.ReactNode; label: string}> = ({
-  children,
-  label,
-}) => {
-  return (
-    <div className="flex flex-col">
-      <span className="text-3xl font-heading font-bold leading-none">
-        {children}
-      </span>
-      <span className="pt-1 text-xs font-medium tracking-wide uppercase text-gray-500">
-        {label}
-      </span>
-    </div>
   )
 }

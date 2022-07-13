@@ -77,6 +77,7 @@ export const Pricing: React.FC<PricingProps> = ({
         }),
   )
 
+  const defaultCoupon = formattedPrice?.defaultCoupon
   const appliedMerchantCoupon = formattedPrice?.appliedMerchantCoupon
 
   const fullPrice =
@@ -232,12 +233,10 @@ export const Pricing: React.FC<PricingProps> = ({
             </fieldset>
           </form>
         )}
-        {!merchantCoupon && (
-          <SaleCountdown
-            coupon={formattedPrice?.defaultCoupon}
-            data-pricing-product-sale-countdown={index}
-          />
-        )}
+        <SaleCountdown
+          coupon={defaultCoupon}
+          data-pricing-product-sale-countdown={index}
+        />
         {showPPPBox && (
           <RegionalPricingBox
             pppCoupon={pppCoupon || merchantCoupon}
