@@ -36,7 +36,7 @@ const Camera: React.FC<CameraProps> = ({animateOnScroll = true}) => {
     }
   })
 
-  React.useLayoutEffect(() => {
+  React.useEffect(() => {
     const {current: cam} = cameraRef
     if (cam) {
       cam.aspect = size.width / size.height
@@ -44,7 +44,7 @@ const Camera: React.FC<CameraProps> = ({animateOnScroll = true}) => {
     }
   }, [size])
 
-  React.useLayoutEffect(() => {
+  React.useEffect(() => {
     if (cameraRef.current) {
       const oldCam = camera
       set(() => ({camera: cameraRef.current}))
