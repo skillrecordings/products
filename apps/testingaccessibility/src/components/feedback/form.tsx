@@ -6,7 +6,7 @@ import {Formik, Form, FormikHelpers} from 'formik'
 import {CheckIcon} from '@heroicons/react/solid'
 import {XCircleIcon} from '@heroicons/react/outline'
 import Spinner from 'components/spinner'
-import {sendFeedback} from '@skillrecordings/skill-api/client'
+import {sendFeedback} from '@skillrecordings/skill-api/dist/client'
 import {FeedbackContext} from '@skillrecordings/skill-api'
 
 type FeedbackFormValues = {

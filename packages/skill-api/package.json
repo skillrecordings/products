@@ -4,36 +4,22 @@
   "description": "",
   "license": "ISC",
   "author": "",
-  "exports": {
-    ".": "./index.js",
-    "./client": "./client/index.js",
-    "./core": "./core/index.js",
-    "./next": "./next/index.js",
-    "./lib": "./lib/index.js"
-  },
-  "main": "index.js",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
   "files": [
-    "lib",
-    "css",
-    "react",
-    "next",
-    "client",
-    "core",
-    "index.d.ts",
-    "index.js"
+    "dist/**"
   ],
   "scripts": {
-    "build": "pnpm clean && prisma generate && pnpm build:js",
-    "build:css": "postcss --config config/postcss.config.js src/**/*.css --base src --dir . && node config/wrap-css.js",
-    "build:js": "pnpm clean && tsc && babel --config-file ./config/babel.config.js src --out-dir . --extensions \".tsx,.ts,.js,.jsx\"",
-    "clean": "rm -rf client core lib next index.d.ts index.js",
+    "build": "pnpm build:js",
+    "build:css": "postcss --config config/postcss.config.js src/**/*.css --base src --dir ./dist && node config/wrap-css.js",
+    "build:js": "tsc && babel --config-file ./config/babel.config.js src --out-dir ./dist --extensions \".tsx,.ts,.js,.jsx\"",
+    "clean": "rm -rf dist",
     "lint": "eslint src config",
     "generate": "prisma generate",
-    "prebuild": "pnpm generate",
-    "predev": "pnpm generate",
     "prepublishOnly": "pnpm build",
     "setup": "pnpm generate-providers",
     "test": "jest",
+    "watch:js": "tsc --watch && babel -w --config-file ./config/babel.config.js src --out-dir ./dist --extensions \".tsx,.ts,.js,.jsx\"",
     "watch:css": "postcss --config config/postcss.config.js --watch src/**/*.css --base src --dir ."
   },
   "eslintIgnore": [

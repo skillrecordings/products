@@ -17,8 +17,11 @@
     "jsx": "react",
     "stripInternal": true,
     "skipDefaultLibCheck": true,
-    "baseUrl": ".",
-    "outDir": "."
+    "outDir": "./dist",
+    "rootDir": "./src"
   },
-  "exclude": ["./*.js", "./*.d.ts", "config", "**/__tests__", "node_modules"]
+  "include": [
+    "src/**/*"
+  ],
+  "exclude": ["./*.js", "./*.d.ts", "config", "generated", "**/__tests__", "node_modules"]
 }
