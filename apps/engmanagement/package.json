@@ -12,7 +12,7 @@
     "generate": "prisma generate",
     "prebuild": "pnpm generate",
     "predev": "pnpm generate",
-    "lint": "TIMING=1 prisma generate && eslint src/**/*.{ts,tsx} --fix && tsc --noEmit",
+    "lint": "prisma generate && eslint src/**/*.{ts,tsx} --fix && tsc --noEmit",
     "start": "next start -p 3007",
     "test": "prisma generate && jest"
   },

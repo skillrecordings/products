@@ -15,7 +15,7 @@
     "prebuild": "pnpm generate",
     "predev": "pnpm generate",
     "integration": "cypress run",
-    "lint": "TIMING=4 prisma generate && eslint src/**/*.{ts,tsx} --fix && tsc --noEmit",
+    "lint": "prisma generate && eslint src/**/*.{ts,tsx} --fix && tsc --noEmit",
     "start": "next start -p 3013",
     "test": "pnpm generate && jest"
   },
