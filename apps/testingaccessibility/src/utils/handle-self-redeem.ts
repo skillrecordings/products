@@ -1,11 +1,11 @@
-import {Purchase} from '@prisma/client'
-
 /**
  * handle self redeeming of a seat in bulk purchase
  * @param {string} email current user's email from session
  * @param {string} bulkCouponId current user's bulk coupon id from purchase
  * @param {(redeemPurchase) => void} onSuccess callback to be called when purchase is redeemed
  */
+import {Purchase} from '../../generated/prisma/client'
+
 export async function handleSelfRedeem(
   email: string,
   bulkCouponId: string,

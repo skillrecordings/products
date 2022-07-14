@@ -5,13 +5,13 @@ import {SanityProduct} from '../utils/props-for-commerce'
 import {CheckCircleIcon} from '@heroicons/react/outline'
 import {getCouponLabel} from 'utils/get-coupon-label'
 import {useDebounce} from '@skillrecordings/react'
-import {Purchase} from '@prisma/client'
 import {useQuery} from 'react-query'
 import SaleCountdown from './sale-countdown'
 import Spinner from './spinner'
 import Image from 'next/image'
 import find from 'lodash/find'
 import cx from 'classnames'
+import {Purchase} from '../../generated/prisma/client'
 
 function getFirstPPPCoupon(availableCoupons: any[] = []) {
   return find(availableCoupons, (coupon) => coupon.type === 'ppp') || false

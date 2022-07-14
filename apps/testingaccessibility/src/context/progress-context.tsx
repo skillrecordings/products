@@ -3,10 +3,10 @@ import {
   getLessonProgressForUser,
   toggleLessonProgressForUser,
 } from 'utils/progress'
-import type {LessonProgress} from '@prisma/client'
 import {useSession} from 'next-auth/react'
 import {useQuery} from 'react-query'
 import {last} from 'lodash'
+import {LessonProgress} from '../../generated/prisma/client'
 
 type ProgressContextType = {
   progress: LessonProgress[]
