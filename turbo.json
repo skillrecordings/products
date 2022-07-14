@@ -5,21 +5,10 @@
       "dependsOn": ["^build", "generate"],
       "outputs": ["dist/**", ".next/**", "src/generated/**"]
     },
-    "@skillrecordings/skill-api#build": {
-      "dependsOn": ["^build"],
-      "outputs": [
-        "lib/**",
-        "css/**",
-        "next/**",
-        "client/**",
-        "core/**",
-        "index.d.ts",
-        "index.js"
-      ]
-    },
     "@skillrecordings/config#build": {
       "dependsOn": [
         "^build",
+        "generate",
         "$CONVERTKIT_API_SECRET",
         "$NEXT_PUBLIC_CONVERTKIT_TOKEN",
         "$NEXT_PUBLIC_CONVERTKIT_SIGNUP_FORM"
@@ -38,7 +27,7 @@
     },
     "generate": {
       "dependsOn": ["^generate"],
-      "cache": false
+      "outputs": ["generated/**"]
     },
     "lint": {
       "outputs": [],

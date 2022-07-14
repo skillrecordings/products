@@ -1,6 +1,5 @@
-import {PrismaClient} from '@prisma/client'
 import {mockDeep, DeepMockProxy} from 'jest-mock-extended'
-import prisma from '../db'
+import prisma, {PrismaClient} from '../db'
 
 export const defaultContext: Context = {prisma}
 

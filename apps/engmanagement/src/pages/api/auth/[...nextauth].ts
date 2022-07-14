@@ -12,7 +12,7 @@ export const nextAuthOptions: NextAuthOptions = {
   session: {
     strategy: 'jwt',
   },
-  adapter: PrismaAdapter(prisma),
+  adapter: PrismaAdapter(prisma as any),
   jwt: {
     secret: process.env.NEXTAUTH_SECRET,
   },
