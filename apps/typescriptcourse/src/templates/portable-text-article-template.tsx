@@ -9,6 +9,7 @@ import {format} from 'date-fns'
 import {
   redirectUrlBuilder,
   SubscribeToConvertkitForm,
+  useConvertkit,
 } from '@skillrecordings/convertkit'
 import ImageAuthor from '../../public/images/joe-previte.jpeg'
 import isEmpty from 'lodash/isEmpty'
@@ -42,6 +43,7 @@ const PortableTextArticleTemplate: React.FC<ArticleTemplateProps> = ({
   hasSubscribed,
 }) => {
   const {title, description, body, subscribersOnly, date, cta} = article
+  const {subscriber, loadingSubscriber} = useConvertkit()
 
   const ogImage = getOgImage(title)
   const shortDescription =
@@ -71,7 +73,7 @@ const PortableTextArticleTemplate: React.FC<ArticleTemplateProps> = ({
           </div>
         </div>
         <section data-article="">
-          {cta ? (
+          {!loadingSubscriber && !subscriber && cta ? (
             <div className="relative flex flex-col items-center px-5 pt-16 pb-16 sm:px-0 md:pt-24 md:pb-32">
               <Image
                 src={formImage}
