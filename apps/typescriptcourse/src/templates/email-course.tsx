@@ -52,8 +52,10 @@ const EmailCourseTemplate: React.FC<EmailCourseTemplateProps> = ({
     }
   }, [router])
 
+  // TODO fix meta for layout
+
   return (
-    <Layout meta={meta} className="relative">
+    <Layout className="relative">
       <header className="relative max-w-screen-sm px-5 pt-16 pb-24 mx-auto text-center md:pt-24 md:pb-32 md:px-0">
         {headerImage && <Image src={headerImage} alt={headline} />}
         <h1 className="py-4 text-4xl font-bold md:text-5xl drop-shadow-lg">
