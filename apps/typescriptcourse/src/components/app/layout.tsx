@@ -1,5 +1,5 @@
 import * as React from 'react'
-import {NextSeo} from 'next-seo'
+import {NextSeo} from '@skillrecordings/react'
 import Navigation, {NavigationProps} from 'components/app/navigation'
 import Footer from 'components/app/footer'
 import config from 'config'

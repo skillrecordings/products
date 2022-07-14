@@ -39,6 +39,10 @@ export type FormattedPrice = {
   availableCoupons: any[]
   appliedMerchantCoupon?: any
   upgradeFromPurchaseId?: string
+  defaultCoupon?: {
+    expires?: string
+    percentageDiscount: string
+  }
 }
 
 /**

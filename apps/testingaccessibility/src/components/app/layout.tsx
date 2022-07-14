@@ -1,14 +1,16 @@
 import React, {FunctionComponent} from 'react'
 import {SkipNavContent, SkipNavLink} from '@reach/skip-nav'
+import {useNavState} from '../../hooks/use-nav-state'
+import {SanityProduct} from 'utils/props-for-commerce'
 import {useFeedback} from 'context/feedback-context'
 import {Toaster} from 'react-hot-toast'
-import {NextSeo} from 'next-seo'
+import {NextSeo} from '@skillrecordings/react'
+import SaleBanner from 'components/sale-banner'
 import Navigation from './navigation'
 import isNull from 'lodash/isNull'
 import Footer from './footer'
 import config from 'config'
 import cx from 'classnames'
-import {useNavState} from '../../hooks/use-nav-state'
 
 type LayoutProps = {
   meta?: any
@@ -17,6 +19,7 @@ type LayoutProps = {
   nav?: React.ReactElement | null
   footer?: React.ReactElement | null
   skipNavContent?: any
+  products?: SanityProduct[]
 }
 
 const Layout: FunctionComponent<LayoutProps> = ({
@@ -27,6 +30,7 @@ const Layout: FunctionComponent<LayoutProps> = ({
   nav,
   footer,
   skipNavContent = <SkipNavContent />,
+  products,
 }) => {
   const {
     title = config.defaultTitle,
@@ -64,6 +68,7 @@ const Layout: FunctionComponent<LayoutProps> = ({
         <SkipNavLink className="z-50">
           Skip navigation and go to content
         </SkipNavLink>
+        {!isSignedIn && <SaleBanner />}
         {nav ? nav : isNull(nav) ? null : <Navigation />}
         {skipNavContent}
       </header>

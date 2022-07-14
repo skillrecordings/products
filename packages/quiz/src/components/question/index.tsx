@@ -110,7 +110,6 @@ const QuestionChoices = React.forwardRef(function QuestionChoices(
       {currentQuestion?.choices?.map((choice, i) => {
         return <QuestionChoice key={choice.answer} choice={choice} index={i} />
       })}
-
       {errors?.answer}
     </Comp>
   )
@@ -177,20 +176,26 @@ const QuestionInput = React.forwardRef(function QuestionInput(
   forwardRef,
 ) {
   const {isAnswered, formik} = React.useContext(QuestionContext)
+  const {errors, values, initialValues} = formik
 
   return (
-    <Comp {...props} ref={forwardRef} data-sr-quiz-question-input="">
+    <Comp
+      {...props}
+      ref={forwardRef}
+      data-sr-quiz-question-input={errors?.answer ? 'error' : ''}
+    >
       <label htmlFor="answer">Your answer</label>
       <textarea
         rows={6}
         name="answer"
         id="answer"
-        value={formik.initialValues.answer || undefined}
+        value={initialValues.answer || values.answer || undefined}
         onChange={formik.handleChange}
         onBlur={formik.handleBlur}
         disabled={isAnswered}
         placeholder="Type your answer..."
       />
+      {errors?.answer}
     </Comp>
   )
 }) as Polymorphic.ForwardRefComponent<'div', QuestionInputProps>
@@ -273,13 +278,11 @@ const QuestionAnswer = React.forwardRef(function QuestionAnswer(
   const {isAnswered, syntaxHighlighterTheme, currentQuestion} =
     React.useContext(QuestionContext)
 
-  return isAnswered ? (
+  return isAnswered && currentQuestion.answer ? (
     <Comp {...props} ref={forwardRef} data-sr-quiz-question-answer="">
-      {currentQuestion.answer && (
-        <Markdown syntaxHighlighterTheme={syntaxHighlighterTheme}>
-          {currentQuestion.answer}
-        </Markdown>
-      )}
+      <Markdown syntaxHighlighterTheme={syntaxHighlighterTheme}>
+        {currentQuestion.answer}
+      </Markdown>
       {children}
     </Comp>
   ) : null

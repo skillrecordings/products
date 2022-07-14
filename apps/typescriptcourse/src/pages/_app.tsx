@@ -1,6 +1,6 @@
 import React from 'react'
 import {AppProps} from 'next/app'
-import {DefaultSeo} from 'next-seo'
+import {DefaultSeo} from '@skillrecordings/react'
 import config from 'config'
 import '../styles/globals.css'
 import 'focus-visible'

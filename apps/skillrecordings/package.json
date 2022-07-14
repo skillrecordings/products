@@ -47,6 +47,7 @@
     "@skillrecordings/config": "workspace:*",
     "@skillrecordings/convertkit": "workspace:*",
     "@skillrecordings/cookies": "workspace:*",
+    "@skillrecordings/react": "workspace:*",
     "@skillrecordings/time": "workspace:*",
     "@skillrecordings/viewer": "workspace:*",
     "@stripe/stripe-js": "^1.21.1",
@@ -67,7 +68,7 @@
     "mdx-embed": "^0.0.22",
     "mdx-prism": "^0.3.4",
     "next": "^12.1.6",
-    "next-seo": "^4.29.0",
+
     "next-sitemap": "^3.0.5",
     "next-themes": "^0.1.1",
     "pluralize": "^8.0.0",

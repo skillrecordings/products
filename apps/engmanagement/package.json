@@ -9,6 +9,9 @@
     "build:data:dev": "node src/data/cache-json-data.js",
     "dev": "next dev -p 3007",
     "format": "prettier --write './**/*.{js,jsx,ts,tsx,css,md,mdx,json}' --config ./.prettierrc",
+    "generate": "prisma generate",
+    "prebuild": "pnpm generate",
+    "predev": "pnpm generate",
     "lint": "TIMING=1 prisma generate && eslint src/**/*.{ts,tsx} --fix && tsc --noEmit",
     "start": "next start -p 3007",
     "test": "prisma generate && jest"
@@ -64,7 +67,7 @@
     "next-auth": "=4.2.1",
     "next-mdx-remote": "^3.0.8",
     "next-sanity-image": "^3.1.7",
-    "next-seo": "^4.29.0",
+
     "next-sitemap": "^3.0.5",
     "next-themes": "^0.1.1",
     "nodemailer": "^6.7.2",
