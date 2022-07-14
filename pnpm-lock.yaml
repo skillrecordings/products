@@ -2313,6 +2313,7 @@ importers:
       dotenv-flow: ^3.2.0
       eslint: ^8.19.0
       eslint-config-custom: workspace:*
+      feed: ^4.2.2
       focus-visible: ^5.2.0
       formik: 2.2.9
       framer-motion: ^6.4.1
@@ -2399,6 +2400,7 @@ importers:
       cookie: 0.5.0
       date-fns: 2.28.0
       dotenv-flow: 3.2.0
+      feed: 4.2.2
       focus-visible: 5.2.0
       formik: 2.2.9_react@17.0.2
       framer-motion: 6.4.1_sfoxds7t5ydpegc3knd667wn6m

@@ -201,7 +201,7 @@ model Purchase {
   merchantCharge          MerchantCharge?    @relation(fields: [merchantChargeId], references: [id], onDelete: Cascade)
   product                 Product            @relation(fields: [productId], references: [id], onDelete: Cascade)
   user                    User?              @relation(fields: [userId], references: [id], onDelete: Cascade)
-
+  status                  String             @default("Valid")
 }
 
 model Session {
@@ -212,11 +212,12 @@ model Session {
   user           User?      @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
+
 model User {
-  id                 String               @id @default(uuid()) 
+  id                 String               @id @default(uuid())
   name               String?
   email              String               @unique
-  emailVerified      DateTime?            
+  emailVerified      DateTime?
   image              String?
   accounts           Account[]
   merchantCharges    MerchantCharge[]
@@ -225,6 +226,7 @@ model User {
   sessions           Session[]
   lessonProgresses   LessonProgress[]
   comments           Comment[]
+  roles              String                   @default("User")
 }
 
 model VerificationToken {

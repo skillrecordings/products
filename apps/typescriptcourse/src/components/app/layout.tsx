@@ -6,7 +6,13 @@ import config from 'config'
 import isNull from 'lodash/isNull'
 
 export type LayoutProps = {
-  meta?: any
+  meta?: {
+    title?: string
+    description?: string
+    titleAppendSiteName?: boolean
+    url?: string
+    ogImage?: {url: string; alt?: string}
+  }
   noIndex?: boolean
   className?: string
   navigation?: React.FC<NavigationProps> | null

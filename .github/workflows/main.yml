@@ -1,15 +1,13 @@
-name: Release
-
+name: test
 on:
   push:
-    branches:
-      - main
-
-concurrency: ${{ github.workflow }}-${{ github.ref }}
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
 
 jobs:
-  release:
-    name: Release
+  test:
+    name: Run Linting and Tests
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Repo
@@ -22,23 +20,19 @@ jobs:
           version: 7
           run_install: false
 
-      - name: Get pnpm store directory
-        id: pnpm-cache
-        run: |
-          echo "::set-output name=pnpm_cache_dir::$(pnpm store path)"
-
-      - uses: actions/cache@v3
-        name: Setup pnpm cache
+      - name: Cache pnpm modules
+        uses: actions/cache@v2
         with:
-          path: ${{ steps.pnpm-cache.outputs.pnpm_cache_dir }}
-          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
+          path: ~/.pnpm-store
+          key: ${{ runner.os }}-${{ hashFiles('**/pnpm-lock.yaml') }}
           restore-keys: |
-            ${{ runner.os }}-pnpm-store-
+            ${{ runner.os }}-
 
       - name: Install Dependencies
         run: pnpm install
 
-      - name: build
+      - name: Run Tests
         env:
           SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
-        run: pnpm run build:ci --team=skillrecordings --token=${{ secrets.VERCEL_TOKEN }}
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+        run: pnpm -- turbo run generate test lint --team=skillrecordings --token=${{ secrets.VERCEL_TOKEN }}

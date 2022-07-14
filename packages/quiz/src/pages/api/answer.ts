@@ -16,12 +16,9 @@ const answer = async (req: NextApiRequest, res: NextApiResponse) => {
     try {
       const {tagId, survey} = req.body
       const cookieHeader = req.headers.cookie as string
-      const siteNameShort = process.env.NEXT_PUBLIC_SITE_NAME_SHORT
       const [subscriber, ckCookie] =
         await fetchConvertkitSubscriberFromServerCookie(cookieHeader)
-      const questionId = siteNameShort
-        ? `${siteNameShort}-survey-${survey.id}`
-        : `survey-${survey.id}`
+      const questionId = survey.id
 
       // Subscribe user to tag
       if (tagId) {

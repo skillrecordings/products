@@ -1,0 +1,10 @@
+# *
+User-agent: *
+Allow: /
+
+# Host
+Host: https://www.typescriptcourse.com
+
+# Sitemaps
+Sitemap: https://www.typescriptcourse.com/sitemap.xml
+Sitemap: https://www.typescriptcourse.com/server-sitemap.xml
