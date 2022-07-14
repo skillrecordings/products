@@ -1,7 +1,7 @@
-import {Coupon} from '@prisma/client'
 import {getSdk} from '../lib/prisma-api'
 import {defaultContext} from '../lib/context'
 import {SpanContext} from '@vercel/tracing-js'
+import {Coupon} from '../../generated/prisma/client'
 
 function couponIsValid(coupon?: Coupon | null) {
   if (!coupon) return false

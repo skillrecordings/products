@@ -11,7 +11,6 @@ import {getPathForLesson} from 'utils/get-resource-paths'
 import {ChevronRightIcon} from '@heroicons/react/solid'
 import {SanityDocument} from '@sanity/client'
 import {GetServerSideProps} from 'next'
-import {Purchase} from '@prisma/client'
 import Search from 'components/search/autocomplete'
 import GetCertificate from 'components/certificate'
 import Layout from 'components/app/layout'
@@ -21,6 +20,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import cx from 'classnames'
 import groq from 'groq'
+import {Purchase} from '../../../generated/prisma/client'
 
 const CERTIFICATE_ENABLED = process.env.NEXT_PUBLIC_CERTIFICATE_ENABLED
 

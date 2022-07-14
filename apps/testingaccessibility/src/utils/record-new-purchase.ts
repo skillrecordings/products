@@ -4,7 +4,7 @@ import {first} from 'lodash'
 import prisma from '../db'
 import * as Sentry from '@sentry/nextjs'
 import {getSdk} from '../lib/prisma-api'
-import {Purchase} from '@prisma/client'
+import {Purchase} from '../../generated/prisma/client'
 
 export class PurchaseError extends Error {
   checkoutSessionId: string

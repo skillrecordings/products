@@ -1,5 +1,5 @@
 import {isBefore} from 'date-fns'
-import {Coupon} from '@prisma/client'
+import {Coupon} from '../../generated/prisma/client'
 
 export const validateCoupon = (coupon: Coupon | null) => {
   if (!coupon) {

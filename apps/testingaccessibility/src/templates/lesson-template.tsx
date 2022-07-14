@@ -6,7 +6,6 @@ import {useReducedMotion} from 'framer-motion'
 import {SkipNavContent} from '@reach/skip-nav'
 import {SanityDocument} from '@sanity/client'
 import {getOgImage} from 'utils/get-og-image'
-import {LessonProgress} from '@prisma/client'
 import {useSession} from 'next-auth/react'
 import {Switch} from '@headlessui/react'
 import {useReward} from 'react-rewards'
@@ -23,6 +22,7 @@ import first from 'lodash/first'
 import find from 'lodash/find'
 import Link from 'next/link'
 import cx from 'classnames'
+import {LessonProgress} from '../../generated/prisma/client'
 
 type LessonTemplateProps = {
   module?: SanityDocument

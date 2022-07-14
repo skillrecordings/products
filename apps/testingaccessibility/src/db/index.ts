@@ -1,5 +1,4 @@
-import {PrismaClient} from '@prisma/client'
-import {Decimal} from '@prisma/client/runtime'
+import {PrismaClient} from '../../generated/prisma/client'
 
 export * from '@prisma/client'
 

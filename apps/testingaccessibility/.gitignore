@@ -7,6 +7,7 @@
 .pnp.js
 .env
 /src/generated
+/generated
 
 # testing
 /coverage

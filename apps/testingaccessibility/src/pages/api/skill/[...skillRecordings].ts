@@ -5,7 +5,7 @@ import SkillRecordings, {
 import prisma from '../../../db'
 
 export const skillOptions: SkillRecordingsOptions = {
-  prismaClient: prisma,
+  prismaClient: prisma as any,
 }
 
 export default SkillRecordings(skillOptions)

@@ -2,10 +2,10 @@ import {formatPricesForProduct} from './format-prices-for-product'
 import {getCalculatedPriced} from './get-calculated-price'
 
 import {MockContext, Context, createMockContext} from '../lib/context'
-import {Decimal} from '@prisma/client/runtime'
 import {getSdk} from '../lib/prisma-api'
 import {getBulkDiscountPercent} from './bulk-coupon'
 import {first} from 'lodash'
+import {MerchantCoupon, Prisma} from '../../generated/prisma/client'
 
 let mockCtx: MockContext
 let ctx: Context
@@ -269,7 +269,7 @@ test('applies fixed discount for previous purchase', async () => {
     productId: DEFAULT_PRODUCT_ID,
     userId: 'default-user',
     createdAt: new Date(),
-    totalAmount: new Decimal(25),
+    totalAmount: new Prisma.Decimal(25),
   }
   // @ts-ignore
   mockCtx.prisma.purchase.findUnique.mockResolvedValue(mockPurchase)
@@ -307,7 +307,7 @@ const mockPrice = {
   status: 1,
   productId: DEFAULT_PRODUCT_ID,
   nickname: 'bah',
-  unitAmount: new Decimal(100),
+  unitAmount: new Prisma.Decimal(100),
 }
 
 function mockDefaultProduct() {
@@ -316,11 +316,14 @@ function mockDefaultProduct() {
   mockCtx.prisma.price.findFirst.mockResolvedValue(mockPrice)
 }
 
-function getMockCoupon(type: string, percentageDiscount: number) {
+function getMockCoupon(
+  type: string,
+  percentageDiscount: number,
+): MerchantCoupon {
   return {
     id: `${type}-coupon`,
     type,
-    percentageDiscount: new Decimal(percentageDiscount),
+    percentageDiscount: new Prisma.Decimal(percentageDiscount),
     identifier: 'coupon',
     status: 1,
     merchantAccountId: 'merchant-account',
@@ -330,7 +333,7 @@ function getMockCoupon(type: string, percentageDiscount: number) {
 const MOCK_SITE_SALE_COUPON = {
   id: SITE_SALE_COUPON_ID,
   type: 'special',
-  percentageDiscount: new Decimal(0.2),
+  percentageDiscount: new Prisma.Decimal(0.2),
   identifier: 'coupon',
   status: 1,
   merchantAccountId: 'merchant-account',
@@ -339,7 +342,7 @@ const MOCK_SITE_SALE_COUPON = {
 const MOCK_LARGE_SITE_SALE_COUPON = {
   id: LARGE_SITE_SALE_COUPON_ID,
   type: 'special',
-  percentageDiscount: new Decimal(0.8),
+  percentageDiscount: new Prisma.Decimal(0.8),
   identifier: 'coupon',
   status: 1,
   merchantAccountId: 'merchant-account',
@@ -348,7 +351,7 @@ const MOCK_LARGE_SITE_SALE_COUPON = {
 const MOCK_INDIA_COUPON = {
   id: VALID_INDIA_COUPON_ID,
   type: 'ppp',
-  percentageDiscount: new Decimal(0.75),
+  percentageDiscount: new Prisma.Decimal(0.75),
   identifier: 'coupon',
   status: 1,
   merchantAccountId: 'merchant-account',

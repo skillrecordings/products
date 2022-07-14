@@ -16,10 +16,10 @@ import Link from 'next/link'
 import cx from 'classnames'
 import {ProgressToggle} from './lesson-template'
 import {getOgImage} from 'utils/get-og-image'
-import {LessonProgress} from '@prisma/client'
 import {useSession} from 'next-auth/react'
 import {isEmpty} from 'lodash'
 import TableOfContents from 'components/portable-text/table-of-contents'
+import {LessonProgress} from '../../generated/prisma/client'
 
 type SectionTemplateProps = {
   section: SanityDocument
