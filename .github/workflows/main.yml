@@ -34,4 +34,4 @@ jobs:
       - name: Run Tests
         env:
           SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
-        run: pnpm -- turbo run generate test lint
+        run: pnpm -- turbo run generate test lint --team=skillrecordings --token=${{ secrets.VERCEL_TOKEN }}
