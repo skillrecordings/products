@@ -2,7 +2,7 @@
   "baseBranch": "origin/main",
   "pipeline": {
     "build": {
-      "dependsOn": ["^build"],
+      "dependsOn": ["^build", "generate"],
       "outputs": ["dist/**", ".next/**", "src/generated/**"]
     },
     "@skillrecordings/skill-api#build": {
@@ -31,14 +31,18 @@
       "outputs": ["public/sitemap.xml", "public/robots.txt"]
     },
     "test": {
-      "dependsOn": ["^build"]
+      "dependsOn": ["^build", "generate"]
     },
     "deploy": {
-      "dependsOn": ["build", "test", "lint"]
+      "dependsOn": ["generate", "build", "test", "lint"]
+    },
+    "generate": {
+      "dependsOn": ["^generate"],
+      "cache": false
     },
     "lint": {
       "outputs": [],
-      "dependsOn": ["^build"]
+      "dependsOn": ["^build", "generate"]
     },
     "start": {
       "dependsOn": ["^build"]
