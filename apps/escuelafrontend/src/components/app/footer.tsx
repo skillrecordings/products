@@ -7,10 +7,8 @@ const Footer = () => {
   return (
     <footer className="px-5 py-5">
       <div className="flex items-center justify-between w-full max-w-screen-xl pt-32 pb-32 mx-auto print:hidden">
-        <Link href="/">
-          <a>
-            <Logo />
-          </a>
+        <Link href="/" passHref>
+          <Logo />
         </Link>
         <DarkModeToggle />
       </div>
