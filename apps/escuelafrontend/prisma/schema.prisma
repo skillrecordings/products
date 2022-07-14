@@ -1,21 +1,13 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 generator client {
   provider = "prisma-client-js"
-  // referential integrity is to disable foreign keys and relations in prisma
-  // see: https://www.prisma.io/docs/concepts/components/prisma-schema/relations/referential-integrity
   previewFeatures = ["referentialIntegrity", "interactiveTransactions"]
 }
 
 datasource db {
   provider = "mysql"
-  url      = env("DATABASE_URL")
-  // shadow is only used for running prims migrations
-  shadowDatabaseUrl = env("SHADOW_DATABASE_URL")
+  url = env("DATABASE_URL")
   referentialIntegrity = "prisma"
 }
-
 
 model Account {
   id                 String  @id @default(cuid())
