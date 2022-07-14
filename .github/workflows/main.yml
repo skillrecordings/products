@@ -1,4 +1,4 @@
-name: Unit Test
+name: test
 on:
   push:
     branches: [ main ]
@@ -8,7 +8,7 @@ on:
 concurrency: ${{ github.workflow }}-${{ github.ref }}
 
 jobs:
-  release:
+  test:
     name: Run Linting and Tests
     runs-on: ubuntu-latest
     steps:
@@ -33,7 +33,7 @@ jobs:
       - name: Install Dependencies
         run: pnpm install
 
-      - name: build
+      - name: Run Tests
         env:
           SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
         run: pnpm run build:ci --team=skillrecordings --token=${{ secrets.VERCEL_TOKEN }}
