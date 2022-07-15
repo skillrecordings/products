@@ -136,8 +136,6 @@ function html({url, host, email}: Record<'url' | 'host' | 'email', string>) {
   const escapedEmail = `${email.replace(/\./g, '&#8203;.')}`
   const escapedHost = `${host.replace(/\./g, '&#8203;.')}`
 
-  console.log({host})
-
   // Some simple styling options
   const backgroundColor = '#F9FAFB'
   const textColor = '#3E3A38'
