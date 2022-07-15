@@ -1,5 +1,5 @@
 import * as React from 'react'
-import Layout from '../components/layout'
+import Layout from '../components/app/layout'
 import config from 'config'
 import get from 'lodash/get'
 import Markdown from 'react-markdown'
@@ -42,7 +42,7 @@ with a link to access your purchase and start learning.
   const tweet = `https://twitter.com/intent/tweet/?text=Just purchased ${config.siteUrl} by @${config.twitter.handle}`
   const Share = () => (
     <>
-      <hr className="mt-8 dark:border-gray-900 border-gray-100" />
+      <hr className="mt-8 border-gray-100 dark:border-gray-900" />
       <div className="py-8">
         <div className="pb-4 font-semibold">
           Please consider telling your friends about {config.siteUrl}, it would
@@ -52,7 +52,7 @@ with a link to access your purchase and start learning.
           href={tweet}
           rel="noopener noreferrer"
           target="_blank"
-          className="text-white rounded-md inline-flex items-center px-3 py-2"
+          className="inline-flex items-center px-3 py-2 text-white rounded-md"
           style={{background: '#2c90dc'}}
         >
           <TwitterIcon />{' '}

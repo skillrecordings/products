@@ -37,7 +37,7 @@ export const getPathForLesson = (
 ): GetLessonPathProps => {
   let path = {}
   modules?.map((module: Module) => {
-    module.sections.forEach((section: Section) => {
+    module.sections?.forEach((section: Section) => {
       const currentLessonInSections = find(section.lessons, {slug: lessonSlug})
       if (!isEmpty(currentLessonInSections)) {
         path = {

@@ -1,7 +1,7 @@
 import React from 'react'
 import Layout from 'components/app/layout'
 import prisma from 'db'
-import {find, get, isNull} from 'lodash'
+import {find, get, isNull, isString} from 'lodash'
 import {serialize} from 'utils/prisma-next-serializer'
 import {GetServerSideProps} from 'next'
 import {getPurchasedProduct} from 'server/get-purchased-product'
@@ -9,6 +9,7 @@ import InviteTeam from 'components/team'
 import {UserGroupIcon} from '@heroicons/react/outline'
 import Link from 'next/link'
 import {useSession} from 'next-auth/react'
+import {getPurchaseDetails} from '../../lib/purchases'
 
 export const getServerSideProps: GetServerSideProps = async ({req}) => {
   const {purchases, token} = await getPurchasedProduct(req)
@@ -19,104 +20,31 @@ export const getServerSideProps: GetServerSideProps = async ({req}) => {
       'id',
     )
 
-    if (purchaseId) {
-      const allPurchases = await prisma.purchase.findMany({
-        where: {
-          userId: token?.sub,
-        },
-        select: {
-          id: true,
-          productId: true,
-        },
-      })
-      const purchase = await prisma.purchase.findFirst({
-        where: {
-          id: purchaseId as string,
-          userId: token?.sub,
-        },
-        select: {
-          merchantChargeId: true,
-          bulkCoupon: {
-            select: {
-              id: true,
-              maxUses: true,
-              usedCount: true,
+    if (token && isString(purchaseId) && isString(token?.sub)) {
+      const {purchase, existingPurchase, availableUpgrades} =
+        await getPurchaseDetails(purchaseId, token.sub)
+      return purchase
+        ? {
+            props: {
+              purchase: serialize(purchase),
+              existingPurchase,
+              availableUpgrades,
             },
-          },
-          product: {
-            select: {
-              id: true,
-              name: true,
+          }
+        : {
+            redirect: {
+              destination: `/`,
+              permanent: false,
             },
-          },
-        },
-      })
-
-      if (!purchase) {
-        return {
-          redirect: {
-            destination: '/learn',
-            permanent: false,
-          },
-        }
-      }
-
-      const availableUpgrades = await prisma.upgradableProducts.findMany({
-        where: {
-          AND: [
-            {
-              upgradableFromId: purchase?.product?.id,
-            },
-            {
-              NOT: {
-                upgradableToId: {
-                  in: allPurchases.map(({productId}) => productId),
-                },
-              },
-            },
-          ],
-        },
-        select: {
-          upgradableTo: {
-            select: {
-              id: true,
-              name: true,
-            },
-          },
-        },
-      })
-
-      const existingPurchase = await prisma.purchase.findFirst({
-        where: {
-          userId: token?.sub,
-          productId: purchase?.product?.id,
-          id: {
-            not: purchaseId as string,
-          },
-          bulkCoupon: null,
-        },
-        select: {
-          id: true,
-          product: {
-            select: {
-              id: true,
-              name: true,
-            },
-          },
-        },
-      })
-
-      return {
-        props: {
-          purchase: serialize(purchase),
-          existingPurchase,
-          availableUpgrades,
-        },
-      }
+          }
     }
   }
+
   return {
-    props: {},
+    redirect: {
+      destination: `/`,
+      permanent: false,
+    },
   }
 }
 

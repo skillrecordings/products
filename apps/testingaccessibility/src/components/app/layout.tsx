@@ -1,14 +1,16 @@
 import React, {FunctionComponent} from 'react'
 import {SkipNavContent, SkipNavLink} from '@reach/skip-nav'
+import {useNavState} from '../../hooks/use-nav-state'
+import {SanityProduct} from 'utils/props-for-commerce'
 import {useFeedback} from 'context/feedback-context'
 import {Toaster} from 'react-hot-toast'
-import {NextSeo} from 'next-seo'
+import {NextSeo} from '@skillrecordings/react'
+import SaleBanner from 'components/sale-banner'
 import Navigation from './navigation'
 import isNull from 'lodash/isNull'
 import Footer from './footer'
 import config from 'config'
 import cx from 'classnames'
-import {useNavState} from '../../hooks/use-nav-state'
 
 type LayoutProps = {
   meta?: any
@@ -16,6 +18,8 @@ type LayoutProps = {
   className?: string
   nav?: React.ReactElement | null
   footer?: React.ReactElement | null
+  skipNavContent?: any
+  products?: SanityProduct[]
 }
 
 const Layout: FunctionComponent<LayoutProps> = ({
@@ -25,6 +29,8 @@ const Layout: FunctionComponent<LayoutProps> = ({
   noIndex,
   nav,
   footer,
+  skipNavContent = <SkipNavContent />,
+  products,
 }) => {
   const {
     title = config.defaultTitle,
@@ -58,11 +64,15 @@ const Layout: FunctionComponent<LayoutProps> = ({
         canonical={url}
         noindex={noIndex}
       />
-      <SkipNavLink className="z-50">
-        Skip navigation and go to content
-      </SkipNavLink>
-      {nav ? nav : isNull(nav) ? null : <Navigation />}
-      <SkipNavContent
+      <header aria-label="Global">
+        <SkipNavLink className="z-50">
+          Skip navigation and go to content
+        </SkipNavLink>
+        {!isSignedIn && <SaleBanner />}
+        {nav ? nav : isNull(nav) ? null : <Navigation />}
+        {skipNavContent}
+      </header>
+      <div
         className={cx(
           'flex flex-col flex-grow h-full sm:min-h-[calc(100vh-64px)] min-h-[calc(100vh-56px)]',
           className,
@@ -70,7 +80,7 @@ const Layout: FunctionComponent<LayoutProps> = ({
       >
         {children}
         {footer ? footer : isNull(footer) ? null : <Footer />}
-      </SkipNavContent>
+      </div>
     </div>
   )
 }

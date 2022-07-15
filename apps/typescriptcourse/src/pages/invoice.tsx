@@ -8,7 +8,7 @@ import reduce from 'lodash/reduce'
 import get from 'lodash/get'
 import map from 'lodash/map'
 import TeamInvites from 'components/team-invites'
-import Layout from '../components/layout'
+import Layout from '../components/app/layout'
 import useLoginRequired from 'hooks/use-required-login'
 
 const InvoiceItem = ({purchase}: any) => {
@@ -53,37 +53,37 @@ const Invoice: React.FunctionComponent = () => {
 
   return (
     <Layout meta={{title: 'Invoice for Pure React'}} className="print:block">
-      <div className="max-w-screen-md mx-auto py-16 print:py-0">
+      <div className="max-w-screen-md py-16 mx-auto print:py-0">
         <TeamInvites teamPurchases={teamPurchases} />
-        <div className="flex sm:flex-row flex-col items-center justify-between py-5 print:hidden">
-          <h2 className="text-lg font-medium leading-tight sm:mb-0 mb-4">
+        <div className="flex flex-col items-center justify-between py-5 sm:flex-row print:hidden">
+          <h2 className="mb-4 text-lg font-medium leading-tight sm:mb-0">
             Your Invoice for {config.siteUrl}
           </h2>
           <button
             onClick={() => {
               window.print()
             }}
-            className="flex items-center leading-6 px-5 py-3 rounded-md bg-black dark:bg-white dark:text-black text-white transition-colors ease-in-out duration-200"
+            className="flex items-center px-5 py-3 leading-6 text-white transition-colors duration-200 ease-in-out bg-black rounded-md dark:bg-white dark:text-black"
           >
             Download PDF or Print
           </button>
         </div>
-        <div className="border border-gray-200 dark:border-gray-800 print:border-none rounded-sm">
+        <div className="border border-gray-200 rounded-sm dark:border-gray-800 print:border-none">
           <div className="px-10 py-16">
-            <div className="grid grid-cols-3 w-full justify-between items-start">
-              <div className="col-span-2 flex items-center">
+            <div className="grid items-start justify-between w-full grid-cols-3">
+              <div className="flex items-center col-span-2">
                 <Image
                   src="/placeholder-rect.svg"
                   alt={config.defaultTitle}
                   width={50}
                   height={50}
                 />
-                <span className="sm:inline-block hidden print:inline-block text-lg font-semibold ml-2">
+                <span className="hidden ml-2 text-lg font-semibold sm:inline-block print:inline-block">
                   {config.siteUrl}
                 </span>
               </div>
               <div>
-                <h5 className="uppercase text-xs mb-2 text-gray-500">From</h5>
+                <h5 className="mb-2 text-xs text-gray-500 uppercase">From</h5>
                 {config.defaultTitle} with {config.author}
                 <br />
                 co egghead.io LLC
@@ -97,7 +97,7 @@ const Invoice: React.FunctionComponent = () => {
             </div>
             <div className="grid grid-cols-3 pb-64">
               <div className="col-span-2">
-                <h5 className="text-2xl font-bold mb-2">Invoice</h5>
+                <h5 className="mb-2 text-2xl font-bold">Invoice</h5>
                 {firstPurchase && (
                   <>
                     Invoice ID: <strong>{firstPurchase.guid}</strong>
@@ -110,7 +110,7 @@ const Invoice: React.FunctionComponent = () => {
                 )}
               </div>
               <div className="pt-13">
-                <h5 className="uppercase text-xs mb-2 text-gray-500">
+                <h5 className="mb-2 text-xs text-gray-500 uppercase">
                   Invoice For
                 </h5>
                 <div>
@@ -129,7 +129,7 @@ const Invoice: React.FunctionComponent = () => {
                 />
               </div>
             </div>
-            <table className="table-auto w-full text-left">
+            <table className="w-full text-left table-auto">
               <thead className="table-header-group">
                 <tr className="table-row">
                   <th>Description</th>

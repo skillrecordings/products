@@ -6,6 +6,7 @@ import {
   hasValidPurchase,
   hasInvoice,
 } from '../utils/purchase-validators'
+import {PurchaseStatus} from '../utils/purchase-status'
 
 type Actions = 'manage' | 'invite' | 'view'
 type Subjects = 'Team' | 'Purchase' | 'Content' | 'Product' | 'Invoice' | 'all'
@@ -65,7 +66,10 @@ export function defineRulesForPurchases(purchases: any[]) {
     can('view', 'Content')
     can('view', 'Product', {
       productId: {
-        $in: purchases?.map((purchase: any) => purchase.productId),
+        $in: purchases?.map(
+          (purchase: any) =>
+            purchase.productId && purchase.status === PurchaseStatus.Valid,
+        ),
       },
     })
   }

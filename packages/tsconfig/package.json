@@ -3,13 +3,13 @@
   "version": "0.0.5",
   "license": "BUSL-1.1",
   "main": "index.js",
-  "publishConfig": {
-    "access": "public"
-  },
   "files": [
     "base.json",
     "nextjs.json",
     "lib-build.json"
   ],
+  "publishConfig": {
+    "access": "public"
+  },
   "gitHead": "3398ceeb143d5fddcf11268741c2747856814119"
 }

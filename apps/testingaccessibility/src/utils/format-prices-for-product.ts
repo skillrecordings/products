@@ -26,7 +26,7 @@ type FormatPricesForProductOptions = {
   country?: string
   quantity?: number
   code?: string
-  couponId?: string
+  merchantCouponId?: string
   ctx?: Context
   upgradeFromPurchaseId?: string
 }
@@ -37,8 +37,12 @@ export type FormattedPrice = {
   unitPrice: number
   calculatedPrice: number
   availableCoupons: any[]
-  appliedCoupon?: any
+  appliedMerchantCoupon?: any
   upgradeFromPurchaseId?: string
+  defaultCoupon?: {
+    expires?: string
+    percentageDiscount: string
+  }
 }
 
 /**
@@ -57,7 +61,7 @@ export async function formatPricesForProduct(
     country = 'US',
     quantity = 1,
     code,
-    couponId,
+    merchantCouponId,
     upgradeFromPurchaseId,
   } = noContextOptions
 
@@ -100,25 +104,27 @@ export async function formatPricesForProduct(
   const bulkCouponPercent = getBulkDiscountPercent(quantity)
 
   // if there's a coupon implied because an id is passed in, load it to verify
-  const appliedCoupon = couponId
-    ? await getMerchantCoupon({where: {id: couponId}})
+  const appliedMerchantCoupon = merchantCouponId
+    ? await getMerchantCoupon({where: {id: merchantCouponId}})
     : undefined
 
   const pppApplied =
-    quantity === 1 && appliedCoupon?.type === 'ppp' && pppDiscountPercent > 0
+    quantity === 1 &&
+    appliedMerchantCoupon?.type === 'ppp' &&
+    pppDiscountPercent > 0
 
   // pick the bigger discount during a sale
-  const appliedCouponLessThanPPP = appliedCoupon
-    ? appliedCoupon.percentageDiscount.toNumber() < pppDiscountPercent
+  const appliedMerchantCouponLessThanPPP = appliedMerchantCoupon
+    ? appliedMerchantCoupon.percentageDiscount.toNumber() < pppDiscountPercent
     : true
-  const appliedCouponLessThanBulk = appliedCoupon
-    ? appliedCoupon.percentageDiscount.toNumber() < bulkCouponPercent
+  const appliedMerchantCouponLessThanBulk = appliedMerchantCoupon
+    ? appliedMerchantCoupon.percentageDiscount.toNumber() < bulkCouponPercent
     : true
 
   const pppAvailable =
-    quantity === 1 && pppDiscountPercent > 0 && appliedCouponLessThanPPP
+    quantity === 1 && pppDiscountPercent > 0 && appliedMerchantCouponLessThanPPP
   const bulkDiscountAvailable =
-    bulkCouponPercent > 0 && appliedCouponLessThanBulk && !pppApplied
+    bulkCouponPercent > 0 && appliedMerchantCouponLessThanBulk && !pppApplied
 
   let defaultPriceProduct: FormattedPrice = {
     ...product,
@@ -137,18 +143,18 @@ export async function formatPricesForProduct(
     }),
   }
 
-  if (appliedCoupon?.type === 'site') {
+  if (appliedMerchantCoupon?.type === 'special') {
     defaultPriceProduct = {
       ...defaultPriceProduct,
       calculatedPrice: getCalculatedPriced({
         unitPrice: defaultPriceProduct.unitPrice,
-        percentOfDiscount: appliedCoupon.percentageDiscount.toNumber(),
+        percentOfDiscount: appliedMerchantCoupon.percentageDiscount.toNumber(),
         ...(upgradeFromPurchase && {
           fixedDiscount: upgradeFromPurchase.totalAmount.toNumber(),
         }),
         quantity,
       }),
-      appliedCoupon,
+      appliedMerchantCoupon: appliedMerchantCoupon,
       ...(upgradeFromPurchase && {
         upgradeFromPurchaseId,
       }),
@@ -180,41 +186,78 @@ export async function formatPricesForProduct(
       return {
         ...defaultPriceProduct,
         calculatedPrice,
-        appliedCoupon: coupon,
+        appliedMerchantCoupon: coupon,
         ...(upgradeFromPurchase && {
           upgradeFromPurchaseId,
         }),
       }
     }
-  } else if (appliedCoupon && pppApplied) {
+  } else if (appliedMerchantCoupon && pppApplied) {
     const invalidCoupon =
-      pppDiscountPercent !== appliedCoupon.percentageDiscount.toNumber()
+      pppDiscountPercent !== appliedMerchantCoupon.percentageDiscount.toNumber()
 
-    if (invalidCoupon || appliedCoupon.type !== 'ppp')
+    if (invalidCoupon || appliedMerchantCoupon.type !== 'ppp')
       throw new PriceFormattingError(
         'coupon-not-valid-for-ppp',
         noContextOptions,
       )
 
-    const {identifier, ...merchantCouponWithoutIdentifier} = appliedCoupon
+    const {identifier, merchantAccountId, ...merchantCouponWithoutIdentifier} =
+      appliedMerchantCoupon
 
     return {
       ...defaultPriceProduct,
       calculatedPrice: getCalculatedPriced({
         unitPrice: defaultPriceProduct.unitPrice,
-        percentOfDiscount: appliedCoupon.percentageDiscount.toNumber(),
+        percentOfDiscount: appliedMerchantCoupon.percentageDiscount.toNumber(),
         ...(upgradeFromPurchase && {
           fixedDiscount: upgradeFromPurchase.totalAmount.toNumber(),
         }),
       }),
-      appliedCoupon: merchantCouponWithoutIdentifier,
+      appliedMerchantCoupon: merchantCouponWithoutIdentifier,
+      ...(upgradeFromPurchase && {
+        upgradeFromPurchaseId,
+      }),
+    }
+  } else if (
+    appliedMerchantCoupon &&
+    appliedMerchantCoupon.type === 'special' &&
+    pppAvailable
+  ) {
+    // PPP + site coupon
+    const pppCoupons = await couponForType(
+      'ppp',
+      pppDiscountPercent,
+      ctx,
+      country,
+    )
+
+    const {identifier, merchantAccountId, ...merchantCouponWithoutIdentifier} =
+      appliedMerchantCoupon
+
+    return {
+      ...defaultPriceProduct,
+      calculatedPrice: getCalculatedPriced({
+        unitPrice: defaultPriceProduct.unitPrice,
+        percentOfDiscount: appliedMerchantCoupon.percentageDiscount.toNumber(),
+        ...(upgradeFromPurchase && {
+          fixedDiscount: upgradeFromPurchase.totalAmount.toNumber(),
+        }),
+      }),
+      appliedMerchantCoupon: merchantCouponWithoutIdentifier,
+      availableCoupons: pppCoupons,
       ...(upgradeFromPurchase && {
         upgradeFromPurchaseId,
       }),
     }
   } else if (pppAvailable) {
     // no PPP for bulk
-    const pppCoupons = await couponForType('ppp', pppDiscountPercent, ctx)
+    const pppCoupons = await couponForType(
+      'ppp',
+      pppDiscountPercent,
+      ctx,
+      country,
+    )
 
     return {
       ...defaultPriceProduct,
@@ -240,7 +283,7 @@ export async function formatPricesForProduct(
         percentOfDiscount: bulkCoupon.percentageDiscount.toNumber(),
         quantity,
       }),
-      ...(bulkCoupon && {appliedCoupon: bulkCoupon}),
+      ...(bulkCoupon && {appliedMerchantCoupon: bulkCoupon}),
     }
   }
 
@@ -251,6 +294,7 @@ async function couponForType(
   type: string,
   percentageDiscount: number,
   ctx: Context,
+  country?: string,
 ) {
   const {getMerchantCoupons} = getSdk({ctx})
   const merchantCoupons =
@@ -261,6 +305,6 @@ async function couponForType(
   return merchantCoupons.map((coupon: any) => {
     // for pricing we don't need the identifier so strip it here
     const {identifier, ...rest} = coupon
-    return rest
+    return {...rest, ...(country && {country})}
   })
 }

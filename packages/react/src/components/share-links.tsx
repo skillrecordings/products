@@ -35,6 +35,7 @@ const icons = {
       height="16"
       width="16"
       viewBox="0 0 16 16"
+      role="presentation"
       xmlns="http://www.w3.org/2000/svg"
     >
       <g fill="currentColor">
@@ -48,6 +49,7 @@ const icons = {
       height="16"
       width="16"
       viewBox="0 0 16 16"
+      role="presentation"
       xmlns="http://www.w3.org/2000/svg"
     >
       <g fill="currentColor">
@@ -64,6 +66,7 @@ const icons = {
       height="16"
       width="16"
       viewBox="0 0 16 16"
+      role="presentation"
       xmlns="http://www.w3.org/2000/svg"
     >
       <g fill="currentColor">
@@ -80,6 +83,7 @@ const icons = {
       height="16"
       width="16"
       viewBox="0 0 16 16"
+      role="presentation"
       xmlns="http://www.w3.org/2000/svg"
     >
       <g fill="currentColor">
@@ -93,10 +97,12 @@ const icons = {
   ),
   linkedin: (
     <svg
+      aria-hidden="true"
       height="16"
       width="16"
       viewBox="0 0 16 16"
       xmlns="http://www.w3.org/2000/svg"
+      role="presentation"
     >
       <g fill="currentColor">
         <path
@@ -108,8 +114,10 @@ const icons = {
   ),
   hacker: (
     <svg
+      aria-hidden="true"
       width="16"
       height="16"
+      role="presentation"
       xmlns="http://www.w3.org/2000/svg"
       viewBox="0 0 140 140"
     >

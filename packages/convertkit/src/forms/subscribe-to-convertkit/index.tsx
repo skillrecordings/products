@@ -1,20 +1,7 @@
 import * as React from 'react'
-import * as Yup from 'yup'
-import axios from 'axios'
-import {useFormik} from 'formik'
 import {Input, Button} from '@skillrecordings/react/dist/components'
-import {
-  CONVERTKIT_SUBSCRIBE_API_URL,
-  CONVERTKIT_SIGNUP_FORM,
-  CK_SUBSCRIBER_KEY,
-} from '@skillrecordings/config'
-import queryString from 'query-string'
-
-type ConvertkitSubscriber = {
-  id: string
-  email: string
-  first_name: string
-}
+import {ConvertkitSubscriber} from '../../types'
+import {useConvertkitForm} from '../../hooks/use-convertkit-form'
 
 export type SubscribeFormProps = {
   actionLabel?: string
@@ -29,27 +16,13 @@ export type SubscribeFormProps = {
   [rest: string]: any
 }
 
-export const redirectUrlBuilder = (
-  subscriber: ConvertkitSubscriber,
-  path: string,
-  queryParams?: {
-    [key: string]: string
-  },
-) => {
-  const url = queryString.stringifyUrl({
-    url: path,
-    query: {
-      [CK_SUBSCRIBER_KEY]: subscriber.id,
-      email: subscriber.email,
-      ...queryParams,
-    },
-  })
-  return url
-}
-
 /**
  * This form posts to a designated api URL (assumes /api/convertkit/subscribe
  * by default)
+ *
+ * TODO: using forward refs would allow us to export the component parts of the
+ * which might make styling and compose-ability more obvious/robust
+ *
  * @param formId the Convertkit form id, defaults to `process.env.NEXT_PUBLIC_CONVERTKIT_SIGNUP_FORM`
  * @param submitButtonElem an element to use as the button for the form submit
  * @param errorMessage A string or element representing the message shown on error
@@ -62,68 +35,35 @@ export const redirectUrlBuilder = (
  * @constructor
  */
 export const SubscribeToConvertkitForm: React.FC<SubscribeFormProps> = ({
-  formId = CONVERTKIT_SIGNUP_FORM,
+  formId,
   submitButtonElem,
   errorMessage = <p>Something went wrong.</p>,
   successMessage = <p>Thanks!</p>,
   actionLabel = 'Subscribe',
   onError = () => {},
   onSuccess = () => {},
-  subscribeApiURL = CONVERTKIT_SUBSCRIBE_API_URL,
+  subscribeApiURL,
   id,
   ...rest
 }) => {
-  const [isSubmitting, setSubmitting] = React.useState<boolean>(false)
-
-  const handleOnSubmit = async (values: {
-    email: string
-    first_name: string
-  }) => {
-    const {email, first_name} = values
-    setSubmitting(true)
-    axios
-      .post(subscribeApiURL, {email, first_name, form: formId})
-      .then((response: any) => {
-        const subscriber: ConvertkitSubscriber = response.data
-        onSuccess(subscriber)
-        formik.setStatus('success')
-      })
-      .catch((error) => {
-        onError(error)
-        formik.setStatus('error')
-        console.log(error)
-      })
-      .finally(() => {
-        setSubmitting(false)
-      })
-  }
-
-  const formik = useFormik({
-    initialStatus: '',
-    initialValues: {
-      email: '',
-      first_name: '',
-    },
-    validationSchema: Yup.object().shape({
-      email: Yup.string().email('Invalid email address').required('Required'),
-      first_name: Yup.string(),
-    }),
-    validateOnChange: false,
-    enableReinitialize: true,
-    onSubmit: handleOnSubmit,
+  const {isSubmitting, status, handleChange, handleSubmit} = useConvertkitForm({
+    formId,
+    onSuccess,
+    onError,
+    submitUrl: subscribeApiURL,
   })
 
   return (
     <form
-      data-sr-convertkit-subscribe-form={formik.status}
-      onSubmit={formik.handleSubmit}
+      data-sr-convertkit-subscribe-form={status}
+      onSubmit={handleSubmit}
       {...rest}
     >
       <Input
         label="First Name"
         name="first_name"
         id={id ? `first_name_${id}` : 'first_name'}
-        onChange={formik.handleChange}
+        onChange={handleChange}
         placeholder="Preferred name"
         type="text"
       />
@@ -131,7 +71,7 @@ export const SubscribeToConvertkitForm: React.FC<SubscribeFormProps> = ({
         label="Email"
         name="email"
         id={id ? `email_${id}` : 'email'}
-        onChange={formik.handleChange}
+        onChange={handleChange}
         placeholder="you@example.com"
         type="email"
         required
@@ -146,13 +86,13 @@ export const SubscribeToConvertkitForm: React.FC<SubscribeFormProps> = ({
           {actionLabel}
         </Button>
       )}
-      {formik.status === 'success' &&
+      {status === 'success' &&
         (React.isValidElement(successMessage) ? (
           successMessage
         ) : (
           <p>{successMessage}</p>
         ))}
-      {formik.status === 'error' &&
+      {status === 'error' &&
         (React.isValidElement(errorMessage) ? (
           errorMessage
         ) : (

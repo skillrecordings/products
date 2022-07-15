@@ -1,4 +1,3 @@
-import {LessonProgress} from '@prisma/client'
 import {SanityDocument} from '@sanity/client'
 import reverse from 'lodash/reverse'
 import isEmpty from 'lodash/isEmpty'
@@ -8,6 +7,7 @@ import first from 'lodash/first'
 import find from 'lodash/find'
 import get from 'lodash/get'
 import axios from 'axios'
+import {LessonProgress} from '../../generated/prisma/client'
 
 type ProgressProps = {
   slug: string
@@ -42,14 +42,18 @@ export const getSectionProgressForUser = (
   if (!progress || !sectionLessons) {
     return {}
   }
+  // TODO: Since sometimes we can complete a section (index) itself,
+  // make this operate with sections and not just its lessons
   const sectionLessonsSlugs: string[] = sectionLessons.map(({slug}) => slug)
   const completedLessonsInSection = progress.filter(
     ({lessonSlug, completedAt}) =>
       sectionLessonsSlugs.includes(lessonSlug) && completedAt,
   )
+
   const numberOfLessons = sectionLessons.length
   const numberOfCompletedLessons = completedLessonsInSection.length
-  const isCompleted = numberOfCompletedLessons === numberOfLessons
+  const isCompleted =
+    numberOfCompletedLessons > 0 && numberOfCompletedLessons === numberOfLessons
   const percentCompleted = Math.round(
     (100 * numberOfCompletedLessons) / numberOfLessons,
   )
@@ -115,8 +119,8 @@ export const getNextUpLesson = (
   if (isEmpty(progressSortedByLastCompleted)) return null
 
   const allLessons = modules
-    .flatMap((m) => m.sections)
-    .flatMap((s) => s.lessons)
+    .flatMap((m) => m?.sections)
+    .flatMap((s) => s?.lessons)
 
   const unfinishedLessons = allLessons.filter(
     (l) => !progressSortedByLastCompleted.includes(l),

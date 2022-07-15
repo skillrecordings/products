@@ -2,59 +2,67 @@
   "name": "@skillrecordings/products",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
   "homepage": "https://github.com/skillrecordings/products/",
   "repository": {
     "type": "git",
     "url": "https://github.com/skillrecordings/products.git"
   },
+  "license": "ISC",
+  "author": "Joel Hooks",
+  "main": "index.js",
   "scripts": {
-    "build": "turbo run build postbuild",
-    "build:ci": "turbo run build test lint postbuild",
-    "pre-commit": "lint-staged",
+    "build": "turbo run generate build postbuild",
+    "build:ci": "turbo run generate test lint",
+    "changeset": "changeset",
     "clean": "rm -rf node_modules && pnpm -r exec -- rm -rf .turbo node_modules .next dist",
     "format": "pnpm run format:index && pnpm run format:src",
     "format:index": "prettier --write \"*.{js,ts,json,md}\"",
     "format:src": "prettier --write",
+    "generate": "turbo run generate",
     "lint": "TIMING=1 eslint --fix",
-    "test": "turbo run test",
-    "start": "turbo run start",
-    "changeset": "changeset",
+    "pre-commit": "lint-staged",
+    "prepare": "husky install",
     "release": "changeset publish",
-    "version:canary": "changeset version --snapshot canary",
     "release:canary": "changeset publish --tag canary",
-    "prepare": "husky install"
+    "sort": "npx sort-package-json \"package.json\" \"packages/*/package.json\" \"apps/*/package.json\"",
+    "start": "turbo run start",
+    "test": "turbo run test",
+    "version:canary": "changeset version --snapshot canary"
   },
-  "author": "Joel Hooks",
-  "license": "ISC",
   "lint-staged": {
     "**/*.{ts,tsx,js,jsx}": [
       "pnpm run format",
       "pnpm run lint"
     ]
   },
-  "devDependencies": {
+  "prettier": {
+    "bracketSpacing": false,
+    "jsxBracketSameLine": false,
+    "printWidth": 80,
+    "semi": false,
+    "singleQuote": true,
+    "tabWidth": 2,
+    "trailingComma": "all",
+    "useTabs": false
+  },
+  "dependencies": {
     "@changesets/changelog-github": "^0.2.8",
     "@changesets/cli": "^2.18.0",
     "@manypkg/cli": "^0.19.1",
-    "cypress": "^8.7.0",
+    "eslint": "^8.19.0",
+    "eslint-config-custom": "workspace:*",
     "husky": "^7.0.4",
-    "lint-staged": "^10.5.4",
+    "lint-staged": "^11.2.6",
     "plop": "^2.7.6",
-    "prettier": "^2.4.1",
+    "prettier": "^2.6.2",
     "tsdx": "^0.14.1",
-    "turbo": "^1.2.9",
-    "typescript": "^4.6.4"
+    "turbo": "^1.3.1",
+    "typescript": "^4.7.4"
   },
-  "prettier": {
-    "printWidth": 80,
-    "tabWidth": 2,
-    "useTabs": false,
-    "semi": false,
-    "singleQuote": true,
-    "trailingComma": "all",
-    "bracketSpacing": false,
-    "jsxBracketSameLine": false
-  },
-  "packageManager": "pnpm@6.23.1"
+  "packageManager": "pnpm@6.23.1",
+  "manypkg": {
+    "ignoredRules": [
+      "INTERNAL_MISMATCH"
+    ]
+  }
 }

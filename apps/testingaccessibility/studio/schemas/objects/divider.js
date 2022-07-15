@@ -4,11 +4,16 @@ export default {
   name: 'divider',
   type: 'object',
   title: 'Divider',
+  initialValue: {
+    image: 'https://testingaccessibility.com/assets/divider-trees@2x.png',
+  },
   fields: [
     {
       name: 'image',
       title: 'Image URL',
       type: 'string',
+      description:
+        'Use "after a solution" or between major topic change to help visually divide content.',
     },
   ],
   preview: {

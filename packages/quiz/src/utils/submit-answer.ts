@@ -9,10 +9,16 @@ export default async function handleSubmitAnswer(context: QuizContext) {
     questionSet,
     answer,
   } = context
+
+  const id = findKey(
+    questionSet,
+    (question) => question.question === currentQuestion.question,
+  )
+
   return axios.post('/api/answer', {
     tagId,
     survey: {
-      id: findKey(questionSet, currentQuestion),
+      id,
       answer,
     },
   })

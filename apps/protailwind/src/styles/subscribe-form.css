@@ -1,0 +1,15 @@
+[data-sr-convertkit-subscribe-form] {
+  @apply flex flex-col w-full max-w-[400px] mx-auto sm:text-2xl text-lg;
+  [data-sr-input] {
+    @apply sm:text-xl text-lg hover:border-opacity-30 transition block mb-8 w-full px-5 py-4 text-white placeholder-white placeholder-opacity-60 bg-slate-900 bg-opacity-50 backdrop-blur-sm backdrop-brightness-125 border border-white border-opacity-20 rounded-md shadow sm:leading-6;
+  }
+  [data-sr-input-label] {
+    @apply font-medium pb-1 inline-block;
+  }
+  [data-sr-input-asterisk] {
+    @apply opacity-50;
+  }
+  [data-sr-button] {
+    @apply shadow-xl font-semibold justify-center sm:text-2xl text-xl font-heading p-5 mt-2 overflow-clip flex items-center tracking-wide rounded-lg text-white bg-indigo-500/80 hover:bg-indigo-600 backdrop-blur-md backdrop-brightness-150 hover:bg-opacity-100 transition focus-visible:ring-indigo-200 hover:scale-105;
+  }
+}

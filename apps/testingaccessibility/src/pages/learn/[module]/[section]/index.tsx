@@ -23,12 +23,37 @@ const sectionQuery = groq`*[_type == "section" && slug.current == $slug][0]{
         "_id": @.reference->_id,
         "slug": @.reference->slug,
         "type": @.reference->_type,
+        "hash": hash.current,
         "modules": *[_type=='module']{
           "slug": slug.current,
           sections[]->{
             "slug": slug.current,
             lessons[]->{
               "slug": slug.current,
+            }
+          }
+        }
+      }
+    },
+    _type == "callout" => {
+        ...,
+        body[]{
+          ...,
+          markDefs[]{
+          ...,
+          _type == "internalLink" => {
+            "_id": @.reference->_id,
+            "slug": @.reference->slug,
+            "type": @.reference->_type,
+            "hash": hash.current,
+            "modules": *[_type=='module']{
+              "slug": slug.current,
+              sections[]->{
+                "slug": slug.current,
+                lessons[]->{
+                  "slug": slug.current,
+                }
+              }
             }
           }
         }
@@ -51,7 +76,7 @@ export const getServerSideProps: GetServerSideProps = async ({req, params}) => {
   // get array of available sections
   const sections: {slug: string}[] = flatten(
     product.modules.map((module: SanityDocument) =>
-      module.sections.map((section: SanityDocument) => section),
+      module?.sections?.map((section: SanityDocument) => section),
     ),
   )
 
@@ -81,7 +106,7 @@ export const getServerSideProps: GetServerSideProps = async ({req, params}) => {
   }
   const modules = product.modules
   const module = find(product.modules, (module: SanityDocument) =>
-    module.sections.includes(currentSection),
+    module?.sections?.includes(currentSection),
   )
 
   const data = await sanityClient.fetch(sectionQuery, {

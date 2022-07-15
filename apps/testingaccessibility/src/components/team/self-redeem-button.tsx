@@ -1,7 +1,7 @@
 import React from 'react'
 import {handleSelfRedeem} from 'utils/handle-self-redeem'
 import {Button} from '@skillrecordings/react'
-import {Purchase} from '@prisma/client'
+import {Purchase} from '../../../generated/prisma/client'
 
 const SelfRedeemButton: React.FC<{
   userEmail: string | null | undefined

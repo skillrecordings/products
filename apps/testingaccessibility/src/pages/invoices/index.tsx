@@ -3,12 +3,12 @@ import {DocumentTextIcon} from '@heroicons/react/outline'
 import {ChevronRightIcon} from '@heroicons/react/solid'
 import {serialize} from 'utils/prisma-next-serializer'
 import {getSdk} from '../../lib/prisma-api'
-import {Purchase} from '@prisma/client'
 import {GetServerSideProps} from 'next'
 import {format} from 'date-fns'
 import Layout from 'components/app/layout'
 import Link from 'next/link'
 import {getToken} from 'next-auth/jwt'
+import {Purchase} from '../../../generated/prisma/client'
 
 export const getServerSideProps: GetServerSideProps = async ({req}) => {
   const sessionToken = await getToken({

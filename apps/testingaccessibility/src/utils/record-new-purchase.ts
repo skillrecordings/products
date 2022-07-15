@@ -4,6 +4,7 @@ import {first} from 'lodash'
 import prisma from '../db'
 import * as Sentry from '@sentry/nextjs'
 import {getSdk} from '../lib/prisma-api'
+import {Purchase} from '../../generated/prisma/client'
 
 export class PurchaseError extends Error {
   checkoutSessionId: string
@@ -24,7 +25,7 @@ export class PurchaseError extends Error {
   }
 }
 
-async function stripeData(checkoutSessionId: string) {
+export async function stripeData(checkoutSessionId: string) {
   const checkoutSession = await stripe.checkout.sessions.retrieve(
     checkoutSessionId,
     {
@@ -41,7 +42,7 @@ async function stripeData(checkoutSessionId: string) {
   const lineItem = first(line_items?.data) as Stripe.LineItem
   const stripePrice = lineItem.price
   const quantity = lineItem.quantity || 1
-  const {id: stripeProductId} = stripePrice?.product as Stripe.Product
+  const stripeProduct = stripePrice?.product as Stripe.Product
   const {charges} = payment_intent as Stripe.PaymentIntent
   const stripeCharge = first<Stripe.Charge>(charges.data)
   const stripeChargeId = stripeCharge?.id as string
@@ -51,21 +52,37 @@ async function stripeData(checkoutSessionId: string) {
     stripeCustomerId,
     email,
     name,
-    stripeProductId,
+    stripeProductId: stripeProduct.id,
+    stripeProduct,
     stripeChargeId,
     quantity,
     stripeChargeAmount,
   }
 }
 
-export async function recordNewPurchase(
-  checkoutSessionId: string,
-): Promise<{user: any; purchase: any}> {
+export type PurchaseInfo = {
+  stripeCustomerId: string
+  email: string | null
+  name: string | null
+  stripeProductId: string
+  stripeChargeId: string
+  quantity: number
+  stripeChargeAmount: number
+  stripeProduct: Stripe.Product
+}
+
+export async function recordNewPurchase(checkoutSessionId: string): Promise<{
+  user: any
+  purchase: Purchase
+  purchaseInfo: PurchaseInfo
+}> {
   const {
     findOrCreateUser,
     findOrCreateMerchantCustomer,
     createMerchantChargeAndPurchase,
   } = getSdk()
+
+  const purchaseInfo = await stripeData(checkoutSessionId)
 
   const {
     stripeCustomerId,
@@ -75,7 +92,7 @@ export async function recordNewPurchase(
     stripeChargeId,
     quantity,
     stripeChargeAmount,
-  } = await stripeData(checkoutSessionId)
+  } = purchaseInfo
 
   Sentry.addBreadcrumb({
     category: 'commerce',
@@ -135,5 +152,5 @@ export async function recordNewPurchase(
     })
   }
 
-  return {purchase, user}
+  return {purchase, user, purchaseInfo}
 }

@@ -4,6 +4,7 @@ import {LinkedIn, Twitter} from '@skillrecordings/react'
 import {CalendarIcon} from '@heroicons/react/outline'
 import {SanityDocument} from '@sanity/client'
 import {NextRouter, useRouter} from 'next/router'
+import {getOgImage} from 'utils/get-og-image'
 import {format} from 'date-fns'
 import {
   redirectUrlBuilder,
@@ -25,14 +26,15 @@ const ArticleTemplate: React.FC<ArticleTemplateProps> = ({
   article,
   hasSubscribed,
 }) => {
-  const {title, description, body, subscribersOnly, date, cta, ogImage} =
-    article
+  const {title, description, body, subscribersOnly, date, cta} = article
+  const ogImage = getOgImage(title)
   const shortDescription =
     description || toPlainText(body).substring(0, 157) + '...'
   const router = useRouter()
 
   return (
     <Layout
+      key={title}
       className="bg-white"
       meta={{
         title,
@@ -43,23 +45,29 @@ const ArticleTemplate: React.FC<ArticleTemplateProps> = ({
           publishedTime: date,
         },
         ogImage,
+        url: `${process.env.NEXT_PUBLIC_URL}${router.asPath}`,
       }}
     >
-      <Header title={title} date={date} />
       <main>
-        <div className="max-w-screen-sm mx-auto w-full">
-          <div className="md:pt-16 pt-10 lg:px-0 px-5">
-            <article className="prose md:prose-lg md:prose-code:text-sm max-w-none">
-              <PortableText value={body} components={PortableTextComponents} />
-              {!hasSubscribed && subscribersOnly && (
-                <div className="absolute bottom-0 left-0 w-full bg-gradient-to-t from-white to-transparent h-80 z-10" />
-              )}
-            </article>
+        <Header title={title} date={date} />
+        <div>
+          <div className="max-w-screen-md mx-auto w-full">
+            <div className="md:py-16 py-10">
+              <article className="max-w-none prose-p:max-w-screen-md prose-ul:sm:pr-0 prose-ul:pr-5 prose-p:w-full lg:prose-p:px-0 prose-p:px-5 md:prose-headings:px-0 prose-headings:px-5 prose-headings:max-w-screen-sm prose-p:mx-auto prose-headings:mx-auto prose-ul:max-w-screen-sm prose-ul:mx-auto text-gray-800 prose prose-lg prose-h2:max-w-[30ch] prose-h2:font-bold prose-h2:pt-0 prose-headings:py-8 prose-p:font-sans prose-li:font-sans prose-h2:font-heading prose-h3:font-heading prose-h3:font-semibold prose-headings:text-center sm:prose-h3:pt-10 prose-h3:pt-0 sm:prose-h3:pb-14 prose-h3:pb-5 sm:prose-h3:max-w-[35ch] prose-h3:max-w-[30ch] prose-h3:mx-auto  lg:prose-xl">
+                <PortableText
+                  value={body}
+                  components={PortableTextComponents}
+                />
+                {!hasSubscribed && subscribersOnly && (
+                  <div className="absolute bottom-0 left-0 w-full bg-gradient-to-t from-white to-transparent h-80 z-10" />
+                )}
+              </article>
+            </div>
           </div>
+          <section data-article="">
+            {getCTA({subscribersOnly, hasSubscribed, cta, router})}
+          </section>
         </div>
-        <section data-article="">
-          {getCTA({subscribersOnly, hasSubscribed, cta, router})}
-        </section>
       </main>
     </Layout>
   )
@@ -72,8 +80,8 @@ const Header: React.FC<{title: string; date: string}> = ({title, date}) => {
     <header className="flex flex-col items-center relative px-5 pt-16 pb-8 overflow-hidden text-white bg-green-700 bg-noise">
       <div className="flex flex-col items-center max-w-screen-md mx-auto w-full relative z-10">
         <Link passHref href="/articles">
-          <a className="sm:text-base text-sm group text-white/80 relative hover:text-white font-normal px-4 py-2 hover:bg-opacity-5 bg-opacity-0 bg-white rounded-full transition opacity-80 hover:opacity-90">
-            <span className="pr-1" role="img" aria-hidden="true">
+          <a className="sm:text-base text-sm group text-white relative hover:text-white font-normal px-4 py-2 hover:bg-opacity-10 bg-opacity-0 bg-white rounded-md transition opacity-80 hover:opacity-90 focus-visible:ring-white focus-visible:opacity-100">
+            <span className="pr-1" role="presentation" aria-hidden="true">
               ←
             </span>{' '}
             All Articles
@@ -237,7 +245,7 @@ const Share: React.FC<{title: string}> = ({title}) => {
   const router = useRouter()
   const url = process.env.NEXT_PUBLIC_URL + router.asPath
   const className =
-    'p-3 hover:bg-white hover:bg-opacity-10 transition rounded-full'
+    'p-3 hover:bg-white hover:bg-opacity-10 transition rounded-full focus-visible:ring-white'
   const message = `${title} by @marcysutton`
 
   return (

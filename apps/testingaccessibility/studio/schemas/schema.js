@@ -10,6 +10,7 @@ import workshop from './documents/workshop'
 import article from './documents/article'
 import review from './documents/review'
 // product
+import pricing from './documents/pricing'
 import product from './documents/product'
 import module from './documents/module'
 import section from './documents/section'
@@ -25,6 +26,8 @@ import externalImage from './objects/externalImage'
 import callout from './objects/callout'
 import divider from './objects/divider'
 import videoResource from './documents/videoResource'
+import internalLink from './objects/internalLink'
+import externalLink from './objects/externalLink'
 
 // Then we give our schema to the builder and provide the result to Sanity
 export default createSchema({
@@ -39,6 +42,7 @@ export default createSchema({
     article,
     review,
     // product
+    pricing,
     product,
     module,
     section,
@@ -54,6 +58,8 @@ export default createSchema({
     feature,
     callout,
     divider,
+    externalLink,
+    internalLink,
     // When added to this list, object types can be used as
     // { type: 'typename' } in other document schemas
     richDate,

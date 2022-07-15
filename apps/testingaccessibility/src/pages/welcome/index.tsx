@@ -9,111 +9,66 @@ import Layout from 'components/app/layout'
 import Image from 'next/image'
 import prisma from '../../db'
 import Link from 'next/link'
+import {stripeData} from '../../utils/record-new-purchase'
+import {getPurchaseDetails} from '../../lib/purchases'
+import {isString} from 'lodash'
 
 export const getServerSideProps: GetServerSideProps = async ({req, query}) => {
-  const {purchaseId} = query
+  const {purchaseId: purchaseQueryParam, session_id, upgrade} = query
   const token = await getToken({
     req,
     secret: process.env.NEXTAUTH_SECRET,
   })
 
-  if (purchaseId) {
-    const allPurchases = await prisma.purchase.findMany({
-      where: {
-        userId: token?.sub,
-      },
-      select: {
-        id: true,
-        productId: true,
-      },
-    })
+  let purchaseId = purchaseQueryParam
+
+  if (session_id) {
+    const {stripeChargeId} = await stripeData(session_id as string)
     const purchase = await prisma.purchase.findFirst({
       where: {
-        id: purchaseId as string,
-        userId: token?.sub,
-      },
-      select: {
-        merchantChargeId: true,
-        bulkCoupon: {
-          select: {
-            id: true,
-            maxUses: true,
-            usedCount: true,
-          },
-        },
-        product: {
-          select: {
-            id: true,
-            name: true,
-          },
+        merchantCharge: {
+          identifier: stripeChargeId,
         },
       },
     })
 
-    if (!purchase) {
+    if (purchase) {
+      purchaseId = purchase.id
+    } else {
       return {
         redirect: {
-          destination: '/learn',
+          destination: `/thanks/purchase?session_id=${session_id}`,
           permanent: false,
         },
       }
     }
-
-    const availableUpgrades = await prisma.upgradableProducts.findMany({
-      where: {
-        AND: [
-          {
-            upgradableFromId: purchase?.product?.id,
-          },
-          {
-            NOT: {
-              upgradableToId: {
-                in: allPurchases.map(({productId}) => productId),
-              },
-            },
-          },
-        ],
-      },
-      select: {
-        upgradableTo: {
-          select: {
-            id: true,
-            name: true,
-          },
-        },
-      },
-    })
-
-    const existingPurchase = await prisma.purchase.findFirst({
-      where: {
-        userId: token?.sub,
-        productId: purchase?.product?.id,
-        id: {
-          not: purchaseId as string,
-        },
-        bulkCoupon: null,
-      },
-      select: {
-        id: true,
-        product: {
-          select: {
-            id: true,
-            name: true,
-          },
-        },
-      },
-    })
-
-    return {
-      props: {
-        purchase: serialize(purchase),
-        existingPurchase,
-        availableUpgrades,
-      },
-    }
   }
+
+  if (token && isString(purchaseId) && isString(token?.sub)) {
+    const {purchase, existingPurchase, availableUpgrades} =
+      await getPurchaseDetails(purchaseId, token.sub)
+    return purchase
+      ? {
+          props: {
+            purchase: serialize(purchase),
+            existingPurchase,
+            availableUpgrades,
+            upgrade: upgrade === 'true',
+          },
+        }
+      : {
+          redirect: {
+            destination: `/`,
+            permanent: false,
+          },
+        }
+  }
+
   return {
-    props: {},
+    redirect: {
+      destination: `/`,
+      permanent: false,
+    },
   }
 }
 
@@ -129,7 +84,8 @@ const Welcome: React.FC<{
   }
   token: any
   availableUpgrades: {upgradableTo: {id: string; name: string}}[]
-}> = ({purchase, token, existingPurchase, availableUpgrades}) => {
+  upgrade: boolean
+}> = ({upgrade, purchase, token, existingPurchase, availableUpgrades}) => {
   const {data: session, status} = useSession()
   const [personalPurchase, setPersonalPurchase] = React.useState(
     purchase.bulkCoupon ? existingPurchase : purchase,
@@ -147,7 +103,7 @@ const Welcome: React.FC<{
     >
       <main className="flex flex-col flex-grow items-center justify-center sm:py-16 py-8 mx-auto w-full px-5">
         <div className=" max-w-lg w-full gap-3 flex flex-col">
-          <Header />
+          <Header upgrade={upgrade} />
           {purchase.merchantChargeId && <Invoice purchase={purchase} />}
           {redemptionsLeft && (
             <Invite>
@@ -159,15 +115,15 @@ const Welcome: React.FC<{
               />
             </Invite>
           )}
-          <Share />
           {personalPurchase && <GetStarted />}
+          <Share />
         </div>
       </main>
     </Layout>
   )
 }
 
-const Header: React.FC = () => {
+const Header: React.FC<{upgrade: boolean}> = ({upgrade}) => {
   return (
     <header className="text-white text-center pb-8 flex flex-col items-center">
       <Image
@@ -177,7 +133,8 @@ const Header: React.FC = () => {
         alt="a shining lighthouse"
       />
       <h1 className="font-bold lg:text-5xl sm:text-4xl text-3xl font-heading">
-        Welcome to Testing Accessibility
+        {upgrade ? `You've Upgraded ` : `Welcome to `}
+        {process.env.NEXT_PUBLIC_SITE_TITLE}
       </h1>
       {/* <h2 className="pt-4 lg:text-2xl sm:text-xl text-lg font-medium max-w-sm font-heading text-orange-200">
       Thanks so much for purchasing{' '}
@@ -203,9 +160,10 @@ const Invoice: React.FC<{purchase: any}> = ({purchase}: any) => {
         <a
           target="_blank"
           className="border bg-green-500 hover:bg-green-600 text-white transition px-4 py-2 rounded-md flex-shrink-0 font-semibold"
+          title="Link opens in a new window"
         >
           Get your invoice{' '}
-          <span role="img" aria-hidden="true">
+          <span role="presentation" aria-hidden="true">
             →
           </span>
         </a>
@@ -239,9 +197,9 @@ const GetStarted: React.FC = () => {
         <span>Ready to get started?</span>
       </h2>
       <Link href={`/learn`}>
-        <a className="text-green-900 text-lg bg-yellow-500 px-5 pt-3 pb-4 hover:-rotate-1 hover:scale-105 transition-all hover:bg-yellow-400 rounded-md flex-shrink-0 font-semibold">
+        <a className="text-green-900 text-lg bg-yellow-500 focus-visible:ring-white px-5 py-4 hover:-rotate-1 hover:scale-105 transition-all hover:bg-yellow-400 rounded-md flex-shrink-0 font-semibold">
           Start Testing Accessibility{' '}
-          <span role="img" aria-hidden="true">
+          <span role="presentation" aria-hidden="true">
             →
           </span>
         </a>
@@ -257,7 +215,7 @@ const Share: React.FC = () => {
       <p className="text-white font-semibold text-lg gap-1">
         Please consider telling your friends about Testing Accessibility, it
         would help me to get a word out.{' '}
-        <span aria-hidden="true" role="img" aria-label="smiling face">
+        <span role="img" aria-label="smiling face">
           😊
         </span>
       </p>
@@ -273,7 +231,7 @@ const Share: React.FC = () => {
   )
 }
 
-const TwitterIcon = () => (
+export const TwitterIcon = () => (
   <svg
     aria-hidden="true"
     height="16"
@@ -281,7 +239,7 @@ const TwitterIcon = () => (
     viewBox="0 0 16 16"
     xmlns="http://www.w3.org/2000/svg"
   >
-    <g fill="#fff">
+    <g fill="currentColor">
       <path d="M16,3c-0.6,0.3-1.2,0.4-1.9,0.5c0.7-0.4,1.2-1,1.4-1.8c-0.6,0.4-1.3,0.6-2.1,0.8c-0.6-0.6-1.5-1-2.4-1 C9.3,1.5,7.8,3,7.8,4.8c0,0.3,0,0.5,0.1,0.7C5.2,5.4,2.7,4.1,1.1,2.1c-0.3,0.5-0.4,1-0.4,1.7c0,1.1,0.6,2.1,1.5,2.7 c-0.5,0-1-0.2-1.5-0.4c0,0,0,0,0,0c0,1.6,1.1,2.9,2.6,3.2C3,9.4,2.7,9.4,2.4,9.4c-0.2,0-0.4,0-0.6-0.1c0.4,1.3,1.6,2.3,3.1,2.3 c-1.1,0.9-2.5,1.4-4.1,1.4c-0.3,0-0.5,0-0.8,0c1.5,0.9,3.2,1.5,5,1.5c6,0,9.3-5,9.3-9.3c0-0.1,0-0.3,0-0.4C15,4.3,15.6,3.7,16,3z" />
     </g>
   </svg>

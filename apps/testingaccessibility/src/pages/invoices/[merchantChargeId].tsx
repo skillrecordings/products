@@ -114,14 +114,16 @@ const Invoice: React.FC<{
                 </span>
               </div>
               <div>
-                <p className="uppercase text-xs mb-2 text-gray-500">From</p>
+                <h2 className="uppercase text-xs mb-2 text-gray-500">From</h2>
                 <span className="font-semibold">{productName}</span>
                 <br />
-                co egghead.io LLC
+                co Skill Recordings Inc.
                 <br />
-                337 Garden Oaks Blvd #97429
+                12333 Sowden Rd
                 <br />
-                Houston, TX 77018
+                Ste. B, PMB #97429
+                <br />
+                Houston, TX 77080-2059
                 <br />
                 972-992-5951
               </div>
@@ -134,9 +136,9 @@ const Invoice: React.FC<{
                 Created: <strong>{date}</strong>
               </div>
               <div className="pt-12">
-                <p className="uppercase text-xs mb-2 text-gray-500">
+                <h2 className="uppercase text-xs mb-2 text-gray-500">
                   Invoice For
-                </p>
+                </h2>
                 <div>
                   {charge.billing_details.name}
                   <br />
@@ -151,6 +153,7 @@ const Invoice: React.FC<{
                 {isMounted && (
                   <>
                     <textarea
+                      aria-label="Invoice notes"
                       className="print:hidden mt-4 form-textarea placeholder-gray-700 border-2 border-blue-500 rounded-md bg-gray-50 w-full h-full print:p-0 print:border-none print:bg-transparent"
                       value={invoiceMetadata}
                       onChange={(e) => setInvoiceMetadata(e.target.value)}
@@ -161,13 +164,16 @@ const Invoice: React.FC<{
                 )}
               </div>
             </div>
+            <h2 className="sr-only">Purchase details</h2>
             <table className="table-auto w-full text-left">
               <thead className="table-header-group">
                 <tr className="table-row">
-                  <th>Description</th>
-                  <th>Unit Price</th>
-                  <th>Quantity</th>
-                  <th className="text-right">Amount</th>
+                  <th scope="col">Description</th>
+                  <th scope="col">Unit Price</th>
+                  <th scope="col">Quantity</th>
+                  <th scope="col" className="text-right">
+                    Amount
+                  </th>
                 </tr>
               </thead>
               <tbody>

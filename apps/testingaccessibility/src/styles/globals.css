@@ -7,9 +7,11 @@
 @import './icons.css';
 @import './quiz.css';
 @import '@skillrecordings/player/dist/skillrecordings-player.css';
+@import './pricing.css';
 
 :root {
   --reach-skip-nav: 1;
+  scroll-padding-top: 80px;
 }
 
 #__next {
@@ -112,14 +114,33 @@
   If you choose to skip this step then the browser's default focus
   indicator will be displayed instead.
 */
-.js-focus-visible .focus-visible {
+/* .js-focus-visible .focus-visible {
+  @apply outline-none ring-2 ring-green-500;
+} */
+
+[data-js-focus-visible] [data-focus-visible-added] {
   @apply outline-none ring-2 ring-green-500;
 }
 
-/* [data-js-focus-visible] [data-focus-visible-added] {
-  @apply outline-2 outline-orange-500;
-} */
-
 #rewardId {
   @apply w-full z-50;
+}
+
+/* player theme */
+
+.cueplayer-react .cueplayer-react-progress-bar [data-reach-slider-range] {
+  @apply bg-green-600;
+}
+
+.cueplayer-react
+  .cueplayer-react-progress-bar
+  .cueplayer-react-progress-slider
+  [data-reach-slider-handle]:focus {
+  @apply outline-green-500;
+}
+
+.no-marker {
+  ::-webkit-details-marker {
+    display: none;
+  }
 }

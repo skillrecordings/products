@@ -12,3 +12,6 @@ export {
 export {Button}
 export {Input}
 export * from './hooks/use-debounce'
+
+export {default as DefaultSeo} from './meta/defaultSEO'
+export {default as NextSeo} from './meta/nextSEO'

@@ -28,7 +28,7 @@ const defaultConvertKitContext: ConvertkitContextType = {
 
 export const ConvertkitContext = React.createContext(defaultConvertKitContext)
 
-export const ConvertkitProvider: React.FunctionComponent = ({children}) => {
+export const ConvertkitProvider: React.FC<{children: any}> = ({children}) => {
   const [subscriber, setSubscriber] = React.useState()
   const [loadingSubscriber, setLoadingSubscriber] = React.useState(true)
   React.useEffect(() => {

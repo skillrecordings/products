@@ -2,7 +2,7 @@ import * as React from 'react'
 import {ChevronDownIcon, MenuIcon} from '@heroicons/react/solid'
 import {LogoutIcon} from '@heroicons/react/outline'
 import {isSellingLive} from 'utils/is-selling-live'
-import {useSession, signOut} from 'next-auth/react'
+import {signOut} from 'next-auth/react'
 import {Menu, Transition} from '@headlessui/react'
 import {NextRouter, useRouter} from 'next/router'
 import isEmpty from 'lodash/isEmpty'
@@ -15,7 +15,7 @@ import {useNavState} from '../../hooks/use-nav-state'
 const Navigation = () => {
   return (
     <nav
-      aria-label="main"
+      aria-label="top"
       className="font-nav text-sm font-medium sticky top-0 z-30 sm:h-16 h-14 xl:px-0 px-2 flex items-center w-full bg-white shadow-sm print:hidden"
     >
       <div className="flex items-center w-full h-full py-[2px] max-w-screen-lg mx-auto justify-between">
@@ -74,6 +74,9 @@ const MobileNav: React.FC = () => {
           >
             <Menu.Items className="absolute right-0 mt-1 w-48 origin-top-right divide-y divide-gray-100 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
               <div className="px-1 py-1">
+                <div className="text-green-600 text-xs px-2 py-2 uppercase tracking-wide font-bold">
+                  Learn
+                </div>
                 <Menu.Item>
                   {(props) => (
                     <MenuLink
@@ -88,6 +91,25 @@ const MobileNav: React.FC = () => {
                   {(props) => (
                     <MenuLink href="/articles" {...props}>
                       Articles
+                    </MenuLink>
+                  )}
+                </Menu.Item>
+              </div>
+              <div className="px-1 pt-2 pb-1">
+                <div className="text-green-600 text-xs px-2 py-2 uppercase tracking-wide font-bold">
+                  About
+                </div>
+                <Menu.Item>
+                  {(props) => (
+                    <MenuLink href="/faq" {...props}>
+                      FAQ
+                    </MenuLink>
+                  )}
+                </Menu.Item>
+                <Menu.Item>
+                  {(props) => (
+                    <MenuLink href="/credits" {...props}>
+                      Credits
                     </MenuLink>
                   )}
                 </Menu.Item>
@@ -196,11 +218,8 @@ export const handleSignOut = async (router: NextRouter) => {
   const data = await signOut({
     redirect: false,
     callbackUrl: '/',
-  }).then((data) => {
-    toast.success('Signed out successfully')
-    return data
-  })
-  await router.push(data.url)
+  }).then((data) => data)
+  router.push(data.url)
 }
 
 const SignOutButton = React.forwardRef<HTMLButtonElement, MenuLinkProps>(
@@ -210,7 +229,10 @@ const SignOutButton = React.forwardRef<HTMLButtonElement, MenuLinkProps>(
       <button
         ref={ref}
         {...rest}
-        onClick={() => handleSignOut(router)}
+        onClick={async () => {
+          await handleSignOut(router)
+          toast.success('Signed out successfully')
+        }}
         className={
           !isEmpty(className)
             ? className
@@ -272,7 +294,7 @@ const RestorePurchasesLink = () => {
 export const NavLogo = () => {
   const router = useRouter()
   return (
-    <Link href="/" aria-label="Home" passHref>
+    <Link href="/" aria-label="Testing Accessibility Home" passHref>
       <a
         className={cx(
           'h-full group text-gray-900 bg-white flex-shrink-0 flex items-center group after:content-[""] relative after:absolute after:-right-6 after:h-5 after:w-px sm:after:bg-gray-200',

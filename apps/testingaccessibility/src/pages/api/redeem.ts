@@ -8,6 +8,8 @@ import {getSdk} from '../../lib/prisma-api'
 import * as Sentry from '@sentry/nextjs'
 import {setupHttpTracing} from '@vercel/tracing-js'
 import {tracer} from '../../utils/honeycomb-tracer'
+import {postRedemptionToSlack} from '../../server/post-to-slack'
+import {PurchaseStatus} from '../../utils/purchase-status'
 
 export class CouponRedemptionError extends Error {
   couponId: string
@@ -36,6 +38,8 @@ const redeemHandler = async (req: NextApiRequest, res: NextApiResponse) => {
 
       const {email: baseEmail, couponId, sendEmail = true} = req.body
 
+      console.log({baseEmail, couponId, sendEmail})
+
       if (!baseEmail) throw new Error('invalid-email')
 
       // something in the chain strips out the plus and leaves a space
@@ -48,7 +52,7 @@ const redeemHandler = async (req: NextApiRequest, res: NextApiResponse) => {
       const couponValidation = validateCoupon(coupon)
 
       if (coupon && couponValidation.isValid) {
-        const {user, isNewUser} = await findOrCreateUser(email)
+        const {user} = await findOrCreateUser(email)
 
         if (!user)
           throw new CouponRedemptionError(
@@ -57,11 +61,16 @@ const redeemHandler = async (req: NextApiRequest, res: NextApiResponse) => {
             email,
           )
 
+        const productId =
+          (coupon.restrictedToProductId as string) ||
+          process.env.NEXT_PUBLIC_DEFAULT_PRODUCT_ID
+
         const existingPurchase = await prisma.purchase.findFirst({
           where: {
             userId: user.id,
-            productId: coupon.restrictedToProductId as string,
+            productId,
             bulkCoupon: null,
+            status: PurchaseStatus.Valid,
           },
           select: {
             id: true,
@@ -80,7 +89,7 @@ const redeemHandler = async (req: NextApiRequest, res: NextApiResponse) => {
           data: {
             userId: user.id,
             couponId: coupon.id,
-            productId: coupon.restrictedToProductId as string,
+            productId,
             totalAmount: 0,
           },
         })
@@ -100,6 +109,9 @@ const redeemHandler = async (req: NextApiRequest, res: NextApiResponse) => {
             },
           },
         })
+
+        if (!coupon.bulkPurchaseId)
+          await postRedemptionToSlack(user.email, purchase.productId)
 
         res.status(200).json(purchase)
         return

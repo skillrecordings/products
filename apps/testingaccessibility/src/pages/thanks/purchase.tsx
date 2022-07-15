@@ -6,16 +6,18 @@ import Layout from 'components/app/layout'
 import Image from 'next/image'
 import NewMailImage from '../../../public/assets/new-mail@2x.png'
 import {MailIcon} from '@heroicons/react/outline'
+import {getCheckoutSession} from '../../lib/stripe'
 
 export const getServerSideProps: GetServerSideProps = async ({req, query}) => {
   const {session_id} = query
 
-  const checkoutSession = await stripe.checkout.sessions.retrieve(
-    session_id as string,
-    {
-      expand: ['customer'],
-    },
-  )
+  if (!session_id) {
+    return {
+      notFound: true,
+    }
+  }
+
+  const checkoutSession = await getCheckoutSession(session_id as string)
 
   const {customer} = checkoutSession
   const {email, name} = customer as Stripe.Customer
@@ -33,7 +35,7 @@ const ThanksVerify: React.FC<{name: string; email: string}> = ({
   email,
 }) => {
   return (
-    <Layout footer={null} className="bg-green-700 bg-noise">
+    <Layout footer={null} className="bg-green-700 bg-noise" meta={{title: "Purchase Successful"}}>
       <main className="flex flex-col flex-grow items-center justify-center pt-5 pb-16 px-5 text-white">
         <div className="flex flex-col max-w-screen-md mx-auto w-full gap-5 items-center text-center">
           <Image
@@ -47,10 +49,10 @@ const ThanksVerify: React.FC<{name: string; email: string}> = ({
             alt=""
           />
           <div>
-            <p className="text-orange-200 font-heading text-xl font-medium">
+            <h1 className="text-orange-200 font-heading text-xl font-medium">
               Thank you for purchasing Testing Accessibility!
-            </p>
-            <h1 className="max-w-lg mx-auto font-bold lg:text-4xl text-3xl py-5">
+            </h1>
+            <h2 className="max-w-lg mx-auto font-bold lg:text-4xl text-3xl py-5">
               Please check your inbox for a login link that just got sent.
               <code className="px-6 py-3 rounded-md bg-white inline-flex items-center gap-2 font-sans text-black my-10 font-semibold sm:text-xl text-lg">
                 <MailIcon
@@ -59,7 +61,7 @@ const ThanksVerify: React.FC<{name: string; email: string}> = ({
                 />{' '}
                 {email}
               </code>
-            </h1>
+            </h2>
             <p className="text-sand-100 max-w-md font-medium leading-relaxed mx-auto">
               As a final step to access the course you need to check your inbox
               (<strong>{email}</strong>) where you will find an email from{' '}

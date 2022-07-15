@@ -8,7 +8,7 @@ import Highlight from '@tiptap/extension-highlight'
 import StarterKit from '@tiptap/starter-kit'
 import Link from '@tiptap/extension-link'
 import cx from 'classnames'
-import {getEmoji} from '@skillrecordings/skill-api/client'
+import {getEmoji} from '@skillrecordings/skill-api/dist/client'
 
 export const FeedbackField: React.FC<any> = ({
   errors,

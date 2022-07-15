@@ -80,12 +80,12 @@ export const container = {
 }
 
 import config from 'config'
-import Layout from '../components/layout'
+import Layout from '../components/app/layout'
 import Image from 'next/image'
 import {motion} from 'framer-motion'
 
 export default ({children}) => (
-  <Layout>
+  <Layout footer={null}>
     <motion.div
       variants={container}
       initial="hidden"

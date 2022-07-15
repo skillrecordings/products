@@ -5,7 +5,6 @@ import config from '../config'
 import isString from 'lodash/isString'
 import Image from 'next/image'
 import {format} from 'date-fns'
-import {ArticleJsonLd} from 'next-seo'
 import {
   Twitter,
   Facebook,
@@ -111,18 +110,6 @@ const ArticleTemplate: React.FC<ArticleTemplateProps> = ({
       }}
       className="bg-[#111725]"
     >
-      <ArticleJsonLd
-        url={`https://${config.siteUrl}/${meta.slug}`}
-        title={title}
-        // todo: add images field to sanity
-        images={images}
-        datePublished={published}
-        dateModified={published}
-        authorName={[author.name]}
-        publisherName="EngMangement.dev"
-        publisherLogo={author.imageUrl}
-        description={description}
-      />
       <article>
         <header>
           <div className="pt-40 min-h-[750px] -mx-5 px-5 -mt-5 relative flex flex-col items-center justify-between">
