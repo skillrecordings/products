@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "build": "NODE_ENV=production prisma generate && next build",
+    "build": "NODE_ENV=production  next build",
     "postbuild": "NODE_ENV=production next-sitemap",
     "build:data": "node src/data/cache-json-data.js -p",
     "build:data:dev": "node src/data/cache-json-data.js",
@@ -12,12 +12,10 @@
     "dev": "next dev -p 3011",
     "format": "prettier --write './**/*.{js,jsx,ts,tsx,css,md,mdx,json}' --config ./.prettierrc",
     "generate": "prisma generate",
-    "prebuild": "pnpm generate",
-    "predev": "pnpm generate",
     "integration": "cypress run",
-    "lint": "TIMING=1 prisma generate && eslint src/**/*.{ts,tsx} --fix && tsc --noEmit",
+    "lint": "TIMING=1 eslint src/**/*.{ts,tsx} --fix && tsc --noEmit",
     "start": "next start -p 3011",
-    "test": "prisma generate && jest"
+    "test": "jest"
   },
   "prettier": {
     "bracketSpacing": false,
