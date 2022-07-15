@@ -39,6 +39,9 @@ const Footer: React.FC<FooterProps> = () => {
                 <li>
                   <NavLink href="/articles">Articles</NavLink>
                 </li>
+                <li>
+                  <NavLink href="/newsletter">Newsletter Signup</NavLink>
+                </li>
               </ul>
             </div>
             {isSignedIn && (
