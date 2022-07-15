@@ -87,22 +87,8 @@ const GoToPricingButton: React.FC = ({children}) => {
   const router = useRouter()
   const shouldReduceMotion = useReducedMotion()
   const isLandingPage = router.pathname === '/' || router.pathname === '/buy'
-  return isLandingPage ? (
-    <button
-      className="ml-2 flex-shrink-0 inline-flex px-2 py-0.5 pb-1 underline rounded-md border hover:bg-moss-50"
-      onClick={() => {
-        scroller.scrollTo('buy', {
-          duration: 1500,
-          smooth: shouldReduceMotion ? false : 'easeInOutQuint',
-        })
-        const buySection = document.getElementById('buy')
-        buySection?.focus()
-      }}
-    >
-      {children}
-    </button>
-  ) : (
-    <Link href="/#buy">
+  return (
+    <Link href="/buy">
       <a className="ml-2 flex-shrink-0 inline-flex px-2 py-0.5 pb-1 underline rounded-md border hover:bg-moss-50">
         {children}
       </a>
