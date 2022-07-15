@@ -1,5 +1,5 @@
-import {Coupon} from '@prisma/client'
 import {isNull, isUndefined, some} from 'lodash'
+import {Coupon} from '../../generated/prisma/client'
 
 export function bulkCouponHasSeats(coupon: Coupon) {
   return coupon && coupon.usedCount < coupon.maxUses

@@ -1,6 +1,7 @@
 {
   "exclude": [
-    "node_modules"
+    "node_modules",
+    "src/prisma/**/*"
   ],
   "extends": "@skillrecordings/tsconfig/nextjs.json",
   "compilerOptions": {
@@ -12,6 +13,7 @@
   "include": [
     "src",
     "next-env.d.ts",
-    "process.d.ts"
+    "process.d.ts",
+    "generated/prisma.d.ts"
   ]
 }

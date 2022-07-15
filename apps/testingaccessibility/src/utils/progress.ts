@@ -1,4 +1,3 @@
-import {LessonProgress} from '@prisma/client'
 import {SanityDocument} from '@sanity/client'
 import reverse from 'lodash/reverse'
 import isEmpty from 'lodash/isEmpty'
@@ -8,6 +7,7 @@ import first from 'lodash/first'
 import find from 'lodash/find'
 import get from 'lodash/get'
 import axios from 'axios'
+import {LessonProgress} from '../../generated/prisma/client'
 
 type ProgressProps = {
   slug: string

@@ -9,7 +9,6 @@ import {PortableText} from '@portabletext/react'
 import {SkipNavContent} from '@reach/skip-nav'
 import {getOgImage} from 'utils/get-og-image'
 import {SanityDocument} from '@sanity/client'
-import {LessonProgress} from '@prisma/client'
 import PortableTextComponents, {InternalLink} from 'components/portable-text'
 import BreadcrumbNav from 'components/breadcrumb'
 import Layout from 'components/app/layout'
@@ -18,6 +17,7 @@ import find from 'lodash/find'
 import Image from 'next/image'
 import Link from 'next/link'
 import cx from 'classnames'
+import {LessonProgress} from '../../generated/prisma/client'
 
 type ModuleTemplateProps = {
   module: SanityDocument
@@ -46,7 +46,12 @@ const ModuleTemplate: React.FC<ModuleTemplateProps> = ({module}) => {
           <div className="bg-green-700 bg-noise py-10 text-white">
             <div className="max-w-screen-lg flex md:flex-row flex-col items-center justify-center mx-auto px-5">
               <div>
-                <Image src={image.url} alt={image.alt} width={300} height={300} />
+                <Image
+                  src={image.url}
+                  alt={image.alt}
+                  width={300}
+                  height={300}
+                />
               </div>
               <div className="md:text-left text-center max-w-lg">
                 <h1 className="font-heading md:text-5xl text-4xl font-bold">
@@ -226,9 +231,7 @@ const Sections: React.FC<SectionsProps> = ({progress, module}) => {
               {section.lessons && (
                 <div className="pt-8">
                   <div className="flex items-center gap-4">
-                    <h2 className="uppercase text-xs font-semibold">
-                      Lessons
-                    </h2>
+                    <h2 className="uppercase text-xs font-semibold">Lessons</h2>
                     <div className="w-full border-t border-gray-100" />
                   </div>
                   <ol className="list-none pt-2 divide-y divide-gray-100">

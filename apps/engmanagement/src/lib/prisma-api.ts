@@ -1,8 +1,8 @@
-import {Prisma} from '@prisma/client'
 import {Context, defaultContext} from './context'
 import {v4} from 'uuid'
 import {SpanContext} from '@vercel/tracing-js'
 import {tracer} from '../utils/honeycomb-tracer'
+import {Prisma} from '../../generated/prisma/client'
 
 type SDKOptions = {ctx?: Context; spanContext?: SpanContext}
 
