@@ -14,8 +14,8 @@ export default {
       type: 'body',
     },
     {
-      title: 'MUX Media URL',
-      name: 'muxMediaUrl',
+      title: 'Media URL',
+      name: 'mediaUrl',
       type: 'url',
     },
     {
