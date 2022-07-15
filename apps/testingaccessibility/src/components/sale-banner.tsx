@@ -8,7 +8,6 @@ import Link from 'next/link'
 const SaleBanner = () => {
   const defaultCoupon = {
     expires: '2022-07-25T06:59:59.999Z',
-    default: true,
     percentageDiscount: '0.4',
   }
 
