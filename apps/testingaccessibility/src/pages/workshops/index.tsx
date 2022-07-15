@@ -13,45 +13,47 @@ const Workshops: React.FC<any> = ({workshops}) => {
 
   return (
     <Layout meta={{title: 'Accessibility Workshops'}}>
-      <header className="relative px-5 py-28 overflow-hidden text-white bg-green-700 bg-noise">
-        <h1 className="max-w-screen-md font-heading font-bold mx-auto leading-none text-center text-3xl sm:text-4xl lg:text-5xl">
-          Accessibility Workshops
-        </h1>
-      </header>
-      <main className="px-5 flex-grow">
-        <div className="pb-16 mx-auto max-w-screen-lg w-full pt-16 gap-16">
-          {upcomingWorkshops.length !== 0 && (
-            <>
-              <div className="relative flex-shrink-0">
-                <h2 className="text-xl font-medium sticky top-24 inline-block w-full border-b pb-4 border-moss-100">
-                  Upcoming workshops
-                </h2>
-              </div>
-              <div className="grid lg:grid-cols-2 gap-10 pt-12">
-                {upcomingWorkshops.map((workshop: any) => {
-                  return (
-                    <WorkshopItem key={workshop.title} workshop={workshop} />
-                  )
-                })}
-              </div>
-            </>
-          )}
-          {pastWorkshops.length !== 0 && (
-            <>
-              <div className="relative flex-shrink-0">
-                <h2 className="text-lg font-bold sticky top-24 inline-block w-full border-b pb-4 border-moss-100">
-                  Past workshops
-                </h2>
-              </div>
-              <div className="grid lg:grid-cols-2 gap-10 pt-12">
-                {pastWorkshops.map((workshop: any) => {
-                  return (
-                    <WorkshopItem key={workshop.title} workshop={workshop} />
-                  )
-                })}
-              </div>
-            </>
-          )}
+      <main>
+        <header className="relative px-5 py-28 overflow-hidden text-white bg-green-700 bg-noise">
+          <h1 className="max-w-screen-md font-heading font-bold mx-auto leading-none text-center text-3xl sm:text-4xl lg:text-5xl">
+            Accessibility Workshops
+          </h1>
+        </header>
+        <div className="px-5 flex-grow">
+          <div className="pb-16 mx-auto max-w-screen-lg w-full pt-16 gap-16">
+            {upcomingWorkshops.length !== 0 && (
+              <>
+                <div className="relative flex-shrink-0">
+                  <h2 className="text-xl font-medium sticky top-24 inline-block w-full border-b pb-4 border-moss-100">
+                    Upcoming workshops
+                  </h2>
+                </div>
+                <div className="grid lg:grid-cols-2 gap-10 pt-12">
+                  {upcomingWorkshops.map((workshop: any) => {
+                    return (
+                      <WorkshopItem key={workshop.title} workshop={workshop} />
+                    )
+                  })}
+                </div>
+              </>
+            )}
+            {pastWorkshops.length !== 0 && (
+              <>
+                <div className="relative flex-shrink-0">
+                  <h2 className="text-lg font-bold sticky top-24 inline-block w-full border-b pb-4 border-moss-100">
+                    Past workshops
+                  </h2>
+                </div>
+                <div className="grid lg:grid-cols-2 gap-10 pt-12">
+                  {pastWorkshops.map((workshop: any) => {
+                    return (
+                      <WorkshopItem key={workshop.title} workshop={workshop} />
+                    )
+                  })}
+                </div>
+              </>
+            )}
+          </div>
         </div>
       </main>
     </Layout>

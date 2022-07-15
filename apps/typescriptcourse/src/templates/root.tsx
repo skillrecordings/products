@@ -1,5 +1,5 @@
 import * as React from 'react'
-import Layout from 'components/layout'
+import Layout from 'components/app/layout'
 import {motion} from 'framer-motion'
 import {
   redirectUrlBuilder,
@@ -27,25 +27,27 @@ const HomeTemplate: React.FC<EmailCourseTemplateProps> = ({meta, children}) => {
     }
   }, [router])
 
+  // TODO fix meta for layout
+
   return (
-    <Layout withFooter meta={meta} className="flex flex-col min-h-screen">
+    <Layout className="flex flex-col min-h-screen">
       <StarsBackground />
       <header className="pointer-events-none relative flex flex-col items-center justify-center text-center mx-auto md:pt-28 pt-16 md:min-h-[70vh] md:pb-32 pb-24 max-w-screen-xl">
         <AnimatedBadge
-          icon={<i className="gg-mail scale-75 opacity-75 text-blue-300" />}
+          icon={<i className="text-blue-300 scale-75 opacity-75 gg-mail" />}
         >
           new email course
         </AnimatedBadge>
-        <h1 className="lg:text-5xl md:text-5xl text-3xl font-bold py-8 drop-shadow-lg max-w-screen-md lg:max-w-screen-lg px-8 text-gray-100">
+        <h1 className="max-w-screen-md px-8 py-8 text-3xl font-bold text-gray-100 lg:text-5xl md:text-5xl drop-shadow-lg lg:max-w-screen-lg">
           Your Quick-Start Guide to Confidently Shipping{' '}
-          <span className="bg-gradient-to-l from-fuchsia-300 to-blue-400 bg-clip-text text-transparent">
+          <span className="text-transparent bg-gradient-to-l from-fuchsia-300 to-blue-400 bg-clip-text">
             TypeScript Production Code
           </span>{' '}
           Faster and Safer
         </h1>
 
         <div className="flex items-center justify-center gap-2 pt-2 text-blue-100">
-          <div className="flex-shrink-0 border-2 shadow-xl flex items-center justify-center rounded-full overflow-hidden">
+          <div className="flex items-center justify-center flex-shrink-0 overflow-hidden border-2 rounded-full shadow-xl">
             <Image
               className="rounded-full"
               src={require('../../public/images/joe-previte.jpeg')}
@@ -61,12 +63,12 @@ const HomeTemplate: React.FC<EmailCourseTemplateProps> = ({meta, children}) => {
       </header>
       <article className="relative">
         <div className="bg-landing-article" />
-        <div className="opacity-90 relative prose md:prose-p:text-white/90 prose-p:px-5 prose-p:max-w-screen-sm md:prose-p:max-w-screen-sm md:prose-p:mx-auto prose-p:mx-auto md:prose-headings:mx-auto prose-headings:mx-auto w-full md:prose-headings:max-w-screen-sm md:prose-lg prose-p:my-5 md:prose-p:my-8 xl:prose-p:my-10 xl:prose-xl max-w-none">
+        <div className="relative w-full prose opacity-90 md:prose-p:text-white/90 prose-p:px-5 prose-p:max-w-screen-sm md:prose-p:max-w-screen-sm md:prose-p:mx-auto prose-p:mx-auto md:prose-headings:mx-auto prose-headings:mx-auto md:prose-headings:max-w-screen-sm md:prose-lg prose-p:my-5 md:prose-p:my-8 xl:prose-p:my-10 xl:prose-xl max-w-none">
           {children}
         </div>
         <section className="relative pt-4">
           <Element name="course" />
-          <div className="sm:px-0 px-5 relative flex flex-col items-center md:pt-24 pt-16 md:pb-32 pb-16">
+          <div className="relative flex flex-col items-center px-5 pt-16 pb-16 sm:px-0 md:pt-24 md:pb-32">
             <Image
               src={formImage}
               quality={100}
@@ -76,9 +78,9 @@ const HomeTemplate: React.FC<EmailCourseTemplateProps> = ({meta, children}) => {
               height={404 / 2}
               alt="Email course"
             />
-            <div className="py-8 text-center flex flex-col items-center">
-              <h2 className="sm:text-4xl text-3xl font-bold">{formHeadline}</h2>
-              <h3 className="text-xl max-w-md pt-2 opacity-90 text-blue-200">
+            <div className="flex flex-col items-center py-8 text-center">
+              <h2 className="text-3xl font-bold sm:text-4xl">{formHeadline}</h2>
+              <h3 className="max-w-md pt-2 text-xl text-blue-200 opacity-90">
                 {formSubHeadline}
               </h3>
             </div>
@@ -94,7 +96,7 @@ const HomeTemplate: React.FC<EmailCourseTemplateProps> = ({meta, children}) => {
               actionLabel="Start the Course Now!"
               submitButtonElem={SubscribeButton()}
             />
-            <small className="text-sm font-light opacity-60 pt-16 text-blue-100">
+            <small className="pt-16 text-sm font-light text-blue-100 opacity-60">
               We respect your privacy. Unsubscribe at any time.
             </small>
           </div>
@@ -109,7 +111,7 @@ export default HomeTemplate
 
 const SubscribeButton = () => {
   return (
-    <Button className="relative overflow-hidden flex items-center justify-center">
+    <Button className="relative flex items-center justify-center overflow-hidden">
       <span className="relative z-10">Start the Course Now! </span>
       <motion.div
         initial={{
@@ -127,7 +129,7 @@ const SubscribeButton = () => {
             'linear-gradient(to right, rgba(132, 171, 255, 0) 100%, rgb(132, 171, 255, 1) 200%, rgba(132, 171, 255, 0) 200%)',
           ],
         }}
-        className="absolute left-0 top-0 w-full h-full pointer-events-none items-center justify-center space-x-1 bg-white bg-opacity-10 bg-blend-overlay uppercase tracking-wide "
+        className="absolute top-0 left-0 items-center justify-center w-full h-full space-x-1 tracking-wide uppercase bg-white pointer-events-none bg-opacity-10 bg-blend-overlay "
       />
     </Button>
   )

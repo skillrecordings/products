@@ -16,11 +16,12 @@ const lessonQuery = groq`*[_type == "lesson" && slug.current == $slug][0]{
   body[]{
       ...,
       markDefs[]{
-        ...,
+      ...,
       _type == "internalLink" => {
         "_id": @.reference->_id,
         "slug": @.reference->slug,
         "type": @.reference->_type,
+        "hash": hash.current,
         "modules": *[_type=='module']{
           "slug": slug.current,
           sections[]->{
@@ -31,8 +32,32 @@ const lessonQuery = groq`*[_type == "lesson" && slug.current == $slug][0]{
           }
         }
       }
+    },
+    _type == "callout" => {
+        ...,
+        body[]{
+          ...,
+          markDefs[]{
+          ...,
+          _type == "internalLink" => {
+            "_id": @.reference->_id,
+            "slug": @.reference->slug,
+            "type": @.reference->_type,
+            "hash": hash.current,
+            "modules": *[_type=='module']{
+              "slug": slug.current,
+              sections[]->{
+                "slug": slug.current,
+                lessons[]->{
+                  "slug": slug.current,
+                }
+              }
+            }
+          }
+        }
+      }
     }
-  },
+  }
   }`
 
 const allLessonsQuery = groq`*[_type == "lesson"]{
@@ -58,7 +83,7 @@ export const getServerSideProps: GetServerSideProps = async ({req, params}) => {
   const lessons: {slug: string}[] = flatten(
     product.modules.map((module: SanityDocument) =>
       flatten(
-        module.sections.map((section: SanityDocument) =>
+        module?.sections?.map((section: SanityDocument) =>
           uniq(section.lessons?.map((lesson: SanityDocument) => lesson)),
         ),
       ),

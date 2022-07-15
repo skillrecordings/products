@@ -4,7 +4,7 @@ import {useRouter} from 'next/dist/client/router'
 
 const Footer = () => {
   const router = useRouter()
-  console.log(router)
+
   return (
     <footer className="py-24 print:hidden flex w-full items-center justify-center">
       {!router.pathname.includes('terms') && (

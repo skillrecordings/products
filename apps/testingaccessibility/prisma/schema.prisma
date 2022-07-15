@@ -1,6 +1,7 @@
 generator client {
   provider = "prisma-client-js"
   previewFeatures = ["referentialIntegrity", "interactiveTransactions"]
+  output   = "../generated/prisma/client"
 }
 
 datasource db {
@@ -201,7 +202,7 @@ model Purchase {
   merchantCharge          MerchantCharge?    @relation(fields: [merchantChargeId], references: [id], onDelete: Cascade)
   product                 Product            @relation(fields: [productId], references: [id], onDelete: Cascade)
   user                    User?              @relation(fields: [userId], references: [id], onDelete: Cascade)
-
+  status                  String             @default("Valid")
 }
 
 model Session {
@@ -211,6 +212,7 @@ model Session {
   expires        DateTime?
   user           User?      @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
+
 
 model User {
   id                 String               @id @default(uuid()) 
@@ -225,6 +227,7 @@ model User {
   sessions           Session[]
   lessonProgresses   LessonProgress[]
   comments           Comment[]
+  roles              String                   @default("User")
 }
 
 model VerificationToken {

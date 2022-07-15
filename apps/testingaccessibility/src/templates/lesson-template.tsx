@@ -2,11 +2,15 @@ import React from 'react'
 import {CheckIcon, ChevronRightIcon} from '@heroicons/react/solid'
 import {useProgress} from 'context/progress-context'
 import {PortableText} from '@portabletext/react'
+import {useReducedMotion} from 'framer-motion'
+import {SkipNavContent} from '@reach/skip-nav'
 import {SanityDocument} from '@sanity/client'
-import {LessonProgress} from '@prisma/client'
+import {getOgImage} from 'utils/get-og-image'
+import {useSession} from 'next-auth/react'
 import {Switch} from '@headlessui/react'
 import {useReward} from 'react-rewards'
 import {useRouter} from 'next/router'
+import TableOfContents from 'components/portable-text/table-of-contents'
 import PortableTextComponents from 'components/portable-text'
 import BreadcrumbNav from 'components/breadcrumb'
 import Layout from 'components/app/layout'
@@ -15,11 +19,10 @@ import indexOf from 'lodash/indexOf'
 import isEmpty from 'lodash/isEmpty'
 import pluralize from 'pluralize'
 import first from 'lodash/first'
-import Image from 'next/image'
 import find from 'lodash/find'
 import Link from 'next/link'
 import cx from 'classnames'
-import {useSession} from 'next-auth/react'
+import {LessonProgress} from '../../generated/prisma/client'
 
 type LessonTemplateProps = {
   module?: SanityDocument
@@ -34,8 +37,11 @@ const LessonTemplate: React.FC<LessonTemplateProps> = ({
 }) => {
   const {data: session} = useSession()
   const {title, body, slug} = lesson
-  const {lessons, image} = section
+  const {lessons} = section
+  const image = section?.image ?? module?.image
+  const ogImage = getOgImage(title, image.url)
   const currentLessonIndex = indexOf(lessons, find(lessons, {slug}))
+  const currentLessonIndexDisplay = currentLessonIndex + 1
   const {progress, toggleLessonComplete, isLoadingProgress} = useProgress()
   const currentLessonProgress = find(progress, {lessonSlug: slug})
   const isCurrentLessonCompleted = !isEmpty(currentLessonProgress?.completedAt)
@@ -49,7 +55,15 @@ const LessonTemplate: React.FC<LessonTemplateProps> = ({
     ]
 
   return (
-    <Layout className="bg-white">
+    <Layout
+      key={currentLessonIndex}
+      meta={{
+        title,
+        ogImage,
+      }}
+      className="bg-white"
+      skipNavContent={null}
+    >
       <main>
         <div className="bg-gray-50">
           <div className="max-w-screen-lg mx-auto w-full py-4 lg:px-1 px-2 overflow-x-auto">
@@ -60,40 +74,25 @@ const LessonTemplate: React.FC<LessonTemplateProps> = ({
             />
           </div>
         </div>
-        <div className=" w-full mx-auto flex-grow bg-white ">
-          <div className="">
+        <SkipNavContent />
+        <div className="w-full mx-auto flex-grow bg-white">
+          <div>
             <article className="bg-green-700 bg-noise">
-              <header className="py-10 px-4 max-w-screen-lg mx-auto rounded-md text-white flex md:flex-row flex-col items-center justify-center gap-5">
-                <div className="flex items-center justify-center max-w-xs">
-                  <Image
-                    src={image.url}
-                    alt={image.alt}
-                    quality={100}
-                    width={240}
-                    height={240}
-                  />
-                </div>
-                <h1 className="font-heading w-full lg:text-[2.5rem] leading-tighter text-3xl font-bold lg:max-w-xl md:text-left text-center md:pb-0 pb-5 lg:px-0 px-10">
+              <header className="relative py-16 min-h-[300px] px-4 max-w-screen-lg mx-auto rounded-md text-white flex flex-col items-center justify-center">
+                <h1 className="text-center font-heading md:text-5xl text-4xl font-bold">
                   {title}
                 </h1>
+                <div
+                  aria-hidden="true"
+                  className="absolute text-[250px] font-nav opacity-10 mix-blend-overlay pb-10 font-bold pointer-events-none"
+                >
+                  {('0' + currentLessonIndexDisplay).slice(-2)}
+                </div>
               </header>
               <div className="bg-white px-4">
-                <div className="relative max-w-screen-lg mx-auto flex w-full lg:grid flex-col sm:grid-cols-12 lg:gap-16 gap-5 md:border-t border-gray-100 lg:py-14 py-0">
-                  <div className="col-span-3">
-                    <LessonNavigator
-                      className="pt-1.5 lg:block hidden"
-                      lessons={lessons}
-                      progress={progress}
-                      module={module}
-                      section={section}
-                      currentLessonIndex={currentLessonIndex}
-                      isLoadingProgress={isLoadingProgress}
-                    />
-                  </div>
-                  <div
-                    className="sm:col-span-8 max-w-none prose-p:max-w-screen-sm prose-ul:sm:pr-0 prose-ul:pr-5 prose-p:w-full prose-ul:max-w-screen-sm prose-ul:mx-auto text-gray-800 prose prose-p:py-2 prose-h2:text-green-800 prose-h2:font-display prose-h3:font-display prose-headings:text-left prose-h3:text-green-800 lg:prose-lg"
-                    //  className="prose lg:prose-lg max-w-none sm:col-span-8"
-                  >
+                <TableOfContents value={body} />
+                <div className="relative flex flex-col lg:py-10 py-8 max-w-screen-md w-full mx-auto">
+                  <div className="max-w-none xl:prose-pre:text-base md:prose-pre:text-base prose-pre:text-xs prose-ul:sm:pr-0 prose-ul:pr-5 prose-p:w-full prose-ul:mx-auto text-gray-800 prose prose-headings:text-left prose-h3:text-green-800 md:prose-lg xl:prose-xl">
                     <PortableText
                       value={body}
                       components={PortableTextComponents}
@@ -104,10 +103,13 @@ const LessonTemplate: React.FC<LessonTemplateProps> = ({
             </article>
           </div>
         </div>
-        <div className="py-16 bg-gray-50 w-full">
+        <nav
+          aria-label="Course controls"
+          className="py-16 bg-green-700 bg-noise text-white w-full"
+        >
           <div
             className={cx(
-              'max-w-screen-lg mx-auto w-full items-center justify-center lg:divide-x divide-gray-200 lg:gap-10 gap-16',
+              'max-w-screen-lg mx-auto w-full items-center justify-center lg:divide-x divide-green-600/75 divide-dashed lg:gap-10 gap-16',
               {
                 'grid lg:grid-cols-2 grid-cols-1':
                   (nextLesson || nextSection) && session,
@@ -130,7 +132,7 @@ const LessonTemplate: React.FC<LessonTemplateProps> = ({
               currentLessonIndex={currentLessonIndex}
             />
           </div>
-        </div>
+        </nav>
       </main>
     </Layout>
   )
@@ -142,7 +144,7 @@ type ProgressToggleProps = {
   slug: string
 }
 
-const ProgressToggle: React.FC<ProgressToggleProps> = ({
+export const ProgressToggle: React.FC<ProgressToggleProps> = ({
   isCurrentLessonCompleted,
   toggleLessonComplete,
   slug,
@@ -154,6 +156,7 @@ const ProgressToggle: React.FC<ProgressToggleProps> = ({
     position: 'absolute',
   })
   const [isEnabled, setEnabled] = React.useState(isCurrentLessonCompleted)
+  const shouldReduceMotion = useReducedMotion()
 
   React.useEffect(() => {
     setEnabled(isCurrentLessonCompleted)
@@ -164,42 +167,50 @@ const ProgressToggle: React.FC<ProgressToggleProps> = ({
     return classes.filter(Boolean).join(' ')
   }
 
+  const handleOnChange = () => {
+    setEnabled(!isEnabled)
+    setLoading(true)
+    toggleLessonComplete(slug)
+      .then(() => {
+        setLoading(false)
+      })
+      .catch(() => {
+        setLoading(false)
+        setEnabled(isCurrentLessonCompleted)
+      })
+    !isEnabled && !shouldReduceMotion && reward()
+  }
   return (
-    <div className="flex flex-col items-center justify-center rounded-lg relative z-50">
+    <div className="flex flex-col items-center justify-center rounded-lg relative z-20">
       <div className="text-center pb-5">
-        <p className="text-xl font-bold">Finished this lesson?</p>
-        <p className="text-gray-700">
+        <h2 className="text-2xl font-bold font-heading">
+          Finished this lesson?
+        </h2>
+        <p className="text-sand-100">
           Mark it as complete to track your progress.
         </p>
       </div>
       <Switch.Group
         as="div"
-        className="flex items-center px-4 py-3 bg-white shadow-sm rounded-lg"
+        className="flex items-center px-4 py-3 bg-green-900/50 transition shadow-xl rounded-lg"
       >
         <Switch.Label as="span" className="mr-3 flex-shrink-0 cursor-pointer">
-          <span className="text-gray-900 font-medium">Mark as complete</span>
+          <span className="text-white font-medium">Mark as complete</span>
         </Switch.Label>
         <Switch
-          disabled={isLoading}
+          aria-disabled={isLoading}
           checked={isEnabled}
-          onChange={() => {
-            setEnabled(!isEnabled)
-            setLoading(true)
-            toggleLessonComplete(slug)
-              .then(() => {
-                setLoading(false)
-              })
-              .catch(() => {
-                setLoading(false)
-                setEnabled(isCurrentLessonCompleted)
-              })
-            !isEnabled && reward()
+          onChange={handleOnChange}
+          onKeyDown={(e: React.KeyboardEvent) => {
+            if (e.key === 'Enter') {
+              handleOnChange()
+            }
           }}
           className={cx(
-            'relative inline-flex disabled:opacity-80 flex-shrink-0 h-6 w-11 border-2 border-transparent rounded-full cursor-pointer transition-all ease-in-out duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500',
+            'relative inline-flex shadow-inner disabled:opacity-80 flex-shrink-0 h-6 w-11 border-2 border-transparent rounded-full cursor-pointer transition-all ease-in-out duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500',
             {
-              'bg-green-600': isEnabled,
-              'bg-gray-200': !isEnabled,
+              'bg-green-500': isEnabled,
+              'bg-white/30': !isEnabled,
             },
           )}
         >
@@ -253,14 +264,15 @@ const UpNext: React.FC<UpNextProps> = ({
   return (
     <>
       {nextLesson ? (
-        <div className="text-center">
-          <p className="text-xl font-bold pb-1">Up next</p>
-          <p className="text-gray-700">
+        <div className="text-center flex flex-col items-center px-5">
+          <h2 className="text-2xl font-heading font-bold pb-1">Up next</h2>
+          <p className="text-sand-100">
             There {pluralize('is', numberOfLessonsLeftInSection)}{' '}
             {numberOfLessonsLeftInSection} more{' '}
             {pluralize('lesson', numberOfLessonsLeftInSection)} in this section.
           </p>
           <Link
+            passHref
             href={{
               pathname: module
                 ? '/learn/[module]/[section]/[lesson]'
@@ -277,7 +289,7 @@ const UpNext: React.FC<UpNextProps> = ({
                   },
             }}
           >
-            <a className="transition-all mt-4 inline-flex items-center justify-center font-medium px-5 py-3 rounded-md bg-gray-900 text-white">
+            <a className="focus-visible:ring-amber-500 transition-all mt-4 inline-flex items-center justify-center font-medium px-5 py-3 rounded-md bg-white shadow-lg hover:bg-white/90 text-black">
               <span>{nextLesson.title}</span>
               <ChevronRightIcon className="w-5" aria-hidden="true" />
             </a>
@@ -286,10 +298,11 @@ const UpNext: React.FC<UpNextProps> = ({
       ) : (
         nextSection &&
         nextSectionLesson && (
-          <div className="text-center lg:pl-10">
-            <p className="text-xl font-bold pb-1">Up next</p>
-            <p className="text-gray-700">{nextSection.title}</p>
+          <div className="text-center lg:pl-10 flex flex-col items-center">
+            <p className="text-2xl font-heading font-bold pb-1">Up next</p>
+            <p className="text-sand-100">{nextSection.title}</p>
             <Link
+              passHref
               href={{
                 pathname: module
                   ? '/learn/[module]/[section]/[lesson]'
@@ -306,7 +319,7 @@ const UpNext: React.FC<UpNextProps> = ({
                     },
               }}
             >
-              <a className="transition-all mt-4 inline-flex items-center justify-center font-medium px-5 py-3 rounded-md bg-gray-900 text-white">
+              <a className="focus-visible:ring-amber-500 transition-all mt-4 inline-flex items-center justify-center font-medium px-5 py-3 rounded-md bg-white shadow-lg hover:bg-white/90 text-black">
                 <span>{nextSectionLesson.title}</span>
                 <ChevronRightIcon className="w-5" aria-hidden="true" />
               </a>

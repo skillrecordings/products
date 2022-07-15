@@ -8,7 +8,7 @@ import find from 'lodash/find'
 import * as serverCookie from 'cookie'
 import groq from 'groq'
 import {CK_SUBSCRIBER_KEY} from '@skillrecordings/config'
-import checkSubscriber from 'utils/check-subscriber'
+import {checkIfConvertkitSubscriber} from '@skillrecordings/convertkit'
 
 const previewArticleQuery = groq`*[_type == "article" && slug.current == $slug][0]{
     title,
@@ -54,9 +54,8 @@ function getConvertkitFromCookieHeaders(serverCookies: string = '') {
 }
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
-  context.res.setHeader('Cache-Control', 's-maxage=1, stale-while-revalidate')
   const {params} = context
-  const hasSubscribed = await checkSubscriber(context)
+  const hasSubscribed = await checkIfConvertkitSubscriber(context)
 
   const allArticles = await sanityClient.fetch(allArticlesQuery)
 

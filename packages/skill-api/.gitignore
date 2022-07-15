@@ -1,6 +1,2 @@
-/core/
-/next/
-/client/
-/lib/
-index.d.ts
-index.js
+/dist
+/generated

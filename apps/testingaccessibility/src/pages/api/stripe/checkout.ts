@@ -9,6 +9,7 @@ import {setupHttpTracing} from '@vercel/tracing-js'
 import {tracer} from '../../../utils/honeycomb-tracer'
 import {first} from 'lodash'
 import {getCalculatedPriced} from '../../../utils/get-calculated-price'
+import {PurchaseStatus} from '../../../utils/purchase-status'
 
 export class CheckoutError extends Error {
   couponId?: string
@@ -34,6 +35,8 @@ export default withSentry(async function stripeCheckoutHandler(
 ) {
   setupHttpTracing({name: stripeCheckoutHandler.name, tracer, req, res})
   if (req.method === 'POST') {
+    const ip_address = req.headers['x-forwarded-for'] as string
+
     try {
       Sentry.addBreadcrumb({
         category: 'checkout',
@@ -62,9 +65,10 @@ export default withSentry(async function stripeCheckoutHandler(
         : false
 
       const upgradeFromPurchase = upgradeFromPurchaseId
-        ? await prisma.purchase.findUnique({
+        ? await prisma.purchase.findFirst({
             where: {
               id: upgradeFromPurchaseId as string,
+              status: PurchaseStatus.Valid,
             },
             include: {
               product: true,
@@ -119,12 +123,9 @@ export default withSentry(async function stripeCheckoutHandler(
 
       let discounts = []
 
-      if (
-        availableUpgrade &&
-        upgradeFromPurchase &&
-        loadedProduct &&
-        customerId
-      ) {
+      const isUpgrade = Boolean(availableUpgrade && upgradeFromPurchase)
+
+      if (isUpgrade && upgradeFromPurchase && loadedProduct && customerId) {
         const fullPrice = loadedProduct.prices?.[0].unitAmount.toNumber()
         const calculatedPrice = getCalculatedPriced({
           unitPrice: fullPrice,
@@ -179,6 +180,10 @@ export default withSentry(async function stripeCheckoutHandler(
         )
       }
 
+      const successUrl = isUpgrade
+        ? `${process.env.NEXT_PUBLIC_URL}/welcome?session_id={CHECKOUT_SESSION_ID}&upgrade=true`
+        : `${process.env.NEXT_PUBLIC_URL}/thanks/purchase?session_id={CHECKOUT_SESSION_ID}`
+
       const session = await stripe.checkout.sessions.create({
         discounts,
         line_items: [
@@ -189,13 +194,14 @@ export default withSentry(async function stripeCheckoutHandler(
         ],
         payment_method_types: ['card'],
         mode: 'payment',
-        success_url: `${req.headers.origin}/thanks/purchase?session_id={CHECKOUT_SESSION_ID}`,
+        success_url: successUrl,
         cancel_url: `${req.headers.origin}/buy`,
         ...(customerId && {customer: customerId}),
         metadata: {
           ...(Boolean(availableUpgrade && upgradeFromPurchase) && {
             upgradeFromPurchaseId: upgradeFromPurchaseId as string,
           }),
+          ip_address,
         },
       })
 

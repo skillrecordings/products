@@ -2,6 +2,10 @@ import {NextAuthOptions} from 'next-auth'
 
 import {createHash, randomBytes} from 'crypto'
 import * as Sentry from '@sentry/nextjs'
+import {
+  MagicLinkEmailType,
+  sendVerificationRequest,
+} from '../pages/api/auth/[...nextauth]'
 
 const baseUrl = process.env.NEXTAUTH_URL || process.env.VERCEL_URL
 
@@ -19,10 +23,12 @@ export async function sendServerEmail({
   email,
   callbackUrl,
   nextAuthOptions,
+  type = 'login',
 }: {
   email: string
   callbackUrl?: string
   nextAuthOptions: NextAuthOptions
+  type?: MagicLinkEmailType
 }) {
   const emailProvider: any = nextAuthOptions.providers.find(
     (provider) => provider.id === 'email',
@@ -59,11 +65,12 @@ export async function sendServerEmail({
   const params = new URLSearchParams({callbackUrl, token, email: identifier})
   const _url = `${baseUrl}/api/auth/callback/${emailProvider.id}?${params}`
 
-  await emailProvider.sendVerificationRequest({
+  await sendVerificationRequest({
     identifier,
     url: _url,
     provider: emailProvider.options,
     token: token as string,
     expires,
+    type,
   })
 }

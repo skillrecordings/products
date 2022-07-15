@@ -2,8 +2,15 @@ import * as React from 'react'
 import Layout from 'components/app/layout'
 import NewMailImage from '../../public/assets/new-mail@2x.png'
 import Image from 'next/image'
+import toast from 'react-hot-toast'
 
 const CheckYourEmail = () => {
+  React.useEffect(() => {
+    toast('Check your email', {
+      icon: '✉️',
+    })
+  }, [])
+
   return (
     <Layout
       footer={null}

@@ -2,12 +2,12 @@ import * as React from 'react'
 import {QuizAnswerPage} from '@skillrecordings/quiz'
 import {QuestionSet} from '@skillrecordings/types'
 import getConfig from '@skillrecordings/quiz/dist/config'
-import Layout from '../components/layout'
+import Layout from '../components/app/layout'
 
 const Answer: React.FC<{questionSet: QuestionSet}> = ({questionSet}) => {
   return (
     <Layout noIndex meta={{title: 'Quiz'}}>
-      <div className="h-full w-full flex flex-col items-center justify-center py-24 px-5">
+      <div className="flex flex-col items-center justify-center w-full h-full px-5 py-24">
         <QuizAnswerPage
           questionSet={questionSet}
           config={getConfig('Product', 'Author')}

@@ -8,6 +8,11 @@ import {
   getPodcastSeason,
   PodcastEpisode,
 } from '../../../lib/podcast'
+import Markdown from 'react-markdown'
+import {isEmpty} from 'lodash'
+import {genericCallToActionContent} from '../../../components/landing-content'
+import {CallToActionForm} from '../../../components/call-to-action-form'
+import {useRouter} from 'next/router'
 
 export const getServerSideProps: GetServerSideProps = async ({
   req,
@@ -26,7 +31,7 @@ export const getServerSideProps: GetServerSideProps = async ({
     } else {
       return {
         redirect: {
-          destination: '/podcast',
+          destination: '/podcast/course-builders',
           permanent: false,
         },
       }
@@ -34,16 +39,56 @@ export const getServerSideProps: GetServerSideProps = async ({
   } else {
     return {
       redirect: {
-        destination: '/podcast',
+        destination: '/podcast/course-builders',
         permanent: false,
       },
     }
   }
 }
 const PodcastEpisode: React.FC<{episode: PodcastEpisode}> = ({episode}) => {
+  const {title, summary, publishedAt} = episode
+
   return (
-    <Layout>
-      <PodcastPlayer simplecastId={episode.simplecastId} />
+    <Layout
+      className="overflow-hidden"
+      meta={{
+        title,
+        description: summary,
+        type: 'article',
+        date: publishedAt,
+        url: `${process.env.NEXT_PUBLIC_URL}/podcast/course_builders/${episode.slug}`,
+        titleAppendSiteName: true,
+        article: {
+          publishedTime: publishedAt,
+        },
+      }}
+    >
+      <main className="prose px-5 py-28 max-w-screen-sm mx-auto">
+        <h1>{episode.title}</h1>
+        <PodcastPlayer simplecastId={episode.simplecastId} />
+        <section className="relative sm:pb-12 pb-6 flex flex-col px-5">
+          <Markdown className="prose">{episode.description}</Markdown>
+        </section>
+        {isEmpty(episode.links) ? null : (
+          <section className="relative sm:pb-12 pb-6 flex flex-col px-5">
+            <h2>Links</h2>
+            {episode.links.map((link) => {
+              return (
+                <a key={link.URL} href={link.URL}>
+                  {link.title}
+                </a>
+              )
+            })}
+          </section>
+        )}
+
+        <CallToActionForm content={genericCallToActionContent} />
+
+        <section className="relative sm:pb-12 pb-6 flex flex-col px-5">
+          <h2>Transcript</h2>
+          <Markdown className="prose">{episode.transcript}</Markdown>
+        </section>
+      </main>
     </Layout>
   )
 }

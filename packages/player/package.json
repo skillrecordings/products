@@ -1,41 +1,40 @@
 {
   "name": "@skillrecordings/player",
+  "version": "0.11.22",
   "description": "Internal, shared utilities",
   "author": "Joel Hooks",
-  "version": "0.11.22",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "files": [
     "dist/**"
   ],
   "scripts": {
-    "test": "jest",
-    "dev": "tsc -w & pnpm build:css -- -w",
     "build": "tsc && pnpm build:css",
     "build:css": "sass --style expanded src/styles/scss/index.scss dist/skillrecordings-player.css",
+    "clean": "rm -rf .turbo && rm -rf node_modules && rm -rf dist",
+    "dev": "tsc -w & pnpm build:css -- -w",
     "lint": "TIMING=1 eslint src --fix",
-    "clean": "rm -rf .turbo && rm -rf node_modules && rm -rf dist"
+    "test": "jest"
+  },
+  "jest": {
+    "preset": "@skillrecordings/scripts/jest/node",
+    "testEnvironment": "jsdom"
   },
   "dependencies": {
     "@babel/core": "^7.16.5",
-    "@emotion/react": "^11.4.1",
+    "@emotion/react": "^11.5.0",
     "@reach/listbox": "^0.16.2",
     "@reach/slider": "^0.16.0",
     "@reach/tabs": "^0.16.4",
     "@skillrecordings/react": "workspace:*",
     "@skillrecordings/time": "workspace:*",
-    "@tippyjs/react": "^4.2.5",
-    "@xstate/react": "^1.5.1",
+    "@tippyjs/react": "^4.2.6",
     "classnames": "^2.3.1",
-    "hls.js": "1.0.7",
+    "hls.js": "1.1.5",
     "js-cookie": "^3.0.1",
-    "lodash": "^4.17.21",
     "prism-react-renderer": "^1.2.1",
-    "react": "17.0.2",
-    "react-dom": "17.0.2",
     "react-markdown": "^5.0.3",
-    "screenfull": "^5.1.0",
-    "xstate": "^4.23.1"
+    "screenfull": "^5.1.0"
   },
   "devDependencies": {
     "@emotion/babel-plugin": "^11.3.0",
@@ -43,22 +42,38 @@
     "@skillrecordings/scripts": "workspace:*",
     "@skillrecordings/tsconfig": "workspace:*",
     "@skillrecordings/types": "workspace:*",
-    "@testing-library/jest-dom": "^5.14.1",
-    "@testing-library/react": "^11.2.5",
-    "@types/react": "*",
-    "@types/react-dom": "^17.0.9",
+    "@testing-library/jest-dom": "^5.15.0",
+    "@testing-library/react": "^12.1.2",
+    "@types/cookie": "^0.4.1",
+    "@types/jest": "^27.5.2",
+    "@types/js-cookie": "^3.0.2",
+    "@types/lodash": "^4.14.179",
+    "@types/node": "^17.0.0",
+    "@types/nodemailer": "^6.4.4",
+    "@types/react": "^17.0.42",
+    "@types/react-dom": "^17.0.17",
+    "@xstate/react": "=1.5.1",
     "assert": "^2.0.0",
-    "babel-jest": "^27.1.0",
-    "msw": "^0.34.0",
+    "eslint": "^8.19.0",
+    "eslint-config-custom": "workspace:*",
+    "lodash": "^4.17.21",
+    "msw": "^0.35.0",
+    "react": "17.0.2",
+    "react-dom": "17.0.2",
     "react-test-renderer": "^17.0.2",
-    "sass": "^1.43.4"
+    "sass": "^1.43.4",
+    "typescript": "^4.7.4",
+    "xstate": "=4.23.1"
+  },
+  "peerDependencies": {
+    "@xstate/react": "^1.5.1 < 2",
+    "lodash": "^4.17.21",
+    "react": "^17.0.2 < 18.0.0",
+    "react-dom": "^17.0.2 < 18.0.0",
+    "xstate": "^4.23.1 > 5"
   },
   "publishConfig": {
     "access": "public"
-  },
-  "jest": {
-    "testEnvironment": "jsdom",
-    "preset": "@skillrecordings/scripts/jest/node"
   },
   "gitHead": "3398ceeb143d5fddcf11268741c2747856814119"
 }

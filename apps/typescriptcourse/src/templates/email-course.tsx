@@ -1,5 +1,5 @@
 import * as React from 'react'
-import Layout from 'components/layout'
+import Layout from 'components/app/layout'
 import {motion} from 'framer-motion'
 import {
   redirectUrlBuilder,
@@ -52,24 +52,26 @@ const EmailCourseTemplate: React.FC<EmailCourseTemplateProps> = ({
     }
   }, [router])
 
+  // TODO fix meta for layout
+
   return (
-    <Layout withFooter meta={meta} className="relative">
-      <header className="relative text-center max-w-screen-sm mx-auto md:pt-24 pt-16 md:pb-32 pb-24 md:px-0 px-5">
+    <Layout className="relative">
+      <header className="relative max-w-screen-sm px-5 pt-16 pb-24 mx-auto text-center md:pt-24 md:pb-32 md:px-0">
         {headerImage && <Image src={headerImage} alt={headline} />}
-        <h1 className="md:text-5xl text-4xl font-bold py-4 drop-shadow-lg">
+        <h1 className="py-4 text-4xl font-bold md:text-5xl drop-shadow-lg">
           <ReactMarkdown rehypePlugins={[rehypeRaw]}>{headline}</ReactMarkdown>
         </h1>
-        <p className="md:text-xl text-lg font-heading opacity-95 text-sky-200">
+        <p className="text-lg md:text-xl font-heading opacity-95 text-sky-200">
           Your quick start guide to understanding TypeScript
         </p>
       </header>
       <article>
-        <div className="opacity-90 relative prose max-w-screen-sm mx-auto md:prose-xl md:px-0 px-5">
+        <div className="relative max-w-screen-sm px-5 mx-auto prose opacity-90 md:prose-xl md:px-0">
           {children}
         </div>
-        <section className="relative md:px-0 px-5">
+        <section className="relative px-5 md:px-0">
           <Element name="course" />
-          <div className="relative flex flex-col items-center md:pt-24 pt-16 md:pb-32 pb-16">
+          <div className="relative flex flex-col items-center pt-16 pb-16 md:pt-24 md:pb-32">
             <Image
               src={formImage}
               quality={100}
@@ -79,9 +81,9 @@ const EmailCourseTemplate: React.FC<EmailCourseTemplateProps> = ({
               height={404 / 2}
               alt="Email course"
             />
-            <div className="py-8 text-center flex flex-col items-center">
+            <div className="flex flex-col items-center py-8 text-center">
               <h2 className="text-4xl font-bold">{formHeadline}</h2>
-              <h3 className="text-xl font-light max-w-md pt-2 opacity-90 text-blue-200">
+              <h3 className="max-w-md pt-2 text-xl font-light text-blue-200 opacity-90">
                 {formSubHeadline}
               </h3>
             </div>
@@ -96,7 +98,7 @@ const EmailCourseTemplate: React.FC<EmailCourseTemplateProps> = ({
               actionLabel="Start the Course Now!"
               submitButtonElem={SubscribeButton()}
             />
-            <small className="text-sm font-light opacity-60 pt-16 text-blue-100">
+            <small className="pt-16 text-sm font-light text-blue-100 opacity-60">
               We respect your privacy. Unsubscribe at any time.
             </small>
           </div>
@@ -111,7 +113,7 @@ export default EmailCourseTemplate
 
 const SubscribeButton = () => {
   return (
-    <Button className="relative overflow-hidden flex items-center justify-center">
+    <Button className="relative flex items-center justify-center overflow-hidden">
       <span className="relative z-10">Start the Course Now! </span>
       <motion.div
         initial={{
@@ -129,7 +131,7 @@ const SubscribeButton = () => {
             'linear-gradient(to right, rgba(132, 171, 255, 0) 100%, rgb(132, 171, 255, 1) 200%, rgba(132, 171, 255, 0) 200%)',
           ],
         }}
-        className="absolute left-0 top-0 w-full h-full pointer-events-none items-center justify-center space-x-1 bg-white bg-opacity-10 bg-blend-overlay uppercase tracking-wide "
+        className="absolute top-0 left-0 items-center justify-center w-full h-full space-x-1 tracking-wide uppercase bg-white pointer-events-none bg-opacity-10 bg-blend-overlay "
       />
     </Button>
   )

@@ -3,7 +3,6 @@ import Layout from 'components/app/layout'
 import {Signature, ThumbsUp, Grid1} from 'components/images'
 import LandingCopy from 'components/content/landing-copy.mdx'
 import Button from 'components/button'
-import {CourseJsonLd} from 'next-seo'
 import {
   SubscribeToConvertkitForm,
   redirectUrlBuilder,
@@ -14,12 +13,6 @@ export default function Home() {
   const router = useRouter()
   return (
     <>
-      <CourseJsonLd
-        courseName="Keyboard Legend"
-        providerName="Cassidy Williams"
-        providerUrl="https://cassidoo.co/"
-        description="A guide to mechanical keyboards."
-      />
       <Layout meta={{title: 'Keyboard Legend'}} className="bg-white-100">
         <header className="overflow-hidden sm:px-16 px-5 py-24 bg-white min-h-[80vh] flex items-center">
           <div className="flex md:flex-row flex-col-reverse items-center justify-between max-w-[960px] w-full mx-auto">

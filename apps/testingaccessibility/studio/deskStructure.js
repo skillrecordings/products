@@ -7,12 +7,14 @@ import lessons from './src/structure/lessons'
 import modules from './src/structure/modules'
 import products from './src/structure/products'
 import videoResources from './src/structure/videoResources'
+import pricing from './src/structure/pricing'
 
 const hiddenDocTypes = (listItem) =>
   ![
     'workshop',
     'review',
     'product',
+    'pricing',
     'module',
     'section',
     'lesson',
@@ -26,6 +28,7 @@ export default () =>
     .title('Testing Accessibility')
     .items([
       ...S.documentTypeListItems().filter(hiddenDocTypes),
+      pricing,
       products,
       S.divider(),
       modules,

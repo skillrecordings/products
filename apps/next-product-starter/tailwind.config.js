@@ -1,5 +1,3 @@
-const defaultTheme = require('tailwindcss/defaultTheme')
-const colors = require('tailwindcss/colors')
 const tailwindCommonConfig = require('@skillrecordings/scripts/tailwind.config')
 
 module.exports = {
@@ -8,7 +6,6 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        ...colors,
         player: {
           bg: '#20222b',
           primary: '#8b84ff',
@@ -42,9 +39,5 @@ module.exports = {
       }),
     },
   },
-  plugins: [
-    require('@tailwindcss/typography'),
-    require('@tailwindcss/forms'),
-    require('@tailwindcss/aspect-ratio'),
-  ],
+  plugins: [require('@tailwindcss/typography'), require('@tailwindcss/forms')],
 }

@@ -6,10 +6,9 @@ import {formatPricesForProduct} from '../../utils/format-prices-for-product'
 import {getSdk} from '../../lib/prisma-api'
 import {setupHttpTracing} from '@vercel/tracing-js'
 import {tracer} from '../../utils/honeycomb-tracer'
-import prisma from '../../db'
-import {find, first} from 'lodash'
-import {Purchase} from '@prisma/client'
+import {find} from 'lodash'
 import {defaultContext} from '../../lib/context'
+import {getActiveMerchantCoupon} from '../../utils/get-active-merchant-coupon'
 
 const pricesHandler = async (req: NextApiRequest, res: NextApiResponse) => {
   const spanContext = setupHttpTracing({
@@ -20,34 +19,26 @@ const pricesHandler = async (req: NextApiRequest, res: NextApiResponse) => {
   })
   if (req.method === 'POST') {
     try {
-      const country = (req.headers['x-vercel-ip-country'] as string) || 'US'
-      const {getDefaultCouponId} = getSdk({ctx: defaultContext, spanContext})
-      const {code, quantity, productId, coupon, purchases, userId} = req.body
+      const {availableUpgradesForProduct} = getSdk({
+        ctx: defaultContext,
+        spanContext,
+      })
 
-      const availableUpgrades = purchases
-        ? await prisma.upgradableProducts.findMany({
-            where: {
-              upgradableFromId: {
-                in: purchases.map(({productId}: Purchase) => productId),
-              },
-              upgradableToId: productId,
-            },
-            select: {
-              upgradableTo: {
-                select: {
-                  id: true,
-                  name: true,
-                },
-              },
-              upgradableFrom: {
-                select: {
-                  id: true,
-                  name: true,
-                },
-              },
-            },
-          })
-        : []
+      const country = (req.headers['x-vercel-ip-country'] as string) || 'US'
+
+      const {
+        code,
+        quantity,
+        productId,
+        merchantCouponId,
+        purchases,
+        siteCouponId,
+      } = req.body
+
+      const availableUpgrades = await availableUpgradesForProduct(
+        purchases,
+        productId,
+      )
 
       const upgradeFromPurchaseId = req.body.upgradeFromPurchaseId
         ? req.body.upgradeFromPurchaseId
@@ -59,11 +50,21 @@ const pricesHandler = async (req: NextApiRequest, res: NextApiResponse) => {
             return upgradeProductIds.includes(purchase.productId)
           })?.id
 
-      const activeSaleCouponId = await getDefaultCouponId(productId)
-
-      console.info(`request from ${country}`)
-
-      const couponId = coupon ? coupon : activeSaleCouponId
+      // explicit incoming merchant coupons are honored
+      // without checking for other potential coupons
+      // if there is no explicit incoming merchant coupon
+      // we check for default/global coupon or an incoming code
+      const {activeMerchantCoupon, defaultCoupon} = merchantCouponId
+        ? {
+            activeMerchantCoupon: {id: merchantCouponId},
+            defaultCoupon: false,
+          }
+        : await getActiveMerchantCoupon({
+            siteCouponId,
+            code,
+            productId,
+            spanContext,
+          })
 
       if (quantity > 100) throw new Error(`contact-for-pricing`)
 
@@ -73,13 +74,13 @@ const pricesHandler = async (req: NextApiRequest, res: NextApiResponse) => {
           country,
           quantity,
           code,
-          couponId,
+          merchantCouponId: activeMerchantCoupon && activeMerchantCoupon.id,
           ...(upgradeFromPurchaseId && {upgradeFromPurchaseId}),
         },
         spanContext,
       )
 
-      res.status(200).json(product)
+      res.status(200).json({...product, ...(defaultCoupon && {defaultCoupon})})
     } catch (error: any) {
       Sentry.captureException(error)
       res.status(500).json({error: true, message: error.message})

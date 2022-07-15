@@ -1,19 +1,74 @@
-import {Prisma} from '@prisma/client'
 import {Context, defaultContext} from './context'
 import {v4} from 'uuid'
 import {SpanContext} from '@vercel/tracing-js'
 import {tracer} from '../utils/honeycomb-tracer'
+import {PurchaseStatus} from '../utils/purchase-status'
+import {Prisma, Purchase} from '../../generated/prisma/client'
 
 type SDKOptions = {ctx?: Context; spanContext?: SpanContext}
 
 function startSpan(name: string, childOf?: SpanContext) {
-  return tracer.startSpan(name, {childOf})
+  if (process.env.NODE_ENV === 'production') {
+    return tracer.startSpan(name, {childOf})
+  }
+
+  return {finish: () => {}}
 }
 
 export function getSdk(
   {ctx = defaultContext, spanContext}: SDKOptions = {ctx: defaultContext},
 ) {
   return {
+    async couponForIdOrCode({
+      code,
+      couponId,
+    }: {
+      code?: string
+      couponId?: string
+    }) {
+      return await ctx.prisma.coupon.findFirst({
+        where: {
+          OR: [
+            {
+              OR: [{id: couponId}, {code}],
+              expires: {
+                gte: new Date(),
+              },
+            },
+            {OR: [{id: couponId}, {code}], expires: null},
+          ],
+        },
+        include: {
+          merchantCoupon: true,
+        },
+      })
+    },
+    async availableUpgradesForProduct(purchases: any, productId: string) {
+      return purchases
+        ? await ctx.prisma.upgradableProducts.findMany({
+            where: {
+              upgradableFromId: {
+                in: purchases.map(({productId}: Purchase) => productId),
+              },
+              upgradableToId: productId,
+            },
+            select: {
+              upgradableTo: {
+                select: {
+                  id: true,
+                  name: true,
+                },
+              },
+              upgradableFrom: {
+                select: {
+                  id: true,
+                  name: true,
+                },
+              },
+            },
+          })
+        : []
+    },
     async toggleLessonProgressForUser({
       userId,
       lessonSlug,
@@ -70,6 +125,7 @@ export function getSdk(
       const purchases = await ctx.prisma.purchase.findMany({
         where: {
           userId,
+          status: PurchaseStatus.Valid,
         },
         select: {
           id: true,
@@ -239,7 +295,7 @@ export function getSdk(
       span.finish()
       return merchantCoupons
     },
-    async getDefaultCouponId(productId?: string) {
+    async getDefaultCoupon(productId?: string) {
       const span = startSpan('getDefaultCouponId', spanContext)
       const activeSaleCoupon = await ctx.prisma.coupon.findFirst({
         where: {
@@ -248,20 +304,23 @@ export function getSdk(
             gte: new Date(),
           },
         },
-        select: {
-          restrictedToProductId: true,
-          merchantCouponId: true,
+        include: {
+          merchantCoupon: true,
         },
       })
 
       span.finish()
 
       if (activeSaleCoupon) {
-        const {restrictedToProductId, merchantCouponId} = activeSaleCoupon
-        const validForProductId =
-          restrictedToProductId && restrictedToProductId === productId
+        const {restrictedToProductId} = activeSaleCoupon
+        const validForProductId = restrictedToProductId
+          ? restrictedToProductId === productId
+          : true
 
-        if (validForProductId) return merchantCouponId
+        const {merchantCoupon: defaultMerchantCoupon, ...defaultCoupon} =
+          activeSaleCoupon
+
+        if (validForProductId) return {defaultMerchantCoupon, defaultCoupon}
       }
     },
   }

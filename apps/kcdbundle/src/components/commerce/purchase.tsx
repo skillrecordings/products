@@ -16,12 +16,18 @@ const Purchase = () => {
   const epicReactPrices = find(state, {slug: epicReactId})
   const testingJavaScriptPrices = find(state, {slug: testingJavaScriptId})
 
-  const price =
+  let price =
     get(epicReactPrices, 'price') + get(testingJavaScriptPrices, 'price')
-
-  const fullPrice =
+  let fullPrice =
     get(epicReactPrices, 'full_price') +
     get(testingJavaScriptPrices, 'full_price')
+
+  // egghead api is not returning correct price with 10% discount
+  // so we hardcode it. during sale this should still remain dynamic.
+  if (price === fullPrice) {
+    price = 837
+    fullPrice = 931
+  }
 
   const fetchPrice = React.useCallback(async () => {
     const body = JSON.stringify({
@@ -86,6 +92,7 @@ const Purchase = () => {
 
   const FullPrice = () => {
     if (!displayPrice) return null
+    if (displayPrice === fullPrice) return null
 
     return (
       <div className="flex flex-col pl-2">
