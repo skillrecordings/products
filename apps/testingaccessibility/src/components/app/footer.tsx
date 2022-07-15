@@ -40,7 +40,7 @@ const Footer: React.FC<FooterProps> = () => {
                   <NavLink href="/articles">Articles</NavLink>
                 </li>
                 <li>
-                  <NavLink href="/newsletter">Newsletter Signup</NavLink>
+                  <NavLink href="/newsletter">Newsletter</NavLink>
                 </li>
               </ul>
             </div>
