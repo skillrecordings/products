@@ -1,27 +1,5 @@
 import sanityClient from 'part:@sanity/base/client'
 import {uuid} from 'short-uuid'
-// const ndjson = require('ndjson')
-// const fs = require('fs')
-//
-// const buildDocument = data => {
-//   if (data._type === 'lesson' && data.body) {
-//     let bodyVideos = data.body.filter(item => item._type === 'bodyVideo')
-//     return bodyVideos.map(item => {
-//       return {
-//         _type: 'videoResource',
-//         title: item.title,
-//         transcript: item.caption,
-//         muxMediaUrl: item.url,
-//       }
-//     })
-//   }
-// }
-//
-// fs.createReadStream('./datasets/production-export-2022-07-14t21-24-04-463z/data.ndjson')
-//   .pipe(ndjson.parse())
-//   .on('data', (data) => {
-//     console.log(buildDocument(data))
-//   })
 
 const client = sanityClient.withConfig({
   apiVersion: '2021-08-21',
