@@ -24,6 +24,7 @@ import feature from './objects/feature'
 import externalImage from './objects/externalImage'
 import callout from './objects/callout'
 import divider from './objects/divider'
+import videoResource from './documents/videoResource'
 
 // Then we give our schema to the builder and provide the result to Sanity
 export default createSchema({
@@ -43,6 +44,7 @@ export default createSchema({
     section,
     lesson,
     tag,
+    videoResource,
     // objects
     body,
     bodyVideo,
