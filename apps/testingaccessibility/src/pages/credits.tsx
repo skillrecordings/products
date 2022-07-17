@@ -76,9 +76,9 @@ const ContentReviewTeam = () => {
                 />
               </div>
               <div>
-                <h1 className="font-heading text-xl font-bold pt-4 leading-tight">
+                <h3 className="font-heading text-xl font-bold pt-4 leading-tight">
                   {name}
-                </h1>
+                </h3>
                 {twitter && (
                   <a
                     href={`https://twitter.com/${twitter}`}
@@ -121,8 +121,8 @@ const Team = () => {
               />
             </div>
             <div>
-              <h1 className="font-heading text-3xl font-bold pt-4">{name}</h1>
-              <h2 className="text-sand-600 font-medium">{role}</h2>
+              <h2 className="font-heading text-3xl font-bold pt-4">{name}</h2>
+              <h3 className="text-sand-600 font-medium">{role}</h3>
               {description && (
                 <ReactMarkdown className="prose font-display pt-4">
                   {description}
@@ -164,12 +164,12 @@ const Instructor = () => {
         )}
       </div>
       <div>
-        <h1 className="font-heading lg:text-5xl sm:text-4xl text-3xl font-bold">
+        <h2 className="font-heading lg:text-5xl sm:text-4xl text-3xl font-bold">
           {instructor?.name}
-        </h1>
-        <h2 className="font-medium text-xl pt-2 text-sand-600">
-          {instructor?.role}
         </h2>
+        <h3 className="font-medium text-xl pt-2 text-sand-600">
+          {instructor?.role}
+        </h3>
         {instructor?.description && (
           <ReactMarkdown className="prose sm:prose-lg font-display pt-4">
             {instructor.description}
@@ -182,6 +182,7 @@ const Instructor = () => {
           className="hover:underline inline-flex font-display font-medium items-center space-x-1 mt-2 text-green-600"
         >
           <TwitterIcon />
+          <span className="sr-only">{instructor?.name} on </span>
           <span>Twitter</span>
         </a>
       </div>
