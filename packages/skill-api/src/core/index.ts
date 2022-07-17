@@ -64,8 +64,8 @@ export async function SkillRecordingsHandler<
         return await sendFeedbackFromUser({
           userId: token?.id as string,
           feedbackText: req?.body?.text,
-          context: req?.body?.conext,
-          prisma: userOptions.prismaClient,
+          context: req?.body?.context,
+          config: userOptions,
         })
     }
   }

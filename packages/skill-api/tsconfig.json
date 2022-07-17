@@ -1,25 +1,14 @@
 {
-  "compilerOptions": {
-    "target": "es2019",
-    "forceConsistentCasingInFileNames": true,
-    "esModuleInterop": true,
-    "declaration": true,
-    "skipLibCheck": true,
-    "emitDeclarationOnly": true,
-    "strictNullChecks": true,
-    "lib": ["dom", "dom.iterable", "esnext"],
-    "allowJs": true,
-    "strict": false,
-    "module": "esnext",
-    "moduleResolution": "node",
-    "resolveJsonModule": true,
-    "isolatedModules": true,
-    "jsx": "react",
-    "stripInternal": true,
-    "skipDefaultLibCheck": true,
+  "compilerOptions":{
+    "lib": ["dom", "esnext"],
+    "module": "CommonJS",
     "outDir": "./dist",
-    "rootDir": "./src"
+    "rootDir": "./src",
+    "jsx": "react",
+    "declaration": true,
+    "declarationDir": "./dist"
   },
+  "extends": "@skillrecordings/tsconfig/base.json",
   "include": [
     "src/**/*"
   ],
