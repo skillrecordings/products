@@ -11,9 +11,9 @@ datasource db {
 }
 
 model Comment {
-  id                       String  @id @default(uuid())
+  id                       String            @id @default(uuid())
   userId                   String
-  text                     String
+  text                     String            @db.Text
   context                  Json?
   updatedAt                DateTime?
   createdAt                DateTime          @default(now())
