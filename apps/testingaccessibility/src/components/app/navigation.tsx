@@ -11,6 +11,7 @@ import Link from 'next/link'
 import cx from 'classnames'
 import Image from 'next/image'
 import {useNavState} from '../../hooks/use-nav-state'
+import {useFeedback} from '../../context/feedback-context'
 
 const Navigation = () => {
   return (
@@ -29,6 +30,7 @@ const Navigation = () => {
 
 const DesktopNav: React.FC = () => {
   const {isSignedIn, isLoadingUser, canViewTeam} = useNavState()
+  const {setIsFeedbackDialogOpen} = useFeedback()
 
   return (
     <div
@@ -43,6 +45,13 @@ const DesktopNav: React.FC = () => {
       </NavSlots>
       {!isLoadingUser && (isSellingLive || isSignedIn) && (
         <NavSlots>
+          <NavLink
+            onClick={() => {
+              setIsFeedbackDialogOpen(true, 'header')
+            }}
+          >
+            Send Feedback
+          </NavLink>
           {canViewTeam && <NavLink href="/team">Invite Team</NavLink>}
           {isSignedIn ? <AccountMenu /> : <RestorePurchasesLink />}
         </NavSlots>
@@ -166,13 +175,24 @@ const NavSlots: React.FC = ({children}) => {
   return <div className="flex items-center">{children}</div>
 }
 
-const NavLink: React.FC<{href: string}> = ({href, children, ...props}) => {
+type NavLinkProps = React.PropsWithChildren<{
+  href?: string
+  onClick?: () => void
+}>
+
+const NavLink: React.FC<NavLinkProps> = ({
+  href,
+  children,
+  onClick,
+  ...props
+}) => {
   const router = useRouter()
   const isActive = router.pathname === href
 
-  return (
-    <Link href={href} passHref>
-      <a
+  if (onClick) {
+    return (
+      <button
+        onClick={onClick}
         aria-current={isActive ? 'page' : undefined}
         className={cx(
           'relative px-5 h-full flex items-center justify-center hover:bg-gray-100 hover:bg-opacity-50 group transition outline-none hover:opacity-100 opacity-90 text-sm',
@@ -184,9 +204,29 @@ const NavLink: React.FC<{href: string}> = ({href, children, ...props}) => {
         {...props}
       >
         {children}
-      </a>
-    </Link>
-  )
+      </button>
+    )
+  }
+  if (href) {
+    return (
+      <Link href={href} passHref>
+        <a
+          aria-current={isActive ? 'page' : undefined}
+          className={cx(
+            'relative px-5 h-full flex items-center justify-center hover:bg-gray-100 hover:bg-opacity-50 group transition outline-none hover:opacity-100 opacity-90 text-sm',
+            {
+              'after:content-[""] after:absolute after:w-full after:h-[2px] after:bottom-[-2px] after:left-0 after:bg-green-500':
+                isActive,
+            },
+          )}
+          {...props}
+        >
+          {children}
+        </a>
+      </Link>
+    )
+  }
+  return null
 }
 
 type MenuLinkProps = {

@@ -4,15 +4,18 @@ import {getEmoji} from '../../client/get-feedback-emoji'
 import {SendFeedbackFromUserOptions} from '../types'
 import {sendPostmarkEmail} from '../../lib/postmark'
 import {OutgoingResponse} from '../index'
+import {postFeedbackToSlack} from '../../server/post-to-slack'
+import {NodeHtmlMarkdown} from 'node-html-markdown'
 
 export async function sendFeedbackFromUser({
   userId,
   feedbackText,
   context,
-  prisma,
+  config,
 }: SendFeedbackFromUserOptions): Promise<OutgoingResponse> {
+  const {prismaClient, slack, site} = config
   try {
-    const user = await prisma.user.findUnique({
+    const user = await prismaClient.user.findUnique({
       where: {
         id: userId,
       },
@@ -23,7 +26,7 @@ export async function sendFeedbackFromUser({
         body: 'Error: Not Authorized' as any,
       }
     } else {
-      const comment = await prisma.comment.create({
+      const comment = await prismaClient.comment.create({
         data: {
           userId: user.id,
           text: htmlToText(feedbackText),
@@ -37,17 +40,24 @@ export async function sendFeedbackFromUser({
       )} <i>${context?.url ? context.url : ''}</i>`
 
       const info = await sendPostmarkEmail({
-        from: `${process.env.NEXT_PUBLIC_SITE_TITLE} Feedback <${process.env.NEXT_PUBLIC_SUPPORT_EMAIL}>`,
-        to: process.env.NEXT_PUBLIC_SUPPORT_EMAIL,
+        from: `${site.title} Feedback <${site.supportEmail}>`,
+        to: site.supportEmail,
         replyTo: user.email,
         subject: `Feedback from ${user.name ? user.name : user.email} about ${
-          process.env.NEXT_PUBLIC_SITE_TITLE
+          site.title
         }`,
         text: comment.text,
         html,
       })
 
-      //TODO: maybe send to slack?
+      if (slack?.feedback) {
+        await postFeedbackToSlack(
+          NodeHtmlMarkdown.translate(feedbackText),
+          context,
+          user,
+          slack,
+        )
+      }
 
       return {
         status: 200,
