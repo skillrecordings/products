@@ -5,12 +5,13 @@ import Layout from 'components/app/layout'
 import Image from 'next/image'
 import NewMailImage from '../../../public/assets/new-mail@2x.png'
 import {MailIcon} from '@heroicons/react/outline'
+import {PurchaseStatus} from '../../utils/purchase-status'
 
 export const getServerSideProps: GetServerSideProps = async ({req, query}) => {
   const {purchaseId} = query
 
   const purchase = await prisma.purchase.findFirst({
-    where: {id: purchaseId as string},
+    where: {id: purchaseId as string, status: PurchaseStatus.Valid},
     include: {
       user: true,
     },

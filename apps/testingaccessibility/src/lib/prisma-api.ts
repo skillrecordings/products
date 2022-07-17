@@ -1,9 +1,9 @@
-import {Prisma, Purchase} from '@prisma/client'
 import {Context, defaultContext} from './context'
 import {v4} from 'uuid'
 import {SpanContext} from '@vercel/tracing-js'
 import {tracer} from '../utils/honeycomb-tracer'
-import prisma from '../db'
+import {PurchaseStatus} from '../utils/purchase-status'
+import {Prisma, Purchase} from '../../generated/prisma/client'
 
 type SDKOptions = {ctx?: Context; spanContext?: SpanContext}
 
@@ -125,6 +125,7 @@ export function getSdk(
       const purchases = await ctx.prisma.purchase.findMany({
         where: {
           userId,
+          status: PurchaseStatus.Valid,
         },
         select: {
           id: true,
@@ -303,8 +304,7 @@ export function getSdk(
             gte: new Date(),
           },
         },
-        select: {
-          restrictedToProductId: true,
+        include: {
           merchantCoupon: true,
         },
       })
@@ -312,12 +312,15 @@ export function getSdk(
       span.finish()
 
       if (activeSaleCoupon) {
-        const {restrictedToProductId, merchantCoupon} = activeSaleCoupon
+        const {restrictedToProductId} = activeSaleCoupon
         const validForProductId = restrictedToProductId
           ? restrictedToProductId === productId
           : true
 
-        if (validForProductId) return merchantCoupon
+        const {merchantCoupon: defaultMerchantCoupon, ...defaultCoupon} =
+          activeSaleCoupon
+
+        if (validForProductId) return {defaultMerchantCoupon, defaultCoupon}
       }
     },
   }

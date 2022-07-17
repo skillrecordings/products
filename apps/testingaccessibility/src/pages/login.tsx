@@ -4,12 +4,27 @@ import {useForm} from 'react-hook-form'
 import {GetServerSideProps} from 'next'
 import Image from 'next/image'
 import Layout from 'components/app/layout'
+import {useRouter} from 'next/router'
+import toast from 'react-hot-toast'
 
 const Login: React.FC<{csrfToken: string}> = ({csrfToken}) => {
   const {
     register,
     formState: {errors},
   } = useForm()
+
+  const router = useRouter()
+
+  const {query} = router
+
+  React.useEffect(() => {
+    const {query} = router
+    if (query.message) {
+      toast(query.message as string, {
+        icon: '⛔️',
+      })
+    }
+  }, [router])
 
   return (
     <Layout
@@ -33,7 +48,20 @@ const Login: React.FC<{csrfToken: string}> = ({csrfToken}) => {
           <h1 className="text-center text-3xl leading-9 font-bold pt-4 font-heading">
             Log in to Testing Accessibility
           </h1>
-
+          {query?.error === 'Verification' ? (
+            <p className="sm:mt-8 mt-4 sm:mx-auto sm:w-full max-w-sm">
+              That sign in link is no longer valid. It may have been used
+              already or it may have expired. Please request a new log in link
+              below.{' '}
+              <a
+                className="hover:underline inline-flex items-center space-x-1 text-green-100"
+                href="mailto:team@testingaccessibility.com"
+              >
+                Click here to email us
+              </a>{' '}
+              if you need help.
+            </p>
+          ) : null}
           <div className="sm:mt-8 mt-4 sm:mx-auto sm:w-full sm:max-w-md">
             <div>
               <form className="" method="post" action="/api/auth/signin/email">

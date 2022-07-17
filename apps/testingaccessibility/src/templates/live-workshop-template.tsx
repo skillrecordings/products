@@ -69,10 +69,10 @@ const LiveWorkshopTemplate: React.FC<any> = ({workshop, source}) => {
     <>
       {/* <Script src="https://js.tito.io/v2" async /> */}
       <Layout meta={{title, description}}>
-        <div>
+        <main>
           <header className="flex flex-col items-center relative px-5 py-16 overflow-hidden text-white bg-green-700 bg-noise">
             <Link href="/workshops">
-              <a className="group text-white/80 relative hover:text-white font-normal px-4 py-2 hover:bg-opacity-5 bg-opacity-0 bg-white rounded-full transition opacity-80 hover:opacity-90">
+              <a className="group text-white/80 relative hover:text-white font-normal px-4 py-2 hover:bg-opacity-5 bg-opacity-0 bg-white rounded-md transition opacity-80 hover:opacity-90">
                 <span className="pr-1" role="presentation" aria-hidden="true">
                   ←
                 </span>{' '}
@@ -95,7 +95,7 @@ const LiveWorkshopTemplate: React.FC<any> = ({workshop, source}) => {
               )}
             </div>
           </header>
-          <main className="px-5">
+          <div className="px-5">
             {published &&
               (url ? (
                 <ReservationWidget className="-mb-48 mt-16 max-w-screen-md w-full" />
@@ -110,8 +110,8 @@ const LiveWorkshopTemplate: React.FC<any> = ({workshop, source}) => {
             </div>
             {published &&
               (url ? <ReservationWidget /> : <InterestForm id="bottom" />)}
-          </main>
-        </div>
+          </div>
+        </main>
       </Layout>
     </>
   )

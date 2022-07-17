@@ -2,7 +2,7 @@ import {JWT} from 'next-auth/jwt'
 import {SkillRecordingsOptions} from '../next'
 import {NextApiRequest, NextApiResponse} from 'next'
 import {IncomingRequest} from './index'
-import {PrismaClient} from '@prisma/client'
+import {PrismaClient} from '../../generated/prisma/client'
 
 export type SkillRecordingsAction = 'send-feedback' | 'test'
 

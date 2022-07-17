@@ -39,6 +39,12 @@ export default class MyDocument extends Document {
             type="font/woff2"
             crossOrigin="anonymous"
           />
+          <link
+            rel="alternate"
+            type="application/rss+xml"
+            title="RSS Feed for TypeScriptCourse.com"
+            href="/rss.xml"
+          />
           <GoogleSnippet />
         </Head>
         <body className="bg-gray-900 text-white antialiased">

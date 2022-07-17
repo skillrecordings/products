@@ -13,7 +13,7 @@
     "build": "tsc && pnpm build:css",
     "build:css": "sass --embed-sources --style expanded src/styles/index.scss dist/styles/index.css",
     "clean": "rm -rf .turbo && rm -rf node_modules && rm -rf dist",
-    "dev": "tsc -w & pnpm build:css -- -w",
+    "dev": "tsc -w & pnpm build:css -w",
     "lint": "TIMING=1 eslint src --fix",
     "test": "jest --setupFiles dotenv-flow/config"
   },

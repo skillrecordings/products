@@ -1,5 +1,5 @@
 import React, {FunctionComponent} from 'react'
-import {NextSeo} from 'next-seo'
+import {NextSeo} from '@skillrecordings/react'
 import Navigation from 'components/app/navigation'
 
 type LayoutProps = {

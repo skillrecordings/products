@@ -74,6 +74,9 @@ const MobileNav: React.FC = () => {
           >
             <Menu.Items className="absolute right-0 mt-1 w-48 origin-top-right divide-y divide-gray-100 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
               <div className="px-1 py-1">
+                <div className="text-green-600 text-xs px-2 py-2 uppercase tracking-wide font-bold">
+                  Learn
+                </div>
                 <Menu.Item>
                   {(props) => (
                     <MenuLink
@@ -88,6 +91,25 @@ const MobileNav: React.FC = () => {
                   {(props) => (
                     <MenuLink href="/articles" {...props}>
                       Articles
+                    </MenuLink>
+                  )}
+                </Menu.Item>
+              </div>
+              <div className="px-1 pt-2 pb-1">
+                <div className="text-green-600 text-xs px-2 py-2 uppercase tracking-wide font-bold">
+                  About
+                </div>
+                <Menu.Item>
+                  {(props) => (
+                    <MenuLink href="/faq" {...props}>
+                      FAQ
+                    </MenuLink>
+                  )}
+                </Menu.Item>
+                <Menu.Item>
+                  {(props) => (
+                    <MenuLink href="/credits" {...props}>
+                      Credits
                     </MenuLink>
                   )}
                 </Menu.Item>
@@ -272,7 +294,7 @@ const RestorePurchasesLink = () => {
 export const NavLogo = () => {
   const router = useRouter()
   return (
-    <Link href="/" aria-label="Home" passHref>
+    <Link href="/" aria-label="Testing Accessibility Home" passHref>
       <a
         className={cx(
           'h-full group text-gray-900 bg-white flex-shrink-0 flex items-center group after:content-[""] relative after:absolute after:-right-6 after:h-5 after:w-px sm:after:bg-gray-200',

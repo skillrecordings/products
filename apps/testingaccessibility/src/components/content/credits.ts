@@ -65,6 +65,14 @@ export const team: Human[] = [
     twitter: 'laurosilvacom',
     image: require('../../../public/credits/lauro-silva.jpg'),
   },
+  {
+    name: 'Zac Jones',
+    role: 'Editor',
+    description:
+      'Zac provided writing and editing support for transforming the live workshop material into a self-paced learning experience.',
+    twitter: 'zacjones93',
+    image: require('../../../public/credits/zac-jones.jpeg'),
+  },
 ]
 
 export const contentReviewTeam: Human[] = [

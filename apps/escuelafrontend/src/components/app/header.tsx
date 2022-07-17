@@ -1,9 +1,11 @@
+/* eslint-disable jsx-a11y/anchor-is-valid */
 import * as React from 'react'
 import Link from 'next/link'
 import {Fragment} from 'react'
 import {Popover, Transition} from '@headlessui/react'
 import {MenuIcon, XIcon} from '@heroicons/react/outline'
-import Logo from '../logo'
+import Logo from 'components/logo'
+import {useSession, signOut} from 'next-auth/react'
 
 export default function Navigation() {
   return (
@@ -30,15 +32,16 @@ export default function Navigation() {
                 <span className="flex space-x-10" />
                 <div className="flex items-center gap-8 md:ml-12">
                   <Link href="/cursos">
-                    <a className="text-base font-medium text-gray-700 hover:text-gray-900 dark:text-gray-200 dark:hover:text-gray-100">
+                    <a className="text-sm font-medium text-gray-700 hover:text-gray-900 dark:text-gray-200 dark:hover:text-gray-100 ">
                       Cursos
                     </a>
                   </Link>
                   <Link href="/articulos">
-                    <a className="text-base font-medium text-gray-700 hover:text-gray-900 dark:text-gray-200 dark:hover:text-gray-100">
+                    <a className="text-sm font-medium text-gray-700 hover:text-gray-900 dark:text-gray-200 dark:hover:text-gray-100 ">
                       Artículos
                     </a>
                   </Link>
+                  <Auth />
                 </div>
               </div>
             </div>
@@ -79,7 +82,7 @@ export default function Navigation() {
                       <Link href="/cursos">
                         <a
                           onClick={() => close()}
-                          className="text-base font-medium text-gray-700 hover:text-gray-900 dark:text-gray-200 dark:hover:text-gray-100"
+                          className="text-sm font-medium text-gray-700 hover:text-gray-900 dark:text-gray-200 dark:hover:text-gray-100"
                         >
                           Cursos
                         </a>
@@ -87,11 +90,12 @@ export default function Navigation() {
                       <Link href="/articulos">
                         <a
                           onClick={() => close()}
-                          className="text-base font-medium text-gray-700 hover:text-gray-900 dark:text-gray-200 dark:hover:text-gray-100"
+                          className="text-sm font-medium text-gray-700 hover:text-gray-900 dark:text-gray-200 dark:hover:text-gray-100"
                         >
                           Artículos
                         </a>
                       </Link>
+                      <Auth />
                     </div>
                   </div>
                 </div>
@@ -101,5 +105,33 @@ export default function Navigation() {
         )}
       </Popover>
     </div>
+  )
+}
+
+function Auth() {
+  const {data: session} = useSession()
+  if (session) {
+    return (
+      <>
+        <button
+          className="p-2 text-sm font-medium text-gray-500 bg-gray-200 rounded hover:bg-gray-400 hover:text-gray-900 dark:text-gray-200 dark:hover:text-gray-100"
+          onClick={() => signOut()}
+        >
+          Cerrar Sesión
+        </button>
+        <p className="p-2 px-4 text-sm font-medium text-gray-700 opacity-60 bg-opacity-10 dark:text-gray-200 ">
+          {session.user && session.user.email}
+        </p>
+      </>
+    )
+  }
+  return (
+    <>
+      <Link href="/acceso">
+        <a className="text-sm font-medium text-gray-700 hover:text-gray-900 dark:text-gray-200 dark:hover:text-gray-100">
+          Inicia sesión
+        </a>
+      </Link>
+    </>
   )
 }

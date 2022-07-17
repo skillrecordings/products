@@ -10,6 +10,7 @@ import workshop from './documents/workshop'
 import article from './documents/article'
 import review from './documents/review'
 // product
+import pricing from './documents/pricing'
 import product from './documents/product'
 import module from './documents/module'
 import section from './documents/section'
@@ -40,6 +41,7 @@ export default createSchema({
     article,
     review,
     // product
+    pricing,
     product,
     module,
     section,

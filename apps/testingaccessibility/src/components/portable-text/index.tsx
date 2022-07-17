@@ -159,7 +159,13 @@ const ExternalLink: React.FC<ExternalLinkProps> = ({
 }) => {
   const {blank, href} = value
   return blank ? (
-    <a href={href} target="_blank" rel="noopener noreferrer" {...props}>
+    <a
+      href={href}
+      target="_blank"
+      rel="noopener noreferrer"
+      {...props}
+      title="Link opens in a new window"
+    >
       {children}
     </a>
   ) : (
@@ -215,11 +221,7 @@ const PortableTextComponents: PortableTextComponentsProps = {
             <Video url={url} title={title} />
           </VideoProvider>
           <figcaption>
-            <details
-              className="group marker:text-transparent"
-              aria-label="Video transcript"
-              role="contentinfo"
-            >
+            <details className="group marker:text-transparent no-marker">
               <summary className="inline-flex space-x-2 items-center cursor-pointer text-gray-600 hover:text-gray-800 transition">
                 <span
                   aria-hidden="true"
@@ -240,20 +242,32 @@ const PortableTextComponents: PortableTextComponentsProps = {
     },
     bodyImage: ({value}: BodyImageProps) => <BodyImage value={value} />,
     code: ({value}: CodeProps) => {
-      const {language, code, highlightedLines} = value
-
+      const {language, code, highlightedLines, filename: label} = value
       return (
-        <Refractor
-          language={
-            language
-              ? Refractor.hasLanguage(language)
-                ? language
-                : 'javascript'
-              : 'javascript'
-          }
-          value={code}
-          markers={highlightedLines}
-        />
+        <>
+          <pre
+            role="region"
+            aria-label={label ? label : 'code sample'}
+            tabIndex={0}
+            className="sr-only"
+          >
+            <code>{code}</code>
+          </pre>
+          <pre aria-hidden="true">
+            <Refractor
+              inline
+              language={
+                language
+                  ? Refractor.hasLanguage(language)
+                    ? language
+                    : 'javascript'
+                  : 'javascript'
+              }
+              value={code}
+              markers={highlightedLines}
+            />
+          </pre>
+        </>
       )
     },
     callout: ({value}: CalloutProps) => {
@@ -261,7 +275,7 @@ const PortableTextComponents: PortableTextComponentsProps = {
       const title = getCalloutTitle(type)
       const image = getCalloutImage(type)
       return (
-        <div
+        <figure
           className={cx(`p-5 sm:my-8 my-4 rounded-md`, getCalloutStyles(type), {
             'sm:flex': isEmpty(title),
           })}
@@ -280,7 +294,7 @@ const PortableTextComponents: PortableTextComponentsProps = {
           <div className="min-w-0 first-of-type:prose-p:mt-0 last-of-type:prose-p:mb-0">
             <PortableText value={body} components={PortableTextComponents} />
           </div>
-        </div>
+        </figure>
       )
     },
     divider: ({value}: DividerProps) => {
@@ -345,6 +359,7 @@ type CodeProps = {
     language: string
     code: string
     highlightedLines: (number | Refractor.Marker)[]
+    filename?: string
   }
 }
 
@@ -387,7 +402,7 @@ const getCalloutTitle = (type: string): string => {
 const getCalloutImage = (type: string): {alt: string; src: string} => {
   switch (type) {
     case 'tip':
-      return {alt: 'light bulp', src: '💡'}
+      return {alt: 'light bulb', src: '💡'}
     case 'big-idea':
       return {alt: 'exploding head', src: '🤯'}
     case 'reflection':
@@ -399,7 +414,7 @@ const getCalloutImage = (type: string): {alt: string; src: string} => {
     case 'link':
       return {alt: 'waving hand', src: '👋'}
     default:
-      return {alt: 'speech baloon', src: '💬'}
+      return {alt: 'speech balloon', src: '💬'}
   }
 }
 

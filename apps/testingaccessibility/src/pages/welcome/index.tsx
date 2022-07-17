@@ -160,6 +160,7 @@ const Invoice: React.FC<{purchase: any}> = ({purchase}: any) => {
         <a
           target="_blank"
           className="border bg-green-500 hover:bg-green-600 text-white transition px-4 py-2 rounded-md flex-shrink-0 font-semibold"
+          title="Link opens in a new window"
         >
           Get your invoice{' '}
           <span role="presentation" aria-hidden="true">
@@ -196,7 +197,7 @@ const GetStarted: React.FC = () => {
         <span>Ready to get started?</span>
       </h2>
       <Link href={`/learn`}>
-        <a className="text-green-900 text-lg bg-yellow-500 px-5 pt-3 pb-4 hover:-rotate-1 hover:scale-105 transition-all hover:bg-yellow-400 rounded-md flex-shrink-0 font-semibold">
+        <a className="text-green-900 text-lg bg-yellow-500 focus-visible:ring-white px-5 py-4 hover:-rotate-1 hover:scale-105 transition-all hover:bg-yellow-400 rounded-md flex-shrink-0 font-semibold">
           Start Testing Accessibility{' '}
           <span role="presentation" aria-hidden="true">
             →

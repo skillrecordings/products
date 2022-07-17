@@ -71,7 +71,7 @@ export default function useQuestion({
   const lastQuestionKey: string | undefined = last(questionsKeys)
   const isLast: boolean =
     questionSet && lastQuestionKey
-      ? questionSet[lastQuestionKey]?.tagId === currentQuestion?.tagId
+      ? questionSet[lastQuestionKey] === currentQuestion
       : false
 
   function isCorrectChoice(choice: Choice): boolean {
@@ -99,9 +99,9 @@ export default function useQuestion({
             .required(`Can't stay empty. Mind to elaborate? :)`),
     }),
     onSubmit: async (values) => {
-      send('ANSWER', {answer: values.answer})
+      return send('ANSWER', {answer: values.answer})
     },
-    validateOnChange: false,
+    validateOnChange: true,
     enableReinitialize: true,
   })
 

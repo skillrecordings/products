@@ -36,7 +36,9 @@ const DarkModeToggle: React.FC = () => {
           />
         )}
       </svg>
-      <div className="w-11">{theme === 'dark' ? 'Light' : 'Dark'}</div>
+      <div className="text-sm w-14">
+        {theme === 'dark' ? 'Claro' : 'Oscuro'}
+      </div>
     </button>
   ) : null
 }

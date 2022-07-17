@@ -1,7 +1,7 @@
 import React, {useRef} from 'react'
 import {Canvas} from '@react-three/fiber'
 import {BlendFunction} from 'postprocessing'
-import {OrbitControls} from '@react-three/drei'
+import {OrbitControls, Stats} from '@react-three/drei'
 import {useReducedMotion} from 'framer-motion'
 import {Leva, useControls} from 'leva'
 import {MathUtils} from 'three'
@@ -99,14 +99,16 @@ const Scene: React.FC<SceneProps> = ({
   return (
     <div className={className}>
       <Leva hidden={isProduction} collapsed={true} />
+      {!isProduction && <Stats showPanel={0} />}
       {isMounted && (
         <Canvas
+          mode="concurrent"
           camera={cameraRef as any}
           resize={{scroll: false, offsetSize: true}}
-          dpr={[1, 2]}
           ref={canvasRef}
-          // legacy
           linear
+          // dpr={[1, 2]}
+          // performance={{current: 0.2, min: 0.1, max: 0.2, debounce: 200}}
         >
           <React.Suspense fallback={null}>
             {camera}
@@ -152,7 +154,6 @@ const Scene: React.FC<SceneProps> = ({
             />
 
             <CityModel color={modelColor} />
-
             <Particles
               ref={particlesRef}
               count={particlesCount}
@@ -175,9 +176,11 @@ type PlaneProps = {
 
 const Plane: React.FC<PlaneProps> = ({backgroundColor}) => {
   return (
-    <mesh position={[0, -0.2, 0]} rotation={[MathUtils.degToRad(-90), 0, 0]}>
-      <planeBufferGeometry args={[500, 500]} />
-      <meshStandardMaterial color={backgroundColor} />
-    </mesh>
+    <>
+      <mesh position={[0, -0.2, 0]} rotation={[MathUtils.degToRad(-90), 0, 0]}>
+        <planeBufferGeometry args={[500, 500]} />
+        <meshStandardMaterial color={backgroundColor} />
+      </mesh>
+    </>
   )
 }

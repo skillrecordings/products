@@ -2,10 +2,10 @@ import {formatPricesForProduct} from './format-prices-for-product'
 import {getCalculatedPriced} from './get-calculated-price'
 
 import {MockContext, Context, createMockContext} from '../lib/context'
-import {Decimal} from '@prisma/client/runtime'
 import {getSdk} from '../lib/prisma-api'
 import {getBulkDiscountPercent} from './bulk-coupon'
 import {first} from 'lodash'
+import {MerchantCoupon, Prisma} from '../../generated/prisma/client'
 
 let mockCtx: MockContext
 let ctx: Context
@@ -76,17 +76,17 @@ for (const quantity of [69, 89, 99]) {
       MOCK_SITE_SALE_COUPON,
     )
 
-    const {calculatedPrice, unitPrice, appliedCoupon} =
+    const {calculatedPrice, unitPrice, appliedMerchantCoupon} =
       await formatPricesForProduct({
         productId: DEFAULT_PRODUCT_ID,
         quantity,
-        couponId: SITE_SALE_COUPON_ID,
+        merchantCouponId: SITE_SALE_COUPON_ID,
         ctx,
       })
 
     const expectedPrice = getCalculatedPriced({
       unitPrice,
-      percentOfDiscount: appliedCoupon?.percentageDiscount.toNumber(),
+      percentOfDiscount: appliedMerchantCoupon?.percentageDiscount.toNumber(),
       quantity,
     })
 
@@ -128,7 +128,7 @@ test('an applied coupon should calculate the correct price even with ppp applied
   const {calculatedPrice} = await formatPricesForProduct({
     productId: DEFAULT_PRODUCT_ID,
     country: 'IN',
-    couponId: SITE_SALE_COUPON_ID,
+    merchantCouponId: SITE_SALE_COUPON_ID,
     ctx,
   })
 
@@ -147,7 +147,7 @@ test('PPP discount available if greater than sale price', async () => {
   const {availableCoupons} = await formatPricesForProduct({
     productId: DEFAULT_PRODUCT_ID,
     country: 'IN',
-    couponId: SITE_SALE_COUPON_ID,
+    merchantCouponId: SITE_SALE_COUPON_ID,
     ctx,
   })
 
@@ -162,7 +162,7 @@ test('PPP discount not available if less than sale price', async () => {
   const {availableCoupons} = await formatPricesForProduct({
     productId: DEFAULT_PRODUCT_ID,
     country: 'IN',
-    couponId: LARGE_SITE_SALE_COUPON_ID,
+    merchantCouponId: LARGE_SITE_SALE_COUPON_ID,
     ctx,
   })
 
@@ -198,7 +198,7 @@ test('available ppp coupons should have country "IN" set with active sale', asyn
   )
   const product = await formatPricesForProduct({
     productId: DEFAULT_PRODUCT_ID,
-    couponId: SITE_SALE_COUPON_ID,
+    merchantCouponId: SITE_SALE_COUPON_ID,
     country: 'IN',
     ctx,
   })
@@ -206,16 +206,32 @@ test('available ppp coupons should have country "IN" set with active sale', asyn
   expect(first(product?.availableCoupons).country).toBe('IN')
 })
 
-test('product should have applied coupon present if "IN" and valid couponId', async () => {
+test('sale coupon should have id property when ppp available', async () => {
   mockCtx.prisma.merchantCoupon.findFirst.mockResolvedValue(MOCK_INDIA_COUPON)
+  mockCtx.prisma.merchantCoupon.findFirst.mockResolvedValue(
+    MOCK_SITE_SALE_COUPON,
+  )
+
   const product = await formatPricesForProduct({
     productId: DEFAULT_PRODUCT_ID,
-    couponId: VALID_INDIA_COUPON_ID,
+    merchantCouponId: SITE_SALE_COUPON_ID,
     country: 'IN',
     ctx,
   })
 
-  expect(product?.appliedCoupon).toBeDefined()
+  expect(product.appliedMerchantCoupon.id).toBeDefined()
+})
+
+test('product should have applied coupon present if "IN" and valid couponId', async () => {
+  mockCtx.prisma.merchantCoupon.findFirst.mockResolvedValue(MOCK_INDIA_COUPON)
+  const product = await formatPricesForProduct({
+    productId: DEFAULT_PRODUCT_ID,
+    merchantCouponId: VALID_INDIA_COUPON_ID,
+    country: 'IN',
+    ctx,
+  })
+
+  expect(product?.appliedMerchantCoupon).toBeDefined()
 })
 
 test('product should calculate discount if country is "IN" and couponId', async () => {
@@ -224,7 +240,7 @@ test('product should calculate discount if country is "IN" and couponId', async 
 
   const product = await formatPricesForProduct({
     productId: DEFAULT_PRODUCT_ID,
-    couponId: VALID_INDIA_COUPON_ID,
+    merchantCouponId: VALID_INDIA_COUPON_ID,
     country: 'IN',
     ctx,
   })
@@ -234,12 +250,26 @@ test('product should calculate discount if country is "IN" and couponId', async 
   expect(expectedPrice).toBe(product?.calculatedPrice)
 })
 
+test('applied ppp coupon should have id property', async () => {
+  mockDefaultProduct()
+  mockCtx.prisma.merchantCoupon.findFirst.mockResolvedValue(MOCK_INDIA_COUPON)
+
+  const product = await formatPricesForProduct({
+    productId: DEFAULT_PRODUCT_ID,
+    merchantCouponId: VALID_INDIA_COUPON_ID,
+    country: 'IN',
+    ctx,
+  })
+
+  expect(product.appliedMerchantCoupon.id).toBeDefined()
+})
+
 test('applies fixed discount for previous purchase', async () => {
   const mockPurchase = {
     productId: DEFAULT_PRODUCT_ID,
     userId: 'default-user',
     createdAt: new Date(),
-    totalAmount: new Decimal(25),
+    totalAmount: new Prisma.Decimal(25),
   }
   // @ts-ignore
   mockCtx.prisma.purchase.findUnique.mockResolvedValue(mockPurchase)
@@ -277,7 +307,7 @@ const mockPrice = {
   status: 1,
   productId: DEFAULT_PRODUCT_ID,
   nickname: 'bah',
-  unitAmount: new Decimal(100),
+  unitAmount: new Prisma.Decimal(100),
 }
 
 function mockDefaultProduct() {
@@ -286,11 +316,14 @@ function mockDefaultProduct() {
   mockCtx.prisma.price.findFirst.mockResolvedValue(mockPrice)
 }
 
-function getMockCoupon(type: string, percentageDiscount: number) {
+function getMockCoupon(
+  type: string,
+  percentageDiscount: number,
+): MerchantCoupon {
   return {
     id: `${type}-coupon`,
     type,
-    percentageDiscount: new Decimal(percentageDiscount),
+    percentageDiscount: new Prisma.Decimal(percentageDiscount),
     identifier: 'coupon',
     status: 1,
     merchantAccountId: 'merchant-account',
@@ -300,7 +333,7 @@ function getMockCoupon(type: string, percentageDiscount: number) {
 const MOCK_SITE_SALE_COUPON = {
   id: SITE_SALE_COUPON_ID,
   type: 'special',
-  percentageDiscount: new Decimal(0.2),
+  percentageDiscount: new Prisma.Decimal(0.2),
   identifier: 'coupon',
   status: 1,
   merchantAccountId: 'merchant-account',
@@ -309,7 +342,7 @@ const MOCK_SITE_SALE_COUPON = {
 const MOCK_LARGE_SITE_SALE_COUPON = {
   id: LARGE_SITE_SALE_COUPON_ID,
   type: 'special',
-  percentageDiscount: new Decimal(0.8),
+  percentageDiscount: new Prisma.Decimal(0.8),
   identifier: 'coupon',
   status: 1,
   merchantAccountId: 'merchant-account',
@@ -318,7 +351,7 @@ const MOCK_LARGE_SITE_SALE_COUPON = {
 const MOCK_INDIA_COUPON = {
   id: VALID_INDIA_COUPON_ID,
   type: 'ppp',
-  percentageDiscount: new Decimal(0.75),
+  percentageDiscount: new Prisma.Decimal(0.75),
   identifier: 'coupon',
   status: 1,
   merchantAccountId: 'merchant-account',
@@ -326,20 +359,21 @@ const MOCK_INDIA_COUPON = {
 
 async function expectedPriceForDefaultCoupon(quantity: number = 1) {
   const {getMerchantCoupon} = getSdk({ctx})
-  const appliedCouponId = SITE_SALE_COUPON_ID
-  const appliedCoupon = await getMerchantCoupon({
-    where: {id: appliedCouponId},
+  const appliedMerchantCouponId = SITE_SALE_COUPON_ID
+  const appliedMerchantCoupon = await getMerchantCoupon({
+    where: {id: appliedMerchantCouponId},
   })
   const {calculatedPrice, unitPrice} = await formatPricesForProduct({
     productId: DEFAULT_PRODUCT_ID,
     quantity,
-    couponId: appliedCouponId,
+    merchantCouponId: appliedMerchantCouponId,
     ctx,
   })
 
   const expectedPrice = getCalculatedPriced({
     unitPrice: unitPrice,
-    percentOfDiscount: appliedCoupon?.percentageDiscount.toNumber() || 0,
+    percentOfDiscount:
+      appliedMerchantCoupon?.percentageDiscount.toNumber() || 0,
     quantity,
   })
 

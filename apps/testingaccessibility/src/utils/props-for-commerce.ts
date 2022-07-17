@@ -5,7 +5,7 @@ import {getToken} from 'next-auth/jwt'
 import {getCouponForCode} from '../server/get-coupon-for-code'
 import {getActiveProducts} from '../lib/products'
 import {serialize} from './prisma-next-serializer'
-import {Purchase} from '@prisma/client'
+import {Purchase} from '../../generated/prisma/client'
 
 export type CouponForCode = {
   isValid: boolean
@@ -31,6 +31,10 @@ export type SanityProduct = {
   }
   modules: {
     title: string
+    image: {
+      url: string
+      alt: string
+    }
   }[]
   features: {
     value: string
@@ -47,7 +51,8 @@ export async function propsForCommerce({
   const token = await getToken({req})
   const purchases = token ? (token.purchases as any) : false
   const couponFromCode = await getCouponForCode(query.code as string)
-  const products = await getActiveProducts()
+  const {products} = await getActiveProducts()
+
   const couponIdFromCoupon = (query.coupon as string) || couponFromCode?.id
 
   return {

@@ -27,7 +27,14 @@ export async function drawModuleCertificatePdf(
   const doc = new PDFDocument({
     layout: 'landscape',
     size: 'A4',
+    tagged: true,
+    displayTitle: true,
   })
+
+  if (doc.info) {
+    doc.info['Title'] = 'Testing Accessibility Certificate'
+  }
+
   const canvas: any = SVG(document.documentElement)
   SVGtoPDF(doc, background)
 

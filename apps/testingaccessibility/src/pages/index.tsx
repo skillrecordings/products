@@ -1,7 +1,6 @@
 import * as React from 'react'
 import Image from 'next/image'
 import LandingCopy from 'components/content/landing-copy.mdx'
-import NewLandingCopy from 'components/content/new-landing-copy.mdx'
 import Layout from 'components/app/layout'
 import {GetServerSideProps} from 'next'
 import {CommerceProps, propsForCommerce} from '../utils/props-for-commerce'
@@ -9,6 +8,7 @@ import {PrimaryNewsletterCta} from '../components/primary-newsletter-cta'
 import {isSellingLive} from '../utils/is-selling-live'
 import {PricingTiers} from '../components/product-tiers'
 import {useCoupon} from 'hooks/use-coupon'
+import {Element} from 'react-scroll'
 import FAQ from 'components/content/faq-section'
 
 export const getServerSideProps: GetServerSideProps = async ({req, query}) => {
@@ -25,7 +25,7 @@ const Home: React.FC<CommerceProps> = ({
   const {redeemableCoupon, RedeemDialogForCoupon} = useCoupon(couponFromCode)
   return (
     <Layout className="bg-white">
-      <div>
+      <main>
         <div className="flex flex-col justify-between min-h-screen overflow-hidden">
           <header className="relative text-white bg-green-700 lg:pt-24 sm:pt-24 pt-12 bg-noise">
             <div className="flex flex-col items-center justify-center w-full">
@@ -58,14 +58,20 @@ const Home: React.FC<CommerceProps> = ({
               </div>
             </div>
           </header>
-          <main className="w-full sm:pt-28 pt-16">
+          <div className="w-full sm:pt-28 pt-16">
             <article className="max-w-none prose-p:max-w-screen-sm prose-ul:sm:pr-0 prose-ul:pr-5 prose-p:w-full md:prose-p:px-0 prose-p:px-5 md:prose-headings:px-0 prose-headings:px-5 prose-headings:max-w-screen-sm prose-p:mx-auto prose-headings:mx-auto prose-ul:max-w-screen-sm prose-ul:mx-auto pt-16 text-gray-800 prose prose-lg prose-p:py-2 prose-h2:max-w-[30ch] prose-h2:font-bold prose-h2:pt-0 prose-headings:py-8 prose-p:font-sans prose-li:font-sans prose-h2:font-heading prose-h3:font-heading prose-h3:font-semibold prose-headings:text-center sm:prose-h3:pt-10 prose-h3:pt-0 sm:prose-h3:pb-14 prose-h3:pb-5 sm:prose-h3:max-w-[35ch] prose-h3:max-w-[30ch] prose-h3:mx-auto  lg:prose-xl">
-              <NewLandingCopy />
+              <LandingCopy />
             </article>
             {isSellingLive ? (
               <>
-                <section aria-label="Purchasing information" className="flex flex-col justify-center items-center bg-green-700 bg-noise pb-32">
-                  <div className="pb-80 sm:pt-32 pt-24 text-white">
+                <Element name="buy" />
+                <section
+                  id="buy"
+                  tabIndex={0}
+                  aria-label="Purchasing information"
+                  className="relative z-50 flex flex-col justify-center items-center bg-green-700 bg-noise pb-16"
+                >
+                  <div className="pb-80 sm:pt-24 pt-16 text-white">
                     <div className="max-w-7xl mx-auto text-center px-4 sm:px-6 lg:px-8">
                       <div className="max-w-3xl mx-auto space-y-4 lg:max-w-none">
                         <h2 className="font-heading font-bold lg:text-5xl sm:text-5xl text-4xl">
@@ -90,7 +96,7 @@ const Home: React.FC<CommerceProps> = ({
                       couponFromCode={couponFromCode}
                     />
                   </div>
-                  <div className="mt-24">
+                  <div className="sm:mt-32 mt-20">
                     <Image
                       src={require('../../public/assets/guarantee-seal@2x.png')}
                       alt="30 day money back guarantee"
@@ -99,9 +105,15 @@ const Home: React.FC<CommerceProps> = ({
                     />
                   </div>
                 </section>
-                <section aria-labelledby="header-faq" className="flex flex-col bg-gray-50">
+                <section
+                  aria-labelledby="header-faq"
+                  className="flex flex-col bg-gray-50"
+                >
                   <div className="max-w-screen-lg mx-auto w-full py-24">
-                    <h2 className="text-center font-heading lg:text-5xl sm:text-4xl text-3xl font-bold pb-24" id="header-faq">
+                    <h2
+                      className="text-center font-heading lg:text-5xl sm:text-4xl text-3xl font-bold pb-24"
+                      id="header-faq"
+                    >
                       Frequently Asked Questions
                     </h2>
                     <FAQ />
@@ -114,9 +126,9 @@ const Home: React.FC<CommerceProps> = ({
                 <PrimaryNewsletterCta />
               </>
             )}
-          </main>
+          </div>
         </div>
-      </div>
+      </main>
     </Layout>
   )
 }

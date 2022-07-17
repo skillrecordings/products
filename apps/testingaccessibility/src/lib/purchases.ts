@@ -1,10 +1,11 @@
 import prisma from '../db'
-import {PurchaseStatus} from '@prisma/client'
+import {PurchaseStatus} from '../utils/purchase-status'
+import {Purchase} from '../../generated/prisma/client'
 
 export async function updatePurchaseStatusForCharge(
   chargeId: string,
   status: PurchaseStatus,
-) {
+): Promise<Purchase | undefined> {
   const purchase = await prisma.purchase.findFirst({
     where: {
       merchantCharge: {
@@ -57,6 +58,7 @@ export async function getPurchaseDetails(purchaseId: string, userId: string) {
           name: true,
         },
       },
+      status: true,
     },
   })
 
@@ -64,30 +66,33 @@ export async function getPurchaseDetails(purchaseId: string, userId: string) {
     return {}
   }
 
-  const availableUpgrades = await prisma.upgradableProducts.findMany({
-    where: {
-      AND: [
-        {
-          upgradableFromId: purchase?.product?.id,
-        },
-        {
-          NOT: {
-            upgradableToId: {
-              in: allPurchases.map(({productId}) => productId),
+  const availableUpgrades =
+    purchase.status === PurchaseStatus.Valid
+      ? await prisma.upgradableProducts.findMany({
+          where: {
+            AND: [
+              {
+                upgradableFromId: purchase?.product?.id,
+              },
+              {
+                NOT: {
+                  upgradableToId: {
+                    in: allPurchases.map(({productId}) => productId),
+                  },
+                },
+              },
+            ],
+          },
+          select: {
+            upgradableTo: {
+              select: {
+                id: true,
+                name: true,
+              },
             },
           },
-        },
-      ],
-    },
-    select: {
-      upgradableTo: {
-        select: {
-          id: true,
-          name: true,
-        },
-      },
-    },
-  })
+        })
+      : []
 
   const existingPurchase = await prisma.purchase.findFirst({
     where: {
@@ -97,6 +102,7 @@ export async function getPurchaseDetails(purchaseId: string, userId: string) {
         not: purchaseId as string,
       },
       bulkCoupon: null,
+      status: PurchaseStatus.Valid,
     },
     select: {
       id: true,
