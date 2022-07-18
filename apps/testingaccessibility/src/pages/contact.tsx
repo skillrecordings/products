@@ -5,7 +5,7 @@ import Image from 'next/image'
 import Layout from 'components/app/layout'
 import ContactForm from '../components/contact/contact-form'
 
-const ContactFormPage: React.FC<{csrfToken: string}> = ({csrfToken}) => {
+const ContactFormPage: React.FC = () => {
   return (
     <Layout
       footer={null}
@@ -40,15 +40,3 @@ const ContactFormPage: React.FC<{csrfToken: string}> = ({csrfToken}) => {
 }
 
 export default ContactFormPage
-
-export const getServerSideProps: GetServerSideProps = async (context) => {
-  const providers = await getProviders()
-  const csrfToken = await getCsrfToken(context)
-
-  return {
-    props: {
-      providers,
-      csrfToken,
-    },
-  }
-}
