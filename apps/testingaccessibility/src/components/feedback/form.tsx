@@ -26,7 +26,7 @@ const FeedbackForm: React.FC = () => {
     text: '',
     context: {
       category: 'general',
-      emotion: ':heart_eyes:',
+      emotion: ':neutral_face:',
       url: window.location.href,
       location,
     },
@@ -43,6 +43,7 @@ const FeedbackForm: React.FC = () => {
         setSubmitting(true)
         await sendFeedback(values.text, values.context).then((error) => {
           if (error.error) {
+            console.error({error})
             setSubmitting(false)
             setIsSubmitted(false)
             setError(error.message)

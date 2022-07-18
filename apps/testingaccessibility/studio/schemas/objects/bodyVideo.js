@@ -29,11 +29,23 @@ export default {
       type: 'mediaCaption',
       validation: (Rule) => Rule.required(),
     },
+    {
+      name: 'videoResource',
+      title: 'Video Resource',
+      type: 'reference',
+      to: [{type: 'videoResource'}],
+    },
   ],
   preview: {
-    select: {url: 'url', title: 'title', transcript: 'caption'},
+    select: {
+      url: 'url',
+      title: 'title',
+      transcript: 'caption',
+      // An example for how to access values from references
+      // videoTitle: 'videoResource.title'
+    },
     component: ({value}) => {
-      const {url, transcript, title} = value
+      const {url, transcript, title, videoTitle} = value
       const poster =
         url &&
         url

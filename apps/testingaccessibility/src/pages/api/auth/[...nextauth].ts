@@ -156,7 +156,7 @@ function html({url, host, email}: Record<'url' | 'host' | 'email', string>) {
     </mj-raw>
   </mj-head>
   <mj-body background-color="${backgroundColor}">
-    <mj-section padding="10px">
+    <mj-section padding="10px 0 10px 0">
       <mj-column background-color="${backgroundColor}">
         <mj-image alt="Testing Accessibility by Marcy Sutton" width="180px" src="https://res.cloudinary.com/testing-accessibility/image/upload/v1655584147/logo-email_2x_e0n8tn.png" />
       </mj-column>
@@ -169,10 +169,19 @@ function html({url, host, email}: Record<'url' | 'host' | 'email', string>) {
         <mj-button href="${url}" background-color="${buttonBackgroundColor}" color="${buttonTextColor}" target="_blank" border-radius="6px" font-size="18px" font-weight="bold">
           Log in
         </mj-button>
-        <mj-text color="gray" align="center" padding-top="20px">
+
+        <mj-text color="${textColor}" align="center"  padding="30px 90px 10px 90px">
+          The link is valid for 24 hours or until it is used once. You will stay logged in for 60 days. <a href="${process.env.NEXT_PUBLIC_URL}/login" target="_blank">Click here to request another link</a>.
+        </mj-text>
+        <mj-text color="${textColor}" align="center" padding="10px 90px 10px 90px">
+          Once you are logged in, you can <a href="${process.env.NEXT_PUBLIC_URL}/invoices" target="_blank">access your invoice here</a>.
+        </mj-text>
+        <mj-text color="${textColor}" align="center" padding="10px 90px 10px 90px">
+          If you need additional help, reply!
+        </mj-text>
+        <mj-text color="gray" align="center" padding-top="40px">
           If you did not request this email you can safely ignore it.
         </mj-text>
-      </mj-column>
     </mj-section>
   </mj-body>
 </mjml>

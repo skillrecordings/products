@@ -7,13 +7,14 @@ import Link from 'next/link'
 import toast from 'react-hot-toast'
 import {isSellingLive} from 'utils/is-selling-live'
 import {useNavState} from '../../hooks/use-nav-state'
+import {useConvertkit} from '@skillrecordings/convertkit'
 
 type FooterProps = {}
 
 const Footer: React.FC<FooterProps> = () => {
   const router = useRouter()
   const {isSignedIn, canViewInvoice, canViewTeam} = useNavState()
-
+  const {subscriber} = useConvertkit()
   const {setIsFeedbackDialogOpen} = useFeedback()
   return (
     <footer className="font-nav">
@@ -39,6 +40,11 @@ const Footer: React.FC<FooterProps> = () => {
                 <li>
                   <NavLink href="/articles">Articles</NavLink>
                 </li>
+                {!subscriber && (
+                  <li>
+                    <NavLink href="/newsletter">Newsletter</NavLink>
+                  </li>
+                )}
               </ul>
             </div>
             {isSignedIn && (

@@ -3,7 +3,7 @@ import {getToken} from 'next-auth/jwt'
 import last from 'lodash/last'
 import get from 'lodash/get'
 import groq from 'groq'
-import {isArray} from 'lodash'
+import {isEmpty} from 'lodash'
 
 const defaultProductQuery = groq`*[_type == "product" && productId == $productId][0]{
   productId,
@@ -37,9 +37,9 @@ export async function getPurchasedProduct(
   const token = await getToken({req})
   if (token && token.sub) {
     // no need to reload purchases since they are on the session
-    const purchases = token.purchases
+    const purchases = (token.purchases as any[]) || []
 
-    if (isArray(purchases)) {
+    if (!isEmpty(purchases)) {
       const productId = get(last(purchases), 'productId')
 
       // fetch product from sanity based on user's productId associated with their purchase

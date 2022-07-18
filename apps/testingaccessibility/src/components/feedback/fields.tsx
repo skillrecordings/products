@@ -97,7 +97,7 @@ export const EmotionField: React.FC<any> = (props) => {
       >
         <RadioGroup.Label className="sr-only">Pick an emotion</RadioGroup.Label>
         <div className="flex items-center space-x-3">
-          {[':heart_eyes:', ':unicorn_face:', ':sob:'].map((emotion) => (
+          {[':heart_eyes:', ':wave:', ':sob:'].map((emotion) => (
             <RadioGroup.Option
               key={emotion}
               value={emotion}

@@ -49,7 +49,6 @@
     "@changesets/changelog-github": "^0.2.8",
     "@changesets/cli": "^2.18.0",
     "@manypkg/cli": "^0.19.1",
-    "cypress": "^8.7.0",
     "eslint": "^8.19.0",
     "eslint-config-custom": "workspace:*",
     "husky": "^7.0.4",

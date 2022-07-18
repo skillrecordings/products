@@ -117,11 +117,13 @@ const Invoice: React.FC<{
                 <h2 className="uppercase text-xs mb-2 text-gray-500">From</h2>
                 <span className="font-semibold">{productName}</span>
                 <br />
-                co egghead.io LLC
+                co Skill Recordings Inc.
                 <br />
-                337 Garden Oaks Blvd #97429
+                12333 Sowden Rd
                 <br />
-                Houston, TX 77018
+                Ste. B, PMB #97429
+                <br />
+                Houston, TX 77080-2059
                 <br />
                 972-992-5951
               </div>
@@ -132,6 +134,10 @@ const Invoice: React.FC<{
                 Invoice ID: <strong>{merchantChargeId}</strong>
                 <br />
                 Created: <strong>{date}</strong>
+                Status:{' '}
+                <strong>
+                  {charge.status === 'succeeded' ? 'Paid' : 'Pending'}
+                </strong>
               </div>
               <div className="pt-12">
                 <h2 className="uppercase text-xs mb-2 text-gray-500">
@@ -169,7 +175,9 @@ const Invoice: React.FC<{
                   <th scope="col">Description</th>
                   <th scope="col">Unit Price</th>
                   <th scope="col">Quantity</th>
-                  <th scope="col" className="text-right">Amount</th>
+                  <th scope="col" className="text-right">
+                    Amount
+                  </th>
                 </tr>
               </thead>
               <tbody>

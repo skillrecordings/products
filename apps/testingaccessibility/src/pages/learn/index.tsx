@@ -85,7 +85,10 @@ export const getServerSideProps: GetServerSideProps = async ({req}) => {
     }
   }
   return {
-    props: {},
+    redirect: {
+      destination: '/buy',
+      permanent: false,
+    },
   }
 }
 
