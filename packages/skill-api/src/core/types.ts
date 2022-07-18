@@ -44,7 +44,7 @@ export interface SkillRecordingsRequest extends NextApiRequest {
 export type SkillRecordingsResponse<T = any> = NextApiResponse<T>
 
 export type SendFeedbackFromUserOptions = {
-  userId: string
+  emailAddress?: string
   feedbackText: string
   context?: FeedbackContext
   config: SkillRecordingsOptions

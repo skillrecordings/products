@@ -1,16 +1,11 @@
 import React from 'react'
 import Countdown, {CountdownRenderProps, zeroPad} from 'react-countdown'
 import {useReducedMotion} from 'framer-motion'
-import {scroller} from 'react-scroll'
 import {useRouter} from 'next/router'
 import Link from 'next/link'
+import {DefaultCoupon} from '../utils/props-for-commerce'
 
-const SaleBanner = () => {
-  const defaultCoupon = {
-    expires: '2022-07-25T06:59:59.999Z',
-    percentageDiscount: '0.4',
-  }
-
+const SaleBanner = ({defaultCoupon}: {defaultCoupon: DefaultCoupon}) => {
   if (!defaultCoupon) return null
 
   const {expires, percentageDiscount} = defaultCoupon

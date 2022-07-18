@@ -81,19 +81,33 @@ const Footer: React.FC<FooterProps> = () => {
                 </ul>
               </div>
             )}
-            {isSellingLive && (
-              <div>
-                <h2 className="text-orange-700 font-semibold">About</h2>
-                <ul className="pt-4">
-                  <li>
-                    <NavLink href="/faq">FAQ</NavLink>
-                  </li>
-                  <li>
-                    <NavLink href="/credits">Credits</NavLink>
-                  </li>
-                </ul>
-              </div>
-            )}
+            <div>
+              <h2 className="text-orange-700 font-semibold">About</h2>
+              <ul className="pt-4">
+                <li>
+                  <NavLink href="/faq">FAQ</NavLink>
+                </li>
+                <li>
+                  <NavLink href="/credits">Credits</NavLink>
+                </li>
+              </ul>
+            </div>
+            <div>
+              <h2 className="text-orange-700 font-semibold">Contact</h2>
+              <ul className="pt-4">
+                <li>
+                  <NavLink href="/contact">Contact Us</NavLink>
+                </li>
+                <li>
+                  <NavLink
+                    aria-label="email the testing accessibility support team"
+                    href="mailto:Testing%20Accessibility%20Support%20%3Cteam%40testingaccessibility.com%3E?subject=Help%20with%20Testing%20Accessibilty"
+                  >
+                    Email Support
+                  </NavLink>
+                </li>
+              </ul>
+            </div>
           </nav>
           <div className="w-full items-center flex gap-8 sm:pt-0 pt-16">
             <small className="text-sm">© Testing Accessibility</small>
