@@ -3,7 +3,8 @@ import FeedbackDialog from '../dialog'
 import FeedbackForm from './form'
 
 const Feedback = () => {
-  const {isFeedbackDialogOpen, setIsFeedbackDialogOpen} = useFeedback()
+  const {isFeedbackDialogOpen, setIsFeedbackDialogOpen, location} =
+    useFeedback()
   const handleCloseDialog = () => {
     setIsFeedbackDialogOpen(false, 'navigation')
   }
@@ -13,7 +14,7 @@ const Feedback = () => {
       isOpen={isFeedbackDialogOpen}
       handleCloseDialog={handleCloseDialog}
     >
-      <FeedbackForm />
+      <FeedbackForm location={location} />
     </FeedbackDialog>
   )
 }

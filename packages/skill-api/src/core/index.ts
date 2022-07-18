@@ -62,7 +62,7 @@ export async function SkillRecordingsHandler<
     switch (action) {
       case 'send-feedback':
         return await sendFeedbackFromUser({
-          userId: token?.id as string,
+          emailAddress: req?.body?.email || token?.email,
           feedbackText: req?.body?.text,
           context: req?.body?.context,
           config: userOptions,
