@@ -41,7 +41,6 @@ const FeedbackForm: React.FC = () => {
         {setSubmitting, resetForm}: FormikHelpers<FeedbackFormValues>,
       ) => {
         setSubmitting(true)
-        console.log('submitting feedback', values)
         await sendFeedback(values.text, values.context).then((error) => {
           if (error.error) {
             console.error({error})
