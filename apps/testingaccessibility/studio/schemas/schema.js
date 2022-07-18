@@ -25,6 +25,7 @@ import feature from './objects/feature'
 import externalImage from './objects/externalImage'
 import callout from './objects/callout'
 import divider from './objects/divider'
+import videoResource from './documents/videoResource'
 import internalLink from './objects/internalLink'
 import externalLink from './objects/externalLink'
 
@@ -47,6 +48,7 @@ export default createSchema({
     section,
     lesson,
     tag,
+    videoResource,
     // objects
     body,
     bodyVideo,
