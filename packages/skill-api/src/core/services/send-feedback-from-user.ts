@@ -16,14 +16,11 @@ export async function sendFeedbackFromUser({
 }: SendFeedbackFromUserOptions): Promise<OutgoingResponse> {
   const {prismaClient, slack, site} = config
 
-  console.log('sendFeedbackFromUser', {emailAddress})
   try {
     const user =
       (await prismaClient.user.findFirst({
         where: {email: emailAddress?.toLowerCase()},
       })) || ({email: emailAddress} as User)
-
-    console.log({user})
 
     if (!user.email) {
       return {
