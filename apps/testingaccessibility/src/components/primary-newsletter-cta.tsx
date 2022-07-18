@@ -6,7 +6,7 @@ import {
 } from '@skillrecordings/convertkit'
 import {useRouter} from 'next/router'
 
-export const PrimaryNewsletterCta: React.FC = () => {
+export const PrimaryNewsletterCta: React.FC = ({children}) => {
   const router = useRouter()
   return (
     <section
@@ -26,13 +26,20 @@ export const PrimaryNewsletterCta: React.FC = () => {
           quality={100}
         />
       </div>
-      <h2 className="max-w-lg font-heading mx-auto -mt-4 sm:text-4xl text-3xl leading-none text-center md:text-5xl font-bold sm:mt-0">
-        Join my exclusive, free{' '}
-        <span className="whitespace-nowrap">6-part</span> email course
-      </h2>
-      <h3 className="max-w-md leading-tight pt-6 pb-16 text-xl text-center text-orange-200">
-        And learn more about building and testing accessible web applications.
-      </h3>
+      {children ? (
+        children
+      ) : (
+        <>
+          <h2 className="max-w-lg font-heading mx-auto -mt-4 sm:text-4xl text-3xl leading-none text-center md:text-5xl font-bold sm:mt-0">
+            Join my exclusive, free{' '}
+            <span className="whitespace-nowrap">6-part</span> email course
+          </h2>
+          <h3 className="max-w-md leading-tight pt-6 pb-16 text-xl text-center text-orange-200">
+            And learn more about building and testing accessible web
+            applications.
+          </h3>
+        </>
+      )}
       <SubscribeToConvertkitForm
         onSuccess={(subscriber: any) => {
           if (subscriber) {

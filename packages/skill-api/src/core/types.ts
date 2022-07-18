@@ -2,7 +2,6 @@ import {JWT} from 'next-auth/jwt'
 import {SkillRecordingsOptions} from '../next'
 import {NextApiRequest, NextApiResponse} from 'next'
 import {IncomingRequest} from './index'
-import {PrismaClient} from '../../generated/prisma/client'
 
 export type SkillRecordingsAction = 'send-feedback' | 'test'
 
@@ -48,12 +47,18 @@ export type SendFeedbackFromUserOptions = {
   userId: string
   feedbackText: string
   context?: FeedbackContext
-  prisma: PrismaClient
+  config: SkillRecordingsOptions
 }
 
 export type FeedbackContext = {
   url?: string
   category?: 'general' | 'help'
-  emotion?: ':heart_eyes:' | ':unicorn_face:' | ':sob:'
+  emotion?:
+    | ':heart_eyes:'
+    | ':unicorn_face:'
+    | ':sob:'
+    | ':neutral_face:'
+    | ':wave:'
+    | ':smiley:'
   location?: string
 }

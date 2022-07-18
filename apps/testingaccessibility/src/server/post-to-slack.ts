@@ -4,6 +4,7 @@ import {isEmpty} from 'lodash'
 import pluralize from 'pluralize'
 import {getSdk} from '../lib/prisma-api'
 import {Purchase} from '../../generated/prisma/client'
+import {postToSlack} from '@skillrecordings/skill-api'
 
 const web = new WebClient(process.env.SLACK_TOKEN)
 
@@ -12,7 +13,10 @@ export async function postSaleToSlack(
   purchase: Purchase,
 ) {
   try {
-    return await web.chat.postMessage({
+    return await postToSlack({
+      webClient: web,
+      channel: process.env.SLACK_ANNOUNCE_CHANNEL_ID,
+      text: `Someone purchased ${purchaseInfo.stripeProduct.name}`,
       attachments: [
         {
           fallback: `Sold (${purchaseInfo.quantity}) ${purchaseInfo.stripeProduct.name}`,
@@ -28,7 +32,6 @@ export async function postSaleToSlack(
           title: `Sold (${purchaseInfo.quantity}) ${purchaseInfo.stripeProduct.name}`,
         },
       ],
-      channel: process.env.SLACK_ANNOUNCE_CHANNEL_ID,
     })
   } catch (e) {
     console.log(e)
@@ -43,16 +46,18 @@ export async function postRedemptionToSlack(email: string, productId: string) {
   })
 
   try {
-    return await web.chat.postMessage({
+    return await postToSlack({
+      webClient: web,
+      channel: process.env.SLACK_ANNOUNCE_CHANNEL_ID,
+      text: `${email} redeemed ${product?.name}`,
       attachments: [
         {
           fallback: `Redeemed by ${email}`,
           text: `${email} redeemed a seat!`,
-          color: '#eba234',
+          color: '#5ceb34',
           title: `Redeemed ${product?.name}`,
         },
       ],
-      channel: process.env.SLACK_ANNOUNCE_CHANNEL_ID,
     })
   } catch (e) {
     console.log(e)

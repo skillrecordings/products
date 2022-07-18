@@ -13,7 +13,9 @@
     "integration": "cypress run",
     "lint": "eslint src/**/*.{ts,tsx} --fix && tsc --noEmit",
     "start": "next start -p 3013",
-    "test": "jest"
+    "test": "jest",
+    "db:studio": "prisma studio",
+    "db:push": "prisma db push"
   },
   "lint-staged": {
     "*.{js,json,md,mdx,ts,tsx}": [
