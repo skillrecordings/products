@@ -1,5 +1,4 @@
 import {useCurrentAbility} from './use-current-ability'
-import {isEmpty} from 'lodash'
 
 /**
  * TODO: consider removing this and using abilities?
