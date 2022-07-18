@@ -45,13 +45,15 @@ const DesktopNav: React.FC = () => {
       </NavSlots>
       {!isLoadingUser && (isSellingLive || isSignedIn) && (
         <NavSlots>
-          <NavLink
-            onClick={() => {
-              setIsFeedbackDialogOpen(true, 'header')
-            }}
-          >
-            Send Feedback
-          </NavLink>
+          {isSignedIn && (
+            <NavLink
+              onClick={() => {
+                setIsFeedbackDialogOpen(true, 'header')
+              }}
+            >
+              Send Feedback
+            </NavLink>
+          )}
           {canViewTeam && <NavLink href="/team">Invite Team</NavLink>}
           {isSignedIn ? <AccountMenu /> : <RestorePurchasesLink />}
         </NavSlots>
