@@ -35,7 +35,7 @@ export const useFeedbackForm = ({location}: {location: string}) => {
     text: '',
     context: {
       category: 'general',
-      emotion: ':neutral_face:',
+      emotion: ':wave:',
       url: `${process.env.NEXT_PUBLIC_URL}${router.pathname}`,
       location,
     },
