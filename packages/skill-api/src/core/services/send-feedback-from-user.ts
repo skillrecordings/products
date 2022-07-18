@@ -61,7 +61,7 @@ export async function sendFeedbackFromUser({
     })
 
     if (slack?.feedback) {
-      // await postFeedbackToSlack(feedbackTextAsMarkdown, context, user, slack)
+      await postFeedbackToSlack(feedbackTextAsMarkdown, context, user, slack)
     }
 
     return {
