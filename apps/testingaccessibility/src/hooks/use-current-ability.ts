@@ -1,17 +1,12 @@
 import {getCurrentAbility} from '../server/ability'
-import {useQuery} from 'react-query'
+import {useUser} from './use-user'
 
 /**
  * Uses next-auth session data to return a viewer's current ability.
  */
 export function useCurrentAbility() {
-  const {data, status} = useQuery('/api/auth/session', async ({queryKey}) => {
-    return await fetch(queryKey[0]).then((res) => res.json())
-  })
-
+  const {user} = useUser()
   return {
-    status,
-    ability: getCurrentAbility({rules: data?.rules}),
-    user: data,
+    ability: getCurrentAbility({rules: user?.rules}),
   }
 }
