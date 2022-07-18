@@ -53,9 +53,9 @@ export async function sendFeedbackFromUser({
       from: `${site.title} Feedback <${site.supportEmail}>`,
       to: site.supportEmail,
       replyTo: user.email,
-      subject: `${getEmoji(context?.emotion).image} Feedback from ${
-        user.name ? user.name : user.email
-      } about ${site.title}`,
+      subject: `${
+        context?.emotion ? `${getEmoji(context?.emotion).image} ` : ''
+      }Feedback from ${user.name ? user.name : user.email} about ${site.title}`,
       text: htmlToText(feedbackText),
       html,
     })
