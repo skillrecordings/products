@@ -14,9 +14,6 @@ const callback = async (req: NextApiRequest, res: NextApiResponse) => {
     <title>Testing Accessibility Login Redirect</title>
     <script>
       const url = new URL(window.location.href)
-      const query = new URLSearchParams(url.search)
-      query.set("follow", "true");
-      url.search = query.toString()
       url.pathname = "/api/auth/callback/email"
       window.location.href = url.href
     </script>
