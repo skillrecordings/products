@@ -134,6 +134,10 @@ const Invoice: React.FC<{
                 Invoice ID: <strong>{merchantChargeId}</strong>
                 <br />
                 Created: <strong>{date}</strong>
+                Status:{' '}
+                <strong>
+                  {charge.status === 'succeeded' ? 'Paid' : 'Pending'}
+                </strong>
               </div>
               <div className="pt-12">
                 <h2 className="uppercase text-xs mb-2 text-gray-500">
