@@ -1,4 +1,4 @@
-import {NextApiRequest, NextApiResponse} from 'next'
+import {NextApiHandler, NextApiRequest, NextApiResponse} from 'next'
 import {convertkitAxios} from '@skillrecordings/axios'
 import fetchConvertkitSubscriberFromServerCookie from '@skillrecordings/convertkit/dist/utils/fetch-convertkit-subscriber'
 import isEmpty from 'lodash/isEmpty'
@@ -11,7 +11,10 @@ if (!CONVERTKIT_BASE_URL)
 if (!process.env.NEXT_PUBLIC_CONVERTKIT_TOKEN)
   throw new Error('No Convertkit Token Found: NEXT_PUBLIC_CONVERTKIT_TOKEN')
 
-const answer = async (req: NextApiRequest, res: NextApiResponse) => {
+const answer: NextApiHandler = async (
+  req: NextApiRequest,
+  res: NextApiResponse,
+) => {
   if (req.method === 'POST') {
     try {
       const {tagId, survey} = req.body
