@@ -17,8 +17,6 @@
     "classnames": "^2.3.1",
     "feed": "^4.2.2",
     "next": "^12.2.2",
-    "next-compose-plugins": "^2.2.1",
-    "next-images": "^1.8.4",
     "next-sitemap": "^3.0.5",
     "react": "17.0.2",
     "react-dom": "17.0.2",
