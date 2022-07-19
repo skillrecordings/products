@@ -11,7 +11,6 @@ import {CategoryField, EmotionField, FeedbackField} from '../feedback/fields'
 import ContactEmailField from './contact-email-field'
 import {useFeedbackForm} from '../../hooks/use-feedback-form'
 import {useUser} from 'hooks/use-user'
-import {useRouter} from 'next/router'
 
 export const ContactValidationSchema = Yup.object().shape({
   email: Yup.string()
@@ -21,20 +20,18 @@ export const ContactValidationSchema = Yup.object().shape({
 })
 
 const ContactForm = () => {
-  const {submitFeedbackForm, isSubmitted, error} = useFeedbackForm({
+  const {
+    initialValues: initialFeedbackFormValues,
+    submitFeedbackForm,
+    isSubmitted,
+    error,
+  } = useFeedbackForm({
     location: 'contact',
   })
   const {user, userLoadingStatus} = useUser()
-  const router = useRouter()
   const initialValues: FeedbackFormValues = {
     email: user?.user?.email || '',
-    text: '',
-    context: {
-      category: 'general',
-      emotion: ':wave:',
-      url: `${process.env.NEXT_PUBLIC_URL}${router.pathname}`,
-      location: 'contact',
-    },
+    ...initialFeedbackFormValues,
   }
 
   return (
