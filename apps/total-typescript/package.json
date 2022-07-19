@@ -20,8 +20,8 @@
     "useTabs": false
   },
   "dependencies": {
-    "@skillrecordings/convertkit": "workspace:^0.0.1",
-    "@skillrecordings/scripts": "workspace:^0.0.5",
+    "@skillrecordings/convertkit": "workspace:*",
+    "@skillrecordings/scripts": "workspace:*",
     "@tailwindcss/forms": "^0.5.2",
     "framer-motion": "^6.4.1",
     "next": "^12.2.2",
