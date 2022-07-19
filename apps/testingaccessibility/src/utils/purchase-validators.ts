@@ -1,4 +1,3 @@
-import {isNull, isUndefined, some} from 'lodash'
 import {Coupon} from '../../generated/prisma/client'
 
 export function bulkCouponHasSeats(coupon: Coupon) {
@@ -6,27 +5,22 @@ export function bulkCouponHasSeats(coupon: Coupon) {
 }
 
 export function hasBulkPurchase(purchases?: any[]) {
-  return some(purchases, (purchase) => {
-    return !isNull(purchase.bulkCoupon)
-  })
+  return purchases?.some((purchase) => Boolean(purchase.bulkCoupon))
 }
 
 export function hasAvailableSeats(purchases?: any[]) {
-  return some(purchases, (purchase) => {
-    return (
-      !isNull(purchase.bulkCoupon) && bulkCouponHasSeats(purchase.bulkCoupon)
-    )
-  })
+  return purchases?.some(
+    (purchase) =>
+      Boolean(purchase.bulkCoupon) && bulkCouponHasSeats(purchase.bulkCoupon),
+  )
 }
 
 export function hasValidPurchase(purchases?: any[]) {
-  return some(purchases, (purchase) => {
-    return isNull(purchase.bulkCoupon) || isUndefined(purchase.bulkCoupon)
+  return purchases?.some((purchase) => {
+    return purchase && !Boolean(purchase.bulkCoupon)
   })
 }
 
 export function hasInvoice(purchases?: any[]) {
-  return some(purchases, (purchase) => {
-    return !isNull(purchase.merchantChargeId)
-  })
+  return purchases?.some((purchase) => Boolean(purchase.merchantChargeId))
 }

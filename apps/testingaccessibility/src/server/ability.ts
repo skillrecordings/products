@@ -1,5 +1,4 @@
 import {AbilityBuilder, Ability, AbilityClass} from '@casl/ability'
-import {isEmpty} from 'lodash'
 import {
   hasAvailableSeats,
   hasBulkPurchase,
@@ -40,9 +39,10 @@ export function getCurrentAbility(
  * @param viewerAbilityInput
  */
 export function defineAbilityFor(viewerAbilityInput: ViewerAbilityInput) {
-  const rules = isEmpty(viewerAbilityInput.rules)
-    ? defineRulesForPurchases(viewerAbilityInput.purchases || [])
-    : viewerAbilityInput.rules
+  const rules = Boolean(viewerAbilityInput?.rules)
+    ? viewerAbilityInput.rules
+    : defineRulesForPurchases(viewerAbilityInput?.purchases || [])
+
   return new AppAbility(rules)
 }
 
