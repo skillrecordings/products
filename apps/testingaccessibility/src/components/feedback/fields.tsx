@@ -11,6 +11,7 @@ import cx from 'classnames'
 import {getEmoji} from '@skillrecordings/skill-api/dist/client'
 
 export const FeedbackField: React.FC<any> = ({
+  label = 'Your feedback',
   errors,
   touched,
   isSubmitted,
@@ -53,7 +54,7 @@ export const FeedbackField: React.FC<any> = ({
           className="pb-1 inline-block text-sm font-semibold flex-shrink-0"
           htmlFor="text"
         >
-          Your feedback <span className="font-normal">(required)</span>
+          {label} <span className="font-normal">(required)</span>
         </label>
         {errors.text && touched.text ? (
           <div
