@@ -192,7 +192,8 @@ export default withSentry(async function stripeCheckoutHandler(
             quantity: Number(quantity),
           },
         ],
-        expires_at: TWENTY_FOUR_HOURS_FROM_NOW,
+        // This resulted in error: "The `expires_at` timestamp must be at least 60 minutes from Checkout Session creation."
+        // expires_at: TWENTY_FOUR_HOURS_FROM_NOW,
         payment_method_types: ['card'],
         mode: 'payment',
         success_url: successUrl,
