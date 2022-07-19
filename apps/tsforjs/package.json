@@ -18,9 +18,11 @@
     "feed": "^4.2.2",
     "next": "^12.2.2",
     "next-compose-plugins": "^2.2.1",
+    "next-images": "^1.8.4",
     "next-sitemap": "^3.0.5",
     "react": "17.0.2",
-    "react-dom": "17.0.2"
+    "react-dom": "17.0.2",
+    "styled-components": "^5.3.5"
   },
   "devDependencies": {
     "@next/env": "^12.2.0",
@@ -33,6 +35,7 @@
     "eslint": "^8.19.0",
     "eslint-config-custom": "workspace:*",
     "postcss": "^8.4.14",
+    "react-is": ">= 16.8.0",
     "tailwindcss": "^3.1.4",
     "typescript": "^4.7.4",
     "webpack": ">=4.3.0 <5.0.0"
