@@ -15,7 +15,7 @@ export type FeedbackFormValues = {
   email?: string
 }
 
-export const FeedbackValidationSchema = Yup.object().shape({
+const FeedbackValidationSchema = Yup.object().shape({
   text: Yup.string().required('Feedback field is required'),
 })
 

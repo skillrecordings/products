@@ -1,14 +1,21 @@
 import * as React from 'react'
 import cx from 'classnames'
-import {FormikErrors, FormikTouched} from 'formik'
+import {FormikErrors, FormikTouched, useField} from 'formik'
 import {FeedbackFormValues} from '../feedback/form'
-import {useUser} from '../../hooks/use-user'
+import {QueryStatus} from 'react-query'
+import Spinner from 'components/spinner'
+import isEmpty from 'lodash/isEmpty'
 
 const ContactEmailField: React.FC<{
   errors: FormikErrors<FeedbackFormValues>
   touched: FormikTouched<FeedbackFormValues>
-}> = ({errors, touched}) => {
-  const {user} = useUser()
+  user?: {user: {email: string}}
+  userLoadingStatus: QueryStatus
+}> = ({errors, touched, user, userLoadingStatus}) => {
+  const [field] = useField({
+    name: 'email',
+  })
+
   return (
     <div>
       <div className="flex items-center w-full justify-between">
@@ -16,33 +23,50 @@ const ContactEmailField: React.FC<{
           className="pb-1 inline-block text-sm font-semibold flex-shrink-0"
           htmlFor="text"
         >
-          Your email address <span className="font-normal">(required)</span>
+          Your email address{' '}
+          {userLoadingStatus === 'loading' ? (
+            <Spinner aria-hidden="true" className="w-3 h-3 inline-block" />
+          ) : (
+            !user?.user?.email && (
+              <span className="font-normal">(required)</span>
+            )
+          )}
         </label>
-        {errors.text && touched.text ? (
+        {errors.email && touched.email ? (
           <div
             aria-live="polite"
             className="text-pink-600 sm:text-sm text-xs pb-1 inline-block font-semibold leading-tight"
           >
-            {errors.text}
+            {errors.email}
           </div>
         ) : null}
       </div>
       <div
         className={cx({
           'ring-offset-1 rounded-md ring-opacity-20 ring ring-pink-600':
-            errors.text && touched.text,
+            errors.email && touched.email,
         })}
       >
         <input
           id="email"
+          name="email"
           type="email"
           required={true}
-          value={user?.user?.email}
+          value={field.value}
+          onChange={(e) => {
+            field.onChange(e)
+          }}
+          onBlur={(e) => {
+            field.onBlur(e)
+          }}
           placeholder="you@example.com"
-          disabled={Boolean(user)}
+          disabled={!isEmpty(user)}
           className={cx(
             `prose prose-sm overflow-y-auto shadow-sm bg-gray-100 p-3 focus:ring-blue-500 focus:border-blue-500 block w-full sm:text-sm border border-gray-300 rounded-md `,
-            {'text-gray-500': Boolean(user)},
+            {
+              'text-gray-700 border-none bg-transparent shadow-none px-1':
+                !isEmpty(user),
+            },
           )}
         />
       </div>
