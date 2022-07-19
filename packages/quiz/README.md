@@ -24,53 +24,31 @@ You can view complete examples below, but here's a quick overview of how it all 
 
 ex. `example.com/answer?question=<key>`
 
-The questions have the following attributes to determine how they wwork:
+The questions have the following attributes to determine how they work:
 
-- `question`
-- `type`
-- `tagId`
+- `question` - The content of the question that's displayed to the learner
+- `type` - One of either `essay` for a textarea-based response or `multiple-choice` for either radio-button-based or checkbox-based responses
+- `tagId` - The ConvertKit Tag ID value. ConvertKit doesn't expose it in the UI, but if you navigate to a specific Tag from the "Subscribers" area, the Tag ID will be in the URL.
 
 If the `type` is `multiple-choice`, these additional options determine how the answers are configured and handled.
-- `correct`
-- `answer`
-- `choices`
-  + `answer`
-  + `label`
-
-```
-const questionSet: QuestionSet = {
-  welcome: { # Question
-    question: `Question?`, # The text of the question displayd to the user
-    type: `essay`, # `essay` or `multiple-choice` - determines the response format
-    tagId: 1234567, # The ID of the tag triggered in ConvertKit after the learner answers
-  },
-  exercise: { # Question key and used as the `question` query string param
-    question: `Lorem ipsum dlor sit amet?`,
-    type: `multiple-choice`,
-    tagId: 1234567,
-    correct: 'yes',
-    answer: `Lorem ipsum dolor sit amet.`,
-    choices: [
-      {
-        answer: 'yes',
-        label: 'Yes',
-      },
-      {
-        answer: 'no',
-        label: 'No',
-      },
-    ],
-  },
-}
-```
-
+- `correct` - A single string or array of string values representing which of the options in the `choices` section represent correct answers. If a single string is provided, the UI will use radio buttons for the chioces. If multiple correct answers are provided, the UI will use checkboxes.
+- `answer` - A string to provide a summarized explanation of the correct answer.
+- `choices` - An array of JSON values with `answer` and `label`
+  + `answer` - The unique string identifier for the answer. This is the key for identifying which choices are the "correct" answers using the `correct` key above.
+  + `label` - The text to display as an option in the multiple-choice setup
 
 ## Generating Links
 
+You can link to specifi questions using the following URL format:
 
+```
+<Product Domain>/answer?question=<key>
+```
+Replace `<Product Domain>` with the partner product domain and `<key>` with the relevant `QuestionSet` key for the question.
 
-- Roam process notes
+## Process
 
+For more details on the larger process and context of how to set up quiz questions for partner products, you can use the [Set Up Quiz Questions and Answers](https://roamresearch.com/#/app/egghead/page/GepByGFy4) block in Roam.
 
 ### Examples
 
