@@ -2256,6 +2256,7 @@ importers:
       '@types/node': ^17.0.0
       '@types/react': ^17.0.42
       '@types/react-dom': ^17.0.17
+      '@types/styled-components': ^5.1.25
       classnames: ^2.3.1
       dotenv-flow: ^3.2.0
       eslint: ^8.19.0
@@ -2294,6 +2295,7 @@ importers:
       '@types/node': 17.0.41
       '@types/react': 17.0.45
       '@types/react-dom': 17.0.17
+      '@types/styled-components': 5.1.25
       dotenv-flow: 3.2.0
       eslint: 8.19.0
       eslint-config-custom: link:../../packages/eslint-config-custom
@@ -9985,6 +9987,13 @@ packages:
     dependencies:
       '@types/unist': 2.0.6
 
+  /@types/hoist-non-react-statics/3.3.1:
+    resolution: {integrity: sha512-iMIqiko6ooLrTh1joXodJK5X9xeEALT1kM5G3ZLhD3hszxBdIEd5C75U834D9mLcINgD4OyZf5uQXjkuYydWvA==}
+    dependencies:
+      '@types/react': 17.0.45
+      hoist-non-react-statics: 3.3.2
+    dev: true
+
   /@types/html-to-text/8.1.0:
     resolution: {integrity: sha512-54YF2fGmN4g62/w+T85uQ8n0FyBhMY5cjKZ1imsbIh4Pgbeno1mAaQktC/pv/+C2ToUYkTZis9ADgn9GRRz9nQ==}
     dev: true
@@ -10365,6 +10374,14 @@ packages:
 
   /@types/stack-utils/2.0.1:
     resolution: {integrity: sha512-Hl219/BT5fLAaz6NDkSuhzasy49dwQS/DSdu4MdggFB8zcXv7vflBI3xp7FEmkmdDkBUI2bPUNeMttp2knYdxw==}
+
+  /@types/styled-components/5.1.25:
+    resolution: {integrity: sha512-fgwl+0Pa8pdkwXRoVPP9JbqF0Ivo9llnmsm+7TCI330kbPIFd9qv1Lrhr37shf4tnxCOSu+/IgqM7uJXLWZZNQ==}
+    dependencies:
+      '@types/hoist-non-react-statics': 3.3.1
+      '@types/react': 17.0.45
+      csstype: 3.0.11
+    dev: true
 
   /@types/svg-to-pdfkit/0.1.0:
     resolution: {integrity: sha512-zlsSPfZzGu/gbrTZQuiFqXswL1noRUjYXqQE4i5/fc2pMU5pkLsZtXeCQ1Bu05YIwswGF5XFwN3307RlQoioeQ==}
