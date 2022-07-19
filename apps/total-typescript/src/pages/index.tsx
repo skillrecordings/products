@@ -12,17 +12,19 @@ const HomePage = () => {
   return (
     <>
       <Head>
-        <title>Advanced TypeScript</title>
+        <title>Total TypeScript</title>
         <meta
           name="description"
           content={`Learn the tricks open-source libraries use to build dynamic, robust types.`}
         />
-
         <meta property="og:type" content="website" />
-        <meta property="og:url" content={`https://advancedtypescript.dev`} />
+        <meta
+          property="og:url"
+          content={`http://totaltypescript.com/og-image.png`}
+        />
         <meta
           property="og:title"
-          content={`Advanced TypeScript - Become a TS Wizard`}
+          content={`Total TypeScript - Become a TS Wizard`}
         />
         <meta
           property="og:description"
@@ -30,24 +32,24 @@ const HomePage = () => {
         />
         <meta
           property="og:image"
-          content={`https://advancedtypescript.dev/og-image.png`}
+          content={`http://totaltypescript.com/og-image.png`}
         />
 
         <meta name="twitter:card" content="summary_large_image" />
         <meta
           name="twitter:image"
-          content={`https://advancedtypescript.dev/og-image.png`}
+          content={`http://totaltypescript.com/og-image.png`}
         />
         <meta
           name="twitter:title"
-          content={`Advanced TypeScript - Become a TS Wizard`}
+          content={`Total TypeScript - Become a TS Wizard`}
         />
         <meta
           name="twitter:description"
           content={`Learn the tricks open-source libraries use to build dynamic, robust types.`}
         />
-        <meta property="twitter:domain" content="advancedtypescript.dev" />
-        <meta property="twitter:url" content="https://advancedtypescript.dev" />
+        <meta property="twitter:domain" content="totaltypescript.com" />
+        <meta property="twitter:url" content="http://totaltypescript.com" />
       </Head>
       <main>
         <div className="flex overflow-hidden">
@@ -55,10 +57,10 @@ const HomePage = () => {
           <div className="bg-white lg:w-8"></div>
           <div className="flex-1 px-4 pt-24 space-y-10 text-center pb-44 bg-gradient-to-r from-gray-100 to-gray-50">
             <p className="inline-block px-5 py-1 text-xs tracking-wider text-gray-500 uppercase rounded-full sm:text-sm bg-gradient-to-r from-gray-200 to-gray-100">
-              Live Workshop
+              Live Workshop Series
             </p>
             <h1 className="text-4xl font-extrabold tracking-tight text-gray-900 sm:text-5xl md:text-6xl">
-              Advanced TypeScript
+              Total TypeScript
             </h1>
             <h2 className="max-w-lg mx-auto text-lg text-gray-700 sm:leading-8 sm:text-xl">
               Become a{' '}
@@ -185,7 +187,7 @@ const HomePage = () => {
       </main>
       <footer className="relative flex flex-col items-center justify-center px-4 py-24 mt-24 space-y-8 sm:space-y-0 sm:space-x-12 sm:flex-row bg-gradient-to-r from-gray-900 to-gray-800">
         <img
-          src="https://pbs.twimg.com/profile_images/751696248047009792/_HiVTyjR_400x400.jpg"
+          src="https://pbs.twimg.com/profile_images/1545418058260516865/zN6_f-ot_400x400.png"
           alt="Matt Pocock"
           className="block w-40 h-40 h-full rounded-full shadow-inner"
         ></img>
