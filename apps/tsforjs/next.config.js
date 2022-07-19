@@ -17,6 +17,9 @@ const nextConfig = {
   images: {
     domains: IMAGE_HOST_DOMAINS,
   },
+  compiler: {
+    styledComponents: true,
+  },
   async redirects() {
     return []
   },
