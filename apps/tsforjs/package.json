@@ -12,7 +12,7 @@
   "dependencies": {
     "@skillrecordings/analytics": "workspace:*",
     "@skillrecordings/convertkit": "workspace:*",
-    "@skillrecordings/quiz": "workspace:^0.0.1",
+    "@skillrecordings/quiz": "workspace:*",
     "@skillrecordings/react": "workspace:*",
     "classnames": "^2.3.1",
     "feed": "^4.2.2",
@@ -30,6 +30,7 @@
   "devDependencies": {
     "@next/env": "^12.2.0",
     "@skillrecordings/tsconfig": "workspace:*",
+    "@skillrecordings/types": "workspace:*",
     "@types/node": "^17.0.0",
     "@types/react": "^17.0.42",
     "@types/react-dom": "^17.0.17",
