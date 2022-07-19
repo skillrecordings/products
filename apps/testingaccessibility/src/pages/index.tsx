@@ -10,15 +10,8 @@ import {PricingTiers} from '../components/product-tiers'
 import {useCoupon} from 'hooks/use-coupon'
 import {Element} from 'react-scroll'
 import FAQ from 'components/content/faq-section'
-import {getToken} from 'next-auth/jwt'
 
 export const getServerSideProps: GetServerSideProps = async ({req, query}) => {
-  const token = await getToken({
-    req,
-    secret: process.env.NEXTAUTH_SECRET,
-  })
-
-  // console.log('token', token)
   return await propsForCommerce({req, query})
 }
 
