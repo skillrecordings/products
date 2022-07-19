@@ -89,7 +89,7 @@ const stripeWebhookHandler = async (
 
           if (currentEmail.toLowerCase() !== email.toLowerCase()) {
             await sendServerEmail({
-              email: user.email,
+              email,
               callbackUrl: `${process.env.NEXTAUTH_URL}/learn`,
               nextAuthOptions,
             })
