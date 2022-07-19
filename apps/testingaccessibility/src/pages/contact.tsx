@@ -2,12 +2,14 @@ import * as React from 'react'
 import Image from 'next/image'
 import Layout from 'components/app/layout'
 import ContactForm from '../components/contact/contact-form'
+import {getOgImage} from 'utils/get-og-image'
 
 const ContactFormPage: React.FC = () => {
+  const ogImage = getOgImage('Contact')
   return (
     <Layout
       footer={null}
-      meta={{title: 'Contact the Testing Accessibility Team'}}
+      meta={{title: 'Contact the Testing Accessibility Team', ogImage}}
       className="bg-gray-50"
     >
       <div className="flex-grow w-full mx-auto py-8 sm:pb-24 pb-16 flex flex-col items-center justify-center p-5">
