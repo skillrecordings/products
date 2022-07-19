@@ -1,5 +1,6 @@
 /** @type {import('next').NextConfig} */
 const withPlugins = require('next-compose-plugins')
+const withImages = require('next-images')
 
 const IMAGE_HOST_DOMAINS = [
   `res.cloudinary.com`,
@@ -21,4 +22,4 @@ const nextConfig = {
   },
 }
 
-module.exports = withPlugins([], nextConfig)
+module.exports = withPlugins([withImages()], nextConfig)
