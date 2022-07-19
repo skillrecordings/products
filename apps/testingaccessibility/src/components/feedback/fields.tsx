@@ -14,6 +14,7 @@ export const FeedbackField: React.FC<any> = ({
   errors,
   touched,
   isSubmitted,
+  showMarkdown = true,
 }) => {
   const [field] = useField({name: 'text'})
   const editor = useEditor({
@@ -71,9 +72,11 @@ export const FeedbackField: React.FC<any> = ({
       >
         <EditorContent editor={editor} name="text" id="text" />
       </div>
-      <small className="text-gray-500">
-        Styling with markdown is supported.
-      </small>
+      {showMarkdown && (
+        <small className="text-gray-500">
+          Styling with markdown is supported.
+        </small>
+      )}
     </div>
   )
 }

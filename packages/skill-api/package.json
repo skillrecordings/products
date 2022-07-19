@@ -73,7 +73,7 @@
     "jest": "^27.5.1",
     "jest-watch-typeahead": "^1.0.0",
     "msw": "^0.35.0",
-    "next": "^12.1.6",
+    "next": "^12.2.2",
     "next-auth": "=4.2.1",
     "nodemailer": "^6.7.2",
     "nodemailer-postmark-transport": "^5.2.1",

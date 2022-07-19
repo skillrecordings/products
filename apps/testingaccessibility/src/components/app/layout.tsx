@@ -1,7 +1,7 @@
 import React, {FunctionComponent} from 'react'
 import {SkipNavContent, SkipNavLink} from '@reach/skip-nav'
 import {useNavState} from '../../hooks/use-nav-state'
-import {SanityProduct} from 'utils/props-for-commerce'
+import {DefaultCoupon, SanityProduct} from 'utils/props-for-commerce'
 import {useFeedback} from 'context/feedback-context'
 import {Toaster} from 'react-hot-toast'
 import {NextSeo} from '@skillrecordings/react'
@@ -20,6 +20,7 @@ type LayoutProps = {
   footer?: React.ReactElement | null
   skipNavContent?: any
   products?: SanityProduct[]
+  defaultCoupon?: DefaultCoupon
 }
 
 const Layout: FunctionComponent<LayoutProps> = ({
@@ -30,6 +31,7 @@ const Layout: FunctionComponent<LayoutProps> = ({
   nav,
   footer,
   skipNavContent = <SkipNavContent />,
+  defaultCoupon,
   products,
 }) => {
   const {
@@ -68,7 +70,7 @@ const Layout: FunctionComponent<LayoutProps> = ({
         <SkipNavLink className="z-50">
           Skip navigation and go to content
         </SkipNavLink>
-        {!isSignedIn && <SaleBanner />}
+        {defaultCoupon && <SaleBanner defaultCoupon={defaultCoupon} />}
         {nav ? nav : isNull(nav) ? null : <Navigation />}
         {skipNavContent}
       </header>

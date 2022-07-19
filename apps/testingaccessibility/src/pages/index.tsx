@@ -21,10 +21,11 @@ const Home: React.FC<CommerceProps> = ({
   userId,
   products,
   couponIdFromCoupon,
+  defaultCoupon,
 }) => {
   const {redeemableCoupon, RedeemDialogForCoupon} = useCoupon(couponFromCode)
   return (
-    <Layout className="bg-white">
+    <Layout className="bg-white" defaultCoupon={defaultCoupon}>
       <main>
         <div className="flex flex-col justify-between min-h-screen overflow-hidden">
           <header className="relative text-white bg-green-700 lg:pt-24 sm:pt-24 pt-12 bg-noise">
