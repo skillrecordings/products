@@ -12,6 +12,8 @@ import {tagPurchaseConvertkit} from '../../../server/tag-purchase-convertkit'
 import {updatePurchaseStatusForCharge} from '../../../lib/purchases'
 import {postSaleToSlack} from '../../../server/post-to-slack'
 import {PurchaseStatus} from '../../../utils/purchase-status'
+import {getSdk} from '../../../lib/prisma-api'
+import prisma from '../../../db'
 
 const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET
 
@@ -59,6 +61,43 @@ const stripeWebhookHandler = async (
       } else if (event.type === 'charge.dispute.created') {
         const chargeId = event.data.object.id
         await updatePurchaseStatusForCharge(chargeId, PurchaseStatus.Disputed)
+        res.status(200).send(`This works!`)
+      } else if (event.type === 'customer.updated') {
+        const merchantCustomer = await prisma.merchantCustomer.findFirst({
+          where: {
+            identifier: event.data.object.id,
+          },
+          include: {
+            user: true,
+          },
+        })
+
+        const user = merchantCustomer?.user
+
+        if (user) {
+          const currentEmail = user.email
+          const {email, name} = event.data.object
+          await prisma.user.update({
+            where: {
+              id: user.id,
+            },
+            data: {
+              email,
+              name,
+            },
+          })
+
+          if (currentEmail.toLowerCase() !== email.toLowerCase()) {
+            await sendServerEmail({
+              email: user.email,
+              callbackUrl: `${process.env.NEXTAUTH_URL}/learn`,
+              nextAuthOptions,
+            })
+          }
+        } else {
+          console.log(`no user found for customer ${event.data.object.id}`)
+        }
+
         res.status(200).send(`This works!`)
       } else {
         res.status(200).send(`not-handled`)
