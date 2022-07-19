@@ -125,8 +125,8 @@ export default withSentry(async function stripeCheckoutHandler(
 
       const isUpgrade = Boolean(availableUpgrade && upgradeFromPurchase)
 
-      const TWENTY_FOUR_HOURS_FROM_NOW = Math.floor(
-        add(new Date(), {minutes: 30}).getTime() / 1000,
+      const TWELVE_FOUR_HOURS_FROM_NOW = Math.floor(
+        add(new Date(), {hours: 12}).getTime() / 1000,
       )
 
       if (isUpgrade && upgradeFromPurchase && loadedProduct && customerId) {
@@ -142,7 +142,7 @@ export default withSentry(async function stripeCheckoutHandler(
           amount_off: (fullPrice - calculatedPrice) * 100,
           name: `Upgrade from ${upgradeFromPurchase.product.name}`,
           max_redemptions: 1,
-          redeem_by: TWENTY_FOUR_HOURS_FROM_NOW,
+          redeem_by: TWELVE_FOUR_HOURS_FROM_NOW,
           currency: 'USD',
           applies_to: {
             products: [
@@ -158,7 +158,7 @@ export default withSentry(async function stripeCheckoutHandler(
         const {id} = await stripe.promotionCodes.create({
           coupon: merchantCoupon.identifier,
           max_redemptions: 1,
-          expires_at: TWENTY_FOUR_HOURS_FROM_NOW,
+          expires_at: TWELVE_FOUR_HOURS_FROM_NOW,
         })
         discounts.push({
           promotion_code: id,
@@ -192,8 +192,7 @@ export default withSentry(async function stripeCheckoutHandler(
             quantity: Number(quantity),
           },
         ],
-        // This resulted in error: "The `expires_at` timestamp must be at least 60 minutes from Checkout Session creation."
-        // expires_at: TWENTY_FOUR_HOURS_FROM_NOW,
+        expires_at: TWELVE_FOUR_HOURS_FROM_NOW,
         payment_method_types: ['card'],
         mode: 'payment',
         success_url: successUrl,
