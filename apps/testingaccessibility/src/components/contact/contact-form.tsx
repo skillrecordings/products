@@ -7,7 +7,7 @@ import {
 } from '../feedback/form'
 import {Form, Formik} from 'formik'
 import {CategoryField, EmotionField, FeedbackField} from '../feedback/fields'
-import ConteactEmailField from './contact-email-field'
+import ContactEmailField from './contact-email-field'
 import {useFeedbackForm} from '../../hooks/use-feedback-form'
 
 const ContactForm = () => {
@@ -22,7 +22,7 @@ const ContactForm = () => {
     >
       {({errors, touched, isSubmitting}) => (
         <Form className="flex flex-col space-y-5">
-          <ConteactEmailField errors={errors} touched={touched} />
+          <ContactEmailField errors={errors} touched={touched} />
           <FeedbackField
             errors={errors}
             touched={touched}

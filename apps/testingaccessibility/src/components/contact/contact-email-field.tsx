@@ -2,11 +2,13 @@ import * as React from 'react'
 import cx from 'classnames'
 import {FormikErrors, FormikTouched} from 'formik'
 import {FeedbackFormValues} from '../feedback/form'
+import {useUser} from '../../hooks/use-user'
 
-const ConteactEmailField: React.FC<{
+const ContactEmailField: React.FC<{
   errors: FormikErrors<FeedbackFormValues>
   touched: FormikTouched<FeedbackFormValues>
 }> = ({errors, touched}) => {
+  const {user} = useUser()
   return (
     <div>
       <div className="flex items-center w-full justify-between">
@@ -35,12 +37,17 @@ const ConteactEmailField: React.FC<{
           id="email"
           type="email"
           required={true}
+          value={user?.user?.email}
           placeholder="you@example.com"
-          className="prose prose-sm overflow-y-auto shadow-sm bg-gray-100 p-3 focus:ring-blue-500 focus:border-blue-500 block w-full sm:text-sm border border-gray-300 rounded-md"
+          disabled={Boolean(user)}
+          className={cx(
+            `prose prose-sm overflow-y-auto shadow-sm bg-gray-100 p-3 focus:ring-blue-500 focus:border-blue-500 block w-full sm:text-sm border border-gray-300 rounded-md `,
+            {'text-gray-500': Boolean(user)},
+          )}
         />
       </div>
     </div>
   )
 }
 
-export default ConteactEmailField
+export default ContactEmailField

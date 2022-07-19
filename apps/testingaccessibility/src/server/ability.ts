@@ -8,7 +8,14 @@ import {
 import {PurchaseStatus} from '../utils/purchase-status'
 
 type Actions = 'manage' | 'invite' | 'view'
-type Subjects = 'Team' | 'Purchase' | 'Content' | 'Product' | 'Invoice' | 'all'
+type Subjects =
+  | 'Team'
+  | 'Purchase'
+  | 'Content'
+  | 'Product'
+  | 'Invoice'
+  | 'Account'
+  | 'all'
 type AppAbility = Ability<[Actions, Subjects]>
 const AppAbility = Ability as AbilityClass<AppAbility>
 
@@ -63,6 +70,7 @@ export function defineRulesForPurchases(purchases: any[]) {
   }
 
   if (hasValidPurchase(purchases)) {
+    can('view', 'Account')
     can('view', 'Content')
     can('view', 'Product', {
       productId: {

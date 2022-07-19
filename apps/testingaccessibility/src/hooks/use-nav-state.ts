@@ -1,14 +1,14 @@
 import {useCurrentAbility} from './use-current-ability'
+import {useUser} from './use-user'
 
 /**
  * TODO: consider removing this and using abilities?
  */
 export function useNavState() {
-  const {status, ability} = useCurrentAbility()
+  const {ability} = useCurrentAbility()
 
   return {
-    isSignedIn: status === 'authenticated',
-    isLoadingUser: status === 'loading',
+    isSignedIn: ability.can('view', 'Account'),
     canViewTeam: ability.can('view', 'Team'),
     canViewInvoice: ability.can('view', 'Invoice'),
   }
