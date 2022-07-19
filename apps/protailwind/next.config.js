@@ -39,3 +39,5 @@ module.exports = withSentryConfig(
   withPlugins([withImages()], nextConfig),
   sentryWebpackPluginOptions,
 )
+
+module.exports = nextConfig
