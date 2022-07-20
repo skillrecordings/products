@@ -2193,13 +2193,34 @@ importers:
 
   apps/total-typescript:
     specifiers:
-      '@skillrecordings/convertkit': workspace:^0.0.1
-      '@skillrecordings/scripts': workspace:^0.0.5
+      '@mdx-js/loader': ^2.1.2
+      '@mdx-js/mdx': ^2.1.2
+      '@mdx-js/react': ^2.1.2
+      '@next/env': ^12.2.0
+      '@next/mdx': ^12.2.2
+      '@sentry/nextjs': ^6.19.3
+      '@skillrecordings/analytics': workspace:*
+      '@skillrecordings/auth': workspace:*
+      '@skillrecordings/axios': workspace:*
+      '@skillrecordings/commerce': workspace:*
+      '@skillrecordings/config': workspace:*
+      '@skillrecordings/convertkit': workspace:*
+      '@skillrecordings/cookies': workspace:*
+      '@skillrecordings/player': workspace:*
+      '@skillrecordings/quiz': workspace:*
+      '@skillrecordings/react': workspace:*
+      '@skillrecordings/scripts': workspace:*
+      '@skillrecordings/skill-api': workspace:*
+      '@skillrecordings/time': workspace:*
+      '@skillrecordings/tsconfig': workspace:*
+      '@skillrecordings/types': workspace:*
       '@tailwindcss/forms': ^0.5.2
       '@tailwindcss/typography': ^0.5.2
       '@types/cookie': ^0.4.1
       '@types/jest': ^27.5.2
       '@types/lodash': ^4.14.179
+      '@types/mdx': ^2.0.2
+      '@types/mdx-js__react': ^1.5.5
       '@types/node': ^17.0.0
       '@types/nodemailer': ^6.4.4
       '@types/react': ^17.0.42
@@ -2207,8 +2228,11 @@ importers:
       autoprefixer: ^10.4.2
       eslint: ^8.19.0
       eslint-config-custom: workspace:*
+      focus-visible: ^5.2.0
       framer-motion: ^6.4.1
       next: ^12.2.2
+      next-compose-plugins: ^2.2.1
+      next-images: ^1.8.4
       next-sitemap: ^3.0.5
       postcss: ^8.4.14
       react: 17.0.2
@@ -2216,23 +2240,46 @@ importers:
       react-hook-form: ^7.29.0
       tailwindcss: ^3.1.4
       typescript: ^4.7.4
+      webpack: ^5.73.0
       zod: ^3.14.4
     dependencies:
+      '@mdx-js/loader': 2.1.2_webpack@5.73.0
+      '@mdx-js/mdx': 2.1.2
+      '@mdx-js/react': 2.1.2_react@17.0.2
+      '@next/mdx': 12.2.2_todqhrvd7cvbb36hzi2r6xttgq
+      '@sentry/nextjs': 6.19.3_juceq2tgharenf3dwy2mlxwwja
+      '@skillrecordings/analytics': link:../../packages/analytics
+      '@skillrecordings/auth': link:../../packages/auth
+      '@skillrecordings/axios': link:../../packages/axios
+      '@skillrecordings/commerce': link:../../packages/commerce
+      '@skillrecordings/config': link:../../packages/config
       '@skillrecordings/convertkit': link:../../packages/convertkit
-      '@skillrecordings/scripts': link:../../packages/scripts
+      '@skillrecordings/cookies': link:../../packages/cookies
+      '@skillrecordings/player': link:../../packages/player
+      '@skillrecordings/quiz': link:../../packages/quiz
+      '@skillrecordings/react': link:../../packages/react
+      '@skillrecordings/skill-api': link:../../packages/skill-api
+      '@skillrecordings/time': link:../../packages/time
       '@tailwindcss/forms': 0.5.2_tailwindcss@3.1.4
+      focus-visible: 5.2.0
       framer-motion: 6.4.1_sfoxds7t5ydpegc3knd667wn6m
       next: 12.2.2_sfoxds7t5ydpegc3knd667wn6m
-      next-sitemap: 3.1.7_next@12.2.2
+      next-sitemap: 3.1.7_5crenonpc5mzdu2runrquyablm
       react: 17.0.2
       react-dom: 17.0.2_react@17.0.2
       react-hook-form: 7.29.0_react@17.0.2
       zod: 3.17.3
     devDependencies:
+      '@next/env': 12.2.2
+      '@skillrecordings/scripts': link:../../packages/scripts
+      '@skillrecordings/tsconfig': link:../../packages/tsconfig
+      '@skillrecordings/types': link:../../packages/types
       '@tailwindcss/typography': 0.5.2_tailwindcss@3.1.4
       '@types/cookie': 0.4.1
       '@types/jest': 27.5.2
       '@types/lodash': 4.14.180
+      '@types/mdx': 2.0.2
+      '@types/mdx-js__react': 1.5.5
       '@types/node': 17.0.41
       '@types/nodemailer': 6.4.4
       '@types/react': 17.0.45
@@ -2240,9 +2287,12 @@ importers:
       autoprefixer: 10.4.7_postcss@8.4.14
       eslint: 8.19.0
       eslint-config-custom: link:../../packages/eslint-config-custom
+      next-compose-plugins: 2.2.1
+      next-images: 1.8.4_webpack@5.73.0
       postcss: 8.4.14
       tailwindcss: 3.1.4
       typescript: 4.7.4
+      webpack: 5.73.0
 
   apps/typescriptcourse:
     specifiers:
@@ -7695,6 +7745,18 @@ packages:
     transitivePeerDependencies:
       - supports-color
 
+  /@mdx-js/loader/2.1.2_webpack@5.73.0:
+    resolution: {integrity: sha512-P7CWhrqE5rZ3ewBngZ9t/zQPbSq42iuty78K3zJ8Bl518qnOX1d106c+n7I/zHODPAmw9JfYMQdbv9WrrHa0DA==}
+    peerDependencies:
+      webpack: '>=4'
+    dependencies:
+      '@mdx-js/mdx': 2.0.0
+      source-map: 0.7.3
+      webpack: 5.73.0
+    transitivePeerDependencies:
+      - supports-color
+    dev: false
+
   /@mdx-js/mdx/1.6.22:
     resolution: {integrity: sha512-AMxuLxPz2j5/6TpF/XSdKpQP1NlG0z11dFOlq+2IP/lSgl11GY8ji6S/rgsViN/L0BDvHvUMruRb7ub+24LUYA==}
     dependencies:
@@ -7743,6 +7805,30 @@ packages:
     transitivePeerDependencies:
       - supports-color
 
+  /@mdx-js/mdx/2.1.2:
+    resolution: {integrity: sha512-ASN1GUH0gXsgJ2UD/Td7FzJo1SwFkkQ5V1i9at5o/ROra7brkyMcBsotsOWJWRzmXZaLw2uXWn4aN8B3PMNFMA==}
+    dependencies:
+      '@types/estree-jsx': 0.0.1
+      '@types/mdx': 2.0.2
+      astring: 1.8.1
+      estree-util-build-jsx: 2.0.0
+      estree-util-is-identifier-name: 2.0.0
+      estree-walker: 3.0.1
+      hast-util-to-estree: 2.0.2
+      markdown-extensions: 1.1.1
+      periscopic: 3.0.4
+      remark-mdx: 2.0.0
+      remark-parse: 10.0.0
+      remark-rehype: 10.1.0
+      unified: 10.1.0
+      unist-util-position-from-estree: 1.1.1
+      unist-util-stringify-position: 3.0.0
+      unist-util-visit: 4.1.0
+      vfile: 5.3.0
+    transitivePeerDependencies:
+      - supports-color
+    dev: false
+
   /@mdx-js/react/1.6.22_react@17.0.2:
     resolution: {integrity: sha512-TDoPum4SHdfPiGSAaRBw7ECyI8VaHpK8GJugbJIJuqyh6kzw9ZLJZW3HGL3NNrJGxcAixUvqROm+YuQOo5eXtg==}
     peerDependencies:
@@ -7756,6 +7842,16 @@ packages:
       react: '>=16'
     dependencies:
       '@types/mdx': 2.0.1
+      '@types/react': 17.0.45
+      react: 17.0.2
+    dev: false
+
+  /@mdx-js/react/2.1.2_react@17.0.2:
+    resolution: {integrity: sha512-52e3DTJBrjsw3U51ZCdZ3N1IBaqnbzLIngCSXpKtiYiGr7PIqp3/P/+kym0MPTwBL/y9ZBmCieD8FyrXuEDrRw==}
+    peerDependencies:
+      react: '>=16'
+    dependencies:
+      '@types/mdx': 2.0.2
       '@types/react': 17.0.45
       react: 17.0.2
     dev: false
@@ -7879,6 +7975,16 @@ packages:
       '@mdx-js/react': '*'
     dependencies:
       '@mdx-js/loader': 2.1.2
+    dev: false
+
+  /@next/mdx/12.2.2_todqhrvd7cvbb36hzi2r6xttgq:
+    resolution: {integrity: sha512-d+yHApu6weFYrAbDj+2vMY3uE8kAnoNu5g3w8B3m3skUh6r1ekkKM2YTktlpNpum/XMnKGiPrIdAX4L4KuVdYg==}
+    peerDependencies:
+      '@mdx-js/loader': '>=0.15.0'
+      '@mdx-js/react': '*'
+    dependencies:
+      '@mdx-js/loader': 2.1.2_webpack@5.73.0
+      '@mdx-js/react': 2.1.2_react@17.0.2
     dev: false
 
   /@next/swc-android-arm-eabi/12.2.2:
@@ -10044,6 +10150,9 @@ packages:
 
   /@types/mdx/2.0.1:
     resolution: {integrity: sha512-JPEv4iAl0I+o7g8yVWDwk30es8mfVrjkvh5UeVR2sYPpZCK44vrAPsbJpIS+rJAUxLgaSAMKTEH5Vn5qd9XsrQ==}
+
+  /@types/mdx/2.0.2:
+    resolution: {integrity: sha512-mJGfgj4aWpiKb8C0nnJJchs1sHBHn0HugkVfqqyQi7Wn6mBRksLeQsPOFvih/Pu8L1vlDzfe/LidhVHBeUk3aQ==}
 
   /@types/micro/7.3.7:
     resolution: {integrity: sha512-MFsX7eCj0Tg3TtphOQvANNvNtFpya+s/rYOCdV6o+DFjOQPFi2EVRbBALjbbgZTXUaJP1Q281MJiJOD40d0UxQ==}
@@ -20116,6 +20225,20 @@ packages:
       '@sanity/image-url': 0.140.22
       next: 12.2.2_bdqedtwv3pefsm7666rf4y5ak4
       react: 17.0.2
+    dev: false
+
+  /next-sitemap/3.1.7_5crenonpc5mzdu2runrquyablm:
+    resolution: {integrity: sha512-8o+rUftEtZ7d3s2BedBLeN0HZHPAtcvliA/YesP/2o7Llb5svvM/pqVBde17MgTEuGMZpHz6nqruHKGCt53G3Q==}
+    engines: {node: '>=14.18'}
+    hasBin: true
+    peerDependencies:
+      '@next/env': '*'
+      next: '*'
+    dependencies:
+      '@corex/deepmerge': 4.0.29
+      '@next/env': 12.2.2
+      minimist: 1.2.6
+      next: 12.2.2_sfoxds7t5ydpegc3knd667wn6m
     dev: false
 
   /next-sitemap/3.1.7_next@12.2.2:

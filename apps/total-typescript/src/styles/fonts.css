@@ -1,0 +1,254 @@
+@import url('https://fast.fonts.net/t/1.css?apiType=css&projectid=e78c5d2e-43d0-460b-aa84-7b6699263bf0');
+
+@font-face {
+  font-family: 'Magnat Poster';
+  src: url('/fonts/67b58be6-a712-4c9b-9969-eaf32f058c93.woff2') format('woff2'),
+    url('/fonts/02d8470d-c31a-42e6-a345-1e899df443c9.woff') format('woff');
+  font-style: normal;
+  font-weight: 300;
+}
+@font-face {
+  font-family: 'Magnat Head';
+  src: url('/fonts/37207bfe-9449-4e82-b5ba-1af9149439b3.woff2') format('woff2'),
+    url('/fonts/06c796aa-55a9-4f95-897e-41325d15f5e9.woff') format('woff');
+  font-style: normal;
+  font-weight: 300;
+}
+@font-face {
+  font-family: 'Magnat Poster';
+  src: url('/fonts/71458f42-5e0c-4c20-a543-2deaeca3ec9c.woff2') format('woff2'),
+    url('/fonts/1bca54d0-7e5b-42a5-a57c-4b84ecdcbb69.woff') format('woff');
+  font-style: italic;
+  font-weight: 300;
+}
+@font-face {
+  font-family: 'Magnat Head';
+  src: url('/fonts/fa159965-bcf9-48cf-bf97-01f881895052.woff2') format('woff2'),
+    url('/fonts/b2bc2770-d66b-4397-b9b4-b31356738be5.woff') format('woff');
+  font-style: italic;
+  font-weight: 300;
+}
+@font-face {
+  font-family: 'Magnat Poster';
+  src: url('/fonts/b1b6b3e4-7478-4411-af7e-17173dba6194.woff2') format('woff2'),
+    url('/fonts/972b1b2e-4197-401b-88ef-9f91a77799e5.woff') format('woff');
+  font-style: normal;
+  font-weight: 400;
+}
+@font-face {
+  font-family: 'Magnat Head';
+  src: url('/fonts/7cb55cd6-aef3-4b79-aa51-15054afdcf69.woff2') format('woff2'),
+    url('/fonts/8bde0124-2711-4427-bcb9-c33466a38f1f.woff') format('woff');
+  font-style: normal;
+  font-weight: 400;
+}
+@font-face {
+  font-family: 'Magnat Poster';
+  src: url('/fonts/83b1871f-61af-4d9d-82ba-d70a6fdb915d.woff2') format('woff2'),
+    url('/fonts/1b441b70-8160-40d8-aa2e-a2840603ab58.woff') format('woff');
+  font-style: italic;
+  font-weight: 400;
+}
+@font-face {
+  font-family: 'Magnat Head';
+  src: url('/fonts/694f214f-4fc1-40e8-ac61-15aa43403765.woff2') format('woff2'),
+    url('/fonts/0e75330d-36c1-454f-84cd-3103097160fa.woff') format('woff');
+  font-style: italic;
+  font-weight: 400;
+}
+@font-face {
+  font-family: 'Magnat Head';
+  src: url('/fonts/1252bbd7-bfc3-4e8f-8b95-cba0693c86c0.woff2') format('woff2'),
+    url('/fonts/a1693ab9-3788-48fe-8758-964e1dc55085.woff') format('woff');
+  font-style: normal;
+  font-weight: 500;
+}
+@font-face {
+  font-family: 'Magnat Poster';
+  src: url('/fonts/6b10095a-4527-4e17-b4c2-364593136ac3.woff2') format('woff2'),
+    url('/fonts/77ac98d4-e745-4868-8c0e-f22ea2a57f30.woff') format('woff');
+  font-style: normal;
+  font-weight: 500;
+}
+@font-face {
+  font-family: 'Magnat Poster';
+  src: url('/fonts/c046eada-7f07-4a0e-b0f4-c8c4cb3bc17a.woff2') format('woff2'),
+    url('/fonts/f6f33ce0-9870-415a-b7b4-530635c042d7.woff') format('woff');
+  font-style: italic;
+  font-weight: 500;
+}
+@font-face {
+  font-family: 'Magnat Head';
+  src: url('/fonts/104de66d-6eb3-4afb-962c-e3239f7e91f3.woff2') format('woff2'),
+    url('/fonts/09892b02-4f63-4b39-b63a-6ce612798696.woff') format('woff');
+  font-style: italic;
+  font-weight: 500;
+}
+@font-face {
+  font-family: 'Magnat Poster';
+  src: url('/fonts/b4ab779b-ccc5-4cbb-a8b6-43913b1bceac.woff2') format('woff2'),
+    url('/fonts/45d9fe8f-0591-4790-92ff-6c58deca41d4.woff') format('woff');
+  font-style: normal;
+  font-weight: 600;
+}
+@font-face {
+  font-family: 'Magnat Head';
+  src: url('/fonts/a2882db9-9d8b-4805-af59-411c557c0c97.woff2') format('woff2'),
+    url('/fonts/6fecec1e-f4a1-49a8-8eb2-d3215d7a594e.woff') format('woff');
+  font-style: normal;
+  font-weight: 600;
+}
+@font-face {
+  font-family: 'Magnat Poster';
+  src: url('/fonts/d0caabcb-bea4-41fa-9133-b980ee67634e.woff2') format('woff2'),
+    url('/fonts/eb6db8f5-2d9f-4f8c-8980-2ca0e0a43eb9.woff') format('woff');
+  font-style: italic;
+  font-weight: 600;
+}
+@font-face {
+  font-family: 'Magnat Head';
+  src: url('/fonts/089e0f5e-7000-4d22-b83c-d4fa6a3331a1.woff2') format('woff2'),
+    url('/fonts/6e1147de-4bef-4bb4-8946-fe4b134c72f2.woff') format('woff');
+  font-style: italic;
+  font-weight: 600;
+}
+@font-face {
+  font-family: 'Magnat Poster';
+  src: url('/fonts/ae915fc6-7128-4d39-a397-39ac1194b0e2.woff2') format('woff2'),
+    url('/fonts/c88429b1-9372-4142-b1b2-2f11e8fd8c32.woff') format('woff');
+  font-style: normal;
+  font-weight: 700;
+}
+@font-face {
+  font-family: 'Magnat Head';
+  src: url('/fonts/5b2ba5f6-17eb-4973-a93f-4751ab74ed6a.woff2') format('woff2'),
+    url('/fonts/dcd7912c-01ee-4d2e-9b74-30f3183674bc.woff') format('woff');
+  font-style: normal;
+  font-weight: 700;
+}
+@font-face {
+  font-family: 'Magnat Poster';
+  src: url('/fonts/540d9a40-e861-4f40-b0cb-e75194490921.woff2') format('woff2'),
+    url('/fonts/fca6c91d-3e5d-4c0b-a2cd-4459f2ff9ac9.woff') format('woff');
+  font-style: italic;
+  font-weight: 700;
+}
+@font-face {
+  font-family: 'Magnat Head';
+  src: url('/fonts/3db81899-8b85-4790-b698-d85d71e10a88.woff2') format('woff2'),
+    url('/fonts/4fc37d07-5a12-4fb2-9d93-82f2758f10a4.woff') format('woff');
+  font-style: italic;
+  font-weight: 700;
+}
+@font-face {
+  font-family: 'Magnat Poster';
+  src: url('/fonts/83a34921-a11d-4c4b-b888-b8190d901c3b.woff2') format('woff2'),
+    url('/fonts/7cd9af09-1cd2-4ef0-9aee-968f7eae6a76.woff') format('woff');
+  font-style: normal;
+  font-weight: 800;
+}
+@font-face {
+  font-family: 'Magnat Head';
+  src: url('/fonts/369a5a85-303f-4d50-ad7e-2187afe657c1.woff2') format('woff2'),
+    url('/fonts/d6c82f9e-b1c6-42e4-8ba7-b08485ad4122.woff') format('woff');
+  font-style: normal;
+  font-weight: 800;
+}
+@font-face {
+  font-family: 'Magnat Poster';
+  src: url('/fonts/4417b8c2-a819-4332-8b49-7d061cfda5ac.woff2') format('woff2'),
+    url('/fonts/38b6fc78-b23a-439c-9c97-ec8a407c1d91.woff') format('woff');
+  font-style: italic;
+  font-weight: 800;
+}
+@font-face {
+  font-family: 'Magnat Head';
+  src: url('/fonts/c1bb56ac-9f33-4f2f-8f01-149112a4788d.woff2') format('woff2'),
+    url('/fonts/917eb2dc-f885-42cd-88b6-d0b3931dd55e.woff') format('woff');
+  font-style: italic;
+  font-weight: 800;
+}
+@font-face {
+  font-family: 'Magnat Text';
+  src: url('/fonts/2b38d253-1329-46a1-aad0-85085ad35ead.woff2') format('woff2'),
+    url('/fonts/d5963985-9426-4ddd-9ee9-e0519f89608a.woff') format('woff');
+  font-style: normal;
+  font-weight: 300;
+}
+@font-face {
+  font-family: 'Magnat Text';
+  src: url('/fonts/6c1b15de-e38e-47aa-bada-4e177b6a4ab0.woff2') format('woff2'),
+    url('/fonts/a623ef22-9146-4699-bc18-c712cb859a93.woff') format('woff');
+  font-style: italic;
+  font-weight: 300;
+}
+@font-face {
+  font-family: 'Magnat Text';
+  src: url('/fonts/f1395c32-094a-434b-9179-6dc6fe061acf.woff2') format('woff2'),
+    url('/fonts/e5c09005-bf09-4887-8e4b-8537fd44ea3a.woff') format('woff');
+  font-style: normal;
+  font-weight: 400;
+}
+@font-face {
+  font-family: 'Magnat Text';
+  src: url('/fonts/50a907d2-ce5f-475d-ad8e-ec7311265324.woff2') format('woff2'),
+    url('/fonts/387dae26-31ac-437d-8ce7-2de9afa90f62.woff') format('woff');
+  font-style: italic;
+  font-weight: 400;
+}
+@font-face {
+  font-family: 'Magnat Text';
+  src: url('/fonts/4f5d2ef8-2b8b-4512-8f96-9267c2c8c77f.woff2') format('woff2'),
+    url('/fonts/19a9ad3d-418c-4821-867a-d90e2bcc6ed7.woff') format('woff');
+  font-style: normal;
+  font-weight: 500;
+}
+@font-face {
+  font-family: 'Magnat Text';
+  src: url('/fonts/b7d7ff34-dd96-4ea3-847f-88585bacef33.woff2') format('woff2'),
+    url('/fonts/286297b7-e75f-4840-bc8a-1d270aee18ec.woff') format('woff');
+  font-style: italic;
+  font-weight: 500;
+}
+@font-face {
+  font-family: 'Magnat Text';
+  src: url('/fonts/7cc866de-c882-49d8-98d9-1395cedb80c3.woff2') format('woff2'),
+    url('/fonts/440dc405-8847-4922-a9c2-2e934e70a616.woff') format('woff');
+  font-style: normal;
+  font-weight: 600;
+}
+@font-face {
+  font-family: 'Magnat Text';
+  src: url('/fonts/bc602d54-8b51-444a-9f7e-1b3953f67be2.woff2') format('woff2'),
+    url('/fonts/21af0062-e6e7-490a-a02b-06dc6f2f04c9.woff') format('woff');
+  font-style: italic;
+  font-weight: 600;
+}
+@font-face {
+  font-family: 'Magnat Text';
+  src: url('/fonts/1d6c8b43-91f4-40c4-a772-e5fc9e0d1447.woff2') format('woff2'),
+    url('/fonts/38cd041f-3b14-4bf4-8b74-7a2a95453421.woff') format('woff');
+  font-style: normal;
+  font-weight: 700;
+}
+@font-face {
+  font-family: 'Magnat Text';
+  src: url('/fonts/2a303101-24f9-4660-88a9-1cdbf2fdf2c7.woff2') format('woff2'),
+    url('/fonts/10a2427d-04fa-4ed3-9e93-9c1c5045e8b5.woff') format('woff');
+  font-style: italic;
+  font-weight: 700;
+}
+@font-face {
+  font-family: 'Magnat Text';
+  src: url('/fonts/8e2fe0f0-13b8-44a9-9de3-465c5881e0fa.woff2') format('woff2'),
+    url('/fonts/9930c13e-9d27-4302-9de1-e9ff239d9db5.woff') format('woff');
+  font-style: normal;
+  font-weight: 800;
+}
+@font-face {
+  font-family: 'Magnat Text';
+  src: url('/fonts/1d1a8ccd-5717-42cb-b3e1-81539e6c5ba3.woff2') format('woff2'),
+    url('/fonts/0eb16e52-7010-4081-adb0-e5b160a148f8.woff') format('woff');
+  font-style: italic;
+  font-weight: 800;
+}

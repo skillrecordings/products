@@ -1,5 +1,8 @@
-import Head from 'next/head'
-import React from 'react'
+import config from 'config'
+import {first, get} from 'lodash'
+import Image from 'next/image'
+import Layout from 'components/app/layout'
+import LandingCopy from '../components/landing-copy.mdx'
 import {
   redirectUrlBuilder,
   SubscribeToConvertkitForm,
@@ -8,75 +11,53 @@ import {useRouter} from 'next/router'
 
 const HomePage = () => {
   const router = useRouter()
-
   return (
-    <>
-      <Head>
-        <title>Advanced TypeScript</title>
-        <meta
-          name="description"
-          content={`Learn the tricks open-source libraries use to build dynamic, robust types.`}
-        />
-
-        <meta property="og:type" content="website" />
-        <meta property="og:url" content={`https://advancedtypescript.dev`} />
-        <meta
-          property="og:title"
-          content={`Advanced TypeScript - Become a TS Wizard`}
-        />
-        <meta
-          property="og:description"
-          content={`Learn the tricks open-source libraries use to build dynamic, robust types.`}
-        />
-        <meta
-          property="og:image"
-          content={`https://advancedtypescript.dev/og-image.png`}
-        />
-
-        <meta name="twitter:card" content="summary_large_image" />
-        <meta
-          name="twitter:image"
-          content={`https://advancedtypescript.dev/og-image.png`}
-        />
-        <meta
-          name="twitter:title"
-          content={`Advanced TypeScript - Become a TS Wizard`}
-        />
-        <meta
-          name="twitter:description"
-          content={`Learn the tricks open-source libraries use to build dynamic, robust types.`}
-        />
-        <meta property="twitter:domain" content="advancedtypescript.dev" />
-        <meta property="twitter:url" content="https://advancedtypescript.dev" />
-      </Head>
-      <main>
-        <div className="flex overflow-hidden">
-          <div className="xl:w-40 lg:w-24 md:w-4 bg-gradient-to-tl from-indigo-500 to-cyan-500"></div>
-          <div className="bg-white lg:w-8"></div>
-          <div className="flex-1 px-4 pt-24 space-y-10 text-center pb-44 bg-gradient-to-r from-gray-100 to-gray-50">
-            <p className="inline-block px-5 py-1 text-xs tracking-wider text-gray-500 uppercase rounded-full sm:text-sm bg-gradient-to-r from-gray-200 to-gray-100">
-              Live Workshop
-            </p>
-            <h1 className="text-4xl font-extrabold tracking-tight text-gray-900 sm:text-5xl md:text-6xl">
-              Advanced TypeScript
+    <Layout>
+      <header className="flex flex-col justify-center items-center px-5">
+        <div className="max-w-screen-xl flex items-center w-full relative min-h-[90vh]">
+          <div className="relative z-10 max-w-2xl">
+            <h1 className="font-heading xl:text-7xl lg:text-6xl sm:text-5xl text-3xl font-light xl:leading-[1.15] lg:leading-[1.15] sm:leading-[1.15] leading-[1.25]">
+              Become the{' '}
+              <strong className="font-bold">TypeScript Wizard</strong> at Your
+              Company
             </h1>
-            <h2 className="max-w-lg mx-auto text-lg text-gray-700 sm:leading-8 sm:text-xl">
-              Become a{' '}
-              <span className="font-bold tracking-tight text-transparent bg-gradient-to-r from-indigo-600 to-red-500 bg-clip-text">
-                TypeScript Wizard
-              </span>{' '}
-              - learn the tricks open-source libraries use to build dynamic,
-              robust types.
+            <h2 className="text-2xl pt-8 font-text max-w-lg text-fuchsia-100 font-light">
+              A Comprehensive Production-Grade TypeScript Training by Matt
+              Pocock
             </h2>
           </div>
-          <div className="bg-white lg:w-8"></div>
-          <div className="xl:w-40 lg:w-24 md:w-4 bg-gradient-to-tr from-indigo-500 to-cyan-500"></div>
+          <div className="flex-shrink-0 absolute -right-48">
+            <Image
+              src={require('../../public/assets/wizard-in-a-cave@2x.png')}
+              alt=""
+              aria-hidden="true"
+              width={1054 / 1}
+              height={935 / 1}
+              quality={100}
+              priority
+            />
+          </div>
+          {/* <div className="flex items-center gap-2 sm:text-xl text-base font-semibold pt-8">
+            New course by{' '}
+            <div className="flex items-center justify-center">
+              <Image
+                className="rounded-full"
+                width={48}
+                height={48}
+                src={require('../../public/matt-pocock.jpeg')}
+                alt="Matt Pocock"
+              />
+            </div>
+            <span>{get(first(config.additionalMetaTags), 'content')}</span>
+          </div> */}
         </div>
-        <div className="px-4">
-          <div className="relative block max-w-2xl p-6 mx-auto -mt-16 text-lg bg-white rounded shadow-2xl sm:p-10 sm:px-16">
-            <p className="mb-6 text-center text-gray-700 sm:text-xl sm:leading-8">
-              Join the Waiting List
-            </p>
+      </header>
+      <main className="w-full mx-auto">
+        <article className="lg:px-0 px-5 sm:prose-2xl prose-lg  w-full prose-pre:overflow-auto prose-p:max-w-screen-md prose-p:mx-auto prose-headings:max-w-screen-md prose-headings:mx-auto prose-pre:max-w-screen-md prose-pre:mx-auto prose-ul:max-w-screen-md prose-ul:mx-auto prose-ul:list-disc marker:text-blue-500 prose-headings:font-bold">
+          <LandingCopy />
+        </article>
+        <section className="py-24 mt-24 bg-blue-600 text-white flex flex-col items-center justify-center">
+          <div>
             <SubscribeToConvertkitForm
               actionLabel="Save Your Spot"
               onSuccess={(subscriber: any) => {
@@ -87,160 +68,9 @@ const HomePage = () => {
               }}
             />
           </div>
-
-          <div className="max-w-2xl mx-auto mt-24 prose sm:prose-lg">
-            <p>
-              <b>Getting better at TS is really hard right now</b>. The secrets
-              of advanced TypeScript are hidden away inside open source
-              libraries or deep in Twitter threads.
-            </p>
-            <p>
-              Plus, it's hard to deny that <b>TS is the future</b>. It's seeing
-              massive adoption and being an expert can make you enormously
-              employable.
-            </p>
-          </div>
-          <Quote
-            img="/wes-bos.jpeg"
-            from="Wes Bos | Host of Syntax FM"
-            quote="The Rodney Mullen of TypeScript"
-          ></Quote>
-          <div className="max-w-2xl mx-auto prose sm:prose-lg">
-            <p>
-              This workshop brings together everything I've learned as a TS
-              engineer and OSS maintainer for XState. We'll be covering{' '}
-              <b>all the tricks the docs don't teach you</b>.
-            </p>
-            <p>
-              We'll start at an intermediate level, and work up into a
-              super-advanced level. It's going to be{' '}
-              <b>the most advanced TS workshop avaialble anywhere</b>. IYou'll
-              be the company's resident TypeScript wizard - the one they turn to
-              for advice.
-            </p>
-          </div>
-          <div className="max-w-2xl mx-auto my-16 prose sm:prose-lg ">
-            <h1 className="tracking-tight text-center text-gray-800 ">
-              Fundamentals
-            </h1>
-            <p>
-              You'll the fundamentals of advanced TS. You'll learn about at
-              generics, conditional types, mapped types, tuples - everything you
-              need to feel confident looking at complicated TS code.
-            </p>
-            <p>
-              You'll need a beginner's knowledge of TypeScript since we'll start
-              from the complicated stuff (generics!) and work upwards.
-            </p>
-          </div>
-          <div className="max-w-2xl mx-auto my-16 prose sm:prose-lg">
-            <h1 className="tracking-tight text-center text-gray-800 ">
-              Type Challenges
-            </h1>
-            <p>
-              From there, we'll work through the{' '}
-              <a href="https://github.com/type-challenges/type-challenges">
-                type-challenges
-              </a>{' '}
-              repo - a list of over 100 TypeScript challenges that offer a stern
-              test of advanced TypeScript users. This will be a problem/solution
-              setup - I'll set up the problem, then let you have a go at the
-              solution.
-            </p>
-            <p>
-              This will test your TypeScript muscles and give you a massive,
-              comprehensive set of challenges to work through at your pace.
-            </p>
-          </div>
-          <div className="max-w-2xl mx-auto my-16 prose sm:prose-lg">
-            <h1 className="tracking-tight text-center text-gray-800 ">
-              OSS Deep Dives
-            </h1>
-            <p>
-              Finally, we'll look at TypeScript in the wild. I've got{' '}
-              <b>
-                interviews lined up with several open source library maintainers
-              </b>{' '}
-              who will guide you through 5-10 of the top TS Open Source repo's
-              out there.
-            </p>
-            <p>
-              We'll focus on the tricks they used to solve their hardest TS
-              challenges - and the architectural decisions that led them there.
-            </p>
-          </div>
-          <Quote
-            img="/swyx.jpeg"
-            from={`Shawn "swyx" Wang | Author and Developer Advocate`}
-            quote="Your TS tips are 🔥"
-          ></Quote>
-          <div className="max-w-2xl mx-auto my-16 prose sm:prose-lg">
-            <p>
-              This is your opportunity to learn next-level TypeScript that you
-              can apply to your projects today.
-            </p>
-            <p></p>
-          </div>
-        </div>
+        </section>
       </main>
-      <footer className="relative flex flex-col items-center justify-center px-4 py-24 mt-24 space-y-8 sm:space-y-0 sm:space-x-12 sm:flex-row bg-gradient-to-r from-gray-900 to-gray-800">
-        <img
-          src="https://pbs.twimg.com/profile_images/751696248047009792/_HiVTyjR_400x400.jpg"
-          alt="Matt Pocock"
-          className="block w-40 h-40 h-full rounded-full shadow-inner"
-        ></img>
-        <div className="relative max-w-sm space-y-3 leading-7 text-gray-300">
-          <h2 className="text-2xl font-semibold tracking-tight text-white">
-            Who am I?
-          </h2>
-          <p className="">
-            I'm Matt Pocock, developer advocate at{' '}
-            <a
-              className="text-blue-300"
-              href="https://stately.ai"
-              rel="nofollow"
-            >
-              Stately
-            </a>{' '}
-            and member of the{' '}
-            <a
-              className="text-blue-300"
-              href="https://github.com/statelyai/xstate"
-              rel="nofollow"
-            >
-              XState
-            </a>{' '}
-            core team.
-          </p>
-          <p className="">
-            I teach TypeScript, XState and React on my{' '}
-            <a
-              className="text-blue-300"
-              href="https://twitter.com/mattpocockuk"
-              rel="nofollow"
-            >
-              Twitter
-            </a>
-            , and at conferences.
-          </p>
-        </div>
-      </footer>
-    </>
-  )
-}
-
-const Quote = (props: {img: string; quote: string; from: string}) => {
-  return (
-    <div className="flex items-center justify-center max-w-2xl mx-auto my-16 space-x-4">
-      <img
-        src={props.img}
-        className="w-16 h-16 rounded-full shadow-inner"
-      ></img>
-      <div>
-        <p className="text-lg italic text-gray-600">"{props.quote}"</p>
-        <p className="text-sm italic text-gray-500">{props.from}</p>
-      </div>
-    </div>
+    </Layout>
   )
 }
 
