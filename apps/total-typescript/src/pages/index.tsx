@@ -1,8 +1,6 @@
-import config from 'config'
-import {first, get} from 'lodash'
 import Image from 'next/image'
-import Layout from 'components/app/layout'
-import LandingCopy from '../components/landing-copy.mdx'
+import Layout from 'components/layout'
+// import LandingCopy from '../components/landing-copy.mdx'
 import {
   redirectUrlBuilder,
   SubscribeToConvertkitForm,
@@ -54,7 +52,7 @@ const HomePage = () => {
       </header>
       <main className="w-full mx-auto">
         <article className="lg:px-0 px-5 sm:prose-2xl prose-lg  w-full prose-pre:overflow-auto prose-p:max-w-screen-md prose-p:mx-auto prose-headings:max-w-screen-md prose-headings:mx-auto prose-pre:max-w-screen-md prose-pre:mx-auto prose-ul:max-w-screen-md prose-ul:mx-auto prose-ul:list-disc marker:text-blue-500 prose-headings:font-bold">
-          <LandingCopy />
+          {/* <LandingCopy /> */}
         </article>
         <section className="py-24 mt-24 bg-blue-600 text-white flex flex-col items-center justify-center">
           <div>

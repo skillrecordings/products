@@ -1,11 +1,12 @@
-import {getServerSideSitemap, getServerSideSitemapIndex} from 'next-sitemap'
+import {getServerSideSitemap} from 'next-sitemap'
 import {GetServerSideProps} from 'next'
+// import {getAllArticles} from '../../lib/articles'
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   ctx.res.setHeader('Cache-Control', 's-maxage=1, stale-while-revalidate')
 
   // load content that we want to add to the sitemap here
-  // const articles = await getAllArticles()
+  //const articles = await getAllArticles()
 
   return getServerSideSitemap(ctx, [
     // ...articles.map((article: any) => {
@@ -15,7 +16,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
     //     changefreq: 'weekly',
     //     priority: 0.7,
     //   }
-    // })
+    // }),
   ])
 }
 

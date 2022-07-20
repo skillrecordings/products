@@ -18,19 +18,13 @@ module.exports = {
         sans: ['Magnat Text', ...defaultTheme.fontFamily.sans],
         text: ['Magnat Text', ...defaultTheme.fontFamily.sans],
       },
+      colors: {},
       typography: (theme) => ({
         DEFAULT: {
-          css: {
-            'code::before': {
-              content: '',
-            },
-            'code::after': {
-              content: '',
-            },
-          },
+          css: {},
         },
       }),
     },
   },
-  plugins: [require('@tailwindcss/typography'), require('@tailwindcss/forms')],
+  plugins: [require('@tailwindcss/typography')],
 }

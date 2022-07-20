@@ -1,7 +1,7 @@
 require('dotenv-flow').config()
 /** @type {import('next-sitemap').IConfig} */
 module.exports = {
-  siteUrl: `https://www.advancedtypescript.dev`,
+  siteUrl: process.env.NEXT_PUBLIC_URL,
   changefreq: 'daily',
   priority: 0.7,
   sitemapSize: 5000,
@@ -22,8 +22,6 @@ module.exports = {
     '/check-your-email',
   ],
   robotsTxtOptions: {
-    additionalSitemaps: [
-      'https://www.advancedtypescript.dev/server-sitemap.xml',
-    ],
+    additionalSitemaps: [`${process.env.NEXT_PUBLIC_URL}/server-sitemap.xml`],
   },
 }
