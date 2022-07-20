@@ -53,10 +53,14 @@ export async function propsForCommerce({
   query: ParsedUrlQuery
 }) {
   const token = await getToken({req})
-  const purchases = token ? (token.purchases as any) : false
+
   const couponFromCode = await getCouponForCode(query.code as string)
   const {products} = await getActiveProducts()
-  const {getDefaultCoupon} = getSdk()
+  const {getDefaultCoupon, getPurchasesForUser} = getSdk()
+
+  const purchases = token?.id
+    ? await getPurchasesForUser(token.id as string)
+    : false
 
   const couponIdFromCoupon = (query.coupon as string) || couponFromCode?.id
   const defaultCoupons = !token
