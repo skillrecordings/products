@@ -1,0 +1,11 @@
+{
+  "exclude": ["node_modules"],
+  "extends": "@skillrecordings/tsconfig/nextjs.json",
+  "compilerOptions": {
+    "baseUrl": "./src/",
+    "rootDir": "src",
+    "outDir": "dist",
+    "incremental": true
+  },
+  "include": ["src", "next-env.d.ts", "process.d.ts"]
+}
