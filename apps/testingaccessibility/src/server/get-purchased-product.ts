@@ -4,6 +4,7 @@ import last from 'lodash/last'
 import get from 'lodash/get'
 import groq from 'groq'
 import {isEmpty} from 'lodash'
+import {getSdk} from 'lib/prisma-api'
 
 const defaultProductQuery = groq`*[_type == "product" && productId == $productId][0]{
   productId,
@@ -35,9 +36,10 @@ export async function getPurchasedProduct(
   productQuery: string = defaultProductQuery,
 ) {
   const token = await getToken({req})
+  const {getPurchasesForUser} = getSdk()
   if (token && token.sub) {
     // no need to reload purchases since they are on the session
-    const purchases = (token.purchases as any[]) || []
+    const purchases = (await getPurchasesForUser(token.id as string)) || []
 
     if (!isEmpty(purchases)) {
       const productId = get(last(purchases), 'productId')

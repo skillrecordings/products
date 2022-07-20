@@ -28,7 +28,7 @@ const ContactForm = () => {
   } = useFeedbackForm({
     location: 'contact',
   })
-  const {user, userLoadingStatus} = useUser()
+  const {user} = useUser()
   const initialValues: FeedbackFormValues = {
     email: user?.user?.email || '',
     ...initialFeedbackFormValues,
@@ -43,12 +43,7 @@ const ContactForm = () => {
     >
       {({errors, touched, isSubmitting}) => (
         <Form className="flex flex-col space-y-5">
-          <ContactEmailField
-            user={user}
-            userLoadingStatus={userLoadingStatus}
-            errors={errors}
-            touched={touched}
-          />
+          <ContactEmailField errors={errors} touched={touched} />
           <FeedbackField
             label="Your message"
             errors={errors}

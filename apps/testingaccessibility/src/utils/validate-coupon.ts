@@ -11,7 +11,7 @@ export const validateCoupon = (coupon: Coupon | null) => {
   }
 
   const isUsedUp =
-    coupon.maxUses > 0 ? coupon.usedCount > coupon.maxUses : false
+    coupon.maxUses > 0 ? coupon.usedCount >= coupon.maxUses : false
 
   const isExpired = coupon.expires
     ? isBefore(new Date(coupon.expires), new Date())

@@ -1,6 +1,5 @@
 import React from 'react'
 import Layout from 'components/app/layout'
-import prisma from 'db'
 import {find, get, isNull, isString} from 'lodash'
 import {serialize} from 'utils/prisma-next-serializer'
 import {GetServerSideProps} from 'next'
