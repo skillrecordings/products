@@ -15,20 +15,11 @@ module.exports = {
     extend: {
       fontFamily: {
         sans: [...defaultTheme.fontFamily.sans],
-        heading: [...defaultTheme.fontFamily.sans],
-        display: [...defaultTheme.fontFamily.sans],
       },
+      colors: {},
       typography: (theme) => ({
         DEFAULT: {
-          css: {
-            '*': {},
-            'code::before': {
-              content: '',
-            },
-            'code::after': {
-              content: '',
-            },
-          },
+          css: {},
         },
       }),
     },
