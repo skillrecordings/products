@@ -11,9 +11,11 @@ import cx from 'classnames'
 import {getEmoji} from '@skillrecordings/skill-api/dist/client'
 
 export const FeedbackField: React.FC<any> = ({
+  label = 'Your feedback',
   errors,
   touched,
   isSubmitted,
+  showMarkdown = true,
 }) => {
   const [field] = useField({name: 'text'})
   const editor = useEditor({
@@ -52,7 +54,7 @@ export const FeedbackField: React.FC<any> = ({
           className="pb-1 inline-block text-sm font-semibold flex-shrink-0"
           htmlFor="text"
         >
-          Your feedback <span className="font-normal">(required)</span>
+          {label} <span className="font-normal">(required)</span>
         </label>
         {errors.text && touched.text ? (
           <div
@@ -71,9 +73,11 @@ export const FeedbackField: React.FC<any> = ({
       >
         <EditorContent editor={editor} name="text" id="text" />
       </div>
-      <small className="text-gray-500">
-        Styling with markdown is supported.
-      </small>
+      {showMarkdown && (
+        <small className="text-gray-500">
+          Styling with markdown is supported.
+        </small>
+      )}
     </div>
   )
 }
@@ -97,7 +101,7 @@ export const EmotionField: React.FC<any> = (props) => {
       >
         <RadioGroup.Label className="sr-only">Pick an emotion</RadioGroup.Label>
         <div className="flex items-center space-x-3">
-          {[':heart_eyes:', ':unicorn_face:', ':sob:'].map((emotion) => (
+          {[':heart_eyes:', ':wave:', ':sob:'].map((emotion) => (
             <RadioGroup.Option
               key={emotion}
               value={emotion}

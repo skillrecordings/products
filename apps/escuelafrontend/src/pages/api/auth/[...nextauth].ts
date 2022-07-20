@@ -1,13 +1,13 @@
 import mjml2html from 'mjml'
 import NextAuth from 'next-auth'
 import {PrismaAdapter} from '@next-auth/prisma-adapter'
-import {PrismaClient} from '@prisma/client'
 import EmailProvider from 'next-auth/providers/email'
 import nodemailer from 'nodemailer'
+import {PrismaClient} from '../../../../generated/prisma/client'
 const prisma = new PrismaClient()
 
 export default NextAuth({
-  adapter: PrismaAdapter(prisma),
+  adapter: PrismaAdapter(prisma as any),
   providers: [
     EmailProvider({
       server: {

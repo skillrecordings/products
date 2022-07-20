@@ -53,7 +53,7 @@
     "glslify": "^7.1.1",
     "lodash": "^4.17.21",
     "mdx-prism": "^0.3.4",
-    "next": "^12.1.6",
+    "next": "^12.2.2",
 
     "next-sitemap": "^3.0.5",
     "next-themes": "^0.1.1",

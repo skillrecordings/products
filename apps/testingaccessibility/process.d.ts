@@ -23,5 +23,8 @@ declare namespace NodeJS {
     NEXT_PUBLIC_URL: string
     CONVERTKIT_PURCHASED_TAG_ID: string
     SLACK_ANNOUNCE_CHANNEL_ID: string
+    SLACK_FEEDBACK_CHANNEL_ID: string
+    NEXT_PUBLIC_SITE_TITLE: string
+    SLACK_TOKEN: string
   }
 }

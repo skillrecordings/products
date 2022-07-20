@@ -6,6 +6,7 @@ import {getCouponForCode} from '../server/get-coupon-for-code'
 import {getActiveProducts} from '../lib/products'
 import {serialize} from './prisma-next-serializer'
 import {Purchase} from '../../generated/prisma/client'
+import {getSdk} from '../lib/prisma-api'
 
 export type CouponForCode = {
   isValid: boolean
@@ -13,12 +14,15 @@ export type CouponForCode = {
   isRedeemable: boolean
 }
 
+export type DefaultCoupon = {percentageDiscount: number; expires: string}
+
 export type CommerceProps = {
   couponIdFromCoupon?: string
   couponFromCode?: CouponForCode
   userId?: string
   purchases?: Purchase[]
   products: SanityProduct[]
+  defaultCoupon?: DefaultCoupon
 }
 
 export type SanityProduct = {
@@ -49,14 +53,28 @@ export async function propsForCommerce({
   query: ParsedUrlQuery
 }) {
   const token = await getToken({req})
-  const purchases = token ? (token.purchases as any) : false
+
   const couponFromCode = await getCouponForCode(query.code as string)
   const {products} = await getActiveProducts()
+  const {getDefaultCoupon, getPurchasesForUser} = getSdk()
+
+  const purchases = token?.id
+    ? await getPurchasesForUser(token.id as string)
+    : false
 
   const couponIdFromCoupon = (query.coupon as string) || couponFromCode?.id
+  const defaultCoupons = !token
+    ? await getDefaultCoupon(process.env.NEXT_PUBLIC_DEFAULT_PRODUCT_ID)
+    : null
 
   return {
     props: {
+      ...(defaultCoupons && {
+        defaultCoupon: serialize({
+          expires: defaultCoupons.defaultCoupon.expires,
+          percentageDiscount: defaultCoupons.defaultCoupon.percentageDiscount,
+        }),
+      }),
       ...(token?.id ? {userId: token?.id} : {}),
       ...(couponFromCode && {couponFromCode: serialize(couponFromCode)}),
       ...(couponIdFromCoupon && {couponIdFromCoupon}),

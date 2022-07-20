@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "build": "NODE_ENV=production prisma generate && next build",
+    "build": "NODE_ENV=production  next build",
     "postbuild": "NODE_ENV=production next-sitemap",
     "build:data": "node src/data/cache-json-data.js -p",
     "build:data:dev": "node src/data/cache-json-data.js",
@@ -12,12 +12,10 @@
     "dev": "next dev -p 3011",
     "format": "prettier --write './**/*.{js,jsx,ts,tsx,css,md,mdx,json}' --config ./.prettierrc",
     "generate": "prisma generate",
-    "prebuild": "pnpm generate",
-    "predev": "pnpm generate",
     "integration": "cypress run",
-    "lint": "TIMING=1 prisma generate && eslint src/**/*.{ts,tsx} --fix && tsc --noEmit",
+    "lint": "TIMING=1 eslint src/**/*.{ts,tsx} --fix && tsc --noEmit",
     "start": "next start -p 3011",
-    "test": "prisma generate && jest"
+    "test": "jest"
   },
   "prettier": {
     "bracketSpacing": false,
@@ -77,8 +75,8 @@
     "lodash": "^4.17.21",
     "mdx-prism": "^0.3.4",
     "mjml": "^4.12.0",
-    "next": "^12.1.6",
-    "next-auth": "=4.2.1",
+    "next": "^12.2.2",
+    "next-auth": "^4.10.0",
     "next-mdx-remote": "^4.0.0",
     "next-sitemap": "^3.0.5",
     "next-themes": "^0.1.1",

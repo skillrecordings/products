@@ -21,29 +21,30 @@ const Home: React.FC<CommerceProps> = ({
   userId,
   products,
   couponIdFromCoupon,
+  defaultCoupon,
 }) => {
   const {redeemableCoupon, RedeemDialogForCoupon} = useCoupon(couponFromCode)
   return (
-    <Layout className="bg-white">
+    <Layout className="bg-white" defaultCoupon={defaultCoupon}>
       <main>
         <div className="flex flex-col justify-between min-h-screen overflow-hidden">
           <header className="relative text-white bg-green-700 lg:pt-24 sm:pt-24 pt-12 bg-noise">
             <div className="flex flex-col items-center justify-center w-full">
               <div className="flex flex-col items-center justify-center text-center sm:px-8 px-4">
-                <p className="font-display font-medium pb-6 lg:text-xl sm:text-lg text-base text-[#FFC165]">
+                <h1 className="font-display font-medium pb-6 lg:text-xl sm:text-lg text-base text-[#FFC165]">
                   Testing Accessibility — by Marcy Sutton
-                </p>
-                <h1 className="md:max-w-screen-lg lg:text-5xl md:text-5xl sm:text-4xl text-[2rem] font-heading font-bold leading-tight max-w-lg">
+                </h1>
+                <h2 className="md:max-w-screen-lg lg:text-5xl md:text-5xl sm:text-4xl text-[2rem] font-heading font-bold leading-tight max-w-lg">
                   <span className="inline-flex">
                     Comprehensive Accessibility Training for Shipping
                     High-Quality Web Applications
                   </span>{' '}
-                </h1>
-                <h2 className="lg:leading-normal max-w-xl font-display inline-block font-normal pt-8 lg:text-xl text-lg text-center text-moss-200">
+                </h2>
+                <h3 className="lg:leading-normal max-w-xl font-display inline-block font-normal pt-8 lg:text-xl text-lg text-center text-moss-200">
                   A self-paced workshop designed to teach you the principles and
                   effective patterns of accessibility, from design to
                   deployment.
-                </h2>
+                </h3>
               </div>
               <div className="sm:translate-y-32 translate-y-24 drop-shadow-2xl sm:w-auto sm:-mt-24 -mt-8 sm:scale-100 scale-125">
                 <Image

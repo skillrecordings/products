@@ -2,6 +2,7 @@ generator client {
   provider = "prisma-client-js"
   previewFeatures = ["referentialIntegrity", "interactiveTransactions"]
   output   = "../generated/prisma/client"
+  binaryTargets   = ["rhel-openssl-1.0.x", "native"]
 }
 
 datasource db {
@@ -11,9 +12,9 @@ datasource db {
 }
 
 model Comment {
-  id                       String  @id @default(uuid())
+  id                       String            @id @default(uuid())
   userId                   String
-  text                     String
+  text                     String            @db.Text
   context                  Json?
   updatedAt                DateTime?
   createdAt                DateTime          @default(now())

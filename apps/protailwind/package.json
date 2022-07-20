@@ -9,9 +9,9 @@
     "dev": "next dev -p 3017",
     "format": "prettier --write './**/*.{js,jsx,ts,tsx,css,md,mdx,json}' --config ./.prettierrc",
     "integration": "cypress run",
-    "lint": "TIMING=1 prisma generate && eslint src/**/*.{ts,tsx} --fix && tsc --noEmit",
+    "lint": "TIMING=1 eslint src/**/*.{ts,tsx} --fix && tsc --noEmit",
     "start": "next start -p 3017",
-    "test": "prisma generate && jest"
+    "test": "jest"
   },
   "lint-staged": {
     "*.{js,json,md,mdx,ts,tsx}": [
@@ -58,9 +58,8 @@
     "framer-motion": "^6.4.1",
     "framer-motion-3d": "^6.4.1",
     "leva": "^0.9.27",
-    "next": "^12.1.6",
+    "next": "^12.2.2",
     "next-compose-plugins": "^2.2.1",
-
     "next-sitemap": "^3.0.5",
     "react": "17.0.2",
     "react-dom": "17.0.2",

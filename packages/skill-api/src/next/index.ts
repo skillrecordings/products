@@ -85,8 +85,22 @@ function SkillRecordings(
   return SkillRecordingsNextHandler(args[0], args[1], args[2])
 }
 
+export type SlackFeedbackConfig = {
+  channelId: string
+  botUsername?: string
+}
+export type SlackConfig = {
+  token: string
+  feedback: SlackFeedbackConfig
+}
+
 export interface SkillRecordingsOptions {
   prismaClient: PrismaClient
+  site: {
+    supportEmail: string
+    title: string
+  }
+  slack?: SlackConfig
 }
 
 export default SkillRecordings

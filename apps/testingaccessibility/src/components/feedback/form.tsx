@@ -6,53 +6,29 @@ import {Formik, Form, FormikHelpers} from 'formik'
 import {CheckIcon} from '@heroicons/react/solid'
 import {XCircleIcon} from '@heroicons/react/outline'
 import Spinner from 'components/spinner'
-import {sendFeedback} from '@skillrecordings/skill-api/dist/client'
 import {FeedbackContext} from '@skillrecordings/skill-api'
+import {useFeedbackForm} from '../../hooks/use-feedback-form'
 
-type FeedbackFormValues = {
+export type FeedbackFormValues = {
   text: string
   context: FeedbackContext
+  email?: string
 }
 
 const FeedbackValidationSchema = Yup.object().shape({
   text: Yup.string().required('Feedback field is required'),
 })
 
-const FeedbackForm: React.FC = () => {
-  const {location} = useFeedback()
-  const [isSubmitted, setIsSubmitted] = React.useState<boolean>(false)
-  const [error, setError] = React.useState<string>()
-  const initialValues: FeedbackFormValues = {
-    text: '',
-    context: {
-      category: 'general',
-      emotion: ':heart_eyes:',
-      url: window.location.href,
-      location,
-    },
-  }
-
+export const FeedbackForm: React.FC<
+  React.PropsWithChildren<{location: string}>
+> = ({location}) => {
+  const {initialValues, submitFeedbackForm, isSubmitted, error} =
+    useFeedbackForm({location})
   return (
     <Formik
       initialValues={initialValues}
       validationSchema={FeedbackValidationSchema}
-      onSubmit={async (
-        values: FeedbackFormValues,
-        {setSubmitting, resetForm}: FormikHelpers<FeedbackFormValues>,
-      ) => {
-        setSubmitting(true)
-        await sendFeedback(values.text, values.context).then((error) => {
-          if (error.error) {
-            setSubmitting(false)
-            setIsSubmitted(false)
-            setError(error.message)
-          } else {
-            setSubmitting(false)
-            setIsSubmitted(true)
-            resetForm()
-          }
-        })
-      }}
+      onSubmit={submitFeedbackForm}
     >
       {({errors, touched, isSubmitting}) => (
         <Form className="flex flex-col space-y-5">
@@ -74,7 +50,7 @@ const FeedbackForm: React.FC = () => {
   )
 }
 
-const ErrorMessage: React.FC = ({children}) => {
+export const ErrorMessage: React.FC = ({children}) => {
   return (
     <div
       aria-live="polite"
@@ -86,7 +62,13 @@ const ErrorMessage: React.FC = ({children}) => {
   )
 }
 
-const ConfirmationMessage = () => {
+export const ConfirmationMessage = ({
+  message = `Feedback sent, thank you!`,
+  isModal = true,
+}: {
+  message?: string
+  isModal?: boolean
+}) => {
   const {setIsFeedbackDialogOpen} = useFeedback()
   return (
     <div
@@ -94,15 +76,17 @@ const ConfirmationMessage = () => {
       className="px-5 py-3 text-sm font-semibold flex flex-wrap items-center justify-center text-center bg-teal-50 text-teal-700 rounded-md"
     >
       <CheckIcon className="w-4 h-4 mr-1" aria-hidden="true" />{' '}
-      <span>Feedback sent, thank you!</span>
-      <button
-        className="underline pl-2 inline-block"
-        onClick={() => {
-          setIsFeedbackDialogOpen(false)
-        }}
-      >
-        Close
-      </button>
+      <span>{message}</span>
+      {isModal && (
+        <button
+          className="underline pl-2 inline-block"
+          onClick={() => {
+            setIsFeedbackDialogOpen(false)
+          }}
+        >
+          Close
+        </button>
+      )}
     </div>
   )
 }
@@ -111,7 +95,7 @@ type SubmitButtonProps = {
   isSubmitting: boolean
 }
 
-const SubmitButton: React.FC<SubmitButtonProps> = ({
+export const SubmitButton: React.FC<SubmitButtonProps> = ({
   isSubmitting,
   children,
 }) => {

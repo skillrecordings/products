@@ -21,7 +21,9 @@ export interface IncomingRequest {
   /** @default "http://localhost:3000" */
   host?: string
   method?: string
-  cookies?: Record<string, string>
+  cookies?: Partial<{
+    [key: string]: string
+  }>
   headers?: Record<string, any>
   query?: Record<string, any>
   body?: Record<string, any>
@@ -62,10 +64,10 @@ export async function SkillRecordingsHandler<
     switch (action) {
       case 'send-feedback':
         return await sendFeedbackFromUser({
-          userId: token?.id as string,
+          emailAddress: req?.body?.email || token?.email,
           feedbackText: req?.body?.text,
-          context: req?.body?.conext,
-          prisma: userOptions.prismaClient,
+          context: req?.body?.context,
+          config: userOptions,
         })
     }
   }

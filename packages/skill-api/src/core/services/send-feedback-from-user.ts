@@ -4,55 +4,66 @@ import {getEmoji} from '../../client/get-feedback-emoji'
 import {SendFeedbackFromUserOptions} from '../types'
 import {sendPostmarkEmail} from '../../lib/postmark'
 import {OutgoingResponse} from '../index'
+import {postFeedbackToSlack} from '../../server/post-to-slack'
+import {NodeHtmlMarkdown} from 'node-html-markdown'
+import {User} from '../../../generated/prisma/client'
 
 export async function sendFeedbackFromUser({
-  userId,
+  emailAddress,
   feedbackText,
   context,
-  prisma,
+  config,
 }: SendFeedbackFromUserOptions): Promise<OutgoingResponse> {
+  const {prismaClient, slack, site} = config
+
   try {
-    const user = await prisma.user.findUnique({
-      where: {
-        id: userId,
-      },
-    })
-    if (!user) {
+    const user =
+      (await prismaClient.user.findFirst({
+        where: {email: emailAddress?.toLowerCase()},
+      })) || ({email: emailAddress} as User)
+
+    if (!user.email) {
       return {
         status: 403,
         body: 'Error: Not Authorized' as any,
       }
-    } else {
-      const comment = await prisma.comment.create({
+    }
+
+    const feedbackTextAsMarkdown = NodeHtmlMarkdown.translate(feedbackText)
+
+    if (user.id) {
+      await prismaClient.comment.create({
         data: {
           userId: user.id,
-          text: htmlToText(feedbackText),
+          text: feedbackTextAsMarkdown,
           context,
           updatedAt: new Date(),
         },
       })
+    }
 
-      const html = `${getEmoji(context?.emotion).image} ${sanitizeHtml(
-        feedbackText,
-      )} <i>${context?.url ? context.url : ''}</i>`
+    const html = `${sanitizeHtml(feedbackText)} <i>${
+      context?.url ? context.url : ''
+    }</i>`
 
-      const info = await sendPostmarkEmail({
-        from: `${process.env.NEXT_PUBLIC_SITE_TITLE} Feedback <${process.env.NEXT_PUBLIC_SUPPORT_EMAIL}>`,
-        to: process.env.NEXT_PUBLIC_SUPPORT_EMAIL,
-        replyTo: user.email,
-        subject: `Feedback from ${user.name ? user.name : user.email} about ${
-          process.env.NEXT_PUBLIC_SITE_TITLE
-        }`,
-        text: comment.text,
-        html,
-      })
+    const info = await sendPostmarkEmail({
+      from: `${site.title} Feedback <${site.supportEmail}>`,
+      to: site.supportEmail,
+      replyTo: user.email,
+      subject: `${
+        context?.emotion ? `${getEmoji(context?.emotion).image} ` : ''
+      }Feedback from ${user.name ? user.name : user.email} about ${site.title}`,
+      text: htmlToText(feedbackText),
+      html,
+    })
 
-      //TODO: maybe send to slack?
+    if (slack?.feedback) {
+      await postFeedbackToSlack(feedbackTextAsMarkdown, context, user, slack)
+    }
 
-      return {
-        status: 200,
-        body: info,
-      }
+    return {
+      status: 200,
+      body: info,
     }
   } catch (error: any) {
     return {

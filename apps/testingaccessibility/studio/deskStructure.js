@@ -6,6 +6,7 @@ import sections from './src/structure/sections'
 import lessons from './src/structure/lessons'
 import modules from './src/structure/modules'
 import products from './src/structure/products'
+import videoResources from './src/structure/videoResources'
 import pricing from './src/structure/pricing'
 
 const hiddenDocTypes = (listItem) =>
@@ -17,6 +18,7 @@ const hiddenDocTypes = (listItem) =>
     'module',
     'section',
     'lesson',
+    'videoResource',
     'tag',
     'article',
   ].includes(listItem.getId())
@@ -32,6 +34,7 @@ export default () =>
       modules,
       sections,
       lessons,
+      videoResources,
       S.divider(),
       workshops,
       articles,
