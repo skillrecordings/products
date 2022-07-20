@@ -32,7 +32,7 @@
     "@types/react-dom": "^17.0.17",
     "esbuild-node-tsc": "^1.6.1",
     "eslint-config-custom": "workspace:*",
-    "next": "^12.1.6",
+    "next": "^12.2.2",
     "react": "17.0.2",
     "react-dom": "17.0.2",
     "stripe": "^8.186.1",

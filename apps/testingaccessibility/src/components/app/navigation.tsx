@@ -12,6 +12,7 @@ import cx from 'classnames'
 import Image from 'next/image'
 import {useNavState} from '../../hooks/use-nav-state'
 import {useFeedback} from '../../context/feedback-context'
+import {useUser} from '../../hooks/use-user'
 
 const Navigation = () => {
   return (
@@ -29,7 +30,8 @@ const Navigation = () => {
 }
 
 const DesktopNav: React.FC = () => {
-  const {isSignedIn, isLoadingUser, canViewTeam} = useNavState()
+  const {isSignedIn, canViewTeam} = useNavState()
+  const {userLoadingStatus} = useUser()
   const {setIsFeedbackDialogOpen} = useFeedback()
 
   return (
@@ -43,15 +45,17 @@ const DesktopNav: React.FC = () => {
         <NavLink href={isSignedIn ? '/learn' : '/workshops'}>Workshops</NavLink>
         <NavLink href="/articles">Articles</NavLink>
       </NavSlots>
-      {!isLoadingUser && (isSellingLive || isSignedIn) && (
+      {userLoadingStatus !== 'loading' && (isSellingLive || isSignedIn) && (
         <NavSlots>
-          <NavLink
-            onClick={() => {
-              setIsFeedbackDialogOpen(true, 'header')
-            }}
-          >
-            Send Feedback
-          </NavLink>
+          {isSignedIn && (
+            <NavLink
+              onClick={() => {
+                setIsFeedbackDialogOpen(true, 'header')
+              }}
+            >
+              Send Feedback
+            </NavLink>
+          )}
           {canViewTeam && <NavLink href="/team">Invite Team</NavLink>}
           {isSignedIn ? <AccountMenu /> : <RestorePurchasesLink />}
         </NavSlots>
@@ -61,7 +65,8 @@ const DesktopNav: React.FC = () => {
 }
 
 const MobileNav: React.FC = () => {
-  const {isSignedIn, isLoadingUser, canViewTeam, canViewInvoice} = useNavState()
+  const {isSignedIn, canViewTeam, canViewInvoice} = useNavState()
+  const {userLoadingStatus} = useUser()
   return (
     <Menu as="div" className="sm:hidden relative inline-block text-left z-10">
       {({open}) => (
@@ -123,7 +128,7 @@ const MobileNav: React.FC = () => {
                   )}
                 </Menu.Item>
               </div>
-              {!isLoadingUser && isSellingLive && (
+              {userLoadingStatus !== 'loading' && isSellingLive && (
                 <div className="px-1 pt-2 pb-1">
                   <div className="text-green-600 text-xs px-2 py-2 uppercase tracking-wide font-bold">
                     Account
@@ -259,7 +264,7 @@ export const handleSignOut = async (router: NextRouter) => {
     redirect: false,
     callbackUrl: '/',
   }).then((data) => data)
-  router.push(data.url)
+  window.location.href = data.url
 }
 
 const SignOutButton = React.forwardRef<HTMLButtonElement, MenuLinkProps>(

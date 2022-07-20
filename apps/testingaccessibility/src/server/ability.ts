@@ -1,5 +1,4 @@
 import {AbilityBuilder, Ability, AbilityClass} from '@casl/ability'
-import {isEmpty} from 'lodash'
 import {
   hasAvailableSeats,
   hasBulkPurchase,
@@ -9,7 +8,14 @@ import {
 import {PurchaseStatus} from '../utils/purchase-status'
 
 type Actions = 'manage' | 'invite' | 'view'
-type Subjects = 'Team' | 'Purchase' | 'Content' | 'Product' | 'Invoice' | 'all'
+type Subjects =
+  | 'Team'
+  | 'Purchase'
+  | 'Content'
+  | 'Product'
+  | 'Invoice'
+  | 'Account'
+  | 'all'
 type AppAbility = Ability<[Actions, Subjects]>
 const AppAbility = Ability as AbilityClass<AppAbility>
 
@@ -40,9 +46,10 @@ export function getCurrentAbility(
  * @param viewerAbilityInput
  */
 export function defineAbilityFor(viewerAbilityInput: ViewerAbilityInput) {
-  const rules = isEmpty(viewerAbilityInput.rules)
-    ? defineRulesForPurchases(viewerAbilityInput.purchases || [])
-    : viewerAbilityInput.rules
+  const rules = Boolean(viewerAbilityInput?.rules)
+    ? viewerAbilityInput.rules
+    : defineRulesForPurchases(viewerAbilityInput?.purchases || [])
+
   return new AppAbility(rules)
 }
 
@@ -60,9 +67,11 @@ export function defineRulesForPurchases(purchases: any[]) {
 
   if (hasBulkPurchase(purchases)) {
     can('view', 'Team')
+    can('view', 'Account')
   }
 
   if (hasValidPurchase(purchases)) {
+    can('view', 'Account')
     can('view', 'Content')
     can('view', 'Product', {
       productId: {

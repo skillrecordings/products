@@ -1,18 +1,18 @@
 import * as React from 'react'
-import {getCsrfToken, getProviders} from 'next-auth/react'
-import {GetServerSideProps} from 'next'
 import Image from 'next/image'
 import Layout from 'components/app/layout'
 import ContactForm from '../components/contact/contact-form'
+import {getOgImage} from 'utils/get-og-image'
 
 const ContactFormPage: React.FC = () => {
+  const ogImage = getOgImage('Contact')
   return (
     <Layout
       footer={null}
-      meta={{title: 'Contact the Testing Accessibility Team'}}
-      className="bg-green-700 bg-noise"
+      meta={{title: 'Contact the Testing Accessibility Team', ogImage}}
+      className="bg-gray-50"
     >
-      <div className="flex-grow w-full mx-auto md:pb-40 pb-16 md:pt-16 pt-0 flex flex-col items-center justify-center p-5 text-white">
+      <div className="flex-grow w-full mx-auto py-8 sm:pb-24 pb-16 flex flex-col items-center justify-center p-5">
         <main className="sm:mx-auto rounded-lg">
           <div className="max-w-sm mx-auto flex items-center justify-center w-full">
             <Image
