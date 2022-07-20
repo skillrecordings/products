@@ -264,7 +264,7 @@ export const handleSignOut = async (router: NextRouter) => {
     redirect: false,
     callbackUrl: '/',
   }).then((data) => data)
-  router.push(data.url)
+  window.location.href = data.url
 }
 
 const SignOutButton = React.forwardRef<HTMLButtonElement, MenuLinkProps>(
