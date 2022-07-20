@@ -54,10 +54,7 @@ const Layout: FunctionComponent<LayoutProps> = ({
       />
       {/* {nav ? nav : isNull(nav) ? null : <Navigation />} */}
       <div
-        className={cx(
-          'flex flex-col flex-grow h-full sm:min-h-[calc(100vh-64px)] min-h-[calc(100vh-56px)]',
-          className,
-        )}
+        className={cx('flex flex-col flex-grow h-full min-h-screen', className)}
       >
         {children}
         {/* {footer ? footer : isNull(footer) ? null : <Footer />} */}

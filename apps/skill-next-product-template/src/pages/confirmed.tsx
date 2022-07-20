@@ -13,7 +13,7 @@ const ConfirmedSubscriptionPage = () => {
           </h1>
           <p className="sm:text-xl leading-relaxed mx-auto pb-8">
             Thanks for confirming your email address — you're all set to receive{' '}
-            emails from me about ${process.env.NEXT_PUBLIC_SITE_TITLE}.
+            emails from me about {process.env.NEXT_PUBLIC_SITE_TITLE}.
           </p>
           <Signature />
         </div>
