@@ -9,7 +9,7 @@
 
   /* ——— HEADER ——— */
   [data-sr-quiz-question-header] {
-    @apply prose pb-6 max-w-none w-full;
+    @apply prose sm:prose-lg pb-6 max-w-none w-full;
 
     pre {
       @apply p-0;
@@ -78,7 +78,7 @@
       @apply font-medium;
     }
     textarea {
-      @apply w-full rounded-lg;
+      @apply w-full rounded-lg p-3 border border-gray-200;
     }
   }
 
@@ -97,7 +97,7 @@
 
   /* —— SUBMIT —— */
   [data-sr-button] {
-    @apply mt-5 text-white inline-flex items-center px-6 py-2 leading-6 font-semibold rounded-md border-none bg-green-500 hover:bg-green-600 transition cursor-pointer;
+    @apply mt-5 text-white inline-flex items-center px-6 py-2 leading-6 font-semibold rounded-md border-none bg-indigo-500 hover:bg-indigo-600 transition cursor-pointer;
   }
 
   [data-sr-button][disabled] {
