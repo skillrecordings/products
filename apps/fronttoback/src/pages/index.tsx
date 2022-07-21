@@ -11,7 +11,7 @@ import Layout from 'components/layout'
 const Subscribe = () => {
   const router = useRouter()
   return (
-    <section className="bg-white text-[#27234f] rounded-lg px-24 py-20">
+    <section className="bg-white text-[#27234f] rounded-lg lg:px-20 md:px-16 px-6 xl:px-24 lg:py-16 md:py-12 py-5 xl:py-20">
       <div className="text-center space-y-7 mb-6">
         <h3 className="text-[1.625rem]">
           Become proficient with backend development today!
@@ -52,14 +52,14 @@ const Home: NextPage = () => {
         <div className="relative min-h-screen pt-12 md:pt-20 xl:pt-24 2xl:pt-28 pb-80">
           <div className="max-w-[40rem] px-4 mx-auto">
             <h3 className="uppercase font-medium">new course</h3>
-            <h1 className="mt-14 text-6xl leading-[1.1]">
+            <h1 className="mt-8 md:mt-10 lg:mt-12 xl:mt-14 text-4xl md:text-5xl xl:text-6xl leading-[1.1]">
               Front to Back:
               <br />
               Backend for
               <br />
               Frontend Devs
             </h1>
-            <h2 className="mt-8 text-[1.625rem] leading-tight tracking-tight">
+            <h2 className="mt-4 md:mt-6 lg:mt-7 xl:mt-8 text-2xl md:text-3xl xl:text-[1.625rem] leading-tight tracking-tight">
               An interactive course designed to help JavaScript developers
               become proficient with backend development.
             </h2>
