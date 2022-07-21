@@ -59,6 +59,11 @@ export const defaultActions: ActionFunctionMap<VideoStateContext, VideoEvent> =
         screenfull.toggle(element)
       }
     },
+    exitFullscreen: (_context, event) => {
+      if (screenfull.isEnabled && event.type === 'EXIT_FULLSCREEN') {
+        screenfull.exit()
+      }
+    },
     onVideoEnded: (_context, _event) => {},
     saveSubtitlePreference: (_context, event) => {
       const {track}: any = event

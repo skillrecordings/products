@@ -15,7 +15,9 @@ import {
   selectCueFormElem,
   selectShortcutsEnabled,
   selectVideo,
+  selectIsFullscreen,
 } from '../selectors'
+import screenfull from 'screenfull'
 
 type ShortcutProps = {
   clickable?: boolean
@@ -39,6 +41,7 @@ const useShortcutState = () => {
   const volume = useSelector(videoService, selectVolume)
   const cueFormElem = useSelector(videoService, selectCueFormElem)
   const shortcutsEnabled = useSelector(videoService, selectShortcutsEnabled)
+  const isFullscreen = useSelector(videoService, selectIsFullscreen)
 
   return {
     videoService,
@@ -54,6 +57,7 @@ const useShortcutState = () => {
     cueFormElem,
     shortcutsEnabled,
     video,
+    isFullscreen,
   }
 }
 
@@ -86,17 +90,25 @@ export const Shortcut: React.FC<ShortcutProps> = ({
     volume,
     cueFormElem,
     shortcutsEnabled,
+    isFullscreen,
   } = useShortcutState()
 
   const shortCutsRef = React.useRef<any[]>([])
 
   React.useEffect(() => {
-    document.addEventListener('fullscreenchange', (e) => {
-      const isFullscreenOff = false === !!document.fullscreenElement
-      if (isFullscreenOff) {
-        videoService.send({type: 'EXIT_FULLSCREEN', element: rootElem})
-      }
-    })
+    if (screenfull.isEnabled) {
+      screenfull.onchange(() => {
+        if (!screenfull.isFullscreen) {
+          videoService.send({
+            type: 'EXIT_FULLSCREEN',
+            element: rootElem,
+          })
+        }
+      })
+    }
+    return () => {
+      screenfull.off('change', () => {})
+    }
   }, [])
 
   const togglePlay = React.useCallback(() => {
@@ -120,8 +132,19 @@ export const Shortcut: React.FC<ShortcutProps> = ({
       {
         keyCode: 70, // f
         ctrl: false,
-        handle: () =>
-          videoService.send({type: 'TOGGLE_FULLSCREEN', element: rootElem}),
+        handle: () => {
+          if (!isFullscreen) {
+            videoService.send({
+              type: 'TOGGLE_FULLSCREEN',
+              element: rootElem,
+            })
+          } else {
+            videoService.send({
+              type: 'EXIT_FULLSCREEN',
+              element: rootElem,
+            })
+          }
+        },
       },
       {
         keyCode: 67, // c
@@ -361,6 +384,7 @@ export const Shortcut: React.FC<ShortcutProps> = ({
     videoService,
     volume,
     shortcutsEnabled,
+    isFullscreen,
   ])
 
   const handleKeyPress = React.useCallback(
@@ -375,7 +399,6 @@ export const Shortcut: React.FC<ShortcutProps> = ({
             document.activeElement,
             'cueplayer-react-menu-button-active',
           ) ||
-          // || hasClass(document.activeElement, 'cueplayer-react-slider')
           hasClass(document.activeElement, 'cueplayer-react-big-play-button'))
       ) {
         return
@@ -399,10 +422,12 @@ export const Shortcut: React.FC<ShortcutProps> = ({
 
       // check if progress bar slider is focused
       const activeElement = document.activeElement
-      const seekBarElement = rootElem.querySelector(
+      const seekBarElement = rootElem?.querySelector(
         '[data-reach-slider-handle]',
       )
-      const isSeekBarFocused = activeElement?.isEqualNode(seekBarElement)
+      const isSeekBarFocused = activeElement?.isEqualNode(
+        seekBarElement || null,
+      )
 
       // only enable shortcuts if video element, document body, or progress bar is focused
       if (
@@ -423,7 +448,8 @@ export const Shortcut: React.FC<ShortcutProps> = ({
   const canBeClicked = React.useCallback(
     (e: Event) => {
       const target = e.target as Element
-      return !(!isActive || target.nodeName !== 'VIDEO' || readyState !== 4)
+
+      return !(!isActive || target.nodeName !== 'VIDEO' || readyState < 3)
     },
     [isActive, readyState],
   )
@@ -444,7 +470,10 @@ export const Shortcut: React.FC<ShortcutProps> = ({
       if (!canBeClicked(e) || !dblclickable) {
         return
       }
-      videoService.send('TOGGLE_FULLSCREEN')
+      videoService.send({
+        type: 'TOGGLE_FULLSCREEN',
+        element: rootElem,
+      })
       e.preventDefault()
     },
     [canBeClicked, dblclickable],
@@ -452,21 +481,20 @@ export const Shortcut: React.FC<ShortcutProps> = ({
 
   React.useEffect(() => {
     shortCutsRef.current = mergeShortcuts()
-    if (!enableGlobalShortcuts && rootElem) {
-      rootElem.addEventListener('keydown', handleKeyPress)
-      rootElem.addEventListener('click', handleClick)
-      rootElem.addEventListener('dblclick', handleDoubleClick)
 
+    if (!enableGlobalShortcuts) {
+      rootElem?.addEventListener('keydown', handleKeyPress)
+      rootElem?.addEventListener('click', handleClick)
+      rootElem?.addEventListener('dblclick', handleDoubleClick)
       return () => {
-        rootElem.removeEventListener('keydown', handleKeyPress)
-        rootElem.removeEventListener('click', handleClick)
-        rootElem.removeEventListener('dblclick', handleDoubleClick)
+        rootElem?.removeEventListener('keydown', handleKeyPress)
+        rootElem?.removeEventListener('click', handleClick)
+        rootElem?.removeEventListener('dblclick', handleDoubleClick)
       }
     } else {
       document.addEventListener('keydown', handleKeyPress)
       document.addEventListener('click', handleClick)
       document.addEventListener('dblclick', handleDoubleClick)
-
       return () => {
         document.removeEventListener('keydown', handleKeyPress)
         document.removeEventListener('click', handleClick)
@@ -479,6 +507,7 @@ export const Shortcut: React.FC<ShortcutProps> = ({
     handleKeyPress,
     mergeShortcuts,
     rootElem,
+    isFullscreen,
     enableGlobalShortcuts,
   ])
 
