@@ -12,7 +12,7 @@
     "build": "tsc && pnpm build:css",
     "build:css": "sass --style expanded src/styles/scss/index.scss dist/skillrecordings-player.css",
     "clean": "rm -rf .turbo && rm -rf node_modules && rm -rf dist",
-    "dev": "tsc -w & pnpm build:css -- -w",
+    "dev": "tsc -w & pnpm build:css -w",
     "lint": "TIMING=1 eslint src --fix",
     "test": "jest"
   },
@@ -34,7 +34,7 @@
     "js-cookie": "^3.0.1",
     "prism-react-renderer": "^1.2.1",
     "react-markdown": "^5.0.3",
-    "screenfull": "^5.1.0"
+    "screenfull": "^5.2.0"
   },
   "devDependencies": {
     "@emotion/babel-plugin": "^11.3.0",

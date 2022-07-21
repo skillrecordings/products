@@ -23,8 +23,7 @@ export const selectResource = (state: StateFrom<typeof videoMachine>) =>
   state.context.resource ?? {}
 
 export const selectRootElem = (state: StateFrom<typeof videoMachine>) => {
-  // @ts-ignore
-  return state.context.rootElemRef?.node.current ?? null
+  return state.context.rootElemRef?.current ?? null
 }
 
 export const selectCueFormElem = (state: StateFrom<typeof videoMachine>) =>
@@ -88,7 +87,7 @@ export const selectPlaybackRate = (state: StateFrom<typeof videoMachine>) =>
   state.context.playbackRate ?? 1.0
 
 export const selectIsFullscreen = (state: StateFrom<typeof videoMachine>) =>
-  state.context.isFullscreen
+  state.context.isFullscreen ?? false
 
 export const selectWithSidePanel = (state: StateFrom<typeof videoMachine>) =>
   state.context.withSidePanel
