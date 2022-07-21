@@ -31,5 +31,9 @@ h3 {
 }
 
 [data-sr-button] {
-  @apply block text-white bg-[#0065ff] w-full rounded-lg p-3 font-bold uppercase text-sm leading-relaxed;
+  @apply flex text-white bg-[#0065ff] w-full rounded-lg p-3 font-bold uppercase text-sm leading-relaxed justify-center items-center;
+}
+
+[data-sr-button-icon] svg {
+  width: 24px;
 }
