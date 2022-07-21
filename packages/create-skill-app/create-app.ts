@@ -67,6 +67,7 @@ export async function createApp({
     cwd: path.join(__dirname, 'templates', template),
     rename: (name) => {
       switch (name) {
+        case 'env':
         case 'env.production':
         case 'env.development':
         case 'gitignore':
