@@ -1,0 +1,7 @@
+@tailwind base;
+
+@tailwind components;
+@import './quiz.css';
+
+@tailwind utilities;
+@import './focus-visible.css';
