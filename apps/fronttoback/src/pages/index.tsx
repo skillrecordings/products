@@ -40,26 +40,32 @@ const Home: NextPage = () => {
   return (
     <Layout>
       <div className="relative w-full">
-        <div className="absolute inset-0">
-          <Image
+        <div
+          className="absolute inset-0 blur-xl"
+          style={{
+            backgroundImage:
+              'conic-gradient(from 47deg at 53% 55%, #ff6518 0%, #3a86c9 8%, #000000 29%, #000000 44%, #8748e1 59%, #9f00b7 76%, #ff6518 100%)',
+          }}
+        >
+          {/* <Image
             alt="Mountains"
             src="/images/background.webp"
             layout="fill"
             objectFit="cover"
             quality={100}
-          />
+          /> */}
         </div>
         <div className="relative min-h-screen pt-12 md:pt-20 xl:pt-24 2xl:pt-28 pb-80">
           <div className="max-w-[40rem] px-4 mx-auto">
             <h3 className="uppercase font-medium">new course</h3>
-            <h1 className="mt-14 text-6xl leading-[1.1]">
+            <h1 className="mt-8 md:mt-10 lg:mt-12 xl:mt-14 text-4xl md:text-5xl xl:text-6xl leading-[1.1]">
               Front to Back:
               <br />
               Backend for
               <br />
               Frontend Devs
             </h1>
-            <h2 className="mt-8 text-[1.625rem] leading-tight tracking-tight">
+            <h2 className="mt-4 md:mt-6 lg:mt-7 xl:mt-8 text-2xl md:text-3xl xl:text-[1.625rem] leading-tight tracking-tight">
               An interactive course designed to help JavaScript developers
               become proficient with backend development.
             </h2>
