@@ -46,14 +46,18 @@ const Home: NextPage = () => {
           //   backgroundImage:
           //     'conic-gradient(from 47deg at 53% 55%, #ff6518 0%, #3a86c9 8%, #000000 29%, #000000 44%, #8748e1 59%, #9f00b7 76%, #ff6518 100%)',
           // }}
+          style={{
+            backgroundImage:
+              'linear-gradient(284deg, rgb(215, 76, 159) 10%, rgba(255,255,255,0) 36%), linear-gradient(9deg, rgb(37, 102, 166) 37%, rgba(255,255,255,0) 90%), linear-gradient(29deg, rgba(255,255,255,0) 9%, rgb(22, 2, 68) 43%), radial-gradient(circle at 40% 164%, rgb(224, 107, 86) 25%, rgba(255,255,255,0) 52%), radial-gradient(circle at 60% 49%, rgba(255,255,255,0) 18%, rgb(200, 150, 90) 36%)',
+          }}
         >
-          <Image
+          {/* <Image
             alt="Mountains"
             src="/images/background.webp"
             layout="fill"
             objectFit="cover"
             quality={100}
-          />
+          /> */}
         </div>
         <div className="relative min-h-screen pt-12 md:pt-20 xl:pt-24 2xl:pt-28 pb-80">
           <div className="max-w-[40rem] px-4 mx-auto">
