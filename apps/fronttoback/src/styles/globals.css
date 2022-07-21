@@ -5,3 +5,67 @@
 
 @tailwind utilities;
 @import './focus-visible.css';
+
+body {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  @apply font-sans text-white bg-[#03021a] text-[1.125rem] leading-normal;
+}
+
+h1,
+h2,
+h3 {
+  font-weight: 700;
+}
+
+li::marker {
+  unicode-bidi: isolate;
+  font-variant-numeric: tabular-nums;
+  text-transform: none;
+  text-indent: 0px !important;
+  text-align: start !important;
+  text-align-last: start !important;
+}
+
+/* :root {
+  --headings-font-family: Rubik, sans-serif;
+  --body-font-family: Rubik, sans-serif;
+  --top-background-background-image: url('https://embed.filekitcdn.com/e/wsvprZD6rtLCmDsRvaKpdN/jtaKdgboG9tQ5YjbkJ9oeL');
+  --top-background-opacity: 1;
+  --top-background-background-color: #420489;
+  --middle-background-background-image: ;
+  --middle-background-opacity: 1;
+  --middle-background-background-color: #03021a;
+  --bottom-background-background-image: ;
+  --bottom-background-opacity: 1;
+  --bottom-background-background-color: #03021a;
+  --card-background-color: #ffffff;
+  --preheader-font-family: Roboto, sans-serif;
+  --preheader-color: #ffffff;
+  --preheader-font-weight: 700;
+  --preheader-letter-spacing: 1px;
+  --header-color: #ffffff;
+  --header-font-weight: 700;
+  --subheader-color: #ffffff;
+  --subheader-font-weight: 700;
+  --content_text-color: #ffffff;
+  --middle_content_text-color: #ffffff;
+  --bottom_content_text-color: #ffffff;
+  --form_header-color: #27234f;
+  --form_header-font-weight: 700;
+  --form_content_text-color: #000000;
+  --field-font-size: 18px;
+  --field-color: #6b657c;
+  --field-background-color: #ffffff;
+  --field-border-radius: 0px;
+  --field-font-weight: 400;
+  --field-border-color: #dddddd;
+  --button-color: #ffffff;
+  --button-background-color: #0065ff;
+  --button-border-radius: 0px;
+  --button-font-size: 14px;
+  --button-font-weight: 700;
+  --button-letter-spacing: 2px;
+  --disclaimer-color: #737373;
+  --disclaimer-font-size: 14px;
+} */

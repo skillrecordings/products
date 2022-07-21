@@ -1,6 +1,8 @@
 /** @type {import('tailwindcss').Config} */
 const defaultTheme = require('tailwindcss/defaultTheme')
 
+const fontBody = '"Rubik", sans-serif'
+
 module.exports = {
   content: [
     './src/**/*.tsx',
@@ -14,7 +16,7 @@ module.exports = {
   theme: {
     extend: {
       fontFamily: {
-        sans: [...defaultTheme.fontFamily.sans],
+        sans: [fontBody, ...defaultTheme.fontFamily.sans],
       },
       colors: {},
       typography: (theme) => ({
