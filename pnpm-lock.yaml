@@ -1039,7 +1039,7 @@ importers:
       tailwindcss: 3.1.4
       typescript: 4.7.4
 
-  apps/grimlocks-sanctuary:
+  apps/goober:
     specifiers:
       '@mdx-js/loader': ^2.1.2
       '@mdx-js/mdx': ^2.1.2

@@ -1,5 +1,6 @@
 The MIT License (MIT)
 
+Copyright (c) 2021-2022 Skill Recordings Inc.
 Copyright (c) 2022 Vercel, Inc.
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
