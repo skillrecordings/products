@@ -5,7 +5,7 @@ import Commander from 'commander'
 import path from 'path'
 import prompts from 'prompts'
 import checkForUpdate from 'update-check'
-import {createApp, DownloadError} from './create-app'
+import {createApp} from './create-app'
 import {getPkgManager} from './helpers/get-pkg-manager'
 import {validateNpmName} from './helpers/validate-pkg'
 import packageJson from './package.json'
@@ -19,46 +19,6 @@ const program = new Commander.Command(packageJson.name)
   .action((name) => {
     projectPath = name
   })
-  .option(
-    '--ts, --typescript',
-    `
-
-  Initialize as a TypeScript project.
-`,
-  )
-  .option(
-    '--use-npm',
-    `
-
-  Explicitly tell the CLI to bootstrap the app using npm
-`,
-  )
-  .option(
-    '--use-pnpm',
-    `
-
-  Explicitly tell the CLI to bootstrap the app using pnpm
-`,
-  )
-  .option(
-    '-e, --example [name]|[github-url]',
-    `
-
-  An example to bootstrap the app with. You can use an example name
-  from the official Next.js repo or a GitHub URL. The URL can use
-  any branch and/or subdirectory
-`,
-  )
-  .option(
-    '--example-path <path-to-example>',
-    `
-
-  In a rare case, your GitHub URL might contain a branch name with
-  a slash (e.g. bug/fix-1) and the path to the example (e.g. foo/bar).
-  In this case, you must specify the path to the example separately:
-  --example-path foo/bar
-`,
-  )
   .allowUnknownOption()
   .parse(process.argv)
 
@@ -115,49 +75,11 @@ async function run(): Promise<void> {
     process.exit(1)
   }
 
-  if (program.example === true) {
-    console.error(
-      'Please provide an example name or url, otherwise remove the example option.',
-    )
-    process.exit(1)
-  }
-
   program.usePnpm = true
 
-  const packageManager = 'pnpm'
-
-  const example = typeof program.example === 'string' && program.example.trim()
-  try {
-    await createApp({
-      appPath: resolvedProjectPath,
-      packageManager,
-      example: example && example !== 'default' ? example : undefined,
-      examplePath: program.examplePath,
-      typescript: program.typescript,
-    })
-  } catch (reason) {
-    if (!(reason instanceof DownloadError)) {
-      throw reason
-    }
-
-    const res = await prompts({
-      type: 'confirm',
-      name: 'builtin',
-      message:
-        `Could not download "${example}" because of a connectivity issue between your machine and GitHub.\n` +
-        `Do you want to use the default template instead?`,
-      initial: true,
-    })
-    if (!res.builtin) {
-      throw reason
-    }
-
-    await createApp({
-      appPath: resolvedProjectPath,
-      packageManager,
-      typescript: program.typescript,
-    })
-  }
+  await createApp({
+    appPath: resolvedProjectPath,
+  })
 }
 
 const update = checkForUpdate(packageJson).catch(() => null)
@@ -168,13 +90,13 @@ async function notifyUpdate(): Promise<void> {
     if (res?.latest) {
       const pkgManager = getPkgManager()
       console.log(
-        chalk.yellow.bold('A new version of `create-next-app` is available!') +
+        chalk.yellow.bold('A new version of `create-skill-app` is available!') +
           '\n' +
           'You can update by running: ' +
           chalk.cyan(
             pkgManager === 'yarn'
               ? 'yarn global add create-next-app'
-              : `${pkgManager} install --global create-next-app`,
+              : `${pkgManager} install --global create-skill-app`,
           ) +
           '\n',
       )
