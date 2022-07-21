@@ -1,5 +1,5 @@
 import Image from 'next/image'
-import Layout from 'components/layout'
+import Layout from 'components/app/layout'
 import LandingCopy from 'components/landing-copy.mdx'
 import {
   redirectUrlBuilder,
