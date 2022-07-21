@@ -37,13 +37,17 @@ Refractor.registerLanguage(yaml)
 Refractor.registerLanguage(css)
 
 const Video: React.FC<{url: string; title: string}> = ({url, title}) => {
+  const [isMounted, setIsMounted] = React.useState(false)
+  React.useEffect(() => {
+    setIsMounted(true)
+  }, [])
   const fullscreenWrapperRef = React.useRef<HTMLDivElement>(null)
   const videoService: any = useVideo()
   const isFullscreen = useSelector(videoService, selectIsFullscreen)
   const poster = url
     .replace('stream.mux.com', 'image.mux.com')
     .replace('.m3u8', '/thumbnail.png?width=1600&height=1000&fit_mode=pad')
-  return (
+  return isMounted ? (
     <div className="">
       {title && (
         <strong className="font-semibold inline-block pb-2">
@@ -52,9 +56,9 @@ const Video: React.FC<{url: string; title: string}> = ({url, title}) => {
       )}
       <div
         ref={fullscreenWrapperRef}
-        className={cx('w-full', {
+        className={cx('w-full rounded-md overflow-hidden', {
           'absolute top-0 left-0 z-50': isFullscreen,
-          relative: !isFullscreen,
+          'relative ': !isFullscreen,
         })}
       >
         <div className="rounded-md overflow-hidden">
@@ -71,7 +75,7 @@ const Video: React.FC<{url: string; title: string}> = ({url, title}) => {
         </div>
       </div>
     </div>
-  )
+  ) : null
 }
 
 const BodyImage = ({value}: BodyImageProps) => {

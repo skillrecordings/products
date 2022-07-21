@@ -18,7 +18,9 @@ export const FullscreenToggleControl: React.FC<FullscrenToggleProps> =
     const rootElem = useSelector(videoService, selectRootElem)
 
     function handleClick() {
-      videoService.send({type: 'TOGGLE_FULLSCREEN', element: rootElem})
+      isFullscreen
+        ? videoService.send({type: 'EXIT_FULLSCREEN', element: rootElem})
+        : videoService.send({type: 'TOGGLE_FULLSCREEN', element: rootElem})
     }
     return (
       <button
