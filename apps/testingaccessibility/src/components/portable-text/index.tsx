@@ -36,7 +36,11 @@ Refractor.registerLanguage(jsx)
 Refractor.registerLanguage(yaml)
 Refractor.registerLanguage(css)
 
-const Video: React.FC<{url: string; title: string}> = ({url, title}) => {
+const Video: React.FC<{
+  url: string
+  title: string
+  videoResource: {_ref: string}
+}> = ({url, title, videoResource}) => {
   const fullscreenWrapperRef = React.useRef<HTMLDivElement>(null)
   const videoService: any = useVideo()
   const isFullscreen = useSelector(videoService, selectIsFullscreen)
@@ -67,6 +71,14 @@ const Video: React.FC<{url: string; title: string}> = ({url, title}) => {
             poster={poster}
           >
             {url && <HLSSource src={url} />}
+            {videoResource && (
+              <track
+                label="English"
+                kind="subtitles"
+                srcLang="en"
+                src={`/api/srt/${videoResource._ref}`}
+              />
+            )}
           </Player>
         </div>
       </div>
@@ -214,11 +226,11 @@ const PortableTextComponents: PortableTextComponentsProps = {
   },
   types: {
     bodyVideo: ({value}: BodyVideoProps) => {
-      const {url, title, caption} = value
+      const {url, title, caption, videoResource} = value
       return (
         <figure className="video">
           <VideoProvider>
-            <Video url={url} title={title} />
+            <Video url={url} title={title} videoResource={videoResource} />
           </VideoProvider>
           <figcaption>
             <details className="group marker:text-transparent no-marker">
@@ -337,6 +349,9 @@ type BodyVideoProps = {
     url: string
     title: string
     caption: PortableTextBlock | ArbitraryTypedObject
+    videoResource: {
+      _ref: string
+    }
   }
 }
 
