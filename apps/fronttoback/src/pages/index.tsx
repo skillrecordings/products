@@ -11,7 +11,7 @@ import Layout from 'components/layout'
 const Subscribe = () => {
   const router = useRouter()
   return (
-    <section className="bg-white text-[#27234f] rounded-lg px-24 py-20">
+    <section className="bg-white text-[#27234f] rounded-lg lg:px-20 md:px-16 px-6 xl:px-24 lg:py-16 md:py-12 py-5 xl:py-20">
       <div className="text-center space-y-7 mb-6">
         <h3 className="text-[1.625rem]">
           Become proficient with backend development today!
