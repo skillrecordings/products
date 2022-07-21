@@ -1,7 +1,6 @@
 import NextAuth, {NextAuthOptions} from 'next-auth'
 import EmailProvider, {EmailConfig} from 'next-auth/providers/email'
 import jwt from 'jsonwebtoken'
-import {JWT} from 'next-auth/jwt'
 import {PrismaAdapter} from '@next-auth/prisma-adapter'
 import prisma from '../../../db'
 import {createTransport} from 'nodemailer'
@@ -109,6 +108,11 @@ export const nextAuthOptions: NextAuthOptions = {
     async jwt({token, profile, account, user}) {
       if (user) {
         token.id = user.id
+        const {getPurchasesForUser} = getSdk()
+        const purchases = await getPurchasesForUser(user.id)
+        token.purchases = purchases
+        token.roles = user?.roles || []
+        token.rules = defineRulesForPurchases(purchases)
       }
       return token
     },

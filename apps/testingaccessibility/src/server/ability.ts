@@ -67,6 +67,7 @@ export function defineRulesForPurchases(purchases: any[]) {
 
   if (hasBulkPurchase(purchases)) {
     can('view', 'Team')
+    can('view', 'Account')
   }
 
   if (hasValidPurchase(purchases)) {

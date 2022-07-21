@@ -2,16 +2,15 @@ import * as React from 'react'
 import cx from 'classnames'
 import {FormikErrors, FormikTouched, useField} from 'formik'
 import {FeedbackFormValues} from '../feedback/form'
-import {QueryStatus} from 'react-query'
 import Spinner from 'components/spinner'
 import isEmpty from 'lodash/isEmpty'
+import {useUser} from '../../hooks/use-user'
 
 const ContactEmailField: React.FC<{
   errors: FormikErrors<FeedbackFormValues>
   touched: FormikTouched<FeedbackFormValues>
-  user?: {user: {email: string}}
-  userLoadingStatus: QueryStatus
-}> = ({errors, touched, user, userLoadingStatus}) => {
+}> = ({errors, touched}) => {
+  const {user, userLoadingStatus} = useUser()
   const [field] = useField({
     name: 'email',
   })
