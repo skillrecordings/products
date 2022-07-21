@@ -1,6 +1,8 @@
 import React, {FunctionComponent} from 'react'
 import {NextSeo} from '@skillrecordings/react'
+import Navigation from 'components/navigation'
 import cx from 'classnames'
+import isNull from 'lodash/isNull'
 
 type LayoutProps = {
   meta?: any
@@ -52,7 +54,7 @@ const Layout: FunctionComponent<LayoutProps> = ({
         canonical={url}
         noindex={noIndex}
       />
-      {/* {nav ? nav : isNull(nav) ? null : <Navigation />} */}
+      {nav ? nav : isNull(nav) ? null : <Navigation />}
       <div
         className={cx('flex flex-col flex-grow h-full min-h-screen', className)}
       >

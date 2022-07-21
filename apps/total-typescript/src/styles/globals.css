@@ -6,3 +6,10 @@
 
 @tailwind utilities;
 @import './focus-visible.css';
+
+:root {
+  color-scheme: dark;
+  ::selection {
+    @apply bg-sky-600 text-white;
+  }
+}
