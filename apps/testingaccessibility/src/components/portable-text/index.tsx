@@ -36,14 +36,24 @@ Refractor.registerLanguage(jsx)
 Refractor.registerLanguage(yaml)
 Refractor.registerLanguage(css)
 
-const Video: React.FC<{url: string; title: string}> = ({url, title}) => {
+const Video: React.FC<{
+  url: string
+  title: string
+  videoResource: {_ref: string}
+}> = ({url, title, videoResource}) => {
+
+  const [isMounted, setIsMounted] = React.useState(false)
+  React.useEffect(() => {
+    setIsMounted(true)
+  }, [])
+
   const fullscreenWrapperRef = React.useRef<HTMLDivElement>(null)
   const videoService: any = useVideo()
   const isFullscreen = useSelector(videoService, selectIsFullscreen)
   const poster = url
     .replace('stream.mux.com', 'image.mux.com')
     .replace('.m3u8', '/thumbnail.png?width=1600&height=1000&fit_mode=pad')
-  return (
+  return isMounted ? (
     <div className="">
       {title && (
         <strong className="font-semibold inline-block pb-2">
@@ -52,9 +62,9 @@ const Video: React.FC<{url: string; title: string}> = ({url, title}) => {
       )}
       <div
         ref={fullscreenWrapperRef}
-        className={cx('w-full', {
+        className={cx('w-full rounded-md overflow-hidden', {
           'absolute top-0 left-0 z-50': isFullscreen,
-          relative: !isFullscreen,
+          'relative ': !isFullscreen,
         })}
       >
         <div className="rounded-md overflow-hidden">
@@ -67,11 +77,19 @@ const Video: React.FC<{url: string; title: string}> = ({url, title}) => {
             poster={poster}
           >
             {url && <HLSSource src={url} />}
+            {videoResource && (
+              <track
+                label="English"
+                kind="subtitles"
+                srcLang="en"
+                src={`/api/srt/${videoResource._ref}`}
+              />
+            )}
           </Player>
         </div>
       </div>
     </div>
-  )
+  ) : null
 }
 
 const BodyImage = ({value}: BodyImageProps) => {
@@ -214,11 +232,11 @@ const PortableTextComponents: PortableTextComponentsProps = {
   },
   types: {
     bodyVideo: ({value}: BodyVideoProps) => {
-      const {url, title, caption} = value
+      const {url, title, caption, videoResource} = value
       return (
         <figure className="video">
           <VideoProvider>
-            <Video url={url} title={title} />
+            <Video url={url} title={title} videoResource={videoResource} />
           </VideoProvider>
           <figcaption>
             <details className="group marker:text-transparent no-marker">
@@ -337,6 +355,9 @@ type BodyVideoProps = {
     url: string
     title: string
     caption: PortableTextBlock | ArbitraryTypedObject
+    videoResource: {
+      _ref: string
+    }
   }
 }
 
