@@ -1,6 +1,40 @@
-import Layout from 'components/layout'
 import type {NextPage} from 'next'
 import Image from 'next/image'
+import {useRouter} from 'next/router'
+import {
+  SubscribeToConvertkitForm,
+  redirectUrlBuilder,
+} from '@skillrecordings/convertkit'
+
+import Layout from 'components/layout'
+
+const Subscribe = () => {
+  const router = useRouter()
+  return (
+    <section className="bg-white text-[#27234f] rounded-lg px-24 py-20">
+      <div className="text-center space-y-7 mb-6">
+        <h3 className="text-[1.625rem]">
+          Become proficient with backend development today!
+        </h3>
+        <p className="">
+          Sign up for exclusive content and early-release lessons.
+        </p>
+      </div>
+      <SubscribeToConvertkitForm
+        onSuccess={(subscriber: any) => {
+          if (subscriber) {
+            const redirectUrl = redirectUrlBuilder(subscriber, '/confirm')
+            router.push(redirectUrl)
+          }
+        }}
+        actionLabel="Sign Up Today"
+      />
+      <p className="text-sm text-[#737373] text-center mt-4">
+        We respect your privacy. Unsubscribe at any time.
+      </p>
+    </section>
+  )
+}
 
 const Home: NextPage = () => {
   return (
@@ -154,7 +188,10 @@ const Home: NextPage = () => {
           </div>
         </div>
       </div>
-      <div>
+      <div className="relative">
+        <div className="max-w-[47rem] px-4 mx-auto -mt-[220px]">
+          <Subscribe />
+        </div>
         <div className="mt-14 space-y-6 max-w-[40rem] px-4 mx-auto">
           <p>
             Becoming proficient with backend development is a game-changer. All
