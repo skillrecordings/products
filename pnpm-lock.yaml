@@ -3050,11 +3050,14 @@ importers:
       cpy: 7.3.0
       cross-spawn: 6.0.5
       got: 10.7.0
+      handlebars: ^4.7.7
       prompts: 2.1.0
       rimraf: 3.0.2
       tar: 4.4.10
       update-check: 1.5.4
       validate-npm-package-name: 3.0.0
+    dependencies:
+      handlebars: 4.7.7
     devDependencies:
       '@types/async-retry': 1.4.2
       '@types/cross-spawn': 6.0.0
@@ -16467,7 +16470,7 @@ packages:
     engines: {node: '>=0.4.7'}
     hasBin: true
     dependencies:
-      minimist: 1.2.5
+      minimist: 1.2.6
       neo-async: 2.6.2
       source-map: 0.6.1
       wordwrap: 1.0.0
@@ -28354,7 +28357,7 @@ packages:
     engines: {node: '>=0.10.0'}
 
   /wordwrap/1.0.0:
-    resolution: {integrity: sha1-J1hIEIkUVqQXHI0CJkQa3pDLyus=}
+    resolution: {integrity: sha512-gvVzJFlPycKc5dZN4yPkP8w7Dc37BtP1yczEneOb4uq34pXZcvrtRTmWV8W+Ume+XCxKgbjM+nevkyFPMybd4Q==}
     dev: false
 
   /worker-farm/1.7.0:
