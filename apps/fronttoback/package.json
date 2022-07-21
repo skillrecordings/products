@@ -1,10 +1,11 @@
 {
+  "name": "fronttoback",
   "private": true,
   "scripts": {
-    "dev": "next dev -p 3000",
+    "dev": "next dev -p 3019",
     "build": "next build",
     "postbuild": "NODE_ENV=production next-sitemap",
-    "start": "next start -p 3000",
+    "start": "next start -p 3019",
     "lint": "eslint src/**/*.{ts,tsx} --fix && tsc --noEmit"
   },
   "dependencies": {
