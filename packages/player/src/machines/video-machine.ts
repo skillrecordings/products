@@ -165,7 +165,7 @@ export const videoMachine = createMachine<VideoStateContext, VideoEvent>({
     TOGGLE_FULLSCREEN: {
       actions: [
         assign({
-          isFullscreen: (context, _event) => !context.isFullscreen,
+          isFullscreen: (_context, _event) => true,
           withSidePanel: (_context) => false,
         }),
         'toggleFullscreen',

@@ -36,6 +36,10 @@ const Review: React.FC<any> = ({review, body}) => {
   const fullscreenWrapperRef = React.useRef<HTMLDivElement>(null)
   const videoService: any = useVideo()
   const isFullscreen = useSelector(videoService, selectIsFullscreen)
+  const [isMounted, setIsMounted] = React.useState(false)
+  React.useEffect(() => {
+    setIsMounted(true)
+  }, [])
 
   return (
     <Layout meta={meta} className="bg-gray-50">
@@ -68,26 +72,28 @@ const Review: React.FC<any> = ({review, body}) => {
             })}
             ref={fullscreenWrapperRef}
           >
-            <Player
-              aspectRatio="8:5"
-              className={cx('font-sans', {
-                'lg:rounded-md lg:overflow-hidden shadow-2xl': !isFullscreen,
-              })}
-              container={fullscreenWrapperRef.current || undefined}
-              poster={videoPoster}
-              enableGlobalShortcuts={false}
-            >
-              {hlsUrl && <HLSSource src={hlsUrl} />}
-              {subtitlesUrl && (
-                <track
-                  key={subtitlesUrl}
-                  src={subtitlesUrl}
-                  kind="subtitles"
-                  srcLang="en"
-                  label="English"
-                />
-              )}
-            </Player>
+            {isMounted && (
+              <Player
+                aspectRatio="8:5"
+                className={cx('font-sans', {
+                  'lg:rounded-md lg:overflow-hidden shadow-2xl': !isFullscreen,
+                })}
+                container={fullscreenWrapperRef.current || undefined}
+                poster={videoPoster}
+                enableGlobalShortcuts={false}
+              >
+                {hlsUrl && <HLSSource src={hlsUrl} />}
+                {subtitlesUrl && (
+                  <track
+                    key={subtitlesUrl}
+                    src={subtitlesUrl}
+                    kind="subtitles"
+                    srcLang="en"
+                    label="English"
+                  />
+                )}
+              </Player>
+            )}
             <article className={cx('prose md:prose-lg mx-auto py-16 px-5')}>
               <h2>Transcript</h2>
               <MDXRemote {...body} />

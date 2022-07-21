@@ -133,10 +133,17 @@ export const Shortcut: React.FC<ShortcutProps> = ({
         keyCode: 70, // f
         ctrl: false,
         handle: () => {
-          videoService.send({
-            type: 'TOGGLE_FULLSCREEN',
-            element: rootElem,
-          })
+          if (!isFullscreen) {
+            videoService.send({
+              type: 'TOGGLE_FULLSCREEN',
+              element: rootElem,
+            })
+          } else {
+            videoService.send({
+              type: 'EXIT_FULLSCREEN',
+              element: rootElem,
+            })
+          }
         },
       },
       {
@@ -377,6 +384,7 @@ export const Shortcut: React.FC<ShortcutProps> = ({
     videoService,
     volume,
     shortcutsEnabled,
+    isFullscreen,
   ])
 
   const handleKeyPress = React.useCallback(
@@ -441,7 +449,7 @@ export const Shortcut: React.FC<ShortcutProps> = ({
     (e: Event) => {
       const target = e.target as Element
 
-      return !(!isActive || target.nodeName !== 'VIDEO' || readyState < 2)
+      return !(!isActive || target.nodeName !== 'VIDEO' || readyState < 3)
     },
     [isActive, readyState],
   )
@@ -474,18 +482,19 @@ export const Shortcut: React.FC<ShortcutProps> = ({
   React.useEffect(() => {
     shortCutsRef.current = mergeShortcuts()
 
-    document.addEventListener('click', handleClick)
-    document.addEventListener('dblclick', handleDoubleClick)
-
-    if (!enableGlobalShortcuts && rootElem) {
-      rootElem.addEventListener('keydown', handleKeyPress)
+    if (!enableGlobalShortcuts) {
+      rootElem?.addEventListener('keydown', handleKeyPress)
+      rootElem?.addEventListener('click', handleClick)
+      rootElem?.addEventListener('dblclick', handleDoubleClick)
       return () => {
-        rootElem.removeEventListener('keydown', handleKeyPress)
-        document.removeEventListener('click', handleClick)
-        document.removeEventListener('dblclick', handleDoubleClick)
+        rootElem?.removeEventListener('keydown', handleKeyPress)
+        rootElem?.removeEventListener('click', handleClick)
+        rootElem?.removeEventListener('dblclick', handleDoubleClick)
       }
     } else {
       document.addEventListener('keydown', handleKeyPress)
+      document.addEventListener('click', handleClick)
+      document.addEventListener('dblclick', handleDoubleClick)
       return () => {
         document.removeEventListener('keydown', handleKeyPress)
         document.removeEventListener('click', handleClick)
