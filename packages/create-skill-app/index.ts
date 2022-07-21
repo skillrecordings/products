@@ -122,11 +122,9 @@ async function run(): Promise<void> {
     process.exit(1)
   }
 
-  const packageManager = !!program.useNpm
-    ? 'npm'
-    : !!program.usePnpm
-    ? 'pnpm'
-    : getPkgManager()
+  program.usePnpm = true
+
+  const packageManager = 'pnpm'
 
   const example = typeof program.example === 'string' && program.example.trim()
   try {

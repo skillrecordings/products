@@ -20,6 +20,7 @@ import {isFolderEmpty} from './helpers/is-folder-empty'
 import {getOnline} from './helpers/is-online'
 import {isWriteable} from './helpers/is-writeable'
 import type {PackageManager} from './helpers/get-pkg-manager'
+import defaultPackage from './templates/default/package-template.json'
 
 export class DownloadError extends Error {}
 
@@ -205,75 +206,7 @@ export async function createApp({
     /**
      * Create a package.json for the new project.
      */
-    const packageJson = {
-      name: appName,
-      version: '0.1.0',
-      private: true,
-      scripts: {
-        dev: 'next dev',
-        build: 'next build',
-        start: 'next start',
-        lint: 'next lint',
-      },
-    }
-    /**
-     * Write it to disk.
-     */
-    fs.writeFileSync(
-      path.join(root, 'package.json'),
-      JSON.stringify(packageJson, null, 2) + os.EOL,
-    )
-    /**
-     * These flags will be passed to `install()`.
-     */
-    const installFlags = {packageManager, isOnline}
-    /**
-     * Default dependencies.
-     */
-    const dependencies = ['react', 'react-dom', 'next']
-    /**
-     * Default devDependencies.
-     */
-    const devDependencies = ['eslint', 'eslint-config-next']
-    /**
-     * TypeScript projects will have type definitions and other devDependencies.
-     */
-    if (typescript) {
-      devDependencies.push(
-        'typescript',
-        '@types/react',
-        '@types/node',
-        '@types/react-dom',
-      )
-    }
-    /**
-     * Install package.json dependencies if they exist.
-     */
-    if (dependencies.length) {
-      console.log()
-      console.log('Installing dependencies:')
-      for (const dependency of dependencies) {
-        console.log(`- ${chalk.cyan(dependency)}`)
-      }
-      console.log()
 
-      await install(root, dependencies, installFlags)
-    }
-    /**
-     * Install package.json devDependencies if they exist.
-     */
-    if (devDependencies.length) {
-      console.log()
-      console.log('Installing devDependencies:')
-      for (const devDependency of devDependencies) {
-        console.log(`- ${chalk.cyan(devDependency)}`)
-      }
-      console.log()
-
-      const devInstallFlags = {devDependencies: true, ...installFlags}
-      await install(root, devDependencies, devInstallFlags)
-    }
-    console.log()
     /**
      * Copy the template files to the target directory.
      */
@@ -283,7 +216,7 @@ export async function createApp({
       rename: (name) => {
         switch (name) {
           case 'gitignore':
-          case 'eslintrc.json': {
+          case 'eslintrc.js': {
             return '.'.concat(name)
           }
           // README.md is ignored by webpack-asset-relocator-loader used by ncc:
@@ -291,12 +224,37 @@ export async function createApp({
           case 'README-template.md': {
             return 'README.md'
           }
+          case 'package-template.json': {
+            return 'package.json'
+          }
           default: {
             return name
           }
         }
       },
     })
+
+    const packageJson = {
+      name: appName,
+      ...defaultPackage,
+    }
+    /**
+     * Write it to disk.
+     */
+    fs.writeFileSync(
+      path.join(root, 'package2.json'),
+      JSON.stringify(packageJson, null, 2) + os.EOL,
+    )
+    /**
+     * These flags will be passed to `install()`.
+     */
+    const installFlags = {packageManager, isOnline}
+
+    console.log('Installing packages. This might take a couple of minutes.')
+    console.log({packageManager, isOnline})
+
+    await install(root, null, installFlags)
+    console.log()
   }
 
   if (tryGitInit(root)) {
