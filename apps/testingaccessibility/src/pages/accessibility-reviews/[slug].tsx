@@ -63,8 +63,8 @@ const Review: React.FC<any> = ({review, body}) => {
         <div>
           <div
             className={cx('w-full', {
-              'absolute top-0': isFullscreen,
-              'max-w-screen-lg mx-auto md:-translate-y-8 relative': !isFullscreen,
+              'max-w-screen-lg mx-auto md:-translate-y-8 relative':
+                !isFullscreen,
             })}
             ref={fullscreenWrapperRef}
           >
@@ -75,6 +75,7 @@ const Review: React.FC<any> = ({review, body}) => {
               })}
               container={fullscreenWrapperRef.current || undefined}
               poster={videoPoster}
+              enableGlobalShortcuts={false}
             >
               {hlsUrl && <HLSSource src={hlsUrl} />}
               {subtitlesUrl && (

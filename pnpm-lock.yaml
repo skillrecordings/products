@@ -2955,7 +2955,7 @@ importers:
       react-markdown: ^5.0.3
       react-test-renderer: ^17.0.2
       sass: ^1.43.4
-      screenfull: ^5.1.0
+      screenfull: ^5.2.0
       typescript: ^4.7.4
       xstate: '=4.23.1'
     dependencies:
@@ -2972,7 +2972,7 @@ importers:
       js-cookie: 3.0.1
       prism-react-renderer: 1.2.1_react@17.0.2
       react-markdown: 5.0.3_hx2b44akkvgcgvvtmk7ds2qk6q
-      screenfull: 5.1.0
+      screenfull: 5.2.0
     devDependencies:
       '@emotion/babel-plugin': 11.3.0_@babel+core@7.16.5
       '@emotion/babel-preset-css-prop': 11.2.0_@babel+core@7.16.5
@@ -24923,11 +24923,6 @@ packages:
       '@types/json-schema': 7.0.9
       ajv: 6.12.6
       ajv-keywords: 3.5.2_ajv@6.12.6
-
-  /screenfull/5.1.0:
-    resolution: {integrity: sha512-dYaNuOdzr+kc6J6CFcBrzkLCfyGcMg+gWkJ8us93IQ7y1cevhQAugFsaCdMHb6lw8KV3xPzSxzH7zM1dQap9mA==}
-    engines: {node: '>=0.10.0'}
-    dev: false
 
   /screenfull/5.2.0:
     resolution: {integrity: sha512-9BakfsO2aUQN2K9Fdbj87RJIEZ82Q9IGim7FqM5OsebfoFC6ZHXgDq/KvniuLTPdeM8wY2o6Dj3WQ7KeQCj3cA==}
