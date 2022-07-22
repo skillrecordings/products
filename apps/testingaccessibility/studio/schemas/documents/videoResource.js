@@ -19,9 +19,9 @@ export default {
       type: 'url',
     },
     {
-      title: 'SRT File',
-      name: 'srtFile',
-      type: 'file',
+      title: 'SRT',
+      name: 'srt',
+      type: 'text',
     },
     {
       title: 'Transcript',

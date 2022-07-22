@@ -196,7 +196,7 @@ export const Player: React.FC<PlayerProps> = (props) => {
         containerRef.current = container ? container : c
         // creating custom object to avoid circular ref error
         const domNodeRef: any = {
-          node: containerRef,
+          ...containerRef,
           toJSON() {
             return {}
           },
