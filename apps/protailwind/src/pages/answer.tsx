@@ -37,14 +37,14 @@ export async function getStaticProps() {
     semanticColors: {
       question:
         'In addition to `text-base`, `text-inverted`, `background-base`, and `background-inverted`, what are some examples of other semantic colors that you might want to add to your theme?',
-      tagId: 3225073,
+      tagId: 3227248,
       type: 'essay',
     },
     themeApplication: {
       question:
         'When using multiple themes, how is the theme for a given HTML element determined?',
       type: 'multiple-choice',
-      tagId: 3225076,
+      tagId: 3232321,
       correct: 'body-data-theme',
       choices: [
         {
@@ -68,7 +68,7 @@ export async function getStaticProps() {
       question:
         'Why is it necessary to convert `HEX` colors to their `RGB` values for our theme?',
       type: 'multiple-choice',
-      tagId: 3225079,
+      tagId: 3232326,
       correct: ['math', 'opacity', 'alpha-value'],
       answer: '',
       choices: [
@@ -93,7 +93,7 @@ export async function getStaticProps() {
       question:
         'What alternative could be used in place of the `addVariant` Plugin helper to apply utility classes that only take effect when a given theme is active?',
       type: 'essay',
-      tagId: 3225080,
+      tagId: 3232332,
     },
   }
   return {
