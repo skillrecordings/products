@@ -9,8 +9,20 @@ import {UserGroupIcon} from '@heroicons/react/outline'
 import Link from 'next/link'
 import {useSession} from 'next-auth/react'
 import {getPurchaseDetails} from '../../lib/purchases'
+import {setupHttpTracing} from '@vercel/tracing-js'
+import {tracer} from '../../utils/honeycomb-tracer'
 
-export const getServerSideProps: GetServerSideProps = async ({req}) => {
+export const getServerSideProps: GetServerSideProps = async ({
+  res,
+  req,
+  query,
+}) => {
+  setupHttpTracing({
+    name: getServerSideProps.name,
+    tracer,
+    req,
+    res,
+  })
   const {purchases, token} = await getPurchasedProduct(req)
 
   if (purchases) {

@@ -12,8 +12,20 @@ import Link from 'next/link'
 import {stripeData} from '../../utils/record-new-purchase'
 import {getPurchaseDetails} from '../../lib/purchases'
 import {isString} from 'lodash'
+import {setupHttpTracing} from '@vercel/tracing-js'
+import {tracer} from '../../utils/honeycomb-tracer'
 
-export const getServerSideProps: GetServerSideProps = async ({req, query}) => {
+export const getServerSideProps: GetServerSideProps = async ({
+  res,
+  req,
+  query,
+}) => {
+  setupHttpTracing({
+    name: getServerSideProps.name,
+    tracer,
+    req,
+    res,
+  })
   const {purchaseId: purchaseQueryParam, session_id, upgrade} = query
   const token = await getToken({
     req,

@@ -83,7 +83,7 @@ const Buy: React.FC<CommerceProps> = ({
 export default Buy
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
-  const {req, query, res} = context
+  const {req, res} = context
   setupHttpTracing({
     name: getServerSideProps.name,
     tracer,
