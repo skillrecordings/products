@@ -93,13 +93,13 @@ const Header: React.FC<{title: string; date: string}> = ({title, date}) => {
         <div className="lg:px-0 px-5 w-full flex md:flex-row flex-col md:space-y-0 space-y-3 items-center justify-between max-w-screen-sm">
           <Author />
           <div className="flex space-x-5 items-center">
-            <time dateTime={date} className="text-sm flex items-center">
+            {/* <time dateTime={date} className="text-sm flex items-center">
               <CalendarIcon aria-hidden="true" className="w-4 opacity-80" />{' '}
               <span className="sr-only">published on </span>
               <span className="pl-1">
-                {format(new Date(date), 'dd MMMM, y')}
+                {format(new Date(date), 'MMMM dd, y')}
               </span>
-            </time>
+            </time> */}
             <Share title={title} />
           </div>
         </div>

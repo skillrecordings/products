@@ -43,12 +43,12 @@ const Articles: React.FC<ArticlesProps> = ({articles}) => {
                               </h2>
                             </a>
                           </Link>
-                          <time
+                          {/* <time
                             dateTime={date}
                             className="block pt-3 text-sm font-medium opacity-80 pb-5"
                           >
                             {format(new Date(date), 'MMMM dd, y')}
-                          </time>
+                          </time> */}
                           {description && (
                             <Markdown className="prose pt-3 pb-6">
                               {description}
