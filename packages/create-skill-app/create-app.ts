@@ -14,7 +14,13 @@ import {isWriteable} from './helpers/is-writeable'
 import type {PackageManager} from './helpers/get-pkg-manager'
 import defaultPackage from './templates/next/package-template.json'
 
-export async function createApp({appPath}: {appPath: string}): Promise<void> {
+export async function createApp({
+  appPath,
+  skipInstall = false,
+}: {
+  appPath: string
+  skipInstall?: boolean
+}): Promise<void> {
   const template = 'next'
   const packageManager = `pnpm` as PackageManager
   const root = path.resolve(appPath)
@@ -61,6 +67,9 @@ export async function createApp({appPath}: {appPath: string}): Promise<void> {
     cwd: path.join(__dirname, 'templates', template),
     rename: (name) => {
       switch (name) {
+        case 'env':
+        case 'env.production':
+        case 'env.development':
         case 'gitignore':
         case 'eslintrc.js': {
           return '.'.concat(name)
@@ -99,7 +108,7 @@ export async function createApp({appPath}: {appPath: string}): Promise<void> {
   console.log('Installing packages. This might take a couple of minutes.')
   console.log({packageManager, isOnline})
 
-  // await install(root, null, installFlags)
+  if (!skipInstall) await install(root, null, installFlags)
   console.log()
 
   if (tryGitInit(root)) {

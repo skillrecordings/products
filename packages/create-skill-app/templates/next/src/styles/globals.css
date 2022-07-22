@@ -2,6 +2,7 @@
 
 @tailwind components;
 @import './quiz.css';
+@import './primary-newsletter-cta.css';
 
 @tailwind utilities;
 @import './focus-visible.css';

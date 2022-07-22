@@ -93,11 +93,11 @@ async function notifyUpdate(): Promise<void> {
         chalk.yellow.bold('A new version of `create-skill-app` is available!') +
           '\n' +
           'You can update by running: ' +
-          chalk.cyan(
-            pkgManager === 'yarn'
-              ? 'yarn global add create-next-app'
-              : `${pkgManager} install --global create-skill-app`,
-          ) +
+          chalk.cyan(`${pkgManager} install --global create-skill-app`) +
+          '\n' +
+          'Or by linking with npm ' +
+          '\n' +
+          chalk.cyan(`cd ../packages/create-skill-app && npm link`) +
           '\n',
       )
     }
