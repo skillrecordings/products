@@ -9,8 +9,20 @@ import {SanityDocument} from '@sanity/client'
 import {GetServerSideProps} from 'next'
 import isEmpty from 'lodash/isEmpty'
 import find from 'lodash/find'
+import {setupHttpTracing} from '@vercel/tracing-js'
+import {tracer} from '../../../utils/honeycomb-tracer'
 
-export const getServerSideProps: GetServerSideProps = async ({req, params}) => {
+export const getServerSideProps: GetServerSideProps = async ({
+  res,
+  req,
+  params,
+}) => {
+  setupHttpTracing({
+    name: getServerSideProps.name,
+    tracer,
+    req,
+    res,
+  })
   // get array of available modules
   const availableModules = await getAvailableModulesForUser(req)
 

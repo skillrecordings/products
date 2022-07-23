@@ -2198,6 +2198,7 @@ importers:
       assert: ^2.0.0
       autoprefixer: ^10.4.2
       axios: ^0.26.0
+      chalk: 2.4.2
       classnames: ^2.3.1
       client-oauth2: ^4.3.3
       commander: ^8.3.0
@@ -2339,6 +2340,7 @@ importers:
       algoliasearch: 4.13.0
       autoprefixer: 10.4.7_postcss@8.4.14
       axios: 0.26.1
+      chalk: 2.4.2
       classnames: 2.3.1
       client-oauth2: 4.3.3
       cookie: 0.5.0
@@ -7478,6 +7480,7 @@ packages:
       '@types/react': 17.0.45
       hoist-non-react-statics: 3.3.2
       react: 17.0.2
+    dev: false
 
   /@emotion/react/11.5.0_hx2b44akkvgcgvvtmk7ds2qk6q:
     resolution: {integrity: sha512-MYq/bzp3rYbee4EMBORCn4duPQfgpiEB5XzrZEBnUZAL80Qdfr7CEv/T80jwaTl/dnZmt9SnTa8NkTrwFNpLlw==}
@@ -9908,6 +9911,7 @@ packages:
       lodash.isplainobject: 4.0.6
       lodash.merge: 4.6.2
       tailwindcss: 3.1.6
+    dev: false
 
   /@testing-library/dom/8.11.0:
     resolution: {integrity: sha512-8Ay4UDiMlB5YWy+ZvCeRyFFofs53ebxrWnOFvCoM1HpMAX4cHyuSrCuIM9l2lVuUWUt+Gr3loz/nCwdrnG6ShQ==}

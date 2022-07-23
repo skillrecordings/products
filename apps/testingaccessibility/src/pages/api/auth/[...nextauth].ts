@@ -8,6 +8,7 @@ import {withSentry} from '@sentry/nextjs'
 import {getSdk} from '../../../lib/prisma-api'
 import {defineRulesForPurchases} from '../../../server/ability'
 import mjml2html from 'mjml'
+import chalk from 'chalk'
 
 export type MagicLinkEmailType =
   | 'login'
@@ -47,6 +48,13 @@ export const sendVerificationRequest = async (params: {
   }
 
   const user = await getUserByEmail(email)
+
+  if (process.env.NODE_ENV === 'development') {
+    console.log()
+    console.log(chalk.gray(`*********** login link ⭐️`))
+    console.log(chalk.green(url))
+    console.log()
+  }
 
   if (!user) return
 

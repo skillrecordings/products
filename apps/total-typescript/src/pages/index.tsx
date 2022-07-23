@@ -116,8 +116,8 @@ const HomePage = () => {
             <p>
               We'll start at an intermediate level, and work up into a
               super-advanced level. It's going to be{' '}
-              <b>the most advanced TS workshop avaialble anywhere</b>. IYou'll
-              be the company's resident TypeScript wizard - the one they turn to
+              <b>the most advanced TS workshop available anywhere</b>. You'll be
+              the company's resident TypeScript wizard - the one they turn to
               for advice.
             </p>
           </div>
@@ -126,9 +126,9 @@ const HomePage = () => {
               Fundamentals
             </h1>
             <p>
-              You'll the fundamentals of advanced TS. You'll learn about at
-              generics, conditional types, mapped types, tuples - everything you
-              need to feel confident looking at complicated TS code.
+              You'll learn the fundamentals of advanced TS. You'll learn about
+              at generics, conditional types, mapped types, tuples - everything
+              you need to feel confident looking at complicated TS code.
             </p>
             <p>
               You'll need a beginner's knowledge of TypeScript since we'll start
@@ -189,7 +189,7 @@ const HomePage = () => {
         <img
           src="https://pbs.twimg.com/profile_images/1545418058260516865/zN6_f-ot_400x400.png"
           alt="Matt Pocock"
-          className="block w-40 h-40 h-full rounded-full shadow-inner"
+          className="block w-40 h-full rounded-full shadow-inner"
         ></img>
         <div className="relative max-w-sm space-y-3 leading-7 text-gray-300">
           <h2 className="text-2xl font-semibold tracking-tight text-white">
@@ -237,6 +237,7 @@ const Quote = (props: {img: string; quote: string; from: string}) => {
       <img
         src={props.img}
         className="w-16 h-16 rounded-full shadow-inner"
+        alt="avatar"
       ></img>
       <div>
         <p className="text-lg italic text-gray-600">"{props.quote}"</p>

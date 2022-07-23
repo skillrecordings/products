@@ -10,8 +10,20 @@ import {PricingTiers} from '../components/product-tiers'
 import {useCoupon} from 'hooks/use-coupon'
 import {Element} from 'react-scroll'
 import FAQ from 'components/content/faq-section'
+import {setupHttpTracing} from '@vercel/tracing-js'
+import {tracer} from '../utils/honeycomb-tracer'
 
-export const getServerSideProps: GetServerSideProps = async ({req, query}) => {
+export const getServerSideProps: GetServerSideProps = async ({
+  req,
+  query,
+  res,
+}) => {
+  setupHttpTracing({
+    name: getServerSideProps.name,
+    tracer,
+    req,
+    res,
+  })
   return await propsForCommerce({req, query})
 }
 

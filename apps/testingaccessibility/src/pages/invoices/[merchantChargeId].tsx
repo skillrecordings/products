@@ -11,8 +11,20 @@ import fromUnixTime from 'date-fns/fromUnixTime'
 import Layout from 'components/app/layout'
 import format from 'date-fns/format'
 import prisma from '../../db'
+import {setupHttpTracing} from '@vercel/tracing-js'
+import {tracer} from '../../utils/honeycomb-tracer'
 
-export const getServerSideProps: GetServerSideProps = async ({query, res}) => {
+export const getServerSideProps: GetServerSideProps = async ({
+  res,
+  req,
+  query,
+}) => {
+  setupHttpTracing({
+    name: getServerSideProps.name,
+    tracer,
+    req,
+    res,
+  })
   const {merchantChargeId} = query
   const {getProduct} = getSdk()
   if (merchantChargeId) {
