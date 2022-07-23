@@ -8,6 +8,7 @@ import {withSentry} from '@sentry/nextjs'
 import {getSdk} from '../../../lib/prisma-api'
 import {defineRulesForPurchases} from '../../../server/ability'
 import mjml2html from 'mjml'
+import chalk from 'chalk'
 
 export type MagicLinkEmailType =
   | 'login'
@@ -29,9 +30,12 @@ export const sendVerificationRequest = async (params: {
     url,
     provider: {server, from},
   } = params
-  const {host} = new URL(url)
+  const rewriteUrl = new URL(url)
   const transport = createTransport(server)
   const {getUserByEmail} = getSdk()
+  const {host} = rewriteUrl
+
+  rewriteUrl.pathname = '/api/callback'
 
   let subject
 
@@ -45,14 +49,21 @@ export const sendVerificationRequest = async (params: {
 
   const user = await getUserByEmail(email)
 
+  if (process.env.NODE_ENV === 'development') {
+    console.log()
+    console.log(chalk.gray(`*********** login link ⭐️`))
+    console.log(chalk.green(url))
+    console.log()
+  }
+
   if (!user) return
 
   await transport.sendMail({
     to: email,
     from,
     subject,
-    text: text({url, host}),
-    html: html({url, host, email}),
+    text: text({url: rewriteUrl.href, host}),
+    html: html({url: rewriteUrl.href, host, email}),
   })
 }
 
