@@ -21,7 +21,8 @@
     "dist"
   ],
   "scripts": {
-    "dev": "ncc build ./index.ts -w -o dist/",
+    "dev": "pnpm prerelease && ncc build ./index.ts -w -o dist/",
+    "clean": "rimraf ./dist/ && rimraf ./node_modules/",
     "prerelease": "rimraf ./dist/",
     "release": "ncc build ./index.ts -o ./dist/ --minify --no-cache --no-source-map-register",
     "prepublishOnly": "cd ../../ && turbo run build",

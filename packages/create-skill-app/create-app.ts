@@ -14,12 +14,15 @@ import {isWriteable} from './helpers/is-writeable'
 import type {PackageManager} from './helpers/get-pkg-manager'
 import defaultPackage from './templates/next/package.json'
 import * as handlebars from 'handlebars'
+import {Answers} from 'prompts'
 
 export async function createApp({
   appPath,
+  projectData,
   skipInstall = false,
 }: {
   appPath: string
+  projectData: Answers<string>
   skipInstall?: boolean
 }): Promise<void> {
   const template = 'next'
@@ -110,7 +113,6 @@ export async function createApp({
   const configTemplates = fs.readdirSync(configTemplatePath)
 
   for (const configTemplate of configTemplates) {
-    console.log(configTemplate)
     const file = fs.readFileSync(path.join(configTemplatePath, configTemplate))
     const template = handlebars.compile(file.toString())
 
@@ -130,9 +132,10 @@ export async function createApp({
         }
       }
     }
+
     fs.writeFileSync(
       path.join(root, getFilename(configTemplate)),
-      template({appName}),
+      template({appName, ...projectData}),
     )
   }
 
@@ -142,7 +145,6 @@ export async function createApp({
   const installFlags = {packageManager, isOnline}
 
   console.log('Installing packages. This might take a couple of minutes.')
-  console.log({packageManager, isOnline})
 
   if (!skipInstall) await install(root, null, installFlags)
   console.log()

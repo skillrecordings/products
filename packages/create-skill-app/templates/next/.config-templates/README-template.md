@@ -10,14 +10,10 @@ Both `.env.development` and `.env.production` files are used to store environmen
 
 ## Database
 
-There is a `docker-compose.yml` file that is used to run the database. It is configured to run on port `3306` and is named `skill-recordings-product-db`. You'll probably want to change these. When changing the port value, the FIRST entry is your "host" machine, so change that one. `3306` is the default port for MySQL and the docker container uses that port internally so this change maps a port from your computer (the host) to the port that the container uses.
+There is a `docker-compose.yml` file that is used to run the database. It is configured to run on port `3306` and is named `skill-recordings-product-db`. You'll might want to change these. When changing the port value, the FIRST entry is your "host" machine, so change that one. `3306` is the default port for MySQL and the docker container uses that port internally so this change maps a port from your computer (the host) to the port that the container uses.
 
 The `.env` is used by prisma to access the `DATABASE_URL` env variable. It can't be accessed from the other env variable files and only Prisma uses it. 🆒
 
-All of this needs a template too, but for now:
-
-- [ ] Update `docker-compose.yml` with values for this product
-- [ ] Update `.env` to reflect the changes
 
 ### The actual data
 
