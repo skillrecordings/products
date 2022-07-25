@@ -17,63 +17,62 @@ type ClosedCaptionsMenuButtonProps = {
   onChange?: (rate: TextTrack) => void
 }
 
-export const ClosedCaptionsMenuButtonControl: React.FC<ClosedCaptionsMenuButtonProps> =
-  (props) => {
-    const {subtitles, activateSubtitlesTrack, clearSubtitlesTracks} =
-      useSubtitlesTrackList()
+export const ClosedCaptionsMenuButtonControl: React.FC<
+  ClosedCaptionsMenuButtonProps
+> = (props) => {
+  const {subtitles, activateSubtitlesTrack, clearSubtitlesTracks} =
+    useSubtitlesTrackList()
 
-    const items: ListboxItem[] = [
-      ...subtitles.map((track: TextTrack) => {
-        return {
-          mode: track.mode,
-          value: track.language,
-          label: track.label,
-        }
-      }),
-      {
-        label: 'Off',
-        value: 'off',
-      },
-    ]
+  const items: ListboxItem[] = [
+    ...subtitles.map((track: TextTrack) => {
+      return {
+        mode: track.mode,
+        value: track.language,
+        label: track.label,
+      }
+    }),
+    {
+      label: 'Off',
+      value: 'off',
+    },
+  ]
 
-    const activeTrack: any = first(
-      items.filter(
-        (track: TextTrack | ListboxItem) => track.mode === 'showing',
-      ),
-    )
+  const activeTrack: any = first(
+    items.filter((track: TextTrack | ListboxItem) => track.mode === 'showing'),
+  )
 
-    const activeItem: ListboxItem = isEmpty(activeTrack)
-      ? last(items)
-      : activeTrack
+  const activeItem: ListboxItem = isEmpty(activeTrack)
+    ? last(items)
+    : activeTrack
 
-    const groups: ListboxGroup[] = [
-      {
-        label: 'Closed Captions',
-        items,
-      },
-    ]
+  const groups: ListboxGroup[] = [
+    {
+      label: 'Closed Captions',
+      items,
+    },
+  ]
 
-    const handleSelectItem = React.useCallback(
-      (index: number) => {
-        const track = subtitles[index]
-        track?.language ? activateSubtitlesTrack(track) : clearSubtitlesTracks()
-      },
-      [subtitles],
-    )
+  const handleSelectItem = React.useCallback(
+    (index: number) => {
+      const track = subtitles[index]
+      track?.language ? activateSubtitlesTrack(track) : clearSubtitlesTracks()
+    },
+    [subtitles],
+  )
 
-    return !isEmpty(subtitles) ? (
-      <div className="cueplayer-react-closed-caption">
-        <ListboxButton
-          className={cx(props.className)}
-          selectedItem={activeItem}
-          onSelectItem={handleSelectItem}
-          items={groups}
-          title={'Closed captions'}
-        >
-          <span className="cueplayer-react-control-text">
-            {activeItem.label} subtitles
-          </span>
-        </ListboxButton>
-      </div>
-    ) : null
-  }
+  return !isEmpty(subtitles) ? (
+    <div className="cueplayer-react-closed-caption">
+      <ListboxButton
+        className={cx(props.className)}
+        selectedItem={activeItem}
+        onSelectItem={handleSelectItem}
+        items={groups}
+        title={'Closed captions'}
+      >
+        <span className="cueplayer-react-control-text">
+          {activeItem.label} subtitles
+        </span>
+      </ListboxButton>
+    </div>
+  ) : null
+}

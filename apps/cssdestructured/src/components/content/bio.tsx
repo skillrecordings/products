@@ -29,7 +29,8 @@ const Bio = () => {
           <a
             href="https://technicalinterviews.dev"
             target="_blank"
-            className="text-brand-brightYellow underline" rel="noreferrer"
+            className="text-brand-brightYellow underline"
+            rel="noreferrer"
           >
             De-Coding the Technical Interview Process
           </a>

@@ -5,7 +5,7 @@
   },
   "api": {
     "projectId": "erxflg2z",
-    "dataset": "production"
+    "dataset": "srt-import"
   },
   "plugins": [
     "@sanity/base",

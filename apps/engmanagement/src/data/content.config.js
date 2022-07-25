@@ -19,15 +19,17 @@ module.exports = [
     type: 'bundle',
   },
   ...compact(
-    find(bundles, { slug: process.env.NEXT_PUBLIC_PRO_SLUG }).items.map((module, i) => {
-      if (isEmpty(module.slug)) {
-        return
-      }
-      return {
-        index: i,
-        resource_id: module.slug,
-        type: 'collection',
-      }
-    })
+    find(bundles, {slug: process.env.NEXT_PUBLIC_PRO_SLUG}).items.map(
+      (module, i) => {
+        if (isEmpty(module.slug)) {
+          return
+        }
+        return {
+          index: i,
+          resource_id: module.slug,
+          type: 'collection',
+        }
+      },
+    ),
   ),
 ]

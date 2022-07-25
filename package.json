@@ -16,7 +16,7 @@
     "changeset": "changeset",
     "clean": "rm -rf node_modules && pnpm -r exec -- rm -rf .turbo node_modules .next dist",
     "format": "pnpm run format:index && pnpm run format:src",
-    "format:index": "prettier --write \"*.{js,ts,json,md}\"",
+    "format:index": "prettier --write \"*.{js,jsx,ts,tsx,json,md}\"",
     "format:src": "prettier --write",
     "generate": "turbo run generate",
     "lint": "TIMING=1 eslint --fix",

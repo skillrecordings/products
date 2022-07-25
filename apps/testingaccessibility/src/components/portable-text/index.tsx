@@ -41,7 +41,6 @@ const Video: React.FC<{
   title: string
   videoResource: {_ref: string}
 }> = ({url, title, videoResource}) => {
-
   const [isMounted, setIsMounted] = React.useState(false)
   React.useEffect(() => {
     setIsMounted(true)
