@@ -144,7 +144,6 @@ jobs:
         with:
           version: 7
           run_install: false
-            - args: [--filter epicweb]
 
       - name: Cache pnpm modules
         uses: actions/cache@v2
@@ -155,7 +154,7 @@ jobs:
             ${{ runner.os }}-
 
       - name: Install Dependencies
-        run: pnpm install
+        run: pnpm install --filter epicweb
 
       - name: 🐳 Docker compose
         # the sleep is just there to give time for postgres to get started
