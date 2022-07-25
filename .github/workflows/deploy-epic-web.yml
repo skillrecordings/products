@@ -144,6 +144,7 @@ jobs:
         with:
           version: 7
           run_install: false
+            - args: [--filter epicweb]
 
       - name: Cache pnpm modules
         uses: actions/cache@v2
@@ -171,6 +172,7 @@ jobs:
       - name: 🌳 Cypress run
         uses: cypress-io/github-action@v4
         with:
+          install: false
           start: pnpm start:mocks
           wait-on: 'http://localhost:8811'
         env:
