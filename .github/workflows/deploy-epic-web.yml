@@ -10,7 +10,7 @@ permissions:
   contents: read
 defaults:
   run:
-    working-directory: apps/epicweb
+    working-directory: ./apps/epicweb
 jobs:
   lint:
     name: ⬣ ESLint
@@ -191,6 +191,7 @@ jobs:
       - name: 👀 Read app name
         uses: SebRollen/toml-action@v1.0.0
         id: app_name
+        working-directory: ./apps/epicweb
         with:
           file: 'fly.toml'
           field: 'app'
