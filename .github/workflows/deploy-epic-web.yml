@@ -131,7 +131,7 @@ jobs:
         uses: actions/checkout@v3
 
       - name: 🏄 Copy test env vars
-        run: cp .env.example .env
+        run: cp ./apps/epicweb/.env.example ./apps/epicweb/.env
 
       - name: ⎔ Setup node
         uses: actions/setup-node@v3
@@ -191,9 +191,8 @@ jobs:
       - name: 👀 Read app name
         uses: SebRollen/toml-action@v1.0.0
         id: app_name
-        working-directory: ./apps/epicweb
         with:
-          file: 'fly.toml'
+          file: './apps/epicweb/fly.toml'
           field: 'app'
 
       - name: 🐳 Set up Docker Buildx
@@ -218,7 +217,7 @@ jobs:
       - name: 🐳 Docker build
         uses: docker/build-push-action@v3
         with:
-          context: .
+          context: ./apps/epicweb
           push: true
           tags: registry.fly.io/${{ steps.app_name.outputs.value }}:${{ github.ref_name }}-${{ github.sha }}
           build-args: |
@@ -254,7 +253,7 @@ jobs:
         uses: SebRollen/toml-action@v1.0.0
         id: app_name
         with:
-          file: 'fly.toml'
+          file: './apps/epicweb/fly.toml'
           field: 'app'
 
       - name: 🚀 Deploy Staging
