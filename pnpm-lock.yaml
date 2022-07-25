@@ -847,6 +847,7 @@ importers:
       '@testing-library/user-event': ^14.2.1
       '@types/bcryptjs': ^2.4.2
       '@types/compression': ^1.7.2
+      '@types/cookie': ^0.4.1
       '@types/eslint': ^8.4.5
       '@types/express': ^4.17.13
       '@types/morgan': ^1.9.3
@@ -912,6 +913,7 @@ importers:
       '@testing-library/user-event': 14.3.0_gwcpuyfvwbszhlmedmugzivgzu
       '@types/bcryptjs': 2.4.2
       '@types/compression': 1.7.2
+      '@types/cookie': 0.4.1
       '@types/eslint': 8.4.5
       '@types/express': 4.17.13
       '@types/morgan': 1.9.3
@@ -8965,6 +8967,7 @@ packages:
       '@types/react': 17.0.45
       hoist-non-react-statics: 3.3.2
       react: 17.0.2
+    dev: false
 
   /@emotion/react/11.5.0_hx2b44akkvgcgvvtmk7ds2qk6q:
     resolution: {integrity: sha512-MYq/bzp3rYbee4EMBORCn4duPQfgpiEB5XzrZEBnUZAL80Qdfr7CEv/T80jwaTl/dnZmt9SnTa8NkTrwFNpLlw==}
@@ -11733,6 +11736,7 @@ packages:
       lodash.isplainobject: 4.0.6
       lodash.merge: 4.6.2
       tailwindcss: 3.1.6
+    dev: false
 
   /@testing-library/cypress/8.0.3_cypress@10.3.1:
     resolution: {integrity: sha512-nY2YaSbmuPo5k6kL0iLj/pGPPfka3iwb3kpTx8QN/vOCns92Saz9wfACqB8FJzcR7+lfA4d5HUOWqmTddBzczg==}
