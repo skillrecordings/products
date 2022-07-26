@@ -234,6 +234,7 @@ model User {
 model VerificationToken {
   token      String    @id
   identifier String
-  expires    DateTime? 
+  expires    DateTime?
+  createdAt  DateTime?          @default(now())
   @@unique([identifier, token])
 }
