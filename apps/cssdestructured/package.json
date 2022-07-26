@@ -68,7 +68,7 @@
     "groq": "^2.15.0",
     "lodash": "^4.17.21",
     "mdx-prism": "^0.3.4",
-    "next": "^12.2.2",
+    "next": "^12.2.3",
 
     "next-sitemap": "^3.0.5",
     "next-themes": "^0.1.1",
