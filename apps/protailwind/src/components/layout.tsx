@@ -1,12 +1,13 @@
 import React, {FunctionComponent} from 'react'
 import {NextSeo} from '@skillrecordings/react'
 import cx from 'classnames'
+import Navigation from 'components/navigation'
 
 type LayoutProps = {
   meta?: any
   noIndex?: boolean
   className?: string
-  nav?: React.ReactElement | null
+  nav?: boolean
   footer?: React.ReactElement | null
   children?: any
 }
@@ -48,7 +49,7 @@ const Layout: FunctionComponent<LayoutProps> = ({
         canonical={url}
         noindex={noIndex}
       />
-      {/* {nav ? nav : isNull(nav) ? null : <Navigation />} */}
+      {nav && <Navigation />}
       <div
         className={cx(
           'flex flex-col flex-grow h-full sm:min-h-[calc(100vh-64px)] min-h-[calc(100vh-56px)]',
