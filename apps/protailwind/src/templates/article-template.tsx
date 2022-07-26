@@ -36,6 +36,7 @@ const ArticleTemplate: React.FC<ArticleTemplateProps> = ({
   return (
     <Layout
       className="overflow-hidden"
+      nav
       meta={{
         title,
         description: shortDescription,
@@ -72,7 +73,7 @@ export default ArticleTemplate
 
 const Header: React.FC<{title: string; date: string}> = ({title, date}) => {
   return (
-    <header className="flex flex-col items-center relative px-5 pt-16 pb-8 overflow-hidden text-white bg-[#082C1B] bg-noise">
+    <header className="flex flex-col items-center relative px-5 pt-16 pb-8 overflow-hidden text-white">
       <div className="flex flex-col items-center max-w-screen-md mx-auto w-full relative z-10">
         <Link passHref href="/articles">
           <a className="sm:text-base text-sm group text-white relative hover:text-white font-normal px-4 py-2 hover:bg-opacity-10 bg-opacity-0 bg-white rounded-full transition opacity-80 hover:opacity-90 focus-visible:ring-white focus-visible:opacity-100">

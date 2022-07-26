@@ -22,7 +22,7 @@ type ArticlesProps = {
 const Articles: React.FC<ArticlesProps> = ({articles}) => {
   console.log('articles:', articles)
   return (
-    <Layout meta={meta} className="overflow-hidden">
+    <Layout meta={meta} className="overflow-hidden" nav>
       <header className="relative px-5 py-28 overflow-hidden text-white">
         <h1 className="max-w-screen-md font-heading font-bold mx-auto leading-none text-center text-3xl sm:text-4xl lg:text-5xl">
           Protailwind Articles
