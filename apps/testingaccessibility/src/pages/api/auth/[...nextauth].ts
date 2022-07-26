@@ -30,12 +30,9 @@ export const sendVerificationRequest = async (params: {
     url,
     provider: {server, from},
   } = params
-  const rewriteUrl = new URL(url)
   const transport = createTransport(server)
   const {getUserByEmail} = getSdk()
-  const {host} = rewriteUrl
-
-  rewriteUrl.pathname = '/api/callback'
+  const {host} = new URL(url)
 
   let subject
 
@@ -62,8 +59,8 @@ export const sendVerificationRequest = async (params: {
     to: email,
     from,
     subject,
-    text: text({url: rewriteUrl.href, host}),
-    html: html({url: rewriteUrl.href, host, email}),
+    text: text({url, host}),
+    html: html({url, host, email}),
   })
 }
 
