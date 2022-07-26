@@ -36,7 +36,7 @@ const questions = [
 
 const Home: NextPage = () => {
   return (
-    <Layout meta={{titleAppendSiteName: false}}>
+    <Layout meta={{titleAppendSiteName: false}} nav>
       <Header />
       <main className="font-light text-slate-300 sm:text-2xl text-xl leading-normal bg-slate-900">
         <Copy />
