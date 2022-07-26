@@ -8,6 +8,8 @@ import flatten from 'lodash/flatten'
 import isEmpty from 'lodash/isEmpty'
 import find from 'lodash/find'
 import groq from 'groq'
+import {setupHttpTracing} from '@vercel/tracing-js'
+import {tracer} from '../../../../utils/honeycomb-tracer'
 
 const allSectionsQuery = groq`*[_type == "section"]{
   "slug": slug.current,
@@ -70,7 +72,17 @@ const sectionQuery = groq`*[_type == "section" && slug.current == $slug][0]{
   }
   }`
 
-export const getServerSideProps: GetServerSideProps = async ({req, params}) => {
+export const getServerSideProps: GetServerSideProps = async ({
+  res,
+  req,
+  params,
+}) => {
+  setupHttpTracing({
+    name: getServerSideProps.name,
+    tracer,
+    req,
+    res,
+  })
   const {product} = await getPurchasedProduct(req)
 
   // get array of available sections

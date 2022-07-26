@@ -21,6 +21,8 @@ import Link from 'next/link'
 import cx from 'classnames'
 import groq from 'groq'
 import {Purchase} from '../../../generated/prisma/client'
+import {setupHttpTracing} from '@vercel/tracing-js'
+import {tracer} from '../../utils/honeycomb-tracer'
 
 const CERTIFICATE_ENABLED = process.env.NEXT_PUBLIC_CERTIFICATE_ENABLED
 
@@ -69,7 +71,17 @@ const productQuery = groq`*[_type == "product" && productId == $productId][0]{
   }
   }`
 
-export const getServerSideProps: GetServerSideProps = async ({req}) => {
+export const getServerSideProps: GetServerSideProps = async ({
+  res,
+  req,
+  query,
+}) => {
+  setupHttpTracing({
+    name: getServerSideProps.name,
+    tracer,
+    req,
+    res,
+  })
   // TODO: instead of fetching the product we can generate rules on the session
   //       which may mean we can avoid this async call but it also isn't hurting
   //       anything right now. The ability isn't being used to make any decisions

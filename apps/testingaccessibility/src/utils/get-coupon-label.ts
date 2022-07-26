@@ -1,7 +1,7 @@
 export const getCouponLabel = (couponType: string) => {
   switch (couponType) {
     case 'special':
-      return 'Launch Discount'
+      return 'Special Discount'
     case 'site':
       return 'Sale'
     case 'ppp':

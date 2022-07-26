@@ -6,6 +6,8 @@ import Image from 'next/image'
 import Layout from 'components/app/layout'
 import {useRouter} from 'next/router'
 import toast from 'react-hot-toast'
+import {setupHttpTracing} from '@vercel/tracing-js'
+import {tracer} from '../utils/honeycomb-tracer'
 
 const Login: React.FC<{csrfToken: string}> = ({csrfToken}) => {
   const {
@@ -114,6 +116,13 @@ const Login: React.FC<{csrfToken: string}> = ({csrfToken}) => {
 export default Login
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
+  const {res, req, params} = context
+  setupHttpTracing({
+    name: getServerSideProps.name,
+    tracer,
+    req,
+    res,
+  })
   const providers = await getProviders()
   const csrfToken = await getCsrfToken(context)
 

@@ -1,14 +1,22 @@
 import * as React from 'react'
 import {GetServerSideProps} from 'next'
-import {stripe} from 'utils/stripe'
 import {Stripe} from 'stripe'
 import Layout from 'components/app/layout'
 import Image from 'next/image'
 import NewMailImage from '../../../public/assets/new-mail@2x.png'
 import {MailIcon} from '@heroicons/react/outline'
 import {getCheckoutSession} from '../../lib/stripe'
+import {setupHttpTracing} from '@vercel/tracing-js'
+import {tracer} from '../../utils/honeycomb-tracer'
 
-export const getServerSideProps: GetServerSideProps = async ({req, query}) => {
+export const getServerSideProps: GetServerSideProps = async (context) => {
+  const {res, req, query} = context
+  setupHttpTracing({
+    name: getServerSideProps.name,
+    tracer,
+    req,
+    res,
+  })
   const {session_id} = query
 
   if (!session_id) {
@@ -35,7 +43,11 @@ const ThanksVerify: React.FC<{name: string; email: string}> = ({
   email,
 }) => {
   return (
-    <Layout footer={null} className="bg-green-700 bg-noise" meta={{title: "Purchase Successful"}}>
+    <Layout
+      footer={null}
+      className="bg-green-700 bg-noise"
+      meta={{title: 'Purchase Successful'}}
+    >
       <main className="flex flex-col flex-grow items-center justify-center pt-5 pb-16 px-5 text-white">
         <div className="flex flex-col max-w-screen-md mx-auto w-full gap-5 items-center text-center">
           <Image

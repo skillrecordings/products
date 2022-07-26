@@ -57,7 +57,7 @@ export async function sendFeedbackFromUser({
       html,
     })
 
-    if (slack?.feedback) {
+    if (slack?.feedback && process.env.NODE_ENV === 'production') {
       await postFeedbackToSlack(feedbackTextAsMarkdown, context, user, slack)
     }
 

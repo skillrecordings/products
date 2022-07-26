@@ -1,0 +1,239 @@
+generator client {
+  provider = "prisma-client-js"
+  previewFeatures = ["referentialIntegrity", "interactiveTransactions"]
+  output   = "../generated/prisma/client"
+  binaryTargets   = ["rhel-openssl-1.0.x", "native"]
+}
+
+datasource db {
+    provider             = "mysql"
+    url                  = env("DATABASE_URL")
+    referentialIntegrity = "prisma"
+}
+
+model Comment {
+  id                       String            @id @default(uuid())
+  userId                   String
+  text                     String            @db.Text
+  context                  Json?
+  updatedAt                DateTime?
+  createdAt                DateTime          @default(now())
+  user                     User              @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model LessonProgress {
+  id                       String  @id @default(uuid())
+  userId                   String
+  lessonSlug               String
+  lessonVersion            String?
+  completedAt              DateTime?
+  updatedAt                DateTime?
+  createdAt                DateTime          @default(now())
+  user                     User              @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Account {
+  id                       String  @id @default(uuid()) 
+  type                     String
+  provider                 String
+  providerAccountId        String
+  refresh_token            String?
+  access_token             String?
+  expires_at               BigInt?
+  token_type               String?
+  scope                    String?
+  id_token                 String?
+  session_state            String?
+  oauth_token_secret       String?
+  oauth_token              String?
+  userId                   String  
+  refresh_token_expires_in Int?
+  user                     User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  @@unique([provider, providerAccountId])
+}
+
+model Coupon {
+  id                       String            @id @default(uuid()) 
+  code                     String?           @unique
+  createdAt                DateTime          @default(now())
+  expires                  DateTime?         
+  maxUses                  Int               @default(-1)
+  default                  Boolean           @default(false)
+  merchantCouponId         String?
+  status                   Int               @default(0)
+  usedCount                Int               @default(0)
+  percentageDiscount       Decimal           @db.Decimal(3,2)
+  restrictedToProductId    String?
+  bulkPurchaseId           String?
+  bulkPurchase             Purchase?         @relation(name: "BulkCoupon", fields: [bulkPurchaseId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  merchantCoupon           MerchantCoupon?   @relation(fields: [merchantCouponId], references: [id], onDelete: Cascade)
+  product                  Product?          @relation(fields: [restrictedToProductId], references: [id], onDelete: Cascade)
+  purchases                Purchase[]        @relation("StandardPurchase")
+}
+
+model MerchantAccount {
+  id                  String               @id @default(uuid())
+  status              Int                  @default(0)
+  createdAt           DateTime             @default(now())
+  label               String?
+  identifier          String?
+  merchantCharges     MerchantCharge[]
+  merchantCoupons     MerchantCoupon[]
+  merchantCustomers   MerchantCustomer[]
+  merchantPrices      MerchantPrice[]
+  merchantProducts    MerchantProduct[]
+}
+
+model MerchantCharge {
+  id                  String             @id @default(uuid())
+  status              Int                @default(0)
+  identifier          String             @unique
+  userId              String              
+  merchantAccountId   String
+  merchantProductId   String
+  createdAt           DateTime           @default(now())
+  merchantCustomerId  String
+  merchantAccount     MerchantAccount    @relation(fields: [merchantAccountId], references: [id], onDelete: Cascade)
+  merchantCustomer    MerchantCustomer?  @relation(fields: [merchantCustomerId], references: [id], onDelete: Cascade)
+  merchantProduct     MerchantProduct    @relation(fields: [merchantProductId], references: [id], onDelete: Cascade)
+  user                User               @relation(fields: [userId], references: [id], onDelete: Cascade)
+  purchase            Purchase[]
+}
+
+model MerchantCoupon {
+  id                  String            @id @default(uuid()) 
+  identifier          String?           @unique
+  status              Int               @default(0)
+  merchantAccountId   String
+  percentageDiscount  Decimal           @db.Decimal(3,2)
+  type                String?
+  merchantAccount     MerchantAccount   @relation(fields: [merchantAccountId], references: [id], onDelete: Cascade)
+  coupon              Coupon[]
+}
+
+model MerchantCustomer {
+  id                  String             @id @default(uuid()) 
+  userId              String             @unique
+  merchantAccountId   String
+  identifier          String             @unique
+  createdAt           DateTime           @default(now())
+  status              Int?               @default(0)
+  merchantAccount     MerchantAccount    @relation(fields: [merchantAccountId], references: [id], onDelete: Cascade)
+  user                User               @relation(fields: [userId], references: [id], onDelete: Cascade)
+  merchantCharges     MerchantCharge[]
+}
+
+model MerchantPrice {
+  id                  String            @id @default(uuid()) 
+  merchantAccountId   String
+  merchantProductId   String
+  status              Int?              @default(0)
+  identifier          String?           @unique
+  createdAt           DateTime          @default(now())
+  priceId             String?
+  merchantAccount     MerchantAccount   @relation(fields: [merchantAccountId], references: [id], onDelete: Cascade)
+  merchantProduct     MerchantProduct   @relation(fields: [merchantProductId], references: [id], onDelete: Cascade)
+  price               Price?            @relation(fields: [priceId], references: [id], onDelete: Cascade)
+}
+
+model MerchantProduct {
+  id                 String             @id @default(uuid()) 
+  merchantAccountId  String
+  productId          String             
+  status             Int                @default(0)
+  identifier         String?            @unique
+  createdAt          DateTime           @default(now()) 
+  merchantAccount    MerchantAccount    @relation(fields: [merchantAccountId], references: [id], onDelete: Cascade)
+  product            Product            @relation(fields: [productId], references: [id], onDelete: Cascade)
+  merchantCharges    MerchantCharge[]
+  merchantPrices     MerchantPrice[]
+}
+
+model Price {
+  id              String            @id @default(uuid()) 
+  productId       String?
+  nickname        String?
+  status          Int               @default(0)
+  unitAmount      Decimal           @db.Decimal(10,2)
+  createdAt       DateTime          @default(now())
+  product         Product?           @relation(fields: [productId], references: [id], onDelete: Cascade)
+  merchantPrices  MerchantPrice[]
+}
+
+model Product {
+  id                String              @id @default(uuid()) 
+  name              String
+  key               String?
+  createdAt         DateTime            @default(now())
+  status            Int                 @default(0)
+  coupons           Coupon[]
+  merchantProducts  MerchantProduct[]
+  prices            Price[]
+  purchases         Purchase[]
+  upgradableTo      UpgradableProducts[] @relation("UpgradeToProduct")
+  upgradableFrom    UpgradableProducts[] @relation("UpgradeFromProduct")
+}
+
+
+model UpgradableProducts {
+  upgradableTo       Product     @relation(name: "UpgradeToProduct", fields: [upgradableToId], references: [id])
+  upgradableToId     String
+  upgradableFrom     Product    @relation(name: "UpgradeFromProduct", fields: [upgradableFromId], references: [id])
+  upgradableFromId   String
+  @@id([upgradableToId, upgradableFromId])
+}
+
+model Purchase {
+  id                      String           @id @default(uuid())
+  userId                  String?
+  createdAt               DateTime          @default(now())
+  totalAmount             Decimal
+  ip_address              String?
+  city                    String?
+  state                   String?
+  country                 String?
+  couponId                String?
+  productId               String
+  merchantChargeId        String?
+  upgradedFromId          String?
+  upgradedFrom            Purchase?          @relation(name: "UpgradedToPurchase", fields: [upgradedFromId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  upgradedTo              Purchase?          @relation("UpgradedToPurchase")
+  bulkCoupon              Coupon?            @relation("BulkCoupon")
+  coupon                  Coupon?            @relation(name: "StandardPurchase", fields: [couponId], references: [id], onDelete: Cascade)
+  merchantCharge          MerchantCharge?    @relation(fields: [merchantChargeId], references: [id], onDelete: Cascade)
+  product                 Product            @relation(fields: [productId], references: [id], onDelete: Cascade)
+  user                    User?              @relation(fields: [userId], references: [id], onDelete: Cascade)
+  status                  String             @default("Valid")
+}
+
+model Session {
+  id             String     @id @default(uuid())
+  sessionToken   String
+  userId         String?
+  expires        DateTime?
+  user           User?      @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+
+model User {
+  id                 String               @id @default(uuid()) 
+  name               String?
+  email              String               @unique
+  emailVerified      DateTime?            
+  image              String?
+  accounts           Account[]
+  merchantCharges    MerchantCharge[]
+  merchantCustomers  MerchantCustomer[]
+  purchases          Purchase[]
+  sessions           Session[]
+  lessonProgresses   LessonProgress[]
+  comments           Comment[]
+  roles              String                   @default("User")
+}
+
+model VerificationToken {
+  token      String    @id
+  identifier String
+  expires    DateTime? 
+  @@unique([identifier, token])
+}

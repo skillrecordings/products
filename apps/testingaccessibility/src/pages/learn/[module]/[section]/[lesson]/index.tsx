@@ -9,6 +9,8 @@ import isEmpty from 'lodash/isEmpty'
 import find from 'lodash/find'
 import uniq from 'lodash/uniq'
 import groq from 'groq'
+import {setupHttpTracing} from '@vercel/tracing-js'
+import {tracer} from '../../../../../utils/honeycomb-tracer'
 
 const lessonQuery = groq`*[_type == "lesson" && slug.current == $slug][0]{
   title,
@@ -77,7 +79,17 @@ const sectionQuery = groq`*[_type == "section" && slug.current == $slug][0]{
   }
   }`
 
-export const getServerSideProps: GetServerSideProps = async ({req, params}) => {
+export const getServerSideProps: GetServerSideProps = async ({
+  res,
+  req,
+  params,
+}) => {
+  setupHttpTracing({
+    name: getServerSideProps.name,
+    tracer,
+    req,
+    res,
+  })
   // get array of available lessons
   const {product} = await getPurchasedProduct(req)
   const lessons: {slug: string}[] = flatten(
