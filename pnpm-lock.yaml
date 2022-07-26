@@ -1645,10 +1645,14 @@ importers:
 
   apps/protailwind:
     specifiers:
+      '@heroicons/react': ^1.0.6
+      '@portabletext/react': ^1.0.6
+      '@portabletext/types': ^1.0.3
       '@prisma/client': ^3.15.2
       '@react-three/drei': 8.16.0
       '@react-three/fiber': 7.0.27
       '@react-three/postprocessing': ^2.3.2
+      '@sanity/client': ^3.3.2
       '@sentry/nextjs': ^6.19.3
       '@skillrecordings/analytics': workspace:*
       '@skillrecordings/auth': workspace:*
@@ -1674,14 +1678,19 @@ importers:
       '@types/react': ^17.0.42
       '@types/react-dom': ^17.0.17
       '@types/three': ^0.141.0
+      '@xstate/react': '=1.5.1'
       autoprefixer: ^10.4.2
       classnames: ^2.3.1
+      date-fns: ^2.28.0
       eslint: ^8.19.0
       eslint-config-custom: workspace:*
       focus-visible: ^5.2.0
       framer-motion: ^6.4.1
       framer-motion-3d: ^6.4.1
+      groq: ^2.15.0
+      javascript: link:refractor/lang/javascript
       leva: ^0.9.27
+      markdown: link:refractor/lang/markdown
       next: ^12.2.2
       next-compose-plugins: ^2.2.1
       next-sitemap: ^3.0.5
@@ -1689,15 +1698,23 @@ importers:
       prisma: ^3.15.2
       react: 17.0.2
       react-dom: 17.0.2
+      react-markdown: ^8.0.3
       react-query: ^3.39.1
+      react-refractor: ^2.1.7
+      refractor: ^4.5.0
+      speakingurl: ^14.0.1
       tailwindcss: ^3.1.4
       three: ^0.141.0
       typescript: ^4.7.4
+      yaml: link:refractor/lang/yaml
     dependencies:
+      '@heroicons/react': 1.0.6_react@17.0.2
+      '@portabletext/react': 1.0.6_react@17.0.2
       '@prisma/client': 3.15.2_prisma@3.15.2
       '@react-three/drei': 8.16.0_kywf6pnmep4vhgxm3n7fyzvqbm
       '@react-three/fiber': 7.0.27_weaphyuqmcotibvxgot4zxypyi
       '@react-three/postprocessing': 2.3.2_kywf6pnmep4vhgxm3n7fyzvqbm
+      '@sanity/client': 3.3.2
       '@sentry/nextjs': 6.19.3_next@12.2.2+react@17.0.2
       '@skillrecordings/analytics': link:../../packages/analytics
       '@skillrecordings/auth': link:../../packages/auth
@@ -1712,19 +1729,29 @@ importers:
       '@skillrecordings/skill-api': link:../../packages/skill-api
       '@skillrecordings/time': link:../../packages/time
       '@skillrecordings/viewer': link:../../packages/viewer
+      '@xstate/react': 1.5.1_hx2b44akkvgcgvvtmk7ds2qk6q
       classnames: 2.3.1
+      date-fns: 2.28.0
       focus-visible: 5.2.0
       framer-motion: 6.4.1_sfoxds7t5ydpegc3knd667wn6m
       framer-motion-3d: 6.4.1_kywf6pnmep4vhgxm3n7fyzvqbm
+      groq: 2.15.0
+      javascript: link:refractor/lang/javascript
       leva: 0.9.27_sfoxds7t5ydpegc3knd667wn6m
+      markdown: link:refractor/lang/markdown
       next: 12.2.2_sfoxds7t5ydpegc3knd667wn6m
       next-compose-plugins: 2.2.1
       next-sitemap: 3.1.7_next@12.2.2
       react: 17.0.2
       react-dom: 17.0.2_react@17.0.2
+      react-markdown: 8.0.3_hx2b44akkvgcgvvtmk7ds2qk6q
       react-query: 3.39.1_sfoxds7t5ydpegc3knd667wn6m
+      react-refractor: 2.1.7_react@17.0.2
+      refractor: 4.5.0
       three: 0.141.0
+      yaml: link:refractor/lang/yaml
     devDependencies:
+      '@portabletext/types': 1.0.3
       '@skillrecordings/scripts': link:../../packages/scripts
       '@skillrecordings/tsconfig': link:../../packages/tsconfig
       '@skillrecordings/types': link:../../packages/types
@@ -1741,6 +1768,7 @@ importers:
       eslint-config-custom: link:../../packages/eslint-config-custom
       postcss: 8.4.14
       prisma: 3.15.2
+      speakingurl: 14.0.1
       tailwindcss: 3.1.4
       typescript: 4.7.4
 
@@ -7353,6 +7381,7 @@ packages:
       '@types/react': 17.0.45
       hoist-non-react-statics: 3.3.2
       react: 17.0.2
+    dev: false
 
   /@emotion/react/11.5.0_hx2b44akkvgcgvvtmk7ds2qk6q:
     resolution: {integrity: sha512-MYq/bzp3rYbee4EMBORCn4duPQfgpiEB5XzrZEBnUZAL80Qdfr7CEv/T80jwaTl/dnZmt9SnTa8NkTrwFNpLlw==}
@@ -25788,7 +25817,6 @@ packages:
   /speakingurl/14.0.1:
     resolution: {integrity: sha512-1POYv7uv2gXoyGFpBCmpDVSNV74IfsWlDW216UPjbWufNf+bSU6GdbDsxdcxtfwb4xlI3yxzOTKClUosxARYrQ==}
     engines: {node: '>=0.10.0'}
-    dev: false
 
   /speedometer/1.0.0:
     resolution: {integrity: sha512-lgxErLl/7A5+vgIIXsh9MbeukOaCb2axgQ+bKCdIE+ibNT4XNYGNCR1qFEGq6F+YDASXK3Fh/c5FgtZchFolxw==}
