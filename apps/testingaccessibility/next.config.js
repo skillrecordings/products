@@ -10,6 +10,9 @@ const IMAGE_HOST_DOMAINS = [
   `testingaccessibility.com`,
 ]
 
+/**
+ * @type {import('next').NextConfig}
+ */
 const nextConfig = {
   eslint: {
     ignoreDuringBuilds: true, // 😭
@@ -36,7 +39,7 @@ const nextConfig = {
   },
 }
 
-const sentryWebpackPluginOptions = {
+const sentryWebpackPluginOptions = process.env.SENTRY_AUTH_TOKEN && {
   // Additional config options for the Sentry Webpack plugin. Keep in mind that
   // the following options are set automatically, and overriding them is not
   // recommended:
@@ -48,19 +51,25 @@ const sentryWebpackPluginOptions = {
   // https://github.com/getsentry/sentry-webpack-plugin#options.
 }
 
-module.exports = withSentryConfig(
-  withPlugins(
-    [
-      withImages(),
-      withMDX({
-        options: {
-          providerImportSource: '@mdx-js/react',
-        },
-        pageExtensions: ['ts', 'tsx', 'mdx'],
-        rehypePlugins: [require('mdx-prism')],
-      }),
-    ],
-    nextConfig,
-  ),
-  sentryWebpackPluginOptions,
+const configWithPlugins = withPlugins(
+  [
+    withImages(),
+    withMDX({
+      options: {
+        providerImportSource: '@mdx-js/react',
+      },
+      pageExtensions: ['ts', 'tsx', 'mdx'],
+      rehypePlugins: [require('mdx-prism')],
+    }),
+  ],
+  nextConfig,
 )
+
+if (sentryWebpackPluginOptions) {
+  module.exports = withSentryConfig(
+    configWithPlugins,
+    sentryWebpackPluginOptions,
+  )
+} else {
+  module.exports = configWithPlugins
+}
