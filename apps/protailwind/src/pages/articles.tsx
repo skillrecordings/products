@@ -49,7 +49,7 @@ const Articles: React.FC<ArticlesProps> = ({articles}) => {
                           </Link>
                           <time
                             dateTime={date}
-                            className="block pt-1 font-semibold pb-5"
+                            className="block pt-1 font-semibold pb-5 text-indigo-300"
                           >
                             {format(new Date(date), 'dd MMMM, y')}
                           </time>
@@ -63,7 +63,7 @@ const Articles: React.FC<ArticlesProps> = ({articles}) => {
                       {slug && (
                         <Link href={`/${slug}`} passHref>
                           <a
-                            className="font-nav px-3 py-2 rounded-md hover:bg-pink-900/50 transition bg-moss-100 text-pink-400 font-semibold inline-flex"
+                            className="font-nav px-3 py-2 rounded-md hover:bg-amber-100/20 transition bg-moss-100 text-amber-300 font-semibold inline-flex"
                             aria-label={`Read ${title}`}
                           >
                             Read
