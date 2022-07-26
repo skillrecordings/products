@@ -35,13 +35,10 @@
     "preset": "@skillrecordings/scripts/jest/next"
   },
   "dependencies": {
-    "@heroicons/react": "^1.0.6",
-    "@portabletext/react": "^1.0.6",
     "@prisma/client": "^3.15.2",
     "@react-three/drei": "8.16.0",
     "@react-three/fiber": "7.0.27",
     "@react-three/postprocessing": "^2.3.2",
-    "@sanity/client": "^3.3.2",
     "@sentry/nextjs": "^6.19.3",
     "@skillrecordings/analytics": "workspace:*",
     "@skillrecordings/auth": "workspace:*",
@@ -56,30 +53,19 @@
     "@skillrecordings/skill-api": "workspace:*",
     "@skillrecordings/time": "workspace:*",
     "@skillrecordings/viewer": "workspace:*",
-    "@xstate/react": "=1.5.1",
     "classnames": "^2.3.1",
-    "date-fns": "^2.28.0",
     "focus-visible": "^5.2.0",
     "framer-motion": "^6.4.1",
     "framer-motion-3d": "^6.4.1",
-    "groq": "^2.15.0",
-    "javascript": "link:refractor/lang/javascript",
     "leva": "^0.9.27",
-    "markdown": "link:refractor/lang/markdown",
     "next": "^12.2.2",
     "next-compose-plugins": "^2.2.1",
     "next-sitemap": "^3.0.5",
     "react": "17.0.2",
     "react-dom": "17.0.2",
-    "react-markdown": "^8.0.3",
-    "react-query": "^3.39.1",
-    "react-refractor": "^2.1.7",
-    "refractor": "^4.5.0",
-    "three": "^0.141.0",
-    "yaml": "link:refractor/lang/yaml"
+    "react-query": "^3.39.1"
   },
   "devDependencies": {
-    "@portabletext/types": "^1.0.3",
     "@skillrecordings/scripts": "workspace:*",
     "@skillrecordings/tsconfig": "workspace:*",
     "@skillrecordings/types": "workspace:*",
@@ -96,7 +82,6 @@
     "eslint-config-custom": "workspace:*",
     "postcss": "^8.4.14",
     "prisma": "^3.15.2",
-    "speakingurl": "^14.0.1",
     "tailwindcss": "^3.1.4",
     "typescript": "^4.7.4"
   }
