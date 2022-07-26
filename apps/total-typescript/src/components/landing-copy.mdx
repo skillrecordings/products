@@ -2,61 +2,58 @@ The feature’s working. The tests are passing. But your IDE is a sea of red lin
 
 You move on to the next error:
 
-<p>
+<TypeError header={<><span className="text-rose-400">const</span> <span className="text-blue-300">name</span><span className="text-rose-400">:</span> <span className="text-blue-300">string</span></>}>
 
-{"Element implicitly has an ‘any’ type because expression of type ‘string’ can’t be used to index type ‘{ string: string | undefined; }’"}
+Element implicitly has an 'any' type because expression of type 'string' can't be used to index type '\{ name: string \| undefined; \}'. No index signature with a parameter of type 'string' was found on type '\{ name: string \| undefined; \}'. <span className="opacity-60">ts(7053)</span>
 
-{"No index signature with a parameter of type ‘string’ was found on type ‘{ string: string | undefined; }’"}
+</TypeError>
 
-</p>
+<div className="text-center prose-p:font-medium font-text text-3xl pb-8 pt-14">
+  _“WTF is this?”_ you think to yourself.
+</div>
 
-“WTF is this?” you think to yourself.
-
-Every search result is either "here are 100 lines of adapter garbage" or "here's a solution that doesn't work”
+Every search result is either _"here are 100 lines of adapter garbage"_ or _"here's a solution that doesn't work”_
 
 You contemplate the absurd amount of hours you spend solving these problems.
 
 You'd rather swallow shards of glass than deal with another:
 
-<p>
+<TypeError>
 
 {"The intersection '{0}' was reduced to 'never' because property '{1}' has conflicting types in some constituents."}
 
-</p>
+</TypeError>
 
 or
 
-<p>
+<TypeError>
 
-{"Return type of exported function has or is using name '{0}' from external module {1} but cannot be named."}
+Return type of exported function has or is using name '{0}' from external module {1} but cannot be named. <span className="opacity-60">ts(4058)</span>
 
-</p>
+</TypeError>
 
 Your time is precious. You have bigger fish to fry.
 
 Perhaps, you could spend that time writing new libraries or pushing technology forwards in other areas of your organization. Instead, you're dealing with TypeScript’s bs.
 
-No one ever said, "let's build large-scale enterprise applications with vanilla JS."
+<div className="text-center prose-p:font-medium font-text text-3xl pb-8 pt-8">
+  No one ever said _“Let's build large-scale enterprise applications with
+  vanilla JS”_
+</div>
 
 But not using TypeScript is not an option.
 
-So you keep on pushing - all the time feeling like you’re working against TypeScript, not with it.
+So you keep on pushing — all the time feeling like you’re working against TypeScript, not with it.
 
-The truth is that you never truly learned TypeScript, at least not in depth.
+The truth is that you never truly learned TypeScript, at least not in depth. That's the source of your pain. That's the source of your lack of velocity and impact.
 
-That's the source of your pain.
-
-That's the source of your lack of velocity and impact.
-
-You never developed a systematic approach to solving type errors.
-
-You never got to know the power of generics.
+You never developed a systematic approach to solving type errors. You never got to know the power of generics.
 
 Ultimately…
 
 You never learned the underlying principles and patterns of being an effective TypeScript engineer.
 
-<section className="py-24 my-24 first-of-type:prose-headings:mt-0">
+<section className="py-24 my-24 first-of-type:prose-headings:mt-0 bg-black/30">
 
 ## You deserve so much better.
 
@@ -86,6 +83,9 @@ This collection of workshops will move you from being a contributor to a TypeScr
 
 ## A Systematic Approach for Learning TypeScript
 
+<Topics>
+<div>
+
 ### Fundamentals
 
 Complexity and ambiguity compound exponentially. To learn "XY" concept, you must first master X and Y separately and in-depth.
@@ -93,6 +93,9 @@ Complexity and ambiguity compound exponentially. To learn "XY" concept, you must
 We'll go through all the fundamentals of advanced TypeScript.
 
 We'll look at generics, conditional types, mapped types, tuples - everything you need to feel confident looking at complicated TypeScript code.
+
+</div>
+<div>
 
 ### Challenge-Driven
 
@@ -102,6 +105,9 @@ This will be a problem/solution setup - I'll set up the problem, then let you ha
 
 This will test your TypeScript muscles and give you a massive, comprehensive set of challenges to work through with my guidance at your side.
 
+</div>
+<div>
+
 ### OSS-Driven
 
 Finally, we'll look at TypeScript in the wild.
@@ -109,6 +115,9 @@ Finally, we'll look at TypeScript in the wild.
 I've got interviews lined up with several open source library maintainers who will guide you through ~10 of the top TypeScript Open Source repositories out there.
 
 We'll focus on the principals they used to solve their hardest TypeScript challenges - and the architectural decisions that led them there.
+
+</div>
+</Topics>
 
 ## Concrete, no-bs, "this is your new superpower" Outcomes.
 

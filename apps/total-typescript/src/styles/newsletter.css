@@ -1,0 +1,20 @@
+#newsletter {
+  [data-sr-convertkit-subscribe-form] {
+    @apply flex flex-col gap-4;
+    [data-sr-input] {
+      @apply p-5 bg-black/50 border border-gray-800/70 w-full rounded-sm text-lg;
+    }
+    [data-sr-input-label] {
+      @apply w-full pb-1 inline-block text-gray-300;
+    }
+    [data-sr-button] {
+      @apply rounded-sm bg-gradient-to-tr from-cyan-600 to-cyan-500 shadow-cyan-900/50 relative shadow-2xl py-5 px-8 mt-2 focus-visible:ring-white font-semibold text-xl hover:brightness-110 transition;
+    }
+    [data-sr-button][disabled] {
+    }
+  }
+  [data-sr-convertkit-subscribe-form='success'] {
+  }
+  [data-sr-convertkit-subscribe-form='error'] {
+  }
+}

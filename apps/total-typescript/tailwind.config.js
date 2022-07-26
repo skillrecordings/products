@@ -1,5 +1,6 @@
 /** @type {import('tailwindcss').Config} */
 const defaultTheme = require('tailwindcss/defaultTheme')
+const colors = require('tailwindcss/colors')
 
 module.exports = {
   content: [
@@ -15,10 +16,10 @@ module.exports = {
     extend: {
       fontFamily: {
         heading: ['Magnat Head', ...defaultTheme.fontFamily.sans],
-        sans: ['Magnat Text', ...defaultTheme.fontFamily.sans],
         text: ['Magnat Text', ...defaultTheme.fontFamily.sans],
+        sans: ['Larsseit', ...defaultTheme.fontFamily.sans],
       },
-      colors: {},
+      colors: {gray: colors.slate},
       typography: (theme) => ({
         DEFAULT: {
           css: {},

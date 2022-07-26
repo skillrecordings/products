@@ -11,7 +11,7 @@ const HomePage = () => {
   return (
     <Layout>
       <Header />
-      <main>
+      <main className="pt-16">
         <Copy />
         <SubscribeToNewsletter />
       </main>
@@ -22,24 +22,35 @@ const HomePage = () => {
 const Header = () => {
   return (
     <header className="flex flex-col justify-center items-center px-5 overflow-hidden">
-      <div className="max-w-screen-xl flex items-center w-full relative min-h-[90vh]">
-        <div className="relative z-10 max-w-2xl">
-          <h1 className="font-heading xl:text-7xl lg:text-6xl sm:text-5xl text-3xl font-light xl:leading-[1.15] lg:leading-[1.15] sm:leading-[1.15] leading-[1.25]">
+      <div className="max-w-screen-lg flex lg:flex-row flex-col-reverse items-center w-full relative lg:min-h-[80vh]">
+        <div className="relative z-10 max-w-2xl lg:py-48 lg:pb-48 pb-10">
+          <h1 className="sm:mt-0 mt-16 font-heading xl:text-6xl lg:text-5xl sm:text-5xl text-4xl font-normal xl:leading-[1.15] lg:leading-[1.15] sm:leading-[1.15] leading-[1.25] max-w-[14ch]">
             Become the{' '}
             <strong className="font-extrabold">TypeScript Wizard</strong> at
             Your Company
           </h1>
-          <h2 className="text-2xl pt-8 font-text max-w-lg bg-gradient-to-tr from-sky-300 to-emerald-200 text-transparent bg-clip-text font-light">
-            A Comprehensive Production-Grade TypeScript Training by Matt Pocock
+          <h2 className="sm:text-2xl text-lg pt-8 font-text max-w-[28ch] bg-gradient-to-bl from-teal-200 to-cyan-200 text-transparent bg-clip-text font-normal">
+            A comprehensive production-grade TypeScript training by{' '}
+            <span className="text-white inline-flex items-baseline gap-2">
+              {/* <div className="flex items-center justify-center">
+                <Image
+                  src={require('../../public/matt-pocock.jpeg')}
+                  width={40}
+                  height={40}
+                  className="rounded-full"
+                />
+              </div>{' '} */}
+              Matt Pocock
+            </span>
           </h2>
         </div>
-        <div className="flex-shrink-0 absolute -right-32">
+        <div className="flex-shrink-0 lg:absolute -right-40 sm:scale-100 scale-150">
           <Image
             src={require('../../public/assets/wizard-in-a-cave@2x.png')}
             alt=""
             aria-hidden="true"
-            width={890 / 1}
-            height={960 / 1}
+            width={890 / 1.15}
+            height={960 / 1.15}
             quality={100}
             priority
             placeholder="blur"
@@ -52,7 +63,7 @@ const Header = () => {
 
 const Copy = () => {
   return (
-    <article className="lg:px-0 px-5 sm:prose-2xl prose-lg  w-full prose-pre:overflow-auto prose-p:max-w-screen-md prose-p:mx-auto prose-headings:max-w-screen-md prose-headings:mx-auto prose-pre:max-w-screen-md prose-pre:mx-auto prose-ul:max-w-screen-md prose-ul:mx-auto prose-ul:list-disc marker:text-blue-500 prose-headings:font-bold">
+    <article className="md:prose-xl sm:prose-lg prose-base opacity-90 prose-p:font-light w-full prose-pre:overflow-auto prose-p:max-w-2xl prose-p:mx-auto prose-headings:max-w-2xl prose-headings:mx-auto prose-pre:max-w-2xl prose-pre:mx-auto prose-ul:max-w-2xl prose-ul:mx-auto prose-ul:list-disc marker:text-cyan-400 prose-headings:font-bold prose-p:px-5 prose-headings:px-5 prose-headings:font-text">
       <LandingCopy />
     </article>
   )
@@ -61,8 +72,11 @@ const Copy = () => {
 const SubscribeToNewsletter = () => {
   const router = useRouter()
   return (
-    <section className="py-24 mt-24 bg-blue-600 text-white flex flex-col items-center justify-center">
-      <div>
+    <section className="mt-32 py-32 bg-black/20 text-white flex flex-col items-center justify-center px-5">
+      <h2 className="xl:text-6xl lg:text-5xl sm:text-5xl text-4xl font-heading font-bold max-w-[15ch] text-center">
+        Become a TypeScript Wizard
+      </h2>
+      <div className="py-16 w-full max-w-sm" id="newsletter">
         <SubscribeToConvertkitForm
           actionLabel="Subscribe"
           onSuccess={(subscriber: any) => {

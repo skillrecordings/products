@@ -7,15 +7,19 @@ import {usePageview} from '@skillrecordings/analytics'
 import {DefaultSeo} from '@skillrecordings/react'
 import config from '../config'
 import Script from 'next/script'
+import {MDXProvider} from '@mdx-js/react'
+import {MDXComponents} from 'components/mdx'
 
 function MyApp({Component, pageProps}: AppProps) {
   usePageview()
   return (
     <>
       <DefaultSeo {...config} />
-      <ConvertkitProvider>
-        <Component {...pageProps} />
-      </ConvertkitProvider>
+      <MDXProvider components={MDXComponents}>
+        <ConvertkitProvider>
+          <Component {...pageProps} />
+        </ConvertkitProvider>
+      </MDXProvider>
       {process.env.NODE_ENV !== 'development' && (
         <>
           <Script
