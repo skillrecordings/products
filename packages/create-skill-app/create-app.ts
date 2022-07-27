@@ -12,13 +12,17 @@ import {isFolderEmpty} from './helpers/is-folder-empty'
 import {getOnline} from './helpers/is-online'
 import {isWriteable} from './helpers/is-writeable'
 import type {PackageManager} from './helpers/get-pkg-manager'
-import defaultPackage from './templates/next/package-template.json'
+import defaultPackage from './templates/next/package.json'
+import * as handlebars from 'handlebars'
+import {Answers} from 'prompts'
 
 export async function createApp({
   appPath,
+  projectData,
   skipInstall = false,
 }: {
   appPath: string
+  projectData: Answers<string>
   skipInstall?: boolean
 }): Promise<void> {
   const template = 'next'
@@ -67,9 +71,6 @@ export async function createApp({
     cwd: path.join(__dirname, 'templates', template),
     rename: (name) => {
       switch (name) {
-        case 'env':
-        case 'env.production':
-        case 'env.development':
         case 'gitignore':
         case 'eslintrc.js': {
           return '.'.concat(name)
@@ -100,13 +101,50 @@ export async function createApp({
     path.join(root, 'package.json'),
     JSON.stringify(packageJson, null, 2) + os.EOL,
   )
+
+  // fs.readFileSync(path.join(__dirname, 'templates', template))
+  const configTemplatePath = path.join(
+    __dirname,
+    'templates',
+    template,
+    '.config-templates',
+  )
+
+  const configTemplates = fs.readdirSync(configTemplatePath)
+
+  for (const configTemplate of configTemplates) {
+    const file = fs.readFileSync(path.join(configTemplatePath, configTemplate))
+    const template = handlebars.compile(file.toString())
+
+    function getFilename(templateName: string) {
+      switch (templateName) {
+        case 'env':
+        case 'env.production':
+        case 'env.local':
+        case 'env.development': {
+          return '.'.concat(templateName)
+        }
+        case 'README-template.md': {
+          return 'README.md'
+        }
+        default: {
+          return configTemplate
+        }
+      }
+    }
+
+    fs.writeFileSync(
+      path.join(root, getFilename(configTemplate)),
+      template({appName, ...projectData}),
+    )
+  }
+
   /**
    * These flags will be passed to `install()`.
    */
   const installFlags = {packageManager, isOnline}
 
   console.log('Installing packages. This might take a couple of minutes.')
-  console.log({packageManager, isOnline})
 
   if (!skipInstall) await install(root, null, installFlags)
   console.log()
