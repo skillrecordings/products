@@ -5,13 +5,12 @@ import {Signature} from './confirm'
 
 const Unsubscribed = () => {
   const router = useRouter()
-  const sequenceId = Number(router.query?.sequence)
-
-  const message = (sequenceId: number) => {
-    switch (sequenceId) {
-      case 1: // unsubscribed: email course
+  const sequence = String(router.query?.sequence)
+  const message = (sequence: string) => {
+    switch (sequence) {
+      case 'course01': // unsubscribed: email course
         return 'Pro Tailwind email course'
-      case 2: // unsubscribed: live workshop info
+      case 'workshops': // unsubscribed: live workshop info
         return 'Pro Tailwind live workshops list'
       default:
         return 'Pro Tailwind email list'
@@ -26,7 +25,7 @@ const Unsubscribed = () => {
             Unsubscribed
           </h1>
           <p className="sm:text-xl text-slate-300 leading-relaxed mx-auto pb-8">
-            You've been removed from the {message(sequenceId)} and won't receive
+            You've been removed from the {message(sequence)} and won't receive
             any more emails about it.
           </p>
           <Signature />
