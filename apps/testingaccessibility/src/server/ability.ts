@@ -61,7 +61,6 @@ function defineRulesForPurchases(viewerAbilityInput: ViewerAbilityInput = {}) {
   const {can, rules} = new AbilityBuilder(AppAbility)
 
   if (['ADMIN', 'SUPERADMIN'].includes(role)) {
-    can('manage', 'all')
     can('edit', 'Content')
   }
 
