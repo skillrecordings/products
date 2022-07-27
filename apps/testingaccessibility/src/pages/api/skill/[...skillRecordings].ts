@@ -9,7 +9,7 @@ export const skillOptions: SkillRecordingsOptions = {
     title: process.env.NEXT_PUBLIC_SITE_TITLE,
     supportEmail: process.env.NEXT_PUBLIC_SUPPORT_EMAIL,
   },
-  prismaClient: prisma as any,
+  prismaClient: prisma,
   slack: {
     token: process.env.SLACK_TOKEN,
     feedback: {

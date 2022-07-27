@@ -3552,7 +3552,7 @@ importers:
       '@babel/preset-react': ^7.16.0
       '@babel/preset-typescript': ^7.16.0
       '@babel/runtime': ^7.16.3
-      '@prisma/client': ^3.15.2
+      '@skillrecordings/database': workspace:*
       '@skillrecordings/scripts': workspace:*
       '@skillrecordings/tsconfig': workspace:*
       '@slack/web-api': ^6.7.2
@@ -3588,7 +3588,6 @@ importers:
       postcss-cli: ^9.0.2
       preact: ^10.7.2
       preact-render-to-string: ^5.2.0
-      prisma: ^3.15.2
       react: 17.0.2
       react-dom: 17.0.2
       sanitize-html: ^2.7.0
@@ -3596,6 +3595,7 @@ importers:
       whatwg-fetch: ^3.6.2
     dependencies:
       '@babel/runtime': 7.17.2
+      '@skillrecordings/database': link:../database
       '@slack/web-api': 6.7.2
       concurrently: 7.2.2
       handlebars: 4.7.7
@@ -3612,7 +3612,6 @@ importers:
       '@babel/preset-env': 7.17.10_@babel+core@7.16.5
       '@babel/preset-react': 7.16.7_@babel+core@7.16.5
       '@babel/preset-typescript': 7.16.7_@babel+core@7.16.5
-      '@prisma/client': 3.15.2_prisma@3.15.2
       '@skillrecordings/scripts': link:../scripts
       '@skillrecordings/tsconfig': link:../tsconfig
       '@types/cookie': 0.4.1
@@ -3641,7 +3640,6 @@ importers:
       nodemailer-postmark-transport: 5.2.1_nodemailer@6.7.2
       postcss: 8.4.14
       postcss-cli: 9.1.0_postcss@8.4.14
-      prisma: 3.15.2
       react: 17.0.2
       react-dom: 17.0.2_react@17.0.2
       typescript: 4.7.4
@@ -8602,9 +8600,11 @@ packages:
     dependencies:
       '@prisma/engines-version': 3.15.1-1.461d6a05159055555eb7dfb337c9fb271cbd4d7e
       prisma: 3.15.2
+    dev: false
 
   /@prisma/engines-version/3.15.1-1.461d6a05159055555eb7dfb337c9fb271cbd4d7e:
     resolution: {integrity: sha512-e3k2Vd606efd1ZYy2NQKkT4C/pn31nehyLhVug6To/q8JT8FpiMrDy7zmm3KLF0L98NOQQcutaVtAPhzKhzn9w==}
+    dev: false
 
   /@prisma/engines/3.15.1-1.461d6a05159055555eb7dfb337c9fb271cbd4d7e:
     resolution: {integrity: sha512-NHlojO1DFTsSi3FtEleL9QWXeSF/UjhCW0fgpi7bumnNZ4wj/eQ+BJJ5n2pgoOliTOGv9nX2qXvmHap7rJMNmg==}
