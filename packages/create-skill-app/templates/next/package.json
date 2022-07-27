@@ -85,7 +85,7 @@
   },
   "jest": {
     "preset": "@skillrecordings/scripts/jest/next"
-  }
+  },
   "prisma": {
     "schema": "../../packages/database/prisma/schema.prisma"
   }
