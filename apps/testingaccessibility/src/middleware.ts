@@ -14,7 +14,7 @@ export async function middleware(req: NextRequest) {
   })
 
   const pathName = req.nextUrl.pathname
-  const ability = getCurrentAbility(token as any)
+  const ability = getCurrentAbility((token as any) || {})
 
   if (pathName.startsWith(INVOICE_PAGE_PATH)) {
     if (ability.can('view', 'Invoice')) {
@@ -37,6 +37,14 @@ export async function middleware(req: NextRequest) {
           new URL('/login', process.env.NEXTAUTH_URL),
         )
       }
+    }
+  }
+
+  if (pathName.startsWith(CONTENT_ROOT_PATH)) {
+    if (ability.can('view', 'Content')) {
+      return NextResponse.next()
+    } else {
+      return NextResponse.redirect(new URL('/login', process.env.NEXTAUTH_URL))
     }
   }
 

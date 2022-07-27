@@ -7,7 +7,7 @@ import {
 } from '../utils/purchase-validators'
 import {PurchaseStatus} from '../utils/purchase-status'
 
-type Actions = 'manage' | 'invite' | 'view'
+type Actions = 'manage' | 'invite' | 'view' | 'edit'
 type Subjects =
   | 'Team'
   | 'Purchase'
@@ -21,7 +21,7 @@ const AppAbility = Ability as AbilityClass<AppAbility>
 
 type ViewerAbilityInput = {
   purchases?: any[]
-  rules?: any
+  role?: string
 }
 
 /**
@@ -45,10 +45,8 @@ export function getCurrentAbility(
  * @see {@link https://casl.js.org/v5/en/guide/define-rules#ability-builder-class|AbilityBuilder}
  * @param viewerAbilityInput
  */
-export function defineAbilityFor(viewerAbilityInput: ViewerAbilityInput) {
-  const rules = Boolean(viewerAbilityInput?.rules)
-    ? viewerAbilityInput.rules
-    : defineRulesForPurchases(viewerAbilityInput?.purchases || [])
+function defineAbilityFor(viewerAbilityInput: ViewerAbilityInput) {
+  const rules = defineRulesForPurchases(viewerAbilityInput)
 
   return new AppAbility(rules)
 }
@@ -56,10 +54,15 @@ export function defineAbilityFor(viewerAbilityInput: ViewerAbilityInput) {
 /**
  * Creates a structure of rules to use in the ability from list of purchases
  *
- * @param purchases
+ * @param viewerAbilityInput
  */
-export function defineRulesForPurchases(purchases: any[]) {
+function defineRulesForPurchases(viewerAbilityInput: ViewerAbilityInput = {}) {
+  const {purchases = [], role = 'user'} = viewerAbilityInput
   const {can, rules} = new AbilityBuilder(AppAbility)
+
+  if (['ADMIN', 'SUPERADMIN'].includes(role)) {
+    can('edit', 'Content')
+  }
 
   if (hasAvailableSeats(purchases)) {
     can('invite', 'Team')
