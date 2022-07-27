@@ -5,7 +5,7 @@ import {MockContext, Context, createMockContext} from '../lib/context'
 import {getSdk} from '../lib/prisma-api'
 import {getBulkDiscountPercent} from './bulk-coupon'
 import {first} from 'lodash'
-import {MerchantCoupon, Prisma} from '../../generated/prisma/client'
+import {MerchantCoupon, Prisma} from '@skillrecordings/database'
 
 let mockCtx: MockContext
 let ctx: Context

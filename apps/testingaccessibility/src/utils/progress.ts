@@ -7,7 +7,7 @@ import first from 'lodash/first'
 import find from 'lodash/find'
 import get from 'lodash/get'
 import axios from 'axios'
-import {LessonProgress} from '../../generated/prisma/client'
+import {LessonProgress} from '@skillrecordings/database'
 
 type ProgressProps = {
   slug: string

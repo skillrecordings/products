@@ -3,7 +3,7 @@ import {PurchaseInfo} from '../utils/record-new-purchase'
 import {isEmpty} from 'lodash'
 import pluralize from 'pluralize'
 import {getSdk} from '../lib/prisma-api'
-import {Purchase} from '../../generated/prisma/client'
+import {Purchase} from '@skillrecordings/database'
 import {postToSlack} from '@skillrecordings/skill-api'
 
 const web = new WebClient(process.env.SLACK_TOKEN)
