@@ -15,6 +15,14 @@
       ],
       "outputs": ["dist/**"]
     },
+    "@skillrecordings/database#build": {
+      "cache": false,
+      "dependsOn": [
+        "^build",
+        "generate"
+      ],
+      "outputs": ["dist/**"]
+    },
     "postbuild": {
       "dependsOn": ["build"],
       "outputs": ["public/sitemap.xml", "public/robots.txt"]
