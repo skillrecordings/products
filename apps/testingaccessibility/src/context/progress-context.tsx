@@ -6,7 +6,7 @@ import {
 import {useSession} from 'next-auth/react'
 import {useQuery} from 'react-query'
 import {last} from 'lodash'
-import {LessonProgress} from '../../generated/prisma/client'
+import {LessonProgress} from '@skillrecordings/database'
 
 type ProgressContextType = {
   progress: LessonProgress[]

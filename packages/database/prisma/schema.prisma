@@ -1,7 +1,6 @@
 generator client {
   provider = "prisma-client-js"
   previewFeatures = ["referentialIntegrity", "interactiveTransactions"]
-  output   = "../generated/prisma/client"
   binaryTargets   = ["rhel-openssl-1.0.x", "native"]
 }
 
@@ -33,7 +32,7 @@ model LessonProgress {
 }
 
 model Account {
-  id                       String  @id @default(uuid()) 
+  id                       String  @id @default(uuid())
   type                     String
   provider                 String
   providerAccountId        String
@@ -46,17 +45,17 @@ model Account {
   session_state            String?
   oauth_token_secret       String?
   oauth_token              String?
-  userId                   String  
+  userId                   String
   refresh_token_expires_in Int?
   user                     User   @relation(fields: [userId], references: [id], onDelete: Cascade)
   @@unique([provider, providerAccountId])
 }
 
 model Coupon {
-  id                       String            @id @default(uuid()) 
+  id                       String            @id @default(uuid())
   code                     String?           @unique
   createdAt                DateTime          @default(now())
-  expires                  DateTime?         
+  expires                  DateTime?
   maxUses                  Int               @default(-1)
   default                  Boolean           @default(false)
   merchantCouponId         String?
@@ -88,7 +87,7 @@ model MerchantCharge {
   id                  String             @id @default(uuid())
   status              Int                @default(0)
   identifier          String             @unique
-  userId              String              
+  userId              String
   merchantAccountId   String
   merchantProductId   String
   createdAt           DateTime           @default(now())
@@ -101,7 +100,7 @@ model MerchantCharge {
 }
 
 model MerchantCoupon {
-  id                  String            @id @default(uuid()) 
+  id                  String            @id @default(uuid())
   identifier          String?           @unique
   status              Int               @default(0)
   merchantAccountId   String
@@ -112,7 +111,7 @@ model MerchantCoupon {
 }
 
 model MerchantCustomer {
-  id                  String             @id @default(uuid()) 
+  id                  String             @id @default(uuid())
   userId              String             @unique
   merchantAccountId   String
   identifier          String             @unique
@@ -124,7 +123,7 @@ model MerchantCustomer {
 }
 
 model MerchantPrice {
-  id                  String            @id @default(uuid()) 
+  id                  String            @id @default(uuid())
   merchantAccountId   String
   merchantProductId   String
   status              Int?              @default(0)
@@ -137,12 +136,12 @@ model MerchantPrice {
 }
 
 model MerchantProduct {
-  id                 String             @id @default(uuid()) 
+  id                 String             @id @default(uuid())
   merchantAccountId  String
-  productId          String             
+  productId          String
   status             Int                @default(0)
   identifier         String?            @unique
-  createdAt          DateTime           @default(now()) 
+  createdAt          DateTime           @default(now())
   merchantAccount    MerchantAccount    @relation(fields: [merchantAccountId], references: [id], onDelete: Cascade)
   product            Product            @relation(fields: [productId], references: [id], onDelete: Cascade)
   merchantCharges    MerchantCharge[]
@@ -150,7 +149,7 @@ model MerchantProduct {
 }
 
 model Price {
-  id              String            @id @default(uuid()) 
+  id              String            @id @default(uuid())
   productId       String?
   nickname        String?
   status          Int               @default(0)
@@ -161,7 +160,7 @@ model Price {
 }
 
 model Product {
-  id                String              @id @default(uuid()) 
+  id                String              @id @default(uuid())
   name              String
   key               String?
   createdAt         DateTime            @default(now())
@@ -216,10 +215,10 @@ model Session {
 
 
 model User {
-  id                 String               @id @default(uuid()) 
+  id                 String               @id @default(uuid())
   name               String?
   email              String               @unique
-  emailVerified      DateTime?            
+  emailVerified      DateTime?
   image              String?
   accounts           Account[]
   merchantCharges    MerchantCharge[]

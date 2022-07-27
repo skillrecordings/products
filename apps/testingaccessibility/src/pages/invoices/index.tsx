@@ -8,7 +8,7 @@ import {format} from 'date-fns'
 import Layout from 'components/app/layout'
 import Link from 'next/link'
 import {getToken} from 'next-auth/jwt'
-import {Purchase} from '../../../generated/prisma/client'
+import {Purchase} from '@skillrecordings/database'
 
 export const getServerSideProps: GetServerSideProps = async ({req}) => {
   const sessionToken = await getToken({

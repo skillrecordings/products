@@ -19,7 +19,7 @@ import {getOgImage} from 'utils/get-og-image'
 import {useSession} from 'next-auth/react'
 import {isEmpty} from 'lodash'
 import TableOfContents from 'components/portable-text/table-of-contents'
-import {LessonProgress} from '../../generated/prisma/client'
+import {LessonProgress} from '@skillrecordings/database'
 
 type SectionTemplateProps = {
   section: SanityDocument

@@ -2,7 +2,7 @@
   "baseBranch": "origin/main",
   "pipeline": {
     "build": {
-      "dependsOn": ["^build", "generate"],
+      "dependsOn": ["^build", "^generate", "generate"],
       "outputs": ["dist/**", ".next/**"]
     },
     "@skillrecordings/config#build": {
@@ -13,6 +13,11 @@
         "$NEXT_PUBLIC_CONVERTKIT_TOKEN",
         "$NEXT_PUBLIC_CONVERTKIT_SIGNUP_FORM"
       ],
+      "outputs": ["dist/**"]
+    },
+    "@skillrecordings/database#build": {
+      "cache": false,
+      "dependsOn": ["^build", "generate"],
       "outputs": ["dist/**"]
     },
     "postbuild": {
@@ -27,7 +32,8 @@
     },
     "generate": {
       "dependsOn": ["^generate"],
-      "outputs": ["generated/**"]
+      "cache": false,
+      "outputs": []
     },
     "lint": {
       "outputs": [],

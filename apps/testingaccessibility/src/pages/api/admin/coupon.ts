@@ -4,7 +4,7 @@ import * as Sentry from '@sentry/nextjs'
 import {setupHttpTracing} from '@vercel/tracing-js'
 import {tracer} from 'utils/honeycomb-tracer'
 import {getToken} from 'next-auth/jwt'
-import prisma from '../../../db'
+import {prisma} from '@skillrecordings/database'
 import {getSdk} from '../../../lib/prisma-api'
 const ROLES_WITH_ACCESS = ['ADMIN', 'SUPERADMIN']
 

@@ -13,7 +13,7 @@ import {find, isEmpty} from 'lodash'
 import {withSentry} from '@sentry/nextjs'
 import {getToken} from 'next-auth/jwt'
 import * as Sentry from '@sentry/nextjs'
-import prisma from 'db'
+import {prisma} from '@skillrecordings/database'
 
 const generateModuleCertificate = async (
   req: NextApiRequest,

@@ -17,7 +17,7 @@ import find from 'lodash/find'
 import Image from 'next/image'
 import Link from 'next/link'
 import cx from 'classnames'
-import {LessonProgress} from '../../generated/prisma/client'
+import {LessonProgress} from '@skillrecordings/database'
 
 type ModuleTemplateProps = {
   module: SanityDocument
