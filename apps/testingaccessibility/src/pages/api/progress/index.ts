@@ -1,5 +1,5 @@
 import {NextApiRequest, NextApiResponse} from 'next'
-import prisma from 'db'
+import {prisma} from '@skillrecordings/database'
 import {serialize} from 'utils/prisma-next-serializer'
 import {withSentry} from '@sentry/nextjs'
 import {setupHttpTracing} from '@vercel/tracing-js'

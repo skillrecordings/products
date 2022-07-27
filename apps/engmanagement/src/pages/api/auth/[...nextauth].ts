@@ -2,7 +2,7 @@ import NextAuth, {NextAuthOptions} from 'next-auth'
 import EmailProvider from 'next-auth/providers/email'
 import jwt from 'jsonwebtoken'
 import {PrismaAdapter} from '@next-auth/prisma-adapter'
-import prisma from '../../../db'
+import {prisma} from '@skillrecordings/database'
 import {createTransport} from 'nodemailer'
 import {withSentry} from '@sentry/nextjs'
 import {getSdk} from '../../../lib/prisma-api'
@@ -12,7 +12,7 @@ export const nextAuthOptions: NextAuthOptions = {
   session: {
     strategy: 'jwt',
   },
-  adapter: PrismaAdapter(prisma as any),
+  adapter: PrismaAdapter(prisma),
   jwt: {
     secret: process.env.NEXTAUTH_SECRET,
   },

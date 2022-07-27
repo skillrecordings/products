@@ -1,7 +1,6 @@
 import {GetServerSideProps} from 'next'
 import {Feed} from 'feed'
 import config from '../config'
-import {getAllArticles} from '../lib/articles'
 
 const hostUrl = process.env.NEXT_PUBLIC_URL
 
@@ -52,9 +51,9 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   if (context && context.res) {
     const {res} = context
 
-    const articles = await getAllArticles()
+    // const articles = await getAllArticles()
 
-    const feed = buildFeed(articles)
+    const feed = buildFeed([] /* replace with articles etc */)
     res.setHeader('Cache-Control', 's-maxage=1, stale-while-revalidate')
     res.setHeader('content-type', 'text/xml')
     res.write(feed.rss2()) // NOTE: You can also use feed.atom1() or feed.json1() for other feed formats
