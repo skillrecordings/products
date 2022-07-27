@@ -1,14 +1,9 @@
 import React from 'react'
 import Layout from 'layouts'
-import config from '../config'
 import {useRouter} from 'next/router'
-import axios from 'axios'
-import isEmpty from 'lodash/isEmpty'
-import {useConvertkit} from '@skillrecordings/convertkit'
 
 const Unsubscribed = () => {
   const router = useRouter()
-  const {subscriber} = useConvertkit()
   const tagId = Number(router.query?.tag)
 
   const message = (tagId: number) => {
@@ -19,14 +14,6 @@ const Unsubscribed = () => {
         return 'Compilers For Humans email list'
     }
   }
-
-  React.useEffect(() => {
-    if (tagId && !isEmpty(subscriber)) {
-      axios
-        .post('/api/convertkit/subscribe', {...subscriber, tag: tagId})
-        .catch((err) => console.log(err))
-    }
-  }, [tagId, subscriber])
 
   return (
     <Layout>
