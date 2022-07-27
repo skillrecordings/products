@@ -98,8 +98,8 @@ const Scene: React.FC<SceneProps> = ({
 
   return (
     <div className={className}>
-      <Leva hidden={isProduction} collapsed={true} />
-      {!isProduction && <Stats showPanel={0} />}
+      <Leva hidden={true} collapsed={true} />
+      {/* <Stats showPanel={0} /> */}
       {isMounted && (
         <Canvas
           mode="concurrent"

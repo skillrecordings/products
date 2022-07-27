@@ -53,7 +53,7 @@ const ArticleTemplate: React.FC<ArticleTemplateProps> = ({
       <main>
         <div className="max-w-screen-sm mx-auto w-full">
           <div className="md:pt-16 pt-10 lg:px-0 px-5 pb-16">
-            <article className="prose md:prose-lg md:prose-code:text-sm max-w-none">
+            <article className="prose md:prose-lg lg:prose-xl prose-headings:font-bold md:prose-code:text-sm max-w-none">
               <PortableText value={body} components={PortableTextComponents} />
               {!hasSubscribed && subscribersOnly && (
                 <div className="absolute bottom-0 left-0 w-full bg-gradient-to-t from-white to-transparent h-80 z-10" />
@@ -73,7 +73,7 @@ export default ArticleTemplate
 
 const Header: React.FC<{title: string; date: string}> = ({title, date}) => {
   return (
-    <header className="flex flex-col items-center relative px-5 pt-16 pb-8 overflow-hidden text-white">
+    <header className="flex flex-col items-center relative px-5 pt-24 pb-8 overflow-hidden text-white">
       <div className="flex flex-col items-center max-w-screen-md mx-auto w-full relative z-10">
         <Link passHref href="/articles">
           <a className="sm:text-base text-sm group text-white relative hover:text-white font-normal px-4 py-2 hover:bg-opacity-10 bg-opacity-0 bg-white rounded-full transition opacity-80 hover:opacity-90 focus-visible:ring-white focus-visible:opacity-100">
@@ -83,7 +83,7 @@ const Header: React.FC<{title: string; date: string}> = ({title, date}) => {
             All Articles
           </a>
         </Link>
-        <h1 className="pb-16 max-w-screen-md font-heading font-bold mx-auto leading-none text-center text-3xl sm:text-4xl lg:text-5xl py-4">
+        <h1 className="pb-16 max-w-screen-md font-heading font-semibold mx-auto leading-none text-center text-3xl sm:text-4xl lg:text-5xl py-4">
           {title}
         </h1>
         <div className="lg:px-0 px-5 w-full flex md:flex-row flex-col md:space-y-0 space-y-3 items-center justify-between max-w-screen-sm">
@@ -256,17 +256,17 @@ const Share: React.FC<{title: string}> = ({title}) => {
 const Author = () => {
   return (
     <div className="flex items-center">
-      {/* <Image
-        src={JoelHooksHeadshotImage}
-        alt="Joel HOoks"
+      <Image
+        src={require('../../public/assets/simon-vrachliotis.png')}
+        alt="Simon Vrachliotis"
         width={40}
         height={40}
         placeholder="blur"
         priority
         loading="eager"
         className="rounded-full"
-      /> */}
-      <span className="pl-2 font-medium leading-tight">Joel Hooks</span>
+      />
+      <span className="pl-2 font-medium leading-tight">Simon Vrachliotis</span>
     </div>
   )
 }

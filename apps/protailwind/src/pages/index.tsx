@@ -216,7 +216,7 @@ const Bio = () => {
   )
 }
 
-const DividerStar = () => {
+export const DividerStar = () => {
   return (
     <div className="pt-8">
       <svg
