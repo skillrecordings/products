@@ -2,7 +2,7 @@ import SkillRecordings, {
   SkillRecordingsOptions,
 } from '@skillrecordings/skill-api'
 
-import prisma from '../../../db'
+import {prisma} from '@skillrecordings/database'
 
 export const skillOptions: SkillRecordingsOptions = {
   site: {

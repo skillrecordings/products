@@ -1,6 +1,6 @@
-import prisma from '../db'
+import {prisma} from '@skillrecordings/database'
 import {PurchaseStatus} from '../utils/purchase-status'
-import {Purchase} from '../../generated/prisma/client'
+import {Purchase} from '@skillrecordings/database'
 
 export async function updatePurchaseStatusForCharge(
   chargeId: string,

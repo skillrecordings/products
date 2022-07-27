@@ -1,4 +1,4 @@
-import {Coupon} from '../../generated/prisma/client'
+import {Coupon} from '@skillrecordings/database'
 import {isAfter} from 'date-fns'
 
 export function couponIsValid(coupon?: Coupon | null) {

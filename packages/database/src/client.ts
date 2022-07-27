@@ -1,6 +1,8 @@
-import {PrismaClient} from '../../generated/prisma/client'
+import {PrismaClient} from '@prisma/client'
 
-export * from '../../generated/prisma/client'
+export * from '@prisma/client'
+
+export {Decimal} from '@prisma/client/runtime'
 
 let prisma: PrismaClient
 
@@ -21,4 +23,4 @@ if (process.env.NODE_ENV === 'production') {
   prisma = globalThis.prisma
 }
 
-export default prisma
+export {prisma}
