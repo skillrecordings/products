@@ -7,7 +7,7 @@
     "postbuild": "NODE_ENV=production next-sitemap",
     "build:data": "node src/data/cache-json-data.js -p",
     "build:data:dev": "node src/data/cache-json-data.js",
-    "clean": "rm -rf node_modules && pnpm -r exec -- rm -rf .turbo node_modules .next dist",
+    "clean": "pnpm -r exec -- rm -rf .turbo node_modules .next dist",
     "dev": "next dev -p 3012",
     "format": "prettier --write './**/*.{js,jsx,ts,tsx,css,md,mdx,json}' --config ./.prettierrc",
     "integration": "cypress run",
@@ -67,7 +67,7 @@
     "lodash": "^4.17.21",
     "mdx-embed": "^0.0.22",
     "mdx-prism": "^0.3.4",
-    "next": "^12.2.2",
+    "next": "^12.2.3",
 
     "next-sitemap": "^3.0.5",
     "next-themes": "^0.1.1",

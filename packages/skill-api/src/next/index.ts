@@ -6,7 +6,7 @@ import type {
 import {getDecodedToken} from '../client/get-decoded-token'
 import {SkillRecordingsHandler} from '../core'
 import type {NextApiRequest, NextApiResponse} from 'next'
-import {PrismaClient} from '../../generated/prisma/client'
+import {PrismaClient} from '@skillrecordings/database'
 
 /** Extract the host from the environment */
 export function detectHost(forwardedHost: any) {

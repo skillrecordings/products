@@ -10,9 +10,9 @@ import {Stripe} from 'stripe'
 import fromUnixTime from 'date-fns/fromUnixTime'
 import Layout from 'components/app/layout'
 import format from 'date-fns/format'
-import prisma from '../../db'
 import {setupHttpTracing} from '@vercel/tracing-js'
 import {tracer} from '../../utils/honeycomb-tracer'
+import {prisma} from '@skillrecordings/database'
 
 export const getServerSideProps: GetServerSideProps = async ({
   res,
