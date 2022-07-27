@@ -17,10 +17,7 @@
     },
     "@skillrecordings/database#build": {
       "cache": false,
-      "dependsOn": [
-        "^build",
-        "generate"
-      ],
+      "dependsOn": ["^build", "generate"],
       "outputs": ["dist/**"]
     },
     "postbuild": {
