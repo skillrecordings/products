@@ -3,12 +3,13 @@
 import chalk from 'chalk'
 import Commander from 'commander'
 import path from 'path'
-import prompts from 'prompts'
+import prompts, {PromptObject} from 'prompts'
 import checkForUpdate from 'update-check'
 import {createApp} from './create-app'
 import {getPkgManager} from './helpers/get-pkg-manager'
 import {validateNpmName} from './helpers/validate-pkg'
 import packageJson from './package.json'
+import crypto from 'crypto'
 
 let projectPath: string = ''
 
@@ -31,7 +32,7 @@ async function run(): Promise<void> {
     const res = await prompts({
       type: 'text',
       name: 'path',
-      message: 'What is your project named?',
+      message: `What is your project's folder named?`,
       initial: 'my-app',
       validate: (name) => {
         const validation = validateNpmName(path.basename(path.resolve(name)))
@@ -46,6 +47,75 @@ async function run(): Promise<void> {
       projectPath = res.path.trim()
     }
   }
+
+  const questions: PromptObject[] = [
+    {
+      type: 'text',
+      name: 'projectTitle',
+      message: `What is the product's title?`,
+      initial: 'Skill Product Title',
+    },
+    {
+      type: 'number',
+      name: 'devPort',
+      message: `What http port will this run on localhost?`,
+      min: 3000,
+      max: 3999,
+      initial: 3000,
+    },
+    {
+      type: 'number',
+      name: 'databasePort',
+      message: `What port will the MySQL database run on in dev?`,
+      min: 3306,
+      max: 3999,
+      initial: 3306,
+    },
+    {
+      type: 'text',
+      name: 'firstName',
+      message: `What is our partner's first name?`,
+      initial: 'First',
+    },
+    {
+      type: 'text',
+      name: 'lastName',
+      message: `What is our partner's first name?`,
+      initial: 'Last',
+    },
+    {
+      type: 'text',
+      name: 'twitter',
+      message: `What is our partner's twitter? (no @)`,
+      initial: 'twitterHandle',
+    },
+    {
+      type: 'text',
+      name: 'domainHost',
+      message: `What is the host name this will be deployed to? (no https:// or www)`,
+      initial: 'example.com',
+    },
+    {
+      type: 'text',
+      name: 'description',
+      message: `How would you describe this product to a colleague?`,
+      initial: 'Deep dive workshop to learn about interesting things.',
+    },
+    {
+      type: 'text',
+      name: 'keywords',
+      message: `What keywords describe this product? (comma seperated)`,
+      initial: 'web development, programming, javascript',
+    },
+    {
+      type: 'text',
+      name: 'nextAuthDevSecret',
+      message: `next-auth secret (only for dev)`,
+      initial: crypto.randomBytes(32).toString('hex'),
+    },
+  ]
+
+  const projectData = await prompts(questions)
 
   if (!projectPath) {
     console.log(
@@ -79,6 +149,7 @@ async function run(): Promise<void> {
 
   await createApp({
     appPath: resolvedProjectPath,
+    projectData,
   })
 }
 

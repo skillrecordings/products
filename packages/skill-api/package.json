@@ -36,6 +36,7 @@
     "@babel/runtime": "^7.16.3",
     "@slack/web-api": "^6.7.2",
     "concurrently": "^7.2.2",
+    "handlebars": "^4.7.7",
     "html-to-text": "^8.2.0",
     "node-html-markdown": "^1.2.0",
     "preact": "^10.7.2",
