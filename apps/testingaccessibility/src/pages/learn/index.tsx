@@ -20,7 +20,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import cx from 'classnames'
 import groq from 'groq'
-import {Purchase} from '../../../generated/prisma/client'
+import {Purchase} from '@skillrecordings/database'
 import {setupHttpTracing} from '@vercel/tracing-js'
 import {tracer} from '../../utils/honeycomb-tracer'
 

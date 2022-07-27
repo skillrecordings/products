@@ -3,11 +3,11 @@ import NextAuth from 'next-auth'
 import {PrismaAdapter} from '@next-auth/prisma-adapter'
 import EmailProvider from 'next-auth/providers/email'
 import nodemailer from 'nodemailer'
-import {PrismaClient} from '../../../../generated/prisma/client'
+import {PrismaClient} from '@skillrecordings/database'
 const prisma = new PrismaClient()
 
 export default NextAuth({
-  adapter: PrismaAdapter(prisma as any),
+  adapter: PrismaAdapter(prisma),
   providers: [
     EmailProvider({
       server: {

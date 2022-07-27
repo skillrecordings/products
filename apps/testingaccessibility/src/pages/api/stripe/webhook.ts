@@ -12,8 +12,7 @@ import {tagPurchaseConvertkit} from '../../../server/tag-purchase-convertkit'
 import {updatePurchaseStatusForCharge} from '../../../lib/purchases'
 import {postSaleToSlack} from '../../../server/post-to-slack'
 import {PurchaseStatus} from '../../../utils/purchase-status'
-import {getSdk} from '../../../lib/prisma-api'
-import prisma from '../../../db'
+import {prisma} from '@skillrecordings/database'
 
 const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET
 

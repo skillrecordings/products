@@ -2,7 +2,7 @@
   "baseBranch": "origin/main",
   "pipeline": {
     "build": {
-      "dependsOn": ["^build", "generate"],
+      "dependsOn": ["^build", "^generate"],
       "outputs": ["dist/**", ".next/**"]
     },
     "@skillrecordings/config#build": {
@@ -27,7 +27,8 @@
     },
     "generate": {
       "dependsOn": ["^generate"],
-      "outputs": ["generated/**"]
+      "cache": false,
+      "outputs": []
     },
     "lint": {
       "outputs": [],

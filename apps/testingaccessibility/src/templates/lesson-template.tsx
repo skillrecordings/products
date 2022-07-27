@@ -22,7 +22,7 @@ import first from 'lodash/first'
 import find from 'lodash/find'
 import Link from 'next/link'
 import cx from 'classnames'
-import {LessonProgress} from '../../generated/prisma/client'
+import {LessonProgress} from '@skillrecordings/database'
 
 type LessonTemplateProps = {
   module?: SanityDocument

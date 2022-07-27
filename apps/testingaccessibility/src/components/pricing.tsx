@@ -11,7 +11,7 @@ import Spinner from './spinner'
 import Image from 'next/image'
 import find from 'lodash/find'
 import cx from 'classnames'
-import {Purchase} from '../../generated/prisma/client'
+import {Purchase} from '@skillrecordings/database'
 
 function getFirstPPPCoupon(availableCoupons: any[] = []) {
   return find(availableCoupons, (coupon) => coupon.type === 'ppp') || false
