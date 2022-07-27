@@ -26,7 +26,7 @@
     "@sanity/rich-date-input": "^2.0.9",
     "@sanity/vision": "^2.29.5",
     "prop-types": "^15.7",
-    "react": "^17.0",
+    "react": "^17.0.2",
     "react-dom": "^17.0",
     "react-hls-player": "^3.0.7",
     "react-icons": "^4.3.1",

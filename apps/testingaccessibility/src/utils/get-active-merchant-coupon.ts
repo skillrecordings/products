@@ -1,14 +1,7 @@
 import {getSdk} from '../lib/prisma-api'
 import {defaultContext} from '../lib/context'
 import {SpanContext} from '@vercel/tracing-js'
-import {Coupon} from '../../generated/prisma/client'
-
-function couponIsValid(coupon?: Coupon | null) {
-  if (!coupon) return false
-  if (coupon.usedCount >= coupon.maxUses) return false
-  if (coupon.expires && coupon.expires < new Date()) return false
-  return true
-}
+import {couponIsValid} from './coupon-is-valid'
 
 export async function getActiveMerchantCoupon({
   productId,

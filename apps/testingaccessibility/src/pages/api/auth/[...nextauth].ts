@@ -1,13 +1,13 @@
 import NextAuth, {NextAuthOptions} from 'next-auth'
 import EmailProvider, {EmailConfig} from 'next-auth/providers/email'
 import jwt from 'jsonwebtoken'
-import {PrismaAdapter} from '@next-auth/prisma-adapter'
 import prisma from '../../../db'
 import {createTransport} from 'nodemailer'
 import {withSentry} from '@sentry/nextjs'
 import {getSdk} from '../../../lib/prisma-api'
 import mjml2html from 'mjml'
 import chalk from 'chalk'
+import {PrismaAdapter} from '../../../server/skill-next-auth-prisma-adapter'
 
 export type MagicLinkEmailType =
   | 'login'
@@ -29,9 +29,9 @@ export const sendVerificationRequest = async (params: {
     url,
     provider: {server, from},
   } = params
-  const {host} = new URL(url)
   const transport = createTransport(server)
   const {getUserByEmail} = getSdk()
+  const {host} = new URL(url)
 
   let subject
 
