@@ -3,7 +3,7 @@ import {
   MessageAttachment,
   WebClient,
 } from '@slack/web-api'
-import {User} from '../../generated/prisma/client'
+import {User} from '@skillrecordings/database'
 import {SlackConfig} from '../next'
 import {FeedbackContext} from '../core/types'
 

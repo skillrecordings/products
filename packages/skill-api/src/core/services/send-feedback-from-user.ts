@@ -6,7 +6,7 @@ import {sendPostmarkEmail} from '../../lib/postmark'
 import {OutgoingResponse} from '../index'
 import {postFeedbackToSlack} from '../../server/post-to-slack'
 import {NodeHtmlMarkdown} from 'node-html-markdown'
-import {User} from '../../../generated/prisma/client'
+import {User} from '@skillrecordings/database'
 
 export async function sendFeedbackFromUser({
   emailAddress,

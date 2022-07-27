@@ -5,7 +5,7 @@ import {getToken} from 'next-auth/jwt'
 import {getCouponForCode} from '../server/get-coupon-for-code'
 import {getActiveProducts} from '../lib/products'
 import {serialize} from './prisma-next-serializer'
-import {Purchase} from '../../generated/prisma/client'
+import {Purchase} from '@skillrecordings/database'
 import {getSdk} from '../lib/prisma-api'
 
 export type CouponForCode = {
