@@ -2250,56 +2250,78 @@ importers:
 
   apps/total-typescript:
     specifiers:
+      '@mdx-js/loader': ^2.1.2
+      '@mdx-js/mdx': ^2.1.2
+      '@mdx-js/react': ^2.1.2
+      '@next/env': ^12.2.2
+      '@next/mdx': ^12.2.3
+      '@skillrecordings/analytics': workspace:*
       '@skillrecordings/convertkit': workspace:*
+      '@skillrecordings/quiz': workspace:*
+      '@skillrecordings/react': workspace:*
       '@skillrecordings/scripts': workspace:*
-      '@tailwindcss/forms': ^0.5.2
-      '@tailwindcss/typography': ^0.5.2
-      '@types/cookie': ^0.4.1
-      '@types/jest': ^27.5.2
+      '@skillrecordings/tsconfig': workspace:*
+      '@skillrecordings/types': workspace:*
       '@types/lodash': ^4.14.179
+      '@types/mdx': ^2.0.2
+      '@types/mdx-js__react': ^1.5.5
       '@types/node': ^17.0.0
-      '@types/nodemailer': ^6.4.4
       '@types/react': ^17.0.42
       '@types/react-dom': ^17.0.17
-      autoprefixer: ^10.4.2
+      classnames: ^2.3.1
+      dotenv-flow: ^3.2.0
       eslint: ^8.19.0
       eslint-config-custom: workspace:*
-      framer-motion: ^6.4.1
-      next: ^12.2.3
+      feed: ^4.2.2
+      lint-staged: ^11.2.6
+      lodash: ^4.17.21
+      next: ^12.2.2
+      next-compose-plugins: ^2.2.1
       next-sitemap: ^3.0.5
       postcss: ^8.4.14
+      prettier: ^2.6.2
       react: 17.0.2
       react-dom: 17.0.2
-      react-hook-form: ^7.29.0
-      tailwindcss: ^3.1.4
+      tailwindcss: ^3.1.6
       typescript: ^4.7.4
-      zod: ^3.14.4
+      webpack: '>=4.3.0 <5.0.0'
     dependencies:
+      '@mdx-js/loader': 2.1.2_webpack@4.46.0
+      '@mdx-js/mdx': 2.1.2
+      '@mdx-js/react': 2.1.2_react@17.0.2
+      '@next/mdx': 12.2.3_todqhrvd7cvbb36hzi2r6xttgq
+      '@skillrecordings/analytics': link:../../packages/analytics
       '@skillrecordings/convertkit': link:../../packages/convertkit
-      '@skillrecordings/scripts': link:../../packages/scripts
-      '@tailwindcss/forms': 0.5.2_tailwindcss@3.1.4
-      framer-motion: 6.4.1_sfoxds7t5ydpegc3knd667wn6m
+      '@skillrecordings/quiz': link:../../packages/quiz
+      '@skillrecordings/react': link:../../packages/react
+      classnames: 2.3.1
+      feed: 4.2.2
+      lodash: 4.17.21
       next: 12.2.3_sfoxds7t5ydpegc3knd667wn6m
-      next-sitemap: 3.1.7_next@12.2.3
+      next-compose-plugins: 2.2.1
+      next-sitemap: 3.1.7_6lynxinfr2uix4icggokqiwwie
       react: 17.0.2
       react-dom: 17.0.2_react@17.0.2
-      react-hook-form: 7.29.0_react@17.0.2
-      zod: 3.17.3
     devDependencies:
-      '@tailwindcss/typography': 0.5.2_tailwindcss@3.1.4
-      '@types/cookie': 0.4.1
-      '@types/jest': 27.5.2
+      '@next/env': 12.2.3
+      '@skillrecordings/scripts': link:../../packages/scripts
+      '@skillrecordings/tsconfig': link:../../packages/tsconfig
+      '@skillrecordings/types': link:../../packages/types
       '@types/lodash': 4.14.180
+      '@types/mdx': 2.0.2
+      '@types/mdx-js__react': 1.5.5
       '@types/node': 17.0.41
-      '@types/nodemailer': 6.4.4
       '@types/react': 17.0.45
       '@types/react-dom': 17.0.17
-      autoprefixer: 10.4.7_postcss@8.4.14
+      dotenv-flow: 3.2.0
       eslint: 8.19.0
       eslint-config-custom: link:../../packages/eslint-config-custom
+      lint-staged: 11.2.6
       postcss: 8.4.14
-      tailwindcss: 3.1.4
+      prettier: 2.6.2
+      tailwindcss: 3.1.6
       typescript: 4.7.4
+      webpack: 4.46.0
 
   apps/tsforjs:
     specifiers:
@@ -8287,6 +8309,16 @@ packages:
 
   /@next/mdx/12.2.2_todqhrvd7cvbb36hzi2r6xttgq:
     resolution: {integrity: sha512-d+yHApu6weFYrAbDj+2vMY3uE8kAnoNu5g3w8B3m3skUh6r1ekkKM2YTktlpNpum/XMnKGiPrIdAX4L4KuVdYg==}
+    peerDependencies:
+      '@mdx-js/loader': '>=0.15.0'
+      '@mdx-js/react': '*'
+    dependencies:
+      '@mdx-js/loader': 2.1.2_webpack@4.46.0
+      '@mdx-js/react': 2.1.2_react@17.0.2
+    dev: false
+
+  /@next/mdx/12.2.3_todqhrvd7cvbb36hzi2r6xttgq:
+    resolution: {integrity: sha512-ALZ6F8A/YtIHxPV02R/y2nTdudyWrZjgftlNhP9o96V6llX45X7mnv7mHERd7b4ByrbXDmaWeD9Lbpljmzycvg==}
     peerDependencies:
       '@mdx-js/loader': '>=0.15.0'
       '@mdx-js/react': '*'
@@ -21880,6 +21912,20 @@ packages:
       react: 17.0.2
     dev: false
 
+  /next-sitemap/3.1.7_6lynxinfr2uix4icggokqiwwie:
+    resolution: {integrity: sha512-8o+rUftEtZ7d3s2BedBLeN0HZHPAtcvliA/YesP/2o7Llb5svvM/pqVBde17MgTEuGMZpHz6nqruHKGCt53G3Q==}
+    engines: {node: '>=14.18'}
+    hasBin: true
+    peerDependencies:
+      '@next/env': '*'
+      next: '*'
+    dependencies:
+      '@corex/deepmerge': 4.0.29
+      '@next/env': 12.2.3
+      minimist: 1.2.6
+      next: 12.2.3_sfoxds7t5ydpegc3knd667wn6m
+    dev: false
+
   /next-sitemap/3.1.7_hdg3gmwi2czidx5hoyjx6lzi6e:
     resolution: {integrity: sha512-8o+rUftEtZ7d3s2BedBLeN0HZHPAtcvliA/YesP/2o7Llb5svvM/pqVBde17MgTEuGMZpHz6nqruHKGCt53G3Q==}
     engines: {node: '>=14.18'}
@@ -26369,7 +26415,6 @@ packages:
     dependencies:
       buffer-from: 1.1.2
       source-map: 0.6.1
-    dev: true
 
   /source-map-url/0.4.1:
     resolution: {integrity: sha512-cPiFOTLUKvJFIg4SKVScy4ilPPW6rFgMgfuZJPNoDuMs3nC1HbMUycBoJw77xFIp6z1UJQJOfx6C9GMH80DiTw==}
@@ -27324,7 +27369,7 @@ packages:
       acorn: 8.7.1
       commander: 2.20.3
       source-map: 0.6.1
-      source-map-support: 0.5.20
+      source-map-support: 0.5.21
 
   /terser/5.14.1:
     resolution: {integrity: sha512-+ahUAE+iheqBTDxXhTisdA8hgvbEG1hHOQ9xmNjeUJSoi6DU/gMrKNcfZjHkyY6Alnuyc+ikYJaxxfHkT3+WuQ==}
@@ -29336,10 +29381,6 @@ packages:
       nanoclone: 0.2.1
       property-expr: 2.0.4
       toposort: 2.0.2
-    dev: false
-
-  /zod/3.17.3:
-    resolution: {integrity: sha512-4oKP5zvG6GGbMlqBkI5FESOAweldEhSOZ6LI6cG+JzUT7ofj1ZOC0PJudpQOpT1iqOFpYYtX5Pw0+o403y4bcg==}
     dev: false
 
   /zstddec/0.0.2:
