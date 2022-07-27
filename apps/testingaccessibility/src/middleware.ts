@@ -14,7 +14,7 @@ export async function middleware(req: NextRequest) {
   })
 
   const pathName = req.nextUrl.pathname
-  const ability = getCurrentAbility(token as any)
+  const ability = getCurrentAbility((token as any) || {})
 
   if (pathName.startsWith(INVOICE_PAGE_PATH)) {
     if (ability.can('view', 'Invoice')) {

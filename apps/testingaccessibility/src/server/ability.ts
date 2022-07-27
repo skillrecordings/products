@@ -56,8 +56,8 @@ function defineAbilityFor(viewerAbilityInput: ViewerAbilityInput) {
  *
  * @param viewerAbilityInput
  */
-function defineRulesForPurchases(viewerAbilityInput: ViewerAbilityInput) {
-  const {purchases, role = 'user'} = viewerAbilityInput
+function defineRulesForPurchases(viewerAbilityInput: ViewerAbilityInput = {}) {
+  const {purchases = [], role = 'user'} = viewerAbilityInput
   const {can, rules} = new AbilityBuilder(AppAbility)
 
   if (['ADMIN', 'SUPERADMIN'].includes(role)) {
