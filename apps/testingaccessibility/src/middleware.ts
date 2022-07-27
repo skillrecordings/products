@@ -40,6 +40,14 @@ export async function middleware(req: NextRequest) {
     }
   }
 
+  if (pathName.startsWith(CONTENT_ROOT_PATH)) {
+    if (ability.can('view', 'Content')) {
+      return NextResponse.next()
+    } else {
+      return NextResponse.redirect(new URL('/login', process.env.NEXTAUTH_URL))
+    }
+  }
+
   if (
     pathName.startsWith(CONTENT_ROOT_PATH) ||
     pathName.startsWith(WELCOME_PATH)

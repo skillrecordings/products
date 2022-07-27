@@ -5,7 +5,6 @@ import prisma from '../../../db'
 import {createTransport} from 'nodemailer'
 import {withSentry} from '@sentry/nextjs'
 import {getSdk} from '../../../lib/prisma-api'
-import {defineRulesForPurchases} from '../../../server/ability'
 import mjml2html from 'mjml'
 import chalk from 'chalk'
 import {PrismaAdapter} from '../../../server/skill-next-auth-prisma-adapter'
@@ -55,12 +54,47 @@ export const sendVerificationRequest = async (params: {
 
   if (!user) return
 
-  await transport.sendMail({
-    to: email,
-    from,
-    subject,
-    text: text({url, host}),
-    html: html({url, host, email}),
+  if (process.env.POSTMARK_KEY) {
+    await transport.sendMail({
+      to: email,
+      from,
+      subject,
+      text: text({url, host}),
+      html: html({url, host, email}),
+    })
+  } else {
+    console.info(`login email not sent, no POSTMARK_KEY found`)
+  }
+}
+
+async function getUser(userId: string) {
+  return prisma.user.findUnique({
+    where: {id: userId},
+    select: {
+      roles: true,
+      id: true,
+      purchases: {
+        select: {
+          id: true,
+          merchantChargeId: true,
+          productId: true,
+          createdAt: true,
+          totalAmount: true,
+          bulkCoupon: {
+            select: {
+              maxUses: true,
+              usedCount: true,
+            },
+          },
+          product: {
+            select: {
+              id: true,
+              name: true,
+            },
+          },
+        },
+      },
+    },
   })
 }
 
@@ -90,37 +124,30 @@ export const nextAuthOptions: NextAuthOptions = {
   callbacks: {
     async session({session, token}) {
       if (token?.id) {
-        const {getPurchasesForUser} = getSdk()
-        const user = await prisma.user.findUnique({
-          where: {id: token.id as string},
-        })
-        session.roles = user?.roles || []
-        const purchases = await getPurchasesForUser(token.id as string)
-        token.purchases = purchases
-        token.roles = user?.roles || []
-        session.rules = defineRulesForPurchases(purchases)
+        const user = await getUser(token.id as string)
+        if (user) {
+          const {roles, purchases} = user
+          session.purchases = purchases
+          session.role = roles
+          token.purchases = purchases
+          token.role = roles
+        }
       } else {
         token.purchases = []
+        session.purchases = []
       }
-
-      const encodedToken = jwt.sign(token, process.env.NEXTAUTH_SECRET || '', {
-        algorithm: 'HS256',
-      })
-
-      // this gives us access to the token in the browser via getSession()
-      session.id = token.id
-      session.token = encodedToken
 
       return session
     },
-    async jwt({token, profile, account, user}) {
-      if (user) {
-        token.id = user.id
-        const {getPurchasesForUser} = getSdk()
-        const purchases = await getPurchasesForUser(user.id)
-        token.purchases = purchases
-        token.roles = user?.roles || []
-        token.rules = defineRulesForPurchases(purchases)
+    async jwt({token, profile, account, user: authUser}) {
+      if (authUser) {
+        const user = await getUser(authUser.id)
+        if (user) {
+          const {roles, id, purchases} = user
+          token.id = id
+          token.purchases = purchases
+          token.role = roles || 'user'
+        }
       }
       return token
     },

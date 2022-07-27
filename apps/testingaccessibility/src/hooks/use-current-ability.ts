@@ -7,6 +7,6 @@ import {useUser} from './use-user'
 export function useCurrentAbility() {
   const {user} = useUser()
   return {
-    ability: getCurrentAbility({rules: user?.rules}),
+    ability: getCurrentAbility({purchases: user?.purchases, role: user?.role}),
   }
 }
