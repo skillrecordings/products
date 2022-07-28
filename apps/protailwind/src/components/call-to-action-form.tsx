@@ -20,7 +20,7 @@ export const CallToActionForm = () => {
           <h2 className="font-heading sm:text-6xl text-[2.5rem] leading-none font-bold text-slate-50">
             Learn to use Tailwind CSS like a pro
           </h2>
-          <p className="pt-4 text-indigo-300">
+          <p className="sm:text-xl text-lg pt-4 text-indigo-300">
             Sign up for exclusive early-release lessons!
           </p>
         </div>

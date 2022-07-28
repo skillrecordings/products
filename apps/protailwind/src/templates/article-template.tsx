@@ -53,7 +53,7 @@ const ArticleTemplate: React.FC<ArticleTemplateProps> = ({
       <main>
         <div className="max-w-screen-sm mx-auto w-full">
           <div className="md:pt-16 pt-10 lg:px-0 px-5 pb-16">
-            <article className="prose md:prose-lg lg:prose-xl prose-headings:font-bold md:prose-code:text-sm max-w-none">
+            <article className="prose md:prose-lg lg:prose-xl prose-headings:font-bold md:prose-code:text-sm lg:prose-code:text-[80%] md:prose-code:text-[80%] prose-code:text-[70%] max-w-none">
               <PortableText value={body} components={PortableTextComponents} />
               {!hasSubscribed && subscribersOnly && (
                 <div className="absolute bottom-0 left-0 w-full bg-gradient-to-t from-white to-transparent h-80 z-10" />

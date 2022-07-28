@@ -23,9 +23,11 @@ import Refractor from 'react-refractor'
 import js from 'refractor/lang/javascript'
 import markdown from 'refractor/lang/markdown'
 import yaml from 'refractor/lang/yaml'
+import css from 'refractor/lang/css'
 import Spinner from 'components/spinner'
 
 Refractor.registerLanguage(js)
+Refractor.registerLanguage(css)
 Refractor.registerLanguage(markdown)
 Refractor.registerLanguage(yaml)
 
