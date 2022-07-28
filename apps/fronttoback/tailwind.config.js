@@ -21,7 +21,11 @@ module.exports = {
       colors: {},
       typography: (theme) => ({
         DEFAULT: {
-          css: {},
+          css: {
+            '*': {
+              color: theme('colors.gray.100'),
+            },
+          },
         },
       }),
     },
