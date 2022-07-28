@@ -16,6 +16,7 @@ import isEmpty from 'lodash/isEmpty'
 import Image from 'next/image'
 import Link from 'next/link'
 import {CallToActionForm} from '../components/call-to-action-form'
+import {getOgImage} from 'utils/get-og-image'
 // import {genericCallToActionContent} from '../components/landing-content'
 
 type ArticleTemplateProps = {
@@ -27,11 +28,11 @@ const ArticleTemplate: React.FC<ArticleTemplateProps> = ({
   article,
   hasSubscribed,
 }) => {
-  const {title, description, body, subscribersOnly, date, cta, ogImage} =
-    article
+  const {title, description, body, subscribersOnly, date, cta} = article
   const shortDescription =
     description || toPlainText(body).substring(0, 157) + '...'
   const router = useRouter()
+  const ogImage = getOgImage(title)
 
   return (
     <Layout
