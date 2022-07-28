@@ -1676,12 +1676,14 @@ importers:
       '@types/react-dom': ^17.0.17
       '@types/speakingurl': ^13.0.3
       '@types/three': ^0.141.0
+      '@vercel/tracing-js': ^0.5.1
       '@xstate/react': '=1.5.1'
       autoprefixer: ^10.4.2
       classnames: ^2.3.1
       date-fns: ^2.28.0
       eslint: ^8.19.0
       eslint-config-custom: workspace:*
+      feed: ^4.2.2
       focus-visible: ^5.2.0
       framer-motion: ^6.4.1
       framer-motion-3d: ^6.4.1
@@ -1723,9 +1725,11 @@ importers:
       '@skillrecordings/skill-api': link:../../packages/skill-api
       '@skillrecordings/time': link:../../packages/time
       '@skillrecordings/viewer': link:../../packages/viewer
+      '@vercel/tracing-js': 0.5.1
       '@xstate/react': 1.5.1_h67gsb3uahtysktynl56vrd26m
       classnames: 2.3.1
       date-fns: 2.28.0
+      feed: 4.2.2
       focus-visible: 5.2.0
       framer-motion: 6.4.1_sfoxds7t5ydpegc3knd667wn6m
       framer-motion-3d: 6.4.1_kywf6pnmep4vhgxm3n7fyzvqbm
@@ -7445,6 +7449,7 @@ packages:
       '@types/react': 17.0.45
       hoist-non-react-statics: 3.3.2
       react: 17.0.2
+    dev: false
 
   /@emotion/react/11.5.0_hx2b44akkvgcgvvtmk7ds2qk6q:
     resolution: {integrity: sha512-MYq/bzp3rYbee4EMBORCn4duPQfgpiEB5XzrZEBnUZAL80Qdfr7CEv/T80jwaTl/dnZmt9SnTa8NkTrwFNpLlw==}
@@ -28461,7 +28466,7 @@ packages:
     dev: false
 
   /unpipe/1.0.0:
-    resolution: {integrity: sha512-pjy2bYhSsufwWlKwPc+l3cN7+wuJlK6uz0YdJEOlQDbl6jo/YlPi4mb8agUkVC8BF7V8NuzeyPNqRksA3hztKQ==}
+    resolution: {integrity: sha1-sr9O6FFKrmFltIF4KdIbLvSZBOw=}
     engines: {node: '>= 0.8'}
     dev: false
 

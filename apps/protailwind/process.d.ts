@@ -1,0 +1,12 @@
+declare namespace NodeJS {
+  export interface ProcessEnv {
+    CONVERTKIT_BASE_URL: string
+    NEXT_PUBLIC_CONVERTKIT_SUBSCRIBER_KEY: string
+    NEXT_PUBLIC_CONVERTKIT_TOKEN: string
+    NEXT_PUBLIC_CONVERTKIT_SIGNUP_FORM: string
+    NEXT_PUBLIC_SANITY_PROJECT_ID: string
+    NEXT_PUBLIC_URL: string
+    NEXT_PUBLIC_GOOGLE_ANALYTICS: string
+    NEXT_PUBLIC_OG_IMAGE_URI: string
+  }
+}
