@@ -56,7 +56,7 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
   const {data: formattedPrice, status} = useQuery<FormattedPrice>(
     ['pricing', merchantCoupon, debouncedQuantity, productId, userId, couponId],
     () =>
-      fetch('/api/prices', {
+      fetch('/api/skill/prices', {
         method: 'POST',
         body: JSON.stringify({
           productId,

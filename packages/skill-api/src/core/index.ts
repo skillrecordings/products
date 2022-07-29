@@ -6,6 +6,7 @@ import {
 import {init} from './init'
 import renderPage from './pages'
 import {sendFeedbackFromUser} from './services/send-feedback-from-user'
+import {loadPrices} from './services/load-prices'
 
 export interface OutgoingResponse<
   Body extends string | Record<string, any> | any[] = any,
@@ -24,9 +25,9 @@ export interface IncomingRequest {
   cookies?: Partial<{
     [key: string]: string
   }>
-  headers?: Record<string, any>
-  query?: Record<string, any>
-  body?: Record<string, any>
+  headers: Record<string, any>
+  query: Record<string, any>
+  body: Record<string, any>
   action: SkillRecordingsAction
   providerId?: string
   error?: string
@@ -69,6 +70,8 @@ export async function SkillRecordingsHandler<
           context: req?.body?.context,
           config: userOptions,
         })
+      case 'prices':
+        return await loadPrices({params})
     }
   }
 

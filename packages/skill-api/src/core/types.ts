@@ -3,7 +3,7 @@ import {SkillRecordingsOptions} from '../next'
 import {NextApiRequest, NextApiResponse} from 'next'
 import {IncomingRequest} from './index'
 
-export type SkillRecordingsAction = 'send-feedback' | 'test'
+export type SkillRecordingsAction = 'send-feedback' | 'test' | 'prices'
 
 export interface SkillRecordingsHeader {
   key: string
