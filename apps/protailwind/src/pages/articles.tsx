@@ -4,10 +4,8 @@ import Layout from 'components/layout'
 import Link from 'next/link'
 import Markdown from 'react-markdown'
 import {GetServerSideProps} from 'next'
-import {format} from 'date-fns'
 import {SanityDocument} from '@sanity/client'
 import {getAllArticles} from '../lib/articles'
-import {DividerStar} from 'pages'
 import {toPlainText} from '@portabletext/react'
 
 const meta = {
@@ -25,7 +23,6 @@ const Articles: React.FC<ArticlesProps> = ({articles}) => {
         <h1 className="max-w-screen-md font-heading font-bold mx-auto leading-none text-center text-4xl sm:text-5xl lg:text-6xl">
           {meta.title}
         </h1>
-        <DividerStar />
       </header>
       <main className="flex-grow">
         <div className="pb-16 mx-auto max-w-screen-lg w-full">
