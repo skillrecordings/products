@@ -1,7 +1,7 @@
 import React from 'react'
 import {motion, useReducedMotion} from 'framer-motion'
 
-const AnimatedList: React.FC<{className?: string}> = ({
+const AnimatedList: React.FC<React.PropsWithChildren<{className?: string}>> = ({
   children,
   className,
   ...props
@@ -52,7 +52,7 @@ const AnimatedList: React.FC<{className?: string}> = ({
   )
 }
 
-const CheckList: React.FC<{className?: string}> = ({
+const CheckList: React.FC<React.PropsWithChildren<{className?: string}>> = ({
   children,
   className,
   ...props

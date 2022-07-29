@@ -33,7 +33,9 @@ interface Props {
   }[]
 }
 
-const Learn: FunctionComponent<Props> = ({bundles}) => {
+const Learn: FunctionComponent<React.PropsWithChildren<Props>> = ({
+  bundles,
+}) => {
   const purchasedBundle = usePurchasedBundle(bundles)
   const isVerifying = useLoginRequired()
   const isVerifyingBulkPurchase = useRedirectUnclaimedBulkToInvoice()

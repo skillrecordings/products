@@ -93,7 +93,9 @@ const Scene = ({theme}: any) => {
   )
 }
 
-const Blob: React.FC<{className?: string}> = ({className = ''}) => {
+const Blob: React.FC<React.PropsWithChildren<{className?: string}>> = ({
+  className = '',
+}) => {
   const {resolvedTheme: theme} = useTheme()
 
   return (

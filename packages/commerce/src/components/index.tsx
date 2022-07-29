@@ -2,7 +2,9 @@ import React from 'react'
 import {Element} from 'react-scroll'
 import Image from 'next/image'
 
-export const CommerceHeader: React.FC = ({children}) => {
+export const CommerceHeader: React.FC<React.PropsWithChildren<unknown>> = ({
+  children,
+}) => {
   return (
     <div className="text-center px-5 sm:py-24 py-16">
       <h2 className="pb-5 pt-10 text-4xl font-extrabold tracking-tight text-text sm:text-5xl sm:leading-10 lg:text-6xl leading-tight max-w-screen-md mx-auto">
@@ -13,10 +15,12 @@ export const CommerceHeader: React.FC = ({children}) => {
   )
 }
 
-export const CommerceBundleImage: React.FC<{
-  bundle: any
-  getBundleImage: (slug: string) => JSX.Element
-}> = ({bundle, getBundleImage}) => {
+export const CommerceBundleImage: React.FC<
+  React.PropsWithChildren<{
+    bundle: any
+    getBundleImage: (slug: string) => JSX.Element
+  }>
+> = ({bundle, getBundleImage}) => {
   const bundleImage = getBundleImage(bundle.slug)
   return bundleImage ? (
     <div className="pt-10 pb-5 w-full flex items-center justify-center ">
@@ -25,10 +29,12 @@ export const CommerceBundleImage: React.FC<{
   ) : null
 }
 
-export const CommerceBundleDescription: React.FC<{
-  bundle: any
-  getBundleDescription: (slug: string) => any[]
-}> = ({bundle, getBundleDescription, children}) => {
+export const CommerceBundleDescription: React.FC<
+  React.PropsWithChildren<{
+    bundle: any
+    getBundleDescription: (slug: string) => any[]
+  }>
+> = ({bundle, getBundleDescription, children}) => {
   return (
     <div className="flex flex-col items-center">
       <ul className="pt-8 pb-2 font-semibold">
@@ -46,7 +52,9 @@ export const CommerceBundleDescription: React.FC<{
   )
 }
 
-export const CommerceBundleItemsList: React.FC<{bundle: any}> = ({bundle}) => {
+export const CommerceBundleItemsList: React.FC<
+  React.PropsWithChildren<{bundle: any}>
+> = ({bundle}) => {
   return (
     <ul>
       {bundle.items.map((item: any, i: number) => {
@@ -71,10 +79,12 @@ export const CommerceBundleItemsList: React.FC<{bundle: any}> = ({bundle}) => {
   )
 }
 
-export const CommerceBundleDetails: React.FC<{
-  bundle: any
-  getBundleStyles: (slug: string) => string
-}> = ({bundle, getBundleStyles, children}) => {
+export const CommerceBundleDetails: React.FC<
+  React.PropsWithChildren<{
+    bundle: any
+    getBundleStyles: (slug: string) => string
+  }>
+> = ({bundle, getBundleStyles, children}) => {
   return (
     <div
       key={bundle.id}
@@ -85,7 +95,9 @@ export const CommerceBundleDetails: React.FC<{
   )
 }
 
-export const CommerceBundles: React.FC = ({children}) => {
+export const CommerceBundles: React.FC<React.PropsWithChildren<unknown>> = ({
+  children,
+}) => {
   return (
     <div className="grid md:grid-cols-2 grid-cols-1 items-start gap-5 max-w-screen-md mx-auto">
       {children}
@@ -93,10 +105,9 @@ export const CommerceBundles: React.FC = ({children}) => {
   )
 }
 
-export const CommerceContainer: React.FC<{className?: string}> = ({
-  children,
-  className,
-}) => {
+export const CommerceContainer: React.FC<
+  React.PropsWithChildren<{className?: string}>
+> = ({children, className}) => {
   return (
     <div className={className} id="buy">
       <CommerceScrollToTarget />

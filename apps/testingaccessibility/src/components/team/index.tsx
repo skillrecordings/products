@@ -17,7 +17,7 @@ type InviteTeamProps = {
   setPersonalPurchase: (props: any) => void
 }
 
-const InviteTeam: React.FC<InviteTeamProps> = ({
+const InviteTeam: React.FC<React.PropsWithChildren<InviteTeamProps>> = ({
   purchase,
   existingPurchase,
   session,

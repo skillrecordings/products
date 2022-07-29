@@ -7,7 +7,7 @@ import groq from 'groq'
 import {GetServerSideProps} from 'next'
 import {sanityClient} from 'utils/sanity-client'
 
-const Workshops: React.FC<any> = ({workshops}) => {
+const Workshops: React.FC<React.PropsWithChildren<any>> = ({workshops}) => {
   const upcomingWorkshops = workshops.filter(({published}: any) => published)
   const pastWorkshops = workshops.filter(({published}: any) => !published)
 

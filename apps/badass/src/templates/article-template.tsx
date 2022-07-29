@@ -23,10 +23,9 @@ type ArticleTemplateProps = {
   hasSubscribed: boolean
 }
 
-const ArticleTemplate: React.FC<ArticleTemplateProps> = ({
-  article,
-  hasSubscribed,
-}) => {
+const ArticleTemplate: React.FC<
+  React.PropsWithChildren<ArticleTemplateProps>
+> = ({article, hasSubscribed}) => {
   const {title, description, body, subscribersOnly, date, cta, ogImage} =
     article
   const shortDescription =
@@ -70,7 +69,9 @@ const ArticleTemplate: React.FC<ArticleTemplateProps> = ({
 
 export default ArticleTemplate
 
-const Header: React.FC<{title: string; date: string}> = ({title, date}) => {
+const Header: React.FC<
+  React.PropsWithChildren<{title: string; date: string}>
+> = ({title, date}) => {
   return (
     <header className="flex flex-col items-center relative px-5 pt-16 pb-8 overflow-hidden text-white bg-[#082C1B] bg-noise">
       <div className="flex flex-col items-center max-w-screen-md mx-auto w-full relative z-10">
@@ -103,7 +104,9 @@ const Header: React.FC<{title: string; date: string}> = ({title, date}) => {
   )
 }
 
-const CTAContainer: React.FC = ({children}) => {
+const CTAContainer: React.FC<React.PropsWithChildren<unknown>> = ({
+  children,
+}) => {
   return (
     <section
       id="subscribe"
@@ -121,7 +124,7 @@ type GetCTAProps = {
   router: NextRouter
 }
 
-const getCTA: React.FC<GetCTAProps> = ({
+const getCTA: React.FC<React.PropsWithChildren<GetCTAProps>> = ({
   subscribersOnly,
   hasSubscribed,
   cta,
@@ -236,7 +239,7 @@ const ContinueReadingSubscribeForm = () => {
   )
 }
 
-const Share: React.FC<{title: string}> = ({title}) => {
+const Share: React.FC<React.PropsWithChildren<{title: string}>> = ({title}) => {
   const router = useRouter()
   const url = process.env.NEXT_PUBLIC_URL + router.asPath
   const className =

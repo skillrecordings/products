@@ -1,7 +1,7 @@
 import * as React from 'react'
 import cx from 'classnames'
 
-export const VolumeLevel: React.FC<any> = ({
+export const VolumeLevel: React.FC<React.PropsWithChildren<any>> = ({
   vertical = false,
   percentage = '100%',
   className,

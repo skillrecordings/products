@@ -5,12 +5,9 @@ import config from '../config'
 import {first} from 'lodash'
 import Navigation from './navigation'
 
-const Layout: React.FC<LayoutProps & {withFooter?: boolean}> = ({
-  children,
-  withFooter,
-  meta,
-  ...props
-}) => {
+const Layout: React.FC<
+  React.PropsWithChildren<LayoutProps & {withFooter?: boolean}>
+> = ({children, withFooter, meta, ...props}) => {
   const defaultMeta = {
     title: config.defaultTitle,
     description: config.description,

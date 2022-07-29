@@ -1,9 +1,11 @@
 import * as React from 'react'
 
-const SkillRecordingsLogo: React.FunctionComponent<{
-  className?: string
-  fill?: boolean
-}> = ({className, fill = false}) => {
+const SkillRecordingsLogo: React.FunctionComponent<
+  React.PropsWithChildren<{
+    className?: string
+    fill?: boolean
+  }>
+> = ({className, fill = false}) => {
   return (
     <svg
       className={className}

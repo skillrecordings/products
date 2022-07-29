@@ -97,7 +97,10 @@ const RedeemDialog = ({open = false, couponId}: RedeemDialogProps) => {
 
 export default RedeemDialog
 
-const Content: React.FC = ({children, ...props}) => {
+const Content: React.FC<React.PropsWithChildren<unknown>> = ({
+  children,
+  ...props
+}) => {
   return (
     <AlertDialogPrimitive.Portal>
       <AlertDialogPrimitive.Overlay className="fixed bg-black bg-opacity-30 backdrop-blur-sm inset-0 z-40" />

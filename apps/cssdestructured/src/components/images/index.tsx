@@ -1,7 +1,9 @@
 import React from 'react'
 import {motion} from 'framer-motion'
 
-const Logo: React.FC<{className?: string}> = ({className = ''}) => {
+const Logo: React.FC<React.PropsWithChildren<{className?: string}>> = ({
+  className = '',
+}) => {
   return (
     <div
       aria-hidden
@@ -29,7 +31,7 @@ const Logo: React.FC<{className?: string}> = ({className = ''}) => {
   )
 }
 
-const Blocks1: React.FC<any> = (props) => {
+const Blocks1: React.FC<React.PropsWithChildren<any>> = (props) => {
   return (
     <svg
       className={props.className}
@@ -315,7 +317,7 @@ const GridVisual = () => {
   )
 }
 
-const Left: React.FC<any> = ({className}) => {
+const Left: React.FC<React.PropsWithChildren<any>> = ({className}) => {
   return (
     <svg
       className={className}
@@ -398,7 +400,7 @@ const Left: React.FC<any> = ({className}) => {
   )
 }
 
-const Right: React.FC<any> = ({className}) => {
+const Right: React.FC<React.PropsWithChildren<any>> = ({className}) => {
   return (
     <svg
       className={className}
@@ -502,7 +504,7 @@ const Right: React.FC<any> = ({className}) => {
   )
 }
 
-const Bottom: React.FC<any> = (props) => {
+const Bottom: React.FC<React.PropsWithChildren<any>> = (props) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"

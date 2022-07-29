@@ -4,7 +4,9 @@ import {useVideo} from '../../context/video-context'
 import {useSelector} from '@xstate/react'
 import {selectFormattedRemainingTime} from '../../selectors'
 
-export const RemainingTimeDisplay: React.FC<any> = ({className}) => {
+export const RemainingTimeDisplay: React.FC<React.PropsWithChildren<any>> = ({
+  className,
+}) => {
   const videoService = useVideo()
   const formattedTime = useSelector(videoService, selectFormattedRemainingTime)
 

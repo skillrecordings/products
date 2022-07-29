@@ -3,7 +3,7 @@ import {useGLTF} from '@react-three/drei'
 
 const GLTF_PATH = '/assets/city.gltf'
 
-const CityModel: React.FC<any> = (props) => {
+const CityModel: React.FC<React.PropsWithChildren<any>> = (props) => {
   const group = React.useRef<any>(null)
   const {nodes}: any = useGLTF(GLTF_PATH, false, false)
   const color = props.color || '#1F2738'

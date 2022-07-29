@@ -33,7 +33,9 @@ export const getServerSideProps: GetServerSideProps = async ({req}) => {
   }
 }
 
-const Learn: React.FC<{purchases: Purchase[]}> = ({purchases = []}) => {
+const Learn: React.FC<React.PropsWithChildren<{purchases: Purchase[]}>> = ({
+  purchases = [],
+}) => {
   return (
     <Layout meta={{title: 'Invoices'}} className="bg-green-700 bg-noise">
       <main className="max-w-2xl mx-auto w-full sm:py-16 py-8 flex-grow h-full px-5 flex flex-col">

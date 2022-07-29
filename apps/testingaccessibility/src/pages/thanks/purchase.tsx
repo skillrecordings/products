@@ -38,10 +38,9 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   }
 }
 
-const ThanksVerify: React.FC<{name: string; email: string}> = ({
-  name,
-  email,
-}) => {
+const ThanksVerify: React.FC<
+  React.PropsWithChildren<{name: string; email: string}>
+> = ({name, email}) => {
   return (
     <Layout
       footer={null}

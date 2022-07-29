@@ -11,7 +11,7 @@ import ReactMarkdown from 'react-markdown'
 import {useMetadataCues} from '../hooks/use-metadata-cues'
 import {convertTimeWithTitles} from '@skillrecordings/time'
 
-export const CueBar: React.FC<any> = ({
+export const CueBar: React.FC<React.PropsWithChildren<any>> = ({
   className,
   disableCompletely,
   player,
@@ -38,7 +38,11 @@ export const CueBar: React.FC<any> = ({
   )
 }
 
-const NoteCue: React.FC<any> = ({cue, duration, className}) => {
+const NoteCue: React.FC<React.PropsWithChildren<any>> = ({
+  cue,
+  duration,
+  className,
+}) => {
   const videoService = useVideo()
   const viewer = useSelector(videoService, selectViewer)
 

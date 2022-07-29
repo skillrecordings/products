@@ -11,7 +11,7 @@ import {useConvertkit} from '@skillrecordings/convertkit'
 
 type FooterProps = {}
 
-const Footer: React.FC<FooterProps> = () => {
+const Footer: React.FC<React.PropsWithChildren<FooterProps>> = () => {
   const router = useRouter()
   const {isSignedIn, canViewInvoice, canViewTeam} = useNavState()
   const {subscriber} = useConvertkit()
@@ -136,7 +136,7 @@ type NavLinkProps = {
   onClick?: () => void
 }
 
-const NavLink: React.FC<NavLinkProps> = ({
+const NavLink: React.FC<React.PropsWithChildren<NavLinkProps>> = ({
   href,
   children,
   onClick,

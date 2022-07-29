@@ -8,7 +8,7 @@ import {
   selectViewer,
 } from '../selectors'
 
-export const CueForm: React.FC = () => {
+export const CueForm: React.FC<React.PropsWithChildren<unknown>> = () => {
   const videoService = useVideo()
   const formRef = React.useRef<HTMLFormElement>(null)
   const currentTime = useSelector(videoService, selectCurrentTime)

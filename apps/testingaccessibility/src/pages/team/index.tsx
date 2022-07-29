@@ -76,7 +76,7 @@ type TeamPageProps = {
   availableUpgrades: {upgradableTo: {id: string; name: string}}[]
 }
 
-const TeamPage: React.FC<TeamPageProps> = ({
+const TeamPage: React.FC<React.PropsWithChildren<TeamPageProps>> = ({
   purchase,
   existingPurchase,
   availableUpgrades,

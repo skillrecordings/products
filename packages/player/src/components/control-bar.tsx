@@ -10,7 +10,9 @@ import {FullscreenToggleControl} from './controls/fullscreen-toggle-control'
 import {SidePanelToggleControl} from './controls/side-panel-toggle-control'
 import {ClosedCaptionsMenuButtonControl} from './controls/closed-captions-menu-button-control'
 
-export const ControlBar: React.FC = ({children}) => {
+export const ControlBar: React.FC<React.PropsWithChildren<unknown>> = ({
+  children,
+}) => {
   return (
     <div className="cueplayer-react-control-bar">
       <div className="cueplayer-react-control-bar-left-part">

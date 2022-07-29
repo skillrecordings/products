@@ -13,7 +13,7 @@ type LayoutProps = {
   children?: any
 }
 
-const Layout: FunctionComponent<LayoutProps> = ({
+const Layout: FunctionComponent<React.PropsWithChildren<LayoutProps>> = ({
   children,
   className,
   meta,

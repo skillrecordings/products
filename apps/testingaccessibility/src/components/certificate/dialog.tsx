@@ -9,12 +9,9 @@ type CertificateDialogProps = {
   isOpen: boolean
 }
 
-const CertificateDialog: React.FC<CertificateDialogProps> = ({
-  handleCloseDialog,
-  module,
-  isOpen,
-  children,
-}) => {
+const CertificateDialog: React.FC<
+  React.PropsWithChildren<CertificateDialogProps>
+> = ({handleCloseDialog, module, isOpen, children}) => {
   return (
     <Dialog
       title="Get your certificate"

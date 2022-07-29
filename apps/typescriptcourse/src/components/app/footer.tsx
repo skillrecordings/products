@@ -72,12 +72,9 @@ const Footer = () => {
   )
 }
 
-const NavLink: React.FC<{href: string; index: number}> = ({
-  href,
-  children,
-  index,
-  ...props
-}) => {
+const NavLink: React.FC<
+  React.PropsWithChildren<{href: string; index: number}>
+> = ({href, children, index, ...props}) => {
   const router = useRouter()
   const isActive = router.pathname === href
 

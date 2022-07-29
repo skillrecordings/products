@@ -1,7 +1,9 @@
 import Script from 'next/script'
 import React from 'react'
 
-export const Layout: React.FC = ({children}) => {
+export const Layout: React.FC<React.PropsWithChildren<unknown>> = ({
+  children,
+}) => {
   return (
     <div className="">
       <div className="flex items-center h-16 text-white bg-gray-800">

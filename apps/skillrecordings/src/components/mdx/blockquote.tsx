@@ -4,7 +4,9 @@ type BlockquoteProps = {
   children: React.ReactNode
 }
 
-const Blockquote: React.FC<BlockquoteProps> = ({children}) => {
+const Blockquote: React.FC<React.PropsWithChildren<BlockquoteProps>> = ({
+  children,
+}) => {
   return (
     <blockquote className="not-prose p-5 dark:border-gray-700 border-gray-300 border-l-[3px] dark:bg-gray-800 bg-gray-100 dark:text-gray-200 text-gray-800 relative not-italic font-normal">
       <div className="absolute -right-3 -top-3 w-10 h-10 rounded-full bg-amber-500 flex items-center justify-center">

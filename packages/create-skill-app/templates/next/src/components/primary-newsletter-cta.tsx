@@ -6,7 +6,9 @@ import {
 import {useRouter} from 'next/router'
 import common from '../text/common'
 
-export const PrimaryNewsletterCta: React.FC = ({children}) => {
+export const PrimaryNewsletterCta: React.FC<
+  React.PropsWithChildren<unknown>
+> = ({children}) => {
   const router = useRouter()
   return (
     <section

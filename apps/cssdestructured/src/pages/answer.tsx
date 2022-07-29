@@ -10,7 +10,9 @@ import groq from 'groq'
 
 const QUIZ_SLUG = 'email-course'
 
-const Answer: React.FC<{quiz: QuizResource}> = ({quiz}) => {
+const Answer: React.FC<React.PropsWithChildren<{quiz: QuizResource}>> = ({
+  quiz,
+}) => {
   const questionSet: QuestionSet = transformSanityQuiz(quiz)
 
   return (

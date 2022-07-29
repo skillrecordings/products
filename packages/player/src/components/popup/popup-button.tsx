@@ -3,7 +3,7 @@ import {ClickableComponent} from '../core/clickable-component'
 import cx from 'classnames'
 import {Popup} from './popup'
 
-export const PopupButton: React.FC<any> = (props) => {
+export const PopupButton: React.FC<React.PropsWithChildren<any>> = (props) => {
   const {className, inline = true, children, ...ps} = props
   return (
     <ClickableComponent

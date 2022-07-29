@@ -4,7 +4,9 @@ import {useViewer} from '@skillrecordings/viewer'
 
 export type NavigationProps = {title?: string}
 
-const Navigation: React.FC<NavigationProps> = ({title = 'Product'}) => {
+const Navigation: React.FC<React.PropsWithChildren<NavigationProps>> = ({
+  title = 'Product',
+}) => {
   const {isAuthenticated, logout} = useViewer()
   return (
     <nav className="w-full flex items-center justify-between print:hidden">

@@ -1,7 +1,9 @@
 import {useConvertkit} from '@skillrecordings/convertkit'
 import * as React from 'react'
 
-const SubscribeForm: React.FC<{onSubmit?: () => void; className?: string}> = ({
+const SubscribeForm: React.FC<
+  React.PropsWithChildren<{onSubmit?: () => void; className?: string}>
+> = ({
   onSubmit,
   className = 'relative py-16 lg:py-40 xl:py-48 md:py-32 sm:py-24',
 }) => {

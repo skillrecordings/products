@@ -7,7 +7,10 @@ import isEmpty from 'lodash/isEmpty'
 import {sanityClient} from 'utils/sanity-client'
 import LiveWorkshopTemplate from 'templates/live-workshop-template'
 
-const LiveWorkshop: React.FC<any> = ({workshop, source}) => {
+const LiveWorkshop: React.FC<React.PropsWithChildren<any>> = ({
+  workshop,
+  source,
+}) => {
   return <LiveWorkshopTemplate workshop={workshop} source={source} />
 }
 

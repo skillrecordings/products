@@ -29,11 +29,13 @@ export const useVideo = () => {
  *
  * @see {@link https://dev.to/mpocock1/how-to-manage-global-state-with-xstate-and-react-3if5}
  */
-export const VideoProvider: React.FC<{
-  actions?: any
-  services?: any
-  guards?: any
-}> = ({actions = {}, services = {}, guards = {}, children}) => {
+export const VideoProvider: React.FC<
+  React.PropsWithChildren<{
+    actions?: any
+    services?: any
+    guards?: any
+  }>
+> = ({actions = {}, services = {}, guards = {}, children}) => {
   const videoService = useInterpret(videoMachine, {
     actions: {...defaultActions, ...actions},
     services,

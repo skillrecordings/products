@@ -4,7 +4,9 @@ import cx from 'classnames'
 import {useVideo} from '../../context/video-context'
 import {selectFormattedTime, selectPercent} from '../../selectors'
 
-export const PlayProgressBar: React.FC<any> = ({className}) => {
+export const PlayProgressBar: React.FC<React.PropsWithChildren<any>> = ({
+  className,
+}) => {
   const videoService = useVideo()
   const formattedTime = useSelector(videoService, selectFormattedTime)
   const percent = `${useSelector(videoService, selectPercent) * 100}%`

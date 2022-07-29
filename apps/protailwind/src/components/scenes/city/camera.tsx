@@ -16,7 +16,9 @@ type CameraProps = {
   animateOnScroll?: boolean
 }
 
-const Camera: React.FC<CameraProps> = ({animateOnScroll = true}) => {
+const Camera: React.FC<React.PropsWithChildren<CameraProps>> = ({
+  animateOnScroll = true,
+}) => {
   const set = useThree(({set}) => set)
   const camera = useThree(({camera}) => camera)
   const size = useThree(({size}) => size)

@@ -6,7 +6,9 @@ type ClientProfileProps = {
   client: Contributor
 }
 
-const ClientProfileBox: React.FC<ClientProfileProps> = ({client, children}) => {
+const ClientProfileBox: React.FC<
+  React.PropsWithChildren<ClientProfileProps>
+> = ({client, children}) => {
   const {name, label, image} = client
 
   return (

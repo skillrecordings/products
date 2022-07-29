@@ -7,7 +7,9 @@ import {useVideo} from '../../context/video-context'
 import {findElPosition, getPointerPosition} from '../../utils'
 import {selectDuration} from '../../selectors'
 
-export const ProgressControl: React.FC<any> = (props) => {
+export const ProgressControl: React.FC<React.PropsWithChildren<any>> = (
+  props,
+) => {
   const videoService = useVideo()
   const duration = useSelector(videoService, selectDuration)
   const [mouseTime, setMouseTime] = React.useState({time: 0, position: 0})

@@ -36,7 +36,7 @@ type PricingProps = {
  * @param couponId
  * @constructor
  */
-export const Pricing: React.FC<PricingProps> = ({
+export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
   product,
   purchased = false,
   purchases = [],
@@ -322,12 +322,9 @@ type RegionalPricingBoxProps = {
   index: number
 }
 
-const RegionalPricingBox: React.FC<RegionalPricingBoxProps> = ({
-  pppCoupon,
-  activeCoupon,
-  setActiveCoupon,
-  index,
-}) => {
+const RegionalPricingBox: React.FC<
+  React.PropsWithChildren<RegionalPricingBoxProps>
+> = ({pppCoupon, activeCoupon, setActiveCoupon, index}) => {
   const regionNames = new Intl.DisplayNames(['en'], {type: 'region'})
 
   if (!pppCoupon.country) {
@@ -381,7 +378,9 @@ type RibbonProps = {
   }
 }
 
-const Ribbon: React.FC<RibbonProps> = ({appliedMerchantCoupon}) => {
+const Ribbon: React.FC<React.PropsWithChildren<RibbonProps>> = ({
+  appliedMerchantCoupon,
+}) => {
   return (
     <div className="absolute -top-3 -right-3 aspect-square w-32 overflow-hidden rounded">
       <div className="absolute top-0 left-0 h-3 w-3 bg-amber-500"></div>

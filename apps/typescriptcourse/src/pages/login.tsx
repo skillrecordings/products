@@ -18,7 +18,7 @@ type LoginFormProps = {
   track?: any
 }
 
-const LoginForm: FunctionComponent<LoginFormProps> = ({
+const LoginForm: FunctionComponent<React.PropsWithChildren<LoginFormProps>> = ({
   className,
   children,
   button = 'Email a login link',

@@ -13,7 +13,12 @@ type ModuleProps = {
   i: number
 }
 
-const Module: React.FC<ModuleProps> = ({resource, items, progress, i}) => {
+const Module: React.FC<React.PropsWithChildren<ModuleProps>> = ({
+  resource,
+  items,
+  progress,
+  i,
+}) => {
   const [isExpanded, setExpanded] = React.useState(false)
   const {isModuleCompleted} = progress
   return (

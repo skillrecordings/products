@@ -41,7 +41,7 @@ const testingJavaScriptSellable: any = {
 
 export const sellables = [epicReactSellable, testingJavaScriptSellable]
 
-const BuyEmailForm: React.FC<BuyEmailFormProps> = ({
+const BuyEmailForm: React.FC<React.PropsWithChildren<BuyEmailFormProps>> = ({
   className,
   children,
   button = 'Complete Your Purchase',

@@ -62,7 +62,9 @@ type ModulePageProps = {
   module: SanityDocument
 }
 
-const ModulePage: React.FC<ModulePageProps> = ({module}) => {
+const ModulePage: React.FC<React.PropsWithChildren<ModulePageProps>> = ({
+  module,
+}) => {
   return <ModuleTemplate module={module} />
 }
 

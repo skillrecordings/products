@@ -3,10 +3,9 @@ import Link from 'next/link'
 import type {LessonResource} from '@skillrecordings/types'
 import find from 'lodash/find'
 
-const Play: React.FC<{items: LessonResource[]; progress: any}> = ({
-  items,
-  progress,
-}) => {
+const Play: React.FC<
+  React.PropsWithChildren<{items: LessonResource[]; progress: any}>
+> = ({items, progress}) => {
   const {isModuleInProgress, completedLessons, isModuleCompleted} = progress
 
   const buttonText = isModuleCompleted

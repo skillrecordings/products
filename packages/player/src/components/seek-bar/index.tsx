@@ -14,7 +14,7 @@ import {
 } from '@reach/slider'
 import {LoadProgressBar} from './load-progress-bar'
 
-export const SeekBar: React.FC<any> = (props) => {
+export const SeekBar: React.FC<React.PropsWithChildren<any>> = (props) => {
   const videoService = useVideo()
   const duration = useSelector(videoService, selectDuration)
   const currentTime = useSelector(videoService, selectCurrentTime)

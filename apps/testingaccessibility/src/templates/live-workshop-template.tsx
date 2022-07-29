@@ -4,7 +4,10 @@ import {MDXRemote} from 'next-mdx-remote'
 import Layout from 'components/app/layout'
 import Link from 'next/link'
 
-const LiveWorkshopTemplate: React.FC<any> = ({workshop, source}) => {
+const LiveWorkshopTemplate: React.FC<React.PropsWithChildren<any>> = ({
+  workshop,
+  source,
+}) => {
   const {title, date, ckFormId, description, published, status, url} = workshop
 
   const DisplayDate = () => <time dateTime={date}>{date}</time>
@@ -117,7 +120,9 @@ const LiveWorkshopTemplate: React.FC<any> = ({workshop, source}) => {
   )
 }
 
-const CalendarIcon: React.FC<{className?: string}> = ({className}) => {
+const CalendarIcon: React.FC<React.PropsWithChildren<{className?: string}>> = ({
+  className,
+}) => {
   const title = 'calendar'
   return (
     <svg

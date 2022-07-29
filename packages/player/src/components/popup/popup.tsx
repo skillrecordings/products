@@ -1,7 +1,7 @@
 import * as React from 'react'
 import {SyntheticEvent} from 'react'
 
-export const Popup: React.FC<any> = ({children}) => {
+export const Popup: React.FC<React.PropsWithChildren<any>> = ({children}) => {
   function handleClick(event: SyntheticEvent) {
     event.preventDefault()
     // event.stopPropagation();

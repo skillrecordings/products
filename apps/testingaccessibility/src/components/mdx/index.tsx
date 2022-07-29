@@ -31,7 +31,7 @@ type SectionProps = {
   ariaLabel?: string
 }
 
-const Section: React.FC<SectionProps> = ({
+const Section: React.FC<React.PropsWithChildren<SectionProps>> = ({
   children,
   image,
   className,
@@ -64,7 +64,9 @@ type BlockquoteProps = {
   children: React.ReactNode
 }
 
-const Blockquote: React.FC<BlockquoteProps> = ({children}) => {
+const Blockquote: React.FC<React.PropsWithChildren<BlockquoteProps>> = ({
+  children,
+}) => {
   return <blockquote className="not-prose">{children}</blockquote>
 }
 
@@ -75,7 +77,7 @@ type TestimonialProps = {
   iconClassName?: string
 }
 
-const Testimonial: React.FC<TestimonialProps> = ({
+const Testimonial: React.FC<React.PropsWithChildren<TestimonialProps>> = ({
   children,
   author,
   className,
@@ -112,7 +114,9 @@ const Testimonial: React.FC<TestimonialProps> = ({
 
 type DividerProps = 'trees' | 'route'
 
-const Divider: React.FC<{type: DividerProps}> = ({type}) => {
+const Divider: React.FC<React.PropsWithChildren<{type: DividerProps}>> = ({
+  type,
+}) => {
   const getImageForType = (type: DividerProps) => {
     switch (type) {
       case 'trees':
@@ -142,7 +146,9 @@ type ListProps = {
   children: React.ReactNode
 }
 
-const ListOfQuestions: React.FC<ListProps> = ({children}) => {
+const ListOfQuestions: React.FC<React.PropsWithChildren<ListProps>> = ({
+  children,
+}) => {
   const childrenArr = React.Children.toArray(children)
   return (
     <ul className="relative list-none sm:px-7 px-4">
@@ -172,7 +178,9 @@ type PlansGridProps = {
   }[]
 }
 
-const PlansGrid: React.FC<PlansGridProps> = ({columns}) => {
+const PlansGrid: React.FC<React.PropsWithChildren<PlansGridProps>> = ({
+  columns,
+}) => {
   return (
     <div className="not-prose py-10 sm:px-0 px-5">
       <ul className="grid md:grid-cols-2 grid-cols-1 gap-16 w-full max-w-screen-md mx-auto">
@@ -210,7 +218,7 @@ type StepsProps = {
   }[]
 }
 
-const Steps: React.FC<StepsProps> = ({data}) => {
+const Steps: React.FC<React.PropsWithChildren<StepsProps>> = ({data}) => {
   return (
     <div className="not-prose max-w-screen-sm mx-auto px-5">
       <ul className="space-y-12">
@@ -241,13 +249,15 @@ type StepProps = {
   title: string
 }
 
-const Step: React.FC<StepProps> = ({title}) => {
+const Step: React.FC<React.PropsWithChildren<StepProps>> = ({title}) => {
   return <li>{title}</li>
 }
 
 type WorkshopsListProps = {}
 
-const WorkshopsList: React.FC<WorkshopsListProps> = () => {
+const WorkshopsList: React.FC<
+  React.PropsWithChildren<WorkshopsListProps>
+> = () => {
   return (
     <div className="not-prose pt-10">
       <ul className="text-lg max-w-screen-lg w-full mx-auto space-y-24 px-5">

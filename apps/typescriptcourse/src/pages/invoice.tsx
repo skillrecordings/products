@@ -37,7 +37,9 @@ const getTotalPrice = (purchases: any) => {
   )
 }
 
-const Invoice: React.FunctionComponent = () => {
+const Invoice: React.FunctionComponent<
+  React.PropsWithChildren<unknown>
+> = () => {
   const {sitePurchases, viewer} = useViewer()
   const [invoiceInfo, setInvoiceInfo] = useLocalStorage('invoice-info', '')
   const firstPurchase = get(sitePurchases, '[0]')

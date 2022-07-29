@@ -9,7 +9,7 @@ import FAQ from '../components/content/faq-section'
 import Layout from 'components/app/layout'
 import Image from 'next/image'
 
-const Buy: React.FC<CommerceProps> = ({
+const Buy: React.FC<React.PropsWithChildren<CommerceProps>> = ({
   couponFromCode,
   purchases = [],
   userId,

@@ -8,7 +8,7 @@ type DialogProps = {
   title: string
 }
 
-const DialogComp: React.FC<DialogProps> = ({
+const DialogComp: React.FC<React.PropsWithChildren<DialogProps>> = ({
   handleCloseDialog,
   children,
   isOpen,

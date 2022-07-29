@@ -4,10 +4,9 @@ import Link from 'next/link'
 import type {LessonResource} from '@skillrecordings/types'
 import {convertTimeWithTitles} from '@skillrecordings/time'
 
-const Lessons: React.FC<{items: LessonResource[]; progress: any}> = ({
-  items,
-  progress,
-}) => {
+const Lessons: React.FC<
+  React.PropsWithChildren<{items: LessonResource[]; progress: any}>
+> = ({items, progress}) => {
   const {completedLessons} = progress
 
   function isLessonCompleted(slug: string) {

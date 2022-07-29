@@ -4,7 +4,9 @@ import cx from 'classnames'
 import {useVideo} from '../../context/video-context'
 import {selectFormattedTime} from '../../selectors'
 
-export const CurrentTimeDisplay: React.FC<any> = ({className}) => {
+export const CurrentTimeDisplay: React.FC<React.PropsWithChildren<any>> = ({
+  className,
+}) => {
   const videoService = useVideo()
   const formattedTime = useSelector(videoService, selectFormattedTime)
 

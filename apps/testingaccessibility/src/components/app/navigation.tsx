@@ -29,7 +29,7 @@ const Navigation = () => {
   )
 }
 
-const DesktopNav: React.FC = () => {
+const DesktopNav: React.FC<React.PropsWithChildren<unknown>> = () => {
   const {isSignedIn, canViewTeam} = useNavState()
   const {userLoadingStatus} = useUser()
   const {setIsFeedbackDialogOpen} = useFeedback()
@@ -64,7 +64,7 @@ const DesktopNav: React.FC = () => {
   )
 }
 
-const MobileNav: React.FC = () => {
+const MobileNav: React.FC<React.PropsWithChildren<unknown>> = () => {
   const {isSignedIn, canViewTeam, canViewInvoice} = useNavState()
   const {userLoadingStatus} = useUser()
   return (
@@ -176,7 +176,7 @@ const MobileNav: React.FC = () => {
   )
 }
 
-const NavSlots: React.FC = ({children}) => {
+const NavSlots: React.FC<React.PropsWithChildren<unknown>> = ({children}) => {
   return <div className="flex items-center">{children}</div>
 }
 
@@ -185,7 +185,7 @@ type NavLinkProps = React.PropsWithChildren<{
   onClick?: () => void
 }>
 
-const NavLink: React.FC<NavLinkProps> = ({
+const NavLink: React.FC<React.PropsWithChildren<NavLinkProps>> = ({
   href,
   children,
   onClick,
@@ -293,7 +293,7 @@ const SignOutButton = React.forwardRef<HTMLButtonElement, MenuLinkProps>(
   },
 )
 
-const AccountMenu: React.FC = () => {
+const AccountMenu: React.FC<React.PropsWithChildren<unknown>> = () => {
   const {canViewInvoice} = useNavState()
   return (
     <Menu as="div" className="relative inline-block text-left z-10 h-full">

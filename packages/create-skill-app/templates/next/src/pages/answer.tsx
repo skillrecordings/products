@@ -4,7 +4,9 @@ import {QuestionSet} from '@skillrecordings/types'
 import getConfig from '@skillrecordings/quiz/dist/config'
 import Layout from 'components/layout'
 
-const Answer: React.FC<{questionSet: QuestionSet}> = ({questionSet}) => {
+const Answer: React.FC<React.PropsWithChildren<{questionSet: QuestionSet}>> = ({
+  questionSet,
+}) => {
   return (
     <Layout noIndex meta={{title: 'Quiz'}}>
       <header className="flex items-center justify-center w-full sm:pt-16 sm:pb-0 pt-5 pb-5">

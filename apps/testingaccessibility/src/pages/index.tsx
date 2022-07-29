@@ -27,7 +27,7 @@ export const getServerSideProps: GetServerSideProps = async ({
   return await propsForCommerce({req, query})
 }
 
-const Home: React.FC<CommerceProps> = ({
+const Home: React.FC<React.PropsWithChildren<CommerceProps>> = ({
   couponFromCode,
   purchases = [],
   userId,

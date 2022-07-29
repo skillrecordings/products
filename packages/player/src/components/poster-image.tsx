@@ -9,7 +9,9 @@ type PosterImageType = {
   className?: string
 }
 
-export const PosterImage: React.FC<PosterImageType> = ({poster, className}) => {
+export const PosterImage: React.FC<
+  React.PropsWithChildren<PosterImageType>
+> = ({poster, className}) => {
   const videoService = useVideo()
   const hasStarted = useSelector(videoService, selectHasStarted)
   const paused = useSelector(videoService, selectIsPaused)

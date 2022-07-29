@@ -4,7 +4,9 @@ const primary500 = '#FF74A1'
 const primary300 = '#FFD1E0'
 const primary100 = '#FFF4F8'
 
-const Logo: React.FC<{className?: string}> = ({className = ''}) => {
+const Logo: React.FC<React.PropsWithChildren<{className?: string}>> = ({
+  className = '',
+}) => {
   return (
     <svg
       className={className}
@@ -121,7 +123,9 @@ const Logo: React.FC<{className?: string}> = ({className = ''}) => {
   )
 }
 
-const Grid1: React.FC<{className?: string}> = ({className = ''}) => {
+const Grid1: React.FC<React.PropsWithChildren<{className?: string}>> = ({
+  className = '',
+}) => {
   return (
     <svg
       className={className}
@@ -141,7 +145,9 @@ const Grid1: React.FC<{className?: string}> = ({className = ''}) => {
   )
 }
 
-const ThumbsUp: React.FC<{className?: string}> = ({className = ''}) => {
+const ThumbsUp: React.FC<React.PropsWithChildren<{className?: string}>> = ({
+  className = '',
+}) => {
   return (
     <svg
       className={className}
@@ -403,7 +409,9 @@ const ThumbsUp: React.FC<{className?: string}> = ({className = ''}) => {
   )
 }
 
-const Signature: React.FC<{className?: string}> = ({className = ''}) => {
+const Signature: React.FC<React.PropsWithChildren<{className?: string}>> = ({
+  className = '',
+}) => {
   return (
     <svg
       className={className}
@@ -484,7 +492,9 @@ const Signature: React.FC<{className?: string}> = ({className = ''}) => {
   )
 }
 
-const Confirm: React.FC<{className?: string}> = ({className = ''}) => {
+const Confirm: React.FC<React.PropsWithChildren<{className?: string}>> = ({
+  className = '',
+}) => {
   return (
     <svg
       className={className}
@@ -539,7 +549,9 @@ const Confirm: React.FC<{className?: string}> = ({className = ''}) => {
     </svg>
   )
 }
-const Confirmed: React.FC<{className?: string}> = ({className = ''}) => {
+const Confirmed: React.FC<React.PropsWithChildren<{className?: string}>> = ({
+  className = '',
+}) => {
   return (
     <svg
       className={className}

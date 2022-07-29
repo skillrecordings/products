@@ -24,7 +24,7 @@ type ListboxProps = {
   title?: string
 }
 
-export const ListboxButton: React.FC<ListboxProps> = ({
+export const ListboxButton: React.FC<React.PropsWithChildren<ListboxProps>> = ({
   items,
   selectedItem,
   className,

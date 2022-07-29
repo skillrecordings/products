@@ -9,7 +9,9 @@ import {
 } from '@skillrecordings/react'
 import {toast} from 'react-hot-toast'
 
-const Share: React.FC<{link: string; message: string}> = ({link, message}) => {
+const Share: React.FC<
+  React.PropsWithChildren<{link: string; message: string}>
+> = ({link, message}) => {
   return (
     <div className="flex">
       <Twitter link={link} message={message} />

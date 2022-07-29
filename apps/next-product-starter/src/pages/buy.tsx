@@ -27,7 +27,9 @@ type BuyProps = {
   bundles: SellableResource[]
 }
 
-const Buy: FunctionComponent<BuyProps> = ({bundles}) => {
+const Buy: FunctionComponent<React.PropsWithChildren<BuyProps>> = ({
+  bundles,
+}) => {
   const sellable = bundles[0]
   return (
     <Layout meta={{title: `Buy ${config.defaultTitle}`}}>

@@ -5,13 +5,15 @@ import Link from 'next/link'
 import pluralize from 'pluralize'
 import Spinner from '@skillrecordings/react/dist/components/spinner'
 
-const CallToAction: React.FC<{
-  viewer: Viewer
-  nextLesson: any
-  currentModule: any
-  firstLesson: any
-  progress: any
-}> = ({viewer, firstLesson, nextLesson, progress, currentModule}) => {
+const CallToAction: React.FC<
+  React.PropsWithChildren<{
+    viewer: Viewer
+    nextLesson: any
+    currentModule: any
+    firstLesson: any
+    progress: any
+  }>
+> = ({viewer, firstLesson, nextLesson, progress, currentModule}) => {
   const {completedLessonsCount, totalLessons} = progress
   const leftToWatch = totalLessons - completedLessonsCount
   const greeting = isEmpty(viewer?.name)

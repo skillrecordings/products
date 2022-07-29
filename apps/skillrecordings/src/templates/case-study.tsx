@@ -6,10 +6,9 @@ import {Twitter, Facebook, Reddit, LinkedIn} from 'components/share'
 import {useRouter} from 'next/router'
 import config from 'config'
 
-const CaseStudyTemplate: React.FC<CaseStudyTemplateProps> = ({
-  children,
-  meta,
-}) => {
+const CaseStudyTemplate: React.FC<
+  React.PropsWithChildren<CaseStudyTemplateProps>
+> = ({children, meta}) => {
   const {title, published, image, client} = meta
   const router = useRouter()
   const shareUrl = `https://${config.siteUrl}${router.pathname}`

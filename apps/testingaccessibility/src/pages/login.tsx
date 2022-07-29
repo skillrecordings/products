@@ -9,7 +9,9 @@ import toast from 'react-hot-toast'
 import {setupHttpTracing} from '@vercel/tracing-js'
 import {tracer} from '../utils/honeycomb-tracer'
 
-const Login: React.FC<{csrfToken: string}> = ({csrfToken}) => {
+const Login: React.FC<React.PropsWithChildren<{csrfToken: string}>> = ({
+  csrfToken,
+}) => {
   const {
     register,
     formState: {errors},

@@ -4,7 +4,7 @@ import Layout from 'components/app/layout'
 import ContactForm from '../components/contact/contact-form'
 import {getOgImage} from 'utils/get-og-image'
 
-const ContactFormPage: React.FC = () => {
+const ContactFormPage: React.FC<React.PropsWithChildren<unknown>> = () => {
   const ogImage = getOgImage('Contact')
   return (
     <Layout

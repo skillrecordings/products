@@ -70,7 +70,7 @@ const useShortcutState = () => {
  * @param enableGlobalShortcuts
  * @constructor
  */
-export const Shortcut: React.FC<ShortcutProps> = ({
+export const Shortcut: React.FC<React.PropsWithChildren<ShortcutProps>> = ({
   clickable = true,
   dblclickable = true,
   canAddNotes = false,

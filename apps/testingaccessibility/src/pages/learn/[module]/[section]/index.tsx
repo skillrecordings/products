@@ -136,7 +136,7 @@ type SectionPageProps = {
   modules: SanityDocument[]
 }
 
-const SectionPage: React.FC<SectionPageProps> = ({
+const SectionPage: React.FC<React.PropsWithChildren<SectionPageProps>> = ({
   module,
   section,
   modules,

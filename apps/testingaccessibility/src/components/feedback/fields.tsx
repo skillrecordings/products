@@ -10,7 +10,7 @@ import Link from '@tiptap/extension-link'
 import cx from 'classnames'
 import {getEmoji} from '@skillrecordings/skill-api/dist/client'
 
-export const FeedbackField: React.FC<any> = ({
+export const FeedbackField: React.FC<React.PropsWithChildren<any>> = ({
   label = 'Your feedback',
   errors,
   touched,
@@ -82,7 +82,7 @@ export const FeedbackField: React.FC<any> = ({
   )
 }
 
-export const EmotionField: React.FC<any> = (props) => {
+export const EmotionField: React.FC<React.PropsWithChildren<any>> = (props) => {
   const [field] = useField({name: props.name})
   return (
     <div>
@@ -143,7 +143,9 @@ export const EmotionField: React.FC<any> = (props) => {
   )
 }
 
-export const CategoryField: React.FC<any> = (props) => {
+export const CategoryField: React.FC<React.PropsWithChildren<any>> = (
+  props,
+) => {
   const [field] = useField({name: props.name})
   return (
     <div>

@@ -6,10 +6,12 @@ import Spinner from 'components/spinner'
 import isEmpty from 'lodash/isEmpty'
 import {useUser} from '../../hooks/use-user'
 
-const ContactEmailField: React.FC<{
-  errors: FormikErrors<FeedbackFormValues>
-  touched: FormikTouched<FeedbackFormValues>
-}> = ({errors, touched}) => {
+const ContactEmailField: React.FC<
+  React.PropsWithChildren<{
+    errors: FormikErrors<FeedbackFormValues>
+    touched: FormikTouched<FeedbackFormValues>
+  }>
+> = ({errors, touched}) => {
   const {user, userLoadingStatus} = useUser()
   const [field] = useField({
     name: 'email',
