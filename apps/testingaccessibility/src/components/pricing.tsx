@@ -51,7 +51,7 @@ export const Pricing: React.FC<PricingProps> = ({
   const [quantity, setQuantity] = React.useState(1)
   const debouncedQuantity: number = useDebounce<number>(quantity, 250)
   const {productId, name, image, modules, features, action} = product
-  const {addPrice, isDowngrade} = usePriceCheck()
+  const {addPrice, isDowngrade, isDiscount} = usePriceCheck()
 
   const {data: formattedPrice, status} = useQuery<FormattedPrice>(
     ['pricing', merchantCoupon, debouncedQuantity, productId, userId, couponId],
@@ -83,9 +83,13 @@ export const Pricing: React.FC<PricingProps> = ({
   const fullPrice =
     (formattedPrice?.unitPrice || 0) * (formattedPrice?.quantity || 0)
 
-  const percentOff =
-    appliedMerchantCoupon &&
-    Math.floor(appliedMerchantCoupon.percentageDiscount * 100)
+  const percentOff = appliedMerchantCoupon
+    ? Math.floor(appliedMerchantCoupon.percentageDiscount * 100)
+    : formattedPrice && isDiscount(formattedPrice)
+    ? Math.floor(
+        (formattedPrice.calculatedPrice / formattedPrice.unitPrice) * 100,
+      )
+    : 0
 
   const percentOffLabel =
     appliedMerchantCoupon && `${percentOff}% off of $${fullPrice}`
@@ -114,7 +118,7 @@ export const Pricing: React.FC<PricingProps> = ({
         />
       </div>
       <article className="bg-white rounded-md flex flex-col items-center justify-center">
-        {appliedMerchantCoupon && (
+        {Boolean(appliedMerchantCoupon || isDiscount(formattedPrice)) && (
           <Ribbon appliedMerchantCoupon={appliedMerchantCoupon} />
         )}
         <div className={cx('pt-24 flex flex-col items-center')}>
@@ -140,7 +144,9 @@ export const Pricing: React.FC<PricingProps> = ({
                 </sup>
                 <div aria-live="polite" className="flex">
                   {'$' + formattedPrice?.calculatedPrice}
-                  {appliedMerchantCoupon && (
+                  {Boolean(
+                    appliedMerchantCoupon || isDiscount(formattedPrice),
+                  ) && (
                     <>
                       <div
                         aria-hidden="true"
@@ -154,7 +160,7 @@ export const Pricing: React.FC<PricingProps> = ({
                         </div>
                       </div>
                       <div className="sr-only">
-                        {appliedMerchantCoupon.type === 'bulk' ? (
+                        {appliedMerchantCoupon?.type === 'bulk' ? (
                           <div className="font-medium">Team discount.</div>
                         ) : null}{' '}
                         {percentOffLabel}
@@ -381,11 +387,9 @@ const Ribbon: React.FC<RibbonProps> = ({appliedMerchantCoupon}) => {
       <div className="absolute top-0 left-0 h-3 w-3 bg-amber-500"></div>
       <div className="absolute bottom-0 right-0 h-3 w-3 bg-amber-500"></div>
       <div className="absolute bottom-0 right-0 h-6 w-[141.42%] origin-bottom-right rotate-45 bg-amber-300">
-        {appliedMerchantCoupon && (
-          <div className="flex flex-col items-center py-1 text-xs font-bold uppercase">
-            {getCouponLabel(appliedMerchantCoupon.type)}
-          </div>
-        )}
+        <div className="flex flex-col items-center py-1 text-xs font-bold uppercase">
+          {getCouponLabel(appliedMerchantCoupon?.type)}
+        </div>
       </div>
     </div>
   )
