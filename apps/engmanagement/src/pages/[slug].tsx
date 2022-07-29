@@ -116,7 +116,9 @@ const Article = ({
       >
         <MDXRemote
           {...source}
-          components={{Example: TheValueOfValuesExample}}
+          components={{
+            Example: TheValueOfValuesExample as any,
+          }}
         />
         {!authorized && (
           <div className="absolute bottom-0 h-96 bg-gradient-to-b from-transparent to-[#111725] w-full" />
