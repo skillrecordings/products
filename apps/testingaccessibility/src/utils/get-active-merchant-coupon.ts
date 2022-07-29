@@ -1,5 +1,5 @@
-import {getSdk} from '../lib/prisma-api'
-import {defaultContext} from '../lib/context'
+import {getSdk} from '@skillrecordings/skill-api'
+import {defaultContext} from '@skillrecordings/skill-api'
 import {SpanContext} from '@vercel/tracing-js'
 import {couponIsValid} from './coupon-is-valid'
 

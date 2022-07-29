@@ -198,7 +198,6 @@
     "graphql": "^16.5.0",
     "husky": "^7.0.4",
     "jest": "^27.5.1",
-    "jest-mock-extended": "^2.0.4",
     "lint-staged": "^11.2.6",
     "next-compose-plugins": "^2.2.1",
     "next-images": "^1.8.4",

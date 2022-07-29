@@ -3,7 +3,7 @@ import {prisma} from '@skillrecordings/database'
 import {serialize} from 'utils/prisma-next-serializer'
 import {withSentry} from '@sentry/nextjs'
 import {setupHttpTracing} from '@vercel/tracing-js'
-import {tracer} from 'utils/honeycomb-tracer'
+import {tracer} from '@skillrecordings/skill-api'
 import {getToken} from 'next-auth/jwt'
 
 const getProgress = async (req: NextApiRequest, res: NextApiResponse) => {

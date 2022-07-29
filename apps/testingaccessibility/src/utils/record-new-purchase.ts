@@ -3,7 +3,7 @@ import {Stripe} from 'stripe'
 import {first} from 'lodash'
 import {prisma} from '@skillrecordings/database'
 import * as Sentry from '@sentry/nextjs'
-import {getSdk} from '../lib/prisma-api'
+import {getSdk} from '@skillrecordings/skill-api'
 import {Purchase} from '@skillrecordings/database'
 
 export class PurchaseError extends Error {

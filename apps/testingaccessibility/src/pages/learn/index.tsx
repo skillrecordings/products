@@ -22,7 +22,7 @@ import cx from 'classnames'
 import groq from 'groq'
 import {Purchase} from '@skillrecordings/database'
 import {setupHttpTracing} from '@vercel/tracing-js'
-import {tracer} from '../../utils/honeycomb-tracer'
+import {tracer} from '@skillrecordings/skill-api'
 
 const CERTIFICATE_ENABLED = process.env.NEXT_PUBLIC_CERTIFICATE_ENABLED
 

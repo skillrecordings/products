@@ -2,11 +2,8 @@ import {Context, defaultContext} from './context'
 import {v4} from 'uuid'
 import {SpanContext} from '@vercel/tracing-js'
 import {tracer} from '../utils/honeycomb-tracer'
-import {PurchaseStatus} from '../utils/purchase-status'
 import {Prisma, Purchase, User} from '@skillrecordings/database'
-import * as Sentry from '@sentry/nextjs'
-import {postFeedbackToSlack} from '@skillrecordings/skill-api'
-import {FeedbackContext} from '../context/feedback-context'
+import {PurchaseStatus} from '../../enums'
 
 type SDKOptions = {ctx?: Context; spanContext?: SpanContext}
 
@@ -225,32 +222,12 @@ export function getSdk(
       })
 
       if (!merchantCustomer) {
-        Sentry.addBreadcrumb({
-          category: 'commerce',
-          level: Sentry.Severity.Info,
-          message: `adding a merchant customer to the database for user ${user.email}`,
-        })
         merchantCustomer = await ctx.prisma.merchantCustomer.create({
           data: {
             userId: user.id,
             identifier,
             merchantAccountId,
           },
-        })
-      }
-
-      const merchantCustomersForUser =
-        await ctx.prisma.merchantCustomer.findMany({
-          where: {
-            user,
-          },
-        })
-
-      if (merchantCustomersForUser.length > 1) {
-        Sentry.addBreadcrumb({
-          category: 'commerce',
-          level: Sentry.Severity.Warning,
-          message: `user [${user.email}] has multiple stripe customers`,
         })
       }
 

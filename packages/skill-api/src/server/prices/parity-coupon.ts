@@ -1,4 +1,4 @@
-import ppp from '../data/ppp.json'
+import ppp from './data/ppp.json'
 
 const DISCOUNT_UPPER_BOUND = 0.75
 const DISCOUNT_LOWER_BOUND = 0.4

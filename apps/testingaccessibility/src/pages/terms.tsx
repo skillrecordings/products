@@ -1,6 +1,6 @@
 import {GetServerSideProps} from 'next'
 import {setupHttpTracing} from '@vercel/tracing-js'
-import {tracer} from '../utils/honeycomb-tracer'
+import {tracer} from '@skillrecordings/skill-api'
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const {res, req} = context

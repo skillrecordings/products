@@ -7,11 +7,11 @@ import {recordNewPurchase} from '../../../utils/record-new-purchase'
 import {withSentry} from '@sentry/nextjs'
 import * as Sentry from '@sentry/nextjs'
 import {setupHttpTracing} from '@vercel/tracing-js'
-import {tracer} from '../../../utils/honeycomb-tracer'
+import {tracer} from '@skillrecordings/skill-api'
 import {tagPurchaseConvertkit} from '../../../server/tag-purchase-convertkit'
 import {updatePurchaseStatusForCharge} from '../../../lib/purchases'
 import {postSaleToSlack} from '../../../server/post-to-slack'
-import {PurchaseStatus} from '../../../utils/purchase-status'
+import {PurchaseStatus} from '@skillrecordings/skill-api'
 import {prisma} from '@skillrecordings/database'
 
 const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET

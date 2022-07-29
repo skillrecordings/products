@@ -2,12 +2,12 @@ import type {NextApiRequest, NextApiResponse} from 'next'
 import {withSentry} from '@sentry/nextjs'
 import * as Sentry from '@sentry/nextjs'
 
-import {formatPricesForProduct} from '../../utils/format-prices-for-product'
-import {getSdk} from '../../lib/prisma-api'
+import {formatPricesForProduct} from '@skillrecordings/skill-api'
+import {getSdk} from '@skillrecordings/skill-api'
 import {setupHttpTracing} from '@vercel/tracing-js'
-import {tracer} from '../../utils/honeycomb-tracer'
+import {tracer} from '@skillrecordings/skill-api'
 import {find} from 'lodash'
-import {defaultContext} from '../../lib/context'
+import {defaultContext} from '@skillrecordings/skill-api'
 import {getActiveMerchantCoupon} from '../../utils/get-active-merchant-coupon'
 
 const pricesHandler = async (req: NextApiRequest, res: NextApiResponse) => {
