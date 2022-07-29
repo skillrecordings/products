@@ -1,142 +1,68 @@
-:root {
-  --reach-listbox: 1;
+.cueplayer-react-listbox > button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+  padding: 1px 10px 2px;
+  user-select: none;
+  @extend .cueplayer-react-control;
+  @extend .cueplayer-react-button;
+  @extend .cueplayer-react-menu-button;
 }
 
-.cueplayer-react .cueplayer-react-listbox {
-  position: relative;
+[data-radix-popper-content-wrapper] {
+  overflow: hidden;
+  border: solid 1px hsla(0, 255%, 255%, 0.25);
+  @include border-radius(0.4em);
+  @include box-shadow(
+    0 0.5em 1em -0.5em $cueplayer-react-primary-background-color
+  );
+  @include background-color-with-alpha(
+    $cueplayer-react-primary-background-color,
+    1
+  );
+}
 
-  [data-reach-listbox-popover] {
-    display: block;
-    position: absolute;
-    min-width: -moz-fit-content;
-    min-width: -webkit-min-content;
-    min-width: min-content;
-    padding: 0.25rem 0;
-    outline: none;
-    border: solid 1px hsla(0, 255%, 255%, 0.25);
-    bottom: 2rem;
-    z-index: 10;
-    @include border-radius(0.4em);
-    @include box-shadow(0 0 1em $cueplayer-react-primary-background-color);
-    @include background-color-with-alpha(
-      $cueplayer-react-primary-background-color,
-      1
-    );
+.cueplayer-react-listbox {
+  z-index: 50;
+
+  [data-cueplayer-react-listbox] {
+    z-index: 50;
+    position: relative;
   }
 
-  [data-reach-listbox-popover]:focus-within {
-    outline: $cueplayer-react-secondary-background-color solid 2px;
-  }
-
-  [data-reach-listbox-popover][hidden] {
-    display: none;
-  }
-
-  [data-reach-listbox-list] {
-    margin: 0;
-    padding: 0;
-    list-style: none;
-  }
-
-  [data-reach-listbox-list]:focus {
-    box-shadow: none;
-    outline: none;
-  }
-
-  [data-reach-listbox-option] {
-    display: block;
-    margin: 0;
-    padding: 0.25rem 0.5rem;
-    white-space: nowrap;
-    user-select: none;
-  }
-
-  [data-reach-listbox-option][data-current-nav] {
-    color: $cueplayer-react-primary-foreground-color;
-    @include background-color-with-alpha(
-      $cueplayer-react-tertiary-foreground-color,
-      0.3
-    );
-  }
-
-  [data-reach-listbox-option][data-current-selected] {
-    font-weight: bold;
-    @include background-color-with-alpha(
-      $cueplayer-react-tertiary-foreground-color,
-      0.8
-    );
-  }
-
-  [data-reach-listbox-option][data-current-nav][data-current-selected] {
-    color: $cueplayer-react-primary-foreground-color;
-    font-weight: bold;
-    @include background-color-with-alpha(
-      $cueplayer-react-tertiary-foreground-color,
-      1
-    );
-  }
-
-  [data-reach-listbox-option][data-current-selected][data-confirming] {
-    animation: flash 100ms;
-    animation-iteration-count: 1;
-  }
-
-  [data-reach-listbox-option][aria-disabled='true'] {
-    opacity: 0.5;
-  }
-
-  [data-reach-listbox-button] {
-    display: inline-flex;
-    align-items: center;
-    justify-content: space-between;
+  [data-radix-collection-item] {
+    padding: 3px 8px;
+    color: white;
+    font-weight: normal;
     cursor: pointer;
-    padding: 1px 10px 2px;
-    user-select: none;
-    @extend .cueplayer-react-control;
-    @extend .cueplayer-react-button;
-    @extend .cueplayer-react-menu-button;
+    font-size: 0.75em;
   }
 
-  [data-reach-listbox-button][aria-disabled='true'] {
+  [data-radix-collection-item][data-state='checked'] {
+    font-weight: bold;
+    @include background-color-with-alpha(
+      $cueplayer-react-tertiary-foreground-color,
+      1
+    );
+  }
+
+  [data-radix-collection-item][data-disabled] {
     opacity: 0.5;
   }
 
-  [data-reach-listbox-arrow] {
-    margin-left: 0.5rem;
-    display: block;
-    font-size: 0.5em;
+  [data-radix-collection-item][data-highlighted] {
+    @include background-color-with-alpha(
+      $cueplayer-react-tertiary-foreground-color,
+      0.5
+    );
+    transition: all ease-in-out 150ms;
   }
 
-  [data-reach-listbox-group-label] {
-    display: block;
-    margin: 0;
-    padding: 0.25rem 0.5rem;
-    white-space: nowrap;
-    user-select: none;
-    font-weight: bolder;
-  }
-
-  @keyframes flash {
-    0% {
-      @include background-color-with-alpha(
-        $cueplayer-react-tertiary-foreground-color,
-        1
-      );
-      color: hsl(0, 0%, 100%);
-      opacity: 1;
-    }
-    50% {
-      opacity: 0.5;
-      background: inherit;
-      color: inherit;
-    }
-    100% {
-      @include background-color-with-alpha(
-        $cueplayer-react-tertiary-foreground-color,
-        1
-      );
-      color: hsl(0, 0%, 100%);
-      opacity: 1;
-    }
+  .cueplayer-react-listbox-label {
+    color: white;
+    padding: 3px 8px;
+    font-size: 0.75em;
+    opacity: 0.9;
   }
 }

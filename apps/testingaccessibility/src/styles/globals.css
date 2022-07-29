@@ -144,3 +144,13 @@
     display: none;
   }
 }
+
+.cueplayer-react-listbox {
+  [data-radix-collection-item][data-highlighted] {
+    @apply bg-green-600/60;
+  }
+
+  [data-radix-collection-item][data-state='checked'] {
+    @apply bg-green-600;
+  }
+}
