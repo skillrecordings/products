@@ -13,7 +13,7 @@ const Share: React.FC<{title: string}> = ({title}) => {
   const url = process.env.NEXT_PUBLIC_URL + router.asPath
   const className =
     'p-2 hover:bg-white/5 rounded-md transition scale-105 text-slate-300 hover:text-slate-50 hover:shadow-lg hover:shadow-slate-800 hover:border hover:border-slate-800 border border-slate-900'
-  const message = `${title} by @marcysutton`
+  const message = `${title} by @simonswiss`
 
   return (
     <div className="flex space-x-2">
