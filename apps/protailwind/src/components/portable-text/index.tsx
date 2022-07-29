@@ -221,7 +221,23 @@ const PortableTextComponents: PortableTextComponents = {
           />
         </div>
       ) : (
-        <hr />
+        <div className="pt-8">
+          <svg
+            className="text-amber-300 mx-auto"
+            role="presentation"
+            aria-hidden="true"
+            width="28"
+            height="28"
+            viewBox="0 0 28 28"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M14.0001 0.000167999C13.369 5.15074 13.1601 8.42196 11.9274 10.5329C9.91165 13.1568 6.41815 13.4073 0 14.0001C6.31427 14.7635 9.72775 14.9298 11.7491 17.3337C13.2595 19.4622 13.5144 22.7542 14 28C14.8236 21.1958 14.9527 17.7605 17.9354 15.8047C20.0562 14.7798 23.2215 14.5567 28 14C22.0752 13.2737 18.6385 13.1075 16.5923 11.2974C14.8608 9.23457 14.6771 5.80884 14.0001 0V0.000167999Z"
+              fill="currentColor"
+            />
+          </svg>
+        </div>
       )
     },
   },

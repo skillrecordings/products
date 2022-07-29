@@ -12,6 +12,11 @@ export default {
       validation: (Rule) => Rule.required(),
     },
     {
+      name: 'subtitle',
+      title: 'Subtitle',
+      type: 'string',
+    },
+    {
       name: 'slug',
       title: 'Slug',
       type: 'slug',
@@ -28,58 +33,45 @@ export default {
       initialValue: true,
     },
     {
-      title: 'Subscribers Only',
-      name: 'subscribersOnly',
-      type: 'boolean',
-      readOnly: true,
-      initialValue: false,
-    },
-    {
-      name: 'preview',
-      title: 'Preview',
-      type: 'body',
-      validation: (Rule) => Rule.required(),
-    },
-    {
       name: 'body',
-      title: 'Full Article',
+      title: 'Body',
       type: 'body',
       validation: (Rule) => Rule.required(),
     },
-    {
-      title: 'Call to Action',
-      name: 'cta',
-      type: 'object',
-      description: 'Displayed at the bottom of the article. Not required.',
-      fields: [
-        {
-          title: 'Text',
-          type: 'body',
-          name: 'body',
-        },
-        {
-          title: 'Form',
-          name: 'ckFormId',
-          type: 'string',
-          of: [{type: 'string'}],
-          options: {
-            list: [
-              {
-                title: 'Initial Landing Page: Pro Tailwind (3179174)',
-                value: '3179174',
-              },
-            ],
-            sortable: false,
-          },
-        },
-        {
-          title: 'Action Label',
-          name: 'actionLabel',
-          type: 'string',
-          initialValue: 'Learn Tailwind',
-        },
-      ],
-    },
+    // {
+    //   title: 'Call to Action',
+    //   name: 'cta',
+    //   type: 'object',
+    //   description: 'Displayed at the bottom of the article. Not required.',
+    //   fields: [
+    //     {
+    //       title: 'Text',
+    //       type: 'body',
+    //       name: 'body',
+    //     },
+    //     {
+    //       title: 'Form',
+    //       name: 'ckFormId',
+    //       type: 'string',
+    //       of: [{type: 'string'}],
+    //       options: {
+    //         list: [
+    //           {
+    //             title: 'Initial Landing Page: Pro Tailwind (3179174)',
+    //             value: '3179174',
+    //           },
+    //         ],
+    //         sortable: false,
+    //       },
+    //     },
+    //     {
+    //       title: 'Action Label',
+    //       name: 'actionLabel',
+    //       type: 'string',
+    //       initialValue: 'Learn Tailwind',
+    //     },
+    //   ],
+    // },
     {name: 'image', title: 'Image', type: 'externalImage'},
     {
       name: 'ogImage',
@@ -99,15 +91,12 @@ export default {
       type: 'date',
       validation: (Rule) => Rule.required(),
     },
-    // {
-    //   name: 'tags',
-    //   title: 'Tags',
-    //   type: 'array',
-    //   of: [{type: 'reference', to: [{type: 'tag'}]}],
-    //   options: {
-    //     layout: 'tags',
-    //   },
-    // },
+    {
+      name: 'related',
+      title: 'Related Resources',
+      type: 'array',
+      of: [{type: 'reference', to: [{type: 'article'}]}],
+    },
   ],
   preview: {
     select: {

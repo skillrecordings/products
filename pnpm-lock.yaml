@@ -1695,6 +1695,7 @@ importers:
       postcss: ^8.4.14
       react: 17.0.2
       react-dom: 17.0.2
+      react-hot-toast: ^2.2.0
       react-markdown: ^8.0.3
       react-query: ^3.39.1
       react-refractor: ^2.1.7
@@ -1740,6 +1741,7 @@ importers:
       next-sitemap: 3.1.7_6lynxinfr2uix4icggokqiwwie
       react: 17.0.2
       react-dom: 17.0.2_react@17.0.2
+      react-hot-toast: 2.2.0_sfoxds7t5ydpegc3knd667wn6m
       react-markdown: 8.0.3_hx2b44akkvgcgvvtmk7ds2qk6q
       react-query: 3.39.1_sfoxds7t5ydpegc3knd667wn6m
       refractor: 4.5.0

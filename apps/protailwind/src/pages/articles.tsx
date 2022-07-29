@@ -8,6 +8,7 @@ import {format} from 'date-fns'
 import {SanityDocument} from '@sanity/client'
 import {getAllArticles} from '../lib/articles'
 import {DividerStar} from 'pages'
+import {toPlainText} from '@portabletext/react'
 
 const meta = {
   title: 'Pro Tailwind Articles',
@@ -26,48 +27,56 @@ const Articles: React.FC<ArticlesProps> = ({articles}) => {
         </h1>
         <DividerStar />
       </header>
-      <main className="px-5 flex-grow">
-        <div className="pb-16 mx-auto max-w-screen-sm w-full">
-          <div className="grid grid-cols-1 divide-y divide-gray-800">
+      <main className="flex-grow">
+        <div className="pb-16 mx-auto max-w-screen-lg px-5 w-full">
+          <div className="grid grid-cols-2 gap-16 divide-gray-800">
             {isEmpty(articles) ? (
               <h3>Sorry, there are no articles yet</h3>
             ) : (
               articles.map(
-                ({title, slug, description, date}: SanityDocument) => {
+                ({
+                  title,
+                  slug,
+                  description,
+                  date,
+                  body,
+                  subtitle,
+                }: SanityDocument) => {
+                  const shortDescription =
+                    description || toPlainText(body).substring(0, 190) + '...'
                   return (
-                    <div key={slug} className="gap-5 py-8">
+                    <div key={slug} className="gap-5 p-8">
                       <div className="flex w-full sm:justify-between justify-left">
                         <div>
-                          <Link href={`/${slug}`} passHref>
-                            <a className="group block">
-                              <h2 className="group-hover:underline lg:text-4xl sm:text-xl text-2xl font-heading font-semibold">
-                                {title}
-                              </h2>
-                            </a>
-                          </Link>
-                          <time
+                          <h2 className="group-hover:underline lg:text-3xl sm:text-xl text-2xl font-heading font-semibold">
+                            <Link href={`/${slug}`} passHref>
+                              <a className="group block">{title}</a>
+                            </Link>
+                          </h2>
+                          <h3 className="text-xl pt-2 font-normal text-indigo-400 brightness-110">
+                            {subtitle}
+                          </h3>
+                          <p className="font-normal text-lg pt-4 text-slate-300">
+                            {shortDescription}
+                          </p>
+                          {/* <time
                             dateTime={date}
                             className="block pt-1 font-semibold pb-5 text-gray-500"
                           >
                             {format(new Date(date), 'dd MMMM, y')}
-                          </time>
+                          </time> */}
                           {description && (
                             <Markdown className="prose pt-3 pb-6">
                               {description}
                             </Markdown>
                           )}
+                          <Link href={`/${slug}`} passHref>
+                            <a className="inline-flex mt-4 px-4 py-2 bg-white/5 rounded-lg hover:bg-white/10 transition font-medium">
+                              Start reading
+                            </a>
+                          </Link>
                         </div>
                       </div>
-                      {/* {slug && (
-                        <Link href={`/${slug}`} passHref>
-                          <a
-                            className="text-lg hover:underline transition bg-moss-100 text-amber-300 font-semibold inline-flex"
-                            aria-label={`Read ${title}`}
-                          >
-                            Read
-                          </a>
-                        </Link>
-                      )} */}
                     </div>
                   )
                 },

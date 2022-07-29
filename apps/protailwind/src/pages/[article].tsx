@@ -7,42 +7,10 @@ import isEmpty from 'lodash/isEmpty'
 import find from 'lodash/find'
 import groq from 'groq'
 import {checkIfConvertkitSubscriber} from '@skillrecordings/convertkit'
+import {getArticle} from 'lib/articles'
 
-const previewArticleQuery = groq`*[_type == "article" && slug.current == $slug][0]{
-    title,
-    "slug": slug.current,
-    'body': preview,
-    subscribersOnly,
-    date,
-    description,
-    ogImage {
-      url,
-    },
-    cta {
-      body,
-      ckFormId,
-      actionLabel
-    }
-    }`
-const fullArticleQuery = groq`*[_type == "article" && slug.current == $slug][0]{
-  title,
-  "slug": slug.current,
-  body,
-  subscribersOnly,
-  date,
-  description,
-  ogImage{
-    url
-  },
-  cta {
-      body,
-      ckFormId,
-      actionLabel
-    }
-  }`
 const allArticlesQuery = groq`*[_type == "article"]{
   "slug": slug.current,
-  subscribersOnly
   }`
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
@@ -58,28 +26,19 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     })
 
   // if the article doesn't exist
-  if (isEmpty(find(allArticles, {slug: params?.article as string}))) {
+  if (
+    isEmpty(find(allArticles, {slug: params?.article as string})) ||
+    !currentArticle
+  ) {
     return {
       notFound: true,
     }
   }
 
-  if (currentArticle?.subscribersOnly && !hasSubscribed) {
-    // only get preview if for subscribers only AND viewer hasn't subscribed (no ckId cookie)
-    const data = await sanityClient.fetch(previewArticleQuery, {
-      slug: currentArticle?.slug,
-    })
-    return {
-      props: {article: data, hasSubscribed: false},
-    }
-  } else {
-    // otherwise get the full article
-    const data = await sanityClient.fetch(fullArticleQuery, {
-      slug: currentArticle?.slug,
-    })
-    return {
-      props: {article: data, hasSubscribed: true},
-    }
+  const article = await getArticle(currentArticle?.slug)
+
+  return {
+    props: {article},
   }
 }
 

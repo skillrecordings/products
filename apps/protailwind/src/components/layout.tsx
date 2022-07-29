@@ -1,5 +1,6 @@
 import React, {FunctionComponent} from 'react'
 import {NextSeo} from '@skillrecordings/react'
+import {Toaster} from 'react-hot-toast'
 import cx from 'classnames'
 import Navigation from 'components/navigation'
 
@@ -32,6 +33,7 @@ const Layout: FunctionComponent<LayoutProps> = ({
 
   return (
     <div className="relative">
+      <Toaster position="top-center" />
       <NextSeo
         title={title}
         description={description}

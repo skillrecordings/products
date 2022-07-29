@@ -11,3 +11,9 @@ body,
 #root {
   color-scheme: dark;
 }
+
+.no-marker {
+  ::-webkit-details-marker {
+    display: none;
+  }
+}

@@ -8,7 +8,6 @@ export default {
       type: 'url',
       title: 'Image URL',
     },
-
     {
       name: 'alt',
       type: 'string',
