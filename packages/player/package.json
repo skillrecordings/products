@@ -23,9 +23,9 @@
   "dependencies": {
     "@babel/core": "^7.16.5",
     "@emotion/react": "^11.5.0",
-    "@reach/listbox": "^0.16.2",
-    "@reach/slider": "^0.16.0",
-    "@reach/tabs": "^0.16.4",
+    "@radix-ui/react-dropdown-menu": "^1.0.0",
+    "@reach/slider": "^0.17.0",
+    "@reach/tabs": "^0.17.0",
     "@skillrecordings/react": "workspace:*",
     "@skillrecordings/time": "workspace:*",
     "@tippyjs/react": "^4.2.6",
@@ -34,7 +34,7 @@
     "js-cookie": "^3.0.1",
     "prism-react-renderer": "^1.2.1",
     "react-markdown": "^5.0.3",
-    "screenfull": "^5.2.0"
+    "screenfull": "5.2.0"
   },
   "devDependencies": {
     "@emotion/babel-plugin": "^11.3.0",
