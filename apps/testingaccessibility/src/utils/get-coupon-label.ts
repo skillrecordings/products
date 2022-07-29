@@ -9,6 +9,6 @@ export const getCouponLabel = (couponType: string) => {
     case 'bulk':
       return 'Team Discount'
     default:
-      return 'Discount'
+      return 'Upgrade'
   }
 }
