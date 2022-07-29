@@ -535,17 +535,17 @@ const getCalloutTitle = (type: string): string => {
 const getCalloutStyles = (type: string): string => {
   switch (type) {
     case 'tip':
-      return 'bg-blue-400 bg-opacity-30 text-blue-100'
+      return 'bg-blue-400/30 text-blue-100'
     case 'big-idea':
-      return 'bg-blue-100 text-cyan-900'
+      return 'bg-blue-400/70 text-cyan-900'
     case 'reflection':
-      return 'bg-orange-100 text-orange-800'
+      return 'bg-orange-400/70 text-orange-800'
     case 'caution':
-      return 'bg-pink-100 text-pink-900'
+      return 'bg-pink-400/70 text-pink-900'
     case 'link':
-      return 'bg-yellow-100 text-yellow-900'
+      return 'bg-yellow-400/80 text-yellow-900'
     default:
-      return 'bg-gray-100 text-gray-800'
+      return 'bg-gray-400/70 text-gray-800'
   }
 }
 const getCalloutImage = (type: string): {alt: string; src: string} => {
