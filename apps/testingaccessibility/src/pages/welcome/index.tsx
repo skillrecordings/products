@@ -14,6 +14,7 @@ import {getPurchaseDetails} from '../../lib/purchases'
 import {isString} from 'lodash'
 import {setupHttpTracing} from '@vercel/tracing-js'
 import {tracer} from '../../utils/honeycomb-tracer'
+import {getCurrentAbility} from '../../server/ability'
 
 export const getServerSideProps: GetServerSideProps = async ({
   res,
@@ -27,10 +28,7 @@ export const getServerSideProps: GetServerSideProps = async ({
     res,
   })
   const {purchaseId: purchaseQueryParam, session_id, upgrade} = query
-  const token = await getToken({
-    req,
-    secret: process.env.NEXTAUTH_SECRET,
-  })
+  const token = await getToken({req})
 
   let purchaseId = purchaseQueryParam
 

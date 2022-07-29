@@ -11,6 +11,8 @@ import {useSession} from 'next-auth/react'
 import {getPurchaseDetails} from '../../lib/purchases'
 import {setupHttpTracing} from '@vercel/tracing-js'
 import {tracer} from '../../utils/honeycomb-tracer'
+import {getCurrentAbility} from '../../server/ability'
+import {getToken} from 'next-auth/jwt'
 
 export const getServerSideProps: GetServerSideProps = async ({
   res,
@@ -23,9 +25,11 @@ export const getServerSideProps: GetServerSideProps = async ({
     req,
     res,
   })
-  const {purchases, token} = await getPurchasedProduct(req)
+  const token = await getToken({req})
+  const ability = getCurrentAbility(token as any)
 
-  if (purchases) {
+  if (ability.can('view', 'Team')) {
+    const {purchases} = await getPurchasedProduct(req)
     const purchaseId = get(
       find(purchases, (purchase: any) => !isNull(purchase.bulkCoupon)),
       'id',

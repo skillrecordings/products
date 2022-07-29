@@ -13,6 +13,8 @@ import format from 'date-fns/format'
 import {setupHttpTracing} from '@vercel/tracing-js'
 import {tracer} from '../../utils/honeycomb-tracer'
 import {prisma} from '@skillrecordings/database'
+import {getCurrentAbility} from '../../server/ability'
+import {getToken} from 'next-auth/jwt'
 
 export const getServerSideProps: GetServerSideProps = async ({
   res,
@@ -25,9 +27,11 @@ export const getServerSideProps: GetServerSideProps = async ({
     req,
     res,
   })
+  const sessionToken = await getToken({req})
   const {merchantChargeId} = query
   const {getProduct} = getSdk()
-  if (merchantChargeId) {
+  const ability = getCurrentAbility(sessionToken as any)
+  if (merchantChargeId && ability.can('view', 'Invoice')) {
     const merchantCharge = await prisma.merchantCharge.findUnique({
       where: {
         id: merchantChargeId as string,
