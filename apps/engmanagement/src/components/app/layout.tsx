@@ -12,14 +12,9 @@ type LayoutProps = {
   footer?: React.ReactElement | null
 }
 
-const Layout: FunctionComponent<React.PropsWithChildren<LayoutProps>> = ({
-  children,
-  className,
-  meta,
-  noIndex,
-  nav,
-  footer,
-}) => {
+const Layout: FunctionComponent<
+  React.PropsWithChildren<React.PropsWithChildren<LayoutProps>>
+> = ({children, className, meta, noIndex, nav, footer}) => {
   const {
     title = config.defaultTitle,
     description,

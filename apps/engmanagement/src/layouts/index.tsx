@@ -10,13 +10,9 @@ type LayoutProps = {
   hideNav?: boolean
 }
 
-const Layout: FunctionComponent<React.PropsWithChildren<LayoutProps>> = ({
-  children,
-  className,
-  meta,
-  noIndex,
-  hideNav = false,
-}) => {
+const Layout: FunctionComponent<
+  React.PropsWithChildren<React.PropsWithChildren<LayoutProps>>
+> = ({children, className, meta, noIndex, hideNav = false}) => {
   const {
     title,
     description,

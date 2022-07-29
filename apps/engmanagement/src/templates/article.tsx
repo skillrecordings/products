@@ -32,7 +32,9 @@ type AuthorProps = {
 }
 
 const ShareArticle: React.FC<
-  React.PropsWithChildren<{title: string; slug: string}>
+  React.PropsWithChildren<
+    React.PropsWithChildren<{title: string; slug: string}>
+  >
 > = ({children, title, slug}) => {
   return (
     <div className="flex items-center md:flex-row flex-col md:space-x-2 md:space-y-0 space-y-5">
@@ -58,11 +60,9 @@ const ShareArticle: React.FC<
   )
 }
 
-const Author: React.FC<React.PropsWithChildren<AuthorProps>> = ({
-  name,
-  image,
-  url,
-}) => {
+const Author: React.FC<
+  React.PropsWithChildren<React.PropsWithChildren<AuthorProps>>
+> = ({name, image, url}) => {
   return (
     <a href={url} target="_blank" rel="noopener noreferrer" className="group">
       <div className="relative z-10 flex items-center justify-center">
@@ -87,7 +87,7 @@ const Author: React.FC<React.PropsWithChildren<AuthorProps>> = ({
 }
 
 const ArticleTemplate: React.FC<
-  React.PropsWithChildren<ArticleTemplateProps>
+  React.PropsWithChildren<React.PropsWithChildren<ArticleTemplateProps>>
 > = ({meta, children, footer = true, subscribeForm = true}) => {
   const {title, image, published, description, images, background} = meta
   const author = meta.author || {

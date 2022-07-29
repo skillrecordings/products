@@ -168,7 +168,7 @@ const TheFutureOfRemoteWorkBackground = () => {
 }
 
 const TheValueOfValuesExample: React.FC<
-  React.PropsWithChildren<{number?: Number}>
+  React.PropsWithChildren<React.PropsWithChildren<{number?: Number}>>
 > = ({children, number}) => {
   const childrenArr: React.ReactNode[] = React.Children.toArray(children)
   const firstElement: React.ReactNode = childrenArr[0]

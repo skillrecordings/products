@@ -5,9 +5,9 @@ import {GetServerSideProps} from 'next'
 import Image from 'next/image'
 import Layout from 'components/app/layout'
 
-const Login: React.FC<React.PropsWithChildren<{csrfToken: string}>> = ({
-  csrfToken,
-}) => {
+const Login: React.FC<
+  React.PropsWithChildren<React.PropsWithChildren<{csrfToken: string}>>
+> = ({csrfToken}) => {
   const {
     register,
     formState: {errors},

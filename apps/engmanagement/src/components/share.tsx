@@ -125,10 +125,9 @@ const icons = {
 const style =
   'rounded-lg bg-gray-400 bg-opacity-10 hover:bg-opacity-20 transition-all ease-in-out duration-200 flex items-center justify-center p-3 m-1'
 
-const Twitter: React.FC<React.PropsWithChildren<ShareProps>> = ({
-  link,
-  message,
-}) => (
+const Twitter: React.FC<
+  React.PropsWithChildren<React.PropsWithChildren<ShareProps>>
+> = ({link, message}) => (
   <a
     href={links.twitter(link, message)}
     className={style}
@@ -140,7 +139,9 @@ const Twitter: React.FC<React.PropsWithChildren<ShareProps>> = ({
   </a>
 )
 
-const Facebook: React.FC<React.PropsWithChildren<ShareProps>> = ({link}) => (
+const Facebook: React.FC<
+  React.PropsWithChildren<React.PropsWithChildren<ShareProps>>
+> = ({link}) => (
   <a
     href={links.facebook(link)}
     className={style}
@@ -152,10 +153,9 @@ const Facebook: React.FC<React.PropsWithChildren<ShareProps>> = ({link}) => (
   </a>
 )
 
-const Reddit: React.FC<React.PropsWithChildren<ShareProps>> = ({
-  link,
-  message,
-}) => (
+const Reddit: React.FC<
+  React.PropsWithChildren<React.PropsWithChildren<ShareProps>>
+> = ({link, message}) => (
   <a
     href={links.reddit(link, message)}
     className={style}
@@ -167,9 +167,9 @@ const Reddit: React.FC<React.PropsWithChildren<ShareProps>> = ({
   </a>
 )
 
-const CopyToClipboard: React.FC<React.PropsWithChildren<ShareProps>> = ({
-  link,
-}) => {
+const CopyToClipboard: React.FC<
+  React.PropsWithChildren<React.PropsWithChildren<ShareProps>>
+> = ({link}) => {
   const [copied, copyToClipboard] = useClipboard(link, {
     successDuration: 700,
   })
@@ -191,7 +191,9 @@ const CopyToClipboard: React.FC<React.PropsWithChildren<ShareProps>> = ({
   )
 }
 
-const LinkedIn: React.FC<React.PropsWithChildren<ShareProps>> = ({link}) => (
+const LinkedIn: React.FC<
+  React.PropsWithChildren<React.PropsWithChildren<ShareProps>>
+> = ({link}) => (
   <a
     href={links.linkedin(link)}
     className={style}
@@ -203,10 +205,9 @@ const LinkedIn: React.FC<React.PropsWithChildren<ShareProps>> = ({link}) => (
   </a>
 )
 
-const Hacker: React.FC<React.PropsWithChildren<ShareProps>> = ({
-  link,
-  message,
-}) => (
+const Hacker: React.FC<
+  React.PropsWithChildren<React.PropsWithChildren<ShareProps>>
+> = ({link, message}) => (
   <a
     href={links.hacker(link, message)}
     className={style}
