@@ -1,7 +1,9 @@
 @tailwind base;
+@tailwind components;
 @import './subscribe-form.css';
 @import './quiz.css';
-@tailwind components;
+@import './prism.css';
+@import './focus-visible.css';
 @tailwind utilities;
 
 html,
@@ -10,18 +12,8 @@ body,
   color-scheme: dark;
 }
 
-/*
-  This will hide the focus indicator if the element receives focus via the mouse,
-  but it will still show up on keyboard focus.
-*/
-[data-js-focus-visible] :focus:not([data-focus-visible-added]) {
-  @apply outline-none;
-}
-
-/*
-  Define a strong focus indicator for keyboard focus. If you choose to skip this 
-  step then the browser's default focus indicator will be displayed instead.
-*/
-.js-focus-visible .focus-visible {
-  @apply outline-none ring-2 ring-amber-400;
+.no-marker {
+  ::-webkit-details-marker {
+    display: none;
+  }
 }

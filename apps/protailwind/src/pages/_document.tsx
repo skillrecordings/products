@@ -18,6 +18,12 @@ export default function Document() {
           href="/favicon-16x16.png"
         />
         <link rel="stylesheet" href="https://use.typekit.net/phg4qbq.css" />
+        <link
+          rel="alternate"
+          type="application/rss+xml"
+          title="RSS Feed for protailwind.com"
+          href="/rss.xml"
+        />
       </Head>
       <body className="text-white bg-slate-900">
         <Main />
