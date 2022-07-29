@@ -542,6 +542,8 @@ const getCalloutStyles = (type: string): string => {
       return 'bg-orange-400/70 text-orange-800'
     case 'caution':
       return 'bg-pink-400/70 text-pink-900'
+    case 'exercise':
+      return 'bg-green-400/80 text-yellow-900'
     case 'link':
       return 'bg-yellow-400/80 text-yellow-900'
     default:
