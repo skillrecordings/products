@@ -1,4 +1,5 @@
 import React from 'react'
+import * as THREE from 'three'
 import {sanityClient} from 'utils/sanity-client'
 import {SanityDocument} from '@sanity/client'
 import {GetServerSideProps} from 'next'
