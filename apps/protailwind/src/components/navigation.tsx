@@ -26,7 +26,7 @@ const DesktopNav = () => {
   )
 }
 
-const NavSlots: React.FC = ({children}) => {
+const NavSlots: React.FC<React.PropsWithChildren> = ({children}) => {
   return <div className="flex items-center">{children}</div>
 }
 
