@@ -43,7 +43,8 @@
     "preact": "^10.7.2",
     "preact-render-to-string": "^5.2.0",
     "sanitize-html": "^2.7.0",
-    "uuid": "^8.3.2"
+    "uuid": "^8.3.2",
+    "stripe": "^8.186.1"
   },
   "devDependencies": {
     "@babel/cli": "^7.16.0",

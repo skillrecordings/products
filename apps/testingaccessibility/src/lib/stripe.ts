@@ -1,4 +1,4 @@
-import {stripe} from '../utils/stripe'
+import {stripe} from '@skillrecordings/skill-api'
 import {Stripe} from 'stripe'
 
 export async function getCheckoutSession(

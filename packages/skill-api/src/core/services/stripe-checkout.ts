@@ -1,15 +1,10 @@
-import type {NextApiRequest, NextApiResponse} from 'next'
-import {stripe} from '../../../utils/stripe'
-import {add} from 'date-fns'
-import {getSdk} from '@skillrecordings/skill-api'
+import {OutgoingResponse} from '../index'
+import {SkillRecordingsHandlerParams} from '../types'
 import {prisma} from '@skillrecordings/database'
-import {withSentry} from '@sentry/nextjs'
-import * as Sentry from '@sentry/nextjs'
-import {setupHttpTracing} from '@vercel/tracing-js'
-import {tracer} from '@skillrecordings/skill-api'
 import {first} from 'lodash'
-import {getCalculatedPriced} from '@skillrecordings/skill-api'
-import {PurchaseStatus} from '@skillrecordings/skill-api'
+import {add} from 'date-fns'
+import {getCalculatedPriced, getSdk, stripe} from '../../server'
+import {PurchaseStatus} from '../../enums'
 
 export class CheckoutError extends Error {
   couponId?: string
@@ -23,25 +18,17 @@ export class CheckoutError extends Error {
   }
 }
 
-export const config = {
-  api: {
-    externalResolver: true,
-  },
-}
+export async function stripeCheckout({
+  params,
+}: {
+  params: SkillRecordingsHandlerParams
+}): Promise<OutgoingResponse> {
+  try {
+    const {req} = params
 
-export default withSentry(async function stripeCheckoutHandler(
-  req: NextApiRequest,
-  res: NextApiResponse,
-) {
-  setupHttpTracing({name: stripeCheckoutHandler.name, tracer, req, res})
-  if (req.method === 'POST') {
     const ip_address = req.headers['x-forwarded-for'] as string
 
     try {
-      Sentry.addBreadcrumb({
-        category: 'checkout',
-        level: Sentry.Severity.Info,
-      })
       const {getMerchantCoupon} = getSdk()
       const {
         productId,
@@ -207,7 +194,10 @@ export default withSentry(async function stripeCheckoutHandler(
       })
 
       if (session.url) {
-        res.redirect(303, session.url)
+        return {
+          redirect: session.url,
+          status: 303,
+        }
       } else {
         throw new CheckoutError(
           'no-stripe-session',
@@ -216,13 +206,15 @@ export default withSentry(async function stripeCheckoutHandler(
         )
       }
     } catch (err: any) {
-      Sentry.captureException(err)
-      res
-        .status(err.statusCode || 500)
-        .json({error: true, message: err.message})
+      return {
+        status: 500,
+        body: {error: true, message: err.message},
+      }
     }
-  } else {
-    res.setHeader('Allow', 'POST')
-    res.status(405).end('Method Not Allowed')
+  } catch (error: any) {
+    return {
+      status: 500,
+      body: {error: true, message: error.message},
+    }
   }
-})
+}

@@ -188,7 +188,7 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
           </div>
         ) : (
           <form
-            action={`/api/stripe/checkout?productId=${
+            action={`/api/skill/checkout/stripe?productId=${
               formattedPrice?.id
             }&couponId=${appliedMerchantCoupon?.id}&quantity=${quantity}${
               userId ? `&userId=${userId}` : ``

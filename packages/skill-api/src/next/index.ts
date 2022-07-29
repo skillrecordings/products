@@ -7,6 +7,8 @@ import {getDecodedToken} from '../client/get-decoded-token'
 import {SkillRecordingsHandler} from '../core'
 import type {NextApiRequest, NextApiResponse} from 'next'
 import {PrismaClient} from '@skillrecordings/database'
+import {setupHttpTracing} from '@vercel/tracing-js'
+import {tracer} from '../server'
 
 /** Extract the host from the environment */
 export function detectHost(forwardedHost: any) {
@@ -23,6 +25,13 @@ async function SkillRecordingsNextHandler(
 ) {
   const {skillRecordings, ...query} = req.query
   const token = await getDecodedToken({req})
+
+  setupHttpTracing({
+    name: `skill-api-${skillRecordings?.[0]}`,
+    tracer,
+    req,
+    res,
+  })
 
   const handler = await SkillRecordingsHandler({
     req: {
