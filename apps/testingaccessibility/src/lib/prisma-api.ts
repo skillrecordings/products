@@ -123,33 +123,35 @@ export function getSdk(
     async getPurchase(args: Prisma.PurchaseFindUniqueArgs) {
       return await ctx.prisma.purchase.findUnique(args)
     },
-    async getPurchasesForUser(userId: string) {
+    async getPurchasesForUser(userId?: string) {
       const span = startSpan('getPurchasesForUser', spanContext)
-      const purchases = await ctx.prisma.purchase.findMany({
-        where: {
-          userId,
-          status: PurchaseStatus.Valid,
-        },
-        select: {
-          id: true,
-          merchantChargeId: true,
-          productId: true,
-          createdAt: true,
-          totalAmount: true,
-          bulkCoupon: {
-            select: {
-              maxUses: true,
-              usedCount: true,
+      const purchases = userId
+        ? await ctx.prisma.purchase.findMany({
+            where: {
+              userId,
+              status: PurchaseStatus.Valid,
             },
-          },
-          product: {
             select: {
               id: true,
-              name: true,
+              merchantChargeId: true,
+              productId: true,
+              createdAt: true,
+              totalAmount: true,
+              bulkCoupon: {
+                select: {
+                  maxUses: true,
+                  usedCount: true,
+                },
+              },
+              product: {
+                select: {
+                  id: true,
+                  name: true,
+                },
+              },
             },
-          },
-        },
-      })
+          })
+        : []
 
       span.finish()
       return purchases

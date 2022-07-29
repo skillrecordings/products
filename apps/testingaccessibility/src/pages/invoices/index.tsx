@@ -9,16 +9,16 @@ import Layout from 'components/app/layout'
 import Link from 'next/link'
 import {getToken} from 'next-auth/jwt'
 import {Purchase} from '@skillrecordings/database'
+import {getCurrentAbility} from '../../server/ability'
 
 export const getServerSideProps: GetServerSideProps = async ({req}) => {
-  const sessionToken = await getToken({
-    req,
-    secret: process.env.NEXTAUTH_SECRET,
-  })
+  const sessionToken = await getToken({req})
   const {getPurchasesForUser} = getSdk()
 
-  if (sessionToken && sessionToken.sub) {
-    const purchases = await getPurchasesForUser(sessionToken.sub)
+  const ability = getCurrentAbility(sessionToken as any)
+
+  if (ability.can('view', 'Invoice')) {
+    const purchases = await getPurchasesForUser(sessionToken?.sub)
     return {
       props: {
         purchases: purchases.map(serialize),
@@ -26,7 +26,10 @@ export const getServerSideProps: GetServerSideProps = async ({req}) => {
     }
   }
   return {
-    props: {},
+    redirect: {
+      destination: '/',
+      permanent: false,
+    },
   }
 }
 
