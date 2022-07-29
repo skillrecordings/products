@@ -23,7 +23,7 @@ export const PlaybackRateMenuButtonControl: React.FC<
   const videoService = useVideo()
   const playbackRate = useSelector(videoService, selectPlaybackRate)
   const {
-    rates = [2, 1.5, 1.25, 1, 0.5, 0.25],
+    rates = [3, 2.5, 2, 1.5, 1.25, 1, 0.5, 0.25],
     selected = playbackRate,
     onChange,
   } = props
@@ -79,7 +79,7 @@ export const PlaybackRateMenuButtonControl: React.FC<
       >
         <span className="cueplayer-react-control-text">Playback Rate</span>
         <div className="cueplayer-react-playback-rate-value">
-          {`${playbackRate.toFixed(2)}x`}
+          {`${playbackRate.toFixed(2)}×`}
         </div>
       </ListboxButton>
     </div>

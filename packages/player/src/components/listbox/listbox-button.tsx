@@ -3,15 +3,7 @@ import cx from 'classnames'
 import indexOf from 'lodash/indexOf'
 import find from 'lodash/find'
 import flatten from 'lodash/flatten'
-import {
-  ListboxInput,
-  ListboxButton as ListboxButtonEl,
-  ListboxPopover,
-  ListboxList,
-  ListboxGroup,
-  ListboxOption,
-  ListboxGroupLabel,
-} from '@reach/listbox'
+import * as DropdownMenu from '@radix-ui/react-dropdown-menu'
 
 export type ListboxItem = {
   label?: string
@@ -49,41 +41,39 @@ export const ListboxButton: React.FC<React.PropsWithChildren<ListboxProps>> = ({
 
   return (
     <div className={cx('cueplayer-react-listbox')}>
-      <ListboxInput
-        value={selectedItem.value}
-        defaultValue={selectedItem.value}
-        onChange={(value) => handleChange(value)}
-      >
-        {({value}) => (
-          <>
-            <ListboxButtonEl
-              title={title}
-              data-value={value}
-              className={className}
-            >
-              {children}
-            </ListboxButtonEl>
-            <ListboxPopover portal={false}>
-              <ListboxList>
-                {items.map((group: any) => (
-                  <div key={group.label}>
-                    <ListboxGroupLabel>{group.label}</ListboxGroupLabel>
-                    {group.items.map((item: any) => (
-                      <ListboxOption
-                        aria-label={item.label}
-                        value={item.value}
-                        key={item.value}
-                      >
-                        {item.label}
-                      </ListboxOption>
-                    ))}
-                  </div>
+      <DropdownMenu.Root>
+        <DropdownMenu.Trigger>{children}</DropdownMenu.Trigger>
+        <DropdownMenu.Portal>
+          <DropdownMenu.Content
+            loop
+            data-cueplayer-react-listbox=""
+            side="top"
+            className="cueplayer-react-listbox"
+          >
+            {items.map((group: any) => (
+              <DropdownMenu.RadioGroup
+                value={selectedItem.value}
+                key={group.label}
+              >
+                <DropdownMenu.Label className="cueplayer-react-listbox-label">
+                  {group.label}
+                </DropdownMenu.Label>
+                {group.items.map((item: any) => (
+                  <DropdownMenu.RadioItem
+                    onSelect={() => handleChange(item.value)}
+                    aria-label={item.label}
+                    value={item.value}
+                    key={item.value}
+                    textValue={item.value}
+                  >
+                    {item.label}
+                  </DropdownMenu.RadioItem>
                 ))}
-              </ListboxList>
-            </ListboxPopover>
-          </>
-        )}
-      </ListboxInput>
+              </DropdownMenu.RadioGroup>
+            ))}
+          </DropdownMenu.Content>
+        </DropdownMenu.Portal>
+      </DropdownMenu.Root>
     </div>
   )
 }
