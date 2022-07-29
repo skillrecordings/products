@@ -1,9 +1,11 @@
-import type {NextPage} from 'next'
 import React from 'react'
+import type {NextPage} from 'next'
+import {useRouter} from 'next/router'
+import Image from 'next/image'
+import Layout from 'components/layout'
+import toast from 'react-hot-toast'
 import CityScene from 'components/scenes/city'
 import Simon from '../../public/assets/simon-vrachliotis.png'
-import Layout from 'components/layout'
-import Image from 'next/image'
 import SubscribeForm from 'components/subscribe-form'
 
 const questions = [
@@ -30,6 +32,17 @@ const questions = [
 ]
 
 const Home: NextPage = () => {
+  const router = useRouter()
+
+  React.useEffect(() => {
+    const {query} = router
+    if (query.message) {
+      toast(query.message as string, {
+        icon: '✅',
+      })
+    }
+  }, [router])
+
   return (
     <Layout meta={{titleAppendSiteName: false}} nav>
       <Header />
