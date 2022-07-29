@@ -382,6 +382,13 @@ const PortableTextComponents: PortableTextComponentsProps = {
     link: ({value, children}) => {
       return <ExternalLink value={value}>{children}</ExternalLink>
     },
+    code: ({children}) => {
+      return (
+        <span className="bg-gray-700 py-0.5 px-1 rounded-sm font-mono text-sm">
+          {children}
+        </span>
+      )
+    },
   },
   types: {
     bodyImage: ({value}: BodyImageProps) => <BodyImage value={value} />,
