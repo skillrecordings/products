@@ -21,15 +21,15 @@ type ArticlesProps = {
 const Articles: React.FC<ArticlesProps> = ({articles}) => {
   return (
     <Layout meta={meta} className="overflow-hidden" nav>
-      <header className="relative px-5 py-28 sm:pt-40 overflow-hidden text-white">
+      <header className="relative px-5 pt-28 sm:pb-16 pb-10 sm:pt-40 overflow-hidden text-white">
         <h1 className="max-w-screen-md font-heading font-bold mx-auto leading-none text-center text-4xl sm:text-5xl lg:text-6xl">
           {meta.title}
         </h1>
         <DividerStar />
       </header>
       <main className="flex-grow">
-        <div className="pb-16 mx-auto max-w-screen-lg px-5 w-full">
-          <div className="grid grid-cols-2 gap-16 divide-gray-800">
+        <div className="pb-16 mx-auto max-w-screen-lg w-full">
+          <div className="grid md:grid-cols-2 grid-cols-1 gap-10">
             {isEmpty(articles) ? (
               <h3>Sorry, there are no articles yet</h3>
             ) : (
@@ -41,6 +41,7 @@ const Articles: React.FC<ArticlesProps> = ({articles}) => {
                   date,
                   body,
                   subtitle,
+                  estimatedReadingTime,
                 }: SanityDocument) => {
                   const shortDescription =
                     description || toPlainText(body).substring(0, 190) + '...'
@@ -48,7 +49,7 @@ const Articles: React.FC<ArticlesProps> = ({articles}) => {
                     <div key={slug} className="gap-5 p-8">
                       <div className="flex w-full sm:justify-between justify-left">
                         <div>
-                          <h2 className="group-hover:underline lg:text-3xl sm:text-xl text-2xl font-heading font-semibold">
+                          <h2 className="underline decoration-slate-900 hover:decoration-indigo-500 transition lg:text-3xl sm:text-xl text-2xl font-heading font-semibold">
                             <Link href={`/${slug}`} passHref>
                               <a className="group block">{title}</a>
                             </Link>
@@ -70,11 +71,16 @@ const Articles: React.FC<ArticlesProps> = ({articles}) => {
                               {description}
                             </Markdown>
                           )}
-                          <Link href={`/${slug}`} passHref>
-                            <a className="inline-flex mt-4 px-4 py-2 bg-white/5 rounded-lg hover:bg-white/10 transition font-medium">
-                              Start reading
-                            </a>
-                          </Link>
+                          <div className="mt-6 flex space-x-5 items-center w-full">
+                            <Link href={`/${slug}`} passHref>
+                              <a className="inline-flex px-4 py-2 bg-white/5 rounded-lg hover:bg-white/10 transition font-medium text-lg">
+                                Start reading
+                              </a>
+                            </Link>
+                            <div className="text-slate-400 ">
+                              Time to read: {estimatedReadingTime}m
+                            </div>
+                          </div>
                         </div>
                       </div>
                     </div>

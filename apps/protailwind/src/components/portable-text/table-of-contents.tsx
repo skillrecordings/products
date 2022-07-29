@@ -63,7 +63,7 @@ const TableOfContents = ({value}: PortableTextProps) => {
         {props.outline.map((heading: any) => {
           const {subheadings} = heading
           return (
-            <li key={heading._key} className="text-lg">
+            <li key={heading._key} className="sm:text-xl text-lg">
               <Link href={'#' + heading.slug}>
                 <a className="hover:underline inline-flex sm:py-2 py-1 font-medium">
                   {getChildrenText(heading)}
@@ -96,7 +96,7 @@ const TableOfContents = ({value}: PortableTextProps) => {
   return (
     <details
       aria-label="On this page"
-      className="group marker:text-transparent no-marker font-medium sm:text-lg border-b border-slate-800 max-w-screen-md w-full mx-auto"
+      className="group marker:text-transparent no-marker font-medium sm:text-xl text-lg border-b border-slate-800 max-w-screen-md w-full mx-auto"
     >
       <summary className="hover:cursor-pointer hover:underline decoration-indigo-300 sm:py-5 py-3 flex items-center justify-between">
         <span className="text-indigo-300">On this page</span>

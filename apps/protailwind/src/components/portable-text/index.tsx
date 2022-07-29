@@ -189,7 +189,10 @@ const PortableTextComponents: PortableTextComponents = {
       const {body, type} = value
       return (
         <div
-          className={cx(`p-5 sm:my-8 my-4 rounded-md`, getCalloutStyles(type))}
+          className={cx(
+            `p-5 sm:my-8 my-4 rounded-md flex space-x-5`,
+            getCalloutStyles(type),
+          )}
         >
           <div>
             <span
@@ -199,7 +202,7 @@ const PortableTextComponents: PortableTextComponents = {
             >
               {getCalloutImage(type).src}
             </span>
-            <span className="pl-2 font-semibold">{getCalloutTitle(type)}</span>
+            {/* <span className="pl-2 font-semibold">{getCalloutTitle(type)}</span> */}
           </div>
           {/* <b className="font-bold">{getCalloutTitle(type)}</b> */}
           <div className="min-w-0 first-of-type:prose-p:mt-0 last-of-type:prose-p:mb-0">
@@ -221,9 +224,9 @@ const PortableTextComponents: PortableTextComponents = {
           />
         </div>
       ) : (
-        <div className="pt-8">
+        <div className="pt-20">
           <svg
-            className="text-amber-300 mx-auto"
+            className="mx-auto"
             role="presentation"
             aria-hidden="true"
             width="28"
@@ -234,7 +237,7 @@ const PortableTextComponents: PortableTextComponents = {
           >
             <path
               d="M14.0001 0.000167999C13.369 5.15074 13.1601 8.42196 11.9274 10.5329C9.91165 13.1568 6.41815 13.4073 0 14.0001C6.31427 14.7635 9.72775 14.9298 11.7491 17.3337C13.2595 19.4622 13.5144 22.7542 14 28C14.8236 21.1958 14.9527 17.7605 17.9354 15.8047C20.0562 14.7798 23.2215 14.5567 28 14C22.0752 13.2737 18.6385 13.1075 16.5923 11.2974C14.8608 9.23457 14.6771 5.80884 14.0001 0V0.000167999Z"
-              fill="currentColor"
+              fill="rgb(252, 211, 77)"
             />
           </svg>
         </div>
@@ -289,15 +292,15 @@ type CodeProps = {
 const getCalloutStyles = (type: string): string => {
   switch (type) {
     case 'tip':
-      return 'bg-moss-100 text-green-800'
+      return 'bg-slate-800'
     case 'big-idea':
-      return 'bg-blue-100 text-cyan-900'
+      return 'bg-slate-800'
     case 'reflection':
-      return 'bg-orange-100 text-orange-800'
+      return 'bg-slate-800'
     case 'caution':
-      return 'bg-pink-100 text-pink-900'
+      return 'bg-slate-800'
     default:
-      return 'bg-gray-100 text-gray-800'
+      return 'bg-slate-800'
   }
 }
 

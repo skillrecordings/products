@@ -11,7 +11,8 @@ export async function getAllArticles() {
     body,
     published,
     image,
-    date
+    date,
+    "estimatedReadingTime": round(length(pt::text(body)) / 5 / 180 )
 }`)
 }
 
@@ -25,16 +26,13 @@ export async function getArticle(slug: string) {
     date,
     description,
     related[]->{
-    ...
+      title,
+      subtitle,
+      'slug': slug.current
     },
     ogImage{
       url
     },
-    "numberOfCharacters": length(pt::text(body)),
-    // assumes 5 characters as mean word length
-    // https://ux.stackexchange.com/questions/22520/how-long-does-it-take-to-read-x-number-of-characters
-    "estimatedWordCount": round(length(pt::text(body)) / 5),
-    // Words per minute: 180
     "estimatedReadingTime": round(length(pt::text(body)) / 5 / 180 )
     }`,
     {
