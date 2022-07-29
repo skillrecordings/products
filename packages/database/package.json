@@ -14,14 +14,14 @@
     "db:push": "prisma db push",
     "dev": "tsup --watch",
     "format": "prisma format",
-    "generate": "prisma generate",
+    "generate": "DATABASE_URL=\"mysql://root@127.0.0.1:3306/turborepo\" prisma generate",
     "lint": "eslint ./src --fix",
     "prebuild": "pnpm run generate",
-    "predev": "pnpm run generate",
-    "studio": "prisma studio"
+    "validate": "DATABASE_URL=\"mysql://root@127.0.0.1:3306/turborepo\" npx prisma validate",
+    "predev": "pnpm run generate"
   },
   "dependencies": {
-    "@prisma/client": "^3.15.2"
+    "@prisma/client": "^4.1.1"
   },
   "devDependencies": {
     "@skillrecordings/tsconfig": "workspace:*",
@@ -29,7 +29,7 @@
     "eslint": "^8.12.0",
     "eslint-config-custom": "workspace:*",
     "i": "^0.3.7",
-    "prisma": "^3.15.2",
+    "prisma": "^4.1.1",
     "rimraf": "^3.0.2",
     "tsup": "^5.11.13",
     "tsx": "^3.7.1",
