@@ -97,12 +97,12 @@ export async function recordNewPurchase(checkoutSessionId: string): Promise<{
   Sentry.addBreadcrumb({
     category: 'commerce',
     level: Sentry.Severity.Info,
-    message: `recording a new purchase ${checkoutSessionId} ${email}`,
+    message: `recording a new purchase checkoutSession [${checkoutSessionId}] ${email} [${stripeCustomerId}]`,
   })
 
   if (!email) throw new PurchaseError(`no-email`, checkoutSessionId)
 
-  const {user} = await findOrCreateUser(email, name)
+  const {user, isNewUser} = await findOrCreateUser(email, name)
 
   const merchantProduct = await prisma.merchantProduct.findFirst({
     where: {
@@ -120,7 +120,7 @@ export async function recordNewPurchase(checkoutSessionId: string): Promise<{
   const {id: merchantProductId, productId, merchantAccountId} = merchantProduct
 
   const {id: merchantCustomerId} = await findOrCreateMerchantCustomer({
-    userId: user.id,
+    user: user,
     identifier: stripeCustomerId,
     merchantAccountId,
   })
