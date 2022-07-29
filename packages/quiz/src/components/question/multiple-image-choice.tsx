@@ -10,9 +10,11 @@ import {
   QuestionProps,
 } from './index'
 
-const MultipleImageChoice: React.FC<{
-  question: QuestionProps
-}> = ({question}) => {
+const MultipleImageChoice: React.FC<
+  React.PropsWithChildren<{
+    question: QuestionProps
+  }>
+> = ({question}) => {
   return (
     <Question {...question}>
       <QuestionHeader />

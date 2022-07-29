@@ -20,7 +20,7 @@ const FeedbackValidationSchema = Yup.object().shape({
 })
 
 export const FeedbackForm: React.FC<
-  React.PropsWithChildren<{location: string}>
+  React.PropsWithChildren<React.PropsWithChildren<{location: string}>>
 > = ({location}) => {
   const {initialValues, submitFeedbackForm, isSubmitted, error} =
     useFeedbackForm({location})
@@ -50,7 +50,9 @@ export const FeedbackForm: React.FC<
   )
 }
 
-export const ErrorMessage: React.FC = ({children}) => {
+export const ErrorMessage: React.FC<React.PropsWithChildren<unknown>> = ({
+  children,
+}) => {
   return (
     <div
       aria-live="polite"
@@ -95,10 +97,9 @@ type SubmitButtonProps = {
   isSubmitting: boolean
 }
 
-export const SubmitButton: React.FC<SubmitButtonProps> = ({
-  isSubmitting,
-  children,
-}) => {
+export const SubmitButton: React.FC<
+  React.PropsWithChildren<SubmitButtonProps>
+> = ({isSubmitting, children}) => {
   return (
     <button
       type="submit"

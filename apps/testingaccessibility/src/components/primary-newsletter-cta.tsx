@@ -6,7 +6,9 @@ import {
 } from '@skillrecordings/convertkit'
 import {useRouter} from 'next/router'
 
-export const PrimaryNewsletterCta: React.FC = ({children}) => {
+export const PrimaryNewsletterCta: React.FC<
+  React.PropsWithChildren<unknown>
+> = ({children}) => {
   const router = useRouter()
   return (
     <section

@@ -4,7 +4,11 @@ import type {LayoutProps} from '@skillrecordings/react/dist/layouts'
 import config from '../config'
 import {first} from 'lodash'
 
-const Layout: React.FC<LayoutProps> = ({children, meta, ...props}) => {
+const Layout: React.FC<React.PropsWithChildren<LayoutProps>> = ({
+  children,
+  meta,
+  ...props
+}) => {
   const defaultMeta = {
     title: config.defaultTitle,
     description: config.description,

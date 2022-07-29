@@ -105,7 +105,10 @@ type ArticlePageProps = {
   hasSubscribed: boolean
 }
 
-const ArticlePage: React.FC<ArticlePageProps> = ({article, hasSubscribed}) => {
+const ArticlePage: React.FC<React.PropsWithChildren<ArticlePageProps>> = ({
+  article,
+  hasSubscribed,
+}) => {
   return <ArticleTemplate article={article} hasSubscribed={hasSubscribed} />
 }
 

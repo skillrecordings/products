@@ -23,7 +23,10 @@ declare global {
   }
 }
 
-const App: React.FC<AppProps> = ({Component, pageProps}) => {
+const App: React.FC<React.PropsWithChildren<AppProps>> = ({
+  Component,
+  pageProps,
+}) => {
   const AppComponent = Component as any
 
   const router = useRouter()

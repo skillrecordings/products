@@ -4,7 +4,7 @@ import {useVideo} from '../context/video-context'
 export const useCue = (cue: VTTCue) => {
   const videoService = useVideo()
   const setActive = React.useCallback(
-    function setActive(active) {
+    function setActive(active: any) {
       if (active) {
         videoService.send({type: 'ACTIVATE_CUE', cue})
       } else {

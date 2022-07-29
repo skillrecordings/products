@@ -134,7 +134,7 @@ const icons = {
 const defaultStyle =
   'rounded-lg bg-gray-400 bg-opacity-10 hover:bg-opacity-20 transition-all ease-in-out duration-200 flex items-center justify-center p-3 m-1'
 
-const Twitter: React.FC<ShareLinkProps> = ({
+const Twitter: React.FC<React.PropsWithChildren<ShareLinkProps>> = ({
   link,
   message,
   className = defaultStyle,
@@ -151,7 +151,7 @@ const Twitter: React.FC<ShareLinkProps> = ({
   </a>
 )
 
-const Facebook: React.FC<ShareLinkProps> = ({
+const Facebook: React.FC<React.PropsWithChildren<ShareLinkProps>> = ({
   link,
   className = defaultStyle,
   children,
@@ -167,7 +167,7 @@ const Facebook: React.FC<ShareLinkProps> = ({
   </a>
 )
 
-const Reddit: React.FC<ShareLinkProps> = ({
+const Reddit: React.FC<React.PropsWithChildren<ShareLinkProps>> = ({
   link,
   message,
   className = defaultStyle,
@@ -184,7 +184,9 @@ const Reddit: React.FC<ShareLinkProps> = ({
   </a>
 )
 
-const CopyToClipboard: React.FC<ShareLinkProps & {onSuccess: () => void}> = ({
+const CopyToClipboard: React.FC<
+  React.PropsWithChildren<ShareLinkProps & {onSuccess: () => void}>
+> = ({
   link,
   onSuccess,
   className = defaultStyle + ' relative text-xs',
@@ -209,7 +211,7 @@ const CopyToClipboard: React.FC<ShareLinkProps & {onSuccess: () => void}> = ({
   )
 }
 
-const LinkedIn: React.FC<ShareLinkProps> = ({
+const LinkedIn: React.FC<React.PropsWithChildren<ShareLinkProps>> = ({
   link,
   className = defaultStyle,
   children,
@@ -225,7 +227,7 @@ const LinkedIn: React.FC<ShareLinkProps> = ({
   </a>
 )
 
-const Hacker: React.FC<ShareLinkProps> = ({
+const Hacker: React.FC<React.PropsWithChildren<ShareLinkProps>> = ({
   link,
   message,
   className = defaultStyle,

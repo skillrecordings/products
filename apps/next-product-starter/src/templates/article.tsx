@@ -7,7 +7,9 @@ type ArticleTemplateProps = {
   meta?: any
 }
 
-const ArticleTemplate: React.FC<ArticleTemplateProps> = ({meta, children}) => {
+const ArticleTemplate: React.FC<
+  React.PropsWithChildren<ArticleTemplateProps>
+> = ({meta, children}) => {
   const {title} = meta
 
   return (

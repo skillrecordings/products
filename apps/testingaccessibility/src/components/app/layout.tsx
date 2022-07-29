@@ -23,7 +23,7 @@ type LayoutProps = {
   defaultCoupon?: DefaultCoupon
 }
 
-const Layout: FunctionComponent<LayoutProps> = ({
+const Layout: FunctionComponent<React.PropsWithChildren<LayoutProps>> = ({
   children,
   className,
   meta,

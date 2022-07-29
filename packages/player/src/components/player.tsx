@@ -80,7 +80,9 @@ const usePlayerState = () => {
  * @param props {PlayerProps}
  * @constructor
  */
-export const Player: React.FC<PlayerProps> = (props) => {
+export const Player: React.FC<React.PropsWithChildren<PlayerProps>> = (
+  props,
+) => {
   const {
     children,
     controls,

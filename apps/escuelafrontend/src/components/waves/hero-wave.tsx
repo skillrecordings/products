@@ -5,7 +5,7 @@ type WaveProps = {
   duration?: number
 }
 
-const HeroWave: React.FC<WaveProps> = ({
+const HeroWave: React.FC<React.PropsWithChildren<WaveProps>> = ({
   className = 'text-gray-100 transition-colors duration-100 ease-in-out fill-current dark:text-gray-900',
   duration = '20',
 }) => {

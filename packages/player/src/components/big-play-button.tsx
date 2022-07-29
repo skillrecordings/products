@@ -4,7 +4,7 @@ import {useVideo} from '../context/video-context'
 import {useSelector} from '@xstate/react'
 import {selectCurrentSrc, selectHasStarted} from '../selectors'
 
-export const BigPlayButton: React.FC<any> = ({
+export const BigPlayButton: React.FC<React.PropsWithChildren<any>> = ({
   className,
   position = 'center',
 }) => {

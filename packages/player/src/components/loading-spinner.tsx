@@ -8,7 +8,9 @@ type LoadingSpinnerType = {
   className?: string
 }
 
-export const LoadingSpinner: React.FC<LoadingSpinnerType> = ({className}) => {
+export const LoadingSpinner: React.FC<
+  React.PropsWithChildren<LoadingSpinnerType>
+> = ({className}) => {
   const videoService = useVideo()
   const error = useSelector(videoService, selectHasFailed)
 

@@ -33,7 +33,9 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   }
 }
 
-const ThanksRedeem: React.FC<{purchase: any; email: string}> = ({email}) => {
+const ThanksRedeem: React.FC<
+  React.PropsWithChildren<{purchase: any; email: string}>
+> = ({email}) => {
   return (
     <Layout footer={null} className="bg-green-700 bg-noise">
       <main className="flex flex-col flex-grow items-center justify-center pt-5 pb-16 px-5 text-white">

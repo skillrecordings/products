@@ -10,7 +10,7 @@ type SidePanelProps = {
   videoCuesList?: React.ReactNode
 }
 
-export const SidePanel: React.FC<SidePanelProps> = ({
+export const SidePanel: React.FC<React.PropsWithChildren<SidePanelProps>> = ({
   videoResourcesList,
   videoCuesList,
 }) => {

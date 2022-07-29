@@ -23,7 +23,9 @@ type ModuleTemplateProps = {
   module: SanityDocument
 }
 
-const ModuleTemplate: React.FC<ModuleTemplateProps> = ({module}) => {
+const ModuleTemplate: React.FC<
+  React.PropsWithChildren<ModuleTemplateProps>
+> = ({module}) => {
   const {slug, title, body, sections, image, resources} = module
   const ogImage = getOgImage(title, image.url)
   const {progress} = useProgress()
@@ -107,12 +109,16 @@ type Resource = {
   }
 }
 
-const Resources: React.FC<{resources: Resource[]}> = ({resources}) => {
+const Resources: React.FC<React.PropsWithChildren<{resources: Resource[]}>> = ({
+  resources,
+}) => {
   return (
     <div className="flex md:justify-start justify-center flex-wrap gap-3 max-w-screen-md mx-auto w-full md:p-0 p-5">
       {resources.map((resource) => {
         const {label, href, _type: type, image} = resource
-        const ResourceBox: React.FC = ({children}) => {
+        const ResourceBox: React.FC<React.PropsWithChildren<unknown>> = ({
+          children,
+        }) => {
           return (
             <div
               className={cx(
@@ -160,7 +166,10 @@ const Resources: React.FC<{resources: Resource[]}> = ({resources}) => {
   )
 }
 
-const Sections: React.FC<SectionsProps> = ({progress, module}) => {
+const Sections: React.FC<React.PropsWithChildren<SectionsProps>> = ({
+  progress,
+  module,
+}) => {
   return (
     <ol className="md:space-y-5 space-y-2">
       {module.sections.map((section: SanityDocument, i: number) => {

@@ -38,10 +38,9 @@ type ArticleTemplateProps = {
   hasSubscribed: boolean
 }
 
-const PortableTextArticleTemplate: React.FC<ArticleTemplateProps> = ({
-  article,
-  hasSubscribed,
-}) => {
+const PortableTextArticleTemplate: React.FC<
+  React.PropsWithChildren<ArticleTemplateProps>
+> = ({article, hasSubscribed}) => {
   const {title, description, body, subscribersOnly, date, cta} = article
   const {subscriber, loadingSubscriber} = useConvertkit()
 
@@ -120,7 +119,9 @@ const PortableTextArticleTemplate: React.FC<ArticleTemplateProps> = ({
 
 export default PortableTextArticleTemplate
 
-const Header: React.FC<{title: string; date: string}> = ({title, date}) => {
+const Header: React.FC<
+  React.PropsWithChildren<{title: string; date: string}>
+> = ({title, date}) => {
   return (
     <header className="relative flex flex-col items-center px-5 pt-16 pb-8 overflow-hidden text-white bg-noise">
       <div className="relative z-10 flex flex-col items-center w-full max-w-screen-md mx-auto">
@@ -179,7 +180,9 @@ const SubscribeButton = () => {
   )
 }
 
-const CTAContainer: React.FC = ({children}) => {
+const CTAContainer: React.FC<React.PropsWithChildren<unknown>> = ({
+  children,
+}) => {
   return (
     <section
       id="subscribe"
@@ -197,7 +200,7 @@ type GetCTAProps = {
   router: NextRouter
 }
 
-const getCTA: React.FC<GetCTAProps> = ({
+const getCTA: React.FC<React.PropsWithChildren<GetCTAProps>> = ({
   subscribersOnly,
   hasSubscribed,
   cta,
@@ -312,7 +315,7 @@ const ContinueReadingSubscribeForm = () => {
   )
 }
 
-const Share: React.FC<{title: string}> = ({title}) => {
+const Share: React.FC<React.PropsWithChildren<{title: string}>> = ({title}) => {
   const router = useRouter()
   const url = process.env.NEXT_PUBLIC_URL + router.asPath
   const className =
@@ -491,7 +494,7 @@ const BodyImage = ({value}: BodyImageProps) => {
   )
 }
 
-const ExternalLink: React.FC<ExternalLinkProps> = ({
+const ExternalLink: React.FC<React.PropsWithChildren<ExternalLinkProps>> = ({
   value,
   children,
   ...props

@@ -150,7 +150,11 @@ type LessonPageProps = {
   lesson: SanityDocument
 }
 
-const LessonPage: React.FC<LessonPageProps> = ({module, section, lesson}) => {
+const LessonPage: React.FC<React.PropsWithChildren<LessonPageProps>> = ({
+  module,
+  section,
+  lesson,
+}) => {
   return <LessonTemplate module={module} section={section} lesson={lesson} />
 }
 

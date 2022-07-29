@@ -63,11 +63,9 @@ type PopupConvertkitFormProps = {
   subscribeFormProps?: SubscribeFormProps
 }
 
-const PopupConvertkitForm: React.FC<PopupConvertkitFormProps> = ({
-  children,
-  peakingContent,
-  subscribeFormProps,
-}) => {
+const PopupConvertkitForm: React.FC<
+  React.PropsWithChildren<PopupConvertkitFormProps>
+> = ({children, peakingContent, subscribeFormProps}) => {
   const {
     peaking,
     handleClose,

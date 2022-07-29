@@ -6,10 +6,12 @@ import Spinner from 'components/spinner'
 import * as Yup from 'yup'
 import {useRouter} from 'next/router'
 
-const ConvertkitSubscribeAndTagForm: React.FC<{
-  tag?: string
-  idNum?: string
-}> = ({tag, idNum = '1'}) => {
+const ConvertkitSubscribeAndTagForm: React.FC<
+  React.PropsWithChildren<{
+    tag?: string
+    idNum?: string
+  }>
+> = ({tag, idNum = '1'}) => {
   const {subscriber} = useConvertkit()
   const [submitting, setSubmitting] = React.useState<boolean>(false)
   const router = useRouter()

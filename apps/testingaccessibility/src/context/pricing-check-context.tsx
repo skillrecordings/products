@@ -22,7 +22,7 @@ export function usePriceCheck() {
 
 export const PriceCheckContext = React.createContext(defaultPriceCheckContext)
 
-export const PriceCheckProvider: React.FC<any> = ({
+export const PriceCheckProvider: React.FC<React.PropsWithChildren<any>> = ({
   children,
   purchasedProductIds,
 }) => {

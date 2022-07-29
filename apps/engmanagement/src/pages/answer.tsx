@@ -4,7 +4,9 @@ import {QuizAnswerPage} from '@skillrecordings/quiz'
 import {QuestionSet} from '@skillrecordings/types'
 import getConfig from '@skillrecordings/quiz/dist/config'
 
-const Answer: React.FC<{questionSet: QuestionSet}> = ({questionSet}) => {
+const Answer: React.FC<React.PropsWithChildren<{questionSet: QuestionSet}>> = ({
+  questionSet,
+}) => {
   return (
     <Layout noIndex meta={{title: 'Quiz'}}>
       <div className="h-full w-full flex flex-col items-center justify-center py-24 px-5">

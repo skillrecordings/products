@@ -4,7 +4,7 @@ import {ClickableComponent} from '../core/clickable-component'
 import {Menu} from './menu'
 import {MenuItem} from './menu-item'
 
-export const MenuButton: React.FC<any> = (props) => {
+export const MenuButton: React.FC<React.PropsWithChildren<any>> = (props) => {
   const [active, setActive] = React.useState(false)
   const {selected} = props
   const [activateIndex, setActivateIndex] = React.useState(selected || 0)

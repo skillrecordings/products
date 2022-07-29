@@ -74,11 +74,13 @@ export const getServerSideProps: GetServerSideProps = async ({
   }
 }
 
-const Invoice: React.FC<{
-  charge: Stripe.Charge
-  product: {name: string}
-  merchantChargeId: string
-}> = ({charge, product, merchantChargeId}) => {
+const Invoice: React.FC<
+  React.PropsWithChildren<{
+    charge: Stripe.Charge
+    product: {name: string}
+    merchantChargeId: string
+  }>
+> = ({charge, product, merchantChargeId}) => {
   const [invoiceMetadata, setInvoiceMetadata] = useLocalStorage(
     'invoice-metadata',
     '',

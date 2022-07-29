@@ -27,7 +27,7 @@ type CountdownProps = CountdownRenderProps & {
   percentOff: number
 }
 
-const CountdownRenderer: React.FC<CountdownProps> = ({
+const CountdownRenderer: React.FC<React.PropsWithChildren<CountdownProps>> = ({
   days,
   hours,
   minutes,
@@ -78,7 +78,9 @@ const CountdownRenderer: React.FC<CountdownProps> = ({
   )
 }
 
-const GoToPricingButton: React.FC = ({children}) => {
+const GoToPricingButton: React.FC<React.PropsWithChildren<unknown>> = ({
+  children,
+}) => {
   const router = useRouter()
   const shouldReduceMotion = useReducedMotion()
   const isLandingPage = router.pathname === '/' || router.pathname === '/buy'

@@ -1,6 +1,8 @@
 import * as React from 'react'
 
-const Icon: React.FC<{className: string}> = ({className}) => {
+const Icon: React.FC<React.PropsWithChildren<{className: string}>> = ({
+  className,
+}) => {
   return (
     <svg
       className={className}

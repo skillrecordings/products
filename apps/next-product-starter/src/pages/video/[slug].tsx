@@ -192,10 +192,9 @@ type VideoResourcesListProps = {
   currentResource: any
 }
 
-const VideoResourcesList: React.FC<VideoResourcesListProps> = ({
-  resources,
-  currentResource,
-}) => {
+const VideoResourcesList: React.FC<
+  React.PropsWithChildren<VideoResourcesListProps>
+> = ({resources, currentResource}) => {
   return (
     <ul>
       {resources.map((videoResource: VideoResource, i: number) => {
@@ -231,7 +230,11 @@ const VideoResourcesList: React.FC<VideoResourcesListProps> = ({
   )
 }
 
-const VideoCue: React.FC<any> = ({cue, note, isActive}) => {
+const VideoCue: React.FC<React.PropsWithChildren<any>> = ({
+  cue,
+  note,
+  isActive,
+}) => {
   const cueRef = React.useRef<any>(null)
   const videoService = useVideo()
   const viewer = useSelector(videoService, selectViewer)
@@ -309,7 +312,7 @@ const VideoCue: React.FC<any> = ({cue, note, isActive}) => {
   )
 }
 
-const VideoCuesList: React.FC<any> = () => {
+const VideoCuesList: React.FC<React.PropsWithChildren<any>> = () => {
   const cues = useMetadataCues()
   const videoService = useVideo()
 

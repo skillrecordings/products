@@ -27,11 +27,9 @@ type SectionTemplateProps = {
   modules?: SanityDocument[]
 }
 
-const SectionTemplate: React.FC<SectionTemplateProps> = ({
-  section,
-  module,
-  modules,
-}) => {
+const SectionTemplate: React.FC<
+  React.PropsWithChildren<SectionTemplateProps>
+> = ({section, module, modules}) => {
   const {slug: sectionSlug, title, body, lessons} = section
   const image = section.image ?? module?.image
   const ogImage = getOgImage(title, image.url)

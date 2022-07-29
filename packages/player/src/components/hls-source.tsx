@@ -20,7 +20,7 @@ type HLSSourceProps = {
  * @param hlsConfig
  * @constructor
  */
-export const HLSSource: React.FC<HLSSourceProps> = ({
+export const HLSSource: React.FC<React.PropsWithChildren<HLSSourceProps>> = ({
   src,
   type = 'application/x-mpegURL',
   hlsConfig,

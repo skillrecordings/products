@@ -1,10 +1,9 @@
 import React from 'react'
 import {motion, useReducedMotion} from 'framer-motion'
 
-const AnimatedBadge: React.FC<{icon?: React.ReactElement}> = ({
-  children,
-  icon,
-}) => {
+const AnimatedBadge: React.FC<
+  React.PropsWithChildren<{icon?: React.ReactElement}>
+> = ({children, icon}) => {
   const shouldReduceMotion = useReducedMotion()
   return (
     <div className="mb-2 rounded-full inline-flex items-center justify-center shadow-xl">

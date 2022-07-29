@@ -20,7 +20,7 @@ type BreadcrumbProps = {
   lesson?: Page
 }
 
-const BreadcrumbNav: React.FC<BreadcrumbProps> = ({
+const BreadcrumbNav: React.FC<React.PropsWithChildren<BreadcrumbProps>> = ({
   module,
   section,
   lesson,

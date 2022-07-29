@@ -5,9 +5,11 @@ import {useViewer} from '@skillrecordings/viewer'
 import PurchaseBundle from './purchase-bundle'
 import Image from 'next/image'
 
-const UpgradePurchase: React.FC<{
-  getBundleDescription: (slug: string) => any[]
-}> = ({getBundleDescription}) => {
+const UpgradePurchase: React.FC<
+  React.PropsWithChildren<{
+    getBundleDescription: (slug: string) => any[]
+  }>
+> = ({getBundleDescription}) => {
   const {upgradeFromSellable, upgradeToSellable} = useViewer()
 
   const pppCountry = get(

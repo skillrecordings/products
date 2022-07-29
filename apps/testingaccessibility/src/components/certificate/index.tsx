@@ -9,7 +9,7 @@ type CertificateProps = {
   module: SanityDocument
 }
 
-const GetCertificate: React.FC<CertificateProps> = ({
+const GetCertificate: React.FC<React.PropsWithChildren<CertificateProps>> = ({
   isAvailable = false,
   module,
 }) => {

@@ -3,7 +3,9 @@ import {getCsrfToken, getProviders} from 'next-auth/react'
 import {useForm} from 'react-hook-form'
 import {GetServerSideProps} from 'next'
 
-const Login: React.FC<{csrfToken: string}> = ({csrfToken}) => {
+const Login: React.FC<React.PropsWithChildren<{csrfToken: string}>> = ({
+  csrfToken,
+}) => {
   const {
     register,
     formState: {errors},

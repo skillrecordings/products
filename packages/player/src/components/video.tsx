@@ -35,7 +35,7 @@ type VideoProps = {
  * @param className
  * @constructor
  */
-export const Video: React.FC<VideoProps> = ({
+export const Video: React.FC<React.PropsWithChildren<VideoProps>> = ({
   children,
   loop = false,
   poster,

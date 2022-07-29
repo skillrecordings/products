@@ -34,7 +34,9 @@ export type SubscribeFormProps = {
  * @param rest anything else!
  * @constructor
  */
-export const SubscribeToConvertkitForm: React.FC<SubscribeFormProps> = ({
+export const SubscribeToConvertkitForm: React.FC<
+  React.PropsWithChildren<SubscribeFormProps>
+> = ({
   formId,
   submitButtonElem,
   errorMessage = <p>Something went wrong.</p>,

@@ -10,7 +10,7 @@ type AnnotationProps = {
   className?: string
 } & RoughNotationProps
 
-const Annotation: React.FC<AnnotationProps> = ({
+const Annotation: React.FC<React.PropsWithChildren<AnnotationProps>> = ({
   type,
   children,
   className,
@@ -49,7 +49,7 @@ const Annotation: React.FC<AnnotationProps> = ({
   )
 }
 
-const SimpleAnnotation: React.FC<AnnotationProps> = ({
+const SimpleAnnotation: React.FC<React.PropsWithChildren<AnnotationProps>> = ({
   type,
   children,
   className,

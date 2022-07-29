@@ -8,7 +8,9 @@ type JumbotronProps = {
   resource: any
 }
 
-const Jumbotron: FunctionComponent<JumbotronProps> = ({resource}) => {
+const Jumbotron: FunctionComponent<React.PropsWithChildren<JumbotronProps>> = ({
+  resource,
+}) => {
   const {image, title, description, path, meta} = resource
 
   return (

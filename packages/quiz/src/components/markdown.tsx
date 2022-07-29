@@ -4,11 +4,9 @@ import SyntaxHighlighter, {
   SyntaxHighlighterProps,
 } from 'react-syntax-highlighter'
 
-const Markdown: React.FC<{children: any; syntaxHighlighterTheme: any}> = ({
-  children,
-  syntaxHighlighterTheme,
-  ...props
-}) => {
+const Markdown: React.FC<
+  React.PropsWithChildren<{children: any; syntaxHighlighterTheme: any}>
+> = ({children, syntaxHighlighterTheme, ...props}) => {
   return (
     <ReactMarkdown
       components={{

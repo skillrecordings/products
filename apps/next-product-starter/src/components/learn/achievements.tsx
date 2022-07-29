@@ -4,9 +4,11 @@ import useAchievements from 'hooks/use-achievements'
 import Markdown from 'react-markdown'
 import Spinner from '@skillrecordings/react/dist/components/spinner'
 
-const Achievements: React.FC<{
-  purchasedBundle: SellableResource | undefined
-}> = ({purchasedBundle}) => {
+const Achievements: React.FC<
+  React.PropsWithChildren<{
+    purchasedBundle: SellableResource | undefined
+  }>
+> = ({purchasedBundle}) => {
   const {achievements} = useAchievements(purchasedBundle)
   return (
     <div className="space-y-2">

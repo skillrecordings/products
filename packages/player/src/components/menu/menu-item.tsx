@@ -1,7 +1,7 @@
 import * as React from 'react'
 import cx from 'classnames'
 
-export const MenuItem: React.FC<any> = (props) => {
+export const MenuItem: React.FC<React.PropsWithChildren<any>> = (props) => {
   const {item, index, activateIndex} = props
 
   function handleClick() {

@@ -1,9 +1,9 @@
 import * as React from 'react'
-import { useTheme } from 'next-themes'
+import {useTheme} from 'next-themes'
 
-const DarkModeToggle: React.FC = () => {
+const DarkModeToggle: React.FC<React.PropsWithChildren<unknown>> = () => {
   const [mounted, setMounted] = React.useState(false)
-  const { theme, setTheme } = useTheme()
+  const {theme, setTheme} = useTheme()
   React.useEffect(() => setMounted(true), [])
 
   return (

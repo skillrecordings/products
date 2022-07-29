@@ -3,7 +3,9 @@ import {Button} from '@skillrecordings/react'
 import {useCopyToClipboard} from 'react-use'
 import toast from 'react-hot-toast'
 
-const CopyInviteLink: React.FC<{bulkCouponId: string}> = ({bulkCouponId}) => {
+const CopyInviteLink: React.FC<
+  React.PropsWithChildren<{bulkCouponId: string}>
+> = ({bulkCouponId}) => {
   const [_, setCopied] = useCopyToClipboard()
   const inviteLink = `${process.env.NEXT_PUBLIC_URL}?code=${bulkCouponId}`
 

@@ -10,9 +10,11 @@ import {
   QuestionCode,
 } from './index'
 
-const CodeSandbox: React.FC<{
-  question: QuestionProps
-}> = ({question}) => {
+const CodeSandbox: React.FC<
+  React.PropsWithChildren<{
+    question: QuestionProps
+  }>
+> = ({question}) => {
   return (
     <Question {...question}>
       <QuestionHeader />

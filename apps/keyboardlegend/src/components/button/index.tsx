@@ -1,7 +1,7 @@
 import * as React from 'react'
 import {Button} from '@skillrecordings/react/dist/components'
 
-const StyledButton: React.FC = (props) => {
+const StyledButton: React.FC<React.PropsWithChildren<unknown>> = (props) => {
   return (
     <Button
       className="relative flex items-center justify-center group rounded-lg focus:outline-none"

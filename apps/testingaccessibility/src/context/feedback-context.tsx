@@ -21,7 +21,9 @@ export function useFeedback() {
 
 export const FeedbackContext = React.createContext(defaultFeedbackContext)
 
-export const FeedbackProvider: React.FC<any> = ({children}) => {
+export const FeedbackProvider: React.FC<React.PropsWithChildren<any>> = ({
+  children,
+}) => {
   const [isFeedbackDialogOpen, setIsFeedbackDialogOpen] =
     React.useState<boolean>(false)
   const [location, setLocation] = React.useState<string>('navigation')

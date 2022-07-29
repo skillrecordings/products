@@ -10,9 +10,11 @@ import {
   QuestionInput,
 } from './index'
 
-const Essay: React.FC<{
-  question: QuestionProps
-}> = ({question}) => {
+const Essay: React.FC<
+  React.PropsWithChildren<{
+    question: QuestionProps
+  }>
+> = ({question}) => {
   return (
     <Question {...question}>
       <QuestionHeader />

@@ -29,7 +29,9 @@ type ButtonContentProps = Pick<
   'leftIcon' | 'rightIcon' | 'children'
 >
 
-const ButtonContent: React.FC<ButtonContentProps> = (props) => {
+const ButtonContent: React.FC<React.PropsWithChildren<ButtonContentProps>> = (
+  props,
+) => {
   const {leftIcon, rightIcon, children} = props
   return (
     <>
@@ -40,7 +42,9 @@ const ButtonContent: React.FC<ButtonContentProps> = (props) => {
   )
 }
 
-const ButtonIcon: React.FC<JSX.IntrinsicElements['span']> = (props) => {
+const ButtonIcon: React.FC<
+  React.PropsWithChildren<JSX.IntrinsicElements['span']>
+> = (props) => {
   const {children, ...rest} = props
 
   const _children = React.isValidElement(children)
@@ -57,7 +61,7 @@ const ButtonIcon: React.FC<JSX.IntrinsicElements['span']> = (props) => {
   )
 }
 
-const Button: React.FC<ButtonProps> = ({
+const Button: React.FC<React.PropsWithChildren<ButtonProps>> = ({
   children,
   isLoading,
   isDisabled,

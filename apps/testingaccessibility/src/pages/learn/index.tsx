@@ -104,9 +104,9 @@ export const getServerSideProps: GetServerSideProps = async ({
   }
 }
 
-const Learn: React.FC<{purchases: Purchase[]; product: SanityDocument}> = ({
-  product,
-}) => {
+const Learn: React.FC<
+  React.PropsWithChildren<{purchases: Purchase[]; product: SanityDocument}>
+> = ({product}) => {
   const {title, modules} = product
   const {progress, isLoadingProgress} = useProgress()
   const nextUpLesson = !isLoadingProgress && getNextUpLesson(progress, modules)

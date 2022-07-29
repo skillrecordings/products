@@ -5,7 +5,9 @@ import {useVideo} from '../../context/video-context'
 import {selectBuffered, selectDuration} from '../../selectors'
 import {SliderMarker} from '@reach/slider'
 
-export const LoadProgressBar: React.FC<any> = ({className}) => {
+export const LoadProgressBar: React.FC<React.PropsWithChildren<any>> = ({
+  className,
+}) => {
   const videoService = useVideo()
   const duration = useSelector(videoService, selectDuration)
   const buffered = useSelector(videoService, selectBuffered)

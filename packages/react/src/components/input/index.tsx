@@ -8,10 +8,9 @@ type InputProps = InputHTMLAttributes<HTMLInputElement> &
     label: string
   }
 
-const Label: React.FC<LabelHTMLAttributes<HTMLLabelElement>> = ({
-  children,
-  ...rest
-}) => {
+const Label: React.FC<
+  React.PropsWithChildren<LabelHTMLAttributes<HTMLLabelElement>>
+> = ({children, ...rest}) => {
   return (
     <label data-sr-input-label {...rest}>
       {children}
@@ -19,7 +18,12 @@ const Label: React.FC<LabelHTMLAttributes<HTMLLabelElement>> = ({
   )
 }
 
-const Input: React.FC<InputProps> = ({name, label, id, ...rest}) => {
+const Input: React.FC<React.PropsWithChildren<InputProps>> = ({
+  name,
+  label,
+  id,
+  ...rest
+}) => {
   const {required} = rest
 
   return (
