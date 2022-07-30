@@ -1,7 +1,6 @@
 import React from 'react'
 import TableOfContents from 'components/portable-text/table-of-contents'
 import PortableTextComponents from 'components/portable-text'
-import SubscribeForm from 'components/subscribe-form'
 import Layout from 'components/layout'
 import Share from 'components/share'
 import Image from 'next/image'
@@ -11,6 +10,11 @@ import {SanityDocument} from '@sanity/client'
 import {getOgImage} from 'utils/get-og-image'
 import {format} from 'date-fns'
 import {isEmpty} from 'lodash'
+import dynamic from 'next/dynamic'
+
+const SubscribeForm = dynamic(() => import('components/subscribe-form'), {
+  ssr: false,
+})
 
 type ArticleTemplateProps = {
   article: SanityDocument
