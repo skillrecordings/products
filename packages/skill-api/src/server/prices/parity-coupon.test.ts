@@ -1,4 +1,4 @@
-import {getPPPDiscountPercent} from '@skillrecordings/skill-api'
+import {getPPPDiscountPercent} from './parity-coupon'
 
 test('get error message from error instance', () => {
   const discountPercent = getPPPDiscountPercent('US')
