@@ -1,6 +1,6 @@
 import * as React from 'react'
 import {GetServerSideProps} from 'next'
-import {Stripe} from 'stripe'
+import type {Stripe} from '@skillrecordings/stripe'
 import Layout from 'components/app/layout'
 import Image from 'next/image'
 import NewMailImage from '../../../public/assets/new-mail@2x.png'
