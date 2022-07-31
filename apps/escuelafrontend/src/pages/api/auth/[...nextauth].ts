@@ -1,9 +1,9 @@
 import mjml2html from 'mjml'
 import NextAuth from 'next-auth'
+import {PrismaAdapter} from 'skill-next-auth-prisma-adapter'
 import EmailProvider from 'next-auth/providers/email'
 import nodemailer from 'nodemailer'
 import {prisma} from '@skillrecordings/database'
-import {PrismaAdapter} from 'server/skill-next-auth-prisma-adapter'
 
 export default NextAuth({
   adapter: PrismaAdapter(prisma),
