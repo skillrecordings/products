@@ -10,7 +10,7 @@ import Link from 'next/link'
 import {useSession} from 'next-auth/react'
 import {getPurchaseDetails} from '../../lib/purchases'
 import {setupHttpTracing} from '@vercel/tracing-js'
-import {tracer} from '@skillrecordings/honeycomb-tracer'
+import {tracer} from '@skillrecordings/skill-api'
 import {getCurrentAbility} from '../../server/ability'
 import {getToken} from 'next-auth/jwt'
 

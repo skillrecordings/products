@@ -10,7 +10,7 @@ import {GetServerSideProps} from 'next'
 import isEmpty from 'lodash/isEmpty'
 import find from 'lodash/find'
 import {setupHttpTracing} from '@vercel/tracing-js'
-import {tracer} from '@skillrecordings/honeycomb-tracer'
+import {tracer} from '@skillrecordings/skill-api'
 
 export const getServerSideProps: GetServerSideProps = async ({
   res,

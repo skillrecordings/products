@@ -1,4 +1,5 @@
-import {Stripe, stripe} from '@skillrecordings/stripe'
+import {stripe} from '../utils/stripe'
+import {Stripe} from 'stripe'
 
 export async function getCheckoutSession(
   sessionId: string,

@@ -7,7 +7,7 @@ import Layout from 'components/app/layout'
 import {useRouter} from 'next/router'
 import toast from 'react-hot-toast'
 import {setupHttpTracing} from '@vercel/tracing-js'
-import {tracer} from '@skillrecordings/honeycomb-tracer'
+import {tracer} from '@skillrecordings/skill-api'
 
 const Login: React.FC<React.PropsWithChildren<{csrfToken: string}>> = ({
   csrfToken,

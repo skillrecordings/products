@@ -4,12 +4,12 @@ import {sendServerEmail} from '../../utils/send-server-email'
 import {nextAuthOptions} from './auth/[...nextauth]'
 import {prisma} from '@skillrecordings/database'
 import {withSentry} from '@sentry/nextjs'
-import {getSdk} from '@skillrecordings/database'
+import {getSdk} from '@skillrecordings/skill-api'
 import * as Sentry from '@sentry/nextjs'
 import {setupHttpTracing} from '@vercel/tracing-js'
-import {tracer} from '@skillrecordings/honeycomb-tracer'
+import {tracer} from '@skillrecordings/skill-api'
 import {postRedemptionToSlack} from '../../server/post-to-slack'
-import {PurchaseStatus} from '@skillrecordings/database'
+import {PurchaseStatus} from '@skillrecordings/skill-api'
 
 export class CouponRedemptionError extends Error {
   couponId: string

@@ -26,7 +26,6 @@
     "@skillrecordings/quiz": "workspace:*",
     "@skillrecordings/react": "workspace:*",
     "@skillrecordings/skill-api": "workspace:*",
-    "@skillrecordings/stripe": "workspace:*",
     "@slack/web-api": "^6.7.2",
     "@tailwindcss/typography": "^0.5.2",
     "@vercel/tracing-js": "^0.5.1",
@@ -43,7 +42,8 @@
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "slugify": "^1.6.2",
-    "uuid": "^8.3.2"
+    "uuid": "^8.3.2",
+    "stripe": "^8.186.1"
   },
   "devDependencies": {
     "@next/env": "^12.2.2",

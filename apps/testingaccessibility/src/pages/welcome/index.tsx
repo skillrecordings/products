@@ -13,7 +13,7 @@ import {stripeData} from '../../utils/record-new-purchase'
 import {getPurchaseDetails} from '../../lib/purchases'
 import {isString} from 'lodash'
 import {setupHttpTracing} from '@vercel/tracing-js'
-import {tracer} from '@skillrecordings/honeycomb-tracer'
+import {tracer} from '@skillrecordings/skill-api'
 
 export const getServerSideProps: GetServerSideProps = async ({
   res,

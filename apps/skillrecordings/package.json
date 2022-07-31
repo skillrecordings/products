@@ -86,6 +86,7 @@
     "remark-footnotes": "^4.0.1",
     "remark-slug": "^7.0.1",
     "slugify": "^1.6.2",
+    "stripe": "^8.186.1",
     "yup": "^0.32.11"
   },
   "devDependencies": {

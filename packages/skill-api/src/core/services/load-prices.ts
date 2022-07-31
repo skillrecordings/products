@@ -1,11 +1,8 @@
 import {SkillRecordingsHandlerParams} from '../types'
 import {OutgoingResponse} from '../index'
 import {find} from 'lodash'
-import {
-  getActiveMerchantCoupon,
-  formatPricesForProduct,
-} from '@skillrecordings/prisma-price-loader'
-import {getSdk} from '@skillrecordings/database'
+import {formatPricesForProduct, getSdk} from '../../server'
+import {getActiveMerchantCoupon} from '../../server/prices/get-active-merchant-coupon'
 
 export async function loadPrices({
   params,

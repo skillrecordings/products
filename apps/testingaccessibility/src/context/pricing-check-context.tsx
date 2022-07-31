@@ -1,5 +1,5 @@
 import React from 'react'
-import {FormattedPrice} from '@skillrecordings/prisma-price-loader'
+import {FormattedPrice} from '@skillrecordings/skill-api'
 
 type PricingContextType = {
   addPrice: (price: FormattedPrice, productId: string) => void
