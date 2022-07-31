@@ -871,6 +871,7 @@ importers:
       cookie: ^0.5.0
       date-fns: ^2.28.0
       dotenv-flow: ^3.2.0
+      encoding: ^0.1.13
       eslint: ^8.19.0
       eslint-config-custom: workspace:*
       focus-visible: ^5.2.0
@@ -954,13 +955,14 @@ importers:
       cookie: 0.5.0
       date-fns: 2.28.0
       dotenv-flow: 3.2.0
+      encoding: 0.1.13
       focus-visible: 5.2.0
       formik: 2.2.9_react@18.2.0
       framer-motion: 6.4.1_biqbaboplfbrettd7655fr4n2y
       groq: 2.15.0
       lodash: 4.17.21
       mdx-prism: 0.3.4
-      mjml: 4.12.0
+      mjml: 4.12.0_encoding@0.1.13
       next: 12.2.3_biqbaboplfbrettd7655fr4n2y
       next-auth: 4.10.2_veosbehjv4o6lw47zt43je3zka
       next-mdx-remote: 4.1.0_biqbaboplfbrettd7655fr4n2y
@@ -12171,7 +12173,7 @@ packages:
   /axios/0.26.1:
     resolution: {integrity: sha512-fPwcX4EvnSHuInCMItEhAGnaSEXRBjtzh9fOtsE6E1G6p7vl7edEeZe11QHf18+6+9gR5PbKV/sGKNaD8YaMeA==}
     dependencies:
-      follow-redirects: 1.15.1_debug@2.6.9
+      follow-redirects: 1.15.1
     transitivePeerDependencies:
       - debug
 
@@ -14720,6 +14722,12 @@ packages:
     resolution: {integrity: sha512-++P0RhebUC8MJAwJOsT93dT+5oc5oPImp1HubZpAuCZ5kTLnhuuBhKHj2jJeO/Gj93idPBWmIuQ9QWMe5rX3pQ==}
     engines: {node: '>=8.10.0'}
 
+  /encoding/0.1.13:
+    resolution: {integrity: sha512-ETBauow1T35Y/WZMkio9jiM0Z5xjHHmJ4XmjZOq1l/dXz3lr2sRn87nJy20RupqSh1F2m3HHPSp8ShIPQJrJ3A==}
+    dependencies:
+      iconv-lite: 0.6.3
+    dev: false
+
   /end-of-stream/1.4.4:
     resolution: {integrity: sha512-+uw1inIHVPQoaVuHzRyXd21icM+cnt4CzD5rW+NC1wjOUSTOs+Te7FOv7AhN7vS9x/oIyhLP5PR1H+phQAHu5Q==}
     dependencies:
@@ -16345,6 +16353,15 @@ packages:
   /focus-visible/5.2.0:
     resolution: {integrity: sha512-Rwix9pBtC1Nuy5wysTmKy+UjbDJpIfg8eHjw0rjZ1mX4GNLz1Bmd16uDpI3Gk1i70Fgcs8Csg2lPm8HULFg9DQ==}
 
+  /follow-redirects/1.15.1:
+    resolution: {integrity: sha512-yLAMQs+k0b2m7cVxpS1VKJVvoz7SS9Td1zss3XRwXj+ZDH00RJgnuLx7E44wx02kQLrdM3aOOy+FpzS7+8OizA==}
+    engines: {node: '>=4.0'}
+    peerDependencies:
+      debug: '*'
+    peerDependenciesMeta:
+      debug:
+        optional: true
+
   /follow-redirects/1.15.1_debug@2.6.9:
     resolution: {integrity: sha512-yLAMQs+k0b2m7cVxpS1VKJVvoz7SS9Td1zss3XRwXj+ZDH00RJgnuLx7E44wx02kQLrdM3aOOy+FpzS7+8OizA==}
     engines: {node: '>=4.0'}
@@ -16699,7 +16716,7 @@ packages:
       create-error-class: 3.0.2
       debug: 2.6.9
       decompress-response: 6.0.0
-      follow-redirects: 1.15.1_debug@2.6.9
+      follow-redirects: 1.15.1
       form-urlencoded: 2.0.9
       into-stream: 3.1.0
       is-plain-object: 2.0.4
@@ -19027,6 +19044,7 @@ packages:
     dependencies:
       ts-essentials: 7.0.3_typescript@4.7.4
       typescript: 4.7.4
+    dev: false
 
   /jest-mock/25.5.0:
     resolution: {integrity: sha512-eXWuTV8mKzp/ovHc5+3USJMYsTBhyQ+5A1Mak35dey/RG8GlM4YWVylZuGgVXinaW6tpvk/RSecmF37FKUlpXA==}
@@ -19746,6 +19764,20 @@ packages:
       mensch: 0.3.4
       slick: 1.12.2
       web-resource-inliner: 5.0.0
+    transitivePeerDependencies:
+      - encoding
+    dev: false
+
+  /juice/7.0.0_encoding@0.1.13:
+    resolution: {integrity: sha512-AjKQX31KKN+uJs+zaf+GW8mBO/f/0NqSh2moTMyvwBY+4/lXIYTU8D8I2h6BAV3Xnz6GGsbalUyFqbYMe+Vh+Q==}
+    engines: {node: '>=10.0.0'}
+    hasBin: true
+    dependencies:
+      cheerio: 1.0.0-rc.10
+      commander: 5.1.0
+      mensch: 0.3.4
+      slick: 1.12.2
+      web-resource-inliner: 5.0.0_encoding@0.1.13
     transitivePeerDependencies:
       - encoding
     dev: false
@@ -21272,12 +21304,32 @@ packages:
       - encoding
     dev: false
 
+  /mjml-accordion/4.12.0_encoding@0.1.13:
+    resolution: {integrity: sha512-vqBk4NhXN+w6F3c5vnLxkvgneREpkwTzZpbxtMzpNqkUW2yei0oSQ26j/wLgXYTaX+4Czp+oVr0cnNxjyCZHjA==}
+    dependencies:
+      '@babel/runtime': 7.18.3
+      lodash: 4.17.21
+      mjml-core: 4.12.0_encoding@0.1.13
+    transitivePeerDependencies:
+      - encoding
+    dev: false
+
   /mjml-body/4.12.0:
     resolution: {integrity: sha512-IQBAHhdRKsNUXat+oxvRTjVJ1qzTRkNjFe/mtD/Pbn9olUnQmV+RKxnkqRZf7QtiTxVIOGC4kU9VLPjNymsFXQ==}
     dependencies:
       '@babel/runtime': 7.18.3
       lodash: 4.17.21
       mjml-core: 4.12.0
+    transitivePeerDependencies:
+      - encoding
+    dev: false
+
+  /mjml-body/4.12.0_encoding@0.1.13:
+    resolution: {integrity: sha512-IQBAHhdRKsNUXat+oxvRTjVJ1qzTRkNjFe/mtD/Pbn9olUnQmV+RKxnkqRZf7QtiTxVIOGC4kU9VLPjNymsFXQ==}
+    dependencies:
+      '@babel/runtime': 7.18.3
+      lodash: 4.17.21
+      mjml-core: 4.12.0_encoding@0.1.13
     transitivePeerDependencies:
       - encoding
     dev: false
@@ -21292,12 +21344,32 @@ packages:
       - encoding
     dev: false
 
+  /mjml-button/4.12.0_encoding@0.1.13:
+    resolution: {integrity: sha512-XJfLP+mHvCr6Ky16ooYz5+8ODkf10+ATyvENCKyrof+rietr5WxN2FxWCZA9Orq20OE74/hvaOeZZdkxwtsXig==}
+    dependencies:
+      '@babel/runtime': 7.18.3
+      lodash: 4.17.21
+      mjml-core: 4.12.0_encoding@0.1.13
+    transitivePeerDependencies:
+      - encoding
+    dev: false
+
   /mjml-carousel/4.12.0:
     resolution: {integrity: sha512-vQ5Aqvix9mbAE0GspxIDpKK4dVMRuKFO3qV6N/CkrIAOe4+2CKV4AMn2fWUvQEx6hA6CGxayeLkI7E0hNOWcZA==}
     dependencies:
       '@babel/runtime': 7.18.3
       lodash: 4.17.21
       mjml-core: 4.12.0
+    transitivePeerDependencies:
+      - encoding
+    dev: false
+
+  /mjml-carousel/4.12.0_encoding@0.1.13:
+    resolution: {integrity: sha512-vQ5Aqvix9mbAE0GspxIDpKK4dVMRuKFO3qV6N/CkrIAOe4+2CKV4AMn2fWUvQEx6hA6CGxayeLkI7E0hNOWcZA==}
+    dependencies:
+      '@babel/runtime': 7.18.3
+      lodash: 4.17.21
+      mjml-core: 4.12.0_encoding@0.1.13
     transitivePeerDependencies:
       - encoding
     dev: false
@@ -21321,12 +21393,41 @@ packages:
       - encoding
     dev: false
 
+  /mjml-cli/4.12.0_encoding@0.1.13:
+    resolution: {integrity: sha512-//Y4XsN6aFgpZtDbQZRu4qe+CQzGWV3i5K3rC1dwPcdtpDMsXBPKiwIZFrQxpRVBwxs0hU4ZBQOMtvYZkoicdQ==}
+    hasBin: true
+    dependencies:
+      '@babel/runtime': 7.18.3
+      chokidar: 3.5.3
+      glob: 7.2.0
+      html-minifier: 4.0.0
+      js-beautify: 1.14.3
+      lodash: 4.17.21
+      mjml-core: 4.12.0_encoding@0.1.13
+      mjml-migrate: 4.12.0_encoding@0.1.13
+      mjml-parser-xml: 4.12.0
+      mjml-validator: 4.12.0
+      yargs: 16.2.0
+    transitivePeerDependencies:
+      - encoding
+    dev: false
+
   /mjml-column/4.12.0:
     resolution: {integrity: sha512-Ub/7ov2B1T2jfSpxvF61o3UCU4gGDFUqIelr7ghuazLc2KvTwdHYeR8mWt8l8RBM6zZiWjkYEFMP22ty7WXztg==}
     dependencies:
       '@babel/runtime': 7.18.3
       lodash: 4.17.21
       mjml-core: 4.12.0
+    transitivePeerDependencies:
+      - encoding
+    dev: false
+
+  /mjml-column/4.12.0_encoding@0.1.13:
+    resolution: {integrity: sha512-Ub/7ov2B1T2jfSpxvF61o3UCU4gGDFUqIelr7ghuazLc2KvTwdHYeR8mWt8l8RBM6zZiWjkYEFMP22ty7WXztg==}
+    dependencies:
+      '@babel/runtime': 7.18.3
+      lodash: 4.17.21
+      mjml-core: 4.12.0_encoding@0.1.13
     transitivePeerDependencies:
       - encoding
     dev: false
@@ -21348,12 +21449,39 @@ packages:
       - encoding
     dev: false
 
+  /mjml-core/4.12.0_encoding@0.1.13:
+    resolution: {integrity: sha512-B3gUkV3kFN1IlzIV3GnpWBmE21XHH5ARyydMxacR75iC53PvJ9c50hr6DWLGdrrDCC6Fdud8jTmgD9dnWPmJhQ==}
+    dependencies:
+      '@babel/runtime': 7.18.3
+      cheerio: 1.0.0-rc.10
+      detect-node: 2.0.4
+      html-minifier: 4.0.0
+      js-beautify: 1.14.3
+      juice: 7.0.0_encoding@0.1.13
+      lodash: 4.17.21
+      mjml-migrate: 4.12.0_encoding@0.1.13
+      mjml-parser-xml: 4.12.0
+      mjml-validator: 4.12.0
+    transitivePeerDependencies:
+      - encoding
+    dev: false
+
   /mjml-divider/4.12.0:
     resolution: {integrity: sha512-L87iqrhVS+PnUInYbXK4lcTQcHfWMTL7ZqDL9XEMBywzX8cCfviLNMbqmLCO2HD8nMPVMRbcE32H04T6LyZ2qw==}
     dependencies:
       '@babel/runtime': 7.18.3
       lodash: 4.17.21
       mjml-core: 4.12.0
+    transitivePeerDependencies:
+      - encoding
+    dev: false
+
+  /mjml-divider/4.12.0_encoding@0.1.13:
+    resolution: {integrity: sha512-L87iqrhVS+PnUInYbXK4lcTQcHfWMTL7ZqDL9XEMBywzX8cCfviLNMbqmLCO2HD8nMPVMRbcE32H04T6LyZ2qw==}
+    dependencies:
+      '@babel/runtime': 7.18.3
+      lodash: 4.17.21
+      mjml-core: 4.12.0_encoding@0.1.13
     transitivePeerDependencies:
       - encoding
     dev: false
@@ -21368,12 +21496,32 @@ packages:
       - encoding
     dev: false
 
+  /mjml-group/4.12.0_encoding@0.1.13:
+    resolution: {integrity: sha512-Rl7Iydd7M2SnbH1ItIi07hYY+FrEai5c6kYMKbcFWAuNupCuvUThuhx1AphMPCZFMLbbPSKNWMarBkWhepS7cw==}
+    dependencies:
+      '@babel/runtime': 7.18.3
+      lodash: 4.17.21
+      mjml-core: 4.12.0_encoding@0.1.13
+    transitivePeerDependencies:
+      - encoding
+    dev: false
+
   /mjml-head-attributes/4.12.0:
     resolution: {integrity: sha512-tRwKUzIrtcw1FGy8Xpy4vrFo0u2daZgqx3X0cM5WWrGFcKe7ZdjNEAkU/3w+WsFjeMcb0fHdKvd+sxBjPJ6fpA==}
     dependencies:
       '@babel/runtime': 7.18.3
       lodash: 4.17.21
       mjml-core: 4.12.0
+    transitivePeerDependencies:
+      - encoding
+    dev: false
+
+  /mjml-head-attributes/4.12.0_encoding@0.1.13:
+    resolution: {integrity: sha512-tRwKUzIrtcw1FGy8Xpy4vrFo0u2daZgqx3X0cM5WWrGFcKe7ZdjNEAkU/3w+WsFjeMcb0fHdKvd+sxBjPJ6fpA==}
+    dependencies:
+      '@babel/runtime': 7.18.3
+      lodash: 4.17.21
+      mjml-core: 4.12.0_encoding@0.1.13
     transitivePeerDependencies:
       - encoding
     dev: false
@@ -21388,12 +21536,32 @@ packages:
       - encoding
     dev: false
 
+  /mjml-head-breakpoint/4.12.0_encoding@0.1.13:
+    resolution: {integrity: sha512-BVVbvAIcIu49P1EJkEPPIY8Gu4GleyzpkdddqD3ihAPn3Pz07SEsFlHvI35eCszuaJeeMbSSxLrsF4m+aQQlvw==}
+    dependencies:
+      '@babel/runtime': 7.18.3
+      lodash: 4.17.21
+      mjml-core: 4.12.0_encoding@0.1.13
+    transitivePeerDependencies:
+      - encoding
+    dev: false
+
   /mjml-head-font/4.12.0:
     resolution: {integrity: sha512-ja5sWbGOIr1gF/7IIPzrgOlWYiKk57BC8JWYRANV7CxNKa635sd6aBJHbzXv1A6Ph+zH5KtE0MSQCK8n49BIsw==}
     dependencies:
       '@babel/runtime': 7.18.3
       lodash: 4.17.21
       mjml-core: 4.12.0
+    transitivePeerDependencies:
+      - encoding
+    dev: false
+
+  /mjml-head-font/4.12.0_encoding@0.1.13:
+    resolution: {integrity: sha512-ja5sWbGOIr1gF/7IIPzrgOlWYiKk57BC8JWYRANV7CxNKa635sd6aBJHbzXv1A6Ph+zH5KtE0MSQCK8n49BIsw==}
+    dependencies:
+      '@babel/runtime': 7.18.3
+      lodash: 4.17.21
+      mjml-core: 4.12.0_encoding@0.1.13
     transitivePeerDependencies:
       - encoding
     dev: false
@@ -21408,12 +21576,32 @@ packages:
       - encoding
     dev: false
 
+  /mjml-head-html-attributes/4.12.0_encoding@0.1.13:
+    resolution: {integrity: sha512-XJesJuW9uzlNN5w/S7t5ZquSVDay7BehOKmIZKMwKn1y0SJBXiakcwt9M9hhF0HB189Bew0gpGt3m7QYvTez8g==}
+    dependencies:
+      '@babel/runtime': 7.18.3
+      lodash: 4.17.21
+      mjml-core: 4.12.0_encoding@0.1.13
+    transitivePeerDependencies:
+      - encoding
+    dev: false
+
   /mjml-head-preview/4.12.0:
     resolution: {integrity: sha512-pr02ZkxwU6/LWhrL3xP/hLrUXx27I1FnfgaYjgvMjh6pMURuy7W+W8BrNJKeyXZo685b2A5lNFDJV7rCJ6HrEQ==}
     dependencies:
       '@babel/runtime': 7.18.3
       lodash: 4.17.21
       mjml-core: 4.12.0
+    transitivePeerDependencies:
+      - encoding
+    dev: false
+
+  /mjml-head-preview/4.12.0_encoding@0.1.13:
+    resolution: {integrity: sha512-pr02ZkxwU6/LWhrL3xP/hLrUXx27I1FnfgaYjgvMjh6pMURuy7W+W8BrNJKeyXZo685b2A5lNFDJV7rCJ6HrEQ==}
+    dependencies:
+      '@babel/runtime': 7.18.3
+      lodash: 4.17.21
+      mjml-core: 4.12.0_encoding@0.1.13
     transitivePeerDependencies:
       - encoding
     dev: false
@@ -21428,12 +21616,32 @@ packages:
       - encoding
     dev: false
 
+  /mjml-head-style/4.12.0_encoding@0.1.13:
+    resolution: {integrity: sha512-64IVdJ2Xl000SrwLt4cebl+MiZcino/ywMkuLQ/c48XeR6pkvbjXYAInWsdlMG1y041n1bOZICNnQQc4xhNJrw==}
+    dependencies:
+      '@babel/runtime': 7.18.3
+      lodash: 4.17.21
+      mjml-core: 4.12.0_encoding@0.1.13
+    transitivePeerDependencies:
+      - encoding
+    dev: false
+
   /mjml-head-title/4.12.0:
     resolution: {integrity: sha512-c7thJUmNLIdVy1ftLbYUjchHwrIfAb9SHdbuVQHdtQz45a3Ni2nie4AWxF/srn90k8q/uEKtQq1taOa4f71Zug==}
     dependencies:
       '@babel/runtime': 7.18.3
       lodash: 4.17.21
       mjml-core: 4.12.0
+    transitivePeerDependencies:
+      - encoding
+    dev: false
+
+  /mjml-head-title/4.12.0_encoding@0.1.13:
+    resolution: {integrity: sha512-c7thJUmNLIdVy1ftLbYUjchHwrIfAb9SHdbuVQHdtQz45a3Ni2nie4AWxF/srn90k8q/uEKtQq1taOa4f71Zug==}
+    dependencies:
+      '@babel/runtime': 7.18.3
+      lodash: 4.17.21
+      mjml-core: 4.12.0_encoding@0.1.13
     transitivePeerDependencies:
       - encoding
     dev: false
@@ -21448,6 +21656,16 @@ packages:
       - encoding
     dev: false
 
+  /mjml-head/4.12.0_encoding@0.1.13:
+    resolution: {integrity: sha512-LcI4ykOB6nMV5W//tF9S1unlXxexfNZUnnyZ2OOzP1V7J5poLXdKXqB8XATN2YGGTsDZ5Q/5V1KO+NnjpW7zSw==}
+    dependencies:
+      '@babel/runtime': 7.18.3
+      lodash: 4.17.21
+      mjml-core: 4.12.0_encoding@0.1.13
+    transitivePeerDependencies:
+      - encoding
+    dev: false
+
   /mjml-hero/4.12.0:
     resolution: {integrity: sha512-j87DgSAyLzMMuNtVqR1okkI/orKnvZoR7i+RsA1yueNql9dZtnw3Ezy8cas8MJaAoGOmqIy9AqGRJIr82w4mxQ==}
     dependencies:
@@ -21458,12 +21676,32 @@ packages:
       - encoding
     dev: false
 
+  /mjml-hero/4.12.0_encoding@0.1.13:
+    resolution: {integrity: sha512-j87DgSAyLzMMuNtVqR1okkI/orKnvZoR7i+RsA1yueNql9dZtnw3Ezy8cas8MJaAoGOmqIy9AqGRJIr82w4mxQ==}
+    dependencies:
+      '@babel/runtime': 7.18.3
+      lodash: 4.17.21
+      mjml-core: 4.12.0_encoding@0.1.13
+    transitivePeerDependencies:
+      - encoding
+    dev: false
+
   /mjml-image/4.12.0:
     resolution: {integrity: sha512-P77M+PLLNn7QvGhL8sx+6yzkQbEMxIQO3yxqUC+x8Ie8kXS8phSNGcqx8qfhdN7p7sQ3CZdOIZSXkG7RRAF94w==}
     dependencies:
       '@babel/runtime': 7.18.3
       lodash: 4.17.21
       mjml-core: 4.12.0
+    transitivePeerDependencies:
+      - encoding
+    dev: false
+
+  /mjml-image/4.12.0_encoding@0.1.13:
+    resolution: {integrity: sha512-P77M+PLLNn7QvGhL8sx+6yzkQbEMxIQO3yxqUC+x8Ie8kXS8phSNGcqx8qfhdN7p7sQ3CZdOIZSXkG7RRAF94w==}
+    dependencies:
+      '@babel/runtime': 7.18.3
+      lodash: 4.17.21
+      mjml-core: 4.12.0_encoding@0.1.13
     transitivePeerDependencies:
       - encoding
     dev: false
@@ -21482,12 +21720,36 @@ packages:
       - encoding
     dev: false
 
+  /mjml-migrate/4.12.0_encoding@0.1.13:
+    resolution: {integrity: sha512-KDdPkuOzL9CAekY0CslM0Yqiomk4TubNMszw6UFfylp5xRA3CfBo0HdGcnewHBkZ8+isjPlzDWf3n+NkU11OiA==}
+    hasBin: true
+    dependencies:
+      '@babel/runtime': 7.18.3
+      js-beautify: 1.14.3
+      lodash: 4.17.21
+      mjml-core: 4.12.0_encoding@0.1.13
+      mjml-parser-xml: 4.12.0
+      yargs: 16.2.0
+    transitivePeerDependencies:
+      - encoding
+    dev: false
+
   /mjml-navbar/4.12.0:
     resolution: {integrity: sha512-TWKV5lFgwUvRbG+FNz6Uo7mGPJRU/BK1v0BeQr1e5Ykft4052iYIuv2XNwRkeoORmLT+7AN8FbkP+TVBpflbWw==}
     dependencies:
       '@babel/runtime': 7.18.3
       lodash: 4.17.21
       mjml-core: 4.12.0
+    transitivePeerDependencies:
+      - encoding
+    dev: false
+
+  /mjml-navbar/4.12.0_encoding@0.1.13:
+    resolution: {integrity: sha512-TWKV5lFgwUvRbG+FNz6Uo7mGPJRU/BK1v0BeQr1e5Ykft4052iYIuv2XNwRkeoORmLT+7AN8FbkP+TVBpflbWw==}
+    dependencies:
+      '@babel/runtime': 7.18.3
+      lodash: 4.17.21
+      mjml-core: 4.12.0_encoding@0.1.13
     transitivePeerDependencies:
       - encoding
     dev: false
@@ -21534,12 +21796,55 @@ packages:
       - encoding
     dev: false
 
+  /mjml-preset-core/4.12.0_encoding@0.1.13:
+    resolution: {integrity: sha512-zoiCKcl/bK43ltr2J8dY9Qg5fcB3TbhaWcTG84oGYWdii5WEkKTXj5hpP1ss1XqdOGMNLij/HVwmli+xQCo6FQ==}
+    dependencies:
+      '@babel/runtime': 7.18.3
+      mjml-accordion: 4.12.0_encoding@0.1.13
+      mjml-body: 4.12.0_encoding@0.1.13
+      mjml-button: 4.12.0_encoding@0.1.13
+      mjml-carousel: 4.12.0_encoding@0.1.13
+      mjml-column: 4.12.0_encoding@0.1.13
+      mjml-divider: 4.12.0_encoding@0.1.13
+      mjml-group: 4.12.0_encoding@0.1.13
+      mjml-head: 4.12.0_encoding@0.1.13
+      mjml-head-attributes: 4.12.0_encoding@0.1.13
+      mjml-head-breakpoint: 4.12.0_encoding@0.1.13
+      mjml-head-font: 4.12.0_encoding@0.1.13
+      mjml-head-html-attributes: 4.12.0_encoding@0.1.13
+      mjml-head-preview: 4.12.0_encoding@0.1.13
+      mjml-head-style: 4.12.0_encoding@0.1.13
+      mjml-head-title: 4.12.0_encoding@0.1.13
+      mjml-hero: 4.12.0_encoding@0.1.13
+      mjml-image: 4.12.0_encoding@0.1.13
+      mjml-navbar: 4.12.0_encoding@0.1.13
+      mjml-raw: 4.12.0_encoding@0.1.13
+      mjml-section: 4.12.0_encoding@0.1.13
+      mjml-social: 4.12.0_encoding@0.1.13
+      mjml-spacer: 4.12.0_encoding@0.1.13
+      mjml-table: 4.12.0_encoding@0.1.13
+      mjml-text: 4.12.0_encoding@0.1.13
+      mjml-wrapper: 4.12.0_encoding@0.1.13
+    transitivePeerDependencies:
+      - encoding
+    dev: false
+
   /mjml-raw/4.12.0:
     resolution: {integrity: sha512-vQUmrEZEgu0DCca7tiPdQ/vf8GM5QyeaabbLd1rX3XCt5Mid47LCdszmVcrk1WxqNuExIw1fNyEGCCDeP2qCJg==}
     dependencies:
       '@babel/runtime': 7.18.3
       lodash: 4.17.21
       mjml-core: 4.12.0
+    transitivePeerDependencies:
+      - encoding
+    dev: false
+
+  /mjml-raw/4.12.0_encoding@0.1.13:
+    resolution: {integrity: sha512-vQUmrEZEgu0DCca7tiPdQ/vf8GM5QyeaabbLd1rX3XCt5Mid47LCdszmVcrk1WxqNuExIw1fNyEGCCDeP2qCJg==}
+    dependencies:
+      '@babel/runtime': 7.18.3
+      lodash: 4.17.21
+      mjml-core: 4.12.0_encoding@0.1.13
     transitivePeerDependencies:
       - encoding
     dev: false
@@ -21554,12 +21859,32 @@ packages:
       - encoding
     dev: false
 
+  /mjml-section/4.12.0_encoding@0.1.13:
+    resolution: {integrity: sha512-5BdHrAghS/XJ40t3qtLHpY3rIVuBnJXv8dGm8U+oMVAzw3L4ySk5WI+FulRkchdPFCKpeXQZjXZaX0C7pmNaIw==}
+    dependencies:
+      '@babel/runtime': 7.18.3
+      lodash: 4.17.21
+      mjml-core: 4.12.0_encoding@0.1.13
+    transitivePeerDependencies:
+      - encoding
+    dev: false
+
   /mjml-social/4.12.0:
     resolution: {integrity: sha512-eTsqJoKP65Imawh+WEX2dv4N34ItUmvIbsCeSQPhC/NG6klxDjzg5oDA1F2tZk+CPIuXVmJiauQ5/vPHLzUiVw==}
     dependencies:
       '@babel/runtime': 7.18.3
       lodash: 4.17.21
       mjml-core: 4.12.0
+    transitivePeerDependencies:
+      - encoding
+    dev: false
+
+  /mjml-social/4.12.0_encoding@0.1.13:
+    resolution: {integrity: sha512-eTsqJoKP65Imawh+WEX2dv4N34ItUmvIbsCeSQPhC/NG6klxDjzg5oDA1F2tZk+CPIuXVmJiauQ5/vPHLzUiVw==}
+    dependencies:
+      '@babel/runtime': 7.18.3
+      lodash: 4.17.21
+      mjml-core: 4.12.0_encoding@0.1.13
     transitivePeerDependencies:
       - encoding
     dev: false
@@ -21574,6 +21899,16 @@ packages:
       - encoding
     dev: false
 
+  /mjml-spacer/4.12.0_encoding@0.1.13:
+    resolution: {integrity: sha512-YB+VCixcuWXDzICrGLFw7PJDkL166e4OG8IUUB2yhvd5VHtFFBc0iRksaEAumOL1r6MnXVCRq4Wcmxlzj7zOfQ==}
+    dependencies:
+      '@babel/runtime': 7.18.3
+      lodash: 4.17.21
+      mjml-core: 4.12.0_encoding@0.1.13
+    transitivePeerDependencies:
+      - encoding
+    dev: false
+
   /mjml-table/4.12.0:
     resolution: {integrity: sha512-IuLvyiJOsM6RgobuIfZuM36fJcoH8pK/A4awCLTEme0HCxEkkjzDkl4RBMK/KX53Cpor0U6oR6RlQfZcducpLg==}
     dependencies:
@@ -21584,12 +21919,32 @@ packages:
       - encoding
     dev: false
 
+  /mjml-table/4.12.0_encoding@0.1.13:
+    resolution: {integrity: sha512-IuLvyiJOsM6RgobuIfZuM36fJcoH8pK/A4awCLTEme0HCxEkkjzDkl4RBMK/KX53Cpor0U6oR6RlQfZcducpLg==}
+    dependencies:
+      '@babel/runtime': 7.18.3
+      lodash: 4.17.21
+      mjml-core: 4.12.0_encoding@0.1.13
+    transitivePeerDependencies:
+      - encoding
+    dev: false
+
   /mjml-text/4.12.0:
     resolution: {integrity: sha512-AFcXiQBC48ZfKKgAdU0NRS2nqftc8zLGxBtPwHNgFkuh5Lf2rWgPK6JRubNi7qhb8Sd7M8stU+LIRA5sxM1nRQ==}
     dependencies:
       '@babel/runtime': 7.18.3
       lodash: 4.17.21
       mjml-core: 4.12.0
+    transitivePeerDependencies:
+      - encoding
+    dev: false
+
+  /mjml-text/4.12.0_encoding@0.1.13:
+    resolution: {integrity: sha512-AFcXiQBC48ZfKKgAdU0NRS2nqftc8zLGxBtPwHNgFkuh5Lf2rWgPK6JRubNi7qhb8Sd7M8stU+LIRA5sxM1nRQ==}
+    dependencies:
+      '@babel/runtime': 7.18.3
+      lodash: 4.17.21
+      mjml-core: 4.12.0_encoding@0.1.13
     transitivePeerDependencies:
       - encoding
     dev: false
@@ -21611,6 +21966,17 @@ packages:
       - encoding
     dev: false
 
+  /mjml-wrapper/4.12.0_encoding@0.1.13:
+    resolution: {integrity: sha512-u0pq+A9QBLwpeF/hdv2uWZIv3Qp4wwf+CMaHZsUpb3YfOJD/6YKwLvkeA7ngE+YxwwzgtgjmIEs4eDae1evlgQ==}
+    dependencies:
+      '@babel/runtime': 7.18.3
+      lodash: 4.17.21
+      mjml-core: 4.12.0_encoding@0.1.13
+      mjml-section: 4.12.0_encoding@0.1.13
+    transitivePeerDependencies:
+      - encoding
+    dev: false
+
   /mjml/4.12.0:
     resolution: {integrity: sha512-uWDu1pPQVyoX4iKIrM02J6qOBN6PC1rSMP64DKi2qGU4dpOztVgvTBh6JttIbINV4ZiALtpeGu+jeEUqp2ROXA==}
     hasBin: true
@@ -21620,6 +21986,20 @@ packages:
       mjml-core: 4.12.0
       mjml-migrate: 4.12.0
       mjml-preset-core: 4.12.0
+      mjml-validator: 4.12.0
+    transitivePeerDependencies:
+      - encoding
+    dev: false
+
+  /mjml/4.12.0_encoding@0.1.13:
+    resolution: {integrity: sha512-uWDu1pPQVyoX4iKIrM02J6qOBN6PC1rSMP64DKi2qGU4dpOztVgvTBh6JttIbINV4ZiALtpeGu+jeEUqp2ROXA==}
+    hasBin: true
+    dependencies:
+      '@babel/runtime': 7.18.3
+      mjml-cli: 4.12.0_encoding@0.1.13
+      mjml-core: 4.12.0_encoding@0.1.13
+      mjml-migrate: 4.12.0_encoding@0.1.13
+      mjml-preset-core: 4.12.0_encoding@0.1.13
       mjml-validator: 4.12.0
     transitivePeerDependencies:
       - encoding
@@ -22171,6 +22551,19 @@ packages:
         optional: true
     dependencies:
       whatwg-url: 5.0.0
+
+  /node-fetch/2.6.7_encoding@0.1.13:
+    resolution: {integrity: sha512-ZjMPFEfVx5j+y2yF35Kzx5sF7kDzxuDj6ziH4FFbOp87zKDZNx8yExJIb05OGF4Nlt9IHFIMBkRl41VdvcNdbQ==}
+    engines: {node: 4.x || >=6.0.0}
+    peerDependencies:
+      encoding: ^0.1.0
+    peerDependenciesMeta:
+      encoding:
+        optional: true
+    dependencies:
+      encoding: 0.1.13
+      whatwg-url: 5.0.0
+    dev: false
 
   /node-gyp-build/4.3.0:
     resolution: {integrity: sha512-iWjXZvmboq0ja1pUGULQBexmxq8CV4xBhX7VDOTbL7ZR4FOowwY/VOtRxBN/yKxmdGoIp4j5ysNT4u3S2pDQ3Q==}
@@ -28960,6 +29353,20 @@ packages:
       htmlparser2: 4.1.0
       mime: 2.6.0
       node-fetch: 2.6.7
+      valid-data-url: 3.0.1
+    transitivePeerDependencies:
+      - encoding
+    dev: false
+
+  /web-resource-inliner/5.0.0_encoding@0.1.13:
+    resolution: {integrity: sha512-AIihwH+ZmdHfkJm7BjSXiEClVt4zUFqX4YlFAzjL13wLtDuUneSaFvDBTbdYRecs35SiU7iNKbMnN+++wVfb6A==}
+    engines: {node: '>=10.0.0'}
+    dependencies:
+      ansi-colors: 4.1.1
+      escape-goat: 3.0.0
+      htmlparser2: 4.1.0
+      mime: 2.6.0
+      node-fetch: 2.6.7_encoding@0.1.13
       valid-data-url: 3.0.1
     transitivePeerDependencies:
       - encoding
