@@ -7,15 +7,15 @@
     "postbuild": "NODE_ENV=production next-sitemap",
     "build:docker": "cd ../../ && docker build . -f apps/testingaccessibility/Dockerfile -t my-awesome-app:latest --build-arg SCOPE=testingaccessibility",
     "clean": "pnpm -r exec -- rm -rf .turbo node_modules .next dist generated",
+    "db:push": "prisma db push",
+    "db:schema": "prisma migrate dev --create-only",
+    "db:studio": "prisma studio",
     "dev": "next dev -p 3013",
     "format": "prettier --write './**/*.{js,jsx,ts,tsx,css,md,mdx,json}' --config ./.prettierrc",
     "integration": "cypress run",
     "lint": "eslint src/**/*.{ts,tsx} --fix && tsc --noEmit",
     "start": "next start -p 3013",
-    "test": "jest",
-    "db:studio": "prisma studio",
-    "db:push": "prisma db push",
-    "db:schema": "prisma migrate dev --create-only"
+    "test": "jest"
   },
   "lint-staged": {
     "*.{js,json,md,mdx,ts,tsx}": [
@@ -70,9 +70,9 @@
     "@skillrecordings/convertkit": "workspace:*",
     "@skillrecordings/cookies": "workspace:*",
     "@skillrecordings/database": "workspace:*",
+    "@skillrecordings/honeycomb-tracer": "workspace:*",
     "@skillrecordings/player": "workspace:*",
     "@skillrecordings/prisma-price-loader": "workspace:*",
-    "@skillrecordings/honeycomb-tracer": "workspace:*",
     "@skillrecordings/quiz": "workspace:*",
     "@skillrecordings/react": "workspace:*",
     "@skillrecordings/skill-api": "workspace:*",

@@ -20,7 +20,7 @@
   "dependencies": {
     "@asbjorn/eslint-plugin-groq": "^2.0.0",
     "@next-auth/prisma-adapter": "^1.0.3",
-    "@next/mdx": "^12.2.3",
+    "@next/mdx": "^12.1.0",
     "@reach/dialog": "^0.16.2",
     "@sanity/block-content-to-react": "^3.0.0",
     "@sanity/client": "^3.2.0",

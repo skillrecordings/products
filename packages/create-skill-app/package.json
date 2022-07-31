@@ -1,19 +1,19 @@
 {
   "name": "create-skill-app",
   "version": "12.2.8",
+  "description": "Create Next.js-powered React apps for Skill Recordings produces with one command",
   "keywords": [
     "react",
     "next",
     "next.js"
   ],
-  "description": "Create Next.js-powered React apps for Skill Recordings produces with one command",
   "repository": {
     "type": "git",
     "url": "https://github.com/skillrecordings/products",
     "directory": "packages/create-skill-app"
   },
-  "author": "Skill Recordings Team <team@skillrecordings.com>",
   "license": "MIT",
+  "author": "Skill Recordings Team <team@skillrecordings.com>",
   "bin": {
     "create-skill-app": "./dist/index.js"
   },
@@ -21,12 +21,15 @@
     "dist"
   ],
   "scripts": {
-    "dev": "pnpm prerelease && ncc build ./index.ts -w -o dist/",
+    "build": "pnpm release",
     "clean": "rimraf ./dist/ && rimraf ./node_modules/",
-    "prerelease": "rimraf ./dist/",
-    "release": "ncc build ./index.ts -o ./dist/ --minify --no-cache --no-source-map-register",
+    "dev": "pnpm prerelease && ncc build ./index.ts -w -o dist/",
     "prepublishOnly": "cd ../../ && turbo run build",
-    "build": "pnpm release"
+    "prerelease": "rimraf ./dist/",
+    "release": "ncc build ./index.ts -o ./dist/ --minify --no-cache --no-source-map-register"
+  },
+  "dependencies": {
+    "handlebars": "^4.7.7"
   },
   "devDependencies": {
     "@types/async-retry": "1.4.2",
@@ -51,8 +54,5 @@
   },
   "engines": {
     "node": ">=12.22.0"
-  },
-  "dependencies": {
-    "handlebars": "^4.7.7"
   }
 }
