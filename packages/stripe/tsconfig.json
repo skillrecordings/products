@@ -1,12 +1,5 @@
 {
-  "compilerOptions": {
-    "lib": ["dom", "ES2015"],
-    "module": "CommonJS",
-    "outDir": "./dist",
-    "rootDir": "./src",
-    "jsx": "react"
-  },
-  "exclude": ["node_modules"],
-  "extends": "@skillrecordings/tsconfig/base.json",
-  "include": ["src"]
+  "extends": "@skillrecordings/tsconfig/node16.json",
+  "include": ["process.d.ts","next-env.d.ts", "**/*.ts", "**/*.tsx", "tsup.config.ts"],
+  "exclude": ["node_modules"]
 }

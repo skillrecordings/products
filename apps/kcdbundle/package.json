@@ -39,7 +39,6 @@
     "@skillrecordings/cookies": "workspace:*",
     "@skillrecordings/quiz": "workspace:*",
     "@skillrecordings/react": "workspace:*",
-    "@skillrecordings/stripe": "workspace:*",
     "@skillrecordings/time": "workspace:*",
     "@skillrecordings/viewer": "workspace:*",
     "@stripe/stripe-js": "^1.21.1",
@@ -77,6 +76,7 @@
     "remark-footnotes": "^4.0.1",
     "remark-slug": "^7.0.1",
     "swr": "^1.2.2",
+    "stripe": "^8.186.1",
     "xstate": "=4.23.1",
     "yup": "^0.32.11"
   },

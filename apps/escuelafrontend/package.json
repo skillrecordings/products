@@ -50,7 +50,6 @@
     "@skillrecordings/player": "workspace:*",
     "@skillrecordings/quiz": "workspace:*",
     "@skillrecordings/react": "workspace:*",
-    "@skillrecordings/stripe": "workspace:*",
     "@skillrecordings/time": "workspace:*",
     "@skillrecordings/viewer": "workspace:*",
     "@stripe/stripe-js": "^1.24.0",
@@ -100,7 +99,6 @@
     "remark-gfm": "^3.0.1",
     "simplebar-react": "^2.3.6",
     "slugify": "^1.6.2",
-    "stripe": "^8.186.1",
     "xstate": "=4.23.1",
     "yup": "^0.32.11"
   },

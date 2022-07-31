@@ -5,7 +5,6 @@ import {
   hasValidPurchase,
   hasInvoice,
 } from '../utils/purchase-validators'
-import {PurchaseStatus} from '@skillrecordings/skill-api/dist/enums/purchase-status'
 
 type Actions = 'manage' | 'invite' | 'view' | 'edit'
 type Subjects =
@@ -79,8 +78,7 @@ function defineRulesForPurchases(viewerAbilityInput: ViewerAbilityInput = {}) {
     can('view', 'Product', {
       productId: {
         $in: purchases?.map(
-          (purchase: any) =>
-            purchase.productId && purchase.status === PurchaseStatus.Valid,
+          (purchase: any) => purchase.productId && purchase.status === 'Valid',
         ),
       },
     })

@@ -83,7 +83,6 @@
     "remark-code-titles": "^0.1.2",
     "remark-footnotes": "^4.0.1",
     "remark-slug": "^7.0.1",
-    "stripe": "^8.186.1",
     "swr": "^1.2.2",
     "tailwindcss-autofill": "^1.0.2",
     "tailwindcss-text-fill": "^0.2.0",

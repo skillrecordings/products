@@ -1,11 +1,10 @@
 import {OutgoingResponse} from '../index'
 import {SkillRecordingsHandlerParams} from '../types'
-import {prisma} from '@skillrecordings/database'
+import {getSdk, prisma, PurchaseStatus} from '@skillrecordings/database'
 import {first} from 'lodash'
 import {add} from 'date-fns'
-import {getCalculatedPriced, getSdk, stripe} from '../../server'
-import {PurchaseStatus} from '../../enums'
-
+import {getCalculatedPriced} from '@skillrecordings/prisma-price-loader'
+import {stripe} from '@skillrecordings/stripe'
 export class CheckoutError extends Error {
   couponId?: string
   productId: string

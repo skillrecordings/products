@@ -88,7 +88,6 @@
     "rehype": "^12.0.0",
     "rehype-shiki": "^0.0.9",
     "simplebar-react": "^2.3.6",
-    "stripe": "^8.186.1",
     "swr": "^1.2.2",
     "tailwindcss-autofill": "^1.0.2",
     "tailwindcss-text-fill": "^0.2.0",

@@ -6,4 +6,3 @@ export * from './next'
 export {default} from './next'
 
 export * from './server'
-export * from './enums'

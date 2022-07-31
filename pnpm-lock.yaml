@@ -53,7 +53,6 @@ importers:
       '@skillrecordings/quiz': workspace:*
       '@skillrecordings/react': workspace:*
       '@skillrecordings/scripts': workspace:*
-      '@skillrecordings/stripe': workspace:*
       '@skillrecordings/time': workspace:*
       '@skillrecordings/tsconfig': workspace:*
       '@skillrecordings/types': workspace:*
@@ -144,7 +143,6 @@ importers:
       '@skillrecordings/player': link:../../packages/player
       '@skillrecordings/quiz': link:../../packages/quiz
       '@skillrecordings/react': link:../../packages/react
-      '@skillrecordings/stripe': link:../../packages/stripe
       '@skillrecordings/time': link:../../packages/time
       '@skillrecordings/viewer': link:../../packages/viewer
       '@stripe/stripe-js': 1.21.1
@@ -241,7 +239,6 @@ importers:
       '@skillrecordings/quiz': workspace:*
       '@skillrecordings/react': workspace:*
       '@skillrecordings/scripts': workspace:*
-      '@skillrecordings/stripe': workspace:*
       '@skillrecordings/time': workspace:*
       '@skillrecordings/tsconfig': workspace:*
       '@skillrecordings/types': workspace:*
@@ -310,7 +307,6 @@ importers:
       remark-footnotes: ^4.0.1
       remark-slug: ^7.0.1
       remove-markdown: ^0.3.0
-      stripe: ^8.186.1
       swr: ^1.2.2
       tailwindcss: ^3.1.4
       tailwindcss-autofill: ^1.0.2
@@ -333,7 +329,6 @@ importers:
       '@skillrecordings/cookies': link:../../packages/cookies
       '@skillrecordings/quiz': link:../../packages/quiz
       '@skillrecordings/react': link:../../packages/react
-      '@skillrecordings/stripe': link:../../packages/stripe
       '@skillrecordings/time': link:../../packages/time
       '@skillrecordings/viewer': link:../../packages/viewer
       '@stripe/stripe-js': 1.21.1
@@ -374,7 +369,6 @@ importers:
       remark-footnotes: 4.0.1
       remark-slug: 7.0.1
       remove-markdown: 0.3.0
-      stripe: 8.186.1
       swr: 1.3.0_react@18.2.0
       tailwindcss-autofill: 1.0.2_tailwindcss@3.1.4
       tailwindcss-text-fill: 0.2.0_tailwindcss@3.1.4
@@ -502,7 +496,6 @@ importers:
       rehype: ^12.0.0
       rehype-shiki: ^0.0.9
       simplebar-react: ^2.3.6
-      stripe: ^8.186.1
       swr: ^1.2.2
       tailwindcss: ^3.1.4
       tailwindcss-autofill: ^1.0.2
@@ -563,7 +556,6 @@ importers:
       rehype: 12.0.0
       rehype-shiki: 0.0.9
       simplebar-react: 2.3.6_biqbaboplfbrettd7655fr4n2y
-      stripe: 8.186.1
       swr: 1.3.0_react@18.2.0
       tailwindcss-autofill: 1.0.2_tailwindcss@3.1.4
       tailwindcss-text-fill: 0.2.0_tailwindcss@3.1.4
@@ -629,7 +621,6 @@ importers:
       '@skillrecordings/react': workspace:*
       '@skillrecordings/scripts': workspace:*
       '@skillrecordings/skill-api': workspace:*
-      '@skillrecordings/stripe': workspace:*
       '@skillrecordings/time': workspace:*
       '@skillrecordings/tsconfig': workspace:*
       '@skillrecordings/types': workspace:*
@@ -709,7 +700,6 @@ importers:
       remark-code-titles: ^0.1.2
       remark-footnotes: ^4.0.1
       remark-slug: ^7.0.1
-      stripe: ^8.186.1
       swr: ^1.2.2
       tailwindcss: ^3.1.4
       typescript: ^4.7.4
@@ -735,7 +725,6 @@ importers:
       '@skillrecordings/quiz': link:../../packages/quiz
       '@skillrecordings/react': link:../../packages/react
       '@skillrecordings/skill-api': link:../../packages/skill-api
-      '@skillrecordings/stripe': link:../../packages/stripe
       '@skillrecordings/time': link:../../packages/time
       '@skillrecordings/viewer': link:../../packages/viewer
       '@stripe/stripe-js': 1.21.1
@@ -787,7 +776,6 @@ importers:
       remark-code-titles: 0.1.2
       remark-footnotes: 4.0.1
       remark-slug: 7.0.1
-      stripe: 8.186.1
       swr: 1.3.0_react@18.2.0
       uuid: 8.3.2
       xstate: 4.23.1
@@ -853,7 +841,6 @@ importers:
       '@skillrecordings/quiz': workspace:*
       '@skillrecordings/react': workspace:*
       '@skillrecordings/scripts': workspace:*
-      '@skillrecordings/stripe': workspace:*
       '@skillrecordings/time': workspace:*
       '@skillrecordings/tsconfig': workspace:*
       '@skillrecordings/types': workspace:*
@@ -926,7 +913,6 @@ importers:
       remark-gfm: ^3.0.1
       simplebar-react: ^2.3.6
       slugify: ^1.6.2
-      stripe: ^8.186.1
       tailwindcss: ^3.1.4
       typescript: ^4.7.4
       xstate: '=4.23.1'
@@ -952,7 +938,6 @@ importers:
       '@skillrecordings/player': link:../../packages/player
       '@skillrecordings/quiz': link:../../packages/quiz
       '@skillrecordings/react': link:../../packages/react
-      '@skillrecordings/stripe': link:../../packages/stripe
       '@skillrecordings/time': link:../../packages/time
       '@skillrecordings/viewer': link:../../packages/viewer
       '@stripe/stripe-js': 1.25.0
@@ -1002,7 +987,6 @@ importers:
       remark-gfm: 3.0.1
       simplebar-react: 2.3.6_biqbaboplfbrettd7655fr4n2y
       slugify: 1.6.2
-      stripe: 8.209.0
       xstate: 4.23.1
       yup: 0.32.11
     devDependencies:
@@ -1122,7 +1106,6 @@ importers:
       '@skillrecordings/quiz': workspace:*
       '@skillrecordings/react': workspace:*
       '@skillrecordings/scripts': workspace:*
-      '@skillrecordings/stripe': workspace:*
       '@skillrecordings/time': workspace:*
       '@skillrecordings/tsconfig': workspace:*
       '@skillrecordings/types': workspace:*
@@ -1182,6 +1165,7 @@ importers:
       remark-code-titles: ^0.1.2
       remark-footnotes: ^4.0.1
       remark-slug: ^7.0.1
+      stripe: ^8.186.1
       swr: ^1.2.2
       tailwindcss: ^3.1.4
       typescript: ^4.7.4
@@ -1199,7 +1183,6 @@ importers:
       '@skillrecordings/cookies': link:../../packages/cookies
       '@skillrecordings/quiz': link:../../packages/quiz
       '@skillrecordings/react': link:../../packages/react
-      '@skillrecordings/stripe': link:../../packages/stripe
       '@skillrecordings/time': link:../../packages/time
       '@skillrecordings/viewer': link:../../packages/viewer
       '@stripe/stripe-js': 1.21.1
@@ -1236,6 +1219,7 @@ importers:
       remark-code-titles: 0.1.2
       remark-footnotes: 4.0.1
       remark-slug: 7.0.1
+      stripe: 8.209.0
       swr: 1.3.0_react@18.2.0
       xstate: 4.23.1
       yup: 0.32.11
@@ -1346,7 +1330,6 @@ importers:
       remark-code-titles: ^0.1.2
       remark-footnotes: ^4.0.1
       remark-slug: ^7.0.1
-      stripe: ^8.186.1
       swr: ^1.2.2
       tailwindcss: ^3.1.4
       tailwindcss-autofill: ^1.0.2
@@ -1402,7 +1385,6 @@ importers:
       remark-code-titles: 0.1.2
       remark-footnotes: 4.0.1
       remark-slug: 7.0.1
-      stripe: 8.186.1
       swr: 1.3.0_react@18.2.0
       tailwindcss-autofill: 1.0.2_tailwindcss@3.1.4
       tailwindcss-text-fill: 0.2.0_tailwindcss@3.1.4
@@ -1431,205 +1413,6 @@ importers:
       eslint-config-custom: link:../../packages/eslint-config-custom
       husky: 7.0.4
       lint-staged: 11.2.6
-      msw: 0.35.0
-      next-compose-plugins: 2.2.1
-      next-images: 1.8.4
-      postcss-preset-env: 7.7.2_postcss@8.4.14
-      prettier: 2.6.2
-      react-test-renderer: 17.0.2_react@18.2.0
-      tailwindcss: 3.1.4
-      typescript: 4.7.4
-
-  apps/next-product-starter:
-    specifiers:
-      '@babel/plugin-transform-react-jsx': ^7.16.0
-      '@emotion/babel-plugin': ^11.3.0
-      '@emotion/babel-preset-css-prop': ^11.2.0
-      '@emotion/react': ^11.5.0
-      '@mdx-js/loader': ^1.6.22
-      '@mdx-js/mdx': ^2.0.0
-      '@mdx-js/react': ^1.6.22
-      '@next/mdx': ^12.1.0
-      '@reach/dialog': ^0.16.2
-      '@skillrecordings/analytics': workspace:*
-      '@skillrecordings/auth': workspace:*
-      '@skillrecordings/axios': workspace:*
-      '@skillrecordings/commerce': workspace:*
-      '@skillrecordings/config': workspace:*
-      '@skillrecordings/convertkit': workspace:*
-      '@skillrecordings/cookies': workspace:*
-      '@skillrecordings/player': workspace:*
-      '@skillrecordings/quiz': workspace:*
-      '@skillrecordings/react': workspace:*
-      '@skillrecordings/scripts': workspace:*
-      '@skillrecordings/stripe': workspace:*
-      '@skillrecordings/time': workspace:*
-      '@skillrecordings/tsconfig': workspace:*
-      '@skillrecordings/types': workspace:*
-      '@skillrecordings/viewer': workspace:*
-      '@stripe/stripe-js': ^1.21.1
-      '@supabase/supabase-js': ^1.29.1
-      '@tailwindcss/forms': ^0.5.2
-      '@tailwindcss/typography': ^0.5.2
-      '@testing-library/jest-dom': ^5.15.0
-      '@testing-library/react': ^12.1.2
-      '@tippyjs/react': ^4.2.6
-      '@types/cookie': ^0.4.1
-      '@types/isomorphic-fetch': ^0.0.35
-      '@types/jest': ^27.5.2
-      '@types/lodash': ^4.14.179
-      '@types/mdx-js__react': ^1.5.5
-      '@types/node': ^17.0.0
-      '@types/nodemailer': ^6.4.4
-      '@types/pluralize': ^0.0.29
-      '@types/react': ^18.0.15
-      '@types/react-dom': ^18.0.6
-      '@types/react-scroll': ^1.8.3
-      '@xstate/react': '=1.5.1'
-      assert: ^2.0.0
-      autoprefixer: ^10.4.2
-      axios: ^0.26.0
-      classnames: ^2.3.1
-      client-oauth2: ^4.3.3
-      commander: ^8.3.0
-      cookie: ^0.5.0
-      date-fns: ^2.28.0
-      dotenv-flow: ^3.2.0
-      eslint: ^8.19.0
-      eslint-config-custom: workspace:*
-      focus-visible: ^5.2.0
-      formik: 2.2.9
-      framer-motion: ^6.4.1
-      hls.js: 1.1.5
-      isomorphic-fetch: ^3.0.0
-      load-egghead-notes-mdx-url: ^0.1.1
-      lodash: ^4.17.21
-      mdast-util-to-markdown: ^1.2.6
-      mdx-prism: ^0.3.4
-      msw: ^0.35.0
-      next: ^12.2.3
-      next-compose-plugins: ^2.2.1
-      next-images: ^1.8.4
-      next-sitemap: ^3.0.5
-      next-themes: ^0.1.1
-      next-transpile-modules: ^9.0.0
-      pluralize: ^8.0.0
-      postcss: ^8.4.14
-      postcss-preset-env: ^7.4.2
-      prettier: ^2.6.2
-      query-string: ^7.1.1
-      react: 18.2.0
-      react-countdown: ^2.3.2
-      react-dom: 18.2.0
-      react-markdown: ^7.1.0
-      react-scroll: ^1.8.6
-      react-stripe-checkout: ^2.6.3
-      react-test-renderer: ^17.0.2
-      react-use: ^17.3.2
-      react-use-clipboard: ^1.0.7
-      reading-time: ^1.5.0
-      rehype: ^12.0.0
-      remark-code-titles: ^0.1.2
-      remark-footnotes: ^4.0.1
-      remark-slug: ^7.0.1
-      swr: ^1.2.2
-      tailwindcss: ^3.1.4
-      typescript: ^4.7.4
-      unist-util-visit: ^2.0.3
-      vfile: ^5.3.0
-      xstate: '=4.23.1'
-      yup: ^0.32.11
-    dependencies:
-      '@mdx-js/mdx': 2.0.0
-      '@mdx-js/react': 1.6.22_react@18.2.0
-      '@next/mdx': 12.1.5_6vwedlnwdegenaf6jioaeirvlu
-      '@reach/dialog': 0.16.2_bb2bxwco6ptpubzwpazr52qf6i
-      '@skillrecordings/analytics': link:../../packages/analytics
-      '@skillrecordings/auth': link:../../packages/auth
-      '@skillrecordings/axios': link:../../packages/axios
-      '@skillrecordings/commerce': link:../../packages/commerce
-      '@skillrecordings/config': link:../../packages/config
-      '@skillrecordings/convertkit': link:../../packages/convertkit
-      '@skillrecordings/cookies': link:../../packages/cookies
-      '@skillrecordings/player': link:../../packages/player
-      '@skillrecordings/quiz': link:../../packages/quiz
-      '@skillrecordings/react': link:../../packages/react
-      '@skillrecordings/stripe': link:../../packages/stripe
-      '@skillrecordings/time': link:../../packages/time
-      '@skillrecordings/viewer': link:../../packages/viewer
-      '@stripe/stripe-js': 1.21.1
-      '@supabase/supabase-js': 1.29.1
-      '@tailwindcss/forms': 0.5.2_tailwindcss@3.1.4
-      '@tailwindcss/typography': 0.5.2_tailwindcss@3.1.4
-      '@tippyjs/react': 4.2.6_biqbaboplfbrettd7655fr4n2y
-      '@xstate/react': 1.5.1_bpg42ha2il6pcyn3wrx2rxrchm
-      autoprefixer: 10.4.7_postcss@8.4.14
-      axios: 0.26.1
-      classnames: 2.3.1
-      client-oauth2: 4.3.3
-      cookie: 0.5.0
-      date-fns: 2.28.0
-      dotenv-flow: 3.2.0
-      focus-visible: 5.2.0
-      formik: 2.2.9_react@18.2.0
-      framer-motion: 6.4.1_biqbaboplfbrettd7655fr4n2y
-      hls.js: 1.1.5
-      isomorphic-fetch: 3.0.0
-      load-egghead-notes-mdx-url: 0.1.1
-      lodash: 4.17.21
-      mdast-util-to-markdown: 1.2.6
-      mdx-prism: 0.3.4
-      next: 12.2.3_biqbaboplfbrettd7655fr4n2y
-      next-sitemap: 3.1.7_next@12.2.3
-      next-themes: 0.1.1_53oqlnqnxhbetdy4ljlkkvmoby
-      next-transpile-modules: 9.0.0
-      pluralize: 8.0.0
-      postcss: 8.4.14
-      query-string: 7.1.1
-      react: 18.2.0
-      react-countdown: 2.3.2_biqbaboplfbrettd7655fr4n2y
-      react-dom: 18.2.0_react@18.2.0
-      react-markdown: 7.1.0_3hx2ussxxho4jajbwrd6gq34qe
-      react-scroll: 1.8.7_biqbaboplfbrettd7655fr4n2y
-      react-stripe-checkout: 2.6.3
-      react-use: 17.3.2_biqbaboplfbrettd7655fr4n2y
-      react-use-clipboard: 1.0.7_biqbaboplfbrettd7655fr4n2y
-      reading-time: 1.5.0
-      rehype: 12.0.0
-      remark-code-titles: 0.1.2
-      remark-footnotes: 4.0.1
-      remark-slug: 7.0.1
-      swr: 1.3.0_react@18.2.0
-      unist-util-visit: 2.0.3
-      vfile: 5.3.0
-      xstate: 4.23.1
-      yup: 0.32.11
-    devDependencies:
-      '@babel/plugin-transform-react-jsx': 7.16.0
-      '@emotion/babel-plugin': 11.3.0
-      '@emotion/babel-preset-css-prop': 11.2.0
-      '@emotion/react': 11.5.0_3hx2ussxxho4jajbwrd6gq34qe
-      '@mdx-js/loader': 1.6.22_react@18.2.0
-      '@skillrecordings/scripts': link:../../packages/scripts
-      '@skillrecordings/tsconfig': link:../../packages/tsconfig
-      '@skillrecordings/types': link:../../packages/types
-      '@testing-library/jest-dom': 5.15.0
-      '@testing-library/react': 12.1.2_biqbaboplfbrettd7655fr4n2y
-      '@types/cookie': 0.4.1
-      '@types/isomorphic-fetch': 0.0.35
-      '@types/jest': 27.5.2
-      '@types/lodash': 4.14.180
-      '@types/mdx-js__react': 1.5.5
-      '@types/node': 17.0.41
-      '@types/nodemailer': 6.4.4
-      '@types/pluralize': 0.0.29
-      '@types/react': 18.0.15
-      '@types/react-dom': 18.0.6
-      '@types/react-scroll': 1.8.3
-      assert: 2.0.0
-      commander: 8.3.0
-      eslint: 8.19.0
-      eslint-config-custom: link:../../packages/eslint-config-custom
       msw: 0.35.0
       next-compose-plugins: 2.2.1
       next-images: 1.8.4
@@ -1853,7 +1636,6 @@ importers:
       remark-footnotes: ^4.0.1
       remark-slug: ^7.0.1
       slugify: ^1.6.2
-      stripe: ^8.186.1
       tailwindcss: ^3.1.4
       typescript: ^4.7.4
       yup: ^0.32.11
@@ -1907,7 +1689,6 @@ importers:
       remark-footnotes: 4.0.1
       remark-slug: 7.0.1
       slugify: 1.6.2
-      stripe: 8.186.1
       yup: 0.32.11
     devDependencies:
       '@babel/plugin-transform-react-jsx': 7.16.0
@@ -1978,11 +1759,14 @@ importers:
       '@skillrecordings/convertkit': workspace:*
       '@skillrecordings/cookies': workspace:*
       '@skillrecordings/database': workspace:*
+      '@skillrecordings/honeycomb-tracer': workspace:*
       '@skillrecordings/player': workspace:*
+      '@skillrecordings/prisma-price-loader': workspace:*
       '@skillrecordings/quiz': workspace:*
       '@skillrecordings/react': workspace:*
       '@skillrecordings/scripts': workspace:*
       '@skillrecordings/skill-api': workspace:*
+      '@skillrecordings/stripe': workspace:*
       '@skillrecordings/time': workspace:*
       '@skillrecordings/tsconfig': workspace:*
       '@skillrecordings/types': workspace:*
@@ -2101,7 +1885,6 @@ importers:
       shortid: ^2.2.16
       simplebar-react: ^2.3.6
       speakingurl: ^14.0.1
-      stripe: ^8.186.1
       svg-to-pdfkit: ^0.1.8
       svg.js: ^2.7.1
       svgdom: ^0.1.10
@@ -2144,10 +1927,13 @@ importers:
       '@skillrecordings/convertkit': link:../../packages/convertkit
       '@skillrecordings/cookies': link:../../packages/cookies
       '@skillrecordings/database': link:../../packages/database
+      '@skillrecordings/honeycomb-tracer': link:../../packages/honeycomb-tracer
       '@skillrecordings/player': link:../../packages/player
+      '@skillrecordings/prisma-price-loader': link:../../packages/prisma-price-loader
       '@skillrecordings/quiz': link:../../packages/quiz
       '@skillrecordings/react': link:../../packages/react
       '@skillrecordings/skill-api': link:../../packages/skill-api
+      '@skillrecordings/stripe': link:../../packages/stripe
       '@skillrecordings/time': link:../../packages/time
       '@skillrecordings/viewer': link:../../packages/viewer
       '@slack/web-api': 6.7.2
@@ -2224,7 +2010,6 @@ importers:
       shortid: 2.2.16
       simplebar-react: 2.3.6_biqbaboplfbrettd7655fr4n2y
       speakingurl: 14.0.1
-      stripe: 8.186.1
       svg-to-pdfkit: 0.1.8
       svg.js: 2.7.1
       svgdom: 0.1.10
@@ -2417,7 +2202,6 @@ importers:
       '@skillrecordings/quiz': workspace:*
       '@skillrecordings/react': workspace:*
       '@skillrecordings/scripts': workspace:*
-      '@skillrecordings/stripe': workspace:*
       '@skillrecordings/time': workspace:*
       '@skillrecordings/tsconfig': workspace:*
       '@skillrecordings/types': workspace:*
@@ -2528,7 +2312,6 @@ importers:
       '@skillrecordings/player': link:../../packages/player
       '@skillrecordings/quiz': link:../../packages/quiz
       '@skillrecordings/react': link:../../packages/react
-      '@skillrecordings/stripe': link:../../packages/stripe
       '@skillrecordings/time': link:../../packages/time
       '@skillrecordings/viewer': link:../../packages/viewer
       '@stripe/stripe-js': 1.21.1
@@ -2802,7 +2585,6 @@ importers:
       react-scroll: ^1.8.6
       react-stripe-checkout: ^2.6.3
       react-test-renderer: ^17.0.2
-      stripe: ^8.186.1
       typescript: ^4.7.4
       xstate: '=4.23.1'
       yup: ^0.32.11
@@ -2847,7 +2629,6 @@ importers:
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
       react-test-renderer: 17.0.2_react@18.2.0
-      stripe: 8.209.0
       typescript: 4.7.4
       xstate: 4.23.1
 
@@ -3031,21 +2812,29 @@ importers:
   packages/database:
     specifiers:
       '@prisma/client': ^4.1.1
+      '@skillrecordings/honeycomb-tracer': workspace:*
       '@skillrecordings/tsconfig': workspace:*
       '@types/node': ^18.6.1
+      '@types/uuid': ^8.3.4
       eslint: ^8.12.0
       eslint-config-custom: workspace:*
       i: ^0.3.7
+      jest-mock-extended: ^2.0.7
       prisma: ^4.1.1
       rimraf: ^3.0.2
       tsup: ^5.11.13
       tsx: ^3.7.1
       typescript: ^4.7.4
+      uuid: ^8.3.2
     dependencies:
       '@prisma/client': 4.1.1_prisma@4.1.1
+      '@skillrecordings/honeycomb-tracer': link:../honeycomb-tracer
+      jest-mock-extended: 2.0.7_typescript@4.7.4
+      uuid: 8.3.2
     devDependencies:
       '@skillrecordings/tsconfig': link:../tsconfig
       '@types/node': 18.6.1
+      '@types/uuid': 8.3.4
       eslint: 8.19.0
       eslint-config-custom: link:../eslint-config-custom
       i: 0.3.7
@@ -3078,6 +2867,29 @@ importers:
       eslint-config-react-app: 7.0.1_4x5o4skxv6sl53vpwefgt23khm
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
+      typescript: 4.7.4
+
+  packages/honeycomb-tracer:
+    specifiers:
+      '@skillrecordings/tsconfig': workspace:*
+      '@types/node': ^18.6.1
+      '@vercel/tracing-js': ^0.5.1
+      eslint: ^8.12.0
+      eslint-config-custom: workspace:*
+      rimraf: ^3.0.2
+      tsup: ^5.11.13
+      tsx: ^3.7.1
+      typescript: ^4.7.4
+    dependencies:
+      '@vercel/tracing-js': 0.5.1
+    devDependencies:
+      '@skillrecordings/tsconfig': link:../tsconfig
+      '@types/node': 18.6.1
+      eslint: 8.19.0
+      eslint-config-custom: link:../eslint-config-custom
+      rimraf: 3.0.2
+      tsup: 5.12.9_typescript@4.7.4
+      tsx: 3.8.0
       typescript: 4.7.4
 
   packages/player:
@@ -3166,6 +2978,45 @@ importers:
       sass: 1.43.4
       typescript: 4.7.4
       xstate: 4.23.1
+
+  packages/prisma-price-loader:
+    specifiers:
+      '@skillrecordings/database': workspace:*
+      '@skillrecordings/honeycomb-tracer': workspace:*
+      '@skillrecordings/scripts': workspace:*
+      '@skillrecordings/tsconfig': workspace:*
+      '@types/jest': ^27.5.2
+      '@types/lodash': ^4.14.179
+      '@types/node': ^18.6.1
+      date-fns: ^2.28.0
+      eslint: ^8.12.0
+      eslint-config-custom: workspace:*
+      jest: ^27.5.1
+      jest-mock-extended: ^2.0.7
+      lodash: ^4.17.21
+      rimraf: ^3.0.2
+      tsup: ^5.11.13
+      tsx: ^3.7.1
+      typescript: ^4.7.4
+    dependencies:
+      '@skillrecordings/database': link:../database
+      '@skillrecordings/honeycomb-tracer': link:../honeycomb-tracer
+      date-fns: 2.28.0
+      lodash: 4.17.21
+    devDependencies:
+      '@skillrecordings/scripts': link:../scripts
+      '@skillrecordings/tsconfig': link:../tsconfig
+      '@types/jest': 27.5.2
+      '@types/lodash': 4.14.180
+      '@types/node': 18.6.1
+      eslint: 8.19.0
+      eslint-config-custom: link:../eslint-config-custom
+      jest: 27.5.1
+      jest-mock-extended: 2.0.7_g4n3hsjlbmz4ag5o32ytojordu
+      rimraf: 3.0.2
+      tsup: 5.12.9_typescript@4.7.4
+      tsx: 3.8.0
+      typescript: 4.7.4
 
   packages/quiz:
     specifiers:
@@ -3385,7 +3236,10 @@ importers:
       '@babel/preset-typescript': ^7.16.0
       '@babel/runtime': ^7.16.3
       '@skillrecordings/database': workspace:*
+      '@skillrecordings/honeycomb-tracer': workspace:*
+      '@skillrecordings/prisma-price-loader': workspace:*
       '@skillrecordings/scripts': workspace:*
+      '@skillrecordings/stripe': workspace:*
       '@skillrecordings/tsconfig': workspace:*
       '@slack/web-api': ^6.7.2
       '@types/cookie': ^0.4.1
@@ -3399,7 +3253,6 @@ importers:
       '@types/react-dom': ^18.0.6
       '@types/sanitize-html': ^2.6.2
       '@types/uuid': ^8.3.4
-      '@vercel/tracing-js': ^0.5.1
       autoprefixer: ^10.4.2
       babel-plugin-jsx-pragmatic: ^1.0.2
       babel-preset-preact: ^2.0.0
@@ -3411,6 +3264,7 @@ importers:
       handlebars: ^4.7.7
       html-to-text: ^8.2.0
       i: ^0.3.7
+      jest: ^27.5.1
       jest-mock-extended: ^2.0.7
       msw: ^0.35.0
       next: ^12.2.3
@@ -3425,15 +3279,16 @@ importers:
       react: 18.2.0
       react-dom: 18.2.0
       sanitize-html: ^2.7.0
-      stripe: ^8.186.1
       typescript: ^4.7.4
       uuid: ^8.3.2
       whatwg-fetch: ^3.6.2
     dependencies:
       '@babel/runtime': 7.17.2
       '@skillrecordings/database': link:../database
+      '@skillrecordings/honeycomb-tracer': link:../honeycomb-tracer
+      '@skillrecordings/prisma-price-loader': link:../prisma-price-loader
+      '@skillrecordings/stripe': link:../stripe
       '@slack/web-api': 6.7.2
-      '@vercel/tracing-js': 0.5.1
       concurrently: 7.2.2
       date-fns: 2.28.0
       handlebars: 4.7.7
@@ -3442,7 +3297,6 @@ importers:
       preact: 10.7.2
       preact-render-to-string: 5.2.0_preact@10.7.2
       sanitize-html: 2.7.0
-      stripe: 8.209.0
       uuid: 8.3.2
     devDependencies:
       '@babel/cli': 7.17.10_@babel+core@7.16.5
@@ -3472,7 +3326,8 @@ importers:
       eslint: 8.19.0
       eslint-config-custom: link:../eslint-config-custom
       i: 0.3.7
-      jest-mock-extended: 2.0.7_typescript@4.7.4
+      jest: 27.5.1
+      jest-mock-extended: 2.0.7_g4n3hsjlbmz4ag5o32ytojordu
       msw: 0.35.0
       next: 12.2.3_x6hpkaqu4dxwl4unajq2h7dx44
       next-auth: 4.2.1_veosbehjv4o6lw47zt43je3zka
@@ -3487,40 +3342,25 @@ importers:
 
   packages/stripe:
     specifiers:
-      '@skillrecordings/scripts': workspace:*
       '@skillrecordings/tsconfig': workspace:*
-      '@skillrecordings/types': workspace:*
-      '@types/cookie': ^0.4.1
-      '@types/jest': ^27.5.2
-      '@types/lodash': ^4.14.179
-      '@types/node': ^17.0.0
-      '@types/nodemailer': ^6.4.4
-      '@types/react': ^18.0.15
-      '@types/react-dom': ^18.0.6
-      esbuild-node-tsc: ^1.6.1
+      '@types/node': ^18.6.1
+      eslint: ^8.12.0
       eslint-config-custom: workspace:*
-      next: ^12.2.3
-      react: 18.2.0
-      react-dom: 18.2.0
+      rimraf: ^3.0.2
       stripe: ^8.186.1
+      tsup: ^5.11.13
+      tsx: ^3.7.1
       typescript: ^4.7.4
-    devDependencies:
-      '@skillrecordings/scripts': link:../scripts
-      '@skillrecordings/tsconfig': link:../tsconfig
-      '@skillrecordings/types': link:../types
-      '@types/cookie': 0.4.1
-      '@types/jest': 27.5.2
-      '@types/lodash': 4.14.180
-      '@types/node': 17.0.41
-      '@types/nodemailer': 6.4.4
-      '@types/react': 18.0.15
-      '@types/react-dom': 18.0.6
-      esbuild-node-tsc: 1.6.1_typescript@4.7.4
-      eslint-config-custom: link:../eslint-config-custom
-      next: 12.2.3_biqbaboplfbrettd7655fr4n2y
-      react: 18.2.0
-      react-dom: 18.2.0_react@18.2.0
+    dependencies:
       stripe: 8.209.0
+    devDependencies:
+      '@skillrecordings/tsconfig': link:../tsconfig
+      '@types/node': 18.6.1
+      eslint: 8.19.0
+      eslint-config-custom: link:../eslint-config-custom
+      rimraf: 3.0.2
+      tsup: 5.12.9_typescript@4.7.4
+      tsx: 3.8.0
       typescript: 4.7.4
 
   packages/time:
@@ -3957,7 +3797,6 @@ packages:
       '@babel/types': 7.18.9
       '@jridgewell/gen-mapping': 0.3.2
       jsesc: 2.5.2
-    dev: true
 
   /@babel/helper-annotate-as-pure/7.16.0:
     resolution: {integrity: sha512-ItmYF9vR4zA8cByDocY05o0LGUkp1zhbTQOH1NFyl5xXEqlTJQCEJjieriw+aFpxo16swMxUnUiKS7a/r4vtHg==}
@@ -4184,7 +4023,6 @@ packages:
   /@babel/helper-environment-visitor/7.18.9:
     resolution: {integrity: sha512-3r/aACDJ3fhQ/EVgFy0hpj8oHyHpQc+LPtJoY9SzTThAsStm4Ptegq92vqKoE3vD706ZVFWITnMnxucw+S9Ipg==}
     engines: {node: '>=6.9.0'}
-    dev: true
 
   /@babel/helper-explode-assignable-expression/7.16.0:
     resolution: {integrity: sha512-Hk2SLxC9ZbcOhLpg/yMznzJ11W++lg5GMbxt1ev6TXUiJB0N42KPC+7w8a+eWGuqDnUYuwStJoZHM7RgmIOaGQ==}
@@ -4229,7 +4067,6 @@ packages:
     dependencies:
       '@babel/template': 7.18.6
       '@babel/types': 7.18.9
-    dev: true
 
   /@babel/helper-get-function-arity/7.16.0:
     resolution: {integrity: sha512-ASCquNcywC1NkYh/z7Cgp3w31YW8aojjYIlNg4VeJiHkqyP4AzIvr4qx7pYDb4/s8YcsZWqqOSxgkvjUz1kpDQ==}
@@ -4431,7 +4268,7 @@ packages:
     resolution: {integrity: sha512-bde1etTx6ZyTmobl9LLMMQsaizFVZrquTEHOqKeQESMKo4PlObf+8+JA25ZsIpZhT/WEd39+vOdLXAFG/nELpA==}
     engines: {node: '>=6.9.0'}
     dependencies:
-      '@babel/types': 7.18.7
+      '@babel/types': 7.18.9
 
   /@babel/helper-validator-identifier/7.15.7:
     resolution: {integrity: sha512-K4JvCtQqad9OY2+yTU8w+E82ywk/fe+ELNlt1G8z3bVGlZfn/hOcQQsUhGhW/N+tb3fxK800wLtKOE/aM0m72w==}
@@ -4557,7 +4394,6 @@ packages:
     hasBin: true
     dependencies:
       '@babel/types': 7.18.9
-    dev: true
 
   /@babel/plugin-bugfix-safari-id-destructuring-collision-in-function-expression/7.16.2_@babel+core@7.16.0:
     resolution: {integrity: sha512-h37CvpLSf8gb2lIJ2CgC3t+EjFbi0t8qS7LCS1xcJIlEXE4czlofwaW7W1HA8zpgOCzI9C1nmoqNR1zWkk0pQg==}
@@ -5046,7 +4882,7 @@ packages:
     peerDependencies:
       '@babel/core': ^7.0.0-0
     dependencies:
-      '@babel/helper-plugin-utils': 7.18.6
+      '@babel/helper-plugin-utils': 7.18.9
     dev: true
 
   /@babel/plugin-syntax-bigint/7.8.3_@babel+core@7.16.0:
@@ -5055,7 +4891,7 @@ packages:
       '@babel/core': ^7.0.0-0
     dependencies:
       '@babel/core': 7.16.0
-      '@babel/helper-plugin-utils': 7.18.6
+      '@babel/helper-plugin-utils': 7.18.9
 
   /@babel/plugin-syntax-bigint/7.8.3_@babel+core@7.16.5:
     resolution: {integrity: sha512-wnTnFlG+YxQm3vDxpGE57Pj0srRU4sHE/mDkt1qv2YJJSeUAec2ma4WLUnUPeKjyrfntVwe/N6dCXpU+zL3Npg==}
@@ -5063,7 +4899,7 @@ packages:
       '@babel/core': ^7.0.0-0
     dependencies:
       '@babel/core': 7.16.5
-      '@babel/helper-plugin-utils': 7.18.6
+      '@babel/helper-plugin-utils': 7.18.9
 
   /@babel/plugin-syntax-class-properties/7.12.13:
     resolution: {integrity: sha512-fm4idjKla0YahUNgFNLCB0qySdsoPiZP3iQE3rky0mBUtMZ23yDJ9SJdg6dXTSDnulOVqiF3Hgr9nbXvXTQZYA==}
@@ -5170,7 +5006,7 @@ packages:
     peerDependencies:
       '@babel/core': ^7.0.0-0
     dependencies:
-      '@babel/helper-plugin-utils': 7.18.6
+      '@babel/helper-plugin-utils': 7.18.9
     dev: true
 
   /@babel/plugin-syntax-import-meta/7.10.4_@babel+core@7.16.0:
@@ -5179,7 +5015,7 @@ packages:
       '@babel/core': ^7.0.0-0
     dependencies:
       '@babel/core': 7.16.0
-      '@babel/helper-plugin-utils': 7.18.6
+      '@babel/helper-plugin-utils': 7.18.9
 
   /@babel/plugin-syntax-import-meta/7.10.4_@babel+core@7.16.5:
     resolution: {integrity: sha512-Yqfm+XDx0+Prh3VSeEQCPU81yC+JWZ2pDPFSS4ZdpfZhp4MkFMaDC1UqseovEKwSUpnIL7+vK+Clp7bfh0iD7g==}
@@ -5187,7 +5023,7 @@ packages:
       '@babel/core': ^7.0.0-0
     dependencies:
       '@babel/core': 7.16.5
-      '@babel/helper-plugin-utils': 7.18.6
+      '@babel/helper-plugin-utils': 7.18.9
 
   /@babel/plugin-syntax-json-strings/7.8.3:
     resolution: {integrity: sha512-lY6kdGpWHvjoe2vk4WrAapEuBR69EMxZl+RoGRhrFGNYVK8mOPAW8VfbT/ZgrFbXlDNiiaxQnAtgVCZ6jv30EA==}
@@ -6693,7 +6529,6 @@ packages:
       globals: 11.12.0
     transitivePeerDependencies:
       - supports-color
-    dev: true
 
   /@babel/types/7.16.0:
     resolution: {integrity: sha512-PJgg/k3SdLsGb3hhisFvtLOw5ts113klrpLuIPtCJIU+BB24fqq6lf8RWqKJEjzqXR9AEH1rIb5XTqwBHB+kQg==}
@@ -7355,14 +7190,6 @@ packages:
       postcss-selector-parser: 6.0.10
     dev: true
 
-  /@emotion/babel-plugin-jsx-pragmatic/0.1.5:
-    resolution: {integrity: sha512-y+3AJ0SItMDaAgGPVkQBC/S/BaqaPACkQ6MyCI2CUlrjTxKttTVfD3TMtcs7vLEcLxqzZ1xiG0vzwCXjhopawQ==}
-    peerDependencies:
-      '@babel/core': ^7.0.0
-    dependencies:
-      '@babel/plugin-syntax-jsx': 7.16.0
-    dev: true
-
   /@emotion/babel-plugin-jsx-pragmatic/0.1.5_@babel+core@7.16.5:
     resolution: {integrity: sha512-y+3AJ0SItMDaAgGPVkQBC/S/BaqaPACkQ6MyCI2CUlrjTxKttTVfD3TMtcs7vLEcLxqzZ1xiG0vzwCXjhopawQ==}
     peerDependencies:
@@ -7370,25 +7197,6 @@ packages:
     dependencies:
       '@babel/core': 7.16.5
       '@babel/plugin-syntax-jsx': 7.16.0_@babel+core@7.16.5
-    dev: true
-
-  /@emotion/babel-plugin/11.3.0:
-    resolution: {integrity: sha512-UZKwBV2rADuhRp+ZOGgNWg2eYgbzKzQXfQPtJbu/PLy8onurxlNCLvxMQEvlr1/GudguPI5IU9qIY1+2z1M5bA==}
-    peerDependencies:
-      '@babel/core': ^7.0.0
-    dependencies:
-      '@babel/helper-module-imports': 7.16.0
-      '@babel/plugin-syntax-jsx': 7.16.0
-      '@babel/runtime': 7.16.0
-      '@emotion/hash': 0.8.0
-      '@emotion/memoize': 0.7.5
-      '@emotion/serialize': 1.0.2
-      babel-plugin-macros: 2.8.0
-      convert-source-map: 1.8.0
-      escape-string-regexp: 4.0.0
-      find-root: 1.1.0
-      source-map: 0.5.7
-      stylis: 4.0.10
     dev: true
 
   /@emotion/babel-plugin/11.3.0_@babel+core@7.16.5:
@@ -7411,17 +7219,6 @@ packages:
       stylis: 4.0.10
     dev: true
 
-  /@emotion/babel-preset-css-prop/11.2.0:
-    resolution: {integrity: sha512-9XLQm2eLPYTho+Cx1LQTDA1rATjoAaB4O+ds55XDvoAa+Z16Hhg8y5Vihj3C8E6+ilDM8SV5A9Z6z+yj0YIRBg==}
-    peerDependencies:
-      '@babel/core': ^7.0.0
-    dependencies:
-      '@babel/plugin-transform-react-jsx': 7.16.0
-      '@babel/runtime': 7.16.0
-      '@emotion/babel-plugin': 11.3.0
-      '@emotion/babel-plugin-jsx-pragmatic': 0.1.5
-    dev: true
-
   /@emotion/babel-preset-css-prop/11.2.0_@babel+core@7.16.5:
     resolution: {integrity: sha512-9XLQm2eLPYTho+Cx1LQTDA1rATjoAaB4O+ds55XDvoAa+Z16Hhg8y5Vihj3C8E6+ilDM8SV5A9Z6z+yj0YIRBg==}
     peerDependencies:
@@ -7442,6 +7239,7 @@ packages:
       '@emotion/utils': 1.0.0
       '@emotion/weak-memoize': 0.2.5
       stylis: 4.0.10
+    dev: false
 
   /@emotion/hash/0.8.0:
     resolution: {integrity: sha512-kBJtf7PH6aWwZ6fka3zQ0p6SBYzx4fl1LoZXE2RrnYST9Xljm7WfKJrU4g/Xr3Beg72MLrp1AWNUmuYJTL7Cow==}
@@ -7466,29 +7264,6 @@ packages:
   /@emotion/memoize/0.7.5:
     resolution: {integrity: sha512-igX9a37DR2ZPGYtV6suZ6whr8pTFtyHL3K/oLUotxpSVO2ASaprmAe2Dkq7tBo7CRY7MMDrAa9nuQP9/YG8FxQ==}
 
-  /@emotion/react/11.5.0_3hx2ussxxho4jajbwrd6gq34qe:
-    resolution: {integrity: sha512-MYq/bzp3rYbee4EMBORCn4duPQfgpiEB5XzrZEBnUZAL80Qdfr7CEv/T80jwaTl/dnZmt9SnTa8NkTrwFNpLlw==}
-    peerDependencies:
-      '@babel/core': ^7.0.0
-      '@types/react': '*'
-      react: '>=16.8.0'
-    peerDependenciesMeta:
-      '@babel/core':
-        optional: true
-      '@types/react':
-        optional: true
-    dependencies:
-      '@babel/runtime': 7.18.3
-      '@emotion/cache': 11.5.0
-      '@emotion/serialize': 1.0.2
-      '@emotion/sheet': 1.0.3
-      '@emotion/utils': 1.0.0
-      '@emotion/weak-memoize': 0.2.5
-      '@types/react': 18.0.15
-      hoist-non-react-statics: 3.3.2
-      react: 18.2.0
-    dev: true
-
   /@emotion/react/11.5.0_yrcg6atwuqo7iv53lhe7ebwley:
     resolution: {integrity: sha512-MYq/bzp3rYbee4EMBORCn4duPQfgpiEB5XzrZEBnUZAL80Qdfr7CEv/T80jwaTl/dnZmt9SnTa8NkTrwFNpLlw==}
     peerDependencies:
@@ -7511,6 +7286,7 @@ packages:
       '@types/react': 18.0.15
       hoist-non-react-statics: 3.3.2
       react: 18.2.0
+    dev: false
 
   /@emotion/serialize/1.0.2:
     resolution: {integrity: sha512-95MgNJ9+/ajxU7QIAruiOAdYNjxZX7G2mhgrtDWswA21VviYIRP1R5QilZ/bDY42xiKsaktP4egJb3QdYQZi1A==}
@@ -7523,6 +7299,7 @@ packages:
 
   /@emotion/sheet/1.0.3:
     resolution: {integrity: sha512-YoX5GyQ4db7LpbmXHMuc8kebtBGP6nZfRC5Z13OKJMixBEwdZrJ914D6yJv/P+ZH/YY3F5s89NYX2hlZAf3SRQ==}
+    dev: false
 
   /@emotion/stylis/0.8.5:
     resolution: {integrity: sha512-h6KtPihKFn3T9fuIrwvXXUOwlx3rfUvfZIcP5a6rh8Y7zjE3O06hT5Ss4S/YI1AYhuZ1kjaE/5EaOOI2NqSylQ==}
@@ -7536,6 +7313,7 @@ packages:
 
   /@emotion/weak-memoize/0.2.5:
     resolution: {integrity: sha512-6U71C2Wp7r5XtFtQzYrW5iKFT67OixrSxjI4MptCHzdSVlgabczzqLe0ZSgnub/5Kp4hSbpDB1tMytZY9pwxxA==}
+    dev: false
 
   /@esbuild-kit/cjs-loader/2.3.2:
     resolution: {integrity: sha512-3UIFKrGfq2d2R2A/SpJaeHTP5z3nrOnVMxE+cNpOuuW+Lotm0Sfbc9lVHCjcxaxgcx0MKI7g2FvxvWlylzDRKg==}
@@ -7659,7 +7437,7 @@ packages:
     engines: {node: ^10.13.0 || ^12.13.0 || ^14.15.0 || >=15.0.0}
     dependencies:
       '@jest/types': 27.5.1
-      '@types/node': 17.0.41
+      '@types/node': 18.6.1
       chalk: 4.1.2
       jest-message-util: 27.5.1
       jest-util: 27.5.1
@@ -7718,7 +7496,7 @@ packages:
       '@jest/test-result': 27.5.1
       '@jest/transform': 27.5.1
       '@jest/types': 27.5.1
-      '@types/node': 17.0.41
+      '@types/node': 18.6.1
       ansi-escapes: 4.3.2
       chalk: 4.1.2
       emittery: 0.8.1
@@ -7850,7 +7628,7 @@ packages:
       '@jest/test-result': 27.5.1
       '@jest/transform': 27.5.1
       '@jest/types': 27.5.1
-      '@types/node': 17.0.41
+      '@types/node': 18.6.1
       chalk: 4.1.2
       collect-v8-coverage: 1.0.1
       exit: 0.1.2
@@ -10667,7 +10445,7 @@ packages:
   /@types/babel__traverse/7.14.2:
     resolution: {integrity: sha512-K2waXdXBi2302XUdcHcR1jCeU0LL4TD9HRs/gk0N2Xvrht+G/BfJa4QObBQZfhMdxiCpV3COl5Nfq4uKTeTnJA==}
     dependencies:
-      '@babel/types': 7.18.7
+      '@babel/types': 7.18.9
 
   /@types/cacheable-request/6.0.2:
     resolution: {integrity: sha512-B3xVo+dlKM6nnKTcmm5ZtY/OL8bOAOd2Olee9M1zft65ox50OzjEHW91sDiU9j6cvW8Ejg1/Qkf4xd2kugApUA==}
@@ -12550,7 +12328,7 @@ packages:
     resolution: {integrity: sha512-Y1IQok9821cC9onCx5otgFfRm7Lm+I+wwxOx738M/WLPZ9Q42m4IG5W0FNX8WLL2gYMZo3JkuXIH2DOpWM+qwA==}
     engines: {node: '>=8'}
     dependencies:
-      '@babel/helper-plugin-utils': 7.18.6
+      '@babel/helper-plugin-utils': 7.18.9
       '@istanbuljs/load-nyc-config': 1.1.0
       '@istanbuljs/schema': 0.1.3
       istanbul-lib-instrument: 5.1.0
@@ -14966,6 +14744,7 @@ packages:
     dependencies:
       graceful-fs: 4.2.10
       tapable: 2.2.1
+    dev: true
 
   /enquirer/2.3.6:
     resolution: {integrity: sha512-yjNnPr315/FjS4zIsUxYguYUPP2e1NK4d7E7ZOLiyYCcbFBiTMyID+2wvm2w6+pZ/odMA7cRkjhsPbltwBOrLg==}
@@ -18717,7 +18496,7 @@ packages:
     engines: {node: '>=8'}
     dependencies:
       '@babel/core': 7.16.5
-      '@babel/parser': 7.18.6
+      '@babel/parser': 7.18.9
       '@istanbuljs/schema': 0.1.3
       istanbul-lib-coverage: 3.2.0
       semver: 6.3.0
@@ -18790,7 +18569,7 @@ packages:
       '@jest/environment': 27.5.1
       '@jest/test-result': 27.5.1
       '@jest/types': 27.5.1
-      '@types/node': 17.0.41
+      '@types/node': 18.6.1
       chalk: 4.1.2
       co: 4.6.0
       dedent: 0.7.0
@@ -19046,7 +18825,7 @@ packages:
       '@jest/environment': 27.5.1
       '@jest/fake-timers': 27.5.1
       '@jest/types': 27.5.1
-      '@types/node': 17.0.41
+      '@types/node': 18.6.1
       jest-mock: 27.5.1
       jest-util: 27.5.1
 
@@ -19089,7 +18868,7 @@ packages:
     dependencies:
       '@jest/types': 27.5.1
       '@types/graceful-fs': 4.1.5
-      '@types/node': 17.0.41
+      '@types/node': 18.6.1
       anymatch: 3.1.2
       fb-watchman: 2.0.1
       graceful-fs: 4.2.10
@@ -19137,7 +18916,7 @@ packages:
       '@jest/source-map': 27.5.1
       '@jest/test-result': 27.5.1
       '@jest/types': 27.5.1
-      '@types/node': 17.0.41
+      '@types/node': 18.6.1
       chalk: 4.1.2
       co: 4.6.0
       expect: 27.5.1
@@ -19228,6 +19007,17 @@ packages:
       typescript: 4.7.4
     dev: false
 
+  /jest-mock-extended/2.0.7_g4n3hsjlbmz4ag5o32ytojordu:
+    resolution: {integrity: sha512-h8brJJN5BZb03hTwplvt+raT6Nj0U2U71Z26Py12Qc3kvYnAjDW/zSuQJLnXCNyyufy592VC9k3X7AOz+2H52g==}
+    peerDependencies:
+      jest: ^24.0.0 || ^25.0.0 || ^26.0.0 || ^27.0.0 || ^28.0.0
+      typescript: ^3.0.0 || ^4.0.0
+    dependencies:
+      jest: 27.5.1
+      ts-essentials: 7.0.3_typescript@4.7.4
+      typescript: 4.7.4
+    dev: true
+
   /jest-mock-extended/2.0.7_typescript@4.7.4:
     resolution: {integrity: sha512-h8brJJN5BZb03hTwplvt+raT6Nj0U2U71Z26Py12Qc3kvYnAjDW/zSuQJLnXCNyyufy592VC9k3X7AOz+2H52g==}
     peerDependencies:
@@ -19236,7 +19026,6 @@ packages:
     dependencies:
       ts-essentials: 7.0.3_typescript@4.7.4
       typescript: 4.7.4
-    dev: true
 
   /jest-mock/25.5.0:
     resolution: {integrity: sha512-eXWuTV8mKzp/ovHc5+3USJMYsTBhyQ+5A1Mak35dey/RG8GlM4YWVylZuGgVXinaW6tpvk/RSecmF37FKUlpXA==}
@@ -19325,7 +19114,7 @@ packages:
       jest-pnp-resolver: 1.2.2_jest-resolve@27.5.1
       jest-util: 27.5.1
       jest-validate: 27.5.1
-      resolve: 1.22.0
+      resolve: 1.22.1
       resolve.exports: 1.1.0
       slash: 3.0.0
 
@@ -19381,7 +19170,7 @@ packages:
       jest-runtime: 27.5.1
       jest-util: 27.5.1
       jest-worker: 27.5.1
-      source-map-support: 0.5.20
+      source-map-support: 0.5.21
       throat: 6.0.1
     transitivePeerDependencies:
       - bufferutil
@@ -19493,10 +19282,10 @@ packages:
     engines: {node: ^10.13.0 || ^12.13.0 || ^14.15.0 || >=15.0.0}
     dependencies:
       '@babel/core': 7.16.5
-      '@babel/generator': 7.18.7
+      '@babel/generator': 7.18.9
       '@babel/plugin-syntax-typescript': 7.17.10_@babel+core@7.16.5
-      '@babel/traverse': 7.18.6
-      '@babel/types': 7.18.7
+      '@babel/traverse': 7.18.9
+      '@babel/types': 7.18.9
       '@jest/transform': 27.5.1
       '@jest/types': 27.5.1
       '@types/babel__traverse': 7.14.2
@@ -19590,7 +19379,7 @@ packages:
     dependencies:
       '@jest/test-result': 27.5.1
       '@jest/types': 27.5.1
-      '@types/node': 17.0.41
+      '@types/node': 18.6.1
       ansi-escapes: 4.3.2
       chalk: 4.1.2
       jest-util: 27.5.1
@@ -19615,7 +19404,7 @@ packages:
     resolution: {integrity: sha512-7vuh85V5cdDofPyxn58nrPjBktZo0u9x1g8WtjQol+jZDaE+fhN+cIvTj11GndBnMnyfrUOG1sZQxCdjKh+DKg==}
     engines: {node: '>= 10.13.0'}
     dependencies:
-      '@types/node': 17.0.41
+      '@types/node': 18.6.1
       merge-stream: 2.0.0
       supports-color: 8.1.1
 
@@ -22212,6 +22001,7 @@ packages:
     dependencies:
       enhanced-resolve: 5.8.3
       escalade: 3.1.1
+    dev: true
 
   /next/12.2.3_biqbaboplfbrettd7655fr4n2y:
     resolution: {integrity: sha512-TA0tmSA6Dk6S6kfvCNbF7CWYW8468gZUxr/3/30z4KvAQbXnl2ASYZElVe7q/hBW/1F1ee0tSBlHa4/sn+ZIBw==}
@@ -24656,6 +24446,7 @@ packages:
     engines: {node: '>=0.6'}
     dependencies:
       side-channel: 1.0.4
+    dev: false
 
   /qs/6.5.2:
     resolution: {integrity: sha512-N5ZAX4/LxJmF+7wN74pUD6qAh9/wnvdQcjq9TZjevvXzSUo7bfmw91saqMjzGS2xq91/odN2dW/WOl7qQHNDGA==}
@@ -26494,6 +26285,7 @@ packages:
 
   /signal-exit/3.0.5:
     resolution: {integrity: sha512-KWcOiKeQj6ZyXx7zq4YxSMgHRlod4czeBQZrPb8OKcohcqAXShm7E20kEMle9WBt26hFcAf0qLOcp5zmY7kOqQ==}
+    dev: false
 
   /signal-exit/3.0.7:
     resolution: {integrity: sha512-wnD2ZE+l+SPC/uoS0vXeE9L1+0wuaMqKlfz9AMUo38JsyLSBWSFcHR1Rri62LZc12vLr1gb3jl7iwQhgwpAbGQ==}
@@ -26680,7 +26472,6 @@ packages:
     dependencies:
       buffer-from: 1.1.2
       source-map: 0.6.1
-    dev: true
 
   /source-map-url/0.4.1:
     resolution: {integrity: sha512-cPiFOTLUKvJFIg4SKVScy4ilPPW6rFgMgfuZJPNoDuMs3nC1HbMUycBoJw77xFIp6z1UJQJOfx6C9GMH80DiTw==}
@@ -27143,20 +26934,13 @@ packages:
     resolution: {integrity: sha512-6fPc+R4ihwqP6N/aIv2f1gMH8lOVtWQHoqC4yK6oSDVVocumAsfCqjkXnqiYMhmMwS/mEHLp7Vehlt3ql6lEig==}
     engines: {node: '>=8'}
 
-  /stripe/8.186.1:
-    resolution: {integrity: sha512-BBByVyqKEBY2GNQDLmfwL1RtfsPmjForD+up7tu+P7KYxxvwEzF1gM2Iv4npfOQevGaBmR70sxIWRwn7utS5pg==}
-    engines: {node: ^8.1 || >=10.*}
-    dependencies:
-      '@types/node': 17.0.41
-      qs: 6.10.1
-    dev: false
-
   /stripe/8.209.0:
     resolution: {integrity: sha512-ozfs8t0fxA/uvCK1DNvitSdEublOHK5CTRsrd2AWWk9LogjXcfkxmtz3KGSSQd+jyA2+rbee9TMzhJ6aabQ5WQ==}
     engines: {node: ^8.1 || >=10.*}
     dependencies:
       '@types/node': 18.6.1
       qs: 6.10.1
+    dev: false
 
   /style-mod/4.0.0:
     resolution: {integrity: sha512-OPhtyEjyyN9x3nhPsu76f52yUGXiZcgvsrFVtvTkyGRQJ0XK+GPc6ov1z+lRpbeabka+MYEQxOYRnt5nF30aMw==}
@@ -29456,7 +29240,7 @@ packages:
     dependencies:
       imurmurhash: 0.1.4
       is-typedarray: 1.0.0
-      signal-exit: 3.0.5
+      signal-exit: 3.0.7
       typedarray-to-buffer: 3.1.5
 
   /write/1.0.3:

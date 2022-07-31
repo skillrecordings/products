@@ -5,9 +5,8 @@ import Layout from 'components/app/layout'
 import Image from 'next/image'
 import NewMailImage from '../../../public/assets/new-mail@2x.png'
 import {MailIcon} from '@heroicons/react/outline'
-import {PurchaseStatus} from '@skillrecordings/skill-api'
 import {setupHttpTracing} from '@vercel/tracing-js'
-import {tracer} from '@skillrecordings/skill-api'
+import {tracer} from '@skillrecordings/honeycomb-tracer'
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const {res, req, query} = context
@@ -20,7 +19,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   const {purchaseId} = query
 
   const purchase = await prisma.purchase.findFirst({
-    where: {id: purchaseId as string, status: PurchaseStatus.Valid},
+    where: {id: purchaseId as string, status: 'Valid'},
     include: {
       user: true,
     },

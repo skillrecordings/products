@@ -3,7 +3,7 @@ import {GetServerSideProps} from 'next'
 import {getToken} from 'next-auth/jwt'
 import * as Sentry from '@sentry/nextjs'
 import {setupHttpTracing} from '@vercel/tracing-js'
-import {tracer} from '@skillrecordings/skill-api'
+import {tracer} from '@skillrecordings/honeycomb-tracer'
 
 export type ErrorType =
   | 'default'

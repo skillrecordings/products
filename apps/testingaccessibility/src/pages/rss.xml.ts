@@ -3,7 +3,7 @@ import {Feed} from 'feed'
 import config from '../config'
 import {getAllArticles} from '../lib/articles'
 import {setupHttpTracing} from '@vercel/tracing-js'
-import {tracer} from '@skillrecordings/skill-api'
+import {tracer} from '@skillrecordings/honeycomb-tracer'
 
 const hostUrl = process.env.NEXT_PUBLIC_URL
 
