@@ -1,3 +1,4 @@
+import React from 'react'
 import type {NextPage} from 'next'
 import Image from 'next/image'
 import {useRouter} from 'next/router'
@@ -5,7 +6,7 @@ import {
   SubscribeToConvertkitForm,
   redirectUrlBuilder,
 } from '@skillrecordings/convertkit'
-
+import toast from 'react-hot-toast'
 import Layout from 'components/layout'
 
 const Subscribe = () => {
@@ -37,6 +38,17 @@ const Subscribe = () => {
 }
 
 const Home: NextPage = () => {
+  const router = useRouter()
+
+  React.useEffect(() => {
+    const {query} = router
+    if (query.message) {
+      toast(query.message as string, {
+        icon: '✅',
+      })
+    }
+  }, [router])
+
   return (
     <Layout>
       <div className="relative w-full">

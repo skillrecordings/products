@@ -1051,6 +1051,7 @@ importers:
       prettier: ^2.6.2
       react: 18.2.0
       react-dom: 18.2.0
+      react-hot-toast: ^2.2.0
       tailwindcss: ^3.1.6
       typescript: ^4.7.4
       webpack: '>=4.3.0 <5.0.0'
@@ -1086,6 +1087,7 @@ importers:
       lint-staged: 11.2.6
       postcss: 8.4.14
       prettier: 2.6.2
+      react-hot-toast: 2.2.0_biqbaboplfbrettd7655fr4n2y
       tailwindcss: 3.1.6
       typescript: 4.7.4
       webpack: 4.46.0
@@ -17092,7 +17094,6 @@ packages:
     resolution: {integrity: sha512-S0C85gCzcfFCMSdjD/CxyQMt1rbf2qEg6hmDzxk2FfD7+7Ogk55m8ZFUMtqNaZM4VVX/qaU9AzSORG+Gf4ZpAQ==}
     peerDependencies:
       csstype: ^3.0.10
-    dev: false
 
   /goober/2.1.8_csstype@3.0.11:
     resolution: {integrity: sha512-S0C85gCzcfFCMSdjD/CxyQMt1rbf2qEg6hmDzxk2FfD7+7Ogk55m8ZFUMtqNaZM4VVX/qaU9AzSORG+Gf4ZpAQ==}
@@ -24661,7 +24662,6 @@ packages:
       react-dom: 18.2.0_react@18.2.0
     transitivePeerDependencies:
       - csstype
-    dev: false
 
   /react-hot-toast/2.2.0_npw22p3c4ehm7n7vxn2gqac44u:
     resolution: {integrity: sha512-248rXw13uhf/6TNDVzagX+y7R8J183rp7MwUMNkcrBRyHj/jWOggfXTGlM8zAOuh701WyVW+eUaWG2LeSufX9g==}

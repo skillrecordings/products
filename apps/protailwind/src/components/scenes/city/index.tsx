@@ -1,5 +1,4 @@
 import React, {useRef} from 'react'
-import * as THREE from 'three'
 import {Canvas} from '@react-three/fiber'
 import {BlendFunction} from 'postprocessing'
 import {OrbitControls, Stats} from '@react-three/drei'
