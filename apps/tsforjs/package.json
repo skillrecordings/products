@@ -3,11 +3,11 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
+    "dev": "next dev -p 3018",
     "build": "next build",
     "postbuild": "NODE_ENV=production next-sitemap",
-    "dev": "next dev -p 3018",
-    "lint": "next lint",
-    "start": "next start -p 3018"
+    "start": "next start -p 3018",
+    "lint": "next lint"
   },
   "dependencies": {
     "@skillrecordings/analytics": "workspace:*",

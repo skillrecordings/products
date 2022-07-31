@@ -3,5 +3,4 @@
 
 // used for __tests__/testing-library.js
 // learn more: https://github.com/testing-library/jest-dom
-import dotenv from 'dotenv'
-dotenv.config({path: './.env.test'})
+import '@testing-library/jest-dom/extend-expect'

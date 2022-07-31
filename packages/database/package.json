@@ -8,22 +8,22 @@
     "dist/**"
   ],
   "scripts": {
-    "prebuild": "pnpm run generate",
     "build": "tsup",
     "clean": "rimraf .turbo node_modules dist",
     "db:push": "prisma db push",
-    "predev": "pnpm run generate",
     "dev": "tsup --watch",
     "format": "prisma format",
     "generate": "DATABASE_URL=\"mysql://root@127.0.0.1:3306/turborepo\" prisma generate",
     "lint": "eslint ./src --fix",
-    "validate": "DATABASE_URL=\"mysql://root@127.0.0.1:3306/turborepo\" npx prisma validate"
+    "prebuild": "pnpm run generate",
+    "validate": "DATABASE_URL=\"mysql://root@127.0.0.1:3306/turborepo\" npx prisma validate",
+    "predev": "pnpm run generate"
   },
   "dependencies": {
     "@prisma/client": "^4.1.1",
     "@skillrecordings/honeycomb-tracer": "workspace:*",
-    "jest-mock-extended": "^2.0.7",
-    "uuid": "^8.3.2"
+    "uuid": "^8.3.2",
+    "jest-mock-extended": "^2.0.7"
   },
   "devDependencies": {
     "@skillrecordings/tsconfig": "workspace:*",

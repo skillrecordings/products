@@ -18,8 +18,8 @@
     "lint": "eslint src config",
     "prepublishOnly": "pnpm build",
     "test": "jest",
-    "watch:css": "postcss --config config/postcss.config.js --watch src/**/*.css --base src --dir .",
-    "watch:js": "tsc --watch"
+    "watch:js": "tsc --watch",
+    "watch:css": "postcss --config config/postcss.config.js --watch src/**/*.css --base src --dir ."
   },
   "eslintIgnore": [
     "./*.d.ts",
@@ -33,8 +33,8 @@
   "dependencies": {
     "@babel/runtime": "^7.16.3",
     "@skillrecordings/database": "workspace:*",
-    "@skillrecordings/honeycomb-tracer": "workspace:*",
     "@skillrecordings/prisma-price-loader": "workspace:*",
+    "@skillrecordings/honeycomb-tracer": "workspace:*",
     "@skillrecordings/stripe": "workspace:*",
     "@slack/web-api": "^6.7.2",
     "concurrently": "^7.2.2",
@@ -74,9 +74,9 @@
     "cssnano": "^5.0.12",
     "eslint": "^8.19.0",
     "eslint-config-custom": "workspace:*",
-    "i": "^0.3.7",
     "jest": "^27.5.1",
     "jest-mock-extended": "^2.0.7",
+    "i": "^0.3.7",
     "msw": "^0.35.0",
     "next": "^12.2.3",
     "next-auth": "=4.2.1",
