@@ -45,7 +45,9 @@ const Login: React.FC<React.PropsWithChildren<{csrfToken: string}>> = ({
                   />
                 </div>
 
-                {errors.email && <p>{errors.email.message}</p>}
+                {errors?.email?.message && (
+                  <p>{String(errors.email.message)}</p>
+                )}
 
                 <button className="w-full px-5 py-3 mt-2 font-medium text-white transition-all duration-150 ease-in-out bg-blue-600 rounded-md hover:bg-blue-700 active:bg-blue-800">
                   Envíame un correo
