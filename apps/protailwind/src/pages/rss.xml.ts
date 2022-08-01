@@ -2,7 +2,6 @@ import {GetServerSideProps} from 'next'
 import {Feed} from 'feed'
 import config from '../config'
 import {getAllArticles} from '../lib/articles'
-import {tracer, setupHttpTracing} from '@skillrecordings/honeycomb-tracer'
 
 const hostUrl = process.env.NEXT_PUBLIC_URL
 
@@ -51,12 +50,7 @@ const buildFeed = (items: any) => {
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const {res, req} = context
-  setupHttpTracing({
-    name: getServerSideProps.name,
-    tracer,
-    req,
-    res,
-  })
+
   if (res) {
     const articles = await getAllArticles()
 
