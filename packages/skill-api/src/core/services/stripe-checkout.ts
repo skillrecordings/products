@@ -3,8 +3,7 @@ import {SkillRecordingsHandlerParams} from '../types'
 import {prisma, getSdk} from '@skillrecordings/database'
 import {first} from 'lodash'
 import {add} from 'date-fns'
-import {stripe} from '../../server'
-import {getCalculatedPriced} from '@skillrecordings/prisma-commerce'
+import {getCalculatedPriced, stripe} from '../../server'
 
 export class CheckoutError extends Error {
   couponId?: string

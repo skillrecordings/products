@@ -1980,7 +1980,6 @@ importers:
       '@skillrecordings/database': workspace:*
       '@skillrecordings/honeycomb-tracer': workspace:*
       '@skillrecordings/player': workspace:*
-      '@skillrecordings/prisma-commerce': workspace:*
       '@skillrecordings/quiz': workspace:*
       '@skillrecordings/react': workspace:*
       '@skillrecordings/scripts': workspace:*
@@ -2147,7 +2146,6 @@ importers:
       '@skillrecordings/database': link:../../packages/database
       '@skillrecordings/honeycomb-tracer': link:../../packages/honeycomb-tracer
       '@skillrecordings/player': link:../../packages/player
-      '@skillrecordings/prisma-commerce': link:../../packages/prisma-commerce
       '@skillrecordings/quiz': link:../../packages/quiz
       '@skillrecordings/react': link:../../packages/react
       '@skillrecordings/skill-api': link:../../packages/skill-api
@@ -3206,41 +3204,6 @@ importers:
       typescript: 4.7.4
       xstate: 4.23.1
 
-  packages/prisma-commerce:
-    specifiers:
-      '@skillrecordings/database': workspace:*
-      '@skillrecordings/honeycomb-tracer': workspace:*
-      '@skillrecordings/scripts': workspace:*
-      '@skillrecordings/tsconfig': workspace:*
-      '@types/jest': ^27.5.2
-      '@types/lodash': ^4.14.179
-      '@types/node': ^18.6.1
-      date-fns: ^2.28.0
-      eslint: ^8.12.0
-      eslint-config-custom: workspace:*
-      lodash: ^4.17.21
-      rimraf: ^3.0.2
-      tsup: ^5.11.13
-      tsx: ^3.7.1
-      typescript: ^4.7.4
-    dependencies:
-      '@skillrecordings/database': link:../database
-      '@skillrecordings/honeycomb-tracer': link:../honeycomb-tracer
-      date-fns: 2.28.0
-      lodash: 4.17.21
-    devDependencies:
-      '@skillrecordings/scripts': link:../scripts
-      '@skillrecordings/tsconfig': link:../tsconfig
-      '@types/jest': 27.5.2
-      '@types/lodash': 4.14.180
-      '@types/node': 18.6.1
-      eslint: 8.19.0
-      eslint-config-custom: link:../eslint-config-custom
-      rimraf: 3.0.2
-      tsup: 5.12.9_typescript@4.7.4
-      tsx: 3.8.0
-      typescript: 4.7.4
-
   packages/quiz:
     specifiers:
       '@accessible/use-conditional-focus': ^3.0.1
@@ -3460,7 +3423,6 @@ importers:
       '@babel/runtime': ^7.16.3
       '@skillrecordings/database': workspace:*
       '@skillrecordings/honeycomb-tracer': workspace:*
-      '@skillrecordings/prisma-commerce': workspace:*
       '@skillrecordings/scripts': workspace:*
       '@skillrecordings/tsconfig': workspace:*
       '@slack/web-api': ^6.7.2
@@ -3508,7 +3470,6 @@ importers:
       '@babel/runtime': 7.17.2
       '@skillrecordings/database': link:../database
       '@skillrecordings/honeycomb-tracer': link:../honeycomb-tracer
-      '@skillrecordings/prisma-commerce': link:../prisma-commerce
       '@slack/web-api': 6.7.2
       concurrently: 7.2.2
       date-fns: 2.28.0
@@ -8215,7 +8176,6 @@ packages:
       webpack: 4.46.0
     transitivePeerDependencies:
       - supports-color
-    dev: false
 
   /@mdx-js/mdx/1.6.22:
     resolution: {integrity: sha512-AMxuLxPz2j5/6TpF/XSdKpQP1NlG0z11dFOlq+2IP/lSgl11GY8ji6S/rgsViN/L0BDvHvUMruRb7ub+24LUYA==}

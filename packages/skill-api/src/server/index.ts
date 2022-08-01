@@ -1,2 +1,6 @@
+export * from './prices/format-prices-for-product'
 export * from './post-to-slack'
+export * from './prices/parity-coupon'
+export * from './prices/get-calculated-price'
+export * from './prices/get-active-merchant-coupon'
 export * from './utils/stripe'

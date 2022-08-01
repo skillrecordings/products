@@ -72,7 +72,6 @@
     "@skillrecordings/database": "workspace:*",
     "@skillrecordings/honeycomb-tracer": "workspace:*",
     "@skillrecordings/player": "workspace:*",
-    "@skillrecordings/prisma-commerce": "workspace:*",
     "@skillrecordings/quiz": "workspace:*",
     "@skillrecordings/react": "workspace:*",
     "@skillrecordings/skill-api": "workspace:*",
