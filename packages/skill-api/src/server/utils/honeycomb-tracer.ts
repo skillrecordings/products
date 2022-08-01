@@ -1,15 +1,13 @@
 import {DeterministicSampler, Tracer} from '@vercel/tracing-js'
-import slugify from 'slugify'
 
 const getTracer = () => {
-  const slug = slugify(process.env.NEXT_PUBLIC_PRODUCT_NAME, {lower: true})
   return new Tracer(
     {
-      serviceName: process.env.NEXT_PUBLIC_PRODUCT_NAME,
+      serviceName: 'testing-accessibility',
       environment: process.env.ENVIRONMENT,
-      dc: `${slug}-dc`,
-      podName: `${slug}-pod`,
-      nodeName: `${slug}-node`,
+      dc: 'ta-dc',
+      podName: 'ta-pod',
+      nodeName: 'ta-node',
       sampler: new DeterministicSampler(process.env.TRACE_SAMPLE_RATE),
     },
     {

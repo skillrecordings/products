@@ -3,7 +3,7 @@ import {getBulkDiscountPercent} from './bulk-coupon'
 import {getCalculatedPriced} from './get-calculated-price'
 import {getSdk} from '../db/prisma-api'
 import {Context, defaultContext} from '../db/context'
-import {SpanContext} from '@skillrecordings/honeycomb-tracer'
+import {SpanContext} from '@vercel/tracing-js'
 
 // 10% premium for an upgrade
 // TODO: Display Coupon Errors
