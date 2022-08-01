@@ -6,6 +6,8 @@ import {
 import {init} from './init'
 import renderPage from './pages'
 import {sendFeedbackFromUser} from './services/send-feedback-from-user'
+import {loadPrices} from './services/load-prices'
+import {stripeCheckout} from './services/stripe-checkout'
 
 export interface OutgoingResponse<
   Body extends string | Record<string, any> | any[] = any,
@@ -24,9 +26,9 @@ export interface IncomingRequest {
   cookies?: Partial<{
     [key: string]: string
   }>
-  headers?: Record<string, any>
-  query?: Record<string, any>
-  body?: Record<string, any>
+  headers: Record<string, any>
+  query: Record<string, any>
+  body: Record<string, any>
   action: SkillRecordingsAction
   providerId?: string
   error?: string
@@ -38,11 +40,14 @@ export async function SkillRecordingsHandler<
   const {options: userOptions, req, token} = params
 
   // TODO: implement errors
-  const {action, error, method = 'GET'} = req
+  const {action, error, providerId, method = 'GET'} = req
+
+  console.log({action})
 
   const {options, cookies} = await init({
     userOptions,
     action,
+    providerId,
     host: req.host,
     cookies: req.cookies,
     isPost: method === 'POST',
@@ -69,6 +74,14 @@ export async function SkillRecordingsHandler<
           context: req?.body?.context,
           config: userOptions,
         })
+      case 'prices':
+        return await loadPrices({params})
+      case 'checkout':
+        return stripeCheckout({params})
+      case 'webhook':
+        return {
+          status: 200,
+        }
     }
   }
 

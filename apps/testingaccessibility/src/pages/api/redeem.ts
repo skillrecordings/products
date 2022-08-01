@@ -2,14 +2,12 @@ import type {NextApiRequest, NextApiResponse} from 'next'
 import {validateCoupon} from '../../utils/validate-coupon'
 import {sendServerEmail} from '../../utils/send-server-email'
 import {nextAuthOptions} from './auth/[...nextauth]'
-import {prisma} from '@skillrecordings/database'
+import {prisma, getSdk} from '@skillrecordings/database'
 import {withSentry} from '@sentry/nextjs'
-import {getSdk} from '../../lib/prisma-api'
 import * as Sentry from '@sentry/nextjs'
-import {setupHttpTracing} from '@vercel/tracing-js'
-import {tracer} from '../../utils/honeycomb-tracer'
+import {tracer, setupHttpTracing} from '@skillrecordings/honeycomb-tracer'
 import {postRedemptionToSlack} from '../../server/post-to-slack'
-import {PurchaseStatus} from '../../utils/purchase-status'
+import {PurchaseStatus} from '@skillrecordings/skill-api'
 
 export class CouponRedemptionError extends Error {
   couponId: string

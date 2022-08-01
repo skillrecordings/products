@@ -1,5 +1,5 @@
 import React from 'react'
-import {FormattedPrice} from '../utils/format-prices-for-product'
+import {type FormattedPrice} from '@skillrecordings/commerce-server'
 
 type PricingContextType = {
   addPrice: (price: FormattedPrice, productId: string) => void

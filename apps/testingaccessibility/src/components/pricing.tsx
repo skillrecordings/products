@@ -1,5 +1,5 @@
 import * as React from 'react'
-import {FormattedPrice} from '../utils/format-prices-for-product'
+import {type FormattedPrice} from '@skillrecordings/commerce-server'
 import {usePriceCheck} from '../context/pricing-check-context'
 import {SanityProduct} from '../utils/props-for-commerce'
 import {CheckCircleIcon} from '@heroicons/react/outline'
@@ -56,7 +56,7 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
   const {data: formattedPrice, status} = useQuery<FormattedPrice>(
     ['pricing', merchantCoupon, debouncedQuantity, productId, userId, couponId],
     () =>
-      fetch('/api/prices', {
+      fetch('/api/skill/prices', {
         method: 'POST',
         body: JSON.stringify({
           productId,
@@ -188,7 +188,7 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
           </div>
         ) : (
           <form
-            action={`/api/stripe/checkout?productId=${
+            action={`/api/skill/checkout/stripe?productId=${
               formattedPrice?.id
             }&couponId=${appliedMerchantCoupon?.id}&quantity=${quantity}${
               userId ? `&userId=${userId}` : ``

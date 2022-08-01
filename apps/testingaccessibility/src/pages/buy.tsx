@@ -1,7 +1,6 @@
 import React from 'react'
 import {GetServerSideProps} from 'next'
-import {setupHttpTracing} from '@vercel/tracing-js'
-import {tracer} from '../utils/honeycomb-tracer'
+import {tracer, setupHttpTracing} from '@skillrecordings/honeycomb-tracer'
 import {CommerceProps, propsForCommerce} from '../utils/props-for-commerce'
 import {Element} from 'react-scroll'
 import {PricingTiers} from '../components/product-tiers'
