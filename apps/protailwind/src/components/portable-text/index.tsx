@@ -24,12 +24,16 @@ import js from 'refractor/lang/javascript'
 import markdown from 'refractor/lang/markdown'
 import yaml from 'refractor/lang/yaml'
 import css from 'refractor/lang/css'
+import jsx from 'refractor/lang/jsx'
+import tsx from 'refractor/lang/tsx'
 import Spinner from 'components/spinner'
 
 Refractor.registerLanguage(js)
 Refractor.registerLanguage(css)
 Refractor.registerLanguage(markdown)
 Refractor.registerLanguage(yaml)
+Refractor.registerLanguage(jsx)
+Refractor.registerLanguage(tsx)
 
 const Video: React.FC<{url: string; title: string}> = ({url, title}) => {
   const fullscreenWrapperRef = React.useRef<HTMLDivElement>(null)
@@ -70,34 +74,66 @@ const Video: React.FC<{url: string; title: string}> = ({url, title}) => {
 }
 
 const BodyImage = ({value}: BodyImageProps) => {
-  const {alt, caption, image} = value
+  const {alt, caption, image, href} = value
   const [isLoading, setIsLoading] = React.useState<boolean>(true)
   if (!image) return <figure>⚠️ missing image</figure>
   const {url, width, height} = image
-  return (
-    <figure
-      className={cx('flex items-center justify-center relative', {
-        'bg-gray-100': isLoading,
-      })}
+  const Figure = () => {
+    return (
+      <figure
+        className={cx('flex items-center justify-center relative', {
+          'bg-slate-800/20': isLoading,
+        })}
+      >
+        <Image
+          onLoadingComplete={() => {
+            setIsLoading(false)
+          }}
+          src={url}
+          alt={alt}
+          width={width}
+          height={height}
+          quality={100}
+          className="rounded-md"
+        />
+        {isLoading && <Spinner className="w-8 h-8 absolute" />}
+        {caption && (
+          <figcaption>
+            <PortableText value={caption} />
+          </figcaption>
+        )}
+      </figure>
+    )
+  }
+  return href ? (
+    <ExternalLink value={{...value, blank: true}} className="flex">
+      <Figure />
+    </ExternalLink>
+  ) : (
+    <Figure />
+  )
+}
+
+const ExternalLink: React.FC<React.PropsWithChildren<ExternalLinkProps>> = ({
+  value,
+  children,
+  ...props
+}) => {
+  const {blank, href} = value
+  return blank ? (
+    <a
+      href={href}
+      target="_blank"
+      rel="noopener noreferrer"
+      {...props}
+      title="Link opens in a new window"
     >
-      <Image
-        onLoadingComplete={() => {
-          setIsLoading(false)
-        }}
-        src={url}
-        alt={alt}
-        width={width}
-        height={height}
-        quality={100}
-        className="rounded-md"
-      />
-      {isLoading && <Spinner className="w-8 h-8 absolute" />}
-      {caption && (
-        <figcaption>
-          <PortableText value={caption} />
-        </figcaption>
-      )}
-    </figure>
+      {children}
+    </a>
+  ) : (
+    <a href={href} {...props}>
+      {children}
+    </a>
   )
 }
 
@@ -132,18 +168,16 @@ const PortableTextComponents: PortableTextComponents = {
       )
     },
     link: ({value, children}) => {
-      const {blank, href} = value
-      return blank ? (
-        <a href={href} target="_blank" rel="noopener noreferrer">
-          {children}
-        </a>
-      ) : (
-        <a href={href}>{children}</a>
+      return <ExternalLink value={value}>{children}</ExternalLink>
+    },
+    code: ({value, children}) => {
+      return (
+        <code className="bg-slate-800/80 px-1 py-0.5 rounded">{children}</code>
       )
     },
   },
   types: {
-    bodyVideo: ({value}: BodyVideoProps) => {
+    bodyHlsVideo: ({value}: BodyVideoProps) => {
       const {url, title, caption} = value
       return (
         <figure className="video">
@@ -174,15 +208,79 @@ const PortableTextComponents: PortableTextComponents = {
         </figure>
       )
     },
+    bodyVideo: ({value}: BodyVideoProps) => {
+      const {url, title, caption, videoOptions} = value
+      const {autoPlay, loop, controls} = videoOptions
+      return (
+        <figure className="video">
+          <video
+            autoPlay={autoPlay}
+            loop={loop}
+            controls={controls}
+            className="rounded-md"
+          >
+            <source src={url} type="video/mp4" />
+          </video>
+          <div className="pb-4 text-base font-medium text-slate-400">
+            {title}
+          </div>
+          {caption && (
+            <figcaption>
+              <details
+                className="group marker:text-transparent"
+                aria-label="Video transcript"
+                role="contentinfo"
+              >
+                <summary className="inline-flex space-x-2 items-center cursor-pointer text-gray-600 hover:text-gray-800 transition">
+                  <span
+                    aria-hidden="true"
+                    className="group-hover:bg-gray-50 p-1 rounded-full border border-gray-200 flex items-center justify-center transition"
+                  >
+                    <ChevronDownIcon className="group-open:hidden w-4 h-4" />
+                    <ChevronUpIcon className="group-open:block hidden w-4 h-4" />
+                  </span>
+                  <span className="text-base">Video Transcript</span>
+                </summary>
+                <div className="text-gray-600">
+                  <PortableText value={caption} />
+                </div>
+              </details>
+            </figcaption>
+          )}
+        </figure>
+      )
+    },
     bodyImage: ({value}: BodyImageProps) => <BodyImage value={value} />,
     code: ({value}: CodeProps) => {
       const {language, code, highlightedLines} = value
       return (
-        <Refractor
-          language={language || 'javascript'}
-          value={code}
-          markers={highlightedLines}
-        />
+        <>
+          <pre
+            role="region"
+            aria-label={'code sample'}
+            tabIndex={0}
+            className="sr-only"
+          >
+            <code>{code}</code>
+          </pre>
+          <pre
+            aria-hidden="true"
+            className="sm:mx-0 -mx-5 sm:rounded-lg rounded-none bg-black/50 p-5 md:leading-tight md:text-lg text-lg leading-[1.15]"
+          >
+            <Refractor
+              inline
+              language={
+                language
+                  ? Refractor.hasLanguage(language)
+                    ? language
+                    : 'javascript'
+                  : 'javascript'
+              }
+              value={code}
+              markers={highlightedLines}
+            />
+          </pre>
+        </>
       )
     },
     callout: ({value}: CalloutProps) => {
@@ -247,6 +345,7 @@ const PortableTextComponents: PortableTextComponents = {
 }
 
 type InternalLinkProps = any
+type ExternalLinkProps = any
 
 type EmojiProps = PortableTextMarkComponentProps<any>
 
@@ -266,6 +365,11 @@ type BodyVideoProps = {
     url: string
     title: string
     caption: PortableTextBlock | ArbitraryTypedObject
+    videoOptions: {
+      controls: boolean
+      autoPlay: boolean
+      loop: boolean
+    }
   }
 }
 
@@ -273,6 +377,7 @@ type BodyImageProps = {
   value: {
     alt: string
     caption: PortableTextBlock | ArbitraryTypedObject
+    href?: string
     image: {
       url: string
       width: number

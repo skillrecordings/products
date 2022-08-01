@@ -1647,6 +1647,7 @@ importers:
       '@next/env': ^12.2.3
       '@portabletext/react': ^1.0.6
       '@portabletext/types': ^1.0.3
+      '@radix-ui/react-dropdown-menu': ^1.0.0
       '@react-three/drei': 8.16.0
       '@react-three/fiber': 7.0.27
       '@react-three/postprocessing': ^2.3.2
@@ -1710,6 +1711,7 @@ importers:
     dependencies:
       '@heroicons/react': 1.0.6_react@18.2.0
       '@portabletext/react': 1.0.6_react@18.2.0
+      '@radix-ui/react-dropdown-menu': 1.0.0_bb2bxwco6ptpubzwpazr52qf6i
       '@react-three/drei': 8.16.0_zh3qwjj5yfyqyzqfoqzgw3cf4i
       '@react-three/fiber': 7.0.27_jvurxncug65yh22s5p4pqgaif4
       '@react-three/postprocessing': 2.3.2_zh3qwjj5yfyqyzqfoqzgw3cf4i

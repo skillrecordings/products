@@ -21,6 +21,11 @@ export default {
       title: 'Caption',
       type: 'mediaCaption',
     },
+    {
+      name: 'href',
+      title: 'External link',
+      type: 'url',
+    },
   ],
   preview: {
     select: {image: 'image', alt: 'alt', caption: 'caption'},

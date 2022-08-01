@@ -6,9 +6,9 @@ import cx from 'classnames'
 const Navigation = () => {
   return (
     <nav aria-label="top" className="py-5 absolute left-0 top-0 w-full z-10">
-      <div className="mx-auto px-5 max-w-screen-lg flex justify-center items-center">
+      <div className="mx-auto px-5 max-w-screen-lg flex justify-between items-center">
         <NavLogo />
-        {/* <DesktopNav /> */}
+        <DesktopNav />
       </div>
     </nav>
   )
