@@ -11,7 +11,7 @@ import {updatePurchaseStatusForCharge} from '../../../lib/purchases'
 import {postSaleToSlack} from '../../../server/post-to-slack'
 import {PurchaseStatus} from '@skillrecordings/skill-api'
 import {prisma} from '@skillrecordings/database'
-import {tracer} from '@skillrecordings/honeycomb-tracer'
+import {tracer} from 'utils/honeycomb-tracer'
 import {setupHttpTracing} from '@vercel/tracing-js'
 
 const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET

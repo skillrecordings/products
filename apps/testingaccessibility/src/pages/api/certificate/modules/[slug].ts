@@ -7,7 +7,7 @@ import {
   getAvailableModulesForUser,
   getModule,
 } from 'lib/modules'
-import {tracer} from '@skillrecordings/honeycomb-tracer'
+import {tracer} from 'utils/honeycomb-tracer'
 import {setupHttpTracing} from '@vercel/tracing-js'
 import {find, isEmpty} from 'lodash'
 import {withSentry} from '@sentry/nextjs'

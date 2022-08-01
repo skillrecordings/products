@@ -2,7 +2,7 @@ import React from 'react'
 import {GetServerSideProps} from 'next'
 import {getToken} from 'next-auth/jwt'
 import * as Sentry from '@sentry/nextjs'
-import {tracer} from '@skillrecordings/honeycomb-tracer'
+import {tracer} from 'utils/honeycomb-tracer'
 import {setupHttpTracing} from '@vercel/tracing-js'
 
 export type ErrorType =

@@ -12,7 +12,7 @@ import Link from 'next/link'
 import {stripeData} from '../../utils/record-new-purchase'
 import {getPurchaseDetails} from '../../lib/purchases'
 import {isString} from 'lodash'
-import {tracer} from '@skillrecordings/honeycomb-tracer'
+import {tracer} from 'utils/honeycomb-tracer'
 import {setupHttpTracing} from '@vercel/tracing-js'
 
 export const getServerSideProps: GetServerSideProps = async ({
