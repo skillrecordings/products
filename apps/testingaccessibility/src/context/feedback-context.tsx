@@ -4,14 +4,14 @@ import FeedbackDialog from 'components/feedback'
 type FeedbackContextType = {
   isFeedbackDialogOpen: boolean
   setIsFeedbackDialogOpen: (value: boolean, location?: string) => void
-  feedbackComponent: React.ReactElement | null
+  feedbackComponent: React.ReactElement
   location: string
 }
 
 const defaultFeedbackContext: FeedbackContextType = {
   isFeedbackDialogOpen: false,
   setIsFeedbackDialogOpen: () => {},
-  feedbackComponent: null,
+  feedbackComponent: <></>,
   location: '',
 }
 
