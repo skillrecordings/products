@@ -74,34 +74,66 @@ const Video: React.FC<{url: string; title: string}> = ({url, title}) => {
 }
 
 const BodyImage = ({value}: BodyImageProps) => {
-  const {alt, caption, image} = value
+  const {alt, caption, image, href} = value
   const [isLoading, setIsLoading] = React.useState<boolean>(true)
   if (!image) return <figure>⚠️ missing image</figure>
   const {url, width, height} = image
-  return (
-    <figure
-      className={cx('flex items-center justify-center relative', {
-        'bg-slate-800/20': isLoading,
-      })}
+  const Figure = () => {
+    return (
+      <figure
+        className={cx('flex items-center justify-center relative', {
+          'bg-slate-800/20': isLoading,
+        })}
+      >
+        <Image
+          onLoadingComplete={() => {
+            setIsLoading(false)
+          }}
+          src={url}
+          alt={alt}
+          width={width}
+          height={height}
+          quality={100}
+          className="rounded-md"
+        />
+        {isLoading && <Spinner className="w-8 h-8 absolute" />}
+        {caption && (
+          <figcaption>
+            <PortableText value={caption} />
+          </figcaption>
+        )}
+      </figure>
+    )
+  }
+  return href ? (
+    <ExternalLink value={{...value, blank: true}} className="flex">
+      <Figure />
+    </ExternalLink>
+  ) : (
+    <Figure />
+  )
+}
+
+const ExternalLink: React.FC<React.PropsWithChildren<ExternalLinkProps>> = ({
+  value,
+  children,
+  ...props
+}) => {
+  const {blank, href} = value
+  return blank ? (
+    <a
+      href={href}
+      target="_blank"
+      rel="noopener noreferrer"
+      {...props}
+      title="Link opens in a new window"
     >
-      <Image
-        onLoadingComplete={() => {
-          setIsLoading(false)
-        }}
-        src={url}
-        alt={alt}
-        width={width}
-        height={height}
-        quality={100}
-        className="rounded-md"
-      />
-      {isLoading && <Spinner className="w-8 h-8 absolute" />}
-      {caption && (
-        <figcaption>
-          <PortableText value={caption} />
-        </figcaption>
-      )}
-    </figure>
+      {children}
+    </a>
+  ) : (
+    <a href={href} {...props}>
+      {children}
+    </a>
   )
 }
 
@@ -136,14 +168,7 @@ const PortableTextComponents: PortableTextComponents = {
       )
     },
     link: ({value, children}) => {
-      const {blank, href} = value
-      return blank ? (
-        <a href={href} target="_blank" rel="noopener noreferrer">
-          {children}
-        </a>
-      ) : (
-        <a href={href}>{children}</a>
-      )
+      return <ExternalLink value={value}>{children}</ExternalLink>
     },
     code: ({value, children}) => {
       return (
@@ -320,6 +345,7 @@ const PortableTextComponents: PortableTextComponents = {
 }
 
 type InternalLinkProps = any
+type ExternalLinkProps = any
 
 type EmojiProps = PortableTextMarkComponentProps<any>
 
@@ -351,6 +377,7 @@ type BodyImageProps = {
   value: {
     alt: string
     caption: PortableTextBlock | ArbitraryTypedObject
+    href?: string
     image: {
       url: string
       width: number
