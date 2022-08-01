@@ -2,7 +2,8 @@ import {WebClient} from '@slack/web-api'
 import {PurchaseInfo} from '../utils/record-new-purchase'
 import {isEmpty} from 'lodash'
 import pluralize from 'pluralize'
-import {type Purchase, getSdk} from '@skillrecordings/database'
+import {getSdk} from '@skillrecordings/skill-api'
+import {Purchase} from '@skillrecordings/database'
 import {postToSlack} from '@skillrecordings/skill-api'
 
 const web = new WebClient(process.env.SLACK_TOKEN)

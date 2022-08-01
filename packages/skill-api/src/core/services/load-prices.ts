@@ -1,9 +1,8 @@
 import {SkillRecordingsHandlerParams} from '../types'
 import {OutgoingResponse} from '../index'
 import {find} from 'lodash'
-import {formatPricesForProduct} from '../../server'
+import {formatPricesForProduct, getSdk} from '../../server'
 import {getActiveMerchantCoupon} from '../../server/prices/get-active-merchant-coupon'
-import {getSdk} from '@skillrecordings/database'
 
 export async function loadPrices({
   params,

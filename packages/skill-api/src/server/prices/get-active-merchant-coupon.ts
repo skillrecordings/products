@@ -1,6 +1,7 @@
 import {SpanContext} from '@skillrecordings/honeycomb-tracer'
 import {couponIsValid} from './coupon-is-valid'
-import {getSdk, defaultContext} from '@skillrecordings/database'
+import {defaultContext} from '../db/context'
+import {getSdk} from '../db/prisma-api'
 
 export async function getActiveMerchantCoupon({
   productId,

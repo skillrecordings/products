@@ -4,15 +4,15 @@ import {serialize} from 'utils/prisma-next-serializer'
 import {useLocalStorage} from 'react-use'
 import {GetServerSideProps} from 'next'
 import {Logo} from 'components/images'
+import {getSdk, stripe} from '@skillrecordings/skill-api'
 import {Stripe} from 'stripe'
 import fromUnixTime from 'date-fns/fromUnixTime'
 import Layout from 'components/app/layout'
 import format from 'date-fns/format'
+import {tracer, setupHttpTracing} from '@skillrecordings/honeycomb-tracer'
+import {prisma} from '@skillrecordings/database'
 import {getCurrentAbility} from '../../server/ability'
 import {getToken} from 'next-auth/jwt'
-import {tracer, setupHttpTracing} from '@skillrecordings/honeycomb-tracer'
-import {prisma, getSdk} from '@skillrecordings/database'
-import {stripe} from '@skillrecordings/skill-api'
 
 export const getServerSideProps: GetServerSideProps = async ({
   res,

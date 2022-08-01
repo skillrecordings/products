@@ -1,4 +1,4 @@
-import {getSdk} from '@skillrecordings/database'
+import {getSdk} from '@skillrecordings/skill-api'
 import {validateCoupon} from '../utils/validate-coupon'
 
 export async function getCouponForCode(code: string) {
