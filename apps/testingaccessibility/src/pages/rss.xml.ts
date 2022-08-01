@@ -2,7 +2,8 @@ import {GetServerSideProps} from 'next'
 import {Feed} from 'feed'
 import config from '../config'
 import {getAllArticles} from '../lib/articles'
-import {tracer, setupHttpTracing} from '@skillrecordings/honeycomb-tracer'
+import {setupHttpTracing} from '@vercel/tracing-js'
+import {tracer} from '@skillrecordings/skill-api'
 
 const hostUrl = process.env.NEXT_PUBLIC_URL
 
