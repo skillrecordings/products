@@ -6,7 +6,7 @@ import {sendPostmarkEmail} from '../../lib/postmark'
 import {OutgoingResponse} from '../index'
 import {postFeedbackToSlack} from '../../server/post-to-slack'
 import {NodeHtmlMarkdown} from 'node-html-markdown'
-import {User} from '@skillrecordings/database'
+import {prisma, User} from '@skillrecordings/database'
 
 export async function sendFeedbackFromUser({
   emailAddress,
@@ -14,11 +14,11 @@ export async function sendFeedbackFromUser({
   context,
   config,
 }: SendFeedbackFromUserOptions): Promise<OutgoingResponse> {
-  const {prismaClient, slack, site} = config
+  const {slack, site} = config
 
   try {
     const user =
-      (await prismaClient.user.findFirst({
+      (await prisma.user.findFirst({
         where: {email: emailAddress?.toLowerCase()},
       })) || ({email: emailAddress} as User)
 
@@ -32,7 +32,7 @@ export async function sendFeedbackFromUser({
     const feedbackTextAsMarkdown = NodeHtmlMarkdown.translate(feedbackText)
 
     if (user.id) {
-      await prismaClient.comment.create({
+      await prisma.comment.create({
         data: {
           userId: user.id,
           text: feedbackTextAsMarkdown,

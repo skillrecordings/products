@@ -3,7 +3,8 @@
   "version": "0.0.1",
   "description": "",
   "license": "ISC",
-  "author": "",
+  "author": "Skill Recordings Inc.",
+  "private": true,
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "files": [

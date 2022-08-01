@@ -43,7 +43,6 @@
     "@skillrecordings/analytics": "workspace:*",
     "@skillrecordings/auth": "workspace:*",
     "@skillrecordings/axios": "workspace:*",
-    "@skillrecordings/commerce": "workspace:*",
     "@skillrecordings/config": "workspace:*",
     "@skillrecordings/convertkit": "workspace:*",
     "@skillrecordings/cookies": "workspace:*",
