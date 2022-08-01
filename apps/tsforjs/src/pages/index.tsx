@@ -68,7 +68,7 @@ const Home: NextPage = () => {
               Course Modules
             </h3>
             <div className="px-4 pb-80">
-              <div className="relative block max-w-4xl p-6 mx-auto -mt-16 text-lg bg-stone-900 rounded shadow-2xl">
+              <div className="relative block max-w-5xl p-6 mx-auto -mt-16 text-lg bg-stone-900 rounded shadow-2xl">
                 <dl className="space-y-10 sm:space-y-0 sm:grid sm:grid-cols-2 lg:grid-cols-2 gap-4 text-white ">
                   {modules.map((module) => (
                     <div className="relative">
@@ -96,7 +96,11 @@ const Home: NextPage = () => {
                       </dt>
                       <dd>
                         {module.content && isAccordionOpen && (
-                          <li className=""> {module.content} </li>
+                          <>
+                            {module.content.map((content) => (
+                              <li className="ml-16">{content}</li>
+                            ))}
+                          </>
                         )}
                       </dd>
                     </div>
