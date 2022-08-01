@@ -30,9 +30,6 @@
     "eslint-config-custom": "workspace:*",
     "typescript": "^4.7.4"
   },
-  "peerDependencies": {
-    "next": ">= 11.1.2 < 13"
-  },
   "publishConfig": {
     "access": "public"
   }
