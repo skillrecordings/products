@@ -1660,6 +1660,7 @@ importers:
       '@skillrecordings/config': workspace:*
       '@skillrecordings/convertkit': workspace:*
       '@skillrecordings/cookies': workspace:*
+      '@skillrecordings/honeycomb-tracer': workspace:*
       '@skillrecordings/player': workspace:*
       '@skillrecordings/quiz': workspace:*
       '@skillrecordings/react': workspace:*
@@ -1721,6 +1722,7 @@ importers:
       '@skillrecordings/config': link:../../packages/config
       '@skillrecordings/convertkit': link:../../packages/convertkit
       '@skillrecordings/cookies': link:../../packages/cookies
+      '@skillrecordings/honeycomb-tracer': link:../../packages/honeycomb-tracer
       '@skillrecordings/player': link:../../packages/player
       '@skillrecordings/quiz': link:../../packages/quiz
       '@skillrecordings/react': link:../../packages/react
@@ -8176,6 +8178,7 @@ packages:
       webpack: 4.46.0
     transitivePeerDependencies:
       - supports-color
+    dev: false
 
   /@mdx-js/mdx/1.6.22:
     resolution: {integrity: sha512-AMxuLxPz2j5/6TpF/XSdKpQP1NlG0z11dFOlq+2IP/lSgl11GY8ji6S/rgsViN/L0BDvHvUMruRb7ub+24LUYA==}
