@@ -1,8 +1,7 @@
 import type {NextApiRequest, NextApiResponse} from 'next'
 import {withSentry} from '@sentry/nextjs'
 import * as Sentry from '@sentry/nextjs'
-import {tracer} from '@skillrecordings/honeycomb-tracer'
-import {setupHttpTracing} from '@vercel/tracing-js'
+import {tracer, setupHttpTracing} from '@skillrecordings/honeycomb-tracer'
 import {getToken} from 'next-auth/jwt'
 import {prisma, getSdk} from '@skillrecordings/database'
 const ROLES_WITH_ACCESS = ['ADMIN', 'SUPERADMIN']

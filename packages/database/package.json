@@ -22,7 +22,6 @@
   "dependencies": {
     "@prisma/client": "^4.1.1",
     "@skillrecordings/honeycomb-tracer": "workspace:*",
-    "@vercel/tracing-js": "^0.5.1",
     "uuid": "^8.3.2"
   },
   "devDependencies": {

@@ -28,8 +28,5 @@
     "tsup": "^5.11.13",
     "tsx": "^3.7.1",
     "typescript": "^4.7.4"
-  },
-  "peerDependencies": {
-    "@vercel/tracing-js": "^0.5.1"
   }
 }

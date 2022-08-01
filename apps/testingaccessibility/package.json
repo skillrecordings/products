@@ -88,7 +88,6 @@
     "@tiptap/extension-typography": "^2.0.0-beta.20",
     "@tiptap/react": "^2.0.0-beta.109",
     "@tiptap/starter-kit": "^2.0.0-beta.184",
-    "@vercel/tracing-js": "^0.5.1",
     "@xstate/react": "=1.5.1",
     "algoliasearch": "^4.13.0",
     "autoprefixer": "^10.4.2",

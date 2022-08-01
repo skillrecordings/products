@@ -6,8 +6,7 @@ import Image from 'next/image'
 import NewMailImage from '../../../public/assets/new-mail@2x.png'
 import {MailIcon} from '@heroicons/react/outline'
 import {getCheckoutSession} from '../../lib/stripe'
-import {tracer} from '@skillrecordings/honeycomb-tracer'
-import {setupHttpTracing} from '@vercel/tracing-js'
+import {tracer, setupHttpTracing} from '@skillrecordings/honeycomb-tracer'
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const {res, req, query} = context
