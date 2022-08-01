@@ -2,9 +2,10 @@ import NextAuth, {NextAuthOptions} from 'next-auth'
 import EmailProvider from 'next-auth/providers/email'
 import jwt from 'jsonwebtoken'
 import {PrismaAdapter} from '@next-auth/prisma-adapter'
-import {getSdk, prisma} from '@skillrecordings/database'
+import {prisma} from '@skillrecordings/database'
 import {createTransport} from 'nodemailer'
 import {withSentry} from '@sentry/nextjs'
+import {getSdk} from '../../../lib/prisma-api'
 
 export const nextAuthOptions: NextAuthOptions = {
   secret: process.env.NEXTAUTH_SECRET,
