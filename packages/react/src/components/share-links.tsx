@@ -14,6 +14,7 @@ type ShareLinkProps = {
   link: string
   message?: string
   className?: string
+  svgClassName?: string
 }
 
 const defaultStyle =
@@ -23,15 +24,16 @@ const Twitter: React.FC<React.PropsWithChildren<ShareLinkProps>> = ({
   link,
   message,
   className = defaultStyle,
+  svgClassName = 'w-4 h-4',
   children,
 }) => (
   <a
-    href={getShareUrl('twitter', link)}
+    href={getShareUrl('twitter', link, message)}
     className={className}
     target="_blank"
     rel="noopener noreferrer"
   >
-    <TwitterIcon className="w-4 h-4" />
+    <TwitterIcon className={svgClassName} />
     {children || <span className="sr-only">share on twitter</span>}
   </a>
 )
@@ -39,6 +41,7 @@ const Twitter: React.FC<React.PropsWithChildren<ShareLinkProps>> = ({
 const Facebook: React.FC<React.PropsWithChildren<ShareLinkProps>> = ({
   link,
   className = defaultStyle,
+  svgClassName = 'w-4 h-4',
   children,
 }) => (
   <a
@@ -47,7 +50,7 @@ const Facebook: React.FC<React.PropsWithChildren<ShareLinkProps>> = ({
     target="_blank"
     rel="noopener noreferrer"
   >
-    <FacebookIcon className="w-4 h-4" />
+    <FacebookIcon className={svgClassName} />
     {children || <span className="sr-only">share on facebook</span>}
   </a>
 )
@@ -56,6 +59,7 @@ const Reddit: React.FC<React.PropsWithChildren<ShareLinkProps>> = ({
   link,
   message,
   className = defaultStyle,
+  svgClassName = 'w-4 h-4',
   children,
 }) => (
   <a
@@ -64,7 +68,7 @@ const Reddit: React.FC<React.PropsWithChildren<ShareLinkProps>> = ({
     target="_blank"
     rel="noopener noreferrer"
   >
-    <RedditIcon className="w-4 h-4" />
+    <RedditIcon className={svgClassName} />
     {children || <span className="sr-only">share on reddit</span>}
   </a>
 )
@@ -75,6 +79,7 @@ const CopyToClipboard: React.FC<
   link,
   onSuccess,
   className = defaultStyle + ' relative text-xs',
+  svgClassName = 'w-4 h-4',
   children,
 }) => {
   const [_, copyToClipboard] = useClipboard(link, {
@@ -90,7 +95,7 @@ const CopyToClipboard: React.FC<
       }}
       className={className}
     >
-      <LinkIcon className="w-4 h-4" />
+      <LinkIcon className={svgClassName} />
       {children || <span className="sr-only">copy url to clipboard</span>}
     </button>
   )
@@ -99,6 +104,7 @@ const CopyToClipboard: React.FC<
 const LinkedIn: React.FC<React.PropsWithChildren<ShareLinkProps>> = ({
   link,
   className = defaultStyle,
+  svgClassName = 'w-4 h-4',
   children,
 }) => (
   <a
@@ -107,7 +113,7 @@ const LinkedIn: React.FC<React.PropsWithChildren<ShareLinkProps>> = ({
     target="_blank"
     rel="noopener noreferrer"
   >
-    <LinkedInIcon className="w-4 h-4" />
+    <LinkedInIcon className={svgClassName} />
     {children || <span className="sr-only">share on linkedin</span>}
   </a>
 )
@@ -116,6 +122,7 @@ const Hacker: React.FC<React.PropsWithChildren<ShareLinkProps>> = ({
   link,
   message,
   className = defaultStyle,
+  svgClassName = 'w-4 h-4',
   children,
 }) => (
   <a
@@ -124,7 +131,7 @@ const Hacker: React.FC<React.PropsWithChildren<ShareLinkProps>> = ({
     target="_blank"
     rel="noopener noreferrer"
   >
-    <HackerNewsIcon className="w-4 h-4" />
+    <HackerNewsIcon className={svgClassName} />
     {children || <span className="sr-only">share on hacker news</span>}
   </a>
 )

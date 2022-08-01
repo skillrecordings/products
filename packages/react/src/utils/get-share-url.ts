@@ -30,7 +30,7 @@ export const getShareUrl = (
     case 'twitter':
       return shareLinks.twitter(
         link,
-        message || `@${process.env.NEXT_PUBLIC_PARTNER_TWITTER}`,
+        message ? message : `@${process.env.NEXT_PUBLIC_PARTNER_TWITTER}`,
       )
     case 'facebook':
       return shareLinks.facebook(link)

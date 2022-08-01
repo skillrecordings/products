@@ -146,7 +146,9 @@ const PortableTextComponents: PortableTextComponents = {
       )
     },
     code: ({value, children}) => {
-      return <code className="bg-black/50 px-1 py-0.5 rounded">{children}</code>
+      return (
+        <code className="bg-slate-800/80 px-1 py-0.5 rounded">{children}</code>
+      )
     },
   },
   types: {
@@ -227,11 +229,33 @@ const PortableTextComponents: PortableTextComponents = {
     code: ({value}: CodeProps) => {
       const {language, code, highlightedLines} = value
       return (
-        <Refractor
-          language={language || 'javascript'}
-          value={code}
-          markers={highlightedLines}
-        />
+        <>
+          <pre
+            role="region"
+            aria-label={'code sample'}
+            tabIndex={0}
+            className="sr-only"
+          >
+            <code>{code}</code>
+          </pre>
+          <pre
+            aria-hidden="true"
+            className="sm:mx-0 -mx-5 sm:rounded-lg rounded-none bg-black/50 p-5 md:leading-tight md:text-lg text-lg leading-[1.15]"
+          >
+            <Refractor
+              inline
+              language={
+                language
+                  ? Refractor.hasLanguage(language)
+                    ? language
+                    : 'javascript'
+                  : 'javascript'
+              }
+              value={code}
+              markers={highlightedLines}
+            />
+          </pre>
+        </>
       )
     },
     callout: ({value}: CalloutProps) => {
