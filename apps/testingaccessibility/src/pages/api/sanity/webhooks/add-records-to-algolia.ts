@@ -1,9 +1,8 @@
 import {NextApiRequest, NextApiResponse} from 'next'
 import {sanityClient} from 'utils/sanity-client'
 import {sanityAlgolia} from 'utils/algolia'
-import {setupHttpTracing} from '@vercel/tracing-js'
+import {tracer, setupHttpTracing} from '@skillrecordings/honeycomb-tracer'
 import {withSentry} from '@sentry/nextjs'
-import {tracer} from '@skillrecordings/skill-api'
 import {isValidRequest} from '@sanity/webhook'
 
 const addRecordsToAlgolia = async (

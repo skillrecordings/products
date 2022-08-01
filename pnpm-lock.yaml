@@ -1980,6 +1980,7 @@ importers:
       '@skillrecordings/convertkit': workspace:*
       '@skillrecordings/cookies': workspace:*
       '@skillrecordings/database': workspace:*
+      '@skillrecordings/honeycomb-tracer': workspace:*
       '@skillrecordings/player': workspace:*
       '@skillrecordings/quiz': workspace:*
       '@skillrecordings/react': workspace:*
@@ -2023,7 +2024,6 @@ importers:
       '@types/speakingurl': ^13.0.3
       '@types/svg-to-pdfkit': ^0.1.0
       '@types/uuid': ^8.3.4
-      '@vercel/tracing-js': ^0.5.1
       '@xstate/react': '=1.5.1'
       algoliasearch: ^4.13.0
       assert: ^2.0.0
@@ -2146,6 +2146,7 @@ importers:
       '@skillrecordings/convertkit': link:../../packages/convertkit
       '@skillrecordings/cookies': link:../../packages/cookies
       '@skillrecordings/database': link:../../packages/database
+      '@skillrecordings/honeycomb-tracer': link:../../packages/honeycomb-tracer
       '@skillrecordings/player': link:../../packages/player
       '@skillrecordings/quiz': link:../../packages/quiz
       '@skillrecordings/react': link:../../packages/react
@@ -2162,7 +2163,6 @@ importers:
       '@tiptap/extension-typography': 2.0.0-beta.20_o5tsmp445vozplpzqkrs3pmjeq
       '@tiptap/react': 2.0.0-beta.109_cpkpnzstpcbd5lz5ghf7pjwsmy
       '@tiptap/starter-kit': 2.0.0-beta.184
-      '@vercel/tracing-js': 0.5.1
       '@xstate/react': 1.5.1_bpg42ha2il6pcyn3wrx2rxrchm
       algoliasearch: 4.13.0
       autoprefixer: 10.4.7_postcss@8.4.14
@@ -10011,7 +10011,7 @@ packages:
       '@sentry/tracing': 6.19.3
       '@sentry/utils': 6.19.3
       '@sentry/webpack-plugin': 1.18.8
-      next: 12.2.3_x6hpkaqu4dxwl4unajq2h7dx44
+      next: 12.2.3_biqbaboplfbrettd7655fr4n2y
       react: 18.2.0
       tslib: 1.14.1
     transitivePeerDependencies:
