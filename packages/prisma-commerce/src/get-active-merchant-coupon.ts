@@ -1,6 +1,6 @@
-import {SpanContext} from '@vercel/tracing-js'
+import {SpanContext} from '@skillrecordings/honeycomb-tracer'
 import {couponIsValid} from './coupon-is-valid'
-import {defaultContext, getSdk} from '@skillrecordings/database'
+import {getSdk, defaultContext} from '@skillrecordings/database'
 
 export async function getActiveMerchantCoupon({
   productId,

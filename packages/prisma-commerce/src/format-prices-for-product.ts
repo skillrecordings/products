@@ -1,8 +1,8 @@
 import {getPPPDiscountPercent} from './parity-coupon'
 import {getBulkDiscountPercent} from './bulk-coupon'
 import {getCalculatedPriced} from './get-calculated-price'
-import {getSdk, Context, defaultContext} from '@skillrecordings/database'
-import {SpanContext} from '@vercel/tracing-js'
+import {Context, defaultContext, getSdk} from '@skillrecordings/database'
+import {SpanContext} from '@skillrecordings/honeycomb-tracer'
 
 // 10% premium for an upgrade
 // TODO: Display Coupon Errors
