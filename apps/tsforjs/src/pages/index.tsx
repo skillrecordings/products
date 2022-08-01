@@ -1,6 +1,11 @@
 import type {NextPage} from 'next'
 import React, {useState} from 'react'
 import Image from 'next/image'
+import {useRouter} from 'next/router'
+import {
+  SubscribeToConvertkitForm,
+  redirectUrlBuilder,
+} from '@skillrecordings/convertkit'
 
 const Home: NextPage = () => {
   const [isAccordionOpen, setIsAccordionOpen] = useState(false)
@@ -106,6 +111,81 @@ const Home: NextPage = () => {
                     </div>
                   ))}
                 </dl>
+              </div>
+            </div>
+          </div>
+          <div className="py-32 text-white">
+            <div className="max-w-[40rem] px-4 mx-auto">
+              <h3 className="text-center text-[1.625rem]">
+                Your Instructor, Shaundai Person
+              </h3>
+              <div className="w-[300px] h-[300px] rounded-full mx-auto mt-6 overflow-hidden">
+                <Image
+                  src="https://res.cloudinary.com/tsforjs/image/upload/c_fill,dpr_2.0,fl_force_dpi,h_120,w_120/v1658263809/website/shaundaipic_caejti.jpg"
+                  alt="Shaundai Person headshot"
+                  width={300}
+                  height={300}
+                  quality={100}
+                />
+              </div>
+              <div className="mt-[4.5rem] flex flex-col items-center space-y-6">
+                <div className="space-y-6 w-full">
+                  <p>
+                    Hey there, I’m Shaundai Person, a frontend developer,
+                    technical writer, and co-organizer of{' '}
+                    <a
+                      href="https://www.reactrobins.com//"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="border-b-2 hover:opacity-75 duration-100"
+                    >
+                      {' '}
+                      React Robins{' '}
+                    </a>
+                  </p>
+                  <p>
+                    When I started as a Software Engineer, I found myself part
+                    of an engineering team responsible for refactoring a huge
+                    legacy codebase to TypeScript.
+                  </p>
+                  <p>
+                    In this course, I compiled my learnings about getting
+                    started with TypeScript (while helping you avoid making the
+                    mistakes I made back then!)
+                  </p>
+                </div>
+                <div className="space-x-3 flex items-center">
+                  <a
+                    href="https://www.twitter.com/shaundai"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="w-10 h-10 rounded-full bg-[#1da1f2] flex justify-center items-center hover:opacity-75 duration-100"
+                  >
+                    <Image
+                      alt="twitter"
+                      src="/images/icons/twitter.svg"
+                      width={20}
+                      height={20}
+                      quality={100}
+                    />
+                    <span className="sr-only">twitter</span>
+                  </a>
+                  <a
+                    href="https://www.linkedin.com/in/shaundai/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="w-10 h-10 rounded-full bg-[#007bb5] flex justify-center items-center hover:opacity-75 duration-100"
+                  >
+                    <Image
+                      alt="twitter"
+                      src="/images/icons/linkedin.svg"
+                      width={20}
+                      height={20}
+                      quality={100}
+                    />
+                    <span className="sr-only">linkedin</span>
+                  </a>
+                </div>
               </div>
             </div>
           </div>
