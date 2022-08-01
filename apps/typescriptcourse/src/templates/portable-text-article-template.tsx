@@ -15,19 +15,8 @@ import ImageAuthor from '../../public/images/joe-previte.jpeg'
 import isEmpty from 'lodash/isEmpty'
 import Image from 'next/image'
 import Link from 'next/link'
-import cx from 'classnames'
 import Layout from 'components/app/layout'
-
-//portable
-import speakingurl from 'speakingurl'
-
-import {
-  PortableTextComponents as PortableTextComponentsProps,
-  PortableTextMarkComponentProps,
-} from '@portabletext/react'
-import type {ArbitraryTypedObject, PortableTextBlock} from '@portabletext/types'
-import Refractor from 'react-refractor'
-import Spinner from 'components/spinner'
+import PortableTextComponents from 'components/portable-text'
 import {Button} from '@skillrecordings/react/dist/components'
 import {motion} from 'framer-motion'
 
@@ -37,87 +26,6 @@ type ArticleTemplateProps = {
   article: SanityDocument
   hasSubscribed: boolean
 }
-
-const PortableTextArticleTemplate: React.FC<
-  React.PropsWithChildren<ArticleTemplateProps>
-> = ({article, hasSubscribed}) => {
-  const {title, description, body, subscribersOnly, date, cta} = article
-  const {subscriber, loadingSubscriber} = useConvertkit()
-
-  const ogImage = getOgImage(title)
-  const shortDescription =
-    description || toPlainText(body).substring(0, 157) + '...'
-  const router = useRouter()
-
-  return (
-    <Layout
-      className="relative"
-      meta={{
-        ogImage,
-        title,
-        description: shortDescription,
-        url: `${process.env.NEXT_PUBLIC_URL}${router.asPath}`,
-      }}
-    >
-      <Header title={title} date={date} />
-      <main className="mb-36">
-        <div className="w-full max-w-screen-sm mx-auto">
-          <div className="px-5 pt-10 md:pt-16 lg:px-0">
-            <article className="prose md:prose-lg md:prose-code:text-sm max-w-none">
-              <PortableText value={body} components={PortableTextComponents} />
-              {!hasSubscribed && subscribersOnly && (
-                <div className="absolute bottom-0 left-0 z-10 w-full bg-gradient-to-t from-white to-transparent h-80" />
-              )}
-            </article>
-          </div>
-        </div>
-        <section data-article="">
-          {!loadingSubscriber && !subscriber && cta ? (
-            <div className="relative flex flex-col items-center px-5 pt-16 pb-16 sm:px-0 md:pt-24 md:pb-32">
-              <Image
-                src={formImage}
-                quality={100}
-                placeholder="blur"
-                loading="eager"
-                width={815 / 2}
-                height={404 / 2}
-                alt="Email course"
-              />
-              <div className="flex flex-col items-center py-8 text-center">
-                <h2 className="text-3xl font-bold sm:text-4xl">
-                  Start Using TypeScript Today
-                </h2>
-                <h3 className="max-w-md pt-2 text-xl text-blue-200 opacity-90">
-                  Your quick-start guide to TypeScript
-                </h3>
-              </div>
-
-              <SubscribeToConvertkitForm
-                formId={cta.formId}
-                onSuccess={(subscriber: any) => {
-                  if (subscriber) {
-                    const redirectUrl = redirectUrlBuilder(
-                      subscriber,
-                      '/confirm',
-                    )
-                    router.push(redirectUrl)
-                  }
-                }}
-                actionLabel="Start the Course Now!"
-                submitButtonElem={SubscribeButton()}
-              />
-              <small className="pt-16 text-sm font-light text-blue-100 opacity-60">
-                We respect your privacy. Unsubscribe at any time.
-              </small>
-            </div>
-          ) : null}
-        </section>
-      </main>
-    </Layout>
-  )
-}
-
-export default PortableTextArticleTemplate
 
 const Header: React.FC<
   React.PropsWithChildren<{title: string; date: string}>
@@ -348,260 +256,83 @@ const Author = () => {
   )
 }
 
-const PortableTextComponents: PortableTextComponentsProps = {
-  block: {
-    h1: ({children, value}) => {
-      return <h1 id={speakingurl(toPlainText(value))}>{children}</h1>
-    },
-    h2: ({children, value}) => {
-      return <h2 id={speakingurl(toPlainText(value))}>{children}</h2>
-    },
-    h3: ({children, value}) => {
-      return <h3 id={speakingurl(toPlainText(value))}>{children}</h3>
-    },
-    h4: ({children, value}) => {
-      return <h4 id={speakingurl(toPlainText(value))}>{children}</h4>
-    },
-  },
-  marks: {
-    emoji: ({text, value}: EmojiProps) => {
-      const label = value?.emoji?.label || ''
-      return (
-        <span
-          role={label ? 'img' : 'presentation'}
-          aria-label={label}
-          aria-hidden={!label}
-        >
-          {text}
-        </span>
-      )
-    },
-    internalLink: ({value, children}: InternalLinkProps) => {
-      return <ExternalLink value={value}>{children}</ExternalLink>
-    },
-    link: ({value, children}) => {
-      return <ExternalLink value={value}>{children}</ExternalLink>
-    },
-    code: ({children}) => {
-      return (
-        <span className="bg-black/50 py-1 px-1 rounded-sm font-mono text-sm text-[#abb2bf]">
-          {children}
-        </span>
-      )
-    },
-  },
-  types: {
-    bodyImage: ({value}: BodyImageProps) => <BodyImage value={value} />,
-    code: ({value}: CodeProps) => {
-      const {language, code, highlightedLines} = value
+const PortableTextArticleTemplate: React.FC<
+  React.PropsWithChildren<ArticleTemplateProps>
+> = ({article, hasSubscribed}) => {
+  const {title, description, body, subscribersOnly, date, cta} = article
+  const {subscriber, loadingSubscriber} = useConvertkit()
 
-      return (
-        <Refractor
-          language={
-            language
-              ? Refractor.hasLanguage(language)
-                ? language
-                : 'javascript'
-              : 'javascript'
-          }
-          value={code}
-          markers={highlightedLines}
-        />
-      )
-    },
-    callout: ({value}: CalloutProps) => {
-      const {body, type} = value
-      const title = getCalloutTitle(type)
-      const image = getCalloutImage(type)
-      return (
-        <div
-          className={cx(`p-5 sm:my-8 my-4 rounded-md`, getCalloutStyles(type), {
-            'sm:flex': isEmpty(title),
-          })}
-        >
-          <div>
-            <span
-              role="img"
-              aria-label={image.alt}
-              className="text-lg font-bold"
-            >
-              {image.src}
-            </span>
-            <span className="pl-2 font-semibold">{title}</span>
-          </div>
-          {/* <b className="font-bold">{getCalloutTitle(type)}</b> */}
-          <div className="min-w-0 first-of-type:prose-p:mt-0 last-of-type:prose-p:mb-0">
-            <PortableText value={body} components={PortableTextComponents} />
+  const ogImage = getOgImage(title)
+  const shortDescription =
+    description || toPlainText(body).substring(0, 157) + '...'
+  const router = useRouter()
+
+  return (
+    <Layout
+      className="relative"
+      meta={{
+        ogImage,
+        title,
+        description: shortDescription,
+        url: `${process.env.NEXT_PUBLIC_URL}${router.asPath}`,
+      }}
+    >
+      <Header title={title} date={date} />
+      <main className="mb-36">
+        <div className="w-full max-w-screen-sm mx-auto">
+          <div className="px-5 pt-10 md:pt-16 lg:px-0">
+            <article className="prose md:prose-lg md:prose-code:text-sm max-w-none">
+              <PortableText value={body} components={PortableTextComponents} />
+              {!hasSubscribed && subscribersOnly && (
+                <div className="absolute bottom-0 left-0 z-10 w-full bg-gradient-to-t from-white to-transparent h-80" />
+              )}
+            </article>
           </div>
         </div>
-      )
-    },
-    divider: ({value}: DividerProps) => {
-      const {image} = value
-      return image ? (
-        <div className="flex items-center justify-center pt-10 pb-10">
-          <Image
-            src={image}
-            alt=""
-            aria-hidden="true"
-            width={300 / 1.2}
-            height={30 / 1.2}
-          />
-        </div>
-      ) : (
-        <hr />
-      )
-    },
-  },
-}
+        <section data-article="">
+          {!loadingSubscriber && !subscriber && cta ? (
+            <div className="relative flex flex-col items-center px-5 pt-16 pb-16 sm:px-0 md:pt-24 md:pb-32">
+              <Image
+                src={formImage}
+                quality={100}
+                placeholder="blur"
+                loading="eager"
+                width={815 / 2}
+                height={404 / 2}
+                alt="Email course"
+              />
+              <div className="flex flex-col items-center py-8 text-center">
+                <h2 className="text-3xl font-bold sm:text-4xl">
+                  Start Using TypeScript Today
+                </h2>
+                <h3 className="max-w-md pt-2 text-xl text-blue-200 opacity-90">
+                  Your quick-start guide to TypeScript
+                </h3>
+              </div>
 
-const BodyImage = ({value}: BodyImageProps) => {
-  const {alt, caption, image, href} = value
-  const [isLoading, setIsLoading] = React.useState<boolean>(true)
-  if (!image)
-    return (
-      <figure>
-        <span role="img">⚠️</span> missing image
-      </figure>
-    )
-  const {url, width, height} = image
-  const Figure = () => {
-    return (
-      <figure
-        className={cx('flex items-center justify-center relative', {
-          'bg-gray-100': isLoading,
-        })}
-      >
-        <Image
-          onLoadingComplete={() => {
-            setIsLoading(false)
-          }}
-          src={url}
-          alt={alt}
-          width={width}
-          height={height}
-          quality={100}
-          className="rounded-md"
-        />
-        {isLoading && <Spinner className="absolute w-8 h-8" />}
-        {caption && (
-          <figcaption>
-            <PortableText value={caption} />
-          </figcaption>
-        )}
-      </figure>
-    )
-  }
-  return href ? (
-    <ExternalLink value={{...value, blank: true}} className="flex">
-      <Figure />
-    </ExternalLink>
-  ) : (
-    <Figure />
+              <SubscribeToConvertkitForm
+                formId={cta.formId}
+                onSuccess={(subscriber: any) => {
+                  if (subscriber) {
+                    const redirectUrl = redirectUrlBuilder(
+                      subscriber,
+                      '/confirm',
+                    )
+                    router.push(redirectUrl)
+                  }
+                }}
+                actionLabel="Start the Course Now!"
+                submitButtonElem={SubscribeButton()}
+              />
+              <small className="pt-16 text-sm font-light text-blue-100 opacity-60">
+                We respect your privacy. Unsubscribe at any time.
+              </small>
+            </div>
+          ) : null}
+        </section>
+      </main>
+    </Layout>
   )
 }
 
-const ExternalLink: React.FC<React.PropsWithChildren<ExternalLinkProps>> = ({
-  value,
-  children,
-  ...props
-}) => {
-  const {blank, href} = value
-  return blank ? (
-    <a href={href} target="_blank" rel="noopener noreferrer" {...props}>
-      {children}
-    </a>
-  ) : (
-    <a href={href} {...props}>
-      {children}
-    </a>
-  )
-}
-
-type EmojiProps = PortableTextMarkComponentProps<any>
-type InternalLinkProps = any
-type ExternalLinkProps = any
-const getCalloutTitle = (type: string): string => {
-  switch (type) {
-    case 'tip':
-      return 'Tip'
-    case 'big-idea':
-      return 'Big Idea'
-    case 'reflection':
-      return 'Reflection'
-    case 'caution':
-      return 'Caution'
-    case 'exercise':
-      return 'Exercise'
-    case 'link':
-      return ''
-    default:
-      return 'Callout'
-  }
-}
-const getCalloutStyles = (type: string): string => {
-  switch (type) {
-    case 'tip':
-      return 'bg-blue-400/30 text-blue-100'
-    case 'big-idea':
-      return 'bg-blue-400/70 text-cyan-900'
-    case 'reflection':
-      return 'bg-orange-400/70 text-orange-800'
-    case 'caution':
-      return 'bg-pink-400/70 text-pink-900'
-    case 'exercise':
-      return 'bg-green-400/80 text-yellow-900'
-    case 'link':
-      return 'bg-yellow-400/80 text-yellow-900'
-    default:
-      return 'bg-gray-400/70 text-gray-800'
-  }
-}
-const getCalloutImage = (type: string): {alt: string; src: string} => {
-  switch (type) {
-    case 'tip':
-      return {alt: 'light bulp', src: '💡'}
-    case 'big-idea':
-      return {alt: 'exploding head', src: '🤯'}
-    case 'reflection':
-      return {alt: 'smiling face with sunglasses', src: '😎'}
-    case 'caution':
-      return {alt: 'warning', src: '⚠️'}
-    case 'exercise':
-      return {alt: 'memo', src: '📝'}
-    case 'link':
-      return {alt: 'waving hand', src: '👋'}
-    default:
-      return {alt: 'speech baloon', src: '💬'}
-  }
-}
-type DividerProps = {
-  value: {image?: string}
-}
-type CalloutProps = {
-  value: {
-    body: PortableTextBlock | ArbitraryTypedObject
-    type: string
-  }
-}
-
-type CodeProps = {
-  value: {
-    language: string
-    code: string
-    highlightedLines: (number | Refractor.Marker)[]
-  }
-}
-type BodyImageProps = {
-  value: {
-    alt: string
-    caption: PortableTextBlock | ArbitraryTypedObject
-    link?: string
-    image: {
-      url: string
-      width: number
-      height: number
-    }
-    href?: string
-  }
-}
+export default PortableTextArticleTemplate
