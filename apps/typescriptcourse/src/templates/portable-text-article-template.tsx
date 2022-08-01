@@ -384,7 +384,7 @@ const PortableTextComponents: PortableTextComponentsProps = {
     },
     code: ({children}) => {
       return (
-        <span className="bg-gray-700 py-0.5 px-1 rounded-sm font-mono text-sm">
+        <span className="bg-black/50 py-1 px-1 rounded-sm font-mono text-sm text-[#abb2bf]">
           {children}
         </span>
       )
