@@ -21,7 +21,8 @@ import Link from 'next/link'
 import cx from 'classnames'
 import groq from 'groq'
 import {Purchase} from '@skillrecordings/database'
-import {tracer, setupHttpTracing} from '@skillrecordings/honeycomb-tracer'
+import {tracer} from '@skillrecordings/honeycomb-tracer'
+import {setupHttpTracing} from '@vercel/tracing-js'
 
 const CERTIFICATE_ENABLED = process.env.NEXT_PUBLIC_CERTIFICATE_ENABLED
 

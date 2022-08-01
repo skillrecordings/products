@@ -2,7 +2,8 @@ import {NextApiRequest, NextApiResponse} from 'next'
 import {serialize} from 'utils/prisma-next-serializer'
 import {getSdk, defaultContext} from '@skillrecordings/database'
 import {withSentry} from '@sentry/nextjs'
-import {tracer, setupHttpTracing} from '@skillrecordings/honeycomb-tracer'
+import {tracer} from '@skillrecordings/honeycomb-tracer'
+import {setupHttpTracing} from '@vercel/tracing-js'
 import {getToken} from 'next-auth/jwt'
 
 const toggleLessonProgressForUser = async (

@@ -57,6 +57,7 @@
     "@babel/preset-typescript": "^7.16.0",
     "@skillrecordings/scripts": "workspace:*",
     "@skillrecordings/tsconfig": "workspace:*",
+    "@vercel/tracing-js": "^0.5.1",
     "@types/cookie": "^0.4.1",
     "@types/html-to-text": "^8.1.0",
     "@types/jest": "^27.5.2",
