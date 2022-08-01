@@ -3412,6 +3412,7 @@ importers:
       '@babel/preset-typescript': ^7.16.0
       '@babel/runtime': ^7.16.3
       '@skillrecordings/database': workspace:*
+      '@skillrecordings/honeycomb-tracer': workspace:*
       '@skillrecordings/scripts': workspace:*
       '@skillrecordings/tsconfig': workspace:*
       '@slack/web-api': ^6.7.2
@@ -3459,6 +3460,7 @@ importers:
     dependencies:
       '@babel/runtime': 7.17.2
       '@skillrecordings/database': link:../database
+      '@skillrecordings/honeycomb-tracer': link:../honeycomb-tracer
       '@slack/web-api': 6.7.2
       '@vercel/tracing-js': 0.5.1
       concurrently: 7.2.2
@@ -10011,7 +10013,7 @@ packages:
       '@sentry/tracing': 6.19.3
       '@sentry/utils': 6.19.3
       '@sentry/webpack-plugin': 1.18.8
-      next: 12.2.3_biqbaboplfbrettd7655fr4n2y
+      next: 12.2.3_x6hpkaqu4dxwl4unajq2h7dx44
       react: 18.2.0
       tslib: 1.14.1
     transitivePeerDependencies:
