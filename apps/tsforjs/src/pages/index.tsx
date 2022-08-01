@@ -44,12 +44,13 @@ const Home: NextPage = () => {
               <div className="pb-10 text-5xl md:text-6xl xl:text-7xl 2xl:text-9xl font-bold">
                 <p>
                   <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-700 to-pink-500">
-                    {' '}
-                    Typescript{' '}
+                    Typescript
                   </span>
-                  <span className="text-teal-400 font-normal italic">for</span>
-                  <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-700 to-pink-500">
+                  <span className="text-teal-400 font-normal italic">
                     {' '}
+                    for{' '}
+                  </span>
+                  <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-700 to-pink-500">
                     Javascript
                   </span>
                 </p>
@@ -74,7 +75,7 @@ const Home: NextPage = () => {
                       <dt>
                         <p className="ml-9">
                           <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-700 to-pink-500 pb-20 font-bold mr-3">
-                            {module.number}.{' '}
+                            {module.number}.
                           </span>
                           {module.title}
                           <span onClick={handleClick} className="ml-4">
