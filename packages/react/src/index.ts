@@ -7,11 +7,20 @@ export {
   LinkedIn,
   Hacker,
 } from './components/share-links'
+export {
+  FacebookIcon,
+  HackerNewsIcon,
+  LinkedInIcon,
+  LinkIcon,
+  RedditIcon,
+  TwitterIcon,
+} from './components/share-icons'
 
 export * from './hooks/use-debounce'
 
 export * from './components'
 export * from './utils'
+export * from './hooks'
 
 export {default as DefaultSeo} from './meta/defaultSEO'
 export {default as NextSeo} from './meta/nextSEO'

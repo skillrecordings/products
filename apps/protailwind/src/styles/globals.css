@@ -4,6 +4,7 @@
 @import './quiz.css';
 @import './prism.css';
 @import './focus-visible.css';
+@import './nprogress.css';
 @tailwind utilities;
 
 html,

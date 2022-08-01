@@ -24,12 +24,16 @@ import js from 'refractor/lang/javascript'
 import markdown from 'refractor/lang/markdown'
 import yaml from 'refractor/lang/yaml'
 import css from 'refractor/lang/css'
+import jsx from 'refractor/lang/jsx'
+import tsx from 'refractor/lang/tsx'
 import Spinner from 'components/spinner'
 
 Refractor.registerLanguage(js)
 Refractor.registerLanguage(css)
 Refractor.registerLanguage(markdown)
 Refractor.registerLanguage(yaml)
+Refractor.registerLanguage(jsx)
+Refractor.registerLanguage(tsx)
 
 const Video: React.FC<{url: string; title: string}> = ({url, title}) => {
   const fullscreenWrapperRef = React.useRef<HTMLDivElement>(null)
@@ -77,7 +81,7 @@ const BodyImage = ({value}: BodyImageProps) => {
   return (
     <figure
       className={cx('flex items-center justify-center relative', {
-        'bg-gray-100': isLoading,
+        'bg-slate-800/20': isLoading,
       })}
     >
       <Image
@@ -141,9 +145,12 @@ const PortableTextComponents: PortableTextComponents = {
         <a href={href}>{children}</a>
       )
     },
+    code: ({value, children}) => {
+      return <code className="bg-black/50 px-1 py-0.5 rounded">{children}</code>
+    },
   },
   types: {
-    bodyVideo: ({value}: BodyVideoProps) => {
+    bodyHlsVideo: ({value}: BodyVideoProps) => {
       const {url, title, caption} = value
       return (
         <figure className="video">
@@ -171,6 +178,48 @@ const PortableTextComponents: PortableTextComponents = {
               </div>
             </details>
           </figcaption>
+        </figure>
+      )
+    },
+    bodyVideo: ({value}: BodyVideoProps) => {
+      const {url, title, caption, videoOptions} = value
+      const {autoPlay, loop, controls} = videoOptions
+      return (
+        <figure className="video">
+          <video
+            autoPlay={autoPlay}
+            loop={loop}
+            controls={controls}
+            className="rounded-md"
+          >
+            <source src={url} type="video/mp4" />
+          </video>
+          <div className="pb-4 text-base font-medium text-slate-400">
+            {title}
+          </div>
+          {caption && (
+            <figcaption>
+              <details
+                className="group marker:text-transparent"
+                aria-label="Video transcript"
+                role="contentinfo"
+              >
+                <summary className="inline-flex space-x-2 items-center cursor-pointer text-gray-600 hover:text-gray-800 transition">
+                  <span
+                    aria-hidden="true"
+                    className="group-hover:bg-gray-50 p-1 rounded-full border border-gray-200 flex items-center justify-center transition"
+                  >
+                    <ChevronDownIcon className="group-open:hidden w-4 h-4" />
+                    <ChevronUpIcon className="group-open:block hidden w-4 h-4" />
+                  </span>
+                  <span className="text-base">Video Transcript</span>
+                </summary>
+                <div className="text-gray-600">
+                  <PortableText value={caption} />
+                </div>
+              </details>
+            </figcaption>
+          )}
         </figure>
       )
     },
@@ -266,6 +315,11 @@ type BodyVideoProps = {
     url: string
     title: string
     caption: PortableTextBlock | ArbitraryTypedObject
+    videoOptions: {
+      controls: boolean
+      autoPlay: boolean
+      loop: boolean
+    }
   }
 }
 
