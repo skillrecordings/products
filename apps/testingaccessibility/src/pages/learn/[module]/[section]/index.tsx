@@ -8,7 +8,8 @@ import flatten from 'lodash/flatten'
 import isEmpty from 'lodash/isEmpty'
 import find from 'lodash/find'
 import groq from 'groq'
-import {tracer, setupHttpTracing} from '@skillrecordings/honeycomb-tracer'
+import {setupHttpTracing} from '@vercel/tracing-js'
+import {tracer} from '@skillrecordings/skill-api'
 
 const allSectionsQuery = groq`*[_type == "section"]{
   "slug": slug.current,

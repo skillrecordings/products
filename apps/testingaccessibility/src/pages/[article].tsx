@@ -9,7 +9,8 @@ import * as serverCookie from 'cookie'
 import groq from 'groq'
 import {CK_SUBSCRIBER_KEY} from '@skillrecordings/config'
 import {checkIfConvertkitSubscriber} from '@skillrecordings/convertkit'
-import {tracer, setupHttpTracing} from '@skillrecordings/honeycomb-tracer'
+import {setupHttpTracing} from '@vercel/tracing-js'
+import {tracer} from '@skillrecordings/skill-api'
 
 const previewArticleQuery = groq`*[_type == "article" && slug.current == $slug][0]{
     title,
