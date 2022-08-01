@@ -1,10 +1,9 @@
 import {OutgoingResponse} from '../index'
 import {SkillRecordingsHandlerParams} from '../types'
-import {prisma} from '@skillrecordings/database'
+import {getSdk, prisma} from '@skillrecordings/database'
 import {first} from 'lodash'
 import {add} from 'date-fns'
-import {getCalculatedPriced, getSdk, stripe} from '../../server'
-import {PurchaseStatus} from '../../enums'
+import {getCalculatedPriced, stripe} from '../../server'
 
 export class CheckoutError extends Error {
   couponId?: string
@@ -55,7 +54,7 @@ export async function stripeCheckout({
         ? await prisma.purchase.findFirst({
             where: {
               id: upgradeFromPurchaseId as string,
-              status: PurchaseStatus.Valid,
+              status: 'Valid',
             },
             include: {
               product: true,

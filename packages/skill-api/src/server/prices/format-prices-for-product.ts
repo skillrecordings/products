@@ -1,8 +1,7 @@
 import {getPPPDiscountPercent} from './parity-coupon'
 import {getBulkDiscountPercent} from './bulk-coupon'
 import {getCalculatedPriced} from './get-calculated-price'
-import {getSdk} from '../db/prisma-api'
-import {Context, defaultContext} from '../db/context'
+import {getSdk, Context, defaultContext} from '@skillrecordings/database'
 import {SpanContext} from '@vercel/tracing-js'
 
 // 10% premium for an upgrade

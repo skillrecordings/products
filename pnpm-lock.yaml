@@ -3035,24 +3035,32 @@ importers:
   packages/database:
     specifiers:
       '@prisma/client': ^4.1.1
+      '@skillrecordings/honeycomb-tracer': workspace:*
       '@skillrecordings/tsconfig': workspace:*
       '@types/node': ^18.6.1
+      '@types/uuid': ^8.3.4
       eslint: ^8.12.0
       eslint-config-custom: workspace:*
       i: ^0.3.7
+      jest-mock-extended: ^2.0.7
       prisma: ^4.1.1
       rimraf: ^3.0.2
       tsup: ^5.11.13
       tsx: ^3.7.1
       typescript: ^4.7.4
+      uuid: ^8.3.2
     dependencies:
       '@prisma/client': 4.1.1_prisma@4.1.1
+      '@skillrecordings/honeycomb-tracer': link:../honeycomb-tracer
+      uuid: 8.3.2
     devDependencies:
       '@skillrecordings/tsconfig': link:../tsconfig
       '@types/node': 18.6.1
+      '@types/uuid': 8.3.4
       eslint: 8.19.0
       eslint-config-custom: link:../eslint-config-custom
       i: 0.3.7
+      jest-mock-extended: 2.0.7_typescript@4.7.4
       prisma: 4.1.1
       rimraf: 3.0.2
       tsup: 5.12.9_typescript@4.7.4
