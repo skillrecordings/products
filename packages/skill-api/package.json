@@ -34,7 +34,7 @@
     "@babel/runtime": "^7.16.3",
     "@skillrecordings/database": "workspace:*",
     "@skillrecordings/honeycomb-tracer": "workspace:*",
-    "@skillrecordings/prisma-commerce": "workspace:*",
+    "@skillrecordings/commerce-server": "workspace:*",
     "@slack/web-api": "^6.7.2",
     "@vercel/tracing-js": "^0.5.1",
     "concurrently": "^7.2.2",
@@ -45,8 +45,7 @@
     "preact": "^10.7.2",
     "preact-render-to-string": "^5.2.0",
     "sanitize-html": "^2.7.0",
-    "uuid": "^8.3.2",
-    "stripe": "^8.186.1"
+    "uuid": "^8.3.2"
   },
   "devDependencies": {
     "@babel/cli": "^7.16.0",

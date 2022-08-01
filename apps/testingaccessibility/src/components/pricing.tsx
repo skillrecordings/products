@@ -1,5 +1,5 @@
 import * as React from 'react'
-import {type FormattedPrice} from '@skillrecordings/prisma-commerce'
+import {type FormattedPrice} from '@skillrecordings/commerce-server'
 import {usePriceCheck} from '../context/pricing-check-context'
 import {SanityProduct} from '../utils/props-for-commerce'
 import {CheckCircleIcon} from '@heroicons/react/outline'

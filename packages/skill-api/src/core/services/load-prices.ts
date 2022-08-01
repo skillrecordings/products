@@ -5,7 +5,7 @@ import {getSdk} from '@skillrecordings/database'
 import {
   getActiveMerchantCoupon,
   formatPricesForProduct,
-} from '@skillrecordings/prisma-commerce'
+} from '@skillrecordings/commerce-server'
 
 export async function loadPrices({
   params,

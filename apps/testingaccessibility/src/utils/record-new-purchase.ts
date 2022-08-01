@@ -2,7 +2,7 @@ import {Stripe} from 'stripe'
 import {first} from 'lodash'
 import {type Purchase, prisma, getSdk} from '@skillrecordings/database'
 import * as Sentry from '@sentry/nextjs'
-import {stripe} from '@skillrecordings/skill-api'
+import {stripe} from '@skillrecordings/commerce-server'
 
 export class PurchaseError extends Error {
   checkoutSessionId: string

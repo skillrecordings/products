@@ -1,5 +1,5 @@
 {
-  "name": "@skillrecordings/prisma-commerce",
+  "name": "@skillrecordings/commerce-server",
   "version": "1.0.0",
   "license": "MIT",
   "main": "./dist/index.js",
@@ -18,7 +18,8 @@
     "@skillrecordings/honeycomb-tracer": "workspace:*",
     "@skillrecordings/database": "workspace:*",
     "date-fns": "^2.28.0",
-    "lodash": "^4.17.21"
+    "lodash": "^4.17.21",
+    "stripe": "^8.186.1"
   },
   "devDependencies": {
     "@skillrecordings/scripts": "workspace:*",
