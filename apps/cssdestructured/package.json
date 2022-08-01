@@ -42,7 +42,6 @@
     "@sanity/block-content-to-react": "^3.0.0",
     "@sanity/client": "^3.2.0",
     "@skillrecordings/analytics": "workspace:*",
-    "@skillrecordings/auth": "workspace:*",
     "@skillrecordings/axios": "workspace:*",
     "@skillrecordings/config": "workspace:*",
     "@skillrecordings/convertkit": "workspace:*",
