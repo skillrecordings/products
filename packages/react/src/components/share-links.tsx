@@ -1,5 +1,6 @@
 import * as React from 'react'
 import useClipboard from 'react-use-clipboard'
+import {getShareUrl} from '../utils'
 import {
   FacebookIcon,
   HackerNewsIcon,
@@ -15,27 +16,6 @@ type ShareLinkProps = {
   className?: string
 }
 
-export const shareLinks = {
-  twitter: (link = '', message = '') =>
-    `https://twitter.com/intent/tweet/?text=${encodeURIComponent(
-      message,
-    )}&url=${encodeURIComponent(link)}`,
-  facebook: (link = '') =>
-    `https://facebook.com/sharer/sharer.php?u=${encodeURIComponent(link)}`,
-  reddit: (link = '', message = '') =>
-    `https://reddit.com/submit/?url=${encodeURIComponent(
-      link,
-    )}&title=${encodeURIComponent(message)}`,
-  linkedin: (link = '') =>
-    `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(
-      link,
-    )}`,
-  hacker: (link = '', message = '') =>
-    `https://news.ycombinator.com/submitlink?u=${encodeURIComponent(
-      link,
-    )}&t=${encodeURIComponent(message)}`,
-}
-
 const defaultStyle =
   'rounded-lg bg-gray-400 bg-opacity-10 hover:bg-opacity-20 transition-all ease-in-out duration-200 flex items-center justify-center p-3 m-1'
 
@@ -46,7 +26,7 @@ const Twitter: React.FC<React.PropsWithChildren<ShareLinkProps>> = ({
   children,
 }) => (
   <a
-    href={shareLinks.twitter(link, message)}
+    href={getShareUrl('twitter', link)}
     className={className}
     target="_blank"
     rel="noopener noreferrer"
@@ -62,7 +42,7 @@ const Facebook: React.FC<React.PropsWithChildren<ShareLinkProps>> = ({
   children,
 }) => (
   <a
-    href={shareLinks.facebook(link)}
+    href={getShareUrl('facebook', link)}
     className={className}
     target="_blank"
     rel="noopener noreferrer"
@@ -79,7 +59,7 @@ const Reddit: React.FC<React.PropsWithChildren<ShareLinkProps>> = ({
   children,
 }) => (
   <a
-    href={shareLinks.reddit(link, message)}
+    href={getShareUrl('reddit', link)}
     className={className}
     target="_blank"
     rel="noopener noreferrer"
@@ -122,7 +102,7 @@ const LinkedIn: React.FC<React.PropsWithChildren<ShareLinkProps>> = ({
   children,
 }) => (
   <a
-    href={shareLinks.linkedin(link)}
+    href={getShareUrl('linkedin', link)}
     className={className}
     target="_blank"
     rel="noopener noreferrer"
@@ -139,7 +119,7 @@ const Hacker: React.FC<React.PropsWithChildren<ShareLinkProps>> = ({
   children,
 }) => (
   <a
-    href={shareLinks.hacker(link, message)}
+    href={getShareUrl('hacker', link)}
     className={className}
     target="_blank"
     rel="noopener noreferrer"

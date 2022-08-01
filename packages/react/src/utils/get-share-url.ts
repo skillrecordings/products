@@ -1,6 +1,25 @@
-import {shareLinks} from '../components/share-links'
-
 type platforms = 'twitter' | 'facebook' | 'linkedin' | 'reddit' | 'hacker'
+
+export const shareLinks = {
+  twitter: (link = '', message = '') =>
+    `https://twitter.com/intent/tweet/?text=${encodeURIComponent(
+      message,
+    )}&url=${encodeURIComponent(link)}`,
+  facebook: (link = '') =>
+    `https://facebook.com/sharer/sharer.php?u=${encodeURIComponent(link)}`,
+  reddit: (link = '', message = '') =>
+    `https://reddit.com/submit/?url=${encodeURIComponent(
+      link,
+    )}&title=${encodeURIComponent(message)}`,
+  linkedin: (link = '') =>
+    `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(
+      link,
+    )}`,
+  hacker: (link = '', message = '') =>
+    `https://news.ycombinator.com/submitlink?u=${encodeURIComponent(
+      link,
+    )}&t=${encodeURIComponent(message)}`,
+}
 
 export const getShareUrl = (
   type: platforms,
