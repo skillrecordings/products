@@ -625,6 +625,7 @@ importers:
       '@skillrecordings/convertkit': workspace:*
       '@skillrecordings/cookies': workspace:*
       '@skillrecordings/database': workspace:*
+      '@skillrecordings/honeycomb-tracer': workspace:*
       '@skillrecordings/quiz': workspace:*
       '@skillrecordings/react': workspace:*
       '@skillrecordings/scripts': workspace:*
@@ -651,7 +652,6 @@ importers:
       '@types/react-dom': ^18.0.6
       '@types/react-scroll': ^1.8.3
       '@types/uuid': ^8.3.4
-      '@vercel/tracing-js': ^0.5.1
       '@xstate/react': '=1.5.1'
       assert: ^2.0.0
       autoprefixer: ^10.4.2
@@ -732,6 +732,7 @@ importers:
       '@skillrecordings/convertkit': link:../../packages/convertkit
       '@skillrecordings/cookies': link:../../packages/cookies
       '@skillrecordings/database': link:../../packages/database
+      '@skillrecordings/honeycomb-tracer': link:../../packages/honeycomb-tracer
       '@skillrecordings/quiz': link:../../packages/quiz
       '@skillrecordings/react': link:../../packages/react
       '@skillrecordings/skill-api': link:../../packages/skill-api
@@ -742,7 +743,6 @@ importers:
       '@tailwindcss/forms': 0.5.2_tailwindcss@3.1.4
       '@tailwindcss/typography': 0.5.2_tailwindcss@3.1.4
       '@tippyjs/react': 4.2.6_biqbaboplfbrettd7655fr4n2y
-      '@vercel/tracing-js': 0.5.1
       '@xstate/react': 1.5.1_bpg42ha2il6pcyn3wrx2rxrchm
       autoprefixer: 10.4.7_postcss@8.4.14
       axios: 0.26.1
@@ -1660,6 +1660,7 @@ importers:
       '@skillrecordings/config': workspace:*
       '@skillrecordings/convertkit': workspace:*
       '@skillrecordings/cookies': workspace:*
+      '@skillrecordings/honeycomb-tracer': workspace:*
       '@skillrecordings/player': workspace:*
       '@skillrecordings/quiz': workspace:*
       '@skillrecordings/react': workspace:*
@@ -1678,7 +1679,6 @@ importers:
       '@types/react-dom': ^18.0.6
       '@types/speakingurl': ^13.0.3
       '@types/three': ^0.141.0
-      '@vercel/tracing-js': ^0.5.1
       '@xstate/react': '=1.5.1'
       autoprefixer: ^10.4.2
       classnames: ^2.3.1
@@ -1722,13 +1722,13 @@ importers:
       '@skillrecordings/config': link:../../packages/config
       '@skillrecordings/convertkit': link:../../packages/convertkit
       '@skillrecordings/cookies': link:../../packages/cookies
+      '@skillrecordings/honeycomb-tracer': link:../../packages/honeycomb-tracer
       '@skillrecordings/player': link:../../packages/player
       '@skillrecordings/quiz': link:../../packages/quiz
       '@skillrecordings/react': link:../../packages/react
       '@skillrecordings/skill-api': link:../../packages/skill-api
       '@skillrecordings/time': link:../../packages/time
       '@skillrecordings/viewer': link:../../packages/viewer
-      '@vercel/tracing-js': 0.5.1
       '@xstate/react': 1.5.1_bpg42ha2il6pcyn3wrx2rxrchm
       classnames: 2.3.1
       date-fns: 2.28.0
@@ -11614,17 +11614,6 @@ packages:
     resolution: {integrity: sha512-G9h5ZLBJ/V57Ou9vz5hI8pda/YQX5HQszCs3AmIus3XzsmRn/0Ptic5otD3xVST8QLKk7AMk7AqpsyQGN7MZ9A==}
     hasBin: true
     dev: true
-
-  /@vercel/tracing-js/0.5.1:
-    resolution: {integrity: sha512-e1LT4I1k9YTOBW6nY22JuTwnmJQCJpmM2jbSw2clzP5prLvdMCgvnQmbUHunVlf8ST/uSUjzzsTqdjiZVRorcg==}
-    engines: {node: '>=8'}
-    peerDependencies:
-      node-fetch: '*'
-    dependencies:
-      libhoney: 1.3.0
-    transitivePeerDependencies:
-      - supports-color
-    dev: false
 
   /@vercel/tracing-js/0.5.1_node-fetch@2.6.7:
     resolution: {integrity: sha512-e1LT4I1k9YTOBW6nY22JuTwnmJQCJpmM2jbSw2clzP5prLvdMCgvnQmbUHunVlf8ST/uSUjzzsTqdjiZVRorcg==}

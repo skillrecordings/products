@@ -1,7 +1,6 @@
 import {Context, defaultContext} from './context'
 import {v4} from 'uuid'
-import {SpanContext} from '@vercel/tracing-js'
-import {tracer} from '../utils/honeycomb-tracer'
+import {tracer, SpanContext} from '@skillrecordings/honeycomb-tracer'
 import {Prisma} from '@skillrecordings/database'
 
 type SDKOptions = {ctx?: Context; spanContext?: SpanContext}
