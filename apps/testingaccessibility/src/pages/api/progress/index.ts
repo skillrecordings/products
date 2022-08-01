@@ -2,7 +2,7 @@ import {NextApiRequest, NextApiResponse} from 'next'
 import {prisma} from '@skillrecordings/database'
 import {serialize} from 'utils/prisma-next-serializer'
 import {withSentry} from '@sentry/nextjs'
-import {tracer} from 'utils/honeycomb-tracer'
+import {tracer} from '@skillrecordings/honeycomb-tracer'
 import {setupHttpTracing} from '@vercel/tracing-js'
 import {getToken} from 'next-auth/jwt'
 

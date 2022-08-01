@@ -9,7 +9,7 @@ import isEmpty from 'lodash/isEmpty'
 import find from 'lodash/find'
 import uniq from 'lodash/uniq'
 import groq from 'groq'
-import {tracer} from 'utils/honeycomb-tracer'
+import {tracer} from '@skillrecordings/honeycomb-tracer'
 import {setupHttpTracing} from '@vercel/tracing-js'
 
 const lessonQuery = groq`*[_type == "lesson" && slug.current == $slug][0]{
