@@ -4,7 +4,7 @@ import last from 'lodash/last'
 import get from 'lodash/get'
 import groq from 'groq'
 import {isEmpty} from 'lodash'
-import {getSdk} from '@skillrecordings/skill-api'
+import {getSdk} from '@skillrecordings/database'
 
 const defaultProductQuery = groq`*[_type == "product" && productId == $productId][0]{
   productId,
