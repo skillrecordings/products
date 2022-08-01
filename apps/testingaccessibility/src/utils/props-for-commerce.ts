@@ -5,8 +5,7 @@ import {getToken} from 'next-auth/jwt'
 import {getCouponForCode} from '../server/get-coupon-for-code'
 import {getActiveProducts} from '../lib/products'
 import {serialize} from './prisma-next-serializer'
-import {Purchase} from '@skillrecordings/database'
-import {getSdk} from '@skillrecordings/skill-api'
+import {type Purchase, getSdk} from '@skillrecordings/database'
 
 export type CouponForCode = {
   isValid: boolean

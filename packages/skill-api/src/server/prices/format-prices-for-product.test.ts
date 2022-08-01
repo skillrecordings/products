@@ -1,8 +1,12 @@
 import {formatPricesForProduct} from './format-prices-for-product'
 import {getCalculatedPriced} from './get-calculated-price'
 
-import {MockContext, Context, createMockContext} from '../db/context'
-import {getSdk} from '../db/prisma-api'
+import {
+  MockContext,
+  Context,
+  createMockContext,
+  getSdk,
+} from '@skillrecordings/database'
 import {getBulkDiscountPercent} from './bulk-coupon'
 import {first} from 'lodash'
 import {MerchantCoupon, Prisma} from '@skillrecordings/database'

@@ -1,0 +1,10 @@
+# *
+User-agent: *
+Allow: /
+
+# Host
+Host: http://www.tsforjs.com
+
+# Sitemaps
+Sitemap: http://www.tsforjs.com/sitemap.xml
+Sitemap: http://www.tsforjs.com/server-sitemap.xml

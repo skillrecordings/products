@@ -3,8 +3,7 @@ import {withSentry} from '@sentry/nextjs'
 import * as Sentry from '@sentry/nextjs'
 import {tracer, setupHttpTracing} from '@skillrecordings/honeycomb-tracer'
 import {getToken} from 'next-auth/jwt'
-import {prisma} from '@skillrecordings/database'
-import {getSdk} from '@skillrecordings/skill-api'
+import {prisma, getSdk} from '@skillrecordings/database'
 const ROLES_WITH_ACCESS = ['ADMIN', 'SUPERADMIN']
 
 /**
