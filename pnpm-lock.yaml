@@ -845,7 +845,6 @@ importers:
       '@skillrecordings/tsconfig': workspace:*
       '@skillrecordings/types': workspace:*
       '@skillrecordings/viewer': workspace:*
-      '@stripe/stripe-js': ^1.24.0
       '@tailwindcss/forms': ^0.5.2
       '@tailwindcss/typography': ^0.5.2
       '@testing-library/jest-dom': ^5.16.2
@@ -904,7 +903,6 @@ importers:
       react-hook-form: ^7.29.0
       react-markdown: ^7.1.0
       react-scroll: ^1.8.6
-      react-stripe-checkout: ^2.6.3
       react-test-renderer: ^17.0.2
       react-tippy: ^1.4.0
       react-use: ^17.3.2
@@ -941,7 +939,6 @@ importers:
       '@skillrecordings/react': link:../../packages/react
       '@skillrecordings/time': link:../../packages/time
       '@skillrecordings/viewer': link:../../packages/viewer
-      '@stripe/stripe-js': 1.25.0
       '@tailwindcss/forms': 0.5.2_tailwindcss@3.1.4
       '@tailwindcss/typography': 0.5.2_tailwindcss@3.1.4
       '@tippyjs/react': 4.2.6_biqbaboplfbrettd7655fr4n2y
@@ -980,7 +977,6 @@ importers:
       react-hook-form: 7.29.0_react@18.2.0
       react-markdown: 7.1.0_3hx2ussxxho4jajbwrd6gq34qe
       react-scroll: 1.8.7_biqbaboplfbrettd7655fr4n2y
-      react-stripe-checkout: 2.6.3
       react-tippy: 1.4.0
       react-use: 17.3.2_biqbaboplfbrettd7655fr4n2y
       react-use-clipboard: 1.0.7_biqbaboplfbrettd7655fr4n2y
@@ -12173,7 +12169,7 @@ packages:
   /axios/0.26.1:
     resolution: {integrity: sha512-fPwcX4EvnSHuInCMItEhAGnaSEXRBjtzh9fOtsE6E1G6p7vl7edEeZe11QHf18+6+9gR5PbKV/sGKNaD8YaMeA==}
     dependencies:
-      follow-redirects: 1.15.1
+      follow-redirects: 1.15.1_debug@2.6.9
     transitivePeerDependencies:
       - debug
 
@@ -16353,15 +16349,6 @@ packages:
   /focus-visible/5.2.0:
     resolution: {integrity: sha512-Rwix9pBtC1Nuy5wysTmKy+UjbDJpIfg8eHjw0rjZ1mX4GNLz1Bmd16uDpI3Gk1i70Fgcs8Csg2lPm8HULFg9DQ==}
 
-  /follow-redirects/1.15.1:
-    resolution: {integrity: sha512-yLAMQs+k0b2m7cVxpS1VKJVvoz7SS9Td1zss3XRwXj+ZDH00RJgnuLx7E44wx02kQLrdM3aOOy+FpzS7+8OizA==}
-    engines: {node: '>=4.0'}
-    peerDependencies:
-      debug: '*'
-    peerDependenciesMeta:
-      debug:
-        optional: true
-
   /follow-redirects/1.15.1_debug@2.6.9:
     resolution: {integrity: sha512-yLAMQs+k0b2m7cVxpS1VKJVvoz7SS9Td1zss3XRwXj+ZDH00RJgnuLx7E44wx02kQLrdM3aOOy+FpzS7+8OizA==}
     engines: {node: '>=4.0'}
@@ -16716,7 +16703,7 @@ packages:
       create-error-class: 3.0.2
       debug: 2.6.9
       decompress-response: 6.0.0
-      follow-redirects: 1.15.1
+      follow-redirects: 1.15.1_debug@2.6.9
       form-urlencoded: 2.0.9
       into-stream: 3.1.0
       is-plain-object: 2.0.4
