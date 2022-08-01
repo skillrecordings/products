@@ -50,6 +50,18 @@ const Home: NextPage = () => {
                 <p className="inline-block px-5 py-1 text-xs tracking-wider rounded-full sm:text-sm bg-gradient-to-r from-purple-300 to-pink-300">
                   NEW COURSE
                 </p>
+                <div>
+                  <h3 className="pt-24 text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-700 to-pink-500 pb-20">
+                    Course Modules
+                  </h3>
+                  <div className="px-4">
+                    <div className="relative block max-w-2xl p-6 mx-auto -mt-16 text-lg bg-stone-900 rounded shadow-2xl">
+                      <div className="text-white grid grid-cols-2">
+                        <ol className="list-decimal"></ol>
+                      </div>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
