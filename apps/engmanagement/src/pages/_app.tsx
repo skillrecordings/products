@@ -6,7 +6,6 @@ import {ThemeProvider} from 'next-themes'
 import {SessionProvider} from 'next-auth/react'
 import '../styles/globals.css'
 import 'focus-visible'
-import {ViewerProvider} from '@skillrecordings/viewer'
 import {ConvertkitProvider} from '@skillrecordings/convertkit'
 
 declare global {
@@ -25,11 +24,9 @@ function MyApp({Component, pageProps}: AppProps) {
       <DefaultSeo {...config} />
       <SessionProvider session={pageProps.session} refetchInterval={0}>
         <ConvertkitProvider>
-          <ViewerProvider>
-            <ThemeProvider forcedTheme="dark" attribute="class">
-              <Component {...pageProps} />
-            </ThemeProvider>
-          </ViewerProvider>
+          <ThemeProvider forcedTheme="dark" attribute="class">
+            <Component {...pageProps} />
+          </ThemeProvider>
         </ConvertkitProvider>
       </SessionProvider>
     </>

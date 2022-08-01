@@ -75,7 +75,6 @@
     "@skillrecordings/react": "workspace:*",
     "@skillrecordings/skill-api": "workspace:*",
     "@skillrecordings/time": "workspace:*",
-    "@skillrecordings/viewer": "workspace:*",
     "@slack/web-api": "^6.7.2",
     "@stripe/stripe-js": "^1.21.1",
     "@svgdotjs/svg.js": "^3.1.2",

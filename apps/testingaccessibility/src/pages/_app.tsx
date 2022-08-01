@@ -4,7 +4,6 @@ import {DefaultSeo, initNProgress} from '@skillrecordings/react'
 import config from 'config'
 import 'focus-visible'
 import '../styles/globals.css'
-import {ViewerProvider} from '@skillrecordings/viewer'
 import {ConvertkitProvider} from '@skillrecordings/convertkit'
 import MDXComponents from 'components/mdx'
 import {MDXProvider} from '@mdx-js/react'
@@ -37,15 +36,13 @@ function MyApp({Component, pageProps}: AppProps) {
       <QueryClientProvider client={queryClient}>
         <SessionProvider session={pageProps.session} refetchInterval={0}>
           <ConvertkitProvider>
-            <ViewerProvider>
-              <MDXProvider components={MDXComponents}>
-                <ProgressProvider>
-                  <FeedbackProvider>
-                    <Component {...pageProps} />
-                  </FeedbackProvider>
-                </ProgressProvider>
-              </MDXProvider>
-            </ViewerProvider>
+            <MDXProvider components={MDXComponents}>
+              <ProgressProvider>
+                <FeedbackProvider>
+                  <Component {...pageProps} />
+                </FeedbackProvider>
+              </ProgressProvider>
+            </MDXProvider>
           </ConvertkitProvider>
         </SessionProvider>
       </QueryClientProvider>

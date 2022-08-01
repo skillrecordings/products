@@ -5,7 +5,6 @@ import config from 'config'
 import {ThemeProvider} from 'next-themes'
 import '../styles/globals.css'
 import 'focus-visible'
-import {ViewerProvider} from '@skillrecordings/viewer'
 import {ConvertkitProvider} from '@skillrecordings/convertkit'
 import {MDXProvider} from '@mdx-js/react'
 import mdxComponents from 'components/mdx'
@@ -25,13 +24,11 @@ function MyApp({Component, pageProps}: AppProps) {
     <>
       <DefaultSeo {...config} />
       <ConvertkitProvider>
-        <ViewerProvider>
-          <ThemeProvider attribute="class" enableSystem>
-            <MDXProvider components={mdxComponents}>
-              <Component {...pageProps} />
-            </MDXProvider>
-          </ThemeProvider>
-        </ViewerProvider>
+        <ThemeProvider attribute="class" enableSystem>
+          <MDXProvider components={mdxComponents}>
+            <Component {...pageProps} />
+          </MDXProvider>
+        </ThemeProvider>
       </ConvertkitProvider>
     </>
   )

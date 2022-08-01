@@ -53,7 +53,6 @@
     "@skillrecordings/react": "workspace:*",
     "@skillrecordings/skill-api": "workspace:*",
     "@skillrecordings/time": "workspace:*",
-    "@skillrecordings/viewer": "workspace:*",
     "@vercel/tracing-js": "^0.5.1",
     "@xstate/react": "=1.5.1",
     "classnames": "^2.3.1",
