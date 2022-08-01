@@ -54,7 +54,6 @@ importers:
       '@skillrecordings/time': workspace:*
       '@skillrecordings/tsconfig': workspace:*
       '@skillrecordings/types': workspace:*
-      '@skillrecordings/viewer': workspace:*
       '@stripe/stripe-js': ^1.21.1
       '@tailwindcss/typography': ^0.5.2
       '@testing-library/jest-dom': ^5.15.0
@@ -140,7 +139,6 @@ importers:
       '@skillrecordings/quiz': link:../../packages/quiz
       '@skillrecordings/react': link:../../packages/react
       '@skillrecordings/time': link:../../packages/time
-      '@skillrecordings/viewer': link:../../packages/viewer
       '@stripe/stripe-js': 1.21.1
       '@tailwindcss/typography': 0.5.2_tailwindcss@3.1.4
       '@tippyjs/react': 4.2.6_biqbaboplfbrettd7655fr4n2y
@@ -236,7 +234,6 @@ importers:
       '@skillrecordings/time': workspace:*
       '@skillrecordings/tsconfig': workspace:*
       '@skillrecordings/types': workspace:*
-      '@skillrecordings/viewer': workspace:*
       '@stripe/stripe-js': ^1.21.1
       '@tailwindcss/forms': ^0.5.2
       '@tailwindcss/typography': ^0.5.2
@@ -323,7 +320,6 @@ importers:
       '@skillrecordings/quiz': link:../../packages/quiz
       '@skillrecordings/react': link:../../packages/react
       '@skillrecordings/time': link:../../packages/time
-      '@skillrecordings/viewer': link:../../packages/viewer
       '@stripe/stripe-js': 1.21.1
       '@tailwindcss/forms': 0.5.2_tailwindcss@3.1.4
       '@tailwindcss/typography': 0.5.2_tailwindcss@3.1.4
@@ -424,7 +420,6 @@ importers:
       '@skillrecordings/time': workspace:*
       '@skillrecordings/tsconfig': workspace:*
       '@skillrecordings/types': workspace:*
-      '@skillrecordings/viewer': workspace:*
       '@stripe/stripe-js': ^1.21.1
       '@tailwindcss/forms': ^0.5.2
       '@tailwindcss/typography': ^0.5.2
@@ -510,7 +505,6 @@ importers:
       '@skillrecordings/quiz': link:../../packages/quiz
       '@skillrecordings/react': link:../../packages/react
       '@skillrecordings/time': link:../../packages/time
-      '@skillrecordings/viewer': link:../../packages/viewer
       '@stripe/stripe-js': 1.21.1
       '@tailwindcss/forms': 0.5.2_tailwindcss@3.1.4
       '@tailwindcss/typography': 0.5.2_tailwindcss@3.1.4
@@ -614,7 +608,6 @@ importers:
       '@skillrecordings/time': workspace:*
       '@skillrecordings/tsconfig': workspace:*
       '@skillrecordings/types': workspace:*
-      '@skillrecordings/viewer': workspace:*
       '@stripe/stripe-js': ^1.21.1
       '@tailwindcss/forms': ^0.5.2
       '@tailwindcss/typography': ^0.5.2
@@ -715,7 +708,6 @@ importers:
       '@skillrecordings/react': link:../../packages/react
       '@skillrecordings/skill-api': link:../../packages/skill-api
       '@skillrecordings/time': link:../../packages/time
-      '@skillrecordings/viewer': link:../../packages/viewer
       '@stripe/stripe-js': 1.21.1
       '@tailwindcss/forms': 0.5.2_tailwindcss@3.1.4
       '@tailwindcss/typography': 0.5.2_tailwindcss@3.1.4
@@ -832,7 +824,6 @@ importers:
       '@skillrecordings/time': workspace:*
       '@skillrecordings/tsconfig': workspace:*
       '@skillrecordings/types': workspace:*
-      '@skillrecordings/viewer': workspace:*
       '@stripe/stripe-js': ^1.24.0
       '@tailwindcss/forms': ^0.5.2
       '@tailwindcss/typography': ^0.5.2
@@ -926,7 +917,6 @@ importers:
       '@skillrecordings/quiz': link:../../packages/quiz
       '@skillrecordings/react': link:../../packages/react
       '@skillrecordings/time': link:../../packages/time
-      '@skillrecordings/viewer': link:../../packages/viewer
       '@stripe/stripe-js': 1.25.0
       '@tailwindcss/forms': 0.5.2_tailwindcss@3.1.4
       '@tailwindcss/typography': 0.5.2_tailwindcss@3.1.4
@@ -1099,7 +1089,7 @@ importers:
       '@skillrecordings/time': workspace:*
       '@skillrecordings/tsconfig': workspace:*
       '@skillrecordings/types': workspace:*
-      '@skillrecordings/viewer': workspace:*
+      '@skillrecordings/viewer': '=0.0.2'
       '@stripe/stripe-js': ^1.21.1
       '@tailwindcss/forms': ^0.5.2
       '@tailwindcss/typography': ^0.5.2
@@ -1173,7 +1163,7 @@ importers:
       '@skillrecordings/react': link:../../packages/react
       '@skillrecordings/stripe': 0.0.2_next@12.2.3
       '@skillrecordings/time': link:../../packages/time
-      '@skillrecordings/viewer': link:../../packages/viewer
+      '@skillrecordings/viewer': 0.0.2_zh55p56r34r3yqhnqe73jhqbzy
       '@stripe/stripe-js': 1.21.1
       '@tailwindcss/forms': 0.5.2_tailwindcss@3.1.4
       '@tailwindcss/typography': 0.5.2_tailwindcss@3.1.4
@@ -1258,7 +1248,6 @@ importers:
       '@skillrecordings/time': workspace:*
       '@skillrecordings/tsconfig': workspace:*
       '@skillrecordings/types': workspace:*
-      '@skillrecordings/viewer': workspace:*
       '@stripe/stripe-js': ^1.21.1
       '@tailwindcss/forms': ^0.5.2
       '@tailwindcss/typography': ^0.5.2
@@ -1335,7 +1324,6 @@ importers:
       '@skillrecordings/quiz': link:../../packages/quiz
       '@skillrecordings/react': link:../../packages/react
       '@skillrecordings/time': link:../../packages/time
-      '@skillrecordings/viewer': link:../../packages/viewer
       '@stripe/stripe-js': 1.21.1
       '@tailwindcss/forms': 0.5.2_tailwindcss@3.1.4
       '@tailwindcss/typography': 0.5.2_tailwindcss@3.1.4
@@ -1434,7 +1422,6 @@ importers:
       '@skillrecordings/time': workspace:*
       '@skillrecordings/tsconfig': workspace:*
       '@skillrecordings/types': workspace:*
-      '@skillrecordings/viewer': workspace:*
       '@types/cookie': ^0.4.1
       '@types/jest': ^27.5.2
       '@types/lodash': ^4.14.179
@@ -1492,7 +1479,6 @@ importers:
       '@skillrecordings/react': link:../../packages/react
       '@skillrecordings/skill-api': link:../../packages/skill-api
       '@skillrecordings/time': link:../../packages/time
-      '@skillrecordings/viewer': link:../../packages/viewer
       '@vercel/tracing-js': 0.5.1
       '@xstate/react': 1.5.1_bpg42ha2il6pcyn3wrx2rxrchm
       classnames: 2.3.1
@@ -1556,7 +1542,6 @@ importers:
       '@skillrecordings/time': workspace:*
       '@skillrecordings/tsconfig': workspace:*
       '@skillrecordings/types': workspace:*
-      '@skillrecordings/viewer': workspace:*
       '@stripe/stripe-js': ^1.21.1
       '@tailwindcss/typography': ^0.5.2
       '@testing-library/jest-dom': ^5.15.0
@@ -1633,7 +1618,6 @@ importers:
       '@skillrecordings/cookies': link:../../packages/cookies
       '@skillrecordings/react': link:../../packages/react
       '@skillrecordings/time': link:../../packages/time
-      '@skillrecordings/viewer': link:../../packages/viewer
       '@stripe/stripe-js': 1.21.1
       '@tailwindcss/typography': 0.5.2_tailwindcss@3.1.4
       '@tippyjs/react': 4.2.6_biqbaboplfbrettd7655fr4n2y
@@ -1749,7 +1733,6 @@ importers:
       '@skillrecordings/time': workspace:*
       '@skillrecordings/tsconfig': workspace:*
       '@skillrecordings/types': workspace:*
-      '@skillrecordings/viewer': workspace:*
       '@slack/web-api': ^6.7.2
       '@stripe/stripe-js': ^1.21.1
       '@svgdotjs/svg.js': ^3.1.2
@@ -1911,7 +1894,6 @@ importers:
       '@skillrecordings/react': link:../../packages/react
       '@skillrecordings/skill-api': link:../../packages/skill-api
       '@skillrecordings/time': link:../../packages/time
-      '@skillrecordings/viewer': link:../../packages/viewer
       '@slack/web-api': 6.7.2
       '@stripe/stripe-js': 1.21.1
       '@svgdotjs/svg.js': 3.1.2
@@ -2180,7 +2162,6 @@ importers:
       '@skillrecordings/time': workspace:*
       '@skillrecordings/tsconfig': workspace:*
       '@skillrecordings/types': workspace:*
-      '@skillrecordings/viewer': workspace:*
       '@stripe/stripe-js': ^1.21.1
       '@supabase/supabase-js': ^1.29.1
       '@tailwindcss/typography': ^0.5.2
@@ -2287,7 +2268,6 @@ importers:
       '@skillrecordings/quiz': link:../../packages/quiz
       '@skillrecordings/react': link:../../packages/react
       '@skillrecordings/time': link:../../packages/time
-      '@skillrecordings/viewer': link:../../packages/viewer
       '@stripe/stripe-js': 1.21.1
       '@supabase/supabase-js': 1.29.1
       '@tippyjs/react': 4.2.6_biqbaboplfbrettd7655fr4n2y
@@ -2943,7 +2923,6 @@ importers:
       '@skillrecordings/scripts': workspace:*
       '@skillrecordings/tsconfig': workspace:*
       '@skillrecordings/types': workspace:*
-      '@skillrecordings/viewer': workspace:*
       '@tippyjs/react': ^4.2.6
       '@types/cookie': ^0.4.1
       '@types/jest': ^27.5.2
@@ -2979,7 +2958,6 @@ importers:
       '@skillrecordings/axios': link:../axios
       '@skillrecordings/config': link:../config
       '@skillrecordings/cookies': link:../cookies
-      '@skillrecordings/viewer': link:../viewer
       '@tippyjs/react': 4.2.6_biqbaboplfbrettd7655fr4n2y
       axios: 0.26.1
       formik: 2.2.9_react@18.2.0
@@ -3216,61 +3194,6 @@ importers:
       eslint: 8.19.0
       eslint-config-custom: link:../eslint-config-custom
       typescript: 4.7.4
-
-  packages/viewer:
-    specifiers:
-      '@skillrecordings/analytics': workspace:*
-      '@skillrecordings/auth': '=0.0.6'
-      '@skillrecordings/axios': workspace:*
-      '@skillrecordings/config': workspace:*
-      '@skillrecordings/cookies': workspace:*
-      '@skillrecordings/scripts': 0.0.5
-      '@skillrecordings/tsconfig': 0.0.5
-      '@skillrecordings/types': 0.0.5
-      '@types/cookie': ^0.4.1
-      '@types/jest': ^27.5.2
-      '@types/lodash': ^4.14.179
-      '@types/node': ^17.0.0
-      '@types/nodemailer': ^6.4.4
-      '@types/react': ^18.0.15
-      '@types/react-dom': ^18.0.6
-      '@xstate/react': '=1.5.1'
-      esbuild-node-tsc: ^1.6.1
-      eslint: ^8.19.0
-      eslint-config-custom: workspace:*
-      lodash: ^4.17.21
-      query-string: ^7.1.1
-      react: 18.2.0
-      react-dom: 18.2.0
-      typescript: ^4.7.4
-      xstate: '=4.23.1'
-    dependencies:
-      '@skillrecordings/analytics': link:../analytics
-      '@skillrecordings/auth': 0.0.6
-      '@skillrecordings/axios': link:../axios
-      '@skillrecordings/config': link:../config
-      '@skillrecordings/cookies': link:../cookies
-      query-string: 7.1.1
-    devDependencies:
-      '@skillrecordings/scripts': link:../scripts
-      '@skillrecordings/tsconfig': link:../tsconfig
-      '@skillrecordings/types': link:../types
-      '@types/cookie': 0.4.1
-      '@types/jest': 27.5.2
-      '@types/lodash': 4.14.180
-      '@types/node': 17.0.41
-      '@types/nodemailer': 6.4.4
-      '@types/react': 18.0.15
-      '@types/react-dom': 18.0.6
-      '@xstate/react': 1.5.1_bpg42ha2il6pcyn3wrx2rxrchm
-      esbuild-node-tsc: 1.6.1_typescript@4.7.4
-      eslint: 8.19.0
-      eslint-config-custom: link:../eslint-config-custom
-      lodash: 4.17.21
-      react: 18.2.0
-      react-dom: 18.2.0_react@18.2.0
-      typescript: 4.7.4
-      xstate: 4.23.1
 
 packages:
 
@@ -9661,22 +9584,6 @@ packages:
     resolution: {integrity: sha512-D0L6SfaEJltJFpKdE3h1+3auDxldbifnfOI0eTlO36kSCeCdZKSFfgYOR5gWen9VTpCDAr/bXhX4K7SlGVTVlQ==}
     dev: false
 
-  /@skillrecordings/auth/0.0.6:
-    resolution: {integrity: sha512-ZTU05/wJ3TjXyMII66zAEqCb7/4akxf7HFthsRFO/bEdGVNgpSgl/bo/btScoGNyOV84fVGv16MaAGFV3RtrLw==}
-    peerDependencies:
-      next: '>= 11.1.2 < 13'
-    dependencies:
-      '@skillrecordings/analytics': 0.0.5
-      '@skillrecordings/axios': 0.0.1
-      '@skillrecordings/config': 0.0.1
-      '@skillrecordings/cookies': 0.0.1
-      axios: 0.26.1
-      client-oauth2: 4.3.3
-      js-cookie: 3.0.1
-    transitivePeerDependencies:
-      - debug
-    dev: false
-
   /@skillrecordings/auth/0.0.6_next@12.2.3:
     resolution: {integrity: sha512-ZTU05/wJ3TjXyMII66zAEqCb7/4akxf7HFthsRFO/bEdGVNgpSgl/bo/btScoGNyOV84fVGv16MaAGFV3RtrLw==}
     peerDependencies:
@@ -9718,6 +9625,31 @@ packages:
       stripe: ^8.186.1
     dependencies:
       next: 12.2.3_biqbaboplfbrettd7655fr4n2y
+    dev: false
+
+  /@skillrecordings/viewer/0.0.2_zh55p56r34r3yqhnqe73jhqbzy:
+    resolution: {integrity: sha512-QHKgnhtYhOZN4u8wyjtptJhkb8LiDhJPnXc0YFmiRmREzlNEveCc2D3PI7K4MsUrf/6/xuQm8Ypo6rUaCS81Kg==}
+    peerDependencies:
+      '@xstate/react': '=1.5.1'
+      lodash: ^4.17.21
+      react: ^17.0.2 < 18.0.0
+      react-dom: ^17.0.2 < 18.0.0
+      xstate: '=4.23.1'
+    dependencies:
+      '@skillrecordings/analytics': 0.0.5
+      '@skillrecordings/auth': 0.0.6_next@12.2.3
+      '@skillrecordings/axios': 0.0.1
+      '@skillrecordings/config': 0.0.1
+      '@skillrecordings/cookies': 0.0.1
+      '@xstate/react': 1.5.1_bpg42ha2il6pcyn3wrx2rxrchm
+      lodash: 4.17.21
+      query-string: 7.1.1
+      react: 18.2.0
+      react-dom: 18.2.0_react@18.2.0
+      xstate: 4.23.1
+    transitivePeerDependencies:
+      - debug
+      - next
     dev: false
 
   /@slack/logger/3.0.0:
