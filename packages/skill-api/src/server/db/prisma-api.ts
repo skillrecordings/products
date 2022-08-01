@@ -1,7 +1,7 @@
 import {Context, defaultContext} from './context'
 import {v4} from 'uuid'
 import {SpanContext} from '@vercel/tracing-js'
-import {tracer} from '@skillrecordings/honeycomb-tracer'
+import {tracer} from '../utils/honeycomb-tracer'
 import {Prisma, Purchase, User} from '@skillrecordings/database'
 import {PurchaseStatus} from '../../enums'
 

@@ -8,7 +8,7 @@ import {SkillRecordingsHandler} from '../core'
 import type {NextApiRequest, NextApiResponse} from 'next'
 import {PrismaClient} from '@skillrecordings/database'
 import {setupHttpTracing} from '@vercel/tracing-js'
-import {tracer} from '@skillrecordings/honeycomb-tracer'
+import {tracer} from '../server'
 
 /** Extract the host from the environment */
 export function detectHost(forwardedHost: any) {

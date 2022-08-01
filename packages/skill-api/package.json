@@ -33,7 +33,6 @@
   "dependencies": {
     "@babel/runtime": "^7.16.3",
     "@skillrecordings/database": "workspace:*",
-    "@skillrecordings/honeycomb-tracer": "workspace:*",
     "@slack/web-api": "^6.7.2",
     "@vercel/tracing-js": "^0.5.1",
     "concurrently": "^7.2.2",
