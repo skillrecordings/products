@@ -1,7 +1,9 @@
 import {Context, defaultContext} from './context'
 import {v4} from 'uuid'
-import {tracer, SpanContext} from '@skillrecordings/honeycomb-tracer'
-import {Prisma, Purchase, User} from '@prisma/client'
+import {SpanContext} from '@vercel/tracing-js'
+import {tracer} from '@skillrecordings/honeycomb-tracer'
+import {Prisma, Purchase, User} from '@skillrecordings/database'
+import {PurchaseStatus} from '../../enums'
 
 type SDKOptions = {ctx?: Context; spanContext?: SpanContext}
 
@@ -124,7 +126,7 @@ export function getSdk(
         ? await ctx.prisma.purchase.findMany({
             where: {
               userId,
-              status: 'Valid',
+              status: PurchaseStatus.Valid,
             },
             select: {
               id: true,

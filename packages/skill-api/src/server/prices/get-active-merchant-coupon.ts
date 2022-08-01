@@ -1,6 +1,7 @@
 import {SpanContext} from '@vercel/tracing-js'
 import {couponIsValid} from './coupon-is-valid'
-import {defaultContext, getSdk} from '@skillrecordings/database'
+import {defaultContext} from '../db/context'
+import {getSdk} from '../db/prisma-api'
 
 export async function getActiveMerchantCoupon({
   productId,
