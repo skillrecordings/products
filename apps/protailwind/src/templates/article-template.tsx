@@ -64,27 +64,29 @@ const RelatedResources: React.FC<{resources: SanityDocument[]}> = ({
   resources,
 }) => {
   return !isEmpty(resources) ? (
-    <section className="px-5 max-w-screen-md flex sm:flex-row flex-col items-start justify-between w-full mx-auto pt-10 pb-24 border-t border-slate-800">
-      <div className="sm:text-lg uppercase font-medium text-slate-400 flex-shrink-0 sm:pr-32 pt-2 sm:pb-0 pb-4">
-        Continue Reading
-      </div>
-      <div className="flex-grow">
-        {resources.map(({title, subtitle, slug}) => {
-          return (
-            <div className="">
-              <Link href={`/${slug}`}>
-                <a className="lg:text-3xl text-2xl decoration-indigo-500 hover:decoration-indigo-300 transition font-semibold underline">
-                  {title}
-                </a>
-              </Link>
-              {subtitle && (
-                <p className="lg:text-xl text-lg text-slate-400 pt-2">
-                  {subtitle}
-                </p>
-              )}
-            </div>
-          )
-        })}
+    <section className="bg-black/30 px-5 w-full mx-auto pt-16 pb-20 mb-16">
+      <div className="flex sm:flex-row flex-col items-start justify-between max-w-screen-md mx-auto w-full">
+        <div className="sm:text-lg uppercase font-medium text-slate-400 flex-shrink-0 sm:pr-32 pt-2 sm:pb-0 pb-4">
+          Continue Reading
+        </div>
+        <div className="flex-grow">
+          {resources.map(({title, subtitle, slug}) => {
+            return (
+              <div className="">
+                <Link href={`/${slug}`}>
+                  <a className="lg:text-3xl text-2xl decoration-slate-700 hover:decoration-slate-600 transition font-semibold underline">
+                    {title}
+                  </a>
+                </Link>
+                {subtitle && (
+                  <p className="lg:text-xl text-lg text-slate-400 pt-2">
+                    {subtitle}
+                  </p>
+                )}
+              </div>
+            )
+          })}
+        </div>
       </div>
     </section>
   ) : null
@@ -117,7 +119,7 @@ const Header: React.FC<SanityDocument> = ({
             </h2>
           )}
         </div>
-        <div className="font-medium text-lg px-5 w-full flex flex-wrap md:space-y-0 space-y-3 items-start justify-center space-x-10 max-w-screen-lg leading-none">
+        <div className="grid md:grid-cols-5 grid-cols-3 md:gap-10 gap-5 font-medium text-lg md:px-5 w-full items-center md:place-items-stretch place-items-center justify-center max-w-screen-md leading-none">
           <Author />
           <div>
             <div className="text-sm uppercase font-semibold text-slate-400 pb-1.5">
@@ -129,16 +131,12 @@ const Header: React.FC<SanityDocument> = ({
             </div>
           </div>
           <time dateTime={date}>
-            {/* <CalendarIcon aria-hidden="true" className="w-5 opacity-80" />{' '} */}
             <div className="text-sm uppercase font-semibold text-slate-400 pb-1.5">
               published
             </div>
             <div>{format(new Date(date), 'dd MMMM, y')}</div>
           </time>
           <div>
-            <div className="text-sm uppercase font-semibold text-slate-400">
-              Share
-            </div>
             <Share title={title} />
           </div>
         </div>
@@ -149,7 +147,7 @@ const Header: React.FC<SanityDocument> = ({
 
 const Author = () => {
   return (
-    <div className="flex items-center">
+    <div className="flex items-center md:justify-start justify-center md:col-span-2 col-span-3">
       <Image
         src={require('../../public/assets/simon-vrachliotis.png')}
         alt="Simon Vrachliotis"

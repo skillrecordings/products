@@ -13,6 +13,7 @@ import callout from './objects/callout'
 import divider from './objects/divider'
 import externalImage from './objects/externalImage'
 import mediaCaption from './objects/mediaCaption'
+import videoOptions from './objects/videoOptions'
 
 // Then we give our schema to the builder and provide the result to Sanity
 export default createSchema({
@@ -35,6 +36,7 @@ export default createSchema({
     divider,
     externalImage,
     mediaCaption,
+    videoOptions,
     // When added to this list, object types can be used as
     // { type: 'typename' } in other document schemas
   ]),
