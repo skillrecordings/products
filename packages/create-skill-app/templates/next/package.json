@@ -11,7 +11,7 @@
     "db:schema": "prisma migrate dev --create-only"
   },
   "dependencies": {
-    "@casl/ability": "^5.4.3",
+    "@casl/ability": "^6.0.0",
     "@mdx-js/loader": "^2.1.2",
     "@mdx-js/mdx": "^2.1.2",
     "@mdx-js/react": "^2.1.2",
@@ -23,12 +23,13 @@
     "@skillrecordings/analytics": "workspace:*",
     "@skillrecordings/convertkit": "workspace:*",
     "@skillrecordings/database": "workspace:*",
+    "@skillrecordings/commerce-server": "workspace:*",
+    "@skillrecordings/honeycomb-tracer": "workspace:*",
     "@skillrecordings/quiz": "workspace:*",
     "@skillrecordings/react": "workspace:*",
     "@skillrecordings/skill-api": "workspace:*",
     "@slack/web-api": "^6.7.2",
     "@tailwindcss/typography": "^0.5.2",
-    "@vercel/tracing-js": "^0.5.1",
     "classnames": "^2.3.1",
     "feed": "^4.2.2",
     "groq": "^2.15.0",
@@ -40,10 +41,7 @@
     "nodemailer": "^6.7.2",
     "nodemailer-postmark-transport": "^5.2.1",
     "react": "18.2.0",
-    "react-dom": "18.2.0",
-    "slugify": "^1.6.2",
-    "uuid": "^8.3.2",
-    "stripe": "^8.186.1"
+    "react-dom": "18.2.0"
   },
   "devDependencies": {
     "@next/env": "^12.2.2",
@@ -60,27 +58,16 @@
     "@types/nprogress": "^0.2.0",
     "@types/react": "^18.0.15",
     "@types/react-dom": "^18.0.6",
-    "@types/uuid": "^8.3.4",
     "dotenv-flow": "^3.2.0",
     "eslint": "^8.19.0",
     "eslint-config-custom": "workspace:*",
-    "husky": "^7.0.4",
     "jest": "^27.5.1",
     "jest-mock-extended": "^2.0.4",
-    "lint-staged": "^11.2.6",
     "postcss": "^8.4.14",
     "prettier": "^2.6.2",
     "tailwindcss": "^3.1.6",
     "typescript": "^4.7.4",
     "webpack": "^5.73.0"
-  },
-  "lint-staged": {
-    "*.{js,json,md,mdx,ts,tsx}": [
-      "prettier --write"
-    ],
-    "src/**/*.{ts,tsx,md,mdx,js}": [
-      "prettier --write"
-    ]
   },
   "jest": {
     "preset": "@skillrecordings/scripts/jest/next"
