@@ -26,11 +26,14 @@ const findClosestDiscount = function (percentOff: number) {
   })
 }
 
-const redeemHandler = async (req: NextApiRequest, res: NextApiResponse) => {
-  setupHttpTracing({name: redeemHandler.name, tracer, req, res})
+const adminCouponGenerator = async (
+  req: NextApiRequest,
+  res: NextApiResponse,
+) => {
+  setupHttpTracing({name: adminCouponGenerator.name, tracer, req, res})
   const token = await getToken({req})
 
-  if (!ROLES_WITH_ACCESS.includes(token?.roles as string)) {
+  if (!ROLES_WITH_ACCESS.includes(token?.role as string)) {
     res.status(404).end()
     return
   }
@@ -94,7 +97,7 @@ const redeemHandler = async (req: NextApiRequest, res: NextApiResponse) => {
   }
 }
 
-export default withSentry(redeemHandler)
+export default withSentry(adminCouponGenerator)
 
 export const config = {
   api: {

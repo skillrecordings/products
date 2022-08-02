@@ -5,23 +5,18 @@
  * @param {(redeemPurchase) => void} onSuccess callback to be called when purchase is redeemed
  */
 import type {Purchase} from '@skillrecordings/database'
+import {redeemFullPriceCoupon} from './redeem-full-price-coupon'
 
 export async function handleSelfRedeem(
   email: string,
   bulkCouponId: string,
   onSuccess: (redeemedPurchase: Purchase) => void,
 ) {
-  const redeemedPurchase = await fetch(`/api/redeem`, {
-    method: 'post',
-    body: JSON.stringify({
-      email,
-      couponId: bulkCouponId,
-      sendEmail: false,
-    }),
-    headers: {
-      'Content-Type': 'application/json',
-    },
-  }).then((response) => response.json())
+  const redeemedPurchase = await redeemFullPriceCoupon({
+    email,
+    couponId: bulkCouponId,
+    sendEmail: false,
+  })
   if (redeemedPurchase && !redeemedPurchase.error) {
     onSuccess(redeemedPurchase)
   }

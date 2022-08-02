@@ -8,6 +8,7 @@ import renderPage from './pages'
 import {sendFeedbackFromUser} from './services/send-feedback-from-user'
 import {loadPrices} from './services/load-prices'
 import {stripeCheckout} from './services/stripe-checkout'
+import {redeemGoldenTicket} from './services/redeem-golden-ticket'
 
 export interface OutgoingResponse<
   Body extends string | Record<string, any> | any[] = any,
@@ -74,6 +75,8 @@ export async function SkillRecordingsHandler<
           context: req?.body?.context,
           config: userOptions,
         })
+      case 'redeem':
+        return await redeemGoldenTicket({params})
       case 'prices':
         return await loadPrices({params})
       case 'checkout':

@@ -3,7 +3,7 @@ import {
   MessageAttachment,
   WebClient,
 } from '@slack/web-api'
-import {User} from '@skillrecordings/database'
+import {getSdk, User} from '@skillrecordings/database'
 import {SlackConfig} from '../next'
 import {FeedbackContext} from '../core/types'
 
@@ -57,6 +57,36 @@ export async function postFeedbackToSlack(
           title: `${feedbackContext.emotion} ${
             feedbackContext.category === 'general' ? 'Feedback' : 'Help request'
           } from ${user.name} (${user.email})`,
+        },
+      ],
+    })
+  } catch (e) {
+    console.log(e)
+    return false
+  }
+}
+
+export async function postRedemptionToSlack(
+  email: string,
+  productId: string,
+  config: SlackConfig,
+) {
+  const {getProduct} = getSdk()
+  const product = await getProduct({
+    where: {id: productId},
+  })
+
+  try {
+    return await postToSlack({
+      webClient: new WebClient(config.token),
+      channel: config.redeem.channelId,
+      text: `${email} redeemed ${product?.name}`,
+      attachments: [
+        {
+          fallback: `Redeemed by ${email}`,
+          text: `${email} redeemed a seat!`,
+          color: '#5ceb34',
+          title: `Redeemed ${product?.name}`,
         },
       ],
     })

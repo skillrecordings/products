@@ -1,6 +1,5 @@
-import {prisma} from '@skillrecordings/database'
 import {PurchaseStatus} from '@skillrecordings/skill-api'
-import {Purchase} from '@skillrecordings/database'
+import {type Purchase, prisma} from '@skillrecordings/database/dist/client'
 
 export async function updatePurchaseStatusForCharge(
   chargeId: string,

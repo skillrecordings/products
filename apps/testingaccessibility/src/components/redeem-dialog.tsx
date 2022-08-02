@@ -3,6 +3,7 @@ import * as AlertDialogPrimitive from '@radix-ui/react-alert-dialog'
 import {useFormik} from 'formik'
 import * as Yup from 'yup'
 import {useRouter} from 'next/router'
+import {redeemFullPriceCoupon} from '../utils/redeem-full-price-coupon'
 
 const validationSchema = Yup.object().shape({
   email: Yup.string().email('Invalid email').required('Required'),
@@ -21,20 +22,7 @@ const RedeemDialog = ({open = false, couponId}: RedeemDialogProps) => {
     },
     validationSchema,
     onSubmit: async ({email}) => {
-      const purchase = await fetch(`/api/redeem`, {
-        method: 'post',
-        body: JSON.stringify({
-          email,
-          couponId,
-        }),
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      }).then((response) => response.json())
-
-      console.log({purchase})
-
-      debugger
+      const purchase = await redeemFullPriceCoupon({email, couponId})
 
       if (purchase.error) {
         console.error(purchase.message)
