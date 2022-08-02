@@ -1,6 +1,6 @@
 import {buffer} from 'micro'
 import type {NextApiRequest, NextApiResponse} from 'next'
-import {sendServerEmail} from '../../../utils/send-server-email'
+import {sendServerEmail} from '@skillrecordings/skill-api'
 import {nextAuthOptions} from '../auth/[...nextauth]'
 import {recordNewPurchase} from '../../../utils/record-new-purchase'
 import {withSentry} from '@sentry/nextjs'

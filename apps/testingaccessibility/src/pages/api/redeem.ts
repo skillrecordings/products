@@ -1,13 +1,10 @@
 import type {NextApiRequest, NextApiResponse} from 'next'
 import {validateCoupon} from '@skillrecordings/commerce-server'
-import {sendServerEmail} from '../../utils/send-server-email'
 import {nextAuthOptions} from './auth/[...nextauth]'
 import {prisma, getSdk} from '@skillrecordings/database'
-import {withSentry} from '@sentry/nextjs'
-import * as Sentry from '@sentry/nextjs'
 import {tracer, setupHttpTracing} from '@skillrecordings/honeycomb-tracer'
 import {postRedemptionToSlack} from '../../server/post-to-slack'
-import {PurchaseStatus} from '@skillrecordings/skill-api'
+import {PurchaseStatus, sendServerEmail} from '@skillrecordings/skill-api'
 
 export class CouponRedemptionError extends Error {
   couponId: string
@@ -121,7 +118,6 @@ const redeemHandler = async (req: NextApiRequest, res: NextApiResponse) => {
         )
       }
     } catch (error: any) {
-      Sentry.captureException(error)
       res.status(500).json({error: true, message: error.message})
     }
   } else {
@@ -130,10 +126,4 @@ const redeemHandler = async (req: NextApiRequest, res: NextApiResponse) => {
   }
 }
 
-export default withSentry(redeemHandler)
-
-export const config = {
-  api: {
-    externalResolver: true,
-  },
-}
+export default redeemHandler

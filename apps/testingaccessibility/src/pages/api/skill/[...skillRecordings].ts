@@ -1,7 +1,7 @@
 import SkillRecordings, {
   SkillRecordingsOptions,
 } from '@skillrecordings/skill-api'
-
+import {nextAuthOptions} from '../auth/[...nextauth]'
 import {withSentry} from '@sentry/nextjs'
 
 export const skillOptions: SkillRecordingsOptions = {
@@ -16,6 +16,7 @@ export const skillOptions: SkillRecordingsOptions = {
       botUsername: 'TA Feedback Bot',
     },
   },
+  nextAuthOptions,
 }
 
 export default withSentry(SkillRecordings(skillOptions))
