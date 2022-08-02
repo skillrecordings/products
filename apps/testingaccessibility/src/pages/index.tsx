@@ -13,6 +13,7 @@ import {getToken} from 'next-auth/jwt'
 import {getActiveProducts} from '../lib/products'
 import type {CommerceProps} from '@skillrecordings/commerce-server/dist/@types'
 import {propsForCommerce} from '@skillrecordings/commerce-server'
+import MDXComponents from 'components/mdx'
 
 export const getServerSideProps: GetServerSideProps = async ({req, query}) => {
   const token = await getToken({req})
@@ -111,6 +112,38 @@ const Home: React.FC<React.PropsWithChildren<CommerceProps>> = ({
                     />
                   </div>
                 </section>
+                <MDXComponents.Testimonial
+                  author="James Bateson, Front End Engineer"
+                  avatar={require('../../public/testimonials/james-bateson.jpeg')}
+                  className="bg-moss-600/50 border-l-4 border-amber-300 mt-20 text-sand-100"
+                  iconClassName="bg-amber-300 text-black"
+                >
+                  <p>
+                    To be honest I was hesitant about the cost. I deliberated
+                    for a few weeks on making the purchase, but just want to say
+                    that I definitely think it was worth it.
+                  </p>
+                  <p>
+                    I feel that I am more confident talking about and
+                    championing accessibility at my company. The skills and
+                    knowledge that Marcy delivered have helped me frame how I
+                    talk about accessibility within my company and aided a
+                    skillshare I have given since the course. Since then we have
+                    formed an accessibility champions network and have more
+                    engagement and awareness around accessibility within the
+                    company.
+                  </p>
+                  <p>
+                    I would absolutely recommend the course. The knowledge from
+                    Marcy and the practical examples are something that you
+                    can't pick up just by reading articles, etc. To have an
+                    industry expert explain and show their accessibility
+                    workflow was such a great experience. I loved the mix of why
+                    accessibility is important and how to go about implementing
+                    it into your workflow. It brought the whole journey
+                    together.
+                  </p>
+                </MDXComponents.Testimonial>
                 <section
                   aria-labelledby="header-faq"
                   className="flex flex-col bg-gray-50"
