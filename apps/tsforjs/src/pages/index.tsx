@@ -170,7 +170,7 @@ const Subscribe = () => {
   return (
     <section className="text-white bg-stone-900 rounded-lg lg:px-20 md:px-16 px-6 xl:px-24 lg:py-16 md:py-12 py-5 xl:py-20">
       <div className="text-center space-y-7 mb-6">
-        <h3 className="font-bold text-2xl text-transparent bg-clip-text bg-gradient-to-r from-purple-700 to-pink-500">
+        <h3 className="font-bold text-3xl text-transparent bg-clip-text bg-gradient-to-r from-purple-700 to-pink-500">
           Sign up for exclusive content and early-release lessons!
         </h3>
         <p>Take the next step in your career.</p>
