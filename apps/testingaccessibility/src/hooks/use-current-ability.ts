@@ -1,4 +1,4 @@
-import {getCurrentAbility} from '../server/ability'
+import {getCurrentAbility} from '@skillrecordings/commerce-server'
 import {useUser} from './use-user'
 
 /**

@@ -21,6 +21,7 @@ const AppAbility = Ability as AbilityClass<AppAbility>
 type ViewerAbilityInput = {
   purchases?: any[]
   rules?: any
+  role?: string
 }
 
 /**
