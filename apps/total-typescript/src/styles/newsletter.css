@@ -8,7 +8,10 @@
       @apply w-full pb-1 inline-block text-gray-300;
     }
     [data-sr-button] {
-      @apply rounded-sm bg-gradient-to-tr from-cyan-600 to-cyan-500 shadow-cyan-900/50 relative shadow-2xl py-5 px-8 mt-2 focus-visible:ring-white font-semibold text-xl hover:brightness-110 transition;
+      @apply flex items-center justify-center rounded-sm bg-gradient-to-tr from-cyan-600 to-cyan-500 shadow-cyan-900/50 relative shadow-2xl py-5 px-8 mt-2 focus-visible:ring-white font-semibold text-xl hover:brightness-110 transition;
+      svg {
+        @apply w-7 h-7;
+      }
     }
     [data-sr-button][disabled] {
     }
