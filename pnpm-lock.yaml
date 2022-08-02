@@ -2872,11 +2872,14 @@ importers:
 
   packages/react:
     specifiers:
+      '@casl/ability': ^6.0.0
       '@skillrecordings/analytics': workspace:*
       '@skillrecordings/auth': '=0.0.6'
       '@skillrecordings/axios': '=0.0.2'
+      '@skillrecordings/commerce-server': workspace:*
       '@skillrecordings/config': workspace:*
       '@skillrecordings/cookies': workspace:*
+      '@skillrecordings/database': workspace:*
       '@skillrecordings/scripts': workspace:*
       '@skillrecordings/tsconfig': workspace:*
       '@skillrecordings/types': workspace:*
@@ -2903,6 +2906,7 @@ importers:
       query-string: ^7.1.1
       react: 18.2.0
       react-dom: 18.2.0
+      react-query: ^3.39.1
       react-scroll: ^1.8.6
       react-use-clipboard: ^1.0.7
       sass: ^1.43.4
@@ -2910,17 +2914,21 @@ importers:
       xstate: '=4.23.1'
       yup: ^0.32.11
     dependencies:
+      '@casl/ability': 6.0.0
       '@skillrecordings/analytics': link:../analytics
       '@skillrecordings/auth': 0.0.6_next@12.2.3
       '@skillrecordings/axios': 0.0.2_axios@0.26.1
+      '@skillrecordings/commerce-server': link:../commerce-server
       '@skillrecordings/config': link:../config
       '@skillrecordings/cookies': link:../cookies
+      '@skillrecordings/database': link:../database
       '@tippyjs/react': 4.2.6_biqbaboplfbrettd7655fr4n2y
       axios: 0.26.1
       formik: 2.2.9_react@18.2.0
       nprogress: 0.2.0
       prism-react-renderer: 1.2.1_react@18.2.0
       query-string: 7.1.1
+      react-query: 3.39.1_biqbaboplfbrettd7655fr4n2y
       react-scroll: 1.8.7_biqbaboplfbrettd7655fr4n2y
       react-use-clipboard: 1.0.7_biqbaboplfbrettd7655fr4n2y
       yup: 0.32.11
@@ -7595,6 +7603,7 @@ packages:
       webpack: 4.46.0
     transitivePeerDependencies:
       - supports-color
+    dev: false
 
   /@mdx-js/mdx/1.6.22:
     resolution: {integrity: sha512-AMxuLxPz2j5/6TpF/XSdKpQP1NlG0z11dFOlq+2IP/lSgl11GY8ji6S/rgsViN/L0BDvHvUMruRb7ub+24LUYA==}
