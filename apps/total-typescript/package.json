@@ -51,6 +51,16 @@
     "typescript": "^4.7.4",
     "webpack": ">=4.3.0 <5.0.0"
   },
+  "prettier": {
+    "bracketSpacing": false,
+    "jsxBracketSameLine": false,
+    "printWidth": 80,
+    "semi": false,
+    "singleQuote": true,
+    "tabWidth": 2,
+    "trailingComma": "all",
+    "useTabs": false
+  },
   "jest": {
     "preset": "@skillrecordings/scripts/jest/next"
   }
