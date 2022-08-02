@@ -4,7 +4,7 @@ import {useNavState} from '../../hooks/use-nav-state'
 import type {
   DefaultCoupon,
   SanityProduct,
-} from '@skillrecordings/commerce-server'
+} from '@skillrecordings/commerce-server/dist/@types'
 import {useFeedback} from 'context/feedback-context'
 import {Toaster} from 'react-hot-toast'
 import {NextSeo} from '@skillrecordings/react'

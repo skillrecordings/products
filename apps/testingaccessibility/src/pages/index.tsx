@@ -12,7 +12,7 @@ import FAQ from 'components/content/faq-section'
 import {tracer, setupHttpTracing} from '@skillrecordings/honeycomb-tracer'
 import {getToken} from 'next-auth/jwt'
 import {getActiveProducts} from '../lib/products'
-import type {CommerceProps} from '@skillrecordings/commerce-server'
+import type {CommerceProps} from '@skillrecordings/commerce-server/dist/@types'
 import {propsForCommerce} from '@skillrecordings/commerce-server'
 
 export const getServerSideProps: GetServerSideProps = async ({

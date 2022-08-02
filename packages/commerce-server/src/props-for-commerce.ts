@@ -2,43 +2,7 @@ import {ParsedUrlQuery} from 'querystring'
 import {Purchase, getSdk} from '@skillrecordings/database'
 import {convertToSerializeForNextResponse} from './prisma-next-serializer'
 import {getCouponForCode} from './get-coupon-for-code'
-
-export type CouponForCode = {
-  isValid: boolean
-  id: string
-  isRedeemable: boolean
-}
-
-export type DefaultCoupon = {percentageDiscount: number; expires: string}
-
-export type CommerceProps = {
-  couponIdFromCoupon?: string
-  couponFromCode?: CouponForCode
-  userId?: string
-  purchases?: Purchase[]
-  products: SanityProduct[]
-  defaultCoupon?: DefaultCoupon
-}
-
-export type SanityProduct = {
-  productId: string
-  name: string
-  action: string
-  image: {
-    url: string
-    alt: string
-  }
-  modules: {
-    title: string
-    image: {
-      url: string
-      alt: string
-    }
-  }[]
-  features: {
-    value: string
-  }[]
-}
+import type {SanityProduct} from './@types'
 
 export async function propsForCommerce({
   query,
