@@ -1,6 +1,6 @@
 import * as React from 'react'
 import {DocumentTextIcon, UserGroupIcon} from '@heroicons/react/outline'
-import {convertToSerializeForNextResponse} from '../../utils/prisma-next-serializer'
+import {convertToSerializeForNextResponse} from '@skillrecordings/commerce-server'
 import {useSession} from 'next-auth/react'
 import {GetServerSideProps} from 'next'
 import {getToken} from 'next-auth/jwt'

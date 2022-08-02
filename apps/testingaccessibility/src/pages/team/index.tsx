@@ -1,7 +1,7 @@
 import React from 'react'
 import Layout from 'components/app/layout'
 import {find, get, isNull, isString} from 'lodash'
-import {convertToSerializeForNextResponse} from 'utils/prisma-next-serializer'
+import {convertToSerializeForNextResponse} from '@skillrecordings/commerce-server'
 import {GetServerSideProps} from 'next'
 import {getPurchasedProduct} from 'server/get-purchased-product'
 import InviteTeam from 'components/team'

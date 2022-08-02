@@ -1,6 +1,6 @@
 import * as React from 'react'
 import {DownloadIcon} from '@heroicons/react/outline'
-import {convertToSerializeForNextResponse} from 'utils/prisma-next-serializer'
+import {convertToSerializeForNextResponse} from '@skillrecordings/commerce-server'
 import {useLocalStorage} from 'react-use'
 import {GetServerSideProps} from 'next'
 import {Logo} from 'components/images'

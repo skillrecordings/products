@@ -1,7 +1,6 @@
 import {NextApiRequest, NextApiResponse} from 'next'
-import {drawModuleCertificatePdf} from 'utils/draw-certificate'
 import {getModuleProgressForUser} from 'utils/progress'
-import {convertToSerializeForNextResponse} from 'utils/prisma-next-serializer'
+import {convertToSerializeForNextResponse} from '@skillrecordings/commerce-server'
 import {
   getAllModuleSlugs,
   getAvailableModulesForUser,

@@ -1,6 +1,6 @@
 import * as React from 'react'
 import {getPurchasedProduct} from 'server/get-purchased-product'
-import {convertToSerializeForNextResponse} from 'utils/prisma-next-serializer'
+import {convertToSerializeForNextResponse} from '@skillrecordings/commerce-server'
 import {useProgress} from 'context/progress-context'
 import {
   getModuleProgressForUser,
