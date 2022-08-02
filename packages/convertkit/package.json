@@ -21,7 +21,7 @@
   },
   "dependencies": {
     "@reach/dialog": "^0.16.2",
-    "@skillrecordings/axios": "workspace:*",
+    "@skillrecordings/axios": "=0.0.2",
     "@skillrecordings/config": "workspace:*",
     "@skillrecordings/cookies": "workspace:*",
     "@skillrecordings/react": "workspace:*",

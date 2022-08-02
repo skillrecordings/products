@@ -42,8 +42,6 @@ importers:
       '@reach/dialog': ^0.16.2
       '@sanity/client': ^3.2.0
       '@sentry/nextjs': ^6.19.3
-      '@skillrecordings/analytics': workspace:*
-      '@skillrecordings/axios': workspace:*
       '@skillrecordings/config': workspace:*
       '@skillrecordings/convertkit': workspace:*
       '@skillrecordings/cookies': workspace:*
@@ -130,8 +128,6 @@ importers:
       '@reach/dialog': 0.16.2_bb2bxwco6ptpubzwpazr52qf6i
       '@sanity/client': 3.3.2
       '@sentry/nextjs': 6.19.3_next@12.2.3+react@18.2.0
-      '@skillrecordings/analytics': link:../../packages/analytics
-      '@skillrecordings/axios': link:../../packages/axios
       '@skillrecordings/config': link:../../packages/config
       '@skillrecordings/convertkit': link:../../packages/convertkit
       '@skillrecordings/cookies': link:../../packages/cookies
@@ -223,8 +219,6 @@ importers:
       '@reach/dialog': ^0.16.2
       '@react-three/drei': ^7.20.2
       '@react-three/fiber': 7.0.27
-      '@skillrecordings/analytics': workspace:*
-      '@skillrecordings/axios': workspace:*
       '@skillrecordings/config': workspace:*
       '@skillrecordings/convertkit': workspace:*
       '@skillrecordings/cookies': workspace:*
@@ -312,8 +306,6 @@ importers:
       '@reach/dialog': 0.16.2_bb2bxwco6ptpubzwpazr52qf6i
       '@react-three/drei': 7.20.2_5fmtig3otsjt2gwua6nanmpzta
       '@react-three/fiber': 7.0.27_l64coo4po4cwrmp7zqxdp2wxuq
-      '@skillrecordings/analytics': link:../../packages/analytics
-      '@skillrecordings/axios': link:../../packages/axios
       '@skillrecordings/config': link:../../packages/config
       '@skillrecordings/convertkit': link:../../packages/convertkit
       '@skillrecordings/cookies': link:../../packages/cookies
@@ -409,8 +401,6 @@ importers:
       '@reach/dialog': ^0.16.2
       '@sanity/block-content-to-react': ^3.0.0
       '@sanity/client': ^3.2.0
-      '@skillrecordings/analytics': workspace:*
-      '@skillrecordings/axios': workspace:*
       '@skillrecordings/config': workspace:*
       '@skillrecordings/convertkit': workspace:*
       '@skillrecordings/cookies': workspace:*
@@ -497,8 +487,6 @@ importers:
       '@reach/dialog': 0.16.2_bb2bxwco6ptpubzwpazr52qf6i
       '@sanity/block-content-to-react': 3.0.0_react@18.2.0
       '@sanity/client': 3.3.2
-      '@skillrecordings/analytics': link:../../packages/analytics
-      '@skillrecordings/axios': link:../../packages/axios
       '@skillrecordings/config': link:../../packages/config
       '@skillrecordings/convertkit': link:../../packages/convertkit
       '@skillrecordings/cookies': link:../../packages/cookies
@@ -595,8 +583,6 @@ importers:
       '@sanity/block-content-to-react': ^3.0.0
       '@sanity/client': ^3.2.0
       '@sentry/nextjs': ^6.19.3
-      '@skillrecordings/analytics': workspace:*
-      '@skillrecordings/axios': workspace:*
       '@skillrecordings/config': workspace:*
       '@skillrecordings/convertkit': workspace:*
       '@skillrecordings/cookies': workspace:*
@@ -698,8 +684,6 @@ importers:
       '@sanity/block-content-to-react': 3.0.0_react@18.2.0
       '@sanity/client': 3.3.2
       '@sentry/nextjs': 6.19.3_next@12.2.3+react@18.2.0
-      '@skillrecordings/analytics': link:../../packages/analytics
-      '@skillrecordings/axios': link:../../packages/axios
       '@skillrecordings/config': link:../../packages/config
       '@skillrecordings/convertkit': link:../../packages/convertkit
       '@skillrecordings/cookies': link:../../packages/cookies
@@ -811,8 +795,6 @@ importers:
       '@reach/dialog': ^0.16.2
       '@sanity/block-content-to-markdown': ^0.0.5
       '@sanity/client': ^3.2.0
-      '@skillrecordings/analytics': workspace:*
-      '@skillrecordings/axios': workspace:*
       '@skillrecordings/config': workspace:*
       '@skillrecordings/convertkit': workspace:*
       '@skillrecordings/cookies': workspace:*
@@ -907,8 +889,6 @@ importers:
       '@reach/dialog': 0.16.2_bb2bxwco6ptpubzwpazr52qf6i
       '@sanity/block-content-to-markdown': 0.0.5
       '@sanity/client': 3.3.2
-      '@skillrecordings/analytics': link:../../packages/analytics
-      '@skillrecordings/axios': link:../../packages/axios
       '@skillrecordings/config': link:../../packages/config
       '@skillrecordings/convertkit': link:../../packages/convertkit
       '@skillrecordings/cookies': link:../../packages/cookies
@@ -1076,9 +1056,7 @@ importers:
       '@mdx-js/loader': ^1.6.22
       '@next/mdx': ^12.1.0
       '@reach/dialog': ^0.16.2
-      '@skillrecordings/analytics': workspace:*
       '@skillrecordings/auth': '=0.0.6'
-      '@skillrecordings/axios': workspace:*
       '@skillrecordings/config': workspace:*
       '@skillrecordings/convertkit': workspace:*
       '@skillrecordings/cookies': workspace:*
@@ -1153,9 +1131,7 @@ importers:
     dependencies:
       '@next/mdx': 12.1.5_@mdx-js+loader@1.6.22
       '@reach/dialog': 0.16.2_bb2bxwco6ptpubzwpazr52qf6i
-      '@skillrecordings/analytics': link:../../packages/analytics
       '@skillrecordings/auth': 0.0.6_next@12.2.3
-      '@skillrecordings/axios': link:../../packages/axios
       '@skillrecordings/config': link:../../packages/config
       '@skillrecordings/convertkit': link:../../packages/convertkit
       '@skillrecordings/cookies': link:../../packages/cookies
@@ -1237,8 +1213,6 @@ importers:
       '@mdx-js/loader': ^1.6.22
       '@next/mdx': ^12.1.0
       '@reach/dialog': ^0.16.2
-      '@skillrecordings/analytics': workspace:*
-      '@skillrecordings/axios': workspace:*
       '@skillrecordings/config': workspace:*
       '@skillrecordings/convertkit': workspace:*
       '@skillrecordings/cookies': workspace:*
@@ -1316,8 +1290,6 @@ importers:
     dependencies:
       '@next/mdx': 12.1.5_@mdx-js+loader@1.6.22
       '@reach/dialog': 0.16.2_bb2bxwco6ptpubzwpazr52qf6i
-      '@skillrecordings/analytics': link:../../packages/analytics
-      '@skillrecordings/axios': link:../../packages/axios
       '@skillrecordings/config': link:../../packages/config
       '@skillrecordings/convertkit': link:../../packages/convertkit
       '@skillrecordings/cookies': link:../../packages/cookies
@@ -1410,7 +1382,6 @@ importers:
       '@sanity/types': ^2.29.5
       '@sentry/nextjs': ^6.19.3
       '@skillrecordings/analytics': workspace:*
-      '@skillrecordings/axios': workspace:*
       '@skillrecordings/config': workspace:*
       '@skillrecordings/convertkit': workspace:*
       '@skillrecordings/cookies': workspace:*
@@ -1470,7 +1441,6 @@ importers:
       '@sanity/client': 3.3.2
       '@sentry/nextjs': 6.19.3_next@12.2.3+react@18.2.0
       '@skillrecordings/analytics': link:../../packages/analytics
-      '@skillrecordings/axios': link:../../packages/axios
       '@skillrecordings/config': link:../../packages/config
       '@skillrecordings/convertkit': link:../../packages/convertkit
       '@skillrecordings/cookies': link:../../packages/cookies
@@ -1533,7 +1503,6 @@ importers:
       '@next/mdx': ^12.1.0
       '@reach/dialog': ^0.16.2
       '@skillrecordings/analytics': workspace:*
-      '@skillrecordings/axios': workspace:*
       '@skillrecordings/config': workspace:*
       '@skillrecordings/convertkit': workspace:*
       '@skillrecordings/cookies': workspace:*
@@ -1612,7 +1581,6 @@ importers:
       '@next/mdx': 12.1.5_6vwedlnwdegenaf6jioaeirvlu
       '@reach/dialog': 0.16.2_bb2bxwco6ptpubzwpazr52qf6i
       '@skillrecordings/analytics': link:../../packages/analytics
-      '@skillrecordings/axios': link:../../packages/axios
       '@skillrecordings/config': link:../../packages/config
       '@skillrecordings/convertkit': link:../../packages/convertkit
       '@skillrecordings/cookies': link:../../packages/cookies
@@ -1718,7 +1686,6 @@ importers:
       '@sanity/webhook': ^1.0.2
       '@sentry/nextjs': ^6.19.3
       '@skillrecordings/analytics': workspace:*
-      '@skillrecordings/axios': workspace:*
       '@skillrecordings/commerce-server': workspace:*
       '@skillrecordings/config': workspace:*
       '@skillrecordings/convertkit': workspace:*
@@ -1882,7 +1849,6 @@ importers:
       '@sanity/webhook': 1.0.2
       '@sentry/nextjs': 6.19.3_5cy3dema5qwip6n7exqk4sqtji
       '@skillrecordings/analytics': link:../../packages/analytics
-      '@skillrecordings/axios': link:../../packages/axios
       '@skillrecordings/commerce-server': link:../../packages/commerce-server
       '@skillrecordings/config': link:../../packages/config
       '@skillrecordings/convertkit': link:../../packages/convertkit
@@ -2151,7 +2117,6 @@ importers:
       '@sanity/client': ^3.3.2
       '@skillrecordings/analytics': workspace:*
       '@skillrecordings/auth': '=0.0.6'
-      '@skillrecordings/axios': workspace:*
       '@skillrecordings/config': workspace:*
       '@skillrecordings/convertkit': workspace:*
       '@skillrecordings/cookies': workspace:*
@@ -2260,7 +2225,6 @@ importers:
       '@sanity/client': 3.3.2
       '@skillrecordings/analytics': link:../../packages/analytics
       '@skillrecordings/auth': 0.0.6_next@12.2.3
-      '@skillrecordings/axios': link:../../packages/axios
       '@skillrecordings/config': link:../../packages/config
       '@skillrecordings/convertkit': link:../../packages/convertkit
       '@skillrecordings/cookies': link:../../packages/cookies
@@ -2399,43 +2363,6 @@ importers:
       react-dom: 18.2.0_react@18.2.0
       typescript: 4.7.4
 
-  packages/axios:
-    specifiers:
-      '@skillrecordings/config': workspace:*
-      '@skillrecordings/scripts': workspace:*
-      '@skillrecordings/tsconfig': workspace:*
-      '@skillrecordings/types': workspace:*
-      '@types/cookie': ^0.4.1
-      '@types/jest': ^27.5.2
-      '@types/lodash': ^4.14.179
-      '@types/node': ^17.0.0
-      '@types/nodemailer': ^6.4.4
-      '@types/react': ^18.0.15
-      '@types/react-dom': ^18.0.6
-      axios: ^0.26.0
-      esbuild-node-tsc: ^1.6.1
-      eslint: ^8.19.0
-      eslint-config-custom: workspace:*
-      typescript: ^4.7.4
-    dependencies:
-      '@skillrecordings/config': link:../config
-    devDependencies:
-      '@skillrecordings/scripts': link:../scripts
-      '@skillrecordings/tsconfig': link:../tsconfig
-      '@skillrecordings/types': link:../types
-      '@types/cookie': 0.4.1
-      '@types/jest': 27.5.2
-      '@types/lodash': 4.14.180
-      '@types/node': 17.0.41
-      '@types/nodemailer': 6.4.4
-      '@types/react': 18.0.15
-      '@types/react-dom': 18.0.6
-      axios: 0.26.1
-      esbuild-node-tsc: 1.6.1_typescript@4.7.4
-      eslint: 8.19.0
-      eslint-config-custom: link:../eslint-config-custom
-      typescript: 4.7.4
-
   packages/commerce-server:
     specifiers:
       '@skillrecordings/database': workspace:*
@@ -2508,7 +2435,7 @@ importers:
   packages/convertkit:
     specifiers:
       '@reach/dialog': ^0.16.2
-      '@skillrecordings/axios': workspace:*
+      '@skillrecordings/axios': '=0.0.2'
       '@skillrecordings/config': workspace:*
       '@skillrecordings/cookies': workspace:*
       '@skillrecordings/react': workspace:*
@@ -2539,7 +2466,7 @@ importers:
       yup: ^0.32.11
     dependencies:
       '@reach/dialog': 0.16.2_bb2bxwco6ptpubzwpazr52qf6i
-      '@skillrecordings/axios': link:../axios
+      '@skillrecordings/axios': 0.0.2_axios@0.26.1
       '@skillrecordings/config': link:../config
       '@skillrecordings/cookies': link:../cookies
       '@skillrecordings/react': link:../react
@@ -2823,9 +2750,9 @@ importers:
       '@codesandbox/sandpack-themes': ^1.0.0
       '@reach/auto-id': ^0.16.0
       '@reach/utils': ^0.16.0
-      '@skillrecordings/analytics': workspace:*
+      '@skillrecordings/analytics': '=0.0.6'
       '@skillrecordings/auth': '=0.0.6'
-      '@skillrecordings/axios': workspace:*
+      '@skillrecordings/axios': '=0.0.2'
       '@skillrecordings/config': workspace:*
       '@skillrecordings/convertkit': workspace:*
       '@skillrecordings/cookies': workspace:*
@@ -2872,7 +2799,7 @@ importers:
       '@reach/utils': 0.16.0_biqbaboplfbrettd7655fr4n2y
       '@skillrecordings/analytics': link:../analytics
       '@skillrecordings/auth': 0.0.6_next@12.2.3
-      '@skillrecordings/axios': link:../axios
+      '@skillrecordings/axios': 0.0.2_axios@0.26.1
       '@skillrecordings/config': link:../config
       '@skillrecordings/convertkit': link:../convertkit
       '@skillrecordings/cookies': link:../cookies
@@ -2917,7 +2844,7 @@ importers:
     specifiers:
       '@skillrecordings/analytics': workspace:*
       '@skillrecordings/auth': '=0.0.6'
-      '@skillrecordings/axios': workspace:*
+      '@skillrecordings/axios': '=0.0.2'
       '@skillrecordings/config': workspace:*
       '@skillrecordings/cookies': workspace:*
       '@skillrecordings/scripts': workspace:*
@@ -2955,7 +2882,7 @@ importers:
     dependencies:
       '@skillrecordings/analytics': link:../analytics
       '@skillrecordings/auth': 0.0.6_next@12.2.3
-      '@skillrecordings/axios': link:../axios
+      '@skillrecordings/axios': 0.0.2_axios@0.26.1
       '@skillrecordings/config': link:../config
       '@skillrecordings/cookies': link:../cookies
       '@tippyjs/react': 4.2.6_biqbaboplfbrettd7655fr4n2y
@@ -9610,6 +9537,15 @@ packages:
       - debug
     dev: false
 
+  /@skillrecordings/axios/0.0.2_axios@0.26.1:
+    resolution: {integrity: sha512-7BsZf5HQNa+uJ25sJmCd9lP6QAwzdXjVo213DHwiOuoLUM1i0EuqUTaD0T1IU7a/ab0qu/EJ0V852YyLABG9TA==}
+    peerDependencies:
+      axios: ^0.26.0
+    dependencies:
+      '@skillrecordings/config': 0.0.1
+      axios: 0.26.1
+    dev: false
+
   /@skillrecordings/config/0.0.1:
     resolution: {integrity: sha512-6epzXkuYUDTRpJybOdjMorrobGZqgfKOH2DDPtkfSkLIlwMmMuw3npEoe1pjxk2in87fzM/06F8FcrJQyOzFfg==}
     dev: false
@@ -11946,7 +11882,7 @@ packages:
   /axios/0.21.4:
     resolution: {integrity: sha512-ut5vewkiu8jjGBdqpM44XxjuCjq9LAKeHVmoVfHVzy8eHgxxq8SbAVQNovDA8mVi05kP0Ea/n/UzcSHcTJQfNg==}
     dependencies:
-      follow-redirects: 1.15.1_debug@2.6.9
+      follow-redirects: 1.15.1
     transitivePeerDependencies:
       - debug
     dev: false
@@ -11954,21 +11890,21 @@ packages:
   /axios/0.25.0:
     resolution: {integrity: sha512-cD8FOb0tRH3uuEe6+evtAbgJtfxr7ly3fQjYcMcuPlgkwVS9xboaVIpcDV+cYQe+yGykgwZCs1pzjntcGa6l5g==}
     dependencies:
-      follow-redirects: 1.15.1_debug@2.6.9
+      follow-redirects: 1.15.1
     transitivePeerDependencies:
       - debug
 
   /axios/0.26.1:
     resolution: {integrity: sha512-fPwcX4EvnSHuInCMItEhAGnaSEXRBjtzh9fOtsE6E1G6p7vl7edEeZe11QHf18+6+9gR5PbKV/sGKNaD8YaMeA==}
     dependencies:
-      follow-redirects: 1.15.1_debug@2.6.9
+      follow-redirects: 1.15.1
     transitivePeerDependencies:
       - debug
 
   /axios/0.27.2:
     resolution: {integrity: sha512-t+yRIyySRTp/wua5xEr+z1q60QmLq8ABsS5O9Me1AsE5dfKqgnCFzwiCZZ/cGNd1lq4/7akDWMxdhVlucjmnOQ==}
     dependencies:
-      follow-redirects: 1.15.1_debug@2.6.9
+      follow-redirects: 1.15.1
       form-data: 4.0.0
     transitivePeerDependencies:
       - debug
@@ -16121,7 +16057,7 @@ packages:
   /focus-visible/5.2.0:
     resolution: {integrity: sha512-Rwix9pBtC1Nuy5wysTmKy+UjbDJpIfg8eHjw0rjZ1mX4GNLz1Bmd16uDpI3Gk1i70Fgcs8Csg2lPm8HULFg9DQ==}
 
-  /follow-redirects/1.15.1_debug@2.6.9:
+  /follow-redirects/1.15.1:
     resolution: {integrity: sha512-yLAMQs+k0b2m7cVxpS1VKJVvoz7SS9Td1zss3XRwXj+ZDH00RJgnuLx7E44wx02kQLrdM3aOOy+FpzS7+8OizA==}
     engines: {node: '>=4.0'}
     peerDependencies:
@@ -16129,8 +16065,6 @@ packages:
     peerDependenciesMeta:
       debug:
         optional: true
-    dependencies:
-      debug: 2.6.9
 
   /fontkit-next/1.8.3:
     resolution: {integrity: sha512-pa/vL114+ESn4Dokka7eIY+LtiMxyLRy+rnX4y6e+5rL8zDbUDoKzvFAE4LHVLaZY6hifuaut6z2Q4I1eawLvQ==}
@@ -16449,7 +16383,7 @@ packages:
       create-error-class: 3.0.2
       debug: 2.6.9
       decompress-response: 3.3.0
-      follow-redirects: 1.15.1_debug@2.6.9
+      follow-redirects: 1.15.1
       form-urlencoded: 2.0.9
       in-publish: 2.0.1
       into-stream: 3.1.0
@@ -16476,7 +16410,7 @@ packages:
       create-error-class: 3.0.2
       debug: 2.6.9
       decompress-response: 6.0.0
-      follow-redirects: 1.15.1_debug@2.6.9
+      follow-redirects: 1.15.1
       form-urlencoded: 2.0.9
       into-stream: 3.1.0
       is-plain-object: 2.0.4

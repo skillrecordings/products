@@ -20,7 +20,7 @@
   "dependencies": {
     "@skillrecordings/analytics": "workspace:*",
     "@skillrecordings/auth": "=0.0.6",
-    "@skillrecordings/axios": "workspace:*",
+    "@skillrecordings/axios": "=0.0.2",
     "@skillrecordings/config": "workspace:*",
     "@skillrecordings/cookies": "workspace:*",
     "@tippyjs/react": "^4.2.6",
