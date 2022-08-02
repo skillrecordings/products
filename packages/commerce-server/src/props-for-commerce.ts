@@ -1,9 +1,7 @@
 import {ParsedUrlQuery} from 'querystring'
-import {
-  getCouponForCode,
-  convertToSerializeForNextResponse,
-} from '@skillrecordings/commerce-server'
 import {Purchase, getSdk} from '@skillrecordings/database'
+import {convertToSerializeForNextResponse} from './prisma-next-serializer'
+import {getCouponForCode} from './get-coupon-for-code'
 
 export type CouponForCode = {
   isValid: boolean

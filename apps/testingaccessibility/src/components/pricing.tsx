@@ -1,7 +1,7 @@
 import * as React from 'react'
 import {type FormattedPrice} from '@skillrecordings/commerce-server'
 import {usePriceCheck} from '../context/pricing-check-context'
-import {SanityProduct} from '../utils/props-for-commerce'
+import type {SanityProduct} from '@skillrecordings/commerce-server'
 import {CheckCircleIcon} from '@heroicons/react/outline'
 import {getCouponLabel} from 'utils/get-coupon-label'
 import {useDebounce} from '@skillrecordings/react'

@@ -1,7 +1,10 @@
 import React, {FunctionComponent} from 'react'
 import {SkipNavContent, SkipNavLink} from '@reach/skip-nav'
 import {useNavState} from '../../hooks/use-nav-state'
-import {DefaultCoupon, SanityProduct} from 'utils/props-for-commerce'
+import type {
+  DefaultCoupon,
+  SanityProduct,
+} from '@skillrecordings/commerce-server'
 import {useFeedback} from 'context/feedback-context'
 import {Toaster} from 'react-hot-toast'
 import {NextSeo} from '@skillrecordings/react'

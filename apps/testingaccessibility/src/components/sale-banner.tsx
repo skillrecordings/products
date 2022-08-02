@@ -3,7 +3,7 @@ import Countdown, {CountdownRenderProps, zeroPad} from 'react-countdown'
 import {useReducedMotion} from 'framer-motion'
 import {useRouter} from 'next/router'
 import Link from 'next/link'
-import {DefaultCoupon} from '../utils/props-for-commerce'
+import type {DefaultCoupon} from '@skillrecordings/commerce-server'
 
 const SaleBanner = ({defaultCoupon}: {defaultCoupon: DefaultCoupon}) => {
   if (!defaultCoupon) return null
