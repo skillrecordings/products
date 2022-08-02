@@ -55,7 +55,7 @@ const Header = () => {
 
 const Copy = () => {
   return (
-    <article className="md:prose-xl sm:prose-lg prose-base opacity-90 prose-p:font-light w-full prose-pre:overflow-auto prose-p:max-w-2xl prose-p:mx-auto prose-headings:max-w-2xl prose-headings:mx-auto prose-pre:max-w-2xl prose-pre:mx-auto prose-ul:max-w-2xl prose-ul:mx-auto prose-ul:list-disc marker:text-cyan-400 prose-headings:font-bold prose-p:px-5 prose-headings:px-5 prose-headings:font-text prose-h2:text-center">
+    <article className="md:prose-h2:py-16 prose-h2:text-3xl prose-h2:py-5 md:prose-h2:text-5xl md:prose-xl sm:prose-lg prose-base opacity-90 prose-p:font-light w-full prose-pre:overflow-auto prose-p:max-w-2xl prose-p:mx-auto prose-headings:max-w-3xl prose-headings:mx-auto prose-pre:max-w-2xl prose-pre:mx-auto prose-ul:max-w-2xl prose-ul:mx-auto prose-ul:list-disc marker:text-cyan-400 prose-headings:font-bold prose-p:px-5 prose-headings:px-5 prose-headings:font-text prose-h2:text-center">
       <LandingCopy />
     </article>
   )
@@ -64,7 +64,16 @@ const Copy = () => {
 const SubscribeToNewsletter = () => {
   const router = useRouter()
   return (
-    <section className="mt-32 py-32 bg-black/20 text-white flex flex-col items-center justify-center px-5">
+    <section className="sm:mt-32 mt-20 pt-24 pb-32 bg-black/20 text-white flex flex-col items-center justify-center px-5">
+      <Image
+        src={require('../../public/assets/ts-scroll@2x.png')}
+        quality={100}
+        width={650 / 2}
+        height={650 / 2}
+        alt=""
+        aria-hidden="true"
+        placeholder="blur"
+      />
       <h2 className="xl:text-6xl lg:text-5xl sm:text-5xl text-4xl font-heading font-bold max-w-[15ch] text-center">
         Become a TypeScript Wizard
       </h2>

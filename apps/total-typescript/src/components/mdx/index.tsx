@@ -1,8 +1,10 @@
 import React from 'react'
+import Image from 'next/image'
 
 export const MDXComponents = {
   TypeError: (props: TypeErrorProps) => <TypeError {...props} />,
   Topics: (props: TopicsProps) => <Topics {...props} />,
+  Image: (props: any) => <Image {...props} />,
 }
 
 type TypeErrorProps = {
