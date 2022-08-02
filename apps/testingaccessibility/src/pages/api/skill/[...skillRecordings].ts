@@ -2,14 +2,13 @@ import SkillRecordings, {
   SkillRecordingsOptions,
 } from '@skillrecordings/skill-api'
 
-import {prisma} from '@skillrecordings/database'
+import {withSentry} from '@sentry/nextjs'
 
 export const skillOptions: SkillRecordingsOptions = {
   site: {
     title: process.env.NEXT_PUBLIC_SITE_TITLE,
     supportEmail: process.env.NEXT_PUBLIC_SUPPORT_EMAIL,
   },
-  prismaClient: prisma,
   slack: {
     token: process.env.SLACK_TOKEN,
     feedback: {
@@ -19,4 +18,10 @@ export const skillOptions: SkillRecordingsOptions = {
   },
 }
 
-export default SkillRecordings(skillOptions)
+export default withSentry(SkillRecordings(skillOptions))
+
+export const config = {
+  api: {
+    externalResolver: true,
+  },
+}

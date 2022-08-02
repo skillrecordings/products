@@ -3,7 +3,6 @@ import {AppProps} from 'next/app'
 import config from 'config'
 import '../styles/globals.css'
 import 'focus-visible'
-import {ViewerProvider} from '@skillrecordings/viewer'
 import {ConvertkitProvider} from '@skillrecordings/convertkit'
 import {DefaultSeo} from '@skillrecordings/react'
 
@@ -25,9 +24,7 @@ function MyApp({Component, pageProps}: AppProps) {
     <>
       <DefaultSeo {...config} />
       <ConvertkitProvider>
-        <ViewerProvider>
-          <Component {...pageProps} />
-        </ViewerProvider>
+        <Component {...pageProps} />
       </ConvertkitProvider>
     </>
   )

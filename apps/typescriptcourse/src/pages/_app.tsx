@@ -4,7 +4,6 @@ import {DefaultSeo} from '@skillrecordings/react'
 import config from 'config'
 import '../styles/globals.css'
 import 'focus-visible'
-import {ViewerProvider} from '@skillrecordings/viewer'
 import {ConvertkitProvider} from '@skillrecordings/convertkit'
 //TODO: build error if this was in the component after moving it to commerce package
 import '@reach/dialog/styles.css'
@@ -28,11 +27,9 @@ function MyApp({Component, pageProps}: AppProps) {
     <>
       <DefaultSeo {...config} />
       <ConvertkitProvider>
-        <ViewerProvider>
-          <MDXProvider components={MDXComponents}>
-            <Component {...pageProps} />
-          </MDXProvider>
-        </ViewerProvider>
+        <MDXProvider components={MDXComponents}>
+          <Component {...pageProps} />
+        </MDXProvider>
       </ConvertkitProvider>
     </>
   )

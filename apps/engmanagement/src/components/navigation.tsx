@@ -1,11 +1,9 @@
 import * as React from 'react'
 import config from '../config'
 import Link from 'next/link'
-import {useViewer} from '@skillrecordings/viewer'
 import {useRouter} from 'next/router'
 
 const Navigation = () => {
-  const {isAuthenticated, logout} = useViewer()
   const router = useRouter()
   return (
     <nav className="absolute top-0 left-0 px-5 w-full flex items-center justify-between print:hidden z-20">
@@ -32,9 +30,6 @@ const Navigation = () => {
           </a>
         </Link>
       )}
-      {/* <div className="flex space-x-3 items-center">
-        {isAuthenticated && <button onClick={logout}>log out</button>}
-      </div> */}
     </nav>
   )
 }

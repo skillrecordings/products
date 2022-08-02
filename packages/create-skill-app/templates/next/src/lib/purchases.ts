@@ -1,10 +1,9 @@
 import {prisma} from '@skillrecordings/database'
-import {PurchaseStatus} from '../utils/purchase-status'
 import {Purchase} from '@skillrecordings/database'
 
 export async function updatePurchaseStatusForCharge(
   chargeId: string,
-  status: PurchaseStatus,
+  status: 'Valid' | 'Refunded' | 'Disputed' | 'Banned',
 ): Promise<Purchase | undefined> {
   const purchase = await prisma.purchase.findFirst({
     where: {
@@ -67,7 +66,7 @@ export async function getPurchaseDetails(purchaseId: string, userId: string) {
   }
 
   const availableUpgrades =
-    purchase.status === PurchaseStatus.Valid
+    purchase.status === 'Valid'
       ? await prisma.upgradableProducts.findMany({
           where: {
             AND: [
@@ -102,7 +101,7 @@ export async function getPurchaseDetails(purchaseId: string, userId: string) {
         not: purchaseId as string,
       },
       bulkCoupon: null,
-      status: PurchaseStatus.Valid,
+      status: 'Valid',
     },
     select: {
       id: true,

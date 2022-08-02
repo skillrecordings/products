@@ -104,7 +104,6 @@ export type SlackConfig = {
 }
 
 export interface SkillRecordingsOptions {
-  prismaClient: PrismaClient
   site: {
     supportEmail: string
     title: string
