@@ -1,5 +1,5 @@
 import {getSdk} from '@skillrecordings/database'
-import {validateCoupon} from '../utils/validate-coupon'
+import {validateCoupon} from './validate-coupon'
 
 export async function getCouponForCode(code: string) {
   const {getCoupon} = getSdk()

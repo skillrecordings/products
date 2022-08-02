@@ -1,7 +1,7 @@
 import * as React from 'react'
 import {DocumentTextIcon} from '@heroicons/react/outline'
 import {ChevronRightIcon} from '@heroicons/react/solid'
-import {serialize} from 'utils/prisma-next-serializer'
+import {serialize} from '@skillrecordings/commerce-server'
 import {getSdk} from '@skillrecordings/database'
 import {GetServerSideProps} from 'next'
 import {format} from 'date-fns'

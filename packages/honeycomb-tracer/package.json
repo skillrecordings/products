@@ -20,7 +20,9 @@
     "testEnvironment": "node"
   },
   "dependencies": {
-    "@vercel/tracing-js": "^0.5.1"
+    "@vercel/tracing-js": "^0.5.1",
+    "node-fetch": "2.6.7",
+    "encoding": "^0.1.0"
   },
   "devDependencies": {
     "@skillrecordings/scripts": "0.0.5",

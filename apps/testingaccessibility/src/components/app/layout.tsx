@@ -1,7 +1,6 @@
 import React, {FunctionComponent} from 'react'
 import {SkipNavContent, SkipNavLink} from '@reach/skip-nav'
 import {useNavState} from '../../hooks/use-nav-state'
-import {DefaultCoupon, SanityProduct} from 'utils/props-for-commerce'
 import {useFeedback} from 'context/feedback-context'
 import {Toaster} from 'react-hot-toast'
 import {NextSeo} from '@skillrecordings/react'
@@ -11,6 +10,10 @@ import isNull from 'lodash/isNull'
 import Footer from './footer'
 import config from 'config'
 import cx from 'classnames'
+import {
+  type DefaultCoupon,
+  type SanityProduct,
+} from '@skillrecordings/commerce-server'
 
 type LayoutProps = {
   meta?: any

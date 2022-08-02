@@ -1,8 +1,9 @@
 {
   "extends": "@skillrecordings/tsconfig/node16.json",
-  "include": ["process.d.ts", "**/*.ts", "**/*.tsx", "tsup.config.ts"],
+  "include": ["process.d.ts", "src/**/*.ts", "src/**/*.tsx", "tsup.config.ts"],
   "exclude": ["node_modules"],
   "compilerOptions": {
-    "resolveJsonModule": true
+    "resolveJsonModule": true,
+    "outDir": "./dist"
   }
 }

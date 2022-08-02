@@ -1,5 +1,3 @@
-import {Decimal} from '@skillrecordings/database/'
-
 /**
  * prisma sends Dates and Decimals which next can't serialize as JSON
  * @param result

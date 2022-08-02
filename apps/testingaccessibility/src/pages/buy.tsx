@@ -1,12 +1,14 @@
 import React from 'react'
 import {GetServerSideProps} from 'next'
 import {tracer, setupHttpTracing} from '@skillrecordings/honeycomb-tracer'
-import {CommerceProps, propsForCommerce} from '../utils/props-for-commerce'
 import {Element} from 'react-scroll'
 import {PricingTiers} from '../components/product-tiers'
 import FAQ from '../components/content/faq-section'
 import Layout from 'components/app/layout'
 import Image from 'next/image'
+import {getActiveProducts} from '../lib/products'
+import {getToken} from 'next-auth/jwt'
+import {CommerceProps, propsForCommerce} from '@skillrecordings/commerce-server'
 
 const Buy: React.FC<React.PropsWithChildren<CommerceProps>> = ({
   couponFromCode,
@@ -82,7 +84,7 @@ const Buy: React.FC<React.PropsWithChildren<CommerceProps>> = ({
 export default Buy
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
-  const {req, res} = context
+  const {req, res, query} = context
   setupHttpTracing({
     name: getServerSideProps.name,
     tracer,
@@ -90,5 +92,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     res,
   })
 
-  return await propsForCommerce(context)
+  const products = await getActiveProducts()
+  const token = await getToken({req})
+  return await propsForCommerce({req, query, products, token})
 }

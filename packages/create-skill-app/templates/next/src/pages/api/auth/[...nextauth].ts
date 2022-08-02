@@ -1,11 +1,11 @@
 import NextAuth, {NextAuthOptions} from 'next-auth'
 import EmailProvider, {EmailConfig} from 'next-auth/providers/email'
 import jwt from 'jsonwebtoken'
-import {PrismaAdapter} from '@next-auth/prisma-adapter'
+import {PrismaAdapter} from '@skillrecordings/skill-api'
 import {getSdk, prisma} from '@skillrecordings/database'
 import {createTransport} from 'nodemailer'
-import {defineRulesForPurchases} from '../../../server/ability'
 import mjml2html from 'mjml'
+import {defineRulesForPurchases} from '@skillrecordings/commerce-server'
 
 export type MagicLinkEmailType =
   | 'login'

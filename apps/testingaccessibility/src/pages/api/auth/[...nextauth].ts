@@ -5,7 +5,7 @@ import {withSentry} from '@sentry/nextjs'
 import {getSdk, prisma} from '@skillrecordings/database'
 import mjml2html from 'mjml'
 import chalk from 'chalk'
-import {PrismaAdapter} from '../../../server/skill-next-auth-prisma-adapter'
+import {PrismaAdapter} from '@skillrecordings/skill-api'
 
 export type MagicLinkEmailType =
   | 'login'

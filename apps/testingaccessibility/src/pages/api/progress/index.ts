@@ -1,6 +1,6 @@
 import {NextApiRequest, NextApiResponse} from 'next'
 import {prisma} from '@skillrecordings/database'
-import {serialize} from 'utils/prisma-next-serializer'
+import {serialize} from '@skillrecordings/commerce-server'
 import {withSentry} from '@sentry/nextjs'
 import {tracer, setupHttpTracing} from '@skillrecordings/honeycomb-tracer'
 import {getToken} from 'next-auth/jwt'

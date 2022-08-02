@@ -1497,7 +1497,6 @@ importers:
 
   apps/skill-template:
     specifiers:
-      '@casl/ability': ^6.0.0
       '@mdx-js/loader': ^2.1.2
       '@mdx-js/mdx': ^2.1.2
       '@mdx-js/react': ^2.1.2
@@ -1553,7 +1552,6 @@ importers:
       typescript: ^4.7.4
       webpack: ^5.73.0
     dependencies:
-      '@casl/ability': 6.0.0
       '@mdx-js/loader': 2.1.2_webpack@5.73.0
       '@mdx-js/mdx': 2.1.2
       '@mdx-js/react': 2.1.2_react@18.2.0
@@ -2480,6 +2478,7 @@ importers:
 
   packages/commerce-server:
     specifiers:
+      '@casl/ability': ^6.0.0
       '@skillrecordings/database': workspace:*
       '@skillrecordings/honeycomb-tracer': workspace:*
       '@skillrecordings/scripts': workspace:*
@@ -2497,6 +2496,7 @@ importers:
       tsx: ^3.7.1
       typescript: ^4.7.4
     dependencies:
+      '@casl/ability': 6.0.0
       '@skillrecordings/database': link:../database
       '@skillrecordings/honeycomb-tracer': link:../honeycomb-tracer
       date-fns: 2.28.0
@@ -2758,11 +2758,15 @@ importers:
       '@skillrecordings/tsconfig': 0.0.5
       '@types/node': ^18.6.3
       '@vercel/tracing-js': ^0.5.1
+      encoding: ^0.1.0
       eslint: ^8.19.0
       eslint-config-custom: workspace:*
+      node-fetch: 2.6.7
       typescript: ^4.7.4
     dependencies:
-      '@vercel/tracing-js': 0.5.1
+      '@vercel/tracing-js': 0.5.1_node-fetch@2.6.7
+      encoding: 0.1.13
+      node-fetch: 2.6.7_encoding@0.1.13
     devDependencies:
       '@skillrecordings/scripts': link:../scripts
       '@skillrecordings/tsconfig': link:../tsconfig
@@ -11233,6 +11237,18 @@ packages:
       - supports-color
     dev: false
 
+  /@vercel/tracing-js/0.5.1_node-fetch@2.6.7:
+    resolution: {integrity: sha512-e1LT4I1k9YTOBW6nY22JuTwnmJQCJpmM2jbSw2clzP5prLvdMCgvnQmbUHunVlf8ST/uSUjzzsTqdjiZVRorcg==}
+    engines: {node: '>=8'}
+    peerDependencies:
+      node-fetch: '*'
+    dependencies:
+      libhoney: 1.3.0
+      node-fetch: 2.6.7_encoding@0.1.13
+    transitivePeerDependencies:
+      - supports-color
+    dev: false
+
   /@webassemblyjs/ast/1.11.1:
     resolution: {integrity: sha512-ukBh14qFLjxTQNTXocdyksN5QdM28S1CxHt2rdskFyL+xFV7VremuBLVbmCePj+URalXBENx/9Lm7lnhihtCSw==}
     dependencies:
@@ -14573,6 +14589,12 @@ packages:
   /encoding-japanese/2.0.0:
     resolution: {integrity: sha512-++P0RhebUC8MJAwJOsT93dT+5oc5oPImp1HubZpAuCZ5kTLnhuuBhKHj2jJeO/Gj93idPBWmIuQ9QWMe5rX3pQ==}
     engines: {node: '>=8.10.0'}
+
+  /encoding/0.1.13:
+    resolution: {integrity: sha512-ETBauow1T35Y/WZMkio9jiM0Z5xjHHmJ4XmjZOq1l/dXz3lr2sRn87nJy20RupqSh1F2m3HHPSp8ShIPQJrJ3A==}
+    dependencies:
+      iconv-lite: 0.6.3
+    dev: false
 
   /end-of-stream/1.4.4:
     resolution: {integrity: sha512-+uw1inIHVPQoaVuHzRyXd21icM+cnt4CzD5rW+NC1wjOUSTOs+Te7FOv7AhN7vS9x/oIyhLP5PR1H+phQAHu5Q==}
@@ -21978,6 +22000,19 @@ packages:
         optional: true
     dependencies:
       whatwg-url: 5.0.0
+
+  /node-fetch/2.6.7_encoding@0.1.13:
+    resolution: {integrity: sha512-ZjMPFEfVx5j+y2yF35Kzx5sF7kDzxuDj6ziH4FFbOp87zKDZNx8yExJIb05OGF4Nlt9IHFIMBkRl41VdvcNdbQ==}
+    engines: {node: 4.x || >=6.0.0}
+    peerDependencies:
+      encoding: ^0.1.0
+    peerDependenciesMeta:
+      encoding:
+        optional: true
+    dependencies:
+      encoding: 0.1.13
+      whatwg-url: 5.0.0
+    dev: false
 
   /node-gyp-build/4.3.0:
     resolution: {integrity: sha512-iWjXZvmboq0ja1pUGULQBexmxq8CV4xBhX7VDOTbL7ZR4FOowwY/VOtRxBN/yKxmdGoIp4j5ysNT4u3S2pDQ3Q==}

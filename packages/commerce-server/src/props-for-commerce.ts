@@ -1,9 +1,6 @@
 import {IncomingMessage} from 'http'
-import {NextApiRequestCookies} from 'next/dist/server/api-utils'
 import {ParsedUrlQuery} from 'querystring'
-import {getToken} from 'next-auth/jwt'
-import {getCouponForCode} from '../server/get-coupon-for-code'
-import {getActiveProducts} from '../lib/products'
+import {getCouponForCode} from './get-coupon-for-code'
 import {serialize} from './prisma-next-serializer'
 import {Purchase} from '@skillrecordings/database'
 import {getSdk} from '@skillrecordings/database'
@@ -48,19 +45,18 @@ export type SanityProduct = {
 export async function propsForCommerce({
   req,
   query,
+  products,
+  token,
 }: {
-  req: IncomingMessage & {cookies: NextApiRequestCookies}
+  req: IncomingMessage & {cookies: Partial<{[key: string]: string}>}
   query: ParsedUrlQuery
+  products: SanityProduct[]
+  token: {sub?: string} | null
 }) {
-  const token = await getToken({req})
-
   const couponFromCode = await getCouponForCode(query.code as string)
-  const {products} = await getActiveProducts()
   const {getDefaultCoupon, getPurchasesForUser} = getSdk()
 
-  const purchases = token?.id
-    ? await getPurchasesForUser(token.id as string)
-    : false
+  const purchases = token?.sub ? await getPurchasesForUser(token.sub) : false
 
   const couponIdFromCoupon = (query.coupon as string) || couponFromCode?.id
   const defaultCoupons = !token
@@ -75,7 +71,7 @@ export async function propsForCommerce({
           percentageDiscount: defaultCoupons.defaultCoupon.percentageDiscount,
         }),
       }),
-      ...(token?.id ? {userId: token?.id} : {}),
+      ...(token?.sub ? {userId: token?.sub} : {}),
       ...(couponFromCode && {couponFromCode: serialize(couponFromCode)}),
       ...(couponIdFromCoupon && {couponIdFromCoupon}),
       ...(purchases && {purchases: [...purchases.map(serialize)]}),

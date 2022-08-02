@@ -2,8 +2,8 @@ import * as React from 'react'
 import cx from 'classnames'
 import {Pricing} from './pricing'
 import {useCoupon} from '../hooks/use-coupon'
-import {CommerceProps} from '../utils/props-for-commerce'
 import {PriceCheckProvider} from '../context/pricing-check-context'
+import {type CommerceProps} from '@skillrecordings/commerce-server'
 
 export const PricingTiers: React.FC<React.PropsWithChildren<CommerceProps>> = ({
   couponFromCode,

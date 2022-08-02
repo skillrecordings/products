@@ -1,5 +1,4 @@
 import type {NextApiRequest, NextApiResponse} from 'next'
-import {validateCoupon} from '../../utils/validate-coupon'
 import {sendServerEmail} from '../../utils/send-server-email'
 import {nextAuthOptions} from './auth/[...nextauth]'
 import {prisma, getSdk} from '@skillrecordings/database'
@@ -8,6 +7,7 @@ import * as Sentry from '@sentry/nextjs'
 import {tracer, setupHttpTracing} from '@skillrecordings/honeycomb-tracer'
 import {postRedemptionToSlack} from '../../server/post-to-slack'
 import {PurchaseStatus} from '@skillrecordings/skill-api'
+import {validateCoupon} from '@skillrecordings/commerce-server'
 
 export class CouponRedemptionError extends Error {
   couponId: string
