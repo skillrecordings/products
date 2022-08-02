@@ -1,7 +1,7 @@
 import React from 'react'
 import Layout from 'components/app/layout'
 import {find, get, isNull, isString} from 'lodash'
-import {serialize} from 'utils/prisma-next-serializer'
+import {convertToSerializeForNextResponse} from 'utils/prisma-next-serializer'
 import {GetServerSideProps} from 'next'
 import {getPurchasedProduct} from 'server/get-purchased-product'
 import InviteTeam from 'components/team'
@@ -40,7 +40,7 @@ export const getServerSideProps: GetServerSideProps = async ({
       return purchase
         ? {
             props: {
-              purchase: serialize(purchase),
+              purchase: convertToSerializeForNextResponse(purchase),
               existingPurchase,
               availableUpgrades,
             },

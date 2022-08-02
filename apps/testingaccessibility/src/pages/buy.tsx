@@ -7,6 +7,8 @@ import {PricingTiers} from '../components/product-tiers'
 import FAQ from '../components/content/faq-section'
 import Layout from 'components/app/layout'
 import Image from 'next/image'
+import {getToken} from 'next-auth/jwt'
+import {getActiveProducts} from '../lib/products'
 
 const Buy: React.FC<React.PropsWithChildren<CommerceProps>> = ({
   couponFromCode,
@@ -82,7 +84,7 @@ const Buy: React.FC<React.PropsWithChildren<CommerceProps>> = ({
 export default Buy
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
-  const {req, res} = context
+  const {req, res, query} = context
   setupHttpTracing({
     name: getServerSideProps.name,
     tracer,
@@ -90,5 +92,8 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     res,
   })
 
-  return await propsForCommerce(context)
+  const token = await getToken({req})
+  const {products} = await getActiveProducts()
+
+  return await propsForCommerce({query, token, products})
 }

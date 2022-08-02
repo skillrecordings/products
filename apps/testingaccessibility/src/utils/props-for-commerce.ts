@@ -1,10 +1,6 @@
-import {IncomingMessage} from 'http'
-import {NextApiRequestCookies} from 'next/dist/server/api-utils'
 import {ParsedUrlQuery} from 'querystring'
-import {getToken} from 'next-auth/jwt'
 import {getCouponForCode} from '../server/get-coupon-for-code'
-import {getActiveProducts} from '../lib/products'
-import {serialize} from './prisma-next-serializer'
+import {convertToSerializeForNextResponse} from './prisma-next-serializer'
 import {Purchase} from '@skillrecordings/database'
 import {getSdk} from '@skillrecordings/database'
 
@@ -46,20 +42,20 @@ export type SanityProduct = {
 }
 
 export async function propsForCommerce({
-  req,
   query,
+  token,
+  products,
 }: {
-  req: IncomingMessage & {cookies: NextApiRequestCookies}
   query: ParsedUrlQuery
+  token: {sub?: string} | null
+  products: SanityProduct[]
 }) {
-  const token = await getToken({req})
-
   const couponFromCode = await getCouponForCode(query.code as string)
-  const {products} = await getActiveProducts()
+
   const {getDefaultCoupon, getPurchasesForUser} = getSdk()
 
-  const purchases = token?.id
-    ? await getPurchasesForUser(token.id as string)
+  const purchases = token?.sub
+    ? await getPurchasesForUser(token.sub as string)
     : false
 
   const couponIdFromCoupon = (query.coupon as string) || couponFromCode?.id
@@ -70,15 +66,19 @@ export async function propsForCommerce({
   return {
     props: {
       ...(defaultCoupons && {
-        defaultCoupon: serialize({
+        defaultCoupon: convertToSerializeForNextResponse({
           expires: defaultCoupons.defaultCoupon.expires,
           percentageDiscount: defaultCoupons.defaultCoupon.percentageDiscount,
         }),
       }),
-      ...(token?.id ? {userId: token?.id} : {}),
-      ...(couponFromCode && {couponFromCode: serialize(couponFromCode)}),
+      ...(token?.sub ? {userId: token?.sub} : {}),
+      ...(couponFromCode && {
+        couponFromCode: convertToSerializeForNextResponse(couponFromCode),
+      }),
       ...(couponIdFromCoupon && {couponIdFromCoupon}),
-      ...(purchases && {purchases: [...purchases.map(serialize)]}),
+      ...(purchases && {
+        purchases: [...purchases.map(convertToSerializeForNextResponse)],
+      }),
       products,
     },
   }

@@ -1,6 +1,6 @@
 import * as React from 'react'
 import {DocumentTextIcon, UserGroupIcon} from '@heroicons/react/outline'
-import {serialize} from '../../utils/prisma-next-serializer'
+import {convertToSerializeForNextResponse} from '../../utils/prisma-next-serializer'
 import {useSession} from 'next-auth/react'
 import {GetServerSideProps} from 'next'
 import {getToken} from 'next-auth/jwt'
@@ -58,7 +58,7 @@ export const getServerSideProps: GetServerSideProps = async ({
     return purchase
       ? {
           props: {
-            purchase: serialize(purchase),
+            purchase: convertToSerializeForNextResponse(purchase),
             existingPurchase,
             availableUpgrades,
             upgrade: upgrade === 'true',

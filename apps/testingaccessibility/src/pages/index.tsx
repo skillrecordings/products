@@ -11,6 +11,8 @@ import {useCoupon} from 'hooks/use-coupon'
 import {Element} from 'react-scroll'
 import FAQ from 'components/content/faq-section'
 import {tracer, setupHttpTracing} from '@skillrecordings/honeycomb-tracer'
+import {getToken} from 'next-auth/jwt'
+import {getActiveProducts} from '../lib/products'
 
 export const getServerSideProps: GetServerSideProps = async ({
   req,
@@ -23,7 +25,9 @@ export const getServerSideProps: GetServerSideProps = async ({
     req,
     res,
   })
-  return await propsForCommerce({req, query})
+  const token = await getToken({req})
+  const {products} = await getActiveProducts()
+  return await propsForCommerce({token, products, query})
 }
 
 const Home: React.FC<React.PropsWithChildren<CommerceProps>> = ({

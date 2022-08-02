@@ -1,5 +1,5 @@
 import type {NextApiRequest, NextApiResponse} from 'next'
-import {validateCoupon} from '../../utils/validate-coupon'
+import {validateCoupon} from '@skillrecordings/commerce-server'
 import {sendServerEmail} from '../../utils/send-server-email'
 import {nextAuthOptions} from './auth/[...nextauth]'
 import {prisma, getSdk} from '@skillrecordings/database'

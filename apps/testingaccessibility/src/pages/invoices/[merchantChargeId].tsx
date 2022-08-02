@@ -1,6 +1,6 @@
 import * as React from 'react'
 import {DownloadIcon} from '@heroicons/react/outline'
-import {serialize} from 'utils/prisma-next-serializer'
+import {convertToSerializeForNextResponse} from 'utils/prisma-next-serializer'
 import {useLocalStorage} from 'react-use'
 import {GetServerSideProps} from 'next'
 import {Logo} from 'components/images'
@@ -62,7 +62,7 @@ export const getServerSideProps: GetServerSideProps = async ({
       return {
         props: {
           charge,
-          product: serialize(product),
+          product: convertToSerializeForNextResponse(product),
           merchantChargeId,
         },
       }
