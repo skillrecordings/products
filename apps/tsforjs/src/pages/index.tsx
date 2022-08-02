@@ -10,11 +10,6 @@ import {
 import Layout from 'components/layout'
 
 const Home: NextPage = () => {
-  const [isAccordionOpen, setIsAccordionOpen] = useState(false)
-
-  const handleClick = () => {
-    setIsAccordionOpen(!isAccordionOpen)
-  }
   return (
     <>
       <Layout>
@@ -25,7 +20,7 @@ const Home: NextPage = () => {
                 <h1 className="pb-10 text-5xl md:text-6xl xl:text-7xl 2xl:text-9xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-700 to-pink-500">
                   Type errors are ✨annoying✨
                 </h1>
-                <div className="text-white font-bold pt-10 px-20 sm:text-xl md:text-2xl xl:text-4xl 2xl:text-6xl">
+                <div className="text-white font-bold pt-10 px-20 text-xl sm:text-2xl md:text-2xl xl:text-4xl 2xl:text-6xl">
                   <p>
                     When you’re used to the carefree life of declaring variables
                     without worrying about what they’ll eventually become or the
@@ -76,7 +71,11 @@ const Home: NextPage = () => {
                 Course Modules
               </h3>
               <Accordion />
+              <div className="max-w-[47rem] px-4 mx-auto -mt-[220px] pt-80">
+                <Subscribe />
+              </div>
             </div>
+
             <div className="py-32 text-white">
               <div className="max-w-[40rem] px-4 mx-auto">
                 <h3 className="text-center text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-700 to-pink-500">
@@ -165,3 +164,32 @@ const Home: NextPage = () => {
 }
 
 export default Home
+
+const Subscribe = () => {
+  const router = useRouter()
+  return (
+    <section className="text-white bg-stone-900 rounded-lg lg:px-20 md:px-16 px-6 xl:px-24 lg:py-16 md:py-12 py-5 xl:py-20">
+      <div className="text-center space-y-7 mb-6">
+        <h3 className="font-bold text-2xl text-transparent bg-clip-text bg-gradient-to-r from-purple-700 to-pink-500">
+          Sign up for exclusive content and early-release lessons!
+        </h3>
+        <p>Take the next step in your career.</p>
+      </div>
+      <SubscribeToConvertkitForm
+        onSuccess={(subscriber: any) => {
+          if (subscriber) {
+            const redirectUrl = redirectUrlBuilder(subscriber, '/confirm')
+            router.push(redirectUrl)
+          }
+        }}
+        actionLabel="Subscribe"
+      />
+      <p className="text-sm text-[#737373] text-center mt-4">
+        We respect your privacy. Unsubscribe at any time.
+      </p>
+      <p className="text-sm text-[#737373] text-center mt-4">
+        (no spam. ever. pinky promise.)
+      </p>
+    </section>
+  )
+}

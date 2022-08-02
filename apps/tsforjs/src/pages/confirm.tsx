@@ -1,5 +1,6 @@
 import React from 'react'
 import Layout from 'components/layout'
+import config from 'config'
 
 const ConfirmSubscriptionPage = () => {
   return (
@@ -34,7 +35,8 @@ export default ConfirmSubscriptionPage
 
 export const Signature = () => {
   //TODO: add a signature
-  return null
+  // return null
+  return <>{config.author}</>
 }
 
 const Image = () => {
