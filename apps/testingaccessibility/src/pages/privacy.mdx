@@ -240,9 +240,13 @@ For more information about our privacy practices, if you have questions, or if y
 import Layout from 'components/app/layout'
 
 export default ({children}) => (
-<Layout meta={{title: 'Terms, Conditions, and Privacy Policy for Testing Accessibility'}}>
-<main className="p-5 lg:py-24 py-16">
-<article className="prose mx-auto">{children}</article>
-</main>
-</Layout>
+  <Layout
+    meta={{
+      title: 'Terms, Conditions, and Privacy Policy for Testing Accessibility',
+    }}
+  >
+    <main className="p-5 lg:py-24 py-16">
+      <article className="prose mx-auto">{children}</article>
+    </main>
+  </Layout>
 )

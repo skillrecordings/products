@@ -1,3 +1,3 @@
-## Getting Started
-
-Run `yarn dev` to crack on
+- [x] add a name to package.json
+- [x] update ENV variables for development and production
+- [ ] write better readme
