@@ -26,5 +26,6 @@ declare namespace NodeJS {
     SLACK_FEEDBACK_CHANNEL_ID: string
     NEXT_PUBLIC_SITE_TITLE: string
     SLACK_TOKEN: string
+    CERTIFICATE_URI: string
   }
 }
