@@ -13,6 +13,7 @@ import {withSentry} from '@sentry/nextjs'
 import {getToken} from 'next-auth/jwt'
 import * as Sentry from '@sentry/nextjs'
 import {prisma} from '@skillrecordings/database'
+import {downloadCertificateImage} from 'utils/download-certificate-image'
 
 const generateModuleCertificate = async (
   req: NextApiRequest,
@@ -80,7 +81,10 @@ const generateModuleCertificate = async (
       }
 
       // draw a pdf
-      await drawModuleCertificatePdf(req, res, sessionToken, module)
+      // await drawModuleCertificatePdf(req, res, sessionToken, module)
+
+      // download certificate as png image
+      await downloadCertificateImage(req, res, sessionToken, module)
     } catch (error: any) {
       Sentry.captureException(error)
       res.status(500).json({error: true, message: error.message})
