@@ -1,35 +1,16 @@
 @tailwind base;
+@import './fonts.css';
+
 @tailwind components;
+@import './quiz.css';
+@import './newsletter.css';
+
 @tailwind utilities;
+@import './focus-visible.css';
 
-body {
-    @apply antialiased font-sans;
-}
-
-[data-sr-convertkit-subscribe-form] {
-    @apply mx-auto;
-    [data-sr-input] {
-        @apply block w-full px-4 py-2 mb-6 bg-gray-100 rounded focus:outline-none focus:ring-2;
-    }
-    [data-sr-input-label] {
-        @apply flex pt-4 pb-1;
-    }
-    [data-sr-button] {
-        @apply block w-full px-4 py-2 font-semibold tracking-wide text-center text-white uppercase rounded bg-gradient-to-r from-indigo-600 to-blue-500;
-    }
-    [data-sr-button][disabled] {
-    }
-}
-
-[data-sr-convertkit-subscribe-form='success'] {
-}
-[data-sr-convertkit-subscribe-form='error'] {
-}
-
-/*
-This will hide the focus indicator if the element receives focus via the mouse,
-but it will still show up on keyboard focus.
-*/
-[data-js-focus-visible] :focus:not([data-focus-visible-added]) {
-    outline: none;
+:root {
+  color-scheme: dark;
+  ::selection {
+    @apply bg-cyan-200 text-gray-900;
+  }
 }

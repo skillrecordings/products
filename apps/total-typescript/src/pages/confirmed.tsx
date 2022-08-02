@@ -1,13 +1,29 @@
-const Confirmed = () => {
+import React from 'react'
+import Layout from 'components/app/layout'
+import {Signature} from './confirm'
+
+const ConfirmedSubscriptionPage = () => {
   return (
-    <div className="p-0 min-h-[calc(100vh-96px)] flex flex-col">
-      <div className="flex flex-col items-center justify-center flex-grow p-5 text-center">
-        <p className="pt-8 pb-6 text-2xl font-condensed sm:text-3xl text-badass-pink-500">
-          Success! Thank you for signing up
-        </p>
-      </div>
-    </div>
+    <Layout>
+      <main className="flex-grow flex items-center justify-center flex-col px-5">
+        <Image />
+        <div className="max-w-lg text-center font-light">
+          <h1 className="font-bold lg:text-5xl text-4xl py-8 font-heading">
+            You're Confirmed!
+          </h1>
+          <p className="sm:text-xl leading-relaxed mx-auto pb-8">
+            Thanks for confirming your email address — you're all set to receive{' '}
+            emails from me about {process.env.NEXT_PUBLIC_SITE_TITLE}.
+          </p>
+          <Signature />
+        </div>
+      </main>
+    </Layout>
   )
 }
 
-export default Confirmed
+export default ConfirmedSubscriptionPage
+
+const Image = () => {
+  return null
+}

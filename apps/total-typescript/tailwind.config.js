@@ -1,3 +1,7 @@
+/** @type {import('tailwindcss').Config} */
+const defaultTheme = require('tailwindcss/defaultTheme')
+const colors = require('tailwindcss/colors')
+
 module.exports = {
   content: [
     './src/**/*.tsx',
@@ -8,7 +12,19 @@ module.exports = {
     './node_modules/@skillrecordings/player/dist/**/*.js',
   ],
   theme: {
-    extend: {},
+    extend: {
+      fontFamily: {
+        heading: ['Magnat Head', ...defaultTheme.fontFamily.sans],
+        text: ['Magnat Text', ...defaultTheme.fontFamily.sans],
+        sans: ['Larsseit', ...defaultTheme.fontFamily.sans],
+      },
+      colors: {gray: colors.slate},
+      typography: (theme) => ({
+        DEFAULT: {
+          css: {},
+        },
+      }),
+    },
   },
-  plugins: [require('@tailwindcss/typography'), require('@tailwindcss/forms')],
+  plugins: [require('@tailwindcss/typography')],
 }
