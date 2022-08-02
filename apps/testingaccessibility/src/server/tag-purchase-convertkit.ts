@@ -1,4 +1,9 @@
-import {convertkitAxios} from '@skillrecordings/axios'
+import {CONVERTKIT_BASE_URL} from '@skillrecordings/config'
+import axios from 'axios'
+
+export const convertkitAxios = axios.create({
+  baseURL: CONVERTKIT_BASE_URL,
+})
 
 export async function tagPurchaseConvertkit(email: string) {
   try {

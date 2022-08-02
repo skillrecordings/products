@@ -38,7 +38,6 @@
   "dependencies": {
     "@next/mdx": "^12.1.0",
     "@reach/dialog": "^0.16.2",
-    "@skillrecordings/axios": "workspace:*",
     "@skillrecordings/config": "workspace:*",
     "@skillrecordings/convertkit": "workspace:*",
     "@skillrecordings/cookies": "workspace:*",

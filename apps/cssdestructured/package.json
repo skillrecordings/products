@@ -41,7 +41,6 @@
     "@reach/dialog": "^0.16.2",
     "@sanity/block-content-to-react": "^3.0.0",
     "@sanity/client": "^3.2.0",
-    "@skillrecordings/axios": "workspace:*",
     "@skillrecordings/config": "workspace:*",
     "@skillrecordings/convertkit": "workspace:*",
     "@skillrecordings/cookies": "workspace:*",

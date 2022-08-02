@@ -63,7 +63,6 @@
     "@sanity/webhook": "^1.0.2",
     "@sentry/nextjs": "^6.19.3",
     "@skillrecordings/analytics": "workspace:*",
-    "@skillrecordings/axios": "workspace:*",
     "@skillrecordings/config": "workspace:*",
     "@skillrecordings/convertkit": "workspace:*",
     "@skillrecordings/cookies": "workspace:*",

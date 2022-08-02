@@ -21,7 +21,6 @@
     "@reach/dialog": "^0.16.2",
     "@react-three/drei": "^7.20.2",
     "@react-three/fiber": "7.0.27",
-    "@skillrecordings/axios": "workspace:*",
     "@skillrecordings/config": "workspace:*",
     "@skillrecordings/convertkit": "workspace:*",
     "@skillrecordings/cookies": "workspace:*",
