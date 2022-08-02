@@ -5,14 +5,14 @@ import config from 'config'
 const ConfirmSubscriptionPage = () => {
   return (
     <Layout meta={{title: 'Confirm your subscription'}}>
-      <main className="flex-grow flex items-center justify-center flex-col px-5">
+      <main className="flex-grow flex items-center justify-center flex-col px-5 h-screen bg-black">
         <Image />
-        <div className="max-w-lg text-center font-light">
+        <div className="max-w-lg text-center font-light text-white">
           {/* <p className="sm:text-xl">
             Thanks so much for signing up! There’s one last step.
           </p> */}
-          <h1 className="font-bold lg:text-5xl text-4xl py-8 font-heading">
-            Please check your inbox for an email that just got sent.
+          <h1 className="font-bold lg:text-5xl text-4xl py-8 font-heading text-transparent bg-clip-text bg-gradient-to-r from-purple-700 to-pink-500">
+            ✨ Please check your inbox for an email that just got sent ✨
           </h1>
           <p className="sm:text-xl text-slate-300 leading-relaxed mx-auto pb-8">
             You'll need to click the confirmation link to receive any further
