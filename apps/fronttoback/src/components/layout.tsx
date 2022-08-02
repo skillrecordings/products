@@ -1,5 +1,6 @@
 import React, {FunctionComponent} from 'react'
 import {NextSeo} from '@skillrecordings/react'
+import {Toaster} from 'react-hot-toast'
 import cx from 'classnames'
 
 type LayoutProps = {
@@ -11,7 +12,7 @@ type LayoutProps = {
   children?: any
 }
 
-const Layout: FunctionComponent<LayoutProps> = ({
+const Layout: FunctionComponent<React.PropsWithChildren<LayoutProps>> = ({
   children,
   className,
   meta,
@@ -31,6 +32,7 @@ const Layout: FunctionComponent<LayoutProps> = ({
 
   return (
     <div className="relative">
+      <Toaster position="top-center" />
       <NextSeo
         title={title}
         description={description}

@@ -1,6 +1,8 @@
 import * as React from 'react'
 
-const ExternalLinkIcon: React.FC<any> = ({className}) => {
+const ExternalLinkIcon: React.FC<React.PropsWithChildren<any>> = ({
+  className,
+}) => {
   return (
     <svg
       className={className}

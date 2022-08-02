@@ -6,8 +6,7 @@ import Image from 'next/image'
 import NewMailImage from '../../../public/assets/new-mail@2x.png'
 import {MailIcon} from '@heroicons/react/outline'
 import {getCheckoutSession} from '../../lib/stripe'
-import {setupHttpTracing} from '@vercel/tracing-js'
-import {tracer} from '../../utils/honeycomb-tracer'
+import {tracer, setupHttpTracing} from '@skillrecordings/honeycomb-tracer'
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const {res, req, query} = context
@@ -38,10 +37,9 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   }
 }
 
-const ThanksVerify: React.FC<{name: string; email: string}> = ({
-  name,
-  email,
-}) => {
+const ThanksVerify: React.FC<
+  React.PropsWithChildren<{name: string; email: string}>
+> = ({name, email}) => {
   return (
     <Layout
       footer={null}

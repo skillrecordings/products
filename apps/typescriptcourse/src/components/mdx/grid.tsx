@@ -2,7 +2,7 @@ import React from 'react'
 import {motion, useReducedMotion} from 'framer-motion'
 import cx from 'classnames'
 
-const AnimatedGrid: React.FC<{className?: string}> = ({
+const AnimatedGrid: React.FC<React.PropsWithChildren<{className?: string}>> = ({
   children,
   className,
   ...props

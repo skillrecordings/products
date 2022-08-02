@@ -15,7 +15,9 @@ type ArticlesProps = {
   articles: SanityDocument[]
 }
 
-const Articles: React.FC<ArticlesProps> = ({articles}) => {
+const Articles: React.FC<React.PropsWithChildren<ArticlesProps>> = ({
+  articles,
+}) => {
   return (
     <Layout meta={meta} className="relative">
       <header className="relative px-5 overflow-hidden text-white py-28 bg-noise">

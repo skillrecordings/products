@@ -1,14 +1,16 @@
 import React from 'react'
-import {FormattedPrice} from '../utils/format-prices-for-product'
+import {type FormattedPrice} from '@skillrecordings/commerce-server'
 
-type PricintContextType = {
+type PricingContextType = {
   addPrice: (price: FormattedPrice, productId: string) => void
   isDowngrade: (price?: FormattedPrice) => boolean
+  isDiscount: (price?: FormattedPrice) => boolean
 }
 
-const defaultPriceCheckContext: PricintContextType = {
+const defaultPriceCheckContext: PricingContextType = {
   addPrice: () => {},
   isDowngrade: () => false,
+  isDiscount: () => false,
 }
 
 /**
@@ -20,7 +22,7 @@ export function usePriceCheck() {
 
 export const PriceCheckContext = React.createContext(defaultPriceCheckContext)
 
-export const PriceCheckProvider: React.FC<any> = ({
+export const PriceCheckProvider: React.FC<React.PropsWithChildren<any>> = ({
   children,
   purchasedProductIds,
 }) => {
@@ -56,11 +58,19 @@ export const PriceCheckProvider: React.FC<any> = ({
     [prices],
   )
 
+  const isDiscount = React.useCallback((price?: FormattedPrice) => {
+    if (!price) {
+      return false
+    }
+    return price.unitPrice > price.calculatedPrice
+  }, [])
+
   return (
     <PriceCheckContext.Provider
       value={{
         addPrice,
         isDowngrade,
+        isDiscount,
       }}
     >
       {children}

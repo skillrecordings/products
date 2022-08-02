@@ -2,10 +2,9 @@
  * @jest-environment jsdom
  */
 import * as React from 'react'
-import {renderHook} from '@testing-library/react-hooks'
 import {QuestionResource} from '@skillrecordings/types'
 import {useQuestion} from '../index'
-import {render, screen} from '@testing-library/react'
+import {render, screen, renderHook} from '@testing-library/react'
 import Essay from '../components/question/essay'
 
 const ESSAY_QUESTION: QuestionResource = {
@@ -37,6 +36,7 @@ describe('can render questions', () => {
     const {
       result: {current},
     } = renderHook(() => useQuestion({currentQuestion: ESSAY_QUESTION}))
+
     expect(current).not.toBeUndefined()
     current && render(<Essay question={current} />)
     const submitButton = screen.getByRole('button')

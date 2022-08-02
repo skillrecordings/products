@@ -30,11 +30,9 @@ type LessonTemplateProps = {
   lesson: SanityDocument
 }
 
-const LessonTemplate: React.FC<LessonTemplateProps> = ({
-  module,
-  section,
-  lesson,
-}) => {
+const LessonTemplate: React.FC<
+  React.PropsWithChildren<LessonTemplateProps>
+> = ({module, section, lesson}) => {
   const {data: session} = useSession()
   const {title, body, slug} = lesson
   const {lessons} = section
@@ -144,11 +142,9 @@ type ProgressToggleProps = {
   slug: string
 }
 
-export const ProgressToggle: React.FC<ProgressToggleProps> = ({
-  isCurrentLessonCompleted,
-  toggleLessonComplete,
-  slug,
-}) => {
+export const ProgressToggle: React.FC<
+  React.PropsWithChildren<ProgressToggleProps>
+> = ({isCurrentLessonCompleted, toggleLessonComplete, slug}) => {
   const {reward} = useReward('rewardId', 'confetti', {
     zIndex: 50,
     lifetime: 50,
@@ -249,7 +245,7 @@ type UpNextProps = {
   currentLessonIndex: number
 }
 
-const UpNext: React.FC<UpNextProps> = ({
+const UpNext: React.FC<React.PropsWithChildren<UpNextProps>> = ({
   module,
   section,
   nextLesson,
@@ -341,7 +337,9 @@ type LessonNavigatorProps = {
   className?: string
 }
 
-const LessonNavigator: React.FC<LessonNavigatorProps> = ({
+const LessonNavigator: React.FC<
+  React.PropsWithChildren<LessonNavigatorProps>
+> = ({
   lessons,
   progress,
   module,

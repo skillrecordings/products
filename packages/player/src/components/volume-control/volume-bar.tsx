@@ -10,7 +10,10 @@ import {
   SliderHandle,
 } from '@reach/slider'
 
-export const VolumeBar: React.FC<any> = ({isActive, ...props}) => {
+export const VolumeBar: React.FC<React.PropsWithChildren<any>> = ({
+  isActive,
+  ...props
+}) => {
   const {className, onMouseEnter, onMouseLeave} = props
   const videoService = useVideo()
   const volume = useSelector(videoService, selectVolume)

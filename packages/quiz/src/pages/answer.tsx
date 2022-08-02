@@ -13,7 +13,7 @@ type AnswerProps = {
   syntaxHighlighterTheme?: any
 }
 
-const Answer: React.FC<AnswerProps> = ({
+const Answer: React.FC<React.PropsWithChildren<AnswerProps>> = ({
   config,
   questionSet,
   syntaxHighlighterTheme,
@@ -100,7 +100,9 @@ export const sampleQuestions: QuestionSet = {
   },
 }
 
-const DevTools: React.FC<{questionSet: QuestionSet}> = ({questionSet}) => {
+const DevTools: React.FC<
+  React.PropsWithChildren<{questionSet: QuestionSet}>
+> = ({questionSet}) => {
   const [hidden, setHidden] = React.useState(false)
   const router = useRouter()
   if (process.env.NODE_ENV !== 'development' || hidden) {

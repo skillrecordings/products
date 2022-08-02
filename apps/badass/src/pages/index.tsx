@@ -31,7 +31,7 @@ const LandingPage = () => {
 
 export default LandingPage
 
-const Header: React.FC<any> = ({content}) => {
+const Header: React.FC<React.PropsWithChildren<any>> = ({content}) => {
   return (
     <header className="lg:min-h-[calc(100vh-200px)] flex flex-col items-center lg:justify-center justify-start text-center px-5">
       <Image
@@ -58,7 +58,9 @@ const Header: React.FC<any> = ({content}) => {
   )
 }
 
-const SecretSauceSection: React.FC<any> = ({content}) => {
+const SecretSauceSection: React.FC<React.PropsWithChildren<any>> = ({
+  content,
+}) => {
   return (
     <section className="relative sm:pb-16 pb-8 flex flex-col items-center justify-center text-center px-5">
       <div className="relative translate-y-10">
@@ -117,7 +119,7 @@ const SecretSauceSection: React.FC<any> = ({content}) => {
   )
 }
 
-const ProjectsSection: React.FC<any> = ({content}) => {
+const ProjectsSection: React.FC<React.PropsWithChildren<any>> = ({content}) => {
   return (
     <section className="flex flex-col items-center justify-center py-16 text-center px-5">
       <div

@@ -21,8 +21,7 @@ import Link from 'next/link'
 import cx from 'classnames'
 import groq from 'groq'
 import {Purchase} from '@skillrecordings/database'
-import {setupHttpTracing} from '@vercel/tracing-js'
-import {tracer} from '../../utils/honeycomb-tracer'
+import {tracer, setupHttpTracing} from '@skillrecordings/honeycomb-tracer'
 
 const CERTIFICATE_ENABLED = process.env.NEXT_PUBLIC_CERTIFICATE_ENABLED
 
@@ -104,9 +103,9 @@ export const getServerSideProps: GetServerSideProps = async ({
   }
 }
 
-const Learn: React.FC<{purchases: Purchase[]; product: SanityDocument}> = ({
-  product,
-}) => {
+const Learn: React.FC<
+  React.PropsWithChildren<{purchases: Purchase[]; product: SanityDocument}>
+> = ({product}) => {
   const {title, modules} = product
   const {progress, isLoadingProgress} = useProgress()
   const nextUpLesson = !isLoadingProgress && getNextUpLesson(progress, modules)

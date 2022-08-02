@@ -13,8 +13,10 @@ import {
   SandpackProvider,
   SandpackLayout,
   SandpackCodeEditor,
-  useCodeSandboxLink,
+  SandpackFiles,
 } from '@codesandbox/sandpack-react'
+
+import {nightOwl} from '@codesandbox/sandpack-themes'
 
 const QuestionContext = createNamedContext<InternalQuestionContextValue>(
   'QuestionContext',
@@ -208,16 +210,14 @@ const QuestionCodeSandbox = React.forwardRef(function QuestionCodeSandbox(
 ) {
   const {formik} = React.useContext(QuestionContext)
 
-  const codeSandboxUrl = useCodeSandboxLink()
-
   React.useEffect(() => {
-    formik.setValues({answer: codeSandboxUrl})
-  }, [codeSandboxUrl])
+    formik.setValues({answer: 'NA'})
+  }, [])
 
   return (
     <Comp {...props} ref={forwardRef} data-sr-quiz-question-input="">
-      <SandpackLayout theme="night-owl">
-        <SandpackCodeEditor customStyle={{height: 400}} />
+      <SandpackLayout>
+        <SandpackCodeEditor style={{height: 400}} />
       </SandpackLayout>
     </Comp>
   )
@@ -231,20 +231,24 @@ const QuestionCode = React.forwardRef(function QuestionCode(
 ) {
   const {currentQuestion} = React.useContext(QuestionContext)
 
+  const files: SandpackFiles | undefined =
+    currentQuestion.code?.reduce<SandpackFiles>(
+      (a, v) => ({
+        ...a,
+        [`/${v.filename}`]: {code: v.code, active: v.active},
+      }),
+      {},
+    )
+
   return (
     <Comp {...props} ref={forwardRef} data-sr-quiz-question-input="">
       {currentQuestion.type === 'code' && currentQuestion.code ? (
         <SandpackProvider
           customSetup={{
             entry: `/${currentQuestion.code[0].filename}`,
-            files: currentQuestion.code?.reduce(
-              (a, v) => ({
-                ...a,
-                [v.filename]: {code: v.code, active: v.active},
-              }),
-              {},
-            ),
           }}
+          theme={nightOwl}
+          files={files}
         >
           {children}
           <QuestionCodeSandbox />

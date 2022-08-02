@@ -29,10 +29,9 @@ export type EmailCourseTemplateProps = {
   }
 }
 
-const EmailCourseTemplate: React.FC<EmailCourseTemplateProps> = ({
-  meta,
-  children,
-}) => {
+const EmailCourseTemplate: React.FC<
+  React.PropsWithChildren<EmailCourseTemplateProps>
+> = ({meta, children}) => {
   const {
     headline,
     formImage,

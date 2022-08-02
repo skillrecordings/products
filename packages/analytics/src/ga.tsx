@@ -15,15 +15,16 @@ export const event = ({action, params}: {action: string; params: any}) => {
   }
 }
 
-export const GoogleSnippet = () => (
-  <>
-    <script
-      async
-      src={`https://www.googletagmanager.com/gtag/js?id=${process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS}`}
-    />
-    <script
-      dangerouslySetInnerHTML={{
-        __html: `
+export const GoogleSnippet = () =>
+  process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS ? (
+    <>
+      <script
+        async
+        src={`https://www.googletagmanager.com/gtag/js?id=${process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS}`}
+      />
+      <script
+        dangerouslySetInnerHTML={{
+          __html: `
             window.dataLayer = window.dataLayer || [];
             function gtag(){dataLayer.push(arguments);}
             gtag('js', new Date());
@@ -31,7 +32,7 @@ export const GoogleSnippet = () => (
               page_path: window.location.pathname,
             });
           `,
-      }}
-    />
-  </>
-)
+        }}
+      />
+    </>
+  ) : null

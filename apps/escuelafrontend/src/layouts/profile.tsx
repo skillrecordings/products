@@ -13,7 +13,9 @@ type ProfileTemplateProps = {
   meta?: any
 }
 
-const ProfileTemplate: React.FC<ProfileTemplateProps> = ({meta}) => {
+const ProfileTemplate: React.FC<
+  React.PropsWithChildren<ProfileTemplateProps>
+> = ({meta}) => {
   const {allArticles = {}, instructor = {name: 'Unknown instructor'}} = meta
 
   const featuredResource = instructor.featuredResource
@@ -105,16 +107,18 @@ const AllArticles = (allArticles: any) => {
   )
 }
 
-const Instructor: FunctionComponent<{
-  instructor: {
-    name: string
-    image: any
-    twitter: string
-    website: string
-    bio: string
-    title: string
-  }
-}> = ({instructor}) => {
+const Instructor: FunctionComponent<
+  React.PropsWithChildren<{
+    instructor: {
+      name: string
+      image: any
+      twitter: string
+      website: string
+      bio: string
+      title: string
+    }
+  }>
+> = ({instructor}) => {
   const {name, image, twitter, bio, website, title} = instructor
 
   return (

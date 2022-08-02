@@ -1,6 +1,6 @@
 import React from 'react'
 
-const H1: React.FC<any> = ({
+const H1: React.FC<React.PropsWithChildren<any>> = ({
   className = 'pt-16 md:-mx-16 mx-0',
   children,
   ...props
@@ -11,7 +11,7 @@ const H1: React.FC<any> = ({
     </h1>
   )
 }
-const H2: React.FC<any> = ({
+const H2: React.FC<React.PropsWithChildren<any>> = ({
   className = 'py-4 md:-mx-16 mx-0',
   children,
   ...props
@@ -22,7 +22,7 @@ const H2: React.FC<any> = ({
     </h2>
   )
 }
-const H3: React.FC<any> = ({
+const H3: React.FC<React.PropsWithChildren<any>> = ({
   className = 'pt-0 pb-8 md:-mx-16 mx-0',
   children,
   ...props
@@ -33,7 +33,7 @@ const H3: React.FC<any> = ({
     </h3>
   )
 }
-const H4: React.FC<any> = ({
+const H4: React.FC<React.PropsWithChildren<any>> = ({
   className = 'md:-mx-16 mx-0',
   children,
   ...props

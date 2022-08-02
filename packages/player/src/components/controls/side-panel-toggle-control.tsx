@@ -9,9 +9,9 @@ type SidePanelToggleProps = {
   className?: string
 }
 
-export const SidePanelToggleControl: React.FC<SidePanelToggleProps> = ({
-  className,
-}) => {
+export const SidePanelToggleControl: React.FC<
+  React.PropsWithChildren<SidePanelToggleProps>
+> = ({className}) => {
   const videoService = useVideo()
   const withSidePanel = useSelector(videoService, selectWithSidePanel)
 

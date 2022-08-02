@@ -36,12 +36,13 @@ Refractor.registerLanguage(jsx)
 Refractor.registerLanguage(yaml)
 Refractor.registerLanguage(css)
 
-const Video: React.FC<{
-  url: string
-  title: string
-  videoResource: {_ref: string}
-}> = ({url, title, videoResource}) => {
-
+const Video: React.FC<
+  React.PropsWithChildren<{
+    url: string
+    title: string
+    videoResource: {_ref: string}
+  }>
+> = ({url, title, videoResource}) => {
   const [isMounted, setIsMounted] = React.useState(false)
   React.useEffect(() => {
     setIsMounted(true)
@@ -133,11 +134,9 @@ const BodyImage = ({value}: BodyImageProps) => {
   )
 }
 
-export const InternalLink: React.FC<InternalLinkProps> = ({
-  value,
-  children,
-  ...props
-}) => {
+export const InternalLink: React.FC<
+  React.PropsWithChildren<InternalLinkProps>
+> = ({value, children, ...props}) => {
   const {slug = {}, type = 'lesson', hash, modules} = value
   const resourceSlug = slug.current
 
@@ -170,7 +169,7 @@ export const InternalLink: React.FC<InternalLinkProps> = ({
   )
 }
 
-const ExternalLink: React.FC<ExternalLinkProps> = ({
+const ExternalLink: React.FC<React.PropsWithChildren<ExternalLinkProps>> = ({
   value,
   children,
   ...props

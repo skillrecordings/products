@@ -3,7 +3,9 @@ import {useSession} from 'next-auth/react'
 import {DownloadIcon} from '@heroicons/react/outline'
 import {SanityDocument} from '@sanity/client'
 
-const CertificateForm: React.FC<{module?: SanityDocument}> = ({module}) => {
+const CertificateForm: React.FC<
+  React.PropsWithChildren<{module?: SanityDocument}>
+> = ({module}) => {
   const {data: session} = useSession()
   const POST_URL = module
     ? `/api/certificate/modules/${module.slug}`

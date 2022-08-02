@@ -4,15 +4,16 @@ import {serialize} from 'utils/prisma-next-serializer'
 import {useLocalStorage} from 'react-use'
 import {GetServerSideProps} from 'next'
 import {Logo} from 'components/images'
-import {getSdk} from 'lib/prisma-api'
-import {stripe} from 'utils/stripe'
+import {stripe} from '@skillrecordings/commerce-server'
+import {getSdk} from '@skillrecordings/database'
 import {Stripe} from 'stripe'
 import fromUnixTime from 'date-fns/fromUnixTime'
 import Layout from 'components/app/layout'
 import format from 'date-fns/format'
-import {setupHttpTracing} from '@vercel/tracing-js'
-import {tracer} from '../../utils/honeycomb-tracer'
+import {tracer, setupHttpTracing} from '@skillrecordings/honeycomb-tracer'
 import {prisma} from '@skillrecordings/database'
+import {getCurrentAbility} from '../../server/ability'
+import {getToken} from 'next-auth/jwt'
 
 export const getServerSideProps: GetServerSideProps = async ({
   res,
@@ -25,9 +26,11 @@ export const getServerSideProps: GetServerSideProps = async ({
     req,
     res,
   })
+  const sessionToken = await getToken({req})
   const {merchantChargeId} = query
   const {getProduct} = getSdk()
-  if (merchantChargeId) {
+  const ability = getCurrentAbility(sessionToken as any)
+  if (merchantChargeId && ability.can('view', 'Invoice')) {
     const merchantCharge = await prisma.merchantCharge.findUnique({
       where: {
         id: merchantChargeId as string,
@@ -74,11 +77,13 @@ export const getServerSideProps: GetServerSideProps = async ({
   }
 }
 
-const Invoice: React.FC<{
-  charge: Stripe.Charge
-  product: {name: string}
-  merchantChargeId: string
-}> = ({charge, product, merchantChargeId}) => {
+const Invoice: React.FC<
+  React.PropsWithChildren<{
+    charge: Stripe.Charge
+    product: {name: string}
+    merchantChargeId: string
+  }>
+> = ({charge, product, merchantChargeId}) => {
   const [invoiceMetadata, setInvoiceMetadata] = useLocalStorage(
     'invoice-metadata',
     '',

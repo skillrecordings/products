@@ -6,6 +6,7 @@ interface InitParams {
   host?: string
   userOptions: SkillRecordingsOptions
   action: InternalOptions['action']
+  providerId?: string
   /** Is the incoming request a POST request? */
   isPost: boolean
   cookies: IncomingRequest['cookies']
@@ -23,6 +24,7 @@ export async function init({
   userOptions,
   action,
   host,
+  providerId,
   cookies: reqCookies,
   isPost,
 }: InitParams): Promise<{

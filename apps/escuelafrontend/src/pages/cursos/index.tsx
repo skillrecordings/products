@@ -3,7 +3,9 @@ import groq from 'groq'
 import {sanityClient} from 'utils/sanity-client'
 import {VerticalResourceCard} from 'components/cards/verticle-resource-card'
 
-const Cursos: React.FC = (allCourses: any) => {
+const Cursos: React.FC<React.PropsWithChildren<unknown>> = (
+  allCourses: any,
+) => {
   return (
     <div className="max-w-screen-xl mx-auto">
       <h1 className="w-full max-w-screen-lg py-16 m-auto mb-10 text-4xl font-extrabold tracking-tight text-center text-black transition-all duration-500 ease-in-out dark:text-white md:text-5xl leading-tighter sm:text-5xl lg:text-6xl xl:text-7xl">

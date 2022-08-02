@@ -1,6 +1,8 @@
 import React from 'react'
 
-const Logo: React.FC<{className?: string}> = ({className = ''}) => {
+const Logo: React.FC<React.PropsWithChildren<{className?: string}>> = ({
+  className = '',
+}) => {
   return (
     <svg
       aria-hidden="true"

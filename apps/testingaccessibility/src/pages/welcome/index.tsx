@@ -12,8 +12,7 @@ import Link from 'next/link'
 import {stripeData} from '../../utils/record-new-purchase'
 import {getPurchaseDetails} from '../../lib/purchases'
 import {isString} from 'lodash'
-import {setupHttpTracing} from '@vercel/tracing-js'
-import {tracer} from '../../utils/honeycomb-tracer'
+import {tracer, setupHttpTracing} from '@skillrecordings/honeycomb-tracer'
 
 export const getServerSideProps: GetServerSideProps = async ({
   res,
@@ -27,10 +26,7 @@ export const getServerSideProps: GetServerSideProps = async ({
     res,
   })
   const {purchaseId: purchaseQueryParam, session_id, upgrade} = query
-  const token = await getToken({
-    req,
-    secret: process.env.NEXTAUTH_SECRET,
-  })
+  const token = await getToken({req})
 
   let purchaseId = purchaseQueryParam
 
@@ -84,20 +80,22 @@ export const getServerSideProps: GetServerSideProps = async ({
   }
 }
 
-const Welcome: React.FC<{
-  purchase: {
-    merchantChargeId: string | null
-    bulkCoupon: {id: string; maxUses: number; usedCount: number} | null
-    product: {id: string; name: string}
-  }
-  existingPurchase: {
-    id: string
-    product: {id: string; name: string}
-  }
-  token: any
-  availableUpgrades: {upgradableTo: {id: string; name: string}}[]
-  upgrade: boolean
-}> = ({upgrade, purchase, token, existingPurchase, availableUpgrades}) => {
+const Welcome: React.FC<
+  React.PropsWithChildren<{
+    purchase: {
+      merchantChargeId: string | null
+      bulkCoupon: {id: string; maxUses: number; usedCount: number} | null
+      product: {id: string; name: string}
+    }
+    existingPurchase: {
+      id: string
+      product: {id: string; name: string}
+    }
+    token: any
+    availableUpgrades: {upgradableTo: {id: string; name: string}}[]
+    upgrade: boolean
+  }>
+> = ({upgrade, purchase, token, existingPurchase, availableUpgrades}) => {
   const {data: session, status} = useSession()
   const [personalPurchase, setPersonalPurchase] = React.useState(
     purchase.bulkCoupon ? existingPurchase : purchase,
@@ -135,7 +133,9 @@ const Welcome: React.FC<{
   )
 }
 
-const Header: React.FC<{upgrade: boolean}> = ({upgrade}) => {
+const Header: React.FC<React.PropsWithChildren<{upgrade: boolean}>> = ({
+  upgrade,
+}) => {
   return (
     <header className="text-white text-center pb-8 flex flex-col items-center">
       <Image
@@ -158,7 +158,9 @@ const Header: React.FC<{upgrade: boolean}> = ({upgrade}) => {
   )
 }
 
-const Invoice: React.FC<{purchase: any}> = ({purchase}: any) => {
+const Invoice: React.FC<React.PropsWithChildren<{purchase: any}>> = ({
+  purchase,
+}: any) => {
   return (
     <div className="bg-white rounded-md sm:px-8 px-5 py-5 flex items-center justify-between">
       <h2 className="font-bold flex items-center gap-1 text-xl">
@@ -184,7 +186,7 @@ const Invoice: React.FC<{purchase: any}> = ({purchase}: any) => {
   )
 }
 
-const Invite: React.FC = ({children}) => {
+const Invite: React.FC<React.PropsWithChildren<unknown>> = ({children}) => {
   return (
     <div className="sm:px-8 px-5 sm:py-8 py-5 bg-white rounded-lg">
       <h3 className="flex items-center gap-2 text-xl font-bold">
@@ -195,7 +197,7 @@ const Invite: React.FC = ({children}) => {
   )
 }
 
-const GetStarted: React.FC = () => {
+const GetStarted: React.FC<React.PropsWithChildren<unknown>> = () => {
   return (
     <div className="p-8 flex items-center text-center relative flex-col">
       <Image
@@ -220,7 +222,7 @@ const GetStarted: React.FC = () => {
   )
 }
 
-const Share: React.FC = () => {
+const Share: React.FC<React.PropsWithChildren<unknown>> = () => {
   const tweet = `https://twitter.com/intent/tweet/?text=Just purchased TestingAccessibility.com by @MarcySutton`
   return (
     <div className="px-8 pt-12 pb-5 flex flex-col items-center text-center max-w-lg mx-auto gap-5">

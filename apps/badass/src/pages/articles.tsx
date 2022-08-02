@@ -18,7 +18,9 @@ type ArticlesProps = {
   articles: SanityDocument[]
 }
 
-const Articles: React.FC<ArticlesProps> = ({articles}) => {
+const Articles: React.FC<React.PropsWithChildren<ArticlesProps>> = ({
+  articles,
+}) => {
   return (
     <Layout meta={meta} className="overflow-hidden">
       <header className="relative px-5 py-28 overflow-hidden text-white bg-[#082C1B] bg-noise">

@@ -21,7 +21,7 @@ type SceneProps = {
   className?: string
 }
 
-const Scene: React.FC<SceneProps> = ({
+const Scene: React.FC<React.PropsWithChildren<SceneProps>> = ({
   camera = <Camera />,
   className = 'w-full h-screen absolute',
 }) => {
@@ -98,8 +98,8 @@ const Scene: React.FC<SceneProps> = ({
 
   return (
     <div className={className}>
-      <Leva hidden={isProduction} collapsed={true} />
-      {!isProduction && <Stats showPanel={0} />}
+      <Leva hidden={true} collapsed={true} />
+      {/* <Stats showPanel={0} /> */}
       {isMounted && (
         <Canvas
           mode="concurrent"
@@ -174,7 +174,9 @@ type PlaneProps = {
   backgroundColor: string
 }
 
-const Plane: React.FC<PlaneProps> = ({backgroundColor}) => {
+const Plane: React.FC<React.PropsWithChildren<PlaneProps>> = ({
+  backgroundColor,
+}) => {
   return (
     <>
       <mesh position={[0, -0.2, 0]} rotation={[MathUtils.degToRad(-90), 0, 0]}>

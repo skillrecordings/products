@@ -13,7 +13,9 @@ type BezelProps = {
  * @param className
  * @constructor
  */
-export const Bezel: React.FC<BezelProps> = ({className}) => {
+export const Bezel: React.FC<React.PropsWithChildren<BezelProps>> = ({
+  className,
+}) => {
   const videoService = useVideo()
   const [count, setCount] = React.useState(0)
   const [action, setAction] = React.useState('')

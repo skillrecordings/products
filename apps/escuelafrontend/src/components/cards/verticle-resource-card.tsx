@@ -10,7 +10,9 @@ type VerticalResourceCardProps = {
   featuredResource?: boolean
 }
 
-const VerticalResourceCard: React.FC<VerticalResourceCardProps> = ({
+const VerticalResourceCard: React.FC<
+  React.PropsWithChildren<VerticalResourceCardProps>
+> = ({
   resource,
   location,
   className = 'px-5 py-12 sm:px-8',

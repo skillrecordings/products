@@ -1,4 +1,4 @@
-import {getSdk} from '../lib/prisma-api'
+import {getSdk} from '@skillrecordings/database'
 import {validateCoupon} from '../utils/validate-coupon'
 
 export async function getCouponForCode(code: string) {

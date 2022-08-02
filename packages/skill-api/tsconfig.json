@@ -10,7 +10,8 @@
   },
   "extends": "@skillrecordings/tsconfig/base.json",
   "include": [
-    "src/**/*"
+    "src/**/*",
+    "process.d.ts"
   ],
-  "exclude": ["./*.js", "./*.d.ts", "config", "generated", "**/__tests__", "node_modules"]
+  "exclude": ["dist/**/*" ,"./*.js", "config", "generated", "**/__tests__", "node_modules"]
 }

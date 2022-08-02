@@ -8,11 +8,9 @@ type ContributorProfileBoxProps = {
   label: string
 }
 
-const ContributorProfileBox: React.FC<ContributorProfileBoxProps> = ({
-  children,
-  label,
-  contributors,
-}) => {
+const ContributorProfileBox: React.FC<
+  React.PropsWithChildren<ContributorProfileBoxProps>
+> = ({children, label, contributors}) => {
   return (
     <div className="contributor-profile-box not-prose dark:bg-gray-800 bg-gray-100 flex flex-col justify-center">
       {children && <div className="px-5 pt-5">{children}</div>}

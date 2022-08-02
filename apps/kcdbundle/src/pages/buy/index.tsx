@@ -5,7 +5,7 @@ import config from 'config'
 
 import Purchase from '../../components/commerce/purchase'
 
-const Buy: FunctionComponent = () => {
+const Buy: FunctionComponent<React.PropsWithChildren<unknown>> = () => {
   return (
     <Layout meta={{title: `Buy ${config.defaultTitle}`}} noFooter>
       <div className="w-full mx-auto md:py-32 py-16 flex flex-col items-center justify-center px-5">

@@ -15,11 +15,11 @@ export type LayoutProps = {
   }
   noIndex?: boolean
   className?: string
-  navigation?: React.FC<NavigationProps> | null
-  footer?: React.FC<any> | null
+  navigation?: React.FC<React.PropsWithChildren<NavigationProps>> | null
+  footer?: React.FC<React.PropsWithChildren<any>> | null
 }
 
-const Layout: React.FC<LayoutProps> = ({
+const Layout: React.FC<React.PropsWithChildren<LayoutProps>> = ({
   children,
   className = 'flex flex-col min-h-screen',
   meta,
@@ -51,9 +51,13 @@ const Layout: React.FC<LayoutProps> = ({
         noindex={noIndex}
       />
       <div className={className}>
-        {navigation ? navigation : isNull(navigation) ? null : <Navigation />}
-        <div className="flex flex-col justify-center flex-grow">{children}</div>
-        {footer ? footer : isNull(footer) ? null : <Footer />}
+        <>
+          {navigation ? navigation : isNull(navigation) ? null : <Navigation />}
+          <div className="flex flex-col justify-center flex-grow">
+            {children}
+          </div>
+          {footer ? footer : isNull(footer) ? null : <Footer />}
+        </>
       </div>
     </>
   )

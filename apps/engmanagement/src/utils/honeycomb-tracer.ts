@@ -3,11 +3,11 @@ import {DeterministicSampler, Tracer} from '@vercel/tracing-js'
 const getTracer = () => {
   return new Tracer(
     {
-      serviceName: 'testing-accessibility',
+      serviceName: 'engineering-management',
       environment: process.env.ENVIRONMENT,
-      dc: 'ta-dc',
-      podName: 'ta-pod',
-      nodeName: 'ta-node',
+      dc: 'em-dc',
+      podName: 'em-pod',
+      nodeName: 'em-node',
       sampler: new DeterministicSampler(process.env.TRACE_SAMPLE_RATE),
     },
     {

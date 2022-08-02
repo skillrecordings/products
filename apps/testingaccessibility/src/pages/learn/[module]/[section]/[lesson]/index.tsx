@@ -9,8 +9,7 @@ import isEmpty from 'lodash/isEmpty'
 import find from 'lodash/find'
 import uniq from 'lodash/uniq'
 import groq from 'groq'
-import {setupHttpTracing} from '@vercel/tracing-js'
-import {tracer} from '../../../../../utils/honeycomb-tracer'
+import {tracer, setupHttpTracing} from '@skillrecordings/honeycomb-tracer'
 
 const lessonQuery = groq`*[_type == "lesson" && slug.current == $slug][0]{
   title,
@@ -150,7 +149,11 @@ type LessonPageProps = {
   lesson: SanityDocument
 }
 
-const LessonPage: React.FC<LessonPageProps> = ({module, section, lesson}) => {
+const LessonPage: React.FC<React.PropsWithChildren<LessonPageProps>> = ({
+  module,
+  section,
+  lesson,
+}) => {
   return <LessonTemplate module={module} section={section} lesson={lesson} />
 }
 

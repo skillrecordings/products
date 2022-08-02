@@ -10,7 +10,7 @@ type LayoutProps = {
   noFooter?: boolean
 }
 
-const Layout: FunctionComponent<LayoutProps> = ({
+const Layout: FunctionComponent<React.PropsWithChildren<LayoutProps>> = ({
   children,
   className,
   meta,

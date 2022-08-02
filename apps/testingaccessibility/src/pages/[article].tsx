@@ -9,8 +9,7 @@ import * as serverCookie from 'cookie'
 import groq from 'groq'
 import {CK_SUBSCRIBER_KEY} from '@skillrecordings/config'
 import {checkIfConvertkitSubscriber} from '@skillrecordings/convertkit'
-import {setupHttpTracing} from '@vercel/tracing-js'
-import {tracer} from '../utils/honeycomb-tracer'
+import {tracer, setupHttpTracing} from '@skillrecordings/honeycomb-tracer'
 
 const previewArticleQuery = groq`*[_type == "article" && slug.current == $slug][0]{
     title,
@@ -105,7 +104,10 @@ type ArticlePageProps = {
   hasSubscribed: boolean
 }
 
-const ArticlePage: React.FC<ArticlePageProps> = ({article, hasSubscribed}) => {
+const ArticlePage: React.FC<React.PropsWithChildren<ArticlePageProps>> = ({
+  article,
+  hasSubscribed,
+}) => {
   return <ArticleTemplate article={article} hasSubscribed={hasSubscribed} />
 }
 

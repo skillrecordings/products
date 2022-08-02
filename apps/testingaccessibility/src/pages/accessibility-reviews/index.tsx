@@ -13,7 +13,7 @@ const meta = {
   },
 }
 
-const Reviews: React.FC<any> = ({reviews}) => {
+const Reviews: React.FC<React.PropsWithChildren<any>> = ({reviews}) => {
   return (
     <Layout meta={meta}>
       <main>

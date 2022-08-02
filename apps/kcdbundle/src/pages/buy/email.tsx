@@ -5,11 +5,11 @@ import Layout from 'layouts'
 import Image from 'next/image'
 import Spinner from '@skillrecordings/react/dist/components/spinner'
 import Button from '@skillrecordings/react/dist/components/button'
-import axios from '@skillrecordings/axios'
 import {createCheckoutSession} from '../../utils/sessions'
 import {loadStripe} from '@stripe/stripe-js/pure'
 import {isEmpty, find, get} from 'lodash'
 import BundleImage from '../../../public/images/bundle@2x.png'
+import axios from 'axios'
 
 const emailFormSchema = yup.object().shape({
   email: yup.string().email().required('enter your email'),
@@ -41,7 +41,7 @@ const testingJavaScriptSellable: any = {
 
 export const sellables = [epicReactSellable, testingJavaScriptSellable]
 
-const BuyEmailForm: React.FC<BuyEmailFormProps> = ({
+const BuyEmailForm: React.FC<React.PropsWithChildren<BuyEmailFormProps>> = ({
   className,
   children,
   button = 'Complete Your Purchase',

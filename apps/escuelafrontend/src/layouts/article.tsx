@@ -15,7 +15,9 @@ type ArticleTemplateProps = {
   meta?: any
 }
 
-const ArticleTemplate: React.FC<ArticleTemplateProps> = ({meta}) => {
+const ArticleTemplate: React.FC<
+  React.PropsWithChildren<ArticleTemplateProps>
+> = ({meta}) => {
   const {
     title = 'Missing title',
     instructor = {name: 'Unknown Instructor'},
@@ -139,13 +141,15 @@ const ArticleTemplate: React.FC<ArticleTemplateProps> = ({meta}) => {
 
 export default ArticleTemplate
 
-const Instructor: FunctionComponent<{
-  instructor: {
-    slug?: string
-    name?: string
-    image?: any
-  }
-}> = ({instructor}) => {
+const Instructor: FunctionComponent<
+  React.PropsWithChildren<{
+    instructor: {
+      slug?: string
+      name?: string
+      image?: any
+    }
+  }>
+> = ({instructor}) => {
   const {slug, name, image} = instructor
 
   return (

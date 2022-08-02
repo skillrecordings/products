@@ -1,7 +1,6 @@
 import React from 'react'
 import {GetServerSideProps} from 'next'
-import {setupHttpTracing} from '@vercel/tracing-js'
-import {tracer} from '../utils/honeycomb-tracer'
+import {tracer, setupHttpTracing} from '@skillrecordings/honeycomb-tracer'
 import {CommerceProps, propsForCommerce} from '../utils/props-for-commerce'
 import {Element} from 'react-scroll'
 import {PricingTiers} from '../components/product-tiers'
@@ -9,7 +8,7 @@ import FAQ from '../components/content/faq-section'
 import Layout from 'components/app/layout'
 import Image from 'next/image'
 
-const Buy: React.FC<CommerceProps> = ({
+const Buy: React.FC<React.PropsWithChildren<CommerceProps>> = ({
   couponFromCode,
   purchases = [],
   userId,

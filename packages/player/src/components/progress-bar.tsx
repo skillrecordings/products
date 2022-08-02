@@ -2,7 +2,7 @@ import * as React from 'react'
 import cx from 'classnames'
 import {SeekBar} from './seek-bar'
 
-export const ProgressBar: React.FC<any> = (props) => {
+export const ProgressBar: React.FC<React.PropsWithChildren<any>> = (props) => {
   return (
     <div
       className={cx(

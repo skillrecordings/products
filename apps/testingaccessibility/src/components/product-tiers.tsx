@@ -5,7 +5,7 @@ import {useCoupon} from '../hooks/use-coupon'
 import {CommerceProps} from '../utils/props-for-commerce'
 import {PriceCheckProvider} from '../context/pricing-check-context'
 
-export const PricingTiers: React.FC<CommerceProps> = ({
+export const PricingTiers: React.FC<React.PropsWithChildren<CommerceProps>> = ({
   couponFromCode,
   products,
   userId,

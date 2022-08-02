@@ -1,6 +1,6 @@
 import React from 'react'
 
-const HighlightedText: React.FC<any> = (props) => {
+const HighlightedText: React.FC<React.PropsWithChildren<any>> = (props) => {
   return (
     <mark className="bg-white bg-opacity-10 rounded-tr-lg px-1 pb-0.5">
       {props.children}
@@ -8,7 +8,7 @@ const HighlightedText: React.FC<any> = (props) => {
   )
 }
 
-const WithStars: React.FC<any> = (props) => {
+const WithStars: React.FC<React.PropsWithChildren<any>> = (props) => {
   return (
     <strong {...props}>
       <svg
@@ -48,7 +48,7 @@ const WithStars: React.FC<any> = (props) => {
   )
 }
 
-const ParagraphWithArrow: React.FC<any> = (props) => {
+const ParagraphWithArrow: React.FC<React.PropsWithChildren<any>> = (props) => {
   return <strong>{props.children}</strong>
 }
 

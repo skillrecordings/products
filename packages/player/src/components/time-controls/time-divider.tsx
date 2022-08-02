@@ -1,7 +1,10 @@
 import * as React from 'react'
 import cx from 'classnames'
 
-export const TimeDivider: React.FC<any> = ({separator = '/', className}) => {
+export const TimeDivider: React.FC<React.PropsWithChildren<any>> = ({
+  separator = '/',
+  className,
+}) => {
   return (
     <div
       className={cx(

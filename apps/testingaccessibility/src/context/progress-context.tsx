@@ -48,7 +48,9 @@ function useLoadProgress() {
   }
 }
 
-export const ProgressProvider: React.FC = ({children}) => {
+export const ProgressProvider: React.FC<React.PropsWithChildren<unknown>> = ({
+  children,
+}) => {
   const {progress, status, refetch} = useLoadProgress()
   return (
     <ProgressContext.Provider

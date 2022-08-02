@@ -1,6 +1,8 @@
 import * as React from 'react'
 
-const PodcastPlayer: React.FC<{simplecastId: string}> = ({simplecastId}) => {
+const PodcastPlayer: React.FC<
+  React.PropsWithChildren<{simplecastId: string}>
+> = ({simplecastId}) => {
   return (
     <div className="relative">
       <iframe

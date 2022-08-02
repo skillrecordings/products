@@ -5,7 +5,7 @@ import {
   hasValidPurchase,
   hasInvoice,
 } from '../utils/purchase-validators'
-import {PurchaseStatus} from '../utils/purchase-status'
+import {PurchaseStatus} from '@skillrecordings/skill-api/dist/enums/purchase-status'
 
 type Actions = 'manage' | 'invite' | 'view' | 'edit'
 type Subjects =

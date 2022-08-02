@@ -21,7 +21,7 @@ import {MDXRemote} from 'next-mdx-remote'
 import {format} from 'date-fns'
 import {useRouter} from 'next/router'
 
-const Review: React.FC<any> = ({review, body}) => {
+const Review: React.FC<React.PropsWithChildren<any>> = ({review, body}) => {
   const {hlsUrl, title, date, description, videoPoster, subtitlesUrl} = review
 
   const meta = {
@@ -114,7 +114,7 @@ const Review: React.FC<any> = ({review, body}) => {
   )
 }
 
-const Page: React.FC<any> = (props) => {
+const Page: React.FC<React.PropsWithChildren<any>> = (props) => {
   return (
     <VideoProvider>
       <Review {...props} />

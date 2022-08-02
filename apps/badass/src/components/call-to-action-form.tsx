@@ -10,7 +10,9 @@ import {
   SubscribeToConvertkitForm,
 } from '@skillrecordings/convertkit'
 
-export const CallToActionForm: React.FC<any> = ({content}) => {
+export const CallToActionForm: React.FC<React.PropsWithChildren<any>> = ({
+  content,
+}) => {
   const router = useRouter()
 
   return (

@@ -1,7 +1,6 @@
 import * as React from 'react'
 import config from '../config'
 import Link from 'next/link'
-import {useViewer} from '@skillrecordings/viewer'
 import {
   motion,
   useMotionValue,
@@ -13,7 +12,6 @@ import {useRouter} from 'next/router'
 import Icon from './icon'
 
 const Navigation = () => {
-  const {isAuthenticated, logout} = useViewer()
   const router = useRouter()
   const [mounted, setMounted] = React.useState(false)
   const [scrolled, setScrolled] = React.useState(

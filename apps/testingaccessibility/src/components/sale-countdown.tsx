@@ -1,7 +1,10 @@
 import React from 'react'
 import Countdown, {zeroPad, CountdownRenderProps} from 'react-countdown'
 
-const SaleCountdown: React.FC<any> = ({coupon, ...rest}) => {
+const SaleCountdown: React.FC<React.PropsWithChildren<any>> = ({
+  coupon,
+  ...rest
+}) => {
   // storing coupon in state so that it doesn't rerender
   // and cause layout shift when quantity changes
   const [storedCoupon, setStoredCoupon] = React.useState(coupon)
@@ -21,14 +24,9 @@ const SaleCountdown: React.FC<any> = ({coupon, ...rest}) => {
 
 export default SaleCountdown
 
-const CountdownRenderer: React.FC<CountdownRenderProps> = ({
-  days,
-  hours,
-  minutes,
-  seconds,
-  completed,
-  ...rest
-}) => {
+const CountdownRenderer: React.FC<
+  React.PropsWithChildren<CountdownRenderProps>
+> = ({days, hours, minutes, seconds, completed, ...rest}) => {
   const [srValues] = React.useState({
     days,
     hours,

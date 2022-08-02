@@ -14,7 +14,9 @@ import AnimatedBadge from 'components/mdx/badge'
 import toast, {Toaster} from 'react-hot-toast'
 import {Element} from 'react-scroll'
 
-const HomeTemplate: React.FC<EmailCourseTemplateProps> = ({meta, children}) => {
+const HomeTemplate: React.FC<
+  React.PropsWithChildren<EmailCourseTemplateProps>
+> = ({meta, children}) => {
   const {headline, formImage, ckFormId, formHeadline, formSubHeadline} = meta
   const router = useRouter()
 
@@ -135,6 +137,8 @@ const SubscribeButton = () => {
   )
 }
 
-const Background: React.FC<{className: string}> = ({className}) => {
+const Background: React.FC<React.PropsWithChildren<{className: string}>> = ({
+  className,
+}) => {
   return <div aria-hidden="true" className={className} />
 }

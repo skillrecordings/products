@@ -8,11 +8,11 @@ export type LayoutProps = {
   noIndex?: boolean
   className?: string
   showNavigation?: boolean
-  Navigation?: React.FC<NavigationProps>
-  Footer?: React.FC<FooterProps>
+  Navigation?: React.FC<React.PropsWithChildren<NavigationProps>>
+  Footer?: React.FC<React.PropsWithChildren<FooterProps>>
 }
 
-const Layout: React.FC<LayoutProps> = ({
+const Layout: React.FC<React.PropsWithChildren<LayoutProps>> = ({
   children,
   className = 'p-5 flex flex-col min-h-screen',
   meta,

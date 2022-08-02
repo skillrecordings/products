@@ -5,7 +5,9 @@ import {useRouter} from 'next/router'
 import cx from 'classnames'
 export type NavigationProps = {title?: string}
 
-const Navigation: React.FC<NavigationProps> = ({title = 'Product'}) => {
+const Navigation: React.FC<React.PropsWithChildren<NavigationProps>> = ({
+  title = 'Product',
+}) => {
   return (
     <nav
       aria-label="Main Navigation"
@@ -22,7 +24,11 @@ const Navigation: React.FC<NavigationProps> = ({title = 'Product'}) => {
   )
 }
 
-const NavLink: React.FC<{href: string}> = ({href, children, ...props}) => {
+const NavLink: React.FC<React.PropsWithChildren<{href: string}>> = ({
+  href,
+  children,
+  ...props
+}) => {
   const router = useRouter()
   const isActive = router.pathname === href
 

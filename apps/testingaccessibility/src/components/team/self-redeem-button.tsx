@@ -3,12 +3,14 @@ import {handleSelfRedeem} from 'utils/handle-self-redeem'
 import {Button} from '@skillrecordings/react'
 import {Purchase} from '@skillrecordings/database'
 
-const SelfRedeemButton: React.FC<{
-  userEmail: string | null | undefined
-  bulkCouponId: string
-  onSuccess: (redeemedPurchase: Purchase) => void
-  className?: string
-}> = ({
+const SelfRedeemButton: React.FC<
+  React.PropsWithChildren<{
+    userEmail: string | null | undefined
+    bulkCouponId: string
+    onSuccess: (redeemedPurchase: Purchase) => void
+    className?: string
+  }>
+> = ({
   userEmail,
   bulkCouponId,
   onSuccess,

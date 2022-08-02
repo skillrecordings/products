@@ -42,7 +42,7 @@ const Navigation = () => {
   )
 }
 
-const DesktopNav: React.FC = () => {
+const DesktopNav: React.FC<React.PropsWithChildren<unknown>> = () => {
   return (
     <div className={cx('sm:flex hidden w-full pl-10 gap-2 h-full justify-end')}>
       <NavSlots>
@@ -53,7 +53,7 @@ const DesktopNav: React.FC = () => {
   )
 }
 
-const MobileNav: React.FC = () => {
+const MobileNav: React.FC<React.PropsWithChildren<unknown>> = () => {
   return (
     <Menu as="div" className="sm:hidden relative inline-block text-left z-10">
       {({open}) => (
@@ -98,11 +98,15 @@ const MobileNav: React.FC = () => {
   )
 }
 
-const NavSlots: React.FC = ({children}) => {
+const NavSlots: React.FC<React.PropsWithChildren<unknown>> = ({children}) => {
   return <div className="flex items-center">{children}</div>
 }
 
-const NavLink: React.FC<{href: string}> = ({href, children, ...props}) => {
+const NavLink: React.FC<React.PropsWithChildren<{href: string}>> = ({
+  href,
+  children,
+  ...props
+}) => {
   const router = useRouter()
   const isActive = href.endsWith(router.pathname)
 
