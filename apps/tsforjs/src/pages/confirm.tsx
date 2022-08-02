@@ -34,7 +34,6 @@ export default ConfirmSubscriptionPage
 
 export const Signature = () => {
   //TODO: add a signature
-  // return null
   return <>{config.author}</>
 }
 
