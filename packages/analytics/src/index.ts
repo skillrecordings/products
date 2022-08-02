@@ -1,23 +1,8 @@
 import {isFunction, isUndefined} from 'lodash'
-import {Viewer} from '@skillrecordings/types'
 import {pageview, event as gaEvent, GoogleSnippet} from './ga'
 import {usePageview} from './use-pageview'
 
 const DEBUG_ANALYTICS = false
-
-const USER_KEY = process.env.NEXT_PUBLIC_USER_KEY || 'user'
-const ACCESS_TOKEN_KEY =
-  process.env.NEXT_PUBLIC_ACCESS_TOKEN_KEY || 'access_token'
-
-function getLocalUser() {
-  if (typeof localStorage === 'undefined') {
-    return
-  }
-  const user = localStorage.getItem(USER_KEY)
-  if (user) {
-    return JSON.parse(user)
-  }
-}
 
 declare global {
   interface Window {
@@ -34,8 +19,6 @@ const track = (event: string, paramsOrCallback?: any, callback?: any) => {
   return new Promise(async (resolve) => {
     const ahoy = window.ahoy
     let wasCalled = false
-
-    const viewer: Viewer = getLocalUser()
 
     function politelyExit() {
       DEBUG_ANALYTICS && console.debug(`TRACKED: ${event}`)
@@ -78,53 +61,8 @@ const track = (event: string, paramsOrCallback?: any, callback?: any) => {
       })
     }
 
-    if (
-      viewer &&
-      !viewer.opted_out &&
-      viewer.contact_id &&
-      viewer.email &&
-      window._cio &&
-      isFunction(window._cio.track)
-    ) {
-      identify(viewer)
-      window._cio.track(event, params)
-    }
-
     politelyExit()
   })
 }
 
-const identify = (data: Viewer, properties?: any) => {
-  if (
-    !data.opted_out &&
-    data.email &&
-    data.contact_id &&
-    window._cio &&
-    isFunction(window._cio.identify)
-  ) {
-    window._cio.identify({
-      id: data.contact_id,
-      email: data.email,
-      first_name: data.name,
-      pro: data.is_pro,
-      instructor: data.is_instructor,
-      created_at: data.created_at,
-      discord_id: data.discord_id,
-      timezone: data.timezone,
-      ...properties,
-    })
-  }
-  return Promise.resolve(data)
-}
-
-export {
-  identify,
-  track,
-  getLocalUser,
-  ACCESS_TOKEN_KEY,
-  USER_KEY,
-  gaEvent,
-  pageview,
-  usePageview,
-  GoogleSnippet,
-}
+export {track, gaEvent, pageview, usePageview, GoogleSnippet}
