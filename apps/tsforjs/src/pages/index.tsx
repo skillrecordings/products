@@ -72,7 +72,7 @@ const Home: NextPage = () => {
             <h3 className="pt-12 text-center text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-700 to-pink-500 pb-20">
               Course Modules
             </h3>
-            <div className="px-4 pb-80">
+            <div className="px-4 ">
               <div className="relative block max-w-5xl p-6 mx-auto -mt-16 text-lg bg-stone-900 rounded shadow-2xl">
                 <dl className="space-y-10 sm:space-y-0 sm:grid sm:grid-cols-2 lg:grid-cols-2 gap-4 text-white ">
                   {modules.map((module) => (
@@ -116,8 +116,8 @@ const Home: NextPage = () => {
           </div>
           <div className="py-32 text-white">
             <div className="max-w-[40rem] px-4 mx-auto">
-              <h3 className="text-center text-[1.625rem]">
-                Your Instructor, Shaundai Person
+              <h3 className="text-center text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-700 to-pink-500">
+                Meet Your Instructor
               </h3>
               <div className="w-[300px] h-[300px] rounded-full mx-auto mt-6 overflow-hidden">
                 <Image
@@ -128,7 +128,12 @@ const Home: NextPage = () => {
                   quality={100}
                 />
               </div>
-              <div className="mt-[4.5rem] flex flex-col items-center space-y-6">
+              <h2 className="text-center pt-4 text-2xl font-bold">
+                {' '}
+                Shaundai Person
+              </h2>
+
+              <div className="mt-16 text-lg flex flex-col items-center space-y-6">
                 <div className="space-y-6 w-full">
                   <p>
                     Hey there, I’m Shaundai Person, a frontend developer,
@@ -140,7 +145,7 @@ const Home: NextPage = () => {
                       className="border-b-2 hover:opacity-75 duration-100"
                     >
                       {' '}
-                      React Robins{' '}
+                      React Robins.{' '}
                     </a>
                   </p>
                   <p>
