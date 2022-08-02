@@ -17,12 +17,29 @@ export type SubscribeFormProps = {
 }
 
 /**
- * This form posts to a designated api URL (assumes /api/convertkit/subscribe
- * by default)
+ * This form posts to a designated api URL (assumes `/api/convertkit/subscribe
+ * by default`)
  *
- * TODO: using forward refs would allow us to export the component parts of the
- * which might make styling and compose-ability more obvious/robust
+ * Styling is handled by css! In the following example we utilize Tailwind and `@apply`
  *
+ * @example
+ * ```css
+ * [data-sr-convertkit-subscribe-form] {
+ *     @apply flex flex-col w-full max-w-[340px] mx-auto;
+ *     [data-sr-input] {
+ *         @apply block mb-4 w-full px-4 py-3 border placeholder-opacity-60 bg-opacity-50 rounded-lg shadow sm:text-base sm:leading-6;
+ *     }
+ *     [data-sr-input-label] {
+ *         @apply font-medium pb-1 inline-block;
+ *     }
+ *     [data-sr-input-asterisk] {
+ *         @apply opacity-50;
+ *     }
+ *     [data-sr-button] {
+ *         @apply pt-4 pb-5 mt-4 flex items-center justify-center rounded-lg text-black bg-yellow-500 hover:bg-opacity-100 transition font-bold text-lg focus-visible:ring-yellow-200 hover:scale-105 hover:-rotate-1 hover:bg-yellow-400;
+ *     }
+ * }
+ *```
  * @param formId the Convertkit form id, defaults to `process.env.NEXT_PUBLIC_CONVERTKIT_SIGNUP_FORM`
  * @param submitButtonElem an element to use as the button for the form submit
  * @param errorMessage A string or element representing the message shown on error
