@@ -4,7 +4,7 @@
  * @param {string} bulkCouponId current user's bulk coupon id from purchase
  * @param {(redeemPurchase) => void} onSuccess callback to be called when purchase is redeemed
  */
-import {Purchase} from '@skillrecordings/database'
+import type {Purchase} from '@skillrecordings/database'
 
 export async function handleSelfRedeem(
   email: string,

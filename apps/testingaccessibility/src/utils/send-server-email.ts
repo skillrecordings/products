@@ -2,10 +2,9 @@ import {NextAuthOptions} from 'next-auth'
 
 import {createHash, randomBytes} from 'crypto'
 import * as Sentry from '@sentry/nextjs'
-import {
-  MagicLinkEmailType,
-  sendVerificationRequest,
-} from '../pages/api/auth/[...nextauth]'
+
+import type {MagicLinkEmailType} from '@skillrecordings/skill-api'
+import {sendVerificationRequest} from '@skillrecordings/skill-api'
 
 const baseUrl = process.env.NEXTAUTH_URL || process.env.VERCEL_URL
 
@@ -68,6 +67,7 @@ export async function sendServerEmail({
   await sendVerificationRequest({
     identifier,
     url: _url,
+    theme: nextAuthOptions.theme || {colorScheme: 'auto'},
     provider: emailProvider.options,
     token: token as string,
     expires,
