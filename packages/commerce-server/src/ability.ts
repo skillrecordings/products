@@ -4,7 +4,7 @@ import {
   hasBulkPurchase,
   hasValidPurchase,
   hasInvoice,
-} from '../utils/purchase-validators'
+} from './purchase-validators'
 
 type Actions = 'manage' | 'invite' | 'view'
 type Subjects =

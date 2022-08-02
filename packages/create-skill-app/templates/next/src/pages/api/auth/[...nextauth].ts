@@ -4,7 +4,7 @@ import jwt from 'jsonwebtoken'
 import {PrismaAdapter} from '@next-auth/prisma-adapter'
 import {getSdk, prisma} from '@skillrecordings/database'
 import {createTransport} from 'nodemailer'
-import {defineRulesForPurchases} from '../../../server/ability'
+import {defineRulesForPurchases} from '@skillrecordings/commerce-server'
 import mjml2html from 'mjml'
 
 export type MagicLinkEmailType =
