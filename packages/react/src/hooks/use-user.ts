@@ -1,5 +1,5 @@
 import {useQuery} from 'react-query'
-import {Purchase, User} from '@skillrecordings/database'
+import type {Purchase, User} from '@skillrecordings/database'
 
 type SessionUser = {
   purchases: Purchase[]

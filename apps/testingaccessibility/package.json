@@ -62,6 +62,7 @@
     "@sanity/client": "^3.2.0",
     "@sanity/webhook": "^1.0.2",
     "@sentry/nextjs": "^6.19.3",
+    "@skillrecordings/ability": "workspace:*",
     "@skillrecordings/analytics": "workspace:*",
     "@skillrecordings/config": "workspace:*",
     "@skillrecordings/convertkit": "workspace:*",

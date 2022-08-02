@@ -10,7 +10,7 @@ import Link from 'next/link'
 import {useSession} from 'next-auth/react'
 import {getPurchaseDetails} from '../../lib/purchases'
 import {tracer, setupHttpTracing} from '@skillrecordings/honeycomb-tracer'
-import {getCurrentAbility} from '@skillrecordings/commerce-server'
+import {getCurrentAbility} from '@skillrecordings/ability'
 import {getToken} from 'next-auth/jwt'
 
 export const getServerSideProps: GetServerSideProps = async ({

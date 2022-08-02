@@ -1,4 +1,4 @@
-import {Coupon} from '@skillrecordings/database'
+import {type Coupon} from '@skillrecordings/database'
 
 export function bulkCouponHasSeats(coupon: Coupon) {
   return coupon && coupon.usedCount < coupon.maxUses

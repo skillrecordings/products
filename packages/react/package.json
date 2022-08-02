@@ -18,7 +18,7 @@
     "watch:css": "pnpm build:css -w"
   },
   "dependencies": {
-    "@casl/ability": "^6.0.0",
+    "@skillrecordings/ability": "workspace:*",
     "@skillrecordings/commerce-server": "workspace:*",
     "@skillrecordings/database": "workspace:*",
     "@skillrecordings/analytics": "workspace:*",

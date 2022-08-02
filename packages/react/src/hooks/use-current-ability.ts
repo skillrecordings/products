@@ -1,6 +1,6 @@
-import {getCurrentAbility} from '@skillrecordings/commerce-server'
+import {getCurrentAbility} from '@skillrecordings/ability'
 import {useUser} from './use-user'
-import {AppAbility} from '@skillrecordings/commerce-server'
+import type {AppAbility} from '@skillrecordings/ability'
 
 /**
  * Uses next-auth session data to return a viewer's current ability.

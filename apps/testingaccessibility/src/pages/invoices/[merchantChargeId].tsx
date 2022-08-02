@@ -12,7 +12,7 @@ import Layout from 'components/app/layout'
 import format from 'date-fns/format'
 import {tracer, setupHttpTracing} from '@skillrecordings/honeycomb-tracer'
 import {prisma} from '@skillrecordings/database'
-import {getCurrentAbility} from '@skillrecordings/commerce-server'
+import {getCurrentAbility} from '@skillrecordings/ability'
 import {getToken} from 'next-auth/jwt'
 
 export const getServerSideProps: GetServerSideProps = async ({

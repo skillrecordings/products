@@ -1,0 +1,30 @@
+{
+  "name": "@skillrecordings/ability",
+  "version": "1.0.0",
+  "license": "MIT",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "files": [
+    "dist/**"
+  ],
+  "scripts": {
+    "build": "tsup",
+    "clean": "rimraf .turbo node_modules dist",
+    "dev": "tsup --watch",
+    "lint": "eslint ./src --fix"
+  },
+  "dependencies": {
+    "@casl/ability": "^6.0.0"
+  },
+  "devDependencies": {
+    "@skillrecordings/database": "workspace:*",
+    "@skillrecordings/tsconfig": "workspace:*",
+    "@types/node": "^18.6.1",
+    "eslint": "^8.12.0",
+    "eslint-config-custom": "workspace:*",
+    "rimraf": "^3.0.2",
+    "tsup": "^5.11.13",
+    "tsx": "^3.7.1",
+    "typescript": "^4.7.4"
+  }
+}
