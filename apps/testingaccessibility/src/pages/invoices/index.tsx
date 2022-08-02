@@ -9,7 +9,7 @@ import Layout from 'components/app/layout'
 import Link from 'next/link'
 import {getToken} from 'next-auth/jwt'
 import {Purchase} from '@skillrecordings/database'
-import {getCurrentAbility} from '../../server/ability'
+import {getCurrentAbility} from '@skillrecordings/commerce-server'
 
 export const getServerSideProps: GetServerSideProps = async ({req}) => {
   const sessionToken = await getToken({req})

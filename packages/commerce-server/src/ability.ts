@@ -15,12 +15,13 @@ type Subjects =
   | 'Invoice'
   | 'Account'
   | 'all'
-type AppAbility = Ability<[Actions, Subjects]>
+export type AppAbility = Ability<[Actions, Subjects]>
 const AppAbility = Ability as AbilityClass<AppAbility>
 
 type ViewerAbilityInput = {
   purchases?: any[]
   rules?: any
+  role?: string
 }
 
 /**
