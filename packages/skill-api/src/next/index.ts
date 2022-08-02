@@ -101,8 +101,8 @@ export type SlackFeedbackConfig = {
 }
 export type SlackConfig = {
   token: string
-  feedback: SlackFeedbackConfig
-  redeem: SlackFeedbackConfig
+  feedback?: SlackFeedbackConfig
+  redeem?: SlackFeedbackConfig
 }
 
 export interface SkillRecordingsOptions {

@@ -44,6 +44,7 @@ export async function postFeedbackToSlack(
   user: User,
   config: SlackConfig,
 ) {
+  if (!config.feedback) return false
   try {
     return await postToSlack({
       webClient: new WebClient(config.token),
@@ -75,6 +76,8 @@ export async function postRedemptionToSlack(
   const product = await getProduct({
     where: {id: productId},
   })
+
+  if (!config.redeem) return false
 
   try {
     return await postToSlack({

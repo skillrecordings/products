@@ -15,6 +15,10 @@ export const skillOptions: SkillRecordingsOptions = {
       channelId: process.env.SLACK_FEEDBACK_CHANNEL_ID,
       botUsername: 'TA Feedback Bot',
     },
+    redeem: {
+      channelId: process.env.SLACK_ANNOUNCE_CHANNEL_ID,
+      botUsername: 'TA Redeemer',
+    },
   },
   nextAuthOptions,
 }
