@@ -2,14 +2,11 @@ import {buffer} from 'micro'
 import type {NextApiRequest, NextApiResponse} from 'next'
 import {postSaleToSlack, sendServerEmail} from '@skillrecordings/skill-api'
 import {nextAuthOptions} from '../auth/[...nextauth]'
-import {withSentry} from '@sentry/nextjs'
-import * as Sentry from '@sentry/nextjs'
 import {tracer, setupHttpTracing} from '@skillrecordings/honeycomb-tracer'
 import {stripe, recordNewPurchase} from '@skillrecordings/commerce-server'
-import {tagPurchaseConvertkit} from '../../../server/tag-purchase-convertkit'
-import {updatePurchaseStatusForCharge} from '../../../lib/purchases'
 import {PurchaseStatus} from '@skillrecordings/skill-api'
-import {prisma} from '@skillrecordings/database'
+import {prisma, getSdk} from '@skillrecordings/database'
+import {tagPurchaseConvertkit} from '@skillrecordings/convertkit'
 
 const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET
 
@@ -23,7 +20,7 @@ const stripeWebhookHandler = async (
     const sig = req.headers['stripe-signature']
 
     let event: any
-
+    const {updatePurchaseStatusForCharge} = getSdk()
     try {
       event = stripe.webhooks.constructEvent(buf, sig as string, webhookSecret)
 
@@ -99,7 +96,6 @@ const stripeWebhookHandler = async (
         res.status(200).send(`not-handled`)
       }
     } catch (err: any) {
-      Sentry.captureException(err)
       console.error(err)
       res.status(400).send(`Webhook Error: ${err.message}`)
       return
@@ -110,11 +106,4 @@ const stripeWebhookHandler = async (
   }
 }
 
-export default withSentry(stripeWebhookHandler)
-
-export const config = {
-  api: {
-    bodyParser: false,
-    externalResolver: true,
-  },
-}
+export default stripeWebhookHandler

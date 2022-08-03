@@ -10,9 +10,8 @@ import {getToken} from 'next-auth/jwt'
 import InviteTeam from 'components/team'
 import Layout from 'components/app/layout'
 import Image from 'next/image'
-import {prisma} from '@skillrecordings/database'
+import {getSdk, prisma} from '@skillrecordings/database'
 import Link from 'next/link'
-import {getPurchaseDetails} from '../../lib/purchases'
 import {isString} from 'lodash'
 import {tracer, setupHttpTracing} from '@skillrecordings/honeycomb-tracer'
 
@@ -29,6 +28,7 @@ export const getServerSideProps: GetServerSideProps = async ({
   })
   const {purchaseId: purchaseQueryParam, session_id, upgrade} = query
   const token = await getToken({req})
+  const {getPurchaseDetails} = getSdk()
 
   let purchaseId = purchaseQueryParam
 

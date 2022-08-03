@@ -17,6 +17,123 @@ export function getSdk(
   {ctx = defaultContext, spanContext}: SDKOptions = {ctx: defaultContext},
 ) {
   return {
+    async getPurchaseDetails(purchaseId: string, userId: string) {
+      const allPurchases = await ctx.prisma.purchase.findMany({
+        where: {
+          userId,
+        },
+        select: {
+          id: true,
+          productId: true,
+        },
+      })
+      const purchase = await ctx.prisma.purchase.findFirst({
+        where: {
+          id: purchaseId as string,
+          userId,
+        },
+        select: {
+          merchantChargeId: true,
+          bulkCoupon: {
+            select: {
+              id: true,
+              maxUses: true,
+              usedCount: true,
+            },
+          },
+          product: {
+            select: {
+              id: true,
+              name: true,
+            },
+          },
+          status: true,
+        },
+      })
+
+      if (!purchase) {
+        return {}
+      }
+
+      const availableUpgrades =
+        purchase.status === 'Valid'
+          ? await ctx.prisma.upgradableProducts.findMany({
+              where: {
+                AND: [
+                  {
+                    upgradableFromId: purchase?.product?.id,
+                  },
+                  {
+                    NOT: {
+                      upgradableToId: {
+                        in: allPurchases.map(({productId}) => productId),
+                      },
+                    },
+                  },
+                ],
+              },
+              select: {
+                upgradableTo: {
+                  select: {
+                    id: true,
+                    name: true,
+                  },
+                },
+              },
+            })
+          : []
+
+      const existingPurchase = await ctx.prisma.purchase.findFirst({
+        where: {
+          userId,
+          productId: purchase?.product?.id,
+          id: {
+            not: purchaseId as string,
+          },
+          bulkCoupon: null,
+          status: 'Valid',
+        },
+        select: {
+          id: true,
+          product: {
+            select: {
+              id: true,
+              name: true,
+            },
+          },
+        },
+      })
+      return {
+        purchase,
+        existingPurchase,
+        availableUpgrades,
+      }
+    },
+    async updatePurchaseStatusForCharge(
+      chargeId: string,
+      status: 'Valid' | 'Refunded' | 'Disputed' | 'Banned',
+    ): Promise<Purchase | undefined> {
+      const purchase = await ctx.prisma.purchase.findFirst({
+        where: {
+          merchantCharge: {
+            identifier: chargeId,
+          },
+        },
+      })
+
+      if (purchase) {
+        return await ctx.prisma.purchase.update({
+          where: {
+            id: purchase.id,
+          },
+          data: {
+            status: status,
+          },
+        })
+      } else {
+        throw new Error(`no-purchase-found-for-charge ${chargeId}`)
+      }
+    },
     async couponForIdOrCode({
       code,
       couponId,
