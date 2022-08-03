@@ -7,6 +7,8 @@ import {stripe, recordNewPurchase} from '@skillrecordings/commerce-server'
 import {PurchaseStatus} from '@skillrecordings/skill-api'
 import {prisma, getSdk} from '@skillrecordings/database'
 import {tagPurchaseConvertkit} from '@skillrecordings/convertkit'
+import {withSentry} from '@sentry/nextjs'
+import * as Sentry from '@sentry/nextjs'
 
 const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET
 
@@ -18,7 +20,6 @@ const stripeWebhookHandler = async (
   if (req.method === 'POST') {
     const buf = await buffer(req)
     const sig = req.headers['stripe-signature']
-
     let event: any
     const {updatePurchaseStatusForCharge} = getSdk()
     try {
@@ -96,6 +97,7 @@ const stripeWebhookHandler = async (
         res.status(200).send(`not-handled`)
       }
     } catch (err: any) {
+      Sentry.captureException(err)
       console.error(err)
       res.status(400).send(`Webhook Error: ${err.message}`)
       return
@@ -106,4 +108,15 @@ const stripeWebhookHandler = async (
   }
 }
 
-export default stripeWebhookHandler
+export default withSentry(stripeWebhookHandler)
+
+/**
+ * ⛔️ do NOT remove the `bodyParser=false` from this config, otherwise
+ * Stripe webhooks will timeout and fail
+ */
+export const config = {
+  api: {
+    bodyParser: false,
+    externalResolver: true,
+  },
+}
