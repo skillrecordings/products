@@ -7,9 +7,9 @@ import {getDecodedToken} from '../client/get-decoded-token'
 import {SkillRecordingsHandler} from '../core'
 import type {NextApiRequest, NextApiResponse} from 'next'
 import {PrismaClient} from '@skillrecordings/database'
-import {setupHttpTracing} from '@vercel/tracing-js'
-import {tracer} from '@skillrecordings/honeycomb-tracer'
+import {tracer, setupHttpTracing} from '@skillrecordings/honeycomb-tracer'
 import {NextAuthOptions} from 'next-auth'
+import {parseBody} from 'next/dist/server/api-utils/node'
 
 /** Extract the host from the environment */
 export function detectHost(forwardedHost: any) {
@@ -25,8 +25,6 @@ async function SkillRecordingsNextHandler(
   options: SkillRecordingsOptions,
 ) {
   const {skillRecordings, ...query} = req.query
-  const token = await getDecodedToken({req})
-
   setupHttpTracing({
     name: `skill-api-${skillRecordings?.[0]}`,
     tracer,
@@ -34,10 +32,22 @@ async function SkillRecordingsNextHandler(
     res,
   })
 
+  // if it has a `stripe-signature` that we need to validate
+  // then we don't want to parse the request body or else
+  // the validation won't work. if we add additional webhook
+  // providers that have similar validation mechanism (it's
+  // common) they will need to be added to the array.
+  const isWebhook = ['stripe-signature'].every(
+    (prop: string) => prop in req.headers,
+  )
+
+  const body = isWebhook ? req.body : await parseBody(req, '1mb')
+  const token = await getDecodedToken({req})
+
   const handler = await SkillRecordingsHandler({
     req: {
       host: detectHost(req.headers['x-forwarded-host']),
-      body: req.body,
+      body,
       query,
       cookies: req.cookies,
       headers: req.headers,
@@ -48,6 +58,7 @@ async function SkillRecordingsNextHandler(
     },
     token,
     options,
+    ...(isWebhook && {rawReq: req}),
   })
 
   res.status(handler.status ?? 200)
@@ -88,8 +99,12 @@ function SkillRecordings(
   // TODO: understand what situations this affects
 
   if (args.length === 1) {
-    return async (req: SkillRecordingsRequest, res: SkillRecordingsResponse) =>
-      await SkillRecordingsNextHandler(req, res, args[0])
+    return async (
+      req: SkillRecordingsRequest,
+      res: SkillRecordingsResponse,
+    ) => {
+      return await SkillRecordingsNextHandler(req, res, args[0])
+    }
   }
 
   return SkillRecordingsNextHandler(args[0], args[1], args[2])
@@ -112,6 +127,7 @@ export interface SkillRecordingsOptions {
   }
   slack?: SlackConfig
   nextAuthOptions?: NextAuthOptions
+  parseBody?: boolean
 }
 
 export default SkillRecordings

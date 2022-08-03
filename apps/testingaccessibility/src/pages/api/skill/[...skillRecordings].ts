@@ -27,6 +27,7 @@ export default withSentry(SkillRecordings(skillOptions))
 
 export const config = {
   api: {
+    bodyParser: false,
     externalResolver: true,
   },
 }
