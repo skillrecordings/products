@@ -2,19 +2,17 @@ import * as React from 'react'
 import {QuizAnswerPage} from '@skillrecordings/quiz'
 import {QuestionSet} from '@skillrecordings/types'
 import getConfig from '@skillrecordings/quiz/dist/config'
-import Layout from 'components/layout'
+import Layout from 'components/app/layout'
 
 const Answer: React.FC<React.PropsWithChildren<{questionSet: QuestionSet}>> = ({
   questionSet,
 }) => {
   return (
-    <Layout noIndex meta={{title: 'Quiz'}}>
-      <header className="flex items-center justify-center w-full sm:pt-16 sm:pb-0 pt-5 pb-5">
-        <div className="sm:w-auto w-40">
-          <Image />
-        </div>
+    <Layout noIndex meta={{title: 'Quiz'}} className="bg-brand-purple">
+      <header className="max-w-2xl w-full px-4 mx-auto sm:pt-32 pt-24">
+        <h1 className="md:text-5xl text-4xl font-bold">Quiz</h1>
       </header>
-      <div className="h-full w-full flex flex-col items-center justify-center sm:py-16">
+      <div className="h-full w-full flex flex-col items-center justify-center ">
         <QuizAnswerPage
           questionSet={questionSet}
           config={getConfig(
