@@ -1,5 +1,5 @@
 import * as React from 'react'
-import {getPurchasedProduct} from 'server/get-purchased-product'
+import {getPurchasedProduct} from 'lib/get-purchased-product'
 import {convertToSerializeForNextResponse} from '@skillrecordings/commerce-server'
 import {useProgress} from 'context/progress-context'
 import {

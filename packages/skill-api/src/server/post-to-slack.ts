@@ -3,9 +3,12 @@ import {
   MessageAttachment,
   WebClient,
 } from '@slack/web-api'
-import {getSdk, User} from '@skillrecordings/database'
+import {getSdk, Purchase, User} from '@skillrecordings/database'
 import {SlackConfig} from '../next'
 import {FeedbackContext} from '../core/types'
+import {PurchaseInfo} from '@skillrecordings/commerce-server'
+import {isEmpty} from 'lodash'
+import pluralize from 'pluralize'
 
 export type PostToSlackOptions = {
   attachments: MessageAttachment[]
@@ -90,6 +93,37 @@ export async function postRedemptionToSlack(
           text: `${email} redeemed a seat!`,
           color: '#5ceb34',
           title: `Redeemed ${product?.name}`,
+        },
+      ],
+    })
+  } catch (e) {
+    console.log(e)
+    return false
+  }
+}
+
+export async function postSaleToSlack(
+  purchaseInfo: PurchaseInfo,
+  purchase: Purchase,
+) {
+  try {
+    return await postToSlack({
+      webClient: new WebClient(process.env.SLACK_TOKEN),
+      channel: process.env.SLACK_ANNOUNCE_CHANNEL_ID,
+      text: `Someone purchased ${purchaseInfo.stripeProduct.name}`,
+      attachments: [
+        {
+          fallback: `Sold (${purchaseInfo.quantity}) ${purchaseInfo.stripeProduct.name}`,
+          text: `Somebody bought ${purchaseInfo.quantity} ${pluralize(
+            'copy',
+            purchaseInfo.quantity,
+          )} of ${
+            purchaseInfo.stripeProduct.name
+          } for ${`$${purchase.totalAmount}`}${
+            isEmpty(purchase.upgradedFromId) ? '' : ' as an upgrade'
+          }`,
+          color: '#eba234',
+          title: `Sold (${purchaseInfo.quantity}) ${purchaseInfo.stripeProduct.name}`,
         },
       ],
     })

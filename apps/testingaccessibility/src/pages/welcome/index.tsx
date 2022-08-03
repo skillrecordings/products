@@ -1,6 +1,9 @@
 import * as React from 'react'
 import {DocumentTextIcon, UserGroupIcon} from '@heroicons/react/outline'
-import {convertToSerializeForNextResponse} from '@skillrecordings/commerce-server'
+import {
+  convertToSerializeForNextResponse,
+  stripeData,
+} from '@skillrecordings/commerce-server'
 import {useSession} from 'next-auth/react'
 import {GetServerSideProps} from 'next'
 import {getToken} from 'next-auth/jwt'
@@ -9,7 +12,6 @@ import Layout from 'components/app/layout'
 import Image from 'next/image'
 import {prisma} from '@skillrecordings/database'
 import Link from 'next/link'
-import {stripeData} from '../../utils/record-new-purchase'
 import {getPurchaseDetails} from '../../lib/purchases'
 import {isString} from 'lodash'
 import {tracer, setupHttpTracing} from '@skillrecordings/honeycomb-tracer'

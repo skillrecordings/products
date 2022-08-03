@@ -1,8 +1,7 @@
 import {Stripe} from 'stripe'
 import {first} from 'lodash'
 import {type Purchase, prisma, getSdk} from '@skillrecordings/database'
-import * as Sentry from '@sentry/nextjs'
-import {stripe} from '@skillrecordings/commerce-server'
+import {stripe} from './stripe'
 
 export class PurchaseError extends Error {
   checkoutSessionId: string
@@ -92,12 +91,6 @@ export async function recordNewPurchase(checkoutSessionId: string): Promise<{
     stripeChargeAmount,
   } = purchaseInfo
 
-  Sentry.addBreadcrumb({
-    category: 'commerce',
-    level: Sentry.Severity.Info,
-    message: `recording a new purchase checkoutSession [${checkoutSessionId}] ${email} [${stripeCustomerId}]`,
-  })
-
   if (!email) throw new PurchaseError(`no-email`, checkoutSessionId)
 
   const {user, isNewUser} = await findOrCreateUser(email, name)
@@ -134,11 +127,6 @@ export async function recordNewPurchase(checkoutSessionId: string): Promise<{
   })
 
   if (purchase && quantity > 1) {
-    Sentry.addBreadcrumb({
-      category: 'commerce',
-      level: Sentry.Severity.Info,
-      message: `creating a bulk coupon ${checkoutSessionId} ${purchase.id}`,
-    })
     await prisma.coupon.create({
       data: {
         bulkPurchaseId: purchase.id,
