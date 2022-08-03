@@ -2295,6 +2295,7 @@ importers:
       react-scroll: ^1.8.6
       react-stripe-checkout: ^2.6.3
       react-test-renderer: ^17.0.2
+      react-twitter-embed: ^4.0.4
       react-use: ^17.3.2
       react-use-clipboard: ^1.0.7
       reading-time: ^1.5.0
@@ -2371,6 +2372,7 @@ importers:
       react-rough-notation: 1.0.2_biqbaboplfbrettd7655fr4n2y
       react-scroll: 1.8.7_biqbaboplfbrettd7655fr4n2y
       react-stripe-checkout: 2.6.3
+      react-twitter-embed: 4.0.4_biqbaboplfbrettd7655fr4n2y
       react-use: 17.3.2_biqbaboplfbrettd7655fr4n2y
       react-use-clipboard: 1.0.7_biqbaboplfbrettd7655fr4n2y
       reading-time: 1.5.0
@@ -9664,7 +9666,7 @@ packages:
       axios: 0.26.1
       client-oauth2: 4.3.3
       js-cookie: 3.0.1
-      next: 12.2.3_dyjg3c6zvjv6p4lxmcqda555km
+      next: 12.2.3_biqbaboplfbrettd7655fr4n2y
     transitivePeerDependencies:
       - debug
     dev: false
@@ -13149,6 +13151,7 @@ packages:
       readdirp: 3.6.0
     optionalDependencies:
       fsevents: 2.3.2
+    dev: true
 
   /chokidar/3.5.3:
     resolution: {integrity: sha512-Dr3sfKRP6oTcjf2JmUmFJfeVMvXBdegxB0iVQ5eb2V10uFJUCAS8OByZdVAyVb8xXNz3GjjTgj9kLWsZTqE6kw==}
@@ -21802,6 +21805,7 @@ packages:
     transitivePeerDependencies:
       - '@babel/core'
       - babel-plugin-macros
+    dev: true
 
   /next/12.2.3_x6hpkaqu4dxwl4unajq2h7dx44:
     resolution: {integrity: sha512-TA0tmSA6Dk6S6kfvCNbF7CWYW8468gZUxr/3/30z4KvAQbXnl2ASYZElVe7q/hBW/1F1ee0tSBlHa4/sn+ZIBw==}
@@ -24733,6 +24737,18 @@ packages:
       popper.js: 1.16.1
     dev: false
 
+  /react-twitter-embed/4.0.4_biqbaboplfbrettd7655fr4n2y:
+    resolution: {integrity: sha512-2JIL7qF+U62zRzpsh6SZDXNI3hRNVYf5vOZ1WRcMvwKouw+xC00PuFaD0aEp2wlyGaZ+f4x2VvX+uDadFQ3HVA==}
+    engines: {node: '>=10'}
+    peerDependencies:
+      react: ^16.0.0 || ^17.0.0 || ^18.0.0
+      react-dom: ^16.0.0 || ^17.0.0 || ^18.0.0
+    dependencies:
+      react: 18.2.0
+      react-dom: 18.2.0_react@18.2.0
+      scriptjs: 2.5.9
+    dev: false
+
   /react-universal-interface/0.6.2_react@18.2.0+tslib@2.4.0:
     resolution: {integrity: sha512-dg8yXdcQmvgR13RIlZbTRQOoUrDciFVoSBZILwjE2LFISxZZ8loVJKAkuzswl5js8BHda79bIb2b84ehU8IjXw==}
     peerDependencies:
@@ -25705,6 +25721,7 @@ packages:
     hasBin: true
     dependencies:
       chokidar: 3.5.2
+    dev: true
 
   /sax/1.2.4:
     resolution: {integrity: sha512-NqVDv9TpANUjFm0N8uM5GxL36UgKi9/atZw+x7YFnQ8ckwFGKrl4xX4yWtrey3UJm5nP1kUbnYgLopqWNSRhWw==}
@@ -25752,6 +25769,10 @@ packages:
   /screenfull/5.2.0:
     resolution: {integrity: sha512-9BakfsO2aUQN2K9Fdbj87RJIEZ82Q9IGim7FqM5OsebfoFC6ZHXgDq/KvniuLTPdeM8wY2o6Dj3WQ7KeQCj3cA==}
     engines: {node: '>=0.10.0'}
+    dev: false
+
+  /scriptjs/2.5.9:
+    resolution: {integrity: sha512-qGVDoreyYiP1pkQnbnFAUIS5AjenNwwQBdl7zeos9etl+hYKWahjRTfzAZZYBv5xNHx7vNKCmaLDQZ6Fr2AEXg==}
     dev: false
 
   /section-matter/1.0.0:
