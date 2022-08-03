@@ -15,6 +15,7 @@ import callout from './objects/callout'
 import divider from './objects/divider'
 import externalImage from './objects/externalImage'
 import mediaCaption from './objects/mediaCaption'
+import twitter from './objects/twitter'
 
 // Then we give our schema to the builder and provide the result to Sanity
 export default createSchema({
@@ -34,5 +35,6 @@ export default createSchema({
     divider,
     externalImage,
     mediaCaption,
+    twitter,
   ]),
 })

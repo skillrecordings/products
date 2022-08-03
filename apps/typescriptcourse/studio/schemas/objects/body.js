@@ -97,5 +97,6 @@ export default {
     {type: 'code'},
     {type: 'callout'},
     {type: 'divider'},
+    {type: 'twitter'},
   ],
 }

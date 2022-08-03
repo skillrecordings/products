@@ -8,6 +8,7 @@ import {
 } from '@portabletext/react'
 import isEmpty from 'lodash/isEmpty'
 import Image from 'next/image'
+import {TwitterTweetEmbed} from 'react-twitter-embed'
 import cx from 'classnames'
 import speakingurl from 'speakingurl'
 import Refractor from 'react-refractor'
@@ -115,6 +116,14 @@ const PortableTextComponents: PortableTextComponentsProps = {
         </div>
       ) : (
         <hr />
+      )
+    },
+    twitter: ({value}) => {
+      const {id} = value
+      return (
+        <div>
+          <TwitterTweetEmbed tweetId={id} />
+        </div>
       )
     },
   },
