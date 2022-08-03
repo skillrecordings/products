@@ -89,7 +89,7 @@ const SubscribeToNewsletter = () => {
         />
       </div>
       <p className="text-gray-400">
-        We respect your privacy. Unsubscribe at any time.
+        I respect your privacy. Unsubscribe at any time.
       </p>
     </section>
   )
