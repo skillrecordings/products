@@ -31,9 +31,9 @@ export default {
     },
     images: [
       {
-        url: `https://${process.env.NEXT_PUBLIC_VERCEL_URL}/card@2x.png`,
-        width: 1280,
-        height: 720,
+        url: `https://${process.env.NEXT_PUBLIC_URL}/card@2x.png`,
+        width: 1200,
+        height: 630,
       },
     ],
   },

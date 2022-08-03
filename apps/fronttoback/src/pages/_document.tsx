@@ -16,7 +16,7 @@ export default function Document() {
           href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;700&display=swap"
         />
       </Head>
-      <body>
+      <body className="bg-white text-black antialiased">
         <Main />
         <NextScript />
       </body>

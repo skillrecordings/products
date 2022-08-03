@@ -1,7 +1,6 @@
 /** @type {import('tailwindcss').Config} */
 const defaultTheme = require('tailwindcss/defaultTheme')
-
-const fontBody = '"Rubik", sans-serif'
+const colors = require('tailwindcss/colors')
 
 module.exports = {
   content: [
@@ -15,14 +14,22 @@ module.exports = {
   theme: {
     extend: {
       fontFamily: {
-        sans: [fontBody, ...defaultTheme.fontFamily.sans],
+        sans: ['Larsseit', ...defaultTheme.fontFamily.sans],
       },
-      colors: {},
+      colors: {
+        gray: colors.neutral,
+        brand: {
+          red: '#E47A53',
+          purple: '#B8B8FF',
+        },
+      },
       typography: (theme) => ({
         DEFAULT: {
           css: {
-            '*': {
-              color: theme('colors.gray.100'),
+            color: theme('colors.gray.800'),
+            'p, li, span, ul, strong': {color: theme('colors.gray.800')},
+            'h1, h2, h3, h4': {
+              color: theme('colors.black'),
             },
           },
         },

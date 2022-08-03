@@ -1,0 +1,21 @@
+[data-sr-convertkit-subscribe-form] {
+  @apply space-y-4 flex flex-col max-w-sm mx-auto;
+}
+
+[data-sr-input-label] {
+  @apply block text-lg mb-1;
+}
+
+[data-sr-input] {
+  @apply block border-2 border-black p-5 w-full text-lg placeholder-black/50;
+}
+
+[data-sr-convertkit-subscribe-form] {
+  [data-sr-button] {
+    @apply bg-black text-white py-6 px-10 text-lg underline;
+  }
+}
+
+[data-sr-button-icon] svg {
+  width: 24px;
+}

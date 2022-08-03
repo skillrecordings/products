@@ -1,41 +1,17 @@
 import React from 'react'
 import type {NextPage} from 'next'
 import Image from 'next/image'
+import cx from 'classnames'
+import LandingCopy from 'components/landing-copy.mdx'
 import {useRouter} from 'next/router'
+import {useReducedMotion} from 'framer-motion'
 import {
   SubscribeToConvertkitForm,
   redirectUrlBuilder,
 } from '@skillrecordings/convertkit'
 import toast from 'react-hot-toast'
-import Layout from 'components/layout'
-
-const Subscribe = () => {
-  const router = useRouter()
-  return (
-    <section className="bg-white text-[#27234f] rounded-lg lg:px-20 md:px-16 px-6 xl:px-24 lg:py-16 md:py-12 py-5 xl:py-20">
-      <div className="text-center space-y-7 mb-6">
-        <h3 className="text-[1.625rem]">
-          Become proficient with backend development today!
-        </h3>
-        <p className="">
-          Sign up for exclusive content and early-release lessons.
-        </p>
-      </div>
-      <SubscribeToConvertkitForm
-        onSuccess={(subscriber: any) => {
-          if (subscriber) {
-            const redirectUrl = redirectUrlBuilder(subscriber, '/confirm')
-            router.push(redirectUrl)
-          }
-        }}
-        actionLabel="Sign Up Today"
-      />
-      <p className="text-sm text-[#737373] text-center mt-4">
-        We respect your privacy. Unsubscribe at any time.
-      </p>
-    </section>
-  )
-}
+import Layout from 'components/app/layout'
+import {LinkedInIcon, TwitterIcon} from '@skillrecordings/react'
 
 const Home: NextPage = () => {
   const router = useRouter()
@@ -51,160 +27,94 @@ const Home: NextPage = () => {
 
   return (
     <Layout>
-      <div className="relative w-full">
-        <div className="absolute inset-0">
-          <Image
-            alt="Mountains"
-            src="/images/background.webp"
-            layout="fill"
-            objectFit="cover"
-            quality={100}
-          />
-        </div>
-        <div className="relative min-h-screen pt-12 md:pt-20 xl:pt-24 2xl:pt-28 pb-80">
-          <div className="max-w-[40rem] px-4 mx-auto">
-            <h3 className="uppercase font-medium">new course</h3>
-            <h1 className="mt-8 md:mt-10 lg:mt-12 xl:mt-14 text-4xl md:text-5xl xl:text-6xl leading-[1.1]">
-              Front to Back:
-              <br />
-              Backend for
-              <br />
-              Frontend Devs
-            </h1>
-            <h2 className="mt-4 md:mt-6 lg:mt-7 xl:mt-8 text-2xl md:text-3xl xl:text-[1.625rem] leading-tight tracking-tight">
-              An interactive course designed to help JavaScript developers
-              become proficient with backend development.
-            </h2>
-            <div className="space-y-6 mt-6">
-              <p>
-                For a lot of frontend developers, the back of the stack feels
-                like a <em>black box</em>—a mysterious, and often scary
-                discipline.
-              </p>
-              <p>
-                But if your goal is to be a well-rounded engineer, you’ll need a
-                comprehensive understanding of what is happening on the server
-                and in your databases.
-              </p>
-              <p>
-                If you want to claim the elusive title of{' '}
-                <em>full-stack developer</em> and climb higher up the
-                engineering career ladder,{' '}
-                <strong>this message is for you</strong>.
-              </p>
-              <p>
-                To be proficient in backend development, you need to understand:
-              </p>
-              <ul className="list-outside list-disc space-y-4 pl-4">
-                <li className="">
-                  <span>
-                    How the web <em>actually</em> work{' '}
-                  </span>
-                  <ul className="list-outside list-[circle] pl-4">
-                    <li className="">
-                      <span>DNS and domains</span>
-                    </li>
-                    <li className="">
-                      <span>Request/Response models</span>
-                    </li>
-                    <li className="">
-                      <span>HTTP</span>
-                    </li>
-                    <li className="">
-                      <span>Headers</span>
-                    </li>
-                    <li className="">
-                      <span>Basics of caching</span>
-                    </li>
-                  </ul>
-                </li>
-                <li className="">
-                  <span>How to architect servers </span>
-                  <ul className="list-outside list-[circle] pl-4">
-                    <li className="">
-                      <span>Languages/flavors</span>
-                    </li>
-                    <li className="">
-                      <span>Server setup</span>
-                    </li>
-                    <li className="">
-                      <span>Server security</span>
-                    </li>
-                    <li className="">
-                      <span>Application setup</span>
-                    </li>
-                  </ul>
-                </li>
-                <li className="">
-                  <span>
-                    How to build databases with design principles in mind
-                  </span>
-                  <ul className="list-outside list-[circle] pl-4">
-                    <li className="">
-                      <span>Relational vs. no-SQL</span>
-                    </li>
-                    <li className="">
-                      <span>Compare various DBMSs</span>
-                    </li>
-                    <li className="">
-                      <span>Self-hosting vs. DB as a service</span>
-                    </li>
-                    <li className="">
-                      <span>Scaling</span>
-                    </li>
-                    <li className="">
-                      <span>ORMs</span>
-                    </li>
-                  </ul>
-                </li>
-                <li className="">
-                  <span>How to build APIs from scratch </span>
-                  <ul className="list-outside list-[circle] pl-4">
-                    <li className="">
-                      <span>Endpoints</span>
-                    </li>
-                    <li className="">
-                      <span>Design principles</span>
-                    </li>
-                    <li className="">
-                      <span>Authentication basics</span>
-                    </li>
-                    <li className="">
-                      <span>REST vs GraphQL</span>
-                    </li>
-                  </ul>
-                </li>
-              </ul>
-              <p>
-                <em>
-                  <strong>And so much more…</strong>
-                </em>
-              </p>
-              <p>
-                This may seem like a lot, and trying to go it alone can feel
-                overwhelming.
-              </p>
-              <p>The good news?</p>
-              <p className="text-2xl leading-normal">
-                I’m building <strong>Front to Back</strong>, an interactive
-                course designed to help JavaScript developers become proficient
-                with backend development.
-              </p>
-              <p>
-                If you want to deeply learn the back of the stack with a
-                practical, real-world approach, sign up below for exclusive
-                content, and be the first to catch updates on the course.
-              </p>
-              <p>Hope to see you soon!</p>
-            </div>
-          </div>
-        </div>
+      <Header />
+      <Copy />
+      <Subscribe />
+      <Footer />
+    </Layout>
+  )
+}
+
+export default Home
+
+const Header = () => {
+  const shouldReduceMotion = useReducedMotion()
+  return (
+    <header className="bg-[#F38D68] min-h-screen flex flex-col justify-end p-[6vw] tracking-tighter relative overflow-hidden">
+      <div className="relative z-10">
+        <h1 className="md:text-[11vw] text-[12vw] font-bold leading-none">
+          Backend for Frontend Devs
+        </h1>
+        <h2 className="md:text-[2.5vw] text-lg font-light max-w-[50ch] pt-4 leading-normal">
+          An interactive course designed to help JavaScript developers become
+          proficient with backend development.
+        </h2>
       </div>
-      <div className="relative">
-        <div className="max-w-[47rem] px-4 mx-auto -mt-[220px]">
-          <Subscribe />
+      <svg
+        className={cx(
+          'absolute -right-24 -top-24 animate-spin text-brand-red sm:w-[500px] w-[400px]',
+          {
+            'animate-spin': !shouldReduceMotion,
+          },
+        )}
+        viewBox="0 0 564 564"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          fillRule="evenodd"
+          clipRule="evenodd"
+          d="M307.881 220.567L463.155 65.293L499.324 101.462L344.05 256.736H563.642V307.881L344.05 307.881L499.324 463.155L463.155 499.324L307.881 344.05L307.881 563.642H256.736V344.05L101.462 499.324L65.293 463.155L220.567 307.881H0.97522L0.97522 256.736H220.567L65.293 101.462L101.462 65.293L256.736 220.567V0.97522L307.881 0.97522V220.567Z"
+          fill="currentColor"
+        />
+      </svg>
+    </header>
+  )
+}
+
+const Copy = () => {
+  return (
+    <div className="prose sm:prose-xl prose-lg mx-auto md:py-24 sm:py-20 py-10 lg:px-0 px-5">
+      <LandingCopy />
+    </div>
+  )
+}
+
+const Subscribe = () => {
+  const router = useRouter()
+  return (
+    <section className="bg-brand-purple sm:py-[10vh] py-16 px-5">
+      <div className="max-w-screen-lg mx-auto">
+        <div className="text-center space-y-7 pb-12">
+          <h3 className="lg:text-6xl sm:text-5xl text-4xl leading-none tracking-tight font-bold">
+            Become proficient with backend development today!
+          </h3>
+          <p className="text-xl">
+            Sign up for exclusive content and early-release lessons.
+          </p>
         </div>
-        <div className="mt-14 space-y-6 max-w-[40rem] px-4 mx-auto">
+        <SubscribeToConvertkitForm
+          onSuccess={(subscriber: any) => {
+            if (subscriber) {
+              const redirectUrl = redirectUrlBuilder(subscriber, '/confirm')
+              router.push(redirectUrl)
+            }
+          }}
+          actionLabel="Sign Up Today"
+        />
+        <p className="text-center pt-12">
+          I respect your privacy. Unsubscribe at any time.
+        </p>
+      </div>
+    </section>
+  )
+}
+
+const Footer = () => {
+  return (
+    <div className="bg-black">
+      <div className="text-white grid lg:grid-cols-2 grid-cols-1 p-[6vw] gap-16 max-w-screen-xl mx-auto">
+        <div className="prose sm:prose-xl prose-lg prose-p:text-white lg:max-w-md max-w-none">
           <p>
             Becoming proficient with backend development is a game-changer. All
             of the sudden, that black box of knowledge on the server is
@@ -217,32 +127,32 @@ const Home: NextPage = () => {
           </p>
           <p>Now let's get to work.</p>
         </div>
-      </div>
-      <div className="py-32">
-        <div className="max-w-[40rem] px-4 mx-auto">
-          <h3 className="text-center text-[1.625rem]">Chance Strickland</h3>
-          <div className="w-[300px] h-[300px] rounded-full mx-auto mt-6 overflow-hidden">
-            <Image
-              alt="Chance Strickland"
-              src="/images/chance-strickland.webp"
-              width={300}
-              height={300}
-              quality={100}
-            />
-          </div>
-          <div className="mt-[4.5rem] flex flex-col items-center space-y-6">
-            <div className="space-y-6 w-full">
+        <div>
+          <div className="flex items-center gap-5">
+            <div className="rounded-full overflow-hidden flex-shrink-0">
+              <Image
+                alt="Chance Strickland"
+                src="/images/chance-strickland.webp"
+                width={140}
+                height={140}
+                quality={100}
+              />
+            </div>
+            <strong className="sm:text-3xl text-2xl">
               <p>
                 Hi! I'm Chance, and I will be your{' '}
                 <strong>Front to Back</strong> instructor.
               </p>
+            </strong>
+          </div>
+          <div className="prose sm:prose-xl prose-lg prose-a:text-brand-purple prose-p:text-white max-w-md hover:prose-a:text-[#D2D2FF] prose-a:underline prose-a:underline-offset-2 prose-strong:text-white">
+            <div className="space-y-6 w-full">
               <p>
                 I am a software engineer building{' '}
                 <a
                   href="https://www.radix-ui.com/"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="border-b-2 hover:opacity-75 duration-100"
                 >
                   Radix UI
                 </a>{' '}
@@ -251,72 +161,45 @@ const Home: NextPage = () => {
                   href="https://reach.tech"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="border-b-2 hover:opacity-75 duration-100"
                 >
                   Reach UI
                 </a>
-                .
-              </p>
-              <p>
-                I've also worked on{' '}
-                <a
-                  href="https://www.radix-ui.com/"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="border-b-2 hover:opacity-75 duration-100"
-                >
-                  Radix UI
-                </a>{' '}
-                and taught hundreds of developers how to build better full-stack
-                React apps with{' '}
+                . I've also taught hundreds of developers how to build better
+                full-stack React apps with{' '}
                 <a
                   href="https://reacttraining.com/"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="border-b-2 hover:opacity-75 duration-100"
                 >
                   React Training
                 </a>
                 .
               </p>
+              <p></p>
             </div>
-            <div className="space-x-3 flex items-center">
+            <div className="space-x-3 flex items-center  not-prose">
               <a
                 href="https://twitter.com/chancethedev"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-10 h-10 rounded-full bg-[#1da1f2] flex justify-center items-center hover:opacity-75 duration-100"
+                className="p-2 text-gray-300 hover:text-white transition"
               >
-                <Image
-                  alt="twitter"
-                  src="/images/icons/twitter.svg"
-                  width={20}
-                  height={20}
-                  quality={100}
-                />
-                <span className="sr-only">twitter</span>
+                <TwitterIcon className="w-5 h-5" />
+                <span className="sr-only">Chance on Twitter</span>
               </a>
               <a
                 href="https://www.linkedin.com/in/chaance/"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-10 h-10 rounded-full bg-[#007bb5] flex justify-center items-center hover:opacity-75 duration-100"
+                className="p-2 text-gray-300 hover:text-white transition"
               >
-                <Image
-                  alt="twitter"
-                  src="/images/icons/linkedin.svg"
-                  width={20}
-                  height={20}
-                  quality={100}
-                />
-                <span className="sr-only">linkedin</span>
+                <LinkedInIcon className="w-5 h-5" />
+                <span className="sr-only">Chance on LinkedIn</span>
               </a>
             </div>
           </div>
         </div>
       </div>
-    </Layout>
+    </div>
   )
 }
-
-export default Home
