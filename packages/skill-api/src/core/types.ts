@@ -20,6 +20,7 @@ export interface SkillRecordingsHandlerParams {
   req: IncomingRequest
   token: JWT | null
   options: SkillRecordingsOptions
+  rawReq?: NextApiRequest
 }
 
 export interface Theme {
