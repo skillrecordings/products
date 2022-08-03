@@ -10,7 +10,7 @@ import {Form, Formik} from 'formik'
 import {CategoryField, EmotionField, FeedbackField} from '../feedback/fields'
 import ContactEmailField from './contact-email-field'
 import {useFeedbackForm} from '../../hooks/use-feedback-form'
-import {useUser} from 'hooks/use-user'
+import {useUser} from '@skillrecordings/react'
 
 export const ContactValidationSchema = Yup.object().shape({
   email: Yup.string()

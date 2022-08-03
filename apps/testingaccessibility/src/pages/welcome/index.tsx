@@ -1,16 +1,17 @@
 import * as React from 'react'
 import {DocumentTextIcon, UserGroupIcon} from '@heroicons/react/outline'
-import {serialize} from '../../utils/prisma-next-serializer'
+import {
+  convertToSerializeForNextResponse,
+  stripeData,
+} from '@skillrecordings/commerce-server'
 import {useSession} from 'next-auth/react'
 import {GetServerSideProps} from 'next'
 import {getToken} from 'next-auth/jwt'
 import InviteTeam from 'components/team'
 import Layout from 'components/app/layout'
 import Image from 'next/image'
-import {prisma} from '@skillrecordings/database'
+import {getSdk, prisma} from '@skillrecordings/database'
 import Link from 'next/link'
-import {stripeData} from '../../utils/record-new-purchase'
-import {getPurchaseDetails} from '../../lib/purchases'
 import {isString} from 'lodash'
 import {tracer, setupHttpTracing} from '@skillrecordings/honeycomb-tracer'
 
@@ -27,6 +28,7 @@ export const getServerSideProps: GetServerSideProps = async ({
   })
   const {purchaseId: purchaseQueryParam, session_id, upgrade} = query
   const token = await getToken({req})
+  const {getPurchaseDetails} = getSdk()
 
   let purchaseId = purchaseQueryParam
 
@@ -58,7 +60,7 @@ export const getServerSideProps: GetServerSideProps = async ({
     return purchase
       ? {
           props: {
-            purchase: serialize(purchase),
+            purchase: convertToSerializeForNextResponse(purchase),
             existingPurchase,
             availableUpgrades,
             upgrade: upgrade === 'true',

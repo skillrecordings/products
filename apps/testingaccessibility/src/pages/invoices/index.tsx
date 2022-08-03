@@ -1,7 +1,7 @@
 import * as React from 'react'
 import {DocumentTextIcon} from '@heroicons/react/outline'
 import {ChevronRightIcon} from '@heroicons/react/solid'
-import {serialize} from 'utils/prisma-next-serializer'
+import {convertToSerializeForNextResponse} from '@skillrecordings/commerce-server'
 import {getSdk} from '@skillrecordings/database'
 import {GetServerSideProps} from 'next'
 import {format} from 'date-fns'
@@ -9,7 +9,7 @@ import Layout from 'components/app/layout'
 import Link from 'next/link'
 import {getToken} from 'next-auth/jwt'
 import {Purchase} from '@skillrecordings/database'
-import {getCurrentAbility} from '../../server/ability'
+import {getCurrentAbility} from '@skillrecordings/ability'
 
 export const getServerSideProps: GetServerSideProps = async ({req}) => {
   const sessionToken = await getToken({req})
@@ -21,7 +21,7 @@ export const getServerSideProps: GetServerSideProps = async ({req}) => {
     const purchases = await getPurchasesForUser(sessionToken?.sub)
     return {
       props: {
-        purchases: purchases.map(serialize),
+        purchases: purchases.map(convertToSerializeForNextResponse),
       },
     }
   }

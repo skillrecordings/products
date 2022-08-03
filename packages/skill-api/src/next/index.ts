@@ -9,6 +9,7 @@ import type {NextApiRequest, NextApiResponse} from 'next'
 import {PrismaClient} from '@skillrecordings/database'
 import {setupHttpTracing} from '@vercel/tracing-js'
 import {tracer} from '@skillrecordings/honeycomb-tracer'
+import {NextAuthOptions} from 'next-auth'
 
 /** Extract the host from the environment */
 export function detectHost(forwardedHost: any) {
@@ -100,7 +101,8 @@ export type SlackFeedbackConfig = {
 }
 export type SlackConfig = {
   token: string
-  feedback: SlackFeedbackConfig
+  feedback?: SlackFeedbackConfig
+  redeem?: SlackFeedbackConfig
 }
 
 export interface SkillRecordingsOptions {
@@ -109,6 +111,7 @@ export interface SkillRecordingsOptions {
     title: string
   }
   slack?: SlackConfig
+  nextAuthOptions?: NextAuthOptions
 }
 
 export default SkillRecordings

@@ -12,7 +12,7 @@ import cx from 'classnames'
 import Image from 'next/image'
 import {useNavState} from '../../hooks/use-nav-state'
 import {useFeedback} from '../../context/feedback-context'
-import {useUser} from '../../hooks/use-user'
+import {useUser} from '@skillrecordings/react'
 
 const Navigation = () => {
   return (

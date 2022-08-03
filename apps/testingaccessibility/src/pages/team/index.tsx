@@ -1,17 +1,17 @@
 import React from 'react'
 import Layout from 'components/app/layout'
 import {find, get, isNull, isString} from 'lodash'
-import {serialize} from 'utils/prisma-next-serializer'
+import {convertToSerializeForNextResponse} from '@skillrecordings/commerce-server'
 import {GetServerSideProps} from 'next'
-import {getPurchasedProduct} from 'server/get-purchased-product'
+import {getPurchasedProduct} from 'lib/get-purchased-product'
 import InviteTeam from 'components/team'
 import {UserGroupIcon} from '@heroicons/react/outline'
 import Link from 'next/link'
 import {useSession} from 'next-auth/react'
-import {getPurchaseDetails} from '../../lib/purchases'
 import {tracer, setupHttpTracing} from '@skillrecordings/honeycomb-tracer'
-import {getCurrentAbility} from '../../server/ability'
+import {getCurrentAbility} from '@skillrecordings/ability'
 import {getToken} from 'next-auth/jwt'
+import {getSdk} from '@skillrecordings/database'
 
 export const getServerSideProps: GetServerSideProps = async ({
   res,
@@ -26,6 +26,7 @@ export const getServerSideProps: GetServerSideProps = async ({
   })
   const token = await getToken({req})
   const ability = getCurrentAbility(token as any)
+  const {getPurchaseDetails} = getSdk()
 
   if (ability.can('view', 'Team')) {
     const {purchases} = await getPurchasedProduct(req)
@@ -40,7 +41,7 @@ export const getServerSideProps: GetServerSideProps = async ({
       return purchase
         ? {
             props: {
-              purchase: serialize(purchase),
+              purchase: convertToSerializeForNextResponse(purchase),
               existingPurchase,
               availableUpgrades,
             },

@@ -1,6 +1,6 @@
 import * as React from 'react'
-import {getPurchasedProduct} from 'server/get-purchased-product'
-import {serialize} from 'utils/prisma-next-serializer'
+import {getPurchasedProduct} from 'lib/get-purchased-product'
+import {convertToSerializeForNextResponse} from '@skillrecordings/commerce-server'
 import {useProgress} from 'context/progress-context'
 import {
   getModuleProgressForUser,
@@ -91,7 +91,7 @@ export const getServerSideProps: GetServerSideProps = async ({
     return {
       props: {
         product,
-        purchases: purchases.map(serialize),
+        purchases: purchases.map(convertToSerializeForNextResponse),
       },
     }
   }

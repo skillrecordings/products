@@ -3,6 +3,7 @@ import {getBulkDiscountPercent} from './bulk-coupon'
 import {getCalculatedPriced} from './get-calculated-price'
 import {Context, defaultContext, getSdk} from '@skillrecordings/database'
 import {SpanContext} from '@skillrecordings/honeycomb-tracer'
+import {FormattedPrice} from './@types'
 
 // 10% premium for an upgrade
 // TODO: Display Coupon Errors
@@ -28,20 +29,6 @@ type FormatPricesForProductOptions = {
   merchantCouponId?: string
   ctx?: Context
   upgradeFromPurchaseId?: string
-}
-
-export type FormattedPrice = {
-  id: string
-  quantity: number
-  unitPrice: number
-  calculatedPrice: number
-  availableCoupons: any[]
-  appliedMerchantCoupon?: any
-  upgradeFromPurchaseId?: string
-  defaultCoupon?: {
-    expires?: string
-    percentageDiscount: string
-  }
 }
 
 /**

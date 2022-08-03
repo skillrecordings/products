@@ -1,5 +1,4 @@
-import {useCurrentAbility} from './use-current-ability'
-import {useUser} from './use-user'
+import {useCurrentAbility} from '@skillrecordings/react'
 
 /**
  * TODO: consider removing this and using abilities?

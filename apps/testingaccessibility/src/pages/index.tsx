@@ -3,7 +3,6 @@ import Image from 'next/image'
 import LandingCopy from 'components/content/landing-copy.mdx'
 import Layout from 'components/app/layout'
 import {GetServerSideProps} from 'next'
-import {CommerceProps, propsForCommerce} from '../utils/props-for-commerce'
 import {PrimaryNewsletterCta} from '../components/primary-newsletter-cta'
 import {isSellingLive} from '../utils/is-selling-live'
 import {PricingTiers} from '../components/product-tiers'
@@ -11,6 +10,10 @@ import {useCoupon} from 'hooks/use-coupon'
 import {Element} from 'react-scroll'
 import FAQ from 'components/content/faq-section'
 import {tracer, setupHttpTracing} from '@skillrecordings/honeycomb-tracer'
+import {getToken} from 'next-auth/jwt'
+import {getActiveProducts} from '../lib/products'
+import type {CommerceProps} from '@skillrecordings/commerce-server/dist/@types'
+import {propsForCommerce} from '@skillrecordings/commerce-server'
 
 export const getServerSideProps: GetServerSideProps = async ({
   req,
@@ -23,7 +26,9 @@ export const getServerSideProps: GetServerSideProps = async ({
     req,
     res,
   })
-  return await propsForCommerce({req, query})
+  const token = await getToken({req})
+  const {products} = await getActiveProducts()
+  return await propsForCommerce({token, products, query})
 }
 
 const Home: React.FC<React.PropsWithChildren<CommerceProps>> = ({

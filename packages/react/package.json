@@ -18,6 +18,9 @@
     "watch:css": "pnpm build:css -w"
   },
   "dependencies": {
+    "@skillrecordings/ability": "workspace:*",
+    "@skillrecordings/commerce-server": "workspace:*",
+    "@skillrecordings/database": "workspace:*",
     "@skillrecordings/analytics": "workspace:*",
     "@skillrecordings/auth": "=0.0.6",
     "@skillrecordings/axios": "=0.0.2",
@@ -30,6 +33,7 @@
     "prism-react-renderer": "^1.2.1",
     "query-string": "^7.1.1",
     "react-scroll": "^1.8.6",
+    "react-query": "^3.39.1",
     "react-use-clipboard": "^1.0.7",
     "yup": "^0.32.11"
   },

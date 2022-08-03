@@ -4,10 +4,9 @@ import {
   hasBulkPurchase,
   hasValidPurchase,
   hasInvoice,
-} from '../utils/purchase-validators'
-import {PurchaseStatus} from '@skillrecordings/skill-api/dist/enums/purchase-status'
+} from './purchase-validators'
 
-type Actions = 'manage' | 'invite' | 'view' | 'edit'
+type Actions = 'manage' | 'invite' | 'view'
 type Subjects =
   | 'Team'
   | 'Purchase'
@@ -16,11 +15,12 @@ type Subjects =
   | 'Invoice'
   | 'Account'
   | 'all'
-type AppAbility = Ability<[Actions, Subjects]>
+export type AppAbility = Ability<[Actions, Subjects]>
 const AppAbility = Ability as AbilityClass<AppAbility>
 
 type ViewerAbilityInput = {
   purchases?: any[]
+  rules?: any
   role?: string
 }
 
@@ -45,8 +45,10 @@ export function getCurrentAbility(
  * @see {@link https://casl.js.org/v5/en/guide/define-rules#ability-builder-class|AbilityBuilder}
  * @param viewerAbilityInput
  */
-function defineAbilityFor(viewerAbilityInput: ViewerAbilityInput) {
-  const rules = defineRulesForPurchases(viewerAbilityInput)
+export function defineAbilityFor(viewerAbilityInput: ViewerAbilityInput) {
+  const rules = Boolean(viewerAbilityInput?.rules)
+    ? viewerAbilityInput.rules
+    : defineRulesForPurchases(viewerAbilityInput?.purchases || [])
 
   return new AppAbility(rules)
 }
@@ -54,15 +56,10 @@ function defineAbilityFor(viewerAbilityInput: ViewerAbilityInput) {
 /**
  * Creates a structure of rules to use in the ability from list of purchases
  *
- * @param viewerAbilityInput
+ * @param purchases
  */
-function defineRulesForPurchases(viewerAbilityInput: ViewerAbilityInput = {}) {
-  const {purchases = [], role = 'user'} = viewerAbilityInput
+export function defineRulesForPurchases(purchases: any[]) {
   const {can, rules} = new AbilityBuilder(AppAbility)
-
-  if (['ADMIN', 'SUPERADMIN'].includes(role)) {
-    can('edit', 'Content')
-  }
 
   if (hasAvailableSeats(purchases)) {
     can('invite', 'Team')
@@ -79,8 +76,7 @@ function defineRulesForPurchases(viewerAbilityInput: ViewerAbilityInput = {}) {
     can('view', 'Product', {
       productId: {
         $in: purchases?.map(
-          (purchase: any) =>
-            purchase.productId && purchase.status === PurchaseStatus.Valid,
+          (purchase: any) => purchase.productId && purchase.status === 'Valid',
         ),
       },
     })

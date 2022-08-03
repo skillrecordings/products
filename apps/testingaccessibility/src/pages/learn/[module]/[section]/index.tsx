@@ -1,5 +1,5 @@
 import React from 'react'
-import {getPurchasedProduct} from 'server/get-purchased-product'
+import {getPurchasedProduct} from 'lib/get-purchased-product'
 import {sanityClient} from 'utils/sanity-client'
 import {SanityDocument} from '@sanity/client'
 import {GetServerSideProps} from 'next'

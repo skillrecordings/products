@@ -1,6 +1,6 @@
 import {NextApiRequest, NextApiResponse} from 'next'
 import {prisma} from '@skillrecordings/database'
-import {serialize} from 'utils/prisma-next-serializer'
+import {convertToSerializeForNextResponse} from '@skillrecordings/commerce-server'
 import {withSentry} from '@sentry/nextjs'
 import {tracer, setupHttpTracing} from '@skillrecordings/honeycomb-tracer'
 import {getToken} from 'next-auth/jwt'
@@ -29,7 +29,9 @@ const getProgress = async (req: NextApiRequest, res: NextApiResponse) => {
         },
       })
 
-      res.status(200).json(userLessonProgress.map(serialize))
+      res
+        .status(200)
+        .json(userLessonProgress.map(convertToSerializeForNextResponse))
     } catch (error: any) {
       console.error(error.message)
       res.status(400).end(error.message)

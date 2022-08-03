@@ -1,7 +1,6 @@
 import {NextApiRequest, NextApiResponse} from 'next'
-import {drawModuleCertificatePdf} from 'utils/draw-certificate'
 import {getModuleProgressForUser} from 'utils/progress'
-import {serialize} from 'utils/prisma-next-serializer'
+import {convertToSerializeForNextResponse} from '@skillrecordings/commerce-server'
 import {
   getAllModuleSlugs,
   getAvailableModulesForUser,
@@ -70,7 +69,7 @@ const generateModuleCertificate = async (
         },
       })
 
-      const progress = userLessonProgress.map(serialize)
+      const progress = userLessonProgress.map(convertToSerializeForNextResponse)
 
       const {isCompleted} = getModuleProgressForUser(progress, module.sections)
 

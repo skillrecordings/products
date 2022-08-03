@@ -3,9 +3,12 @@ import {
   MessageAttachment,
   WebClient,
 } from '@slack/web-api'
-import {User} from '@skillrecordings/database'
+import {getSdk, Purchase, User} from '@skillrecordings/database'
 import {SlackConfig} from '../next'
 import {FeedbackContext} from '../core/types'
+import {PurchaseInfo} from '@skillrecordings/commerce-server'
+import {isEmpty} from 'lodash'
+import pluralize from 'pluralize'
 
 export type PostToSlackOptions = {
   attachments: MessageAttachment[]
@@ -44,6 +47,7 @@ export async function postFeedbackToSlack(
   user: User,
   config: SlackConfig,
 ) {
+  if (!config.feedback) return false
   try {
     return await postToSlack({
       webClient: new WebClient(config.token),
@@ -57,6 +61,69 @@ export async function postFeedbackToSlack(
           title: `${feedbackContext.emotion} ${
             feedbackContext.category === 'general' ? 'Feedback' : 'Help request'
           } from ${user.name} (${user.email})`,
+        },
+      ],
+    })
+  } catch (e) {
+    console.log(e)
+    return false
+  }
+}
+
+export async function postRedemptionToSlack(
+  email: string,
+  productId: string,
+  config: SlackConfig,
+) {
+  const {getProduct} = getSdk()
+  const product = await getProduct({
+    where: {id: productId},
+  })
+
+  if (!config.redeem) return false
+
+  try {
+    return await postToSlack({
+      webClient: new WebClient(config.token),
+      channel: config.redeem.channelId,
+      text: `${email} redeemed ${product?.name}`,
+      attachments: [
+        {
+          fallback: `Redeemed by ${email}`,
+          text: `${email} redeemed a seat!`,
+          color: '#5ceb34',
+          title: `Redeemed ${product?.name}`,
+        },
+      ],
+    })
+  } catch (e) {
+    console.log(e)
+    return false
+  }
+}
+
+export async function postSaleToSlack(
+  purchaseInfo: PurchaseInfo,
+  purchase: Purchase,
+) {
+  try {
+    return await postToSlack({
+      webClient: new WebClient(process.env.SLACK_TOKEN),
+      channel: process.env.SLACK_ANNOUNCE_CHANNEL_ID,
+      text: `Someone purchased ${purchaseInfo.stripeProduct.name}`,
+      attachments: [
+        {
+          fallback: `Sold (${purchaseInfo.quantity}) ${purchaseInfo.stripeProduct.name}`,
+          text: `Somebody bought ${purchaseInfo.quantity} ${pluralize(
+            'copy',
+            purchaseInfo.quantity,
+          )} of ${
+            purchaseInfo.stripeProduct.name
+          } for ${`$${purchase.totalAmount}`}${
+            isEmpty(purchase.upgradedFromId) ? '' : ' as an upgrade'
+          }`,
+          color: '#eba234',
+          title: `Sold (${purchaseInfo.quantity}) ${purchaseInfo.stripeProduct.name}`,
         },
       ],
     })

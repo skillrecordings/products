@@ -1,6 +1,6 @@
 import * as React from 'react'
 import {DownloadIcon} from '@heroicons/react/outline'
-import {serialize} from 'utils/prisma-next-serializer'
+import {convertToSerializeForNextResponse} from '@skillrecordings/commerce-server'
 import {useLocalStorage} from 'react-use'
 import {GetServerSideProps} from 'next'
 import {Logo} from 'components/images'
@@ -12,7 +12,7 @@ import Layout from 'components/app/layout'
 import format from 'date-fns/format'
 import {tracer, setupHttpTracing} from '@skillrecordings/honeycomb-tracer'
 import {prisma} from '@skillrecordings/database'
-import {getCurrentAbility} from '../../server/ability'
+import {getCurrentAbility} from '@skillrecordings/ability'
 import {getToken} from 'next-auth/jwt'
 
 export const getServerSideProps: GetServerSideProps = async ({
@@ -62,7 +62,7 @@ export const getServerSideProps: GetServerSideProps = async ({
       return {
         props: {
           charge,
-          product: serialize(product),
+          product: convertToSerializeForNextResponse(product),
           merchantChargeId,
         },
       }

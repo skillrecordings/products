@@ -4,7 +4,7 @@ import {FormikErrors, FormikTouched, useField} from 'formik'
 import {FeedbackFormValues} from '../feedback/form'
 import Spinner from 'components/spinner'
 import isEmpty from 'lodash/isEmpty'
-import {useUser} from '../../hooks/use-user'
+import {useUser} from '@skillrecordings/react'
 
 const ContactEmailField: React.FC<
   React.PropsWithChildren<{

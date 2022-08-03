@@ -1,11 +1,8 @@
 import {NextAuthOptions} from 'next-auth'
-
 import {createHash, randomBytes} from 'crypto'
-import * as Sentry from '@sentry/nextjs'
-import {
-  MagicLinkEmailType,
-  sendVerificationRequest,
-} from '../pages/api/auth/[...nextauth]'
+import type {MagicLinkEmailType} from './send-verification-request'
+import {sendVerificationRequest} from './send-verification-request'
+import {v4} from 'uuid'
 
 const baseUrl = process.env.NEXTAUTH_URL || process.env.VERCEL_URL
 
@@ -34,19 +31,11 @@ export async function sendServerEmail({
     (provider) => provider.id === 'email',
   )
 
-  Sentry.addBreadcrumb({
-    category: 'auth',
-    message: `sending magic link to ${email}`,
-    level: Sentry.Severity.Info,
-  })
-
   callbackUrl = (callbackUrl || baseUrl) as string
 
   const identifier = email
 
-  const token =
-    (await emailProvider.generateVerificationToken?.()) ??
-    randomBytes(32).toString('hex')
+  const token = (await emailProvider.generateVerificationToken?.()) ?? v4()
 
   const ONE_DAY_IN_SECONDS = 86400
   const expires = new Date(
@@ -68,6 +57,7 @@ export async function sendServerEmail({
   await sendVerificationRequest({
     identifier,
     url: _url,
+    theme: nextAuthOptions.theme || {colorScheme: 'auto'},
     provider: emailProvider.options,
     token: token as string,
     expires,

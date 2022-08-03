@@ -1,5 +1,5 @@
 {
-  "name": "@skillrecordings/commerce-server",
+  "name": "@skillrecordings/ability",
   "version": "1.0.0",
   "license": "MIT",
   "main": "./dist/index.js",
@@ -11,22 +11,14 @@
     "build": "tsup",
     "clean": "rimraf .turbo node_modules dist",
     "dev": "tsup --watch",
-    "lint": "eslint ./src --fix",
-    "test": "jest"
+    "lint": "eslint ./src --fix"
   },
   "dependencies": {
-    "@casl/ability": "^6.0.0",
-    "@skillrecordings/honeycomb-tracer": "workspace:*",
-    "@skillrecordings/database": "workspace:*",
-    "date-fns": "^2.28.0",
-    "lodash": "^4.17.21",
-    "stripe": "^8.186.1"
+    "@casl/ability": "^6.0.0"
   },
   "devDependencies": {
-    "@skillrecordings/scripts": "workspace:*",
+    "@skillrecordings/database": "workspace:*",
     "@skillrecordings/tsconfig": "workspace:*",
-    "@types/jest": "^27.5.2",
-    "@types/lodash": "^4.14.179",
     "@types/node": "^18.6.1",
     "eslint": "^8.12.0",
     "eslint-config-custom": "workspace:*",
@@ -34,9 +26,5 @@
     "tsup": "^5.11.13",
     "tsx": "^3.7.1",
     "typescript": "^4.7.4"
-  },
-  "jest": {
-    "preset": "@skillrecordings/scripts/jest/node",
-    "testEnvironment": "node"
   }
 }

@@ -9,6 +9,7 @@ export type SkillRecordingsAction =
   | 'prices'
   | 'checkout'
   | 'webhook'
+  | 'redeem'
 
 export interface SkillRecordingsHeader {
   key: string

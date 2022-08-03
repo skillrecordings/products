@@ -1,5 +1,5 @@
 import {NextApiRequest, NextApiResponse} from 'next'
-import {serialize} from 'utils/prisma-next-serializer'
+import {convertToSerializeForNextResponse} from '@skillrecordings/commerce-server'
 import {getSdk, defaultContext} from '@skillrecordings/database'
 import {withSentry} from '@sentry/nextjs'
 import {tracer, setupHttpTracing} from '@skillrecordings/honeycomb-tracer'
@@ -39,7 +39,7 @@ const toggleLessonProgressForUser = async (
         userId: sessionToken.sub,
         lessonSlug: slug as string,
       })
-      res.status(200).json(serialize(lessonProgress))
+      res.status(200).json(convertToSerializeForNextResponse(lessonProgress))
     } catch (error: any) {
       console.error(error.message)
       res.status(400).end(error.message)
