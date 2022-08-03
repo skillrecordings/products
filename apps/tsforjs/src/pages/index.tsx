@@ -1,13 +1,12 @@
 import type {NextPage} from 'next'
-import React, {useState} from 'react'
 import Image from 'next/image'
-import Accordion from 'components/Accordion'
 import {useRouter} from 'next/router'
 import {
   SubscribeToConvertkitForm,
   redirectUrlBuilder,
 } from '@skillrecordings/convertkit'
 import Layout from 'components/layout'
+import AccordionModules from 'components/AccordionModules'
 
 const Home: NextPage = () => {
   return (
@@ -70,7 +69,7 @@ const Home: NextPage = () => {
               <h3 className="pt-12 text-center text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-700 to-pink-500 pb-20">
                 Course Modules
               </h3>
-              <Accordion />
+              <AccordionModules />
               <div className="max-w-[47rem] px-4 mx-auto -mt-[220px] pt-80">
                 <Subscribe />
               </div>

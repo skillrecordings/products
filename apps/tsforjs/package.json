@@ -10,10 +10,13 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@modulz/radix-icons": "^4.0.0",
+    "@radix-ui/react-accordion": "^1.0.0",
     "@skillrecordings/analytics": "workspace:*",
     "@skillrecordings/convertkit": "workspace:*",
     "@skillrecordings/quiz": "workspace:*",
     "@skillrecordings/react": "workspace:*",
+    "@stitches/react": "^1.2.8",
     "classnames": "^2.3.1",
     "feed": "^4.2.2",
     "next": "^12.2.3",
