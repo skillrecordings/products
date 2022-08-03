@@ -1,39 +1,18 @@
 @tailwind base;
+@import './fonts.css';
 
 @tailwind components;
 @import './quiz.css';
+@import './subscribe-form.css';
 
 @tailwind utilities;
 @import './focus-visible.css';
 
-body {
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  @apply font-sans text-white bg-[#03021a] text-[1.125rem] leading-normal;
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
 }
-
-h1,
-h2,
-h3 {
-  font-weight: 700;
-}
-
-[data-sr-convertkit-subscribe-form] {
-  @apply space-y-4;
-}
-
-[data-sr-input-label] {
-  @apply block text-lg mb-1;
-}
-
-[data-sr-input] {
-  @apply block text-[#6b657c] border-2 border-[#dddddd] w-full rounded-lg p-3;
-}
-
-[data-sr-button] {
-  @apply flex text-white bg-[#0065ff] w-full rounded-lg p-3 font-bold uppercase text-sm leading-relaxed justify-center items-center;
-}
-
-[data-sr-button-icon] svg {
-  width: 24px;
+.animate-spin {
+  animation: spin 50s linear infinite;
 }

@@ -14,5 +14,5 @@
 */
 
 [data-js-focus-visible] [data-focus-visible-added] {
-  @apply outline-none ring-2 ring-indigo-500;
+  @apply outline-none ring-2 ring-black ring-offset-1;
 }

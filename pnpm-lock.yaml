@@ -991,6 +991,7 @@ importers:
       '@skillrecordings/scripts': workspace:*
       '@skillrecordings/tsconfig': workspace:*
       '@skillrecordings/types': workspace:*
+      '@types/lodash': ^4.14.179
       '@types/mdx': ^2.0.2
       '@types/mdx-js__react': ^1.5.5
       '@types/node': ^17.0.0
@@ -1001,7 +1002,9 @@ importers:
       eslint: ^8.19.0
       eslint-config-custom: workspace:*
       feed: ^4.2.2
+      framer-motion: ^6.4.1
       lint-staged: ^11.2.6
+      lodash: ^4.17.21
       next: ^12.2.3
       next-compose-plugins: ^2.2.1
       next-sitemap: ^3.0.5
@@ -1024,6 +1027,8 @@ importers:
       '@skillrecordings/react': link:../../packages/react
       classnames: 2.3.1
       feed: 4.2.2
+      framer-motion: 6.4.1_biqbaboplfbrettd7655fr4n2y
+      lodash: 4.17.21
       next: 12.2.3_biqbaboplfbrettd7655fr4n2y
       next-compose-plugins: 2.2.1
       next-sitemap: 3.1.7_hdg3gmwi2czidx5hoyjx6lzi6e
@@ -1034,6 +1039,7 @@ importers:
       '@skillrecordings/scripts': link:../../packages/scripts
       '@skillrecordings/tsconfig': link:../../packages/tsconfig
       '@skillrecordings/types': link:../../packages/types
+      '@types/lodash': 4.14.180
       '@types/mdx': 2.0.2
       '@types/mdx-js__react': 1.5.5
       '@types/node': 17.0.41

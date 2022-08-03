@@ -1,0 +1,85 @@
+@import url('https://fast.fonts.net/t/1.css?apiType=css&projectid=ae840651-342e-4778-a0d4-e8e6a231d6c1');
+@font-face {
+  font-family: 'Larsseit';
+  src: url('/fonts/cef2bd48-ae82-43a2-a033-eedc6e6b1801.woff2') format('woff2'),
+    url('/fonts/257b2391-2f2b-4ec1-9078-33c7ca5c401d.woff') format('woff');
+  font-weight: 100;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Larsseit';
+  src: url('/fonts/2376bd45-8de4-4195-9a28-2a2d15bf858a.woff2') format('woff2'),
+    url('/fonts/6eecfd95-c95b-425b-b01b-2968e0389250.woff') format('woff');
+  font-weight: 100;
+  font-style: italic;
+}
+@font-face {
+  font-family: 'Larsseit';
+  src: url('/fonts/ae566286-fd6d-4e17-9a8f-812ec7e1cb9b.woff2') format('woff2'),
+    url('/fonts/a9e10e90-4301-497f-9a88-f24ee626272e.woff') format('woff');
+  font-weight: 200;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Larsseit';
+  src: url('/fonts/023f808a-557e-4ad2-904b-82ffa6a5bb7f.woff2') format('woff2'),
+    url('/fonts/1f606bb4-e130-4697-bd0a-747a8a5d8b60.woff') format('woff');
+  font-weight: 200;
+  font-style: italic;
+}
+@font-face {
+  font-family: 'Larsseit';
+  src: url('/fonts/a3f6a318-6a4a-4e33-93af-9bad24c6e6ce.woff2') format('woff2'),
+    url('/fonts/d9275214-bcba-4615-a78a-9a15740d63ad.woff') format('woff');
+  font-weight: 300;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Larsseit';
+  src: url('/fonts/cf5bd13f-79e4-4a7a-9f05-db36fbad0619.woff2') format('woff2'),
+    url('/fonts/8bc47843-ef58-446c-a819-7b0e7a4f5c1b.woff') format('woff');
+  font-weight: 300;
+  font-style: italic;
+}
+@font-face {
+  font-family: 'Larsseit';
+  src: url('/fonts/85c016f7-1c53-49be-8528-0c3ec6481153.woff2') format('woff2'),
+    url('/fonts/de9d52a7-4fdd-4918-a809-30c95835528f.woff') format('woff');
+  font-weight: 400;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Larsseit';
+  src: url('/fonts/65f77158-1843-4065-96ec-a795e13212b7.woff2') format('woff2'),
+    url('/fonts/4461cc4d-03f5-42c3-ab86-45951aaab6d0.woff') format('woff');
+  font-weight: 400;
+  font-style: italic;
+}
+@font-face {
+  font-family: 'Larsseit';
+  src: url('/fonts/ad05a999-ad70-4159-9f9a-3d16a06adfd9.woff2') format('woff2'),
+    url('/fonts/f42cddfc-b19e-458d-a550-7dc690de9909.woff') format('woff');
+  font-weight: 600;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Larsseit';
+  src: url('/fonts/7ae7fa28-d613-4870-97f4-9bf2b11bf11d.woff2') format('woff2'),
+    url('/fonts/a5e4b9ef-7026-4b6e-8a4a-c474186d2d9e.woff') format('woff');
+  font-weight: 600;
+  font-style: italic;
+}
+@font-face {
+  font-family: 'Larsseit';
+  src: url('/fonts/da2d4f36-fb03-43c9-ab25-43c1c63292b3.woff2') format('woff2'),
+    url('/fonts/65c4497d-8c6b-45b3-b338-01b6f20be34d.woff') format('woff');
+  font-weight: 700;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Larsseit';
+  src: url('/fonts/4a30cb9d-92dd-41e6-a838-d018d16fabba.woff2') format('woff2'),
+    url('/fonts/9ea2b2d3-9649-4376-9cc6-f352760141d2.woff') format('woff');
+  font-weight: 700;
+  font-style: italic;
+}
