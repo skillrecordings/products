@@ -9,6 +9,12 @@ import {sendFeedbackFromUser} from './services/send-feedback-from-user'
 import {loadPrices} from './services/load-prices'
 import {stripeCheckout} from './services/stripe-checkout'
 import {redeemGoldenTicket} from './services/redeem-golden-ticket'
+import {processStripeWebhooks} from './services/process-stripe-webhook'
+import {
+  convertkitAnswerQuizQuestion,
+  convertkitLoadSubscriber,
+  subscribeToConvertkit,
+} from './services/convertkit'
 
 export interface OutgoingResponse<
   Body extends string | Record<string, any> | any[] = any,
@@ -43,8 +49,6 @@ export async function SkillRecordingsHandler<
   // TODO: implement errors
   const {action, error, providerId, method = 'GET'} = req
 
-  console.log({action})
-
   const {options, cookies} = await init({
     userOptions,
     action,
@@ -65,6 +69,8 @@ export async function SkillRecordingsHandler<
     switch (action) {
       case 'test':
         return render.test()
+      case 'subscriber':
+        return await convertkitLoadSubscriber({params})
     }
   } else if (method === 'POST') {
     switch (action) {
@@ -82,9 +88,11 @@ export async function SkillRecordingsHandler<
       case 'checkout':
         return stripeCheckout({params})
       case 'webhook':
-        return {
-          status: 200,
-        }
+        return await processStripeWebhooks({params})
+      case 'subscribe':
+        return await subscribeToConvertkit({params})
+      case 'answer':
+        return await convertkitAnswerQuizQuestion({params})
     }
   }
 

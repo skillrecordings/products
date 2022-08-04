@@ -4,5 +4,6 @@ declare namespace NodeJS {
     EMAIL_SERVER_PORT: number
     NEXT_PUBLIC_DEFAULT_PRODUCT_ID: string
     SLACK_ANNOUNCE_CHANNEL_ID: string
+    STRIPE_WEBHOOK_SECRET: string
   }
 }

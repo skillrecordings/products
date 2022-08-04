@@ -2,6 +2,7 @@ import {JWT} from 'next-auth/jwt'
 import {SkillRecordingsOptions} from '../next'
 import {NextApiRequest, NextApiResponse} from 'next'
 import {IncomingRequest} from './index'
+import type {CookieSerializeOptions} from 'cookie'
 
 export type SkillRecordingsAction =
   | 'send-feedback'
@@ -10,6 +11,9 @@ export type SkillRecordingsAction =
   | 'checkout'
   | 'webhook'
   | 'redeem'
+  | 'subscriber'
+  | 'answer'
+  | 'subscribe'
 
 export interface SkillRecordingsHeader {
   key: string
@@ -20,6 +24,7 @@ export interface SkillRecordingsHandlerParams {
   req: IncomingRequest
   token: JWT | null
   options: SkillRecordingsOptions
+  rawReq?: NextApiRequest
 }
 
 export interface Theme {
@@ -68,3 +73,12 @@ export type FeedbackContext = {
     | ':smiley:'
   location?: string
 }
+
+/** [Documentation](https://next-auth.js.org/configuration/options#cookies) */
+export interface CookieOption {
+  name: string
+  options: CookieSerializeOptions
+}
+
+/** [Documentation](https://next-auth.js.org/configuration/options#cookies) */
+export interface CookiesOptions {}
