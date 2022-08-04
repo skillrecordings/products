@@ -11,11 +11,7 @@ import {SanityDocument} from '@sanity/client'
 import {getOgImage} from 'utils/get-og-image'
 import {format} from 'date-fns'
 import {isEmpty} from 'lodash'
-import dynamic from 'next/dynamic'
-
-const SubscribeForm = dynamic(() => import('components/subscribe-form'), {
-  ssr: false,
-})
+import SubscribeForm from 'components/subscribe-form'
 
 type ArticleTemplateProps = {
   article: SanityDocument
