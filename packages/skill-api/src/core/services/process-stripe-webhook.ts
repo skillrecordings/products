@@ -13,7 +13,6 @@ export async function processStripeWebhooks({
 }: {
   params: SkillRecordingsHandlerParams
 }): Promise<OutgoingResponse> {
-  console.log('processing')
   try {
     const {
       req,

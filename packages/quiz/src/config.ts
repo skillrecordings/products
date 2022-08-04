@@ -5,13 +5,19 @@ export type QuizConfig = {
       last: string
     }
   }
+  answerSubmitUrl?: string
 }
 
 export default function getConfig(
   PRODUCT_TITLE: string,
   AUTHOR: string,
+  answerSubmitUrl?: string,
 ): QuizConfig {
   return {
+    answerSubmitUrl:
+      process.env.NEXT_PUBLIC_CONVERTKIT_ANSWER_URL ||
+      answerSubmitUrl ||
+      '/api/answer',
     afterCompletionMessages: {
       neutral: {
         default: `Thanks for submitting your answer!\n\nI'll send the next lesson in 5-10 minutes. Check your inbox.\n\n_Thanks,_\n_${AUTHOR}_`,

@@ -8,7 +8,8 @@ import {
 } from '@skillrecordings/config'
 
 export function useConvertkitForm({
-  submitUrl = CONVERTKIT_SUBSCRIBE_API_URL,
+  submitUrl = process.env.NEXT_PUBLIC_CONVERTKIT_SUBSCRIBE_URL ||
+    CONVERTKIT_SUBSCRIBE_API_URL,
   formId = (CONVERTKIT_SIGNUP_FORM || 0) as number,
   onSuccess,
   onError,

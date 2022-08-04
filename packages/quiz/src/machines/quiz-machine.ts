@@ -5,6 +5,7 @@ import every from 'lodash/every'
 import shuffle from 'lodash/shuffle'
 import isEmpty from 'lodash/isEmpty'
 import handleSubmitAnswer from '../utils/submit-answer'
+import {QuizConfig} from '../config'
 
 export type QuizEvent =
   | {type: 'ANSWER'; answer: string}
@@ -17,6 +18,7 @@ export type QuizContext = {
   currentQuestion: QuestionResource
   answer: string
   answeredCorrectly: boolean
+  config: QuizConfig
 }
 
 const quizMachine = createMachine<QuizContext, QuizEvent>(

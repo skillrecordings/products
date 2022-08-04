@@ -35,6 +35,7 @@ export default function useQuestion({
   const [state, send] = useMachine(quizMachine, {
     context: {
       questionSet,
+      config,
     },
   })
 

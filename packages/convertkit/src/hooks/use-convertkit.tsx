@@ -29,8 +29,13 @@ const defaultConvertKitContext: ConvertkitContextType = {
 export const ConvertkitContext = React.createContext(defaultConvertKitContext)
 
 export const ConvertkitProvider: React.FC<
-  React.PropsWithChildren<{children: any}>
-> = ({children}) => {
+  React.PropsWithChildren<{getSubscriberApiUrl?: string}>
+> = ({
+  children,
+  getSubscriberApiUrl = process.env.NEXT_PUBLIC_CONVERTKIT_GET_SUBSCRIBER_URL ||
+    `/api/subscriber`,
+}) => {
+  console.log(process.env.NEXT_PUBLIC_CONVERTKIT_GET_SUBSCRIBER_URL)
   const [subscriber, setSubscriber] = React.useState()
   const [loadingSubscriber, setLoadingSubscriber] = React.useState(true)
   React.useEffect(() => {
@@ -49,7 +54,7 @@ export const ConvertkitProvider: React.FC<
     }
 
     axios
-      .get(`/api/subscriber`)
+      .get(getSubscriberApiUrl)
       .then(({data}) => {
         setSubscriber(data)
       })
