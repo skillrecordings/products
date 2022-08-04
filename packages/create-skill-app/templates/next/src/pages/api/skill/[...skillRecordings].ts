@@ -10,3 +10,12 @@ export const skillOptions: SkillRecordingsOptions = {
 }
 
 export default SkillRecordings(skillOptions)
+
+/**
+ * bodyParser MUST be false to handle webhooks
+ */
+export const config = {
+  api: {
+    bodyParser: false,
+  },
+}

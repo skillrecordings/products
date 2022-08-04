@@ -1543,6 +1543,7 @@ importers:
       groq: ^2.15.0
       jest: ^27.5.1
       jest-mock-extended: ^2.0.4
+      mjml: ^4.12.0
       next: ^12.2.3
       next-auth: ^4.10.2
       next-compose-plugins: ^2.2.1
@@ -1578,6 +1579,7 @@ importers:
       classnames: 2.3.1
       feed: 4.2.2
       groq: 2.15.0
+      mjml: 4.12.0
       next: 12.2.3_biqbaboplfbrettd7655fr4n2y
       next-auth: 4.10.2_veosbehjv4o6lw47zt43je3zka
       next-compose-plugins: 2.2.1
@@ -3130,6 +3132,7 @@ importers:
       babel-plugin-jsx-pragmatic: ^1.0.2
       babel-preset-preact: ^2.0.0
       concurrently: ^7.2.2
+      cookie: ^0.5.0
       cssnano: ^5.0.12
       date-fns: ^2.28.0
       eslint: ^8.19.0
@@ -3138,6 +3141,7 @@ importers:
       html-to-text: ^8.2.0
       i: ^0.3.7
       jest-mock-extended: ^2.0.7
+      lodash: ^4.17.21
       micro: ^9.3.4
       mjml: ^4.12.0
       msw: ^0.35.0
@@ -3166,9 +3170,11 @@ importers:
       '@slack/web-api': 6.7.2
       '@vercel/tracing-js': 0.5.1
       concurrently: 7.2.2
+      cookie: 0.5.0
       date-fns: 2.28.0
       handlebars: 4.7.7
       html-to-text: 8.2.0
+      lodash: 4.17.21
       micro: 9.3.4
       mjml: 4.12.0
       node-html-markdown: 1.2.0
