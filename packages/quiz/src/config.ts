@@ -15,8 +15,8 @@ export default function getConfig(
 ): QuizConfig {
   return {
     answerSubmitUrl:
-      process.env.NEXT_PUBLIC_CONVERTKIT_ANSWER_URL ||
       answerSubmitUrl ||
+      process.env.NEXT_PUBLIC_CONVERTKIT_ANSWER_URL ||
       '/api/answer',
     afterCompletionMessages: {
       neutral: {
