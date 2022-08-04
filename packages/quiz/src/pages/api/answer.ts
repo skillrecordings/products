@@ -3,6 +3,7 @@ import {convertkitAxios} from '@skillrecordings/axios'
 import fetchConvertkitSubscriberFromServerCookie from '@skillrecordings/convertkit/dist/utils/fetch-convertkit-subscriber'
 import isEmpty from 'lodash/isEmpty'
 import find from 'lodash/find'
+import toLower from 'lodash/toLower'
 import {CONVERTKIT_BASE_URL} from '@skillrecordings/config'
 
 if (!CONVERTKIT_BASE_URL)
@@ -21,7 +22,7 @@ const answer: NextApiHandler = async (
       const cookieHeader = req.headers.cookie as string
       const [subscriber, ckCookie] =
         await fetchConvertkitSubscriberFromServerCookie(cookieHeader)
-      const questionId = survey.id
+      const questionId = toLower(survey.id)
 
       // Subscribe user to tag
       if (tagId) {
