@@ -50,8 +50,8 @@ const ArticleTemplate: React.FC<ArticleTemplateProps> = ({article}) => {
         <div className="bg-slate-800/40 border-t border-slate-800/50 lg:px-0 px-5 shadow-lg">
           <TableOfContents value={body} />
         </div>
-        <div className="max-w-screen-md mx-auto w-full pt-10 lg:px-0 px-5 pb-24">
-          <article className="pt-8 prose-a:decoration-indigo-500 hover:prose-a:decoration-indigo-300 prose-a:transition prose prose-lg prose-h2:text-center prose-h2:py-8 md:prose-xl lg:prose-h2:text-5xl lg:prose-h3:text-4xl prose-headings:font-bold md:prose-code:text-sm lg:prose-code:text-[80%] md:prose-code:text-[80%] prose-code:text-[70%] max-w-none">
+        <div className="max-w-screen-md mx-auto w-full sm:pt-10 lg:px-0 px-5 sm:pb-24 pb-10">
+          <article className="pt-8 prose-a:decoration-indigo-500 hover:prose-a:decoration-indigo-300 prose-a:transition prose prose-lg prose-h2:py-8 md:prose-xl lg:prose-h2:text-5xl lg:prose-h3:text-4xl prose-headings:font-bold md:prose-code:text-sm lg:prose-code:text-[80%] md:prose-code:text-[80%] prose-code:text-[70%] max-w-none">
             <PortableText value={body} components={PortableTextComponents} />
           </article>
           <Signature />
@@ -71,7 +71,7 @@ const RelatedResources: React.FC<{resources: SanityDocument[]}> = ({
   resources,
 }) => {
   return !isEmpty(resources) ? (
-    <section className="px-5 w-full mx-auto pt-14 pb-32">
+    <section className="px-5 w-full mx-auto sm:pt-14 sm:pb-32 pb-16">
       <div className="flex sm:flex-row flex-col items-start justify-between max-w-screen-md mx-auto w-full">
         <div className="sm:text-lg uppercase font-medium text-slate-400 flex-shrink-0 sm:pr-32 pt-2 sm:pb-0 pb-4">
           Continue Reading
@@ -121,7 +121,7 @@ const Header: React.FC<SanityDocument> = ({
             {title}
           </h1>
           {subtitle && (
-            <h2 className="pt-2 sm:text-2xl text-lg leading-tight text-indigo-400 brightness-125 max-w-xl mx-auto">
+            <h2 className="pt-2 sm:text-2xl text-xl leading-tight text-indigo-400 brightness-125 max-w-xl mx-auto">
               {subtitle}
             </h2>
           )}
