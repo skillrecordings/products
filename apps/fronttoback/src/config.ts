@@ -31,7 +31,7 @@ export default {
     },
     images: [
       {
-        url: `https://${process.env.NEXT_PUBLIC_URL}/card@2x.png`,
+        url: `${process.env.NEXT_PUBLIC_URL}/card@2x.png`,
         width: 1200,
         height: 630,
       },
