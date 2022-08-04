@@ -26,12 +26,16 @@ export const ThingsToUnderstand = () => {
       <ul className="md:py-10 py-2 max-w-screen-md mx-auto list-outside list-none space-y-4 pl-0 grid md:grid-cols-2 grid-cols-1 place-content-center place-items-start sm:text-xl text-lg md:gap-16 gap-5">
         {thingsToUnderstandArr.map(({title, items}) => {
           return (
-            <li>
+            <li key={title}>
               {' '}
               <h3 className="sm:text-2xl text-xl font-bold">{title}</h3>
               <ul className="pt-3">
                 {items.map((item) => {
-                  return <li className="list-disc list-inside py-1">{item}</li>
+                  return (
+                    <li key={item} className="list-disc list-inside py-1">
+                      {item}
+                    </li>
+                  )
                 })}
               </ul>
             </li>

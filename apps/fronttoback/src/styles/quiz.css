@@ -9,7 +9,7 @@
 
   /* ——— HEADER ——— */
   [data-sr-quiz-question-header] {
-    @apply prose md:prose-2xl sm:prose-xl prose-lg pb-6 max-w-none w-full;
+    @apply prose md:prose-2xl sm:prose-xl prose-lg pb-6 max-w-none w-full prose-p:text-black prose-headings:text-black;
 
     pre {
       @apply p-0;

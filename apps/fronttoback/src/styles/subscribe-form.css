@@ -17,5 +17,5 @@
 }
 
 [data-sr-button-icon] svg {
-  width: 24px;
+  @apply w-7 h-7 mx-auto;
 }
