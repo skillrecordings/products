@@ -7,6 +7,9 @@ import {SessionProvider} from 'next-auth/react'
 import '../styles/globals.css'
 import 'focus-visible'
 import {ConvertkitProvider} from '@skillrecordings/convertkit'
+import {QueryClient, QueryClientProvider} from 'react-query'
+
+const queryClient = new QueryClient()
 
 declare global {
   interface Window {
@@ -22,13 +25,15 @@ function MyApp({Component, pageProps}: AppProps) {
   return (
     <>
       <DefaultSeo {...config} />
-      <SessionProvider session={pageProps.session} refetchInterval={0}>
-        <ConvertkitProvider>
-          <ThemeProvider forcedTheme="dark" attribute="class">
-            <Component {...pageProps} />
-          </ThemeProvider>
-        </ConvertkitProvider>
-      </SessionProvider>
+      <QueryClientProvider client={queryClient}>
+        <SessionProvider session={pageProps.session} refetchInterval={0}>
+          <ConvertkitProvider>
+            <ThemeProvider forcedTheme="dark" attribute="class">
+              <Component {...pageProps} />
+            </ThemeProvider>
+          </ConvertkitProvider>
+        </SessionProvider>
+      </QueryClientProvider>
     </>
   )
 }
