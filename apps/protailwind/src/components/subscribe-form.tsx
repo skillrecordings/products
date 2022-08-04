@@ -1,18 +1,24 @@
 import React from 'react'
-import CityScene from 'components/scenes/city'
-import Camera from 'components/scenes/city/camera'
 import {
   SubscribeToConvertkitForm,
   redirectUrlBuilder,
 } from '@skillrecordings/convertkit'
 import {useRouter} from 'next/router'
+import Image from 'next/image'
 
 const SubscribeForm = () => {
   const router = useRouter()
   return (
     <section className="relative">
       <div className="absolute left-0 bottom-0 overflow-hidden w-full h-[700px]">
-        <CityScene camera={<Camera animateOnScroll={false} />} />
+        <Image
+          src={require('../../public/assets/city-bg-2@2x.png')}
+          alt=""
+          aria-hidden="true"
+          layout="fill"
+          objectFit="cover"
+          quality={100}
+        />
         <div className="absolute top-0 left-0 w-full h-56 bg-gradient-to-b from-slate-900 to-slate-900/0" />
       </div>
       <div className="pt-10 sm:pb-48 pb-32 px-5 relative w-full flex flex-col items-center justify-center">
