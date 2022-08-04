@@ -35,7 +35,6 @@ export const ConvertkitProvider: React.FC<
   getSubscriberApiUrl = process.env.NEXT_PUBLIC_CONVERTKIT_GET_SUBSCRIBER_URL ||
     `/api/subscriber`,
 }) => {
-  console.log(process.env.NEXT_PUBLIC_CONVERTKIT_GET_SUBSCRIBER_URL)
   const [subscriber, setSubscriber] = React.useState()
   const [loadingSubscriber, setLoadingSubscriber] = React.useState(true)
   React.useEffect(() => {
