@@ -1,4 +1,3 @@
-
 /* ——— QUIZ ——— */
 [data-sr-quiz] {
   @apply p-5 w-full flex flex-col items-center justify-center;
@@ -105,7 +104,7 @@
   [data-sr-button] {
     @apply mt-5 text-white inline-flex items-center px-6 py-3 text-lg leading-6 font-semibold rounded-lg border-none bg-indigo-600 hover:bg-indigo-500 hover:shadow-xl transition hover:scale-105 ease-in-out duration-300 shadow-xl cursor-pointer;
     svg {
-      @apply text-indigo-300 animate-spin;
+      @apply text-indigo-300 animate-spin w-6 h-6;
     }
   }
 

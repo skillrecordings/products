@@ -61,7 +61,7 @@ const NavLogo = () => {
   return (
     <Link href="/" aria-label="Front to Back Home" passHref>
       <a
-        className="font-bold md:text-2xl text-lg"
+        className="font-bold text-2xl"
         tabIndex={router.pathname === '/' ? -1 : 0}
       >
         FrontToBack.dev

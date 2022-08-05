@@ -2,6 +2,7 @@ import {SkillRecordingsHandlerParams} from '../../types'
 import {OutgoingResponse} from '../../index'
 import isEmpty from 'lodash/isEmpty'
 import find from 'lodash/find'
+import toLower from 'lodash/toLower'
 import {
   createConvertkitTag,
   fetchSubscriber,
@@ -26,7 +27,7 @@ export async function convertkitAnswerQuizQuestion({
         status: 200,
       }
     const subscriber = await fetchSubscriber(convertkitId)
-    const questionId = survey.id
+    const questionId = toLower(survey.id)
 
     // Subscribe user to tag
     if (tagId) {

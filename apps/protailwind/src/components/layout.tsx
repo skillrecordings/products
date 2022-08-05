@@ -3,15 +3,7 @@ import {NextSeo} from '@skillrecordings/react'
 import {Toaster} from 'react-hot-toast'
 import cx from 'classnames'
 import Navigation from 'components/navigation'
-
-type LayoutProps = {
-  meta?: any
-  noIndex?: boolean
-  className?: string
-  nav?: boolean
-  footer?: React.ReactElement | null
-  children?: any
-}
+import type {LayoutProps} from '@types'
 
 const Layout: FunctionComponent<React.PropsWithChildren<LayoutProps>> = ({
   children,
