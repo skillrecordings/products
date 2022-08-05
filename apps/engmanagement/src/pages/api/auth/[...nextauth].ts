@@ -6,6 +6,10 @@ import {createTransport} from 'nodemailer'
 import {PrismaAdapter} from '@skillrecordings/skill-api'
 
 export const nextAuthOptions: NextAuthOptions = {
+  theme: {
+    colorScheme: 'auto',
+    brandColor: '#d17300',
+  },
   secret: process.env.NEXTAUTH_SECRET,
   session: {
     strategy: 'jwt',

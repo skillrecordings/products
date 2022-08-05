@@ -107,26 +107,28 @@ export async function postSaleToSlack(
   purchase: Purchase,
 ) {
   try {
-    return await postToSlack({
-      webClient: new WebClient(process.env.SLACK_TOKEN),
-      channel: process.env.SLACK_ANNOUNCE_CHANNEL_ID,
-      text: `Someone purchased ${purchaseInfo.stripeProduct.name}`,
-      attachments: [
-        {
-          fallback: `Sold (${purchaseInfo.quantity}) ${purchaseInfo.stripeProduct.name}`,
-          text: `Somebody bought ${purchaseInfo.quantity} ${pluralize(
-            'copy',
-            purchaseInfo.quantity,
-          )} of ${
-            purchaseInfo.stripeProduct.name
-          } for ${`$${purchase.totalAmount}`}${
-            isEmpty(purchase.upgradedFromId) ? '' : ' as an upgrade'
-          }`,
-          color: '#eba234',
-          title: `Sold (${purchaseInfo.quantity}) ${purchaseInfo.stripeProduct.name}`,
-        },
-      ],
-    })
+    if (process.env.SLACK_TOKEN) {
+      return await postToSlack({
+        webClient: new WebClient(process.env.SLACK_TOKEN),
+        channel: process.env.SLACK_ANNOUNCE_CHANNEL_ID,
+        text: `Someone purchased ${purchaseInfo.stripeProduct.name}`,
+        attachments: [
+          {
+            fallback: `Sold (${purchaseInfo.quantity}) ${purchaseInfo.stripeProduct.name}`,
+            text: `Somebody bought ${purchaseInfo.quantity} ${pluralize(
+              'copy',
+              purchaseInfo.quantity,
+            )} of ${
+              purchaseInfo.stripeProduct.name
+            } for ${`$${purchase.totalAmount}`}${
+              isEmpty(purchase.upgradedFromId) ? '' : ' as an upgrade'
+            }`,
+            color: '#eba234',
+            title: `Sold (${purchaseInfo.quantity}) ${purchaseInfo.stripeProduct.name}`,
+          },
+        ],
+      })
+    }
   } catch (e) {
     console.log(e)
     return false

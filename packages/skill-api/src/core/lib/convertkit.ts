@@ -1,13 +1,85 @@
 import {isEmpty} from 'lodash'
+import find from 'lodash/find'
+import {Cookie} from './cookie'
 
 const convertkitBaseUrl =
   process.env.CONVERTKIT_BASE_URL || 'https://api.convertkit.com/v3/'
 
+const hour = 3600000
+export const oneYear = 365 * 24 * hour
+
+export function getConvertkitSubscriberCookie(subscriber: any): Cookie[] {
+  return [
+    {
+      name: 'ck_subscriber',
+      value: JSON.stringify(subscriber),
+      options: {
+        secure: process.env.NODE_ENV === 'production',
+        httpOnly: true,
+        path: '/',
+        maxAge: oneYear,
+      },
+    },
+    {
+      name:
+        process.env.NEXT_PUBLIC_CONVERTKIT_SUBSCRIBER_KEY || 'ck_subscriber_id',
+      value: subscriber.id,
+      options: {
+        secure: process.env.NODE_ENV === 'production',
+        httpOnly: true,
+        path: '/',
+        maxAge: 31556952,
+      },
+    },
+  ]
+}
+
+export async function subscribeToEndpoint(
+  endPoint: string,
+  params: Record<string, string>,
+) {
+  return await fetch(`${convertkitBaseUrl}${endPoint}`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json; charset=utf-8',
+    },
+    body: JSON.stringify({
+      ...params,
+      api_key: process.env.NEXT_PUBLIC_CONVERTKIT_TOKEN,
+    }),
+  })
+    .then((res) => res.json())
+    .then(({subscription}) => {
+      return subscription.subscriber
+    })
+}
+
+export async function tagSubscriber(email: string, tagId: string) {
+  const url = `${convertkitBaseUrl}/tags/${tagId}/subscribe`
+  return await fetch(url, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json; charset=utf-8',
+    },
+    body: JSON.stringify({
+      email,
+      api_key: process.env.NEXT_PUBLIC_CONVERTKIT_TOKEN,
+    }),
+  })
+    .then((res) => res.json())
+    .then(({subscription}) => {
+      return subscription.subscriber
+    })
+}
+
 export async function setConvertkitSubscriberFields(
-  subscriberId: string,
+  subscriber: {id: string},
   fields: Record<string, string>,
 ) {
-  await fetch(`${convertkitBaseUrl}/subscribers/${subscriberId}`, {
+  for (const field in fields) {
+    await createConvertkitCustomField(field, subscriber)
+  }
+  await fetch(`${convertkitBaseUrl}/subscribers/${subscriber.id}`, {
     method: 'PUT',
     headers: {
       'Content-Type': 'application/json; charset=utf-8',
@@ -19,22 +91,35 @@ export async function setConvertkitSubscriberFields(
   })
 }
 
-export async function createConvertkitTag(questionId: string) {
-  if (!process.env.CONVERTKIT_API_SECRET) {
-    console.warn('set CONVERTKIT_API_SECRET')
-    return
-  }
+export async function createConvertkitCustomField(
+  questionId: string,
+  subscriber: any,
+) {
+  try {
+    if (!process.env.CONVERTKIT_API_SECRET) {
+      console.warn('set CONVERTKIT_API_SECRET')
+      return
+    }
 
-  await fetch(`${convertkitBaseUrl}/custom_fields`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json; charset=utf-8',
-    },
-    body: JSON.stringify({
-      api_secret: process.env.CONVERTKIT_API_SECRET,
-      label: questionId,
-    }),
-  })
+    const fieldExists = !isEmpty(
+      find(Object.keys(subscriber.fields), (field) => field === questionId),
+    )
+
+    if (!fieldExists) {
+      await fetch(`${convertkitBaseUrl}/custom_fields`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json; charset=utf-8',
+        },
+        body: JSON.stringify({
+          api_secret: process.env.CONVERTKIT_API_SECRET,
+          label: questionId,
+        }),
+      })
+    }
+  } catch (e) {
+    console.debug(`convertkit field not created: ${questionId}`)
+  }
 }
 
 export async function subscribeToTag(email: string, tagId: string) {
