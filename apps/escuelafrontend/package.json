@@ -35,7 +35,7 @@
     "@heroicons/react": "^1.0.6",
     "@next-auth/prisma-adapter": "^1.0.3",
     "@next/eslint-plugin-next": "^12.1.0",
-    "@next/mdx": "^12.1.0",
+    "@next/mdx": "^12.2.4",
     "@reach/dialog": "^0.16.2",
     "@sanity/block-content-to-markdown": "^0.0.5",
     "@sanity/client": "^3.2.0",
