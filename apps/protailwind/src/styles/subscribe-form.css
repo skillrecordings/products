@@ -11,5 +11,9 @@
   }
   [data-sr-button] {
     @apply shadow-xl font-semibold justify-center sm:text-2xl text-xl font-heading p-5 mt-2 overflow-clip flex items-center tracking-wide rounded-lg text-white bg-indigo-500/80 hover:bg-indigo-600 backdrop-blur-md backdrop-brightness-150 hover:bg-opacity-100 transition focus-visible:ring-indigo-200 hover:scale-105;
+
+    svg {
+      @apply w-6 h-6;
+    }
   }
 }

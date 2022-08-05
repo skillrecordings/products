@@ -47,7 +47,7 @@ export async function getStaticProps() {
         'When using multiple themes, how is the theme for a given HTML element determined?',
       type: 'multiple-choice',
       tagId: 3232321,
-      correct: 'body-data-theme',
+      correct: 'nearest-parent',
       choices: [
         {
           answer: 'body-data-theme',

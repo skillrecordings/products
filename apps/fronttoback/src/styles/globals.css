@@ -13,6 +13,12 @@
     transform: rotate(360deg);
   }
 }
-.animate-spin {
+.animate-spin-slow {
   animation: spin 50s linear infinite;
+}
+
+@supports (-webkit-touch-callout: none) {
+  .h-screen {
+    height: -webkit-fill-available;
+  }
 }

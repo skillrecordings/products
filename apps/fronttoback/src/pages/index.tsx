@@ -1,6 +1,5 @@
 import React from 'react'
 import type {NextPage} from 'next'
-import Image from 'next/image'
 import cx from 'classnames'
 import LandingCopy from 'components/landing-copy.mdx'
 import {useRouter} from 'next/router'
@@ -11,7 +10,7 @@ import {
 } from '@skillrecordings/convertkit'
 import toast from 'react-hot-toast'
 import Layout from 'components/app/layout'
-import {LinkedInIcon, TwitterIcon} from '@skillrecordings/react'
+import AboutInstructor from 'components/about-instructor'
 
 const Home: NextPage = () => {
   const router = useRouter()
@@ -40,8 +39,8 @@ export default Home
 const Header = () => {
   const shouldReduceMotion = useReducedMotion()
   return (
-    <header className="bg-[#F38D68] min-h-screen flex flex-col justify-end p-[6vw] tracking-tighter relative overflow-hidden">
-      <div className="relative z-10">
+    <header className="bg-[#F38D68] h-screen flex flex-col justify-end p-[6vw] tracking-tighter relative overflow-hidden">
+      <div className="relative z-10 sm:pb-0 pb-20">
         <h1 className="md:text-[11vw] text-[12vw] font-bold leading-none">
           Backend for Frontend Devs
         </h1>
@@ -52,9 +51,9 @@ const Header = () => {
       </div>
       <svg
         className={cx(
-          'absolute -right-24 -top-24 animate-spin text-brand-red sm:w-[500px] w-[400px]',
+          'absolute -right-24 -top-24 text-brand-red sm:w-[500px] w-[400px]',
           {
-            'animate-spin': !shouldReduceMotion,
+            'animate-spin-slow': !shouldReduceMotion,
           },
         )}
         viewBox="0 0 564 564"
@@ -127,78 +126,7 @@ const Footer = () => {
           </p>
           <p>Now let's get to work.</p>
         </div>
-        <div>
-          <div className="flex items-center gap-5">
-            <div className="rounded-full overflow-hidden flex-shrink-0">
-              <Image
-                alt="Chance Strickland"
-                src="/images/chance-strickland.webp"
-                width={140}
-                height={140}
-                quality={100}
-              />
-            </div>
-            <strong className="sm:text-3xl text-2xl">
-              <p>
-                Hi! I'm Chance, and I will be your{' '}
-                <strong>Front to Back</strong> instructor.
-              </p>
-            </strong>
-          </div>
-          <div className="prose sm:prose-xl prose-lg prose-a:text-brand-purple prose-p:text-white max-w-md hover:prose-a:text-[#D2D2FF] prose-a:underline prose-a:underline-offset-2 prose-strong:text-white">
-            <div className="space-y-6 w-full">
-              <p>
-                I am a software engineer building{' '}
-                <a
-                  href="https://www.radix-ui.com/"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  Radix UI
-                </a>{' '}
-                and the maintainer of{' '}
-                <a
-                  href="https://reach.tech"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  Reach UI
-                </a>
-                . I've also taught hundreds of developers how to build better
-                full-stack React apps with{' '}
-                <a
-                  href="https://reacttraining.com/"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  React Training
-                </a>
-                .
-              </p>
-              <p></p>
-            </div>
-            <div className="space-x-3 flex items-center  not-prose">
-              <a
-                href="https://twitter.com/chancethedev"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="p-2 text-gray-300 hover:text-white transition"
-              >
-                <TwitterIcon className="w-5 h-5" />
-                <span className="sr-only">Chance on Twitter</span>
-              </a>
-              <a
-                href="https://www.linkedin.com/in/chaance/"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="p-2 text-gray-300 hover:text-white transition"
-              >
-                <LinkedInIcon className="w-5 h-5" />
-                <span className="sr-only">Chance on LinkedIn</span>
-              </a>
-            </div>
-          </div>
-        </div>
+        <AboutInstructor />
       </div>
     </div>
   )

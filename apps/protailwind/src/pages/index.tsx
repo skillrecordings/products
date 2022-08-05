@@ -4,32 +4,8 @@ import {useRouter} from 'next/router'
 import Image from 'next/image'
 import Layout from 'components/layout'
 import toast from 'react-hot-toast'
-import CityScene from 'components/scenes/city'
 import Simon from '../../public/assets/simon-vrachliotis.png'
 import SubscribeForm from 'components/subscribe-form'
-
-const questions = [
-  {
-    title: 'Component library',
-    body: 'How do I package and consume a component library using Tailwind CSS?',
-    alt: '01.',
-  },
-  {
-    title: 'Monorepo',
-    body: 'Is it possible to use Tailwind in a monorepo environment?',
-    alt: '02.',
-  },
-  {
-    title: 'Theming',
-    body: `What's the best way to support advanced theming, beyond just dark mode?`,
-    alt: '03.',
-  },
-  {
-    title: 'Plugins',
-    body: `Should I use the plugin API, presets... or both?`,
-    alt: '04.',
-  },
-]
 
 const Home: NextPage = () => {
   const router = useRouter()
@@ -46,7 +22,7 @@ const Home: NextPage = () => {
   return (
     <Layout meta={{titleAppendSiteName: false}} nav>
       <Header />
-      <main className="font-light text-slate-300 sm:text-2xl text-xl leading-normal bg-slate-900">
+      <main className="pt-24 font-light text-slate-300 sm:text-2xl text-xl leading-normal bg-slate-900">
         <Copy />
         <SubscribeForm />
         <Bio />
@@ -59,22 +35,19 @@ export default Home
 
 const Header = () => {
   return (
-    <header className="relative min-h-[calc(100vh+200px)]">
+    <header className="relative min-h-screen">
       <div className="w-full absolute h-screen">
         <Image
-          src={require('../../public/assets/city-bg.png')}
+          src={require('../../public/assets/city-bg@2x.png')}
           alt=""
           aria-hidden="true"
           layout="fill"
           objectFit="cover"
-          quality={50}
-          className="opacity-50"
+          quality={100}
+          placeholder="blur"
         />
-      </div>
-      <div className="sticky top-0 min-h-screen">
-        <CityScene />
-        <HeaderForeground />
         <div className="absolute left-0 bottom-0 w-full h-48 bg-gradient-to-b from-transparent to-slate-900 sm:pointer-events-none" />
+        <HeaderForeground />
       </div>
     </header>
   )
@@ -211,3 +184,26 @@ export const DividerStar = () => {
     </div>
   )
 }
+
+const questions = [
+  {
+    title: 'Component library',
+    body: 'How do I package and consume a component library using Tailwind CSS?',
+    alt: '01.',
+  },
+  {
+    title: 'Monorepo',
+    body: 'Is it possible to use Tailwind in a monorepo environment?',
+    alt: '02.',
+  },
+  {
+    title: 'Theming',
+    body: `What's the best way to support advanced theming, beyond just dark mode?`,
+    alt: '03.',
+  },
+  {
+    title: 'Plugins',
+    body: `Should I use the plugin API, presets... or both?`,
+    alt: '04.',
+  },
+]
