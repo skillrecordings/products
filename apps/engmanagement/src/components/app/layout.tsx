@@ -3,6 +3,7 @@ import {useSession} from 'next-auth/react'
 import {Toaster} from 'react-hot-toast'
 import {NextSeo} from '@skillrecordings/react'
 import config from 'config'
+import {DefaultCoupon} from '@skillrecordings/commerce-server/dist/@types'
 
 type LayoutProps = {
   meta?: any
@@ -10,6 +11,7 @@ type LayoutProps = {
   className?: string
   nav?: React.ReactElement | null
   footer?: React.ReactElement | null
+  defaultCoupon?: DefaultCoupon
 }
 
 const Layout: FunctionComponent<

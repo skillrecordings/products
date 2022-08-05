@@ -1,13 +1,15 @@
 import NextAuth, {NextAuthOptions} from 'next-auth'
 import EmailProvider from 'next-auth/providers/email'
 import jwt from 'jsonwebtoken'
-import {PrismaAdapter} from '@next-auth/prisma-adapter'
-import {prisma} from '@skillrecordings/database'
+import {getSdk, prisma} from '@skillrecordings/database'
 import {createTransport} from 'nodemailer'
-import {withSentry} from '@sentry/nextjs'
-import {getSdk} from '../../../lib/prisma-api'
+import {PrismaAdapter} from '@skillrecordings/skill-api'
 
 export const nextAuthOptions: NextAuthOptions = {
+  theme: {
+    colorScheme: 'auto',
+    brandColor: '#d17300',
+  },
   secret: process.env.NEXTAUTH_SECRET,
   session: {
     strategy: 'jwt',
@@ -74,7 +76,7 @@ export const nextAuthOptions: NextAuthOptions = {
   },
 }
 
-export default withSentry(NextAuth(nextAuthOptions))
+export default NextAuth(nextAuthOptions)
 
 export const config = {
   api: {

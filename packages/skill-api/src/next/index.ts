@@ -124,8 +124,7 @@ export interface SkillRecordingsOptions {
     title: string
   }
   slack?: SlackConfig
-  nextAuthOptions?: NextAuthOptions
-  parseBody?: boolean
+  nextAuthOptions: NextAuthOptions
 }
 
 export default SkillRecordings
