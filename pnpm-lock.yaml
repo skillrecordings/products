@@ -979,11 +979,15 @@ importers:
 
   apps/fronttoback:
     specifiers:
+      '@heroicons/react': ^1.0.6
       '@mdx-js/loader': ^2.1.2
       '@mdx-js/mdx': ^2.1.2
       '@mdx-js/react': ^2.1.2
       '@next/env': ^12.2.2
       '@next/mdx': ^12.2.2
+      '@portabletext/react': ^1.0.6
+      '@portabletext/types': ^1.0.3
+      '@sanity/client': ^3.3.3
       '@skillrecordings/analytics': workspace:*
       '@skillrecordings/convertkit': workspace:*
       '@skillrecordings/quiz': workspace:*
@@ -997,12 +1001,14 @@ importers:
       '@types/node': ^17.0.0
       '@types/react': ^18.0.15
       '@types/react-dom': ^18.0.6
+      '@types/speakingurl': ^13.0.3
       classnames: ^2.3.1
       dotenv-flow: ^3.2.0
       eslint: ^8.19.0
       eslint-config-custom: workspace:*
       feed: ^4.2.2
       framer-motion: ^6.4.1
+      groq: ^2.15.0
       lint-staged: ^11.2.6
       lodash: ^4.17.21
       next: ^12.2.3
@@ -1013,14 +1019,20 @@ importers:
       react: 18.2.0
       react-dom: 18.2.0
       react-hot-toast: ^2.2.0
+      react-refractor: ^2.1.7
+      refractor: ^4.5.0
+      speakingurl: ^14.0.1
       tailwindcss: ^3.1.6
       typescript: ^4.7.4
       webpack: '>=4.3.0 <5.0.0'
     dependencies:
+      '@heroicons/react': 1.0.6_react@18.2.0
       '@mdx-js/loader': 2.1.2_webpack@4.46.0
       '@mdx-js/mdx': 2.1.2
       '@mdx-js/react': 2.1.2_react@18.2.0
       '@next/mdx': 12.2.2_todqhrvd7cvbb36hzi2r6xttgq
+      '@portabletext/react': 1.0.6_react@18.2.0
+      '@sanity/client': 3.3.3
       '@skillrecordings/analytics': link:../../packages/analytics
       '@skillrecordings/convertkit': link:../../packages/convertkit
       '@skillrecordings/quiz': link:../../packages/quiz
@@ -1028,14 +1040,19 @@ importers:
       classnames: 2.3.1
       feed: 4.2.2
       framer-motion: 6.4.1_biqbaboplfbrettd7655fr4n2y
+      groq: 2.15.0
       lodash: 4.17.21
       next: 12.2.3_biqbaboplfbrettd7655fr4n2y
       next-compose-plugins: 2.2.1
       next-sitemap: 3.1.7_hdg3gmwi2czidx5hoyjx6lzi6e
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
+      react-refractor: 2.1.7_react@18.2.0
+      refractor: 4.5.0
+      speakingurl: 14.0.1
     devDependencies:
       '@next/env': 12.2.2
+      '@portabletext/types': 1.0.3
       '@skillrecordings/scripts': link:../../packages/scripts
       '@skillrecordings/tsconfig': link:../../packages/tsconfig
       '@skillrecordings/types': link:../../packages/types
@@ -1045,6 +1062,7 @@ importers:
       '@types/node': 17.0.41
       '@types/react': 18.0.15
       '@types/react-dom': 18.0.6
+      '@types/speakingurl': 13.0.3
       dotenv-flow: 3.2.0
       eslint: 8.19.0
       eslint-config-custom: link:../../packages/eslint-config-custom
@@ -9389,6 +9407,20 @@ packages:
     transitivePeerDependencies:
       - supports-color
 
+  /@sanity/client/3.3.3:
+    resolution: {integrity: sha512-2n4S/d49abreTa1hLehtrQ9lLR8KhnXdIb7kZajkGPGh2yWwbtMXpB7e1dxNvySmFehrJx5rtwdeO3l2IhnHBA==}
+    engines: {node: '>=12'}
+    dependencies:
+      '@sanity/eventsource': 4.0.0
+      '@sanity/generate-help-url': 3.0.0
+      get-it: 6.1.1
+      make-error: 1.3.6
+      object-assign: 4.1.1
+      rxjs: 6.6.7
+    transitivePeerDependencies:
+      - supports-color
+    dev: false
+
   /@sanity/color/2.1.11:
     resolution: {integrity: sha512-ZComCEDE7Y5xu/+BksJDVkAffawRWrJvoI7VdIA+szhqzYQWgLRLfsr+UBkYZMtb9a+8HyUm6Uqoo028GNGREQ==}
     dev: true
@@ -9904,6 +9936,7 @@ packages:
       lodash.isplainobject: 4.0.6
       lodash.merge: 4.6.2
       tailwindcss: 3.1.6
+    dev: false
 
   /@testing-library/dom/8.11.0:
     resolution: {integrity: sha512-8Ay4UDiMlB5YWy+ZvCeRyFFofs53ebxrWnOFvCoM1HpMAX4cHyuSrCuIM9l2lVuUWUt+Gr3loz/nCwdrnG6ShQ==}
@@ -16221,6 +16254,18 @@ packages:
       debug:
         optional: true
 
+  /follow-redirects/1.15.1_debug@2.6.9:
+    resolution: {integrity: sha512-yLAMQs+k0b2m7cVxpS1VKJVvoz7SS9Td1zss3XRwXj+ZDH00RJgnuLx7E44wx02kQLrdM3aOOy+FpzS7+8OizA==}
+    engines: {node: '>=4.0'}
+    peerDependencies:
+      debug: '*'
+    peerDependenciesMeta:
+      debug:
+        optional: true
+    dependencies:
+      debug: 2.6.9
+    dev: false
+
   /fontkit-next/1.8.3:
     resolution: {integrity: sha512-pa/vL114+ESn4Dokka7eIY+LtiMxyLRy+rnX4y6e+5rL8zDbUDoKzvFAE4LHVLaZY6hifuaut6z2Q4I1eawLvQ==}
     dependencies:
@@ -16581,6 +16626,32 @@ packages:
       url-parse: 1.5.3
     transitivePeerDependencies:
       - supports-color
+
+  /get-it/6.1.1:
+    resolution: {integrity: sha512-2835L9lb4NAgjAbFOMMOm2XDSgj+lWmmCQv40A5rE7zZoIdM2+yk7Ie+sBD3T5lHW/Dw5IFFHyx16oQGpAo4hQ==}
+    engines: {node: '>=12.0.0'}
+    dependencies:
+      '@sanity/timed-out': 4.0.2
+      create-error-class: 3.0.2
+      debug: 2.6.9
+      decompress-response: 6.0.0
+      follow-redirects: 1.15.1_debug@2.6.9
+      form-urlencoded: 2.0.9
+      into-stream: 3.1.0
+      is-plain-object: 2.0.4
+      is-retry-allowed: 1.2.0
+      is-stream: 1.1.0
+      nano-pubsub: 1.0.2
+      object-assign: 4.1.1
+      parse-headers: 2.0.4
+      progress-stream: 2.0.0
+      same-origin: 0.1.1
+      simple-concat: 1.0.1
+      tunnel-agent: 0.6.0
+      url-parse: 1.5.3
+    transitivePeerDependencies:
+      - supports-color
+    dev: false
 
   /get-nonce/1.0.1:
     resolution: {integrity: sha512-FJhYRoDaiatfEkUK8HKlicmu/3SGFD51q3itKDGoSTysQJBnfOcxU5GxnhE1E6soB76MbT0MBtnKJuXyAx+96Q==}
