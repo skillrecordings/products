@@ -1,5 +1,5 @@
 import React from 'react'
-import type {NextPage} from 'next'
+import type {GetServerSideProps, NextPage} from 'next'
 import cx from 'classnames'
 import LandingCopy from 'components/landing-copy.mdx'
 import {useRouter} from 'next/router'
@@ -11,10 +11,15 @@ import {
 import toast from 'react-hot-toast'
 import Layout from 'components/app/layout'
 import AboutInstructor from 'components/about-instructor'
+import {getPage} from 'lib/pages'
+import {SanityDocument} from '@sanity/client'
+import {PortableText} from '@portabletext/react'
+import {PortableTextBlock} from '@portabletext/types'
+import PortableTextComponents from 'components/portable-text'
 
-const Home: NextPage = () => {
+const Home: NextPage<SanityDocument> = ({pageData}) => {
   const router = useRouter()
-
+  const {body, description} = pageData
   React.useEffect(() => {
     const {query} = router
     if (query.message) {
@@ -25,9 +30,9 @@ const Home: NextPage = () => {
   }, [router])
 
   return (
-    <Layout>
+    <Layout meta={{description}}>
       <Header />
-      <Copy />
+      <Copy body={body} />
       <Subscribe />
       <Footer />
     </Layout>
@@ -71,10 +76,11 @@ const Header = () => {
   )
 }
 
-const Copy = () => {
+const Copy: React.FC<{body: PortableTextBlock}> = ({body}) => {
   return (
-    <div className="prose sm:prose-xl prose-lg mx-auto md:py-24 sm:py-20 py-10 lg:px-0 px-5">
-      <LandingCopy />
+    <div className="prose sm:prose-xl prose-lg mx-auto sm:py-20 py-10 lg:px-0 px-5">
+      <PortableText value={body} components={PortableTextComponents} />
+      {/* <LandingCopy /> */}
     </div>
   )
 }
@@ -130,4 +136,12 @@ const Footer = () => {
       </div>
     </div>
   )
+}
+
+export const getServerSideProps: GetServerSideProps = async (context) => {
+  const pageData = await getPage('/')
+
+  return {
+    props: {pageData},
+  }
 }
