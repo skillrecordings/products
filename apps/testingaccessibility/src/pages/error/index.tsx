@@ -2,7 +2,6 @@ import React from 'react'
 import {GetServerSideProps} from 'next'
 import {getToken} from 'next-auth/jwt'
 import * as Sentry from '@sentry/nextjs'
-import {tracer, setupHttpTracing} from '@skillrecordings/honeycomb-tracer'
 
 export type ErrorType =
   | 'default'
@@ -21,17 +20,7 @@ interface ErrorView {
   Signin?: JSX.Element
 }
 
-export const getServerSideProps: GetServerSideProps = async ({
-  res,
-  req,
-  query,
-}) => {
-  setupHttpTracing({
-    name: getServerSideProps.name,
-    tracer,
-    req,
-    res,
-  })
+export const getServerSideProps: GetServerSideProps = async ({req, query}) => {
   const sessionToken = await getToken({req})
 
   Sentry.captureMessage(`Auth Error: ${query.error}`)

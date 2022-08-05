@@ -2,7 +2,6 @@ import {buffer} from 'micro'
 import type {NextApiRequest, NextApiResponse} from 'next'
 import {postSaleToSlack, sendServerEmail} from '@skillrecordings/skill-api'
 import {nextAuthOptions} from '../auth/[...nextauth]'
-import {tracer, setupHttpTracing} from '@skillrecordings/honeycomb-tracer'
 import {stripe, recordNewPurchase} from '@skillrecordings/commerce-server'
 import {PurchaseStatus} from '@skillrecordings/skill-api'
 import {prisma, getSdk} from '@skillrecordings/database'
@@ -16,7 +15,6 @@ const stripeWebhookHandler = async (
   req: NextApiRequest,
   res: NextApiResponse,
 ) => {
-  setupHttpTracing({name: stripeWebhookHandler.name, tracer, req, res})
   if (req.method === 'POST') {
     const buf = await buffer(req)
     const sig = req.headers['stripe-signature']

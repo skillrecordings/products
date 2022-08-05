@@ -4,16 +4,10 @@ import {prisma} from '@skillrecordings/database'
 import Layout from 'components/app/layout'
 import {MailIcon} from '@heroicons/react/outline'
 import {PurchaseStatus} from '@skillrecordings/skill-api'
-import {tracer, setupHttpTracing} from '@skillrecordings/honeycomb-tracer'
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
-  const {res, req, query} = context
-  setupHttpTracing({
-    name: getServerSideProps.name,
-    tracer,
-    req,
-    res,
-  })
+  const {query} = context
+
   const {purchaseId} = query
 
   const purchase = await prisma.purchase.findFirst({

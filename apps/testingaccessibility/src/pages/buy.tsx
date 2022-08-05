@@ -1,6 +1,5 @@
 import React from 'react'
 import {GetServerSideProps} from 'next'
-import {tracer, setupHttpTracing} from '@skillrecordings/honeycomb-tracer'
 import type {CommerceProps} from '@skillrecordings/commerce-server/dist/@types'
 import {propsForCommerce} from '@skillrecordings/commerce-server'
 import {Element} from 'react-scroll'
@@ -85,13 +84,7 @@ const Buy: React.FC<React.PropsWithChildren<CommerceProps>> = ({
 export default Buy
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
-  const {req, res, query} = context
-  setupHttpTracing({
-    name: getServerSideProps.name,
-    tracer,
-    req,
-    res,
-  })
+  const {req, query} = context
 
   const token = await getToken({req})
   const {products} = await getActiveProducts()

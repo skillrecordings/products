@@ -1,22 +1,16 @@
-import {SpanContext} from '@skillrecordings/honeycomb-tracer'
 import {couponIsValid} from './coupon-is-valid'
-import {getSdk, defaultContext} from '@skillrecordings/database'
+import {getSdk} from '@skillrecordings/database'
 
 export async function getActiveMerchantCoupon({
   productId,
   siteCouponId,
   code,
-  spanContext,
 }: {
   productId: string
   siteCouponId: string
   code: string
-  spanContext?: SpanContext
 }) {
-  const {getDefaultCoupon, couponForIdOrCode} = getSdk({
-    ctx: defaultContext,
-    spanContext,
-  })
+  const {getDefaultCoupon, couponForIdOrCode} = getSdk()
 
   let activeMerchantCoupon = null
 

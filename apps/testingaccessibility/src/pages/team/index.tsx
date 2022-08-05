@@ -8,22 +8,11 @@ import InviteTeam from 'components/team'
 import {UserGroupIcon} from '@heroicons/react/outline'
 import Link from 'next/link'
 import {useSession} from 'next-auth/react'
-import {tracer, setupHttpTracing} from '@skillrecordings/honeycomb-tracer'
 import {getCurrentAbility} from '@skillrecordings/ability'
 import {getToken} from 'next-auth/jwt'
 import {getSdk} from '@skillrecordings/database'
 
-export const getServerSideProps: GetServerSideProps = async ({
-  res,
-  req,
-  query,
-}) => {
-  setupHttpTracing({
-    name: getServerSideProps.name,
-    tracer,
-    req,
-    res,
-  })
+export const getServerSideProps: GetServerSideProps = async ({req}) => {
   const token = await getToken({req})
   const ability = getCurrentAbility(token as any)
   const {getPurchaseDetails} = getSdk()

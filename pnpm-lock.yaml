@@ -591,7 +591,6 @@ importers:
       '@skillrecordings/convertkit': workspace:*
       '@skillrecordings/cookies': workspace:*
       '@skillrecordings/database': workspace:*
-      '@skillrecordings/honeycomb-tracer': workspace:*
       '@skillrecordings/quiz': workspace:*
       '@skillrecordings/react': workspace:*
       '@skillrecordings/scripts': workspace:*
@@ -617,7 +616,6 @@ importers:
       '@types/react-dom': ^18.0.6
       '@types/react-scroll': ^1.8.3
       '@types/uuid': ^8.3.4
-      '@vercel/tracing-js': ^0.5.1
       '@xstate/react': '=1.5.1'
       assert: ^2.0.0
       autoprefixer: ^10.4.2
@@ -701,7 +699,6 @@ importers:
       '@skillrecordings/convertkit': link:../../packages/convertkit
       '@skillrecordings/cookies': link:../../packages/cookies
       '@skillrecordings/database': link:../../packages/database
-      '@skillrecordings/honeycomb-tracer': link:../../packages/honeycomb-tracer
       '@skillrecordings/quiz': link:../../packages/quiz
       '@skillrecordings/react': link:../../packages/react
       '@skillrecordings/skill-api': link:../../packages/skill-api
@@ -710,7 +707,6 @@ importers:
       '@tailwindcss/forms': 0.5.2_tailwindcss@3.1.4
       '@tailwindcss/typography': 0.5.2_tailwindcss@3.1.4
       '@tippyjs/react': 4.2.6_biqbaboplfbrettd7655fr4n2y
-      '@vercel/tracing-js': 0.5.1
       '@xstate/react': 1.5.1_bpg42ha2il6pcyn3wrx2rxrchm
       autoprefixer: 10.4.7_postcss@8.4.14
       axios: 0.26.1
@@ -840,7 +836,6 @@ importers:
       '@types/react': ^18.0.15
       '@types/react-dom': ^18.0.6
       '@types/react-scroll': ^1.8.3
-      '@vercel/tracing-js': ^0.5.1
       '@xstate/react': '=1.5.1'
       assert: ^2.0.0
       autoprefixer: ^10.4.2
@@ -922,7 +917,6 @@ importers:
       '@tippyjs/react': 4.2.6_biqbaboplfbrettd7655fr4n2y
       '@types/mdx-js__react': 1.5.5
       '@types/mjml': 4.7.0
-      '@vercel/tracing-js': 0.5.1
       '@xstate/react': 1.5.1_bpg42ha2il6pcyn3wrx2rxrchm
       autoprefixer: 10.4.7_postcss@8.4.14
       axios: 0.26.1
@@ -1446,7 +1440,6 @@ importers:
       '@types/react-dom': ^18.0.6
       '@types/speakingurl': ^13.0.3
       '@types/three': ^0.141.0
-      '@vercel/tracing-js': ^0.5.1
       '@xstate/react': '=1.5.1'
       autoprefixer: ^10.4.2
       classnames: ^2.3.1
@@ -1493,7 +1486,6 @@ importers:
       '@skillrecordings/react': link:../../packages/react
       '@skillrecordings/skill-api': link:../../packages/skill-api
       '@skillrecordings/time': link:../../packages/time
-      '@vercel/tracing-js': 0.5.1
       '@xstate/react': 1.5.1_bpg42ha2il6pcyn3wrx2rxrchm
       classnames: 2.3.1
       date-fns: 2.28.0
@@ -1554,7 +1546,6 @@ importers:
       '@skillrecordings/commerce-server': workspace:*
       '@skillrecordings/convertkit': workspace:*
       '@skillrecordings/database': workspace:*
-      '@skillrecordings/honeycomb-tracer': workspace:*
       '@skillrecordings/quiz': workspace:*
       '@skillrecordings/react': workspace:*
       '@skillrecordings/scripts': workspace:*
@@ -1608,7 +1599,6 @@ importers:
       '@skillrecordings/commerce-server': link:../../packages/commerce-server
       '@skillrecordings/convertkit': link:../../packages/convertkit
       '@skillrecordings/database': link:../../packages/database
-      '@skillrecordings/honeycomb-tracer': link:../../packages/honeycomb-tracer
       '@skillrecordings/quiz': link:../../packages/quiz
       '@skillrecordings/react': link:../../packages/react
       '@skillrecordings/skill-api': link:../../packages/skill-api
@@ -1848,7 +1838,6 @@ importers:
       '@skillrecordings/convertkit': workspace:*
       '@skillrecordings/cookies': workspace:*
       '@skillrecordings/database': workspace:*
-      '@skillrecordings/honeycomb-tracer': workspace:*
       '@skillrecordings/player': workspace:*
       '@skillrecordings/quiz': workspace:*
       '@skillrecordings/react': workspace:*
@@ -1888,7 +1877,6 @@ importers:
       '@types/sanitize-html': ^2.6.2
       '@types/speakingurl': ^13.0.3
       '@types/svg-to-pdfkit': ^0.1.0
-      '@vercel/tracing-js': ^0.5.1
       '@xstate/react': '=1.5.1'
       algoliasearch: ^4.13.0
       assert: ^2.0.0
@@ -1993,7 +1981,6 @@ importers:
       '@skillrecordings/convertkit': link:../../packages/convertkit
       '@skillrecordings/cookies': link:../../packages/cookies
       '@skillrecordings/database': link:../../packages/database
-      '@skillrecordings/honeycomb-tracer': link:../../packages/honeycomb-tracer
       '@skillrecordings/player': link:../../packages/player
       '@skillrecordings/quiz': link:../../packages/quiz
       '@skillrecordings/react': link:../../packages/react
@@ -2007,7 +1994,6 @@ importers:
       '@tiptap/extension-typography': 2.0.0-beta.20_o5tsmp445vozplpzqkrs3pmjeq
       '@tiptap/react': 2.0.0-beta.109_cpkpnzstpcbd5lz5ghf7pjwsmy
       '@tiptap/starter-kit': 2.0.0-beta.184
-      '@vercel/tracing-js': 0.5.1
       '@xstate/react': 1.5.1_bpg42ha2il6pcyn3wrx2rxrchm
       algoliasearch: 4.13.0
       autoprefixer: 10.4.7_postcss@8.4.14
@@ -2549,7 +2535,6 @@ importers:
     specifiers:
       '@casl/ability': ^6.0.0
       '@skillrecordings/database': workspace:*
-      '@skillrecordings/honeycomb-tracer': workspace:*
       '@skillrecordings/scripts': workspace:*
       '@skillrecordings/tsconfig': workspace:*
       '@types/jest': ^27.5.2
@@ -2567,7 +2552,6 @@ importers:
     dependencies:
       '@casl/ability': 6.0.0
       '@skillrecordings/database': link:../database
-      '@skillrecordings/honeycomb-tracer': link:../honeycomb-tracer
       date-fns: 2.28.0
       lodash: 4.17.21
       stripe: 8.209.0
@@ -2764,7 +2748,6 @@ importers:
   packages/database:
     specifiers:
       '@prisma/client': ^4.1.1
-      '@skillrecordings/honeycomb-tracer': workspace:*
       '@skillrecordings/tsconfig': workspace:*
       '@types/node': ^18.6.1
       '@types/uuid': ^8.3.4
@@ -2780,7 +2763,6 @@ importers:
       uuid: ^8.3.2
     dependencies:
       '@prisma/client': 4.1.1_prisma@4.1.1
-      '@skillrecordings/honeycomb-tracer': link:../honeycomb-tracer
       uuid: 8.3.2
     devDependencies:
       '@skillrecordings/tsconfig': link:../tsconfig
@@ -2826,7 +2808,6 @@ importers:
       '@skillrecordings/scripts': 0.0.5
       '@skillrecordings/tsconfig': 0.0.5
       '@types/node': ^18.6.3
-      '@vercel/tracing-js': ^0.5.1
       encoding: ^0.1.13
       eslint: ^8.19.0
       eslint-config-custom: workspace:*
@@ -2834,7 +2815,6 @@ importers:
       slugify: ^1.6.2
       typescript: ^4.7.4
     dependencies:
-      '@vercel/tracing-js': 0.5.1_node-fetch@2.6.7
       encoding: 0.1.13
       node-fetch: 2.6.7_encoding@0.1.13
     devDependencies:
@@ -3159,7 +3139,6 @@ importers:
       '@skillrecordings/commerce-server': workspace:*
       '@skillrecordings/convertkit': workspace:*
       '@skillrecordings/database': workspace:*
-      '@skillrecordings/honeycomb-tracer': workspace:*
       '@skillrecordings/scripts': workspace:*
       '@skillrecordings/tsconfig': workspace:*
       '@slack/web-api': ^6.7.2
@@ -3177,7 +3156,6 @@ importers:
       '@types/react-dom': ^18.0.6
       '@types/sanitize-html': ^2.6.2
       '@types/uuid': ^8.3.4
-      '@vercel/tracing-js': ^0.5.1
       autoprefixer: ^10.4.2
       babel-plugin-jsx-pragmatic: ^1.0.2
       babel-preset-preact: ^2.0.0
@@ -3216,9 +3194,7 @@ importers:
       '@skillrecordings/commerce-server': link:../commerce-server
       '@skillrecordings/convertkit': link:../convertkit
       '@skillrecordings/database': link:../database
-      '@skillrecordings/honeycomb-tracer': link:../honeycomb-tracer
       '@slack/web-api': 6.7.2
-      '@vercel/tracing-js': 0.5.1
       concurrently: 7.2.2
       cookie: 0.5.0
       date-fns: 2.28.0
@@ -11346,29 +11322,6 @@ packages:
     hasBin: true
     dev: true
 
-  /@vercel/tracing-js/0.5.1:
-    resolution: {integrity: sha512-e1LT4I1k9YTOBW6nY22JuTwnmJQCJpmM2jbSw2clzP5prLvdMCgvnQmbUHunVlf8ST/uSUjzzsTqdjiZVRorcg==}
-    engines: {node: '>=8'}
-    peerDependencies:
-      node-fetch: '*'
-    dependencies:
-      libhoney: 1.3.0
-    transitivePeerDependencies:
-      - supports-color
-    dev: false
-
-  /@vercel/tracing-js/0.5.1_node-fetch@2.6.7:
-    resolution: {integrity: sha512-e1LT4I1k9YTOBW6nY22JuTwnmJQCJpmM2jbSw2clzP5prLvdMCgvnQmbUHunVlf8ST/uSUjzzsTqdjiZVRorcg==}
-    engines: {node: '>=8'}
-    peerDependencies:
-      node-fetch: '*'
-    dependencies:
-      libhoney: 1.3.0
-      node-fetch: 2.6.7_encoding@0.1.13
-    transitivePeerDependencies:
-      - supports-color
-    dev: false
-
   /@webassemblyjs/ast/1.11.1:
     resolution: {integrity: sha512-ukBh14qFLjxTQNTXocdyksN5QdM28S1CxHt2rdskFyL+xFV7VremuBLVbmCePj+URalXBENx/9Lm7lnhihtCSw==}
     dependencies:
@@ -12067,6 +12020,7 @@ packages:
     resolution: {integrity: sha512-uWMHxJxtfj/1oZClOxDEV1sQ1HCDkA4MG8Gr69KKeBjEVH0R84WlejZ0y2DcwyBlpAEMltmVYkVgqfLFb2oyiA==}
     engines: {node: '>=4'}
     dev: false
+    optional: true
 
   /astral-regex/1.0.0:
     resolution: {integrity: sha512-+Ryf6g3BKoRc7jfp7ad8tM4TtMiaWvbF/1/sQcZPkkS7ag3D5nMBCe2UfOTONtAkaG0tO0ij3C5Lwmf1EiyjHg==}
@@ -12954,6 +12908,7 @@ packages:
     resolution: {integrity: sha512-zauLjrfCG+xvoyaqLoV8bLVXXNGC4JqlxFCutSDWA6fJrTo2ZuvLYTqZ7aHBLZSMOopbzwv8f+wZcVzfVTI2Dg==}
     engines: {node: '>= 0.8'}
     dev: false
+    optional: true
 
   /cac/6.7.12:
     resolution: {integrity: sha512-rM7E2ygtMkJqD9c7WnFU6fruFcN3xe4FM5yUmgxhZzIKJk4uHl9U/fhwdajGFQbQuv43FAUo1Fe8gX/oIKDeSA==}
@@ -13652,10 +13607,6 @@ packages:
     engines: {node: '>= 0.6'}
     dev: false
 
-  /cookiejar/2.1.3:
-    resolution: {integrity: sha512-JxbCBUdrfr6AQjOXrxoTvAMJO4HBTUIlBzslcJPAz+/KT8yk53fXun51u+RenNYvad/+Vc2DIz5o9UxlCDymFQ==}
-    dev: false
-
   /copy-concurrently/1.0.5:
     resolution: {integrity: sha512-f2domd9fsVDFtaFcbaRZuYXwtdmnzqbADSwhSWYxYB/Q8zsdUUFMXVRwXGDMWmbEzAn1kdRrtI1T/KTFOL4X2A==}
     dependencies:
@@ -14106,6 +14057,7 @@ packages:
     resolution: {integrity: sha512-WboRycPNsVw3B3TL559F7kuBUM4d8CgMEvk6xEJlOp7OBPjt6G7z8WMWlD2rOFZLk6OYfFIUGsCOWzcQH9K2og==}
     engines: {node: '>= 6'}
     dev: false
+    optional: true
 
   /data-urls/1.1.0:
     resolution: {integrity: sha512-YTWYI9se1P55u58gL5GkQHW4P6VJBJ5iBT+B5a7i2Tjadhv52paJG0qHX4A0OR6/t52odI64KP2YvFpkDOi3eQ==}
@@ -14352,15 +14304,6 @@ packages:
   /defined/1.0.0:
     resolution: {integrity: sha512-Y2caI5+ZwS5c3RiNDJ6u53VhQHv+hHKwhkI1iHvceKUHw9Df6EK2zRLfjejRgMuCuxK7PfSWIMwWecceVvThjQ==}
 
-  /degenerator/2.2.0:
-    resolution: {integrity: sha512-aiQcQowF01RxFI4ZLFMpzyotbQonhNpBao6dkI8JPk5a+hmSjR5ErHp2CQySmQe8os3VBqLCIh87nDBgZXvsmg==}
-    engines: {node: '>= 6'}
-    dependencies:
-      ast-types: 0.13.2
-      escodegen: 1.14.3
-      esprima: 4.0.1
-    dev: false
-
   /degenerator/3.0.2:
     resolution: {integrity: sha512-c0mef3SNQo56t6urUU6tdQAs+ThoD0o9B9MJ8HEt7NQcGEILCRFqQb7ZbP9JAv+QF1Ky5plydhMR/IrqWDm+TQ==}
     engines: {node: '>= 6'}
@@ -14408,6 +14351,7 @@ packages:
     resolution: {integrity: sha512-7emPTl6Dpo6JRXOXjLRxck+FlLRX5847cLKEn00PLAgc3g2hTZZgr+e4c2v6QpSmLeFP3n5yUo7ft6avBK/5jQ==}
     engines: {node: '>= 0.6'}
     dev: false
+    optional: true
 
   /dependency-graph/0.11.0:
     resolution: {integrity: sha512-JeMq7fEshyepOWDfcfHK06N3MhyPhz++vtqWhMT5O9A3K42rdsEDpfdVqjaqaAhsw6a+ZqeDvQVtD0hFHQWrzg==}
@@ -15967,10 +15911,6 @@ packages:
       assign-symbols: 1.0.0
       is-extendable: 1.0.1
 
-  /extend/2.0.2:
-    resolution: {integrity: sha512-AgFD4VU+lVLP6vjnlNfF7OeInLTyeyckCNPEsuxz1vi786UuK/nk6ynPuhn/h+Ju9++TQyr5EpLRI14fc1QtTQ==}
-    dev: false
-
   /extend/3.0.2:
     resolution: {integrity: sha512-fjquC59cD7CyW6urNXK0FBufkZcoiGG80wTuPujX590cB5Ttln20E2UB4S/WARVqhXffZl2LNgS+gQdPIIim/g==}
 
@@ -16175,6 +16115,7 @@ packages:
     resolution: {integrity: sha512-hjPFI8oE/2iQPVe4gbrJ73Pp+Xfub2+WI2LlXDbsaJBwT5wuMh35WNWVYYTpnz895shtwfyutMFLFywpQAFdLg==}
     engines: {node: '>= 6'}
     dev: false
+    optional: true
 
   /fill-range/4.0.0:
     resolution: {integrity: sha512-VcpLTWqWDiTerugjj8e3+esbg+skS3M9e54UuR3iCeIDMXCLTsAH8hTSzDQU/X6/6t3eYkOKoZSef2PlU6U1XQ==}
@@ -16417,11 +16358,6 @@ packages:
     engines: {node: '>=0.4.x'}
     dev: false
 
-  /formidable/1.2.6:
-    resolution: {integrity: sha512-KcpbcpuLNOwrEjnbpMC0gS+X8ciDoZE1kkqzat4a8vrprf+s9pKNQ/QIwWfbfs4ltgmFl3MD177SNTkve3BwGQ==}
-    deprecated: 'Please upgrade to latest, formidable@v2 or formidable@v3! Check these notes: https://bit.ly/2ZEqIau'
-    dev: false
-
   /formik/2.2.9_react@18.2.0:
     resolution: {integrity: sha512-LQLcISMmf1r5at4/gyJigGn0gOwFbeEAlji+N9InZF6LIMXnFNkO42sCI8Jt84YZggpD4cPWObAZaxpEFtSzNA==}
     peerDependencies:
@@ -16593,6 +16529,7 @@ packages:
       readable-stream: 1.1.14
       xregexp: 2.0.0
     dev: false
+    optional: true
 
   /function-bind/1.1.1:
     resolution: {integrity: sha512-yIovAzMX49sF8Yl58fSCWJ5svSLuaibPxXQJFLmBObTuCr0Mf1KiPopGM9NiFjiYBCbfaa2Fh6breQ6ANVTI0A==}
@@ -16785,6 +16722,7 @@ packages:
     transitivePeerDependencies:
       - supports-color
     dev: false
+    optional: true
 
   /get-value/2.0.6:
     resolution: {integrity: sha512-Ln0UQDlxH1BapMu3GPtf7CuYNwRZf2gwCuPqbyG6pB8WfmFpzqcy4xtAaAMUhnNqjMKTiCPZG2oMT3YSx8U2NA==}
@@ -17687,6 +17625,7 @@ packages:
       statuses: 1.5.0
       toidentifier: 1.0.0
     dev: false
+    optional: true
 
   /http-proxy-agent/4.0.1:
     resolution: {integrity: sha512-k0zdNgqWTGA6aeIRVpvfVob4fL52dTfaehylg0Y4UvSySvOq/Y+BOyPrgpUrA7HylqvU8vIZGsRuXmspskV0Tg==}
@@ -17943,6 +17882,7 @@ packages:
   /ip/1.1.5:
     resolution: {integrity: sha512-rBtCAQAJm8A110nbwn6YdveUnuZH3WrC36IwkRXxDnq53JvXA2NVQvB7IHyKomxK1MJ4VDNw3UtFDdXQ+AvLYA==}
     dev: false
+    optional: true
 
   /is-absolute/1.0.0:
     resolution: {integrity: sha512-dOWoqflvcydARa360Gvv18DZ/gRuHKi2NU/wU5X1ZFzdYfH29nkiNZsF3mp4OJ3H4yo9Mx8A/uAGNzpzPN3yBA==}
@@ -19795,17 +19735,6 @@ packages:
   /libbase64/1.2.1:
     resolution: {integrity: sha512-l+nePcPbIG1fNlqMzrh68MLkX/gTxk/+vdvAb388Ssi7UuUN31MI44w4Yf33mM3Cm4xDfw48mdf3rkdHszLNew==}
 
-  /libhoney/1.3.0:
-    resolution: {integrity: sha512-xGq5sGm5ljbO06zsCcA6g76VMiEqsI4/v7BtUdIvglHBWH0WryfSD9UVvwu7lVYDYVt7HzmeUXZOBbxeMMUpww==}
-    engines: {node: 6.* || 8.* || >= 10.*}
-    dependencies:
-      superagent: 3.8.3
-      superagent-proxy: 2.1.0_superagent@3.8.3
-      urljoin: 0.1.5
-    transitivePeerDependencies:
-      - supports-color
-    dev: false
-
   /libmime/5.1.0:
     resolution: {integrity: sha512-xOqorG21Va+3CjpFOfFTU7SWohHH2uIX9ZY4Byz6J+lvpfvc486tOAT/G9GfbrKtJ9O7NCX9o0aC2lxqbnZ9EA==}
     dependencies:
@@ -20661,11 +20590,6 @@ packages:
     resolution: {integrity: sha512-8q7VEgMJW4J8tcfVPy8g09NcQwZdbwFEqhe/WZkoIzjn/3TGDwtOCYtXGxA3O8tPzpczCCDgv+P2P5y00ZJOOg==}
     engines: {node: '>= 8'}
 
-  /methods/1.1.2:
-    resolution: {integrity: sha512-iclAHeNqNm68zFtnZ0e+1L2yUIdvzNoauKU4WBA3VvH/vPFieF7qfRlwUZU+DA9P9bPXIS90ulxoUoCH23sV2w==}
-    engines: {node: '>= 0.6'}
-    dev: false
-
   /micro/9.3.4:
     resolution: {integrity: sha512-smz9naZwTG7qaFnEZ2vn248YZq9XR+XoOH3auieZbkhDL4xLOxiE+KqG8qqnBeKfXA9c1uEFGCxPN1D+nT6N7w==}
     engines: {node: '>= 8.0.0'}
@@ -21054,12 +20978,6 @@ packages:
     engines: {node: '>= 0.6'}
     dependencies:
       mime-db: 1.51.0
-
-  /mime/1.6.0:
-    resolution: {integrity: sha512-x0Vn8spI+wuJ1O6S7gnbaQg8Pxh4NNHb7KSINmEWKiPE4RKOplvijn+NkmYmmRgP68mc70j2EbeTFRsrswaQeg==}
-    engines: {node: '>=4'}
-    hasBin: true
-    dev: false
 
   /mime/2.6.0:
     resolution: {integrity: sha512-USPkMeET31rOMiarsBNIHZKLGgvKc/LrjofAnBlOttf5ajRvqiRA8QsenbcooctK6d6Ts6aqZXBA+XbkKthiQg==}
@@ -21701,6 +21619,7 @@ packages:
     resolution: {integrity: sha512-dBpDMdxv9Irdq66304OLfEmQ9tbNRFnFTuZiLo+bD+r332bBmMJ8GBLXklIXXgxd3+v9+KUnZaUR5PJMa75Gsg==}
     engines: {node: '>= 0.4.0'}
     dev: false
+    optional: true
 
   /next-auth/4.10.2_veosbehjv4o6lw47zt43je3zka:
     resolution: {integrity: sha512-9XeP3faA5M3LneNJuzZCrmyR1ONYVH+pNQTozLBlpzXSkVRCgy+PTLAojOGkCo5v5MWcCZNTNHUOQL6gIcYwEQ==}
@@ -22656,23 +22575,6 @@ packages:
     resolution: {integrity: sha512-R4nPAVTAU0B9D35/Gk3uJf/7XYbQcyohSKdvAxIRSNghFl4e71hVoGnBNQz9cWaXxO2I10KTC+3jMdvvoKw6dQ==}
     engines: {node: '>=6'}
 
-  /pac-proxy-agent/4.1.0:
-    resolution: {integrity: sha512-ejNgYm2HTXSIYX9eFlkvqFp8hyJ374uDf0Zq5YUAifiSh1D6fo+iBivQZirGvVv8dCYUsLhmLBRhlAYvBKI5+Q==}
-    engines: {node: '>= 6'}
-    dependencies:
-      '@tootallnate/once': 1.1.2
-      agent-base: 6.0.2
-      debug: 4.3.4
-      get-uri: 3.0.2
-      http-proxy-agent: 4.0.1
-      https-proxy-agent: 5.0.0
-      pac-resolver: 4.2.0
-      raw-body: 2.4.1
-      socks-proxy-agent: 5.0.1
-    transitivePeerDependencies:
-      - supports-color
-    dev: false
-
   /pac-proxy-agent/5.0.0:
     resolution: {integrity: sha512-CcFG3ZtnxO8McDigozwE3AqAw15zDvGH+OjXO4kzf7IkEKkQ4gxQ+3sdF50WmhQ4P/bVusXcqNE2S3XrNURwzQ==}
     engines: {node: '>= 8'}
@@ -22690,15 +22592,6 @@ packages:
       - supports-color
     dev: false
     optional: true
-
-  /pac-resolver/4.2.0:
-    resolution: {integrity: sha512-rPACZdUyuxT5Io/gFKUeeZFfE5T7ve7cAkE5TUZRRfuKP0u5Hocwe48X7ZEm6mYB+bTB0Qf+xlVlA/RM/i6RCQ==}
-    engines: {node: '>= 6'}
-    dependencies:
-      degenerator: 2.2.0
-      ip: 1.1.5
-      netmask: 2.0.2
-    dev: false
 
   /pac-resolver/5.0.0:
     resolution: {integrity: sha512-H+/A6KitiHNNW+bxBKREk2MCGSxljfqRX76NjummWEYIat7ldVXRU3dhRIE3iXZ0nvGBk6smv3nntxKkzRL8NA==}
@@ -24228,22 +24121,6 @@ packages:
     resolution: {integrity: sha512-vtK/94akxsTMhe0/cbfpR+syPuszcuwhqVjJq26CuNDgFGj682oRBXOP5MJpv2r7JtE8MsiepGIqvvOTBwn2vA==}
     dev: false
 
-  /proxy-agent/4.0.1:
-    resolution: {integrity: sha512-ODnQnW2jc/FUVwHHuaZEfN5otg/fMbvMxz9nMSUQfJ9JU7q2SZvSULSsjLloVgJOiv9yhc8GlNMKc4GkFmcVEA==}
-    engines: {node: '>=6'}
-    dependencies:
-      agent-base: 6.0.2
-      debug: 4.3.4
-      http-proxy-agent: 4.0.1
-      https-proxy-agent: 5.0.0
-      lru-cache: 5.1.1
-      pac-proxy-agent: 4.1.0
-      proxy-from-env: 1.1.0
-      socks-proxy-agent: 5.0.1
-    transitivePeerDependencies:
-      - supports-color
-    dev: false
-
   /proxy-agent/5.0.0:
     resolution: {integrity: sha512-gkH7BkvLVkSfX9Dk27W6TyNOWWZWRilRfk1XxGNWOYJ2TuedAv1yFpCaU9QSBmBe716XOTNpYNOzhysyw8xn7g==}
     engines: {node: '>= 8'}
@@ -24413,6 +24290,7 @@ packages:
       iconv-lite: 0.4.24
       unpipe: 1.0.0
     dev: false
+    optional: true
 
   /rc/1.2.8:
     resolution: {integrity: sha512-y3bGgqKj3QBdxLbLkomlohkvsA8gdAiUQlSBJnBhfn+BPxg4bc62d8TcBW15wavDfgexCgccckhcZvywyQYPOw==}
@@ -25038,6 +24916,7 @@ packages:
       isarray: 0.0.1
       string_decoder: 0.10.31
     dev: false
+    optional: true
 
   /readable-stream/2.3.7:
     resolution: {integrity: sha512-Ebho8K4jIbHAxnuxi7o42OrZgF/ZTNcsZj6nRKyUmkhLFq8CHItp/fy6hQZuZmP/n3yZ9VBUbp4zz/mX8hmYPw==}
@@ -26053,6 +25932,7 @@ packages:
   /setprototypeof/1.1.1:
     resolution: {integrity: sha512-JvdAWfbXeIGaZ9cILp38HntZSFSo3mWg6xGcJJsd+d4aRMOqauag1C63dJfDw7OaMYwEbHMOxEZ1lqVRYP2OAw==}
     dev: false
+    optional: true
 
   /sha.js/2.4.11:
     resolution: {integrity: sha512-QMEp5B7cftE7APOjk5Y6xgrbWu+WkLVQwk8JNjZ8nKRciZaByEW6MubieAiToS7+dwvrjGhH8jRXz3MVd0AYqQ==}
@@ -26244,6 +26124,7 @@ packages:
     resolution: {integrity: sha512-94hK0Hh8rPqQl2xXc3HsaBoOXKV20MToPkcXvwbISWLEs+64sBq5kFgn2kJDHb1Pry9yrP0dxrCI9RRci7RXKg==}
     engines: {node: '>= 6.0.0', npm: '>= 3.0.0'}
     dev: false
+    optional: true
 
   /smartwrap/1.2.5:
     resolution: {integrity: sha512-bzWRwHwu0RnWjwU7dFy7tF68pDAx/zMSu3g7xr9Nx5J0iSImYInglwEVExyHLxXljy6PWMjkSAbwF7t2mPnRmg==}
@@ -26302,6 +26183,7 @@ packages:
     transitivePeerDependencies:
       - supports-color
     dev: false
+    optional: true
 
   /socks/2.6.2:
     resolution: {integrity: sha512-zDZhHhZRY9PxRruRMR7kMhnf3I8hDs4S3f9RecfnGxvcBHQcKcIH/oUcEWffsfl1XxdYlA7nnlGbbTvPz9D8gA==}
@@ -26310,6 +26192,7 @@ packages:
       ip: 1.1.5
       smart-buffer: 4.2.0
     dev: false
+    optional: true
 
   /source-list-map/2.0.1:
     resolution: {integrity: sha512-qnQ7gVMxGNxsiL4lEuJwe/To8UnK7fAnmbGEEH8RpLouuKbeEm0lhbQVFIrNSuB+G7tVrAlVsZgETT5nljf+Iw==}
@@ -26921,38 +26804,6 @@ packages:
       ts-interface-checker: 0.1.13
     dev: true
 
-  /superagent-proxy/2.1.0_superagent@3.8.3:
-    resolution: {integrity: sha512-DnarpKN6Xn8e3pYlFV4Yvsj9yxLY4q5FIsUe5JvN7vjzP+YCfzXv03dTkZSD2yzrSadsNYHf0IgOUJwKjX457A==}
-    engines: {node: '>=6'}
-    peerDependencies:
-      superagent: '>= 0.15.4 || 1 || 2 || 3'
-    dependencies:
-      debug: 3.2.7
-      proxy-agent: 4.0.1
-      superagent: 3.8.3
-    transitivePeerDependencies:
-      - supports-color
-    dev: false
-
-  /superagent/3.8.3:
-    resolution: {integrity: sha512-GLQtLMCoEIK4eDv6OGtkOoSMt3D+oq0y3dsxMuYuDvaNUvuT8eFBuLmfR0iYYzHC1e8hpzC6ZsxbuP6DIalMFA==}
-    engines: {node: '>= 4.0'}
-    deprecated: Please upgrade to v7.0.2+ of superagent.  We have fixed numerous issues with streams, form-data, attach(), filesystem errors not bubbling up (ENOENT on attach()), and all tests are now passing.  See the releases tab for more information at <https://github.com/visionmedia/superagent/releases>.
-    dependencies:
-      component-emitter: 1.3.0
-      cookiejar: 2.1.3
-      debug: 3.2.7
-      extend: 3.0.2
-      form-data: 2.5.1
-      formidable: 1.2.6
-      methods: 1.1.2
-      mime: 1.6.0
-      qs: 6.10.1
-      readable-stream: 2.3.7
-    transitivePeerDependencies:
-      - supports-color
-    dev: false
-
   /supports-color/2.0.0:
     resolution: {integrity: sha1-U10EXOa2Nj+kARcIRimZXp3zJMc=}
     engines: {node: '>=0.8.0'}
@@ -27483,6 +27334,7 @@ packages:
     resolution: {integrity: sha512-yaOH/Pk/VEhBWWTlhI+qXxDFXlejDGcQipMlyxda9nthulaxLZUNcUqFxokp0vcYnvteJln5FNQDRrxj3YcbVw==}
     engines: {node: '>=0.6'}
     dev: false
+    optional: true
 
   /toposort/2.0.2:
     resolution: {integrity: sha512-0a5EOkAUp8D4moMi2W8ZF8jcga7BgZd91O/yabJCFY8az+XSzeGyTKs0Aoo897iV1Nj6guFq8orWDS96z91oGg==}
@@ -28456,12 +28308,6 @@ packages:
       punycode: 1.3.2
       querystring: 0.2.0
 
-  /urljoin/0.1.5:
-    resolution: {integrity: sha512-OSGi+PS3zxk8XfQ+7buaupOdrW9P9p+V9rjxGzJaYEYDe/B2rv3WJCupq5LNERW4w4kWxsduUUrhCxZZiQ2udw==}
-    dependencies:
-      extend: 2.0.2
-    dev: false
-
   /use-asset/1.0.4_react@18.2.0:
     resolution: {integrity: sha512-7/hqDrWa0iMnCoET9W1T07EmD4Eg/Wmoj/X8TGBc++ECRK4m5yTsjP4O6s0yagbxfqIOuUkIxe2/sA+VR2GxZA==}
     peerDependencies:
@@ -29119,6 +28965,7 @@ packages:
   /xregexp/2.0.0:
     resolution: {integrity: sha1-UqY+VsoLhKfzpfPWGHLxJq16WUM=}
     dev: false
+    optional: true
 
   /xstate/4.23.1:
     resolution: {integrity: sha512-8ZoCe8d6wDSPfkep+GBgi+fKAdMyXcaizoNf5FKceEhlso4+9n1TeK6oviaDsXZ3Z5O8xKkJOxXPNuD4cA9LCw==}

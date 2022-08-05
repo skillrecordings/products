@@ -9,7 +9,6 @@ import * as serverCookie from 'cookie'
 import groq from 'groq'
 import {CK_SUBSCRIBER_KEY} from '@skillrecordings/config'
 import {checkIfConvertkitSubscriber} from '@skillrecordings/convertkit'
-import {tracer, setupHttpTracing} from '@skillrecordings/honeycomb-tracer'
 
 const previewArticleQuery = groq`*[_type == "article" && slug.current == $slug][0]{
     title,
@@ -55,13 +54,7 @@ function getConvertkitFromCookieHeaders(serverCookies: string = '') {
 }
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
-  const {res, req, params} = context
-  setupHttpTracing({
-    name: getServerSideProps.name,
-    tracer,
-    req,
-    res,
-  })
+  const {params} = context
 
   const hasSubscribed = await checkIfConvertkitSubscriber(context)
 

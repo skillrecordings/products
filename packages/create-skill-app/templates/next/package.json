@@ -23,7 +23,6 @@
     "@skillrecordings/convertkit": "workspace:*",
     "@skillrecordings/database": "workspace:*",
     "@skillrecordings/commerce-server": "workspace:*",
-    "@skillrecordings/honeycomb-tracer": "workspace:*",
     "@skillrecordings/quiz": "workspace:*",
     "@skillrecordings/react": "workspace:*",
     "@skillrecordings/skill-api": "workspace:*",

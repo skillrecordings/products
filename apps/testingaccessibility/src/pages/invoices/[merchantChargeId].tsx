@@ -10,7 +10,6 @@ import {Stripe} from 'stripe'
 import fromUnixTime from 'date-fns/fromUnixTime'
 import Layout from 'components/app/layout'
 import format from 'date-fns/format'
-import {tracer, setupHttpTracing} from '@skillrecordings/honeycomb-tracer'
 import {prisma} from '@skillrecordings/database'
 import {getCurrentAbility} from '@skillrecordings/ability'
 import {getToken} from 'next-auth/jwt'
@@ -20,12 +19,6 @@ export const getServerSideProps: GetServerSideProps = async ({
   req,
   query,
 }) => {
-  setupHttpTracing({
-    name: getServerSideProps.name,
-    tracer,
-    req,
-    res,
-  })
   const sessionToken = await getToken({req})
   const {merchantChargeId} = query
   const {getProduct} = getSdk()
