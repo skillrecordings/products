@@ -17,7 +17,7 @@
     "preset": "@skillrecordings/scripts/jest/next"
   },
   "dependencies": {
-    "@next/mdx": "^12.1.0",
+    "@next/mdx": "^12.2.4",
     "@reach/dialog": "^0.16.2",
     "@react-three/drei": "^7.20.2",
     "@react-three/fiber": "7.0.27",

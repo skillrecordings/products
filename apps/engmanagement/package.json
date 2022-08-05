@@ -21,7 +21,7 @@
     "@asbjorn/eslint-plugin-groq": "^2.0.0",
     "@heroicons/react": "^1.0.6",
     "@next-auth/prisma-adapter": "^1.0.3",
-    "@next/mdx": "^12.2.3",
+    "@next/mdx": "^12.2.4",
     "@reach/dialog": "^0.16.2",
     "@sanity/block-content-to-react": "^3.0.0",
     "@sanity/client": "^3.2.0",
