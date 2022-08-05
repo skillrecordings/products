@@ -21,7 +21,6 @@
   },
   "dependencies": {
     "@prisma/client": "^4.1.1",
-    "@skillrecordings/honeycomb-tracer": "workspace:*",
     "uuid": "^8.3.2"
   },
   "devDependencies": {

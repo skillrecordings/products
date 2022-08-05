@@ -2,16 +2,9 @@ import {NextApiRequest, NextApiResponse} from 'next'
 import {prisma} from '@skillrecordings/database'
 import {convertToSerializeForNextResponse} from '@skillrecordings/commerce-server'
 import {withSentry} from '@sentry/nextjs'
-import {tracer, setupHttpTracing} from '@skillrecordings/honeycomb-tracer'
 import {getToken} from 'next-auth/jwt'
 
 const getProgress = async (req: NextApiRequest, res: NextApiResponse) => {
-  setupHttpTracing({
-    name: getProgress.name,
-    tracer,
-    req,
-    res,
-  })
   const sessionToken = await getToken({
     req,
     secret: process.env.NEXTAUTH_SECRET,

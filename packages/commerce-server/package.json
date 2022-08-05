@@ -16,7 +16,6 @@
   },
   "dependencies": {
     "@casl/ability": "^6.0.0",
-    "@skillrecordings/honeycomb-tracer": "workspace:*",
     "@skillrecordings/database": "workspace:*",
     "date-fns": "^2.28.0",
     "lodash": "^4.17.21",

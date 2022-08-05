@@ -6,7 +6,6 @@ import {
   getAvailableModulesForUser,
   getModule,
 } from 'lib/modules'
-import {tracer, setupHttpTracing} from '@skillrecordings/honeycomb-tracer'
 import {find, isEmpty} from 'lodash'
 import {withSentry} from '@sentry/nextjs'
 import {getToken} from 'next-auth/jwt'
@@ -18,12 +17,6 @@ const generateModuleCertificate = async (
   req: NextApiRequest,
   res: NextApiResponse,
 ) => {
-  setupHttpTracing({
-    name: generateModuleCertificate.name,
-    tracer,
-    req,
-    res,
-  })
   const sessionToken = await getToken({
     req,
     secret: process.env.NEXTAUTH_SECRET,

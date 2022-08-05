@@ -9,23 +9,11 @@ import {GetServerSideProps} from 'next'
 import {getToken} from 'next-auth/jwt'
 import InviteTeam from 'components/team'
 import Layout from 'components/app/layout'
-import Image from 'next/image'
 import {getSdk, prisma} from '@skillrecordings/database'
 import Link from 'next/link'
 import {isString} from 'lodash'
-import {tracer, setupHttpTracing} from '@skillrecordings/honeycomb-tracer'
 
-export const getServerSideProps: GetServerSideProps = async ({
-  res,
-  req,
-  query,
-}) => {
-  setupHttpTracing({
-    name: getServerSideProps.name,
-    tracer,
-    req,
-    res,
-  })
+export const getServerSideProps: GetServerSideProps = async ({req, query}) => {
   const {purchaseId: purchaseQueryParam, session_id, upgrade} = query
   const token = await getToken({req})
   const {getPurchaseDetails} = getSdk()
