@@ -13,7 +13,7 @@
     "@mdx-js/loader": "^2.1.2",
     "@mdx-js/mdx": "^2.1.2",
     "@mdx-js/react": "^2.1.2",
-    "@next/mdx": "^12.2.2",
+    "@next/mdx": "^12.2.4",
     "@portabletext/react": "^1.0.6",
     "@sanity/client": "^3.3.3",
     "@skillrecordings/analytics": "workspace:*",

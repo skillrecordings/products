@@ -1,13 +1,12 @@
 import type {NextPage} from 'next'
-import React, {useState} from 'react'
 import Image from 'next/image'
-import Accordion from 'components/Accordion'
 import {useRouter} from 'next/router'
 import {
   SubscribeToConvertkitForm,
   redirectUrlBuilder,
 } from '@skillrecordings/convertkit'
 import Layout from 'components/layout'
+import AccordionModules from 'components/AccordionModules'
 
 const Home: NextPage = () => {
   return (
@@ -41,7 +40,6 @@ const Home: NextPage = () => {
                 </div>
               </div>
             </div>
-
             <div className="justify-center items-center" id="intro">
               <div className="text-center">
                 <div className="pb-10 text-5xl md:text-6xl xl:text-7xl 2xl:text-9xl font-bold">
@@ -70,12 +68,11 @@ const Home: NextPage = () => {
               <h3 className="pt-12 text-center text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-700 to-pink-500 pb-20">
                 Course Modules
               </h3>
-              <Accordion />
+              <AccordionModules />
               <div className="max-w-[47rem] px-4 mx-auto -mt-[220px] pt-80">
                 <Subscribe />
               </div>
             </div>
-
             <div className="py-32 text-white">
               <div className="max-w-[40rem] px-4 mx-auto">
                 <h3 className="text-center text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-700 to-pink-500">
@@ -94,7 +91,6 @@ const Home: NextPage = () => {
                   {' '}
                   Shaundai Person
                 </h2>
-
                 <div className="mt-16 text-lg flex flex-col items-center space-y-6">
                   <div className="space-y-6 w-full">
                     <p>
