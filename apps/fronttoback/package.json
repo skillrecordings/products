@@ -9,10 +9,13 @@
     "lint": "eslint src/**/*.{ts,tsx} --fix && tsc --noEmit"
   },
   "dependencies": {
+    "@heroicons/react": "^1.0.6",
     "@mdx-js/loader": "^2.1.2",
     "@mdx-js/mdx": "^2.1.2",
     "@mdx-js/react": "^2.1.2",
     "@next/mdx": "^12.2.4",
+    "@portabletext/react": "^1.0.6",
+    "@sanity/client": "^3.3.3",
     "@skillrecordings/analytics": "workspace:*",
     "@skillrecordings/convertkit": "workspace:*",
     "@skillrecordings/quiz": "workspace:*",
@@ -20,15 +23,20 @@
     "classnames": "^2.3.1",
     "feed": "^4.2.2",
     "framer-motion": "^6.4.1",
+    "groq": "^2.15.0",
     "lodash": "^4.17.21",
     "next": "^12.2.3",
     "next-compose-plugins": "^2.2.1",
     "next-sitemap": "^3.0.5",
     "react": "18.2.0",
-    "react-dom": "18.2.0"
+    "react-dom": "18.2.0",
+    "react-refractor": "^2.1.7",
+    "refractor": "^4.5.0",
+    "speakingurl": "^14.0.1"
   },
   "devDependencies": {
     "@next/env": "^12.2.2",
+    "@portabletext/types": "^1.0.3",
     "@skillrecordings/scripts": "workspace:*",
     "@skillrecordings/tsconfig": "workspace:*",
     "@skillrecordings/types": "workspace:*",
@@ -38,6 +46,7 @@
     "@types/node": "^17.0.0",
     "@types/react": "^18.0.15",
     "@types/react-dom": "^18.0.6",
+    "@types/speakingurl": "^13.0.3",
     "dotenv-flow": "^3.2.0",
     "eslint": "^8.19.0",
     "eslint-config-custom": "workspace:*",
