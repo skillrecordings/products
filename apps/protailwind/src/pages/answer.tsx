@@ -25,7 +25,7 @@ const Answer: React.FC<React.PropsWithChildren<{questionSet: QuestionSet}>> = ({
       <div className="h-full w-full flex flex-col items-center justify-center sm:py-16">
         <QuizAnswerPage
           questionSet={questionSet}
-          config={getConfig('Pro Tailwind', 'Simon')}
+          config={getConfig({title: 'Pro Tailwind', instructor: 'Simon'})}
         />
       </div>
     </Layout>
