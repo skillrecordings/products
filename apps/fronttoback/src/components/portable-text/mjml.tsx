@@ -144,7 +144,7 @@ export const portableTextMjmlComponents: PortableTextComponents = {
       return (
         <MjmlImage
           align="left"
-          width={value.width || '100%'}
+          width={value.width || 'auto'}
           src={value.src}
           alt={value.alt}
         />
