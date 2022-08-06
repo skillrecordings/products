@@ -3,8 +3,8 @@ import {OutgoingResponse} from '../index'
 import {getSdk, prisma} from '@skillrecordings/database'
 import {recordNewPurchase, stripe} from '@skillrecordings/commerce-server'
 import {buffer} from 'micro'
-import {tagPurchaseConvertkit} from '@skillrecordings/convertkit'
 import {postSaleToSlack, sendServerEmail} from '../../server'
+import {convertkitTagPurchase} from './convertkit'
 
 const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET
 
@@ -52,10 +52,11 @@ export async function processStripeWebhooks({
             nextAuthOptions,
             type: 'purchase',
           })
+        } else {
+          console.warn('⛔️ not sending email: no nextAuthOptions found')
         }
 
-        await tagPurchaseConvertkit(email)
-
+        await convertkitTagPurchase(email)
         await postSaleToSlack(purchaseInfo, purchase)
 
         return {

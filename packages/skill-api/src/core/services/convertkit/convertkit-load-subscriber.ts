@@ -1,6 +1,10 @@
 import {SkillRecordingsHandlerParams} from '../../types'
 import {OutgoingResponse} from '../../index'
-import {fetchSubscriber} from '../../lib/convertkit'
+import {
+  fetchSubscriber,
+  getConvertkitSubscriberCookie,
+  oneYear,
+} from '../../lib/convertkit'
 
 export async function convertkitLoadSubscriber({
   params,
@@ -20,25 +24,11 @@ export async function convertkitLoadSubscriber({
 
     const subscriber = await fetchSubscriber(convertkitId)
 
-    const hour = 3600000
-    const oneYear = 365 * 24 * hour
-
     if (subscriber) {
       return {
         status: 200,
         body: subscriber,
-        cookies: [
-          {
-            name: 'ck_subscriber',
-            value: JSON.stringify(subscriber),
-            options: {
-              secure: process.env.NODE_ENV === 'production',
-              httpOnly: true,
-              path: '/',
-              maxAge: oneYear,
-            },
-          },
-        ],
+        cookies: getConvertkitSubscriberCookie(subscriber),
         headers: [{key: 'Cache-Control', value: 'max-age=10'}],
       }
     } else {

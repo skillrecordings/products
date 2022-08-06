@@ -38,10 +38,16 @@ export const sendVerificationRequest = async (
 
   switch (params.type) {
     case 'purchase':
-      subject = `Thank you for Purchasing ${process.env.NEXT_PUBLIC_PRODUCT_NAME} (${host})`
+      subject = `Thank you for Purchasing ${
+        process.env.NEXT_PUBLIC_PRODUCT_NAME ||
+        process.env.NEXT_PUBLIC_SITE_TITLE
+      } (${host})`
       break
     default:
-      subject = `Log in to ${process.env.NEXT_PUBLIC_PRODUCT_NAME} (${host})`
+      subject = `Log in to ${
+        process.env.NEXT_PUBLIC_PRODUCT_NAME ||
+        process.env.NEXT_PUBLIC_SITE_TITLE
+      } (${host})`
   }
 
   const user = await getUserByEmail(email)

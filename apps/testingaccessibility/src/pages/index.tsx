@@ -9,23 +9,12 @@ import {PricingTiers} from '../components/product-tiers'
 import {useCoupon} from 'hooks/use-coupon'
 import {Element} from 'react-scroll'
 import FAQ from 'components/content/faq-section'
-import {tracer, setupHttpTracing} from '@skillrecordings/honeycomb-tracer'
 import {getToken} from 'next-auth/jwt'
 import {getActiveProducts} from '../lib/products'
 import type {CommerceProps} from '@skillrecordings/commerce-server/dist/@types'
 import {propsForCommerce} from '@skillrecordings/commerce-server'
 
-export const getServerSideProps: GetServerSideProps = async ({
-  req,
-  query,
-  res,
-}) => {
-  setupHttpTracing({
-    name: getServerSideProps.name,
-    tracer,
-    req,
-    res,
-  })
+export const getServerSideProps: GetServerSideProps = async ({req, query}) => {
   const token = await getToken({req})
   const {products} = await getActiveProducts()
   return await propsForCommerce({token, products, query})

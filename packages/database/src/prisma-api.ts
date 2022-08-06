@@ -1,20 +1,11 @@
 import {Context, defaultContext} from './context'
 import {v4} from 'uuid'
-import {tracer, SpanContext} from '@skillrecordings/honeycomb-tracer'
 import {Prisma, Purchase, User} from '@prisma/client'
 
-type SDKOptions = {ctx?: Context; spanContext?: SpanContext}
-
-function startSpan(name: string, childOf?: SpanContext) {
-  if (process.env.NODE_ENV === 'production') {
-    return tracer.startSpan(name, {childOf})
-  }
-
-  return {finish: () => {}}
-}
+type SDKOptions = {ctx?: Context}
 
 export function getSdk(
-  {ctx = defaultContext, spanContext}: SDKOptions = {ctx: defaultContext},
+  {ctx = defaultContext}: SDKOptions = {ctx: defaultContext},
 ) {
   return {
     async getPurchaseDetails(purchaseId: string, userId: string) {
@@ -191,7 +182,6 @@ export function getSdk(
       userId: string
       lessonSlug: string
     }) {
-      const span = startSpan('toggleLessonProgressForUser', spanContext)
       let lessonProgress = await ctx.prisma.lessonProgress.findFirst({
         where: {
           userId,
@@ -229,14 +219,12 @@ export function getSdk(
           },
         })
       }
-      span.finish()
       return lessonProgress
     },
     async getPurchase(args: Prisma.PurchaseFindUniqueArgs) {
       return await ctx.prisma.purchase.findUnique(args)
     },
     async getPurchasesForUser(userId?: string) {
-      const span = startSpan('getPurchasesForUser', spanContext)
       const purchases = userId
         ? await ctx.prisma.purchase.findMany({
             where: {
@@ -265,7 +253,6 @@ export function getSdk(
           })
         : []
 
-      span.finish()
       return purchases
     },
     async createMerchantChargeAndPurchase(options: {
@@ -286,7 +273,6 @@ export function getSdk(
         productId,
         stripeChargeAmount,
       } = options
-      const span = startSpan('createMerchantChargeAndPurchase', spanContext)
       // we are using uuids so we can generate this!
       // this is needed because the following actions
       // are dependant
@@ -316,7 +302,6 @@ export function getSdk(
 
       const result = await ctx.prisma.$transaction([merchantCharge, purchase])
 
-      span.finish()
       return result
     },
     async findOrCreateMerchantCustomer({
@@ -328,8 +313,6 @@ export function getSdk(
       identifier: string
       merchantAccountId: string
     }) {
-      const span = startSpan('findOrCreateMerchantCustomer', spanContext)
-
       let merchantCustomer = await ctx.prisma.merchantCustomer.findUnique({
         where: {
           identifier,
@@ -346,12 +329,9 @@ export function getSdk(
         })
       }
 
-      span.finish()
-
       return merchantCustomer
     },
     async findOrCreateUser(email: string, name?: string | null) {
-      const span = startSpan('findOrCreateUser', spanContext)
       let isNewUser = false
       let user = await ctx.prisma.user.findFirst({
         where: {
@@ -366,54 +346,38 @@ export function getSdk(
         })
       }
 
-      span.finish()
       return {user, isNewUser}
     },
     async getUserByEmail(email: string) {
-      const span = startSpan('getUserByEmail', spanContext)
       const user = await ctx.prisma.user.findUnique({
         where: {
           email,
         },
       })
 
-      span.finish()
       return user
     },
     async getProduct(options: Prisma.ProductFindFirstArgs) {
-      const span = startSpan('getProduct', spanContext)
       const product = await ctx.prisma.product.findFirst(options)
-      span.finish()
       return product
     },
     async getPrice(options: Prisma.PriceFindFirstArgs) {
-      const span = startSpan('getPrice', spanContext)
       const price = await ctx.prisma.price.findFirst(options)
-      span.finish()
       return price
     },
     async getMerchantCoupon(options: Prisma.MerchantCouponFindFirstArgs) {
-      const span = startSpan('getMerchantCoupon', spanContext)
       const merchantCoupon = await ctx.prisma.merchantCoupon.findFirst(options)
-      span.finish()
       return merchantCoupon
     },
     async getCoupon(options: Prisma.CouponFindFirstArgs) {
-      const span = startSpan('getCoupon', spanContext)
       const coupon = await ctx.prisma.coupon.findFirst(options)
-
-      span.finish()
-
       return coupon
     },
     async getMerchantCoupons(options: Prisma.MerchantCouponFindManyArgs) {
-      const span = startSpan('getMerchantCoupons', spanContext)
       const merchantCoupons = await ctx.prisma.merchantCoupon.findMany(options)
-      span.finish()
       return merchantCoupons
     },
     async getDefaultCoupon(productId?: string) {
-      const span = startSpan('getDefaultCouponId', spanContext)
       const activeSaleCoupon = await ctx.prisma.coupon.findFirst({
         where: {
           default: true,
@@ -425,9 +389,6 @@ export function getSdk(
           merchantCoupon: true,
         },
       })
-
-      span.finish()
-
       if (activeSaleCoupon) {
         const {restrictedToProductId} = activeSaleCoupon
         const validForProductId = restrictedToProductId

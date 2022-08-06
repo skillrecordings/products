@@ -1,7 +1,6 @@
 import type {NextApiRequest, NextApiResponse} from 'next'
 import {withSentry} from '@sentry/nextjs'
 import * as Sentry from '@sentry/nextjs'
-import {tracer, setupHttpTracing} from '@skillrecordings/honeycomb-tracer'
 import {getToken} from 'next-auth/jwt'
 import {getSdk, prisma} from '@skillrecordings/database'
 const ROLES_WITH_ACCESS = ['ADMIN', 'SUPERADMIN']
@@ -30,7 +29,6 @@ const adminCouponGenerator = async (
   req: NextApiRequest,
   res: NextApiResponse,
 ) => {
-  setupHttpTracing({name: adminCouponGenerator.name, tracer, req, res})
   const token = await getToken({req})
 
   if (!ROLES_WITH_ACCESS.includes(token?.role as string)) {

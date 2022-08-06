@@ -2,20 +2,12 @@ import {NextApiRequest, NextApiResponse} from 'next'
 import {sanityClient} from 'utils/sanity-client'
 import {sanityAlgolia} from 'utils/algolia'
 import {withSentry} from '@sentry/nextjs'
-import {tracer, setupHttpTracing} from '@skillrecordings/honeycomb-tracer'
 import {isValidRequest} from '@sanity/webhook'
 
 export const addAllRecordsToAlgolia = async (
   req: NextApiRequest,
   res: NextApiResponse,
 ) => {
-  setupHttpTracing({
-    name: addAllRecordsToAlgolia.name,
-    tracer,
-    req,
-    res,
-  })
-
   try {
     if (!isValidRequest(req, process.env.SANITY_WEBHOOK_SECRET)) {
       res.status(403).json({success: false, message: 'Invalid signature'})

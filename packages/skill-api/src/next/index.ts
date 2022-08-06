@@ -7,7 +7,6 @@ import {getDecodedToken} from '../client'
 import {SkillRecordingsHandler} from '../core'
 import type {NextApiRequest, NextApiResponse} from 'next'
 import {PrismaClient} from '@skillrecordings/database'
-import {tracer, setupHttpTracing} from '@skillrecordings/honeycomb-tracer'
 import {NextAuthOptions} from 'next-auth'
 import {parseBody} from 'next/dist/server/api-utils/node'
 import {setCookie} from './utils'
@@ -26,12 +25,6 @@ async function SkillRecordingsNextHandler(
   options: SkillRecordingsOptions,
 ) {
   const {skillRecordings, ...query} = req.query
-  setupHttpTracing({
-    name: `skill-api-${skillRecordings?.[0]}`,
-    tracer,
-    req,
-    res,
-  })
 
   // if it has a `stripe-signature` that we need to validate
   // then we don't want to parse the request body or else
@@ -124,8 +117,7 @@ export interface SkillRecordingsOptions {
     title: string
   }
   slack?: SlackConfig
-  nextAuthOptions?: NextAuthOptions
-  parseBody?: boolean
+  nextAuthOptions: NextAuthOptions
 }
 
 export default SkillRecordings
