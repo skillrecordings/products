@@ -15,13 +15,7 @@ const Answer: React.FC<React.PropsWithChildren<{questionSet: QuestionSet}>> = ({
         </div>
       </header>
       <div className="h-full w-full flex flex-col items-center justify-center sm:py-16">
-        <QuizAnswerPage
-          questionSet={questionSet}
-          config={getConfig(
-            process.env.NEXT_PUBLIC_SITE_TITLE,
-            process.env.NEXT_PUBLIC_PARTNER_FIRST_NAME,
-          )}
-        />
+        <QuizAnswerPage questionSet={questionSet} />
       </div>
     </Layout>
   )
