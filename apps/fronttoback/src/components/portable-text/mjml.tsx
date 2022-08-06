@@ -60,7 +60,7 @@ export const EmailTemplate: React.FC<EmailTemplateProps> = ({
         />
         <MjmlStyle>{prism}</MjmlStyle>
       </MjmlHead>
-      <MjmlBody width={500}>
+      <MjmlBody>
         <MjmlSection>
           <MjmlColumn>
             {image?.src && <MjmlImage src={image.src} align="left" />}
