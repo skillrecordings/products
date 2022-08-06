@@ -11,12 +11,14 @@ type AnswerProps = {
   questionSet: QuestionSet
   config?: QuizConfig
   syntaxHighlighterTheme?: any
+  questionBodyRenderer?: any
 }
 
 const Answer: React.FC<React.PropsWithChildren<AnswerProps>> = ({
   config,
   questionSet,
   syntaxHighlighterTheme,
+  questionBodyRenderer,
 }) => {
   const router = useRouter()
 
@@ -33,6 +35,7 @@ const Answer: React.FC<React.PropsWithChildren<AnswerProps>> = ({
   }, [router, questionSet])
 
   const question = useQuestion({
+    questionBodyRenderer,
     currentQuestion,
     questionSet,
     config,
@@ -44,8 +47,8 @@ const Answer: React.FC<React.PropsWithChildren<AnswerProps>> = ({
     <>
       <div data-sr-quiz="">
         {question.currentQuestion && questionToShow(question)}
+        <DevTools questionSet={questionSet} />
       </div>
-      <DevTools questionSet={questionSet} />
     </>
   )
 }

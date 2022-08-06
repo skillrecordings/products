@@ -1,6 +1,12 @@
 /* ——— QUIZ ——— */
 [data-sr-quiz] {
   @apply p-5 w-full flex flex-col items-center justify-center;
+  nav {
+    @apply bg-white rounded-none;
+    span {
+      @apply text-black;
+    }
+  }
 }
 
 /* ——— QUESTION ——— */

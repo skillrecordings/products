@@ -1,5 +1,7 @@
 import {PortableText, PortableTextComponents} from '@portabletext/react'
 import {TypedObject} from '@portabletext/types'
+import get from 'lodash/get'
+import first from 'lodash/first'
 import {
   MjmlButton,
   MjmlImage,
@@ -159,6 +161,28 @@ export const portableTextMjmlComponents: PortableTextComponents = {
           backgroundColor="#000"
           color="#FFF"
           href={value.url}
+          fontFamily="Inter"
+          fontWeight={600}
+        >
+          {value.label}
+        </MjmlButton>
+      )
+    },
+    emailQuizQuestion: ({value}: any) => {
+      const ANSWER_URL = `${process.env.NEXT_PUBLIC_URL}/answer?question=${get(
+        first(value.question),
+        'questionId',
+      )}`
+      return (
+        <MjmlButton
+          href={ANSWER_URL}
+          fontSize={16}
+          padding={20}
+          borderRadius={0}
+          align="center"
+          lineHeight={30}
+          backgroundColor="#000"
+          color="#FFF"
           fontFamily="Inter"
           fontWeight={600}
         >

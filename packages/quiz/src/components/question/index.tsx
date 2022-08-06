@@ -44,6 +44,7 @@ type QuestionProps = {
   config: QuizConfig
   currentAnswer: string | string[] | undefined
   syntaxHighlighterTheme?: any
+  questionBodyRenderer?: any
 }
 
 const questionDefaultClasses = ``
@@ -80,15 +81,21 @@ const QuestionHeader = React.forwardRef(function QuestionHeader(
   {children, as: Comp = 'legend', ...props},
   forwardRef,
 ) {
-  const {currentQuestion, syntaxHighlighterTheme} =
+  const {currentQuestion, syntaxHighlighterTheme, config} =
     React.useContext(QuestionContext)
-
+  const {questionBodyRenderer} = config
   return (
     <Comp {...props} ref={forwardRef} data-sr-quiz-question-header="">
-      {children}
-      <Markdown syntaxHighlighterTheme={syntaxHighlighterTheme}>
-        {currentQuestion?.question}
-      </Markdown>
+      <>
+        {children}
+        {questionBodyRenderer ? (
+          questionBodyRenderer(currentQuestion?.question)
+        ) : (
+          <Markdown syntaxHighlighterTheme={syntaxHighlighterTheme}>
+            {currentQuestion?.question}
+          </Markdown>
+        )}
+      </>
     </Comp>
   )
 }) as Polymorphic.ForwardRefComponent<'legend', QuestionHeaderProps>
@@ -279,15 +286,21 @@ const QuestionAnswer = React.forwardRef(function QuestionAnswer(
   {children, as: Comp = 'div', ...props},
   forwardRef,
 ) {
-  const {isAnswered, syntaxHighlighterTheme, currentQuestion} =
+  const {isAnswered, syntaxHighlighterTheme, currentQuestion, config} =
     React.useContext(QuestionContext)
-
+  const {questionBodyRenderer} = config
   return isAnswered && currentQuestion.answer ? (
     <Comp {...props} ref={forwardRef} data-sr-quiz-question-answer="">
-      <Markdown syntaxHighlighterTheme={syntaxHighlighterTheme}>
-        {currentQuestion.answer}
-      </Markdown>
-      {children}
+      <>
+        {questionBodyRenderer ? (
+          questionBodyRenderer(currentQuestion.answer)
+        ) : (
+          <Markdown syntaxHighlighterTheme={syntaxHighlighterTheme}>
+            {currentQuestion.answer}
+          </Markdown>
+        )}
+        {children}
+      </>
     </Comp>
   ) : null
 }) as Polymorphic.ForwardRefComponent<'div', QuestionAnswerProps>

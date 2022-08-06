@@ -15,5 +15,8 @@ export default {
     {
       type: 'code',
     },
+    {
+      type: 'emailQuizQuestion',
+    },
   ],
 }

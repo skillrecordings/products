@@ -6,9 +6,9 @@ const Spinner: React.FunctionComponent<
     size?: number
     color?: string
   }>
-> = ({className = '', size = 6}) => (
+> = ({className = '', size = 5}) => (
   <svg
-    className={`animate-spin h-${size} w-${size} ${className}`}
+    className={`animate-spin w-${size} h-${size} ${className}`}
     xmlns="http://www.w3.org/2000/svg"
     fill="none"
     viewBox="0 0 24 24"
