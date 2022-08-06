@@ -23,6 +23,7 @@ type useQuestionTypes = {
   config?: QuizConfig
   currentAnswer?: string | string[] | undefined
   syntaxHighlighterTheme?: any
+  questionBodyRenderer?: any
 }
 
 export default function useQuestion({
@@ -31,6 +32,7 @@ export default function useQuestion({
   config,
   currentAnswer,
   syntaxHighlighterTheme,
+  questionBodyRenderer,
 }: useQuestionTypes): QuestionProps {
   const [state, send] = useMachine(quizMachine, {
     context: {
@@ -120,7 +122,7 @@ export default function useQuestion({
     isLast,
     currentAnswer,
     answer: state.context.answer,
-    config: config || getConfig('PRODUCT_TITLE', 'AUTHOR'),
+    config: config || getConfig({}),
     syntaxHighlighterTheme: syntaxHighlighterTheme || nightOwl,
   }
 }

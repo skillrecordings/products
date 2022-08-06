@@ -20,7 +20,10 @@ const Answer: React.FC<React.PropsWithChildren<{quiz: QuizResource}>> = ({
       <div className="sm:pt-16 sm:pb-16 pt-0 pb-16">
         <QuizAnswerPage
           questionSet={questionSet}
-          config={getConfig('CSS Destructured', 'Emma Bostian')}
+          config={getConfig({
+            title: 'CSS Destructured',
+            instructor: 'Emma Bostian',
+          })}
         />
       </div>
     </Layout>

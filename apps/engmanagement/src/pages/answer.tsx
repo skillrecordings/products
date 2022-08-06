@@ -12,7 +12,10 @@ const Answer: React.FC<
       <div className="h-full w-full flex flex-col items-center justify-center py-24 px-5">
         <QuizAnswerPage
           questionSet={questionSet}
-          config={getConfig('Engineering Management', 'Sarah Drasner')}
+          config={getConfig({
+            title: 'Engineering Management',
+            instructor: 'Sarah Drasner',
+          })}
         />
       </div>
     </Layout>

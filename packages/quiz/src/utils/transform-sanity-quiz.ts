@@ -11,7 +11,7 @@ export default function transformSanityQuiz(quiz: SanityQuiz) {
   const questionSet: QuestionSet = quiz.questions.reduce((a: any, v: any) => {
     return {
       ...a,
-      [v.id]: {
+      [v.id || v.questionId]: {
         ...v,
         // since correct field always returns an array
         // if there are multiple correct answers, we pass a string and render checkboxes

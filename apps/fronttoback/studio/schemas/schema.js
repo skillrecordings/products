@@ -3,12 +3,16 @@ import createSchema from 'part:@sanity/base/schema-creator'
 
 // Then import schema types from any plugins that might expose them
 import schemaTypes from 'all:part:@sanity/base/schema-type'
-// documents
+// —— documents
 import page from './documents/page'
-// objects
+import mail from './documents/mail'
+import quiz from './documents/quiz'
+import question from './documents/question'
+// —— objects
+// body
+import body from './objects/body'
 import bodyVideo from './objects/bodyVideo'
 import bodyImage from './objects/bodyImage'
-import body from './objects/body'
 import callout from './objects/callout'
 import divider from './objects/divider'
 import externalImage from './objects/externalImage'
@@ -16,6 +20,14 @@ import mediaCaption from './objects/mediaCaption'
 import videoOptions from './objects/videoOptions'
 import grid from './objects/grid'
 import gridItem from './objects/gridItem'
+// emailBody
+import emailBody from './objects/email/body'
+import emailImage from './objects/email/image'
+import emailButton from './objects/email/button'
+import emailQuizQuestion from './objects/email/quiz-question'
+// quiz
+import choice from './objects/quiz/choice'
+import codeFile from './objects/quiz/code-file'
 
 // Then we give our schema to the builder and provide the result to Sanity
 export default createSchema({
@@ -26,8 +38,15 @@ export default createSchema({
   types: schemaTypes.concat([
     // documents
     page,
+    mail,
+    quiz,
+    question,
     // objects
     body,
+    emailBody,
+    emailImage,
+    emailButton,
+    emailQuizQuestion,
     bodyVideo,
     bodyImage,
     callout,
@@ -37,5 +56,7 @@ export default createSchema({
     videoOptions,
     grid,
     gridItem,
+    choice,
+    codeFile,
   ]),
 })

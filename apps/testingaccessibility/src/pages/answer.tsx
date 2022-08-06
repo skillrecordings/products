@@ -12,7 +12,10 @@ const Answer: React.FC<React.PropsWithChildren<{questionSet: QuestionSet}>> = ({
       <div className="h-full w-full flex flex-col items-center justify-center py-24">
         <QuizAnswerPage
           questionSet={questionSet}
-          config={getConfig('Testing Accessibility', 'Marcy Sutton')}
+          config={getConfig({
+            title: 'Testing Accessibility',
+            instructor: 'Marcy Sutton',
+          })}
         />
       </div>
     </Layout>
