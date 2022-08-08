@@ -105,9 +105,9 @@ export const Shortcut: React.FC<React.PropsWithChildren<ShortcutProps>> = ({
           })
         }
       })
-    }
-    return () => {
-      screenfull.off('change', () => {})
+      return () => {
+        screenfull.off('change', () => {})
+      }
     }
   }, [])
 

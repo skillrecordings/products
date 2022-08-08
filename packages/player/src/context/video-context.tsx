@@ -35,7 +35,15 @@ export const VideoProvider: React.FC<
     services?: any
     guards?: any
   }>
-> = ({actions = {}, services = {}, guards = {}, children}) => {
+> = ({
+  actions = {},
+  services = {
+    loadResource: () => {},
+    loadViewer: () => {},
+  },
+  guards = {},
+  children,
+}) => {
   const videoService = useInterpret(videoMachine, {
     actions: {...defaultActions, ...actions},
     services,
