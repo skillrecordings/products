@@ -3,6 +3,7 @@
 @tailwind utilities;
 @import './icons.css';
 @import './fonts/index.css';
+@import './pricing.css';
 @import '@reach/dialog/styles.css';
 
 ::selection {
@@ -41,7 +42,7 @@ select:-webkit-autofill:focus {
     @apply sm:text-lg text-base block pb-2;
   }
   [data-sr-button] {
-    @apply mt-4 self-center sm:px-20 px-16 py-5 text-xl font-semibold bg-orange-400 text-white rounded-lg transform hover:shadow-xl hover:scale-105 focus:scale-95 transition-all ease-in-out duration-200 focus:outline-none outline-none focus:ring-2 focus:ring-orange-200;
+    @apply mt-4 self-center sm:px-20 px-16 py-5 text-xl font-semibold bg-[#FFAA4E] text-gray-900 rounded transform hover:shadow-xl hover:scale-105 focus:scale-95 transition-all ease-in-out duration-200 focus:outline-none outline-none focus:ring-2 focus:ring-orange-200;
   }
   [data-sr-input-asterisk] {
     @apply text-orange-300;
@@ -70,9 +71,25 @@ select:-webkit-autofill:focus {
 }
 
 /*
-This will hide the focus indicator if the element receives focus via the mouse,
-but it will still show up on keyboard focus.
+  This will hide the focus indicator if the element receives focus via the mouse,
+  but it will still show up on keyboard focus.
 */
-.js-focus-visible:focus:not(.focus-visible) {
-  outline: none;
+
+[data-js-focus-visible] :focus:not([data-focus-visible-added]) {
+  @apply outline-none;
+}
+
+/*
+  Optionally: Define a strong focus indicator for keyboard focus.
+  If you choose to skip this step then the browser's default focus
+  indicator will be displayed instead.
+*/
+
+[data-js-focus-visible] [data-focus-visible-added] {
+  @apply outline-none ring-2 ring-orange-300;
+}
+
+input[type='number']::-webkit-inner-spin-button,
+input[type='number']::-webkit-outer-spin-button {
+  opacity: 1;
 }

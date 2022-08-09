@@ -5,20 +5,19 @@ const CheckYourEmail = () => {
   return (
     <Layout
       meta={{title: 'Login to Engineering Management'}}
-      className="flex flex-col h-full sm:min-h-[calc(100vh-64px)] min-h-[calc(100vh-56px)]"
+      className="flex flex-col h-full"
     >
       <div
-        className="flex-grow w-full mx-auto md:pb-32 py-16 flex flex-col items-center justify-center p-5"
+        className="min-h-screen w-full mx-auto md:pb-32 py-16 flex flex-col items-center justify-center p-5"
         style={{
           backgroundImage: "url('/assets/pattern-topography.svg')",
         }}
       >
-        <div className="sm:mx-auto rounded-lg max-w-md text-center">
-          <h1 className="text-center text-3xl leading-9 font-extrabold pb-4">
+        <div className="sm:mx-auto rounded-lg max-w-lg text-center">
+          <h1 className="text-center sm:text-6xl leading-9 font-extrabold pb-4 font-din uppercase">
             Check your email
           </h1>
-
-          <p>
+          <p className="font-brandon sm:text-xl tetx-lg">
             If you bought the book, a login link will been sent to your email!
             Use it and you&apos;ll be able to access the content.
           </p>

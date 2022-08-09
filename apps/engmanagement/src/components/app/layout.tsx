@@ -4,6 +4,7 @@ import {Toaster} from 'react-hot-toast'
 import {NextSeo} from '@skillrecordings/react'
 import config from 'config'
 import {DefaultCoupon} from '@skillrecordings/commerce-server/dist/@types'
+import Navigation from 'components/navigation'
 
 type LayoutProps = {
   meta?: any
@@ -16,7 +17,7 @@ type LayoutProps = {
 
 const Layout: FunctionComponent<
   React.PropsWithChildren<React.PropsWithChildren<LayoutProps>>
-> = ({children, className, meta, noIndex, nav, footer}) => {
+> = ({children, className, meta, noIndex, nav = true, footer}) => {
   const {
     title = config.defaultTitle,
     description,
@@ -47,6 +48,7 @@ const Layout: FunctionComponent<
         canonical={url}
         noindex={noIndex}
       />
+      {nav && <Navigation />}
       {children}
     </div>
   )

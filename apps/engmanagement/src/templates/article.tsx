@@ -148,7 +148,7 @@ const ArticleTemplate: React.FC<
           </div>
         </header>
         <div className="relative overflow-hidden -mx-5 px-5">
-          <div className="prose prose-dark sm:prose-xl max-w-screen-sm prose-lg mx-auto relative z-10">
+          <div className="prose prose-dark sm:prose-xl max-w-screen-sm prose-lg mx-auto relative z-10 px-5">
             {children}
           </div>
           {background && background}
