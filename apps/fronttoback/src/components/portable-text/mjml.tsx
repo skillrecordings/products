@@ -54,11 +54,18 @@ export const EmailTemplate: React.FC<EmailTemplateProps> = ({
       <MjmlHead>
         <MjmlTitle>{title}</MjmlTitle>
         {description && <MjmlPreview>{description}</MjmlPreview>}
-        <MjmlFont
-          name="Inter"
-          href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap"
-        />
         <MjmlStyle>{prism}</MjmlStyle>
+        <MjmlRaw>
+          <style type="text/css">
+            {`
+          <!--[if mso]>
+          <style type="text/css">
+          body, table, td, a {font-family: Arial, Helvetica, sans-serif !important;}
+          </style>
+          <![endif]>
+          `}
+          </style>
+        </MjmlRaw>
         <MjmlRaw>
           <meta name="color-scheme" content="light" />
           <meta name="supported-color-schemes" content="light" />
@@ -92,7 +99,7 @@ export const portableTextMjmlComponents: PortableTextComponents = {
           fontSize={32}
           fontWeight={800}
           lineHeight="1.4"
-          fontFamily="Inter"
+          fontFamily="sans-serif"
         >
           {children}
         </MjmlText>
@@ -104,7 +111,7 @@ export const portableTextMjmlComponents: PortableTextComponents = {
           fontSize={24}
           fontWeight={800}
           lineHeight="1.4"
-          fontFamily="Inter"
+          fontFamily="sans-serif"
         >
           {children}
         </MjmlText>
@@ -116,7 +123,7 @@ export const portableTextMjmlComponents: PortableTextComponents = {
           fontSize={18}
           fontWeight={800}
           lineHeight="1.4"
-          fontFamily="Inter"
+          fontFamily="sans-serif"
         >
           {children}
         </MjmlText>
@@ -125,7 +132,7 @@ export const portableTextMjmlComponents: PortableTextComponents = {
     // p
     normal: ({children}) => {
       return (
-        <MjmlText lineHeight="1.65" fontSize={16} fontFamily="Inter">
+        <MjmlText lineHeight="1.65" fontSize={16} fontFamily="sans-serif">
           {children}
         </MjmlText>
       )
@@ -136,9 +143,23 @@ export const portableTextMjmlComponents: PortableTextComponents = {
           fontStyle="italic"
           lineHeight="1.65"
           fontSize={16}
-          fontFamily="Inter"
+          fontFamily="sans-serif"
         >
           {children}
+        </MjmlText>
+      )
+    },
+  },
+  list: {
+    bullet: ({children}) => {
+      return <>{children}</>
+    },
+  },
+  listItem: {
+    bullet: ({children}) => {
+      return (
+        <MjmlText fontFamily="sans-serif" lineHeight="1.65" fontSize={16}>
+          • {children}
         </MjmlText>
       )
     },
@@ -165,7 +186,7 @@ export const portableTextMjmlComponents: PortableTextComponents = {
           backgroundColor="#000"
           color="#FFF"
           href={value.url}
-          fontFamily="Inter"
+          fontFamily="sans-serif"
           fontWeight={600}
         >
           {value.label}
@@ -187,7 +208,7 @@ export const portableTextMjmlComponents: PortableTextComponents = {
           lineHeight={30}
           backgroundColor="#000"
           color="#FFF"
-          fontFamily="Inter"
+          fontFamily="sans-serif"
           fontWeight={600}
         >
           {value.label}
