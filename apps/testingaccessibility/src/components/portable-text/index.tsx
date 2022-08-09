@@ -55,7 +55,7 @@ const Video: React.FC<
     .replace('stream.mux.com', 'image.mux.com')
     .replace('.m3u8', '/thumbnail.png?width=1600&height=1000&fit_mode=pad')
   return isMounted ? (
-    <div className="">
+    <div className="not-prose">
       {title && (
         <strong className="font-semibold inline-block pb-2">
           <span className="sr-only">Video:</span> {title}
