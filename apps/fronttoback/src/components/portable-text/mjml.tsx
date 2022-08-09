@@ -143,6 +143,20 @@ export const portableTextMjmlComponents: PortableTextComponents = {
       )
     },
   },
+  list: {
+    bullet: ({children}) => {
+      return <>{children}</>
+    },
+  },
+  listItem: {
+    bullet: ({children}) => {
+      return (
+        <MjmlText fontFamily="Inter" lineHeight="1.65" fontSize={16}>
+          • {children}
+        </MjmlText>
+      )
+    },
+  },
   types: {
     emailImage: ({value}: any) => {
       return (
