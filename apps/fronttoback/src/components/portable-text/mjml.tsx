@@ -59,6 +59,10 @@ export const EmailTemplate: React.FC<EmailTemplateProps> = ({
           href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap"
         />
         <MjmlStyle>{prism}</MjmlStyle>
+        <MjmlRaw>
+          <meta name="color-scheme" content="light" />
+          <meta name="supported-color-schemes" content="light" />
+        </MjmlRaw>
       </MjmlHead>
       <MjmlBody>
         <MjmlSection>
