@@ -51,7 +51,8 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
   }>()
   const [quantity, setQuantity] = React.useState(1)
   const debouncedQuantity: number = useDebounce<number>(quantity, 250)
-  const {productId, name, image, modules, features, action} = product
+  const {productId, name, image, modules, description, features, action} =
+    product
   const {addPrice, isDowngrade, isDiscount} = usePriceCheck()
 
   const {data: formattedPrice, status} = useQuery<FormattedPrice>(
@@ -107,46 +108,54 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
     !isDowngrade(formattedPrice)
 
   return (
-    <div className="relative flex flex-col items-center">
+    <div
+      data-pricing-product={index}
+      className="relative flex flex-col items-center"
+    >
       {image?.url && (
-        <div className="absolute top-[-248px] w-full h-full max-w-[400px] max-h-[400px]">
+        <div className="flex items-center justify-center">
           <Image
             src={image.url}
             alt={image.alt}
             quality={100}
-            layout={'fill'}
-            objectFit="cover"
+            width={335}
+            height={440}
+            priority
             aria-hidden="true"
           />
         </div>
       )}
-      <article className="rounded-md flex flex-col items-center justify-center">
-        {Boolean(appliedMerchantCoupon || isDiscount(formattedPrice)) && (
-          <Ribbon appliedMerchantCoupon={appliedMerchantCoupon} />
-        )}
-        <div className={cx('pt-24 flex flex-col items-center')}>
-          <h4
+      <article className="rounded-md flex flex-col items-center justify-center pt-5">
+        <div className={cx('flex flex-col items-center')}>
+          <h3
             data-pricing-product-name-badge={index}
-            className="inline-flex px-4 py-1 pb-1.5 rounded-full font-nav text-sm font-semibold tracking-wide uppercase"
+            className="text-lg font-medium uppercase font-brandon tracking-[0.075em]"
           >
-            {name}
-          </h4>
-          <div className="mt-4 flex items-baseline text-6xl font-bold font-heading">
+            {name === 'Limited Edition Hardcover' ? (
+              <>
+                <span className="text-orange-300">Limited Edition</span>{' '}
+                Hardcover
+              </>
+            ) : (
+              name
+            )}
+          </h3>
+          <div className="pt-8 flex items-baseline md:text-8xl text-7xl font-bold font-din">
             {status === 'loading' ? (
-              <div className="pt-4 pb-3">
+              <div className="py-9">
                 <span className="sr-only">Loading price</span>
-                <Spinner aria-hidden="true" className="w-8 h-8" />
+                <Spinner aria-hidden="true" className="w-10 h-10" />
               </div>
             ) : (
               <>
                 <sup
                   aria-hidden="true"
-                  className="text-lg -translate-y-4 pr-0.5 opacity-80 font-extrabold"
+                  className="sm:text-4xl text-3xl -translate-y-4 pr-0.5 text-gray-300 font-extrabold"
                 >
                   US
                 </sup>
                 <div aria-live="polite" className="flex">
-                  {'$' + formattedPrice?.calculatedPrice}
+                  <span>{'$' + formattedPrice?.calculatedPrice}</span>
                   {Boolean(
                     appliedMerchantCoupon || isDiscount(formattedPrice),
                   ) && (
@@ -155,16 +164,25 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
                         aria-hidden="true"
                         className="flex flex-col items-start pl-2"
                       >
-                        <div className="text-4xl font-semibold opacity-80 relative flex items-center justify-center before:content-[''] before:absolute before:w-full before:scale-110 before:h-[3px] before:bg-green-600 before:opacity-90 before:-rotate-12">
-                          {'$' + fullPrice}
+                        <div className="text-4xl font-semibold opacity-80 relative flex items-center justify-center before:content-[''] before:absolute before:w-full before:scale-110 before:h-[3px] before:bg-gray-500 before:opacity-90 before:-rotate-12">
+                          {'$' + fullPrice.toFixed(2)}
                         </div>
-                        <div className="text-white bg-green-600 rounded text-sm font-bold uppercase font-sans px-1 text-center tabular-nums">
-                          Save {percentOff}%
+                        <div className="flex gap-2 items-center">
+                          <div className="text-white bg-gray-700 rounded text-sm font-bold uppercase font-sans px-1 text-center tabular-nums">
+                            Save {percentOff}%
+                          </div>
+                          {Boolean(
+                            appliedMerchantCoupon || isDiscount(formattedPrice),
+                          ) && (
+                            <div className="text-base font-brandon">
+                              {getCouponLabel(appliedMerchantCoupon?.type)}
+                            </div>
+                          )}
                         </div>
                       </div>
                       <div className="sr-only">
                         {appliedMerchantCoupon?.type === 'bulk' ? (
-                          <div className="font-medium">Team discount.</div>
+                          <div className="font-medium">Bulk discount.</div>
                         ) : null}{' '}
                         {percentOffLabel}
                       </div>
@@ -174,18 +192,17 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
               </>
             )}
           </div>
-          <div className="text-sm opacity-80 pt-2">yours forever</div>
         </div>
         {purchased ? (
           <div className="w-full px-8">
-            <div className="flex text-center px-5 py-5 font-nav font-semibold items-center justify-center rounded-md w-full text-lg gap-1 my-8 shadow-inner bg-green-700 bg-noise text-white after:hidden">
+            <div className="flex text-center px-5 py-5 font-nav font-semibold items-center justify-center w-full text-lg gap-1 my-8 shadow-inner bg-green-700 bg-noise text-white after:hidden">
               <CheckCircleIcon aria-hidden="true" className="mt-0.5 w-6 h-6" />{' '}
               Purchased
             </div>
           </div>
         ) : isDowngrade(formattedPrice) ? (
           <div className="w-full px-8">
-            <div className="flex text-center px-5 py-5 font-nav font-semibold items-center justify-center rounded-md w-full text-lg gap-1 my-8 border-2 border-gray-100 after:hidden">
+            <div className="flex text-center px-5 py-5 font-nav font-semibold items-center justify-center w-full text-lg gap-1 my-8 border-2 border-gray-100 after:hidden">
               Unavailable
             </div>
           </div>
@@ -201,16 +218,16 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
                 : ``
             }`}
             method="POST"
-            className="pt-8 xl:px-10 px-5 flex flex-col items-center justify-center w-full"
+            className="pt-5 xl:px-10 px-5 flex flex-col items-center justify-center w-full"
           >
             <fieldset className="w-full">
               <legend className="sr-only">{name}</legend>
               {productId === process.env.NEXT_PUBLIC_DEFAULT_PRODUCT_ID && (
-                <div className="mb-5 xl:px-12 px-5 flex flex-col items-center justify-center w-full">
+                <div className="mb-10 xl:px-12 px-5 flex flex-col items-center justify-center w-full">
                   <label className=" flex items-center gap-3">
-                    <span className="opacity-80">Seats</span>
+                    <span className="opacity-80">Qty.</span>
                     <input
-                      className="bg-gray-100 border border-gray-200 pl-3 py-2 rounded-md font-bold font-mono"
+                      className="bg-gray-900 border border-gray-700/80 focus-visible:border-transparent pl-3 py-2 font-brandon"
                       type="number"
                       min={1}
                       max={100}
@@ -231,81 +248,51 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
               )}
               <button
                 data-pricing-product-checkout-button={index}
-                className="flex text-center px-5 py-4 pb-[1.1rem] font-nav font-semibold items-center justify-center rounded-md w-full text-lg transition disabled:cursor-wait"
+                className="flex text-center px-16 py-5 font-brandon uppercase font-extrabold tracking-wide items-center justify-center w-full text-lg transition disabled:cursor-wait"
                 type="submit"
                 disabled={status === 'loading' || status === 'error'}
               >
                 <span className="relative z-10">
                   {formattedPrice?.upgradeFromPurchaseId
                     ? `Upgrade Now`
-                    : action || `Ship Accessible Apps Like a Pro`}
+                    : action || `Buy Now`}
                 </span>
               </button>
             </fieldset>
           </form>
         )}
-        {showPPPBox && (
+        {/* {showPPPBox && (
           <RegionalPricingBox
             pppCoupon={pppCoupon || merchantCoupon}
             activeCoupon={merchantCoupon}
             setActiveCoupon={setMerchantCoupon}
             index={index}
           />
+        )} */}
+        {description && (
+          <p className="text-center font-brandon pt-8 text-lg text-gray-200">
+            {description}
+          </p>
         )}
-        <div className="pt-8 w-full">
-          <div className="relative flex items-center justify-center before:left-0 before:content-[''] before:w-full before:h-px before:bg-gray-100 before:absolute">
-            <span className="relative bg-white px-4 uppercase text-xs font-medium text-gray-500">
-              includes
-            </span>
-          </div>
-        </div>
-        {modules && (
+        {features && (
           <div className="flex-1 flex flex-col justify-between px-6 pt-6 pb-8 space-y-6 xl:p-8 sm:p-5 p-3 sm:pt-6">
-            {/* <strong className="font-medium">Modules</strong> */}
-            <ul role="list" className="space-y-2 ">
-              {modules.map((module) => (
-                <li key={module.title} className="flex items-center">
-                  <div
-                    aria-hidden="true"
-                    className="flex-shrink-0 flex items-center justify-center"
-                  >
-                    <Image
-                      src={module.image.url}
-                      width={50}
-                      height={50}
-                      alt={module.image.alt}
-                    />
-                  </div>
-                  <p className="ml-3 text-base text-gray-700 font-medium">
-                    {module.title}
-                  </p>
-                </li>
-              ))}
-            </ul>
-            {features && (
-              <>
-                <strong className="font-medium">Features</strong>
-                <ul role="list" className="space-y-4">
-                  {features.map((feature: {value: string}) => (
-                    <li key={feature.value} className="flex items-start">
-                      <div className="flex-shrink-0">
-                        <span aria-hidden="true" className="mt-1">
-                          <Image
-                            src={require('../../public/assets/icons/checkmark.png')}
-                            width={22}
-                            height={22}
-                            alt=""
-                          />
-                        </span>
-                      </div>
-                      <p className="ml-3 text-base text-gray-700">
-                        {feature.value}
-                      </p>
-                    </li>
-                  ))}
-                </ul>
-              </>
-            )}
+            <>
+              <strong className="font-medium">Features</strong>
+              <ul role="list" className="space-y-4">
+                {features.map((feature: {value: string}) => (
+                  <li key={feature.value} className="flex items-start">
+                    <div className="flex-shrink-0">
+                      <span aria-hidden="true" className="mt-1">
+                        ✓
+                      </span>
+                    </div>
+                    <p className="ml-3 text-base text-gray-700">
+                      {feature.value}
+                    </p>
+                  </li>
+                ))}
+              </ul>
+            </>
           </div>
         )}
       </article>

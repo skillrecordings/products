@@ -7,6 +7,7 @@ const productsQuery = groq`*[_type == "pricing"][0] {
   "products": products[]->{
   "name": title,
   productId,
+  description,
   action,
   image {
     url,

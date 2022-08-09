@@ -10,7 +10,7 @@ const Confirm = () => {
 
   return (
     <Layout hideNav meta={{title: 'Confirm your email'}}>
-      <div className="max-w-2xl text-center space-y-5 mx-auto py-24">
+      <div className="max-w-2xl text-center space-y-5 mx-auto py-24 px-5">
         <Image
           src={'/images/email-notification.svg'}
           width={100}

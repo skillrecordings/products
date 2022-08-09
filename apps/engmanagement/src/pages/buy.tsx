@@ -8,7 +8,6 @@ import Layout from 'components/app/layout'
 import Image from 'next/image'
 import {getToken} from 'next-auth/jwt'
 import {getActiveProducts} from '../lib/products'
-import config from 'config'
 
 const Buy: React.FC<React.PropsWithChildren<CommerceProps>> = ({
   couponFromCode,
@@ -20,28 +19,16 @@ const Buy: React.FC<React.PropsWithChildren<CommerceProps>> = ({
 }) => {
   return (
     <Layout
-      meta={{title: `Buy ${process.env.NEXT_PUBLIC_SITE_TITLE}}`}}
+      meta={{title: `Buy ${process.env.NEXT_PUBLIC_SITE_TITLE}`}}
       defaultCoupon={defaultCoupon}
     >
-      <main>
-        <div className="flex flex-col justify-center items-center pb-32">
-          <div className="pb-10 sm:pt-24 pt-16 text-white">
-            <div className="max-w-7xl mx-auto text-center px-4 sm:px-6 lg:px-8">
-              <div className="max-w-3xl mx-auto space-y-4 lg:max-w-none">
-                <p className="font-display font-medium pb-6 lg:text-xl sm:text-lg text-base text-[#FFC165]">
-                  {process.env.NEXT_PUBLIC_SITE_TITLE} — by {config.author}
-                </p>
-                <h1 className="font-heading font-bold lg:text-5xl sm:text-5xl text-4xl">
-                  For the Rest of Us
-                </h1>
-                <p className="md:text-xl text-lg max-w-sm mx-auto pt-4 text-sand-100">
-                  a book
-                </p>
-                <Element name="buy" aria-hidden="true" />
-              </div>
-            </div>
-          </div>
-          <div className="px-5">
+      <main className="flex flex-col items-center justify-center py-32">
+        <h1 className="lg:text-6xl sm:text-5xl text-4xl font-din uppercase text-center max-w-[25ch] pb-10 px-5">
+          Pre-order Limited Edition Of the Book Today!
+        </h1>
+        <section className="flex flex-col justify-center items-center">
+          <div className="px-5 pt-8">
+            <Element name="buy" aria-hidden="true" />
             <PricingTiers
               products={products}
               userId={userId}
@@ -50,7 +37,7 @@ const Buy: React.FC<React.PropsWithChildren<CommerceProps>> = ({
               couponFromCode={couponFromCode}
             />
           </div>
-        </div>
+        </section>
       </main>
     </Layout>
   )
