@@ -9,7 +9,7 @@ services:
       - MYSQL_DATABASE=engineering-management
       - MYSQL_ALLOW_EMPTY_PASSWORD=yes
     ports:
-      - '3306:3306'
+      - '3309:3306'
     volumes:
       - db:/var/lib/mysql
       - ./seed_data:/docker-entrypoint-initdb.d

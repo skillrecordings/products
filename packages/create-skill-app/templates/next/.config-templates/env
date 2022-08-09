@@ -1,1 +1,1 @@
-DATABASE_URL="mysql://root@localhost:3306/skill-recordings-{{appName}}"
+DATABASE_URL="mysql://root@localhost:3309/sri-{{appName}}"
