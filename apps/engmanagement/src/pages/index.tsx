@@ -93,7 +93,7 @@ const Home: React.FC<React.PropsWithChildren<CommerceProps>> = ({
         {isSellingLive ? (
           <section className="flex flex-col justify-center items-center py-24 bg-black/20 mt-24 px-5">
             <h2 className="lg:text-6xl text-5xl font-din uppercase text-center max-w-[25ch] pb-10">
-              Pre-order Limited Version Of the Book Today!
+              Pre-order Limited Edition Of the Book Today!
             </h2>
             <div className="px-5 pt-8">
               <Element name="buy" aria-hidden="true" />
