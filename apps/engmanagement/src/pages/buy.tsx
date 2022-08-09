@@ -24,7 +24,7 @@ const Buy: React.FC<React.PropsWithChildren<CommerceProps>> = ({
     >
       <main className="flex flex-col items-center justify-center py-32">
         <h1 className="lg:text-6xl sm:text-5xl text-4xl font-din uppercase text-center max-w-[25ch] pb-10 px-5">
-          Pre-order Limited Version Of the Book Today!
+          Pre-order Limited Edition Of the Book Today!
         </h1>
         <section className="flex flex-col justify-center items-center">
           <div className="px-5 pt-8">
