@@ -31,7 +31,7 @@ export const sendVerificationRequest = async (
     theme,
   } = params
   const {host} = new URL(url)
-  const transport = createTransport(server)
+
   const {getUserByEmail} = getSdk()
 
   let subject
@@ -53,6 +53,8 @@ export const sendVerificationRequest = async (
   const user = await getUserByEmail(email)
 
   if (!user) return
+
+  const transport = createTransport(server)
 
   await transport.sendMail({
     to: email,
