@@ -3,7 +3,7 @@
   "version": "0.1.1",
   "private": true,
   "scripts": {
-    "build": "NODE_ENV=production next build",
+    "build": "next build",
     "postbuild": "NODE_ENV=production next-sitemap",
     "build:docker": "cd ../../ && docker build . -f apps/testingaccessibility/Dockerfile -t my-awesome-app:latest --build-arg SCOPE=testingaccessibility",
     "clean": "pnpm -r exec -- rm -rf .turbo node_modules .next dist generated",
