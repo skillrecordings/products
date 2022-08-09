@@ -117,7 +117,7 @@ export interface SkillRecordingsOptions {
     title: string
   }
   slack?: SlackConfig
-  nextAuthOptions: NextAuthOptions
+  nextAuthOptions?: NextAuthOptions
 }
 
 export default SkillRecordings

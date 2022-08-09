@@ -14,5 +14,6 @@ declare namespace NodeJS {
     NEXT_PUBLIC_CONVERTKIT_SUBSCRIBER_KEY: string
     CONVERTKIT_BASE_URL: string
     NEXT_PUBLIC_GOOGLE_ANALYTICS: string
+    NEXT_PUBLIC_SUPPORT_EMAIL: string
   }
 }

@@ -1,7 +1,5 @@
 import * as React from 'react'
-import queryString from 'query-string'
-import {isEmpty, get} from 'lodash'
-import cookie from '@skillrecordings/cookies'
+import {isEmpty} from 'lodash'
 import axios from '@skillrecordings/axios'
 import {CK_SUBSCRIBER_KEY} from '@skillrecordings/config'
 
@@ -39,25 +37,30 @@ export const ConvertkitProvider: React.FC<
   const [loadingSubscriber, setLoadingSubscriber] = React.useState(true)
   React.useEffect(() => {
     if (typeof window !== 'undefined') {
-      const queryParams = queryString.parse(window.location.search)
-      const ckSubscriberId = get(queryParams, CK_SUBSCRIBER_KEY)
+      const params = new URLSearchParams(window.location.search)
+      const ckSubscriberId = params.get(CK_SUBSCRIBER_KEY)
 
       if (!isEmpty(ckSubscriberId)) {
-        cookie.set(CK_SUBSCRIBER_KEY, ckSubscriberId)
+        params.delete(CK_SUBSCRIBER_KEY)
         window.history.replaceState(
           null,
           document.title,
-          window.location.pathname,
+          `${window.location.pathname}?${params.toString()}`,
         )
       }
-    }
 
-    axios
-      .get(getSubscriberApiUrl)
-      .then(({data}) => {
-        setSubscriber(data)
-      })
-      .finally(() => setLoadingSubscriber(false))
+      //get the subscriber (which sets the cookie)
+      axios
+        .get(getSubscriberApiUrl, {
+          params: {
+            [CK_SUBSCRIBER_KEY]: ckSubscriberId,
+          },
+        })
+        .then(({data}) => {
+          setSubscriber(data)
+        })
+        .finally(() => setLoadingSubscriber(false))
+    }
   }, [])
 
   return (
