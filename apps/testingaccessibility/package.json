@@ -4,10 +4,12 @@
   "private": true,
   "scripts": {
     "build": "next build",
+    "build:dev": "cd ../.. && pnpm -- turbo run build test lint --filter=testingaccessibility && cd apps/testingaccessibility",
     "postbuild": "NODE_ENV=production next-sitemap",
-    "build:docker": "cd ../../ && docker build . -f apps/testingaccessibility/Dockerfile -t my-awesome-app:latest --build-arg SCOPE=testingaccessibility",
-    "clean": "pnpm -r exec -- rm -rf .turbo node_modules .next dist generated",
-    "dev": "next dev -p 3013",
+    "clean": "pnpm -r exec -- rm -rf .turbo node_modules .next",
+    "dev": "dev:validate && next dev -p 3013",
+    "dev:validate": "bin/validate",
+    "dev:stripe": "stripe listen --forward-to localhost:3013/api/skill/webhook/stripe",
     "format": "prettier --write './**/*.{js,jsx,ts,tsx,css,md,mdx,json}' --config ./.prettierrc",
     "integration": "cypress run",
     "lint": "eslint src/**/*.{ts,tsx} --fix && tsc --noEmit",
@@ -15,7 +17,9 @@
     "test": "jest",
     "db:studio": "prisma studio",
     "db:push": "prisma db push",
-    "db:schema": "prisma migrate dev --create-only"
+    "db:schema": "prisma migrate dev --create-only",
+    "db:seed:branch": "bin/seed",
+    "db:start": "docker compuse up -d"
   },
   "lint-staged": {
     "*.{js,json,md,mdx,ts,tsx}": [
@@ -172,6 +176,7 @@
     "@types/svg-to-pdfkit": "^0.1.0",
     "assert": "^2.0.0",
     "commander": "^8.3.0",
+    "concurrently": "^7.2.2",
     "csstype": "^3.0.11",
     "eslint": "^8.19.0",
     "eslint-config-custom": "workspace:*",

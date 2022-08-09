@@ -8,7 +8,7 @@
     "build:data": "node src/data/cache-json-data.js -p",
     "build:data:dev": "node src/data/cache-json-data.js",
     "build:dev": "pnpm build -w -- --scope=\"escuelafrontend\" --includeDependencies",
-    "clean": "rm -rf node_modules && pnpm -r exec -- rm -rf .turbo node_modules .next dist",
+    "clean": "pnpm -r exec -- rm -rf .turbo node_modules .next",
     "dev": "next dev -p 3011",
     "format": "prettier --write './**/*.{js,jsx,ts,tsx,css,md,mdx,json}' --config ./.prettierrc",
     "integration": "cypress run",

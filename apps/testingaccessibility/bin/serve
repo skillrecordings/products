@@ -1,8 +1,0 @@
-#!/bin/bash
-
-# Description:
-#   Starts the local development server.
-# Usage:
-#   bin/serve
-
-pnpm dev

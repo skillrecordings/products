@@ -7,7 +7,7 @@
     "postbuild": "NODE_ENV=production next-sitemap",
     "build:data": "node src/data/cache-json-data.js -p",
     "build:data:dev": "node src/data/cache-json-data.js",
-    "clean": "pnpm -r exec -- rm -rf .turbo node_modules .next dist",
+    "clean": "pnpm -r exec -- rm -rf .turbo node_modules .next",
     "dev": "next dev -p 3012",
     "format": "prettier --write './**/*.{js,jsx,ts,tsx,css,md,mdx,json}' --config ./.prettierrc",
     "integration": "cypress run",
