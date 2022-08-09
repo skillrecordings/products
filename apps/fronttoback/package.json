@@ -20,6 +20,7 @@
     "@skillrecordings/convertkit": "workspace:*",
     "@skillrecordings/quiz": "workspace:*",
     "@skillrecordings/react": "workspace:*",
+    "@skillrecordings/skill-api": "workspace:*",
     "classnames": "^2.3.1",
     "feed": "^4.2.2",
     "framer-motion": "^6.4.1",

@@ -13,6 +13,9 @@ export async function convertkitLoadSubscriber({
 }): Promise<OutgoingResponse> {
   try {
     const convertkitId =
+      params.req.query[
+        process.env.NEXT_PUBLIC_CONVERTKIT_SUBSCRIBER_KEY || 'ck_subscriber_id'
+      ] ||
       params.req.cookies?.[
         process.env.NEXT_PUBLIC_CONVERTKIT_SUBSCRIBER_KEY || 'ck_subscriber_id'
       ]

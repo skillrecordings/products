@@ -27,6 +27,8 @@ export async function sendServerEmail({
   nextAuthOptions: NextAuthOptions
   type?: MagicLinkEmailType
 }) {
+  if (!nextAuthOptions) return
+
   const emailProvider: any = nextAuthOptions.providers.find(
     (provider) => provider.id === 'email',
   )

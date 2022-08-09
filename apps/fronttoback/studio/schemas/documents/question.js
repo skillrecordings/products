@@ -4,6 +4,11 @@ export default {
   type: 'document',
   fields: [
     {
+      name: 'label',
+      title: 'Label',
+      type: 'string',
+    },
+    {
       name: 'questionId',
       title: 'Question ID',
       type: 'string',
@@ -23,7 +28,7 @@ export default {
       validation: (Rule) => Rule.required(),
       //   initialValue: {title: 'Essay', value: 'essay'},
     },
-    {name: 'ckTagId', title: 'ConvertKit Tag ID', type: 'string'},
+    {name: 'tagId', title: 'ConvertKit Tag ID*', type: 'string'},
     {
       name: 'body',
       title: 'Body',
@@ -46,7 +51,14 @@ export default {
   ],
   preview: {
     select: {
-      title: 'questionId',
+      label: 'label',
+      questionId: 'questionId',
+    },
+    prepare(selection) {
+      const {label, questionId} = selection
+      return {
+        title: `[${questionId}] ${label}`,
+      }
     },
   },
 }

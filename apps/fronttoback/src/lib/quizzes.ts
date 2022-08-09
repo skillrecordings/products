@@ -17,7 +17,7 @@ export async function getQuiz(slug: string) {
     questions[]->{
         questionId, 
         "question": body, 
-        ckTagId, 
+        tagId, 
         answer, 
         type, 
         'correct': choices[correct == true].value,
