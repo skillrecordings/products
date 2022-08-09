@@ -16,26 +16,24 @@ const Login: React.FC<
   return (
     <Layout
       meta={{title: 'Login to Engineering Management'}}
-      className="flex flex-col h-full sm:min-h-[calc(100vh-64px)] min-h-[calc(100vh-56px)]"
+      className="flex flex-col h-full"
     >
       <div
-        className="flex-grow w-full mx-auto md:pb-40 pb-16 py-16 flex flex-col items-center justify-center p-5"
+        className="min-h-screen w-full mx-auto md:pb-40 pb-16 py-24 flex flex-col items-center justify-center p-5"
         style={{
           backgroundImage: "url('/assets/pattern-topography.svg')",
         }}
       >
-        <div className="sm:mx-auto rounded-lg">
-          <h1 className="text-center text-3xl leading-9 font-bold pt-4">
-            Log in to Engineering Management
+        <div className="sm:mx-auto max-w-screen-md">
+          <h1 className=" text-5xl font-bold pt-4 font-din uppercase">
+            Log in to <br />{' '}
+            <span className="text-orange-300">Engineering Management</span>
           </h1>
 
-          <div className="sm:mt-8 mt-4 sm:mx-auto sm:w-full sm:max-w-md">
+          <div className="sm:mt-8 mt-4 sm:w-full sm:max-w-sm">
             <div>
               <form className="" method="post" action="/api/auth/signin/email">
-                <label
-                  htmlFor="email"
-                  className="block leading-5 text-sm font-semibold"
-                >
+                <label htmlFor="email" className="block leading-5 text-base">
                   Email address
                 </label>
                 <input
@@ -43,7 +41,7 @@ const Login: React.FC<
                   type="hidden"
                   defaultValue={csrfToken}
                 />
-                <div className="mt-1 relative rounded-md shadow-sm">
+                <div className="mt-1 relative shadow-sm">
                   <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                     <svg
                       className="h-5 w-5 text-gray-400"
@@ -60,12 +58,12 @@ const Login: React.FC<
                     id="email"
                     type="email"
                     placeholder="you@example.com"
-                    className="mb-3 focus:ring-blue-500 focus:border-blue-500  py-3 text-gray-900 placeholder-gray-400 block w-full pl-10 border-2 border-gray-200 rounded-md"
+                    className="mb-3 focus-visible:border-transparent py-3 text-white placeholder-gray-400 block w-full pl-10 border-gray-700 bg-gray-900 rounded"
                     {...register('email', {required: true})}
                   />
                 </div>
 
-                <button className="w-full flex items-center justify-center px-5 py-3 border border-transparent text-base font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 transition focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                <button className="mt-5 flex items-center justify-center px-5 py-3 border border-transparent rounded font-semibold font-brandon text-gray-900 bg-orange-300 focus:outline-none focus-visible:ring-white hover:scale-105 transition-all ease-in-out">
                   Email me a login link
                 </button>
               </form>

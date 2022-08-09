@@ -7,7 +7,7 @@ export const getCouponLabel = (couponType: string) => {
     case 'ppp':
       return 'Regional Pricing'
     case 'bulk':
-      return 'Team Discount'
+      return 'Bulk Discount'
     default:
       return 'Upgrade'
   }

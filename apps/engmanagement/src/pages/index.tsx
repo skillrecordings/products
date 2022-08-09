@@ -1,4 +1,6 @@
 import * as React from 'react'
+import {GetServerSideProps} from 'next'
+import type {CommerceProps} from '@skillrecordings/commerce-server/dist/@types'
 import Layout from 'layouts'
 import LandingCopy from 'components/landing-copy.mdx'
 import get from 'lodash/get'
@@ -11,14 +13,25 @@ import {
   redirectUrlBuilder,
 } from '@skillrecordings/convertkit'
 import {useRouter} from 'next/router'
+import {getToken} from 'next-auth/jwt'
+import {getActiveProducts} from 'lib/products'
+import {propsForCommerce} from '@skillrecordings/commerce-server'
+import {Element} from 'react-scroll'
+import {PricingTiers} from 'components/product-tiers'
+import {isSellingLive} from 'utils/is-selling-live'
 
-export default function Home() {
-  const router = useRouter()
-
+const Home: React.FC<React.PropsWithChildren<CommerceProps>> = ({
+  couponFromCode,
+  purchases = [],
+  userId,
+  products,
+  couponIdFromCoupon,
+  defaultCoupon,
+}) => {
   return (
     <Layout hideNav={true}>
       <div className="absolute top-0 left-0 w-full h-2 bg-gray-700" />
-      <header className="min-h-[60vh] lg:pb-24 sm:pb-16 pb-8 lg:pt-16 sm:pt-8 pt-0 flex items-center justify-center">
+      <header className="min-h-[60vh] lg:pb-24 sm:pb-16 pb-8 lg:pt-16 sm:pt-8 pt-0 flex items-center justify-center px-5">
         <div className="max-w-[900px] mx-auto w-full flex sm:flex-row flex-col-reverse items-center">
           <div className="flex-grow sm:text-left text-center transform sm:scale-100 scale-90">
             <h1 className="font-din lg:text-7xl text-6xl uppercase leading-[90%]">
@@ -67,41 +80,69 @@ export default function Home() {
           </div>
         </div>
       </header>
-      <main className="prose prose-dark lg:prose-2xl sm:prose-xl max-w-screen-md prose-lg mx-auto">
-        <LandingCopy />
-      </main>
-      <section>
-        <Author />
-      </section>
-      <section>
-        <ChapterGuide />
-      </section>
-      <section className="bg-gray-800 -m-5 lg:py-48 sm:py-32 py-16 p-5 lg:mt-32 sm:mt-24 mt-16">
-        <div className="max-w-screen-md w-full mx-auto">
-          <div className="text-center w-full inline-block  md:pb-20 sm:pb-16 pb-10">
-            <h2 className="uppercase font-din  lg:text-6xl sm:text-5xl text-5xl tracking-wide">
-              Get a sneak peek at the book
+      <main>
+        <div className="prose prose-dark lg:prose-2xl sm:prose-xl max-w-screen-md prose-lg mx-auto px-5">
+          <LandingCopy />
+        </div>
+        <section className="px-5">
+          <Author />
+        </section>
+        <section className="px-5">
+          <ChapterGuide />
+        </section>
+        {isSellingLive ? (
+          <section className="flex flex-col justify-center items-center py-24 bg-black/20 mt-24 px-5">
+            <h2 className="lg:text-6xl text-5xl font-din uppercase text-center max-w-[25ch] pb-10">
+              Pre-order Limited Version Of the Book Today!
             </h2>
-            <p className="text-orange-300 sm:text-3xl text-2xl pt-2 font-souvenir tracking-tight">
-              Free chapter delivered to your inbox.
-            </p>
-          </div>
-          {/* free chapter form */}
-          <SubscribeToConvertkitForm
-            formId={2610221} // the-value-of-values article
-            actionLabel="Get Free Chapter"
-            onSuccess={(subscriber: any) => {
-              if (subscriber) {
-                const redirectUrl = redirectUrlBuilder(subscriber, '/confirm', {
-                  title: 'Free Chapter',
-                })
-                router.push(redirectUrl)
-              }
-            }}
-            successMessage="Thanks! A link to access this article just got sent to your email address."
-          />
-          {/* regular subscribe form */}
-          {/* <SubscribeToConvertkitForm
+            <div className="px-5 pt-8">
+              <Element name="buy" aria-hidden="true" />
+              <PricingTiers
+                products={products}
+                userId={userId}
+                purchases={purchases}
+                couponIdFromCoupon={couponIdFromCoupon}
+                couponFromCode={couponFromCode}
+              />
+            </div>
+          </section>
+        ) : (
+          <SubscribeSection />
+        )}
+      </main>
+    </Layout>
+  )
+}
+
+const SubscribeSection = () => {
+  const router = useRouter()
+  return (
+    <section className="bg-gray-800 lg:py-48 sm:py-32 py-16 p-5 lg:mt-32 sm:mt-24 mt-16">
+      <div className="max-w-screen-md w-full mx-auto">
+        <div className="text-center w-full inline-block  md:pb-20 sm:pb-16 pb-10">
+          <h2 className="uppercase font-din  lg:text-6xl sm:text-5xl text-5xl tracking-wide">
+            Get a sneak peek at the book
+          </h2>
+          <p className="text-orange-300 sm:text-3xl text-2xl pt-2 font-souvenir tracking-tight">
+            Free chapter delivered to your inbox.
+          </p>
+        </div>
+        {/* free chapter form */}
+        <SubscribeToConvertkitForm
+          formId={2610221} // the-value-of-values article
+          actionLabel="Get Free Chapter"
+          onSuccess={(subscriber: any) => {
+            if (subscriber) {
+              const redirectUrl = redirectUrlBuilder(subscriber, '/confirm', {
+                title: 'Free Chapter',
+              })
+              router.push(redirectUrl)
+            }
+          }}
+          successMessage="Thanks! A link to access this article just got sent to your email address."
+        />
+        {/* regular subscribe form */}
+        {/* <SubscribeToConvertkitForm
             onSuccess={(subscriber: any) => {
               if (subscriber) {
                 const redirectUrl = redirectUrlBuilder(subscriber, '/confirm')
@@ -109,14 +150,15 @@ export default function Home() {
               }
             }}
           /> */}
-          <div className="text-lg text-center text-gray-200 pt-16">
-            No spam, unsubscribe any time.
-          </div>
+        <div className="text-lg text-center text-gray-200 pt-16">
+          No spam, unsubscribe any time.
         </div>
-      </section>
-    </Layout>
+      </div>
+    </section>
   )
 }
+
+export default Home
 
 const Author = () => {
   return (
@@ -275,3 +317,17 @@ export const Decoration = ({className = ''}) => (
     />
   </svg>
 )
+
+export const getServerSideProps: GetServerSideProps = async (context) => {
+  const {req, query} = context
+  if (process.env.NODE_ENV === 'development') {
+    const token = await getToken({req})
+    const {products} = await getActiveProducts()
+
+    return await propsForCommerce({query, token, products})
+  } else {
+    return {
+      props: {},
+    }
+  }
+}

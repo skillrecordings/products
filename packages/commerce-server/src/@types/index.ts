@@ -35,6 +35,7 @@ export type SanityProduct = {
   productId: string
   name: string
   action: string
+  description?: string
   image: {
     url: string
     alt: string

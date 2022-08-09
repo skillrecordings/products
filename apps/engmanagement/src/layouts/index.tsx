@@ -1,6 +1,7 @@
 import React, {FunctionComponent} from 'react'
 import {NextSeo} from '@skillrecordings/react'
 import Navigation from 'components/navigation'
+import cx from 'classnames'
 import Footer from 'components/footer'
 
 type LayoutProps = {
@@ -45,7 +46,7 @@ const Layout: FunctionComponent<
         canonical={url}
         noindex={noIndex}
       />
-      <div className={`p-5 flex flex-col min-h-screen ${className}`}>
+      <div className={cx('flex flex-col min-h-screen', className)}>
         {!hideNav && <Navigation />}
         <main className="flex-grow flex flex-col justify-center">
           {children}

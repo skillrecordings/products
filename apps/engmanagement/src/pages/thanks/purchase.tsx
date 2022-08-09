@@ -35,27 +35,27 @@ const ThanksVerify: React.FC<
 > = ({name, email}) => {
   return (
     <Layout footer={null} meta={{title: 'Purchase Successful'}}>
-      <main className="flex flex-col flex-grow items-center justify-center pt-5 pb-16 px-5 text-white">
+      <main className="py-28 flex flex-col flex-grow items-center min-h-screen justify-center px-5 text-white font-brandon">
         <div className="flex flex-col max-w-screen-md mx-auto w-full gap-5 items-center text-center">
-          <div>
-            <h1 className="text-orange-200 font-heading text-xl font-medium">
+          <div className="flex flex-col items-center">
+            <h1 className="text-orange-200 sm:text-xl text-lg font-medium">
               Thank you for purchasing {process.env.NEXT_PUBLIC_SITE_TITLE}!
             </h1>
-            <h2 className="max-w-lg mx-auto font-bold lg:text-4xl text-3xl py-5">
-              Please check your inbox for a login link that just got sent.
-              <code className="px-6 py-3 rounded-md bg-white inline-flex items-center gap-2 font-sans text-black my-10 font-semibold sm:text-xl text-lg">
-                <MailIcon
-                  className="w-5 h-5 text-green-500"
-                  aria-hidden="true"
-                />{' '}
-                {email}
-              </code>
+            <h2 className="max-w-lg mx-auto font-bold sm:text-4xl text-2xl pt-4">
+              Please check your inbox for an email that just got sent.
             </h2>
-            <p className="text-sand-100 max-w-md font-medium leading-relaxed mx-auto">
-              As a final step to access the course you need to check your inbox
-              (<strong>{email}</strong>) where you will find an email from{' '}
+            <code className="px-6 py-3 rounded-md bg-gray-800 flex justify-center items-center gap-2 font-brandon text-white my-10 font-medium sm:text-xl text-lg">
+              <MailIcon
+                className="w-5 h-5 text-orange-300"
+                aria-hidden="true"
+              />{' '}
+              <span className="text-orange-300">sent to:</span> {email}
+            </code>
+            <p className="text-gray-200 max-w-sm leading-relaxed mx-auto sm:text-lg">
+              As a final step to access you need to check your inbox (
+              <strong>{email}</strong>) where you will find an email from{' '}
               <strong>{process.env.NEXT_PUBLIC_SUPPORT_EMAIL}</strong> with a
-              link to access your purchase and start learning.
+              link to access your purchase.
             </p>
           </div>
         </div>
