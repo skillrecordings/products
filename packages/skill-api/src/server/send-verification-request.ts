@@ -15,6 +15,16 @@ export type MagicLinkEmailType =
 type HTMLEmailParams = Record<'url' | 'host' | 'email', string>
 type TextEmailParams = Record<'url' | 'host', string>
 
+function isValidateEmailServerConfig(server: any) {
+  return Boolean(
+    server &&
+      server.host &&
+      server.port &&
+      server.auth?.user &&
+      server.auth?.pass,
+  )
+}
+
 export const sendVerificationRequest = async (
   params: SendVerificationRequestParams & {
     type?: MagicLinkEmailType
@@ -54,15 +64,27 @@ export const sendVerificationRequest = async (
 
   if (!user) return
 
-  const transport = createTransport(server)
+  if (process.env.LOG_VERIFICATION_URL) {
+    console.log(`\n👋 MAGIC LINK URL ******************\n`)
+    console.log(url)
+    console.log(`\n************************************\n`)
+  }
 
-  await transport.sendMail({
-    to: email,
-    from,
-    subject,
-    text: text({url, host}),
-    html: html({url, host, email}, theme),
-  })
+  if (isValidateEmailServerConfig(server)) {
+    const transport = createTransport(server)
+
+    await transport.sendMail({
+      to: email,
+      from,
+      subject,
+      text: text({url, host}),
+      html: html({url, host, email}, theme),
+    })
+  } else {
+    console.warn(
+      `🚫 Invalid email server config. Do you need a POSTMARK_KEY env var?`,
+    )
+  }
 }
 
 function defaultHtml({url, host, email}: HTMLEmailParams, theme: Theme) {
