@@ -1,8 +1,0 @@
-#!/bin/bash
-
-# Description:
-#   Ensures the database is fully migrated.
-# Usage:
-#   bin/migrate
-
-npx prisma db push
