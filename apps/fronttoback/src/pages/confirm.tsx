@@ -19,8 +19,10 @@ const ConfirmSubscriptionPage = () => {
             You'll need to{' '}
             <strong className="font-bold">click the confirmation link</strong>{' '}
             to receive any further emails. If you don't see the email after a
-            few minutes, you might check your spam folder or other filters and
-            add <strong>{process.env.NEXT_PUBLIC_SUPPORT_EMAIL}</strong> to your
+            few minutes, you might{' '}
+            <strong className="font-bold">check your spam folder</strong> or
+            other filters and add{' '}
+            <strong>{process.env.NEXT_PUBLIC_SUPPORT_EMAIL}</strong> to your
             contacts.
           </p>
           <p className="sm:text-lg">
