@@ -9,4 +9,4 @@ database='testing-accessibility'
 git_branch=`git rev-parse --abbrev-ref HEAD`
 planetscale_branch=${$git_branch///-} # Substitute '-' for '/' for Planetscale
 
-pscale database restore-dump $database $planetscale_branch --dir ./seed_data/pscale_data_dump
+pscale database restore-dump $database $planetscale_branch --dir ./seed_data
