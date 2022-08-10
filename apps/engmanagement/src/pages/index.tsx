@@ -97,7 +97,9 @@ const Header = () => {
                     rel="noopener noreferrer"
                     className="rounded-sm flex flex-col items-center justify-center px-8 py-2 uppercase font-brandon font-bold text-xs bg-gray-700/70 text-white hover:scale-105 transition-all ease-in-out shadow-xl hover:bg-gray-700"
                   >
-                    <span className="pb-1.5">Buy now at</span>
+                    <span className="pb-1.5">
+                      Buy now at <span className="sr-only">Amazon.com</span>
+                    </span>
                     <AmazonLogo />
                   </a>
                 )}

@@ -1,6 +1,7 @@
 const AmazonLogo = () => {
   return (
     <svg
+      aria-hidden="true"
       className="w-28"
       xmlns="http://www.w3.org/2000/svg"
       fill="none"
