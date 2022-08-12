@@ -9,7 +9,7 @@ export const getOgImage = (options: OgImageUrlOptions) => {
   const query = new URLSearchParams({
     ...(image && {image}),
     ...(byline && {byline}),
-    title: encodeURI(title),
+    title: title,
   })
   const url = process.env.NEXT_PUBLIC_OG_IMAGE_URI + `?${query.toString()}`
 
