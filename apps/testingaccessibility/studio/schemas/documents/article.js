@@ -22,6 +22,16 @@ export default {
       },
     },
     {
+      name: 'byline',
+      title: 'Byline',
+      type: 'string',
+      description:
+        'Defaults to Marcy but is full text under title in share card (for example) so `by Author Name` to override',
+      options: {
+        maxLength: 64,
+      },
+    },
+    {
       title: 'Published',
       name: 'published',
       type: 'boolean',

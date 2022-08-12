@@ -7,7 +7,7 @@
     "build:dev": "cd ../.. && pnpm -- turbo run build test lint --filter=testingaccessibility && cd apps/testingaccessibility",
     "postbuild": "NODE_ENV=production next-sitemap",
     "clean": "pnpm -r exec -- rm -rf .turbo node_modules .next",
-    "dev": "dev:validate && next dev -p 3013",
+    "dev": "pnpm dev:validate && next dev -p 3013",
     "dev:validate": "bin/validate",
     "dev:stripe": "stripe listen --forward-to localhost:3013/api/skill/webhook/stripe",
     "format": "prettier --write './**/*.{js,jsx,ts,tsx,css,md,mdx,json}' --config ./.prettierrc",
@@ -19,7 +19,7 @@
     "db:push": "prisma db push",
     "db:schema": "prisma migrate dev --create-only",
     "db:seed:branch": "bin/seed",
-    "db:start": "docker compuse up -d"
+    "db:start": "docker compose up -d"
   },
   "lint-staged": {
     "*.{js,json,md,mdx,ts,tsx}": [

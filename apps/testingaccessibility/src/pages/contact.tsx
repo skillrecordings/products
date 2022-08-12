@@ -5,7 +5,7 @@ import ContactForm from '../components/contact/contact-form'
 import {getOgImage} from 'utils/get-og-image'
 
 const ContactFormPage: React.FC<React.PropsWithChildren<unknown>> = () => {
-  const ogImage = getOgImage('Contact')
+  const ogImage = getOgImage({title: 'Contact'})
   return (
     <Layout
       footer={null}

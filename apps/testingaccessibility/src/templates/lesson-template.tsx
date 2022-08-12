@@ -37,7 +37,7 @@ const LessonTemplate: React.FC<
   const {title, body, slug} = lesson
   const {lessons} = section
   const image = section?.image ?? module?.image
-  const ogImage = getOgImage(title, image.url)
+  const ogImage = getOgImage({title, image: image.url})
   const currentLessonIndex = indexOf(lessons, find(lessons, {slug}))
   const currentLessonIndexDisplay = currentLessonIndex + 1
   const {progress, toggleLessonComplete, isLoadingProgress} = useProgress()

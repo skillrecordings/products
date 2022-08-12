@@ -25,8 +25,8 @@ type ArticleTemplateProps = {
 const ArticleTemplate: React.FC<
   React.PropsWithChildren<ArticleTemplateProps>
 > = ({article, hasSubscribed}) => {
-  const {title, description, body, subscribersOnly, date, cta} = article
-  const ogImage = getOgImage(title)
+  const {title, description, body, subscribersOnly, date, cta, byline} = article
+  const ogImage = getOgImage({title, byline})
   const shortDescription =
     description || toPlainText(body).substring(0, 157) + '...'
   const router = useRouter()
@@ -48,7 +48,7 @@ const ArticleTemplate: React.FC<
       }}
     >
       <main>
-        <Header title={title} date={date} />
+        <Header title={title} date={date} byline={byline} />
         <div>
           <div className="max-w-screen-md mx-auto w-full">
             <div className="md:py-16 py-10">
@@ -75,8 +75,8 @@ const ArticleTemplate: React.FC<
 export default ArticleTemplate
 
 const Header: React.FC<
-  React.PropsWithChildren<{title: string; date: string}>
-> = ({title, date}) => {
+  React.PropsWithChildren<{title: string; date: string; byline: string}>
+> = ({title, date, byline}) => {
   return (
     <header className="flex flex-col items-center relative px-5 pt-16 pb-8 overflow-hidden text-white bg-green-700 bg-noise">
       <div className="flex flex-col items-center max-w-screen-md mx-auto w-full relative z-10">
@@ -92,7 +92,7 @@ const Header: React.FC<
           {title}
         </h1>
         <div className="lg:px-0 px-5 w-full flex md:flex-row flex-col md:space-y-0 space-y-3 items-center justify-between max-w-screen-sm">
-          <Author />
+          {byline ? byline : <Author />}
           <div className="flex space-x-5 items-center">
             <time dateTime={date} className="text-sm flex items-center">
               <CalendarIcon aria-hidden="true" className="w-4 opacity-80" />{' '}

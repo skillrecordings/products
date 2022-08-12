@@ -27,7 +27,7 @@ const ModuleTemplate: React.FC<
   React.PropsWithChildren<ModuleTemplateProps>
 > = ({module}) => {
   const {slug, title, body, sections, image, resources} = module
-  const ogImage = getOgImage(title, image.url)
+  const ogImage = getOgImage({title, image: image.url})
   const {progress} = useProgress()
   const {completedSections, percentCompleted, isCompleted} =
     getModuleProgressForUser(progress, sections)
