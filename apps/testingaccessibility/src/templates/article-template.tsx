@@ -52,7 +52,7 @@ const ArticleTemplate: React.FC<
         <div>
           <div className="max-w-screen-md mx-auto w-full">
             <div className="md:py-16 py-10">
-              <article className="max-w-none prose-p:max-w-screen-md prose-ul:sm:pr-0 prose-ul:pr-5 prose-p:w-full lg:prose-p:px-0 prose-p:px-5 md:prose-headings:px-0 prose-headings:px-5 prose-headings:max-w-screen-sm prose-p:mx-auto prose-headings:mx-auto prose-ul:max-w-screen-sm prose-ul:mx-auto text-gray-800 prose prose-lg prose-h2:max-w-[30ch] prose-h2:font-bold prose-h2:pt-0 prose-headings:py-8 prose-p:font-sans prose-li:font-sans prose-h2:font-heading prose-h3:font-heading prose-h3:font-semibold prose-headings:text-center sm:prose-h3:pt-10 prose-h3:pt-0 sm:prose-h3:pb-14 prose-h3:pb-5 sm:prose-h3:max-w-[35ch] prose-h3:max-w-[30ch] prose-h3:mx-auto  lg:prose-xl">
+              <article className="max-w-none prose-p:max-w-screen-md prose-ul:sm:pr-0 prose-ul:pr-5 prose-p:w-full lg:prose-p:px-0 prose-p:px-5 md:prose-headings:px-0 prose-headings:px-5 prose-headings:max-w-screen-sm prose-p:mx-auto prose-headings:mx-auto prose-ul:max-w-screen-sm prose-ul:mx-auto text-gray-800 prose prose-lg prose-h2:max-w-[30ch] prose-h2:font-bold prose-h2:pt-0 prose-headings:py-8 prose-p:font-sans prose-li:font-sans prose-h2:font-heading prose-h3:font-heading prose-h3:font-semibold prose-headings:text-center sm:prose-h3:pt-10 prose-h3:pt-0 sm:prose-h3:pb-14 prose-h3:pb-5 sm:prose-h3:max-w-[35ch] prose-h3:max-w-[30ch] prose-h3:mx-auto lg:prose-xl break-words">
                 <PortableText
                   value={body}
                   components={PortableTextComponents}
