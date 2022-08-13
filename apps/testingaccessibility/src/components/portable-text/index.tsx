@@ -270,7 +270,10 @@ const PortableTextComponents: PortableTextComponentsProps = {
           >
             <code>{code}</code>
           </pre>
-          <pre aria-hidden="true">
+          <pre
+            aria-hidden="true"
+            className="rounded-none sm:rounded-md lg:rounded-lg"
+          >
             <Refractor
               inline
               language={
