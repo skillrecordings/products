@@ -111,15 +111,17 @@ const Testimonial: React.FC<React.PropsWithChildren<TestimonialProps>> = ({
           />
         </span>
         {children}
-        <div className="italic pt-4 text-lg flex items-center gap-2">
+        <div className="italic pt-5 text-lg flex items-center gap-3">
           {avatar ? (
-            <Image
-              width={60}
-              height={60}
-              className="rounded-full"
-              src={avatar}
-              alt={`${author}'s profile picture`}
-            />
+            <div className="flex-shrink-0 flex items-center justify-center">
+              <Image
+                width={60}
+                height={60}
+                className="rounded-full"
+                src={avatar}
+                alt={`${author}'s profile picture`}
+              />
+            </div>
           ) : (
             '—'
           )}{' '}
