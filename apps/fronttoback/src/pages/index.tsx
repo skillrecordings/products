@@ -44,7 +44,7 @@ export default Home
 const Header = () => {
   const shouldReduceMotion = useReducedMotion()
   return (
-    <header className="bg-[#F38D68] h-screen flex flex-col justify-end p-[6vw] tracking-tighter relative overflow-hidden">
+    <header className="bg-brand-orange h-screen flex flex-col justify-end p-[6vw] tracking-tighter relative overflow-hidden">
       <div className="relative z-10 sm:pb-0 pb-20">
         <h1 className="md:text-[11vw] text-[12vw] font-bold leading-none">
           Backend for Frontend Devs
@@ -56,7 +56,7 @@ const Header = () => {
       </div>
       <svg
         className={cx(
-          'absolute -right-24 -top-24 text-brand-red sm:w-[500px] w-[400px]',
+          'absolute -right-24 -top-24 text-[#E47A53] sm:w-[500px] w-[400px]',
           {
             'animate-spin-slow': !shouldReduceMotion,
           },

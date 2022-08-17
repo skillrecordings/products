@@ -22,3 +22,7 @@
     height: -webkit-fill-available;
   }
 }
+
+header {
+  @apply selection:bg-black selection:text-brand-orange !important;
+}
