@@ -25,12 +25,17 @@ export default {
       firstName: 'Joe',
       lastName: 'Previte',
     },
-    images: [
-      {
-        url: 'https://typescriptcourse.com/card@2x.png',
+    images: {
+      default: {
+        url: '/images/share/card@2x.png',
         width: 1200,
         height: 640,
       },
-    ],
+      articles: {
+        url: '/images/share/card-articles@2x.png',
+        width: 1200,
+        height: 640,
+      },
+    },
   },
 }

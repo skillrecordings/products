@@ -2,7 +2,6 @@ import config from '../config'
 import Link from 'next/link'
 import {motion} from 'framer-motion'
 import Image from 'next/image'
-import {first} from 'lodash'
 import RootTemplate from '../templates/root'
 import Markdown from 'react-markdown'
 
@@ -13,7 +12,7 @@ export const meta = {
   description: config.description,
   titleAppendSiteName: false,
   url: config.siteUrl,
-  ogImage: first(config.openGraph.images),
+  ogImage: config.openGraph.images.default,
   formImage: require('../../public/images/emails/migrate-js-project-to-ts/thumb@2x.png'),
   headerBgClassName: 'bg-landing-header',
   formBgClassName: 'bg-landing-form',
