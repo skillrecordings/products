@@ -29,6 +29,7 @@ type SectionProps = {
   image?: string
   className?: string
   ariaLabel?: string
+  padding?: boolean
 }
 
 const Section: React.FC<React.PropsWithChildren<SectionProps>> = ({
@@ -36,12 +37,14 @@ const Section: React.FC<React.PropsWithChildren<SectionProps>> = ({
   image,
   className,
   ariaLabel,
+  padding = true,
 }) => {
   return (
     <section
       aria-label={ariaLabel}
       className={cx(className, {
-        'sm:pb-56 pb-24 sm:pt-48 pt-24 relative': image,
+        'sm:pb-56 pb-24': image && padding,
+        'sm:pt-48 pt-24 relative': image,
       })}
     >
       {image && (
@@ -75,6 +78,7 @@ type TestimonialProps = {
   author: string
   className?: string
   iconClassName?: string
+  avatar?: string
 }
 
 const Testimonial: React.FC<React.PropsWithChildren<TestimonialProps>> = ({
@@ -82,6 +86,7 @@ const Testimonial: React.FC<React.PropsWithChildren<TestimonialProps>> = ({
   author,
   className,
   iconClassName,
+  avatar,
 }) => {
   return (
     <div className="not-prose">
@@ -106,7 +111,22 @@ const Testimonial: React.FC<React.PropsWithChildren<TestimonialProps>> = ({
           />
         </span>
         {children}
-        <div className="italic pt-4 text-lg">— {author}</div>
+        <div className="italic pt-5 text-lg flex items-center gap-3">
+          {avatar ? (
+            <div className="flex-shrink-0 flex items-center justify-center">
+              <Image
+                width={60}
+                height={60}
+                className="rounded-full"
+                src={avatar}
+                alt={`${author}'s profile picture`}
+              />
+            </div>
+          ) : (
+            '—'
+          )}{' '}
+          {author}
+        </div>
       </blockquote>
     </div>
   )
