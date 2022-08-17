@@ -45,7 +45,7 @@ const NavLink: React.FC<NavLinkProps> = ({href, children, ...props}) => {
     <Link href={href} passHref>
       <a
         aria-current={isActive ? 'page' : undefined}
-        className={cx('', {
+        className={cx(' bg-black text-white px-5 py-3', {
           underline: isActive,
         })}
         {...props}
