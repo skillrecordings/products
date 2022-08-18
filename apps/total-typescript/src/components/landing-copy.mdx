@@ -1,156 +1,198 @@
+<Section className="text-center pt-48 pb-24 prose-p:max-w-lg" backgroundImage="/assets/landing/bg-sea-of-red-lines@2x.png">
+
 The feature’s working. The tests are passing. But your IDE is a sea of red lines. TypeScript’s not happy again.
 
 You move on to the next error:
 
-<TypeError header={<><span className="text-rose-400">const</span> <span className="text-blue-300">name</span><span className="text-rose-400">:</span> <span className="text-blue-300">string</span></>}>
+<p className="text-4xl font-heading">“What on earth is this?”</p>
 
-Element implicitly has an 'any' type because expression of type 'string' can't be used to index type '\{ name: string \| undefined; \}'. No index signature with a parameter of type 'string' was found on type '\{ name: string \| undefined; \}'. <span className="opacity-60">ts(7053)</span>
+you think to yourself.
 
-</TypeError>
+<ErrorFromHell>
+  {`Element implicitly has an ‘any’ type because expression of type ‘string’ can’t be used to index type ‘{ string: string |undefined; }’`}
+  <br />
+  <br />
+  {`No index signature with a parameter of type ‘string’ was found on type ‘{ string: string | undefined; }’`}
+</ErrorFromHell>
 
-<div className="text-center prose-p:font-medium font-text text-3xl pb-8 pt-14">
-  _“WTF is this?”_ you think to yourself.
-</div>
+</Section>
 
-Every search result is either _"here are 100 lines of adapter garbage"_ or _"here's a solution that doesn't work”_
+<Section className="bg-gradient-to-b from-transparent to-[#081021]" backgroundImage="/assets/landing/5-red stars.png">
+
+It’s impossible to Google. Every search result is either "here’s 100 lines of complex code" or "here's a solution that doesn't work”
 
 You contemplate the absurd amount of hours you spend solving these problems.
 
-You'd rather swallow shards of glass than deal with another:
+You'd rather give up than deal with another:
 
 <TypeError>
 
-{"The intersection '{0}' was reduced to 'never' because property '{1}' has conflicting types in some constituents."}
+{`The intersection 'User & PublicUser' was reduced to 'never' because property 'email' has conflicting types in some constituents.`}
 
 </TypeError>
 
-or
+<p className="text-center">or</p>
 
 <TypeError>
 
-Return type of exported function has or is using name '{0}' from external module {1} but cannot be named. <span className="opacity-60">ts(4058)</span>
+{`The intersection 'User & PublicUser' was reduced to 'never' because property 'email' has conflicting types in some constituents.`}
 
 </TypeError>
 
-Your time is precious. You have bigger fish to fry.
+</Section>
 
-Perhaps, you could spend that time writing new libraries or pushing technology forwards in other areas of your organization. Instead, you're dealing with TypeScript’s bs.
+<Section className="bg-[#081021] pb-16 sm:pt-24 pt-10">
 
-<div className="text-center prose-p:font-medium font-text text-3xl pb-8 pt-8">
-  No one ever said _“Let's build large-scale enterprise applications with
-  vanilla JS”_
-</div>
+<SectionHeading className="max-w-2xl">
+  Your time is precious. You have bigger fish to fry.
+</SectionHeading>
 
-But not using TypeScript is not an option.
+You could spend that time building new features or bugfixes. You could be providing value. Instead, you're fighting TypeScript.
 
-So you keep on pushing — all the time feeling like you’re working against TypeScript, not with it.
+These days, TypeScript is an industry default. If you’re starting an enterprise app today, you’ll need a good reason NOT to use TypeScript.
 
-The truth is that you never truly learned TypeScript, at least not in depth. That's the source of your pain. That's the source of your lack of velocity and impact.
+So you keep on pushing - all the time feeling like you’re working against TypeScript, not with it.
 
-You never developed a systematic approach to solving type errors. You never got to know the power of generics.
+The truth is that you never truly learned TypeScript, at least not in depth. That's the source of your pain.
+
+You never developed a systematic approach to solving type errors.
+
+You never developed a mental model for understanding when to use <span className="text-rose-400">any</span>.
+
+You never understood the power of generics.
 
 Ultimately…
 
-You never learned the underlying principles and patterns of being an effective TypeScript engineer.
+### You never learned the underlying principles and patterns of being an effective TypeScript engineer.
 
-<div
-  aria-hidden="true"
-  className="flex items-center justify-center sm:max-w-lg max-w-sm translate-y-16 mx-auto"
->
-  <Image
-    width={200 / 1.5}
-    height={300 / 1.5}
-    src={require('../../public/assets/gem-red@2x.png')}
-    alt=""
-    quality={100}
-    placeholder="blur"
-  />
-</div>
+</Section>
 
-## You deserve so much better.
+<Section className="pt-10" slot={<Image
+  src="/assets/landing/bg-divider-3.png"
+  layout="fill"
+  className="pointer-events-none object-contain select-none"
+  objectPosition="top center"
+  
+/>}>
+<SectionHeading className="max-w-sm" dividerTop="/assets/landing/divider-8@2x.png" dividerBottom="/assets/landing/divider-7@2x.png">
+You deserve so much better
+</SectionHeading>
 
 You deserve a practical, systematic approach to learning TypeScript in depth.
 
 That's why I'm creating Total TypeScript.
 
-It combines everything I've learned as a TS engineer and OSS maintainer for XState.
+It combines everything I've learned leading TypeScript teams and as an OSS maintainer for XState.
 
-This course will be massive… actually I should call it something else because "course" doesn't capture the scope and depth of training it will provide.
+This course will be massive. Comprehensive. Total.
 
-We'll be covering all the principals and patterns the docs don't cover.
+We'll start right at ground-level. You won’t need any prior TypeScript knowledge to take this course.
 
-We'll start at an beginner level and reach a super-advanced level.
-
-It's going to be the most advanced TypeScript course on the market.
+But also, it’s going to be the most advanced TypeScript course on the market. We’ll show you the techniques used by the most complex OSS libraries.
 
 It will turn you into your company's resident TypeScript Wizard:
 
-- the one that gives guidance and unlocks others
-- the one that leads large-scale Typescript initiatives
-- the one that consistently pushes teams within your company forward
+- the one that can unblock others and raise their velocity
+- the one that leads large-scale Typescript refactors
+- the one who knows instinctively what TypeScript is doing
 
-This collection of workshops will move you from being a contributor to a TypeScript codebase to being "the TypeScript wizard" for your team.
+**You’ll become indispensable.**
 
-<div
-  aria-hidden="true"
-  className="flex items-center justify-center sm:max-w-lg max-w-sm translate-y-16 mx-auto"
->
-  <Image
-    width={1564 / 2.5}
-    height={600 / 2.5}
-    src={require('../../public/assets/gem-green@2x.png')}
-    alt=""
-    quality={100}
-    placeholder="blur"
-  />
-</div>
+</Section>
 
-## A Systematic Approach<br className="sm:block hidden"/> for Learning TypeScript
-
-<Topics>
-<div>
+<Section className="py-24 bg-[#081021]" slot={<Image
+  src="/assets/landing/bg-divider-4.png"
+  layout="fill"
+  className="pointer-events-none object-contain select-none"
+  objectPosition="top center"
+/>}>
+<SectionHeading className="max-w-xl" dividerTop="/assets/landing/divider-5@2x.png" dividerBottom="/assets/landing/divider-4@2x.png">
+A systematic approach for learning TypeScript
+</SectionHeading>
 
 ### Fundamentals
 
-Complexity and ambiguity compound exponentially. To learn "XY" concept, you must first master X and Y separately and in-depth.
+Getting good at TypeScript is all about understanding the compiler. It can feel like an evil schoolteacher: peering over your code and marking it with squiggly red lines.
 
-We'll go through all the fundamentals of advanced TypeScript.
+But like all good teachers, it’s hard on you because it wants the best for you.
 
-We'll look at generics, conditional types, mapped types, tuples - everything you need to feel confident looking at complicated TypeScript code.
+It’s helping you out with autocomplete.
 
+It’s showing you how to use external libraries (without docs!).
+
+And it’s much smarter than you give it credit for.
+
+All you need to know is:
+
+- How to use your IDE to get the most out of TypeScript
+- How to read TypeScript’s long error messages
+- How to give TypeScript hints using type annotations
+
+<div className="flex items-center justify-center w-full overflow-visible h-24 translate-y-16 -z-10 pointer-events-none select-none relative">
+  <Image
+    src="/assets/landing/bg-divider-5.png"
+    width={1512 / 1.2}
+    height={378 / 1.2}
+  />
 </div>
-<div>
 
-### Challenge-Driven
+### Debugging
 
-From there, we'll work through the Type challenges - a list of over 100 TypeScript challenges that offer a stern test for advanced TypeScript users.
+ext, we’ll master debugging with TypeScript. The errors that really cost you tend not to be caused by your code - but by how your code interacts with external modules.
 
-This will be a problem/solution setup - I'll set up the problem, then let you have a go at the solution.
+We’ll learn how to deep-dive node_modules and TypeScript’s own declaration files.
 
-This will test your TypeScript muscles and give you a massive, comprehensive set of challenges to work through with my guidance at your side.
+We’ll learn about advanced patterns in external modules, like namespaces, function overloads and interface augmentation.
 
+We’ll learn how to solve type errors at source, not just plastering over them with any.
+
+<div className="flex items-center justify-center sm:w-full w-56 overflow-visible h-24 sm:translate-x-1/4 translate-x-80 sm:translate-y-56 translate-y-24 -z-10 pointer-events-none select-none relative">
+  <Image
+    src="/assets/landing/cloud@2x.png"
+    width={1184 / 3}
+    height={1367 / 3}
+  />
 </div>
-<div>
 
-### OSS-Driven
+### Velocity
 
-Finally, we'll look at TypeScript in the wild.
+Now, it’s time to go fast.
 
-I've got interviews lined up with several open source library maintainers who will guide you through ~10 of the top TypeScript Open Source repositories out there.
+We’ll look at techniques for DRY-ing up TypeScript code by:
 
-We'll focus on the principals they used to solve their hardest TypeScript challenges - and the architectural decisions that led them there.
+- Inferring from runtime code using <span className="text-rose-400">typeof</span>
+- Building incredible inference using generics
+- Generating TypeScript types from external sources
 
-</div>
-</Topics>
+TypeScript can enable some amazing DX for your team.
 
-## Concrete, no-bs, _“this is your new superpower”_ Outcomes.
+But learning how to pick the right abstraction can be tough. We’ll be learning how the builder pattern and functional programming can enable some amazing API’s.
 
-This course is all about learning deeply as opposed to quickly.
+</Section>
 
-The result is mastery.
+<Section className="pt-10" slot={<Image
+  src="/assets/landing/bg-divider-6.png"
+  layout="fill"
+  className="pointer-events-none object-contain select-none"
+  objectPosition="top center"
+  
+/>}>
+<SectionHeading className="max-w-sm" dividerTop="/assets/landing/divider-1@2x.png" dividerBottom="/assets/landing/divider-2@2x.png">
+Make TypeScript work for you, not against you
+</SectionHeading>
 
-Once you've completed Total TypeScript, you will have less fear when approaching nasty TypeScript errors, more confidence when typing dynamic signatures, gain velocity by cutting lines of code, and so much more!
+What’s the thing that separates TypeScript wizards from the rest?
 
-Ultimately, you will be able to make TypeScript work for you, not against you.
+Understanding.
 
-### If that sounds good, consider signing up for exclusive content and early-release workshop offerings below.
+To them, TypeScript doesn’t feel like magic. It feels simple, predictable and malleable.
+
+They can bend it to their will, and use its power for amazing DX.
+
+This course is all about building that understanding at a deep level. When you’ve completed Total TypeScript, you’ll reach a point of mastery where very little surprises you any more.
+
+You’ll have less fear when approaching nasty TypeScript errors, more confidence when typing dynamic signatures, gain velocity by cutting lines of code, and so much more.
+
+If that sounds good, consider signing up for exclusive content and early-release workshop offerings below.
+
+</Section>
