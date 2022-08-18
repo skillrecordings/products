@@ -7,6 +7,7 @@ import get from 'lodash/get'
 import Image from 'next/image'
 import BookCover from '../../public/images/engineering-management-for-the-rest-of-us-book-mockup-front@2x.jpg'
 import SarahDrasner from '../../public/images/sarah-drasner@2x.jpg'
+import cx from 'classnames'
 import AngieJones from '../../public/images/angie-jones@2x.png'
 import {
   SubscribeToConvertkitForm,
@@ -16,24 +17,32 @@ import {useRouter} from 'next/router'
 import {getToken} from 'next-auth/jwt'
 import {getActiveProducts} from 'lib/products'
 import {propsForCommerce} from '@skillrecordings/commerce-server'
-import {Element} from 'react-scroll'
+import {Element, scroller} from 'react-scroll'
 import {PricingTiers} from 'components/product-tiers'
 import {isSellingLive} from 'utils/is-selling-live'
+import AmazonLogo from './amazon-logo'
 
-const Home: React.FC<React.PropsWithChildren<CommerceProps>> = ({
-  couponFromCode,
-  purchases = [],
-  userId,
-  products,
-  couponIdFromCoupon,
-  defaultCoupon,
-}) => {
+const AMAZON_URL = process.env.NEXT_PUBLIC_AMAZON_URL
+
+const Home: React.FC<React.PropsWithChildren<CommerceProps>> = (props) => {
   return (
     <Layout hideNav={true}>
+      <Header />
+      <main>
+        <Content />
+        {isSellingLive ? <CommerceSection {...props} /> : <SubscribeSection />}
+      </main>
+    </Layout>
+  )
+}
+
+const Header = () => {
+  return (
+    <>
       <div className="absolute top-0 left-0 w-full h-2 bg-gray-700" />
       <header className="min-h-[60vh] lg:pb-24 sm:pb-16 pb-8 lg:pt-16 sm:pt-8 pt-0 flex items-center justify-center px-5">
         <div className="max-w-[900px] mx-auto w-full flex sm:flex-row flex-col-reverse items-center">
-          <div className="flex-grow sm:text-left text-center transform sm:scale-100 scale-90">
+          <div className="flex-grow sm:text-left text-center transform sm:scale-100 scale-90 relative z-10">
             <h1 className="font-din lg:text-7xl text-6xl uppercase leading-[90%]">
               Engineering
               <br />
@@ -46,8 +55,7 @@ const Home: React.FC<React.PropsWithChildren<CommerceProps>> = ({
                 <span className="block">Rest of Us</span>
               </div>
             </h1>
-            {/* <hr className="border-orange-200 border-t-2 max-w-[210px]" /> */}
-            <div className="flex sm:flex-row flex-col items-center sm:space-x-3 sm:pt-16 pt-8 sm:justify-start justify-center ">
+            <div className="flex items-center sm:space-x-3 sm:justify-start justify-center">
               <div className="flex items-center justify-center sm:w-auto w-24 rounded-full overflow-hidden">
                 <Image
                   width={80}
@@ -59,7 +67,7 @@ const Home: React.FC<React.PropsWithChildren<CommerceProps>> = ({
                   className="rounded-full"
                 />
               </div>
-              <div className="sm:pl-2">
+              <div className="pl-2 text-left">
                 <div className="text-base text-orange-300 font-medium leading-[100%] sm:pt-0 pt-2">
                   A book by
                 </div>
@@ -68,6 +76,35 @@ const Home: React.FC<React.PropsWithChildren<CommerceProps>> = ({
                 </h2>
               </div>
             </div>
+            {isSellingLive && (
+              <div className="pt-16 flex items-center sm:justify-start justify-center w-full gap-4 flex-shrink-0">
+                <button
+                  onClick={() => scroller.scrollTo('buy', {})}
+                  className={cx(
+                    'flex-shrink-0 border border-white/20 focus-visible:outline-white rounded-sm  py-4 uppercase font-brandon font-bold sm:text-lg text-xl bg-[#FFAA4E] text-gray-900 hover:scale-105 transition-all ease-in-out shadow-xl shadow-orange-500/30 hover:bg-[#FF9C31]',
+                    {
+                      'px-12': AMAZON_URL,
+                      'px-16': !AMAZON_URL,
+                    },
+                  )}
+                >
+                  Buy Now
+                </button>
+                {AMAZON_URL && (
+                  <a
+                    href={AMAZON_URL}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="rounded-sm flex flex-col items-center justify-center px-8 py-2 uppercase font-brandon font-bold text-xs bg-gray-700/70 text-white hover:scale-105 transition-all ease-in-out shadow-xl hover:bg-gray-700"
+                  >
+                    <span className="pb-1.5">
+                      Buy now at <span className="sr-only">Amazon.com</span>
+                    </span>
+                    <AmazonLogo />
+                  </a>
+                )}
+              </div>
+            )}
           </div>
           <div className="max-w-[550px] sm:mx-0 -mx-5">
             <Image
@@ -80,37 +117,50 @@ const Home: React.FC<React.PropsWithChildren<CommerceProps>> = ({
           </div>
         </div>
       </header>
-      <main>
-        <div className="prose prose-dark lg:prose-2xl sm:prose-xl max-w-screen-md prose-lg mx-auto px-5">
-          <LandingCopy />
-        </div>
-        <section className="px-5">
-          <Author />
-        </section>
-        <section className="px-5">
-          <ChapterGuide />
-        </section>
-        {isSellingLive ? (
-          <section className="flex flex-col justify-center items-center py-24 bg-black/20 mt-24 px-5">
-            <h2 className="lg:text-6xl text-5xl font-din uppercase text-center max-w-[25ch] pb-10">
-              Pre-order Limited Edition Of the Book Today!
-            </h2>
-            <div className="px-5 pt-8">
-              <Element name="buy" aria-hidden="true" />
-              <PricingTiers
-                products={products}
-                userId={userId}
-                purchases={purchases}
-                couponIdFromCoupon={couponIdFromCoupon}
-                couponFromCode={couponFromCode}
-              />
-            </div>
-          </section>
-        ) : (
-          <SubscribeSection />
-        )}
-      </main>
-    </Layout>
+    </>
+  )
+}
+
+const Content = () => {
+  return (
+    <>
+      <div className="prose prose-dark lg:prose-2xl sm:prose-xl max-w-screen-md prose-lg mx-auto px-5">
+        <LandingCopy />
+      </div>
+      <section className="px-5">
+        <Author />
+      </section>
+      <section className="px-5">
+        <ChapterGuide />
+      </section>
+    </>
+  )
+}
+
+const CommerceSection: React.FC<CommerceProps> = ({
+  couponFromCode,
+  purchases = [],
+  userId,
+  products,
+  couponIdFromCoupon,
+  defaultCoupon,
+}) => {
+  return (
+    <section className="flex flex-col justify-center items-center py-24 bg-black/20 mt-24 px-5">
+      <h2 className="lg:text-6xl text-5xl font-din uppercase text-center max-w-[25ch] pb-10">
+        Pre-order Limited Edition Of the Book Today!
+      </h2>
+      <div className="px-5 pt-8">
+        <Element name="buy" aria-hidden="true" />
+        <PricingTiers
+          products={products}
+          userId={userId}
+          purchases={purchases}
+          couponIdFromCoupon={couponIdFromCoupon}
+          couponFromCode={couponFromCode}
+        />
+      </div>
+    </section>
   )
 }
 
