@@ -12,6 +12,7 @@ module.exports = {
     './node_modules/@skillrecordings/player/dist/**/*.js',
   ],
   theme: {
+    fluidTypography: {},
     extend: {
       fontFamily: {
         sans: ['Larsseit', ...defaultTheme.fontFamily.sans],
@@ -19,7 +20,7 @@ module.exports = {
       colors: {
         gray: colors.neutral,
         brand: {
-          red: '#E47A53',
+          orange: '#F38D68',
           purple: '#B8B8FF',
         },
       },
@@ -36,5 +37,8 @@ module.exports = {
       }),
     },
   },
-  plugins: [require('@tailwindcss/typography')],
+  plugins: [
+    require('@tailwindcss/typography'),
+    require('tailwind-fluid-typography'),
+  ],
 }

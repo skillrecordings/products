@@ -1,7 +1,17 @@
-export const getOgImage = (title: string, image?: string) => {
-  const url =
-    process.env.NEXT_PUBLIC_OG_IMAGE_URI +
-    `?title=${encodeURI(title)}${image ? `&image=${image}` : ''}`
+type OgImageUrlOptions = {
+  title: string
+  image?: string
+  byline?: string
+}
+export const getOgImage = (options: OgImageUrlOptions) => {
+  const {title, image, byline} = options
+
+  const query = new URLSearchParams({
+    ...(image && {image}),
+    ...(byline && {byline}),
+    title: title,
+  })
+  const url = process.env.NEXT_PUBLIC_OG_IMAGE_URI + `?${query.toString()}`
 
   return {
     url,

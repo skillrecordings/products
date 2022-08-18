@@ -4,7 +4,7 @@ import {getOgImage} from 'utils/get-og-image'
 
 const FAQPage = () => {
   const title = 'Frequently Asked Questions'
-  const ogImage = getOgImage(title)
+  const ogImage = getOgImage({title})
   return (
     <Layout meta={{title, ogImage}}>
       <main className="max-w-screen-lg w-full mx-auto py-10 lg:pb-32 sm:pb-20">

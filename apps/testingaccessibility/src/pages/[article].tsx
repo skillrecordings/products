@@ -15,6 +15,7 @@ const previewArticleQuery = groq`*[_type == "article" && slug.current == $slug][
     "slug": slug.current,
     'body': preview,
     subscribersOnly,
+    byline,
     date,
     description,
     ogImage {
@@ -31,6 +32,7 @@ const fullArticleQuery = groq`*[_type == "article" && slug.current == $slug][0]{
   "slug": slug.current,
   body,
   subscribersOnly,
+  byline,
   date,
   description,
   ogImage{
@@ -44,7 +46,8 @@ const fullArticleQuery = groq`*[_type == "article" && slug.current == $slug][0]{
   }`
 const allArticlesQuery = groq`*[_type == "article"]{
   "slug": slug.current,
-  subscribersOnly
+  subscribersOnly,
+  byline
   }`
 
 function getConvertkitFromCookieHeaders(serverCookies: string = '') {

@@ -8,6 +8,7 @@ import page from './documents/page'
 import mail from './documents/mail'
 import quiz from './documents/quiz'
 import question from './documents/question'
+import article from './documents/article'
 // —— objects
 // body
 import body from './objects/body'
@@ -41,6 +42,7 @@ export default createSchema({
     mail,
     quiz,
     question,
+    article,
     // objects
     body,
     emailBody,

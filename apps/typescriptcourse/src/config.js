@@ -27,7 +27,7 @@ export default {
     },
     images: [
       {
-        url: 'https://typescriptcourse.com/card@2x.png',
+        url: 'https://typescriptcourse.com/images/share/card@2x.png',
         width: 1200,
         height: 640,
       },

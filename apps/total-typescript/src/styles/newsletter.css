@@ -2,7 +2,7 @@
   [data-sr-convertkit-subscribe-form] {
     @apply flex flex-col gap-4;
     [data-sr-input] {
-      @apply p-5 bg-black/50 border border-gray-800/70 w-full rounded-sm text-lg;
+      @apply p-5 bg-gray-800/50 border border-gray-800 w-full rounded-sm text-lg;
     }
     [data-sr-input-label] {
       @apply w-full pb-1 inline-block text-gray-300;

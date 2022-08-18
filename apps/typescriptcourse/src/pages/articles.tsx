@@ -7,7 +7,9 @@ import Layout from 'components/app/layout'
 const meta = {
   title: 'TypeScript Articles',
   ogImage: {
-    url: 'https://testingaccessibility.com/assets/accessibility-articles-card@2x.png',
+    url: 'https://typescriptcourse.com/images/share/card-articles@2x.png',
+    width: 1200,
+    height: 640,
   },
 }
 

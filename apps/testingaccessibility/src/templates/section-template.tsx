@@ -1,6 +1,5 @@
 import React from 'react'
 import {getPathForSection} from 'utils/get-resource-paths'
-import {getSectionProgressForUser} from 'utils/progress'
 import {ChevronRightIcon} from '@heroicons/react/solid'
 import {useProgress} from 'context/progress-context'
 import {PortableText} from '@portabletext/react'
@@ -32,7 +31,7 @@ const SectionTemplate: React.FC<
 > = ({section, module, modules}) => {
   const {slug: sectionSlug, title, body, lessons} = section
   const image = section.image ?? module?.image
-  const ogImage = getOgImage(title, image.url)
+  const ogImage = getOgImage({title, image: image.url})
   const {progress, toggleLessonComplete} = useProgress()
   const {data: session} = useSession()
   const currentLessonProgress = find(progress, {lessonSlug: sectionSlug})
