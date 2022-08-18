@@ -19,5 +19,8 @@ declare namespace NodeJS {
     EMAIL_SERVER_HOST: string
     EMAIL_SERVER_PORT: number
     NEXT_PUBLIC_SITE_TITLE: string
+    AWS_CLOUDFRONT_SIGNING_PEM: string
+    AWS_CLOUDFRONT_ACCESS_KEY_ID: string
+    AWS_CLOUDFRONT_DOMAIN: string
   }
 }
