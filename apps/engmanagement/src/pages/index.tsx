@@ -20,7 +20,7 @@ import {propsForCommerce} from '@skillrecordings/commerce-server'
 import {Element, scroller} from 'react-scroll'
 import {PricingTiers} from 'components/product-tiers'
 import {isSellingLive} from 'utils/is-selling-live'
-import AmazonLogo from './amazon-logo'
+import AmazonLogo from '../components/amazon-logo'
 
 const AMAZON_URL = process.env.NEXT_PUBLIC_AMAZON_URL
 
