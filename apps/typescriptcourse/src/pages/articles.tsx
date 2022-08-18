@@ -4,10 +4,13 @@ import {GetServerSideProps} from 'next'
 import {SanityDocument} from '@sanity/client'
 import {getAllArticles} from '../lib/articles'
 import Layout from 'components/app/layout'
-import config from '../config'
 const meta = {
   title: 'TypeScript Articles',
-  ogImage: config.openGraph.images[1],
+  ogImage: {
+    url: 'https://typescriptcourse.com/images/share/card-articles@2x.png',
+    width: 1200,
+    height: 640,
+  },
 }
 
 type ArticlesProps = {
