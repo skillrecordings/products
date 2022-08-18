@@ -1,5 +1,6 @@
 import {NextApiRequest, NextApiResponse} from 'next'
 import AWS from 'aws-sdk'
+import {getToken} from 'next-auth/jwt'
 
 const accessKeyID = process.env.AWS_CLOUDFRONT_ACCESS_KEY_ID
 const privateKeyContents = process.env.AWS_CLOUDFRONT_SIGNING_PEM
@@ -28,8 +29,13 @@ async function getSignedUrl() {
 const subscriber = async (req: NextApiRequest, res: NextApiResponse) => {
   if (req.method === 'GET') {
     try {
-      const url = await getSignedUrl()
-      res.status(200).json({url})
+      const token = await getToken({req})
+      if (token) {
+        const url = await getSignedUrl()
+        res.status(200).json({url})
+      } else {
+        res.status(404).end()
+      }
     } catch (error) {
       console.log(error)
       res.status(200).end()
