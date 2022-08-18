@@ -31,11 +31,6 @@ export default {
         width: 1200,
         height: 640,
       },
-      {
-        url: 'https://typescriptcourse.com/images/share/card-articles@2x.png',
-        width: 1200,
-        height: 640,
-      },
     ],
   },
 }
