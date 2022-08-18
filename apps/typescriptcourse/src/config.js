@@ -27,12 +27,12 @@ export default {
     },
     images: [
       {
-        url: '/images/share/card@2x.png',
+        url: 'https://typescriptcourse.com/images/share/card@2x.png',
         width: 1200,
         height: 640,
       },
       {
-        url: '/images/share/card-articles@2x.png',
+        url: 'https://typescriptcourse.com/images/share/card-articles@2x.png',
         width: 1200,
         height: 640,
       },
