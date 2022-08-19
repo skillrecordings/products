@@ -111,7 +111,7 @@ const ArticleTemplate: React.FC<
     >
       <article>
         <header>
-          <div className="pt-40 min-h-[750px] -mx-5 px-5 -mt-5 relative flex flex-col items-center justify-between">
+          <div className="pt-40 min-h-[750px] px-5 -mt-5 relative flex flex-col items-center justify-between">
             {title && (
               <h1 className="lg:text-7xl sm:text-6xl text-5xl font-bold font-din uppercase text-center relative z-10 py-8">
                 <Markdown>{title}</Markdown>
@@ -147,7 +147,7 @@ const ArticleTemplate: React.FC<
             </div>
           </div>
         </header>
-        <div className="relative overflow-hidden -mx-5 px-5">
+        <div className="relative overflow-hidden px-5">
           <div className="prose prose-dark sm:prose-xl max-w-screen-sm prose-lg mx-auto relative z-10 px-5">
             {children}
           </div>

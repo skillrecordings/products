@@ -60,7 +60,7 @@ select:-webkit-autofill:focus {
     @apply block pb-1 font-medium;
   }
   [data-sr-button] {
-    @apply self-center px-6 py-3 rounded-lg text-lg border-orange-400 font-semibold mt-4 hover:scale-105 transition-all duration-300 ease-in-out border shadow-inner bg-orange-400 bg-opacity-5 hover:bg-opacity-20;
+    @apply self-center px-6 py-3 rounded-lg text-lg text-white border-orange-400 font-semibold mt-4 hover:scale-105 transition-all duration-300 ease-in-out border shadow-inner bg-orange-400 bg-opacity-5 hover:bg-opacity-20;
   }
   [data-sr-input-asterisk] {
     @apply text-orange-300;

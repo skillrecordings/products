@@ -13,6 +13,8 @@ import Image from 'next/image'
 import find from 'lodash/find'
 import cx from 'classnames'
 import {Purchase} from '@skillrecordings/database'
+import Link from 'next/link'
+import {DownloadIcon} from '@heroicons/react/solid'
 
 function getFirstPPPCoupon(availableCoupons: any[] = []) {
   return find(availableCoupons, (coupon) => coupon.type === 'ppp') || false
@@ -194,11 +196,26 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
           </div>
         </div>
         {purchased ? (
-          <div className="w-full px-8">
-            <div className="flex text-center px-5 py-5 font-nav font-semibold items-center justify-center w-full text-lg gap-1 my-8 shadow-inner bg-green-700 bg-noise text-white after:hidden">
+          <div className="w-full">
+            <div className="flex items-center gap-2 justify-center py-8 text-orange-300 text-lg">
               <CheckCircleIcon aria-hidden="true" className="mt-0.5 w-6 h-6" />{' '}
               Purchased
             </div>
+
+            <button
+              onClick={async () => {
+                const {url} = await fetch('/api/download').then((res) =>
+                  res.json(),
+                )
+                window.location.assign(url)
+              }}
+              className={cx(
+                'pr-8 pl-6 gap-3 flex items-center flex-shrink-0 border border-white/20 focus-visible:outline-white rounded-sm py-4 font-brandon font-bold sm:text-lg text-xl bg-white text-gray-900 hover:scale-105 transition-all ease-in-out shadow-xl',
+              )}
+            >
+              <DownloadIcon className="w-5 h-5" aria-hidden="true" />
+              Download {name}
+            </button>
           </div>
         ) : isDowngrade(formattedPrice) ? (
           <div className="w-full px-8">

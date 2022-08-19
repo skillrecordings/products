@@ -589,6 +589,7 @@ importers:
       '@sanity/client': ^3.2.0
       '@sentry/nextjs': ^7.9.0
       '@sentry/tracing': ^7.9.0
+      '@skillrecordings/ability': workspace:*
       '@skillrecordings/commerce-server': workspace:*
       '@skillrecordings/config': workspace:*
       '@skillrecordings/convertkit': workspace:*
@@ -699,6 +700,7 @@ importers:
       '@sanity/client': 3.3.2
       '@sentry/nextjs': 7.9.0_next@12.2.3+react@18.2.0
       '@sentry/tracing': 7.9.0
+      '@skillrecordings/ability': link:../../packages/ability
       '@skillrecordings/commerce-server': link:../../packages/commerce-server
       '@skillrecordings/config': link:../../packages/config
       '@skillrecordings/convertkit': link:../../packages/convertkit
@@ -9516,7 +9518,7 @@ packages:
       '@sentry/types': 7.9.0
       '@sentry/utils': 7.9.0
       '@sentry/webpack-plugin': 1.19.0
-      next: 12.2.3_x6hpkaqu4dxwl4unajq2h7dx44
+      next: 12.2.3_biqbaboplfbrettd7655fr4n2y
       react: 18.2.0
       tslib: 1.14.1
     transitivePeerDependencies:
@@ -12011,7 +12013,7 @@ packages:
   /axios/0.25.0:
     resolution: {integrity: sha512-cD8FOb0tRH3uuEe6+evtAbgJtfxr7ly3fQjYcMcuPlgkwVS9xboaVIpcDV+cYQe+yGykgwZCs1pzjntcGa6l5g==}
     dependencies:
-      follow-redirects: 1.15.1
+      follow-redirects: 1.15.1_debug@2.6.9
     transitivePeerDependencies:
       - debug
 
@@ -16203,7 +16205,6 @@ packages:
         optional: true
     dependencies:
       debug: 2.6.9
-    dev: false
 
   /fontkit-next/1.8.3:
     resolution: {integrity: sha512-pa/vL114+ESn4Dokka7eIY+LtiMxyLRy+rnX4y6e+5rL8zDbUDoKzvFAE4LHVLaZY6hifuaut6z2Q4I1eawLvQ==}
@@ -16545,7 +16546,7 @@ packages:
       create-error-class: 3.0.2
       debug: 2.6.9
       decompress-response: 6.0.0
-      follow-redirects: 1.15.1
+      follow-redirects: 1.15.1_debug@2.6.9
       form-urlencoded: 2.0.9
       into-stream: 3.1.0
       is-plain-object: 2.0.4
@@ -21719,7 +21720,7 @@ packages:
     dependencies:
       '@corex/deepmerge': 4.0.29
       minimist: 1.2.6
-      next: 12.2.3_x6hpkaqu4dxwl4unajq2h7dx44
+      next: 12.2.3_biqbaboplfbrettd7655fr4n2y
     dev: false
 
   /next-themes/0.1.1_53oqlnqnxhbetdy4ljlkkvmoby:
@@ -21729,7 +21730,7 @@ packages:
       react: '*'
       react-dom: '*'
     dependencies:
-      next: 12.2.3_x6hpkaqu4dxwl4unajq2h7dx44
+      next: 12.2.3_biqbaboplfbrettd7655fr4n2y
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
     dev: false

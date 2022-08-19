@@ -1,6 +1,6 @@
 import React, {FunctionComponent} from 'react'
 import {NextSeo} from '@skillrecordings/react'
-import Navigation from 'components/navigation'
+import Navigation from 'components/app/navigation'
 import cx from 'classnames'
 import Footer from 'components/footer'
 

@@ -7,6 +7,7 @@ import type {AppAbility} from '@skillrecordings/ability'
  */
 export function useCurrentAbility(): {ability: AppAbility} {
   const {user} = useUser()
+
   return {
     ability: getCurrentAbility({purchases: user?.purchases, role: user?.role}),
   }

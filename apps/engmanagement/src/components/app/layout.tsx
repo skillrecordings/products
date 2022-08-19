@@ -4,7 +4,7 @@ import {Toaster} from 'react-hot-toast'
 import {NextSeo} from '@skillrecordings/react'
 import config from 'config'
 import {DefaultCoupon} from '@skillrecordings/commerce-server/dist/@types'
-import Navigation from 'components/navigation'
+import Navigation from 'components/app/navigation'
 
 type LayoutProps = {
   meta?: any

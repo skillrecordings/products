@@ -1,7 +1,7 @@
 import * as React from 'react'
 import {GetServerSideProps} from 'next'
 import type {CommerceProps} from '@skillrecordings/commerce-server/dist/@types'
-import Layout from 'layouts'
+import Layout from 'components/app/layout'
 import LandingCopy from 'components/landing-copy.mdx'
 import get from 'lodash/get'
 import Image from 'next/image'
@@ -21,13 +21,23 @@ import {Element, scroller} from 'react-scroll'
 import {PricingTiers} from 'components/product-tiers'
 import {isSellingLive} from 'utils/is-selling-live'
 import AmazonLogo from '../components/amazon-logo'
+import {getCurrentAbility} from '@skillrecordings/ability'
+import {DownloadIcon} from '@heroicons/react/solid'
+import {getPurchasedProduct} from 'lib/get-purchased-product'
 
 const AMAZON_URL = process.env.NEXT_PUBLIC_AMAZON_URL
 
-const Home: React.FC<React.PropsWithChildren<CommerceProps>> = (props) => {
+type PageProps = CommerceProps & {
+  purchasedProduct: {
+    productId: string
+    title: string
+  }
+}
+
+const Home: React.FC<React.PropsWithChildren<PageProps>> = (props) => {
   return (
-    <Layout hideNav={true}>
-      <Header />
+    <Layout>
+      <Header {...props} />
       <main>
         <Content />
         {isSellingLive ? <CommerceSection {...props} /> : <SubscribeSection />}
@@ -36,7 +46,7 @@ const Home: React.FC<React.PropsWithChildren<CommerceProps>> = (props) => {
   )
 }
 
-const Header = () => {
+const Header: React.FC<PageProps> = ({purchasedProduct}) => {
   return (
     <>
       <div className="absolute top-0 left-0 w-full h-2 bg-gray-700" />
@@ -77,33 +87,54 @@ const Header = () => {
               </div>
             </div>
             {isSellingLive && (
-              <div className="pt-16 flex items-center sm:justify-start justify-center w-full gap-4 flex-shrink-0">
-                <button
-                  onClick={() => scroller.scrollTo('buy', {})}
-                  className={cx(
-                    'flex-shrink-0 border border-white/20 focus-visible:outline-white rounded-sm  py-4 uppercase font-brandon font-bold sm:text-lg text-xl bg-[#FFAA4E] text-gray-900 hover:scale-105 transition-all ease-in-out shadow-xl shadow-orange-500/30 hover:bg-[#FF9C31]',
-                    {
-                      'px-12': AMAZON_URL,
-                      'px-16': !AMAZON_URL,
-                    },
-                  )}
-                >
-                  Buy Now
-                </button>
-                {AMAZON_URL && (
-                  <a
-                    href={AMAZON_URL}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="rounded-sm flex flex-col items-center justify-center px-8 py-2 uppercase font-brandon font-bold text-xs bg-gray-700/70 text-white hover:scale-105 transition-all ease-in-out shadow-xl hover:bg-gray-700"
-                  >
-                    <span className="pb-1.5">
-                      Buy now at <span className="sr-only">Amazon.com</span>
-                    </span>
-                    <AmazonLogo />
-                  </a>
+              <>
+                {purchasedProduct ? (
+                  <div className="pt-16 flex items-center sm:justify-start justify-center w-full gap-4 flex-shrink-0">
+                    <button
+                      onClick={async () => {
+                        const {url} = await fetch('/api/download').then((res) =>
+                          res.json(),
+                        )
+                        window.location.assign(url)
+                      }}
+                      className={cx(
+                        'pr-8 pl-6 gap-3 flex items-center flex-shrink-0 border border-white/20 focus-visible:outline-white rounded-sm py-4 uppercase font-brandon font-bold sm:text-lg text-xl bg-white text-gray-900 hover:scale-105 transition-all ease-in-out shadow-xl',
+                      )}
+                    >
+                      <DownloadIcon className="w-5 h-5" aria-hidden="true" />
+                      Download {purchasedProduct.title}
+                    </button>
+                  </div>
+                ) : (
+                  <div className="pt-16 flex items-center sm:justify-start justify-center w-full gap-4 flex-shrink-0">
+                    <button
+                      onClick={() => scroller.scrollTo('buy', {})}
+                      className={cx(
+                        'flex-shrink-0 border border-white/20 focus-visible:outline-white rounded-sm  py-4 uppercase font-brandon font-bold sm:text-lg text-xl bg-[#FFAA4E] text-gray-900 hover:scale-105 transition-all ease-in-out shadow-xl shadow-orange-500/30 hover:bg-[#FF9C31]',
+                        {
+                          'px-12': AMAZON_URL,
+                          'px-16': !AMAZON_URL,
+                        },
+                      )}
+                    >
+                      Buy Now
+                    </button>
+                    {AMAZON_URL && (
+                      <a
+                        href={AMAZON_URL}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="rounded-sm flex flex-col items-center justify-center px-8 py-2 uppercase font-brandon font-bold text-xs bg-gray-700/70 text-white hover:scale-105 transition-all ease-in-out shadow-xl hover:bg-gray-700"
+                      >
+                        <span className="pb-1.5">
+                          Buy now at <span className="sr-only">Amazon.com</span>
+                        </span>
+                        <AmazonLogo />
+                      </a>
+                    )}
+                  </div>
                 )}
-              </div>
+              </>
             )}
           </div>
           <div className="max-w-[550px] sm:mx-0 -mx-5">
@@ -374,7 +405,20 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     const token = await getToken({req})
     const {products} = await getActiveProducts()
 
-    return await propsForCommerce({query, token, products})
+    const ability = getCurrentAbility(token as any)
+
+    const commerceProps = await propsForCommerce({token, products, query})
+    const {product} = await getPurchasedProduct(req)
+
+    return {
+      props: {
+        ...commerceProps.props,
+        purchasedProduct: product,
+        canDownload: ability.can('view', 'Account'),
+      },
+    }
+
+    // return await propsForCommerce({query, token, products})
   } else {
     return {
       props: {},
