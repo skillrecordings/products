@@ -25,7 +25,7 @@ body {
     @apply flex pt-4 pb-1;
   }
   [data-sr-button] {
-    @apply block w-full px-4 py-2 font-semibold tracking-wide text-center text-white uppercase rounded bg-gradient-to-r from-indigo-600 to-blue-500;
+    @apply block w-full px-4 py-2 font-semibold tracking-wide text-center text-white uppercase rounded bg-gradient-to-r from-indigo-600 to-blue-500 mt-6;
   }
   [data-sr-button][disabled] {
   }
