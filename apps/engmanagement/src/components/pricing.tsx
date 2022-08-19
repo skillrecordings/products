@@ -248,7 +248,7 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
               )}
               <button
                 data-pricing-product-checkout-button={index}
-                className="flex text-center px-16 py-5 font-brandon uppercase font-extrabold tracking-wide items-center justify-center w-full text-lg transition disabled:cursor-wait"
+                className="rounded-sm flex text-center px-16 py-5 font-brandon uppercase font-extrabold tracking-wide items-center justify-center w-full text-lg transition disabled:cursor-wait"
                 type="submit"
                 disabled={status === 'loading' || status === 'error'}
               >
