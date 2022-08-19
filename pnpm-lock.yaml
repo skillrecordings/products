@@ -2025,6 +2025,9 @@ importers:
       '@mux/mux-player-react': 0.1.0-beta.26
       '@next/env': ^12.2.2
       '@next/mdx': ^12.2.4
+      '@portabletext/react': ^1.0.6
+      '@sanity/block-content-to-react': ^3.0.0
+      '@sanity/client': ^3.3.3
       '@skillrecordings/analytics': workspace:*
       '@skillrecordings/convertkit': workspace:*
       '@skillrecordings/quiz': workspace:*
@@ -2046,6 +2049,7 @@ importers:
       eslint-config-custom: workspace:*
       feed: ^4.2.2
       focus-visible: ^5.2.0
+      groq: ^2.15.0
       lint-staged: ^11.2.6
       lodash: ^4.17.21
       next: ^12.2.2
@@ -2054,6 +2058,7 @@ importers:
       postcss: ^8.4.14
       prettier: ^2.6.2
       react: 18.2.0
+      react-device-detect: ^2.2.2
       react-dom: 18.2.0
       react-hook-form: ^7.29.0
       tailwindcss: ^3.1.4
@@ -2066,6 +2071,9 @@ importers:
       '@mdx-js/react': 2.1.2_react@18.2.0
       '@mux/mux-player-react': 0.1.0-beta.26_v7vsrdtui4d36prbwvdnlb7tpq
       '@next/mdx': 12.2.4_todqhrvd7cvbb36hzi2r6xttgq
+      '@portabletext/react': 1.0.6_react@18.2.0
+      '@sanity/block-content-to-react': 3.0.0_react@18.2.0
+      '@sanity/client': 3.3.3
       '@skillrecordings/analytics': link:../../packages/analytics
       '@skillrecordings/convertkit': link:../../packages/convertkit
       '@skillrecordings/quiz': link:../../packages/quiz
@@ -2074,11 +2082,13 @@ importers:
       classnames: 2.3.1
       feed: 4.2.2
       focus-visible: 5.2.0
+      groq: 2.15.0
       lodash: 4.17.21
       next: 12.2.3_biqbaboplfbrettd7655fr4n2y
       next-compose-plugins: 2.2.1
       next-sitemap: 3.1.7_6lynxinfr2uix4icggokqiwwie
       react: 18.2.0
+      react-device-detect: 2.2.2_biqbaboplfbrettd7655fr4n2y
       react-dom: 18.2.0_react@18.2.0
       react-hook-form: 7.29.0_react@18.2.0
       zod: 3.17.10
@@ -9349,7 +9359,7 @@ packages:
       react: '>=15.0.0'
     dependencies:
       '@sanity/block-content-to-hyperscript': 3.0.0
-      prop-types: 15.7.2
+      prop-types: 15.8.1
       react: 18.2.0
     dev: false
 
@@ -13228,7 +13238,7 @@ packages:
     resolution: {integrity: sha512-cOU9usZw8/dXIXKtwa8pM0OTJQuJkxMN6w30csNRUerHfeQ5R6U3kkU/FtJeIf3M202OHfY2U8ccInBG7/xogA==}
 
   /class-list/0.1.1:
-    resolution: {integrity: sha1-m5dFGSxBebXaCg12M2WOPHDXlss=}
+    resolution: {integrity: sha512-zqR0uW+VsLtyQhixBhkdQ+z6B8+Y8HTh28kdSVjJ4zTTKM7Xz2asAQSya9VI6m/34F6N6Ktm0mrchKB+E5a8Xw==}
     dependencies:
       indexof: 0.0.1
     dev: false
@@ -17671,7 +17681,7 @@ packages:
     hasBin: true
 
   /hyperscript/2.0.2:
-    resolution: {integrity: sha1-ODnLpFVUvf4nu4HCFC0WhPgTWvU=}
+    resolution: {integrity: sha512-uggBAYfHFC5WyZQXlJ61BNZbPmJbschcvfYNhYdZWCp+0J8KYb5Du8nQuk8Ru+ThoCNb01B0tPtnTRqnrFBkVg==}
     dependencies:
       browser-split: 0.0.0
       class-list: 0.1.1
@@ -24346,6 +24356,17 @@ packages:
       react-dom: 18.2.0_react@18.2.0
     dev: false
 
+  /react-device-detect/2.2.2_biqbaboplfbrettd7655fr4n2y:
+    resolution: {integrity: sha512-zSN1gIAztUekp5qUT/ybHwQ9fmOqVT1psxpSlTn1pe0CO+fnJHKRLOWWac5nKxOxvOpD/w84hk1I+EydrJp7SA==}
+    peerDependencies:
+      react: '>= 0.14.0'
+      react-dom: '>= 0.14.0'
+    dependencies:
+      react: 18.2.0
+      react-dom: 18.2.0_react@18.2.0
+      ua-parser-js: 1.0.2
+    dev: false
+
   /react-devtools-inline/4.4.0:
     resolution: {integrity: sha512-ES0GolSrKO8wsKbsEkVeiR/ZAaHQTY4zDh1UW8DImVmm8oaGLl3ijJDvSGe+qDRKPZdPRnDtWWnSvvrgxXdThQ==}
     dependencies:
@@ -27951,6 +27972,10 @@ packages:
     resolution: {integrity: sha512-C0WQT0gezHuw6AdY1M2jxUO83Rjf0HP7Sk1DtXj6j1EwkQNZrHAg2XPWlq62oqEhYvONq5pkC2Y9oPljWToLmQ==}
     engines: {node: '>=4.2.0'}
     hasBin: true
+
+  /ua-parser-js/1.0.2:
+    resolution: {integrity: sha512-00y/AXhx0/SsnI51fTc0rLRmafiGOM4/O+ny10Ps7f+j/b8p/ZY11ytMgznXkOVo4GQ+KwQG5UQLkLGirsACRg==}
+    dev: false
 
   /uc.micro/1.0.6:
     resolution: {integrity: sha512-8Y75pvTYkLJW2hWQHXxoqRgV7qb9B+9vFEtidML+7koHUFapnVJAZ6cKs+Qjz5Aw3aZWHMC6u0wJE3At+nSGwA==}

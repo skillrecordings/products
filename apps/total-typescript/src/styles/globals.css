@@ -14,3 +14,9 @@
     @apply bg-cyan-200 text-gray-900;
   }
 }
+
+mux-player {
+  aspect-ratio: 16 / 9;
+  width: 100%;
+  height: auto;
+}
