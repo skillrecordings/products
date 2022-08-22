@@ -28,7 +28,6 @@ module.exports = withPlugins(
         providerImportSource: '@mdx-js/react',
       },
       pageExtensions: ['ts', 'tsx', 'mdx'],
-      rehypePlugins: [require('mdx-prism')],
     }),
   ],
   nextConfig,

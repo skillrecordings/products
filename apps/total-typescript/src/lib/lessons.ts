@@ -12,6 +12,7 @@ export const getLesson = async (slug: string) =>
         title,
         "slug": slug.current,
         video,
+        body,
         transcript,
         stackblitz {
           projectId,

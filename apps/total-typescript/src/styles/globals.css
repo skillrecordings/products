@@ -11,7 +11,7 @@
 :root {
   color-scheme: dark;
   ::selection {
-    @apply bg-cyan-200 text-gray-900;
+    @apply bg-cyan-300 text-gray-900;
   }
 }
 
