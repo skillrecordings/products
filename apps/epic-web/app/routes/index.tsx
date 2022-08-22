@@ -1,5 +1,5 @@
-import type {ActionFunction, LoaderFunction} from '@remix-run/node';
-import { redirect, json} from '@remix-run/node'
+import type {ActionFunction, LoaderFunction} from '@remix-run/node'
+import {redirect, json} from '@remix-run/node'
 import {z} from 'zod'
 import {subscribeToForm} from '../lib/convertkit.server'
 import {Form, useLoaderData} from '@remix-run/react'
@@ -43,44 +43,46 @@ export const action: ActionFunction = async ({request}) => {
 
 export default function Index() {
   const {ckSubscriber} = useLoaderData()
-  console.log({ckSubscriber})
+
   return (
     <div className="prose">
       <h1>Welcome to Epic Web Dev</h1>
-      <div>
-        <Form
-          method="post"
-          className="flex flex-col w-full max-w-[340px] mx-auto"
-        >
-          <label>
-            Name:{' '}
-            <input
-              name="first_name"
-              type="text"
-              placeholder="Preferred name"
-              className="block mb-4 w-full px-4 py-3 border placeholder-opacity-60 bg-opacity-50 rounded-lg shadow sm:text-base sm:leading-6"
-            />
-          </label>
-
-          <label className="font-medium pb-1 inline-block">
-            Email:{' '}
-            <input
-              name="email"
-              type="email"
-              placeholder="you@example.com"
-              required
-              className="block mb-4 w-full px-4 py-3 border placeholder-opacity-60 bg-opacity-50 rounded-lg shadow sm:text-base sm:leading-6"
-            />
-          </label>
-
-          <button
-            type="submit"
-            className="pt-4 pb-5 mt-4 flex items-center justify-center rounded-lg text-black bg-yellow-500 hover:bg-opacity-100 transition font-bold text-lg focus-visible:ring-yellow-200 hover:scale-105 hover:-rotate-1 hover:bg-yellow-400"
+      {!ckSubscriber ? (
+        <div>
+          <Form
+            method="post"
+            className="flex flex-col w-full max-w-[340px] mx-auto"
           >
-            Create
-          </button>
-        </Form>
-      </div>
+            <label>
+              Name:{' '}
+              <input
+                name="first_name"
+                type="text"
+                placeholder="Preferred name"
+                className="block mb-4 w-full px-4 py-3 border placeholder-opacity-60 bg-opacity-50 rounded-lg shadow sm:text-base sm:leading-6"
+              />
+            </label>
+
+            <label className="font-medium pb-1 inline-block">
+              Email:{' '}
+              <input
+                name="email"
+                type="email"
+                placeholder="you@example.com"
+                required
+                className="block mb-4 w-full px-4 py-3 border placeholder-opacity-60 bg-opacity-50 rounded-lg shadow sm:text-base sm:leading-6"
+              />
+            </label>
+
+            <button
+              type="submit"
+              className="pt-4 pb-5 mt-4 flex items-center justify-center rounded-lg text-black bg-yellow-500 hover:bg-opacity-100 transition font-bold text-lg focus-visible:ring-yellow-200 hover:scale-105 hover:-rotate-1 hover:bg-yellow-400"
+            >
+              Create
+            </button>
+          </Form>
+        </div>
+      ) : null}
     </div>
   )
 }
