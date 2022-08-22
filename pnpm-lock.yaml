@@ -810,10 +810,12 @@ importers:
       '@remix-run/react': ^1.6.8
       '@remix-run/serve': ^1.6.8
       '@remix-run/vercel': ^1.6.8
+      '@skillrecordings/convertkit-sdk': workspace:*
       '@tailwindcss/typography': ^0.5.2
       '@types/react': ^18.0.15
       '@types/react-dom': ^18.0.6
       '@vercel/node': ^2.4.4
+      classnames: ^2.3.1
       concurrently: ^7.2.2
       eslint: ^8.20.0
       postcss: ^8.4.14
@@ -821,13 +823,17 @@ importers:
       react-dom: ^18.2.0
       tailwindcss: ^3.1.8
       typescript: ^4.7.4
+      zod: ^3.14.4
     dependencies:
       '@remix-run/node': 1.6.8_biqbaboplfbrettd7655fr4n2y
       '@remix-run/react': 1.6.8_biqbaboplfbrettd7655fr4n2y
       '@remix-run/vercel': 1.6.8_udmosdi6sd6hl4gc6fq64tr7mq
+      '@skillrecordings/convertkit-sdk': link:../../packages/convertkit-sdk
       '@vercel/node': 2.5.8
+      classnames: 2.3.1
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
+      zod: 3.17.10
     devDependencies:
       '@remix-run/dev': 1.6.8_cgxlqhaetfbjollwaaytbbpdmu
       '@remix-run/eslint-config': 1.6.8_o3mauctgtumsl5j4kwehbgms54
@@ -2621,6 +2627,39 @@ importers:
       next: 12.2.3_biqbaboplfbrettd7655fr4n2y
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
+      typescript: 4.7.4
+
+  packages/convertkit-sdk:
+    specifiers:
+      '@skillrecordings/tsconfig': workspace:*
+      '@types/cookie': ^0.4.1
+      '@types/lodash': ^4.14.179
+      '@types/node': ^18.6.1
+      '@types/node-fetch': ^2.6.2
+      cookie: ^0.5.0
+      eslint: ^8.12.0
+      eslint-config-custom: workspace:*
+      lodash: ^4.17.21
+      node-fetch: ^2.6.7
+      rimraf: ^3.0.2
+      tsup: ^5.11.13
+      tsx: ^3.7.1
+      typescript: ^4.7.4
+    dependencies:
+      cookie: 0.5.0
+      lodash: 4.17.21
+      node-fetch: 2.6.7
+    devDependencies:
+      '@skillrecordings/tsconfig': link:../tsconfig
+      '@types/cookie': 0.4.1
+      '@types/lodash': 4.14.180
+      '@types/node': 18.6.3
+      '@types/node-fetch': 2.6.2
+      eslint: 8.22.0
+      eslint-config-custom: link:../eslint-config-custom
+      rimraf: 3.0.2
+      tsup: 5.12.9_typescript@4.7.4
+      tsx: 3.8.0
       typescript: 4.7.4
 
   packages/cookies:
@@ -12195,6 +12234,13 @@ packages:
   /@types/ms/0.7.31:
     resolution: {integrity: sha512-iiUgKzV9AuaEkZqkOLDIvlQiL6ltuZd9tGcW3gwpnX8JbuiuhFlEGmmFXEXkN50Cvq7Os88IY2v0dkDqXYWVgA==}
 
+  /@types/node-fetch/2.6.2:
+    resolution: {integrity: sha512-DHqhlq5jeESLy19TYhLakJ07kNumXWjcDdxXsLUMJZ6ue8VZJj4kLPQVE/2mdHh3xZziNF1xppu5lwmS53HR+A==}
+    dependencies:
+      '@types/node': 18.6.3
+      form-data: 3.0.1
+    dev: true
+
   /@types/node/12.20.37:
     resolution: {integrity: sha512-i1KGxqcvJaLQali+WuypQnXwcplhtNtjs66eNsZpp2P2FL/trJJxx/VWsM0YCL2iMoIJrbXje48lvIQAQ4p2ZA==}
 
@@ -14734,7 +14780,7 @@ packages:
       mississippi: 3.0.0
       mkdirp: 0.5.5
       move-concurrently: 1.0.1
-      promise-inflight: 1.0.1_bluebird@3.7.2
+      promise-inflight: 1.0.1
       rimraf: 2.6.3
       ssri: 6.0.2
       unique-filename: 1.1.1
@@ -26483,7 +26529,7 @@ packages:
       ts-node:
         optional: true
     dependencies:
-      lilconfig: 2.0.5
+      lilconfig: 2.0.6
       yaml: 1.10.2
     dev: true
 
@@ -27080,17 +27126,6 @@ packages:
     peerDependenciesMeta:
       bluebird:
         optional: true
-    dev: true
-
-  /promise-inflight/1.0.1_bluebird@3.7.2:
-    resolution: {integrity: sha512-6zWPyEOFaQBJYcGMHBKTKJ3u6TBsnMFOIZSa6ce1e/ZrrsOlnHRHbabMjLiBYKp+n44X9eUI6VUPaukCXHuG4g==}
-    peerDependencies:
-      bluebird: '*'
-    peerDependenciesMeta:
-      bluebird:
-        optional: true
-    dependencies:
-      bluebird: 3.7.2
 
   /prompts/2.1.0:
     resolution: {integrity: sha512-+x5TozgqYdOwWsQFZizE/Tra3fKvAoy037kOyU6cgz84n8f6zxngLOV4O32kTwt9FcLCxAqw0P/c8rOr9y+Gfg==}
