@@ -7,5 +7,5 @@ export const convertkitSubscriberCookie = createCookie('ck_subscriber', {
   secure: process.env.NODE_ENV === 'production',
   httpOnly: true,
   path: '/',
-  maxAge: 31556952,
+  maxAge: oneYear,
 })
