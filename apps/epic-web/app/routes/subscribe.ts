@@ -15,7 +15,6 @@ export const action: ActionFunction = async ({request}) => {
 
   try {
     const validatedSchema = validationSchema.parse(formPayload)
-    console.log({validatedSchema})
     await subscribeToForm({...validatedSchema, formId: FORM_ID})
     return redirect(`/confirmed`)
   } catch (error) {
