@@ -344,40 +344,22 @@ const LessonTemplate: React.FC<any> = ({lesson, course}) => {
                 value={transcript}
                 components={
                   {
-                    block: {
-                      normal: ({children}: any) => {
-                        const arrayChildren = React.Children.toArray(children)
-                        const newChildren = arrayChildren.map(
-                          (children: any) => {
-                            if (typeof children === 'string') {
-                              const match: any = children.match(
-                                /^([0-1]?[0-9]|2[0-3]):[0-5][0-9]/,
-                              )
-                              if (match) {
-                                return (
-                                  <p>
-                                    <button
-                                      className="underline inline-block after:inline-block after:content-[' ']"
-                                      onClick={() => {
-                                        muxPlayerRef.current.currentTime =
-                                          hmsToSeconds(children)
-                                        muxPlayerRef.current.play()
-                                        window.scrollTo({top: 80})
-                                      }}
-                                    >
-                                      {match && match[0]}{' '}
-                                    </button>
-                                    {children.replace(match[0], '')}
-                                  </p>
-                                )
-                              }
-                            }
-
-                            return children
-                          },
+                    marks: {
+                      timestamp: ({value}: any) => {
+                        const {timestamp} = value
+                        return (
+                          <button
+                            className="underline inline-block after:inline-block after:content-[' ']"
+                            onClick={() => {
+                              muxPlayerRef.current.currentTime =
+                                hmsToSeconds(timestamp)
+                              muxPlayerRef.current.play()
+                              window.scrollTo({top: 80})
+                            }}
+                          >
+                            {timestamp}
+                          </button>
                         )
-
-                        return newChildren || children
                       },
                     },
                   } as any
