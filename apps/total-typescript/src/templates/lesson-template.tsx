@@ -7,7 +7,7 @@ import {PortableText} from '@portabletext/react'
 import {isSafari, CustomView} from 'react-device-detect'
 import Link from 'next/link'
 import {useRouter} from 'next/router'
-import {find, flatMapDeep, indexOf} from 'lodash'
+import {find, flatMapDeep, has, indexOf} from 'lodash'
 import Navigation from 'components/app/navigation'
 
 const LessonTemplate: React.FC<any> = ({lesson, course}) => {
@@ -171,7 +171,7 @@ const LessonTemplate: React.FC<any> = ({lesson, course}) => {
                 muxPlayerRef.current.play()
               }}
             >
-              replay
+              Replay ↺
             </button>
             {nextLesson && (
               <Link
@@ -185,7 +185,7 @@ const LessonTemplate: React.FC<any> = ({lesson, course}) => {
                 passHref
               >
                 <a className="text-lg bg-indigo-500 rounded px-5 py-3 font-semibold">
-                  Continue →
+                  Solution →
                 </a>
               </Link>
             )}
@@ -234,15 +234,22 @@ const LessonTemplate: React.FC<any> = ({lesson, course}) => {
 
   // VIDEO LOGIC
 
-  const autoPlay = false
-  const [isPlaying, setPlaying] = React.useState(autoPlay)
+  const [autoPlay, setAutoPlay] = React.useState(false)
   const [hasEnded, setEnded] = React.useState(false)
   const muxPlayerRef = React.useRef<any>()
   React.useEffect(() => {
     setEnded(false)
   }, [lesson])
   const isChallenge = title.includes('Exercise') // TODO: come up with better solution such as a type field on resource (?)
-
+  React.useEffect(() => {
+    hasEnded &&
+      autoPlay &&
+      nextLesson &&
+      router.push({
+        pathname: '/[course]/[lesson]',
+        query: {course: course.slug, lesson: nextLesson.slug},
+      })
+  }, [hasEnded, autoPlay, nextLesson])
   return (
     <Layout meta={{title}} nav={null} className="bg-gray-900">
       <div className="flex lg:flex-row flex-col-reverse">
@@ -250,7 +257,7 @@ const LessonTemplate: React.FC<any> = ({lesson, course}) => {
         <div className="w-full relative">
           <Navigation className="flex relative w-full justify-between" />
           <main className="relative">
-            {hasEnded && (
+            {hasEnded && !autoPlay && (
               <>
                 {isChallenge ? (
                   <OverlayEndOfChallenge />
@@ -268,28 +275,13 @@ const LessonTemplate: React.FC<any> = ({lesson, course}) => {
               )}
             >
               <MuxPlayer
+                ref={muxPlayerRef}
                 onEnded={() => {
                   setEnded(true)
-                  console.log('on ended')
                 }}
                 streamType="on-demand"
                 playbackId={video}
-                // debug
                 autoPlay={autoPlay}
-                currentTime={50}
-                ref={muxPlayerRef}
-                onProgress={() => {
-                  console.log('on progress')
-                }}
-                onDurationChange={() => {
-                  console.log('on duration change')
-                }}
-                onPlay={() => {
-                  setPlaying(true)
-                }}
-                onPause={() => {
-                  setPlaying(false)
-                }}
                 // metadata={{
                 //   video_id: 'video-id-54321',
                 //   video_title: 'Test video title',
@@ -298,18 +290,29 @@ const LessonTemplate: React.FC<any> = ({lesson, course}) => {
               />
             </div>
             <div>
-              {/* <div className="flex items-center justify-between text-white px-5 h-20">
+              <div className="flex items-center justify-between text-white p-5">
                 <div className="" />
                 <div className="flex items-center gap-3">
-                  <a
+                  <label className="flex items-center gap-1">
+                    <input
+                      checked={autoPlay}
+                      onChange={() => {
+                        !autoPlay && muxPlayerRef.current.play()
+                        setAutoPlay(!autoPlay)
+                      }}
+                      type="checkbox"
+                    />
+                    Autoplay{' '}
+                  </label>
+                  {/* <a
                     href="https://github.com/mattpocock/zod-tutorial"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="bg-slate-800/50 text-white rounded px-4 py-3 text-lg font-medium"
                   >
                     GitHub
-                  </a>
-                  {nextLesson && (
+                  </a> */}
+                  {/* {nextLesson && (
                     <Link
                       href={{
                         pathname: '/[course]/[lesson]',
@@ -324,9 +327,9 @@ const LessonTemplate: React.FC<any> = ({lesson, course}) => {
                         Continue →
                       </a>
                     </Link>
-                  )}
+                  )} */}
                 </div>
-              </div> */}
+              </div>
               <article className="mx-auto lg:p-10 p-5">
                 <h1 className="font-text text-4xl font-bold">{title}</h1>
                 <div className="pt-5 opacity-90 prose sm:prose-lg max-w-none">
