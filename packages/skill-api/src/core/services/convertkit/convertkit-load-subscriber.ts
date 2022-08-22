@@ -3,8 +3,7 @@ import {OutgoingResponse} from '../../index'
 import {
   fetchSubscriber,
   getConvertkitSubscriberCookie,
-  oneYear,
-} from '../../lib/convertkit'
+} from '@skillrecordings/convertkit-sdk'
 
 export async function convertkitLoadSubscriber({
   params,
