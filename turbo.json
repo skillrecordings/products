@@ -3,7 +3,7 @@
   "pipeline": {
     "build": {
       "dependsOn": ["^build", "^generate", "generate"],
-      "outputs": ["dist/**", ".next/**"]
+      "outputs": ["./api/_build", "./public/_build", ",dist/**", ".next/**"]
     },
     "@skillrecordings/config#build": {
       "dependsOn": [
