@@ -1,4 +1,4 @@
-import {createCookie} from '@remix-run/node' // or cloudflare/deno
+import {createCookie} from '@remix-run/node'
 
 const hour = 3600000
 export const oneYear = 365 * 24 * hour
