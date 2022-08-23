@@ -11,7 +11,7 @@
   ul {
     @apply list-none p-0;
     li {
-      @apply mt-2 first:mt-0 pr-4 pl-3 py-3 bg-gray-300/20 dark:bg-gray-600 bg-opacity-50 m-0 mb-[2px] before:content-['・'] before:scale-110 before:pr-2 before:text-primary before:flex flex rounded-lg text-black dark:text-white/90 origin-top dark:shadow-xl shadow-md;
+      @apply mt-2 first:mt-0 pr-4 pl-3 py-3 bg-gray-400/10 dark:bg-gray-700/90 bg-opacity-50 m-0 mb-[2px] before:content-['・'] before:scale-110 before:pr-2 before:text-primary before:flex flex rounded-lg text-black dark:text-white/90 origin-top dark:shadow-xl shadow-md;
     }
   }
 }
