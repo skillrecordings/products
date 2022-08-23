@@ -16,7 +16,7 @@ const SignUpForm: React.FC<React.PropsWithChildren<any>> = ({content}) => {
             className="aspect-[1/0.538] p-8 flex justify-center items-center relative before:absolute before:inset-0 before:bg-black/5"
             style={{backgroundImage: `url(/images/bg-sign-up-form.png)`}}
           >
-            <h2 className="font-heading sm:text-5xl sm:leading-tight font-bold text-white text-3xl text-center relative">
+            <h2 className="font-heading sm:text-[2.5rem] sm:leading-tight font-bold text-white text-3xl text-center relative">
               {content.heading}
             </h2>
           </div>
