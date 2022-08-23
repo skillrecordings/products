@@ -47,7 +47,7 @@ export default class MyDocument extends Document {
             }}
           />
         </Head>
-        <body className="text-black transition-colors duration-500 ease-in-out bg-gray-100 dark:bg-gray-900 dark:text-white">
+        <body className="text-black transition-colors duration-500 ease-in-out bg-gray-100 dark:bg-gray-900 dark:text-white antialiased">
           <Main />
           <NextScript />
         </body>

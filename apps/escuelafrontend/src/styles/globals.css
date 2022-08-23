@@ -129,3 +129,23 @@ but it will still show up on keyboard focus.
 .top-wave {
   top: 32rem;
 }
+
+[data-sr-convertkit-subscribe-form] {
+  @apply max-w-sm mx-auto;
+
+  [data-sr-input] {
+    @apply bg-white py-3 px-4 rounded-md w-full focus:ring-pink-400 border-none text-black;
+  }
+  [data-sr-input-label] {
+    @apply flex pt-4 pb-1;
+  }
+  [data-sr-button] {
+    @apply block w-full px-4 py-2 font-semibold tracking-wide text-center text-white uppercase rounded bg-gradient-to-r from-indigo-600 to-blue-500 mt-6 h-12;
+  }
+  [data-sr-button][disabled] {
+  }
+}
+[data-sr-convertkit-subscribe-form='success'] {
+}
+[data-sr-convertkit-subscribe-form='error'] {
+}

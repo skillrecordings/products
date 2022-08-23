@@ -13,8 +13,6 @@ import {MDXProvider} from '@mdx-js/react'
 import {SessionProvider} from 'next-auth/react'
 import mdxComponents from 'components/mdx'
 
-console.log('MDX:', mdxComponents)
-
 declare global {
   interface Window {
     ahoy: any
