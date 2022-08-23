@@ -3,6 +3,7 @@ import groq from 'groq'
 import {sanityClient} from 'utils/sanity-client'
 import HeroWave from 'components/waves/hero-wave'
 import {HorizontalResourceCard} from 'components/cards/horizontal-resource-card'
+import LandingCopy from 'components/landing-copy.mdx'
 
 export default function Home({allArticles}: any) {
   return (
@@ -14,27 +15,27 @@ export default function Home({allArticles}: any) {
             style={{
               backgroundImage: `url(/images/hero-image-1.svg)`,
             }}
-          ></div>
+          />
 
           <div
             className="absolute w-full h-full bg-left-top bg-no-repeat bg-contain md:bg-cover top-64 -z-10 hero-animation-2"
             style={{
               backgroundImage: `url(/images/hero-image-2.svg)`,
             }}
-          ></div>
+          />
           <div
             className="absolute w-full h-full bg-left-top bg-no-repeat bg-contain md:bg-cover top-96 -z-10 hero-animation-3"
             style={{
               backgroundImage: `url(/images/hero-image-3.svg)`,
             }}
-          ></div>
+          />
 
           <div
             className="absolute w-full h-full bg-left-top bg-no-repeat bg-cover top-64 -z-10 hero-animation-4"
             style={{
               backgroundImage: `url(/images/hero-image-4.svg)`,
             }}
-          ></div>
+          />
 
           <div className="relative z-10 flex flex-col items-center justify-center max-w-screen-lg px-4 pt-48 mx-auto opacity-0 sm:pb-96 pb-80 initial-load-hero">
             <h1 className="text-4xl font-extrabold tracking-tight text-center text-white transition-all duration-500 ease-in-out sm:text-5xl lg:text-6xl xl:text-7xl">
@@ -53,6 +54,10 @@ export default function Home({allArticles}: any) {
         <HeroWave />
 
         <section className="max-w-screen-xl py-10 mx-auto lg:py-24 sm:py-16">
+          {/* <article className="prose-h2:text-3xl md:prose-h2:text-5xl md:prose-xl sm:prose-lg prose-base opacity-90 prose-p:font-light w-full prose-pre:overflow-auto prose-p:max-w-2xl prose-p:mx-auto prose-headings:max-w-2xl prose-headings:mx-auto prose-pre:max-w-2xl prose-pre:mx-auto prose-ul:max-w-2xl prose-ul:mx-auto prose-ul:list-disc marker:text-cyan-400 prose-headings:font-bold prose-p:px-5 prose-headings:px-5 prose-headings:font-text prose-h2:text-center"> */}
+          <article className="max-w-3xl mx-auto prose-h2:text-3xl md:prose-h2:text-5xl md:prose-xl sm:prose-lg prose-base opacity-90 prose-p:font-light w-full prose-pre:overflow-auto prose-ul:list-disc marker:text-cyan-400 prose-headings:font-bold prose-p:px-5 prose-headings:px-5 prose-headings:font-text prose-h2:text-center">
+            <LandingCopy />
+          </article>
           <h2 className="w-full max-w-screen-lg py-16 m-auto mb-10 text-2xl font-extrabold text-center lg:text-5xl md:text-4xl sm:text-3xl leading-tighter">
             Artículos Recientes
           </h2>
