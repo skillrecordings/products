@@ -6,7 +6,7 @@ import {
   getConvertkitSubscriberCookie,
   setConvertkitSubscriberFields,
   subscribeToTag,
-} from '../../lib/convertkit'
+} from '@skillrecordings/convertkit-sdk'
 
 export async function convertkitAnswerQuizQuestion({
   params,

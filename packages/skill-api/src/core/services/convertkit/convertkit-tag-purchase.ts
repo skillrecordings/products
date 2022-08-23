@@ -1,10 +1,9 @@
+import {format} from 'date-fns'
 import {
   getConvertkitSubscriberCookie,
-  oneYear,
   setConvertkitSubscriberFields,
   tagSubscriber,
-} from '../../lib/convertkit'
-import {format} from 'date-fns'
+} from '@skillrecordings/convertkit-sdk'
 
 export async function convertkitTagPurchase(email: string) {
   try {
