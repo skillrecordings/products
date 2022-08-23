@@ -5,7 +5,7 @@
   "sideEffects": false,
   "scripts": {
     "clean": "pnpm -r exec -- rm -rf .turbo node_modules",
-    "build": "pnpm build:css && remix build",
+    "build": "remix build",
     "build:css": "tailwindcss -o ./app/tailwind.css",
     "dev": "concurrently \"remix dev\" \"pnpm dev:css\"",
     "dev:css": "tailwindcss -o ./app/tailwind.css --watch"
