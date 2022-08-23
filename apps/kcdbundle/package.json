@@ -28,7 +28,7 @@
     "preset": "@skillrecordings/scripts/jest/next"
   },
   "dependencies": {
-    "@next/mdx": "^12.2.4",
+    "@next/mdx": "^12.2.5",
     "@reach/dialog": "^0.16.2",
     "@skillrecordings/auth": "=0.0.6",
     "@skillrecordings/config": "workspace:*",

@@ -30,7 +30,7 @@
   "dependencies": {
     "@headlessui/react": "^1.6.1",
     "@heroicons/react": "^1.0.6",
-    "@next/mdx": "^12.2.4",
+    "@next/mdx": "^12.2.5",
     "@portabletext/react": "^1.0.6",
     "@reach/dialog": "^0.16.2",
     "@sanity/client": "^3.2.0",

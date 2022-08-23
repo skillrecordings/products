@@ -32,7 +32,7 @@
     "@heroicons/react": "^1.0.6",
     "@mdx-js/mdx": "^2.0.0",
     "@mdx-js/react": "^1.6.22",
-    "@next/mdx": "^12.2.4",
+    "@next/mdx": "^12.2.5",
     "@portabletext/react": "^1.0.6",
     "@portabletext/types": "^1.0.3",
     "@reach/dialog": "^0.16.2",
