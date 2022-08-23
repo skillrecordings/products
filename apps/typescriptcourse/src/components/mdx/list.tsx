@@ -39,7 +39,6 @@ const AnimatedList: React.FC<React.PropsWithChildren<{className?: string}>> = ({
         {...props}
       >
         {childrenArr.map(({props: {children: items}}: any) => {
-          console.log('items:', items)
           return items.map(({props: {children: item}}: any) => {
             return (
               <motion.li variants={itemVariants} key={item}>
