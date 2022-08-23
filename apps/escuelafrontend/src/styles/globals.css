@@ -1,3 +1,4 @@
+@import './mdx.css';
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -33,6 +34,11 @@ pre::-webkit-scrollbar {
 
 .prose-lg img {
   @apply rounded;
+}
+
+b,
+strong {
+  font-weight: 600;
 }
 
 /*
