@@ -1,5 +1,5 @@
 import React, {ReactNode} from 'react'
-import {BuildTagsParams, OpenGraphMedia} from './types'
+import {BuildTagsParams, OpenGraphMedia} from '../types'
 const defaults = {
   templateTitle: '',
   noindex: false,

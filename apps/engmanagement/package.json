@@ -34,6 +34,7 @@
     "@skillrecordings/convertkit": "workspace:*",
     "@skillrecordings/cookies": "workspace:*",
     "@skillrecordings/database": "workspace:*",
+    "@skillrecordings/next-seo": "workspace:*",
     "@skillrecordings/quiz": "workspace:*",
     "@skillrecordings/react": "workspace:*",
     "@skillrecordings/skill-api": "workspace:*",

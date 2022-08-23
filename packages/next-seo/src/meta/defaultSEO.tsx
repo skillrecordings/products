@@ -2,7 +2,7 @@ import Head from 'next/head'
 import React, {Component} from 'react'
 import buildTags from './buildTags'
 
-import {DefaultSeoProps} from './types'
+import {DefaultSeoProps} from '../types'
 export default class DefaultSeo extends Component<DefaultSeoProps, {}> {
   render() {
     const {

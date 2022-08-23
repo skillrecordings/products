@@ -46,6 +46,7 @@ importers:
       '@skillrecordings/config': workspace:*
       '@skillrecordings/convertkit': workspace:*
       '@skillrecordings/cookies': workspace:*
+      '@skillrecordings/next-seo': workspace:*
       '@skillrecordings/player': workspace:*
       '@skillrecordings/quiz': workspace:*
       '@skillrecordings/react': workspace:*
@@ -133,6 +134,7 @@ importers:
       '@skillrecordings/config': link:../../packages/config
       '@skillrecordings/convertkit': link:../../packages/convertkit
       '@skillrecordings/cookies': link:../../packages/cookies
+      '@skillrecordings/next-seo': link:../../packages/next-seo
       '@skillrecordings/player': link:../../packages/player
       '@skillrecordings/quiz': link:../../packages/quiz
       '@skillrecordings/react': link:../../packages/react
@@ -224,6 +226,7 @@ importers:
       '@skillrecordings/config': workspace:*
       '@skillrecordings/convertkit': workspace:*
       '@skillrecordings/cookies': workspace:*
+      '@skillrecordings/next-seo': workspace:*
       '@skillrecordings/quiz': workspace:*
       '@skillrecordings/react': workspace:*
       '@skillrecordings/scripts': workspace:*
@@ -311,6 +314,7 @@ importers:
       '@skillrecordings/config': link:../../packages/config
       '@skillrecordings/convertkit': link:../../packages/convertkit
       '@skillrecordings/cookies': link:../../packages/cookies
+      '@skillrecordings/next-seo': link:../../packages/next-seo
       '@skillrecordings/quiz': link:../../packages/quiz
       '@skillrecordings/react': link:../../packages/react
       '@skillrecordings/time': link:../../packages/time
@@ -406,6 +410,7 @@ importers:
       '@skillrecordings/config': workspace:*
       '@skillrecordings/convertkit': workspace:*
       '@skillrecordings/cookies': workspace:*
+      '@skillrecordings/next-seo': workspace:*
       '@skillrecordings/quiz': workspace:*
       '@skillrecordings/react': workspace:*
       '@skillrecordings/scripts': workspace:*
@@ -492,6 +497,7 @@ importers:
       '@skillrecordings/config': link:../../packages/config
       '@skillrecordings/convertkit': link:../../packages/convertkit
       '@skillrecordings/cookies': link:../../packages/cookies
+      '@skillrecordings/next-seo': link:../../packages/next-seo
       '@skillrecordings/quiz': link:../../packages/quiz
       '@skillrecordings/react': link:../../packages/react
       '@skillrecordings/time': link:../../packages/time
@@ -594,6 +600,7 @@ importers:
       '@skillrecordings/convertkit': workspace:*
       '@skillrecordings/cookies': workspace:*
       '@skillrecordings/database': workspace:*
+      '@skillrecordings/next-seo': workspace:*
       '@skillrecordings/quiz': workspace:*
       '@skillrecordings/react': workspace:*
       '@skillrecordings/scripts': workspace:*
@@ -704,6 +711,7 @@ importers:
       '@skillrecordings/convertkit': link:../../packages/convertkit
       '@skillrecordings/cookies': link:../../packages/cookies
       '@skillrecordings/database': link:../../packages/database
+      '@skillrecordings/next-seo': link:../../packages/next-seo
       '@skillrecordings/quiz': link:../../packages/quiz
       '@skillrecordings/react': link:../../packages/react
       '@skillrecordings/skill-api': link:../../packages/skill-api
@@ -868,6 +876,7 @@ importers:
       '@skillrecordings/convertkit': workspace:*
       '@skillrecordings/cookies': workspace:*
       '@skillrecordings/database': workspace:*
+      '@skillrecordings/next-seo': workspace:*
       '@skillrecordings/player': workspace:*
       '@skillrecordings/quiz': workspace:*
       '@skillrecordings/react': workspace:*
@@ -962,6 +971,7 @@ importers:
       '@skillrecordings/convertkit': link:../../packages/convertkit
       '@skillrecordings/cookies': link:../../packages/cookies
       '@skillrecordings/database': link:../../packages/database
+      '@skillrecordings/next-seo': link:../../packages/next-seo
       '@skillrecordings/player': link:../../packages/player
       '@skillrecordings/quiz': link:../../packages/quiz
       '@skillrecordings/react': link:../../packages/react
@@ -1059,6 +1069,7 @@ importers:
       '@sanity/client': ^3.3.3
       '@skillrecordings/analytics': workspace:*
       '@skillrecordings/convertkit': workspace:*
+      '@skillrecordings/next-seo': workspace:*
       '@skillrecordings/quiz': workspace:*
       '@skillrecordings/react': workspace:*
       '@skillrecordings/scripts': workspace:*
@@ -1113,6 +1124,7 @@ importers:
       '@sanity/client': 3.3.3
       '@skillrecordings/analytics': link:../../packages/analytics
       '@skillrecordings/convertkit': link:../../packages/convertkit
+      '@skillrecordings/next-seo': link:../../packages/next-seo
       '@skillrecordings/quiz': link:../../packages/quiz
       '@skillrecordings/react': link:../../packages/react
       '@skillrecordings/skill-api': link:../../packages/skill-api
@@ -1171,6 +1183,7 @@ importers:
       '@skillrecordings/config': workspace:*
       '@skillrecordings/convertkit': workspace:*
       '@skillrecordings/cookies': workspace:*
+      '@skillrecordings/next-seo': workspace:*
       '@skillrecordings/quiz': workspace:*
       '@skillrecordings/react': workspace:*
       '@skillrecordings/scripts': workspace:*
@@ -1246,6 +1259,7 @@ importers:
       '@skillrecordings/config': link:../../packages/config
       '@skillrecordings/convertkit': link:../../packages/convertkit
       '@skillrecordings/cookies': link:../../packages/cookies
+      '@skillrecordings/next-seo': link:../../packages/next-seo
       '@skillrecordings/quiz': link:../../packages/quiz
       '@skillrecordings/react': link:../../packages/react
       '@skillrecordings/stripe': 0.0.2_next@12.2.3
@@ -1327,6 +1341,7 @@ importers:
       '@skillrecordings/config': workspace:*
       '@skillrecordings/convertkit': workspace:*
       '@skillrecordings/cookies': workspace:*
+      '@skillrecordings/next-seo': workspace:*
       '@skillrecordings/quiz': workspace:*
       '@skillrecordings/react': workspace:*
       '@skillrecordings/scripts': workspace:*
@@ -1404,6 +1419,7 @@ importers:
       '@skillrecordings/config': link:../../packages/config
       '@skillrecordings/convertkit': link:../../packages/convertkit
       '@skillrecordings/cookies': link:../../packages/cookies
+      '@skillrecordings/next-seo': link:../../packages/next-seo
       '@skillrecordings/quiz': link:../../packages/quiz
       '@skillrecordings/react': link:../../packages/react
       '@skillrecordings/time': link:../../packages/time
@@ -1497,6 +1513,7 @@ importers:
       '@skillrecordings/config': workspace:*
       '@skillrecordings/convertkit': workspace:*
       '@skillrecordings/cookies': workspace:*
+      '@skillrecordings/next-seo': workspace:*
       '@skillrecordings/player': workspace:*
       '@skillrecordings/quiz': workspace:*
       '@skillrecordings/react': workspace:*
@@ -1556,6 +1573,7 @@ importers:
       '@skillrecordings/config': link:../../packages/config
       '@skillrecordings/convertkit': link:../../packages/convertkit
       '@skillrecordings/cookies': link:../../packages/cookies
+      '@skillrecordings/next-seo': link:../../packages/next-seo
       '@skillrecordings/player': link:../../packages/player
       '@skillrecordings/quiz': link:../../packages/quiz
       '@skillrecordings/react': link:../../packages/react
@@ -1617,6 +1635,7 @@ importers:
       '@skillrecordings/config': workspace:*
       '@skillrecordings/convertkit': workspace:*
       '@skillrecordings/cookies': workspace:*
+      '@skillrecordings/next-seo': workspace:*
       '@skillrecordings/react': workspace:*
       '@skillrecordings/scripts': workspace:*
       '@skillrecordings/time': workspace:*
@@ -1695,6 +1714,7 @@ importers:
       '@skillrecordings/config': link:../../packages/config
       '@skillrecordings/convertkit': link:../../packages/convertkit
       '@skillrecordings/cookies': link:../../packages/cookies
+      '@skillrecordings/next-seo': link:../../packages/next-seo
       '@skillrecordings/react': link:../../packages/react
       '@skillrecordings/time': link:../../packages/time
       '@stripe/stripe-js': 1.21.1
@@ -1803,6 +1823,7 @@ importers:
       '@skillrecordings/convertkit': workspace:*
       '@skillrecordings/cookies': workspace:*
       '@skillrecordings/database': workspace:*
+      '@skillrecordings/next-seo': workspace:*
       '@skillrecordings/player': workspace:*
       '@skillrecordings/quiz': workspace:*
       '@skillrecordings/react': workspace:*
@@ -1948,6 +1969,7 @@ importers:
       '@skillrecordings/convertkit': link:../../packages/convertkit
       '@skillrecordings/cookies': link:../../packages/cookies
       '@skillrecordings/database': link:../../packages/database
+      '@skillrecordings/next-seo': link:../../packages/next-seo
       '@skillrecordings/player': link:../../packages/player
       '@skillrecordings/quiz': link:../../packages/quiz
       '@skillrecordings/react': link:../../packages/react
@@ -2075,6 +2097,7 @@ importers:
       '@next/mdx': ^12.2.4
       '@skillrecordings/analytics': workspace:*
       '@skillrecordings/convertkit': workspace:*
+      '@skillrecordings/next-seo': workspace:*
       '@skillrecordings/quiz': workspace:*
       '@skillrecordings/react': workspace:*
       '@skillrecordings/scripts': workspace:*
@@ -2113,6 +2136,7 @@ importers:
       '@next/mdx': 12.2.4_todqhrvd7cvbb36hzi2r6xttgq
       '@skillrecordings/analytics': link:../../packages/analytics
       '@skillrecordings/convertkit': link:../../packages/convertkit
+      '@skillrecordings/next-seo': link:../../packages/next-seo
       '@skillrecordings/quiz': link:../../packages/quiz
       '@skillrecordings/react': link:../../packages/react
       classnames: 2.3.1
@@ -2154,6 +2178,7 @@ importers:
       '@radix-ui/react-accordion': ^1.0.0
       '@skillrecordings/analytics': workspace:*
       '@skillrecordings/convertkit': workspace:*
+      '@skillrecordings/next-seo': workspace:*
       '@skillrecordings/quiz': workspace:*
       '@skillrecordings/react': workspace:*
       '@skillrecordings/tsconfig': workspace:*
@@ -2183,6 +2208,7 @@ importers:
       '@radix-ui/react-accordion': 1.0.0_biqbaboplfbrettd7655fr4n2y
       '@skillrecordings/analytics': link:../../packages/analytics
       '@skillrecordings/convertkit': link:../../packages/convertkit
+      '@skillrecordings/next-seo': link:../../packages/next-seo
       '@skillrecordings/quiz': link:../../packages/quiz
       '@skillrecordings/react': link:../../packages/react
       '@stitches/react': 1.2.8_react@18.2.0
@@ -2229,6 +2255,7 @@ importers:
       '@skillrecordings/config': workspace:*
       '@skillrecordings/convertkit': workspace:*
       '@skillrecordings/cookies': workspace:*
+      '@skillrecordings/next-seo': workspace:*
       '@skillrecordings/player': workspace:*
       '@skillrecordings/quiz': workspace:*
       '@skillrecordings/react': workspace:*
@@ -2338,6 +2365,7 @@ importers:
       '@skillrecordings/config': link:../../packages/config
       '@skillrecordings/convertkit': link:../../packages/convertkit
       '@skillrecordings/cookies': link:../../packages/cookies
+      '@skillrecordings/next-seo': link:../../packages/next-seo
       '@skillrecordings/player': link:../../packages/player
       '@skillrecordings/quiz': link:../../packages/quiz
       '@skillrecordings/react': link:../../packages/react
@@ -2802,6 +2830,42 @@ importers:
       eslint-config-react-app: 7.0.1_4x5o4skxv6sl53vpwefgt23khm
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
+      typescript: 4.7.4
+
+  packages/next-seo:
+    specifiers:
+      '@skillrecordings/tsconfig': workspace:*
+      '@types/cookie': ^0.4.1
+      '@types/lodash': ^4.14.179
+      '@types/node': ^18.6.1
+      '@types/node-fetch': ^2.6.2
+      '@types/react': ^18.0.15
+      '@types/react-dom': ^18.0.6
+      eslint: ^8.12.0
+      eslint-config-custom: workspace:*
+      next: ^12.2.3
+      react: 18.2.0
+      react-dom: 18.2.0
+      rimraf: ^3.0.2
+      tsup: ^5.11.13
+      tsx: ^3.7.1
+      typescript: ^4.7.4
+    devDependencies:
+      '@skillrecordings/tsconfig': link:../tsconfig
+      '@types/cookie': 0.4.1
+      '@types/lodash': 4.14.180
+      '@types/node': 18.6.3
+      '@types/node-fetch': 2.6.2
+      '@types/react': 18.0.15
+      '@types/react-dom': 18.0.6
+      eslint: 8.22.0
+      eslint-config-custom: link:../eslint-config-custom
+      next: 12.2.3_biqbaboplfbrettd7655fr4n2y
+      react: 18.2.0
+      react-dom: 18.2.0_react@18.2.0
+      rimraf: 3.0.2
+      tsup: 5.12.9_typescript@4.7.4
+      tsx: 3.8.0
       typescript: 4.7.4
 
   packages/player:

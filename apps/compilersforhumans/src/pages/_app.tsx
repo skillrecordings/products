@@ -1,6 +1,6 @@
 import React from 'react'
 import {AppProps} from 'next/app'
-import {DefaultSeo} from '@skillrecordings/react'
+import {DefaultSeo} from '@skillrecordings/next-seo'
 import config from '../config'
 import {ThemeProvider} from 'next-themes'
 import '../styles/globals.css'
