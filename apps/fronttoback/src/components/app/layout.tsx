@@ -1,5 +1,5 @@
 import React, {FunctionComponent} from 'react'
-import {NextSeo} from '@skillrecordings/react'
+import {NextSeo} from '@skillrecordings/next-seo'
 import {Toaster} from 'react-hot-toast'
 import cx from 'classnames'
 import Navigation from './navigation'

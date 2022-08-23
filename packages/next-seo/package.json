@@ -1,0 +1,39 @@
+{
+  "name": "@skillrecordings/next-seo",
+  "version": "1.0.0",
+  "license": "MIT",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "files": [
+    "dist/**"
+  ],
+  "scripts": {
+    "build": "tsup",
+    "clean": "rimraf node_modules dist",
+    "dev": "tsup --watch",
+    "lint": "eslint ./src --fix"
+  },
+  "devDependencies": {
+    "@skillrecordings/tsconfig": "workspace:*",
+    "@types/cookie": "^0.4.1",
+    "@types/lodash": "^4.14.179",
+    "@types/node": "^18.6.1",
+    "@types/node-fetch": "^2.6.2",
+    "@types/react": "^18.0.15",
+    "@types/react-dom": "^18.0.6",
+    "eslint": "^8.12.0",
+    "eslint-config-custom": "workspace:*",
+    "next": "^12.2.3",
+    "react": "18.2.0",
+    "react-dom": "18.2.0",
+    "rimraf": "^3.0.2",
+    "tsup": "^5.11.13",
+    "tsx": "^3.7.1",
+    "typescript": "^4.7.4"
+  },
+  "peerDependencies": {
+    "next": ">= 11.1.2 < 13",
+    "react": "^17.0.2 < 18.0.0",
+    "react-dom": "^17.0.2 < 18.0.0"
+  }
+}

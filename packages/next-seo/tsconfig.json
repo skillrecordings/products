@@ -1,0 +1,11 @@
+{
+  "compilerOptions": {
+    "lib": ["dom", "ES2015"],
+    "module": "CommonJS",
+    "jsx": "react",
+    "declaration": true,
+  },
+  "extends": "@skillrecordings/tsconfig/base.json",
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "tsup.config.ts"],
+  "exclude": ["node_modules"]
+}

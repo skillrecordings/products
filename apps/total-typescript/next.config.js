@@ -1,6 +1,8 @@
 /** @type {import('next').NextConfig} */
 const withPlugins = require('next-compose-plugins')
-const withMDX = require('@next/mdx')
+const withMDX = require('@next/mdx')({
+  extension: /\.mdx?$/,
+})
 const IMAGE_HOST_DOMAINS = [
   `res.cloudinary.com`,
   `d2eip9sf3oo6c2.cloudfront.net`,
@@ -8,6 +10,9 @@ const IMAGE_HOST_DOMAINS = [
   process.env.NEXT_PUBLIC_HOST,
 ]
 
+/**
+ * @type {import('next').NextConfig}
+ */
 const nextConfig = {
   eslint: {ignoreDuringBuilds: true},
   experimental: {scrollRestoration: true},

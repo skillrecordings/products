@@ -1,6 +1,7 @@
 import React from 'react'
 import {AppProps} from 'next/app'
-import {DefaultSeo, initNProgress} from '@skillrecordings/react'
+import {initNProgress} from '@skillrecordings/react'
+import {DefaultSeo} from '@skillrecordings/next-seo'
 import config from 'config'
 import 'focus-visible'
 import '../styles/globals.css'
