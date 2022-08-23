@@ -1,7 +1,7 @@
 import React, {FunctionComponent} from 'react'
 import {useSession} from 'next-auth/react'
 import {Toaster} from 'react-hot-toast'
-import {NextSeo} from '@skillrecordings/react'
+import {NextSeo} from '@skillrecordings/next-seo'
 import config from 'config'
 import {DefaultCoupon} from '@skillrecordings/commerce-server/dist/@types'
 import Navigation from 'components/navigation'

@@ -7,7 +7,7 @@ import Link from 'next/link'
 import {VerticalResourceCard} from 'components/cards/verticle-resource-card'
 import {useRouter} from 'next/router'
 import qs from 'query-string'
-import {NextSeo} from '@skillrecordings/react'
+import {NextSeo} from '@skillrecordings/next-seo'
 
 type ProfileTemplateProps = {
   meta?: any

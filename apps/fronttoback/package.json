@@ -18,6 +18,7 @@
     "@sanity/client": "^3.3.3",
     "@skillrecordings/analytics": "workspace:*",
     "@skillrecordings/convertkit": "workspace:*",
+    "@skillrecordings/next-seo": "workspace:*",
     "@skillrecordings/quiz": "workspace:*",
     "@skillrecordings/react": "workspace:*",
     "@skillrecordings/skill-api": "workspace:*",
