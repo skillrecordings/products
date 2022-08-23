@@ -1,6 +1,6 @@
 const withPlugins = require('next-compose-plugins')
 const withImages = require('next-images')
-const withMDX = require('@next/mdx')
+const withMDX = require('@next/mdx')()
 
 const IMAGE_HOST_DOMAINS = [
   `res.cloudinary.com`,

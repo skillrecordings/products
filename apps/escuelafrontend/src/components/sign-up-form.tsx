@@ -13,7 +13,7 @@ const SignUpForm: React.FC<React.PropsWithChildren<any>> = ({content}) => {
       <div className="relative max-w-2xl mx-auto flex flex-col items-center">
         <div className="rounded-lg relative z-10 overflow-hidden bg-gray-400/10 dark:bg-gray-700/90 bg-opacity-50 dark:shadow-xl shadow-md">
           <div
-            className="aspect-[1/0.538] p-8 flex justify-center items-center relative before:absolute before:inset-0 before:bg-black/5"
+            className="aspect-[1/0.538] p-8 flex justify-center items-center relative before:absolute before:inset-0 before:bg-black/5 bg-cover"
             style={{backgroundImage: `url(/images/bg-sign-up-form.png)`}}
           >
             <h2 className="font-heading sm:text-[2.5rem] sm:leading-tight font-bold text-white text-3xl text-center relative">
