@@ -9,9 +9,11 @@ import {useEffect} from 'react'
 import {useRouter} from 'next/router'
 import * as gtag from '../lib/gtag'
 import AppLayout from 'components/app/layout'
-import MDXComponents from 'components/mdx'
 import {MDXProvider} from '@mdx-js/react'
 import {SessionProvider} from 'next-auth/react'
+import mdxComponents from 'components/mdx'
+
+console.log('MDX:', mdxComponents)
 
 declare global {
   interface Window {
@@ -53,7 +55,7 @@ const App: React.FC<React.PropsWithChildren<AppProps>> = ({
       <DefaultSeo {...config} />
       <SessionProvider session={pageProps.session} refetchInterval={0}>
         <ThemeProvider attribute="class" defaultTheme="system">
-          <MDXProvider components={MDXComponents}>
+          <MDXProvider components={mdxComponents}>
             {getLayout(Component, pageProps)}
           </MDXProvider>
         </ThemeProvider>

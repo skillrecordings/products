@@ -1,6 +1,6 @@
 const withPlugins = require('next-compose-plugins')
 const withImages = require('next-images')
-const withMDX = require('@next/mdx')()
+const withMDX = require('@next/mdx')
 
 const IMAGE_HOST_DOMAINS = [
   `res.cloudinary.com`,
@@ -42,6 +42,9 @@ module.exports = withPlugins(
   [
     withImages(),
     withMDX({
+      options: {
+        providerImportSource: '@mdx-js/react',
+      },
       pageExtensions: ['ts', 'tsx', 'mdx'],
       rehypePlugins: [require('mdx-prism')],
     }),
