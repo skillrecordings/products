@@ -1,6 +1,7 @@
-import {isEmpty} from 'lodash'
+import isEmpty from 'lodash/isEmpty'
 import find from 'lodash/find'
 import {Cookie} from './cookie'
+import fetch from 'node-fetch'
 
 const convertkitBaseUrl =
   process.env.CONVERTKIT_BASE_URL || 'https://api.convertkit.com/v3/'
@@ -45,11 +46,13 @@ export async function subscribeToEndpoint(
     },
     body: JSON.stringify({
       ...params,
-      api_key: process.env.NEXT_PUBLIC_CONVERTKIT_TOKEN,
+      api_key:
+        process.env.NEXT_PUBLIC_CONVERTKIT_TOKEN ||
+        process.env.CONVERTKIT_PUBLIC_TOKEN,
     }),
   })
     .then((res) => res.json())
-    .then(({subscription}) => {
+    .then(({subscription}: any) => {
       return subscription.subscriber
     })
 }
@@ -63,11 +66,13 @@ export async function tagSubscriber(email: string, tagId: string) {
     },
     body: JSON.stringify({
       email,
-      api_key: process.env.NEXT_PUBLIC_CONVERTKIT_TOKEN,
+      api_key:
+        process.env.NEXT_PUBLIC_CONVERTKIT_TOKEN ||
+        process.env.CONVERTKIT_PUBLIC_TOKEN,
     }),
   })
     .then((res) => res.json())
-    .then(({subscription}) => {
+    .then(({subscription}: any) => {
       return subscription.subscriber
     })
 }
@@ -123,8 +128,11 @@ export async function createConvertkitCustomField(
 }
 
 export async function subscribeToTag(email: string, tagId: string) {
-  if (!process.env.NEXT_PUBLIC_CONVERTKIT_TOKEN) {
-    console.warn('set NEXT_PUBLIC_CONVERTKIT_TOKEN')
+  if (
+    !process.env.NEXT_PUBLIC_CONVERTKIT_TOKEN &&
+    !process.env.CONVERTKIT_PUBLIC_TOKEN
+  ) {
+    console.warn('set NEXT_PUBLIC_CONVERTKIT_TOKEN or CONVERTKIT_PUBLIC_TOKEN')
     return
   }
   await fetch(`${convertkitBaseUrl}/tags/${tagId}/subscribe`, {
@@ -133,10 +141,48 @@ export async function subscribeToTag(email: string, tagId: string) {
       'Content-Type': 'application/json; charset=utf-8',
     },
     body: JSON.stringify({
-      api_key: process.env.NEXT_PUBLIC_CONVERTKIT_TOKEN,
+      api_key:
+        process.env.NEXT_PUBLIC_CONVERTKIT_TOKEN ||
+        process.env.CONVERTKIT_PUBLIC_TOKEN,
       email,
     }),
   })
+}
+
+export async function subscribeToForm(options: {
+  email: string
+  first_name?: string
+  formId: string
+  fields?: Record<string, string>
+}) {
+  console.log('subscribing to form')
+
+  if (
+    !process.env.NEXT_PUBLIC_CONVERTKIT_TOKEN &&
+    !process.env.CONVERTKIT_PUBLIC_TOKEN
+  ) {
+    console.warn('set NEXT_PUBLIC_CONVERTKIT_TOKEN or CONVERTKIT_PUBLIC_TOKEN')
+    return
+  }
+
+  return fetch(`${convertkitBaseUrl}/forms/${options.formId}/subscribe`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json; charset=utf-8',
+    },
+    body: JSON.stringify({
+      api_key:
+        process.env.NEXT_PUBLIC_CONVERTKIT_TOKEN ||
+        process.env.CONVERTKIT_PUBLIC_TOKEN,
+      email: options.email,
+      first_name: options.first_name,
+      fields: options.fields,
+    }),
+  })
+    .then((res) => res.json())
+    .then(({subscription}: any) => {
+      return subscription.subscriber
+    })
 }
 
 export async function fetchSubscriber(convertkitId: string) {
@@ -149,13 +195,21 @@ export async function fetchSubscriber(convertkitId: string) {
 
   if (convertkitId) {
     const subscriberUrl = `${convertkitBaseUrl}/subscribers/${convertkitId}?api_secret=${process.env.CONVERTKIT_API_SECRET}`
-    const response = await fetch(subscriberUrl).then((res) => res.json())
-    subscriber = response.subscriber
+    subscriber = await fetch(subscriberUrl)
+      .then((res) => res.json())
+      .then(({subscription}: any) => {
+        return subscription.subscriber
+      })
   }
 
   if (isEmpty(subscriber)) return
 
-  const tagsApiUrl = `${convertkitBaseUrl}/subscribers/${subscriber.id}/tags?api_key=${process.env.NEXT_PUBLIC_CONVERTKIT_TOKEN}`
+  const tagsApiUrl = `${convertkitBaseUrl}/subscribers/${
+    subscriber.id
+  }/tags?api_key=${
+    process.env.NEXT_PUBLIC_CONVERTKIT_TOKEN ||
+    process.env.CONVERTKIT_PUBLIC_TOKEN
+  }`
   const tags = await fetch(tagsApiUrl).then((res) => res.json())
 
   return {...subscriber, tags}

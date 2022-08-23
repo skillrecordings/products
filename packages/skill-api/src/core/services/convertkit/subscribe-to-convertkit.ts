@@ -3,7 +3,7 @@ import {OutgoingResponse} from '../../index'
 import {
   getConvertkitSubscriberCookie,
   subscribeToEndpoint,
-} from '../../lib/convertkit'
+} from '@skillrecordings/convertkit-sdk'
 
 export async function subscribeToConvertkit({
   params,
