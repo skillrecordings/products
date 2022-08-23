@@ -4,6 +4,7 @@ import {z} from 'zod'
 import {subscribeToForm} from '../lib/convertkit.server'
 import {Form, useLoaderData} from '@remix-run/react'
 import {convertkitSubscriberCookie} from '~/cookies'
+import {isEmpty} from 'lodash'
 
 const FORM_ID = '3547851'
 
@@ -44,10 +45,12 @@ export const action: ActionFunction = async ({request}) => {
 export default function Index() {
   const {ckSubscriber} = useLoaderData()
 
+  console.log({ckSubscriber})
+
   return (
     <div className="prose">
       <h1>Welcome to Epic Web Dev</h1>
-      {!ckSubscriber ? (
+      {isEmpty(ckSubscriber) ? (
         <div>
           <Form
             method="post"

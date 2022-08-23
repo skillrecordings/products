@@ -812,12 +812,14 @@ importers:
       '@remix-run/vercel': ^1.6.8
       '@skillrecordings/convertkit-sdk': workspace:*
       '@tailwindcss/typography': ^0.5.2
+      '@types/lodash': ^4.14.179
       '@types/react': ^18.0.15
       '@types/react-dom': ^18.0.6
       '@vercel/node': ^2.4.4
       classnames: ^2.3.1
       concurrently: ^7.2.2
       eslint: ^8.20.0
+      lodash: ^4.17.21
       postcss: ^8.4.14
       react: ^18.2.0
       react-dom: ^18.2.0
@@ -831,6 +833,7 @@ importers:
       '@skillrecordings/convertkit-sdk': link:../../packages/convertkit-sdk
       '@vercel/node': 2.5.8
       classnames: 2.3.1
+      lodash: 4.17.21
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
       zod: 3.17.10
@@ -839,6 +842,7 @@ importers:
       '@remix-run/eslint-config': 1.6.8_o3mauctgtumsl5j4kwehbgms54
       '@remix-run/serve': 1.6.8_biqbaboplfbrettd7655fr4n2y
       '@tailwindcss/typography': 0.5.2_tailwindcss@3.1.6
+      '@types/lodash': 4.14.180
       '@types/react': 18.0.15
       '@types/react-dom': 18.0.6
       concurrently: 7.2.2
