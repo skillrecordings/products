@@ -1,5 +1,6 @@
 import * as React from 'react'
 import Code from './code'
+import {AnimatedList, CheckList} from './list'
 
 const mdxComponents = {
   pre: (props: any) => (
@@ -10,6 +11,8 @@ const mdxComponents = {
       {props.children.props.children}
     </Code>
   ),
+  AnimatedList,
+  CheckList,
 }
 
 export default mdxComponents
