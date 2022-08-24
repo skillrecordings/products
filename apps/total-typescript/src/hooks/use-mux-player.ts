@@ -35,9 +35,13 @@ export const useMuxPlayer = (
   React.useEffect(() => {
     videoService.send('RESET')
     setDisplayOverlay(false)
+  }, [lesson])
+
+  // preferences
+  React.useEffect(() => {
     muxPlayerRef.current.playbackRate = playbackRate
     muxPlayerRef.current.autoplay = autoplay
-  }, [lesson])
+  }, [playbackRate, autoPlay])
 
   return {
     muxPlayerProps: {
