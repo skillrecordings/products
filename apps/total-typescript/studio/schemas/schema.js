@@ -8,6 +8,10 @@ import page from './documents/page'
 import mail from './documents/mail'
 import quiz from './documents/quiz'
 import question from './documents/question'
+import course from './documents/course'
+import section from './documents/section'
+// import resource from './documents/resource'
+import lesson from './documents/lesson'
 // —— objects
 // body
 import body from './objects/body'
@@ -20,6 +24,7 @@ import mediaCaption from './objects/mediaCaption'
 import videoOptions from './objects/videoOptions'
 import grid from './objects/grid'
 import gridItem from './objects/gridItem'
+import stackblitz from './objects/stackblitz'
 // emailBody
 import emailBody from './objects/email/body'
 import emailImage from './objects/email/image'
@@ -41,6 +46,10 @@ export default createSchema({
     mail,
     quiz,
     question,
+    course,
+    section,
+    // resource,
+    lesson,
     // objects
     body,
     emailBody,
@@ -56,6 +65,7 @@ export default createSchema({
     videoOptions,
     grid,
     gridItem,
+    stackblitz,
     choice,
     codeFile,
   ]),

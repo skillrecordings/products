@@ -1,4 +1,9 @@
-import {HiOutlineEmojiHappy, HiExternalLink, HiLink} from 'react-icons/hi'
+import {
+  HiOutlineEmojiHappy,
+  HiExternalLink,
+  HiOutlineClock,
+  HiLink,
+} from 'react-icons/hi'
 
 // TODO: Exercises (don't have to have solutions), Challenges (always have solutions, sometimes multiple parts)
 export default {
@@ -76,6 +81,22 @@ export default {
                     validation: (Rule) => Rule.required(),
                   },
                 ],
+              },
+            ],
+          },
+          {
+            name: 'timestamp',
+            type: 'object',
+            title: 'Timestamp',
+            blockEditor: {
+              icon: HiOutlineClock,
+            },
+            fields: [
+              {
+                name: 'timestamp',
+                type: 'string',
+                title: 'Timestamp',
+                validation: (Rule) => Rule.required(),
               },
             ],
           },

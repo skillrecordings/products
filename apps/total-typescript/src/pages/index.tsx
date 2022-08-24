@@ -86,10 +86,10 @@ const SubscribeToNewsletter = () => {
     >
       <div className="flex items-center justify-center">
         <Image
-          src={require('../../public/assets/ts-scroll@2x.png')}
+          src={require('../../public/assets/landing/scroll-ts@2x.png')}
           quality={100}
-          width={650 / 2}
-          height={650 / 2}
+          width={650 / 1.8}
+          height={650 / 1.8}
           alt=""
           aria-hidden="true"
           placeholder="blur"
