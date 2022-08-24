@@ -20,7 +20,7 @@ const SignUpForm: React.FC<React.PropsWithChildren<any>> = ({content}) => {
               {content.heading}
             </h2>
           </div>
-          <div className="px-16 pb-16">
+          <div className="px-6 pb-6 md:px-12 md:pb-12 lg:px-16 lg:pb-16">
             <div className="pt-10 pb-5 space-y-5 opacity-80 sm:text-lg">
               {content.description}
             </div>
