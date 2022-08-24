@@ -2,26 +2,27 @@ import {SanityDocument} from '@sanity/client'
 import {useVideo} from 'context/video-context'
 import {useRouter} from 'next/router'
 import React from 'react'
+import {getNextLesson} from 'utils/get-next-lesson'
 import {usePlayerPrefs} from './use-player-prefs'
 
 export const useMuxPlayer = (
   muxPlayerRef: any,
-  lesson: SanityDocument,
-  course: SanityDocument,
-  nextLesson: SanityDocument,
+  lesson?: SanityDocument,
+  course?: SanityDocument,
 ) => {
   const router = useRouter()
   const videoService = useVideo()
-  const {setPlayerPrefs, playbackRate, autoplay} = usePlayerPrefs()
-
-  const [autoPlay, setAutoPlay] = React.useState(autoplay)
+  const nextLesson = lesson && course && getNextLesson(course, lesson)
+  const {setPlayerPrefs, playbackRate, autoplay, getPlayerPrefs} =
+    usePlayerPrefs()
+  const [autoPlay, setAutoPlay] = React.useState(getPlayerPrefs().autoplay)
   const [displayOverlay, setDisplayOverlay] = React.useState(false)
 
   const handlePlay = () => {
     displayOverlay && setDisplayOverlay(false)
     muxPlayerRef.current.play()
   }
-  const handleNext = () => {
+  const handleNext = (autoPlay: boolean) => {
     nextLesson && autoPlay
       ? router.push({
           pathname: '/[course]/[lesson]',
@@ -34,8 +35,8 @@ export const useMuxPlayer = (
   React.useEffect(() => {
     videoService.send('RESET')
     setDisplayOverlay(false)
-    muxPlayerRef.current.autoplay = autoPlay
     muxPlayerRef.current.playbackRate = playbackRate
+    muxPlayerRef.current.autoplay = autoplay
   }, [lesson])
 
   return {
@@ -46,22 +47,24 @@ export const useMuxPlayer = (
       onPause: () => {
         videoService.send({type: 'PAUSE'})
       },
-      onEnded: () => {
+      onEnded: (e: any) => {
         videoService.send({type: 'END'})
-        handleNext()
+        handleNext(getPlayerPrefs().autoplay)
       },
       onRateChange: () => {
         setPlayerPrefs({
           playbackRate: muxPlayerRef.current.playbackRate,
         })
       },
+      // autoPlay,
       streamType: 'on-demand',
-      playbackId: lesson.video,
+      playbackId: lesson?.video,
     },
     autoPlay,
     setAutoPlay,
     setPlayerPrefs,
     handlePlay,
     displayOverlay,
+    nextLesson,
   }
 }

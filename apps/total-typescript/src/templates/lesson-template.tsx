@@ -6,7 +6,6 @@ import Layout from 'components/app/layout'
 import cx from 'classnames'
 import {PortableText, PortableTextComponents} from '@portabletext/react'
 import {useStackblitzEmbed} from 'hooks/use-stackblitz-embed'
-import {getNextLesson} from 'utils/get-next-lesson'
 import {hmsToSeconds} from 'utils/hms-to-seconds'
 import {useMuxPlayer} from 'hooks/use-mux-player'
 import {SanityDocument} from '@sanity/client'
@@ -23,182 +22,216 @@ const LessonTemplate: React.FC<{
   lesson: SanityDocument
   course: SanityDocument
 }> = ({lesson, course}) => {
-  const {title, body, type, transcript, stackblitz, github} = lesson
-  const nextLesson = getNextLesson(course, lesson)
-
-  useStackblitzEmbed(stackblitz.projectId, stackblitz.openFile, 'embed')
-
-  const muxPlayerRef = React.useRef<any>()
-  const {
-    muxPlayerProps,
-    autoPlay,
-    setAutoPlay,
-    setPlayerPrefs,
-    handlePlay,
-    displayOverlay,
-  } = useMuxPlayer(muxPlayerRef, lesson, course, nextLesson)
-
-  const isExercise = type === 'exercise'
-
-  const {isSafari, isFirefox} = useDeviceDetect()
+  const {title} = lesson
+  const muxPlayerRef = React.useRef<HTMLDivElement>()
 
   return (
     <Layout
       meta={{title}}
       className="bg-gray-900"
       nav={
-        <div className="flex items-center pr-5">
-          <Navigation className="flex relative w-full justify-between lg:ml-[320px]" />
-        </div>
+        <Navigation className="flex relative w-full justify-between lg:ml-[320px]" />
       }
     >
       <div className="flex lg:flex-row flex-col-reverse">
         <LessonSidebar course={course} />
-        <div className="w-full relative">
-          <main className="relative">
-            {displayOverlay && (
-              <>
-                {nextLesson ? (
-                  <>
-                    {isExercise ? (
-                      <ExerciseOverlay
-                        lesson={lesson}
-                        nextLesson={nextLesson}
-                        course={course}
-                        handlePlay={handlePlay}
-                      />
-                    ) : (
-                      <DefaultOverlay
-                        nextLesson={nextLesson}
-                        course={course}
-                        handlePlay={handlePlay}
-                      />
-                    )}
-                  </>
-                ) : (
-                  <FinishedOverlay course={course} handlePlay={handlePlay} />
-                )}
-              </>
-            )}
-            <div
-              className={cx(
-                'flex items-center justify-center w-full aspect-video relative',
-                {
-                  'opacity-0': displayOverlay,
-                },
-              )}
-            >
-              <MuxPlayer
-                ref={muxPlayerRef}
-                {...(muxPlayerProps as MuxPlayerProps)}
-              />
+        <main className="w-full relative">
+          <Video ref={muxPlayerRef} course={course} lesson={lesson} />
+          <article>
+            <div className="mx-auto lg:px-10 lg:py-8 px-5 py-10 relative">
+              <AutoPlayToggle muxPlayerRef={muxPlayerRef} />
+              <LessonTitle lesson={lesson} />
+              <LessonDescription lesson={lesson} />
+              <GitHubLink course={course} lesson={lesson} />
             </div>
-            <div>
-              <article>
-                <div className="mx-auto lg:px-10 lg:py-8 px-5 py-10 relative">
-                  <label className="flex items-center gap-1.5 text-gray-200 text-sm absolute sm:right-4 right-0 cursor-pointer sm:top-3 top-0 bg-gray-900 hover:bg-gray-800 transition rounded px-3 py-2">
-                    <input
-                      className="accent-cyan-300"
-                      checked={autoPlay}
-                      onChange={() => {
-                        !autoPlay && handlePlay()
-                        setAutoPlay(!autoPlay)
-                        setPlayerPrefs({autoplay: !autoPlay})
-                      }}
-                      type="checkbox"
-                    />
-                    Autoplay{' '}
-                  </label>
-
-                  <h1 className="font-text sm:text-4xl text-3xl font-extrabold">
-                    {title}{' '}
-                    <span className="font-normal">({capitalize(type)})</span>
-                  </h1>
-                  <div className="pt-5 opacity-90 prose sm:prose-lg max-w-none">
-                    <PortableText value={body} />
-                  </div>
-                  {github?.url && (
-                    <div className="pt-16">
-                      <h2 className="sm:text-2xl text-xl font-semibold pb-2">
-                        Code
-                      </h2>
-                      <div className="flex items-center gap-2">
-                        <a
-                          href={github.url}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="bg-gray-800/50 hover:bg-slate-800/90 transition border border-gray-700/50 text-white rounded py-5 px-6 text-lg font-medium inline-flex items-center gap-4"
-                        >
-                          <IconGithub className="w-14 h-14" />
-                          <div>
-                            <p className="text-xl font-semibold">
-                              {course.github.repo}
-                              <span className="text-gray-400 font-medium"></span>
-                            </p>
-                            <p className="text-sm font-mono text-gray-400">
-                              /{github.path}
-                            </p>
-                          </div>
-                        </a>
-                      </div>
-                    </div>
-                  )}
-                </div>
-                <div className="xl:px-10">
-                  <h3 className="flex items-baseline sm:text-2xl text-xl font-semibold pb-2 xl:px-0 sm:px-10 px-5">
-                    Editor
-                    {(isSafari || isFirefox) && (
-                      <span className="pl-2 text-base font-normal text-gray-400">
-                        For full experience with working terminal please use
-                        Chromium-based browser.
-                      </span>
-                    )}
-                  </h3>
-                  <iframe
-                    tabIndex={-1}
-                    onFocus={() => {
-                      console.log('focused')
-                    }}
-                    id="embed"
-                    className="h-[800px] mx-auto"
-                  />
-                </div>
-                <div className="prose prose-lg max-w-4xl text-white mx-auto p-10 pt-8">
-                  <h2 className="font-text text-3xl font-bold pt-4">
-                    Video Transcript
-                  </h2>
-                  <PortableText
-                    value={transcript}
-                    components={
-                      {
-                        marks: {
-                          timestamp: ({value}: any) => {
-                            const {timestamp} = value
-                            return (
-                              <button
-                                className="underline inline-block after:inline-block after:content-[' ']"
-                                onClick={() => {
-                                  muxPlayerRef.current.currentTime =
-                                    hmsToSeconds(timestamp)
-                                  handlePlay()
-                                  window.scrollTo({top: 80})
-                                }}
-                              >
-                                {timestamp}
-                              </button>
-                            )
-                          },
-                        },
-                      } as PortableTextComponents
-                    }
-                  />
-                </div>
-              </article>
-            </div>
-          </main>
-        </div>
+            <StackblitzEmbed lesson={lesson} />
+            <LessonTranscript lesson={lesson} muxPlayerRef={muxPlayerRef} />
+          </article>
+        </main>
       </div>
     </Layout>
+  )
+}
+
+const Video: React.FC<any> = React.forwardRef(({course, lesson}, ref: any) => {
+  const isExercise = Boolean(lesson.type === 'exercise')
+
+  const {muxPlayerProps, handlePlay, displayOverlay, nextLesson} = useMuxPlayer(
+    ref,
+    lesson,
+    course,
+  )
+
+  return (
+    <>
+      {displayOverlay && (
+        <>
+          {nextLesson ? (
+            <>
+              {isExercise ? (
+                <ExerciseOverlay
+                  lesson={lesson}
+                  nextLesson={nextLesson}
+                  course={course}
+                  handlePlay={handlePlay}
+                />
+              ) : (
+                <DefaultOverlay
+                  nextLesson={nextLesson}
+                  course={course}
+                  handlePlay={handlePlay}
+                />
+              )}
+            </>
+          ) : (
+            <FinishedOverlay course={course} handlePlay={handlePlay} />
+          )}
+        </>
+      )}
+      <div
+        className={cx(
+          'flex items-center justify-center w-full aspect-video relative',
+          {
+            'opacity-0': displayOverlay,
+          },
+        )}
+      >
+        <MuxPlayer ref={ref} {...(muxPlayerProps as MuxPlayerProps)} />
+      </div>
+    </>
+  )
+})
+
+const AutoPlayToggle: React.FC<any> = ({muxPlayerRef}) => {
+  const {autoPlay, handlePlay, setAutoPlay, setPlayerPrefs} =
+    useMuxPlayer(muxPlayerRef)
+  return (
+    <label className="flex items-center gap-1.5 text-gray-200 text-sm absolute sm:right-4 right-0 cursor-pointer sm:top-3 top-0 bg-gray-900 hover:bg-gray-800 transition rounded px-3 py-2">
+      <input
+        className="accent-cyan-300"
+        checked={autoPlay}
+        onChange={() => {
+          !autoPlay && handlePlay()
+          setAutoPlay(!autoPlay)
+          setPlayerPrefs({autoplay: !autoPlay})
+        }}
+        type="checkbox"
+      />
+      Autoplay{' '}
+    </label>
+  )
+}
+
+const GitHubLink: React.FC<{
+  lesson: SanityDocument
+  course: SanityDocument
+}> = ({lesson, course}) => {
+  const {github} = lesson
+
+  if (!github.url) {
+    return null
+  }
+
+  return (
+    <div className="pt-16">
+      <h2 className="sm:text-2xl text-xl font-semibold pb-2">Code</h2>
+      <div className="flex items-center gap-2">
+        <a
+          href={github.url}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="bg-gray-800/50 hover:bg-slate-800/90 transition border border-gray-700/50 text-white rounded py-5 px-6 text-lg font-medium inline-flex items-center gap-4"
+        >
+          <IconGithub className="w-14 h-14" />
+          <div>
+            <p className="text-xl font-semibold">
+              {course.github.repo}
+              <span className="text-gray-400 font-medium"></span>
+            </p>
+            <p className="text-sm font-mono text-gray-400">/{github.path}</p>
+          </div>
+        </a>
+      </div>
+    </div>
+  )
+}
+
+const LessonTitle: React.FC<{lesson: SanityDocument}> = ({lesson}) => {
+  const {title, type} = lesson
+  return (
+    <>
+      <h1 className="font-text sm:text-4xl text-3xl font-extrabold">
+        {title} <span className="font-normal">({capitalize(type)})</span>
+      </h1>
+    </>
+  )
+}
+
+const LessonDescription: React.FC<{lesson: SanityDocument}> = ({lesson}) => {
+  const {body} = lesson
+  return (
+    <div className="pt-5 opacity-90 prose sm:prose-lg max-w-none">
+      <PortableText value={body} />
+    </div>
+  )
+}
+
+const StackblitzEmbed: React.FC<{lesson: SanityDocument}> = ({lesson}) => {
+  const {stackblitz} = lesson
+  useStackblitzEmbed(stackblitz.projectId, stackblitz.openFile, 'embed')
+  const {isSafari, isFirefox} = useDeviceDetect()
+
+  return (
+    <div className="xl:px-10">
+      <h3 className="flex items-baseline sm:text-2xl text-xl font-semibold pb-2 xl:px-0 sm:px-10 px-5">
+        Editor
+        {(isSafari || isFirefox) && (
+          <span className="pl-2 text-base font-normal text-gray-400">
+            For full experience with working terminal please use Chromium-based
+            browser.
+          </span>
+        )}
+      </h3>
+      <div id="embed" className="h-[800px] mx-auto" />
+    </div>
+  )
+}
+
+const LessonTranscript: React.FC<{
+  lesson: SanityDocument
+  muxPlayerRef: any
+}> = ({lesson, muxPlayerRef}) => {
+  const {transcript} = lesson
+  const {handlePlay} = useMuxPlayer(muxPlayerRef)
+
+  return (
+    <div className="prose prose-lg max-w-4xl text-white mx-auto p-10 pt-8">
+      <h2 className="font-text text-3xl font-bold pt-4">Video Transcript</h2>
+      <PortableText
+        value={transcript}
+        components={
+          {
+            marks: {
+              timestamp: ({value}: any) => {
+                const {timestamp} = value
+                return (
+                  <button
+                    className="underline inline-block after:inline-block after:content-[' ']"
+                    onClick={() => {
+                      muxPlayerRef.current.currentTime = hmsToSeconds(timestamp)
+                      handlePlay()
+                      window.scrollTo({top: 80})
+                    }}
+                  >
+                    {timestamp}
+                  </button>
+                )
+              },
+            },
+          } as PortableTextComponents
+        }
+      />
+    </div>
   )
 }
 
