@@ -1,6 +1,5 @@
 import React from 'react'
 import {motion, useReducedMotion} from 'framer-motion'
-import {isObject} from 'lodash'
 
 const AnimatedList: React.FC<React.PropsWithChildren<{className?: string}>> = ({
   children,
@@ -40,8 +39,7 @@ const AnimatedList: React.FC<React.PropsWithChildren<{className?: string}>> = ({
         {...props}
       >
         {childrenArr.map(({props: {children: items}}: any) => {
-          const itemsToMap = items.filter((item: any) => isObject(item))
-          return itemsToMap.map(({props: {children: item}}: any) => {
+          return items.map(({props: {children: item}}: any) => {
             return (
               <motion.li variants={itemVariants} key={item}>
                 {item}
