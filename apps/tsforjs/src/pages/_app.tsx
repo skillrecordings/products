@@ -4,7 +4,7 @@ import '../styles/globals.css'
 import 'focus-visible'
 import {ConvertkitProvider} from '@skillrecordings/convertkit'
 import {usePageview} from '@skillrecordings/analytics'
-import {DefaultSeo} from '@skillrecordings/react'
+import {DefaultSeo} from '@skillrecordings/next-seo'
 import config from '../config'
 
 function MyApp({Component, pageProps}: AppProps) {

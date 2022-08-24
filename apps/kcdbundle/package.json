@@ -28,12 +28,13 @@
     "preset": "@skillrecordings/scripts/jest/next"
   },
   "dependencies": {
-    "@next/mdx": "^12.2.4",
+    "@next/mdx": "^12.2.5",
     "@reach/dialog": "^0.16.2",
     "@skillrecordings/auth": "=0.0.6",
     "@skillrecordings/config": "workspace:*",
     "@skillrecordings/convertkit": "workspace:*",
     "@skillrecordings/cookies": "workspace:*",
+    "@skillrecordings/next-seo": "workspace:*",
     "@skillrecordings/quiz": "workspace:*",
     "@skillrecordings/react": "workspace:*",
     "@skillrecordings/stripe": "=0.0.2",

@@ -7,7 +7,7 @@ import type {
 } from '@skillrecordings/commerce-server/dist/@types'
 import {useFeedback} from 'context/feedback-context'
 import {Toaster} from 'react-hot-toast'
-import {NextSeo} from '@skillrecordings/react'
+import {NextSeo} from '@skillrecordings/next-seo'
 import SaleBanner from 'components/sale-banner'
 import Navigation from './navigation'
 import isNull from 'lodash/isNull'

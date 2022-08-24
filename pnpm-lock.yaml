@@ -36,7 +36,7 @@ importers:
       '@headlessui/react': ^1.6.1
       '@heroicons/react': ^1.0.6
       '@mdx-js/loader': ^1.6.22
-      '@next/mdx': ^12.2.4
+      '@next/mdx': ^12.2.5
       '@portabletext/react': ^1.0.6
       '@portabletext/types': ^1.0.3
       '@reach/dialog': ^0.16.2
@@ -46,6 +46,7 @@ importers:
       '@skillrecordings/config': workspace:*
       '@skillrecordings/convertkit': workspace:*
       '@skillrecordings/cookies': workspace:*
+      '@skillrecordings/next-seo': workspace:*
       '@skillrecordings/player': workspace:*
       '@skillrecordings/quiz': workspace:*
       '@skillrecordings/react': workspace:*
@@ -124,7 +125,7 @@ importers:
     dependencies:
       '@headlessui/react': 1.6.1_biqbaboplfbrettd7655fr4n2y
       '@heroicons/react': 1.0.6_react@18.2.0
-      '@next/mdx': 12.2.4_@mdx-js+loader@1.6.22
+      '@next/mdx': 12.2.5_@mdx-js+loader@1.6.22
       '@portabletext/react': 1.0.6_react@18.2.0
       '@reach/dialog': 0.16.2_bb2bxwco6ptpubzwpazr52qf6i
       '@sanity/client': 3.3.2
@@ -133,6 +134,7 @@ importers:
       '@skillrecordings/config': link:../../packages/config
       '@skillrecordings/convertkit': link:../../packages/convertkit
       '@skillrecordings/cookies': link:../../packages/cookies
+      '@skillrecordings/next-seo': link:../../packages/next-seo
       '@skillrecordings/player': link:../../packages/player
       '@skillrecordings/quiz': link:../../packages/quiz
       '@skillrecordings/react': link:../../packages/react
@@ -217,13 +219,14 @@ importers:
     specifiers:
       '@babel/plugin-transform-react-jsx': ^7.16.0
       '@mdx-js/loader': ^1.6.22
-      '@next/mdx': ^12.2.4
+      '@next/mdx': ^12.2.5
       '@reach/dialog': ^0.16.2
       '@react-three/drei': ^7.20.2
       '@react-three/fiber': 7.0.27
       '@skillrecordings/config': workspace:*
       '@skillrecordings/convertkit': workspace:*
       '@skillrecordings/cookies': workspace:*
+      '@skillrecordings/next-seo': workspace:*
       '@skillrecordings/quiz': workspace:*
       '@skillrecordings/react': workspace:*
       '@skillrecordings/scripts': workspace:*
@@ -304,13 +307,14 @@ importers:
       xstate: '=4.23.1'
       yup: ^0.32.11
     dependencies:
-      '@next/mdx': 12.2.4_@mdx-js+loader@1.6.22
+      '@next/mdx': 12.2.5_@mdx-js+loader@1.6.22
       '@reach/dialog': 0.16.2_bb2bxwco6ptpubzwpazr52qf6i
       '@react-three/drei': 7.20.2_5fmtig3otsjt2gwua6nanmpzta
       '@react-three/fiber': 7.0.27_l64coo4po4cwrmp7zqxdp2wxuq
       '@skillrecordings/config': link:../../packages/config
       '@skillrecordings/convertkit': link:../../packages/convertkit
       '@skillrecordings/cookies': link:../../packages/cookies
+      '@skillrecordings/next-seo': link:../../packages/next-seo
       '@skillrecordings/quiz': link:../../packages/quiz
       '@skillrecordings/react': link:../../packages/react
       '@skillrecordings/time': link:../../packages/time
@@ -399,13 +403,14 @@ importers:
       '@babel/plugin-transform-react-jsx': ^7.16.0
       '@mdx-js/loader': ^1.6.22
       '@mdx-js/react': ^1.6.22
-      '@next/mdx': ^12.2.4
+      '@next/mdx': ^12.2.5
       '@reach/dialog': ^0.16.2
       '@sanity/block-content-to-react': ^3.0.0
       '@sanity/client': ^3.2.0
       '@skillrecordings/config': workspace:*
       '@skillrecordings/convertkit': workspace:*
       '@skillrecordings/cookies': workspace:*
+      '@skillrecordings/next-seo': workspace:*
       '@skillrecordings/quiz': workspace:*
       '@skillrecordings/react': workspace:*
       '@skillrecordings/scripts': workspace:*
@@ -485,13 +490,14 @@ importers:
       yup: ^0.32.11
     dependencies:
       '@mdx-js/react': 1.6.22_react@18.2.0
-      '@next/mdx': 12.2.4_6vwedlnwdegenaf6jioaeirvlu
+      '@next/mdx': 12.2.5_6vwedlnwdegenaf6jioaeirvlu
       '@reach/dialog': 0.16.2_bb2bxwco6ptpubzwpazr52qf6i
       '@sanity/block-content-to-react': 3.0.0_react@18.2.0
       '@sanity/client': 3.3.2
       '@skillrecordings/config': link:../../packages/config
       '@skillrecordings/convertkit': link:../../packages/convertkit
       '@skillrecordings/cookies': link:../../packages/cookies
+      '@skillrecordings/next-seo': link:../../packages/next-seo
       '@skillrecordings/quiz': link:../../packages/quiz
       '@skillrecordings/react': link:../../packages/react
       '@skillrecordings/time': link:../../packages/time
@@ -581,7 +587,7 @@ importers:
       '@heroicons/react': ^1.0.6
       '@mdx-js/loader': ^1.6.22
       '@next-auth/prisma-adapter': ^1.0.3
-      '@next/mdx': ^12.2.4
+      '@next/mdx': ^12.2.5
       '@radix-ui/react-alert-dialog': ^0.1.7
       '@radix-ui/react-dialog': ^0.1.7
       '@reach/dialog': ^0.16.2
@@ -594,6 +600,7 @@ importers:
       '@skillrecordings/convertkit': workspace:*
       '@skillrecordings/cookies': workspace:*
       '@skillrecordings/database': workspace:*
+      '@skillrecordings/next-seo': workspace:*
       '@skillrecordings/quiz': workspace:*
       '@skillrecordings/react': workspace:*
       '@skillrecordings/scripts': workspace:*
@@ -691,7 +698,7 @@ importers:
       '@asbjorn/eslint-plugin-groq': 2.0.0
       '@heroicons/react': 1.0.6_react@18.2.0
       '@next-auth/prisma-adapter': 1.0.3_next-auth@4.10.2
-      '@next/mdx': 12.2.4_@mdx-js+loader@1.6.22
+      '@next/mdx': 12.2.5_@mdx-js+loader@1.6.22
       '@radix-ui/react-alert-dialog': 0.1.7_bb2bxwco6ptpubzwpazr52qf6i
       '@radix-ui/react-dialog': 0.1.7_bb2bxwco6ptpubzwpazr52qf6i
       '@reach/dialog': 0.16.2_bb2bxwco6ptpubzwpazr52qf6i
@@ -704,6 +711,7 @@ importers:
       '@skillrecordings/convertkit': link:../../packages/convertkit
       '@skillrecordings/cookies': link:../../packages/cookies
       '@skillrecordings/database': link:../../packages/database
+      '@skillrecordings/next-seo': link:../../packages/next-seo
       '@skillrecordings/quiz': link:../../packages/quiz
       '@skillrecordings/react': link:../../packages/react
       '@skillrecordings/skill-api': link:../../packages/skill-api
@@ -857,10 +865,11 @@ importers:
       '@babel/plugin-transform-react-jsx': ^7.17.3
       '@headlessui/react': ^1.6.1
       '@heroicons/react': ^1.0.6
-      '@mdx-js/loader': ^2.1.0
+      '@mdx-js/loader': ^1.6.22
+      '@mdx-js/react': 1.6.22
       '@next-auth/prisma-adapter': ^1.0.3
       '@next/eslint-plugin-next': ^12.1.0
-      '@next/mdx': ^12.2.4
+      '@next/mdx': ^12.2.5
       '@reach/dialog': ^0.16.2
       '@sanity/block-content-to-markdown': ^0.0.5
       '@sanity/client': ^3.2.0
@@ -868,6 +877,7 @@ importers:
       '@skillrecordings/convertkit': workspace:*
       '@skillrecordings/cookies': workspace:*
       '@skillrecordings/database': workspace:*
+      '@skillrecordings/next-seo': workspace:*
       '@skillrecordings/player': workspace:*
       '@skillrecordings/quiz': workspace:*
       '@skillrecordings/react': workspace:*
@@ -952,9 +962,10 @@ importers:
       '@47ng/check-env': 2.1.0
       '@headlessui/react': 1.6.1_biqbaboplfbrettd7655fr4n2y
       '@heroicons/react': 1.0.6_react@18.2.0
+      '@mdx-js/react': 1.6.22_react@18.2.0
       '@next-auth/prisma-adapter': 1.0.3_next-auth@4.10.2
       '@next/eslint-plugin-next': 12.1.0
-      '@next/mdx': 12.2.4_@mdx-js+loader@2.1.2
+      '@next/mdx': 12.2.5_6vwedlnwdegenaf6jioaeirvlu
       '@reach/dialog': 0.16.2_bb2bxwco6ptpubzwpazr52qf6i
       '@sanity/block-content-to-markdown': 0.0.5
       '@sanity/client': 3.3.2
@@ -962,6 +973,7 @@ importers:
       '@skillrecordings/convertkit': link:../../packages/convertkit
       '@skillrecordings/cookies': link:../../packages/cookies
       '@skillrecordings/database': link:../../packages/database
+      '@skillrecordings/next-seo': link:../../packages/next-seo
       '@skillrecordings/player': link:../../packages/player
       '@skillrecordings/quiz': link:../../packages/quiz
       '@skillrecordings/react': link:../../packages/react
@@ -1018,7 +1030,7 @@ importers:
       yup: 0.32.11
     devDependencies:
       '@babel/plugin-transform-react-jsx': 7.17.3
-      '@mdx-js/loader': 2.1.2
+      '@mdx-js/loader': 1.6.22_react@18.2.0
       '@skillrecordings/scripts': link:../../packages/scripts
       '@skillrecordings/tsconfig': link:../../packages/tsconfig
       '@skillrecordings/types': link:../../packages/types
@@ -1049,16 +1061,17 @@ importers:
   apps/fronttoback:
     specifiers:
       '@heroicons/react': ^1.0.6
-      '@mdx-js/loader': ^2.1.2
-      '@mdx-js/mdx': ^2.1.2
-      '@mdx-js/react': ^2.1.2
+      '@mdx-js/loader': ^1.6.22
+      '@mdx-js/mdx': ^2.0.0
+      '@mdx-js/react': ^1.6.22
       '@next/env': ^12.2.2
-      '@next/mdx': ^12.2.4
+      '@next/mdx': ^12.2.5
       '@portabletext/react': ^1.0.6
       '@portabletext/types': ^1.0.3
       '@sanity/client': ^3.3.3
       '@skillrecordings/analytics': workspace:*
       '@skillrecordings/convertkit': workspace:*
+      '@skillrecordings/next-seo': workspace:*
       '@skillrecordings/quiz': workspace:*
       '@skillrecordings/react': workspace:*
       '@skillrecordings/scripts': workspace:*
@@ -1105,14 +1118,15 @@ importers:
       webpack: '>=4.3.0 <5.0.0'
     dependencies:
       '@heroicons/react': 1.0.6_react@18.2.0
-      '@mdx-js/loader': 2.1.2_webpack@4.46.0
+      '@mdx-js/loader': 1.6.22_react@18.2.0
       '@mdx-js/mdx': 2.1.2
-      '@mdx-js/react': 2.1.2_react@18.2.0
-      '@next/mdx': 12.2.4_todqhrvd7cvbb36hzi2r6xttgq
+      '@mdx-js/react': 1.6.22_react@18.2.0
+      '@next/mdx': 12.2.5_6vwedlnwdegenaf6jioaeirvlu
       '@portabletext/react': 1.0.6_react@18.2.0
       '@sanity/client': 3.3.3
       '@skillrecordings/analytics': link:../../packages/analytics
       '@skillrecordings/convertkit': link:../../packages/convertkit
+      '@skillrecordings/next-seo': link:../../packages/next-seo
       '@skillrecordings/quiz': link:../../packages/quiz
       '@skillrecordings/react': link:../../packages/react
       '@skillrecordings/skill-api': link:../../packages/skill-api
@@ -1165,12 +1179,13 @@ importers:
     specifiers:
       '@babel/plugin-transform-react-jsx': ^7.16.0
       '@mdx-js/loader': ^1.6.22
-      '@next/mdx': ^12.2.4
+      '@next/mdx': ^12.2.5
       '@reach/dialog': ^0.16.2
       '@skillrecordings/auth': '=0.0.6'
       '@skillrecordings/config': workspace:*
       '@skillrecordings/convertkit': workspace:*
       '@skillrecordings/cookies': workspace:*
+      '@skillrecordings/next-seo': workspace:*
       '@skillrecordings/quiz': workspace:*
       '@skillrecordings/react': workspace:*
       '@skillrecordings/scripts': workspace:*
@@ -1240,12 +1255,13 @@ importers:
       xstate: '=4.23.1'
       yup: ^0.32.11
     dependencies:
-      '@next/mdx': 12.2.4_@mdx-js+loader@1.6.22
+      '@next/mdx': 12.2.5_@mdx-js+loader@1.6.22
       '@reach/dialog': 0.16.2_bb2bxwco6ptpubzwpazr52qf6i
       '@skillrecordings/auth': 0.0.6_next@12.2.3
       '@skillrecordings/config': link:../../packages/config
       '@skillrecordings/convertkit': link:../../packages/convertkit
       '@skillrecordings/cookies': link:../../packages/cookies
+      '@skillrecordings/next-seo': link:../../packages/next-seo
       '@skillrecordings/quiz': link:../../packages/quiz
       '@skillrecordings/react': link:../../packages/react
       '@skillrecordings/stripe': 0.0.2_next@12.2.3
@@ -1322,11 +1338,12 @@ importers:
     specifiers:
       '@babel/plugin-transform-react-jsx': ^7.16.0
       '@mdx-js/loader': ^1.6.22
-      '@next/mdx': ^12.2.4
+      '@next/mdx': ^12.2.5
       '@reach/dialog': ^0.16.2
       '@skillrecordings/config': workspace:*
       '@skillrecordings/convertkit': workspace:*
       '@skillrecordings/cookies': workspace:*
+      '@skillrecordings/next-seo': workspace:*
       '@skillrecordings/quiz': workspace:*
       '@skillrecordings/react': workspace:*
       '@skillrecordings/scripts': workspace:*
@@ -1399,11 +1416,12 @@ importers:
       xstate: '=4.23.1'
       yup: ^0.32.11
     dependencies:
-      '@next/mdx': 12.2.4_@mdx-js+loader@1.6.22
+      '@next/mdx': 12.2.5_@mdx-js+loader@1.6.22
       '@reach/dialog': 0.16.2_bb2bxwco6ptpubzwpazr52qf6i
       '@skillrecordings/config': link:../../packages/config
       '@skillrecordings/convertkit': link:../../packages/convertkit
       '@skillrecordings/cookies': link:../../packages/cookies
+      '@skillrecordings/next-seo': link:../../packages/next-seo
       '@skillrecordings/quiz': link:../../packages/quiz
       '@skillrecordings/react': link:../../packages/react
       '@skillrecordings/time': link:../../packages/time
@@ -1497,6 +1515,7 @@ importers:
       '@skillrecordings/config': workspace:*
       '@skillrecordings/convertkit': workspace:*
       '@skillrecordings/cookies': workspace:*
+      '@skillrecordings/next-seo': workspace:*
       '@skillrecordings/player': workspace:*
       '@skillrecordings/quiz': workspace:*
       '@skillrecordings/react': workspace:*
@@ -1556,6 +1575,7 @@ importers:
       '@skillrecordings/config': link:../../packages/config
       '@skillrecordings/convertkit': link:../../packages/convertkit
       '@skillrecordings/cookies': link:../../packages/cookies
+      '@skillrecordings/next-seo': link:../../packages/next-seo
       '@skillrecordings/player': link:../../packages/player
       '@skillrecordings/quiz': link:../../packages/quiz
       '@skillrecordings/react': link:../../packages/react
@@ -1673,9 +1693,9 @@ importers:
       '@casl/ability': 5.4.4
       '@mdx-js/loader': 2.1.2_webpack@5.73.0
       '@mdx-js/mdx': 2.1.2
-      '@mdx-js/react': 2.1.2_react@17.0.2
+      '@mdx-js/react': 2.1.3_react@17.0.2
       '@next-auth/prisma-adapter': 1.0.3_smdf5gr5sj5zi4o3lwuckigx5e
-      '@next/mdx': 12.2.4_todqhrvd7cvbb36hzi2r6xttgq
+      '@next/mdx': 12.2.5_5kbrtr6eaugxmhpg25ihkqdzia
       '@portabletext/react': 1.0.6_react@17.0.2
       '@prisma/client': 3.15.2
       '@sanity/client': 3.3.3
@@ -1738,12 +1758,13 @@ importers:
       '@babel/plugin-transform-react-jsx': ^7.16.0
       '@mdx-js/loader': ^1.6.22
       '@mdx-js/react': ^1.6.22
-      '@next/mdx': ^12.2.4
+      '@next/mdx': ^12.2.5
       '@reach/dialog': ^0.16.2
       '@skillrecordings/analytics': workspace:*
       '@skillrecordings/config': workspace:*
       '@skillrecordings/convertkit': workspace:*
       '@skillrecordings/cookies': workspace:*
+      '@skillrecordings/next-seo': workspace:*
       '@skillrecordings/react': workspace:*
       '@skillrecordings/scripts': workspace:*
       '@skillrecordings/time': workspace:*
@@ -1816,12 +1837,13 @@ importers:
       yup: ^0.32.11
     dependencies:
       '@mdx-js/react': 1.6.22_react@18.2.0
-      '@next/mdx': 12.2.4_6vwedlnwdegenaf6jioaeirvlu
+      '@next/mdx': 12.2.5_6vwedlnwdegenaf6jioaeirvlu
       '@reach/dialog': 0.16.2_bb2bxwco6ptpubzwpazr52qf6i
       '@skillrecordings/analytics': link:../../packages/analytics
       '@skillrecordings/config': link:../../packages/config
       '@skillrecordings/convertkit': link:../../packages/convertkit
       '@skillrecordings/cookies': link:../../packages/cookies
+      '@skillrecordings/next-seo': link:../../packages/next-seo
       '@skillrecordings/react': link:../../packages/react
       '@skillrecordings/time': link:../../packages/time
       '@stripe/stripe-js': 1.21.1
@@ -1911,7 +1933,7 @@ importers:
       '@mdx-js/react': ^1.6.22
       '@next-auth/prisma-adapter': ^1.0.3
       '@next/env': ^12.2.0
-      '@next/mdx': ^12.2.4
+      '@next/mdx': ^12.2.5
       '@portabletext/react': ^1.0.6
       '@portabletext/types': ^1.0.3
       '@radix-ui/react-alert-dialog': ^0.1.7
@@ -1930,6 +1952,7 @@ importers:
       '@skillrecordings/convertkit': workspace:*
       '@skillrecordings/cookies': workspace:*
       '@skillrecordings/database': workspace:*
+      '@skillrecordings/next-seo': workspace:*
       '@skillrecordings/player': workspace:*
       '@skillrecordings/quiz': workspace:*
       '@skillrecordings/react': workspace:*
@@ -2057,7 +2080,7 @@ importers:
       '@mdx-js/mdx': 2.0.0
       '@mdx-js/react': 1.6.22_react@18.2.0
       '@next-auth/prisma-adapter': 1.0.3_next-auth@4.10.2
-      '@next/mdx': 12.2.4_6vwedlnwdegenaf6jioaeirvlu
+      '@next/mdx': 12.2.5_6vwedlnwdegenaf6jioaeirvlu
       '@portabletext/react': 1.0.6_react@18.2.0
       '@radix-ui/react-alert-dialog': 0.1.7_bb2bxwco6ptpubzwpazr52qf6i
       '@radix-ui/react-dialog': 0.1.7_bb2bxwco6ptpubzwpazr52qf6i
@@ -2075,6 +2098,7 @@ importers:
       '@skillrecordings/convertkit': link:../../packages/convertkit
       '@skillrecordings/cookies': link:../../packages/cookies
       '@skillrecordings/database': link:../../packages/database
+      '@skillrecordings/next-seo': link:../../packages/next-seo
       '@skillrecordings/player': link:../../packages/player
       '@skillrecordings/quiz': link:../../packages/quiz
       '@skillrecordings/react': link:../../packages/react
@@ -2206,6 +2230,7 @@ importers:
       '@sanity/client': ^3.3.3
       '@skillrecordings/analytics': workspace:*
       '@skillrecordings/convertkit': workspace:*
+      '@skillrecordings/next-seo': workspace:*
       '@skillrecordings/quiz': workspace:*
       '@skillrecordings/react': workspace:*
       '@skillrecordings/scripts': workspace:*
@@ -2231,7 +2256,7 @@ importers:
       js-cookie: ^3.0.1
       lint-staged: ^11.2.6
       lodash: ^4.17.21
-      next: ^12.2.2
+      next: ^12.2.3
       next-compose-plugins: ^2.2.1
       next-sitemap: ^3.0.5
       postcss: ^8.4.14
@@ -2246,16 +2271,17 @@ importers:
       xstate: '=4.23.1'
       zod: ^3.14.4
     dependencies:
-      '@mdx-js/loader': 2.1.2_webpack@4.46.0
+      '@mdx-js/loader': 2.1.3_webpack@4.46.0
       '@mdx-js/mdx': 2.1.2
-      '@mdx-js/react': 2.1.2_react@18.2.0
+      '@mdx-js/react': 2.1.3_react@18.2.0
       '@mux/mux-player-react': 0.1.0-beta.26_v7vsrdtui4d36prbwvdnlb7tpq
-      '@next/mdx': 12.2.4_todqhrvd7cvbb36hzi2r6xttgq
+      '@next/mdx': 12.2.5_hbo3tj2k5fhsh63l2ltjrymaq4
       '@portabletext/react': 1.0.6_react@18.2.0
       '@sanity/block-content-to-react': 3.0.0_react@18.2.0
       '@sanity/client': 3.3.3
       '@skillrecordings/analytics': link:../../packages/analytics
       '@skillrecordings/convertkit': link:../../packages/convertkit
+      '@skillrecordings/next-seo': link:../../packages/next-seo
       '@skillrecordings/quiz': link:../../packages/quiz
       '@skillrecordings/react': link:../../packages/react
       '@stackblitz/sdk': 1.8.0
@@ -2305,6 +2331,7 @@ importers:
       '@radix-ui/react-accordion': ^1.0.0
       '@skillrecordings/analytics': workspace:*
       '@skillrecordings/convertkit': workspace:*
+      '@skillrecordings/next-seo': workspace:*
       '@skillrecordings/quiz': workspace:*
       '@skillrecordings/react': workspace:*
       '@skillrecordings/tsconfig': workspace:*
@@ -2334,6 +2361,7 @@ importers:
       '@radix-ui/react-accordion': 1.0.0_biqbaboplfbrettd7655fr4n2y
       '@skillrecordings/analytics': link:../../packages/analytics
       '@skillrecordings/convertkit': link:../../packages/convertkit
+      '@skillrecordings/next-seo': link:../../packages/next-seo
       '@skillrecordings/quiz': link:../../packages/quiz
       '@skillrecordings/react': link:../../packages/react
       '@stitches/react': 1.2.8_react@18.2.0
@@ -2368,7 +2396,7 @@ importers:
       '@mdx-js/mdx': ^2.0.0
       '@mdx-js/react': ^1.6.22
       '@next/env': ^12.2.0
-      '@next/mdx': ^12.2.4
+      '@next/mdx': ^12.2.5
       '@portabletext/react': ^1.0.6
       '@portabletext/types': ^1.0.3
       '@reach/dialog': ^0.16.2
@@ -2380,6 +2408,7 @@ importers:
       '@skillrecordings/config': workspace:*
       '@skillrecordings/convertkit': workspace:*
       '@skillrecordings/cookies': workspace:*
+      '@skillrecordings/next-seo': workspace:*
       '@skillrecordings/player': workspace:*
       '@skillrecordings/quiz': workspace:*
       '@skillrecordings/react': workspace:*
@@ -2477,7 +2506,7 @@ importers:
       '@heroicons/react': 1.0.6_react@18.2.0
       '@mdx-js/mdx': 2.0.0
       '@mdx-js/react': 1.6.22_react@18.2.0
-      '@next/mdx': 12.2.4_6vwedlnwdegenaf6jioaeirvlu
+      '@next/mdx': 12.2.5_6vwedlnwdegenaf6jioaeirvlu
       '@portabletext/react': 1.0.6_react@18.2.0
       '@portabletext/types': 1.0.3
       '@reach/dialog': 0.16.2_bb2bxwco6ptpubzwpazr52qf6i
@@ -2489,6 +2518,7 @@ importers:
       '@skillrecordings/config': link:../../packages/config
       '@skillrecordings/convertkit': link:../../packages/convertkit
       '@skillrecordings/cookies': link:../../packages/cookies
+      '@skillrecordings/next-seo': link:../../packages/next-seo
       '@skillrecordings/player': link:../../packages/player
       '@skillrecordings/quiz': link:../../packages/quiz
       '@skillrecordings/react': link:../../packages/react
@@ -2955,6 +2985,42 @@ importers:
       react-dom: 18.2.0_react@18.2.0
       typescript: 4.7.4
 
+  packages/next-seo:
+    specifiers:
+      '@skillrecordings/tsconfig': workspace:*
+      '@types/cookie': ^0.4.1
+      '@types/lodash': ^4.14.179
+      '@types/node': ^18.6.1
+      '@types/node-fetch': ^2.6.2
+      '@types/react': ^18.0.15
+      '@types/react-dom': ^18.0.6
+      eslint: ^8.12.0
+      eslint-config-custom: workspace:*
+      next: ^12.2.3
+      react: 18.2.0
+      react-dom: 18.2.0
+      rimraf: ^3.0.2
+      tsup: ^5.11.13
+      tsx: ^3.7.1
+      typescript: ^4.7.4
+    devDependencies:
+      '@skillrecordings/tsconfig': link:../tsconfig
+      '@types/cookie': 0.4.1
+      '@types/lodash': 4.14.180
+      '@types/node': 18.6.3
+      '@types/node-fetch': 2.6.2
+      '@types/react': 18.0.15
+      '@types/react-dom': 18.0.6
+      eslint: 8.22.0
+      eslint-config-custom: link:../eslint-config-custom
+      next: 12.2.3_biqbaboplfbrettd7655fr4n2y
+      react: 18.2.0
+      react-dom: 18.2.0_react@18.2.0
+      rimraf: 3.0.2
+      tsup: 5.12.9_typescript@4.7.4
+      tsx: 3.8.0
+      typescript: 4.7.4
+
   packages/player:
     specifiers:
       '@babel/core': ^7.16.5
@@ -3149,6 +3215,7 @@ importers:
       '@skillrecordings/config': workspace:*
       '@skillrecordings/cookies': workspace:*
       '@skillrecordings/database': workspace:*
+      '@skillrecordings/next-seo': workspace:*
       '@skillrecordings/scripts': workspace:*
       '@skillrecordings/tsconfig': workspace:*
       '@skillrecordings/types': workspace:*
@@ -3191,6 +3258,7 @@ importers:
       '@skillrecordings/config': link:../config
       '@skillrecordings/cookies': link:../cookies
       '@skillrecordings/database': link:../database
+      '@skillrecordings/next-seo': link:../next-seo
       '@tippyjs/react': 4.2.6_biqbaboplfbrettd7655fr4n2y
       axios: 0.26.1
       formik: 2.2.9_react@18.2.0
@@ -3668,19 +3736,19 @@ packages:
     engines: {node: '>=6.9.0'}
     dependencies:
       '@babel/code-frame': 7.18.6
-      '@babel/generator': 7.18.7
-      '@babel/helper-module-transforms': 7.17.7
-      '@babel/helpers': 7.16.5
-      '@babel/parser': 7.18.6
-      '@babel/template': 7.18.6
-      '@babel/traverse': 7.18.6
-      '@babel/types': 7.18.7
+      '@babel/generator': 7.18.13
+      '@babel/helper-module-transforms': 7.18.9
+      '@babel/helpers': 7.18.9
+      '@babel/parser': 7.18.13
+      '@babel/template': 7.18.10
+      '@babel/traverse': 7.18.13
+      '@babel/types': 7.18.13
       convert-source-map: 1.8.0
       debug: 4.3.4
       gensync: 1.0.0-beta.2
       json5: 2.2.1
       lodash: 4.17.21
-      resolve: 1.22.0
+      resolve: 1.22.1
       semver: 5.7.1
       source-map: 0.5.7
     transitivePeerDependencies:
@@ -3805,7 +3873,6 @@ packages:
       '@babel/types': 7.18.13
       '@jridgewell/gen-mapping': 0.3.2
       jsesc: 2.5.2
-    dev: true
 
   /@babel/generator/7.18.7:
     resolution: {integrity: sha512-shck+7VLlY72a2w9c3zYWuE1pwOKEiQHV7GTUbSnhyl5eu3i04t30tBY82ZRWrDfo3gkakCFtevExnxbkf2a3A==}
@@ -3833,7 +3900,7 @@ packages:
     resolution: {integrity: sha512-s6t2w/IPQVTAET1HitoowRGXooX8mCgtuP5195wD/QJPV6wYjpujCGF7JuMODVX2ZAJOf1GT6DT9MHEZvLOFSw==}
     engines: {node: '>=6.9.0'}
     dependencies:
-      '@babel/types': 7.18.7
+      '@babel/types': 7.18.13
 
   /@babel/helper-annotate-as-pure/7.18.6:
     resolution: {integrity: sha512-duORpUiYrEpzKIop6iNbjnwKLAKnJ47csTyRACyEmWj0QdUrm5aqNJGHSSEQSUAvNW0ojX0dOmK9dZduvkfeXA==}
@@ -4239,7 +4306,6 @@ packages:
     engines: {node: '>=6.9.0'}
     dependencies:
       '@babel/types': 7.18.13
-    dev: true
 
   /@babel/helper-module-transforms/7.16.0:
     resolution: {integrity: sha512-My4cr9ATcaBbmaEa8M0dZNA74cfI6gitvUAskgDtAFmAqyFKDSHQo5YstxPbN+lzHl2D9l/YOEFqb2mtUh4gfA==}
@@ -4285,7 +4351,6 @@ packages:
       '@babel/types': 7.18.13
     transitivePeerDependencies:
       - supports-color
-    dev: true
 
   /@babel/helper-optimise-call-expression/7.16.0:
     resolution: {integrity: sha512-SuI467Gi2V8fkofm2JPnZzB/SUuXoJA5zXe/xzyPP2M04686RzFKFHPK6HDVN6JvWBIEW8tt9hPR7fXdn2Lgpw==}
@@ -4314,6 +4379,7 @@ packages:
   /@babel/helper-plugin-utils/7.18.6:
     resolution: {integrity: sha512-gvZnm1YAAxh13eJdkb9EWHBnF3eAub3XTLCZEehHT2kWxiKVRL64+ae5Y6Ivne0mVHmMYKT+xWgZO+gQhuLUBg==}
     engines: {node: '>=6.9.0'}
+    dev: true
 
   /@babel/helper-plugin-utils/7.18.9:
     resolution: {integrity: sha512-aBXPT3bmtLryXaoJLyYPXPlSD4p1ld9aYeR+sJNOZjJJGiOpb+fKfh3NkcCu7J54nUJwCERPBExCCpyCOHnu/w==}
@@ -4397,7 +4463,6 @@ packages:
     engines: {node: '>=6.9.0'}
     dependencies:
       '@babel/types': 7.18.13
-    dev: true
 
   /@babel/helper-skip-transparent-expression-wrappers/7.16.0:
     resolution: {integrity: sha512-+il1gTy0oHwUsBQZyJvukbB4vPMdcYBrFHa0Uc4AizLxbq6BOYC51Rv4tWocX9BLBDLZ4kc6qUFpQ6HRgL+3zw==}
@@ -4437,10 +4502,6 @@ packages:
 
   /@babel/helper-validator-identifier/7.15.7:
     resolution: {integrity: sha512-K4JvCtQqad9OY2+yTU8w+E82ywk/fe+ELNlt1G8z3bVGlZfn/hOcQQsUhGhW/N+tb3fxK800wLtKOE/aM0m72w==}
-    engines: {node: '>=6.9.0'}
-
-  /@babel/helper-validator-identifier/7.16.7:
-    resolution: {integrity: sha512-hsEnFemeiW4D08A5gUAZxLBTXpZ39P+a+DGDsHw1yxqyQ/jzFEnxf5uTEGp+3bzAbNOxU1paTgYS4ECU/IgfDw==}
     engines: {node: '>=6.9.0'}
 
   /@babel/helper-validator-identifier/7.18.6:
@@ -4525,7 +4586,6 @@ packages:
       '@babel/types': 7.18.13
     transitivePeerDependencies:
       - supports-color
-    dev: true
 
   /@babel/highlight/7.16.0:
     resolution: {integrity: sha512-t8MH41kUQylBtu2+4IQA3atqevA2lRgqA2wyVB/YiWmsDSuylZZuXOUy9ric30hfzauEFfdsuk/eXTRrGrfd0g==}
@@ -5029,9 +5089,9 @@ packages:
       '@babel/core': ^7.0.0-0
     dependencies:
       '@babel/core': 7.12.9
-      '@babel/helper-plugin-utils': 7.18.6
+      '@babel/helper-plugin-utils': 7.18.9
       '@babel/plugin-syntax-object-rest-spread': 7.8.3_@babel+core@7.12.9
-      '@babel/plugin-transform-parameters': 7.16.7_@babel+core@7.12.9
+      '@babel/plugin-transform-parameters': 7.18.8_@babel+core@7.12.9
 
   /@babel/plugin-proposal-object-rest-spread/7.16.0_@babel+core@7.16.0:
     resolution: {integrity: sha512-LU/+jp89efe5HuWJLmMmFG0+xbz+I2rSI7iLc1AlaeSMDMOGzWlc5yJrMN1d04osXN4sSfpo4O+azkBNBes0jg==}
@@ -5583,7 +5643,7 @@ packages:
       '@babel/core': ^7.0.0-0
     dependencies:
       '@babel/core': 7.12.9
-      '@babel/helper-plugin-utils': 7.18.6
+      '@babel/helper-plugin-utils': 7.18.9
 
   /@babel/plugin-syntax-jsx/7.16.0:
     resolution: {integrity: sha512-8zv2+xiPHwly31RK4RmnEYY5zziuF3O7W2kIDW+07ewWDh6Oi0dRq8kwvulRkFgt6DB97RlKs5c1y068iPlCUg==}
@@ -5610,7 +5670,7 @@ packages:
     peerDependencies:
       '@babel/core': ^7.0.0-0
     dependencies:
-      '@babel/helper-plugin-utils': 7.16.7
+      '@babel/helper-plugin-utils': 7.18.9
     dev: true
 
   /@babel/plugin-syntax-jsx/7.16.7_@babel+core@7.16.5:
@@ -5620,7 +5680,7 @@ packages:
       '@babel/core': ^7.0.0-0
     dependencies:
       '@babel/core': 7.16.5
-      '@babel/helper-plugin-utils': 7.16.7
+      '@babel/helper-plugin-utils': 7.18.9
     dev: true
 
   /@babel/plugin-syntax-jsx/7.18.6_@babel+core@7.18.13:
@@ -6738,15 +6798,6 @@ packages:
       '@babel/helper-plugin-utils': 7.14.5
     dev: false
 
-  /@babel/plugin-transform-parameters/7.16.7_@babel+core@7.12.9:
-    resolution: {integrity: sha512-AT3MufQ7zZEhU2hwOA11axBnExW0Lszu4RL/tAlUJBuNoRak+wehQW8h6KcXOcgjY42fHtDxswuMhMjFEuv/aw==}
-    engines: {node: '>=6.9.0'}
-    peerDependencies:
-      '@babel/core': ^7.0.0-0
-    dependencies:
-      '@babel/core': 7.12.9
-      '@babel/helper-plugin-utils': 7.18.9
-
   /@babel/plugin-transform-parameters/7.16.7_@babel+core@7.16.5:
     resolution: {integrity: sha512-AT3MufQ7zZEhU2hwOA11axBnExW0Lszu4RL/tAlUJBuNoRak+wehQW8h6KcXOcgjY42fHtDxswuMhMjFEuv/aw==}
     engines: {node: '>=6.9.0'}
@@ -6756,6 +6807,15 @@ packages:
       '@babel/core': 7.16.5
       '@babel/helper-plugin-utils': 7.18.9
     dev: true
+
+  /@babel/plugin-transform-parameters/7.18.8_@babel+core@7.12.9:
+    resolution: {integrity: sha512-ivfbE3X2Ss+Fj8nnXvKJS6sjRG4gzwPMsP+taZC+ZzEGjAYlvENixmt1sZ5Ca6tWls+BlKSGKPJ6OOXvXCbkFg==}
+    engines: {node: '>=6.9.0'}
+    peerDependencies:
+      '@babel/core': ^7.0.0-0
+    dependencies:
+      '@babel/core': 7.12.9
+      '@babel/helper-plugin-utils': 7.18.9
 
   /@babel/plugin-transform-parameters/7.18.8_@babel+core@7.18.13:
     resolution: {integrity: sha512-ivfbE3X2Ss+Fj8nnXvKJS6sjRG4gzwPMsP+taZC+ZzEGjAYlvENixmt1sZ5Ca6tWls+BlKSGKPJ6OOXvXCbkFg==}
@@ -7736,7 +7796,6 @@ packages:
       globals: 11.12.0
     transitivePeerDependencies:
       - supports-color
-    dev: true
 
   /@babel/traverse/7.18.6:
     resolution: {integrity: sha512-zS/OKyqmD7lslOtFqbscH6gMLFYOfG1YPqCKfAW5KrTeolKqvB8UelR49Fpr6y93kYkW2Ik00mT1LOGiAGvizw==}
@@ -7808,7 +7867,7 @@ packages:
     resolution: {integrity: sha512-9O26jG0mBYfGkUYCYZRnBwbVLd1UZOICEr2Em6InB6jVfsAv1GKgwXHmrSg+WFWDmeKTA6vyTZiN8tCSM5Oo3A==}
     engines: {node: '>=6.9.0'}
     dependencies:
-      '@babel/helper-validator-identifier': 7.16.7
+      '@babel/helper-validator-identifier': 7.18.6
       to-fast-properties: 2.0.0
 
   /@babel/types/7.18.13:
@@ -9226,28 +9285,6 @@ packages:
       - react
       - supports-color
 
-  /@mdx-js/loader/2.1.2:
-    resolution: {integrity: sha512-P7CWhrqE5rZ3ewBngZ9t/zQPbSq42iuty78K3zJ8Bl518qnOX1d106c+n7I/zHODPAmw9JfYMQdbv9WrrHa0DA==}
-    peerDependencies:
-      webpack: '>=4'
-    dependencies:
-      '@mdx-js/mdx': 2.1.2
-      source-map: 0.7.3
-    transitivePeerDependencies:
-      - supports-color
-
-  /@mdx-js/loader/2.1.2_webpack@4.46.0:
-    resolution: {integrity: sha512-P7CWhrqE5rZ3ewBngZ9t/zQPbSq42iuty78K3zJ8Bl518qnOX1d106c+n7I/zHODPAmw9JfYMQdbv9WrrHa0DA==}
-    peerDependencies:
-      webpack: '>=4'
-    dependencies:
-      '@mdx-js/mdx': 2.1.2
-      source-map: 0.7.3
-      webpack: 4.46.0
-    transitivePeerDependencies:
-      - supports-color
-    dev: false
-
   /@mdx-js/loader/2.1.2_webpack@5.73.0:
     resolution: {integrity: sha512-P7CWhrqE5rZ3ewBngZ9t/zQPbSq42iuty78K3zJ8Bl518qnOX1d106c+n7I/zHODPAmw9JfYMQdbv9WrrHa0DA==}
     peerDependencies:
@@ -9256,6 +9293,18 @@ packages:
       '@mdx-js/mdx': 2.1.2
       source-map: 0.7.3
       webpack: 5.73.0
+    transitivePeerDependencies:
+      - supports-color
+    dev: false
+
+  /@mdx-js/loader/2.1.3_webpack@4.46.0:
+    resolution: {integrity: sha512-7LtklcfzZC9aWWFREop0ivemhwcp/cke2tICHEhnDyGn+hTg7LIbWCfSos68kJv9w7Z47KYfNcg9/8zBD+8eXA==}
+    peerDependencies:
+      webpack: '>=4'
+    dependencies:
+      '@mdx-js/mdx': 2.1.2
+      source-map: 0.7.3
+      webpack: 4.46.0
     transitivePeerDependencies:
       - supports-color
     dev: false
@@ -9289,7 +9338,7 @@ packages:
     resolution: {integrity: sha512-Q/Zv+gdm80qcxpmL/Dtd/b9+UyZjjJUCQeZyywLAQqre648hRYgeGNPu7Bl2hB7M8/WBLXpabQEKW3dmGdDTDQ==}
     dependencies:
       '@types/estree-jsx': 0.0.1
-      '@types/mdx': 2.0.1
+      '@types/mdx': 2.0.2
       astring: 1.8.1
       estree-util-build-jsx: 2.0.0
       estree-util-is-identifier-name: 2.0.0
@@ -9331,6 +9380,7 @@ packages:
       vfile: 5.3.0
     transitivePeerDependencies:
       - supports-color
+    dev: false
 
   /@mdx-js/react/1.6.22_react@18.2.0:
     resolution: {integrity: sha512-TDoPum4SHdfPiGSAaRBw7ECyI8VaHpK8GJugbJIJuqyh6kzw9ZLJZW3HGL3NNrJGxcAixUvqROm+YuQOo5eXtg==}
@@ -9339,8 +9389,8 @@ packages:
     dependencies:
       react: 18.2.0
 
-  /@mdx-js/react/2.1.2_react@17.0.2:
-    resolution: {integrity: sha512-52e3DTJBrjsw3U51ZCdZ3N1IBaqnbzLIngCSXpKtiYiGr7PIqp3/P/+kym0MPTwBL/y9ZBmCieD8FyrXuEDrRw==}
+  /@mdx-js/react/2.1.3_react@17.0.2:
+    resolution: {integrity: sha512-11n4lTvvRyxq3OYbWJwEYM+7q6PE0GxKbk0AwYIIQmrRkxDeljIsjDQkKOgdr/orgRRbYy5zi+iERdnwe01CHQ==}
     peerDependencies:
       react: '>=16'
     dependencies:
@@ -9349,8 +9399,8 @@ packages:
       react: 17.0.2
     dev: false
 
-  /@mdx-js/react/2.1.2_react@18.2.0:
-    resolution: {integrity: sha512-52e3DTJBrjsw3U51ZCdZ3N1IBaqnbzLIngCSXpKtiYiGr7PIqp3/P/+kym0MPTwBL/y9ZBmCieD8FyrXuEDrRw==}
+  /@mdx-js/react/2.1.3_react@18.2.0:
+    resolution: {integrity: sha512-11n4lTvvRyxq3OYbWJwEYM+7q6PE0GxKbk0AwYIIQmrRkxDeljIsjDQkKOgdr/orgRRbYy5zi+iERdnwe01CHQ==}
     peerDependencies:
       react: '>=16'
     dependencies:
@@ -9516,8 +9566,18 @@ packages:
       glob: 7.1.7
     dev: false
 
-  /@next/mdx/12.2.4_6vwedlnwdegenaf6jioaeirvlu:
-    resolution: {integrity: sha512-3Bj8gS6T0ZeAzoZQ66oNIXpgWeaYyiHB/mb8pJwDkgZiCUpaacxkfZ5HFqMdndAMJSCkKWcjhWaoGo7pUP88pg==}
+  /@next/mdx/12.2.5_5kbrtr6eaugxmhpg25ihkqdzia:
+    resolution: {integrity: sha512-b4gDNNvlt1Icf9D+nMzc66Tn1ei4lYRUFjwjWdCgdQFCo2ahKl+/f4R/g958KGzZMFmmXBJ7JIfzeAqgPv7TsA==}
+    peerDependencies:
+      '@mdx-js/loader': '>=0.15.0'
+      '@mdx-js/react': '*'
+    dependencies:
+      '@mdx-js/loader': 2.1.2_webpack@5.73.0
+      '@mdx-js/react': 2.1.3_react@17.0.2
+    dev: false
+
+  /@next/mdx/12.2.5_6vwedlnwdegenaf6jioaeirvlu:
+    resolution: {integrity: sha512-b4gDNNvlt1Icf9D+nMzc66Tn1ei4lYRUFjwjWdCgdQFCo2ahKl+/f4R/g958KGzZMFmmXBJ7JIfzeAqgPv7TsA==}
     peerDependencies:
       '@mdx-js/loader': '>=0.15.0'
       '@mdx-js/react': '*'
@@ -9526,32 +9586,24 @@ packages:
       '@mdx-js/react': 1.6.22_react@18.2.0
     dev: false
 
-  /@next/mdx/12.2.4_@mdx-js+loader@1.6.22:
-    resolution: {integrity: sha512-3Bj8gS6T0ZeAzoZQ66oNIXpgWeaYyiHB/mb8pJwDkgZiCUpaacxkfZ5HFqMdndAMJSCkKWcjhWaoGo7pUP88pg==}
+  /@next/mdx/12.2.5_@mdx-js+loader@1.6.22:
+    resolution: {integrity: sha512-b4gDNNvlt1Icf9D+nMzc66Tn1ei4lYRUFjwjWdCgdQFCo2ahKl+/f4R/g958KGzZMFmmXBJ7JIfzeAqgPv7TsA==}
     peerDependencies:
       '@mdx-js/loader': '>=0.15.0'
       '@mdx-js/react': '*'
     dependencies:
       '@mdx-js/loader': 1.6.22_react@18.2.0
+      '@mdx-js/react': 1.6.22_react@18.2.0
     dev: false
 
-  /@next/mdx/12.2.4_@mdx-js+loader@2.1.2:
-    resolution: {integrity: sha512-3Bj8gS6T0ZeAzoZQ66oNIXpgWeaYyiHB/mb8pJwDkgZiCUpaacxkfZ5HFqMdndAMJSCkKWcjhWaoGo7pUP88pg==}
+  /@next/mdx/12.2.5_hbo3tj2k5fhsh63l2ltjrymaq4:
+    resolution: {integrity: sha512-b4gDNNvlt1Icf9D+nMzc66Tn1ei4lYRUFjwjWdCgdQFCo2ahKl+/f4R/g958KGzZMFmmXBJ7JIfzeAqgPv7TsA==}
     peerDependencies:
       '@mdx-js/loader': '>=0.15.0'
       '@mdx-js/react': '*'
     dependencies:
-      '@mdx-js/loader': 2.1.2
-    dev: false
-
-  /@next/mdx/12.2.4_todqhrvd7cvbb36hzi2r6xttgq:
-    resolution: {integrity: sha512-3Bj8gS6T0ZeAzoZQ66oNIXpgWeaYyiHB/mb8pJwDkgZiCUpaacxkfZ5HFqMdndAMJSCkKWcjhWaoGo7pUP88pg==}
-    peerDependencies:
-      '@mdx-js/loader': '>=0.15.0'
-      '@mdx-js/react': '*'
-    dependencies:
-      '@mdx-js/loader': 2.1.2_webpack@4.46.0
-      '@mdx-js/react': 2.1.2_react@18.2.0
+      '@mdx-js/loader': 2.1.3_webpack@4.46.0
+      '@mdx-js/react': 2.1.3_react@18.2.0
     dev: false
 
   /@next/swc-android-arm-eabi/12.2.3:
@@ -12504,10 +12556,6 @@ packages:
     dependencies:
       '@types/react': 18.0.15
 
-  /@types/mdx/2.0.1:
-    resolution: {integrity: sha512-JPEv4iAl0I+o7g8yVWDwk30es8mfVrjkvh5UeVR2sYPpZCK44vrAPsbJpIS+rJAUxLgaSAMKTEH5Vn5qd9XsrQ==}
-    dev: false
-
   /@types/mdx/2.0.2:
     resolution: {integrity: sha512-mJGfgj4aWpiKb8C0nnJJchs1sHBHn0HugkVfqqyQi7Wn6mBRksLeQsPOFvih/Pu8L1vlDzfe/LidhVHBeUk3aQ==}
 
@@ -14214,7 +14262,7 @@ packages:
   /axios/0.26.1:
     resolution: {integrity: sha512-fPwcX4EvnSHuInCMItEhAGnaSEXRBjtzh9fOtsE6E1G6p7vl7edEeZe11QHf18+6+9gR5PbKV/sGKNaD8YaMeA==}
     dependencies:
-      follow-redirects: 1.15.1_debug@2.6.9
+      follow-redirects: 1.15.1
     transitivePeerDependencies:
       - debug
 
@@ -15107,7 +15155,7 @@ packages:
       mississippi: 3.0.0
       mkdirp: 0.5.5
       move-concurrently: 1.0.1
-      promise-inflight: 1.0.1_bluebird@3.7.2
+      promise-inflight: 1.0.1
       rimraf: 2.6.3
       ssri: 6.0.2
       unique-filename: 1.1.1
@@ -15283,6 +15331,7 @@ packages:
 
   /ccount/2.0.1:
     resolution: {integrity: sha512-eyrF0jiFpY+3drT6383f1qhkbGsLSifNAjA61IUjZjmLCWjItY6LB9ft9YhoDgwfmclB2zhu51Lc7+95b8NRAg==}
+    dev: false
 
   /chalk/1.1.3:
     resolution: {integrity: sha1-qBFcVeSnAv5NFQq9OHKCKn4J/Jg=}
@@ -19376,6 +19425,15 @@ packages:
 
   /focus-visible/5.2.0:
     resolution: {integrity: sha512-Rwix9pBtC1Nuy5wysTmKy+UjbDJpIfg8eHjw0rjZ1mX4GNLz1Bmd16uDpI3Gk1i70Fgcs8Csg2lPm8HULFg9DQ==}
+
+  /follow-redirects/1.15.1:
+    resolution: {integrity: sha512-yLAMQs+k0b2m7cVxpS1VKJVvoz7SS9Td1zss3XRwXj+ZDH00RJgnuLx7E44wx02kQLrdM3aOOy+FpzS7+8OizA==}
+    engines: {node: '>=4.0'}
+    peerDependencies:
+      debug: '*'
+    peerDependenciesMeta:
+      debug:
+        optional: true
 
   /follow-redirects/1.15.1_debug@2.6.9:
     resolution: {integrity: sha512-yLAMQs+k0b2m7cVxpS1VKJVvoz7SS9Td1zss3XRwXj+ZDH00RJgnuLx7E44wx02kQLrdM3aOOy+FpzS7+8OizA==}
@@ -23723,6 +23781,7 @@ packages:
       unist-util-remove-position: 4.0.1
       unist-util-stringify-position: 3.0.0
       vfile-message: 3.0.2
+    dev: false
 
   /mdast-util-mdx/1.1.0:
     resolution: {integrity: sha512-leKb9uG7laXdyFlTleYV4ZEaCpsxeU1LlkkR/xp35pgKrfV1Y0fNCuOw9vaRc2a9YDpH22wd145Wt7UY5yzeZw==}
@@ -23742,6 +23801,7 @@ packages:
       mdast-util-mdxjs-esm: 1.1.1
     transitivePeerDependencies:
       - supports-color
+    dev: false
 
   /mdast-util-mdxjs-esm/1.1.1:
     resolution: {integrity: sha512-IpHNNMubCt6ue2FIQasx1ByvETglnqc7A3XvIc0Yyql1hNI73SEGa044dZG6jeJQE8boBdTn8nxs3DjQLvVN1w==}
@@ -23804,6 +23864,7 @@ packages:
       unist-util-generated: 2.0.0
       unist-util-position: 4.0.1
       unist-util-visit: 4.1.0
+    dev: false
 
   /mdast-util-to-markdown/0.6.5:
     resolution: {integrity: sha512-XeV9sDE7ZlOQvs45C9UKMtfTcctcaj/pGwH8YLbMHoMOXNNCn2LsqVQOqrF1+/NU8lKDAqozme9SCXWyo9oAcQ==}
@@ -25178,7 +25239,7 @@ packages:
       react-dom: '>=16.x <=18.x'
     dependencies:
       '@mdx-js/mdx': 2.1.2
-      '@mdx-js/react': 2.1.2_react@18.2.0
+      '@mdx-js/react': 2.1.3_react@18.2.0
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
       vfile: 5.3.0
@@ -27590,17 +27651,6 @@ packages:
     peerDependenciesMeta:
       bluebird:
         optional: true
-    dev: true
-
-  /promise-inflight/1.0.1_bluebird@3.7.2:
-    resolution: {integrity: sha512-6zWPyEOFaQBJYcGMHBKTKJ3u6TBsnMFOIZSa6ce1e/ZrrsOlnHRHbabMjLiBYKp+n44X9eUI6VUPaukCXHuG4g==}
-    peerDependencies:
-      bluebird: '*'
-    peerDependenciesMeta:
-      bluebird:
-        optional: true
-    dependencies:
-      bluebird: 3.7.2
 
   /prompts/2.1.0:
     resolution: {integrity: sha512-+x5TozgqYdOwWsQFZizE/Tra3fKvAoy037kOyU6cgz84n8f6zxngLOV4O32kTwt9FcLCxAqw0P/c8rOr9y+Gfg==}
@@ -29047,6 +29097,7 @@ packages:
       micromark-extension-mdxjs: 1.0.0
     transitivePeerDependencies:
       - supports-color
+    dev: false
 
   /remark-parse/10.0.0:
     resolution: {integrity: sha512-07ei47p2Xl7Bqbn9H2VYQYirnAFJPwdMuypdozWsSbnmrkgA2e2sZLZdnDNrrsxR4onmIzH/J6KXqKxCuqHtPQ==}
@@ -29092,6 +29143,7 @@ packages:
       '@types/mdast': 3.0.10
       mdast-util-to-hast: 12.1.0
       unified: 10.1.0
+    dev: false
 
   /remark-rehype/8.1.0:
     resolution: {integrity: sha512-EbCu9kHgAxKmW1yEYjx3QafMyGY3q8noUbNUI5xyKbaFP89wbhDrKxyIQNukNYthzjNHZu6J7hwFg7hRm1svYA==}
@@ -31025,7 +31077,7 @@ packages:
     engines: {node: '>=6.0.0'}
     hasBin: true
     dependencies:
-      acorn: 8.7.1
+      acorn: 8.8.0
       commander: 2.20.3
       source-map: 0.6.1
       source-map-support: 0.5.21
@@ -32616,7 +32668,7 @@ packages:
     engines: {node: '>=6.0'}
     hasBin: true
     dependencies:
-      acorn: 8.7.1
+      acorn: 8.8.0
       acorn-walk: 8.2.0
     dev: false
     optional: true

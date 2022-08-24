@@ -8,11 +8,11 @@ const Layout: FunctionComponent<React.PropsWithChildren<unknown>> = ({
   children,
 }) => {
   return (
-    <>
+    <div className="min-h-screen flex flex-col">
       <Header />
       <Main>{children}</Main>
       <Footer />
-    </>
+    </div>
   )
 }
 

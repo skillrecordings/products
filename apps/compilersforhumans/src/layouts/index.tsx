@@ -1,5 +1,5 @@
 import React, {FunctionComponent} from 'react'
-import {NextSeo} from '@skillrecordings/react'
+import {NextSeo} from '@skillrecordings/next-seo'
 import Navigation from 'components/navigation'
 import Footer from 'components/footer'
 

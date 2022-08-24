@@ -1,5 +1,5 @@
 import React, {FunctionComponent} from 'react'
-import {NextSeo} from '@skillrecordings/react'
+import {NextSeo} from '@skillrecordings/next-seo'
 import Image from 'next/image'
 import Noise from '../../../public/assets/noise@1x.jpg'
 import Navigation from './navigation'
