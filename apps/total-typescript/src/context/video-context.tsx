@@ -3,7 +3,6 @@ import * as React from 'react'
 import {createContext} from 'react'
 import {useInterpret} from '@xstate/react'
 import {videoMachine} from 'machines/video-machine'
-// import {defaultActions} from '../actions'
 
 interface VideoContextType {
   videoService: ActorRefFrom<typeof videoMachine>
@@ -22,8 +21,6 @@ export const useVideo = () => {
  * the running xstate machine that we can use to interact with our global state
  * and the shared context of the video player.
  *
- * TODO: allow some actions to be passed in here
- *
  * @param props
  * @constructor
  *
@@ -39,9 +36,9 @@ export const VideoProvider: React.FC<
   const videoService = useInterpret(videoMachine)
 
   // see all state changes
-  videoService.onTransition((state) => {
-    console.debug(state.value)
-  })
+  // videoService.onTransition((state) => {
+  //   console.debug(state.value)
+  // })
 
   return (
     <VideoContext.Provider value={{videoService}}>
