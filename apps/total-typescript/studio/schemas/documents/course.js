@@ -20,6 +20,11 @@ export default {
       },
     },
     {
+      name: 'github',
+      title: 'GitHub',
+      type: 'github',
+    },
+    {
       name: 'resources',
       title: 'Resources',
       description: 'Sections or lessons in the course',

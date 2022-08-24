@@ -1,10 +1,10 @@
 import React from 'react'
 import sdk from '@stackblitz/sdk'
 
-export const useStackblitzEmbed = (
+export const useStackblitzEmbed = async (
   projectId: string,
   openFile: string,
-  elementOrId: string | HTMLElement,
+  elementOrId: string,
 ) => {
   React.useEffect(() => {
     sdk.embedProjectId(elementOrId, projectId, {
@@ -16,7 +16,7 @@ export const useStackblitzEmbed = (
       theme: 'dark',
       hideExplorer: true,
       hideNavigation: true,
-      clickToLoad: false,
+      clickToLoad: false, // TODO: This might need to be TRUE since the embed is stealing focus on page load
       width: '100%',
     })
   }, [openFile])

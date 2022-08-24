@@ -14,9 +14,11 @@ export const getCourse = async (slug: string) =>
         "coursePath": slug.current,
         body,
         _id,
+        github,
         resources[]->{
             _type,
             title,
+            type,
             "slug": slug.current,
             resources[]->{
               _type,

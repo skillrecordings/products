@@ -10,11 +10,10 @@ const LessonNavigator: React.FC<{course: SanityDocument}> = ({course}) => {
     <nav aria-label="lesson navigaor">
       <ul className="text-lg flex flex-col divide-y divide-black/20">
         {course.resources.map((resource: any, i: number) => {
-          const isActive = router.asPath.includes(resource.slug)
           if (resource._type === 'section') {
             const section = resource
             return (
-              <li key={resource.slug}>
+              <li key={resource.slug + `-${i}`}>
                 <div className="px-4 font-semibold pb-2">
                   <span aria-hidden="true" className="text-sm pr-2 opacity-50">
                     {i + 1}
@@ -25,7 +24,7 @@ const LessonNavigator: React.FC<{course: SanityDocument}> = ({course}) => {
                   {section.resources.map((lesson: any, i: number) => {
                     const isActive = router.query.lesson === lesson.slug
                     return (
-                      <li key={lesson.slug}>
+                      <li key={lesson.slug + `-${i}`}>
                         <Link
                           href={{
                             pathname: '/[course]/[lesson]',
@@ -38,7 +37,7 @@ const LessonNavigator: React.FC<{course: SanityDocument}> = ({course}) => {
                         >
                           <a
                             className={cx(
-                              'flex items-center py-3 px-7 border-l-4 text-base font-medium hover:bg-slate-400/20',
+                              'flex items-center py-3 px-8 border-l-4 text-base font-medium hover:bg-slate-400/20',
                               {
                                 'border-indigo-500 bg-white/10': isActive,
                                 'border-transparent bg-white/5': !isActive,
@@ -57,8 +56,9 @@ const LessonNavigator: React.FC<{course: SanityDocument}> = ({course}) => {
           }
           if (resource._type === 'lesson') {
             const lesson = resource
+            const isActive = router.query.lesson === lesson.slug
             return (
-              <li>
+              <li key={lesson.slug + `-${i}`}>
                 <Link
                   href={{
                     pathname: '/[course]/[lesson]',
@@ -68,7 +68,7 @@ const LessonNavigator: React.FC<{course: SanityDocument}> = ({course}) => {
                 >
                   <a
                     className={cx(
-                      'flex items-center py-3 px-5 border-l-4 text-base font-medium hover:bg-slate-400/20',
+                      'flex items-center py-3 px-3 border-l-4 text-base font-medium hover:bg-slate-400/20',
                       {
                         'border-indigo-500 bg-white/10': isActive,
                         'border-transparent bg-white/5': !isActive,
@@ -77,11 +77,11 @@ const LessonNavigator: React.FC<{course: SanityDocument}> = ({course}) => {
                   >
                     <span
                       aria-hidden="true"
-                      className="text-sm pr-4 opacity-50"
+                      className="text-sm pr-3 opacity-50"
                     >
                       {i + 1}
                     </span>{' '}
-                    {lesson.type}
+                    {capitalize(lesson.title)}
                   </a>
                 </Link>
               </li>

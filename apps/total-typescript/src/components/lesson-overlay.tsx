@@ -90,7 +90,7 @@ const DefaultOverlay: React.FC<DefaultOverlayProps> = ({
           className="bg-gray-900 px-5 py-3 text-lg font-semibold rounded"
           onClick={handlePlay}
         >
-          replay
+          Replay ↺
         </button>
 
         <Link
@@ -146,7 +146,7 @@ const FinishedOverlay: React.FC<FinishedOverlayProps> = ({
           className="bg-gray-900 px-5 py-3 text-lg font-semibold rounded"
           onClick={handlePlay}
         >
-          Replay
+          Replay ↺
         </button>
         <button
           onClick={() => {

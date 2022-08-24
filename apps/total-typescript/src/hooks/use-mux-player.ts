@@ -12,11 +12,13 @@ export const useMuxPlayer = (
 ) => {
   const router = useRouter()
   const videoService = useVideo()
-  const {setPlayerPrefs, autoplay, playbackRate} = usePlayerPrefs()
+  const {setPlayerPrefs, playbackRate, autoplay} = usePlayerPrefs()
+
   const [autoPlay, setAutoPlay] = React.useState(autoplay)
   const [displayOverlay, setDisplayOverlay] = React.useState(false)
 
   const handlePlay = () => {
+    displayOverlay && setDisplayOverlay(false)
     muxPlayerRef.current.play()
   }
   const handleNext = () => {
@@ -32,6 +34,7 @@ export const useMuxPlayer = (
   React.useEffect(() => {
     videoService.send('RESET')
     setDisplayOverlay(false)
+    muxPlayerRef.current.autoplay = autoPlay
     muxPlayerRef.current.playbackRate = playbackRate
   }, [lesson])
 
@@ -54,7 +57,6 @@ export const useMuxPlayer = (
       },
       streamType: 'on-demand',
       playbackId: lesson.video,
-      autoPlay: autoPlay,
     },
     autoPlay,
     setAutoPlay,

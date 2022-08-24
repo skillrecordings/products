@@ -14,7 +14,7 @@ const LessonSidebar: React.FC<SidebarProps> = ({course}) => {
       />
       <nav className="bg-slate-900 lg:max-w-xs w-full lg:fixed top-0  border-r border-gray-800">
         <div>
-          <div className="flex items-center gap-5 px-5 lg:pt-16 pt-5 pb-5 bg-blue-600">
+          <div className="flex items-center gap-5 px-3 lg:pt-16 pt-5 pb-2 bg-blue-600">
             <img src={course.image} className="w-20" />
             <h1 className="text-xl font-bold leading-tight font-text">
               <Link

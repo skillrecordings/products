@@ -49,6 +49,22 @@ export default {
       type: 'body',
     },
     {
+      name: 'github',
+      type: 'object',
+      fields: [
+        {
+          title: 'File URL',
+          name: 'url',
+          type: 'url',
+        },
+        {
+          path: 'Path',
+          name: 'path',
+          type: 'string',
+        },
+      ],
+    },
+    {
       name: 'stackblitz',
       type: 'stackblitz',
     },

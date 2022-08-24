@@ -4,6 +4,7 @@
 @tailwind components;
 @import './quiz.css';
 @import './newsletter.css';
+@import './nprogress.css';
 
 @tailwind utilities;
 @import './focus-visible.css';
@@ -19,4 +20,8 @@ mux-player {
   aspect-ratio: 16 / 9;
   width: 100%;
   height: auto;
+}
+
+.prose code {
+  @apply bg-gray-800/80 px-1 py-0.5 rounded-sm text-[85%];
 }

@@ -7,7 +7,9 @@ export const getNextLesson = (
   course: SanityDocument,
   currentLesson: SanityDocument,
 ) => {
-  const lessons = flatMapDeep(course.resources, (section) => section.resources)
+  const lessons = flatMapDeep(course.resources, (section) =>
+    section.resources ? section.resources : section,
+  )
   const current = find(lessons, {slug: currentLesson.slug})
   const nextLessonIndex = indexOf(lessons, current) + 1
   const nextLesson = lessons[nextLessonIndex]

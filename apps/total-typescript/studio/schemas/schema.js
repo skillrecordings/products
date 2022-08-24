@@ -25,6 +25,7 @@ import videoOptions from './objects/videoOptions'
 import grid from './objects/grid'
 import gridItem from './objects/gridItem'
 import stackblitz from './objects/stackblitz'
+import github from './objects/github'
 // emailBody
 import emailBody from './objects/email/body'
 import emailImage from './objects/email/image'
@@ -66,6 +67,7 @@ export default createSchema({
     grid,
     gridItem,
     stackblitz,
+    github,
     choice,
     codeFile,
   ]),

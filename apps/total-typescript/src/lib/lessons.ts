@@ -13,6 +13,7 @@ export const getLesson = async (slug: string) =>
         "slug": slug.current,
         video,
         type,
+        github,
         body,
         transcript,
         stackblitz {

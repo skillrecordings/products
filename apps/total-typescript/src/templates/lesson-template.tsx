@@ -1,9 +1,8 @@
 import React from 'react'
 import MuxPlayer, {MuxPlayerProps} from '@mux/mux-player-react'
-import LessonNavigator from 'components/lesson-navigator'
+import LessonSidebar from 'components/lesson-sidebar'
 import Navigation from 'components/app/navigation'
 import Layout from 'components/app/layout'
-import Link from 'next/link'
 import cx from 'classnames'
 import {PortableText, PortableTextComponents} from '@portabletext/react'
 import {useStackblitzEmbed} from 'hooks/use-stackblitz-embed'
@@ -17,15 +16,15 @@ import {
   DefaultOverlay,
   FinishedOverlay,
 } from 'components/lesson-overlay'
-import LessonSidebar from 'components/lesson-sidebar'
+import {capitalize} from 'lodash'
+import {useDeviceDetect} from 'hooks/use-device-detect'
 
 const LessonTemplate: React.FC<{
   lesson: SanityDocument
   course: SanityDocument
 }> = ({lesson, course}) => {
-  const {title, body, type, transcript, stackblitz} = lesson
+  const {title, body, type, transcript, stackblitz, github} = lesson
   const nextLesson = getNextLesson(course, lesson)
-  const embedRef = React.useRef<HTMLDivElement>()
 
   useStackblitzEmbed(stackblitz.projectId, stackblitz.openFile, 'embed')
 
@@ -41,18 +40,21 @@ const LessonTemplate: React.FC<{
 
   const isExercise = type === 'exercise'
 
+  const {isSafari, isFirefox} = useDeviceDetect()
+
   return (
     <Layout
       meta={{title}}
-      nav={
-        <Navigation className="flex relative w-auto justify-between ml-[320px]" />
-      }
       className="bg-gray-900"
+      nav={
+        <div className="flex items-center pr-5">
+          <Navigation className="flex relative w-full justify-between lg:ml-[320px]" />
+        </div>
+      }
     >
       <div className="flex lg:flex-row flex-col-reverse">
         <LessonSidebar course={course} />
         <div className="w-full relative">
-          {/* <Navigation className="flex relative w-full justify-between" /> */}
           <main className="relative">
             {displayOverlay && (
               <>
@@ -92,11 +94,11 @@ const LessonTemplate: React.FC<{
               />
             </div>
             <div>
-              <div className="flex items-center justify-between text-white p-5">
-                <div className="" />
-                <div className="flex items-center gap-3">
-                  <label className="flex items-center gap-1">
+              <article>
+                <div className="mx-auto lg:px-10 lg:py-8 px-5 py-10 relative">
+                  <label className="flex items-center gap-1.5 text-gray-200 text-sm absolute sm:right-4 right-0 cursor-pointer sm:top-3 top-0 bg-gray-900 hover:bg-gray-800 transition rounded px-3 py-2">
                     <input
+                      className="accent-cyan-300"
                       checked={autoPlay}
                       onChange={() => {
                         !autoPlay && handlePlay()
@@ -107,28 +109,61 @@ const LessonTemplate: React.FC<{
                     />
                     Autoplay{' '}
                   </label>
-                  <a
-                    href="https://github.com/mattpocock/zod-tutorial"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="bg-slate-800/50 text-white rounded px-4 py-3 text-lg font-medium flex items-center gap-2"
-                  >
-                    <IconGithub className="w-4 h-4" /> Code
-                  </a>
-                </div>
-              </div>
-              <article>
-                <div className="mx-auto lg:p-10 p-5">
-                  <h1 className="font-text text-4xl font-bold">{title}</h1>
+
+                  <h1 className="font-text sm:text-4xl text-3xl font-extrabold">
+                    {title}{' '}
+                    <span className="font-normal">({capitalize(type)})</span>
+                  </h1>
                   <div className="pt-5 opacity-90 prose sm:prose-lg max-w-none">
                     <PortableText value={body} />
                   </div>
+                  {github?.url && (
+                    <div className="pt-16">
+                      <h2 className="sm:text-2xl text-xl font-semibold pb-2">
+                        Code
+                      </h2>
+                      <div className="flex items-center gap-2">
+                        <a
+                          href={github.url}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="bg-gray-800/50 hover:bg-slate-800/90 transition border border-gray-700/50 text-white rounded py-5 px-6 text-lg font-medium inline-flex items-center gap-4"
+                        >
+                          <IconGithub className="w-14 h-14" />
+                          <div>
+                            <p className="text-xl font-semibold">
+                              {course.github.repo}
+                              <span className="text-gray-400 font-medium"></span>
+                            </p>
+                            <p className="text-sm font-mono text-gray-400">
+                              /{github.path}
+                            </p>
+                          </div>
+                        </a>
+                      </div>
+                    </div>
+                  )}
                 </div>
-                <div className="lg:px-10 px-5">
-                  <h2 className="font-text text-2xl font-bold pb-2">Editor</h2>
-                  <div id="embed" className="h-[800px] mx-auto" />
+                <div className="xl:px-10">
+                  <h3 className="flex items-baseline sm:text-2xl text-xl font-semibold pb-2 xl:px-0 sm:px-10 px-5">
+                    Editor
+                    {(isSafari || isFirefox) && (
+                      <span className="pl-2 text-base font-normal text-gray-400">
+                        For full experience with working terminal please use
+                        Chromium-based browser.
+                      </span>
+                    )}
+                  </h3>
+                  <iframe
+                    tabIndex={-1}
+                    onFocus={() => {
+                      console.log('focused')
+                    }}
+                    id="embed"
+                    className="h-[800px] mx-auto"
+                  />
                 </div>
-                <div className="prose prose-lg max-w-4xl text-white mx-auto p-10">
+                <div className="prose prose-lg max-w-4xl text-white mx-auto p-10 pt-8">
                   <h2 className="font-text text-3xl font-bold pt-4">
                     Video Transcript
                   </h2>
