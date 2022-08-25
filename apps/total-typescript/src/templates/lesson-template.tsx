@@ -3,8 +3,10 @@ import MuxPlayer, {MuxPlayerProps} from '@mux/mux-player-react'
 import LessonSidebar from 'components/lesson-sidebar'
 import Navigation from 'components/app/navigation'
 import Layout from 'components/app/layout'
+import capitalize from 'lodash/capitalize'
 import cx from 'classnames'
 import {PortableText, PortableTextComponents} from '@portabletext/react'
+import {useDeviceDetect} from 'hooks/use-device-detect'
 import {hmsToSeconds} from 'utils/hms-to-seconds'
 import {useMuxPlayer} from 'hooks/use-mux-player'
 import {SanityDocument} from '@sanity/client'
@@ -14,19 +16,17 @@ import {
   DefaultOverlay,
   FinishedOverlay,
 } from 'components/lesson-overlay'
-import {capitalize} from 'lodash'
-import {useDeviceDetect} from 'hooks/use-device-detect'
 
 const LessonTemplate: React.FC<{
   lesson: SanityDocument
   module: SanityDocument
 }> = ({lesson, module}) => {
-  const {title} = lesson
+  const {title, lessonType} = lesson
   const muxPlayerRef = React.useRef<HTMLDivElement>()
-
+  const pageTitle = `${title} (${capitalize(lessonType)})`
   return (
     <Layout
-      meta={{title}}
+      meta={{title: pageTitle}}
       nav={
         <Navigation className="flex relative w-auto justify-between lg:ml-[320px]" />
       }
@@ -52,7 +52,7 @@ const LessonTemplate: React.FC<{
 }
 
 const Video: React.FC<any> = React.forwardRef(({module, lesson}, ref: any) => {
-  const isExercise = Boolean(lesson.type === 'exercise')
+  const isExercise = Boolean(lesson.lessonType === 'exercise')
 
   const {muxPlayerProps, handlePlay, displayOverlay, nextLesson} = useMuxPlayer(
     ref,
@@ -184,7 +184,7 @@ const StackblitzEmbed: React.FC<{
   const {stackblitz} = lesson
   const {isSafari, isFirefox} = useDeviceDetect()
   const codeFileNumber = stackblitz.openFile.match(/\d/g).join('')
-  const startCommand = `${lesson.type.substring(0, 1)}-${codeFileNumber}` // e.g. s-01, e-02, etc
+  const startCommand = `${lesson.lessonType.substring(0, 1)}-${codeFileNumber}` // e.g. s-01, e-02, etc
   const githubOrg = 'total-typescript'
   const githubRepo = module.github.repo
   const embedUrl = `https://stackblitz.com/github/${githubOrg}/${githubRepo}?file=${stackblitz.openFile}&embed=1&view=editor&hideExplorer=1&ctl=0&terminal=${startCommand}`

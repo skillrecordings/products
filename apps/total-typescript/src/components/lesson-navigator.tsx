@@ -44,7 +44,7 @@ const LessonNavigator: React.FC<{module: SanityDocument}> = ({module}) => {
                               },
                             )}
                           >
-                            {capitalize(lesson.type)}
+                            {capitalize(lesson.lessonType)}
                           </a>
                         </Link>
                       </li>

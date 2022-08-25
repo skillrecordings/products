@@ -12,9 +12,10 @@ export default {
       validation: (Rule) => Rule.required(),
     },
     {
-      name: 'type',
-      title: 'Type',
+      name: 'lessonType',
+      title: 'Lesson Type',
       type: 'string',
+      validation: (Rule) => Rule.required(),
       options: {
         list: [
           {title: 'Exercise', value: 'exercise'},
@@ -62,12 +63,12 @@ export default {
   preview: {
     select: {
       title: 'title',
-      type: 'type',
+      lessonType: 'lessonType',
     },
     prepare(selection) {
-      const {title, type} = selection
+      const {title, lessonType} = selection
       return {
-        title: `${title}: ${capitalize(type)}`,
+        title: `${title}: ${capitalize(lessonType)}`,
       }
     },
   },

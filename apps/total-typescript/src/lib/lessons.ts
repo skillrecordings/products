@@ -12,7 +12,7 @@ export const getLesson = async (slug: string) =>
         title,
         "slug": slug.current,
         video,
-        type,
+        lessonType,
         github,
         body,
         transcript,

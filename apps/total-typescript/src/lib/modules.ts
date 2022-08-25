@@ -12,19 +12,19 @@ export const getModule = async (slug: string) =>
         title,
         "slug": slug.current,
         body,
-        type,
+        moduleType,
         _id,
         github,
         resources[]->{
             _type,
             title,
-            type,
+            lessonType,
             stackblitz,
             "slug": slug.current,
             resources[]->{
               _type,
               title,
-              type,
+              lessonType,
               stackblitz,
               "slug": slug.current
             }

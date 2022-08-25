@@ -115,7 +115,7 @@ const FinishedOverlay: React.FC<FinishedOverlayProps> = ({
   return (
     <OverlayWrapper>
       <p className="text-3xl font-bold font-text">
-        Share this {module.type} with your friends
+        Share this {module.moduleType} with your friends
       </p>
       <div className="flex items-center gap-2">
         <Twitter

@@ -10,7 +10,7 @@ const ModuleTemplate: React.FC<any> = ({module}) => {
     <Layout className="max-w-screen-md mx-auto w-full py-24">
       <header className="py-8">
         <p className="uppercase font-semibold tracking-wide pb-1 text-gray-300">
-          {module.type}
+          {module.moduleType}
         </p>
         <h1 className="sm:text-4xl text-3xl font-bold">{title}</h1>
       </header>

@@ -10,9 +10,10 @@ export default {
       validation: (Rule) => Rule.required(),
     },
     {
-      name: 'type',
+      name: 'moduleType',
       title: 'Module Type',
       type: 'string',
+      validation: (Rule) => Rule.required(),
       options: {
         list: [
           {title: 'Course', value: 'course'},
