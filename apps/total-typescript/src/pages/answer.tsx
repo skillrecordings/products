@@ -12,7 +12,7 @@ const Answer: React.FC<{questionSet: QuestionSet}> = ({questionSet}) => {
         </div>
       </header>
       <div className="h-full w-full flex flex-col items-center justify-center sm:py-16">
-        <QuizAnswerPage questionSet={questionSet} />
+        {/* <QuizAnswerPage questionSet={questionSet} /> */}
       </div>
     </Layout>
   )
