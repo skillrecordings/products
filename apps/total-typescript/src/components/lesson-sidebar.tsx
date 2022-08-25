@@ -3,9 +3,9 @@ import Link from 'next/link'
 import LessonNavigator from './lesson-navigator'
 
 type SidebarProps = {
-  course: SanityDocument
+  module: SanityDocument
 }
-const LessonSidebar: React.FC<SidebarProps> = ({course}) => {
+const LessonSidebar: React.FC<SidebarProps> = ({module}) => {
   return (
     <>
       <div
@@ -15,20 +15,20 @@ const LessonSidebar: React.FC<SidebarProps> = ({course}) => {
       <nav className="bg-slate-900 lg:max-w-xs w-full lg:fixed top-0  border-r border-gray-800">
         <div>
           <div className="flex items-center gap-5 px-3 lg:pt-16 pt-5 pb-2 bg-blue-600">
-            <img src={course.image} className="w-20" />
+            {module?.image && <img src={module.image} className="w-20" />}
             <h1 className="text-xl font-bold leading-tight font-text">
               <Link
-                href={{pathname: '/[course]', query: {course: course.slug}}}
+                href={{pathname: '/[module]', query: {module: module.slug}}}
                 passHref
               >
-                <a>{course.title}</a>
+                <a>{module.title}</a>
               </Link>
             </h1>
           </div>
           <h3 className="pt-5 pb-2 text-sm opacity-80 font-semibold uppercase px-5">
             Lessons
           </h3>
-          <LessonNavigator course={course} />
+          <LessonNavigator module={module} />
         </div>
       </nav>
     </>

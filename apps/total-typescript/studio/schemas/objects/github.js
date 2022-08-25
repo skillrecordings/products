@@ -7,7 +7,6 @@ export default {
       name: 'title',
       title: 'Title',
       type: 'string',
-      description: 'Zod Crash Course',
     },
     {
       name: 'repo',

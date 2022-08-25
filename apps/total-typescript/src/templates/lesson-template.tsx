@@ -19,8 +19,8 @@ import {useDeviceDetect} from 'hooks/use-device-detect'
 
 const LessonTemplate: React.FC<{
   lesson: SanityDocument
-  course: SanityDocument
-}> = ({lesson, course}) => {
+  module: SanityDocument
+}> = ({lesson, module}) => {
   const {title} = lesson
   const muxPlayerRef = React.useRef<HTMLDivElement>()
 
@@ -32,17 +32,17 @@ const LessonTemplate: React.FC<{
       }
     >
       <div className="flex lg:flex-row flex-col-reverse">
-        <LessonSidebar course={course} />
+        <LessonSidebar module={module} />
         <main className="w-full relative">
-          <Video ref={muxPlayerRef} course={course} lesson={lesson} />
+          <Video ref={muxPlayerRef} module={module} lesson={lesson} />
           <article>
             <div className="mx-auto lg:px-10 lg:py-8 px-5 py-10 relative">
-              <AutoPlayToggle muxPlayerRef={muxPlayerRef} />
+              {/* <AutoPlayToggle muxPlayerRef={muxPlayerRef} /> */}
               <LessonTitle lesson={lesson} />
               <LessonDescription lesson={lesson} />
-              <GitHubLink lesson={lesson} course={course} />
+              <GitHubLink lesson={lesson} module={module} />
             </div>
-            <StackblitzEmbed lesson={lesson} course={course} />
+            <StackblitzEmbed lesson={lesson} module={module} />
             <LessonTranscript lesson={lesson} muxPlayerRef={muxPlayerRef} />
           </article>
         </main>
@@ -51,13 +51,13 @@ const LessonTemplate: React.FC<{
   )
 }
 
-const Video: React.FC<any> = React.forwardRef(({course, lesson}, ref: any) => {
+const Video: React.FC<any> = React.forwardRef(({module, lesson}, ref: any) => {
   const isExercise = Boolean(lesson.type === 'exercise')
 
   const {muxPlayerProps, handlePlay, displayOverlay, nextLesson} = useMuxPlayer(
     ref,
     lesson,
-    course,
+    module,
   )
 
   return (
@@ -70,19 +70,19 @@ const Video: React.FC<any> = React.forwardRef(({course, lesson}, ref: any) => {
                 <ExerciseOverlay
                   lesson={lesson}
                   nextLesson={nextLesson}
-                  course={course}
+                  module={module}
                   handlePlay={handlePlay}
                 />
               ) : (
                 <DefaultOverlay
                   nextLesson={nextLesson}
-                  course={course}
+                  module={module}
                   handlePlay={handlePlay}
                 />
               )}
             </>
           ) : (
-            <FinishedOverlay course={course} handlePlay={handlePlay} />
+            <FinishedOverlay module={module} handlePlay={handlePlay} />
           )}
         </>
       )}
@@ -122,9 +122,9 @@ const AutoPlayToggle: React.FC<any> = ({muxPlayerRef}) => {
 
 const GitHubLink: React.FC<{
   lesson: SanityDocument
-  course: SanityDocument
-}> = ({lesson, course}) => {
-  const {github} = course
+  module: SanityDocument
+}> = ({lesson, module}) => {
+  const {github} = module
   const {stackblitz} = lesson
 
   if (!github || !stackblitz) {
@@ -144,7 +144,7 @@ const GitHubLink: React.FC<{
           <IconGithub className="w-14 h-14" />
           <div>
             <p className="text-xl font-semibold">
-              {course.github.repo}
+              {module.github.repo}
               <span className="text-gray-400 font-medium"></span>
             </p>
             <p className="text-sm font-mono text-gray-400">
@@ -179,14 +179,14 @@ const LessonDescription: React.FC<{lesson: SanityDocument}> = ({lesson}) => {
 
 const StackblitzEmbed: React.FC<{
   lesson: SanityDocument
-  course: SanityDocument
-}> = ({lesson, course}) => {
+  module: SanityDocument
+}> = ({lesson, module}) => {
   const {stackblitz} = lesson
   const {isSafari, isFirefox} = useDeviceDetect()
   const codeFileNumber = stackblitz.openFile.match(/\d/g).join('')
   const startCommand = `${lesson.type.substring(0, 1)}-${codeFileNumber}` // e.g. s-01, e-02, etc
   const githubOrg = 'total-typescript'
-  const githubRepo = course.github.repo
+  const githubRepo = module.github.repo
   const embedUrl = `https://stackblitz.com/github/${githubOrg}/${githubRepo}?file=${stackblitz.openFile}&embed=1&view=editor&hideExplorer=1&ctl=0&terminal=${startCommand}`
   return (
     <div className="">

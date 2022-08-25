@@ -1,5 +1,5 @@
 import {VideoProvider} from 'context/video-context'
-import {getCourse} from 'lib/courses'
+import {getModule} from 'lib/modules'
 import {getLesson} from 'lib/lessons'
 import {GetServerSideProps} from 'next'
 import React from 'react'
@@ -14,17 +14,17 @@ export const getServerSideProps: GetServerSideProps = async ({req, params}) => {
     }
   }
 
-  const course = await getCourse(params?.course as string)
+  const module = await getModule(params?.module as string)
 
   return {
-    props: {lesson, course},
+    props: {lesson, module},
   }
 }
 
-const LessonPage: React.FC<any> = ({lesson, course}) => {
+const LessonPage: React.FC<any> = ({lesson, module}) => {
   return (
     <VideoProvider>
-      <LessonTemplate lesson={lesson} course={course} />
+      <LessonTemplate lesson={lesson} module={module} />
     </VideoProvider>
   )
 }

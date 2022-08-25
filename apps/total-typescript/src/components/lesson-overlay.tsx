@@ -17,14 +17,14 @@ const OverlayWrapper: React.FC<React.PropsWithChildren> = ({children}) => {
 type ExerciseOverlayProps = {
   lesson: SanityDocument
   nextLesson: SanityDocument
-  course: SanityDocument
+  module: SanityDocument
   handlePlay: () => void
 }
 
 const ExerciseOverlay: React.FC<ExerciseOverlayProps> = ({
   lesson,
   nextLesson,
-  course,
+  module,
   handlePlay,
 }) => {
   const {stackblitz} = lesson
@@ -53,7 +53,7 @@ const ExerciseOverlay: React.FC<ExerciseOverlayProps> = ({
           <button
             className="text-lg bg-indigo-500 rounded px-5 py-3 font-semibold"
             onClick={() =>
-              handleContinue(router, course, nextLesson, handlePlay)
+              handleContinue(router, module, nextLesson, handlePlay)
             }
           >
             Solution →
@@ -66,13 +66,13 @@ const ExerciseOverlay: React.FC<ExerciseOverlayProps> = ({
 
 type DefaultOverlayProps = {
   nextLesson: SanityDocument
-  course: SanityDocument
+  module: SanityDocument
   handlePlay: () => void
 }
 
 const DefaultOverlay: React.FC<DefaultOverlayProps> = ({
   nextLesson,
-  course,
+  module,
   handlePlay,
 }) => {
   const router = useRouter()
@@ -91,7 +91,7 @@ const DefaultOverlay: React.FC<DefaultOverlayProps> = ({
 
         <button
           className="text-lg bg-indigo-500 rounded px-5 py-3 font-semibold"
-          onClick={() => handleContinue(router, course, nextLesson, handlePlay)}
+          onClick={() => handleContinue(router, module, nextLesson, handlePlay)}
         >
           Continue →
         </button>
@@ -101,21 +101,21 @@ const DefaultOverlay: React.FC<DefaultOverlayProps> = ({
 }
 
 type FinishedOverlayProps = {
-  course: SanityDocument
+  module: SanityDocument
   handlePlay: () => void
 }
 
 const FinishedOverlay: React.FC<FinishedOverlayProps> = ({
-  course,
+  module,
   handlePlay,
 }) => {
   const router = useRouter()
-  const shareUrl = `${process.env.NEXT_PUBLIC_URL}/${course.slug}`
-  const shareMessage = `${course.title}, course by @${process.env.NEXT_PUBLIC_PARTNER_TWITTER}`
+  const shareUrl = `${process.env.NEXT_PUBLIC_URL}/${module.slug}`
+  const shareMessage = `${module.title} by @${process.env.NEXT_PUBLIC_PARTNER_TWITTER}`
   return (
     <OverlayWrapper>
       <p className="text-3xl font-bold font-text">
-        Share this course with your friends
+        Share this {module.type} with your friends
       </p>
       <div className="flex items-center gap-2">
         <Twitter
@@ -140,8 +140,8 @@ const FinishedOverlay: React.FC<FinishedOverlayProps> = ({
           onClick={() => {
             router
               .push({
-                pathname: '/[course]/[lesson]',
-                query: {course: course.slug, lesson: course.resources[0].slug},
+                pathname: '/[module]/[lesson]',
+                query: {module: module.slug, lesson: module.resources[0].slug},
               })
               .then(handlePlay)
           }}
@@ -158,14 +158,14 @@ export {ExerciseOverlay, DefaultOverlay, FinishedOverlay}
 
 const handleContinue = (
   router: NextRouter,
-  course: SanityDocument,
+  module: SanityDocument,
   nextLesson: SanityDocument,
   handlePlay: () => void,
 ) => {
   router
     .push({
-      query: {course: course.slug, lesson: nextLesson.slug},
-      pathname: '/[course]/[lesson]',
+      query: {module: module.slug, lesson: nextLesson.slug},
+      pathname: '/[module]/[lesson]',
     })
     .then(handlePlay)
 }

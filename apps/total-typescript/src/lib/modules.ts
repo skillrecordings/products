@@ -1,18 +1,18 @@
 import groq from 'groq'
 import {sanityClient} from 'utils/sanity-client'
 
-const coursesQuery = groq`*[_type == "course"] {
+const modulesQuery = groq`*[_type == "module"] {
   "slug": slug.current
   }`
 
-export const getAllCourses = async () => await sanityClient.fetch(coursesQuery)
-export const getCourse = async (slug: string) =>
+export const getAllModules = async () => await sanityClient.fetch(modulesQuery)
+export const getModule = async (slug: string) =>
   await sanityClient.fetch(
-    groq`*[_type == "course" && slug.current == $slug][0]{
+    groq`*[_type == "module" && slug.current == $slug][0]{
         title,
         "slug": slug.current,
-        "coursePath": slug.current,
         body,
+        type,
         _id,
         github,
         resources[]->{

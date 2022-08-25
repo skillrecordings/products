@@ -8,7 +8,7 @@ import page from './documents/page'
 import mail from './documents/mail'
 import quiz from './documents/quiz'
 import question from './documents/question'
-import course from './documents/course'
+import module from './documents/module'
 import section from './documents/section'
 // import resource from './documents/resource'
 import lesson from './documents/lesson'
@@ -47,7 +47,7 @@ export default createSchema({
     mail,
     quiz,
     question,
-    course,
+    module,
     section,
     // resource,
     lesson,

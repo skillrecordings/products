@@ -1,6 +1,6 @@
 export default {
-  name: 'course',
-  title: 'Course',
+  name: 'module',
+  title: 'Module',
   type: 'document',
   fields: [
     {
@@ -8,6 +8,17 @@ export default {
       title: 'Title',
       type: 'string',
       validation: (Rule) => Rule.required(),
+    },
+    {
+      name: 'type',
+      title: 'Module Type',
+      type: 'string',
+      options: {
+        list: [
+          {title: 'Course', value: 'course'},
+          {title: 'Tutorial', value: 'tutorial'},
+        ],
+      },
     },
     {
       name: 'slug',

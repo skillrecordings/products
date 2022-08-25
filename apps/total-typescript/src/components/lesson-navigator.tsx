@@ -4,12 +4,12 @@ import capitalize from 'lodash/capitalize'
 import Link from 'next/link'
 import cx from 'classnames'
 
-const LessonNavigator: React.FC<{course: SanityDocument}> = ({course}) => {
+const LessonNavigator: React.FC<{module: SanityDocument}> = ({module}) => {
   const router = useRouter()
   return (
     <nav aria-label="lesson navigaor">
       <ul className="text-lg flex flex-col divide-y divide-black/20">
-        {course.resources.map((resource: any, i: number) => {
+        {module.resources.map((resource: any, i: number) => {
           if (resource._type === 'section') {
             const section = resource
             return (
@@ -27,9 +27,9 @@ const LessonNavigator: React.FC<{course: SanityDocument}> = ({course}) => {
                       <li key={lesson.slug + `-${i}`}>
                         <Link
                           href={{
-                            pathname: '/[course]/[lesson]',
+                            pathname: '/[module]/[lesson]',
                             query: {
-                              course: course.slug,
+                              module: module.slug,
                               lesson: lesson.slug,
                             },
                           }}
@@ -61,8 +61,8 @@ const LessonNavigator: React.FC<{course: SanityDocument}> = ({course}) => {
               <li key={lesson.slug + `-${i}`}>
                 <Link
                   href={{
-                    pathname: '/[course]/[lesson]',
-                    query: {course: course.slug, lesson: lesson.slug},
+                    pathname: '/[module]/[lesson]',
+                    query: {module: module.slug, lesson: lesson.slug},
                   }}
                   passHref
                 >
