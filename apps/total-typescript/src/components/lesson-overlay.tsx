@@ -1,7 +1,6 @@
 import {SanityDocument} from '@sanity/client'
-import {Facebook, LinkedIn, Twitter} from '@skillrecordings/react'
-import Link from 'next/link'
-import {useRouter} from 'next/router'
+import {Facebook, Twitter} from '@skillrecordings/react'
+import {NextRouter, useRouter} from 'next/router'
 import React from 'react'
 import {IconGithub} from './icons'
 
@@ -53,14 +52,9 @@ const ExerciseOverlay: React.FC<ExerciseOverlayProps> = ({
         {nextLesson && (
           <button
             className="text-lg bg-indigo-500 rounded px-5 py-3 font-semibold"
-            onClick={() => {
-              router
-                .push({
-                  query: {course: course.slug, lesson: nextLesson.slug},
-                  pathname: '/[course]/[lesson]',
-                })
-                .then(handlePlay)
-            }}
+            onClick={() =>
+              handleContinue(router, course, nextLesson, handlePlay)
+            }
           >
             Solution →
           </button>
@@ -81,6 +75,8 @@ const DefaultOverlay: React.FC<DefaultOverlayProps> = ({
   course,
   handlePlay,
 }) => {
+  const router = useRouter()
+
   return (
     <OverlayWrapper>
       <p className="text-3xl font-bold font-text">Up next</p>
@@ -93,20 +89,12 @@ const DefaultOverlay: React.FC<DefaultOverlayProps> = ({
           Replay ↺
         </button>
 
-        <Link
-          href={{
-            pathname: '/[course]/[lesson]',
-            query: {
-              course: course.slug,
-              lesson: nextLesson.slug,
-            },
-          }}
-          passHref
+        <button
+          className="text-lg bg-indigo-500 rounded px-5 py-3 font-semibold"
+          onClick={() => handleContinue(router, course, nextLesson, handlePlay)}
         >
-          <a className="text-lg bg-indigo-500 rounded px-5 py-3 font-semibold">
-            Continue →
-          </a>
-        </Link>
+          Continue →
+        </button>
       </div>
     </OverlayWrapper>
   )
@@ -167,3 +155,17 @@ const FinishedOverlay: React.FC<FinishedOverlayProps> = ({
 }
 
 export {ExerciseOverlay, DefaultOverlay, FinishedOverlay}
+
+const handleContinue = (
+  router: NextRouter,
+  course: SanityDocument,
+  nextLesson: SanityDocument,
+  handlePlay: () => void,
+) => {
+  router
+    .push({
+      query: {course: course.slug, lesson: nextLesson.slug},
+      pathname: '/[course]/[lesson]',
+    })
+    .then(handlePlay)
+}
