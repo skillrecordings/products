@@ -21,7 +21,17 @@ module.exports = {
       colors: {gray: colors.slate},
       typography: (theme) => ({
         DEFAULT: {
-          css: {},
+          css: {
+            '*': {
+              color: theme('colors.white'),
+            },
+            'code::before': {
+              content: "''",
+            },
+            'code::after': {
+              content: "''",
+            },
+          },
         },
       }),
     },

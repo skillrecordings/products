@@ -2,16 +2,22 @@ import {useRouter} from 'next/router'
 import Link from 'next/link'
 import cx from 'classnames'
 import config from 'config'
+import {PropsWithChildren} from 'react'
 
-const Navigation = () => {
+type Props = {
+  className?: string
+}
+
+const Navigation: React.FC<PropsWithChildren<Props>> = ({className}) => {
   return (
     <nav
       aria-label="top"
-      className="absolute top-0 z-30 sm:h-20 h-14 xl:px-0 px-2 flex items-center w-full print:hidden"
+      className={cx(
+        'absolute top-0 z-30 sm:h-20 h-14 px-5 flex items-center justify-center w-full print:hidden',
+        className,
+      )}
     >
-      <div className="flex items-center w-full h-full py-[2px] max-w-screen-xl mx-auto justify-center">
-        <NavLogo />
-      </div>
+      <NavLogo />
     </nav>
   )
 }

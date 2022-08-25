@@ -1,7 +1,6 @@
 import * as React from 'react'
 import {QuizAnswerPage} from '@skillrecordings/quiz'
 import {QuestionSet} from '@skillrecordings/types'
-import getConfig from '@skillrecordings/quiz/dist/config'
 import Layout from 'components/app/layout'
 
 const Answer: React.FC<{questionSet: QuestionSet}> = ({questionSet}) => {
@@ -13,7 +12,7 @@ const Answer: React.FC<{questionSet: QuestionSet}> = ({questionSet}) => {
         </div>
       </header>
       <div className="h-full w-full flex flex-col items-center justify-center sm:py-16">
-        <QuizAnswerPage questionSet={questionSet} />
+        {/* <QuizAnswerPage questionSet={questionSet} /> */}
       </div>
     </Layout>
   )

@@ -5,6 +5,7 @@ import 'focus-visible'
 import {ConvertkitProvider} from '@skillrecordings/convertkit'
 import {usePageview} from '@skillrecordings/analytics'
 import {DefaultSeo} from '@skillrecordings/next-seo'
+import {initNProgress} from '@skillrecordings/react'
 import config from '../config'
 import Script from 'next/script'
 import {MDXProvider} from '@mdx-js/react'
@@ -12,6 +13,7 @@ import {MDXComponents} from 'components/mdx'
 
 function MyApp({Component, pageProps}: AppProps) {
   usePageview()
+  initNProgress()
   return (
     <>
       <DefaultSeo {...config} />
