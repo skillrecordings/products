@@ -19,11 +19,13 @@ export const getCourse = async (slug: string) =>
             _type,
             title,
             type,
+            stackblitz,
             "slug": slug.current,
             resources[]->{
               _type,
               title,
               type,
+              stackblitz,
               "slug": slug.current
             }
         },

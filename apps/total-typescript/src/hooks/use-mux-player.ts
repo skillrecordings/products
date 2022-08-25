@@ -2,7 +2,7 @@ import {SanityDocument} from '@sanity/client'
 import {useVideo} from 'context/video-context'
 import {useRouter} from 'next/router'
 import React from 'react'
-import {getNextLesson} from 'utils/get-next-lesson'
+import {getNextLesson} from 'utils/get-lesson'
 import {usePlayerPrefs} from './use-player-prefs'
 
 export const useMuxPlayer = (

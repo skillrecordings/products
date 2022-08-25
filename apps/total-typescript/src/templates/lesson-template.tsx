@@ -5,7 +5,6 @@ import Navigation from 'components/app/navigation'
 import Layout from 'components/app/layout'
 import cx from 'classnames'
 import {PortableText, PortableTextComponents} from '@portabletext/react'
-import {useStackblitzEmbed} from 'hooks/use-stackblitz-embed'
 import {hmsToSeconds} from 'utils/hms-to-seconds'
 import {useMuxPlayer} from 'hooks/use-mux-player'
 import {SanityDocument} from '@sanity/client'
@@ -28,9 +27,8 @@ const LessonTemplate: React.FC<{
   return (
     <Layout
       meta={{title}}
-      className="bg-gray-900"
       nav={
-        <Navigation className="flex relative w-full justify-between lg:ml-[320px]" />
+        <Navigation className="flex relative w-auto justify-between lg:ml-[320px]" />
       }
     >
       <div className="flex lg:flex-row flex-col-reverse">
@@ -42,9 +40,9 @@ const LessonTemplate: React.FC<{
               <AutoPlayToggle muxPlayerRef={muxPlayerRef} />
               <LessonTitle lesson={lesson} />
               <LessonDescription lesson={lesson} />
-              <GitHubLink course={course} lesson={lesson} />
+              <GitHubLink lesson={lesson} course={course} />
             </div>
-            <StackblitzEmbed lesson={lesson} />
+            <StackblitzEmbed lesson={lesson} course={course} />
             <LessonTranscript lesson={lesson} muxPlayerRef={muxPlayerRef} />
           </article>
         </main>
@@ -176,14 +174,20 @@ const LessonDescription: React.FC<{lesson: SanityDocument}> = ({lesson}) => {
   )
 }
 
-const StackblitzEmbed: React.FC<{lesson: SanityDocument}> = ({lesson}) => {
+const StackblitzEmbed: React.FC<{
+  lesson: SanityDocument
+  course: SanityDocument
+}> = ({lesson, course}) => {
   const {stackblitz} = lesson
-  useStackblitzEmbed(stackblitz.projectId, stackblitz.openFile, 'embed')
   const {isSafari, isFirefox} = useDeviceDetect()
-
+  const codeFileNumber = stackblitz.openFile.match(/\d/g).join('')
+  const startCommand = `${lesson.type.substring(0, 1)}-${codeFileNumber}` // e.g. s-01, e-02, etc
+  const githubOrg = 'total-typescript'
+  const githubRepo = course.github.repo
+  const embedUrl = `https://stackblitz.com/github/${githubOrg}/${githubRepo}?file=${stackblitz.openFile}&embed=1&view=editor&hideExplorer=1&ctl=0&terminal=${startCommand}`
   return (
-    <div className="xl:px-10">
-      <h3 className="flex items-baseline sm:text-2xl text-xl font-semibold pb-2 xl:px-0 sm:px-10 px-5">
+    <div className="">
+      <h3 className="flex items-baseline sm:text-2xl text-xl font-semibold pb-2 xl:px-10 sm:px-10 px-5">
         Editor
         {(isSafari || isFirefox) && (
           <span className="pl-2 text-base font-normal text-gray-400">
@@ -192,7 +196,7 @@ const StackblitzEmbed: React.FC<{lesson: SanityDocument}> = ({lesson}) => {
           </span>
         )}
       </h3>
-      <div id="embed" className="h-[800px] mx-auto" />
+      <iframe src={embedUrl} title="code editor" className="h-[800px] w-full" />
     </div>
   )
 }
