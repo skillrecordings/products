@@ -63,6 +63,9 @@ export const useMuxPlayer = (
       // autoPlay,
       streamType: 'on-demand',
       playbackId: lesson?.video,
+      metadata: {
+        video_title: `${lesson?.title} (${lesson?.type})`,
+      },
     },
     autoPlay,
     setAutoPlay,

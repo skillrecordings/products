@@ -124,9 +124,10 @@ const GitHubLink: React.FC<{
   lesson: SanityDocument
   course: SanityDocument
 }> = ({lesson, course}) => {
-  const {github} = lesson
+  const {github} = course
+  const {stackblitz} = lesson
 
-  if (!github.url) {
+  if (!github || !stackblitz) {
     return null
   }
 
@@ -135,7 +136,7 @@ const GitHubLink: React.FC<{
       <h2 className="sm:text-2xl text-xl font-semibold pb-2">Code</h2>
       <div className="flex items-center gap-2">
         <a
-          href={github.url}
+          href={`https://github.com/total-typescript/${github.repo}/blob/main/${lesson.stackblitz.openFile}`}
           target="_blank"
           rel="noopener noreferrer"
           className="bg-gray-800/50 hover:bg-slate-800/90 transition border border-gray-700/50 text-white rounded py-5 px-6 text-lg font-medium inline-flex items-center gap-4"
@@ -146,7 +147,9 @@ const GitHubLink: React.FC<{
               {course.github.repo}
               <span className="text-gray-400 font-medium"></span>
             </p>
-            <p className="text-sm font-mono text-gray-400">/{github.path}</p>
+            <p className="text-sm font-mono text-gray-400">
+              /{stackblitz.openFile}
+            </p>
           </div>
         </a>
       </div>
@@ -208,6 +211,9 @@ const LessonTranscript: React.FC<{
   const {transcript} = lesson
   const {handlePlay} = useMuxPlayer(muxPlayerRef)
 
+  if (!transcript) {
+    return null
+  }
   return (
     <div className="prose prose-lg max-w-4xl text-white mx-auto p-10 pt-8">
       <h2 className="font-text text-3xl font-bold pt-4">Video Transcript</h2>

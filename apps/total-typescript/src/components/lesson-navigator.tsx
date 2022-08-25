@@ -14,7 +14,7 @@ const LessonNavigator: React.FC<{course: SanityDocument}> = ({course}) => {
             const section = resource
             return (
               <li key={resource.slug + `-${i}`}>
-                <div className="px-4 font-semibold pb-2">
+                <div className="px-4 font-semibold py-2">
                   <span aria-hidden="true" className="text-sm pr-2 opacity-50">
                     {i + 1}
                   </span>{' '}

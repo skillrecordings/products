@@ -25,7 +25,7 @@ const LessonSidebar: React.FC<SidebarProps> = ({course}) => {
               </Link>
             </h1>
           </div>
-          <h3 className="py-5 text-sm opacity-80 font-semibold uppercase px-5">
+          <h3 className="pt-5 pb-2 text-sm opacity-80 font-semibold uppercase px-5">
             Lessons
           </h3>
           <LessonNavigator course={course} />
