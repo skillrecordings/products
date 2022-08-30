@@ -1339,7 +1339,10 @@ importers:
       '@babel/plugin-transform-react-jsx': ^7.16.0
       '@mdx-js/loader': ^1.6.22
       '@next/mdx': ^12.2.5
+      '@portabletext/react': ^1.0.6
+      '@portabletext/types': ^1.0.3
       '@reach/dialog': ^0.16.2
+      '@sanity/client': ^3.3.6
       '@skillrecordings/config': workspace:*
       '@skillrecordings/convertkit': workspace:*
       '@skillrecordings/cookies': workspace:*
@@ -1359,6 +1362,8 @@ importers:
       '@types/cookie': ^0.4.1
       '@types/jest': ^27.5.2
       '@types/lodash': ^4.14.179
+      '@types/mjml': ^4.7.0
+      '@types/mjml-react': ^2.0.5
       '@types/node': ^17.0.0
       '@types/nodemailer': ^6.4.4
       '@types/pluralize': ^0.0.29
@@ -1379,10 +1384,13 @@ importers:
       focus-visible: ^5.2.0
       formik: 2.2.9
       framer-motion: ^6.4.1
+      groq: ^2.15.0
       husky: ^7.0.4
       lint-staged: ^11.2.6
       lodash: ^4.17.21
       mdx-prism: ^0.3.4
+      mjml: ^4.12.0
+      mjml-react: ^2.0.8
       msw: ^0.35.0
       next: ^12.2.3
       next-compose-plugins: ^2.2.1
@@ -1398,11 +1406,13 @@ importers:
       react-countdown: ^2.3.2
       react-dom: 18.2.0
       react-markdown: ^7.1.0
+      react-refractor: ^2.1.7
       react-scroll: ^1.8.6
       react-stripe-checkout: ^2.6.3
       react-test-renderer: ^17.0.2
       react-use: ^17.3.2
       react-use-clipboard: ^1.0.7
+      refractor: ^4.5.0
       rehype: ^12.0.0
       remark-code-titles: ^0.1.2
       remark-footnotes: ^4.0.1
@@ -1417,7 +1427,9 @@ importers:
       yup: ^0.32.11
     dependencies:
       '@next/mdx': 12.2.5_@mdx-js+loader@1.6.22
+      '@portabletext/react': 1.0.6_react@18.2.0
       '@reach/dialog': 0.16.2_bb2bxwco6ptpubzwpazr52qf6i
+      '@sanity/client': 3.3.6
       '@skillrecordings/config': link:../../packages/config
       '@skillrecordings/convertkit': link:../../packages/convertkit
       '@skillrecordings/cookies': link:../../packages/cookies
@@ -1439,8 +1451,11 @@ importers:
       focus-visible: 5.2.0
       formik: 2.2.9_react@18.2.0
       framer-motion: 6.4.1_biqbaboplfbrettd7655fr4n2y
+      groq: 2.15.0
       lodash: 4.17.21
       mdx-prism: 0.3.4
+      mjml: 4.12.0
+      mjml-react: 2.0.8_ailtjjlsqvu2thdobeyj5nn3lq
       next: 12.2.3_biqbaboplfbrettd7655fr4n2y
       next-sitemap: 3.1.7_next@12.2.3
       next-themes: 0.1.1_53oqlnqnxhbetdy4ljlkkvmoby
@@ -1451,10 +1466,12 @@ importers:
       react-countdown: 2.3.2_biqbaboplfbrettd7655fr4n2y
       react-dom: 18.2.0_react@18.2.0
       react-markdown: 7.1.0_3hx2ussxxho4jajbwrd6gq34qe
+      react-refractor: 2.1.7_react@18.2.0
       react-scroll: 1.8.7_biqbaboplfbrettd7655fr4n2y
       react-stripe-checkout: 2.6.3
       react-use: 17.3.2_biqbaboplfbrettd7655fr4n2y
       react-use-clipboard: 1.0.7_biqbaboplfbrettd7655fr4n2y
+      refractor: 4.5.0
       rehype: 12.0.0
       remark-code-titles: 0.1.2
       remark-footnotes: 4.0.1
@@ -1468,6 +1485,7 @@ importers:
     devDependencies:
       '@babel/plugin-transform-react-jsx': 7.16.0
       '@mdx-js/loader': 1.6.22_react@18.2.0
+      '@portabletext/types': 1.0.3
       '@skillrecordings/scripts': link:../../packages/scripts
       '@skillrecordings/tsconfig': link:../../packages/tsconfig
       '@skillrecordings/types': link:../../packages/types
@@ -1476,6 +1494,8 @@ importers:
       '@types/cookie': 0.4.1
       '@types/jest': 27.5.2
       '@types/lodash': 4.14.180
+      '@types/mjml': 4.7.0
+      '@types/mjml-react': 2.0.5
       '@types/node': 17.0.41
       '@types/nodemailer': 6.4.4
       '@types/pluralize': 0.0.29
@@ -11344,6 +11364,19 @@ packages:
       - supports-color
     dev: false
 
+  /@sanity/client/3.3.6:
+    resolution: {integrity: sha512-UgCHWnpb0N0q1K8NYqAZ4iWpja0ts9LEnuUXcYYbx2xmA57LgA6myCxIVXsF/XH1ArbCQNth0r7zcVpxYH++bQ==}
+    engines: {node: '>=12'}
+    dependencies:
+      '@sanity/eventsource': 4.0.0
+      get-it: 6.1.1
+      make-error: 1.3.6
+      object-assign: 4.1.1
+      rxjs: 6.6.7
+    transitivePeerDependencies:
+      - supports-color
+    dev: false
+
   /@sanity/color/2.1.11:
     resolution: {integrity: sha512-ZComCEDE7Y5xu/+BksJDVkAffawRWrJvoI7VdIA+szhqzYQWgLRLfsr+UBkYZMtb9a+8HyUm6Uqoo028GNGREQ==}
     dev: true
@@ -19832,7 +19865,7 @@ packages:
       create-error-class: 3.0.2
       debug: 2.6.9
       decompress-response: 6.0.0
-      follow-redirects: 1.15.1_debug@2.6.9
+      follow-redirects: 1.15.1
       form-urlencoded: 2.0.9
       into-stream: 3.1.0
       is-plain-object: 2.0.4
