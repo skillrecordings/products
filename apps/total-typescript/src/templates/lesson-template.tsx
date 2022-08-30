@@ -15,6 +15,7 @@ import {
   ExerciseOverlay,
   DefaultOverlay,
   FinishedOverlay,
+  BlockedOverlay,
 } from 'components/lesson-overlay'
 
 const path = '/tutorials'
@@ -113,7 +114,11 @@ const Video: React.FC<any> = React.forwardRef(({module, lesson}, ref: any) => {
           },
         )}
       >
-        <MuxPlayer ref={ref} {...(muxPlayerProps as MuxPlayerProps)} />
+        {lesson.video ? (
+          <MuxPlayer ref={ref} {...(muxPlayerProps as MuxPlayerProps)} />
+        ) : (
+          <BlockedOverlay />
+        )}
       </div>
     </>
   )

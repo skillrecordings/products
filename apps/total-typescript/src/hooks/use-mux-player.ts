@@ -1,9 +1,9 @@
-import {SanityDocument} from '@sanity/client'
-import {useVideo} from 'context/video-context'
-import {useRouter} from 'next/router'
 import React from 'react'
-import {getNextLesson} from 'utils/get-lesson'
 import {usePlayerPrefs} from './use-player-prefs'
+import {getNextLesson} from 'utils/get-lesson'
+import {useVideo} from 'context/video-context'
+import {SanityDocument} from '@sanity/client'
+import {useRouter} from 'next/router'
 
 export const useMuxPlayer = (
   muxPlayerRef: any,
@@ -38,8 +38,10 @@ export const useMuxPlayer = (
 
   // preferences
   React.useEffect(() => {
-    muxPlayerRef.current.playbackRate = playbackRate
-    muxPlayerRef.current.autoplay = autoplay
+    if (muxPlayerRef.current) {
+      muxPlayerRef.current.playbackRate = playbackRate
+      muxPlayerRef.current.autoplay = autoplay
+    }
   }, [playbackRate, autoPlay])
 
   return {

@@ -1,4 +1,8 @@
 import {SanityDocument} from '@sanity/client'
+import {
+  redirectUrlBuilder,
+  SubscribeToConvertkitForm,
+} from '@skillrecordings/convertkit'
 import {Facebook, Twitter} from '@skillrecordings/react'
 import {NextRouter, useRouter} from 'next/router'
 import React from 'react'
@@ -6,7 +10,10 @@ import {IconGithub} from './icons'
 
 const OverlayWrapper: React.FC<React.PropsWithChildren> = ({children}) => {
   return (
-    <div className="absolute top-0 left-0 flex items-center justify-center w-full bg-[#070B16] aspect-video">
+    <div
+      id="video-overlay"
+      className="absolute top-0 left-0 flex items-center justify-center w-full bg-[#070B16] aspect-video"
+    >
       <div className="p-5 z-20 absolute left-0 top-0 w-full h-full flex flex-col gap-5 items-center justify-center text-center leading-relaxed text-lg">
         {children}
       </div>
@@ -164,7 +171,28 @@ const FinishedOverlay: React.FC<FinishedOverlayProps> = ({
   )
 }
 
-export {ExerciseOverlay, DefaultOverlay, FinishedOverlay}
+type BlockedOverlayProps = {}
+
+const BlockedOverlay: React.FC<BlockedOverlayProps> = ({}) => {
+  const router = useRouter()
+
+  return (
+    <OverlayWrapper>
+      <p className="text-3xl font-bold font-text">Blocked</p>
+      <SubscribeToConvertkitForm
+        actionLabel="Subscribe & Watch"
+        onSuccess={(subscriber: any) => {
+          if (subscriber) {
+            const redirectUrl = redirectUrlBuilder(subscriber, router.asPath)
+            router.push(redirectUrl)
+          }
+        }}
+      />
+    </OverlayWrapper>
+  )
+}
+
+export {ExerciseOverlay, DefaultOverlay, FinishedOverlay, BlockedOverlay}
 
 const handleContinue = (
   router: NextRouter,

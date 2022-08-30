@@ -2229,6 +2229,7 @@ importers:
       '@sanity/block-content-to-react': ^3.0.0
       '@sanity/client': ^3.3.3
       '@skillrecordings/analytics': workspace:*
+      '@skillrecordings/config': workspace:*
       '@skillrecordings/convertkit': workspace:*
       '@skillrecordings/next-seo': workspace:*
       '@skillrecordings/quiz': workspace:*
@@ -2266,6 +2267,7 @@ importers:
       react-device-detect: ^2.2.2
       react-dom: 18.2.0
       react-hook-form: ^7.29.0
+      react-hot-toast: ^2.2.0
       tailwindcss: ^3.1.4
       typescript: ^4.7.4
       webpack: '>=4.3.0 <5.0.0'
@@ -2281,6 +2283,7 @@ importers:
       '@sanity/block-content-to-react': 3.0.0_react@18.2.0
       '@sanity/client': 3.3.3
       '@skillrecordings/analytics': link:../../packages/analytics
+      '@skillrecordings/config': link:../../packages/config
       '@skillrecordings/convertkit': link:../../packages/convertkit
       '@skillrecordings/next-seo': link:../../packages/next-seo
       '@skillrecordings/quiz': link:../../packages/quiz
@@ -2301,6 +2304,7 @@ importers:
       react-device-detect: 2.2.2_biqbaboplfbrettd7655fr4n2y
       react-dom: 18.2.0_react@18.2.0
       react-hook-form: 7.29.0_react@18.2.0
+      react-hot-toast: 2.2.0_biqbaboplfbrettd7655fr4n2y
       xstate: 4.23.1
       zod: 3.17.10
     devDependencies:

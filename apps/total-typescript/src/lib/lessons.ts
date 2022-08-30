@@ -9,13 +9,30 @@ export const getAllLessons = async () => await sanityClient.fetch(lessonsQuery)
 export const getLesson = async (slug: string) =>
   await sanityClient.fetch(
     groq`*[_type == "lesson" && slug.current == $slug][0]{
+        video,
+        transcript,
         title,
         "slug": slug.current,
-        video,
         lessonType,
         github,
         body,
-        transcript,
+        stackblitz {
+          projectId,
+          openFile
+        }
+    }`,
+    {slug: `${slug}`},
+  )
+export const getBlockedLesson = async (slug: string) =>
+  await sanityClient.fetch(
+    groq`*[_type == "lesson" && slug.current == $slug][0]{
+        // video,
+        // transcript,
+        title,
+        "slug": slug.current,
+        lessonType,
+        github,
+        body,
         stackblitz {
           projectId,
           openFile

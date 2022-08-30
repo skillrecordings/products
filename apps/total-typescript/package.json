@@ -19,6 +19,7 @@
     "@sanity/block-content-to-react": "^3.0.0",
     "@sanity/client": "^3.3.3",
     "@skillrecordings/analytics": "workspace:*",
+    "@skillrecordings/config": "workspace:*",
     "@skillrecordings/convertkit": "workspace:*",
     "@skillrecordings/next-seo": "workspace:*",
     "@skillrecordings/quiz": "workspace:*",
@@ -39,6 +40,7 @@
     "react-device-detect": "^2.2.2",
     "react-dom": "18.2.0",
     "react-hook-form": "^7.29.0",
+    "react-hot-toast": "^2.2.0",
     "xstate": "=4.23.1",
     "zod": "^3.14.4"
   },
