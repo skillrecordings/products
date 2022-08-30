@@ -7,7 +7,7 @@ import {IconGithub} from './icons'
 const OverlayWrapper: React.FC<React.PropsWithChildren> = ({children}) => {
   return (
     <div className="absolute top-0 left-0 flex items-center justify-center w-full bg-[#070B16] aspect-video">
-      <div className="z-20 absolute left-0 top-0 w-full h-full flex flex-col gap-5 items-center justify-center text-center leading-relaxed text-lg">
+      <div className="p-5 z-20 absolute left-0 top-0 w-full h-full flex flex-col gap-5 items-center justify-center text-center leading-relaxed text-lg">
         {children}
       </div>
     </div>
@@ -19,6 +19,7 @@ type ExerciseOverlayProps = {
   nextLesson: SanityDocument
   module: SanityDocument
   handlePlay: () => void
+  path: string
 }
 
 const ExerciseOverlay: React.FC<ExerciseOverlayProps> = ({
@@ -26,17 +27,22 @@ const ExerciseOverlay: React.FC<ExerciseOverlayProps> = ({
   nextLesson,
   module,
   handlePlay,
+  path,
 }) => {
+  const {github} = module
   const {stackblitz} = lesson
   const router = useRouter()
+
   return (
     <OverlayWrapper>
       <p className="text-3xl font-bold font-text">Now it’s your turn!</p>
-      <p className="flex flex-wrap gap-1">
-        Try solving this exercise by editing{' '}
+      <p className="">
+        Try solving this exercise inside{' '}
         <a
-          href="#embed"
-          className="flex items-center justify-center gap-1 font-mono text-sm py-0.5 px-1 bg-gray-800 rounded-sm"
+          href={`https://github.com/total-typescript/${github.repo}/blob/main/${lesson.stackblitz.openFile}`}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="inline-flex items-center justify-center gap-1 font-mono text-sm py-0.5 px-1 bg-gray-800 rounded-sm"
         >
           <IconGithub /> {stackblitz.openFile}
         </a>{' '}
@@ -51,9 +57,9 @@ const ExerciseOverlay: React.FC<ExerciseOverlayProps> = ({
         </button>
         {nextLesson && (
           <button
-            className="text-lg bg-indigo-500 rounded px-5 py-3 font-semibold"
+            className="text-lg bg-blue-500 rounded px-5 py-3 font-semibold"
             onClick={() =>
-              handleContinue(router, module, nextLesson, handlePlay)
+              handleContinue(router, module, nextLesson, handlePlay, path)
             }
           >
             Solution →
@@ -68,19 +74,22 @@ type DefaultOverlayProps = {
   nextLesson: SanityDocument
   module: SanityDocument
   handlePlay: () => void
+  path: string
 }
 
 const DefaultOverlay: React.FC<DefaultOverlayProps> = ({
   nextLesson,
   module,
   handlePlay,
+  path,
 }) => {
   const router = useRouter()
 
   return (
     <OverlayWrapper>
-      <p className="text-3xl font-bold font-text">Up next</p>
-      <p>{nextLesson.title}</p>
+      <p className="text-3xl font-bold font-text">
+        Up next: {nextLesson.title}
+      </p>
       <div className="flex items-center justify-center gap-5">
         <button
           className="bg-gray-900 px-5 py-3 text-lg font-semibold rounded"
@@ -88,10 +97,11 @@ const DefaultOverlay: React.FC<DefaultOverlayProps> = ({
         >
           Replay ↺
         </button>
-
         <button
-          className="text-lg bg-indigo-500 rounded px-5 py-3 font-semibold"
-          onClick={() => handleContinue(router, module, nextLesson, handlePlay)}
+          className="text-lg bg-blue-500 rounded px-5 py-3 font-semibold"
+          onClick={() =>
+            handleContinue(router, module, nextLesson, handlePlay, path)
+          }
         >
           Continue →
         </button>
@@ -121,12 +131,12 @@ const FinishedOverlay: React.FC<FinishedOverlayProps> = ({
         <Twitter
           link={shareUrl}
           message={shareMessage}
-          className="bg-indigo-500 p-5 rounded"
+          className="bg-blue-500 p-5 rounded"
         />
         <Facebook
           link={shareUrl}
           message={shareMessage}
-          className="bg-indigo-500 p-5 rounded"
+          className="bg-blue-500 p-5 rounded"
         />
       </div>
       <div className="flex items-center justify-center gap-5">
@@ -161,11 +171,12 @@ const handleContinue = (
   module: SanityDocument,
   nextLesson: SanityDocument,
   handlePlay: () => void,
+  path: string,
 ) => {
   router
     .push({
       query: {module: module.slug, lesson: nextLesson.slug},
-      pathname: '/[module]/[lesson]',
+      pathname: `${path}/[module]/[lesson]`,
     })
     .then(handlePlay)
 }

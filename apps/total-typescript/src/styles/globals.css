@@ -25,3 +25,9 @@ mux-player {
 .prose code {
   @apply bg-gray-800/80 px-1 py-0.5 rounded-sm text-[85%];
 }
+
+.no-marker {
+  ::-webkit-details-marker {
+    display: none;
+  }
+}

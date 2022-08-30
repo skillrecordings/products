@@ -13,7 +13,7 @@ const Navigation: React.FC<PropsWithChildren<Props>> = ({className}) => {
     <nav
       aria-label="top"
       className={cx(
-        'absolute top-0 z-30 sm:h-20 h-14 px-5 flex items-center justify-center w-full print:hidden',
+        'absolute top-0 z-30 sm:h-20 h-14 sm:px-5 px-3 flex items-center justify-center w-full print:hidden',
         className,
       )}
     >
