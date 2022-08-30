@@ -4,13 +4,18 @@ import {PortableText} from '@portabletext/react'
 import {SanityDocument} from '@sanity/client'
 import Link from 'next/link'
 
-const ModuleTemplate: React.FC<any> = ({module}) => {
-  const {title, body, slug, resources} = module
+const TutorialTemplate: React.FC<{tutorial: SanityDocument}> = ({tutorial}) => {
+  const {title, body, slug, resources} = tutorial
+  const pageTitle = `${title} Tutorial`
+
   return (
-    <Layout className="max-w-screen-md mx-auto w-full py-24">
+    <Layout
+      className="max-w-screen-md mx-auto w-full py-24 px-5"
+      meta={{title: pageTitle}}
+    >
       <header className="py-8">
         <p className="uppercase font-semibold tracking-wide pb-1 text-gray-300">
-          {module.moduleType}
+          Tutorial
         </p>
         <h1 className="sm:text-4xl text-3xl font-bold">{title}</h1>
       </header>
@@ -28,13 +33,13 @@ const ModuleTemplate: React.FC<any> = ({module}) => {
                 <li key={resource.slug}>
                   <Link
                     href={{
-                      pathname: '/[module]/[lesson]',
-                      query: {module: slug, lesson: resource.slug},
+                      pathname: '/tutorials/[tutorial]/[lesson]',
+                      query: {tutorial: slug, lesson: resource.slug},
                     }}
                     passHref
                   >
                     <a className="text-lg py-1 font-semibold inline-flex hover:underline">
-                      {resource.title} {resource.path}
+                      {resource.title}
                     </a>
                   </Link>
                 </li>
@@ -47,4 +52,4 @@ const ModuleTemplate: React.FC<any> = ({module}) => {
   )
 }
 
-export default ModuleTemplate
+export default TutorialTemplate

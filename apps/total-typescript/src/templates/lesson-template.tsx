@@ -17,6 +17,8 @@ import {
   FinishedOverlay,
 } from 'components/lesson-overlay'
 
+const path = '/tutorials'
+
 const LessonTemplate: React.FC<{
   lesson: SanityDocument
   module: SanityDocument
@@ -24,6 +26,7 @@ const LessonTemplate: React.FC<{
   const {title, lessonType} = lesson
   const muxPlayerRef = React.useRef<HTMLDivElement>()
   const pageTitle = `${title} (${capitalize(lessonType)})`
+
   return (
     <Layout
       meta={{title: pageTitle}}
@@ -31,12 +34,26 @@ const LessonTemplate: React.FC<{
         <Navigation className="flex relative w-auto justify-between lg:ml-[320px]" />
       }
     >
-      <div className="flex lg:flex-row flex-col-reverse">
-        <LessonSidebar module={module} />
+      <div className="flex lg:flex-row flex-col">
+        <LessonSidebar
+          className="lg:block hidden"
+          module={module}
+          path={path}
+        />
+
         <main className="w-full relative">
           <Video ref={muxPlayerRef} module={module} lesson={lesson} />
+          <details className="lg:hidden block group">
+            <summary className="flex gap-1 items-center px-4 pb-3 pt-2 font-medium bg-transparent border-b border-gray-800 hover:bg-white/5 transition cursor-pointer no-marker marker:content-[''] group-open:after:rotate-0 after:rotate-180 after:content-['↑'] after:text-lg after:w-6 after:h-6 after:rounded-full after:bg-gray-800 after:flex after:items-center after:justify-center after:absolute after:right-3">
+              {capitalize(module.moduleType)}{' '}
+              <span className="opacity-80">
+                ({module.resources.length} lessons)
+              </span>
+            </summary>
+            <LessonSidebar module={module} path={path} />
+          </details>
           <article>
-            <div className="mx-auto lg:px-10 lg:py-8 px-5 py-10 relative">
+            <div className="mx-auto lg:px-10 lg:py-8 px-5 py-5 relative">
               {/* <AutoPlayToggle muxPlayerRef={muxPlayerRef} /> */}
               <LessonTitle lesson={lesson} />
               <LessonDescription lesson={lesson} />
@@ -72,12 +89,14 @@ const Video: React.FC<any> = React.forwardRef(({module, lesson}, ref: any) => {
                   nextLesson={nextLesson}
                   module={module}
                   handlePlay={handlePlay}
+                  path={path}
                 />
               ) : (
                 <DefaultOverlay
                   nextLesson={nextLesson}
                   module={module}
                   handlePlay={handlePlay}
+                  path={path}
                 />
               )}
             </>
@@ -132,7 +151,7 @@ const GitHubLink: React.FC<{
   }
 
   return (
-    <div className="pt-16">
+    <div className="pt-8">
       <h2 className="sm:text-2xl text-xl font-semibold pb-2">Code</h2>
       <div className="flex items-center gap-2">
         <a
@@ -158,11 +177,11 @@ const GitHubLink: React.FC<{
 }
 
 const LessonTitle: React.FC<{lesson: SanityDocument}> = ({lesson}) => {
-  const {title, type} = lesson
+  const {title, lessonType} = lesson
   return (
     <>
       <h1 className="font-text sm:text-4xl text-3xl font-extrabold">
-        {title} <span className="font-normal">({capitalize(type)})</span>
+        {title} <span className="font-normal">({capitalize(lessonType)})</span>
       </h1>
     </>
   )
@@ -183,13 +202,18 @@ const StackblitzEmbed: React.FC<{
 }> = ({lesson, module}) => {
   const {stackblitz} = lesson
   const {isSafari, isFirefox} = useDeviceDetect()
+  if (!stackblitz.openFile) {
+    return null
+  }
   const codeFileNumber = stackblitz.openFile.match(/\d/g).join('')
   const startCommand = `${lesson.lessonType.substring(0, 1)}-${codeFileNumber}` // e.g. s-01, e-02, etc
   const githubOrg = 'total-typescript'
   const githubRepo = module.github.repo
-  const embedUrl = `https://stackblitz.com/github/${githubOrg}/${githubRepo}?file=${stackblitz.openFile}&embed=1&view=editor&hideExplorer=1&ctl=0&terminal=${startCommand}`
+  const clickToLoad = Number(true)
+  const embedUrl = `https://stackblitz.com/github/${githubOrg}/${githubRepo}?file=${stackblitz.openFile}&embed=1&view=editor&hideExplorer=1&ctl=${clickToLoad}&terminal=${startCommand}`
+
   return (
-    <div className="">
+    <div>
       <h3 className="flex items-baseline sm:text-2xl text-xl font-semibold pb-2 xl:px-10 sm:px-10 px-5">
         Editor
         {(isSafari || isFirefox) && (
@@ -199,7 +223,11 @@ const StackblitzEmbed: React.FC<{
           </span>
         )}
       </h3>
-      <iframe src={embedUrl} title="code editor" className="h-[800px] w-full" />
+      <iframe
+        src={embedUrl}
+        title="code editor"
+        className="sm:h-[800px] h-[400px] w-full"
+      />
     </div>
   )
 }
@@ -214,6 +242,7 @@ const LessonTranscript: React.FC<{
   if (!transcript) {
     return null
   }
+
   return (
     <div className="prose prose-lg max-w-4xl text-white mx-auto p-10 pt-8">
       <h2 className="font-text text-3xl font-bold pt-4">Video Transcript</h2>

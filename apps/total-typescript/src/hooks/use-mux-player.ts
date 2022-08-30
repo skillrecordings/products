@@ -19,7 +19,6 @@ export const useMuxPlayer = (
   const [displayOverlay, setDisplayOverlay] = React.useState(false)
 
   const handlePlay = () => {
-    displayOverlay && setDisplayOverlay(false)
     muxPlayerRef.current.play()
   }
   const handleNext = (autoPlay: boolean) => {
@@ -46,6 +45,7 @@ export const useMuxPlayer = (
   return {
     muxPlayerProps: {
       onPlay: () => {
+        setDisplayOverlay(false)
         videoService.send({type: 'PLAY'})
       },
       onPause: () => {
@@ -64,7 +64,7 @@ export const useMuxPlayer = (
       streamType: 'on-demand',
       playbackId: lesson?.video,
       metadata: {
-        video_title: `${lesson?.title} (${lesson?.type})`,
+        video_title: `${lesson?.title} (${lesson?.lessonType})`,
       },
     },
     autoPlay,

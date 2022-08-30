@@ -4,10 +4,13 @@ import capitalize from 'lodash/capitalize'
 import Link from 'next/link'
 import cx from 'classnames'
 
-const LessonNavigator: React.FC<{module: SanityDocument}> = ({module}) => {
+const LessonNavigator: React.FC<{
+  module: SanityDocument
+  path: string
+}> = ({module, path}) => {
   const router = useRouter()
   return (
-    <nav aria-label="lesson navigaor">
+    <nav aria-label="lesson navigator">
       <ul className="text-lg flex flex-col divide-y divide-black/20">
         {module.resources.map((resource: any, i: number) => {
           if (resource._type === 'section') {
@@ -27,7 +30,7 @@ const LessonNavigator: React.FC<{module: SanityDocument}> = ({module}) => {
                       <li key={lesson.slug + `-${i}`}>
                         <Link
                           href={{
-                            pathname: '/[module]/[lesson]',
+                            pathname: `${path}/[module]/[lesson]`,
                             query: {
                               module: module.slug,
                               lesson: lesson.slug,
@@ -39,7 +42,7 @@ const LessonNavigator: React.FC<{module: SanityDocument}> = ({module}) => {
                             className={cx(
                               'flex items-center py-3 px-8 border-l-4 text-base font-medium hover:bg-slate-400/20',
                               {
-                                'border-indigo-500 bg-white/10': isActive,
+                                'border-blue-500 bg-white/10': isActive,
                                 'border-transparent bg-white/5': !isActive,
                               },
                             )}
@@ -61,7 +64,7 @@ const LessonNavigator: React.FC<{module: SanityDocument}> = ({module}) => {
               <li key={lesson.slug + `-${i}`}>
                 <Link
                   href={{
-                    pathname: '/[module]/[lesson]',
+                    pathname: `${path}/[module]/[lesson]`,
                     query: {module: module.slug, lesson: lesson.slug},
                   }}
                   passHref
