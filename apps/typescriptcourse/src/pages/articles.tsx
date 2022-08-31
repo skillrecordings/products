@@ -22,7 +22,7 @@ const Articles: React.FC<React.PropsWithChildren<ArticlesProps>> = ({
 }) => {
   return (
     <Layout meta={meta} className="relative">
-      <header className="relative px-5 overflow-hidden text-white py-28 bg-noise">
+      <header className="relative px-5 overflow-hidden text-white py-28">
         <h1 className="max-w-screen-md mx-auto text-3xl font-bold leading-none text-center font-heading sm:text-4xl lg:text-5xl">
           Written Resources for Navigating the
           <span className="text-transparent bg-gradient-to-l from-purple-100 to-blue-400 bg-clip-text decoration-clone">
