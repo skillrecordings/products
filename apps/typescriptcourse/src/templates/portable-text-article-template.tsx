@@ -31,7 +31,7 @@ const Header: React.FC<
   React.PropsWithChildren<{title: string; date: string}>
 > = ({title, date}) => {
   return (
-    <header className="relative flex flex-col items-center px-5 pt-16 pb-8 overflow-hidden text-white bg-noise">
+    <header className="relative flex flex-col items-center px-5 pt-16 pb-8 overflow-hidden text-white">
       <div className="relative z-10 flex flex-col items-center w-full max-w-screen-md mx-auto">
         <Link passHref href="/articles">
           <a className="relative px-4 py-2 text-sm font-normal text-white transition bg-white bg-opacity-0 rounded-full sm:text-base group hover:text-white hover:bg-opacity-10 opacity-80 hover:opacity-90 focus-visible:ring-white focus-visible:opacity-100">
