@@ -171,20 +171,28 @@ const FinishedOverlay: React.FC<FinishedOverlayProps> = ({
   )
 }
 
-type BlockedOverlayProps = {}
+type BlockedOverlayProps = {
+  module: SanityDocument
+}
 
-const BlockedOverlay: React.FC<BlockedOverlayProps> = ({}) => {
+const BlockedOverlay: React.FC<BlockedOverlayProps> = ({module}) => {
   const router = useRouter()
 
   return (
     <OverlayWrapper>
       <p className="text-3xl font-bold font-text">Blocked</p>
       <SubscribeToConvertkitForm
+        formId={3573840}
         actionLabel="Subscribe & Watch"
         onSuccess={(subscriber: any) => {
           if (subscriber) {
-            const redirectUrl = redirectUrlBuilder(subscriber, router.asPath)
-            router.push(redirectUrl)
+            const redirectUrl = redirectUrlBuilder(
+              subscriber,
+              `/confirm?source=video`,
+            )
+            // const redirectUrl = redirectUrlBuilder(subscriber, router.asPath)
+            window.location.assign(redirectUrl)
+            // router.push(redirectUrl)
           }
         }}
       />

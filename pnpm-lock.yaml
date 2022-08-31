@@ -2228,6 +2228,7 @@ importers:
       '@portabletext/react': ^1.0.6
       '@sanity/block-content-to-react': ^3.0.0
       '@sanity/client': ^3.3.3
+      '@sentry/nextjs': ^7.9.0
       '@skillrecordings/analytics': workspace:*
       '@skillrecordings/config': workspace:*
       '@skillrecordings/convertkit': workspace:*
@@ -2235,6 +2236,7 @@ importers:
       '@skillrecordings/quiz': workspace:*
       '@skillrecordings/react': workspace:*
       '@skillrecordings/scripts': workspace:*
+      '@skillrecordings/skill-api': workspace:*
       '@skillrecordings/tsconfig': workspace:*
       '@skillrecordings/types': workspace:*
       '@stackblitz/sdk': ^1.8.0
@@ -2282,12 +2284,14 @@ importers:
       '@portabletext/react': 1.0.6_react@18.2.0
       '@sanity/block-content-to-react': 3.0.0_react@18.2.0
       '@sanity/client': 3.3.3
+      '@sentry/nextjs': 7.9.0_2p7c5bckdh5ay4pxqmrggvr7ea
       '@skillrecordings/analytics': link:../../packages/analytics
       '@skillrecordings/config': link:../../packages/config
       '@skillrecordings/convertkit': link:../../packages/convertkit
       '@skillrecordings/next-seo': link:../../packages/next-seo
       '@skillrecordings/quiz': link:../../packages/quiz
       '@skillrecordings/react': link:../../packages/react
+      '@skillrecordings/skill-api': link:../../packages/skill-api
       '@stackblitz/sdk': 1.8.0
       '@tailwindcss/typography': 0.5.2_tailwindcss@3.1.6
       '@xstate/react': 1.5.1_bpg42ha2il6pcyn3wrx2rxrchm
@@ -11473,6 +11477,35 @@ packages:
       '@sentry/utils': 7.9.0
       localforage: 1.10.0
       tslib: 1.14.1
+    dev: false
+
+  /@sentry/nextjs/7.9.0_2p7c5bckdh5ay4pxqmrggvr7ea:
+    resolution: {integrity: sha512-yToPcsoMwfFyUS7STmJdwbE6JxlUHaxxnO8Qwpu9jFF2dH925r3MBWkwR1H2wfR1GbOLVwGUmQIdL1LAR8novw==}
+    engines: {node: '>=8'}
+    peerDependencies:
+      next: ^10.0.8 || ^11.0 || ^12.0
+      react: 15.x || 16.x || 17.x || 18.x
+      webpack: '>= 4.0.0'
+    peerDependenciesMeta:
+      webpack:
+        optional: true
+    dependencies:
+      '@sentry/core': 7.9.0
+      '@sentry/hub': 7.9.0
+      '@sentry/integrations': 7.9.0
+      '@sentry/node': 7.9.0
+      '@sentry/react': 7.9.0_react@18.2.0
+      '@sentry/tracing': 7.9.0
+      '@sentry/types': 7.9.0
+      '@sentry/utils': 7.9.0
+      '@sentry/webpack-plugin': 1.19.0
+      next: 12.2.3_biqbaboplfbrettd7655fr4n2y
+      react: 18.2.0
+      tslib: 1.14.1
+      webpack: 4.46.0
+    transitivePeerDependencies:
+      - encoding
+      - supports-color
     dev: false
 
   /@sentry/nextjs/7.9.0_5cy3dema5qwip6n7exqk4sqtji:

@@ -1,14 +1,14 @@
 import {NextRequest, NextResponse} from 'next/server'
 import {
   getMiddlewareResponse,
-  TUTORIAL_PAGE_PATH,
+  ZOD_TUTORIAL_PAGE_PATH,
 } from './server/get-middleware-response'
 
 const PUBLIC_FILE = /\.(.*)$/
 
 // The allow-list of paths where this middleware executes (perf)
 export const config = {
-  matcher: [TUTORIAL_PAGE_PATH],
+  matcher: [ZOD_TUTORIAL_PAGE_PATH],
 }
 
 export async function middleware(req: NextRequest) {

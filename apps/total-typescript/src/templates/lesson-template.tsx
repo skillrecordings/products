@@ -17,6 +17,8 @@ import {
   FinishedOverlay,
   BlockedOverlay,
 } from 'components/lesson-overlay'
+import {useConvertkit} from '@skillrecordings/convertkit'
+import {isEmpty} from 'lodash'
 
 const path = '/tutorials'
 
@@ -41,12 +43,12 @@ const LessonTemplate: React.FC<{
           module={module}
           path={path}
         />
-
         <main className="w-full relative">
+          {/* <ConfirmSubscriptionMessage /> */}
           <Video ref={muxPlayerRef} module={module} lesson={lesson} />
           <details className="lg:hidden block group">
             <summary className="flex gap-1 items-center px-4 pb-3 pt-2 font-medium bg-transparent border-b border-gray-800 hover:bg-white/5 transition cursor-pointer no-marker marker:content-[''] group-open:after:rotate-0 after:rotate-180 after:content-['↑'] after:text-lg after:w-6 after:h-6 after:rounded-full after:bg-gray-800 after:flex after:items-center after:justify-center after:absolute after:right-3">
-              {capitalize(module.moduleType)}{' '}
+              {module.title} {capitalize(module.moduleType)}{' '}
               <span className="opacity-80">
                 ({module.resources.length} lessons)
               </span>
@@ -117,7 +119,7 @@ const Video: React.FC<any> = React.forwardRef(({module, lesson}, ref: any) => {
         {lesson.video ? (
           <MuxPlayer ref={ref} {...(muxPlayerProps as MuxPlayerProps)} />
         ) : (
-          <BlockedOverlay />
+          <BlockedOverlay module={module} />
         )}
       </div>
     </>
@@ -277,6 +279,37 @@ const LessonTranscript: React.FC<{
       />
     </div>
   )
+}
+
+const ConfirmSubscriptionMessage = () => {
+  const {subscriber, loadingSubscriber}: any = useConvertkit()
+  if (
+    !loadingSubscriber &&
+    !isEmpty(subscriber) &&
+    subscriber.state === 'inactive'
+  ) {
+    return (
+      <div className="bg-gray-700 p-3 flex items-center gap-3">
+        <span
+          role="img"
+          aria-hidden="true"
+          className="text-xl w-10 h-10 flex-shrink-0 flex items-center justify-center rounded-full bg-gray-800"
+        >
+          <span className="animate-bounce">📩</span>
+        </span>
+        <div>
+          <p className="font-bold">Confirm your subscription</p>
+          <p>
+            A confirmation email was sent to {subscriber.email_address}. Please
+            click the confirmation button in this email to confirm your
+            subscription.
+          </p>
+        </div>
+      </div>
+    )
+  } else {
+    return null
+  }
 }
 
 export default LessonTemplate

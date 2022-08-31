@@ -24,6 +24,11 @@ export default {
       },
     },
     {
+      name: 'isFree',
+      title: 'Is Free?',
+      type: 'boolean',
+    },
+    {
       name: 'slug',
       title: 'Slug',
       type: 'slug',
@@ -60,6 +65,9 @@ export default {
       validation: (Rule) => Rule.max(160),
     },
   ],
+  initialValue: {
+    isFree: true,
+  },
   preview: {
     select: {
       title: 'title',
