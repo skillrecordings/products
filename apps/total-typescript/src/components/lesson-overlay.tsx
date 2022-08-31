@@ -1,9 +1,10 @@
-import {SanityDocument} from '@sanity/client'
+import SanityClientConstructor, {SanityDocument} from '@sanity/client'
 import {
   redirectUrlBuilder,
   SubscribeToConvertkitForm,
 } from '@skillrecordings/convertkit'
 import {Facebook, Twitter} from '@skillrecordings/react'
+import Image from 'next/image'
 import {NextRouter, useRouter} from 'next/router'
 import React from 'react'
 import {IconGithub} from './icons'
@@ -173,29 +174,75 @@ const FinishedOverlay: React.FC<FinishedOverlayProps> = ({
 
 type BlockedOverlayProps = {
   module: SanityDocument
+  subscriberHasToConfirm?: boolean
 }
 
-const BlockedOverlay: React.FC<BlockedOverlayProps> = ({module}) => {
+const BlockedOverlay: React.FC<BlockedOverlayProps> = ({
+  module,
+  subscriberHasToConfirm = false,
+}) => {
   const router = useRouter()
-
   return (
     <OverlayWrapper>
-      <p className="text-3xl font-bold font-text">Blocked</p>
-      <SubscribeToConvertkitForm
-        formId={3573840}
-        actionLabel="Subscribe & Watch"
-        onSuccess={(subscriber: any) => {
-          if (subscriber) {
-            const redirectUrl = redirectUrlBuilder(
-              subscriber,
-              `/confirm?source=video`,
-            )
-            // const redirectUrl = redirectUrlBuilder(subscriber, router.asPath)
-            window.location.assign(redirectUrl)
-            // router.push(redirectUrl)
-          }
-        }}
-      />
+      {subscriberHasToConfirm ? (
+        <div className="max-w-lg">
+          <Image
+            src={require('../../public/assets/email-confirm.svg')}
+            alt="confirm your email address"
+          />
+          <h2 className="py-6 text-4xl font-semibold">
+            Please check your inbox for an email that just got sent.
+          </h2>
+          <p className="sm:text-lg leading-relaxed mx-auto pb-8 text-gray-200">
+            {' '}
+            You'll need to click the confirmation link continue watching this{' '}
+            {module.moduleType}. If you don't see the email after a few minutes,
+            you might check your spam folder or other filters and add{' '}
+            <strong>{process.env.NEXT_PUBLIC_SUPPORT_EMAIL}</strong> to your
+            contacts.
+          </p>
+        </div>
+      ) : (
+        <>
+          <div className="2xl:block hidden">
+            <Image
+              src={require('../../public/assets/landing/scroll-ts@2x.png')}
+              width={200}
+              height={200}
+              alt="TS Scroll"
+            />
+          </div>
+          <h2 className="text-4xl font-semibold">
+            Level up with {module.title}
+          </h2>
+          <h3 className="text-xl pb-4">
+            Access all lessons in this {module.moduleType}.
+          </h3>
+          <SubscribeToConvertkitForm
+            formId={3573840}
+            actionLabel="Continue Watching"
+            onSuccess={(subscriber: any) => {
+              if (subscriber) {
+                // send them to confirm page
+                const redirectUrl = redirectUrlBuilder(
+                  subscriber,
+                  `/confirm?source=video`,
+                )
+                router.push(redirectUrl)
+                // OR stay on current page and reload subscriber
+                // const redirectUrl = redirectUrlBuilder(
+                //   subscriber,
+                //   router.asPath,
+                // )
+                // window.location.assign(redirectUrl)
+              }
+            }}
+          />
+          <p className="pt-2 text-base opacity-80">
+            No spam, unsubscribe at any time.
+          </p>
+        </>
+      )}
     </OverlayWrapper>
   )
 }

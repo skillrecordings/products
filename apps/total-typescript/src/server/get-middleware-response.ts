@@ -21,12 +21,18 @@ export async function getMiddlewareResponse(req: NextRequest) {
 
     if (hasSubscribed) {
       if (subscriber.state === 'inactive') {
-        const baseUrlForRewrites = req.nextUrl.clone()
-        console.log(baseUrlForRewrites)
-        return (response = NextResponse.rewrite(
-          baseUrlForRewrites.origin +
-            `/confirm?source=video&email=${subscriber.email_address}`,
-        ))
+        // let them watch
+        return response
+
+        // OR block video
+        // response = rewriteToPath(req.nextUrl.pathname + '/blocked', req)
+
+        // OR redirect to /confirm
+        // const baseUrlForRewrites = req.nextUrl.clone()
+        // return (response = NextResponse.rewrite(
+        //   baseUrlForRewrites.origin +
+        //     `/confirm?source=video&email=${subscriber.email_address}`,
+        // ))
       } else {
         return response
       }

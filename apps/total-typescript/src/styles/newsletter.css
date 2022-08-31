@@ -24,7 +24,7 @@
 
 #video-overlay {
   [data-sr-convertkit-subscribe-form] {
-    @apply flex flex-col gap-4 text-left;
+    @apply flex flex-col gap-4 text-left w-full max-w-sm;
     [data-sr-input] {
       @apply p-3 bg-gray-800/50 border border-gray-800 w-full rounded-sm text-lg;
     }
