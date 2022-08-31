@@ -281,7 +281,7 @@ const PortableTextArticleTemplate: React.FC<
       <main className="mb-36">
         <div className="w-full max-w-screen-sm mx-auto">
           <div className="px-5 pt-10 md:pt-16 lg:px-0">
-            <article className="prose md:prose-lg md:prose-code:text-sm max-w-none">
+            <article className="prose md:prose-lg md:prose-code:text-sm max-w-none break-words">
               <PortableText value={body} components={PortableTextComponents} />
               {!hasSubscribed && subscribersOnly && (
                 <div className="absolute bottom-0 left-0 z-10 w-full bg-gradient-to-t from-white to-transparent h-80" />
