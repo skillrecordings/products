@@ -123,11 +123,13 @@ const DefaultOverlay: React.FC<DefaultOverlayProps> = ({
 type FinishedOverlayProps = {
   module: SanityDocument
   handlePlay: () => void
+  path: string
 }
 
 const FinishedOverlay: React.FC<FinishedOverlayProps> = ({
   module,
   handlePlay,
+  path,
 }) => {
   const router = useRouter()
   const shareUrl = `${process.env.NEXT_PUBLIC_URL}/${module.slug}`
@@ -160,7 +162,7 @@ const FinishedOverlay: React.FC<FinishedOverlayProps> = ({
           onClick={() => {
             router
               .push({
-                pathname: '/[module]/[lesson]',
+                pathname: `/${path}/[module]/[lesson]`,
                 query: {module: module.slug, lesson: module.resources[0].slug},
               })
               .then(handlePlay)

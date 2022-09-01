@@ -101,7 +101,11 @@ const Video: React.FC<any> = React.forwardRef(({module, lesson}, ref: any) => {
               )}
             </>
           ) : (
-            <FinishedOverlay module={module} handlePlay={handlePlay} />
+            <FinishedOverlay
+              module={module}
+              handlePlay={handlePlay}
+              path={path}
+            />
           )}
         </>
       )}
