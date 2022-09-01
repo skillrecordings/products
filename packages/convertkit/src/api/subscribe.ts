@@ -3,6 +3,7 @@ import {convertkitAxios} from '@skillrecordings/axios'
 import serverCookie from 'cookie'
 import {
   CONVERTKIT_SIGNUP_FORM,
+  CONVERTKIT_API_SECRET,
   CONVERTKIT_TOKEN,
   CK_SUBSCRIBER_KEY,
 } from '@skillrecordings/config'
@@ -18,6 +19,7 @@ const subscribe = async (req: NextApiRequest, res: NextApiResponse) => {
         tag,
         sequence,
       } = req.body
+
       const getEndpoint = () => {
         if (tag) {
           return `/tags/${tag}/subscribe`
@@ -37,6 +39,16 @@ const subscribe = async (req: NextApiRequest, res: NextApiResponse) => {
         .then(({data}) => {
           return data.subscription.subscriber
         })
+
+      console.log(fields)
+      console.log(subscriber)
+
+      if (subscriber && fields) {
+        await convertkitAxios.put(`/subscribers/${subscriber.id}`, {
+          api_secret: CONVERTKIT_API_SECRET,
+          fields,
+        })
+      }
 
       const convertkitCookie = serverCookie.serialize(
         CK_SUBSCRIBER_KEY as string,

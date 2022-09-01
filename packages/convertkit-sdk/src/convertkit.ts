@@ -52,7 +52,7 @@ export async function subscribeToEndpoint(
     }),
   })
     .then((res) => res.json())
-    .then(({subscription}: any) => {
+    .then(({subscription}: {subscription: {subscriber: {id: number}}}) => {
       return subscription.subscriber
     })
 }
@@ -78,7 +78,7 @@ export async function tagSubscriber(email: string, tagId: string) {
 }
 
 export async function setConvertkitSubscriberFields(
-  subscriber: {id: string},
+  subscriber: {id: string; fields: Record<string, string>},
   fields: Record<string, string>,
 ) {
   for (const field in fields) {
@@ -98,7 +98,7 @@ export async function setConvertkitSubscriberFields(
 
 export async function createConvertkitCustomField(
   questionId: string,
-  subscriber: any,
+  subscriber: {fields: Record<string, string>},
 ) {
   try {
     if (!process.env.CONVERTKIT_API_SECRET) {
@@ -197,8 +197,8 @@ export async function fetchSubscriber(convertkitId: string) {
     const subscriberUrl = `${convertkitBaseUrl}/subscribers/${convertkitId}?api_secret=${process.env.CONVERTKIT_API_SECRET}`
     subscriber = await fetch(subscriberUrl)
       .then((res) => res.json())
-      .then(({subscription}: any) => {
-        return subscription.subscriber
+      .then(({subscriber}: any) => {
+        return subscriber
       })
   }
 

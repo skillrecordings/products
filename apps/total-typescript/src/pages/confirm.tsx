@@ -7,36 +7,6 @@ import {get} from 'lodash'
 
 const ConfirmSubscriptionPage = () => {
   const router = useRouter()
-  const source = router.query.source || 'default'
-  const email = router.query.email
-
-  const data = {
-    video: {
-      title: 'Confirm your subscription',
-      description: (
-        <>
-          A confirmation email was sent to {email ? email : 'your inbox'}.
-          Please click the confirmation button in this email to confirm your
-          subscription and start watching videos. If you don't see the email
-          after a few minutes, you might check your spam folder or other filters
-          and add <strong>{process.env.NEXT_PUBLIC_SUPPORT_EMAIL}</strong> to
-          your contacts.
-        </>
-      ),
-    },
-    default: {
-      title: 'Please check your inbox for an email that just got sent.',
-      description: (
-        <>
-          You'll need to click the confirmation link to receive any further
-          emails. If you don't see the email after a few minutes, you might
-          check your spam folder or other filters and add{' '}
-          <strong>{process.env.NEXT_PUBLIC_SUPPORT_EMAIL}</strong> to your
-          contacts.
-        </>
-      ),
-    },
-  }
 
   return (
     <Layout meta={{title: 'Confirm your subscription'}}>
@@ -49,10 +19,14 @@ const ConfirmSubscriptionPage = () => {
         </div>
         <div className="max-w-xl text-center">
           <h1 className="font-bold sm:text-4xl text-3xl py-8 font-text max-w-lg mx-auto w-full">
-            {get(data, source).title}
+            Please check your inbox for an email that just got sent.
           </h1>
           <p className="sm:text-lg leading-relaxed mx-auto pb-8 text-gray-200">
-            {get(data, source).description}
+            You'll need to click the confirmation link to receive any further
+            emails. If you don't see the email after a few minutes, you might
+            check your spam folder or other filters and add{' '}
+            <strong>{process.env.NEXT_PUBLIC_SUPPORT_EMAIL}</strong> to your
+            contacts.
           </p>
           <p className="sm:text-lg text-gray-200">
             Thanks, <br />

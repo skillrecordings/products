@@ -41,6 +41,7 @@
     }
   }
   [data-sr-convertkit-subscribe-form='success'] {
+    @apply text-center py-2;
   }
   [data-sr-convertkit-subscribe-form='error'] {
   }

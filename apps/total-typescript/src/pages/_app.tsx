@@ -3,6 +3,7 @@ import {AppProps} from 'next/app'
 import '../styles/globals.css'
 import 'focus-visible'
 import {ConvertkitProvider} from '@skillrecordings/convertkit'
+import {SessionProvider} from 'next-auth/react'
 import {usePageview} from '@skillrecordings/analytics'
 import {DefaultSeo} from '@skillrecordings/next-seo'
 import {initNProgress} from '@skillrecordings/react'
@@ -17,11 +18,13 @@ function MyApp({Component, pageProps}: AppProps) {
   return (
     <>
       <DefaultSeo {...config} />
-      <MDXProvider components={MDXComponents}>
+      <SessionProvider session={pageProps.session} refetchInterval={0}>
         <ConvertkitProvider>
-          <Component {...pageProps} />
+          <MDXProvider components={MDXComponents}>
+            <Component {...pageProps} />
+          </MDXProvider>
         </ConvertkitProvider>
-      </MDXProvider>
+      </SessionProvider>
       {process.env.NODE_ENV !== 'development' && (
         <>
           <Script
