@@ -154,12 +154,14 @@ const GitHubLink: React.FC<{
     return null
   }
 
+  const openFile = stackblitz.openFile.split(',')[0]
+
   return (
     <div className="pt-8">
       <h2 className="sm:text-2xl text-xl font-semibold pb-2">Code</h2>
       <div className="flex items-center gap-2">
         <a
-          href={`https://github.com/total-typescript/${github.repo}/blob/main/${lesson.stackblitz.openFile}`}
+          href={`https://github.com/total-typescript/${github.repo}/blob/main/${openFile}`}
           target="_blank"
           rel="noopener noreferrer"
           className="bg-gray-800/50 hover:bg-slate-800/90 transition border border-gray-700/50 text-white rounded py-5 px-6 text-lg font-medium inline-flex items-center gap-4"
@@ -170,9 +172,7 @@ const GitHubLink: React.FC<{
               {module.github.repo}
               <span className="text-gray-400 font-medium"></span>
             </p>
-            <p className="text-sm font-mono text-gray-400">
-              /{stackblitz.openFile}
-            </p>
+            <p className="text-sm font-mono text-gray-400">/{openFile}</p>
           </div>
         </a>
       </div>
