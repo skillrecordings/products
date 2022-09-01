@@ -2296,6 +2296,7 @@ importers:
       react-dom: 18.2.0
       react-hook-form: ^7.29.0
       react-hot-toast: ^2.2.0
+      simplebar-react: ^2.3.6
       tailwindcss: ^3.1.4
       typescript: ^4.7.4
       webpack: '>=4.3.0 <5.0.0'
@@ -2340,6 +2341,7 @@ importers:
       react-dom: 18.2.0_react@18.2.0
       react-hook-form: 7.29.0_react@18.2.0
       react-hot-toast: 2.2.0_biqbaboplfbrettd7655fr4n2y
+      simplebar-react: 2.3.6_biqbaboplfbrettd7655fr4n2y
       xstate: 4.23.1
       zod: 3.17.10
     devDependencies:
@@ -15239,7 +15241,7 @@ packages:
       mississippi: 3.0.0
       mkdirp: 0.5.5
       move-concurrently: 1.0.1
-      promise-inflight: 1.0.1
+      promise-inflight: 1.0.1_bluebird@3.7.2
       rimraf: 2.6.3
       ssri: 6.0.2
       unique-filename: 1.1.1
@@ -15375,7 +15377,7 @@ packages:
     dev: false
 
   /can-use-dom/0.1.0:
-    resolution: {integrity: sha1-IsxKNKCrxDlQ9CxkEQJKP2NmtFo=}
+    resolution: {integrity: sha512-ceOhN1DL7Y4O6M0j9ICgmTYziV89WMd96SvSl0REd8PMgrY0B/WBOPoed5S1KUmJqXgUXh8gzSe6E3ae27upsQ==}
     dev: false
 
   /caniuse-api/3.0.0:
@@ -19914,7 +19916,7 @@ packages:
       create-error-class: 3.0.2
       debug: 2.6.9
       decompress-response: 6.0.0
-      follow-redirects: 1.15.1
+      follow-redirects: 1.15.1_debug@2.6.9
       form-urlencoded: 2.0.9
       into-stream: 3.1.0
       is-plain-object: 2.0.4
@@ -27759,6 +27761,17 @@ packages:
     peerDependenciesMeta:
       bluebird:
         optional: true
+    dev: true
+
+  /promise-inflight/1.0.1_bluebird@3.7.2:
+    resolution: {integrity: sha512-6zWPyEOFaQBJYcGMHBKTKJ3u6TBsnMFOIZSa6ce1e/ZrrsOlnHRHbabMjLiBYKp+n44X9eUI6VUPaukCXHuG4g==}
+    peerDependencies:
+      bluebird: '*'
+    peerDependenciesMeta:
+      bluebird:
+        optional: true
+    dependencies:
+      bluebird: 3.7.2
 
   /prompts/2.1.0:
     resolution: {integrity: sha512-+x5TozgqYdOwWsQFZizE/Tra3fKvAoy037kOyU6cgz84n8f6zxngLOV4O32kTwt9FcLCxAqw0P/c8rOr9y+Gfg==}
@@ -30048,7 +30061,7 @@ packages:
       react: ^0.14.9 || ^15.3.0 || ^16.0.0-rc || ^16.0 || ^17.0
       react-dom: ^0.14.9 || ^15.3.0 || ^16.0.0-rc || ^16.0 || ^17.0
     dependencies:
-      prop-types: 15.7.2
+      prop-types: 15.8.1
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
       simplebar: 5.3.6

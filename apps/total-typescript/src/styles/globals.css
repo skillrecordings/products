@@ -5,6 +5,7 @@
 @import './quiz.css';
 @import './newsletter.css';
 @import './nprogress.css';
+@import '../../node_modules/simplebar-react/dist/simplebar.min.css';
 
 @tailwind utilities;
 @import './focus-visible.css';
@@ -30,4 +31,8 @@ mux-player {
   ::-webkit-details-marker {
     display: none;
   }
+}
+
+.simplebar-scrollbar:before {
+  @apply bg-white/50;
 }
