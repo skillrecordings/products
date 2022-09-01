@@ -1,8 +1,10 @@
 import {SkillRecordingsHandlerParams} from '../../types'
 import {OutgoingResponse} from '../../index'
 import {
-  getConvertkitSubscriberCookie,
+  fetchSubscriber,
   subscribeToEndpoint,
+  getConvertkitSubscriberCookie,
+  setConvertkitSubscriberFields,
 } from '@skillrecordings/convertkit-sdk'
 
 export async function subscribeToConvertkit({
@@ -33,6 +35,13 @@ export async function subscribeToConvertkit({
       first_name,
       fields,
     })
+
+    if (fields) {
+      const subscriberWithFields = await fetchSubscriber(
+        subscriber.id.toString(),
+      )
+      await setConvertkitSubscriberFields(subscriberWithFields, fields)
+    }
 
     return {
       status: 200,

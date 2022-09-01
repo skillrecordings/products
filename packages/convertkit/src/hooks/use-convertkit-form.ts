@@ -11,6 +11,7 @@ export function useConvertkitForm({
   submitUrl = process.env.NEXT_PUBLIC_CONVERTKIT_SUBSCRIBE_URL ||
     CONVERTKIT_SUBSCRIBE_API_URL,
   formId = (CONVERTKIT_SIGNUP_FORM || 0) as number,
+  fields,
   onSuccess,
   onError,
 }: {
@@ -18,6 +19,7 @@ export function useConvertkitForm({
   formId?: number
   onSuccess: (subscriber: ConvertkitSubscriber) => void
   onError: (error?: any) => void
+  fields?: any
 }) {
   const {isSubmitting, status, handleChange, handleSubmit} = useFormik({
     initialStatus: '',
@@ -33,7 +35,7 @@ export function useConvertkitForm({
     enableReinitialize: true,
     onSubmit: async ({email, first_name}, {setStatus}) => {
       return axios
-        .post(submitUrl, {email, first_name, form: formId})
+        .post(submitUrl, {email, first_name, form: formId, fields})
         .then((response: any) => {
           const subscriber: ConvertkitSubscriber = response.data
           onSuccess(subscriber)

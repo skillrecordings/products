@@ -2,8 +2,12 @@ import React from 'react'
 import Layout from 'components/app/layout'
 import config from 'config'
 import Image from 'next/image'
+import {useRouter} from 'next/router'
+import {get} from 'lodash'
 
 const ConfirmSubscriptionPage = () => {
+  const router = useRouter()
+
   return (
     <Layout meta={{title: 'Confirm your subscription'}}>
       <main className="flex-grow flex items-center justify-center flex-col px-5 py-24">
@@ -13,7 +17,7 @@ const ConfirmSubscriptionPage = () => {
             alt="confirm your email address"
           />
         </div>
-        <div className="max-w-xl text-center font-light">
+        <div className="max-w-xl text-center">
           <h1 className="font-bold sm:text-4xl text-3xl py-8 font-text max-w-lg mx-auto w-full">
             Please check your inbox for an email that just got sent.
           </h1>

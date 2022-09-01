@@ -3,6 +3,7 @@ import {NextSeo} from '@skillrecordings/next-seo'
 import Navigation from 'components/app/navigation'
 import cx from 'classnames'
 import isNull from 'lodash/isNull'
+import {Toaster} from 'react-hot-toast'
 
 type LayoutProps = {
   meta?: any
@@ -54,6 +55,7 @@ const Layout: FunctionComponent<LayoutProps> = ({
         canonical={url}
         noindex={noIndex}
       />
+      <Toaster position="top-center" />
       {nav ? nav : isNull(nav) ? null : <Navigation />}
       <div
         className={cx('flex flex-col flex-grow h-full min-h-screen', className)}

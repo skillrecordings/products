@@ -13,6 +13,7 @@ export type SubscribeFormProps = {
   formId?: number
   subscribeApiURL?: string
   id?: string
+  fields?: Record<string, string>
   [rest: string]: any
 }
 
@@ -48,6 +49,7 @@ export type SubscribeFormProps = {
  * @param onError function to call on error
  * @param onSuccess function to call on success
  * @param subscribeApiURL optional param to override the api url that gets posted to
+ * @param fields custom subscriber fields to create or update
  * @param rest anything else!
  * @constructor
  */
@@ -63,12 +65,14 @@ export const SubscribeToConvertkitForm: React.FC<
   onSuccess = () => {},
   subscribeApiURL,
   id,
+  fields,
   ...rest
 }) => {
   const {isSubmitting, status, handleChange, handleSubmit} = useConvertkitForm({
     formId,
     onSuccess,
     onError,
+    fields,
     submitUrl: subscribeApiURL,
   })
 

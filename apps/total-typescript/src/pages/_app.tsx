@@ -10,6 +10,7 @@ import config from '../config'
 import Script from 'next/script'
 import {MDXProvider} from '@mdx-js/react'
 import {MDXComponents} from 'components/mdx'
+// import {SessionProvider} from 'next-auth/react'
 
 function MyApp({Component, pageProps}: AppProps) {
   usePageview()
@@ -17,11 +18,13 @@ function MyApp({Component, pageProps}: AppProps) {
   return (
     <>
       <DefaultSeo {...config} />
-      <MDXProvider components={MDXComponents}>
-        <ConvertkitProvider>
+      {/* <SessionProvider session={pageProps.session} refetchInterval={0}> */}
+      <ConvertkitProvider>
+        <MDXProvider components={MDXComponents}>
           <Component {...pageProps} />
-        </ConvertkitProvider>
-      </MDXProvider>
+        </MDXProvider>
+      </ConvertkitProvider>
+      {/* </SessionProvider> */}
       {process.env.NODE_ENV !== 'development' && (
         <>
           <Script

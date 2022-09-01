@@ -1,4 +1,5 @@
 import React from 'react'
+import type {ConvertkitSubscriber} from '@skillrecordings/convertkit/dist/types'
 import MuxPlayer, {MuxPlayerProps} from '@mux/mux-player-react'
 import LessonSidebar from 'components/lesson-sidebar'
 import Navigation from 'components/app/navigation'
@@ -15,6 +16,7 @@ import {
   ExerciseOverlay,
   DefaultOverlay,
   FinishedOverlay,
+  BlockedOverlay,
 } from 'components/lesson-overlay'
 
 const path = '/tutorials'
@@ -22,7 +24,8 @@ const path = '/tutorials'
 const LessonTemplate: React.FC<{
   lesson: SanityDocument
   module: SanityDocument
-}> = ({lesson, module}) => {
+  subscriber: ConvertkitSubscriber
+}> = ({lesson, module, subscriber}) => {
   const {title, lessonType} = lesson
   const muxPlayerRef = React.useRef<HTMLDivElement>()
   const pageTitle = `${title} (${capitalize(lessonType)})`
@@ -40,12 +43,11 @@ const LessonTemplate: React.FC<{
           module={module}
           path={path}
         />
-
         <main className="w-full relative">
           <Video ref={muxPlayerRef} module={module} lesson={lesson} />
           <details className="lg:hidden block group">
             <summary className="flex gap-1 items-center px-4 pb-3 pt-2 font-medium bg-transparent border-b border-gray-800 hover:bg-white/5 transition cursor-pointer no-marker marker:content-[''] group-open:after:rotate-0 after:rotate-180 after:content-['↑'] after:text-lg after:w-6 after:h-6 after:rounded-full after:bg-gray-800 after:flex after:items-center after:justify-center after:absolute after:right-3">
-              {capitalize(module.moduleType)}{' '}
+              {module.title} {capitalize(module.moduleType)}{' '}
               <span className="opacity-80">
                 ({module.resources.length} lessons)
               </span>
@@ -54,7 +56,6 @@ const LessonTemplate: React.FC<{
           </details>
           <article>
             <div className="mx-auto lg:px-10 lg:py-8 px-5 py-5 relative">
-              {/* <AutoPlayToggle muxPlayerRef={muxPlayerRef} /> */}
               <LessonTitle lesson={lesson} />
               <LessonDescription lesson={lesson} />
               <GitHubLink lesson={lesson} module={module} />
@@ -70,7 +71,6 @@ const LessonTemplate: React.FC<{
 
 const Video: React.FC<any> = React.forwardRef(({module, lesson}, ref: any) => {
   const isExercise = Boolean(lesson.lessonType === 'exercise')
-
   const {muxPlayerProps, handlePlay, displayOverlay, nextLesson} = useMuxPlayer(
     ref,
     lesson,
@@ -113,7 +113,11 @@ const Video: React.FC<any> = React.forwardRef(({module, lesson}, ref: any) => {
           },
         )}
       >
-        <MuxPlayer ref={ref} {...(muxPlayerProps as MuxPlayerProps)} />
+        {lesson.video ? (
+          <MuxPlayer ref={ref} {...(muxPlayerProps as MuxPlayerProps)} />
+        ) : (
+          <BlockedOverlay module={module} />
+        )}
       </div>
     </>
   )
@@ -238,7 +242,6 @@ const LessonTranscript: React.FC<{
 }> = ({lesson, muxPlayerRef}) => {
   const {transcript} = lesson
   const {handlePlay} = useMuxPlayer(muxPlayerRef)
-
   if (!transcript) {
     return null
   }

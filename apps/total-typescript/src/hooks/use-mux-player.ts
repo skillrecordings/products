@@ -1,9 +1,8 @@
-import {SanityDocument} from '@sanity/client'
-import {useVideo} from 'context/video-context'
-import {useRouter} from 'next/router'
 import React from 'react'
-import {getNextLesson} from 'utils/get-lesson'
 import {usePlayerPrefs} from './use-player-prefs'
+import {getNextLesson} from 'utils/get-lesson'
+import {SanityDocument} from '@sanity/client'
+import {useRouter} from 'next/router'
 
 export const useMuxPlayer = (
   muxPlayerRef: any,
@@ -11,7 +10,6 @@ export const useMuxPlayer = (
   course?: SanityDocument,
 ) => {
   const router = useRouter()
-  const videoService = useVideo()
   const nextLesson = lesson && course && getNextLesson(course, lesson)
   const {setPlayerPrefs, playbackRate, autoplay, getPlayerPrefs} =
     usePlayerPrefs()
@@ -32,27 +30,24 @@ export const useMuxPlayer = (
 
   // initialize player state
   React.useEffect(() => {
-    videoService.send('RESET')
     setDisplayOverlay(false)
   }, [lesson])
 
   // preferences
   React.useEffect(() => {
-    muxPlayerRef.current.playbackRate = playbackRate
-    muxPlayerRef.current.autoplay = autoplay
+    if (muxPlayerRef.current) {
+      muxPlayerRef.current.playbackRate = playbackRate
+      muxPlayerRef.current.autoplay = autoplay
+    }
   }, [playbackRate, autoPlay])
 
   return {
     muxPlayerProps: {
       onPlay: () => {
         setDisplayOverlay(false)
-        videoService.send({type: 'PLAY'})
       },
-      onPause: () => {
-        videoService.send({type: 'PAUSE'})
-      },
+      onPause: () => {},
       onEnded: (e: any) => {
-        videoService.send({type: 'END'})
         handleNext(getPlayerPrefs().autoplay)
       },
       onRateChange: () => {

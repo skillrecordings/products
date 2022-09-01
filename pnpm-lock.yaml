@@ -2248,17 +2248,22 @@ importers:
       '@portabletext/react': ^1.0.6
       '@sanity/block-content-to-react': ^3.0.0
       '@sanity/client': ^3.3.3
+      '@sentry/nextjs': ^7.9.0
       '@skillrecordings/analytics': workspace:*
+      '@skillrecordings/config': workspace:*
       '@skillrecordings/convertkit': workspace:*
+      '@skillrecordings/database': workspace:^1.0.0
       '@skillrecordings/next-seo': workspace:*
       '@skillrecordings/quiz': workspace:*
       '@skillrecordings/react': workspace:*
       '@skillrecordings/scripts': workspace:*
+      '@skillrecordings/skill-api': workspace:*
       '@skillrecordings/tsconfig': workspace:*
       '@skillrecordings/types': workspace:*
       '@stackblitz/sdk': ^1.8.0
       '@tailwindcss/typography': ^0.5.2
       '@types/js-cookie': ^3.0.2
+      '@types/jsonwebtoken': ^8.5.8
       '@types/lodash': ^4.14.179
       '@types/mdx': ^2.0.2
       '@types/mdx-js__react': ^1.5.5
@@ -2275,17 +2280,22 @@ importers:
       focus-visible: ^5.2.0
       groq: ^2.15.0
       js-cookie: ^3.0.1
+      jsonwebtoken: ^8.5.1
       lint-staged: ^11.2.6
       lodash: ^4.17.21
+      mjml: ^4.12.0
       next: ^12.2.3
+      next-auth: ^4.10.2
       next-compose-plugins: ^2.2.1
       next-sitemap: ^3.0.5
+      node-fetch: ^2.6.7
       postcss: ^8.4.14
       prettier: ^2.6.2
       react: 18.2.0
       react-device-detect: ^2.2.2
       react-dom: 18.2.0
       react-hook-form: ^7.29.0
+      react-hot-toast: ^2.2.0
       tailwindcss: ^3.1.4
       typescript: ^4.7.4
       webpack: '>=4.3.0 <5.0.0'
@@ -2300,11 +2310,15 @@ importers:
       '@portabletext/react': 1.0.6_react@18.2.0
       '@sanity/block-content-to-react': 3.0.0_react@18.2.0
       '@sanity/client': 3.3.3
+      '@sentry/nextjs': 7.9.0_2p7c5bckdh5ay4pxqmrggvr7ea
       '@skillrecordings/analytics': link:../../packages/analytics
+      '@skillrecordings/config': link:../../packages/config
       '@skillrecordings/convertkit': link:../../packages/convertkit
+      '@skillrecordings/database': link:../../packages/database
       '@skillrecordings/next-seo': link:../../packages/next-seo
       '@skillrecordings/quiz': link:../../packages/quiz
       '@skillrecordings/react': link:../../packages/react
+      '@skillrecordings/skill-api': link:../../packages/skill-api
       '@stackblitz/sdk': 1.8.0
       '@tailwindcss/typography': 0.5.2_tailwindcss@3.1.6
       '@xstate/react': 1.5.1_bpg42ha2il6pcyn3wrx2rxrchm
@@ -2313,14 +2327,19 @@ importers:
       focus-visible: 5.2.0
       groq: 2.15.0
       js-cookie: 3.0.1
+      jsonwebtoken: 8.5.1
       lodash: 4.17.21
+      mjml: 4.12.0
       next: 12.2.3_biqbaboplfbrettd7655fr4n2y
+      next-auth: 4.10.2_biqbaboplfbrettd7655fr4n2y
       next-compose-plugins: 2.2.1
       next-sitemap: 3.1.7_6lynxinfr2uix4icggokqiwwie
+      node-fetch: 2.6.7
       react: 18.2.0
       react-device-detect: 2.2.2_biqbaboplfbrettd7655fr4n2y
       react-dom: 18.2.0_react@18.2.0
       react-hook-form: 7.29.0_react@18.2.0
+      react-hot-toast: 2.2.0_biqbaboplfbrettd7655fr4n2y
       xstate: 4.23.1
       zod: 3.17.10
     devDependencies:
@@ -2329,6 +2348,7 @@ importers:
       '@skillrecordings/tsconfig': link:../../packages/tsconfig
       '@skillrecordings/types': link:../../packages/types
       '@types/js-cookie': 3.0.2
+      '@types/jsonwebtoken': 8.5.8
       '@types/lodash': 4.14.180
       '@types/mdx': 2.0.2
       '@types/mdx-js__react': 1.5.5
@@ -11504,6 +11524,35 @@ packages:
       tslib: 1.14.1
     dev: false
 
+  /@sentry/nextjs/7.9.0_2p7c5bckdh5ay4pxqmrggvr7ea:
+    resolution: {integrity: sha512-yToPcsoMwfFyUS7STmJdwbE6JxlUHaxxnO8Qwpu9jFF2dH925r3MBWkwR1H2wfR1GbOLVwGUmQIdL1LAR8novw==}
+    engines: {node: '>=8'}
+    peerDependencies:
+      next: ^10.0.8 || ^11.0 || ^12.0
+      react: 15.x || 16.x || 17.x || 18.x
+      webpack: '>= 4.0.0'
+    peerDependenciesMeta:
+      webpack:
+        optional: true
+    dependencies:
+      '@sentry/core': 7.9.0
+      '@sentry/hub': 7.9.0
+      '@sentry/integrations': 7.9.0
+      '@sentry/node': 7.9.0
+      '@sentry/react': 7.9.0_react@18.2.0
+      '@sentry/tracing': 7.9.0
+      '@sentry/types': 7.9.0
+      '@sentry/utils': 7.9.0
+      '@sentry/webpack-plugin': 1.19.0
+      next: 12.2.3_biqbaboplfbrettd7655fr4n2y
+      react: 18.2.0
+      tslib: 1.14.1
+      webpack: 4.46.0
+    transitivePeerDependencies:
+      - encoding
+      - supports-color
+    dev: false
+
   /@sentry/nextjs/7.9.0_5cy3dema5qwip6n7exqk4sqtji:
     resolution: {integrity: sha512-yToPcsoMwfFyUS7STmJdwbE6JxlUHaxxnO8Qwpu9jFF2dH925r3MBWkwR1H2wfR1GbOLVwGUmQIdL1LAR8novw==}
     engines: {node: '>=8'}
@@ -15103,7 +15152,7 @@ packages:
     dev: false
 
   /buffer-equal-constant-time/1.0.1:
-    resolution: {integrity: sha1-+OcRMvf/5uAaXJaXpMbz5I1cyBk=}
+    resolution: {integrity: sha512-zRpUiDwd/xk6ADqPMATG8vc9VPrkck7T07OIx0gnjmJAnHnTVXNQG3vfvWNuiZIkwu9KrKdA1iJKfsfTVxE6NA==}
     dev: false
 
   /buffer-from/1.1.2:
@@ -15190,7 +15239,7 @@ packages:
       mississippi: 3.0.0
       mkdirp: 0.5.5
       move-concurrently: 1.0.1
-      promise-inflight: 1.0.1_bluebird@3.7.2
+      promise-inflight: 1.0.1
       rimraf: 2.6.3
       ssri: 6.0.2
       unique-filename: 1.1.1
@@ -25179,6 +25228,30 @@ packages:
     engines: {node: '>= 0.4.0'}
     dev: false
 
+  /next-auth/4.10.2_biqbaboplfbrettd7655fr4n2y:
+    resolution: {integrity: sha512-9XeP3faA5M3LneNJuzZCrmyR1ONYVH+pNQTozLBlpzXSkVRCgy+PTLAojOGkCo5v5MWcCZNTNHUOQL6gIcYwEQ==}
+    engines: {node: ^12.19.0 || ^14.15.0 || ^16.13.0}
+    peerDependencies:
+      nodemailer: ^6.6.5
+      react: ^17.0.2 || ^18
+      react-dom: ^17.0.2 || ^18
+    peerDependenciesMeta:
+      nodemailer:
+        optional: true
+    dependencies:
+      '@babel/runtime': 7.18.3
+      '@panva/hkdf': 1.0.1
+      cookie: 0.4.2
+      jose: 4.6.0
+      oauth: 0.9.15
+      openid-client: 5.1.4
+      preact: 10.7.2
+      preact-render-to-string: 5.2.0_preact@10.7.2
+      react: 18.2.0
+      react-dom: 18.2.0_react@18.2.0
+      uuid: 8.3.2
+    dev: false
+
   /next-auth/4.10.2_uwv6tj4c6jl3tcycfdgw4fi3ba:
     resolution: {integrity: sha512-9XeP3faA5M3LneNJuzZCrmyR1ONYVH+pNQTozLBlpzXSkVRCgy+PTLAojOGkCo5v5MWcCZNTNHUOQL6gIcYwEQ==}
     engines: {node: ^12.19.0 || ^14.15.0 || ^16.13.0}
@@ -27686,17 +27759,6 @@ packages:
     peerDependenciesMeta:
       bluebird:
         optional: true
-    dev: true
-
-  /promise-inflight/1.0.1_bluebird@3.7.2:
-    resolution: {integrity: sha512-6zWPyEOFaQBJYcGMHBKTKJ3u6TBsnMFOIZSa6ce1e/ZrrsOlnHRHbabMjLiBYKp+n44X9eUI6VUPaukCXHuG4g==}
-    peerDependencies:
-      bluebird: '*'
-    peerDependenciesMeta:
-      bluebird:
-        optional: true
-    dependencies:
-      bluebird: 3.7.2
 
   /prompts/2.1.0:
     resolution: {integrity: sha512-+x5TozgqYdOwWsQFZizE/Tra3fKvAoy037kOyU6cgz84n8f6zxngLOV4O32kTwt9FcLCxAqw0P/c8rOr9y+Gfg==}
