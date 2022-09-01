@@ -1,6 +1,5 @@
 import React from 'react'
 import LessonTemplate from 'templates/lesson-template'
-import {VideoProvider} from 'context/video-context'
 import {GetServerSideProps} from 'next'
 import {getTutorial} from 'lib/tutorials'
 import {getBlockedLesson, getLesson} from 'lib/lessons'
@@ -19,7 +18,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     }
   }
 
-  const tutorial = await getTutorial(params?.tutorial as string)
+  const tutorial = await getTutorial(params?.module as string)
 
   if (blockedLesson.isFree || subscriber) {
     const fullLesson = await getLesson(lessonSlug)
@@ -36,13 +35,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 
 const LessonPage: React.FC<any> = ({lesson, tutorial, subscriber}) => {
   return (
-    <VideoProvider>
-      <LessonTemplate
-        lesson={lesson}
-        module={tutorial}
-        subscriber={subscriber}
-      />
-    </VideoProvider>
+    <LessonTemplate lesson={lesson} module={tutorial} subscriber={subscriber} />
   )
 }
 

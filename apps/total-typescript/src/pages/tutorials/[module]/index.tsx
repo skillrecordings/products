@@ -5,7 +5,7 @@ import React from 'react'
 import TutorialTemplate from 'templates/tutorial-template'
 
 export const getServerSideProps: GetServerSideProps = async ({req, params}) => {
-  const tutorial = await getTutorial(params?.tutorial as string)
+  const tutorial = await getTutorial(params?.module as string)
   if (!tutorial) {
     return {
       notFound: true,

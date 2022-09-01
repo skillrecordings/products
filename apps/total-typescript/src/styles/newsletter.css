@@ -41,8 +41,13 @@
     }
   }
   [data-sr-convertkit-subscribe-form='success'] {
-    @apply text-center py-2;
+    p {
+      @apply text-center py-2;
+    }
   }
   [data-sr-convertkit-subscribe-form='error'] {
+    p {
+      @apply text-center py-2;
+    }
   }
 }

@@ -33,8 +33,8 @@ const TutorialTemplate: React.FC<{tutorial: SanityDocument}> = ({tutorial}) => {
                 <li key={resource.slug}>
                   <Link
                     href={{
-                      pathname: '/tutorials/[tutorial]/[lesson]',
-                      query: {tutorial: slug, lesson: resource.slug},
+                      pathname: '/tutorials/[module]/[lesson]',
+                      query: {module: slug, lesson: resource.slug},
                     }}
                     passHref
                   >

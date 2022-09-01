@@ -1,7 +1,6 @@
 import React from 'react'
 import {usePlayerPrefs} from './use-player-prefs'
 import {getNextLesson} from 'utils/get-lesson'
-import {useVideo} from 'context/video-context'
 import {SanityDocument} from '@sanity/client'
 import {useRouter} from 'next/router'
 
@@ -11,7 +10,6 @@ export const useMuxPlayer = (
   course?: SanityDocument,
 ) => {
   const router = useRouter()
-  const videoService = useVideo()
   const nextLesson = lesson && course && getNextLesson(course, lesson)
   const {setPlayerPrefs, playbackRate, autoplay, getPlayerPrefs} =
     usePlayerPrefs()
@@ -32,7 +30,6 @@ export const useMuxPlayer = (
 
   // initialize player state
   React.useEffect(() => {
-    videoService.send('RESET')
     setDisplayOverlay(false)
   }, [lesson])
 
@@ -48,13 +45,9 @@ export const useMuxPlayer = (
     muxPlayerProps: {
       onPlay: () => {
         setDisplayOverlay(false)
-        videoService.send({type: 'PLAY'})
       },
-      onPause: () => {
-        videoService.send({type: 'PAUSE'})
-      },
+      onPause: () => {},
       onEnded: (e: any) => {
-        videoService.send({type: 'END'})
         handleNext(getPlayerPrefs().autoplay)
       },
       onRateChange: () => {

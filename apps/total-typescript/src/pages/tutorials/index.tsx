@@ -30,9 +30,9 @@ const TutorialsPage: React.FC<{tutorials: SanityDocument[]}> = ({
                 <li key={slug}>
                   <Link
                     href={{
-                      pathname: '/tutorials/[tutorial]',
+                      pathname: '/tutorials/[module]',
                       query: {
-                        tutorial: slug,
+                        module: slug,
                       },
                     }}
                   >
