@@ -13,7 +13,7 @@ export type SubscribeFormProps = {
   formId?: number
   subscribeApiURL?: string
   id?: string
-  fields?: any
+  fields?: Record<string, string>
   [rest: string]: any
 }
 
@@ -49,7 +49,7 @@ export type SubscribeFormProps = {
  * @param onError function to call on error
  * @param onSuccess function to call on success
  * @param subscribeApiURL optional param to override the api url that gets posted to
- * @param fields TODO: add description
+ * @param fields custom subscriber fields to create or update
  * @param rest anything else!
  * @constructor
  */
