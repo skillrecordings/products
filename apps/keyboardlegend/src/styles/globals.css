@@ -1,4 +1,5 @@
 @tailwind base;
+@import './quiz.css';
 @tailwind components;
 @tailwind utilities;
 
