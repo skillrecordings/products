@@ -209,7 +209,10 @@ const StackblitzEmbed: React.FC<{
   if (!stackblitz.openFile) {
     return null
   }
-  const codeFileNumber = stackblitz.openFile.match(/\d/g).join('')
+  const codeFileNumber = stackblitz.openFile
+    .match(/\d/g)
+    .join('')
+    .substring(0, 2)
   const startCommand = `${lesson.lessonType.substring(0, 1)}-${codeFileNumber}` // e.g. s-01, e-02, etc
   const githubOrg = 'total-typescript'
   const githubRepo = module.github.repo
