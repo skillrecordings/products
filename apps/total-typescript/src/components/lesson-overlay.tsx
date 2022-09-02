@@ -205,6 +205,12 @@ const BlockedOverlay: React.FC<BlockedOverlayProps> = ({module}) => {
     }
   }
 
+  const startedLearningField = {
+    // ex: started_zod_tutorial: 2022-09-02
+    [`started_${snakeCase(module.title)}_${module.moduleType}`.toLowerCase()]:
+      new Date().toISOString().slice(0, 10),
+  }
+
   return (
     <OverlayWrapper>
       <div className="2xl:block hidden">
@@ -224,11 +230,7 @@ const BlockedOverlay: React.FC<BlockedOverlayProps> = ({module}) => {
         formId={3573840}
         subscribeApiURL={process.env.NEXT_PUBLIC_CONVERTKIT_SUBSCRIBE_URL}
         actionLabel="Continue Watching"
-        fields={{
-          [`started_${snakeCase(module.title)}_${
-            module.moduleType
-          }`.toLowerCase()]: new Date().toISOString(),
-        }}
+        fields={startedLearningField}
         onSuccess={(subscriber) => handleOnSuccess(subscriber)}
       />
       <p className="pt-2 text-base opacity-80">
