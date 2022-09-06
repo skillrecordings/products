@@ -44,7 +44,7 @@ const SubscribeForm: React.FC<any> = ({setStarfieldSpeed}) => {
       >
         <span className="relative z-10">
           {state === 'idle' ? (
-            'Become Epic Web Dev'
+            'Become an Epic Web Dev'
           ) : (
             <Spinner className="w-6 h-6" />
           )}
