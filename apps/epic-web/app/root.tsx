@@ -12,7 +12,8 @@ import {
   ScrollRestoration,
 } from '@remix-run/react'
 
-import styles from './tailwind.css'
+import tailwindStyles from '~/tailwind.css'
+import fonts from '~/styles/fonts/index.css'
 
 export const meta: MetaFunction = () => {
   return {
@@ -23,7 +24,7 @@ export const meta: MetaFunction = () => {
     'twitter:title': 'Epic Web by Kent C. Dodds',
     'twitter:description':
       'Learn full-stack web development with Kent C. Dodds',
-    'twitter:image': 'https://mattpocock.com/og-image.jpg',
+    'twitter:image': 'https://epicweb.dev/card@2x.png',
     'og:title': 'Epic Web by Kent C. Dodds',
     'og:description': 'Learn full-stack web development with Kent C. Dodds',
     'og:url': 'https://epicweb.dev',
@@ -36,12 +37,21 @@ export const links: LinksFunction = () => {
   return [
     {
       rel: 'stylesheet',
-      href: styles,
+      href: tailwindStyles,
+    },
+    {
+      rel: 'stylesheet',
+      href: fonts,
     },
     {
       rel: 'icon',
       href: '/favicon.png',
       type: 'image/png',
+    },
+    {
+      rel: 'icon',
+      href: '/favicon.svg',
+      type: 'image/svg+xml',
     },
   ]
 }
@@ -61,7 +71,7 @@ export default function App() {
         <Meta />
         <Links />
       </head>
-      <body>
+      <body className="bg-gray-900 text-yellow-50 antialiased">
         <Outlet />
         <ScrollRestoration />
         <Scripts />
