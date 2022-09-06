@@ -11,12 +11,12 @@ const SubscribeForm: React.FC<any> = ({setStarfieldSpeed}) => {
       className="text-lg flex flex-col w-full max-w-md mx-auto"
     >
       <label className="font-medium inline-block">
-        Your name{' '}
+        First name{' '}
         <input
           name="first_name"
           type="text"
           autoComplete="given-name"
-          placeholder="Preferred name"
+          placeholder="what do you prefer to be called"
           className="block mt-2 p-5 w-full bg-black"
         />
       </label>
