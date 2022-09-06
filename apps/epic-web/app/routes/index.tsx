@@ -1,10 +1,18 @@
+import React from 'react'
 import type {ActionFunction, LoaderFunction} from '@remix-run/node'
-import {redirect, json} from '@remix-run/node'
-import {z} from 'zod'
 import {subscribeToForm} from '../lib/convertkit.server'
-import {Form, useLoaderData} from '@remix-run/react'
 import {convertkitSubscriberCookie} from '~/cookies'
-import {isEmpty} from 'lodash'
+import {PortableText} from '@portabletext/react'
+import {redirect, json} from '@remix-run/node'
+import {useLoaderData} from '@remix-run/react'
+import {getPage} from '~/lib/pages.server'
+import {motion} from 'framer-motion'
+import {z} from 'zod'
+import SubscribeForm from '~/components/subscribe-form'
+import AboutKent from '~/components/about-kent'
+import Starfield from '~/components/starfield'
+import Layout from '~/components/app/layout'
+import isEmpty from 'lodash/isEmpty'
 
 const FORM_ID = '3547851'
 
@@ -12,8 +20,9 @@ export const loader: LoaderFunction = async ({request}) => {
   const cookieHeader = request.headers.get('Cookie')
   const ckSubscriber =
     (await convertkitSubscriberCookie.parse(cookieHeader)) || {}
+  const pageData = await getPage('/')
 
-  return json({ckSubscriber})
+  return json({ckSubscriber, pageData})
 }
 
 export const action: ActionFunction = async ({request}) => {
@@ -31,7 +40,7 @@ export const action: ActionFunction = async ({request}) => {
       formId: FORM_ID,
     })
 
-    return redirect(`/confirmed`, {
+    return redirect(`/confirm`, {
       headers: {
         'Set-Cookie': await convertkitSubscriberCookie.serialize(subscriber),
       },
@@ -42,50 +51,85 @@ export const action: ActionFunction = async ({request}) => {
   }
 }
 
-export default function Index() {
-  const {ckSubscriber} = useLoaderData()
-
-  console.log({ckSubscriber})
+const Index = () => {
+  const {ckSubscriber, pageData} = useLoaderData()
+  const [starfieldSpeed, setStarfieldSpeed] = React.useState(0.5)
+  const {body} = pageData
 
   return (
-    <div className="prose">
-      <h1>Welcome to Epic Web Dev</h1>
+    <Layout>
+      <Header />
+      <main className="pb-48">
+        <Article body={body} />
+        <Subscribe
+          ckSubscriber={ckSubscriber}
+          setStarfieldSpeed={setStarfieldSpeed}
+        />
+        <AboutKent />
+      </main>
+      <Starfield speed={starfieldSpeed} />
+    </Layout>
+  )
+}
+
+export default Index
+
+const Article: React.FC<{body: any}> = ({body}) => {
+  return (
+    <article className="px-5 prose max-w-none prose-p:mx-auto md:prose-xl xl:prose-h2:mt-0 sm:prose-lg prose-p:max-w-2xl mx-auto sm:prose-p:py-2 prose-headings:text-center prose-headings:py-16 xl:prose-headings:fluid-2xl xl:prose-h3:text-3xl prose-h3:pt-0 prose-h3:pb-4 prose-h3:max-w-2xl prose-h3:mx-auto prose-h3:text-left sm:prose-h3:text-2xl prose-h3:text-xl">
+      <PortableText value={body} />
+    </article>
+  )
+}
+
+const Header = () => {
+  return (
+    <header className="min-h-[70vh] flex items-center justify-center py-32">
+      <div className="text-center mx-auto">
+        <h1 className="fluid-3xl lg:w-[35ch] lg:px-16 px-5 font-bold leading-tight">
+          Everything You Need to Know to Ship{' '}
+          <motion.span className="relative">
+            Modern Full-Stack
+            <motion.div
+              animate={{width: ['0%', '100%']}}
+              transition={{
+                delay: 0.5,
+                type: 'spring',
+                duration: 1,
+              }}
+              initial={{width: '0%'}}
+              className="h-px bg-amber-200 w-full absolute bottom-0 left-0"
+            />
+          </motion.span>{' '}
+          Web Applications
+        </h1>
+      </div>
+    </header>
+  )
+}
+
+type SubscribeProps = {
+  ckSubscriber: string
+  setStarfieldSpeed: (speed: number) => void
+}
+
+const Subscribe: React.FC<SubscribeProps> = ({
+  ckSubscriber,
+  setStarfieldSpeed,
+}) => {
+  return (
+    <section id="join" className="pt-10 pb-48">
       {isEmpty(ckSubscriber) ? (
-        <div>
-          <Form
-            method="post"
-            className="flex flex-col w-full max-w-[340px] mx-auto"
-          >
-            <label>
-              Name:{' '}
-              <input
-                name="first_name"
-                type="text"
-                placeholder="Preferred name"
-                className="block mb-4 w-full px-4 py-3 border placeholder-opacity-60 bg-opacity-50 rounded-lg shadow sm:text-base sm:leading-6"
-              />
-            </label>
-
-            <label className="font-medium pb-1 inline-block">
-              Email:{' '}
-              <input
-                name="email"
-                type="email"
-                placeholder="you@example.com"
-                required
-                className="block mb-4 w-full px-4 py-3 border placeholder-opacity-60 bg-opacity-50 rounded-lg shadow sm:text-base sm:leading-6"
-              />
-            </label>
-
-            <button
-              type="submit"
-              className="pt-4 pb-5 mt-4 flex items-center justify-center rounded-lg text-black bg-yellow-500 hover:bg-opacity-100 transition font-bold text-lg focus-visible:ring-yellow-200 hover:scale-105 hover:-rotate-1 hover:bg-yellow-400"
-            >
-              Create
-            </button>
-          </Form>
+        <SubscribeForm setStarfieldSpeed={setStarfieldSpeed} />
+      ) : (
+        <div className="lg:text-4xl sm:text-3xl text-2xl font-bold text-center">
+          You're subscribed{' '}
+          <span aria-hidden="true" className="text-brand">
+            ✧
+          </span>{' '}
+          Thanks!
         </div>
-      ) : null}
-    </div>
+      )}
+    </section>
   )
 }
