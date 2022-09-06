@@ -21,11 +21,7 @@ const AboutKent = () => {
             open source community
           </a>{' '}
           as a maintainer and contributor of hundreds of popular npm packages.
-          Kent is a Co-Founder and Director of Developer Experience at{' '}
-          <a href="https://remix.run" rel="noopener noreferrer" target="_blank">
-            Remix
-          </a>
-          . He is the creator of{' '}
+          He is the creator of{' '}
           <a
             href="https://epicreact.dev"
             rel="noopener noreferrer"
