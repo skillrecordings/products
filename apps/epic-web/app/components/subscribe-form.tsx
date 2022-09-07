@@ -8,7 +8,7 @@ const SubscribeForm: React.FC<any> = ({setStarfieldSpeed}) => {
   return (
     <Form
       method="post"
-      className="text-lg flex flex-col w-full max-w-md mx-auto"
+      className="text-lg flex flex-col w-full max-w-md mx-auto px-5"
     >
       <label className="font-medium inline-block">
         First name{' '}
@@ -39,6 +39,12 @@ const SubscribeForm: React.FC<any> = ({setStarfieldSpeed}) => {
           setStarfieldSpeed(2)
         }}
         onMouseOut={() => {
+          setStarfieldSpeed(0.5)
+        }}
+        onFocus={() => {
+          setStarfieldSpeed(2)
+        }}
+        onBlur={() => {
           setStarfieldSpeed(0.5)
         }}
       >

@@ -59,7 +59,7 @@ const Index = () => {
   return (
     <Layout>
       <Header />
-      <main className="pb-48">
+      <main className="sm:pb-48 pb-24">
         <Article body={body} />
         <Subscribe
           ckSubscriber={ckSubscriber}
@@ -98,7 +98,7 @@ const Header = () => {
                 duration: 1,
               }}
               initial={{width: '0%'}}
-              className="h-px bg-amber-200 w-full absolute bottom-0 left-0"
+              className="h-px bg-amber-200 w-full absolute bottom-0 left-0 lg:inline-block hidden"
             />
           </motion.span>{' '}
           Web Applications
@@ -118,7 +118,7 @@ const Subscribe: React.FC<SubscribeProps> = ({
   setStarfieldSpeed,
 }) => {
   return (
-    <section id="join" className="pt-10 pb-48">
+    <section id="join" className="pt-10 sm:pb-48 pb-24">
       {isEmpty(ckSubscriber) ? (
         <SubscribeForm setStarfieldSpeed={setStarfieldSpeed} />
       ) : (
