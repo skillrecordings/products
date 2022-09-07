@@ -1,7 +1,7 @@
 {
   "exclude": [
     "node_modules",
-    "generated/**/*"
+    "generated/**/*", "playwright"
   ],
   "extends": "@skillrecordings/tsconfig/nextjs.json",
   "compilerOptions": {
