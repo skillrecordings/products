@@ -170,7 +170,7 @@ export const portableTextMjmlComponents: PortableTextComponents = {
       return (
         <MjmlImage
           align="left"
-          width={value.width || 'auto'}
+          width={value.width}
           src={value.src}
           alt={value.alt}
         />
@@ -178,23 +178,21 @@ export const portableTextMjmlComponents: PortableTextComponents = {
     },
     emailButton: ({value}: any) => {
       return (
-        <MjmlSection padding={'2px 12.5px'}>
-          <MjmlButton
-            fontSize={16}
-            padding={20}
-            borderRadius={5}
-            align="center"
-            width={'100%'}
-            lineHeight={30}
-            backgroundColor="#e66891"
-            color="#FFF"
-            href={value.url}
-            fontFamily="sans-serif"
-            fontWeight={600}
-          >
-            {value.label}
-          </MjmlButton>
-        </MjmlSection>
+        <MjmlButton
+          fontSize={16}
+          padding={20}
+          borderRadius={5}
+          align="center"
+          width={'100%'}
+          lineHeight={30}
+          backgroundColor="#e66891"
+          color="#FFF"
+          href={value.url}
+          fontFamily="sans-serif"
+          fontWeight={600}
+        >
+          {value.label}
+        </MjmlButton>
       )
     },
     emailQuizQuestion: ({value}: any) => {

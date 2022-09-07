@@ -1,10 +1,33 @@
 import React from 'react'
 import {SanityDocument} from '@sanity/client'
 import Layout from 'components/app/layout'
+import {EmailTemplate} from 'components/portable-text/mjml'
+import {render} from 'mjml-react'
 import {GetServerSideProps} from 'next'
 import {useCopyToClipboard} from '@skillrecordings/react'
 import {getEmail} from 'lib/emails'
 import Link from 'next/link'
+
+export const getServerSideProps: GetServerSideProps = async (req) => {
+  const {slug} = req.query
+  const emailMeta = await getEmail(`${slug}`)
+  const email = await getEmail(`${req.query.slug}`)
+  const {body: emailBody, title, description, image} = email
+
+  const {html, errors} = render(
+    <EmailTemplate
+      emailBody={emailBody}
+      title={title}
+      description={description}
+      image={image}
+    />,
+    {validationLevel: 'soft'},
+  )
+
+  return {
+    props: {email: html, title: emailMeta.title},
+  }
+}
 
 const Email: React.FC<{email: SanityDocument; title: string}> = ({
   email,
@@ -59,15 +82,3 @@ const Email: React.FC<{email: SanityDocument; title: string}> = ({
 }
 
 export default Email
-
-export const getServerSideProps: GetServerSideProps = async (req) => {
-  const {slug} = req.query
-  const emailMeta = await getEmail(`${slug}`)
-  const email = await fetch(
-    `${process.env.NEXT_PUBLIC_URL}/api/emails/${slug}`,
-  ).then((data) => data.json())
-
-  return {
-    props: {email, title: emailMeta.title},
-  }
-}
