@@ -24,12 +24,12 @@ export const meta: MetaFunction = () => {
     'twitter:title': 'Epic Web by Kent C. Dodds',
     'twitter:description':
       'Learn full-stack web development with Kent C. Dodds',
-    'twitter:image': 'https://epicweb.dev/card@2x.png',
+    'twitter:image': 'https://www.epicweb.dev/card@2x.png',
     'twitter:card': 'summary_large_image',
-    'og:image': 'https://epicweb.dev/card@2x.png',
+    'og:image': 'https://www.epicweb.dev/card@2x.png',
     'og:title': 'Epic Web by Kent C. Dodds',
     'og:description': 'Learn full-stack web development with Kent C. Dodds',
-    'og:url': 'https://epicweb.dev',
+    'og:url': 'https://www.epicweb.dev',
     'og:type': 'website',
     'og:site_name': 'Epic Web by Kent C. Dodds',
   }
