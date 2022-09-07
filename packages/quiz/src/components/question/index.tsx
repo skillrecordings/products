@@ -34,6 +34,7 @@ type QuestionProps = {
   formik: FormikProps<FormikValues>
   onSubmit: () => void
   hasMultipleCorrectAnswers: boolean
+  hasCorrectAnswer: boolean
   isCorrectChoice: (choice: Choice) => boolean
   isSubmitting: boolean
   answeredCorrectly: boolean
@@ -138,6 +139,7 @@ const QuestionChoice = React.forwardRef(function QuestionChoice(
     formik,
     hasMultipleCorrectAnswers,
     isCorrectChoice,
+    hasCorrectAnswer,
     answer,
     currentAnswer,
   } = React.useContext(QuestionContext)
@@ -149,7 +151,11 @@ const QuestionChoice = React.forwardRef(function QuestionChoice(
       {...props}
       ref={forwardRef}
       data-sr-quiz-question-choice={
-        isAnswered ? (isCorrectChoice(choice) ? 'correct' : 'incorrect') : ''
+        isAnswered && hasCorrectAnswer
+          ? isCorrectChoice(choice)
+            ? 'correct'
+            : 'incorrect'
+          : ''
       }
     >
       <label>
@@ -170,7 +176,7 @@ const QuestionChoice = React.forwardRef(function QuestionChoice(
           type={hasMultipleCorrectAnswers ? 'checkbox' : 'radio'}
         />
         <p>{choice.label || alphabet[index]}</p>
-        {isAnswered && (
+        {isAnswered && hasCorrectAnswer && (
           <span>{isCorrectChoice(choice) ? 'correct' : 'incorrect'}</span>
         )}
       </label>

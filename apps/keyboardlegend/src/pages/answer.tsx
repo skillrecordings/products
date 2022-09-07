@@ -8,6 +8,7 @@ import {getQuiz} from 'lib/quizzes'
 import {PortableText} from '@portabletext/react'
 import PortableTextComponents from 'components/portable-text'
 import type {PortableTextBlock} from '@portabletext/types'
+import common from 'text/common'
 
 const quizSlug = 'email-course'
 
@@ -22,21 +23,33 @@ const Answer: React.FC<React.PropsWithChildren<{quiz: SanityQuiz}>> = ({
 }) => {
   const questionSet: QuestionSet = transformSanityQuiz(quiz)
   return (
-    <Layout noIndex meta={{title: 'Quiz'}} className="bg-brand-purple">
-      <header className="max-w-2xl w-full px-4 mx-auto sm:pt-32 pt-24">
-        <h1 className="md:text-5xl text-4xl font-bold">Quiz</h1>
-      </header>
+    <Layout noIndex meta={{title: 'Email Course'}} className="py-32">
       <div className="h-full w-full flex flex-col items-center justify-center">
         <QuizAnswerPage
           questionSet={questionSet}
-          config={getConfig({
-            questionBodyRenderer: (question: PortableTextBlock) => (
+          config={{
+            answerSubmitUrl: process.env.NEXT_PUBLIC_CONVERTKIT_ANSWER_URL,
+            afterCompletionMessages: {
+              neutral: {
+                default: common['quiz-answer-neutral-default'],
+                last: common['quiz-answer-neutral-last'],
+              },
+              correct: {
+                default: common['quiz-answer-correct-default'],
+                last: common['quiz-answer-correct-last'],
+              },
+              incorrect: {
+                default: common['quiz-answer-incorrect-default'],
+                last: common['quiz-answer-incorrect-last'],
+              },
+            },
+            questionBodyRenderer: (question) => (
               <PortableText
                 value={question}
                 components={PortableTextComponents}
               />
             ),
-          })}
+          }}
         />
       </div>
     </Layout>

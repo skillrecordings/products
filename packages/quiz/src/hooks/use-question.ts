@@ -11,6 +11,7 @@ import quizMachine from '../machines/quiz-machine'
 import {useFormik, FormikProps} from 'formik'
 import {useMachine} from '@xstate/react'
 import isArray from 'lodash/isArray'
+import isEmpty from 'lodash/isEmpty'
 import last from 'lodash/last'
 import getConfig, {QuizConfig} from '../config'
 
@@ -67,6 +68,7 @@ export default function useQuestion({
   const {correct} = question || {}
   const isAnswered = state.matches('answered')
   const isSubmitting = state.matches('answering')
+  const hasCorrectAnswer = !isEmpty(correct)
   const hasMultipleCorrectAnswers = isArray(correct)
   const answeredNeutral = state.matches('answered.neutral')
   const questionsKeys: string[] | undefined =
@@ -115,6 +117,7 @@ export default function useQuestion({
     answeredNeutral,
     onSubmit: formik.handleSubmit,
     hasMultipleCorrectAnswers,
+    hasCorrectAnswer,
     isSubmitting,
     isAnswered,
     questionSet,
