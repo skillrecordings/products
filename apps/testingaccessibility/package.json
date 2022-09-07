@@ -19,7 +19,9 @@
     "db:push": "prisma db push",
     "db:schema": "prisma migrate dev --create-only",
     "db:seed:branch": "bin/seed",
-    "db:start": "docker compose up -d"
+    "db:start": "docker compose up -d",
+    "test:e2e": "NEXT_PUBLIC_IS_E2E=1 pnpm playwright test --config=./playwright/config/playwright.config.ts --project=chromium",
+    "e2e:recorder": "playwright codegen http://localhost:3013"
   },
   "lint-staged": {
     "*.{js,json,md,mdx,ts,tsx}": [
@@ -56,6 +58,7 @@
     "@mdx-js/react": "^1.6.22",
     "@next-auth/prisma-adapter": "^1.0.3",
     "@next/mdx": "^12.2.5",
+    "@playwright/test": "^1.25.1",
     "@portabletext/react": "^1.0.6",
     "@radix-ui/react-alert-dialog": "^0.1.7",
     "@radix-ui/react-dialog": "^0.1.7",
@@ -94,6 +97,7 @@
     "classnames": "^2.3.1",
     "cookie": "^0.5.0",
     "date-fns": "^2.28.0",
+    "dotenv-cli": "^6.0.0",
     "dotenv-flow": "^3.2.0",
     "feed": "^4.2.2",
     "formik": "2.2.9",
