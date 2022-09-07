@@ -8,6 +8,7 @@ const AboutKent = () => {
         width={200}
         height={200}
         className="rounded-full bg-black/50"
+        alt="Kent C. Dodds"
       />
       <div className="prose lg:prose-lg prose-a:underline prose-a:decoration-white/30 prose-a:underline-offset-2 hover:prose-a:decoration-brand prose-a:transition">
         <p>

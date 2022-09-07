@@ -5,7 +5,10 @@ const ConfirmSubscriptionPage = () => {
     <Layout meta={{title: 'Confirm your subscription'}}>
       <main className="flex-grow flex items-center justify-center flex-col px-5 py-24">
         <div className="max-w-xl text-center font-light flex flex-col items-center justify-center">
-          <img src="/assets/confirm-email.svg" />
+          <img
+            src="/assets/confirm-email.svg"
+            alt="an email client with a confirmation email"
+          />
           <h1 className="font-bold sm:text-4xl text-3xl py-8 font-text max-w-lg mx-auto w-full">
             Please check your inbox for an email that just got sent.
           </h1>

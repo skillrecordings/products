@@ -10,7 +10,10 @@ const Starfield: React.FC<any> = ({speed}) => {
   }, [])
 
   return (
-    <div className="fixed left-0 top-0 -z-10 overflow-hidden w-full h-full pointer-events-none select-none">
+    <div
+      aria-hidden="true"
+      className="fixed left-0 top-0 -z-10 overflow-hidden w-full h-full pointer-events-none select-none"
+    >
       {mounted && (
         <StarField
           fps={60}
