@@ -6,15 +6,26 @@ export default {
   title: 'Image',
   fields: [
     {
-      type: 'cloudinary.asset',
-      name: 'image',
-      description: 'This asset is served from Cloudinary',
+      name: 'src',
+      title: 'Image url',
+      type: 'url',
+      validation: (Rule) => Rule.required(),
     },
     {
       name: 'alt',
       type: 'string',
       title: 'Alternative text',
       validation: (Rule) => Rule.required(),
+    },
+    {
+      name: 'width',
+      title: 'Image width',
+      type: 'string',
+    },
+    {
+      name: 'height',
+      title: 'Image height',
+      type: 'string',
     },
     {
       name: 'caption',
@@ -28,13 +39,24 @@ export default {
     },
   ],
   preview: {
-    select: {image: 'image', alt: 'alt', caption: 'caption'},
+    select: {
+      src: 'src',
+      alt: 'alt',
+      caption: 'caption',
+      width: 'width',
+      height: 'height',
+    },
     component: ({value}) => {
-      const {alt, caption, image} = value
-      return image ? (
+      const {alt, caption, src, width, height} = value
+      return src ? (
         <>
           <div>
-            <img width="100%" height="auto" src={image.url} alt={alt} />
+            <img
+              width={width || '100%'}
+              height={height || 'auto'}
+              src={src}
+              alt={alt}
+            />
           </div>
           {alt && <b>{alt}</b>} {caption && <i>caption: {caption}</i>}
         </>
