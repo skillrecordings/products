@@ -25,6 +25,7 @@ export const meta: MetaFunction = () => {
     'twitter:description':
       'Learn full-stack web development with Kent C. Dodds',
     'twitter:image': 'https://epicweb.dev/card@2x.png',
+    'twitter:card': 'summary_large_image',
     'og:image': 'https://epicweb.dev/card@2x.png',
     'og:title': 'Epic Web by Kent C. Dodds',
     'og:description': 'Learn full-stack web development with Kent C. Dodds',
