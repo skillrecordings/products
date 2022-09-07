@@ -6,7 +6,7 @@ import Layout from 'components/app/layout'
 import {GetServerSideProps} from 'next'
 import {getQuiz} from 'lib/quizzes'
 import {PortableText} from '@portabletext/react'
-// import PortableTextComponents from 'components/portable-text'
+import PortableTextComponents from 'components/portable-text'
 import type {PortableTextBlock} from '@portabletext/types'
 
 const quizSlug = 'email-course'
@@ -33,7 +33,7 @@ const Answer: React.FC<React.PropsWithChildren<{quiz: SanityQuiz}>> = ({
             questionBodyRenderer: (question: PortableTextBlock) => (
               <PortableText
                 value={question}
-                // components={PortableTextComponents}
+                components={PortableTextComponents}
               />
             ),
           })}

@@ -1,14 +1,17 @@
 import * as React from 'react'
 import {Button} from '@skillrecordings/react/dist/components'
 
-const StyledButton: React.FC<React.PropsWithChildren<unknown>> = (props) => {
-  return (
+const StyledButton: React.FC<React.PropsWithChildren<any>> = (props) => {
+  const {isLoading} = props
+  return isLoading ? (
+    <div className="text-center">Loading...</div>
+  ) : (
     <Button
-      className="relative flex items-center justify-center group rounded-lg focus:outline-none"
+      className="relative flex items-center justify-center group rounded-lg"
       {...props}
     >
       <div
-        className={`overflow-hidden group-focus:border-purple-500 relative flex items-center justify-center group-focus:translate-y-[2px] group-hover:translate-y-[2px] transition-transform ease-in-out duration-200 border-2 border-brand-pink-500 rounded-lg z-10 bg-white text-brand-pink-500 px-6 py-3 leading-none text-center`}
+        className={`overflow-hidden relative flex items-center justify-center group-focus:translate-y-[2px] group-hover:translate-y-[2px] transition-transform ease-in-out duration-200 border-2 border-brand-pink-500 rounded-lg z-10 bg-white text-brand-pink-500 px-6 py-3 leading-none text-center`}
       >
         <span className="font-semibold">{props.children}</span>
       </div>
