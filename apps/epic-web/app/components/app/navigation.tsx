@@ -6,7 +6,7 @@ const Navigation = () => {
 
   return (
     <nav aria-label="top" className="lg:w-16 w-full">
-      <div className="lg:w-16 w-full lg:h-screen fixed bg-brand text-black z-10 flex lg:flex-col flex-row justify-between">
+      <div className="lg:w-16 w-full lg:h-screen lg:fixed bg-brand text-black z-10 flex lg:flex-col flex-row justify-between">
         <Link to="/" aria-current={isRoot} tabIndex={isRoot ? -1 : 0}>
           <div
             aria-hidden="true"
