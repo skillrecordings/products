@@ -13,7 +13,7 @@ const Email: React.FC<{email: SanityDocument; title: string}> = ({
   const {copyToClipboard, isCopied} = useCopyToClipboard(`${email}`)
 
   return (
-    <Layout meta={{title}} className="bg-gray-200" noIndex>
+    <Layout meta={{title}} className="bg-gray-200 py-16" noIndex>
       <main className="pt-16 flex flex-col min-h-screen">
         <h1 className="max-w-screen-md mx-auto w-full pb-2 font-bold text-3xl">
           <span className="font-normal">

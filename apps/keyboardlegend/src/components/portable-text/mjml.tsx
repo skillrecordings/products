@@ -178,20 +178,23 @@ export const portableTextMjmlComponents: PortableTextComponents = {
     },
     emailButton: ({value}: any) => {
       return (
-        <MjmlButton
-          fontSize={16}
-          padding={20}
-          borderRadius={0}
-          align="center"
-          lineHeight={30}
-          backgroundColor="#000"
-          color="#FFF"
-          href={value.url}
-          fontFamily="sans-serif"
-          fontWeight={600}
-        >
-          {value.label}
-        </MjmlButton>
+        <MjmlSection padding={'2px 12.5px'}>
+          <MjmlButton
+            fontSize={16}
+            padding={20}
+            borderRadius={5}
+            align="center"
+            width={'100%'}
+            lineHeight={30}
+            backgroundColor="#e66891"
+            color="#FFF"
+            href={value.url}
+            fontFamily="sans-serif"
+            fontWeight={600}
+          >
+            {value.label}
+          </MjmlButton>
+        </MjmlSection>
       )
     },
     emailQuizQuestion: ({value}: any) => {

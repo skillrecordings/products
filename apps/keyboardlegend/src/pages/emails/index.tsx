@@ -8,7 +8,7 @@ import Link from 'next/link'
 const Email: React.FC<{emails: SanityDocument[]}> = ({emails}) => {
   const title = 'Emails'
   return (
-    <Layout meta={{title}} className="bg-gray-200" noIndex>
+    <Layout meta={{title}} className="bg-gray-200 py-16" noIndex>
       <main className="pt-16 flex flex-col min-h-screen max-w-screen-md mx-auto w-full">
         <h1 className="max-w-screen-md mx-auto w-full pb-5 font-bold text-4xl">
           {title}

@@ -22,9 +22,7 @@ function MyApp({Component, pageProps}: AppProps) {
     <>
       <DefaultSeo {...config} />
       <ConvertkitProvider>
-        <ThemeProvider forcedTheme="light" attribute="class">
-          <Component {...pageProps} />
-        </ThemeProvider>
+        <Component {...pageProps} />
       </ConvertkitProvider>
     </>
   )
