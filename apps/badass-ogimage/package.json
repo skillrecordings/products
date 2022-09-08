@@ -1,0 +1,28 @@
+{
+  "name": "badass-ogimage",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start"
+  },
+  "dependencies": {
+    "lodash": "^4.17.21",
+    "next": "12.0.4",
+    "playwright": "^1.16.3",
+    "playwright-aws-lambda": "^0.7.0",
+    "playwright-core": "^1.16.3",
+    "react": "17.0.2",
+    "react-dom": "17.0.2",
+    "twemoji": "^13.1.0"
+  },
+  "devDependencies": {
+    "@types/lodash": "^4.14.177",
+    "@types/node": "16.11.7",
+    "@types/react": "17.0.35",
+    "@types/twemoji": "^12.1.2",
+    "eslint": "7",
+    "eslint-config-custom": "workspace:*",
+    "typescript": "4.5.2"
+  }
+}
