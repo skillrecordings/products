@@ -4,7 +4,7 @@ import {
   redirectUrlBuilder,
   SubscribeToConvertkitForm,
 } from '@skillrecordings/convertkit'
-import {Facebook, Twitter} from '@skillrecordings/react'
+import {Facebook, LinkedIn, Twitter} from '@skillrecordings/react'
 import {NextRouter, useRouter} from 'next/router'
 import {IconGithub} from './icons'
 import snakeCase from 'lodash/snakeCase'
@@ -108,7 +108,7 @@ const DefaultOverlay: React.FC<DefaultOverlayProps> = ({
           Replay ↺
         </button>
         <button
-          className="text-lg bg-blue-500 rounded px-5 py-3 font-semibold"
+          className="text-lg bg-cyan-600 hover:bg-cyan-500 transition rounded px-5 py-3 font-semibold"
           onClick={() =>
             handleContinue(router, module, nextLesson, handlePlay, path)
           }
@@ -132,31 +132,44 @@ const FinishedOverlay: React.FC<FinishedOverlayProps> = ({
   path,
 }) => {
   const router = useRouter()
-  const shareUrl = `${process.env.NEXT_PUBLIC_URL}/${module.slug}`
-  const shareMessage = `${module.title} by @${process.env.NEXT_PUBLIC_PARTNER_TWITTER}`
+  const shareUrl = `${process.env.NEXT_PUBLIC_URL}${path}/${module.slug}`
+  const shareMessage = `${module.title} ${module.moduleType} by @${process.env.NEXT_PUBLIC_PARTNER_TWITTER}`
+  const shareButtonStyles =
+    'bg-gray-800 flex items-center gap-2 rounded px-3 py-2 hover:bg-gray-700'
   return (
     <OverlayWrapper>
       <p className="text-3xl font-bold font-text">
         Share this {module.moduleType} with your friends
       </p>
-      <div className="flex items-center gap-2">
+      <div className="flex items-center gap-2 py-8">
         <Twitter
           link={shareUrl}
           message={shareMessage}
-          className="bg-blue-500 p-5 rounded"
-        />
+          className={shareButtonStyles}
+        >
+          Twitter
+        </Twitter>
         <Facebook
           link={shareUrl}
           message={shareMessage}
-          className="bg-blue-500 p-5 rounded"
-        />
+          className={shareButtonStyles}
+        >
+          Facebook
+        </Facebook>
+        <LinkedIn
+          link={shareUrl}
+          message={shareMessage}
+          className={shareButtonStyles}
+        >
+          LinkedIn
+        </LinkedIn>
       </div>
-      <div className="flex items-center justify-center gap-5">
+      <div className="flex items-center justify-center divide-x divide-gray-700">
         <button
-          className="bg-gray-900 px-5 py-3 text-lg font-semibold rounded"
+          className="hover:bg-gray-900 transition px-5 py-3 text-lg font-semibold"
           onClick={handlePlay}
         >
-          Replay ↺
+          Replay <span aria-hidden="true">↺</span>
         </button>
         <button
           onClick={() => {
@@ -167,7 +180,7 @@ const FinishedOverlay: React.FC<FinishedOverlayProps> = ({
               })
               .then(handlePlay)
           }}
-          className="bg-gray-900 px-5 py-3 text-lg font-semibold rounded"
+          className="hover:bg-gray-900 transition px-5 py-3 text-lg font-semibold "
         >
           Play from beginning
         </button>

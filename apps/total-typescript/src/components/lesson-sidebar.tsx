@@ -21,7 +21,7 @@ const LessonSidebar: React.FC<SidebarProps> = ({
         className="bg-slate-900 lg:max-w-xs w-full border-r border-gray-800"
         aria-hidden="true"
       />
-      <nav
+      <aside
         className={cx(
           'bg-slate-900 lg:max-w-xs lg:fixed  w-full top-0 border-r border-gray-800 lg:border-b border-b',
           className,
@@ -57,7 +57,7 @@ const LessonSidebar: React.FC<SidebarProps> = ({
           <LessonNavigator module={module} path={path} />
         </SimpleBar>
         <div className="absolute bottom-0 left-0 w-full bg-gradient-to-t from-gray-900 to-transparent h-24 z-20 pointer-events-none" />
-      </nav>
+      </aside>
     </>
   )
 }

@@ -4,10 +4,9 @@ import {PortableText} from '@portabletext/react'
 import {SanityDocument} from '@sanity/client'
 import Link from 'next/link'
 import Image from 'next/image'
-import {first} from 'lodash'
 
 const TutorialTemplate: React.FC<{tutorial: SanityDocument}> = ({tutorial}) => {
-  const {title, body, slug, resources, image, ogImage} = tutorial
+  const {title, body, slug, resources, image, ogImage, github} = tutorial
   const pageTitle = `${title} Tutorial`
   const shareCard = ogImage ? {ogImage: {url: ogImage}} : {}
 
@@ -23,16 +22,47 @@ const TutorialTemplate: React.FC<{tutorial: SanityDocument}> = ({tutorial}) => {
           </p>
           <h1 className="lg:text-6xl text-5xl font-text font-bold">{title}</h1>
           <div className="pt-8 text-lg">
-            <Link
-              href={{
-                pathname: '/tutorials/[module]/[lesson]',
-                query: {module: slug, lesson: resources[0].slug},
-              }}
-            >
-              <a className="px-5 py-3 rounded hover:bg-cyan-300 transition flex items-center justify-center font-semibold bg-cyan-400 text-black">
-                Start Learning
-              </a>
-            </Link>
+            <div className="flex items-center md:justify-start justify-center gap-3">
+              <div className="flex items-center gap-3">
+                <div className="flex items-center justify-center rounded-full overflow-hidden">
+                  <Image
+                    src={require('../../public/matt-pocock.jpeg')}
+                    alt="Matt Pocock"
+                    width={48}
+                    height={48}
+                  />
+                </div>
+                <span>Matt Pocock</span>
+              </div>
+            </div>
+            <div className="pt-8 flex items-center gap-3">
+              <Link
+                href={{
+                  pathname: '/tutorials/[module]/[lesson]',
+                  query: {module: slug, lesson: resources[0].slug},
+                }}
+              >
+                <a className="px-6 py-3 rounded hover:bg-cyan-300 transition flex items-center justify-center font-semibold bg-cyan-400 text-black">
+                  Start Learning{' '}
+                  <span className="pl-2" aria-hidden="true">
+                    →
+                  </span>
+                </a>
+              </Link>
+              {github && (
+                <a
+                  className="px-5 py-3 rounded transition flex items-center justify-center font-medium border-2 border-gray-800 hover:bg-gray-800"
+                  href={`https://github.com/total-typescript/${github.repo}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  Code on GitHub{' '}
+                  <span className="pl-2" aria-hidden="true">
+                    ↗︎
+                  </span>
+                </a>
+              )}
+            </div>
           </div>
         </div>
         <div className="flex items-center justify-center lg:-mr-16">
@@ -43,7 +73,7 @@ const TutorialTemplate: React.FC<{tutorial: SanityDocument}> = ({tutorial}) => {
         <article className="prose prose-lg text-white">
           <PortableText value={body} />
         </article>
-        <nav className="border-l border-gray-800 pl-10">
+        <nav className="lg:border-l border-gray-800 lg:pl-10">
           <h2 className="pb-4 text-gray-300 text-sm font-semibold font-mono uppercase">
             Lessons
           </h2>
