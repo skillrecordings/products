@@ -54,6 +54,11 @@ export default {
       type: 'image',
     },
     {
+      name: 'ogImage',
+      title: 'Share card URL',
+      type: 'url',
+    },
+    {
       name: 'description',
       title: 'SEO Description',
       type: 'text',

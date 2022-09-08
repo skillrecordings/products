@@ -45,8 +45,8 @@ const LessonTemplate: React.FC<{
         />
         <main className="w-full relative">
           <Video ref={muxPlayerRef} module={module} lesson={lesson} />
-          <details className="lg:hidden block group">
-            <summary className="flex gap-1 items-center px-4 pb-3 pt-2 font-medium bg-transparent border-b border-gray-800 hover:bg-white/5 transition cursor-pointer no-marker marker:content-[''] group-open:after:rotate-0 after:rotate-180 after:content-['↑'] after:text-lg after:w-6 after:h-6 after:rounded-full after:bg-gray-800 after:flex after:items-center after:justify-center after:absolute after:right-3">
+          <details className="lg:hidden block group  ">
+            <summary className="flex gap-1 items-center px-4 py-3 font-medium bg-black/50 hover:bg-gray-800 transition cursor-pointer no-marker marker:content-[''] group-open:after:rotate-0 after:rotate-180 after:content-['↑'] after:text-lg after:w-6 after:h-6 after:rounded-full after:bg-gray-800 after:flex after:items-center after:justify-center after:absolute after:right-3">
               {module.title} {capitalize(module.moduleType)}{' '}
               <span className="opacity-80">
                 ({module.resources.length} lessons)
@@ -110,12 +110,9 @@ const Video: React.FC<any> = React.forwardRef(({module, lesson}, ref: any) => {
         </>
       )}
       <div
-        className={cx(
-          'flex items-center justify-center w-full aspect-video relative',
-          {
-            'opacity-0': displayOverlay,
-          },
-        )}
+        className={cx('flex items-center justify-center w-full relative', {
+          'opacity-0': displayOverlay,
+        })}
       >
         {lesson.video ? (
           <MuxPlayer ref={ref} {...(muxPlayerProps as MuxPlayerProps)} />
@@ -188,7 +185,7 @@ const LessonTitle: React.FC<{lesson: SanityDocument}> = ({lesson}) => {
   const {title, lessonType} = lesson
   return (
     <>
-      <h1 className="font-text sm:text-4xl text-3xl font-extrabold">
+      <h1 className="sm:text-4xl text-3xl font-bold">
         {title} <span className="font-normal">({capitalize(lessonType)})</span>
       </h1>
     </>
@@ -210,6 +207,11 @@ const StackblitzEmbed: React.FC<{
 }> = ({lesson, module}) => {
   const {stackblitz} = lesson
   const {isSafari, isFirefox} = useDeviceDetect()
+  const iframeRef = React.useRef<HTMLDivElement>(null)
+  const [isExpanded, setIsExpanded] = React.useState(false)
+  React.useEffect(() => {
+    setIsExpanded(false)
+  }, [lesson])
   if (!stackblitz.openFile) {
     return null
   }
@@ -220,7 +222,7 @@ const StackblitzEmbed: React.FC<{
   const startCommand = `${lesson.lessonType.substring(0, 1)}-${codeFileNumber}` // e.g. s-01, e-02, etc
   const githubOrg = 'total-typescript'
   const githubRepo = module.github.repo
-  const clickToLoad = Number(true)
+  const clickToLoad = Number(false)
   const embedUrl = `https://stackblitz.com/github/${githubOrg}/${githubRepo}?file=${stackblitz.openFile}&embed=1&view=editor&hideExplorer=1&ctl=${clickToLoad}&terminal=${startCommand}`
 
   return (
@@ -234,11 +236,29 @@ const StackblitzEmbed: React.FC<{
           </span>
         )}
       </h3>
-      <iframe
-        src={embedUrl}
-        title="code editor"
-        className="sm:h-[800px] h-[400px] w-full"
-      />
+      <div className="relative" ref={iframeRef}>
+        {isExpanded ? (
+          <iframe
+            src={embedUrl}
+            title="code editor"
+            id="iframe"
+            className={cx('w-full transition-all', {
+              'sm:h-[800px] h-[400px]': isExpanded,
+              'sm:h-[400px] h-[200px]': !isExpanded,
+            })}
+          />
+        ) : (
+          <button
+            type="button"
+            onClick={() => setIsExpanded(true)}
+            className="sm:h-[400px] h-[200px] w-full  bg-black/50 hover:bg-black/30 transition ease-in-out group flex items-center justify-center cursor-pointer"
+          >
+            <div className="px-4 py-3 rounded-md border border-cyan-500 group-hover:border-cyan-300 group-hover:bg-cyan-400/10 transition ease-in-out inline-flex font-medium">
+              Run Code
+            </div>
+          </button>
+        )}
+      </div>
     </div>
   )
 }
@@ -247,7 +267,7 @@ const LessonTranscript: React.FC<{
   lesson: SanityDocument
   muxPlayerRef: any
 }> = ({lesson, muxPlayerRef}) => {
-  const {transcript} = lesson
+  const {transcript, video} = lesson
   const {handlePlay} = useMuxPlayer(muxPlayerRef)
   if (!transcript) {
     return null
@@ -255,7 +275,9 @@ const LessonTranscript: React.FC<{
 
   return (
     <div className="prose prose-lg max-w-4xl text-white mx-auto p-10 pt-8">
-      <h2 className="font-text text-3xl font-bold pt-4">Video Transcript</h2>
+      <h2 className="flex items-baseline sm:text-2xl text-xl font-semibold pt-2">
+        Transcript
+      </h2>
       <PortableText
         value={transcript}
         components={
@@ -263,7 +285,7 @@ const LessonTranscript: React.FC<{
             marks: {
               timestamp: ({value}: any) => {
                 const {timestamp} = value
-                return (
+                return video ? (
                   <button
                     className="underline inline-block after:inline-block after:content-[' ']"
                     onClick={() => {
@@ -274,7 +296,7 @@ const LessonTranscript: React.FC<{
                   >
                     {timestamp}
                   </button>
-                )
+                ) : null
               },
             },
           } as PortableTextComponents

@@ -28,16 +28,16 @@ const LessonSidebar: React.FC<SidebarProps> = ({
         )}
       >
         <SimpleBar className="relative lg:max-h-screen max-h-[580px] lg:pb-16">
-          <div className="sticky top-0 z-10 bg-gray-900/80 backdrop-blur-lg">
-            <div className="flex items-center gap-5 px-3 lg:pt-16 pt-2 pb-2 bg-blue-600">
-              {module?.image && <img src={module.image} className="w-20" />}
+          <div className="sticky top-0 z-10">
+            <div className="flex items-center gap-5 px-3 lg:pt-4 pt-2 pb-2 bg-gray-900 border-b border-gray-800">
+              {module?.image && <img src={module.image} className="w-24" />}
               <div>
                 <Link href="/tutorials">
                   <a className="uppercase text-sm font-semibold opacity-80 hover:underline">
                     {module.moduleType}s<span className="pl-1">/</span>
                   </a>
                 </Link>
-                <h1 className="text-2xl font-bold leading-tight font-text">
+                <h1 className="text-2xl font-bold leading-tight">
                   <Link
                     href={{
                       pathname: `${path}/[module]`,
@@ -50,7 +50,7 @@ const LessonSidebar: React.FC<SidebarProps> = ({
                 </h1>
               </div>
             </div>
-            <h3 className="pt-5 pb-2 text-sm opacity-80 font-semibold uppercase px-5">
+            <h3 className="pt-3 pb-5 text-sm font-semibold uppercase px-5 bg-gradient-to-t from-transparent to-gray-900 via-gray-900">
               Lessons
             </h3>
           </div>

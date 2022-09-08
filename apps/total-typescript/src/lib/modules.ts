@@ -15,6 +15,7 @@ export const getModule = async (slug: string) =>
         moduleType,
         _id,
         github,
+        ogImage,
         resources[]->{
             _type,
             title,

@@ -11,18 +11,32 @@ const LessonNavigator: React.FC<{
   const router = useRouter()
   return (
     <nav aria-label="lesson navigator">
-      <ul className="text-lg flex flex-col divide-y divide-black/20">
-        {module.resources.map((resource: any, i: number) => {
+      <ul className="text-lg flex flex-col divide-y divide-gray-800/0">
+        {module.resources.map((resource: any, sectionIdx: number) => {
           if (resource._type === 'section') {
             const section = resource
             return (
-              <li key={resource.slug + `-${i}`}>
-                <div className="px-4 font-semibold py-2">
-                  <span aria-hidden="true" className="text-sm pr-2 opacity-50">
-                    {i + 1}
-                  </span>{' '}
-                  {section.title}
-                </div>
+              <li key={resource.slug + `-${sectionIdx}`} className="pt-2">
+                <Link
+                  href={{
+                    pathname: `${path}/[module]/[lesson]`,
+                    query: {
+                      module: module.slug,
+                      lesson: section.resources[0].slug,
+                    },
+                  }}
+                  passHref
+                >
+                  <a className="px-4 font-semibold py-2 hover:bg-gray-800 flex items-center">
+                    <span
+                      aria-hidden="true"
+                      className="text-sm pr-3 opacity-50"
+                    >
+                      {sectionIdx + 1}
+                    </span>{' '}
+                    {section.title}
+                  </a>
+                </Link>
                 <ul>
                   {section.resources.map((lesson: any, i: number) => {
                     const isActive = router.query.lesson === lesson.slug
@@ -40,10 +54,10 @@ const LessonNavigator: React.FC<{
                         >
                           <a
                             className={cx(
-                              'flex items-center py-3 px-8 border-l-4 text-base font-medium hover:bg-slate-400/20',
+                              'flex items-center py-2 px-8 border-l-4 text-base font-medium hover:bg-slate-400/20',
                               {
-                                'border-blue-500 bg-white/10': isActive,
-                                'border-transparent bg-white/5': !isActive,
+                                'border-cyan-400 bg-gray-800/80': isActive,
+                                'border-transparent ': !isActive,
                               },
                             )}
                           >
@@ -61,7 +75,7 @@ const LessonNavigator: React.FC<{
             const lesson = resource
             const isActive = router.query.lesson === lesson.slug
             return (
-              <li key={lesson.slug + `-${i}`}>
+              <li key={lesson.slug + `-${sectionIdx}`}>
                 <Link
                   href={{
                     pathname: `${path}/[module]/[lesson]`,
@@ -82,7 +96,7 @@ const LessonNavigator: React.FC<{
                       aria-hidden="true"
                       className="text-sm pr-3 opacity-50"
                     >
-                      {i + 1}
+                      {sectionIdx + 1}
                     </span>{' '}
                     {capitalize(lesson.title)}
                   </a>

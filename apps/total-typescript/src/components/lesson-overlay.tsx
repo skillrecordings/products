@@ -212,31 +212,40 @@ const BlockedOverlay: React.FC<BlockedOverlayProps> = ({module}) => {
   }
 
   return (
-    <OverlayWrapper>
-      <div className="2xl:block hidden">
-        <Image
-          src={require('../../public/assets/landing/scroll-ts@2x.png')}
-          width={200}
-          height={200}
-          alt="TS Scroll"
-        />
+    <div
+      id="video-overlay"
+      className="flex items-center justify-center w-full bg-[#070B16] md:aspect-video py-5"
+    >
+      <div className="p-5 z-20 left-0 top-0 w-full h-full flex flex-col gap-5 items-center justify-center text-center leading-relaxed text-lg">
+        <div className="flex flex-col items-center justify-center gap-2 w-full">
+          <div className="2xl:block sm:hidden block">
+            <Image
+              src={module.image}
+              width={200}
+              height={200}
+              alt={module.title}
+            />
+          </div>
+          <h2 className="text-4xl font-semibold">
+            Level up with {module.title}
+          </h2>
+          <h3 className="text-xl pb-5">
+            Access all lessons in this {module.moduleType}.
+          </h3>
+          <SubscribeToConvertkitForm
+            successMessage="Thanks! You're being redirected..."
+            formId={3573840}
+            subscribeApiURL={process.env.NEXT_PUBLIC_CONVERTKIT_SUBSCRIBE_URL}
+            actionLabel="Continue Watching"
+            fields={startedLearningField}
+            onSuccess={(subscriber) => handleOnSuccess(subscriber)}
+          />
+          <p className="pt-2 text-base opacity-80">
+            No spam, unsubscribe at any time.
+          </p>
+        </div>
       </div>
-      <h2 className="text-4xl font-semibold">Level up with {module.title}</h2>
-      <h3 className="text-xl pb-4">
-        Access all lessons in this {module.moduleType}.
-      </h3>
-      <SubscribeToConvertkitForm
-        successMessage="Thanks! You're being redirected..."
-        formId={3573840}
-        subscribeApiURL={process.env.NEXT_PUBLIC_CONVERTKIT_SUBSCRIBE_URL}
-        actionLabel="Continue Watching"
-        fields={startedLearningField}
-        onSuccess={(subscriber) => handleOnSuccess(subscriber)}
-      />
-      <p className="pt-2 text-base opacity-80">
-        No spam, unsubscribe at any time.
-      </p>
-    </OverlayWrapper>
+    </div>
   )
 }
 
