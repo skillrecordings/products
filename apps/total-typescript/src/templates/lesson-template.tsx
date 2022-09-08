@@ -27,12 +27,14 @@ const LessonTemplate: React.FC<{
   subscriber: ConvertkitSubscriber
 }> = ({lesson, module, subscriber}) => {
   const {title, lessonType} = lesson
+  const {ogImage} = module
   const muxPlayerRef = React.useRef<HTMLDivElement>()
   const pageTitle = `${title} (${capitalize(lessonType)})`
+  const shareCard = ogImage ? {ogImage: {url: ogImage}} : {}
 
   return (
     <Layout
-      meta={{title: pageTitle}}
+      meta={{title: pageTitle, ...shareCard}}
       nav={
         <Navigation className="flex relative w-auto justify-between lg:ml-[320px]" />
       }
