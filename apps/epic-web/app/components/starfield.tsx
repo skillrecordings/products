@@ -1,6 +1,7 @@
 import React from 'react'
 import {StarField} from 'starfield-react'
 import {useWindowSize} from 'react-use'
+import {useReducedMotion} from 'framer-motion'
 
 const Starfield: React.FC<any> = ({speed}) => {
   const {width, height} = useWindowSize()
@@ -8,6 +9,7 @@ const Starfield: React.FC<any> = ({speed}) => {
   React.useEffect(() => {
     setMounted(true)
   }, [])
+  const shouldReduceMotion = useReducedMotion()
 
   return (
     <div
@@ -19,7 +21,7 @@ const Starfield: React.FC<any> = ({speed}) => {
           fps={60}
           width={width}
           height={height}
-          speed={speed}
+          speed={shouldReduceMotion ? 0 : speed}
           noBackground
         />
       )}
