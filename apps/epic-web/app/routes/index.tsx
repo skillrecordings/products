@@ -6,7 +6,7 @@ import {PortableText} from '@portabletext/react'
 import {redirect, json} from '@remix-run/node'
 import {useLoaderData} from '@remix-run/react'
 import {getPage} from '~/lib/pages.server'
-import {motion} from 'framer-motion'
+import {motion, useReducedMotion} from 'framer-motion'
 import {z} from 'zod'
 import SubscribeForm from '~/components/subscribe-form'
 import AboutKent from '~/components/about-kent'
@@ -83,6 +83,7 @@ const Article: React.FC<{body: any}> = ({body}) => {
 }
 
 const Header = () => {
+  const shouldReduceMotion = useReducedMotion()
   return (
     <header className="min-h-[70vh] flex items-center justify-center py-32">
       <div className="text-center mx-auto">
@@ -91,13 +92,13 @@ const Header = () => {
           <motion.span className="relative">
             Modern Full-Stack
             <motion.div
-              animate={{width: ['0%', '100%']}}
+              animate={shouldReduceMotion ? {} : {width: ['0%', '100%']}}
               transition={{
                 delay: 0.5,
                 type: 'spring',
                 duration: 1,
               }}
-              initial={{width: '0%'}}
+              initial={{width: shouldReduceMotion ? '100%' : '0%'}}
               className="h-px bg-amber-200 w-full absolute bottom-0 left-0 lg:inline-block hidden"
             />
           </motion.span>{' '}
