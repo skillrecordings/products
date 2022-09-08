@@ -63,16 +63,16 @@ const ExerciseOverlay: React.FC<ExerciseOverlayProps> = ({
           className="bg-gray-900 px-5 py-3 text-lg font-semibold rounded"
           onClick={handlePlay}
         >
-          Replay ↺
+          Replay <span aria-hidden="true">↺</span>
         </button>
         {nextLesson && (
           <button
-            className="text-lg bg-blue-500 rounded px-5 py-3 font-semibold"
+            className="text-lg bg-cyan-600 hover:bg-cyan-500 transition rounded px-5 py-3 font-semibold"
             onClick={() =>
               handleContinue(router, module, nextLesson, handlePlay, path)
             }
           >
-            Solution →
+            Solution <span aria-hidden="true">→</span>
           </button>
         )}
       </div>
@@ -113,7 +113,7 @@ const DefaultOverlay: React.FC<DefaultOverlayProps> = ({
             handleContinue(router, module, nextLesson, handlePlay, path)
           }
         >
-          Continue →
+          Continue <span aria-hidden="true">→</span>
         </button>
       </div>
     </OverlayWrapper>

@@ -5,6 +5,7 @@
 @import './quiz.css';
 @import './newsletter.css';
 @import './nprogress.css';
+@import './prism-theme.css';
 @import '../../node_modules/simplebar-react/dist/simplebar.min.css';
 
 @tailwind utilities;
@@ -23,7 +24,7 @@ mux-player {
   height: auto;
 }
 
-.prose code {
+code {
   @apply bg-gray-800/80 px-1 py-0.5 rounded-sm text-[85%];
 }
 

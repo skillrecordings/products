@@ -1,12 +1,16 @@
 import React from 'react'
 import type {ConvertkitSubscriber} from '@skillrecordings/convertkit/dist/types'
 import MuxPlayer, {MuxPlayerProps} from '@mux/mux-player-react'
+import PortableTextComponents from 'components/portable-text'
 import LessonSidebar from 'components/lesson-sidebar'
 import Navigation from 'components/app/navigation'
 import Layout from 'components/app/layout'
 import capitalize from 'lodash/capitalize'
 import cx from 'classnames'
-import {PortableText, PortableTextComponents} from '@portabletext/react'
+import {
+  PortableText,
+  PortableTextComponents as PortableTextComponentsType,
+} from '@portabletext/react'
 import {useDeviceDetect} from 'hooks/use-device-detect'
 import {hmsToSeconds} from 'utils/hms-to-seconds'
 import {useMuxPlayer} from 'hooks/use-mux-player'
@@ -197,8 +201,10 @@ const LessonTitle: React.FC<{lesson: SanityDocument}> = ({lesson}) => {
 const LessonDescription: React.FC<{lesson: SanityDocument}> = ({lesson}) => {
   const {body} = lesson
   return (
-    <div className="pt-5 opacity-90 prose sm:prose-lg max-w-none">
-      <PortableText value={body} />
+    <div>
+      <div className="pt-5 opacity-90 prose sm:prose-lg max-w-none">
+        <PortableText value={body} components={PortableTextComponents} />
+      </div>
     </div>
   )
 }
@@ -301,7 +307,7 @@ const LessonTranscript: React.FC<{
                 ) : null
               },
             },
-          } as PortableTextComponents
+          } as PortableTextComponentsType
         }
       />
     </div>
