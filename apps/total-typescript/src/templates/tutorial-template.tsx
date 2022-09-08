@@ -13,7 +13,7 @@ const TutorialTemplate: React.FC<{tutorial: SanityDocument}> = ({tutorial}) => {
 
   return (
     <Layout
-      className="max-w-screen-md mx-auto w-full py-24 px-5 "
+      className="max-w-4xl mx-auto w-full py-24 px-5 "
       meta={{title: pageTitle, ...shareCard}}
     >
       <header className="relative z-10 sm:pt-8 sm:pb-8 pt-0 pb-16 flex md:flex-row flex-col-reverse items-center justify-between">
@@ -81,11 +81,14 @@ const TutorialTemplate: React.FC<{tutorial: SanityDocument}> = ({tutorial}) => {
         objectPosition={'top'}
         className="object-contain -z-10"
       />
-      <main className="relative z-10 flex lg:flex-row flex-col gap-16">
-        <article className="prose prose-lg text-white">
+      <main className="relative z-10 flex lg:flex-row flex-col gap-5">
+        <article className="prose prose-lg lg:max-w-xl max-w-none text-white">
           <PortableText value={body} />
         </article>
-        <nav className="lg:border-l border-gray-800 lg:pl-10">
+        <nav
+          aria-label="lesson navigator"
+          className="lg:border-l border-gray-800 lg:pl-8"
+        >
           <h2 className="pb-4 text-gray-300 text-sm font-semibold font-mono uppercase">
             Lessons
           </h2>
