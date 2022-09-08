@@ -4,6 +4,7 @@ import {PortableText} from '@portabletext/react'
 import {SanityDocument} from '@sanity/client'
 import Link from 'next/link'
 import Image from 'next/image'
+import {IconGithub} from 'components/icons'
 
 const TutorialTemplate: React.FC<{tutorial: SanityDocument}> = ({tutorial}) => {
   const {title, body, slug, resources, image, ogImage, github} = tutorial
@@ -12,10 +13,10 @@ const TutorialTemplate: React.FC<{tutorial: SanityDocument}> = ({tutorial}) => {
 
   return (
     <Layout
-      className="max-w-screen-md mx-auto w-full py-24 px-5"
+      className="max-w-screen-md mx-auto w-full py-24 px-5 "
       meta={{title: pageTitle, ...shareCard}}
     >
-      <header className="sm:pt-8 sm:pb-8 pt-0 pb-16 flex md:flex-row flex-col-reverse items-center justify-between">
+      <header className="relative z-10 sm:pt-8 sm:pb-8 pt-0 pb-16 flex md:flex-row flex-col-reverse items-center justify-between">
         <div className="md:text-left text-center">
           <p className="uppercase text-sm font-mono font-semibold tracking-wide pb-1 text-cyan-300">
             Tutorial
@@ -51,15 +52,12 @@ const TutorialTemplate: React.FC<{tutorial: SanityDocument}> = ({tutorial}) => {
               </Link>
               {github && (
                 <a
-                  className="px-5 py-3 rounded transition flex items-center justify-center font-medium border-2 border-gray-800 hover:bg-gray-800"
+                  className="px-5 py-3 gap-2 rounded transition flex items-center justify-center font-medium border-2 border-gray-800 hover:bg-gray-800"
                   href={`https://github.com/total-typescript/${github.repo}`}
                   target="_blank"
                   rel="noopener noreferrer"
                 >
-                  Code on GitHub{' '}
-                  <span className="pl-2" aria-hidden="true">
-                    ↗︎
-                  </span>
+                  <IconGithub className="w-6" /> Code
                 </a>
               )}
             </div>
@@ -69,7 +67,15 @@ const TutorialTemplate: React.FC<{tutorial: SanityDocument}> = ({tutorial}) => {
           <Image src={image} alt={title} width={400} height={400} />
         </div>
       </header>
-      <main className="flex lg:flex-row flex-col gap-16">
+      <Image
+        layout="fill"
+        aria-hidden="true"
+        alt=""
+        src={require('../../public/assets/landing/bg-divider-3.png')}
+        objectPosition={'top'}
+        className="object-contain -z-10"
+      />
+      <main className="relative z-10 flex lg:flex-row flex-col gap-16">
         <article className="prose prose-lg text-white">
           <PortableText value={body} />
         </article>

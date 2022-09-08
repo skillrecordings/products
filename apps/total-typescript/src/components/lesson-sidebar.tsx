@@ -18,26 +18,26 @@ const LessonSidebar: React.FC<SidebarProps> = ({
   return (
     <>
       <div
-        className="bg-slate-900 lg:max-w-xs w-full border-r border-gray-800"
+        className="bg-slate-900 xl:max-w-xs lg:max-w-[280px] w-full border-r border-gray-800"
         aria-hidden="true"
       />
       <aside
         className={cx(
-          'bg-slate-900 lg:max-w-xs lg:fixed  w-full top-0 border-r border-gray-800 lg:border-b border-b',
+          'bg-slate-900 xl:max-w-xs lg:max-w-[280px] lg:fixed  w-full top-0 border-r border-gray-800 lg:border-b border-b',
           className,
         )}
       >
         <SimpleBar className="relative lg:max-h-screen max-h-[580px] lg:pb-16">
           <div className="sticky top-0 z-10">
             <div className="flex items-center gap-5 px-3 lg:pt-4 pt-2 pb-2 bg-gray-900 border-b border-gray-800">
-              {module?.image && <img src={module.image} className="w-24" />}
+              {module?.image && <img src={module.image} className="w-28" />}
               <div>
                 <Link href="/tutorials">
-                  <a className="uppercase text-sm font-semibold opacity-80 hover:underline">
+                  <a className="uppercase text-xs font-mono font-semibold opacity-80 hover:underline">
                     {module.moduleType}s<span className="pl-1">/</span>
                   </a>
                 </Link>
-                <h1 className="text-2xl font-bold leading-tight">
+                <h1 className="text-3xl font-semibold leading-tight">
                   <Link
                     href={{
                       pathname: `${path}/[module]`,

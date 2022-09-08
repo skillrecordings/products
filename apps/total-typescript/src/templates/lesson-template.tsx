@@ -36,7 +36,7 @@ const LessonTemplate: React.FC<{
     <Layout
       meta={{title: pageTitle, ...shareCard}}
       nav={
-        <Navigation className="flex relative w-auto justify-between lg:ml-[320px]" />
+        <Navigation className="flex relative w-auto justify-between xl:ml-[320px] lg:ml-[280px]" />
       }
     >
       <div className="flex lg:flex-row flex-col">
