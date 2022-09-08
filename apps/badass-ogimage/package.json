@@ -8,10 +8,10 @@
   },
   "dependencies": {
     "lodash": "^4.17.21",
-    "next": "12.0.4",
-    "playwright": "^1.16.3",
-    "playwright-aws-lambda": "^0.7.0",
-    "playwright-core": "^1.16.3",
+    "next": "12.3.0",
+    "playwright": "^1.25.2",
+    "playwright-aws-lambda": "^0.9.0",
+    "playwright-core": "^1.24.2",
     "react": "17.0.2",
     "react-dom": "17.0.2",
     "twemoji": "^13.1.0"
