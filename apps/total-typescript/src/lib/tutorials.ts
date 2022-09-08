@@ -4,6 +4,8 @@ import {sanityClient} from 'utils/sanity-client'
 const tutorialsQuery = groq`*[_type == "module" && moduleType == 'tutorial'] {
   title,
   "slug": slug.current,
+  "image": image.asset->url,
+  description,
   resources[]->{
     ...
   }

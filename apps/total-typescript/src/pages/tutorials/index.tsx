@@ -5,11 +5,11 @@ import {getAllTutorials} from 'lib/tutorials'
 import {GetServerSideProps} from 'next'
 import Link from 'next/link'
 import {checkIfConvertkitSubscriber} from '@skillrecordings/convertkit'
+import Image from 'next/image'
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const tutorials = await getAllTutorials()
   const hasSubscribed = await checkIfConvertkitSubscriber(context)
-  console.log({hasSubscribed})
 
   return {
     props: {tutorials},
@@ -21,29 +21,73 @@ const TutorialsPage: React.FC<{tutorials: SanityDocument[]}> = ({
 }) => {
   return (
     <Layout>
-      <main className="flex flex-grow items-center justify-center flex-col">
-        <h1 className="font-heading text-4xl font-bold">Tutorials</h1>
+      <main className="flex py-32 items-center justify-center flex-col relatiev z-10">
+        <h1 className="font-heading sm:text-6xl text-5xl font-bold">
+          Tutorials
+        </h1>
         {tutorials && (
-          <ul>
-            {tutorials.map(({title, slug}) => {
+          <ul className="pt-20 max-w-screen-md flex flex-col gap-8 px-3">
+            {tutorials.map(({title, slug, image, description, resources}) => {
               return (
-                <li key={slug}>
-                  <Link
-                    href={{
-                      pathname: '/tutorials/[module]',
-                      query: {
-                        module: slug,
-                      },
-                    }}
-                  >
-                    <a className="text-3xl font-heading font-bold">{title}</a>
-                  </Link>
+                <li
+                  key={slug}
+                  className="flex md:flex-row flex-col gap-10 items-center p-10 rounded-lg bg-black/30"
+                >
+                  <div className="flex items-center justify-center flex-shrink-0">
+                    <Image
+                      src={image}
+                      alt={title}
+                      width={300}
+                      quality={100}
+                      height={300}
+                    />
+                  </div>
+                  <div>
+                    <Link
+                      href={{
+                        pathname: '/tutorials/[module]',
+                        query: {
+                          module: slug,
+                        },
+                      }}
+                    >
+                      <a className="sm:text-5xl text-4xl font-semibold hover:underline">
+                        {title}
+                      </a>
+                    </Link>
+                    <div className="py-4 text-sm font-mono uppercase">
+                      {resources.length} lessons
+                    </div>
+                    {description && (
+                      <p className="text-gray-300">{description}</p>
+                    )}
+                    <Link
+                      href={{
+                        pathname: '/tutorials/[module]',
+                        query: {
+                          module: slug,
+                        },
+                      }}
+                    >
+                      <a className="gap-2 px-3 py-2 rounded bg-gray-800 hover:bg-gray-700 transition inline-block mt-5 font-medium">
+                        View <span aria-hidden="true">→</span>
+                      </a>
+                    </Link>
+                  </div>
                 </li>
               )
             })}
           </ul>
         )}
       </main>
+      <Image
+        layout="fill"
+        aria-hidden="true"
+        alt=""
+        src={require('../../../public/assets/landing/bg-divider-3.png')}
+        objectPosition={'top'}
+        className="object-contain -z-10"
+      />
     </Layout>
   )
 }

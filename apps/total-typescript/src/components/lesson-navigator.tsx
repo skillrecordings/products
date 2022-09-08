@@ -15,6 +15,7 @@ const LessonNavigator: React.FC<{
         {module.resources.map((resource: any, sectionIdx: number) => {
           if (resource._type === 'section') {
             const section = resource
+            const isActive = router.query.lesson === section.slug
             return (
               <li key={resource.slug + `-${sectionIdx}`} className="pt-2">
                 <Link

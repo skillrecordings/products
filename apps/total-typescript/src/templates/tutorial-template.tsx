@@ -64,7 +64,13 @@ const TutorialTemplate: React.FC<{tutorial: SanityDocument}> = ({tutorial}) => {
           </div>
         </div>
         <div className="flex items-center justify-center lg:-mr-16">
-          <Image src={image} alt={title} width={400} height={400} />
+          <Image
+            src={image}
+            alt={title}
+            width={400}
+            height={400}
+            quality={100}
+          />
         </div>
       </header>
       <Image
