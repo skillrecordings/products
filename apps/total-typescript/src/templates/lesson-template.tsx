@@ -23,6 +23,7 @@ import {
   FinishedOverlay,
   BlockedOverlay,
 } from 'components/lesson-overlay'
+import Image from 'next/image'
 
 const path = '/tutorials'
 
@@ -52,25 +53,33 @@ const LessonTemplate: React.FC<{
             module={module}
             path={path}
           />
-          <main className="w-full relative max-w-[1440px] mx-auto">
-            <Video ref={muxPlayerRef} module={module} lesson={lesson} />
-            <details className="lg:hidden block group  ">
-              <summary className="flex gap-1 items-center px-4 py-3 font-medium bg-black/50 hover:bg-gray-800 transition cursor-pointer no-marker marker:content-[''] group-open:after:rotate-0 after:rotate-180 after:content-['↑'] after:text-lg after:w-6 after:h-6 after:rounded-full after:bg-gray-800 after:flex after:items-center after:justify-center after:absolute after:right-3">
-                {module.title} {capitalize(module.moduleType)}{' '}
-                <span className="opacity-80">
-                  ({module.resources.length} lessons)
-                </span>
-              </summary>
-              <LessonSidebar module={module} path={path} />
-            </details>
+          <main className="w-full relative max-w-[1440px] mx-auto 2xl:flex items-start 2xl:max-w-none border-t 2xl:border-gray-800 border-transparent">
+            <div className="2xl:w-full 2xl:border-r border-gray-800 2xl:relative">
+              <Video ref={muxPlayerRef} module={module} lesson={lesson} />
+              <details className="lg:hidden block group">
+                <summary className="flex gap-1 items-center px-4 py-3 font-medium bg-black/50 hover:bg-gray-800 transition cursor-pointer no-marker marker:content-[''] group-open:after:rotate-0 after:rotate-180 after:content-['↑'] after:text-lg after:w-6 after:h-6 after:rounded-full after:bg-gray-800 after:flex after:items-center after:justify-center after:absolute after:right-3">
+                  {module.title} {capitalize(module.moduleType)}{' '}
+                  <span className="opacity-80">
+                    ({module.resources.length} lessons)
+                  </span>
+                </summary>
+                <LessonSidebar module={module} path={path} />
+              </details>
+              <div className="hidden 2xl:block pb-5">
+                <LessonTranscript lesson={lesson} muxPlayerRef={muxPlayerRef} />
+                <StackblitzEmbed lesson={lesson} module={module} />
+              </div>
+            </div>
             <article>
-              <div className="mx-auto lg:py-8 px-5 py-5 relative max-w-4xl">
+              <div className="mx-auto lg:py-8 px-5 py-5 relative max-w-4xl 2xl:max-w-2xl w-full 2xl:flex-grow">
                 <LessonTitle lesson={lesson} />
                 <LessonDescription lesson={lesson} />
                 <GitHubLink lesson={lesson} module={module} />
               </div>
-              <StackblitzEmbed lesson={lesson} module={module} />
-              <LessonTranscript lesson={lesson} muxPlayerRef={muxPlayerRef} />
+              <div className="2xl:hidden block">
+                <StackblitzEmbed lesson={lesson} module={module} />
+                <LessonTranscript lesson={lesson} muxPlayerRef={muxPlayerRef} />
+              </div>
             </article>
           </main>
         </div>
@@ -202,6 +211,7 @@ const LessonDescription: React.FC<{lesson: SanityDocument}> = ({lesson}) => {
   const {body} = lesson
   return (
     <div className="pt-5 opacity-90 prose sm:prose-lg max-w-none prose-headings:font-semibold">
+      {/* TODO: Fix overflowing Pre tag */}
       <PortableText value={body} components={PortableTextComponents} />
     </div>
   )
@@ -237,9 +247,16 @@ export const StackBlitzIframe: React.FC<{
         })}
       />
       {isLoading && (
-        <div className="absolute left-0 top-0 w-full h-full flex items-center justify-center gap-2 bg-black/30">
-          <Spinner className="w-8 h-8" />
-          <span>Loading editor...</span>
+        <div className="absolute left-0 top-0 w-full h-full flex items-center justify-center bg-[#070B15]">
+          <div className="flex items-center justify-center gap-2 relative z-10">
+            <Spinner className="w-8 h-8" />
+            <span>Loading editor...</span>
+          </div>
+          <Image
+            src={require('../../public/assets/editor-placeholder.svg')}
+            layout="fill"
+            className="object-cover object-top"
+          />
         </div>
       )}
     </>
@@ -280,15 +297,20 @@ const StackblitzEmbed: React.FC<{
             <StackBlitzIframe lesson={lesson} module={module} />
           </div>
         ) : (
-          <div className="max-w-4xl mx-auto px-5">
+          <div className="max-w-4xl mx-auto 2xl:px-0 px-5 relative">
             <button
               type="button"
               onClick={() => setIsExpanded(true)}
-              className="rounded sm:h-[400px] h-[200px] w-full  bg-black/50 hover:bg-black/30 transition ease-in-out group flex items-center justify-center cursor-pointer"
+              className="overflow-hidden rounded 2xl:h-[200px] sm:h-[400px] h-[200px] w-full  bg-black/50 hover:bg-black/30 transition ease-in-out group flex items-center justify-center cursor-pointer"
             >
-              <div className="px-4 py-3 rounded-md border border-cyan-500 group-hover:border-cyan-300 group-hover:bg-cyan-400/10 transition ease-in-out inline-flex font-medium">
+              <div className="relative z-10 px-4 py-3 rounded-md border border-cyan-500 group-hover:border-cyan-300 group-hover:bg-cyan-400/10 transition ease-in-out inline-flex font-medium">
                 Run Code
               </div>
+              <Image
+                src={require('../../public/assets/editor-placeholder.svg')}
+                layout="fill"
+                className="object-cover object-top"
+              />
             </button>
           </div>
         )}

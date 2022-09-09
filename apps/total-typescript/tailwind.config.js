@@ -19,6 +19,9 @@ module.exports = {
         sans: ['Larsseit', ...defaultTheme.fontFamily.sans],
       },
       colors: {gray: colors.slate},
+      screens: {
+        '2xl': '1600px',
+      },
       typography: (theme) => ({
         DEFAULT: {
           css: {

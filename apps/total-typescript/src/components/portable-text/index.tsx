@@ -200,6 +200,17 @@ const PortableTextComponents: PortableTextComponents = {
     bodyImage: ({value}: BodyImageProps) => <BodyImage value={value} />,
     code: ({value}: CodeProps) => {
       const {language, code, highlightedLines} = value
+
+      const lines = highlightedLines?.map((line: any) => {
+        return {
+          line: line,
+          component: ({children}: any) => (
+            <div className=" before:bg-yellow-400/30 before:pointer-events-none before:mix-blend-overlay before:content-[''] before:absolute before:w-full before:h-8 before:-translate-y-1 before:left-0">
+              {children}
+            </div>
+          ),
+        }
+      })
       return (
         <>
           <pre
@@ -210,9 +221,10 @@ const PortableTextComponents: PortableTextComponents = {
           >
             <code>{code}</code>
           </pre>
+          {/* TODO: Fix overflowing Pre tag */}
           <pre
             aria-hidden="true"
-            className="sm:mx-0 -mx-5 sm:rounded-lg rounded-none bg-black/50"
+            className="sm:mx-0 -mx-5 sm:rounded-lg rounded-none bg-black/50 relative w-full"
           >
             <Refractor
               inline
@@ -224,7 +236,7 @@ const PortableTextComponents: PortableTextComponents = {
                   : 'javascript'
               }
               value={code}
-              markers={highlightedLines}
+              markers={lines}
             />
           </pre>
         </>
