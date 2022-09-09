@@ -7,6 +7,7 @@ import Image from 'next/image'
 import {IconGithub} from 'components/icons'
 import {CourseJsonLd} from '@skillrecordings/next-seo'
 import {isBrowser} from 'utils/is-browser'
+import {track} from '../utils/analytics'
 
 const TutorialTemplate: React.FC<{tutorial: SanityDocument}> = ({tutorial}) => {
   const {title, body, ogImage, description} = tutorial
@@ -65,7 +66,12 @@ const Header: React.FC<{tutorial: SanityDocument}> = ({tutorial}) => {
                   query: {module: slug, lesson: resources[0].slug},
                 }}
               >
-                <a className="px-6 py-3 rounded hover:bg-cyan-300 transition flex items-center justify-center font-semibold bg-cyan-400 text-black">
+                <a
+                  className="px-6 py-3 rounded hover:bg-cyan-300 transition flex items-center justify-center font-semibold bg-cyan-400 text-black"
+                  onClick={() => {
+                    track('clicked github code link', {module: slug})
+                  }}
+                >
                   Start Learning{' '}
                   <span className="pl-2" aria-hidden="true">
                     →
@@ -76,6 +82,9 @@ const Header: React.FC<{tutorial: SanityDocument}> = ({tutorial}) => {
                 <a
                   className="px-5 py-3 gap-2 rounded transition flex items-center justify-center font-medium border-2 border-gray-800 hover:bg-gray-800"
                   href={`https://github.com/total-typescript/${github.repo}`}
+                  onClick={() => {
+                    track('clicked github code link', {module: slug})
+                  }}
                   target="_blank"
                   rel="noopener noreferrer"
                 >
@@ -128,7 +137,15 @@ const LessonNavigator: React.FC<{tutorial: SanityDocument}> = ({tutorial}) => {
                 }}
                 passHref
               >
-                <a className="text-lg py-2.5 font-semibold group inline-flex items-center">
+                <a
+                  className="text-lg py-2.5 font-semibold group inline-flex items-center"
+                  onClick={() => {
+                    track('clicked tutorial lesson', {
+                      module: slug,
+                      lesson: resource.slug,
+                    })
+                  }}
+                >
                   <span
                     className="w-8 font-mono text-gray-400 text-xs"
                     aria-hidden="true"

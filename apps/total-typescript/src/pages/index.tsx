@@ -7,6 +7,8 @@ import {
 } from '@skillrecordings/convertkit'
 import {useRouter} from 'next/router'
 import {MDXComponents} from 'components/mdx'
+import {setUserId} from '@amplitude/analytics-browser'
+import {track} from '../utils/analytics'
 
 const HomePage = () => {
   return (
@@ -102,8 +104,12 @@ const SubscribeToNewsletter = () => {
         <div className="max-w-sm mx-auto">
           <SubscribeToConvertkitForm
             actionLabel="Subscribe"
-            onSuccess={(subscriber: any) => {
+            onSuccess={(subscriber?: any, email?: string) => {
               if (subscriber) {
+                email && setUserId(email)
+                track('subscribed to email list', {
+                  location: 'home',
+                })
                 const redirectUrl = redirectUrlBuilder(subscriber, '/confirm')
                 router.push(redirectUrl)
               }

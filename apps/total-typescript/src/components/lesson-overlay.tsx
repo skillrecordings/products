@@ -14,11 +14,13 @@ import {useMuxPlayer} from 'hooks/use-mux-player'
 import {StackBlitzIframe} from 'templates/lesson-template'
 import {XIcon} from '@heroicons/react/solid'
 import cx from 'classnames'
+import {track} from '../utils/analytics'
+import {setUserId} from '@amplitude/analytics-browser'
 
 const OverlayWrapper: React.FC<
   React.PropsWithChildren<{className?: string}>
 > = ({children, className}) => {
-  const {setDisplayOverlay} = useMuxPlayer()
+  const {setDisplayOverlay, lesson, module} = useMuxPlayer()
 
   return (
     <div
@@ -28,6 +30,10 @@ const OverlayWrapper: React.FC<
       <button
         className="absolute top-2 right-2 py-2 px-3 z-50 font-medium rounded flex items-center gap-1 hover:bg-gray-800 transition text-gray-200"
         onClick={() => {
+          track('dismissed video overlay', {
+            lesson: lesson.slug,
+            module: module.slug,
+          })
           setDisplayOverlay(false)
         }}
       >
@@ -45,21 +51,12 @@ const OverlayWrapper: React.FC<
   )
 }
 
-type ExerciseOverlayProps = {
-  lesson: SanityDocument
-  nextLesson: SanityDocument
-  module: SanityDocument
+type OverlayProps = {
   handlePlay: () => void
-  path: string
 }
 
-const ExerciseOverlay: React.FC<ExerciseOverlayProps> = ({
-  lesson,
-  nextLesson,
-  module,
-  handlePlay,
-  path,
-}) => {
+const ExerciseOverlay: React.FC<OverlayProps> = ({handlePlay}) => {
+  const {nextLesson, lesson, module, path} = useMuxPlayer()
   const {github} = module
   const {stackblitz} = lesson
   const router = useRouter()
@@ -69,16 +66,28 @@ const ExerciseOverlay: React.FC<ExerciseOverlayProps> = ({
       <>
         <button
           className="bg-gray-800 sm:px-5 px-3 sm:py-2 py-1 text-lg font-semibold rounded hover:bg-gray-700 transition"
-          onClick={handlePlay}
+          onClick={() => {
+            track('clicked replay', {
+              lesson: lesson.slug,
+              module: module.slug,
+              location: 'lesson',
+            })
+            handlePlay()
+          }}
         >
           Replay <span aria-hidden="true">↺</span>
         </button>
         {nextLesson && (
           <button
             className="text-lg bg-cyan-600 hover:bg-cyan-500 transition sm:px-5 px-3 sm:py-2 py-1 font-semibold rounded"
-            onClick={() =>
+            onClick={() => {
+              track('clicked continue to solution', {
+                lesson: lesson.slug,
+                module: module.slug,
+                location: 'lesson',
+              })
               handleContinue(router, module, nextLesson, handlePlay, path)
-            }
+            }}
           >
             Solution <span aria-hidden="true">→</span>
           </button>
@@ -125,19 +134,8 @@ const ExerciseOverlay: React.FC<ExerciseOverlayProps> = ({
   )
 }
 
-type DefaultOverlayProps = {
-  nextLesson: SanityDocument
-  module: SanityDocument
-  handlePlay: () => void
-  path: string
-}
-
-const DefaultOverlay: React.FC<DefaultOverlayProps> = ({
-  nextLesson,
-  module,
-  handlePlay,
-  path,
-}) => {
+const DefaultOverlay: React.FC<OverlayProps> = ({handlePlay}) => {
+  const {nextLesson, module, path, lesson} = useMuxPlayer()
   const router = useRouter()
   const {image} = module
   return (
@@ -161,15 +159,27 @@ const DefaultOverlay: React.FC<DefaultOverlayProps> = ({
       <div className="flex items-center justify-center gap-5 sm:py-8 py-4">
         <button
           className="bg-gray-800 hover:bg-gray-700 transition sm:px-5 px-3 sm:py-3 py-1 text-lg font-semibold rounded"
-          onClick={handlePlay}
+          onClick={() => {
+            track('clicked replay', {
+              lesson: lesson.slug,
+              module: module.slug,
+              location: 'lesson',
+            })
+            handlePlay()
+          }}
         >
           Replay ↺
         </button>
         <button
           className="text-lg bg-cyan-600 hover:bg-cyan-500 transition rounded sm:px-5 px-3 sm:py-3 py-1 font-semibold"
-          onClick={() =>
+          onClick={() => {
+            track('clicked continue', {
+              lesson: lesson.slug,
+              module: module.slug,
+              location: 'lesson',
+            })
             handleContinue(router, module, nextLesson, handlePlay, path)
-          }
+          }}
         >
           Continue <span aria-hidden="true">→</span>
         </button>
@@ -178,17 +188,8 @@ const DefaultOverlay: React.FC<DefaultOverlayProps> = ({
   )
 }
 
-type FinishedOverlayProps = {
-  module: SanityDocument
-  handlePlay: () => void
-  path: string
-}
-
-const FinishedOverlay: React.FC<FinishedOverlayProps> = ({
-  module,
-  handlePlay,
-  path,
-}) => {
+const FinishedOverlay: React.FC<OverlayProps> = ({handlePlay}) => {
+  const {module, path} = useMuxPlayer()
   const router = useRouter()
   const shareUrl = `${process.env.NEXT_PUBLIC_URL}${path}/${module.slug}`
   const shareMessage = `${module.title} ${module.moduleType} by @${process.env.NEXT_PUBLIC_PARTNER_TWITTER}`
@@ -247,15 +248,18 @@ const FinishedOverlay: React.FC<FinishedOverlayProps> = ({
   )
 }
 
-type BlockedOverlayProps = {
-  module: SanityDocument
-}
-
-const BlockedOverlay: React.FC<BlockedOverlayProps> = ({module}) => {
+const BlockedOverlay: React.FC = () => {
   const router = useRouter()
-  const handleOnSuccess = (subscriber: any) => {
+  const {lesson, module} = useMuxPlayer()
+  const handleOnSuccess = (subscriber: any, email?: string) => {
     if (subscriber) {
       const redirectUrl = redirectUrlBuilder(subscriber, router.asPath)
+      email && setUserId(email)
+      track('subscribed to email list', {
+        lesson: lesson.slug,
+        module: module.slug,
+        location: 'lesson',
+      })
       router.push(redirectUrl).then(() => {
         toast(
           () => (
@@ -309,7 +313,9 @@ const BlockedOverlay: React.FC<BlockedOverlayProps> = ({module}) => {
             subscribeApiURL={process.env.NEXT_PUBLIC_CONVERTKIT_SUBSCRIBE_URL}
             actionLabel="Continue Watching"
             fields={startedLearningField}
-            onSuccess={(subscriber) => handleOnSuccess(subscriber)}
+            onSuccess={(subscriber, email) =>
+              handleOnSuccess(subscriber, email)
+            }
           />
           <p className="pt-2 text-base opacity-80">
             No spam, unsubscribe at any time.

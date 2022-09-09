@@ -9,7 +9,7 @@ export type SubscribeFormProps = {
   errorMessage?: string | React.ReactElement
   submitButtonElem?: React.ReactElement
   onError?: (error?: any) => void
-  onSuccess?: (subscriber?: ConvertkitSubscriber) => void
+  onSuccess?: (subscriber?: ConvertkitSubscriber, email?: string) => void
   formId?: number
   subscribeApiURL?: string
   id?: string

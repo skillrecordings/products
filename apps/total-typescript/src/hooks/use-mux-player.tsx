@@ -4,6 +4,7 @@ import {getNextLesson} from 'utils/get-lesson'
 import {SanityDocument} from '@sanity/client'
 import {useRouter} from 'next/router'
 import {MuxPlayerProps} from '@mux/mux-player-react/*'
+import {track} from '../utils/analytics'
 
 type VideoContextType = {
   muxPlayerProps: MuxPlayerProps | any
@@ -14,6 +15,9 @@ type VideoContextType = {
   handlePlay: () => void
   displayOverlay: boolean
   nextLesson: SanityDocument
+  lesson: SanityDocument
+  module: SanityDocument
+  path: string
 }
 
 export const VideoContext = React.createContext({} as VideoContextType)
@@ -21,12 +25,13 @@ export const VideoContext = React.createContext({} as VideoContextType)
 type VideoProviderProps = {
   module: SanityDocument
   lesson: SanityDocument
+  path: string
   muxPlayerRef: any
 }
 
 export const VideoProvider: React.FC<
   React.PropsWithChildren<VideoProviderProps>
-> = ({module, lesson, muxPlayerRef, children}) => {
+> = ({module, lesson, muxPlayerRef, children, path}) => {
   const router = useRouter()
   const nextLesson = lesson && module && getNextLesson(module, lesson)
   const {setPlayerPrefs, playbackRate, autoplay, getPlayerPrefs} =
@@ -63,10 +68,18 @@ export const VideoProvider: React.FC<
     muxPlayerProps: {
       onPlay: () => {
         setDisplayOverlay(false)
+        track('started lesson video', {
+          module: module.slug,
+          lesson: lesson.slug,
+        })
       },
       onPause: () => {},
       onEnded: () => {
         handleNext(getPlayerPrefs().autoplay)
+        track('completed lesson video', {
+          module: module.slug,
+          lesson: lesson.slug,
+        })
       },
       onRateChange: () => {
         setPlayerPrefs({
@@ -88,6 +101,9 @@ export const VideoProvider: React.FC<
     handlePlay,
     displayOverlay,
     nextLesson,
+    lesson,
+    module,
+    path,
   }
   return (
     <VideoContext.Provider value={context}>{children}</VideoContext.Provider>

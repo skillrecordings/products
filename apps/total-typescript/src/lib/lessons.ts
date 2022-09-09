@@ -2,10 +2,12 @@ import groq from 'groq'
 import {sanityClient} from 'utils/sanity-client'
 
 const lessonsQuery = groq`*[_type == "lesson"] {
+  _updatedAt,
   "slug": slug.current
   }`
 
 const freeLessonsQuery = groq`*[_type == "lesson" && isFree == true] {
+  _updatedAt,
   "slug": slug.current
   }`
 
@@ -25,6 +27,7 @@ export const getLesson = async (slug: string) =>
         lessonType,
         github,
         body,
+          _updatedAt,
         stackblitz {
           projectId,
           openFile
@@ -38,6 +41,7 @@ export const getBlockedLesson = async (slug: string) =>
         // video,
         transcript,
         description,
+          _updatedAt,
         isFree,
         title,
         "slug": slug.current,
