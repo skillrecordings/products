@@ -205,7 +205,7 @@ const PortableTextComponents: PortableTextComponents = {
         return {
           line: line,
           component: ({children}: any) => (
-            <div className=" before:bg-yellow-400/30 before:pointer-events-none before:mix-blend-overlay before:content-[''] before:absolute before:w-full before:h-8 before:-translate-y-1 before:left-0">
+            <div className=" before:bg-gradient-to-r from-yellow-500/30 to-amber-500/40 before:pointer-events-none before:mix-blend-overlay before:content-[''] before:absolute before:w-full before:h-6 before:left-0">
               {children}
             </div>
           ),
@@ -224,7 +224,7 @@ const PortableTextComponents: PortableTextComponents = {
           {/* TODO: Fix overflowing Pre tag */}
           <pre
             aria-hidden="true"
-            className="sm:mx-0 -mx-5 sm:rounded-lg rounded-none bg-black/50 relative w-full"
+            className="sm:mx-0 -mx-5 sm:rounded-lg rounded-none bg-black/50 relative"
           >
             <Refractor
               inline
