@@ -17,7 +17,7 @@ export function useConvertkitForm({
 }: {
   submitUrl?: string
   formId?: number
-  onSuccess: (subscriber: ConvertkitSubscriber) => void
+  onSuccess: (subscriber: ConvertkitSubscriber, email?: string) => void
   onError: (error?: any) => void
   fields?: any
 }) {
@@ -38,7 +38,7 @@ export function useConvertkitForm({
         .post(submitUrl, {email, first_name, form: formId, fields})
         .then((response: any) => {
           const subscriber: ConvertkitSubscriber = response.data
-          onSuccess(subscriber)
+          onSuccess(subscriber, email)
           setStatus('success')
         })
         .catch((error) => {

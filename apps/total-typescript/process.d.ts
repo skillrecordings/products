@@ -15,5 +15,6 @@ declare namespace NodeJS {
     CONVERTKIT_BASE_URL: string
     NEXT_PUBLIC_GOOGLE_ANALYTICS: string
     EMAIL_SERVER_PORT: number
+    NEXT_PUBLIC_AMPLITUDE_API_KEY: string
   }
 }

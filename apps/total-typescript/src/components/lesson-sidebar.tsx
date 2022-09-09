@@ -5,6 +5,7 @@ import LessonNavigator from './lesson-navigator'
 import cx from 'classnames'
 import SimpleBar from 'simplebar-react'
 import Image from 'next/image'
+import {track} from '../utils/analytics'
 
 type SidebarProps = {
   module: SanityDocument
@@ -42,7 +43,14 @@ const LessonSidebar: React.FC<SidebarProps> = ({
               )}
               <div>
                 <Link href="/tutorials">
-                  <a className="uppercase text-xs font-mono font-semibold opacity-80 hover:underline">
+                  <a
+                    className="uppercase text-xs font-mono font-semibold opacity-80 hover:underline"
+                    onClick={() => {
+                      track('clicked return to tutorials', {
+                        module: module.slug,
+                      })
+                    }}
+                  >
                     {module.moduleType}s<span className="pl-1">/</span>
                   </a>
                 </Link>
@@ -54,7 +62,14 @@ const LessonSidebar: React.FC<SidebarProps> = ({
                     }}
                     passHref
                   >
-                    <a className="hover:underline">{module.title}</a>
+                    <a
+                      className="hover:underline"
+                      onClick={() => {
+                        track('clicked return to module', {module: module.slug})
+                      }}
+                    >
+                      {module.title}
+                    </a>
                   </Link>
                 </h1>
               </div>

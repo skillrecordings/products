@@ -24,6 +24,7 @@ import {
   BlockedOverlay,
 } from 'components/lesson-overlay'
 import Image from 'next/image'
+import {track} from 'utils/analytics'
 
 const path = '/tutorials'
 
@@ -40,7 +41,12 @@ const LessonTemplate: React.FC<{
   const shareCard = ogImage ? {ogImage: {url: ogImage}} : {}
 
   return (
-    <VideoProvider muxPlayerRef={muxPlayerRef} module={module} lesson={lesson}>
+    <VideoProvider
+      muxPlayerRef={muxPlayerRef}
+      module={module}
+      lesson={lesson}
+      path={path}
+    >
       <Layout
         meta={{title: pageTitle, ...shareCard, description: pageDescription}}
         nav={
@@ -100,28 +106,13 @@ const Video: React.FC<any> = React.forwardRef(({module, lesson}, ref: any) => {
           {nextLesson ? (
             <>
               {isExercise ? (
-                <ExerciseOverlay
-                  lesson={lesson}
-                  nextLesson={nextLesson}
-                  module={module}
-                  handlePlay={handlePlay}
-                  path={path}
-                />
+                <ExerciseOverlay handlePlay={handlePlay} />
               ) : (
-                <DefaultOverlay
-                  nextLesson={nextLesson}
-                  module={module}
-                  handlePlay={handlePlay}
-                  path={path}
-                />
+                <DefaultOverlay handlePlay={handlePlay} />
               )}
             </>
           ) : (
-            <FinishedOverlay
-              module={module}
-              handlePlay={handlePlay}
-              path={path}
-            />
+            <FinishedOverlay handlePlay={handlePlay} />
           )}
         </>
       )}
@@ -133,7 +124,7 @@ const Video: React.FC<any> = React.forwardRef(({module, lesson}, ref: any) => {
         {lesson.video ? (
           <MuxPlayer ref={ref} {...(muxPlayerProps as MuxPlayerProps)} />
         ) : (
-          <BlockedOverlay module={module} />
+          <BlockedOverlay />
         )}
       </div>
     </>
@@ -177,6 +168,12 @@ const GitHubLink: React.FC<{
       <h2 className="sm:text-3xl text-2xl font-semibold pb-4">Code</h2>
       <div className="flex items-center gap-2">
         <a
+          onClick={() => {
+            track('clicked github code link', {
+              lesson: lesson.slug,
+              module: module.slug,
+            })
+          }}
           href={`https://github.com/total-typescript/${github.repo}/blob/main/${openFile}`}
           target="_blank"
           rel="noopener noreferrer"
@@ -300,7 +297,13 @@ const StackblitzEmbed: React.FC<{
           <div className="max-w-4xl mx-auto 2xl:px-0 px-5 relative">
             <button
               type="button"
-              onClick={() => setIsExpanded(true)}
+              onClick={() => {
+                track('clicked run code', {
+                  lesson: lesson.slug,
+                  module: module.slug,
+                })
+                setIsExpanded(true)
+              }}
               className="overflow-hidden rounded 2xl:h-[200px] sm:h-[400px] h-[200px] w-full  bg-black/50 hover:bg-black/30 transition ease-in-out group flex items-center justify-center cursor-pointer"
             >
               <div className="relative z-10 px-4 py-3 rounded-md border border-cyan-500 group-hover:border-cyan-300 group-hover:bg-cyan-400/10 transition ease-in-out inline-flex font-medium">

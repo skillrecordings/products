@@ -3,6 +3,7 @@ import {useRouter} from 'next/router'
 import capitalize from 'lodash/capitalize'
 import Link from 'next/link'
 import cx from 'classnames'
+import {track} from '../utils/analytics'
 
 const LessonNavigator: React.FC<{
   module: SanityDocument
@@ -28,7 +29,15 @@ const LessonNavigator: React.FC<{
                   }}
                   passHref
                 >
-                  <a className="px-4 font-semibold py-2 hover:bg-gray-800 flex items-center">
+                  <a
+                    className="px-4 font-semibold py-2 hover:bg-gray-800 flex items-center"
+                    onClick={() => {
+                      track('clicked section in navigator', {
+                        module: module.slug,
+                        lesson: section.resources[0].slug,
+                      })
+                    }}
+                  >
                     <span
                       aria-hidden="true"
                       className="text-sm pr-3 opacity-50"
@@ -61,6 +70,15 @@ const LessonNavigator: React.FC<{
                                 'border-transparent ': !isActive,
                               },
                             )}
+                            onClick={() => {
+                              track(
+                                `clicked ${lesson.lessonType} in navigator`,
+                                {
+                                  module: module.slug,
+                                  lesson: lesson.slug,
+                                },
+                              )
+                            }}
                           >
                             {capitalize(lesson.lessonType)}
                           </a>
@@ -92,6 +110,12 @@ const LessonNavigator: React.FC<{
                         'border-transparent bg-white/5': !isActive,
                       },
                     )}
+                    onClick={() => {
+                      track(`clicked ${lesson.lessonType} in navigator`, {
+                        module: module.slug,
+                        lesson: lesson.slug,
+                      })
+                    }}
                   >
                     <span
                       aria-hidden="true"

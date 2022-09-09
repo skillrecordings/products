@@ -12,6 +12,10 @@ import {MDXProvider} from '@mdx-js/react'
 import {MDXComponents} from 'components/mdx'
 // import {SessionProvider} from 'next-auth/react'
 
+import * as amplitude from '@amplitude/analytics-browser'
+
+amplitude.init(process.env.NEXT_PUBLIC_AMPLITUDE_API_KEY)
+
 function MyApp({Component, pageProps}: AppProps) {
   usePageview()
   initNProgress()

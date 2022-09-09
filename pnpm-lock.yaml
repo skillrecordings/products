@@ -2121,6 +2121,7 @@ importers:
 
   apps/total-typescript:
     specifiers:
+      '@amplitude/analytics-browser': ^1.3.0
       '@heroicons/react': ^1.0.6
       '@mdx-js/loader': ^2.1.2
       '@mdx-js/mdx': ^2.1.2
@@ -2191,6 +2192,7 @@ importers:
       xstate: '=4.23.1'
       zod: ^3.14.4
     dependencies:
+      '@amplitude/analytics-browser': 1.3.0
       '@heroicons/react': 1.0.6_react@18.2.0
       '@mdx-js/loader': 2.1.3_webpack@4.46.0
       '@mdx-js/mdx': 2.1.2
@@ -3601,6 +3603,46 @@ packages:
       '@algolia/cache-common': 4.13.0
       '@algolia/logger-common': 4.13.0
       '@algolia/requester-common': 4.13.0
+    dev: false
+
+  /@amplitude/analytics-browser/1.3.0:
+    resolution: {integrity: sha512-0fEnrAoBHCMqYzPR/bvVpdW31F2x2rdl4T4aUg4bdgC5s4BaNEcc3HmFqIDJEpmoa1UhlsSAWzwLaLnu7T1xzg==}
+    dependencies:
+      '@amplitude/analytics-client-common': 0.0.1
+      '@amplitude/analytics-connector': 1.4.5
+      '@amplitude/analytics-core': 0.9.0
+      '@amplitude/analytics-types': 0.9.0
+      '@amplitude/ua-parser-js': 0.7.31
+      tslib: 2.4.0
+    dev: false
+
+  /@amplitude/analytics-client-common/0.0.1:
+    resolution: {integrity: sha512-Dmxmid4CFIu7dR7H4cZh79YKURW+ogfSa+wMK+s2detZWhbKMG0CH69fFTK35iS3m6/PKrlIHygbfsyhV5H/BQ==}
+    dependencies:
+      '@amplitude/analytics-core': 0.9.0
+      '@amplitude/analytics-types': 0.9.0
+      tslib: 2.4.0
+    dev: false
+
+  /@amplitude/analytics-connector/1.4.5:
+    resolution: {integrity: sha512-ELAP6ivg+13uSk+TOirGZE/92M+tTbeiQ/i7eXgDO4Hiy00Abf/UxO/rp9WovtxCyeFYTILrujEYxPv5cRQmFw==}
+    dependencies:
+      '@amplitude/ua-parser-js': 0.7.31
+    dev: false
+
+  /@amplitude/analytics-core/0.9.0:
+    resolution: {integrity: sha512-N73LX1h0VyMQrfdcY7JPASM3EHB/WDSzYEMEIgtxopwWAUCwcGjB2ii91B4802kfzgLysMT3SYg9Z0IvwfYOIA==}
+    dependencies:
+      '@amplitude/analytics-types': 0.9.0
+      tslib: 2.4.0
+    dev: false
+
+  /@amplitude/analytics-types/0.9.0:
+    resolution: {integrity: sha512-76dWTTQbkibkbcDnH8fbMLhEzmDBZGykpSVMrpe/DeEjPLlmlFvH6cyph8LGklfVSXidnK069kA4kI76pm49uQ==}
+    dev: false
+
+  /@amplitude/ua-parser-js/0.7.31:
+    resolution: {integrity: sha512-+z8UGRaj13Pt5NDzOnkTBy49HE2CX64jeL0ArB86HAtilpnfkPB7oqkigN7Lf2LxscMg4QhFD7mmCfedh3rqTg==}
     dev: false
 
   /@ampproject/remapping/2.2.0:
@@ -9544,7 +9586,7 @@ packages:
       '@mdx-js/loader': '>=0.15.0'
       '@mdx-js/react': '*'
     dependencies:
-      '@mdx-js/loader': 2.1.3_webpack@5.73.0
+      '@mdx-js/loader': 2.1.3_webpack@4.46.0
       '@mdx-js/react': 2.1.3_react@18.2.0
     dev: false
 
@@ -15243,7 +15285,7 @@ packages:
       mississippi: 3.0.0
       mkdirp: 0.5.5
       move-concurrently: 1.0.1
-      promise-inflight: 1.0.1
+      promise-inflight: 1.0.1_bluebird@3.7.2
       rimraf: 2.6.3
       ssri: 6.0.2
       unique-filename: 1.1.1
@@ -27829,6 +27871,17 @@ packages:
     peerDependenciesMeta:
       bluebird:
         optional: true
+    dev: true
+
+  /promise-inflight/1.0.1_bluebird@3.7.2:
+    resolution: {integrity: sha512-6zWPyEOFaQBJYcGMHBKTKJ3u6TBsnMFOIZSa6ce1e/ZrrsOlnHRHbabMjLiBYKp+n44X9eUI6VUPaukCXHuG4g==}
+    peerDependencies:
+      bluebird: '*'
+    peerDependenciesMeta:
+      bluebird:
+        optional: true
+    dependencies:
+      bluebird: 3.7.2
 
   /prompts/2.1.0:
     resolution: {integrity: sha512-+x5TozgqYdOwWsQFZizE/Tra3fKvAoy037kOyU6cgz84n8f6zxngLOV4O32kTwt9FcLCxAqw0P/c8rOr9y+Gfg==}
