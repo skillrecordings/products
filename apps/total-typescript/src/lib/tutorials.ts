@@ -24,6 +24,7 @@ export const getTutorial = async (slug: string) =>
         _id,
         github,
         ogImage,
+        description,
         resources[]->{
             _type,
             title,

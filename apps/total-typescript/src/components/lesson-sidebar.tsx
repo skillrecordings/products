@@ -4,6 +4,7 @@ import Link from 'next/link'
 import LessonNavigator from './lesson-navigator'
 import cx from 'classnames'
 import SimpleBar from 'simplebar-react'
+import Image from 'next/image'
 
 type SidebarProps = {
   module: SanityDocument
@@ -30,7 +31,15 @@ const LessonSidebar: React.FC<SidebarProps> = ({
         <SimpleBar className="relative lg:max-h-screen max-h-[580px] lg:pb-16">
           <div className="sticky top-0 z-10">
             <div className="flex items-center gap-5 px-3 lg:pt-4 pt-2 pb-2 bg-gray-900 border-b border-gray-800">
-              {module?.image && <img src={module.image} className="w-28" />}
+              {module?.image && (
+                <Image
+                  src={module.image}
+                  width={110}
+                  height={110}
+                  alt={module.title}
+                  quality={100}
+                />
+              )}
               <div>
                 <Link href="/tutorials">
                   <a className="uppercase text-xs font-mono font-semibold opacity-80 hover:underline">
@@ -50,9 +59,9 @@ const LessonSidebar: React.FC<SidebarProps> = ({
                 </h1>
               </div>
             </div>
-            <h3 className="pt-3 pb-5 text-sm font-semibold uppercase px-5 bg-gradient-to-t from-transparent to-gray-900 via-gray-900">
+            <p className="pt-3 pb-5 text-sm font-semibold uppercase px-5 bg-gradient-to-t from-transparent to-gray-900 via-gray-900">
               Lessons
-            </h3>
+            </p>
           </div>
           <LessonNavigator module={module} path={path} />
         </SimpleBar>

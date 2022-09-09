@@ -18,6 +18,7 @@ export const getLesson = async (slug: string) =>
     groq`*[_type == "lesson" && slug.current == $slug][0]{
         video,
         transcript,
+        description,
         isFree,
         title,
         "slug": slug.current,
@@ -36,6 +37,7 @@ export const getBlockedLesson = async (slug: string) =>
     groq`*[_type == "lesson" && slug.current == $slug][0]{
         // video,
         transcript,
+        description,
         isFree,
         title,
         "slug": slug.current,

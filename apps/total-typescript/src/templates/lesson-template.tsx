@@ -6,6 +6,7 @@ import LessonSidebar from 'components/lesson-sidebar'
 import Navigation from 'components/app/navigation'
 import Layout from 'components/app/layout'
 import capitalize from 'lodash/capitalize'
+import Spinner from 'components/spinner'
 import cx from 'classnames'
 import {
   PortableText,
@@ -13,7 +14,7 @@ import {
 } from '@portabletext/react'
 import {useDeviceDetect} from 'hooks/use-device-detect'
 import {hmsToSeconds} from 'utils/hms-to-seconds'
-import {useMuxPlayer} from 'hooks/use-mux-player'
+import {useMuxPlayer, VideoProvider} from 'hooks/use-mux-player'
 import {SanityDocument} from '@sanity/client'
 import {IconGithub} from 'components/icons'
 import {
@@ -30,58 +31,58 @@ const LessonTemplate: React.FC<{
   module: SanityDocument
   subscriber: ConvertkitSubscriber
 }> = ({lesson, module, subscriber}) => {
-  const {title, lessonType} = lesson
+  const {title, lessonType, description} = lesson
   const {ogImage} = module
   const muxPlayerRef = React.useRef<HTMLDivElement>()
   const pageTitle = `${title} (${capitalize(lessonType)})`
+  const pageDescription = description || module.description
   const shareCard = ogImage ? {ogImage: {url: ogImage}} : {}
 
   return (
-    <Layout
-      meta={{title: pageTitle, ...shareCard}}
-      nav={
-        <Navigation className="flex relative w-auto justify-between xl:ml-[320px] lg:ml-[280px]" />
-      }
-    >
-      <div className="flex lg:flex-row flex-col">
-        <LessonSidebar
-          className="lg:block hidden"
-          module={module}
-          path={path}
-        />
-        <main className="w-full relative">
-          <Video ref={muxPlayerRef} module={module} lesson={lesson} />
-          <details className="lg:hidden block group  ">
-            <summary className="flex gap-1 items-center px-4 py-3 font-medium bg-black/50 hover:bg-gray-800 transition cursor-pointer no-marker marker:content-[''] group-open:after:rotate-0 after:rotate-180 after:content-['↑'] after:text-lg after:w-6 after:h-6 after:rounded-full after:bg-gray-800 after:flex after:items-center after:justify-center after:absolute after:right-3">
-              {module.title} {capitalize(module.moduleType)}{' '}
-              <span className="opacity-80">
-                ({module.resources.length} lessons)
-              </span>
-            </summary>
-            <LessonSidebar module={module} path={path} />
-          </details>
-          <article>
-            <div className="mx-auto lg:px-10 lg:py-8 px-5 py-5 relative">
-              <LessonTitle lesson={lesson} />
-              <LessonDescription lesson={lesson} />
-              <GitHubLink lesson={lesson} module={module} />
-            </div>
-            <StackblitzEmbed lesson={lesson} module={module} />
-            <LessonTranscript lesson={lesson} muxPlayerRef={muxPlayerRef} />
-          </article>
-        </main>
-      </div>
-    </Layout>
+    <VideoProvider muxPlayerRef={muxPlayerRef} module={module} lesson={lesson}>
+      <Layout
+        meta={{title: pageTitle, ...shareCard, description: pageDescription}}
+        nav={
+          <Navigation className="flex relative w-auto justify-between xl:ml-[320px] lg:ml-[280px]" />
+        }
+      >
+        <div className="flex lg:flex-row flex-col">
+          <LessonSidebar
+            className="lg:block hidden"
+            module={module}
+            path={path}
+          />
+          <main className="w-full relative max-w-[1440px] mx-auto">
+            <Video ref={muxPlayerRef} module={module} lesson={lesson} />
+            <details className="lg:hidden block group  ">
+              <summary className="flex gap-1 items-center px-4 py-3 font-medium bg-black/50 hover:bg-gray-800 transition cursor-pointer no-marker marker:content-[''] group-open:after:rotate-0 after:rotate-180 after:content-['↑'] after:text-lg after:w-6 after:h-6 after:rounded-full after:bg-gray-800 after:flex after:items-center after:justify-center after:absolute after:right-3">
+                {module.title} {capitalize(module.moduleType)}{' '}
+                <span className="opacity-80">
+                  ({module.resources.length} lessons)
+                </span>
+              </summary>
+              <LessonSidebar module={module} path={path} />
+            </details>
+            <article>
+              <div className="mx-auto lg:py-8 px-5 py-5 relative max-w-4xl">
+                <LessonTitle lesson={lesson} />
+                <LessonDescription lesson={lesson} />
+                <GitHubLink lesson={lesson} module={module} />
+              </div>
+              <StackblitzEmbed lesson={lesson} module={module} />
+              <LessonTranscript lesson={lesson} muxPlayerRef={muxPlayerRef} />
+            </article>
+          </main>
+        </div>
+      </Layout>
+    </VideoProvider>
   )
 }
 
 const Video: React.FC<any> = React.forwardRef(({module, lesson}, ref: any) => {
   const isExercise = Boolean(lesson.lessonType === 'exercise')
-  const {muxPlayerProps, handlePlay, displayOverlay, nextLesson} = useMuxPlayer(
-    ref,
-    lesson,
-    module,
-  )
+  const {muxPlayerProps, handlePlay, displayOverlay, nextLesson} =
+    useMuxPlayer()
 
   return (
     <>
@@ -131,8 +132,7 @@ const Video: React.FC<any> = React.forwardRef(({module, lesson}, ref: any) => {
 })
 
 const AutoPlayToggle: React.FC<any> = ({muxPlayerRef}) => {
-  const {autoPlay, handlePlay, setAutoPlay, setPlayerPrefs} =
-    useMuxPlayer(muxPlayerRef)
+  const {autoPlay, handlePlay, setAutoPlay, setPlayerPrefs} = useMuxPlayer()
   return (
     <label className="flex items-center gap-1.5 text-gray-200 text-sm absolute sm:right-4 right-0 cursor-pointer sm:top-3 top-0 bg-gray-900 hover:bg-gray-800 transition rounded px-3 py-2">
       <input
@@ -164,8 +164,8 @@ const GitHubLink: React.FC<{
   const openFile = stackblitz.openFile.split(',')[0]
 
   return (
-    <div className="pt-8">
-      <h2 className="sm:text-2xl text-xl font-semibold pb-2">Code</h2>
+    <div className="pt-14">
+      <h2 className="sm:text-3xl text-2xl font-semibold pb-4">Code</h2>
       <div className="flex items-center gap-2">
         <a
           href={`https://github.com/total-typescript/${github.repo}/blob/main/${openFile}`}
@@ -191,8 +191,8 @@ const LessonTitle: React.FC<{lesson: SanityDocument}> = ({lesson}) => {
   const {title, lessonType} = lesson
   return (
     <>
-      <h1 className="sm:text-4xl text-3xl font-bold">
-        {title} <span className="font-normal">({capitalize(lessonType)})</span>
+      <h1 className="sm:text-4xl text-3xl font-semibold pb-5">
+        {title} <span className="font-light">({capitalize(lessonType)})</span>
       </h1>
     </>
   )
@@ -201,28 +201,19 @@ const LessonTitle: React.FC<{lesson: SanityDocument}> = ({lesson}) => {
 const LessonDescription: React.FC<{lesson: SanityDocument}> = ({lesson}) => {
   const {body} = lesson
   return (
-    <div>
-      <div className="pt-5 opacity-90 prose sm:prose-lg max-w-none">
-        <PortableText value={body} components={PortableTextComponents} />
-      </div>
+    <div className="pt-5 opacity-90 prose sm:prose-lg max-w-none prose-headings:font-semibold">
+      <PortableText value={body} components={PortableTextComponents} />
     </div>
   )
 }
 
-const StackblitzEmbed: React.FC<{
+export const StackBlitzIframe: React.FC<{
   lesson: SanityDocument
   module: SanityDocument
+  isExpanded?: boolean
 }> = ({lesson, module}) => {
   const {stackblitz} = lesson
-  const {isSafari, isFirefox} = useDeviceDetect()
-  const iframeRef = React.useRef<HTMLDivElement>(null)
-  const [isExpanded, setIsExpanded] = React.useState(false)
-  React.useEffect(() => {
-    setIsExpanded(false)
-  }, [lesson])
-  if (!stackblitz.openFile) {
-    return null
-  }
+  const [isLoading, setIsLoading] = React.useState(true)
   const codeFileNumber = stackblitz.openFile
     .match(/\d/g)
     .join('')
@@ -234,8 +225,42 @@ const StackblitzEmbed: React.FC<{
   const embedUrl = `https://stackblitz.com/github/${githubOrg}/${githubRepo}?file=${stackblitz.openFile}&embed=1&view=editor&hideExplorer=1&ctl=${clickToLoad}&terminal=${startCommand}`
 
   return (
-    <div>
-      <h3 className="flex items-baseline sm:text-2xl text-xl font-semibold pb-2 xl:px-10 sm:px-10 px-5">
+    <>
+      <iframe
+        onLoad={() => {
+          setIsLoading(false)
+        }}
+        src={embedUrl}
+        title="code editor"
+        className={cx('w-full transition-all h-full', {
+          invisible: isLoading,
+        })}
+      />
+      {isLoading && (
+        <div className="absolute left-0 top-0 w-full h-full flex items-center justify-center gap-2 bg-black/30">
+          <Spinner className="w-8 h-8" />
+          <span>Loading editor...</span>
+        </div>
+      )}
+    </>
+  )
+}
+
+const StackblitzEmbed: React.FC<{
+  lesson: SanityDocument
+  module: SanityDocument
+}> = ({lesson, module}) => {
+  const {stackblitz} = lesson
+  const {isSafari, isFirefox} = useDeviceDetect()
+  const [isExpanded, setIsExpanded] = React.useState(false)
+
+  if (!stackblitz.openFile) {
+    return null
+  }
+
+  return (
+    <div className="pt-8">
+      <h3 className="max-w-4xl mx-auto flex items-baseline sm:text-3xl text-2xl font-semibold pb-4 px-5">
         Editor
         {(isSafari || isFirefox) && (
           <span className="pl-2 text-base font-normal text-gray-400">
@@ -244,27 +269,28 @@ const StackblitzEmbed: React.FC<{
           </span>
         )}
       </h3>
-      <div className="relative" ref={iframeRef}>
+      <div className="relative">
         {isExpanded ? (
-          <iframe
-            src={embedUrl}
-            title="code editor"
-            id="iframe"
-            className={cx('w-full transition-all', {
+          <div
+            className={cx('w-full transition-all h-full', {
               'sm:h-[800px] h-[400px]': isExpanded,
               'sm:h-[400px] h-[200px]': !isExpanded,
             })}
-          />
-        ) : (
-          <button
-            type="button"
-            onClick={() => setIsExpanded(true)}
-            className="sm:h-[400px] h-[200px] w-full  bg-black/50 hover:bg-black/30 transition ease-in-out group flex items-center justify-center cursor-pointer"
           >
-            <div className="px-4 py-3 rounded-md border border-cyan-500 group-hover:border-cyan-300 group-hover:bg-cyan-400/10 transition ease-in-out inline-flex font-medium">
-              Run Code
-            </div>
-          </button>
+            <StackBlitzIframe lesson={lesson} module={module} />
+          </div>
+        ) : (
+          <div className="max-w-4xl mx-auto px-5">
+            <button
+              type="button"
+              onClick={() => setIsExpanded(true)}
+              className="rounded sm:h-[400px] h-[200px] w-full  bg-black/50 hover:bg-black/30 transition ease-in-out group flex items-center justify-center cursor-pointer"
+            >
+              <div className="px-4 py-3 rounded-md border border-cyan-500 group-hover:border-cyan-300 group-hover:bg-cyan-400/10 transition ease-in-out inline-flex font-medium">
+                Run Code
+              </div>
+            </button>
+          </div>
         )}
       </div>
     </div>
@@ -276,14 +302,14 @@ const LessonTranscript: React.FC<{
   muxPlayerRef: any
 }> = ({lesson, muxPlayerRef}) => {
   const {transcript, video} = lesson
-  const {handlePlay} = useMuxPlayer(muxPlayerRef)
+  const {handlePlay} = useMuxPlayer()
   if (!transcript) {
     return null
   }
 
   return (
-    <div className="prose prose-lg max-w-4xl text-white mx-auto p-10 pt-8">
-      <h2 className="flex items-baseline sm:text-2xl text-xl font-semibold pt-2">
+    <div className="prose prose-lg max-w-4xl text-white mx-auto p-5 py-16">
+      <h2 className="flex items-baseline sm:text-3xl text-2xl font-semibold">
         Transcript
       </h2>
       <PortableText

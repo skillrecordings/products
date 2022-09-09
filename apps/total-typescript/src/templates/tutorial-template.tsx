@@ -5,17 +5,39 @@ import {SanityDocument} from '@sanity/client'
 import Link from 'next/link'
 import Image from 'next/image'
 import {IconGithub} from 'components/icons'
+import {CourseJsonLd} from '@skillrecordings/next-seo'
+import {isBrowser} from 'utils/is-browser'
 
 const TutorialTemplate: React.FC<{tutorial: SanityDocument}> = ({tutorial}) => {
-  const {title, body, slug, resources, image, ogImage, github} = tutorial
+  const {title, body, ogImage, description} = tutorial
   const pageTitle = `${title} Tutorial`
   const shareCard = ogImage ? {ogImage: {url: ogImage}} : {}
 
   return (
     <Layout
       className="max-w-4xl mx-auto w-full py-24 px-5 "
-      meta={{title: pageTitle, ...shareCard}}
+      meta={{title: pageTitle, ...shareCard, description}}
     >
+      <CourseMeta title={pageTitle} description={description} />
+      <Header tutorial={tutorial} />
+      <main className="relative z-10 flex lg:flex-row flex-col gap-5">
+        <article className="prose prose-lg lg:max-w-xl max-w-none text-white">
+          <PortableText value={body} />
+        </article>
+        <LessonNavigator tutorial={tutorial} />
+      </main>
+    </Layout>
+  )
+}
+
+export default TutorialTemplate
+
+const Header: React.FC<{tutorial: SanityDocument}> = ({tutorial}) => {
+  const {title, body, slug, resources, image, ogImage, github, description} =
+    tutorial
+
+  return (
+    <>
       <header className="relative z-10 sm:pt-8 sm:pb-8 pt-0 pb-16 flex md:flex-row flex-col-reverse items-center justify-between">
         <div className="md:text-left text-center">
           <p className="uppercase text-sm font-mono font-semibold tracking-wide pb-1 text-cyan-300">
@@ -81,48 +103,65 @@ const TutorialTemplate: React.FC<{tutorial: SanityDocument}> = ({tutorial}) => {
         objectPosition={'top'}
         className="object-contain -z-10"
       />
-      <main className="relative z-10 flex lg:flex-row flex-col gap-5">
-        <article className="prose prose-lg lg:max-w-xl max-w-none text-white">
-          <PortableText value={body} />
-        </article>
-        <nav
-          aria-label="lesson navigator"
-          className="lg:border-l border-gray-800 lg:pl-8"
-        >
-          <h2 className="pb-4 text-gray-300 text-sm font-semibold font-mono uppercase">
-            Lessons
-          </h2>
-          {resources && (
-            <ul>
-              {resources.map((resource: SanityDocument, i: number) => (
-                <li key={resource.slug}>
-                  <Link
-                    href={{
-                      pathname: '/tutorials/[module]/[lesson]',
-                      query: {module: slug, lesson: resource.slug},
-                    }}
-                    passHref
-                  >
-                    <a className="text-lg py-2.5 font-semibold group inline-flex items-center">
-                      <span
-                        className="w-8 font-mono text-gray-400 text-xs"
-                        aria-hidden="true"
-                      >
-                        {i + 1}
-                      </span>
-                      <span className="w-full group-hover:underline leading-tight">
-                        {resource.title}
-                      </span>
-                    </a>
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          )}
-        </nav>
-      </main>
-    </Layout>
+    </>
   )
 }
 
-export default TutorialTemplate
+const LessonNavigator: React.FC<{tutorial: SanityDocument}> = ({tutorial}) => {
+  const {slug, resources} = tutorial
+  return (
+    <nav
+      aria-label="lesson navigator"
+      className="lg:border-l border-gray-800 lg:pl-8"
+    >
+      <h2 className="pb-4 text-gray-300 text-sm font-semibold font-mono uppercase">
+        Lessons
+      </h2>
+      {resources && (
+        <ul>
+          {resources.map((resource: SanityDocument, i: number) => (
+            <li key={resource.slug}>
+              <Link
+                href={{
+                  pathname: '/tutorials/[module]/[lesson]',
+                  query: {module: slug, lesson: resource.slug},
+                }}
+                passHref
+              >
+                <a className="text-lg py-2.5 font-semibold group inline-flex items-center">
+                  <span
+                    className="w-8 font-mono text-gray-400 text-xs"
+                    aria-hidden="true"
+                  >
+                    {i + 1}
+                  </span>
+                  <span className="w-full group-hover:underline leading-tight">
+                    {resource.title}
+                  </span>
+                </a>
+              </Link>
+            </li>
+          ))}
+        </ul>
+      )}
+    </nav>
+  )
+}
+
+const CourseMeta = ({
+  title,
+  description,
+}: {
+  title: string
+  description: string
+}) => (
+  <CourseJsonLd
+    courseName={title}
+    description={description}
+    provider={{
+      name: `${process.env.NEXT_PUBLIC_PARTNER_FIRST_NAME} ${process.env.NEXT_PUBLIC_PARTNER_LAST_NAME}`,
+      type: 'Person',
+      url: isBrowser() ? document.location.href : process.env.NEXT_PUBLIC_URL,
+    }}
+  />
+)
