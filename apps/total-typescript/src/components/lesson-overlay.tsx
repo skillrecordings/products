@@ -16,6 +16,8 @@ import {XIcon} from '@heroicons/react/solid'
 import cx from 'classnames'
 import {track} from '../utils/analytics'
 import {setUserId} from '@amplitude/analytics-browser'
+import {sanityClient} from 'utils/sanity-client'
+import {PortableText, toPlainText} from '@portabletext/react'
 
 const OverlayWrapper: React.FC<
   React.PropsWithChildren<{className?: string}>
@@ -251,6 +253,22 @@ const FinishedOverlay: React.FC<OverlayProps> = ({handlePlay}) => {
 const BlockedOverlay: React.FC = () => {
   const router = useRouter()
   const {lesson, module} = useMuxPlayer()
+  const [ctaText, setCtaText] = React.useState()
+
+  React.useEffect(() => {
+    sanityClient
+      .fetch(
+        `
+      *[_type == 'cta' && slug.current == "free-tutorial"][0]{
+        body
+      }
+    `,
+      )
+      .then((response) => {
+        setCtaText(response.body)
+      })
+  }, [])
+
   const handleOnSuccess = (subscriber: any, email?: string) => {
     if (subscriber) {
       const redirectUrl = redirectUrlBuilder(subscriber, router.asPath)
@@ -289,9 +307,9 @@ const BlockedOverlay: React.FC = () => {
   return (
     <div
       id="video-overlay"
-      className="flex items-center justify-center w-full bg-[#070B16] md:aspect-video py-5"
+      className="flex flex-col lg:flex-row items-center justify-center w-full bg-[#070B16] md:aspect-video py-5"
     >
-      <div className="p-5 z-20 left-0 top-0 w-full h-full flex flex-col gap-5 items-center justify-center text-center leading-relaxed text-lg">
+      <div className="p-5 z-20 left-0 top-0 lg:w-1/2 w-full h-full flex flex-col gap-5 items-center justify-center text-center leading-relaxed text-lg">
         <div className="flex flex-col items-center justify-center gap-2 w-full">
           <div className="2xl:block sm:hidden block">
             <Image
@@ -321,6 +339,10 @@ const BlockedOverlay: React.FC = () => {
             No spam, unsubscribe at any time.
           </p>
         </div>
+      </div>
+      <div className="flex flex-col p-10 lg:w-1/2 w-full  prose prose-lg lg:max-w-xl max-w-none text-white">
+        <h2>This is a free tutorial.</h2>
+        {ctaText && <PortableText value={ctaText} />}
       </div>
     </div>
   )

@@ -4,6 +4,7 @@ import createSchema from 'part:@sanity/base/schema-creator'
 // Then import schema types from any plugins that might expose them
 import schemaTypes from 'all:part:@sanity/base/schema-type'
 // —— documents
+import cta from './documents/cta'
 import page from './documents/page'
 import mail from './documents/mail'
 import quiz from './documents/quiz'
@@ -43,6 +44,7 @@ export default createSchema({
   // to the ones provided by any plugins that are installed
   types: schemaTypes.concat([
     // documents
+    cta,
     page,
     mail,
     quiz,
