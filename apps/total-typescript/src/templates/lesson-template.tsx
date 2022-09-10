@@ -66,7 +66,7 @@ const LessonTemplate: React.FC<{
                 <summary className="flex gap-1 items-center px-4 py-3 font-medium bg-black/50 hover:bg-gray-800 transition cursor-pointer no-marker marker:content-[''] group-open:after:rotate-0 after:rotate-180 after:content-['↑'] after:text-lg after:w-6 after:h-6 after:rounded-full after:bg-gray-800 after:flex after:items-center after:justify-center after:absolute after:right-3">
                   {module.title} {capitalize(module.moduleType)}{' '}
                   <span className="opacity-80">
-                    ({module.resources.length} lessons)
+                    ({module.resources.length} exercises)
                   </span>
                 </summary>
                 <LessonSidebar module={module} path={path} />

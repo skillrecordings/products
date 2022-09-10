@@ -65,7 +65,7 @@ const TutorialsPage: React.FC<{tutorials: SanityDocument[]}> = ({
                       </a>
                     </Link>
                     <div className="py-4 text-sm font-mono uppercase">
-                      {resources.length} lessons
+                      {resources.length} exercises
                     </div>
                     {description && (
                       <p className="text-gray-300">{description}</p>
