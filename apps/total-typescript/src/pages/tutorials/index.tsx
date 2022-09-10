@@ -20,7 +20,11 @@ const TutorialsPage: React.FC<{tutorials: SanityDocument[]}> = ({
   tutorials,
 }) => {
   return (
-    <Layout>
+    <Layout
+      meta={{
+        description: `Free TypeScript tutorials by Matt Pocock that will help you learn how to use TypeScript as a professional web developer through exercise driven examples.`,
+      }}
+    >
       <main className="flex py-32 items-center justify-center flex-col relatiev z-10">
         <h1 className="font-heading sm:text-6xl text-5xl font-bold">
           Tutorials

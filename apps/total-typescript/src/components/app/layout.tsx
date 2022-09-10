@@ -4,6 +4,7 @@ import Navigation from 'components/app/navigation'
 import cx from 'classnames'
 import isNull from 'lodash/isNull'
 import {Toaster} from 'react-hot-toast'
+import {useRouter} from 'next/router'
 
 type LayoutProps = {
   meta?: any
@@ -22,13 +23,16 @@ const Layout: FunctionComponent<LayoutProps> = ({
   nav,
   footer,
 }) => {
+  const router = useRouter()
   const {
     title,
     description,
     titleAppendSiteName = true,
-    url,
+    url = `${process.env.NEXT_PUBLIC_URL}${router.asPath}`,
     type = 'website',
-    ogImage,
+    ogImage = {
+      url: `${process.env.NEXT_PUBLIC_URL}/card@2x.png`,
+    },
     date,
   } = meta || {}
 

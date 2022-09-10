@@ -12,6 +12,7 @@ import find from 'lodash/find'
 import {getExerciseForSection} from '../utils/get-exercise-for-section'
 
 const TutorialTemplate: React.FC<{tutorial: SanityDocument}> = ({tutorial}) => {
+  console.log({tutorial})
   const {title, body, ogImage, description} = tutorial
   const pageTitle = `${title} Tutorial`
   const shareCard = ogImage ? {ogImage: {url: ogImage}} : {}

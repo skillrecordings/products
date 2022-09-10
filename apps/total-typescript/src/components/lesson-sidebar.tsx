@@ -54,7 +54,7 @@ const LessonSidebar: React.FC<SidebarProps> = ({
                     {module.moduleType}s<span className="pl-1">/</span>
                   </a>
                 </Link>
-                <h1 className="text-3xl font-semibold leading-tight">
+                <h2 className="text-3xl font-semibold leading-tight">
                   <Link
                     href={{
                       pathname: `${path}/[module]`,
@@ -71,7 +71,7 @@ const LessonSidebar: React.FC<SidebarProps> = ({
                       {module.title}
                     </a>
                   </Link>
-                </h1>
+                </h2>
               </div>
             </div>
             <p className="pt-3 pb-5 text-sm font-semibold uppercase px-5 bg-gradient-to-t from-transparent to-gray-900 via-gray-900">
