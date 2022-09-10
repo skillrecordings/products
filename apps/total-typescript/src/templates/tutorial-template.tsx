@@ -9,6 +9,7 @@ import {CourseJsonLd} from '@skillrecordings/next-seo'
 import {isBrowser} from 'utils/is-browser'
 import {track} from '../utils/analytics'
 import find from 'lodash/find'
+import {getExerciseForSection} from '../utils/get-exercise-for-section'
 
 const TutorialTemplate: React.FC<{tutorial: SanityDocument}> = ({tutorial}) => {
   const {title, body, ogImage, description} = tutorial
@@ -131,16 +132,13 @@ const LessonNavigator: React.FC<{tutorial: SanityDocument}> = ({tutorial}) => {
       </h2>
       {resources && (
         <ul>
-          {resources.map((resource: SanityDocument, i: number) => {
+          {resources.map((section: SanityDocument, i: number) => {
             // the resource is the SECTION, but we link to the exercise lesson
             // so we need to dig in a bit to find the correct URL
-            const exercise =
-              find(resource.resources, (lesson: SanityDocument) => {
-                return lesson.lessonType === 'exercise'
-              }) || resource
+            const exercise = getExerciseForSection(section)
 
             return (
-              <li key={resource.slug}>
+              <li key={section.slug}>
                 <Link
                   href={{
                     pathname: '/tutorials/[module]/[lesson]',
@@ -164,7 +162,7 @@ const LessonNavigator: React.FC<{tutorial: SanityDocument}> = ({tutorial}) => {
                       {i + 1}
                     </span>
                     <span className="w-full group-hover:underline leading-tight">
-                      {resource.title}
+                      {section.title}
                     </span>
                   </a>
                 </Link>
