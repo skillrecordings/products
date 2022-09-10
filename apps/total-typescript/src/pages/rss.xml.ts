@@ -37,7 +37,6 @@ const buildFeed = (items: any) => {
   })
 
   items.forEach((item: any) => {
-    console.log({item})
     feed.addItem({
       // TODO: change based on content type (tips/articles/etc)
       title: `${item.title} Tutorial`,
