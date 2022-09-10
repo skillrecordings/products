@@ -9,7 +9,7 @@ import Image from 'next/image'
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const tutorials = await getAllTutorials()
-  const hasSubscribed = await checkIfConvertkitSubscriber(context)
+  // const hasSubscribed = await checkIfConvertkitSubscriber(context)
 
   return {
     props: {tutorials},
@@ -27,8 +27,12 @@ const TutorialsPage: React.FC<{tutorials: SanityDocument[]}> = ({
     >
       <main className="flex py-32 items-center justify-center flex-col relatiev z-10">
         <h1 className="font-heading sm:text-6xl text-5xl font-bold">
-          Tutorials
+          Free TypeScript Tutorials
         </h1>
+        <p className="max-w-lg pt-8">
+          A collection of free, exercise-driven, in-depth TypeScript tutorials
+          for you to use on your journey to TypeScript wizardry.
+        </p>
         {tutorials && (
           <ul className="pt-20 max-w-screen-md flex flex-col gap-8 px-3">
             {tutorials.map(({title, slug, image, description, resources}) => {
