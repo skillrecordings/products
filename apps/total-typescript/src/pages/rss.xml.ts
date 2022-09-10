@@ -1,7 +1,7 @@
 import {GetServerSideProps} from 'next'
 import {Feed} from 'feed'
 import config from '../config'
-// import {getAllArticles} from '../lib/articles'
+import {getAllTutorials} from '../lib/tutorials'
 
 const hostUrl = process.env.NEXT_PUBLIC_URL
 
@@ -37,11 +37,13 @@ const buildFeed = (items: any) => {
   })
 
   items.forEach((item: any) => {
+    console.log({item})
     feed.addItem({
-      title: item.title,
+      // TODO: change based on content type (tips/articles/etc)
+      title: `${item.title} Tutorial`,
       link: `${hostUrl}/${item.slug}`,
-      description: blocksToText(item.preview),
-      date: new Date(item.date),
+      description: item.description,
+      date: new Date(item._createdAt),
     })
   })
 
@@ -52,11 +54,9 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   if (context && context.res) {
     const {res} = context
 
-    // const articles = await getAllArticles()
+    const tutorials = await getAllTutorials()
 
-    console.warn('rss: no articles found')
-
-    const feed = buildFeed([] /* articles */)
+    const feed = buildFeed([...tutorials] /* articles */)
     res.setHeader('Cache-Control', 's-maxage=1, stale-while-revalidate')
     res.setHeader('content-type', 'text/xml')
     res.write(feed.rss2()) // NOTE: You can also use feed.atom1() or feed.json1() for other feed formats
