@@ -29,7 +29,7 @@ const buildFeed = (items: any) => {
     title: config.title,
     description: config.description,
     copyright: 'Copyright © ' + new Date().getFullYear() + ' ' + config.author,
-    updated: new Date(items[0].date),
+    updated: new Date(items[0]._updatedAt),
     author: {
       name: config.author,
       link: hostUrl,
