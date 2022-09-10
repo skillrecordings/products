@@ -22,12 +22,6 @@ module.exports = {
     '/check-your-email',
   ],
   robotsTxtOptions: {
-    policies: [
-      {
-        userAgent: '*',
-        disallow: ['/_next'],
-      },
-    ],
     additionalSitemaps: [`${process.env.NEXT_PUBLIC_URL}/server-sitemap.xml`],
   },
 }
