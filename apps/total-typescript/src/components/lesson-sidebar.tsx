@@ -75,7 +75,7 @@ const LessonSidebar: React.FC<SidebarProps> = ({
               </div>
             </div>
             <p className="pt-3 pb-5 text-sm font-semibold uppercase px-5 bg-gradient-to-t from-transparent to-gray-900 via-gray-900">
-              Lessons
+              Exercises
             </p>
           </div>
           <LessonNavigator module={module} path={path} />

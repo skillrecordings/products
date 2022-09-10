@@ -44,9 +44,11 @@ const Header: React.FC<{tutorial: SanityDocument}> = ({tutorial}) => {
     <>
       <header className="relative z-10 sm:pt-8 sm:pb-8 pt-0 pb-16 flex md:flex-row flex-col-reverse items-center justify-between">
         <div className="md:text-left text-center">
-          <p className="uppercase text-sm font-mono font-semibold tracking-wide pb-1 text-cyan-300">
-            Tutorial
-          </p>
+          <Link href="/tutorials">
+            <a className="uppercase text-sm font-mono font-semibold tracking-wide pb-1 text-cyan-300">
+              Tutorial
+            </a>
+          </Link>
           <h1 className="lg:text-6xl text-5xl font-text font-bold">{title}</h1>
           <div className="pt-8 text-lg">
             <div className="flex items-center md:justify-start justify-center gap-3">
@@ -129,7 +131,7 @@ const LessonNavigator: React.FC<{tutorial: SanityDocument}> = ({tutorial}) => {
       className="lg:border-l border-gray-800 lg:pl-8"
     >
       <h2 className="pb-4 text-gray-300 text-sm font-semibold font-mono uppercase">
-        Lessons
+        Exercises
       </h2>
       {resources && (
         <ul>
