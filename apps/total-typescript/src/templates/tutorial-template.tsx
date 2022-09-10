@@ -8,6 +8,7 @@ import {IconGithub} from 'components/icons'
 import {CourseJsonLd} from '@skillrecordings/next-seo'
 import {isBrowser} from 'utils/is-browser'
 import {track} from '../utils/analytics'
+import find from 'lodash/find'
 
 const TutorialTemplate: React.FC<{tutorial: SanityDocument}> = ({tutorial}) => {
   const {title, body, ogImage, description} = tutorial
@@ -118,6 +119,8 @@ const Header: React.FC<{tutorial: SanityDocument}> = ({tutorial}) => {
 
 const LessonNavigator: React.FC<{tutorial: SanityDocument}> = ({tutorial}) => {
   const {slug, resources} = tutorial
+
+  console.log({resources})
   return (
     <nav
       aria-label="lesson navigator"
@@ -128,37 +131,46 @@ const LessonNavigator: React.FC<{tutorial: SanityDocument}> = ({tutorial}) => {
       </h2>
       {resources && (
         <ul>
-          {resources.map((resource: SanityDocument, i: number) => (
-            <li key={resource.slug}>
-              <Link
-                href={{
-                  pathname: '/tutorials/[module]/[lesson]',
-                  query: {module: slug, lesson: resource.slug},
-                }}
-                passHref
-              >
-                <a
-                  className="text-lg py-2.5 font-semibold group inline-flex items-center"
-                  onClick={() => {
-                    track('clicked tutorial lesson', {
-                      module: slug,
-                      lesson: resource.slug,
-                    })
+          {resources.map((resource: SanityDocument, i: number) => {
+            // the resource is the SECTION, but we link to the exercise lesson
+            // so we need to dig in a bit to find the correct URL
+            const exercise =
+              find(resource.resources, (lesson: SanityDocument) => {
+                return lesson.lessonType === 'exercise'
+              }) || resource
+
+            return (
+              <li key={resource.slug}>
+                <Link
+                  href={{
+                    pathname: '/tutorials/[module]/[lesson]',
+                    query: {module: slug, lesson: exercise.slug},
                   }}
+                  passHref
                 >
-                  <span
-                    className="w-8 font-mono text-gray-400 text-xs"
-                    aria-hidden="true"
+                  <a
+                    className="text-lg py-2.5 font-semibold group inline-flex items-center"
+                    onClick={() => {
+                      track('clicked tutorial lesson', {
+                        module: slug,
+                        lesson: exercise.slug,
+                      })
+                    }}
                   >
-                    {i + 1}
-                  </span>
-                  <span className="w-full group-hover:underline leading-tight">
-                    {resource.title}
-                  </span>
-                </a>
-              </Link>
-            </li>
-          ))}
+                    <span
+                      className="w-8 font-mono text-gray-400 text-xs"
+                      aria-hidden="true"
+                    >
+                      {i + 1}
+                    </span>
+                    <span className="w-full group-hover:underline leading-tight">
+                      {resource.title}
+                    </span>
+                  </a>
+                </Link>
+              </li>
+            )
+          })}
         </ul>
       )}
     </nav>
