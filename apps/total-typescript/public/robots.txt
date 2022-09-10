@@ -3,8 +3,8 @@ User-agent: *
 Allow: /
 
 # Host
-Host: https://totaltypescript.com
+Host: https://www.totaltypescript.com
 
 # Sitemaps
-Sitemap: https://totaltypescript.com/sitemap.xml
-Sitemap: https://totaltypescript.com/server-sitemap.xml
+Sitemap: https://www.totaltypescript.com/sitemap.xml
+Sitemap: https://www.totaltypescript.com/server-sitemap.xml
