@@ -22,6 +22,7 @@ const TutorialsPage: React.FC<{tutorials: SanityDocument[]}> = ({
   return (
     <Layout
       meta={{
+        title: `Free TypeScript Tutorials from Matt Pocock`,
         description: `Free TypeScript tutorials by Matt Pocock that will help you learn how to use TypeScript as a professional web developer through exercise driven examples.`,
       }}
     >

@@ -12,7 +12,7 @@ import {track} from '../utils/analytics'
 
 const HomePage = () => {
   return (
-    <Layout meta={{titleAppendSiteName: false}}>
+    <Layout meta={{title: `Professional TypeScript Training by Matt Pocock `}}>
       <Header />
       <main>
         <Copy />
