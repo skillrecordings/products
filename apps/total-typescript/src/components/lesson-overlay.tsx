@@ -175,15 +175,23 @@ const DefaultOverlay: React.FC<OverlayProps> = ({handlePlay}) => {
         <button
           className="text-lg bg-cyan-600 hover:bg-cyan-500 transition rounded sm:px-5 px-3 sm:py-3 py-1 font-semibold"
           onClick={() => {
-            track('clicked continue', {
+            track('clicked complete', {
               lesson: lesson.slug,
               module: module.slug,
               location: 'lesson',
             })
-            handleContinue(router, module, nextLesson, handlePlay, path)
+            completeLesson(lesson.slug).then(() => {
+              return handleContinue(
+                router,
+                module,
+                nextLesson,
+                handlePlay,
+                path,
+              )
+            })
           }}
         >
-          Continue <span aria-hidden="true">→</span>
+          Complete <span aria-hidden="true">→</span>
         </button>
       </div>
     </OverlayWrapper>
@@ -350,6 +358,12 @@ const BlockedOverlay: React.FC = () => {
 
 export {ExerciseOverlay, DefaultOverlay, FinishedOverlay, BlockedOverlay}
 
+const completeLesson = async (lessonSlug: string) => {
+  return await fetch(`/api/progress/${lessonSlug}`, {
+    method: 'POST',
+  }).then((response) => response.json())
+}
+
 const handleContinue = async (
   router: NextRouter,
   module: SanityDocument,
@@ -357,7 +371,7 @@ const handleContinue = async (
   handlePlay: () => void,
   path: string,
 ) => {
-  await router
+  return await router
     .push({
       query: {module: module.slug, lesson: nextLesson.slug},
       pathname: `${path}/[module]/[lesson]`,

@@ -18,7 +18,7 @@ const lessonProgressHandler = async (
 ) => {
   if (req.method === 'POST') {
     try {
-      const {findOrCreateUser, toggleLessonProgressForUser} = getSdk()
+      const {findOrCreateUser, completeLessonProgressForUser} = getSdk()
       const lessonSlug = req.query.lesson as string
       const subscriberCookie = req.cookies['ck_subscriber']
 
@@ -36,7 +36,7 @@ const lessonProgressHandler = async (
 
       const {user} = await findOrCreateUser(subscriber.email_address)
 
-      const progress = await toggleLessonProgressForUser({
+      const progress = await completeLessonProgressForUser({
         userId: user.id,
         lessonSlug,
       })
