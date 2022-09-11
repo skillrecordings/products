@@ -175,6 +175,42 @@ export function getSdk(
           })
         : []
     },
+    async completeLessonProgressForUser({
+      userId,
+      lessonSlug,
+    }: {
+      userId: string
+      lessonSlug: string
+    }) {
+      let lessonProgress = await ctx.prisma.lessonProgress.findFirst({
+        where: {
+          userId,
+          lessonSlug,
+        },
+      })
+
+      const now = new Date()
+
+      if (lessonProgress) {
+        lessonProgress = await ctx.prisma.lessonProgress.update({
+          where: {id: lessonProgress.id},
+          data: {
+            completedAt: now,
+            updatedAt: now,
+          },
+        })
+      } else {
+        lessonProgress = await ctx.prisma.lessonProgress.create({
+          data: {
+            userId,
+            lessonSlug,
+            completedAt: now,
+            updatedAt: now,
+          },
+        })
+      }
+      return lessonProgress
+    },
     async toggleLessonProgressForUser({
       userId,
       lessonSlug,
