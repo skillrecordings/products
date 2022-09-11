@@ -4,13 +4,15 @@ import {GetServerSideProps} from 'next'
 import React from 'react'
 import TutorialTemplate from 'templates/tutorial-template'
 
-export const getServerSideProps: GetServerSideProps = async ({req, params}) => {
+export const getServerSideProps: GetServerSideProps = async ({res, params}) => {
   const tutorial = await getTutorial(params?.module as string)
   if (!tutorial) {
     return {
       notFound: true,
     }
   }
+
+  res.setHeader('Cache-Control', 's-maxage=1, stale-while-revalidate')
 
   return {
     props: {tutorial},

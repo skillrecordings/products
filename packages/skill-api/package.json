@@ -88,7 +88,7 @@
     "i": "^0.3.7",
     "msw": "^0.35.0",
     "next": "^12.2.3",
-    "next-auth": "^4.10.2",
+    "next-auth": "^4.10.3",
     "nodemailer": "^6.7.2",
     "nodemailer-postmark-transport": "^5.2.1",
     "postcss": "^8.4.14",
@@ -99,7 +99,7 @@
     "whatwg-fetch": "^3.6.2"
   },
   "peerDependencies": {
-    "next-auth": "^4.10.2",
+    "next-auth": "^4.10.3",
     "nodemailer": "^6.6.5",
     "nodemailer-postmark-transport": "^5.2.1",
     "react": "^17.0.2 || ^18",
