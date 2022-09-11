@@ -2,7 +2,7 @@ import React from 'react'
 import LessonTemplate from 'templates/lesson-template'
 import {GetServerSideProps} from 'next'
 import {getTutorial} from 'lib/tutorials'
-import {getBlockedLesson, getLesson} from 'lib/lessons'
+import {getLesson} from 'lib/lessons'
 import {checkIfConvertkitSubscriber} from '@skillrecordings/convertkit'
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
@@ -10,30 +10,28 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   const lessonSlug = params?.lesson as string
   const subscriber = await checkIfConvertkitSubscriber(context)
 
-  const blockedLesson = await getBlockedLesson(lessonSlug)
+  const tutorial = await getTutorial(params?.module as string)
+  const lesson = await getLesson(lessonSlug)
 
-  if (!blockedLesson) {
+  if (!lesson) {
     return {
       notFound: true,
     }
   }
 
-  const tutorial = await getTutorial(params?.module as string)
-
-  if (blockedLesson.isFree || subscriber) {
-    const fullLesson = await getLesson(lessonSlug)
-
+  if (subscriber || lesson.isFree) {
     return {
-      props: {lesson: fullLesson, tutorial},
+      props: {lesson, tutorial, subscriber},
     }
   }
+  const {video, ...blockedNoVideoLesson} = lesson
 
   return {
-    props: {lesson: blockedLesson, tutorial},
+    props: {lesson: blockedNoVideoLesson, tutorial},
   }
 }
 
-const LessonPage: React.FC<any> = ({lesson, tutorial, subscriber}) => {
+const LessonPage: React.FC<any> = ({lesson, tutorial, subscriber, video}) => {
   return (
     <LessonTemplate lesson={lesson} module={tutorial} subscriber={subscriber} />
   )

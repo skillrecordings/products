@@ -8,11 +8,9 @@ import {IconGithub} from 'components/icons'
 import {CourseJsonLd} from '@skillrecordings/next-seo'
 import {isBrowser} from 'utils/is-browser'
 import {track} from '../utils/analytics'
-import find from 'lodash/find'
 import {getExerciseForSection} from '../utils/get-exercise-for-section'
 
 const TutorialTemplate: React.FC<{tutorial: SanityDocument}> = ({tutorial}) => {
-  console.log({tutorial})
   const {title, body, ogImage, description} = tutorial
   const pageTitle = `${title} Tutorial`
   const shareCard = ogImage ? {ogImage: {url: ogImage}} : {}
@@ -123,8 +121,6 @@ const Header: React.FC<{tutorial: SanityDocument}> = ({tutorial}) => {
 
 const LessonNavigator: React.FC<{tutorial: SanityDocument}> = ({tutorial}) => {
   const {slug, resources} = tutorial
-
-  console.log({resources})
   return (
     <nav
       aria-label="lesson navigator"

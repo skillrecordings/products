@@ -64,7 +64,7 @@
     "mdx-prism": "^0.3.4",
     "mjml": "^4.12.0",
     "next": "^12.2.3",
-    "next-auth": "^4.10.2",
+    "next-auth": "^4.10.3",
     "next-mdx-remote": "^3.0.8",
     "next-sanity-image": "^3.1.7",
     "next-sitemap": "^3.0.5",

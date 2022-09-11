@@ -8,6 +8,7 @@ import {checkIfConvertkitSubscriber} from '@skillrecordings/convertkit'
 import Image from 'next/image'
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
+  context.res.setHeader('Cache-Control', 's-maxage=1, stale-while-revalidate')
   const tutorials = await getAllTutorials()
   // const hasSubscribed = await checkIfConvertkitSubscriber(context)
 
