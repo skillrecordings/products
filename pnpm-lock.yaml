@@ -2147,7 +2147,7 @@ importers:
       '@skillrecordings/types': workspace:*
       '@stackblitz/sdk': ^1.8.0
       '@tailwindcss/typography': ^0.5.2
-      '@tanstack/react-query': ^4.3.1
+      '@tanstack/react-query': ^4.3.3
       '@types/js-cookie': ^3.0.2
       '@types/jsonwebtoken': ^8.5.8
       '@types/lodash': ^4.14.179
@@ -2191,7 +2191,7 @@ importers:
       typescript: ^4.7.4
       webpack: '>=4.3.0 <5.0.0'
       xstate: '=4.23.1'
-      zod: ^3.14.4
+      zod: ^3.17.10
     dependencies:
       '@amplitude/analytics-browser': 1.3.0
       '@heroicons/react': 1.0.6_react@18.2.0
@@ -2214,7 +2214,7 @@ importers:
       '@skillrecordings/skill-api': link:../../packages/skill-api
       '@stackblitz/sdk': 1.8.0
       '@tailwindcss/typography': 0.5.2_tailwindcss@3.1.6
-      '@tanstack/react-query': 4.3.1_biqbaboplfbrettd7655fr4n2y
+      '@tanstack/react-query': 4.3.4_biqbaboplfbrettd7655fr4n2y
       '@xstate/react': 1.5.1_bpg42ha2il6pcyn3wrx2rxrchm
       classnames: 2.3.1
       feed: 4.2.2
@@ -11990,12 +11990,12 @@ packages:
       lodash.merge: 4.6.2
       tailwindcss: 3.1.6_postcss@8.4.14
 
-  /@tanstack/query-core/4.3.1:
-    resolution: {integrity: sha512-NrtvJYVxgO2vdXyogchORW2wDh81nHjnH8n51OvaLFilC59DE8hyMzrHmKI4J0MKx8wZvROChVHHXpbBGstR8A==}
+  /@tanstack/query-core/4.3.4:
+    resolution: {integrity: sha512-NLAe3j5Vk1yYEtoPP5fPGPjRzkZPx67KUM3f14L3InziJZJ0wVecCh7uKfgYkbRKJSeq6PlbND7iuCGdTplN6Q==}
     dev: false
 
-  /@tanstack/react-query/4.3.1_biqbaboplfbrettd7655fr4n2y:
-    resolution: {integrity: sha512-rVtXi5yRbhK9EGrlrnIsLNSW+bNpu8OuTnSjf5SNau2L6N+0UXrL911rtkIgF908zPKwaOoAqW/dM7d+ICp+Dg==}
+  /@tanstack/react-query/4.3.4_biqbaboplfbrettd7655fr4n2y:
+    resolution: {integrity: sha512-IiAo+B8bxphEpO7xwLQaCptd2rY4Ef3pW1q9J3pT66G+J/st4QpGQ+cSm9iESp9ccRy1YNUk3klk/hQtWewl6g==}
     peerDependencies:
       react: ^16.8.0 || ^17.0.0 || ^18.0.0
       react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0
@@ -12006,7 +12006,7 @@ packages:
       react-native:
         optional: true
     dependencies:
-      '@tanstack/query-core': 4.3.1
+      '@tanstack/query-core': 4.3.4
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
       use-sync-external-store: 1.2.0_react@18.2.0
@@ -14415,7 +14415,7 @@ packages:
   /axios/0.26.1:
     resolution: {integrity: sha512-fPwcX4EvnSHuInCMItEhAGnaSEXRBjtzh9fOtsE6E1G6p7vl7edEeZe11QHf18+6+9gR5PbKV/sGKNaD8YaMeA==}
     dependencies:
-      follow-redirects: 1.15.1_debug@2.6.9
+      follow-redirects: 1.15.1
     transitivePeerDependencies:
       - debug
 
@@ -19649,6 +19649,15 @@ packages:
 
   /focus-visible/5.2.0:
     resolution: {integrity: sha512-Rwix9pBtC1Nuy5wysTmKy+UjbDJpIfg8eHjw0rjZ1mX4GNLz1Bmd16uDpI3Gk1i70Fgcs8Csg2lPm8HULFg9DQ==}
+
+  /follow-redirects/1.15.1:
+    resolution: {integrity: sha512-yLAMQs+k0b2m7cVxpS1VKJVvoz7SS9Td1zss3XRwXj+ZDH00RJgnuLx7E44wx02kQLrdM3aOOy+FpzS7+8OizA==}
+    engines: {node: '>=4.0'}
+    peerDependencies:
+      debug: '*'
+    peerDependenciesMeta:
+      debug:
+        optional: true
 
   /follow-redirects/1.15.1_debug@2.6.9:
     resolution: {integrity: sha512-yLAMQs+k0b2m7cVxpS1VKJVvoz7SS9Td1zss3XRwXj+ZDH00RJgnuLx7E44wx02kQLrdM3aOOy+FpzS7+8OizA==}

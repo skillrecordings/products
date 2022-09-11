@@ -23,7 +23,10 @@ model Comment {
 model LessonProgress {
   id            String    @id @default(uuid())
   userId        String
-  lessonSlug    String
+  lessonId      String?
+  sectionId     String?
+  moduleId      String?
+  lessonSlug    String?
   lessonVersion String?
   completedAt   DateTime?
   updatedAt     DateTime?
