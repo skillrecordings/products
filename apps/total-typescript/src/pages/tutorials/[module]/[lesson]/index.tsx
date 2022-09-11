@@ -3,13 +3,12 @@ import LessonTemplate from 'templates/lesson-template'
 import {GetServerSideProps} from 'next'
 import {getTutorial} from 'lib/tutorials'
 import {getLesson} from 'lib/lessons'
-import {checkIfConvertkitSubscriber} from '@skillrecordings/convertkit'
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const {params} = context
   const lessonSlug = params?.lesson as string
-  const subscriber = await checkIfConvertkitSubscriber(context)
 
+  const subscriber = context.req.cookies['ck_subscriber']
   const tutorial = await getTutorial(params?.module as string)
   const lesson = await getLesson(lessonSlug)
 
@@ -31,7 +30,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   }
 }
 
-const LessonPage: React.FC<any> = ({lesson, tutorial, subscriber, video}) => {
+const LessonPage: React.FC<any> = ({lesson, tutorial, subscriber}) => {
   return (
     <LessonTemplate lesson={lesson} module={tutorial} subscriber={subscriber} />
   )

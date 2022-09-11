@@ -2147,7 +2147,11 @@ importers:
       '@skillrecordings/types': workspace:*
       '@stackblitz/sdk': ^1.8.0
       '@tailwindcss/typography': ^0.5.2
-      '@tanstack/react-query': ^4.3.1
+      '@tanstack/react-query': ^4.3.3
+      '@trpc/client': ^9.27.2
+      '@trpc/next': ^9.27.2
+      '@trpc/react': ^9.27.2
+      '@trpc/server': ^9.27.2
       '@types/js-cookie': ^3.0.2
       '@types/jsonwebtoken': ^8.5.8
       '@types/lodash': ^4.14.179
@@ -2191,7 +2195,7 @@ importers:
       typescript: ^4.7.4
       webpack: '>=4.3.0 <5.0.0'
       xstate: '=4.23.1'
-      zod: ^3.14.4
+      zod: ^3.17.10
     dependencies:
       '@amplitude/analytics-browser': 1.3.0
       '@heroicons/react': 1.0.6_react@18.2.0
@@ -2214,7 +2218,11 @@ importers:
       '@skillrecordings/skill-api': link:../../packages/skill-api
       '@stackblitz/sdk': 1.8.0
       '@tailwindcss/typography': 0.5.2_tailwindcss@3.1.6
-      '@tanstack/react-query': 4.3.1_biqbaboplfbrettd7655fr4n2y
+      '@tanstack/react-query': 4.3.3_biqbaboplfbrettd7655fr4n2y
+      '@trpc/client': 9.27.2_@trpc+server@9.27.2
+      '@trpc/next': 9.27.2_wgunu44va4imjapgy2wbk6rpza
+      '@trpc/react': 9.27.2_r3nohbkvzkycnbsdj5gzhfx2rm
+      '@trpc/server': 9.27.2
       '@xstate/react': 1.5.1_bpg42ha2il6pcyn3wrx2rxrchm
       classnames: 2.3.1
       feed: 4.2.2
@@ -11990,12 +11998,12 @@ packages:
       lodash.merge: 4.6.2
       tailwindcss: 3.1.6_postcss@8.4.14
 
-  /@tanstack/query-core/4.3.1:
-    resolution: {integrity: sha512-NrtvJYVxgO2vdXyogchORW2wDh81nHjnH8n51OvaLFilC59DE8hyMzrHmKI4J0MKx8wZvROChVHHXpbBGstR8A==}
+  /@tanstack/query-core/4.3.3:
+    resolution: {integrity: sha512-D8k59GAunx8LnjAHep/iHQRVw0WSNKO0IsvrfjPfUegp/zBRum0VaAFRul7dxykDkKEWp0lchOm6nkRasty8RA==}
     dev: false
 
-  /@tanstack/react-query/4.3.1_biqbaboplfbrettd7655fr4n2y:
-    resolution: {integrity: sha512-rVtXi5yRbhK9EGrlrnIsLNSW+bNpu8OuTnSjf5SNau2L6N+0UXrL911rtkIgF908zPKwaOoAqW/dM7d+ICp+Dg==}
+  /@tanstack/react-query/4.3.3_biqbaboplfbrettd7655fr4n2y:
+    resolution: {integrity: sha512-31blpnmpJ6Zh2jP8ZtslucT7dLsavfSHJhSVlQyB6mEvf7fmr1LGtojK20TtTrFCB8YNXRo80oMOcTZ421U+Ig==}
     peerDependencies:
       react: ^16.8.0 || ^17.0.0 || ^18.0.0
       react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0
@@ -12006,7 +12014,7 @@ packages:
       react-native:
         optional: true
     dependencies:
-      '@tanstack/query-core': 4.3.1
+      '@tanstack/query-core': 4.3.3
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
       use-sync-external-store: 1.2.0_react@18.2.0
@@ -12415,6 +12423,56 @@ packages:
   /@tootallnate/once/1.1.2:
     resolution: {integrity: sha512-RbzJvlNzmRq5c3O09UipeuXno4tA1FE6ikOjxZK0tuxVv3412l64l5t1W5pj4+rJq9vpkm/kwiR07aZXnsKPxw==}
     engines: {node: '>= 6'}
+
+  /@trpc/client/9.27.2_@trpc+server@9.27.2:
+    resolution: {integrity: sha512-rpsgJJMalOtki5VjcyheL0zdft23mDnoBHn5cJMZLf3ssymCZq2crbvCiUmCRU289lYHrqffaaZ+9PqCSsVKfg==}
+    peerDependencies:
+      '@trpc/server': 9.27.2
+    dependencies:
+      '@babel/runtime': 7.18.3
+      '@trpc/server': 9.27.2
+    dev: false
+
+  /@trpc/next/9.27.2_wgunu44va4imjapgy2wbk6rpza:
+    resolution: {integrity: sha512-5Xy13sH2c7usWyQtVQ7g7gjv7i1/3shGrtVJJEbdEXq8i0A7BUAg1Q1DjCL92d9otD2jXpnaqRAktrXLZRGCgQ==}
+    peerDependencies:
+      '@trpc/client': 9.27.2
+      '@trpc/react': 9.27.2
+      '@trpc/server': 9.27.2
+      next: '*'
+      react: '>=16.8.0'
+      react-dom: '>=16.8.0'
+      react-query: ^3.37.0
+    dependencies:
+      '@babel/runtime': 7.18.3
+      '@trpc/client': 9.27.2_@trpc+server@9.27.2
+      '@trpc/react': 9.27.2_r3nohbkvzkycnbsdj5gzhfx2rm
+      '@trpc/server': 9.27.2
+      next: 12.2.3_biqbaboplfbrettd7655fr4n2y
+      react: 18.2.0
+      react-dom: 18.2.0_react@18.2.0
+      react-ssr-prepass: 1.5.0_react@18.2.0
+    dev: false
+
+  /@trpc/react/9.27.2_r3nohbkvzkycnbsdj5gzhfx2rm:
+    resolution: {integrity: sha512-d2Nu3gYD7W9B5J5GylLw41jElQexb9zzwOLmCUR54azhvkIjk2w5dZLLqG3ou7L4ZsnlLOHgyO/LMwrgR4U9ZA==}
+    peerDependencies:
+      '@trpc/client': 9.27.2
+      '@trpc/server': 9.27.2
+      react: '>=16.8.0'
+      react-dom: '>=16.8.0'
+      react-query: ^3.37.0
+    dependencies:
+      '@babel/runtime': 7.18.3
+      '@trpc/client': 9.27.2_@trpc+server@9.27.2
+      '@trpc/server': 9.27.2
+      react: 18.2.0
+      react-dom: 18.2.0_react@18.2.0
+    dev: false
+
+  /@trpc/server/9.27.2:
+    resolution: {integrity: sha512-LcXCC004SYWVdHqjSZVpoKkcM0tJNwWtvmjmE2Jir36F0siY1CCbr7g2vz6LcOtA/q7Jj5G2/x1qMWzlPq/Bwg==}
+    dev: false
 
   /@trysound/sax/0.2.0:
     resolution: {integrity: sha512-L7z9BgrNEcYyUYtF+HaEfiS5ebkh9jXqbszz7pC0hRBPaatV0XjSD3+eHrpqFemQfgwiFF0QPIarnIihIDn7OA==}
@@ -14415,7 +14473,7 @@ packages:
   /axios/0.26.1:
     resolution: {integrity: sha512-fPwcX4EvnSHuInCMItEhAGnaSEXRBjtzh9fOtsE6E1G6p7vl7edEeZe11QHf18+6+9gR5PbKV/sGKNaD8YaMeA==}
     dependencies:
-      follow-redirects: 1.15.1_debug@2.6.9
+      follow-redirects: 1.15.1
     transitivePeerDependencies:
       - debug
 
@@ -19649,6 +19707,15 @@ packages:
 
   /focus-visible/5.2.0:
     resolution: {integrity: sha512-Rwix9pBtC1Nuy5wysTmKy+UjbDJpIfg8eHjw0rjZ1mX4GNLz1Bmd16uDpI3Gk1i70Fgcs8Csg2lPm8HULFg9DQ==}
+
+  /follow-redirects/1.15.1:
+    resolution: {integrity: sha512-yLAMQs+k0b2m7cVxpS1VKJVvoz7SS9Td1zss3XRwXj+ZDH00RJgnuLx7E44wx02kQLrdM3aOOy+FpzS7+8OizA==}
+    engines: {node: '>=4.0'}
+    peerDependencies:
+      debug: '*'
+    peerDependenciesMeta:
+      debug:
+        optional: true
 
   /follow-redirects/1.15.1_debug@2.6.9:
     resolution: {integrity: sha512-yLAMQs+k0b2m7cVxpS1VKJVvoz7SS9Td1zss3XRwXj+ZDH00RJgnuLx7E44wx02kQLrdM3aOOy+FpzS7+8OizA==}
@@ -28688,6 +28755,14 @@ packages:
       react: 18.2.0
       react-is: 17.0.2
     dev: true
+
+  /react-ssr-prepass/1.5.0_react@18.2.0:
+    resolution: {integrity: sha512-yFNHrlVEReVYKsLI5lF05tZoHveA5pGzjFbFJY/3pOqqjGOmMmqx83N4hIjN2n6E1AOa+eQEUxs3CgRnPmT0RQ==}
+    peerDependencies:
+      react: ^16.8.0 || ^17.0.0 || ^18.0.0
+    dependencies:
+      react: 18.2.0
+    dev: false
 
   /react-stripe-checkout/2.6.3:
     resolution: {integrity: sha1-MXOocLBOWjwyGgbSTNU8YDARHEU=}
