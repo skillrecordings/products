@@ -37,20 +37,22 @@ export const getLessonProgressForUser = async () =>
 
 export const getSectionProgressForUser = (
   progress: LessonProgress[],
-  sectionLessons: SanityDocument[],
+  section: SanityDocument,
 ) => {
-  if (!progress || !sectionLessons) {
+  if (!progress || !section) {
     return {}
   }
-  // TODO: Since sometimes we can complete a section (index) itself,
-  // make this operate with sections and not just its lessons
-  const sectionLessonsSlugs: string[] = sectionLessons.map(({slug}) => slug)
+
+  const sectionLessonsSlugs = section.lessons
+    ? section.lessons.map(({slug}: {slug: string}) => slug)
+    : [section.slug]
+
   const completedLessonsInSection = progress.filter(
     ({lessonSlug, completedAt}) =>
       sectionLessonsSlugs.includes(lessonSlug) && completedAt,
   )
 
-  const numberOfLessons = sectionLessons.length
+  const numberOfLessons = sectionLessonsSlugs?.length
   const numberOfCompletedLessons = completedLessonsInSection.length
   const isCompleted =
     numberOfCompletedLessons > 0 && numberOfCompletedLessons === numberOfLessons
@@ -78,8 +80,9 @@ export const getModuleProgressForUser = (
   moduleSections.forEach((section) => {
     const {isCompleted: isSectionCompleted} = getSectionProgressForUser(
       progress,
-      section.lessons,
+      section,
     )
+
     if (isSectionCompleted) {
       return completedSectionsInModule.push(section.slug)
     }

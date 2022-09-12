@@ -176,7 +176,7 @@ const Sections: React.FC<React.PropsWithChildren<SectionsProps>> = ({
         const {image} = section
         const {isCompleted: isSectionCompleted} = getSectionProgressForUser(
           progress,
-          section.lessons,
+          section,
         )
 
         const isCompleted =
