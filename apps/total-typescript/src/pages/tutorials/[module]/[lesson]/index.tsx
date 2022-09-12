@@ -8,7 +8,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   const {params} = context
   const lessonSlug = params?.lesson as string
 
-  const subscriber = context.req.cookies['ck_subscriber']
+  const subscriber = context.req.cookies['ck_subscriber'] || null
   const tutorial = await getTutorial(params?.module as string)
   const lesson = await getLesson(lessonSlug)
 
