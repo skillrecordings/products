@@ -33,7 +33,8 @@ export const getTutorial = async (slug: string) =>
         github,
         ogImage,
         description,
-          _updatedAt,
+        ckFormId,
+        _updatedAt,
         resources[]->{
             "id": _id,
             _type,

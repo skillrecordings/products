@@ -8,6 +8,7 @@
     "postbuild": "NODE_ENV=production next-sitemap",
     "start": "next start -p 3016",
     "lint": "eslint src/**/*.{ts,tsx} --fix && tsc --noEmit",
+    "db:start": "docker compose up -d",
     "db:studio": "prisma studio",
     "db:push": "prisma db push"
   },
