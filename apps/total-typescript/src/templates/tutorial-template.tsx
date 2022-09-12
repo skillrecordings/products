@@ -120,57 +120,50 @@ const Header: React.FC<{tutorial: SanityDocument}> = ({tutorial}) => {
 }
 
 const LessonNavigator: React.FC<{tutorial: SanityDocument}> = ({tutorial}) => {
-  const {slug, resources} = tutorial
-  console.log({resources})
+  const {slug, exercises} = tutorial
   return (
     <nav
       aria-label="lesson navigator"
       className="lg:border-l border-gray-800 lg:pl-8"
     >
       <h2 className="pb-4 text-gray-300 text-sm font-semibold font-mono uppercase">
-        Exercises
+        {exercises.length} Exercises
       </h2>
-      {resources && (
+      {exercises && (
         <ul>
-          {resources
-            .filter((resource: SanityDocument) => resource._type === 'section')
-            .map((section: SanityDocument, i: number) => {
-              // the resource is the SECTION, but we link to the exercise lesson
-              // so we need to dig in a bit to find the correct URL
-              const exercise = getExerciseForSection(section)
-
-              return (
-                <li key={section.slug}>
-                  <Link
-                    href={{
-                      pathname: '/tutorials/[module]/[lesson]',
-                      query: {module: slug, lesson: exercise.slug},
+          {exercises.map((exercise: SanityDocument, i: number) => {
+            return (
+              <li key={exercise.slug.current}>
+                <Link
+                  href={{
+                    pathname: '/tutorials/[module]/[lesson]',
+                    query: {module: slug, lesson: exercise.slug.current},
+                  }}
+                  passHref
+                >
+                  <a
+                    className="text-lg py-2.5 font-semibold group inline-flex items-center"
+                    onClick={() => {
+                      track('clicked tutorial exercise', {
+                        module: slug,
+                        lesson: exercise.slug.current,
+                      })
                     }}
-                    passHref
                   >
-                    <a
-                      className="text-lg py-2.5 font-semibold group inline-flex items-center"
-                      onClick={() => {
-                        track('clicked tutorial lesson', {
-                          module: slug,
-                          lesson: exercise.slug,
-                        })
-                      }}
+                    <span
+                      className="w-8 font-mono text-gray-400 text-xs"
+                      aria-hidden="true"
                     >
-                      <span
-                        className="w-8 font-mono text-gray-400 text-xs"
-                        aria-hidden="true"
-                      >
-                        {i + 1}
-                      </span>
-                      <span className="w-full group-hover:underline leading-tight">
-                        {section.title}
-                      </span>
-                    </a>
-                  </Link>
-                </li>
-              )
-            })}
+                      {i + 1}
+                    </span>
+                    <span className="w-full group-hover:underline leading-tight">
+                      {exercise.label}
+                    </span>
+                  </a>
+                </Link>
+              </li>
+            )
+          })}
         </ul>
       )}
     </nav>
