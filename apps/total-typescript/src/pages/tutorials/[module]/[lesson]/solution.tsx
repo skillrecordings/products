@@ -21,20 +21,30 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 
   if (subscriber || lesson.isFree) {
     return {
-      props: {lesson, tutorial, subscriber},
+      props: {lesson, tutorial, subscriber, isSolution: true},
     }
   }
   const {video, ...blockedNoVideoLesson} = lesson
 
   return {
-    props: {lesson: blockedNoVideoLesson, tutorial},
+    props: {lesson: blockedNoVideoLesson, tutorial, isSolution: true},
   }
 }
 
-const LessonPage: React.FC<any> = ({lesson, tutorial, subscriber}) => {
+const LessonSolution: React.FC<any> = ({
+  lesson,
+  tutorial,
+  subscriber,
+  isSolution,
+}) => {
   return (
-    <LessonTemplate lesson={lesson} module={tutorial} subscriber={subscriber} />
+    <LessonTemplate
+      lesson={lesson}
+      module={tutorial}
+      subscriber={subscriber}
+      isSolution={isSolution}
+    />
   )
 }
 
-export default LessonPage
+export default LessonSolution
