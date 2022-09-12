@@ -5,7 +5,7 @@ import {
 } from './progress'
 import filter from 'lodash/filter'
 import flatMap from 'lodash/flatMap'
-import isNull from 'lodash/isNull'
+import take from 'lodash/take'
 
 const mockLessonProgress = [
   {
@@ -27,18 +27,15 @@ const mockLessonProgress = [
 ]
 
 test('gets section progress for user', async () => {
-  const lessons = flatMap(
-    filter(mockModuleSections, (section: any) => !isNull(section.lessons)),
-    (section) => section.lessons,
-  )
+  const section = mockSection[1]
   const progress = getSectionProgressForUser(
     mockLessonProgress as any,
-    lessons as any,
+    section as any,
   )
 
   expect(progress).toEqual({
-    completedLessons: mockLessonProgress.filter((lesson) => lesson.completedAt),
-    percentCompleted: 15,
+    completedLessons: take(mockLessonProgress, 2),
+    percentCompleted: 50,
     isCompleted: false,
   })
 })
@@ -163,3 +160,4 @@ const mockModules = [
 ]
 
 const mockModuleSections = mockModules.flatMap((module) => module.sections)
+const mockSection = mockModules[0].sections.map((section) => section)

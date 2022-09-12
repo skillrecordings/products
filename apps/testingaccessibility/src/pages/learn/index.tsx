@@ -140,16 +140,10 @@ const Learn: React.FC<
               </a>
             </Link>
           </header>
-          {/* <h1 className="font-nav text-center text-2xl leading-none font-bold text-white py-10">
-            {title}
-          </h1> */}
           <div className="grid grid-cols-1 gap-16 w-full">
             {modules.map((module: SanityDocument, i: number) => {
               const {title, slug, image, sections} = module
-              const {completedSections, isCompleted} = getModuleProgressForUser(
-                progress,
-                sections,
-              )
+              const {isCompleted} = getModuleProgressForUser(progress, sections)
               return (
                 <ol key={slug} className="text-white">
                   <li className="flex md:flex-row flex-col md:items-start items-center justify-center">
@@ -184,13 +178,10 @@ const Learn: React.FC<
                       <ol className="pt-5 list-none">
                         {sections?.map((section: SanityDocument, i: number) => {
                           const {title} = section
-                          const {isCompleted: isSectionCompleted} =
-                            getSectionProgressForUser(progress, section.lessons)
-
-                          const isCompleted =
-                            isSectionCompleted ??
-                            find(progress, {lessonSlug: section.slug})
-                              ?.completedAt
+                          const {isCompleted} = getSectionProgressForUser(
+                            progress,
+                            section,
+                          )
 
                           return (
                             <li
@@ -235,6 +226,7 @@ const Learn: React.FC<
                             </li>
                           )
                         })}
+
                         {CERTIFICATE_ENABLED && sections?.length > 0 ? (
                           <li
                             key={`certificate-${title}`}
