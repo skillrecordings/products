@@ -17,7 +17,6 @@ export const getModule = async (slug: string) =>
         _id,
         github,
         ogImage,
-        ckFormId,
         _updatedAt,
         resources[]->{
              "id": _id,

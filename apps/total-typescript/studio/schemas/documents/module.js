@@ -32,12 +32,6 @@ export default {
       },
     },
     {
-      name: 'ckFormId',
-      title: 'ConvertKit Form ID',
-      description: 'Form to subscribe to from blocked lessons.',
-      type: 'string',
-    },
-    {
       name: 'github',
       title: 'GitHub',
       type: 'github',
