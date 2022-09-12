@@ -27,7 +27,7 @@ const LessonNavigator: React.FC<{
                   pathname: `${path}/[module]/[lesson]`,
                   query: {
                     module: module.slug,
-                    lesson: section.resources[0].slug,
+                    lesson: section.slug.current,
                   },
                 }}
                 passHref
@@ -35,9 +35,9 @@ const LessonNavigator: React.FC<{
                 <a
                   className="px-4 font-semibold py-2 hover:bg-gray-800 flex items-center"
                   onClick={() => {
-                    track('clicked section in navigator', {
+                    track('clicked exercise in navigator', {
                       module: module.slug,
-                      lesson: section.resources[0].slug,
+                      lesson: section.slug.current,
                     })
                   }}
                 >
@@ -55,6 +55,7 @@ const LessonNavigator: React.FC<{
                       query: {
                         module: module.slug,
                         lesson: section.slug.current,
+                        location: router.query.lesson,
                       },
                     }}
                     passHref
@@ -71,6 +72,7 @@ const LessonNavigator: React.FC<{
                         track(`clicked exercise in navigator`, {
                           module: module.slug,
                           lesson: section.slug.current,
+                          location: router.query.lesson,
                         })
                       }}
                     >
@@ -94,6 +96,7 @@ const LessonNavigator: React.FC<{
                             query: {
                               module: module.slug,
                               lesson: section.slug.current,
+                              location: router.query.lesson,
                             },
                           }}
                           passHref
