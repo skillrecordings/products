@@ -43,7 +43,7 @@ export const getSectionProgressForUser = (
     return {}
   }
 
-  const sectionLessonsSlugs: string[] = section.lessons
+  const sectionLessonsSlugs = section.lessons
     ? section.lessons.map(({slug}: {slug: string}) => slug)
     : [section.slug]
 
