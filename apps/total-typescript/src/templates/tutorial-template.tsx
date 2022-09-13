@@ -35,7 +35,7 @@ const TutorialTemplate: React.FC<{tutorial: SanityDocument}> = ({tutorial}) => {
 export default TutorialTemplate
 
 const Header: React.FC<{tutorial: SanityDocument}> = ({tutorial}) => {
-  const {title, body, slug, resources, image, ogImage, github, description} =
+  const {title, body, slug, exercises, image, ogImage, github, description} =
     tutorial
 
   return (
@@ -66,7 +66,7 @@ const Header: React.FC<{tutorial: SanityDocument}> = ({tutorial}) => {
               <Link
                 href={{
                   pathname: '/tutorials/[module]/[lesson]',
-                  query: {module: slug, lesson: resources[0].slug},
+                  query: {module: slug, lesson: exercises[0].slug},
                 }}
               >
                 <a
