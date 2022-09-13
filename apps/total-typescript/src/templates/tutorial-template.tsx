@@ -37,8 +37,6 @@ const Header: React.FC<{tutorial: SanityDocument}> = ({tutorial}) => {
   const {title, body, slug, exercises, image, ogImage, github, description} =
     tutorial
 
-  console.log({tutorial})
-
   return (
     <>
       <header className="relative z-10 sm:pt-8 sm:pb-8 pt-0 pb-16 flex md:flex-row flex-col-reverse items-center justify-between">
