@@ -5,6 +5,7 @@ import {SanityDocument} from '@sanity/client'
 import {useRouter} from 'next/router'
 import {MuxPlayerProps} from '@mux/mux-player-react/*'
 import {track} from '../utils/analytics'
+import {Subscriber} from 'pages/api/progress/[lesson]'
 
 type VideoContextType = {
   muxPlayerProps: MuxPlayerProps | any
@@ -18,6 +19,7 @@ type VideoContextType = {
   lesson: SanityDocument
   module: SanityDocument
   path: string
+  subscriber: Subscriber
 }
 
 export const VideoContext = React.createContext({} as VideoContextType)
@@ -25,13 +27,14 @@ export const VideoContext = React.createContext({} as VideoContextType)
 type VideoProviderProps = {
   module: SanityDocument
   lesson: SanityDocument
+  subscriber: Subscriber
   path: string
   muxPlayerRef: any
 }
 
 export const VideoProvider: React.FC<
   React.PropsWithChildren<VideoProviderProps>
-> = ({module, lesson, muxPlayerRef, children, path}) => {
+> = ({module, lesson, muxPlayerRef, children, path, subscriber}) => {
   const router = useRouter()
   const nextLesson = lesson && module && getNextLesson(module, lesson)
   const {setPlayerPrefs, playbackRate, autoplay, getPlayerPrefs} =
@@ -107,6 +110,7 @@ export const VideoProvider: React.FC<
     lesson,
     module,
     path,
+    subscriber,
   }
   return (
     <VideoContext.Provider value={context}>{children}</VideoContext.Provider>

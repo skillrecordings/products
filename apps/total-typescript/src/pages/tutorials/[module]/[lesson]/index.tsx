@@ -2,7 +2,6 @@ import React from 'react'
 import LessonTemplate from 'templates/lesson-template'
 import {GetServerSideProps} from 'next'
 import {getTutorial} from 'lib/tutorials'
-import {getLesson} from 'lib/lessons'
 import {getExercise} from '../../../../lib/exercises'
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
@@ -19,15 +18,8 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     }
   }
 
-  if (subscriber || lesson.isFree) {
-    return {
-      props: {lesson, tutorial, subscriber},
-    }
-  }
-  const {video, ...blockedNoVideoLesson} = lesson
-
   return {
-    props: {lesson: blockedNoVideoLesson, tutorial},
+    props: {lesson, tutorial, subscriber},
   }
 }
 
