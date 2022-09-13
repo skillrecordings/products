@@ -11,9 +11,6 @@ import mail from './documents/mail'
 import quiz from './documents/quiz'
 import question from './documents/question'
 import module from './documents/module'
-import section from './documents/section'
-// import resource from './documents/resource'
-import lesson from './documents/lesson'
 // —— objects
 // body
 import body from './objects/body'
@@ -53,9 +50,6 @@ export default createSchema({
     quiz,
     question,
     module,
-    section,
-    // resource,
-    lesson,
     exercise,
     // objects
     body,
