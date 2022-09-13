@@ -171,7 +171,9 @@ const GitHubLink: React.FC<{
   module: SanityDocument
 }> = ({lesson, module}) => {
   const {github} = module
-  const {stackblitz} = lesson
+  const stackblitz = lesson.resources.find(
+    (resource: SanityDocument) => resource._type === 'stackblitz',
+  )
 
   if (!github || !stackblitz) {
     return null
@@ -235,13 +237,15 @@ export const StackBlitzIframe: React.FC<{
   module: SanityDocument
   isExpanded?: boolean
 }> = ({lesson, module}) => {
-  const {stackblitz} = lesson
+  const stackblitz = lesson.resources.find(
+    (resource: SanityDocument) => resource._type === 'stackblitz',
+  )
   const [isLoading, setIsLoading] = React.useState(true)
   const codeFileNumber = stackblitz.openFile
     .match(/\d/g)
     .join('')
     .substring(0, 2)
-  const startCommand = `${lesson.lessonType.substring(0, 1)}-${codeFileNumber}` // e.g. s-01, e-02, etc
+  const startCommand = `${lesson._type.substring(0, 1)}-${codeFileNumber}` // e.g. s-01, e-02, etc
   const githubOrg = 'total-typescript'
   const githubRepo = module.github.repo
   const clickToLoad = Number(false)

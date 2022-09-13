@@ -69,7 +69,6 @@ export const VideoProvider: React.FC<
       muxPlayerRef.current.autoplay = autoplay
     }
   }, [playbackRate, autoPlay, video])
-
   const context = {
     muxPlayerProps: {
       onPlay: () => {

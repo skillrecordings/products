@@ -60,7 +60,9 @@ type OverlayProps = {
 const ExerciseOverlay: React.FC<OverlayProps> = ({handlePlay}) => {
   const {nextLesson, lesson, module, path} = useMuxPlayer()
   const {github} = module
-  const {stackblitz} = lesson
+  const stackblitz = lesson.resources.find(
+    (resource: SanityDocument) => resource._type === 'stackblitz',
+  )
   const router = useRouter()
 
   const Actions = () => {
@@ -120,7 +122,7 @@ const ExerciseOverlay: React.FC<OverlayProps> = ({handlePlay}) => {
           <p className="">
             Try solving this exercise inside{' '}
             <a
-              href={`https://github.com/total-typescript/${github.repo}/blob/main/${lesson.stackblitz.openFile}`}
+              href={`https://github.com/total-typescript/${github.repo}/blob/main/${stackblitz.openFile}`}
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center justify-center gap-1 font-mono text-sm py-0.5 px-1 bg-gray-800 rounded-sm"
@@ -140,6 +142,7 @@ const DefaultOverlay: React.FC<OverlayProps> = ({handlePlay}) => {
   const {nextLesson, module, path, lesson} = useMuxPlayer()
   const router = useRouter()
   const {image} = module
+
   return (
     <OverlayWrapper className="px-5">
       {image && (
@@ -156,7 +159,7 @@ const DefaultOverlay: React.FC<OverlayProps> = ({handlePlay}) => {
 
       <p className="pt-4 sm:text-3xl text-xl font-semibold">
         <span className="font-normal text-gray-200">Up next:</span>{' '}
-        {nextLesson.title}
+        {nextLesson.label}
       </p>
       <div className="flex items-center justify-center gap-5 sm:py-8 py-4">
         <button
@@ -371,9 +374,25 @@ const handleContinue = async (
   handlePlay: () => void,
   path: string,
 ) => {
+  if (nextLesson._type === 'solution') {
+    const exercise = module.exercises.find((exercise: SanityDocument) => {
+      const solution = exercise.resources.find((resource: SanityDocument) => {
+        return resource._key === nextLesson._key
+      })
+      return solution?._key === nextLesson._key
+    })
+
+    return await router
+      .push({
+        query: {module: module.slug, lesson: exercise.slug.current},
+        pathname: `${path}/[module]/[lesson]/solution`,
+      })
+      .then(() => handlePlay())
+  }
+
   return await router
     .push({
-      query: {module: module.slug, lesson: nextLesson.slug},
+      query: {module: module.slug, lesson: nextLesson.slug.current},
       pathname: `${path}/[module]/[lesson]`,
     })
     .then(() => handlePlay())
