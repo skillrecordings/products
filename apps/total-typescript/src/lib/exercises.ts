@@ -3,6 +3,7 @@ import groq from 'groq'
 import z from 'zod'
 
 export const ExerciseSchema = z.object({
+  _id: z.string(),
   label: z.string(),
   slug: z.object({
     current: z.string(),
