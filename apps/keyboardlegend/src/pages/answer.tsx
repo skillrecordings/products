@@ -31,16 +31,19 @@ const Answer: React.FC<React.PropsWithChildren<{quiz: SanityQuiz}>> = ({
             answerSubmitUrl: process.env.NEXT_PUBLIC_CONVERTKIT_ANSWER_URL,
             afterCompletionMessages: {
               neutral: {
-                default: common['quiz-answer-neutral-default'],
-                last: common['quiz-answer-neutral-last'],
+                default:
+                  'Thanks! Keep an eye on your inbox for the next email.',
+                last: 'Thanks! Keep an eye on your inbox for the next email.',
               },
               correct: {
-                default: common['quiz-answer-correct-default'],
-                last: common['quiz-answer-correct-last'],
+                default:
+                  'Thanks! Keep an eye on your inbox for the next email.',
+                last: 'Thanks! Keep an eye on your inbox for the next email.',
               },
               incorrect: {
-                default: common['quiz-answer-incorrect-default'],
-                last: common['quiz-answer-incorrect-last'],
+                default:
+                  'Thanks! Keep an eye on your inbox for the next email.',
+                last: 'Thanks! Keep an eye on your inbox for the next email.',
               },
             },
             questionBodyRenderer: (question) => (
