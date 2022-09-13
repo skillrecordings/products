@@ -1,7 +1,7 @@
 import React from 'react'
 import {SanityDocument} from '@sanity/client'
 import Link from 'next/link'
-import LessonNavigator from './lesson-navigator'
+import ExerciseNavigator from './exercise-navigator'
 import cx from 'classnames'
 import SimpleBar from 'simplebar-react'
 import Image from 'next/image'
@@ -12,7 +12,7 @@ type SidebarProps = {
   path: string
   className?: string
 }
-const LessonSidebar: React.FC<SidebarProps> = ({
+const ExerciseSidebar: React.FC<SidebarProps> = ({
   module,
   path = '',
   className,
@@ -47,7 +47,7 @@ const LessonSidebar: React.FC<SidebarProps> = ({
                     className="uppercase text-xs font-mono font-semibold opacity-80 hover:underline"
                     onClick={() => {
                       track('clicked return to tutorials', {
-                        module: module.slug,
+                        module: module.slug.current,
                       })
                     }}
                   >
@@ -58,14 +58,16 @@ const LessonSidebar: React.FC<SidebarProps> = ({
                   <Link
                     href={{
                       pathname: `${path}/[module]`,
-                      query: {module: module.slug},
+                      query: {module: module.slug.current},
                     }}
                     passHref
                   >
                     <a
                       className="hover:underline"
                       onClick={() => {
-                        track('clicked return to module', {module: module.slug})
+                        track('clicked return to module', {
+                          module: module.slug.current,
+                        })
                       }}
                     >
                       {module.title}
@@ -78,7 +80,7 @@ const LessonSidebar: React.FC<SidebarProps> = ({
               Exercises
             </p>
           </div>
-          <LessonNavigator module={module} path={path} />
+          <ExerciseNavigator module={module} path={path} />
         </SimpleBar>
         <div className="absolute bottom-0 left-0 w-full bg-gradient-to-t from-gray-900 to-transparent h-24 z-20 pointer-events-none" />
       </aside>
@@ -86,4 +88,4 @@ const LessonSidebar: React.FC<SidebarProps> = ({
   )
 }
 
-export default LessonSidebar
+export default ExerciseSidebar

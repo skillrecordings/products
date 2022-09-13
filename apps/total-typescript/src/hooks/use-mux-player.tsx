@@ -1,11 +1,11 @@
 import React from 'react'
 import {usePlayerPrefs} from './use-player-prefs'
-import {getNextLesson} from 'utils/get-lesson'
+import {getNextExercise} from 'utils/get-next-exercise'
 import {SanityDocument} from '@sanity/client'
 import {useRouter} from 'next/router'
 import {MuxPlayerProps} from '@mux/mux-player-react/*'
 import {track} from '../utils/analytics'
-import {Subscriber} from 'pages/api/progress/[lesson]'
+import {Subscriber} from 'pages/api/progress/[exercise]'
 
 type VideoContextType = {
   muxPlayerProps: MuxPlayerProps | any
@@ -15,8 +15,8 @@ type VideoContextType = {
   setDisplayOverlay: (value: boolean) => void
   handlePlay: () => void
   displayOverlay: boolean
-  nextLesson: SanityDocument
-  lesson: SanityDocument
+  nextExercise: SanityDocument
+  exercise: SanityDocument
   module: SanityDocument
   path: string
   subscriber: Subscriber
@@ -26,7 +26,7 @@ export const VideoContext = React.createContext({} as VideoContextType)
 
 type VideoProviderProps = {
   module: SanityDocument
-  lesson: SanityDocument
+  exercise: SanityDocument
   subscriber: Subscriber
   path: string
   muxPlayerRef: any
@@ -34,14 +34,14 @@ type VideoProviderProps = {
 
 export const VideoProvider: React.FC<
   React.PropsWithChildren<VideoProviderProps>
-> = ({module, lesson, muxPlayerRef, children, path, subscriber}) => {
+> = ({module, exercise, muxPlayerRef, children, path, subscriber}) => {
   const router = useRouter()
-  const nextLesson = lesson && module && getNextLesson(module, lesson)
+  const nextExercise = exercise && module && getNextExercise(module, exercise)
   const {setPlayerPrefs, playbackRate, autoplay, getPlayerPrefs} =
     usePlayerPrefs()
   const [autoPlay, setAutoPlay] = React.useState(getPlayerPrefs().autoplay)
   const [displayOverlay, setDisplayOverlay] = React.useState(false)
-  const video = lesson.resources.find(
+  const video = exercise.resources.find(
     (resource: SanityDocument) => resource._type === 'muxVideo',
   )
 
@@ -50,10 +50,10 @@ export const VideoProvider: React.FC<
     playPromise !== undefined && muxPlayerRef.current.play()
   }
   const handleNext = (autoPlay: boolean) => {
-    nextLesson && autoPlay
+    nextExercise && autoPlay
       ? router.push({
-          pathname: '/[module]/[lesson]',
-          query: {module: module.slug, lesson: nextLesson.slug},
+          pathname: '/[module]/[exercise]',
+          query: {module: module.slug.current, exercise: nextExercise.slug},
         })
       : setDisplayOverlay(true)
   }
@@ -61,7 +61,7 @@ export const VideoProvider: React.FC<
   // initialize player state
   React.useEffect(() => {
     setDisplayOverlay(false)
-  }, [lesson])
+  }, [exercise])
 
   // preferences
   React.useEffect(() => {
@@ -75,16 +75,20 @@ export const VideoProvider: React.FC<
       onPlay: () => {
         setDisplayOverlay(false)
         track('started lesson video', {
-          module: module.slug,
-          lesson: lesson.slug.current,
+          module: module.slug.current,
+          lesson: exercise.slug.current,
+          moduleType: module.moduleType,
+          lessonType: exercise._type,
         })
       },
       onPause: () => {},
       onEnded: () => {
         handleNext(getPlayerPrefs().autoplay)
         track('completed lesson video', {
-          module: module.slug,
-          lesson: lesson.slug.current,
+          module: module.slug.current,
+          lesson: exercise.slug.current,
+          moduleType: module.moduleType,
+          lessonType: exercise._type,
         })
       },
       onRateChange: () => {
@@ -97,7 +101,7 @@ export const VideoProvider: React.FC<
       streamType: 'on-demand',
       playbackId: video.muxPlaybackId,
       metadata: {
-        video_title: `${lesson?.label} (${lesson?._type})`,
+        video_title: `${exercise?.label} (${exercise?._type})`,
       },
     },
     autoPlay,
@@ -106,8 +110,8 @@ export const VideoProvider: React.FC<
     setDisplayOverlay: (value: boolean) => setDisplayOverlay(value),
     handlePlay,
     displayOverlay,
-    nextLesson,
-    lesson,
+    nextExercise,
+    exercise,
     module,
     path,
     subscriber,

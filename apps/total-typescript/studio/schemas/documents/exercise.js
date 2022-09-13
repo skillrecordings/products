@@ -4,6 +4,8 @@ export default {
   name: 'exercise',
   type: 'document',
   title: 'Exercise',
+  description:
+    'A type of Lesson that has 2-parts, a problem (the exercise) and a solution.',
   icon: MdOutlineWorkspaces,
   fields: [
     {

@@ -1,14 +1,13 @@
 import {getServerSideSitemap} from 'next-sitemap'
 import {GetServerSideProps} from 'next'
 import {getAllTutorials} from '../../lib/tutorials'
-import {getExerciseForSection} from '../../utils/get-exercise-for-section'
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   ctx.res.setHeader('Cache-Control', 's-maxage=1, stale-while-revalidate')
 
   const tutorials = await getAllTutorials()
   const tutorialSitemap = tutorials.flatMap((tutorial: any) => {
-    const tutorialRootUrl = `${process.env.NEXT_PUBLIC_URL}/tutorials/${tutorial.slug}`
+    const tutorialRootUrl = `${process.env.NEXT_PUBLIC_URL}/tutorials/${tutorial.slug.current}`
     return [
       {
         loc: tutorialRootUrl, // Absolute url
@@ -16,9 +15,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
         changefreq: 'weekly',
         priority: 0.7,
       },
-      ...tutorial.resources.map((section: any) => {
-        const exercise = getExerciseForSection(section)
-
+      ...tutorial.exercises.map((exercise: any) => {
         return {
           //exercises
           loc: `${tutorialRootUrl}/${exercise.slug.current}`, // Absolute url
@@ -27,11 +24,10 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
           priority: 0.7,
         }
       }),
-      ...tutorial.resources.map((section: any) => {
-        const exercise = getExerciseForSection(section)
+      ...tutorial.exercises.map((exercise: any) => {
         return {
           //solutions
-          loc: `${tutorialRootUrl}/${exercise.slug.current}-solution`, // Absolute url
+          loc: `${tutorialRootUrl}/${exercise.slug.current}/solution`, // Absolute url
           lastmod: new Date(exercise._updatedAt).toISOString(),
           changefreq: 'weekly',
           priority: 0.7,

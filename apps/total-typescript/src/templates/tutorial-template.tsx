@@ -8,7 +8,6 @@ import {IconGithub} from 'components/icons'
 import {CourseJsonLd} from '@skillrecordings/next-seo'
 import {isBrowser} from 'utils/is-browser'
 import {track} from '../utils/analytics'
-import {getExerciseForSection} from '../utils/get-exercise-for-section'
 
 const TutorialTemplate: React.FC<{tutorial: SanityDocument}> = ({tutorial}) => {
   const {title, body, ogImage, description} = tutorial
@@ -26,7 +25,7 @@ const TutorialTemplate: React.FC<{tutorial: SanityDocument}> = ({tutorial}) => {
         <article className="prose prose-lg lg:max-w-xl max-w-none text-white">
           <PortableText value={body} />
         </article>
-        <LessonNavigator tutorial={tutorial} />
+        <TutorialExerciseNavigator tutorial={tutorial} />
       </main>
     </Layout>
   )
@@ -35,8 +34,7 @@ const TutorialTemplate: React.FC<{tutorial: SanityDocument}> = ({tutorial}) => {
 export default TutorialTemplate
 
 const Header: React.FC<{tutorial: SanityDocument}> = ({tutorial}) => {
-  const {title, body, slug, exercises, image, ogImage, github, description} =
-    tutorial
+  const {title, slug, exercises, image, github} = tutorial
 
   return (
     <>
@@ -65,14 +63,17 @@ const Header: React.FC<{tutorial: SanityDocument}> = ({tutorial}) => {
             <div className="pt-8 flex items-center gap-3">
               <Link
                 href={{
-                  pathname: '/tutorials/[module]/[lesson]',
-                  query: {module: slug, lesson: exercises[0].slug},
+                  pathname: '/tutorials/[module]/[exercise]',
+                  query: {
+                    module: slug.current,
+                    exercise: exercises[0].slug.current,
+                  },
                 }}
               >
                 <a
                   className="px-6 py-3 rounded hover:bg-cyan-300 transition flex items-center justify-center font-semibold bg-cyan-400 text-black"
                   onClick={() => {
-                    track('clicked github code link', {module: slug})
+                    track('clicked github code link', {module: slug.current})
                   }}
                 >
                   Start Learning{' '}
@@ -86,7 +87,7 @@ const Header: React.FC<{tutorial: SanityDocument}> = ({tutorial}) => {
                   className="px-5 py-3 gap-2 rounded transition flex items-center justify-center font-medium border-2 border-gray-800 hover:bg-gray-800"
                   href={`https://github.com/total-typescript/${github.repo}`}
                   onClick={() => {
-                    track('clicked github code link', {module: slug})
+                    track('clicked github code link', {module: slug.current})
                   }}
                   target="_blank"
                   rel="noopener noreferrer"
@@ -119,11 +120,13 @@ const Header: React.FC<{tutorial: SanityDocument}> = ({tutorial}) => {
   )
 }
 
-const LessonNavigator: React.FC<{tutorial: SanityDocument}> = ({tutorial}) => {
-  const {slug, exercises} = tutorial
+const TutorialExerciseNavigator: React.FC<{tutorial: SanityDocument}> = ({
+  tutorial,
+}) => {
+  const {slug, exercises, _type} = tutorial
   return (
     <nav
-      aria-label="lesson navigator"
+      aria-label="exercise navigator"
       className="lg:border-l border-gray-800 lg:pl-8"
     >
       <h2 className="pb-4 text-gray-300 text-sm font-semibold font-mono uppercase">
@@ -136,8 +139,11 @@ const LessonNavigator: React.FC<{tutorial: SanityDocument}> = ({tutorial}) => {
               <li key={exercise.slug.current}>
                 <Link
                   href={{
-                    pathname: '/tutorials/[module]/[lesson]',
-                    query: {module: slug, lesson: exercise.slug.current},
+                    pathname: '/tutorials/[module]/[exercise]',
+                    query: {
+                      module: slug.current,
+                      exercise: exercise.slug.current,
+                    },
                   }}
                   passHref
                 >
@@ -145,8 +151,10 @@ const LessonNavigator: React.FC<{tutorial: SanityDocument}> = ({tutorial}) => {
                     className="text-lg py-2.5 font-semibold group inline-flex items-center"
                     onClick={() => {
                       track('clicked tutorial exercise', {
-                        module: slug,
+                        module: slug.current,
                         lesson: exercise.slug.current,
+                        moduleType: _type,
+                        lessonType: exercise._type,
                       })
                     }}
                   >
