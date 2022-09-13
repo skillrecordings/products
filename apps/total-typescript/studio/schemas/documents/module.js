@@ -1,7 +1,12 @@
+import * as React from 'react'
+import {capitalize} from 'lodash'
+import {MdRadio} from 'react-icons/md'
+
 export default {
   name: 'module',
   title: 'Module',
   type: 'document',
+  icon: MdRadio,
   fields: [
     {
       name: 'title',
@@ -72,12 +77,15 @@ export default {
   ],
   preview: {
     select: {
+      type: 'moduleType',
       title: 'title',
+      media: 'image.asset.url',
     },
     prepare(selection) {
-      const {title} = selection
+      const {title, media, type} = selection
       return {
-        title: title,
+        title: `${title} ${capitalize(type)}`,
+        media: media && <img src={media} alt={title} />,
       }
     },
   },

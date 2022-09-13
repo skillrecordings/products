@@ -1,6 +1,9 @@
+import {MdLocalMovies} from 'react-icons/md'
+
 export default {
   name: 'muxVideo',
   type: 'object',
+  icon: MdLocalMovies,
   title: 'Mux Video',
   fields: [
     {

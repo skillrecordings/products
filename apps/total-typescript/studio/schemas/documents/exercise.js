@@ -1,7 +1,10 @@
+import {MdOutlineWorkspaces} from 'react-icons/md'
+
 export default {
   name: 'exercise',
   type: 'document',
   title: 'Exercise',
+  icon: MdOutlineWorkspaces,
   fields: [
     {
       name: 'label',

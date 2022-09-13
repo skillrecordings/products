@@ -1,7 +1,10 @@
+import {MdAutoFixHigh} from 'react-icons/md'
+
 export default {
   name: 'solution',
   type: 'object',
   title: 'Solution to Exercise',
+  icon: MdAutoFixHigh,
   fields: [
     {
       name: 'label',

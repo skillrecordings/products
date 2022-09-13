@@ -6,10 +6,6 @@ import schemaTypes from 'all:part:@sanity/base/schema-type'
 // —— documents
 import cta from './documents/cta'
 import exercise from './documents/exercise'
-import page from './documents/page'
-import mail from './documents/mail'
-import quiz from './documents/quiz'
-import question from './documents/question'
 import module from './documents/module'
 // —— objects
 // body
@@ -27,14 +23,6 @@ import gridItem from './objects/gridItem'
 import stackblitz from './objects/stackblitz'
 import solution from './objects/resources/solution'
 import github from './objects/github'
-// emailBody
-import emailBody from './objects/email/body'
-import emailImage from './objects/email/image'
-import emailButton from './objects/email/button'
-import emailQuizQuestion from './objects/email/quiz-question'
-// quiz
-import choice from './objects/quiz/choice'
-import codeFile from './objects/quiz/code-file'
 
 // Then we give our schema to the builder and provide the result to Sanity
 export default createSchema({
@@ -45,18 +33,10 @@ export default createSchema({
   types: schemaTypes.concat([
     // documents
     cta,
-    page,
-    mail,
-    quiz,
-    question,
     module,
     exercise,
     // objects
     body,
-    emailBody,
-    emailImage,
-    emailButton,
-    emailQuizQuestion,
     bodyVideo,
     bodyImage,
     callout,
@@ -69,8 +49,6 @@ export default createSchema({
     gridItem,
     stackblitz,
     github,
-    choice,
-    codeFile,
     solution,
   ]),
 })
