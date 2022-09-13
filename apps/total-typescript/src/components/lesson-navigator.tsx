@@ -55,7 +55,6 @@ const LessonNavigator: React.FC<{
                       query: {
                         module: module.slug,
                         lesson: section.slug.current,
-                        location: router.query.lesson,
                       },
                     }}
                     passHref
@@ -96,7 +95,6 @@ const LessonNavigator: React.FC<{
                             query: {
                               module: module.slug,
                               lesson: section.slug.current,
-                              location: router.query.lesson,
                             },
                           }}
                           passHref

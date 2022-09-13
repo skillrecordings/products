@@ -25,13 +25,14 @@ import {
 } from 'components/lesson-overlay'
 import Image from 'next/image'
 import {track} from 'utils/analytics'
+import {Subscriber} from 'pages/api/progress/[lesson]'
 
 const path = '/tutorials'
 
 const LessonTemplate: React.FC<{
   lesson: SanityDocument
   module: SanityDocument
-  subscriber: ConvertkitSubscriber
+  subscriber: Subscriber
   isSolution?: boolean
 }> = ({lesson, module, subscriber, isSolution = false}) => {
   lesson = isSolution
@@ -52,6 +53,7 @@ const LessonTemplate: React.FC<{
       muxPlayerRef={muxPlayerRef}
       module={module}
       lesson={lesson}
+      subscriber={subscriber}
       path={path}
     >
       <Layout
@@ -103,12 +105,14 @@ const LessonTemplate: React.FC<{
 
 const Video: React.FC<any> = React.forwardRef(({module, lesson}, ref: any) => {
   const isExercise = Boolean(lesson._type === 'exercise')
-  const {muxPlayerProps, handlePlay, displayOverlay, nextLesson} =
+  const {muxPlayerProps, handlePlay, displayOverlay, nextLesson, subscriber} =
     useMuxPlayer()
 
-  const video = lesson.resources.find(
-    (resource: SanityDocument) => resource._type === 'muxVideo',
-  )
+  const video =
+    (subscriber || lesson.slug.current === 'union') &&
+    lesson.resources.find(
+      (resource: SanityDocument) => resource._type === 'muxVideo',
+    )
 
   return (
     <>
