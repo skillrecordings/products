@@ -38,6 +38,7 @@ const TutorialsPage: React.FC<{tutorials: SanityDocument[]}> = ({
         {tutorials && (
           <ul className="pt-20 max-w-screen-md flex flex-col gap-8 px-3">
             {tutorials.map(({title, slug, image, description, resources}) => {
+              console.log({resources})
               return (
                 <li
                   key={slug}

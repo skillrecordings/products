@@ -41,7 +41,12 @@ export default {
       title: 'Resources',
       description: 'Sections or lessons in the course',
       type: 'array',
-      of: [{type: 'reference', to: [{type: 'section'}, {type: 'lesson'}]}],
+      of: [
+        {
+          type: 'reference',
+          to: [{type: 'section'}, {type: 'lesson'}, {type: 'exercise'}],
+        },
+      ],
     },
     {
       name: 'body',

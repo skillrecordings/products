@@ -5,6 +5,7 @@ import createSchema from 'part:@sanity/base/schema-creator'
 import schemaTypes from 'all:part:@sanity/base/schema-type'
 // —— documents
 import cta from './documents/cta'
+import exercise from './documents/exercise'
 import page from './documents/page'
 import mail from './documents/mail'
 import quiz from './documents/quiz'
@@ -22,10 +23,12 @@ import callout from './objects/callout'
 import divider from './objects/divider'
 import externalImage from './objects/externalImage'
 import mediaCaption from './objects/mediaCaption'
+import muxVideo from './objects/resources/muxVideo'
 import videoOptions from './objects/videoOptions'
 import grid from './objects/grid'
 import gridItem from './objects/gridItem'
 import stackblitz from './objects/stackblitz'
+import solution from './objects/resources/solution'
 import github from './objects/github'
 // emailBody
 import emailBody from './objects/email/body'
@@ -53,6 +56,7 @@ export default createSchema({
     section,
     // resource,
     lesson,
+    exercise,
     // objects
     body,
     emailBody,
@@ -65,6 +69,7 @@ export default createSchema({
     divider,
     externalImage,
     mediaCaption,
+    muxVideo,
     videoOptions,
     grid,
     gridItem,
@@ -72,5 +77,6 @@ export default createSchema({
     github,
     choice,
     codeFile,
+    solution,
   ]),
 })
