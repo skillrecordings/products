@@ -26,6 +26,7 @@ import {
 import Image from 'next/image'
 import {track} from 'utils/analytics'
 import {Subscriber} from 'pages/api/progress/[lesson]'
+import {Exercise} from '../lib/exercises'
 
 const path = '/tutorials'
 
@@ -109,7 +110,7 @@ const Video: React.FC<any> = React.forwardRef(({module, lesson}, ref: any) => {
     useMuxPlayer()
 
   const video =
-    (subscriber || lesson.slug.current === 'union') &&
+    (subscriber || lesson._id === module.exercises[0]._id) &&
     lesson.resources.find(
       (resource: SanityDocument) => resource._type === 'muxVideo',
     )
