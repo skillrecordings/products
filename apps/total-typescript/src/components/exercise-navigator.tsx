@@ -110,7 +110,7 @@ const ExerciseNavigator: React.FC<{
                               },
                             )}
                             onClick={() => {
-                              track(`clicked ${solution._type} in navigator`, {
+                              track(`clicked solution in navigator`, {
                                 module: module.slug.current,
                                 lesson: exercise.slug.current,
                                 moduleType: module.moduleType,
