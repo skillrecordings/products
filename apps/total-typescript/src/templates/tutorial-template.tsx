@@ -8,7 +8,6 @@ import {IconGithub} from 'components/icons'
 import {CourseJsonLd} from '@skillrecordings/next-seo'
 import {isBrowser} from 'utils/is-browser'
 import {track} from '../utils/analytics'
-import {getExerciseForSection} from '../utils/get-exercise-for-section'
 
 const TutorialTemplate: React.FC<{tutorial: SanityDocument}> = ({tutorial}) => {
   const {title, body, ogImage, description} = tutorial
@@ -26,7 +25,7 @@ const TutorialTemplate: React.FC<{tutorial: SanityDocument}> = ({tutorial}) => {
         <article className="prose prose-lg lg:max-w-xl max-w-none text-white">
           <PortableText value={body} />
         </article>
-        <LessonNavigator tutorial={tutorial} />
+        <TutorialExerciseNavigator tutorial={tutorial} />
       </main>
     </Layout>
   )
@@ -37,6 +36,8 @@ export default TutorialTemplate
 const Header: React.FC<{tutorial: SanityDocument}> = ({tutorial}) => {
   const {title, body, slug, exercises, image, ogImage, github, description} =
     tutorial
+
+  console.log({tutorial})
 
   return (
     <>
@@ -65,8 +66,8 @@ const Header: React.FC<{tutorial: SanityDocument}> = ({tutorial}) => {
             <div className="pt-8 flex items-center gap-3">
               <Link
                 href={{
-                  pathname: '/tutorials/[module]/[lesson]',
-                  query: {module: slug, lesson: exercises[0].slug},
+                  pathname: '/tutorials/[module]/[exercise]',
+                  query: {module: slug, exercise: exercises[0].slug.current},
                 }}
               >
                 <a
@@ -119,11 +120,13 @@ const Header: React.FC<{tutorial: SanityDocument}> = ({tutorial}) => {
   )
 }
 
-const LessonNavigator: React.FC<{tutorial: SanityDocument}> = ({tutorial}) => {
-  const {slug, exercises} = tutorial
+const TutorialExerciseNavigator: React.FC<{tutorial: SanityDocument}> = ({
+  tutorial,
+}) => {
+  const {slug, exercises, _type} = tutorial
   return (
     <nav
-      aria-label="lesson navigator"
+      aria-label="exercise navigator"
       className="lg:border-l border-gray-800 lg:pl-8"
     >
       <h2 className="pb-4 text-gray-300 text-sm font-semibold font-mono uppercase">
@@ -136,8 +139,8 @@ const LessonNavigator: React.FC<{tutorial: SanityDocument}> = ({tutorial}) => {
               <li key={exercise.slug.current}>
                 <Link
                   href={{
-                    pathname: '/tutorials/[module]/[lesson]',
-                    query: {module: slug, lesson: exercise.slug.current},
+                    pathname: '/tutorials/[module]/[exercise]',
+                    query: {module: slug, exercise: exercise.slug.current},
                   }}
                   passHref
                 >
@@ -147,6 +150,8 @@ const LessonNavigator: React.FC<{tutorial: SanityDocument}> = ({tutorial}) => {
                       track('clicked tutorial exercise', {
                         module: slug,
                         lesson: exercise.slug.current,
+                        moduleType: _type,
+                        lessonType: exercise._type,
                       })
                     }}
                   >

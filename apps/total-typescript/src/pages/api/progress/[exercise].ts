@@ -12,14 +12,14 @@ const Subscriber = z.object({
 
 export type Subscriber = z.infer<typeof Subscriber>
 
-const lessonProgressHandler = async (
+const exerciseProgressHandler = async (
   req: NextApiRequest,
   res: NextApiResponse,
 ) => {
   if (req.method === 'POST') {
     try {
       const {findOrCreateUser, completeLessonProgressForUser} = getSdk()
-      const lessonSlug = req.query.lesson as string
+      const lessonSlug = req.query.exercise as string
       const subscriberCookie = req.cookies['ck_subscriber']
 
       if (!subscriberCookie) {
@@ -54,7 +54,7 @@ const lessonProgressHandler = async (
   }
 }
 
-export default withSentry(lessonProgressHandler)
+export default withSentry(exerciseProgressHandler)
 export const config = {
   api: {
     externalResolver: true,

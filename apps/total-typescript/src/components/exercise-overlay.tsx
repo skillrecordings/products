@@ -11,7 +11,7 @@ import snakeCase from 'lodash/snakeCase'
 import toast from 'react-hot-toast'
 import Image from 'next/image'
 import {useMuxPlayer} from 'hooks/use-mux-player'
-import {StackBlitzIframe} from 'templates/lesson-template'
+import {StackBlitzIframe} from 'templates/exercise-template'
 import {XIcon} from '@heroicons/react/solid'
 import cx from 'classnames'
 import {track} from '../utils/analytics'
@@ -22,7 +22,7 @@ import {PortableText, toPlainText} from '@portabletext/react'
 const OverlayWrapper: React.FC<
   React.PropsWithChildren<{className?: string}>
 > = ({children, className}) => {
-  const {setDisplayOverlay, lesson, module} = useMuxPlayer()
+  const {setDisplayOverlay, exercise, module} = useMuxPlayer()
 
   return (
     <div
@@ -33,8 +33,10 @@ const OverlayWrapper: React.FC<
         className="absolute top-2 right-2 py-2 px-3 z-50 font-medium rounded flex items-center gap-1 hover:bg-gray-800 transition text-gray-200"
         onClick={() => {
           track('dismissed video overlay', {
-            lesson: lesson.slug,
+            lesson: exercise.slug,
             module: module.slug,
+            moduleType: module._type,
+            lessonType: exercise._type,
           })
           setDisplayOverlay(false)
         }}
@@ -58,9 +60,9 @@ type OverlayProps = {
 }
 
 const ExerciseOverlay: React.FC<OverlayProps> = ({handlePlay}) => {
-  const {nextLesson, lesson, module, path} = useMuxPlayer()
+  const {nextExercise, exercise, module, path} = useMuxPlayer()
   const {github} = module
-  const stackblitz = lesson.resources.find(
+  const stackblitz = exercise.resources.find(
     (resource: SanityDocument) => resource._type === 'stackblitz',
   )
   const router = useRouter()
@@ -72,25 +74,29 @@ const ExerciseOverlay: React.FC<OverlayProps> = ({handlePlay}) => {
           className="bg-gray-800 sm:px-5 px-3 sm:py-2 py-1 text-lg font-semibold rounded hover:bg-gray-700 transition"
           onClick={() => {
             track('clicked replay', {
-              lesson: lesson.slug,
+              lesson: exercise.slug,
               module: module.slug,
-              location: 'lesson',
+              location: 'exercise',
+              moduleType: module._type,
+              lessonType: exercise._type,
             })
             handlePlay()
           }}
         >
           Replay <span aria-hidden="true">↺</span>
         </button>
-        {nextLesson && (
+        {nextExercise && (
           <button
             className="text-lg bg-cyan-600 hover:bg-cyan-500 transition sm:px-5 px-3 sm:py-2 py-1 font-semibold rounded"
             onClick={() => {
               track('clicked continue to solution', {
-                lesson: lesson.slug,
+                lesson: exercise.slug,
                 module: module.slug,
-                location: 'lesson',
+                location: 'exercise',
+                moduleType: module._type,
+                lessonType: exercise._type,
               })
-              handleContinue(router, module, nextLesson, handlePlay, path)
+              handleContinue(router, module, nextExercise, handlePlay, path)
             }}
           >
             Solution <span aria-hidden="true">→</span>
@@ -110,7 +116,7 @@ const ExerciseOverlay: React.FC<OverlayProps> = ({handlePlay}) => {
             </div>
           </div>
           <div className="w-full h-full aspect-video relative sm:block hidden">
-            <StackBlitzIframe lesson={lesson} module={module} />
+            <StackBlitzIframe exercise={exercise} module={module} />
           </div>
           <div className="px-5 py-2 flex gap-2 justify-center w-full">
             <Actions />
@@ -139,7 +145,7 @@ const ExerciseOverlay: React.FC<OverlayProps> = ({handlePlay}) => {
 }
 
 const DefaultOverlay: React.FC<OverlayProps> = ({handlePlay}) => {
-  const {nextLesson, module, path, lesson} = useMuxPlayer()
+  const {nextExercise, module, path, exercise} = useMuxPlayer()
   const router = useRouter()
   const {image} = module
 
@@ -159,16 +165,18 @@ const DefaultOverlay: React.FC<OverlayProps> = ({handlePlay}) => {
 
       <p className="pt-4 sm:text-3xl text-xl font-semibold">
         <span className="font-normal text-gray-200">Up next:</span>{' '}
-        {nextLesson.label}
+        {nextExercise.label}
       </p>
       <div className="flex items-center justify-center gap-5 sm:py-8 py-4">
         <button
           className="bg-gray-800 hover:bg-gray-700 transition sm:px-5 px-3 sm:py-3 py-1 text-lg font-semibold rounded"
           onClick={() => {
             track('clicked replay', {
-              lesson: lesson.slug,
+              lesson: exercise.slug,
               module: module.slug,
-              location: 'lesson',
+              location: 'exercise',
+              moduleType: module._type,
+              lessonType: exercise._type,
             })
             handlePlay()
           }}
@@ -179,15 +187,17 @@ const DefaultOverlay: React.FC<OverlayProps> = ({handlePlay}) => {
           className="text-lg bg-cyan-600 hover:bg-cyan-500 transition rounded sm:px-5 px-3 sm:py-3 py-1 font-semibold"
           onClick={() => {
             track('clicked complete', {
-              lesson: lesson.slug,
+              lesson: exercise.slug,
               module: module.slug,
-              location: 'lesson',
+              location: 'exercise',
+              moduleType: module._type,
+              lessonType: exercise._type,
             })
-            completeLesson(lesson.slug).then(() => {
+            completeExercise(exercise.slug).then(() => {
               return handleContinue(
                 router,
                 module,
-                nextLesson,
+                nextExercise,
                 handlePlay,
                 path,
               )
@@ -247,8 +257,11 @@ const FinishedOverlay: React.FC<OverlayProps> = ({handlePlay}) => {
           onClick={() => {
             router
               .push({
-                pathname: `/${path}/[module]/[lesson]`,
-                query: {module: module.slug, lesson: module.resources[0].slug},
+                pathname: `/${path}/[module]/[exercise]`,
+                query: {
+                  module: module.slug,
+                  exercise: module.resources[0].slug,
+                },
               })
               .then(handlePlay)
           }}
@@ -263,7 +276,7 @@ const FinishedOverlay: React.FC<OverlayProps> = ({handlePlay}) => {
 
 const BlockedOverlay: React.FC = () => {
   const router = useRouter()
-  const {lesson, module} = useMuxPlayer()
+  const {exercise, module} = useMuxPlayer()
   const [ctaText, setCtaText] = React.useState()
 
   React.useEffect(() => {
@@ -285,9 +298,11 @@ const BlockedOverlay: React.FC = () => {
       const redirectUrl = redirectUrlBuilder(subscriber, router.asPath)
       email && setUserId(email)
       track('subscribed to email list', {
-        lesson: lesson.slug,
+        lesson: exercise.slug,
         module: module.slug,
-        location: 'lesson',
+        location: 'exercise',
+        moduleType: module._type,
+        lessonType: exercise._type,
       })
       router.push(redirectUrl).then(() => {
         toast(
@@ -361,8 +376,8 @@ const BlockedOverlay: React.FC = () => {
 
 export {ExerciseOverlay, DefaultOverlay, FinishedOverlay, BlockedOverlay}
 
-const completeLesson = async (lessonSlug: string) => {
-  return await fetch(`/api/progress/${lessonSlug}`, {
+const completeExercise = async (exerciseSlug: string) => {
+  return await fetch(`/api/progress/${exerciseSlug}`, {
     method: 'POST',
   }).then((response) => response.json())
 }
@@ -370,30 +385,30 @@ const completeLesson = async (lessonSlug: string) => {
 const handleContinue = async (
   router: NextRouter,
   module: SanityDocument,
-  nextLesson: SanityDocument,
+  nextExercise: SanityDocument,
   handlePlay: () => void,
   path: string,
 ) => {
-  if (nextLesson._type === 'solution') {
+  if (nextExercise._type === 'solution') {
     const exercise = module.exercises.find((exercise: SanityDocument) => {
       const solution = exercise.resources.find((resource: SanityDocument) => {
-        return resource._key === nextLesson._key
+        return resource._key === nextExercise._key
       })
-      return solution?._key === nextLesson._key
+      return solution?._key === nextExercise._key
     })
 
     return await router
       .push({
-        query: {module: module.slug, lesson: exercise.slug.current},
-        pathname: `${path}/[module]/[lesson]/solution`,
+        query: {module: module.slug, exercise: exercise.slug.current},
+        pathname: `${path}/[module]/[exercise]/solution`,
       })
       .then(() => handlePlay())
   }
 
   return await router
     .push({
-      query: {module: module.slug, lesson: nextLesson.slug.current},
-      pathname: `${path}/[module]/[lesson]`,
+      query: {module: module.slug, exercise: nextExercise.slug.current},
+      pathname: `${path}/[module]/[exercise]`,
     })
     .then(() => handlePlay())
 }

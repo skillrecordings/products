@@ -18,10 +18,10 @@ export const ExerciseSchema = z.object({
 export type Exercise = z.infer<typeof ExerciseSchema>
 
 export const getExercise = async (slug: string): Promise<Exercise> => {
-  const lesson = await sanityClient.fetch(
+  const exercise = await sanityClient.fetch(
     groq`*[_type == "exercise" && slug.current == $slug][0]`,
     {slug: `${slug}`},
   )
 
-  return ExerciseSchema.parse(lesson)
+  return ExerciseSchema.parse(exercise)
 }

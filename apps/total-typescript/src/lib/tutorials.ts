@@ -22,7 +22,7 @@ const tutorialsQuery = groq`*[_type == "module" && moduleType == 'tutorial'] {
 export const getAllTutorials = async () =>
   await sanityClient.fetch(tutorialsQuery)
 
-export const getTutorial = async (slug: string) =>
+export const getModule = async (slug: string) =>
   await sanityClient.fetch(
     groq`*[_type == "module" && moduleType == 'tutorial' && slug.current == $slug][0]{
         "id": _id,
@@ -35,23 +35,7 @@ export const getTutorial = async (slug: string) =>
         ogImage,
         description,
           _updatedAt,
-          "exercises": resources[@->._type == 'exercise']->,
-        "resources": resources[@->._type != 'exercise']->{
-            "id": _id,
-            _type,
-            title,
-            lessonType,
-            stackblitz,
-            "slug": slug.current,
-            resources[]->{
-              "id": _id,
-              _type,
-              title,
-              lessonType,
-              stackblitz,
-              "slug": slug.current
-            }
-        },
+        "exercises": resources[@->._type == 'exercise']->,
         "image": image.asset->url
     }`,
     {slug: `${slug}`},

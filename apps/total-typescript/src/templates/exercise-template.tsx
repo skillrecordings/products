@@ -2,7 +2,7 @@ import React from 'react'
 import type {ConvertkitSubscriber} from '@skillrecordings/convertkit/dist/types'
 import MuxPlayer, {MuxPlayerProps} from '@mux/mux-player-react'
 import PortableTextComponents from 'components/portable-text'
-import LessonSidebar from 'components/lesson-sidebar'
+import ExerciseSidebar from 'components/exercise-sidebar'
 import Navigation from 'components/app/navigation'
 import Layout from 'components/app/layout'
 import capitalize from 'lodash/capitalize'
@@ -22,38 +22,37 @@ import {
   DefaultOverlay,
   FinishedOverlay,
   BlockedOverlay,
-} from 'components/lesson-overlay'
+} from 'components/exercise-overlay'
 import Image from 'next/image'
 import {track} from 'utils/analytics'
-import {Subscriber} from 'pages/api/progress/[lesson]'
-import {Exercise} from '../lib/exercises'
+import {Subscriber} from 'pages/api/progress/[exercise]'
 
 const path = '/tutorials'
 
-const LessonTemplate: React.FC<{
-  lesson: SanityDocument
+const ExerciseTemplate: React.FC<{
+  exercise: SanityDocument
   module: SanityDocument
   subscriber: Subscriber
   isSolution?: boolean
-}> = ({lesson, module, subscriber, isSolution = false}) => {
-  lesson = isSolution
-    ? lesson.resources.find(
+}> = ({exercise, module, subscriber, isSolution = false}) => {
+  exercise = isSolution
+    ? exercise.resources.find(
         (resource: SanityDocument) => resource._type === 'solution',
       )
-    : lesson
-  const {label, description} = lesson
+    : exercise
+  const {label, description: exerciseDescription} = exercise
 
-  const {ogImage} = module
+  const {ogImage, description: moduleDescription} = module
   const muxPlayerRef = React.useRef<HTMLDivElement>()
   const pageTitle = `${label}`
-  const pageDescription = description || module.description
+  const pageDescription = exerciseDescription || moduleDescription
   const shareCard = ogImage ? {ogImage: {url: ogImage}} : {}
 
   return (
     <VideoProvider
       muxPlayerRef={muxPlayerRef}
       module={module}
-      lesson={lesson}
+      exercise={exercise}
       subscriber={subscriber}
       path={path}
     >
@@ -64,37 +63,43 @@ const LessonTemplate: React.FC<{
         }
       >
         <div className="flex lg:flex-row flex-col">
-          <LessonSidebar
+          <ExerciseSidebar
             className="lg:block hidden"
             module={module}
             path={path}
           />
           <main className="w-full relative max-w-[1440px] mx-auto 2xl:flex items-start 2xl:max-w-none border-t 2xl:border-gray-800 border-transparent">
             <div className="2xl:w-full 2xl:border-r border-gray-800 2xl:relative">
-              <Video ref={muxPlayerRef} module={module} lesson={lesson} />
+              <Video ref={muxPlayerRef} module={module} exercise={exercise} />
               <details className="lg:hidden block group">
                 <summary className="flex gap-1 items-center px-4 py-3 font-medium bg-black/50 hover:bg-gray-800 transition cursor-pointer no-marker marker:content-[''] group-open:after:rotate-0 after:rotate-180 after:content-['↑'] after:text-lg after:w-6 after:h-6 after:rounded-full after:bg-gray-800 after:flex after:items-center after:justify-center after:absolute after:right-3">
                   {module.title} {capitalize(module.moduleType)}{' '}
                   <span className="opacity-80">
-                    ({module.resources.length} exercises)
+                    ({module.exercises.length} exercises)
                   </span>
                 </summary>
-                <LessonSidebar module={module} path={path} />
+                <ExerciseSidebar module={module} path={path} />
               </details>
               <div className="hidden 2xl:block pb-5">
-                <LessonTranscript lesson={lesson} muxPlayerRef={muxPlayerRef} />
-                <StackblitzEmbed lesson={lesson} module={module} />
+                <VideoTranscript
+                  exercise={exercise}
+                  muxPlayerRef={muxPlayerRef}
+                />
+                <StackblitzEmbed exercise={exercise} module={module} />
               </div>
             </div>
             <article>
               <div className="mx-auto lg:py-8 px-5 py-5 relative max-w-4xl 2xl:max-w-2xl w-full 2xl:flex-grow">
-                <LessonTitle lesson={lesson} />
-                <LessonDescription lesson={lesson} />
-                <GitHubLink lesson={lesson} module={module} />
+                <ExerciseTitle exercise={exercise} />
+                <ExerciseDescription exercise={exercise} />
+                <GitHubLink exercise={exercise} module={module} />
               </div>
               <div className="2xl:hidden block">
-                <StackblitzEmbed lesson={lesson} module={module} />
-                <LessonTranscript lesson={lesson} muxPlayerRef={muxPlayerRef} />
+                <StackblitzEmbed exercise={exercise} module={module} />
+                <VideoTranscript
+                  exercise={exercise}
+                  muxPlayerRef={muxPlayerRef}
+                />
               </div>
             </article>
           </main>
@@ -104,74 +109,62 @@ const LessonTemplate: React.FC<{
   )
 }
 
-const Video: React.FC<any> = React.forwardRef(({module, lesson}, ref: any) => {
-  const isExercise = Boolean(lesson._type === 'exercise')
-  const {muxPlayerProps, handlePlay, displayOverlay, nextLesson, subscriber} =
-    useMuxPlayer()
+const Video: React.FC<any> = React.forwardRef(
+  ({module, exercise}, ref: any) => {
+    const isExercise = Boolean(exercise._type === 'exercise')
+    const {
+      muxPlayerProps,
+      handlePlay,
+      displayOverlay,
+      nextExercise,
+      subscriber,
+    } = useMuxPlayer()
 
-  const video =
-    (subscriber || lesson._id === module.exercises[0]._id) &&
-    lesson.resources.find(
-      (resource: SanityDocument) => resource._type === 'muxVideo',
-    )
+    const video =
+      (subscriber || exercise._id === module.exercises[0]._id) &&
+      exercise.resources.find(
+        (resource: SanityDocument) => resource._type === 'muxVideo',
+      )
 
-  return (
-    <>
-      {displayOverlay && (
-        <>
-          {nextLesson ? (
-            <>
-              {isExercise ? (
-                <ExerciseOverlay handlePlay={handlePlay} />
-              ) : (
-                <DefaultOverlay handlePlay={handlePlay} />
-              )}
-            </>
-          ) : (
-            <FinishedOverlay handlePlay={handlePlay} />
-          )}
-        </>
-      )}
-      <div
-        className={cx('flex items-center justify-center w-full relative', {
-          'opacity-0': displayOverlay,
-        })}
-      >
-        {video ? (
-          <MuxPlayer ref={ref} {...(muxPlayerProps as MuxPlayerProps)} />
-        ) : (
-          <BlockedOverlay />
+    return (
+      <>
+        {displayOverlay && (
+          <>
+            {nextExercise ? (
+              <>
+                {isExercise ? (
+                  <ExerciseOverlay handlePlay={handlePlay} />
+                ) : (
+                  <DefaultOverlay handlePlay={handlePlay} />
+                )}
+              </>
+            ) : (
+              <FinishedOverlay handlePlay={handlePlay} />
+            )}
+          </>
         )}
-      </div>
-    </>
-  )
-})
-
-const AutoPlayToggle: React.FC<any> = ({muxPlayerRef}) => {
-  const {autoPlay, handlePlay, setAutoPlay, setPlayerPrefs} = useMuxPlayer()
-  return (
-    <label className="flex items-center gap-1.5 text-gray-200 text-sm absolute sm:right-4 right-0 cursor-pointer sm:top-3 top-0 bg-gray-900 hover:bg-gray-800 transition rounded px-3 py-2">
-      <input
-        className="accent-cyan-300"
-        checked={autoPlay}
-        onChange={() => {
-          !autoPlay && handlePlay()
-          setAutoPlay(!autoPlay)
-          setPlayerPrefs({autoplay: !autoPlay})
-        }}
-        type="checkbox"
-      />
-      Autoplay{' '}
-    </label>
-  )
-}
+        <div
+          className={cx('flex items-center justify-center w-full relative', {
+            'opacity-0': displayOverlay,
+          })}
+        >
+          {video ? (
+            <MuxPlayer ref={ref} {...(muxPlayerProps as MuxPlayerProps)} />
+          ) : (
+            <BlockedOverlay />
+          )}
+        </div>
+      </>
+    )
+  },
+)
 
 const GitHubLink: React.FC<{
-  lesson: SanityDocument
+  exercise: SanityDocument
   module: SanityDocument
-}> = ({lesson, module}) => {
+}> = ({exercise, module}) => {
   const {github} = module
-  const stackblitz = lesson.resources.find(
+  const stackblitz = exercise.resources.find(
     (resource: SanityDocument) => resource._type === 'stackblitz',
   )
 
@@ -188,8 +181,10 @@ const GitHubLink: React.FC<{
         <a
           onClick={() => {
             track('clicked github code link', {
-              lesson: lesson.slug,
+              lesson: exercise.slug,
               module: module.slug,
+              moduleType: module._type,
+              lessonType: exercise._type,
             })
           }}
           href={`https://github.com/total-typescript/${github.repo}/blob/main/${openFile}`}
@@ -211,8 +206,8 @@ const GitHubLink: React.FC<{
   )
 }
 
-const LessonTitle: React.FC<{lesson: SanityDocument}> = ({lesson}) => {
-  const {label, _type} = lesson
+const ExerciseTitle: React.FC<{exercise: SanityDocument}> = ({exercise}) => {
+  const {label, _type} = exercise
   return (
     <>
       <h1 className="sm:text-4xl text-3xl font-semibold pb-5">
@@ -222,8 +217,10 @@ const LessonTitle: React.FC<{lesson: SanityDocument}> = ({lesson}) => {
   )
 }
 
-const LessonDescription: React.FC<{lesson: SanityDocument}> = ({lesson}) => {
-  const {body} = lesson
+const ExerciseDescription: React.FC<{exercise: SanityDocument}> = ({
+  exercise,
+}) => {
+  const {body} = exercise
   return (
     <div className="pt-5 opacity-90 prose sm:prose-lg max-w-none prose-headings:font-semibold">
       {/* TODO: Fix overflowing Pre tag */}
@@ -233,11 +230,11 @@ const LessonDescription: React.FC<{lesson: SanityDocument}> = ({lesson}) => {
 }
 
 export const StackBlitzIframe: React.FC<{
-  lesson: SanityDocument
+  exercise: SanityDocument
   module: SanityDocument
   isExpanded?: boolean
-}> = ({lesson, module}) => {
-  const stackblitz = lesson.resources.find(
+}> = ({exercise, module}) => {
+  const stackblitz = exercise.resources.find(
     (resource: SanityDocument) => resource._type === 'stackblitz',
   )
   const [isLoading, setIsLoading] = React.useState(true)
@@ -245,7 +242,7 @@ export const StackBlitzIframe: React.FC<{
     .match(/\d/g)
     .join('')
     .substring(0, 2)
-  const startCommand = `${lesson._type.substring(0, 1)}-${codeFileNumber}` // e.g. s-01, e-02, etc
+  const startCommand = `${exercise._type.substring(0, 1)}-${codeFileNumber}` // e.g. s-01, e-02, etc
   const githubOrg = 'total-typescript'
   const githubRepo = module.github.repo
   const clickToLoad = Number(false)
@@ -281,10 +278,10 @@ export const StackBlitzIframe: React.FC<{
 }
 
 const StackblitzEmbed: React.FC<{
-  lesson: SanityDocument
+  exercise: SanityDocument
   module: SanityDocument
-}> = ({lesson, module}) => {
-  const stackblitz = lesson.resources?.find(
+}> = ({exercise, module}) => {
+  const stackblitz = exercise.resources?.find(
     (resource: SanityDocument) => resource._type === 'stackblitz',
   )
   const {isSafari, isFirefox} = useDeviceDetect()
@@ -313,7 +310,7 @@ const StackblitzEmbed: React.FC<{
               'sm:h-[400px] h-[200px]': !isExpanded,
             })}
           >
-            <StackBlitzIframe lesson={lesson} module={module} />
+            <StackBlitzIframe exercise={exercise} module={module} />
           </div>
         ) : (
           <div className="max-w-4xl mx-auto 2xl:px-0 px-5 relative">
@@ -321,8 +318,10 @@ const StackblitzEmbed: React.FC<{
               type="button"
               onClick={() => {
                 track('clicked run code', {
-                  lesson: lesson.slug,
+                  lesson: exercise.slug,
                   module: module.slug,
+                  moduleType: module._type,
+                  lessonType: exercise._type,
                 })
                 setIsExpanded(true)
               }}
@@ -344,11 +343,11 @@ const StackblitzEmbed: React.FC<{
   )
 }
 
-const LessonTranscript: React.FC<{
-  lesson: SanityDocument
+const VideoTranscript: React.FC<{
+  exercise: SanityDocument
   muxPlayerRef: any
-}> = ({lesson, muxPlayerRef}) => {
-  const video = lesson.resources.find(
+}> = ({exercise, muxPlayerRef}) => {
+  const video = exercise.resources.find(
     (resource: SanityDocument) => resource._type === 'muxVideo',
   )
   const transcript = video?.transcript
@@ -390,4 +389,4 @@ const LessonTranscript: React.FC<{
   )
 }
 
-export default LessonTemplate
+export default ExerciseTemplate

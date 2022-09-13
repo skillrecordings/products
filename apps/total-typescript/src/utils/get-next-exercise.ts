@@ -2,12 +2,12 @@ import {SanityDocument} from '@sanity/client'
 import find from 'lodash/find'
 import indexOf from 'lodash/indexOf'
 
-export const getNextLesson = (
+export const getNextExercise = (
   course: SanityDocument,
-  currentLesson: SanityDocument,
+  currentExercise: SanityDocument,
 ) => {
-  if (currentLesson._type === 'exercise') {
-    return currentLesson.resources.find(
+  if (currentExercise._type === 'exercise') {
+    return currentExercise.resources.find(
       (resource: SanityDocument) => resource._type === 'solution',
     )
   }
@@ -15,14 +15,14 @@ export const getNextLesson = (
   const exerciseForSolution = course.exercises.find(
     (resource: SanityDocument) => {
       const solution = resource.resources.find(
-        (resource: SanityDocument) => resource._key === currentLesson._key,
+        (resource: SanityDocument) => resource._key === currentExercise._key,
       )
-      return solution?._key === currentLesson._key
+      return solution?._key === currentExercise._key
     },
   )
 
   const current = find(course.exercises, {_id: exerciseForSolution._id})
-  const nextLessonIndex = indexOf(course.exercises, current) + 1
-  const nextLesson = course.exercises[nextLessonIndex]
-  return nextLesson
+  const nextExerciseIndex = indexOf(course.exercises, current) + 1
+  const nextExercise = course.exercises[nextExerciseIndex]
+  return nextExercise
 }
