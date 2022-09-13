@@ -46,7 +46,8 @@ export const VideoProvider: React.FC<
   )
 
   const handlePlay = () => {
-    muxPlayerRef.current.play()
+    const playPromise = muxPlayerRef.current.play()
+    playPromise !== undefined && muxPlayerRef.current.play()
   }
   const handleNext = (autoPlay: boolean) => {
     nextLesson && autoPlay
