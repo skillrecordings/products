@@ -19,12 +19,12 @@ const ExerciseNavigator: React.FC<{
             `/tutorials/${module.slug}/${exercise.slug.current}`
 
           return (
-            <li key={exercise.slug + `-${sectionIdx}`} className="pt-2">
+            <li key={exercise.slug.current + `-${sectionIdx}`} className="pt-2">
               <Link
                 href={{
                   pathname: `${path}/[module]/[exercise]`,
                   query: {
-                    module: module.slug,
+                    module: module.slug.current,
                     exercise: exercise.slug.current,
                   },
                 }}
@@ -34,9 +34,9 @@ const ExerciseNavigator: React.FC<{
                   className="px-4 font-semibold py-2 hover:bg-gray-800 flex items-center"
                   onClick={() => {
                     track('clicked exercise in navigator', {
-                      module: module.slug,
+                      module: module.slug.current,
                       lesson: exercise.slug.current,
-                      moduleType: module._type,
+                      moduleType: module.moduleType,
                       lessonType: exercise._type,
                     })
                   }}
@@ -53,7 +53,7 @@ const ExerciseNavigator: React.FC<{
                     href={{
                       pathname: `${path}/[module]/[exercise]`,
                       query: {
-                        module: module.slug,
+                        module: module.slug.current,
                         exercise: exercise.slug.current,
                       },
                     }}
@@ -69,10 +69,10 @@ const ExerciseNavigator: React.FC<{
                       )}
                       onClick={() => {
                         track(`clicked exercise in navigator`, {
-                          module: module.slug,
+                          module: module.slug.current,
                           lesson: exercise.slug.current,
                           location: router.query.lesson,
-                          moduleType: module._type,
+                          moduleType: module.moduleType,
                           lessonType: exercise._type,
                         })
                       }}
@@ -88,14 +88,14 @@ const ExerciseNavigator: React.FC<{
                   .map((solution: any, i: number) => {
                     const isActive =
                       router.asPath ===
-                      `/tutorials/${module.slug}/${exercise.slug.current}/solution`
+                      `/tutorials/${module.slug.current}/${exercise.slug.current}/solution`
                     return (
                       <li key={solution._key}>
                         <Link
                           href={{
                             pathname: `${path}/[module]/[exercise]/solution`,
                             query: {
-                              module: module.slug,
+                              module: module.slug.current,
                               exercise: exercise.slug.current,
                             },
                           }}
@@ -111,9 +111,9 @@ const ExerciseNavigator: React.FC<{
                             )}
                             onClick={() => {
                               track(`clicked ${solution._type} in navigator`, {
-                                module: module.slug,
+                                module: module.slug.current,
                                 lesson: exercise.slug.current,
-                                moduleType: module._type,
+                                moduleType: module.moduleType,
                                 lessonType: exercise._type,
                               })
                             }}

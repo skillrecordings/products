@@ -40,7 +40,7 @@ const buildFeed = (items: any) => {
     feed.addItem({
       // TODO: change based on content type (tips/articles/etc)
       title: `${item.title} Tutorial`,
-      link: `${hostUrl}/tutorials/${item.slug}`,
+      link: `${hostUrl}/tutorials/${item.slug.current}`,
       description: item.description,
       date: new Date(item._createdAt),
     })

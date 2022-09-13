@@ -181,9 +181,9 @@ const GitHubLink: React.FC<{
         <a
           onClick={() => {
             track('clicked github code link', {
-              lesson: exercise.slug,
-              module: module.slug,
-              moduleType: module._type,
+              lesson: exercise.slug.current,
+              module: module.slug.current,
+              moduleType: module.moduleType,
               lessonType: exercise._type,
             })
           }}
@@ -318,9 +318,9 @@ const StackblitzEmbed: React.FC<{
               type="button"
               onClick={() => {
                 track('clicked run code', {
-                  lesson: exercise.slug,
-                  module: module.slug,
-                  moduleType: module._type,
+                  lesson: exercise.slug.current,
+                  module: module.slug.current,
+                  moduleType: module.moduleType,
                   lessonType: exercise._type,
                 })
                 setIsExpanded(true)

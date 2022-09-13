@@ -53,7 +53,7 @@ export const VideoProvider: React.FC<
     nextExercise && autoPlay
       ? router.push({
           pathname: '/[module]/[exercise]',
-          query: {module: module.slug, exercise: nextExercise.slug},
+          query: {module: module.slug.current, exercise: nextExercise.slug},
         })
       : setDisplayOverlay(true)
   }
@@ -75,9 +75,9 @@ export const VideoProvider: React.FC<
       onPlay: () => {
         setDisplayOverlay(false)
         track('started lesson video', {
-          module: module.slug,
+          module: module.slug.current,
           lesson: exercise.slug.current,
-          moduleType: module._type,
+          moduleType: module.moduleType,
           lessonType: exercise._type,
         })
       },
@@ -85,9 +85,9 @@ export const VideoProvider: React.FC<
       onEnded: () => {
         handleNext(getPlayerPrefs().autoplay)
         track('completed lesson video', {
-          module: module.slug,
+          module: module.slug.current,
           lesson: exercise.slug.current,
-          moduleType: module._type,
+          moduleType: module.moduleType,
           lessonType: exercise._type,
         })
       },

@@ -33,9 +33,9 @@ const OverlayWrapper: React.FC<
         className="absolute top-2 right-2 py-2 px-3 z-50 font-medium rounded flex items-center gap-1 hover:bg-gray-800 transition text-gray-200"
         onClick={() => {
           track('dismissed video overlay', {
-            lesson: exercise.slug,
-            module: module.slug,
-            moduleType: module._type,
+            lesson: exercise.slug.current,
+            module: module.slug.current,
+            moduleType: module.moduleType,
             lessonType: exercise._type,
           })
           setDisplayOverlay(false)
@@ -67,6 +67,8 @@ const ExerciseOverlay: React.FC<OverlayProps> = ({handlePlay}) => {
   )
   const router = useRouter()
 
+  console.log({exercise, module})
+
   const Actions = () => {
     return (
       <>
@@ -74,10 +76,10 @@ const ExerciseOverlay: React.FC<OverlayProps> = ({handlePlay}) => {
           className="bg-gray-800 sm:px-5 px-3 sm:py-2 py-1 text-lg font-semibold rounded hover:bg-gray-700 transition"
           onClick={() => {
             track('clicked replay', {
-              lesson: exercise.slug,
-              module: module.slug,
+              lesson: exercise.slug.current,
+              module: module.slug.current,
               location: 'exercise',
-              moduleType: module._type,
+              moduleType: module.moduleType,
               lessonType: exercise._type,
             })
             handlePlay()
@@ -90,10 +92,10 @@ const ExerciseOverlay: React.FC<OverlayProps> = ({handlePlay}) => {
             className="text-lg bg-cyan-600 hover:bg-cyan-500 transition sm:px-5 px-3 sm:py-2 py-1 font-semibold rounded"
             onClick={() => {
               track('clicked continue to solution', {
-                lesson: exercise.slug,
-                module: module.slug,
+                lesson: exercise.slug.current,
+                module: module.slug.current,
                 location: 'exercise',
-                moduleType: module._type,
+                moduleType: module.moduleType,
                 lessonType: exercise._type,
               })
               handleContinue(router, module, nextExercise, handlePlay, path)
@@ -172,10 +174,10 @@ const DefaultOverlay: React.FC<OverlayProps> = ({handlePlay}) => {
           className="bg-gray-800 hover:bg-gray-700 transition sm:px-5 px-3 sm:py-3 py-1 text-lg font-semibold rounded"
           onClick={() => {
             track('clicked replay', {
-              lesson: exercise.slug,
-              module: module.slug,
+              lesson: exercise.slug.current,
+              module: module.slug.current,
               location: 'exercise',
-              moduleType: module._type,
+              moduleType: module.moduleType,
               lessonType: exercise._type,
             })
             handlePlay()
@@ -187,13 +189,13 @@ const DefaultOverlay: React.FC<OverlayProps> = ({handlePlay}) => {
           className="text-lg bg-cyan-600 hover:bg-cyan-500 transition rounded sm:px-5 px-3 sm:py-3 py-1 font-semibold"
           onClick={() => {
             track('clicked complete', {
-              lesson: exercise.slug,
-              module: module.slug,
+              lesson: exercise.slug.current,
+              module: module.slug.current,
               location: 'exercise',
-              moduleType: module._type,
+              moduleType: module.moduleType,
               lessonType: exercise._type,
             })
-            completeExercise(exercise.slug).then(() => {
+            completeExercise(exercise.slug.current).then(() => {
               return handleContinue(
                 router,
                 module,
@@ -214,10 +216,11 @@ const DefaultOverlay: React.FC<OverlayProps> = ({handlePlay}) => {
 const FinishedOverlay: React.FC<OverlayProps> = ({handlePlay}) => {
   const {module, path} = useMuxPlayer()
   const router = useRouter()
-  const shareUrl = `${process.env.NEXT_PUBLIC_URL}${path}/${module.slug}`
+  const shareUrl = `${process.env.NEXT_PUBLIC_URL}${path}/${module.slug.current}`
   const shareMessage = `${module.title} ${module.moduleType} by @${process.env.NEXT_PUBLIC_PARTNER_TWITTER}`
   const shareButtonStyles =
     'bg-gray-800 flex items-center gap-2 rounded px-3 py-2 hover:bg-gray-700'
+
   return (
     <OverlayWrapper className="px-5 sm:pt-0 pt-10">
       <p className="sm:text-3xl text-2xl sm:font-bold font-semibold font-text">
@@ -259,8 +262,8 @@ const FinishedOverlay: React.FC<OverlayProps> = ({handlePlay}) => {
               .push({
                 pathname: `/${path}/[module]/[exercise]`,
                 query: {
-                  module: module.slug,
-                  exercise: module.resources[0].slug,
+                  module: module.slug.current,
+                  exercise: module.resources[0].slug.current,
                 },
               })
               .then(handlePlay)
@@ -293,15 +296,17 @@ const BlockedOverlay: React.FC = () => {
       })
   }, [])
 
+  console.log({exercise, module})
+
   const handleOnSuccess = (subscriber: any, email?: string) => {
     if (subscriber) {
       const redirectUrl = redirectUrlBuilder(subscriber, router.asPath)
       email && setUserId(email)
       track('subscribed to email list', {
-        lesson: exercise.slug,
-        module: module.slug,
+        lesson: exercise.slug.current,
+        module: module.slug.current,
         location: 'exercise',
-        moduleType: module._type,
+        moduleType: module.moduleType,
         lessonType: exercise._type,
       })
       router.push(redirectUrl).then(() => {
@@ -399,7 +404,7 @@ const handleContinue = async (
 
     return await router
       .push({
-        query: {module: module.slug, exercise: exercise.slug.current},
+        query: {module: module.slug.current, exercise: exercise.slug.current},
         pathname: `${path}/[module]/[exercise]/solution`,
       })
       .then(() => handlePlay())
@@ -407,7 +412,7 @@ const handleContinue = async (
 
   return await router
     .push({
-      query: {module: module.slug, exercise: nextExercise.slug.current},
+      query: {module: module.slug.current, exercise: nextExercise.slug.current},
       pathname: `${path}/[module]/[exercise]`,
     })
     .then(() => handlePlay())

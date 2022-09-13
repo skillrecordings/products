@@ -47,7 +47,7 @@ const ExerciseSidebar: React.FC<SidebarProps> = ({
                     className="uppercase text-xs font-mono font-semibold opacity-80 hover:underline"
                     onClick={() => {
                       track('clicked return to tutorials', {
-                        module: module.slug,
+                        module: module.slug.current,
                       })
                     }}
                   >
@@ -58,14 +58,16 @@ const ExerciseSidebar: React.FC<SidebarProps> = ({
                   <Link
                     href={{
                       pathname: `${path}/[module]`,
-                      query: {module: module.slug},
+                      query: {module: module.slug.current},
                     }}
                     passHref
                   >
                     <a
                       className="hover:underline"
                       onClick={() => {
-                        track('clicked return to module', {module: module.slug})
+                        track('clicked return to module', {
+                          module: module.slug.current,
+                        })
                       }}
                     >
                       {module.title}

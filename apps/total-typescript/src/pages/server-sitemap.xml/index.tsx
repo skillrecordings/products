@@ -7,7 +7,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
 
   const tutorials = await getAllTutorials()
   const tutorialSitemap = tutorials.flatMap((tutorial: any) => {
-    const tutorialRootUrl = `${process.env.NEXT_PUBLIC_URL}/tutorials/${tutorial.slug}`
+    const tutorialRootUrl = `${process.env.NEXT_PUBLIC_URL}/tutorials/${tutorial.slug.current}`
     return [
       {
         loc: tutorialRootUrl, // Absolute url
