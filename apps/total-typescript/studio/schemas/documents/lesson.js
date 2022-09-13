@@ -24,6 +24,12 @@ export default {
       },
     },
     {
+      name: 'resources',
+      title: 'Resources',
+      type: 'array',
+      of: [{type: 'reference', to: [{type: 'exercise'}]}],
+    },
+    {
       name: 'isFree',
       title: 'Is Free?',
       type: 'boolean',

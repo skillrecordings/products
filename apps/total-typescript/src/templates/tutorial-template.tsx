@@ -120,37 +120,33 @@ const Header: React.FC<{tutorial: SanityDocument}> = ({tutorial}) => {
 }
 
 const LessonNavigator: React.FC<{tutorial: SanityDocument}> = ({tutorial}) => {
-  const {slug, resources} = tutorial
+  const {slug, exercises} = tutorial
   return (
     <nav
       aria-label="lesson navigator"
       className="lg:border-l border-gray-800 lg:pl-8"
     >
       <h2 className="pb-4 text-gray-300 text-sm font-semibold font-mono uppercase">
-        Exercises
+        {exercises.length} Exercises
       </h2>
-      {resources && (
+      {exercises && (
         <ul>
-          {resources.map((section: SanityDocument, i: number) => {
-            // the resource is the SECTION, but we link to the exercise lesson
-            // so we need to dig in a bit to find the correct URL
-            const exercise = getExerciseForSection(section)
-
+          {exercises.map((exercise: SanityDocument, i: number) => {
             return (
-              <li key={section.slug}>
+              <li key={exercise.slug.current}>
                 <Link
                   href={{
                     pathname: '/tutorials/[module]/[lesson]',
-                    query: {module: slug, lesson: exercise.slug},
+                    query: {module: slug, lesson: exercise.slug.current},
                   }}
                   passHref
                 >
                   <a
                     className="text-lg py-2.5 font-semibold group inline-flex items-center"
                     onClick={() => {
-                      track('clicked tutorial lesson', {
+                      track('clicked tutorial exercise', {
                         module: slug,
-                        lesson: exercise.slug,
+                        lesson: exercise.slug.current,
                       })
                     }}
                   >
@@ -161,7 +157,7 @@ const LessonNavigator: React.FC<{tutorial: SanityDocument}> = ({tutorial}) => {
                       {i + 1}
                     </span>
                     <span className="w-full group-hover:underline leading-tight">
-                      {section.title}
+                      {exercise.label}
                     </span>
                   </a>
                 </Link>

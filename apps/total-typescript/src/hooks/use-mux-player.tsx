@@ -5,6 +5,7 @@ import {SanityDocument} from '@sanity/client'
 import {useRouter} from 'next/router'
 import {MuxPlayerProps} from '@mux/mux-player-react/*'
 import {track} from '../utils/analytics'
+import {Subscriber} from 'pages/api/progress/[lesson]'
 
 type VideoContextType = {
   muxPlayerProps: MuxPlayerProps | any
@@ -18,6 +19,7 @@ type VideoContextType = {
   lesson: SanityDocument
   module: SanityDocument
   path: string
+  subscriber: Subscriber
 }
 
 export const VideoContext = React.createContext({} as VideoContextType)
@@ -25,22 +27,27 @@ export const VideoContext = React.createContext({} as VideoContextType)
 type VideoProviderProps = {
   module: SanityDocument
   lesson: SanityDocument
+  subscriber: Subscriber
   path: string
   muxPlayerRef: any
 }
 
 export const VideoProvider: React.FC<
   React.PropsWithChildren<VideoProviderProps>
-> = ({module, lesson, muxPlayerRef, children, path}) => {
+> = ({module, lesson, muxPlayerRef, children, path, subscriber}) => {
   const router = useRouter()
   const nextLesson = lesson && module && getNextLesson(module, lesson)
   const {setPlayerPrefs, playbackRate, autoplay, getPlayerPrefs} =
     usePlayerPrefs()
   const [autoPlay, setAutoPlay] = React.useState(getPlayerPrefs().autoplay)
   const [displayOverlay, setDisplayOverlay] = React.useState(false)
+  const video = lesson.resources.find(
+    (resource: SanityDocument) => resource._type === 'muxVideo',
+  )
 
   const handlePlay = () => {
-    muxPlayerRef.current.play()
+    const playPromise = muxPlayerRef.current.play()
+    playPromise !== undefined && muxPlayerRef.current.play()
   }
   const handleNext = (autoPlay: boolean) => {
     nextLesson && autoPlay
@@ -58,19 +65,18 @@ export const VideoProvider: React.FC<
 
   // preferences
   React.useEffect(() => {
-    if (muxPlayerRef?.current) {
+    if (video && muxPlayerRef?.current) {
       muxPlayerRef.current.playbackRate = playbackRate
       muxPlayerRef.current.autoplay = autoplay
     }
-  }, [playbackRate, autoPlay, lesson])
-
+  }, [playbackRate, autoPlay, video])
   const context = {
     muxPlayerProps: {
       onPlay: () => {
         setDisplayOverlay(false)
         track('started lesson video', {
           module: module.slug,
-          lesson: lesson.slug,
+          lesson: lesson.slug.current,
         })
       },
       onPause: () => {},
@@ -78,7 +84,7 @@ export const VideoProvider: React.FC<
         handleNext(getPlayerPrefs().autoplay)
         track('completed lesson video', {
           module: module.slug,
-          lesson: lesson.slug,
+          lesson: lesson.slug.current,
         })
       },
       onRateChange: () => {
@@ -89,9 +95,9 @@ export const VideoProvider: React.FC<
       defaultHiddenCaptions: true, // TODO: investigate storing subtitles preferences
       // autoPlay,
       streamType: 'on-demand',
-      playbackId: lesson?.video,
+      playbackId: video.muxPlaybackId,
       metadata: {
-        video_title: `${lesson?.title} (${lesson?.lessonType})`,
+        video_title: `${lesson?.label} (${lesson?._type})`,
       },
     },
     autoPlay,
@@ -104,6 +110,7 @@ export const VideoProvider: React.FC<
     lesson,
     module,
     path,
+    subscriber,
   }
   return (
     <VideoContext.Provider value={context}>{children}</VideoContext.Provider>

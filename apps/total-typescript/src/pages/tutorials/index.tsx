@@ -37,7 +37,7 @@ const TutorialsPage: React.FC<{tutorials: SanityDocument[]}> = ({
         </p>
         {tutorials && (
           <ul className="pt-20 max-w-screen-md flex flex-col gap-8 px-3">
-            {tutorials.map(({title, slug, image, description, resources}) => {
+            {tutorials.map(({title, slug, image, description, exercises}) => {
               return (
                 <li
                   key={slug}
@@ -66,7 +66,7 @@ const TutorialsPage: React.FC<{tutorials: SanityDocument[]}> = ({
                       </a>
                     </Link>
                     <div className="py-4 text-sm font-mono uppercase">
-                      {resources.length} exercises
+                      {exercises.length} exercises
                     </div>
                     {description && (
                       <p className="text-gray-300">{description}</p>

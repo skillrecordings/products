@@ -25,18 +25,27 @@ import {
 } from 'components/lesson-overlay'
 import Image from 'next/image'
 import {track} from 'utils/analytics'
+import {Subscriber} from 'pages/api/progress/[lesson]'
+import {Exercise} from '../lib/exercises'
 
 const path = '/tutorials'
 
 const LessonTemplate: React.FC<{
   lesson: SanityDocument
   module: SanityDocument
-  subscriber: ConvertkitSubscriber
-}> = ({lesson, module, subscriber}) => {
-  const {title, lessonType, description} = lesson
+  subscriber: Subscriber
+  isSolution?: boolean
+}> = ({lesson, module, subscriber, isSolution = false}) => {
+  lesson = isSolution
+    ? lesson.resources.find(
+        (resource: SanityDocument) => resource._type === 'solution',
+      )
+    : lesson
+  const {label, description} = lesson
+
   const {ogImage} = module
   const muxPlayerRef = React.useRef<HTMLDivElement>()
-  const pageTitle = `${title} (${capitalize(lessonType)})`
+  const pageTitle = `${label}`
   const pageDescription = description || module.description
   const shareCard = ogImage ? {ogImage: {url: ogImage}} : {}
 
@@ -45,6 +54,7 @@ const LessonTemplate: React.FC<{
       muxPlayerRef={muxPlayerRef}
       module={module}
       lesson={lesson}
+      subscriber={subscriber}
       path={path}
     >
       <Layout
@@ -95,9 +105,15 @@ const LessonTemplate: React.FC<{
 }
 
 const Video: React.FC<any> = React.forwardRef(({module, lesson}, ref: any) => {
-  const isExercise = Boolean(lesson.lessonType === 'exercise')
-  const {muxPlayerProps, handlePlay, displayOverlay, nextLesson} =
+  const isExercise = Boolean(lesson._type === 'exercise')
+  const {muxPlayerProps, handlePlay, displayOverlay, nextLesson, subscriber} =
     useMuxPlayer()
+
+  const video =
+    (subscriber || lesson._id === module.exercises[0]._id) &&
+    lesson.resources.find(
+      (resource: SanityDocument) => resource._type === 'muxVideo',
+    )
 
   return (
     <>
@@ -121,7 +137,7 @@ const Video: React.FC<any> = React.forwardRef(({module, lesson}, ref: any) => {
           'opacity-0': displayOverlay,
         })}
       >
-        {lesson.video ? (
+        {video ? (
           <MuxPlayer ref={ref} {...(muxPlayerProps as MuxPlayerProps)} />
         ) : (
           <BlockedOverlay />
@@ -155,7 +171,9 @@ const GitHubLink: React.FC<{
   module: SanityDocument
 }> = ({lesson, module}) => {
   const {github} = module
-  const {stackblitz} = lesson
+  const stackblitz = lesson.resources.find(
+    (resource: SanityDocument) => resource._type === 'stackblitz',
+  )
 
   if (!github || !stackblitz) {
     return null
@@ -194,11 +212,11 @@ const GitHubLink: React.FC<{
 }
 
 const LessonTitle: React.FC<{lesson: SanityDocument}> = ({lesson}) => {
-  const {title, lessonType} = lesson
+  const {label, _type} = lesson
   return (
     <>
       <h1 className="sm:text-4xl text-3xl font-semibold pb-5">
-        {title} <span className="font-light">({capitalize(lessonType)})</span>
+        {label} <span className="font-light">({capitalize(_type)})</span>
       </h1>
     </>
   )
@@ -219,13 +237,15 @@ export const StackBlitzIframe: React.FC<{
   module: SanityDocument
   isExpanded?: boolean
 }> = ({lesson, module}) => {
-  const {stackblitz} = lesson
+  const stackblitz = lesson.resources.find(
+    (resource: SanityDocument) => resource._type === 'stackblitz',
+  )
   const [isLoading, setIsLoading] = React.useState(true)
   const codeFileNumber = stackblitz.openFile
     .match(/\d/g)
     .join('')
     .substring(0, 2)
-  const startCommand = `${lesson.lessonType.substring(0, 1)}-${codeFileNumber}` // e.g. s-01, e-02, etc
+  const startCommand = `${lesson._type.substring(0, 1)}-${codeFileNumber}` // e.g. s-01, e-02, etc
   const githubOrg = 'total-typescript'
   const githubRepo = module.github.repo
   const clickToLoad = Number(false)
@@ -264,11 +284,13 @@ const StackblitzEmbed: React.FC<{
   lesson: SanityDocument
   module: SanityDocument
 }> = ({lesson, module}) => {
-  const {stackblitz} = lesson
+  const stackblitz = lesson.resources?.find(
+    (resource: SanityDocument) => resource._type === 'stackblitz',
+  )
   const {isSafari, isFirefox} = useDeviceDetect()
   const [isExpanded, setIsExpanded] = React.useState(false)
 
-  if (!stackblitz.openFile) {
+  if (!stackblitz?.openFile) {
     return null
   }
 
@@ -326,7 +348,10 @@ const LessonTranscript: React.FC<{
   lesson: SanityDocument
   muxPlayerRef: any
 }> = ({lesson, muxPlayerRef}) => {
-  const {transcript, video} = lesson
+  const video = lesson.resources.find(
+    (resource: SanityDocument) => resource._type === 'muxVideo',
+  )
+  const transcript = video?.transcript
   const {handlePlay} = useMuxPlayer()
   if (!transcript) {
     return null

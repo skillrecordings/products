@@ -9,7 +9,8 @@ const tutorialsQuery = groq`*[_type == "module" && moduleType == 'tutorial'] {
   _updatedAt,
   _createdAt,
   description,
-  resources[]->{
+  "exercises": resources[@->._type == 'exercise']->,
+  "resources": resources[@->._type != 'exercise']->{
     ...,
     "parentPath": ^.slug.current,
     resources[]->{
@@ -33,8 +34,9 @@ export const getTutorial = async (slug: string) =>
         github,
         ogImage,
         description,
-        _updatedAt,
-        resources[]->{
+          _updatedAt,
+          "exercises": resources[@->._type == 'exercise']->,
+        "resources": resources[@->._type != 'exercise']->{
             "id": _id,
             _type,
             title,

@@ -10,7 +10,7 @@ const Subscriber = z.object({
   state: z.string(),
 })
 
-type Subscriber = z.infer<typeof Subscriber>
+export type Subscriber = z.infer<typeof Subscriber>
 
 const lessonProgressHandler = async (
   req: NextApiRequest,
@@ -23,14 +23,16 @@ const lessonProgressHandler = async (
       const subscriberCookie = req.cookies['ck_subscriber']
 
       if (!subscriberCookie) {
-        res.status(200).end()
+        console.debug('no subscriber cookie')
+        res.status(200).json({})
         return
       }
 
       const subscriber = Subscriber.parse(JSON.parse(subscriberCookie))
 
       if (!subscriber) {
-        res.status(200).end()
+        console.debug('no subscriber')
+        res.status(200).json({})
         return
       }
 
@@ -44,7 +46,7 @@ const lessonProgressHandler = async (
       res.status(200).json(progress)
     } catch (e) {
       console.error(e)
-      res.status(200).end()
+      res.status(200).json({})
     }
   } else {
     console.error('non-post request made')

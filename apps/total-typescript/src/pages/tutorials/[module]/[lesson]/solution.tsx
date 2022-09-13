@@ -19,14 +19,24 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   }
 
   return {
-    props: {lesson, tutorial, subscriber},
+    props: {lesson, tutorial, subscriber, isSolution: true},
   }
 }
 
-const LessonPage: React.FC<any> = ({lesson, tutorial, subscriber}) => {
+const LessonSolution: React.FC<any> = ({
+  lesson,
+  tutorial,
+  subscriber,
+  isSolution,
+}) => {
   return (
-    <LessonTemplate lesson={lesson} module={tutorial} subscriber={subscriber} />
+    <LessonTemplate
+      lesson={lesson}
+      module={tutorial}
+      subscriber={subscriber}
+      isSolution={isSolution}
+    />
   )
 }
 
-export default LessonPage
+export default LessonSolution
