@@ -40,7 +40,7 @@ const TutorialsPage: React.FC<{tutorials: SanityDocument[]}> = ({
             {tutorials.map(({title, slug, image, description, exercises}) => {
               return (
                 <li
-                  key={slug}
+                  key={slug.current}
                   className="flex md:flex-row flex-col gap-10 items-center p-10 rounded-lg bg-black/30"
                 >
                   <div className="flex items-center justify-center flex-shrink-0">
@@ -57,7 +57,7 @@ const TutorialsPage: React.FC<{tutorials: SanityDocument[]}> = ({
                       href={{
                         pathname: '/tutorials/[module]',
                         query: {
-                          module: slug,
+                          module: slug.current,
                         },
                       }}
                     >
@@ -75,7 +75,7 @@ const TutorialsPage: React.FC<{tutorials: SanityDocument[]}> = ({
                       href={{
                         pathname: '/tutorials/[module]',
                         query: {
-                          module: slug,
+                          module: slug.current,
                         },
                       }}
                     >

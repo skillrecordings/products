@@ -3,7 +3,7 @@ import {sanityClient} from 'utils/sanity-client'
 
 const tutorialsQuery = groq`*[_type == "module" && moduleType == 'tutorial'] {
   _id,
-  _type
+  _type,
   title,
   slug,
   "image": image.asset->url,

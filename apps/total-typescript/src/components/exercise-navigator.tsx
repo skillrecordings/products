@@ -16,7 +16,7 @@ const ExerciseNavigator: React.FC<{
         {module.exercises.map((exercise: any, sectionIdx: number) => {
           const isActive =
             router.asPath ===
-            `/tutorials/${module.slug}/${exercise.slug.current}`
+            `/tutorials/${module.slug.current}/${exercise.slug.current}`
 
           return (
             <li key={exercise.slug.current + `-${sectionIdx}`} className="pt-2">
