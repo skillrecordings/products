@@ -24,13 +24,13 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 }
 
 const ExercisePage: React.FC<any> = ({exercise, module, subscriber}) => {
-  return (
+  return exercise ? (
     <ExerciseTemplate
       exercise={exercise}
       module={module}
       subscriber={subscriber}
     />
-  )
+  ) : null
 }
 
 export default ExercisePage

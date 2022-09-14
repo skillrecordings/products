@@ -37,8 +37,6 @@ const ExerciseTemplate: React.FC<{
 }> = ({exercise, module, subscriber, isSolution = false}) => {
   const muxPlayerRef = React.useRef<HTMLDivElement>()
 
-  if (!exercise) return null
-
   exercise = ExerciseSchema.parse(
     isSolution
       ? exercise.resources.find(
