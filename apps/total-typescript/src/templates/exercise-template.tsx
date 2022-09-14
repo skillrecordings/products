@@ -27,7 +27,6 @@ import Image from 'next/image'
 import {track} from 'utils/analytics'
 import {Subscriber} from 'pages/api/progress/[exercise]'
 import {Exercise, ExerciseSchema} from '../lib/exercises'
-import {useRouter} from 'next/router'
 
 const path = '/tutorials'
 

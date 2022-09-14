@@ -1,3 +1,4 @@
+import * as React from 'react'
 import Image from 'next/image'
 import Layout from 'components/app/layout'
 import LandingCopy from 'components/landing-copy.mdx'
@@ -9,12 +10,8 @@ import {useRouter} from 'next/router'
 import {MDXComponents} from 'components/mdx'
 import {setUserId} from '@amplitude/analytics-browser'
 import {track} from '../utils/analytics'
-import {trpc} from 'utils/trpc'
 
 const HomePage = () => {
-  const hello = trpc.useQuery(['hello', {text: 'client'}])
-
-  console.log({hello})
   return (
     <Layout meta={{title: `Professional TypeScript Training by Matt Pocock `}}>
       <Header />
