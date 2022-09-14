@@ -24,8 +24,8 @@ import {
 } from 'components/exercise-overlay'
 import Image from 'next/image'
 import {track} from 'utils/analytics'
-import {Subscriber} from 'pages/api/progress/[exercise]'
 import {Exercise, ExerciseSchema} from '../lib/exercises'
+import {Subscriber} from 'lib/convertkit'
 
 const path = '/tutorials'
 

@@ -5,7 +5,7 @@ import {SanityDocument} from '@sanity/client'
 import {useRouter} from 'next/router'
 import {MuxPlayerProps} from '@mux/mux-player-react/*'
 import {track} from '../utils/analytics'
-import {Subscriber} from 'pages/api/progress/[exercise]'
+import {Subscriber} from 'lib/convertkit'
 import {type Exercise, ExerciseSchema} from '../lib/exercises'
 
 type VideoContextType = {
