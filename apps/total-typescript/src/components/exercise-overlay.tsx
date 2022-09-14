@@ -18,6 +18,7 @@ import {track} from '../utils/analytics'
 import {setUserId} from '@amplitude/analytics-browser'
 import {sanityClient} from 'utils/sanity-client'
 import {PortableText, toPlainText} from '@portabletext/react'
+import {useQuery} from 'react-query'
 
 const OverlayWrapper: React.FC<
   React.PropsWithChildren<{className?: string}>
@@ -228,12 +229,16 @@ const DefaultOverlay: React.FC<OverlayProps> = ({handlePlay}) => {
 }
 
 const FinishedOverlay: React.FC<OverlayProps> = ({handlePlay}) => {
-  const {module, path} = useMuxPlayer()
+  const {module, path, exercise} = useMuxPlayer()
   const router = useRouter()
   const shareUrl = `${process.env.NEXT_PUBLIC_URL}${path}/${module.slug.current}`
   const shareMessage = `${module.title} ${module.moduleType} by @${process.env.NEXT_PUBLIC_PARTNER_TWITTER}`
   const shareButtonStyles =
     'bg-gray-800 flex items-center gap-2 rounded px-3 py-2 hover:bg-gray-700'
+
+  useQuery([`complete`, exercise.slug.current], () => {
+    return completeExercise(exercise.slug.current)
+  })
 
   return (
     <OverlayWrapper className="px-5 sm:pt-0 pt-10">

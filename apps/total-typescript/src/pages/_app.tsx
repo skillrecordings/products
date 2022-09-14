@@ -11,8 +11,11 @@ import Script from 'next/script'
 import {MDXProvider} from '@mdx-js/react'
 import {MDXComponents} from 'components/mdx'
 import {SessionProvider} from 'next-auth/react'
-import {QueryClient, QueryClientProvider} from '@tanstack/react-query'
+import {QueryClient, QueryClientProvider} from 'react-query'
 import * as amplitude from '@amplitude/analytics-browser'
+import {withTRPC} from '@trpc/next'
+import {AppRouter} from './api/trpc/[trpc]'
+import superjson from 'superjson'
 
 amplitude.init(process.env.NEXT_PUBLIC_AMPLITUDE_API_KEY)
 
@@ -54,4 +57,26 @@ function MyApp({Component, pageProps}: AppProps) {
   )
 }
 
-export default MyApp
+export default withTRPC<AppRouter>({
+  config({ctx}) {
+    /**
+     * If you want to use SSR, you need to use the server's full URL
+     * @link https://trpc.io/docs/ssr
+     */
+    const url = process.env.VERCEL_URL
+      ? `https://${process.env.VERCEL_URL}/api/trpc`
+      : 'http://localhost:3016/api/trpc'
+    return {
+      url,
+      transformer: superjson,
+      /**
+       * @link https://react-query.tanstack.com/reference/QueryClient
+       */
+      // queryClientConfig: { defaultOptions: { queries: { staleTime: 60 } } },
+    }
+  },
+  /**
+   * @link https://trpc.io/docs/ssr
+   */
+  ssr: true,
+})(MyApp)
