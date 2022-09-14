@@ -26,7 +26,6 @@ import {
 import Image from 'next/image'
 import {track} from 'utils/analytics'
 import {Subscriber} from 'pages/api/progress/[exercise]'
-import {useRouter} from 'next/router'
 
 const path = '/tutorials'
 
@@ -244,7 +243,6 @@ const ExerciseDescription: React.FC<{exercise: SanityDocument}> = ({
   const {body} = exercise
   return (
     <div className="xl:pt-8 pt-5 2xl:pt-5 prose-p:text-gray-300 prose-headings:text-gray-100 prose sm:prose-lg max-w-none prose-headings:font-semibold">
-      {/* TODO: Fix overflowing Pre tag */}
       <PortableText value={body} components={PortableTextComponents} />
     </div>
   )
