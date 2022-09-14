@@ -87,7 +87,7 @@ const ExerciseSidebar: React.FC<SidebarProps> = ({
                 Exercises
               </p>
             </div>
-            <SimpleBar className="relative lg:h-[calc(100vh-180px)] pb-16">
+            <SimpleBar className="relative lg:h-[calc(100vh-180px)] h-[400px] pb-16">
               <ExerciseNavigator module={module} path={path} />
             </SimpleBar>
             <div className="absolute bottom-0 left-0 w-full bg-gradient-to-t from-gray-900 to-transparent h-24 z-20 pointer-events-none" />
