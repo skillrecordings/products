@@ -219,7 +219,6 @@ const PortableTextComponents: PortableTextComponents = {
           >
             <code>{code}</code>
           </pre>
-          {/* TODO: Fix overflowing Pre tag */}
           <pre
             aria-hidden="true"
             className="sm:mx-0 -mx-5 sm:rounded-lg rounded-none bg-black/50 relative"

@@ -347,6 +347,7 @@ const BlockedOverlay: React.FC = () => {
             duration: 6000,
           },
         )
+        router.reload()
       })
     }
   }
@@ -383,9 +384,9 @@ const BlockedOverlay: React.FC = () => {
             subscribeApiURL={process.env.NEXT_PUBLIC_CONVERTKIT_SUBSCRIBE_URL}
             actionLabel="Continue Watching"
             fields={startedLearningField}
-            onSuccess={(subscriber, email) =>
-              handleOnSuccess(subscriber, email)
-            }
+            onSuccess={(subscriber, email) => {
+              return handleOnSuccess(subscriber, email)
+            }}
           />
           <p className="pt-2 text-base opacity-80">
             No spam, unsubscribe at any time.

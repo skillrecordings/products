@@ -1,5 +1,4 @@
 import * as React from 'react'
-import type {ConvertkitSubscriber} from '@skillrecordings/convertkit/dist/types'
 import MuxPlayer, {MuxPlayerProps} from '@mux/mux-player-react'
 import PortableTextComponents from 'components/portable-text'
 import ExerciseSidebar from 'components/exercise-sidebar'
@@ -50,7 +49,6 @@ const ExerciseTemplate: React.FC<{
   const {label, description: exerciseDescription} = exercise
 
   const {ogImage, description: moduleDescription} = module
-
   const pageTitle = `${label}`
   const pageDescription = exerciseDescription || moduleDescription
   const shareCard = ogImage ? {ogImage: {url: ogImage}} : {}
@@ -248,7 +246,6 @@ const ExerciseDescription: React.FC<{exercise: Exercise}> = ({exercise}) => {
   const {body} = exercise
   return (
     <div className="xl:pt-8 pt-5 2xl:pt-5 prose-p:text-gray-300 prose-headings:text-gray-100 prose sm:prose-lg max-w-none prose-headings:font-semibold">
-      {/* TODO: Fix overflowing Pre tag */}
       <PortableText value={body} components={PortableTextComponents} />
     </div>
   )
