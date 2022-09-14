@@ -26,6 +26,7 @@ import {
 import Image from 'next/image'
 import {track} from 'utils/analytics'
 import {Subscriber} from 'pages/api/progress/[exercise]'
+import {useRouter} from 'next/router'
 
 const path = '/tutorials'
 
@@ -43,7 +44,7 @@ const ExerciseTemplate: React.FC<{
   const {label, description: exerciseDescription} = exercise
 
   const {ogImage, description: moduleDescription} = module
-  const muxPlayerRef = React.useRef<HTMLDivElement>()
+  const muxPlayerRef = React.useRef<HTMLVideoElement>()
   const pageTitle = `${label}`
   const pageDescription = exerciseDescription || moduleDescription
   const shareCard = ogImage ? {ogImage: {url: ogImage}} : {}
@@ -59,7 +60,7 @@ const ExerciseTemplate: React.FC<{
       <Layout
         meta={{title: pageTitle, ...shareCard, description: pageDescription}}
         nav={
-          <Navigation className="flex relative w-auto justify-between xl:ml-[320px] lg:ml-[280px]" />
+          <Navigation className="flex lg:absolute relative w-full lg:pl-[calc(320px+20px)] " />
         }
       >
         <div className="flex lg:flex-row flex-col">
@@ -68,10 +69,11 @@ const ExerciseTemplate: React.FC<{
             module={module}
             path={path}
           />
-          <main className="w-full relative max-w-[1440px] mx-auto 2xl:flex items-start 2xl:max-w-none border-t 2xl:border-gray-800 border-transparent">
+
+          <main className="lg:mt-16 w-full relative max-w-[1480px] mx-auto 2xl:flex items-start 2xl:max-w-none border-t 2xl:border-gray-800 border-transparent">
             <div className="2xl:w-full 2xl:border-r border-gray-800 2xl:relative">
               <Video ref={muxPlayerRef} module={module} exercise={exercise} />
-              <details className="lg:hidden block group">
+              <details className="lg:hidden block group border-t-2 border-gray-900">
                 <summary className="flex gap-1 items-center px-4 py-3 font-medium bg-black/50 hover:bg-gray-800 transition cursor-pointer no-marker marker:content-[''] group-open:after:rotate-0 after:rotate-180 after:content-['↑'] after:text-lg after:w-6 after:h-6 after:rounded-full after:bg-gray-800 after:flex after:items-center after:justify-center after:absolute after:right-3">
                   {module.title} {capitalize(module.moduleType)}{' '}
                   <span className="opacity-80">
@@ -80,7 +82,7 @@ const ExerciseTemplate: React.FC<{
                 </summary>
                 <ExerciseSidebar module={module} path={path} />
               </details>
-              <div className="hidden 2xl:block pb-5">
+              <div className="hidden 2xl:block">
                 <VideoTranscript
                   exercise={exercise}
                   muxPlayerRef={muxPlayerRef}
@@ -88,19 +90,28 @@ const ExerciseTemplate: React.FC<{
                 <StackblitzEmbed exercise={exercise} module={module} />
               </div>
             </div>
-            <article>
-              <div className="mx-auto lg:py-8 px-5 py-5 relative max-w-4xl 2xl:max-w-2xl w-full 2xl:flex-grow">
+            <article className="flex-shrink-0 relative">
+              <div className="mx-auto lg:py-8 px-5 py-5 relative max-w-4xl 2xl:max-w-xl z-10">
                 <ExerciseTitle exercise={exercise} />
                 <ExerciseDescription exercise={exercise} />
                 <GitHubLink exercise={exercise} module={module} />
               </div>
-              <div className="2xl:hidden block">
+              <div className="2xl:hidden block relative z-10">
                 <StackblitzEmbed exercise={exercise} module={module} />
                 <VideoTranscript
                   exercise={exercise}
                   muxPlayerRef={muxPlayerRef}
                 />
               </div>
+              <Image
+                src={require('../../public/assets/landing/bg-divider-6.png')}
+                alt=""
+                aria-hidden="true"
+                layout="fill"
+                objectFit="contain"
+                objectPosition="center top"
+                className="pointer-events-none select-none z-0"
+              />
             </article>
           </main>
         </div>
@@ -125,7 +136,6 @@ const Video: React.FC<any> = React.forwardRef(
       exercise.resources.find(
         (resource: SanityDocument) => resource._type === 'muxVideo',
       )
-
     return (
       <>
         {displayOverlay && (
@@ -145,7 +155,7 @@ const Video: React.FC<any> = React.forwardRef(
         )}
         <div
           className={cx('flex items-center justify-center w-full relative', {
-            'opacity-0': displayOverlay,
+            hidden: displayOverlay,
           })}
         >
           {video ? (
@@ -210,8 +220,19 @@ const ExerciseTitle: React.FC<{exercise: SanityDocument}> = ({exercise}) => {
   const {label, _type} = exercise
   return (
     <>
-      <h1 className="sm:text-4xl text-3xl font-semibold pb-5">
-        {label} <span className="font-light">({capitalize(_type)})</span>
+      <span
+        className={cx(
+          '2xl:mt-0 sm:mt-5 inline-block uppercase lg:text-sm text-xs 2xl:text-xs font-semibold font-mono px-2.5 py-1 rounded-full',
+          {
+            'bg-cyan-500/20 text-cyan-300': _type === 'solution',
+            'bg-orange-500/20 text-orange-300': _type !== 'solution',
+          },
+        )}
+      >
+        {_type}
+      </span>
+      <h1 className="xl:text-[2.65rem] 2xl:text-4xl sm:text-4xl text-3xl font-bold tracking-tight pb-5 pt-3">
+        {label}
       </h1>
     </>
   )
@@ -222,7 +243,7 @@ const ExerciseDescription: React.FC<{exercise: SanityDocument}> = ({
 }) => {
   const {body} = exercise
   return (
-    <div className="pt-5 opacity-90 prose sm:prose-lg max-w-none prose-headings:font-semibold">
+    <div className="xl:pt-8 pt-5 2xl:pt-5 prose-p:text-gray-300 prose-headings:text-gray-100 prose sm:prose-lg max-w-none prose-headings:font-semibold">
       {/* TODO: Fix overflowing Pre tag */}
       <PortableText value={body} components={PortableTextComponents} />
     </div>
@@ -269,7 +290,7 @@ export const StackBlitzIframe: React.FC<{
           <Image
             src={require('../../public/assets/editor-placeholder.svg')}
             layout="fill"
-            className="object-cover object-top"
+            className="object-cover object-left-top"
           />
         </div>
       )}
@@ -292,7 +313,11 @@ const StackblitzEmbed: React.FC<{
   }
 
   return (
-    <div className="pt-8">
+    <div
+      className={cx('pt-8 2xl:pt-0', {
+        '2xl:pb-24': !isExpanded,
+      })}
+    >
       <h3 className="max-w-4xl mx-auto flex items-baseline sm:text-3xl text-2xl font-semibold pb-4 px-5">
         Editor
         {(isSafari || isFirefox) && (
@@ -313,7 +338,7 @@ const StackblitzEmbed: React.FC<{
             <StackBlitzIframe exercise={exercise} module={module} />
           </div>
         ) : (
-          <div className="max-w-4xl mx-auto 2xl:px-0 px-5 relative">
+          <div className="max-w-4xl mx-auto 2xl:px-0 px-5 relative rounded-lg overflow-hidden">
             <button
               type="button"
               onClick={() => {
@@ -325,7 +350,7 @@ const StackblitzEmbed: React.FC<{
                 })
                 setIsExpanded(true)
               }}
-              className="overflow-hidden rounded 2xl:h-[200px] sm:h-[400px] h-[200px] w-full  bg-black/50 hover:bg-black/30 transition ease-in-out group flex items-center justify-center cursor-pointer"
+              className="overflow-hidden rounded 2xl:h-[400px] sm:h-[400px] h-[200px] w-full  bg-black/50 hover:bg-black/30 transition ease-in-out group flex items-center justify-center cursor-pointer"
             >
               <div className="relative z-10 px-4 py-3 rounded-md border border-cyan-500 group-hover:border-cyan-300 group-hover:bg-cyan-400/10 transition ease-in-out inline-flex font-medium">
                 Run Code
@@ -357,34 +382,37 @@ const VideoTranscript: React.FC<{
   }
 
   return (
-    <div className="prose prose-lg max-w-4xl text-white mx-auto p-5 py-16">
+    <div className=" max-w-4xl mx-auto p-5 py-16">
       <h2 className="flex items-baseline sm:text-3xl text-2xl font-semibold">
         Transcript
       </h2>
-      <PortableText
-        value={transcript}
-        components={
-          {
-            marks: {
-              timestamp: ({value}: any) => {
-                const {timestamp} = value
-                return video ? (
-                  <button
-                    className="underline inline-block after:inline-block after:content-[' ']"
-                    onClick={() => {
-                      muxPlayerRef.current.currentTime = hmsToSeconds(timestamp)
-                      handlePlay()
-                      window.scrollTo({top: 80})
-                    }}
-                  >
-                    {timestamp}
-                  </button>
-                ) : null
+      <div className="prose prose-lg max-w-none prose-p:opacity-90 pt-4">
+        <PortableText
+          value={transcript}
+          components={
+            {
+              marks: {
+                timestamp: ({value}: any) => {
+                  const {timestamp} = value
+                  return video ? (
+                    <button
+                      className="underline inline-block after:inline-block after:content-[' ']"
+                      onClick={() => {
+                        muxPlayerRef.current.currentTime =
+                          hmsToSeconds(timestamp)
+                        handlePlay()
+                        window.scrollTo({top: 80})
+                      }}
+                    >
+                      {timestamp}
+                    </button>
+                  ) : null
+                },
               },
-            },
-          } as PortableTextComponentsType
-        }
-      />
+            } as PortableTextComponentsType
+          }
+        />
+      </div>
     </div>
   )
 }

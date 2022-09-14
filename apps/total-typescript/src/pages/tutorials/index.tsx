@@ -25,13 +25,16 @@ const TutorialsPage: React.FC<{tutorials: SanityDocument[]}> = ({
       meta={{
         title: `Free TypeScript Tutorials from Matt Pocock`,
         description: `Free TypeScript tutorials by Matt Pocock that will help you learn how to use TypeScript as a professional web developer through exercise driven examples.`,
+        ogImage: {
+          url: 'https://res.cloudinary.com/total-typescript/image/upload/v1663164063/tutorials-card_2x_gsi059.png',
+        },
       }}
     >
       <main className="flex py-32 items-center justify-center flex-col relatiev z-10">
-        <h1 className="font-heading sm:text-6xl text-5xl font-bold">
+        <h1 className="font-heading sm:text-6xl text-5xl font-bold text-center">
           Free TypeScript Tutorials
         </h1>
-        <p className="max-w-lg pt-8">
+        <p className="max-w-lg pt-8 text-center text-lg text-gray-300">
           A collection of free, exercise-driven, in-depth TypeScript tutorials
           for you to use on your journey to TypeScript wizardry.
         </p>

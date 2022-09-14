@@ -20,7 +20,7 @@ module.exports = {
       },
       colors: {gray: colors.slate},
       screens: {
-        '2xl': '1600px',
+        '2xl': '1820px',
       },
       typography: (theme) => ({
         DEFAULT: {

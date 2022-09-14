@@ -102,8 +102,8 @@ const Header: React.FC<{tutorial: SanityDocument}> = ({tutorial}) => {
           <Image
             src={image}
             alt={title}
-            width={400}
-            height={400}
+            width={500}
+            height={500}
             quality={100}
           />
         </div>

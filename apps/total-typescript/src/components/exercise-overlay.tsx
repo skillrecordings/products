@@ -27,7 +27,7 @@ const OverlayWrapper: React.FC<
   return (
     <div
       id="video-overlay"
-      className="absolute top-0 left-0 flex items-center justify-center w-full bg-[#070B16] aspect-video"
+      className="relative top-0 left-0 flex items-center justify-center w-full bg-[#070B16] aspect-video"
     >
       <button
         className="absolute top-2 right-2 py-2 px-3 z-50 font-medium rounded flex items-center gap-1 hover:bg-gray-800 transition text-gray-200"
@@ -66,8 +66,6 @@ const ExerciseOverlay: React.FC<OverlayProps> = ({handlePlay}) => {
     (resource: SanityDocument) => resource._type === 'stackblitz',
   )
   const router = useRouter()
-
-  console.log({exercise, module})
 
   const Actions = () => {
     return (
@@ -109,23 +107,21 @@ const ExerciseOverlay: React.FC<OverlayProps> = ({handlePlay}) => {
   }
 
   return (
-    <OverlayWrapper>
+    <div className=" bg-black/30 ">
       {stackblitz ? (
         <>
-          <div>
-            <div className="py-4 pb-3 font-medium">
-              Now it's your turn! Try solving this exercise.
+          <div className="p-3 pl-5 font-medium sm:text-lg flex items-center justify-between w-full">
+            <div>Now it's your turn! Try solving this exercise.</div>
+            <div className="flex gap-2 justify-center">
+              <Actions />
             </div>
           </div>
-          <div className="w-full h-full aspect-video relative sm:block hidden">
+          <div className="xl:h-[750px] h-[500px] w-full sm:block hidden relative">
             <StackBlitzIframe exercise={exercise} module={module} />
-          </div>
-          <div className="px-5 py-2 flex gap-2 justify-center w-full">
-            <Actions />
           </div>
         </>
       ) : (
-        <>
+        <div className="aspect-video">
           <p className="text-3xl font-bold font-text">Now it’s your turn!</p>
           <p className="">
             Try solving this exercise inside{' '}
@@ -140,9 +136,27 @@ const ExerciseOverlay: React.FC<OverlayProps> = ({handlePlay}) => {
             file.
           </p>
           <Actions />
-        </>
+        </div>
       )}
-    </OverlayWrapper>
+      <div className="aspect-video sm:hidden gap-5 flex flex-col items-center justify-center p-3 text-center">
+        <p className="text-3xl font-bold font-text">Now it’s your turn!</p>
+        <p className="">
+          Try solving this exercise inside{' '}
+          <a
+            href={`https://github.com/total-typescript/${github.repo}/blob/main/${stackblitz.openFile}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center justify-center gap-1 font-mono text-sm py-0.5 px-1 bg-gray-800 rounded-sm"
+          >
+            <IconGithub /> {stackblitz.openFile}
+          </a>{' '}
+          file.
+        </p>
+        <div className="flex items-center justify-center gap-3">
+          <Actions />
+        </div>
+      </div>
+    </div>
   )
 }
 
@@ -296,8 +310,6 @@ const BlockedOverlay: React.FC = () => {
       })
   }, [])
 
-  console.log({exercise, module})
-
   const handleOnSuccess = (subscriber: any, email?: string) => {
     if (subscriber) {
       const redirectUrl = redirectUrlBuilder(subscriber, router.asPath)
@@ -338,15 +350,15 @@ const BlockedOverlay: React.FC = () => {
   return (
     <div
       id="video-overlay"
-      className="flex flex-col lg:flex-row items-center justify-center w-full bg-[#070B16] md:aspect-video py-5"
+      className="flex flex-col md:flex-row items-center justify-center w-full bg-[#070B16] lg:aspect-video py-10"
     >
-      <div className="p-5 z-20 left-0 top-0 lg:w-1/2 w-full h-full flex flex-col gap-5 items-center justify-center text-center leading-relaxed text-lg">
+      <div className="sm:p-10 sm:pb-16 pb-10 p-5 z-20 h-full flex flex-col gap-5 items-center justify-center text-center leading-relaxed text-lg flex-shrink-0">
         <div className="flex flex-col items-center justify-center gap-2 w-full">
-          <div className="2xl:block sm:hidden block">
+          <div className="relative -mb-5">
             <Image
               src={module.image}
-              width={200}
-              height={200}
+              width={220}
+              height={220}
               alt={module.title}
             />
           </div>
@@ -370,8 +382,8 @@ const BlockedOverlay: React.FC = () => {
           </p>
         </div>
       </div>
-      <div className="flex flex-col p-10 lg:w-1/2 w-full  prose prose-lg lg:max-w-xl max-w-none text-white">
-        <h2>This is a free tutorial.</h2>
+      <div className="flex flex-col p-5 w-full prose xl:prose-lg xl:max-w-lg sm:max-w-sm max-w-none text-white prose-p:mb-0 xl:prose-p:mb-0 prose-p:text-gray-300">
+        <h3 className="text-3xl font-semibold">This is a free tutorial.</h3>
         {ctaText && <PortableText value={ctaText} />}
       </div>
     </div>

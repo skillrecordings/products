@@ -22,10 +22,11 @@ mux-player {
   aspect-ratio: 16 / 9;
   width: 100%;
   height: auto;
+  margin-bottom: -6px;
 }
 
 code {
-  @apply bg-gray-800/80 px-1 py-0.5 rounded-sm text-[85%];
+  @apply bg-gray-800/90 shadow px-1.5 py-0.5 rounded-md text-[85%];
 }
 
 .no-marker {

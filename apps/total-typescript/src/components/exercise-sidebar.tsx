@@ -20,70 +20,80 @@ const ExerciseSidebar: React.FC<SidebarProps> = ({
   return (
     <>
       <div
-        className="bg-slate-900 xl:max-w-xs lg:max-w-[280px] w-full border-r border-gray-800"
-        aria-hidden="true"
-      />
-      <aside
         className={cx(
-          'bg-slate-900 xl:max-w-xs lg:max-w-[280px] lg:fixed  w-full top-0 border-r border-gray-800 lg:border-b border-b',
+          'xl:max-w-xs lg:max-w-[280px] w-full relative z-50',
           className,
         )}
       >
-        <SimpleBar className="relative lg:max-h-screen max-h-[580px] lg:pb-16">
-          <div className="sticky top-0 z-10">
-            <div className="flex items-center gap-5 px-3 lg:pt-4 pt-2 pb-2 bg-gray-900 border-b border-gray-800">
-              {module?.image && (
-                <Image
-                  src={module.image}
-                  width={110}
-                  height={110}
-                  alt={module.title}
-                  quality={100}
-                />
-              )}
-              <div>
-                <Link href="/tutorials">
-                  <a
-                    className="uppercase text-xs font-mono font-semibold opacity-80 hover:underline"
-                    onClick={() => {
-                      track('clicked return to tutorials', {
-                        module: module.slug.current,
-                      })
-                    }}
-                  >
-                    {module.moduleType}s<span className="pl-1">/</span>
-                  </a>
-                </Link>
-                <h2 className="text-3xl font-semibold leading-tight">
-                  <Link
-                    href={{
-                      pathname: `${path}/[module]`,
-                      query: {module: module.slug.current},
-                    }}
-                    passHref
-                  >
+        <div className="border-r border-gray-800 sticky top-0">
+          <aside>
+            <div className="sticky top-0 z-10 h-[180px] bg-gradient-to-t from-transparent to-gray-900 via-gray-900">
+              <div className="flex items-center gap-5 px-3 pt-2 pb-2 bg-gray-900 border-b border-gray-800 relative">
+                {module?.image && (
+                  <Image
+                    src={module.image}
+                    width={120}
+                    height={120}
+                    alt={module.title}
+                    quality={100}
+                    className="relative z-10"
+                  />
+                )}
+                <div className="relative z-10">
+                  <Link href="/tutorials">
                     <a
-                      className="hover:underline"
+                      className="uppercase text-xs font-mono font-semibold opacity-80 hover:underline"
                       onClick={() => {
-                        track('clicked return to module', {
+                        track('clicked return to tutorials', {
                           module: module.slug.current,
                         })
                       }}
                     >
-                      {module.title}
+                      {module.moduleType}s
                     </a>
                   </Link>
-                </h2>
+                  <span className="pl-1">/</span>
+                  <h2 className="text-3xl font-semibold leading-tight">
+                    <Link
+                      href={{
+                        pathname: `${path}/[module]`,
+                        query: {module: module.slug.current},
+                      }}
+                      passHref
+                    >
+                      <a
+                        className="hover:underline"
+                        onClick={() => {
+                          track('clicked return to module', {
+                            module: module.slug.current,
+                          })
+                        }}
+                      >
+                        {module.title}
+                      </a>
+                    </Link>
+                  </h2>
+                </div>
+                <Image
+                  src={require('../../public/assets/landing/bg-divider-6.png')}
+                  alt=""
+                  aria-hidden="true"
+                  layout="fill"
+                  objectFit="cover"
+                  objectPosition="center center"
+                />
               </div>
+              <p className="pt-4 pb-2 text-xs tracking-wide font-medium uppercase px-5 text-gray-300">
+                Exercises
+              </p>
             </div>
-            <p className="pt-3 pb-5 text-sm font-semibold uppercase px-5 bg-gradient-to-t from-transparent to-gray-900 via-gray-900">
-              Exercises
-            </p>
-          </div>
-          <ExerciseNavigator module={module} path={path} />
-        </SimpleBar>
-        <div className="absolute bottom-0 left-0 w-full bg-gradient-to-t from-gray-900 to-transparent h-24 z-20 pointer-events-none" />
-      </aside>
+            <SimpleBar className="relative lg:h-[calc(100vh-180px)] pb-16">
+              <ExerciseNavigator module={module} path={path} />
+            </SimpleBar>
+            <div className="absolute bottom-0 left-0 w-full bg-gradient-to-t from-gray-900 to-transparent h-24 z-20 pointer-events-none" />
+          </aside>
+        </div>
+      </div>
     </>
   )
 }

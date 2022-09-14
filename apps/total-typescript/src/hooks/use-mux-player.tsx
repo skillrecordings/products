@@ -46,9 +46,12 @@ export const VideoProvider: React.FC<
   )
 
   const handlePlay = () => {
-    const playPromise = muxPlayerRef.current.play()
-    playPromise !== undefined && muxPlayerRef.current.play()
+    const videoElement = document.getElementById(
+      'mux-player',
+    ) as HTMLVideoElement
+    return videoElement?.play()
   }
+
   const handleNext = (autoPlay: boolean) => {
     nextExercise && autoPlay
       ? router.push({
@@ -72,6 +75,7 @@ export const VideoProvider: React.FC<
   }, [playbackRate, autoPlay, video])
   const context = {
     muxPlayerProps: {
+      id: 'mux-player',
       onPlay: () => {
         setDisplayOverlay(false)
         track('started lesson video', {

@@ -62,7 +62,10 @@ const Layout: FunctionComponent<LayoutProps> = ({
       <Toaster position="top-center" />
       {nav ? nav : isNull(nav) ? null : <Navigation />}
       <div
-        className={cx('flex flex-col flex-grow h-full min-h-screen', className)}
+        className={cx(
+          'flex flex-col flex-grow h-full min-h-screen ',
+          className,
+        )}
       >
         {children}
         {/* {footer ? footer : isNull(footer) ? null : <Footer />} */}

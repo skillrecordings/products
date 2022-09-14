@@ -4,6 +4,7 @@ import capitalize from 'lodash/capitalize'
 import Link from 'next/link'
 import cx from 'classnames'
 import {track} from '../utils/analytics'
+import {Element, ScrollElement} from 'react-scroll'
 
 const ExerciseNavigator: React.FC<{
   module: SanityDocument
@@ -20,6 +21,8 @@ const ExerciseNavigator: React.FC<{
 
           return (
             <li key={exercise.slug.current + `-${sectionIdx}`} className="pt-2">
+              <Element name={exercise.slug.current} />
+
               <Link
                 href={{
                   pathname: `${path}/[module]/[exercise]`,
@@ -31,7 +34,7 @@ const ExerciseNavigator: React.FC<{
                 passHref
               >
                 <a
-                  className="px-4 font-semibold py-2 hover:bg-gray-800 flex items-center"
+                  className="px-4 font-semibold py-2 hover:bg-gray-800 flex items-center leading-tight"
                   onClick={() => {
                     track('clicked exercise in navigator', {
                       module: module.slug.current,
@@ -47,7 +50,7 @@ const ExerciseNavigator: React.FC<{
                   {exercise.label}
                 </a>
               </Link>
-              <ul>
+              <ul className="text-gray-300" id={isActive ? 'active' : ''}>
                 <li key={exercise.slug.current + `exercise`}>
                   <Link
                     href={{
@@ -61,9 +64,10 @@ const ExerciseNavigator: React.FC<{
                   >
                     <a
                       className={cx(
-                        'flex items-center py-2 px-8 border-l-4 text-base font-medium hover:bg-slate-400/20',
+                        'flex items-center py-2 px-8 border-l-4 text-base font-medium hover:bg-slate-400/20 hover:text-white transition',
                         {
-                          'border-cyan-400 bg-gray-800/80': isActive,
+                          'border-orange-400 bg-gray-800/80 text-white':
+                            isActive,
                           'border-transparent ': !isActive,
                         },
                       )}
@@ -103,9 +107,10 @@ const ExerciseNavigator: React.FC<{
                         >
                           <a
                             className={cx(
-                              'flex items-center py-2 px-8 border-l-4 text-base font-medium hover:bg-slate-400/20',
+                              'flex items-center py-2 px-8 border-l-4 text-base font-medium hover:bg-slate-400/20 hover:text-white transition',
                               {
-                                'border-cyan-400 bg-gray-800/80': isActive,
+                                'border-cyan-400 bg-gray-800/80 text-white':
+                                  isActive,
                                 'border-transparent ': !isActive,
                               },
                             )}
