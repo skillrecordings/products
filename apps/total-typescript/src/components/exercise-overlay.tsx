@@ -358,7 +358,6 @@ const BlockedOverlay: React.FC = () => {
           </h3>
           <SubscribeToConvertkitForm
             successMessage="Thanks! You're being redirected..."
-            formId={3573840}
             subscribeApiURL={process.env.NEXT_PUBLIC_CONVERTKIT_SUBSCRIBE_URL}
             actionLabel="Continue Watching"
             fields={startedLearningField}
