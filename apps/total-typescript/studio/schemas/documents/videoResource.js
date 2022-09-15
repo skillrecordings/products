@@ -28,7 +28,7 @@ export default {
       type: 'muxAsset',
     },
     {
-      name: 's3Url',
+      name: 'originalMediaUrl',
       title: 'AWS S3 Url',
       description: 'A URL to the source video in an S3 Bucket',
       type: 'url',

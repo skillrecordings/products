@@ -3,13 +3,14 @@ import groq from 'groq'
 import z from 'zod'
 
 export const ExerciseSchema = z.object({
-  _id: z.string(),
+  _id: z.string().optional(),
+  _key: z.string().optional(),
+  _type: z.string(),
+  _updatedAt: z.string().optional(),
   label: z.string(),
   slug: z.object({
     current: z.string(),
   }),
-  _type: z.string(),
-  _updatedAt: z.string(),
   description: z.nullable(z.string()).optional(),
   body: z.any().array(),
   resources: z.any().array(),

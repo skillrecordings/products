@@ -1,5 +1,4 @@
-import React from 'react'
-import type {ConvertkitSubscriber} from '@skillrecordings/convertkit/dist/types'
+import * as React from 'react'
 import MuxPlayer, {MuxPlayerProps} from '@mux/mux-player-react'
 import PortableTextComponents from 'components/portable-text'
 import ExerciseSidebar from 'components/exercise-sidebar'
@@ -25,25 +24,29 @@ import {
 } from 'components/exercise-overlay'
 import Image from 'next/image'
 import {track} from 'utils/analytics'
-import {Subscriber} from 'pages/api/progress/[exercise]'
+import {Exercise, ExerciseSchema} from '../lib/exercises'
+import {Subscriber} from 'lib/convertkit'
 
 const path = '/tutorials'
 
 const ExerciseTemplate: React.FC<{
-  exercise: SanityDocument
+  exercise: Exercise
   module: SanityDocument
   subscriber: Subscriber
   isSolution?: boolean
 }> = ({exercise, module, subscriber, isSolution = false}) => {
-  exercise = isSolution
-    ? exercise.resources.find(
-        (resource: SanityDocument) => resource._type === 'solution',
-      )
-    : exercise
+  const muxPlayerRef = React.useRef<HTMLDivElement>()
+
+  exercise = ExerciseSchema.parse(
+    isSolution
+      ? exercise.resources.find(
+          (resource: SanityDocument) => resource._type === 'solution',
+        )
+      : exercise,
+  )
   const {label, description: exerciseDescription} = exercise
 
   const {ogImage, description: moduleDescription} = module
-  const muxPlayerRef = React.useRef<HTMLVideoElement>()
   const pageTitle = `${label}`
   const pageDescription = exerciseDescription || moduleDescription
   const shareCard = ogImage ? {ogImage: {url: ogImage}} : {}
@@ -59,7 +62,10 @@ const ExerciseTemplate: React.FC<{
       <Layout
         meta={{title: pageTitle, ...shareCard, description: pageDescription}}
         nav={
-          <Navigation className="flex lg:absolute relative w-full lg:pl-[calc(320px+20px)] " />
+          <Navigation
+            className="flex lg:absolute relative w-full xl:pl-[calc(320px+20px)] lg:pl-[calc(280px+20px)]"
+            containerClassName="flex items-center justify-between w-full"
+          />
         }
       >
         <div className="flex lg:flex-row flex-col">
@@ -169,7 +175,7 @@ const Video: React.FC<any> = React.forwardRef(
 )
 
 const GitHubLink: React.FC<{
-  exercise: SanityDocument
+  exercise: Exercise
   module: SanityDocument
 }> = ({exercise, module}) => {
   const {github} = module
@@ -215,7 +221,7 @@ const GitHubLink: React.FC<{
   )
 }
 
-const ExerciseTitle: React.FC<{exercise: SanityDocument}> = ({exercise}) => {
+const ExerciseTitle: React.FC<{exercise: Exercise}> = ({exercise}) => {
   const {label, _type} = exercise
   return (
     <>
@@ -237,9 +243,7 @@ const ExerciseTitle: React.FC<{exercise: SanityDocument}> = ({exercise}) => {
   )
 }
 
-const ExerciseDescription: React.FC<{exercise: SanityDocument}> = ({
-  exercise,
-}) => {
+const ExerciseDescription: React.FC<{exercise: Exercise}> = ({exercise}) => {
   const {body} = exercise
   return (
     <div className="xl:pt-8 pt-5 2xl:pt-5 prose-p:text-gray-300 prose-headings:text-gray-100 prose sm:prose-lg max-w-none prose-headings:font-semibold">
@@ -249,7 +253,7 @@ const ExerciseDescription: React.FC<{exercise: SanityDocument}> = ({
 }
 
 export const StackBlitzIframe: React.FC<{
-  exercise: SanityDocument
+  exercise: Exercise
   module: SanityDocument
   isExpanded?: boolean
 }> = ({exercise, module}) => {
@@ -297,7 +301,7 @@ export const StackBlitzIframe: React.FC<{
 }
 
 const StackblitzEmbed: React.FC<{
-  exercise: SanityDocument
+  exercise: Exercise
   module: SanityDocument
 }> = ({exercise, module}) => {
   const stackblitz = exercise.resources?.find(
@@ -367,7 +371,7 @@ const StackblitzEmbed: React.FC<{
 }
 
 const VideoTranscript: React.FC<{
-  exercise: SanityDocument
+  exercise: Exercise
   muxPlayerRef: any
 }> = ({exercise, muxPlayerRef}) => {
   const video = exercise.resources.find(

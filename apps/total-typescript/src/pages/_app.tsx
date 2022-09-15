@@ -11,8 +11,15 @@ import Script from 'next/script'
 import {MDXProvider} from '@mdx-js/react'
 import {MDXComponents} from 'components/mdx'
 import {SessionProvider} from 'next-auth/react'
-import {QueryClient, QueryClientProvider} from '@tanstack/react-query'
+import {QueryClient, QueryClientProvider} from 'react-query'
 import * as amplitude from '@amplitude/analytics-browser'
+import {withTRPC} from '@trpc/next'
+import superjson from 'superjson'
+import {transformer} from 'utils/trpc'
+import {httpBatchLink} from '@trpc/client/links/httpBatchLink'
+import {loggerLink} from '@trpc/client/links/loggerLink'
+import {AppRouter} from 'server/routers/_app'
+import {httpLink} from '@trpc/client/dist/declarations/src/links/httpLink'
 
 amplitude.init(process.env.NEXT_PUBLIC_AMPLITUDE_API_KEY)
 
@@ -54,4 +61,55 @@ function MyApp({Component, pageProps}: AppProps) {
   )
 }
 
-export default MyApp
+function getEndingLink() {
+  return httpBatchLink({
+    url: `${process.env.NEXT_PUBLIC_URL}/api/trpc`,
+  })
+}
+
+export default withTRPC<AppRouter>({
+  config({ctx}) {
+    /**
+     * If you want to use SSR, you need to use the server's full URL
+     * @link https://trpc.io/docs/ssr
+     */
+
+    return {
+      /**
+       * @link https://trpc.io/docs/links
+       */
+      links: [
+        // adds pretty logs to your console in development and logs errors in production
+        loggerLink({
+          enabled: (opts) =>
+            (process.env.NODE_ENV === 'development' &&
+              typeof window !== 'undefined') ||
+            (opts.direction === 'down' && opts.result instanceof Error),
+        }),
+        getEndingLink(),
+      ],
+      /**
+       * @link https://trpc.io/docs/data-transformers
+       */
+      transformer: superjson,
+      /**
+       * @link https://react-query.tanstack.com/reference/QueryClient
+       */
+      queryClientConfig: {defaultOptions: {queries: {staleTime: 60}}},
+      headers: () => {
+        if (ctx?.req) {
+          // on ssr, forward client's headers to the server
+          return {
+            ...ctx.req.headers,
+            'x-ssr': '1',
+          }
+        }
+        return {}
+      },
+    }
+  },
+  /**
+   * @link https://trpc.io/docs/ssr
+   */
+  ssr: true,
+})(MyApp)
