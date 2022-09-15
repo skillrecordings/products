@@ -59,7 +59,10 @@ const ExerciseTemplate: React.FC<{
       <Layout
         meta={{title: pageTitle, ...shareCard, description: pageDescription}}
         nav={
-          <Navigation className="flex lg:absolute relative w-full lg:pl-[calc(320px+20px)] " />
+          <Navigation
+            className="flex lg:absolute relative w-full xl:pl-[calc(320px+20px)] lg:pl-[calc(280px+20px)]"
+            containerClassName="flex items-center justify-between w-full"
+          />
         }
       >
         <div className="flex lg:flex-row flex-col">
