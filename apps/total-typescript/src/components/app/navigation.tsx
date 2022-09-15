@@ -4,6 +4,7 @@ import {PlayIcon} from '@heroicons/react/solid'
 import Link from 'next/link'
 import cx from 'classnames'
 import config from 'config'
+import {track} from '../../utils/analytics'
 
 type Props = {
   className?: string
@@ -35,7 +36,12 @@ const DesktopNav = () => {
     <ul>
       <li>
         <Link href="/tutorials" passHref>
-          <a className="flex items-center gap-1 font-medium hover:underline">
+          <a
+            className="flex items-center gap-1 font-medium hover:underline"
+            onClick={() => {
+              track(`clicked tutorials link in nav`)
+            }}
+          >
             Free Tutorials
             <PlayIcon className="w-5 h-5 text-cyan-300" aria-hidden="true" />
           </a>
