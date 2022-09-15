@@ -5,7 +5,8 @@ import {SanityDocument} from '@sanity/client'
 import {useRouter} from 'next/router'
 import {MuxPlayerProps} from '@mux/mux-player-react/*'
 import {track} from '../utils/analytics'
-import {Subscriber} from 'pages/api/progress/[exercise]'
+import {Subscriber} from 'lib/convertkit'
+import {type Exercise, ExerciseSchema} from '../lib/exercises'
 
 type VideoContextType = {
   muxPlayerProps: MuxPlayerProps | any
@@ -16,7 +17,7 @@ type VideoContextType = {
   handlePlay: () => void
   displayOverlay: boolean
   nextExercise: SanityDocument
-  exercise: SanityDocument
+  exercise: Exercise
   module: SanityDocument
   path: string
   subscriber: Subscriber
@@ -26,7 +27,7 @@ export const VideoContext = React.createContext({} as VideoContextType)
 
 type VideoProviderProps = {
   module: SanityDocument
-  exercise: SanityDocument
+  exercise: Exercise
   subscriber: Subscriber
   path: string
   muxPlayerRef: any
@@ -115,7 +116,7 @@ export const VideoProvider: React.FC<
     handlePlay,
     displayOverlay,
     nextExercise,
-    exercise,
+    exercise: ExerciseSchema.parse(exercise),
     module,
     path,
     subscriber,

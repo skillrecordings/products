@@ -29,14 +29,14 @@ const ExerciseSolution: React.FC<any> = ({
   subscriber,
   isSolution,
 }) => {
-  return (
+  return exercise ? (
     <ExerciseTemplate
       exercise={exercise}
       module={tutorial}
       subscriber={subscriber}
       isSolution={isSolution}
     />
-  )
+  ) : null
 }
 
 export default ExerciseSolution
