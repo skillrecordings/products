@@ -7,6 +7,7 @@ import schemaTypes from 'all:part:@sanity/base/schema-type'
 import cta from './documents/cta'
 import exercise from './documents/exercise'
 import module from './documents/module'
+import videoResource from './documents/videoResource'
 // —— objects
 // body
 import body from './objects/body'
@@ -23,6 +24,7 @@ import gridItem from './objects/gridItem'
 import stackblitz from './objects/stackblitz'
 import solution from './objects/resources/solution'
 import github from './objects/github'
+import muxAsset from './objects/muxAsset'
 
 // Then we give our schema to the builder and provide the result to Sanity
 export default createSchema({
@@ -35,6 +37,7 @@ export default createSchema({
     cta,
     module,
     exercise,
+    videoResource,
     // objects
     body,
     bodyVideo,
@@ -50,5 +53,6 @@ export default createSchema({
     stackblitz,
     github,
     solution,
+    muxAsset,
   ]),
 })
