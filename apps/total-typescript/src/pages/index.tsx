@@ -1,3 +1,4 @@
+import * as React from 'react'
 import Image from 'next/image'
 import Layout from 'components/app/layout'
 import LandingCopy from 'components/landing-copy.mdx'

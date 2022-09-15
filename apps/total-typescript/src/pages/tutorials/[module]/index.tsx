@@ -14,13 +14,15 @@ export const getServerSideProps: GetServerSideProps = async ({res, params}) => {
 
   res.setHeader('Cache-Control', 's-maxage=1, stale-while-revalidate')
 
+  console.log({tutorial})
+
   return {
     props: {tutorial},
   }
 }
 
 const TutorialPage: React.FC<{tutorial: SanityDocument}> = ({tutorial}) => {
-  return <TutorialTemplate tutorial={tutorial} />
+  return tutorial ? <TutorialTemplate tutorial={tutorial} /> : null
 }
 
 export default TutorialPage

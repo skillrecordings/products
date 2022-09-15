@@ -17,7 +17,9 @@ import cx from 'classnames'
 import {track} from '../utils/analytics'
 import {setUserId} from '@amplitude/analytics-browser'
 import {sanityClient} from 'utils/sanity-client'
-import {PortableText, toPlainText} from '@portabletext/react'
+import {PortableText} from '@portabletext/react'
+import {useQuery} from 'react-query'
+import {trpc} from '../utils/trpc'
 
 const OverlayWrapper: React.FC<
   React.PropsWithChildren<{className?: string}>
@@ -164,6 +166,7 @@ const DefaultOverlay: React.FC<OverlayProps> = ({handlePlay}) => {
   const {nextExercise, module, path, exercise} = useMuxPlayer()
   const router = useRouter()
   const {image} = module
+  const addProgressMutation = trpc.useMutation(['progress.add'])
 
   return (
     <OverlayWrapper className="px-5">
@@ -209,15 +212,14 @@ const DefaultOverlay: React.FC<OverlayProps> = ({handlePlay}) => {
               moduleType: module.moduleType,
               lessonType: exercise._type,
             })
-            completeExercise(exercise.slug.current).then(() => {
-              return handleContinue(
-                router,
-                module,
-                nextExercise,
-                handlePlay,
-                path,
-              )
-            })
+            addProgressMutation.mutate(
+              {lessonSlug: exercise.slug.current},
+              {
+                onSettled: (data, error, variables, context) => {
+                  handleContinue(router, module, nextExercise, handlePlay, path)
+                },
+              },
+            )
           }}
         >
           Complete <span aria-hidden="true">→</span>
@@ -228,12 +230,20 @@ const DefaultOverlay: React.FC<OverlayProps> = ({handlePlay}) => {
 }
 
 const FinishedOverlay: React.FC<OverlayProps> = ({handlePlay}) => {
-  const {module, path} = useMuxPlayer()
+  const {module, path, exercise} = useMuxPlayer()
   const router = useRouter()
   const shareUrl = `${process.env.NEXT_PUBLIC_URL}${path}/${module.slug.current}`
   const shareMessage = `${module.title} ${module.moduleType} by @${process.env.NEXT_PUBLIC_PARTNER_TWITTER}`
   const shareButtonStyles =
     'bg-gray-800 flex items-center gap-2 rounded px-3 py-2 hover:bg-gray-700'
+
+  const addProgressMutation = trpc.useMutation(['progress.add'])
+
+  React.useEffect(() => {
+    // since this is the last lesson and we show the "module complete" overlay
+    // we run this when the effect renders marking the lesson complete
+    addProgressMutation.mutate({lessonSlug: exercise.slug.current})
+  }, [])
 
   return (
     <OverlayWrapper className="px-5 sm:pt-0 pt-10">
@@ -392,12 +402,6 @@ const BlockedOverlay: React.FC = () => {
 }
 
 export {ExerciseOverlay, DefaultOverlay, FinishedOverlay, BlockedOverlay}
-
-const completeExercise = async (exerciseSlug: string) => {
-  return await fetch(`/api/progress/${exerciseSlug}`, {
-    method: 'POST',
-  }).then((response) => response.json())
-}
 
 const handleContinue = async (
   router: NextRouter,
