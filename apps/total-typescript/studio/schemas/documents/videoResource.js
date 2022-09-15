@@ -34,8 +34,8 @@ export default {
       type: 'url',
     },
     {
-      name: 'castingwordsOrderId',
-      title: 'Castingwords Order ID',
+      name: 'castingwordsAudioFileId',
+      title: 'Castingwords Audio File ID',
       description:
         'This is used to keep track of the Castingwords transcript order.',
       type: 'string',
