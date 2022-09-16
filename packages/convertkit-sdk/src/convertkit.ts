@@ -9,6 +9,29 @@ const convertkitBaseUrl =
 const hour = 3600000
 export const oneYear = 365 * 24 * hour
 
+export async function updateSubscriber(subscriber: {
+  id: number
+  email?: string
+  first_name?: string
+  fields: Record<string, string>
+}) {
+  const {first_name, email, fields} = subscriber
+  return await fetch(`${convertkitBaseUrl}/subscribers/${subscriber.id}`, {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json; charset=utf-8',
+    },
+    body: JSON.stringify({
+      api_secret: process.env.CONVERTKIT_API_SECRET,
+      first_name,
+      email,
+      fields,
+    }),
+  })
+    .then((response) => response.json())
+    .then(({subscriber}) => subscriber)
+}
+
 export function getConvertkitSubscriberCookie(subscriber: any): Cookie[] {
   return [
     {
