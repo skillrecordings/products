@@ -2267,7 +2267,8 @@ importers:
       '@skillrecordings/commerce-server': workspace:*
       '@skillrecordings/config': workspace:*
       '@skillrecordings/convertkit': workspace:*
-      '@skillrecordings/database': workspace:^1.0.0
+      '@skillrecordings/convertkit-sdk': workspace:*
+      '@skillrecordings/database': workspace:*
       '@skillrecordings/next-seo': workspace:*
       '@skillrecordings/quiz': workspace:*
       '@skillrecordings/react': workspace:*
@@ -2348,6 +2349,7 @@ importers:
       '@skillrecordings/commerce-server': link:../../packages/commerce-server
       '@skillrecordings/config': link:../../packages/config
       '@skillrecordings/convertkit': link:../../packages/convertkit
+      '@skillrecordings/convertkit-sdk': link:../../packages/convertkit-sdk
       '@skillrecordings/database': link:../../packages/database
       '@skillrecordings/next-seo': link:../../packages/next-seo
       '@skillrecordings/quiz': link:../../packages/quiz
@@ -11844,7 +11846,7 @@ packages:
       '@sentry/types': 7.9.0
       '@sentry/utils': 7.9.0
       '@sentry/webpack-plugin': 1.19.0
-      next: 12.2.3_biqbaboplfbrettd7655fr4n2y
+      next: 12.2.3_x6hpkaqu4dxwl4unajq2h7dx44
       react: 18.2.0
       tslib: 1.14.1
     transitivePeerDependencies:

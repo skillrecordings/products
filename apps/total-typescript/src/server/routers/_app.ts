@@ -4,6 +4,7 @@
 import {createRouter} from '../createRouter'
 import superjson from 'superjson'
 import {progressRouter} from './progress'
+import {convertkitRouter} from './convertkit'
 
 /**
  * Create your application's root router
@@ -22,6 +23,7 @@ export const appRouter = createRouter()
    * @link https://trpc.io/docs/error-formatting
    */
   .merge('progress.', progressRouter)
+  .merge('convertkit.', convertkitRouter)
   // .formatError(({ shape, error }) => { })
   .query('healthz', {
     resolve() {
