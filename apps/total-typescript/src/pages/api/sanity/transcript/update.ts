@@ -52,17 +52,19 @@ const addTranscriptToVideoDocument = async (
       const getDocumentQuery = `
         *[
           _type == "videoResource" &&
-          castingwordsAudioFileId == "${audiofile}"
-        ] {_id}
+          castingwords.audioFileId == "${audiofile}"
+        ] {_id, castingwords}
         `
 
       client
         .fetch(getDocumentQuery)
         .then((docs: any) => {
+          const {_id, castingwords} = docs[0]
           client
-            .patch(docs[0]['_id'])
+            .patch(_id)
             .set({
               castingwords: {
+                ...castingwords,
                 transcript: [
                   {
                     style: 'normal',
@@ -96,7 +98,7 @@ const addTranscriptToVideoDocument = async (
         .catch((err) => {
           console.log(err)
           res.status(500).json({
-            message: `Could not find document in Sanity`,
+            message: `Invalid query for Sanity document`,
           })
         })
     } else {
