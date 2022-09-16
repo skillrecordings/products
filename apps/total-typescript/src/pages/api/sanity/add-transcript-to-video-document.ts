@@ -1,6 +1,9 @@
 import {withSentry} from '@sentry/nextjs'
 import {NextApiRequest, NextApiResponse} from 'next'
 import sanityClient from '@sanity/client'
+import {json} from 'stream/consumers'
+import {uniqueId} from 'lodash'
+import {randomUUID} from 'crypto'
 
 const addTranscriptToVideoDocument = async (
   req: NextApiRequest,
@@ -16,22 +19,94 @@ const addTranscriptToVideoDocument = async (
     })
 
     if (req.body.event === 'TRANSCRIPT_COMPLETE') {
-      const {audiofile, originallink, order} = req.body
+      const {audiofile} = req.body
+
+      const transcript = await fetch(
+        `https://castingwords.com/store/API4/audiofile/${audiofile}/transcript.txt?api_key=${process.env.CASTINGWORDS_API_TOKEN}`,
+      )
+        .then((transcript) => {
+          return transcript.text()
+        })
+        .catch((err) => {
+          console.log(err)
+          res.status(500).json({
+            message: 'Failed to fetch transcript .txt file from Castingwords',
+          })
+          return
+        })
+
+      const srt = await fetch(
+        `https://castingwords.com/store/API4/audiofile/${audiofile}/transcript.srt?api_key=${process.env.CASTINGWORDS_API_TOKEN}`,
+      )
+        .then((srt) => {
+          return srt.text()
+        })
+        .catch((err) => {
+          console.log(err)
+          res
+            .status(500)
+            .json({message: 'Failed to fetch .srt file from Castingwords'})
+          return
+        })
 
       const getDocumentQuery = `
         *[
-          _type == "videoResource" && 
+          _type == "videoResource" &&
           castingwordsAudioFileId == "${audiofile}"
         ] {_id}
-      `
+        `
 
-      client.fetch(getDocumentQuery).then((docs: any) => {
-        console.log('TEST')
-        console.log(docs)
+      client
+        .fetch(getDocumentQuery)
+        .then((docs: any) => {
+          client
+            .patch(docs[0]['_id'])
+            .set({
+              transcript: [
+                {
+                  style: 'normal',
+                  _type: 'block',
+                  children: [
+                    {
+                      _type: 'span',
+                      marks: [],
+                      _key: uniqueId('body-key-'),
+                      text: transcript,
+                    },
+                  ],
+                  markDefs: [],
+                  _key: uniqueId('block-key-'),
+                },
+              ],
+              srt: srt,
+            })
+            .commit()
+            .then(() => {
+              res.status(200).json({message: 'Video resource updated'})
+              return
+            })
+            .catch((err) => {
+              console.log(err)
+              res.status(500).json({message: 'Failed to update video resource'})
+              return
+            })
+        })
+        .catch((err) => {
+          console.log(err)
+          res.status(500).json({
+            message: `Could not find document in Sanity`,
+          })
+        })
+    } else {
+      res.status(400).json({
+        message:
+          'Invalid request from Castingwords. Expected event to be TRANSCRIPT_COMPLETE',
       })
-
-      res.status(200).json({message: 'success'})
     }
+  } else {
+    res
+      .status(400)
+      .json({message: 'Invalid request from Castingwords. Expected POST'})
   }
 }
 
