@@ -62,23 +62,25 @@ const addTranscriptToVideoDocument = async (
           client
             .patch(docs[0]['_id'])
             .set({
-              transcript: [
-                {
-                  style: 'normal',
-                  _type: 'block',
-                  children: [
-                    {
-                      _type: 'span',
-                      marks: [],
-                      _key: uniqueId('body-key-'),
-                      text: transcript,
-                    },
-                  ],
-                  markDefs: [],
-                  _key: uniqueId('block-key-'),
-                },
-              ],
-              srt: srt,
+              castingwords: {
+                transcript: [
+                  {
+                    style: 'normal',
+                    _type: 'block',
+                    children: [
+                      {
+                        _type: 'span',
+                        marks: [],
+                        _key: uniqueId('body-key-'),
+                        text: transcript,
+                      },
+                    ],
+                    markDefs: [],
+                    _key: uniqueId('block-key-'),
+                  },
+                ],
+                srt: srt,
+              },
             })
             .commit()
             .then(() => {
