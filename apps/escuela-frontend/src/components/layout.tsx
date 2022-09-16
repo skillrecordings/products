@@ -29,7 +29,9 @@ const Layout: FunctionComponent<React.PropsWithChildren<LayoutProps>> = ({
       <NextSeo
         title={title}
         description={description}
-        titleTemplate={titleAppendSiteName ? `%s | Pro Tailwind` : undefined}
+        titleTemplate={
+          titleAppendSiteName ? `%s | Escuela Frontend` : undefined
+        }
         openGraph={{
           title,
           description,
