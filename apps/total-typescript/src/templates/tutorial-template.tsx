@@ -25,7 +25,7 @@ const TutorialTemplate: React.FC<{tutorial: SanityDocument; user: User}> = ({
       className="max-w-4xl mx-auto w-full py-24 px-5 "
       meta={{
         title: certificateUrl
-          ? `${user?.name} has finished the ${pageTitle}`
+          ? `${user?.name || 'Learner'} has finished the ${pageTitle}`
           : pageTitle,
         description,
         ogImage: {

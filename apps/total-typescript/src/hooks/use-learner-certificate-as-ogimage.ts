@@ -21,16 +21,14 @@ export const useLearnerCertificateAsOgImage = (
   const router = useRouter()
 
   React.useEffect(() => {
-    return () => {
-      router.query[USER_ID_QUERY_PARAM_KEY] &&
-        removeQueryParamsFromRouter(router, [USER_ID_QUERY_PARAM_KEY])
-    }
+    router.query[USER_ID_QUERY_PARAM_KEY] &&
+      removeQueryParamsFromRouter(router, [USER_ID_QUERY_PARAM_KEY])
   }, [router])
 
   const certificateUrl = queryString.stringifyUrl({
     url: `${process.env.NEXT_PUBLIC_CERTIFICATE_URI}/${encodeURI(title)}`,
     query: {
-      name: user?.name,
+      name: user?.name || 'Learner',
       image,
     },
   })
