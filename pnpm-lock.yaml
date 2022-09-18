@@ -2262,6 +2262,7 @@ importers:
       '@portabletext/types': ^1.0.3
       '@sanity/block-content-to-react': ^3.0.0
       '@sanity/client': ^3.3.3
+      '@sanity/webhook': ^1.0.2
       '@sentry/nextjs': ^7.9.0
       '@skillrecordings/analytics': workspace:*
       '@skillrecordings/config': workspace:*
@@ -2341,6 +2342,7 @@ importers:
       '@portabletext/react': 1.0.6_react@18.2.0
       '@sanity/block-content-to-react': 3.0.0_react@18.2.0
       '@sanity/client': 3.3.3
+      '@sanity/webhook': 1.0.2
       '@sentry/nextjs': 7.9.0_2p7c5bckdh5ay4pxqmrggvr7ea
       '@skillrecordings/analytics': link:../../packages/analytics
       '@skillrecordings/config': link:../../packages/config
@@ -2374,7 +2376,7 @@ importers:
       react-device-detect: 2.2.2_biqbaboplfbrettd7655fr4n2y
       react-dom: 18.2.0_react@18.2.0
       react-hook-form: 7.29.0_react@18.2.0
-      react-hot-toast: 2.2.0_biqbaboplfbrettd7655fr4n2y
+      react-hot-toast: 2.2.0_npw22p3c4ehm7n7vxn2gqac44u
       react-query: 3.39.1_biqbaboplfbrettd7655fr4n2y
       react-refractor: 2.1.7_react@18.2.0
       react-scroll: 1.8.7_biqbaboplfbrettd7655fr4n2y
@@ -9756,8 +9758,8 @@ packages:
       '@mdx-js/loader': '>=0.15.0'
       '@mdx-js/react': '*'
     dependencies:
-      '@mdx-js/loader': 2.1.3_webpack@5.73.0
-      '@mdx-js/react': 2.1.3_react@17.0.2
+      '@mdx-js/loader': 2.1.3_webpack@4.46.0
+      '@mdx-js/react': 2.1.3_react@18.2.0
     dev: false
 
   /@next/swc-android-arm-eabi/12.2.3:
@@ -15555,7 +15557,7 @@ packages:
       mississippi: 3.0.0
       mkdirp: 0.5.5
       move-concurrently: 1.0.1
-      promise-inflight: 1.0.1
+      promise-inflight: 1.0.1_bluebird@3.7.2
       rimraf: 2.6.3
       ssri: 6.0.2
       unique-filename: 1.1.1
@@ -28242,6 +28244,17 @@ packages:
     peerDependenciesMeta:
       bluebird:
         optional: true
+    dev: true
+
+  /promise-inflight/1.0.1_bluebird@3.7.2:
+    resolution: {integrity: sha512-6zWPyEOFaQBJYcGMHBKTKJ3u6TBsnMFOIZSa6ce1e/ZrrsOlnHRHbabMjLiBYKp+n44X9eUI6VUPaukCXHuG4g==}
+    peerDependencies:
+      bluebird: '*'
+    peerDependenciesMeta:
+      bluebird:
+        optional: true
+    dependencies:
+      bluebird: 3.7.2
 
   /prompts/2.1.0:
     resolution: {integrity: sha512-+x5TozgqYdOwWsQFZizE/Tra3fKvAoy037kOyU6cgz84n8f6zxngLOV4O32kTwt9FcLCxAqw0P/c8rOr9y+Gfg==}
