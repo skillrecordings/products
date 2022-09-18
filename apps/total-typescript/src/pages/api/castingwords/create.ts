@@ -16,7 +16,47 @@ const createCastingwordsOrder = async (
     return
   }
 
-  console.log(req.body)
+  const {_id, originalMediaUrl} = req.body
+
+  // BULK3 is a quick transcript order. There is also BULK6 but it is slower
+  // BCAPTION3 orders captions
+  const SKUs = ['BULK3', 'BCAPTION3']
+
+  const SKUParams = (skus) => {
+    const queryParams = skus.map((sku: any) => {
+      return `&sku=${sku}`
+    })
+
+    return queryParams.join('')
+  }
+
+  const encodedOriginalMediaUrl = encodeURIComponent(originalMediaUrl)
+
+  var myHeaders = new Headers()
+  myHeaders.append('Content-Type', 'application/json')
+  myHeaders.append('Cookie', 'visited=1')
+
+  var requestOptions = {
+    method: 'POST',
+    headers: myHeaders,
+    redirect: 'follow',
+  }
+
+  const developmentTestOrder =
+    process.env.NODE_ENV === 'development' ? '&test=1' : ''
+
+  fetch(
+    `https://castingwords.com/store/API4/order_url?api_key=${
+      process.env.CASTINGWORDS_API_TOKEN
+    }${SKUParams(SKUs)}${developmentTestOrder}?url=${encodedOriginalMediaUrl}`,
+    requestOptions,
+  )
+    .then((response) => response.text())
+    .then((result) => {
+      console.log(result)
+    })
+    .catch((error) => console.log('error', error))
+
   res.json({success: true})
 }
 
