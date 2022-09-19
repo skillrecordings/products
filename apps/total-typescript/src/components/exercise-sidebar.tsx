@@ -3,7 +3,6 @@ import {SanityDocument} from '@sanity/client'
 import Link from 'next/link'
 import ExerciseNavigator from './exercise-navigator'
 import cx from 'classnames'
-import SimpleBar from 'simplebar-react'
 import Image from 'next/image'
 import {track} from '../utils/analytics'
 
@@ -25,9 +24,9 @@ const ExerciseSidebar: React.FC<SidebarProps> = ({
           className,
         )}
       >
-        <div className="border-r border-gray-800 sticky top-0">
+        <div className="border-r border-gray-800 lg:sticky top-0">
           <aside>
-            <div className="sticky top-0 z-10 h-[180px] bg-gradient-to-t from-transparent to-gray-900 via-gray-900">
+            <div className="lg:sticky top-0 z-10 h-[180px] bg-gradient-to-t from-transparent to-gray-900 via-gray-900">
               <div className="flex items-center gap-5 px-3 pt-2 pb-2 bg-gray-900 border-b border-gray-800 relative">
                 {module?.image && (
                   <Image
@@ -87,9 +86,7 @@ const ExerciseSidebar: React.FC<SidebarProps> = ({
                 Exercises
               </p>
             </div>
-            <SimpleBar className="relative lg:h-[calc(100vh-180px)] h-[400px] pb-16">
-              <ExerciseNavigator module={module} path={path} />
-            </SimpleBar>
+            <ExerciseNavigator module={module} path={path} />
             <div className="absolute bottom-0 left-0 w-full bg-gradient-to-t from-gray-900 to-transparent h-24 z-20 pointer-events-none" />
           </aside>
         </div>
