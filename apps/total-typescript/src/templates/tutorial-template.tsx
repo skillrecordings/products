@@ -5,19 +5,26 @@ import Link from 'next/link'
 import {useLearnerCertificateAsOgImage} from 'hooks/use-learner-certificate-as-ogimage'
 import {CourseJsonLd} from '@skillrecordings/next-seo'
 import {PortableText} from '@portabletext/react'
-import {User} from '@skillrecordings/database'
 import {SanityDocument} from '@sanity/client'
 import {IconGithub} from 'components/icons'
 import {isBrowser} from 'utils/is-browser'
+import {Subscriber} from 'lib/convertkit'
 import {track} from '../utils/analytics'
 
-const TutorialTemplate: React.FC<{tutorial: SanityDocument; user: User}> = ({
-  tutorial,
-  user,
-}) => {
+const TutorialTemplate: React.FC<{
+  tutorial: SanityDocument
+  subscriber: Subscriber
+}> = ({tutorial, subscriber}) => {
   const {title, body, ogImage, image, description} = tutorial
   const pageTitle = `${title} Tutorial`
-  const certificateUrl = useLearnerCertificateAsOgImage(pageTitle, image, user)
+  const subscriberName =
+    subscriber &&
+    `${subscriber.first_name} ${subscriber.fields.last_name ?? ''}`
+  const certificateUrl = useLearnerCertificateAsOgImage(
+    pageTitle,
+    image,
+    subscriberName,
+  )
   const pageOgImageUrl = certificateUrl ?? ogImage ?? undefined
 
   return (
@@ -25,7 +32,7 @@ const TutorialTemplate: React.FC<{tutorial: SanityDocument; user: User}> = ({
       className="max-w-4xl mx-auto w-full py-24 px-5 "
       meta={{
         title: certificateUrl
-          ? `${user?.name || 'Learner'} has finished the ${pageTitle}`
+          ? `${subscriberName} has finished the ${pageTitle}`
           : pageTitle,
         description,
         ogImage: {
