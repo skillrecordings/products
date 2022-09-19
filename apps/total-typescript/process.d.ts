@@ -16,5 +16,6 @@ declare namespace NodeJS {
     NEXT_PUBLIC_GOOGLE_ANALYTICS: string
     EMAIL_SERVER_PORT: number
     NEXT_PUBLIC_AMPLITUDE_API_KEY: string
+    SANITY_WEBHOOK_ORDER_TRANSCRIPT_SECRET: string
   }
 }

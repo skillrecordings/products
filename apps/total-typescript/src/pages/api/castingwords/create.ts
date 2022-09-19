@@ -8,7 +8,7 @@ const createCastingwordsOrder = async (
   req: NextApiRequest,
   res: NextApiResponse,
 ) => {
-  const signature = req.headers[SIGNATURE_HEADER_NAME]
+  const signature = req.headers[SIGNATURE_HEADER_NAME] as string
   const isValid = isValidSignature(JSON.stringify(req.body), signature, secret)
 
   if (!isValid) {
@@ -20,9 +20,9 @@ const createCastingwordsOrder = async (
 
   // BULK3 is a quick transcript order. There is also BULK6 but it is slower
   // BCAPTION3 orders captions
-  const SKUs = ['BULK3', 'BCAPTION3']
+  const SKUs = ['BULK2', 'BCAPTION3']
 
-  const SKUParams = (skus) => {
+  const SKUParams = (skus: string[]) => {
     const queryParams = skus.map((sku: any) => {
       return `&sku=${sku}`
     })
@@ -32,15 +32,9 @@ const createCastingwordsOrder = async (
 
   const encodedOriginalMediaUrl = encodeURIComponent(originalMediaUrl)
 
-  var myHeaders = new Headers()
-  myHeaders.append('Content-Type', 'application/json')
-  myHeaders.append('Cookie', 'visited=1')
-
-  var requestOptions = {
-    method: 'POST',
-    headers: myHeaders,
-    redirect: 'follow',
-  }
+  const headers = new Headers()
+  headers.append('Content-Type', 'application/json')
+  headers.append('Cookie', 'visited=1')
 
   const developmentTestOrder =
     process.env.NODE_ENV === 'development' ? '&test=1' : ''
@@ -49,13 +43,16 @@ const createCastingwordsOrder = async (
     `https://castingwords.com/store/API4/order_url?api_key=${
       process.env.CASTINGWORDS_API_TOKEN
     }${SKUParams(SKUs)}${developmentTestOrder}?url=${encodedOriginalMediaUrl}`,
-    requestOptions,
+    {
+      method: 'POST',
+      headers,
+    },
   )
     .then((response) => response.text())
     .then((result) => {
-      console.log(result)
+      console.debug(result)
     })
-    .catch((error) => console.log('error', error))
+    .catch((error) => console.error('error', error))
 
   res.json({success: true})
 }
