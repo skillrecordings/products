@@ -11,11 +11,11 @@ export default {
       type: 'string',
       validation: (Rule) => Rule.required(),
     },
-    {
-      name: 'subtitle',
-      title: 'Subtitle',
-      type: 'string',
-    },
+    // {
+    //   name: 'subtitle',
+    //   title: 'Subtitle',
+    //   type: 'string',
+    // },
     {
       name: 'slug',
       title: 'Slug',
