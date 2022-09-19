@@ -10,7 +10,7 @@ import {toPlainText} from '@portabletext/react'
 import {format} from 'date-fns'
 
 const meta = {
-  title: 'Escuela Frontend Articles',
+  title: 'Recursos Escritos para Dominar el Ecosistema de JavaScript',
 }
 
 type ArticlesProps = {
@@ -72,14 +72,14 @@ const Articles: React.FC<ArticlesProps> = ({articles}) => {
                           <div className="flex items-center w-full mt-6 space-x-5">
                             <Link href={`/${slug}`} passHref>
                               <a className="inline-flex px-4 py-2 text-lg font-medium transition rounded-lg bg-black/10 hover:bg-slate-300">
-                                Read
+                                Leer
                                 <i aria-hidden className="pl-2">
                                   →
                                 </i>
                               </a>
                             </Link>
                             <div className="">
-                              Time to read: {estimatedReadingTime}m
+                              Tiempo Estimado: {estimatedReadingTime}m
                             </div>
                           </div>
                         </div>
