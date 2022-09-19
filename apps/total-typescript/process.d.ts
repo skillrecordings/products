@@ -17,5 +17,6 @@ declare namespace NodeJS {
     EMAIL_SERVER_PORT: number
     NEXT_PUBLIC_AMPLITUDE_API_KEY: string
     SANITY_WEBHOOK_ORDER_TRANSCRIPT_SECRET: string
+    CASTINGWORDS_API_TOKEN: string
   }
 }
