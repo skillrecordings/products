@@ -30,7 +30,7 @@ const sanityVideoResourceWebhook = async (
 
       const {order, audiofiles} = castingwordsOrder
 
-      updateVideoResourceWithTranscriptOrderId(
+      await updateVideoResourceWithTranscriptOrderId(
         _id,
         order,
         String(audiofiles[0]),
