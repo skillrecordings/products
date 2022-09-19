@@ -33,7 +33,8 @@ const ExerciseNavigator: React.FC<{
               router.asPath ===
               `/tutorials/${module.slug.current}/${exercise.slug.current}`
             const scrollToElement =
-              isActive ||
+              router.asPath ===
+                `/tutorials/${module.slug.current}/${exercise.slug.current}/solution` ||
               router.asPath ===
                 `/tutorials/${module.slug.current}/${exercise.slug.current}`
 
