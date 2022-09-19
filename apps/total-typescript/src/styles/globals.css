@@ -6,7 +6,6 @@
 @import './newsletter.css';
 @import './nprogress.css';
 @import './prism-theme.css';
-@import '../../node_modules/simplebar-react/dist/simplebar.min.css';
 
 @tailwind utilities;
 @import './focus-visible.css';
