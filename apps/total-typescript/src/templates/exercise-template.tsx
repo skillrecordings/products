@@ -74,9 +74,8 @@ const ExerciseTemplate: React.FC<{
             module={module}
             path={path}
           />
-
           <main className="lg:mt-16 w-full relative max-w-[1480px] mx-auto 2xl:flex items-start 2xl:max-w-none border-t 2xl:border-gray-800 border-transparent">
-            <div className="2xl:w-full 2xl:border-r border-gray-800 2xl:relative">
+            <div className="2xl:w-full 2xl:border-r border-gray-800 2xl:relative 2xl:h-full">
               <Video ref={muxPlayerRef} module={module} exercise={exercise} />
               <details className="lg:hidden block group border-t-2 border-gray-900">
                 <summary className="flex gap-1 items-center px-4 py-3 font-medium bg-black/50 hover:bg-gray-800 transition cursor-pointer no-marker marker:content-[''] group-open:after:rotate-0 after:rotate-180 after:content-['↑'] after:text-lg after:w-6 after:h-6 after:rounded-full after:bg-gray-800 after:flex after:items-center after:justify-center after:absolute after:right-3">
@@ -88,11 +87,11 @@ const ExerciseTemplate: React.FC<{
                 <ExerciseSidebar module={module} path={path} />
               </details>
               <div className="hidden 2xl:block">
+                <StackblitzEmbed exercise={exercise} module={module} />
                 <VideoTranscript
                   exercise={exercise}
                   muxPlayerRef={muxPlayerRef}
                 />
-                <StackblitzEmbed exercise={exercise} module={module} />
               </div>
             </div>
             <article className="flex-shrink-0 relative">
@@ -316,8 +315,8 @@ const StackblitzEmbed: React.FC<{
 
   return (
     <div
-      className={cx('pt-8 2xl:pt-0', {
-        '2xl:pb-24': !isExpanded,
+      className={cx('pt-8 2xl:pt-12', {
+        '2xl:pt-12': !isExpanded,
       })}
     >
       <h3 className="max-w-4xl mx-auto flex items-baseline sm:text-3xl text-2xl font-semibold pb-4 px-5">
@@ -333,7 +332,7 @@ const StackblitzEmbed: React.FC<{
         {isExpanded ? (
           <div
             className={cx('w-full transition-all h-full', {
-              'sm:h-[800px] h-[400px]': isExpanded,
+              'sm:h-[800px] h-[500px]': isExpanded,
               'sm:h-[400px] h-[200px]': !isExpanded,
             })}
           >
@@ -388,7 +387,7 @@ const VideoTranscript: React.FC<{
       <h2 className="flex items-baseline sm:text-3xl text-2xl font-semibold">
         Transcript
       </h2>
-      <div className="prose prose-lg max-w-none prose-p:opacity-90 pt-4">
+      <div className="prose sm:prose-lg max-w-none prose-p:text-gray-300 pt-4">
         <PortableText
           value={transcript}
           components={
