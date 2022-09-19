@@ -1,3 +1,5 @@
+import {z} from 'zod'
+
 export async function getTranscriptText(audiofile: string) {
   return await fetch(
     `https://castingwords.com/store/API4/audiofile/${audiofile}/transcript.txt?api_key=${process.env.CASTINGWORDS_API_TOKEN}`,
@@ -21,21 +23,29 @@ export function buildCastingwordsOrderUrl({
   skus: string[]
   originalMediaUrl: string
 }) {
-  const encodedOriginalMediaUrl = encodeURIComponent(originalMediaUrl)
-  const skuParams = (skus: string[]) => {
-    const queryParams = skus.map((sku: any) => {
-      return `&sku=${sku}`
-    })
+  // https://developer.mozilla.org/en-US/docs/Web/API/URLSearchParams
+  const urlParams = new URLSearchParams()
 
-    return queryParams.join('')
+  for (const sku of skus) {
+    urlParams.append('sku', sku)
   }
-  const developmentTestOrder =
-    process.env.NODE_ENV === 'development' ? '&test=1' : ''
 
-  return `https://castingwords.com/store/API4/order_url?api_key=${
-    process.env.CASTINGWORDS_API_TOKEN
-  }${skuParams(skus)}${developmentTestOrder}&url=${encodedOriginalMediaUrl}`
+  if (process.env.NODE_ENV !== 'production') urlParams.append('test', '1')
+
+  urlParams.append('url', originalMediaUrl)
+  urlParams.append('api_key', process.env.CASTINGWORDS_API_TOKEN)
+
+  return `https://castingwords.com/store/API4/order_url?${urlParams.toString()}`
 }
+
+export const CastingWordsOrderResponseSchema = z.object({
+  audiofiles: z.array(z.number()),
+  order: z.string(),
+})
+
+export type CastingwordsOrderResponse = z.infer<
+  typeof CastingWordsOrderResponseSchema
+>
 
 export async function orderTranscript(
   originalMediaUrl: string,
@@ -51,5 +61,7 @@ export async function orderTranscript(
   return await fetch(url, {
     method: 'POST',
     headers,
-  })
+  }).then(async (response) =>
+    CastingWordsOrderResponseSchema.parse(await response.json()),
+  )
 }

@@ -26,9 +26,7 @@ const sanityVideoResourceWebhook = async (
     } else {
       const {_id, originalMediaUrl} = req.body
 
-      const castingwordsOrder = await (
-        await orderTranscript(originalMediaUrl)
-      ).json()
+      const castingwordsOrder = await orderTranscript(originalMediaUrl)
 
       const {order, audiofiles} = castingwordsOrder
 
