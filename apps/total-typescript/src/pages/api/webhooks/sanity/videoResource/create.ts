@@ -2,6 +2,7 @@ import {withSentry} from '@sentry/nextjs'
 import {NextApiRequest, NextApiResponse} from 'next'
 import {isValidSignature, SIGNATURE_HEADER_NAME} from '@sanity/webhook'
 import {orderTranscript} from 'lib/castingwords'
+import {updateVideoResourceWithTranscriptOrderId} from 'lib/sanity'
 
 // TODO: Just a sanity secret not so specific
 const secret = process.env.SANITY_WEBHOOK_ORDER_TRANSCRIPT_SECRET
@@ -25,9 +26,17 @@ const sanityVideoResourceWebhook = async (
     } else {
       const {_id, originalMediaUrl} = req.body
 
-      const castingwordsOrder = await orderTranscript(originalMediaUrl)
+      const castingwordsOrder = await (
+        await orderTranscript(originalMediaUrl)
+      ).json()
 
-      // TODO await updateVideoResourceWithTranscriptOrderId(_id, castingwordsOrder.id)
+      const {order, audiofiles} = castingwordsOrder
+
+      updateVideoResourceWithTranscriptOrderId(
+        _id,
+        order,
+        String(audiofiles[0]),
+      )
 
       res.status(200).json({success: true})
     }

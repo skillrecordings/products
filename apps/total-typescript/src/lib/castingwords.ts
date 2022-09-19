@@ -34,7 +34,7 @@ export function buildCastingwordsOrderUrl({
 
   return `https://castingwords.com/store/API4/order_url?api_key=${
     process.env.CASTINGWORDS_API_TOKEN
-  }${skuParams(skus)}${developmentTestOrder}?url=${encodedOriginalMediaUrl}`
+  }${skuParams(skus)}${developmentTestOrder}&url=${encodedOriginalMediaUrl}`
 }
 
 export async function orderTranscript(
