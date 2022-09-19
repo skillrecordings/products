@@ -8,6 +8,7 @@
     "postbuild": "NODE_ENV=production next-sitemap",
     "start": "next start -p 3016",
     "lint": "eslint src/**/*.{ts,tsx} --fix && tsc --noEmit",
+    "test": "jest",
     "db:studio": "prisma studio",
     "db:push": "prisma db push"
   },
@@ -74,6 +75,7 @@
     "@skillrecordings/scripts": "workspace:*",
     "@skillrecordings/tsconfig": "workspace:*",
     "@skillrecordings/types": "workspace:*",
+    "@types/jest": "^27.5.2",
     "@types/js-cookie": "^3.0.2",
     "@types/jsonwebtoken": "^8.5.8",
     "@types/lodash": "^4.14.179",

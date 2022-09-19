@@ -2281,6 +2281,7 @@ importers:
       '@trpc/next': ^9.27.2
       '@trpc/react': ^9.27.2
       '@trpc/server': ^9.27.2
+      '@types/jest': ^27.5.2
       '@types/js-cookie': ^3.0.2
       '@types/jsonwebtoken': ^8.5.8
       '@types/lodash': ^4.14.179
@@ -2376,7 +2377,7 @@ importers:
       react-device-detect: 2.2.2_biqbaboplfbrettd7655fr4n2y
       react-dom: 18.2.0_react@18.2.0
       react-hook-form: 7.29.0_react@18.2.0
-      react-hot-toast: 2.2.0_npw22p3c4ehm7n7vxn2gqac44u
+      react-hot-toast: 2.2.0_biqbaboplfbrettd7655fr4n2y
       react-query: 3.39.1_biqbaboplfbrettd7655fr4n2y
       react-refractor: 2.1.7_react@18.2.0
       react-scroll: 1.8.7_biqbaboplfbrettd7655fr4n2y
@@ -2393,6 +2394,7 @@ importers:
       '@skillrecordings/scripts': link:../../packages/scripts
       '@skillrecordings/tsconfig': link:../../packages/tsconfig
       '@skillrecordings/types': link:../../packages/types
+      '@types/jest': 27.5.2
       '@types/js-cookie': 3.0.2
       '@types/jsonwebtoken': 8.5.8
       '@types/lodash': 4.14.180
