@@ -134,7 +134,7 @@ const CompletedTutorialTemplate: React.FC<CompletedTutorialProps> = ({
           certificateUrl={certificateUrl}
           name={subscriberName}
         />
-        {!isEmpty(subscriberName) && <CertificateShare shareUrl={shareUrl} />}
+        {!isEmpty(user) && <CertificateShare shareUrl={shareUrl} />}
         <UpdateSubscriberNameForm
           form={form}
           tutorial={tutorial}
