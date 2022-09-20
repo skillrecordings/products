@@ -2284,6 +2284,7 @@ importers:
       '@mdx-js/loader': ^2.1.2
       '@mdx-js/mdx': ^2.1.2
       '@mdx-js/react': ^2.1.2
+      '@mux/mux-node': ^6.3.0
       '@mux/mux-player-react': 0.1.0-beta.26
       '@next/env': ^12.2.2
       '@next/mdx': ^12.2.4
@@ -2371,6 +2372,7 @@ importers:
       '@mdx-js/loader': 2.1.3_webpack@4.46.0
       '@mdx-js/mdx': 2.1.2
       '@mdx-js/react': 2.1.3_react@18.2.0
+      '@mux/mux-node': 6.3.0
       '@mux/mux-player-react': 0.1.0-beta.26_v7vsrdtui4d36prbwvdnlb7tpq
       '@next/mdx': 12.2.5_hbo3tj2k5fhsh63l2ltjrymaq4
       '@portabletext/react': 1.0.6_react@18.2.0
@@ -9613,6 +9615,17 @@ packages:
       - supports-color
     dev: true
 
+  /@mux/mux-node/6.3.0:
+    resolution: {integrity: sha512-EHzFXrR38YjZK8dZajyPop5tInySNGaEIVPhVp4ifC1MLSIzov3Kj8bJ8ffG0NHMFUN/KCDzQuS7Ci0LlqKn0w==}
+    engines: {node: '>=14'}
+    dependencies:
+      axios: 0.26.1
+      esdoc-ecmascript-proposal-plugin: 1.0.0
+      jsonwebtoken: 8.5.1
+    transitivePeerDependencies:
+      - debug
+    dev: false
+
   /@mux/mux-player-react/0.1.0-beta.26_v7vsrdtui4d36prbwvdnlb7tpq:
     resolution: {integrity: sha512-USfxZG0QH/iWzm3Y1HiSDzTVFwc9qzaOjn1Eup7i9UiMACr5PHcQB+LGo27iIgrtzWYZhLthm1MJsJzs05R7mA==}
     peerDependencies:
@@ -9721,8 +9734,8 @@ packages:
       '@mdx-js/loader': '>=0.15.0'
       '@mdx-js/react': '*'
     dependencies:
-      '@mdx-js/loader': 2.1.3_webpack@5.73.0
-      '@mdx-js/react': 2.1.3_react@17.0.2
+      '@mdx-js/loader': 2.1.3_webpack@4.46.0
+      '@mdx-js/react': 2.1.3_react@18.2.0
     dev: false
 
   /@next/swc-android-arm-eabi/12.2.3:
@@ -14665,7 +14678,7 @@ packages:
   /axios/0.26.1:
     resolution: {integrity: sha512-fPwcX4EvnSHuInCMItEhAGnaSEXRBjtzh9fOtsE6E1G6p7vl7edEeZe11QHf18+6+9gR5PbKV/sGKNaD8YaMeA==}
     dependencies:
-      follow-redirects: 1.15.1
+      follow-redirects: 1.15.1_debug@2.6.9
     transitivePeerDependencies:
       - debug
 
@@ -15511,7 +15524,7 @@ packages:
       mississippi: 3.0.0
       mkdirp: 0.5.5
       move-concurrently: 1.0.1
-      promise-inflight: 1.0.1
+      promise-inflight: 1.0.1_bluebird@3.7.2
       rimraf: 2.6.3
       ssri: 6.0.2
       unique-filename: 1.1.1
@@ -18294,6 +18307,11 @@ packages:
     optionalDependencies:
       source-map: 0.6.1
 
+  /esdoc-ecmascript-proposal-plugin/1.0.0:
+    resolution: {integrity: sha512-PuaU/O8d+Sb0J6qQdyhmy74h/2cp/2kqsvPuoCiK+50Rw54nlGqXxvWNaaNikS5qntE0FfssnwZtUPa6q4RiXg==}
+    engines: {node: '>= 6.0.0'}
+    dev: false
+
   /eslint-ast-utils/1.1.0:
     resolution: {integrity: sha512-otzzTim2/1+lVrlH19EfQQJEhVJSu0zOb9ygb3iapN6UlyaDtyRq4b5U1FuW0v1lRa9Fp/GJyHkSwm6NqABgCA==}
     engines: {node: '>=4'}
@@ -19865,15 +19883,6 @@ packages:
 
   /focus-visible/5.2.0:
     resolution: {integrity: sha512-Rwix9pBtC1Nuy5wysTmKy+UjbDJpIfg8eHjw0rjZ1mX4GNLz1Bmd16uDpI3Gk1i70Fgcs8Csg2lPm8HULFg9DQ==}
-
-  /follow-redirects/1.15.1:
-    resolution: {integrity: sha512-yLAMQs+k0b2m7cVxpS1VKJVvoz7SS9Td1zss3XRwXj+ZDH00RJgnuLx7E44wx02kQLrdM3aOOy+FpzS7+8OizA==}
-    engines: {node: '>=4.0'}
-    peerDependencies:
-      debug: '*'
-    peerDependenciesMeta:
-      debug:
-        optional: true
 
   /follow-redirects/1.15.1_debug@2.6.9:
     resolution: {integrity: sha512-yLAMQs+k0b2m7cVxpS1VKJVvoz7SS9Td1zss3XRwXj+ZDH00RJgnuLx7E44wx02kQLrdM3aOOy+FpzS7+8OizA==}
@@ -28204,6 +28213,17 @@ packages:
     peerDependenciesMeta:
       bluebird:
         optional: true
+    dev: true
+
+  /promise-inflight/1.0.1_bluebird@3.7.2:
+    resolution: {integrity: sha512-6zWPyEOFaQBJYcGMHBKTKJ3u6TBsnMFOIZSa6ce1e/ZrrsOlnHRHbabMjLiBYKp+n44X9eUI6VUPaukCXHuG4g==}
+    peerDependencies:
+      bluebird: '*'
+    peerDependenciesMeta:
+      bluebird:
+        optional: true
+    dependencies:
+      bluebird: 3.7.2
 
   /prompts/2.1.0:
     resolution: {integrity: sha512-+x5TozgqYdOwWsQFZizE/Tra3fKvAoy037kOyU6cgz84n8f6zxngLOV4O32kTwt9FcLCxAqw0P/c8rOr9y+Gfg==}

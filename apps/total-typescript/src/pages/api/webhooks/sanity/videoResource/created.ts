@@ -4,6 +4,7 @@ import {isValidSignature, SIGNATURE_HEADER_NAME} from '@sanity/webhook'
 import {orderTranscript} from 'lib/castingwords'
 import {updateVideoResourceWithTranscriptOrderId} from 'lib/sanity'
 import * as Sentry from '@sentry/nextjs'
+import Mux from '@mux/mux-node'
 
 const secret = process.env.SANITY_WEBHOOK_SECRET
 
@@ -26,14 +27,32 @@ const sanityVideoResourceWebhook = async (
     } else {
       const {_id, originalMediaUrl} = req.body
       console.info('processing Sanity webhook: Video Resource created', _id)
+
       const castingwordsOrder = await orderTranscript(originalMediaUrl)
-      await updateVideoResourceWithTranscriptOrderId(_id, castingwordsOrder)
+
+      const {Video} = new Mux()
+
+      const muxAsset = await Video.Assets.create({
+        input: originalMediaUrl,
+        playback_policy: ['public'],
+      })
+
+      await updateVideoResourceWithTranscriptOrderId({
+        sanityDocumentId: _id,
+        castingwordsOrder,
+        muxAsset: {
+          muxAssetId: muxAsset.id,
+          muxPlaybackId: muxAsset.playback_ids?.find((playback_id) => {
+            return playback_id.policy === 'public'
+          })?.id,
+        },
+      })
 
       res.status(200).json({success: true})
     }
   } catch (e) {
     Sentry.captureException(e)
-    res.status(500).json({success: false})
+    res.status(200).json({success: true})
   }
 }
 

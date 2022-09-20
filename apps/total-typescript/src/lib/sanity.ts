@@ -1,5 +1,5 @@
 import {
-  CastingwordsOrder,
+  CastingWordsOrderResponseSchema,
   getSRTText,
   getTranscriptText,
 } from 'lib/castingwords'
@@ -8,15 +8,25 @@ import {z} from 'zod'
 import {uniqueId} from 'lodash'
 import first from 'lodash/first'
 import groq from 'groq'
+import Mux from '@mux/mux-node'
 
 const VideoResourceSchema = z.object({
   _id: z.string(),
-  castingwords: z.object({
-    audioFileId: z.string(),
-    orderId: z.string(),
-    transcript: z.any(),
-    srt: z.string(),
-  }),
+  originalMediaUrl: z.string(),
+  castingwords: z
+    .object({
+      audioFileId: z.string().optional(),
+      orderId: z.string(),
+      transcript: z.any().optional(),
+      srt: z.string().optional(),
+    })
+    .nullish(),
+  muxAsset: z
+    .object({
+      muxAssetId: z.string(),
+      muxPlaybackId: z.string().optional(),
+    })
+    .nullish(),
 })
 
 type VideoResource = z.infer<typeof VideoResourceSchema>
@@ -26,20 +36,34 @@ export const writeTranscriptToVideoResource = async (
   order: string,
 ) => {
   const transcript = await getTranscriptText(audiofile)
-  const srt = await getSRTText(audiofile)
+  const {srt, srtUrl} = await getSRTText(audiofile)
 
   const getDocumentQuery = groq`
-      *[
-        _type == "videoResource" &&
-        castingwords.orderId == "${order}"
-      ][0] {_id, castingwords}
-    `
+    *[_type == "videoResource" && castingwords.orderId == "${order}][0] {
+      _id, 
+      castingwords, 
+      muxAsset
+    }
+  `
 
   const document: VideoResource = VideoResourceSchema.parse(
     await sanityWriteClient.fetch(getDocumentQuery),
   )
 
-  const {_id, castingwords} = document
+  const {_id, castingwords, muxAsset} = document
+
+  if (muxAsset) {
+    const {Video} = new Mux()
+
+    await Video.Assets.createTrack(muxAsset.muxAssetId, {
+      url: srtUrl,
+      type: 'text',
+      text_type: 'subtitles',
+      closed_captions: false,
+      language_code: 'en',
+      name: 'English',
+    })
+  }
 
   return sanityWriteClient
     .patch(_id)
@@ -70,16 +94,29 @@ export const writeTranscriptToVideoResource = async (
     .commit()
 }
 
-export const updateVideoResourceWithTranscriptOrderId = async (
-  documentId: string,
-  castingWordsOrder: CastingwordsOrder,
-) => {
+const UpdateVideoResourceAssetSchema = z.object({
+  sanityDocumentId: z.string(),
+  castingwordsOrder: CastingWordsOrderResponseSchema,
+  muxAsset: z.object({
+    muxAssetId: z.string(),
+    muxPlaybackId: z.string().optional(),
+  }),
+})
+
+type UpdateVideoResourceAsset = z.infer<typeof UpdateVideoResourceAssetSchema>
+
+export const updateVideoResourceWithTranscriptOrderId = async ({
+  sanityDocumentId,
+  castingwordsOrder,
+  muxAsset,
+}: UpdateVideoResourceAsset) => {
   return sanityWriteClient
-    .patch(documentId)
+    .patch(sanityDocumentId)
     .set({
+      muxAsset,
       castingwords: {
-        orderId: castingWordsOrder.order,
-        audioFileId: first(castingWordsOrder.audiofiles),
+        orderId: castingwordsOrder.order,
+        audioFileId: first(castingwordsOrder.audiofiles),
       },
     })
     .commit()

@@ -18,5 +18,7 @@ declare namespace NodeJS {
     NEXT_PUBLIC_AMPLITUDE_API_KEY: string
     SANITY_WEBHOOK_SECRET: string
     CASTINGWORDS_API_TOKEN: string
+    MUX_TOKEN_ID: string
+    MUX_TOKEN_SECRET: string
   }
 }

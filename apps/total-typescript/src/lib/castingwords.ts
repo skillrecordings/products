@@ -9,11 +9,10 @@ export async function getTranscriptText(audiofile: number) {
 }
 
 export async function getSRTText(audiofile: number) {
-  return await fetch(
-    `https://castingwords.com/store/API4/audiofile/${audiofile}/transcript.srt?api_key=${process.env.CASTINGWORDS_API_TOKEN}`,
-  ).then((srt) => {
-    return srt.text()
-  })
+  const srtUrl = `https://castingwords.com/store/API4/audiofile/${audiofile}/transcript.srt?api_key=${process.env.CASTINGWORDS_API_TOKEN}`
+  const response = await fetch(srtUrl)
+  const srt = await response.text()
+  return {srt, srtUrl}
 }
 
 export function buildCastingwordsOrderUrl({
