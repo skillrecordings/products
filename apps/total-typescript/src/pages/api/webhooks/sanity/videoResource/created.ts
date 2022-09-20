@@ -3,9 +3,7 @@ import {NextApiRequest, NextApiResponse} from 'next'
 import {isValidSignature, SIGNATURE_HEADER_NAME} from '@sanity/webhook'
 import {orderTranscript} from 'lib/castingwords'
 import {updateVideoResourceWithTranscriptOrderId} from 'lib/sanity'
-import first from 'lodash/first'
 
-// TODO: Just a sanity secret not so specific
 const secret = process.env.SANITY_WEBHOOK_SECRET
 
 /**
@@ -21,7 +19,7 @@ const sanityVideoResourceWebhook = async (
   const signature = req.headers[SIGNATURE_HEADER_NAME] as string
   const isValid = isValidSignature(JSON.stringify(req.body), signature, secret)
 
-  console.log({isValid, signature, secret})
+  console.info('processing Sanity webhook: Video Resource created')
 
   try {
     if (!isValid) {
