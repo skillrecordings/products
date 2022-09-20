@@ -21,8 +21,6 @@ const sanityVideoResourceWebhook = async (
   const signature = req.headers[SIGNATURE_HEADER_NAME] as string
   const isValid = isValidSignature(JSON.stringify(req.body), signature, secret)
 
-  console.log('SANITY IS INSANE-O')
-
   try {
     if (!isValid) {
       throw new Error('cannot verify Sanity webhook signature')
@@ -30,21 +28,25 @@ const sanityVideoResourceWebhook = async (
       const {_id, originalMediaUrl} = req.body
       console.info('processing Sanity webhook: Video Resource created', _id)
 
-      // TODO: Push `originalMediaUrl` to Mux
+      const castingwordsOrder = await orderTranscript(originalMediaUrl)
 
       const {Video} = new Mux()
 
-      const asset = await Video.Assets.create({
+      const muxAsset = await Video.Assets.create({
         input: originalMediaUrl,
-        playback_policy: [
-          'public', // makes playback ID available on the asset
-        ],
+        playback_policy: ['public'],
       })
 
-      console.log({asset})
-
-      // const castingwordsOrder = await orderTranscript(originalMediaUrl)
-      // await updateVideoResourceWithTranscriptOrderId(_id, castingwordsOrder)
+      await updateVideoResourceWithTranscriptOrderId({
+        sanityDocumentId: _id,
+        castingwordsOrder,
+        muxAsset: {
+          muxAssetId: muxAsset.id,
+          muxPlaybackId: muxAsset.playback_ids?.find((playback_id) => {
+            return playback_id.policy === 'public'
+          })?.id,
+        },
+      })
 
       res.status(200).json({success: true})
     }

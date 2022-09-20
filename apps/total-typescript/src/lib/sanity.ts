@@ -71,22 +71,29 @@ export const writeTranscriptToVideoResource = async (
     .commit()
 }
 
-const VideoResourceAssetSchema = z.object({
+const UpdateVideoResourceAssetSchema = z.object({
   sanityDocumentId: z.string(),
-  castingWordsOrder: CastingWordsOrderResponseSchema,
-  muxAssetId: z.string(),
+  castingwordsOrder: CastingWordsOrderResponseSchema,
+  muxAsset: z.object({
+    muxAssetId: z.string(),
+    muxPlaybackId: z.string().optional(),
+  }),
 })
 
-export const updateVideoResourceWithTranscriptOrderId = async (
-  documentId: string,
-  castingWordsOrder: CastingwordsOrder,
-) => {
+type UpdateVideoResourceAsset = z.infer<typeof UpdateVideoResourceAssetSchema>
+
+export const updateVideoResourceWithTranscriptOrderId = async ({
+  sanityDocumentId,
+  castingwordsOrder,
+  muxAsset,
+}: UpdateVideoResourceAsset) => {
   return sanityWriteClient
-    .patch(documentId)
+    .patch(sanityDocumentId)
     .set({
+      muxAsset,
       castingwords: {
-        orderId: castingWordsOrder.order,
-        audioFileId: first(castingWordsOrder.audiofiles),
+        orderId: castingwordsOrder.order,
+        audioFileId: first(castingwordsOrder.audiofiles),
       },
     })
     .commit()
