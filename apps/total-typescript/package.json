@@ -8,6 +8,7 @@
     "postbuild": "NODE_ENV=production next-sitemap",
     "start": "next start -p 3016",
     "lint": "eslint src/**/*.{ts,tsx} --fix && tsc --noEmit",
+    "test": "jest",
     "db:studio": "prisma studio",
     "db:push": "prisma db push"
   },
@@ -23,6 +24,7 @@
     "@portabletext/react": "^1.0.6",
     "@sanity/block-content-to-react": "^3.0.0",
     "@sanity/client": "^3.3.3",
+    "@sanity/webhook": "^1.0.2",
     "@sentry/nextjs": "^7.9.0",
     "@skillrecordings/analytics": "workspace:*",
     "@skillrecordings/commerce-server": "workspace:*",
@@ -54,6 +56,7 @@
     "next-compose-plugins": "^2.2.1",
     "next-sitemap": "^3.0.5",
     "node-fetch": "^2.6.7",
+    "whatwg-fetch": "^3.6.2",
     "query-string": "^7.1.1",
     "react": "18.2.0",
     "react-device-detect": "^2.2.2",
@@ -76,6 +79,7 @@
     "@skillrecordings/scripts": "workspace:*",
     "@skillrecordings/tsconfig": "workspace:*",
     "@skillrecordings/types": "workspace:*",
+    "@types/jest": "^27.5.2",
     "@types/js-cookie": "^3.0.2",
     "@types/jsonwebtoken": "^8.5.8",
     "@types/lodash": "^4.14.179",
@@ -91,6 +95,7 @@
     "eslint": "^8.19.0",
     "eslint-config-custom": "workspace:*",
     "lint-staged": "^11.2.6",
+    "msw": "^0.35.0",
     "postcss": "^8.4.14",
     "prettier": "^2.6.2",
     "tailwindcss": "^3.1.4",
@@ -112,5 +117,15 @@
   },
   "prisma": {
     "schema": "../../packages/database/prisma/schema.prisma"
+  },
+  "prettier": {
+    "bracketSpacing": false,
+    "jsxBracketSameLine": false,
+    "printWidth": 80,
+    "semi": false,
+    "singleQuote": true,
+    "tabWidth": 2,
+    "trailingComma": "all",
+    "useTabs": false
   }
 }
