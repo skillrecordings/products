@@ -1,7 +1,12 @@
-import {getSRTText, getTranscriptText} from 'lib/castingwords'
+import {
+  CastingwordsOrder,
+  getSRTText,
+  getTranscriptText,
+} from 'lib/castingwords'
 import {sanityWriteClient} from 'utils/sanity-server'
 import {z} from 'zod'
 import {uniqueId} from 'lodash'
+import first from 'lodash/first'
 
 const VideoResourceSchema = z.object({
   _id: z.string(),
@@ -63,15 +68,14 @@ export const writeTranscriptToVideoResource = async (audiofile: string) => {
 
 export const updateVideoResourceWithTranscriptOrderId = async (
   documentId: string,
-  orderId: string,
-  audioFileId: string,
+  castingWordsOrder: CastingwordsOrder,
 ) => {
   return sanityWriteClient
     .patch(documentId)
     .set({
       castingwords: {
-        orderId,
-        audioFileId,
+        orderId: castingWordsOrder.order,
+        audioFileId: first(castingWordsOrder.audiofiles),
       },
     })
     .commit()
