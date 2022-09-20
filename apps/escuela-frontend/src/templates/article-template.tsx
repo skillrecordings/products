@@ -15,6 +15,7 @@ import {getOgImage} from 'utils/get-og-image'
 import {format} from 'date-fns'
 import {isEmpty} from 'lodash'
 import SubscribeForm from 'components/subscribe-form'
+import {es} from 'date-fns/locale'
 
 type ArticleTemplateProps = {
   article: SanityDocument
@@ -146,7 +147,7 @@ const Header: React.FC<SanityDocument> = ({
             <time dateTime={date} className="text-sm flex items-center">
               <CalendarIcon aria-hidden="true" className="w-4 opacity-80" />{' '}
               <span className="pl-1">
-                {format(new Date(date), 'dd MMMM, y')}
+                {format(new Date(date), 'dd MMMM, y', {locale: es})}
               </span>
             </time>
             <time dateTime={date} className="text-sm flex items-center">
