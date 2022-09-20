@@ -38,13 +38,7 @@ export const writeTranscriptToVideoResource = async (
   const transcript = await getTranscriptText(audiofile)
   const {srt, srtUrl} = await getSRTText(audiofile)
 
-  const getDocumentQuery = groq`
-    *[_type == "videoResource" && castingwords.orderId == "${order}"][0] {
-      _id, 
-      castingwords, 
-      muxAsset
-    }
-  `
+  const getDocumentQuery = groq`*[_type == "videoResource" && castingwords.orderId == "${order}"][0]`
 
   const document: VideoResource = VideoResourceSchema.parse(
     await sanityWriteClient.fetch(getDocumentQuery),
