@@ -1,5 +1,6 @@
 import {
   CastingwordsOrder,
+  CastingWordsOrderResponseSchema,
   getSRTText,
   getTranscriptText,
 } from 'lib/castingwords'
@@ -69,6 +70,12 @@ export const writeTranscriptToVideoResource = async (
     })
     .commit()
 }
+
+const VideoResourceAssetSchema = z.object({
+  sanityDocumentId: z.string(),
+  castingWordsOrder: CastingWordsOrderResponseSchema,
+  muxAssetId: z.string(),
+})
 
 export const updateVideoResourceWithTranscriptOrderId = async (
   documentId: string,
