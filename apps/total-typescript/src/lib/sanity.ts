@@ -39,7 +39,7 @@ export const writeTranscriptToVideoResource = async (
   const {srt, srtUrl} = await getSRTText(audiofile)
 
   const getDocumentQuery = groq`
-    *[_type == "videoResource" && castingwords.orderId == "${order}][0] {
+    *[_type == "videoResource" && castingwords.orderId == "${order}"][0] {
       _id, 
       castingwords, 
       muxAsset
