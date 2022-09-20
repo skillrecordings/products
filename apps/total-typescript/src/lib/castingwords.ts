@@ -43,9 +43,7 @@ export const CastingWordsOrderResponseSchema = z.object({
   order: z.string(),
 })
 
-export type CastingwordsOrderResponse = z.infer<
-  typeof CastingWordsOrderResponseSchema
->
+export type CastingwordsOrder = z.infer<typeof CastingWordsOrderResponseSchema>
 
 export async function orderTranscript(
   originalMediaUrl: string,
@@ -61,7 +59,9 @@ export async function orderTranscript(
   return await fetch(url, {
     method: 'POST',
     headers,
-  }).then(async (response) =>
-    CastingWordsOrderResponseSchema.parse(await response.json()),
-  )
+  }).then(async (response) => {
+    const order = await response.json()
+    console.log({order})
+    return CastingWordsOrderResponseSchema.parse(order)
+  })
 }

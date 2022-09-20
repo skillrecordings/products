@@ -13,10 +13,16 @@ export default {
       type: 'string',
     },
     {
+      name: 'originalMediaUrl',
+      title: 'AWS S3 Url',
+      validation: (Rule) => Rule.required(),
+      description: 'A URL to the source video in an S3 Bucket',
+      type: 'url',
+    },
+    {
       name: 'slug',
       title: 'Slug',
       type: 'slug',
-      validation: (Rule) => Rule.required(),
       options: {
         source: 'title',
         maxLength: 96,
@@ -26,12 +32,6 @@ export default {
       name: 'muxAsset',
       title: 'Mux Asset',
       type: 'muxAsset',
-    },
-    {
-      name: 'originalMediaUrl',
-      title: 'AWS S3 Url',
-      description: 'A URL to the source video in an S3 Bucket',
-      type: 'url',
     },
     {
       name: 'castingwords',
