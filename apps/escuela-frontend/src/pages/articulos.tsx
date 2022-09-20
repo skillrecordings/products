@@ -7,8 +7,6 @@ import {GetServerSideProps} from 'next'
 import {SanityDocument} from '@sanity/client'
 import {getAllArticles} from '../lib/articles'
 import {toPlainText} from '@portabletext/react'
-import {format} from 'date-fns'
-import {es} from 'date-fns/locale'
 
 const meta = {
   title: 'Recursos Escritos para Dominar el Ecosistema de JavaScript',
@@ -53,18 +51,6 @@ const Articles: React.FC<ArticlesProps> = ({articles}) => {
                               <a className="block group">{title}</a>
                             </Link>
                           </h2>
-                          {/* <h3 className="pt-2 text-xl font-normal brightness-110">
-                            {subtitle}
-                          </h3> */}
-                          {/* <p className="pt-4 text-lg font-normal ">
-                            {shortDescription}
-                          </p> */}
-                          <time
-                            dateTime={date}
-                            className="block pt-1 pb-5 font-semibold"
-                          >
-                            {format(new Date(date), 'dd MMMM, y', {locale: es})}
-                          </time>
                           {description && (
                             <Markdown className="pt-3 pb-6 prose">
                               {description}
