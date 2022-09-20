@@ -25,6 +25,7 @@ import stackblitz from './objects/stackblitz'
 import solution from './objects/resources/solution'
 import github from './objects/github'
 import muxAsset from './objects/muxAsset'
+import castingwordsTranscript from './objects/castingwordsTranscript'
 
 // Then we give our schema to the builder and provide the result to Sanity
 export default createSchema({
@@ -54,5 +55,6 @@ export default createSchema({
     github,
     solution,
     muxAsset,
+    castingwordsTranscript,
   ]),
 })
