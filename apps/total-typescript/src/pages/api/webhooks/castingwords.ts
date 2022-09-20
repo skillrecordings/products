@@ -5,7 +5,7 @@ import {z} from 'zod'
 import {writeTranscriptToVideoResource} from 'lib/sanity'
 
 const CastingwordsWebhookBody = z.object({
-  audiofile: z.number(),
+  audiofile: z.string(),
   order: z.string(),
 })
 

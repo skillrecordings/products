@@ -1,6 +1,6 @@
 import {z} from 'zod'
 
-export async function getTranscriptText(audiofile: number) {
+export async function getTranscriptText(audiofile: string) {
   return await fetch(
     `https://castingwords.com/store/API4/audiofile/${audiofile}/transcript.txt?api_key=${process.env.CASTINGWORDS_API_TOKEN}`,
   ).then((transcript) => {
@@ -8,7 +8,7 @@ export async function getTranscriptText(audiofile: number) {
   })
 }
 
-export async function getSRTText(audiofile: number) {
+export async function getSRTText(audiofile: string) {
   const srtUrl = `https://castingwords.com/store/API4/audiofile/${audiofile}/transcript.srt?api_key=${process.env.CASTINGWORDS_API_TOKEN}`
   const response = await fetch(srtUrl)
   const srt = await response.text()

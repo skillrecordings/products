@@ -32,7 +32,7 @@ const VideoResourceSchema = z.object({
 type VideoResource = z.infer<typeof VideoResourceSchema>
 
 export const writeTranscriptToVideoResource = async (
-  audiofile: number,
+  audiofile: string,
   order: string,
 ) => {
   const transcript = await getTranscriptText(audiofile)
