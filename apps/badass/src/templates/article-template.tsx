@@ -244,7 +244,7 @@ const Share: React.FC<React.PropsWithChildren<{title: string}>> = ({title}) => {
   const url = process.env.NEXT_PUBLIC_URL + router.asPath
   const className =
     'p-3 hover:bg-white hover:bg-opacity-10 transition rounded-full focus-visible:ring-white'
-  const message = `${title} by @marcysutton`
+  const message = `${title} by @jhooks`
 
   return (
     <div className="flex">
