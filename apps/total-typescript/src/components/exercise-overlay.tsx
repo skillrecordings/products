@@ -20,10 +20,11 @@ import {sanityClient} from 'utils/sanity-client'
 import {PortableText} from '@portabletext/react'
 import {useQuery} from 'react-query'
 import {trpc} from '../utils/trpc'
+import Spinner from './spinner'
 
 const OverlayWrapper: React.FC<
-  React.PropsWithChildren<{className?: string}>
-> = ({children, className}) => {
+  React.PropsWithChildren<{className?: string; dismissable?: boolean}>
+> = ({children, className, dismissable = true}) => {
   const {setDisplayOverlay, exercise, module} = useMuxPlayer()
 
   return (
@@ -31,20 +32,22 @@ const OverlayWrapper: React.FC<
       id="video-overlay"
       className="relative top-0 left-0 flex items-center justify-center w-full bg-[#070B16] aspect-video"
     >
-      <button
-        className="absolute top-2 right-2 py-2 px-3 z-50 font-medium rounded flex items-center gap-1 hover:bg-gray-800 transition text-gray-200"
-        onClick={() => {
-          track('dismissed video overlay', {
-            lesson: exercise.slug.current,
-            module: module.slug.current,
-            moduleType: module.moduleType,
-            lessonType: exercise._type,
-          })
-          setDisplayOverlay(false)
-        }}
-      >
-        Dismiss <XIcon className="w-5 h-5" aria-hidden="true" />
-      </button>
+      {dismissable && (
+        <button
+          className="absolute top-2 right-2 py-2 px-3 z-50 font-medium rounded flex items-center gap-1 hover:bg-gray-800 transition text-gray-200"
+          onClick={() => {
+            track('dismissed video overlay', {
+              lesson: exercise.slug.current,
+              module: module.slug.current,
+              moduleType: module.moduleType,
+              lessonType: exercise._type,
+            })
+            setDisplayOverlay(false)
+          }}
+        >
+          Dismiss <XIcon className="w-5 h-5" aria-hidden="true" />
+        </button>
+      )}
       <div
         className={cx(
           'z-20 absolute left-0 top-0 w-full h-full flex flex-col items-center justify-center text-center leading-relaxed text-lg',
@@ -401,7 +404,39 @@ const BlockedOverlay: React.FC = () => {
   )
 }
 
-export {ExerciseOverlay, DefaultOverlay, FinishedOverlay, BlockedOverlay}
+type LoadingOverlayProps = {}
+
+const LoadingOverlay: React.FC<LoadingOverlayProps> = () => {
+  const {
+    muxPlayerProps: {playbackId},
+  } = useMuxPlayer()
+  const thumbnail = `https://image.mux.com/${playbackId}/thumbnail.png?width=480&height=384&fit_mode=preserve`
+
+  return (
+    <OverlayWrapper dismissable={false}>
+      <div className="flex items-center justify-center">
+        {playbackId && (
+          <Image
+            src={thumbnail}
+            layout="fill"
+            alt=""
+            aria-hidden="true"
+            className="opacity-50 contrast-125 blur-sm"
+          />
+        )}
+        <Spinner className="absolute" />
+      </div>
+    </OverlayWrapper>
+  )
+}
+
+export {
+  ExerciseOverlay,
+  DefaultOverlay,
+  FinishedOverlay,
+  BlockedOverlay,
+  LoadingOverlay,
+}
 
 const handleContinue = async (
   router: NextRouter,

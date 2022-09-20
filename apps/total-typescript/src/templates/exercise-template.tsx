@@ -21,6 +21,7 @@ import {
   DefaultOverlay,
   FinishedOverlay,
   BlockedOverlay,
+  LoadingOverlay,
 } from 'components/exercise-overlay'
 import Image from 'next/image'
 import {track} from 'utils/analytics'
@@ -140,6 +141,7 @@ const Video: React.FC<any> = React.forwardRef(
       exercise.resources.find(
         (resource: SanityDocument) => resource._type === 'muxVideo',
       )
+
     return (
       <>
         {displayOverlay && (
@@ -165,7 +167,10 @@ const Video: React.FC<any> = React.forwardRef(
           {video ? (
             <MuxPlayer ref={ref} {...(muxPlayerProps as MuxPlayerProps)} />
           ) : (
-            <BlockedOverlay />
+            <>
+              {/* <LoadingOverlay /> */}
+              <BlockedOverlay />
+            </>
           )}
         </div>
       </>
