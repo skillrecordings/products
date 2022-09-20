@@ -15,7 +15,7 @@ const VideoResourceSchema = z.object({
   originalMediaUrl: z.string(),
   castingwords: z
     .object({
-      audioFileId: z.string().optional(),
+      audioFileId: z.string().or(z.number()).optional(),
       orderId: z.string(),
       transcript: z.any().optional(),
       srt: z.string().optional(),
