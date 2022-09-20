@@ -4,7 +4,6 @@ import {isValidSignature, SIGNATURE_HEADER_NAME} from '@sanity/webhook'
 import {orderTranscript} from 'lib/castingwords'
 import {updateVideoResourceWithTranscriptOrderId} from 'lib/sanity'
 
-// TODO: Just a sanity secret not so specific
 const secret = process.env.SANITY_WEBHOOK_SECRET
 
 /**
@@ -20,6 +19,8 @@ const sanityVideoResourceWebhook = async (
   const signature = req.headers[SIGNATURE_HEADER_NAME] as string
   const isValid = isValidSignature(JSON.stringify(req.body), signature, secret)
 
+  console.info('processing Sanity webhook: Video Resource created')
+
   try {
     if (!isValid) {
       res.status(401).json({success: false, message: 'invalid signature'})
@@ -27,14 +28,7 @@ const sanityVideoResourceWebhook = async (
       const {_id, originalMediaUrl} = req.body
 
       const castingwordsOrder = await orderTranscript(originalMediaUrl)
-
-      const {order, audiofiles} = castingwordsOrder
-
-      await updateVideoResourceWithTranscriptOrderId(
-        _id,
-        order,
-        String(audiofiles[0]),
-      )
+      await updateVideoResourceWithTranscriptOrderId(_id, castingwordsOrder)
 
       res.status(200).json({success: true})
     }

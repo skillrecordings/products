@@ -16,7 +16,7 @@ export default {
       title: 'Castingwords Audio File ID',
       description:
         'This is used to keep track of the specific transcript in a Castingwords order.',
-      type: 'string',
+      type: 'number',
       validation: (Rule) => Rule.required(),
     },
     {
