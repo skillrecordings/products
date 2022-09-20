@@ -48,15 +48,23 @@ export const writeTranscriptToVideoResource = async (
 
   if (muxAsset) {
     const {Video} = new Mux()
+    const {tracks} = await Video.Assets.get(muxAsset.muxAssetId)
 
-    await Video.Assets.createTrack(muxAsset.muxAssetId, {
-      url: srtUrl,
-      type: 'text',
-      text_type: 'subtitles',
-      closed_captions: false,
-      language_code: 'en',
-      name: 'English',
-    })
+    const existingSubtitle = tracks?.find(
+      (track: any) => track.name === 'English',
+    )
+
+    if (!existingSubtitle) {
+      await Video.Assets.createTrack(muxAsset.muxAssetId, {
+        url: srtUrl,
+        type: 'text',
+        text_type: 'subtitles',
+        closed_captions: false,
+        language_code: 'en-US',
+        name: 'English',
+        passthrough: 'English',
+      })
+    }
   }
 
   return sanityWriteClient
