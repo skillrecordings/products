@@ -110,7 +110,7 @@ export const updateVideoResourceWithTranscriptOrderId = async ({
       muxAsset,
       castingwords: {
         orderId: castingwordsOrder.order,
-        audioFileId: first(castingwordsOrder.audiofiles),
+        audioFileId: String(first(castingwordsOrder.audiofiles)),
       },
     })
     .commit()
