@@ -7,6 +7,7 @@ import {sanityWriteClient} from 'utils/sanity-server'
 import {z} from 'zod'
 import {uniqueId} from 'lodash'
 import first from 'lodash/first'
+import groq from 'groq'
 
 const VideoResourceSchema = z.object({
   _id: z.string(),
@@ -20,14 +21,17 @@ const VideoResourceSchema = z.object({
 
 type VideoResource = z.infer<typeof VideoResourceSchema>
 
-export const writeTranscriptToVideoResource = async (audiofile: string) => {
+export const writeTranscriptToVideoResource = async (
+  audiofile: number,
+  order: string,
+) => {
   const transcript = await getTranscriptText(audiofile)
   const srt = await getSRTText(audiofile)
 
-  const getDocumentQuery = `
+  const getDocumentQuery = groq`
       *[
         _type == "videoResource" &&
-        castingwords.audioFileId == "${audiofile}"
+        castingwords.orderId == "${order}"
       ][0] {_id, castingwords}
     `
 
