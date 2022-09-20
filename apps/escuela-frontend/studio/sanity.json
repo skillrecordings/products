@@ -1,0 +1,40 @@
+{
+  "root": true,
+  "api": {
+    "projectId": "s8qytc9h",
+    "dataset": "production"
+  },
+  "project": {
+    "name": "escuela-frontend"
+  },
+  "plugins": [
+    "@sanity/base",
+    "@sanity/default-layout",
+    "@sanity/default-login",
+    "@sanity/desk-tool",
+    "taxonomy-manager",
+    "@sanity/code-input",
+    "cloudinary"
+  ],
+  "env": {
+    "development": {
+      "plugins": [
+        "@sanity/vision"
+      ]
+    }
+  },
+  "parts": [
+    {
+      "name": "part:@sanity/base/schema",
+      "path": "./schemas/schema"
+    },
+    {
+      "name": "part:@sanity/desk-tool/structure",
+      "path": "./deskStructure.js"
+    },
+    {
+      "implements": "part:@sanity/base/brand-logo",
+      "path": "./src/components/logo/index.js"
+    }
+  ]
+}

@@ -1,23 +1,45 @@
 import React from 'react'
 import Layout from 'components/app/layout'
+import Image from 'next/image'
+import Link from 'next/link'
+import {useLearnerCertificateAsOgImage} from 'hooks/use-learner-certificate-as-ogimage'
+import {CourseJsonLd} from '@skillrecordings/next-seo'
 import {PortableText} from '@portabletext/react'
 import {SanityDocument} from '@sanity/client'
-import Link from 'next/link'
-import Image from 'next/image'
 import {IconGithub} from 'components/icons'
-import {CourseJsonLd} from '@skillrecordings/next-seo'
 import {isBrowser} from 'utils/is-browser'
+import {Subscriber} from 'lib/convertkit'
 import {track} from '../utils/analytics'
 
-const TutorialTemplate: React.FC<{tutorial: SanityDocument}> = ({tutorial}) => {
-  const {title, body, ogImage, description} = tutorial
+const TutorialTemplate: React.FC<{
+  tutorial: SanityDocument
+  subscriber: Subscriber
+}> = ({tutorial, subscriber}) => {
+  const {title, body, ogImage, image, description} = tutorial
   const pageTitle = `${title} Tutorial`
-  const shareCard = ogImage ? {ogImage: {url: ogImage}} : {}
+  const subscriberName =
+    subscriber &&
+    `${subscriber.first_name} ${subscriber.fields.last_name ?? ''}`
+  const certificateUrl = useLearnerCertificateAsOgImage(
+    pageTitle,
+    image,
+    subscriberName,
+  )
+  const pageOgImageUrl = certificateUrl ?? ogImage ?? undefined
 
   return (
     <Layout
       className="max-w-4xl mx-auto w-full py-24 px-5 "
-      meta={{title: pageTitle, ...shareCard, description}}
+      meta={{
+        title: certificateUrl
+          ? `${subscriberName} has finished the ${pageTitle}`
+          : pageTitle,
+        description,
+        ogImage: {
+          url: pageOgImageUrl,
+          alt: pageTitle,
+        },
+      }}
     >
       <CourseMeta title={pageTitle} description={description} />
       <Header tutorial={tutorial} />
