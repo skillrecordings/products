@@ -1,10 +1,12 @@
+import * as Sentry from '@sentry/nextjs'
 import {withSentry} from '@sentry/nextjs'
 import {NextApiRequest, NextApiResponse} from 'next'
 import {z} from 'zod'
 import {writeTranscriptToVideoResource} from 'lib/sanity'
 
 const CastingwordsWebhookBody = z.object({
-  audiofile: z.string(),
+  audiofile: z.number(),
+  order: z.string(),
 })
 
 const castingwordsWebhookReceiver = async (
@@ -14,10 +16,11 @@ const castingwordsWebhookReceiver = async (
   if (req.method === 'POST') {
     if (req.body.event === 'TRANSCRIPT_COMPLETE') {
       try {
-        const {audiofile} = CastingwordsWebhookBody.parse(req.body)
-        await writeTranscriptToVideoResource(audiofile)
+        const {audiofile, order} = CastingwordsWebhookBody.parse(req.body)
+        await writeTranscriptToVideoResource(audiofile, order)
         res.status(200).json({message: 'video resource updated'})
       } catch (e) {
+        Sentry.captureException(e)
         res.status(500).json({
           message: `Invalid query for Sanity document`,
         })

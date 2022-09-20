@@ -5,8 +5,8 @@ import {updateSubscriber} from '@skillrecordings/convertkit-sdk'
 
 export const convertkitRouter = createRouter().mutation('updateName', {
   input: z.object({
-    first_name: z.string(),
-    last_name: z.string(),
+    first_name: z.string().optional(),
+    last_name: z.string().optional(),
   }),
   async resolve({ctx, input}) {
     const subscriberCookie = ctx.req.cookies['ck_subscriber']
@@ -28,7 +28,7 @@ export const convertkitRouter = createRouter().mutation('updateName', {
       await updateSubscriber({
         id: subscriber.id,
         first_name,
-        fields: {last_name},
+        fields: {...(last_name && {last_name})},
       }),
     )
   },
