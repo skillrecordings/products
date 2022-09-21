@@ -21,11 +21,13 @@ import {PortableText} from '@portabletext/react'
 import {useQuery} from 'react-query'
 import {trpc} from '../utils/trpc'
 import Spinner from './spinner'
+import {get} from 'lodash'
+import {Exercise} from 'lib/exercises'
 
 const OverlayWrapper: React.FC<
   React.PropsWithChildren<{className?: string; dismissable?: boolean}>
 > = ({children, className, dismissable = true}) => {
-  const {setDisplayOverlay, exercise, module} = useMuxPlayer()
+  const {setDisplayOverlay, lesson, module} = useMuxPlayer()
 
   return (
     <div
@@ -37,10 +39,10 @@ const OverlayWrapper: React.FC<
           className="absolute top-2 right-2 py-2 px-3 z-50 font-medium rounded flex items-center gap-1 hover:bg-gray-800 transition text-gray-200"
           onClick={() => {
             track('dismissed video overlay', {
-              lesson: exercise.slug.current,
+              lesson: lesson.slug.current,
               module: module.slug.current,
               moduleType: module.moduleType,
-              lessonType: exercise._type,
+              lessonType: lesson._type,
             })
             setDisplayOverlay(false)
           }}
@@ -65,9 +67,9 @@ type OverlayProps = {
 }
 
 const ExerciseOverlay: React.FC<OverlayProps> = ({handlePlay}) => {
-  const {nextExercise, exercise, module, path} = useMuxPlayer()
+  const {nextLesson, lesson, module, path} = useMuxPlayer()
   const {github} = module
-  const stackblitz = exercise.resources.find(
+  const stackblitz = lesson.resources.find(
     (resource: SanityDocument) => resource._type === 'stackblitz',
   )
   const router = useRouter()
@@ -79,29 +81,29 @@ const ExerciseOverlay: React.FC<OverlayProps> = ({handlePlay}) => {
           className="bg-gray-800 sm:px-5 px-3 sm:py-2 py-1 text-lg font-semibold rounded hover:bg-gray-700 transition"
           onClick={() => {
             track('clicked replay', {
-              lesson: exercise.slug.current,
+              lesson: lesson.slug.current,
               module: module.slug.current,
               location: 'exercise',
               moduleType: module.moduleType,
-              lessonType: exercise._type,
+              lessonType: lesson._type,
             })
             handlePlay()
           }}
         >
           Replay <span aria-hidden="true">↺</span>
         </button>
-        {nextExercise && (
+        {nextLesson && (
           <button
             className="text-lg bg-cyan-600 hover:bg-cyan-500 transition sm:px-5 px-3 sm:py-2 py-1 font-semibold rounded"
             onClick={() => {
               track('clicked continue to solution', {
-                lesson: exercise.slug.current,
-                module: module.slug.current,
+                lesson: lesson.slug.current,
+                module: module?.slug.current,
                 location: 'exercise',
                 moduleType: module.moduleType,
-                lessonType: exercise._type,
+                lessonType: lesson._type,
               })
-              handleContinue(router, module, nextExercise, handlePlay, path)
+              handleContinue(router, module, nextLesson, handlePlay, path)
             }}
           >
             Solution <span aria-hidden="true">→</span>
@@ -122,7 +124,7 @@ const ExerciseOverlay: React.FC<OverlayProps> = ({handlePlay}) => {
             </div>
           </div>
           <div className="xl:h-[750px] h-[500px] w-full sm:block hidden relative">
-            <StackBlitzIframe exercise={exercise} module={module} />
+            <StackBlitzIframe exercise={lesson as Exercise} module={module} />
           </div>
         </>
       ) : (
@@ -166,7 +168,7 @@ const ExerciseOverlay: React.FC<OverlayProps> = ({handlePlay}) => {
 }
 
 const DefaultOverlay: React.FC<OverlayProps> = ({handlePlay}) => {
-  const {nextExercise, module, path, exercise} = useMuxPlayer()
+  const {nextLesson, module, path, lesson} = useMuxPlayer()
   const router = useRouter()
   const {image} = module
   const addProgressMutation = trpc.useMutation(['progress.add'])
@@ -187,18 +189,18 @@ const DefaultOverlay: React.FC<OverlayProps> = ({handlePlay}) => {
 
       <p className="pt-4 sm:text-3xl text-xl font-semibold">
         <span className="font-normal text-gray-200">Up next:</span>{' '}
-        {nextExercise.label}
+        {nextLesson.label}
       </p>
       <div className="flex items-center justify-center gap-5 sm:py-8 py-4">
         <button
           className="bg-gray-800 hover:bg-gray-700 transition sm:px-5 px-3 sm:py-3 py-1 text-lg font-semibold rounded"
           onClick={() => {
             track('clicked replay', {
-              lesson: exercise.slug.current,
+              lesson: lesson.slug.current,
               module: module.slug.current,
               location: 'exercise',
               moduleType: module.moduleType,
-              lessonType: exercise._type,
+              lessonType: lesson._type,
             })
             handlePlay()
           }}
@@ -209,17 +211,17 @@ const DefaultOverlay: React.FC<OverlayProps> = ({handlePlay}) => {
           className="text-lg bg-cyan-600 hover:bg-cyan-500 transition rounded sm:px-5 px-3 sm:py-3 py-1 font-semibold"
           onClick={() => {
             track('clicked complete', {
-              lesson: exercise.slug.current,
+              lesson: lesson.slug.current,
               module: module.slug.current,
               location: 'exercise',
               moduleType: module.moduleType,
-              lessonType: exercise._type,
+              lessonType: lesson._type,
             })
             addProgressMutation.mutate(
-              {lessonSlug: exercise.slug.current},
+              {lessonSlug: lesson.slug.current},
               {
                 onSettled: (data, error, variables, context) => {
-                  handleContinue(router, module, nextExercise, handlePlay, path)
+                  handleContinue(router, module, nextLesson, handlePlay, path)
                 },
               },
             )
@@ -233,7 +235,7 @@ const DefaultOverlay: React.FC<OverlayProps> = ({handlePlay}) => {
 }
 
 const FinishedOverlay: React.FC<OverlayProps> = ({handlePlay}) => {
-  const {module, path, exercise} = useMuxPlayer()
+  const {module, path, lesson} = useMuxPlayer()
   const router = useRouter()
   const shareUrl = `${process.env.NEXT_PUBLIC_URL}${path}/${module.slug.current}`
   const shareMessage = `${module.title} ${module.moduleType} by @${process.env.NEXT_PUBLIC_PARTNER_TWITTER}`
@@ -245,7 +247,7 @@ const FinishedOverlay: React.FC<OverlayProps> = ({handlePlay}) => {
   React.useEffect(() => {
     // since this is the last lesson and we show the "module complete" overlay
     // we run this when the effect renders marking the lesson complete
-    addProgressMutation.mutate({lessonSlug: exercise.slug.current})
+    addProgressMutation.mutate({lessonSlug: lesson.slug.current})
   }, [])
 
   return (
@@ -306,7 +308,7 @@ const FinishedOverlay: React.FC<OverlayProps> = ({handlePlay}) => {
 
 const BlockedOverlay: React.FC = () => {
   const router = useRouter()
-  const {exercise, module} = useMuxPlayer()
+  const {lesson, module} = useMuxPlayer()
   const [ctaText, setCtaText] = React.useState()
 
   React.useEffect(() => {
@@ -328,11 +330,11 @@ const BlockedOverlay: React.FC = () => {
       const redirectUrl = redirectUrlBuilder(subscriber, router.asPath)
       email && setUserId(email)
       track('subscribed to email list', {
-        lesson: exercise.slug.current,
+        lesson: lesson.slug.current,
         module: module.slug.current,
         location: 'exercise',
         moduleType: module.moduleType,
-        lessonType: exercise._type,
+        lessonType: lesson._type,
       })
       router.push(redirectUrl).then(() => {
         toast(
