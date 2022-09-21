@@ -25,7 +25,7 @@ const SubscribeForm = () => {
         <SubscribeToConvertkitForm
           onSuccess={(subscriber: any) => {
             if (subscriber) {
-              const redirectUrl = redirectUrlBuilder(subscriber, '/confirm')
+              const redirectUrl = redirectUrlBuilder(subscriber, '/confirmar')
               router.push(redirectUrl)
             }
           }}
