@@ -15,6 +15,9 @@ const Home: NextPage = () => {
                 Profesional
               </span>{' '}
             </h2>
+            <p className="text-xl max-w-sm mx-auto pt-4 text-sand-100">
+              Accede a workshops prácticos e interactivos
+            </p>
           </div>
         </div>
       </header>
