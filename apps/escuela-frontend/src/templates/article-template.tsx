@@ -12,6 +12,7 @@ import {SanityDocument} from '@sanity/client'
 import {getOgImage} from 'utils/get-og-image'
 import {isEmpty} from 'lodash'
 import SubscribeForm from 'components/subscribe-form'
+import TableOfContents from 'components/portable-text/table-of-contents'
 
 type ArticleTemplateProps = {
   article: SanityDocument
@@ -43,6 +44,9 @@ const ArticleTemplate: React.FC<ArticleTemplateProps> = ({article}) => {
     >
       <Header {...article} />
       <main>
+        <div className="border-t border-slate-800/50 lg:px-0 px-5 shadow-lg">
+          <TableOfContents value={body} />
+        </div>
         <div className="w-full max-w-screen-md px-5 pb-10 mx-auto sm:pt-10 lg:px-0 sm:pb-24">
           <article className="pt-8 prose-a:decoration-indigo-500 hover:prose-a:decoration-indigo-300 prose-a:transition prose prose-lg prose-h2:py-8 md:prose-xl lg:prose-h2:text-5xl lg:prose-h3:text-4xl prose-headings:font-bold md:prose-code:text-sm lg:prose-code:text-[80%] md:prose-code:text-[80%] prose-code:text-[70%] max-w-none">
             <PortableText value={body} components={PortableTextComponents} />
