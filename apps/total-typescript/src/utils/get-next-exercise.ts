@@ -5,10 +5,10 @@ import indexOf from 'lodash/indexOf'
 
 export const getNextExercise = (
   module: SanityDocument,
-  currentExercise: Exercise,
+  currentLesson: Exercise,
 ) => {
-  if (currentExercise._type === 'exercise') {
-    return currentExercise.resources.find(
+  if (currentLesson._type === 'exercise') {
+    return currentLesson.resources.find(
       (resource: SanityDocument) => resource._type === 'solution',
     )
   }
@@ -16,9 +16,9 @@ export const getNextExercise = (
   const exerciseForSolution = module.exercises.find(
     (resource: SanityDocument) => {
       const solution = resource.resources.find(
-        (resource: SanityDocument) => resource._key === currentExercise._key,
+        (resource: SanityDocument) => resource._key === currentLesson._key,
       )
-      return solution?._key === currentExercise._key
+      return solution?._key === currentLesson._key
     },
   )
 

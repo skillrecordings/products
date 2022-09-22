@@ -1,4 +1,5 @@
 import React from 'react'
+import get from 'lodash/get'
 import {usePlayerPrefs} from './use-player-prefs'
 import {getNextExercise} from 'utils/get-next-exercise'
 import {SanityDocument} from '@sanity/client'
@@ -6,7 +7,10 @@ import {useRouter} from 'next/router'
 import {MuxPlayerProps} from '@mux/mux-player-react/*'
 import {track} from '../utils/analytics'
 import {Subscriber} from 'lib/convertkit'
-import {type Exercise, ExerciseSchema} from '../lib/exercises'
+import {type Exercise, ExerciseSchema} from 'lib/exercises'
+import {type Tip, TipSchema} from 'lib/tips'
+
+type VideoResource = Exercise | Tip
 
 type VideoContextType = {
   muxPlayerProps: MuxPlayerProps | any
@@ -17,34 +21,36 @@ type VideoContextType = {
   handlePlay: () => void
   displayOverlay: boolean
   nextExercise: SanityDocument
-  exercise: Exercise
+  lesson: VideoResource
   module: SanityDocument
   path: string
-  subscriber: Subscriber
+  subscriber?: Subscriber
 }
 
 export const VideoContext = React.createContext({} as VideoContextType)
 
 type VideoProviderProps = {
   module: SanityDocument
-  exercise: Exercise
-  subscriber: Subscriber
-  path: string
+  lesson: VideoResource
+  subscriber?: Subscriber
+  path?: string
   muxPlayerRef: any
 }
 
 export const VideoProvider: React.FC<
   React.PropsWithChildren<VideoProviderProps>
-> = ({module, exercise, muxPlayerRef, children, path, subscriber}) => {
+> = ({module, lesson, muxPlayerRef, children, path = '', subscriber}) => {
   const router = useRouter()
-  const nextExercise = exercise && module && getNextExercise(module, exercise)
+  const nextExercise = getNextExercise(module, lesson as Exercise)
   const {setPlayerPrefs, playbackRate, autoplay, getPlayerPrefs} =
     usePlayerPrefs()
   const [autoPlay, setAutoPlay] = React.useState(getPlayerPrefs().autoplay)
   const [displayOverlay, setDisplayOverlay] = React.useState(false)
-  const video = exercise.resources.find(
-    (resource: SanityDocument) => resource._type === 'muxVideo',
+  const video = lesson?.resources.find(
+    (resource: SanityDocument) =>
+      resource._type === 'muxVideo' || resource._type === 'videoResource',
   )
+  const title = get(lesson, 'title') || get(lesson, 'label')
 
   const handlePlay = () => {
     const videoElement = document.getElementById(
@@ -65,7 +71,7 @@ export const VideoProvider: React.FC<
   // initialize player state
   React.useEffect(() => {
     setDisplayOverlay(false)
-  }, [exercise])
+  }, [lesson])
 
   // preferences
   React.useEffect(() => {
@@ -81,9 +87,9 @@ export const VideoProvider: React.FC<
         setDisplayOverlay(false)
         track('started lesson video', {
           module: module.slug.current,
-          lesson: exercise.slug.current,
+          lesson: lesson.slug.current,
           moduleType: module.moduleType,
-          lessonType: exercise._type,
+          lessonType: lesson._type,
         })
       },
       onPause: () => {},
@@ -91,9 +97,9 @@ export const VideoProvider: React.FC<
         handleNext(getPlayerPrefs().autoplay)
         track('completed lesson video', {
           module: module.slug.current,
-          lesson: exercise.slug.current,
+          lesson: lesson.slug.current,
           moduleType: module.moduleType,
-          lessonType: exercise._type,
+          lessonType: lesson._type,
         })
       },
       onRateChange: () => {
@@ -104,9 +110,9 @@ export const VideoProvider: React.FC<
       defaultHiddenCaptions: true, // TODO: investigate storing subtitles preferences
       // autoPlay,
       streamType: 'on-demand',
-      playbackId: video.muxPlaybackId,
+      playbackId: video.muxPlaybackId || video.muxAsset.muxPlaybackId,
       metadata: {
-        video_title: `${exercise?.label} (${exercise?._type})`,
+        video_title: `${title} (${lesson._type})`,
       },
     },
     autoPlay,
@@ -116,7 +122,10 @@ export const VideoProvider: React.FC<
     handlePlay,
     displayOverlay,
     nextExercise,
-    exercise: ExerciseSchema.parse(exercise),
+    lesson:
+      lesson._type === 'tip'
+        ? TipSchema.parse(lesson)
+        : ExerciseSchema.parse(lesson),
     module,
     path,
     subscriber,
