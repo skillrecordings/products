@@ -1,6 +1,6 @@
 import React from 'react'
 import Layout from 'components/layout'
-import {Signature} from './confirm'
+import {Signature} from './confirmar'
 
 const ConfirmedSubscriptionPage = () => {
   return (
@@ -9,11 +9,12 @@ const ConfirmedSubscriptionPage = () => {
         <Image />
         <div className="max-w-lg text-center font-light">
           <h1 className="font-bold lg:text-5xl text-4xl py-8 font-heading">
-            You're Confirmed!
+            ¡Has confirmado tu subscripción!
           </h1>
           <p className="sm:text-xl leading-relaxed mx-auto pb-8">
-            Thanks for confirming your email address — you're all set to receive{' '}
-            emails from me about {process.env.NEXT_PUBLIC_SITE_TITLE}.
+            Gracias por confirmar tu correo electrónico, ya estás listo para
+            recibir correos electrónicos sobre{' '}
+            {process.env.NEXT_PUBLIC_SITE_TITLE}.
           </p>
           <Signature />
         </div>
