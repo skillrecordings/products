@@ -23,6 +23,7 @@ import {trpc} from '../utils/trpc'
 import Spinner from './spinner'
 import {find, get} from 'lodash'
 import {Exercise} from 'lib/exercises'
+import {z} from 'zod'
 
 export const OverlayWrapper: React.FC<
   React.PropsWithChildren<{className?: string; dismissable?: boolean}>
@@ -309,10 +310,9 @@ const FinishedOverlay: React.FC<OverlayProps> = ({handlePlay}) => {
 const BlockedOverlay: React.FC = () => {
   const router = useRouter()
   const {lesson, module} = useMuxPlayer()
-  const [ctaText, setCtaText] = React.useState()
 
-  React.useEffect(() => {
-    sanityClient
+  const {data: ctaText} = useQuery([`exercise-free-tutorial`], async () => {
+    return sanityClient
       .fetch(
         `
       *[_type == 'cta' && slug.current == "free-tutorial"][0]{
@@ -320,10 +320,8 @@ const BlockedOverlay: React.FC = () => {
       }
     `,
       )
-      .then((response) => {
-        setCtaText(response.body)
-      })
-  }, [])
+      .then((response: SanityDocument) => response.body)
+  })
 
   const handleOnSuccess = (subscriber: any, email?: string) => {
     if (subscriber) {
