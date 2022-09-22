@@ -1,10 +1,10 @@
 import React from 'react'
 import {useRouter} from 'next/router'
-import {PlayIcon} from '@heroicons/react/solid'
+import {FireIcon, PlayIcon} from '@heroicons/react/solid'
+import {track} from '../../utils/analytics'
 import Link from 'next/link'
 import cx from 'classnames'
 import config from 'config'
-import {track} from '../../utils/analytics'
 
 type Props = {
   className?: string
@@ -13,7 +13,7 @@ type Props = {
 
 const Navigation: React.FC<React.PropsWithChildren<Props>> = ({
   className,
-  containerClassName = 'max-w-screen-lg flex items-center justify-between w-full',
+  containerClassName = 'max-w-screen-lg flex items-stretch justify-between w-full h-full',
 }) => {
   return (
     <nav
@@ -33,21 +33,44 @@ const Navigation: React.FC<React.PropsWithChildren<Props>> = ({
 
 const DesktopNav = () => {
   return (
-    <ul>
-      <li>
-        <Link href="/tutorials" passHref>
-          <a
-            className="flex items-center gap-1 font-medium hover:underline"
-            onClick={() => {
-              track(`clicked tutorials link in nav`)
-            }}
-          >
-            Free Tutorials
-            <PlayIcon className="w-5 h-5 text-cyan-300" aria-hidden="true" />
-          </a>
-        </Link>
-      </li>
+    <ul className="flex items-center">
+      <NavLink
+        path="/tutorials"
+        label="Free Tutorials"
+        icon={<PlayIcon className="w-5 h-5 text-cyan-300" aria-hidden="true" />}
+      />
+      {/* <NavLink
+        path="/tips"
+        label="Tips"
+        icon={
+          <FireIcon className="w-5 h-5 text-orange-400" aria-hidden="true" />
+        }
+      /> */}
     </ul>
+  )
+}
+
+const NavLink: React.FC<
+  React.PropsWithChildren<{
+    label: string
+    icon: React.ReactElement
+    path: string
+  }>
+> = ({label, icon, path}) => {
+  return (
+    <li className="h-full">
+      <Link href={path} passHref>
+        <a
+          className="flex items-center gap-1 font-medium px-5 h-full hover:bg-gray-800/60 transition duration-100"
+          onClick={() => {
+            track(`clicked ${label} link in nav`)
+          }}
+        >
+          {icon}
+          {label}
+        </a>
+      </Link>
+    </li>
   )
 }
 

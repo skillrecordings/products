@@ -1,4 +1,5 @@
 import React from 'react'
+import get from 'lodash/get'
 import {usePlayerPrefs} from './use-player-prefs'
 import {getNextLesson} from 'utils/get-next-exercise'
 import {SanityDocument} from '@sanity/client'
@@ -8,7 +9,6 @@ import {track} from '../utils/analytics'
 import {Subscriber} from 'lib/convertkit'
 import {type Exercise, ExerciseSchema} from 'lib/exercises'
 import {type Tip, TipSchema} from 'lib/tips'
-import {get} from 'lodash'
 
 type VideoResource = Exercise | Tip
 
@@ -33,15 +33,15 @@ type VideoProviderProps = {
   module: SanityDocument
   lesson: VideoResource
   subscriber?: Subscriber
-  path: string
+  path?: string
   muxPlayerRef: any
 }
 
 export const VideoProvider: React.FC<
   React.PropsWithChildren<VideoProviderProps>
-> = ({module, lesson, muxPlayerRef, children, path, subscriber}) => {
+> = ({module, lesson, muxPlayerRef, children, path = '', subscriber}) => {
   const router = useRouter()
-  const nextLesson = lesson && module && getNextLesson(module, lesson)
+  const nextLesson = getNextLesson(module, lesson)
   const {setPlayerPrefs, playbackRate, autoplay, getPlayerPrefs} =
     usePlayerPrefs()
   const [autoPlay, setAutoPlay] = React.useState(getPlayerPrefs().autoplay)
@@ -123,8 +123,11 @@ export const VideoProvider: React.FC<
     setDisplayOverlay: (value: boolean) => setDisplayOverlay(value),
     handlePlay,
     displayOverlay,
-    nextLesson,
-    lesson, // : TipSchema.parse(lesson) || ExerciseSchema.parse(lesson),
+    nextLesson: getNextLesson(module, lesson),
+    lesson:
+      lesson._type === 'tip'
+        ? TipSchema.parse(lesson)
+        : ExerciseSchema.parse(lesson),
     module,
     path,
     subscriber,

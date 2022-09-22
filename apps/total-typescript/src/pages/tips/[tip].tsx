@@ -1,6 +1,6 @@
 import React from 'react'
 import {GetServerSideProps} from 'next'
-import {getTip, Tip} from 'lib/tips'
+import {getAllTips, getTip, Tip} from 'lib/tips'
 import TipTemplate from 'templates/tip-template'
 
 export const getServerSideProps: GetServerSideProps = async ({
@@ -9,6 +9,7 @@ export const getServerSideProps: GetServerSideProps = async ({
   req,
 }) => {
   const tip = await getTip(params?.tip as string)
+  const tips = await getAllTips()
 
   if (!tip) {
     return {
@@ -21,16 +22,18 @@ export const getServerSideProps: GetServerSideProps = async ({
   return {
     props: {
       tip,
+      tips,
     },
   }
 }
 
 export type TipPageProps = {
   tip: Tip
+  tips: Tip[]
 }
 
-const TipPage: React.FC<TipPageProps> = ({tip}) => {
-  return tip ? <TipTemplate tip={tip} /> : null
+const TipPage: React.FC<TipPageProps> = ({tip, tips}) => {
+  return tip ? <TipTemplate tip={tip} tips={tips} /> : null
 }
 
 export default TipPage

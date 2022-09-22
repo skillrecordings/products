@@ -65,7 +65,7 @@ const ExerciseTemplate: React.FC<{
         nav={
           <Navigation
             className="flex lg:absolute relative w-full xl:pl-[calc(320px+20px)] lg:pl-[calc(280px+20px)]"
-            containerClassName="flex items-center justify-between w-full"
+            containerClassName="flex h-full justify-between w-full items-stretch"
           />
         }
       >

@@ -4,7 +4,6 @@ import {SanityDocument} from '@sanity/client'
 import {getAllTutorials} from 'lib/tutorials'
 import {GetServerSideProps} from 'next'
 import Link from 'next/link'
-import {checkIfConvertkitSubscriber} from '@skillrecordings/convertkit'
 import Image from 'next/image'
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
@@ -30,7 +29,7 @@ const TutorialsPage: React.FC<{tutorials: SanityDocument[]}> = ({
         },
       }}
     >
-      <main className="flex sm:py-40 py-32 items-center justify-center flex-col relatiev z-10">
+      <main className="flex sm:py-40 py-32 items-center justify-center flex-col relative z-10">
         <h1 className="font-heading sm:text-5xl text-5xl font-bold text-center">
           Free TypeScript Tutorials
         </h1>
