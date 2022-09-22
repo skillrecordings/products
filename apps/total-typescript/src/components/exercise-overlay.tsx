@@ -21,7 +21,6 @@ import {PortableText} from '@portabletext/react'
 import {useQuery} from 'react-query'
 import {trpc} from '../utils/trpc'
 import Spinner from './spinner'
-import {find, get} from 'lodash'
 import {Exercise} from 'lib/exercises'
 
 export const OverlayWrapper: React.FC<
@@ -189,7 +188,7 @@ const DefaultOverlay: React.FC<OverlayProps> = ({handlePlay}) => {
 
       <p className="pt-4 sm:text-3xl text-xl font-semibold">
         <span className="font-normal text-gray-200">Up next:</span>{' '}
-        {nextExercise.label}
+        {nextExercise.title}
       </p>
       <div className="flex items-center justify-center gap-5 sm:py-8 py-4">
         <button
@@ -309,10 +308,9 @@ const FinishedOverlay: React.FC<OverlayProps> = ({handlePlay}) => {
 const BlockedOverlay: React.FC = () => {
   const router = useRouter()
   const {lesson, module} = useMuxPlayer()
-  const [ctaText, setCtaText] = React.useState()
 
-  React.useEffect(() => {
-    sanityClient
+  const {data: ctaText} = useQuery([`exercise-free-tutorial`], async () => {
+    return sanityClient
       .fetch(
         `
       *[_type == 'cta' && slug.current == "free-tutorial"][0]{
@@ -320,10 +318,8 @@ const BlockedOverlay: React.FC = () => {
       }
     `,
       )
-      .then((response) => {
-        setCtaText(response.body)
-      })
-  }, [])
+      .then((response: SanityDocument) => response.body)
+  })
 
   const handleOnSuccess = (subscriber: any, email?: string) => {
     if (subscriber) {

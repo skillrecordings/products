@@ -7,7 +7,7 @@ export const ExerciseSchema = z.object({
   _key: z.string().optional(),
   _type: z.string(),
   _updatedAt: z.string().optional(),
-  label: z.string(),
+  title: z.string(),
   slug: z.object({
     current: z.string(),
   }),
@@ -25,4 +25,10 @@ export const getExercise = async (slug: string): Promise<Exercise> => {
   )
 
   return ExerciseSchema.parse(exercise)
+}
+
+export const getAllExercises = async (): Promise<Exercise[]> => {
+  const exercises = await sanityClient.fetch(groq`*[_type == "exercise"]`)
+
+  return z.array(ExerciseSchema).parse(exercises)
 }

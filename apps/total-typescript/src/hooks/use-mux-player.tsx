@@ -24,7 +24,6 @@ type VideoContextType = {
   lesson: VideoResource
   module: SanityDocument
   path: string
-  subscriber?: Subscriber
 }
 
 export const VideoContext = React.createContext({} as VideoContextType)
@@ -32,14 +31,13 @@ export const VideoContext = React.createContext({} as VideoContextType)
 type VideoProviderProps = {
   module: SanityDocument
   lesson: VideoResource
-  subscriber?: Subscriber
   path?: string
   muxPlayerRef: any
 }
 
 export const VideoProvider: React.FC<
   React.PropsWithChildren<VideoProviderProps>
-> = ({module, lesson, muxPlayerRef, children, path = '', subscriber}) => {
+> = ({module, lesson, muxPlayerRef, children, path = ''}) => {
   const router = useRouter()
   const nextExercise = getNextExercise(module, lesson as Exercise)
   const {setPlayerPrefs, playbackRate, autoplay, getPlayerPrefs} =
@@ -128,7 +126,6 @@ export const VideoProvider: React.FC<
         : ExerciseSchema.parse(lesson),
     module,
     path,
-    subscriber,
   }
   return (
     <VideoContext.Provider value={context}>{children}</VideoContext.Provider>

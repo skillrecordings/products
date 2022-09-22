@@ -1,8 +1,8 @@
 import * as React from 'react'
 import {isEmpty} from 'lodash'
-import axios from '@skillrecordings/axios'
 import {CK_SUBSCRIBER_KEY} from '@skillrecordings/config'
 import Cookies from 'js-cookie'
+import {useQuery} from 'react-query'
 
 type ConvertkitContextType = {
   subscriber?: {
@@ -29,15 +29,10 @@ export const ConvertkitContext = React.createContext(defaultConvertKitContext)
 
 export const ConvertkitProvider: React.FC<
   React.PropsWithChildren<{getSubscriberApiUrl?: string}>
-> = ({
-  children,
-  getSubscriberApiUrl = process.env.NEXT_PUBLIC_CONVERTKIT_GET_SUBSCRIBER_URL ||
-    `/api/subscriber`,
-}) => {
-  const [subscriber, setSubscriber] = React.useState()
-  const [loadingSubscriber, setLoadingSubscriber] = React.useState(true)
-  React.useEffect(() => {
-    if (typeof window !== 'undefined') {
+> = ({children}) => {
+  const {data: subscriber, status} = useQuery(
+    [`convertkit-subscriber`],
+    async () => {
       const params = new URLSearchParams(window.location.search)
       const ckSubscriberId = params.get(CK_SUBSCRIBER_KEY)
 
@@ -49,34 +44,35 @@ export const ConvertkitProvider: React.FC<
           `${window.location.pathname}?${params.toString()}`,
         )
       }
-
       try {
         const subscriber = Cookies.get('ck_subscriber')
 
         if (subscriber) {
-          setSubscriber(JSON.parse(subscriber))
-          setLoadingSubscriber(false)
+          return JSON.parse(subscriber)
+        } else {
+          const learner = params.get('learner')
+          const subscriberLoaderParams = new URLSearchParams({
+            ...(learner && {learner}),
+            ...(ckSubscriberId && {ckSubscriberId}),
+          })
+
+          const subscriber = await fetch(
+            `/api/subscriber?${subscriberLoaderParams}`,
+          )
+            .then((response) => response.json())
+            .catch(() => undefined)
+          return subscriber
         }
       } catch (e) {
         console.debug(`couldn't load ck subscriber cookie`)
       }
-
-      //get the subscriber (which sets the cookie)
-      axios
-        .get(getSubscriberApiUrl, {
-          params: {
-            [CK_SUBSCRIBER_KEY]: ckSubscriberId,
-          },
-        })
-        .then(({data}) => {
-          setSubscriber(data)
-        })
-        .finally(() => setLoadingSubscriber(false))
-    }
-  }, [])
+    },
+  )
 
   return (
-    <ConvertkitContext.Provider value={{subscriber, loadingSubscriber}}>
+    <ConvertkitContext.Provider
+      value={{subscriber, loadingSubscriber: status === 'loading'}}
+    >
       {children}
     </ConvertkitContext.Provider>
   )
