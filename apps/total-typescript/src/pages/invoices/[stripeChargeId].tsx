@@ -12,11 +12,11 @@ import format from 'date-fns/format'
 import Image from 'next/image'
 
 export const getServerSideProps: GetServerSideProps = async ({res, query}) => {
-  const {merchantChargeId} = query
-  if (merchantChargeId) {
+  const {stripeChargeId} = query
+  if (stripeChargeId) {
     res.setHeader('Cache-Control', 's-maxage=1, stale-while-revalidate')
 
-    const charge = await stripe.charges.retrieve(merchantChargeId as string)
+    const charge = await stripe.charges.retrieve(stripeChargeId as string)
     if (charge.invoice) {
       const invoice = await stripe.invoices.retrieve(charge.invoice as string)
       return {
