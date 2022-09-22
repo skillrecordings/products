@@ -26,7 +26,7 @@ import {
 import Image from 'next/image'
 import {track} from 'utils/analytics'
 import {Exercise, ExerciseSchema} from '../lib/exercises'
-import {useConvertkit} from '@skillrecordings/convertkit'
+import {useConvertkit} from 'hooks/use-convertkit'
 
 const path = '/tutorials'
 

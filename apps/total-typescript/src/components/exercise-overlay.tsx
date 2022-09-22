@@ -21,9 +21,7 @@ import {PortableText} from '@portabletext/react'
 import {useQuery} from 'react-query'
 import {trpc} from '../utils/trpc'
 import Spinner from './spinner'
-import {find, get} from 'lodash'
 import {Exercise} from 'lib/exercises'
-import {z} from 'zod'
 
 export const OverlayWrapper: React.FC<
   React.PropsWithChildren<{className?: string; dismissable?: boolean}>

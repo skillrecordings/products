@@ -9,7 +9,7 @@ import {SanityDocument} from '@sanity/client'
 import {IconGithub} from 'components/icons'
 import {isBrowser} from 'utils/is-browser'
 import {track} from '../utils/analytics'
-import {useConvertkit} from '@skillrecordings/convertkit'
+import {useConvertkit} from 'hooks/use-convertkit'
 
 const TutorialTemplate: React.FC<{
   tutorial: SanityDocument
