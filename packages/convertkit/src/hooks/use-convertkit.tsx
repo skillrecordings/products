@@ -2,6 +2,7 @@ import * as React from 'react'
 import {isEmpty} from 'lodash'
 import axios from '@skillrecordings/axios'
 import {CK_SUBSCRIBER_KEY} from '@skillrecordings/config'
+import Cookies from 'js-cookie'
 
 type ConvertkitContextType = {
   subscriber?: {
@@ -47,6 +48,17 @@ export const ConvertkitProvider: React.FC<
           document.title,
           `${window.location.pathname}?${params.toString()}`,
         )
+      }
+
+      try {
+        const subscriber = Cookies.get('ck_subscriber')
+
+        if (subscriber) {
+          setSubscriber(JSON.parse(subscriber))
+          setLoadingSubscriber(false)
+        }
+      } catch (e) {
+        console.debug(`couldn't load ck subscriber cookie`)
       }
 
       //get the subscriber (which sets the cookie)

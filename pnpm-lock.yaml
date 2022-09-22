@@ -2896,6 +2896,7 @@ importers:
       '@skillrecordings/types': workspace:*
       '@types/cookie': ^0.4.1
       '@types/jest': ^27.5.2
+      '@types/js-cookie': ^3.0.2
       '@types/lodash': ^4.14.179
       '@types/node': ^17.0.0
       '@types/nodemailer': ^6.4.4
@@ -2909,6 +2910,7 @@ importers:
       eslint-config-custom: workspace:*
       formik: 2.2.9
       framer-motion: ^6.4.1
+      js-cookie: ^3.0.1
       next: ^12.2.3
       query-string: ^7.1.1
       react: 18.2.0
@@ -2925,6 +2927,7 @@ importers:
       axios: 0.26.1
       cookie: 0.5.0
       formik: 2.2.9_react@18.2.0
+      js-cookie: 3.0.1
       query-string: 7.1.1
       react-use: 17.3.2_biqbaboplfbrettd7655fr4n2y
       yup: 0.32.11
@@ -2934,6 +2937,7 @@ importers:
       '@skillrecordings/types': link:../types
       '@types/cookie': 0.4.1
       '@types/jest': 27.5.2
+      '@types/js-cookie': 3.0.2
       '@types/lodash': 4.14.180
       '@types/node': 17.0.41
       '@types/nodemailer': 6.4.4
@@ -14682,7 +14686,7 @@ packages:
   /axios/0.26.1:
     resolution: {integrity: sha512-fPwcX4EvnSHuInCMItEhAGnaSEXRBjtzh9fOtsE6E1G6p7vl7edEeZe11QHf18+6+9gR5PbKV/sGKNaD8YaMeA==}
     dependencies:
-      follow-redirects: 1.15.1_debug@2.6.9
+      follow-redirects: 1.15.1
     transitivePeerDependencies:
       - debug
 
@@ -19887,6 +19891,15 @@ packages:
 
   /focus-visible/5.2.0:
     resolution: {integrity: sha512-Rwix9pBtC1Nuy5wysTmKy+UjbDJpIfg8eHjw0rjZ1mX4GNLz1Bmd16uDpI3Gk1i70Fgcs8Csg2lPm8HULFg9DQ==}
+
+  /follow-redirects/1.15.1:
+    resolution: {integrity: sha512-yLAMQs+k0b2m7cVxpS1VKJVvoz7SS9Td1zss3XRwXj+ZDH00RJgnuLx7E44wx02kQLrdM3aOOy+FpzS7+8OizA==}
+    engines: {node: '>=4.0'}
+    peerDependencies:
+      debug: '*'
+    peerDependenciesMeta:
+      debug:
+        optional: true
 
   /follow-redirects/1.15.1_debug@2.6.9:
     resolution: {integrity: sha512-yLAMQs+k0b2m7cVxpS1VKJVvoz7SS9Td1zss3XRwXj+ZDH00RJgnuLx7E44wx02kQLrdM3aOOy+FpzS7+8OizA==}

@@ -9,7 +9,6 @@ import Image from 'next/image'
 export const getServerSideProps: GetServerSideProps = async (context) => {
   context.res.setHeader('Cache-Control', 's-maxage=1, stale-while-revalidate')
   const tutorials = await getAllTutorials()
-  // const hasSubscribed = await checkIfConvertkitSubscriber(context)
 
   return {
     props: {tutorials},
@@ -33,7 +32,7 @@ const TutorialsPage: React.FC<{tutorials: SanityDocument[]}> = ({
         <h1 className="font-heading sm:text-5xl text-5xl font-bold text-center">
           Free TypeScript Tutorials
         </h1>
-        <p className="max-w-lg pt-8 text-center text-lg text-gray-300">
+        <p className="max-w-sm pt-8 text-center text-lg text-rose-100/90">
           A collection of free, exercise-driven, in-depth TypeScript tutorials
           for you to use on your journey to TypeScript wizardry.
         </p>
