@@ -35,7 +35,7 @@ const TipTemplate: React.FC<TipPageProps> = ({tip, tips}) => {
 
   return (
     <VideoProvider lesson={tip} module={module} muxPlayerRef={muxPlayerRef}>
-      <Layout>
+      <Layout meta={{title: tip.title}}>
         <main className="py-20 max-w-screen-lg w-full mx-auto">
           <Video ref={muxPlayerRef} />
           <article className="pt-5">
