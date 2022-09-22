@@ -188,7 +188,7 @@ const DefaultOverlay: React.FC<OverlayProps> = ({handlePlay}) => {
 
       <p className="pt-4 sm:text-3xl text-xl font-semibold">
         <span className="font-normal text-gray-200">Up next:</span>{' '}
-        {nextExercise.label}
+        {nextExercise.title}
       </p>
       <div className="flex items-center justify-center gap-5 sm:py-8 py-4">
         <button

@@ -188,7 +188,7 @@ const TutorialExerciseNavigator: React.FC<{tutorial: SanityDocument}> = ({
                       {i + 1}
                     </span>
                     <span className="w-full group-hover:underline leading-tight">
-                      {exercise.label}
+                      {exercise.title}
                     </span>
                   </a>
                 </Link>

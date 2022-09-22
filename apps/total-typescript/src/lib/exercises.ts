@@ -7,7 +7,7 @@ export const ExerciseSchema = z.object({
   _key: z.string().optional(),
   _type: z.string(),
   _updatedAt: z.string().optional(),
-  label: z.string(),
+  title: z.string(),
   slug: z.object({
     current: z.string(),
   }),

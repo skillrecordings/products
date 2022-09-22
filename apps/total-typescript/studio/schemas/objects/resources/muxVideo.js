@@ -12,11 +12,6 @@ export default {
       type: 'string',
     },
     {
-      name: 'title',
-      title: 'Title',
-      type: 'string',
-    },
-    {
       name: 'muxPlaybackId',
       title: 'Mux Playback ID',
       description: 'Hashed ID of a video on mux',

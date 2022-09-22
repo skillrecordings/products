@@ -44,10 +44,10 @@ const ExerciseTemplate: React.FC<{
         )
       : exercise,
   )
-  const {label, description: exerciseDescription} = exercise
+  const {title, description: exerciseDescription} = exercise
 
   const {ogImage, description: moduleDescription} = module
-  const pageTitle = `${label}`
+  const pageTitle = `${title}`
   const pageDescription = exerciseDescription || moduleDescription
   const shareCard = ogImage ? {ogImage: {url: ogImage}} : {}
 
@@ -218,7 +218,7 @@ const GitHubLink: React.FC<{
 }
 
 const ExerciseTitle: React.FC<{exercise: Exercise}> = ({exercise}) => {
-  const {label, _type} = exercise
+  const {title, _type} = exercise
   return (
     <>
       <span
@@ -233,7 +233,7 @@ const ExerciseTitle: React.FC<{exercise: Exercise}> = ({exercise}) => {
         {_type}
       </span>
       <h1 className="xl:text-[2.65rem] 2xl:text-4xl sm:text-4xl text-3xl font-bold tracking-tight pb-5 pt-3">
-        {label}
+        {title}
       </h1>
     </>
   )
