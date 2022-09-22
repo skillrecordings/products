@@ -20,6 +20,7 @@ import {find, indexOf} from 'lodash'
 import {track} from 'utils/analytics'
 import Navigation from 'components/app/navigation'
 import Image from 'next/image'
+import {getOgImage} from 'utils/get-og-image'
 
 const TipTemplate: React.FC<TipPageProps> = ({tip, tips}) => {
   const muxPlayerRef = React.useRef<HTMLDivElement>()
@@ -35,51 +36,53 @@ const TipTemplate: React.FC<TipPageProps> = ({tip, tips}) => {
     (resource: SanityDocument) => resource._type === 'videoResource',
   )
 
+  const ogImage = getOgImage({
+    title: tip.title,
+    image: `https://image.mux.com/${video.muxAsset.muxPlaybackId}/thumbnail.png?width=480&height=270&fit_mode=preserve`,
+  })
+
   return (
     <VideoProvider lesson={tip} module={module} muxPlayerRef={muxPlayerRef}>
       <Layout
-        meta={{title: tip.title}}
-        nav={
-          <Navigation
-            className="flex lg:absolute relative w-full border-b border-gray-800"
-            containerClassName="flex h-full justify-between w-full items-stretch xl:max-w-screen-2xl max-w-screen-lg "
-          />
-        }
+        meta={{
+          title: tip.title,
+          ogImage,
+        }}
+        nav={<Navigation className="flex lg:relative relative" />}
       >
-        <main className="lg:pt-16 xl:max-w-screen-2xl w-full mx-auto xl:flex">
-          <div className="w-full  -mb-2">
-            <Video ref={muxPlayerRef} />
-            <div className="xl:block hidden px-5 max-w-screen-md mx-auto w-full">
-              <Transcript video={video} muxPlayerRef={muxPlayerRef} />
+        <main className="w-full mx-auto">
+          <div className="bg-gradient-to-b from-black/30 to-gray-900 flex items-center justify-center relative z-10">
+            <div className="w-full -mb-1.5 max-w-screen-xl">
+              <Video ref={muxPlayerRef} />
             </div>
           </div>
-          <div className="relative border-l border-transparent xl:border-gray-800 pb-16">
-            <article className="pt-8 px-5 xl:max-w-lg max-w-screen-md mx-auto w-full relative z-10">
-              <div>
-                <h1 className="xl:text-3xl md:text-4xl text-3xl font-bold">
-                  {tip.title}
-                </h1>
-                <div className="pt-5 prose sm:prose-xl max-w-2xl xl:prose-lg pb-5 prose-p:text-gray-100 font-medium">
+          <div className="relative border-l border-transparent xl:border-gray-800 pb-16 px-5 z-10">
+            <article className="pt-10 max-w-screen-xl mx-auto w-full ">
+              <div className="flex gap-10 md:flex-row flex-col">
+                <div className="w-full">
+                  <h1 className="lg:text-4xl text-3xl font-bold w-full max-w-xl">
+                    {tip.title}
+                  </h1>
+                  <Hr />
+                </div>
+                <div className="prose sm:prose-lg lg:prose-xl w-full max-w-none pb-5 prose-p:text-gray-200 font-medium">
                   <PortableText value={tip.body} />
                 </div>
               </div>
-              <div className="xl:hidden">
-                <Transcript video={video} muxPlayerRef={muxPlayerRef} />
-              </div>
             </article>
-            <div className="px-5 xl:max-w-2xl max-w-screen-lg relative z-10 w-full mx-auto">
+            <div className="flex md:flex-row flex-col max-w-screen-xl mx-auto w-full sm:pt-10 pt-4 gap-10">
+              <Transcript video={video} muxPlayerRef={muxPlayerRef} />
               <RelatedTips currentTip={tip} tips={tips} />
             </div>
-            <Image
-              src={require('../../public/assets/landing/bg-divider-6.png')}
-              alt=""
-              aria-hidden="true"
-              layout="fill"
-              objectFit="contain"
-              objectPosition="center top"
-              className="pointer-events-none select-none -z-10"
-            />
           </div>
+          <Image
+            src={require('../../public/assets/landing/bg-divider-6.png')}
+            alt=""
+            aria-hidden="true"
+            layout="fill"
+            objectPosition="center top"
+            className="object-contain pointer-events-none select-none -z-10"
+          />
         </main>
       </Layout>
     </VideoProvider>
@@ -110,9 +113,9 @@ const Transcript: React.FC<{video: any; muxPlayerRef: any}> = ({
 }) => {
   const {handlePlay} = useMuxPlayer()
   return (
-    <>
-      <h2 className="text-2xl font-semibold pt-8">Transcript</h2>
-      <div className="prose sm:prose-lg max-w-none prose-p:text-gray-200 pt-4">
+    <section aria-label="transcript" className="max-w-2xl w-full">
+      <h2 className="text-2xl font-semibold">Transcript</h2>
+      <div className="prose sm:prose-lg max-w-none prose-p:text-gray-300 pt-4">
         <PortableText
           value={video.castingwords.transcript}
           components={
@@ -139,7 +142,7 @@ const Transcript: React.FC<{video: any; muxPlayerRef: any}> = ({
           }
         />
       </div>
-    </>
+    </section>
   )
 }
 
@@ -148,10 +151,9 @@ const RelatedTips: React.FC<{tips: Tip[]; currentTip: Tip}> = ({
   tips,
 }) => {
   return (
-    <section className="xl:pt-0 xl:px-0 pt-10 max-w-screen-lg mx-auto">
-      <Hr />
+    <section className="mx-auto w-full">
       <h2 className="text-2xl font-semibold">More Tips</h2>
-      <div className="grid lg:grid-cols-3 xl:grid-cols-2 xl:gap-3 sm:grid-cols-2 grid-cols-1 sm:gap-8 gap-5 pt-5">
+      <div className="pt-4 flex flex-col divide-y divide-gray-800">
         {tips
           .filter((tip) => tip.slug.current !== currentTip.slug.current)
           .map((tip) => {

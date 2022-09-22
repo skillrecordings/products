@@ -36,8 +36,9 @@ const TipsIndex: React.FC<TipsIndex> = ({tips}) => {
           alt: 'TypeScript Tips by Matt Pocock',
         },
       }}
+      className="flex flex-col items-center pb-24"
     >
-      <header className="lg:pt-40 sm:pt-32 pt-28 text-center flex flex-col items-center relative z-10">
+      <header className="lg:pt-40 sm:pt-32 pt-28 lg:pb-24 pb-16 text-center flex flex-col items-center relative z-10">
         <h1 className="font-heading sm:text-5xl text-4xl font-bold text-center">
           TypeScript Tips
         </h1>
@@ -45,18 +46,19 @@ const TipsIndex: React.FC<TipsIndex> = ({tips}) => {
           {pageDescription}
         </p>
       </header>
-      <main className="py-20 relative z-10 w-full max-w-screen-lg mx-auto grid lg:grid-cols-3 sm:grid-cols-2 grid-cols-1 sm:gap-8 gap-5 px-5">
+      <main className="rounded-lg relative z-10 w-full max-w-screen-md mx-auto flex flex-col divide-y divide-gray-800 px-5 bg-black/30">
         {tips.map((tip) => {
           return <TipTeaser tip={tip} key={tip.slug.current} />
         })}
       </main>
+
       <Image
         layout="fill"
         aria-hidden="true"
         alt=""
-        src={require('../../../public/assets/landing/bg-sea-of-red-lines@2x.png')}
+        src={require('../../../public/assets/landing/bg-divider-3.png')}
         objectPosition={'top'}
-        className="object-cover -z-10"
+        className="object-contain -z-10"
       />
     </Layout>
   ) : null
@@ -69,12 +71,12 @@ export const TipTeaser: React.FC<{tip: Tip}> = ({tip}) => {
   const video = tip?.resources.find(
     (resource: SanityDocument) => resource._type === 'videoResource',
   )
-  const thumbnail = `https://image.mux.com/${video.muxAsset.muxPlaybackId}/thumbnail.png?width=960&height=540&fit_mode=preserve`
+  const thumbnail = `https://image.mux.com/${video.muxAsset.muxPlaybackId}/thumbnail.png?width=240&height=135&fit_mode=preserve`
   const router = useRouter()
 
   return (
-    <article>
-      <header>
+    <article className="flex items-center py-4 gap-5">
+      <header className="flex-shrink-0">
         <button
           onClick={() => {
             router
@@ -91,14 +93,14 @@ export const TipTeaser: React.FC<{tip: Tip}> = ({tip}) => {
                 return videoElement?.play()
               })
           }}
-          className="group relative flex items-center justify-center rounded-md overflow-hidden border border-gray-800"
+          className=" group relative flex items-center justify-center rounded overflow-hidden border border-gray-800"
         >
           <span className="sr-only">Play {title}</span>
           <Image
             src={thumbnail}
             alt=""
-            width={480}
-            height={270}
+            width={240 / 2}
+            height={135 / 2}
             aria-hidden="true"
           />
           <div
@@ -110,14 +112,14 @@ export const TipTeaser: React.FC<{tip: Tip}> = ({tip}) => {
             aria-hidden="true"
           />
           <div
-            className="absolute group-hover:opacity-100 opacity-0 transition scale-50 group-hover:scale-100 text-teal-400"
+            className="absolute group-hover:opacity-100 opacity-100 transition scale-50 group-hover:scale-75 text-orange-400"
             aria-hidden="true"
           >
             <PlayIcon className="w-10 h-10" />
           </div>
         </button>
       </header>
-      <h2 className="pt-4 text-lg font-medium leading-tight">
+      <h2 className="text-xl font-medium leading-tight">
         <Link
           href={{
             pathname: '/tips/[tip]',
@@ -126,7 +128,7 @@ export const TipTeaser: React.FC<{tip: Tip}> = ({tip}) => {
             },
           }}
         >
-          <a>{title}</a>
+          <a className="hover:underline">{title}</a>
         </Link>
       </h2>
     </article>
