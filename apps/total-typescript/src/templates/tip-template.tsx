@@ -20,6 +20,7 @@ import {find, indexOf} from 'lodash'
 import {track} from 'utils/analytics'
 import Navigation from 'components/app/navigation'
 import Image from 'next/image'
+import {getOgImage} from 'utils/get-og-image'
 
 const TipTemplate: React.FC<TipPageProps> = ({tip, tips}) => {
   const muxPlayerRef = React.useRef<HTMLDivElement>()
@@ -35,10 +36,18 @@ const TipTemplate: React.FC<TipPageProps> = ({tip, tips}) => {
     (resource: SanityDocument) => resource._type === 'videoResource',
   )
 
+  const ogImage = getOgImage({
+    title: tip.title,
+    image: `https://image.mux.com/${video.muxAsset.muxPlaybackId}/thumbnail.png?width=480&height=270&fit_mode=preserve`,
+  })
+
   return (
     <VideoProvider lesson={tip} module={module} muxPlayerRef={muxPlayerRef}>
       <Layout
-        meta={{title: tip.title}}
+        meta={{
+          title: tip.title,
+          ogImage,
+        }}
         nav={<Navigation className="flex lg:relative relative" />}
       >
         <main className="w-full mx-auto">
