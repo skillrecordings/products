@@ -18,6 +18,8 @@ import {LinkedIn, Twitter} from '@skillrecordings/react'
 import {XIcon} from '@heroicons/react/solid'
 import {find, indexOf} from 'lodash'
 import {track} from 'utils/analytics'
+import Navigation from 'components/app/navigation'
+import Image from 'next/image'
 
 const TipTemplate: React.FC<TipPageProps> = ({tip, tips}) => {
   const muxPlayerRef = React.useRef<HTMLDivElement>()
@@ -35,17 +37,49 @@ const TipTemplate: React.FC<TipPageProps> = ({tip, tips}) => {
 
   return (
     <VideoProvider lesson={tip} module={module} muxPlayerRef={muxPlayerRef}>
-      <Layout meta={{title: tip.title}}>
-        <main className="py-16 max-w-screen-lg w-full mx-auto">
-          <Video ref={muxPlayerRef} />
-          <article className="pt-5 px-5">
-            <h1 className="text-3xl font-bold">{tip.title}</h1>
-            <div className="pt-5 prose sm:prose-xl max-w-2xl pb-5 prose-p:text-gray-100 font-medium">
-              <PortableText value={tip.body} />
+      <Layout
+        meta={{title: tip.title}}
+        nav={
+          <Navigation
+            className="flex lg:absolute relative w-full border-b border-gray-800"
+            containerClassName="flex h-full justify-between w-full items-stretch xl:max-w-screen-2xl max-w-screen-lg "
+          />
+        }
+      >
+        <main className="lg:pt-16 xl:max-w-screen-2xl w-full mx-auto xl:flex">
+          <div className="w-full  -mb-2">
+            <Video ref={muxPlayerRef} />
+            <div className="xl:block hidden px-5 max-w-screen-md mx-auto w-full">
+              <Transcript video={video} muxPlayerRef={muxPlayerRef} />
             </div>
-            <Transcript video={video} muxPlayerRef={muxPlayerRef} />
-          </article>
-          <RelatedTips currentTip={tip} tips={tips} />
+          </div>
+          <div className="relative border-l border-transparent xl:border-gray-800 pb-16">
+            <article className="pt-8 px-5 xl:max-w-lg max-w-screen-md mx-auto w-full relative z-10">
+              <div>
+                <h1 className="xl:text-3xl md:text-4xl text-3xl font-bold">
+                  {tip.title}
+                </h1>
+                <div className="pt-5 prose sm:prose-xl max-w-2xl xl:prose-lg pb-5 prose-p:text-gray-100 font-medium">
+                  <PortableText value={tip.body} />
+                </div>
+              </div>
+              <div className="xl:hidden">
+                <Transcript video={video} muxPlayerRef={muxPlayerRef} />
+              </div>
+            </article>
+            <div className="px-5 max-w-2xl relative z-10">
+              <RelatedTips currentTip={tip} tips={tips} />
+            </div>
+            <Image
+              src={require('../../public/assets/landing/bg-divider-6.png')}
+              alt=""
+              aria-hidden="true"
+              layout="fill"
+              objectFit="contain"
+              objectPosition="center top"
+              className="pointer-events-none select-none -z-10"
+            />
+          </div>
         </main>
       </Layout>
     </VideoProvider>
@@ -114,10 +148,10 @@ const RelatedTips: React.FC<{tips: Tip[]; currentTip: Tip}> = ({
   tips,
 }) => {
   return (
-    <section className="pt-10 px-5">
+    <section className="xl:pt-0 xl:px-0 pt-10 max-w-screen-lg mx-auto">
       <Hr />
       <h2 className="text-2xl font-semibold">More Tips</h2>
-      <div className="grid lg:grid-cols-3 sm:grid-cols-2 grid-cols-1 sm:gap-8 gap-5 pt-5">
+      <div className="grid lg:grid-cols-3 xl:grid-cols-2 xl:gap-3 sm:grid-cols-2 grid-cols-1 sm:gap-8 gap-5 pt-5">
         {tips
           .filter((tip) => tip.slug.current !== currentTip.slug.current)
           .map((tip) => {
