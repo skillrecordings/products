@@ -1,7 +1,7 @@
 import React from 'react'
 import get from 'lodash/get'
 import {usePlayerPrefs} from './use-player-prefs'
-import {getNextLesson} from 'utils/get-next-exercise'
+import {getNextExercise} from 'utils/get-next-exercise'
 import {SanityDocument} from '@sanity/client'
 import {useRouter} from 'next/router'
 import {MuxPlayerProps} from '@mux/mux-player-react/*'
@@ -20,7 +20,7 @@ type VideoContextType = {
   setDisplayOverlay: (value: boolean) => void
   handlePlay: () => void
   displayOverlay: boolean
-  nextLesson: SanityDocument
+  nextExercise: SanityDocument
   lesson: VideoResource
   module: SanityDocument
   path: string
@@ -41,7 +41,7 @@ export const VideoProvider: React.FC<
   React.PropsWithChildren<VideoProviderProps>
 > = ({module, lesson, muxPlayerRef, children, path = '', subscriber}) => {
   const router = useRouter()
-  const nextLesson = getNextLesson(module, lesson)
+  const nextExercise = getNextExercise(module, lesson as Exercise)
   const {setPlayerPrefs, playbackRate, autoplay, getPlayerPrefs} =
     usePlayerPrefs()
   const [autoPlay, setAutoPlay] = React.useState(getPlayerPrefs().autoplay)
@@ -60,10 +60,10 @@ export const VideoProvider: React.FC<
   }
 
   const handleNext = (autoPlay: boolean) => {
-    nextLesson && autoPlay
+    nextExercise && autoPlay
       ? router.push({
           pathname: '/[module]/[exercise]',
-          query: {module: module.slug.current, exercise: nextLesson.slug},
+          query: {module: module.slug.current, exercise: nextExercise.slug},
         })
       : setDisplayOverlay(true)
   }
@@ -121,7 +121,7 @@ export const VideoProvider: React.FC<
     setDisplayOverlay: (value: boolean) => setDisplayOverlay(value),
     handlePlay,
     displayOverlay,
-    nextLesson: getNextLesson(module, lesson),
+    nextExercise,
     lesson:
       lesson._type === 'tip'
         ? TipSchema.parse(lesson)

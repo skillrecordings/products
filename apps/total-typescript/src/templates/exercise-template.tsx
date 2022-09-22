@@ -128,8 +128,13 @@ const ExerciseTemplate: React.FC<{
 const Video: React.FC<any> = React.forwardRef(
   ({module, exercise}, ref: any) => {
     const isExercise = Boolean(exercise._type === 'exercise')
-    const {muxPlayerProps, handlePlay, displayOverlay, nextLesson, subscriber} =
-      useMuxPlayer()
+    const {
+      muxPlayerProps,
+      handlePlay,
+      displayOverlay,
+      nextExercise,
+      subscriber,
+    } = useMuxPlayer()
 
     const video =
       (subscriber || exercise._id === module.exercises[0]._id) &&
@@ -141,7 +146,7 @@ const Video: React.FC<any> = React.forwardRef(
       <>
         {displayOverlay && (
           <>
-            {nextLesson ? (
+            {nextExercise ? (
               <>
                 {isExercise ? (
                   <ExerciseOverlay handlePlay={handlePlay} />

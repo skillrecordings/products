@@ -1,12 +1,11 @@
 import {SanityDocument} from '@sanity/client'
 import {Exercise} from 'lib/exercises'
-import {Tip} from 'lib/tips'
 import find from 'lodash/find'
 import indexOf from 'lodash/indexOf'
 
-export const getNextLesson = (
+export const getNextExercise = (
   module: SanityDocument,
-  currentLesson: Exercise | Tip,
+  currentLesson: Exercise,
 ) => {
   if (currentLesson._type === 'exercise') {
     return currentLesson.resources.find(

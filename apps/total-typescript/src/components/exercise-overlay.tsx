@@ -21,10 +21,10 @@ import {PortableText} from '@portabletext/react'
 import {useQuery} from 'react-query'
 import {trpc} from '../utils/trpc'
 import Spinner from './spinner'
-import {get} from 'lodash'
+import {find, get} from 'lodash'
 import {Exercise} from 'lib/exercises'
 
-const OverlayWrapper: React.FC<
+export const OverlayWrapper: React.FC<
   React.PropsWithChildren<{className?: string; dismissable?: boolean}>
 > = ({children, className, dismissable = true}) => {
   const {setDisplayOverlay, lesson, module} = useMuxPlayer()
@@ -67,7 +67,7 @@ type OverlayProps = {
 }
 
 const ExerciseOverlay: React.FC<OverlayProps> = ({handlePlay}) => {
-  const {nextLesson, lesson, module, path} = useMuxPlayer()
+  const {nextExercise, lesson, module, path} = useMuxPlayer()
   const {github} = module
   const stackblitz = lesson.resources.find(
     (resource: SanityDocument) => resource._type === 'stackblitz',
@@ -92,7 +92,7 @@ const ExerciseOverlay: React.FC<OverlayProps> = ({handlePlay}) => {
         >
           Replay <span aria-hidden="true">↺</span>
         </button>
-        {nextLesson && (
+        {nextExercise && (
           <button
             className="text-lg bg-cyan-600 hover:bg-cyan-500 transition sm:px-5 px-3 sm:py-2 py-1 font-semibold rounded"
             onClick={() => {
@@ -103,7 +103,7 @@ const ExerciseOverlay: React.FC<OverlayProps> = ({handlePlay}) => {
                 moduleType: module.moduleType,
                 lessonType: lesson._type,
               })
-              handleContinue(router, module, nextLesson, handlePlay, path)
+              handleContinue(router, module, nextExercise, handlePlay, path)
             }}
           >
             Solution <span aria-hidden="true">→</span>
@@ -168,7 +168,7 @@ const ExerciseOverlay: React.FC<OverlayProps> = ({handlePlay}) => {
 }
 
 const DefaultOverlay: React.FC<OverlayProps> = ({handlePlay}) => {
-  const {nextLesson, module, path, lesson} = useMuxPlayer()
+  const {nextExercise, module, path, lesson} = useMuxPlayer()
   const router = useRouter()
   const {image} = module
   const addProgressMutation = trpc.useMutation(['progress.add'])
@@ -189,7 +189,7 @@ const DefaultOverlay: React.FC<OverlayProps> = ({handlePlay}) => {
 
       <p className="pt-4 sm:text-3xl text-xl font-semibold">
         <span className="font-normal text-gray-200">Up next:</span>{' '}
-        {nextLesson.label}
+        {nextExercise.label}
       </p>
       <div className="flex items-center justify-center gap-5 sm:py-8 py-4">
         <button
@@ -221,7 +221,7 @@ const DefaultOverlay: React.FC<OverlayProps> = ({handlePlay}) => {
               {lessonSlug: lesson.slug.current},
               {
                 onSettled: (data, error, variables, context) => {
-                  handleContinue(router, module, nextLesson, handlePlay, path)
+                  handleContinue(router, module, nextExercise, handlePlay, path)
                 },
               },
             )
@@ -292,7 +292,7 @@ const FinishedOverlay: React.FC<OverlayProps> = ({handlePlay}) => {
                 pathname: `/${path}/[module]/[exercise]`,
                 query: {
                   module: module.slug.current,
-                  exercise: module.resources[0].slug.current,
+                  exercise: module.exercises[0].slug.current,
                 },
               })
               .then(handlePlay)
