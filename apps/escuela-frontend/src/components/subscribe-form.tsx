@@ -19,20 +19,20 @@ const SubscribeForm = () => {
             Profesional
           </h2>
           <p className="pt-4 text-xl  sm:text-2xl">
-            Sign up for exclusive early-release lessons!
+            ¡Subscríbete para lecciones exclusivas!
           </p>
         </div>
         <SubscribeToConvertkitForm
           onSuccess={(subscriber: any) => {
             if (subscriber) {
-              const redirectUrl = redirectUrlBuilder(subscriber, '/confirm')
+              const redirectUrl = redirectUrlBuilder(subscriber, '/confirmar')
               router.push(redirectUrl)
             }
           }}
-          actionLabel="Sign Up Today"
+          actionLabel="Subscríbete"
         />
         <p className="pt-8 text-base text-center opacity-80">
-          I respect your privacy. Unsubscribe at any time.
+          Respetamos tu privacidad. Cancela tu suscripción en cualquier momento.
         </p>
       </div>
     </section>

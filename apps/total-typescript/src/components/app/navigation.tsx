@@ -51,7 +51,7 @@ const DesktopNav = () => {
   )
 }
 
-export const NavLogo = () => {
+export const NavLogo: React.FC<{className?: string}> = ({className}) => {
   const router = useRouter()
   return (
     <Link href="/" passHref>
@@ -59,6 +59,7 @@ export const NavLogo = () => {
         aria-label={`${config.title} Home`}
         className={cx(
           'text-xl font-text font-semibold h-full group text-white flex-shrink-0 flex items-center group',
+          className,
         )}
         tabIndex={router.pathname === '/' ? -1 : 0}
       >
