@@ -52,8 +52,6 @@ export const VideoProvider: React.FC<
   )
   const title = get(lesson, 'title') || get(lesson, 'label')
 
-  console.log({video})
-
   const handlePlay = () => {
     const videoElement = document.getElementById(
       'mux-player',
