@@ -26,3 +26,9 @@ export const getExercise = async (slug: string): Promise<Exercise> => {
 
   return ExerciseSchema.parse(exercise)
 }
+
+export const getAllExercises = async (): Promise<Exercise[]> => {
+  const exercises = await sanityClient.fetch(groq`*[_type == "exercise"]`)
+
+  return z.array(ExerciseSchema).parse(exercises)
+}

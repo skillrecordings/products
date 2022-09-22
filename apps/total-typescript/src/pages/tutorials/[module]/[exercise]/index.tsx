@@ -1,36 +1,42 @@
 import React from 'react'
 import ExerciseTemplate from 'templates/exercise-template'
-import {GetServerSideProps} from 'next'
-import {getModule} from 'lib/tutorials'
+import {GetServerSideProps, GetStaticPaths, GetStaticProps} from 'next'
+import {getAllTutorials, getModule} from 'lib/tutorials'
 import {getExercise} from 'lib/exercises'
 
-export const getServerSideProps: GetServerSideProps = async (context) => {
+export const getStaticProps: GetStaticProps = async (context) => {
   const {params} = context
   const exerciseSlug = params?.exercise as string
 
-  const subscriber = context.req.cookies['ck_subscriber'] || null
   const module = await getModule(params?.module as string)
   const exercise = await getExercise(exerciseSlug)
 
-  if (!exercise) {
-    return {
-      notFound: true,
-    }
-  }
-
   return {
-    props: {exercise, module, subscriber},
+    props: {exercise, module},
+    revalidate: 10,
   }
 }
 
-const ExercisePage: React.FC<any> = ({exercise, module, subscriber}) => {
-  return exercise ? (
-    <ExerciseTemplate
-      exercise={exercise}
-      module={module}
-      subscriber={subscriber}
-    />
-  ) : null
+export const getStaticPaths: GetStaticPaths = async (context) => {
+  const tutorials = await getAllTutorials()
+
+  const paths = tutorials
+    .reduce((acc: any[], tutorial: any) => {
+      return tutorial.exercises.map((exercise: any) => {
+        return {
+          params: {
+            module: tutorial.slug.current,
+            exercise: exercise.slug.current,
+          },
+        }
+      })
+    }, [])
+    .flatMap((path: any) => path)
+  return {paths, fallback: 'blocking'}
+}
+
+const ExercisePage: React.FC<any> = ({exercise, module}) => {
+  return <ExerciseTemplate exercise={exercise} module={module} />
 }
 
 export default ExercisePage

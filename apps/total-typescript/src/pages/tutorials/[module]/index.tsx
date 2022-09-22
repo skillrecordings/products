@@ -1,61 +1,38 @@
 import React from 'react'
-import {getSubscriberByEmail} from 'lib/get-subscriber-by-email'
+
 import TutorialTemplate from 'templates/tutorial-template'
-import {prisma, User} from '@skillrecordings/database'
+import {User} from '@skillrecordings/database'
 import {SanityDocument} from '@sanity/client'
 import {Subscriber} from 'lib/convertkit'
-import {getModule} from 'lib/tutorials'
-import {GetServerSideProps} from 'next'
-import isEmpty from 'lodash/isEmpty'
+import {getAllTutorials, getModule} from 'lib/tutorials'
+import {GetStaticPaths, GetStaticProps} from 'next'
 
 export const USER_ID_QUERY_PARAM_KEY = 'learner'
 
-export const getServerSideProps: GetServerSideProps = async ({
-  res,
-  params,
-  query,
-}) => {
+export const getStaticProps: GetStaticProps = async ({params}) => {
   const tutorial = await getModule(params?.module as string)
 
-  const userIdFromQuery = query[USER_ID_QUERY_PARAM_KEY]
-
-  if (!tutorial) {
-    return {
-      notFound: true,
-    }
-  }
-
-  res.setHeader('Cache-Control', 's-maxage=1, stale-while-revalidate')
-
-  if (userIdFromQuery) {
-    const user = await prisma.user.findUnique({
-      where: {id: userIdFromQuery as string},
-    })
-
-    const subscriber = user?.email && (await getSubscriberByEmail(user?.email))
-
-    if (!isEmpty(subscriber)) {
-      return {
-        props: {
-          tutorial,
-          subscriber,
-        },
-      }
-    }
-  }
+  console.log(params, tutorial)
 
   return {
     props: {tutorial},
+    revalidate: 10,
   }
+}
+
+export const getStaticPaths: GetStaticPaths = async () => {
+  const tutorials = await getAllTutorials()
+  const paths = tutorials.map((tutorial: any) => ({
+    params: {module: tutorial.slug.current},
+  }))
+  return {paths, fallback: 'blocking'}
 }
 
 const TutorialPage: React.FC<{
   tutorial: SanityDocument
-  subscriber: Subscriber
-}> = ({tutorial, subscriber}) => {
-  return tutorial ? (
-    <TutorialTemplate tutorial={tutorial} subscriber={subscriber} />
-  ) : null
+}> = ({tutorial}) => {
+  // TODO: Load subscriber, find user via Prisma/api using USER_ID_QUERY_PARAM_KEY
+  return <TutorialTemplate tutorial={tutorial} />
 }
 
 export default TutorialPage

@@ -6,7 +6,7 @@ import Cookies from 'js-cookie'
 
 type ConvertkitContextType = {
   subscriber?: {
-    fields?: {job_title?: 'manager'}
+    fields?: Record<string, string>
     created_at?: Date
     email_address?: string
     first_name?: string
