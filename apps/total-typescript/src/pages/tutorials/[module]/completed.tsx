@@ -155,7 +155,7 @@ const UpdateSubscriberNameForm: React.FC<{
   form: UseFormReturn<{firstName: string; lastName: string}, any>
   setCertificateImageLoaded: React.Dispatch<boolean>
 }> = ({form, setCertificateImageLoaded, tutorial}) => {
-  const ckNameMutation = trpc.useMutation(['convertkit.updateName'])
+  const ckNameMutation = trpc.convertkit.updateName.useMutation()
 
   const processForm: SubmitHandler<FieldValues> = async ({
     firstName,

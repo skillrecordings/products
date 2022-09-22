@@ -1,5 +1,6 @@
 import {PrismaClient} from '@skillrecordings/database'
 import * as trpc from '@trpc/server'
+import {inferAsyncReturnType} from '@trpc/server'
 import * as trpcNext from '@trpc/server/adapters/next'
 import {getSession} from 'next-auth/react'
 
@@ -9,16 +10,16 @@ const prisma = new PrismaClient({
       ? ['query', 'error', 'warn']
       : ['error'],
 })
-/**
- * Creates context for an incoming request
- * @link https://trpc.io/docs/context
- */
+
 export const createContext = async ({
   req,
   res,
 }: trpcNext.CreateNextContextOptions) => {
   const session = await getSession({req})
-  console.debug('createContext for', session?.user?.name ?? 'unknown user')
+  console.debug(
+    'createContext for',
+    req.cookies['ck_subscriber'] ?? 'unknown user',
+  )
   return {
     req,
     res,
@@ -27,4 +28,4 @@ export const createContext = async ({
   }
 }
 
-export type Context = trpc.inferAsyncReturnType<typeof createContext>
+export type Context = inferAsyncReturnType<typeof createContext>

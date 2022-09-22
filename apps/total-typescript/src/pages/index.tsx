@@ -10,11 +10,17 @@ import {useRouter} from 'next/router'
 import {MDXComponents} from 'components/mdx'
 import {setUserId} from '@amplitude/analytics-browser'
 import {track} from '../utils/analytics'
+import {trpc} from 'utils/trpc'
 
 const HomePage = () => {
+  const {data} = trpc.convertkit.getCurrentSubscriber.useQuery()
+
+  console.log(data)
   return (
     <Layout meta={{title: `Professional TypeScript Training by Matt Pocock `}}>
+      {data?.email_address}
       <Header />
+
       <main>
         <Copy />
         <SubscribeToNewsletter />
