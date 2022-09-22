@@ -21,7 +21,8 @@ export const TipsSchema = z.array(TipSchema)
 export type Tip = z.infer<typeof TipSchema>
 
 export const getAllTips = async (): Promise<Tip[]> => {
-  const tips = await sanityClient.fetch(groq`*[_type == "tip"] {
+  const tips =
+    await sanityClient.fetch(groq`*[_type == "tip"] | order(_createdAt asc) {
     ...,
     'resources': resources[]{
         _type == 'reference' => @->,
