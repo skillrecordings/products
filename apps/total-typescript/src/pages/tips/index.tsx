@@ -6,6 +6,8 @@ import Link from 'next/link'
 import Image from 'next/image'
 import {SanityDocument} from '@sanity/client'
 import {PlayIcon} from '@heroicons/react/solid'
+import {useRouter} from 'next/router'
+import {useMuxPlayer} from 'hooks/use-mux-player'
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   context.res.setHeader('Cache-Control', 's-maxage=1, stale-while-revalidate')
@@ -35,15 +37,15 @@ const TipsIndex: React.FC<TipsIndex> = ({tips}) => {
         },
       }}
     >
-      <header className="pt-40 text-center flex flex-col items-center relative z-10">
-        <h1 className="font-heading sm:text-5xl text-5xl font-bold text-center">
+      <header className="lg:pt-40 sm:pt-32 pt-28 text-center flex flex-col items-center relative z-10">
+        <h1 className="font-heading sm:text-5xl text-4xl font-bold text-center">
           TypeScript Tips
         </h1>
         <p className="max-w-sm pt-8 text-center text-lg text-rose-100/90">
           {pageDescription}
         </p>
       </header>
-      <main className="pt-20 relative z-10 w-full max-w-screen-lg mx-auto grid lg:grid-cols-3 sm:grid-cols-2 grid-cols-1 sm:gap-8 gap-5 px-5">
+      <main className="py-20 relative z-10 w-full max-w-screen-lg mx-auto grid lg:grid-cols-3 sm:grid-cols-2 grid-cols-1 sm:gap-8 gap-5 px-5">
         {tips.map((tip) => {
           return <TipTeaser tip={tip} key={tip.slug.current} />
         })}
@@ -68,43 +70,52 @@ export const TipTeaser: React.FC<{tip: Tip}> = ({tip}) => {
     (resource: SanityDocument) => resource._type === 'videoResource',
   )
   const thumbnail = `https://image.mux.com/${video.muxAsset.muxPlaybackId}/thumbnail.png?width=960&height=540&fit_mode=preserve`
+  const router = useRouter()
 
   return (
     <article>
       <header>
-        <Link
-          href={{
-            pathname: '/tips/[tip]',
-            query: {
-              tip: tip.slug.current,
-            },
+        <button
+          onClick={() => {
+            router
+              .push({
+                pathname: '/tips/[tip]',
+                query: {
+                  tip: tip.slug.current,
+                },
+              })
+              .then(() => {
+                const videoElement = document.getElementById(
+                  'mux-player',
+                ) as HTMLVideoElement
+                return videoElement?.play()
+              })
           }}
+          className="group relative flex items-center justify-center rounded-md overflow-hidden border border-gray-800"
         >
-          <a className="group relative flex items-center justify-center rounded-md overflow-hidden border border-gray-800">
-            <span className="sr-only">{title}</span>
-            <Image
-              src={thumbnail}
-              alt=""
-              width={480}
-              height={270}
-              aria-hidden="true"
-            />
-            <div
-              className="absolute w-full h-full left-0 top-0 bg-[#0F172A]/50 mix-blend-color"
-              aria-hidden="true"
-            />
-            <div
-              className="absolute w-full h-full left-0 top-0 bg-[#0B111F]/40 mix-blend-overlay group-hover:bg-orange-500/10 transition"
-              aria-hidden="true"
-            />
-            <div
-              className="absolute group-hover:opacity-100 opacity-0 transition scale-50 group-hover:scale-100 text-teal-400"
-              aria-hidden="true"
-            >
-              <PlayIcon className="w-10 h-10" />
-            </div>
-          </a>
-        </Link>
+          <span className="sr-only">Play {title}</span>
+          <Image
+            src={thumbnail}
+            alt=""
+            width={480}
+            height={270}
+            aria-hidden="true"
+          />
+          <div
+            className="absolute w-full h-full left-0 top-0 bg-[#0F172A]/50 mix-blend-color"
+            aria-hidden="true"
+          />
+          <div
+            className="absolute w-full h-full left-0 top-0 bg-[#0B111F]/40 mix-blend-overlay group-hover:bg-orange-500/10 transition"
+            aria-hidden="true"
+          />
+          <div
+            className="absolute group-hover:opacity-100 opacity-0 transition scale-50 group-hover:scale-100 text-teal-400"
+            aria-hidden="true"
+          >
+            <PlayIcon className="w-10 h-10" />
+          </div>
+        </button>
       </header>
       <h2 className="pt-4 text-lg font-medium leading-tight">
         <Link

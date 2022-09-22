@@ -36,14 +36,13 @@ const TipTemplate: React.FC<TipPageProps> = ({tip, tips}) => {
   return (
     <VideoProvider lesson={tip} module={module} muxPlayerRef={muxPlayerRef}>
       <Layout meta={{title: tip.title}}>
-        <main className="py-20 max-w-screen-lg w-full mx-auto">
+        <main className="py-16 max-w-screen-lg w-full mx-auto">
           <Video ref={muxPlayerRef} />
-          <article className="pt-5">
+          <article className="pt-5 px-5">
             <h1 className="text-3xl font-bold">{tip.title}</h1>
             <div className="pt-5 prose sm:prose-xl max-w-2xl pb-5 prose-p:text-gray-100 font-medium">
               <PortableText value={tip.body} />
             </div>
-            <Hr />
             <Transcript video={video} muxPlayerRef={muxPlayerRef} />
           </article>
           <RelatedTips currentTip={tip} tips={tips} />
@@ -78,7 +77,7 @@ const Transcript: React.FC<{video: any; muxPlayerRef: any}> = ({
   const {handlePlay} = useMuxPlayer()
   return (
     <>
-      <h2 className="text-2xl font-semibold">Transcript</h2>
+      <h2 className="text-2xl font-semibold pt-8">Transcript</h2>
       <div className="prose sm:prose-lg max-w-none prose-p:text-gray-200 pt-4">
         <PortableText
           value={video.castingwords.transcript}
