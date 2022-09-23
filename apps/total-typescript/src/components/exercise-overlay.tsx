@@ -8,6 +8,7 @@ import {Facebook, LinkedIn, Twitter} from '@skillrecordings/react'
 import {NextRouter, useRouter} from 'next/router'
 import {IconGithub} from './icons'
 import snakeCase from 'lodash/snakeCase'
+import toast from 'react-hot-toast'
 import Image from 'next/image'
 import {useMuxPlayer} from 'hooks/use-mux-player'
 import {StackBlitzIframe} from 'templates/exercise-template'
@@ -332,7 +333,7 @@ const BlockedOverlay: React.FC = () => {
         lessonType: lesson._type,
       })
       router.push(redirectUrl).then(() => {
-        router.reload()
+        confirmSubscriptionToast()
       })
     }
   }
@@ -449,4 +450,22 @@ const handleContinue = async (
       pathname: `${path}/[module]/[exercise]`,
     })
     .then(() => handlePlay())
+}
+
+const confirmSubscriptionToast = () => {
+  return toast(
+    () => (
+      <div>
+        <strong>Confirm your subscription</strong>
+        <p>
+          Please check your inbox for an email that just got sent. Thanks and
+          enjoy!
+        </p>
+      </div>
+    ),
+    {
+      icon: '✉️',
+      duration: 6000,
+    },
+  )
 }
