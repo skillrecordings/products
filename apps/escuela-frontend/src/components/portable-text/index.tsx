@@ -26,6 +26,7 @@ import yaml from 'refractor/lang/yaml'
 import css from 'refractor/lang/css'
 import jsx from 'refractor/lang/jsx'
 import tsx from 'refractor/lang/tsx'
+import json from 'refractor/lang/json'
 import Spinner from 'components/spinner'
 
 Refractor.registerLanguage(js)
@@ -34,6 +35,7 @@ Refractor.registerLanguage(markdown)
 Refractor.registerLanguage(yaml)
 Refractor.registerLanguage(jsx)
 Refractor.registerLanguage(tsx)
+Refractor.registerLanguage(json)
 
 const Video: React.FC<{url: string; title: string}> = ({url, title}) => {
   const fullscreenWrapperRef = React.useRef<HTMLDivElement>(null)
@@ -271,13 +273,7 @@ const PortableTextComponents: PortableTextComponents = {
           >
             <Refractor
               inline
-              language={
-                language
-                  ? Refractor.hasLanguage(language)
-                    ? language
-                    : 'javascript'
-                  : 'javascript'
-              }
+              language={language || 'javascript'}
               value={code}
               markers={highlightedLines}
             />
