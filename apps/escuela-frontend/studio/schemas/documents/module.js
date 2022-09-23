@@ -15,15 +15,6 @@ export default {
       validation: (Rule) => Rule.required(),
     },
     {
-      name: 'moduleType',
-      title: 'Module Type',
-      type: 'string',
-      validation: (Rule) => Rule.required(),
-      options: {
-        list: [{title: 'Course', value: 'course'}],
-      },
-    },
-    {
       name: 'slug',
       title: 'Slug',
       type: 'slug',
@@ -34,10 +25,11 @@ export default {
       },
     },
     {
-      name: 'sections',
-      title: 'Sections',
+      name: 'resources',
+      title: 'Resources',
+      description: 'These are sections or lessons for a module.',
       type: 'array',
-      of: [{type: 'reference', to: [{type: 'section'}]}],
+      of: [{type: 'reference', to: [{type: 'resource'}]}],
     },
     {
       name: 'github',
