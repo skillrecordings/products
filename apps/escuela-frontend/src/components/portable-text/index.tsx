@@ -290,7 +290,7 @@ const PortableTextComponents: PortableTextComponents = {
       return (
         <div
           className={cx(
-            `p-5 sm:my-8 my-4 rounded-md flex space-x-5`,
+            `p-5 sm:my-8 my-4 rounded-md flex space-x-5 text-white font-sans`,
             getCalloutStyles(type),
           )}
         >
