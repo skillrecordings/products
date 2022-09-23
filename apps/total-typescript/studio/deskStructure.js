@@ -10,7 +10,7 @@ const hiddenDocTypes = (listItem) =>
 
 export default () =>
   S.list()
-    .title('Badass Courses')
+    .title('Total TypeScript')
     .items([
       tutorials,
       S.divider(),
