@@ -21,7 +21,10 @@ export const useTipComplete = (tipSlug: string) => {
         .array(TipEventSchema)
         .parse(tipEvents)
         .filter((tipEvent) => {
-          return tipEvent.eventName === 'completed video'
+          return (
+            tipEvent.eventName === 'completed video' &&
+            tipEvent.module === 'tips'
+          )
         })
     },
   )
