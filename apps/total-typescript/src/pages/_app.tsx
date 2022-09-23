@@ -18,8 +18,26 @@ import superjson from 'superjson'
 import {httpBatchLink} from '@trpc/client/links/httpBatchLink'
 import {loggerLink} from '@trpc/client/links/loggerLink'
 import {AppRouter} from 'server/routers/_app'
+import IndexedDBProvider from 'use-indexeddb'
 
 amplitude.init(process.env.NEXT_PUBLIC_AMPLITUDE_API_KEY)
+
+// Database Configuration
+const idbConfig = {
+  databaseName: 'total-typescript',
+  version: 1,
+  stores: [
+    {
+      name: 'progress',
+      id: {keyPath: 'id', autoIncrement: true},
+      indices: [
+        {name: 'eventName', keyPath: 'eventName', options: {unique: false}},
+        {name: 'lesson', keyPath: 'lesson', options: {unique: false}},
+        {name: 'module', keyPath: 'module', options: {unique: false}},
+      ],
+    },
+  ],
+}
 
 const queryClient = new QueryClient()
 
@@ -29,15 +47,21 @@ function MyApp({Component, pageProps}: AppProps) {
   return (
     <>
       <DefaultSeo {...config} />
-      <SessionProvider session={pageProps.session} refetchInterval={0}>
-        <QueryClientProvider client={queryClient}>
-          <ConvertkitProvider>
-            <MDXProvider components={MDXComponents}>
-              <Component {...pageProps} />
-            </MDXProvider>
-          </ConvertkitProvider>
-        </QueryClientProvider>
-      </SessionProvider>
+      <IndexedDBProvider
+        config={idbConfig}
+        loading="Loading..."
+        fallback="Unsupported"
+      >
+        <SessionProvider session={pageProps.session} refetchInterval={0}>
+          <QueryClientProvider client={queryClient}>
+            <ConvertkitProvider>
+              <MDXProvider components={MDXComponents}>
+                <Component {...pageProps} />
+              </MDXProvider>
+            </ConvertkitProvider>
+          </QueryClientProvider>
+        </SessionProvider>
+      </IndexedDBProvider>
       {process.env.NODE_ENV !== 'development' && (
         <>
           <Script

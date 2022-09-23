@@ -7,6 +7,7 @@ import Image from 'next/image'
 import {SanityDocument} from '@sanity/client'
 import {PlayIcon} from '@heroicons/react/solid'
 import {useRouter} from 'next/router'
+import {useTipComplete} from '../../hooks/use-tip-complete'
 
 export async function getStaticProps() {
   const tips = await getAllTips()
@@ -72,6 +73,7 @@ export const TipTeaser: React.FC<{tip: Tip}> = ({tip}) => {
   )
   const thumbnail = `https://image.mux.com/${video.muxAsset.muxPlaybackId}/thumbnail.png?width=240&height=135&fit_mode=preserve`
   const router = useRouter()
+  const {tipCompleted} = useTipComplete(tip.slug.current)
 
   return (
     <article className="flex items-center py-4 gap-5">
@@ -129,7 +131,10 @@ export const TipTeaser: React.FC<{tip: Tip}> = ({tip}) => {
             },
           }}
         >
-          <a className="hover:underline">{title}</a>
+          <a className="hover:underline">
+            {tipCompleted ? '✅ ' : ''}
+            {title}
+          </a>
         </Link>
       </h2>
     </article>

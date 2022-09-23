@@ -21,9 +21,15 @@ import {track} from 'utils/analytics'
 import Navigation from 'components/app/navigation'
 import Image from 'next/image'
 import {getOgImage} from 'utils/get-og-image'
+import {useIndexedDBStore} from 'use-indexeddb'
+import {useTipComplete} from '../hooks/use-tip-complete'
 
 const TipTemplate: React.FC<TipPageProps> = ({tip, tips}) => {
   const muxPlayerRef = React.useRef<HTMLDivElement>()
+  const {add} = useIndexedDBStore('progress')
+
+  const {tipCompleted} = useTipComplete(tip.slug.current)
+
   const module: any = {
     slug: {
       current: 'tips',
@@ -44,8 +50,22 @@ const TipTemplate: React.FC<TipPageProps> = ({tip, tips}) => {
     image: `https://image.mux.com/${video.muxAsset.muxPlaybackId}/thumbnail.png?width=480&height=270&fit_mode=preserve`,
   })
 
+  const handleVideoEnded = async () => {
+    await add({
+      eventName: 'completed video',
+      module: 'tips',
+      lesson: tip.slug.current,
+      createdOn: new Date(),
+    }).then(console.debug)
+  }
+
   return (
-    <VideoProvider lesson={tip} module={module} muxPlayerRef={muxPlayerRef}>
+    <VideoProvider
+      lesson={tip}
+      module={module}
+      muxPlayerRef={muxPlayerRef}
+      onEnded={handleVideoEnded}
+    >
       <Layout
         meta={{
           title: tip.title,
@@ -64,6 +84,7 @@ const TipTemplate: React.FC<TipPageProps> = ({tip, tips}) => {
               <div className="flex gap-10 md:flex-row flex-col">
                 <div className="w-full">
                   <h1 className="lg:text-4xl text-3xl font-bold w-full max-w-xl">
+                    {tipCompleted ? '✅ ' : ''}
                     {tip.title}
                   </h1>
                   <Hr />
@@ -178,10 +199,8 @@ const Hr = () => {
 }
 
 const TipOverlay: React.FC<{tips: Tip[]}> = ({tips}) => {
-  const router = useRouter()
   const {lesson, module, setDisplayOverlay, handlePlay} = useMuxPlayer()
 
-  const nextTip = getNextTip(lesson as Tip, module.exercises)
   const buttonStyles =
     'py-2 px-3 font-medium rounded flex items-center gap-1 hover:bg-gray-700/50 bg-black/80 transition text-gray-200'
   return (
@@ -212,53 +231,68 @@ const TipOverlay: React.FC<{tips: Tip[]}> = ({tips}) => {
       <div className="z-20 lg:absolute left-0 top-0 w-full h-full flex flex-col items-center justify-center text-center leading-relaxed text-lg p-5">
         {/* <ShareTip lesson={tip} /> */}
         <div className="grid lg:grid-cols-3 sm:grid-cols-2 grid-cols-1 gap-2 h-full ">
-          {take(shuffle(tips), 9).map((tip) => {
-            const video = tip?.resources.find(
-              (resource: SanityDocument) => resource._type === 'videoResource',
-            )
-
-            const thumbnail = `https://image.mux.com/${video.muxAsset.muxPlaybackId}/thumbnail.png?width=288&height=162&fit_mode=preserve`
-
-            return (
-              <button
-                onClick={() => {
-                  router
-                    .push({
-                      pathname: '/tips/[tip]',
-                      query: {tip: tip.slug.current},
-                    })
-                    .then(() => {
-                      handlePlay()
-                    })
-                }}
-                className="aspect-video w-full z-0 group font-medium text-left text-gray-200 relative leading-tight h-full flex items-end justify-start bg-gray-900/60 rounded-lg p-8"
-              >
-                <div className="flex flex-col relative z-10">
-                  <span className="text-xs font-semibold text-gray-500 pb-1 font-mono uppercase">
-                    Tip
-                  </span>
-                  <span className="font-medium">{tip.title}</span>
-                </div>
-                <Image
-                  src={thumbnail}
-                  alt=""
-                  aria-hidden="true"
-                  layout="fill"
-                  className="object-cover opacity-30 blur-xs z-0 group-hover:opacity-40 group-hover:brightness-150 transition"
-                  quality={100}
-                />
-                <div
-                  className="absolute w-full h-full left-0 top-0 flex items-start justify-end p-5"
-                  aria-hidden="true"
-                >
-                  <PlayIcon className="w-10 h-10 flex-shrink-0 text-gray-300 group-hover:scale-100 scale-50 group-hover:opacity-100 opacity-0 transition" />
-                </div>
-              </button>
-            )
-          })}
+          {take(shuffle(tips), 9).map((tip) => (
+            <VideoOverlayTipCard suggestedTip={tip} />
+          ))}
         </div>
       </div>
     </div>
+  )
+}
+
+const VideoOverlayTipCard: React.FC<{suggestedTip: Tip}> = ({suggestedTip}) => {
+  const router = useRouter()
+  const {lesson, module, handlePlay} = useMuxPlayer()
+  const {tipCompleted} = useTipComplete(suggestedTip.slug.current)
+  const video = suggestedTip?.resources.find(
+    (resource: SanityDocument) => resource._type === 'videoResource',
+  )
+
+  const thumbnail = `https://image.mux.com/${video.muxAsset.muxPlaybackId}/thumbnail.png?width=288&height=162&fit_mode=preserve`
+
+  return (
+    <button
+      key={suggestedTip.slug.current}
+      onClick={() => {
+        track('clicked suggested tip thumbnail', {
+          lesson: suggestedTip.slug.current,
+        })
+
+        router
+          .push({
+            pathname: '/tips/[tip]',
+            query: {tip: suggestedTip.slug.current},
+          })
+          .then(() => {
+            handlePlay()
+          })
+      }}
+      className="aspect-video w-full z-0 group font-medium text-left text-gray-200 relative leading-tight h-full flex items-end justify-start bg-gray-900/60 rounded-lg p-8"
+    >
+      <div className="flex flex-col relative z-10">
+        <span className="text-xs font-semibold text-gray-500 pb-1 font-mono uppercase">
+          Tip
+        </span>
+        <span className="font-medium">
+          {tipCompleted ? '✅ ' : ''}
+          {suggestedTip.title}
+        </span>
+      </div>
+      <Image
+        src={thumbnail}
+        alt=""
+        aria-hidden="true"
+        layout="fill"
+        className="object-cover opacity-30 blur-xs z-0 group-hover:opacity-40 group-hover:brightness-150 transition"
+        quality={100}
+      />
+      <div
+        className="absolute w-full h-full left-0 top-0 flex items-start justify-end p-5"
+        aria-hidden="true"
+      >
+        <PlayIcon className="w-10 h-10 flex-shrink-0 text-gray-300 group-hover:scale-100 scale-50 group-hover:opacity-100 opacity-0 transition" />
+      </div>
+    </button>
   )
 }
 
@@ -269,6 +303,9 @@ const ReplyOnTwitter: React.FC<{tweet: {tweetId: string}}> = ({tweet}) => {
       target="_blank"
       rel="noopener noreferrer"
       className="mb-5 mt-2 text-gray-200 px-4 py-3 font-medium rounded bg-gray-800 gap-2 inline-flex items-center justify-center hover:brightness-150 transition brightness-110"
+      onClick={() => {
+        track('clicked reply on twitter')
+      }}
     >
       <ChatAltIcon aria-hidden="true" className="text-gray-400 w-5 h-5" />
       Discuss on Twitter
