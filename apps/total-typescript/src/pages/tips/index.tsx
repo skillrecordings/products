@@ -7,14 +7,13 @@ import Image from 'next/image'
 import {SanityDocument} from '@sanity/client'
 import {PlayIcon} from '@heroicons/react/solid'
 import {useRouter} from 'next/router'
-import {useMuxPlayer} from 'hooks/use-mux-player'
 
-export const getServerSideProps: GetServerSideProps = async (context) => {
-  context.res.setHeader('Cache-Control', 's-maxage=1, stale-while-revalidate')
+export async function getStaticProps() {
   const tips = await getAllTips()
 
   return {
     props: {tips},
+    revalidate: 10,
   }
 }
 
@@ -26,7 +25,7 @@ const pageDescription =
   'A collection of useful tips that you wish you knew when you started using TypeScript.'
 
 const TipsIndex: React.FC<TipsIndex> = ({tips}) => {
-  return tips ? (
+  return (
     <Layout
       meta={{
         title: 'TypeScript Tips by Matt Pocock',
@@ -61,7 +60,7 @@ const TipsIndex: React.FC<TipsIndex> = ({tips}) => {
         className="object-contain -z-10"
       />
     </Layout>
-  ) : null
+  )
 }
 
 export default TipsIndex

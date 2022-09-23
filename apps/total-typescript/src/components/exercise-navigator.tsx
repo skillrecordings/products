@@ -70,7 +70,7 @@ const ExerciseNavigator: React.FC<{
                     >
                       {sectionIdx + 1}
                     </span>{' '}
-                    {exercise.label}
+                    {exercise.title}
                   </a>
                 </Link>
                 <ul className="text-gray-300">

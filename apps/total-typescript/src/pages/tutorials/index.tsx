@@ -2,16 +2,15 @@ import React from 'react'
 import Layout from 'components/app/layout'
 import {SanityDocument} from '@sanity/client'
 import {getAllTutorials} from 'lib/tutorials'
-import {GetServerSideProps} from 'next'
 import Link from 'next/link'
 import Image from 'next/image'
 
-export const getServerSideProps: GetServerSideProps = async (context) => {
-  context.res.setHeader('Cache-Control', 's-maxage=1, stale-while-revalidate')
+export async function getStaticProps() {
   const tutorials = await getAllTutorials()
 
   return {
     props: {tutorials},
+    revalidate: 10,
   }
 }
 

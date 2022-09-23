@@ -26,16 +26,15 @@ import {
 import Image from 'next/image'
 import {track} from 'utils/analytics'
 import {Exercise, ExerciseSchema} from '../lib/exercises'
-import {Subscriber} from 'lib/convertkit'
+import {useConvertkit} from 'hooks/use-convertkit'
 
 const path = '/tutorials'
 
 const ExerciseTemplate: React.FC<{
   exercise: Exercise
   module: SanityDocument
-  subscriber: Subscriber
   isSolution?: boolean
-}> = ({exercise, module, subscriber, isSolution = false}) => {
+}> = ({exercise, module, isSolution = false}) => {
   const muxPlayerRef = React.useRef<HTMLDivElement>()
 
   exercise = ExerciseSchema.parse(
@@ -45,10 +44,10 @@ const ExerciseTemplate: React.FC<{
         )
       : exercise,
   )
-  const {label, description: exerciseDescription} = exercise
+  const {title, description: exerciseDescription} = exercise
 
   const {ogImage, description: moduleDescription} = module
-  const pageTitle = `${label}`
+  const pageTitle = `${title}`
   const pageDescription = exerciseDescription || moduleDescription
   const shareCard = ogImage ? {ogImage: {url: ogImage}} : {}
 
@@ -57,7 +56,6 @@ const ExerciseTemplate: React.FC<{
       muxPlayerRef={muxPlayerRef}
       module={module}
       lesson={exercise as Exercise}
-      subscriber={subscriber}
       path={path}
     >
       <Layout
@@ -128,13 +126,10 @@ const ExerciseTemplate: React.FC<{
 const Video: React.FC<any> = React.forwardRef(
   ({module, exercise}, ref: any) => {
     const isExercise = Boolean(exercise._type === 'exercise')
-    const {
-      muxPlayerProps,
-      handlePlay,
-      displayOverlay,
-      nextExercise,
-      subscriber,
-    } = useMuxPlayer()
+    const {muxPlayerProps, handlePlay, displayOverlay, nextExercise} =
+      useMuxPlayer()
+
+    const {subscriber, loadingSubscriber} = useConvertkit()
 
     const video =
       (subscriber || exercise._id === module.exercises[0]._id) &&
@@ -167,10 +162,7 @@ const Video: React.FC<any> = React.forwardRef(
           {video ? (
             <MuxPlayer ref={ref} {...(muxPlayerProps as MuxPlayerProps)} />
           ) : (
-            <>
-              {/* <LoadingOverlay /> */}
-              <BlockedOverlay />
-            </>
+            <>{loadingSubscriber ? <LoadingOverlay /> : <BlockedOverlay />}</>
           )}
         </div>
       </>
@@ -226,7 +218,7 @@ const GitHubLink: React.FC<{
 }
 
 const ExerciseTitle: React.FC<{exercise: Exercise}> = ({exercise}) => {
-  const {label, _type} = exercise
+  const {title, _type} = exercise
   return (
     <>
       <span
@@ -241,7 +233,7 @@ const ExerciseTitle: React.FC<{exercise: Exercise}> = ({exercise}) => {
         {_type}
       </span>
       <h1 className="xl:text-[2.65rem] 2xl:text-4xl sm:text-4xl text-3xl font-bold tracking-tight pb-5 pt-3">
-        {label}
+        {title}
       </h1>
     </>
   )

@@ -2,7 +2,7 @@ import React from 'react'
 import {AppProps} from 'next/app'
 import '../styles/globals.css'
 import 'focus-visible'
-import {ConvertkitProvider} from '@skillrecordings/convertkit'
+import {ConvertkitProvider} from 'hooks/use-convertkit'
 import {usePageview} from '@skillrecordings/analytics'
 import {DefaultSeo} from '@skillrecordings/next-seo'
 import {initNProgress} from '@skillrecordings/react'
@@ -15,11 +15,9 @@ import {QueryClient, QueryClientProvider} from 'react-query'
 import * as amplitude from '@amplitude/analytics-browser'
 import {withTRPC} from '@trpc/next'
 import superjson from 'superjson'
-import {transformer} from 'utils/trpc'
 import {httpBatchLink} from '@trpc/client/links/httpBatchLink'
 import {loggerLink} from '@trpc/client/links/loggerLink'
 import {AppRouter} from 'server/routers/_app'
-import {httpLink} from '@trpc/client/dist/declarations/src/links/httpLink'
 
 amplitude.init(process.env.NEXT_PUBLIC_AMPLITUDE_API_KEY)
 
@@ -111,5 +109,5 @@ export default withTRPC<AppRouter>({
   /**
    * @link https://trpc.io/docs/ssr
    */
-  ssr: true,
+  ssr: false,
 })(MyApp)

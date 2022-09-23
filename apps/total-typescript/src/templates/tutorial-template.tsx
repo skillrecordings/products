@@ -8,18 +8,19 @@ import {PortableText} from '@portabletext/react'
 import {SanityDocument} from '@sanity/client'
 import {IconGithub} from 'components/icons'
 import {isBrowser} from 'utils/is-browser'
-import {Subscriber} from 'lib/convertkit'
 import {track} from '../utils/analytics'
+import {useConvertkit} from 'hooks/use-convertkit'
 
 const TutorialTemplate: React.FC<{
   tutorial: SanityDocument
-  subscriber: Subscriber
-}> = ({tutorial, subscriber}) => {
+}> = ({tutorial}) => {
   const {title, body, ogImage, image, description} = tutorial
   const pageTitle = `${title} Tutorial`
+  const {subscriber} = useConvertkit()
   const subscriberName =
-    subscriber &&
-    `${subscriber.first_name} ${subscriber.fields.last_name ?? ''}`
+    (subscriber &&
+      `${subscriber.first_name} ${subscriber?.fields?.last_name ?? ''}`) ||
+    ''
   const certificateUrl = useLearnerCertificateAsOgImage(
     pageTitle,
     image,
@@ -187,7 +188,7 @@ const TutorialExerciseNavigator: React.FC<{tutorial: SanityDocument}> = ({
                       {i + 1}
                     </span>
                     <span className="w-full group-hover:underline leading-tight">
-                      {exercise.label}
+                      {exercise.title}
                     </span>
                   </a>
                 </Link>
