@@ -72,6 +72,17 @@ export default {
       type: 'body',
     },
     {
+      name: 'concepts',
+      title: 'Concepts',
+      type: 'array',
+      of: [
+        {
+          type: 'reference',
+          to: [{type: 'skosConcept'}],
+        },
+      ],
+    },
+    {
       name: 'image',
       title: 'Image',
       type: 'image',

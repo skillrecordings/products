@@ -17,10 +17,11 @@ const TutorialTemplate: React.FC<{
   const {title, body, ogImage, image, description} = tutorial
   const pageTitle = `${title} Tutorial`
   const {subscriber} = useConvertkit()
+
   const subscriberName =
-    (subscriber &&
-      `${subscriber.first_name} ${subscriber?.fields?.last_name ?? ''}`) ||
-    ''
+    subscriber &&
+    `${subscriber.first_name} ${subscriber?.fields?.last_name ?? ''}`
+
   const certificateUrl = useLearnerCertificateAsOgImage(
     pageTitle,
     image,
@@ -32,9 +33,10 @@ const TutorialTemplate: React.FC<{
     <Layout
       className="max-w-4xl mx-auto w-full py-24 px-5 "
       meta={{
-        title: certificateUrl
-          ? `${subscriberName} has finished the ${pageTitle}`
-          : pageTitle,
+        title:
+          certificateUrl && subscriberName
+            ? `${subscriberName} has finished the ${pageTitle}`
+            : pageTitle,
         description,
         ogImage: {
           url: pageOgImageUrl,
@@ -84,27 +86,29 @@ const Header: React.FC<{tutorial: SanityDocument}> = ({tutorial}) => {
               </div>
             </div>
             <div className="pt-8 flex items-center gap-3">
-              <Link
-                href={{
-                  pathname: '/tutorials/[module]/[exercise]',
-                  query: {
-                    module: slug.current,
-                    exercise: exercises[0].slug.current,
-                  },
-                }}
-              >
-                <a
-                  className="px-6 py-3 rounded hover:bg-cyan-300 transition flex items-center justify-center font-semibold bg-cyan-400 text-black"
-                  onClick={() => {
-                    track('clicked github code link', {module: slug.current})
+              {exercises?.[0] && (
+                <Link
+                  href={{
+                    pathname: '/tutorials/[module]/[exercise]',
+                    query: {
+                      module: slug.current,
+                      exercise: exercises[0].slug.current,
+                    },
                   }}
                 >
-                  Start Learning{' '}
-                  <span className="pl-2" aria-hidden="true">
-                    →
-                  </span>
-                </a>
-              </Link>
+                  <a
+                    className="px-6 py-3 rounded hover:bg-cyan-300 transition flex items-center justify-center font-semibold bg-cyan-400 text-black"
+                    onClick={() => {
+                      track('clicked github code link', {module: slug.current})
+                    }}
+                  >
+                    Start Learning{' '}
+                    <span className="pl-2" aria-hidden="true">
+                      →
+                    </span>
+                  </a>
+                </Link>
+              )}
               {github && (
                 <a
                   className="px-5 py-3 gap-2 rounded transition flex items-center justify-center font-medium border-2 border-gray-800 hover:bg-gray-800"
@@ -153,7 +157,7 @@ const TutorialExerciseNavigator: React.FC<{tutorial: SanityDocument}> = ({
       className="lg:border-l border-gray-800 lg:pl-8"
     >
       <h2 className="pb-4 text-gray-300 text-sm font-semibold font-mono uppercase">
-        {exercises.length} Exercises
+        {exercises?.length || 0} Exercises
       </h2>
       {exercises && (
         <ul>

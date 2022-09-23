@@ -17,7 +17,7 @@ import isEmpty from 'lodash/isEmpty'
 export const useLearnerCertificateAsOgImage = (
   title: string,
   image: string,
-  name: string,
+  name?: string,
 ) => {
   const router = useRouter()
 

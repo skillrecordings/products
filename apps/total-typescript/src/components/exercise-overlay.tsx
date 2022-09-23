@@ -323,7 +323,9 @@ const BlockedOverlay: React.FC = () => {
 
   const handleOnSuccess = (subscriber: any, email?: string) => {
     if (subscriber) {
-      const redirectUrl = redirectUrlBuilder(subscriber, router.asPath)
+      const redirectUrl = redirectUrlBuilder(subscriber, router.asPath, {
+        confirmToast: 'true',
+      })
       email && setUserId(email)
       track('subscribed to email list', {
         lesson: lesson.slug.current,
