@@ -333,21 +333,6 @@ const BlockedOverlay: React.FC = () => {
         lessonType: lesson._type,
       })
       router.push(redirectUrl).then(() => {
-        toast(
-          () => (
-            <div>
-              <strong>Confirm your subscription</strong>
-              <p>
-                Please check your inbox for an email that just got sent. Thanks
-                and enjoy!
-              </p>
-            </div>
-          ),
-          {
-            icon: '✉️',
-            duration: 6000,
-          },
-        )
         router.reload()
       })
     }
