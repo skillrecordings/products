@@ -111,7 +111,7 @@ export const TipTeaser: React.FC<{tip: Tip}> = ({tip}) => {
             aria-hidden="true"
           />
           <div
-            className="absolute group-hover:opacity-100 opacity-100 transition scale-50 group-hover:scale-75 text-orange-400"
+            className="absolute group-hover:opacity-100 opacity-100 transition scale-50 group-hover:scale-75 text-gray-400 group-hover:text-gray-200"
             aria-hidden="true"
           >
             <PlayIcon className="w-10 h-10" />
