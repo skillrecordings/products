@@ -4,7 +4,7 @@ import {ChevronDownIcon, ChevronUpIcon} from '@heroicons/react/solid'
 import {
   toPlainText,
   PortableText,
-  PortableTextComponents,
+  PortableTextComponents as PortableTextComponentsProps,
   PortableTextMarkComponentProps,
 } from '@portabletext/react'
 import {useSelector} from '@xstate/react'
@@ -141,7 +141,7 @@ const ExternalLink: React.FC<React.PropsWithChildren<ExternalLinkProps>> = ({
 
 // https://github.com/portabletext/react-portabletext
 
-const PortableTextComponents: PortableTextComponents = {
+const PortableTextComponents: PortableTextComponentsProps = {
   block: {
     h1: ({children, value}) => {
       return <h1 id={speakingurl(toPlainText(value))}>{children}</h1>
@@ -273,7 +273,13 @@ const PortableTextComponents: PortableTextComponents = {
           >
             <Refractor
               inline
-              language={language || 'javascript'}
+              language={
+                language
+                  ? Refractor.hasLanguage(language)
+                    ? language
+                    : 'javascript'
+                  : 'javascript'
+              }
               value={code}
               markers={highlightedLines}
             />
