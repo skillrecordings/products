@@ -1,10 +1,10 @@
-import {MdCardTravel} from 'react-icons/md'
+import {MdSettingsSuggest} from 'react-icons/md'
 
 export default {
-  name: 'related-resource',
+  name: 'exercise',
   type: 'object',
-  title: 'Related Resource',
-  icon: MdCardTravel,
+  title: 'Exercise',
+  icon: MdSettingsSuggest,
   fields: [
     {
       name: 'label',
@@ -25,16 +25,7 @@ export default {
       name: 'resources',
       title: 'Resources',
       type: 'array',
-      of: [
-        {type: 'muxVideo'},
-        {
-          title: 'Article',
-          name: 'article',
-          type: 'reference',
-          to: [{type: 'article'}],
-        },
-        {type: 'stackblitz'},
-      ],
+      of: [{type: 'muxVideo'}, {type: 'stackblitz'}],
     },
     {
       name: 'body',

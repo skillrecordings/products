@@ -1,10 +1,11 @@
-import {MdAutoFixHigh} from 'react-icons/md'
+import {MdOutlineWorkspaces} from 'react-icons/md'
 
 export default {
-  name: 'solution',
-  type: 'object',
-  title: 'Solution',
-  icon: MdAutoFixHigh,
+  name: 'lesson',
+  type: 'document',
+  title: 'Lesson',
+  description: 'This is a lesson that can contain multiple resources',
+  icon: MdOutlineWorkspaces,
   fields: [
     {
       name: 'label',
@@ -25,12 +26,7 @@ export default {
       name: 'resources',
       title: 'Resources',
       type: 'array',
-      of: [{type: 'muxVideo'}, {type: 'stackblitz'}],
-    },
-    {
-      name: 'body',
-      title: 'Body',
-      type: 'body',
+      of: [{type: 'exercise'}, {type: 'solution'}, {type: 'talk'}],
     },
   ],
 }

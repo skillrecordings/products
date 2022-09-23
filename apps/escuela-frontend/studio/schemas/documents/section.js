@@ -27,14 +27,14 @@ export default {
       type: 'github',
     },
     {
-      name: 'resources',
-      title: 'Resources',
-      description: 'Exercises in the course',
+      name: 'lessons',
+      title: 'Lessons',
+      description: 'Lessons in the course',
       type: 'array',
       of: [
         {
           type: 'reference',
-          to: [{type: 'exercise'}],
+          to: [{type: 'lesson'}],
         },
       ],
     },

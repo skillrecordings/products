@@ -1,10 +1,10 @@
-import {MdAutoFixHigh} from 'react-icons/md'
+import {MdMonitor} from 'react-icons/md'
 
 export default {
-  name: 'solution',
+  name: 'talk',
   type: 'object',
-  title: 'Solution',
-  icon: MdAutoFixHigh,
+  title: 'Talk',
+  icon: MdMonitor,
   fields: [
     {
       name: 'label',
@@ -25,7 +25,7 @@ export default {
       name: 'resources',
       title: 'Resources',
       type: 'array',
-      of: [{type: 'muxVideo'}, {type: 'stackblitz'}],
+      of: [{type: 'muxVideo'}],
     },
     {
       name: 'body',
