@@ -61,7 +61,7 @@ const NavLink: React.FC<
     <li className="h-full">
       <Link href={path} passHref>
         <a
-          className="flex items-center gap-1 font-medium px-5 h-full hover:bg-gray-800/60 transition duration-100"
+          className="flex items-center sm:gap-1 gap-0.5 sm:text-base text-sm active:bg-transparent font-medium sm:px-5 px-2 h-full hover:bg-gray-800/60 transition duration-100"
           onClick={() => {
             track(`clicked ${label} link in nav`)
           }}

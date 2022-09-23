@@ -45,7 +45,7 @@ const TipsIndex: React.FC<TipsIndex> = ({tips}) => {
           {pageDescription}
         </p>
       </header>
-      <main className="rounded-lg relative z-10 w-full max-w-screen-md mx-auto flex flex-col divide-y divide-gray-800 px-5 bg-black/30">
+      <main className="rounded-lg relative z-10 w-full max-w-screen-md mx-auto flex flex-col divide-y divide-gray-800 sm:px-5 px-3 bg-black/30">
         {tips.map((tip) => {
           return <TipTeaser tip={tip} key={tip.slug.current} />
         })}
@@ -95,13 +95,15 @@ export const TipTeaser: React.FC<{tip: Tip}> = ({tip}) => {
           className=" group relative flex items-center justify-center rounded overflow-hidden border border-gray-800"
         >
           <span className="sr-only">Play {title}</span>
-          <Image
-            src={thumbnail}
-            alt=""
-            width={240 / 2}
-            height={135 / 2}
-            aria-hidden="true"
-          />
+          <div className="flex items-center justify-center sm:w-auto w-16">
+            <Image
+              src={thumbnail}
+              alt=""
+              width={240 / 2}
+              height={135 / 2}
+              aria-hidden="true"
+            />
+          </div>
           <div
             className="absolute w-full h-full left-0 top-0 bg-[#0F172A]/50 mix-blend-color"
             aria-hidden="true"
@@ -118,7 +120,7 @@ export const TipTeaser: React.FC<{tip: Tip}> = ({tip}) => {
           </div>
         </button>
       </header>
-      <h2 className="text-xl font-medium leading-tight">
+      <h2 className="sm:text-xl text-base font-medium leading-tight">
         <Link
           href={{
             pathname: '/tips/[tip]',
