@@ -45,7 +45,7 @@ const Video: React.FC<{url: string; title: string}> = ({url, title}) => {
   return (
     <div className="">
       {title && (
-        <strong className="inline-block pb-2 font-semibold">
+        <strong className="font-semibold inline-block pb-2">
           <span className="sr-only">Video:</span> {title}
         </strong>
       )}
@@ -56,7 +56,7 @@ const Video: React.FC<{url: string; title: string}> = ({url, title}) => {
           relative: !isFullscreen,
         })}
       >
-        <div className="overflow-hidden rounded-md">
+        <div className="rounded-md overflow-hidden">
           <Player
             enableGlobalShortcuts={false}
             aria-label={title}
@@ -96,7 +96,7 @@ const BodyImage = ({value}: BodyImageProps) => {
           quality={100}
           className="rounded-md"
         />
-        {isLoading && <Spinner className="absolute w-8 h-8" />}
+        {isLoading && <Spinner className="w-8 h-8 absolute" />}
         {caption && (
           <figcaption>
             <PortableText value={caption} />
@@ -170,9 +170,11 @@ const PortableTextComponents: PortableTextComponents = {
     link: ({value, children}) => {
       return <ExternalLink value={value}>{children}</ExternalLink>
     },
-    code: ({value, children}) => {
+    code: ({children}) => {
       return (
-        <code className="bg-slate-800/80 px-1 py-0.5 rounded">{children}</code>
+        <span className="bg-slate-300 py-1 px-1 rounded-sm font-mono text-base">
+          {children}
+        </span>
       )
     },
   },
@@ -190,13 +192,13 @@ const PortableTextComponents: PortableTextComponents = {
               aria-label="Video transcript"
               role="contentinfo"
             >
-              <summary className="inline-flex items-center space-x-2 text-gray-600 transition cursor-pointer hover:text-gray-800">
+              <summary className="inline-flex space-x-2 items-center cursor-pointer text-gray-600 hover:text-gray-800 transition">
                 <span
                   aria-hidden="true"
-                  className="flex items-center justify-center p-1 transition border border-gray-200 rounded-full group-hover:bg-gray-50"
+                  className="group-hover:bg-gray-50 p-1 rounded-full border border-gray-200 flex items-center justify-center transition"
                 >
-                  <ChevronDownIcon className="w-4 h-4 group-open:hidden" />
-                  <ChevronUpIcon className="hidden w-4 h-4 group-open:block" />
+                  <ChevronDownIcon className="group-open:hidden w-4 h-4" />
+                  <ChevronUpIcon className="group-open:block hidden w-4 h-4" />
                 </span>
                 <span className="text-base">Video Transcript</span>
               </summary>
@@ -231,13 +233,13 @@ const PortableTextComponents: PortableTextComponents = {
                 aria-label="Video transcript"
                 role="contentinfo"
               >
-                <summary className="inline-flex items-center space-x-2 text-gray-600 transition cursor-pointer hover:text-gray-800">
+                <summary className="inline-flex space-x-2 items-center cursor-pointer text-gray-600 hover:text-gray-800 transition">
                   <span
                     aria-hidden="true"
-                    className="flex items-center justify-center p-1 transition border border-gray-200 rounded-full group-hover:bg-gray-50"
+                    className="group-hover:bg-gray-50 p-1 rounded-full border border-gray-200 flex items-center justify-center transition"
                   >
-                    <ChevronDownIcon className="w-4 h-4 group-open:hidden" />
-                    <ChevronUpIcon className="hidden w-4 h-4 group-open:block" />
+                    <ChevronDownIcon className="group-open:hidden w-4 h-4" />
+                    <ChevronUpIcon className="group-open:block hidden w-4 h-4" />
                   </span>
                   <span className="text-base">Video Transcript</span>
                 </summary>
@@ -265,7 +267,7 @@ const PortableTextComponents: PortableTextComponents = {
           </pre>
           <pre
             aria-hidden="true"
-            className="sm:mx-0 -mx-5 sm:rounded-lg rounded-none bg-black/50 p-5 md:leading-tight md:text-lg text-lg leading-[1.15]"
+            className="sm:mx-0 -mx-5 sm:rounded-lg rounded-none bg-slate-800 p-5 md:leading-tight md:text-lg text-lg leading-[1.15]"
           >
             <Refractor
               inline
