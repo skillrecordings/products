@@ -39,13 +39,13 @@ const DesktopNav = () => {
         label="Free Tutorials"
         icon={<PlayIcon className="w-5 h-5 text-cyan-300" aria-hidden="true" />}
       />
-      {/* <NavLink
+      <NavLink
         path="/tips"
         label="Tips"
         icon={
           <FireIcon className="w-5 h-5 text-orange-400" aria-hidden="true" />
         }
-      /> */}
+      />
     </ul>
   )
 }
