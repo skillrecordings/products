@@ -39,13 +39,13 @@ const DesktopNav = () => {
         label="Free Tutorials"
         icon={<PlayIcon className="w-5 h-5 text-cyan-300" aria-hidden="true" />}
       />
-      {/* <NavLink
+      <NavLink
         path="/tips"
         label="Tips"
         icon={
           <FireIcon className="w-5 h-5 text-orange-400" aria-hidden="true" />
         }
-      /> */}
+      />
     </ul>
   )
 }
@@ -61,7 +61,7 @@ const NavLink: React.FC<
     <li className="h-full">
       <Link href={path} passHref>
         <a
-          className="flex items-center gap-1 font-medium px-5 h-full hover:bg-gray-800/60 transition duration-100"
+          className="flex items-center sm:gap-1 gap-0.5 sm:text-base text-sm active:bg-transparent font-medium sm:px-5 px-2 h-full hover:bg-gray-800/60 transition duration-100"
           onClick={() => {
             track(`clicked ${label} link in nav`)
           }}

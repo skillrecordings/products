@@ -3,6 +3,9 @@ import {isEmpty} from 'lodash'
 import {CK_SUBSCRIBER_KEY} from '@skillrecordings/config'
 import Cookies from 'js-cookie'
 import {useQuery} from 'react-query'
+import toast from 'react-hot-toast'
+import {useRouter} from 'next/router'
+import {removeQueryParamsFromRouter} from 'utils/remove-query-params-from-router'
 
 type ConvertkitContextType = {
   subscriber?: {
@@ -30,19 +33,16 @@ export const ConvertkitContext = React.createContext(defaultConvertKitContext)
 export const ConvertkitProvider: React.FC<
   React.PropsWithChildren<{getSubscriberApiUrl?: string}>
 > = ({children}) => {
+  const router = useRouter()
+
   const {data: subscriber, status} = useQuery(
     [`convertkit-subscriber`],
     async () => {
       const params = new URLSearchParams(window.location.search)
       const ckSubscriberId = params.get(CK_SUBSCRIBER_KEY)
-
       if (!isEmpty(ckSubscriberId)) {
-        params.delete(CK_SUBSCRIBER_KEY)
-        window.history.replaceState(
-          null,
-          document.title,
-          `${window.location.pathname}?${params.toString()}`,
-        )
+        confirmSubscriptionToast()
+        removeQueryParamsFromRouter(router, [CK_SUBSCRIBER_KEY])
       }
       try {
         const subscriber = Cookies.get('ck_subscriber')
@@ -80,4 +80,22 @@ export const ConvertkitProvider: React.FC<
 
 export function useConvertkit() {
   return React.useContext(ConvertkitContext)
+}
+
+const confirmSubscriptionToast = () => {
+  return toast(
+    () => (
+      <div>
+        <strong>Confirm your subscription</strong>
+        <p>
+          Please check your inbox for an email that just got sent. Thanks and
+          enjoy!
+        </p>
+      </div>
+    ),
+    {
+      icon: '✉️',
+      duration: 6000,
+    },
+  )
 }
