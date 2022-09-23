@@ -1,9 +1,9 @@
 import {MdOutlineWorkspaces} from 'react-icons/md'
 
 export default {
-  name: 'lesson',
+  name: 'resource',
+  title: 'Resource',
   type: 'document',
-  title: 'Lesson',
   description: 'This is a lesson that can contain multiple resources',
   icon: MdOutlineWorkspaces,
   fields: [
@@ -11,6 +11,18 @@ export default {
       name: 'label',
       title: 'Label',
       type: 'string',
+    },
+    {
+      name: 'resourceType',
+      title: 'Resource Type',
+      type: 'string',
+      validation: (Rule) => Rule.required(),
+      options: {
+        list: [
+          {title: 'Section', value: 'section'},
+          {title: 'Lesson', value: 'lesson'},
+        ],
+      },
     },
     {
       name: 'slug',
@@ -26,7 +38,12 @@ export default {
       name: 'resources',
       title: 'Resources',
       type: 'array',
-      of: [{type: 'exercise'}, {type: 'solution'}, {type: 'talk'}],
+      of: [
+        {type: 'resource'},
+        {type: 'exercise'},
+        {type: 'solution'},
+        {type: 'talk'},
+      ],
     },
   ],
 }

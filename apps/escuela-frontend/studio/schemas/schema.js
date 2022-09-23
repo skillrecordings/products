@@ -6,8 +6,7 @@ import schemaTypes from 'all:part:@sanity/base/schema-type'
 // documents
 import article from './documents/article'
 import module from './documents/module'
-import section from './documents/section'
-import lesson from './documents/lesson'
+import resource from './documents/resource'
 // objects
 import bodyVideo from './objects/bodyVideo'
 import bodyImage from './objects/bodyImage'
@@ -38,8 +37,7 @@ export default createSchema({
     // documents
     article,
     module,
-    section,
-    lesson,
+    resource,
     //objects
     body,
     bodyVideo,
