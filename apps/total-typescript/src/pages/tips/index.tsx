@@ -31,7 +31,7 @@ const TipsIndex: React.FC<TipsIndex> = ({tips}) => {
         title: 'TypeScript Tips by Matt Pocock',
         description: pageDescription,
         ogImage: {
-          url: 'https://res.cloudinary.com/total-typescript/image/upload/v1663845880/tips/card_2x_m0r0zl.png',
+          url: 'https://res.cloudinary.com/total-typescript/image/upload/v1663921088/tips/card_2x_b9zrcx.png',
           alt: 'TypeScript Tips by Matt Pocock',
         },
       }}
