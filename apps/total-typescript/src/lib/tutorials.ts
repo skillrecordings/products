@@ -1,7 +1,7 @@
 import groq from 'groq'
 import {sanityClient} from 'utils/sanity-client'
 
-const tutorialsQuery = groq`*[_type == "module" && moduleType == 'tutorial'] {
+const tutorialsQuery = groq`*[_type == "module" && moduleType == 'tutorial' && state == 'published'] {
   _id,
   _type,
   title,
@@ -22,6 +22,7 @@ export const getModule = async (slug: string) =>
         "id": _id,
         _type,
         title,
+        state,
         slug,
         body,
         moduleType,

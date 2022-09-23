@@ -27,6 +27,19 @@ export default {
       },
     },
     {
+      name: 'state',
+      title: 'Current State',
+      type: 'string',
+      validation: (Rule) => Rule.required(),
+      initialValue: 'draft',
+      options: {
+        list: [
+          {title: 'draft', value: 'draft'},
+          {title: 'published', value: 'published'},
+        ],
+      },
+    },
+    {
       name: 'slug',
       title: 'Slug',
       type: 'slug',
