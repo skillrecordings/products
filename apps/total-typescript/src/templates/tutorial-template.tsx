@@ -16,30 +16,30 @@ const TutorialTemplate: React.FC<{
 }> = ({tutorial}) => {
   const {title, body, ogImage, image, description} = tutorial
   const pageTitle = `${title} Tutorial`
-  const {subscriber} = useConvertkit()
 
-  const subscriberName =
-    subscriber &&
-    `${subscriber.first_name} ${subscriber?.fields?.last_name ?? ''}`
-
-  const certificateUrl = useLearnerCertificateAsOgImage(
-    pageTitle,
-    image,
-    subscriberName,
-  )
-  const pageOgImageUrl = certificateUrl ?? ogImage ?? undefined
+  // TODO: Fix behaving poorly showing the wrong title
+  // const {subscriber} = useConvertkit()
+  //
+  // const subscriberName =
+  //   subscriber &&
+  //   `${subscriber.first_name} ${subscriber?.fields?.last_name ?? ''}`
+  //
+  // const certificateUrl = useLearnerCertificateAsOgImage(
+  //   pageTitle,
+  //   image,
+  //   subscriberName,
+  // )
+  //
+  // const pageOgImageUrl = certificateUrl ?? ogImage ?? undefined
 
   return (
     <Layout
       className="max-w-4xl mx-auto w-full py-24 px-5 "
       meta={{
-        title:
-          certificateUrl && subscriberName
-            ? `${subscriberName} has finished the ${pageTitle}`
-            : pageTitle,
+        title: pageTitle,
         description,
         ogImage: {
-          url: pageOgImageUrl,
+          url: ogImage,
           alt: pageTitle,
         },
       }}
