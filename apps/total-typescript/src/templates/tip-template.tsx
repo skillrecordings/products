@@ -71,7 +71,9 @@ const TipTemplate: React.FC<TipPageProps> = ({tip, tips}) => {
               </div>
             </article>
             <div className="flex md:flex-row flex-col max-w-screen-xl mx-auto w-full sm:pt-10 pt-4 gap-10">
-              <Transcript video={video} muxPlayerRef={muxPlayerRef} />
+              {video.castingwords.transcript && (
+                <Transcript video={video} muxPlayerRef={muxPlayerRef} />
+              )}
               <RelatedTips currentTip={tip} tips={tips} />
             </div>
           </div>
