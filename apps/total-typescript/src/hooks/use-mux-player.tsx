@@ -8,7 +8,6 @@ import {MuxPlayerProps} from '@mux/mux-player-react/*'
 import {track} from '../utils/analytics'
 import {type Exercise, ExerciseSchema} from 'lib/exercises'
 import {type Tip, TipSchema} from 'lib/tips'
-import {useQuery} from 'react-query'
 
 type VideoResource = Exercise | Tip
 
@@ -45,10 +44,7 @@ export const VideoProvider: React.FC<
     usePlayerPrefs()
   const [autoPlay, setAutoPlay] = React.useState(getPlayerPrefs().autoplay)
   const [displayOverlay, setDisplayOverlay] = React.useState(false)
-
-  const {data: video} = useQuery(['video', lesson.slug], async () => {
-    return {muxPlaybackId: lesson.muxPlaybackId}
-  })
+  const video = {muxPlaybackId: lesson.muxPlaybackId}
 
   // console.log({video, lesson}, lesson.resources)
   const title = get(lesson, 'title') || get(lesson, 'label')
