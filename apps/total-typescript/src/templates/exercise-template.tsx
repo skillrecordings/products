@@ -37,13 +37,7 @@ const ExerciseTemplate: React.FC<{
 }> = ({exercise, module, isSolution = false}) => {
   const muxPlayerRef = React.useRef<HTMLDivElement>()
 
-  exercise = ExerciseSchema.parse(
-    isSolution
-      ? exercise.resources.find(
-          (resource: SanityDocument) => resource._type === 'solution',
-        )
-      : exercise,
-  )
+  exercise = ExerciseSchema.parse(isSolution ? exercise.solution : exercise)
   const {title, description: exerciseDescription} = exercise
 
   const {ogImage, description: moduleDescription} = module
@@ -126,16 +120,14 @@ const ExerciseTemplate: React.FC<{
 const Video: React.FC<any> = React.forwardRef(
   ({module, exercise}, ref: any) => {
     const isExercise = Boolean(exercise._type === 'exercise')
-    const {muxPlayerProps, handlePlay, displayOverlay, nextExercise} =
+    const {muxPlayerProps, handlePlay, displayOverlay, nextExercise, video} =
       useMuxPlayer()
 
     const {subscriber, loadingSubscriber} = useConvertkit()
 
-    const video =
+    const canShowVideo =
       (subscriber || exercise._id === module.exercises[0]._id) &&
-      exercise.resources.find(
-        (resource: SanityDocument) => resource._type === 'muxVideo',
-      )
+      exercise.muxPlaybackId
 
     return (
       <>
@@ -159,7 +151,7 @@ const Video: React.FC<any> = React.forwardRef(
             hidden: displayOverlay,
           })}
         >
-          {video ? (
+          {canShowVideo ? (
             <MuxPlayer ref={ref} {...(muxPlayerProps as MuxPlayerProps)} />
           ) : (
             <>{loadingSubscriber ? <LoadingOverlay /> : <BlockedOverlay />}</>
@@ -175,15 +167,12 @@ const GitHubLink: React.FC<{
   module: SanityDocument
 }> = ({exercise, module}) => {
   const {github} = module
-  const stackblitz = exercise.resources.find(
-    (resource: SanityDocument) => resource._type === 'stackblitz',
-  )
 
-  if (!github || !stackblitz) {
+  if (!github || !exercise.stackblitz) {
     return null
   }
 
-  const openFile = stackblitz.openFile.split(',')[0]
+  const openFile = exercise.stackblitz?.split(',')[0]
 
   return (
     <div className="pt-14">
@@ -192,7 +181,7 @@ const GitHubLink: React.FC<{
         <a
           onClick={() => {
             track('clicked github code link', {
-              lesson: exercise.slug.current,
+              lesson: exercise.slug,
               module: module.slug.current,
               moduleType: module.moduleType,
               lessonType: exercise._type,
@@ -230,7 +219,7 @@ const ExerciseTitle: React.FC<{exercise: Exercise}> = ({exercise}) => {
           },
         )}
       >
-        {_type}
+        {_type !== 'exercise' ? _type : 'Problem'}
       </span>
       <h1 className="xl:text-[2.65rem] 2xl:text-4xl sm:text-4xl text-3xl font-bold tracking-tight pb-5 pt-3">
         {title}
@@ -253,19 +242,14 @@ export const StackBlitzIframe: React.FC<{
   module: SanityDocument
   isExpanded?: boolean
 }> = ({exercise, module}) => {
-  const stackblitz = exercise.resources.find(
-    (resource: SanityDocument) => resource._type === 'stackblitz',
-  )
+  const stackblitz = exercise.stackblitz
   const [isLoading, setIsLoading] = React.useState(true)
-  const codeFileNumber = stackblitz.openFile
-    .match(/\d/g)
-    .join('')
-    .substring(0, 2)
+  const codeFileNumber = stackblitz?.match(/\d/g)?.join('').substring(0, 2)
   const startCommand = `${exercise._type.substring(0, 1)}-${codeFileNumber}` // e.g. s-01, e-02, etc
   const githubOrg = 'total-typescript'
   const githubRepo = module.github.repo
   const clickToLoad = Number(false)
-  const embedUrl = `https://stackblitz.com/github/${githubOrg}/${githubRepo}?file=${stackblitz.openFile}&embed=1&view=editor&hideExplorer=1&ctl=${clickToLoad}&terminal=${startCommand}`
+  const embedUrl = `https://stackblitz.com/github/${githubOrg}/${githubRepo}?file=${stackblitz}&embed=1&view=editor&hideExplorer=1&ctl=${clickToLoad}&terminal=${startCommand}`
 
   return (
     <>
@@ -300,13 +284,11 @@ const StackblitzEmbed: React.FC<{
   exercise: Exercise
   module: SanityDocument
 }> = ({exercise, module}) => {
-  const stackblitz = exercise.resources?.find(
-    (resource: SanityDocument) => resource._type === 'stackblitz',
-  )
+  const stackblitz = exercise.stackblitz
   const {isSafari, isFirefox} = useDeviceDetect()
   const [isExpanded, setIsExpanded] = React.useState(false)
 
-  if (!stackblitz?.openFile) {
+  if (!stackblitz) {
     return null
   }
 
@@ -341,7 +323,7 @@ const StackblitzEmbed: React.FC<{
               type="button"
               onClick={() => {
                 track('clicked run code', {
-                  lesson: exercise.slug.current,
+                  lesson: exercise.slug,
                   module: module.slug.current,
                   moduleType: module.moduleType,
                   lessonType: exercise._type,
@@ -370,11 +352,8 @@ const VideoTranscript: React.FC<{
   exercise: Exercise
   muxPlayerRef: any
 }> = ({exercise, muxPlayerRef}) => {
-  const video = exercise.resources.find(
-    (resource: SanityDocument) => resource._type === 'muxVideo',
-  )
-  const transcript = video?.transcript
-  const {handlePlay} = useMuxPlayer()
+  const transcript = exercise.transcript
+  const {handlePlay, video} = useMuxPlayer()
   if (!transcript) {
     return null
   }

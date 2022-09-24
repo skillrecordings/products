@@ -5,6 +5,7 @@ import {useRouter} from 'next/router'
 import capitalize from 'lodash/capitalize'
 import Link from 'next/link'
 import cx from 'classnames'
+import {Exercise} from '../lib/exercises'
 
 const ExerciseNavigator: React.FC<{
   module: SanityDocument
@@ -28,18 +29,18 @@ const ExerciseNavigator: React.FC<{
     >
       <nav aria-label="exercise navigator">
         <ul className="text-lg flex flex-col divide-y divide-gray-800/0">
-          {module.exercises.map((exercise: any, sectionIdx: number) => {
+          {module.exercises.map((exercise: Exercise, sectionIdx: number) => {
             const isActive =
               router.asPath ===
-              `/tutorials/${module.slug.current}/${exercise.slug.current}`
+              `/tutorials/${module.slug.current}/${exercise.slug}`
             const scrollToElement =
               router.asPath ===
-                `/tutorials/${module.slug.current}/${exercise.slug.current}/solution` ||
+                `/tutorials/${module.slug.current}/${exercise.slug}/solution` ||
               router.asPath ===
-                `/tutorials/${module.slug.current}/${exercise.slug.current}`
+                `/tutorials/${module.slug.current}/${exercise.slug}`
 
             return (
-              <li key={exercise.slug.current} className="pt-2">
+              <li key={exercise.slug} className="pt-2">
                 {scrollToElement && (
                   <div ref={activeElRef} aria-hidden="true" />
                 )}
@@ -48,7 +49,7 @@ const ExerciseNavigator: React.FC<{
                     pathname: `${path}/[module]/[exercise]`,
                     query: {
                       module: module.slug.current,
-                      exercise: exercise.slug.current,
+                      exercise: exercise.slug,
                     },
                   }}
                   passHref
@@ -58,7 +59,7 @@ const ExerciseNavigator: React.FC<{
                     onClick={() => {
                       track('clicked exercise in navigator', {
                         module: module.slug.current,
-                        lesson: exercise.slug.current,
+                        lesson: exercise.slug,
                         moduleType: module.moduleType,
                         lessonType: exercise._type,
                       })
@@ -74,13 +75,13 @@ const ExerciseNavigator: React.FC<{
                   </a>
                 </Link>
                 <ul className="text-gray-300">
-                  <li key={exercise.slug.current + `exercise`}>
+                  <li key={exercise.slug + `exercise`}>
                     <Link
                       href={{
                         pathname: `${path}/[module]/[exercise]`,
                         query: {
                           module: module.slug.current,
-                          exercise: exercise.slug.current,
+                          exercise: exercise.slug,
                         },
                       }}
                       passHref
@@ -97,62 +98,22 @@ const ExerciseNavigator: React.FC<{
                         onClick={() => {
                           track(`clicked exercise in navigator`, {
                             module: module.slug.current,
-                            lesson: exercise.slug.current,
+                            lesson: exercise.slug,
                             location: router.query.lesson,
                             moduleType: module.moduleType,
                             lessonType: exercise._type,
                           })
                         }}
                       >
-                        Exercise
+                        Problem
                       </a>
                     </Link>
                   </li>
-                  {exercise.resources
-                    .filter(
-                      (resource: SanityDocument) =>
-                        resource._type === 'solution',
-                    )
-                    .map((solution: any, i: number) => {
-                      const isActive =
-                        router.asPath ===
-                        `/tutorials/${module.slug.current}/${exercise.slug.current}/solution`
-                      return (
-                        <li key={solution._key}>
-                          <Link
-                            href={{
-                              pathname: `${path}/[module]/[exercise]/solution`,
-                              query: {
-                                module: module.slug.current,
-                                exercise: exercise.slug.current,
-                              },
-                            }}
-                            passHref
-                          >
-                            <a
-                              className={cx(
-                                'flex items-center py-2 px-8 border-l-4 text-base font-medium hover:bg-slate-400/20 hover:text-white transition',
-                                {
-                                  'border-cyan-400 bg-gray-800/80 text-white':
-                                    isActive,
-                                  'border-transparent ': !isActive,
-                                },
-                              )}
-                              onClick={() => {
-                                track(`clicked solution in navigator`, {
-                                  module: module.slug.current,
-                                  lesson: exercise.slug.current,
-                                  moduleType: module.moduleType,
-                                  lessonType: exercise._type,
-                                })
-                              }}
-                            >
-                              {capitalize(solution._type)}
-                            </a>
-                          </Link>
-                        </li>
-                      )
-                    })}
+                  <SolutionLink
+                    module={module}
+                    exercise={exercise}
+                    path={path}
+                  />
                 </ul>
               </li>
             )
@@ -160,6 +121,56 @@ const ExerciseNavigator: React.FC<{
         </ul>
       </nav>
     </div>
+  )
+}
+
+const SolutionLink = ({
+  module,
+  exercise,
+  path,
+}: {
+  module: SanityDocument
+  exercise: Exercise
+  path: string
+}) => {
+  const router = useRouter()
+  const solution = exercise.solution
+  const isActive =
+    router.asPath ===
+    `/tutorials/${module.slug.current}/${exercise.slug}/solution`
+  return (
+    <li key={solution?._key}>
+      <Link
+        href={{
+          pathname: `${path}/[module]/[exercise]/solution`,
+          query: {
+            module: module.slug.current,
+            exercise: exercise.slug,
+          },
+        }}
+        passHref
+      >
+        <a
+          className={cx(
+            'flex items-center py-2 px-8 border-l-4 text-base font-medium hover:bg-slate-400/20 hover:text-white transition',
+            {
+              'border-cyan-400 bg-gray-800/80 text-white': isActive,
+              'border-transparent ': !isActive,
+            },
+          )}
+          onClick={() => {
+            track(`clicked solution in navigator`, {
+              module: module.slug.current,
+              lesson: exercise.slug,
+              moduleType: module.moduleType,
+              lessonType: exercise._type,
+            })
+          }}
+        >
+          {capitalize(solution?._type)}
+        </a>
+      </Link>
+    </li>
   )
 }
 export default ExerciseNavigator
