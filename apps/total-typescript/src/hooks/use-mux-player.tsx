@@ -108,7 +108,7 @@ export const VideoProvider: React.FC<
       defaultHiddenCaptions: true, // TODO: investigate storing subtitles preferences
       // autoPlay,
       streamType: 'on-demand',
-      playbackId: video?.muxPlaybackId,
+      playbackId: video.muxPlaybackId,
       metadata: {
         video_title: `${title} (${lesson._type})`,
       },
