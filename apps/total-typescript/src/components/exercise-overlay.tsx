@@ -38,7 +38,7 @@ export const OverlayWrapper: React.FC<
           className="absolute top-2 right-2 py-2 px-3 z-50 font-medium rounded flex items-center gap-1 hover:bg-gray-800 transition text-gray-200"
           onClick={() => {
             track('dismissed video overlay', {
-              lesson: lesson.slug.current,
+              lesson: lesson.slug,
               module: module.slug.current,
               moduleType: module.moduleType,
               lessonType: lesson._type,
@@ -68,9 +68,7 @@ type OverlayProps = {
 const ExerciseOverlay: React.FC<OverlayProps> = ({handlePlay}) => {
   const {nextExercise, lesson, module, path} = useMuxPlayer()
   const {github} = module
-  const stackblitz = lesson.resources.find(
-    (resource: SanityDocument) => resource._type === 'stackblitz',
-  )
+  const stackblitz = lesson.stackblitz
   const router = useRouter()
 
   const Actions = () => {
@@ -80,7 +78,7 @@ const ExerciseOverlay: React.FC<OverlayProps> = ({handlePlay}) => {
           className="bg-gray-800 sm:px-5 px-3 sm:py-2 py-1 text-lg font-semibold rounded hover:bg-gray-700 transition"
           onClick={() => {
             track('clicked replay', {
-              lesson: lesson.slug.current,
+              lesson: lesson.slug,
               module: module.slug.current,
               location: 'exercise',
               moduleType: module.moduleType,
@@ -96,7 +94,7 @@ const ExerciseOverlay: React.FC<OverlayProps> = ({handlePlay}) => {
             className="text-lg bg-cyan-600 hover:bg-cyan-500 transition sm:px-5 px-3 sm:py-2 py-1 font-semibold rounded"
             onClick={() => {
               track('clicked continue to solution', {
-                lesson: lesson.slug.current,
+                lesson: lesson.slug,
                 module: module?.slug.current,
                 location: 'exercise',
                 moduleType: module.moduleType,
@@ -132,12 +130,12 @@ const ExerciseOverlay: React.FC<OverlayProps> = ({handlePlay}) => {
           <p className="">
             Try solving this exercise inside{' '}
             <a
-              href={`https://github.com/total-typescript/${github.repo}/blob/main/${stackblitz.openFile}`}
+              href={`https://github.com/total-typescript/${github.repo}/blob/main/${stackblitz}`}
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center justify-center gap-1 font-mono text-sm py-0.5 px-1 bg-gray-800 rounded-sm"
             >
-              <IconGithub /> {stackblitz.openFile}
+              <IconGithub /> {stackblitz}
             </a>{' '}
             file.
           </p>
@@ -149,12 +147,12 @@ const ExerciseOverlay: React.FC<OverlayProps> = ({handlePlay}) => {
         <p className="">
           Try solving this exercise inside{' '}
           <a
-            href={`https://github.com/total-typescript/${github.repo}/blob/main/${stackblitz.openFile}`}
+            href={`https://github.com/total-typescript/${github.repo}/blob/main/${stackblitz}`}
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex items-center justify-center gap-1 font-mono text-sm py-0.5 px-1 bg-gray-800 rounded-sm"
           >
-            <IconGithub /> {stackblitz.openFile}
+            <IconGithub /> {stackblitz}
           </a>{' '}
           file.
         </p>
@@ -195,7 +193,7 @@ const DefaultOverlay: React.FC<OverlayProps> = ({handlePlay}) => {
           className="bg-gray-800 hover:bg-gray-700 transition sm:px-5 px-3 sm:py-3 py-1 text-lg font-semibold rounded"
           onClick={() => {
             track('clicked replay', {
-              lesson: lesson.slug.current,
+              lesson: lesson.slug,
               module: module.slug.current,
               location: 'exercise',
               moduleType: module.moduleType,
@@ -210,14 +208,14 @@ const DefaultOverlay: React.FC<OverlayProps> = ({handlePlay}) => {
           className="text-lg bg-cyan-600 hover:bg-cyan-500 transition rounded sm:px-5 px-3 sm:py-3 py-1 font-semibold"
           onClick={() => {
             track('clicked complete', {
-              lesson: lesson.slug.current,
+              lesson: lesson.slug,
               module: module.slug.current,
               location: 'exercise',
               moduleType: module.moduleType,
               lessonType: lesson._type,
             })
             addProgressMutation.mutate(
-              {lessonSlug: lesson.slug.current},
+              {lessonSlug: lesson.slug},
               {
                 onSettled: (data, error, variables, context) => {
                   handleContinue(router, module, nextExercise, handlePlay, path)
@@ -246,7 +244,7 @@ const FinishedOverlay: React.FC<OverlayProps> = ({handlePlay}) => {
   React.useEffect(() => {
     // since this is the last lesson and we show the "module complete" overlay
     // we run this when the effect renders marking the lesson complete
-    addProgressMutation.mutate({lessonSlug: lesson.slug.current})
+    addProgressMutation.mutate({lessonSlug: lesson.slug})
   }, [])
 
   return (
@@ -328,7 +326,7 @@ const BlockedOverlay: React.FC = () => {
       })
       email && setUserId(email)
       track('subscribed to email list', {
-        lesson: lesson.slug.current,
+        lesson: lesson.slug,
         module: module.slug.current,
         location: 'exercise',
         moduleType: module.moduleType,

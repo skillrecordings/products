@@ -10,7 +10,22 @@ const tutorialsQuery = groq`*[_type == "module" && moduleType == 'tutorial' && s
   _updatedAt,
   _createdAt,
   description,
-  "exercises": resources[@->._type == 'exercise']->,
+  "exercises": resources[@->._type == 'exercise']->{
+    _id,
+    _type,
+    _updatedAt,
+    title,
+    description,
+    "slug": slug.current,
+    "solution": resources[@._type == 'solution'][0]{
+      _key,
+      _type,
+      "_updatedAt": ^._updatedAt,
+      title,
+      description,
+      "slug": slug.current,
+    }
+    }
 }`
 
 export const getAllTutorials = async () =>
@@ -31,7 +46,22 @@ export const getModule = async (slug: string) =>
         ogImage,
         description,
         _updatedAt,
-        "exercises": resources[@->._type == 'exercise']->,
+        "exercises": resources[@->._type == 'exercise']->{
+          _id,
+          _type,
+          _updatedAt,
+          title,
+          description,
+          "slug": slug.current,
+          "solution": resources[@._type == 'solution'][0]{
+            _key,
+            _type,
+            "_updatedAt": ^._updatedAt,
+            title,
+            description,
+            "slug": slug.current,
+          }
+        },
         "image": image.asset->url
     }`,
     {slug: `${slug}`},

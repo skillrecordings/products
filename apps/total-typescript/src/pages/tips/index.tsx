@@ -47,7 +47,7 @@ const TipsIndex: React.FC<TipsIndex> = ({tips}) => {
       </header>
       <main className="rounded-lg relative z-10 w-full max-w-screen-md mx-auto flex flex-col divide-y divide-gray-800 sm:px-5 px-3 bg-black/30">
         {tips.map((tip) => {
-          return <TipTeaser tip={tip} key={tip.slug.current} />
+          return <TipTeaser tip={tip} key={tip.slug} />
         })}
       </main>
 
@@ -67,10 +67,8 @@ export default TipsIndex
 
 export const TipTeaser: React.FC<{tip: Tip}> = ({tip}) => {
   const {title} = tip
-  const video = tip?.resources.find(
-    (resource: SanityDocument) => resource._type === 'videoResource',
-  )
-  const thumbnail = `https://image.mux.com/${video.muxAsset.muxPlaybackId}/thumbnail.png?width=240&height=135&fit_mode=preserve`
+  const muxPlaybackId = tip?.muxPlaybackId
+  const thumbnail = `https://image.mux.com/${muxPlaybackId}/thumbnail.png?width=240&height=135&fit_mode=preserve`
   const router = useRouter()
 
   return (
@@ -82,7 +80,7 @@ export const TipTeaser: React.FC<{tip: Tip}> = ({tip}) => {
               .push({
                 pathname: '/tips/[tip]',
                 query: {
-                  tip: tip.slug.current,
+                  tip: tip.slug,
                 },
               })
               .then(() => {
@@ -125,7 +123,7 @@ export const TipTeaser: React.FC<{tip: Tip}> = ({tip}) => {
           href={{
             pathname: '/tips/[tip]',
             query: {
-              tip: tip.slug.current,
+              tip: tip.slug,
             },
           }}
         >

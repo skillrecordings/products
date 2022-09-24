@@ -30,7 +30,15 @@ export default {
       name: 'resources',
       title: 'Resources',
       type: 'array',
-      of: [{type: 'muxVideo'}, {type: 'stackblitz'}],
+      of: [
+        {
+          title: 'Video Resource',
+          type: 'reference',
+          to: [{type: 'videoResource'}],
+        },
+        {type: 'muxVideo'},
+        {type: 'stackblitz'},
+      ],
     },
     {
       name: 'body',

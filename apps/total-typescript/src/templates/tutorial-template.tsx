@@ -10,6 +10,7 @@ import {IconGithub} from 'components/icons'
 import {isBrowser} from 'utils/is-browser'
 import {track} from '../utils/analytics'
 import {useConvertkit} from 'hooks/use-convertkit'
+import {Exercise} from 'lib/exercises'
 
 const TutorialTemplate: React.FC<{
   tutorial: SanityDocument
@@ -92,7 +93,7 @@ const Header: React.FC<{tutorial: SanityDocument}> = ({tutorial}) => {
                     pathname: '/tutorials/[module]/[exercise]',
                     query: {
                       module: slug.current,
-                      exercise: exercises[0].slug.current,
+                      exercise: exercises[0].slug,
                     },
                   }}
                 >
@@ -161,15 +162,15 @@ const TutorialExerciseNavigator: React.FC<{tutorial: SanityDocument}> = ({
       </h2>
       {exercises && (
         <ul>
-          {exercises.map((exercise: SanityDocument, i: number) => {
+          {exercises.map((exercise: Exercise, i: number) => {
             return (
-              <li key={exercise.slug.current}>
+              <li key={exercise.slug}>
                 <Link
                   href={{
                     pathname: '/tutorials/[module]/[exercise]',
                     query: {
                       module: slug.current,
-                      exercise: exercise.slug.current,
+                      exercise: exercise.slug,
                     },
                   }}
                   passHref
@@ -179,7 +180,7 @@ const TutorialExerciseNavigator: React.FC<{tutorial: SanityDocument}> = ({
                     onClick={() => {
                       track('clicked tutorial exercise', {
                         module: slug.current,
-                        lesson: exercise.slug.current,
+                        lesson: exercise.slug,
                         moduleType: _type,
                         lessonType: exercise._type,
                       })
