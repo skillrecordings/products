@@ -55,7 +55,5 @@ export const getTip = async (slug: string): Promise<Tip> => {
     {slug: `${slug}`},
   )
 
-  console.log(tip)
-
   return TipSchema.parse(tip)
 }
