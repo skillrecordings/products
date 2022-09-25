@@ -1,12 +1,10 @@
 import React from 'react'
-import get from 'lodash/get'
 import cx from 'classnames'
 import Layout from 'components/app/layout'
 import {TipPageProps} from 'pages/tips/[tip]'
 import {useMuxPlayer, VideoProvider} from 'hooks/use-mux-player'
 import MuxPlayer, {MuxPlayerProps} from '@mux/mux-player-react'
 import {Tip} from 'lib/tips'
-import {SanityDocument} from '@sanity/client'
 import {
   PortableText,
   PortableTextComponents as PortableTextComponentsType,
@@ -14,9 +12,8 @@ import {
 import {hmsToSeconds} from 'utils/hms-to-seconds'
 import {TipTeaser} from 'pages/tips'
 import {useRouter} from 'next/router'
-import {LinkedIn, Twitter} from '@skillrecordings/react'
 import {XIcon, ChatAltIcon, PlayIcon} from '@heroicons/react/solid'
-import {find, indexOf, shuffle, take} from 'lodash'
+import {shuffle, take} from 'lodash'
 import {track} from 'utils/analytics'
 import Navigation from 'components/app/navigation'
 import Image from 'next/image'
@@ -28,7 +25,7 @@ const TipTemplate: React.FC<TipPageProps> = ({tip, tips}) => {
   const muxPlayerRef = React.useRef<HTMLDivElement>()
   const {add} = useIndexedDBStore('progress')
 
-  const {tipCompleted} = useTipComplete(tip.slug.current)
+  const {tipCompleted} = useTipComplete(tip.slug)
 
   const module: any = {
     slug: {
@@ -36,7 +33,7 @@ const TipTemplate: React.FC<TipPageProps> = ({tip, tips}) => {
     },
     moduleType: 'tip',
     exercises: tips,
-    resources: tips.filter((tip) => tip.slug !== tip.slug),
+    resources: tips.filter((tipToCompare) => tipToCompare.slug !== tip.slug),
   }
   const muxPlaybackId = tip?.muxPlaybackId
   const tweet = tip?.tweetId
@@ -50,7 +47,7 @@ const TipTemplate: React.FC<TipPageProps> = ({tip, tips}) => {
     await add({
       eventName: 'completed video',
       module: 'tips',
-      lesson: tip.slug.current,
+      lesson: tip.slug,
       createdOn: new Date(),
     }).then(console.debug)
   }
@@ -241,26 +238,23 @@ const TipOverlay: React.FC<{tips: Tip[]}> = ({tips}) => {
 
 const VideoOverlayTipCard: React.FC<{suggestedTip: Tip}> = ({suggestedTip}) => {
   const router = useRouter()
-  const {lesson, module, handlePlay} = useMuxPlayer()
-  const {tipCompleted} = useTipComplete(suggestedTip.slug.current)
-  const video = suggestedTip?.resources.find(
-    (resource: SanityDocument) => resource._type === 'videoResource',
-  )
+  const {handlePlay} = useMuxPlayer()
+  const {tipCompleted} = useTipComplete(suggestedTip.slug)
 
-  const thumbnail = `https://image.mux.com/${video.muxAsset.muxPlaybackId}/thumbnail.png?width=288&height=162&fit_mode=preserve`
+  const thumbnail = `https://image.mux.com/${suggestedTip.muxPlaybackId}/thumbnail.png?width=288&height=162&fit_mode=preserve`
 
   return (
     <button
-      key={suggestedTip.slug.current}
+      key={suggestedTip.slug}
       onClick={() => {
         track('clicked suggested tip thumbnail', {
-          lesson: suggestedTip.slug.current,
+          lesson: suggestedTip.slug,
         })
 
         router
           .push({
             pathname: '/tips/[tip]',
-            query: {tip: suggestedTip.slug.current},
+            query: {tip: suggestedTip.slug},
           })
           .then(() => {
             handlePlay()
@@ -310,46 +304,6 @@ const ReplyOnTwitter: React.FC<{tweet: string}> = ({tweet}) => {
       Discuss on Twitter
     </a>
   )
-}
-
-const ShareTip: React.FC<{lesson: Tip}> = ({lesson}) => {
-  const router = useRouter()
-  const shareUrl = `${process.env.NEXT_PUBLIC_URL}${router.asPath}`
-  const shareMessage = `${get(lesson, 'title')}, TypeScript Tip by @${
-    process.env.NEXT_PUBLIC_PARTNER_TWITTER
-  }`
-  const shareButtonStyles =
-    'bg-gray-800 flex items-center gap-2 rounded px-4 py-2 hover:brightness-125 transition font-medium'
-  return (
-    <div className="flex flex-col items-center justify-center">
-      <p className="sm:text-xl text-lg font-semibold">
-        Share this Tip with your friends
-      </p>
-      <div className="flex items-center gap-2 py-8">
-        <Twitter
-          link={shareUrl}
-          message={shareMessage}
-          className={cx('bg-[#1B95E0]', shareButtonStyles)}
-        >
-          Twitter
-        </Twitter>
-        <LinkedIn
-          link={shareUrl}
-          message={shareMessage}
-          className={cx('bg-[#117AB4]', shareButtonStyles)}
-        >
-          LinkedIn
-        </LinkedIn>
-      </div>
-    </div>
-  )
-}
-
-const getNextTip = (currentTip: Tip, tips: Tip[]) => {
-  const current = find(tips, {_id: currentTip._id})
-  const nextTipIndex = indexOf(tips, current) + 1
-  const nextTip = tips[nextTipIndex]
-  return nextTip
 }
 
 export default TipTemplate
