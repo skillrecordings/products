@@ -12,6 +12,7 @@ export default {
       name: 'label',
       title: 'Label',
       type: 'string',
+      hidden: true,
     },
     {
       name: 'title',
@@ -32,12 +33,32 @@ export default {
       name: 'resources',
       title: 'Resources',
       type: 'array',
-      of: [{type: 'solution'}, {type: 'muxVideo'}, {type: 'stackblitz'}],
+      of: [
+        {
+          title: 'Video Resource',
+          type: 'reference',
+          to: [{type: 'videoResource'}],
+        },
+        {type: 'solution'},
+        {type: 'muxVideo'},
+        {type: 'stackblitz'},
+      ],
     },
     {
       name: 'body',
       title: 'Body',
       type: 'body',
+    },
+    {
+      name: 'concepts',
+      title: 'Concepts',
+      type: 'array',
+      of: [
+        {
+          type: 'reference',
+          to: [{type: 'skosConcept'}],
+        },
+      ],
     },
     {
       name: 'description',

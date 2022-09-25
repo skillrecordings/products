@@ -36,18 +36,14 @@ const TipTemplate: React.FC<TipPageProps> = ({tip, tips}) => {
     },
     moduleType: 'tip',
     exercises: tips,
-    resources: tips.filter((tip) => tip.slug.current !== tip.slug.current),
+    resources: tips.filter((tip) => tip.slug !== tip.slug),
   }
-  const video = tip?.resources.find(
-    (resource: SanityDocument) => resource._type === 'videoResource',
-  )
-  const tweet = tip?.resources.find(
-    (resource: SanityDocument) => resource._type === 'tweet',
-  )
+  const muxPlaybackId = tip?.muxPlaybackId
+  const tweet = tip?.tweetId
 
   const ogImage = getOgImage({
     title: tip.title,
-    image: `https://image.mux.com/${video.muxAsset.muxPlaybackId}/thumbnail.png?width=480&height=270&fit_mode=preserve`,
+    image: `https://image.mux.com/${muxPlaybackId}/thumbnail.png?width=480&height=270&fit_mode=preserve`,
   })
 
   const handleVideoEnded = async () => {
@@ -98,9 +94,12 @@ const TipTemplate: React.FC<TipPageProps> = ({tip, tips}) => {
               </div>
             </article>
             <div className="flex md:flex-row flex-col max-w-screen-xl mx-auto w-full sm:pt-10 pt-4 gap-10">
-              {video.castingwords.transcript && (
+              {tip.transcript && (
                 <div className="max-w-2xl w-full">
-                  <Transcript video={video} muxPlayerRef={muxPlayerRef} />
+                  <Transcript
+                    transcript={tip.transcript}
+                    muxPlayerRef={muxPlayerRef}
+                  />
                 </div>
               )}
               <RelatedTips currentTip={tip} tips={tips} />
@@ -137,17 +136,17 @@ const Video: React.FC<any> = React.forwardRef(({tips}, ref: any) => {
   )
 })
 
-const Transcript: React.FC<{video: any; muxPlayerRef: any}> = ({
-  video,
+const Transcript: React.FC<{transcript: any[]; muxPlayerRef: any}> = ({
+  transcript,
   muxPlayerRef,
 }) => {
-  const {handlePlay} = useMuxPlayer()
+  const {handlePlay, video} = useMuxPlayer()
   return (
     <section aria-label="transcript">
       <h2 className="text-2xl font-semibold">Transcript</h2>
       <div className="prose sm:prose-lg max-w-none prose-p:text-gray-300 pt-4">
         <PortableText
-          value={video.castingwords.transcript}
+          value={transcript}
           components={
             {
               marks: {
@@ -185,9 +184,9 @@ const RelatedTips: React.FC<{tips: Tip[]; currentTip: Tip}> = ({
       <h2 className="text-2xl font-semibold">More Tips</h2>
       <div className="pt-4 flex flex-col divide-y divide-gray-800">
         {tips
-          .filter((tip) => tip.slug.current !== currentTip.slug.current)
+          .filter((tip) => tip.slug !== currentTip.slug)
           .map((tip) => {
-            return <TipTeaser key={tip.slug.current} tip={tip} />
+            return <TipTeaser key={tip.slug} tip={tip} />
           })}
       </div>
     </section>
@@ -217,7 +216,7 @@ const TipOverlay: React.FC<{tips: Tip[]}> = ({tips}) => {
           className={buttonStyles}
           onClick={() => {
             track('dismissed video overlay', {
-              lesson: lesson.slug.current,
+              lesson: lesson.slug,
               module: module.slug.current,
               moduleType: module.moduleType,
               lessonType: lesson._type,
@@ -296,10 +295,10 @@ const VideoOverlayTipCard: React.FC<{suggestedTip: Tip}> = ({suggestedTip}) => {
   )
 }
 
-const ReplyOnTwitter: React.FC<{tweet: {tweetId: string}}> = ({tweet}) => {
+const ReplyOnTwitter: React.FC<{tweet: string}> = ({tweet}) => {
   return (
     <a
-      href={`https://twitter.com/i/status/${tweet.tweetId}`}
+      href={`https://twitter.com/i/status/${tweet}`}
       target="_blank"
       rel="noopener noreferrer"
       className="mb-5 mt-2 text-gray-200 px-4 py-3 font-medium rounded bg-gray-800 gap-2 inline-flex items-center justify-center hover:brightness-150 transition brightness-110"

@@ -6,7 +6,6 @@ import {SanityDocument} from '@sanity/client'
 import {useRouter} from 'next/router'
 import {MuxPlayerProps} from '@mux/mux-player-react/*'
 import {track} from '../utils/analytics'
-import {Subscriber} from 'lib/convertkit'
 import {type Exercise, ExerciseSchema} from 'lib/exercises'
 import {type Tip, TipSchema} from 'lib/tips'
 
@@ -24,6 +23,7 @@ type VideoContextType = {
   lesson: VideoResource
   module: SanityDocument
   path: string
+  video?: {muxPlaybackId: string | null | undefined}
 }
 
 export const VideoContext = React.createContext({} as VideoContextType)
@@ -52,10 +52,9 @@ export const VideoProvider: React.FC<
     usePlayerPrefs()
   const [autoPlay, setAutoPlay] = React.useState(getPlayerPrefs().autoplay)
   const [displayOverlay, setDisplayOverlay] = React.useState(false)
-  const video = lesson?.resources.find(
-    (resource: SanityDocument) =>
-      resource._type === 'muxVideo' || resource._type === 'videoResource',
-  )
+  const video = {muxPlaybackId: lesson.muxPlaybackId}
+
+  // console.log({video, lesson}, lesson.resources)
   const title = get(lesson, 'title') || get(lesson, 'label')
 
   const handlePlay = () => {
@@ -86,6 +85,7 @@ export const VideoProvider: React.FC<
       muxPlayerRef.current.autoplay = autoplay
     }
   }, [playbackRate, autoPlay, video])
+
   const context = {
     muxPlayerProps: {
       id: 'mux-player',
@@ -93,7 +93,7 @@ export const VideoProvider: React.FC<
         setDisplayOverlay(false)
         track('started lesson video', {
           module: module.slug.current,
-          lesson: lesson.slug.current,
+          lesson: lesson.slug,
           moduleType: module.moduleType,
           lessonType: lesson._type,
         })
@@ -103,7 +103,7 @@ export const VideoProvider: React.FC<
         handleNext(getPlayerPrefs().autoplay)
         track('completed lesson video', {
           module: module.slug.current,
-          lesson: lesson.slug.current,
+          lesson: lesson.slug,
           moduleType: module.moduleType,
           lessonType: lesson._type,
         })
@@ -117,7 +117,7 @@ export const VideoProvider: React.FC<
       defaultHiddenCaptions: true, // TODO: investigate storing subtitles preferences
       // autoPlay,
       streamType: 'on-demand',
-      playbackId: video.muxPlaybackId || video.muxAsset.muxPlaybackId,
+      playbackId: video.muxPlaybackId,
       metadata: {
         video_title: `${title} (${lesson._type})`,
       },
@@ -134,6 +134,7 @@ export const VideoProvider: React.FC<
         ? TipSchema.parse(lesson)
         : ExerciseSchema.parse(lesson),
     module,
+    video,
     path,
   }
   return (

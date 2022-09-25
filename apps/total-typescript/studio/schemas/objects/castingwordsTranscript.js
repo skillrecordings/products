@@ -9,7 +9,6 @@ export default {
       title: 'Order ID',
       description: 'Used to keep track of the order status on Castingwords',
       type: 'string',
-      validation: (Rule) => Rule.required(),
     },
     {
       name: 'audioFileId',
@@ -17,7 +16,6 @@ export default {
       description:
         'This is used to keep track of the specific transcript in a Castingwords order.',
       type: 'string',
-      validation: (Rule) => Rule.required(),
     },
     {
       name: 'transcript',

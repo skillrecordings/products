@@ -31,7 +31,7 @@ The build command needs to be scoped to the specific project so we aren't buildi
 pnpm build -w -- --scope="rust-adventure" --includeDependencies
 ```
 
-The install command needs to also add `pnpn` and then run install.
+The install command needs to also add `pnpm` and then run install.
 
 `install`:
 

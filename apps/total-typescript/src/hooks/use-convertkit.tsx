@@ -40,10 +40,7 @@ export const ConvertkitProvider: React.FC<
     async () => {
       const params = new URLSearchParams(window.location.search)
       const ckSubscriberId = params.get(CK_SUBSCRIBER_KEY)
-      if (!isEmpty(ckSubscriberId)) {
-        confirmSubscriptionToast()
-        removeQueryParamsFromRouter(router, [CK_SUBSCRIBER_KEY])
-      }
+
       try {
         const subscriber = Cookies.get('ck_subscriber')
 
@@ -61,6 +58,13 @@ export const ConvertkitProvider: React.FC<
           )
             .then((response) => response.json())
             .catch(() => undefined)
+
+          if (!isEmpty(ckSubscriberId)) {
+            if (router.asPath.match(/confirmToast=true/))
+              confirmSubscriptionToast(subscriber.email_address)
+            removeQueryParamsFromRouter(router, [CK_SUBSCRIBER_KEY])
+          }
+
           return subscriber
         }
       } catch (e) {
@@ -82,14 +86,19 @@ export function useConvertkit() {
   return React.useContext(ConvertkitContext)
 }
 
-const confirmSubscriptionToast = () => {
+const confirmSubscriptionToast = (email?: string) => {
   return toast(
     () => (
       <div>
         <strong>Confirm your subscription</strong>
         <p>
-          Please check your inbox for an email that just got sent. Thanks and
-          enjoy!
+          Please check your inbox{' '}
+          {email && (
+            <>
+              (<strong>{email}</strong>)
+            </>
+          )}{' '}
+          for an email that just got sent. Thanks and enjoy!
         </p>
       </div>
     ),
