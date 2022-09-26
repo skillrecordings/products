@@ -21,7 +21,7 @@ export default {
       title: 'Meta Title',
       type: 'string',
       description: 'Max 60 characters',
-      validation: (Rule) => Rule.required().max(60),
+      validation: (Rule) => Rule.max(60),
     },
     {
       name: 'slug',
