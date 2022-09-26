@@ -1,12 +1,11 @@
 import React from 'react'
 import Layout from 'components/app/layout'
-import {GetServerSideProps} from 'next'
 import {getAllTips, Tip} from 'lib/tips'
 import Link from 'next/link'
 import Image from 'next/image'
-import {SanityDocument} from '@sanity/client'
-import {PlayIcon} from '@heroicons/react/solid'
+import {CheckCircleIcon, PlayIcon} from '@heroicons/react/solid'
 import {useRouter} from 'next/router'
+import {useTipComplete} from '../../hooks/use-tip-complete'
 
 export async function getStaticProps() {
   const tips = await getAllTips()
@@ -70,6 +69,7 @@ export const TipTeaser: React.FC<{tip: Tip}> = ({tip}) => {
   const muxPlaybackId = tip?.muxPlaybackId
   const thumbnail = `https://image.mux.com/${muxPlaybackId}/thumbnail.png?width=240&height=135&fit_mode=preserve`
   const router = useRouter()
+  const {tipCompleted} = useTipComplete(tip.slug)
 
   return (
     <article className="flex items-center py-4 gap-5">
@@ -90,9 +90,12 @@ export const TipTeaser: React.FC<{tip: Tip}> = ({tip}) => {
                 return videoElement?.play()
               })
           }}
-          className=" group relative flex items-center justify-center rounded overflow-hidden border border-gray-800"
+          className="group relative flex items-center justify-center rounded overflow-hidden border border-gray-800"
         >
-          <span className="sr-only">Play {title}</span>
+          <span className="sr-only">
+            Play {title}{' '}
+            {tipCompleted && <span className="sr-only">(completed)</span>}
+          </span>
           <div className="flex items-center justify-center sm:w-auto w-16">
             <Image
               src={thumbnail}
@@ -111,10 +114,20 @@ export const TipTeaser: React.FC<{tip: Tip}> = ({tip}) => {
             aria-hidden="true"
           />
           <div
-            className="absolute group-hover:opacity-100 opacity-100 transition scale-50 group-hover:scale-75 text-gray-400 group-hover:text-gray-200"
+            className="absolute group-hover:opacity-100 opacity-100 transition scale-50 group-hover:scale-75 text-gray-400 group-hover:text-gray-200 flex items-center justify-center"
             aria-hidden="true"
           >
-            <PlayIcon className="w-10 h-10" />
+            {tipCompleted ? (
+              <>
+                <CheckCircleIcon
+                  className="absolute w-12 h-12 text-teal-400 group-hover:opacity-0 transition"
+                  aria-hidden="true"
+                />
+                <PlayIcon className="absolute w-12 h-12 text-teal-400 group-hover:opacity-100 opacity-0 transition" />
+              </>
+            ) : (
+              <PlayIcon className="w-12 h-12" />
+            )}
           </div>
         </button>
       </header>
@@ -127,7 +140,9 @@ export const TipTeaser: React.FC<{tip: Tip}> = ({tip}) => {
             },
           }}
         >
-          <a className="hover:underline">{title}</a>
+          <a className="hover:underline inline-flex items-start gap-1">
+            {title} {tipCompleted && <span className="sr-only">(watched)</span>}
+          </a>
         </Link>
       </h2>
     </article>

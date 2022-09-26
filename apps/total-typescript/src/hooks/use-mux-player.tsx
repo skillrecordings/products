@@ -33,11 +33,19 @@ type VideoProviderProps = {
   lesson: VideoResource
   path?: string
   muxPlayerRef: any
+  onEnded?: () => Promise<any>
 }
 
 export const VideoProvider: React.FC<
   React.PropsWithChildren<VideoProviderProps>
-> = ({module, lesson, muxPlayerRef, children, path = ''}) => {
+> = ({
+  module,
+  lesson,
+  muxPlayerRef,
+  children,
+  path = '',
+  onEnded = async () => {},
+}) => {
   const router = useRouter()
   const nextExercise = getNextExercise(module, lesson as Exercise)
   const {setPlayerPrefs, playbackRate, autoplay, getPlayerPrefs} =
@@ -91,7 +99,7 @@ export const VideoProvider: React.FC<
         })
       },
       onPause: () => {},
-      onEnded: () => {
+      onEnded: async () => {
         handleNext(getPlayerPrefs().autoplay)
         track('completed lesson video', {
           module: module.slug.current,
@@ -99,6 +107,7 @@ export const VideoProvider: React.FC<
           moduleType: module.moduleType,
           lessonType: lesson._type,
         })
+        return onEnded()
       },
       onRateChange: () => {
         setPlayerPrefs({
