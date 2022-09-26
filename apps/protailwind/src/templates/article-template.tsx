@@ -33,7 +33,7 @@ const ArticleTemplate: React.FC<ArticleTemplateProps> = ({article}) => {
       nav
       meta={{
         titleAppendSiteName: false,
-        title: metaTitle,
+        title: metaTitle || title,
         description: shortDescription,
         type: 'article',
         date,
