@@ -12,7 +12,13 @@ import {
 import {hmsToSeconds} from 'utils/hms-to-seconds'
 import {TipTeaser} from 'pages/tips'
 import {useRouter} from 'next/router'
-import {XIcon, ChatAltIcon, PlayIcon} from '@heroicons/react/solid'
+import {
+  XIcon,
+  ChatAltIcon,
+  PlayIcon,
+  CheckCircleIcon,
+} from '@heroicons/react/solid'
+import {CheckCircleIcon as CheckCircleIconOutline} from '@heroicons/react/outline'
 import {shuffle, take} from 'lodash'
 import {track} from 'utils/analytics'
 import Navigation from 'components/app/navigation'
@@ -73,24 +79,43 @@ const TipTemplate: React.FC<TipPageProps> = ({tip, tips}) => {
             </div>
           </div>
           <div className="relative border-l border-transparent xl:border-gray-800 pb-16 px-5 z-10">
-            <article className="pt-10 max-w-screen-xl mx-auto w-full ">
-              <div className="flex gap-10 md:flex-row flex-col">
+            <article className="sm:pt-10 pt-5 max-w-screen-xl mx-auto w-full ">
+              <div className="flex sm:gap-10 gap-0 md:flex-row flex-col">
                 <div className="w-full">
-                  <h1 className="lg:text-4xl text-3xl font-bold w-full max-w-xl">
-                    {tipCompleted ? '✅ ' : ''}
+                  <h1 className="lg:text-4xl text-3xl font-bold w-full max-w-2xl inline-flex items-baseline">
                     {tip.title}
+                    {tipCompleted && <span className="sr-only">(watched)</span>}
                   </h1>
-                  <Hr />
+                  {tipCompleted ? (
+                    <div
+                      aria-hidden="true"
+                      className="flex items-center gap-1 pt-6 pb-[20px]"
+                    >
+                      <CheckCircleIconOutline
+                        className="sm:w-6 sm:h-6 w-5 h-5 flex-shrink-0 text-teal-400 inline-block"
+                        aria-hidden="true"
+                      />
+                      <span className="uppercase font-semibold text-teal-400 text-sm opacity-90">
+                        Watched
+                      </span>
+                    </div>
+                  ) : (
+                    <Hr
+                      className={
+                        tipCompleted ? 'border-teal-400' : 'border-cyan-400'
+                      }
+                    />
+                  )}
                 </div>
                 <div className="w-full">
-                  <div className="prose sm:prose-lg lg:prose-xl w-full max-w-none pb-5 prose-p:text-gray-200 font-medium">
+                  <div className="prose prose-lg lg:prose-xl w-full max-w-none pb-5 prose-p:text-gray-200 font-medium">
                     <PortableText value={tip.body} />
                   </div>
                   <ReplyOnTwitter tweet={tweet} />
                 </div>
               </div>
             </article>
-            <div className="flex md:flex-row flex-col max-w-screen-xl mx-auto w-full sm:pt-10 pt-4 gap-10">
+            <div className="flex md:flex-row flex-col max-w-screen-xl mx-auto w-full sm:pt-10 pt-10 gap-10">
               {tip.transcript && (
                 <div className="max-w-2xl w-full">
                   <Transcript
@@ -190,8 +215,8 @@ const RelatedTips: React.FC<{tips: Tip[]; currentTip: Tip}> = ({
   )
 }
 
-const Hr = () => {
-  return <hr className="border-cyan-400 w-10 my-8" aria-hidden="true" />
+const Hr: React.FC<{className?: string}> = ({className}) => {
+  return <hr className={cx('w-10 my-8', className)} aria-hidden="true" />
 }
 
 const TipOverlay: React.FC<{tips: Tip[]}> = ({tips}) => {
@@ -208,7 +233,6 @@ const TipOverlay: React.FC<{tips: Tip[]}> = ({tips}) => {
         <button className={buttonStyles} onClick={handlePlay}>
           Replay <span aria-hidden="true">↺</span>
         </button>
-
         <button
           className={buttonStyles}
           onClick={() => {
@@ -267,8 +291,8 @@ const VideoOverlayTipCard: React.FC<{suggestedTip: Tip}> = ({suggestedTip}) => {
           Tip
         </span>
         <span className="font-medium">
-          {tipCompleted ? '✅ ' : ''}
-          {suggestedTip.title}
+          {suggestedTip.title}{' '}
+          {tipCompleted && <span className="sr-only">(watched)</span>}
         </span>
       </div>
       <Image
@@ -283,7 +307,17 @@ const VideoOverlayTipCard: React.FC<{suggestedTip: Tip}> = ({suggestedTip}) => {
         className="absolute w-full h-full left-0 top-0 flex items-start justify-end p-5"
         aria-hidden="true"
       >
-        <PlayIcon className="w-10 h-10 flex-shrink-0 text-gray-300 group-hover:scale-100 scale-50 group-hover:opacity-100 opacity-0 transition" />
+        {tipCompleted ? (
+          <>
+            <CheckCircleIcon
+              className="absolute w-10 h-10 text-teal-400 group-hover:opacity-0 transition"
+              aria-hidden="true"
+            />
+            <PlayIcon className="w-10 h-10 text-teal-400 group-hover:opacity-100 opacity-0 transition flex-shrink-0 group-hover:scale-100 scale-50" />
+          </>
+        ) : (
+          <PlayIcon className="w-10 h-10 flex-shrink-0 text-gray-300 group-hover:scale-100 scale-50 group-hover:opacity-100 opacity-0 transition" />
+        )}
       </div>
     </button>
   )
