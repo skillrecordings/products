@@ -3,9 +3,8 @@ import {isEmpty} from 'lodash'
 import Layout from 'components/layout'
 import Link from 'next/link'
 import Markdown from 'react-markdown'
-import {GetServerSideProps} from 'next'
-import {SanityDocument} from '@sanity/client'
-import {getAllArticles} from '../lib/articles'
+import {GetStaticProps} from 'next'
+import {Article, getAllArticles} from '../lib/articles'
 import {toPlainText} from '@portabletext/react'
 
 const meta = {
@@ -13,7 +12,7 @@ const meta = {
 }
 
 type ArticlesProps = {
-  articles: SanityDocument[]
+  articles: Article[]
 }
 
 const Articles: React.FC<ArticlesProps> = ({articles}) => {
@@ -39,7 +38,7 @@ const Articles: React.FC<ArticlesProps> = ({articles}) => {
                   body,
                   subtitle,
                   estimatedReadingTime,
-                }: SanityDocument) => {
+                }) => {
                   const shortDescription =
                     description || toPlainText(body).substring(0, 190) + '...'
                   return (
@@ -92,13 +91,12 @@ const Articles: React.FC<ArticlesProps> = ({articles}) => {
   )
 }
 
-export const getServerSideProps: GetServerSideProps = async (context) => {
-  context.res.setHeader('Cache-Control', 's-maxage=1, stale-while-revalidate')
-
+export const getStaticProps: GetStaticProps = async (context) => {
   const articles = await getAllArticles()
 
   return {
     props: {articles},
+    revalidate: 10,
   }
 }
 
