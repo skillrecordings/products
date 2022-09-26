@@ -430,15 +430,13 @@ const handleContinue = async (
 ) => {
   if (nextExercise._type === 'solution') {
     const exercise = module.exercises.find((exercise: SanityDocument) => {
-      const solution = exercise.resources.find((resource: SanityDocument) => {
-        return resource._key === nextExercise._key
-      })
+      const solution = exercise.solution
       return solution?._key === nextExercise._key
     })
 
     return await router
       .push({
-        query: {module: module.slug.current, exercise: exercise.slug.current},
+        query: {module: module.slug.current, exercise: exercise.slug},
         pathname: `${path}/[module]/[exercise]/solution`,
       })
       .then(() => handlePlay())
@@ -446,7 +444,7 @@ const handleContinue = async (
 
   return await router
     .push({
-      query: {module: module.slug.current, exercise: nextExercise.slug.current},
+      query: {module: module.slug.current, exercise: nextExercise.slug},
       pathname: `${path}/[module]/[exercise]`,
     })
     .then(() => handlePlay())
