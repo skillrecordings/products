@@ -9,27 +9,10 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const podcastSeason = 'course-builders'
 
   // load content that we want to add to the sitemap here
-  const articles = await getAllArticles()
-  const podcast = await getPodcastSeason(podcastSeason)
+  // const articles = await getAllArticles()
+  // const podcast = await getPodcastSeason(podcastSeason)
 
-  return getServerSideSitemap(ctx, [
-    ...articles.map((article: any) => {
-      return {
-        loc: `${process.env.NEXT_PUBLIC_URL}/${article.slug}`, // Absolute url
-        lastmod: new Date(article._updatedAt).toISOString(),
-        changefreq: 'weekly',
-        priority: 0.7,
-      }
-    }),
-    ...podcast.episodes.map((podcast: any) => {
-      return {
-        loc: `${process.env.NEXT_PUBLIC_URL}/${podcastSeason}/${podcast.slug}`, // Absolute url
-        lastmod: new Date(podcast._updatedAt).toISOString(),
-        changefreq: 'weekly',
-        priority: 0.7,
-      }
-    }),
-  ])
+  return getServerSideSitemap(ctx, [])
 }
 
 // Default export to prevent next.js errors

@@ -73,6 +73,34 @@ export async function getPodcast(podcastSlug: string) {
   )
 }
 
+export async function getAllPodcastSeasons() {
+  return sanityClient.fetch(
+    groq`*[_type == "podcastSeason"][]{
+    title,
+    "slug": slug.current,
+    description,
+    'podcast': podcast[0]->{
+      title,
+      "slug": slug.current,
+      description,
+      'coverArtUrl': coverArt.asset->url
+    },
+    'coverArtUrl': coverArt.asset->url,
+    'episodes': episodes[]->{
+      _updatedAt,
+      'publishedAt': schedule.publish,
+      title,
+      description,
+      duration,
+      summary,
+      'slug': slug.current,
+      simplecastId,
+      'coverArtUrl': coverArt.asset->url
+    }
+  }`,
+  )
+}
+
 export async function getPodcastSeason(podcastSeasonSlug: string) {
   return sanityClient.fetch(
     groq`*[_type == "podcastSeason" && slug.current == $slug][0]{

@@ -2,7 +2,7 @@ import * as React from 'react'
 import Layout from 'components/layout'
 import Link from 'next/link'
 import Markdown from 'react-markdown'
-import {GetServerSideProps} from 'next'
+import {GetStaticProps} from 'next'
 import {format} from 'date-fns'
 import {SanityDocument} from '@sanity/client'
 import {getAllArticles} from '../lib/articles'
@@ -10,7 +10,7 @@ import {getAllArticles} from '../lib/articles'
 const meta = {
   title: 'Badass Articles',
   ogImage: {
-    url: 'https://testingaccessibility.com/assets/accessibility-articles-card@2x.png',
+    url: 'https://badass.dev/card@2x.png',
   },
 }
 
@@ -81,13 +81,14 @@ const Articles: React.FC<React.PropsWithChildren<ArticlesProps>> = ({
   )
 }
 
-export const getServerSideProps: GetServerSideProps = async (context) => {
-  context.res.setHeader('Cache-Control', 's-maxage=1, stale-while-revalidate')
-
+export const getStaticProps: GetStaticProps = async ({params}) => {
   const articles = await getAllArticles()
 
   return {
-    props: {articles},
+    props: {
+      articles,
+    },
+    revalidate: 10,
   }
 }
 

@@ -1,6 +1,10 @@
 import * as React from 'react'
-import {GetServerSideProps} from 'next'
-import {getPodcast, getPodcastSeason, PodcastSeason} from '../../../lib/podcast'
+import {GetStaticPaths, GetStaticProps} from 'next'
+import {
+  getAllPodcastSeasons,
+  getPodcastSeason,
+  PodcastSeason,
+} from '../../../lib/podcast'
 import Layout from '../../../components/layout'
 import Link from 'next/link'
 import {Grid} from '../../../components/grid'
@@ -11,36 +15,28 @@ function formatTime(seconds: number) {
   return dateFns.format(dateFns.addSeconds(new Date(0), seconds), 'mm:ss')
 }
 
-export const getServerSideProps: GetServerSideProps = async ({
-  req,
-  res,
-  params,
-}) => {
-  if (params?.podcastSeason) {
-    res.setHeader('Cache-Control', 's-maxage=1, stale-while-revalidate')
-    const season = await getPodcastSeason(params.podcastSeason as string)
-    if (season) {
-      return {
-        props: {
-          season,
-        },
-      }
-    } else {
-      return {
-        redirect: {
-          destination: '/podcast/course-builders',
-          permanent: false,
-        },
-      }
-    }
-  } else {
+export const getStaticProps: GetStaticProps = async ({params}) => {
+  const season = await getPodcastSeason(params?.podcastSeason as string)
+
+  return {
+    props: {
+      season,
+    },
+    revalidate: 10,
+  }
+}
+
+export const getStaticPaths: GetStaticPaths = async (context) => {
+  const seasons = await getAllPodcastSeasons()
+
+  const paths = seasons.map((season: any) => {
     return {
-      redirect: {
-        destination: '/podcast/course-builders',
-        permanent: false,
+      params: {
+        podcastSeason: season.slug,
       },
     }
-  }
+  })
+  return {paths, fallback: 'blocking'}
 }
 
 const PodcastSeason: React.FC<{season: PodcastSeason}> = ({season}) => {
@@ -76,7 +72,7 @@ const PodcastSeason: React.FC<{season: PodcastSeason}> = ({season}) => {
                   </div>
                   <img
                     className="h-18 w-full rounded-lg object-cover"
-                    src={episode.coverArtUrl}
+                    src={`https://res.cloudinary.com/badass-courses/image/fetch/h_120,dpr_auto,f_auto,q_auto:good/${episode.coverArtUrl}`}
                     alt={episode.title}
                   />
                 </div>
