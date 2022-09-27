@@ -1,6 +1,6 @@
 import React from 'react'
 import ExerciseTemplate from 'templates/exercise-template'
-import {GetServerSideProps, GetStaticPaths, GetStaticProps} from 'next'
+import {GetStaticPaths, GetStaticProps} from 'next'
 import {getAllTutorials, getModule} from 'lib/tutorials'
 import {getExercise} from 'lib/exercises'
 
@@ -26,7 +26,7 @@ export const getStaticPaths: GetStaticPaths = async (context) => {
         return {
           params: {
             module: tutorial.slug.current,
-            exercise: exercise.slug.current,
+            exercise: exercise.slug,
           },
         }
       })

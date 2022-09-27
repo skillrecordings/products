@@ -25,29 +25,30 @@ const sanityVideoResourceWebhook = async (
     if (!isValid) {
       throw new Error('cannot verify Sanity webhook signature')
     } else {
-      const {_id, originalMediaUrl} = req.body
+      const {_id, originalMediaUrl, castingwords} = req.body
       console.info('processing Sanity webhook: Video Resource created', _id)
 
-      const castingwordsOrder = await orderTranscript(originalMediaUrl)
+      if (!castingwords?.orderId && !castingwords?.transcript) {
+        const castingwordsOrder = await orderTranscript(originalMediaUrl)
 
-      const {Video} = new Mux()
+        const {Video} = new Mux()
 
-      const muxAsset = await Video.Assets.create({
-        input: originalMediaUrl,
-        playback_policy: ['public'],
-      })
+        const muxAsset = await Video.Assets.create({
+          input: originalMediaUrl,
+          playback_policy: ['public'],
+        })
 
-      await updateVideoResourceWithTranscriptOrderId({
-        sanityDocumentId: _id,
-        castingwordsOrder,
-        muxAsset: {
-          muxAssetId: muxAsset.id,
-          muxPlaybackId: muxAsset.playback_ids?.find((playback_id) => {
-            return playback_id.policy === 'public'
-          })?.id,
-        },
-      })
-
+        await updateVideoResourceWithTranscriptOrderId({
+          sanityDocumentId: _id,
+          castingwordsOrder,
+          muxAsset: {
+            muxAssetId: muxAsset.id,
+            muxPlaybackId: muxAsset.playback_ids?.find((playback_id) => {
+              return playback_id.policy === 'public'
+            })?.id,
+          },
+        })
+      }
       res.status(200).json({success: true})
     }
   } catch (e) {

@@ -140,7 +140,7 @@ A Postmark API key is required to send email from your local environment. It is 
 
 You'll need to install the [Stripe CLI](https://stripe.com/docs/stripe-cli) to capture web hooks locally and make test purchases.
 
-
+`stripe listen --forward-to localhost:3013/api/skill/webhook/stripe`
 
 `pnpm dev:stripe` starts listening for Stripe Webhook events. This will also produce the value for `STRIPE_WEBHOOK_SECRET` in `.env.local` that is required to make test purchases
 

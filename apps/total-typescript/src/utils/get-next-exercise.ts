@@ -8,17 +8,12 @@ export const getNextExercise = (
   currentLesson: Exercise,
 ) => {
   if (currentLesson._type === 'exercise') {
-    return currentLesson.resources.find(
-      (resource: SanityDocument) => resource._type === 'solution',
-    )
+    return currentLesson.solution
   }
 
   const exerciseForSolution = module.exercises.find(
     (resource: SanityDocument) => {
-      const solution = resource.resources.find(
-        (resource: SanityDocument) => resource._key === currentLesson._key,
-      )
-      return solution?._key === currentLesson._key
+      return resource.solution?._key === currentLesson._key
     },
   )
 

@@ -17,6 +17,13 @@ export default {
       type: 'string',
     },
     {
+      name: 'metaTitle',
+      title: 'Meta Title',
+      type: 'string',
+      description: 'Max 60 characters',
+      validation: (Rule) => Rule.max(60),
+    },
+    {
       name: 'slug',
       title: 'Slug',
       type: 'slug',

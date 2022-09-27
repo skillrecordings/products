@@ -1,12 +1,13 @@
 import React from 'react'
 import {sanityClient} from 'utils/sanity-client'
 import {SanityDocument} from '@sanity/client'
-import {GetServerSideProps} from 'next'
+import {GetServerSideProps, GetStaticPaths, GetStaticProps} from 'next'
 import ArticleTemplate from 'templates/article-template'
 import isEmpty from 'lodash/isEmpty'
 import find from 'lodash/find'
 import groq from 'groq'
 import {checkIfConvertkitSubscriber} from '@skillrecordings/convertkit'
+import {getAllPodcastSeasons, getPodcastSeason} from '../lib/podcast'
 
 const previewArticleQuery = groq`*[_type == "article" && slug.current == $slug][0]{
     title,
@@ -45,42 +46,30 @@ const allArticlesQuery = groq`*[_type == "article"]{
   subscribersOnly
   }`
 
-export const getServerSideProps: GetServerSideProps = async (context) => {
-  const {params} = context
-  const hasSubscribed = await checkIfConvertkitSubscriber(context)
+export const getStaticProps: GetStaticProps = async ({params}) => {
+  const article = await sanityClient.fetch(fullArticleQuery, {
+    slug: params?.article,
+  })
 
+  return {
+    props: {
+      article,
+    },
+    revalidate: 10,
+  }
+}
+
+export const getStaticPaths: GetStaticPaths = async (context) => {
   const allArticles = await sanityClient.fetch(allArticlesQuery)
 
-  // find current article based on the slug
-  const currentArticle: {slug: string; subscribersOnly: boolean} | undefined =
-    find(allArticles, {
-      slug: params?.article as string,
-    })
-
-  // if the article doesn't exist
-  if (isEmpty(find(allArticles, {slug: params?.article as string}))) {
+  const paths = allArticles.map((article: any) => {
     return {
-      notFound: true,
+      params: {
+        article: article.slug,
+      },
     }
-  }
-
-  if (currentArticle?.subscribersOnly && !hasSubscribed) {
-    // only get preview if for subscribers only AND viewer hasn't subscribed (no ckId cookie)
-    const data = await sanityClient.fetch(previewArticleQuery, {
-      slug: currentArticle?.slug,
-    })
-    return {
-      props: {article: data, hasSubscribed: false},
-    }
-  } else {
-    // otherwise get the full article
-    const data = await sanityClient.fetch(fullArticleQuery, {
-      slug: currentArticle?.slug,
-    })
-    return {
-      props: {article: data, hasSubscribed: true},
-    }
-  }
+  })
+  return {paths, fallback: 'blocking'}
 }
 
 type ArticlePageProps = {
@@ -90,7 +79,7 @@ type ArticlePageProps = {
 
 const ArticlePage: React.FC<React.PropsWithChildren<ArticlePageProps>> = ({
   article,
-  hasSubscribed,
+  hasSubscribed = true,
 }) => {
   return <ArticleTemplate article={article} hasSubscribed={hasSubscribed} />
 }

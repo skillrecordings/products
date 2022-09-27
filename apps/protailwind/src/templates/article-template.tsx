@@ -3,25 +3,27 @@ import TableOfContents from 'components/portable-text/table-of-contents'
 import PortableTextComponents from 'components/portable-text'
 import Layout from 'components/layout'
 import Share from 'components/share'
+import isEmpty from 'lodash/isEmpty'
 import Image from 'next/image'
 import Link from 'next/link'
 import {PortableText, toPlainText} from '@portabletext/react'
 import {useConvertkit} from '@skillrecordings/convertkit'
-import {SanityDocument} from '@sanity/client'
-import {getOgImage} from 'utils/get-og-image'
-import {format} from 'date-fns'
-import {isEmpty} from 'lodash'
+import {ArticleJsonLd} from '@skillrecordings/next-seo'
 import SubscribeForm from 'components/subscribe-form'
+import {getOgImage} from 'utils/get-og-image'
+import {isBrowser} from 'utils/is-browser'
+import {type Article} from 'lib/articles'
+import {format} from 'date-fns'
 
 type ArticleTemplateProps = {
-  article: SanityDocument
+  article: Article
   hasSubscribed: boolean
 }
 
 const ArticleTemplate: React.FC<ArticleTemplateProps> = ({article}) => {
-  const {title, description, body, date, related} = article
+  const {title, metaTitle, description, body, date, related} = article
   const shortDescription =
-    description || toPlainText(body).substring(0, 157) + '...'
+    description || toPlainText(body).substring(0, 150) + '...'
   const ogImage = getOgImage(title)
   const {subscriber, loadingSubscriber} = useConvertkit()
 
@@ -30,7 +32,7 @@ const ArticleTemplate: React.FC<ArticleTemplateProps> = ({article}) => {
       className="overflow-hidden"
       nav
       meta={{
-        title,
+        title: metaTitle || title,
         description: shortDescription,
         type: 'article',
         date,
@@ -41,6 +43,7 @@ const ArticleTemplate: React.FC<ArticleTemplateProps> = ({article}) => {
         ogImage,
       }}
     >
+      <ArticleMeta article={article} shortDescription={shortDescription} />
       <Header {...article} />
       <main>
         <div className="bg-slate-800/40 border-t border-slate-800/50 lg:px-0 px-5 shadow-lg">
@@ -55,7 +58,7 @@ const ArticleTemplate: React.FC<ArticleTemplateProps> = ({article}) => {
         {!loadingSubscriber && (
           <>{subscriber ? <Share title={title} /> : <SubscribeForm />}</>
         )}
-        <RelatedResources resources={related} />
+        <RelatedResources article={article} />
       </main>
     </Layout>
   )
@@ -63,9 +66,11 @@ const ArticleTemplate: React.FC<ArticleTemplateProps> = ({article}) => {
 
 export default ArticleTemplate
 
-const RelatedResources: React.FC<{resources: SanityDocument[]}> = ({
-  resources,
-}) => {
+const RelatedResources: React.FC<{
+  article: Article
+}> = ({article}) => {
+  const resources = article.related
+
   return !isEmpty(resources) ? (
     <section className="px-5 w-full mx-auto sm:pt-14 sm:pb-32 pb-16">
       <div className="flex sm:flex-row flex-col items-start justify-between max-w-screen-md mx-auto w-full">
@@ -75,7 +80,7 @@ const RelatedResources: React.FC<{resources: SanityDocument[]}> = ({
         <div className="flex-grow">
           {resources.map(({title, subtitle, slug}) => {
             return (
-              <div className="">
+              <div key={title}>
                 <Link href={`/${slug}`}>
                   <a className="lg:text-3xl text-2xl transition font-semibold hover:underline">
                     {title}
@@ -95,7 +100,7 @@ const RelatedResources: React.FC<{resources: SanityDocument[]}> = ({
   ) : null
 }
 
-const Header: React.FC<SanityDocument> = ({
+const Header: React.FC<Article> = ({
   title,
   subtitle,
   date,
@@ -189,5 +194,22 @@ const Signature = () => {
         fill="currentColor"
       />
     </svg>
+  )
+}
+
+const ArticleMeta: React.FC<{article: Article; shortDescription: string}> = ({
+  article,
+  shortDescription,
+}) => {
+  const {title, date} = article
+  return (
+    <ArticleJsonLd
+      title={title}
+      description={shortDescription}
+      datePublished={date}
+      url={isBrowser() ? document.location.href : process.env.NEXT_PUBLIC_URL}
+      authorName={`${process.env.NEXT_PUBLIC_PARTNER_FIRST_NAME} ${process.env.NEXT_PUBLIC_PARTNER_LAST_NAME}`}
+      images={['']}
+    />
   )
 }

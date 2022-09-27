@@ -21,6 +21,23 @@ import {AppRouter} from 'server/routers/_app'
 
 amplitude.init(process.env.NEXT_PUBLIC_AMPLITUDE_API_KEY)
 
+// Database Configuration
+const idbConfig = {
+  databaseName: 'total-typescript',
+  version: 1,
+  stores: [
+    {
+      name: 'progress',
+      id: {keyPath: 'id', autoIncrement: true},
+      indices: [
+        {name: 'eventName', keyPath: 'eventName', options: {unique: false}},
+        {name: 'lesson', keyPath: 'lesson', options: {unique: false}},
+        {name: 'module', keyPath: 'module', options: {unique: false}},
+      ],
+    },
+  ],
+}
+
 const queryClient = new QueryClient()
 
 function MyApp({Component, pageProps}: AppProps) {

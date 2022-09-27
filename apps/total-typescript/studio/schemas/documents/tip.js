@@ -35,6 +35,17 @@ export default {
       type: 'body',
     },
     {
+      name: 'concepts',
+      title: 'Concepts',
+      type: 'array',
+      of: [
+        {
+          type: 'reference',
+          to: [{type: 'skosConcept'}],
+        },
+      ],
+    },
+    {
       name: 'description',
       title: 'Short Description',
       description: 'Used as a short "SEO" summary on Twitter cards etc.',
