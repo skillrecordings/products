@@ -10,6 +10,7 @@ export default {
       name: 'label',
       title: 'Label',
       type: 'string',
+      hidden: true,
     },
     {
       name: 'title',

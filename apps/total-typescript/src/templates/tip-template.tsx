@@ -24,12 +24,13 @@ import {track} from 'utils/analytics'
 import Navigation from 'components/app/navigation'
 import Image from 'next/image'
 import {getOgImage} from 'utils/get-og-image'
-import {useIndexedDBStore} from 'use-indexeddb'
 import {useTipComplete} from '../hooks/use-tip-complete'
 
 const TipTemplate: React.FC<TipPageProps> = ({tip, tips}) => {
   const muxPlayerRef = React.useRef<HTMLDivElement>()
-  const {add} = useIndexedDBStore('progress')
+
+  // TODO: add this to a database
+  const add = (params: any) => new Promise<void>((resolve) => resolve(params))
 
   const {tipCompleted} = useTipComplete(tip.slug)
 
