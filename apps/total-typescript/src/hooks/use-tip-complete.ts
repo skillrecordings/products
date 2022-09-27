@@ -1,5 +1,6 @@
 import {z} from 'zod'
 import {useQuery} from 'react-query'
+import {localProgressDb} from '../utils/dexie'
 
 export const TipEventSchema = z.object({
   lesson: z.string(),
@@ -14,7 +15,11 @@ export const useTipComplete = (tipSlug: string) => {
   const {data: completionEvents, status} = useQuery(
     ['completionEvents', tipSlug],
     async () => {
-      const tipEvents: TipEvent[] = []
+      const tipEvents = await localProgressDb.progress
+        .where('lesson')
+        .equals(tipSlug)
+        .toArray()
+
       return z
         .array(TipEventSchema)
         .parse(tipEvents)
