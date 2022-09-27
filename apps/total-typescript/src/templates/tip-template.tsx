@@ -25,12 +25,10 @@ import Navigation from 'components/app/navigation'
 import Image from 'next/image'
 import {getOgImage} from 'utils/get-og-image'
 import {useTipComplete} from '../hooks/use-tip-complete'
+import {localProgressDb} from '../utils/dexie'
 
 const TipTemplate: React.FC<TipPageProps> = ({tip, tips}) => {
   const muxPlayerRef = React.useRef<HTMLDivElement>()
-
-  // TODO: add this to a database
-  const add = (params: any) => new Promise<void>((resolve) => resolve(params))
 
   const {tipCompleted} = useTipComplete(tip.slug)
 
@@ -51,12 +49,14 @@ const TipTemplate: React.FC<TipPageProps> = ({tip, tips}) => {
   })
 
   const handleVideoEnded = async () => {
-    await add({
-      eventName: 'completed video',
-      module: 'tips',
-      lesson: tip.slug,
-      createdOn: new Date(),
-    }).then(console.debug)
+    await localProgressDb.progress
+      .add({
+        eventName: 'completed video',
+        module: 'tips',
+        lesson: tip.slug,
+        createdOn: new Date(),
+      })
+      .then(console.debug)
   }
 
   return (
