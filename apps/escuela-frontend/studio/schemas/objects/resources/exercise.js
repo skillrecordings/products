@@ -7,8 +7,8 @@ export default {
   icon: MdSettingsSuggest,
   fields: [
     {
-      name: 'label',
-      title: 'Label',
+      name: 'title',
+      title: 'Title',
       type: 'string',
     },
     {

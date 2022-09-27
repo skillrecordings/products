@@ -7,8 +7,8 @@ export default {
   title: 'Mux Video',
   fields: [
     {
-      name: 'label',
-      title: 'Label',
+      name: 'title',
+      title: 'Title',
       type: 'string',
     },
     {
