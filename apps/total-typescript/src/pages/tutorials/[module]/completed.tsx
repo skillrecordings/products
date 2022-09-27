@@ -8,7 +8,6 @@ import cx from 'classnames'
 import z from 'zod'
 import {convertToSerializeForNextResponse} from '@skillrecordings/commerce-server'
 import {getSdk, User} from '@skillrecordings/database'
-import {zodResolver} from '@hookform/resolvers/zod'
 import {SanityDocument} from '@sanity/client'
 import {Subscriber} from 'lib/convertkit'
 import {getModule} from 'lib/tutorials'
@@ -98,7 +97,6 @@ const CompletedTutorialTemplate: React.FC<CompletedTutorialProps> = ({
 }) => {
   const {title, image, slug} = tutorial
   const form = useForm({
-    resolver: zodResolver(schema),
     shouldUseNativeValidation: true,
     defaultValues: {
       firstName: subscriber?.first_name || '',
@@ -144,11 +142,6 @@ const CompletedTutorialTemplate: React.FC<CompletedTutorialProps> = ({
     </Layout>
   )
 }
-
-const schema = z.object({
-  firstName: z.string(),
-  lastName: z.string(),
-})
 
 const UpdateSubscriberNameForm: React.FC<{
   tutorial: SanityDocument
