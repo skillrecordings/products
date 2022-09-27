@@ -32,7 +32,6 @@ const ArticleTemplate: React.FC<ArticleTemplateProps> = ({article}) => {
       className="overflow-hidden"
       nav
       meta={{
-        titleAppendSiteName: false,
         title: metaTitle || title,
         description: shortDescription,
         type: 'article',

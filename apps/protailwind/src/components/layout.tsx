@@ -16,7 +16,7 @@ const Layout: FunctionComponent<React.PropsWithChildren<LayoutProps>> = ({
   const {
     title,
     description,
-    titleAppendSiteName = true,
+    titleAppendSiteName = false,
     url,
     type = 'website',
     ogImage,

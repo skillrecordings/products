@@ -8,7 +8,7 @@ import {Article, getAllArticles} from '../lib/articles'
 import {toPlainText} from '@portabletext/react'
 
 const meta = {
-  title: 'Pro Tailwind Articles',
+  title: 'Tailwind Articles',
 }
 
 type ArticlesProps = {
