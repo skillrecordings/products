@@ -1,9 +1,10 @@
 import * as React from 'react'
 
-import {GetServerSideProps} from 'next'
+import {GetServerSideProps, GetStaticPaths, GetStaticProps} from 'next'
 import Layout from '../../../components/layout'
 import PodcastPlayer from '../../../components/podcast-player'
 import {
+  getAllPodcastSeasons,
   getPodcastEpisode,
   getPodcastSeason,
   PodcastEpisode,
@@ -12,39 +13,36 @@ import Markdown from 'react-markdown'
 import {isEmpty} from 'lodash'
 import {genericCallToActionContent} from '../../../components/landing-content'
 import {CallToActionForm} from '../../../components/call-to-action-form'
-import {useRouter} from 'next/router'
 
-export const getServerSideProps: GetServerSideProps = async ({
-  req,
-  res,
-  params,
-}) => {
-  if (params?.podcastEpisode) {
-    res.setHeader('Cache-Control', 's-maxage=1, stale-while-revalidate')
-    const episode = await getPodcastEpisode(params.podcastEpisode as string)
-    if (episode) {
-      return {
-        props: {
-          episode,
-        },
-      }
-    } else {
-      return {
-        redirect: {
-          destination: '/podcast/course-builders',
-          permanent: false,
-        },
-      }
-    }
-  } else {
-    return {
-      redirect: {
-        destination: '/podcast/course-builders',
-        permanent: false,
-      },
-    }
+export const getStaticProps: GetStaticProps = async ({params}) => {
+  const episode = await getPodcastEpisode(params?.podcastEpisode as string)
+
+  return {
+    props: {
+      episode,
+    },
+    revalidate: 10,
   }
 }
+
+export const getStaticPaths: GetStaticPaths = async (context) => {
+  const seasons = await getAllPodcastSeasons()
+
+  const paths = seasons
+    .reduce((acc: any[], season: any) => {
+      return season.episodes.map((episode: any) => {
+        return {
+          params: {
+            podcastSeason: season.slug,
+            podcastEpisode: episode.slug,
+          },
+        }
+      })
+    }, [])
+    .flatMap((path: any) => path)
+  return {paths, fallback: 'blocking'}
+}
+
 const PodcastEpisode: React.FC<{episode: PodcastEpisode}> = ({episode}) => {
   const {title, summary, publishedAt, coverArtUrl} = episode
 

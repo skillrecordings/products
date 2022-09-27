@@ -8,17 +8,29 @@ You'll need [PNPM](https://twitter.com/pnpmjs) installed.
 
 pnpm is used here based on [significant performance gains](https://twitter.com/jaredpalmer/status/1422574985323950083?s=20) reported by Jared Palmer from a customer.
 
+install pnpm:
+
 ```bash
-pnpm i
-pnpm turbo run build
+npm i pnpm -g
+```
+
+Install all dependencies (all apps and packages) and build all apps and packages
+
+```bash
+pnpm install
+pnpm build
 ```
 
 This will build (and cache) the library packages and applications.
 
-You can start the template next.js app:
+You can start an app or package for development:
 
 ```bash
-cd apps/next-product-starter && pnpm run dev
+cd apps/{{appname}} && pnpm dev
+```
+
+```bash
+cd packages/{{packagename}} && pnpm dev
 ```
 
 ## Adding a Project to Vercel
@@ -27,8 +39,16 @@ The build command needs to be scoped to the specific project so we aren't buildi
 
 `build`:
 
+The entire repo, all apps and dependencies
+
+```bash
+pnpm -w build
 ```
-pnpm build -w -- --scope="rust-adventure" --includeDependencies
+
+A single app/package can be filtered (from the root of the repo)
+
+```bash
+pnpm -- turbo run build --filter="testingaccessibility"
 ```
 
 The install command needs to also add `pnpm` and then run install.
@@ -65,12 +85,6 @@ Repeat this process if you want to work on a different project.
 Turbo is the core of the developer experience that this playground is exploring and provides cohesive logical building of a monorepo that contains many apps and library packages.
 
 It's a closed source paid product that we are excited to use and support.
-
-### Changset
-
-> 🦋 A way to manage your versioning and changelogs with a focus on monorepos
-
-Changeset is an Atlassian library that makes releasing library versions a little nicer.
 
 ### pnpm
 
