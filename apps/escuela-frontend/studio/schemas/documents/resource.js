@@ -8,8 +8,8 @@ export default {
   icon: MdOutlineWorkspaces,
   fields: [
     {
-      name: 'label',
-      title: 'Label',
+      name: 'title',
+      title: 'Title',
       type: 'string',
     },
     {
