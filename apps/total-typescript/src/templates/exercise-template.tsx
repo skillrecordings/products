@@ -37,7 +37,6 @@ const ExerciseTemplate: React.FC<{
   isSolution?: boolean
 }> = ({exercise, module, isSolution = false}) => {
   const muxPlayerRef = React.useRef<HTMLDivElement>()
-  const {subscriber, loadingSubscriber} = useConvertkit()
 
   exercise = ExerciseSchema.parse(isSolution ? exercise.solution : exercise)
   const {title, description: exerciseDescription} = exercise
@@ -52,7 +51,6 @@ const ExerciseTemplate: React.FC<{
       muxPlayerRef={muxPlayerRef}
       module={module}
       lesson={exercise as Exercise}
-      subscriber={subscriber}
       path={path}
     >
       <Layout
@@ -72,13 +70,7 @@ const ExerciseTemplate: React.FC<{
           />
           <main className="lg:mt-16 w-full relative max-w-[1480px] mx-auto 2xl:flex items-start 2xl:max-w-none border-t 2xl:border-gray-800 border-transparent">
             <div className="2xl:w-full 2xl:border-r border-gray-800 2xl:relative 2xl:h-full">
-              <Video
-                ref={muxPlayerRef}
-                module={module}
-                exercise={exercise}
-                subscriber={subscriber}
-                loadingSubscriber={loadingSubscriber}
-              />
+              <Video ref={muxPlayerRef} module={module} exercise={exercise} />
               <MobileLessonNavigator module={module} />
               <div className="hidden 2xl:block">
                 <StackblitzEmbed exercise={exercise} module={module} />
@@ -121,13 +113,12 @@ const ExerciseTemplate: React.FC<{
 type VideoProps = {
   module: SanityDocument
   exercise: Exercise
-  subscriber?: Subscriber
-  loadingSubscriber: boolean
   ref: any
 }
 
 const Video: React.FC<VideoProps> = React.forwardRef(
-  ({module, exercise, subscriber, loadingSubscriber}, ref: any) => {
+  ({module, exercise}, ref: any) => {
+    const {subscriber, loadingSubscriber} = useConvertkit()
     const isExercise = Boolean(exercise._type === 'exercise')
     const {muxPlayerProps, handlePlay, displayOverlay, nextExercise, video} =
       useMuxPlayer()
