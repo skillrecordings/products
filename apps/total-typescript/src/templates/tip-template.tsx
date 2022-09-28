@@ -17,6 +17,7 @@ import {
   ChatAltIcon,
   PlayIcon,
   CheckCircleIcon,
+  MailIcon,
 } from '@heroicons/react/solid'
 import {CheckCircleIcon as CheckCircleIconOutline} from '@heroicons/react/outline'
 import {shuffle, take} from 'lodash'
@@ -26,6 +27,10 @@ import Image from 'next/image'
 import {getOgImage} from 'utils/get-og-image'
 import {useTipComplete} from '../hooks/use-tip-complete'
 import {localProgressDb} from '../utils/dexie'
+import {
+  redirectUrlBuilder,
+  SubscribeToConvertkitForm,
+} from '@skillrecordings/convertkit'
 
 const TipTemplate: React.FC<TipPageProps> = ({tip, tips}) => {
   const muxPlayerRef = React.useRef<HTMLDivElement>()
@@ -75,8 +80,9 @@ const TipTemplate: React.FC<TipPageProps> = ({tip, tips}) => {
       >
         <main className="w-full mx-auto">
           <div className="bg-gradient-to-b from-black/30 to-gray-900 flex items-center justify-center relative z-10">
-            <div className="w-full -mb-1.5 max-w-screen-xl">
+            <div className="w-full -mb-1.5 max-w-screen-xl flex flex-col">
               <Video ref={muxPlayerRef} tips={tips} />
+              <SubscribeForm />
             </div>
           </div>
           <div className="relative border-l border-transparent xl:border-gray-800 pb-16 px-5 z-10">
@@ -338,6 +344,35 @@ const ReplyOnTwitter: React.FC<{tweet: string}> = ({tweet}) => {
       <ChatAltIcon aria-hidden="true" className="text-gray-400 w-5 h-5" />
       Discuss on Twitter
     </a>
+  )
+}
+
+const SubscribeForm = () => {
+  const router = useRouter()
+  return (
+    <div
+      id="tip"
+      className="2xl:px-0 px-3 w-full md:pt-1 pt-2 pb-3 flex md:flex-row flex-col justify-between items-center gap-5 border-b border-gray-800"
+    >
+      <div className="lg:flex-shrink-0 inline-flex items-center gap-2 lg:text-lg md:text-base text-lg font-medium leading-tight">
+        <div
+          aria-hidden="true"
+          className="flex-shrink-0 rounded-full w-10 h-10 bg-gray-800 flex items-center justify-center"
+        >
+          <MailIcon className="w-5 h-5 text-cyan-300" />
+        </div>{' '}
+        New TypeScript tips delivered to your inbox:
+      </div>
+      <SubscribeToConvertkitForm
+        actionLabel="Subscribe for more tips"
+        onSuccess={(subscriber: any) => {
+          if (subscriber) {
+            const redirectUrl = redirectUrlBuilder(subscriber, '/confirm')
+            router.push(redirectUrl)
+          }
+        }}
+      />
+    </div>
   )
 }
 
