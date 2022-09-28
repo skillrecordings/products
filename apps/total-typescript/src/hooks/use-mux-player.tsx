@@ -8,6 +8,7 @@ import {MuxPlayerProps} from '@mux/mux-player-react/*'
 import {track} from '../utils/analytics'
 import {type Exercise, ExerciseSchema} from 'lib/exercises'
 import {type Tip, TipSchema} from 'lib/tips'
+import {useConvertkit} from './use-convertkit'
 
 type VideoResource = Exercise | Tip
 
@@ -47,14 +48,13 @@ export const VideoProvider: React.FC<
   onEnded = async () => {},
 }) => {
   const router = useRouter()
+  const {subscriber} = useConvertkit()
   const nextExercise = getNextExercise(module, lesson as Exercise)
   const {setPlayerPrefs, playbackRate, autoplay, getPlayerPrefs} =
     usePlayerPrefs()
   const [autoPlay, setAutoPlay] = React.useState(getPlayerPrefs().autoplay)
   const [displayOverlay, setDisplayOverlay] = React.useState(false)
   const video = {muxPlaybackId: lesson.muxPlaybackId}
-
-  // console.log({video, lesson}, lesson.resources)
   const title = get(lesson, 'title') || get(lesson, 'label')
 
   const handlePlay = () => {
@@ -80,11 +80,11 @@ export const VideoProvider: React.FC<
 
   // preferences
   React.useEffect(() => {
-    if (video && muxPlayerRef?.current) {
+    if (muxPlayerRef.current && video) {
       muxPlayerRef.current.playbackRate = playbackRate
       muxPlayerRef.current.autoplay = autoplay
     }
-  }, [playbackRate, autoPlay, video])
+  }, [subscriber, muxPlayerRef, playbackRate, autoPlay, video])
 
   const context = {
     muxPlayerProps: {
@@ -98,6 +98,7 @@ export const VideoProvider: React.FC<
           lessonType: lesson._type,
         })
       },
+
       onPause: () => {},
       onEnded: async () => {
         handleNext(getPlayerPrefs().autoplay)
