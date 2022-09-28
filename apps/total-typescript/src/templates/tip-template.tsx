@@ -32,9 +32,11 @@ import {
   SubscribeToConvertkitForm,
 } from '@skillrecordings/convertkit'
 import {useConvertkit} from 'hooks/use-convertkit'
+import {setUserId} from '@amplitude/analytics-browser'
 
 const TipTemplate: React.FC<TipPageProps> = ({tip, tips}) => {
   const muxPlayerRef = React.useRef<HTMLDivElement>()
+  const router = useRouter()
 
   const {tipCompleted} = useTipComplete(tip.slug)
 
@@ -53,6 +55,25 @@ const TipTemplate: React.FC<TipPageProps> = ({tip, tips}) => {
     title: tip.title,
     image: `https://image.mux.com/${muxPlaybackId}/thumbnail.png?width=480&height=270&fit_mode=preserve`,
   })
+
+  const handleOnSuccess = (subscriber: any, email?: string) => {
+    if (subscriber) {
+      const redirectUrl = redirectUrlBuilder(subscriber, router.asPath, {
+        confirmToast: 'true',
+      })
+      email && setUserId(email)
+      track('subscribed to email list', {
+        lesson: tip.slug,
+        module: 'tips',
+        location: 'below tip video',
+        moduleType: 'tip',
+        lessonType: 'tip',
+      })
+      router.push(redirectUrl).then(() => {
+        router.reload()
+      })
+    }
+  }
 
   const handleVideoEnded = async () => {
     await localProgressDb.progress
@@ -84,7 +105,9 @@ const TipTemplate: React.FC<TipPageProps> = ({tip, tips}) => {
           <div className="bg-gradient-to-b from-black/30 to-gray-900 flex items-center justify-center relative z-10">
             <div className="w-full -mb-1.5 max-w-screen-xl flex flex-col">
               <Video ref={muxPlayerRef} tips={tips} />
-              {!subscriber && !loadingSubscriber && <SubscribeForm />}
+              {!subscriber && !loadingSubscriber && (
+                <SubscribeForm handleOnSuccess={handleOnSuccess} />
+              )}
             </div>
           </div>
           <div className="relative border-l border-transparent xl:border-gray-800 pb-16 px-5 z-10">
@@ -349,8 +372,11 @@ const ReplyOnTwitter: React.FC<{tweet: string}> = ({tweet}) => {
   )
 }
 
-const SubscribeForm = () => {
-  const router = useRouter()
+const SubscribeForm = ({
+  handleOnSuccess,
+}: {
+  handleOnSuccess: (subscriber: any, email?: string) => void
+}) => {
   return (
     <div
       id="tip"
@@ -366,12 +392,9 @@ const SubscribeForm = () => {
         New TypeScript tips delivered to your inbox:
       </div>
       <SubscribeToConvertkitForm
-        actionLabel="Subscribe for more tips"
-        onSuccess={(subscriber: any) => {
-          if (subscriber) {
-            const redirectUrl = redirectUrlBuilder(subscriber, '/confirm')
-            router.push(redirectUrl)
-          }
+        actionLabel="Subscribe for TypeScript tips"
+        onSuccess={(subscriber, email) => {
+          return handleOnSuccess(subscriber, email)
         }}
       />
     </div>
