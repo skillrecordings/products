@@ -1,6 +1,6 @@
 import React from 'react'
 import ExerciseTemplate from 'templates/exercise-template'
-import {GetServerSideProps, GetStaticPaths, GetStaticProps} from 'next'
+import {GetStaticPaths, GetStaticProps} from 'next'
 import {getAllTutorials, getModule} from 'lib/tutorials'
 import {getExercise} from 'lib/exercises'
 

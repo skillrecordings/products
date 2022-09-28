@@ -37,56 +37,70 @@ const TutorialsPage: React.FC<{tutorials: SanityDocument[]}> = ({
         </p>
         {tutorials && (
           <ul className="pt-20 max-w-screen-md flex flex-col gap-8 px-3">
-            {tutorials.map(({title, slug, image, description, exercises}) => {
-              return (
-                <li
-                  key={slug.current}
-                  className="flex md:flex-row flex-col gap-10 items-center p-10 rounded-lg bg-black/30"
-                >
-                  <div className="flex items-center justify-center flex-shrink-0">
-                    <Image
-                      src={image}
-                      alt={title}
-                      width={300}
-                      quality={100}
-                      height={300}
-                    />
-                  </div>
-                  <div>
-                    <Link
-                      href={{
-                        pathname: '/tutorials/[module]',
-                        query: {
-                          module: slug.current,
-                        },
-                      }}
-                    >
-                      <a className="sm:text-5xl text-4xl font-semibold hover:underline">
-                        {title}
-                      </a>
-                    </Link>
-                    <div className="py-4 text-sm font-mono uppercase">
-                      {exercises.length} exercises
+            {tutorials.map(
+              ({title, slug, image, description, exercises}, i) => {
+                return (
+                  <li
+                    key={slug.current}
+                    className="overflow-hidden relative flex md:flex-row flex-col gap-10 items-center p-10 rounded-lg bg-black/20 border border-gray-700/50 shadow-2xl"
+                  >
+                    <div className="flex items-center justify-center flex-shrink-0">
+                      <Image
+                        src={image}
+                        alt={title}
+                        width={300}
+                        quality={100}
+                        height={300}
+                      />
                     </div>
-                    {description && (
-                      <p className="text-gray-300">{description}</p>
-                    )}
-                    <Link
-                      href={{
-                        pathname: '/tutorials/[module]',
-                        query: {
-                          module: slug.current,
-                        },
-                      }}
-                    >
-                      <a className="gap-2 px-3 py-2 rounded bg-gray-800 hover:bg-gray-700 transition inline-block mt-5 font-medium">
-                        View <span aria-hidden="true">→</span>
-                      </a>
-                    </Link>
-                  </div>
-                </li>
-              )
-            })}
+                    <div>
+                      <Link
+                        href={{
+                          pathname: '/tutorials/[module]',
+                          query: {
+                            module: slug.current,
+                          },
+                        }}
+                      >
+                        <a className="sm:text-4xl text-3xl font-semibold hover:underline">
+                          {title}
+                        </a>
+                      </Link>
+                      <div className="pt-4 pb-3 text-xs font-mono font-semibold uppercase text-cyan-300">
+                        {i === 0 && (
+                          <span className="mr-3 px-2 py-0.5 rounded-full font-sans font-semibold bg-cyan-300 text-black uppercase">
+                            New
+                          </span>
+                        )}
+                        {exercises.length} exercises
+                      </div>
+                      {description && (
+                        <p className="text-gray-300">{description}</p>
+                      )}
+                      <Link
+                        href={{
+                          pathname: '/tutorials/[module]',
+                          query: {
+                            module: slug.current,
+                          },
+                        }}
+                      >
+                        <a className="gap-2 px-4 py-2 group rounded bg-gray-800 hover:bg-gray-700 transition inline-block mt-5 font-medium">
+                          View{' '}
+                          <span
+                            aria-hidden="true"
+                            className="text-gray-300 group-hover:text-white transition"
+                          >
+                            →
+                          </span>
+                        </a>
+                      </Link>
+                    </div>
+                    <StripesLeft className="absolute left-0 top-0 w-5 md:block hidden" />
+                  </li>
+                )
+              },
+            )}
           </ul>
         )}
       </main>
@@ -99,6 +113,26 @@ const TutorialsPage: React.FC<{tutorials: SanityDocument[]}> = ({
         className="object-contain -z-10"
       />
     </Layout>
+  )
+}
+
+const StripesLeft: React.FC<{className?: string}> = ({className = ''}) => {
+  return (
+    <svg
+      aria-hidden="true"
+      className={className}
+      xmlns="http://www.w3.org/2000/svg"
+      fill="none"
+      viewBox="0 0 28 570"
+    >
+      <path
+        fill="#1F2937"
+        fill-rule="evenodd"
+        d="M0 24.586v2.828l26-26V0h-1.414L0 24.586Zm26-12-26 26v2.828l26-26v-2.828Zm0 14-26 26v2.828l26-26v-2.828Zm0 14-26 26v2.828l26-26v-2.828Zm0 14-26 26v2.828l26-26v-2.828Zm0 14-26 26v2.828l26-26v-2.828Zm0 14-26 26v2.828l26-26v-2.828Zm0 14-26 26v2.828l26-26v-2.828Zm0 14-26 26v2.828l26-26v-2.828Zm0 14-26 26v2.828l26-26v-2.828Zm0 14-26 26v2.828l26-26v-2.828Zm0 14-26 26v2.828l26-26v-2.828Zm0 14-26 26v2.828l26-26v-2.828Zm0 14-26 26v2.828l26-26v-2.828Zm0 14-26 26v2.828l26-26v-2.828Zm0 14-26 26v2.828l26-26v-2.828Zm0 14-26 26v2.828l26-26v-2.828Zm0 14-26 26v2.828l26-26v-2.828Zm0 14-26 26v2.828l26-26v-2.828Zm0 14-26 26v2.828l26-26v-2.828Zm0 14-26 26v2.828l26-26v-2.828Zm0 14-26 26v2.828l26-26v-2.828Zm0 14-26 26v2.828l26-26v-2.828Zm0 14-26 26v2.828l26-26v-2.828Zm0 14-26 26v2.828l26-26v-2.828Zm0 14-26 26v2.828l26-26v-2.828Zm0 14-26 26v2.828l26-26v-2.828Zm0 14-26 26v2.828l26-26v-2.828Zm0 14-26 26v2.828l26-26v-2.828Zm0 14-26 26v2.828l26-26v-2.828Zm0 14-26 26v2.828l26-26v-2.828Zm0 14-26 26v2.828l26-26v-2.828Zm0 14-26 26v2.828l26-26v-2.828Zm0 14-26 26v2.828l26-26v-2.828Zm0 14-26 26v2.828l26-26v-2.828Zm0 14-26 26v2.828l26-26v-2.828Zm0 14-26 26v2.828l26-26v-2.828Zm0 14-26 26v2.828l26-26v-2.828Zm0 14-24.96 24.96c.229.696.492 1.377.79 2.039L26 533.414v-2.828Zm0 14L6.447 564.139c.481.463.985.904 1.509 1.32L26 547.414v-2.828Zm0 14-10.646 10.646c.757.211 1.532.381 2.322.506L26 561.414v-2.828Z"
+        clip-rule="evenodd"
+      />
+      <path stroke="#1F2937" stroke-width="2" d="M27 0v570" />
+    </svg>
   )
 }
 

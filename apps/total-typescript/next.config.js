@@ -1,5 +1,4 @@
 /** @type {import('next').NextConfig} */
-const withPlugins = require('next-compose-plugins')
 const withMDX = require('@next/mdx')({
   extension: /\.mdx?$/,
   options: {
@@ -44,7 +43,7 @@ const nextConfig = {
   },
 }
 
-const configWithPlugins = withPlugins([withMDX()], nextConfig)
+const configWithPlugins = withMDX(nextConfig)
 
 if (sentryWebpackPluginOptions) {
   module.exports = withSentryConfig(
