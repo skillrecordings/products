@@ -1,6 +1,6 @@
 import {z} from 'zod'
-import {useIndexedDBStore} from 'use-indexeddb'
 import {useQuery} from 'react-query'
+import {localProgressDb} from '../utils/dexie'
 
 export const TipEventSchema = z.object({
   lesson: z.string(),
@@ -12,11 +12,14 @@ export const TipEventSchema = z.object({
 export type TipEvent = z.infer<typeof TipEventSchema>
 
 export const useTipComplete = (tipSlug: string) => {
-  const {getManyByIndex} = useIndexedDBStore('progress')
   const {data: completionEvents, status} = useQuery(
     ['completionEvents', tipSlug],
     async () => {
-      const tipEvents = await getManyByIndex('lesson', tipSlug)
+      const tipEvents = await localProgressDb.progress
+        .where('lesson')
+        .equals(tipSlug)
+        .toArray()
+
       return z
         .array(TipEventSchema)
         .parse(tipEvents)

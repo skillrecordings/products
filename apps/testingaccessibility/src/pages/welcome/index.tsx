@@ -13,6 +13,7 @@ import Image from 'next/image'
 import {getSdk, prisma} from '@skillrecordings/database'
 import Link from 'next/link'
 import {isString} from 'lodash'
+import Card from 'components/team/card'
 
 export const getServerSideProps: GetServerSideProps = async ({
   res,
@@ -111,14 +112,17 @@ const Welcome: React.FC<
           <Header upgrade={upgrade} />
           {purchase.merchantChargeId && <Invoice purchase={purchase} />}
           {redemptionsLeft && (
-            <Invite>
+            <Card
+              icon={<UserGroupIcon className="w-5 text-green-500" />}
+              title={{as: 'h3', content: 'Invite your team'}}
+            >
               <InviteTeam
                 setPersonalPurchase={setPersonalPurchase}
                 session={session}
                 purchase={purchase}
                 existingPurchase={existingPurchase}
               />
-            </Invite>
+            </Card>
           )}
           {personalPurchase && <GetStarted />}
           <Share />
@@ -177,17 +181,6 @@ const Invoice: React.FC<React.PropsWithChildren<{purchase: any}>> = ({
           </span>
         </a>
       </Link>
-    </div>
-  )
-}
-
-const Invite: React.FC<React.PropsWithChildren<unknown>> = ({children}) => {
-  return (
-    <div className="sm:px-8 px-5 sm:py-8 py-5 bg-white rounded-lg">
-      <h3 className="flex items-center gap-2 text-xl font-bold">
-        <UserGroupIcon className="w-5 text-green-500" /> Invite your team
-      </h3>
-      {children}
     </div>
   )
 }

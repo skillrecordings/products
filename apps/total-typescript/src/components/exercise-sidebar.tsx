@@ -27,7 +27,7 @@ const ExerciseSidebar: React.FC<SidebarProps> = ({
         <div className="border-r border-gray-800 lg:sticky top-0">
           <aside>
             <div className="lg:sticky top-0 z-10 h-[180px] bg-gradient-to-t from-transparent to-gray-900 via-gray-900">
-              <div className="flex items-center gap-5 px-3 pt-2 pb-2 bg-gray-900 border-b border-gray-800 relative">
+              <div className="flex items-center gap-5 px-3 py-1 bg-gray-900 border-b border-gray-800 relative">
                 {module?.image && (
                   <Image
                     src={module.image}
@@ -38,10 +38,10 @@ const ExerciseSidebar: React.FC<SidebarProps> = ({
                     className="relative z-10"
                   />
                 )}
-                <div className="relative z-10">
+                <div className="relative z-10 -translate-y-0.5">
                   <Link href="/tutorials">
                     <a
-                      className="uppercase text-xs font-mono font-semibold opacity-80 hover:underline"
+                      className="uppercase text-xs font-mono font-semibold text-gray-300 hover:underline"
                       onClick={() => {
                         track('clicked return to tutorials', {
                           module: module.slug.current,
@@ -51,8 +51,8 @@ const ExerciseSidebar: React.FC<SidebarProps> = ({
                       {module.moduleType}s
                     </a>
                   </Link>
-                  <span className="pl-1">/</span>
-                  <h2 className="text-3xl font-semibold leading-tight">
+                  <span className="pl-1 text-xs text-gray-400">/</span>
+                  <h2 className="text-2xl font-semibold leading-none w-full">
                     <Link
                       href={{
                         pathname: `${path}/[module]`,

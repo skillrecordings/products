@@ -11,6 +11,7 @@ import {useSession} from 'next-auth/react'
 import {getCurrentAbility} from '@skillrecordings/ability'
 import {getToken} from 'next-auth/jwt'
 import {getSdk} from '@skillrecordings/database'
+import Card from 'components/team/card'
 
 export const getServerSideProps: GetServerSideProps = async ({req}) => {
   const token = await getToken({req})
@@ -80,32 +81,20 @@ const TeamPage: React.FC<React.PropsWithChildren<TeamPageProps>> = ({
       meta={{title: 'Invite your team to Testing Accessibility'}}
       className="bg-green-700 bg-noise"
     >
-      <main className="flex flex-col flex-grow items-center justify-center py-16 mx-auto w-full p-5">
-        <div className="bg-white rounded-lg max-w-lg w-full">
-          <div className="sm:px-8 px-5 sm:py-8 py-5 bg-white rounded-lg">
-            <h1 className="flex items-center gap-2 text-xl font-bold">
-              <UserGroupIcon className="w-5 text-green-500" /> Invite your team
-            </h1>
-            <InviteTeam
-              session={session}
-              purchase={purchase}
-              existingPurchase={existingPurchase}
-              setPersonalPurchase={setPersonalPurchase}
-            />
-            {personalPurchase && (
-              <div className="flex sm:flex-row flex-col-reverse items-center justify-between pt-5 mt-5 border-t border-gray-100 sm:gap-10 gap-5">
-                <Link href="/learn">
-                  <a className="flex-shrink-0 border border-green-500 transition text-green-600 px-4 py-2 hover:bg-green-600/5 rounded-md font-semibold">
-                    Start Learning
-                  </a>
-                </Link>
-                <p className="font-semibold leading-tight">
-                  You've claimed one of the seats yourself.
-                </p>
-              </div>
-            )}
-          </div>
-        </div>
+      <main className="flex flex-col flex-grow items-center justify-center py-16 mx-auto w-full p-5 max-w-xl gap-3">
+        <Card
+          title={{as: 'h1', content: 'Invite your team'}}
+          icon={
+            <UserGroupIcon className="w-5 text-green-500" aria-hidden="true" />
+          }
+        >
+          <InviteTeam
+            session={session}
+            purchase={purchase}
+            existingPurchase={existingPurchase}
+            setPersonalPurchase={setPersonalPurchase}
+          />
+        </Card>
       </main>
     </Layout>
   )

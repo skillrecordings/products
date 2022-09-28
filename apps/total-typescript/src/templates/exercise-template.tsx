@@ -27,6 +27,7 @@ import Image from 'next/image'
 import {track} from 'utils/analytics'
 import {Exercise, ExerciseSchema} from '../lib/exercises'
 import {useConvertkit} from 'hooks/use-convertkit'
+import {Subscriber} from 'lib/convertkit'
 
 const path = '/tutorials'
 
@@ -36,6 +37,7 @@ const ExerciseTemplate: React.FC<{
   isSolution?: boolean
 }> = ({exercise, module, isSolution = false}) => {
   const muxPlayerRef = React.useRef<HTMLDivElement>()
+  const {subscriber, loadingSubscriber} = useConvertkit()
 
   exercise = ExerciseSchema.parse(isSolution ? exercise.solution : exercise)
   const {title, description: exerciseDescription} = exercise
@@ -50,6 +52,7 @@ const ExerciseTemplate: React.FC<{
       muxPlayerRef={muxPlayerRef}
       module={module}
       lesson={exercise as Exercise}
+      subscriber={subscriber}
       path={path}
     >
       <Layout
@@ -69,16 +72,14 @@ const ExerciseTemplate: React.FC<{
           />
           <main className="lg:mt-16 w-full relative max-w-[1480px] mx-auto 2xl:flex items-start 2xl:max-w-none border-t 2xl:border-gray-800 border-transparent">
             <div className="2xl:w-full 2xl:border-r border-gray-800 2xl:relative 2xl:h-full">
-              <Video ref={muxPlayerRef} module={module} exercise={exercise} />
-              <details className="lg:hidden block group border-t-2 border-gray-900">
-                <summary className="flex gap-1 items-center px-4 py-3 font-medium bg-black/50 hover:bg-gray-800 transition cursor-pointer no-marker marker:content-[''] group-open:after:rotate-0 after:rotate-180 after:content-['↑'] after:text-lg after:w-6 after:h-6 after:rounded-full after:bg-gray-800 after:flex after:items-center after:justify-center after:absolute after:right-3">
-                  {module.title} {capitalize(module.moduleType)}{' '}
-                  <span className="opacity-80">
-                    ({module.exercises.length} exercises)
-                  </span>
-                </summary>
-                <ExerciseSidebar module={module} path={path} />
-              </details>
+              <Video
+                ref={muxPlayerRef}
+                module={module}
+                exercise={exercise}
+                subscriber={subscriber}
+                loadingSubscriber={loadingSubscriber}
+              />
+              <MobileLessonNavigator module={module} />
               <div className="hidden 2xl:block">
                 <StackblitzEmbed exercise={exercise} module={module} />
                 <VideoTranscript
@@ -117,13 +118,19 @@ const ExerciseTemplate: React.FC<{
   )
 }
 
-const Video: React.FC<any> = React.forwardRef(
-  ({module, exercise}, ref: any) => {
+type VideoProps = {
+  module: SanityDocument
+  exercise: Exercise
+  subscriber?: Subscriber
+  loadingSubscriber: boolean
+  ref: any
+}
+
+const Video: React.FC<VideoProps> = React.forwardRef(
+  ({module, exercise, subscriber, loadingSubscriber}, ref: any) => {
     const isExercise = Boolean(exercise._type === 'exercise')
     const {muxPlayerProps, handlePlay, displayOverlay, nextExercise, video} =
       useMuxPlayer()
-
-    const {subscriber, loadingSubscriber} = useConvertkit()
 
     const canShowVideo =
       (subscriber || exercise._id === module.exercises[0]._id) &&
@@ -391,6 +398,22 @@ const VideoTranscript: React.FC<{
         />
       </div>
     </div>
+  )
+}
+
+const MobileLessonNavigator: React.FC<{module: SanityDocument}> = ({
+  module,
+}) => {
+  return (
+    <details className="lg:hidden block group border-t-2 border-gray-900">
+      <summary className="flex gap-1 items-center px-4 py-3 font-medium bg-black/50 hover:bg-gray-800 transition cursor-pointer no-marker marker:content-[''] group-open:after:rotate-0 after:rotate-180 after:content-['↑'] after:text-lg after:w-6 after:h-6 after:rounded-full after:bg-gray-800 after:flex after:items-center after:justify-center after:absolute after:right-3">
+        {module.title} {capitalize(module.moduleType)}{' '}
+        <span className="opacity-80">
+          ({module.exercises.length} exercises)
+        </span>
+      </summary>
+      <ExerciseSidebar module={module} path={path} />
+    </details>
   )
 }
 

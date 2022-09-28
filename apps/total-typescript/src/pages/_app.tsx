@@ -18,7 +18,6 @@ import superjson from 'superjson'
 import {httpBatchLink} from '@trpc/client/links/httpBatchLink'
 import {loggerLink} from '@trpc/client/links/loggerLink'
 import {AppRouter} from 'server/routers/_app'
-import IndexedDBProvider from 'use-indexeddb'
 
 amplitude.init(process.env.NEXT_PUBLIC_AMPLITUDE_API_KEY)
 
@@ -47,21 +46,15 @@ function MyApp({Component, pageProps}: AppProps) {
   return (
     <>
       <DefaultSeo {...config} />
-      <IndexedDBProvider
-        config={idbConfig}
-        loading="Loading..."
-        fallback="Unsupported"
-      >
-        <SessionProvider session={pageProps.session} refetchInterval={0}>
-          <QueryClientProvider client={queryClient}>
-            <ConvertkitProvider>
-              <MDXProvider components={MDXComponents}>
-                <Component {...pageProps} />
-              </MDXProvider>
-            </ConvertkitProvider>
-          </QueryClientProvider>
-        </SessionProvider>
-      </IndexedDBProvider>
+      <SessionProvider session={pageProps.session} refetchInterval={0}>
+        <QueryClientProvider client={queryClient}>
+          <ConvertkitProvider>
+            <MDXProvider components={MDXComponents}>
+              <Component {...pageProps} />
+            </MDXProvider>
+          </ConvertkitProvider>
+        </QueryClientProvider>
+      </SessionProvider>
       {process.env.NODE_ENV !== 'development' && (
         <>
           <Script

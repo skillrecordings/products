@@ -6,21 +6,10 @@ import {useQuery} from 'react-query'
 import toast from 'react-hot-toast'
 import {useRouter} from 'next/router'
 import {removeQueryParamsFromRouter} from 'utils/remove-query-params-from-router'
+import {type Subscriber} from 'lib/convertkit'
 
-type ConvertkitContextType = {
-  subscriber?: {
-    fields?: Record<string, string>
-    created_at?: Date
-    email_address?: string
-    first_name?: string
-    id?: number
-    state?: 'active' | 'inactive'
-    tags?: {
-      id?: number
-      name?: string
-      created_at?: Date
-    }[]
-  }
+export type ConvertkitContextType = {
+  subscriber?: Subscriber
   loadingSubscriber: boolean
 }
 
