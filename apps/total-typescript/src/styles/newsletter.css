@@ -51,3 +51,40 @@
     }
   }
 }
+
+#tip {
+  [data-sr-convertkit-subscribe-form] {
+    @apply flex md:flex-row flex-col gap-2 text-left w-full;
+    [data-sr-input-wrapper] {
+      @apply w-full;
+    }
+    [data-sr-input-wrapper]:first-of-type {
+      @apply md:w-2/3;
+    }
+    [data-sr-input] {
+      @apply px-3 py-2 bg-gray-800/50 border border-gray-800 rounded-md text-lg w-full;
+    }
+
+    [data-sr-input-label] {
+      @apply sr-only;
+    }
+    [data-sr-button] {
+      @apply flex-shrink-0 flex items-center justify-center rounded-md bg-gradient-to-tr from-cyan-600 to-cyan-500 shadow-cyan-900/50 relative shadow-2xl py-2 px-5 focus-visible:ring-white font-semibold text-lg hover:brightness-110 transition;
+      svg {
+        @apply w-7 h-7;
+      }
+    }
+    [data-sr-button][disabled] {
+    }
+  }
+  [data-sr-convertkit-subscribe-form='success'] {
+    p {
+      @apply text-center py-2;
+    }
+  }
+  [data-sr-convertkit-subscribe-form='error'] {
+    p {
+      @apply text-center py-2;
+    }
+  }
+}
