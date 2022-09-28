@@ -36,8 +36,8 @@ import {setUserId} from '@amplitude/analytics-browser'
 
 const TipTemplate: React.FC<TipPageProps> = ({tip, tips}) => {
   const muxPlayerRef = React.useRef<HTMLDivElement>()
+  const {subscriber, loadingSubscriber} = useConvertkit()
   const router = useRouter()
-
   const {tipCompleted} = useTipComplete(tip.slug)
 
   const module: any = {
@@ -85,7 +85,6 @@ const TipTemplate: React.FC<TipPageProps> = ({tip, tips}) => {
       })
       .then(console.debug)
   }
-  const {subscriber, loadingSubscriber} = useConvertkit()
 
   return (
     <VideoProvider
