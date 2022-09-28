@@ -31,6 +31,7 @@ import {
   redirectUrlBuilder,
   SubscribeToConvertkitForm,
 } from '@skillrecordings/convertkit'
+import {useConvertkit} from 'hooks/use-convertkit'
 
 const TipTemplate: React.FC<TipPageProps> = ({tip, tips}) => {
   const muxPlayerRef = React.useRef<HTMLDivElement>()
@@ -63,6 +64,7 @@ const TipTemplate: React.FC<TipPageProps> = ({tip, tips}) => {
       })
       .then(console.debug)
   }
+  const {subscriber, loadingSubscriber} = useConvertkit()
 
   return (
     <VideoProvider
@@ -82,7 +84,7 @@ const TipTemplate: React.FC<TipPageProps> = ({tip, tips}) => {
           <div className="bg-gradient-to-b from-black/30 to-gray-900 flex items-center justify-center relative z-10">
             <div className="w-full -mb-1.5 max-w-screen-xl flex flex-col">
               <Video ref={muxPlayerRef} tips={tips} />
-              <SubscribeForm />
+              {!subscriber && !loadingSubscriber && <SubscribeForm />}
             </div>
           </div>
           <div className="relative border-l border-transparent xl:border-gray-800 pb-16 px-5 z-10">
