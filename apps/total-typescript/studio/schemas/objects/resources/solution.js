@@ -16,6 +16,7 @@ export default {
       name: 'title',
       title: 'Title',
       type: 'string',
+      validation: (Rule) => Rule.max(90),
     },
     {
       name: 'slug',
@@ -45,6 +46,13 @@ export default {
       name: 'body',
       title: 'Body',
       type: 'body',
+    },
+    {
+      name: 'description',
+      title: 'Summary',
+      description: 'Used as a short "SEO" summary on Twitter cards etc.',
+      type: 'text',
+      validation: (Rule) => Rule.max(160),
     },
   ],
 }
