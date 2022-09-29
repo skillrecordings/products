@@ -109,5 +109,6 @@ export default {
     {type: 'callout'},
     {type: 'divider'},
     {type: 'grid'},
+    {type: 'bodyTestimonial'},
   ],
 }
