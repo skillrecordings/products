@@ -8,7 +8,7 @@ import {MuxPlayerProps} from '@mux/mux-player-react/*'
 import {track} from '../utils/analytics'
 import {type Exercise, ExerciseSchema} from 'lib/exercises'
 import {type Tip, TipSchema} from 'lib/tips'
-import {Subscriber} from 'lib/convertkit'
+import {useConvertkit} from './use-convertkit'
 
 type VideoResource = Exercise | Tip
 
@@ -35,7 +35,6 @@ type VideoProviderProps = {
   path?: string
   muxPlayerRef: any
   onEnded?: () => Promise<any>
-  subscriber?: Subscriber
 }
 
 export const VideoProvider: React.FC<
@@ -45,11 +44,11 @@ export const VideoProvider: React.FC<
   lesson,
   muxPlayerRef,
   children,
-  subscriber,
   path = '',
   onEnded = async () => {},
 }) => {
   const router = useRouter()
+  const {subscriber} = useConvertkit()
   const nextExercise = getNextExercise(module, lesson as Exercise)
   const {setPlayerPrefs, playbackRate, autoplay, getPlayerPrefs} =
     usePlayerPrefs()
