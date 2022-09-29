@@ -86,6 +86,45 @@ const ExternalLink: React.FC<React.PropsWithChildren<ExternalLinkProps>> = ({
   )
 }
 
+const BodyTestimonial: React.FC<
+  React.PropsWithChildren<BodyTestimonialProps>
+> = ({value, children, ...props}) => {
+  const {body, author} = value
+  return (
+    <div className="not-prose">
+      <blockquote
+        className="sm:mx-0 -mx-5 border border-gray-800 sm:pr-6 sm:pl-8 pr-5 pl-5 py-5 sm:rounded-lg shadow-xl text-gray-200 font-medium relative overflow-hidden"
+        {...props}
+      >
+        <div className="relative z-10">
+          <div className="prose-lg text-gray-200">
+            <PortableText components={PortableTextComponents} value={body} />
+          </div>
+          {author?.name && (
+            <div className="flex items-center gap-3 pt-5 text-gray-200">
+              {author.image && (
+                <div className="flex items-center justify-center rounded-full overflow-hidden">
+                  <Image
+                    src={author.image}
+                    alt={author.name}
+                    width={48}
+                    height={48}
+                  />
+                </div>
+              )}
+              <span className="text-gray-200 font-normal">{author.name}</span>
+            </div>
+          )}
+        </div>
+        <div
+          className="absolute sm:w-1 w-0.5 h-full bg-cyan-500 top-0 left-0"
+          aria-hidden="true"
+        />
+      </blockquote>
+    </div>
+  )
+}
+
 // https://github.com/portabletext/react-portabletext
 
 const PortableTextComponents: PortableTextComponents = {
@@ -195,6 +234,9 @@ const PortableTextComponents: PortableTextComponents = {
         </figure>
       )
     },
+    bodyTestimonial: ({value}: BodyTestimonialProps) => {
+      return <BodyTestimonial value={value} />
+    },
     bodyImage: ({value}: BodyImageProps) => <BodyImage value={value} />,
     code: ({value}: CodeProps) => {
       const {language, code, highlightedLines} = value
@@ -221,7 +263,7 @@ const PortableTextComponents: PortableTextComponents = {
           </pre>
           <pre
             aria-hidden="true"
-            className="sm:mx-0 -mx-5 sm:rounded-lg rounded-none bg-black/50 relative"
+            className="sm:mx-0 -mx-5 sm:rounded-lg rounded-none bg-black/50 relative scrollbar-track-transparent scrollbar-thumb-gray-800 hover:scrollbar-thumb-gray-700 scrollbar-thin"
           >
             <Refractor
               inline
@@ -349,6 +391,17 @@ type BodyVideoProps = {
       autoPlay: boolean
       loop: boolean
     }
+  }
+}
+
+type BodyTestimonialProps = {
+  value: {
+    body: PortableTextBlock | ArbitraryTypedObject
+    author: {
+      name: string
+      image?: string
+    }
+    external_url?: string
   }
 }
 

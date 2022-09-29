@@ -9,6 +9,7 @@ import exercise from './documents/exercise'
 import module from './documents/module'
 import videoResource from './documents/videoResource'
 import tip from './documents/tip'
+import testimonial from './documents/testimonial'
 // —— objects
 // body
 import body from './objects/body'
@@ -28,6 +29,7 @@ import github from './objects/github'
 import muxAsset from './objects/muxAsset'
 import castingwordsTranscript from './objects/castingwordsTranscript'
 import tweet from './objects/tweet'
+import bodyTestimonial from './objects/bodyTestimonial'
 
 // Then we give our schema to the builder and provide the result to Sanity
 export default createSchema({
@@ -42,6 +44,7 @@ export default createSchema({
     exercise,
     videoResource,
     tip,
+    testimonial,
     // objects
     body,
     bodyVideo,
@@ -60,5 +63,6 @@ export default createSchema({
     muxAsset,
     castingwordsTranscript,
     tweet,
+    bodyTestimonial,
   ]),
 })

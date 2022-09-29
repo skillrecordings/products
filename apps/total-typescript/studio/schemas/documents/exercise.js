@@ -43,6 +43,7 @@ export default {
         {type: 'solution'},
         {type: 'muxVideo'},
         {type: 'stackblitz'},
+        {type: 'testimonial'},
       ],
     },
     {
