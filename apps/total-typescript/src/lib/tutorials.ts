@@ -39,7 +39,16 @@ export const getModule = async (slug: string) =>
         title,
         state,
         slug,
-        body,
+        body[]{
+          ...,
+          _type == "bodyTestimonial" => {
+            "body": testimonial->body,
+            "author": testimonial->author {
+              "image": image.asset->url,
+              name
+            }
+        }
+        },
         moduleType,
         _id,
         github,
