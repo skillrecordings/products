@@ -221,7 +221,7 @@ const PortableTextComponents: PortableTextComponents = {
           </pre>
           <pre
             aria-hidden="true"
-            className="sm:mx-0 -mx-5 sm:rounded-lg rounded-none bg-black/50 relative"
+            className="sm:mx-0 -mx-5 sm:rounded-lg rounded-none bg-black/50 relative scrollbar-track-transparent scrollbar-thumb-gray-800 hover:scrollbar-thumb-gray-700 scrollbar-thin"
           >
             <Refractor
               inline
