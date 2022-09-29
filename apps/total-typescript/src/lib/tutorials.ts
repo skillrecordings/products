@@ -1,7 +1,7 @@
 import groq from 'groq'
 import {sanityClient} from 'utils/sanity-client'
 
-const tutorialsQuery = groq`*[_type == "module" && moduleType == 'tutorial' && state == 'published'] {
+const tutorialsQuery = groq`*[_type == "module" && moduleType == 'tutorial' && state == 'published'] | order(_createdAt desc) {
   _id,
   _type,
   title,
