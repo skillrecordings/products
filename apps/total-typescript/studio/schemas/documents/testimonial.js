@@ -52,7 +52,7 @@ export default {
   preview: {
     select: {
       title: 'body',
-      media: 'image.asset.url',
+      media: 'author.image.asset.url',
     },
     prepare(selection) {
       const {title, media, type} = selection
