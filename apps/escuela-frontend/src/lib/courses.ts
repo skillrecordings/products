@@ -8,7 +8,6 @@ const coursesQuery = groq`*[_type == "module"] | order(_createdAt desc) {
 }`
 
 export const getAllCourses = async () => await sanityClient.fetch(coursesQuery)
-export const getAllLessons = async () => await sanityClient.fetch(lessonsQuery)
 
 export const getModule = async (slug: string) =>
   await sanityClient.fetch(
