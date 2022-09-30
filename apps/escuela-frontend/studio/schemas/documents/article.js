@@ -1,9 +1,11 @@
 import React from 'react'
+import {MdBook} from 'react-icons/md'
 
 export default {
   name: 'article',
   title: 'Article',
   type: 'document',
+  icon: MdBook,
   fields: [
     {
       name: 'title',

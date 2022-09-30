@@ -37,3 +37,9 @@ code {
 .simplebar-scrollbar:before {
   @apply bg-white/50;
 }
+
+.not-prose {
+  code {
+    @apply bg-transparent;
+  }
+}

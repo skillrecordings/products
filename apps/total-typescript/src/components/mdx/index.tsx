@@ -22,7 +22,7 @@ const TypeError: React.FC<TypeErrorProps> = ({children, header}) => {
       {header && (
         <div className="px-5 py-3 border-b border-gray-800/50">{header}</div>
       )}
-      <div className="not-prose px-5 py-5">{children}</div>
+      <div className="not-prose px-5 py-5 sm:text-lg">{children}</div>
     </div>
   )
 }

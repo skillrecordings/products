@@ -72,7 +72,7 @@ const ExerciseTemplate: React.FC<{
             <div className="2xl:w-full 2xl:border-r border-gray-800 2xl:relative 2xl:h-full">
               <Video ref={muxPlayerRef} module={module} exercise={exercise} />
               <MobileLessonNavigator module={module} />
-              <div className="hidden 2xl:block">
+              <div className="hidden 2xl:block 2xl:bg-black/20">
                 <StackblitzEmbed exercise={exercise} module={module} />
                 <VideoTranscript
                   exercise={exercise}
@@ -80,7 +80,7 @@ const ExerciseTemplate: React.FC<{
                 />
               </div>
             </div>
-            <article className="flex-shrink-0 relative">
+            <article className="flex-shrink-0 relative 2xl:bg-transparent sm:bg-black/20">
               <div className="mx-auto lg:py-8 px-5 py-5 relative max-w-4xl 2xl:max-w-xl z-10">
                 <ExerciseTitle exercise={exercise} />
                 <ExerciseDescription exercise={exercise} />
