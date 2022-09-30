@@ -18,6 +18,7 @@ export default {
       name: 'title',
       title: 'Title',
       type: 'string',
+      validation: (Rule) => Rule.max(90),
     },
     {
       name: 'slug',
@@ -42,6 +43,7 @@ export default {
         {type: 'solution'},
         {type: 'muxVideo'},
         {type: 'stackblitz'},
+        {type: 'testimonial'},
       ],
     },
     {

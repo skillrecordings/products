@@ -1,5 +1,11 @@
 # Testing Accessibility 
 
+The working directory for this project is the same folder the README you are reading right now is located. All commands assume you are in the `{PROJECT_ROOT}/apps/testingaccessibility` in your console.
+
+```shell
+cd apps/testingaccessibility
+```
+
 ## Validate your local environment
 
 You need to ensure that you have all of the necessary system-level dependencies installed.
@@ -12,34 +18,32 @@ bin/validate
 
 Missing system dependencies should be installed. They will be assumed below.
 
+## Serverless Access
+
+You may need access to the following serverless accounts to run the app:
+- Stripe (for Stripe env vars and Stripe CLI)
+- Vercel (for env vars, e.g. `POSTMARK_KEY`)
+- Planetscale (if needed) or use MySQL in Docker
+
 ## Install Dependencies, Build, and Test
 
-From the root of the project install all of the dependencies for the entire monorepo by running the following command:
+### Install Dependencies
+
+Install all of the dependencies for the entire monorepo by running the following command:
 
 ```shell
 pnpm install
 ```
 
-Now build all projects and dependencies with the following command:
+⭐️ `pnpm install` can be run from any folder in the monorepo and it will install the dependencies for all projects and apps in the monorepo.
 
-```shell
-pnpm build:dev
-```
-
-This command will also `test` and `lint` each project. If you run into errors at this step, they should be addressed.
-
-## Configure your Dev Environment
-
-The working directory for this project is the same folder the README you are reading right now is located. All commands assume you are in the `{PROJECT_ROOT}/apps/testingaccessibility` in your console.
-
-```shell
-cd app/testingaccessibility
-```
+### Configure your Dev Environment
 
 Copy the template `.env.local.template` file to `.env.local` and `.env.template` to `.env`
 
-🔒 `env.local` contain local __private environment variables__
+🔒 `env.local` contains local __private environment variables__
 
+* `ALGOLIA_API_WRITE_KEY`: Required to build the project with both `build` and `build:dev`.
 * `CONVERTKIT_API_SECRET`: not required for local development unless actively working on ConvertKit integration. Can be found in 1password.
 * `POSTMARK_KEY`: not required to run in dev, but enables email sending from local environment. Can be found in 1password.
 * `STRIPE_SECRET_TOKEN`: Not required unless you need to make an end to end purchase. Can be found in 1password.
@@ -61,19 +65,43 @@ cp .env.template .env
 
 `.env.local` will need new values for every variable.
 
-#### Install Dependencies
+### Build the App
 
-Then install dependencies and start the dev server.
+Now build the app and all dependencies with the following command:
 
 ```shell
-pnpm install
+pnpm build:dev
 ```
 
-⭐️ `pnpm install` can be run from any folder in the monorepo and it will install the dependencies for all projects and apps in the monorepo.
+This command will also `test` and `lint` the project. If you run into errors at this step, they should be addressed.
+
+## Run the App Locally
+
+At this point you successfully built the app without any errors, then you should be able to run it locally.
+
+```shell
+pnpm dev
+```
+
+The app will be served at `http://localhost:3013`.
+
+You won't be able to do much without setting up a few other dependencies.
+
+## Other App Development Dependencies
 
 ### Database
 
 Locally we use MySQL via Docker **or** Planetscale. In production we use Planetscale. Planetscale has a CLI and this is required if you are making changes to the database schema that need to be propogated to production databases via a branch.
+
+#### Dependencies
+
+You'll need to install [Docker Desktop](https://www.docker.com/products/docker-desktop/) in order to run MySQL with Docker.
+
+#### Database URL
+
+If you didn't already, make sure the `.env` file is availabe with the `DATABASE_URL` env var set.
+
+See [Configure your Dev Environment](#configure-your-dev-environment) for the details.
 
 #### Using MySQL
 
@@ -91,6 +119,8 @@ The first time you run this command it will seed the database with the contents 
 If you want to reset the database, open docker, delete the container **and** the associated image. Otherwise nothing will be changed with the database when you run the above command but it will be running normally in the background.
 
 The database can be stopped and started from the Docker dashboard.
+
+Note: the default `username` for this MySQL instance is `root` and the `password` is blank.
 
 #### Using Planetscale
 
@@ -120,10 +150,6 @@ pscale connect testing-accessibility BRANCH_NAME --port 3309
 
 The production database runs on the `main` branch. Use the production database with caution!
 
-## Run the App Locally
-
-If you're all set up 😅 you can run the app locally:
-
 ## Authentication (dev)
 
 To receive "magic link" emails you'll need a database configured and a valid postmark key.
@@ -138,11 +164,15 @@ A Postmark API key is required to send email from your local environment. It is 
 
 ### Stripe CLI
 
+#### Installation
+
 You'll need to install the [Stripe CLI](https://stripe.com/docs/stripe-cli) to capture web hooks locally and make test purchases.
 
-`stripe listen --forward-to localhost:3013/api/skill/webhook/stripe`
+#### Login
 
-`pnpm dev:stripe` starts listening for Stripe Webhook events. This will also produce the value for `STRIPE_WEBHOOK_SECRET` in `.env.local` that is required to make test purchases
+If you've just installed the Stripe CLI (or just been granted access to this Stripe account), you'll need to login via the commandline. Run `stripe login` and follow the prompts to connect your `stripe` CLI to the Testing Accessibility Stripe account. To confirm your connection, you should see a _Restricted Keys_ entry for your machine in the _Developers_ > _API Keys_ section of the Stripe Dashboard.
+
+#### Listening to Webhook Events
 
 Listen to webhook:
 
@@ -150,15 +180,11 @@ Listen to webhook:
 pnpm dev:stripe
 ```
 
+The `dev:stripe` node script is a shorthand for `stripe listen --forward-to localhost:3013/api/skill/webhook/stripe`.
+
+`pnpm dev:stripe` starts listening for Stripe Webhook events. When it first starts, it will output a _webhook signing secret_ (`whsec_....`). You'll need to copy and paste this value into `.env.local` as the `STRIPE_WEBHOOK_SECRET`. It is required to make test purchases
+
 👋 If you aren't listening to webhooks you can still make a purchase but your local environment will not be notified!
-
-### Create a .env
-
-Prisma looks here by default for the connection URL:
-
-```bash
-DATABASE_URL='mysql://root@127.0.0.1:3309/testing-accessibility'
-```
 
 ### Connect to the Planetscale database
 
