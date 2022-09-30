@@ -89,7 +89,8 @@
     "tailwindcss-autofill": "^1.0.2",
     "tailwindcss-text-fill": "^0.2.0",
     "xstate": "=4.23.1",
-    "yup": "^0.32.11"
+    "yup": "^0.32.11",
+    "@codesandbox/sandpack-react": "^1.8.6"
   },
   "devDependencies": {
     "@babel/plugin-transform-react-jsx": "^7.16.0",

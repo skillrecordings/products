@@ -21,6 +21,17 @@ export type QuizContext = {
   config: QuizConfig
 }
 
+const loadQuestion = (event: {
+  type: 'LOAD_QUESTION'
+  currentQuestion: QuestionResource
+}) => {
+  const question = event.currentQuestion
+  const shuffledChoices = question.correct
+    ? shuffle(question.choices)
+    : question.choices
+  return {...question, choices: shuffledChoices}
+}
+
 const quizMachine = createMachine<QuizContext, QuizEvent>(
   {
     id: 'quizMachine',
@@ -31,11 +42,7 @@ const quizMachine = createMachine<QuizContext, QuizEvent>(
           LOAD_QUESTION: {
             actions: [
               assign({
-                currentQuestion: (_, event) => {
-                  const question = event.currentQuestion
-                  const shuffledChoices = shuffle(question.choices)
-                  return {...question, choices: shuffledChoices}
-                },
+                currentQuestion: (_, event) => loadQuestion(event),
               }),
             ],
             target: 'unanswered',
@@ -51,6 +58,14 @@ const quizMachine = createMachine<QuizContext, QuizEvent>(
               },
             }),
             target: 'answering',
+          },
+          LOAD_QUESTION: {
+            actions: [
+              assign({
+                currentQuestion: (_, event) => loadQuestion(event),
+              }),
+            ],
+            target: 'unanswered',
           },
         },
       },

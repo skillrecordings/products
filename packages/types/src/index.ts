@@ -96,8 +96,8 @@ export type Achievement = {
 }
 
 export type QuizResource = {
-  title: string
-  slug: string
+  title?: string
+  slug?: string
   questions: QuestionSet
 }
 

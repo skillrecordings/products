@@ -8,23 +8,24 @@ import type {
 import {nightOwl} from 'react-syntax-highlighter/dist/cjs/styles/hljs'
 import {QuestionProps} from '../components/question/index'
 import quizMachine from '../machines/quiz-machine'
+import getConfig, {QuizConfig} from '../config'
 import {useFormik, FormikProps} from 'formik'
 import {useMachine} from '@xstate/react'
 import isArray from 'lodash/isArray'
 import isEmpty from 'lodash/isEmpty'
 import last from 'lodash/last'
-import getConfig, {QuizConfig} from '../config'
+import first from 'lodash/first'
+import pickBy from 'lodash/pickBy'
 
 export type FormikValues = {
   answer: string | string[] | null
 }
 type useQuestionTypes = {
   currentQuestion: QuestionResource | undefined
-  questionSet?: QuestionSet
+  questionSet: QuestionSet
   config?: QuizConfig
   currentAnswer?: string | string[] | undefined
   syntaxHighlighterTheme?: any
-  questionBodyRenderer?: any
 }
 
 export default function useQuestion({
@@ -33,7 +34,6 @@ export default function useQuestion({
   config,
   currentAnswer,
   syntaxHighlighterTheme,
-  questionBodyRenderer,
 }: useQuestionTypes): QuestionProps {
   const [state, send] = useMachine(quizMachine, {
     context: {
@@ -65,6 +65,7 @@ export default function useQuestion({
   }, [state])
 
   const question = state.context.currentQuestion
+
   const {correct} = question || {}
   const isAnswered = state.matches('answered')
   const isSubmitting = state.matches('answering')
@@ -78,6 +79,7 @@ export default function useQuestion({
     questionSet && lastQuestionKey
       ? questionSet[lastQuestionKey] === currentQuestion
       : false
+  const questionId = first(Object.keys(pickBy(questionSet, currentQuestion)))
 
   function isCorrectChoice(choice: Choice): boolean {
     return correct && hasMultipleCorrectAnswers
@@ -107,11 +109,13 @@ export default function useQuestion({
       return send('ANSWER', {answer: values.answer})
     },
     validateOnChange: true,
+    validateOnBlur: false,
     enableReinitialize: true,
   })
 
   return {
     currentQuestion: question,
+    currentQuestionId: questionId,
     isCorrectChoice: (choice: Choice) => isCorrectChoice(choice),
     answeredCorrectly,
     answeredNeutral,

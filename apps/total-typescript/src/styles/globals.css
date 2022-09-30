@@ -2,7 +2,7 @@
 @import './fonts.css';
 
 @tailwind components;
-@import './quiz.css';
+@import './survey.css';
 @import './newsletter.css';
 @import './nprogress.css';
 @import './prism-theme.css';
