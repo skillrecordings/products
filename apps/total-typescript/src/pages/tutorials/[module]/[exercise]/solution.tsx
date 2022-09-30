@@ -20,18 +20,19 @@ export const getStaticProps: GetStaticProps = async (context) => {
 export const getStaticPaths: GetStaticPaths = async (context) => {
   const tutorials = await getAllTutorials()
 
-  const paths = tutorials
-    .reduce((acc: any[], tutorial: any) => {
-      return tutorial.exercises.map((exercise: any) => {
+  const paths = tutorials.reduce((acc: any[], tutorial: any) => {
+    return [
+      ...acc,
+      ...tutorial.exercises.map((exercise: any) => {
         return {
           params: {
             module: tutorial.slug.current,
             exercise: exercise.slug,
           },
         }
-      })
-    }, [])
-    .flatMap((path: any) => path)
+      }),
+    ]
+  }, [])
   return {paths, fallback: 'blocking'}
 }
 
