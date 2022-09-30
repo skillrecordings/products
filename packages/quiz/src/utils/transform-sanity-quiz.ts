@@ -1,4 +1,3 @@
-import {QuestionSet} from '@skillrecordings/types'
 import isEmpty from 'lodash/isEmpty'
 
 type SanityQuiz = {
@@ -8,7 +7,7 @@ type SanityQuiz = {
 }
 
 export default function transformSanityQuiz(quiz: SanityQuiz) {
-  const questionSet: QuestionSet = quiz.questions.reduce((a: any, v: any) => {
+  const questionSet = quiz.questions.reduce((a: any, v: any) => {
     return {
       ...a,
       [v.id || v.questionId]: {
