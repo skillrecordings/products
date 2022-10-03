@@ -221,7 +221,7 @@ const DefaultOverlay = () => {
             )
           }}
         >
-          Complete <span aria-hidden="true">→</span>
+          Complete & Continue <span aria-hidden="true">→</span>
         </button>
       </div>
     </OverlayWrapper>

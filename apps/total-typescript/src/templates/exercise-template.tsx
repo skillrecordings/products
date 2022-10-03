@@ -26,6 +26,7 @@ import Image from 'next/image'
 import {track} from 'utils/analytics'
 import {Exercise, ExerciseSchema} from '../lib/exercises'
 import {useConvertkit} from 'hooks/use-convertkit'
+import {ArticleJsonLd} from '@skillrecordings/next-seo'
 
 const path = '/tutorials'
 
@@ -60,6 +61,16 @@ const ExerciseTemplate: React.FC<{
           />
         }
       >
+        <ArticleJsonLd
+          url={`${process.env.NEXT_PUBLIC_URL}/${module.slug.current}/${exercise.slug}`}
+          title={exercise.title}
+          images={[
+            `https://image.mux.com/${exercise.muxPlaybackId}/thumbnail.png?width=480&height=384&fit_mode=preserve`,
+          ]}
+          datePublished={exercise._updatedAt || new Date().toISOString()}
+          authorName={`${process.env.NEXT_PUBLIC_PARTNER_FIRST_NAME} ${process.env.NEXT_PUBLIC_PARTNER_LAST_NAME}`}
+          description={pageDescription}
+        />
         <div className="flex lg:flex-row flex-col">
           <ExerciseSidebar
             className="lg:block hidden"
