@@ -3,7 +3,7 @@ import {GetServerSideProps} from 'next'
 export const getServerSideProps: GetServerSideProps = async (context) => {
   return {
     redirect: {
-      destination: 'https://discord.gg/8S5ujhfTB3',
+      destination: process.env.NEXT_PUBLIC_DISCORD_INVITE_URL,
       permanent: false,
     },
   }
