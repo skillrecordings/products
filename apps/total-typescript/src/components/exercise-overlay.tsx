@@ -61,54 +61,51 @@ export const OverlayWrapper: React.FC<
   )
 }
 
-type OverlayProps = {
-  handlePlay: () => void
-}
-
-const ExerciseOverlay: React.FC<OverlayProps> = ({handlePlay}) => {
-  const {nextExercise, lesson, module, path} = useMuxPlayer()
-  const {github} = module
-  const stackblitz = lesson.stackblitz
+const Actions = () => {
+  const {nextExercise, lesson, module, path, handlePlay} = useMuxPlayer()
   const router = useRouter()
-
-  const Actions = () => {
-    return (
-      <>
+  return (
+    <>
+      <button
+        className="bg-gray-800 sm:px-5 px-3 sm:py-2 py-1 text-lg font-semibold rounded hover:bg-gray-700 transition"
+        onClick={() => {
+          track('clicked replay', {
+            lesson: lesson.slug,
+            module: module.slug.current,
+            location: 'exercise',
+            moduleType: module.moduleType,
+            lessonType: lesson._type,
+          })
+          handlePlay()
+        }}
+      >
+        Replay <span aria-hidden="true">↺</span>
+      </button>
+      {nextExercise && (
         <button
-          className="bg-gray-800 sm:px-5 px-3 sm:py-2 py-1 text-lg font-semibold rounded hover:bg-gray-700 transition"
+          className="text-lg bg-cyan-600 hover:bg-cyan-500 transition sm:px-5 px-3 sm:py-2 py-1 font-semibold rounded"
           onClick={() => {
-            track('clicked replay', {
+            track('clicked continue to solution', {
               lesson: lesson.slug,
-              module: module.slug.current,
+              module: module?.slug.current,
               location: 'exercise',
               moduleType: module.moduleType,
               lessonType: lesson._type,
             })
-            handlePlay()
+            handleContinue(router, module, nextExercise, handlePlay, path)
           }}
         >
-          Replay <span aria-hidden="true">↺</span>
+          Solution <span aria-hidden="true">→</span>
         </button>
-        {nextExercise && (
-          <button
-            className="text-lg bg-cyan-600 hover:bg-cyan-500 transition sm:px-5 px-3 sm:py-2 py-1 font-semibold rounded"
-            onClick={() => {
-              track('clicked continue to solution', {
-                lesson: lesson.slug,
-                module: module?.slug.current,
-                location: 'exercise',
-                moduleType: module.moduleType,
-                lessonType: lesson._type,
-              })
-              handleContinue(router, module, nextExercise, handlePlay, path)
-            }}
-          >
-            Solution <span aria-hidden="true">→</span>
-          </button>
-        )}
-      </>
-    )
-  }
+      )}
+    </>
+  )
+}
+
+const ExerciseOverlay = () => {
+  const {lesson, module} = useMuxPlayer()
+  const {github} = module
+  const stackblitz = lesson.stackblitz
 
   return (
     <div className=" bg-black/30 ">
@@ -164,8 +161,8 @@ const ExerciseOverlay: React.FC<OverlayProps> = ({handlePlay}) => {
   )
 }
 
-const DefaultOverlay: React.FC<OverlayProps> = ({handlePlay}) => {
-  const {nextExercise, module, path, lesson} = useMuxPlayer()
+const DefaultOverlay = () => {
+  const {nextExercise, module, path, lesson, handlePlay} = useMuxPlayer()
   const router = useRouter()
   const {image} = module
   const addProgressMutation = trpc.useMutation(['progress.add'])
@@ -231,8 +228,8 @@ const DefaultOverlay: React.FC<OverlayProps> = ({handlePlay}) => {
   )
 }
 
-const FinishedOverlay: React.FC<OverlayProps> = ({handlePlay}) => {
-  const {module, path, lesson} = useMuxPlayer()
+const FinishedOverlay = () => {
+  const {module, path, lesson, handlePlay} = useMuxPlayer()
   const router = useRouter()
   const shareUrl = `${process.env.NEXT_PUBLIC_URL}${path}/${module.slug.current}`
   const shareMessage = `${module.title} ${module.moduleType} by @${process.env.NEXT_PUBLIC_PARTNER_TWITTER}`
