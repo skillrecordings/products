@@ -73,7 +73,6 @@ const ExerciseTemplate: React.FC<{
               <Video ref={muxPlayerRef} module={module} exercise={exercise} />
               <MobileLessonNavigator module={module} />
               <div className="hidden 2xl:block 2xl:bg-black/20">
-                <StackblitzEmbed exercise={exercise} module={module} />
                 <VideoTranscript
                   exercise={exercise}
                   muxPlayerRef={muxPlayerRef}
@@ -87,7 +86,6 @@ const ExerciseTemplate: React.FC<{
                 <GitHubLink exercise={exercise} module={module} />
               </div>
               <div className="2xl:hidden block relative z-10">
-                <StackblitzEmbed exercise={exercise} module={module} />
                 <VideoTranscript
                   exercise={exercise}
                   muxPlayerRef={muxPlayerRef}
@@ -252,6 +250,7 @@ export const StackBlitzIframe: React.FC<{
   return (
     <>
       <iframe
+        key={stackblitz}
         onLoad={() => {
           setIsLoading(false)
         }}
