@@ -76,7 +76,7 @@ The database can be stopped and started from the Docker dashboard.
 
 #### Connect to local MySQL database
 
-You can use (Arctype)[https://arctype.com/] or any other MySQL client to connect to and manage the database. In Arctype:
+You can use [Arctype](https://arctype.com/) or any other MySQL client to connect to and manage the database. In Arctype:
 
 - Select "Add new data source"
 - Select "MySQL"
