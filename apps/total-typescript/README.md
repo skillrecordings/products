@@ -87,14 +87,6 @@ You can use [Arctype](https://arctype.com/) or any other MySQL client to connect
   - Database: total-typescript
 - Then you can test your connection, save it and view the tables.
 
-### Migrate any schema changes
-
-If you make changes to the schema via Prisma you'll need to push it to the DB. We don't use Prisma migrations and let Planetscale handle it:
-
-```bash
-npx prisma db push
-```
-
 ## Edit content
 
 Edit workshops with Sanity at [totaltypescript.sanity.studio](https://totaltypescript.sanity.studio/).
