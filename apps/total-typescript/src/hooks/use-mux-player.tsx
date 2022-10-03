@@ -64,12 +64,12 @@ export const VideoProvider: React.FC<
     return videoElement?.play()
   }, [])
 
-  const moduleSlug = module.slug.current
-  const nextExerciseSlug = nextExercise.slug
+  const moduleSlug = module?.slug?.current
+  const nextExerciseSlug = nextExercise?.slug
 
   const handleNext = React.useCallback(
     (autoPlay: boolean) => {
-      nextExercise && autoPlay
+      nextExerciseSlug && autoPlay
         ? router.push({
             pathname: '/[module]/[exercise]',
             query: {module: moduleSlug, exercise: nextExerciseSlug},
