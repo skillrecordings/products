@@ -10,7 +10,8 @@
     "lint": "eslint src/**/*.{ts,tsx} --fix && tsc --noEmit",
     "test": "jest",
     "db:studio": "prisma studio",
-    "db:push": "prisma db push"
+    "db:push": "prisma db push",
+    "db:start": "docker compose up -d"
   },
   "dependencies": {
     "@amplitude/analytics-browser": "^1.3.0",
