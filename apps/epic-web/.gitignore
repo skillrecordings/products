@@ -8,6 +8,7 @@
 .env
 /src/generated
 /generated
+/.cache
 
 # testing
 /coverage
