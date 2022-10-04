@@ -1,9 +1,31 @@
 import algoliaSearchClientCreator from 'algoliasearch'
 import sanityAlgoliaIndexer from 'sanity-algolia'
 import isNull from 'lodash/isNull'
+import {z} from 'zod'
+
+const algoliaWriteKeySchema = z
+  .string()
+  .or(z.undefined())
+  .transform((val, ctx) => {
+    if (process.env.NODE_ENV === 'production' && val === undefined) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        message:
+          'ALGOLIA_API_WRITE_KEY must be defined in the production environment.',
+      })
+
+      return z.NEVER
+    }
+
+    return val || ''
+  })
+
+const getAlgoliaApiWriteKeyFromEnvironment = () => {
+  return algoliaWriteKeySchema.parse(process.env.ALGOLIA_API_WRITE_KEY)
+}
 
 const algoliaAppId = process.env.NEXT_PUBLIC_ALGOLIA_APPLICATION_ID
-const algoliaApiWriteKey = process.env.ALGOLIA_API_WRITE_KEY || ''
+const algoliaApiWriteKey = getAlgoliaApiWriteKeyFromEnvironment()
 
 export const algoliaSearchClient = algoliaSearchClientCreator(
   algoliaAppId,
