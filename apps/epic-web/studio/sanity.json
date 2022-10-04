@@ -1,7 +1,7 @@
 {
   "root": true,
   "project": {
-    "name": "epic-web"
+    "name": "Epic Web Dev"
   },
   "api": {
     "projectId": "i1a93n76",
@@ -13,19 +13,26 @@
     "@sanity/default-login",
     "@sanity/desk-tool",
     "cloudinary",
-    "@sanity/code-input"
+    "@sanity/code-input",
+    "taxonomy-manager"
   ],
   "env": {
     "development": {
-      "plugins": [
-        "@sanity/vision"
-      ]
+      "plugins": ["@sanity/vision"]
     }
   },
   "parts": [
     {
       "name": "part:@sanity/base/schema",
       "path": "./schemas/schema"
+    },
+    {
+      "implements": "part:@sanity/base/brand-logo",
+      "path": "./src/logo.js"
+    },
+    {
+      "name": "part:@sanity/desk-tool/structure",
+      "path": "./deskStructure.js"
     }
   ]
 }

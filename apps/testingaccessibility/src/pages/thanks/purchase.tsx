@@ -6,6 +6,13 @@ import Image from 'next/image'
 import NewMailImage from '../../../public/assets/new-mail@2x.png'
 import {MailIcon} from '@heroicons/react/outline'
 import {getCheckoutSession} from '../../lib/stripe'
+import {z} from 'zod'
+
+const thanksProps = z.object({
+  email: z.string().email(),
+  seatsPurchased: z.number(),
+})
+type ThanksProps = z.infer<typeof thanksProps>
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const {query} = context
@@ -20,20 +27,24 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 
   const checkoutSession = await getCheckoutSession(session_id as string)
 
-  const {customer} = checkoutSession
-  const {email, name} = customer as Stripe.Customer
+  const {customer, line_items} = checkoutSession
+  const {email} = customer as Stripe.Customer
+
+  const {quantity: seatsPurchased} = line_items?.data[0] || {quantity: 1}
+
+  const validatedProps = thanksProps.parse({email, seatsPurchased})
 
   return {
-    props: {
-      email,
-      name,
-    },
+    props: validatedProps,
   }
 }
 
-const ThanksVerify: React.FC<
-  React.PropsWithChildren<{name: string; email: string}>
-> = ({name, email}) => {
+const ThanksVerify: React.FC<React.PropsWithChildren<ThanksProps>> = ({
+  email,
+  seatsPurchased,
+}) => {
+  const isTeamPurchase = seatsPurchased > 1
+
   return (
     <Layout
       footer={null}
@@ -56,6 +67,12 @@ const ThanksVerify: React.FC<
             <h1 className="text-orange-200 font-heading text-xl font-medium">
               Thank you for purchasing Testing Accessibility!
             </h1>
+            {isTeamPurchase && (
+              <p className="text-sand-100 max-w-md font-medium leading-relaxed mx-auto">
+                Your purchase is for <strong>{seatsPurchased}</strong> seats.
+                You can always add more seats later when your team grows.
+              </p>
+            )}
             <h2 className="max-w-lg mx-auto font-bold lg:text-4xl text-3xl py-5">
               Please check your inbox for a login link that just got sent.
               <code className="px-6 py-3 rounded-md bg-white inline-flex items-center gap-2 font-sans text-black my-10 font-semibold sm:text-xl text-lg">

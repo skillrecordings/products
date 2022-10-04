@@ -90,9 +90,22 @@ export async function createApp({
     },
   })
 
+  const defaultDevPort = Number(3000).toString()
+
   const packageJson = {
     name: appName,
     ...defaultPackage,
+    scripts: {
+      ...defaultPackage.scripts,
+      dev: defaultPackage.scripts.dev.replace(
+        defaultDevPort,
+        projectData.devPort,
+      ),
+      start: defaultPackage.scripts.start.replace(
+        defaultDevPort,
+        projectData.devPort,
+      ),
+    },
   }
   /**
    * Write it to disk.
@@ -126,6 +139,9 @@ export async function createApp({
         }
         case 'README-template.md': {
           return 'README.md'
+        }
+        case 'package-template.json': {
+          return 'package.json'
         }
         default: {
           return configTemplate

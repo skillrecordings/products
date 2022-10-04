@@ -11,7 +11,6 @@ import {
   PortableText,
   PortableTextComponents as PortableTextComponentsType,
 } from '@portabletext/react'
-import {useDeviceDetect} from 'hooks/use-device-detect'
 import {hmsToSeconds} from 'utils/hms-to-seconds'
 import {useMuxPlayer, VideoProvider} from 'hooks/use-mux-player'
 import {SanityDocument} from '@sanity/client'
@@ -27,7 +26,7 @@ import Image from 'next/image'
 import {track} from 'utils/analytics'
 import {Exercise, ExerciseSchema} from '../lib/exercises'
 import {useConvertkit} from 'hooks/use-convertkit'
-import {Subscriber} from 'lib/convertkit'
+import {ArticleJsonLd} from '@skillrecordings/next-seo'
 
 const path = '/tutorials'
 
@@ -62,6 +61,16 @@ const ExerciseTemplate: React.FC<{
           />
         }
       >
+        <ArticleJsonLd
+          url={`${process.env.NEXT_PUBLIC_URL}/${module.slug.current}/${exercise.slug}`}
+          title={exercise.title}
+          images={[
+            `https://image.mux.com/${exercise.muxPlaybackId}/thumbnail.png?width=480&height=384&fit_mode=preserve`,
+          ]}
+          datePublished={exercise._updatedAt || new Date().toISOString()}
+          authorName={`${process.env.NEXT_PUBLIC_PARTNER_FIRST_NAME} ${process.env.NEXT_PUBLIC_PARTNER_LAST_NAME}`}
+          description={pageDescription}
+        />
         <div className="flex lg:flex-row flex-col">
           <ExerciseSidebar
             className="lg:block hidden"
@@ -73,7 +82,6 @@ const ExerciseTemplate: React.FC<{
               <Video ref={muxPlayerRef} module={module} exercise={exercise} />
               <MobileLessonNavigator module={module} />
               <div className="hidden 2xl:block 2xl:bg-black/20">
-                <StackblitzEmbed exercise={exercise} module={module} />
                 <VideoTranscript
                   exercise={exercise}
                   muxPlayerRef={muxPlayerRef}
@@ -87,7 +95,6 @@ const ExerciseTemplate: React.FC<{
                 <GitHubLink exercise={exercise} module={module} />
               </div>
               <div className="2xl:hidden block relative z-10">
-                <StackblitzEmbed exercise={exercise} module={module} />
                 <VideoTranscript
                   exercise={exercise}
                   muxPlayerRef={muxPlayerRef}
@@ -120,8 +127,7 @@ const Video: React.FC<VideoProps> = React.forwardRef(
   ({module, exercise}, ref: any) => {
     const {subscriber, loadingSubscriber} = useConvertkit()
     const isExercise = Boolean(exercise._type === 'exercise')
-    const {muxPlayerProps, handlePlay, displayOverlay, nextExercise, video} =
-      useMuxPlayer()
+    const {muxPlayerProps, displayOverlay, nextExercise} = useMuxPlayer()
 
     const canShowVideo =
       (subscriber || exercise._id === module.exercises[0]._id) &&
@@ -132,15 +138,9 @@ const Video: React.FC<VideoProps> = React.forwardRef(
         {displayOverlay && (
           <>
             {nextExercise ? (
-              <>
-                {isExercise ? (
-                  <ExerciseOverlay handlePlay={handlePlay} />
-                ) : (
-                  <DefaultOverlay handlePlay={handlePlay} />
-                )}
-              </>
+              <>{isExercise ? <ExerciseOverlay /> : <DefaultOverlay />}</>
             ) : (
-              <FinishedOverlay handlePlay={handlePlay} />
+              <FinishedOverlay />
             )}
           </>
         )}
@@ -252,6 +252,7 @@ export const StackBlitzIframe: React.FC<{
   return (
     <>
       <iframe
+        key={stackblitz}
         onLoad={() => {
           setIsLoading(false)
         }}
@@ -275,74 +276,6 @@ export const StackBlitzIframe: React.FC<{
         </div>
       )}
     </>
-  )
-}
-
-const StackblitzEmbed: React.FC<{
-  exercise: Exercise
-  module: SanityDocument
-}> = ({exercise, module}) => {
-  const stackblitz = exercise.stackblitz
-  const {isSafari, isFirefox} = useDeviceDetect()
-  const [isExpanded, setIsExpanded] = React.useState(false)
-
-  if (!stackblitz) {
-    return null
-  }
-
-  return (
-    <div
-      className={cx('pt-8 2xl:pt-12', {
-        '2xl:pt-12': !isExpanded,
-      })}
-    >
-      <h3 className="max-w-4xl mx-auto flex items-baseline sm:text-3xl text-2xl font-semibold pb-4 px-5">
-        Editor
-        {(isSafari || isFirefox) && (
-          <span className="pl-2 text-base font-normal text-gray-400">
-            For full experience with working terminal please use Chromium-based
-            browser.
-          </span>
-        )}
-      </h3>
-      <div className="relative">
-        {isExpanded ? (
-          <div
-            className={cx('w-full transition-all h-full', {
-              'sm:h-[800px] h-[500px]': isExpanded,
-              'sm:h-[400px] h-[200px]': !isExpanded,
-            })}
-          >
-            <StackBlitzIframe exercise={exercise} module={module} />
-          </div>
-        ) : (
-          <div className="max-w-4xl mx-auto 2xl:px-0 px-5 relative rounded-lg overflow-hidden">
-            <button
-              type="button"
-              onClick={() => {
-                track('clicked run code', {
-                  lesson: exercise.slug,
-                  module: module.slug.current,
-                  moduleType: module.moduleType,
-                  lessonType: exercise._type,
-                })
-                setIsExpanded(true)
-              }}
-              className="overflow-hidden rounded 2xl:h-[400px] sm:h-[400px] h-[200px] w-full  bg-black/50 hover:bg-black/30 transition ease-in-out group flex items-center justify-center cursor-pointer"
-            >
-              <div className="relative z-10 px-4 py-3 rounded-md border border-cyan-500 group-hover:border-cyan-300 group-hover:bg-cyan-400/10 transition ease-in-out inline-flex font-medium">
-                Run Code
-              </div>
-              <Image
-                src={require('../../public/assets/editor-placeholder.svg')}
-                layout="fill"
-                className="object-cover object-top"
-              />
-            </button>
-          </div>
-        )}
-      </div>
-    </div>
   )
 }
 

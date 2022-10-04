@@ -80,7 +80,7 @@ async function run(): Promise<void> {
     {
       type: 'text',
       name: 'lastName',
-      message: `What is our partner's first name?`,
+      message: `What is our partner's last name?`,
       initial: 'Last',
     },
     {
