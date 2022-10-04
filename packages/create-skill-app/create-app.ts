@@ -140,9 +140,9 @@ export async function createApp({
         case 'README-template.md': {
           return 'README.md'
         }
-        // case 'package-template.json': {
-        //   return 'package.json'
-        // }
+        case 'package-template.json': {
+          return 'package.json'
+        }
         default: {
           return configTemplate
         }
