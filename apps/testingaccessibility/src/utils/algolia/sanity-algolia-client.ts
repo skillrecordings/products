@@ -3,7 +3,7 @@ import sanityAlgoliaIndexer from 'sanity-algolia'
 import isNull from 'lodash/isNull'
 
 const algoliaAppId = process.env.NEXT_PUBLIC_ALGOLIA_APPLICATION_ID
-const algoliaApiWriteKey = process.env.ALGOLIA_API_WRITE_KEY
+const algoliaApiWriteKey = process.env.ALGOLIA_API_WRITE_KEY || ''
 
 export const algoliaSearchClient = algoliaSearchClientCreator(
   algoliaAppId,
