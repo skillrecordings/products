@@ -1,6 +1,24 @@
 /** @type {import('next').NextConfig} */
-const withPlugins = require('next-compose-plugins')
-const withMDX = require('@next/mdx')()
+const withMDX = require('@next/mdx')({
+  extension: /\.mdx?$/,
+  options: {
+    providerOmportSource: '@mdx-js/react',
+  },
+})
+const {withSentryConfig} = require('@sentry/nextjs')
+
+const sentryWebpackPluginOptions = process.env.SENTRY_AUTH_TOKEN && {
+  // Additional config options for the Sentry Webpack plugin. Keep in mind that
+  // the following options are set automatically, and overriding them is not
+  // recommended:
+  //   release, url, org, project, authToken, configFile, stripPrefix,
+  //   urlPrefix, include, ignore
+  authToken: process.env.SENTRY_AUTH_TOKEN,
+  silent: true, // Suppresses all logs
+  // For all available options, see:
+  // https://github.com/getsentry/sentry-webpack-plugin#options.
+}
+
 const IMAGE_HOST_DOMAINS = [
   `res.cloudinary.com`,
   `d2eip9sf3oo6c2.cloudfront.net`,
@@ -21,15 +39,18 @@ const nextConfig = {
   },
 }
 
-module.exports = withPlugins(
-  [
-    withMDX({
-      options: {
-        providerImportSource: '@mdx-js/react',
-      },
-      pageExtensions: ['ts', 'tsx', 'mdx'],
-      rehypePlugins: [require('mdx-prism')],
-    }),
-  ],
+const configWithPlugins = withMDX(
+  {
+    pageExtensions: ['js', 'jsx', 'ts', 'tsx', 'md', 'mdx'],
+  },
   nextConfig,
 )
+
+if (sentryWebpackPluginOptions) {
+  module.exports = withSentryConfig(
+    configWithPlugins,
+    sentryWebpackPluginOptions,
+  )
+} else {
+  module.exports = configWithPlugins
+}
