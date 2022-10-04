@@ -57,21 +57,27 @@ export const VideoProvider: React.FC<
   const video = {muxPlaybackId: lesson.muxPlaybackId}
   const title = get(lesson, 'title') || get(lesson, 'label')
 
-  const handlePlay = () => {
+  const handlePlay = React.useCallback(() => {
     const videoElement = document.getElementById(
       'mux-player',
     ) as HTMLVideoElement
     return videoElement?.play()
-  }
+  }, [])
 
-  const handleNext = (autoPlay: boolean) => {
-    nextExercise && autoPlay
-      ? router.push({
-          pathname: '/[module]/[exercise]',
-          query: {module: module.slug.current, exercise: nextExercise.slug},
-        })
-      : setDisplayOverlay(true)
-  }
+  const moduleSlug = module?.slug?.current
+  const nextExerciseSlug = nextExercise?.slug
+
+  const handleNext = React.useCallback(
+    (autoPlay: boolean) => {
+      nextExerciseSlug && autoPlay
+        ? router.push({
+            pathname: '/[module]/[exercise]',
+            query: {module: moduleSlug, exercise: nextExerciseSlug},
+          })
+        : setDisplayOverlay(true)
+    },
+    [moduleSlug, nextExerciseSlug, router],
+  )
 
   // initialize player state
   React.useEffect(() => {

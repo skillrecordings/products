@@ -24,6 +24,14 @@ mux-player {
   margin-bottom: -6px;
 }
 
+mux-player::part(center play button) {
+  @apply sm:scale-50;
+}
+
+mux-player::part(vertical-layer) {
+  background-color: rgba(0, 0, 0, 0);
+}
+
 code {
   @apply bg-gray-800/90 shadow px-1.5 py-0.5 rounded-md text-[85%];
 }
@@ -36,4 +44,10 @@ code {
 
 .simplebar-scrollbar:before {
   @apply bg-white/50;
+}
+
+.not-prose {
+  code {
+    @apply bg-transparent;
+  }
 }

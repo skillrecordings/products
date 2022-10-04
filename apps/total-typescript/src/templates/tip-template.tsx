@@ -33,6 +33,7 @@ import {
 } from '@skillrecordings/convertkit'
 import {useConvertkit} from 'hooks/use-convertkit'
 import {setUserId} from '@amplitude/analytics-browser'
+import {ArticleJsonLd} from '@skillrecordings/next-seo'
 
 const TipTemplate: React.FC<TipPageProps> = ({tip, tips}) => {
   const muxPlayerRef = React.useRef<HTMLDivElement>()
@@ -93,10 +94,21 @@ const TipTemplate: React.FC<TipPageProps> = ({tip, tips}) => {
       muxPlayerRef={muxPlayerRef}
       onEnded={handleVideoEnded}
     >
+      <ArticleJsonLd
+        url={`${process.env.NEXT_PUBLIC_URL}/tips/${tip.slug}`}
+        title={tip.title}
+        images={[
+          `https://image.mux.com/${tip.muxPlaybackId}/thumbnail.png?width=480&height=384&fit_mode=preserve`,
+        ]}
+        datePublished={tip._updatedAt || new Date().toISOString()}
+        authorName={`${process.env.NEXT_PUBLIC_PARTNER_FIRST_NAME} ${process.env.NEXT_PUBLIC_PARTNER_LAST_NAME}`}
+        description={tip.description || 'Total TypeScript Tip'}
+      />
       <Layout
         meta={{
           title: tip.title,
           ogImage,
+          description: tip.description,
         }}
         nav={<Navigation className="flex lg:relative relative" />}
       >

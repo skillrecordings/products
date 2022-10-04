@@ -20,5 +20,6 @@ declare namespace NodeJS {
     CASTINGWORDS_API_TOKEN: string
     MUX_TOKEN_ID: string
     MUX_TOKEN_SECRET: string
+    NEXT_PUBLIC_DISCORD_INVITE_URL: string
   }
 }

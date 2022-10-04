@@ -1,3 +1,6 @@
+import React from 'react'
+import {FcDocument} from 'react-icons/fc'
+
 export default {
   name: 'article',
   title: 'Article',
@@ -52,6 +55,7 @@ export default {
       const {title} = selection
       return {
         title: title,
+        media: <FcDocument />,
       }
     },
   },

@@ -1,3 +1,6 @@
+import React from 'react'
+import {FcHome} from 'react-icons/fc'
+
 export default {
   name: 'page',
   title: 'Page',
@@ -41,6 +44,7 @@ export default {
       const {title} = selection
       return {
         title: title,
+        media: <FcHome />,
       }
     },
   },

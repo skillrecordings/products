@@ -11,6 +11,7 @@ import {isBrowser} from 'utils/is-browser'
 import {track} from '../utils/analytics'
 import {useConvertkit} from 'hooks/use-convertkit'
 import {Exercise} from 'lib/exercises'
+import PortableTextComponents from 'components/portable-text'
 
 const TutorialTemplate: React.FC<{
   tutorial: SanityDocument
@@ -48,8 +49,8 @@ const TutorialTemplate: React.FC<{
       <CourseMeta title={pageTitle} description={description} />
       <Header tutorial={tutorial} />
       <main className="relative z-10 flex lg:flex-row flex-col gap-5">
-        <article className="prose prose-lg lg:max-w-xl max-w-none text-white">
-          <PortableText value={body} />
+        <article className="prose prose-lg lg:max-w-xl max-w-none text-white w-full">
+          <PortableText value={body} components={PortableTextComponents} />
         </article>
         <TutorialExerciseNavigator tutorial={tutorial} />
       </main>
@@ -126,15 +127,17 @@ const Header: React.FC<{tutorial: SanityDocument}> = ({tutorial}) => {
             </div>
           </div>
         </div>
-        <div className="flex items-center justify-center lg:-mr-16">
-          <Image
-            src={image}
-            alt={title}
-            width={500}
-            height={500}
-            quality={100}
-          />
-        </div>
+        {image && (
+          <div className="flex items-center justify-center lg:-mr-16">
+            <Image
+              src={image}
+              alt={title}
+              width={500}
+              height={500}
+              quality={100}
+            />
+          </div>
+        )}
       </header>
       <Image
         layout="fill"
