@@ -6,7 +6,7 @@ import type {
   QuestionResource,
 } from '@skillrecordings/types'
 import {nightOwl} from 'react-syntax-highlighter/dist/cjs/styles/hljs'
-import {QuestionProps} from '../components/question/index'
+import {QuestionProps} from '../components/question'
 import quizMachine, {QuizContext} from '../machines/quiz-machine'
 import getConfig, {QuizConfig} from '../config'
 import {useFormik, FormikProps} from 'formik'
@@ -36,7 +36,7 @@ export default function useQuestion({
   questionSet,
   config,
   currentAnswer,
-  syntaxHighlighterTheme,
+  syntaxHighlighterTheme = nightOwl,
   handleSubmitAnswer = defaultSubmitAnswerHandler,
   currentQuestionKey,
 }: useQuestionTypes): QuestionProps {
@@ -64,7 +64,13 @@ export default function useQuestion({
       send('ANSWER', {
         answer: parsedCurrentAnswer,
       })
-  }, [parsedCurrentAnswer, currentQuestion, currentAnswer, send])
+  }, [
+    parsedCurrentAnswer,
+    currentQuestion,
+    currentAnswer,
+    send,
+    currentQuestionKey,
+  ])
 
   React.useEffect(() => {
     if (process.env.NODE_ENV === 'development') {
@@ -77,16 +83,22 @@ export default function useQuestion({
   const {correct} = question || {}
   const isAnswered = state.matches('answered')
   const isSubmitting = state.matches('answering')
+  const answeredNeutral = state.matches('answered.neutral')
+  const answeredCorrectly = state.matches('answered.correct')
+
   const hasCorrectAnswer = !isEmpty(correct)
   const hasMultipleCorrectAnswers = isArray(correct)
-  const answeredNeutral = state.matches('answered.neutral')
+
   const questionsKeys: string[] | undefined =
     questionSet && Object.keys(questionSet)
+
   const lastQuestionKey: string | undefined = last(questionsKeys)
+
   const isLast: boolean =
     questionSet && lastQuestionKey
       ? questionSet[lastQuestionKey] === currentQuestion
       : false
+
   const questionId = first(Object.keys(pickBy(questionSet, currentQuestion)))
 
   function isCorrectChoice(choice: Choice): boolean {
@@ -94,8 +106,6 @@ export default function useQuestion({
       ? correct.includes(choice.answer)
       : correct === choice?.answer
   }
-
-  const answeredCorrectly = state.matches('answered.correct')
 
   const formik: FormikProps<FormikValues> = useFormik<FormikValues>({
     initialValues: {

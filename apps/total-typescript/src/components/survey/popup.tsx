@@ -5,7 +5,7 @@ import {XIcon} from '@heroicons/react/solid'
 import {useSurvey} from 'hooks/use-survey'
 import cx from 'classnames'
 
-const SurveyPopup = () => {
+export const SurveyPopup = () => {
   const {
     question,
     popup: {isPopupOpen},

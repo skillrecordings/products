@@ -13,16 +13,15 @@ const convertkitSubscriberHandler = async (
   if (req.method === 'GET') {
     let subscriber
 
-    if (req.cookies['ck_subscriber']) {
-      subscriber = JSON.parse(req.cookies['ck_subscriber'])
+    if (req.query.ckSubscriberId) {
+      subscriber = await fetchSubscriber(req.query.ckSubscriberId as string)
     } else if (req.query.learner) {
       const user = await prisma.user.findUnique({
         where: {id: req.query.learner as string},
       })
-
       subscriber = user?.email && (await getSubscriberByEmail(user?.email))
-    } else if (req.query.ckSubscriberId) {
-      subscriber = await fetchSubscriber(req.query.ckSubscriberId as string)
+    } else if (req.cookies['ck_subscriber']) {
+      subscriber = JSON.parse(req.cookies['ck_subscriber'])
     }
 
     if (subscriber) {
