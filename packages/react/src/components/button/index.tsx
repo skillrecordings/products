@@ -1,4 +1,4 @@
-import React, {ButtonHTMLAttributes} from 'react'
+import React, {Attributes, ButtonHTMLAttributes, PropsWithChildren} from 'react'
 import Spinner from '../spinner'
 
 type ButtonOptions = {
@@ -51,7 +51,7 @@ const ButtonIcon: React.FC<
     ? React.cloneElement(children, {
         'aria-hidden': true,
         focusable: false,
-      })
+      } as Partial<HTMLSpanElement> & Attributes)
     : children
 
   return (

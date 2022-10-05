@@ -21,7 +21,9 @@ const algoliaWriteKeySchema = z
   })
 
 const getAlgoliaApiWriteKeyFromEnvironment = () => {
-  return algoliaWriteKeySchema.parse(process.env.ALGOLIA_API_WRITE_KEY)
+  // TODO: make sure this doesn't break production /learn page
+  // return algoliaWriteKeySchema.parse(process.env.ALGOLIA_API_WRITE_KEY)
+  return process.env.ALGOLIA_API_WRITE_KEY
 }
 
 const algoliaAppId = process.env.NEXT_PUBLIC_ALGOLIA_APPLICATION_ID
