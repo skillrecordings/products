@@ -8,12 +8,12 @@ import cx from 'classnames'
 const SurveyPopup = () => {
   const {
     question,
-    popup: {isPopupClosed},
+    popup: {isPopupOpen},
   } = useSurvey()
 
   return question.currentQuestion ? (
     <AnimatePresence initial={false}>
-      {!isPopupClosed && (
+      {isPopupOpen && (
         <Popup>
           <div data-sr-quiz={question.isAnswered ? 'answered' : ''}>
             {question.currentQuestion && questionToShow(question)}
@@ -31,7 +31,7 @@ const SurveyPopup = () => {
 const Popup: React.FC<React.PropsWithChildren> = ({children}) => {
   const {
     question,
-    popup: {isPopupClosed, handleClose, handleDontSurvey},
+    popup: {isPopupOpen, handleClose, handleDontSurvey},
   } = useSurvey()
   const shouldReduceMotion = useReducedMotion()
 
@@ -40,7 +40,7 @@ const Popup: React.FC<React.PropsWithChildren> = ({children}) => {
       initial={!shouldReduceMotion ? {opacity: 0, y: '100%'} : {}}
       animate={!shouldReduceMotion ? {opacity: 1, y: '0%'} : {}}
       exit={!shouldReduceMotion ? {opacity: 0, y: '100%'} : {}}
-      transition={isPopupClosed ? {duration: 0.2} : {duration: 0.8}}
+      transition={isPopupOpen ? {duration: 0.8} : {duration: 0.2}}
       id="popup"
       className={cx(
         'sm:block hidden fixed bottom-5 right-5 bg-gray-800 border border-gray-700/80 rounded-md w-72 z-10 shadow-xl',

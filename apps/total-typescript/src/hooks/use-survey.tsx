@@ -12,11 +12,12 @@ import {SURVEY_ID} from 'pages/ask'
 import {trpc} from '../utils/trpc'
 import isEmpty from 'lodash/isEmpty'
 import get from 'lodash/get'
+import {track} from 'utils/analytics'
 
 type SurveyContextType = {
   question: QuestionProps
   popup: {
-    isPopupClosed: boolean
+    isPopupOpen: boolean
     handleClose: () => void
     handleDontSurvey: () => void
   }
@@ -52,6 +53,10 @@ export const SurveyProvider: React.FC<
         answerSurveyMutation.mutate({
           answer,
           question,
+        })
+        track('survey answered', {
+          question,
+          answer,
         })
       }
     },
@@ -93,7 +98,7 @@ export const useSurvey = () => {
 const useFloatingPopupWidget = (question: QuestionProps) => {
   const router = useRouter()
   const {subscriber, loadingSubscriber} = useConvertkit()
-  const [isPopupClosed, setIsPopupClosed] = React.useState(true)
+  const [isPopupOpen, setIsPopupOpen] = React.useState(false)
   const excludePages = [
     '/ask',
     '/confirm',
@@ -105,11 +110,16 @@ const useFloatingPopupWidget = (question: QuestionProps) => {
   const subscriberReady = Boolean(subscriber && !loadingSubscriber)
   React.useEffect(() => {
     if (pathIsValid) {
-      setIsPopupClosed(!subscriberReady)
+      setIsPopupOpen(subscriberReady)
+      if (subscriberReady) {
+        track('survey display', {
+          question: question.currentQuestionId,
+        })
+      }
     } else {
-      setIsPopupClosed(true)
+      setIsPopupOpen(false)
     }
-  }, [subscriberReady, pathIsValid])
+  }, [subscriberReady, pathIsValid, question.currentQuestionId])
 
   const {reward} = useReward('rewardId', 'confetti', {
     zIndex: 50,
@@ -120,34 +130,40 @@ const useFloatingPopupWidget = (question: QuestionProps) => {
 
   const handleAnswerSurvey = async () => {
     return setTimeout(() => {
-      setIsPopupClosed(true)
-    }, 900)
+      setIsPopupOpen(false)
+    }, 1200)
   }
 
   const answerSubmitted = question.isAnswered && !question.isSubmitting
 
   React.useEffect(() => {
     if (answerSubmitted) {
-      !isPopupClosed && reward()
+      isPopupOpen && reward()
       handleAnswerSurvey()
     }
-  }, [answerSubmitted, reward, isPopupClosed])
+  }, [answerSubmitted, reward, isPopupOpen])
 
   const handleClose = React.useCallback(() => {
     answerSurveyMutation.mutate({
       answer: 'skip',
       question: question.currentQuestionId || `none`,
     })
-    setIsPopupClosed(true)
-  }, [])
+    setIsPopupOpen(false)
+    track('survey closed', {
+      question: question.currentQuestionId,
+    })
+  }, [question.currentQuestionId, answerSurveyMutation])
 
   const handleDontSurvey = () => {
     answerSurveyMutation.mutate({
       answer: 'true',
       question: 'do_not_survey',
     })
+    track('survey dismissed (do not display)', {
+      question: question.currentQuestionId,
+    })
     handleClose()
   }
 
-  return {isPopupClosed, handleClose, handleDontSurvey}
+  return {isPopupOpen, handleClose, handleDontSurvey}
 }
