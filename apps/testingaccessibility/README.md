@@ -43,7 +43,7 @@ Copy the template `.env.local.template` file to `.env.local` and `.env.template`
 
 🔒 `env.local` contains local __private environment variables__
 
-* `ALGOLIA_API_WRITE_KEY`: Required to build the project with both `build` and `build:dev`.
+* `ALGOLIA_API_WRITE_KEY`: Required when running `pnpm build` which invokes `next build` which use `NODE_ENV=production`.
 * `CONVERTKIT_API_SECRET`: not required for local development unless actively working on ConvertKit integration. Can be found in 1password.
 * `POSTMARK_KEY`: not required to run in dev, but enables email sending from local environment. Can be found in 1password.
 * `STRIPE_SECRET_TOKEN`: Not required unless you need to make an end to end purchase. Can be found in 1password.
@@ -70,7 +70,7 @@ cp .env.template .env
 Now build the app and all dependencies with the following command:
 
 ```shell
-pnpm build:dev
+pnpm build
 ```
 
 This command will also `test` and `lint` the project. If you run into errors at this step, they should be addressed.

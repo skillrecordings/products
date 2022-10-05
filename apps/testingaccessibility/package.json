@@ -4,7 +4,6 @@
   "private": true,
   "scripts": {
     "build": "next build",
-    "build:dev": "cd ../.. && pnpm -- turbo run build test lint --filter=testingaccessibility && cd apps/testingaccessibility",
     "postbuild": "NODE_ENV=production next-sitemap",
     "clean": "pnpm -r exec -- rm -rf .turbo node_modules .next",
     "dev": "pnpm dev:validate && next dev -p 3013",
