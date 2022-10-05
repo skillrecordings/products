@@ -62,7 +62,7 @@ const Popup: React.FC<React.PropsWithChildren> = ({children}) => {
             type="button"
             onClick={handleDontSurvey}
           >
-            Don't ask
+            don't ask again
           </button>
         </>
       )}
