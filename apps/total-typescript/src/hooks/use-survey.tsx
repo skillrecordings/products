@@ -1,18 +1,17 @@
 import React from 'react'
 import {QuestionProps} from '@skillrecordings/quiz/dist/components/question'
+import {QuizContext} from '@skillrecordings/quiz/dist/machines/quiz-machine'
 import {surveyData, surveyConfig} from 'components/survey/survey-config'
 import {QuestionResource} from '@skillrecordings/types'
 import {useQuestion} from '@skillrecordings/quiz'
 import {useConvertkit} from './use-convertkit'
+import {isBefore, subDays} from 'date-fns'
 import {useReward} from 'react-rewards'
 import {useRouter} from 'next/router'
 import {SURVEY_ID} from 'pages/ask'
-import sample from 'lodash/sample'
-import get from 'lodash/get'
-import {isEmpty, keys} from 'lodash'
-import {isBefore, subDays} from 'date-fns'
 import {trpc} from '../utils/trpc'
-import {QuizContext} from '@skillrecordings/quiz/dist/machines/quiz-machine'
+import isEmpty from 'lodash/isEmpty'
+import get from 'lodash/get'
 
 type SurveyContextType = {
   question: QuestionProps
@@ -38,7 +37,7 @@ export const SurveyProvider: React.FC<
   const currentSurveySlug = SURVEY_ID
   const survey = get(surveyData, currentSurveySlug)
   const answerSurveyMutation = trpc.useMutation(['convertkit.answerSurvey'])
-  const [currentQuestion, setCurrentQuestion] = React.useState<string>('') // TODO: filter out answered questions
+  const [currentQuestion, setCurrentQuestion] = React.useState<string>('')
 
   const question = useQuestion({
     currentQuestion: survey.questions[currentQuestion],
@@ -106,7 +105,6 @@ const useFloatingPopupWidget = (question: QuestionProps) => {
   const subscriberReady = Boolean(subscriber && !loadingSubscriber)
   React.useEffect(() => {
     if (pathIsValid) {
-      // TODO: keep closed if already answered
       setIsPopupClosed(!subscriberReady)
     } else {
       setIsPopupClosed(true)
@@ -121,7 +119,6 @@ const useFloatingPopupWidget = (question: QuestionProps) => {
   })
 
   const handleAnswerSurvey = async () => {
-    // TODO: keep track of answered questions or update ck cookie accordingly
     return setTimeout(() => {
       setIsPopupClosed(true)
     }, 900)
@@ -131,10 +128,10 @@ const useFloatingPopupWidget = (question: QuestionProps) => {
 
   React.useEffect(() => {
     if (answerSubmitted) {
-      reward()
+      !isPopupClosed && reward()
       handleAnswerSurvey()
     }
-  }, [answerSubmitted, reward])
+  }, [answerSubmitted, reward, isPopupClosed])
 
   const handleClose = React.useCallback(() => {
     answerSurveyMutation.mutate({

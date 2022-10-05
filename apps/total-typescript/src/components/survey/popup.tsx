@@ -50,7 +50,7 @@ const Popup: React.FC<React.PropsWithChildren> = ({children}) => {
       {!question.isAnswered && (
         <>
           <button
-            className="absolute top-1 right-1 text-gray-300 p-1.5 rounded hover:bg-gray-700/50 transition"
+            className="absolute top-0 right-0 text-gray-300 p-1 rounded hover:bg-gray-700/50 transition"
             type="button"
             onClick={handleClose}
           >
