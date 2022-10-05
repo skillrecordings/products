@@ -30,6 +30,7 @@ type InternalQuestionContextValue = {
 type QuestionProps = {
   horizontal?: boolean
   currentQuestion: QuestionResource
+  currentQuestionKey?: string
   currentQuestionId?: string
   questionSet?: QuestionSet
   formik: FormikProps<FormikValues>

@@ -13,29 +13,43 @@ export const surveyConfig = {
 export const surveyData: {[SURVEY_ID: string]: QuizResource} = {
   ask: {
     questions: {
-      struggle: {
-        question: `What's your biggest struggle with TypeScript right now?`,
-        type: `essay`,
-      },
       level: {
-        question: `What's your current comfort level with TypeScript?`,
+        question: `What's your TypeScript skill level?`,
         type: 'multiple-choice',
         choices: [
           {
-            answer: 'high',
-            label: 'Very comfortable',
+            answer: 'beginner',
+            label: 'Beginner',
           },
           {
-            answer: 'medium',
-            label: 'Somewhat comfortable',
+            answer: 'advanced-beginner',
+            label: 'Advanced Beginner',
           },
           {
-            answer: 'low',
-            label: 'Hardly know the basics',
+            answer: 'intermediate',
+            label: 'Intermediate',
           },
           {
-            answer: 'lowest',
-            label: 'What is TypeScript?',
+            answer: 'expert',
+            label: 'Expert',
+          },
+          {
+            answer: 'wizard',
+            label: 'Wizard',
+          },
+        ],
+      },
+      ts_at_work: {
+        question: `Do you use TypeScript at work?`,
+        type: 'multiple-choice',
+        choices: [
+          {
+            answer: 'true',
+            label: 'Yes, I use TypeScript at work.',
+          },
+          {
+            answer: 'false',
+            label: 'Nope',
           },
         ],
       },

@@ -9,6 +9,10 @@ import {useRouter} from 'next/router'
 import {SURVEY_ID} from 'pages/ask'
 import sample from 'lodash/sample'
 import get from 'lodash/get'
+import {isEmpty, keys} from 'lodash'
+import {isBefore, subDays} from 'date-fns'
+import {trpc} from '../utils/trpc'
+import {QuizContext} from '@skillrecordings/quiz/dist/machines/quiz-machine'
 
 type SurveyContextType = {
   question: QuestionProps
@@ -25,17 +29,54 @@ type SurveyProviderProps = {
   currentQuestion?: QuestionResource
 }
 
+const DAYS_TO_WAIT_BETWEEN_QUESTIONS = 3
+
 export const SurveyProvider: React.FC<
   React.PropsWithChildren<SurveyProviderProps>
 > = ({children}) => {
-  const survey = get(surveyData, SURVEY_ID)
-  const [randomQuestion] = React.useState(sample(survey.questions)) // TODO: filter out answered questions
+  const {subscriber, loadingSubscriber} = useConvertkit()
+  const currentSurveySlug = SURVEY_ID
+  const survey = get(surveyData, currentSurveySlug)
+  const answerSurveyMutation = trpc.useMutation(['convertkit.answerSurvey'])
+  const [currentQuestion, setCurrentQuestion] = React.useState<string>('') // TODO: filter out answered questions
 
   const question = useQuestion({
-    currentQuestion: randomQuestion,
+    currentQuestion: survey.questions[currentQuestion],
+    currentQuestionKey: currentQuestion,
     questionSet: survey.questions,
     config: surveyConfig,
+    handleSubmitAnswer: async ({
+      answer,
+      currentQuestionKey: question,
+    }: QuizContext) => {
+      if (answer && question) {
+        answerSurveyMutation.mutate({
+          answer,
+          question,
+        })
+      }
+    },
   })
+
+  React.useEffect(() => {
+    if (subscriber && subscriber.fields) {
+      const lastSurveyDate = new Date(subscriber.fields.last_surveyed_on || 0)
+
+      const thresholdDate = subDays(new Date(), DAYS_TO_WAIT_BETWEEN_QUESTIONS)
+
+      const canSurvey =
+        isBefore(lastSurveyDate, thresholdDate) &&
+        subscriber.fields.do_not_survey !== 'true' &&
+        subscriber.state === 'active'
+
+      for (const question in survey.questions) {
+        if (canSurvey && isEmpty(subscriber.fields[question])) {
+          setCurrentQuestion(question)
+          break
+        }
+      }
+    }
+  }, [subscriber, survey.questions])
 
   const popup = useFloatingPopupWidget(question)
   const context = {question, popup}
@@ -54,16 +95,23 @@ const useFloatingPopupWidget = (question: QuestionProps) => {
   const router = useRouter()
   const {subscriber, loadingSubscriber} = useConvertkit()
   const [isPopupClosed, setIsPopupClosed] = React.useState(true)
-  const excludePages = ['/ask', '/confirm', '/confirmed']
-
+  const excludePages = [
+    '/ask',
+    '/confirm',
+    '/confirmed',
+    '/tutorials/[module]/[exercise]',
+  ]
+  const answerSurveyMutation = trpc.useMutation(['convertkit.answerSurvey'])
+  const pathIsValid = !excludePages.includes(router.pathname)
+  const subscriberReady = Boolean(subscriber && !loadingSubscriber)
   React.useEffect(() => {
-    if (excludePages.includes(router.pathname)) {
-      setIsPopupClosed(true)
-    } else {
+    if (pathIsValid) {
       // TODO: keep closed if already answered
-      setIsPopupClosed(!Boolean(subscriber && !loadingSubscriber))
+      setIsPopupClosed(!subscriberReady)
+    } else {
+      setIsPopupClosed(true)
     }
-  }, [subscriber, loadingSubscriber, router])
+  }, [subscriberReady, pathIsValid])
 
   const {reward} = useReward('rewardId', 'confetti', {
     zIndex: 50,
@@ -79,18 +127,28 @@ const useFloatingPopupWidget = (question: QuestionProps) => {
     }, 900)
   }
 
+  const answerSubmitted = question.isAnswered && !question.isSubmitting
+
   React.useEffect(() => {
-    if (question.isAnswered && !question.isSubmitting) {
+    if (answerSubmitted) {
       reward()
       handleAnswerSurvey()
     }
-  }, [question.isAnswered])
+  }, [answerSubmitted, reward])
 
-  const handleClose = () => {
+  const handleClose = React.useCallback(() => {
+    answerSurveyMutation.mutate({
+      answer: 'skip',
+      question: question.currentQuestionId || `none`,
+    })
     setIsPopupClosed(true)
-  }
+  }, [])
+
   const handleDontSurvey = () => {
-    // TODO: set a cookie?
+    answerSurveyMutation.mutate({
+      answer: 'true',
+      question: 'do_not_survey',
+    })
     handleClose()
   }
 

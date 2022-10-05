@@ -7,7 +7,7 @@ import type {
 } from '@skillrecordings/types'
 import {nightOwl} from 'react-syntax-highlighter/dist/cjs/styles/hljs'
 import {QuestionProps} from '../components/question/index'
-import quizMachine from '../machines/quiz-machine'
+import quizMachine, {QuizContext} from '../machines/quiz-machine'
 import getConfig, {QuizConfig} from '../config'
 import {useFormik, FormikProps} from 'formik'
 import {useMachine} from '@xstate/react'
@@ -16,16 +16,19 @@ import isEmpty from 'lodash/isEmpty'
 import last from 'lodash/last'
 import first from 'lodash/first'
 import pickBy from 'lodash/pickBy'
+import {default as defaultSubmitAnswerHandler} from '../utils/submit-answer'
 
 export type FormikValues = {
   answer: string | string[] | null
 }
 type useQuestionTypes = {
   currentQuestion: QuestionResource | undefined
+  currentQuestionKey?: string
   questionSet: QuestionSet
   config?: QuizConfig
   currentAnswer?: string | string[] | undefined
   syntaxHighlighterTheme?: any
+  handleSubmitAnswer?: (context: QuizContext) => Promise<any>
 }
 
 export default function useQuestion({
@@ -34,11 +37,15 @@ export default function useQuestion({
   config,
   currentAnswer,
   syntaxHighlighterTheme,
+  handleSubmitAnswer = defaultSubmitAnswerHandler,
+  currentQuestionKey,
 }: useQuestionTypes): QuestionProps {
   const [state, send] = useMachine(quizMachine, {
     context: {
       questionSet,
       config,
+      handleSubmitAnswer,
+      currentQuestionKey,
     },
   })
 
@@ -50,13 +57,14 @@ export default function useQuestion({
       : currentAnswer
 
   React.useEffect(() => {
-    currentQuestion && send('LOAD_QUESTION', {currentQuestion})
+    currentQuestion &&
+      send('LOAD_QUESTION', {currentQuestion, currentQuestionKey})
     currentAnswer &&
       currentQuestion &&
       send('ANSWER', {
         answer: parsedCurrentAnswer,
       })
-  }, [currentQuestion, currentAnswer, send])
+  }, [parsedCurrentAnswer, currentQuestion, currentAnswer, send])
 
   React.useEffect(() => {
     if (process.env.NODE_ENV === 'development') {
@@ -115,6 +123,7 @@ export default function useQuestion({
 
   return {
     currentQuestion: question,
+    currentQuestionKey: currentQuestionKey,
     currentQuestionId: questionId,
     isCorrectChoice: (choice: Choice) => isCorrectChoice(choice),
     answeredCorrectly,

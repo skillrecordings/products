@@ -10,15 +10,21 @@ import {QuizConfig} from '../config'
 export type QuizEvent =
   | {type: 'ANSWER'; answer: string}
   | {type: 'ANSWERED'}
-  | {type: 'LOAD_QUESTION'; currentQuestion: QuestionResource}
+  | {
+      type: 'LOAD_QUESTION'
+      currentQuestion: QuestionResource
+      currentQuestionKey?: string
+    }
 
 export type QuizContext = {
   currentQuestionId: string
+  currentQuestionKey?: string
   questionSet: QuestionSet
   currentQuestion: QuestionResource
   answer: string
   answeredCorrectly: boolean
   config: QuizConfig
+  handleSubmitAnswer: (context: QuizContext) => Promise<any>
 }
 
 const loadQuestion = (event: {
@@ -43,6 +49,7 @@ const quizMachine = createMachine<QuizContext, QuizEvent>(
             actions: [
               assign({
                 currentQuestion: (_, event) => loadQuestion(event),
+                currentQuestionKey: (_, event) => event.currentQuestionKey,
               }),
             ],
             target: 'unanswered',
@@ -115,7 +122,7 @@ const quizMachine = createMachine<QuizContext, QuizEvent>(
       },
     },
     services: {
-      submitAnswer: (context) => handleSubmitAnswer(context),
+      submitAnswer: (context) => context.handleSubmitAnswer(context),
     },
   },
 )
