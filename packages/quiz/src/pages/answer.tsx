@@ -6,19 +6,19 @@ import {useRouter} from 'next/router'
 import {QuizConfig} from '../config'
 import keys from 'lodash/keys'
 import get from 'lodash/get'
+import Link from 'next/link'
 
 type AnswerProps = {
   questionSet: QuestionSet
   config?: QuizConfig
   syntaxHighlighterTheme?: any
-  questionBodyRenderer?: any
 }
 
 const Answer: React.FC<React.PropsWithChildren<AnswerProps>> = ({
   config,
   questionSet,
   syntaxHighlighterTheme,
-  questionBodyRenderer,
+  children,
 }) => {
   const router = useRouter()
 
@@ -35,7 +35,6 @@ const Answer: React.FC<React.PropsWithChildren<AnswerProps>> = ({
   }, [router, questionSet])
 
   const question = useQuestion({
-    questionBodyRenderer,
     currentQuestion,
     questionSet,
     config,
@@ -45,8 +44,9 @@ const Answer: React.FC<React.PropsWithChildren<AnswerProps>> = ({
 
   return (
     <>
-      <div data-sr-quiz="">
+      <div data-sr-quiz={question.isAnswered ? 'answered' : ''}>
         {question.currentQuestion && questionToShow(question)}
+        {children}
         <DevTools questionSet={questionSet} />
       </div>
     </>
@@ -126,22 +126,30 @@ const DevTools: React.FC<
       <span className="text-sm font-medium pb-2 text-indigo-600 dark:text-indigo-200">
         Questions:
       </span>
-      <ol className="list-decimal list-inside">
+      <ul className="list-decimal list-inside">
         {keys(questionSet).map((q) => (
           <li className="pb-1" key={q}>
-            <a
-              href={`/answer?question=${q}`}
-              className={
-                get(router.query, 'question') === q
-                  ? 'underline'
-                  : 'hover:underline'
-              }
+            <Link
+              href={{
+                pathname: router.pathname,
+                query: {
+                  question: q,
+                },
+              }}
             >
-              {q}
-            </a>
+              <a
+                className={
+                  get(router.query, 'question') === q
+                    ? 'underline'
+                    : 'hover:underline'
+                }
+              >
+                {q}
+              </a>
+            </Link>
           </li>
         ))}
-      </ol>
+      </ul>
     </nav>
   )
 }

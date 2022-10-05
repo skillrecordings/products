@@ -30,6 +30,8 @@ type InternalQuestionContextValue = {
 type QuestionProps = {
   horizontal?: boolean
   currentQuestion: QuestionResource
+  currentQuestionKey?: string
+  currentQuestionId?: string
   questionSet?: QuestionSet
   formik: FormikProps<FormikValues>
   onSubmit: () => void
@@ -120,7 +122,9 @@ const QuestionChoices = React.forwardRef(function QuestionChoices(
       {currentQuestion?.choices?.map((choice, i) => {
         return <QuestionChoice key={choice.answer} choice={choice} index={i} />
       })}
-      {errors?.answer}
+      {errors?.answer && (
+        <div data-sr-quiz-question-error="">{errors?.answer}</div>
+      )}
     </Comp>
   )
 }) as Polymorphic.ForwardRefComponent<'ul', QuestionChoicesProps>
@@ -210,7 +214,9 @@ const QuestionInput = React.forwardRef(function QuestionInput(
         disabled={isAnswered}
         placeholder="Type your answer..."
       />
-      {errors?.answer}
+      {errors?.answer && (
+        <div data-sr-quiz-question-error="">{errors?.answer}</div>
+      )}
     </Comp>
   )
 }) as Polymorphic.ForwardRefComponent<'div', QuestionInputProps>

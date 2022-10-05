@@ -5,6 +5,7 @@ import cx from 'classnames'
 import isNull from 'lodash/isNull'
 import {Toaster} from 'react-hot-toast'
 import {useRouter} from 'next/router'
+import SurveyPopup from 'components/survey/popup'
 
 type LayoutProps = {
   meta?: any
@@ -70,6 +71,7 @@ const Layout: FunctionComponent<LayoutProps> = ({
         {children}
         {/* {footer ? footer : isNull(footer) ? null : <Footer />} */}
       </div>
+      <SurveyPopup />
     </div>
   )
 }

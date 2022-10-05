@@ -2,12 +2,17 @@ import isEmpty from 'lodash/isEmpty'
 import find from 'lodash/find'
 import {Cookie} from './cookie'
 import fetch from 'node-fetch'
+import {format} from 'date-fns'
 
 const convertkitBaseUrl =
   process.env.CONVERTKIT_BASE_URL || 'https://api.convertkit.com/v3/'
 
 const hour = 3600000
 export const oneYear = 365 * 24 * hour
+
+export function formatDate(date: Date) {
+  return format(date, 'yyyy-MM-dd HH:mm:ss z')
+}
 
 export async function updateSubscriber(subscriber: {
   id: number
@@ -101,13 +106,13 @@ export async function tagSubscriber(email: string, tagId: string) {
 }
 
 export async function setConvertkitSubscriberFields(
-  subscriber: {id: string; fields: Record<string, string>},
+  subscriber: {id: string | number; fields: Record<string, string | null>},
   fields: Record<string, string>,
 ) {
   for (const field in fields) {
     await createConvertkitCustomField(field, subscriber)
   }
-  await fetch(`${convertkitBaseUrl}/subscribers/${subscriber.id}`, {
+  return await fetch(`${convertkitBaseUrl}/subscribers/${subscriber.id}`, {
     method: 'PUT',
     headers: {
       'Content-Type': 'application/json; charset=utf-8',
@@ -121,7 +126,7 @@ export async function setConvertkitSubscriberFields(
 
 export async function createConvertkitCustomField(
   questionId: string,
-  subscriber: {fields: Record<string, string>},
+  subscriber: {fields: Record<string, string | null>},
 ) {
   try {
     if (!process.env.CONVERTKIT_API_SECRET) {

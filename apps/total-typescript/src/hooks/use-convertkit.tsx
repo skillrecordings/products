@@ -24,11 +24,12 @@ export const ConvertkitProvider: React.FC<
 > = ({children}) => {
   const router = useRouter()
 
-  const {data: subscriber, status} = useQuery(
+  const {data: subscriber, status} = useQuery<Subscriber>(
     [`convertkit-subscriber`],
     async () => {
       const params = new URLSearchParams(window.location.search)
-      const ckSubscriberId = params.get(CK_SUBSCRIBER_KEY)
+      const ckSubscriberId =
+        params.get(CK_SUBSCRIBER_KEY) || Cookies.get('ck_subscriber_id')
 
       try {
         const subscriber = Cookies.get('ck_subscriber')
@@ -39,6 +40,7 @@ export const ConvertkitProvider: React.FC<
           const learner = params.get('learner')
           const subscriberLoaderParams = new URLSearchParams({
             ...(learner && {learner}),
+
             ...(ckSubscriberId && {ckSubscriberId}),
           })
 

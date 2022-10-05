@@ -35,7 +35,9 @@ describe('can render questions', () => {
   it('renders essay question', () => {
     const {
       result: {current},
-    } = renderHook(() => useQuestion({currentQuestion: ESSAY_QUESTION}))
+    } = renderHook(() =>
+      useQuestion({currentQuestion: ESSAY_QUESTION, questionSet: {}}),
+    )
 
     expect(current).not.toBeUndefined()
     current && render(<Essay question={current} />)
@@ -49,7 +51,7 @@ describe('can render questions', () => {
     const {
       result: {current},
     } = renderHook(() =>
-      useQuestion({currentQuestion: MULTIPLE_CHOICE_QUESTION}),
+      useQuestion({currentQuestion: MULTIPLE_CHOICE_QUESTION, questionSet: {}}),
     )
     expect(current).not.toBeUndefined()
     current && render(<Essay question={current} />)

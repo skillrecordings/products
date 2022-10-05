@@ -10,15 +10,32 @@ import {QuizConfig} from '../config'
 export type QuizEvent =
   | {type: 'ANSWER'; answer: string}
   | {type: 'ANSWERED'}
-  | {type: 'LOAD_QUESTION'; currentQuestion: QuestionResource}
+  | {
+      type: 'LOAD_QUESTION'
+      currentQuestion: QuestionResource
+      currentQuestionKey?: string
+    }
 
 export type QuizContext = {
   currentQuestionId: string
+  currentQuestionKey?: string
   questionSet: QuestionSet
   currentQuestion: QuestionResource
   answer: string
   answeredCorrectly: boolean
   config: QuizConfig
+  handleSubmitAnswer: (context: QuizContext) => Promise<any>
+}
+
+const loadQuestion = (event: {
+  type: 'LOAD_QUESTION'
+  currentQuestion: QuestionResource
+}) => {
+  const question = event.currentQuestion
+  const shuffledChoices = question.correct
+    ? shuffle(question.choices)
+    : question.choices
+  return {...question, choices: shuffledChoices}
 }
 
 const quizMachine = createMachine<QuizContext, QuizEvent>(
@@ -31,11 +48,8 @@ const quizMachine = createMachine<QuizContext, QuizEvent>(
           LOAD_QUESTION: {
             actions: [
               assign({
-                currentQuestion: (_, event) => {
-                  const question = event.currentQuestion
-                  const shuffledChoices = shuffle(question.choices)
-                  return {...question, choices: shuffledChoices}
-                },
+                currentQuestion: (_, event) => loadQuestion(event),
+                currentQuestionKey: (_, event) => event.currentQuestionKey,
               }),
             ],
             target: 'unanswered',
@@ -51,6 +65,14 @@ const quizMachine = createMachine<QuizContext, QuizEvent>(
               },
             }),
             target: 'answering',
+          },
+          LOAD_QUESTION: {
+            actions: [
+              assign({
+                currentQuestion: (_, event) => loadQuestion(event),
+              }),
+            ],
+            target: 'unanswered',
           },
         },
       },
@@ -100,7 +122,7 @@ const quizMachine = createMachine<QuizContext, QuizEvent>(
       },
     },
     services: {
-      submitAnswer: (context) => handleSubmitAnswer(context),
+      submitAnswer: (context) => context.handleSubmitAnswer(context),
     },
   },
 )

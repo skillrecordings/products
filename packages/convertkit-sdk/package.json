@@ -15,6 +15,7 @@
   },
   "dependencies": {
     "cookie": "^0.5.0",
+    "date-fns": "^2.28.0",
     "lodash": "^4.17.21",
     "node-fetch": "^2.6.7",
     "encoding": "^0.1.0"
