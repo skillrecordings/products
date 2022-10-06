@@ -99,12 +99,7 @@ const useFloatingPopupWidget = (question: QuestionProps) => {
   const router = useRouter()
   const {subscriber, loadingSubscriber} = useConvertkit()
   const [isPopupOpen, setIsPopupOpen] = React.useState(false)
-  const excludePages = [
-    '/ask',
-    '/confirm',
-    '/confirmed',
-    '/tutorials/[module]/[exercise]',
-  ]
+  const excludePages = ['/ask', '/confirm']
   const answerSurveyMutation = trpc.useMutation(['convertkit.answerSurvey'])
   const pathIsValid = !excludePages.includes(router.pathname)
   const subscriberReady = Boolean(subscriber && !loadingSubscriber)
