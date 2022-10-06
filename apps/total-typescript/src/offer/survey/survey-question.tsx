@@ -89,7 +89,6 @@ const SurveyQuestion = React.forwardRef(function Question(
             .required(`Can't stay empty. Mind to elaborate? :)`),
     }),
     onSubmit: async (values) => {
-      console.log({values})
       return sentToSurveyMachine('ANSWER', {answer: values.answer})
     },
     validateOnChange: true,
