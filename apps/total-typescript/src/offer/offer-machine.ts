@@ -1,6 +1,7 @@
 import {Subscriber} from '../lib/convertkit'
 import {Offer} from './offer-types'
 import {assign, createMachine, sendParent, spawn, StateMachine} from 'xstate'
+import {isBefore, subDays} from 'date-fns'
 
 export type OfferMachineEvent =
   | {type: 'SUBSCRIBER_LOADED'; subscriber: Subscriber}
@@ -50,11 +51,16 @@ export const offerMachine = createMachine<OfferContext, OfferMachineEvent>(
             target: 'loadingSubscriber',
           },
           OFFER_DISMISSED: {
-            target: 'acknowledgingDismissal',
+            target: 'offerComplete',
           },
         },
       },
       verifyingOfferEligibility: {
+        invoke: {
+          src: 'verifyEligibility',
+          onDone: {target: 'loadingCurrentOffer'},
+          onError: {target: 'offerComplete'},
+        },
         on: {
           NOT_ELIGIBLE_FOR_OFFERS: {
             target: 'offerComplete',
@@ -77,41 +83,18 @@ export const offerMachine = createMachine<OfferContext, OfferMachineEvent>(
       presentingCurrentOffer: {
         on: {
           RESPONDED_TO_OFFER: {
-            target: 'processingOfferResponse',
+            target: 'offerComplete',
           },
           OFFER_DISMISSED: {
-            target: 'acknowledgingDismissal',
+            target: 'offerComplete',
           },
           OFFER_CLOSED: {
             target: 'offerComplete',
           },
         },
       },
-      processingOfferResponse: {
-        on: {
-          POST_OFFER_CTA_AVAILABLE: {
-            target: 'displayingPostOfferCta',
-          },
-          OFFER_COMPLETE: {
-            target: 'offerComplete',
-          },
-        },
-      },
-      displayingPostOfferCta: {
-        on: {
-          OFFER_COMPLETE: {
-            target: 'offerComplete',
-          },
-        },
-      },
-      acknowledgingDismissal: {
-        on: {
-          DISMISSAL_ACKNOWLEDGED: {
-            target: 'offerComplete',
-          },
-        },
-      },
       offerComplete: {
+        entry: 'complete',
         type: 'final',
       },
     },
@@ -119,6 +102,30 @@ export const offerMachine = createMachine<OfferContext, OfferMachineEvent>(
   {
     actions: {
       loadSubscriber: async (context, event) => {},
+    },
+    services: {
+      verifyEligibility: (context, _) =>
+        new Promise((resolve, reject) => {
+          const {subscriber} = context
+          const lastSurveyDate = new Date(
+            subscriber?.fields.last_surveyed_on || 0,
+          )
+          const DAYS_TO_WAIT_BETWEEN_QUESTIONS = 3
+          const thresholdDate = subDays(
+            new Date(),
+            DAYS_TO_WAIT_BETWEEN_QUESTIONS,
+          )
+          const canSurvey =
+            isBefore(lastSurveyDate, thresholdDate) &&
+            subscriber?.fields.do_not_survey !== 'true' &&
+            subscriber?.state === 'active'
+
+          if (canSurvey) {
+            resolve(true)
+          } else {
+            reject()
+          }
+        }),
     },
   },
 )

@@ -10,7 +10,11 @@ const availableQuestions = surveyData.ask.questions
 
 export const useSurveyPopupOfferMachine = () => {
   const {subscriber, loadingSubscriber} = useConvertkit()
-  const [machineState, sendToMachine] = useMachine(offerMachine)
+  const [machineState, sendToMachine] = useMachine(offerMachine, {
+    actions: {
+      complete: () => setIsPopupOpen(false),
+    },
+  })
   const [currentQuestion, setCurrentQuestion] = React.useState<string>('')
   const [isPopupOpen, setIsPopupOpen] = React.useState(true)
 
@@ -19,30 +23,15 @@ export const useSurveyPopupOfferMachine = () => {
       console.log('state:', machineState.value.toString())
     switch (true) {
       case machineState.matches('loadingSubscriber'):
+        // relies on another hook and using react-query under the hood
         if (subscriber && !loadingSubscriber) {
           sendToMachine('SUBSCRIBER_LOADED', {subscriber})
         } else if (!subscriber && !loadingSubscriber) {
           sendToMachine('NO_SUBSCRIBER_FOUND')
         }
         break
-      case machineState.matches('verifyingOfferEligibility'):
-        const lastSurveyDate = new Date(
-          subscriber?.fields.last_surveyed_on || 0,
-        )
-        const DAYS_TO_WAIT_BETWEEN_QUESTIONS = 3
-        const thresholdDate = subDays(
-          new Date(),
-          DAYS_TO_WAIT_BETWEEN_QUESTIONS,
-        )
-        const canSurvey =
-          isBefore(lastSurveyDate, thresholdDate) &&
-          subscriber?.fields.do_not_survey !== 'true' &&
-          subscriber?.state === 'active'
-        if (canSurvey) {
-          sendToMachine('OFFER_ELIGIBILITY_VERIFIED')
-        }
-        break
       case machineState.matches('loadingCurrentOffer'):
+        // will rely on a hook and use trpc/react-query
         let offerFound = false
         for (const question in availableQuestions) {
           if (subscriber && isEmpty(subscriber.fields[question])) {
@@ -53,15 +42,6 @@ export const useSurveyPopupOfferMachine = () => {
           }
         }
         if (!offerFound) sendToMachine('NO_CURRENT_OFFER_FOUND')
-        break
-      case machineState.matches('acknowledgingDismissal'):
-        sendToMachine('DISMISSAL_ACKNOWLEDGED')
-        break
-      case machineState.matches('processingOfferResponse'):
-        sendToMachine('OFFER_COMPLETE')
-        break
-      case machineState.matches('offerComplete'):
-        setIsPopupOpen(false)
         break
     }
   }, [subscriber, loadingSubscriber, machineState, sendToMachine])
