@@ -31,7 +31,7 @@ const loadQuestion = (event: {
   type: 'LOAD_QUESTION'
   currentQuestion: QuestionResource
 }) => {
-  const question = event.currentOffer
+  const question = event.currentQuestion
   const shuffledChoices = question.correct
     ? shuffle(question.choices)
     : question.choices
@@ -83,7 +83,7 @@ const quizMachine = createMachine<QuizContext, QuizEvent>(
           onDone: [
             {
               target: 'answered',
-              cond: (context) => isEmpty(context.currentOffer.correct),
+              cond: (context) => isEmpty(context.currentQuestion.correct),
             },
             {target: 'answered.correct', cond: 'answeredCorrectly'},
             {target: 'answered.incorrect'},
@@ -106,17 +106,19 @@ const quizMachine = createMachine<QuizContext, QuizEvent>(
   {
     guards: {
       answeredCorrectly: (context, event) => {
-        const hasMultipleCorrectAnswers = isArray(context.currentOffer.correct)
+        const hasMultipleCorrectAnswers = isArray(
+          context.currentQuestion.correct,
+        )
         const allCorrect: any =
           isArray(context.answer) &&
           every(
             context.answer.map((a: string) =>
-              context.currentOffer.correct?.includes(a),
+              context.currentQuestion.correct?.includes(a),
             ),
           )
         return hasMultipleCorrectAnswers
           ? allCorrect
-          : context.currentOffer.correct === context.answer
+          : context.currentQuestion.correct === context.answer
       },
     },
     services: {

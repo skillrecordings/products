@@ -41,7 +41,7 @@ export const SurveyProvider: React.FC<
   const [currentQuestion, setCurrentQuestion] = React.useState<string>('')
 
   const question = useQuestion({
-    currentOffer: survey.questions[currentQuestion],
+    currentQuestion: survey.questions[currentQuestion],
     currentQuestionKey: currentQuestion,
     questionSet: survey.questions,
     config: surveyConfig,
