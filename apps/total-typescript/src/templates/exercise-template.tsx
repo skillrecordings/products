@@ -77,7 +77,7 @@ const ExerciseTemplate: React.FC<{
             module={module}
             path={path}
           />
-          <main className="lg:mt-16 w-full relative max-w-[1480px] mx-auto 2xl:flex items-start 2xl:max-w-none border-t 2xl:border-gray-800 border-transparent">
+          <main className="lg:mt-16 grow relative max-w-[1480px] mx-auto 2xl:flex items-start 2xl:max-w-none border-t 2xl:border-gray-800 border-transparent">
             <div className="2xl:w-full 2xl:border-r border-gray-800 2xl:relative 2xl:h-full">
               <Video ref={muxPlayerRef} module={module} exercise={exercise} />
               <MobileLessonNavigator module={module} />
