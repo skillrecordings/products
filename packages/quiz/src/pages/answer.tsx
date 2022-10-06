@@ -35,7 +35,7 @@ const Answer: React.FC<React.PropsWithChildren<AnswerProps>> = ({
   }, [router, questionSet])
 
   const question = useQuestion({
-    currentQuestion,
+    currentQuestion: currentOffer,
     questionSet,
     config,
     currentAnswer,
@@ -45,7 +45,7 @@ const Answer: React.FC<React.PropsWithChildren<AnswerProps>> = ({
   return (
     <>
       <div data-sr-quiz={question.isAnswered ? 'answered' : ''}>
-        {question.currentQuestion && questionToShow(question)}
+        {question.currentOffer && questionToShow(question)}
         {children}
         <DevTools questionSet={questionSet} />
       </div>

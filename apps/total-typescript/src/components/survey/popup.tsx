@@ -11,12 +11,12 @@ export const SurveyPopup = () => {
     popup: {isPopupOpen},
   } = useSurvey()
 
-  return question.currentQuestion ? (
+  return question.currentOffer ? (
     <AnimatePresence initial={false}>
       {isPopupOpen && (
         <Popup>
           <div data-sr-quiz={question.isAnswered ? 'answered' : ''}>
-            {question.currentQuestion && questionToShow(question)}
+            {question.currentOffer && questionToShow(question)}
           </div>
           <div
             className="w-full flex items-center justify-center -translate-y-5"

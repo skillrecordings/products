@@ -78,7 +78,7 @@ export default function useQuestion({
     }
   }, [state])
 
-  const question = state.context.currentQuestion
+  const question = state.context.currentOffer
 
   const {correct} = question || {}
   const isAnswered = state.matches('answered')
@@ -132,7 +132,7 @@ export default function useQuestion({
   })
 
   return {
-    currentQuestion: question,
+    currentOffer: question,
     currentQuestionKey: currentQuestionKey,
     currentQuestionId: questionId,
     isCorrectChoice: (choice: Choice) => isCorrectChoice(choice),

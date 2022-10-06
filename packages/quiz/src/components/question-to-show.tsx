@@ -6,9 +6,9 @@ import Essay from './question/essay'
 import Code from './question/code'
 
 export default function questionToShow(question: QuestionProps) {
-  if (!question.currentQuestion) return
+  if (!question.currentOffer) return
 
-  switch (question.currentQuestion.type) {
+  switch (question.currentOffer.type) {
     case 'essay': {
       return <Essay question={question} />
     }

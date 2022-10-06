@@ -64,7 +64,7 @@ const currentQuestion: QuestionResource = {
 }
 
 const question = useQuestion({
-  currentQuestion,
+  currentQuestion: currentOffer,
 })
 
 return questionToShow(question)
@@ -104,7 +104,7 @@ const questionSet: QuestionSet = {
 const currentQuestion = get(questionSet, 'welcome')
 
 const question = useQuestion({
-  currentQuestion,
+  currentQuestion: currentOffer,
   questionSet,
   config: getConfig('Product Title', 'Joe Doe'),
 })
