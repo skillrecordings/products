@@ -33,10 +33,9 @@ export type SurveyConfig = {
 }
 
 export const SurveyQuestionContext =
-  createNamedContext<InternalQuestionContextValue>(
-    'SurveyQuestionContext',
-    {} as InternalQuestionContextValue,
-  )
+  createNamedContext<InternalQuestionContextValue>('SurveyQuestionContext', {
+    isLast: false,
+  } as InternalQuestionContextValue)
 
 type InternalQuestionContextValue = {
   questionId: string | undefined
@@ -47,11 +46,12 @@ type InternalQuestionContextValue = {
 type SurveyQuestionProps = {
   config: SurveyConfig
   currentQuestion: QuestionResource
-  isLast: boolean
+  isLast?: boolean
   currentAnswer?: string | string[]
   syntaxHighlighterTheme?: any
   questionBodyRenderer?: any
   handleSubmitAnswer: (context: SurveyMachineContext) => Promise<any>
+  children?: React.ReactNode
 }
 
 const questionDefaultClasses = ``

@@ -1,6 +1,6 @@
 import {Subscriber} from '../lib/convertkit'
 import {Offer} from './offer-types'
-import {assign, createMachine} from 'xstate'
+import {assign, createMachine, sendParent, spawn, StateMachine} from 'xstate'
 
 export type OfferMachineEvent =
   | {type: 'SUBSCRIBER_LOADED'; subscriber: Subscriber}
@@ -20,6 +20,7 @@ export type OfferMachineEvent =
 export type OfferContext = {
   subscriber?: Subscriber
   currentOffer?: Offer
+  eligibility?: StateMachine<any, any, any> | null
 }
 
 export const offerMachine = createMachine<OfferContext, OfferMachineEvent>(
@@ -81,6 +82,9 @@ export const offerMachine = createMachine<OfferContext, OfferMachineEvent>(
           OFFER_DISMISSED: {
             target: 'acknowledgingDismissal',
           },
+          OFFER_CLOSED: {
+            target: 'offerComplete',
+          },
         },
       },
       processingOfferResponse: {
@@ -89,14 +93,14 @@ export const offerMachine = createMachine<OfferContext, OfferMachineEvent>(
             target: 'displayingPostOfferCta',
           },
           OFFER_COMPLETE: {
-            target: 'loadingSubscriber',
+            target: 'offerComplete',
           },
         },
       },
       displayingPostOfferCta: {
         on: {
           OFFER_COMPLETE: {
-            target: 'loadingSubscriber',
+            target: 'offerComplete',
           },
         },
       },
