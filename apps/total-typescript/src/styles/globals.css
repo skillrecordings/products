@@ -10,6 +10,10 @@
 @tailwind utilities;
 @import './focus-visible.css';
 
+body {
+  @apply overflow-y-scroll;
+}
+
 :root {
   color-scheme: dark;
   ::selection {

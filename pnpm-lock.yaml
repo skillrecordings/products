@@ -849,6 +849,8 @@ importers:
 
   apps/epic-web:
     specifiers:
+      '@cloudinary/react': ^1.5.0
+      '@heroicons/react': ^1.0.6
       '@mdx-js/loader': ^2.1.2
       '@mdx-js/mdx': ^2.1.2
       '@mdx-js/react': ^2.1.2
@@ -856,6 +858,7 @@ importers:
       '@next/env': ^12.2.2
       '@next/mdx': ^12.2.4
       '@portabletext/react': ^1.0.6
+      '@portabletext/types': ^1.0.3
       '@sanity/client': ^3.3.6
       '@sanity/webhook': ^1.0.2
       '@sentry/nextjs': ^7.9.0
@@ -882,7 +885,10 @@ importers:
       '@types/nprogress': ^0.2.0
       '@types/react': ^18.0.15
       '@types/react-dom': ^18.0.6
+      '@types/speakingurl': ^13.0.3
       classnames: ^2.3.1
+      cloudinary: ^1.29.0
+      date-fns: ^2.28.0
       dotenv-flow: ^3.2.0
       eslint: ^8.19.0
       eslint-config-custom: workspace:*
@@ -901,7 +907,12 @@ importers:
       prettier: ^2.6.2
       react: 18.2.0
       react-dom: 18.2.0
-      react-use: ^17.3.2
+      react-hot-toast: ^2.2.0
+      react-refractor: ^2.1.7
+      react-tweet-embed: ^2.0.0
+      react-use: ^17.4.0
+      refractor: ^4.5.0
+      speakingurl: ^14.0.1
       starfield-react: 3.1.0-dev-5
       tailwind-fluid-typography: ^1.3.0
       tailwindcss: ^3.1.6
@@ -909,6 +920,8 @@ importers:
       webpack: ^5.73.0
       zod: ^3.19.1
     dependencies:
+      '@cloudinary/react': 1.5.0_react@18.2.0
+      '@heroicons/react': 1.0.6_react@18.2.0
       '@mdx-js/loader': 2.1.3_webpack@5.73.0
       '@mdx-js/mdx': 2.1.2
       '@mdx-js/react': 2.1.3_react@18.2.0
@@ -929,6 +942,8 @@ importers:
       '@slack/web-api': 6.7.2
       '@tailwindcss/typography': 0.5.2_tailwindcss@3.1.6
       classnames: 2.3.1
+      cloudinary: 1.29.0
+      date-fns: 2.28.0
       feed: 4.2.2
       framer-motion: 6.4.1_biqbaboplfbrettd7655fr4n2y
       groq: 2.15.0
@@ -940,12 +955,18 @@ importers:
       nodemailer-postmark-transport: 5.2.1_nodemailer@6.7.2
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
-      react-use: 17.3.2_biqbaboplfbrettd7655fr4n2y
+      react-hot-toast: 2.2.0_biqbaboplfbrettd7655fr4n2y
+      react-refractor: 2.1.7_react@18.2.0
+      react-tweet-embed: 2.0.0_react@18.2.0
+      react-use: 17.4.0_biqbaboplfbrettd7655fr4n2y
+      refractor: 4.5.0
+      speakingurl: 14.0.1
       starfield-react: 3.1.0-dev-5_biqbaboplfbrettd7655fr4n2y
       tailwind-fluid-typography: 1.3.0_tailwindcss@3.1.6
       zod: 3.19.1
     devDependencies:
       '@next/env': 12.3.0
+      '@portabletext/types': 1.0.3
       '@skillrecordings/scripts': link:../../packages/scripts
       '@skillrecordings/tsconfig': link:../../packages/tsconfig
       '@skillrecordings/types': link:../../packages/types
@@ -959,6 +980,7 @@ importers:
       '@types/nprogress': 0.2.0
       '@types/react': 18.0.15
       '@types/react-dom': 18.0.6
+      '@types/speakingurl': 13.0.3
       dotenv-flow: 3.2.0
       eslint: 8.22.0
       eslint-config-custom: link:../../packages/eslint-config-custom
@@ -7372,6 +7394,27 @@ packages:
       commander: 2.20.3
     dev: false
 
+  /@cloudinary/html/1.5.0:
+    resolution: {integrity: sha512-D9ozpUghSM2vbR6xhJ50jSFkICVd5vSwYHhTUdd3e2dAA+aUzwCeJraM5o5j4QSqzwfEoZTXhCNYYjFTnbNgYA==}
+    dependencies:
+      '@types/lodash.clonedeep': 4.5.7
+      '@types/lodash.debounce': 4.0.7
+      '@types/node': 14.17.33
+      lodash.clonedeep: 4.5.0
+      lodash.debounce: 4.0.8
+      typescript: 4.8.3
+    dev: false
+
+  /@cloudinary/react/1.5.0_react@18.2.0:
+    resolution: {integrity: sha512-yXbAC+5MoJDwFj7s5gHbNVstBmmrgiKSNenBLrC6nNu4CtkfeD3n0SReigwuTPUp5HpHtXYiuLpiOPxV3+38tg==}
+    engines: {node: '>=10'}
+    peerDependencies:
+      react: ^16.3.0 || ^17.0.0 || ^18.0.0
+    dependencies:
+      '@cloudinary/html': 1.5.0
+      react: 18.2.0
+    dev: false
+
   /@cnakazawa/watch/1.0.4:
     resolution: {integrity: sha512-v9kIhKwjeZThiWrLmj0y17CWoyddASLj9O2yvbZkbvw/N3rWOYy9zkV66ursAoVr0mV15bL8g0c4QZUE6cdDoQ==}
     engines: {node: '>=0.1.95'}
@@ -11740,12 +11783,23 @@ packages:
     resolution: {integrity: sha512-HZQYqbiFVWufzCwexrvh694SOim8z2d+xJl5UNamcvQFejLY/2YUtzXHYi3cHdI7PMlS8ejH2slRAOJQ32aNbA==}
     dev: true
 
+  /@types/lodash.clonedeep/4.5.7:
+    resolution: {integrity: sha512-ccNqkPptFIXrpVqUECi60/DFxjNKsfoQxSQsgcBJCX/fuX1wgyQieojkcWH/KpE3xzLoWN/2k+ZeGqIN3paSvw==}
+    dependencies:
+      '@types/lodash': 4.14.185
+    dev: false
+
+  /@types/lodash.debounce/4.0.7:
+    resolution: {integrity: sha512-X1T4wMZ+gT000M2/91SYj0d/7JfeNZ9PeeOldSNoE/lunLeQXKvkmIumI29IaKMotU/ln/McOIvgzZcQ/3TrSA==}
+    dependencies:
+      '@types/lodash': 4.14.185
+    dev: false
+
   /@types/lodash/4.14.180:
     resolution: {integrity: sha512-XOKXa1KIxtNXgASAnwj7cnttJxS4fksBRywK/9LzRV5YxrF80BXZIGeQSuoESQ/VkUj30Ae0+YcuHc15wJCB2g==}
 
   /@types/lodash/4.14.185:
     resolution: {integrity: sha512-evMDG1bC4rgQg4ku9tKpuMh5iBNEwNa3tf9zRHdP1qlv+1WUg44xat4IxCE14gIpZRGUUWAx2VhItCZc25NfMA==}
-    dev: true
 
   /@types/markdown-it/12.2.3:
     resolution: {integrity: sha512-GKMHFfv3458yYy+v/N8gjufHO6MSZKCOXpZc5GXIWWy8uldwfmPn98vp81gZ5f9SVw8YYBctgfJ22a2d7AOMeQ==}
@@ -14136,12 +14190,6 @@ packages:
     engines: {node: '>= 0.8'}
     dev: false
 
-  /bytes/3.1.0:
-    resolution: {integrity: sha512-zauLjrfCG+xvoyaqLoV8bLVXXNGC4JqlxFCutSDWA6fJrTo2ZuvLYTqZ7aHBLZSMOopbzwv8f+wZcVzfVTI2Dg==}
-    engines: {node: '>= 0.8'}
-    dev: false
-    optional: true
-
   /bytes/3.1.2:
     resolution: {integrity: sha512-/Nf7TyzTx6S3yRJObOAV7956r8cr2+Oj8AC5dt8wSP3BQAoeX58NoHyCU8P8zGkNXStjTSi6fzO6F0pBdcYbEg==}
     engines: {node: '>= 0.8'}
@@ -14927,6 +14975,7 @@ packages:
 
   /core-js/3.6.5:
     resolution: {integrity: sha512-vZVEEwZoIsI+vPEuoF9Iqf5H7/M3eeQqWlQnYa8FSKKePuYTf5MWnxb5SDAzCa60b3JBRS5g9b+Dq7b1y/RCrA==}
+    deprecated: core-js@<3.23.3 is no longer maintained and not recommended for usage due to the number of issues. Because of the V8 engine whims, feature detection in old core-js versions could cause a slowdown up to 100x even if nothing is polyfilled. Some versions have web compatibility issues. Please, upgrade your dependencies to the actual version of core-js.
     requiresBuild: true
     dev: false
 
@@ -15626,12 +15675,6 @@ packages:
     resolution: {integrity: sha512-Jlk9xvkTDGXwZiIDyoM7+3AsuvJVoyOpRupvEVy9nX3YO3/ieZxhlgh8GpLNZ8AY7HjO6y2YwpMSh1ejhu3uIw==}
     engines: {node: '>= 0.6'}
     dev: false
-
-  /depd/1.1.2:
-    resolution: {integrity: sha512-7emPTl6Dpo6JRXOXjLRxck+FlLRX5847cLKEn00PLAgc3g2hTZZgr+e4c2v6QpSmLeFP3n5yUo7ft6avBK/5jQ==}
-    engines: {node: '>= 0.6'}
-    dev: false
-    optional: true
 
   /depd/2.0.0:
     resolution: {integrity: sha512-g7nH6P6dyDioJogAAGprGpCtVImJhpPk/roCzdb3fIh61/s/nPsfR6onyMwkCAR/OlC3yBC0lESvUoQEAssIrw==}
@@ -19090,18 +19133,6 @@ packages:
       statuses: 1.5.0
     dev: false
 
-  /http-errors/1.7.3:
-    resolution: {integrity: sha512-ZTTX0MWrsQ2ZAhA1cejAwDLycFsd7I7nVtnkT3Ol0aqodaKW+0CTZDQ1uBv5whptCnc8e8HeRRJxRs0kmm/Qfw==}
-    engines: {node: '>= 0.6'}
-    dependencies:
-      depd: 1.1.2
-      inherits: 2.0.4
-      setprototypeof: 1.1.1
-      statuses: 1.5.0
-      toidentifier: 1.0.0
-    dev: false
-    optional: true
-
   /http-errors/2.0.0:
     resolution: {integrity: sha512-FtwrG/euBzaEjYeRqOgly7G0qviiXoJWnvEH2Z1plBdXgbyjv34pHTSb9zoeHMyDy33+DWy5Wt9Wo+TURtOYSQ==}
     engines: {node: '>= 0.8'}
@@ -21482,6 +21513,10 @@ packages:
 
   /lodash.castarray/4.4.0:
     resolution: {integrity: sha512-aVx8ztPv7/2ULbArGJ2Y42bG1mEQ5mGjpdvrbJcJFU3TbYybe+QlLS4pst9zV52ymy2in1KpFPiZnAOATxD4+Q==}
+
+  /lodash.clonedeep/4.5.0:
+    resolution: {integrity: sha512-H5ZhCF25riFd9uB5UCkVKo61m3S/xZk1x4wA6yp/L3RFP6Z/eHH1ymQcGLo7J3GMPfm0V/7m1tryHuGVxpqEBQ==}
+    dev: false
 
   /lodash.debounce/4.0.8:
     resolution: {integrity: sha512-FT1yDzDYEoYWhnSGnpE/4Kj1fLZkDFyqRb7fNt6FdYOSxlUWAtp42Eh6Wb0rGIv/m9Bgo7x4GhQbm5Ys4SG5ow==}
@@ -24371,7 +24406,7 @@ packages:
       http-proxy-agent: 4.0.1
       https-proxy-agent: 5.0.0
       pac-resolver: 5.0.0
-      raw-body: 2.4.1
+      raw-body: 2.5.1
       socks-proxy-agent: 5.0.1
     transitivePeerDependencies:
       - supports-color
@@ -26037,7 +26072,7 @@ packages:
     engines: {node: '>=6'}
 
   /q/1.5.1:
-    resolution: {integrity: sha1-fjL3W0E4EpHQRhHxvxQQmsAGUdc=}
+    resolution: {integrity: sha512-kV/CThkXo6xyFEZUugw/+pIOywXcDbFYgSct5cT3gqlbkBE1SJdwy6UQoZvodiWF/ckQLZyDE/Bu1M6gVu5lVw==}
     engines: {node: '>=0.6.0', teleport: '>=0.2.0'}
     dev: false
 
@@ -26131,17 +26166,6 @@ packages:
       iconv-lite: 0.4.19
       unpipe: 1.0.0
     dev: false
-
-  /raw-body/2.4.1:
-    resolution: {integrity: sha512-9WmIKF6mkvA0SLmA2Knm9+qj89e+j1zqgyn8aXGd7+nAduPoqgI9lO57SAZNn/Byzo5P7JhXTyg9PzaJbH73bA==}
-    engines: {node: '>= 0.8'}
-    dependencies:
-      bytes: 3.1.0
-      http-errors: 1.7.3
-      iconv-lite: 0.4.24
-      unpipe: 1.0.0
-    dev: false
-    optional: true
 
   /raw-body/2.5.1:
     resolution: {integrity: sha512-qqJBtEyVgS0ZmPGdCFPWJ3FreoqvG4MVQln/kCgF7Olq95IbOp0/BWyMwbdtn4VTvkM8Y7khCQ2Xgk/tcrCXig==}
@@ -26725,6 +26749,14 @@ packages:
       popper.js: 1.16.1
     dev: false
 
+  /react-tweet-embed/2.0.0_react@18.2.0:
+    resolution: {integrity: sha512-g2kfPjSRTOKeJtaQF5EMuSTmp/q8I0qdDs/pZ2qLXZjCWExDT/JgjxSlyM65NyNzsz8072PDpvlO/sIXwwVpdQ==}
+    peerDependencies:
+      react: '>=17'
+    dependencies:
+      react: 18.2.0
+    dev: false
+
   /react-twitter-embed/4.0.4_biqbaboplfbrettd7655fr4n2y:
     resolution: {integrity: sha512-2JIL7qF+U62zRzpsh6SZDXNI3hRNVYf5vOZ1WRcMvwKouw+xC00PuFaD0aEp2wlyGaZ+f4x2VvX+uDadFQ3HVA==}
     engines: {node: '>=10'}
@@ -26785,6 +26817,30 @@ packages:
     peerDependencies:
       react: ^16.8.0  || ^17.0.0
       react-dom: ^16.8.0  || ^17.0.0
+    dependencies:
+      '@types/js-cookie': 2.2.7
+      '@xobotyi/scrollbar-width': 1.9.5
+      copy-to-clipboard: 3.3.1
+      fast-deep-equal: 3.1.3
+      fast-shallow-equal: 1.0.0
+      js-cookie: 2.2.1
+      nano-css: 5.3.4_biqbaboplfbrettd7655fr4n2y
+      react: 18.2.0
+      react-dom: 18.2.0_react@18.2.0
+      react-universal-interface: 0.6.2_react@18.2.0+tslib@2.4.0
+      resize-observer-polyfill: 1.5.1
+      screenfull: 5.2.0
+      set-harmonic-interval: 1.0.1
+      throttle-debounce: 3.0.1
+      ts-easing: 0.2.0
+      tslib: 2.4.0
+    dev: false
+
+  /react-use/17.4.0_biqbaboplfbrettd7655fr4n2y:
+    resolution: {integrity: sha512-TgbNTCA33Wl7xzIJegn1HndB4qTS9u03QUwyNycUnXaweZkE4Kq2SB+Yoxx8qbshkZGYBDvUXbXWRUmQDcZZ/Q==}
+    peerDependencies:
+      react: ^16.8.0  || ^17.0.0 || ^18.0.0
+      react-dom: ^16.8.0  || ^17.0.0 || ^18.0.0
     dependencies:
       '@types/js-cookie': 2.2.7
       '@xobotyi/scrollbar-width': 1.9.5
@@ -27900,11 +27956,6 @@ packages:
   /setprototypeof/1.0.3:
     resolution: {integrity: sha1-ZlZ+NwQ+608E2RvWWMDL77VbjgQ=}
     dev: false
-
-  /setprototypeof/1.1.1:
-    resolution: {integrity: sha512-JvdAWfbXeIGaZ9cILp38HntZSFSo3mWg6xGcJJsd+d4aRMOqauag1C63dJfDw7OaMYwEbHMOxEZ1lqVRYP2OAw==}
-    dev: false
-    optional: true
 
   /setprototypeof/1.2.0:
     resolution: {integrity: sha512-E5LDX7Wrp85Kil5bhZv46j8jOeboKq5JMmYM3gVGdGH8xFpPWXUMsNrlODCrkoxMEeNi/XZIwuRvY4XNwYMJpw==}
@@ -29418,12 +29469,6 @@ packages:
     resolution: {integrity: sha512-BiZS+C1OS8g/q2RRbJmy59xpyghNBqrr6k5L/uKBGRsTfxmu3ffiRnd8mlGPUVayg8pvfi5urfnu8TU7DVOkLQ==}
     dev: false
 
-  /toidentifier/1.0.0:
-    resolution: {integrity: sha512-yaOH/Pk/VEhBWWTlhI+qXxDFXlejDGcQipMlyxda9nthulaxLZUNcUqFxokp0vcYnvteJln5FNQDRrxj3YcbVw==}
-    engines: {node: '>=0.6'}
-    dev: false
-    optional: true
-
   /toidentifier/1.0.1:
     resolution: {integrity: sha512-o5sSPKEkg/DIQNmH43V0/uerLrpzVedkUh8tGNvaeXpfpuwjKenlSox/2O/BTlZUtEe+JG7s5YhEz608PlAHRA==}
     engines: {node: '>=0.6'}
@@ -30335,7 +30380,7 @@ packages:
     dev: false
 
   /unpipe/1.0.0:
-    resolution: {integrity: sha1-sr9O6FFKrmFltIF4KdIbLvSZBOw=}
+    resolution: {integrity: sha512-pjy2bYhSsufwWlKwPc+l3cN7+wuJlK6uz0YdJEOlQDbl6jo/YlPi4mb8agUkVC8BF7V8NuzeyPNqRksA3hztKQ==}
     engines: {node: '>= 0.8'}
     dev: false
 

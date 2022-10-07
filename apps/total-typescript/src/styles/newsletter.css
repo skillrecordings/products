@@ -1,4 +1,4 @@
-#newsletter {
+#primary-newsletter-cta {
   [data-sr-convertkit-subscribe-form] {
     @apply flex flex-col gap-4;
     [data-sr-input] {

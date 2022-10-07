@@ -12,3 +12,9 @@
   color-scheme: dark;
   @apply selection:bg-brand selection:text-black;
 }
+
+.no-marker {
+  ::-webkit-details-marker {
+    display: none;
+  }
+}

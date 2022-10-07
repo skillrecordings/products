@@ -28,6 +28,33 @@ module.exports = {
           css: {
             '*': {color: theme('colors.yellow.50')},
             color: theme('colors.yellow.50'),
+            a: {
+              color: `${theme('colors.brand')} !important`,
+              textDecoration: 'none !important',
+            },
+            'a:hover': {
+              textDecoration: 'underline !important',
+            },
+            ol: {
+              'li::marker': {color: theme('colors.brand')},
+            },
+            ul: {
+              'li::marker': {color: theme('colors.brand')},
+            },
+            'code::before': {
+              content: '""',
+            },
+            'code::after': {
+              content: '""',
+            },
+            code: {
+              background: theme('colors.gray.700'),
+              padding: '1px 3px',
+              borderRadius: 3,
+              fontSize: '80% !important',
+              fontWeight: 500,
+              color: theme('colors.white'),
+            },
           },
         },
       }),
