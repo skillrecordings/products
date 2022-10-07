@@ -86,8 +86,8 @@ const Subscribe: React.FC<SubscribeProps> = ({
   return (
     <section
       aria-label="Newsletter sign-up"
-      id="subscribe"
       className="pt-10 sm:pb-48 pb-24"
+      id="primary-newsletter-cta"
     >
       {!subscriber ? (
         <PrimaryNewsletterCta setStarfieldSpeed={setStarfieldSpeed} />

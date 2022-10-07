@@ -14,10 +14,8 @@ export default {
       validation: (Rule) => Rule.required(),
       options: {
         list: [
+          {title: 'Highlight', value: 'highlight'},
           {title: 'Tip', value: 'tip'},
-          {title: 'Big Idea', value: 'big-idea'},
-          {title: 'Reflection', value: 'reflection'},
-          {title: 'Caution', value: 'caution'},
         ],
       },
     },
@@ -33,14 +31,10 @@ export default {
       const {body, type} = value
       const getImage = () => {
         switch (type) {
+          case 'Highlight':
+            return {alt: 'ballpoint pen', src: '🖊'}
           case 'Tip':
             return {alt: 'light bulp', src: '💡'}
-          case 'Big Idea':
-            return {alt: 'exploding head', src: '🤯'}
-          case 'Reflection':
-            return {alt: 'smiling face with sunglasses', src: '😎'}
-          case 'Caution':
-            return {alt: 'warning', src: '⚠️'}
           default:
             return {alt: 'speech baloon', src: '💬'}
         }
