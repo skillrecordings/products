@@ -2,21 +2,14 @@ import {useConvertkit} from '../hooks/use-convertkit'
 import {useMachine} from '@xstate/react'
 import {offerMachine} from './offer-machine'
 import * as React from 'react'
-import {isBefore, subDays} from 'date-fns'
 import isEmpty from 'lodash/isEmpty'
-import {surveyData} from '../components/survey/survey-config'
+import {surveyData} from './survey/survey-config'
 
 const availableQuestions = surveyData.ask.questions
 
 export const useSurveyPopupOfferMachine = () => {
   const {subscriber, loadingSubscriber} = useConvertkit()
-  const [machineState, sendToMachine] = useMachine(offerMachine, {
-    actions: {
-      complete: () => setIsPopupOpen(false),
-    },
-  })
-  const [currentQuestion, setCurrentQuestion] = React.useState<string>('')
-  const [isPopupOpen, setIsPopupOpen] = React.useState(true)
+  const [machineState, sendToMachine] = useMachine(offerMachine)
 
   React.useEffect(() => {
     if (process.env.NODE_ENV === 'development')
@@ -35,8 +28,10 @@ export const useSurveyPopupOfferMachine = () => {
         let offerFound = false
         for (const question in availableQuestions) {
           if (subscriber && isEmpty(subscriber.fields[question])) {
-            setCurrentQuestion(question)
-            sendToMachine('CURRENT_OFFER_READY')
+            sendToMachine('CURRENT_OFFER_READY', {
+              currentOffer: availableQuestions[question],
+              currentOfferId: question,
+            })
             offerFound = true
             break
           }
@@ -47,8 +42,9 @@ export const useSurveyPopupOfferMachine = () => {
   }, [subscriber, loadingSubscriber, machineState, sendToMachine])
 
   return {
-    currentOffer: availableQuestions[currentQuestion],
-    isPopupOpen,
+    currentOfferId: machineState.context.currentOfferId,
+    currentOffer: machineState.context.currentOffer,
+    isPopupOpen: machineState.matches('presentingCurrentOffer'),
     sendToMachine,
   }
 }

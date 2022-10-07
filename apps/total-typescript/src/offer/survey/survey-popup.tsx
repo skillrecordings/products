@@ -1,3 +1,4 @@
+import * as React from 'react'
 import {
   SurveyQuestion,
   SurveyQuestionAnswer,
@@ -8,14 +9,13 @@ import {
   SurveyQuestionHeader,
   SurveyQuestionProps,
   SurveyQuestionSubmit,
-} from '../survey/survey-question'
-import * as React from 'react'
+} from './survey-question'
 import {XIcon} from '@heroicons/react/solid'
 import {AnimatePresence, motion, useReducedMotion} from 'framer-motion'
 import cx from 'classnames'
-import {surveyConfig} from '../../components/survey/survey-config'
 import {QuestionResource} from '@skillrecordings/types'
-import {SurveyMachineContext} from '../survey/survey-machine'
+import {SurveyMachineContext} from './survey-machine'
+import {SurveyConfig} from './survey-config'
 
 type CurrentOfferPopupContextValue = {
   isPopupOpen: boolean
@@ -35,6 +35,7 @@ type SurveyPopupProps = {
   handlePopupDismissed: () => void
   handlePopupClosed: () => void
   handleSubmitAnswer: (context: SurveyMachineContext) => Promise<any>
+  surveyConfig: SurveyConfig
 }
 
 export const SurveyPopup = ({
@@ -43,6 +44,7 @@ export const SurveyPopup = ({
   handlePopupDismissed,
   handlePopupClosed,
   handleSubmitAnswer,
+  surveyConfig,
 }: SurveyPopupProps) => {
   const shouldReduceMotion = useReducedMotion()
   return (
