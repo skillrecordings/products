@@ -24,7 +24,7 @@ export default {
     },
     {
       name: 'body',
-      title: 'Body',
+      title: 'Article',
       type: 'body',
       validation: (Rule) => Rule.required(),
     },
@@ -35,16 +35,27 @@ export default {
       type: 'text',
       validation: (Rule) => Rule.max(160),
     },
+    // {
+    //   name: 'image',
+    //   title: 'Image',
+    //   type: 'image',
+    // },
     {
-      name: 'date',
-      title: 'Published Date',
-      type: 'date',
-      validation: (Rule) => Rule.required(),
-    },
-    {
+      type: 'cloudinary.asset',
       name: 'image',
       title: 'Image',
-      type: 'image',
+      description: 'This asset is served from Cloudinary',
+    },
+    {
+      name: 'resources',
+      type: 'array',
+      of: [
+        {
+          title: 'Article',
+          type: 'reference',
+          to: [{type: 'article'}],
+        },
+      ],
     },
   ],
   preview: {

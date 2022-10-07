@@ -17,7 +17,7 @@ const Navigation = () => {
           <a>
             <div
               aria-hidden="true"
-              className="lg:p-2 p-1 font-mono uppercase font-bold text-center leading-none lg:h-16 lg:w-full w-12 h-12 items-center justify-center bg-white grid grid-cols-2 relative"
+              className="lg:p-2 p-1 font-mono uppercase font-bold text-center leading-none lg:h-16 lg:w-full w-12 h-12 items-center justify-center bg-white/90 grid grid-cols-2 relative"
             >
               <span>E</span>
               <span>P</span>

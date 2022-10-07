@@ -2,8 +2,12 @@ import React from 'react'
 import {StarField} from 'starfield-react'
 import {useWindowSize} from 'react-use'
 import {useReducedMotion} from 'framer-motion'
+import cx from 'classnames'
 
-const Starfield: React.FC<any> = ({speed}) => {
+const Starfield: React.FC<{speed?: number; className?: string}> = ({
+  speed = 0.5,
+  className,
+}) => {
   const {width, height} = useWindowSize()
   const [mounted, setMounted] = React.useState(false)
   React.useEffect(() => {
@@ -14,7 +18,10 @@ const Starfield: React.FC<any> = ({speed}) => {
   return (
     <div
       aria-hidden="true"
-      className="fixed left-0 top-0 -z-10 overflow-hidden w-full h-full pointer-events-none select-none"
+      className={cx(
+        'fixed left-0 top-0 -z-10 overflow-hidden w-full h-full pointer-events-none select-none',
+        className,
+      )}
     >
       {mounted && (
         <StarField
