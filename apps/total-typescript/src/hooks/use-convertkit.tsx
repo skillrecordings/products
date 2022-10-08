@@ -32,32 +32,25 @@ export const ConvertkitProvider: React.FC<
         params.get(CK_SUBSCRIBER_KEY) || Cookies.get('ck_subscriber_id')
 
       try {
-        const subscriber = Cookies.get('ck_subscriber')
+        const learner = params.get('learner')
+        const subscriberLoaderParams = new URLSearchParams({
+          ...(learner && {learner}),
+          ...(ckSubscriberId && {ckSubscriberId}),
+        })
 
-        if (subscriber) {
-          return JSON.parse(subscriber)
-        } else {
-          const learner = params.get('learner')
-          const subscriberLoaderParams = new URLSearchParams({
-            ...(learner && {learner}),
+        const subscriber = await fetch(
+          `/api/subscriber?${subscriberLoaderParams}`,
+        )
+          .then((response) => response.json())
+          .catch(() => undefined)
 
-            ...(ckSubscriberId && {ckSubscriberId}),
-          })
-
-          const subscriber = await fetch(
-            `/api/subscriber?${subscriberLoaderParams}`,
-          )
-            .then((response) => response.json())
-            .catch(() => undefined)
-
-          if (!isEmpty(ckSubscriberId)) {
-            if (router.asPath.match(/confirmToast=true/))
-              confirmSubscriptionToast(subscriber.email_address)
-            removeQueryParamsFromRouter(router, [CK_SUBSCRIBER_KEY])
-          }
-
-          return subscriber
+        if (!isEmpty(ckSubscriberId)) {
+          if (router.asPath.match(/confirmToast=true/))
+            confirmSubscriptionToast(subscriber.email_address)
+          removeQueryParamsFromRouter(router, [CK_SUBSCRIBER_KEY])
         }
+
+        return subscriber
       } catch (e) {
         console.debug(`couldn't load ck subscriber cookie`)
       }

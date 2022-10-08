@@ -163,7 +163,7 @@
 
     /* ——— BODY ——— */
     [data-sr-quiz-question-body] {
-      @apply list-none transition-all;
+      @apply w-full list-none transition-all;
       & > li {
         @apply list-none;
       }

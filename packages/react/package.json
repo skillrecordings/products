@@ -36,6 +36,8 @@
     "react-scroll": "^1.8.6",
     "react-query": "^3.39.1",
     "react-use-clipboard": "^1.0.7",
+    "react-markdown": "^6.0.3",
+    "react-syntax-highlighter": "^15.4.4",
     "yup": "^0.32.11"
   },
   "devDependencies": {
@@ -50,6 +52,7 @@
     "@types/nprogress": "^0.2.0",
     "@types/react": "^18.0.15",
     "@types/react-dom": "^18.0.6",
+    "@types/react-syntax-highlighter": "^13.5.2",
     "@xstate/react": "=1.5.1",
     "esbuild-node-tsc": "^1.6.1",
     "eslint": "^8.19.0",

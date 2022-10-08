@@ -18,7 +18,6 @@ import superjson from 'superjson'
 import {httpBatchLink} from '@trpc/client/links/httpBatchLink'
 import {loggerLink} from '@trpc/client/links/loggerLink'
 import {AppRouter} from 'server/routers/_app'
-import {SurveyProvider} from 'hooks/use-survey'
 
 amplitude.init(process.env.NEXT_PUBLIC_AMPLITUDE_API_KEY)
 
@@ -50,11 +49,9 @@ function MyApp({Component, pageProps}: AppProps) {
       <SessionProvider session={pageProps.session} refetchInterval={0}>
         <QueryClientProvider client={queryClient}>
           <ConvertkitProvider>
-            <SurveyProvider>
-              <MDXProvider components={MDXComponents}>
-                <Component {...pageProps} />
-              </MDXProvider>
-            </SurveyProvider>
+            <MDXProvider components={MDXComponents}>
+              <Component {...pageProps} />
+            </MDXProvider>
           </ConvertkitProvider>
         </QueryClientProvider>
       </SessionProvider>

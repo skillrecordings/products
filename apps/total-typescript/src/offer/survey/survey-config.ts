@@ -10,11 +10,13 @@ export const surveyConfig = {
   },
 }
 
+export type SurveyConfig = typeof surveyConfig
+
 export const surveyData: {[SURVEY_ID: string]: QuizResource} = {
   ask: {
     questions: {
       level: {
-        question: `What's your TypeScript skill level?`,
+        question: `👋 What's your current TypeScript skill level?`,
         type: 'multiple-choice',
         choices: [
           {
