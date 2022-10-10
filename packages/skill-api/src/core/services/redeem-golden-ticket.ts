@@ -65,6 +65,9 @@ export async function redeemGoldenTicket({
         (coupon.restrictedToProductId as string) ||
         process.env.NEXT_PUBLIC_DEFAULT_PRODUCT_ID
 
+      // To prevent double-purchasing, check if this user already has a
+      // Purchase record for this product that is valid and wasn't a bulk
+      // coupon purchase.
       const existingPurchase = await prisma.purchase.findFirst({
         where: {
           userId: user.id,
@@ -88,7 +91,8 @@ export async function redeemGoldenTicket({
       const purchase = await prisma.purchase.create({
         data: {
           userId: user.id,
-          couponId: coupon.id,
+          couponId: coupon.id, // TODO: old redeeming-coupon identifier
+          redeemedCouponId: coupon.id, // TODO: new redeeming-coupon identifer
           productId,
           totalAmount: 0,
         },
