@@ -18,6 +18,7 @@ import mediaCaption from './objects/mediaCaption'
 import videoOptions from './objects/videoOptions'
 import grid from './objects/grid'
 import gridItem from './objects/gridItem'
+import tweet from './objects/tweet'
 
 // Then we give our schema to the builder and provide the result to Sanity
 export default createSchema({
@@ -40,5 +41,6 @@ export default createSchema({
     videoOptions,
     grid,
     gridItem,
+    tweet,
   ]),
 })

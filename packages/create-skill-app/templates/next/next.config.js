@@ -2,7 +2,7 @@
 const withMDX = require('@next/mdx')({
   extension: /\.mdx?$/,
   options: {
-    providerOmportSource: '@mdx-js/react',
+    providerImportSource: '@mdx-js/react',
   },
 })
 const {withSentryConfig} = require('@sentry/nextjs')

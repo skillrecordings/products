@@ -39,12 +39,9 @@ const nextConfig = {
   },
 }
 
-const configWithPlugins = withMDX(
-  {
-    pageExtensions: ['js', 'jsx', 'ts', 'tsx', 'md', 'mdx'],
-  },
-  nextConfig,
-)
+const configWithPlugins = withMDX(nextConfig, {
+  pageExtensions: ['js', 'jsx', 'ts', 'tsx', 'md', 'mdx'],
+})
 
 if (sentryWebpackPluginOptions) {
   module.exports = withSentryConfig(
