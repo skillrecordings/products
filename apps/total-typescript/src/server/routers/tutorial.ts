@@ -1,7 +1,6 @@
 import {createRouter} from 'server/createRouter'
-import {SubscriberSchema} from '../../lib/convertkit'
 import {z} from 'zod'
-import {sanityClient} from '../../utils/sanity-client'
+import {sanityClient} from 'utils/sanity-client'
 import groq from 'groq'
 
 export const tutorialRouter = createRouter().query('bySlug', {

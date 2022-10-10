@@ -1,4 +1,4 @@
-import {Subscriber} from '../lib/convertkit'
+import {Subscriber} from 'schemas/subscriber'
 import {Offer} from './offer-types'
 import {assign, createMachine, StateMachine} from 'xstate'
 import {isBefore, subDays} from 'date-fns'

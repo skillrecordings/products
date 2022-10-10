@@ -5,7 +5,7 @@ import {
   setUserId,
   track as amplitudeTrack,
 } from '@amplitude/analytics-browser'
-import {Subscriber} from '../lib/convertkit'
+import {Subscriber} from 'schemas/subscriber'
 import {isEmpty} from 'lodash'
 
 export async function track(event: string, params?: any) {

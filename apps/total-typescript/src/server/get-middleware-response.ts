@@ -4,7 +4,6 @@ import {
   getCookiesForRequest,
   setCookiesForResponse,
 } from './process-customer-cookies'
-import isEmpty from 'lodash/isEmpty'
 
 export const SITE_ROOT_PATH = '/'
 
@@ -26,7 +25,7 @@ export async function getMiddlewareResponse(req: NextRequest) {
 
   if (subscriber && req.nextUrl.pathname === SITE_ROOT_PATH) {
     switch (true) {
-      case !isEmpty(subscriber.fields?.level):
+      case Boolean(subscriber.fields?.level):
         response = rewriteToPath(`/home/level/${subscriber.fields?.level}`, req)
         break
     }

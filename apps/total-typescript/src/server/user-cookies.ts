@@ -1,5 +1,5 @@
 import {NextResponse} from 'next/server'
-import {Subscriber} from '../lib/convertkit'
+import {Subscriber} from 'schemas/subscriber'
 
 export function setUserCookie(res: NextResponse, subscriber: Subscriber) {
   if (subscriber) {

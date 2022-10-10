@@ -1,4 +1,4 @@
-import {Subscriber} from '../lib/convertkit'
+import {Subscriber} from 'schemas/subscriber'
 
 export type Offer = Record<string, any>
 

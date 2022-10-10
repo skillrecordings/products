@@ -1,7 +1,7 @@
 import {NextRequest, NextResponse} from 'next/server'
 
 import {clearUserCookie, setUserCookie} from './user-cookies'
-import {Subscriber, SubscriberSchema} from '../lib/convertkit'
+import {type Subscriber, SubscriberSchema} from 'schemas/subscriber'
 
 export async function getCookiesForRequest(req: NextRequest) {
   try {
