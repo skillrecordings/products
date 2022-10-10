@@ -7,7 +7,6 @@ import {
 } from 'lib/convertkit'
 import {updateSubscriber} from '@skillrecordings/convertkit-sdk'
 import {serialize} from 'cookie'
-import {identifyServer} from '../analytics-server'
 
 export const convertkitRouter = createRouter()
   .mutation('updateName', {
@@ -36,8 +35,6 @@ export const convertkitRouter = createRouter()
         first_name,
         fields: {...(last_name && {last_name})},
       })
-
-      identifyServer(updatedSubscriber.subscriber)
 
       const convertkitCookie = serialize(
         `ck_subscriber`,
@@ -80,8 +77,6 @@ export const convertkitRouter = createRouter()
         ...input,
       })
 
-      identifyServer(updatedSubscriber.subscriber)
-
       const convertkitCookie = serialize(
         `ck_subscriber`,
         JSON.stringify(updatedSubscriber.subscriber),
@@ -122,8 +117,6 @@ export const convertkitRouter = createRouter()
         subscriber,
         ...input,
       })
-
-      identifyServer(updatedSubscriber.subscriber)
 
       const convertkitCookie = serialize(
         `ck_subscriber`,
