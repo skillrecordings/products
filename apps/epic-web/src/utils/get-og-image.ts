@@ -1,12 +1,13 @@
 type OgImageUrlOptions = {
   title: string
   image?: string
+  path: string
 }
 
 const CLOUDINARY_FETCH_BASE_URL = `https://res.cloudinary.com/total-typescript/image/fetch/dpr_auto,f_auto,q_auto:good/`
 
 export const getOgImage = (options: OgImageUrlOptions) => {
-  const {title, image} = options
+  const {title, image, path} = options
 
   const query = new URLSearchParams({
     ...(image && {image}),
@@ -14,6 +15,7 @@ export const getOgImage = (options: OgImageUrlOptions) => {
   })
   const url =
     process.env.NEXT_PUBLIC_OG_IMAGE_URI +
+    path +
     `/${encodeURI(title)}?${query.toString()}`
 
   return {

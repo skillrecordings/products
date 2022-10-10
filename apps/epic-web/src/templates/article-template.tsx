@@ -26,7 +26,7 @@ const ArticleTemplate: React.FC<{article: Article}> = ({article}) => {
     estimatedReadingTime,
   } = article
   const image = article?.image?.secure_url
-  const ogImage = getOgImage({title, image})
+  const ogImage = getOgImage({title, image, path: 'article'})
   const pageDescription =
     description || `${toPlainText(body).substring(0, 157)}...`
   const author = `${process.env.NEXT_PUBLIC_PARTNER_FIRST_NAME} ${process.env.NEXT_PUBLIC_PARTNER_LAST_NAME}`
@@ -171,7 +171,8 @@ const AboutKent = () => {
           <a
             href="https://epicreact.dev"
             target="_blank"
-            className="text-brand text-opacity-100 hover:underline" rel="noreferrer"
+            className="text-brand text-opacity-100 hover:underline"
+            rel="noreferrer"
           >
             EpicReact.Dev
           </a>{' '}
@@ -179,7 +180,8 @@ const AboutKent = () => {
           <a
             href="https://testingjavascript.com"
             target="_blank"
-            className="text-brand text-opacity-100 hover:underline" rel="noreferrer"
+            className="text-brand text-opacity-100 hover:underline"
+            rel="noreferrer"
           >
             TestingJavaScript.com
           </a>
