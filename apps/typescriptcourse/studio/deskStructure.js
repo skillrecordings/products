@@ -8,8 +8,6 @@ const hiddenDocTypes = (listItem) =>
     'article',
     'skosConcept',
     'skosConceptScheme',
-    'skosConcept',
-    'skosConceptScheme',
     'podcast',
     'podcastEpisode',
     'podcastSeason',
