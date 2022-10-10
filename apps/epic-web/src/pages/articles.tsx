@@ -20,7 +20,16 @@ const Articles: React.FC<{articles: Article[]}> = ({articles}) => {
   const pageDescription = 'Articles about Epic Web Dev'
 
   return (
-    <Layout meta={{title, description: pageDescription}}>
+    <Layout
+      meta={{
+        title,
+        description: pageDescription,
+        ogImage: {
+          url: 'https://res.cloudinary.com/epic-web/image/upload/v1665414992/epicweb.dev/blog/card_2x.png',
+          alt: title,
+        },
+      }}
+    >
       <header className="w-full text-center sm:pt-32 py-20 sm:pb-24 pb-20 bg-gradient-to-b from-black/40 to-gray-900">
         <h1 className="fluid-3xl font-bold">{title}</h1>
       </header>
