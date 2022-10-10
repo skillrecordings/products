@@ -8,12 +8,14 @@ import {useRouter} from 'next/router'
 import KentImage from '../../public/kent-c-dodds.png'
 import {type Article} from 'lib/articles'
 import Starfield from 'components/starfield'
+import {track} from 'utils/analytics'
 import {format} from 'date-fns'
 import TableOfContents from 'components/portable-text/table-of-contents'
 import PortableTextComponents from 'components/portable-text'
 import Image from 'next/image'
 import {PrimaryNewsletterCta} from 'components/primary-newsletter-cta'
 import Share from 'components/share'
+import {useConvertkit} from '@skillrecordings/convertkit'
 
 const ArticleTemplate: React.FC<{article: Article}> = ({article}) => {
   const router = useRouter()
@@ -31,6 +33,7 @@ const ArticleTemplate: React.FC<{article: Article}> = ({article}) => {
     description || `${toPlainText(body).substring(0, 157)}...`
   const author = `${process.env.NEXT_PUBLIC_PARTNER_FIRST_NAME} ${process.env.NEXT_PUBLIC_PARTNER_LAST_NAME}`
   const url = `${process.env.NEXT_PUBLIC_URL}${router.asPath}`
+  const {subscriber} = useConvertkit()
 
   return (
     <Layout meta={{title, description: pageDescription, ogImage}}>
@@ -49,11 +52,11 @@ const ArticleTemplate: React.FC<{article: Article}> = ({article}) => {
         estimatedReadingTime={estimatedReadingTime}
         image={image}
       />
-      <TableOfContents value={body} />
+      <TableOfContents article={article} />
       <Body value={body} />
       <Share title={title} />
       <AboutKent />
-      <CTA />
+      {!subscriber && <CTA article={article} />}
     </Layout>
   )
 }
@@ -130,7 +133,8 @@ const Header: React.FC<HeaderProps> = ({
   )
 }
 
-const CTA = () => {
+const CTA: React.FC<{article: Article}> = ({article}) => {
+  const {slug} = article
   const [starfieldSpeed, setStarfieldSpeed] = React.useState(0.5)
   return (
     <section
@@ -144,7 +148,14 @@ const CTA = () => {
           and much more!
         </p>
       </div>
-      <PrimaryNewsletterCta setStarfieldSpeed={setStarfieldSpeed} />
+      <PrimaryNewsletterCta
+        onSubmit={() => {
+          track('subscribed from article', {
+            article: slug,
+          })
+        }}
+        setStarfieldSpeed={setStarfieldSpeed}
+      />
       <Starfield className="absolute" speed={starfieldSpeed} />
     </section>
   )

@@ -13,6 +13,7 @@
     "db:start": "docker compose up -d"
   },
   "dependencies": {
+    "@amplitude/analytics-browser": "^1.3.0",
     "@cloudinary/react": "^1.5.0",
     "@heroicons/react": "^1.0.6",
     "@mdx-js/loader": "^2.1.2",
