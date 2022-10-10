@@ -2363,6 +2363,8 @@ importers:
   apps/total-typescript:
     specifiers:
       '@amplitude/analytics-browser': ^1.3.0
+      '@amplitude/identify': ^1.10.2
+      '@amplitude/node': ^1.10.2
       '@codesandbox/sandpack-react': ^1.8.6
       '@heroicons/react': ^1.0.6
       '@hookform/resolvers': ^2.9.8
@@ -2464,6 +2466,8 @@ importers:
       zod-formik-adapter: ^1.1.1
     dependencies:
       '@amplitude/analytics-browser': 1.3.0
+      '@amplitude/identify': 1.10.2
+      '@amplitude/node': 1.10.2
       '@codesandbox/sandpack-react': 1.8.6_biqbaboplfbrettd7655fr4n2y
       '@heroicons/react': 1.0.6_react@18.2.0
       '@hookform/resolvers': 2.9.8_react-hook-form@7.29.0
@@ -3954,8 +3958,40 @@ packages:
     resolution: {integrity: sha512-76dWTTQbkibkbcDnH8fbMLhEzmDBZGykpSVMrpe/DeEjPLlmlFvH6cyph8LGklfVSXidnK069kA4kI76pm49uQ==}
     dev: false
 
+  /@amplitude/identify/1.10.2:
+    resolution: {integrity: sha512-ywxeabS8ukMdJWNwx3rG/EBngXFg/4NsPhlyAxbBUcI7HzBXEJUKepiZfkz8K6Y7f0mpc23Qz1aBf48ZJDZmkQ==}
+    engines: {node: '>=10'}
+    dependencies:
+      '@amplitude/types': 1.10.2
+      '@amplitude/utils': 1.10.2
+      tslib: 2.4.0
+    dev: false
+
+  /@amplitude/node/1.10.2:
+    resolution: {integrity: sha512-E3xp8DOpkF5ThjrRlAmSocnrEYsTPpd3Zg4WdBLms0ackQSgQpw6z84+YMcoPerZHJJ/LEqdo4Cg4Z5Za3D+3Q==}
+    engines: {node: '>=10'}
+    dependencies:
+      '@amplitude/identify': 1.10.2
+      '@amplitude/types': 1.10.2
+      '@amplitude/utils': 1.10.2
+      tslib: 2.4.0
+    dev: false
+
+  /@amplitude/types/1.10.2:
+    resolution: {integrity: sha512-I8qenRI7uU6wKNb9LiZrAosSHVoNHziXouKY81CrqxH9xhVTEIJFXeuCV0hbtBr0Al/8ejnGjQRx+S2SvU/pPg==}
+    engines: {node: '>=10'}
+    dev: false
+
   /@amplitude/ua-parser-js/0.7.31:
     resolution: {integrity: sha512-+z8UGRaj13Pt5NDzOnkTBy49HE2CX64jeL0ArB86HAtilpnfkPB7oqkigN7Lf2LxscMg4QhFD7mmCfedh3rqTg==}
+    dev: false
+
+  /@amplitude/utils/1.10.2:
+    resolution: {integrity: sha512-tVsHXu61jITEtRjB7NugQ5cVDd4QDzne8T3ifmZye7TiJeUfVRvqe44gDtf55A+7VqhDhyEIIXTA1iVcDGqlEw==}
+    engines: {node: '>=10'}
+    dependencies:
+      '@amplitude/types': 1.10.2
+      tslib: 2.4.0
     dev: false
 
   /@ampproject/remapping/2.2.0:
