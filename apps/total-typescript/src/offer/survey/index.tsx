@@ -7,6 +7,7 @@ import {QuestionResource} from '@skillrecordings/types'
 import {useRouter} from 'next/router'
 import {SurveyPopup} from './survey-popup'
 import {surveyConfig} from './survey-config'
+import {Identify, identify} from '@amplitude/analytics-browser'
 
 export const Survey = ({
   excludePages = ['/confirm'],
@@ -50,6 +51,11 @@ export const Survey = ({
       answer: context.answer,
       question: currentOfferId,
     })
+
+    const identity = new Identify()
+    identity.set(currentOfferId, context.answer)
+    identify(identity)
+
     setTimeout(() => sendToMachine('RESPONDED_TO_OFFER'), 750)
   }
 
