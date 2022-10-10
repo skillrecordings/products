@@ -78,11 +78,11 @@ const Header: React.FC<HeaderProps> = ({
       {image && (
         <Image
           src={image}
+          priority
           alt=""
           aria-hidden="true"
           layout="fill"
           objectFit="cover"
-          objectPosition=""
           quality={100}
         />
       )}

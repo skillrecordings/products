@@ -4,10 +4,9 @@ import {PrimaryNewsletterCta} from 'components/primary-newsletter-cta'
 
 const NewsletterPage = () => {
   const title = 'Newsletter'
-  const ogImage = getOgImage({title})
 
   return (
-    <Layout meta={{title, ogImage}} className="w-full">
+    <Layout meta={{title}} className="w-full">
       <main className="w-full mx-auto">
         <PrimaryNewsletterCta />
       </main>
