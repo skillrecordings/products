@@ -30,9 +30,9 @@ const Login: React.FC<React.PropsWithChildren<{csrfToken: string}>> = ({
 
   return (
     <Layout footer={null} meta={{title: 'Log in to Total TypeScript'}}>
-      <div className="flex-grow w-full mx-auto md:pb-40 pb-16 md:pt-16 pt-0 flex flex-col items-center justify-center p-5 text-white">
-        <main className="sm:mx-auto rounded-lg">
-          <div className="max-w-sm mx-auto flex items-center justify-center w-full">
+      <div className="mx-auto flex w-full flex-grow flex-col items-center justify-center p-5 pb-16 pt-0 text-white md:pb-40 md:pt-16">
+        <main className="rounded-lg sm:mx-auto">
+          <div className="mx-auto flex w-full max-w-sm items-center justify-center">
             <Image
               placeholder="blur"
               src={require('../../public/assets/gem.png')}
@@ -44,16 +44,16 @@ const Login: React.FC<React.PropsWithChildren<{csrfToken: string}>> = ({
               aria-hidden="true"
             />
           </div>
-          <h1 className="text-center text-3xl leading-9 font-bold pt-4 font-heading">
+          <h1 className="pt-4 text-center font-heading text-3xl font-bold leading-9">
             Log in to Total TypeScript
           </h1>
           {query?.error === 'Verification' ? (
-            <p className="sm:mt-8 mt-4 sm:mx-auto sm:w-full max-w-sm">
+            <p className="mt-4 max-w-sm sm:mx-auto sm:mt-8 sm:w-full">
               That sign in link is no longer valid. It may have been used
               already or it may have expired. Please request a new log in link
               below.{' '}
               <a
-                className="hover:underline inline-flex items-center space-x-1 text-gray-100"
+                className="inline-flex items-center space-x-1 text-gray-100 hover:underline"
                 href="mailto:team@testingaccessibility.com"
               >
                 Click here to email us
@@ -61,12 +61,12 @@ const Login: React.FC<React.PropsWithChildren<{csrfToken: string}>> = ({
               if you need help.
             </p>
           ) : null}
-          <div className="sm:mt-8 mt-4 sm:mx-auto sm:w-full sm:max-w-md">
+          <div className="mt-4 sm:mx-auto sm:mt-8 sm:w-full sm:max-w-md">
             <div>
               <form className="" method="post" action="/api/auth/signin/email">
                 <label
                   htmlFor="email"
-                  className="block leading-5 text-sm font-semibold"
+                  className="block text-sm font-semibold leading-5"
                 >
                   Email address
                 </label>
@@ -75,8 +75,8 @@ const Login: React.FC<React.PropsWithChildren<{csrfToken: string}>> = ({
                   type="hidden"
                   defaultValue={csrfToken}
                 />
-                <div className="mt-1 relative rounded-md shadow-sm">
-                  <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                <div className="relative mt-1 rounded-md shadow-sm">
+                  <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
                     <svg
                       className="h-5 w-5 text-white/50"
                       xmlns="http://www.w3.org/2000/svg"
@@ -93,12 +93,12 @@ const Login: React.FC<React.PropsWithChildren<{csrfToken: string}>> = ({
                     type="email"
                     required={true}
                     placeholder="you@example.com"
-                    className="mb-3 focus:ring-gray-500 focus:border-gray-500 py-3 text-white placeholder-white/50 block w-full pl-10 border border-white border-opacity-20 bg-gray-800/50 rounded-md"
+                    className="mb-3 block w-full rounded-md border border-white border-opacity-20 bg-gray-800/50 py-3 pl-10 text-white placeholder-white/50 focus:border-gray-500 focus:ring-gray-500"
                     {...register('email', {required: true})}
                   />
                 </div>
 
-                <button className="w-full flex items-center justify-center mt-5 px-5 py-4 font-nav border border-transparent text-lg font-semibold rounded-md text-black bg-cyan-500 hover:bg-cyan-400 transition focus:outline-none focus:ring-2 focus:ring-cyan-200">
+                <button className="font-nav mt-5 flex w-full items-center justify-center rounded-md border border-transparent bg-cyan-500 px-5 py-4 text-lg font-semibold text-black transition focus:outline-none focus:ring-2 focus:ring-cyan-200 hover:bg-cyan-400">
                   Email me a login link
                 </button>
               </form>

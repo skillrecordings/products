@@ -18,9 +18,9 @@ type TypeErrorProps = {
 
 const TypeError: React.FC<TypeErrorProps> = ({children, header}) => {
   return (
-    <div className="max-w-2xl prose-p:max-w-none font-mono mx-auto bg-[#1C1427] sm:border-2 border-y-2 border-[#E11D48] border-opacity-20 text-sm leading-relaxed first-of-type:prose-p:mt-0 last-of-type:prose-p:mb-0 sm:rounded-md">
+    <div className="mx-auto max-w-2xl border-y-2 border-[#E11D48] border-opacity-20 bg-[#1C1427] font-mono text-sm leading-relaxed prose-p:max-w-none first-of-type:prose-p:mt-0 last-of-type:prose-p:mb-0 sm:rounded-md sm:border-2">
       {header && (
-        <div className="px-5 py-3 border-b border-gray-800/50">{header}</div>
+        <div className="border-b border-gray-800/50 px-5 py-3">{header}</div>
       )}
       <div className="not-prose px-5 py-5 sm:text-lg">{children}</div>
     </div>
@@ -41,7 +41,7 @@ const Topics: React.FC<TopicsProps> = ({children, header}) => {
           return (
             <li
               key={i}
-              className="relative before:absolute before:left-0 before:w-0.5 before:h-full before:bg-cyan-300/80 -ml-2 list-none"
+              className="relative -ml-2 list-none before:absolute before:left-0 before:h-full before:w-0.5 before:bg-cyan-300/80"
             >
               {children}
             </li>
@@ -59,7 +59,7 @@ const SectionHeading: React.FC<any> = ({
   className,
 }) => {
   return (
-    <div className="not-prose flex flex-col items-center sm:pb-16 pb-5 px-5">
+    <div className="not-prose flex flex-col items-center px-5 pb-5 sm:pb-16">
       {dividerTop && (
         <DecorativeImage
           src={dividerTop}
@@ -70,7 +70,7 @@ const SectionHeading: React.FC<any> = ({
       )}
       <h2
         className={cx(
-          'md:text-5xl text-4xl font-bold mx-auto text-center py-12 font-heading',
+          'mx-auto py-12 text-center font-heading text-4xl font-bold md:text-5xl',
           className,
         )}
       >
@@ -95,14 +95,14 @@ const Section: React.FC<any> = ({
   className,
 }) => {
   return (
-    <section className={cx('relative overflow-hidden w-full', className)}>
+    <section className={cx('relative w-full overflow-hidden', className)}>
       {slot}
-      <div className={cx('z-10 relative')}>{children}</div>
+      <div className={cx('relative z-10')}>{children}</div>
       {backgroundImage && (
         <DecorativeImage
           src={backgroundImage}
           layout="fill"
-          className="z-0 pointer-events-none lg:object-contain object-cover select-none"
+          className="pointer-events-none z-0 select-none object-cover lg:object-contain"
         />
       )}
     </section>
@@ -111,16 +111,16 @@ const Section: React.FC<any> = ({
 
 const ErrorFromHell: React.FC<any> = ({children}) => {
   return (
-    <div className="mt-16 border-2 border-[#E11D48] border-opacity-20 bg-[#1C1427] font-mono max-w-3xl leading-relaxed mx-auto text-sm py-10 px-12 rounded-md text-left relative">
+    <div className="relative mx-auto mt-16 max-w-3xl rounded-md border-2 border-[#E11D48] border-opacity-20 bg-[#1C1427] py-10 px-12 text-left font-mono text-sm leading-relaxed">
       <div className="relative z-10">{children}</div>
-      <div className="absolute left-[-85px] top-[-178px] pointer-events-none select-none">
+      <div className="pointer-events-none absolute left-[-85px] top-[-178px] select-none">
         <DecorativeImage
           src="/assets/landing/flame-corner-left@2x.png"
           width={970 / 2}
           height={868 / 2}
         />
       </div>
-      <div className="absolute right-[-45px] bottom-[-30px] pointer-events-none select-none">
+      <div className="pointer-events-none absolute right-[-45px] bottom-[-30px] select-none">
         <DecorativeImage
           src="/assets/landing/flame-corner-right@2x.png"
           width={482 / 2}

@@ -27,8 +27,8 @@ const TutorialsPage: React.FC<{tutorials: SanityDocument[]}> = ({
         },
       }}
     >
-      <main className="flex sm:py-40 py-32 items-center justify-center flex-col relative z-10">
-        <h1 className="font-heading sm:text-5xl text-5xl font-bold text-center">
+      <main className="relative z-10 flex flex-col items-center justify-center py-32 sm:py-40">
+        <h1 className="text-center font-heading text-5xl font-bold sm:text-5xl">
           Free TypeScript Tutorials
         </h1>
         <p className="max-w-sm pt-8 text-center text-lg text-rose-100/90">
@@ -36,15 +36,15 @@ const TutorialsPage: React.FC<{tutorials: SanityDocument[]}> = ({
           for you to use on your journey to TypeScript wizardry.
         </p>
         {tutorials && (
-          <ul className="pt-20 max-w-screen-md flex flex-col gap-8 px-3">
+          <ul className="flex max-w-screen-md flex-col gap-8 px-3 pt-20">
             {tutorials.map(
               ({title, slug, image, description, exercises}, i) => {
                 return (
                   <li
                     key={slug.current}
-                    className="overflow-hidden relative flex md:flex-row flex-col gap-10 items-center p-10 rounded-lg bg-black/20 border border-gray-700/50 shadow-2xl"
+                    className="relative flex flex-col items-center gap-10 overflow-hidden rounded-lg border border-gray-700/50 bg-black/20 p-10 shadow-2xl md:flex-row"
                   >
-                    <div className="flex items-center justify-center flex-shrink-0">
+                    <div className="flex flex-shrink-0 items-center justify-center">
                       <Image
                         src={image}
                         alt={title}
@@ -62,13 +62,13 @@ const TutorialsPage: React.FC<{tutorials: SanityDocument[]}> = ({
                           },
                         }}
                       >
-                        <a className="sm:text-4xl text-3xl font-semibold hover:underline">
+                        <a className="text-3xl font-semibold hover:underline sm:text-4xl">
                           {title}
                         </a>
                       </Link>
-                      <div className="pt-4 pb-3 text-xs font-mono font-semibold uppercase text-cyan-300">
+                      <div className="pt-4 pb-3 font-mono text-xs font-semibold uppercase text-cyan-300">
                         {i === 0 && (
-                          <span className="mr-3 px-2 py-0.5 rounded-full font-sans font-semibold bg-cyan-300 text-black uppercase">
+                          <span className="mr-3 rounded-full bg-cyan-300 px-2 py-0.5 font-sans font-semibold uppercase text-black">
                             New
                           </span>
                         )}
@@ -85,18 +85,18 @@ const TutorialsPage: React.FC<{tutorials: SanityDocument[]}> = ({
                           },
                         }}
                       >
-                        <a className="gap-2 px-4 py-2 group rounded bg-gray-800 hover:bg-gray-700 transition inline-block mt-5 font-medium">
+                        <a className="group mt-5 inline-block gap-2 rounded bg-gray-800 px-4 py-2 font-medium transition hover:bg-gray-700">
                           View{' '}
                           <span
                             aria-hidden="true"
-                            className="text-gray-300 group-hover:text-white transition"
+                            className="text-gray-300 transition group-hover:text-white"
                           >
                             →
                           </span>
                         </a>
                       </Link>
                     </div>
-                    <StripesLeft className="absolute left-0 top-0 w-5 md:block hidden" />
+                    <StripesLeft className="absolute left-0 top-0 hidden w-5 md:block" />
                   </li>
                 )
               },
@@ -110,7 +110,7 @@ const TutorialsPage: React.FC<{tutorials: SanityDocument[]}> = ({
         alt=""
         src={require('../../../public/assets/landing/bg-divider-3.png')}
         objectPosition={'top'}
-        className="object-contain -z-10"
+        className="-z-10 object-contain"
       />
     </Layout>
   )

@@ -110,22 +110,22 @@ const TipTemplate: React.FC<TipPageProps> = ({tip, tips}) => {
           ogImage,
           description: tip.description,
         }}
-        nav={<Navigation className="flex lg:relative relative" />}
+        nav={<Navigation className="relative flex lg:relative" />}
       >
-        <main className="w-full mx-auto">
-          <div className="bg-gradient-to-b from-black/30 to-gray-900 flex items-center justify-center relative z-10">
-            <div className="w-full -mb-1.5 max-w-screen-xl flex flex-col">
+        <main className="mx-auto w-full">
+          <div className="relative z-10 flex items-center justify-center bg-gradient-to-b from-black/30 to-gray-900">
+            <div className="-mb-1.5 flex w-full max-w-screen-xl flex-col">
               <Video ref={muxPlayerRef} tips={tips} />
               {!subscriber && !loadingSubscriber && (
                 <SubscribeForm handleOnSuccess={handleOnSuccess} />
               )}
             </div>
           </div>
-          <div className="relative border-l border-transparent xl:border-gray-800 pb-16 px-5 z-10">
-            <article className="sm:pt-10 pt-5 max-w-screen-xl mx-auto w-full ">
-              <div className="flex sm:gap-10 gap-0 md:flex-row flex-col">
+          <div className="relative z-10 border-l border-transparent px-5 pb-16 xl:border-gray-800">
+            <article className="mx-auto w-full max-w-screen-xl pt-5 sm:pt-10 ">
+              <div className="flex flex-col gap-0 sm:gap-10 md:flex-row">
                 <div className="w-full">
-                  <h1 className="lg:text-4xl text-3xl font-bold w-full max-w-2xl inline-flex items-baseline">
+                  <h1 className="inline-flex w-full max-w-2xl items-baseline text-3xl font-bold lg:text-4xl">
                     {tip.title}
                     {tipCompleted && <span className="sr-only">(watched)</span>}
                   </h1>
@@ -135,10 +135,10 @@ const TipTemplate: React.FC<TipPageProps> = ({tip, tips}) => {
                       className="flex items-center gap-1 pt-6 pb-[20px]"
                     >
                       <CheckCircleIconOutline
-                        className="sm:w-6 sm:h-6 w-5 h-5 flex-shrink-0 text-teal-400 inline-block"
+                        className="inline-block h-5 w-5 flex-shrink-0 text-teal-400 sm:h-6 sm:w-6"
                         aria-hidden="true"
                       />
-                      <span className="uppercase font-semibold text-teal-400 text-sm opacity-90">
+                      <span className="text-sm font-semibold uppercase text-teal-400 opacity-90">
                         Watched
                       </span>
                     </div>
@@ -151,16 +151,16 @@ const TipTemplate: React.FC<TipPageProps> = ({tip, tips}) => {
                   )}
                 </div>
                 <div className="w-full">
-                  <div className="prose prose-lg lg:prose-xl w-full max-w-none pb-5 prose-p:text-gray-200 font-medium">
+                  <div className="prose prose-lg w-full max-w-none pb-5 font-medium prose-p:text-gray-200 lg:prose-xl">
                     <PortableText value={tip.body} />
                   </div>
                   <ReplyOnTwitter tweet={tweet} />
                 </div>
               </div>
             </article>
-            <div className="flex md:flex-row flex-col max-w-screen-xl mx-auto w-full sm:pt-10 pt-10 gap-10">
+            <div className="mx-auto flex w-full max-w-screen-xl flex-col gap-10 pt-10 sm:pt-10 md:flex-row">
               {tip.transcript && (
-                <div className="max-w-2xl w-full">
+                <div className="w-full max-w-2xl">
                   <Transcript
                     transcript={tip.transcript}
                     muxPlayerRef={muxPlayerRef}
@@ -176,7 +176,7 @@ const TipTemplate: React.FC<TipPageProps> = ({tip, tips}) => {
             aria-hidden="true"
             layout="fill"
             objectPosition="center top"
-            className="object-contain pointer-events-none select-none -z-10"
+            className="pointer-events-none -z-10 select-none object-contain"
           />
         </main>
       </Layout>
@@ -209,7 +209,7 @@ const Transcript: React.FC<{transcript: any[]; muxPlayerRef: any}> = ({
   return (
     <section aria-label="transcript">
       <h2 className="text-2xl font-semibold">Transcript</h2>
-      <div className="prose sm:prose-lg max-w-none prose-p:text-gray-300 pt-4">
+      <div className="prose max-w-none pt-4 prose-p:text-gray-300 sm:prose-lg">
         <PortableText
           value={transcript}
           components={
@@ -219,7 +219,7 @@ const Transcript: React.FC<{transcript: any[]; muxPlayerRef: any}> = ({
                   const {timestamp} = value
                   return video ? (
                     <button
-                      className="underline inline-block after:inline-block after:content-[' ']"
+                      className="after:content-[' '] inline-block underline after:inline-block"
                       onClick={() => {
                         muxPlayerRef.current.currentTime =
                           hmsToSeconds(timestamp)
@@ -247,7 +247,7 @@ const RelatedTips: React.FC<{tips: Tip[]; currentTip: Tip}> = ({
   return (
     <section className="mx-auto w-full">
       <h2 className="text-2xl font-semibold">More Tips</h2>
-      <div className="pt-4 flex flex-col divide-y divide-gray-800">
+      <div className="flex flex-col divide-y divide-gray-800 pt-4">
         {tips
           .filter((tip) => tip.slug !== currentTip.slug)
           .map((tip) => {
@@ -259,7 +259,7 @@ const RelatedTips: React.FC<{tips: Tip[]; currentTip: Tip}> = ({
 }
 
 const Hr: React.FC<{className?: string}> = ({className}) => {
-  return <hr className={cx('w-10 my-8', className)} aria-hidden="true" />
+  return <hr className={cx('my-8 w-10', className)} aria-hidden="true" />
 }
 
 const TipOverlay: React.FC<{tips: Tip[]}> = ({tips}) => {
@@ -270,7 +270,7 @@ const TipOverlay: React.FC<{tips: Tip[]}> = ({tips}) => {
   return (
     <div
       id="video-overlay"
-      className="relative top-0 left-0 flex items-center justify-center w-full bg-[#070B16] lg:aspect-video"
+      className="relative top-0 left-0 flex w-full items-center justify-center bg-[#070B16] lg:aspect-video"
     >
       <div className="absolute top-8 right-8 z-50 flex items-center justify-center gap-3">
         <button className={buttonStyles} onClick={handlePlay}>
@@ -288,12 +288,12 @@ const TipOverlay: React.FC<{tips: Tip[]}> = ({tips}) => {
             setDisplayOverlay(false)
           }}
         >
-          Dismiss <XIcon className="w-4 h-4" aria-hidden="true" />
+          Dismiss <XIcon className="h-4 w-4" aria-hidden="true" />
         </button>
       </div>
-      <div className="z-20 lg:absolute left-0 top-0 w-full h-full flex flex-col items-center justify-center text-center leading-relaxed text-lg p-5">
+      <div className="left-0 top-0 z-20 flex h-full w-full flex-col items-center justify-center p-5 text-center text-lg leading-relaxed lg:absolute">
         {/* <ShareTip lesson={tip} /> */}
-        <div className="grid lg:grid-cols-3 sm:grid-cols-2 grid-cols-1 gap-2 h-full ">
+        <div className="grid h-full grid-cols-1 gap-2 sm:grid-cols-2 lg:grid-cols-3 ">
           {take(shuffle(tips), 9).map((tip) => (
             <VideoOverlayTipCard suggestedTip={tip} />
           ))}
@@ -327,10 +327,10 @@ const VideoOverlayTipCard: React.FC<{suggestedTip: Tip}> = ({suggestedTip}) => {
             handlePlay()
           })
       }}
-      className="aspect-video w-full z-0 group font-medium text-left text-gray-200 relative leading-tight h-full flex items-end justify-start bg-gray-900/60 rounded-lg p-8"
+      className="group relative z-0 flex aspect-video h-full w-full items-end justify-start rounded-lg bg-gray-900/60 p-8 text-left font-medium leading-tight text-gray-200"
     >
-      <div className="flex flex-col relative z-10">
-        <span className="text-xs font-semibold text-gray-500 pb-1 font-mono uppercase">
+      <div className="relative z-10 flex flex-col">
+        <span className="pb-1 font-mono text-xs font-semibold uppercase text-gray-500">
           Tip
         </span>
         <span className="font-medium">
@@ -343,23 +343,23 @@ const VideoOverlayTipCard: React.FC<{suggestedTip: Tip}> = ({suggestedTip}) => {
         alt=""
         aria-hidden="true"
         layout="fill"
-        className="object-cover opacity-30 blur-xs z-0 group-hover:opacity-40 group-hover:brightness-150 transition"
+        className="blur-xs z-0 object-cover opacity-30 transition group-hover:opacity-40 group-hover:brightness-150"
         quality={100}
       />
       <div
-        className="absolute w-full h-full left-0 top-0 flex items-start justify-end p-5"
+        className="absolute left-0 top-0 flex h-full w-full items-start justify-end p-5"
         aria-hidden="true"
       >
         {tipCompleted ? (
           <>
             <CheckCircleIcon
-              className="absolute w-10 h-10 text-teal-400 group-hover:opacity-0 transition"
+              className="absolute h-10 w-10 text-teal-400 transition group-hover:opacity-0"
               aria-hidden="true"
             />
-            <PlayIcon className="w-10 h-10 text-teal-400 group-hover:opacity-100 opacity-0 transition flex-shrink-0 group-hover:scale-100 scale-50" />
+            <PlayIcon className="h-10 w-10 flex-shrink-0 scale-50 text-teal-400 opacity-0 transition group-hover:scale-100 group-hover:opacity-100" />
           </>
         ) : (
-          <PlayIcon className="w-10 h-10 flex-shrink-0 text-gray-300 group-hover:scale-100 scale-50 group-hover:opacity-100 opacity-0 transition" />
+          <PlayIcon className="h-10 w-10 flex-shrink-0 scale-50 text-gray-300 opacity-0 transition group-hover:scale-100 group-hover:opacity-100" />
         )}
       </div>
     </button>
@@ -372,12 +372,12 @@ const ReplyOnTwitter: React.FC<{tweet: string}> = ({tweet}) => {
       href={`https://twitter.com/i/status/${tweet}`}
       target="_blank"
       rel="noopener noreferrer"
-      className="mb-5 mt-2 text-gray-200 px-4 py-3 font-medium rounded bg-gray-800 gap-2 inline-flex items-center justify-center hover:brightness-150 transition brightness-110"
+      className="mb-5 mt-2 inline-flex items-center justify-center gap-2 rounded bg-gray-800 px-4 py-3 font-medium text-gray-200 brightness-110 transition hover:brightness-150"
       onClick={() => {
         track('clicked reply on twitter')
       }}
     >
-      <ChatAltIcon aria-hidden="true" className="text-gray-400 w-5 h-5" />
+      <ChatAltIcon aria-hidden="true" className="h-5 w-5 text-gray-400" />
       Discuss on Twitter
     </a>
   )
@@ -391,14 +391,14 @@ const SubscribeForm = ({
   return (
     <div
       id="tip"
-      className="2xl:px-0 px-3 w-full md:pt-1 pt-2 pb-3 flex md:flex-row flex-col justify-between items-center gap-5 border-b border-gray-800"
+      className="flex w-full flex-col items-center justify-between gap-5 border-b border-gray-800 px-3 pt-2 pb-3 md:flex-row md:pt-1 2xl:px-0"
     >
-      <div className="lg:flex-shrink-0 inline-flex items-center gap-2 lg:text-lg md:text-base text-lg font-medium leading-tight">
+      <div className="inline-flex items-center gap-2 text-lg font-medium leading-tight md:text-base lg:flex-shrink-0 lg:text-lg">
         <div
           aria-hidden="true"
-          className="flex-shrink-0 rounded-full w-10 h-10 bg-gray-800 flex items-center justify-center"
+          className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full bg-gray-800"
         >
-          <MailIcon className="w-5 h-5 text-cyan-300" />
+          <MailIcon className="h-5 w-5 text-cyan-300" />
         </div>{' '}
         New TypeScript tips delivered to your inbox:
       </div>

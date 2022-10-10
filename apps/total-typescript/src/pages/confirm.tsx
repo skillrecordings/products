@@ -10,25 +10,25 @@ const ConfirmSubscriptionPage = () => {
 
   return (
     <Layout meta={{title: 'Confirm your subscription'}}>
-      <main className="flex-grow flex items-center justify-center flex-col px-5 py-24">
-        <div className="sm:px-0 px-10">
+      <main className="flex flex-grow flex-col items-center justify-center px-5 py-24">
+        <div className="px-10 sm:px-0">
           <Image
             src={require('../../public/assets/email-confirm.svg')}
             alt="confirm your email address"
           />
         </div>
         <div className="max-w-xl text-center">
-          <h1 className="font-bold sm:text-4xl text-3xl py-8 font-text max-w-lg mx-auto w-full">
+          <h1 className="mx-auto w-full max-w-lg py-8 font-text text-3xl font-bold sm:text-4xl">
             Please check your inbox for an email that just got sent.
           </h1>
-          <p className="sm:text-lg leading-relaxed mx-auto pb-8 text-gray-200">
+          <p className="mx-auto pb-8 leading-relaxed text-gray-200 sm:text-lg">
             You'll need to click the confirmation link to receive any further
             emails. If you don't see the email after a few minutes, you might
             check your spam folder or other filters and add{' '}
             <strong>{process.env.NEXT_PUBLIC_SUPPORT_EMAIL}</strong> to your
             contacts.
           </p>
-          <p className="sm:text-lg text-gray-200">
+          <p className="text-gray-200 sm:text-lg">
             Thanks, <br />
             <Signature />
           </p>
@@ -43,7 +43,7 @@ export default ConfirmSubscriptionPage
 export const Signature = () => {
   return (
     <svg
-      className="pt-4 w-32 mx-auto -rotate-6 text-sky-300"
+      className="mx-auto w-32 -rotate-6 pt-4 text-sky-300"
       xmlns="http://www.w3.org/2000/svg"
       fill="none"
       viewBox="0 0 154 34"

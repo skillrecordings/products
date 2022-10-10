@@ -64,7 +64,7 @@ const Layout: FunctionComponent<LayoutProps> = ({
       {nav ? nav : isNull(nav) ? null : <Navigation />}
       <div
         className={cx(
-          'flex flex-col flex-grow h-full min-h-screen ',
+          'flex h-full min-h-screen flex-grow flex-col ',
           className,
         )}
       >

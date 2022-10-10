@@ -25,22 +25,22 @@ const HomePage = () => {
 
 const Header = () => {
   return (
-    <header className="flex flex-col justify-center items-center overflow-hidden px-5 relative">
-      <div className="max-w-screen-lg flex lg:flex-row flex-col-reverse items-center w-full relative lg:min-h-[80vh]">
-        <div className="relative z-10 max-w-2xl lg:py-48 lg:pb-48 pb-10">
-          <h1 className="sm:mt-0 mt-16 font-heading xl:text-6xl lg:text-5xl sm:text-5xl text-4xl font-normal xl:leading-[1.15] lg:leading-[1.15] sm:leading-[1.15] leading-[1.25] max-w-[14ch]">
+    <header className="relative flex flex-col items-center justify-center overflow-hidden px-5">
+      <div className="relative flex w-full max-w-screen-lg flex-col-reverse items-center lg:min-h-[80vh] lg:flex-row">
+        <div className="relative z-10 max-w-2xl pb-10 lg:py-48 lg:pb-48">
+          <h1 className="mt-16 max-w-[14ch] font-heading text-4xl font-normal leading-[1.25] sm:mt-0 sm:text-5xl sm:leading-[1.15] lg:text-5xl lg:leading-[1.15] xl:text-6xl xl:leading-[1.15]">
             Become the{' '}
             <strong className="font-extrabold">TypeScript Wizard</strong> at
             Your Company
           </h1>
-          <h2 className="sm:text-2xl text-lg pt-8 font-text max-w-[28ch] bg-gradient-to-bl from-teal-200 to-cyan-200 text-transparent bg-clip-text font-normal">
+          <h2 className="max-w-[28ch] bg-gradient-to-bl from-teal-200 to-cyan-200 bg-clip-text pt-8 font-text text-lg font-normal text-transparent sm:text-2xl">
             A comprehensive production-grade TypeScript training by{' '}
-            <span className="text-white inline-flex items-baseline gap-2">
+            <span className="inline-flex items-baseline gap-2 text-white">
               Matt Pocock
             </span>
           </h2>
         </div>
-        <div className="flex-shrink-0 lg:absolute -right-40 sm:scale-100 scale-150">
+        <div className="-right-40 flex-shrink-0 scale-150 sm:scale-100 lg:absolute">
           <Image
             src={require('../../public/assets/wizard-in-a-cave@2x.png')}
             alt=""
@@ -56,7 +56,7 @@ const Header = () => {
       <Image
         src={require('../../public/assets/landing/bg-divider-1.png')}
         layout="fill"
-        className="object-contain object-bottom translate-y-48 select-none pointer-events-none"
+        className="pointer-events-none translate-y-48 select-none object-contain object-bottom"
         alt=""
         aria-hidden="true"
       />
@@ -66,7 +66,7 @@ const Header = () => {
 
 const Copy = () => {
   return (
-    <article className="prose-h2:text-3xl md:prose-h2:text-5xl md:prose-xl sm:prose-lg prose-base opacity-90 prose-p:font-light w-full prose-pre:overflow-auto prose-p:max-w-2xl prose-p:mx-auto prose-headings:max-w-2xl prose-headings:mx-auto prose-pre:max-w-2xl prose-pre:mx-auto prose-ul:max-w-2xl prose-ul:mx-auto prose-ul:list-disc marker:text-cyan-400 prose-headings:font-bold prose-p:px-5 prose-headings:px-5 prose-headings:font-text prose-h2:text-center">
+    <article className="prose-base w-full opacity-90 marker:text-cyan-400 prose-headings:mx-auto prose-headings:max-w-2xl prose-headings:px-5 prose-headings:font-text prose-headings:font-bold prose-h2:text-center prose-h2:text-3xl prose-p:mx-auto prose-p:max-w-2xl prose-p:px-5 prose-p:font-light prose-pre:mx-auto prose-pre:max-w-2xl prose-pre:overflow-auto prose-ul:mx-auto prose-ul:max-w-2xl prose-ul:list-disc sm:prose-lg md:prose-xl md:prose-h2:text-5xl">
       <LandingCopy />
     </article>
   )
@@ -76,12 +76,12 @@ const SubscribeToNewsletter = () => {
   const router = useRouter()
   return (
     <MDXComponents.Section
-      className="py-40 bg-[#081021] flex flex-col items-center"
+      className="flex flex-col items-center bg-[#081021] py-40"
       slot={
         <Image
           src="/assets/landing/bg-divider-7.png"
           layout="fill"
-          className="pointer-events-none object-contain select-none"
+          className="pointer-events-none select-none object-contain"
           objectPosition="top center"
           quality={100}
         />
@@ -98,11 +98,11 @@ const SubscribeToNewsletter = () => {
           placeholder="blur"
         />
       </div>
-      <h2 className="xl:text-6xl lg:text-5xl sm:text-5xl text-4xl font-heading font-bold max-w-[15ch] text-center mx-auto">
+      <h2 className="mx-auto max-w-[15ch] text-center font-heading text-4xl font-bold sm:text-5xl lg:text-5xl xl:text-6xl">
         Become a TypeScript Wizard
       </h2>
-      <div className="py-16 w-full mx-auto relative" id="newsletter">
-        <div className="max-w-sm mx-auto">
+      <div className="relative mx-auto w-full py-16" id="newsletter">
+        <div className="mx-auto max-w-sm">
           <SubscribeToConvertkitForm
             actionLabel="Subscribe"
             onSuccess={(subscriber?: any, email?: string) => {
@@ -118,7 +118,7 @@ const SubscribeToNewsletter = () => {
           />
         </div>
       </div>
-      <p className="text-gray-400 text-center">
+      <p className="text-center text-gray-400">
         I respect your privacy. Unsubscribe at any time.
       </p>
     </MDXComponents.Section>

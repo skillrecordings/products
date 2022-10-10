@@ -36,15 +36,15 @@ const TipsIndex: React.FC<TipsIndex> = ({tips}) => {
       }}
       className="flex flex-col items-center pb-24"
     >
-      <header className="lg:pt-40 sm:pt-32 pt-28 lg:pb-24 pb-16 text-center flex flex-col items-center relative z-10">
-        <h1 className="font-heading sm:text-5xl text-4xl font-bold text-center">
+      <header className="relative z-10 flex flex-col items-center pt-28 pb-16 text-center sm:pt-32 lg:pt-40 lg:pb-24">
+        <h1 className="text-center font-heading text-4xl font-bold sm:text-5xl">
           TypeScript Tips
         </h1>
         <p className="max-w-sm pt-8 text-center text-lg text-rose-100/90">
           {pageDescription}
         </p>
       </header>
-      <main className="rounded-lg relative z-10 w-full max-w-screen-md mx-auto flex flex-col divide-y divide-gray-800 sm:px-5 px-3 bg-black/30">
+      <main className="relative z-10 mx-auto flex w-full max-w-screen-md flex-col divide-y divide-gray-800 rounded-lg bg-black/30 px-3 sm:px-5">
         {tips.map((tip) => {
           return <TipTeaser tip={tip} key={tip.slug} />
         })}
@@ -56,7 +56,7 @@ const TipsIndex: React.FC<TipsIndex> = ({tips}) => {
         alt=""
         src={require('../../../public/assets/landing/bg-divider-3.png')}
         objectPosition={'top'}
-        className="object-contain -z-10"
+        className="-z-10 object-contain"
       />
     </Layout>
   )
@@ -72,7 +72,7 @@ export const TipTeaser: React.FC<{tip: Tip}> = ({tip}) => {
   const {tipCompleted} = useTipComplete(tip.slug)
 
   return (
-    <article className="flex items-center py-4 gap-5">
+    <article className="flex items-center gap-5 py-4">
       <header className="flex-shrink-0">
         <button
           onClick={() => {
@@ -90,13 +90,13 @@ export const TipTeaser: React.FC<{tip: Tip}> = ({tip}) => {
                 return videoElement?.play()
               })
           }}
-          className="group relative flex items-center justify-center rounded overflow-hidden border border-gray-800"
+          className="group relative flex items-center justify-center overflow-hidden rounded border border-gray-800"
         >
           <span className="sr-only">
             Play {title}{' '}
             {tipCompleted && <span className="sr-only">(completed)</span>}
           </span>
-          <div className="flex items-center justify-center sm:w-auto w-16">
+          <div className="flex w-16 items-center justify-center sm:w-auto">
             <Image
               src={thumbnail}
               alt=""
@@ -106,32 +106,32 @@ export const TipTeaser: React.FC<{tip: Tip}> = ({tip}) => {
             />
           </div>
           <div
-            className="absolute w-full h-full left-0 top-0 bg-[#0F172A]/50 mix-blend-color"
+            className="absolute left-0 top-0 h-full w-full bg-[#0F172A]/50 mix-blend-color"
             aria-hidden="true"
           />
           <div
-            className="absolute w-full h-full left-0 top-0 bg-[#0B111F]/40 mix-blend-overlay group-hover:bg-orange-500/10 transition"
+            className="absolute left-0 top-0 h-full w-full bg-[#0B111F]/40 mix-blend-overlay transition group-hover:bg-orange-500/10"
             aria-hidden="true"
           />
           <div
-            className="absolute group-hover:opacity-100 opacity-100 transition scale-50 group-hover:scale-75 text-gray-400 group-hover:text-gray-200 flex items-center justify-center"
+            className="absolute flex scale-50 items-center justify-center text-gray-400 opacity-100 transition group-hover:scale-75 group-hover:text-gray-200 group-hover:opacity-100"
             aria-hidden="true"
           >
             {tipCompleted ? (
               <>
                 <CheckCircleIcon
-                  className="absolute w-12 h-12 text-teal-400 group-hover:opacity-0 transition"
+                  className="absolute h-12 w-12 text-teal-400 transition group-hover:opacity-0"
                   aria-hidden="true"
                 />
-                <PlayIcon className="absolute w-12 h-12 text-teal-400 group-hover:opacity-100 opacity-0 transition" />
+                <PlayIcon className="absolute h-12 w-12 text-teal-400 opacity-0 transition group-hover:opacity-100" />
               </>
             ) : (
-              <PlayIcon className="w-12 h-12" />
+              <PlayIcon className="h-12 w-12" />
             )}
           </div>
         </button>
       </header>
-      <h2 className="sm:text-xl text-base font-medium leading-tight">
+      <h2 className="text-base font-medium leading-tight sm:text-xl">
         <Link
           href={{
             pathname: '/tips/[tip]',
@@ -140,7 +140,7 @@ export const TipTeaser: React.FC<{tip: Tip}> = ({tip}) => {
             },
           }}
         >
-          <a className="hover:underline inline-flex items-start gap-1">
+          <a className="inline-flex items-start gap-1 hover:underline">
             {title} {tipCompleted && <span className="sr-only">(watched)</span>}
           </a>
         </Link>
