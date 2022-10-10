@@ -16,7 +16,7 @@ const Share: React.FC<{title: string}> = ({title}) => {
     'w-full flex items-center justify-center h-full px-7 py-7 hover:bg-gray-700/30 transition'
 
   return (
-    <section className="bg-gray-800 max-w-screen-md mx-auto md:pl-5 w-full md:rounded-lg overflow-hidden flex items-center justify-center shadow-xl sm:pt-0 pt-10">
+    <section className="bg-gray-800 max-w-screen-md mx-auto sm:pl-5 w-full md:rounded-lg overflow-hidden flex items-center justify-center shadow-xl sm:pt-0 pt-5">
       <div className="flex sm:flex-row flex-col gap-5 w-full items-center justify-between mx-auto max-w-screen-md">
         <div>
           <p className="text-lg font-medium flex items-center">
@@ -24,10 +24,12 @@ const Share: React.FC<{title: string}> = ({title}) => {
               aria-hidden="true"
               className="w-5 h-5 inline-block mr-2 text-rose-400/90 flex-shrink-0"
             />
-            <span className="">Share this article with your friends</span>
+            <span className="leading-tight">
+              Share this article with your friends
+            </span>
           </p>
         </div>
-        <div className="sm:pt-0 pt-2 flex sm:w-auto w-full items-center sm:divide-x divide-gray-900 justify-center">
+        <div className="pt-0 flex sm:w-auto w-full items-center divide-x divide-gray-900 justify-center border-t md:border-transparent border-gray-900">
           <Twitter
             className={shareButtonClassName}
             svgClassName="w-4 h-4"

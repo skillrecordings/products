@@ -97,18 +97,18 @@ const TableOfContents = ({value}: PortableTextProps) => {
     <div className="flex items-center justify-center left-0 bottom-0 w-full border-b border-gray-800/80">
       <details
         aria-label="On this page"
-        className="group marker:text-transparent no-marker font-medium sm:text-xl text-lg max-w-screen-md w-full mx-auto px-5"
+        className="group marker:text-transparent no-marker font-medium sm:text-xl text-lg max-w-screen-md w-full mx-auto pl-5"
       >
-        <summary className="hover:cursor-pointer  flex items-center justify-between">
-          <span className="text-gray-400 group-hover:text-gray-200 transition uppercase text-base sm:py-5 py-3">
-            On this page
-          </span>
+        <summary className="hover:cursor-pointer flex items-center gap-5">
           <span
             aria-hidden="true"
-            className="opacity-60 group-hover:opacity-100 h-16 px-5 group-hover:bg-gray-800/40 flex items-center justify-center transition"
+            className="border-x border-gray-800 opacity-60 group-hover:opacity-100 h-16 px-5 group-hover:bg-gray-800/40 flex items-center justify-center transition"
           >
             <ChevronDownIcon className="group-open:hidden w-4 h-4" />
             <ChevronUpIcon className="group-open:block hidden w-4 h-4" />
+          </span>
+          <span className="text-gray-400 group-hover:text-gray-200 transition uppercase text-base sm:py-5 py-3">
+            On this page
           </span>
         </summary>
         <div className="pb-4">

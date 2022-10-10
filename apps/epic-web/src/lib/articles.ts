@@ -11,6 +11,7 @@ export const ArticleSchema = z.object({
   slug: z.string(),
   description: z.nullable(z.string()).optional(),
   body: z.any().array(),
+  state: z.literal('published') || z.literal('draft'),
   image: z
     .object({
       width: z.number(),
@@ -36,6 +37,7 @@ export const getAllArticles = async (): Promise<Article[]> => {
         _updatedAt,
         _createdAt,
         title,
+        state,
         "slug": slug.current,
         description,
         body,
@@ -57,6 +59,7 @@ export const getArticle = async (slug: string): Promise<Article> => {
         _updatedAt,
         _createdAt,
         title,
+        state,
         "slug": slug.current,
         description,
         body,
@@ -71,24 +74,3 @@ export const getArticle = async (slug: string): Promise<Article> => {
 
   return ArticleSchema.parse(article)
 }
-
-// import {sanityClient} from '../utils/sanity-client'
-// import groq from 'groq'
-
-// export async function getAllArticles() {
-//   try {
-//     return await sanityClient.fetch(groq`*[_type == "article"] | order(date desc){
-//     title,
-//     'slug': slug.current,
-//     description,
-//     preview,
-//     body,
-//     published,
-//     image,
-//     date
-// }`)
-//   } catch (e) {
-//     console.error()
-//     return []
-//   }
-// }

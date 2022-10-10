@@ -17,7 +17,7 @@ const Navigation = () => {
           <a>
             <div
               aria-hidden="true"
-              className="lg:p-2 p-1 font-mono uppercase font-bold text-center leading-none lg:h-16 lg:w-full w-12 h-12 items-center justify-center bg-white/90 grid grid-cols-2 relative"
+              className="lg:p-2 p-1 lg:hover:p-3 hover:p-2 transition-all font-mono uppercase font-bold text-sm text-center leading-none lg:h-16 lg:w-full w-12 h-12 items-center justify-center bg-white/90 grid grid-cols-2 relative"
             >
               <span>E</span>
               <span>P</span>
@@ -27,7 +27,7 @@ const Navigation = () => {
             <div className="sr-only">Epic Web Dev</div>
           </a>
         </Link>
-        <div className="lg:block hidden pl-14 whitespace-nowrap lg:-rotate-90 uppercase font-mono font-semibold text-sm">
+        <div className="lg:block hidden pl-14 whitespace-nowrap lg:-rotate-90 uppercase font-mono font-semibold text-xs">
           New Learning Experience by Kent C. Dodds
         </div>
       </div>

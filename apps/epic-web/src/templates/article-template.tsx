@@ -162,7 +162,7 @@ const AboutKent = () => {
           className="aspect-square"
         />
       </div>
-      <div>
+      <div className="md:text-left text-center">
         <p className="font-semibold pb-3 text-xl">Written by Kent C. Dodds</p>
         <p className="text-yellow-50 text-opacity-80 text-lg">
           Kent is a world renowned speaker, teacher, and trainer and he's

@@ -23,6 +23,19 @@ export default {
       },
     },
     {
+      name: 'state',
+      title: 'Current State',
+      type: 'string',
+      validation: (Rule) => Rule.required(),
+      initialValue: 'draft',
+      options: {
+        list: [
+          {title: 'draft', value: 'draft'},
+          {title: 'published', value: 'published'},
+        ],
+      },
+    },
+    {
       name: 'body',
       title: 'Article',
       type: 'body',
@@ -35,11 +48,6 @@ export default {
       type: 'text',
       validation: (Rule) => Rule.max(160),
     },
-    // {
-    //   name: 'image',
-    //   title: 'Image',
-    //   type: 'image',
-    // },
     {
       type: 'cloudinary.asset',
       name: 'image',
@@ -47,11 +55,11 @@ export default {
       description: 'This asset is served from Cloudinary',
     },
     {
+      title: 'Related resources',
       name: 'resources',
       type: 'array',
       of: [
         {
-          title: 'Article',
           type: 'reference',
           to: [{type: 'article'}],
         },
