@@ -212,13 +212,27 @@ npx prisma studio
 
 When you make a new branch in Planetscale it doesn't bring data over.
 
-In the `seed_data` folder is a database dump.
+#### Minimal Seed Data
+
+You can seed your branch with the basics that are associated with the **test mode** Stripe account. Those seeds are located in `seed_data`.
 
 ```bash
-pscale database restore-dump testing-accessibility next-steps --dir ./seed_data/pscale_data_dump
+pscale database restore-dump testing-accessibility next-steps --dir ./seed_data
 ```
 
-This should set up the basics that are associated with the **test mode** Stripe account
+#### Production-like Seed Data
+
+You can locally dump a copy of the `main` branch using `pscale database dump`:
+
+```bash
+pscale database dump testing-accessibility main --output ./seed_data/pscale_data_dump
+```
+
+Now the `seed_data/pscale_data_dump` folder holds a database dump you can restore to your branch:
+
+```bash
+pscale database restore-dump testing-accessibility next-steps --dir ./seed_data/pscale_data_dump --overwrite-tables
+```
 
 ## Edit content
 
