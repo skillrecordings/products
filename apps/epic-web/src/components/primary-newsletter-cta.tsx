@@ -6,14 +6,16 @@ import {
 } from '@skillrecordings/convertkit'
 import {useRouter} from 'next/router'
 import {Button} from '@skillrecordings/react'
+import {track} from 'utils/analytics'
 
 type PrimaryNewsletterCtaProps = {
   setStarfieldSpeed?: (s: number) => void
+  onSubmit?: () => void
 }
 
 export const PrimaryNewsletterCta: React.FC<
   React.PropsWithChildren<PrimaryNewsletterCtaProps>
-> = ({setStarfieldSpeed}) => {
+> = ({setStarfieldSpeed, onSubmit}) => {
   const router = useRouter()
 
   return (
@@ -27,6 +29,7 @@ export const PrimaryNewsletterCta: React.FC<
         }}
         submitButtonElem={
           <Button
+            onClick={onSubmit}
             data-sr-button=""
             onMouseOver={() => {
               setStarfieldSpeed && setStarfieldSpeed(2)

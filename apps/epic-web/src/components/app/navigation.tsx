@@ -1,8 +1,9 @@
 import {useRouter} from 'next/router'
 import Link from 'next/link'
+import {track} from 'utils/analytics'
 
 const Navigation = () => {
-  const {pathname} = useRouter()
+  const {pathname, asPath} = useRouter()
   const isRoot = pathname === '/'
 
   return (
@@ -33,7 +34,14 @@ const Navigation = () => {
       </div>
       <div className="absolute lg:right-7 lg:top-5 right-4 top-3.5 lg:text-white text-black z-10">
         <Link href="/articles" passHref>
-          <a className="flex items-center lg:font-medium font-semibold before:content-[''''] before:absolute lg:text-base text-sm before:w-1 before:h-1 before:bg-brand before:-ml-2.5 hover:underline decoration-white/40">
+          <a
+            onClick={() => {
+              track('clicked Articles from navigation', {
+                page: asPath,
+              })
+            }}
+            className="flex items-center lg:font-medium font-semibold before:content-[''''] before:absolute lg:text-base text-sm before:w-1 before:h-1 before:bg-brand before:-ml-2.5 hover:underline decoration-white/40"
+          >
             Articles
           </a>
         </Link>

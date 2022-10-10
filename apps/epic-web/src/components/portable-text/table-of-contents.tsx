@@ -1,11 +1,12 @@
-import {PortableTextProps} from '@portabletext/react'
 import {ChevronDownIcon, ChevronUpIcon} from '@heroicons/react/solid'
 import speakingurl from 'speakingurl'
 import Link from 'next/link'
+import {track} from 'utils/analytics'
+import {Article} from 'lib/articles'
 
 // Based on https://kittygiraudel.com/2022/05/19/table-of-contents-with-sanity-portable-text/
 
-const TableOfContents = ({value}: PortableTextProps) => {
+const TableOfContents: React.FC<{article: Article}> = ({article}) => {
   const filter = (ast: any, match: any) =>
     ast.reduce((acc: any, node: any) => {
       if (match(node)) acc.push(node)
@@ -55,7 +56,7 @@ const TableOfContents = ({value}: PortableTextProps) => {
     return outline.subheadings
   }
 
-  const outline = parseOutline(value)
+  const outline = parseOutline(article.body)
 
   const ToC = (props: any) => {
     return (
@@ -96,6 +97,11 @@ const TableOfContents = ({value}: PortableTextProps) => {
   return (
     <div className="flex items-center justify-center left-0 bottom-0 w-full border-b border-gray-800/80">
       <details
+        onClick={() => {
+          track(`clicked on article's table of contents`, {
+            article: article.slug,
+          })
+        }}
         aria-label="On this page"
         className="group marker:text-transparent no-marker font-medium sm:text-xl text-lg max-w-screen-md w-full mx-auto pl-5"
       >

@@ -8,6 +8,7 @@ import {PrimaryNewsletterCta} from 'components/primary-newsletter-cta'
 import AboutKent from 'components/about-kent'
 import Starfield from 'components/starfield'
 import {useConvertkit} from '@skillrecordings/convertkit'
+import {track} from 'utils/analytics'
 
 export async function getStaticProps() {
   const page = await getPage('/')
@@ -90,7 +91,12 @@ const Subscribe: React.FC<SubscribeProps> = ({
       id="primary-newsletter-cta"
     >
       {!subscriber ? (
-        <PrimaryNewsletterCta setStarfieldSpeed={setStarfieldSpeed} />
+        <PrimaryNewsletterCta
+          setStarfieldSpeed={setStarfieldSpeed}
+          onSubmit={() => {
+            track('subscribed from landing page')
+          }}
+        />
       ) : (
         <div className="lg:text-4xl sm:text-3xl text-2xl font-bold text-center">
           You're subscribed{' '}
