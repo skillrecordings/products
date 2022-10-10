@@ -30,7 +30,7 @@ const Articles: React.FC<{articles: Article[]}> = ({articles}) => {
         },
       }}
     >
-      <header className="w-full text-center sm:pt-32 py-20 sm:pb-24 pb-20 bg-gradient-to-b from-black/40 to-gray-900">
+      <header className="w-full text-center sm:pt-28 py-20 sm:pb-24 pb-20 bg-gradient-to-b from-black/40 to-gray-900">
         <h1 className="fluid-3xl font-bold">{title}</h1>
       </header>
       <main className="max-w-2xl mx-auto w-full flex flex-col gap-10 pb-24">
