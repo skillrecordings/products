@@ -5,6 +5,7 @@ import {isEmpty} from 'lodash'
 const amplitude = Amplitude.init(process.env.NEXT_PUBLIC_AMPLITUDE_API_KEY)
 
 export async function identifyServer(subscriber: Subscriber) {
+  if (!subscriber) return
   try {
     const identify = new Identify()
 
