@@ -14,7 +14,7 @@
 // npx ts-node --skipProject src/data/migrate-redeemed-bulk-coupon.ts
 // ```
 
-import {prisma} from '../../../../packages/database/src/client'
+import {prisma} from '@skillrecordings/database'
 
 const copyOverCouponIdToRedeemedCouponId = async () => {
   // Make sure this only runs for the expected database, because TA is the only
