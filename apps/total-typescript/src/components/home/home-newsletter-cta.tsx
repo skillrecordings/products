@@ -8,17 +8,18 @@ import {
 import {setUserId} from '@amplitude/analytics-browser'
 import {track} from '../../utils/analytics'
 import * as React from 'react'
+import {SkillLevel} from './use-skill-level'
 
-export const SubscribeToNewsletter = ({level}: {level?: string}) => {
+export const SubscribeToNewsletter = ({level}: {level?: SkillLevel}) => {
   const router = useRouter()
   return (
     <MDXComponents.Section
-      className="py-40 bg-[#081021] flex flex-col items-center"
+      className="flex flex-col items-center bg-[#081021] py-40"
       slot={
         <Image
           src="/assets/landing/bg-divider-7.png"
           layout="fill"
-          className="pointer-events-none object-contain select-none"
+          className="pointer-events-none select-none object-contain"
           objectPosition="top center"
           quality={100}
         />
@@ -35,14 +36,14 @@ export const SubscribeToNewsletter = ({level}: {level?: string}) => {
           placeholder="blur"
         />
       </div>
-      <h2 className="xl:text-6xl lg:text-5xl sm:text-5xl text-4xl font-heading font-bold max-w-[15ch] text-center mx-auto">
+      <h2 className="mx-auto max-w-[15ch] text-center font-heading text-4xl font-bold sm:text-5xl lg:text-5xl xl:text-6xl">
         Become a TypeScript Wizard
       </h2>
       <div
-        className="py-16 w-full mx-auto relative"
+        className="relative mx-auto w-full py-16"
         id="primary-newsletter-cta"
       >
-        <div className="max-w-sm mx-auto">
+        <div className="mx-auto max-w-sm">
           <SubscribeToConvertkitForm
             actionLabel="Subscribe"
             onSuccess={(subscriber?: any, email?: string) => {
@@ -58,7 +59,7 @@ export const SubscribeToNewsletter = ({level}: {level?: string}) => {
           />
         </div>
       </div>
-      <p className="text-gray-400 text-center">
+      <p className="text-center text-gray-400">
         I respect your privacy. Unsubscribe at any time.
       </p>
     </MDXComponents.Section>

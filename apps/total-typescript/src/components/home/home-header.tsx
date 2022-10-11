@@ -1,5 +1,6 @@
 import Image from 'next/image'
 import * as React from 'react'
+import {SkillLevel} from './use-skill-level'
 
 const DefaultTitle = () => {
   return (
@@ -20,23 +21,23 @@ const ExpertTitle = () => {
   )
 }
 
-export const Header = ({level}: {level?: string}) => {
-  const Title = level && level !== 'beginner' ? ExpertTitle : DefaultTitle
+export const Header = ({level}: {level?: SkillLevel}) => {
+  const Title = level && level.rank > 3 ? ExpertTitle : DefaultTitle
   return (
-    <header className="flex flex-col justify-center items-center overflow-hidden px-5 relative">
-      <div className="max-w-screen-lg flex lg:flex-row flex-col-reverse items-center w-full relative lg:min-h-[80vh]">
-        <div className="relative z-10 max-w-2xl lg:py-48 lg:pb-48 pb-10">
-          <h1 className="sm:mt-0 mt-16 font-heading xl:text-6xl lg:text-5xl sm:text-5xl text-4xl font-normal xl:leading-[1.15] lg:leading-[1.15] sm:leading-[1.15] leading-[1.25] max-w-[14ch]">
+    <header className="relative flex flex-col items-center justify-center overflow-hidden px-5">
+      <div className="relative flex w-full max-w-screen-lg flex-col-reverse items-center lg:min-h-[80vh] lg:flex-row">
+        <div className="relative z-10 max-w-2xl pb-10 lg:py-48 lg:pb-48">
+          <h1 className="mt-16 max-w-[14ch] font-heading text-4xl font-normal leading-[1.25] sm:mt-0 sm:text-5xl sm:leading-[1.15] lg:text-5xl lg:leading-[1.15] xl:text-6xl xl:leading-[1.15]">
             <Title />
           </h1>
-          <h2 className="sm:text-2xl text-lg pt-8 font-text max-w-[28ch] bg-gradient-to-bl from-teal-200 to-cyan-200 text-transparent bg-clip-text font-normal">
+          <h2 className="max-w-[28ch] bg-gradient-to-bl from-teal-200 to-cyan-200 bg-clip-text pt-8 font-text text-lg font-normal text-transparent sm:text-2xl">
             A comprehensive production-grade TypeScript training by{' '}
-            <span className="text-white inline-flex items-baseline gap-2">
+            <span className="inline-flex items-baseline gap-2 text-white">
               Matt Pocock
             </span>
           </h2>
         </div>
-        <div className="flex-shrink-0 lg:absolute -right-40 sm:scale-100 scale-150">
+        <div className="-right-40 flex-shrink-0 scale-150 sm:scale-100 lg:absolute">
           <Image
             src={require('../../../public/assets/wizard-in-a-cave@2x.png')}
             alt=""
@@ -52,7 +53,7 @@ export const Header = ({level}: {level?: string}) => {
       <Image
         src={require('../../../public/assets/landing/bg-divider-1.png')}
         layout="fill"
-        className="object-contain object-bottom translate-y-48 select-none pointer-events-none"
+        className="pointer-events-none translate-y-48 select-none object-contain object-bottom"
         alt=""
         aria-hidden="true"
       />
