@@ -35,7 +35,7 @@ const Answer: React.FC<React.PropsWithChildren<AnswerProps>> = ({
   }, [router, questionSet])
 
   const question = useQuestion({
-    currentQuestion,
+    currentQuestion: currentQuestion,
     questionSet,
     config,
     currentAnswer,

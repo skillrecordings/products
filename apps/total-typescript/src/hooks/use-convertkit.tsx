@@ -6,7 +6,8 @@ import {useQuery} from 'react-query'
 import toast from 'react-hot-toast'
 import {useRouter} from 'next/router'
 import {removeQueryParamsFromRouter} from 'utils/remove-query-params-from-router'
-import {type Subscriber} from 'lib/convertkit'
+import {type Subscriber} from 'schemas/subscriber'
+import {identify} from '../utils/analytics'
 
 export type ConvertkitContextType = {
   subscriber?: Subscriber
@@ -32,32 +33,27 @@ export const ConvertkitProvider: React.FC<
         params.get(CK_SUBSCRIBER_KEY) || Cookies.get('ck_subscriber_id')
 
       try {
-        const subscriber = Cookies.get('ck_subscriber')
+        const learner = params.get('learner')
+        const subscriberLoaderParams = new URLSearchParams({
+          ...(learner && {learner}),
+          ...(ckSubscriberId && {ckSubscriberId}),
+        })
 
-        if (subscriber) {
-          return JSON.parse(subscriber)
-        } else {
-          const learner = params.get('learner')
-          const subscriberLoaderParams = new URLSearchParams({
-            ...(learner && {learner}),
+        const subscriber = await fetch(
+          `/api/subscriber?${subscriberLoaderParams}`,
+        )
+          .then((response) => response.json())
+          .catch(() => undefined)
 
-            ...(ckSubscriberId && {ckSubscriberId}),
-          })
+        identify(subscriber)
 
-          const subscriber = await fetch(
-            `/api/subscriber?${subscriberLoaderParams}`,
-          )
-            .then((response) => response.json())
-            .catch(() => undefined)
-
-          if (!isEmpty(ckSubscriberId)) {
-            if (router.asPath.match(/confirmToast=true/))
-              confirmSubscriptionToast(subscriber.email_address)
-            removeQueryParamsFromRouter(router, [CK_SUBSCRIBER_KEY])
-          }
-
-          return subscriber
+        if (!isEmpty(ckSubscriberId)) {
+          if (router.asPath.match(/confirmToast=true/))
+            confirmSubscriptionToast(subscriber.email_address)
+          removeQueryParamsFromRouter(router, [CK_SUBSCRIBER_KEY])
         }
+
+        return subscriber
       } catch (e) {
         console.debug(`couldn't load ck subscriber cookie`)
       }

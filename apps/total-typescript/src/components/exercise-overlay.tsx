@@ -31,11 +31,11 @@ export const OverlayWrapper: React.FC<
   return (
     <div
       id="video-overlay"
-      className="relative top-0 left-0 flex items-center justify-center w-full bg-[#070B16] aspect-video"
+      className="relative top-0 left-0 flex aspect-video w-full items-center justify-center bg-[#070B16]"
     >
       {dismissable && (
         <button
-          className="absolute top-2 right-2 py-2 px-3 z-50 font-medium rounded flex items-center gap-1 hover:bg-gray-800 transition text-gray-200"
+          className="absolute top-2 right-2 z-50 flex items-center gap-1 rounded py-2 px-3 font-medium text-gray-200 transition hover:bg-gray-800"
           onClick={() => {
             track('dismissed video overlay', {
               lesson: lesson.slug,
@@ -46,12 +46,12 @@ export const OverlayWrapper: React.FC<
             setDisplayOverlay(false)
           }}
         >
-          Dismiss <XIcon className="w-5 h-5" aria-hidden="true" />
+          Dismiss <XIcon className="h-5 w-5" aria-hidden="true" />
         </button>
       )}
       <div
         className={cx(
-          'z-20 absolute left-0 top-0 w-full h-full flex flex-col items-center justify-center text-center leading-relaxed text-lg',
+          'absolute left-0 top-0 z-20 flex h-full w-full flex-col items-center justify-center text-center text-lg leading-relaxed',
           className,
         )}
       >
@@ -67,7 +67,7 @@ const Actions = () => {
   return (
     <>
       <button
-        className="bg-gray-800 sm:px-5 px-3 sm:py-2 py-1 text-lg font-semibold rounded hover:bg-gray-700 transition"
+        className="rounded bg-gray-800 px-3 py-1 text-lg font-semibold transition hover:bg-gray-700 sm:px-5 sm:py-2"
         onClick={() => {
           track('clicked replay', {
             lesson: lesson.slug,
@@ -83,7 +83,7 @@ const Actions = () => {
       </button>
       {nextExercise && (
         <button
-          className="text-lg bg-cyan-600 hover:bg-cyan-500 transition sm:px-5 px-3 sm:py-2 py-1 font-semibold rounded"
+          className="rounded bg-cyan-600 px-3 py-1 text-lg font-semibold transition hover:bg-cyan-500 sm:px-5 sm:py-2"
           onClick={() => {
             track('clicked continue to solution', {
               lesson: lesson.slug,
@@ -111,26 +111,26 @@ const ExerciseOverlay = () => {
     <div className=" bg-black/30 ">
       {stackblitz ? (
         <>
-          <div className="p-3 pl-5 font-medium sm:text-lg flex items-center justify-between w-full">
+          <div className="flex w-full items-center justify-between p-3 pl-5 font-medium sm:text-lg">
             <div>Now it's your turn! Try solving this exercise.</div>
-            <div className="flex gap-2 justify-center">
+            <div className="flex justify-center gap-2">
               <Actions />
             </div>
           </div>
-          <div className="xl:h-[750px] h-[500px] w-full sm:block hidden relative">
+          <div className="relative hidden h-[500px] w-full sm:block xl:h-[750px]">
             <StackBlitzIframe exercise={lesson as Exercise} module={module} />
           </div>
         </>
       ) : (
         <div className="aspect-video">
-          <p className="text-3xl font-bold font-text">Now it’s your turn!</p>
+          <p className="font-text text-3xl font-bold">Now it’s your turn!</p>
           <p className="">
             Try solving this exercise inside{' '}
             <a
               href={`https://github.com/total-typescript/${github.repo}/blob/main/${stackblitz}`}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center justify-center gap-1 font-mono text-sm py-0.5 px-1 bg-gray-800 rounded-sm"
+              className="inline-flex items-center justify-center gap-1 rounded-sm bg-gray-800 py-0.5 px-1 font-mono text-sm"
             >
               <IconGithub /> {stackblitz}
             </a>{' '}
@@ -139,15 +139,15 @@ const ExerciseOverlay = () => {
           <Actions />
         </div>
       )}
-      <div className="aspect-video sm:hidden gap-5 flex flex-col items-center justify-center p-3 text-center">
-        <p className="text-3xl font-bold font-text">Now it’s your turn!</p>
+      <div className="flex aspect-video flex-col items-center justify-center gap-5 p-3 text-center sm:hidden">
+        <p className="font-text text-3xl font-bold">Now it’s your turn!</p>
         <p className="">
           Try solving this exercise inside{' '}
           <a
             href={`https://github.com/total-typescript/${github.repo}/blob/main/${stackblitz}`}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center justify-center gap-1 font-mono text-sm py-0.5 px-1 bg-gray-800 rounded-sm"
+            className="inline-flex items-center justify-center gap-1 rounded-sm bg-gray-800 py-0.5 px-1 font-mono text-sm"
           >
             <IconGithub /> {stackblitz}
           </a>{' '}
@@ -170,7 +170,7 @@ const DefaultOverlay = () => {
   return (
     <OverlayWrapper className="px-5">
       {image && (
-        <div className="sm:flex hidden items-center justify-center lg:w-auto sm:w-40">
+        <div className="hidden items-center justify-center sm:flex sm:w-40 lg:w-auto">
           <Image
             src={image}
             alt=""
@@ -181,13 +181,13 @@ const DefaultOverlay = () => {
         </div>
       )}
 
-      <p className="pt-4 sm:text-3xl text-xl font-semibold">
+      <p className="pt-4 text-xl font-semibold sm:text-3xl">
         <span className="font-normal text-gray-200">Up next:</span>{' '}
         {nextExercise.title}
       </p>
-      <div className="flex items-center justify-center gap-5 sm:py-8 py-4">
+      <div className="flex items-center justify-center gap-5 py-4 sm:py-8">
         <button
-          className="bg-gray-800 hover:bg-gray-700 transition sm:px-5 px-3 sm:py-3 py-1 text-lg font-semibold rounded"
+          className="rounded bg-gray-800 px-3 py-1 text-lg font-semibold transition hover:bg-gray-700 sm:px-5 sm:py-3"
           onClick={() => {
             track('clicked replay', {
               lesson: lesson.slug,
@@ -202,7 +202,7 @@ const DefaultOverlay = () => {
           Replay ↺
         </button>
         <button
-          className="text-lg bg-cyan-600 hover:bg-cyan-500 transition rounded sm:px-5 px-3 sm:py-3 py-1 font-semibold"
+          className="rounded bg-cyan-600 px-3 py-1 text-lg font-semibold transition hover:bg-cyan-500 sm:px-5 sm:py-3"
           onClick={() => {
             track('clicked complete', {
               lesson: lesson.slug,
@@ -245,8 +245,8 @@ const FinishedOverlay = () => {
   }, [])
 
   return (
-    <OverlayWrapper className="px-5 sm:pt-0 pt-10">
-      <p className="sm:text-3xl text-2xl sm:font-bold font-semibold font-text">
+    <OverlayWrapper className="px-5 pt-10 sm:pt-0">
+      <p className="font-text text-2xl font-semibold sm:text-3xl sm:font-bold">
         Share this {module.moduleType} with your friends
       </p>
       <div className="flex items-center gap-2 py-8">
@@ -274,7 +274,7 @@ const FinishedOverlay = () => {
       </div>
       <div className="flex items-center justify-center divide-x divide-gray-700">
         <button
-          className="hover:bg-gray-900 transition sm:px-5 px-3 sm:py-3 py-1 text-lg font-semibold"
+          className="px-3 py-1 text-lg font-semibold transition hover:bg-gray-900 sm:px-5 sm:py-3"
           onClick={handlePlay}
         >
           Replay <span aria-hidden="true">↺</span>
@@ -291,7 +291,7 @@ const FinishedOverlay = () => {
               })
               .then(handlePlay)
           }}
-          className="hover:bg-gray-900 transition sm:px-5 px-3 sm:py-3 py-1 text-lg font-semibold "
+          className="px-3 py-1 text-lg font-semibold transition hover:bg-gray-900 sm:px-5 sm:py-3 "
         >
           Play from beginning
         </button>
@@ -344,10 +344,10 @@ const BlockedOverlay: React.FC = () => {
   return (
     <div
       id="video-overlay"
-      className="flex flex-col md:flex-row items-center justify-center w-full bg-[#070B16] lg:aspect-video py-10"
+      className="flex w-full flex-col items-center justify-center bg-[#070B16] py-10 md:flex-row lg:aspect-video"
     >
-      <div className="sm:p-10 sm:pb-16 pb-10 p-5 z-20 h-full flex flex-col gap-5 items-center justify-center text-center leading-relaxed text-lg flex-shrink-0">
-        <div className="flex flex-col items-center justify-center gap-2 w-full">
+      <div className="z-20 flex h-full flex-shrink-0 flex-col items-center justify-center gap-5 p-5 pb-10 text-center text-lg leading-relaxed sm:p-10 sm:pb-16">
+        <div className="flex w-full flex-col items-center justify-center gap-2">
           <div className="relative -mb-5">
             <Image
               src={module.image}
@@ -359,7 +359,7 @@ const BlockedOverlay: React.FC = () => {
           <h2 className="text-4xl font-semibold">
             Level up with {module.title}
           </h2>
-          <h3 className="text-xl pb-5">
+          <h3 className="pb-5 text-xl">
             Access all lessons in this {module.moduleType}.
           </h3>
           <SubscribeToConvertkitForm
@@ -376,7 +376,7 @@ const BlockedOverlay: React.FC = () => {
           </p>
         </div>
       </div>
-      <div className="flex flex-col p-5 w-full prose xl:prose-lg xl:max-w-lg sm:max-w-sm max-w-none text-white prose-p:mb-0 xl:prose-p:mb-0 prose-p:text-gray-300">
+      <div className="prose flex w-full max-w-none flex-col p-5 text-white prose-p:mb-0 prose-p:text-gray-300 sm:max-w-sm xl:prose-lg xl:max-w-lg xl:prose-p:mb-0">
         <h3 className="text-3xl font-semibold">This is a free tutorial.</h3>
         {ctaText && <PortableText value={ctaText} />}
       </div>
@@ -401,7 +401,7 @@ const LoadingOverlay: React.FC<LoadingOverlayProps> = () => {
             layout="fill"
             alt=""
             aria-hidden="true"
-            className="opacity-50 contrast-125 blur-sm"
+            className="opacity-50 blur-sm contrast-125"
           />
         )}
         <Spinner className="absolute" />

@@ -72,11 +72,11 @@ const Invoice: React.FC<{
       nav={null}
       className="bg-gray-800"
     >
-      <main className="max-w-screen-md mx-auto">
+      <main className="mx-auto max-w-screen-md">
         <Header customer={customer} />
-        <div className="bg-white text-gray-900 rounded-t-md shadow-xl print:shadow-none">
+        <div className="rounded-t-md bg-white text-gray-900 shadow-xl print:shadow-none">
           <div className="px-10 py-16">
-            <div className="grid grid-cols-3 w-full justify-between items-start">
+            <div className="grid w-full grid-cols-3 items-start justify-between">
               <Logo />
               <From product={product} />
             </div>
@@ -85,7 +85,7 @@ const Invoice: React.FC<{
               <InvoiceFor customer={customer} />
             </div>
             <h2 className="sr-only">Purchase details</h2>
-            <table className="table-auto w-full text-left">
+            <table className="w-full table-auto text-left">
               <LinesHeader />
               <tbody>
                 {invoice ? (
@@ -119,14 +119,14 @@ const Logo = () => {
         quality={100}
         aria-hidden="true"
       />{' '}
-      <NavLogo className="text-gray-800 text-2xl tracking-tight" />
+      <NavLogo className="text-2xl tracking-tight text-gray-800" />
     </div>
   )
 }
 const From: React.FC<{product: string}> = ({product}) => {
   return (
     <div>
-      <h2 className="uppercase text-xs mb-2 font-semibold text-gray-500">
+      <h2 className="mb-2 text-xs font-semibold uppercase text-gray-500">
         From
       </h2>
       <span className="font-semibold">{product}</span>
@@ -146,8 +146,8 @@ const From: React.FC<{product: string}> = ({product}) => {
 
 const Header: React.FC<{customer: Customer}> = ({customer}) => {
   return (
-    <div className="flex md:flex-row flex-col items-center justify-between md:text-left text-center py-8 print:hidden">
-      <h1 className="sm:text-3xl text-2xl font-medium leading-tight max-w-md">
+    <div className="flex flex-col items-center justify-between py-8 text-center print:hidden md:flex-row md:text-left">
+      <h1 className="max-w-md text-2xl font-medium leading-tight sm:text-3xl">
         Invoice
         <div className="text-base text-gray-300">for {customer.name}</div>
       </h1>
@@ -155,7 +155,7 @@ const Header: React.FC<{customer: Customer}> = ({customer}) => {
         onClick={() => {
           window.print()
         }}
-        className="my-4 flex items-center leading-6 px-5 py-3 text-sm font-semibold rounded-md bg-gray-600 text-white hover:bg-gray-700 transition-colors ease-in-out duration-200"
+        className="my-4 flex items-center rounded-md bg-gray-600 px-5 py-3 text-sm font-semibold leading-6 text-white transition-colors duration-200 ease-in-out hover:bg-gray-700"
       >
         <span className="pr-2">Download PDF or Print</span>
         <DownloadIcon aria-hidden="true" className="w-5" />
@@ -170,7 +170,7 @@ const Metadata: React.FC<{charge: Stripe.Charge; date: string}> = ({
 }) => {
   return (
     <div className="col-span-2">
-      <p className="text-3xl font-bold pb-2">Invoice</p>
+      <p className="pb-2 text-3xl font-bold">Invoice</p>
       Invoice ID: <strong className="font-semibold">{charge.id}</strong>
       <br />
       Created: <strong className="font-semibold">{date}</strong>
@@ -196,7 +196,7 @@ const InvoiceFor: React.FC<{customer: Customer}> = ({customer}) => {
   )
   return (
     <div className="pt-12">
-      <h2 className="uppercase text-xs mb-2 text-gray-600 font-semibold">
+      <h2 className="mb-2 text-xs font-semibold uppercase text-gray-600">
         Invoice For
       </h2>
       <div>
@@ -208,12 +208,12 @@ const InvoiceFor: React.FC<{customer: Customer}> = ({customer}) => {
         <>
           <textarea
             aria-label="Additional info"
-            className="print:hidden p-3 mt-4 form-textarea placeholder-cyan-900 border-2 border-cyan-500 rounded-md bg-cyan-50 w-full h-full print:p-0 print:border-none print:bg-transparent"
+            className="form-textarea mt-4 h-full w-full rounded-md border-2 border-cyan-500 bg-cyan-50 p-3 placeholder-cyan-900 print:hidden print:border-none print:bg-transparent print:p-0"
             value={additionalInfo}
             onChange={(e) => setAdditionalInfo(e.target.value)}
             placeholder="Enter additional info here (optional)"
           />
-          <div className="print:block hidden">{additionalInfo}</div>
+          <div className="hidden print:block">{additionalInfo}</div>
         </>
       )}
     </div>
@@ -233,7 +233,7 @@ const LinesHeader: React.FC = () => {
         <th scope="col" className="font-semibold">
           Quantity
         </th>
-        <th scope="col" className="font-semibold text-right">
+        <th scope="col" className="text-right font-semibold">
           Amount
         </th>
       </tr>
@@ -301,7 +301,7 @@ const Total: React.FC<{charge: Stripe.Charge; totalAmount: number}> = ({
     <div className="flex flex-col items-end py-16">
       <div>
         <span className="mr-3">Total</span>
-        <strong className="font-semibold text-lg">
+        <strong className="text-lg font-semibold">
           {charge.currency.toUpperCase()} {totalAmount}
         </strong>
       </div>

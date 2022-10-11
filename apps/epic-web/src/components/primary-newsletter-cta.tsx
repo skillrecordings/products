@@ -7,9 +7,13 @@ import {
 import {useRouter} from 'next/router'
 import {Button} from '@skillrecordings/react'
 
-export const PrimaryNewsletterCta: React.FC<React.PropsWithChildren<any>> = ({
-  setStarfieldSpeed,
-}) => {
+type PrimaryNewsletterCtaProps = {
+  setStarfieldSpeed?: (s: number) => void
+}
+
+export const PrimaryNewsletterCta: React.FC<
+  React.PropsWithChildren<PrimaryNewsletterCtaProps>
+> = ({setStarfieldSpeed}) => {
   const router = useRouter()
 
   return (
@@ -25,16 +29,16 @@ export const PrimaryNewsletterCta: React.FC<React.PropsWithChildren<any>> = ({
           <Button
             data-sr-button=""
             onMouseOver={() => {
-              setStarfieldSpeed(2)
+              setStarfieldSpeed && setStarfieldSpeed(2)
             }}
             onMouseOut={() => {
-              setStarfieldSpeed(0.5)
+              setStarfieldSpeed && setStarfieldSpeed(0.5)
             }}
             onFocus={() => {
-              setStarfieldSpeed(2)
+              setStarfieldSpeed && setStarfieldSpeed(2)
             }}
             onBlur={() => {
-              setStarfieldSpeed(0.5)
+              setStarfieldSpeed && setStarfieldSpeed(0.5)
             }}
           >
             <span className="relative z-10">Become an Epic Web Dev</span>

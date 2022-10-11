@@ -5,7 +5,7 @@ import cx from 'classnames'
 import isNull from 'lodash/isNull'
 import {Toaster} from 'react-hot-toast'
 import {useRouter} from 'next/router'
-import SurveyPopup from 'components/survey/popup'
+import {Survey} from '../../offer/survey'
 
 type LayoutProps = {
   meta?: any
@@ -64,14 +64,14 @@ const Layout: FunctionComponent<LayoutProps> = ({
       {nav ? nav : isNull(nav) ? null : <Navigation />}
       <div
         className={cx(
-          'flex flex-col flex-grow h-full min-h-screen ',
+          'flex h-full min-h-screen flex-grow flex-col ',
           className,
         )}
       >
         {children}
         {/* {footer ? footer : isNull(footer) ? null : <Footer />} */}
       </div>
-      <SurveyPopup />
+      <Survey />
     </div>
   )
 }

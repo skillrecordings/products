@@ -56,7 +56,7 @@ const AboutKent = () => {
           </a>
           . He&#39;s also a{' '}
           <a
-            href="https://developers.google.com/experts/people/kent-c-dodds"
+            href="https://developers.google.com/community/experts/directory/profile/profile-kent-c-dodds"
             rel="noopener noreferrer"
             target="_blank"
           >

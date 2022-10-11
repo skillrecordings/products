@@ -1,12 +1,9 @@
 import {createRouter} from '../createRouter'
 import {z} from 'zod'
-import {
-  answerSurvey,
-  markLessonComplete,
-  SubscriberSchema,
-} from 'lib/convertkit'
+import {answerSurvey, markLessonComplete} from 'lib/convertkit'
 import {updateSubscriber} from '@skillrecordings/convertkit-sdk'
 import {serialize} from 'cookie'
+import {SubscriberSchema} from 'schemas/subscriber'
 
 export const convertkitRouter = createRouter()
   .mutation('updateName', {

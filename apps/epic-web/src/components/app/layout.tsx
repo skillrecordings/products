@@ -1,7 +1,8 @@
 import React, {FunctionComponent} from 'react'
 import {NextSeo} from '@skillrecordings/next-seo'
-import cx from 'classnames'
+import {Toaster} from 'react-hot-toast'
 import Navigation from 'components/app/navigation'
+import cx from 'classnames'
 
 type LayoutProps = {
   meta?: any
@@ -48,6 +49,19 @@ const Layout: FunctionComponent<React.PropsWithChildren<LayoutProps>> = ({
         }}
         canonical={url}
         noindex={noIndex}
+      />
+      <Toaster
+        position="top-center"
+        toastOptions={{
+          style: {
+            background: '#363636',
+            color: '#fff',
+          },
+          iconTheme: {
+            primary: '#fde68a',
+            secondary: '#000',
+          },
+        }}
       />
       <Navigation />
       <div

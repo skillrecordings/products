@@ -1,5 +1,5 @@
 import {createRouter} from 'server/createRouter'
-import {SubscriberSchema} from '../../lib/convertkit'
+import {SubscriberSchema} from 'schemas/subscriber'
 
 export const subscriberRouter = createRouter().query('current', {
   async resolve({ctx, input}) {

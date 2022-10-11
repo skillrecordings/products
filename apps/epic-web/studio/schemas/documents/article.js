@@ -23,8 +23,21 @@ export default {
       },
     },
     {
+      name: 'state',
+      title: 'Current State',
+      type: 'string',
+      validation: (Rule) => Rule.required(),
+      initialValue: 'draft',
+      options: {
+        list: [
+          {title: 'draft', value: 'draft'},
+          {title: 'published', value: 'published'},
+        ],
+      },
+    },
+    {
       name: 'body',
-      title: 'Body',
+      title: 'Article',
       type: 'body',
       validation: (Rule) => Rule.required(),
     },
@@ -36,15 +49,26 @@ export default {
       validation: (Rule) => Rule.max(160),
     },
     {
-      name: 'date',
-      title: 'Published Date',
-      type: 'date',
-      validation: (Rule) => Rule.required(),
-    },
-    {
+      type: 'cloudinary.asset',
       name: 'image',
       title: 'Image',
-      type: 'image',
+      description: 'This asset is served from Cloudinary',
+    },
+    {
+      type: 'cloudinary.asset',
+      name: 'ogImage',
+      title: 'OG Image',
+    },
+    {
+      title: 'Related resources',
+      name: 'resources',
+      type: 'array',
+      of: [
+        {
+          type: 'reference',
+          to: [{type: 'article'}],
+        },
+      ],
     },
   ],
   preview: {

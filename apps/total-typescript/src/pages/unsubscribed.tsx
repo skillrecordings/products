@@ -1,8 +1,8 @@
 const Unsubscribed = () => {
   return (
-    <div className="p-0 min-h-[calc(100vh-96px)] flex flex-col">
-      <div className="flex flex-col items-center justify-center flex-grow p-5 pb-16 text-center sm:pb-0">
-        <div className="max-w-xl pt-4 text-3xl font-heading">
+    <div className="flex min-h-[calc(100vh-96px)] flex-col p-0">
+      <div className="flex flex-grow flex-col items-center justify-center p-5 pb-16 text-center sm:pb-0">
+        <div className="max-w-xl pt-4 font-heading text-3xl">
           You've been removed from the email list and won't receive any more
           emails about it.
         </div>

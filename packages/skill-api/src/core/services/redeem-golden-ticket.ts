@@ -88,7 +88,7 @@ export async function redeemGoldenTicket({
           existingPurchase.id,
         )
 
-      const purchase = await prisma.purchase.create({
+      const createPurchase = prisma.purchase.create({
         data: {
           userId: user.id,
           couponId: coupon.id, // TODO: old redeeming-coupon identifier
@@ -97,6 +97,23 @@ export async function redeemGoldenTicket({
           totalAmount: 0,
         },
       })
+
+      const updateCouponUsage = prisma.coupon.update({
+        where: {id: coupon.id},
+        data: {
+          usedCount: {
+            increment: 1,
+          },
+        },
+      })
+
+      // To ensure consistency when "redeeming a coupon", we use a DB
+      // transaction to create the purchase record and update the coupon's
+      // usage count atomically.
+      const [purchase, _coupon] = await prisma.$transaction([
+        createPurchase,
+        updateCouponUsage,
+      ])
 
       if (sendEmail && nextAuthOptions) {
         await sendServerEmail({
@@ -107,15 +124,6 @@ export async function redeemGoldenTicket({
       } else {
         console.error(`no email sent to ${user.email}`)
       }
-
-      await prisma.coupon.update({
-        where: {id: coupon.id},
-        data: {
-          usedCount: {
-            increment: 1,
-          },
-        },
-      })
 
       if (params.options.slack?.redeem && !coupon.bulkPurchaseId) {
         console.warn('not configured for slack to post coupon redemptions')

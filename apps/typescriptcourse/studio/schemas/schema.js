@@ -8,6 +8,11 @@ import schemaTypes from 'all:part:@sanity/base/schema-type'
 import article from './documents/article'
 import tag from './documents/tag'
 
+// podcast
+import podcast from './documents/podcast'
+import episode from './objects/resources/podcastEpisode'
+import season from './objects/resources/podcastSeason'
+
 // objects
 import body from './objects/body'
 import bodyImage from './objects/bodyImage'
@@ -28,6 +33,10 @@ export default createSchema({
     // documents
     article,
     tag,
+    // podcast
+    podcast,
+    episode,
+    season,
     // objects
     body,
     bodyImage,

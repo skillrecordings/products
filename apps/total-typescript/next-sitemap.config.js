@@ -7,6 +7,7 @@ module.exports = {
   sitemapSize: 5000,
   generateRobotsTxt: true,
   exclude: [
+    '/home/*',
     '/server-sitemap.xml',
     '/confirm',
     '/confirmed',
