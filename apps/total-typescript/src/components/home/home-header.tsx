@@ -21,7 +21,7 @@ const ExpertTitle = () => {
 }
 
 export const Header = ({level}: {level?: string}) => {
-  const Title = level !== 'beginner' ? ExpertTitle : DefaultTitle
+  const Title = level && level !== 'beginner' ? ExpertTitle : DefaultTitle
   return (
     <header className="flex flex-col justify-center items-center overflow-hidden px-5 relative">
       <div className="max-w-screen-lg flex lg:flex-row flex-col-reverse items-center w-full relative lg:min-h-[80vh]">
