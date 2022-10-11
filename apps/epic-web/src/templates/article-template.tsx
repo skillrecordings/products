@@ -3,7 +3,6 @@ import Layout from 'components/app/layout'
 import {ArticleJsonLd} from '@skillrecordings/next-seo'
 import cx from 'classnames'
 import {PortableText, toPlainText} from '@portabletext/react'
-import {getOgImage} from 'utils/get-og-image'
 import {useRouter} from 'next/router'
 import KentImage from '../../public/kent-c-dodds.png'
 import {type Article} from 'lib/articles'
@@ -24,9 +23,10 @@ const ArticleTemplate: React.FC<{article: Article}> = ({article}) => {
     _updatedAt,
     _createdAt,
     estimatedReadingTime,
+    ogImage: _ogImage,
   } = article
   const image = article?.image?.secure_url
-  const ogImage = getOgImage({title, image, path: 'article'})
+  const ogImage = {url: _ogImage?.secure_url, alt: title}
   const pageDescription =
     description || `${toPlainText(body).substring(0, 157)}...`
   const author = `${process.env.NEXT_PUBLIC_PARTNER_FIRST_NAME} ${process.env.NEXT_PUBLIC_PARTNER_LAST_NAME}`
