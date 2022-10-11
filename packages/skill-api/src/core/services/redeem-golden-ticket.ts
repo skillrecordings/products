@@ -92,7 +92,7 @@ export async function redeemGoldenTicket({
         data: {
           userId: user.id,
           couponId: coupon.id, // TODO: old redeeming-coupon identifier
-          redeemedCouponId: coupon.id, // TODO: new redeeming-coupon identifer
+          redeemedBulkCouponId: coupon.id, // TODO: new redeeming-coupon identifer
           productId,
           totalAmount: 0,
         },
