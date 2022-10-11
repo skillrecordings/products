@@ -1,3 +1,19 @@
+// Running this script:
+//
+// Run the following commands from 'apps/testingaccessibility'.
+//
+// First, open a connection to the planetscale database and branch:
+//
+// ```
+// pscale connect testing-accessbility <branch-name> --port 3309 --host "::1"
+// ```
+//
+// Execute the data migration:
+//
+// ```
+// npx ts-node --skipProject src/data/migrate-redeemed-bulk-coupon.ts
+// ```
+
 import {prisma} from '../../../../packages/database/src/client'
 
 const copyOverCouponIdToRedeemedCouponId = async () => {
