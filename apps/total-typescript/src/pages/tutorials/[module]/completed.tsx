@@ -124,7 +124,7 @@ const CompletedTutorialTemplate: React.FC<CompletedTutorialProps> = ({
   return (
     <Layout className="bg-black/30">
       <Header title={title} />
-      <main className="flex flex-col items-center relative pb-40 sm:pt-0 pt-8">
+      <main className="relative flex flex-col items-center pb-40 pt-8 sm:pt-0">
         <CertificateImage
           isCertificateImageLoaded={isCertificateImageLoaded}
           setCertificateImageLoaded={setCertificateImageLoaded}
@@ -166,27 +166,27 @@ const UpdateSubscriberNameForm: React.FC<{
 
   return (
     <>
-      <h3 className="sm:text-2xl text-xl tracking-tight font-medium py-6 px-5">
+      <h3 className="py-6 px-5 text-xl font-medium tracking-tight sm:text-2xl">
         Update your name on the certificate
       </h3>
       <form
         onSubmit={handleSubmit(processForm)}
-        className="w-full flex md:flex-row flex-col md:items-end items-center gap-2 max-w-2xl px-5"
+        className="flex w-full max-w-2xl flex-col items-center gap-2 px-5 md:flex-row md:items-end"
       >
-        <label className="flex flex-col w-full">
+        <label className="flex w-full flex-col">
           <span className="pb-2 text-gray-200">First name</span>
           <input
             {...register('firstName', {required: true})}
-            className="px-4 py-3 bg-gray-800/50 h-14 font-medium text-lg rounded-md border border-gray-600"
+            className="h-14 rounded-md border border-gray-600 bg-gray-800/50 px-4 py-3 text-lg font-medium"
             type="text"
             name="firstName"
           />
         </label>
-        <label className="flex flex-col w-full">
+        <label className="flex w-full flex-col">
           <span className="pb-2 text-gray-200">Last name</span>
           <input
             {...register('lastName', {required: false})}
-            className="px-4 py-3 bg-gray-800/50 h-14 font-medium text-lg rounded-md border border-gray-600"
+            className="h-14 rounded-md border border-gray-600 bg-gray-800/50 px-4 py-3 text-lg font-medium"
             type="text"
             name="lastName"
           />
@@ -194,13 +194,13 @@ const UpdateSubscriberNameForm: React.FC<{
 
         <button
           type="submit"
-          className="sm:mt-0 mt-5 flex-shrink-0 border-2 h-14 border-cyan-300/80 text-cyan-300 bg-cyan-400/10 hover:bg-cyan-400/20 transition font-semibold px-8 py-3 rounded-md inline-flex items-center justify-center"
+          className="mt-5 inline-flex h-14 flex-shrink-0 items-center justify-center rounded-md border-2 border-cyan-300/80 bg-cyan-400/10 px-8 py-3 font-semibold text-cyan-300 transition hover:bg-cyan-400/20 sm:mt-0"
         >
           {ckNameMutation.isLoading ? 'Submitting...' : 'Update name'}
         </button>
       </form>
       {ckNameMutation.isError && (
-        <p className="text-center pt-5">Something went wrong.</p>
+        <p className="pt-5 text-center">Something went wrong.</p>
       )}
     </>
   )
@@ -220,11 +220,11 @@ const CertificateImage: React.FC<CertificateImageProps> = ({
   name,
 }) => {
   return (
-    <div className="relative w-full flex items-center justify-center sm:pt-16">
+    <div className="relative flex w-full items-center justify-center sm:pt-16">
       {!isEmpty(name) && (
         <div
           className={cx(
-            'rounded-2xl relative flex items-center justify-center w-[calc(1200px/1.8)] sm:h-[calc(630px/1.8)] z-10 border border-gray-800',
+            'relative z-10 flex w-[calc(1200px/1.8)] items-center justify-center rounded-2xl border border-gray-800 sm:h-[calc(630px/1.8)]',
             {
               'bg-black/80': !isCertificateImageLoaded,
             },
@@ -235,13 +235,13 @@ const CertificateImage: React.FC<CertificateImageProps> = ({
               setCertificateImageLoaded(true)
             }}
             src={certificateUrl}
-            className={cx('rounded-2xl overflow-hidden', {
+            className={cx('overflow-hidden rounded-2xl', {
               'opacity-0': !isCertificateImageLoaded,
               'opacity-100': isCertificateImageLoaded,
             })}
           />
           {!isCertificateImageLoaded && (
-            <div className="absolute drop-shadow-lg text-base max-w-[23ch] text-center flex items-center justify-center gap-2">
+            <div className="absolute flex max-w-[23ch] items-center justify-center gap-2 text-center text-base drop-shadow-lg">
               <Spinner className="w-6" /> Loading certificate...
             </div>
           )}
@@ -265,9 +265,9 @@ const CertificateShare: React.FC<{shareUrl: string}> = ({shareUrl}) => {
   const shareButtonStyles =
     'gap-2 flex items-center justify-center rounded-md px-4 py-2 hover:brightness-125 transition'
   return (
-    <div className="-translate-y-px sm:w-auto w-full gap-3 flex flex-col items-center justify-center md:flex-row p-4 sm:mb-16 mb-8 sm:rounded-b-xl sm:bg-black/50 sm:border border-gray-800 text-gray-200 ">
+    <div className="mb-8 flex w-full -translate-y-px flex-col items-center justify-center gap-3 border-gray-800 p-4 text-gray-200 sm:mb-16 sm:w-auto sm:rounded-b-xl sm:border sm:bg-black/50 md:flex-row ">
       <h1 className="px-2">Share on:</h1>
-      <div className="text-center font-medium relative z-10 shadow-xl sm:flex grid grid-cols-2 flex-wrap items-center justify-center gap-2">
+      <div className="relative z-10 grid grid-cols-2 flex-wrap items-center justify-center gap-2 text-center font-medium shadow-xl sm:flex">
         <Twitter
           link={shareUrl}
           className={cx('bg-[#1B95E0]', shareButtonStyles)}
@@ -302,11 +302,11 @@ const CertificateShare: React.FC<{shareUrl: string}> = ({shareUrl}) => {
 
 const Header: React.FC<{title: string}> = ({title}) => {
   return (
-    <header className="md:pt-40 sm:pt-32 pt-28 text-center px-5">
-      <p className="sm:text-xl text-lg text-cyan-300 pb-4">
+    <header className="px-5 pt-28 text-center sm:pt-32 md:pt-40">
+      <p className="pb-4 text-lg text-cyan-300 sm:text-xl">
         Congrats on finishing the {title} Tutorial!
       </p>
-      <h1 className="font-heading md:text-6xl text-5xl font-bold">
+      <h1 className="font-heading text-5xl font-bold md:text-6xl">
         Your Certificate
       </h1>
     </header>

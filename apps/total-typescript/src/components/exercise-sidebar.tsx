@@ -20,14 +20,14 @@ const ExerciseSidebar: React.FC<SidebarProps> = ({
     <>
       <div
         className={cx(
-          'xl:max-w-xs lg:max-w-[280px] w-full relative z-50',
+          'relative z-50 w-full lg:max-w-[280px] xl:max-w-xs',
           className,
         )}
       >
-        <div className="border-r border-gray-800 lg:sticky top-0">
+        <div className="top-0 border-r border-gray-800 lg:sticky">
           <aside>
-            <div className="lg:sticky top-0 z-10 h-[180px] bg-gradient-to-t from-transparent to-gray-900 via-gray-900">
-              <div className="flex items-center gap-5 px-3 py-1 bg-gray-900 border-b border-gray-800 relative">
+            <div className="top-0 z-10 h-[180px] bg-gradient-to-t from-transparent via-gray-900 to-gray-900 lg:sticky">
+              <div className="relative flex items-center gap-5 border-b border-gray-800 bg-gray-900 px-3 py-1">
                 {module?.image && (
                   <Image
                     src={module.image}
@@ -41,7 +41,7 @@ const ExerciseSidebar: React.FC<SidebarProps> = ({
                 <div className="relative z-10 -translate-y-0.5">
                   <Link href="/tutorials">
                     <a
-                      className="uppercase text-xs font-mono font-semibold text-gray-300 hover:underline"
+                      className="font-mono text-xs font-semibold uppercase text-gray-300 hover:underline"
                       onClick={() => {
                         track('clicked return to tutorials', {
                           module: module.slug.current,
@@ -52,7 +52,7 @@ const ExerciseSidebar: React.FC<SidebarProps> = ({
                     </a>
                   </Link>
                   <span className="pl-1 text-xs text-gray-400">/</span>
-                  <h2 className="text-2xl font-semibold leading-none w-full">
+                  <h2 className="w-full text-2xl font-semibold leading-none">
                     <Link
                       href={{
                         pathname: `${path}/[module]`,
@@ -82,12 +82,12 @@ const ExerciseSidebar: React.FC<SidebarProps> = ({
                   objectPosition="center center"
                 />
               </div>
-              <p className="pt-4 pb-2 text-xs tracking-wide font-medium uppercase px-5 text-gray-300">
+              <p className="px-5 pt-4 pb-2 text-xs font-medium uppercase tracking-wide text-gray-300">
                 Exercises
               </p>
             </div>
             <ExerciseNavigator module={module} path={path} />
-            <div className="absolute bottom-0 left-0 w-full bg-gradient-to-t from-gray-900 to-transparent h-24 z-20 pointer-events-none" />
+            <div className="pointer-events-none absolute bottom-0 left-0 z-20 h-24 w-full bg-gradient-to-t from-gray-900 to-transparent" />
           </aside>
         </div>
       </div>

@@ -37,7 +37,7 @@ mux-player::part(vertical-layer) {
 }
 
 code {
-  @apply bg-gray-800/90 shadow px-1.5 py-0.5 rounded-md text-[85%];
+  @apply rounded-md bg-gray-800/90 px-1.5 py-0.5 text-[85%] shadow;
 }
 
 .no-marker {

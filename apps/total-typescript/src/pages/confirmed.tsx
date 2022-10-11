@@ -5,13 +5,13 @@ import {Signature} from './confirm'
 const ConfirmedSubscriptionPage = () => {
   return (
     <Layout>
-      <main className="flex-grow flex items-center justify-center flex-col px-5">
+      <main className="flex flex-grow flex-col items-center justify-center px-5">
         <Image />
         <div className="max-w-lg text-center font-light">
-          <h1 className="font-bold lg:text-5xl text-4xl py-8 font-heading">
+          <h1 className="py-8 font-heading text-4xl font-bold lg:text-5xl">
             You're Confirmed!
           </h1>
-          <p className="sm:text-xl leading-relaxed mx-auto pb-8">
+          <p className="mx-auto pb-8 leading-relaxed sm:text-xl">
             Thanks for confirming your email address — you're all set to receive{' '}
             emails from me about {process.env.NEXT_PUBLIC_SITE_TITLE}.
           </p>

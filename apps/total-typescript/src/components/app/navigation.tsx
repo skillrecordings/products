@@ -19,7 +19,7 @@ const Navigation: React.FC<React.PropsWithChildren<Props>> = ({
     <nav
       aria-label="top"
       className={cx(
-        'absolute top-0 z-30 sm:h-16 h-14 sm:px-5 px-3 w-full flex items-center justify-center print:hidden sm:bg-black/30 bg-gray-900',
+        'absolute top-0 z-30 flex h-14 w-full items-center justify-center bg-gray-900 px-3 print:hidden sm:h-16 sm:bg-black/30 sm:px-5',
         className,
       )}
     >
@@ -37,13 +37,13 @@ const DesktopNav = () => {
       <NavLink
         path="/tutorials"
         label="Free Tutorials"
-        icon={<PlayIcon className="w-5 h-5 text-cyan-300" aria-hidden="true" />}
+        icon={<PlayIcon className="h-5 w-5 text-cyan-300" aria-hidden="true" />}
       />
       <NavLink
         path="/tips"
         label="Tips"
         icon={
-          <FireIcon className="w-5 h-5 text-orange-400" aria-hidden="true" />
+          <FireIcon className="h-5 w-5 text-orange-400" aria-hidden="true" />
         }
       />
     </ul>
@@ -61,7 +61,7 @@ const NavLink: React.FC<
     <li className="h-full">
       <Link href={path} passHref>
         <a
-          className="flex items-center sm:gap-1 gap-0.5 sm:text-base text-sm active:bg-transparent font-medium sm:px-5 px-2 h-full hover:bg-gray-800/60 transition duration-100"
+          className="flex h-full items-center gap-0.5 px-2 text-sm font-medium transition duration-100 hover:bg-gray-800/60 active:bg-transparent sm:gap-1 sm:px-5 sm:text-base"
           onClick={() => {
             track(`clicked ${label} link in nav`)
           }}
@@ -81,12 +81,12 @@ export const NavLogo: React.FC<{className?: string}> = ({className}) => {
       <a
         aria-label={`${config.title} Home`}
         className={cx(
-          'text-xl font-text font-semibold h-full group text-white flex-shrink-0 flex items-center group',
+          'group group flex h-full flex-shrink-0 items-center font-text text-xl font-semibold text-white',
           className,
         )}
         tabIndex={router.pathname === '/' ? -1 : 0}
       >
-        <span className="opacity-90 mr-0.5 font-light">Total</span>
+        <span className="mr-0.5 font-light opacity-90">Total</span>
         <span>TypeScript</span>
       </a>
     </Link>

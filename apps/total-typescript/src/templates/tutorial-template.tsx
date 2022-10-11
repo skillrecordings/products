@@ -36,7 +36,7 @@ const TutorialTemplate: React.FC<{
 
   return (
     <Layout
-      className="max-w-4xl mx-auto w-full py-24 px-5 "
+      className="mx-auto w-full max-w-4xl py-24 px-5 "
       meta={{
         title: pageTitle,
         description,
@@ -48,8 +48,8 @@ const TutorialTemplate: React.FC<{
     >
       <CourseMeta title={pageTitle} description={description} />
       <Header tutorial={tutorial} />
-      <main className="relative z-10 flex lg:flex-row flex-col gap-5">
-        <article className="prose prose-lg lg:max-w-xl max-w-none text-white w-full">
+      <main className="relative z-10 flex flex-col gap-5 lg:flex-row">
+        <article className="prose prose-lg w-full max-w-none text-white lg:max-w-xl">
           <PortableText value={body} components={PortableTextComponents} />
         </article>
         <TutorialExerciseNavigator tutorial={tutorial} />
@@ -65,18 +65,18 @@ const Header: React.FC<{tutorial: SanityDocument}> = ({tutorial}) => {
 
   return (
     <>
-      <header className="relative z-10 sm:pt-8 sm:pb-8 pt-0 pb-16 flex md:flex-row flex-col-reverse items-center justify-between">
-        <div className="md:text-left text-center">
+      <header className="relative z-10 flex flex-col-reverse items-center justify-between pt-0 pb-16 sm:pt-8 sm:pb-8 md:flex-row">
+        <div className="text-center md:text-left">
           <Link href="/tutorials">
-            <a className="uppercase text-sm font-mono font-semibold tracking-wide pb-1 text-cyan-300">
+            <a className="pb-1 font-mono text-sm font-semibold uppercase tracking-wide text-cyan-300">
               Tutorial
             </a>
           </Link>
-          <h1 className="lg:text-6xl text-5xl font-text font-bold">{title}</h1>
+          <h1 className="font-text text-5xl font-bold lg:text-6xl">{title}</h1>
           <div className="pt-8 text-lg">
-            <div className="flex items-center md:justify-start justify-center gap-3">
+            <div className="flex items-center justify-center gap-3 md:justify-start">
               <div className="flex items-center gap-3">
-                <div className="flex items-center justify-center rounded-full overflow-hidden">
+                <div className="flex items-center justify-center overflow-hidden rounded-full">
                   <Image
                     src={require('../../public/matt-pocock.jpeg')}
                     alt="Matt Pocock"
@@ -87,7 +87,7 @@ const Header: React.FC<{tutorial: SanityDocument}> = ({tutorial}) => {
                 <span>Matt Pocock</span>
               </div>
             </div>
-            <div className="pt-8 flex items-center gap-3">
+            <div className="flex items-center gap-3 pt-8">
               {exercises?.[0] && (
                 <Link
                   href={{
@@ -99,7 +99,7 @@ const Header: React.FC<{tutorial: SanityDocument}> = ({tutorial}) => {
                   }}
                 >
                   <a
-                    className="px-6 py-3 rounded hover:bg-cyan-300 transition flex items-center justify-center font-semibold bg-cyan-400 text-black"
+                    className="flex items-center justify-center rounded bg-cyan-400 px-6 py-3 font-semibold text-black transition hover:bg-cyan-300"
                     onClick={() => {
                       track('clicked github code link', {module: slug.current})
                     }}
@@ -113,7 +113,7 @@ const Header: React.FC<{tutorial: SanityDocument}> = ({tutorial}) => {
               )}
               {github && (
                 <a
-                  className="px-5 py-3 gap-2 rounded transition flex items-center justify-center font-medium border-2 border-gray-800 hover:bg-gray-800"
+                  className="flex items-center justify-center gap-2 rounded border-2 border-gray-800 px-5 py-3 font-medium transition hover:bg-gray-800"
                   href={`https://github.com/total-typescript/${github.repo}`}
                   onClick={() => {
                     track('clicked github code link', {module: slug.current})
@@ -145,7 +145,7 @@ const Header: React.FC<{tutorial: SanityDocument}> = ({tutorial}) => {
         alt=""
         src={require('../../public/assets/landing/bg-divider-3.png')}
         objectPosition={'top'}
-        className="object-contain -z-10"
+        className="-z-10 object-contain"
       />
     </>
   )
@@ -158,9 +158,9 @@ const TutorialExerciseNavigator: React.FC<{tutorial: SanityDocument}> = ({
   return (
     <nav
       aria-label="exercise navigator"
-      className="lg:border-l border-gray-800 lg:pl-8"
+      className="border-gray-800 lg:border-l lg:pl-8"
     >
-      <h2 className="pb-4 text-gray-300 text-sm font-semibold font-mono uppercase">
+      <h2 className="pb-4 font-mono text-sm font-semibold uppercase text-gray-300">
         {exercises?.length || 0} Exercises
       </h2>
       {exercises && (
@@ -179,7 +179,7 @@ const TutorialExerciseNavigator: React.FC<{tutorial: SanityDocument}> = ({
                   passHref
                 >
                   <a
-                    className="text-lg py-2.5 font-semibold group inline-flex items-center"
+                    className="group inline-flex items-center py-2.5 text-lg font-semibold"
                     onClick={() => {
                       track('clicked tutorial exercise', {
                         module: slug.current,
@@ -190,12 +190,12 @@ const TutorialExerciseNavigator: React.FC<{tutorial: SanityDocument}> = ({
                     }}
                   >
                     <span
-                      className="w-8 font-mono text-gray-400 text-xs"
+                      className="w-8 font-mono text-xs text-gray-400"
                       aria-hidden="true"
                     >
                       {i + 1}
                     </span>
-                    <span className="w-full group-hover:underline leading-tight">
+                    <span className="w-full leading-tight group-hover:underline">
                       {exercise.title}
                     </span>
                   </a>
