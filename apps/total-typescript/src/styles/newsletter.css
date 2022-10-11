@@ -2,15 +2,15 @@
   [data-sr-convertkit-subscribe-form] {
     @apply flex flex-col gap-4;
     [data-sr-input] {
-      @apply p-5 bg-gray-800/50 border border-gray-800 w-full rounded-sm text-lg;
+      @apply w-full rounded-sm border border-gray-800 bg-gray-800/50 p-5 text-lg;
     }
     [data-sr-input-label] {
-      @apply w-full pb-1 inline-block text-gray-300;
+      @apply inline-block w-full pb-1 text-gray-300;
     }
     [data-sr-button] {
-      @apply flex items-center justify-center rounded-sm bg-gradient-to-tr from-cyan-600 to-cyan-500 shadow-cyan-900/50 relative shadow-2xl py-5 px-8 mt-2 focus-visible:ring-white font-semibold text-xl hover:brightness-110 transition;
+      @apply relative mt-2 flex items-center justify-center rounded-sm bg-gradient-to-tr from-cyan-600 to-cyan-500 py-5 px-8 text-xl font-semibold shadow-2xl shadow-cyan-900/50 transition focus-visible:ring-white hover:brightness-110;
       svg {
-        @apply w-7 h-7;
+        @apply h-7 w-7;
       }
     }
     [data-sr-button][disabled] {
@@ -24,17 +24,17 @@
 
 #video-overlay {
   [data-sr-convertkit-subscribe-form] {
-    @apply flex flex-col gap-4 text-left w-full max-w-sm;
+    @apply flex w-full max-w-sm flex-col gap-4 text-left;
     [data-sr-input] {
-      @apply px-3 py-3 bg-gray-800/50 border border-gray-800 w-full rounded-md text-lg;
+      @apply w-full rounded-md border border-gray-800 bg-gray-800/50 px-3 py-3 text-lg;
     }
     [data-sr-input-label] {
-      @apply w-full pb-1 inline-block text-gray-300;
+      @apply inline-block w-full pb-1 text-gray-300;
     }
     [data-sr-button] {
-      @apply flex items-center justify-center rounded-md bg-gradient-to-tr from-cyan-600 to-cyan-500 shadow-cyan-900/50 relative shadow-2xl py-4 px-5 mt-2 focus-visible:ring-white font-semibold text-lg hover:brightness-110 transition;
+      @apply relative mt-2 flex items-center justify-center rounded-md bg-gradient-to-tr from-cyan-600 to-cyan-500 py-4 px-5 text-lg font-semibold shadow-2xl shadow-cyan-900/50 transition focus-visible:ring-white hover:brightness-110;
       svg {
-        @apply w-7 h-7;
+        @apply h-7 w-7;
       }
     }
     [data-sr-button][disabled] {
@@ -42,19 +42,19 @@
   }
   [data-sr-convertkit-subscribe-form='success'] {
     p {
-      @apply text-center py-2;
+      @apply py-2 text-center;
     }
   }
   [data-sr-convertkit-subscribe-form='error'] {
     p {
-      @apply text-center py-2;
+      @apply py-2 text-center;
     }
   }
 }
 
 #tip {
   [data-sr-convertkit-subscribe-form] {
-    @apply flex md:flex-row flex-col gap-2 text-left w-full;
+    @apply flex w-full flex-col gap-2 text-left md:flex-row;
     [data-sr-input-wrapper] {
       @apply w-full;
     }
@@ -62,16 +62,16 @@
       @apply md:w-2/3;
     }
     [data-sr-input] {
-      @apply px-3 py-2 bg-gray-800/50 border border-gray-800 rounded-md text-lg w-full;
+      @apply w-full rounded-md border border-gray-800 bg-gray-800/50 px-3 py-2 text-lg;
     }
 
     [data-sr-input-label] {
       @apply sr-only;
     }
     [data-sr-button] {
-      @apply flex-shrink-0 flex items-center justify-center rounded-md bg-gradient-to-tr from-cyan-600 to-cyan-500 shadow-cyan-900/50 relative shadow-2xl py-2 px-5 focus-visible:ring-white font-semibold text-lg hover:brightness-110 transition;
+      @apply relative flex flex-shrink-0 items-center justify-center rounded-md bg-gradient-to-tr from-cyan-600 to-cyan-500 py-2 px-5 text-lg font-semibold shadow-2xl shadow-cyan-900/50 transition focus-visible:ring-white hover:brightness-110;
       svg {
-        @apply w-7 h-7;
+        @apply h-7 w-7;
       }
     }
     [data-sr-button][disabled] {
@@ -79,12 +79,12 @@
   }
   [data-sr-convertkit-subscribe-form='success'] {
     p {
-      @apply text-center py-2;
+      @apply py-2 text-center;
     }
   }
   [data-sr-convertkit-subscribe-form='error'] {
     p {
-      @apply text-center py-2;
+      @apply py-2 text-center;
     }
   }
 }

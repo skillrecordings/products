@@ -55,6 +55,11 @@ export default {
       description: 'This asset is served from Cloudinary',
     },
     {
+      type: 'cloudinary.asset',
+      name: 'ogImage',
+      title: 'OG Image',
+    },
+    {
       title: 'Related resources',
       name: 'resources',
       type: 'array',

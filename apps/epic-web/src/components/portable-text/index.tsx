@@ -23,7 +23,7 @@ import tsx from 'refractor/lang/tsx'
 
 const BodyImage = ({value}: BodyImageProps) => {
   const {alt, image, caption, href} = value
-  const {url, width, height} = image
+  const {secure_url: url, width, height} = image
   const [isLoading, setIsLoading] = React.useState<boolean>(true)
 
   if (!url) return <figure>⚠️ missing image</figure>
@@ -404,6 +404,7 @@ type BodyImageProps = {
       width: string
       height: string
       url: string
+      secure_url: string
     }
     alt: string
     caption: PortableTextBlock | ArbitraryTypedObject

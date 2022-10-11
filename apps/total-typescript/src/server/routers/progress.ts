@@ -1,7 +1,7 @@
 import {createRouter} from 'server/createRouter'
 import {z} from 'zod'
 import {getSdk} from '@skillrecordings/database'
-import {SubscriberSchema} from 'lib/convertkit'
+import {SubscriberSchema} from 'schemas/subscriber'
 
 export const progressRouter = createRouter().mutation('add', {
   input: z.object({

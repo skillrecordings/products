@@ -56,22 +56,23 @@ model Account {
 }
 
 model Coupon {
-  id                    String          @id @default(uuid())
-  code                  String?         @unique
-  createdAt             DateTime        @default(now())
-  expires               DateTime?
-  maxUses               Int             @default(-1)
-  default               Boolean         @default(false)
-  merchantCouponId      String?
-  status                Int             @default(0)
-  usedCount             Int             @default(0)
-  percentageDiscount    Decimal         @db.Decimal(3, 2)
-  restrictedToProductId String?
-  bulkPurchaseId        String?         @unique
-  bulkPurchase          Purchase?       @relation("BulkCoupon", fields: [bulkPurchaseId], references: [id], onDelete: NoAction, onUpdate: NoAction)
-  merchantCoupon        MerchantCoupon? @relation(fields: [merchantCouponId], references: [id], onDelete: Cascade)
-  product               Product?        @relation(fields: [restrictedToProductId], references: [id], onDelete: Cascade)
-  purchases             Purchase[]      @relation("StandardPurchase")
+  id                            String          @id @default(uuid())
+  code                          String?         @unique
+  createdAt                     DateTime        @default(now())
+  expires                       DateTime?
+  maxUses                       Int             @default(-1)
+  default                       Boolean         @default(false)
+  merchantCouponId              String?
+  status                        Int             @default(0)
+  usedCount                     Int             @default(0)
+  percentageDiscount            Decimal         @db.Decimal(3, 2)
+  restrictedToProductId         String?
+  bulkPurchaseId                String?         @unique
+  bulkPurchase                  Purchase?       @relation("BulkCoupon", fields: [bulkPurchaseId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  merchantCoupon                MerchantCoupon? @relation(fields: [merchantCouponId], references: [id], onDelete: Cascade)
+  product                       Product?        @relation(fields: [restrictedToProductId], references: [id], onDelete: Cascade)
+  purchases                     Purchase[]      @relation("StandardPurchase")
+  bulkCouponRedemptionPurchases Purchase[]      @relation("RedeemedBulkCoupon")
 }
 
 model MerchantAccount {
@@ -187,26 +188,28 @@ model UpgradableProducts {
 }
 
 model Purchase {
-  id               String          @id @default(uuid())
-  userId           String?
-  createdAt        DateTime        @default(now())
-  totalAmount      Decimal
-  ip_address       String?
-  city             String?
-  state            String?
-  country          String?
-  couponId         String?
-  productId        String
-  merchantChargeId String?
-  upgradedFromId   String?         @unique
-  upgradedFrom     Purchase?       @relation("UpgradedToPurchase", fields: [upgradedFromId], references: [id], onDelete: NoAction, onUpdate: NoAction)
-  upgradedTo       Purchase?       @relation("UpgradedToPurchase")
-  bulkCoupon       Coupon?         @relation("BulkCoupon")
-  coupon           Coupon?         @relation("StandardPurchase", fields: [couponId], references: [id], onDelete: Cascade)
-  merchantCharge   MerchantCharge? @relation(fields: [merchantChargeId], references: [id], onDelete: Cascade)
-  product          Product         @relation(fields: [productId], references: [id], onDelete: Cascade)
-  user             User?           @relation(fields: [userId], references: [id], onDelete: Cascade)
-  status           String          @default("Valid")
+  id                   String          @id @default(uuid())
+  userId               String?
+  createdAt            DateTime        @default(now())
+  totalAmount          Decimal
+  ip_address           String?
+  city                 String?
+  state                String?
+  country              String?
+  couponId             String?
+  redeemedBulkCouponId String?
+  productId            String
+  merchantChargeId     String?
+  upgradedFromId       String?         @unique
+  upgradedFrom         Purchase?       @relation("UpgradedToPurchase", fields: [upgradedFromId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  upgradedTo           Purchase?       @relation("UpgradedToPurchase")
+  bulkCoupon           Coupon?         @relation("BulkCoupon")
+  coupon               Coupon?         @relation("StandardPurchase", fields: [couponId], references: [id], onDelete: Cascade)
+  redeemedBulkCoupon   Coupon?         @relation("RedeemedBulkCoupon", fields: [redeemedBulkCouponId], references: [id], onDelete: NoAction)
+  merchantCharge       MerchantCharge? @relation(fields: [merchantChargeId], references: [id], onDelete: Cascade)
+  product              Product         @relation(fields: [productId], references: [id], onDelete: Cascade)
+  user                 User?           @relation(fields: [userId], references: [id], onDelete: Cascade)
+  status               String          @default("Valid")
 }
 
 model Session {

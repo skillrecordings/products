@@ -28,7 +28,7 @@ const BodyImage = ({value}: BodyImageProps) => {
     return (
       <figure
         className={cx(
-          'flex items-center text-center justify-center relative py-4',
+          'relative flex items-center justify-center py-4 text-center',
           {
             'bg-slate-100': isLoading,
           },
@@ -93,7 +93,7 @@ const BodyTestimonial: React.FC<
   return (
     <div className="not-prose">
       <blockquote
-        className="sm:mx-0 -mx-5 border border-gray-800 sm:pr-6 sm:pl-8 pr-5 pl-5 py-5 sm:rounded-lg shadow-xl text-gray-200 font-medium relative overflow-hidden"
+        className="relative -mx-5 overflow-hidden border border-gray-800 py-5 pr-5 pl-5 font-medium text-gray-200 shadow-xl sm:mx-0 sm:rounded-lg sm:pr-6 sm:pl-8"
         {...props}
       >
         <div className="relative z-10">
@@ -103,7 +103,7 @@ const BodyTestimonial: React.FC<
           {author?.name && (
             <div className="flex items-center gap-3 pt-5 text-gray-200">
               {author.image && (
-                <div className="flex items-center justify-center rounded-full overflow-hidden">
+                <div className="flex items-center justify-center overflow-hidden rounded-full">
                   <Image
                     src={author.image}
                     alt={author.name}
@@ -112,12 +112,12 @@ const BodyTestimonial: React.FC<
                   />
                 </div>
               )}
-              <span className="text-gray-200 font-normal">{author.name}</span>
+              <span className="font-normal text-gray-200">{author.name}</span>
             </div>
           )}
         </div>
         <div
-          className="absolute sm:w-1 w-0.5 h-full bg-cyan-500 top-0 left-0"
+          className="absolute top-0 left-0 h-full w-0.5 bg-cyan-500 sm:w-1"
           aria-hidden="true"
         />
       </blockquote>
@@ -174,13 +174,13 @@ const PortableTextComponents: PortableTextComponents = {
               aria-label="Video transcript"
               role="contentinfo"
             >
-              <summary className="inline-flex space-x-2 items-center cursor-pointer text-gray-600 hover:text-gray-800 transition">
+              <summary className="inline-flex cursor-pointer items-center space-x-2 text-gray-600 transition hover:text-gray-800">
                 <span
                   aria-hidden="true"
-                  className="group-hover:bg-gray-50 p-1 rounded-full border border-gray-200 flex items-center justify-center transition"
+                  className="flex items-center justify-center rounded-full border border-gray-200 p-1 transition group-hover:bg-gray-50"
                 >
-                  <ChevronDownIcon className="group-open:hidden w-4 h-4" />
-                  <ChevronUpIcon className="group-open:block hidden w-4 h-4" />
+                  <ChevronDownIcon className="h-4 w-4 group-open:hidden" />
+                  <ChevronUpIcon className="hidden h-4 w-4 group-open:block" />
                 </span>
                 <span className="text-base">Video Transcript</span>
               </summary>
@@ -215,13 +215,13 @@ const PortableTextComponents: PortableTextComponents = {
                 aria-label="Video transcript"
                 role="contentinfo"
               >
-                <summary className="inline-flex space-x-2 items-center cursor-pointer text-gray-600 hover:text-gray-800 transition">
+                <summary className="inline-flex cursor-pointer items-center space-x-2 text-gray-600 transition hover:text-gray-800">
                   <span
                     aria-hidden="true"
-                    className="group-hover:bg-gray-50 p-1 rounded-full border border-gray-200 flex items-center justify-center transition"
+                    className="flex items-center justify-center rounded-full border border-gray-200 p-1 transition group-hover:bg-gray-50"
                   >
-                    <ChevronDownIcon className="group-open:hidden w-4 h-4" />
-                    <ChevronUpIcon className="group-open:block hidden w-4 h-4" />
+                    <ChevronDownIcon className="h-4 w-4 group-open:hidden" />
+                    <ChevronUpIcon className="hidden h-4 w-4 group-open:block" />
                   </span>
                   <span className="text-base">Video Transcript</span>
                 </summary>
@@ -245,7 +245,7 @@ const PortableTextComponents: PortableTextComponents = {
         return {
           line: line,
           component: ({children}: any) => (
-            <div className=" before:bg-gradient-to-r from-yellow-500/30 to-amber-500/40 before:pointer-events-none before:mix-blend-overlay before:content-[''] before:absolute before:w-full before:h-6 before:left-0">
+            <div className=" from-yellow-500/30 to-amber-500/40 before:pointer-events-none before:absolute before:left-0 before:h-6 before:w-full before:bg-gradient-to-r before:mix-blend-overlay before:content-['']">
               {children}
             </div>
           ),
@@ -263,7 +263,7 @@ const PortableTextComponents: PortableTextComponents = {
           </pre>
           <pre
             aria-hidden="true"
-            className="sm:mx-0 -mx-5 sm:rounded-lg rounded-none bg-black/50 relative scrollbar-track-transparent scrollbar-thumb-gray-800 hover:scrollbar-thumb-gray-700 scrollbar-thin"
+            className="relative -mx-5 rounded-none bg-black/50 scrollbar-thin scrollbar-track-transparent scrollbar-thumb-gray-800 hover:scrollbar-thumb-gray-700 sm:mx-0 sm:rounded-lg"
           >
             <Refractor
               inline
@@ -286,7 +286,7 @@ const PortableTextComponents: PortableTextComponents = {
       return (
         <div
           className={cx(
-            `p-5 sm:my-8 my-4 rounded-md flex space-x-5`,
+            `my-4 flex space-x-5 rounded-md p-5 sm:my-8`,
             getCalloutStyles(type),
           )}
         >
@@ -342,12 +342,12 @@ const PortableTextComponents: PortableTextComponents = {
     grid: ({value}: GridProps) => {
       const {items} = value
       return (
-        <div className="sm:prose-ul:pl-0 prose-ul:pl-0 prose-ul:list-outside prose-li:pl-0">
-          <ul className="md:py-10 py-2 max-w-screen-md mx-auto list-outside list-none pl-0 grid md:grid-cols-2 grid-cols-1 place-content-center place-items-start sm:text-xl text-lg md:gap-16">
+        <div className="prose-ul:list-outside prose-ul:pl-0 prose-li:pl-0 sm:prose-ul:pl-0">
+          <ul className="mx-auto grid max-w-screen-md list-outside list-none grid-cols-1 place-content-center place-items-start py-2 pl-0 text-lg sm:text-xl md:grid-cols-2 md:gap-16 md:py-10">
             {items.map((item: any) => {
               return (
                 <li key={item.title} className="pl-0 marker:text-black">
-                  <strong className="sm:text-2xl text-xl font-bold">
+                  <strong className="text-xl font-bold sm:text-2xl">
                     {item.title}
                   </strong>
                   <div className="pl-5 prose-li:py-0.5">

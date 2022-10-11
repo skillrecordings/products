@@ -56,7 +56,7 @@ const ExerciseTemplate: React.FC<{
         meta={{title: pageTitle, ...shareCard, description: pageDescription}}
         nav={
           <Navigation
-            className="flex lg:absolute relative w-full xl:pl-[calc(320px+20px)] lg:pl-[calc(280px+20px)]"
+            className="relative flex w-full lg:absolute lg:pl-[calc(280px+20px)] xl:pl-[calc(320px+20px)]"
             containerClassName="flex h-full justify-between w-full items-stretch"
           />
         }
@@ -71,14 +71,14 @@ const ExerciseTemplate: React.FC<{
           authorName={`${process.env.NEXT_PUBLIC_PARTNER_FIRST_NAME} ${process.env.NEXT_PUBLIC_PARTNER_LAST_NAME}`}
           description={pageDescription}
         />
-        <div className="flex lg:flex-row flex-col">
+        <div className="flex flex-col lg:flex-row">
           <ExerciseSidebar
-            className="lg:block hidden"
+            className="hidden lg:block"
             module={module}
             path={path}
           />
-          <main className="lg:mt-16 grow relative max-w-[1480px] mx-auto 2xl:flex items-start 2xl:max-w-none border-t 2xl:border-gray-800 border-transparent">
-            <div className="2xl:w-full 2xl:border-r border-gray-800 2xl:relative 2xl:h-full">
+          <main className="relative mx-auto max-w-[1480px] grow items-start border-t border-transparent lg:mt-16 2xl:flex 2xl:max-w-none 2xl:border-gray-800">
+            <div className="border-gray-800 2xl:relative 2xl:h-full 2xl:w-full 2xl:border-r">
               <Video ref={muxPlayerRef} module={module} exercise={exercise} />
               <MobileLessonNavigator module={module} />
               <div className="hidden 2xl:block 2xl:bg-black/20">
@@ -88,13 +88,13 @@ const ExerciseTemplate: React.FC<{
                 />
               </div>
             </div>
-            <article className="flex-shrink-0 relative 2xl:bg-transparent sm:bg-black/20">
-              <div className="mx-auto lg:py-8 px-5 py-5 relative max-w-4xl 2xl:max-w-xl z-10">
+            <article className="relative flex-shrink-0 sm:bg-black/20 2xl:bg-transparent">
+              <div className="relative z-10 mx-auto max-w-4xl px-5 py-5 lg:py-8 2xl:max-w-xl">
                 <ExerciseTitle exercise={exercise} />
                 <ExerciseDescription exercise={exercise} />
                 <GitHubLink exercise={exercise} module={module} />
               </div>
-              <div className="2xl:hidden block relative z-10">
+              <div className="relative z-10 block 2xl:hidden">
                 <VideoTranscript
                   exercise={exercise}
                   muxPlayerRef={muxPlayerRef}
@@ -107,7 +107,7 @@ const ExerciseTemplate: React.FC<{
                 layout="fill"
                 objectFit="contain"
                 objectPosition="center top"
-                className="pointer-events-none select-none z-0"
+                className="pointer-events-none z-0 select-none"
               />
             </article>
           </main>
@@ -145,7 +145,7 @@ const Video: React.FC<VideoProps> = React.forwardRef(
           </>
         )}
         <div
-          className={cx('flex items-center justify-center w-full relative', {
+          className={cx('relative flex w-full items-center justify-center', {
             hidden: displayOverlay,
           })}
         >
@@ -174,7 +174,7 @@ const GitHubLink: React.FC<{
 
   return (
     <div className="pt-14">
-      <h2 className="sm:text-3xl text-2xl font-semibold pb-4">Code</h2>
+      <h2 className="pb-4 text-2xl font-semibold sm:text-3xl">Code</h2>
       <div className="flex items-center gap-2">
         <a
           onClick={() => {
@@ -188,15 +188,15 @@ const GitHubLink: React.FC<{
           href={`https://github.com/total-typescript/${github.repo}/blob/main/${openFile}`}
           target="_blank"
           rel="noopener noreferrer"
-          className="bg-gray-800/50 hover:bg-slate-800/90 transition border border-gray-700/50 text-white rounded py-5 px-6 text-lg font-medium inline-flex items-center gap-4"
+          className="inline-flex items-center gap-4 rounded border border-gray-700/50 bg-gray-800/50 py-5 px-6 text-lg font-medium text-white transition hover:bg-slate-800/90"
         >
-          <IconGithub className="w-14 h-14" />
+          <IconGithub className="h-14 w-14" />
           <div>
             <p className="text-xl font-semibold">
               {module.github.repo}
-              <span className="text-gray-400 font-medium"></span>
+              <span className="font-medium text-gray-400"></span>
             </p>
-            <p className="text-sm font-mono text-gray-400">/{openFile}</p>
+            <p className="font-mono text-sm text-gray-400">/{openFile}</p>
           </div>
         </a>
       </div>
@@ -210,7 +210,7 @@ const ExerciseTitle: React.FC<{exercise: Exercise}> = ({exercise}) => {
     <>
       <span
         className={cx(
-          '2xl:mt-0 sm:mt-5 inline-block uppercase lg:text-sm text-xs 2xl:text-xs font-semibold font-mono px-2.5 py-1 rounded-full',
+          'inline-block rounded-full px-2.5 py-1 font-mono text-xs font-semibold uppercase sm:mt-5 lg:text-sm 2xl:mt-0 2xl:text-xs',
           {
             'bg-cyan-500/20 text-cyan-300': _type === 'solution',
             'bg-orange-500/20 text-orange-300': _type !== 'solution',
@@ -219,7 +219,7 @@ const ExerciseTitle: React.FC<{exercise: Exercise}> = ({exercise}) => {
       >
         {_type !== 'exercise' ? _type : 'Problem'}
       </span>
-      <h1 className="xl:text-[2.65rem] 2xl:text-4xl sm:text-4xl text-3xl font-bold tracking-tight pb-5 pt-3">
+      <h1 className="pb-5 pt-3 text-3xl font-bold tracking-tight sm:text-4xl xl:text-[2.65rem] 2xl:text-4xl">
         {title}
       </h1>
     </>
@@ -229,7 +229,7 @@ const ExerciseTitle: React.FC<{exercise: Exercise}> = ({exercise}) => {
 const ExerciseDescription: React.FC<{exercise: Exercise}> = ({exercise}) => {
   const {body} = exercise
   return (
-    <div className="xl:pt-8 pt-5 2xl:pt-5 prose-p:text-gray-300 prose-headings:text-gray-100 prose sm:prose-lg max-w-none prose-headings:font-semibold">
+    <div className="prose max-w-none pt-5 prose-headings:font-semibold prose-headings:text-gray-100 prose-p:text-gray-300 sm:prose-lg xl:pt-8 2xl:pt-5">
       <PortableText value={body} components={PortableTextComponents} />
     </div>
   )
@@ -258,14 +258,14 @@ export const StackBlitzIframe: React.FC<{
         }}
         src={embedUrl}
         title="code editor"
-        className={cx('w-full transition-all h-full', {
+        className={cx('h-full w-full transition-all', {
           invisible: isLoading,
         })}
       />
       {isLoading && (
-        <div className="absolute left-0 top-0 w-full h-full flex items-center justify-center bg-[#070B15]">
-          <div className="flex items-center justify-center gap-2 relative z-10">
-            <Spinner className="w-8 h-8" />
+        <div className="absolute left-0 top-0 flex h-full w-full items-center justify-center bg-[#070B15]">
+          <div className="relative z-10 flex items-center justify-center gap-2">
+            <Spinner className="h-8 w-8" />
             <span>Loading editor...</span>
           </div>
           <Image
@@ -290,11 +290,11 @@ const VideoTranscript: React.FC<{
   }
 
   return (
-    <div className=" max-w-4xl mx-auto p-5 py-16">
-      <h2 className="flex items-baseline sm:text-3xl text-2xl font-semibold">
+    <div className=" mx-auto max-w-4xl p-5 py-16">
+      <h2 className="flex items-baseline text-2xl font-semibold sm:text-3xl">
         Transcript
       </h2>
-      <div className="prose sm:prose-lg max-w-none prose-p:text-gray-300 pt-4">
+      <div className="prose max-w-none pt-4 prose-p:text-gray-300 sm:prose-lg">
         <PortableText
           value={transcript}
           components={
@@ -304,7 +304,7 @@ const VideoTranscript: React.FC<{
                   const {timestamp} = value
                   return video ? (
                     <button
-                      className="underline inline-block after:inline-block after:content-[' ']"
+                      className="after:content-[' '] inline-block underline after:inline-block"
                       onClick={() => {
                         muxPlayerRef.current.currentTime =
                           hmsToSeconds(timestamp)
@@ -329,8 +329,8 @@ const MobileLessonNavigator: React.FC<{module: SanityDocument}> = ({
   module,
 }) => {
   return (
-    <details className="lg:hidden block group border-t-2 border-gray-900">
-      <summary className="flex gap-1 items-center px-4 py-3 font-medium bg-black/50 hover:bg-gray-800 transition cursor-pointer no-marker marker:content-[''] group-open:after:rotate-0 after:rotate-180 after:content-['↑'] after:text-lg after:w-6 after:h-6 after:rounded-full after:bg-gray-800 after:flex after:items-center after:justify-center after:absolute after:right-3">
+    <details className="group block border-t-2 border-gray-900 lg:hidden">
+      <summary className="no-marker flex cursor-pointer items-center gap-1 bg-black/50 px-4 py-3 font-medium transition marker:content-[''] after:absolute after:right-3 after:flex after:h-6 after:w-6 after:rotate-180 after:items-center after:justify-center after:rounded-full after:bg-gray-800 after:text-lg after:content-['↑'] group-open:after:rotate-0 hover:bg-gray-800">
         {module.title} {capitalize(module.moduleType)}{' '}
         <span className="opacity-80">
           ({module.exercises.length} exercises)

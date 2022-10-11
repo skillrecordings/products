@@ -61,7 +61,7 @@ export const SurveyPopup = ({
               transition={isPopupOpen ? {duration: 0.3} : {duration: 0.2}}
               id="popup"
               className={cx(
-                'sm:block hidden fixed bottom-5 right-5 bg-gray-800 border border-gray-700/80 rounded-md w-72 z-10 shadow-xl',
+                'fixed bottom-5 right-5 z-10 hidden w-72 rounded-md border border-gray-700/80 bg-gray-800 shadow-xl sm:block',
               )}
             >
               <PopupSurveyQuestion
@@ -126,21 +126,21 @@ const SurveyPopupDismissalButtons = () => {
   return (
     <>
       <div
-        className="w-full flex items-center justify-center -translate-y-5"
+        className="flex w-full -translate-y-5 items-center justify-center"
         id="rewardId"
       />
       {!isAnswered && (
         <>
           <button
-            className="absolute top-0 right-0 text-gray-300 p-1 rounded hover:bg-gray-700/50 transition"
+            className="absolute top-0 right-0 rounded p-1 text-gray-300 transition hover:bg-gray-700/50"
             type="button"
             onClick={handlePopupClosed}
           >
             <span className="sr-only">Close</span>
-            <XIcon className="w-4 h-4" aria-hidden="true" />
+            <XIcon className="h-4 w-4" aria-hidden="true" />
           </button>
           <button
-            className="absolute left-3 bottom-3 text-gray-300 text-sm p-2 rounded hover:underline"
+            className="absolute left-3 bottom-3 rounded p-2 text-sm text-gray-300 hover:underline"
             type="button"
             onClick={handlePopupDismissed}
           >

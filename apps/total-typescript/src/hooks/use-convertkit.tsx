@@ -6,7 +6,7 @@ import {useQuery} from 'react-query'
 import toast from 'react-hot-toast'
 import {useRouter} from 'next/router'
 import {removeQueryParamsFromRouter} from 'utils/remove-query-params-from-router'
-import {type Subscriber} from 'lib/convertkit'
+import {type Subscriber} from 'schemas/subscriber'
 import {identify} from '../utils/analytics'
 
 export type ConvertkitContextType = {
