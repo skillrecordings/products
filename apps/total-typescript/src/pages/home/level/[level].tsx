@@ -5,7 +5,6 @@ import {HomeTemplate} from 'templates/home-template'
 export const getServerSideProps: GetServerSideProps = async ({res, query}) => {
   const {level} = query
 
-  res.setHeader('Cache-Control', 's-maxage=1, stale-while-revalidate')
   return {
     props: {
       level,
