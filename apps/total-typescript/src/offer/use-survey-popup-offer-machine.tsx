@@ -36,6 +36,40 @@ export const useSurveyPopupOfferMachine = () => {
             break
           }
         }
+        if (
+          !offerFound &&
+          subscriber &&
+          subscriber.fields['ts_at_work'] === 'true'
+        ) {
+          const devs_on_team = {
+            question: `How many TypeScript developers are on your team?`,
+            type: 'multiple-choice',
+            choices: [
+              {
+                answer: '1',
+                label: 'Just me!',
+              },
+              {
+                answer: '2-5',
+                label: '2-5',
+              },
+              {
+                answer: '6-10',
+                label: '6-10',
+              },
+              {
+                answer: '10+',
+                label: 'more than 10',
+              },
+            ],
+          }
+          sendToMachine('CURRENT_OFFER_READY', {
+            currentOffer: devs_on_team,
+            currentOfferId: `devs_on_team`,
+          })
+          offerFound = true
+        }
+
         if (!offerFound) sendToMachine('NO_CURRENT_OFFER_FOUND')
         break
     }
