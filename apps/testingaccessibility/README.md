@@ -1,4 +1,4 @@
-# Testing Accessibility 
+# Testing Accessibility
 
 The working directory for this project is the same folder the README you are reading right now is located. All commands assume you are in the `{PROJECT_ROOT}/apps/testingaccessibility` in your console.
 
@@ -101,6 +101,8 @@ You'll need to install [Docker Desktop](https://www.docker.com/products/docker-d
 
 If you didn't already, make sure the `.env` file is availabe with the `DATABASE_URL` env var set.
 
+Important: Any time you generate a new Prisma client for an application (which happens automatically when running `db push`), it will effectively cache the `DATABASE_URL` environment variable so the client will be pointing at the last database that changes were pushed to. So it's important to stay on top of which database the local Prisma client is cached for.
+
 See [Configure your Dev Environment](#configure-your-dev-environment) for the details.
 
 #### Using MySQL
@@ -189,18 +191,20 @@ The `dev:stripe` node script is a shorthand for `stripe listen --forward-to loca
 ### Connect to the Planetscale database
 
 ```bash
-pscale connect testing-accessibility next-steps --port 3309
+pscale connect testing-accessibility PLANETSCALE_DB_BRANCH_NAME --port 3309
 ```
 
 ### Changing the Database Schema
 
-Before making any changes to the schema, consider the impact those changes will have on a production system with preexisting live data. You may need to take a multi-step approach to get to your desired schema. [Prisma's Expand-and-Contract Pattern guide](https://www.prisma.io/dataguide/types/relational/expand-and-contract-pattern) is a good reference for what this multi-step approach might look like.
+**Before making any changes to the schema, consider the impact those changes will have on a production system with preexisting live data.** You will likely need to take a multi-step approach to get to your desired schema. [Prisma's Expand-and-Contract Pattern guide](https://www.prisma.io/dataguide/types/relational/expand-and-contract-pattern) is a good reference for what this multi-step approach might look like.
 
 To alter the schema, you'll need to first update `/packages/database/prisma/schema.prisma`.
 
+Worth noting if you're familiar with writing migrations for database updates: With Planetscale, you alter the schema directly instead of writing migrations. The upside of this approach is that it leaves the responsibility of safe migrations up to Planetscale. The downside is that it will frequently require multiple separate releases if following the Expand-and-Contract Pattern.
+
 #### Migrate Schema Changes Locally
 
-When you make changes to the schema via Prisma you'll need to push it to the DB. We don't use Prisma migrations.
+When you make changes to the schema via Prisma you'll need to explicitly push it to the DB. We don't use Prisma migrations.
 
 You can test out your schema changes locally with the MySQL in Docker instance.
 
@@ -216,7 +220,7 @@ From here, you can connect to the MySQL database with a SQL client to view the c
 
 #### Develop against the New Schema
 
-To develop against the new schema with the full power of Prisma's TypeScript typings, you'll need to re-generate the Prisma client for the updated schema.
+To develop against the new schema with the full power of Prisma's TypeScript typings, you'll need to re-generate the Prisma client for the updated schema. When doing this, if you switch partner products, the Prisma client will be pointing at the last partner product database until the client is regenerated.
 
 ```bash
 npx prisma generate
@@ -229,13 +233,13 @@ This works much the same as with apply schema changes to MySQL in Docker, except
 If you don't have it already, you'll need to create a Planetscale branch off the `main` database branch. You can do that from the Planetscale dashboard or using the CLI:
 
 ```bash
-pscale branch create testing-accessibility descriptive-branch-name
+pscale branch create testing-accessibility PLANETSCALE_DB_BRANCH_NAME
 ```
 
 Now open up a connection to the branch that you've created for these schema changes.
 
 ```bash
-pscale connect testing-accessibility descriptive-branch-name --port 3309
+pscale connect testing-accessibility PLANETSCALE_DB_BRANCH_NAME --port 3309
 ```
 
 With a connection open at port 3309, we can now push our schema changes up to Planetscale.
