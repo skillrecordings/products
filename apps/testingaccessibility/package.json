@@ -4,6 +4,7 @@
   "private": true,
   "scripts": {
     "build": "next build",
+    "build:dev": "pnpm -w build --filter testingaccessibility",
     "postbuild": "NODE_ENV=production next-sitemap",
     "clean": "pnpm -r exec -- rm -rf .turbo node_modules .next",
     "dev": "pnpm dev:validate && next dev -p 3013",
@@ -15,6 +16,7 @@
     "start": "next start -p 3013",
     "test": "jest",
     "db:studio": "prisma studio",
+    "db:generate": "pnpm -w generate",
     "db:push": "prisma db push",
     "db:schema": "prisma migrate dev --create-only",
     "db:seed:branch": "bin/seed",

@@ -6,13 +6,6 @@
       "dependsOn": ["^build", "^generate", "generate"],
       "outputs": ["dist/**", ".next/**"]
     },
-    "epic-web#build": {
-      "dependsOn": ["^build", "build:css", "^generate", "generate"],
-      "outputs": ["api/index.js", "api/build/**", "public/build/**"]
-    },
-    "epic-web#build:css": {
-      "outputs": ["app/tailwind.css"]
-    },
     "@skillrecordings/config#build": {
       "dependsOn": [
         "^build",
