@@ -192,13 +192,65 @@ The `dev:stripe` node script is a shorthand for `stripe listen --forward-to loca
 pscale connect testing-accessibility next-steps --port 3309
 ```
 
-### Migrate any schema changes
+### Changing the Database Schema
 
-If you make changes to the schema via Prisma you'll need to push it to the DB. We don't use Prisma migrations and let Planetscale handle it:
+Before making any changes to the schema, consider the impact those changes will have on a production system with preexisting live data. You may need to take a multi-step approach to get to your desired schema. [Prisma's Expand-and-Contract Pattern guide](https://www.prisma.io/dataguide/types/relational/expand-and-contract-pattern) is a good reference for what this multi-step approach might look like.
+
+To alter the schema, you'll need to first update `/packages/database/prisma/schema.prisma`.
+
+#### Migrate Schema Changes Locally
+
+When you make changes to the schema via Prisma you'll need to push it to the DB. We don't use Prisma migrations.
+
+You can test out your schema changes locally with the MySQL in Docker instance.
+
+First, make sure Docker is running with MySQL at the appropriate port (`3309`).
+
+Then, apply the changes to the MySQL databse using Prisma's `db push` command.
 
 ```bash
 npx prisma db push
 ```
+
+From here, you can connect to the MySQL database with a SQL client to view the changes or view it from _Prisma Studio_.
+
+#### Develop against the New Schema
+
+To develop against the new schema with the full power of Prisma's TypeScript typings, you'll need to re-generate the Prisma client for the updated schema.
+
+```bash
+npx prisma generate
+```
+
+#### Migrate Schema Changes on Planetscale
+
+This works much the same as with apply schema changes to MySQL in Docker, except we need to push the changes to Planetscale.
+
+If you don't have it already, you'll need to create a Planetscale branch off the `main` database branch. You can do that from the Planetscale dashboard or using the CLI:
+
+```bash
+pscale branch create testing-accessibility descriptive-branch-name
+```
+
+Now open up a connection to the branch that you've created for these schema changes.
+
+```bash
+pscale connect testing-accessibility descriptive-branch-name --port 3309
+```
+
+With a connection open at port 3309, we can now push our schema changes up to Planetscale.
+
+```bash
+npx prisma db push
+```
+
+The next step is to open a Deploy Request for getting a team review of your schema changes. This can also either be done from the Planetscale dashboard or the CLI:
+
+```bash
+pscale deploy-request create testing-accessibility descriptive-branch-name
+```
+
+Once the Deploy Request has been reviewed and confirmed, Planetscale will schedule the migration of those schema changes against the `main` branch. This shouldn't take too long for smaller databases. Once the migration is complete, your schema changes will be live in the production database. This is why it is important that schema changes are applied incrementally in a non-breaking way.
 
 ### Prisma studio
 
