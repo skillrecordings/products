@@ -1,6 +1,24 @@
 import {micromark} from 'micromark'
 import {htmlToBlocks} from '@sanity/block-tools'
 
+function formatCodeBlock(nodes) {
+  let code = ''
+
+  nodes.forEach((node, index) => {
+    if (index === 0 && index === nodes.length - 1) {
+      code += node.textContent
+    } else if (index === 0) {
+      code += node.textContent + '\n'
+    } else if (index === nodes.length - 1) {
+      code += '\n' + node.textContent
+    } else {
+      code += '\n' + node.textContent + '\n'
+    }
+  })
+
+  return code
+}
+
 export async function handlePaste(input) {
   const {event, type, path} = input
   const text = event.clipboardData.getData('text/plain')
@@ -24,10 +42,9 @@ export async function handlePaste(input) {
                 codeElement && codeElement.tagName.toLowerCase() === 'code'
                   ? codeElement.childNodes
                   : el.childNodes
-              let code = ''
-              childNodes.forEach((node) => {
-                code += '\n' + node.textContent + '\n'
-              })
+
+              const code = formatCodeBlock(childNodes)
+
               const language =
                 codeElement && codeElement.className
                   ? codeElement.className.replace('language-', '')
