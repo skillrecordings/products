@@ -34,6 +34,7 @@ import {
 import {useConvertkit} from 'hooks/use-convertkit'
 import {setUserId} from '@amplitude/analytics-browser'
 import {ArticleJsonLd} from '@skillrecordings/next-seo'
+import PortableTextComponents from 'components/portable-text'
 
 const TipTemplate: React.FC<TipPageProps> = ({tip, tips}) => {
   const muxPlayerRef = React.useRef<HTMLDivElement>()
@@ -121,8 +122,8 @@ const TipTemplate: React.FC<TipPageProps> = ({tip, tips}) => {
               )}
             </div>
           </div>
-          <div className="relative z-10 border-l border-transparent px-5 pb-16 xl:border-gray-800">
-            <article className="mx-auto w-full max-w-screen-xl pt-5 sm:pt-10 ">
+          <article className="relative z-10 border-l border-transparent px-5 pb-16 xl:border-gray-800">
+            <div className="mx-auto w-full max-w-screen-xl pt-5 sm:pt-10 ">
               <div className="flex flex-col gap-0 sm:gap-10 md:flex-row">
                 <div className="w-full">
                   <h1 className="inline-flex w-full max-w-2xl items-baseline text-3xl font-bold lg:text-4xl">
@@ -149,27 +150,54 @@ const TipTemplate: React.FC<TipPageProps> = ({tip, tips}) => {
                       }
                     />
                   )}
+                  {tip.body && (
+                    <>
+                      <div className="prose w-full max-w-none pb-5 pt-5 prose-headings:font-medium prose-p:text-gray-200 lg:prose-lg">
+                        <PortableText
+                          value={tip.body}
+                          components={PortableTextComponents}
+                        />
+                      </div>
+                      <Hr
+                        className={
+                          tipCompleted ? 'border-teal-400' : 'border-cyan-400'
+                        }
+                      />
+                    </>
+                  )}
+                  {tip.transcript && tip.body && (
+                    <div className="w-full max-w-2xl pt-5">
+                      <Transcript
+                        transcript={tip.transcript}
+                        muxPlayerRef={muxPlayerRef}
+                      />
+                    </div>
+                  )}
                 </div>
                 <div className="w-full">
                   <div className="prose prose-lg w-full max-w-none pb-5 font-medium prose-p:text-gray-200 lg:prose-xl">
-                    <PortableText value={tip.body} />
+                    <PortableText
+                      value={tip.summary}
+                      components={PortableTextComponents}
+                    />
                   </div>
                   <ReplyOnTwitter tweet={tweet} />
+                  {tip.body && <RelatedTips currentTip={tip} tips={tips} />}
                 </div>
               </div>
-            </article>
+            </div>
             <div className="mx-auto flex w-full max-w-screen-xl flex-col gap-10 pt-10 sm:pt-10 md:flex-row">
               {tip.transcript && (
-                <div className="w-full max-w-2xl">
+                <div className="w-full max-w-2xl pt-5">
                   <Transcript
                     transcript={tip.transcript}
                     muxPlayerRef={muxPlayerRef}
                   />
                 </div>
               )}
-              <RelatedTips currentTip={tip} tips={tips} />
+              {!tip.body && <RelatedTips currentTip={tip} tips={tips} />}
             </div>
-          </div>
+          </article>
           <Image
             src={require('../../public/assets/landing/bg-divider-6.png')}
             alt=""
@@ -245,7 +273,7 @@ const RelatedTips: React.FC<{tips: Tip[]; currentTip: Tip}> = ({
   tips,
 }) => {
   return (
-    <section className="mx-auto w-full">
+    <section className="mx-auto w-full pt-5">
       <h2 className="text-2xl font-semibold">More Tips</h2>
       <div className="flex flex-col divide-y divide-gray-800 pt-4">
         {tips
