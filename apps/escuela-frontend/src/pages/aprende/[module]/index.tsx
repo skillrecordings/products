@@ -6,6 +6,7 @@ import {getAllCourses, getModule} from 'lib/courses'
 import {GetStaticPaths, GetStaticProps} from 'next'
 import Image from 'next/image'
 import {PortableText} from '@portabletext/react'
+import Link from 'next/link'
 
 export const USER_ID_QUERY_PARAM_KEY = 'learner'
 
@@ -53,7 +54,7 @@ const CoursePage: React.FC<{
               quality={100}
             />
             <h1 className="m-4 mx-auto text-2xl font-black tracking-tight lg:text-3xl">
-              Módulos
+              Secciones
             </h1>
             <div>
               {course.modules &&
@@ -62,10 +63,37 @@ const CoursePage: React.FC<{
                     <h2 className='className="p-3 py-4 mx-auto mb-2 text-2xl font-bold text-black tracking-bold lg:text-2xl border-rounded'>
                       {resource.moduleTitle}
                     </h2>
-                    {resource.lessons &&
-                      resource.lessons.map((lesson: any) => (
-                        <h1 className="text-base">{lesson?.lessonTitle}</h1>
-                      ))}
+                    {resource.lessons && (
+                      <ul>
+                        {resource.lessons.map((lesson: any) => {
+                          return (
+                            <li key={lesson.lessonSlug}>
+                              <Link
+                                href={{
+                                  pathname: '/aprende/[module]/[lesson]',
+                                  query: {
+                                    module: course.slug,
+                                    lesson: lesson.lessonSlug,
+                                  },
+                                }}
+                              >
+                                <a className="group inline-flex items-center py-2.5 text-lg font-semibold">
+                                  <span
+                                    className="w-8 font-mono text-xs text-gray-400"
+                                    aria-hidden="true"
+                                  >
+                                    *
+                                  </span>
+                                  <span className="w-full leading-tight group-hover:underline">
+                                    {lesson?.lessonTitle}
+                                  </span>
+                                </a>
+                              </Link>
+                            </li>
+                          )
+                        })}
+                      </ul>
+                    )}
                   </div>
                 ))}
             </div>
