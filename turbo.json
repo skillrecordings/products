@@ -7,12 +7,11 @@
       "outputs": ["dist/**", ".next/**"]
     },
     "@skillrecordings/config#build": {
-      "dependsOn": [
-        "^build",
-        "generate",
-        "$CONVERTKIT_API_SECRET",
-        "$NEXT_PUBLIC_CONVERTKIT_TOKEN",
-        "$NEXT_PUBLIC_CONVERTKIT_SIGNUP_FORM"
+      "dependsOn": ["^build", "generate"],
+      "env": [
+        "CONVERTKIT_API_SECRET",
+        "NEXT_PUBLIC_CONVERTKIT_TOKEN",
+        "NEXT_PUBLIC_CONVERTKIT_SIGNUP_FORM"
       ],
       "outputs": ["dist/**"]
     },
