@@ -68,11 +68,12 @@ model Coupon {
   percentageDiscount            Decimal         @db.Decimal(3, 2)
   restrictedToProductId         String?
   bulkPurchaseId                String?         @unique
-  bulkPurchase                  Purchase?       @relation("BulkCoupon", fields: [bulkPurchaseId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  bulkPurchase                  Purchase?       @relation("IndividualBulkCoupon", fields: [bulkPurchaseId], references: [id], onDelete: NoAction, onUpdate: NoAction)
   merchantCoupon                MerchantCoupon? @relation(fields: [merchantCouponId], references: [id], onDelete: Cascade)
   product                       Product?        @relation(fields: [restrictedToProductId], references: [id], onDelete: Cascade)
   purchases                     Purchase[]      @relation("StandardPurchase")
   bulkCouponRedemptionPurchases Purchase[]      @relation("RedeemedBulkCoupon")
+  bulkCouponPurchases           Purchase[]      @relation("BulkCoupon")
 }
 
 model MerchantAccount {
@@ -197,13 +198,15 @@ model Purchase {
   state                String?
   country              String?
   couponId             String?
+  bulkCouponId         String?
   redeemedBulkCouponId String?
   productId            String
   merchantChargeId     String?
   upgradedFromId       String?         @unique
   upgradedFrom         Purchase?       @relation("UpgradedToPurchase", fields: [upgradedFromId], references: [id], onDelete: NoAction, onUpdate: NoAction)
   upgradedTo           Purchase?       @relation("UpgradedToPurchase")
-  bulkCoupon           Coupon?         @relation("BulkCoupon")
+  bulkCoupon           Coupon?         @relation("BulkCoupon", fields: [bulkCouponId], references: [id])
+  individualBulkCoupon Coupon?         @relation("IndividualBulkCoupon")
   coupon               Coupon?         @relation("StandardPurchase", fields: [couponId], references: [id], onDelete: Cascade)
   redeemedBulkCoupon   Coupon?         @relation("RedeemedBulkCoupon", fields: [redeemedBulkCouponId], references: [id], onDelete: NoAction)
   merchantCharge       MerchantCharge? @relation(fields: [merchantChargeId], references: [id], onDelete: Cascade)

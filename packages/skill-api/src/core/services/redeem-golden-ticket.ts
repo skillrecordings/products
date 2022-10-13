@@ -72,7 +72,7 @@ export async function redeemGoldenTicket({
         where: {
           userId: user.id,
           productId,
-          bulkCoupon: null,
+          individualBulkCoupon: null,
           status: PurchaseStatus.Valid,
         },
         select: {
