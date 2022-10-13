@@ -19,8 +19,8 @@ export default {
       validation: (Rule) => Rule.required(),
       options: {
         list: [
-          {title: 'Section', value: 'section'},
           {title: 'Lesson', value: 'lesson'},
+          {title: 'Section', value: 'section'},
         ],
       },
     },
@@ -39,7 +39,11 @@ export default {
       title: 'Resources',
       type: 'array',
       of: [
-        {type: 'resource'},
+        {
+          type: 'reference',
+          description: 'Most likely this will be a lesson',
+          to: [{type: 'resource'}],
+        },
         {type: 'exercise'},
         {type: 'solution'},
         {type: 'talk'},
