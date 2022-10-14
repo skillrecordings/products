@@ -101,7 +101,7 @@ You'll need to install [Docker Desktop](https://www.docker.com/products/docker-d
 
 If you didn't already, make sure the `.env` file is availabe with the `DATABASE_URL` env var set.
 
-Important: Any time you generate a new Prisma client for an application (which happens automatically when running `db push`), it will effectively cache the `DATABASE_URL` environment variable so the client will be pointing at the last database that changes were pushed to. So it's important to stay on top of which database the local Prisma client is cached for.
+Important: If you are developing a standalone script (like a data migration script) that uses the generated Prisma client, be sure to use [`dotenv-flow`](https://github.com/kerimdzhanov/dotenv-flow) to require the `DATABASE_URL` appropriate to the target app.
 
 See [Configure your Dev Environment](#configure-your-dev-environment) for the details.
 
@@ -220,10 +220,10 @@ From here, you can connect to the MySQL database with a SQL client to view the c
 
 #### Develop against the New Schema
 
-To develop against the new schema with the full power of Prisma's TypeScript typings, you'll need to re-generate the Prisma client for the updated schema. When doing this, if you switch partner products, the Prisma client will be pointing at the last partner product database until the client is regenerated.
+To develop against the new schema with the full power of Prisma's TypeScript typings, you'll need to re-generate the Prisma client for the updated schema.
 
 ```bash
-npx prisma generate
+pnpm db:generate
 ```
 
 #### Migrate Schema Changes on Planetscale
@@ -245,7 +245,7 @@ pscale connect testing-accessibility PLANETSCALE_DB_BRANCH_NAME --port 3309
 With a connection open at port 3309, we can now push our schema changes up to Planetscale.
 
 ```bash
-npx prisma db push
+pnpm db:push
 ```
 
 The next step is to open a Deploy Request for getting a team review of your schema changes. This can also either be done from the Planetscale dashboard or the CLI:
@@ -261,7 +261,7 @@ Once the Deploy Request has been reviewed and confirmed, Planetscale will schedu
 Start prisma studio:
 
 ```bash
-npx prisma studio
+pnpm db:studio
 ```
 
 ### Seed Data
