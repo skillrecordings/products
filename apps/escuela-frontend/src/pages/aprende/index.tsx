@@ -5,17 +5,15 @@ import Link from 'next/link'
 import Image from 'next/image'
 
 export async function getStaticProps() {
-  const tutorials = await getAllCourses()
+  const modules = await getAllCourses()
 
   return {
-    props: {tutorials},
+    props: {modules},
     revalidate: 10,
   }
 }
 
-const TutorialsPage: React.FC<{tutorials: SanityDocument[]}> = ({
-  tutorials,
-}) => {
+const ModulesPage: React.FC<{modules: SanityDocument[]}> = ({modules}) => {
   return (
     <div>
       <main className="relative z-10 flex flex-col items-center justify-center py-32 sm:py-40">
@@ -26,31 +24,29 @@ const TutorialsPage: React.FC<{tutorials: SanityDocument[]}> = ({
           Cursos profesionales de desarrollo frontend.
         </p>
 
-        {tutorials && (
+        {modules && (
           <ul className="flex flex-col max-w-screen-lg gap-8 px-3 pt-20">
-            {tutorials.map(
-              ({title, slug, image, description, exercises}, i) => {
-                return (
-                  <Link
-                    href={{
-                      pathname: '/aprende/[module]',
-                      query: {
-                        module: slug.current,
-                      },
-                    }}
-                  >
-                    <a>
-                      <li className="p-10 text-white bg-black border rounded-lg shadow-2xl">
-                        <h1 className="mx-auto mb-12 text-2xl font-black tracking-tight sm:max-w-3xl md:max-w-4xl lg:text-6xl">
-                          {title}
-                        </h1>
-                        <p className="prose text-white">{description}</p>
-                      </li>
-                    </a>
-                  </Link>
-                )
-              },
-            )}
+            {modules.map(({title, slug, description}) => {
+              return (
+                <Link
+                  href={{
+                    pathname: '/aprende/[module]',
+                    query: {
+                      module: slug.current,
+                    },
+                  }}
+                >
+                  <a>
+                    <li className="p-10 text-white bg-black border rounded-lg shadow-2xl">
+                      <h1 className="mx-auto mb-12 text-2xl font-black tracking-tight sm:max-w-3xl md:max-w-4xl lg:text-6xl">
+                        {title}
+                      </h1>
+                      <p className="prose text-white">{description}</p>
+                    </li>
+                  </a>
+                </Link>
+              )
+            })}
           </ul>
         )}
       </main>
@@ -78,4 +74,4 @@ const StripesLeft: React.FC<{className?: string}> = ({className = ''}) => {
   )
 }
 
-export default TutorialsPage
+export default ModulesPage
