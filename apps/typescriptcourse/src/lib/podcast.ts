@@ -16,6 +16,7 @@ export type PodcastSeason = {
   podcast: Podcast
   episodes: PodcastEpisode[]
   coverArtUrl: string
+  content: any
 }
 
 export type PodcastEpisode = {
@@ -29,6 +30,7 @@ export type PodcastEpisode = {
   duration: string
   _updatedAt: string
   publishedAt: string
+  content: any
 }
 
 export async function getAllPodcastSeasons() {
@@ -58,6 +60,7 @@ export async function getPodcastSeason(podcastSeasonSlug: string) {
     title,
     "slug": slug.current,
     description,
+    content,
     'episodes': episodes[]->{
       _updatedAt,
       title,
@@ -83,6 +86,7 @@ export async function getPodcastEpisode(podcastEpisodeSlug: string) {
     'slug': slug.current,
     simplecastId,
     transcript,
+    content,
     'coverArtUrl': coverArt.asset->url
   }`,
     {
