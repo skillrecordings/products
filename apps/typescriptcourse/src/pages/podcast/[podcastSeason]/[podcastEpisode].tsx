@@ -8,7 +8,9 @@ import {
   PodcastEpisode,
 } from '../../../lib/podcast'
 import Markdown from 'react-markdown'
-import {isEmpty} from 'lodash'
+import {PortableText} from '@portabletext/react'
+import PortableTextComponents from 'components/portable-text'
+import Layout from 'components/app/layout'
 
 export const getStaticProps: GetStaticProps = async ({params}) => {
   const episode = await getPodcastEpisode(params?.podcastEpisode as string)
@@ -40,23 +42,28 @@ export const getStaticPaths: GetStaticPaths = async () => {
 }
 
 const PodcastEpisode: React.FC<{episode: PodcastEpisode}> = ({episode}) => {
-  const {title, simplecastId, transcript} = episode
+  const {title, simplecastId, transcript, content, description} = episode
 
   return (
-    <div>
-      <main className="prose px-5 py-28 max-w-screen-sm mx-auto">
+    <Layout>
+      <main className="max-w-screen-sm px-5 mx-auto prose py-28">
         <h1>{title}</h1>
-        <PodcastPlayer simplecastId={simplecastId} />
-        <section className="relative sm:pb-12 pb-6 flex flex-col px-5">
-          <Markdown className="prose">{episode.description}</Markdown>
-        </section>
+        <div className="prose opacity-90 md:prose-p:text-white/90 md:prose-headings:mx-auto prose-headings:mx-auto md:prose-headings:max-w-screen-sm md:prose-lg prose-p:my-5 md:prose-p:my-8 xl:prose-p:my-10 xl:prose-xl max-w-none">
+          <Markdown>{description}</Markdown>
+        </div>
 
-        <section className="relative sm:pb-12 pb-6 flex flex-col px-5">
+        <PodcastPlayer simplecastId={simplecastId} />
+
+        <div className="prose opacity-90 md:prose-p:text-white/90 md:prose-headings:mx-auto prose-headings:mx-auto md:prose-headings:max-w-screen-sm md:prose-lg prose-p:my-5 md:prose-p:my-8 xl:prose-p:my-10 xl:prose-xl max-w-none">
+          <PortableText value={content} components={PortableTextComponents} />
+        </div>
+
+        <div className="mt-20 prose opacity-90 md:prose-p:text-white/90 md:prose-headings:mx-auto prose-headings:mx-auto md:prose-headings:max-w-screen-sm md:prose-lg prose-p:my-5 md:prose-p:my-8 xl:prose-p:my-10 xl:prose-xl max-w-none">
           <h2>Transcript</h2>
-          <Markdown className="prose">{transcript}</Markdown>
-        </section>
+          <Markdown>{transcript}</Markdown>
+        </div>
       </main>
-    </div>
+    </Layout>
   )
 }
 
