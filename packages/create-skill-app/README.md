@@ -1,5 +1,7 @@
 # Create Next App
 
+If you don't want to publish and use current package version `npm link` in `packages/create-skill-app` folder and then run `create-skill-app` command from anywhere.
+
 The easiest way to get started with Next.js is by using `create-skill-app`. This CLI tool enables you to quickly start building a new Next.js application, with everything set up for you. You can create a new app using the default Next.js template, or by using one of the [official Next.js examples](https://github.com/vercel/next.js/tree/canary/examples). To get started, use the following command:
 
 ```bash
