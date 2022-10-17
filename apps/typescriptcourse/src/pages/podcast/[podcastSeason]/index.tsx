@@ -7,13 +7,14 @@ import {
   PodcastSeason,
 } from '../../../lib/podcast'
 import Link from 'next/link'
-import {PortableText} from '@portabletext/react'
 import PortableTextComponents from 'components/portable-text'
 import Layout from 'components/app/layout'
+import {PortableText, toPlainText} from '@portabletext/react'
+import {useRouter} from 'next/router'
+import {getOgImage} from 'utils/get-og-image'
 
 export const getStaticProps: GetStaticProps = async ({params}) => {
   const season = await getPodcastSeason(params?.podcastSeason as string)
-
   return {
     props: {
       season,
@@ -24,7 +25,6 @@ export const getStaticProps: GetStaticProps = async ({params}) => {
 
 export const getStaticPaths: GetStaticPaths = async () => {
   const seasons = await getAllPodcastSeasons()
-
   const paths = seasons.map((season: any) => {
     return {
       params: {
@@ -35,9 +35,27 @@ export const getStaticPaths: GetStaticPaths = async () => {
   return {paths, fallback: 'blocking'}
 }
 
-const PodcastSeason: React.FC<{season: PodcastSeason}> = ({season}) => {
+const PodcastSeasonPage = ({season}: {season: PodcastSeason}) => {
+  return <EpisodeIndexLayout season={season} />
+}
+
+const EpisodeIndexLayout: React.FC<{season: PodcastSeason}> = ({season}) => {
+  const {title, episodes, content, description} = season
+
+  const ogImage = getOgImage(title)
+  const shortDescription =
+    description || toPlainText(content).substring(0, 157) + '...'
+  const router = useRouter()
+
   return (
-    <Layout>
+    <Layout
+      meta={{
+        ogImage,
+        title,
+        description: shortDescription,
+        url: `${process.env.NEXT_PUBLIC_URL}${router.asPath}`,
+      }}
+    >
       <div className="overflow-hidden">
         <div className="w-full max-w-screen-sm px-5 mx-auto overflow-hidden">
           <header className="relative pt-20 overflow-hidden text-white md:pt-24 pb-10">
@@ -47,24 +65,21 @@ const PodcastSeason: React.FC<{season: PodcastSeason}> = ({season}) => {
             <h1 className="text-3xl font-bold leading-none font-heading sm:text-4xl lg:text-5xl">
               Learn How to{' '}
               <span className="text-transparent bg-gradient-to-l from-red-300 to-white bg-clip-text decoration-clone">
-                {season.title}
+                {title}
               </span>
             </h1>
           </header>
           <div className="prose opacity-90 md:prose-p:text-white/90 md:prose-headings:mx-auto prose-headings:mx-auto md:prose-headings:max-w-screen-sm md:prose-lg prose-p:my-5 md:prose-p:my-8 xl:prose-p:my-10 xl:prose-xl max-w-none">
-            <PortableText
-              value={season.content}
-              components={PortableTextComponents}
-            />
+            <PortableText value={content} components={PortableTextComponents} />
           </div>
-          <h2 className="mt-20 text-3xl font-bold mb-10">Episodes</h2>
-          {season.episodes.map((episode, index) => (
+          <h2 className="mt-20 text-2xl font-bold mb-10">Episodes</h2>
+          {episodes.map((episode) => (
             <Link
               key={episode.slug}
               href={`/podcast/${season.slug}/${episode.slug}`}
             >
               <a className="group focus:outline-none">
-                <div className="grid max-w-screen-xl gap-4 mx-auto grid-cols-7 center mb-10">
+                <div className="grid max-w-screen-xl gap-4 mx-auto grid-cols-6 center mb-10">
                   <div className="relative flex-none col-span-1">
                     <div className="absolute inset-0 flex items-center justify-center transition transform scale-0 opacity-0 group-hover:scale-100 group-hover:opacity-100 group-focus:opacity-100">
                       <div className="flex-none p-4 text-gray-800 bg-white rounded-full bg-opacity-80">
@@ -80,14 +95,10 @@ const PodcastSeason: React.FC<{season: PodcastSeason}> = ({season}) => {
                       quality="%100"
                     />
                   </div>
-
-                  <div className="col-span-4 mb-3 font-bold lg:mb-0 sm:text-lg text-base">
-                    <span className="inline-block mr-2 font-normal">
-                      {`${(index + 1).toString().padStart(2, '0')}.`}
-                    </span>
+                  <h3 className="col-span-4 mb-3 font-semibold lg:mb-0 sm:text-lg text-base">
                     {episode.title}
-                  </div>
-                  <p className="text-right opacity-80 sm:text-base text-sm">
+                  </h3>
+                  <p className="text-right opacity-80 text-sm">
                     {episode.duration}
                   </p>
                 </div>
@@ -114,4 +125,4 @@ function TriangleIcon({size = 24}: {size?: number}) {
   )
 }
 
-export default PodcastSeason
+export default PodcastSeasonPage
