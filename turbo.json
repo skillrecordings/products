@@ -7,7 +7,8 @@
       "outputs": ["dist/**", ".next/**"]
     },
     "@skillrecordings/config#build": {
-      "dependsOn": ["^build", "generate", "$CONVERTKIT_API_SECRET"],
+      "dependsOn": ["^build", "generate"],
+      "env": ["CONVERTKIT_API_SECRET"],
       "outputs": ["dist/**"]
     },
     "@skillrecordings/database#build": {
