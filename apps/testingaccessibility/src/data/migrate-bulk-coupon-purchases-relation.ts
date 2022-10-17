@@ -15,6 +15,7 @@
 // ```
 
 import {prisma} from '@skillrecordings/database'
+require('dotenv-flow').config()
 
 const backfillBulkCouponIdForBulkPurchases = async () => {
   // Make sure this only runs for the expected database, because TA is the only
