@@ -1,5 +1,6 @@
 import React from 'react'
 import {AppProps} from 'next/app'
+import {Session} from 'next-auth'
 import {initNProgress} from '@skillrecordings/react'
 import {DefaultSeo} from '@skillrecordings/next-seo'
 import config from 'config'
@@ -29,7 +30,7 @@ declare global {
 
 initNProgress()
 
-function MyApp({Component, pageProps}: AppProps) {
+function MyApp({Component, pageProps}: AppProps<{session: Session}>) {
   usePageview()
   return (
     <>

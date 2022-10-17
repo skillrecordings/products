@@ -72,7 +72,7 @@ export async function redeemGoldenTicket({
         where: {
           userId: user.id,
           productId,
-          bulkCoupon: null,
+          individualBulkCoupon: null,
           status: PurchaseStatus.Valid,
         },
         select: {
@@ -91,8 +91,7 @@ export async function redeemGoldenTicket({
       const createPurchase = prisma.purchase.create({
         data: {
           userId: user.id,
-          couponId: coupon.id, // TODO: old redeeming-coupon identifier
-          redeemedBulkCouponId: coupon.id, // TODO: new redeeming-coupon identifer
+          redeemedBulkCouponId: coupon.id,
           productId,
           totalAmount: 0,
         },

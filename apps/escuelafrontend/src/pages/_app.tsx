@@ -1,5 +1,6 @@
 import React from 'react'
 import {AppProps} from 'next/app'
+import {Session} from 'next-auth'
 import {DefaultSeo} from '@skillrecordings/next-seo'
 import config from '../config.json'
 import {ThemeProvider} from 'next-themes'
@@ -23,7 +24,7 @@ declare global {
   }
 }
 
-const App: React.FC<React.PropsWithChildren<AppProps>> = ({
+const App: React.FC<React.PropsWithChildren<AppProps<{session: Session}>>> = ({
   Component,
   pageProps,
 }) => {

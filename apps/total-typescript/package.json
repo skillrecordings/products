@@ -5,13 +5,15 @@
   "scripts": {
     "dev": "next dev -p 3016",
     "build": "next build",
+    "build:dev": "pnpm -w build --filter total-typescript",
     "postbuild": "NODE_ENV=production next-sitemap",
     "start": "next start -p 3016",
     "lint": "eslint src/**/*.{ts,tsx} --fix && tsc --noEmit",
     "test": "jest",
     "db:studio": "prisma studio",
     "db:push": "prisma db push",
-    "db:start": "docker compose up -d"
+    "db:start": "docker compose up -d",
+    "db:generate": "pnpm -w generate"
   },
   "dependencies": {
     "@amplitude/analytics-browser": "^1.3.0",
@@ -49,6 +51,7 @@
     "@trpc/next": "^9.27.2",
     "@trpc/react": "^9.27.2",
     "@trpc/server": "^9.27.2",
+    "@vercel/og": "^0.0.18",
     "@xstate/react": "=1.5.1",
     "classnames": "^2.3.1",
     "cookie": "^0.5.0",
@@ -64,7 +67,7 @@
     "jsonwebtoken": "^8.5.1",
     "lodash": "^4.17.21",
     "mjml": "^4.12.0",
-    "next": "^12.2.3",
+    "next": "^12.3.1",
     "next-auth": "^4.10.3",
     "next-sitemap": "^3.0.5",
     "node-fetch": "^2.6.7",
