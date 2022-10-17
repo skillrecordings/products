@@ -47,7 +47,9 @@ const PodcastEpisode: React.FC<{episode: PodcastEpisode}> = ({episode}) => {
   return (
     <Layout>
       <main className="max-w-screen-sm px-5 mx-auto prose py-28">
-        <h1>{title}</h1>
+        <h1 className="max-w-screen-md py-4 mx-auto text-3xl font-bold leading-none font-heading sm:text-4xl lg:text-5xl">
+          {title}
+        </h1>
         <div className="prose opacity-90 md:prose-p:text-white/90 md:prose-headings:mx-auto prose-headings:mx-auto md:prose-headings:max-w-screen-sm md:prose-lg prose-p:my-5 md:prose-p:my-8 xl:prose-p:my-10 xl:prose-xl max-w-none">
           <Markdown>{description}</Markdown>
         </div>
