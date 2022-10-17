@@ -1,5 +1,6 @@
 import groq from 'groq'
 import {sanityClient} from '../utils/sanity-client'
+import {SanityDocument} from '@sanity/client'
 
 export type Podcast = {
   title: string
