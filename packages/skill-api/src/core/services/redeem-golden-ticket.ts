@@ -52,6 +52,8 @@ export async function redeemGoldenTicket({
     const couponValidation = validateCoupon(coupon)
 
     if (coupon && couponValidation.isValid) {
+      const bulkCouponRedemption = coupon.maxUses > 1
+
       const {user} = await findOrCreateUser(email)
 
       if (!user)
@@ -91,7 +93,7 @@ export async function redeemGoldenTicket({
       const createPurchase = prisma.purchase.create({
         data: {
           userId: user.id,
-          redeemedBulkCouponId: coupon.id,
+          redeemedBulkCouponId: bulkCouponRedemption ? coupon.id : null,
           productId,
           totalAmount: 0,
         },
@@ -124,8 +126,9 @@ export async function redeemGoldenTicket({
         console.error(`no email sent to ${user.email}`)
       }
 
-      if (params.options.slack?.redeem && !coupon.bulkPurchaseId) {
-        console.warn('not configured for slack to post coupon redemptions')
+      // Post to Slack to notify the team when a special-purpose coupon is
+      // redeemed. Ignore redemption of bulk coupon.
+      if (params.options.slack?.redeem && !bulkCouponRedemption) {
         await postRedemptionToSlack(
           user.email,
           purchase.productId,
