@@ -40,8 +40,8 @@ const PodcastSeason: React.FC<{season: PodcastSeason}> = ({season}) => {
     <Layout>
       <div className="overflow-hidden">
         <div className="w-full max-w-screen-sm px-5 mx-auto overflow-hidden">
-          <header className="relative pt-20 pb-10 overflow-hidden text-white md:pt-24 lg:py-20">
-            <p className="mb-4 text-lg md:text-xl font-heading opacity-95">
+          <header className="relative pt-20 overflow-hidden text-white md:pt-24 pb-10">
+            <p className="mb-4 text-sm md:text-base font-heading opacity-95">
               Podcast Season One
             </p>
             <h1 className="text-3xl font-bold leading-none font-heading sm:text-4xl lg:text-5xl">
@@ -64,7 +64,7 @@ const PodcastSeason: React.FC<{season: PodcastSeason}> = ({season}) => {
               href={`/podcast/${season.slug}/${episode.slug}`}
             >
               <a className="group focus:outline-none">
-                <div className="grid max-w-screen-xl gap-4 mx-auto grid-cols-6 center mb-10 items-center">
+                <div className="grid max-w-screen-xl gap-4 mx-auto grid-cols-7 center mb-10">
                   <div className="relative flex-none col-span-1">
                     <div className="absolute inset-0 flex items-center justify-center transition transform scale-0 opacity-0 group-hover:scale-100 group-hover:opacity-100 group-focus:opacity-100">
                       <div className="flex-none p-4 text-gray-800 bg-white rounded-full bg-opacity-80">
@@ -81,13 +81,15 @@ const PodcastSeason: React.FC<{season: PodcastSeason}> = ({season}) => {
                     />
                   </div>
 
-                  <div className="col-span-4 mb-3 text-xl font-bold lg:mb-0">
-                    <span className="inline-block w-10 font-normal lg:text-lg">
+                  <div className="col-span-4 mb-3 font-bold lg:mb-0 sm:text-lg text-base">
+                    <span className="inline-block mr-2 font-normal">
                       {`${(index + 1).toString().padStart(2, '0')}.`}
                     </span>
                     {episode.title}
                   </div>
-                  <p className="text-right opacity-80">{episode.duration}</p>
+                  <p className="text-right opacity-80 sm:text-base text-sm">
+                    {episode.duration}
+                  </p>
                 </div>
               </a>
             </Link>
