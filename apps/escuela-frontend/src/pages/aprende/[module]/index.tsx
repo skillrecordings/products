@@ -1,6 +1,4 @@
 import React from 'react'
-
-import {User} from '@skillrecordings/database'
 import {SanityDocument} from '@sanity/client'
 import {getAllCourses, getModule} from 'lib/courses'
 import {GetStaticPaths, GetStaticProps} from 'next'
@@ -57,15 +55,15 @@ const CoursePage: React.FC<{
               Secciones
             </h1>
             <div>
-              {course.modules &&
-                course.modules.map((resource: any) => (
+              {course.sections &&
+                course.sections.map((section: any) => (
                   <div>
-                    <h2 className='className="p-3 py-4 mx-auto mb-2 text-2xl font-bold text-black tracking-bold lg:text-2xl border-rounded'>
-                      {resource.moduleTitle}
+                    <h2 className="p-3 py-4 mx-auto mb-2 text-2xl font-bold text-black tracking-bold lg:text-2xl border-rounded">
+                      {section.sectionTitle}
                     </h2>
-                    {resource.lessons && (
+                    {section.lessons && (
                       <ul>
-                        {resource.lessons.map((lesson: any) => {
+                        {section.lessons.map((lesson: any) => {
                           return (
                             <li key={lesson.lessonSlug}>
                               <Link
@@ -85,7 +83,7 @@ const CoursePage: React.FC<{
                                     *
                                   </span>
                                   <span className="w-full leading-tight group-hover:underline">
-                                    {lesson?.lessonTitle}
+                                    {lesson.lessonTitle}
                                   </span>
                                 </a>
                               </Link>

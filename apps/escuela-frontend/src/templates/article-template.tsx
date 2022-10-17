@@ -96,6 +96,8 @@ const RelatedResources: React.FC<{resources: SanityDocument[]}> = ({
                   <a className="text-2xl font-semibold transition lg:text-3xl hover:underline">
                     {title}
                   </a>
+
+                  <p></p>
                 </Link>
                 {subtitle && (
                   <p className="pt-2 text-lg lg:text-xl text-slate-400">

@@ -18,9 +18,9 @@ export const getModule = async (slug: string) =>
      'image': image.asset->url,
      description, 
      body,
-     'modules': resources[]->{
-        'moduleTitle': title,
-        'moduleSlug': slug.current,
+     'sections': resources[]->{
+        'sectionTitle': title,
+        'sectionSlug': slug.current,
           ..., 
      'lessons': resources[]->{
         'lessonTitle': title,
