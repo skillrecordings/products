@@ -106,7 +106,7 @@ export const headerContent = {
       <span className="font-symbol" aria-hidden="true">
         s
       </span>
-      Your expertise is valuable.
+      Your expertise is valuable{' '}
       <span className="font-symbol" aria-hidden="true">
         t
       </span>
