@@ -4,7 +4,7 @@ const PodcastPlayer: React.FC<
   React.PropsWithChildren<{simplecastId: string}>
 > = ({simplecastId}) => {
   return (
-    <div className="relative my-20">
+    <div className="relative sm:my-16 my-10">
       <iframe
         title="Simplecast Player"
         className="my-8"
