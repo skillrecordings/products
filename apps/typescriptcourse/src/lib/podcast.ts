@@ -1,43 +1,38 @@
 import groq from 'groq'
 import {sanityClient} from '../utils/sanity-client'
-import z from 'zod'
+import {SanityDocument} from '@sanity/client'
 
-export const PodcastEpisodeSchema = z.object({
-  title: z.string(),
-  slug: z.string(),
-  description: z.string(),
-  summary: z.string(),
-  simplecastId: z.string(),
-  coverArtUrl: z.string(),
-  transcript: z.string(),
-  duration: z.string(),
-  _updatedAt: z.string(),
-  publishedAt: z.string(),
-  content: z.any().array().nullable().optional(),
-})
+export type Podcast = {
+  title: string
+  slug: string
+  description: string
+  seasons: PodcastSeason[]
+  coverArtUrl: string
+}
 
-export type PodcastEpisode = z.infer<typeof PodcastEpisodeSchema>
+export type PodcastSeason = {
+  title: string
+  slug: string
+  description: string
+  podcast: Podcast
+  episodes: PodcastEpisode[]
+  coverArtUrl: string
+  content: any
+}
 
-export const PodcastSeasonSchema = z.object({
-  title: z.string(),
-  slug: z.string(),
-  description: z.string(),
-  episodes: z.array(PodcastEpisodeSchema),
-  coverArtUrl: z.string(),
-  content: z.any().array().nullable().optional(),
-})
-
-export type PodcastSeason = z.infer<typeof PodcastSeasonSchema>
-
-export const PodcastSchema = z.object({
-  title: z.string(),
-  slug: z.string(),
-  description: z.string(),
-  seasons: z.array(PodcastSeasonSchema),
-  coverArtUrl: z.string(),
-})
-
-export type Podcast = z.infer<typeof PodcastSchema>
+export type PodcastEpisode = {
+  title: string
+  slug: string
+  description: string
+  summary: string
+  simplecastId: string
+  coverArtUrl: string
+  transcript: string
+  duration: string
+  _updatedAt: string
+  publishedAt: string
+  content: any
+}
 
 export async function getAllPodcastSeasons() {
   return sanityClient.fetch(

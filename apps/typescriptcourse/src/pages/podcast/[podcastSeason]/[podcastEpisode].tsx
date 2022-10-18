@@ -51,11 +51,8 @@ const EpisodeLayout = ({episode}: {episode: PodcastEpisode}) => {
   const {title, simplecastId, transcript, content, description} = episode
 
   const ogImage = getOgImage(title)
-  const shortDescription = description
-    ? description
-    : content
-    ? toPlainText(content).substring(0, 157) + '...'
-    : ''
+  const shortDescription =
+    description || toPlainText(content).substring(0, 157) + '...'
   const router = useRouter()
 
   return (
@@ -67,18 +64,18 @@ const EpisodeLayout = ({episode}: {episode: PodcastEpisode}) => {
         url: `${process.env.NEXT_PUBLIC_URL}${router.asPath}`,
       }}
     >
-      <main className="max-w-screen-md px-5 mx-auto prose sm:py-16 py-5">
+      <main className="max-w-screen-sm px-5 mx-auto prose py-28">
         <h1 className="max-w-screen-md py-4 mx-auto text-3xl font-bold leading-none font-heading sm:text-4xl lg:text-5xl">
           {title}
         </h1>
-        <div className="prose opacity-90 md:prose-p:text-white/90 md:prose-headings:mx-auto md:prose-lg prose-p:my-5 md:prose-p:my-8 xl:prose-p:my-10 xl:prose-xl max-w-none">
+        <div className="prose opacity-90 md:prose-p:text-white/90 md:prose-headings:mx-auto prose-headings:mx-auto md:prose-headings:max-w-screen-sm md:prose-lg prose-p:my-5 md:prose-p:my-8 xl:prose-p:my-10 xl:prose-xl max-w-none">
           <Markdown>{description}</Markdown>
         </div>
         <PodcastPlayer simplecastId={simplecastId} />
-        <div className="prose opacity-90 md:prose-p:text-white/90 md:prose-headings:mx-auto md:prose-lg prose-p:my-5 md:prose-p:my-8 xl:prose-p:my-10 xl:prose-xl max-w-none">
+        <div className="prose opacity-90 md:prose-p:text-white/90 md:prose-headings:mx-auto prose-headings:mx-auto md:prose-headings:max-w-screen-sm md:prose-lg prose-p:my-5 md:prose-p:my-8 xl:prose-p:my-10 xl:prose-xl max-w-none">
           <PortableText value={content} components={PortableTextComponents} />
         </div>
-        <div className="mt-20 prose opacity-90 md:prose-p:text-white/90 md:prose-headings:mx-auto md:prose-lg prose-p:my-5 md:prose-p:my-8 xl:prose-p:my-10 xl:prose-xl max-w-none">
+        <div className="mt-20 prose opacity-90 md:prose-p:text-white/90 md:prose-headings:mx-auto prose-headings:mx-auto md:prose-headings:max-w-screen-sm md:prose-lg prose-p:my-5 md:prose-p:my-8 xl:prose-p:my-10 xl:prose-xl max-w-none">
           <h2>Transcript</h2>
           <Markdown>{transcript}</Markdown>
         </div>
