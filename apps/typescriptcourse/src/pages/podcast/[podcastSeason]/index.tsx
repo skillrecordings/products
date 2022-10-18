@@ -43,8 +43,11 @@ const EpisodeIndexLayout: React.FC<{season: PodcastSeason}> = ({season}) => {
   const {title, episodes, content, description} = season
 
   const ogImage = getOgImage(title)
-  const shortDescription =
-    description || toPlainText(content).substring(0, 157) + '...'
+  const shortDescription = description
+    ? description
+    : content
+    ? toPlainText(content).substring(0, 157) + '...'
+    : ''
   const router = useRouter()
 
   return (
@@ -57,14 +60,14 @@ const EpisodeIndexLayout: React.FC<{season: PodcastSeason}> = ({season}) => {
       }}
     >
       <div className="overflow-hidden">
-        <div className="w-full max-w-screen-sm px-5 mx-auto overflow-hidden">
-          <header className="relative pt-20 overflow-hidden text-white md:pt-24 pb-10">
+        <div className="w-full max-w-screen-sm px-5 mx-auto overflow-hidden sm:pb-24">
+          <header className="relative sm:pt-20 pt-10 overflow-hidden text-white md:pt-24 pb-10">
             <p className="mb-4 text-sm md:text-base font-heading opacity-95">
               Podcast Season One
             </p>
             <h1 className="text-3xl font-bold leading-none font-heading sm:text-4xl lg:text-5xl">
               Learn How to{' '}
-              <span className="text-transparent bg-gradient-to-l from-red-300 to-white bg-clip-text decoration-clone">
+              <span className="text-transparent bg-gradient-to-l from-blue-200 to-white bg-clip-text decoration-clone">
                 {title}
               </span>
             </h1>

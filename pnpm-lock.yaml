@@ -2816,6 +2816,7 @@ importers:
       webpack: ^5.73.0
       xstate: '=4.23.1'
       yup: ^0.32.11
+      zod: ^3.19.1
     dependencies:
       '@heroicons/react': 1.0.6_react@18.2.0
       '@mdx-js/mdx': 2.0.0
@@ -2891,6 +2892,7 @@ importers:
       vfile: 5.3.0
       xstate: 4.23.1
       yup: 0.32.11
+      zod: 3.19.1
     devDependencies:
       '@mdx-js/loader': 1.6.22_react@18.2.0
       '@next/env': 12.2.0
@@ -10977,7 +10979,7 @@ packages:
       axios: 0.26.1
       client-oauth2: 4.3.3
       js-cookie: 3.0.1
-      next: 12.3.1_dyjg3c6zvjv6p4lxmcqda555km
+      next: 12.3.1_biqbaboplfbrettd7655fr4n2y
     transitivePeerDependencies:
       - debug
     dev: false
@@ -13769,7 +13771,7 @@ packages:
   /axios/0.21.4:
     resolution: {integrity: sha512-ut5vewkiu8jjGBdqpM44XxjuCjq9LAKeHVmoVfHVzy8eHgxxq8SbAVQNovDA8mVi05kP0Ea/n/UzcSHcTJQfNg==}
     dependencies:
-      follow-redirects: 1.15.1_debug@2.6.9
+      follow-redirects: 1.15.1
     transitivePeerDependencies:
       - debug
     dev: false
@@ -14877,6 +14879,7 @@ packages:
       readdirp: 3.6.0
     optionalDependencies:
       fsevents: 2.3.2
+    dev: true
 
   /chokidar/3.5.3:
     resolution: {integrity: sha512-Dr3sfKRP6oTcjf2JmUmFJfeVMvXBdegxB0iVQ5eb2V10uFJUCAS8OByZdVAyVb8xXNz3GjjTgj9kLWsZTqE6kw==}
@@ -18594,7 +18597,7 @@ packages:
       create-error-class: 3.0.2
       debug: 2.6.9
       decompress-response: 6.0.0
-      follow-redirects: 1.15.1_debug@2.6.9
+      follow-redirects: 1.15.1
       form-urlencoded: 2.0.9
       into-stream: 3.1.0
       is-plain-object: 2.0.4
@@ -24043,6 +24046,7 @@ packages:
     transitivePeerDependencies:
       - '@babel/core'
       - babel-plugin-macros
+    dev: true
 
   /next/12.3.1_sfoxds7t5ydpegc3knd667wn6m:
     resolution: {integrity: sha512-l7bvmSeIwX5lp07WtIiP9u2ytZMv7jIeB8iacR28PuUEFG5j0HGAPnMqyG5kbZNBG2H7tRsrQ4HCjuMOPnANZw==}
@@ -28172,6 +28176,7 @@ packages:
     hasBin: true
     dependencies:
       chokidar: 3.5.2
+    dev: true
 
   /satori/0.0.40:
     resolution: {integrity: sha512-SoXGq/89mBU34U1h4g/nXeL9DHS/Aof2iUL3FHabq+laSRQUSUI1ZhPhak3J6VMNW8wghYwJ/Bi7aF8FLPq9qQ==}
