@@ -36,4 +36,4 @@ pnpm dev
 
 # From /apps, you can run the following to generate and re-generate (`apps/skill-template` is .gitignore'd)
 rm -rf skill-template && create-skill-app skill-template
-````
+```
