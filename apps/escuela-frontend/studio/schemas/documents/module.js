@@ -15,6 +15,31 @@ export default {
       validation: (Rule) => Rule.required(),
     },
     {
+      name: 'moduleType',
+      title: 'Module Type',
+      type: 'string',
+      validation: (Rule) => Rule.required(),
+      options: {
+        list: [
+          {title: 'Course', value: 'course'},
+          {title: 'Tutorial', value: 'tutorial'},
+        ],
+      },
+    },
+    {
+      name: 'state',
+      title: 'Current State',
+      type: 'string',
+      validation: (Rule) => Rule.required(),
+      initialValue: 'draft',
+      options: {
+        list: [
+          {title: 'draft', value: 'draft'},
+          {title: 'published', value: 'published'},
+        ],
+      },
+    },
+    {
       name: 'slug',
       title: 'Slug',
       type: 'slug',
@@ -25,21 +50,37 @@ export default {
       },
     },
     {
-      name: 'resources',
-      title: 'Resources',
-      description: 'These are sections or lessons for a module.',
-      type: 'array',
-      of: [{type: 'reference', to: [{type: 'resource'}]}],
-    },
-    {
       name: 'github',
       title: 'GitHub',
       type: 'github',
     },
     {
+      name: 'resources',
+      title: 'Resources',
+      description: 'Lessons in the course',
+      type: 'array',
+      of: [
+        {
+          type: 'reference',
+          to: [{type: 'lesson'}],
+        },
+      ],
+    },
+    {
       name: 'body',
       title: 'Body',
       type: 'body',
+    },
+    {
+      name: 'concepts',
+      title: 'Concepts',
+      type: 'array',
+      of: [
+        {
+          type: 'reference',
+          to: [{type: 'skosConcept'}],
+        },
+      ],
     },
     {
       name: 'image',
@@ -67,7 +108,7 @@ export default {
     prepare(selection) {
       const {title, media, type} = selection
       return {
-        title: `${title} ${capitalize(type)}`,
+        title: `${title} - ${capitalize(type)}`,
         media: media && <img src={media} alt={title} />,
       }
     },

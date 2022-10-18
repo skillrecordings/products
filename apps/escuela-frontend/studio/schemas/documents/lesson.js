@@ -1,28 +1,18 @@
-import {MdAutoFixHigh} from 'react-icons/md'
+import {MdOutlineWorkspaces} from 'react-icons/md'
 
 export default {
-  name: 'solution',
-  type: 'object',
-  title: 'Solution to lesson',
-  icon: MdAutoFixHigh,
+  name: 'lesson',
+  type: 'document',
+  title: 'Lesson',
+  description:
+    'A lesson has 2-parts, a problem, a solution and sometimes an extra resource.',
+  icon: MdOutlineWorkspaces,
   fields: [
     {
       name: 'label',
       title: 'Label',
       type: 'string',
       hidden: true,
-    },
-    {
-      name: 'solutionType',
-      title: 'Solution Type',
-      type: 'string',
-      validation: (Rule) => Rule.required(),
-      options: {
-        list: [
-          {title: 'Solución al Desafío', value: 'lessonSolution'},
-          {title: 'Solución al Crédito Extra', value: 'extraCreditSolution'},
-        ],
-      },
     },
     {
       name: 'title',
@@ -50,6 +40,7 @@ export default {
           type: 'reference',
           to: [{type: 'videoResource'}],
         },
+        {type: 'solution'},
         {type: 'stackblitz'},
       ],
     },
@@ -59,8 +50,19 @@ export default {
       type: 'body',
     },
     {
+      name: 'concepts',
+      title: 'Concepts',
+      type: 'array',
+      of: [
+        {
+          type: 'reference',
+          to: [{type: 'skosConcept'}],
+        },
+      ],
+    },
+    {
       name: 'description',
-      title: 'Summary',
+      title: 'Short Description',
       description: 'Used as a short "SEO" summary on Twitter cards etc.',
       type: 'text',
       validation: (Rule) => Rule.max(160),
