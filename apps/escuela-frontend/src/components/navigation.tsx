@@ -4,7 +4,7 @@ import {useRouter} from 'next/router'
 
 const Navigation = () => {
   return (
-    <nav aria-label="top" className="absolute top-0 left-0 z-10 w-full py-5">
+    <nav aria-label="top" className="absolute top-0 left-0 z-50 w-full py-5">
       <div className="flex items-center justify-between max-w-screen-lg px-5 mx-auto">
         <NavLogo />
         <DesktopNav />

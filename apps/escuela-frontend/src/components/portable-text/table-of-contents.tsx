@@ -65,7 +65,7 @@ const TableOfContents = ({value}: PortableTextProps) => {
           return (
             <li key={heading._key} className="sm:text-xl text-lg">
               <Link href={'#' + heading.slug}>
-                <a className="hover:underline inline-flex sm:py-2 py-1 font-medium">
+                <a className="inline-flex sm:py-2 py-1 font-medium">
                   {getChildrenText(heading)}
                 </a>
               </Link>
@@ -75,7 +75,7 @@ const TableOfContents = ({value}: PortableTextProps) => {
                     return (
                       <li key={subheading._key}>
                         <Link href={'#' + subheading.slug}>
-                          <a className="pl-6 inline-flex border-l border-slate-700 hover:underline sm:py-2 py-1 font-normal">
+                          <a className="pl-6 inline-flex border-l border-gray-200 sm:py-2 py-1 font-normal">
                             {getChildrenText(subheading)}
                           </a>
                         </Link>
@@ -95,12 +95,12 @@ const TableOfContents = ({value}: PortableTextProps) => {
 
   return (
     <details
-      aria-label="On this page"
+      aria-label="Temario"
       className="group marker:text-transparent no-marker font-medium sm:text-xl text-lg max-w-screen-md w-full mx-auto"
     >
       <summary className="hover:cursor-pointer  flex items-center justify-between">
         <span className="transition uppercase text-base sm:py-5 py-3">
-          On this page
+          Temario
         </span>
         <span
           aria-hidden="true"

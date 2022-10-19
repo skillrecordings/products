@@ -26,7 +26,7 @@ const CourseIndexPage: React.FC<{courses: SanityDocument[]}> = ({courses}) => {
         <h1 className="max-w-screen-md text-center font-heading text-5xl font-bold sm:text-5xl">
           Cursos de Ingeniería Front-End
         </h1>
-        <p className="max-w-screen-md pt-8 text-center text-lg">
+        <p className="max-w-md pt-8 text-center text-lg">
           Adquiere los conocimientos y las habilidades que necesitas para
           avanzar en tu carrera profesional.
         </p>

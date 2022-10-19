@@ -29,7 +29,6 @@ const ArticleTemplate: React.FC<ArticleTemplateProps> = ({article}) => {
   return (
     <Layout
       className="overflow-hidden"
-      nav
       meta={{
         title,
         description: shortDescription,
@@ -44,7 +43,7 @@ const ArticleTemplate: React.FC<ArticleTemplateProps> = ({article}) => {
     >
       <Header {...article} />
       <main>
-        <div className="border-t border-slate-800/50 lg:px-0 px-5 shadow-lg">
+        <div className="border-t border-gray-200 lg:px-0 px-5 shadow-lg">
           <TableOfContents value={body} />
         </div>
         <div className="w-full max-w-screen-md px-5 pb-10 mx-auto sm:pt-10 lg:px-0 sm:pb-24">
@@ -118,7 +117,7 @@ const Header: React.FC<SanityDocument> = ({
   estimatedReadingTime,
 }) => {
   return (
-    <header className="relative flex flex-col items-center px-5 pt-24 pb-8 overflow-hidden">
+    <header className="relative flex flex-col items-center px-5 pt-24 pb-8 overflow-hidden border-gray-200">
       <div className="relative z-10 flex flex-col items-center w-full max-w-screen-lg mx-auto">
         <Link passHref href="/articulos">
           <a className="relative px-4 py-2 text-base font-normal transition bg-black/10 hover:bg-slate-300 rounded-lg sm:text-lg group opacity-80">
@@ -156,7 +155,7 @@ const Author = () => {
     <div className="flex items-center justify-center col-span-3 md:justify-start md:col-span-3">
       <a
         href="https://twitter.com/escuelafrontend"
-        className="pl-2 leading-none hover:underline decoration-indigo-500 underline-offset-1"
+        className="leading-none hover:underline decoration-indigo-500 underline-offset-1"
         target="_blank"
         rel="noopener noreferrer"
       >

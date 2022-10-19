@@ -9,7 +9,7 @@ import {getAllArticles} from '../lib/articles'
 import {toPlainText} from '@portabletext/react'
 
 const meta = {
-  title: 'Recursos Escritos para Dominar el Ecosistema de JavaScript',
+  title: 'Artículos de Ingeniería Front-End',
 }
 
 type ArticlesProps = {
@@ -18,9 +18,9 @@ type ArticlesProps = {
 
 const Articles: React.FC<ArticlesProps> = ({articles}) => {
   return (
-    <Layout meta={meta} className="overflow-hidden" nav>
+    <Layout meta={meta} className="overflow-hidden">
       <header className="relative px-5 pb-10 overflow-hidden pt-28 sm:pb-16 sm:pt-40">
-        <h1 className="max-w-screen-md mx-auto text-4xl font-bold leading-none text-center font-heading sm:text-5xl lg:text-6xl">
+        <h1 className="max-w-screen-md text-center font-heading text-5xl font-bold sm:text-5xl m-auto">
           {meta.title}
         </h1>
       </header>
@@ -59,7 +59,7 @@ const Articles: React.FC<ArticlesProps> = ({articles}) => {
                           <div className="flex items-center w-full mt-6 space-x-5">
                             <Link href={`/${slug}`} passHref>
                               <a className="inline-flex px-4 py-2 text-lg font-medium transition rounded-lg bg-black/10 hover:bg-slate-300">
-                                Leer
+                                Leer Artículo
                                 <i aria-hidden className="pl-2">
                                   →
                                 </i>

@@ -5,19 +5,15 @@ import SubscribeForm from 'components/subscribe-form'
 
 const Home: NextPage = () => {
   return (
-    <Layout nav>
-      <header className="relative lg:pt-24 sm:pt-24 pt-12 bg-noise">
+    <Layout>
+      <header className="pointer-events-none relative flex flex-col items-center justify-center text-center mx-auto md:pt-28 pt-28 md:min-h-[70vh] md:pb-32 pb-24 max-w-screen-xl">
         <div className="flex flex-col items-center justify-center w-full">
           <div className="flex flex-col items-center justify-center text-center sm:px-8 px-4">
-            <h2 className="md:max-w-screen-lg lg:text-5xl md:text-5xl sm:text-4xl text-[2rem] font-heading font-bold leading-tight max-w-lg">
+            <h2 className="md:max-w-screen-md lg:text-5xl md:text-5xl sm:text-4xl text-[2rem] font-heading font-bold leading-tight max-w-lg">
               <span className="inline-flex">
-                Avanza tu Carrera con Entrenamiento de Ingeniería Front-End
-                Profesional
-              </span>{' '}
+                Acelera tu carrera con courses de Ingeniería Front-End
+              </span>
             </h2>
-            <p className="text-xl max-w-sm mx-auto pt-4 text-sand-100">
-              Accede a workshops prácticos e interactivos
-            </p>
           </div>
         </div>
       </header>

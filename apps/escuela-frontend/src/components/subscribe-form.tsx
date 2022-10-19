@@ -12,15 +12,11 @@ const SubscribeForm = () => {
       <div className="absolute left-0 bottom-0 overflow-hidden w-full h-[700px]">
         <div className="absolute top-0 left-0 w-full h-56" />
       </div>
-      <div className="relative flex flex-col items-center justify-center w-full px-5 pt-10 pb-32 sm:pb-48">
+      <div className="relative flex flex-col items-center justify-center w-full px-5 pt-28 pb-32 sm:pb-48">
         <div className="pb-16 text-center">
-          <h2 className="font-heading sm:text-6xl text-[2.5rem] leading-none font-bold">
-            Avanza tu Carrera con Entrenamiento de Ingeniería Front-End
-            Profesional
+          <h2 className="md:max-w-screen-md lg:text-4xl md:text-3xl sm:text-2xl text-[2rem] font-heading font-bold leading-tight max-w-lg">
+            Acelera tu carrera con entrenamiento de Ingeniería Front-End
           </h2>
-          <p className="pt-4 text-xl  sm:text-2xl">
-            ¡Subscríbete para lecciones exclusivas!
-          </p>
         </div>
         <SubscribeToConvertkitForm
           onSuccess={(subscriber: any) => {
@@ -32,7 +28,7 @@ const SubscribeForm = () => {
           actionLabel="Subscríbete"
         />
         <p className="pt-8 text-base text-center opacity-80">
-          Respetamos tu privacidad. Cancela tu suscripción en cualquier momento.
+          Sin spam, cancele en cualquier momento.
         </p>
       </div>
     </section>
