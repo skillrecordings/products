@@ -91,7 +91,7 @@ const Header: React.FC<HeaderProps> = ({
       )}
       <div
         className={cx(
-          'w-full md:min-h-screen flex items-center justify-center flex-col relative',
+          'w-full min-h-screen flex items-center justify-center flex-col relative',
           {
             'bg-gray-800/40': !image,
           },
@@ -102,7 +102,7 @@ const Header: React.FC<HeaderProps> = ({
             {title}
           </h1>
         </div>
-        <div className="md:absolute bottom-16 md:pb-0 pb-16 w-full max-w-screen-md px-5 text-gray-300 grid md:grid-cols-4 grid-cols-2 md:gap-16 gap-10 items-center">
+        <div className="md:absolute bottom-16 md:pb-0 pb-40 w-full max-w-screen-md px-5 text-gray-300 grid md:grid-cols-4 grid-cols-2 md:gap-16 gap-10 items-center">
           <div className="flex items-center md:justify-start justify-center gap-3 col-span-2">
             <div className="flex items-center justify-center rounded-full overflow-hidden bg-black/50 flex-shrink-0">
               <Image
