@@ -31,7 +31,7 @@
     "eslint-config-custom": "workspace:*",
     "i": "^0.3.7",
     "jest-mock-extended": "^2.0.7",
-    "prisma": "^4.4.0",
+    "prisma": "^4.5.0",
     "rimraf": "^3.0.2",
     "tsup": "^5.11.13",
     "tsx": "^3.7.1",
