@@ -3,7 +3,7 @@
   "version": "0.1.1",
   "private": true,
   "scripts": {
-    "build": "pnpm --version && next build",
+    "build": "next build",
     "build:dev": "pnpm -w build --filter testingaccessibility",
     "postbuild": "NODE_ENV=production next-sitemap",
     "clean": "pnpm -r exec -- rm -rf .turbo node_modules .next",
