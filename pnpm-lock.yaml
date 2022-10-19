@@ -887,6 +887,7 @@ importers:
       '@types/react': ^18.0.15
       '@types/react-dom': ^18.0.6
       '@types/speakingurl': ^13.0.3
+      autoprefixer: ^10.4.12
       classnames: ^2.3.1
       cloudinary: ^1.29.0
       date-fns: ^2.28.0
@@ -894,6 +895,7 @@ importers:
       eslint: ^8.19.0
       eslint-config-custom: workspace:*
       feed: ^4.2.2
+      focus-visible: ^5.2.0
       framer-motion: ^6.4.1
       groq: ^2.15.0
       jest: ^27.5.1
@@ -912,10 +914,11 @@ importers:
       react-refractor: ^2.1.7
       react-tweet-embed: ^2.0.0
       react-use: ^17.4.0
-      refractor: ^4.5.0
+      refractor: ^4.8.0
       speakingurl: ^14.0.1
       starfield-react: 3.1.0-dev-5
       tailwind-fluid-typography: ^1.3.0
+      tailwind-scrollbar: ^2.0.1
       tailwindcss: ^3.1.6
       typescript: ^4.8.3
       webpack: ^5.73.0
@@ -947,6 +950,7 @@ importers:
       cloudinary: 1.29.0
       date-fns: 2.28.0
       feed: 4.2.2
+      focus-visible: 5.2.0
       framer-motion: 6.4.1_biqbaboplfbrettd7655fr4n2y
       groq: 2.15.0
       mjml: 4.12.0
@@ -961,10 +965,11 @@ importers:
       react-refractor: 2.1.7_react@18.2.0
       react-tweet-embed: 2.0.0_react@18.2.0
       react-use: 17.4.0_biqbaboplfbrettd7655fr4n2y
-      refractor: 4.5.0
+      refractor: 4.8.0
       speakingurl: 14.0.1
       starfield-react: 3.1.0-dev-5_biqbaboplfbrettd7655fr4n2y
       tailwind-fluid-typography: 1.3.0_tailwindcss@3.1.6
+      tailwind-scrollbar: 2.0.1_tailwindcss@3.1.6
       zod: 3.19.1
     devDependencies:
       '@next/env': 12.3.0
@@ -983,6 +988,7 @@ importers:
       '@types/react': 18.0.15
       '@types/react-dom': 18.0.6
       '@types/speakingurl': 13.0.3
+      autoprefixer: 10.4.12_postcss@8.4.14
       dotenv-flow: 3.2.0
       eslint: 8.22.0
       eslint-config-custom: link:../../packages/eslint-config-custom
@@ -4360,7 +4366,7 @@ packages:
       '@babel/compat-data': 7.18.13
       '@babel/core': 7.18.13
       '@babel/helper-validator-option': 7.18.6
-      browserslist: 4.21.1
+      browserslist: 4.21.4
       semver: 6.3.0
 
   /@babel/helper-create-class-features-plugin/7.16.0_@babel+core@7.16.0:
@@ -13763,6 +13769,22 @@ packages:
     engines: {node: '>=4'}
     dev: false
 
+  /autoprefixer/10.4.12_postcss@8.4.14:
+    resolution: {integrity: sha512-WrCGV9/b97Pa+jtwf5UGaRjgQIg7OK3D06GnoYoZNcG1Xb8Gt3EfuKjlhh9i/VtT16g6PYjZ69jdJ2g8FxSC4Q==}
+    engines: {node: ^10 || ^12 || >=14}
+    hasBin: true
+    peerDependencies:
+      postcss: ^8.1.0
+    dependencies:
+      browserslist: 4.21.4
+      caniuse-lite: 1.0.30001419
+      fraction.js: 4.2.0
+      normalize-range: 0.1.2
+      picocolors: 1.0.0
+      postcss: 8.4.14
+      postcss-value-parser: 4.2.0
+    dev: true
+
   /autoprefixer/10.4.7_postcss@8.4.14:
     resolution: {integrity: sha512-ypHju4Y2Oav95SipEcCcI5J7CGPuvz8oat7sUtYj3ClK44bldfvtvcxK6IEK++7rqB7YchDGzweZIBG+SD0ZAA==}
     engines: {node: ^10 || ^12 || >=14}
@@ -14519,6 +14541,16 @@ packages:
       electron-to-chromium: 1.4.177
       node-releases: 2.0.5
       update-browserslist-db: 1.0.4_browserslist@4.21.1
+
+  /browserslist/4.21.4:
+    resolution: {integrity: sha512-CBHJJdDmgjl3daYjN5Cp5kbTf1mUhZoS+beLklHIvkOWscs83YAhLlF3Wsh/lciQYAcbBJgTOD44VtG31ZM4Hw==}
+    engines: {node: ^6 || ^7 || ^8 || ^9 || ^10 || ^11 || ^12 || >=13.7}
+    hasBin: true
+    dependencies:
+      caniuse-lite: 1.0.30001419
+      electron-to-chromium: 1.4.284
+      node-releases: 2.0.6
+      update-browserslist-db: 1.0.10_browserslist@4.21.4
 
   /bs-logger/0.2.6:
     resolution: {integrity: sha512-pd8DCoxmbgc7hyPKOvxtqNcjYoOsABPQdcCUjGp3d42VR2CX1ORhk2A87oqqu5R1kk+76nsxZupkmyd+MVtCog==}
@@ -16367,6 +16399,9 @@ packages:
 
   /electron-to-chromium/1.4.177:
     resolution: {integrity: sha512-FYPir3NSBEGexSZUEeht81oVhHfLFl6mhUKSkjHN/iB/TwEIt/WHQrqVGfTLN5gQxwJCQkIJBe05eOXjI7omgg==}
+
+  /electron-to-chromium/1.4.284:
+    resolution: {integrity: sha512-M8WEXFuKXMYMVr45fo8mq0wUrrJHheiKZf6BArTKk9ZBYCKJEOU5H8cdWgDT+qCVZf7Na4lVUaZsA+h6uA9+PA==}
 
   /elliptic/6.5.4:
     resolution: {integrity: sha512-iLhC6ULemrljPZb+QutR5TQGB+pdW6KGD5RSegS+8sorOZT+rdQFbsQFJgvN3eRqNALqJer4oQ16YvJHlU8hzQ==}
@@ -24331,6 +24366,9 @@ packages:
   /node-releases/2.0.5:
     resolution: {integrity: sha512-U9h1NLROZTq9uE1SNffn6WuPDg8icmi3ns4rEl/oTfIle4iLjTliCzgTsbaIFMq/Xn078/lfY/BL0GWZ+psK4Q==}
 
+  /node-releases/2.0.6:
+    resolution: {integrity: sha512-PiVXnNuFm5+iYkLBNeq5211hvO38y63T0i2KKh2KnUs3RpzJ+JtODFjkD8yjLwnDkTYF1eKXheUwdssR+NRZdg==}
+
   /nodemailer-build-attachment/3.0.0:
     resolution: {integrity: sha512-8hoic5t/tpNMfrRoHW7rwpEpjrp1ZMSYloBZHhCZHnin+Htxr+egR4ufrFeHC0ueSFjmsvMDr5veaQ4KpYvTNA==}
     engines: {node: '>=10'}
@@ -27472,6 +27510,15 @@ packages:
       hastscript: 7.0.2
       parse-entities: 4.0.0
       prismjs: 1.27.0
+    dev: false
+
+  /refractor/4.8.0:
+    resolution: {integrity: sha512-SVOnWUJiEBFNiBlHbudSpSpDfDhDY1UHF0CMKgdvPsMYNQQ4rnqFxyGvP07UmteNC8V12mTF2c0lEsGS7lKaGw==}
+    dependencies:
+      '@types/hast': 2.3.4
+      '@types/prismjs': 1.26.0
+      hastscript: 7.0.2
+      parse-entities: 4.0.0
     dev: false
 
   /regenerate-unicode-properties/10.0.1:
@@ -30841,6 +30888,16 @@ packages:
     resolution: {integrity: sha512-aZwGpamFO61g3OlfT7OQCHqhGnW43ieH9WZeP7QxN/G/jS4jfqUkZxoryvJgVPEcrl5NL/ggHsSmLMHuH64Lhg==}
     engines: {node: '>=4'}
     optional: true
+
+  /update-browserslist-db/1.0.10_browserslist@4.21.4:
+    resolution: {integrity: sha512-OztqDenkfFkbSG+tRxBeAnCVPckDBcvibKd35yDONx6OU8N7sqgwc7rCbkJ/WcYtVRZ4ba68d6byhC21GFh7sQ==}
+    hasBin: true
+    peerDependencies:
+      browserslist: '>= 4.21.0'
+    dependencies:
+      browserslist: 4.21.4
+      escalade: 3.1.1
+      picocolors: 1.0.0
 
   /update-browserslist-db/1.0.4_browserslist@4.21.1:
     resolution: {integrity: sha512-jnmO2BEGUjsMOe/Fg9u0oczOe/ppIDZPebzccl1yDWGLFP16Pa1/RM5wEoKYPG2zstNcDuAStejyxsOuKINdGA==}

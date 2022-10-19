@@ -19,6 +19,10 @@ export const getStaticProps: GetStaticProps = async (context) => {
 const Articles: React.FC<{articles: Article[]}> = ({articles}) => {
   const title = 'Epic Web Dev Articles'
   const pageDescription = 'Articles about Epic Web Dev'
+  const publishedArticles =
+    process.env.NODE_ENV === 'development'
+      ? articles
+      : articles.filter(({state}) => state === 'published')
 
   return (
     <Layout
@@ -35,7 +39,7 @@ const Articles: React.FC<{articles: Article[]}> = ({articles}) => {
         <h1 className="fluid-3xl font-bold">{title}</h1>
       </header>
       <main className="max-w-2xl mx-auto w-full flex flex-col gap-10 pb-24">
-        {articles.map((article) => {
+        {publishedArticles.map((article) => {
           const {title, image, slug, description, estimatedReadingTime} =
             article
           return (
