@@ -3251,7 +3251,7 @@ importers:
 
   packages/database:
     specifiers:
-      '@prisma/client': ^4.5.0
+      '@prisma/client': ^4.4.0
       '@skillrecordings/tsconfig': workspace:*
       '@types/node': ^18.6.1
       '@types/uuid': ^8.3.4
@@ -3259,7 +3259,7 @@ importers:
       eslint-config-custom: workspace:*
       i: ^0.3.7
       jest-mock-extended: ^2.0.7
-      prisma: ^4.5.0
+      prisma: ^4.4.0
       rimraf: ^3.0.2
       tsup: ^5.11.13
       tsx: ^3.7.1
@@ -9010,7 +9010,7 @@ packages:
       '@mdx-js/react': '*'
     dependencies:
       '@mdx-js/loader': 2.1.3_webpack@5.73.0
-      '@mdx-js/react': 2.1.3_react@18.2.0
+      '@mdx-js/react': 2.1.3_react@17.0.2
     dev: false
 
   /@next/mdx/12.3.1_hbo3tj2k5fhsh63l2ltjrymaq4:
