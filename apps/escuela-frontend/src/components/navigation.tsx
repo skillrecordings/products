@@ -21,6 +21,9 @@ const DesktopNav = () => {
       <Link href="/articulos">
         <a>Artículos</a>
       </Link>
+      <Link href="/aprende">
+        <a>Cursos</a>
+      </Link>
     </div>
   )
 }
