@@ -3,9 +3,18 @@ import {NextSeo} from '@skillrecordings/next-seo'
 import {Toaster} from 'react-hot-toast'
 import cx from 'classnames'
 import Navigation from 'components/navigation'
-import type {LayoutProps} from '@types'
+import isNull from 'lodash/isNull'
 
-const Layout: FunctionComponent<React.PropsWithChildren<LayoutProps>> = ({
+type LayoutProps = {
+  meta?: any
+  noIndex?: boolean
+  className?: string
+  nav?: React.ReactElement | null
+  footer?: React.ReactElement | null
+  children?: any
+}
+
+const Layout: FunctionComponent<LayoutProps> = ({
   children,
   className,
   meta,
@@ -25,7 +34,6 @@ const Layout: FunctionComponent<React.PropsWithChildren<LayoutProps>> = ({
 
   return (
     <div className="relative">
-      <Toaster position="top-center" />
       <NextSeo
         title={title}
         description={description}
@@ -45,10 +53,11 @@ const Layout: FunctionComponent<React.PropsWithChildren<LayoutProps>> = ({
         canonical={url}
         noindex={noIndex}
       />
-      {nav && <Navigation />}
+      <Toaster position="top-center" />
+      {nav ? nav : isNull(nav) ? null : <Navigation />}
       <div
         className={cx(
-          'flex flex-col flex-grow h-full sm:min-h-[calc(100vh-64px)] min-h-[calc(100vh-56px)]',
+          'flex h-full min-h-screen flex-grow flex-col ',
           className,
         )}
       >
