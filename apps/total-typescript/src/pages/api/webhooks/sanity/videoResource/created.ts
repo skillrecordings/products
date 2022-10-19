@@ -29,8 +29,7 @@ const sanityVideoResourceWebhook = async (
       console.info('processing Sanity webhook: Video Resource created', _id)
 
       if (!castingwords?.orderId && !castingwords?.transcript) {
-        // Disabling castingwords ordering while we experiment with using Whisper to order transcripts
-        // const castingwordsOrder = await orderTranscript(originalMediaUrl)
+        const castingwordsOrder = await orderTranscript(originalMediaUrl)
 
         const {Video} = new Mux()
 
@@ -39,12 +38,9 @@ const sanityVideoResourceWebhook = async (
           playback_policy: ['public'],
         })
 
-        console.info('new mux asset created', muxAsset.id)
-
-        // New function signature while we experiment with using Whisper to order transcripts
         await updateVideoResourceWithTranscriptOrderId({
           sanityDocumentId: _id,
-          // castingwordsOrder,
+          castingwordsOrder,
           muxAsset: {
             muxAssetId: muxAsset.id,
             muxPlaybackId: muxAsset.playback_ids?.find((playback_id) => {
