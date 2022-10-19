@@ -205,7 +205,7 @@ const AboutKent = () => {
 
 const Body: React.FC<{value: any[]}> = ({value}) => {
   return (
-    <main className="prose md:prose-xl text-lg mx-auto md:py-16 py-8 max-w-3xl px-5">
+    <main className="prose md:prose-xl text-lg md:py-16 py-8 max-w-3xl px-5 w-full mx-auto">
       <PortableText value={value} components={PortableTextComponents} />
     </main>
   )
