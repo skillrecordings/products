@@ -11,7 +11,7 @@ export const ArticleSchema = z.object({
   slug: z.string(),
   description: z.nullable(z.string()).optional(),
   body: z.any().array(),
-  state: z.literal('published') || z.literal('draft'),
+  state: z.enum(['published', 'draft']),
   image: z
     .object({
       width: z.number(),
