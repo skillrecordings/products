@@ -46,7 +46,10 @@ const Articles: React.FC<ArticlesProps> = ({articles}) => {
                     <div key={slug} className="gap-5 p-8">
                       <div className="flex w-full sm:justify-between justify-left">
                         <div>
-                          <h2 className="text-2xl font-semibold underline transition decoration-white hover:decoration-slate-500 lg:text-3xl sm:text-xl font-heading">
+                          <div className="text-gray-600 text-sm mb-2">
+                            Tiempo Estimado: {estimatedReadingTime}m
+                          </div>
+                          <h2 className="text-2xl font-semibold transition decoration-white hover:decoration-slate-500 lg:text-3xl sm:text-xl font-heading">
                             <Link href={`/${slug}`} passHref>
                               <a className="block group">{title}</a>
                             </Link>
@@ -58,16 +61,13 @@ const Articles: React.FC<ArticlesProps> = ({articles}) => {
                           )}
                           <div className="flex items-center w-full mt-6 space-x-5">
                             <Link href={`/${slug}`} passHref>
-                              <a className="inline-flex px-4 py-2 text-lg font-medium transition rounded-lg bg-black/10 hover:bg-slate-300">
+                              <a className="inline-flex px-4 py-2 text-lg font-medium transition text-white rounded-md bg-blue-600 hover:bg-blue-700">
                                 Leer Artículo
                                 <i aria-hidden className="pl-2">
                                   →
                                 </i>
                               </a>
                             </Link>
-                            <div className="">
-                              Tiempo Estimado: {estimatedReadingTime}m
-                            </div>
                           </div>
                         </div>
                       </div>

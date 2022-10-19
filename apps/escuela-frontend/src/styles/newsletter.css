@@ -1,0 +1,20 @@
+[data-sr-convertkit-subscribe-form] {
+  @apply max-w-sm mx-auto;
+
+  [data-sr-input] {
+    @apply w-full rounded-md border focus:border-blue-800 bg-gray-100/50 px-3 py-2 text-lg;
+  }
+
+  [data-sr-button] {
+    @apply relative flex flex-shrink-0 items-center justify-center rounded-md bg-gradient-to-tr from-blue-600 to-blue-500 text-white py-2 px-5 text-lg font-semibold shadow-2xl shadow-blue-900/50 transition focus-visible:ring-white hover:brightness-110;
+    svg {
+      @apply h-7 w-7;
+    }
+  }
+  [data-sr-button][disabled] {
+  }
+}
+[data-sr-convertkit-subscribe-form='success'] {
+}
+[data-sr-convertkit-subscribe-form='error'] {
+}

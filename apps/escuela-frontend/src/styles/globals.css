@@ -5,6 +5,7 @@
 @import './primary-newsletter-cta.css';
 @import './nprogress.css';
 @import './prism.css';
+@import './newsletter.css';
 
 @tailwind utilities;
 @import './focus-visible.css';

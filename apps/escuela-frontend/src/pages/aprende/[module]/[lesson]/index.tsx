@@ -54,8 +54,6 @@ const LessonPage: React.FC<{
 
   lesson = LessonSchema.parse(isSolution ? lesson.solution : lesson)
 
-  console.log(lesson)
-
   return (
     <>
       <VideoProvider

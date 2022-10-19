@@ -18,6 +18,7 @@ const SubscribeForm = () => {
             Acelera tu carrera con entrenamiento de Ingeniería Front-End
           </h2>
         </div>
+
         <SubscribeToConvertkitForm
           onSuccess={(subscriber: any) => {
             if (subscriber) {
