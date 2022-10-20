@@ -83,7 +83,7 @@ const PodcastEpisode: React.FC<{episode: PodcastEpisode}> = ({episode}) => {
           {episode.title}
         </h1>
       </header>
-      <main className="">
+      <main>
         <div className="max-w-screen-md w-full mx-auto">
           <PodcastPlayer simplecastId={episode.simplecastId} />
           <article className="px-5">

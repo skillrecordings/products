@@ -181,7 +181,10 @@ const ProjectsSection: React.FC<React.PropsWithChildren<any>> = ({content}) => {
                       <div className="flex items-center -space-x-3">
                         {instructors.map((instructor: any) => {
                           return (
-                            <div className="border-2 rounded-full flex items-center justify-center border-black">
+                            <div
+                              key={instructor.name}
+                              className="border-2 rounded-full flex items-center justify-center border-black"
+                            >
                               <Image
                                 src={instructor.avatar}
                                 width={45}

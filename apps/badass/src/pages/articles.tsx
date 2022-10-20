@@ -6,6 +6,8 @@ import {GetStaticProps} from 'next'
 import {format} from 'date-fns'
 import {SanityDocument} from '@sanity/client'
 import {getAllArticles} from '../lib/articles'
+import Image from 'next/image'
+import Stars from '../../public/assets/stars-1@2x.png'
 
 const meta = {
   title: 'Badass Articles',
@@ -23,30 +25,44 @@ const Articles: React.FC<React.PropsWithChildren<ArticlesProps>> = ({
 }) => {
   return (
     <Layout meta={meta} className="overflow-hidden">
-      <header className="relative px-5 py-28 overflow-hidden text-white bg-[#082C1B] bg-noise">
-        <h1 className="max-w-screen-md font-heading font-bold mx-auto leading-none text-center text-3xl sm:text-4xl lg:text-5xl">
+      <header className="sm:py-10 py-24 px-16 relative">
+        <Image
+          src={Stars}
+          alt=""
+          aria-hidden="true"
+          layout="fill"
+          className="sm:object-contain object-scale-down sm:scale-100 scale-50 pointer-events-none select-none"
+        />
+        <h1 className="relative z-10 max-w-screen-md font-expanded bg-gradient-to-tr from-badass-pink-500/80 via-badass-pink-400/50 to-badass-black bg-clip-text text-transparent font-bold mx-auto leading-none text-center text-3xl sm:text-4xl lg:text-5xl">
           Badass Articles
         </h1>
       </header>
-      <main className="px-5 flex-grow">
-        <div className="pb-16 mx-auto max-w-lg w-full pt-16 gap-16">
-          <div className="grid grid-cols-1 gap-16">
+      <main className="px-8 flex-grow">
+        <div className="pb-16 mx-auto max-w-3xl w-full sm:pt-20 gap-16">
+          <div className="grid grid-cols-1 gap-10">
             {articles.map(
-              ({title, slug, description, date}: SanityDocument) => {
+              ({title, slug, description, date}: SanityDocument, i: number) => {
                 return (
-                  <div key={slug} className="gap-5">
+                  <div key={slug} className="gap-5 flex">
+                    <i
+                      aria-hidden="true"
+                      className="font-symbol text-5xl text-badass-yellow-300"
+                    >
+                      o
+                    </i>
                     <div className="flex w-full sm:justify-between justify-left">
                       <div>
                         <Link href={`/${slug}`} passHref>
                           <a className="group block">
-                            <h2 className="group-hover:underline sm:text-3xl font-heading text-xl font-bold">
+                            <h2 className="group-hover:underline md:text-4xl sm:text-3xl text-2xl font-heading">
                               {title}
                             </h2>
                           </a>
                         </Link>
+
                         <time
                           dateTime={date}
-                          className="block pt-1 font-semibold pb-5"
+                          className="block pt-2 pb-5 opacity-80"
                         >
                           {format(new Date(date), 'dd MMMM, y')}
                         </time>
@@ -57,19 +73,16 @@ const Articles: React.FC<React.PropsWithChildren<ArticlesProps>> = ({
                         )}
                       </div>
                     </div>
-                    {slug && (
+                    {/* {slug && (
                       <Link href={`/${slug}`} passHref>
                         <a
-                          className="font-nav px-3 py-2 rounded-md hover:bg-pink-900/50 transition bg-moss-100 text-pink-400 font-semibold inline-flex"
+                          className="font-condensed sm:text-2xl text-xl text-badass-yellow-300 tracking-widest flex items-baseline gap-1"
                           aria-label={`Read ${title}`}
                         >
                           Read
-                          <i aria-hidden className="pl-2">
-                            →
-                          </i>
                         </a>
                       </Link>
-                    )}
+                    )} */}
                   </div>
                 )
               },

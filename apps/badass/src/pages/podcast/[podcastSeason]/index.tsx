@@ -79,7 +79,7 @@ const PodcastSeason: React.FC<{season: PodcastSeason}> = ({season}) => {
         },
       }}
     >
-      <header className="relative px-5 md:pt-20 md:pb-16 pt-10 pb-16 max-w-screen-lg flex md:flex-row flex-col-reverse md:items-start justify-between mx-auto w-full gap-10">
+      <header className="relative px-5 md:pt-14 md:pb-16 pt-10 pb-16 max-w-screen-lg flex md:flex-row flex-col-reverse md:items-start justify-between mx-auto w-full gap-10">
         <div className="">
           <h1 className="sm:text-5xl text-4xl max-w-2xl font-heading sm:leading-tight">
             Podcast Season One: {season.title}
@@ -117,12 +117,12 @@ const PodcastSeason: React.FC<{season: PodcastSeason}> = ({season}) => {
         <div ref={ref} className="relative flex flex-col items-center">
           <ParallaxImages y={y} />
           <div className="space-y-16 sm:p-24 p-10 bg-white/[0.07] max-w-screen-lg lg:mx-auto -mx-5 lg:rounded-xl">
-            {season.episodes.map((episode, index) => (
-              <div className="flex md:flex-row flex-col items-center md:space-x-10 md:space-y-0 space-y-10">
-                <Link
-                  key={episode.slug}
-                  href={`/podcast/${season.slug}/${episode.slug}`}
-                >
+            {season.episodes.map((episode) => (
+              <div
+                key={episode.slug}
+                className="flex md:flex-row flex-col items-center md:space-x-10 md:space-y-0 space-y-10"
+              >
+                <Link href={`/podcast/${season.slug}/${episode.slug}`}>
                   <a className="group relative flex items-center justify-center flex-shrink-0 overflow-hidden">
                     <Image
                       width={250}
@@ -136,6 +136,7 @@ const PodcastSeason: React.FC<{season: PodcastSeason}> = ({season}) => {
                       <div className="absolute pointer-events-none bottom-3 right-3 flex items-end gap-0.5 justify-end h-5">
                         {new Array(6).fill('').map((_, i) => (
                           <motion.div
+                            key={i}
                             className="w-1 bg-white"
                             animate={{
                               height: [
