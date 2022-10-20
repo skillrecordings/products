@@ -1,0 +1,20 @@
+{
+  "full_name": "Ian Jones",
+  "email": "ian@egghead.io",
+  "favorite_topic": "React",
+  "is_pro": true,
+  "avatar_url": "https://gravatar.com/avatar/6e4771fb3102b8dbcad5abf7639871ec.png?s=128&d=mp",
+  "id": 12345,
+  "is_instructor": false,
+  "is_banned": true,
+  "ban_reason": "Is a Jerkface",
+  "purchased": [
+    {
+      "guid": "sp_4JQ9A7R7",
+      "purchase_state": "paid",
+      "price": 0,
+      "title": "Epic React",
+      "id": 1
+    }
+  ]
+}

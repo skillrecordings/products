@@ -1,5 +1,6 @@
 import React from 'react'
 import {AppProps} from 'next/app'
+import {Session} from 'next-auth'
 import '../styles/globals.css'
 import 'focus-visible'
 import {ConvertkitProvider} from 'hooks/use-convertkit'
@@ -40,7 +41,7 @@ const idbConfig = {
 
 const queryClient = new QueryClient()
 
-function MyApp({Component, pageProps}: AppProps) {
+function MyApp({Component, pageProps}: AppProps<{session: Session}>) {
   usePageview()
   initNProgress()
   return (

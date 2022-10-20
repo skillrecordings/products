@@ -1,5 +1,6 @@
 import React from 'react'
 import {AppProps} from 'next/app'
+import {Session} from 'next-auth'
 import {DefaultSeo} from '@skillrecordings/next-seo'
 import config from '../config'
 import {ThemeProvider} from 'next-themes'
@@ -21,7 +22,7 @@ declare global {
   }
 }
 
-function MyApp({Component, pageProps}: AppProps) {
+function MyApp({Component, pageProps}: AppProps<{session: Session}>) {
   return (
     <>
       <DefaultSeo {...config} />

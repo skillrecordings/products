@@ -35,6 +35,11 @@ export default {
       type: 'body',
     },
     {
+      name: 'summary',
+      title: 'Summary',
+      type: 'body',
+    },
+    {
       name: 'concepts',
       title: 'Concepts',
       type: 'array',

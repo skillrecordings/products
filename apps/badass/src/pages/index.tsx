@@ -1,4 +1,5 @@
 import * as React from 'react'
+import Link from 'next/link'
 import Image from 'next/image'
 import Layout from 'components/layout'
 import {
@@ -7,14 +8,12 @@ import {
   secretSauceContent,
   genericCallToActionContent,
 } from 'components/landing-content'
-
+import {CallToActionForm} from '../components/call-to-action-form'
 import ImageLevelUp from '../../public/assets/level-up@2x.png'
 import ImageSecretSauce from '../../public/assets/secret-sauce@2x.png'
 import ImageSecretSauceDrop from '../../public/assets/secret-sauce-drop@2x.png'
-
 import ImageStars1 from '../../public/assets/stars-1@2x.png'
 import ImageStars2 from '../../public/assets/stars-2@2x.png'
-import {CallToActionForm} from '../components/call-to-action-form'
 
 const LandingPage = () => {
   return (
@@ -33,27 +32,31 @@ export default LandingPage
 
 const Header: React.FC<React.PropsWithChildren<any>> = ({content}) => {
   return (
-    <header className="lg:min-h-[calc(100vh-200px)] flex flex-col items-center lg:justify-center justify-start text-center px-5">
-      <Image
-        src={ImageLevelUp}
-        width={688}
-        height={516}
-        placeholder="blur"
-        quality={100}
-        priority
-        loading="eager"
-        alt="illustration of amanita muscoria mushroom with a level up label and little floating stars around it"
-      />
-      <p className="font-condensed text-badass-pink-500 sm:text-3xl text-xl">
-        {content.caption}
-      </p>
-      <h1 className="font-heading sm:text-4xl text-3xl max-w-[24ch] pb-4 pt-6">
-        {content.heading}
-      </h1>
-      <p className="text-badass-gray max-w-md">{content.byline}</p>
-      <p className="font-script text-badass-yellow-300 text-3xl pt-4">
-        {content.callout}
-      </p>
+    <header className="py-5 flex md:flex-row flex-col-reverse items-center justify-between md:text-left text-center max-w-screen-xl mx-auto w-full md:px-8 px-5">
+      <div className="w-full flex flex-col md:items-start items-center">
+        <p className="font-condensed text-badass-pink-500 sm:text-3xl text-2xl sm:pt-0 pt-5">
+          {content.caption}
+        </p>
+        <h1 className="font-heading xl:text-5xl sm:text-4xl text-3xl md:leading-tight max-w-lg pb-4 pt-6">
+          {content.heading}
+        </h1>
+        <p className="text-badass-gray max-w-lg sm:text-lg">{content.byline}</p>
+        <p className="font-script text-badass-yellow-300 sm:text-4xl text-3xl lg:pt-16 pt-8">
+          {content.callout}
+        </p>
+      </div>
+      <div className="flex items-center justify-center lg:flex-shrink-0">
+        <Image
+          src={ImageLevelUp}
+          width={1190 / 2}
+          height={1246 / 2}
+          placeholder="blur"
+          quality={100}
+          priority
+          loading="eager"
+          alt="illustration of amanita muscoria mushroom with a level up label and little floating stars around it"
+        />
+      </div>
     </header>
   )
 }
@@ -89,10 +92,10 @@ const SecretSauceSection: React.FC<React.PropsWithChildren<any>> = ({
           />
         </div>
       </div>
-      <p className="font-condensed text-badass-yellow-300 sm:text-2xl text-xl">
+      <p className="font-condensed text-badass-yellow-300 sm:text-3xl text-xl pb-5">
         {content.caption}
       </p>
-      <h2 className="max-w-xl font-heading sm:text-3xl text-xl pt-4">
+      <h2 className="max-w-2xl font-heading sm:text-4xl text-xl pt-4">
         {content.heading}
       </h2>
       <div className="absolute sm:-bottom-5 -bottom-16 sm:-translate-x-72 -translate-x-40">
@@ -127,7 +130,7 @@ const ProjectsSection: React.FC<React.PropsWithChildren<any>> = ({content}) => {
         aria-hidden="true"
       >
         <span className="inline-block rotate-180 text-badass-gray">!</span>{' '}
-        <span className="text-badass-yellow-300 text-3xl">*</span>{' '}
+        <span className="text-badass-yellow-300 text-4xl">*</span>{' '}
         <span className=" text-badass-gray">!</span>
       </div>
       <h2 className="font-condensed text-badass-pink-500 sm:text-3xl text-2xl">
@@ -142,9 +145,15 @@ const ProjectsSection: React.FC<React.PropsWithChildren<any>> = ({content}) => {
               className="flex flex-col items-center justify-center sm:w-1/2 sm:pb-16 pb-10"
             >
               {image}
-              <p className="font-heading sm:text-2xl text-xl pt-3 pb-2">
-                {title}
-              </p>
+              <Link href={`https://${title}`} passHref>
+                <a
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="font-heading sm:text-2xl text-xl pt-3 pb-2"
+                >
+                  {title}
+                </a>
+              </Link>
               <p className="text-badass-gray">{byline}</p>
             </li>
           )

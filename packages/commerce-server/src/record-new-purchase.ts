@@ -127,16 +127,40 @@ export async function recordNewPurchase(checkoutSessionId: string): Promise<{
   })
 
   if (purchase && quantity > 1) {
-    await prisma.coupon.create({
-      data: {
-        bulkPurchaseId: purchase.id,
-        restrictedToProductId: productId,
-        maxUses: quantity,
-        percentageDiscount: 1.0,
-        status: 1,
-      },
-    })
-  }
+    // we need to detect and handle the scenario where the Coupon already
+    // exists and we are just tying a new purchase to it. Eventually.
 
-  return {purchase, user, purchaseInfo}
+    // Wrap a create and a dependent update in a transaction to be sure
+    // that the coupon is created and the purchase points to that coupon.
+    const updatedPurchase: Purchase = await prisma.$transaction(
+      async (transaction) => {
+        // 1. Create bulk coupon record
+        const coupon = await transaction.coupon.create({
+          data: {
+            bulkPurchaseId: purchase.id,
+            restrictedToProductId: productId,
+            maxUses: quantity,
+            percentageDiscount: 1.0,
+            status: 1,
+          },
+        })
+
+        // 2. Update existing purchase with bulkCouponId reference
+        const updatedPurchase = await transaction.purchase.update({
+          where: {
+            id: purchase.id,
+          },
+          data: {
+            bulkCouponId: coupon.id,
+          },
+        })
+
+        return updatedPurchase
+      },
+    )
+
+    return {purchase: updatedPurchase, user, purchaseInfo}
+  } else {
+    return {purchase, user, purchaseInfo}
+  }
 }

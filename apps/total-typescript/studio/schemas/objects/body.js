@@ -4,6 +4,13 @@ import {
   HiOutlineClock,
   HiLink,
 } from 'react-icons/hi'
+import React, {forwardRef} from 'react'
+import {BlockEditor} from 'part:@sanity/form-builder'
+import {handlePaste} from '../../customization/onPaste'
+
+const CustomEditor = forwardRef((props, ref) => (
+  <BlockEditor {...props} ref={ref} onPaste={handlePaste} />
+))
 
 // TODO: Exercises (don't have to have solutions), Challenges (always have solutions, sometimes multiple parts)
 export default {
@@ -111,4 +118,5 @@ export default {
     {type: 'grid'},
     {type: 'bodyTestimonial'},
   ],
+  inputComponent: CustomEditor,
 }

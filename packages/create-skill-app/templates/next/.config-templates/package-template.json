@@ -1,10 +1,11 @@
 {
+  "name": "{{appName}}",
   "private": true,
   "scripts": {
-    "dev": "next dev -p 3000",
+    "dev": "next dev -p {{devPort}}",
     "build": "next build",
     "postbuild": "NODE_ENV=production next-sitemap",
-    "start": "next start -p 3000",
+    "start": "next start -p {{devPort}}",
     "lint": "eslint src/**/*.{ts,tsx} --fix && tsc --noEmit",
     "db:studio": "prisma studio",
     "db:push": "prisma db push",
@@ -33,7 +34,7 @@
     "classnames": "^2.3.1",
     "feed": "^4.2.2",
     "groq": "^2.15.0",
-    "next": "^12.2.3",
+    "next": "^12.3.1",
     "next-auth": "^4.10.3",
     "next-sitemap": "^3.0.5",
     "nodemailer": "^6.7.2",

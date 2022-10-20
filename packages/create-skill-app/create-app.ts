@@ -12,7 +12,6 @@ import {isFolderEmpty} from './helpers/is-folder-empty'
 import {getOnline} from './helpers/is-online'
 import {isWriteable} from './helpers/is-writeable'
 import type {PackageManager} from './helpers/get-pkg-manager'
-import defaultPackage from './templates/next/package.json'
 import * as handlebars from 'handlebars'
 import {Answers} from 'prompts'
 
@@ -80,40 +79,12 @@ export async function createApp({
         case 'README-template.md': {
           return 'README.md'
         }
-        case 'package-template.json': {
-          return 'package.json'
-        }
         default: {
           return name
         }
       }
     },
   })
-
-  const defaultDevPort = Number(3000).toString()
-
-  const packageJson = {
-    name: appName,
-    ...defaultPackage,
-    scripts: {
-      ...defaultPackage.scripts,
-      dev: defaultPackage.scripts.dev.replace(
-        defaultDevPort,
-        projectData.devPort,
-      ),
-      start: defaultPackage.scripts.start.replace(
-        defaultDevPort,
-        projectData.devPort,
-      ),
-    },
-  }
-  /**
-   * Write it to disk.
-   */
-  fs.writeFileSync(
-    path.join(root, 'package.json'),
-    JSON.stringify(packageJson, null, 2) + os.EOL,
-  )
 
   // fs.readFileSync(path.join(__dirname, 'templates', template))
   const configTemplatePath = path.join(
