@@ -241,7 +241,8 @@ const Providers = () => {
       <a
         href="https://open.spotify.com/show/01rZy6ri6RtVfyaWeLm0MR?si=f8ae4f3914c04372"
         target="_blank"
-        className="relative z-10 flex items-center justify-center border border-gray-700 px-2 py-1 bg-white/10 backdrop-blur-lg hover:bg-white/20 transition rounded-lg" rel="noreferrer"
+        className="relative z-10 flex items-center justify-center border border-gray-700 px-2 py-1 bg-white/10 backdrop-blur-lg hover:bg-white/20 transition rounded-lg"
+        rel="noreferrer"
       >
         <Image src={SpotifyPodcasts} alt="" aria-hidden="true" />
         <span className="sr-only">Listen on Spotify</span>
@@ -249,7 +250,8 @@ const Providers = () => {
       <a
         href="https://podcasts.google.com/feed/aHR0cHM6Ly9mZWVkcy5zaW1wbGVjYXN0LmNvbS8wMGdSRURHUg"
         target="_blank"
-        className="relative z-10 flex items-center justify-center border border-gray-700 px-2 py-1 bg-white/10 backdrop-blur-lg hover:bg-white/20 transition rounded-lg" rel="noreferrer"
+        className="relative z-10 flex items-center justify-center border border-gray-700 px-2 py-1 bg-white/10 backdrop-blur-lg hover:bg-white/20 transition rounded-lg"
+        rel="noreferrer"
       >
         <Image src={GooglePodcasts} alt="" aria-hidden="true" />
         <span className="sr-only">Listen on Google Podcasts</span>
@@ -257,7 +259,8 @@ const Providers = () => {
       <a
         href="https://podcasts.apple.com/cz/podcast/badass-courses/id1628629478"
         target="_blank"
-        className="relative z-10 flex items-center justify-center border border-gray-700 px-2 py-1 bg-white/10 backdrop-blur-lg hover:bg-white/20 transition rounded-lg" rel="noreferrer"
+        className="relative z-10 flex items-center justify-center border border-gray-700 px-2 py-1 bg-white/10 backdrop-blur-lg hover:bg-white/20 transition rounded-lg"
+        rel="noreferrer"
       >
         <Image src={ApplePodcasts} alt="" aria-hidden="true" />
         <span className="sr-only">Listen on Apple Podcasts</span>

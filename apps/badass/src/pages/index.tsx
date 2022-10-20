@@ -125,36 +125,92 @@ const SecretSauceSection: React.FC<React.PropsWithChildren<any>> = ({
 const ProjectsSection: React.FC<React.PropsWithChildren<any>> = ({content}) => {
   return (
     <section className="flex flex-col items-center justify-center py-16 text-center px-5">
-      <div
+      {/* <div
         className="font-symbol sm:pb-32 pb-24 text-2xl sm:scale-90 scale-75"
         aria-hidden="true"
       >
         <span className="inline-block rotate-180 text-badass-gray">!</span>{' '}
         <span className="text-badass-yellow-300 text-4xl">*</span>{' '}
         <span className=" text-badass-gray">!</span>
-      </div>
+      </div> */}
       <h2 className="font-condensed text-badass-pink-500 sm:text-3xl text-2xl">
         {content.caption}
       </h2>
-      <ul className="flex sm:flex-row flex-col max-w-screen-md sm:flex-wrap sm:items-start items-center justify-center pt-20">
+      <ul className="grid lg:grid-cols-2 grid-cols-1 place-items-center pt-20 gap-5 max-w-4xl w-full">
         {content.items.map((project: any) => {
-          const {title, byline, image} = project
+          const {title, byline, image, caseStudyUrl, instructor, instructors} =
+            project
           return (
             <li
               key={title}
-              className="flex flex-col items-center justify-center sm:w-1/2 sm:pb-16 pb-10"
+              className="relative bg-gradient-to-tr from-white/5 to-white/0  border border-white/10 flex flex-col w-full h-full rounded"
             >
-              {image}
-              <Link href={`https://${title}`} passHref>
-                <a
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="font-heading sm:text-2xl text-xl pt-3 pb-2"
-                >
-                  {title}
-                </a>
-              </Link>
-              <p className="text-badass-gray">{byline}</p>
+              <div className="flex items-center gap-3 p-10">
+                <div className="flex-shrink-0">{image}</div>
+                <h3>
+                  <Link href={`https://${title}`} passHref>
+                    <a
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="font-sans font-semibold sm:text-2xl text-xl block hover:underline"
+                    >
+                      {title}
+                    </a>
+                  </Link>
+                </h3>
+              </div>
+              {/* <p className="text-badass-gray">{byline}</p> */}
+              <div className="p-10 pb-8 w-full text-sm flex items-center justify-between">
+                <div className="">
+                  {instructor && (
+                    <div className="flex items-center gap-2.5">
+                      <Image
+                        src={instructor.avatar}
+                        width={45}
+                        height={45}
+                        alt={instructor.name}
+                        className="rounded-full bg-black"
+                      />
+                      {instructor.name}
+                    </div>
+                  )}
+                  {instructors && (
+                    <div className="flex items-center gap-2.5 text-left w-72">
+                      <div className="flex items-center -space-x-3">
+                        {instructors.map((instructor: any) => {
+                          return (
+                            <div className="border-2 rounded-full flex items-center justify-center border-black">
+                              <Image
+                                src={instructor.avatar}
+                                width={45}
+                                height={45}
+                                alt={instructor.name}
+                                className="rounded-full"
+                              />
+                              {/* {instructor.name} */}
+                            </div>
+                          )
+                        })}
+                      </div>
+                      {instructors.map((instructor: any, i: number) => {
+                        return `${instructor.name} ${i % 2 ? '' : ' & '}`
+                      })}
+                    </div>
+                  )}
+                </div>
+                {project.caseStudyUrl && (
+                  <div className="flex-shrink-0">
+                    <a
+                      href={project.caseStudyUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="opacity-80 hover:opacity-100 transition hover:text-badass-yellow-300"
+                    >
+                      case study <span aria-hidden="true">↗︎</span>
+                    </a>
+                  </div>
+                )}
+              </div>
             </li>
           )
         })}
