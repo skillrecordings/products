@@ -32,24 +32,26 @@ export default LandingPage
 
 const Header: React.FC<React.PropsWithChildren<any>> = ({content}) => {
   return (
-    <header className="py-5 flex md:flex-row flex-col-reverse items-center justify-between md:text-left text-center max-w-screen-xl mx-auto w-full md:px-8 px-5">
+    <header className="relative py-5 flex md:flex-row flex-col-reverse items-center justify-between md:text-left text-center max-w-screen-xl mx-auto w-full md:px-8 px-5">
       <div className="w-full flex flex-col md:items-start items-center">
-        <p className="font-condensed text-badass-pink-500 sm:text-3xl text-2xl sm:pt-0 pt-5">
+        <p className="font-condensed text-badass-pink-500 sm:text-4xl text-3xl sm:pt-0 pt-5">
           {content.caption}
         </p>
-        <h1 className="font-heading xl:text-5xl sm:text-4xl text-3xl md:leading-tight max-w-lg pb-4 pt-6">
+        <h1 className="font-heading xl:text-5xl sm:text-4xl text-4xl xl:leading-tight md:leading-tight pb-4 pt-6">
           {content.heading}
         </h1>
-        <p className="text-badass-gray max-w-lg sm:text-lg">{content.byline}</p>
-        <p className="font-script text-badass-yellow-300 sm:text-4xl text-3xl lg:pt-16 pt-8">
+        <p className="pt-5 text-white/80 max-w-xs sm:text-lg">
+          {content.byline}
+        </p>
+        <p className="sm:absolute sm:pt-0 pt-16 -bottom-16 left-24 font-script text-badass-yellow-300 sm:text-5xl scale-90 text-4xl -rotate-6">
           {content.callout}
         </p>
       </div>
-      <div className="flex items-center justify-center lg:flex-shrink-0">
+      <div className="flex items-center justify-center max-w-lg w-full">
         <Image
           src={ImageLevelUp}
-          width={1190 / 2}
-          height={1246 / 2}
+          // width={1190 / 2.2}
+          // height={1246 / 2.2}
           placeholder="blur"
           quality={100}
           priority
@@ -92,10 +94,10 @@ const SecretSauceSection: React.FC<React.PropsWithChildren<any>> = ({
           />
         </div>
       </div>
-      <p className="font-condensed text-badass-yellow-300 sm:text-3xl text-xl pb-5">
+      <p className="font-expanded text-badass-yellow-300 sm:text-xl text-lg pb-5">
         {content.caption}
       </p>
-      <h2 className="max-w-2xl font-heading sm:text-4xl text-xl pt-4">
+      <h2 className="lg:max-w-4xl max-w-2xl font-heading lg:text-5xl sm:text-4xl lg:leading-tight leading-tight text-3xl pt-4">
         {content.heading}
       </h2>
       <div className="absolute sm:-bottom-5 -bottom-16 sm:-translate-x-72 -translate-x-40">
@@ -133,10 +135,10 @@ const ProjectsSection: React.FC<React.PropsWithChildren<any>> = ({content}) => {
         <span className="text-badass-yellow-300 text-4xl">*</span>{' '}
         <span className=" text-badass-gray">!</span>
       </div> */}
-      <h2 className="font-condensed text-badass-pink-500 sm:text-3xl text-2xl">
+      <h2 className=" text-badass-pink-300 sm:text-2xl text-xl">
         {content.caption}
       </h2>
-      <ul className="grid lg:grid-cols-2 grid-cols-1 place-items-center pt-20 gap-5 max-w-4xl w-full">
+      <ul className="grid lg:grid-cols-2 grid-cols-1 place-items-center pt-16 gap-5 max-w-4xl w-full">
         {content.items.map((project: any) => {
           const {title, byline, image, caseStudyUrl, instructor, instructors} =
             project
@@ -215,7 +217,7 @@ const ProjectsSection: React.FC<React.PropsWithChildren<any>> = ({content}) => {
           )
         })}
       </ul>
-      <p className="font-script text-3xl sm:scale-110 text-badass-yellow-300 pt-16">
+      <p className="font-script sm:text-4xl text-3xl sm:scale-110 text-badass-yellow-300 pt-28">
         {content.byline}
       </p>
     </section>

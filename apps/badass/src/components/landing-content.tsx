@@ -98,7 +98,7 @@ export const secretSauceContent = {
 
 export const headerContent = {
   caption: 'Sell Your Course Online',
-  heading: 'Make Life-Changing Money Teaching What You Know',
+  heading: <>Make Life-Changing Money Teaching What You Know</>,
   byline:
     'Take ownership of your educational content and sell an online course that helps learners achieve their goals.',
   callout: (

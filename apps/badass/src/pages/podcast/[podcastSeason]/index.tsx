@@ -187,7 +187,7 @@ const PodcastSeason: React.FC<{season: PodcastSeason}> = ({season}) => {
 
 export default PodcastSeason
 
-const ParallaxImages: React.FC<any> = ({y}) => {
+export const ParallaxImages: React.FC<any> = ({y}) => {
   const images = [
     Hammer,
     Stars1,

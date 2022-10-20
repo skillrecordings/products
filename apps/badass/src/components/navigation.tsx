@@ -9,7 +9,10 @@ import SkullLogo from '../../public/assets/skull@2x.png'
 
 const Navigation = () => {
   return (
-    <nav aria-label="top" className="w-full left-0 top-0 sm:py-5 print:hidden">
+    <nav
+      aria-label="top"
+      className="w-full left-0 top-0 sm:px-5 px-3 sm:py-5 py-2 print:hidden"
+    >
       <div className="flex items-center w-full h-full max-w-screen-xl mx-auto justify-between">
         <NavLogo />
         <DesktopNav />
