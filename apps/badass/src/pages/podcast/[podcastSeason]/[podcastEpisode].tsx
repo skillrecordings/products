@@ -66,7 +66,9 @@ const PodcastEpisode: React.FC<{episode: PodcastEpisode}> = ({episode}) => {
         url: `${process.env.NEXT_PUBLIC_URL}/podcast/course_builders/${episode.slug}`,
         titleAppendSiteName: true,
         ogImage: {
-          url: `https://badass-ogimage.vercel.app/api/card?title=${title}&image=https://res.cloudinary.com/dg3gyk0gu/image/fetch/h_600/f_auto/${coverArtUrl}`,
+          url: `https://badass-ogimage.vercel.app/api/card?title=${encodeURI(
+            title,
+          )}&image=https://res.cloudinary.com/dg3gyk0gu/image/fetch/h_600/f_auto/${coverArtUrl}`,
           width: 1200,
           height: 628,
         },
