@@ -8,6 +8,7 @@ import {SanityDocument} from '@sanity/client'
 import {getAllArticles} from '../lib/articles'
 import Image from 'next/image'
 import Stars from '../../public/assets/stars-1@2x.png'
+import {Author} from 'templates/article-template'
 
 const meta = {
   title: 'Badass Articles',
@@ -39,7 +40,7 @@ const Articles: React.FC<React.PropsWithChildren<ArticlesProps>> = ({
       </header>
       <main className="px-8 flex-grow">
         <div className="pb-16 mx-auto max-w-3xl w-full sm:pt-20 gap-16">
-          <div className="grid grid-cols-1 gap-10">
+          <div className="grid grid-cols-1 gap-20">
             {articles.map(
               ({title, slug, description, date}: SanityDocument, i: number) => {
                 return (
@@ -59,13 +60,12 @@ const Articles: React.FC<React.PropsWithChildren<ArticlesProps>> = ({
                             </h2>
                           </a>
                         </Link>
-
-                        <time
-                          dateTime={date}
-                          className="block pt-2 pb-5 opacity-80"
-                        >
-                          {format(new Date(date), 'dd MMMM, y')}
-                        </time>
+                        <div className="flex items-center pt-5 gap-8">
+                          <Author />
+                          <time dateTime={date} className="block opacity-80">
+                            {format(new Date(date), 'dd MMMM, y')}
+                          </time>
+                        </div>
                         {description && (
                           <Markdown className="prose pt-3 pb-6">
                             {description}
