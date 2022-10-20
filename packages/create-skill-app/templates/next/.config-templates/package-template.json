@@ -1,10 +1,11 @@
 {
+  "name": "{{appName}}",
   "private": true,
   "scripts": {
-    "dev": "next dev -p 3000",
+    "dev": "next dev -p {{devPort}}",
     "build": "next build",
     "postbuild": "NODE_ENV=production next-sitemap",
-    "start": "next start -p 3000",
+    "start": "next start -p {{devPort}}",
     "lint": "eslint src/**/*.{ts,tsx} --fix && tsc --noEmit",
     "db:studio": "prisma studio",
     "db:push": "prisma db push",

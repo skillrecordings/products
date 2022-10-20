@@ -1,10 +1,7 @@
 import * as React from 'react'
-import {ChevronDownIcon, MenuIcon} from '@heroicons/react/solid'
-import {LogoutIcon} from '@heroicons/react/outline'
+import {MenuIcon} from '@heroicons/react/solid'
 import {Menu, Transition} from '@headlessui/react'
-import {NextRouter, useRouter} from 'next/router'
-import isEmpty from 'lodash/isEmpty'
-import toast from 'react-hot-toast'
+import {useRouter} from 'next/router'
 import Link from 'next/link'
 import cx from 'classnames'
 import Image from 'next/image'
@@ -16,29 +13,38 @@ const Navigation = () => {
       aria-label="top"
       className="w-full left-0 top-0 px-2 pt-2 print:hidden"
     >
-      <div className="flex items-center w-full h-full py-[2px] max-w-screen-lg mx-auto justify-between">
-        <Link href="/" passHref>
-          <a className="inline-flex items-center">
-            <div className="flex items-center justify-center sm:w-auto w-16">
-              <Image
-                src={SkullLogo}
-                alt="Badass Skull Logo"
-                width={80}
-                height={80}
-              />
-            </div>
-            <div className="font-heading text-2xl">
-              Badass
-              <span className="pl-0.5 text-base font-condensed text-badass-yellow-500">
-                .dev
-              </span>
-            </div>
-          </a>
-        </Link>
+      <div className="flex items-center w-full h-full py-[2px] max-w-screen-xl mx-auto justify-between">
+        <NavLogo />
         <DesktopNav />
         <MobileNav />
       </div>
     </nav>
+  )
+}
+const NavLogo = () => {
+  const router = useRouter()
+  return (
+    <Link href="/" aria-label="Badass Dev Home" passHref>
+      <a
+        className="inline-flex items-center"
+        tabIndex={router.pathname === '/' ? -1 : 0}
+      >
+        <div className="flex items-center justify-center sm:w-auto w-16 flex-shrink-0">
+          <Image
+            src={SkullLogo}
+            alt="Badass Skull Logo"
+            width={80}
+            height={80}
+          />
+        </div>
+        <div className="font-heading text-2xl">
+          Badass
+          <span className="pl-0.5 text-base font-condensed text-badass-yellow-500">
+            .dev
+          </span>
+        </div>
+      </a>
+    </Link>
   )
 }
 
@@ -115,7 +121,7 @@ const NavLink: React.FC<React.PropsWithChildren<{href: string}>> = ({
       <a
         aria-current={isActive ? 'page' : undefined}
         className={cx(
-          'relative px-5 h-full flex items-center justify-center hover:bg-gray-100 hover:bg-opacity-50 group transition outline-none hover:opacity-100 opacity-90 text-sm',
+          'relative px-5 h-full flex items-center justify-center hover:bg-gray-100 hover:bg-opacity-50 group transition outline-none hover:opacity-100 opacity-90',
           {
             'after:content-[""] after:absolute after:w-full after:h-[2px] after:bottom-[-2px] after:left-0 after:bg-[#082C1B]':
               isActive,
