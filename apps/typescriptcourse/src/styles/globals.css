@@ -38,6 +38,7 @@ Subscribe Form
 }
 
 :root {
+  color-scheme: dark;
   @apply selection:text-white selection:bg-blue-600;
 }
 
