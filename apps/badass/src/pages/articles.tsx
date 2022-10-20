@@ -38,16 +38,16 @@ const Articles: React.FC<React.PropsWithChildren<ArticlesProps>> = ({
           Badass Articles
         </h1>
       </header>
-      <main className="px-8 flex-grow">
+      <main className="px-3 flex-grow">
         <div className="pb-16 mx-auto max-w-3xl w-full sm:pt-20 gap-16">
           <div className="grid grid-cols-1 gap-20">
             {articles.map(
               ({title, slug, description, date}: SanityDocument, i: number) => {
                 return (
-                  <div key={slug} className="gap-5 flex">
+                  <div key={slug} className="sm:gap-5 gap-3 flex">
                     <i
                       aria-hidden="true"
-                      className="font-symbol text-5xl text-badass-yellow-300"
+                      className="font-symbol sm:text-5xl text-4xl text-badass-yellow-300"
                     >
                       o
                     </i>
@@ -55,7 +55,7 @@ const Articles: React.FC<React.PropsWithChildren<ArticlesProps>> = ({
                       <div>
                         <Link href={`/${slug}`} passHref>
                           <a className="group block">
-                            <h2 className="group-hover:underline md:text-4xl sm:text-3xl text-2xl font-heading">
+                            <h2 className="group-hover:underline md:text-4xl sm:text-3xl text-xl font-heading">
                               {title}
                             </h2>
                           </a>
