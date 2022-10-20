@@ -11,7 +11,7 @@ const Navigation = () => {
   return (
     <nav
       aria-label="top"
-      className="w-full left-0 top-0 sm:px-5 px-3 sm:py-5 py-2 print:hidden"
+      className="w-full left-0 top-0 sm:px-5 px-1 sm:py-5 py-2 print:hidden"
     >
       <div className="flex items-center w-full h-full max-w-screen-xl mx-auto justify-between">
         <NavLogo />
@@ -50,12 +50,12 @@ const NavLogo = () => {
 
 const DesktopNav: React.FC<React.PropsWithChildren<unknown>> = () => {
   return (
-    <div className={cx('flex w-full pl-10 gap-2 h-full justify-end')}>
+    <div className={cx('flex w-full pl-5 gap-2 h-full justify-end')}>
       <NavSlots>
         <NavLink href="/podcast/course-builders">
           <span
             aria-hidden="true"
-            className="sm:text-4xl text-3xl text-badass-yellow-300 font-symbol mr-1.5"
+            className="sm:text-4xl text-2xl text-badass-yellow-300 font-symbol mr-1.5"
           >
             z
           </span>{' '}
@@ -64,7 +64,7 @@ const DesktopNav: React.FC<React.PropsWithChildren<unknown>> = () => {
         <NavLink href="/articles">
           <span
             aria-hidden="true"
-            className="sm:text-4xl text-3xl text-badass-pink-400 font-symbol mr-1.5"
+            className="sm:text-4xl text-2xl text-badass-pink-400 font-symbol mr-1.5"
           >
             h
           </span>{' '}

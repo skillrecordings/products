@@ -147,7 +147,7 @@ const ProjectsSection: React.FC<React.PropsWithChildren<any>> = ({content}) => {
               key={title}
               className="relative bg-gradient-to-tr from-white/5 to-white/0  border border-white/10 flex flex-col w-full h-full rounded"
             >
-              <div className="flex items-center gap-3 p-10">
+              <div className="flex items-center gap-3 sm:p-10 p-10 sm:justify-start justify-center">
                 <div className="flex-shrink-0">{image}</div>
                 <h3>
                   <Link href={`https://${title}`} passHref>
@@ -162,10 +162,10 @@ const ProjectsSection: React.FC<React.PropsWithChildren<any>> = ({content}) => {
                 </h3>
               </div>
               {/* <p className="text-badass-gray">{byline}</p> */}
-              <div className="p-10 pb-8 w-full text-sm flex items-center justify-between">
+              <div className="sm:p-10 p-5 pb-8 w-full gap-5 text-sm flex sm:flex-row flex-col items-center sm:justify-between justify-center">
                 <div className="">
                   {instructor && (
-                    <div className="flex items-center gap-2.5">
+                    <div className="flex items-center gap-2.5 sm:justify-start justify-center">
                       <Image
                         src={instructor.avatar}
                         width={45}
@@ -177,7 +177,7 @@ const ProjectsSection: React.FC<React.PropsWithChildren<any>> = ({content}) => {
                     </div>
                   )}
                   {instructors && (
-                    <div className="flex items-center gap-2.5 text-left w-72">
+                    <div className="flex items-center gap-2.5 text-left">
                       <div className="flex items-center -space-x-3">
                         {instructors.map((instructor: any) => {
                           return (
@@ -204,7 +204,7 @@ const ProjectsSection: React.FC<React.PropsWithChildren<any>> = ({content}) => {
                   )}
                 </div>
                 {project.caseStudyUrl && (
-                  <div className="flex-shrink-0">
+                  <div className="flex-shrink-0 flex">
                     <a
                       href={project.caseStudyUrl}
                       target="_blank"
