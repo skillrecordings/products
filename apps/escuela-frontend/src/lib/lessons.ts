@@ -14,7 +14,20 @@ export const LessonSchema = z.object({
   stackblitz: z.string().optional(),
   muxPlaybackId: z.nullable(z.string()).optional(),
   transcript: z.nullable(z.any().array()),
-  solution: z.nullable(z.any().array()),
+  solution: z
+    .object({
+      _key: z.string(),
+      _type: z.string(),
+      _updatedAt: z.string().optional(),
+      title: z.string(),
+      slug: z.string(),
+      description: z.nullable(z.string()).optional(),
+      body: z.any().array(),
+      stackblitz: z.nullable(z.string()).optional(),
+      muxPlaybackId: z.nullable(z.string()).optional(),
+      transcript: z.nullable(z.any().array()),
+    })
+    .optional(),
 })
 
 export type Lesson = z.infer<typeof LessonSchema>
@@ -43,7 +56,7 @@ export const getLesson = async (slug: string): Promise<Lesson> => {
       "stackblitz": resources[@._type == 'stackblitz'][0].openFile,
       "muxPlaybackId": resources[@->._type == 'videoResource'][0]-> muxAsset.muxPlaybackId,
       "transcript": resources[@->._type == 'videoResource'][0]-> castingwords.transcript,
-      "solution": resources[@._type == 'solution'][]{
+      "solution": resources[@._type == 'solution'][0]{
         _key,
         _type,
         "_updatedAt": ^._updatedAt,

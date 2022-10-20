@@ -2,6 +2,7 @@ import React from 'react'
 import {GetStaticPaths, GetStaticProps} from 'next'
 import {getAllCourses, getModule} from 'lib/courses'
 import {getLesson} from 'lib/lessons'
+import LessonTemplate from 'templates/lesson-template'
 
 export const getStaticProps: GetStaticProps = async (context) => {
   const {params} = context
@@ -36,7 +37,7 @@ export const getStaticPaths: GetStaticPaths = async (context) => {
 }
 
 const LessonSolution: React.FC<any> = ({lesson, module}) => {
-  return <h1>lol</h1>
+  return <LessonTemplate lesson={lesson} module={module} isSolution={true} />
 }
 
 export default LessonSolution
