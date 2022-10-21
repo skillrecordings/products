@@ -1,10 +1,7 @@
 import * as React from 'react'
-import {ChevronDownIcon, MenuIcon} from '@heroicons/react/solid'
-import {LogoutIcon} from '@heroicons/react/outline'
+import {MenuIcon} from '@heroicons/react/solid'
 import {Menu, Transition} from '@headlessui/react'
-import {NextRouter, useRouter} from 'next/router'
-import isEmpty from 'lodash/isEmpty'
-import toast from 'react-hot-toast'
+import {useRouter} from 'next/router'
 import Link from 'next/link'
 import cx from 'classnames'
 import Image from 'next/image'
@@ -14,40 +11,65 @@ const Navigation = () => {
   return (
     <nav
       aria-label="top"
-      className="w-full left-0 top-0 px-2 pt-2 print:hidden"
+      className="w-full left-0 top-0 sm:px-5 px-1 sm:py-5 py-2 print:hidden"
     >
-      <div className="flex items-center w-full h-full py-[2px] max-w-screen-lg mx-auto justify-between">
-        <Link href="/" passHref>
-          <a className="inline-flex items-center">
-            <div className="flex items-center justify-center sm:w-auto w-16">
-              <Image
-                src={SkullLogo}
-                alt="Badass Skull Logo"
-                width={80}
-                height={80}
-              />
-            </div>
-            <div className="font-heading text-2xl">
-              Badass
-              <span className="pl-0.5 text-base font-condensed text-badass-yellow-500">
-                .dev
-              </span>
-            </div>
-          </a>
-        </Link>
+      <div className="flex items-center w-full h-full max-w-screen-xl mx-auto justify-between">
+        <NavLogo />
         <DesktopNav />
-        <MobileNav />
+        {/* <MobileNav /> */}
       </div>
     </nav>
+  )
+}
+const NavLogo = () => {
+  const router = useRouter()
+  return (
+    <Link href="/" aria-label="Badass Dev Home" passHref>
+      <a
+        className="inline-flex items-center"
+        tabIndex={router.pathname === '/' ? -1 : 0}
+      >
+        <div className="flex items-center justify-center sm:w-auto w-14 flex-shrink-0">
+          <Image
+            src={SkullLogo}
+            alt="Badass Skull Logo"
+            width={80}
+            height={80}
+          />
+        </div>
+        <div className="font-heading sm:text-2xl text-xl">
+          Badass
+          <span className="pl-0.5 text-base font-condensed text-badass-yellow-500">
+            .dev
+          </span>
+        </div>
+      </a>
+    </Link>
   )
 }
 
 const DesktopNav: React.FC<React.PropsWithChildren<unknown>> = () => {
   return (
-    <div className={cx('sm:flex hidden w-full pl-10 gap-2 h-full justify-end')}>
+    <div className={cx('flex w-full pl-5 gap-2 h-full justify-end')}>
       <NavSlots>
-        <NavLink href="/podcast/course-builders">Podcast</NavLink>
-        <NavLink href="/articles">Articles</NavLink>
+        <NavLink href="/podcast/course-builders">
+          <span
+            aria-hidden="true"
+            className="sm:text-4xl text-2xl text-badass-yellow-300 font-symbol mr-1.5"
+          >
+            z
+          </span>{' '}
+          Podcast
+        </NavLink>
+        <NavLink href="/articles">
+          <span
+            aria-hidden="true"
+            className="sm:text-4xl text-2xl text-badass-pink-400 font-symbol mr-1.5"
+          >
+            h
+          </span>{' '}
+          Articles
+        </NavLink>
       </NavSlots>
     </div>
   )
@@ -99,7 +121,11 @@ const MobileNav: React.FC<React.PropsWithChildren<unknown>> = () => {
 }
 
 const NavSlots: React.FC<React.PropsWithChildren<unknown>> = ({children}) => {
-  return <div className="flex items-center">{children}</div>
+  return (
+    <div className="flex lg:gap-10 sm:gap-8 gap-5 lg:pr-10 pr-2 items-center sm:text-lg text-sm">
+      {children}
+    </div>
+  )
 }
 
 const NavLink: React.FC<React.PropsWithChildren<{href: string}>> = ({
@@ -115,10 +141,9 @@ const NavLink: React.FC<React.PropsWithChildren<{href: string}>> = ({
       <a
         aria-current={isActive ? 'page' : undefined}
         className={cx(
-          'relative px-5 h-full flex items-center justify-center hover:bg-gray-100 hover:bg-opacity-50 group transition outline-none hover:opacity-100 opacity-90 text-sm',
+          'relative h-full font-heading flex items-center justify-center group transition outline-none hover:opacity-100 opacity-90',
           {
-            'after:content-[""] after:absolute after:w-full after:h-[2px] after:bottom-[-2px] after:left-0 after:bg-[#082C1B]':
-              isActive,
+            'first-letter:text-pink-500': isActive,
           },
         )}
         {...props}

@@ -59,16 +59,12 @@ async function run(): Promise<void> {
       type: 'number',
       name: 'devPort',
       message: `What http port will this run on localhost?`,
-      min: 3000,
-      max: 3999,
       initial: 3000,
     },
     {
       type: 'number',
       name: 'databasePort',
       message: `What port will the MySQL database run on in dev?`,
-      min: 3306,
-      max: 3999,
       initial: 3306,
     },
     {

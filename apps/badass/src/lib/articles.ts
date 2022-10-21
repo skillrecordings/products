@@ -2,7 +2,7 @@ import {sanityClient} from '../utils/sanity-client'
 import groq from 'groq'
 
 export async function getAllArticles() {
-  return await sanityClient.fetch(groq`*[_type == "article"] | order(date asc){
+  return await sanityClient.fetch(groq`*[_type == "article"] | order(date desc){
     _updatedAt,
     title,
     'slug': slug.current,

@@ -10,3 +10,4 @@ tsconfig.tsbuildinfo
 # build artifacts
 apps/*/public/sitemap.xml
 apps/*/public/sitemap-[0-99].xml
+apps/*/public/robots.txt

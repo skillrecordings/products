@@ -19,7 +19,10 @@ const Navigation: React.FC<React.PropsWithChildren<NavigationProps>> = ({
           <span className="sr-only">TypeScript Course</span>
         </a>
       </Link>
-      <NavLink href="/articles">Articles</NavLink>
+      <div className="flex items-center justify-between">
+        <NavLink href="/articles">Articles</NavLink>
+        <NavLink href="/podcast/migrate">Podcast</NavLink>
+      </div>
     </nav>
   )
 }
