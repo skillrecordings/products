@@ -24,6 +24,9 @@ const stripeWebhookHandler = async (
       event = stripe.webhooks.constructEvent(buf, sig as string, webhookSecret)
 
       if (event.type === 'checkout.session.completed') {
+        // We want `recordNewPurchase` to tell us if the user is making
+        // additions to an existing Bulk Coupon, in which case we'll send
+        // a different email.
         const {user, purchase, purchaseInfo} = await recordNewPurchase(
           event.data.object.id,
         )

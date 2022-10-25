@@ -5,7 +5,8 @@ import {convertToSerializeForNextResponse} from '@skillrecordings/commerce-serve
 import {GetServerSideProps} from 'next'
 import {getPurchasedProduct} from 'lib/get-purchased-product'
 import InviteTeam from 'components/team'
-import {UserGroupIcon} from '@heroicons/react/outline'
+import BuyMoreSeats from 'components/team/buy-more-seats'
+import {UserGroupIcon, TicketIcon} from '@heroicons/react/outline'
 import Link from 'next/link'
 import {useSession} from 'next-auth/react'
 import {getCurrentAbility} from '@skillrecordings/ability'
@@ -34,6 +35,7 @@ export const getServerSideProps: GetServerSideProps = async ({req}) => {
               purchase: convertToSerializeForNextResponse(purchase),
               existingPurchase,
               availableUpgrades,
+              userId: token.sub,
             },
           }
         : {
@@ -64,12 +66,14 @@ type TeamPageProps = {
     product: {id: string; name: string}
   }
   availableUpgrades: {upgradableTo: {id: string; name: string}}[]
+  userId: string
 }
 
 const TeamPage: React.FC<React.PropsWithChildren<TeamPageProps>> = ({
   purchase,
   existingPurchase,
   availableUpgrades,
+  userId,
 }) => {
   const {data: session} = useSession()
   const [personalPurchase, setPersonalPurchase] = React.useState<any>(
@@ -94,6 +98,14 @@ const TeamPage: React.FC<React.PropsWithChildren<TeamPageProps>> = ({
             existingPurchase={existingPurchase}
             setPersonalPurchase={setPersonalPurchase}
           />
+        </Card>
+        <Card
+          title={{content: 'Get more seats', as: 'h2'}}
+          icon={
+            <TicketIcon className="w-5 text-green-500" aria-hidden="true" />
+          }
+        >
+          <BuyMoreSeats productId={purchase.product.id} userId={userId} />
         </Card>
       </main>
     </Layout>
