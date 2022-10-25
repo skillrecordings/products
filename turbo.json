@@ -34,7 +34,7 @@
     "generate": {
       "dependsOn": ["^generate"],
       "cache": false,
-      "outputs": []
+      "outputs": ["../../node_modules/.prisma/client"]
     },
     "lint": {
       "outputs": [],
