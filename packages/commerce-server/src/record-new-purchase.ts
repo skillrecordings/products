@@ -68,10 +68,22 @@ export type PurchaseInfo = {
   stripeProduct: Stripe.Product
 }
 
+export const EXISTING_BULK_COUPON = 'EXISTING_BULK_COUPON' as const
+export const NEW_BULK_COUPON = 'NEW_BULK_COUPON' as const
+export const NEW_INDIVIDUAL_PURCHASE = 'NEW_INDIVIDUAL_PURCHASE' as const
+
+const purchaseTypes = [
+  EXISTING_BULK_COUPON,
+  NEW_BULK_COUPON,
+  NEW_INDIVIDUAL_PURCHASE,
+]
+type PurchaseType = typeof purchaseTypes[number]
+
 export async function recordNewPurchase(checkoutSessionId: string): Promise<{
   user: any
   purchase: Purchase
   purchaseInfo: PurchaseInfo
+  purchaseType: PurchaseType
 }> {
   const {
     findOrCreateUser,
@@ -185,8 +197,17 @@ export async function recordNewPurchase(checkoutSessionId: string): Promise<{
       },
     )
 
-    return {purchase: updatedPurchase, user, purchaseInfo}
+    const purchaseType = !!existingBulkCoupon
+      ? EXISTING_BULK_COUPON
+      : NEW_BULK_COUPON
+
+    return {purchase: updatedPurchase, user, purchaseInfo, purchaseType}
   } else {
-    return {purchase, user, purchaseInfo}
+    return {
+      purchase,
+      user,
+      purchaseInfo,
+      purchaseType: NEW_INDIVIDUAL_PURCHASE,
+    }
   }
 }
