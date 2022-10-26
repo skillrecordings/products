@@ -3018,12 +3018,14 @@ importers:
       tsup: ^5.11.13
       tsx: ^3.7.1
       typescript: ^4.8.3
+      zod: ^3.19.1
     dependencies:
       '@casl/ability': 6.0.0
       '@skillrecordings/database': link:../database
       date-fns: 2.28.0
       lodash: 4.17.21
       stripe: 8.209.0
+      zod: 3.19.1
     devDependencies:
       '@skillrecordings/scripts': link:../scripts
       '@skillrecordings/tsconfig': link:../tsconfig
