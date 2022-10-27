@@ -74,6 +74,12 @@ module.exports = {
         DEFAULT: {
           css: {
             '*': {color: theme('colors.white')},
+            'code::before': {
+              content: "''",
+            },
+            'code::after': {
+              content: "''",
+            },
           },
         },
       }),

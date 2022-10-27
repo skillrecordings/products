@@ -1,47 +1,39 @@
-# Create Next App
+# Create Skill App
 
-The easiest way to get started with Next.js is by using `create-skill-app`. This CLI tool enables you to quickly start building a new Next.js application, with everything set up for you. You can create a new app using the default Next.js template, or by using one of the [official Next.js examples](https://github.com/vercel/next.js/tree/canary/examples). To get started, use the following command:
+If you don't want to publish and use current package version `npm link` in `packages/create-skill-app` folder and then run `create-skill-app` command from anywhere.
 
 ```bash
-npx create-skill-app@latest
-# or
-yarn create next-app
-# or
-pnpm create next-app
+cd packages/create-skill-app && npm link
 ```
 
-Or, for a [TypeScript project](https://github.com/vercel/next.js/blob/canary/docs/basic-features/typescript.md):
+Once that is done, you can technically run `create-skill-app` from anywhere on your machine if you fully-qualify the path, but you're better off running it from `./apps/`.
+
+## Create a New App
+
+The easiest way to spin up a new Skill App is by using `create-skill-app`. This CLI tool enables you to quickly start building a new Partner Product application, with everything set up for you.
+
+To get started, use the following command and replace `APPLICATION_NAME` with the *kebab-case* name of the partner product. ex. `testing-accessibility`
 
 ```bash
-npx create-skill-app@latest --typescript
-# or
-yarn create next-app --typescript
-# or
-pnpm create next-app --typescript
-```
+# From apps/
+create-skill-app APPLICATION_NAME
 
-To create a new app in a specific folder, you can send a name as an argument. For example, the following command will create a new Next.js app called `blog-app` in a folder with the same name:
-
-```bash
-npx create-skill-app@latest blog-app
-# or
-yarn create next-app blog-app
-# or
-pnpm create next-app blog-app
+# From the root...
+create-skill-app apps/APPLICATION_NAME
 ```
 
 ## Options
 
-`create-skill-app` comes with the following options:
-- 
-- none yet
+Other than specifying the application folder name, there are no options. The command will ask a series of questions defined in `packages/create-skill-app/index.ts` that fill in the details in the templates.
 
-## Why use Create Next App?
+## Development
 
-`create-skill-app` allows you to create a new Next.js app within seconds. It is officially maintained by the creators of Next.js, and includes a number of benefits:
+For development/modification purposes:
 
-- **Interactive Experience**: Running `npx create-skill-app` (with no arguments) launches an interactive experience that guides you through setting up a project.
-- **Zero Dependencies**: Initializing a project is as quick as one second. Create Next App has zero dependencies.
-- **Offline Support**: Create Next App will automatically detect if you're offline and bootstrap your project using your local package cache.
-- **Support for Examples**: Create Next App can bootstrap your application using an example from the Next.js examples collection (e.g. `npx create-skill-app --example api-routes`).
-- **Tested**: The package is part of the Next.js monorepo and tested using the same integration test suite as Next.js itself, ensuring it works as expected with every release.
+```bash
+# From /packages/create-skill-app
+pnpm dev
+
+# From /apps, you can run the following to generate and re-generate (`apps/skill-template` is .gitignore'd)
+rm -rf skill-template && create-skill-app skill-template
+```

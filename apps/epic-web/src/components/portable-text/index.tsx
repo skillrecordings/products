@@ -4,7 +4,7 @@ import {ChevronDownIcon, ChevronUpIcon} from '@heroicons/react/solid'
 import {
   toPlainText,
   PortableText,
-  PortableTextComponents,
+  PortableTextComponents as PortableTextComponentsType,
   PortableTextMarkComponentProps,
 } from '@portabletext/react'
 import speakingurl from 'speakingurl'
@@ -90,6 +90,58 @@ const ExternalLink: React.FC<React.PropsWithChildren<ExternalLinkProps>> = ({
   )
 }
 
+const SyntaxHighlightedCode: React.FC<SyntaxHighlightedCodeProps> = ({
+  code,
+  language,
+  highlightedLines,
+}) => {
+  const [hasMounted, setHasMounted] = React.useState(false)
+  React.useEffect(() => {
+    setHasMounted(true)
+  }, [])
+  const lines = highlightedLines?.map((line: any) => {
+    return {
+      line: line,
+      component: ({children}: any) => (
+        <div className="before:bg-gradient-to-r from-brand/20 before:mix-blend-hard-light to-brand/30 before:pointer-events-none before:content-[''] before:absolute before:w-full before:h-6 before:left-0">
+          {children}
+        </div>
+      ),
+    }
+  })
+  return (
+    <>
+      <pre
+        role="region"
+        aria-label={'code sample'}
+        tabIndex={0}
+        className="sr-only"
+      >
+        <code>{code}</code>
+      </pre>
+      <pre
+        aria-hidden="true"
+        className="sm:mx-0 -mx-5 sm:rounded-lg rounded-none font-mono bg-black/30 relative scrollbar-track-transparent scrollbar-thumb-gray-800 hover:scrollbar-thumb-gray-700 scrollbar-thin"
+      >
+        {hasMounted && (
+          <Refractor
+            inline
+            language={
+              language
+                ? Refractor.hasLanguage(language)
+                  ? language
+                  : 'javascript'
+                : 'javascript'
+            }
+            value={code}
+            markers={lines}
+          />
+        )}
+      </pre>
+    </>
+  )
+}
+
 const BodyTestimonial: React.FC<
   React.PropsWithChildren<BodyTestimonialProps>
 > = ({value, children, ...props}) => {
@@ -131,7 +183,7 @@ const BodyTestimonial: React.FC<
 
 // https://github.com/portabletext/react-portabletext
 
-const PortableTextComponents: PortableTextComponents = {
+const PortableTextComponents: PortableTextComponentsType = {
   block: {
     h1: ({children, value}) => {
       return <h1 id={speakingurl(toPlainText(value))}>{children}</h1>
@@ -245,44 +297,12 @@ const PortableTextComponents: PortableTextComponents = {
     code: ({value}: CodeProps) => {
       const {language, code, highlightedLines} = value
 
-      const lines = highlightedLines?.map((line: any) => {
-        return {
-          line: line,
-          component: ({children}: any) => (
-            <div className=" before:bg-gradient-to-r from-yellow-500/30 to-amber-500/40 before:pointer-events-none before:mix-blend-overlay before:content-[''] before:absolute before:w-full before:h-6 before:left-0">
-              {children}
-            </div>
-          ),
-        }
-      })
       return (
-        <>
-          <pre
-            role="region"
-            aria-label={'code sample'}
-            tabIndex={0}
-            className="sr-only"
-          >
-            <code>{code}</code>
-          </pre>
-          <pre
-            aria-hidden="true"
-            className="sm:mx-0 -mx-5 sm:rounded-lg rounded-none bg-black/50 relative scrollbar-track-transparent scrollbar-thumb-gray-800 hover:scrollbar-thumb-gray-700 scrollbar-thin"
-          >
-            <Refractor
-              inline
-              language={
-                language
-                  ? Refractor.hasLanguage(language)
-                    ? language
-                    : 'javascript'
-                  : 'javascript'
-              }
-              value={code}
-              markers={lines}
-            />
-          </pre>
-        </>
+        <SyntaxHighlightedCode
+          code={code}
+          language={language}
+          highlightedLines={highlightedLines}
+        />
       )
     },
     tweet: ({value}: TweetProps) => {
@@ -372,6 +392,12 @@ type CalloutProps = {
     body: PortableTextBlock | ArbitraryTypedObject
     type: string
   }
+}
+
+type SyntaxHighlightedCodeProps = {
+  code: string
+  language?: string
+  highlightedLines?: any
 }
 
 type BodyVideoProps = {

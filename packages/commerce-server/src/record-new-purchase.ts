@@ -137,7 +137,6 @@ export async function recordNewPurchase(checkoutSessionId: string): Promise<{
         // 1. Create bulk coupon record
         const coupon = await transaction.coupon.create({
           data: {
-            bulkPurchaseId: purchase.id,
             restrictedToProductId: productId,
             maxUses: quantity,
             percentageDiscount: 1.0,

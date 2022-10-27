@@ -9,6 +9,7 @@
 
 :root {
   color-scheme: dark;
+  @apply selection:bg-badass-pink-500 selection:text-black;
 }
 
 body {

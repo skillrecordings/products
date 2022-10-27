@@ -98,7 +98,7 @@ export const secretSauceContent = {
 
 export const headerContent = {
   caption: 'Sell Your Course Online',
-  heading: 'Make Life-Changing Money Teaching What You Know',
+  heading: <>Make Life-Changing Money Teaching What You Know</>,
   byline:
     'Take ownership of your educational content and sell an online course that helps learners achieve their goals.',
   callout: (
@@ -106,7 +106,7 @@ export const headerContent = {
       <span className="font-symbol" aria-hidden="true">
         s
       </span>
-      Your expertise is valuable.
+      Your expertise is valuable{' '}
       <span className="font-symbol" aria-hidden="true">
         t
       </span>
@@ -130,39 +130,20 @@ export const projects = {
   ),
   items: [
     {
-      title: 'TestingJavaScript.com',
-      byline: 'with Kent C. Dodds',
-      image: (
-        <svg
-          aria-hidden="true"
-          xmlns="http://www.w3.org/2000/svg"
-          width="43"
-          height="37"
-          fill="none"
-          viewBox="0 0 43 37"
-          className="text-badass-yellow-500"
-        >
-          <path
-            fill="currentColor"
-            fillRule="evenodd"
-            clipRule="evenodd"
-            d="M42.633 5.934c.256.24.388.566.364.898-.231 3.676-4.717 7.07-9.138 9.033a13.828 13.828 0 0 0 1.86-3.264c2.408-1.49 4.404-3.346 4.942-5.14l-3.911-.338a28.06 28.06 0 0 0-.02-1.99l4.972.422c.353.013.688.149.931.379Zm-42.267 0c.244-.23.578-.366.932-.379l4.972-.422c-.03.694-.037 1.354-.02 1.99l-3.898.339c.538 1.793 2.534 3.648 4.942 5.14a13.832 13.832 0 0 0 1.86 3.253C4.733 13.878.234 10.5.002 6.823c-.02-.329.111-.65.364-.89Zm10.278 27.195h21.84c1.76 0 3.956 1.32 4.082 3.871H6.563c.115-2.551 2.312-3.871 4.08-3.871Zm19.028-1.25-16.335.012c5.21-2.34 4.803-6.288 4.803-6.566 0-3.361-3.235-5.788-5.71-7.945C6.895 12.552 6.701 5.613 6.772 3.73a1 1 0 0 1 .378-.739C9.494 1.002 15.487-.003 21.503 0c6.016.003 12.002 1.002 14.352 2.976a1 1 0 0 1 .378.743c.071 1.882-.123 8.821-5.656 13.649-2.473 2.172-5.71 4.605-5.71 7.944 0 .278-.408 4.226 4.805 6.567Z"
-          />
-        </svg>
-      ),
-    },
-    {
       title: 'EpicReact.dev',
       byline: 'with Kent C. Dodds',
+      caseStudyUrl: 'https://www.skillrecordings.com/epic-react',
+      instructor: {
+        avatar: '/assets/projects/kent-c-dodds.png',
+        name: 'Kent C. Dodds',
+      },
       image: (
         <svg
           aria-hidden="true"
           xmlns="http://www.w3.org/2000/svg"
-          width="33"
-          height="37"
           fill="none"
           viewBox="0 0 40 45"
-          className="text-badass-cyan-400"
+          className="text-badass-cyan-400 w-9"
         >
           <path
             fill="currentColor"
@@ -174,14 +155,52 @@ export const projects = {
       ),
     },
     {
+      title: 'TestingAccessibility.com',
+      byline: 'with Marcy Sutton',
+      instructor: {
+        avatar: '/assets/projects/marcy-sutton.jpg',
+        name: 'Marcy Sutton',
+      },
+      image: (
+        <svg
+          aria-hidden="true"
+          className="w-9 -rotate-6"
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 43 43"
+        >
+          <circle
+            cx="21.5"
+            cy="21.5"
+            r="20.5"
+            stroke="currentColor"
+            strokeWidth="2"
+          />
+          <path
+            fill="currentColor"
+            fillRule="evenodd"
+            d="M23.915 11.091a2.994 2.994 0 0 0 .486-1.639 2.98 2.98 0 0 0-.216-1.139 2.93 2.93 0 0 0-.633-.964 2.867 2.867 0 0 0-.951-.638 2.824 2.824 0 0 0-1.12-.21 2.86 2.86 0 0 0-1.604.508 2.94 2.94 0 0 0-1.058 1.33 3.007 3.007 0 0 0-.156 1.705 2.97 2.97 0 0 0 .798 1.507c.407.41.923.69 1.485.802a2.848 2.848 0 0 0 1.672-.173 2.91 2.91 0 0 0 1.297-1.089Zm-7.768 21.75c-.134.606-.266 1.2-.399 1.778-.046.86.139 1.412.87 1.59.731.179 1.263-.116 1.54-.822a8.62 8.62 0 0 0 .304-1.025l.558-2.21c.435-1.723.868-3.442 1.324-5.159.03-.116.057-.242.084-.37.132-.633.278-1.33 1.048-1.34.823-.008.969.704 1.102 1.352.029.14.057.277.09.403.394 1.458.763 2.92 1.133 4.382.307 1.216.614 2.431.935 3.644.246.955.864 1.332 1.593 1.16.73-.17 1.066-.81.874-1.78a70.82 70.82 0 0 0-.812-3.514c-1.053-4.172-1.913-8.367-1.642-12.719.081-1.287.376-1.689 1.607-1.855.455-.062.91-.119 1.364-.176a82.974 82.974 0 0 0 2.054-.274 17.122 17.122 0 0 0 2.346-.46c.708-.214.988-.797.843-1.548-.144-.75-.648-1.1-1.39-1.049-.265.019-.53.065-.794.11-.145.026-.29.052-.437.072-4.182.59-8.364.965-12.598.573a112.004 112.004 0 0 1-6.087-.724c-1.095-.162-1.811.55-1.629 1.558.131.711.624 1.043 1.27 1.143 1.704.263 3.409.516 5.118.745 1.501.2 1.788.53 1.838 2.042a34.93 34.93 0 0 1-1.107 10.242c-.378 1.417-.695 2.852-1 4.232Z"
+            clipRule="evenodd"
+          />
+        </svg>
+      ),
+    },
+
+    {
       title: 'egghead.io',
       byline: `where we've published hundreds of bite-sized courses`,
+      instructors: [
+        {avatar: '/joel-hooks.jpg', name: 'Joel Hooks'},
+        {
+          avatar: '/assets/projects/john-lindquist.jpeg',
+          name: 'John Lindquist',
+        },
+      ],
       image: (
         <svg
           aria-hidden="true"
           xmlns="http://www.w3.org/2000/svg"
-          width="40"
-          height="41"
+          className="w-9"
           fill="none"
           viewBox="0 0 44 46"
         >
@@ -233,112 +252,47 @@ export const projects = {
       ),
     },
     {
-      title: 'TechnicalInterviews.dev',
-      byline: 'by Emma Bostian',
+      title: 'TestingJavaScript.com',
+      byline: 'with Kent C. Dodds',
+      instructor: {
+        avatar: '/assets/projects/kent-c-dodds.png',
+        name: 'Kent C. Dodds',
+      },
       image: (
         <svg
           aria-hidden="true"
           xmlns="http://www.w3.org/2000/svg"
-          width="53"
-          height="41"
           fill="none"
-          viewBox="0 0 53 41"
+          viewBox="0 0 43 37"
+          className="text-badass-yellow-500 w-8"
         >
-          <g clipPath="url(#a)">
-            <path
-              stroke="#000"
-              strokeWidth="2.89"
-              d="m6.405 16.296 13.403 9.83"
-            />
-            <path
-              fill="#FF6F4A"
-              fillRule="evenodd"
-              d="m6.405 16.296 13.441-9.857-13.441 9.857Zm0 0 26.883 19.713Z"
-              clipRule="evenodd"
-            />
-            <path
-              stroke="#AC1E00"
-              strokeWidth="2.89"
-              d="m6.405 16.296 26.883 19.713M6.405 16.296l13.441-9.857-13.441 9.857Z"
-            />
-            <path
-              stroke="#FF6D46"
-              strokeWidth="2.89"
-              d="m6.405 16.295 14.433 10.611"
-            />
-            <path
-              fill="#000"
-              stroke="#FF6D46"
-              strokeWidth="2.89"
-              d="M10.538 16.296a4.133 4.133 0 1 0-8.266 0 4.133 4.133 0 0 0 8.266 0Z"
-            />
-            <path
-              fill="#FF6D46"
-              fillRule="evenodd"
-              d="M46.73 6.44 19.845 26.152Z"
-              clipRule="evenodd"
-            />
-            <path
-              stroke="#FF6D46"
-              strokeWidth="2.89"
-              d="M46.73 6.44 19.845 26.152"
-            />
-            <path
-              fill="#000"
-              stroke="#FF6D46"
-              strokeWidth="2.89"
-              d="M23.98 26.152a4.133 4.133 0 1 0-8.267 0 4.133 4.133 0 0 0 8.266 0Z"
-            />
-            <path
-              fill="#000"
-              stroke="#AC1E00"
-              strokeWidth="2.89"
-              d="M36.527 34.925a4.133 4.133 0 1 0-8.266 0 4.133 4.133 0 0 0 8.266 0Z"
-            />
-            <path
-              fill="#FF6F4A"
-              fillRule="evenodd"
-              d="m33.288 16.296 13.441 9.857Z"
-              clipRule="evenodd"
-            />
-            <path
-              stroke="#AC1E00"
-              strokeWidth="2.89"
-              d="m33.288 16.296 13.441 9.857"
-            />
-            <path
-              fill="#000"
-              stroke="#AC1E00"
-              strokeWidth="2.89"
-              d="M49.968 25.067a4.133 4.133 0 1 0-8.266 0 4.133 4.133 0 0 0 8.266 0ZM23.978 6.44a4.133 4.133 0 1 0-8.266 0 4.133 4.133 0 0 0 8.266 0Z"
-            />
-            <path
-              fill="#000"
-              stroke="#FF6D46"
-              strokeWidth="2.89"
-              d="M37.42 16.296a4.133 4.133 0 1 0-8.265 0 4.133 4.133 0 0 0 8.266 0ZM50.86 6.438a4.133 4.133 0 1 0-8.266 0 4.133 4.133 0 0 0 8.266 0Z"
-            />
-          </g>
-          <defs>
-            <clipPath id="a">
-              <path fill="#fff" d="M0 0h52.963v40.884H0z" />
-            </clipPath>
-          </defs>
+          <path
+            fill="currentColor"
+            fillRule="evenodd"
+            clipRule="evenodd"
+            d="M42.633 5.934c.256.24.388.566.364.898-.231 3.676-4.717 7.07-9.138 9.033a13.828 13.828 0 0 0 1.86-3.264c2.408-1.49 4.404-3.346 4.942-5.14l-3.911-.338a28.06 28.06 0 0 0-.02-1.99l4.972.422c.353.013.688.149.931.379Zm-42.267 0c.244-.23.578-.366.932-.379l4.972-.422c-.03.694-.037 1.354-.02 1.99l-3.898.339c.538 1.793 2.534 3.648 4.942 5.14a13.832 13.832 0 0 0 1.86 3.253C4.733 13.878.234 10.5.002 6.823c-.02-.329.111-.65.364-.89Zm10.278 27.195h21.84c1.76 0 3.956 1.32 4.082 3.871H6.563c.115-2.551 2.312-3.871 4.08-3.871Zm19.028-1.25-16.335.012c5.21-2.34 4.803-6.288 4.803-6.566 0-3.361-3.235-5.788-5.71-7.945C6.895 12.552 6.701 5.613 6.772 3.73a1 1 0 0 1 .378-.739C9.494 1.002 15.487-.003 21.503 0c6.016.003 12.002 1.002 14.352 2.976a1 1 0 0 1 .378.743c.071 1.882-.123 8.821-5.656 13.649-2.473 2.172-5.71 4.605-5.71 7.944 0 .278-.408 4.226 4.805 6.567Z"
+          />
         </svg>
       ),
     },
     {
       title: 'JustJavaScript.com',
       byline: 'from Dan Abramov and Maggie Appleton',
+      caseStudyUrl: 'https://www.skillrecordings.com/just-javascript',
+      instructors: [
+        {avatar: '/assets/projects/dan-abramov.jpg', name: 'Dan Abramov'},
+        {
+          avatar: '/assets/projects/maggie-appleton.jpg',
+          name: 'Maggie Appleton',
+        },
+      ],
       image: (
         <svg
           aria-hidden="true"
           xmlns="http://www.w3.org/2000/svg"
-          width="38"
-          height="36"
           fill="none"
           viewBox="0 0 38 36"
-          className="text-badass-green-500"
+          className="text-white/80 w-8"
         >
           <path
             fill="currentColor"
@@ -348,31 +302,50 @@ export const projects = {
       ),
     },
     {
-      title: 'TestingAccessibility.com',
-      byline: 'from Marcy Sutton',
+      title: 'TechnicalInterviews.dev',
+      byline: 'by Emma Bostian',
+      caseStudyUrl: 'https://www.skillrecordings.com/technical-interviews',
+      instructor: {
+        avatar: '/assets/projects/emma-bostian.jpg',
+        name: 'Emma Bostian',
+      },
       image: (
         <svg
           aria-hidden="true"
-          width="36"
-          height="36"
-          className=""
           xmlns="http://www.w3.org/2000/svg"
+          className="w-11"
           fill="none"
-          viewBox="0 0 43 43"
+          viewBox="0 0 53 41"
         >
-          <circle
-            cx="21.5"
-            cy="21.5"
-            r="20.5"
-            stroke="currentColor"
-            strokeWidth="2"
-          />
-          <path
-            fill="currentColor"
-            fillRule="evenodd"
-            d="M23.915 11.091a2.994 2.994 0 0 0 .486-1.639 2.98 2.98 0 0 0-.216-1.139 2.93 2.93 0 0 0-.633-.964 2.867 2.867 0 0 0-.951-.638 2.824 2.824 0 0 0-1.12-.21 2.86 2.86 0 0 0-1.604.508 2.94 2.94 0 0 0-1.058 1.33 3.007 3.007 0 0 0-.156 1.705 2.97 2.97 0 0 0 .798 1.507c.407.41.923.69 1.485.802a2.848 2.848 0 0 0 1.672-.173 2.91 2.91 0 0 0 1.297-1.089Zm-7.768 21.75c-.134.606-.266 1.2-.399 1.778-.046.86.139 1.412.87 1.59.731.179 1.263-.116 1.54-.822a8.62 8.62 0 0 0 .304-1.025l.558-2.21c.435-1.723.868-3.442 1.324-5.159.03-.116.057-.242.084-.37.132-.633.278-1.33 1.048-1.34.823-.008.969.704 1.102 1.352.029.14.057.277.09.403.394 1.458.763 2.92 1.133 4.382.307 1.216.614 2.431.935 3.644.246.955.864 1.332 1.593 1.16.73-.17 1.066-.81.874-1.78a70.82 70.82 0 0 0-.812-3.514c-1.053-4.172-1.913-8.367-1.642-12.719.081-1.287.376-1.689 1.607-1.855.455-.062.91-.119 1.364-.176a82.974 82.974 0 0 0 2.054-.274 17.122 17.122 0 0 0 2.346-.46c.708-.214.988-.797.843-1.548-.144-.75-.648-1.1-1.39-1.049-.265.019-.53.065-.794.11-.145.026-.29.052-.437.072-4.182.59-8.364.965-12.598.573a112.004 112.004 0 0 1-6.087-.724c-1.095-.162-1.811.55-1.629 1.558.131.711.624 1.043 1.27 1.143 1.704.263 3.409.516 5.118.745 1.501.2 1.788.53 1.838 2.042a34.93 34.93 0 0 1-1.107 10.242c-.378 1.417-.695 2.852-1 4.232Z"
-            clipRule="evenodd"
-          />
+          <g clipPath="url(#a)">
+            <path
+              fill="currentColor"
+              className="text-white"
+              fillRule="evenodd"
+              d="m33.288 16.296 13.441 9.857Z"
+              clipRule="evenodd"
+            />
+
+            <path
+              fill="currentColor"
+              className="text-red-400"
+              fillRule="evenodd"
+              d="M19.845 9.127a2.688 2.688 0 1 1 0-5.376 2.688 2.688 0 0 1 0 5.376Zm-3.49 1.664a5.578 5.578 0 1 0-1.71-2.33l-5.797 4.252 1.589 2.418 5.918-4.34ZM22 29.524l2-2.117 4.634 3.398a5.578 5.578 0 1 1-1.56 2.44L22 29.523Zm7.706 5.401a2.688 2.688 0 1 0 5.376 0 2.688 2.688 0 0 0-5.376 0ZM35.5 19.71l5.015 3.677a5.578 5.578 0 1 0 1.56-2.44l-4.755-3.486-1.82 2.249Zm7.647 5.357a2.688 2.688 0 1 0 5.376 0 2.688 2.688 0 0 0-5.376 0Z"
+              clipRule="evenodd"
+            />
+            <path
+              fill="currentColor"
+              className="text-white"
+              fillRule="evenodd"
+              d="M46.727 9.126a2.688 2.688 0 1 1 0-5.376 2.688 2.688 0 0 1 0 5.376Zm-3.488 1.665a5.578 5.578 0 1 0-1.71-2.329l-4.751 3.483a5.578 5.578 0 0 0-8.69 6.373L23.336 21.8a5.554 5.554 0 0 0-3.49-1.226 5.555 5.555 0 0 0-3.502 1.235l-4.742-3.487a5.578 5.578 0 1 0-1.713 2.328l4.751 3.493a5.578 5.578 0 1 0 10.405-.013l4.751-3.484a5.578 5.578 0 0 0 8.69-6.373l4.752-3.483ZM6.404 18.984a2.688 2.688 0 1 1 0-5.376 2.688 2.688 0 0 1 0 5.376Zm13.441 9.857a2.688 2.688 0 1 1 0-5.376 2.688 2.688 0 0 1 0 5.376ZM30.6 16.296a2.688 2.688 0 1 0 5.377 0 2.688 2.688 0 0 0-5.377 0Z"
+              clipRule="evenodd"
+            />
+          </g>
+          <defs>
+            <clipPath id="a">
+              <path fill="#fff" d="M0 0h52.963v40.884H0z" />
+            </clipPath>
+          </defs>
         </svg>
       ),
     },
