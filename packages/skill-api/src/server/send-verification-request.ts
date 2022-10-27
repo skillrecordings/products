@@ -32,58 +32,62 @@ export const sendVerificationRequest = async (
     text?: (options: TextEmailParams) => string
   },
 ) => {
-  const {
-    identifier: email,
-    url,
-    provider: {server, from},
-    text = defaultText,
-    html = defaultHtml,
-    theme,
-  } = params
-  const {host} = new URL(url)
+  try {
+    const {
+      identifier: email,
+      url,
+      provider: {server, from},
+      text = defaultText,
+      html = defaultHtml,
+      theme,
+    } = params
+    const {host} = new URL(url)
 
-  const {getUserByEmail} = getSdk()
+    const {getUserByEmail} = getSdk()
 
-  let subject
+    let subject
 
-  switch (params.type) {
-    case 'purchase':
-      subject = `Thank you for Purchasing ${
-        process.env.NEXT_PUBLIC_PRODUCT_NAME ||
-        process.env.NEXT_PUBLIC_SITE_TITLE
-      } (${host})`
-      break
-    default:
-      subject = `Log in to ${
-        process.env.NEXT_PUBLIC_PRODUCT_NAME ||
-        process.env.NEXT_PUBLIC_SITE_TITLE
-      } (${host})`
-  }
+    switch (params.type) {
+      case 'purchase':
+        subject = `Thank you for Purchasing ${
+          process.env.NEXT_PUBLIC_PRODUCT_NAME ||
+          process.env.NEXT_PUBLIC_SITE_TITLE
+        } (${host})`
+        break
+      default:
+        subject = `Log in to ${
+          process.env.NEXT_PUBLIC_PRODUCT_NAME ||
+          process.env.NEXT_PUBLIC_SITE_TITLE
+        } (${host})`
+    }
 
-  const user = await getUserByEmail(email)
+    const user = await getUserByEmail(email)
 
-  if (!user) return
+    if (!user) return
 
-  if (process.env.LOG_VERIFICATION_URL) {
-    console.log(`\n👋 MAGIC LINK URL ******************\n`)
-    console.log(url)
-    console.log(`\n************************************\n`)
-  }
+    if (process.env.LOG_VERIFICATION_URL) {
+      console.log(`\n👋 MAGIC LINK URL ******************\n`)
+      console.log(url)
+      console.log(`\n************************************\n`)
+    }
 
-  if (isValidateEmailServerConfig(server)) {
-    const transport = createTransport(server)
+    if (isValidateEmailServerConfig(server)) {
+      const transport = createTransport(server)
 
-    await transport.sendMail({
-      to: email,
-      from,
-      subject,
-      text: text({url, host}),
-      html: html({url, host, email}, theme),
-    })
-  } else {
-    console.warn(
-      `🚫 Invalid email server config. Do you need a POSTMARK_KEY env var?`,
-    )
+      await transport.sendMail({
+        to: email,
+        from,
+        subject,
+        text: text({url, host}),
+        html: html({url, host, email}, theme),
+      })
+    } else {
+      console.warn(
+        `🚫 Invalid email server config. Do you need a POSTMARK_KEY env var?`,
+      )
+    }
+  } catch (e) {
+    console.error(e)
   }
 }
 

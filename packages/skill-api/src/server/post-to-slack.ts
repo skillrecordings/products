@@ -75,14 +75,13 @@ export async function postRedemptionToSlack(
   productId: string,
   config: SlackConfig,
 ) {
-  const {getProduct} = getSdk()
-  const product = await getProduct({
-    where: {id: productId},
-  })
-
-  if (!config.redeem) return false
-
   try {
+    const {getProduct} = getSdk()
+    const product = await getProduct({
+      where: {id: productId},
+    })
+
+    if (!config.redeem) return false
     return await postToSlack({
       webClient: new WebClient(config.token),
       channel: config.redeem.channelId,

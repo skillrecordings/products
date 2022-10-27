@@ -1,4 +1,4 @@
-import {PrismaClient, Prisma} from '@skillrecordings/database'
+import type {PrismaClient, Prisma} from '@skillrecordings/database'
 import type {Adapter} from 'next-auth/adapters'
 import {addSeconds, isAfter} from 'date-fns'
 

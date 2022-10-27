@@ -10,11 +10,11 @@ declare module globalThis {
   let prisma: PrismaClient
 }
 
-if (process.env.NODE_ENV === 'production') {
+if (process.env.NODE_ENV === 'production' && process.env.DATABASE_URL) {
   prisma = new PrismaClient({
     errorFormat: 'minimal',
   })
-} else {
+} else if (process.env.DATABASE_URL) {
   globalThis.prisma =
     globalThis.prisma ||
     new PrismaClient({

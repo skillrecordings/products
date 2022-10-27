@@ -1401,6 +1401,7 @@ importers:
       mjml: ^4.12.0
       mjml-react: ^2.0.8
       next: ^12.3.1
+      next-auth: ^4.10.3
       next-compose-plugins: ^2.2.1
       next-sitemap: ^3.0.5
       postcss: ^8.4.14
@@ -1441,6 +1442,7 @@ importers:
       mjml: 4.12.0
       mjml-react: 2.0.8_ailtjjlsqvu2thdobeyj5nn3lq
       next: 12.3.1_biqbaboplfbrettd7655fr4n2y
+      next-auth: 4.10.3_biqbaboplfbrettd7655fr4n2y
       next-compose-plugins: 2.2.1
       next-sitemap: 3.1.7_t3xfryuiqtvwo3lldhp54yqbfm
       react: 18.2.0
