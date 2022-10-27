@@ -148,15 +148,20 @@ const ThanksVerify: React.FC<React.PropsWithChildren<ThanksProps>> = ({
                 </p>
               </>
             ) : (
-              <h2 className="max-w-lg mx-auto font-bold lg:text-4xl text-3xl py-5">
-                Your team invite share link is the same as before. Visit the{' '}
-                <Link href="/team/invite">
-                  <a className="py-1 inline-flex text-base font-medium hover:underline transition">
-                    Team Invite
-                  </a>
-                </Link>{' '}
-                page to get the share link for distributing to your team.
-              </h2>
+              <>
+                <h2 className="max-w-lg mx-auto font-bold lg:text-4xl text-3xl py-5">
+                  Invite Your Team
+                </h2>
+                <p className="text-sand-100 max-w-md font-medium leading-relaxed mx-auto">
+                  Your team invite share link is the same as before. Visit the{' '}
+                  <Link href="/team/invite">
+                    <a className="py-1 inline-flex text-base font-medium hover:underline transition">
+                      Team Invite
+                    </a>
+                  </Link>{' '}
+                  page to get the share link for distributing to your team.
+                </p>
+              </>
             )}
           </div>
         </div>
