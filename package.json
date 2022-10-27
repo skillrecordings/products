@@ -2,6 +2,7 @@
   "name": "@skillrecordings/products",
   "version": "1.0.0",
   "description": "",
+  "packageManager": "pnpm@7.14.0",
   "homepage": "https://github.com/skillrecordings/products/",
   "repository": {
     "type": "git",
@@ -60,7 +61,6 @@
     "turbo": "~1.4.7",
     "typescript": "^4.8.3"
   },
-  "packageManager": "pnpm@7.13.4",
   "manypkg": {
     "ignoredRules": [
       "INTERNAL_MISMATCH"
