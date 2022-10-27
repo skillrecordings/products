@@ -1369,6 +1369,7 @@ importers:
       '@sanity/client': ^3.3.3
       '@skillrecordings/analytics': workspace:*
       '@skillrecordings/convertkit': workspace:*
+      '@skillrecordings/database': workspace:*
       '@skillrecordings/next-seo': workspace:*
       '@skillrecordings/quiz': workspace:*
       '@skillrecordings/react': workspace:*
@@ -1424,6 +1425,7 @@ importers:
       '@sanity/client': 3.3.3
       '@skillrecordings/analytics': link:../../packages/analytics
       '@skillrecordings/convertkit': link:../../packages/convertkit
+      '@skillrecordings/database': link:../../packages/database
       '@skillrecordings/next-seo': link:../../packages/next-seo
       '@skillrecordings/quiz': link:../../packages/quiz
       '@skillrecordings/react': link:../../packages/react
@@ -10882,7 +10884,7 @@ packages:
       axios: 0.26.1
       client-oauth2: 4.3.3
       js-cookie: 3.0.1
-      next: 12.3.1_biqbaboplfbrettd7655fr4n2y
+      next: 12.3.1_dyjg3c6zvjv6p4lxmcqda555km
     transitivePeerDependencies:
       - debug
     dev: false
@@ -14854,7 +14856,6 @@ packages:
       readdirp: 3.6.0
     optionalDependencies:
       fsevents: 2.3.2
-    dev: true
 
   /chokidar/3.5.3:
     resolution: {integrity: sha512-Dr3sfKRP6oTcjf2JmUmFJfeVMvXBdegxB0iVQ5eb2V10uFJUCAS8OByZdVAyVb8xXNz3GjjTgj9kLWsZTqE6kw==}
@@ -24024,7 +24025,6 @@ packages:
     transitivePeerDependencies:
       - '@babel/core'
       - babel-plugin-macros
-    dev: true
 
   /next/12.3.1_sfoxds7t5ydpegc3knd667wn6m:
     resolution: {integrity: sha512-l7bvmSeIwX5lp07WtIiP9u2ytZMv7jIeB8iacR28PuUEFG5j0HGAPnMqyG5kbZNBG2H7tRsrQ4HCjuMOPnANZw==}
@@ -28175,7 +28175,6 @@ packages:
     hasBin: true
     dependencies:
       chokidar: 3.5.2
-    dev: true
 
   /satori/0.0.40:
     resolution: {integrity: sha512-SoXGq/89mBU34U1h4g/nXeL9DHS/Aof2iUL3FHabq+laSRQUSUI1ZhPhak3J6VMNW8wghYwJ/Bi7aF8FLPq9qQ==}
