@@ -5,13 +5,12 @@ import Image from 'next/image'
 import NewMailImage from '../../../public/assets/new-mail@2x.png'
 import {MailIcon} from '@heroicons/react/outline'
 import {z} from 'zod'
+import {stripeData, purchaseTypeSchema} from '@skillrecordings/commerce-server'
 import {
   EXISTING_BULK_COUPON,
   NEW_BULK_COUPON,
   NEW_INDIVIDUAL_PURCHASE,
-  purchaseTypeSchema,
-  stripeData,
-} from '@skillrecordings/commerce-server'
+} from '@skillrecordings/types'
 import {prisma} from '@skillrecordings/database'
 import Link from 'next/link'
 

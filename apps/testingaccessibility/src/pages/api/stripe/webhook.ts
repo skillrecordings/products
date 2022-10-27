@@ -2,12 +2,8 @@ import {buffer} from 'micro'
 import type {NextApiRequest, NextApiResponse} from 'next'
 import {postSaleToSlack, sendServerEmail} from '@skillrecordings/skill-api'
 import {nextAuthOptions} from '../auth/[...nextauth]'
-import {
-  stripe,
-  recordNewPurchase,
-  NEW_BULK_COUPON,
-  NEW_INDIVIDUAL_PURCHASE,
-} from '@skillrecordings/commerce-server'
+import {stripe, recordNewPurchase} from '@skillrecordings/commerce-server'
+import {NEW_BULK_COUPON, NEW_INDIVIDUAL_PURCHASE} from '@skillrecordings/types'
 import {PurchaseStatus} from '@skillrecordings/skill-api'
 import {prisma, getSdk} from '@skillrecordings/database'
 import {tagPurchaseConvertkit} from '@skillrecordings/convertkit'
