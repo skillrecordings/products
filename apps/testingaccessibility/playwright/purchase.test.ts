@@ -6,7 +6,7 @@ test('should be able to make a purchase', async ({page}) => {
   await page
     .locator('button:has-text("Ship Accessible Apps Like a Pro")')
     .click()
-  await expect(page).toHaveURL(/checkout.stripe.com\/pay\/cs_test_/)
+  await expect(page).toHaveURL(/checkout.stripe.com\/c\/pay\/cs_test_/)
   // Click input[name="email"]
   await page.locator('input[name="email"]').click()
   // Fill input[name="email"]
@@ -37,11 +37,9 @@ test('should be able to make a purchase', async ({page}) => {
   await page.locator('[placeholder="ZIP"]').fill('98665')
   // Click [data-testid="hosted-payment-submit-button"]
   await page.locator('[data-testid="hosted-payment-submit-button"]').click()
-  // Go to http://localhost:3013/thanks/purchase?session_id=cs_test_a1v0lkzjsPSKsD7az58qb96gqmWuinYMlMKHTsn8qSmutZ78o26gPJyF54
-  await page.goto(
-    'http://localhost:3013/thanks/purchase?session_id=cs_test_a1v0lkzjsPSKsD7az58qb96gqmWuinYMlMKHTsn8qSmutZ78o26gPJyF54',
-  )
-  // Click text=Please check your inbox for a login link that just got sent. test@example.com
+
+  // Stripe will redirect to TA Thank You page with login link message
+
   await page
     .locator(
       'text=Please check your inbox for a login link that just got sent. test@example.com',
