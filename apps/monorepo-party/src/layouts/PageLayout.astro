@@ -1,0 +1,15 @@
+---
+import Layout from "~/layouts/BaseLayout.astro";
+
+const { meta } = Astro.props;
+---
+
+<Layout meta={meta}>
+  <main>
+    <article
+      class="container mx-auto px-4 sm:px-6 max-w-3xl prose prose-lg lg:prose-xl dark:prose-invert dark:prose-headings:text-slate-300 prose-md prose-headings:leading-tighter prose-headings:tracking-tighter prose-headings:font-bold prose-a:text-blue-600 dark:prose-a:text-blue-400 prose-img:rounded-md prose-img:shadow-lg mt-8"
+    >
+      <slot />
+    </article>
+  </main>
+</Layout>
