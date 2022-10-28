@@ -2,7 +2,6 @@ import * as React from 'react'
 import {GetServerSideProps} from 'next'
 import Layout from 'components/app/layout'
 import Image from 'next/image'
-import NewMailImage from '../../../public/assets/new-mail@2x.png'
 import {MailIcon} from '@heroicons/react/outline'
 import {z} from 'zod'
 import {stripeData, purchaseTypeSchema} from '@skillrecordings/commerce-server'
@@ -89,6 +88,13 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   }
 }
 
+const determineImageSrc = (isNewPurchase: boolean) => {
+  const travelJournalImage = require('../../../public/assets/travel-journal@2x.png')
+  const newMailImage = require('../../../public/assets/new-mail@2x.png')
+
+  return isNewPurchase ? newMailImage : travelJournalImage
+}
+
 const ThanksVerify: React.FC<React.PropsWithChildren<ThanksProps>> = ({
   email,
   seatsPurchased,
@@ -99,6 +105,8 @@ const ThanksVerify: React.FC<React.PropsWithChildren<ThanksProps>> = ({
     purchaseType === NEW_BULK_COUPON || purchaseType === EXISTING_BULK_COUPON
   const isNewPurchase =
     purchaseType === NEW_BULK_COUPON || purchaseType === NEW_INDIVIDUAL_PURCHASE
+
+  const imageSrc = determineImageSrc(isNewPurchase)
 
   return (
     <Layout
@@ -114,7 +122,7 @@ const ThanksVerify: React.FC<React.PropsWithChildren<ThanksProps>> = ({
             height={368 / 2}
             quality={100}
             placeholder="blur"
-            src={NewMailImage}
+            src={imageSrc}
             aria-hidden="true"
             alt=""
           />
