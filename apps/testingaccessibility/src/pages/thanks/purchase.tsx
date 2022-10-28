@@ -13,11 +13,13 @@ import {
 } from '@skillrecordings/types'
 import {prisma} from '@skillrecordings/database'
 import Link from 'next/link'
+import CopyInviteLink from 'components/team/copy-invite-link'
 
 const thanksProps = z.object({
   email: z.string().email(),
   seatsPurchased: z.number(),
   purchaseType: purchaseTypeSchema,
+  bulkCouponId: z.string().optional(),
 })
 type ThanksProps = z.infer<typeof thanksProps>
 
@@ -79,6 +81,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     email,
     seatsPurchased,
     purchaseType,
+    bulkCouponId: purchase.bulkCoupon?.id,
   })
 
   return {
@@ -90,6 +93,7 @@ const ThanksVerify: React.FC<React.PropsWithChildren<ThanksProps>> = ({
   email,
   seatsPurchased,
   purchaseType,
+  bulkCouponId,
 }) => {
   const isTeamPurchase =
     purchaseType === NEW_BULK_COUPON || purchaseType === EXISTING_BULK_COUPON
@@ -128,7 +132,7 @@ const ThanksVerify: React.FC<React.PropsWithChildren<ThanksProps>> = ({
                   'You can always add more seats later when your team grows.'}
               </p>
             )}
-            {isNewPurchase ? (
+            {isNewPurchase && (
               <>
                 <h2 className="max-w-lg mx-auto font-bold lg:text-4xl text-3xl py-5">
                   Please check your inbox for a login link that just got sent.
@@ -147,19 +151,24 @@ const ThanksVerify: React.FC<React.PropsWithChildren<ThanksProps>> = ({
                   with a link to access your purchase and start learning.
                 </p>
               </>
-            ) : (
+            )}
+            {!isNewPurchase && !!bulkCouponId && (
               <>
                 <h2 className="max-w-lg mx-auto font-bold lg:text-4xl text-3xl py-5">
                   Invite Your Team
                 </h2>
-                <p className="text-sand-100 max-w-md font-medium leading-relaxed mx-auto">
-                  Your team invite share link is the same as before. Visit the{' '}
+                <div className="w-full text-gray-900">
+                  <CopyInviteLink bulkCouponId={bulkCouponId} />
+                </div>
+                <p className="text-sand-100 max-w-md font-medium leading-relaxed mx-auto mt-2">
+                  You can also visit your{' '}
                   <Link href="/team/invite">
                     <a className="py-1 inline-flex text-base font-medium hover:underline transition">
                       Team Invite
                     </a>
                   </Link>{' '}
-                  page to get the share link for distributing to your team.
+                  page anytime to get the share link for distributing to your
+                  team.
                 </p>
               </>
             )}
