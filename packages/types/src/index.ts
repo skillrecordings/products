@@ -125,3 +125,7 @@ export type Choice = {
   label?: string
   image?: string
 }
+
+export const EXISTING_BULK_COUPON = 'EXISTING_BULK_COUPON' as const
+export const NEW_BULK_COUPON = 'NEW_BULK_COUPON' as const
+export const NEW_INDIVIDUAL_PURCHASE = 'NEW_INDIVIDUAL_PURCHASE' as const

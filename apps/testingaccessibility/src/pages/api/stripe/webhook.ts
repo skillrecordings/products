@@ -3,6 +3,7 @@ import type {NextApiRequest, NextApiResponse} from 'next'
 import {postSaleToSlack, sendServerEmail} from '@skillrecordings/skill-api'
 import {nextAuthOptions} from '../auth/[...nextauth]'
 import {stripe, recordNewPurchase} from '@skillrecordings/commerce-server'
+import {NEW_BULK_COUPON, NEW_INDIVIDUAL_PURCHASE} from '@skillrecordings/types'
 import {PurchaseStatus} from '@skillrecordings/skill-api'
 import {prisma, getSdk} from '@skillrecordings/database'
 import {tagPurchaseConvertkit} from '@skillrecordings/convertkit'
@@ -24,12 +25,8 @@ const stripeWebhookHandler = async (
       event = stripe.webhooks.constructEvent(buf, sig as string, webhookSecret)
 
       if (event.type === 'checkout.session.completed') {
-        // We want `recordNewPurchase` to tell us if the user is making
-        // additions to an existing Bulk Coupon, in which case we'll send
-        // a different email.
-        const {user, purchase, purchaseInfo} = await recordNewPurchase(
-          event.data.object.id,
-        )
+        const {user, purchase, purchaseInfo, purchaseType} =
+          await recordNewPurchase(event.data.object.id)
 
         if (!user) throw new Error('no-user-created')
 
@@ -37,12 +34,17 @@ const stripeWebhookHandler = async (
 
         // TODO: Send different email type for upgrades
 
-        await sendServerEmail({
-          email,
-          callbackUrl: `${process.env.NEXT_PUBLIC_URL}/welcome?purchaseId=${purchase.id}`,
-          nextAuthOptions,
-          type: 'purchase',
-        })
+        if (
+          purchaseType === NEW_BULK_COUPON ||
+          purchaseType === NEW_INDIVIDUAL_PURCHASE
+        ) {
+          await sendServerEmail({
+            email,
+            callbackUrl: `${process.env.NEXT_PUBLIC_URL}/welcome?purchaseId=${purchase.id}`,
+            nextAuthOptions,
+            type: 'purchase',
+          })
+        }
 
         await tagPurchaseConvertkit(email)
 
