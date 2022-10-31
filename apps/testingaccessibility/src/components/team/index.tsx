@@ -1,7 +1,6 @@
 import React from 'react'
 import SelfRedeemButton from './self-redeem-button'
 import CopyInviteLink from './copy-invite-link'
-import Link from 'next/link'
 
 type InviteTeamProps = {
   purchase: {
@@ -65,11 +64,10 @@ const InviteTeam: React.FC<React.PropsWithChildren<InviteTeamProps>> = ({
       )}
       {!redemptionsLeft && (
         <div className="flex items-center justify-between mt-5 pt-5 border-t border-gray-100">
-          <Link href="/#buy">
-            <a className="font-semibold bg-green-500 transition text-white px-4 py-2 hover:bg-green-600 rounded-md flex-shrink-0">
-              Buy more seats
-            </a>
-          </Link>
+          <p className="py-3">
+            You are out of seats. To invite more people to your team, buy more
+            seats.
+          </p>
         </div>
       )}
     </>
