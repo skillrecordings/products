@@ -25,6 +25,7 @@ import grid from './objects/grid'
 import gridItem from './objects/gridItem'
 import stackblitz from './objects/stackblitz'
 import solution from './objects/resources/solution'
+import section from './objects/resources/section'
 import github from './objects/github'
 import muxAsset from './objects/muxAsset'
 import castingwordsTranscript from './objects/castingwordsTranscript'
@@ -58,6 +59,7 @@ export default createSchema({
     grid,
     gridItem,
     stackblitz,
+    section,
     github,
     solution,
     muxAsset,

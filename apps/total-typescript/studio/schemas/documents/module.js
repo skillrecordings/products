@@ -21,7 +21,7 @@ export default {
       validation: (Rule) => Rule.required(),
       options: {
         list: [
-          {title: 'Course', value: 'course'},
+          {title: 'Workshop', value: 'workshop'},
           {title: 'Tutorial', value: 'tutorial'},
         ],
       },
@@ -57,12 +57,12 @@ export default {
     {
       name: 'resources',
       title: 'Resources',
-      description: 'Exercises in the course',
+      description: 'Exercises (or Sections) in the Module',
       type: 'array',
       of: [
         {
           type: 'reference',
-          to: [{type: 'exercise'}],
+          to: [{type: 'exercise'}, {type: 'section'}],
         },
       ],
     },
