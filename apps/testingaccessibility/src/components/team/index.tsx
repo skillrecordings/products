@@ -9,17 +9,14 @@ type InviteTeamProps = {
     bulkCoupon: {id: string; maxUses: number; usedCount: number} | null
     product: {id: string; name: string}
   }
-  existingPurchase: {
-    id: string
-    product: {id: string; name: string}
-  }
+  existingPurchaseForSelf: boolean
   session: any
   setPersonalPurchase: (props: any) => void
 }
 
 const InviteTeam: React.FC<React.PropsWithChildren<InviteTeamProps>> = ({
   purchase,
-  existingPurchase,
+  existingPurchaseForSelf,
   session,
   setPersonalPurchase,
 }) => {
@@ -31,7 +28,7 @@ const InviteTeam: React.FC<React.PropsWithChildren<InviteTeamProps>> = ({
     purchase?.bulkCoupon.maxUses - purchase.bulkCoupon.usedCount
 
   const [canRedeem, setCanRedeem] = React.useState(
-    Boolean(redemptionsLeft && !existingPurchase),
+    Boolean(redemptionsLeft && !existingPurchaseForSelf),
   )
   const userEmail = session?.user?.email
   const bulkCouponId = purchase?.bulkCoupon?.id

@@ -95,7 +95,7 @@ const TeamPage: React.FC<React.PropsWithChildren<TeamPageProps>> = ({
           <InviteTeam
             session={session}
             purchase={purchase}
-            existingPurchase={existingPurchase}
+            existingPurchaseForSelf={!!existingPurchase}
             setPersonalPurchase={setPersonalPurchase}
           />
         </Card>
