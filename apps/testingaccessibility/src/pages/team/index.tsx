@@ -7,7 +7,6 @@ import {getPurchasedProduct} from 'lib/get-purchased-product'
 import InviteTeam from 'components/team'
 import BuyMoreSeats from 'components/team/buy-more-seats'
 import {UserGroupIcon, TicketIcon} from '@heroicons/react/outline'
-import Link from 'next/link'
 import {useSession} from 'next-auth/react'
 import {getCurrentAbility} from '@skillrecordings/ability'
 import {getToken} from 'next-auth/jwt'
@@ -72,7 +71,6 @@ type TeamPageProps = {
 const TeamPage: React.FC<React.PropsWithChildren<TeamPageProps>> = ({
   purchase,
   existingPurchase,
-  availableUpgrades,
   userId,
 }) => {
   const {data: session} = useSession()
