@@ -2,10 +2,10 @@
   "name": "escuela-frontend",
   "private": true,
   "scripts": {
-    "dev": "next dev -p 3020",
+    "dev": "next dev -p 3011",
     "build": "next build",
     "postbuild": "NODE_ENV=production next-sitemap",
-    "start": "next start -p 3020",
+    "start": "next start -p 3011",
     "lint": "TIMING=1 eslint src/**/*.{ts,tsx} --fix && tsc --noEmit",
     "db:studio": "prisma studio",
     "db:push": "prisma db push",

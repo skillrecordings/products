@@ -30,7 +30,8 @@ const Home: React.FC<React.PropsWithChildren<CommerceProps>> = (props) => {
       <Header />
       <main>
         <Content />
-        {isSellingLive ? <CommerceSection {...props} /> : <SubscribeSection />}
+        <SubscribeSection />
+        {/* {isSellingLive ? <CommerceSection {...props} /> : <SubscribeSection />} */}
       </main>
     </Layout>
   )
@@ -42,7 +43,7 @@ const Header = () => {
       <div className="absolute top-0 left-0 w-full h-2 bg-gray-700" />
       <header className="min-h-[60vh] lg:pb-24 sm:pb-16 pb-8 lg:pt-16 sm:pt-8 pt-0 flex items-center justify-center px-5">
         <div className="max-w-[900px] mx-auto w-full flex sm:flex-row flex-col-reverse items-center">
-          <div className="flex-grow sm:text-left text-center transform sm:scale-100 scale-90 relative z-10">
+          <div className="flex-grow sm:text-left text-center transform sm:scale-100 scale-90 relative z-10 w-full">
             <h1 className="font-din lg:text-7xl text-6xl uppercase leading-[90%]">
               Engineering
               <br />
@@ -76,35 +77,30 @@ const Header = () => {
                 </h2>
               </div>
             </div>
-            {isSellingLive && (
-              <div className="pt-16 flex items-center sm:justify-start justify-center w-full gap-4 flex-shrink-0">
-                <button
-                  onClick={() => scroller.scrollTo('buy', {})}
-                  className={cx(
-                    'flex-shrink-0 border border-white/20 focus-visible:outline-white rounded-sm  py-4 uppercase font-brandon font-bold sm:text-lg text-xl bg-[#FFAA4E] text-gray-900 hover:scale-105 transition-all ease-in-out shadow-xl shadow-orange-500/30 hover:bg-[#FF9C31]',
-                    {
-                      'px-12': AMAZON_URL,
-                      'px-16': !AMAZON_URL,
-                    },
-                  )}
+
+            <div className="pt-16 flex sm:flex-row flex-col items-center sm:justify-start justify-center w-full gap-3 flex-shrink-0">
+              {AMAZON_URL && (
+                <a
+                  href={AMAZON_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="rounded w-full flex flex-col items-center justify-center px-12  py-3 uppercase font-brandon font-bold text-xs bg-white text-gray-900 transition-all ease-in-out shadow-xl sm:shadow-white/20 hover:bg-gray-100"
                 >
-                  Buy Now
-                </button>
-                {AMAZON_URL && (
-                  <a
-                    href={AMAZON_URL}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="rounded-sm flex flex-col items-center justify-center px-8 py-2 uppercase font-brandon font-bold text-xs bg-gray-700/70 text-white hover:scale-105 transition-all ease-in-out shadow-xl hover:bg-gray-700"
-                  >
-                    <span className="pb-1.5">
-                      Buy now at <span className="sr-only">Amazon.com</span>
-                    </span>
-                    <AmazonLogo />
-                  </a>
+                  <span className="pb-1.5 text-sm">
+                    Buy now at <span className="sr-only">Amazon.com</span>
+                  </span>
+                  <AmazonLogo />
+                </a>
+              )}
+              <a
+                href="#get-free-chapter"
+                className={cx(
+                  'px-7 sm:w-auto w-full flex-shrink-0 border border-white/20 rounded py-4 font-brandon font-bold text-lg  text-white bg-gray-800/50 hover:bg-gray-700/50 transition-all ease-in-out shadow-xl',
                 )}
-              </div>
-            )}
+              >
+                Get Free Chapter
+              </a>
+            </div>
           </div>
           <div className="max-w-[550px] sm:mx-0 -mx-5">
             <Image
@@ -167,7 +163,10 @@ const CommerceSection: React.FC<CommerceProps> = ({
 const SubscribeSection = () => {
   const router = useRouter()
   return (
-    <section className="bg-gray-800 lg:py-48 sm:py-32 py-16 p-5 lg:mt-32 sm:mt-24 mt-16">
+    <section
+      id="get-free-chapter"
+      className="bg-gray-800 lg:py-48 sm:py-32 py-16 p-5 lg:mt-32 sm:mt-24 mt-16"
+    >
       <div className="max-w-screen-md w-full mx-auto">
         <div className="text-center w-full inline-block  md:pb-20 sm:pb-16 pb-10">
           <h2 className="uppercase font-din  lg:text-6xl sm:text-5xl text-5xl tracking-wide">
