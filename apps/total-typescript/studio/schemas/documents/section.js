@@ -2,8 +2,8 @@ import {MdOutlineGroupWork} from 'react-icons/md'
 
 export default {
   name: 'section',
-  type: 'object',
-  title: 'Section',
+  type: 'document',
+  title: 'Workshop Section',
   description: 'A named group of resources within a module.',
   icon: MdOutlineGroupWork,
   fields: [
