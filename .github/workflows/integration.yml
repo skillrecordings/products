@@ -1,8 +1,8 @@
 name: Integration Tests
 on:
   pull_request:
-    branches:
-      - main
+    branches: [ main ]
+
 jobs:
   test_setup:
     name: Test setup
@@ -18,7 +18,7 @@ jobs:
           max_timeout: 600
 
   test_e2e:
-    needs: tests_setup
+    needs: test_setup
     name: Playwright tests
     timeout-minutes: 5
     runs-on: ubuntu-latest
