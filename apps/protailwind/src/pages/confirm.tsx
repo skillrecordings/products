@@ -100,8 +100,8 @@ const Image = () => {
           y2="62.607"
           gradientUnits="userSpaceOnUse"
         >
-          <stop stop-color="#ECF3FF" />
-          <stop offset="1" stop-color="#BECBE2" />
+          <stop stopColor="#ECF3FF" />
+          <stop offset="1" stopColor="#BECBE2" />
         </linearGradient>
         <linearGradient
           id="b"
@@ -111,8 +111,8 @@ const Image = () => {
           y2="15.652"
           gradientUnits="userSpaceOnUse"
         >
-          <stop stop-color="#FF4C42" />
-          <stop offset="1" stop-color="#E72C22" />
+          <stop stopColor="#FF4C42" />
+          <stop offset="1" stopColor="#E72C22" />
         </linearGradient>
       </defs>
     </svg>
