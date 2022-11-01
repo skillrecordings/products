@@ -5,7 +5,8 @@ import Image from 'next/image'
 import Layout from 'components/layout'
 import toast from 'react-hot-toast'
 import Simon from '../../public/assets/simon-vrachliotis.png'
-import SubscribeForm from 'components/subscribe-form'
+import NewsletterSubscribeForm from 'components/subscribe-form'
+import LandingCopy from 'components/landing-copy.mdx'
 
 const Home: NextPage = () => {
   const router = useRouter()
@@ -22,9 +23,9 @@ const Home: NextPage = () => {
   return (
     <Layout meta={{titleAppendSiteName: false}} nav>
       <Header />
-      <main className="pt-24 font-light text-slate-300 sm:text-2xl text-xl leading-normal bg-slate-900">
+      <main>
         <Copy />
-        <SubscribeForm />
+        <NewsletterSubscribeForm />
         <Bio />
       </main>
     </Layout>
@@ -35,106 +36,67 @@ export default Home
 
 const Header = () => {
   return (
-    <header className="relative min-h-screen">
-      <div className="w-full absolute h-screen">
+    <header className="w-full flex md:flex-row flex-col items-center justify-center sm:pt-48 pt-32 sm:pb-32 pb-24 gap-16 px-8">
+      <div className="flex items-center justify-center md:w-auto w-80">
         <Image
-          src={require('../../public/assets/city-bg@2x.png')}
+          src={require('../../public/assets/surfing-corgi.svg')}
           alt=""
           aria-hidden="true"
-          layout="fill"
-          objectFit="cover"
           quality={100}
-          placeholder="blur"
+          priority
         />
-        <div className="absolute left-0 bottom-0 w-full h-48 bg-gradient-to-b from-transparent to-slate-900 sm:pointer-events-none" />
-        <HeaderForeground />
       </div>
+      <HeaderContent />
     </header>
   )
 }
 
-const HeaderForeground = () => {
+const HeaderContent = () => {
   return (
-    <div className="absolute w-full h-full flex items-center text-center justify-center flex-col sm:pointer-events-none">
-      <p className="font-display uppercase sm:text-xl text-lg tracking-wide text-amber-400">
-        New course by Simon Vrachliotis
-      </p>
-      <h1 className="pt-3 pb-8 lg:text-8xl md:text-7xl sm:text-6xl text-[3.3rem] leading-none font-heading font-bold max-w-screen-sm">
-        Learn to use Tailwind at scale
+    <div>
+      <h1 className="font-black font-heading xl:text-6xl sm:text-5xl text-4xl tracking-tight max-w-[19ch]">
+        Advanced Tailwind CSS{' '}
+        <span className="text-brand-red">Concepts & Patterns</span>
       </h1>
-      <p className="font-light font-display sm:text-3xl text-2xl max-w-md text-slate-200 opacity-80">
+      <p className="sm:text-xl text-lg pt-5 max-w-sm">
         Increase development velocity and craft sustainable systems for your
         team
       </p>
+      <Instructor />
+    </div>
+  )
+}
+
+const Instructor = () => {
+  return (
+    <div className="pt-10 flex items-center gap-3">
+      <div className="flex items-center justify-center rounded-full overflow-hidden">
+        <Image
+          src={require('../../public/assets/simon-vrachliotis.png')}
+          alt="Simon Vrachliotis"
+          width={64}
+          height={64}
+        />
+      </div>
+      <div>
+        New course by
+        <div className="font-semibold">Simon Vrachliotis</div>
+      </div>
     </div>
   )
 }
 
 const Copy = () => {
   return (
-    <>
-      <p className="max-w-lg mx-auto md:px-0 px-5">
-        Beyond understanding the basics of Tailwind CSS and becoming fluent with
-        its primitive utilities, in a team environment, you'll eventually ask
-        yourself:
-      </p>
-      <ol className="py-16 px-5 max-w-screen-md mx-auto list-none p-0 divide-y divide-slate-800">
-        {questions.map(({body, title, alt}, i) => (
-          <li
-            key={title}
-            className="flex sm:gap-10 gap-6 items-center leading-normal sm:p-10 p-6 m-0 group"
-          >
-            <span
-              aria-hidden="true"
-              className="flex-shrink-0 text-4xl font-display font-bold p-2 opacity-50 group-hover:opacity-100 group-hover:text-yellow-500 transition ease-in-out duration-300"
-            >
-              {alt}
-            </span>
-            <div className="flex flex-col">
-              <span className="leading-normal">{body}</span>
-            </div>
-          </li>
-        ))}
-      </ol>
-      <div className="sm:pb-16 pb-5 mx-auto w-full max-w-screen-sm relative z-10 space-y-10 md:px-0 px-5">
-        <p>
-          Those are tricky questions.{' '}
-          <strong className="text-teal-300 font-semibold">
-            The good news?
-          </strong>
-        </p>
-        <p>
-          I’m putting together{' '}
-          <strong className="font-semibold text-amber-300">Pro Tailwind</strong>
-          , a course that covers those hard decisions you will face as an
-          engineering team.
-        </p>
-        <p>
-          This course{' '}
-          <strong className=" font-semibold">
-            skips most of the beginner concepts{' '}
-          </strong>{' '}
-          and focuses heavily on helping you navigate the{' '}
-          <strong className=" font-semibold">edge cases</strong> you're likely
-          to run into when working on{' '}
-          <strong className=" font-semibold">production-grade </strong>
-          applications.
-        </p>
-        <p>I’m excited to work on this, and I can’t wait to tell you more.</p>
-        <p>
-          If you want to{' '}
-          <strong className="font-semibold">power-up your team workflow</strong>{' '}
-          with Tailwind CSS, sign up below!
-        </p>
-        <DividerStar />
-      </div>
-    </>
+    <div className="prose sm:prose-lg max-w-2xl mx-auto w-full md:px-0 px-5 pb-16">
+      <LandingCopy />
+    </div>
   )
 }
 
 const Bio = () => {
   return (
-    <section className="flex items-center justify-center lg:py-32 sm:py-16 py-10 sm:mt-0 -mt-20 px-5 relative z-10">
+    <section className="flex items-center justify-center lg:py-24 sm:py-16 py-10 sm:mt-0 -mt-20 px-5 relative z-10">
       <div className="flex md:flex-row flex-col md:items-start items-center justify-center max-w-screen-sm gap-10">
         <div className="flex-shrink-0 shadow-xl rounded-full flex items-center justify-center ring ring-offset-1 ring-white/10">
           <Image
@@ -146,12 +108,13 @@ const Bio = () => {
             alt="Simon Vrachliotis"
           />
         </div>
-        <div className="sm:text-xl text-lg leading-relaxed">
+        <div className="text-lg leading-relaxed">
           <p>
-            👋 Hi, I'm Simon. I'm a hybrid designer, developer, video editor and
-            content creator with an optimistic and enthusiastic approach to
-            life! Rather than pretending to be a "10×" developer, I take pride
-            in helping people around me get more productive ❤️
+            <span aria-label="waving hand">👋</span> Hi, I'm Simon. I'm a hybrid
+            designer, developer, video editor and content creator with an
+            optimistic and enthusiastic approach to life! Rather than pretending
+            to be a "10×" developer, I take pride in helping people around me
+            get more productive ❤️
           </p>
           <p className="pt-4 font-semibold">
             I will be your Pro Tailwind instructor. I'm excited, let's have some
@@ -162,48 +125,3 @@ const Bio = () => {
     </section>
   )
 }
-
-export const DividerStar = () => {
-  return (
-    <div className="pt-8">
-      <svg
-        className="text-amber-300 mx-auto"
-        role="presentation"
-        aria-hidden="true"
-        width="28"
-        height="28"
-        viewBox="0 0 28 28"
-        fill="none"
-        xmlns="http://www.w3.org/2000/svg"
-      >
-        <path
-          d="M14.0001 0.000167999C13.369 5.15074 13.1601 8.42196 11.9274 10.5329C9.91165 13.1568 6.41815 13.4073 0 14.0001C6.31427 14.7635 9.72775 14.9298 11.7491 17.3337C13.2595 19.4622 13.5144 22.7542 14 28C14.8236 21.1958 14.9527 17.7605 17.9354 15.8047C20.0562 14.7798 23.2215 14.5567 28 14C22.0752 13.2737 18.6385 13.1075 16.5923 11.2974C14.8608 9.23457 14.6771 5.80884 14.0001 0V0.000167999Z"
-          fill="currentColor"
-        />
-      </svg>
-    </div>
-  )
-}
-
-const questions = [
-  {
-    title: 'Component library',
-    body: 'How do I package and consume a component library using Tailwind CSS?',
-    alt: '01.',
-  },
-  {
-    title: 'Monorepo',
-    body: 'Is it possible to use Tailwind in a monorepo environment?',
-    alt: '02.',
-  },
-  {
-    title: 'Theming',
-    body: `What's the best way to support advanced theming, beyond just dark mode?`,
-    alt: '03.',
-  },
-  {
-    title: 'Plugins',
-    body: `Should I use the plugin API, presets... or both?`,
-    alt: '04.',
-  },
-]

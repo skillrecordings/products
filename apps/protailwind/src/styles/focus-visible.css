@@ -11,5 +11,5 @@
   step then the browser's default focus indicator will be displayed instead.
 */
 .js-focus-visible .focus-visible {
-  @apply outline-none ring-2 ring-amber-400;
+  @apply outline-none ring-2 ring-blue-500;
 }

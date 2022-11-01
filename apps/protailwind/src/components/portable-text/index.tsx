@@ -82,7 +82,7 @@ const BodyImage = ({value}: BodyImageProps) => {
     return (
       <figure
         className={cx('flex items-center justify-center relative', {
-          'bg-slate-800/20': isLoading,
+          'bg-gray-800/20': isLoading,
         })}
       >
         <Image
@@ -137,6 +137,44 @@ const ExternalLink: React.FC<React.PropsWithChildren<ExternalLinkProps>> = ({
   )
 }
 
+const HighlightedCode: React.FC<CodeProps> = ({value}) => {
+  const [mounted, setMounted] = React.useState(false)
+  React.useEffect(() => {
+    setMounted(true)
+  }, [])
+
+  const {language, code, highlightedLines} = value
+  return mounted ? (
+    <>
+      <pre
+        role="region"
+        aria-label={'code sample'}
+        tabIndex={0}
+        className="sr-only"
+      >
+        <code>{code}</code>
+      </pre>
+      <pre
+        aria-hidden="true"
+        className="sm:mx-0 -mx-5 sm:rounded-lg rounded-none p-5 md:leading-tight md:text-lg text-lg leading-[1.15]"
+      >
+        <Refractor
+          inline
+          language={
+            language
+              ? Refractor.hasLanguage(language)
+                ? language
+                : 'javascript'
+              : 'javascript'
+          }
+          value={code}
+          markers={highlightedLines}
+        />
+      </pre>
+    </>
+  ) : null
+}
+
 // https://github.com/portabletext/react-portabletext
 
 const PortableTextComponents: PortableTextComponents = {
@@ -171,9 +209,7 @@ const PortableTextComponents: PortableTextComponents = {
       return <ExternalLink value={value}>{children}</ExternalLink>
     },
     code: ({value, children}) => {
-      return (
-        <code className="bg-slate-800/80 px-1 py-0.5 rounded">{children}</code>
-      )
+      return <code className="bg-gray-200 px-1 py-0.5 rounded">{children}</code>
     },
   },
   types: {
@@ -221,7 +257,7 @@ const PortableTextComponents: PortableTextComponents = {
           >
             <source src={url} type="video/mp4" />
           </video>
-          <div className="pb-4 text-base font-medium text-slate-400">
+          <div className="pb-4 text-base font-medium text-gray-400">
             {title}
           </div>
           {caption && (
@@ -252,36 +288,7 @@ const PortableTextComponents: PortableTextComponents = {
     },
     bodyImage: ({value}: BodyImageProps) => <BodyImage value={value} />,
     code: ({value}: CodeProps) => {
-      const {language, code, highlightedLines} = value
-      return (
-        <>
-          <pre
-            role="region"
-            aria-label={'code sample'}
-            tabIndex={0}
-            className="sr-only"
-          >
-            <code>{code}</code>
-          </pre>
-          <pre
-            aria-hidden="true"
-            className="sm:mx-0 -mx-5 sm:rounded-lg rounded-none bg-black/50 p-5 md:leading-tight md:text-lg text-lg leading-[1.15]"
-          >
-            <Refractor
-              inline
-              language={
-                language
-                  ? Refractor.hasLanguage(language)
-                    ? language
-                    : 'javascript'
-                  : 'javascript'
-              }
-              value={code}
-              markers={highlightedLines}
-            />
-          </pre>
-        </>
-      )
+      return <HighlightedCode value={value} />
     },
     callout: ({value}: CalloutProps) => {
       const {body, type} = value
@@ -397,15 +404,15 @@ type CodeProps = {
 const getCalloutStyles = (type: string): string => {
   switch (type) {
     case 'tip':
-      return 'bg-slate-800'
+      return 'bg-gray-200'
     case 'big-idea':
-      return 'bg-slate-800'
+      return 'bg-gray-200'
     case 'reflection':
-      return 'bg-slate-800'
+      return 'bg-gray-200'
     case 'caution':
-      return 'bg-slate-800'
+      return 'bg-gray-200'
     default:
-      return 'bg-slate-800'
+      return 'bg-gray-200'
   }
 }
 

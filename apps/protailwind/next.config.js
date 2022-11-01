@@ -1,7 +1,12 @@
 /** @type {import('next').NextConfig} */
 const {withSentryConfig} = require('@sentry/nextjs')
-const withPlugins = require('next-compose-plugins')
-const withImages = require('next-images')
+// const withImages = require('next-images')
+const withMDX = require('@next/mdx')({
+  extension: /\.mdx?$/,
+  options: {
+    providerImportSource: '@mdx-js/react',
+  },
+})
 
 const IMAGE_HOST_DOMAINS = [
   `res.cloudinary.com`,
@@ -23,7 +28,7 @@ const nextConfig = {
   },
 }
 
-const sentryWebpackPluginOptions = {
+const sentryWebpackPluginOptions = process.env.SENTRY_AUTH_TOKEN && {
   // Additional config options for the Sentry Webpack plugin. Keep in mind that
   // the following options are set automatically, and overriding them is not
   // recommended:
@@ -35,9 +40,14 @@ const sentryWebpackPluginOptions = {
   // https://github.com/getsentry/sentry-webpack-plugin#options.
 }
 
-module.exports = withSentryConfig(
-  withPlugins([withImages()], nextConfig),
-  sentryWebpackPluginOptions,
-)
+const configWithPlugins = withMDX(nextConfig)
+// const configWithPlugins = withMDX(withImages(nextConfig))
 
-module.exports = nextConfig
+if (sentryWebpackPluginOptions) {
+  module.exports = withSentryConfig(
+    configWithPlugins,
+    sentryWebpackPluginOptions,
+  )
+} else {
+  module.exports = configWithPlugins
+}

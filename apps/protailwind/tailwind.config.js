@@ -1,5 +1,6 @@
 /** @type {import('tailwindcss').Config} */
 const defaultTheme = require('tailwindcss/defaultTheme')
+const colors = require('tailwindcss/colors')
 
 const round = (num) =>
   num
@@ -21,20 +22,22 @@ module.exports = {
   theme: {
     extend: {
       fontFamily: {
-        sans: ['degular', ...defaultTheme.fontFamily.sans],
-        heading: ['degular-display', ...defaultTheme.fontFamily.sans],
-        display: [
-          'bebas-neue-pro-semiexpanded',
-          ...defaultTheme.fontFamily.sans,
-        ],
+        sans: ['Open Sans', ...defaultTheme.fontFamily.sans],
+        heading: ['Nunito', ...defaultTheme.fontFamily.sans],
+      },
+      colors: {
+        brand: {
+          red: '#F84072',
+          gray: colors.slate,
+        },
       },
       typography: (theme) => ({
         DEFAULT: {
           css: {
             fontSize: rem(18),
-            '*': {
-              color: theme('colors.slate.200'),
-              fontWeight: theme('fontWeight.light'),
+            'h1, h2, h3, h4': {
+              fontFamily: theme('fontFamily.heading').join(', '),
+              fontWeight: theme('fontWeight.black'),
             },
             'code::before': {
               content: '',

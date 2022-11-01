@@ -11,7 +11,7 @@ const Answer: React.FC<React.PropsWithChildren<{questionSet: QuestionSet}>> = ({
   questionSet,
 }) => {
   return (
-    <Layout noIndex meta={{title: 'Quiz'}} className="bg-slate-900">
+    <Layout noIndex meta={{title: 'Quiz'}} className="bg-gray-900">
       <header className="flex items-center justify-center w-full sm:pt-16 sm:pb-0 pt-5 pb-5">
         <div className="sm:w-auto w-40">
           <Image
