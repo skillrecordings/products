@@ -9,7 +9,7 @@ import Image from 'next/image'
 const NewsletterSubscribeForm = () => {
   const router = useRouter()
   return (
-    <section className="py-32 bg-blue-600 text-white relative flex flex-col items-center justify-center">
+    <section className="py-32 bg-blue-600 text-white relative flex flex-col items-center justify-center px-5">
       <div className="w-5 h-5 rotate-45 bg-gray-50 top-0 absolute -translate-y-3 rounded-sm" />
       <div className="relative w-full flex flex-col items-center justify-center">
         <div className="text-center pb-16 max-w-3xl">
