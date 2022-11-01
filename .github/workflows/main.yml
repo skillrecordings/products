@@ -7,7 +7,7 @@ on:
 
 jobs:
   test:
-    name: Run Linting and Tests
+    name: Run Linting and Unit Tests
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Repo
@@ -36,9 +36,3 @@ jobs:
           SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
           DATABASE_URL: ${{ secrets.DATABASE_URL }}
         run: pnpm -- turbo run generate test lint --team=skillrecordings --token=${{ secrets.VERCEL_TOKEN }}
-
-      - name: Run Integration Tests
-        env:
-          SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
-          DATABASE_URL: ${{ secrets.DATABASE_URL }}
-        run: pnpm -- turbo run test:e2e --team=skillrecordings --token=${{ secrets.VERCEL_TOKEN }}
