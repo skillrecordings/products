@@ -18,7 +18,7 @@ const thanksProps = z.object({
   email: z.string().email(),
   seatsPurchased: z.number(),
   purchaseType: purchaseTypeSchema,
-  bulkCouponId: z.string().optional(),
+  bulkCouponId: z.string().or(z.null()),
 })
 type ThanksProps = z.infer<typeof thanksProps>
 
@@ -80,7 +80,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     email,
     seatsPurchased,
     purchaseType,
-    bulkCouponId: purchase.bulkCoupon?.id,
+    bulkCouponId: purchase.bulkCoupon?.id || null,
   })
 
   return {
