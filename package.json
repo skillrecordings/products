@@ -28,6 +28,7 @@
     "sort": "npx sort-package-json \"package.json\" \"packages/*/package.json\" \"apps/*/package.json\"",
     "start": "turbo run start",
     "test": "turbo run test",
+    "test:e2e": "turbo run test:e2e",
     "version:canary": "changeset version --snapshot canary"
   },
   "lint-staged": {

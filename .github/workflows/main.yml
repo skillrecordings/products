@@ -31,8 +31,14 @@ jobs:
       - name: Install Dependencies
         run: pnpm install
 
-      - name: Run Tests
+      - name: Run Unit Tests
         env:
           SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
           DATABASE_URL: ${{ secrets.DATABASE_URL }}
         run: pnpm -- turbo run generate test lint --team=skillrecordings --token=${{ secrets.VERCEL_TOKEN }}
+
+      - name: Run Integration Tests
+        env:
+          SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+        run: pnpm -- turbo run test:e2e --team=skillrecordings --token=${{ secrets.VERCEL_TOKEN }}
