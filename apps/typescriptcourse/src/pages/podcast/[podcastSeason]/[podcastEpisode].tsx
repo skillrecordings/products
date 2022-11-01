@@ -87,9 +87,6 @@ const EpisodeLayout = ({episode}: {episode: PodcastEpisode}) => {
           <Markdown>{description}</Markdown>
         </div>
         <PodcastPlayer simplecastId={simplecastId} />
-        <div className="prose opacity-90 md:prose-p:text-white/90 md:prose-headings:mx-auto md:prose-lg prose-p:my-5 md:prose-p:my-8 xl:prose-p:my-10 xl:prose-xl max-w-none">
-          <PortableText value={content} components={PortableTextComponents} />
-        </div>
         <section data-article="">
           {!loadingSubscriber && !subscriber ? (
             <div className="relative flex flex-col items-center pt-16 pb-16 md:pt-24 md:pb-32">
@@ -131,6 +128,10 @@ const EpisodeLayout = ({episode}: {episode: PodcastEpisode}) => {
             </div>
           ) : null}
         </section>
+        <div className="prose opacity-90 md:prose-p:text-white/90 md:prose-headings:mx-auto md:prose-lg prose-p:my-5 md:prose-p:my-8 xl:prose-p:my-10 xl:prose-xl max-w-none">
+          <PortableText value={content} components={PortableTextComponents} />
+        </div>
+
         <div className="mt-20 prose opacity-90 md:prose-p:text-white/90 md:prose-headings:mx-auto md:prose-lg prose-p:my-5 md:prose-p:my-8 xl:prose-p:my-10 xl:prose-xl max-w-none">
           <h2>Transcript</h2>
           <Markdown>{transcript}</Markdown>
