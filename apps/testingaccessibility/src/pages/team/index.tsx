@@ -19,20 +19,26 @@ export const getServerSideProps: GetServerSideProps = async ({req}) => {
   const {getPurchaseDetails} = getSdk()
 
   if (ability.can('view', 'Team')) {
+    // TODO: This could just be a call to getSDK's getPurchasesForUser(token.id)
     const {purchases} = await getPurchasedProduct(req)
     const purchaseId = get(
-      find(purchases, (purchase: any) => !isNull(purchase.bulkCoupon)),
+      find(
+        purchases,
+        (purchase: {bulkCoupon: object | null}) => !isNull(purchase.bulkCoupon),
+      ),
       'id',
     )
 
     if (token && isString(purchaseId) && isString(token?.sub)) {
-      const {purchase, existingPurchase, availableUpgrades} =
+      // the `existingIndividualPurchase` is a non-bulk purchase, so did this
+      // person already purchase individual access to the product?
+      const {purchase, existingIndividualPurchase, availableUpgrades} =
         await getPurchaseDetails(purchaseId, token.sub)
       return purchase
         ? {
             props: {
               purchase: convertToSerializeForNextResponse(purchase),
-              existingPurchase,
+              existingIndividualPurchase,
               availableUpgrades,
               userId: token.sub,
             },
@@ -60,7 +66,7 @@ type TeamPageProps = {
     bulkCoupon: {id: string; maxUses: number; usedCount: number} | null
     product: {id: string; name: string}
   }
-  existingPurchase: {
+  existingIndividualPurchase: {
     id: string
     product: {id: string; name: string}
   }
@@ -70,13 +76,13 @@ type TeamPageProps = {
 
 const TeamPage: React.FC<React.PropsWithChildren<TeamPageProps>> = ({
   purchase,
-  existingPurchase,
+  existingIndividualPurchase,
   userId,
 }) => {
   const {data: session} = useSession()
-  const [personalPurchase, setPersonalPurchase] = React.useState<any>(
-    purchase.bulkCoupon ? existingPurchase : purchase,
-  )
+  const existingPersonalPurchase = !!(purchase.bulkCoupon
+    ? existingIndividualPurchase
+    : purchase)
 
   return (
     <Layout
@@ -93,8 +99,7 @@ const TeamPage: React.FC<React.PropsWithChildren<TeamPageProps>> = ({
           <InviteTeam
             userEmail={session?.user?.email}
             purchase={purchase}
-            existingPurchaseForSelf={!!personalPurchase}
-            setPersonalPurchase={setPersonalPurchase}
+            existingPurchaseForSelf={existingPersonalPurchase}
           />
         </Card>
         <Card

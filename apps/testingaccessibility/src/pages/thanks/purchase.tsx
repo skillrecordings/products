@@ -4,21 +4,30 @@ import Layout from 'components/app/layout'
 import Image from 'next/image'
 import {MailIcon} from '@heroicons/react/outline'
 import {z} from 'zod'
-import {stripeData, purchaseTypeSchema} from '@skillrecordings/commerce-server'
+import {
+  stripeData,
+  purchaseTypeSchema,
+  convertToSerializeForNextResponse,
+} from '@skillrecordings/commerce-server'
 import {
   EXISTING_BULK_COUPON,
   NEW_BULK_COUPON,
   NEW_INDIVIDUAL_PURCHASE,
 } from '@skillrecordings/types'
 import {prisma} from '@skillrecordings/database'
-import Link from 'next/link'
-import CopyInviteLink from 'components/team/copy-invite-link'
+import InviteTeam from 'components/team'
+import {getSdk} from '@skillrecordings/database'
+import Card from 'components/team/card'
+import {UserGroupIcon} from '@heroicons/react/outline'
 
 const thanksProps = z.object({
   email: z.string().email(),
   seatsPurchased: z.number(),
   purchaseType: purchaseTypeSchema,
+  // TODO: these can be z.thing().nullable()
   bulkCouponId: z.string().or(z.null()),
+  selfRedeemedPurchase: z.object({}).or(z.null()),
+  bulkCouponPurchase: z.any(),
 })
 type ThanksProps = z.infer<typeof thanksProps>
 
@@ -76,11 +85,23 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     purchaseType = NEW_INDIVIDUAL_PURCHASE
   }
 
+  let bulkCouponRedemptionPurchase: object | null = null
+  if (purchase.bulkCoupon?.id) {
+    const {getUserByEmail, getBulkCouponRedemptionPurchase} = getSdk()
+    const user = await getUserByEmail(email)
+    bulkCouponRedemptionPurchase = await getBulkCouponRedemptionPurchase(
+      purchase.bulkCoupon.id,
+      user?.id || null,
+    )
+  }
+
   const validatedProps = thanksProps.parse({
     email,
     seatsPurchased,
     purchaseType,
     bulkCouponId: purchase.bulkCoupon?.id || null,
+    selfRedeemedPurchase: bulkCouponRedemptionPurchase,
+    bulkCouponPurchase: convertToSerializeForNextResponse(purchase),
   })
 
   return {
@@ -100,6 +121,8 @@ const ThanksVerify: React.FC<React.PropsWithChildren<ThanksProps>> = ({
   seatsPurchased,
   purchaseType,
   bulkCouponId,
+  selfRedeemedPurchase,
+  bulkCouponPurchase,
 }) => {
   const isTeamPurchase =
     purchaseType === NEW_BULK_COUPON || purchaseType === EXISTING_BULK_COUPON
@@ -161,24 +184,23 @@ const ThanksVerify: React.FC<React.PropsWithChildren<ThanksProps>> = ({
               </>
             )}
             {!isNewPurchase && !!bulkCouponId && (
-              <>
-                <h2 className="max-w-lg mx-auto font-bold lg:text-4xl text-3xl py-5">
-                  Invite Your Team
-                </h2>
-                <div className="w-full text-gray-900">
-                  <CopyInviteLink bulkCouponId={bulkCouponId} />
-                </div>
-                <p className="text-sand-100 max-w-md font-medium leading-relaxed mx-auto mt-2">
-                  You can also visit your{' '}
-                  <Link href="/team/invite">
-                    <a className="py-1 inline-flex text-base font-medium hover:underline transition">
-                      Team Invite
-                    </a>
-                  </Link>{' '}
-                  page anytime to get the share link for distributing to your
-                  team.
-                </p>
-              </>
+              <div className="text-gray-900 mt-4">
+                <Card
+                  title={{as: 'h1', content: 'Invite your team'}}
+                  icon={
+                    <UserGroupIcon
+                      className="w-5 text-green-500"
+                      aria-hidden="true"
+                    />
+                  }
+                >
+                  <InviteTeam
+                    userEmail={email}
+                    purchase={bulkCouponPurchase}
+                    existingPurchaseForSelf={!!selfRedeemedPurchase}
+                  />
+                </Card>
+              </div>
             )}
           </div>
         </div>

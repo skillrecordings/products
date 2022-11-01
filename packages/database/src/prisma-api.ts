@@ -8,6 +8,32 @@ export function getSdk(
   {ctx = defaultContext}: SDKOptions = {ctx: defaultContext},
 ) {
   return {
+    async getBulkCouponRedemptionPurchase(
+      bulkCouponId: string | null,
+      userId: string | null,
+    ) {
+      if (!bulkCouponId && !userId) return null
+
+      const purchase = await ctx.prisma.purchase.findFirst({
+        where: {
+          userId,
+          redeemedBulkCouponId: bulkCouponId,
+          status: 'Valid',
+        },
+        select: {
+          id: true,
+          redeemedBulkCoupon: {
+            select: {
+              id: true,
+              maxUses: true,
+              usedCount: true,
+            },
+          },
+        },
+      })
+
+      return purchase
+    },
     async getPurchaseDetails(purchaseId: string, userId: string) {
       const allPurchases = await ctx.prisma.purchase.findMany({
         where: {
@@ -96,7 +122,7 @@ export function getSdk(
       })
       return {
         purchase,
-        existingPurchase,
+        existingIndividualPurchase: existingPurchase,
         availableUpgrades,
       }
     },
