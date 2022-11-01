@@ -91,7 +91,7 @@ const TeamPage: React.FC<React.PropsWithChildren<TeamPageProps>> = ({
           }
         >
           <InviteTeam
-            session={session}
+            userEmail={session?.user?.email}
             purchase={purchase}
             existingPurchaseForSelf={!!personalPurchase}
             setPersonalPurchase={setPersonalPurchase}
