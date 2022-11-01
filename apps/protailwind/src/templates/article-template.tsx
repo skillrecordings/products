@@ -106,7 +106,7 @@ const Header: React.FC<Article> = ({
   estimatedReadingTime,
 }) => {
   return (
-    <header className="flex flex-col items-center relative px-5 sm:pt-40 pt-32 pb-8 overflow-hidden">
+    <header className="flex flex-col items-center relative px-5 sm:pt-10 pb-8 overflow-hidden">
       <div className="flex flex-col items-center max-w-screen-lg mx-auto w-full relative z-10">
         {/* <Link passHref href="/articles">
           <a className="sm:text-lg text-base group text-white relative hover:text-white font-normal px-4 py-2 hover:bg-opacity-10 bg-opacity-0 bg-white rounded-lg transition opacity-80 hover:opacity-80 focus-visible:ring-white focus-visible:opacity-100">

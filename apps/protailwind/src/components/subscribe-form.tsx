@@ -49,6 +49,7 @@ const SubmitButton: React.FC<any> = (props) => {
           src={require('../../public/assets/corgi-head.svg')}
           aria-hidden="true"
           alt=""
+          loading="eager"
         />
       </div>
       <button data-sr-button="">
@@ -59,6 +60,7 @@ const SubmitButton: React.FC<any> = (props) => {
           src={require('../../public/assets/corgi-legs-up.svg')}
           aria-hidden="true"
           alt=""
+          loading="eager"
         />
       </div>
     </div>

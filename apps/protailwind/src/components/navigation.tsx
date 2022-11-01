@@ -7,7 +7,7 @@ const Navigation = () => {
   return (
     <nav
       aria-label="top"
-      className="py-8 absolute left-0 top-0 w-full z-10 bg-white shadow-xl shadow-gray-200/20"
+      className="sm:py-8 py-4 w-full z-10 bg-white shadow-xl shadow-gray-200/20"
     >
       <div className="mx-auto px-5 max-w-screen-lg flex justify-between items-center">
         <NavLogo />
@@ -75,7 +75,7 @@ const NavLogo = () => {
     <Link href="/" aria-label="Pro Tailwind Home" passHref>
       <a
         tabIndex={router.pathname === '/' ? -1 : 0}
-        className="font-heading font-black text-2xl"
+        className="font-heading font-black sm:text-2xl text-xl"
       >
         <span className="text-brand-red">Pro</span>Tailwind
       </a>

@@ -36,7 +36,7 @@ export default Home
 
 const Header = () => {
   return (
-    <header className="w-full flex md:flex-row flex-col items-center justify-center sm:pt-48 pt-32 sm:pb-32 pb-24 gap-16 px-8">
+    <header className="w-full flex md:flex-row flex-col items-center justify-center sm:pt-28 pt-10 sm:pb-28 pb-16 gap-16 px-8">
       <div className="flex items-center justify-center md:w-auto w-80">
         <Image
           src={require('../../public/assets/surfing-corgi.svg')}
