@@ -44,8 +44,10 @@ jobs:
       - name: Install Dependencies
         run: pnpm install
 
-      # - run: pnpm exec playwright install --with-deps
+      - name: Install Playwright Browsers
+        run: pnpm exec playwright install --with-deps
+
       - name: Run tests
-        run: pnpm -- turbo run test:e2e --team=skillrecordings --token=${{ secrets.VERCEL_TOKEN }}
+        run: "pnpm -- turbo run test:e2e --team=skillrecordings --token=${{ secrets.VERCEL_TOKEN }}"
         env:
           PLAYWRIGHT_TEST_BASE_URL: ${{ needs.test_setup.outputs.preview_url }}
