@@ -24,7 +24,7 @@ const Unsubscribed = () => {
           <h1 className="font-bold lg:text-5xl text-4xl py-8 font-heading">
             Unsubscribed
           </h1>
-          <p className="sm:text-xl text-slate-300 leading-relaxed mx-auto pb-8">
+          <p className="sm:text-xl text-gray-700 leading-relaxed mx-auto pb-8">
             You've been removed from the {message(sequence)} and won't receive
             any more emails about it.
           </p>

@@ -6,27 +6,17 @@ import {
 import {useRouter} from 'next/router'
 import Image from 'next/image'
 
-const SubscribeForm = () => {
+const NewsletterSubscribeForm = () => {
   const router = useRouter()
   return (
-    <section className="relative">
-      <div className="absolute left-0 bottom-0 overflow-hidden w-full h-[700px]">
-        <Image
-          src={require('../../public/assets/city-bg-2@2x.png')}
-          alt=""
-          aria-hidden="true"
-          layout="fill"
-          objectFit="cover"
-          quality={100}
-        />
-        <div className="absolute top-0 left-0 w-full h-56 bg-gradient-to-b from-slate-900 to-slate-900/0" />
-      </div>
-      <div className="pt-10 sm:pb-48 pb-32 px-5 relative w-full flex flex-col items-center justify-center">
-        <div className="text-center pb-16">
-          <h2 className="font-heading sm:text-6xl text-[2.5rem] leading-none font-bold text-slate-50">
-            Learn to use Tailwind CSS like a pro
+    <section className="py-32 bg-blue-600 text-white relative flex flex-col items-center justify-center px-5">
+      <div className="w-5 h-5 rotate-45 bg-gray-50 top-0 absolute -translate-y-3 rounded-sm" />
+      <div className="relative w-full flex flex-col items-center justify-center">
+        <div className="text-center pb-16 max-w-3xl">
+          <h2 className="font-heading sm:text-5xl text-4xl font-black sm:leading-tight leading-tight">
+            Power-up your team workflow with Tailwind CSS
           </h2>
-          <p className="pt-4 sm:text-2xl text-xl text-indigo-300">
+          <p className="pt-6 text-xl text-blue-100">
             Sign up for exclusive early-release lessons!
           </p>
         </div>
@@ -38,6 +28,7 @@ const SubscribeForm = () => {
             }
           }}
           actionLabel="Sign Up Today"
+          submitButtonElem={<SubmitButton />}
         />
         <p className="opacity-80 text-center text-base pt-8">
           I respect your privacy. Unsubscribe at any time.
@@ -46,4 +37,57 @@ const SubscribeForm = () => {
     </section>
   )
 }
-export default SubscribeForm
+
+export default NewsletterSubscribeForm
+
+const SubmitButton: React.FC<any> = (props) => {
+  const {isLoading} = props
+  return (
+    <div className="relative flex flex-col items-center w-full">
+      <div className="flex items-center justify-center w-24 translate-y-5 pointer-events-none">
+        <Image
+          src={require('../../public/assets/corgi-head.svg')}
+          aria-hidden="true"
+          alt=""
+          loading="eager"
+        />
+      </div>
+      <button data-sr-button="">
+        {isLoading ? <Loader /> : 'Sign Up Today'}
+      </button>
+      <div className="flex items-center justify-center w-20 -translate-y-3 pointer-events-none">
+        <Image
+          src={require('../../public/assets/corgi-legs-up.svg')}
+          aria-hidden="true"
+          alt=""
+          loading="eager"
+        />
+      </div>
+    </div>
+  )
+}
+
+export const Loader = () => {
+  return (
+    <>
+      <svg
+        aria-hidden="true"
+        xmlns="http://www.w3.org/2000/svg"
+        width="48"
+        height="48"
+        viewBox="0 0 48 48"
+      >
+        <title>dots-anim-3</title>
+        <g fill="currentColor">
+          <g className="nc-loop-dots-3-48-icon-f">
+            <circle cx="6" cy="24" fill="currentColor" r="5"></circle>
+            <circle cx="24" cy="24" r="5"></circle>
+            <circle cx="42" cy="24" fill="currentColor" r="5"></circle>
+          </g>
+          <style>{`.nc-loop-dots-3-48-icon-f>*{--animation-duration:0.8s;transform-origin:50% 50%;animation:nc-loop-dots-3-anim var(--animation-duration) infinite}.nc-loop-dots-3-48-icon-f>:nth-child(2){animation-delay:.1s}.nc-loop-dots-3-48-icon-f>:nth-child(3){animation-delay:.2s}@keyframes nc-loop-dots-3-anim{0%,100%,60%{transform:translateY(0)}30%{transform:translateY(20%)}}`}</style>
+        </g>
+      </svg>
+      <span className="sr-only">Loading</span>
+    </>
+  )
+}

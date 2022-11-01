@@ -28,7 +28,7 @@
  * --syntax-cursor-line: hsla(220, 100%, 80%, 0.04);
  */
 pre[class*='language'] {
-  @apply bg-black/50;
+  @apply bg-gray-900;
 }
 
 code[class*='language-'],
@@ -56,7 +56,7 @@ pre[class*='language-'] {
 code[class*='language-']::-moz-selection,
 code[class*='language-'] *::-moz-selection,
 pre[class*='language-'] *::-moz-selection {
-  @apply bg-slate-700;
+  @apply bg-gray-700;
   color: inherit;
   text-shadow: none;
 }
@@ -64,7 +64,7 @@ pre[class*='language-'] *::-moz-selection {
 code[class*='language-']::selection,
 code[class*='language-'] *::selection,
 pre[class*='language-'] *::selection {
-  @apply bg-slate-700;
+  @apply bg-gray-700;
   color: inherit;
   text-shadow: none;
 }
