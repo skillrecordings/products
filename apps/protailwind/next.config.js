@@ -1,6 +1,5 @@
 /** @type {import('next').NextConfig} */
 const {withSentryConfig} = require('@sentry/nextjs')
-// const withImages = require('next-images')
 const withMDX = require('@next/mdx')({
   extension: /\.mdx?$/,
   options: {
