@@ -125,6 +125,54 @@ const BodyTestimonial: React.FC<
   )
 }
 
+const HighlightedCode: React.FC<CodeProps> = ({value}) => {
+  const [mounted, setMounted] = React.useState(false)
+  React.useEffect(() => {
+    setMounted(true)
+  }, [])
+  const {language, code, highlightedLines} = value
+
+  const lines = highlightedLines?.map((line: any) => {
+    return {
+      line: line,
+      component: ({children}: any) => (
+        <div className=" from-yellow-500/30 to-amber-500/40 before:pointer-events-none before:absolute before:left-0 before:h-6 before:w-full before:bg-gradient-to-r before:mix-blend-overlay before:content-['']">
+          {children}
+        </div>
+      ),
+    }
+  })
+  return mounted ? (
+    <>
+      <pre
+        role="region"
+        aria-label={'code sample'}
+        tabIndex={0}
+        className="sr-only"
+      >
+        <code>{code}</code>
+      </pre>
+      <pre
+        aria-hidden="true"
+        className="relative -mx-5 rounded-none bg-black/50 scrollbar-thin scrollbar-track-transparent scrollbar-thumb-gray-800 hover:scrollbar-thumb-gray-700 sm:mx-0 sm:rounded-lg"
+      >
+        <Refractor
+          inline
+          language={
+            language
+              ? Refractor.hasLanguage(language)
+                ? language
+                : 'javascript'
+              : 'javascript'
+          }
+          value={code}
+          markers={lines}
+        />
+      </pre>
+    </>
+  ) : null
+}
+
 // https://github.com/portabletext/react-portabletext
 
 const PortableTextComponents: PortableTextComponents = {
@@ -239,47 +287,7 @@ const PortableTextComponents: PortableTextComponents = {
     },
     bodyImage: ({value}: BodyImageProps) => <BodyImage value={value} />,
     code: ({value}: CodeProps) => {
-      const {language, code, highlightedLines} = value
-
-      const lines = highlightedLines?.map((line: any) => {
-        return {
-          line: line,
-          component: ({children}: any) => (
-            <div className=" from-yellow-500/30 to-amber-500/40 before:pointer-events-none before:absolute before:left-0 before:h-6 before:w-full before:bg-gradient-to-r before:mix-blend-overlay before:content-['']">
-              {children}
-            </div>
-          ),
-        }
-      })
-      return (
-        <>
-          <pre
-            role="region"
-            aria-label={'code sample'}
-            tabIndex={0}
-            className="sr-only"
-          >
-            <code>{code}</code>
-          </pre>
-          <pre
-            aria-hidden="true"
-            className="relative -mx-5 rounded-none bg-black/50 scrollbar-thin scrollbar-track-transparent scrollbar-thumb-gray-800 hover:scrollbar-thumb-gray-700 sm:mx-0 sm:rounded-lg"
-          >
-            <Refractor
-              inline
-              language={
-                language
-                  ? Refractor.hasLanguage(language)
-                    ? language
-                    : 'javascript'
-                  : 'javascript'
-              }
-              value={code}
-              markers={lines}
-            />
-          </pre>
-        </>
-      )
+      return <HighlightedCode value={value} />
     },
     callout: ({value}: CalloutProps) => {
       const {body, type} = value

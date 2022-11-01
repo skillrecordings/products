@@ -187,7 +187,7 @@ const TipTemplate: React.FC<TipPageProps> = ({tip, tips}) => {
               </div>
             </div>
             <div className="mx-auto flex w-full max-w-screen-xl flex-col gap-10 pt-10 sm:pt-10 md:flex-row">
-              {tip.transcript && (
+              {tip.transcript && !tip.body && (
                 <div className="w-full max-w-2xl pt-5">
                   <Transcript
                     transcript={tip.transcript}
