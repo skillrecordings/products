@@ -36,24 +36,26 @@ export default Home
 
 const Header = () => {
   return (
-    <header className="w-full flex md:flex-row flex-col items-center justify-center sm:pt-28 pt-10 sm:pb-28 pb-16 gap-16 px-8">
-      <div className="flex items-center justify-center md:w-auto w-80">
-        <Image
-          src={require('../../public/assets/surfing-corgi.svg')}
-          alt=""
-          aria-hidden="true"
-          quality={100}
-          priority
-        />
+    <header className="w-full  sm:pt-28 pt-10 sm:pb-28 pb-16 px-8">
+      <div className="flex md:flex-row flex-col items-center justify-center gap-16 w-full max-w-screen-xl mx-auto">
+        <div className="flex items-center justify-center md:w-auto w-80 lg:flex-shrink-0">
+          <Image
+            src={require('../../public/assets/surfing-corgi.svg')}
+            alt=""
+            aria-hidden="true"
+            quality={100}
+            priority
+          />
+        </div>
+        <HeaderContent />
       </div>
-      <HeaderContent />
     </header>
   )
 }
 
 const HeaderContent = () => {
   return (
-    <div>
+    <div className="w-full">
       <h1 className="font-black font-heading xl:text-6xl sm:text-5xl text-4xl tracking-tight max-w-[19ch]">
         Advanced Tailwind CSS{' '}
         <span className="text-brand-red">Concepts & Patterns</span>
