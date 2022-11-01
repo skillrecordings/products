@@ -32,8 +32,11 @@ export const getServerSideProps: GetServerSideProps = async ({req}) => {
     if (token && isString(purchaseId) && isString(token?.sub)) {
       // the `existingIndividualPurchase` is a non-bulk purchase, so did this
       // person already purchase individual access to the product?
-      const {purchase, existingIndividualPurchase, availableUpgrades} =
-        await getPurchaseDetails(purchaseId, token.sub)
+      const {
+        purchase,
+        existingPurchase: existingIndividualPurchase,
+        availableUpgrades,
+      } = await getPurchaseDetails(purchaseId, token.sub)
       return purchase
         ? {
             props: {

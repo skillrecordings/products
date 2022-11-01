@@ -100,6 +100,8 @@ export function getSdk(
             })
           : []
 
+      // TODO: unclear if this is meant to represent an individual seat
+      // purchase, a redemption purchase, or both?
       const existingPurchase = await ctx.prisma.purchase.findFirst({
         where: {
           userId,
@@ -122,7 +124,7 @@ export function getSdk(
       })
       return {
         purchase,
-        existingIndividualPurchase: existingPurchase,
+        existingPurchase,
         availableUpgrades,
       }
     },
