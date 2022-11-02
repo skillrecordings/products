@@ -13,10 +13,10 @@ const Share: React.FC<{title: string}> = ({title}) => {
   const router = useRouter()
   const url = process.env.NEXT_PUBLIC_URL + router.asPath
   const shareButtonClassName =
-    'w-full flex items-center justify-center px-7 py-8 hover:bg-slate-800/60 transition'
+    'w-full flex items-center justify-center px-7 py-8 hover:bg-gray-800/60 transition'
 
   return (
-    <div className="mx-auto mb-16 flex max-w-screen-md items-center justify-center overflow-hidden bg-slate-800/40 pt-10 pl-5 shadow-xl sm:pt-0 md:rounded-lg">
+    <div className="mx-auto mb-16 flex max-w-screen-md items-center justify-center overflow-hidden bg-gray-800/40 pt-10 pl-5 shadow-xl sm:pt-0 md:rounded-lg">
       <div className="mx-auto flex w-full max-w-screen-md flex-col items-center justify-between gap-5 sm:flex-row">
         <div>
           <p className="flex items-center text-xl">
@@ -29,7 +29,7 @@ const Share: React.FC<{title: string}> = ({title}) => {
             </span>
           </p>
         </div>
-        <div className="flex w-full items-center justify-center divide-slate-900 border-r border-slate-900 pt-2 sm:w-auto sm:divide-x sm:pt-0">
+        <div className="flex w-full items-center justify-center divide-gray-900 border-r border-gray-900 pt-2 sm:w-auto sm:divide-x sm:pt-0">
           <Twitter
             className={shareButtonClassName}
             svgClassName="sm:w-5 sm:h-5 w-4 h-4"

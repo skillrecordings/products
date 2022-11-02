@@ -84,7 +84,7 @@ const BodyImage = ({value}: BodyImageProps) => {
     return (
       <figure
         className={cx('relative flex items-center justify-center', {
-          'bg-slate-800/20': isLoading,
+          'bg-gray-800/20': isLoading,
         })}
       >
         <Image
@@ -174,7 +174,7 @@ const PortableTextComponents: PortableTextComponentsProps = {
     },
     code: ({children}) => {
       return (
-        <span className="rounded-sm bg-slate-300 py-1 px-1 font-mono text-base">
+        <span className="rounded-sm bg-gray-700 py-1 px-1 font-mono text-base">
           {children}
         </span>
       )
@@ -197,7 +197,7 @@ const PortableTextComponents: PortableTextComponentsProps = {
               <summary className="inline-flex cursor-pointer items-center space-x-2 text-gray-600 transition hover:text-gray-800">
                 <span
                   aria-hidden="true"
-                  className="flex items-center justify-center rounded-full border border-gray-200 p-1 transition group-hover:bg-gray-50"
+                  className="flex items-center justify-center rounded-full border border-gray-600 p-1 transition group-hover:bg-gray-50"
                 >
                   <ChevronDownIcon className="h-4 w-4 group-open:hidden" />
                   <ChevronUpIcon className="hidden h-4 w-4 group-open:block" />
@@ -225,7 +225,7 @@ const PortableTextComponents: PortableTextComponentsProps = {
           >
             <source src={url} type="video/mp4" />
           </video>
-          <div className="pb-4 text-base font-medium text-slate-400">
+          <div className="pb-4 text-base font-medium text-gray-400">
             {title}
           </div>
           {caption && (
@@ -238,7 +238,7 @@ const PortableTextComponents: PortableTextComponentsProps = {
                 <summary className="inline-flex cursor-pointer items-center space-x-2 text-gray-600 transition hover:text-gray-800">
                   <span
                     aria-hidden="true"
-                    className="flex items-center justify-center rounded-full border border-gray-200 p-1 transition group-hover:bg-gray-50"
+                    className="flex items-center justify-center rounded-full border border-gray-600 p-1 transition group-hover:bg-gray-50"
                   >
                     <ChevronDownIcon className="h-4 w-4 group-open:hidden" />
                     <ChevronUpIcon className="hidden h-4 w-4 group-open:block" />
@@ -269,7 +269,7 @@ const PortableTextComponents: PortableTextComponentsProps = {
           </pre>
           <pre
             aria-hidden="true"
-            className="-mx-5 rounded-none bg-slate-800 p-5 text-lg leading-[1.15] sm:mx-0 sm:rounded-lg md:text-lg md:leading-tight"
+            className="-mx-5 rounded-none bg-gray-800 p-5 text-lg leading-[1.15] sm:mx-0 sm:rounded-lg md:text-lg md:leading-tight"
           >
             <Refractor
               inline
@@ -401,15 +401,15 @@ type CodeProps = {
 const getCalloutStyles = (type: string): string => {
   switch (type) {
     case 'tip':
-      return 'bg-slate-800'
+      return 'bg-gray-800'
     case 'big-idea':
-      return 'bg-slate-800'
+      return 'bg-gray-800'
     case 'reflection':
-      return 'bg-slate-800'
+      return 'bg-gray-800'
     case 'caution':
-      return 'bg-slate-800'
+      return 'bg-gray-800'
     default:
-      return 'bg-slate-800'
+      return 'bg-gray-800'
   }
 }
 
