@@ -15,19 +15,19 @@ jobs:
       TURBO_TEAM: ${{ secrets.TURBO_TEAM }}
       SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
       DATABASE_URL: ${{ secrets.DATABASE_URL }}
+      PRISMA_SKIP_POSTINSTALL_GENERATE: false # We do this manually for architecture reasons
 
     steps:
       - name: Checkout Repo
         uses: actions/checkout@v3
 
-      - name: Install PNPM
+      - name: PNPM Setup
         uses: pnpm/action-setup@v2.2.4
-        id: pnpm-install
         with:
           version: 7.13.4
           run_install: false
 
-      - name: Setup Node.js environment
+      - name: Node Setup
         uses: actions/setup-node@v3
         with:
           node-version: 16.16.0
@@ -36,14 +36,11 @@ jobs:
       - name: Install dependencies
         run: pnpm install
 
-      - name: Lint
-        run: pnpm lint
-
       - name: Generate DB Client
         run: pnpm generate
 
-      - name: Build
-        run: pnpm build
+      - name: Lint
+        run: pnpm lint
 
       - name: Test
         run: pnpm test
