@@ -119,10 +119,10 @@ const Header: React.FC<SanityDocument> = ({
   estimatedReadingTime,
 }) => {
   return (
-    <header className="relative flex flex-col items-center overflow-hidden  px-5 pt-24 pb-8">
+    <header className="relative flex flex-col items-center overflow-hidden px-5 pt-24 pb-8">
       <div className="relative z-10 mx-auto flex w-full max-w-screen-lg flex-col items-center">
         <Link passHref href="/articulos">
-          <a className="group relative rounded-lg bg-gray-700 px-4 py-2 text-base font-normal opacity-80 transition hover:bg-gray-600 sm:text-lg">
+          <a className="group relative rounded-sm bg-gray-700 px-4 py-2 text-base font-normal opacity-80 transition hover:bg-gray-600 sm:text-lg">
             <span className="pr-1" role="presentation" aria-hidden="true">
               ←
             </span>{' '}
@@ -130,7 +130,7 @@ const Header: React.FC<SanityDocument> = ({
           </a>
         </Link>
         <div className="flex flex-col items-center justify-center pt-10 pb-24 text-center">
-          <h1 className="font-heading mx-auto py-4 text-4xl font-bold leading-none sm:text-5xl lg:text-6xl">
+          <h1 className="mx-auto py-4 font-heading text-2xl font-bold leading-none sm:text-4xl lg:text-6xl">
             {title}
           </h1>
         </div>
