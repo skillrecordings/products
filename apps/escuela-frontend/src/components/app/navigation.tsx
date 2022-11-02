@@ -1,6 +1,6 @@
 import React from 'react'
 import {useRouter} from 'next/router'
-import {SparklesIcon} from '@heroicons/react/solid'
+import {SparklesIcon} from '@heroicons/react/outline'
 import Link from 'next/link'
 import cx from 'classnames'
 import config from 'config'
@@ -36,7 +36,7 @@ const DesktopNav = () => {
       <NavLink
         href="/articulos"
         icon={
-          <SparklesIcon className="h-5 w-5 text-brand" aria-hidden="true" />
+          <SparklesIcon className="h-5 w-5 text-gray-200" aria-hidden="true" />
         }
       >
         Artículos
