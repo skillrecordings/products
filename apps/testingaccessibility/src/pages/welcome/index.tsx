@@ -14,6 +14,7 @@ import {getSdk, prisma} from '@skillrecordings/database'
 import Link from 'next/link'
 import {isString} from 'lodash'
 import Card from 'components/team/card'
+import {MinimalPurchase, PurchaseWithBulkCoupon} from '@types'
 
 export const getServerSideProps: GetServerSideProps = async ({
   res,
@@ -78,15 +79,8 @@ export const getServerSideProps: GetServerSideProps = async ({
 
 const Welcome: React.FC<
   React.PropsWithChildren<{
-    purchase: {
-      merchantChargeId: string | null
-      bulkCoupon: {id: string; maxUses: number; usedCount: number} | null
-      product: {id: string; name: string}
-    }
-    existingPurchase: {
-      id: string
-      product: {id: string; name: string}
-    }
+    purchase: PurchaseWithBulkCoupon
+    existingPurchase: MinimalPurchase
     token: any
     availableUpgrades: {upgradableTo: {id: string; name: string}}[]
     upgrade: boolean
@@ -118,7 +112,7 @@ const Welcome: React.FC<
             >
               <InviteTeam
                 setPersonalPurchase={setPersonalPurchase}
-                session={session}
+                userEmail={session?.user?.email}
                 purchase={purchase}
                 existingPurchase={existingPurchase}
               />

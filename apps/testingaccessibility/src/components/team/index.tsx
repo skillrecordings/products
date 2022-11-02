@@ -2,25 +2,19 @@ import React from 'react'
 import SelfRedeemButton from './self-redeem-button'
 import CopyInviteLink from './copy-invite-link'
 import Link from 'next/link'
+import {MinimalPurchase, PurchaseWithBulkCoupon} from '@types'
 
 type InviteTeamProps = {
-  purchase: {
-    merchantChargeId: string | null
-    bulkCoupon: {id: string; maxUses: number; usedCount: number} | null
-    product: {id: string; name: string}
-  }
-  existingPurchase: {
-    id: string
-    product: {id: string; name: string}
-  }
-  session: any
+  purchase: PurchaseWithBulkCoupon
+  existingPurchase: MinimalPurchase
+  userEmail?: string | null
   setPersonalPurchase: (props: any) => void
 }
 
 const InviteTeam: React.FC<React.PropsWithChildren<InviteTeamProps>> = ({
   purchase,
   existingPurchase,
-  session,
+  userEmail,
   setPersonalPurchase,
 }) => {
   const redemptionsLeft =
@@ -33,7 +27,6 @@ const InviteTeam: React.FC<React.PropsWithChildren<InviteTeamProps>> = ({
   const [canRedeem, setCanRedeem] = React.useState(
     Boolean(redemptionsLeft && !existingPurchase),
   )
-  const userEmail = session?.user?.email
   const bulkCouponId = purchase?.bulkCoupon?.id
 
   return (
@@ -49,7 +42,7 @@ const InviteTeam: React.FC<React.PropsWithChildren<InviteTeamProps>> = ({
           <div className="w-full ">
             <CopyInviteLink bulkCouponId={bulkCouponId} />
           </div>
-          {canRedeem && (
+          {canRedeem && userEmail && (
             <div className="flex sm:flex-row flex-col items-center sm:justify-between border-t border-gray-100 sm:mt-8 pt-5 mt-5 gap-3">
               <p className="font-semibold flex items-center gap-1">
                 Or get access yourself

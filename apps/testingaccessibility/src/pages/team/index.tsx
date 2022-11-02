@@ -13,6 +13,7 @@ import {getCurrentAbility} from '@skillrecordings/ability'
 import {getToken} from 'next-auth/jwt'
 import {getSdk} from '@skillrecordings/database'
 import Card from 'components/team/card'
+import {MinimalPurchase, PurchaseWithBulkCoupon} from '@types'
 
 export const getServerSideProps: GetServerSideProps = async ({req}) => {
   const token = await getToken({req})
@@ -56,15 +57,8 @@ export const getServerSideProps: GetServerSideProps = async ({req}) => {
 }
 
 type TeamPageProps = {
-  purchase: {
-    merchantChargeId: string | null
-    bulkCoupon: {id: string; maxUses: number; usedCount: number} | null
-    product: {id: string; name: string}
-  }
-  existingPurchase: {
-    id: string
-    product: {id: string; name: string}
-  }
+  purchase: PurchaseWithBulkCoupon
+  existingPurchase: MinimalPurchase
   availableUpgrades: {upgradableTo: {id: string; name: string}}[]
   userId: string
 }
@@ -93,7 +87,7 @@ const TeamPage: React.FC<React.PropsWithChildren<TeamPageProps>> = ({
           }
         >
           <InviteTeam
-            session={session}
+            userEmail={session?.user?.email}
             purchase={purchase}
             existingPurchase={existingPurchase}
             setPersonalPurchase={setPersonalPurchase}
