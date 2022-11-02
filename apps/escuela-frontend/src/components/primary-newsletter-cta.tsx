@@ -12,17 +12,17 @@ export const PrimaryNewsletterCta: React.FC = ({children}) => {
     <section
       aria-label="Email course sign-up"
       id="subscribe"
-      className="relative flex flex-col items-center justify-center px-5 pt-10 pb-16 overflow-hidden sm:px-16 lg:pb-32 sm:pb-24 sm:pt-24"
+      className="relative flex flex-col items-center justify-center overflow-hidden px-5 pt-10 pb-16 sm:px-16 sm:pb-24 sm:pt-24 lg:pb-32"
     >
       <>
         {children ? (
           children
         ) : (
           <>
-            <h2 className="max-w-lg mx-auto -mt-4 text-3xl font-bold leading-none text-center font-heading sm:text-4xl md:text-5xl sm:mt-0">
+            <h2 className="font-heading mx-auto -mt-4 max-w-lg text-center text-3xl font-bold leading-none sm:mt-0 sm:text-4xl md:text-5xl">
               Join the Newsletter
             </h2>
-            <h3 className="max-w-md pt-6 pb-16 text-xl leading-tight text-center">
+            <h3 className="max-w-md pt-6 pb-16 text-center text-xl leading-tight">
               Learn stuff!
             </h3>
           </>

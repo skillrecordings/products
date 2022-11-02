@@ -47,6 +47,7 @@
     "next-sitemap": "^3.0.5",
     "nodemailer": "^6.7.2",
     "nodemailer-postmark-transport": "^5.2.1",
+    "prettier-plugin-tailwindcss": "^0.1.13",
     "react": "17.0.2",
     "react-dom": "17.0.2",
     "react-hot-toast": "^2.2.0",
@@ -98,6 +99,19 @@
     "src/**/*.{ts,tsx,md,mdx,js}": [
       "prettier --write"
     ]
+  },
+  "prettier": {
+    "bracketSpacing": false,
+    "jsxBracketSameLine": false,
+    "plugins": [
+      "prettier-plugin-tailwindcss"
+    ],
+    "printWidth": 80,
+    "semi": false,
+    "singleQuote": true,
+    "tabWidth": 2,
+    "trailingComma": "all",
+    "useTabs": false
   },
   "jest": {
     "preset": "@skillrecordings/scripts/jest/next"

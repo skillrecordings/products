@@ -7,12 +7,12 @@ import Layout from 'components/layout'
 const Answer: React.FC<{questionSet: QuestionSet}> = ({questionSet}) => {
   return (
     <Layout noIndex meta={{title: 'Quiz'}}>
-      <header className="flex items-center justify-center w-full pt-5 pb-5 sm:pt-16 sm:pb-0">
+      <header className="flex w-full items-center justify-center pt-5 pb-5 sm:pt-16 sm:pb-0">
         <div className="w-40 sm:w-auto">
           <Image />
         </div>
       </header>
-      <div className="flex flex-col items-center justify-center w-full h-full sm:py-16">
+      <div className="flex h-full w-full flex-col items-center justify-center sm:py-16">
         <QuizAnswerPage
           questionSet={questionSet}
           config={getConfig({
