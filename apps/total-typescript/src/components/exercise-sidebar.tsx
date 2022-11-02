@@ -18,6 +18,7 @@ const ExerciseSidebar: React.FC<SidebarProps> = ({
   path = '',
   className,
 }) => {
+  console.log('sidebar', {section})
   return (
     <>
       <div
@@ -41,11 +42,11 @@ const ExerciseSidebar: React.FC<SidebarProps> = ({
                   />
                 )}
                 <div className="relative z-10 -translate-y-0.5">
-                  <Link href={`${module.moduleType}s`}>
+                  <Link href={`/${module.moduleType}s`}>
                     <a
                       className="font-mono text-xs font-semibold uppercase text-gray-300 hover:underline"
                       onClick={() => {
-                        track('clicked return to tutorials', {
+                        track(`clicked return to ${module.moduleType}s`, {
                           module: module.slug.current,
                         })
                       }}

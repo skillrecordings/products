@@ -50,6 +50,7 @@ const Header: React.FC<{workshop: SanityDocument}> = ({workshop}) => {
   const {title, slug, sections, image, github} = workshop
 
   const firstSection = first<SanityDocument>(sections)
+  const firstExercise = first<SanityDocument>(firstSection?.exercises)
 
   return (
     <>
@@ -79,10 +80,11 @@ const Header: React.FC<{workshop: SanityDocument}> = ({workshop}) => {
               {firstSection && (
                 <Link
                   href={{
-                    pathname: '/workshops/[module]/[section]',
+                    pathname: '/workshops/[module]/[section]/[exercise]',
                     query: {
                       module: slug.current,
-                      exercise: firstSection.slug,
+                      section: firstSection.slug,
+                      exercise: firstExercise?.slug,
                     },
                   }}
                 >
@@ -156,37 +158,24 @@ const WorkshopSectionNavigator: React.FC<{workshop: SanityDocument}> = ({
           {sections.map((section: SanityDocument, i: number) => {
             return (
               <li key={section.slug}>
-                <Link
-                  href={{
-                    pathname: '/workshops/[module]/[section]',
-                    query: {
+                <div
+                  className="group inline-flex items-center py-2.5 text-lg font-semibold"
+                  onClick={() => {
+                    track('clicked workshop section', {
                       module: slug.current,
                       section: section.slug,
-                    },
+                      moduleType: _type,
+                    })
                   }}
-                  passHref
                 >
-                  <a
-                    className="group inline-flex items-center py-2.5 text-lg font-semibold"
-                    onClick={() => {
-                      track('clicked tutorial section', {
-                        module: slug.current,
-                        section: section.slug,
-                        moduleType: _type,
-                      })
-                    }}
+                  <span
+                    className="w-8 font-mono text-xs text-gray-400"
+                    aria-hidden="true"
                   >
-                    <span
-                      className="w-8 font-mono text-xs text-gray-400"
-                      aria-hidden="true"
-                    >
-                      {i + 1}
-                    </span>
-                    <span className="w-full leading-tight group-hover:underline">
-                      {section.title}
-                    </span>
-                  </a>
-                </Link>
+                    {i + 1}
+                  </span>
+                  <span className="w-full leading-tight">{section.title}</span>
+                </div>
                 <WorkshopSectionExerciseNavigator
                   section={section}
                   moduleSlug={workshop.slug.current}
@@ -248,7 +237,7 @@ const WorkshopSectionExerciseNavigator: React.FC<{
                     >
                       {i + 1}
                     </span>
-                    <span className="w-full leading-tight group-hover:underline">
+                    <span className="w-full cursor-pointer leading-tight group-hover:underline">
                       {exercise.title}
                     </span>
                   </a>

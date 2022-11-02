@@ -44,7 +44,9 @@ const ExerciseTemplate: React.FC<{
   const pageDescription = exerciseDescription || moduleDescription
   const shareCard = ogImage ? {ogImage: {url: ogImage}} : {}
   //TODO path here could also include module slug and section (as appropriate)
-  const path = `/${module._type}s`
+  const path = `/${module.moduleType}s`
+
+  console.log('exercise', {section})
 
   return (
     <VideoProvider
@@ -352,7 +354,7 @@ const MobileLessonNavigator: React.FC<{
           exercises)
         </span>
       </summary>
-      <ExerciseSidebar module={module} path={path} />
+      <ExerciseSidebar module={module} path={path} section={section} />
     </details>
   )
 }

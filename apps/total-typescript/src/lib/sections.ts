@@ -38,7 +38,7 @@ export const getSection = async (slug: string) =>
         _type,
         title,
         state,
-        slug,
+         "slug": slug.current,
         body[]{
           ...,
           _type == "bodyTestimonial" => {
