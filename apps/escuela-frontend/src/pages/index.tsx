@@ -55,8 +55,8 @@ const Header: React.FC<HeaderProps> = ({image}) => {
           )}
         >
           <div className="z-10 flex h-full w-full flex-col items-center justify-center">
-            <h1 className="mx-6 mt-12 mb-4 w-[400px] bg-gradient-to-b from-white to-gray-200 bg-clip-text text-center text-4xl font-extrabold leading-tight text-transparent  md:!w-full lg:!mt-20 lg:text-6xl">
-              Domina el universo de JavaScript
+            <h1 className="mx-6 mt-12 mb-4 w-[400px] bg-gradient-to-b from-white to-gray-200 bg-clip-text text-center text-4xl font-extrabold leading-tight text-transparent  md:!w-full lg:text-6xl">
+              Domina el Universo de JavaScript
             </h1>
             <p className="font-space-grotesk mx-6 max-h-[112px] w-[350px] text-center text-xl text-gray-300 md:max-h-[96px] md:w-[500px] md:text-2xl">
               Una serie workshops interactivos de ingeniería front-end para

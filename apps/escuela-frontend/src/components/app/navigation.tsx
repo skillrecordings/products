@@ -35,32 +35,48 @@ const DesktopNav = () => {
   return (
     <ul className="flex items-center">
       <NavLink
-        path="/articulos"
-        label="Articulos"
+        href="/articulos"
         icon={
           <SparklesIcon className="h-5 w-5 text-brand" aria-hidden="true" />
         }
-      />
+      >
+        Artículos
+      </NavLink>
     </ul>
   )
 }
 
-const NavLink: React.FC<
-  React.PropsWithChildren<{
-    label: string
-    icon: React.ReactElement
-    path: string
-  }>
-> = ({label, icon, path}) => {
+type NavLinkProps = React.PropsWithChildren<{
+  href: string
+  icon?: React.ReactElement
+}>
+
+const NavLink: React.FC<NavLinkProps> = ({
+  href,
+  children,
+  icon = null,
+  ...props
+}) => {
+  const router = useRouter()
+  const isActive = router.pathname === href
+
   return (
-    <li className="h-full">
-      <Link href={path} passHref>
-        <a className="flex h-full items-center gap-0.5 px-2 text-sm font-medium text-gray-100 transition duration-100 hover:bg-gray-800/60 active:bg-transparent sm:gap-1 sm:px-5 sm:text-base">
-          {icon}
-          {label}
-        </a>
-      </Link>
-    </li>
+    <Link href={href} passHref>
+      <a
+        aria-current={isActive ? 'page' : undefined}
+        className={cx(
+          'flex h-full items-center gap-0.5 px-2 text-sm font-medium transition duration-100 hover:bg-gray-800/60 active:bg-transparent sm:gap-1 sm:px-5 sm:text-base',
+          {
+            'bg-gray-800': isActive,
+          },
+        )}
+        {...props}
+      >
+        <>
+          {icon} {children}
+        </>
+      </a>
+    </Link>
   )
 }
 
