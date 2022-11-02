@@ -9,12 +9,12 @@ const SubscribeForm = () => {
   const router = useRouter()
   return (
     <section className="relative">
-      <div className="absolute left-0 bottom-0 overflow-hidden w-full h-[700px]">
-        <div className="absolute top-0 left-0 w-full h-56" />
+      <div className="absolute left-0 bottom-0 h-[700px] w-full overflow-hidden">
+        <div className="absolute top-0 left-0 h-56 w-full" />
       </div>
-      <div className="relative flex flex-col items-center justify-center w-full px-5 pt-10 pb-32 sm:pb-48">
+      <div className="relative flex w-full flex-col items-center justify-center px-5 pt-10 pb-32 sm:pb-48">
         <div className="pb-16 text-center">
-          <h2 className="font-heading sm:text-6xl text-[2.5rem] leading-none font-bold">
+          <h2 className="font-heading text-[2.5rem] font-bold leading-none sm:text-6xl">
             Avanza tu Carrera con Entrenamiento de Ingeniería Front-End
             Profesional
           </h2>
@@ -31,7 +31,7 @@ const SubscribeForm = () => {
           }}
           actionLabel="Subscríbete"
         />
-        <p className="pt-8 text-base text-center opacity-80">
+        <p className="pt-8 text-center text-base opacity-80">
           Respetamos tu privacidad. Cancela tu suscripción en cualquier momento.
         </p>
       </div>

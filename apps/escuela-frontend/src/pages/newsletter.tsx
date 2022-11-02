@@ -8,7 +8,7 @@ const NewsletterPage = () => {
 
   return (
     <Layout meta={{title, ogImage}} className="w-full">
-      <main className="w-full mx-auto">
+      <main className="mx-auto w-full">
         <PrimaryNewsletterCta />
       </main>
     </Layout>

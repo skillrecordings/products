@@ -63,9 +63,9 @@ const TableOfContents = ({value}: PortableTextProps) => {
         {props.outline.map((heading: any) => {
           const {subheadings} = heading
           return (
-            <li key={heading._key} className="sm:text-xl text-lg">
+            <li key={heading._key} className="text-lg sm:text-xl">
               <Link href={'#' + heading.slug}>
-                <a className="hover:underline inline-flex sm:py-2 py-1 font-medium">
+                <a className="inline-flex py-1 font-medium hover:underline sm:py-2">
                   {getChildrenText(heading)}
                 </a>
               </Link>
@@ -75,7 +75,7 @@ const TableOfContents = ({value}: PortableTextProps) => {
                     return (
                       <li key={subheading._key}>
                         <Link href={'#' + subheading.slug}>
-                          <a className="pl-6 inline-flex border-l border-slate-700 hover:underline sm:py-2 py-1 font-normal">
+                          <a className="inline-flex border-l border-slate-700 py-1 pl-6 font-normal hover:underline sm:py-2">
                             {getChildrenText(subheading)}
                           </a>
                         </Link>
@@ -96,18 +96,18 @@ const TableOfContents = ({value}: PortableTextProps) => {
   return (
     <details
       aria-label="On this page"
-      className="group marker:text-transparent no-marker font-medium sm:text-xl text-lg max-w-screen-md w-full mx-auto"
+      className="no-marker group mx-auto w-full max-w-screen-md text-lg font-medium marker:text-transparent sm:text-xl"
     >
-      <summary className="hover:cursor-pointer  flex items-center justify-between">
-        <span className="transition uppercase text-base sm:py-5 py-3">
+      <summary className="flex  items-center justify-between hover:cursor-pointer">
+        <span className="py-3 text-base uppercase transition sm:py-5">
           On this page
         </span>
         <span
           aria-hidden="true"
-          className="opacity-60 group-hover:opacity-100 h-16 px-5 flex items-center justify-center transition"
+          className="flex h-16 items-center justify-center px-5 opacity-60 transition group-hover:opacity-100"
         >
-          <ChevronDownIcon className="group-open:hidden w-4 h-4" />
-          <ChevronUpIcon className="group-open:block hidden w-4 h-4" />
+          <ChevronDownIcon className="h-4 w-4 group-open:hidden" />
+          <ChevronUpIcon className="hidden h-4 w-4 group-open:block" />
         </span>
       </summary>
       <div className="pb-4">

@@ -19,13 +19,13 @@ type ArticlesProps = {
 const Articles: React.FC<ArticlesProps> = ({articles}) => {
   return (
     <Layout meta={meta} className="overflow-hidden" nav>
-      <header className="relative px-5 pb-10 overflow-hidden pt-28 sm:pb-16 sm:pt-40">
-        <h1 className="max-w-screen-md mx-auto text-4xl font-bold leading-none text-center font-heading sm:text-5xl lg:text-6xl">
+      <header className="relative overflow-hidden px-5 pb-10 pt-28 sm:pb-16 sm:pt-40">
+        <h1 className="font-heading mx-auto max-w-screen-md text-center text-4xl font-bold leading-none sm:text-5xl lg:text-6xl">
           {meta.title}
         </h1>
       </header>
       <main className="flex-grow">
-        <div className="w-full max-w-screen-lg pb-16 mx-auto">
+        <div className="mx-auto w-full max-w-screen-lg pb-16">
           <div className="grid grid-cols-1 gap-10 md:grid-cols-2">
             {isEmpty(articles) ? (
               <h3>Sorry, there are no articles yet</h3>
@@ -44,21 +44,21 @@ const Articles: React.FC<ArticlesProps> = ({articles}) => {
                     description || toPlainText(body).substring(0, 190) + '...'
                   return (
                     <div key={slug} className="gap-5 p-8">
-                      <div className="flex w-full sm:justify-between justify-left">
+                      <div className="justify-left flex w-full sm:justify-between">
                         <div>
-                          <h2 className="text-2xl font-semibold underline transition decoration-white hover:decoration-slate-500 lg:text-3xl sm:text-xl font-heading">
+                          <h2 className="font-heading text-2xl font-semibold underline decoration-white transition hover:decoration-slate-500 sm:text-xl lg:text-3xl">
                             <Link href={`/${slug}`} passHref>
-                              <a className="block group">{title}</a>
+                              <a className="group block">{title}</a>
                             </Link>
                           </h2>
                           {description && (
-                            <Markdown className="pt-3 pb-6 prose">
+                            <Markdown className="prose pt-3 pb-6">
                               {description}
                             </Markdown>
                           )}
-                          <div className="flex items-center w-full mt-6 space-x-5">
+                          <div className="mt-6 flex w-full items-center space-x-5">
                             <Link href={`/${slug}`} passHref>
-                              <a className="inline-flex px-4 py-2 text-lg font-medium transition rounded-lg bg-black/10 hover:bg-slate-300">
+                              <a className="inline-flex rounded-lg bg-black/10 px-4 py-2 text-lg font-medium transition hover:bg-slate-300">
                                 Leer
                                 <i aria-hidden className="pl-2">
                                   →
