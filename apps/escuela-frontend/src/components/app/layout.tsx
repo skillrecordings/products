@@ -21,7 +21,6 @@ const Layout: FunctionComponent<LayoutProps> = ({
   meta,
   noIndex,
   nav,
-  footer,
 }) => {
   const router = useRouter()
   const {
