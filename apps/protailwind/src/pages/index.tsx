@@ -36,7 +36,7 @@ export default Home
 
 const Header = () => {
   return (
-    <header className="w-full  sm:pt-28 pt-10 sm:pb-28 pb-16 px-8">
+    <header className="w-full sm:pt-28 pt-10 sm:pb-28 pb-16 px-8">
       <div className="flex md:flex-row flex-col items-center justify-center gap-16 w-full max-w-screen-xl mx-auto">
         <div className="flex items-center justify-center md:w-auto w-80 lg:flex-shrink-0">
           <Image
@@ -55,12 +55,12 @@ const Header = () => {
 
 const HeaderContent = () => {
   return (
-    <div className="w-full">
-      <h1 className="font-black font-heading xl:text-6xl sm:text-5xl text-4xl tracking-tight max-w-[19ch]">
+    <div className="w-full flex flex-col items-center md:items-start">
+      <h1 className="font-black font-heading xl:text-6xl sm:text-5xl text-4xl tracking-tight mx-auto md:ml-0 max-w-[19ch] text-center md:text-left">
         Advanced Tailwind CSS{' '}
         <span className="text-brand-red">Concepts & Patterns</span>
       </h1>
-      <p className="sm:text-xl text-lg pt-5 max-w-sm">
+      <p className="sm:text-xl text-lg pt-5 max-w-sm text-center md:text-left">
         Increase development velocity and craft sustainable systems for your
         team
       </p>
