@@ -43,8 +43,8 @@ export default NewsletterSubscribeForm
 const SubmitButton: React.FC<any> = (props) => {
   const {isLoading} = props
   return (
-    <div className="relative flex flex-col items-center w-full">
-      <div className="flex items-center justify-center w-24 translate-y-5 pointer-events-none">
+    <div className="group relative flex flex-col items-center w-full">
+      <div className="z-20 flex items-center justify-center w-24 translate-y-5 pointer-events-none">
         <Image
           src={require('../../public/assets/corgi-head.svg')}
           aria-hidden="true"
@@ -52,12 +52,20 @@ const SubmitButton: React.FC<any> = (props) => {
           loading="eager"
         />
       </div>
-      <button data-sr-button="">
+      <button data-sr-button="" className="z-10">
         {isLoading ? <Loader /> : 'Sign Up Today'}
       </button>
-      <div className="flex items-center justify-center w-20 -translate-y-3 pointer-events-none">
+      <div className="hidden z-20 group-hover:flex items-center justify-center w-20 -translate-y-3 pointer-events-none">
         <Image
-          src={require('../../public/assets/corgi-legs-up.svg')}
+          src={require('../../public/assets/corgi-legs-up-1.svg')}
+          aria-hidden="true"
+          alt=""
+          loading="eager"
+        />
+      </div>
+      <div className="z-0 flex group-hover:hidden items-center justify-center w-20 -translate-y-3 pointer-events-none">
+        <Image
+          src={require('../../public/assets/corgi-legs-down-1.svg')}
           aria-hidden="true"
           alt=""
           loading="eager"

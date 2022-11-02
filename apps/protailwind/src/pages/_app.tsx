@@ -9,7 +9,7 @@ import {DefaultSeo} from '@skillrecordings/next-seo'
 import config from '../config'
 
 function MyApp({Component, pageProps}: AppProps) {
-  usePageview()
+  // usePageview()
   initNProgress()
   return (
     <>
