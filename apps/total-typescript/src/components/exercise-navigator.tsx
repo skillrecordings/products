@@ -9,8 +9,9 @@ import {Exercise} from '../lib/exercises'
 
 const ExerciseNavigator: React.FC<{
   module: SanityDocument
+  section?: SanityDocument
   path: string
-}> = ({module, path}) => {
+}> = ({module, section, path}) => {
   const router = useRouter()
   const scrollContainerRef = React.useRef<HTMLDivElement>(null)
   const activeElRef = React.useRef<HTMLDivElement>(null)
@@ -22,6 +23,8 @@ const ExerciseNavigator: React.FC<{
     })
   }, [router])
 
+  const exercises = section ? section.exercises : module.exercises
+
   return (
     <div
       ref={scrollContainerRef}
@@ -29,15 +32,16 @@ const ExerciseNavigator: React.FC<{
     >
       <nav aria-label="exercise navigator">
         <ul className="flex flex-col divide-y divide-gray-800/0 text-lg">
-          {module.exercises.map((exercise: Exercise, sectionIdx: number) => {
+          {exercises?.map((exercise: Exercise, sectionIdx: number) => {
+            //TODO treat this differently when a section is present as path will change
             const isActive =
               router.asPath ===
-              `/tutorials/${module.slug.current}/${exercise.slug}`
+              `${path}/${module.slug.current}/${exercise.slug}`
             const scrollToElement =
               router.asPath ===
-                `/tutorials/${module.slug.current}/${exercise.slug}/solution` ||
+                `${path}/${module.slug.current}/${exercise.slug}/solution` ||
               router.asPath ===
-                `/tutorials/${module.slug.current}/${exercise.slug}`
+                `${path}/${module.slug.current}/${exercise.slug}`
 
             return (
               <li key={exercise.slug} className="pt-2">

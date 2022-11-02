@@ -11,7 +11,7 @@ export const ExerciseSchema = z.object({
   slug: z.string(),
   description: z.nullable(z.string()).optional(),
   body: z.any().array(),
-  stackblitz: z.string().optional(),
+  stackblitz: z.nullable(z.string()).optional(),
   muxPlaybackId: z.nullable(z.string()).optional(),
   transcript: z.nullable(z.any().array()),
   solution: z

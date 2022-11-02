@@ -1,7 +1,7 @@
 import groq from 'groq'
 import {sanityClient} from 'utils/sanity-client'
 
-const tutorialsQuery = groq`*[_type == "module" && moduleType == 'tutorial' && state == 'published'] | order(_createdAt desc) {
+const workshopsQuery = groq`*[_type == "module" && moduleType == 'workshop'] | order(_createdAt desc) {
   _id,
   _type,
   title,
@@ -10,30 +10,38 @@ const tutorialsQuery = groq`*[_type == "module" && moduleType == 'tutorial' && s
   _updatedAt,
   _createdAt,
   description,
-  "exercises": resources[@->._type == 'exercise']->{
+  "sections": resources[@->._type == 'section']->{
     _id,
     _type,
     _updatedAt,
     title,
     description,
     "slug": slug.current,
-    "solution": resources[@._type == 'solution'][0]{
-      _key,
+    "exercises": resources[@->._type == 'exercise']->{
+      _id,
       _type,
-      "_updatedAt": ^._updatedAt,
+      _updatedAt,
       title,
       description,
       "slug": slug.current,
+      "solution": resources[@._type == 'solution'][0]{
+        _key,
+        _type,
+        "_updatedAt": ^._updatedAt,
+        title,
+        description,
+        "slug": slug.current,
+      }
     }
-    }
+  }
 }`
 
-export const getAllTutorials = async () =>
-  await sanityClient.fetch(tutorialsQuery)
+export const getAllWorkshops = async () =>
+  await sanityClient.fetch(workshopsQuery)
 
-export const getTutorial = async (slug: string) =>
+export const getWorkshop = async (slug: string) =>
   await sanityClient.fetch(
-    groq`*[_type == "module" && moduleType == 'tutorial' && slug.current == $slug][0]{
+    groq`*[_type == "module" && moduleType == 'workshop' && slug.current == $slug][0]{
         "id": _id,
         _type,
         title,
@@ -55,20 +63,28 @@ export const getTutorial = async (slug: string) =>
         ogImage,
         description,
         _updatedAt,
-        "exercises": resources[@->._type == 'exercise']->{
+        "sections": resources[@->._type == 'section']->{
           _id,
           _type,
           _updatedAt,
           title,
           description,
           "slug": slug.current,
-          "solution": resources[@._type == 'solution'][0]{
-            _key,
+          "exercises": resources[@->._type == 'exercise']->{
+            _id,
             _type,
-            "_updatedAt": ^._updatedAt,
+            _updatedAt,
             title,
             description,
             "slug": slug.current,
+            "solution": resources[@._type == 'solution'][0]{
+              _key,
+              _type,
+              "_updatedAt": ^._updatedAt,
+              title,
+              description,
+              "slug": slug.current,
+            }
           }
         },
         "image": image.asset->url
