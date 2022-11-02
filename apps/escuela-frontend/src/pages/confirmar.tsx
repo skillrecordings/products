@@ -1,5 +1,5 @@
 import React from 'react'
-import Layout from 'components/layout'
+import Layout from 'components/app/layout'
 import config from 'config'
 
 const ConfirmSubscriptionPage = () => {

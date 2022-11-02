@@ -1,6 +1,6 @@
 import React from 'react'
 import PortableTextComponents from 'components/portable-text'
-import Layout from 'components/layout'
+import Layout from 'components/app/layout'
 import {LinkedIn, Twitter} from '@skillrecordings/react'
 import {NextRouter, useRouter} from 'next/router'
 import Image from 'next/image'
@@ -13,6 +13,7 @@ import {getOgImage} from 'utils/get-og-image'
 import {isEmpty} from 'lodash'
 import SubscribeForm from 'components/subscribe-form'
 import TableOfContents from 'components/portable-text/table-of-contents'
+import Navigation from 'components/app/navigation'
 
 type ArticleTemplateProps = {
   article: SanityDocument
@@ -29,7 +30,7 @@ const ArticleTemplate: React.FC<ArticleTemplateProps> = ({article}) => {
   return (
     <Layout
       className="overflow-hidden"
-      nav
+      nav={<Navigation className="relative flex lg:relative" />}
       meta={{
         title,
         description: shortDescription,
@@ -44,11 +45,11 @@ const ArticleTemplate: React.FC<ArticleTemplateProps> = ({article}) => {
     >
       <Header {...article} />
       <main>
-        <div className="border-t border-slate-800/50 px-5 shadow-lg lg:px-0">
+        <div className="border-t border-b border-gray-800 bg-gray-800 px-5 shadow-lg lg:px-0">
           <TableOfContents value={body} />
         </div>
         <div className="mx-auto w-full max-w-screen-md px-5 pb-10 sm:pt-10 sm:pb-24 lg:px-0">
-          <article className="prose prose-lg max-w-none break-words pt-8 prose-headings:font-bold prose-h2:py-8 prose-a:decoration-indigo-500 prose-a:transition hover:prose-a:decoration-indigo-300 prose-code:text-[70%] md:prose-xl md:prose-code:text-sm md:prose-code:text-[80%] lg:prose-h2:text-5xl lg:prose-h3:text-4xl lg:prose-code:text-[80%]">
+          <article className="prose prose-lg max-w-none break-words pt-8 prose-headings:font-bold prose-h2:py-8 prose-a:decoration-yellow-500 prose-a:transition hover:prose-a:decoration-yellow-300 prose-code:text-[70%] md:prose-xl md:prose-code:text-sm md:prose-code:text-[80%] lg:prose-h2:text-5xl lg:prose-h3:text-4xl lg:prose-code:text-[80%]">
             <PortableText value={body} components={PortableTextComponents} />
           </article>
           <Signature />
@@ -85,8 +86,8 @@ const RelatedResources: React.FC<{resources: SanityDocument[]}> = ({
   return !isEmpty(resources) ? (
     <section className="mx-auto w-full px-5 pb-16 sm:pt-14 sm:pb-32">
       <div className="mx-auto flex w-full max-w-screen-md flex-col items-start justify-between sm:flex-row">
-        <div className="flex-shrink-0 pt-2 pb-4 font-medium uppercase text-slate-400 sm:pr-32 sm:pb-0 sm:text-lg">
-          Continue Reading
+        <div className="flex-shrink-0 pt-2 pb-4 font-medium uppercase text-gray-400 sm:pr-32 sm:pb-0 sm:text-lg">
+          Sigue leyendo
         </div>
         <div className="flex-grow">
           {resources.map(({title, subtitle, slug}) => {
@@ -98,7 +99,7 @@ const RelatedResources: React.FC<{resources: SanityDocument[]}> = ({
                   </a>
                 </Link>
                 {subtitle && (
-                  <p className="pt-2 text-lg text-slate-400 lg:text-xl">
+                  <p className="pt-2 text-lg text-gray-400 lg:text-xl">
                     {subtitle}
                   </p>
                 )}
@@ -118,10 +119,10 @@ const Header: React.FC<SanityDocument> = ({
   estimatedReadingTime,
 }) => {
   return (
-    <header className="relative flex flex-col items-center overflow-hidden px-5 pt-24 pb-8">
+    <header className="relative flex flex-col items-center overflow-hidden  px-5 pt-24 pb-8">
       <div className="relative z-10 mx-auto flex w-full max-w-screen-lg flex-col items-center">
         <Link passHref href="/articulos">
-          <a className="group relative rounded-lg bg-black/10 px-4 py-2 text-base font-normal opacity-80 transition hover:bg-slate-300 sm:text-lg">
+          <a className="group relative rounded-lg bg-gray-700 px-4 py-2 text-base font-normal opacity-80 transition hover:bg-gray-600 sm:text-lg">
             <span className="pr-1" role="presentation" aria-hidden="true">
               ←
             </span>{' '}
@@ -156,7 +157,7 @@ const Author = () => {
     <div className="col-span-3 flex items-center justify-center md:col-span-3 md:justify-start">
       <a
         href="https://twitter.com/escuelafrontend"
-        className="pl-2 leading-none decoration-indigo-500 underline-offset-1 hover:underline"
+        className="leading-none decoration-yellow-500 underline-offset-1 hover:underline"
         target="_blank"
         rel="noopener noreferrer"
       >

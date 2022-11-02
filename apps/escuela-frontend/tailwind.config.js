@@ -1,5 +1,6 @@
 /** @type {import('tailwindcss').Config} */
 const defaultTheme = require('tailwindcss/defaultTheme')
+const colors = require('tailwindcss/colors')
 
 module.exports = {
   content: [
@@ -16,10 +17,23 @@ module.exports = {
       fontFamily: {
         sans: [...defaultTheme.fontFamily.sans],
       },
-      colors: {},
+      colors: {brand: colors.yellow[500], gray: colors.stone},
+      screens: {
+        '2xl': '1820px',
+      },
       typography: (theme) => ({
         DEFAULT: {
-          css: {},
+          css: {
+            '*': {
+              color: theme('colors.white'),
+            },
+            'code::before': {
+              content: "''",
+            },
+            'code::after': {
+              content: "''",
+            },
+          },
         },
       }),
     },
