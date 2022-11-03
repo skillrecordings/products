@@ -28,13 +28,12 @@ import {Exercise, ExerciseSchema} from '../lib/exercises'
 import {useConvertkit} from 'hooks/use-convertkit'
 import {ArticleJsonLd} from '@skillrecordings/next-seo'
 
-const path = '/tutorials'
-
 const ExerciseTemplate: React.FC<{
   exercise: Exercise
   module: SanityDocument
+  section?: SanityDocument
   isSolution?: boolean
-}> = ({exercise, module, isSolution = false}) => {
+}> = ({exercise, section, module, isSolution = false}) => {
   const muxPlayerRef = React.useRef<HTMLDivElement>()
 
   exercise = ExerciseSchema.parse(isSolution ? exercise.solution : exercise)
@@ -44,6 +43,8 @@ const ExerciseTemplate: React.FC<{
   const pageTitle = `${title}`
   const pageDescription = exerciseDescription || moduleDescription
   const shareCard = ogImage ? {ogImage: {url: ogImage}} : {}
+  //TODO path here could also include module slug and section (as appropriate)
+  const path = `/${module.moduleType}s`
 
   return (
     <VideoProvider
@@ -76,11 +77,21 @@ const ExerciseTemplate: React.FC<{
             className="hidden lg:block"
             module={module}
             path={path}
+            section={section}
           />
           <main className="relative mx-auto max-w-[1480px] grow items-start border-t border-transparent lg:mt-16 2xl:flex 2xl:max-w-none 2xl:border-gray-800">
             <div className="border-gray-800 2xl:relative 2xl:h-full 2xl:w-full 2xl:border-r">
-              <Video ref={muxPlayerRef} module={module} exercise={exercise} />
-              <MobileLessonNavigator module={module} />
+              <Video
+                ref={muxPlayerRef}
+                module={module}
+                exercise={exercise}
+                section={section}
+              />
+              <MobileLessonNavigator
+                module={module}
+                section={section}
+                path={path}
+              />
               <div className="hidden 2xl:block 2xl:bg-black/20">
                 <VideoTranscript
                   exercise={exercise}
@@ -119,18 +130,20 @@ const ExerciseTemplate: React.FC<{
 
 type VideoProps = {
   module: SanityDocument
+  section?: SanityDocument
   exercise: Exercise
   ref: any
 }
 
 const Video: React.FC<VideoProps> = React.forwardRef(
-  ({module, exercise}, ref: any) => {
+  ({module, exercise, section}, ref: any) => {
     const {subscriber, loadingSubscriber} = useConvertkit()
     const isExercise = Boolean(exercise._type === 'exercise')
     const {muxPlayerProps, displayOverlay, nextExercise} = useMuxPlayer()
 
+    // TODO: handle section logic and remove !section
     const canShowVideo =
-      (subscriber || exercise._id === module.exercises[0]._id) &&
+      (subscriber || (!section && exercise._id === module.exercises[0]._id)) &&
       exercise.muxPlaybackId
 
     return (
@@ -325,18 +338,21 @@ const VideoTranscript: React.FC<{
   )
 }
 
-const MobileLessonNavigator: React.FC<{module: SanityDocument}> = ({
-  module,
-}) => {
+const MobileLessonNavigator: React.FC<{
+  module: SanityDocument
+  section?: SanityDocument
+  path: string
+}> = ({module, path, section}) => {
   return (
     <details className="group block border-t-2 border-gray-900 lg:hidden">
       <summary className="no-marker flex cursor-pointer items-center gap-1 bg-black/50 px-4 py-3 font-medium transition marker:content-[''] after:absolute after:right-3 after:flex after:h-6 after:w-6 after:rotate-180 after:items-center after:justify-center after:rounded-full after:bg-gray-800 after:text-lg after:content-['↑'] group-open:after:rotate-0 hover:bg-gray-800">
         {module.title} {capitalize(module.moduleType)}{' '}
         <span className="opacity-80">
-          ({module.exercises.length} exercises)
+          ({section ? section.exercises.length : module.exercises.length}{' '}
+          exercises)
         </span>
       </summary>
-      <ExerciseSidebar module={module} path={path} />
+      <ExerciseSidebar module={module} path={path} section={section} />
     </details>
   )
 }
