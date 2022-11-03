@@ -11,17 +11,7 @@ const Answer: React.FC<React.PropsWithChildren<{questionSet: QuestionSet}>> = ({
   questionSet,
 }) => {
   return (
-    <Layout noIndex meta={{title: 'Quiz'}} className="bg-gray-900">
-      <header className="flex w-full items-center justify-center pt-5 pb-5 sm:pt-16 sm:pb-0">
-        <div className="w-40 sm:w-auto">
-          <Image
-            src="https://res.cloudinary.com/pro-tailwind/image/upload/v1657615698/email-course/pro-tailwind-quiz_2x_bgwnsh.png"
-            alt="Pro Tailwind Quiz"
-            width={462 / 2.5}
-            height={84 / 2.5}
-          />
-        </div>
-      </header>
+    <Layout noIndex meta={{title: 'Quiz'}}>
       <div className="flex h-full w-full flex-col items-center justify-center sm:py-16">
         <QuizAnswerPage
           questionSet={questionSet}

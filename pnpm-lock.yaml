@@ -1571,6 +1571,7 @@ importers:
   apps/protailwind:
     specifiers:
       '@amplitude/analytics-browser': ^1.3.0
+      '@codesandbox/sandpack-react': ^1.8.6
       '@heroicons/react': ^1.0.6
       '@mdx-js/loader': ^2.1.5
       '@mdx-js/react': ^2.1.5
@@ -1654,6 +1655,7 @@ importers:
       zod: ^3.19.1
     dependencies:
       '@amplitude/analytics-browser': 1.3.0
+      '@codesandbox/sandpack-react': 1.8.6_biqbaboplfbrettd7655fr4n2y
       '@heroicons/react': 1.0.6_react@18.2.0
       '@mdx-js/loader': 2.1.5
       '@mdx-js/react': 2.1.5_react@18.2.0
