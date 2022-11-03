@@ -279,6 +279,7 @@ export function getSdk(
                   usedCount: true,
                 },
               },
+              redeemedBulkCouponId: true,
               product: {
                 select: {
                   id: true,
