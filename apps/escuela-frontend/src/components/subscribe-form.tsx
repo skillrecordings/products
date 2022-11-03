@@ -14,8 +14,8 @@ const SubscribeForm = () => {
       </div>
       <div className="relative flex w-full flex-col items-center justify-center px-5 pt-28 pb-32 sm:pb-48">
         <div className="pb-16 text-center">
-          <h2 className="font-heading max-w-lg text-[2rem] font-bold leading-tight sm:text-4xl md:max-w-screen-md md:text-5xl lg:text-5xl">
-            Domina el ecosistema de JavaScript hoy!
+          <h2 className="mx-6 mt-12 mb-4 w-[400px] bg-gradient-to-b from-white to-gray-200 bg-clip-text text-center font-heading text-4xl font-extrabold leading-tight text-transparent sm:text-4xl md:!w-full md:text-5xl lg:text-6xl">
+            Domina el Universo Front-End
           </h2>
         </div>
         <SubscribeToConvertkitForm
