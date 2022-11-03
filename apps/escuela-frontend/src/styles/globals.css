@@ -9,17 +9,3 @@
 @tailwind utilities;
 @import './focus-visible.css';
 @import './fonts.css';
-
-body {
-  @apply overflow-y-scroll;
-}
-
-.no-marker {
-  ::-webkit-details-marker {
-    display: none;
-  }
-}
-
-.simplebar-scrollbar:before {
-  @apply bg-white/50;
-}
