@@ -1,14 +1,14 @@
 import React from 'react'
 import ExerciseTemplate from 'templates/exercise-template'
 import {GetStaticPaths, GetStaticProps} from 'next'
-import {getAllTutorials, getModule} from 'lib/tutorials'
+import {getAllTutorials, getTutorial} from 'lib/tutorials'
 import {getExercise} from 'lib/exercises'
 
 export const getStaticProps: GetStaticProps = async (context) => {
   const {params} = context
   const exerciseSlug = params?.exercise as string
 
-  const module = await getModule(params?.module as string)
+  const module = await getTutorial(params?.module as string)
   const exercise = await getExercise(exerciseSlug)
 
   return {
