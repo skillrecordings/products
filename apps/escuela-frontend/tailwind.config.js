@@ -20,7 +20,7 @@ module.exports = {
         heading: ['Gela', ...defaultTheme.fontFamily.sans],
       },
       colors: {
-        brand: colors.red[500],
+        brand: colors.orange[400],
         gray: {
           0: '#ffffff',
           100: '#dadadb',

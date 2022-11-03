@@ -32,7 +32,7 @@ export default Home
 const Header: React.FC<HeaderProps> = ({image}) => {
   return (
     <>
-      <header className="relative z-0 -mt-40 ">
+      <header className="relative z-0 -mt-52">
         {image && (
           <Image
             className="h-full w-full object-cover object-bottom"
@@ -45,7 +45,7 @@ const Header: React.FC<HeaderProps> = ({image}) => {
             objectFit="cover"
           />
         )}
-        <div className="absolute inset-0 bg-gray-700 mix-blend-multiply" />
+        <div className="absolute inset-0 bg-gradient-to-t from-gray-600 via-gray-600 to-gray-900 mix-blend-multiply" />
         <div
           className={cx(
             'relative flex min-h-screen w-full flex-col items-center justify-center',
@@ -55,7 +55,7 @@ const Header: React.FC<HeaderProps> = ({image}) => {
           )}
         >
           <div className="z-10 flex h-full w-full flex-col items-center justify-center">
-            <h1 className="mx-6 mt-12 mb-4 w-[400px] bg-gradient-to-b from-white to-gray-200 bg-clip-text text-center font-heading text-4xl font-extrabold leading-tight  text-transparent sm:text-4xl md:!w-full md:text-5xl lg:text-6xl">
+            <h1 className="mx-6 mt-12 mb-4 bg-gradient-to-b from-white to-gray-200 bg-clip-text text-center font-heading text-4xl font-extrabold leading-tight  text-transparent sm:text-4xl md:!w-full md:text-5xl lg:text-6xl">
               Domina el Universo Front-End
             </h1>
             <p className="font-space-grotesk mx-6 max-h-[112px] w-[280px] text-center text-base text-gray-200 md:max-h-[96px] md:w-[630px] md:text-xl">

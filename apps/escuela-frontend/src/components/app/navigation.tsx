@@ -33,14 +33,19 @@ const Navigation: React.FC<React.PropsWithChildren<Props>> = ({
 const DesktopNav = () => {
   return (
     <ul className="flex items-center">
-      <NavLink
-        href="/articulos"
-        icon={
-          <SparklesIcon className="h-5 w-5 text-gray-200" aria-hidden="true" />
-        }
-      >
-        Artículos
-      </NavLink>
+      <li>
+        <NavLink
+          href="/articulos"
+          icon={
+            <SparklesIcon
+              className="h-5 w-5 text-gray-100"
+              aria-hidden="true"
+            />
+          }
+        >
+          Artículos
+        </NavLink>
+      </li>
     </ul>
   )
 }
@@ -64,9 +69,9 @@ const NavLink: React.FC<NavLinkProps> = ({
       <a
         aria-current={isActive ? 'page' : undefined}
         className={cx(
-          'flex h-full items-center gap-0.5 px-2 text-sm font-medium transition duration-100 hover:bg-gray-700 active:bg-transparent sm:gap-1 sm:px-5 sm:text-base',
+          'flex h-full items-center gap-0.5 px-2 text-sm font-medium text-gray-100 transition duration-100 hover:text-white  active:bg-transparent sm:gap-1 sm:px-5 ',
           {
-            'rounded-md bg-gray-800': isActive,
+            ' text-white': isActive,
           },
         )}
         {...props}
@@ -92,7 +97,7 @@ export const NavLogo: React.FC<{className?: string}> = ({className}) => {
         tabIndex={router.pathname === '/' ? -1 : 0}
       >
         <div
-          className={`font-fibra flex items-center space-x-2 text-2xl font-bold leading-tight tracking-tight transition-colors duration-100 ease-in-out hover:text-gray-900 dark:hover:text-white sm:text-3xl ${className}`}
+          className={`font-fibra flex items-center space-x-2 text-2xl font-bold leading-tight tracking-tight text-gray-100 transition-colors duration-100 ease-in-out hover:text-white  sm:text-3xl ${className}`}
         >
           <span className="bg-gradient-to-b from-white to-gray-200 bg-clip-text text-lg font-bold">
             <span className="font-heading">E</span>scuela{' '}

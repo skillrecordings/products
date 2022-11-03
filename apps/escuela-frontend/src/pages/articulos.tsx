@@ -24,7 +24,7 @@ const Articles: React.FC<ArticlesProps> = ({articles}) => {
       nav={<Navigation className="relative flex lg:relative" />}
     >
       <header className="relative overflow-hidden px-5 pt-20 pb-10 text-white md:pt-24 md:pb-16 lg:py-28">
-        <h1 className="mx-6 mt-12 mb-4 w-[400px] bg-gradient-to-b from-white to-gray-200 bg-clip-text text-center font-heading text-4xl font-extrabold leading-tight text-transparent sm:text-4xl md:!w-full md:text-5xl lg:text-6xl">
+        <h1 className="mt-12 mb-4 bg-gradient-to-b from-white to-gray-200 bg-clip-text text-center font-heading text-4xl font-extrabold leading-tight text-transparent sm:text-4xl md:text-5xl lg:text-6xl">
           {meta.title}
         </h1>
       </header>
@@ -42,8 +42,8 @@ const Articles: React.FC<ArticlesProps> = ({articles}) => {
                   estimatedReadingTime,
                 }: SanityDocument) => {
                   return (
-                    <div key={slug} className="gap-5  p-8">
-                      <div className="justify-left flex w-full sm:justify-between">
+                    <div key={slug} className="gap-5 p-8">
+                      <div className=" flex w-full justify-between text-center">
                         <div className="">
                           <div className="mb-2 text-sm text-gray-300">
                             Tiempo Estimado: {estimatedReadingTime}m
@@ -58,9 +58,9 @@ const Articles: React.FC<ArticlesProps> = ({articles}) => {
                               {description}
                             </Markdown>
                           )}
-                          <div className="mt-6 flex w-full items-center space-x-5">
+                          <div className="mt-6 flex items-center justify-center space-x-5">
                             <Link href={`/${slug}`} passHref>
-                              <a className="focus-visible:ring-bg-brand/70 mt-4 inline-flex items-center justify-center rounded-md  bg-brand px-4 py-4 pt-4 pb-4 text-lg font-bold text-white transition hover:bg-brand/90 hover:bg-opacity-100">
+                              <a className="focus-visible:ring-bg-brand/70 mt-4 inline-flex items-center justify-center rounded-md bg-brand px-4 py-4 pt-4 pb-4 text-base font-bold text-gray-900 transition hover:bg-brand/90 hover:bg-opacity-100">
                                 Leer Artículo
                                 <i aria-hidden className="pl-2">
                                   →
