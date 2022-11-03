@@ -5,6 +5,8 @@ import createSchema from 'part:@sanity/base/schema-creator'
 import schemaTypes from 'all:part:@sanity/base/schema-type'
 // documents
 import article from './documents/article'
+import tip from './documents/tip'
+import videoResource from './documents/videoResource'
 // objects
 import bodyVideo from './objects/bodyVideo'
 import bodyImage from './objects/bodyImage'
@@ -14,6 +16,9 @@ import divider from './objects/divider'
 import externalImage from './objects/externalImage'
 import mediaCaption from './objects/mediaCaption'
 import videoOptions from './objects/videoOptions'
+import tweet from './objects/tweet'
+import muxAsset from './objects/muxAsset'
+import castingwordsTranscript from './objects/castingwordsTranscript'
 
 // Then we give our schema to the builder and provide the result to Sanity
 export default createSchema({
@@ -27,6 +32,8 @@ export default createSchema({
 
     // documents
     article,
+    tip,
+    videoResource,
 
     //objects
     body,
@@ -37,6 +44,9 @@ export default createSchema({
     externalImage,
     mediaCaption,
     videoOptions,
+    tweet,
+    muxAsset,
+    castingwordsTranscript,
     // When added to this list, object types can be used as
     // { type: 'typename' } in other document schemas
   ]),

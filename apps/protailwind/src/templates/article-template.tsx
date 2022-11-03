@@ -29,7 +29,6 @@ const ArticleTemplate: React.FC<ArticleTemplateProps> = ({article}) => {
 
   return (
     <Layout
-      className="overflow-hidden"
       nav
       meta={{
         title: metaTitle || title,
@@ -46,11 +45,11 @@ const ArticleTemplate: React.FC<ArticleTemplateProps> = ({article}) => {
       <ArticleMeta article={article} shortDescription={shortDescription} />
       <Header {...article} />
       <main>
-        <div className="bg-slate-800/40 border-t border-slate-800/50 lg:px-0 px-5 shadow-lg">
+        <div className="bg-gray-50 border-t border-gray-200/60 lg:px-0 px-5 shadow-lg shadow-black/5">
           <TableOfContents value={body} />
         </div>
         <div className="max-w-screen-md mx-auto w-full sm:pt-10 lg:px-0 px-5 sm:pb-24 pb-10">
-          <article className="pt-8 prose-a:decoration-indigo-500 hover:prose-a:decoration-indigo-300 prose-a:transition prose prose-lg prose-h2:py-8 md:prose-xl lg:prose-h2:text-5xl lg:prose-h3:text-4xl prose-headings:font-bold md:prose-code:text-sm lg:prose-code:text-[80%] md:prose-code:text-[80%] prose-code:text-[70%] max-w-none">
+          <article className="pt-8 prose-a:text-blue-600 prose-a:transition prose  sm:prose-lg  prose-headings:font-black md:prose-code:text-sm lg:prose-code:text-[80%] md:prose-code:text-[80%] prose-code:text-[70%] max-w-none">
             <PortableText value={body} components={PortableTextComponents} />
           </article>
           <Signature />
@@ -74,7 +73,7 @@ const RelatedResources: React.FC<{
   return !isEmpty(resources) ? (
     <section className="px-5 w-full mx-auto sm:pt-14 sm:pb-32 pb-16">
       <div className="flex sm:flex-row flex-col items-start justify-between max-w-screen-md mx-auto w-full">
-        <div className="sm:text-lg uppercase font-medium text-slate-400 flex-shrink-0 sm:pr-32 pt-2 sm:pb-0 pb-4">
+        <div className="uppercase font-semibold text-gray-600 flex-shrink-0 sm:pr-32 pt-2 sm:pb-0 pb-4">
           Continue Reading
         </div>
         <div className="flex-grow">
@@ -82,12 +81,12 @@ const RelatedResources: React.FC<{
             return (
               <div key={title}>
                 <Link href={`/${slug}`}>
-                  <a className="lg:text-3xl text-2xl transition font-semibold hover:underline">
+                  <a className="lg:text-3xl text-2xl transition font-black font-heading hover:underline">
                     {title}
                   </a>
                 </Link>
                 {subtitle && (
-                  <p className="lg:text-xl text-lg text-slate-400 pt-2">
+                  <p className="lg:text-xl text-lg text-brand-red pt-2 max-w-sm">
                     {subtitle}
                   </p>
                 )}
@@ -107,40 +106,40 @@ const Header: React.FC<Article> = ({
   estimatedReadingTime,
 }) => {
   return (
-    <header className="flex flex-col items-center relative px-5 pt-24 pb-8 overflow-hidden text-white bg-slate-800/40">
+    <header className="flex flex-col items-center relative px-5 sm:pt-10 pb-8 overflow-hidden">
       <div className="flex flex-col items-center max-w-screen-lg mx-auto w-full relative z-10">
-        <Link passHref href="/articles">
+        {/* <Link passHref href="/articles">
           <a className="sm:text-lg text-base group text-white relative hover:text-white font-normal px-4 py-2 hover:bg-opacity-10 bg-opacity-0 bg-white rounded-lg transition opacity-80 hover:opacity-80 focus-visible:ring-white focus-visible:opacity-100">
             <span className="pr-1" role="presentation" aria-hidden="true">
               ←
             </span>{' '}
             All Articles
           </a>
-        </Link>
+        </Link> */}
         <div className="pt-10 pb-24 flex flex-col items-center justify-center text-center">
-          <h1 className="font-heading font-bold mx-auto leading-none text-4xl sm:text-5xl lg:text-6xl py-4">
+          <h1 className="font-heading font-black mx-auto leading-none text-3xl sm:text-4xl lg:text-5xl py-4">
             {title}
           </h1>
           {subtitle && (
-            <h2 className="pt-2 sm:text-2xl text-xl leading-tight text-indigo-400 brightness-125 max-w-xl mx-auto">
+            <h2 className="pt-5 sm:text-xl font-medium text-lg leading-tight text-brand-red max-w-md mx-auto">
               {subtitle}
             </h2>
           )}
         </div>
-        <div className="flex flex-wrap items-center sm:justify-between justify-center w-full gap-10 max-w-screen-md leading-none text-lg">
+        <div className="flex flex-wrap items-center sm:justify-between justify-center w-full gap-10 max-w-screen-md leading-none sm:text-lg">
           <Author />
           <div className="flex gap-16 sm:text-left">
             <div>
-              <div className="text-sm tracking-wide uppercase font-semibold text-slate-400 pb-1.5">
+              <div className="text-sm tracking-wide uppercase font-semibold text-gray-500 pb-1.5">
                 Time to read
               </div>
               <div>
-                <span className="text-slate-400">~</span>
+                <span className="text-gray-500">~</span>
                 {estimatedReadingTime}m
               </div>
             </div>
             <time dateTime={date}>
-              <div className="text-sm tracking-wide uppercase font-semibold text-slate-400 pb-1.5">
+              <div className="text-sm tracking-wide uppercase font-semibold text-gray-500 pb-1.5">
                 published
               </div>
               <div>{format(new Date(date), 'dd MMMM, y')}</div>
@@ -180,7 +179,7 @@ const Signature = () => {
   return (
     <svg
       aria-hidden="true"
-      className="w-28 mt-8 text-slate-300"
+      className="w-28 mt-8 text-gray-800"
       viewBox="0 0 102 55"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"

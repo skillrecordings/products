@@ -1571,7 +1571,10 @@ importers:
   apps/protailwind:
     specifiers:
       '@heroicons/react': ^1.0.6
+      '@mdx-js/loader': ^2.1.5
+      '@mdx-js/react': ^2.1.5
       '@next/env': ^12.2.3
+      '@next/mdx': ^13.0.0
       '@portabletext/react': ^1.0.6
       '@portabletext/types': ^1.0.3
       '@radix-ui/react-dropdown-menu': ^1.0.0
@@ -1595,9 +1598,12 @@ importers:
       '@skillrecordings/time': workspace:*
       '@skillrecordings/tsconfig': workspace:*
       '@skillrecordings/types': workspace:*
+      '@tailwindcss/typography': ^0.5.7
       '@types/cookie': ^0.4.1
       '@types/jest': ^27.5.2
       '@types/lodash': ^4.14.179
+      '@types/mdx': ^2.0.2
+      '@types/mdx-js__react': ^1.5.5
       '@types/node': ^17.0.0
       '@types/nodemailer': ^6.4.4
       '@types/react': ^18.0.15
@@ -1617,7 +1623,6 @@ importers:
       groq: ^2.15.0
       leva: ^0.9.27
       next: ^12.3.1
-      next-compose-plugins: ^2.2.1
       next-sitemap: ^3.0.5
       postcss: ^8.4.14
       react: 18.2.0
@@ -1635,6 +1640,9 @@ importers:
       zod: ^3.19.1
     dependencies:
       '@heroicons/react': 1.0.6_react@18.2.0
+      '@mdx-js/loader': 2.1.5
+      '@mdx-js/react': 2.1.5_react@18.2.0
+      '@next/mdx': 13.0.1_wuv4qx5dshjptmdbtsqqkih5iu
       '@portabletext/react': 1.0.6_react@18.2.0
       '@radix-ui/react-dropdown-menu': 1.0.0_bb2bxwco6ptpubzwpazr52qf6i
       '@react-three/drei': 8.16.0_zh3qwjj5yfyqyzqfoqzgw3cf4i
@@ -1653,6 +1661,7 @@ importers:
       '@skillrecordings/react': link:../../packages/react
       '@skillrecordings/skill-api': link:../../packages/skill-api
       '@skillrecordings/time': link:../../packages/time
+      '@tailwindcss/typography': 0.5.7_tailwindcss@3.1.4
       '@xstate/react': 1.5.1_bpg42ha2il6pcyn3wrx2rxrchm
       classnames: 2.3.1
       date-fns: 2.28.0
@@ -1663,7 +1672,6 @@ importers:
       groq: 2.15.0
       leva: 0.9.27_biqbaboplfbrettd7655fr4n2y
       next: 12.3.1_biqbaboplfbrettd7655fr4n2y
-      next-compose-plugins: 2.2.1
       next-sitemap: 3.1.7_3k5vmi4j6sdban7pt73cm6gfhu
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
@@ -1685,6 +1693,8 @@ importers:
       '@types/cookie': 0.4.1
       '@types/jest': 27.5.2
       '@types/lodash': 4.14.180
+      '@types/mdx': 2.0.2
+      '@types/mdx-js__react': 1.5.5
       '@types/node': 17.0.41
       '@types/nodemailer': 6.4.4
       '@types/react': 18.0.15
@@ -8271,6 +8281,17 @@ packages:
       - supports-color
     dev: false
 
+  /@mdx-js/loader/2.1.5:
+    resolution: {integrity: sha512-oXjfTa/iAcMmW8DdQ+hQFodPCLqw5VKT2yoZkLwrZfPVVpUgKrI+5/ZePYq328xxtAUStZmR3ed0PWJrwd5Pkg==}
+    peerDependencies:
+      webpack: '>=4'
+    dependencies:
+      '@mdx-js/mdx': 2.1.2
+      source-map: 0.7.3
+    transitivePeerDependencies:
+      - supports-color
+    dev: false
+
   /@mdx-js/mdx/1.6.22:
     resolution: {integrity: sha512-AMxuLxPz2j5/6TpF/XSdKpQP1NlG0z11dFOlq+2IP/lSgl11GY8ji6S/rgsViN/L0BDvHvUMruRb7ub+24LUYA==}
     dependencies:
@@ -8363,6 +8384,16 @@ packages:
 
   /@mdx-js/react/2.1.3_react@18.2.0:
     resolution: {integrity: sha512-11n4lTvvRyxq3OYbWJwEYM+7q6PE0GxKbk0AwYIIQmrRkxDeljIsjDQkKOgdr/orgRRbYy5zi+iERdnwe01CHQ==}
+    peerDependencies:
+      react: '>=16'
+    dependencies:
+      '@types/mdx': 2.0.2
+      '@types/react': 18.0.15
+      react: 18.2.0
+    dev: false
+
+  /@mdx-js/react/2.1.5_react@18.2.0:
+    resolution: {integrity: sha512-3Az1I6SAWA9R38rYjz5rXBrGKeZhq96CSSyQtqY+maPj8stBsoUH5pNcmIixuGkufYsh8F5+ka2CVPo2fycWZw==}
     peerDependencies:
       react: '>=16'
     dependencies:
@@ -8629,6 +8660,16 @@ packages:
     dependencies:
       '@mdx-js/loader': 2.1.3_webpack@5.73.0
       '@mdx-js/react': 2.1.3_react@18.2.0
+    dev: false
+
+  /@next/mdx/13.0.1_wuv4qx5dshjptmdbtsqqkih5iu:
+    resolution: {integrity: sha512-7h/EEs7JbLkDnVhvNE3D33k8vLJbQzKh+Zg0qvYulnpze96zjL4ZCd9qOeDCqNAATgZhpSbvQ9ujYLRFBJpHCQ==}
+    peerDependencies:
+      '@mdx-js/loader': '>=0.15.0'
+      '@mdx-js/react': '*'
+    dependencies:
+      '@mdx-js/loader': 2.1.5
+      '@mdx-js/react': 2.1.5_react@18.2.0
     dev: false
 
   /@next/swc-android-arm-eabi/12.3.0:
@@ -10788,6 +10829,18 @@ packages:
       lodash.isplainobject: 4.0.6
       lodash.merge: 4.6.2
       tailwindcss: 3.1.6_postcss@8.4.14
+    dev: false
+
+  /@tailwindcss/typography/0.5.7_tailwindcss@3.1.4:
+    resolution: {integrity: sha512-JTTSTrgZfp6Ki4svhPA4mkd9nmQ/j9EfE7SbHJ1cLtthKkpW2OxsFXzSmxbhYbEkfNIyAyhle5p4SYyKRbz/jg==}
+    peerDependencies:
+      tailwindcss: '>=3.0.0 || insiders'
+    dependencies:
+      lodash.castarray: 4.4.0
+      lodash.isplainobject: 4.0.6
+      lodash.merge: 4.6.2
+      postcss-selector-parser: 6.0.10
+      tailwindcss: 3.1.4_postcss@8.4.14
     dev: false
 
   /@tanstack/query-core/4.10.3:

@@ -63,7 +63,7 @@ const TableOfContents = ({value}: PortableTextProps) => {
         {props.outline.map((heading: any) => {
           const {subheadings} = heading
           return (
-            <li key={heading._key} className="sm:text-xl text-lg">
+            <li key={heading._key} className="sm:text-lg">
               <Link href={'#' + heading.slug}>
                 <a className="hover:underline inline-flex sm:py-2 py-1 font-medium">
                   {getChildrenText(heading)}
@@ -75,7 +75,7 @@ const TableOfContents = ({value}: PortableTextProps) => {
                     return (
                       <li key={subheading._key}>
                         <Link href={'#' + subheading.slug}>
-                          <a className="pl-6 inline-flex border-l border-slate-700 hover:underline sm:py-2 py-1 font-normal">
+                          <a className="pl-6 inline-flex border-l border-gray-200 hover:underline sm:py-2 py-1 font-normal">
                             {getChildrenText(subheading)}
                           </a>
                         </Link>
@@ -98,16 +98,16 @@ const TableOfContents = ({value}: PortableTextProps) => {
       aria-label="On this page"
       className="group marker:text-transparent no-marker font-medium sm:text-xl text-lg max-w-screen-md w-full mx-auto"
     >
-      <summary className="hover:cursor-pointer  flex items-center justify-between">
-        <span className="text-slate-400 group-hover:text-slate-200 transition uppercase text-base sm:py-5 py-3">
-          On this page
-        </span>
+      <summary className="hover:cursor-pointer flex items-center">
         <span
           aria-hidden="true"
-          className="opacity-60 group-hover:opacity-100 h-16 px-5 group-hover:bg-slate-800/40 flex items-center justify-center transition"
+          className="opacity-60 group-hover:opacity-100 h-16 px-5 flex items-center justify-center transition"
         >
           <ChevronDownIcon className="group-open:hidden w-4 h-4" />
           <ChevronUpIcon className="group-open:block hidden w-4 h-4" />
+        </span>
+        <span className="text-gray-800 group-hover:text-gray-900 transition uppercase text-base sm:py-5 py-3">
+          On this page
         </span>
       </summary>
       <div className="pb-4">

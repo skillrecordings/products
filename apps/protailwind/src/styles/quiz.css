@@ -35,7 +35,7 @@
       @apply w-full;
     }
     label {
-      @apply flex  items-center p-5 border border-transparent rounded-md bg-slate-800/50 hover:bg-slate-800 transition-all ease-in-out duration-100;
+      @apply flex  items-center p-5 border border-transparent rounded-md bg-gray-800/50 hover:bg-gray-800 transition-all ease-in-out duration-100;
     }
     input {
       @apply mr-2 accent-indigo-500;
@@ -78,7 +78,7 @@
       @apply font-medium;
     }
     textarea {
-      @apply w-full p-3 bg-slate-800 border border-slate-700 rounded-lg;
+      @apply w-full p-3 bg-gray-800 border border-gray-700 rounded-lg;
     }
   }
   [data-sr-quiz-question-input='error'] {
@@ -89,7 +89,7 @@
 
   /* ——— ANSWER ——— */
   [data-sr-quiz-question-answer] {
-    @apply p-5 bg-slate-800 rounded-lg mt-4 prose sm:prose-lg prose-code:bg-slate-800 prose-code:px-1 prose-code:py-0.5 prose-code:rounded-md sm:prose-code:text-sm prose-code:text-xs prose-code:font-bold pt-5 max-w-none;
+    @apply p-5 bg-gray-800 rounded-lg mt-4 prose sm:prose-lg prose-code:bg-gray-800 prose-code:px-1 prose-code:py-0.5 prose-code:rounded-md sm:prose-code:text-sm prose-code:text-xs prose-code:font-bold pt-5 max-w-none;
     pre {
       @apply p-0 mb-5;
     }
