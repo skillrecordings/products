@@ -1,15 +1,21 @@
 /* ——— QUIZ ——— */
 [data-sr-quiz] {
-  @apply p-5 w-full flex flex-col items-center justify-center;
+  @apply flex w-full flex-col items-center justify-center p-5;
+  nav {
+    @apply bg-white;
+    span {
+      @apply text-gray-500;
+    }
+  }
 }
 
 /* ——— QUESTION ——— */
 [data-sr-quiz-question] {
-  @apply w-full max-w-screen-sm mx-auto;
+  @apply mx-auto w-full max-w-screen-sm;
 
   /* ——— HEADER ——— */
   [data-sr-quiz-question-header] {
-    @apply prose md:prose-2xl sm:prose-xl prose-lg md:leading-tight sm:leading-tight leading-tight prose-p:font-medium pb-6 max-w-none w-full;
+    @apply prose w-full max-w-none pb-6 prose-p:font-medium sm:prose-lg;
 
     pre {
       @apply p-0;
@@ -35,16 +41,16 @@
       @apply w-full;
     }
     label {
-      @apply flex  items-center p-5 border border-transparent rounded-md bg-gray-800/50 hover:bg-gray-800 transition-all ease-in-out duration-100;
+      @apply flex  items-center rounded-md border border-transparent bg-white p-5 shadow-2xl shadow-gray-500/20 transition-all duration-100 ease-in-out;
     }
     input {
-      @apply mr-2 accent-indigo-500;
+      @apply mr-2 accent-blue-500;
     }
     p {
       @apply flex-grow leading-tight;
     }
     span {
-      @apply px-2 py-0.5 pb-1 font-medium text-xs leading-none rounded-full;
+      @apply rounded-full px-2 py-0.5 pb-1 text-xs font-medium leading-none;
     }
   }
 
@@ -65,7 +71,7 @@
 
   [data-sr-quiz-question-choice='incorrect'] {
     label {
-      @apply border-pink-500 cursor-default;
+      @apply cursor-default border-pink-500;
     }
     span {
       @apply bg-pink-500 text-white;
@@ -78,7 +84,7 @@
       @apply font-medium;
     }
     textarea {
-      @apply w-full p-3 bg-gray-800 border border-gray-700 rounded-lg;
+      @apply w-full rounded-lg border border-gray-200 bg-gray-100 p-3;
     }
   }
   [data-sr-quiz-question-input='error'] {
@@ -89,22 +95,22 @@
 
   /* ——— ANSWER ——— */
   [data-sr-quiz-question-answer] {
-    @apply p-5 bg-gray-800 rounded-lg mt-4 prose sm:prose-lg prose-code:bg-gray-800 prose-code:px-1 prose-code:py-0.5 prose-code:rounded-md sm:prose-code:text-sm prose-code:text-xs prose-code:font-bold pt-5 max-w-none;
+    @apply prose mt-4 max-w-none rounded-lg bg-gray-800 p-5 pt-5 prose-code:rounded-md prose-code:bg-gray-800 prose-code:px-1 prose-code:py-0.5 prose-code:text-xs prose-code:font-bold sm:prose-lg sm:prose-code:text-sm;
     pre {
-      @apply p-0 mb-5;
+      @apply mb-5 p-0;
     }
   }
 
   /* ——— FOOTER ——— */
   [data-sr-quiz-question-footer] {
-    @apply prose sm:prose-lg px-5 py-1 max-w-none text-center sm:leading-tight leading-tight mt-5;
+    @apply prose mt-5 max-w-none px-5 py-1 text-center;
   }
 
   /* —— SUBMIT —— */
   [data-sr-button] {
-    @apply mt-5 text-white inline-flex items-center px-6 py-3 text-lg leading-6 font-semibold rounded-lg border-none bg-indigo-600 hover:bg-indigo-500 hover:shadow-xl transition hover:scale-105 ease-in-out duration-300 shadow-xl cursor-pointer;
+    @apply mt-5 inline-flex cursor-pointer items-center rounded-full border-none bg-blue-600 px-6 py-3 text-lg font-semibold leading-6 text-white shadow-xl transition duration-300 ease-in-out hover:scale-105 hover:bg-blue-500 hover:shadow-xl;
     svg {
-      @apply text-indigo-300 animate-spin w-6 h-6;
+      @apply h-6 w-6 animate-spin text-indigo-300;
     }
   }
 

@@ -45,6 +45,7 @@
     "@skillrecordings/quiz": "workspace:*",
     "@skillrecordings/react": "workspace:*",
     "@skillrecordings/skill-api": "workspace:*",
+    "@skillrecordings/time": "workspace:*",
     "@stackblitz/sdk": "^1.8.0",
     "@tailwindcss/typography": "^0.5.2",
     "@trpc/client": "^9.27.2",
