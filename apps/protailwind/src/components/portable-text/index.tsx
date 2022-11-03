@@ -45,7 +45,7 @@ const Video: React.FC<{url: string; title: string}> = ({url, title}) => {
   return (
     <div className="">
       {title && (
-        <strong className="font-semibold inline-block pb-2">
+        <strong className="inline-block pb-2 font-semibold">
           <span className="sr-only">Video:</span> {title}
         </strong>
       )}
@@ -56,7 +56,7 @@ const Video: React.FC<{url: string; title: string}> = ({url, title}) => {
           relative: !isFullscreen,
         })}
       >
-        <div className="rounded-md overflow-hidden">
+        <div className="overflow-hidden rounded-md">
           <Player
             enableGlobalShortcuts={false}
             aria-label={title}
@@ -81,7 +81,7 @@ const BodyImage = ({value}: BodyImageProps) => {
   const Figure = () => {
     return (
       <figure
-        className={cx('flex items-center justify-center relative', {
+        className={cx('relative flex items-center justify-center', {
           'bg-gray-800/20': isLoading,
         })}
       >
@@ -96,7 +96,7 @@ const BodyImage = ({value}: BodyImageProps) => {
           quality={100}
           className="rounded-md"
         />
-        {isLoading && <Spinner className="w-8 h-8 absolute" />}
+        {isLoading && <Spinner className="absolute h-8 w-8" />}
         {caption && (
           <figcaption>
             <PortableText value={caption} />
@@ -156,7 +156,7 @@ const HighlightedCode: React.FC<CodeProps> = ({value}) => {
       </pre>
       <pre
         aria-hidden="true"
-        className="sm:mx-0 -mx-5 sm:rounded-lg rounded-none p-5 md:leading-tight md:text-lg text-lg leading-[1.15]"
+        className="-mx-5 rounded-none p-5 text-lg leading-[1.15] sm:mx-0 sm:rounded-lg md:text-lg md:leading-tight"
       >
         <Refractor
           inline
@@ -209,7 +209,7 @@ const PortableTextComponents: PortableTextComponents = {
       return <ExternalLink value={value}>{children}</ExternalLink>
     },
     code: ({value, children}) => {
-      return <code className="bg-gray-200 px-1 py-0.5 rounded">{children}</code>
+      return <code className="rounded bg-gray-200 px-1 py-0.5">{children}</code>
     },
   },
   types: {
@@ -226,13 +226,13 @@ const PortableTextComponents: PortableTextComponents = {
               aria-label="Video transcript"
               role="contentinfo"
             >
-              <summary className="inline-flex space-x-2 items-center cursor-pointer text-gray-600 hover:text-gray-800 transition">
+              <summary className="inline-flex cursor-pointer items-center space-x-2 text-gray-600 transition hover:text-gray-800">
                 <span
                   aria-hidden="true"
-                  className="group-hover:bg-gray-50 p-1 rounded-full border border-gray-200 flex items-center justify-center transition"
+                  className="flex items-center justify-center rounded-full border border-gray-200 p-1 transition group-hover:bg-gray-50"
                 >
-                  <ChevronDownIcon className="group-open:hidden w-4 h-4" />
-                  <ChevronUpIcon className="group-open:block hidden w-4 h-4" />
+                  <ChevronDownIcon className="h-4 w-4 group-open:hidden" />
+                  <ChevronUpIcon className="hidden h-4 w-4 group-open:block" />
                 </span>
                 <span className="text-base">Video Transcript</span>
               </summary>
@@ -267,13 +267,13 @@ const PortableTextComponents: PortableTextComponents = {
                 aria-label="Video transcript"
                 role="contentinfo"
               >
-                <summary className="inline-flex space-x-2 items-center cursor-pointer text-gray-600 hover:text-gray-800 transition">
+                <summary className="inline-flex cursor-pointer items-center space-x-2 text-gray-600 transition hover:text-gray-800">
                   <span
                     aria-hidden="true"
-                    className="group-hover:bg-gray-50 p-1 rounded-full border border-gray-200 flex items-center justify-center transition"
+                    className="flex items-center justify-center rounded-full border border-gray-200 p-1 transition group-hover:bg-gray-50"
                   >
-                    <ChevronDownIcon className="group-open:hidden w-4 h-4" />
-                    <ChevronUpIcon className="group-open:block hidden w-4 h-4" />
+                    <ChevronDownIcon className="h-4 w-4 group-open:hidden" />
+                    <ChevronUpIcon className="hidden h-4 w-4 group-open:block" />
                   </span>
                   <span className="text-base">Video Transcript</span>
                 </summary>
@@ -295,7 +295,7 @@ const PortableTextComponents: PortableTextComponents = {
       return (
         <div
           className={cx(
-            `p-5 sm:my-8 my-4 rounded-md flex space-x-5`,
+            `my-4 flex space-x-5 rounded-md p-5 sm:my-8`,
             getCalloutStyles(type),
           )}
         >

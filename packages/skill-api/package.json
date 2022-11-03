@@ -80,7 +80,6 @@
     "autoprefixer": "^10.4.2",
     "babel-plugin-jsx-pragmatic": "^1.0.2",
     "babel-preset-preact": "^2.0.0",
-    "@types/cookie": "^0.4.1",
     "cssnano": "^5.0.12",
     "eslint": "^8.19.0",
     "eslint-config-custom": "workspace:*",

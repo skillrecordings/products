@@ -36,9 +36,9 @@ export default Home
 
 const Header = () => {
   return (
-    <header className="w-full sm:pt-28 pt-10 sm:pb-28 pb-16 px-8">
-      <div className="flex md:flex-row flex-col items-center justify-center gap-16 w-full max-w-screen-xl mx-auto">
-        <div className="flex items-center justify-center md:w-auto w-80 lg:flex-shrink-0">
+    <header className="w-full px-8 pt-10 pb-16 sm:pt-28 sm:pb-28">
+      <div className="mx-auto flex w-full max-w-screen-xl flex-col items-center justify-center gap-16 md:flex-row">
+        <div className="flex w-80 items-center justify-center md:w-auto lg:flex-shrink-0">
           <Image
             src={require('../../public/assets/surfing-corgi.svg')}
             alt=""
@@ -55,12 +55,12 @@ const Header = () => {
 
 const HeaderContent = () => {
   return (
-    <div className="w-full flex flex-col items-center md:items-start">
-      <h1 className="font-black font-heading xl:text-6xl sm:text-5xl text-4xl tracking-tight mx-auto md:ml-0 max-w-[19ch] text-center md:text-left">
+    <div className="flex w-full flex-col items-center md:items-start">
+      <h1 className="mx-auto max-w-[19ch] text-center font-heading text-4xl font-black tracking-tight sm:text-5xl md:ml-0 md:text-left xl:text-6xl">
         Advanced Tailwind CSS{' '}
         <span className="text-brand-red">Concepts & Patterns</span>
       </h1>
-      <p className="sm:text-xl text-lg pt-5 max-w-sm text-center md:text-left">
+      <p className="max-w-sm pt-5 text-center text-lg sm:text-xl md:text-left">
         Increase development velocity and craft sustainable systems for your
         team
       </p>
@@ -71,8 +71,8 @@ const HeaderContent = () => {
 
 const Instructor = () => {
   return (
-    <div className="pt-10 flex items-center gap-3">
-      <div className="flex items-center justify-center rounded-full overflow-hidden">
+    <div className="flex items-center gap-3 pt-10">
+      <div className="flex items-center justify-center overflow-hidden rounded-full">
         <Image
           src={require('../../public/assets/simon-vrachliotis.png')}
           alt="Simon Vrachliotis"
@@ -90,7 +90,7 @@ const Instructor = () => {
 
 const Copy = () => {
   return (
-    <div className="prose sm:prose-lg max-w-2xl mx-auto w-full md:px-0 px-5 pb-16">
+    <div className="prose mx-auto w-full max-w-2xl px-5 pb-16 sm:prose-lg md:px-0">
       <LandingCopy />
     </div>
   )
@@ -98,9 +98,9 @@ const Copy = () => {
 
 const Bio = () => {
   return (
-    <section className="flex items-center justify-center lg:py-24 sm:py-16 py-10 sm:mt-0 -mt-20 px-5 relative z-10">
-      <div className="flex md:flex-row flex-col md:items-start items-center justify-center max-w-screen-sm gap-10">
-        <div className="flex-shrink-0 shadow-xl rounded-full flex items-center justify-center ring ring-offset-1 ring-white/10">
+    <section className="relative z-10 -mt-20 flex items-center justify-center py-10 px-5 sm:mt-0 sm:py-16 lg:py-24">
+      <div className="flex max-w-screen-sm flex-col items-center justify-center gap-10 md:flex-row md:items-start">
+        <div className="flex flex-shrink-0 items-center justify-center rounded-full shadow-xl ring ring-white/10 ring-offset-1">
           <Image
             src={Simon}
             width={150}
