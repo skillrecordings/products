@@ -21,6 +21,7 @@ module.exports = {
     '/team',
     '/error',
     '/check-your-email',
+    '/workshops/lesson-paywall',
   ],
   robotsTxtOptions: {
     additionalSitemaps: [`${process.env.NEXT_PUBLIC_URL}/server-sitemap.xml`],
