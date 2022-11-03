@@ -174,7 +174,7 @@ const PortableTextComponents: PortableTextComponentsProps = {
     },
     code: ({children}) => {
       return (
-        <span className="rounded-sm bg-gray-700 py-1 px-1 font-mono text-base">
+        <span className="rounded-md bg-gray-700 py-1 px-1 font-mono text-base">
           {children}
         </span>
       )

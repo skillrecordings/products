@@ -64,9 +64,9 @@ const NavLink: React.FC<NavLinkProps> = ({
       <a
         aria-current={isActive ? 'page' : undefined}
         className={cx(
-          'flex h-full items-center gap-0.5 px-2 text-sm font-medium transition duration-100 hover:bg-gray-800 active:bg-transparent sm:gap-1 sm:px-5 sm:text-base',
+          'flex h-full items-center gap-0.5 px-2 text-sm font-medium transition duration-100 hover:bg-gray-700 active:bg-transparent sm:gap-1 sm:px-5 sm:text-base',
           {
-            'rounded-b-sm bg-gray-700': isActive,
+            'rounded-md bg-gray-800': isActive,
           },
         )}
         {...props}
@@ -94,8 +94,10 @@ export const NavLogo: React.FC<{className?: string}> = ({className}) => {
         <div
           className={`font-fibra flex items-center space-x-2 text-2xl font-bold leading-tight tracking-tight transition-colors duration-100 ease-in-out hover:text-gray-900 dark:hover:text-white sm:text-3xl ${className}`}
         >
-          <span className="text-xl font-bold">Escuela</span>
-          <span className="text-xl font-bold">Frontend</span>
+          <span className="bg-gradient-to-b from-white to-gray-200 bg-clip-text text-lg font-bold">
+            <span className="font-heading">E</span>scuela{' '}
+            <span className="font-heading">F</span>rontend
+          </span>
         </div>
       </a>
     </Link>
