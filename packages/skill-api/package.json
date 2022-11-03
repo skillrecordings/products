@@ -108,5 +108,8 @@
   },
   "engines": {
     "node": "^12.19.0 || ^14.19.0 || ^16.13.0"
+  },
+  "prisma": {
+    "schema": "../database/prisma/schema.prisma"
   }
 }

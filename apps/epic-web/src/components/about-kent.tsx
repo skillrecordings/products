@@ -23,26 +23,17 @@ const AboutKent = () => {
           </a>{' '}
           as a maintainer and contributor of hundreds of popular npm packages.
           He is the creator of{' '}
-          <a
-            href="https://epicreact.dev"
-            rel="noopener noreferrer"
-            target="_blank"
-          >
+          <a href="https://epicreact.dev" target="_blank" rel="noreferrer">
             EpicReact.Dev
           </a>{' '}
           and{' '}
-          <a
-            href="https://testingjavascript.com"
-            rel="noopener noreferrer"
-            target="_blank"
-          >
+          <a href="https://testingjavascript.com" target="_blank" rel="noreferrer">
             TestingJavaScript.com
           </a>
           . He&#39;s an instructor on{' '}
           <a
-            href="https://egghead.io/instructors/kentcdodds"
-            rel="noopener noreferrer"
-            target="_blank"
+            href="https://egghead.io/q/resources-by-kent-c-dodds"
+            target="_blank" rel="noreferrer"
           >
             egghead.io
           </a>{' '}

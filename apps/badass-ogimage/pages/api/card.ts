@@ -33,7 +33,10 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
 <style>
 ${Font}
-
+h1 {
+  font-family: "Espiritu";
+  font-weight: 400;
+}
 body{
   position: relative;
   overflow: hidden;
@@ -46,8 +49,7 @@ body{
     width: 1200px;
     height: 630px;
     background-color: rgb(4,3,8);
-    font-family: "Greycliff";
-    font-weight: 400;
+
     color: #fff;
     border-bottom: 16px solid #f281a2;
 }
@@ -76,6 +78,10 @@ body{
     top: 475px;
 }
 
+.coverImage {
+  border-radius: 50%;
+  overflow: hidden;
+}
 
 img.emoji {
   height: 1em;
@@ -85,20 +91,24 @@ img.emoji {
   display: inline-block;
 }
 </style>
+<main class='flex justify-center items-center h-full w-full'>
 <div class='flex-shrink-0'>
-${image ? `<img src='${image}' width='480' height='480' />` : ''}
+${
+  image
+    ? `<img class="coverImage" src='${image}' width='450' height='450' />`
+    : ''
+}
 </div>
-<main class='flex flex-col justify-center h-full w-full pl-8 pb-5'>
-  <div class='resize'>
+  <h1 class='resize pl-10'>
     ${emojify(title)}  
-  </div>
-  <div class='flex justify-end pt-6'>
-    <img src='${logo}' width='${122 / 1.3}' height='${122 / 1.3}' />
+  </h1>
+  <div class='absolute top-5 right-5'>
+    <img src='${logo}' width='${140}' height='${140}' />
   </div>
 </main>
 <script src='https://unpkg.com/textfit@2.4.0/textFit.js'></script>
 <script>
-    textFit(document.querySelector('.resize'), { multiLine: true, maxFontSize: 70 });
+    textFit(document.querySelector('.resize'), { multiLine: true, maxFontSize: 60 });
 </script>
 </body>
 </html>

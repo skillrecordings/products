@@ -103,7 +103,7 @@ const SyntaxHighlightedCode: React.FC<SyntaxHighlightedCodeProps> = ({
     return {
       line: line,
       component: ({children}: any) => (
-        <div className=" before:bg-gradient-to-r from-yellow-500/30 to-amber-500/40 before:pointer-events-none before:mix-blend-overlay before:content-[''] before:absolute before:w-full before:h-6 before:left-0">
+        <div className="before:bg-gradient-to-r from-brand/20 before:mix-blend-hard-light to-brand/30 before:pointer-events-none before:content-[''] before:absolute before:w-full sm:before:h-[25.5px] before:h-[21.5px] before:left-0">
           {children}
         </div>
       ),

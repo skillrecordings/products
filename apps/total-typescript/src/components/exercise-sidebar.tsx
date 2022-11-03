@@ -8,11 +8,13 @@ import {track} from '../utils/analytics'
 
 type SidebarProps = {
   module: SanityDocument
+  section?: SanityDocument
   path: string
   className?: string
 }
 const ExerciseSidebar: React.FC<SidebarProps> = ({
   module,
+  section,
   path = '',
   className,
 }) => {
@@ -39,11 +41,11 @@ const ExerciseSidebar: React.FC<SidebarProps> = ({
                   />
                 )}
                 <div className="relative z-10 -translate-y-0.5">
-                  <Link href="/tutorials">
+                  <Link href={`/${module.moduleType}s`}>
                     <a
                       className="font-mono text-xs font-semibold uppercase text-gray-300 hover:underline"
                       onClick={() => {
-                        track('clicked return to tutorials', {
+                        track(`clicked return to ${module.moduleType}s`, {
                           module: module.slug.current,
                         })
                       }}
@@ -86,7 +88,8 @@ const ExerciseSidebar: React.FC<SidebarProps> = ({
                 Exercises
               </p>
             </div>
-            <ExerciseNavigator module={module} path={path} />
+
+            <ExerciseNavigator module={module} path={path} section={section} />
             <div className="pointer-events-none absolute bottom-0 left-0 z-20 h-24 w-full bg-gradient-to-t from-gray-900 to-transparent" />
           </aside>
         </div>

@@ -2,6 +2,12 @@ import {Stripe} from 'stripe'
 import {first} from 'lodash'
 import {type Purchase, prisma, getSdk} from '@skillrecordings/database'
 import {stripe} from './stripe'
+import {z} from 'zod'
+import {
+  EXISTING_BULK_COUPON,
+  NEW_BULK_COUPON,
+  NEW_INDIVIDUAL_PURCHASE,
+} from '@skillrecordings/types'
 
 export class PurchaseError extends Error {
   checkoutSessionId: string
@@ -68,10 +74,18 @@ export type PurchaseInfo = {
   stripeProduct: Stripe.Product
 }
 
+export const purchaseTypeSchema = z.union([
+  z.literal(EXISTING_BULK_COUPON),
+  z.literal(NEW_BULK_COUPON),
+  z.literal(NEW_INDIVIDUAL_PURCHASE),
+])
+type PurchaseType = z.infer<typeof purchaseTypeSchema>
+
 export async function recordNewPurchase(checkoutSessionId: string): Promise<{
   user: any
   purchase: Purchase
   purchaseInfo: PurchaseInfo
+  purchaseType: PurchaseType
 }> {
   const {
     findOrCreateUser,
@@ -126,24 +140,50 @@ export async function recordNewPurchase(checkoutSessionId: string): Promise<{
     stripeChargeAmount,
   })
 
-  if (purchase && quantity > 1) {
-    // we need to detect and handle the scenario where the Coupon already
-    // exists and we are just tying a new purchase to it. Eventually.
+  // Check if this user has already purchased a bulk coupon, in which case,
+  // we'll be able to treat this purchase as adding seats.
+  const existingBulkCoupon = await prisma.coupon.findFirst({
+    where: {
+      maxUses: {
+        gt: 1,
+      },
+      bulkCouponPurchases: {
+        some: {userId: user.id},
+      },
+    },
+  })
 
+  // Note: if the user already has a bulk purchase/coupon, then if they are
+  // only adding 1 seat to the team, then it is still a "bulk purchase" and
+  // we need to add it to their existing Bulk Coupon.
+  const isBulkPurchase = quantity > 1 || !!existingBulkCoupon
+
+  if (purchase && isBulkPurchase) {
     // Wrap a create and a dependent update in a transaction to be sure
     // that the coupon is created and the purchase points to that coupon.
     const updatedPurchase: Purchase = await prisma.$transaction(
       async (transaction) => {
-        // 1. Create bulk coupon record
-        const coupon = await transaction.coupon.create({
-          data: {
-            bulkPurchaseId: purchase.id,
-            restrictedToProductId: productId,
-            maxUses: quantity,
-            percentageDiscount: 1.0,
-            status: 1,
-          },
-        })
+        // 1. Create or Update Bulk Coupon Record
+        let coupon = null
+        if (existingBulkCoupon) {
+          coupon = await transaction.coupon.update({
+            where: {
+              id: existingBulkCoupon.id,
+            },
+            data: {
+              maxUses: existingBulkCoupon.maxUses + quantity,
+            },
+          })
+        } else {
+          coupon = await transaction.coupon.create({
+            data: {
+              restrictedToProductId: productId,
+              maxUses: quantity,
+              percentageDiscount: 1.0,
+              status: 1,
+            },
+          })
+        }
 
         // 2. Update existing purchase with bulkCouponId reference
         const updatedPurchase = await transaction.purchase.update({
@@ -159,8 +199,17 @@ export async function recordNewPurchase(checkoutSessionId: string): Promise<{
       },
     )
 
-    return {purchase: updatedPurchase, user, purchaseInfo}
+    const purchaseType = !!existingBulkCoupon
+      ? EXISTING_BULK_COUPON
+      : NEW_BULK_COUPON
+
+    return {purchase: updatedPurchase, user, purchaseInfo, purchaseType}
   } else {
-    return {purchase, user, purchaseInfo}
+    return {
+      purchase,
+      user,
+      purchaseInfo,
+      purchaseType: NEW_INDIVIDUAL_PURCHASE,
+    }
   }
 }

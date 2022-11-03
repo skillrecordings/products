@@ -31,7 +31,7 @@ const tutorialsQuery = groq`*[_type == "module" && moduleType == 'tutorial' && s
 export const getAllTutorials = async () =>
   await sanityClient.fetch(tutorialsQuery)
 
-export const getModule = async (slug: string) =>
+export const getTutorial = async (slug: string) =>
   await sanityClient.fetch(
     groq`*[_type == "module" && moduleType == 'tutorial' && slug.current == $slug][0]{
         "id": _id,

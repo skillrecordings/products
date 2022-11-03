@@ -1,4 +1,4 @@
-name: test
+name: Lint and Test
 on:
   push:
     branches: [ main ]
@@ -7,32 +7,40 @@ on:
 
 jobs:
   test:
-    name: Run Linting and Tests
+    name: Lint and Test
     runs-on: ubuntu-latest
+
+    env: # Leverage Turborepo Remote Caching
+      TURBO_TOKEN: ${{ secrets.TURBO_TOKEN }}
+      TURBO_TEAM: ${{ secrets.TURBO_TEAM }}
+      SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
+      DATABASE_URL: ${{ secrets.DATABASE_URL }}
+      PRISMA_SKIP_POSTINSTALL_GENERATE: false # We do this manually for architecture reasons
+
     steps:
       - name: Checkout Repo
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
-      - uses: pnpm/action-setup@v2.0.1
-        name: Install pnpm
-        id: pnpm-install
+      - name: PNPM Setup
+        uses: pnpm/action-setup@v2.2.4
         with:
-          version: 7
+          version: 7.13.4
           run_install: false
 
-      - name: Cache pnpm modules
-        uses: actions/cache@v2
+      - name: Node Setup
+        uses: actions/setup-node@v3
         with:
-          path: ~/.pnpm-store
-          key: ${{ runner.os }}-${{ hashFiles('**/pnpm-lock.yaml') }}
-          restore-keys: |
-            ${{ runner.os }}-
+          node-version: 16.16.0
+          cache: 'pnpm'
 
-      - name: Install Dependencies
+      - name: Install dependencies
         run: pnpm install
 
-      - name: Run Tests
-        env:
-          SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
-          DATABASE_URL: ${{ secrets.DATABASE_URL }}
-        run: pnpm -- turbo run generate test lint --team=skillrecordings --token=${{ secrets.VERCEL_TOKEN }}
+      - name: Generate DB Client
+        run: pnpm generate
+
+      - name: Lint
+        run: pnpm lint
+
+      - name: Test
+        run: pnpm test

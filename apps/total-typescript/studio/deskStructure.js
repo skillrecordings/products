@@ -2,6 +2,7 @@ import S from '@sanity/desk-tool/structure-builder'
 import execises from './src/structure/exercises'
 import tips from './src/structure/tips'
 import tutorials from './src/structure/tutorials'
+import workshops from './src/structure/workshops'
 
 const hiddenDocTypes = (listItem) =>
   !['module', 'tip', 'skosConcept', 'skosConceptScheme'].includes(
@@ -12,6 +13,7 @@ export default () =>
   S.list()
     .title('Total TypeScript')
     .items([
+      workshops,
       tutorials,
       S.divider(),
       tips,

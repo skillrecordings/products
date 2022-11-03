@@ -6,7 +6,7 @@ const Custom404 = () => {
     <Layout meta={{title: 'Not Found'}} nav>
       <main className="relative min-h-screen">
         <div className="z-10 absolute w-full h-full flex items-center text-center justify-center flex-col sm:pointer-events-none">
-          <h1 className="pt-3 pb-8 text-center sm:text-[10vw] text-8xl leading-none font-heading font-bold">
+          <h1 className="pt-3 pb-8 text-center sm:text-[10vw] text-8xl leading-none font-heading font-bold text-white">
             404
           </h1>
         </div>

@@ -18,14 +18,14 @@ type ArticlesProps = {
 const Articles: React.FC<ArticlesProps> = ({articles}) => {
   return (
     <Layout meta={meta} className="overflow-hidden" nav>
-      <header className="relative px-5 pt-28 sm:pb-16 pb-10 sm:pt-40 overflow-hidden text-white">
-        <h1 className="max-w-screen-md font-heading font-bold mx-auto leading-none text-center text-4xl sm:text-5xl lg:text-6xl">
+      <header className="relative px-5 pt-16 sm:pb-20 pb-10 sm:pt-24 overflow-hidden">
+        <h1 className="max-w-screen-md font-heading font-black mx-auto leading-none text-center text-3xl sm:text-4xl lg:text-5xl">
           {meta.title}
         </h1>
       </header>
-      <main className="flex-grow">
+      <main className="flex-grow px-5">
         <div className="pb-16 mx-auto max-w-screen-lg w-full">
-          <div className="grid md:grid-cols-2 grid-cols-1 gap-10">
+          <div className="grid md:grid-cols-2 grid-cols-1 sm:gap-10 gap-5">
             {isEmpty(articles) ? (
               <h3>Sorry, there are no articles yet</h3>
             ) : (
@@ -42,18 +42,21 @@ const Articles: React.FC<ArticlesProps> = ({articles}) => {
                   const shortDescription =
                     description || toPlainText(body).substring(0, 190) + '...'
                   return (
-                    <div key={slug} className="gap-5 p-8">
+                    <div
+                      key={slug}
+                      className="gap-5 sm:p-10 p-8 rounded-xl bg-white shadow-xl shadow-black/5"
+                    >
                       <div className="flex w-full sm:justify-between justify-left">
                         <div>
-                          <h2 className="underline decoration-slate-900 hover:decoration-indigo-500 transition lg:text-3xl sm:text-xl text-2xl font-heading font-semibold">
+                          <h2 className="transition lg:text-3xl text-2xl font-heading font-black">
                             <Link href={`/${slug}`} passHref>
                               <a className="group block">{title}</a>
                             </Link>
                           </h2>
-                          <h3 className="text-xl pt-2 font-normal text-indigo-400 brightness-110">
+                          <h3 className="text-xl pt-3 font-medium text-gray-700">
                             {subtitle}
                           </h3>
-                          <p className="font-normal text-lg pt-4 text-slate-300">
+                          <p className="font-normal pt-5 text-gray-600">
                             {shortDescription}
                           </p>
                           {/* <time
@@ -62,19 +65,19 @@ const Articles: React.FC<ArticlesProps> = ({articles}) => {
                           >
                             {format(new Date(date), 'dd MMMM, y')}
                           </time> */}
-                          {description && (
+                          {/* {description && (
                             <Markdown className="prose pt-3 pb-6">
                               {description}
                             </Markdown>
-                          )}
-                          <div className="mt-6 flex space-x-5 items-center w-full">
+                          )} */}
+                          <div className="mt-6 flex space-x-5 justify-between items-center w-full">
                             <Link href={`/${slug}`} passHref>
-                              <a className="inline-flex px-4 py-2 bg-white/5 rounded-lg hover:bg-white/10 transition font-medium text-lg">
-                                Start reading
+                              <a className="rounded-full px-5 py-3 bg-sky-500 hover:bg-sky-600 transition text-white">
+                                View article
                               </a>
                             </Link>
-                            <div className="text-slate-400 ">
-                              Time to read: {estimatedReadingTime}m
+                            <div className="text-gray-700 text-sm">
+                              Time to read: ~{estimatedReadingTime}m
                             </div>
                           </div>
                         </div>
