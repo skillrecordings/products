@@ -12,6 +12,8 @@ const IMAGE_HOST_DOMAINS = [
   `d2eip9sf3oo6c2.cloudfront.net`,
   `cdn.sanity.io`,
   `protailwind.com`,
+  `image.mux.com`,
+  process.env.NEXT_PUBLIC_HOST,
 ]
 
 const nextConfig = {

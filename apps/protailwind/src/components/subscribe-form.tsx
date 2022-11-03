@@ -9,11 +9,14 @@ import Image from 'next/image'
 const NewsletterSubscribeForm = () => {
   const router = useRouter()
   return (
-    <section className="py-32 bg-blue-600 text-white relative flex flex-col items-center justify-center px-5">
-      <div className="w-5 h-5 rotate-45 bg-gray-50 top-0 absolute -translate-y-3 rounded-sm" />
-      <div className="relative w-full flex flex-col items-center justify-center">
-        <div className="text-center pb-16 max-w-3xl">
-          <h2 className="font-heading sm:text-5xl text-4xl font-black sm:leading-tight leading-tight">
+    <section
+      id="primary-newsletter-cta"
+      className="relative flex flex-col items-center justify-center bg-blue-600 py-32 px-5 text-white"
+    >
+      <div className="absolute top-0 h-5 w-5 -translate-y-3 rotate-45 rounded-sm bg-gray-50" />
+      <div className="relative flex w-full flex-col items-center justify-center">
+        <div className="max-w-3xl pb-16 text-center">
+          <h2 className="font-heading text-4xl font-black leading-tight sm:text-5xl sm:leading-tight">
             Power-up your team workflow with Tailwind CSS
           </h2>
           <p className="pt-6 text-xl text-blue-100">
@@ -30,7 +33,7 @@ const NewsletterSubscribeForm = () => {
           actionLabel="Sign Up Today"
           submitButtonElem={<SubmitButton />}
         />
-        <p className="opacity-80 text-center text-base pt-8">
+        <p className="pt-8 text-center text-base opacity-80">
           I respect your privacy. Unsubscribe at any time.
         </p>
       </div>
@@ -43,8 +46,8 @@ export default NewsletterSubscribeForm
 const SubmitButton: React.FC<any> = (props) => {
   const {isLoading} = props
   return (
-    <div className="group relative flex flex-col items-center w-full">
-      <div className="z-20 flex items-center justify-center w-24 translate-y-5 pointer-events-none">
+    <div className="group relative flex w-full flex-col items-center">
+      <div className="pointer-events-none z-20 flex w-24 translate-y-5 items-center justify-center">
         <Image
           src={require('../../public/assets/corgi-head.svg')}
           aria-hidden="true"
@@ -55,7 +58,7 @@ const SubmitButton: React.FC<any> = (props) => {
       <button data-sr-button="" className="z-10">
         {isLoading ? <Loader /> : 'Sign Up Today'}
       </button>
-      <div className="hidden z-20 group-hover:flex items-center justify-center w-20 -translate-y-3 pointer-events-none">
+      <div className="pointer-events-none z-20 hidden w-20 -translate-y-3 items-center justify-center group-hover:flex">
         <Image
           src={require('../../public/assets/corgi-legs-up-1.svg')}
           aria-hidden="true"
@@ -63,7 +66,7 @@ const SubmitButton: React.FC<any> = (props) => {
           loading="eager"
         />
       </div>
-      <div className="z-0 flex group-hover:hidden items-center justify-center w-20 -translate-y-3 pointer-events-none">
+      <div className="pointer-events-none z-0 flex w-20 -translate-y-3 items-center justify-center group-hover:hidden">
         <Image
           src={require('../../public/assets/corgi-legs-down-1.svg')}
           aria-hidden="true"

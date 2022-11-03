@@ -5,7 +5,7 @@ import Cookies from 'js-cookie'
 import {useQuery} from 'react-query'
 import toast from 'react-hot-toast'
 import {useRouter} from 'next/router'
-import {removeQueryParamsFromRouter} from 'utils/remove-query-params-from-router'
+import {removeQueryParamsFromRouter} from '@skillrecordings/react'
 import {type Subscriber} from 'schemas/subscriber'
 import {identify} from '../utils/analytics'
 

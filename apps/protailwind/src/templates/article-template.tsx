@@ -24,7 +24,7 @@ const ArticleTemplate: React.FC<ArticleTemplateProps> = ({article}) => {
   const {title, metaTitle, description, body, date, related} = article
   const shortDescription =
     description || toPlainText(body).substring(0, 150) + '...'
-  const ogImage = getOgImage(title)
+  const ogImage = getOgImage({title})
   const {subscriber, loadingSubscriber} = useConvertkit()
 
   return (
@@ -45,11 +45,11 @@ const ArticleTemplate: React.FC<ArticleTemplateProps> = ({article}) => {
       <ArticleMeta article={article} shortDescription={shortDescription} />
       <Header {...article} />
       <main>
-        <div className="bg-gray-50 border-t border-gray-200/60 lg:px-0 px-5 shadow-lg shadow-black/5">
+        <div className="border-t border-gray-200/60 bg-gray-50 px-5 shadow-lg shadow-black/5 lg:px-0">
           <TableOfContents value={body} />
         </div>
-        <div className="max-w-screen-md mx-auto w-full sm:pt-10 lg:px-0 px-5 sm:pb-24 pb-10">
-          <article className="pt-8 prose-a:text-blue-600 prose-a:transition prose  sm:prose-lg  prose-headings:font-black md:prose-code:text-sm lg:prose-code:text-[80%] md:prose-code:text-[80%] prose-code:text-[70%] max-w-none">
+        <div className="mx-auto w-full max-w-screen-md px-5 pb-10 sm:pt-10 sm:pb-24 lg:px-0">
+          <article className="prose max-w-none pt-8 prose-headings:font-black  prose-a:text-blue-600 prose-a:transition prose-code:text-[70%] sm:prose-lg md:prose-code:text-sm md:prose-code:text-[80%] lg:prose-code:text-[80%]">
             <PortableText value={body} components={PortableTextComponents} />
           </article>
           <Signature />
@@ -71,9 +71,9 @@ const RelatedResources: React.FC<{
   const resources = article.related
 
   return !isEmpty(resources) ? (
-    <section className="px-5 w-full mx-auto sm:pt-14 sm:pb-32 pb-16">
-      <div className="flex sm:flex-row flex-col items-start justify-between max-w-screen-md mx-auto w-full">
-        <div className="uppercase font-semibold text-gray-600 flex-shrink-0 sm:pr-32 pt-2 sm:pb-0 pb-4">
+    <section className="mx-auto w-full px-5 pb-16 sm:pt-14 sm:pb-32">
+      <div className="mx-auto flex w-full max-w-screen-md flex-col items-start justify-between sm:flex-row">
+        <div className="flex-shrink-0 pt-2 pb-4 font-semibold uppercase text-gray-600 sm:pr-32 sm:pb-0">
           Continue Reading
         </div>
         <div className="flex-grow">
@@ -81,12 +81,12 @@ const RelatedResources: React.FC<{
             return (
               <div key={title}>
                 <Link href={`/${slug}`}>
-                  <a className="lg:text-3xl text-2xl transition font-black font-heading hover:underline">
+                  <a className="font-heading text-2xl font-black transition hover:underline lg:text-3xl">
                     {title}
                   </a>
                 </Link>
                 {subtitle && (
-                  <p className="lg:text-xl text-lg text-brand-red pt-2 max-w-sm">
+                  <p className="max-w-sm pt-2 text-lg text-brand-red lg:text-xl">
                     {subtitle}
                   </p>
                 )}
@@ -106,8 +106,8 @@ const Header: React.FC<Article> = ({
   estimatedReadingTime,
 }) => {
   return (
-    <header className="flex flex-col items-center relative px-5 sm:pt-10 pb-8 overflow-hidden">
-      <div className="flex flex-col items-center max-w-screen-lg mx-auto w-full relative z-10">
+    <header className="relative flex flex-col items-center overflow-hidden px-5 pb-8 sm:pt-10">
+      <div className="relative z-10 mx-auto flex w-full max-w-screen-lg flex-col items-center">
         {/* <Link passHref href="/articles">
           <a className="sm:text-lg text-base group text-white relative hover:text-white font-normal px-4 py-2 hover:bg-opacity-10 bg-opacity-0 bg-white rounded-lg transition opacity-80 hover:opacity-80 focus-visible:ring-white focus-visible:opacity-100">
             <span className="pr-1" role="presentation" aria-hidden="true">
@@ -116,21 +116,21 @@ const Header: React.FC<Article> = ({
             All Articles
           </a>
         </Link> */}
-        <div className="pt-10 pb-24 flex flex-col items-center justify-center text-center">
-          <h1 className="font-heading font-black mx-auto leading-none text-3xl sm:text-4xl lg:text-5xl py-4">
+        <div className="flex flex-col items-center justify-center pt-10 pb-24 text-center">
+          <h1 className="mx-auto py-4 font-heading text-3xl font-black leading-none sm:text-4xl lg:text-5xl">
             {title}
           </h1>
           {subtitle && (
-            <h2 className="pt-5 sm:text-xl font-medium text-lg leading-tight text-brand-red max-w-md mx-auto">
+            <h2 className="mx-auto max-w-md pt-5 text-lg font-medium leading-tight text-brand-red sm:text-xl">
               {subtitle}
             </h2>
           )}
         </div>
-        <div className="flex flex-wrap items-center sm:justify-between justify-center w-full gap-10 max-w-screen-md leading-none sm:text-lg">
+        <div className="flex w-full max-w-screen-md flex-wrap items-center justify-center gap-10 leading-none sm:justify-between sm:text-lg">
           <Author />
           <div className="flex gap-16 sm:text-left">
             <div>
-              <div className="text-sm tracking-wide uppercase font-semibold text-gray-500 pb-1.5">
+              <div className="pb-1.5 text-sm font-semibold uppercase tracking-wide text-gray-500">
                 Time to read
               </div>
               <div>
@@ -139,7 +139,7 @@ const Header: React.FC<Article> = ({
               </div>
             </div>
             <time dateTime={date}>
-              <div className="text-sm tracking-wide uppercase font-semibold text-gray-500 pb-1.5">
+              <div className="pb-1.5 text-sm font-semibold uppercase tracking-wide text-gray-500">
                 published
               </div>
               <div>{format(new Date(date), 'dd MMMM, y')}</div>
@@ -153,7 +153,7 @@ const Header: React.FC<Article> = ({
 
 const Author = () => {
   return (
-    <div className="flex items-center md:justify-start justify-center md:col-span-3 col-span-3">
+    <div className="col-span-3 flex items-center justify-center md:col-span-3 md:justify-start">
       <Image
         src={require('../../public/assets/simon-vrachliotis.png')}
         alt="Simon Vrachliotis"
@@ -165,7 +165,7 @@ const Author = () => {
       />
       <a
         href="https://twitter.com/simonswiss"
-        className="pl-2 leading-none hover:underline decoration-indigo-500 underline-offset-1"
+        className="pl-2 leading-none decoration-indigo-500 underline-offset-1 hover:underline"
         target="_blank"
         rel="noopener noreferrer"
       >
@@ -179,7 +179,7 @@ const Signature = () => {
   return (
     <svg
       aria-hidden="true"
-      className="w-28 mt-8 text-gray-800"
+      className="mt-8 w-28 text-gray-800"
       viewBox="0 0 102 55"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
