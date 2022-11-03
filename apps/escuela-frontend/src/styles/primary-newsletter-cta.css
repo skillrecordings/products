@@ -10,6 +10,6 @@
     @apply opacity-50;
   }
   [data-sr-button] {
-    @apply relative mt-10 flex items-center justify-center rounded-md bg-brand p-5 font-bold text-white transition-all duration-300 ease-in-out before:absolute before:left-0 before:top-0 before:h-full before:w-0 before:transition-all before:duration-300 before:ease-in-out hover:scale-105 hover:before:w-full focus-visible:outline-offset-4 active:scale-100;
+    @apply relative mt-10 flex items-center justify-center rounded-md bg-brand p-5 font-bold text-black transition-all duration-300 ease-in-out before:absolute before:left-0 before:top-0 before:h-full before:w-0 before:transition-all before:duration-300 before:ease-in-out hover:scale-105 hover:before:w-full focus-visible:outline-offset-4 active:scale-100;
   }
 }

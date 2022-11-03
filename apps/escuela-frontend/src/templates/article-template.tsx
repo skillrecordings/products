@@ -122,7 +122,7 @@ const Header: React.FC<SanityDocument> = ({
     <header className="relative flex flex-col items-center overflow-hidden px-5 pt-24 pb-8">
       <div className="relative z-10 mx-auto flex w-full max-w-screen-lg flex-col items-center">
         <Link passHref href="/articulos">
-          <a className="group relative rounded-md bg-gray-700 px-4 py-2 text-base font-normal opacity-80 transition hover:bg-gray-600 sm:text-lg">
+          <a className="group relative rounded-md bg-gray-700 px-4 py-2 text-base font-normal opacity-80 transition hover:bg-gray-600">
             <span className="pr-1" role="presentation" aria-hidden="true">
               ←
             </span>{' '}

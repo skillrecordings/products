@@ -27,7 +27,7 @@ const SubscribeForm = () => {
           }}
           actionLabel="Subscríbete"
         />
-        <p className="pt-8 text-center text-base opacity-80">
+        <p className="pt-8 text-center text-base text-gray-400">
           Sin spam, cancele en cualquier momento.
         </p>
       </div>
