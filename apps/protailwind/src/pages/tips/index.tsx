@@ -38,10 +38,10 @@ const TipsIndex: React.FC<TipsIndex> = ({tips}) => {
       className="sm:pt-18 flex flex-col items-center pb-16 pt-16 lg:pt-20 lg:pb-24"
     >
       <header className="relative z-10 flex flex-col items-center pb-16 text-center">
-        <h1 className="text-center font-heading text-4xl font-black sm:text-5xl">
+        <h1 className="text-center font-heading text-4xl font-black sm:text-5xl lg:text-6xl">
           Tailwind Tips
         </h1>
-        <p className="max-w-sm pt-8 text-center text-lg text-amber-500">
+        <p className="max-w-md pt-8 text-center text-lg text-gray-600 lg:text-xl">
           {pageDescription}
         </p>
       </header>
