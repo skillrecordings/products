@@ -17,7 +17,6 @@ module.exports = {
       fontFamily: {
         sans: ['IBM Plex Sans', ...defaultTheme.fontFamily.sans],
         sicret: ['Sicret Mono', ...defaultTheme.fontFamily.mono],
-        heading: ['Gela', ...defaultTheme.fontFamily.sans],
       },
       colors: {
         brand: colors.orange[400],

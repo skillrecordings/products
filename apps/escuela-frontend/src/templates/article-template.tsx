@@ -94,7 +94,7 @@ const RelatedResources: React.FC<{resources: SanityDocument[]}> = ({
             return (
               <div className="">
                 <Link href={`/${slug}`}>
-                  <a className="mx-6 mt-12 mb-4 w-[400px] bg-gradient-to-b from-white to-gray-200 bg-clip-text text-center font-heading text-4xl font-extrabold leading-tight text-transparent sm:text-4xl md:!w-full md:text-5xl lg:text-6xl">
+                  <a className="mx-6 mt-12 mb-4 w-[400px] bg-gradient-to-b from-white to-gray-200 bg-clip-text text-center text-4xl font-extrabold leading-tight text-transparent sm:text-4xl md:!w-full md:text-5xl lg:text-6xl">
                     {title}
                   </a>
                 </Link>
@@ -130,7 +130,7 @@ const Header: React.FC<SanityDocument> = ({
           </a>
         </Link>
         <div className="flex flex-col items-center justify-center pt-10 pb-24 text-center">
-          <h1 className="mx-6 mt-12 mb-4 w-[400px] bg-gradient-to-b from-white to-gray-200 bg-clip-text text-center font-heading text-4xl font-extrabold leading-tight text-transparent sm:text-4xl md:!w-full md:text-5xl lg:text-6xl">
+          <h1 className="mx-6 mt-12 mb-4 w-[400px] bg-gradient-to-b from-white to-gray-200 bg-clip-text text-center text-4xl font-extrabold leading-tight text-transparent sm:text-4xl md:!w-full md:text-5xl lg:text-6xl">
             {title}
           </h1>
         </div>
