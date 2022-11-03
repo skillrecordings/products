@@ -14,7 +14,7 @@ const SubscribeForm = () => {
       </div>
       <div className="relative flex w-full flex-col items-center justify-center px-5 pt-28 pb-32 sm:pb-48">
         <div className="pb-16 text-center">
-          <h2 className="mx-6 mt-12 mb-4 bg-gradient-to-b from-white to-gray-200 bg-clip-text text-center font-heading text-4xl font-extrabold leading-tight text-transparent sm:text-4xl md:text-5xl lg:text-6xl">
+          <h2 className="mx-6 mt-12 mb-4 bg-gradient-to-b from-white to-gray-200 bg-clip-text text-center text-4xl font-extrabold leading-tight text-transparent sm:text-4xl md:text-5xl lg:text-6xl">
             Domina el Universo Front-End
           </h2>
         </div>

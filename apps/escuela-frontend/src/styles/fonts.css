@@ -7,13 +7,6 @@
 }
 
 @font-face {
-  font-family: 'Gela';
-  font-weight: 600;
-  font-style: normal;
-  src: url('/fonts/Gela-72pt.woff2') format('woff2'),
-    url('/fonts/Gela-72pt.woff') format('woff');
-}
-@font-face {
   font-family: 'IBM Plex Sans';
   font-style: normal;
   font-weight: 100 900;

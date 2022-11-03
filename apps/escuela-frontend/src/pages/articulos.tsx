@@ -24,7 +24,7 @@ const Articles: React.FC<ArticlesProps> = ({articles}) => {
       nav={<Navigation className="relative flex lg:relative" />}
     >
       <header className="relative overflow-hidden px-5 pt-20 pb-10 text-white md:pt-24 md:pb-16 lg:py-28">
-        <h1 className="mt-12 mb-4 bg-gradient-to-b from-white to-gray-200 bg-clip-text text-center font-heading text-4xl font-extrabold leading-tight text-transparent sm:text-4xl md:text-5xl lg:text-6xl">
+        <h1 className="mt-12 mb-4 bg-gradient-to-b from-white to-gray-200 bg-clip-text text-center text-4xl font-extrabold leading-tight text-transparent sm:text-4xl md:text-5xl lg:text-6xl">
           {meta.title}
         </h1>
       </header>
