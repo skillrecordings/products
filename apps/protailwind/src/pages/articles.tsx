@@ -18,14 +18,14 @@ type ArticlesProps = {
 const Articles: React.FC<ArticlesProps> = ({articles}) => {
   return (
     <Layout meta={meta} className="overflow-hidden" nav>
-      <header className="relative px-5 pt-16 sm:pb-20 pb-10 sm:pt-24 overflow-hidden">
-        <h1 className="max-w-screen-md font-heading font-black mx-auto leading-none text-center text-3xl sm:text-4xl lg:text-5xl">
+      <header className="relative overflow-hidden px-5 pt-16 pb-10 sm:pb-20 sm:pt-24">
+        <h1 className="mx-auto max-w-screen-md text-center font-heading text-3xl font-black leading-none sm:text-4xl lg:text-5xl">
           {meta.title}
         </h1>
       </header>
       <main className="flex-grow px-5">
-        <div className="pb-16 mx-auto max-w-screen-lg w-full">
-          <div className="grid md:grid-cols-2 grid-cols-1 sm:gap-10 gap-5">
+        <div className="mx-auto w-full max-w-screen-lg pb-16">
+          <div className="grid grid-cols-1 gap-5 sm:gap-10 md:grid-cols-2">
             {isEmpty(articles) ? (
               <h3>Sorry, there are no articles yet</h3>
             ) : (
@@ -44,19 +44,19 @@ const Articles: React.FC<ArticlesProps> = ({articles}) => {
                   return (
                     <div
                       key={slug}
-                      className="gap-5 sm:p-10 p-8 rounded-xl bg-white shadow-xl shadow-black/5"
+                      className="gap-5 rounded-xl bg-white p-8 shadow-xl shadow-black/5 sm:p-10"
                     >
-                      <div className="flex w-full sm:justify-between justify-left">
+                      <div className="justify-left flex w-full sm:justify-between">
                         <div>
-                          <h2 className="transition lg:text-3xl text-2xl font-heading font-black">
+                          <h2 className="font-heading text-2xl font-black transition lg:text-3xl">
                             <Link href={`/${slug}`} passHref>
                               <a className="group block">{title}</a>
                             </Link>
                           </h2>
-                          <h3 className="text-xl pt-3 font-medium text-gray-700">
+                          <h3 className="pt-3 text-xl font-medium text-gray-700">
                             {subtitle}
                           </h3>
-                          <p className="font-normal pt-5 text-gray-600">
+                          <p className="pt-5 font-normal text-gray-600">
                             {shortDescription}
                           </p>
                           {/* <time
@@ -70,13 +70,13 @@ const Articles: React.FC<ArticlesProps> = ({articles}) => {
                               {description}
                             </Markdown>
                           )} */}
-                          <div className="mt-6 flex space-x-5 justify-between items-center w-full">
+                          <div className="mt-6 flex w-full items-center justify-between space-x-5">
                             <Link href={`/${slug}`} passHref>
-                              <a className="rounded-full px-5 py-3 bg-sky-500 hover:bg-sky-600 transition text-white">
+                              <a className="rounded-full bg-sky-500 px-5 py-3 text-white transition hover:bg-sky-600">
                                 View article
                               </a>
                             </Link>
-                            <div className="text-gray-700 text-sm">
+                            <div className="text-sm text-gray-700">
                               Time to read: ~{estimatedReadingTime}m
                             </div>
                           </div>

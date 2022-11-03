@@ -14,8 +14,13 @@
     "build:css": "sass --style expanded src/styles.css dist/styles.css",
     "clean": "rm -rf .turbo && rm -rf node_modules && rm -rf dist",
     "dev": "tsc -w & pnpm watch:css",
+    "test": "jest",
     "lint": "TIMING=1 eslint src --fix",
     "watch:css": "pnpm build:css -w"
+  },
+  "jest": {
+    "preset": "@skillrecordings/scripts/jest/node",
+    "testEnvironment": "node"
   },
   "dependencies": {
     "@skillrecordings/ability": "workspace:*",

@@ -1,4 +1,4 @@
-import {removeQueryParamsFromRouter} from 'utils/remove-query-params-from-router'
+import {removeQueryParamsFromRouter} from './remove-query-params-from-router'
 import {CK_SUBSCRIBER_KEY} from '@skillrecordings/config'
 
 const useRouter = jest.spyOn(require('next/router'), 'useRouter')

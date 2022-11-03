@@ -28,7 +28,7 @@ export default function Document() {
           href="/rss.xml"
         />
       </Head>
-      <body className="text-gray-900 bg-gray-50 selection:bg-brand-red selection:text-white">
+      <body className="bg-gray-50 text-gray-900 selection:bg-brand-red selection:text-white">
         <Main />
         <NextScript />
       </body>

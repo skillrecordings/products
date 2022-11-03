@@ -16,20 +16,20 @@ const Share: React.FC<{title: string}> = ({title}) => {
     'w-full flex items-center justify-center px-7 py-8 hover:bg-gray-50 transition'
 
   return (
-    <div className="bg-white max-w-screen-md mx-auto pl-5 md:rounded-lg mb-16 overflow-hidden flex items-center justify-center shadow-2xl shadow-gray-400/20 sm:pt-0 pt-10">
-      <div className="flex sm:flex-row flex-col gap-5 w-full items-center justify-between mx-auto max-w-screen-md">
+    <div className="mx-auto mb-16 flex max-w-screen-md items-center justify-center overflow-hidden bg-white pl-5 pt-10 shadow-2xl shadow-gray-400/20 sm:pt-0 md:rounded-lg">
+      <div className="mx-auto flex w-full max-w-screen-md flex-col items-center justify-between gap-5 sm:flex-row">
         <div>
-          <p className="text-lg font-medium flex items-center">
+          <p className="flex items-center text-lg font-medium">
             <HeartIcon
               aria-hidden="true"
-              className="w-5 h-5 inline-block mr-2 text-brand-red flex-shrink-0"
+              className="mr-2 inline-block h-5 w-5 flex-shrink-0 text-brand-red"
             />
             <span className="leading-none">
               Share this article with your friends
             </span>
           </p>
         </div>
-        <div className="sm:pt-0 pt-2 flex sm:w-auto w-full items-center sm:divide-x divide-gray-100  justify-center">
+        <div className="flex w-full items-center justify-center divide-gray-100 pt-2 sm:w-auto sm:divide-x  sm:pt-0">
           <Twitter
             className={shareButtonClassName}
             svgClassName="sm:w-5 sm:h-5 w-4 h-4"
