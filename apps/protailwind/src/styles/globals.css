@@ -18,3 +18,10 @@ body,
     display: none;
   }
 }
+
+mux-player {
+  aspect-ratio: 16 / 9;
+  width: 100%;
+  height: auto;
+  @apply -mb-1.5 overflow-hidden xl:rounded-b-xl;
+}
