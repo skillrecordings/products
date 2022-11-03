@@ -9,7 +9,7 @@ import {convertToSerializeForNextResponse} from '@skillrecordings/commerce-serve
 import {getSdk, User} from '@skillrecordings/database'
 import {SanityDocument} from '@sanity/client'
 import {Subscriber} from 'schemas/subscriber'
-import {getModule} from 'lib/tutorials'
+import {getTutorial} from 'lib/tutorials'
 import {GetServerSideProps} from 'next'
 import {get, isEmpty} from 'lodash'
 import {trpc} from 'utils/trpc'
@@ -33,7 +33,7 @@ export const getServerSideProps: GetServerSideProps = async ({
   params,
   req,
 }) => {
-  const tutorial = await getModule(params?.module as string)
+  const tutorial = await getTutorial(params?.module as string)
   let subscriber = req.cookies['ck_subscriber'] || null
   subscriber = subscriber && JSON.parse(subscriber)
 

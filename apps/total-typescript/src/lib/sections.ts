@@ -1,7 +1,7 @@
 import groq from 'groq'
 import {sanityClient} from 'utils/sanity-client'
 
-const tutorialsQuery = groq`*[_type == "module" && moduleType == 'tutorial' && state == 'published'] | order(_createdAt desc) {
+const sectionsQuery = groq`*[_type == "module" && moduleType == 'section'] | order(_createdAt desc) {
   _id,
   _type,
   title,
@@ -28,17 +28,17 @@ const tutorialsQuery = groq`*[_type == "module" && moduleType == 'tutorial' && s
     }
 }`
 
-export const getAllTutorials = async () =>
-  await sanityClient.fetch(tutorialsQuery)
+export const getAllSections = async () =>
+  await sanityClient.fetch(sectionsQuery)
 
-export const getTutorial = async (slug: string) =>
+export const getSection = async (slug: string) =>
   await sanityClient.fetch(
-    groq`*[_type == "module" && moduleType == 'tutorial' && slug.current == $slug][0]{
+    groq`*[_type == "section" && slug.current == $slug][0]{
         "id": _id,
         _type,
         title,
         state,
-        slug,
+         "slug": slug.current,
         body[]{
           ...,
           _type == "bodyTestimonial" => {

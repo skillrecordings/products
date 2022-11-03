@@ -1,4 +1,6 @@
 import {NextRequest, NextResponse} from 'next/server'
+import {withAuth} from 'next-auth/middleware'
+
 import {
   getMiddlewareResponse,
   SITE_ROOT_PATH,
@@ -8,12 +10,19 @@ const PUBLIC_FILE = /\.(.*)$/
 
 // The allow-list of paths where this middleware executes (perf)
 export const config = {
-  matcher: ['/'],
+  matcher: ['/', '/workshops/:module/:section/:lesson*'],
 }
 
-export async function middleware(req: NextRequest) {
-  // think favicon etc as PUBLIC_FILE
-  if (PUBLIC_FILE.test(req.nextUrl.pathname)) return NextResponse.next()
+export default withAuth(
+  async function middleware(req: NextRequest) {
+    // think favicon etc as PUBLIC_FILE
+    if (PUBLIC_FILE.test(req.nextUrl.pathname)) return NextResponse.next()
 
-  return getMiddlewareResponse(req)
-}
+    return getMiddlewareResponse(req)
+  },
+  {
+    callbacks: {
+      authorized: () => true,
+    },
+  },
+)
