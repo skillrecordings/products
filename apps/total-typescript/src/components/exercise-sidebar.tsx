@@ -18,7 +18,6 @@ const ExerciseSidebar: React.FC<SidebarProps> = ({
   path = '',
   className,
 }) => {
-  console.log('sidebar', {section})
   return (
     <>
       <div

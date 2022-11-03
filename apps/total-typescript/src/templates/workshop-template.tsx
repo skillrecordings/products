@@ -194,7 +194,6 @@ const WorkshopSectionExerciseNavigator: React.FC<{
   moduleSlug: string
 }> = ({section, moduleSlug}) => {
   const {slug, exercises, _type} = section
-  console.log(section)
   return (
     <nav
       aria-label="exercise navigator"

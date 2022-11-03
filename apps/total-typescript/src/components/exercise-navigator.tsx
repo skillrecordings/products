@@ -25,8 +25,6 @@ const ExerciseNavigator: React.FC<{
 
   const exercises = section ? section.exercises : module.exercises
 
-  console.log({section})
-
   return (
     <div
       ref={scrollContainerRef}

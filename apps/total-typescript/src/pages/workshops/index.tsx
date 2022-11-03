@@ -10,8 +10,6 @@ const CLOUDINARY_FETCH_BASE_URL = `https://res.cloudinary.com/total-typescript/i
 export async function getStaticProps() {
   const workshops = await getAllWorkshops()
 
-  console.log(workshops)
-
   return {
     props: {modules: workshops},
     revalidate: 10,
@@ -37,7 +35,6 @@ const WorkshopsPage: React.FC<{modules: SanityDocument[]}> = ({modules}) => {
         {modules && (
           <ul className="flex max-w-screen-md flex-col gap-8 px-3 pt-20">
             {modules.map(({title, slug, image, description, sections}, i) => {
-              console.log(image)
               return (
                 <li
                   key={slug.current}

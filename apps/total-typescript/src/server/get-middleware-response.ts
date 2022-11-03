@@ -21,7 +21,6 @@ export const SITE_ROOT_PATH = '/'
 export async function getMiddlewareResponse(req: NextRequest) {
   let response = NextResponse.next()
   const subscriber = await getCookiesForRequest(req)
-  console.log(subscriber)
 
   if (subscriber && req.nextUrl.pathname === SITE_ROOT_PATH) {
     switch (true) {
@@ -29,6 +28,11 @@ export async function getMiddlewareResponse(req: NextRequest) {
         response = rewriteToPath(`/home/level/${subscriber.fields?.level}`, req)
         break
     }
+  }
+
+  // @ts-ignore
+  if (!req.nextauth.token && req.nextUrl.pathname.startsWith('/workshops')) {
+    response = rewriteToPath(`/workshops/lesson-paywall`, req)
   }
 
   response = setCookiesForResponse(response, subscriber)

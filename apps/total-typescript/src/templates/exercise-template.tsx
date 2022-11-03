@@ -46,8 +46,6 @@ const ExerciseTemplate: React.FC<{
   //TODO path here could also include module slug and section (as appropriate)
   const path = `/${module.moduleType}s`
 
-  console.log('exercise', {section})
-
   return (
     <VideoProvider
       muxPlayerRef={muxPlayerRef}

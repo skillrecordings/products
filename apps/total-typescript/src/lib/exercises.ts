@@ -10,10 +10,10 @@ export const ExerciseSchema = z.object({
   title: z.string(),
   slug: z.string(),
   description: z.nullable(z.string()).optional(),
-  body: z.any().array(),
+  body: z.any().array().optional(),
   stackblitz: z.nullable(z.string()).optional(),
   muxPlaybackId: z.nullable(z.string()).optional(),
-  transcript: z.nullable(z.any().array()),
+  transcript: z.nullable(z.any().array()).optional(),
   solution: z
     .object({
       _key: z.string(),
@@ -22,10 +22,10 @@ export const ExerciseSchema = z.object({
       title: z.string(),
       slug: z.string(),
       description: z.nullable(z.string()).optional(),
-      body: z.any().array(),
+      body: z.any().array().optional(),
       stackblitz: z.nullable(z.string()).optional(),
       muxPlaybackId: z.nullable(z.string()).optional(),
-      transcript: z.nullable(z.any().array()),
+      transcript: z.nullable(z.any().array()).optional(),
     })
     .optional(),
 })
@@ -43,34 +43,70 @@ export const getExerciseMuxPlaybackId = async (exerciseSlug: string) => {
   return z.string().nullish().parse(exerciseVideo)
 }
 
-export const getExercise = async (slug: string): Promise<Exercise> => {
-  const exercise = await sanityClient.fetch(
+export const getExerciseMedia = async (exerciseSlug: string) => {
+  const exerciseMedia = await sanityClient.fetch(
     groq`*[_type == "exercise" && slug.current == $slug][0]{
+      "slug": slug.current,
+      body,
+      "stackblitz": resources[@._type == 'stackblitz'][0].openFile,
+      "muxPlaybackId": resources[@->._type == 'videoResource'][0]-> muxAsset.muxPlaybackId,
+      "transcript": resources[@->._type == 'videoResource'][0]-> castingwords.transcript,
+      "solution": resources[@._type == 'solution'][0]{
+        body,
+        "stackblitz": resources[@._type == 'stackblitz'][0].openFile,
+        "muxPlaybackId": resources[@->._type == 'videoResource'][0]-> muxAsset.muxPlaybackId,
+        "transcript": resources[@->._type == 'videoResource'][0]-> castingwords.transcript,
+        "slug": slug.current,
+      }
+    }`,
+    {slug: `${exerciseSlug}`},
+  )
+
+  return exerciseMedia
+}
+
+export const getExercise = async (
+  slug: string,
+  includeMedia: boolean = true,
+): Promise<Exercise> => {
+  const query = groq`*[_type == "exercise" && slug.current == $slug][0]{
       _id,
       _type,
       _updatedAt,
       title,
       description,
-      body,
       "slug": slug.current,
-      "stackblitz": resources[@._type == 'stackblitz'][0].openFile,
-      "muxPlaybackId": resources[@->._type == 'videoResource'][0]-> muxAsset.muxPlaybackId,
-      "transcript": resources[@->._type == 'videoResource'][0]-> castingwords.transcript,
+      ${
+        includeMedia
+          ? `      
+        body,
+        "stackblitz": resources[@._type == 'stackblitz'][0].openFile,
+        "muxPlaybackId": resources[@->._type == 'videoResource'][0]-> muxAsset.muxPlaybackId,
+        "transcript": resources[@->._type == 'videoResource'][0]-> castingwords.transcript,
+      `
+          : ''
+      }
       "solution": resources[@._type == 'solution'][0]{
         _key,
         _type,
         "_updatedAt": ^._updatedAt,
         title,
         description,
-        body,
-        "stackblitz": resources[@._type == 'stackblitz'][0].openFile,
-        "muxPlaybackId": resources[@->._type == 'videoResource'][0]-> muxAsset.muxPlaybackId,
+        ${
+          includeMedia
+            ? `      
+          body,
+          "stackblitz": resources[@._type == 'stackblitz'][0].openFile,
+          "muxPlaybackId": resources[@->._type == 'videoResource'][0]-> muxAsset.muxPlaybackId,
+          "transcript": resources[@->._type == 'videoResource'][0]-> castingwords.transcript,
+        `
+            : ''
+        }
         "slug": slug.current,
-        "transcript": resources[@->._type == 'videoResource'][0]-> castingwords.transcript,
       }
-    }`,
-    {slug: `${slug}`},
-  )
+    }`
+
+  const exercise = await sanityClient.fetch(query, {slug: `${slug}`})
 
   return ExerciseSchema.parse(exercise)
 }

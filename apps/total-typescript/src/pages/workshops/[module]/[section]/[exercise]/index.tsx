@@ -1,9 +1,10 @@
 import React from 'react'
 import ExerciseTemplate from 'templates/exercise-template'
 import {GetStaticPaths, GetStaticProps} from 'next'
-import {getExercise} from 'lib/exercises'
+import {getExercise, getExerciseMedia} from 'lib/exercises'
 import {getAllWorkshops, getWorkshop} from 'lib/workshops'
 import {getSection} from 'lib/sections'
+import {useQuery} from 'react-query'
 
 export const getStaticProps: GetStaticProps = async (context) => {
   const {params} = context
@@ -11,7 +12,7 @@ export const getStaticProps: GetStaticProps = async (context) => {
   const sectionSlug = params?.section as string
 
   const module = await getWorkshop(params?.module as string)
-  const exercise = await getExercise(exerciseSlug)
+  const exercise = await getExercise(exerciseSlug, false)
   const section = await getSection(sectionSlug)
 
   return {
