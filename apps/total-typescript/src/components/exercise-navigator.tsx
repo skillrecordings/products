@@ -9,8 +9,9 @@ import {Exercise} from '../lib/exercises'
 
 const ExerciseNavigator: React.FC<{
   module: SanityDocument
+  section?: SanityDocument
   path: string
-}> = ({module, path}) => {
+}> = ({module, section, path}) => {
   const router = useRouter()
   const scrollContainerRef = React.useRef<HTMLDivElement>(null)
   const activeElRef = React.useRef<HTMLDivElement>(null)
@@ -22,6 +23,8 @@ const ExerciseNavigator: React.FC<{
     })
   }, [router])
 
+  const exercises = section ? section.exercises : module.exercises
+
   return (
     <div
       ref={scrollContainerRef}
@@ -29,15 +32,15 @@ const ExerciseNavigator: React.FC<{
     >
       <nav aria-label="exercise navigator">
         <ul className="flex flex-col divide-y divide-gray-800/0 text-lg">
-          {module.exercises.map((exercise: Exercise, sectionIdx: number) => {
-            const isActive =
-              router.asPath ===
-              `/tutorials/${module.slug.current}/${exercise.slug}`
+          {exercises?.map((exercise: Exercise, sectionIdx: number) => {
+            //TODO treat this differently when a section is present as path will change
+            const currentPath = section
+              ? `${path}/${module.slug.current}/${section.slug}/${exercise.slug}`
+              : `${path}/${module.slug.current}/${exercise.slug}`
+            const isActive = router.asPath === currentPath
             const scrollToElement =
-              router.asPath ===
-                `/tutorials/${module.slug.current}/${exercise.slug}/solution` ||
-              router.asPath ===
-                `/tutorials/${module.slug.current}/${exercise.slug}`
+              router.asPath === `${currentPath}/solution` ||
+              router.asPath === currentPath
 
             return (
               <li key={exercise.slug} className="pt-2">
@@ -46,10 +49,13 @@ const ExerciseNavigator: React.FC<{
                 )}
                 <Link
                   href={{
-                    pathname: `${path}/[module]/[exercise]`,
+                    pathname: section
+                      ? `${path}/[module]/[section]/[exercise]`
+                      : `${path}/[module]/[exercise]`,
                     query: {
                       module: module.slug.current,
                       exercise: exercise.slug,
+                      ...(section && {section: section.slug}),
                     },
                   }}
                   passHref
@@ -59,6 +65,7 @@ const ExerciseNavigator: React.FC<{
                     onClick={() => {
                       track('clicked exercise in navigator', {
                         module: module.slug.current,
+                        ...(section && {section: section.slug}),
                         lesson: exercise.slug,
                         moduleType: module.moduleType,
                         lessonType: exercise._type,
@@ -78,10 +85,13 @@ const ExerciseNavigator: React.FC<{
                   <li key={exercise.slug + `exercise`}>
                     <Link
                       href={{
-                        pathname: `${path}/[module]/[exercise]`,
+                        pathname: section
+                          ? `${path}/[module]/[section]/[exercise]`
+                          : `${path}/[module]/[exercise]`,
                         query: {
                           module: module.slug.current,
                           exercise: exercise.slug,
+                          ...(section && {section: section.slug}),
                         },
                       }}
                       passHref
@@ -99,6 +109,7 @@ const ExerciseNavigator: React.FC<{
                           track(`clicked exercise in navigator`, {
                             module: module.slug.current,
                             lesson: exercise.slug,
+                            ...(section && {section: section.slug}),
                             location: router.query.lesson,
                             moduleType: module.moduleType,
                             lessonType: exercise._type,
@@ -112,6 +123,7 @@ const ExerciseNavigator: React.FC<{
                   <SolutionLink
                     module={module}
                     exercise={exercise}
+                    section={section}
                     path={path}
                   />
                 </ul>
@@ -126,26 +138,32 @@ const ExerciseNavigator: React.FC<{
 
 const SolutionLink = ({
   module,
+  section,
   exercise,
   path,
 }: {
   module: SanityDocument
+  section?: SanityDocument
   exercise: Exercise
   path: string
 }) => {
   const router = useRouter()
   const solution = exercise.solution
-  const isActive =
-    router.asPath ===
-    `/tutorials/${module.slug.current}/${exercise.slug}/solution`
+  const currentPath = section
+    ? `${path}/${module.slug.current}/${section.slug}/${exercise.slug}/solution`
+    : `${path}/${module.slug.current}/${exercise.slug}/solution`
+  const isActive = router.asPath === currentPath
   return (
     <li key={solution?._key}>
       <Link
         href={{
-          pathname: `${path}/[module]/[exercise]/solution`,
+          pathname: section
+            ? `${path}/[module]/[section]/[exercise]/solution`
+            : `${path}/[module]/[exercise]/solution`,
           query: {
             module: module.slug.current,
             exercise: exercise.slug,
+            ...(section && {section: section.slug}),
           },
         }}
         passHref
@@ -164,6 +182,7 @@ const SolutionLink = ({
               lesson: exercise.slug,
               moduleType: module.moduleType,
               lessonType: exercise._type,
+              ...(section && {section: section.slug}),
             })
           }}
         >

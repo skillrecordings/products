@@ -2,6 +2,12 @@ import {Stripe} from 'stripe'
 import {first} from 'lodash'
 import {type Purchase, prisma, getSdk} from '@skillrecordings/database'
 import {stripe} from './stripe'
+import {z} from 'zod'
+import {
+  EXISTING_BULK_COUPON,
+  NEW_BULK_COUPON,
+  NEW_INDIVIDUAL_PURCHASE,
+} from '@skillrecordings/types'
 
 export class PurchaseError extends Error {
   checkoutSessionId: string
@@ -68,10 +74,18 @@ export type PurchaseInfo = {
   stripeProduct: Stripe.Product
 }
 
+export const purchaseTypeSchema = z.union([
+  z.literal(EXISTING_BULK_COUPON),
+  z.literal(NEW_BULK_COUPON),
+  z.literal(NEW_INDIVIDUAL_PURCHASE),
+])
+type PurchaseType = z.infer<typeof purchaseTypeSchema>
+
 export async function recordNewPurchase(checkoutSessionId: string): Promise<{
   user: any
   purchase: Purchase
   purchaseInfo: PurchaseInfo
+  purchaseType: PurchaseType
 }> {
   const {
     findOrCreateUser,
@@ -185,8 +199,17 @@ export async function recordNewPurchase(checkoutSessionId: string): Promise<{
       },
     )
 
-    return {purchase: updatedPurchase, user, purchaseInfo}
+    const purchaseType = !!existingBulkCoupon
+      ? EXISTING_BULK_COUPON
+      : NEW_BULK_COUPON
+
+    return {purchase: updatedPurchase, user, purchaseInfo, purchaseType}
   } else {
-    return {purchase, user, purchaseInfo}
+    return {
+      purchase,
+      user,
+      purchaseInfo,
+      purchaseType: NEW_INDIVIDUAL_PURCHASE,
+    }
   }
 }

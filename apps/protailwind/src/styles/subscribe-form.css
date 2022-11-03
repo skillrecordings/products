@@ -1,7 +1,7 @@
 [data-sr-convertkit-subscribe-form] {
-  @apply flex flex-col w-full max-w-[400px] mx-auto sm:text-2xl text-lg;
+  @apply flex flex-col w-full max-w-[400px] mx-auto gap-6;
   [data-sr-input] {
-    @apply sm:text-xl text-lg hover:border-opacity-30 transition block mb-8 w-full px-5 py-4 text-white placeholder-white placeholder-opacity-60 bg-slate-900 bg-opacity-50 backdrop-blur-sm backdrop-brightness-125 border border-white border-opacity-20 rounded-md shadow sm:leading-6;
+    @apply rounded-lg px-5 py-4 block w-full bg-white text-black focus:outline-white;
   }
   [data-sr-input-label] {
     @apply font-medium pb-1 inline-block;
@@ -10,7 +10,7 @@
     @apply opacity-50;
   }
   [data-sr-button] {
-    @apply shadow-xl font-semibold justify-center sm:text-2xl text-xl font-heading p-5 mt-2 overflow-clip flex items-center tracking-wide rounded-lg text-white bg-indigo-500/80 hover:bg-indigo-600 backdrop-blur-md backdrop-brightness-150 hover:bg-opacity-100 transition focus-visible:ring-indigo-200 hover:scale-105;
+    @apply w-full shadow-xl font-black justify-center sm:text-xl text-lg font-heading p-5 mt-2 overflow-clip flex items-center tracking-wide rounded-full text-white bg-black hover:bg-gray-900 transition focus:outline-white;
 
     svg {
       @apply w-6 h-6;
