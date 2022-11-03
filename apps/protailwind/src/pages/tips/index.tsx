@@ -31,8 +31,8 @@ const TipsIndex: React.FC<TipsIndex> = ({tips}) => {
         title: `Tailwind Tips by ${process.env.NEXT_PUBLIC_PARTNER_FIRST_NAME} ${process.env.NEXT_PUBLIC_PARTNER_LAST_NAME}`,
         description: pageDescription,
         ogImage: {
-          url: 'https://res.cloudinary.com/total-typescript/image/upload/v1663921088/tips/card_2x_b9zrcx.png',
-          alt: 'TypeScript Tips by Matt Pocock',
+          url: 'https://res.cloudinary.com/pro-tailwind/image/upload/v1667503658/tips/card_2x_ld2v6w.png',
+          alt: 'Tailwind Tips by Simon Vrachliotis',
         },
       }}
       className="sm:pt-18 flex flex-col items-center pb-16 pt-16 lg:pt-20 lg:pb-24"
