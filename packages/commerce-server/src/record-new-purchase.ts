@@ -6,6 +6,7 @@ import {
   EXISTING_BULK_COUPON,
   NEW_BULK_COUPON,
   NEW_INDIVIDUAL_PURCHASE,
+  INDIVIDUAL_TO_BULK_UPGRADE,
 } from '@skillrecordings/types'
 import {getStripeSdk} from '@skillrecordings/stripe-sdk'
 
@@ -71,6 +72,7 @@ export const purchaseTypeSchema = z.union([
   z.literal(EXISTING_BULK_COUPON),
   z.literal(NEW_BULK_COUPON),
   z.literal(NEW_INDIVIDUAL_PURCHASE),
+  z.literal(INDIVIDUAL_TO_BULK_UPGRADE),
 ])
 type PurchaseType = z.infer<typeof purchaseTypeSchema>
 
@@ -146,6 +148,19 @@ export async function recordNewPurchase(checkoutSessionId: string): Promise<{
     },
   })
 
+  // TODO: Might be able to collapse this purchase lookup and the bulk coupon
+  // lookup into a request for `getPurchasesForUser` that would do a single
+  // query for all of them.
+  //
+  // Check if this user has already purchased an individual seat for themselves.
+  const existingIndividualPurchase = await prisma.purchase.findFirst({
+    where: {
+      userId: user.id,
+      bulkCouponId: null,
+      redeemedBulkCouponId: null,
+    },
+  })
+
   // Note: if the user already has a bulk purchase/coupon, then if they are
   // only adding 1 seat to the team, then it is still a "bulk purchase" and
   // we need to add it to their existing Bulk Coupon.
@@ -192,9 +207,35 @@ export async function recordNewPurchase(checkoutSessionId: string): Promise<{
       },
     )
 
-    const purchaseType = !!existingBulkCoupon
-      ? EXISTING_BULK_COUPON
-      : NEW_BULK_COUPON
+    // if the user had an individual purchase, but this is a bulk purchase,
+    //   then INDIVIDUAL_TO_BULK_UPGRADE
+
+    const determineBulkPurchaseType = (
+      individualPurchaseExists: boolean,
+      bulkCouponExists: boolean,
+    ) => {
+      const individualPurchaserUpgradingToTeam =
+        individualPurchaseExists && !bulkCouponExists
+      const initialTeamPurchase = !individualPurchaseExists && !bulkCouponExists
+      const addingToTeamPurchase = bulkCouponExists
+      switch (true) {
+        case individualPurchaserUpgradingToTeam:
+          return INDIVIDUAL_TO_BULK_UPGRADE
+
+        case initialTeamPurchase:
+          return NEW_BULK_COUPON
+
+        case addingToTeamPurchase:
+          return EXISTING_BULK_COUPON
+        default:
+          return EXISTING_BULK_COUPON
+      }
+    }
+
+    const purchaseType = determineBulkPurchaseType(
+      !!existingIndividualPurchase,
+      !!existingBulkCoupon,
+    )
 
     return {purchase: updatedPurchase, user, purchaseInfo, purchaseType}
   } else {
