@@ -9,6 +9,7 @@ import {
   EXISTING_BULK_COUPON,
   NEW_BULK_COUPON,
   NEW_INDIVIDUAL_PURCHASE,
+  INDIVIDUAL_TO_BULK_UPGRADE,
 } from '@skillrecordings/types'
 import {prisma} from '@skillrecordings/database'
 import Link from 'next/link'
@@ -102,7 +103,9 @@ const ThanksVerify: React.FC<React.PropsWithChildren<ThanksProps>> = ({
   bulkCouponId,
 }) => {
   const isTeamPurchase =
-    purchaseType === NEW_BULK_COUPON || purchaseType === EXISTING_BULK_COUPON
+    purchaseType === NEW_BULK_COUPON ||
+    purchaseType === EXISTING_BULK_COUPON ||
+    purchaseType === INDIVIDUAL_TO_BULK_UPGRADE
   const isNewPurchase =
     purchaseType === NEW_BULK_COUPON || purchaseType === NEW_INDIVIDUAL_PURCHASE
 
