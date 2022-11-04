@@ -5,4 +5,12 @@
 # Usage:
 #   bin/stripe
 
-stripe listen --forward-to localhost:3013/api/stripe/webhook
+# Ensure the script can access the environment variables
+export $(egrep -v '^#' .env.development | xargs)
+
+endpoint="$NEXT_PUBLIC_URL/api/stripe/webhook"
+
+echo
+echo "Forwarding to $endpoint"
+echo
+stripe listen --forward-to endpoint
