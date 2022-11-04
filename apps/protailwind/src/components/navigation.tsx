@@ -58,7 +58,7 @@ const NavLink: React.FC<NavLinkProps> = ({
       <a
         aria-current={isActive ? 'page' : undefined}
         className={cx(
-          'jusfify-center flex items-center gap-1 rounded-full px-4 py-2 transition hover:bg-gray-50',
+          'jusfify-center flex items-center gap-1 rounded-full px-4 py-2 transition hover:bg-gray-100',
           {
             'bg-gray-50': isActive,
           },
