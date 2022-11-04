@@ -14,7 +14,6 @@ import {isEmpty} from 'lodash'
 import SubscribeForm from 'components/subscribe-form'
 import TableOfContents from 'components/portable-text/table-of-contents'
 import Navigation from 'components/app/navigation'
-// import {type Article} from 'lib/articles'
 
 type ArticleTemplateProps = {
   article: SanityDocument
@@ -59,7 +58,7 @@ const ArticleTemplate: React.FC<ArticleTemplateProps> = ({article}) => {
         {!loadingSubscriber && (
           <>{subscriber ? <Share title={title} /> : <SubscribeForm />}</>
         )}
-        {/* <RelatedResources resources={related} /> */}
+        <RelatedResources resources={related} />
       </main>
     </Layout>
   )
@@ -72,7 +71,7 @@ const Share: React.FC<React.PropsWithChildren<{title: string}>> = ({title}) => {
   const url = process.env.NEXT_PUBLIC_URL + router.asPath
   const className =
     'p-3 hover:bg-white hover:bg-opacity-10 transition rounded-full focus-visible:ring-white'
-  const message = `${title} por @TODO`
+  const message = `${title} publicado en @escuelafrontend`
 
   return (
     <div className="flex">
@@ -164,14 +163,15 @@ const Author: React.FC<{info: SanityDocument[]}> = ({info}) => {
             <Image
               src={image}
               alt={alt}
-              width={64}
-              height={64}
+              width={42}
+              height={42}
               priority
               loading="eager"
+              className="rounded-full"
             />
             <a
               href={twitter}
-              className="leading-none decoration-brand underline-offset-1 hover:underline"
+              className="pl-2 text-sm decoration-brand underline-offset-1 hover:underline"
               target="_blank"
               rel="noopener noreferrer"
             >
