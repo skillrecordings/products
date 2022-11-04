@@ -46,7 +46,12 @@ export const getStaticPaths: GetStaticPaths = async (context) => {
 
 const ExerciseSolution: React.FC<any> = ({exercise, module, section}) => {
   return (
-    <ExerciseTemplate exercise={exercise} module={module} section={section} />
+    <ExerciseTemplate
+      exercise={exercise}
+      module={module}
+      section={section}
+      isSolution={true}
+    />
   )
 }
 
