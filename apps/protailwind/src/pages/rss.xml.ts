@@ -38,9 +38,17 @@ const buildFeed = (items: any) => {
   })
 
   items.forEach((item: any) => {
-    feed.addItem({
+    const getPath = (type: string) => {
+      switch (type) {
+        case 'tip':
+          return '/tips/'
+        default:
+          return '/'
+      }
+    }
+    return feed.addItem({
       title: item.title,
-      link: `${hostUrl}/${item.slug}`,
+      link: `${hostUrl}${getPath(item._type)}${item.slug}`,
       description: blocksToText(item.preview),
       date: item.date ? new Date(item.date) : new Date(item._createdAt),
     })
