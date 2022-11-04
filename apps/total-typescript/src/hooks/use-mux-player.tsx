@@ -28,6 +28,7 @@ type VideoContextType = {
   path: string
   video?: {muxPlaybackId: string | null | undefined}
   canShowVideo: boolean
+  loadingUserStatus: boolean
   ability: AppAbility
 }
 
@@ -54,7 +55,8 @@ export const VideoProvider: React.FC<
   section,
 }) => {
   const router = useRouter()
-  const {subscriber} = useConvertkit()
+  const {subscriber, loadingSubscriber} = useConvertkit()
+  const {data: userSession, status} = useSession()
   const nextExercise = getNextExercise({
     module,
     section,
@@ -66,6 +68,7 @@ export const VideoProvider: React.FC<
   const [displayOverlay, setDisplayOverlay] = React.useState(false)
   const video = {muxPlaybackId: lesson.muxPlaybackId}
   const title = get(lesson, 'title') || get(lesson, 'label')
+  const loadingUserStatus = loadingSubscriber || status === 'loading'
 
   const handlePlay = React.useCallback(() => {
     const videoElement = document.getElementById(
@@ -101,8 +104,6 @@ export const VideoProvider: React.FC<
       muxPlayerRef.current.autoplay = autoplay
     }
   }, [subscriber, muxPlayerRef, playbackRate, autoPlay, video])
-
-  const {data: userSession} = useSession()
 
   const ability = getCurrentAbility({
     user: userSession?.user,
@@ -167,6 +168,7 @@ export const VideoProvider: React.FC<
     path,
     canShowVideo,
     ability,
+    loadingUserStatus,
   }
   return (
     <VideoContext.Provider value={context}>{children}</VideoContext.Provider>

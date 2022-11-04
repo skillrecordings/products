@@ -22,10 +22,14 @@ type VideoProps = {
 
 export const Video: React.FC<VideoProps> = React.forwardRef(
   ({module, exercise, section}, ref: any) => {
-    const {subscriber, loadingSubscriber} = useConvertkit()
     const isExercise = Boolean(exercise._type === 'exercise')
-    const {muxPlayerProps, displayOverlay, nextExercise, canShowVideo} =
-      useMuxPlayer()
+    const {
+      muxPlayerProps,
+      displayOverlay,
+      nextExercise,
+      canShowVideo,
+      loadingUserStatus,
+    } = useMuxPlayer()
 
     return (
       <>
@@ -46,7 +50,7 @@ export const Video: React.FC<VideoProps> = React.forwardRef(
           {canShowVideo ? (
             <MuxPlayer ref={ref} {...(muxPlayerProps as MuxPlayerProps)} />
           ) : (
-            <>{loadingSubscriber ? <LoadingOverlay /> : <BlockedOverlay />}</>
+            <>{loadingUserStatus ? <LoadingOverlay /> : <BlockedOverlay />}</>
           )}
         </div>
       </>

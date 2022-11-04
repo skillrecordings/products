@@ -21,6 +21,7 @@ import {trpc} from '../utils/trpc'
 import Spinner from './spinner'
 import {Exercise} from 'lib/exercises'
 import {StackBlitzIframe} from './exercise/stackblitz-iframe'
+import Link from 'next/link'
 
 export const OverlayWrapper: React.FC<
   React.PropsWithChildren<{className?: string; dismissable?: boolean}>
@@ -303,17 +304,22 @@ const BlockedOverlay: React.FC = () => {
   const router = useRouter()
   const {lesson, module} = useMuxPlayer()
 
-  const {data: ctaText} = useQuery([`exercise-free-tutorial`], async () => {
-    return sanityClient
-      .fetch(
-        `
-      *[_type == 'cta' && slug.current == "free-tutorial"][0]{
+  const {data: ctaText} = useQuery(
+    [`exercise-free-tutorial`, lesson.slug, module.slug.current],
+    async () => {
+      return sanityClient
+        .fetch(
+          `
+      *[_type == 'cta' && slug.current == "${
+        module.moduleType === 'tutorial' ? 'free-tutorial' : 'paid-workshop'
+      }"][0]{
         body
       }
     `,
-      )
-      .then((response: SanityDocument) => response.body)
-  })
+        )
+        .then((response: SanityDocument) => response.body)
+    },
+  )
 
   const handleOnSuccess = (subscriber: any, email?: string) => {
     if (subscriber) {
@@ -345,40 +351,88 @@ const BlockedOverlay: React.FC = () => {
       id="video-overlay"
       className="flex w-full flex-col items-center justify-center bg-[#070B16] py-10 md:flex-row lg:aspect-video"
     >
-      <div className="z-20 flex h-full flex-shrink-0 flex-col items-center justify-center gap-5 p-5 pb-10 text-center text-lg leading-relaxed sm:p-10 sm:pb-16">
-        <div className="flex w-full flex-col items-center justify-center gap-2">
-          <div className="relative -mb-5">
-            <Image
-              src={module.image}
-              width={220}
-              height={220}
-              alt={module.title}
-            />
+      {module.moduleType === 'tutorial' ? (
+        <>
+          <div className="z-20 flex h-full flex-shrink-0 flex-col items-center justify-center gap-5 p-5 pb-10 text-center text-lg leading-relaxed sm:p-10 sm:pb-16">
+            <div className="flex w-full flex-col items-center justify-center gap-2">
+              <div className="relative -mb-5">
+                <Image
+                  src={module.image}
+                  width={220}
+                  height={220}
+                  alt={module.title}
+                />
+              </div>
+              <h2 className="text-4xl font-semibold">
+                Level up with {module.title}
+              </h2>
+              <h3 className="pb-5 text-xl">
+                Access all lessons in this {module.moduleType}.
+              </h3>
+              {module.moduleType === 'tutorial' ? (
+                <>
+                  <SubscribeToConvertkitForm
+                    successMessage="Thanks! You're being redirected..."
+                    subscribeApiURL={
+                      process.env.NEXT_PUBLIC_CONVERTKIT_SUBSCRIBE_URL
+                    }
+                    actionLabel="Continue Watching"
+                    fields={startedLearningField}
+                    onSuccess={(subscriber, email) => {
+                      return handleOnSuccess(subscriber, email)
+                    }}
+                  />
+                  <p className="pt-2 text-base opacity-80">
+                    No spam, unsubscribe at any time.
+                  </p>
+                </>
+              ) : (
+                <div>Buy Now</div>
+              )}
+            </div>
           </div>
-          <h2 className="text-4xl font-semibold">
-            Level up with {module.title}
-          </h2>
-          <h3 className="pb-5 text-xl">
-            Access all lessons in this {module.moduleType}.
-          </h3>
-          <SubscribeToConvertkitForm
-            successMessage="Thanks! You're being redirected..."
-            subscribeApiURL={process.env.NEXT_PUBLIC_CONVERTKIT_SUBSCRIBE_URL}
-            actionLabel="Continue Watching"
-            fields={startedLearningField}
-            onSuccess={(subscriber, email) => {
-              return handleOnSuccess(subscriber, email)
-            }}
-          />
-          <p className="pt-2 text-base opacity-80">
-            No spam, unsubscribe at any time.
-          </p>
-        </div>
-      </div>
-      <div className="prose flex w-full max-w-none flex-col p-5 text-white prose-p:mb-0 prose-p:text-gray-300 sm:max-w-sm xl:prose-lg xl:max-w-lg xl:prose-p:mb-0">
-        <h3 className="text-3xl font-semibold">This is a free tutorial.</h3>
-        {ctaText && <PortableText value={ctaText} />}
-      </div>
+          <div className="prose flex w-full max-w-none flex-col p-5 text-white prose-p:mb-0 prose-p:text-gray-300 sm:max-w-sm xl:prose-lg xl:max-w-lg xl:prose-p:mb-0">
+            <h3 className="text-3xl font-semibold">This is a free tutorial.</h3>
+            {ctaText && <PortableText value={ctaText} />}
+          </div>
+        </>
+      ) : (
+        <>
+          <div className="z-20 flex h-full flex-shrink-0 flex-col items-center justify-center gap-5 p-5 pb-10 text-center text-lg leading-relaxed sm:p-10 sm:pb-16">
+            <div className="flex w-full flex-col items-center justify-center gap-2">
+              <div className="relative -mb-5">
+                <Image
+                  src={module.image}
+                  width={220}
+                  height={220}
+                  alt={module.title}
+                />
+              </div>
+              <h2 className="text-4xl font-semibold">
+                Level up with {module.title}
+              </h2>
+              <h3 className="pb-5 text-xl">
+                {ctaText && <PortableText value={ctaText} />}
+              </h3>
+              <Link
+                href={{
+                  pathname: '/buy',
+                }}
+              >
+                <a className="group mt-5 inline-block gap-2 rounded bg-gray-800 px-4 py-2 font-medium transition hover:bg-gray-700">
+                  Buy Now{' '}
+                  <span
+                    aria-hidden="true"
+                    className="text-gray-300 transition group-hover:text-white"
+                  >
+                    →
+                  </span>
+                </a>
+              </Link>
+            </div>
+          </div>
+        </>
+      )}
     </div>
   )
 }

@@ -13,7 +13,7 @@ export const useSurveyPopupOfferMachine = () => {
 
   React.useEffect(() => {
     if (process.env.NODE_ENV === 'development')
-      console.log('state:', machineState.value.toString())
+      console.debug('state:', machineState.value.toString())
     switch (true) {
       case machineState.matches('loadingSubscriber'):
         // relies on another hook and using react-query under the hood

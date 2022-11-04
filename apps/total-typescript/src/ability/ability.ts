@@ -32,7 +32,6 @@ function defineRulesForPurchases(viewerAbilityInput: ViewerAbilityInput) {
 
   const hasVideo = Boolean(lesson.muxPlaybackId)
 
-  console.log({module})
   if (module.moduleType === 'tutorial') {
     if (subscriber || (!section && hasVideo)) {
       can('view', 'Content')
