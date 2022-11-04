@@ -72,6 +72,7 @@ const EpisodeIndexLayout: React.FC<{season: PodcastSeason}> = ({season}) => {
               </span>
             </h1>
           </header>
+          <Providers />
           <div className="prose opacity-90 md:prose-p:text-white/90 md:prose-headings:mx-auto prose-headings:mx-auto md:prose-headings:max-w-screen-sm md:prose-lg prose-p:my-5 md:prose-p:my-8 xl:prose-p:my-10 xl:prose-xl max-w-none">
             <PortableText value={content} components={PortableTextComponents} />
           </div>
@@ -125,6 +126,58 @@ function TriangleIcon({size = 24}: {size?: number}) {
         d="M18.25 12L5.75 5.75V18.25L18.25 12Z"
       />
     </svg>
+  )
+}
+
+const Providers = () => {
+  return (
+    <div className="flex sm:flex-row flex-col gap-5 mx-auto max-w-screen-lg w-full">
+      <a
+        href="https://open.spotify.com/show/5fVWxK2CksFsxm7Di7pvhY"
+        target="_blank"
+        className="relative z-10 flex items-center justify-center border border-gray-700 px-2 py-1 bg-white/10 backdrop-blur-lg hover:bg-white/20 transition rounded-lg"
+        rel="noreferrer"
+      >
+        <Image
+          src="/images/podcast/spotify.svg"
+          height={50}
+          width={140}
+          alt=""
+          aria-hidden="true"
+        />
+        <span className="sr-only">Listen on Spotify</span>
+      </a>
+      <a
+        href="https://podcasts.google.com/feed/aHR0cHM6Ly9mZWVkcy5zaW1wbGVjYXN0LmNvbS9hSXZVRW4wQw"
+        target="_blank"
+        className="relative z-10 flex items-center justify-center border border-gray-700 px-2 py-1 bg-white/10 backdrop-blur-lg hover:bg-white/20 transition rounded-lg"
+        rel="noreferrer"
+      >
+        <Image
+          src="/images/podcast/google.svg"
+          alt=""
+          height={50}
+          width={140}
+          aria-hidden="true"
+        />
+        <span className="sr-only">Listen on Google Podcasts</span>
+      </a>
+      <a
+        href="https://podcasts.apple.com/us/podcast/typescript-course/id1652584793?i=1000584717001"
+        target="_blank"
+        className="relative z-10 flex items-center justify-center border border-gray-700 px-2 py-1 bg-white/10 backdrop-blur-lg hover:bg-white/20 transition rounded-lg"
+        rel="noreferrer"
+      >
+        <Image
+          src="/images/podcast/apple.svg"
+          alt=""
+          height={50}
+          width={140}
+          aria-hidden="true"
+        />
+        <span className="sr-only">Listen on Apple Podcasts</span>
+      </a>
+    </div>
   )
 }
 
