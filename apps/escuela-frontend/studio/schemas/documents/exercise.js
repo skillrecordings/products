@@ -1,10 +1,12 @@
-import {MdAutoFixHigh} from 'react-icons/md'
+import {MdOutlineWorkspaces} from 'react-icons/md'
 
 export default {
-  name: 'solution',
-  type: 'object',
-  title: 'Solution to Exercise',
-  icon: MdAutoFixHigh,
+  name: 'exercise',
+  type: 'document',
+  title: 'Exercise',
+  description:
+    'A type of Lesson that has 2-parts, a problem (the exercise) and a solution.',
+  icon: MdOutlineWorkspaces,
   fields: [
     {
       name: 'label',
@@ -29,18 +31,6 @@ export default {
       },
     },
     {
-      name: 'solutionType',
-      title: 'Solution Type',
-      type: 'string',
-      validation: (Rule) => Rule.required(),
-      options: {
-        list: [
-          {title: 'Solution to Exercise', value: 'exerciseSolution'},
-          {title: 'Solution to Extra Credit', value: 'extraCreditSolution'},
-        ],
-      },
-    },
-    {
       name: 'resources',
       title: 'Resources',
       type: 'array',
@@ -50,6 +40,8 @@ export default {
           type: 'reference',
           to: [{type: 'videoResource'}],
         },
+        {type: 'solution'},
+        {type: 'explainer'},
         {type: 'muxVideo'},
         {type: 'stackblitz'},
       ],
@@ -60,8 +52,19 @@ export default {
       type: 'body',
     },
     {
+      name: 'concepts',
+      title: 'Concepts',
+      type: 'array',
+      of: [
+        {
+          type: 'reference',
+          to: [{type: 'skosConcept'}],
+        },
+      ],
+    },
+    {
       name: 'description',
-      title: 'Summary',
+      title: 'Short Description',
       description: 'Used as a short "SEO" summary on Twitter cards etc.',
       type: 'text',
       validation: (Rule) => Rule.max(160),

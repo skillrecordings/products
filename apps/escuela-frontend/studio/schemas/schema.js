@@ -5,8 +5,9 @@ import createSchema from 'part:@sanity/base/schema-creator'
 import schemaTypes from 'all:part:@sanity/base/schema-type'
 // documents
 import article from './documents/article'
+import exercise from './documents/exercise'
+import section from './documents/section'
 import module from './documents/module'
-import resource from './documents/resource'
 // objects
 import bodyVideo from './objects/bodyVideo'
 import bodyImage from './objects/bodyImage'
@@ -20,9 +21,10 @@ import github from './objects/github'
 import muxAsset from './objects/muxAsset'
 import stackblitz from './objects/stackblitz'
 import muxVideo from './objects/muxVideo'
-import exercise from './objects/resources/exercise'
+import videoResource from './documents/videoResource'
 import solution from './objects/resources/solution'
-import talk from './objects/resources/talk'
+import castingwordsTranscript from './objects/castingwordsTranscript'
+import explainer from './objects/resources/explainer'
 
 // Then we give our schema to the builder and provide the result to Sanity
 export default createSchema({
@@ -37,7 +39,9 @@ export default createSchema({
     // documents
     article,
     module,
-    resource,
+    exercise,
+    section,
+    videoResource,
     //objects
     body,
     bodyVideo,
@@ -48,12 +52,12 @@ export default createSchema({
     mediaCaption,
     videoOptions,
     github,
+    solution,
+    explainer,
     muxAsset,
     muxVideo,
     stackblitz,
-    solution,
-    exercise,
-    talk,
+    castingwordsTranscript,
     // When added to this list, object types can be used as
     // { type: 'typename' } in other document schemas
   ]),

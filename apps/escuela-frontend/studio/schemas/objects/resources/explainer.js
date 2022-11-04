@@ -1,10 +1,12 @@
-import {MdAutoFixHigh} from 'react-icons/md'
+import {MdOndemandVideo} from 'react-icons/md'
 
 export default {
-  name: 'solution',
+  name: 'explainer',
   type: 'object',
-  title: 'Solution to Exercise',
-  icon: MdAutoFixHigh,
+  title: 'Explainer',
+  description:
+    'A type of Lesson that can be a sectionIntro moduleIntro moduleOutro',
+  icon: MdOndemandVideo,
   fields: [
     {
       name: 'label',
@@ -29,14 +31,14 @@ export default {
       },
     },
     {
-      name: 'solutionType',
-      title: 'Solution Type',
+      name: 'explainerType',
+      title: 'Explainer Type',
       type: 'string',
       validation: (Rule) => Rule.required(),
       options: {
         list: [
-          {title: 'Solution to Exercise', value: 'exerciseSolution'},
-          {title: 'Solution to Extra Credit', value: 'extraCreditSolution'},
+          {title: 'Explainer to Section', value: 'sectionIntro'},
+          {title: 'Explainer to Module', value: 'moduleIntro'},
         ],
       },
     },
