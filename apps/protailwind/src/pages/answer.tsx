@@ -7,7 +7,7 @@ import Layout from 'components/layout'
 const Answer: React.FC<React.PropsWithChildren<{questionSet: QuestionSet}>> = ({
   questionSet,
 }) => {
-  return (
+  return questionSet ? (
     <Layout noIndex meta={{title: 'Quiz'}}>
       <div className="flex h-full w-full flex-col items-center justify-center sm:py-16">
         <QuizAnswerPage
@@ -16,7 +16,7 @@ const Answer: React.FC<React.PropsWithChildren<{questionSet: QuestionSet}>> = ({
         />
       </div>
     </Layout>
-  )
+  ) : null
 }
 
 export async function getStaticProps() {
