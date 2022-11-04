@@ -32,7 +32,8 @@ function defineRulesForPurchases(viewerAbilityInput: ViewerAbilityInput) {
 
   const hasVideo = Boolean(lesson.muxPlaybackId)
 
-  if (module._type === 'tutorial') {
+  console.log({module})
+  if (module.moduleType === 'tutorial') {
     if (subscriber || (!section && hasVideo)) {
       can('view', 'Content')
     }
@@ -42,7 +43,7 @@ function defineRulesForPurchases(viewerAbilityInput: ViewerAbilityInput) {
     can('view', 'Content')
   }
 
-  if (module._type === 'workshop') {
+  if (module.moduleType === 'workshop') {
     if (user && hasVideo) {
       can('view', 'Content')
     }
