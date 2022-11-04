@@ -8,10 +8,8 @@ import {Facebook, LinkedIn, Twitter} from '@skillrecordings/react'
 import {NextRouter, useRouter} from 'next/router'
 import {IconGithub} from './icons'
 import snakeCase from 'lodash/snakeCase'
-import toast from 'react-hot-toast'
 import Image from 'next/image'
 import {useMuxPlayer} from 'hooks/use-mux-player'
-import {StackBlitzIframe} from 'templates/exercise-template'
 import {XIcon} from '@heroicons/react/solid'
 import cx from 'classnames'
 import {track} from '../utils/analytics'
@@ -22,6 +20,7 @@ import {useQuery} from 'react-query'
 import {trpc} from '../utils/trpc'
 import Spinner from './spinner'
 import {Exercise} from 'lib/exercises'
+import {StackBlitzIframe} from './exercise/stackblitz-iframe'
 
 export const OverlayWrapper: React.FC<
   React.PropsWithChildren<{className?: string; dismissable?: boolean}>

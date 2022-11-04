@@ -1,5 +1,5 @@
 import * as React from 'react'
-import {Exercise} from '../../lib/exercises'
+import {Exercise} from 'lib/exercises'
 import {SanityDocument} from '@sanity/client'
 import cx from 'classnames'
 import Spinner from '../spinner'
@@ -39,7 +39,7 @@ export const StackBlitzIframe: React.FC<{
             <span>Loading editor...</span>
           </div>
           <Image
-            src={require('../../public/assets/editor-placeholder.svg')}
+            src={require('../../../public/assets/editor-placeholder.svg')}
             layout="fill"
             className="object-cover object-left-top"
           />

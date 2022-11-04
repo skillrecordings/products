@@ -2,8 +2,8 @@ import * as React from 'react'
 import {Exercise} from '../../lib/exercises'
 import {useMuxPlayer} from '../../hooks/use-mux-player'
 import {PortableText} from '@portabletext/react'
-import {hmsToSeconds} from '../../utils/hms-to-seconds'
 import {PortableTextComponents as PortableTextComponentsType} from '@portabletext/react/src/types'
+import {hmsToSeconds} from '@skillrecordings/time'
 
 export const VideoTranscript: React.FC<{
   exercise: Exercise
