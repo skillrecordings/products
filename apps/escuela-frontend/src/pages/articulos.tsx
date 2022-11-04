@@ -1,15 +1,15 @@
 import * as React from 'react'
 import {isEmpty} from 'lodash'
-import Layout from 'components/layout'
+import Layout from 'components/app/layout'
 import Link from 'next/link'
 import Markdown from 'react-markdown'
 import {GetServerSideProps} from 'next'
 import {SanityDocument} from '@sanity/client'
 import {getAllArticles} from '../lib/articles'
-import {toPlainText} from '@portabletext/react'
+import Navigation from 'components/app/navigation'
 
 const meta = {
-  title: 'Recursos Escritos para Dominar el Ecosistema de JavaScript',
+  title: 'Artículos',
 }
 
 type ArticlesProps = {
@@ -18,15 +18,19 @@ type ArticlesProps = {
 
 const Articles: React.FC<ArticlesProps> = ({articles}) => {
   return (
-    <Layout meta={meta} className="overflow-hidden" nav>
-      <header className="relative px-5 pb-10 overflow-hidden pt-28 sm:pb-16 sm:pt-40">
-        <h1 className="max-w-screen-md mx-auto text-4xl font-bold leading-none text-center font-heading sm:text-5xl lg:text-6xl">
+    <Layout
+      meta={meta}
+      className="overflow-hidden"
+      nav={<Navigation className="relative flex lg:relative" />}
+    >
+      <header className="relative overflow-hidden px-5 pt-20 pb-10 text-white md:pt-24 md:pb-16 lg:py-28">
+        <h1 className="mt-12 mb-4 bg-gradient-to-b from-white to-gray-200 bg-clip-text text-center text-4xl font-extrabold leading-tight text-transparent sm:text-4xl md:text-5xl lg:text-6xl">
           {meta.title}
         </h1>
       </header>
       <main className="flex-grow">
-        <div className="w-full max-w-screen-lg pb-16 mx-auto">
-          <div className="grid grid-cols-1 gap-10 md:grid-cols-2">
+        <div className="mx-auto w-full max-w-xl gap-16 pt-16 pb-16">
+          <div className="grid grid-cols-1 gap-10">
             {isEmpty(articles) ? (
               <h3>Sorry, there are no articles yet</h3>
             ) : (
@@ -35,39 +39,34 @@ const Articles: React.FC<ArticlesProps> = ({articles}) => {
                   title,
                   slug,
                   description,
-                  date,
-                  body,
-                  subtitle,
                   estimatedReadingTime,
                 }: SanityDocument) => {
-                  const shortDescription =
-                    description || toPlainText(body).substring(0, 190) + '...'
                   return (
                     <div key={slug} className="gap-5 p-8">
-                      <div className="flex w-full sm:justify-between justify-left">
-                        <div>
-                          <h2 className="text-2xl font-semibold underline transition decoration-white hover:decoration-slate-500 lg:text-3xl sm:text-xl font-heading">
+                      <div className=" flex w-full justify-between text-center">
+                        <div className="">
+                          <div className="mb-2 text-sm text-gray-300">
+                            Tiempo Estimado: {estimatedReadingTime}m
+                          </div>
+                          <h2 className="text-2xl font-extrabold decoration-white transition hover:decoration-gray-500 sm:text-xl lg:text-3xl">
                             <Link href={`/${slug}`} passHref>
-                              <a className="block group">{title}</a>
+                              <a className="group block">{title}</a>
                             </Link>
                           </h2>
                           {description && (
-                            <Markdown className="pt-3 pb-6 prose">
+                            <Markdown className="prose pt-3 pb-6">
                               {description}
                             </Markdown>
                           )}
-                          <div className="flex items-center w-full mt-6 space-x-5">
+                          <div className="mt-6 flex items-center justify-center space-x-5">
                             <Link href={`/${slug}`} passHref>
-                              <a className="inline-flex px-4 py-2 text-lg font-medium transition rounded-lg bg-black/10 hover:bg-slate-300">
-                                Leer
+                              <a className="focus-visible:ring-bg-brand/70 mt-4 inline-flex items-center justify-center rounded-md bg-brand px-4 py-4 pt-4 pb-4 text-base font-bold text-gray-900 transition hover:bg-brand/90 hover:bg-opacity-100">
+                                Leer Artículo
                                 <i aria-hidden className="pl-2">
                                   →
                                 </i>
                               </a>
                             </Link>
-                            <div className="">
-                              Tiempo Estimado: {estimatedReadingTime}m
-                            </div>
                           </div>
                         </div>
                       </div>

@@ -1,6 +1,6 @@
-import Layout from 'components/layout'
+import Layout from 'components/app/layout'
 import {getOgImage} from 'utils/get-og-image'
-import {PrimaryNewsletterCta} from 'components/primary-newsletter-cta'
+import SubscribeForm from 'components/subscribe-form'
 
 const NewsletterPage = () => {
   const title = 'Newsletter'
@@ -8,8 +8,8 @@ const NewsletterPage = () => {
 
   return (
     <Layout meta={{title, ogImage}} className="w-full">
-      <main className="w-full mx-auto">
-        <PrimaryNewsletterCta />
+      <main className="mx-auto w-full">
+        <SubscribeForm />
       </main>
     </Layout>
   )
