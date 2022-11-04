@@ -30,6 +30,11 @@ export async function getMiddlewareResponse(req: NextRequest) {
     }
   }
 
+  // @ts-ignore
+  if (!req.nextauth.token && req.nextUrl.pathname.startsWith('/workshops')) {
+    response = rewriteToPath(`/workshops/lesson-paywall`, req)
+  }
+
   response = setCookiesForResponse(response, subscriber)
 
   return response

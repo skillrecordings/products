@@ -13,23 +13,23 @@ const Share: React.FC<{title: string}> = ({title}) => {
   const router = useRouter()
   const url = process.env.NEXT_PUBLIC_URL + router.asPath
   const shareButtonClassName =
-    'w-full flex items-center justify-center px-7 py-8 hover:bg-slate-800/60 transition'
+    'w-full flex items-center justify-center px-7 py-8 hover:bg-gray-800/60 transition'
 
   return (
-    <div className="flex items-center justify-center max-w-screen-md pt-10 pl-5 mx-auto mb-16 overflow-hidden shadow-xl bg-slate-800/40 md:rounded-lg sm:pt-0">
-      <div className="flex flex-col items-center justify-between w-full max-w-screen-md gap-5 mx-auto sm:flex-row">
+    <div className="mx-auto mb-16 flex max-w-screen-md items-center justify-center overflow-hidden bg-gray-800/40 pt-10 pl-5 shadow-xl sm:pt-0 md:rounded-lg">
+      <div className="mx-auto flex w-full max-w-screen-md flex-col items-center justify-between gap-5 sm:flex-row">
         <div>
           <p className="flex items-center text-xl">
             <HeartIcon
               aria-hidden="true"
-              className="flex-shrink-0 inline-block w-5 h-5 mr-2 text-rose-500"
+              className="mr-2 inline-block h-5 w-5 flex-shrink-0 text-rose-500"
             />
             <span className="leading-none">
               Share this article with your friends
             </span>
           </p>
         </div>
-        <div className="flex items-center justify-center w-full pt-2 border-r sm:pt-0 sm:w-auto sm:divide-x divide-slate-900 border-slate-900">
+        <div className="flex w-full items-center justify-center divide-gray-900 border-r border-gray-900 pt-2 sm:w-auto sm:divide-x sm:pt-0">
           <Twitter
             className={shareButtonClassName}
             svgClassName="sm:w-5 sm:h-5 w-4 h-4"

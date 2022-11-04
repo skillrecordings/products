@@ -4,7 +4,7 @@ It was generated using `create-skill-app` and is meant as a starting point for a
 
 ## Update the environment variables
 
-Both `.env.development` and `.env.production` files are used to store environment variables. They have some basic default values that need to be updated for the product and client. This would be a lot better if they were generated with the answers to questions when you run `create-skill-app`, but that isn't the case today.  Feel free to add it!
+Both `.env.development` and `.env.production` files are used to store environment variables. They have some basic default values that need to be updated for the product and client. This would be a lot better if they were generated with the answers to questions when you run `create-skill-app`, but that isn't the case today. Feel free to add it!
 
 - [ ] Update `.env.development` and `.env.production` with real values
 
@@ -14,7 +14,6 @@ There is a `docker-compose.yml` file that is used to run the database. It is con
 
 The `.env` is used by prisma to access the `DATABASE_URL` env variable. It can't be accessed from the other env variable files and only Prisma uses it. 🆒
 
-
 ### The actual data
 
 There are some SQL files in the `seed_data` directory and when you run `docker compose up` they will be loaded into the database.
@@ -23,7 +22,7 @@ There are some SQL files in the `seed_data` directory and when you run `docker c
 
 ## Auth
 
-`next-auth` is configured in a basic way. `EMAIL_SERVER_HOST`, `EMAIL_SERVER_PORT`, and `POSTMARK_KEY` all need to be available for the magic link email to work. The `NEXTAUTH_URL` and `NEXTAUTH_SECRET` also need to be set. 
+`next-auth` is configured in a basic way. `EMAIL_SERVER_HOST`, `EMAIL_SERVER_PORT`, and `POSTMARK_KEY` all need to be available for the magic link email to work. The `NEXTAUTH_URL` and `NEXTAUTH_SECRET` also need to be set.
 
 Don't leak the Postmark key or `next-auth` secrets. Use `.env.local` for that sort of thing and make sure it doesn't get committed.
 
@@ -47,9 +46,6 @@ Sentry is not connected yet.
 
 ## Stripe
 
-The `STRIPE_SECRET_TOKEN` (test) must be set in `.env.local` for commerce to function. 
+The `STRIPE_SECRET_TOKEN` (test) must be set in `.env.local` for commerce to function.
 
 - [ ] update `STRIPE_SECRET_TOKEN` in `.env.local`
-
-
-
