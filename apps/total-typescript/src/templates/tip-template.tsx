@@ -9,7 +9,7 @@ import {
   PortableText,
   PortableTextComponents as PortableTextComponentsType,
 } from '@portabletext/react'
-import {hmsToSeconds} from 'utils/hms-to-seconds'
+import {hmsToSeconds} from '@skillrecordings/time'
 import {TipTeaser} from 'pages/tips'
 import {useRouter} from 'next/router'
 import {

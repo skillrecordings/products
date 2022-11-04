@@ -11,7 +11,7 @@ import {
   PortableText,
   PortableTextComponents as PortableTextComponentsType,
 } from '@portabletext/react'
-import {hmsToSeconds} from 'utils/hms-to-seconds'
+import {hmsToSeconds} from '@skillrecordings/time'
 import {useMuxPlayer, VideoProvider} from 'hooks/use-mux-player'
 import {SanityDocument} from '@sanity/client'
 import {IconGithub} from 'components/icons'

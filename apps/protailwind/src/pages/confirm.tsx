@@ -4,22 +4,22 @@ import Layout from 'components/layout'
 const ConfirmSubscriptionPage = () => {
   return (
     <Layout meta={{title: 'Confirm your subscription'}}>
-      <main className="flex-grow flex items-center justify-center flex-col p-5 min-h-screen bg-blue-600 text-white">
+      <main className="flex min-h-screen flex-grow flex-col items-center justify-center bg-blue-600 p-5 text-white">
         <Image />
         <div className="max-w-lg text-center font-light">
           {/* <p className="sm:text-xl">
             Thanks so much for signing up! There’s one last step.
           </p> */}
-          <h1 className="font-black lg:text-4xl text-3xl py-8 font-heading">
+          <h1 className="py-8 font-heading text-3xl font-black lg:text-4xl">
             Please check your inbox for an email that just got sent.
           </h1>
-          <p className="sm:text-lg text-blue-100 leading-relaxed mx-auto pb-8">
+          <p className="mx-auto pb-8 leading-relaxed text-blue-100 sm:text-lg">
             You'll need to click the confirmation link to receive any further
             emails. If you don't see the email after a few minutes, you might
             check your spam folder or other filters and add{' '}
             <strong>team@protailwind.com</strong> to your contacts.
           </p>
-          <p className="sm:text-lg text-white">
+          <p className="text-white sm:text-lg">
             <Signature />
           </p>
         </div>
@@ -34,7 +34,7 @@ export const Signature = () => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
-      className="w-24 mx-auto"
+      className="mx-auto w-24"
       fill="none"
       viewBox="0 0 88 54"
     >

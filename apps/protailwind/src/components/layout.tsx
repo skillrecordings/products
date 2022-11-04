@@ -46,7 +46,7 @@ const Layout: FunctionComponent<React.PropsWithChildren<LayoutProps>> = ({
       {nav && <Navigation />}
       <div
         className={cx(
-          'flex flex-col flex-grow h-full sm:min-h-[calc(100vh-64px)] min-h-[calc(100vh-56px)]',
+          'flex h-full min-h-[calc(100vh-56px)] flex-grow flex-col sm:min-h-[calc(100vh-64px)]',
           className,
         )}
       >
