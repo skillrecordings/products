@@ -39,7 +39,7 @@
 .token.constant,
 .token.symbol,
 .token.deleted {
-  @apply text-green-300;
+  @apply text-yellow-300;
 }
 
 .token.selector,
@@ -48,7 +48,7 @@
 .token.char,
 .token.builtin,
 .token.inserted {
-  @apply text-blue-500;
+  @apply text-brand;
 }
 
 .token.operator,
@@ -67,7 +67,7 @@
 
 .token.function,
 .token.class-name {
-  @apply text-pink-500;
+  @apply text-brand;
 }
 
 .token.regex,

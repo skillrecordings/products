@@ -60,7 +60,7 @@ const Articles: React.FC<ArticlesProps> = ({articles}) => {
                           )}
                           <div className="mt-6 flex items-center justify-center space-x-5">
                             <Link href={`/${slug}`} passHref>
-                              <a className="focus-visible:ring-bg-brand/70 mt-4 inline-flex items-center justify-center rounded-md bg-brand px-4 py-4 pt-4 pb-4 text-base font-bold text-gray-100 transition hover:bg-brand/90 hover:bg-opacity-100">
+                              <a className="flex items-center justify-center rounded border border-gray-50 bg-gray-50  px-6 py-3 text-base font-semibold text-gray-900 transition hover:border-gray-50 hover:bg-gray-900 hover:text-gray-50">
                                 Leer Artículo
                                 <i aria-hidden className="pl-2">
                                   →

@@ -1,7 +1,7 @@
 import React from 'react'
 import {useRouter} from 'next/router'
 import {SparklesIcon} from '@heroicons/react/outline'
-import {VideoCameraIcon} from '@heroicons/react/outline'
+import {TicketIcon} from '@heroicons/react/outline'
 import Link from 'next/link'
 import cx from 'classnames'
 import config from 'config'
@@ -13,7 +13,7 @@ type Props = {
 
 const Navigation: React.FC<React.PropsWithChildren<Props>> = ({
   className,
-  containerClassName = 'max-w-screen-lg flex items-stretch justify-between w-full h-full',
+  containerClassName = 'flex items-stretch justify-between w-full h-full',
 }) => {
   return (
     <nav
@@ -48,7 +48,7 @@ const DesktopNav = () => {
       <NavLink
         href="/workshops"
         icon={
-          <VideoCameraIcon
+          <TicketIcon
             className="h-5 w-5 text-gray-300 group-hover:text-gray-50"
             aria-hidden="true"
           />
@@ -111,7 +111,7 @@ export const NavLogo: React.FC<{className?: string}> = ({className}) => {
         <div
           className={`font-fibra flex items-center space-x-2 text-2xl font-bold leading-tight tracking-tight  text-white transition-colors duration-100 ease-in-out  sm:text-3xl ${className}`}
         >
-          <span className="text-base font-bold tracking-wide text-gray-50 md:text-lg">
+          <span className="text-lg font-bold tracking-wide text-gray-50">
             Escuela Frontend
           </span>
         </div>

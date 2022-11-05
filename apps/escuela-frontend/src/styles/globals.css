@@ -10,6 +10,11 @@
 @import './focus-visible.css';
 @import './fonts.css';
 
+::selection {
+  @apply bg-brand;
+  @apply text-gray-50;
+}
+
 .hero-animation-background {
   animation: HeroAnimationBackground 8s 0.4s forwards;
 }

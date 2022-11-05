@@ -31,20 +31,20 @@ const WorkshopsPage: React.FC<{modules: SanityDocument[]}> = ({modules}) => {
           TypeScript workshops for you to achieve TypeScript wizardry.
         </p>
         {modules && (
-          <ul className="flex w-full max-w-screen-md flex-col gap-8 px-3 pt-20">
+          <ul className="flex w-full max-w-4xl flex-col gap-8 px-3 pt-20">
             {modules.map(({title, slug, image, description, sections}, i) => {
               return (
                 <li
                   key={slug.current}
-                  className="relative flex w-full flex-col items-center justify-center gap-10 overflow-hidden rounded-lg border border-gray-700 bg-gray-900 py-20 px-10 shadow-2xl  md:flex-row"
+                  className="relative flex flex-col items-center justify-center gap-10 rounded-lg border border-gray-700 bg-gray-800/30 px-10 py-20 shadow-2xl md:flex-row"
                 >
-                  <div className="flex flex-shrink-0 items-center justify-center">
+                  <div className="mr-10 flex flex-shrink-0 items-center justify-center">
                     <Image
                       src={`https://res.cloudinary.com/dg3gyk0gu/image/fetch/h_600/f_auto/${image}`}
                       alt={title}
-                      width={160}
+                      width={150}
+                      height={150}
                       quality={100}
-                      height={140}
                     />
                   </div>
                   <div>
@@ -56,11 +56,11 @@ const WorkshopsPage: React.FC<{modules: SanityDocument[]}> = ({modules}) => {
                         },
                       }}
                     >
-                      <a className="text-3xl font-bold sm:text-4xl">{title}</a>
+                      <a className="text-4xl font-bold sm:text-4xl">{title}</a>
                     </Link>
                     <div className="pt-4 pb-3 font-mono text-xs font-semibold uppercase text-gray-300">
                       {i === 0 && (
-                        <span className="mr-3 rounded-full bg-brand px-2 py-0.5 font-sans font-semibold uppercase text-gray-100">
+                        <span className="mr-3 rounded-full bg-brand px-4 py-0.5 font-sans font-semibold uppercase text-gray-100">
                           New
                         </span>
                       )}
@@ -83,14 +83,15 @@ const WorkshopsPage: React.FC<{modules: SanityDocument[]}> = ({modules}) => {
                         },
                       }}
                     >
-                      <a className="group mt-5 inline-block gap-2 rounded bg-brand/90 px-4 py-2 font-medium text-gray-100 transition hover:bg-brand">
+                      <a className="group mt-4 inline-block rounded-md border border-gray-50 bg-gray-50 px-10 py-3 text-base text-gray-900 transition hover:border-gray-50 hover:bg-gray-900 hover:text-gray-50">
                         View{' '}
                         <span
+                          className="pr-1"
+                          role="presentation"
                           aria-hidden="true"
-                          className=" text-gray-100 transition"
                         >
                           →
-                        </span>
+                        </span>{' '}
                       </a>
                     </Link>
                   </div>

@@ -19,7 +19,7 @@ module.exports = {
         sicret: ['Sicret Mono', ...defaultTheme.fontFamily.mono],
       },
       colors: {
-        brand: '#0070F3',
+        brand: '#ff3e00',
         gray: {
           50: '#FFF',
           100: '#FAFAFA',
