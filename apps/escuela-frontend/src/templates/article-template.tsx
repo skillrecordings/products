@@ -45,11 +45,11 @@ const ArticleTemplate: React.FC<ArticleTemplateProps> = ({article}) => {
     >
       <Header {...article} />
       <main>
-        <div className="border-t border-b border-gray-800 bg-gray-800 px-5 shadow-lg lg:px-0">
+        <div className="border-t border-b border-gray-700 bg-gray-800 px-5 shadow-lg lg:px-0">
           <TableOfContents value={body} />
         </div>
         <div className="mx-auto w-full max-w-screen-md px-5 pb-10 sm:pt-10 sm:pb-24 lg:px-0">
-          <article className="prose prose-lg max-w-none break-words pt-8 prose-headings:font-bold prose-h2:py-8 prose-a:decoration-brand prose-a:transition hover:prose-a:decoration-brand/90 prose-code:text-[70%] md:prose-xl md:prose-code:text-sm md:prose-code:text-[80%] lg:prose-h2:text-5xl lg:prose-h3:text-4xl lg:prose-code:text-[80%]">
+          <article className="prose prose-lg max-w-none break-words pt-8 prose-headings:font-bold prose-h2:py-8 prose-p:text-gray-300 prose-a:decoration-brand prose-a:transition hover:prose-a:decoration-brand/50 prose-strong:font-extrabold prose-strong:text-gray-50 prose-code:text-[70%] md:prose-xl md:prose-code:text-sm md:prose-code:text-[80%] lg:prose-h2:text-5xl lg:prose-h3:text-4xl lg:prose-code:text-[80%]">
             <PortableText value={body} components={PortableTextComponents} />
           </article>
           <Signature />
@@ -122,7 +122,7 @@ const Header: React.FC<SanityDocument> = ({
     <header className="relative flex flex-col items-center overflow-hidden px-5 pt-24 pb-8">
       <div className="relative z-10 mx-auto flex w-full max-w-screen-lg flex-col items-center">
         <Link passHref href="/articulos">
-          <a className="group relative rounded-md bg-gray-700 px-4 py-2 text-base font-normal opacity-80 transition hover:bg-gray-600">
+          <a className="group relative rounded-md border border-gray-700 bg-gray-900 px-4 py-3 text-base text-gray-300 transition hover:border-gray-50 hover:text-gray-50">
             <span className="pr-1" role="presentation" aria-hidden="true">
               ←
             </span>{' '}
@@ -130,7 +130,7 @@ const Header: React.FC<SanityDocument> = ({
           </a>
         </Link>
         <div className="flex flex-col items-center justify-center pt-10 pb-24 text-center">
-          <h1 className="mx-6 mt-12 mb-4 w-[400px] bg-gradient-to-b from-white to-gray-200 bg-clip-text text-center text-4xl font-extrabold leading-tight text-transparent sm:text-4xl md:!w-full md:text-5xl lg:text-6xl">
+          <h1 className="mx-6 mt-12 mb-4 w-[400px] text-center text-4xl font-extrabold leading-tight text-gray-100 sm:text-4xl md:!w-full md:text-5xl lg:text-6xl">
             {title}
           </h1>
         </div>

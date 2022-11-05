@@ -99,7 +99,7 @@ const TableOfContents = ({value}: PortableTextProps) => {
       className="no-marker group mx-auto w-full max-w-screen-md text-lg font-medium marker:text-transparent sm:text-xl"
     >
       <summary className="flex items-center justify-between hover:cursor-pointer">
-        <span className="py-3 text-base uppercase transition sm:py-5">
+        <span className="py-3 text-sm uppercase opacity-60 transition group-hover:opacity-100 sm:py-5 ">
           Temario
         </span>
         <span
