@@ -10,7 +10,6 @@
     "outDir": "dist",
     "incremental": true,
     "types": [
-      // ... your other types
       "node"
     ],
   },
