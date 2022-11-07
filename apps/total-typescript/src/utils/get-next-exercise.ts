@@ -5,7 +5,6 @@ import indexOf from 'lodash/indexOf'
 
 export const getNextExercise = ({
   module,
-
   currentLesson,
   section,
 }: {
