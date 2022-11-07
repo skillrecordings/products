@@ -79,7 +79,11 @@ function MyApp({Component, pageProps}: AppProps<{session: Session}>) {
 
 function getEndingLink() {
   return httpBatchLink({
-    url: `${process.env.NEXT_PUBLIC_URL}/api/trpc`,
+    url: `${
+      process.env.VERCEL_URL
+        ? process.env.VERCEL_URL
+        : process.env.NEXT_PUBLIC_URL
+    }/api/trpc`,
   })
 }
 
