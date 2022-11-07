@@ -23,7 +23,7 @@ const nextConfig = {
 
 const articleRoutes = [
   {
-    source: 'articulos/guia-practica-de-graphql',
+    source: '/articulos/guia-practica-de-graphql',
     destination: '/guia-practica-de-graphql',
     permanent: true,
   },
