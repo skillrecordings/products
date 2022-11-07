@@ -1,16 +1,18 @@
-import {devices, PlaywrightTestConfig} from '@playwright/test'
+import {type PlaywrightTestConfig, devices} from '@playwright/test'
 import {loadEnvConfig} from '@next/env'
 import process from 'process'
 import path from 'path'
 import os from 'os'
 
-const appRootDir = process.env.PWD
+const appRootDir = './'
 const outputDir = path.join(appRootDir, 'test-results')
 const testDir = path.join(appRootDir, 'playwright')
 
 loadEnvConfig(appRootDir)
 
-const DEFAULT_NAVIGATION_TIMEOUT = 15000
+const defaultTimeout = 30_000
+const defaultNavigationTimeout = 15_000
+const port = Number(process.env.LOCALHOST_PORT)
 const isCI = !!process.env.CI
 const isPlayWrightHeadless = !!process.env.PLAYWRIGHT_HEADLESS
 const isHeadless = isCI || isPlayWrightHeadless
@@ -19,7 +21,7 @@ const config: PlaywrightTestConfig = {
   forbidOnly: isCI,
   retries: 1,
   workers: isHeadless ? os.cpus().length : 1,
-  timeout: 20_000,
+  timeout: defaultTimeout,
   maxFailures: isHeadless ? 3 : undefined,
   reporter: [
     [isCI ? 'github' : 'list'],
@@ -36,12 +38,12 @@ const config: PlaywrightTestConfig = {
   outputDir: path.join(outputDir, 'results'),
   webServer: {
     command: 'pnpm db:start && pnpm start',
-    port: process.env.LOCALHOST_PORT,
-    timeout: 20_000,
+    port,
+    timeout: defaultTimeout,
     reuseExistingServer: !isCI,
   },
   use: {
-    baseURL: 'http://localhost:3013/',
+    baseURL: 'http://localhost:`$port`/',
     locale: 'en-US',
     trace: 'retain-on-failure',
     headless: isHeadless,
@@ -53,17 +55,9 @@ const config: PlaywrightTestConfig = {
       use: {
         ...devices['Desktop Chrome'],
         /** If navigation takes more than this, then something's wrong, let's fail fast. */
-        navigationTimeout: DEFAULT_NAVIGATION_TIMEOUT,
+        navigationTimeout: defaultNavigationTimeout,
       },
     },
-    /*  {
-      name: "firefox",
-      use: { ...devices["Desktop Firefox"] },
-    },
-    {
-      name: "webkit",
-      use: { ...devices["Desktop Safari"] },
-    }, */
   ],
 }
 
