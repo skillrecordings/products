@@ -9,8 +9,9 @@ import {track} from '../utils/analytics'
 import {type Exercise, ExerciseSchema} from 'lib/exercises'
 import {type Tip, TipSchema} from 'lib/tips'
 import {useConvertkit} from './use-convertkit'
-import {AppAbility, getCurrentAbility} from 'ability/ability'
+import {AppAbility} from 'ability/ability'
 import {useSession} from 'next-auth/react'
+import {trpc} from '../utils/trpc'
 
 type VideoResource = Exercise | Tip
 
@@ -37,6 +38,7 @@ export const VideoContext = React.createContext({} as VideoContextType)
 type VideoProviderProps = {
   module: SanityDocument
   lesson: VideoResource
+  exerciseSlug?: string
   section?: SanityDocument
   path?: string
   muxPlayerRef: any
@@ -53,6 +55,7 @@ export const VideoProvider: React.FC<
   path = '',
   onEnded = async () => {},
   section,
+  exerciseSlug,
 }) => {
   const router = useRouter()
   const {subscriber, loadingSubscriber} = useConvertkit()
@@ -62,13 +65,37 @@ export const VideoProvider: React.FC<
     section,
     currentLesson: lesson as Exercise,
   })
+
+  // load ability rules async
+  // this is kind of bananas because the "lesson" in
+  // this context can be an exercise, solution, or tip
+  // so access control is approached differently
+  // and we need to be able to robustly check for access
+  // while understanding what the actual thing
+  // being displayed **is**
+  const {data: abilityRules, status: abilityRulesStatus} = trpc.useQuery([
+    'workshops.verifyAccess',
+    {
+      moduleSlug: module.slug.current,
+      moduleType: module.moduleType,
+      lessonSlug: exerciseSlug,
+      sectionSlug: section?.slug,
+      isSolution: lesson._type === 'solution',
+    },
+  ])
+
+  const ability = new AppAbility(abilityRules || [])
+
   const {setPlayerPrefs, playbackRate, autoplay, getPlayerPrefs} =
     usePlayerPrefs()
   const [autoPlay, setAutoPlay] = React.useState(getPlayerPrefs().autoplay)
   const [displayOverlay, setDisplayOverlay] = React.useState(false)
   const video = {muxPlaybackId: lesson.muxPlaybackId}
   const title = get(lesson, 'title') || get(lesson, 'label')
-  const loadingUserStatus = loadingSubscriber || status === 'loading'
+  const loadingUserStatus =
+    loadingSubscriber ||
+    status === 'loading' ||
+    abilityRulesStatus === 'loading'
 
   const handlePlay = React.useCallback(() => {
     const videoElement = document.getElementById(
@@ -104,14 +131,6 @@ export const VideoProvider: React.FC<
       muxPlayerRef.current.autoplay = autoPlay
     }
   }, [subscriber, muxPlayerRef, playbackRate, autoPlay, video])
-
-  const ability = getCurrentAbility({
-    user: userSession?.user,
-    subscriber,
-    module,
-    lesson,
-    section,
-  })
 
   const canShowVideo = ability.can('view', 'Content')
 
