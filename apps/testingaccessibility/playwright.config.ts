@@ -4,7 +4,7 @@ import process from 'process'
 import path from 'path'
 import os from 'os'
 
-const appRootDir = './'
+const appRootDir = String(process.env.PWD)
 const outputDir = path.join(appRootDir, 'test-results')
 const testDir = path.join(appRootDir, 'playwright')
 
@@ -34,7 +34,9 @@ const config: PlaywrightTestConfig = {
     ],
     ['junit', {outputFile: path.join(outputDir, 'reports/results.xml')}],
   ],
-  globalSetup: require.resolve('./playwright/config/globalSetup'),
+  // We shouldn't always need the global setup, but if a project does, the
+  //   next line can be uncommented:
+  // globalSetup: require.resolve('./playwright/config/globalSetup'),
   outputDir: path.join(outputDir, 'results'),
   webServer: {
     command: 'pnpm db:start && pnpm start',
