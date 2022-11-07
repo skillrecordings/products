@@ -1,9 +1,10 @@
 import * as React from 'react'
 import {SanityDocument} from '@sanity/client'
 import capitalize from 'lodash/capitalize'
-import DesktopExerciseSidebar from '../desktop-exercise-sidebar'
+import ModuleLessonListHeader from '../module-lesson-list-header'
+import LessonList from '../lesson-list'
 
-export const MobileLessonNavigator: React.FC<{
+export const MobileModuleLessonList: React.FC<{
   module: SanityDocument
   section?: SanityDocument
   path: string
@@ -17,7 +18,9 @@ export const MobileLessonNavigator: React.FC<{
           exercises)
         </span>
       </summary>
-      <DesktopExerciseSidebar module={module} path={path} section={section} />
+      <ModuleLessonListHeader module={module} path={path} section={section}>
+        <LessonList module={module} path={path} section={section} />
+      </ModuleLessonListHeader>
     </details>
   )
 }

@@ -1,5 +1,5 @@
 import * as React from 'react'
-import DesktopExerciseSidebar from 'components/desktop-exercise-sidebar'
+import ModuleLessonListHeader from 'components/module-lesson-list-header'
 import Navigation from 'components/app/navigation'
 import Layout from 'components/app/layout'
 import {VideoProvider} from 'hooks/use-mux-player'
@@ -12,8 +12,9 @@ import {GitHubLink} from '../components/exercise/github-link'
 import {VideoTranscript} from '../components/exercise/video-transcript'
 import {ExerciseTitle} from '../components/exercise/exercise-title'
 import {ExerciseDescription} from '../components/exercise/exercise-description'
-import {MobileLessonNavigator} from '../components/exercise/mobile-lesson-navigator'
-import DesktopExerciseNavigator from '../components/desktop-exercise-navigator'
+import {MobileModuleLessonList} from '../components/exercise/mobile-module-lesson-list'
+import LessonList from '../components/lesson-list'
+import {LargeScreenModuleLessonList} from '../components/exercise/large-screen-module-lesson-list'
 
 const ExerciseTemplate: React.FC<{
   exercise: Exercise
@@ -61,18 +62,11 @@ const ExerciseTemplate: React.FC<{
           description={pageDescription}
         />
         <div className="flex flex-col lg:flex-row">
-          <DesktopExerciseSidebar
-            className="hidden lg:block"
+          <LargeScreenModuleLessonList
             module={module}
             path={path}
             section={section}
-          >
-            <DesktopExerciseNavigator
-              module={module}
-              path={path}
-              section={section}
-            />
-          </DesktopExerciseSidebar>
+          />
           <main className="relative mx-auto max-w-[1480px] grow items-start border-t border-transparent lg:mt-16 2xl:flex 2xl:max-w-none 2xl:border-gray-800">
             <div className="border-gray-800 2xl:relative 2xl:h-full 2xl:w-full 2xl:border-r">
               <Video
@@ -81,7 +75,7 @@ const ExerciseTemplate: React.FC<{
                 exercise={exercise}
                 section={section}
               />
-              <MobileLessonNavigator
+              <MobileModuleLessonList
                 module={module}
                 section={section}
                 path={path}
