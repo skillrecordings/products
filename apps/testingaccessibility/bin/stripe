@@ -25,7 +25,8 @@ then
   echo 
   echo "Starting webhook listener and forwarding to:"
   echo "  $endpoint"
-  # stripe listen --forward-to $endpoint
+  echo
+  stripe listen --forward-to $endpoint
 elif  grep -q $webhookSecretLabel $envFileName
 then
   echo "IMPORTANT: It looks like you have an entry for $webhookSecretLabel in $envFileName, but the value is incorrect."
