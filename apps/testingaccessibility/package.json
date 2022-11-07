@@ -10,6 +10,7 @@
     "dev": "bin/dev",
     "dev:validate": "bin/validate",
     "dev:stripe": "bin/stripe",
+    "dev:setup": "vercel env pull .env.local",
     "format": "prettier --write './**/*.{js,jsx,ts,tsx,css,md,mdx,json}' --config ./.prettierrc",
     "lint": "eslint src/**/*.{ts,tsx} --fix && tsc --noEmit",
     "start": "bin/start",
