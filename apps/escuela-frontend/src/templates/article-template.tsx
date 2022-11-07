@@ -21,12 +21,13 @@ type ArticleTemplateProps = {
 }
 
 const ArticleTemplate: React.FC<ArticleTemplateProps> = ({article}) => {
-  const {title, description, body, date, related} = article
+  const {title, description, body, date, related, author} = article
   const shortDescription =
     description || toPlainText(body).substring(0, 157) + '...'
   const ogImage = getOgImage(title)
   const {subscriber, loadingSubscriber} = useConvertkit()
 
+  console.log(article)
   return (
     <Layout
       className="overflow-hidden"
@@ -70,7 +71,7 @@ const Share: React.FC<React.PropsWithChildren<{title: string}>> = ({title}) => {
   const url = process.env.NEXT_PUBLIC_URL + router.asPath
   const className =
     'p-3 hover:bg-white hover:bg-opacity-10 transition rounded-full focus-visible:ring-white'
-  const message = `${title} por @TODO`
+  const message = `${title} publicado en @escuelafrontend`
 
   return (
     <div className="flex">
@@ -117,6 +118,7 @@ const Header: React.FC<SanityDocument> = ({
   subtitle,
   date,
   estimatedReadingTime,
+  author,
 }) => {
   return (
     <header className="relative flex flex-col items-center overflow-hidden px-5 pt-24 pb-8">
@@ -135,7 +137,7 @@ const Header: React.FC<SanityDocument> = ({
           </h1>
         </div>
         <div className="flex w-full max-w-screen-md flex-wrap items-center justify-center gap-10 text-lg leading-none sm:justify-between">
-          <Author />
+          <Author info={author} />
           <div className="flex items-center space-x-5">
             <time dateTime={date} className="flex items-center text-sm">
               <ClockIcon aria-hidden="true" className="w-4 opacity-80" />
@@ -152,19 +154,34 @@ const Header: React.FC<SanityDocument> = ({
   )
 }
 
-const Author = () => {
-  return (
-    <div className="col-span-3 flex items-center justify-center md:col-span-3 md:justify-start">
-      <a
-        href="https://twitter.com/escuelafrontend"
-        className="leading-none decoration-brand underline-offset-1 hover:underline"
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        Escuela Frontend
-      </a>
-    </div>
-  )
+const Author: React.FC<{info: SanityDocument[]}> = ({info}) => {
+  return !isEmpty(info) ? (
+    <>
+      {info.map(({name, image, alt, twitter}) => {
+        return (
+          <div className="col-span-3 flex items-center justify-center md:col-span-3 md:justify-start">
+            <Image
+              src={image}
+              alt={alt}
+              width={42}
+              height={42}
+              priority
+              loading="eager"
+              className="rounded-full"
+            />
+            <a
+              href={twitter}
+              className="pl-2 text-sm decoration-brand underline-offset-1 hover:underline"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              {name}
+            </a>
+          </div>
+        )
+      })}
+    </>
+  ) : null
 }
 
 const Signature = () => {
