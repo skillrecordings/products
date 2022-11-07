@@ -1,7 +1,7 @@
 import React from 'react'
 import {SanityDocument} from '@sanity/client'
 import Link from 'next/link'
-import DesktopExerciseNavigator from './desktop-exercise-navigator'
+import LessonList from './lesson-list'
 import cx from 'classnames'
 import Image from 'next/image'
 import {track} from '../utils/analytics'
@@ -13,7 +13,7 @@ type SidebarProps = {
   className?: string
   children?: React.ReactNode
 }
-const DesktopExerciseSidebar: React.FC<SidebarProps> = ({
+const ModuleLessonListHeader: React.FC<SidebarProps> = ({
   module,
   section,
   path = '',
@@ -100,4 +100,4 @@ const DesktopExerciseSidebar: React.FC<SidebarProps> = ({
   )
 }
 
-export default DesktopExerciseSidebar
+export default ModuleLessonListHeader
