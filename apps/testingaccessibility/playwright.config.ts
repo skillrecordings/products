@@ -34,9 +34,7 @@ const config: PlaywrightTestConfig = {
     ],
     ['junit', {outputFile: path.join(outputDir, 'reports/results.xml')}],
   ],
-  // We shouldn't always need the global setup, but if a project does, the
-  //   next line can be uncommented:
-  // globalSetup: require.resolve('./playwright/config/globalSetup'),
+  globalSetup: require.resolve('./playwright/config/globalSetup'),
   outputDir: path.join(outputDir, 'results'),
   webServer: {
     command: 'pnpm db:start && pnpm start',
