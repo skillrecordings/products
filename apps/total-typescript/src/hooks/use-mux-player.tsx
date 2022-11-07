@@ -9,6 +9,8 @@ import {track} from '../utils/analytics'
 import {type Exercise, ExerciseSchema} from 'lib/exercises'
 import {type Tip, TipSchema} from 'lib/tips'
 import {useConvertkit} from './use-convertkit'
+import {AppAbility, getCurrentAbility} from 'ability/ability'
+import {useSession} from 'next-auth/react'
 
 type VideoResource = Exercise | Tip
 
@@ -25,6 +27,9 @@ type VideoContextType = {
   module: SanityDocument
   path: string
   video?: {muxPlaybackId: string | null | undefined}
+  canShowVideo: boolean
+  loadingUserStatus: boolean
+  ability: AppAbility
 }
 
 export const VideoContext = React.createContext({} as VideoContextType)
@@ -32,6 +37,7 @@ export const VideoContext = React.createContext({} as VideoContextType)
 type VideoProviderProps = {
   module: SanityDocument
   lesson: VideoResource
+  section?: SanityDocument
   path?: string
   muxPlayerRef: any
   onEnded?: () => Promise<any>
@@ -46,16 +52,23 @@ export const VideoProvider: React.FC<
   children,
   path = '',
   onEnded = async () => {},
+  section,
 }) => {
   const router = useRouter()
-  const {subscriber} = useConvertkit()
-  const nextExercise = getNextExercise(module, lesson as Exercise)
+  const {subscriber, loadingSubscriber} = useConvertkit()
+  const {data: userSession, status} = useSession()
+  const nextExercise = getNextExercise({
+    module,
+    section,
+    currentLesson: lesson as Exercise,
+  })
   const {setPlayerPrefs, playbackRate, autoplay, getPlayerPrefs} =
     usePlayerPrefs()
   const [autoPlay, setAutoPlay] = React.useState(getPlayerPrefs().autoplay)
   const [displayOverlay, setDisplayOverlay] = React.useState(false)
   const video = {muxPlaybackId: lesson.muxPlaybackId}
   const title = get(lesson, 'title') || get(lesson, 'label')
+  const loadingUserStatus = loadingSubscriber || status === 'loading'
 
   const handlePlay = React.useCallback(() => {
     const videoElement = document.getElementById(
@@ -88,9 +101,19 @@ export const VideoProvider: React.FC<
   React.useEffect(() => {
     if (muxPlayerRef.current && video) {
       muxPlayerRef.current.playbackRate = playbackRate
-      muxPlayerRef.current.autoplay = autoplay
+      muxPlayerRef.current.autoplay = autoPlay
     }
   }, [subscriber, muxPlayerRef, playbackRate, autoPlay, video])
+
+  const ability = getCurrentAbility({
+    user: userSession?.user,
+    subscriber,
+    module,
+    lesson,
+    section,
+  })
+
+  const canShowVideo = ability.can('view', 'Content')
 
   const context = {
     muxPlayerProps: {
@@ -143,6 +166,9 @@ export const VideoProvider: React.FC<
     module,
     video,
     path,
+    canShowVideo,
+    ability,
+    loadingUserStatus,
   }
   return (
     <VideoContext.Provider value={context}>{children}</VideoContext.Provider>

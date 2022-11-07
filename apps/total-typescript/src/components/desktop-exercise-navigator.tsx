@@ -7,7 +7,7 @@ import Link from 'next/link'
 import cx from 'classnames'
 import {Exercise} from '../lib/exercises'
 
-const ExerciseNavigator: React.FC<{
+const DesktopExerciseNavigator: React.FC<{
   module: SanityDocument
   section?: SanityDocument
   path: string
@@ -192,4 +192,4 @@ const SolutionLink = ({
     </li>
   )
 }
-export default ExerciseNavigator
+export default DesktopExerciseNavigator
