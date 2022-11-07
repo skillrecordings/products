@@ -28,8 +28,6 @@ export const Survey = ({
   const {currentOffer, currentOfferId, isPopupOpen, sendToMachine} =
     useSurveyPopupOfferMachine()
 
-  console.log(pathIsValid, router.pathname, excludePages)
-
   const handlePopupDismissed = async () => {
     track('survey dismissed (do not display)', {
       question: currentOfferId,
