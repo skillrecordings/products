@@ -13,7 +13,6 @@ import {VideoTranscript} from '../components/exercise/video-transcript'
 import {ExerciseTitle} from '../components/exercise/exercise-title'
 import {ExerciseDescription} from '../components/exercise/exercise-description'
 import {MobileModuleLessonList} from '../components/exercise/mobile-module-lesson-list'
-import LessonList from '../components/lesson-list'
 import {LargeScreenModuleLessonList} from '../components/exercise/large-screen-module-lesson-list'
 
 const ExerciseTemplate: React.FC<{
@@ -23,6 +22,10 @@ const ExerciseTemplate: React.FC<{
   isSolution?: boolean
 }> = ({exercise, section, module, isSolution = false}) => {
   const muxPlayerRef = React.useRef<HTMLDivElement>()
+
+  // required to verify access since we switch to the solution below
+  // and you can't query solutions from Sanity
+  const exerciseSlug = exercise.slug
 
   exercise = ExerciseSchema.parse(isSolution ? exercise.solution : exercise)
   const {title, description: exerciseDescription} = exercise
@@ -39,6 +42,7 @@ const ExerciseTemplate: React.FC<{
       muxPlayerRef={muxPlayerRef}
       module={module}
       section={section}
+      exerciseSlug={exerciseSlug}
       lesson={exercise as Exercise}
       path={path}
     >
