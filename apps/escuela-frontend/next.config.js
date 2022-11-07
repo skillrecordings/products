@@ -196,9 +196,8 @@ const articleRoutes = [
   },
   {
     source:
-      'https://www.escuelafrontend.com/articulos/las-diferencias-entre-componentes-controlados-y-no-controlados-en-react',
-    destination:
-      '/https://www.escuelafrontend.com/componentes-controlados-y-no-controlados-en-react',
+      '/articulos/las-diferencias-entre-componentes-controlados-y-no-controlados-en-react',
+    destination: '/componentes-controlados-y-no-controlados-en-react',
     permanent: true,
   },
 ]
