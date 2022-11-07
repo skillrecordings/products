@@ -101,7 +101,7 @@ export const VideoProvider: React.FC<
   React.useEffect(() => {
     if (muxPlayerRef.current && video) {
       muxPlayerRef.current.playbackRate = playbackRate
-      muxPlayerRef.current.autoplay = autoplay
+      muxPlayerRef.current.autoplay = autoPlay
     }
   }, [subscriber, muxPlayerRef, playbackRate, autoPlay, video])
 

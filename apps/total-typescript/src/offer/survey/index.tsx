@@ -10,15 +10,25 @@ import {surveyConfig} from './survey-config'
 import {Identify, identify} from '@amplitude/analytics-browser'
 
 export const Survey = ({
-  excludePages = ['/confirm'],
+  excludePages = ['/confirm', '/workshops'],
 }: {
   excludePages?: string[]
 }) => {
+  function isPathValid(path: string, excludePages: string[]) {
+    for (const pathElement of excludePages) {
+      if (path.includes(pathElement)) {
+        return false
+      }
+    }
+    return true
+  }
   const router = useRouter()
-  const pathIsValid = !excludePages.includes(router.pathname)
+  const pathIsValid = isPathValid(router.asPath, excludePages)
   const answerSurveyMutation = trpc.useMutation(['convertkit.answerSurvey'])
   const {currentOffer, currentOfferId, isPopupOpen, sendToMachine} =
     useSurveyPopupOfferMachine()
+
+  console.log(pathIsValid, router.pathname, excludePages)
 
   const handlePopupDismissed = async () => {
     track('survey dismissed (do not display)', {
