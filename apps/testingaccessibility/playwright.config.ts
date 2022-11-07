@@ -3,10 +3,10 @@ import dotEnv from 'dotenv'
 import * as os from 'os'
 import * as path from 'path'
 
-dotEnv.config({path: '../../.env'})
+dotEnv.config({path: './.env'})
 
-const outputDir = path.join(__dirname, '..', '..', 'test-results')
-const testDir = path.join(__dirname, '..', '..', 'playwright')
+const outputDir = path.join(__dirname, 'test-results')
+const testDir = path.join(__dirname, 'playwright')
 
 const DEFAULT_NAVIGATION_TIMEOUT = 15000
 
@@ -29,7 +29,7 @@ const config: PlaywrightTestConfig = {
     ],
     ['junit', {outputFile: path.join(outputDir, 'reports/results.xml')}],
   ],
-  globalSetup: require.resolve('./globalSetup'),
+  globalSetup: require.resolve('./playwright/config/globalSetup'),
   outputDir: path.join(outputDir, 'results'),
   webServer: {
     command: 'NEXT_PUBLIC_IS_E2E=1 pnpm --filter="testingaccessibility" start ',

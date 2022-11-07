@@ -20,7 +20,7 @@
     "db:schema": "prisma migrate dev --create-only",
     "db:seed:branch": "bin/seed",
     "db:start": "docker compose up -d",
-    "test:e2e": "NEXT_PUBLIC_IS_E2E=1 pnpm playwright test --config=./playwright/config/playwright.config.ts --project=chromium",
+    "test:e2e": "NEXT_PUBLIC_IS_E2E=1 pnpm playwright test --project=chromium",
     "e2e:recorder": "playwright codegen http://localhost:3013"
   },
   "lint-staged": {
