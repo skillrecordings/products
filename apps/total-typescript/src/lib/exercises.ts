@@ -10,7 +10,7 @@ export const ExerciseSchema = z.object({
   title: z.string(),
   slug: z.string(),
   description: z.nullable(z.string()).optional(),
-  body: z.any().array().optional(),
+  body: z.nullable(z.any().array().optional()),
   stackblitz: z.nullable(z.string()).optional(),
   muxPlaybackId: z.nullable(z.string()).optional(),
   transcript: z.nullable(z.any().array()).optional(),
@@ -69,44 +69,33 @@ export const getExercise = async (
   slug: string,
   includeMedia: boolean = true,
 ): Promise<Exercise> => {
-  const query = groq`*[_type == "exercise" && slug.current == $slug][0]{
+  const exercise = await sanityClient.fetch(
+    `*[_type == "exercise" && slug.current == $slug][0]{
       _id,
       _type,
       _updatedAt,
       title,
       description,
       "slug": slug.current,
-      ${
-        includeMedia
-          ? `      
         body,
         "stackblitz": resources[@._type == 'stackblitz'][0].openFile,
         "muxPlaybackId": resources[@->._type == 'videoResource'][0]-> muxAsset.muxPlaybackId,
         "transcript": resources[@->._type == 'videoResource'][0]-> castingwords.transcript,
-      `
-          : ''
-      }
       "solution": resources[@._type == 'solution'][0]{
         _key,
         _type,
         "_updatedAt": ^._updatedAt,
         title,
         description,
-        ${
-          includeMedia
-            ? `      
-          body,
-          "stackblitz": resources[@._type == 'stackblitz'][0].openFile,
-          "muxPlaybackId": resources[@->._type == 'videoResource'][0]-> muxAsset.muxPlaybackId,
-          "transcript": resources[@->._type == 'videoResource'][0]-> castingwords.transcript,
-        `
-            : ''
-        }
+        body,
+        "stackblitz": resources[@._type == 'stackblitz'][0].openFile,
+        "muxPlaybackId": resources[@->._type == 'videoResource'][0]-> muxAsset.muxPlaybackId,
+        "transcript": resources[@->._type == 'videoResource'][0]-> castingwords.transcript,
         "slug": slug.current,
       }
-    }`
-
-  const exercise = await sanityClient.fetch(query, {slug: `${slug}`})
+    }`,
+    {slug},
+  )
 
   return ExerciseSchema.parse(exercise)
 }

@@ -7,6 +7,11 @@ export async function getAllArticles() {
     title,
     subtitle,
     'slug': slug.current,
+    author[]->{
+      'authorName': name, 
+      'authorTwitter': twitter, 
+      'authorPic': image
+    },
     description,
     body,
     published,
@@ -24,6 +29,12 @@ export async function getArticle(slug: string) {
     "slug": slug.current,
     body,
     date,
+    author[]->{
+      name, 
+      twitter, 
+      'image': image.url,
+      'alt': image.alt,
+    },
     description,
     related[]->{
       title,

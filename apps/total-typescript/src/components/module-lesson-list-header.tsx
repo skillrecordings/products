@@ -1,7 +1,7 @@
 import React from 'react'
 import {SanityDocument} from '@sanity/client'
 import Link from 'next/link'
-import ExerciseNavigator from './exercise-navigator'
+import LessonList from './lesson-list'
 import cx from 'classnames'
 import Image from 'next/image'
 import {track} from '../utils/analytics'
@@ -11,12 +11,14 @@ type SidebarProps = {
   section?: SanityDocument
   path: string
   className?: string
+  children?: React.ReactNode
 }
-const ExerciseSidebar: React.FC<SidebarProps> = ({
+const ModuleLessonListHeader: React.FC<SidebarProps> = ({
   module,
   section,
   path = '',
   className,
+  children,
 }) => {
   return (
     <>
@@ -89,7 +91,7 @@ const ExerciseSidebar: React.FC<SidebarProps> = ({
               </p>
             </div>
 
-            <ExerciseNavigator module={module} path={path} section={section} />
+            {children}
             <div className="pointer-events-none absolute bottom-0 left-0 z-20 h-24 w-full bg-gradient-to-t from-gray-900 to-transparent" />
           </aside>
         </div>
@@ -98,4 +100,4 @@ const ExerciseSidebar: React.FC<SidebarProps> = ({
   )
 }
 
-export default ExerciseSidebar
+export default ModuleLessonListHeader

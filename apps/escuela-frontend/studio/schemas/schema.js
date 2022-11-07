@@ -7,6 +7,8 @@ import schemaTypes from 'all:part:@sanity/base/schema-type'
 import article from './documents/article'
 import module from './documents/module'
 import resource from './documents/resource'
+import collaborator from './documents/collaborator'
+
 // objects
 import bodyVideo from './objects/bodyVideo'
 import bodyImage from './objects/bodyImage'
@@ -54,6 +56,7 @@ export default createSchema({
     solution,
     exercise,
     talk,
+    collaborator,
     // When added to this list, object types can be used as
     // { type: 'typename' } in other document schemas
   ]),
