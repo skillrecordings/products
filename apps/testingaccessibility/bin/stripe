@@ -6,11 +6,11 @@
 #   bin/stripe
 
 # Ensure the script can access the environment variables
-export $(egrep -v '^#' .env.development | xargs)
+export $(egrep -v '^#' .env.local | xargs)
 
-endpoint="localhost:$LOCALHOST_PORT/api/skill/webhook/stripe"
+endpoint="http://localhost:$LOCALHOST_PORT/api/skill/webhook/stripe"
 
 echo
 echo "Forwarding to $endpoint"
 echo
-stripe listen --forward-to endpoint
+stripe listen --forward-to $endpoint

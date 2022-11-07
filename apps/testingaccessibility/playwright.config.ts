@@ -1,25 +1,28 @@
 import {devices, PlaywrightTestConfig} from '@playwright/test'
-import dotEnv from 'dotenv'
-import * as os from 'os'
-import * as path from 'path'
+import {loadEnvConfig} from '@next/env'
+import process from 'process'
+import path from 'path'
+import os from 'os'
 
-dotEnv.config({path: './.env'})
+const appRootDir = process.env.PWD
+const outputDir = path.join(appRootDir, 'test-results')
+const testDir = path.join(appRootDir, 'playwright')
 
-const outputDir = path.join(__dirname, 'test-results')
-const testDir = path.join(__dirname, 'playwright')
+loadEnvConfig(appRootDir)
 
 const DEFAULT_NAVIGATION_TIMEOUT = 15000
-
-const headless = !!process.env.CI || !!process.env.PLAYWRIGHT_HEADLESS
+const isCI = !!process.env.CI
+const isPlayWrightHeadless = !!process.env.PLAYWRIGHT_HEADLESS
+const isHeadless = isCI || isPlayWrightHeadless
 
 const config: PlaywrightTestConfig = {
-  forbidOnly: !!process.env.CI,
+  forbidOnly: isCI,
   retries: 1,
-  workers: headless ? os.cpus().length : 1,
-  timeout: 60_000,
-  maxFailures: headless ? 10 : undefined,
+  workers: isHeadless ? os.cpus().length : 1,
+  timeout: 20_000,
+  maxFailures: isHeadless ? 3 : undefined,
   reporter: [
-    [process.env.CI ? 'github' : 'list'],
+    [isCI ? 'github' : 'list'],
     [
       'html',
       {
@@ -32,16 +35,16 @@ const config: PlaywrightTestConfig = {
   globalSetup: require.resolve('./playwright/config/globalSetup'),
   outputDir: path.join(outputDir, 'results'),
   webServer: {
-    command: 'NEXT_PUBLIC_IS_E2E=1 pnpm --filter="testingaccessibility" start ',
-    port: 3013,
-    timeout: 60_000,
-    reuseExistingServer: !process.env.CI,
+    command: 'pnpm db:start && pnpm start',
+    port: process.env.LOCALHOST_PORT,
+    timeout: 20_000,
+    reuseExistingServer: !isCI,
   },
   use: {
     baseURL: 'http://localhost:3013/',
     locale: 'en-US',
     trace: 'retain-on-failure',
-    headless,
+    headless: isHeadless,
   },
   projects: [
     {
