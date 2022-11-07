@@ -30,7 +30,7 @@ see: `.env.local.template`
 Listen to webhook:
 
 ```bash
-stripe listen --forward-to localhost:3013/api/stripe/webhook
+stripe listen --forward-to localhost:3007/api/stripe/webhook
 ```
 
 ### Postmark

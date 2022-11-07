@@ -1,7 +1,6 @@
 import {test, expect} from '@playwright/test'
 test('should be able to make a purchase', async ({page}) => {
-  // Go to http://localhost:3013/
-  await page.goto('http://localhost:3013/')
+  await page.goto('/')
   // Click button:has-text("Ship Accessible Apps Like a Pro")
   await page
     .locator('button:has-text("Ship Accessible Apps Like a Pro")')
