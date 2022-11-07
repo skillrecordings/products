@@ -17,6 +17,9 @@ const isCI = !!process.env.CI
 const isPlayWrightHeadless = !!process.env.PLAYWRIGHT_HEADLESS
 const isHeadless = isCI || isPlayWrightHeadless
 
+let baseURL = 'http://localhost:'
+baseURL += port
+
 const config: PlaywrightTestConfig = {
   forbidOnly: isCI,
   retries: 1,
@@ -43,7 +46,7 @@ const config: PlaywrightTestConfig = {
     reuseExistingServer: !isCI,
   },
   use: {
-    baseURL: 'http://localhost:`$port`/',
+    baseURL,
     locale: 'en-US',
     trace: 'retain-on-failure',
     headless: isHeadless,
