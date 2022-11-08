@@ -7,7 +7,7 @@ import {
   NEW_BULK_COUPON,
   NEW_INDIVIDUAL_PURCHASE,
 } from '@skillrecordings/types'
-import {getStripeSdk} from '@skillrecordings/stripe-sdk/src'
+import {getStripeSdk} from '@skillrecordings/stripe-sdk'
 
 export class PurchaseError extends Error {
   checkoutSessionId: string

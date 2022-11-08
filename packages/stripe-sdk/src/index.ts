@@ -1,2 +1,2 @@
 export * from './stripe-client-context'
-export * from './stripe-sdk'
+export {getStripeSdk} from './stripe-sdk'
