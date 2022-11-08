@@ -1,14 +1,9 @@
 import {Stripe} from 'stripe'
 import {first} from 'lodash'
 import {type Purchase, prisma, getSdk} from '@skillrecordings/database'
-import {
-  EXISTING_BULK_COUPON,
-  NEW_BULK_COUPON,
-  NEW_INDIVIDUAL_PURCHASE,
-  INDIVIDUAL_TO_BULK_UPGRADE,
-} from '@skillrecordings/types'
 import {getStripeSdk} from '@skillrecordings/stripe-sdk'
-import {PurchaseType} from './determine-purchase-type'
+import {NEW_INDIVIDUAL_PURCHASE} from '@skillrecordings/types'
+import {determinePurchaseType, PurchaseType} from './determine-purchase-type'
 
 export class PurchaseError extends Error {
   checkoutSessionId: string
@@ -26,29 +21,6 @@ export class PurchaseError extends Error {
     this.checkoutSessionId = checkoutSessionId
     this.email = email
     this.productId = productId
-  }
-}
-
-const determineBulkPurchaseType = (
-  individualPurchaseExists: boolean,
-  bulkCouponExists: boolean,
-) => {
-  const individualPurchaserUpgradingToTeam =
-    individualPurchaseExists && !bulkCouponExists
-  const initialTeamPurchase = !individualPurchaseExists && !bulkCouponExists
-  const addingToTeamPurchase = bulkCouponExists
-
-  switch (true) {
-    case individualPurchaserUpgradingToTeam:
-      return INDIVIDUAL_TO_BULK_UPGRADE
-
-    case initialTeamPurchase:
-      return NEW_BULK_COUPON
-
-    case addingToTeamPurchase:
-      return EXISTING_BULK_COUPON
-    default:
-      return EXISTING_BULK_COUPON
   }
 }
 
@@ -181,6 +153,8 @@ export async function recordNewPurchase(checkoutSessionId: string): Promise<{
   // we need to add it to their existing Bulk Coupon.
   const isBulkPurchase = quantity > 1 || !!existingBulkCoupon
 
+  let purchaseToReturn = purchase
+
   if (purchase && isBulkPurchase) {
     // Wrap a create and a dependent update in a transaction to be sure
     // that the coupon is created and the purchase points to that coupon.
@@ -222,18 +196,22 @@ export async function recordNewPurchase(checkoutSessionId: string): Promise<{
       },
     )
 
-    const purchaseType = determineBulkPurchaseType(
-      !!existingIndividualPurchase,
-      !!existingBulkCoupon,
-    )
+    purchaseToReturn = updatedPurchase
+  }
 
-    return {purchase: updatedPurchase, user, purchaseInfo, purchaseType}
-  } else {
-    return {
-      purchase,
-      user,
-      purchaseInfo,
-      purchaseType: NEW_INDIVIDUAL_PURCHASE,
-    }
+  let purchaseType = await determinePurchaseType(checkoutSessionId)
+
+  if (purchaseType === null) {
+    // TODO: report that we did not get a valid purchase type for this checkoutSessionId
+    //
+    // then fallback to NEW_INDIVIDUAL_PURCHASE
+    purchaseType = NEW_INDIVIDUAL_PURCHASE
+  }
+
+  return {
+    purchase: purchaseToReturn,
+    user,
+    purchaseInfo,
+    purchaseType,
   }
 }
