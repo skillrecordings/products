@@ -38,7 +38,9 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     }
   }
 
-  const purchaseInfo = await stripeData(checkoutSessionId as string)
+  const purchaseInfo = await stripeData({
+    checkoutSessionId: checkoutSessionId as string,
+  })
 
   const {email, stripeChargeId, quantity: seatsPurchased} = purchaseInfo
 
@@ -70,7 +72,9 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     }
   }
 
-  const purchaseType = await determinePurchaseType(checkoutSessionId as string)
+  const purchaseType = await determinePurchaseType({
+    checkoutSessionId: checkoutSessionId as string,
+  })
 
   const validatedProps = thanksProps.parse({
     email,

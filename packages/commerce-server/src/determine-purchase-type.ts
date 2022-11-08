@@ -1,5 +1,6 @@
 import {isEmpty} from 'lodash'
-import {prisma, getSdk} from '@skillrecordings/database'
+import {getSdk, Context, defaultContext} from '@skillrecordings/database'
+import {Context as StripeContext} from '@skillrecordings/stripe-sdk'
 import {stripeData} from './record-new-purchase'
 import {
   EXISTING_BULK_COUPON,
@@ -24,39 +25,43 @@ const match = (
   return Boolean(value1 && value2 && value1 === value2)
 }
 
+type DeterminePurchaseTypeOptions = {
+  checkoutSessionId: string
+  prismaCtx?: Context
+  stripeCtx?: StripeContext
+}
+
 export async function determinePurchaseType(
-  checkoutSessionId: string,
+  options: DeterminePurchaseTypeOptions,
 ): Promise<PurchaseType | null> {
+  const {prismaCtx, stripeCtx, ...noContextOptions} = options
+  const {checkoutSessionId} = noContextOptions
+
+  const {getUserByEmail, getPurchasesForUser, getPurchaseForStripeCharge} =
+    getSdk({ctx: prismaCtx})
+
   // Grab the Stripe Charge ID associated with the completed checkout session
   // so that we can reference the associated purchase in our database.
-  const purchaseInfo = await stripeData(checkoutSessionId as string)
+  const purchaseInfo = await stripeData({
+    checkoutSessionId: checkoutSessionId as string,
+    stripeCtx,
+  })
   const {email, stripeChargeId} = purchaseInfo
 
-  const user = !!email && (await getSdk().getUserByEmail(email))
+  const user = !!email && (await getUserByEmail(email))
   const {id: userId} = user || {}
 
   // Find the purchase record associated with this Stripe Checkout Session
   // (via the `stripeChargeId`).
-  const checkoutSessionPurchase = await prisma.purchase.findFirst({
-    where: {
-      merchantCharge: {
-        identifier: stripeChargeId,
-      },
-    },
-    include: {
-      bulkCoupon: {
-        include: {
-          bulkCouponPurchases: true,
-        },
-      },
-    },
-  })
+  const checkoutSessionPurchase = await getPurchaseForStripeCharge(
+    stripeChargeId,
+  )
 
   // return early if we don't have a userId or a purchase corresponding to
   // this checkout session
   if (!userId || !checkoutSessionPurchase?.id) return null
 
-  const allUserPurchases = await getSdk().getPurchasesForUser(userId)
+  const allUserPurchases = await getPurchasesForUser(userId)
 
   const bulkPurchases = allUserPurchases.filter(
     (purchase) => purchase.bulkCoupon !== null,

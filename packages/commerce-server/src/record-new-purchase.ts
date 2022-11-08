@@ -1,7 +1,11 @@
 import {Stripe} from 'stripe'
-import {first} from 'lodash'
+import {first, isEmpty} from 'lodash'
 import {type Purchase, prisma, getSdk} from '@skillrecordings/database'
-import {getStripeSdk} from '@skillrecordings/stripe-sdk'
+import {
+  getStripeSdk,
+  Context as StripeContext,
+  defaultContext as defaultStripeContext,
+} from '@skillrecordings/stripe-sdk'
 import {NEW_INDIVIDUAL_PURCHASE} from '@skillrecordings/types'
 import {determinePurchaseType, PurchaseType} from './determine-purchase-type'
 
@@ -24,8 +28,14 @@ export class PurchaseError extends Error {
   }
 }
 
-export async function stripeData(checkoutSessionId: string) {
-  const {getCheckoutSession} = getStripeSdk()
+type StripeDataOptions = {
+  checkoutSessionId: string
+  stripeCtx?: StripeContext
+}
+
+export async function stripeData(options: StripeDataOptions) {
+  const {stripeCtx, checkoutSessionId} = options
+  const {getCheckoutSession} = getStripeSdk({ctx: stripeCtx})
 
   const checkoutSession = await getCheckoutSession(checkoutSessionId)
 
@@ -75,7 +85,7 @@ export async function recordNewPurchase(checkoutSessionId: string): Promise<{
     createMerchantChargeAndPurchase,
   } = getSdk()
 
-  const purchaseInfo = await stripeData(checkoutSessionId)
+  const purchaseInfo = await stripeData({checkoutSessionId})
 
   const {
     stripeCustomerId,
@@ -199,7 +209,7 @@ export async function recordNewPurchase(checkoutSessionId: string): Promise<{
     purchaseToReturn = updatedPurchase
   }
 
-  let purchaseType = await determinePurchaseType(checkoutSessionId)
+  let purchaseType = await determinePurchaseType({checkoutSessionId})
 
   if (purchaseType === null) {
     // TODO: report that we did not get a valid purchase type for this checkoutSessionId
