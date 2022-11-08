@@ -27,7 +27,7 @@ const ArticlesPage: React.FC<ArticlesPageProps> = ({articles}) => {
             const description =
               article.description || toPlainText(body).substring(0, 157) + '...'
             return (
-              <article>
+              <article key={slug}>
                 <h2>
                   <Link href={slug}>
                     <a className="sm:fluid-3xl fluid-2xl font-bold hover:underline !leading-tight">
