@@ -1,7 +1,6 @@
 import {Stripe} from 'stripe'
 import {first} from 'lodash'
 import {type Purchase, prisma, getSdk} from '@skillrecordings/database'
-import {z} from 'zod'
 import {
   EXISTING_BULK_COUPON,
   NEW_BULK_COUPON,
@@ -9,6 +8,7 @@ import {
   INDIVIDUAL_TO_BULK_UPGRADE,
 } from '@skillrecordings/types'
 import {getStripeSdk} from '@skillrecordings/stripe-sdk'
+import {PurchaseType} from './determine-purchase-type'
 
 export class PurchaseError extends Error {
   checkoutSessionId: string
@@ -26,6 +26,29 @@ export class PurchaseError extends Error {
     this.checkoutSessionId = checkoutSessionId
     this.email = email
     this.productId = productId
+  }
+}
+
+const determineBulkPurchaseType = (
+  individualPurchaseExists: boolean,
+  bulkCouponExists: boolean,
+) => {
+  const individualPurchaserUpgradingToTeam =
+    individualPurchaseExists && !bulkCouponExists
+  const initialTeamPurchase = !individualPurchaseExists && !bulkCouponExists
+  const addingToTeamPurchase = bulkCouponExists
+
+  switch (true) {
+    case individualPurchaserUpgradingToTeam:
+      return INDIVIDUAL_TO_BULK_UPGRADE
+
+    case initialTeamPurchase:
+      return NEW_BULK_COUPON
+
+    case addingToTeamPurchase:
+      return EXISTING_BULK_COUPON
+    default:
+      return EXISTING_BULK_COUPON
   }
 }
 
@@ -67,14 +90,6 @@ export type PurchaseInfo = {
   stripeChargeAmount: number
   stripeProduct: Stripe.Product
 }
-
-export const purchaseTypeSchema = z.union([
-  z.literal(EXISTING_BULK_COUPON),
-  z.literal(NEW_BULK_COUPON),
-  z.literal(NEW_INDIVIDUAL_PURCHASE),
-  z.literal(INDIVIDUAL_TO_BULK_UPGRADE),
-])
-type PurchaseType = z.infer<typeof purchaseTypeSchema>
 
 export async function recordNewPurchase(checkoutSessionId: string): Promise<{
   user: any
@@ -206,31 +221,6 @@ export async function recordNewPurchase(checkoutSessionId: string): Promise<{
         return updatedPurchase
       },
     )
-
-    // if the user had an individual purchase, but this is a bulk purchase,
-    //   then INDIVIDUAL_TO_BULK_UPGRADE
-
-    const determineBulkPurchaseType = (
-      individualPurchaseExists: boolean,
-      bulkCouponExists: boolean,
-    ) => {
-      const individualPurchaserUpgradingToTeam =
-        individualPurchaseExists && !bulkCouponExists
-      const initialTeamPurchase = !individualPurchaseExists && !bulkCouponExists
-      const addingToTeamPurchase = bulkCouponExists
-      switch (true) {
-        case individualPurchaserUpgradingToTeam:
-          return INDIVIDUAL_TO_BULK_UPGRADE
-
-        case initialTeamPurchase:
-          return NEW_BULK_COUPON
-
-        case addingToTeamPurchase:
-          return EXISTING_BULK_COUPON
-        default:
-          return EXISTING_BULK_COUPON
-      }
-    }
 
     const purchaseType = determineBulkPurchaseType(
       !!existingIndividualPurchase,
