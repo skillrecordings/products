@@ -5,6 +5,7 @@ import {createRouter} from '../createRouter'
 import superjson from 'superjson'
 import {progressRouter} from './progress'
 import {convertkitRouter} from './convertkit'
+import {workshop} from './workshop'
 
 /**
  * Create your application's root router
@@ -24,6 +25,7 @@ export const appRouter = createRouter()
    */
   .merge('progress.', progressRouter)
   .merge('convertkit.', convertkitRouter)
+  .merge('workshops.', workshop)
   // .formatError(({ shape, error }) => { })
   .query('healthz', {
     resolve() {
