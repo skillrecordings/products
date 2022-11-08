@@ -4,7 +4,11 @@ import Layout from 'components/app/layout'
 import Image from 'next/image'
 import {MailIcon} from '@heroicons/react/outline'
 import {z} from 'zod'
-import {stripeData, purchaseTypeSchema} from '@skillrecordings/commerce-server'
+import {
+  stripeData,
+  purchaseTypeSchema,
+  determinePurchaseType,
+} from '@skillrecordings/commerce-server'
 import {
   EXISTING_BULK_COUPON,
   NEW_BULK_COUPON,
@@ -26,15 +30,15 @@ type ThanksProps = z.infer<typeof thanksProps>
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const {query} = context
 
-  const {session_id} = query
+  const {session_id: checkoutSessionId} = query
 
-  if (!session_id) {
+  if (!checkoutSessionId) {
     return {
       notFound: true,
     }
   }
 
-  const purchaseInfo = await stripeData(session_id as string)
+  const purchaseInfo = await stripeData(checkoutSessionId as string)
 
   const {email, stripeChargeId, quantity: seatsPurchased} = purchaseInfo
 
@@ -66,16 +70,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     }
   }
 
-  let purchaseType: z.infer<typeof purchaseTypeSchema>
-  if (purchase.bulkCoupon) {
-    if (purchase.bulkCoupon.bulkCouponPurchases.length > 1) {
-      purchaseType = EXISTING_BULK_COUPON
-    } else {
-      purchaseType = NEW_BULK_COUPON
-    }
-  } else {
-    purchaseType = NEW_INDIVIDUAL_PURCHASE
-  }
+  const purchaseType = await determinePurchaseType(checkoutSessionId as string)
 
   const validatedProps = thanksProps.parse({
     email,
