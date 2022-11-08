@@ -30,17 +30,13 @@ export async function determinePurchaseType(
   // Grab the Stripe Charge ID associated with the completed checkout session
   // so that we can reference the associated purchase in our database.
   const purchaseInfo = await stripeData(checkoutSessionId as string)
-  const {email, stripeChargeId, quantity} = purchaseInfo
+  const {email, stripeChargeId} = purchaseInfo
 
   const user = !!email && (await getSdk().getUserByEmail(email))
   const {id: userId} = user || {}
 
-  if (!userId) return null
-
-  // Things we want to know:
-  // - what is the purchase associated with the `stripeChargeId`?
-  // - does the user have an existing individual purchase
-  // - does the user have an existing bulk purchase
+  // Find the purchase record associated with this Stripe Checkout Session
+  // (via the `stripeChargeId`).
   const checkoutSessionPurchase = await prisma.purchase.findFirst({
     where: {
       merchantCharge: {
