@@ -11,7 +11,7 @@ const Navigation = () => {
     >
       <div className="mx-auto flex justify-between items-center">
         <NavLogo />
-        {/* <DesktopNav /> */}
+        <DesktopNav />
       </div>
     </nav>
   )
@@ -45,7 +45,7 @@ const NavLink: React.FC<NavLinkProps> = ({href, children, ...props}) => {
     <Link href={href} passHref>
       <a
         aria-current={isActive ? 'page' : undefined}
-        className={cx(' bg-black text-white px-5 py-3', {
+        className={cx('font-bold text-2xl px-5 py-3', {
           underline: isActive,
         })}
         {...props}
