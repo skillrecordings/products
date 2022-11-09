@@ -1,13 +1,13 @@
 import {Stripe} from 'stripe'
 import {first} from 'lodash'
 import {type Purchase, prisma, getSdk} from '@skillrecordings/database'
-import {stripe} from './stripe'
 import {z} from 'zod'
 import {
   EXISTING_BULK_COUPON,
   NEW_BULK_COUPON,
   NEW_INDIVIDUAL_PURCHASE,
 } from '@skillrecordings/types'
+import {getStripeSdk} from '@skillrecordings/stripe-sdk'
 
 export class PurchaseError extends Error {
   checkoutSessionId: string
@@ -29,16 +29,9 @@ export class PurchaseError extends Error {
 }
 
 export async function stripeData(checkoutSessionId: string) {
-  const checkoutSession = await stripe.checkout.sessions.retrieve(
-    checkoutSessionId,
-    {
-      expand: [
-        'customer',
-        'line_items.data.price.product',
-        'payment_intent.charges',
-      ],
-    },
-  )
+  const {getCheckoutSession} = getStripeSdk()
+
+  const checkoutSession = await getCheckoutSession(checkoutSessionId)
 
   const {customer, line_items, payment_intent} = checkoutSession
   const {email, name, id: stripeCustomerId} = customer as Stripe.Customer

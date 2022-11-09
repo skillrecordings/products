@@ -3,22 +3,28 @@ import {Exercise} from 'lib/exercises'
 import find from 'lodash/find'
 import indexOf from 'lodash/indexOf'
 
-export const getNextExercise = (
-  module: SanityDocument,
-  currentLesson: Exercise,
-) => {
+export const getNextExercise = ({
+  module,
+  currentLesson,
+  section,
+}: {
+  module: SanityDocument
+
+  currentLesson: Exercise
+  section?: SanityDocument
+}) => {
   if (currentLesson._type === 'exercise') {
     return currentLesson.solution
   }
 
-  const exerciseForSolution = module.exercises.find(
-    (resource: SanityDocument) => {
-      return resource.solution?._key === currentLesson._key
-    },
-  )
+  const exercises = section ? section.exercises : module.exercises
 
-  const current = find(module.exercises, {_id: exerciseForSolution._id})
-  const nextExerciseIndex = indexOf(module.exercises, current) + 1
-  const nextExercise = module.exercises[nextExerciseIndex]
+  const exerciseForSolution = exercises.find((resource: SanityDocument) => {
+    return resource.solution?._key === currentLesson._key
+  })
+
+  const current = find(exercises, {_id: exerciseForSolution._id})
+  const nextExerciseIndex = indexOf(exercises, current) + 1
+  const nextExercise = exercises[nextExerciseIndex]
   return nextExercise
 }

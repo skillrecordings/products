@@ -1,0 +1,5 @@
+{
+  "extends": "@skillrecordings/tsconfig/node16.json",
+  "include": ["process.d.ts", "**/*.ts", "**/*.tsx", "tsup.config.ts"],
+  "exclude": ["node_modules"]
+}

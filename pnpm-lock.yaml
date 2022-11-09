@@ -1688,8 +1688,8 @@ importers:
       '@skillrecordings/time': link:../../packages/time
       '@tailwindcss/typography': 0.5.7_tailwindcss@3.1.4
       '@trpc/client': 9.27.2_@trpc+server@9.27.2
-      '@trpc/next': 9.27.2_7ov2tgkjvv5q564x5j6lb4yy2i
-      '@trpc/react': 9.27.4_4qx6yxzlojuzl2gqhs2hvlmyii
+      '@trpc/next': 9.27.2_cpjoldjkwaya224psufok4zvdi
+      '@trpc/react': 9.27.2_4qx6yxzlojuzl2gqhs2hvlmyii
       '@trpc/server': 9.27.2
       '@xstate/react': 1.5.1_bpg42ha2il6pcyn3wrx2rxrchm
       classnames: 2.3.1
@@ -1703,7 +1703,7 @@ importers:
       js-cookie: 3.0.1
       mjml: 4.12.0
       next: 12.3.1_biqbaboplfbrettd7655fr4n2y
-      next-auth: 4.15.0_azq6kxkn3od7qdylwkyksrwopy
+      next-auth: 4.10.3_biqbaboplfbrettd7655fr4n2y
       next-sitemap: 3.1.7_3k5vmi4j6sdban7pt73cm6gfhu
       node-fetch: 2.6.7
       react: 18.2.0
@@ -2283,6 +2283,7 @@ importers:
       '@amplitude/analytics-browser': ^1.3.0
       '@amplitude/identify': ^1.10.2
       '@amplitude/node': ^1.10.2
+      '@casl/ability': ^6.0.0
       '@codesandbox/sandpack-react': ^1.17.0
       '@heroicons/react': ^1.0.6
       '@hookform/resolvers': ^2.9.8
@@ -2301,6 +2302,7 @@ importers:
       '@sanity/client': ^3.3.3
       '@sanity/webhook': ^1.0.2
       '@sentry/nextjs': ^7.9.0
+      '@skillrecordings/ability': workspace:*
       '@skillrecordings/analytics': workspace:*
       '@skillrecordings/commerce-server': workspace:*
       '@skillrecordings/config': workspace:*
@@ -2389,6 +2391,7 @@ importers:
       '@amplitude/analytics-browser': 1.3.0
       '@amplitude/identify': 1.10.2
       '@amplitude/node': 1.10.2
+      '@casl/ability': 6.0.0
       '@codesandbox/sandpack-react': 1.17.0_biqbaboplfbrettd7655fr4n2y
       '@heroicons/react': 1.0.6_react@18.2.0
       '@hookform/resolvers': 2.9.8_react-hook-form@7.29.0
@@ -2405,6 +2408,7 @@ importers:
       '@sanity/client': 3.3.3
       '@sanity/webhook': 1.0.2
       '@sentry/nextjs': 7.9.0_ftbrs37vk7zp3dqti2elxiep4q
+      '@skillrecordings/ability': link:../../packages/ability
       '@skillrecordings/analytics': link:../../packages/analytics
       '@skillrecordings/commerce-server': link:../../packages/commerce-server
       '@skillrecordings/config': link:../../packages/config
@@ -2854,6 +2858,7 @@ importers:
       '@casl/ability': ^6.0.0
       '@skillrecordings/database': workspace:*
       '@skillrecordings/scripts': workspace:*
+      '@skillrecordings/stripe-sdk': workspace:*
       '@skillrecordings/tsconfig': workspace:*
       '@skillrecordings/types': workspace:*
       '@types/jest': ^27.5.2
@@ -2872,6 +2877,7 @@ importers:
     dependencies:
       '@casl/ability': 6.0.0
       '@skillrecordings/database': link:../database
+      '@skillrecordings/stripe-sdk': link:../stripe-sdk
       date-fns: 2.28.0
       lodash: 4.17.21
       stripe: 8.209.0
@@ -3638,6 +3644,47 @@ importers:
       react-dom: 18.2.0_react@18.2.0
       typescript: 4.8.3
       whatwg-fetch: 3.6.2
+
+  packages/stripe-sdk:
+    specifiers:
+      '@skillrecordings/tsconfig': workspace:*
+      '@types/cookie': ^0.4.1
+      '@types/lodash': ^4.14.179
+      '@types/node': ^18.6.1
+      '@types/node-fetch': ^2.6.2
+      cookie: ^0.5.0
+      date-fns: ^2.28.0
+      encoding: ^0.1.0
+      eslint: ^8.12.0
+      eslint-config-custom: workspace:*
+      jest-mock-extended: ^2.0.7
+      lodash: ^4.17.21
+      node-fetch: ^2.6.7
+      rimraf: ^3.0.2
+      stripe: ^8.186.1
+      tsup: ^5.11.13
+      tsx: ^3.7.1
+      typescript: ^4.8.3
+    dependencies:
+      cookie: 0.5.0
+      date-fns: 2.28.0
+      encoding: 0.1.13
+      lodash: 4.17.21
+      node-fetch: 2.6.7_encoding@0.1.13
+      stripe: 8.209.0
+    devDependencies:
+      '@skillrecordings/tsconfig': link:../tsconfig
+      '@types/cookie': 0.4.1
+      '@types/lodash': 4.14.186
+      '@types/node': 18.6.3
+      '@types/node-fetch': 2.6.2
+      eslint: 8.22.0
+      eslint-config-custom: link:../eslint-config-custom
+      jest-mock-extended: 2.0.7_typescript@4.8.4
+      rimraf: 3.0.2
+      tsup: 5.12.9_typescript@4.8.4
+      tsx: 3.8.0
+      typescript: 4.8.4
 
   packages/time:
     specifiers:
@@ -11089,28 +11136,6 @@ packages:
       react-ssr-prepass: 1.5.0_react@18.2.0
     dev: false
 
-  /@trpc/next/9.27.2_7ov2tgkjvv5q564x5j6lb4yy2i:
-    resolution: {integrity: sha512-5Xy13sH2c7usWyQtVQ7g7gjv7i1/3shGrtVJJEbdEXq8i0A7BUAg1Q1DjCL92d9otD2jXpnaqRAktrXLZRGCgQ==}
-    peerDependencies:
-      '@trpc/client': 9.27.2
-      '@trpc/react': 9.27.2
-      '@trpc/server': 9.27.2
-      next: '*'
-      react: '>=16.8.0'
-      react-dom: '>=16.8.0'
-      react-query: ^3.37.0
-    dependencies:
-      '@babel/runtime': 7.18.3
-      '@trpc/client': 9.27.2_@trpc+server@9.27.2
-      '@trpc/react': 9.27.4_4qx6yxzlojuzl2gqhs2hvlmyii
-      '@trpc/server': 9.27.2
-      next: 12.3.1_biqbaboplfbrettd7655fr4n2y
-      react: 18.2.0
-      react-dom: 18.2.0_react@18.2.0
-      react-query: 3.39.1_biqbaboplfbrettd7655fr4n2y
-      react-ssr-prepass: 1.5.0_react@18.2.0
-    dev: false
-
   /@trpc/next/9.27.2_cpjoldjkwaya224psufok4zvdi:
     resolution: {integrity: sha512-5Xy13sH2c7usWyQtVQ7g7gjv7i1/3shGrtVJJEbdEXq8i0A7BUAg1Q1DjCL92d9otD2jXpnaqRAktrXLZRGCgQ==}
     peerDependencies:
@@ -11154,23 +11179,6 @@ packages:
     peerDependencies:
       '@trpc/client': 9.27.2
       '@trpc/server': 9.27.2
-      react: '>=16.8.0'
-      react-dom: '>=16.8.0'
-      react-query: ^3.37.0
-    dependencies:
-      '@babel/runtime': 7.18.3
-      '@trpc/client': 9.27.2_@trpc+server@9.27.2
-      '@trpc/server': 9.27.2
-      react: 18.2.0
-      react-dom: 18.2.0_react@18.2.0
-      react-query: 3.39.1_biqbaboplfbrettd7655fr4n2y
-    dev: false
-
-  /@trpc/react/9.27.4_4qx6yxzlojuzl2gqhs2hvlmyii:
-    resolution: {integrity: sha512-bP74Tf6vWcMoWYiTAvbWrieV9cFQiKUDKRoRj0+VeGJbxdbhdJyUzv4zos0T4SiSKuhgoEm9bP4jWU2NhNhpIA==}
-    peerDependencies:
-      '@trpc/client': 9.27.4
-      '@trpc/server': 9.27.4
       react: '>=16.8.0'
       react-dom: '>=16.8.0'
       react-query: ^3.37.0
@@ -11478,13 +11486,13 @@ packages:
   /@types/lodash.clonedeep/4.5.7:
     resolution: {integrity: sha512-ccNqkPptFIXrpVqUECi60/DFxjNKsfoQxSQsgcBJCX/fuX1wgyQieojkcWH/KpE3xzLoWN/2k+ZeGqIN3paSvw==}
     dependencies:
-      '@types/lodash': 4.14.185
+      '@types/lodash': 4.14.186
     dev: false
 
   /@types/lodash.debounce/4.0.7:
     resolution: {integrity: sha512-X1T4wMZ+gT000M2/91SYj0d/7JfeNZ9PeeOldSNoE/lunLeQXKvkmIumI29IaKMotU/ln/McOIvgzZcQ/3TrSA==}
     dependencies:
-      '@types/lodash': 4.14.185
+      '@types/lodash': 4.14.186
     dev: false
 
   /@types/lodash/4.14.180:
@@ -11493,10 +11501,10 @@ packages:
 
   /@types/lodash/4.14.185:
     resolution: {integrity: sha512-evMDG1bC4rgQg4ku9tKpuMh5iBNEwNa3tf9zRHdP1qlv+1WUg44xat4IxCE14gIpZRGUUWAx2VhItCZc25NfMA==}
+    dev: true
 
   /@types/lodash/4.14.186:
     resolution: {integrity: sha512-eHcVlLXP0c2FlMPm56ITode2AgLMSa6aJ05JTTbYbI+7EMkCEE5qk2E41d5g2lCVTqRe0GnnRFurmlCsDODrPw==}
-    dev: true
 
   /@types/markdown-it/12.2.3:
     resolution: {integrity: sha512-GKMHFfv3458yYy+v/N8gjufHO6MSZKCOXpZc5GXIWWy8uldwfmPn98vp81gZ5f9SVw8YYBctgfJ22a2d7AOMeQ==}
@@ -12826,7 +12834,9 @@ packages:
       abort-controller: 3.0.0
       abortcontroller-polyfill: 1.7.3
       lodash: 4.17.21
-      node-fetch: 2.6.6
+      node-fetch: 2.6.7
+    transitivePeerDependencies:
+      - encoding
     dev: false
 
   /ajv-errors/1.0.1_ajv@6.12.6:
@@ -20396,6 +20406,16 @@ packages:
       typescript: 4.8.3
     dev: true
 
+  /jest-mock-extended/2.0.7_typescript@4.8.4:
+    resolution: {integrity: sha512-h8brJJN5BZb03hTwplvt+raT6Nj0U2U71Z26Py12Qc3kvYnAjDW/zSuQJLnXCNyyufy592VC9k3X7AOz+2H52g==}
+    peerDependencies:
+      jest: ^24.0.0 || ^25.0.0 || ^26.0.0 || ^27.0.0 || ^28.0.0
+      typescript: ^3.0.0 || ^4.0.0
+    dependencies:
+      ts-essentials: 7.0.3_typescript@4.8.4
+      typescript: 4.8.4
+    dev: true
+
   /jest-mock/25.5.0:
     resolution: {integrity: sha512-eXWuTV8mKzp/ovHc5+3USJMYsTBhyQ+5A1Mak35dey/RG8GlM4YWVylZuGgVXinaW6tpvk/RSecmF37FKUlpXA==}
     engines: {node: '>= 8.3'}
@@ -20816,9 +20836,6 @@ packages:
     resolution: {integrity: sha512-9FzQjJ7MATs1tSpnco1K6ayiYE3figslrXA72G2HQ/n76RzvYlofyi5QM+iX4YRs/pu3yzxlVQSST23+dMDknw==}
     engines: {node: '>= 0.6.0'}
     dev: false
-
-  /jose/4.10.4:
-    resolution: {integrity: sha512-eBH77Xs9Yc/oTDvukhAEDVMijhekPuNktXJL4tUlB22jqKP1k48v5nmsUmc8feoJPsxB3HsfEt2LbVSoz+1mng==}
 
   /jose/4.6.0:
     resolution: {integrity: sha512-0hNAkhMBNi4soKSAX4zYOFV+aqJlEz/4j4fregvasJzEVtjDChvWqRjPvHwLqr5hx28Ayr6bsOs1Kuj87V0O8w==}
@@ -23077,32 +23094,6 @@ packages:
       react-dom: 18.2.0_react@18.2.0
       uuid: 8.3.2
 
-  /next-auth/4.15.0_azq6kxkn3od7qdylwkyksrwopy:
-    resolution: {integrity: sha512-IasNzGLM2VlmyioDdZaRwBBBm8b5xo+zbbqVWHFh0bY6iQUZ3vuudrsdHNdxkXV3LSHdKNaoWEpYr4BydB7mCw==}
-    engines: {node: ^12.19.0 || ^14.15.0 || ^16.13.0}
-    peerDependencies:
-      next: ^12.2.5
-      nodemailer: ^6.6.5
-      react: ^17.0.2 || ^18
-      react-dom: ^17.0.2 || ^18
-    peerDependenciesMeta:
-      nodemailer:
-        optional: true
-    dependencies:
-      '@babel/runtime': 7.18.3
-      '@panva/hkdf': 1.0.1
-      cookie: 0.5.0
-      jose: 4.10.4
-      next: 12.3.1_biqbaboplfbrettd7655fr4n2y
-      oauth: 0.9.15
-      openid-client: 5.1.4
-      preact: 10.7.2
-      preact-render-to-string: 5.2.0_preact@10.7.2
-      react: 18.2.0
-      react-dom: 18.2.0_react@18.2.0
-      uuid: 8.3.2
-    dev: false
-
   /next-compose-plugins/2.2.1:
     resolution: {integrity: sha512-OjJ+fV15FXO2uQXQagLD4C0abYErBjyjE0I0FHpOEIB8upw0hg1ldFP6cqHTJBH1cZqy96OeR3u1dJ+Ez2D4Bg==}
 
@@ -23501,13 +23492,6 @@ packages:
       tslib: 2.4.0
     dev: false
 
-  /node-fetch/2.6.6:
-    resolution: {integrity: sha512-Z8/6vRlTUChSdIgMa51jxQ4lrw/Jy5SOW10ObaA47/RElsAN2c5Pn8bTgFGWn/ibwzXTE8qwr1Yzx28vsecXEA==}
-    engines: {node: 4.x || >=6.0.0}
-    dependencies:
-      whatwg-url: 5.0.0
-    dev: false
-
   /node-fetch/2.6.7:
     resolution: {integrity: sha512-ZjMPFEfVx5j+y2yF35Kzx5sF7kDzxuDj6ziH4FFbOp87zKDZNx8yExJIb05OGF4Nlt9IHFIMBkRl41VdvcNdbQ==}
     engines: {node: 4.x || >=6.0.0}
@@ -23879,7 +23863,7 @@ packages:
     resolution: {integrity: sha512-36/PZY3rDgiIFj2uCL9a1fILPmIwu3HksoWO4mukgXe74ZOsEisJMMqTMfmPNw6j/7kO0mBc2xqy4eYRrB8xPA==}
     engines: {node: ^12.19.0 || ^14.15.0 || ^16.13.0}
     dependencies:
-      jose: 4.10.4
+      jose: 4.6.0
       lru-cache: 6.0.0
       object-hash: 2.2.0
       oidc-token-hash: 5.0.1
@@ -29125,6 +29109,14 @@ packages:
     dependencies:
       typescript: 4.8.3
 
+  /ts-essentials/7.0.3_typescript@4.8.4:
+    resolution: {integrity: sha512-8+gr5+lqO3G84KdiTSMRLtuyJ+nTBVRKuCrK4lidMPdVeEp0uqC875uE5NMcaA7YYMN7XsNiFQuMvasF8HT/xQ==}
+    peerDependencies:
+      typescript: '>=3.7.0'
+    dependencies:
+      typescript: 4.8.4
+    dev: true
+
   /ts-expect/1.3.0:
     resolution: {integrity: sha512-e4g0EJtAjk64xgnFPD6kTBUtpnMVzDrMb12N1YZV0VvSlhnVT3SGxiYTLdGy8Q5cYHOIC/FAHmZ10eGrAguicQ==}
     dev: false
@@ -29313,6 +29305,41 @@ packages:
       sucrase: 3.24.0
       tree-kill: 1.2.2
       typescript: 4.8.3
+    transitivePeerDependencies:
+      - supports-color
+      - ts-node
+    dev: true
+
+  /tsup/5.12.9_typescript@4.8.4:
+    resolution: {integrity: sha512-dUpuouWZYe40lLufo64qEhDpIDsWhRbr2expv5dHEMjwqeKJS2aXA/FPqs1dxO4T6mBojo7rvo3jP9NNzaKyDg==}
+    hasBin: true
+    peerDependencies:
+      '@swc/core': ^1
+      postcss: ^8.4.12
+      typescript: ^4.1.0
+    peerDependenciesMeta:
+      '@swc/core':
+        optional: true
+      postcss:
+        optional: true
+      typescript:
+        optional: true
+    dependencies:
+      bundle-require: 3.0.4_esbuild@0.14.50
+      cac: 6.7.12
+      chokidar: 3.5.3
+      debug: 4.3.4
+      esbuild: 0.14.50
+      execa: 5.1.1
+      globby: 11.1.0
+      joycon: 3.1.1
+      postcss-load-config: 3.1.4
+      resolve-from: 5.0.0
+      rollup: 2.77.2
+      source-map: 0.8.0-beta.0
+      sucrase: 3.24.0
+      tree-kill: 1.2.2
+      typescript: 4.8.4
     transitivePeerDependencies:
       - supports-color
       - ts-node
@@ -30901,7 +30928,7 @@ packages:
     engines: {node: '>=10'}
     dependencies:
       '@babel/runtime': 7.18.3
-      '@types/lodash': 4.14.185
+      '@types/lodash': 4.14.186
       lodash: 4.17.21
       lodash-es: 4.17.21
       nanoclone: 0.2.1

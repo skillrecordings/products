@@ -8,6 +8,8 @@ import article from './documents/article'
 import exercise from './documents/exercise'
 import section from './documents/section'
 import module from './documents/module'
+import collaborator from './documents/collaborator'
+
 // objects
 import bodyVideo from './objects/bodyVideo'
 import bodyImage from './objects/bodyImage'

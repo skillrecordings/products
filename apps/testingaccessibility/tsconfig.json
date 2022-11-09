@@ -8,7 +8,10 @@
     "baseUrl": "./src/",
     "rootDir": "src",
     "outDir": "dist",
-    "incremental": true
+    "incremental": true,
+    "types": [
+      "node"
+    ],
   },
   "include": [
     "src",

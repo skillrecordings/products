@@ -124,7 +124,7 @@ const PortableTextComponents: PortableTextComponents = {
     link: ({value, children}) => {
       return <ExternalLink value={value}>{children}</ExternalLink>
     },
-    code: ({value, children}) => {
+    code: ({children}) => {
       return (
         <code className="bg-slate-800/80 px-1 py-0.5 rounded">{children}</code>
       )

@@ -16,4 +16,3 @@ Then install dependencies and start the server.
 pnpm i
 pnpm dev
 ```
-

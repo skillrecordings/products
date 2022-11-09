@@ -17,6 +17,7 @@
   "dependencies": {
     "@casl/ability": "^6.0.0",
     "@skillrecordings/database": "workspace:*",
+    "@skillrecordings/stripe-sdk": "workspace:*",
     "date-fns": "^2.28.0",
     "lodash": "^4.17.21",
     "stripe": "^8.186.1",

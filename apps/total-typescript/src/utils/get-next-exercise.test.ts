@@ -11,10 +11,10 @@ test(`gets correct next exercise in tutorial`, async () => {
       slug: 'object-solution',
     },
   }
-  const nextExercise = getNextExercise(
-    mockTutorial as any,
-    mockCurrentResource as Exercise,
-  )
+  const nextExercise = getNextExercise({
+    module: mockTutorial as any,
+    currentLesson: mockCurrentResource as Exercise,
+  })
 
   expect(nextExercise).toEqual({
     _id: 'ae955964-db6d-44b9-857e-35a0dbbba490',
@@ -32,10 +32,10 @@ test(`last resource doesn't have next exercise`, async () => {
     slug: 'transform-solution',
   }
 
-  const nextExercise = getNextExercise(
-    mockTutorial as any,
-    mockCurrentResource as Exercise,
-  )
+  const nextExercise = getNextExercise({
+    module: mockTutorial as any,
+    currentLesson: mockCurrentResource as Exercise,
+  })
   expect(nextExercise).toBeUndefined()
 })
 
