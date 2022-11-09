@@ -86,7 +86,7 @@ export const getExercise = async (
       `
           : ''
       }
-      "solution": resources[@._type == 'solution'][0]{
+      "solution": resources[@._type == 'solution'][]{
         _key,
         _type,
         "_updatedAt": ^._updatedAt,
