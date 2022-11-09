@@ -17,7 +17,7 @@ type ArticlesProps = {
 
 const Articles: React.FC<ArticlesProps> = ({articles}) => {
   return (
-    <Layout meta={meta} className="overflow-hidden" nav>
+    <Layout meta={meta} className="overflow-hidden">
       <header className="relative overflow-hidden px-5 pt-16 pb-10 sm:pb-20 sm:pt-24">
         <h1 className="mx-auto max-w-screen-md text-center font-heading text-3xl font-black leading-none sm:text-4xl lg:text-5xl">
           {meta.title}
