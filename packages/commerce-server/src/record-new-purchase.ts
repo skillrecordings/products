@@ -1,6 +1,6 @@
 import {Stripe} from 'stripe'
 import {first, isEmpty} from 'lodash'
-import {type Purchase, prisma, getSdk} from '@skillrecordings/database'
+import {type Purchase, getSdk} from '@skillrecordings/database'
 import {
   getStripeSdk,
   Context as StripeContext,
@@ -119,79 +119,17 @@ export async function recordNewPurchase(checkoutSessionId: string): Promise<{
     merchantAccountId,
   })
 
-  const [_merchantCharge, purchase] = await createMerchantChargeAndPurchase({
-    userId: user.id,
-    stripeChargeId,
-    merchantAccountId,
-    merchantProductId,
-    merchantCustomerId,
-    productId,
-    stripeChargeAmount,
-  })
-
-  // Check if this user has already purchased a bulk coupon, in which case,
-  // we'll be able to treat this purchase as adding seats.
-  const existingBulkCoupon = await prisma.coupon.findFirst({
-    where: {
-      maxUses: {
-        gt: 1,
-      },
-      bulkCouponPurchases: {
-        some: {userId: user.id},
-      },
-    },
-  })
-
-  // Note: if the user already has a bulk purchase/coupon, then if they are
-  // only adding 1 seat to the team, then it is still a "bulk purchase" and
-  // we need to add it to their existing Bulk Coupon.
-  const isBulkPurchase = quantity > 1 || !!existingBulkCoupon
-
-  let purchaseToReturn = purchase
-
-  if (purchase && isBulkPurchase) {
-    // Wrap a create and a dependent update in a transaction to be sure
-    // that the coupon is created and the purchase points to that coupon.
-    const updatedPurchase: Purchase = await prisma.$transaction(
-      async (transaction) => {
-        // 1. Create or Update Bulk Coupon Record
-        let coupon = null
-        if (existingBulkCoupon) {
-          coupon = await transaction.coupon.update({
-            where: {
-              id: existingBulkCoupon.id,
-            },
-            data: {
-              maxUses: existingBulkCoupon.maxUses + quantity,
-            },
-          })
-        } else {
-          coupon = await transaction.coupon.create({
-            data: {
-              restrictedToProductId: productId,
-              maxUses: quantity,
-              percentageDiscount: 1.0,
-              status: 1,
-            },
-          })
-        }
-
-        // 2. Update existing purchase with bulkCouponId reference
-        const updatedPurchase = await transaction.purchase.update({
-          where: {
-            id: purchase.id,
-          },
-          data: {
-            bulkCouponId: coupon.id,
-          },
-        })
-
-        return updatedPurchase
-      },
-    )
-
-    purchaseToReturn = updatedPurchase
-  }
+  const [_merchantCharge, purchase, _bulkCoupon] =
+    await createMerchantChargeAndPurchase({
+      userId: user.id,
+      stripeChargeId,
+      merchantAccountId,
+      merchantProductId,
+      merchantCustomerId,
+      productId,
+      stripeChargeAmount,
+      quantity,
+    })
 
   let purchaseType = await determinePurchaseType({checkoutSessionId})
 
@@ -203,7 +141,7 @@ export async function recordNewPurchase(checkoutSessionId: string): Promise<{
   }
 
   return {
-    purchase: purchaseToReturn,
+    purchase,
     user,
     purchaseInfo,
     purchaseType,
