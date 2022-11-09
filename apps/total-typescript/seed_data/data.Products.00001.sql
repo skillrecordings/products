@@ -11,7 +11,7 @@ INSERT INTO Price (id, productId, nickname, status, unitAmount ) VALUES
 ('tt_c68ae76b-3579-4a56-8417-32de56e54fd8', 'tt_cd59affe-ccc3-41ec-b7f6-7e0c816dff6a', 'Total TypeScript Vol. 1', 1, 799);
 
 INSERT INTO MerchantPrice (id, merchantProductId, merchantAccountId, status, priceId, identifier ) VALUES
-('tt_a3c78294-84ea-4e6c-b0dd-798f84da982c', 'prod_MlWOKsn7m29PjC', 'tt_cc7acfa7-f60b-4315-ae51-3cbd305e23ae', 1, "tt_c68ae76b-3579-4a56-8417-32de56e54fd8", "price_1M1zLVAozSgJZBRPbtm67xWX");
+('tt_a3c78294-84ea-4e6c-b0dd-798f84da982c', 'tt_61b88dc4-8004-487b-81b3-0a35d88c02e1', 'tt_cc7acfa7-f60b-4315-ae51-3cbd305e23ae', 1, "tt_c68ae76b-3579-4a56-8417-32de56e54fd8", "price_1M1zLVAozSgJZBRPbtm67xWX");
 
 INSERT INTO MerchantCoupon (id, merchantAccountId, status, identifier, percentageDiscount, type) VALUES
 ('tt_33d9422e-5fb4-4323-bf34-3e57b4a77429', 'tt_cc7acfa7-f60b-4315-ae51-3cbd305e23ae', 1, '8M0LQt2k', '0.45', "bulk");
