@@ -145,19 +145,6 @@ export async function recordNewPurchase(checkoutSessionId: string): Promise<{
     },
   })
 
-  // TODO: Might be able to collapse this purchase lookup and the bulk coupon
-  // lookup into a request for `getPurchasesForUser` that would do a single
-  // query for all of them.
-  //
-  // Check if this user has already purchased an individual seat for themselves.
-  const existingIndividualPurchase = await prisma.purchase.findFirst({
-    where: {
-      userId: user.id,
-      bulkCouponId: null,
-      redeemedBulkCouponId: null,
-    },
-  })
-
   // Note: if the user already has a bulk purchase/coupon, then if they are
   // only adding 1 seat to the team, then it is still a "bulk purchase" and
   // we need to add it to their existing Bulk Coupon.
