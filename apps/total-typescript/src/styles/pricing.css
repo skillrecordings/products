@@ -1,0 +1,49 @@
+#__next {
+  /* tier name */
+
+  [data-pricing-product='0'] {
+  }
+  [data-pricing-product='1'] {
+    @apply sm:pt-20;
+  }
+
+  [data-pricing-product-name-badge='0'] {
+  }
+  [data-pricing-product-name-badge='1'] {
+  }
+
+  /* purchase button */
+
+  [data-pricing-product-checkout-button='0'] {
+    @apply bg-cyan-500 text-gray-900 hover:scale-105 transition-all ease-in-out hover:shadow-xl hover:shadow-cyan-700/40;
+  }
+  [data-pricing-product-checkout-button='1'] {
+    /* @apply bg-indigo-200 text-gray-900 hover:scale-105 transition-all ease-in-out; */
+    @apply bg-transparent border-2 border-cyan-500 text-cyan-500 hover:scale-105 transition-all ease-in-out;
+  }
+
+  [data-pricing-product-checkout-button]:disabled {
+    @apply cursor-wait;
+  }
+
+  /* PPP box */
+  [data-pricing-product-ppp='0'] {
+    p {
+      @apply sr-only;
+    }
+    label {
+      @apply text-sm;
+    }
+  }
+  [data-pricing-product-ppp='1'] {
+    @apply max-w-sm p-5 border border-gray-100;
+  }
+}
+
+/* Countdown box */
+[data-pricing-product-sale-countdown='0'] {
+}
+
+[data-pricing-product-sale-countdown='1'] {
+  @apply hidden;
+}
