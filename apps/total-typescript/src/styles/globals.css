@@ -6,6 +6,7 @@
 @import './newsletter.css';
 @import './nprogress.css';
 @import './prism-theme.css';
+@import './pricing.css';
 
 @tailwind utilities;
 @import './focus-visible.css';
