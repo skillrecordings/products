@@ -83,6 +83,7 @@ export async function recordNewPurchase(checkoutSessionId: string): Promise<{
     findOrCreateUser,
     findOrCreateMerchantCustomer,
     createMerchantChargeAndPurchase,
+    getMerchantProduct,
   } = getSdk()
 
   const purchaseInfo = await stripeData({checkoutSessionId})
@@ -101,11 +102,7 @@ export async function recordNewPurchase(checkoutSessionId: string): Promise<{
 
   const {user, isNewUser} = await findOrCreateUser(email, name)
 
-  const merchantProduct = await prisma.merchantProduct.findFirst({
-    where: {
-      identifier: stripeProductId,
-    },
-  })
+  const merchantProduct = await getMerchantProduct(stripeProductId)
 
   if (!merchantProduct)
     throw new PurchaseError(

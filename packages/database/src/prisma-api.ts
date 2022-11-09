@@ -308,6 +308,13 @@ export function getSdk(
 
       return purchases
     },
+    async getMerchantProduct(stripeProductId: string) {
+      return ctx.prisma.merchantProduct.findFirst({
+        where: {
+          identifier: stripeProductId,
+        },
+      })
+    },
     async createMerchantChargeAndPurchase(options: {
       userId: string
       productId: string
