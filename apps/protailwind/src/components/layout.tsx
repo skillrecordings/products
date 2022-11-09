@@ -10,8 +10,8 @@ const Layout: FunctionComponent<React.PropsWithChildren<LayoutProps>> = ({
   className,
   meta,
   noIndex,
-  nav,
-  footer,
+  noNav,
+  navClassName,
 }) => {
   const {
     title,
@@ -43,13 +43,8 @@ const Layout: FunctionComponent<React.PropsWithChildren<LayoutProps>> = ({
         canonical={url}
         noindex={noIndex}
       />
-      {nav && <Navigation />}
-      <div
-        className={cx(
-          'flex h-full min-h-[calc(100vh-56px)] flex-grow flex-col sm:min-h-[calc(100vh-64px)]',
-          className,
-        )}
-      >
+      {!noNav && <Navigation className={navClassName} />}
+      <div className={cx('flex h-full flex-grow flex-col', className)}>
         {children}
         {/* {footer ? footer : isNull(footer) ? null : <Footer />} */}
       </div>
