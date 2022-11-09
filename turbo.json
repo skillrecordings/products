@@ -23,6 +23,9 @@
     "test": {
       "dependsOn": ["^build", "generate"]
     },
+    "test:e2e": {
+      "dependsOn": ["^build", "generate"]
+    },
     "deploy": {
       "dependsOn": ["generate", "build", "test", "lint"]
     },
