@@ -48,6 +48,7 @@
     "@skillrecordings/quiz": "workspace:*",
     "@skillrecordings/react": "workspace:*",
     "@skillrecordings/skill-api": "workspace:*",
+    "@skillrecordings/stripe-sdk": "workspace:*",
     "@skillrecordings/time": "workspace:*",
     "@stackblitz/sdk": "^1.8.0",
     "@tailwindcss/typography": "^0.5.2",
