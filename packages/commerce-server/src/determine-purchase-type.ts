@@ -18,6 +18,14 @@ export const purchaseTypeSchema = z.union([
 ])
 export type PurchaseType = z.infer<typeof purchaseTypeSchema>
 
+/**
+ * Check that two values match without matching on two undefined values
+ *
+ * This is helpful when you find yourself doing a comparison like
+ * `obj?.a === obj?.b`. If both values are undefined, then it resolves to
+ * true. If you don't want that, then you have to guard the comparison,
+ * `obj?.a && obj?.b && obj?.a === obj?.b`. This function takes care of that.
+ */
 const match = (
   value1: string | number | undefined,
   value2: string | number | undefined,
