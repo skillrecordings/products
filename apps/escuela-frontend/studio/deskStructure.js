@@ -1,21 +1,29 @@
 import S from '@sanity/desk-tool/structure-builder'
 import articles from './src/structure/articles'
-import workshops from './src/structure/workshops'
+import tutorials from './src/structure/tutorials'
+import collaborators from './src/structure/collaborator'
 
 const hiddenDocTypes = (listItem) =>
-  !['module', 'article', 'skosConcept', 'skosConceptScheme'].includes(
-    listItem.getId(),
-  )
+  ![
+    'module',
+    'article',
+    'skosConcept',
+    'skosConceptScheme',
+    'collaborator',
+  ].includes(listItem.getId())
 
 export default () =>
   S.list()
     .title('Escuela Frontend')
     .items([
-      workshops,
-      articles,
+      tutorials,
       S.divider(),
       ...S.documentTypeListItems().filter(hiddenDocTypes),
       S.divider(),
+      articles,
+      S.divider(),
       S.documentTypeListItem('skosConcept').title('Concepts'),
       S.documentTypeListItem('skosConceptScheme').title('Taxonomy Schemes'),
+      S.divider(),
+      collaborators,
     ])

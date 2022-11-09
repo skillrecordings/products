@@ -46,7 +46,7 @@ const DesktopNav = () => {
         Artículos
       </NavLink>
       <NavLink
-        href="/workshops"
+        href="/tutorials"
         icon={
           <TicketIcon
             className="h-5 w-5 text-gray-300 group-hover:text-gray-50"
@@ -54,7 +54,7 @@ const DesktopNav = () => {
           />
         }
       >
-        Workshops
+        Tutorials
       </NavLink>
     </ul>
   )

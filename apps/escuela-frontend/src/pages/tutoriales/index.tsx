@@ -3,32 +3,32 @@ import Layout from 'components/app/layout'
 import {SanityDocument} from '@sanity/client'
 import Link from 'next/link'
 import Image from 'next/image'
-import {getAllWorkshops} from 'lib/workshops'
+import {getAllTutorials} from 'lib/tutorials'
 
 export async function getStaticProps() {
-  const workshops = await getAllWorkshops()
+  const tutorials = await getAllTutorials()
 
   return {
-    props: {modules: workshops},
+    props: {modules: tutorials},
     revalidate: 10,
   }
 }
 
-const WorkshopsPage: React.FC<{modules: SanityDocument[]}> = ({modules}) => {
+const TutorialsPage: React.FC<{modules: SanityDocument[]}> = ({modules}) => {
   return (
     <Layout
       meta={{
-        title: `Professional TypeScript Workshops from Matt Pocock`,
-        description: `Professional TypeScript workshops by Matt Pocock that will help you learn TypeScript as a professional web developer through exercise driven examples.`,
+        title: `Tutoriales Profesionales en Español`,
+        description: `Tutoriales profesionales que te ayudarán a domina el universo Frontend`,
       }}
     >
       <main className="relative z-10 flex flex-col items-center justify-center py-32 sm:py-40">
         <h1 className="mx-6 text-center text-4xl font-extrabold leading-tight text-gray-100 sm:text-4xl md:!w-full md:text-5xl lg:text-6xl">
-          Workshops Profesionales
+          Tutoriales Profesionales
         </h1>
         <p className="max-w-sm pt-8 text-center text-lg text-gray-300">
-          A collection of profesional, exercise-driven, in-depth, self-paced
-          TypeScript workshops for you to achieve TypeScript wizardry.
+          Una serie de tutoriales interactivos que te ayudarán a domina el
+          universo Frontend
         </p>
         {modules && (
           <ul className="flex w-full max-w-4xl flex-col gap-8 px-3 pt-20">
@@ -50,7 +50,7 @@ const WorkshopsPage: React.FC<{modules: SanityDocument[]}> = ({modules}) => {
                   <div>
                     <Link
                       href={{
-                        pathname: '/workshops/[module]',
+                        pathname: '/tutoriales/[module]',
                         query: {
                           module: slug.current,
                         },
@@ -77,7 +77,7 @@ const WorkshopsPage: React.FC<{modules: SanityDocument[]}> = ({modules}) => {
                     )}
                     <Link
                       href={{
-                        pathname: '/workshops/[module]',
+                        pathname: '/tutoriales/[module]',
                         query: {
                           module: slug.current,
                         },
@@ -105,4 +105,4 @@ const WorkshopsPage: React.FC<{modules: SanityDocument[]}> = ({modules}) => {
   )
 }
 
-export default WorkshopsPage
+export default TutorialsPage

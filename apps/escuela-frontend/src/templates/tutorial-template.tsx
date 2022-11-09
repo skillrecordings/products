@@ -11,11 +11,11 @@ import {Exercise} from '../lib/exercises'
 import PortableTextComponents from '../components/portable-text'
 import first from 'lodash/first'
 
-const WorkshopTemplate: React.FC<{
-  workshop: SanityDocument
-}> = ({workshop}) => {
-  const {title, body, ogImage, image, description} = workshop
-  const pageTitle = `${title} Workshop`
+const TutorialTemplate: React.FC<{
+  tutorial: SanityDocument
+}> = ({tutorial}) => {
+  const {title, body, ogImage, image, description} = tutorial
+  const pageTitle = `${title} Tutorial`
 
   return (
     <Layout
@@ -30,21 +30,21 @@ const WorkshopTemplate: React.FC<{
       }}
     >
       <CourseMeta title={pageTitle} description={description} />
-      <Header workshop={workshop} />
+      <Header tutorial={tutorial} />
       <main className="relative z-10 flex flex-col gap-5 lg:flex-row">
         <article className="prose prose-lg -mt-8 w-full max-w-none text-white lg:max-w-2xl">
           <PortableText value={body} components={PortableTextComponents} />
         </article>
-        <WorkshopSectionNavigator workshop={workshop} />
+        <TutorialExerciseNavigator tutorial={tutorial} />
       </main>
     </Layout>
   )
 }
 
-export default WorkshopTemplate
+export default TutorialTemplate
 
-const Header: React.FC<{workshop: SanityDocument}> = ({workshop}) => {
-  const {title, slug, sections, image, github} = workshop
+const Header: React.FC<{tutorial: SanityDocument}> = ({tutorial}) => {
+  const {title, slug, sections, image, github} = tutorial
 
   const firstSection = first<SanityDocument>(sections)
   const firstExercise = first<SanityDocument>(firstSection?.exercises)
@@ -53,9 +53,9 @@ const Header: React.FC<{workshop: SanityDocument}> = ({workshop}) => {
     <>
       <header className="relative z-10 flex flex-col-reverse items-center justify-between gap-20 pt-0 pb-20 sm:pt-8 sm:pb-10 md:flex-row">
         <div className="text-center md:text-left">
-          <Link href="/workshops">
+          <Link href="/tutoriales">
             <a className="pb-1 font-mono text-sm font-semibold uppercase tracking-wide text-brand">
-              Workshop
+              Tutorial
             </a>
           </Link>
           <h1 className="font-text text-5xl font-bold lg:text-6xl">{title}</h1>
@@ -69,7 +69,7 @@ const Header: React.FC<{workshop: SanityDocument}> = ({workshop}) => {
               {firstSection && (
                 <Link
                   href={{
-                    pathname: '/workshops/[module]/[section]/[exercise]',
+                    pathname: '/tutoriales/[module]/[section]/[exercise]',
                     query: {
                       module: slug.current,
                       section: firstSection.slug,
@@ -114,10 +114,10 @@ const Header: React.FC<{workshop: SanityDocument}> = ({workshop}) => {
   )
 }
 
-const WorkshopSectionNavigator: React.FC<{workshop: SanityDocument}> = ({
-  workshop,
+const TutorialExerciseNavigator: React.FC<{tutorial: SanityDocument}> = ({
+  tutorial,
 }) => {
-  const {slug, sections, _type} = workshop
+  const {slug, sections, _type} = tutorial
   return (
     <nav
       aria-label="exercise navigator"
@@ -140,9 +140,9 @@ const WorkshopSectionNavigator: React.FC<{workshop: SanityDocument}> = ({
                   </span>
                   <span className="w-full leading-tight">{section.title}</span>
                 </div>
-                <WorkshopSectionExerciseNavigator
+                <TutorialSectionExerciseNavigator
                   section={section}
-                  moduleSlug={workshop.slug.current}
+                  moduleSlug={tutorial.slug.current}
                 />
               </li>
             )
@@ -153,7 +153,7 @@ const WorkshopSectionNavigator: React.FC<{workshop: SanityDocument}> = ({
   )
 }
 
-const WorkshopSectionExerciseNavigator: React.FC<{
+const TutorialSectionExerciseNavigator: React.FC<{
   section: SanityDocument
   moduleSlug: string
 }> = ({section, moduleSlug}) => {
@@ -173,7 +173,7 @@ const WorkshopSectionExerciseNavigator: React.FC<{
               <li key={exercise.slug}>
                 <Link
                   href={{
-                    pathname: '/workshops/[module]/[section]/[exercise]',
+                    pathname: '/tutoriales/[module]/[section]/[exercise]',
                     query: {
                       section: slug,
                       exercise: exercise.slug,
