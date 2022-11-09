@@ -27,4 +27,11 @@ const productsQuery = groq`*[_type == "pricing"][0] {
 }`
 
 export const getActiveProducts = async () =>
-  (await sanityClient.fetch(productsQuery)) || {}
+  (await sanityClient.fetch(productsQuery)) || {
+    products: [
+      {
+        name: 'Pro',
+        productId: 'tt_cd59affe-ccc3-41ec-b7f6-7e0c816dff6a',
+      },
+    ],
+  }
