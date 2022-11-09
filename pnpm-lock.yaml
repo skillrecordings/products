@@ -2306,6 +2306,7 @@ importers:
       '@next/mdx': ^12.3.1
       '@portabletext/react': ^1.0.6
       '@portabletext/types': ^1.0.3
+      '@radix-ui/react-alert-dialog': ^0.1.7
       '@reach/auto-id': ^0.16.0
       '@reach/utils': ^0.16.0
       '@sanity/block-content-to-react': ^3.0.0
@@ -2344,6 +2345,7 @@ importers:
       '@types/nodemailer': ^6.4.4
       '@types/react': ^18.0.15
       '@types/react-dom': ^18.0.6
+      '@types/react-scroll': ^1.8.3
       '@types/speakingurl': ^13.0.3
       '@types/ws': ^8.5.3
       '@vercel/og': ^0.0.18
@@ -2383,6 +2385,7 @@ importers:
       react-query: ^3.39.1
       react-refractor: ^2.1.7
       react-rewards: ^2.0.3
+      react-scroll: ^1.8.6
       react-use: ^17.3.2
       refractor: ^4.5.0
       speakingurl: ^14.0.1
@@ -2412,6 +2415,7 @@ importers:
       '@mux/mux-player-react': 0.1.0-beta.26_v7vsrdtui4d36prbwvdnlb7tpq
       '@next/mdx': 12.3.1_hbo3tj2k5fhsh63l2ltjrymaq4
       '@portabletext/react': 1.0.6_react@18.2.0
+      '@radix-ui/react-alert-dialog': 0.1.7_bb2bxwco6ptpubzwpazr52qf6i
       '@reach/auto-id': 0.16.0_biqbaboplfbrettd7655fr4n2y
       '@reach/utils': 0.16.0_biqbaboplfbrettd7655fr4n2y
       '@sanity/block-content-to-react': 3.0.0_react@18.2.0
@@ -2465,6 +2469,7 @@ importers:
       react-query: 3.39.1_biqbaboplfbrettd7655fr4n2y
       react-refractor: 2.1.7_react@18.2.0
       react-rewards: 2.0.3_biqbaboplfbrettd7655fr4n2y
+      react-scroll: 1.8.7_biqbaboplfbrettd7655fr4n2y
       react-use: 17.3.2_biqbaboplfbrettd7655fr4n2y
       refractor: 4.5.0
       speakingurl: 14.0.1
@@ -2493,6 +2498,7 @@ importers:
       '@types/nodemailer': 6.4.4
       '@types/react': 18.0.15
       '@types/react-dom': 18.0.6
+      '@types/react-scroll': 1.8.3
       '@types/speakingurl': 13.0.3
       '@types/ws': 8.5.3
       autoprefixer: 10.4.7_postcss@8.4.14
@@ -8821,7 +8827,7 @@ packages:
       '@mdx-js/loader': '>=0.15.0'
       '@mdx-js/react': '*'
     dependencies:
-      '@mdx-js/loader': 2.1.3_webpack@5.73.0
+      '@mdx-js/loader': 2.1.3_webpack@4.46.0
       '@mdx-js/react': 2.1.3_react@18.2.0
     dev: false
 
