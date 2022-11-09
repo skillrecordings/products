@@ -1,4 +1,4 @@
-import {determinePurchaseType} from '../determine-purchase-type'
+import {determinePurchaseType} from './determine-purchase-type'
 
 import {
   MockContext,
