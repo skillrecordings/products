@@ -1,11 +1,9 @@
 import {loadEnvConfig} from '@next/env'
-import {Browser, chromium} from '@playwright/test'
-import fs from 'fs'
+import {chromium} from '@playwright/test'
 
 async function globalSetup(/* config: FullConfig */) {
-  loadEnvConfig(process.env.PWD)
+  loadEnvConfig(String(process.env.PWD))
   const browser = await chromium.launch()
-
   await browser.close()
 }
 

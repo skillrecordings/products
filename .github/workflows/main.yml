@@ -1,9 +1,9 @@
 name: Lint and Test
 on:
   push:
-    branches: [ main ]
+    branches: [main]
   pull_request:
-    branches: [ main ]
+    branches: [main]
 
 jobs:
   test:
@@ -36,11 +36,5 @@ jobs:
       - name: Install dependencies
         run: pnpm install
 
-      - name: Generate DB Client
-        run: pnpm generate
-
-      - name: Lint
-        run: pnpm lint
-
-      - name: Test
-        run: pnpm test
+      - name: Test & Lint
+        run: pnpm -- turbo run test lint

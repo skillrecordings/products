@@ -6,6 +6,23 @@ The working directory for this project is the same folder the README you are rea
 cd apps/testingaccessibility
 ```
 
+## TLDR Setup
+
+For the basics of your development environment:
+1. `cd apps/testingaccessibility` (Just to be extra-safe you're in the correct directory)
+1. `pnpm dev:validate` ensures you have the necessary system-level tools installed
+1. `pnpm install` ensures you have the necessary application dependencies installed
+1. `vercel login` connects the Vercel CLI to your Vercel account
+1. `vercel link` walks you through connecting this project to Vercel
+1. `pnpm dev:setup` pulls the necessary environment variables into `.env.local`
+1. `pnpm test` runs the unit tests
+
+If you also want to be able to run the e2e tests (you probably do)
+1. `pnpm build` generates a testable build
+1. `stripe login` connects the Stripe CLI to your Stripe account
+1. `pnpm dev:stripe` starts the webhook listening to ensure Stripe webhooks can be received locally
+1. `pnpm test:e2e` runs the e2e tests
+
 ## Validate your local environment
 
 You need to ensure that you have all of the necessary system-level dependencies installed.
@@ -184,7 +201,7 @@ pnpm dev:stripe
 
 The `dev:stripe` node script is a shorthand for `stripe listen --forward-to localhost:3013/api/skill/webhook/stripe`.
 
-`pnpm dev:stripe` starts listening for Stripe Webhook events. When it first starts, it will output a _webhook signing secret_ (`whsec_....`). You'll need to copy and paste this value into `.env.local` as the `STRIPE_WEBHOOK_SECRET`. It is required to make test purchases
+`pnpm dev:stripe` starts listening for Stripe Webhook events. When it first starts, it will output a _webhook signing secret_ (`whsec_....`). You'll need to copy and paste this value into `.env.local` as the `STRIPE_WEBHOOK_SECRET`. It is required to make test purchases. (It will proactively guide you if the value isn't currently configured properly.)
 
 👋 If you aren't listening to webhooks you can still make a purchase but your local environment will not be notified!
 
