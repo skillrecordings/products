@@ -257,6 +257,14 @@ export function getSdk(
       }
       return lessonProgress
     },
+    async getPurchaseWithUser(purchaseId: string) {
+      return await ctx.prisma.purchase.findFirst({
+        where: {id: purchaseId as string, status: 'Valid'},
+        include: {
+          user: true,
+        },
+      })
+    },
     async getPurchase(args: Prisma.PurchaseFindUniqueArgs) {
       return await ctx.prisma.purchase.findUnique(args)
     },
