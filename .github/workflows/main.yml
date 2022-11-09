@@ -37,4 +37,4 @@ jobs:
         run: pnpm install
 
       - name: Test & Lint
-        run: pnpm -- turbo run test lint
+        run: pnpm -- turbo run test lint --team=skillrecordings --token=${{ secrets.VERCEL_TOKEN }}
