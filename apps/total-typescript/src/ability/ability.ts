@@ -71,7 +71,8 @@ export function defineRulesForPurchases(
   if (module.moduleType === 'workshop') {
     // TODO remove this once we have a better way to determine if a workshop is
     //  available to the user (see below)
-    if (user && hasVideo) {
+    const userHasPurchases = Boolean(user && user.purchases.length > 0)
+    if (userHasPurchases && hasVideo) {
       can('view', 'Content')
     }
 

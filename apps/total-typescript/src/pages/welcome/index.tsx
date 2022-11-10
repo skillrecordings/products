@@ -99,7 +99,7 @@ const Welcome: React.FC<
 
   return (
     <Layout
-      meta={{title: 'Welcome to Testing Accessibility'}}
+      meta={{title: `Welcome to ${process.env.NEXT_PUBLIC_SITE_TITLE}`}}
       footer={null}
       className="bg-noise"
     >
@@ -189,7 +189,7 @@ const GetStarted: React.FC<React.PropsWithChildren<unknown>> = () => {
       <h2 className="flex items-center gap-1 pt-12 pb-8 text-2xl font-semibold text-white sm:text-3xl">
         <span>Ready to get started?</span>
       </h2>
-      <Link href={`/learn`}>
+      <Link href={`/workshops`}>
         <a className="flex-shrink-0 rounded-md bg-cyan-500 px-5 py-4 text-lg font-semibold text-gray-900 transition-all focus-visible:ring-white hover:-rotate-1 hover:scale-105 hover:bg-yellow-400">
           Start {process.env.NEXT_PUBLIC_SITE_TITLE}{' '}
           <span role="presentation" aria-hidden="true">
