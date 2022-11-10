@@ -29,7 +29,6 @@ const ArticleTemplate: React.FC<ArticleTemplateProps> = ({article}) => {
 
   return (
     <Layout
-      nav
       meta={{
         title: metaTitle || title,
         description: shortDescription,

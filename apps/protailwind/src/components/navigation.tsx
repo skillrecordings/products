@@ -4,13 +4,22 @@ import {useRouter} from 'next/router'
 import cx from 'classnames'
 import Icon from './icons'
 
-const Navigation = () => {
+type NavigationProps = {
+  className?: string
+}
+
+const Navigation: React.FC<NavigationProps> = ({className}) => {
   return (
     <nav
       aria-label="top"
-      className="z-10 w-full bg-white py-4 shadow-xl shadow-gray-200/20 sm:py-8"
+      className="z-10 w-full bg-white py-3 shadow-xl shadow-gray-200/20 sm:py-4"
     >
-      <div className="mx-auto flex max-w-screen-lg items-center justify-between px-5">
+      <div
+        className={cx(className, {
+          'mx-auto flex max-w-screen-lg items-center justify-between px-5':
+            !className,
+        })}
+      >
         <NavLogo />
         <DesktopNav />
       </div>
@@ -24,6 +33,12 @@ const DesktopNav = () => {
   return (
     <div className="flex items-center space-x-5">
       <NavSlots>
+        {/* <NavLink
+          href="/tutorials"
+          icon={<Icon name="Video" className="text-brand-red" />}
+        >
+          Tutorials
+        </NavLink> */}
         <NavLink href="/tips" icon={<Icon name="Anchor" />}>
           Tips
         </NavLink>
