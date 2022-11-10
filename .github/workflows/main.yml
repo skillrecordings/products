@@ -15,6 +15,7 @@ jobs:
       TURBO_TEAM: ${{ secrets.TURBO_TEAM }}
       SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
       DATABASE_URL: ${{ secrets.DATABASE_URL }}
+      LOCALHOST_PORT: 3013 # This will need to be updated so it can change for each app
       PRISMA_SKIP_POSTINSTALL_GENERATE: false # We do this manually for architecture reasons
 
     steps:
