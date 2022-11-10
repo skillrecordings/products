@@ -2331,6 +2331,7 @@ importers:
       '@skillrecordings/types': workspace:*
       '@stackblitz/sdk': ^1.8.0
       '@tailwindcss/typography': ^0.5.2
+      '@tippyjs/react': ^4.2.6
       '@trpc/client': ^9.27.2
       '@trpc/next': ^9.27.2
       '@trpc/react': ^9.27.2
@@ -2388,6 +2389,7 @@ importers:
       react-rewards: ^2.0.3
       react-scroll: ^1.8.6
       react-use: ^17.3.2
+      react-use-clipboard: ^1.0.7
       refractor: ^4.5.0
       speakingurl: ^14.0.1
       superjson: ^1.9.1
@@ -2438,6 +2440,7 @@ importers:
       '@skillrecordings/time': link:../../packages/time
       '@stackblitz/sdk': 1.8.0
       '@tailwindcss/typography': 0.5.2_tailwindcss@3.1.6
+      '@tippyjs/react': 4.2.6_biqbaboplfbrettd7655fr4n2y
       '@trpc/client': 9.27.2_@trpc+server@9.27.2
       '@trpc/next': 9.27.2_cpjoldjkwaya224psufok4zvdi
       '@trpc/react': 9.27.2_4qx6yxzlojuzl2gqhs2hvlmyii
@@ -2473,6 +2476,7 @@ importers:
       react-rewards: 2.0.3_biqbaboplfbrettd7655fr4n2y
       react-scroll: 1.8.7_biqbaboplfbrettd7655fr4n2y
       react-use: 17.3.2_biqbaboplfbrettd7655fr4n2y
+      react-use-clipboard: 1.0.8_biqbaboplfbrettd7655fr4n2y
       refractor: 4.5.0
       speakingurl: 14.0.1
       superjson: 1.9.1
@@ -8829,7 +8833,7 @@ packages:
       '@mdx-js/loader': '>=0.15.0'
       '@mdx-js/react': '*'
     dependencies:
-      '@mdx-js/loader': 2.1.3_webpack@5.73.0
+      '@mdx-js/loader': 2.1.3_webpack@4.46.0
       '@mdx-js/react': 2.1.3_react@18.2.0
     dev: false
 
