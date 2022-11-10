@@ -31,7 +31,8 @@ export type LayoutProps = {
   meta?: MetaTags
   noIndex?: boolean
   className?: string
-  nav?: boolean
+  noNav?: boolean
+  navClassName?: string
   footer?: React.ReactElement | null
   children?: any
 }

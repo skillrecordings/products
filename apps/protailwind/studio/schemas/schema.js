@@ -7,6 +7,12 @@ import schemaTypes from 'all:part:@sanity/base/schema-type'
 import article from './documents/article'
 import tip from './documents/tip'
 import videoResource from './documents/videoResource'
+import cta from './documents/cta'
+import exercise from './documents/exercise'
+import module from './documents/module'
+import testimonial from './documents/testimonial'
+import section from './documents/section'
+import explainer from './documents/explainer'
 // objects
 import bodyVideo from './objects/bodyVideo'
 import bodyImage from './objects/bodyImage'
@@ -19,6 +25,13 @@ import videoOptions from './objects/videoOptions'
 import tweet from './objects/tweet'
 import muxAsset from './objects/muxAsset'
 import castingwordsTranscript from './objects/castingwordsTranscript'
+import solution from './objects/resources/solution'
+import muxVideo from './objects/resources/muxVideo'
+import stackblitz from './objects/stackblitz'
+import codeFile from './objects/code-file'
+import sandpack from './objects/resources/sandpack'
+import github from './objects/github'
+import figma from './objects/resources/figma'
 
 // Then we give our schema to the builder and provide the result to Sanity
 export default createSchema({
@@ -34,7 +47,12 @@ export default createSchema({
     article,
     tip,
     videoResource,
-
+    cta,
+    exercise,
+    module,
+    testimonial,
+    section,
+    explainer,
     //objects
     body,
     bodyVideo,
@@ -47,6 +65,13 @@ export default createSchema({
     tweet,
     muxAsset,
     castingwordsTranscript,
+    solution,
+    muxVideo,
+    stackblitz,
+    sandpack,
+    codeFile,
+    github,
+    figma,
     // When added to this list, object types can be used as
     // { type: 'typename' } in other document schemas
   ]),
