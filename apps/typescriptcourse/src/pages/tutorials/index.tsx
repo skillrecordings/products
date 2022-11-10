@@ -32,7 +32,7 @@ const TutorialsPage: React.FC<{tutorials: SanityDocument[]}> = ({
       <main className="relative z-10 flex flex-col items-center justify-center py-20">
         <h1 className="max-w-screen-md mx-auto text-5xl font-bold leading-none text-center font-heading sm:text-5xl lg:text-5xl">
           Free
-          <span className="text-transparent bg-gradient-to-l from-purple-100 to-blue-400 bg-clip-text decoration-clone">
+          <span className="text-transparent bg-gradient-to-l from-purple-400 to-blue-400 bg-clip-text decoration-clone">
             {' '}
             TypeScript
           </span>{' '}
@@ -48,7 +48,7 @@ const TutorialsPage: React.FC<{tutorials: SanityDocument[]}> = ({
                 return (
                   <li
                     key={slug.current}
-                    className="relative flex flex-col items-center rounded-lg gap-10 overflow-hidden bg-white bg-opacity-5 shadow-2xl p-4 md:flex-row"
+                    className="relative flex flex-col items-center rounded-lg bg-white bg-opacity-5 p-4 md:flex-row shadow-2xl overflow-hidden gap-6"
                   >
                     <div className="flex h-full flex-shrink-0 items-center justify-centerp-10">
                       {image && (
@@ -62,9 +62,9 @@ const TutorialsPage: React.FC<{tutorials: SanityDocument[]}> = ({
                       )}
                     </div>
                     <div className="pr-10">
-                      <div className="relative pt-4 pb-3 font-mono text-xs font-semibold uppercase">
+                      <div className="relative pt-4 pb-3 font-mono text-xs font-semibold uppercase text-blue-400">
                         {i === 0 && (
-                          <span className="mr-3 rounded-full px-2 py-0.5 font-sans font-semibold uppercase text-white transition bg-white bg-opacity-0  group hover:opacity-90 focus-visible:ring-white focus-visible:opacity-100">
+                          <span className="mr-3 px-2 py-0.5 font-sans font-semibold uppercase transition bg-white rounded-full bg-opacity-10 group focus-visible:ring-white focus-visible:opacity-100">
                             New
                           </span>
                         )}
