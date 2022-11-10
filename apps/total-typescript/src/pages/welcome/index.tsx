@@ -21,7 +21,9 @@ export const getServerSideProps: GetServerSideProps = async ({req, query}) => {
   let purchaseId = purchaseQueryParam
 
   if (session_id) {
-    const {stripeChargeId} = await stripeData(session_id as string)
+    const {stripeChargeId} = await stripeData({
+      checkoutSessionId: session_id as string,
+    })
     const purchase = await prisma.purchase.findFirst({
       where: {
         merchantCharge: {
