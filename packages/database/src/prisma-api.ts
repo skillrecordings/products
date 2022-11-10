@@ -100,6 +100,22 @@ export function getSdk(
         availableUpgrades,
       }
     },
+    async getPurchaseForStripeCharge(stripeChargeId: string) {
+      return await ctx.prisma.purchase.findFirst({
+        where: {
+          merchantCharge: {
+            identifier: stripeChargeId,
+          },
+        },
+        include: {
+          bulkCoupon: {
+            include: {
+              bulkCouponPurchases: true,
+            },
+          },
+        },
+      })
+    },
     async updatePurchaseStatusForCharge(
       chargeId: string,
       status: 'Valid' | 'Refunded' | 'Disputed' | 'Banned',

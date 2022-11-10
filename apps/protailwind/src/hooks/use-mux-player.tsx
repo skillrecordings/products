@@ -1,14 +1,16 @@
 import React from 'react'
 import get from 'lodash/get'
 import {usePlayerPrefs} from '@skillrecordings/player'
+import {getNextExercise} from 'utils/get-next-exercise'
 import {SanityDocument} from '@sanity/client'
 import {useRouter} from 'next/router'
 import {MuxPlayerProps} from '@mux/mux-player-react/*'
-import {track} from 'utils/analytics'
+import {track} from '../utils/analytics'
+import {type Exercise, ExerciseSchema} from 'lib/exercises'
 import {type Tip, TipSchema} from 'lib/tips'
-import {useConvertkit} from 'hooks/use-convertkit'
+import {useConvertkit} from './use-convertkit'
 
-type VideoResource = Tip
+type VideoResource = Exercise | Tip
 
 type VideoContextType = {
   muxPlayerProps: MuxPlayerProps | any
@@ -18,6 +20,7 @@ type VideoContextType = {
   setDisplayOverlay: (value: boolean) => void
   handlePlay: () => void
   displayOverlay: boolean
+  nextExercise: SanityDocument
   lesson: VideoResource
   module: SanityDocument
   path: string
@@ -46,6 +49,7 @@ export const VideoProvider: React.FC<
 }) => {
   const router = useRouter()
   const {subscriber} = useConvertkit()
+  const nextExercise = getNextExercise(module, lesson as Exercise)
   const {setPlayerPrefs, playbackRate, autoplay, getPlayerPrefs} =
     usePlayerPrefs()
   const [autoPlay, setAutoPlay] = React.useState(getPlayerPrefs().autoplay)
@@ -61,18 +65,18 @@ export const VideoProvider: React.FC<
   }, [])
 
   const moduleSlug = module?.slug?.current
-  const nextResourceSlug = null
+  const nextExerciseSlug = nextExercise?.slug
 
   const handleNext = React.useCallback(
     (autoPlay: boolean) => {
-      nextResourceSlug && autoPlay
+      nextExerciseSlug && autoPlay
         ? router.push({
-            pathname: '/[resource]',
-            query: {resource: nextResourceSlug},
+            pathname: '/[module]/[exercise]',
+            query: {module: moduleSlug, exercise: nextExerciseSlug},
           })
         : setDisplayOverlay(true)
     },
-    [moduleSlug, nextResourceSlug, router],
+    [moduleSlug, nextExerciseSlug, router],
   )
 
   // initialize player state
@@ -131,7 +135,11 @@ export const VideoProvider: React.FC<
     setDisplayOverlay: (value: boolean) => setDisplayOverlay(value),
     handlePlay,
     displayOverlay,
-    lesson: TipSchema.parse(lesson),
+    nextExercise,
+    lesson:
+      lesson._type === 'tip'
+        ? TipSchema.parse(lesson)
+        : ExerciseSchema.parse(lesson),
     module,
     video,
     path,
