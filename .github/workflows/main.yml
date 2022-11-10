@@ -48,6 +48,6 @@ jobs:
       # Playwright:
       #   https://playwright.dev/docs/ci-intro
       - name: Install Playwright Browsers
-        run: pnpm exec playwright install --with-deps
-      - name: Run Playwright tests
+        run: pnpm exec playwright install-deps chromium
+      - name: Run Playwright Tests
         run: pnpm test:e2e

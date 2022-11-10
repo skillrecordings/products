@@ -40,7 +40,7 @@ const config: PlaywrightTestConfig = {
   globalSetup: require.resolve('./playwright/config/globalSetup'),
   outputDir: path.join(outputDir, 'results'),
   webServer: {
-    command: 'pnpm db:start && pnpm start',
+    command: 'pnpm db:start && pnpm dev',
     port,
     timeout: defaultTimeout,
     reuseExistingServer: !isCI,
