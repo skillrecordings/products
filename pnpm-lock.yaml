@@ -1578,6 +1578,7 @@ importers:
       '@heroicons/react': ^1.0.6
       '@mdx-js/loader': ^2.1.5
       '@mdx-js/react': ^2.1.5
+      '@monaco-editor/react': ^4.4.6
       '@mux/mux-node': ^6.3.0
       '@mux/mux-player-react': 0.1.0-beta.26
       '@next/env': ^12.2.3
@@ -1613,6 +1614,7 @@ importers:
       '@types/cookie': ^0.4.1
       '@types/jest': ^27.5.2
       '@types/js-cookie': ^3.0.2
+      '@types/jsonwebtoken': ^8.5.8
       '@types/lodash': ^4.14.179
       '@types/mdx': ^2.0.2
       '@types/mdx-js__react': ^1.5.5
@@ -1634,7 +1636,10 @@ importers:
       framer-motion-3d: ^6.4.1
       groq: ^2.15.0
       js-cookie: ^3.0.1
+      jsonwebtoken: ^8.5.1
       mjml: ^4.12.0
+      monaco-editor: ^0.34.1
+      monaco-tailwindcss: ^0.5.0
       msw: ^0.35.0
       next: ^12.3.1
       next-auth: ^4.10.3
@@ -1651,6 +1656,7 @@ importers:
       refractor: ^4.5.0
       speakingurl: ^14.0.1
       superjson: ^1.11.0
+      tailwind-scrollbar: ^2.0.1
       tailwindcss: ^3.1.4
       typescript: ^4.8.3
       whatwg-fetch: ^3.6.2
@@ -1663,6 +1669,7 @@ importers:
       '@heroicons/react': 1.0.6_react@18.2.0
       '@mdx-js/loader': 2.1.5
       '@mdx-js/react': 2.1.5_react@18.2.0
+      '@monaco-editor/react': 4.4.6_6vrjaj6ridxbohi43n7zt4gn7q
       '@mux/mux-node': 6.3.0
       '@mux/mux-player-react': 0.1.0-beta.26_v7vsrdtui4d36prbwvdnlb7tpq
       '@next/mdx': 13.0.1_wuv4qx5dshjptmdbtsqqkih5iu
@@ -1699,7 +1706,10 @@ importers:
       framer-motion-3d: 6.4.1_biqbaboplfbrettd7655fr4n2y
       groq: 2.15.0
       js-cookie: 3.0.1
+      jsonwebtoken: 8.5.1
       mjml: 4.12.0
+      monaco-editor: 0.34.1
+      monaco-tailwindcss: 0.5.0_monaco-editor@0.34.1
       next: 12.3.1_biqbaboplfbrettd7655fr4n2y
       next-auth: 4.10.3_biqbaboplfbrettd7655fr4n2y
       next-sitemap: 3.1.7_3k5vmi4j6sdban7pt73cm6gfhu
@@ -1712,6 +1722,7 @@ importers:
       refractor: 4.5.0
       speakingurl: 14.0.1
       superjson: 1.11.0
+      tailwind-scrollbar: 2.0.1_tailwindcss@3.1.4
       whatwg-fetch: 3.6.2
       xstate: 4.23.1
       zod: 3.19.1
@@ -1725,6 +1736,7 @@ importers:
       '@types/cookie': 0.4.1
       '@types/jest': 27.5.2
       '@types/js-cookie': 3.0.2
+      '@types/jsonwebtoken': 8.5.8
       '@types/lodash': 4.14.180
       '@types/mdx': 2.0.2
       '@types/mdx-js__react': 1.5.5
@@ -7595,6 +7607,11 @@ packages:
       postcss-selector-parser: 6.0.10
     dev: true
 
+  /@ctrl/tinycolor/3.4.1:
+    resolution: {integrity: sha512-ej5oVy6lykXsvieQtqZxCOaLT+xD4+QNarq78cIYISHmZXshCvROLudpQN3lfL8G0NL7plMSSK+zlyvCaIJ4Iw==}
+    engines: {node: '>=10'}
+    dev: false
+
   /@emotion/babel-plugin-jsx-pragmatic/0.1.5_@babel+core@7.16.5:
     resolution: {integrity: sha512-y+3AJ0SItMDaAgGPVkQBC/S/BaqaPACkQ6MyCI2CUlrjTxKttTVfD3TMtcs7vLEcLxqzZ1xiG0vzwCXjhopawQ==}
     peerDependencies:
@@ -8534,6 +8551,29 @@ packages:
       react: ^16.x || ^17.x
     dependencies:
       react: 18.2.0
+    dev: false
+
+  /@monaco-editor/loader/1.3.2_monaco-editor@0.34.1:
+    resolution: {integrity: sha512-BTDbpHl3e47r3AAtpfVFTlAi7WXv4UQ/xZmz8atKl4q7epQV5e7+JbigFDViWF71VBi4IIBdcWP57Hj+OWuc9g==}
+    peerDependencies:
+      monaco-editor: '>= 0.21.0 < 1'
+    dependencies:
+      monaco-editor: 0.34.1
+      state-local: 1.0.7
+    dev: false
+
+  /@monaco-editor/react/4.4.6_6vrjaj6ridxbohi43n7zt4gn7q:
+    resolution: {integrity: sha512-Gr3uz3LYf33wlFE3eRnta4RxP5FSNxiIV9ENn2D2/rN8KgGAD8ecvcITRtsbbyuOuNkwbuHYxfeaz2Vr+CtyFA==}
+    peerDependencies:
+      monaco-editor: '>= 0.25.0 < 1'
+      react: ^16.8.0 || ^17.0.0 || ^18.0.0
+      react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0
+    dependencies:
+      '@monaco-editor/loader': 1.3.2_monaco-editor@0.34.1
+      monaco-editor: 0.34.1
+      prop-types: 15.8.1
+      react: 18.2.0
+      react-dom: 18.2.0_react@18.2.0
     dev: false
 
   /@motionone/animation/10.10.1:
@@ -13794,6 +13834,10 @@ packages:
     dependencies:
       tweetnacl: 0.14.5
 
+  /becke-ch--regex--s0-0-v1--base--pl--lib/1.4.0:
+    resolution: {integrity: sha512-FnWonOyaw7Vivg5nIkrUll9HSS5TjFbyuURAiDssuL6VxrBe3ERzudRxOcWRhZYlP89UArMDikz7SapRPQpmZQ==}
+    dev: false
+
   /better-path-resolve/1.0.0:
     resolution: {integrity: sha512-pbnl5XzGBdrFU/wT4jqmJVPn2B6UHPBOhzMQkY/SPUPB6QtUXtmBHBIwCbXJol93mOpGMnQyP/+BB19q04xj7g==}
     engines: {node: '>=4'}
@@ -15126,7 +15170,6 @@ packages:
 
   /css.escape/1.5.1:
     resolution: {integrity: sha512-YUifsXXuknHlUsmlgyY0PKzgPOr7/FjCePfHNt0jxm83wHZi44VDMQ7/fGNkjY3/jV1MC+1CmZbaHzugyeRtpg==}
-    dev: true
 
   /css/3.0.0:
     resolution: {integrity: sha512-DG9pFfwOrzc+hawpmqX/dHYHJG+Bsdb0klhyi1sDneOgGOXy9wQIC8hzyVp1e4NRYDBdxcylvywPkkXCHAzTyQ==}
@@ -19627,6 +19670,11 @@ packages:
     resolution: {integrity: sha512-l4RyHgRqGN4Y3+9JHVrNqO+tN0rV5My76uW5/nuO4K1b6vw5G8d/cmFjP9tRfEsdhZNt0IFdZuK/c2Vr4Nb+Qg==}
     engines: {node: '>=0.10.0'}
 
+  /is-obj/3.0.0:
+    resolution: {integrity: sha512-IlsXEHOjtKhpN8r/tRFj2nDyTmHvcfNeu/nrRIcXE17ROeatXchkojffa1SpdqW4cr/Fj6QkEf/Gn4zf6KKvEQ==}
+    engines: {node: '>=12'}
+    dev: false
+
   /is-path-cwd/2.2.0:
     resolution: {integrity: sha512-w942bTcih8fdJPJmQHFzkS76NEP8Kzzvmw92cXsazb8intwLqPibPPdXf4ANdKV3rYMuuQYGIWtvz9JilB3NFQ==}
     engines: {node: '>=6'}
@@ -19687,6 +19735,11 @@ packages:
   /is-regexp/1.0.0:
     resolution: {integrity: sha512-7zjFAPO4/gwyQAAgRRmqeEeyIICSdmCqa3tsVHMdBzaXXRiqopZL4Cyghg/XulGWrtABTpbnYYzzIRffLkP4oA==}
     engines: {node: '>=0.10.0'}
+
+  /is-regexp/3.1.0:
+    resolution: {integrity: sha512-rbku49cWloU5bSMI+zaRaXdQHXnthP6DZ/vLnfdSKyL4zUzuWnomtOEiZZOd+ioQ+avFo/qau3KPTc7Fjy1uPA==}
+    engines: {node: '>=12'}
+    dev: false
 
   /is-relative/1.0.0:
     resolution: {integrity: sha512-Kw/ReK0iqwKeu0MITLFuj0jbPAmEiOsIwyIXvvbfa6QfmN9pkD1M+8pdk7Rl/dTKbH34/XBFMbgD4iMJhLQbGA==}
@@ -21236,6 +21289,13 @@ packages:
   /lilconfig/2.0.6:
     resolution: {integrity: sha512-9JROoBW7pobfsx+Sq2JsASvCo6Pfo6WWoUW79HuB1BCoBXD4PLWJPqDF6fNj67pqBYTbAHkE57M1kS/+L1neOg==}
     engines: {node: '>=10'}
+
+  /line-column/1.0.2:
+    resolution: {integrity: sha512-Ktrjk5noGYlHsVnYWh62FLVs4hTb8A3e+vucNZMgPeAOITdshMSgv4cCZQeRDjm7+goqmo6+liZwTXo+U3sVww==}
+    dependencies:
+      isarray: 1.0.0
+      isobject: 2.1.0
+    dev: false
 
   /linebreak-next/1.0.3:
     resolution: {integrity: sha512-Wl+T0SZtnAwaTmfJlVimPER7EjyvT7KcILDvYhZ03HoqCHkJu02F3l1qQoBCWHT+c52wTLgXZfplXe11jor3hw==}
@@ -22847,6 +22907,58 @@ packages:
 
   /mmd-parser/1.0.4:
     resolution: {integrity: sha512-Qi0VCU46t2IwfGv5KF0+D/t9cizcDug7qnNoy9Ggk7aucp0tssV8IwTMkBlDbm+VqAf3cdQHTCARKSsuS2MYFg==}
+    dev: false
+
+  /monaco-editor/0.34.1:
+    resolution: {integrity: sha512-FKc80TyiMaruhJKKPz5SpJPIjL+dflGvz4CpuThaPMc94AyN7SeC9HQ8hrvaxX7EyHdJcUY5i4D0gNyJj1vSZQ==}
+    dev: false
+
+  /monaco-marker-data-provider/1.1.1_monaco-editor@0.34.1:
+    resolution: {integrity: sha512-PGB7TJSZE5tmHzkxv/OEwK2RGNC2A7dcq4JRJnnj31CUAsfmw0Gl+1QTrH0W0deKhcQmQM0YVPaqgQ+0wCt8Mg==}
+    peerDependencies:
+      monaco-editor: '>=0.30.0'
+    dependencies:
+      monaco-editor: 0.34.1
+    dev: false
+
+  /monaco-tailwindcss/0.5.0_monaco-editor@0.34.1:
+    resolution: {integrity: sha512-qA/I5bJu0u3t6CbEI3m5BS4W2R3F1DubH4x5WEEfWLc/Uj+iQ2mYguj+Gv2Hwfw7Qx1TLrCpTGlzSwJCXgIN9g==}
+    peerDependencies:
+      monaco-editor: '>=0.30'
+    dependencies:
+      '@ctrl/tinycolor': 3.4.1
+      becke-ch--regex--s0-0-v1--base--pl--lib: 1.4.0
+      color-name: 1.1.4
+      css.escape: 1.5.1
+      didyoumean: 1.2.2
+      dlv: 1.1.3
+      line-column: 1.0.2
+      monaco-editor: 0.34.1
+      monaco-marker-data-provider: 1.1.1_monaco-editor@0.34.1
+      monaco-worker-manager: 2.0.1_monaco-editor@0.34.1
+      moo: 0.5.1
+      postcss: 8.4.14
+      postcss-js: 4.0.0_postcss@8.4.14
+      postcss-nested: 6.0.0_postcss@8.4.14
+      postcss-selector-parser: 6.0.10
+      postcss-value-parser: 4.2.0
+      quick-lru: 5.1.1
+      semver: 7.3.7
+      sift-string: 0.0.2
+      stringify-object: 4.0.1
+      tailwindcss: 3.1.6_postcss@8.4.14
+      tmp-cache: 1.1.0
+      vscode-languageserver-textdocument: 1.0.7
+    transitivePeerDependencies:
+      - ts-node
+    dev: false
+
+  /monaco-worker-manager/2.0.1_monaco-editor@0.34.1:
+    resolution: {integrity: sha512-kdPL0yvg5qjhKPNVjJoym331PY/5JC11aPJXtCZNwWRvBr6jhkIamvYAyiY5P1AWFmNOy0aRDRoMdZfa71h8kg==}
+    peerDependencies:
+      monaco-editor: '>=0.30.0'
+    dependencies:
+      monaco-editor: 0.34.1
     dev: false
 
   /moo/0.5.1:
@@ -25010,6 +25122,16 @@ packages:
     dependencies:
       postcss: 8.4.14
       postcss-selector-parser: 6.0.10
+
+  /postcss-nested/6.0.0_postcss@8.4.14:
+    resolution: {integrity: sha512-0DkamqrPcmkBDsLn+vQDIrtkSbNkv5AD/M322ySo9kqFkCIYklym2xEmWkwo+Y3/qZo34tzEPNUw4y7yMCdv5w==}
+    engines: {node: '>=12.0'}
+    peerDependencies:
+      postcss: ^8.2.14
+    dependencies:
+      postcss: 8.4.14
+      postcss-selector-parser: 6.0.10
+    dev: false
 
   /postcss-nesting/10.1.10_postcss@8.4.14:
     resolution: {integrity: sha512-lqd7LXCq0gWc0wKXtoKDru5wEUNjm3OryLVNRZ8OnW8km6fSNUuFrjEhU3nklxXE2jvd4qrox566acgh+xQt8w==}
@@ -27673,6 +27795,10 @@ packages:
       get-intrinsic: 1.1.1
       object-inspect: 1.12.0
 
+  /sift-string/0.0.2:
+    resolution: {integrity: sha512-cOWdhRSgl6neRIgTCLdqsKgQQGnkF92+PzVKpRJEnVVZvFs/mLipRanroOO+2Lp6Kv4vWk/3wMnRylTne0jksQ==}
+    dev: false
+
   /sigmund/1.0.1:
     resolution: {integrity: sha512-fCvEXfh6NWpm+YSuY2bpXb/VIihqWA6hLsgboC+0nl71Q7N7o2eaCW8mJa/NLvQhs6jpd3VZV4UiUQlV6+lc8g==}
     dev: false
@@ -28029,6 +28155,10 @@ packages:
       react-dom: 18.2.0_react@18.2.0
     dev: false
 
+  /state-local/1.0.7:
+    resolution: {integrity: sha512-HTEHMNieakEnoe33shBYcZ7NX83ACUjCu8c40iOGEZsngj9zRnkqS9j1pqQPXwobB0ZcVTk27REb7COQ0UR59w==}
+    dev: false
+
   /state-toggle/1.0.3:
     resolution: {integrity: sha512-d/5Z4/2iiCnHw6Xzghyhb+GcmF89bxwgXG60wjIiZaxnymbyOmI8Hk4VqHXiVVp6u2ysaskFfXg3ekCj4WNftQ==}
 
@@ -28230,6 +28360,15 @@ packages:
       get-own-enumerable-property-symbols: 3.0.2
       is-obj: 1.0.1
       is-regexp: 1.0.0
+
+  /stringify-object/4.0.1:
+    resolution: {integrity: sha512-qpV1FBpN0R1gDAhCHIU71SYGZb35Te+gOQbQ6lYRmVJT7pF1NB8mkHeEJvyYNiHXw+fB4KIbeIjQl1rgiIijiA==}
+    engines: {node: ^12.20.0 || ^14.13.1 || >=16.0.0}
+    dependencies:
+      get-own-enumerable-property-symbols: 3.0.2
+      is-obj: 3.0.0
+      is-regexp: 3.1.0
+    dev: false
 
   /strip-ansi/3.0.1:
     resolution: {integrity: sha512-VhumSSbBqDTP8p2ZLKj40UjBCV4+v8bUSEpUb4KjRgWk9pbqGF4REFj6KEagidb2f/M6AzC0EmFyDNGaw9OCzg==}
@@ -28610,6 +28749,15 @@ packages:
       tailwindcss: 3.1.6_postcss@8.4.14
     dev: false
 
+  /tailwind-scrollbar/2.0.1_tailwindcss@3.1.4:
+    resolution: {integrity: sha512-OcR7qHBbux4k+k6bWqnEQFYFooLK/F4dhkBz6nvswIoaA9ancZ5h20e0tyV7ifSWLDCUBtpG+1NHRA8HMRH/wg==}
+    engines: {node: '>=12.13.0'}
+    peerDependencies:
+      tailwindcss: 3.x
+    dependencies:
+      tailwindcss: 3.1.4_postcss@8.4.14
+    dev: false
+
   /tailwind-scrollbar/2.0.1_tailwindcss@3.1.6:
     resolution: {integrity: sha512-OcR7qHBbux4k+k6bWqnEQFYFooLK/F4dhkBz6nvswIoaA9ancZ5h20e0tyV7ifSWLDCUBtpG+1NHRA8HMRH/wg==}
     engines: {node: '>=12.13.0'}
@@ -28929,6 +29077,11 @@ packages:
     dependencies:
       no-case: 2.3.2
       upper-case: 1.1.3
+    dev: false
+
+  /tmp-cache/1.1.0:
+    resolution: {integrity: sha512-j040fkL/x+XAZQ9K3bKGEPwgYhOZNBQLa3NXEADUiuno9C+3N2JJA4bVPDREixp604G3/vTXWA3DIPpA9lu1RQ==}
+    engines: {node: '>=6'}
     dev: false
 
   /tmp/0.0.33:
@@ -30369,6 +30522,10 @@ packages:
       acorn-walk: 8.2.0
     dev: false
     optional: true
+
+  /vscode-languageserver-textdocument/1.0.7:
+    resolution: {integrity: sha512-bFJH7UQxlXT8kKeyiyu41r22jCZXG8kuuVVA33OEJn1diWOZK5n8zBSPZFHVBOu8kXZ6h0LIRhf5UnCo61J4Hg==}
+    dev: false
 
   /w3c-hr-time/1.0.2:
     resolution: {integrity: sha512-z8P5DvDNjKDoFIHK7q8r8lackT6l+jo/Ye3HOle7l9nICP9lf1Ci25fy9vHd0JOWewkIFzXIEig3TdKT7JQ5fQ==}

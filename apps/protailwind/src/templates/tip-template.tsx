@@ -105,7 +105,6 @@ const TipTemplate: React.FC<TipPageProps> = ({tip, tips}) => {
         description={tip.description || 'Tailwind Tip'}
       />
       <Layout
-        nav
         meta={{
           title: tip.title,
           ogImage,
@@ -114,9 +113,8 @@ const TipTemplate: React.FC<TipPageProps> = ({tip, tips}) => {
       >
         <main className="mx-auto w-full">
           <div className="relative z-10 flex items-center justify-center bg-gradient-to-b from-gray-100 to-gray-50">
-            <div className="-mb-1.5 flex w-full max-w-screen-xl flex-col">
+            <div className="flex w-full max-w-screen-xl flex-col">
               <Video ref={muxPlayerRef} tips={tips} />
-
               {!subscriber && !loadingSubscriber && (
                 <SubscribeForm handleOnSuccess={handleOnSuccess} />
               )}
@@ -211,9 +209,12 @@ const Video: React.FC<any> = React.forwardRef(({tips}, ref: any) => {
     <div className="relative">
       {displayOverlay && <TipOverlay tips={tips} />}
       <div
-        className={cx('shadow-gray-600/40 sm:shadow-2xl xl:rounded-b-xl', {
-          hidden: displayOverlay,
-        })}
+        className={cx(
+          'flex items-center justify-center  overflow-hidden shadow-gray-600/40 sm:shadow-2xl xl:rounded-b-xl',
+          {
+            hidden: displayOverlay,
+          },
+        )}
       >
         <MuxPlayer ref={ref} {...(muxPlayerProps as MuxPlayerProps)} />
       </div>

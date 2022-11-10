@@ -26,7 +26,6 @@ const pageDescription =
 const TipsIndex: React.FC<TipsIndex> = ({tips}) => {
   return (
     <Layout
-      nav
       meta={{
         title: `Tailwind Tips by ${process.env.NEXT_PUBLIC_PARTNER_FIRST_NAME} ${process.env.NEXT_PUBLIC_PARTNER_LAST_NAME}`,
         description: pageDescription,

@@ -1,13 +1,13 @@
 import {Stripe} from 'stripe'
-import {first} from 'lodash'
+import {first, isEmpty} from 'lodash'
 import {type Purchase, prisma, getSdk} from '@skillrecordings/database'
-import {z} from 'zod'
 import {
-  EXISTING_BULK_COUPON,
-  NEW_BULK_COUPON,
-  NEW_INDIVIDUAL_PURCHASE,
-} from '@skillrecordings/types'
-import {getStripeSdk} from '@skillrecordings/stripe-sdk'
+  getStripeSdk,
+  Context as StripeContext,
+  defaultContext as defaultStripeContext,
+} from '@skillrecordings/stripe-sdk'
+import {NEW_INDIVIDUAL_PURCHASE} from '@skillrecordings/types'
+import {determinePurchaseType, PurchaseType} from './determine-purchase-type'
 
 export class PurchaseError extends Error {
   checkoutSessionId: string
@@ -28,8 +28,14 @@ export class PurchaseError extends Error {
   }
 }
 
-export async function stripeData(checkoutSessionId: string) {
-  const {getCheckoutSession} = getStripeSdk()
+type StripeDataOptions = {
+  checkoutSessionId: string
+  stripeCtx?: StripeContext
+}
+
+export async function stripeData(options: StripeDataOptions) {
+  const {stripeCtx, checkoutSessionId} = options
+  const {getCheckoutSession} = getStripeSdk({ctx: stripeCtx})
 
   const checkoutSession = await getCheckoutSession(checkoutSessionId)
 
@@ -67,13 +73,6 @@ export type PurchaseInfo = {
   stripeProduct: Stripe.Product
 }
 
-export const purchaseTypeSchema = z.union([
-  z.literal(EXISTING_BULK_COUPON),
-  z.literal(NEW_BULK_COUPON),
-  z.literal(NEW_INDIVIDUAL_PURCHASE),
-])
-type PurchaseType = z.infer<typeof purchaseTypeSchema>
-
 export async function recordNewPurchase(checkoutSessionId: string): Promise<{
   user: any
   purchase: Purchase
@@ -86,7 +85,7 @@ export async function recordNewPurchase(checkoutSessionId: string): Promise<{
     createMerchantChargeAndPurchase,
   } = getSdk()
 
-  const purchaseInfo = await stripeData(checkoutSessionId)
+  const purchaseInfo = await stripeData({checkoutSessionId})
 
   const {
     stripeCustomerId,
@@ -151,6 +150,8 @@ export async function recordNewPurchase(checkoutSessionId: string): Promise<{
   // we need to add it to their existing Bulk Coupon.
   const isBulkPurchase = quantity > 1 || !!existingBulkCoupon
 
+  let purchaseToReturn = purchase
+
   if (purchase && isBulkPurchase) {
     // Wrap a create and a dependent update in a transaction to be sure
     // that the coupon is created and the purchase points to that coupon.
@@ -192,17 +193,22 @@ export async function recordNewPurchase(checkoutSessionId: string): Promise<{
       },
     )
 
-    const purchaseType = !!existingBulkCoupon
-      ? EXISTING_BULK_COUPON
-      : NEW_BULK_COUPON
+    purchaseToReturn = updatedPurchase
+  }
 
-    return {purchase: updatedPurchase, user, purchaseInfo, purchaseType}
-  } else {
-    return {
-      purchase,
-      user,
-      purchaseInfo,
-      purchaseType: NEW_INDIVIDUAL_PURCHASE,
-    }
+  let purchaseType = await determinePurchaseType({checkoutSessionId})
+
+  if (purchaseType === null) {
+    // TODO: report that we did not get a valid purchase type for this checkoutSessionId
+    //
+    // then fallback to NEW_INDIVIDUAL_PURCHASE
+    purchaseType = NEW_INDIVIDUAL_PURCHASE
+  }
+
+  return {
+    purchase: purchaseToReturn,
+    user,
+    purchaseInfo,
+    purchaseType,
   }
 }

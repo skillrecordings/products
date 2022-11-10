@@ -156,7 +156,7 @@ const HighlightedCode: React.FC<CodeProps> = ({value}) => {
       </pre>
       <pre
         aria-hidden="true"
-        className="-mx-5 rounded-none p-5 text-lg leading-[1.15] sm:mx-0 sm:rounded-lg md:text-lg md:leading-tight"
+        className="relative -mx-5 rounded-none p-5 leading-[1.15] scrollbar-thin scrollbar-track-transparent scrollbar-thumb-gray-600 hover:scrollbar-thumb-gray-500 sm:mx-0 sm:rounded-lg md:leading-tight"
       >
         <Refractor
           inline
