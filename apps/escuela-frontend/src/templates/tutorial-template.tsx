@@ -138,7 +138,18 @@ const TutorialExerciseNavigator: React.FC<{tutorial: SanityDocument}> = ({
                   >
                     {i + 1}
                   </span>
-                  <span className="w-full leading-tight">{section.title}</span>
+                  <Link
+                    href={{
+                      pathname: '/tutoriales/[module]/[section]/[exercise]',
+                      query: {
+                        exercise: section.exercises[0].slug,
+                        section: section.slug,
+                        module: tutorial.slug.current,
+                      },
+                    }}
+                  >
+                    <a className="w-full leading-tight">{section.title}</a>
+                  </Link>
                 </div>
                 <TutorialSectionExerciseNavigator
                   section={section}
@@ -158,6 +169,7 @@ const TutorialSectionExerciseNavigator: React.FC<{
   moduleSlug: string
 }> = ({section, moduleSlug}) => {
   const {slug, exercises, _type} = section
+  console.log(exercises)
   return (
     <nav
       aria-label="exercise navigator"

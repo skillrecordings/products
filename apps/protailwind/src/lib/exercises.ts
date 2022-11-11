@@ -93,7 +93,7 @@ export const getExercise = async (
   slug: string,
   includeMedia: boolean = true,
 ): Promise<Exercise> => {
-  const query = groq`*[_type in ["exercise", "explainer"] && slug.current == $slug][0]{
+  const query = groq`*[_type in ["exercise", "explainer", "section"] && slug.current == $slug][0]{
       _id,
       _type,
       _updatedAt,
@@ -160,7 +160,7 @@ export const getExercise = async (
 
 export const getAllExercises = async (): Promise<Exercise[]> => {
   const exercises =
-    await sanityClient.fetch(groq`*[_type in ["exercise", "explainer"]]{
+    await sanityClient.fetch(groq`*[_type in ["exercise", "explainer", "section"]]{
       _id,
       _type,
       _updatedAt,

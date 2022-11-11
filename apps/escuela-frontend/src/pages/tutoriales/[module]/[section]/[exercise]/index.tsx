@@ -4,6 +4,8 @@ import {GetStaticPaths, GetStaticProps} from 'next'
 import {getAllTutorials, getTutorial} from 'lib/tutorials'
 import {getExercise} from 'lib/exercises'
 import {getSection} from 'lib/sections'
+import Link from 'next/link'
+import Layout from 'components/app/layout'
 
 export const getStaticProps: GetStaticProps = async (context) => {
   const {params} = context
@@ -44,7 +46,26 @@ export const getStaticPaths: GetStaticPaths = async (context) => {
 }
 
 const ExercisePage: React.FC<any> = ({exercise, module, section}) => {
-  return <h1>lol</h1>
+  return (
+    <Layout className="py-20 px-5">
+      <div>
+        <Link
+          href={{
+            pathname: '/tutoriales/[module]',
+            query: {
+              module: module.slug.current,
+            },
+          }}
+        >
+          <a className="underline">{module.title}</a>
+        </Link>
+        /{section.title}/{exercise.title}
+      </div>
+      <br />
+      <strong className="text-sm uppercase">{exercise._type}</strong>
+      <h1 className="text-2xl font-bold">{exercise.title}</h1>
+    </Layout>
+  )
 }
 
 export default ExercisePage

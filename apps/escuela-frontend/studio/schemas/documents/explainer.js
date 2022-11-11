@@ -2,7 +2,7 @@ import {MdOndemandVideo} from 'react-icons/md'
 
 export default {
   name: 'explainer',
-  type: 'object',
+  type: 'document',
   title: 'Explainer',
   description:
     'A type of Lesson that can be a sectionIntro moduleIntro moduleOutro',

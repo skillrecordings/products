@@ -10,23 +10,26 @@ export const ExerciseSchema = z.object({
   title: z.string(),
   slug: z.string(),
   description: z.nullable(z.string()).optional(),
-  body: z.any().array().optional(),
+  body: z.any().array().optional().nullable(),
   stackblitz: z.nullable(z.string()).optional(),
   muxPlaybackId: z.nullable(z.string()).optional(),
   transcript: z.nullable(z.any().array()).optional(),
   solution: z
-    .object({
-      _key: z.string(),
-      _type: z.string(),
-      _updatedAt: z.string().optional(),
-      title: z.string(),
-      slug: z.string(),
-      description: z.nullable(z.string()).optional(),
-      body: z.any().array().optional(),
-      stackblitz: z.nullable(z.string()).optional(),
-      muxPlaybackId: z.nullable(z.string()).optional(),
-      transcript: z.nullable(z.any().array()).optional(),
-    })
+    .array(
+      z.object({
+        _key: z.string(),
+        _type: z.string(),
+        _updatedAt: z.string().optional(),
+        title: z.string(),
+        slug: z.string(),
+        description: z.nullable(z.string()).optional(),
+        body: z.any().array().optional().nullable(),
+        stackblitz: z.nullable(z.string()).optional(),
+        muxPlaybackId: z.nullable(z.string()).optional(),
+        transcript: z.nullable(z.any().array()).optional(),
+      }),
+    )
+
     .optional(),
 })
 
@@ -69,7 +72,7 @@ export const getExercise = async (
   slug: string,
   includeMedia: boolean = true,
 ): Promise<Exercise> => {
-  const query = groq`*[_type == "exercise" && slug.current == $slug][0]{
+  const query = groq`*[_type in ["exercise", "explainer"] && slug.current == $slug][0]{
       _id,
       _type,
       _updatedAt,
@@ -112,7 +115,8 @@ export const getExercise = async (
 }
 
 export const getAllExercises = async (): Promise<Exercise[]> => {
-  const exercises = await sanityClient.fetch(groq`*[_type == "exercise"]{
+  const exercises =
+    await sanityClient.fetch(groq`*[_type in ["exercise", "explainer"]]{
       _id,
       _type,
       _updatedAt,

@@ -9,6 +9,7 @@ import exercise from './documents/exercise'
 import section from './documents/section'
 import module from './documents/module'
 import collaborator from './documents/collaborator'
+import explainer from './documents/explainer'
 
 // objects
 import bodyVideo from './objects/bodyVideo'
@@ -26,7 +27,7 @@ import muxVideo from './objects/muxVideo'
 import videoResource from './documents/videoResource'
 import solution from './objects/resources/solution'
 import castingwordsTranscript from './objects/castingwordsTranscript'
-import explainer from './objects/resources/explainer'
+// import explainer from './objects/resources/explainer'
 
 // Then we give our schema to the builder and provide the result to Sanity
 export default createSchema({
@@ -44,6 +45,7 @@ export default createSchema({
     exercise,
     section,
     videoResource,
+    explainer,
     //objects
     body,
     bodyVideo,
@@ -55,7 +57,6 @@ export default createSchema({
     videoOptions,
     github,
     solution,
-    explainer,
     muxAsset,
     muxVideo,
     stackblitz,

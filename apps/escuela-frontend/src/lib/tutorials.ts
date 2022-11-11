@@ -70,7 +70,7 @@ export const getTutorial = async (slug: string) =>
           title,
           description,
           "slug": slug.current,
-          "exercises": resources[@->._type == 'exercise']->{
+          "exercises": resources[@->._type in ['exercise', 'explainer']]->{
             _id,
             _type,
             _updatedAt,

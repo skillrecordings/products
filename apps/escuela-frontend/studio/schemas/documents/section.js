@@ -27,11 +27,11 @@ export default {
       name: 'resources',
       title: 'Resources',
       type: 'array',
-      description: 'Exercises in the Section',
+      description: 'Resources in the Section',
       of: [
         {
           type: 'reference',
-          to: [{type: 'exercise'}],
+          to: [{type: 'exercise'}, {type: 'explainer'}],
         },
       ],
     },
