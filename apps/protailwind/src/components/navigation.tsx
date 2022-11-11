@@ -3,6 +3,7 @@ import Link from 'next/link'
 import {useRouter} from 'next/router'
 import cx from 'classnames'
 import Icon from './icons'
+import {track} from 'utils/analytics'
 
 type NavigationProps = {
   className?: string
@@ -33,23 +34,17 @@ const DesktopNav = () => {
   return (
     <div className="flex items-center space-x-5">
       <NavSlots>
-        {/* <NavLink
-          href="/tutorials"
-          icon={<Icon name="Video" className="text-brand-red" />}
-        >
-          Tutorials
-        </NavLink> */}
-        <NavLink href="/tips" icon={<Icon name="Anchor" />}>
-          Tips
-        </NavLink>
-        <NavLink href="/articles" icon={<Icon name="Palm" />}>
-          Articles
-        </NavLink>
         <NavLink
           href="/tutorials"
           icon={<Icon name="Video" className="text-brand-red" />}
         >
           Tutorials
+        </NavLink>
+        <NavLink href="/tips" icon={<Icon name="Anchor" />}>
+          Tips
+        </NavLink>
+        <NavLink href="/articles" icon={<Icon name="Palm" />}>
+          Articles
         </NavLink>
       </NavSlots>
     </div>
@@ -84,6 +79,9 @@ const NavLink: React.FC<NavLinkProps> = ({
             'bg-gray-50': isActive,
           },
         )}
+        onClick={() => {
+          track(`clicked ${children} in primary navigation`)
+        }}
         {...props}
       >
         <>
