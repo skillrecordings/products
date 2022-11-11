@@ -45,6 +45,12 @@ const DesktopNav = () => {
         <NavLink href="/articles" icon={<Icon name="Palm" />}>
           Articles
         </NavLink>
+        <NavLink
+          href="/tutorials"
+          icon={<Icon name="Video" className="text-brand-red" />}
+        >
+          Tutorials
+        </NavLink>
       </NavSlots>
     </div>
   )
