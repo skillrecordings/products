@@ -5,11 +5,6 @@
 # Usage:
 #   bin/dev
 
-# Ensure the script can access the environment variables
-export $(egrep -v '^#' .env.development | xargs)
-
-echo "Killing node processes to ensure nothing is running on port $LOCALHOST_PORT"
-killall node
 echo "Cleaning up node, turbo, and next generated bits"
 pnpm clean
 echo "Re-installing dependencies"
