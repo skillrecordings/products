@@ -13,6 +13,7 @@ import cta from './documents/cta'
 import module from './documents/module'
 import explainer from './documents/explainer'
 import videoResource from './documents/videoResource'
+import lesson from './documents/lesson'
 
 // podcast
 import podcast from './documents/podcast'
@@ -45,6 +46,7 @@ export default createSchema({
     module,
     explainer,
     videoResource,
+    lesson,
     // podcast
     podcast,
     episode,
