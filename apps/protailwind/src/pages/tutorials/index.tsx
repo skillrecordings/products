@@ -24,7 +24,7 @@ const TutorialsPage: React.FC<{tutorials: SanityDocument[]}> = ({
           title: `Free Tailwind Tutorials from Simon Vrachliotis`,
           description: `Free Tailwind tutorials by Simon Vrachliotis that will help you learn how to use Tailwind as a professional web developer through exercise driven examples.`,
           ogImage: {
-            url: 'https://res.cloudinary.com/total-typescript/image/upload/v1663164063/tutorials-card_2x_gsi059.png',
+            url: 'https://res.cloudinary.com/pro-tailwind/image/upload/v1668126552/tutorials/Corner%20Ribbon%20Banner%20Tutorial/tutorials-card_2x.png',
           },
         } as any
       }
@@ -46,18 +46,18 @@ const TutorialsPage: React.FC<{tutorials: SanityDocument[]}> = ({
                     key={slug.current}
                     className="relative flex flex-col items-center gap-10 overflow-hidden rounded-xl border border-gray-200/80 bg-white shadow-2xl shadow-gray-500/10 md:flex-row"
                   >
-                    <div className="flex h-full flex-shrink-0 items-center justify-center bg-gray-50 p-10">
+                    <div className="flex h-full flex-shrink-0 items-center justify-center bg-white p-10 md:bg-gray-50">
                       {image && (
                         <Image
                           src={image}
                           alt={title}
-                          width={250}
-                          height={250}
+                          width={260}
+                          height={260}
                           quality={100}
                         />
                       )}
                     </div>
-                    <div className="pr-10">
+                    <div className="pr:0 m-10 md:m-0 md:pr-10">
                       <div className="pt-4 pb-3 font-mono text-xs font-semibold uppercase text-gray-600 ">
                         {i === 0 && (
                           <span className="mr-3 rounded-full bg-gray-100 px-2 py-0.5 font-sans font-semibold uppercase text-gray-700">
@@ -79,9 +79,7 @@ const TutorialsPage: React.FC<{tutorials: SanityDocument[]}> = ({
                         </a>
                       </Link>
 
-                      {description && (
-                        <p className="text-gray-300">{description}</p>
-                      )}
+                      {description && <p className="mt-2">{description}</p>}
                       <Link
                         href={{
                           pathname: '/tutorials/[module]',
@@ -90,7 +88,7 @@ const TutorialsPage: React.FC<{tutorials: SanityDocument[]}> = ({
                           },
                         }}
                       >
-                        <a className="group mt-5 inline-block gap-2 rounded-full bg-brand-red px-4 py-2 font-medium text-white transition">
+                        <a className="group my-4 inline-block gap-2 rounded-full bg-brand-red px-4 py-2 font-medium text-white transition">
                           View{' '}
                           <span
                             aria-hidden="true"
