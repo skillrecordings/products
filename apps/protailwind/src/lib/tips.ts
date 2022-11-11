@@ -12,7 +12,16 @@ export const TipSchema = z.object({
   description: z.nullable(z.string()).optional(),
   body: z.any().array().nullable().optional(),
   summary: z.any().array().nullable().optional(),
-  stackblitz: z.nullable(z.string()).optional(),
+  sandpack: z
+    .array(
+      z.object({
+        file: z.string(),
+        code: z.string(),
+        active: z.boolean(),
+      }),
+    )
+    .optional()
+    .nullable(),
   muxPlaybackId: z.nullable(z.string()).optional(),
   transcript: z.nullable(z.any().array()),
   tweetId: z.string(),

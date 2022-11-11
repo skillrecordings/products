@@ -20,9 +20,8 @@ const AnimatedBadge: React.FC<
             ],
           }
         }
-        className="items-center justify-center space-x-1 bg-white bg-opacity-5 bg-blend-overlay firefox:bg-blend-normal supports-backdrop-blur:backdrop-blur-sm supports-backdrop-blur:backdrop-brightness-125 uppercase text-xs font-semibold tracking-wide leading-5 rounded-full px-4 py-1.5 inline-flex"
+        className="items-center justify-center space-x-1 bg-white bg-opacity-5 bg-blend-overlay firefox:bg-blend-normal supports-backdrop-blur:backdrop-blur-sm supports-backdrop-blur:backdrop-brightness-125 uppercase text-xs font-semibold tracking-wide leading-6 rounded-full px-4 py-1.5 inline-flex"
       >
-        {icon || <i className="gg-mail scale-75 opacity-75 text-blue-200" />}
         <span className="opacity-90">{children}</span>
       </motion.div>
     </div>

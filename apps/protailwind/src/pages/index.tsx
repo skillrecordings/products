@@ -21,7 +21,7 @@ const Home: NextPage = () => {
   }, [router])
 
   return (
-    <Layout meta={{titleAppendSiteName: false}} nav>
+    <Layout meta={{titleAppendSiteName: false}}>
       <Header />
       <main>
         <Copy />

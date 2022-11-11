@@ -4,11 +4,16 @@ import Layout from 'components/app/layout'
 import Image from 'next/image'
 import {MailIcon} from '@heroicons/react/outline'
 import {z} from 'zod'
-import {stripeData, purchaseTypeSchema} from '@skillrecordings/commerce-server'
+import {
+  stripeData,
+  purchaseTypeSchema,
+  determinePurchaseType,
+} from '@skillrecordings/commerce-server'
 import {
   EXISTING_BULK_COUPON,
   NEW_BULK_COUPON,
   NEW_INDIVIDUAL_PURCHASE,
+  INDIVIDUAL_TO_BULK_UPGRADE,
 } from '@skillrecordings/types'
 import {prisma} from '@skillrecordings/database'
 import Link from 'next/link'
@@ -25,15 +30,17 @@ type ThanksProps = z.infer<typeof thanksProps>
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const {query} = context
 
-  const {session_id} = query
+  const {session_id: checkoutSessionId} = query
 
-  if (!session_id) {
+  if (!checkoutSessionId) {
     return {
       notFound: true,
     }
   }
 
-  const purchaseInfo = await stripeData(session_id as string)
+  const purchaseInfo = await stripeData({
+    checkoutSessionId: checkoutSessionId as string,
+  })
 
   const {email, stripeChargeId, quantity: seatsPurchased} = purchaseInfo
 
@@ -65,16 +72,9 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     }
   }
 
-  let purchaseType: z.infer<typeof purchaseTypeSchema>
-  if (purchase.bulkCoupon) {
-    if (purchase.bulkCoupon.bulkCouponPurchases.length > 1) {
-      purchaseType = EXISTING_BULK_COUPON
-    } else {
-      purchaseType = NEW_BULK_COUPON
-    }
-  } else {
-    purchaseType = NEW_INDIVIDUAL_PURCHASE
-  }
+  const purchaseType = await determinePurchaseType({
+    checkoutSessionId: checkoutSessionId as string,
+  })
 
   const validatedProps = thanksProps.parse({
     email,
@@ -102,7 +102,9 @@ const ThanksVerify: React.FC<React.PropsWithChildren<ThanksProps>> = ({
   bulkCouponId,
 }) => {
   const isTeamPurchase =
-    purchaseType === NEW_BULK_COUPON || purchaseType === EXISTING_BULK_COUPON
+    purchaseType === NEW_BULK_COUPON ||
+    purchaseType === EXISTING_BULK_COUPON ||
+    purchaseType === INDIVIDUAL_TO_BULK_UPGRADE
   const isNewPurchase =
     purchaseType === NEW_BULK_COUPON || purchaseType === NEW_INDIVIDUAL_PURCHASE
 

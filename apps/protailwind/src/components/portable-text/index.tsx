@@ -27,6 +27,7 @@ import css from 'refractor/lang/css'
 import jsx from 'refractor/lang/jsx'
 import tsx from 'refractor/lang/tsx'
 import Spinner from 'components/spinner'
+import Link from 'next/link'
 
 Refractor.registerLanguage(js)
 Refractor.registerLanguage(css)
@@ -137,6 +138,22 @@ const ExternalLink: React.FC<React.PropsWithChildren<ExternalLinkProps>> = ({
   )
 }
 
+const InternalLink: React.FC<InternalLinkProps> = ({value, children}) => {
+  return (
+    <Link
+      href={{
+        pathname: '/tutorials/[module]/[exercise]',
+        query: {
+          module: value.module.slug,
+          exercise: value.slug,
+        },
+      }}
+    >
+      <a>{children}</a>
+    </Link>
+  )
+}
+
 const HighlightedCode: React.FC<CodeProps> = ({value}) => {
   const [mounted, setMounted] = React.useState(false)
   React.useEffect(() => {
@@ -156,7 +173,7 @@ const HighlightedCode: React.FC<CodeProps> = ({value}) => {
       </pre>
       <pre
         aria-hidden="true"
-        className="-mx-5 rounded-none p-5 text-lg leading-[1.15] sm:mx-0 sm:rounded-lg md:text-lg md:leading-tight"
+        className="relative -mx-5 rounded-none p-5 leading-[1.15] scrollbar-thin scrollbar-track-transparent scrollbar-thumb-gray-600 hover:scrollbar-thumb-gray-500 sm:mx-0 sm:rounded-lg md:leading-tight"
       >
         <Refractor
           inline
@@ -207,6 +224,9 @@ const PortableTextComponents: PortableTextComponents = {
     },
     link: ({value, children}) => {
       return <ExternalLink value={value}>{children}</ExternalLink>
+    },
+    internalLink: ({value, children}) => {
+      return <InternalLink value={value}>{children}</InternalLink>
     },
     code: ({value, children}) => {
       return <code className="rounded bg-gray-200 px-1 py-0.5">{children}</code>
