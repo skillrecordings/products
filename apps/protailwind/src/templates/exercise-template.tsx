@@ -39,8 +39,6 @@ const ExerciseTemplate: React.FC<{
 }> = ({exercise, section, module, isSolution = false, tutorialFiles}) => {
   const muxPlayerRef = React.useRef<HTMLDivElement>()
 
-  console.log('exercise', exercise)
-
   exercise = ExerciseSchema.parse(
     isSolution && exercise.solution ? exercise.solution : exercise,
   )

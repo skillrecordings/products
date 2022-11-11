@@ -103,7 +103,20 @@ export const getExercise = async (
       ${
         includeMedia
           ? `      
-        body,
+          body[]{
+            ...,
+            markDefs[]{
+              ...,
+              _type == "internalLink" => {
+                "_id": @.reference->_id,
+                "slug": @.reference->slug.current,
+                "type": @.reference->_type,
+                "module": *[_type=='module'][0]{
+                  "slug": slug.current,
+                }
+              }
+            }
+        },
         "sandpack": resources[@._type == 'sandpack'][0].files[]{
             file,
             "code": code.code,

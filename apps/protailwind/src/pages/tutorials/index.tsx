@@ -24,7 +24,7 @@ const TutorialsPage: React.FC<{tutorials: SanityDocument[]}> = ({
           title: `Free Tailwind Tutorials from Simon Vrachliotis`,
           description: `Free Tailwind tutorials by Simon Vrachliotis that will help you learn how to use Tailwind as a professional web developer through exercise driven examples.`,
           ogImage: {
-            url: 'https://res.cloudinary.com/pro-tailwind/image/upload/v1668126552/tutorials/Corner%20Ribbon%20Banner%20Tutorial/tutorials-card_2x.png',
+            url: 'https://res.cloudinary.com/pro-tailwind/image/upload/v1668155873/tutorials/card_2x.png',
           },
         } as any
       }
