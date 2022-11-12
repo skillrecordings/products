@@ -1,7 +1,8 @@
 // add a comment here
 export default {
   defaultTitle: 'TypeScript Course',
-  description: 'Your quick start guide to understanding TypeScript',
+  description:
+    'Confidently ship full-stack TypeScript applications like a pro. A series of code-along interactive workshops',
   author: 'Joe Previte',
   favicon: '/favicon.ico',
   email: 'team@typescriptcourse.com',
