@@ -17,7 +17,7 @@ const Navigation: React.FC<NavigationProps> = ({className}) => {
     >
       <div
         className={cx(className, {
-          'mx-auto flex max-w-screen-lg items-center justify-between px-5':
+          'mx-auto flex max-w-screen-lg flex-col items-center justify-between gap-2 px-5 sm:flex-row sm:gap-0':
             !className,
         })}
       >
@@ -52,7 +52,7 @@ const DesktopNav = () => {
 }
 
 const NavSlots: React.FC<React.PropsWithChildren> = ({children}) => {
-  return <div className="flex items-center pb-1">{children}</div>
+  return <div className="flex items-center sm:pb-1">{children}</div>
 }
 
 type NavLinkProps = React.PropsWithChildren<{
