@@ -31,6 +31,9 @@ module.exports = {
           gray: colors.slate,
         },
       },
+      screens: {
+        '2xl': '1820px',
+      },
       typography: (theme) => ({
         DEFAULT: {
           css: {
@@ -60,5 +63,5 @@ module.exports = {
       }),
     },
   },
-  plugins: [require('@tailwindcss/typography')],
+  plugins: [require('@tailwindcss/typography'), require('tailwind-scrollbar')],
 }

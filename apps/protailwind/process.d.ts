@@ -1,5 +1,7 @@
 declare namespace NodeJS {
   export interface ProcessEnv {
+    NEXTAUTH_URL: string
+    NEXTAUTH_SECRET: string
     NEXT_PUBLIC_SITE_TITLE: string
     NEXT_PUBLIC_HOST: string
     NEXT_PUBLIC_URL: string
@@ -19,5 +21,6 @@ declare namespace NodeJS {
     NEXT_PUBLIC_SANITY_API_VERSION: string
     SANITY_WEBHOOK_SECRET: string
     CASTINGWORDS_API_TOKEN: string
+    EMAIL_SERVER_PORT: number
   }
 }
