@@ -7,7 +7,6 @@ import toast from 'react-hot-toast'
 import {useRouter} from 'next/router'
 import {removeQueryParamsFromRouter} from '@skillrecordings/react'
 import {type Subscriber} from '../schemas/subscriber'
-import {identify} from '../utils/analytics'
 
 export type ConvertkitContextType = {
   subscriber?: Subscriber
@@ -44,8 +43,6 @@ export const ConvertkitProvider: React.FC<
         )
           .then((response) => response.json())
           .catch(() => undefined)
-
-        identify(subscriber)
 
         if (!isEmpty(ckSubscriberId)) {
           if (router.asPath.match(/confirmToast=true/))

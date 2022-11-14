@@ -1,5 +1,5 @@
 import React from 'react'
-import ExerciseTemplate from 'templates/exercise-template'
+import ExerciseTemplate from 'templates/lesson-template'
 import {GetStaticPaths, GetStaticProps} from 'next'
 import {getAllTutorials, getTutorial} from 'lib/tutorials'
 import {getLesson} from 'lib/lesson'
@@ -8,19 +8,13 @@ import path from 'path'
 
 export const getStaticProps: GetStaticProps = async (context) => {
   const {params} = context
-  const exerciseSlug = params?.exercise as string
+  const lessonSlug = params?.lesson as string
 
   const module = await getTutorial(params?.module as string)
-  const exercise = await getExercise(exerciseSlug)
-
-  const tutorialDirectory = path.join(
-    process.cwd(),
-    'src/components/sandpack/parcel',
-  )
-  const tutorialFiles = walk(tutorialDirectory)
+  const lesson = await getLesson(lessonSlug)
 
   return {
-    props: {exercise, module, tutorialFiles},
+    props: {lesson},
     revalidate: 10,
   }
 }
@@ -31,11 +25,11 @@ export const getStaticPaths: GetStaticPaths = async (context) => {
   const paths = tutorials.reduce((acc: any[], tutorial: any) => {
     return [
       ...acc,
-      ...tutorial.exercises.map((exercise: any) => {
+      ...tutorial.lessons.map((lesson: any) => {
         return {
           params: {
             module: tutorial.slug.current,
-            exercise: exercise.slug,
+            lesson: lesson.slug,
           },
         }
       }),
@@ -45,10 +39,10 @@ export const getStaticPaths: GetStaticPaths = async (context) => {
   return {paths, fallback: 'blocking'}
 }
 
-const ExercisePage: React.FC<any> = ({exercise, module, tutorialFiles}) => {
+const ExercisePage: React.FC<any> = ({lesson, module, tutorialFiles}) => {
   return (
     <ExerciseTemplate
-      exercise={exercise}
+      exercise={lesson}
       module={module}
       tutorialFiles={tutorialFiles}
     />

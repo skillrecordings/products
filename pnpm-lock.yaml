@@ -2622,6 +2622,7 @@ importers:
       '@types/cookie': ^0.4.1
       '@types/isomorphic-fetch': ^0.0.35
       '@types/jest': ^27.5.2
+      '@types/js-cookie': ^3.0.2
       '@types/lodash': ^4.14.179
       '@types/mdx-js__react': ^1.5.5
       '@types/node': ^17.0.0
@@ -2725,6 +2726,7 @@ importers:
       '@stripe/stripe-js': 1.21.1
       '@supabase/supabase-js': 1.29.1
       '@tippyjs/react': 4.2.6_biqbaboplfbrettd7655fr4n2y
+      '@types/js-cookie': 3.0.2
       '@xstate/react': 1.5.1_bpg42ha2il6pcyn3wrx2rxrchm
       autoprefixer: 10.4.7_postcss@8.4.14
       axios: 0.26.1
@@ -11496,7 +11498,6 @@ packages:
 
   /@types/js-cookie/3.0.2:
     resolution: {integrity: sha512-6+0ekgfusHftJNYpihfkMu8BWdeHs9EOJuGcSofErjstGPfPGEu9yTu4t460lTzzAMl2cM5zngQJqPMHbbnvYA==}
-    dev: true
 
   /@types/js-levenshtein/1.1.0:
     resolution: {integrity: sha512-14t0v1ICYRtRVcHASzes0v/O+TIeASb8aD55cWF1PidtInhFWSXcmhzhHqGjUWf9SUq1w70cvd1cWKUULubAfQ==}

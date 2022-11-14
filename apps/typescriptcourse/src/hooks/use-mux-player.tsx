@@ -4,9 +4,10 @@ import {usePlayerPrefs} from '@skillrecordings/player'
 import {SanityDocument} from '@sanity/client'
 import {useRouter} from 'next/router'
 import {MuxPlayerProps} from '@mux/mux-player-react/*'
-import {useConvertkit} from 'hooks/use-convertkit'
+import {useConvertkit} from '../hooks/use-converkit'
+import {type Lesson, LessonSchema} from '../lib/lesson'
 
-type VideoResource = Tip
+type VideoResource = Lesson
 
 type VideoContextType = {
   muxPlayerProps: MuxPlayerProps | any
@@ -91,23 +92,11 @@ export const VideoProvider: React.FC<
       id: 'mux-player',
       onPlay: () => {
         setDisplayOverlay(false)
-        track('started lesson video', {
-          module: module.slug.current,
-          lesson: lesson.slug,
-          moduleType: module.moduleType,
-          lessonType: lesson._type,
-        })
       },
 
       onPause: () => {},
       onEnded: async () => {
         handleNext(getPlayerPrefs().autoplay)
-        track('completed lesson video', {
-          module: module.slug.current,
-          lesson: lesson.slug,
-          moduleType: module.moduleType,
-          lessonType: lesson._type,
-        })
         return onEnded()
       },
       onRateChange: () => {
@@ -129,7 +118,7 @@ export const VideoProvider: React.FC<
     setDisplayOverlay: (value: boolean) => setDisplayOverlay(value),
     handlePlay,
     displayOverlay,
-    lesson: TipSchema.parse(lesson),
+    lesson: LessonSchema.parse(lesson),
     module,
     video,
     path,

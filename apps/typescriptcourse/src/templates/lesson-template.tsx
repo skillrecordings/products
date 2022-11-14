@@ -2,7 +2,7 @@ import * as React from 'react'
 import MuxPlayer, {MuxPlayerProps} from '@mux/mux-player-react'
 import PortableTextComponents from 'components/portable-text'
 import ExerciseSidebar from 'components/exercise-sidebar'
-// import Navigation from 'components/app/navigation'
+import Navigation from 'components/navigation'
 import Layout from 'components/layout'
 import capitalize from 'lodash/capitalize'
 import Spinner from 'components/spinner'
@@ -39,7 +39,9 @@ const ExerciseTemplate: React.FC<{
 }> = ({exercise, section, module, isSolution = false, tutorialFiles}) => {
   const muxPlayerRef = React.useRef<HTMLDivElement>()
 
-  exercise = ExerciseSchema.parse(isSolution ? exercise.solution : exercise)
+  exercise = ExerciseSchema.parse(
+    isSolution && exercise.solution ? exercise.solution : exercise,
+  )
   const {title, description: exerciseDescription} = exercise
   const {ogImage, description: moduleDescription} = module
   const pageTitle = `${title}`
