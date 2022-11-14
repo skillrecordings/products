@@ -7,7 +7,7 @@ import {PortableText} from '@portabletext/react'
 import {SanityDocument} from '@sanity/client'
 import {isBrowser} from 'utils/is-browser'
 // import {useConvertkit} from 'hooks/use-convertkit'
-// import {Exercise} from 'lib/exercises'
+import {Lesson} from 'lib/lesson'
 import PortableTextComponents from 'components/portable-text'
 import {IconGithub} from 'components/icons'
 
@@ -51,7 +51,7 @@ const TutorialTemplate: React.FC<{
           <article className="prose prose-lg w-full max-w-none lg:max-w-xl">
             <PortableText value={body} components={PortableTextComponents} />
           </article>
-          <TutorialExerciseNavigator tutorial={tutorial} />
+          <TutorialLessonNavigator tutorial={tutorial} />
         </main>
       </section>
     </Layout>
@@ -61,7 +61,7 @@ const TutorialTemplate: React.FC<{
 export default TutorialTemplate
 
 const Header: React.FC<{tutorial: SanityDocument}> = ({tutorial}) => {
-  const {title, slug, exercises, image, github} = tutorial
+  const {title, slug, lessons, image, github} = tutorial
 
   return (
     <>
@@ -72,7 +72,7 @@ const Header: React.FC<{tutorial: SanityDocument}> = ({tutorial}) => {
               Free Tutorial
             </a>
           </Link>
-          <h1 className="font-text max-w-4xl pt-5 font-heading text-4xl font-black lg:text-5xl">
+          <h1 className="max-w-4xl font-bold leading-none font-heading pt-5 text-4xl lg:text-5xl">
             {title}
           </h1>
           <div className="pt-8 text-lg">
@@ -90,13 +90,13 @@ const Header: React.FC<{tutorial: SanityDocument}> = ({tutorial}) => {
               </div>
             </div>
             <div className="flex items-center gap-3 pt-8">
-              {exercises?.[0] && (
+              {lessons?.[0] && (
                 <Link
                   href={{
-                    pathname: '/tutorials/[module]/[exercise]',
+                    pathname: '/tutorials/[module]/[lesson]',
                     query: {
                       module: slug.current,
-                      exercise: exercises[0].slug,
+                      lesson: lessons[0].slug,
                     },
                   }}
                 >
@@ -137,44 +137,34 @@ const Header: React.FC<{tutorial: SanityDocument}> = ({tutorial}) => {
   )
 }
 
-const TutorialExerciseNavigator: React.FC<{tutorial: SanityDocument}> = ({
+const TutorialLessonNavigator: React.FC<{tutorial: SanityDocument}> = ({
   tutorial,
 }) => {
-  const {slug, exercises, _type} = tutorial
+  const {slug, lessons, _type} = tutorial
   return (
     <nav
-      aria-label="exercise navigator"
+      aria-label="lesson navigator"
       className="border-gray-200 lg:border-l lg:pl-8"
     >
       <h2 className="pb-4 font-mono text-sm font-semibold uppercase text-gray-600">
-        {exercises?.length || 0} Exercises
+        {lessons?.length || 0} Lessons
       </h2>
-      {exercises && (
+      {lessons && (
         <ul>
-          {/* {exercises.map((exercise: Exercise, i: number) => {
+          {lessons.map((lesson: Lesson, i: number) => {
             return (
-              <li key={exercise.slug}>
+              <li key={lesson.slug}>
                 <Link
                   href={{
-                    pathname: '/tutorials/[module]/[exercise]',
+                    pathname: '/tutorials/[module]/[lesson]',
                     query: {
                       module: slug.current,
-                      exercise: exercise.slug,
+                      lesson: lesson.slug,
                     },
                   }}
                   passHref
                 >
-                  <a
-                    className="group inline-flex items-center py-2.5 text-lg font-semibold"
-                    onClick={() => {
-                      track('clicked tutorial exercise', {
-                        module: slug.current,
-                        lesson: exercise.slug,
-                        moduleType: _type,
-                        lessonType: exercise._type,
-                      })
-                    }}
-                  >
+                  <a className="group inline-flex items-center py-2.5 text-lg font-semibold">
                     <span
                       className="w-8 font-mono text-xs text-gray-400"
                       aria-hidden="true"
@@ -182,13 +172,13 @@ const TutorialExerciseNavigator: React.FC<{tutorial: SanityDocument}> = ({
                       {i + 1}
                     </span>
                     <span className="w-full leading-tight group-hover:underline">
-                      {exercise.title}
+                      {lesson.title}
                     </span>
                   </a>
                 </Link>
               </li>
             )
-          })} */}
+          })}
         </ul>
       )}
     </nav>

@@ -43,72 +43,70 @@ const TutorialsPage: React.FC<{tutorials: SanityDocument[]}> = ({
         </p>
         {tutorials && (
           <ul className="flex max-w-screen-md flex-col gap-8 px-3 pt-20">
-            {tutorials.map(
-              ({title, slug, image, description, exercises}, i) => {
-                return (
-                  <li
-                    key={slug.current}
-                    className="relative flex flex-col items-center rounded-lg bg-white bg-opacity-5 p-4 md:flex-row shadow-2xl overflow-hidden gap-6"
-                  >
-                    <div className="flex h-full flex-shrink-0 items-center justify-centerp-10">
-                      {image && (
-                        <Image
-                          src={image}
-                          alt={title}
-                          width={150}
-                          height={150}
-                          quality={100}
-                        />
+            {tutorials.map(({title, slug, image, description, lessons}, i) => {
+              return (
+                <li
+                  key={slug.current}
+                  className="relative flex flex-col items-center rounded-lg bg-white bg-opacity-5 p-4 md:flex-row shadow-2xl overflow-hidden gap-6"
+                >
+                  <div className="flex h-full flex-shrink-0 items-center justify-centerp-10">
+                    {image && (
+                      <Image
+                        src={image}
+                        alt={title}
+                        width={150}
+                        height={150}
+                        quality={100}
+                      />
+                    )}
+                  </div>
+                  <div className="pr-10">
+                    <div className="relative pt-4 pb-3 font-mono text-xs font-semibold uppercase text-blue-400">
+                      {i === 0 && (
+                        <span className="mr-3 px-2 py-0.5 font-sans font-semibold uppercase transition bg-white rounded-full bg-opacity-10 group focus-visible:ring-white focus-visible:opacity-100">
+                          New
+                        </span>
                       )}
+                      {lessons.length} lessons
                     </div>
-                    <div className="pr-10">
-                      <div className="relative pt-4 pb-3 font-mono text-xs font-semibold uppercase text-blue-400">
-                        {i === 0 && (
-                          <span className="mr-3 px-2 py-0.5 font-sans font-semibold uppercase transition bg-white rounded-full bg-opacity-10 group focus-visible:ring-white focus-visible:opacity-100">
-                            New
-                          </span>
-                        )}
-                        {exercises.length} exercises
-                      </div>
-                      <Link
-                        href={{
-                          pathname: '/tutorials/[module]',
-                          query: {
-                            module: slug.current,
-                          },
-                        }}
-                      >
-                        <a className="text-3xl font-bold leading-none font-heading hover:underline">
-                          {title}
-                        </a>
-                      </Link>
+                    <Link
+                      href={{
+                        pathname: '/tutorials/[module]',
+                        query: {
+                          module: slug.current,
+                        },
+                      }}
+                    >
+                      <a className="text-3xl font-bold leading-none font-heading hover:underline">
+                        {title}
+                      </a>
+                    </Link>
 
-                      {description && (
-                        <p className="text-gray-300 mt-2">{description}</p>
-                      )}
-                      <Link
-                        href={{
-                          pathname: '/tutorials/[module]',
-                          query: {
-                            module: slug.current,
-                          },
-                        }}
-                      >
-                        <a className="mt-5 inline-block gap-2 rounded-full bg-brand-red px-4 py-2 font-medium text-white transition bg-white bg-opacity-0 rounded-full bg-opacity-10 group hover:opacity-90 focus-visible:ring-white focus-visible:opacity-100">
-                          View{' '}
-                          <span
-                            aria-hidden="true"
-                            className="text-white transition group-hover:text-white"
-                          >
-                            →
-                          </span>
-                        </a>
-                      </Link>
-                    </div>
-                  </li>
-                )
-              },
-            )}
+                    {description && (
+                      <p className="text-gray-300 mt-2">{description}</p>
+                    )}
+                    <Link
+                      href={{
+                        pathname: '/tutorials/[module]',
+                        query: {
+                          module: slug.current,
+                        },
+                      }}
+                    >
+                      <a className="mt-5 inline-block gap-2 rounded-full bg-brand-red px-4 py-2 font-medium text-white transition bg-white bg-opacity-0 rounded-full bg-opacity-10 group hover:opacity-90 focus-visible:ring-white focus-visible:opacity-100">
+                        View{' '}
+                        <span
+                          aria-hidden="true"
+                          className="text-white transition group-hover:text-white"
+                        >
+                          →
+                        </span>
+                      </a>
+                    </Link>
+                  </div>
+                </li>
+              )
+            })}
           </ul>
         )}
       </main>
