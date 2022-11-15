@@ -1580,7 +1580,7 @@ importers:
       '@mdx-js/react': ^2.1.5
       '@monaco-editor/react': ^4.4.6
       '@mux/mux-node': ^6.3.0
-      '@mux/mux-player-react': 0.1.0-beta.26
+      '@mux/mux-player-react': 0.1.0-beta.27
       '@next/env': ^12.2.3
       '@next/mdx': ^13.0.0
       '@portabletext/react': ^1.0.6
@@ -1671,7 +1671,7 @@ importers:
       '@mdx-js/react': 2.1.5_react@18.2.0
       '@monaco-editor/react': 4.4.6_6vrjaj6ridxbohi43n7zt4gn7q
       '@mux/mux-node': 6.3.0
-      '@mux/mux-player-react': 0.1.0-beta.26_v7vsrdtui4d36prbwvdnlb7tpq
+      '@mux/mux-player-react': 0.1.0-beta.27_v7vsrdtui4d36prbwvdnlb7tpq
       '@next/mdx': 13.0.1_wuv4qx5dshjptmdbtsqqkih5iu
       '@portabletext/react': 1.0.6_react@18.2.0
       '@radix-ui/react-dropdown-menu': 1.0.0_bb2bxwco6ptpubzwpazr52qf6i
@@ -8736,6 +8736,28 @@ packages:
       react-dom: 18.2.0_react@18.2.0
     dev: false
 
+  /@mux/mux-player-react/0.1.0-beta.27_v7vsrdtui4d36prbwvdnlb7tpq:
+    resolution: {integrity: sha512-x+djGModhvSXCQDpMRfa+8Zkfj4R2yjo9s6285SaC+YpyTjrqmBlqNEoU9rr38mBB54qx5yUmSKqFuSDPOdm8Q==}
+    peerDependencies:
+      '@types/react': ^17.0.0 || ^18
+      '@types/react-dom': '*'
+      react: ^17.0.2 || ^18
+      react-dom: ^17.0.2 || ^18
+    peerDependenciesMeta:
+      '@types/react':
+        optional: true
+      '@types/react-dom':
+        optional: true
+    dependencies:
+      '@mux/mux-player': 0.1.0-beta.27
+      '@mux/playback-core': 0.10.0
+      '@types/react': 18.0.15
+      '@types/react-dom': 18.0.6
+      prop-types: 15.8.1
+      react: 18.2.0
+      react-dom: 18.2.0_react@18.2.0
+    dev: false
+
   /@mux/mux-player/0.1.0-beta.26:
     resolution: {integrity: sha512-kIRcsuy6+JqVQHFcn0jh8Vsmermb+cToSySzWfSSlhiqTAb47ei1508RfqbF0IJ84Gmky6VGIxlyHLXNZ2VKoA==}
     dependencies:
@@ -8745,10 +8767,32 @@ packages:
       media-chrome: 0.9.0
     dev: false
 
+  /@mux/mux-player/0.1.0-beta.27:
+    resolution: {integrity: sha512-ieo4i/4ga5G/rLvdRA1wGo1yOivy6xNrhvE3qfKJp59g88yNZ+YTw9qBSP2T8xCU9v/tok/7CsBnEVRO8hxhpQ==}
+    dependencies:
+      '@github/template-parts': 0.5.3
+      '@mux/mux-video': 0.8.5
+      '@mux/playback-core': 0.10.0
+      media-chrome: 0.10.0
+    dev: false
+
   /@mux/mux-video/0.8.4:
     resolution: {integrity: sha512-24jUFkS3VTCZDwaZjenBCzuK6h1/h6NXiXbqh+/SbJX/IUaLLeFtziugvHtO086TseatDSXoKsfQ6PcfjbQSkQ==}
     dependencies:
       '@mux/playback-core': 0.9.0
+    dev: false
+
+  /@mux/mux-video/0.8.5:
+    resolution: {integrity: sha512-mD534nJpkQRiDVy2cguAGOdiHp3yPoqsYlqzRx794fiinJYo7yb9UUh8VGoPL6y6l9jqR0VKumSixBkQYGLreQ==}
+    dependencies:
+      '@mux/playback-core': 0.10.0
+    dev: false
+
+  /@mux/playback-core/0.10.0:
+    resolution: {integrity: sha512-zn4yfsD+ACnjb8QssiQeFFjGitpR/AfHU4qAxyvzyXhGzL0kyvg3ziF5OOcd45SHK+/kY9EYxptZ2SLcwgIPuw==}
+    dependencies:
+      hls.js: 1.1.5
+      mux-embed: 4.12.1
     dev: false
 
   /@mux/playback-core/0.9.0:
@@ -8833,7 +8877,7 @@ packages:
       '@mdx-js/loader': '>=0.15.0'
       '@mdx-js/react': '*'
     dependencies:
-      '@mdx-js/loader': 2.1.3_webpack@4.46.0
+      '@mdx-js/loader': 2.1.3_webpack@5.73.0
       '@mdx-js/react': 2.1.3_react@18.2.0
     dev: false
 
@@ -22018,6 +22062,10 @@ packages:
       rehype-parse: 7.0.1
       unified: 9.2.2
       unist-util-visit: 1.4.1
+    dev: false
+
+  /media-chrome/0.10.0:
+    resolution: {integrity: sha512-kAJzB1+JwI4tSjOUmRUL6VjdJwcdOKeLzUK24v32+ntyhDa14Q3zrRMQ16G6kogvyTn1Md2HR714IfvI4c/NNg==}
     dev: false
 
   /media-chrome/0.9.0:
