@@ -10,12 +10,32 @@ pnpm install
 
 ### Configure your Dev Environment
 
+#### Dev Environment Configuration
+
+All non-secret configuration will happen in the `.env.development` file. By and large, these values can be left as is and should provide the necessary configuration for running the app locally.
+
+The rest of the dev environment setup is described in the following _Prisma_ and _Development Secrets_ sections.
+
+#### Prisma
+
 👋 `.env` is **required by Prisma** and **only** contains `DATABASE_URL`. The full contents
 of this file by default are:
 
 ```shell
 DATABASE_URL=mysql://root@127.0.0.1:3309/total-typescript
 ```
+
+#### Development Secrets
+
+Some of the most crucial parts of the dev environment are secret values/keys/tokens for test and sandbox environments with 3rd-party services. For instance, running through the commerce flow in development requires a Stripe secret token.
+
+We store all of these values in Vercel. Assuming you have already logged in via the `vercel` CLI (`vercel login`) and linked the project (`vercel link`), then you can pull down the development environment variables:
+
+```bash
+pnpm dev:setup
+```
+
+This will write to the `.env.local` file. This file should never be checked in.
 
 ### Build the App
 
@@ -95,17 +115,11 @@ Edit workshops with Sanity at [totaltypescript.sanity.studio](https://totaltypes
 
 The server-side packages will need the `STRIPE_SECRET_TOKEN` and `STRIPE_WEBHOOK_SECRET` defined in the environment for Stripe to work for the commerce flows.
 
-First, copy over the example local env file:
+For development, these values you should live in the `.env.local` file which comes from running `pnpm dev:setup`.
 
-```bash
-cp .env.local{.example,}
-```
+The correct test-mode Stripe secret token should already be in `.env.local` if you pulled down the environment variables from Vercel.
 
-This file is not tracked by git. The values in it should never be checked in.
-
-Then, grab the test-mode Stripe secret token from the Stripe dashboard for this app and copy it into the `.env.local` file as `STRIPE_SECRET_TOKEN`.
-
-Lastly, you'll need the value for the `STRIPE_WEBHOOK_SECRET` which you can get by running the Stripe CLI's webhook listener.
+After confirming you have `STRIPE_SECRET_TOKEN` set, you can generate the value for `STRIPE_WEBHOOK_SECRET` by running the Stripe CLI's webhook listener.
 
 Run this command to start the webhook listener/proxy:
 
