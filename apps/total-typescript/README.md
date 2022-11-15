@@ -90,3 +90,13 @@ You can use [Arctype](https://arctype.com/) or any other MySQL client to connect
 ## Edit content
 
 Edit workshops with Sanity at [totaltypescript.sanity.studio](https://totaltypescript.sanity.studio/).
+
+## Stripe
+
+Run this command to start the webhook listener/proxy:
+
+```
+stripe listen --forward-to localhost:3016/api/skill/webhook/stripe
+```
+
+Now it is listening for Stripe Webhook events. When it first starts, it will output a _webhook signing secret_ (`whsec_....`). You'll need to copy and paste this value into `.env.local` as the `STRIPE_WEBHOOK_SECRET`. It is required to make test purchases. (It will proactively guide you if the value isn't currently configured properly.)
