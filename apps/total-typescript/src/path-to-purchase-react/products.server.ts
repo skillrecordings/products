@@ -31,7 +31,7 @@ export const getActiveProducts = async () =>
     products: [
       {
         name: 'Pro',
-        productId: process.env.NEXT_PUBLIC_ACTIVE_PRODUCT_ID,
+        productId: process.env.NEXT_PUBLIC_DEFAULT_PRODUCT_ID,
       },
     ],
   }
