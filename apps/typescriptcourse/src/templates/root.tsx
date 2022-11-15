@@ -13,6 +13,7 @@ import StarsBackground from 'components/stars-background'
 import AnimatedBadge from 'components/mdx/badge'
 import toast, {Toaster} from 'react-hot-toast'
 import {Element} from 'react-scroll'
+import Bio from 'components/bio'
 
 const HomeTemplate: React.FC<
   React.PropsWithChildren<EmailCourseTemplateProps>
@@ -104,6 +105,7 @@ const HomeTemplate: React.FC<
         </section>
       </article>
       <Toaster />
+      <Bio />
     </Layout>
   )
 }

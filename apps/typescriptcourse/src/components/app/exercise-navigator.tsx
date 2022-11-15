@@ -61,11 +61,11 @@ const LessonNavigator: React.FC<{
                 >
                   <a
                     className={cx(
-                      'flex items-center px-4 py-2 font-semibold leading-tight hover:bg-gray-100',
+                      'flex items-center px-4 py-2 font-semibold leading-tight ',
                       {
-                        'bg-white shadow-xl shadow-gray-500/5 hover:bg-white':
+                        ' shadow-xl shadow-gray-500/5':
                           isActive && !lesson.solution,
-                        'hover:bg-gray-100': !isActive && !lesson.solution,
+                        '': !isActive && !lesson.solution,
                       },
                     )}
                   >

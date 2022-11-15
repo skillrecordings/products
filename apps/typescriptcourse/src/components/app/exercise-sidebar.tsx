@@ -25,10 +25,10 @@ const ExerciseSidebar: React.FC<SidebarProps> = ({
           className,
         )}
       >
-        <div className="top-0 border-r border-gray-100 lg:sticky">
+        <div className="top-0 border-r lg:sticky">
           <aside>
             <div className="z-10 h-[180px] lg:h-[140px]">
-              <div className="relative flex items-center gap-5 border-t border-gray-100 bg-white px-3 py-2 shadow-xl shadow-gray-500/5">
+              <div className="relative flex items-center gap-5 border-t  px-3 py-2 shadow-xl shadow-gray-500/5">
                 {module?.image && (
                   <Image
                     src={module.image}
@@ -65,7 +65,7 @@ const ExerciseSidebar: React.FC<SidebarProps> = ({
             </div>
 
             <ExerciseNavigator module={module} path={path} section={section} />
-            <div className="pointer-events-none absolute bottom-0 left-0 z-20 h-24 w-full bg-gradient-to-t from-white to-transparent" />
+            <div className="pointer-events-none absolute bottom-0 left-0 z-20 h-24 w-full" />
           </aside>
         </div>
       </div>

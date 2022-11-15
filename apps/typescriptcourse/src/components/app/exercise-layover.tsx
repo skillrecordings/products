@@ -27,11 +27,11 @@ export const OverlayWrapper: React.FC<
   return (
     <div
       id="video-overlay"
-      className="relative top-0 left-0 flex aspect-video w-full items-center justify-center bg-gray-200/80"
+      className="relative top-0 left-0 flex aspect-video w-full items-center justify-center"
     >
       {dismissable && (
         <button
-          className="absolute top-2 right-2 z-50 flex items-center justify-center gap-1 rounded-full bg-white py-2 px-3.5 font-medium text-gray-600 transition hover:bg-gray-100"
+          className="absolute top-2 right-2 z-50 flex items-center justify-center gap-1 rounded-full py-2 px-3.5 font-medium text-gray-600 transition"
           onClick={() => {
             setDisplayOverlay(false)
           }}
@@ -58,7 +58,7 @@ const Actions = () => {
   return (
     <div className="flex justify-center gap-2">
       <button
-        className="rounded-full bg-gray-200 px-3 py-1 font-medium transition hover:bg-gray-300/80 sm:px-5 sm:py-2"
+        className="rounded-full px-3 py-1 font-medium transition sm:px-5 sm:py-2"
         onClick={() => {
           handlePlay()
         }}
@@ -67,7 +67,7 @@ const Actions = () => {
       </button>
       {nextExercise && (
         <button
-          className="rounded-full bg-emerald-600 px-3 py-1 font-medium text-white transition hover:bg-emerald-500 sm:px-5 sm:py-2"
+          className="rounded-full bg-emerald-600 px-3 py-1 font-medium  transition hover:bg-emerald-500 sm:px-5 sm:py-2"
           onClick={() => {
             handleContinue(router, module, nextExercise, handlePlay, path)
           }}
@@ -147,7 +147,7 @@ const DefaultOverlay = () => {
       </p>
       <div className="flex items-center justify-center gap-5 py-4 sm:py-8">
         <button
-          className="rounded-full bg-white px-3 py-1 text-lg font-semibold transition hover:bg-gray-100 sm:px-5 sm:py-3"
+          className="rounded-full px-3 py-1 text-lg font-semibold transition sm:px-5 sm:py-3"
           onClick={() => {
             handlePlay()
           }}
@@ -155,7 +155,7 @@ const DefaultOverlay = () => {
           Replay ↺
         </button>
         <button
-          className="rounded-full bg-brand-red px-3 py-1 text-lg font-semibold text-white transition hover:brightness-125 sm:px-5 sm:py-3"
+          className="rounded-full bg-blue-400 px-3 py-1 text-lg font-semibold transition hover:brightness-125 sm:px-5 sm:py-3"
           onClick={() => {
             addProgressMutation.mutate(
               {lessonSlug: lesson.slug},
@@ -180,7 +180,7 @@ const FinishedOverlay = () => {
   const shareUrl = `${process.env.NEXT_PUBLIC_URL}${path}/${module.slug.current}`
   const shareMessage = `${module.title} ${module.moduleType} by @${process.env.NEXT_PUBLIC_PARTNER_TWITTER}`
   const shareButtonStyles =
-    'bg-white shadow-xl shadow-gray-500/5 flex items-center gap-2 rounded-full px-4 py-2 hover:bg-gray-50'
+    ' shadow-xl shadow-gray-500/5 flex items-center gap-2 rounded-full px-4 py-2 '
 
   const addProgressMutation = trpc.useMutation(['progress.add'])
 
@@ -283,7 +283,7 @@ const BlockedOverlay: React.FC = () => {
   return (
     <div
       id="video-overlay"
-      className="flex w-full flex-col items-center justify-center bg-gray-200/80 py-5 md:flex-row"
+      className="flex w-full flex-col items-center justify-center py-5 md:flex-row"
     >
       <div className="z-20 flex h-full flex-shrink-0 flex-col items-center justify-center gap-5 p-5 pb-10 text-center text-lg leading-relaxed sm:p-10 sm:pb-16">
         <div className="flex w-full flex-col items-center justify-center gap-2">

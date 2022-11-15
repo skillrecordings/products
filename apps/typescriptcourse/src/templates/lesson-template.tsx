@@ -75,8 +75,8 @@ const ExerciseTemplate: React.FC<{
             path={path}
             section={section}
           />
-          <main className="relative mx-auto max-w-[1480px] grow items-start  sm:bg-gray-100 2xl:flex 2xl:max-w-none  2xl:bg-transparent">
-            <div className="border-gray-100 2xl:relative 2xl:h-full 2xl:w-full 2xl:border-r 2xl:bg-gray-100">
+          <main className="relative mx-auto max-w-[1480px] grow items-start 2xl:flex 2xl:max-w-none">
+            <div className="2xl:relative 2xl:h-full 2xl:w-full 2xl:border-r">
               <Video
                 ref={muxPlayerRef}
                 module={module}
@@ -96,7 +96,7 @@ const ExerciseTemplate: React.FC<{
                 />
               </div>
             </div>
-            <article className="relative flex-shrink-0 shadow-gray-500/10 sm:bg-gray-100 2xl:h-full 2xl:bg-transparent 2xl:shadow-xl">
+            <article className="relative flex-shrink-0 shadow-gray-500/10 2xl:h-full 2xl:shadow-xl">
               <div className="relative z-10 mx-auto max-w-4xl px-5 py-5 lg:py-8 2xl:max-w-xl">
                 <ExerciseTitle exercise={exercise} />
                 <ExerciseDescription exercise={exercise} />
@@ -168,34 +168,6 @@ const Video: React.FC<VideoProps> = React.forwardRef(
   },
 )
 
-// const GitHubLink: React.FC<{
-//   exercise: Lesson
-//   module: SanityDocument
-// }> = ({exercise, module}) => {
-//   const github = exercise.github ?? module.github
-
-//   if (!github) {
-//     return null
-//   }
-
-//   return (
-//     <div className="flex items-center gap-2">
-//       <a
-//         href={github.url}
-//         target="_blank"
-//         rel="noopener noreferrer"
-//         className="inline-flex items-center gap-2 rounded-lg bg-gray-800 py-2 px-4 text-lg font-medium text-white transition hover:bg-gray-900"
-//       >
-//         {/* <Icon name="Github" size="24" /> */}
-//         <div>
-//           <p className="font-semibold">Code</p>
-//           {/* <p className="font-mono text-sm text-gray-400">/{openFile}</p> */}
-//         </div>
-//       </a>
-//     </div>
-//   )
-// }
-
 const ExerciseTitle: React.FC<{exercise: Lesson}> = ({exercise}) => {
   const {title, _type} = exercise
   return (
@@ -205,12 +177,12 @@ const ExerciseTitle: React.FC<{exercise: Lesson}> = ({exercise}) => {
           'inline-block rounded-full px-2.5 py-1 font-mono text-xs font-semibold uppercase sm:mt-5 lg:text-sm 2xl:mt-0 2xl:text-xs',
           {
             'bg-emerald-500/20 text-emerald-600': _type === 'solution',
-            'bg-brand-red/20 text-brand-red': _type === 'exercise',
+            'bg-brand-red/20 text-brand-red': _type === 'lesson',
             'bg-indigo-500/20 text-indigo-600': _type === 'explainer',
           },
         )}
       >
-        {_type !== 'exercise' ? _type : 'Exercise'}
+        {_type !== 'lesson' ? _type : 'Lesson'}
       </span>
       <h1 className="pb-5 pt-3 font-heading text-3xl font-black tracking-tight sm:text-4xl xl:text-[2.65rem] 2xl:text-4xl">
         {title}
@@ -281,7 +253,7 @@ const MobileLessonNavigator: React.FC<{
 }> = ({module, path, section}) => {
   return (
     <details className="group block border-t-2 border-gray-900 lg:hidden">
-      <summary className="no-marker flex cursor-pointer items-center gap-1 bg-white px-4 py-3 font-medium shadow-2xl shadow-gray-500/10 transition marker:content-[''] after:absolute after:right-3 after:flex after:h-6 after:w-6 after:rotate-180 after:items-center after:justify-center after:rounded-full after:bg-gray-100 after:text-lg after:content-['↑'] group-open:after:rotate-0 hover:bg-gray-100">
+      <summary className="no-marker flex cursor-pointer items-center gap-1 px-4 py-3 font-medium shadow-2xl transition marker:content-[''] after:absolute after:right-3 after:flex after:h-6 after:w-6 after:rotate-180 after:items-center after:justify-center after:rounded-full after:text-lg after:content-['↑'] group-open:after:rotate-0">
         {module.title} {capitalize(module.moduleType)}{' '}
         <span className="opacity-80">
           ({section ? section.exercises.length : module.lessons.length}{' '}
