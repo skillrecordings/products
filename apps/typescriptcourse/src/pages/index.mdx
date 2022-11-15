@@ -39,11 +39,11 @@ Now you import a phone number formatter from npm and try to shoehorn it into a c
 
 But oh no, when you specify a different input component for rendering on the page... you get some TypeScript garbage error:
 
-```ts
-Type '{ INPUT: { target: string; actions: AssignAction<unknown, EventObject>; };
-  RESIZE: ({ cond: (ctx: { manualOrientation?: boolean | undefined; }) => boolean; target: string; } |
-    { ...; } | { ...; })[]; }' is not assignable to type 'TransitionsConfig…
-```
+<div className="max-w-screen-sm p-5 rounded-lg bg-black/40 text-base border border-rose-400 font-mono leading-relaxed text-rose-100 w-full mx-auto">
+  {`Type '{ INPUT: { target: string; actions: AssignAction<unknown, EventObject>; };
+RESIZE: ({ cond: (ctx: { manualOrientation?: boolean | undefined; }) => boolean; target: string; } |
+{ ...; } | { ...; })[]; }' is not assignable to type 'TransitionsConfig'`}
+</div>
 
 You fix one error and then hit another.
 
