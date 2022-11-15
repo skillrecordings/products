@@ -178,7 +178,7 @@ const GitHubLink: React.FC<{
   exercise: Exercise
   module: SanityDocument
 }> = ({exercise, module}) => {
-  const github = exercise.github ?? module.github
+  const github = exercise.github ?? exercise.solution?.github
 
   if (!github) {
     return null
