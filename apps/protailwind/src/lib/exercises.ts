@@ -46,6 +46,12 @@ export const ExerciseSchema = z.object({
       body: z.any().array().optional().nullable(),
       muxPlaybackId: z.nullable(z.string()).optional(),
       transcript: z.nullable(z.any().array()).optional(),
+      github: z
+        .object({
+          url: z.string(),
+        })
+        .optional()
+        .nullable(),
     })
     .optional()
     .nullable(),
@@ -146,6 +152,9 @@ export const getExercise = async (
           "stackblitz": resources[@._type == 'stackblitz'][0].openFile,
           "muxPlaybackId": resources[@->._type == 'videoResource'][0]-> muxAsset.muxPlaybackId,
           "transcript": resources[@->._type == 'videoResource'][0]-> castingwords.transcript,
+          "github": resources[@._type == 'github'][0] {
+        url
+      },
         `
             : ''
         }
@@ -179,6 +188,9 @@ export const getAllExercises = async (): Promise<Exercise[]> => {
         body,
         "stackblitz": resources[@._type == 'stackblitz'][0].openFile,
         "muxPlaybackId": resources[@->._type == 'videoResource'][0]-> muxAsset.muxPlaybackId,
+        "github": resources[@._type == 'github'][0] {
+        url
+      },
        "slug": slug.current
        }
     }`)
