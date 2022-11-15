@@ -93,6 +93,20 @@ Edit workshops with Sanity at [totaltypescript.sanity.studio](https://totaltypes
 
 ## Stripe
 
+The server-side packages will need the `STRIPE_SECRET_TOKEN` and `STRIPE_WEBHOOK_SECRET` defined in the environment for Stripe to work for the commerce flows.
+
+First, copy over the example local env file:
+
+```bash
+cp .env.local{.example,}
+```
+
+This file is not tracked by git. The values in it should never be checked in.
+
+Then, grab the test-mode Stripe secret token from the Stripe dashboard for this app and copy it into file as `STRIPE_SECRET_TOKEN`.
+
+Lastly, you'll need the value for the `STRIPE_WEBHOOK_SECRET` which you can get by running the Stripe CLI's webhook listener.
+
 Run this command to start the webhook listener/proxy:
 
 ```
