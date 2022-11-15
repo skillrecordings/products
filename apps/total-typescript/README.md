@@ -103,7 +103,7 @@ cp .env.local{.example,}
 
 This file is not tracked by git. The values in it should never be checked in.
 
-Then, grab the test-mode Stripe secret token from the Stripe dashboard for this app and copy it into file as `STRIPE_SECRET_TOKEN`.
+Then, grab the test-mode Stripe secret token from the Stripe dashboard for this app and copy it into the `.env.local` file as `STRIPE_SECRET_TOKEN`.
 
 Lastly, you'll need the value for the `STRIPE_WEBHOOK_SECRET` which you can get by running the Stripe CLI's webhook listener.
 
