@@ -182,7 +182,7 @@ const ExerciseTitle: React.FC<{exercise: Lesson}> = ({exercise}) => {
           'inline-block rounded-full px-2.5 py-1 font-mono text-xs font-semibold uppercase sm:mt-5 lg:text-sm 2xl:mt-0 2xl:text-xs',
           {
             'bg-emerald-500/20 text-emerald-600': _type === 'solution',
-            'bg-brand-red/20 text-brand-red': _type === 'lesson',
+            'bg-blue-400 text-brand-red': _type === 'lesson',
             'bg-indigo-500/20 text-indigo-600': _type === 'explainer',
           },
         )}
