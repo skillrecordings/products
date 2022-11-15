@@ -2380,6 +2380,7 @@ importers:
       prettier-plugin-tailwindcss: ^0.1.13
       query-string: ^7.1.1
       react: 18.2.0
+      react-countdown: ^2.3.2
       react-device-detect: ^2.2.2
       react-dom: 18.2.0
       react-hook-form: ^7.29.0
@@ -2467,6 +2468,7 @@ importers:
       node-fetch: 2.6.7
       query-string: 7.1.1
       react: 18.2.0
+      react-countdown: 2.3.2_biqbaboplfbrettd7655fr4n2y
       react-device-detect: 2.2.2_biqbaboplfbrettd7655fr4n2y
       react-dom: 18.2.0_react@18.2.0
       react-hook-form: 7.29.0_react@18.2.0
@@ -25643,14 +25645,6 @@ packages:
       kleur: 3.0.3
       sisteransi: 1.0.5
 
-  /prop-types/15.7.2:
-    resolution: {integrity: sha512-8QQikdH7//R2vurIJSutZ1smHYTcLpRWEOlHnzcWHmBYrOGUysKwSsrC89BCiFj3CbrfJ/nXFdJepOVrY1GCHQ==}
-    dependencies:
-      loose-envify: 1.4.0
-      object-assign: 4.1.1
-      react-is: 16.13.1
-    dev: false
-
   /prop-types/15.8.1:
     resolution: {integrity: sha512-oj87CgZICdulUohogVAR7AjlC0327U4el4L6eAvOqCeudMDVU0NThNaV+b9Df4dXgSP1gXMTnPdhfe/2qDH5cg==}
     dependencies:
@@ -25990,7 +25984,7 @@ packages:
       react: '>= 15'
       react-dom: '>= 15'
     dependencies:
-      prop-types: 15.7.2
+      prop-types: 15.8.1
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
     dev: false
