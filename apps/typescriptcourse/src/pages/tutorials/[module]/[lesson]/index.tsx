@@ -14,7 +14,7 @@ export const getStaticProps: GetStaticProps = async (context) => {
   const lesson = await getLesson(lessonSlug)
 
   return {
-    props: {lesson},
+    props: {lesson, module},
     revalidate: 10,
   }
 }

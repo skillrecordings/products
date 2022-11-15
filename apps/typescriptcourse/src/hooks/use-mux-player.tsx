@@ -1,11 +1,12 @@
 import React from 'react'
 import get from 'lodash/get'
 import {usePlayerPrefs} from '@skillrecordings/player'
+import {getNextExercise} from 'utils/get-next-exercise'
 import {SanityDocument} from '@sanity/client'
 import {useRouter} from 'next/router'
 import {MuxPlayerProps} from '@mux/mux-player-react/*'
-import {useConvertkit} from '../hooks/use-converkit'
 import {type Lesson, LessonSchema} from '../lib/lesson'
+import {useConvertkit} from './use-converkit'
 
 type VideoResource = Lesson
 
@@ -17,6 +18,7 @@ type VideoContextType = {
   setDisplayOverlay: (value: boolean) => void
   handlePlay: () => void
   displayOverlay: boolean
+  nextExercise: SanityDocument
   lesson: VideoResource
   module: SanityDocument
   path: string
@@ -45,6 +47,7 @@ export const VideoProvider: React.FC<
 }) => {
   const router = useRouter()
   const {subscriber} = useConvertkit()
+  const nextExercise = getNextExercise(module, lesson as Lesson)
   const {setPlayerPrefs, playbackRate, autoplay, getPlayerPrefs} =
     usePlayerPrefs()
   const [autoPlay, setAutoPlay] = React.useState(getPlayerPrefs().autoplay)
@@ -60,18 +63,18 @@ export const VideoProvider: React.FC<
   }, [])
 
   const moduleSlug = module?.slug?.current
-  const nextResourceSlug = null
+  const nextExerciseSlug = nextExercise?.slug
 
   const handleNext = React.useCallback(
     (autoPlay: boolean) => {
-      nextResourceSlug && autoPlay
+      nextExerciseSlug && autoPlay
         ? router.push({
-            pathname: '/[resource]',
-            query: {resource: nextResourceSlug},
+            pathname: '/[module]/[exercise]',
+            query: {module: moduleSlug, exercise: nextExerciseSlug},
           })
         : setDisplayOverlay(true)
     },
-    [moduleSlug, nextResourceSlug, router],
+    [moduleSlug, nextExerciseSlug, router],
   )
 
   // initialize player state
@@ -118,7 +121,8 @@ export const VideoProvider: React.FC<
     setDisplayOverlay: (value: boolean) => setDisplayOverlay(value),
     handlePlay,
     displayOverlay,
-    lesson: LessonSchema.parse(lesson),
+    nextExercise,
+    lesson,
     module,
     video,
     path,

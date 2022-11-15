@@ -1,9 +1,9 @@
 import * as React from 'react'
 import MuxPlayer, {MuxPlayerProps} from '@mux/mux-player-react'
 import PortableTextComponents from 'components/portable-text'
-import ExerciseSidebar from 'components/exercise-sidebar'
-import Navigation from 'components/navigation'
-import Layout from 'components/layout'
+import ExerciseSidebar from '../components/app/exercise-sidebar'
+// import Navigation from 'components/navigation'
+import Layout from '../components/app/layout'
 import capitalize from 'lodash/capitalize'
 import Spinner from 'components/spinner'
 import cx from 'classnames'
@@ -21,27 +21,22 @@ import {
   FinishedOverlay,
   BlockedOverlay,
   LoadingOverlay,
-} from 'components/exercise-overlay'
+} from '../components/app/exercise-overlay'
 import Image from 'next/image'
-import {track} from 'utils/analytics'
-import {Exercise, ExerciseSchema} from '../lib/exercises'
-import {useConvertkit} from 'hooks/use-convertkit'
+import {Lesson, LessonSchema} from '../lib/lesson'
+import {useConvertkit} from '../hooks/use-converkit'
 import {ArticleJsonLd} from '@skillrecordings/next-seo'
 import {GiftIcon} from '@heroicons/react/solid'
-import Icon from 'components/icons'
+// import Icon from 'components/icons'
 
 const ExerciseTemplate: React.FC<{
-  exercise: Exercise
+  exercise: Lesson
   module: SanityDocument
   section?: SanityDocument
   isSolution?: boolean
   tutorialFiles?: any
 }> = ({exercise, section, module, isSolution = false, tutorialFiles}) => {
   const muxPlayerRef = React.useRef<HTMLDivElement>()
-
-  exercise = ExerciseSchema.parse(
-    isSolution && exercise.solution ? exercise.solution : exercise,
-  )
   const {title, description: exerciseDescription} = exercise
   const {ogImage, description: moduleDescription} = module
   const pageTitle = `${title}`
@@ -54,14 +49,14 @@ const ExerciseTemplate: React.FC<{
     <VideoProvider
       muxPlayerRef={muxPlayerRef}
       module={module}
-      lesson={exercise as Exercise}
+      lesson={exercise as Lesson}
       path={path}
     >
       <Layout
         meta={
           {title: pageTitle, ...shareCard, description: pageDescription} as any
         }
-        navClassName="mx-auto flex w-full items-center justify-between px-5"
+        // navClassName="mx-auto flex w-full items-center justify-between px-5"
       >
         <ArticleJsonLd
           url={`${process.env.NEXT_PUBLIC_URL}/${module.slug.current}/${exercise.slug}`}
@@ -104,7 +99,6 @@ const ExerciseTemplate: React.FC<{
             <article className="relative flex-shrink-0 shadow-gray-500/10 sm:bg-gray-100 2xl:h-full 2xl:bg-transparent 2xl:shadow-xl">
               <div className="relative z-10 mx-auto max-w-4xl px-5 py-5 lg:py-8 2xl:max-w-xl">
                 <ExerciseTitle exercise={exercise} />
-                <ExerciseAssets exercise={exercise} module={module} />
                 <ExerciseDescription exercise={exercise} />
                 {/* <GitHubLink exercise={exercise} module={module} /> */}
               </div>
@@ -125,7 +119,7 @@ const ExerciseTemplate: React.FC<{
 type VideoProps = {
   module: SanityDocument
   section?: SanityDocument
-  exercise: Exercise
+  exercise: Lesson
   tutorialFiles?: any
   ref: any
 }
@@ -138,7 +132,7 @@ const Video: React.FC<VideoProps> = React.forwardRef(
 
     // TODO: handle section logic and remove !section
     const canShowVideo =
-      (subscriber || (!section && exercise._id === module.exercises[0]._id)) &&
+      (subscriber || (!section && exercise._id === module.lessons[0]._id)) &&
       exercise.muxPlaybackId
 
     return (
@@ -147,7 +141,7 @@ const Video: React.FC<VideoProps> = React.forwardRef(
           <>
             {nextExercise ? (
               <>
-                {isExercise && exercise.sandpack ? (
+                {isExercise && exercise ? (
                   <ExerciseOverlay tutorialFiles={tutorialFiles} />
                 ) : (
                   <DefaultOverlay />
@@ -174,43 +168,35 @@ const Video: React.FC<VideoProps> = React.forwardRef(
   },
 )
 
-const GitHubLink: React.FC<{
-  exercise: Exercise
-  module: SanityDocument
-}> = ({exercise, module}) => {
-  const github = exercise.github ?? module.github
+// const GitHubLink: React.FC<{
+//   exercise: Lesson
+//   module: SanityDocument
+// }> = ({exercise, module}) => {
+//   const github = exercise.github ?? module.github
 
-  if (!github) {
-    return null
-  }
+//   if (!github) {
+//     return null
+//   }
 
-  return (
-    <div className="flex items-center gap-2">
-      <a
-        onClick={() => {
-          track('clicked github code link', {
-            lesson: exercise.slug,
-            module: module.slug.current,
-            moduleType: module.moduleType,
-            lessonType: exercise._type,
-          })
-        }}
-        href={github.url}
-        target="_blank"
-        rel="noopener noreferrer"
-        className="inline-flex items-center gap-2 rounded-lg bg-gray-800 py-2 px-4 text-lg font-medium text-white transition hover:bg-gray-900"
-      >
-        <Icon name="Github" size="24" />
-        <div>
-          <p className="font-semibold">Code</p>
-          {/* <p className="font-mono text-sm text-gray-400">/{openFile}</p> */}
-        </div>
-      </a>
-    </div>
-  )
-}
+//   return (
+//     <div className="flex items-center gap-2">
+//       <a
+//         href={github.url}
+//         target="_blank"
+//         rel="noopener noreferrer"
+//         className="inline-flex items-center gap-2 rounded-lg bg-gray-800 py-2 px-4 text-lg font-medium text-white transition hover:bg-gray-900"
+//       >
+//         {/* <Icon name="Github" size="24" /> */}
+//         <div>
+//           <p className="font-semibold">Code</p>
+//           {/* <p className="font-mono text-sm text-gray-400">/{openFile}</p> */}
+//         </div>
+//       </a>
+//     </div>
+//   )
+// }
 
-const ExerciseTitle: React.FC<{exercise: Exercise}> = ({exercise}) => {
+const ExerciseTitle: React.FC<{exercise: Lesson}> = ({exercise}) => {
   const {title, _type} = exercise
   return (
     <>
@@ -233,30 +219,7 @@ const ExerciseTitle: React.FC<{exercise: Exercise}> = ({exercise}) => {
   )
 }
 
-const ExerciseAssets: React.FC<{
-  exercise: Exercise
-  module: SanityDocument
-}> = ({exercise, module}) => {
-  const {figma} = exercise
-  return (
-    <div className="flex flex-wrap items-center gap-2 pb-8">
-      {figma?.url && (
-        <a
-          href={figma.url}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="inline-flex items-center gap-2 rounded-lg border border-indigo-500/5 bg-indigo-50 px-4 py-2 text-lg font-semibold text-indigo-600 transition hover:bg-indigo-100/80"
-        >
-          <Icon name="Figma" size="20" className="text-indigo-600" />
-          <span>Design assets</span>
-        </a>
-      )}
-      <GitHubLink exercise={exercise} module={module} />
-    </div>
-  )
-}
-
-const ExerciseDescription: React.FC<{exercise: Exercise}> = ({exercise}) => {
+const ExerciseDescription: React.FC<{exercise: Lesson}> = ({exercise}) => {
   const {body} = exercise
   return (
     <div className="prose max-w-none pt-5 prose-headings:font-heading prose-headings:font-black prose-code:text-[90%] xl:pt-8 2xl:pt-5">
@@ -266,7 +229,7 @@ const ExerciseDescription: React.FC<{exercise: Exercise}> = ({exercise}) => {
 }
 
 const VideoTranscript: React.FC<{
-  exercise: Exercise
+  exercise: Lesson
   muxPlayerRef: any
 }> = ({exercise, muxPlayerRef}) => {
   const transcript = exercise.transcript
@@ -321,7 +284,7 @@ const MobileLessonNavigator: React.FC<{
       <summary className="no-marker flex cursor-pointer items-center gap-1 bg-white px-4 py-3 font-medium shadow-2xl shadow-gray-500/10 transition marker:content-[''] after:absolute after:right-3 after:flex after:h-6 after:w-6 after:rotate-180 after:items-center after:justify-center after:rounded-full after:bg-gray-100 after:text-lg after:content-['↑'] group-open:after:rotate-0 hover:bg-gray-100">
         {module.title} {capitalize(module.moduleType)}{' '}
         <span className="opacity-80">
-          ({section ? section.exercises.length : module.exercises.length}{' '}
+          ({section ? section.exercises.length : module.lessons.length}{' '}
           exercises)
         </span>
       </summary>
