@@ -2,7 +2,7 @@ import * as React from 'react'
 import MuxPlayer, {MuxPlayerProps} from '@mux/mux-player-react'
 import PortableTextComponents from 'components/portable-text'
 import ExerciseSidebar from '../components/app/exercise-sidebar'
-// import Navigation from 'components/navigation'
+import Navigation from 'components/app/navigation'
 import Layout from '../components/app/layout'
 import capitalize from 'lodash/capitalize'
 import Spinner from 'components/spinner'
@@ -56,7 +56,12 @@ const ExerciseTemplate: React.FC<{
         meta={
           {title: pageTitle, ...shareCard, description: pageDescription} as any
         }
-        // navClassName="mx-auto flex w-full items-center justify-between px-5"
+        nav={
+          <Navigation
+            className="relative flex w-full lg:absolute lg:pl-[calc(280px+20px)] xl:pl-[calc(320px+20px)]"
+            containerClassName="flex h-full justify-between w-full items-stretch"
+          />
+        }
       >
         <ArticleJsonLd
           url={`${process.env.NEXT_PUBLIC_URL}/${module.slug.current}/${exercise.slug}`}

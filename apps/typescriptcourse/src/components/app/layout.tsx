@@ -15,8 +15,10 @@ export type LayoutProps = {
   }
   noIndex?: boolean
   className?: string
+  nav?: React.ReactElement | null
   navigation?: React.FC<React.PropsWithChildren<NavigationProps>> | null
   footer?: React.FC<React.PropsWithChildren<any>> | null
+  children?: any
 }
 
 const Layout: React.FC<React.PropsWithChildren<LayoutProps>> = ({

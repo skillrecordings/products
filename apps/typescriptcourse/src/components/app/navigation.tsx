@@ -5,13 +5,19 @@ import {useRouter} from 'next/router'
 import cx from 'classnames'
 export type NavigationProps = {title?: string}
 
-const Navigation: React.FC<React.PropsWithChildren<NavigationProps>> = ({
-  title = 'Product',
+type Props = {
+  className?: string
+  containerClassName?: string
+}
+
+const Navigation: React.FC<React.PropsWithChildren<Props>> = ({
+  className,
+  containerClassName = 'max-w-screen-lg flex items-stretch justify-between w-full h-full',
 }) => {
   return (
     <nav
       aria-label="Main Navigation"
-      className="sticky top-0 left-0 z-20 flex  flex-col gap-2 sm:flex-row sm:gap-0 items-center justify-between w-full p-2 bg-gray-900 border-b border-gray-800 print:hidden supports-backdrop-blur:backdrop-blur-lg supports-backdrop-blur:bg-opacity-70 bg-opacity-95"
+      className="top-0 left-0 z-20 flex  flex-col gap-2 sm:flex-row sm:gap-0 items-center justify-between w-full p-2 bg-gray-900 border-b border-gray-800 print:hidden supports-backdrop-blur:backdrop-blur-lg supports-backdrop-blur:bg-opacity-70 bg-opacity-95"
     >
       <Link href="/" passHref aria-label="TypeScript Course home page">
         <a data-test-id="navigation-title">
