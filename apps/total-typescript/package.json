@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev -p 3016",
-    "dev:setup": "vercel env pull .env.local",
+    "dev:setup": "vercel env pull .env.local && sed -i.bak '/^VERCEL/d' .env.local",
     "build": "next build",
     "build:dev": "pnpm -w build --filter total-typescript",
     "postbuild": "NODE_ENV=production next-sitemap",
