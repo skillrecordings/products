@@ -1,10 +1,16 @@
 import React from 'react'
 import {useRouter} from 'next/router'
-import {FireIcon, PlayIcon} from '@heroicons/react/solid'
+import {FireIcon, PlayIcon, UserGroupIcon} from '@heroicons/react/solid'
 import {track} from '../../utils/analytics'
 import Link from 'next/link'
 import cx from 'classnames'
 import config from 'config'
+import {getCurrentAbility} from 'ability/ability'
+import {getToken} from 'next-auth/jwt'
+import {useSession} from 'next-auth/react'
+import {z} from 'zod'
+import {useUser} from '@skillrecordings/react'
+import {SanityDocument} from '@sanity/client'
 
 type Props = {
   className?: string
@@ -31,9 +37,44 @@ const Navigation: React.FC<React.PropsWithChildren<Props>> = ({
   )
 }
 
+const useTypedSession = () => {
+  const session = useSession()
+
+  const sessionSchema = z.object({
+    data: z.object({purchases: z.any().array().optional()}),
+    status: z.string(),
+  })
+
+  return sessionSchema.parse(session)
+}
+
 const DesktopNav = () => {
+  // const {data: session} = useTypedSession()
+  const {user} = useUser()
+  let canViewTeam = false
+  if (user && user.user) {
+    const ability = getCurrentAbility({
+      user: {purchases: user.purchases || [], role: user.role, ...user.user},
+      module: {exercises: []} as unknown as SanityDocument,
+    })
+    canViewTeam = ability.can('view', 'Team')
+  }
+  // const canViewTeam = getCurrentAbility({purchases: session.purchases})
+
   return (
     <ul className="flex items-center">
+      {canViewTeam && (
+        <NavLink
+          path="/team"
+          label="Invite Team"
+          icon={
+            <UserGroupIcon
+              className="h-5 w-5 text-cyan-300"
+              aria-hidden="true"
+            />
+          }
+        />
+      )}
       <NavLink
         path="/tutorials"
         label="Free Tutorials"
