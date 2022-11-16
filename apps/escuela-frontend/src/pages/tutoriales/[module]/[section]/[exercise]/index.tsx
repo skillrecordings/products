@@ -48,7 +48,7 @@ export const getStaticPaths: GetStaticPaths = async (context) => {
 const ExercisePage: React.FC<any> = ({exercise, module, section}) => {
   return (
     <Layout className="py-20 px-5">
-      <div>
+      <div className="text-sm">
         <Link
           href={{
             pathname: '/tutoriales/[module]',
@@ -62,8 +62,20 @@ const ExercisePage: React.FC<any> = ({exercise, module, section}) => {
         /{section.title}/{exercise.title}
       </div>
       <br />
-      <strong className="text-sm uppercase">{exercise._type}</strong>
+      <span className="inline-block w-24 rounded-full bg-brand px-2.5 py-1 font-mono text-xs font-semibold uppercase text-gray-50 sm:mt-5 lg:text-sm 2xl:mt-0 2xl:text-xs">
+        {exercise._type}
+      </span>
       <h1 className="text-2xl font-bold">{exercise.title}</h1>
+      {exercise.solution.map((solution: any) => {
+        return (
+          <div>
+            <h2>{solution.title}</h2>
+            <p>{solution.description}</p>
+          </div>
+        )
+      })}
+
+      <span className="mt-10"></span>
     </Layout>
   )
 }

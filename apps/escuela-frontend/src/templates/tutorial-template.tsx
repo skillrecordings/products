@@ -62,7 +62,7 @@ const Header: React.FC<{tutorial: SanityDocument}> = ({tutorial}) => {
           <div className="pt-8 text-lg">
             <div className="flex items-center justify-center gap-3 md:justify-start">
               <div className="flex items-center gap-3">
-                <span>Matt Pocock</span>
+                <span>Matias Hernández</span>
               </div>
             </div>
             <div className="flex items-center justify-center gap-3 pt-8 md:justify-start">
