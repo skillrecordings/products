@@ -4,7 +4,6 @@ import {find, get, isNull, isString} from 'lodash'
 import {convertToSerializeForNextResponse} from '@skillrecordings/commerce-server'
 import {GetServerSideProps} from 'next'
 import {getPurchasedProduct} from 'team/get-purchased-product'
-import InviteTeam from 'components/team'
 import BuyMoreSeats from 'team/buy-more-seats'
 import {UserGroupIcon, TicketIcon} from '@heroicons/react/outline'
 import {useSession} from 'next-auth/react'
@@ -12,6 +11,7 @@ import {getCurrentAbility} from 'ability/ability'
 import {getToken} from 'next-auth/jwt'
 import {getSdk} from '@skillrecordings/database'
 import Card from 'team/card'
+import InviteTeam from 'team'
 
 export const getServerSideProps: GetServerSideProps = async ({req}) => {
   const token = await getToken({req})

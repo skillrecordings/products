@@ -1,5 +1,5 @@
 import React from 'react'
-import {handleSelfRedeem} from 'utils/handle-self-redeem'
+import {handleSelfRedeem} from '../path-to-purchase-react/handle-self-redeem'
 import {Button} from '@skillrecordings/react'
 import {Purchase} from '@skillrecordings/database'
 import toast from 'react-hot-toast'
