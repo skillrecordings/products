@@ -2,12 +2,39 @@ import {Ability, AbilityBuilder, AbilityClass} from '@casl/ability'
 import {Exercise} from '../lib/exercises'
 import {SanityDocument} from '@sanity/client'
 import z from 'zod'
-import {hasValidPurchase} from '@skillrecordings/ability'
+import {Purchase} from '@skillrecordings/database'
+
+function hasBulkPurchase(purchases?: Purchase[]) {
+  return purchases?.some((purchase) => Boolean(purchase.bulkCouponId))
+}
+
+// Copied from: packages/ability/src/purchase-validators.ts
+//
+// function bulkCouponHasSeats(coupon: Coupon) {
+//   return coupon && coupon.usedCount < coupon.maxUses
+// }
+//
+// function hasAvailableSeats(purchases?: any[]) {
+//   return purchases?.some(
+//     (purchase) =>
+//       Boolean(purchase.bulkCoupon) && bulkCouponHasSeats(purchase.bulkCoupon),
+//   )
+// }
+
+// function hasValidPurchase(purchases?: any[]) {
+//   return purchases?.some((purchase) => {
+//     return purchase && !Boolean(purchase.bulkCoupon)
+//   })
+// }
+
+// function hasInvoice(purchases?: any[]) {
+//   return purchases?.some((purchase) => Boolean(purchase.merchantChargeId))
+// }
 
 const adminRoles = ['ADMIN', 'SUPERADMIN']
 
 export const UserSchema = z.object({
-  role: z.string(),
+  role: z.string().optional(),
   purchases: z.array(z.any()),
   id: z.string(),
   name: z.nullable(z.string().optional()),
@@ -51,6 +78,12 @@ export function defineRulesForPurchases(
     user,
     isSolution = false,
   } = viewerAbilityInput
+
+  console.log({user})
+
+  if (hasBulkPurchase(user?.purchases)) {
+    can('view', 'Team')
+  }
 
   const exercises = section ? section.exercises : module.exercises
   const isFirstLesson =
