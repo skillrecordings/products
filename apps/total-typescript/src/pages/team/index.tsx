@@ -15,7 +15,7 @@ import InviteTeam from 'team'
 
 export const getServerSideProps: GetServerSideProps = async ({req}) => {
   const token = await getToken({req})
-  const ability = getCurrentAbility(token as any)
+  const ability = getCurrentAbility({user: token as any})
   const {getPurchaseDetails} = getSdk()
 
   if (ability.can('view', 'Team')) {
