@@ -5,11 +5,9 @@ import {track} from '../../utils/analytics'
 import Link from 'next/link'
 import cx from 'classnames'
 import config from 'config'
-import {getCurrentAbility} from 'ability/ability'
-import {useSession} from 'next-auth/react'
-import {z} from 'zod'
+import {AppAbility, getCurrentAbility} from 'ability/ability'
 import {useUser} from '@skillrecordings/react'
-import {SanityDocument} from '@sanity/client'
+import {trpc} from '../../utils/trpc'
 
 type Props = {
   className?: string
@@ -36,15 +34,15 @@ const Navigation: React.FC<React.PropsWithChildren<Props>> = ({
   )
 }
 
+const useAbilities = () => {
+  const {data: abilityRules} = trpc.useQuery(['abilities.getAbilities'])
+
+  return new AppAbility(abilityRules || [])
+}
+
 const DesktopNav = () => {
-  const {user} = useUser()
-  let canViewTeam = false
-  if (user && user.user) {
-    const ability = getCurrentAbility({
-      user: {purchases: user.purchases || [], role: user.role, ...user.user},
-    })
-    canViewTeam = ability.can('view', 'Team')
-  }
+  const ability = useAbilities()
+  const canViewTeam = ability.can('view', 'Team')
 
   return (
     <ul className="flex items-center">

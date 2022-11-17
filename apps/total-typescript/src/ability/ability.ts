@@ -14,9 +14,9 @@ const adminRoles = ['ADMIN', 'SUPERADMIN']
 export const UserSchema = z.object({
   role: z.string().optional(),
   purchases: z.array(z.any()),
-  id: z.string(),
+  id: z.string().optional(),
   name: z.nullable(z.string().optional()),
-  email: z.string(),
+  email: z.string().optional(),
 })
 
 export type User = z.infer<typeof UserSchema>
