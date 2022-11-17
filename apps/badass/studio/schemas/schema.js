@@ -8,6 +8,7 @@ import richDate from 'part:@sanity/form-builder/input/rich-date/schema'
 // We import object and document schemas
 import workshop from './documents/workshop'
 import article from './documents/article'
+import videoResource from './documents/videoResource'
 // product
 import product from './documents/product'
 import module from './documents/module'
@@ -29,6 +30,8 @@ import callout from './objects/callout'
 import divider from './objects/divider'
 import linkListItem from './objects/linkListItem'
 import schedule from './objects/schedule'
+import muxAsset from './objects/muxAsset'
+import castingwordsTranscript from './objects/castingwordsTranscript'
 
 // Then we give our schema to the builder and provide the result to Sanity
 export default createSchema({
@@ -41,6 +44,7 @@ export default createSchema({
     // in the studio.
     workshop,
     article,
+    videoResource,
     // product
     product,
     module,
@@ -62,6 +66,8 @@ export default createSchema({
     divider,
     linkListItem,
     schedule,
+    muxAsset,
+    castingwordsTranscript,
     // When added to this list, object types can be used as
     // { type: 'typename' } in other document schemas
     richDate,

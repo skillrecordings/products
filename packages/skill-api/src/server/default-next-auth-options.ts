@@ -37,14 +37,16 @@ async function getUser(userId: string) {
 
 export function defaultNextAuthOptions(options: {
   theme: Theme
+  debug?: boolean
 }): NextAuthOptions {
-  const {theme} = options
+  const {theme, debug} = options
   return {
     secret: process.env.NEXTAUTH_SECRET,
     session: {
       strategy: 'jwt',
     },
     theme,
+    debug,
     adapter: PrismaAdapter(prisma),
     jwt: {
       secret: process.env.NEXTAUTH_SECRET,

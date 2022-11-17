@@ -58,20 +58,23 @@ export function defineRulesForPurchases(
 
   const hasVideo = Boolean(lesson?.muxPlaybackId)
 
+  const isFreelyVisible = isFirstLesson && hasVideo && !isSolution
+
   if (module.moduleType === 'tutorial') {
-    if (subscriber || (!section && isFirstLesson && hasVideo && !isSolution)) {
+    if (user || subscriber || (!section && isFreelyVisible)) {
       can('view', 'Content')
     }
   }
 
-  if (isFirstLesson && hasVideo && !isSolution) {
+  if (isFreelyVisible) {
     can('view', 'Content')
   }
 
   if (module.moduleType === 'workshop') {
     // TODO remove this once we have a better way to determine if a workshop is
     //  available to the user (see below)
-    if (user && hasVideo) {
+    const userHasPurchases = Boolean(user && user.purchases.length > 0)
+    if (userHasPurchases && hasVideo) {
       can('view', 'Content')
     }
 

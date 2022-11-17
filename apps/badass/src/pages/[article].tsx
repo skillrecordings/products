@@ -32,6 +32,10 @@ const fullArticleQuery = groq`*[_type == "article" && slug.current == $slug][0]{
   subscribersOnly,
   date,
   description,
+  "video": video{
+    "muxId": muxAsset.muxPlaybackId,
+    "transcript": castingwords.transcript,
+  },
   ogImage{
     url
   },
