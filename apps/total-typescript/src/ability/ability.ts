@@ -3,33 +3,11 @@ import {Exercise} from '../lib/exercises'
 import {SanityDocument} from '@sanity/client'
 import z from 'zod'
 import {Purchase} from '@skillrecordings/database'
-
-function hasBulkPurchase(purchases?: Purchase[]) {
-  return purchases?.some((purchase) => Boolean(purchase.bulkCouponId))
-}
-
-// Copied from: packages/ability/src/purchase-validators.ts
-//
-// function bulkCouponHasSeats(coupon: Coupon) {
-//   return coupon && coupon.usedCount < coupon.maxUses
-// }
-//
-// function hasAvailableSeats(purchases?: any[]) {
-//   return purchases?.some(
-//     (purchase) =>
-//       Boolean(purchase.bulkCoupon) && bulkCouponHasSeats(purchase.bulkCoupon),
-//   )
-// }
-
-// function hasValidPurchase(purchases?: any[]) {
-//   return purchases?.some((purchase) => {
-//     return purchase && !Boolean(purchase.bulkCoupon)
-//   })
-// }
-
-// function hasInvoice(purchases?: any[]) {
-//   return purchases?.some((purchase) => Boolean(purchase.merchantChargeId))
-// }
+import {
+  hasAvailableSeats,
+  hasBulkPurchase,
+  hasInvoice,
+} from '@skillrecordings/ability'
 
 const adminRoles = ['ADMIN', 'SUPERADMIN']
 
@@ -61,7 +39,7 @@ type ViewerAbilityInput = {
   user?: User
   subscriber?: any
   lesson?: Exercise
-  module: SanityDocument
+  module?: SanityDocument
   section?: SanityDocument
   isSolution?: boolean
 }
@@ -85,7 +63,11 @@ export function defineRulesForPurchases(
     can('view', 'Team')
   }
 
-  const exercises = section ? section.exercises : module.exercises
+  if (hasAvailableSeats(user?.purchases)) {
+    can('invite', 'Team')
+  }
+
+  const exercises = section ? section.exercises : module?.exercises || []
   const isFirstLesson =
     lesson?._type === 'exercise' && lesson._id === exercises?.[0]._id
 
@@ -93,7 +75,7 @@ export function defineRulesForPurchases(
 
   const isFreelyVisible = isFirstLesson && hasVideo && !isSolution
 
-  if (module.moduleType === 'tutorial') {
+  if (module?.moduleType === 'tutorial') {
     if (user || subscriber || (!section && isFreelyVisible)) {
       can('view', 'Content')
     }
@@ -103,7 +85,7 @@ export function defineRulesForPurchases(
     can('view', 'Content')
   }
 
-  if (module.moduleType === 'workshop') {
+  if (module?.moduleType === 'workshop') {
     // TODO remove this once we have a better way to determine if a workshop is
     //  available to the user (see below)
     const userHasPurchases = Boolean(user && user.purchases.length > 0)

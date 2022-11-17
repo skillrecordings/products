@@ -424,9 +424,9 @@ export function getSdk(
       })
 
       if (coupon) {
-        return await ctx.prisma.$transaction([merchantCharge, purchase, coupon])
+        return await ctx.prisma.$transaction([purchase, merchantCharge, coupon])
       } else {
-        return await ctx.prisma.$transaction([merchantCharge, purchase])
+        return await ctx.prisma.$transaction([purchase, merchantCharge])
       }
     },
     async findOrCreateMerchantCustomer({
