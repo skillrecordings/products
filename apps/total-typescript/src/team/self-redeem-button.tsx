@@ -15,7 +15,7 @@ const SelfRedeemButton: React.FC<
   userEmail,
   bulkCouponId,
   onSuccess,
-  className = 'border border-green-500 transition text-green-600 px-4 py-2 hover:bg-green-600/5 rounded-md font-semibold',
+  className = 'border border-cyan-500 transition text-cyan-600 px-4 py-2 hover:bg-cyan-600/5 rounded-md font-semibold',
 }) => {
   const [isLoading, setIsLoading] = React.useState(false)
   return (

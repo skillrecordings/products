@@ -87,7 +87,7 @@ const BuyMoreSeats = (props: BuyMoreSeatsProps) => {
             {'$' + calculatedPrice}
           </div>
           <button
-            className="rounded-md bg-green-500 px-5 py-2 font-bold text-white"
+            className="rounded-md bg-cyan-500 px-5 py-2 font-bold text-white"
             type="submit"
             disabled={false}
           >

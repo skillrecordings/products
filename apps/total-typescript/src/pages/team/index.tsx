@@ -82,13 +82,13 @@ const TeamPage: React.FC<React.PropsWithChildren<TeamPageProps>> = ({
   return (
     <Layout
       meta={{title: 'Invite your team to Testing Accessibility'}}
-      className="bg-noise bg-green-700"
+      className="bg-noise"
     >
-      <main className="mx-auto flex w-full max-w-xl flex-grow flex-col items-center justify-center gap-3 p-5 py-16">
+      <main className="mx-auto flex w-full max-w-xl flex-grow flex-col items-center justify-center gap-3 p-5 py-16 text-gray-900">
         <Card
           title={{as: 'h1', content: 'Invite your team'}}
           icon={
-            <UserGroupIcon className="w-5 text-green-500" aria-hidden="true" />
+            <UserGroupIcon className="w-5 text-cyan-500" aria-hidden="true" />
           }
         >
           <InviteTeam
@@ -100,9 +100,7 @@ const TeamPage: React.FC<React.PropsWithChildren<TeamPageProps>> = ({
         </Card>
         <Card
           title={{content: 'Get more seats', as: 'h2'}}
-          icon={
-            <TicketIcon className="w-5 text-green-500" aria-hidden="true" />
-          }
+          icon={<TicketIcon className="w-5 text-cyan-500" aria-hidden="true" />}
         >
           <BuyMoreSeats productId={purchase.product.id} userId={userId} />
         </Card>

@@ -69,7 +69,7 @@ const InviteTeam: React.FC<React.PropsWithChildren<InviteTeamProps>> = ({
       {!redemptionsLeft && (
         <div className="mt-5 flex items-center justify-between border-t border-gray-100 pt-5">
           <Link href="/#buy">
-            <a className="flex-shrink-0 rounded-md bg-green-500 px-4 py-2 font-semibold text-white transition hover:bg-green-600">
+            <a className="flex-shrink-0 rounded-md bg-cyan-500 px-4 py-2 font-semibold text-white transition hover:bg-cyan-600">
               Buy more seats
             </a>
           </Link>
