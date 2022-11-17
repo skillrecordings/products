@@ -128,6 +128,7 @@ export const VideoProvider: React.FC<
       metadata: {
         video_title: `${title} (${lesson._type})`,
       },
+      secondaryColor: 'rgb(0 0 0 / 40%)',
     },
     autoPlay,
     setAutoPlay,

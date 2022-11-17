@@ -25,3 +25,7 @@ mux-player {
   height: auto;
   @apply relative overflow-hidden;
 }
+
+mux-player::part(vertical-layer) {
+  background-color: rgba(0, 0, 0, 0);
+}

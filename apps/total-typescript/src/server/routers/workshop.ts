@@ -7,6 +7,20 @@ import {SubscriberSchema} from '../../schemas/subscriber'
 import {getTutorial} from '../../lib/tutorials'
 import {getExercise} from '../../lib/exercises'
 import {getSection} from '../../lib/sections'
+import {NextApiRequest} from 'next'
+
+function getSubscriberFromCookie(req: NextApiRequest) {
+  const cookies = req.cookies
+  if (!cookies) return null
+  const cookie = cookies['ck_subscriber']
+  if (!cookie || cookie === 'undefined') return null
+  try {
+    return SubscriberSchema.parse(JSON.parse(cookie))
+  } catch (e) {
+    console.error(e)
+    return null
+  }
+}
 
 export const workshop = createRouter()
   .query('bySlug', {
@@ -27,7 +41,7 @@ export const workshop = createRouter()
     }),
     async resolve({ctx, input}) {
       const token = await getToken({req: ctx.req})
-      const subscriberCookie = ctx.req.cookies['ck_subscriber']
+      const convertkitSubscriber = getSubscriberFromCookie(ctx.req)
       const {
         moduleSlug,
         moduleType,
@@ -45,8 +59,8 @@ export const workshop = createRouter()
 
       const rules = defineRulesForPurchases({
         ...(token && {user: UserSchema.parse(token)}),
-        ...(subscriberCookie && {
-          subscriber: SubscriberSchema.parse(JSON.parse(subscriberCookie)),
+        ...(convertkitSubscriber && {
+          subscriber: convertkitSubscriber,
         }),
         module,
         lesson,

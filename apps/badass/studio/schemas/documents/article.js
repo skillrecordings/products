@@ -47,6 +47,11 @@ export default {
       validation: (Rule) => Rule.required(),
     },
     {
+      name: 'video',
+      title: 'Video',
+      type: 'videoResource',
+    },
+    {
       title: 'Call to Action',
       name: 'cta',
       type: 'object',

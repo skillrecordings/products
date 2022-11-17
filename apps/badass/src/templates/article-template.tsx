@@ -20,6 +20,7 @@ import {
   SmallCallToActionForm,
 } from '../components/call-to-action-form'
 import {genericCallToActionContent} from '../components/landing-content'
+import MuxVideo from '@mux/mux-player-react'
 
 type ArticleTemplateProps = {
   article: SanityDocument
@@ -29,11 +30,13 @@ type ArticleTemplateProps = {
 const ArticleTemplate: React.FC<
   React.PropsWithChildren<ArticleTemplateProps>
 > = ({article, hasSubscribed}) => {
-  const {title, description, body, subscribersOnly, date, cta, ogImage} =
+  const {title, description, body, subscribersOnly, date, cta, ogImage, video} =
     article
   const shortDescription =
     description || toPlainText(body).substring(0, 157) + '...'
   const router = useRouter()
+
+  console.log({video})
 
   return (
     <Layout
@@ -57,6 +60,15 @@ const ArticleTemplate: React.FC<
         <div className="max-w-screen-md mx-auto w-full">
           <div className="md:pt-16 pt-10 lg:px-0 px-5 pb-16">
             <article className="prose lg:prose-xl sm:prose-lg md:prose-code:text-sm max-w-none prose-p:text-neutral-200 prose-code:bg-white/20 prose-code:px-1 prose-code:py-0.5 prose-code:rounded lg:prose-code:text-[78%] sm:prose-code:text-[80%]">
+              {video ? (
+                <>
+                  <MuxVideo playbackId={video.muxId} streamType="on-demand" />
+                  <PortableText
+                    value={video.transcript}
+                    components={PortableTextComponents}
+                  />
+                </>
+              ) : null}
               <PortableText value={body} components={PortableTextComponents} />
               {!hasSubscribed && subscribersOnly && (
                 <div className="absolute bottom-0 left-0 w-full bg-gradient-to-t from-white to-transparent h-80 z-10" />

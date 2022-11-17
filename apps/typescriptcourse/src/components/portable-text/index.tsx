@@ -50,7 +50,7 @@ const PortableTextComponents: PortableTextComponentsProps = {
     },
     code: ({children}) => {
       return (
-        <span className="bg-black/50 py-1 px-1 rounded-sm font-mono text-sm text-[#abb2bf]">
+        <span className="bg-black/50 py-1 px-1.5 rounded-sm font-mono text-sm">
           {children}
         </span>
       )
@@ -110,8 +110,8 @@ const PortableTextComponents: PortableTextComponentsProps = {
             src={image}
             alt=""
             aria-hidden="true"
-            width={300 / 1.2}
-            height={30 / 1.2}
+            width={300 / 5}
+            height={30 / 5}
           />
         </div>
       ) : (

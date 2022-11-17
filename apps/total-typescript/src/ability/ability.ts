@@ -58,13 +58,15 @@ export function defineRulesForPurchases(
 
   const hasVideo = Boolean(lesson?.muxPlaybackId)
 
+  const isFreelyVisible = isFirstLesson && hasVideo && !isSolution
+
   if (module.moduleType === 'tutorial') {
-    if (subscriber || (!section && isFirstLesson && hasVideo && !isSolution)) {
+    if (user || subscriber || (!section && isFreelyVisible)) {
       can('view', 'Content')
     }
   }
 
-  if (isFirstLesson && hasVideo && !isSolution) {
+  if (isFreelyVisible) {
     can('view', 'Content')
   }
 
