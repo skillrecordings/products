@@ -15,6 +15,7 @@ import superjson from 'superjson'
 import {httpBatchLink} from '@trpc/client/links/httpBatchLink'
 import {loggerLink} from '@trpc/client/links/loggerLink'
 import {AppRouter} from 'server/routers/_app'
+import Script from 'next/script'
 
 const queryClient = new QueryClient()
 
@@ -31,6 +32,23 @@ function MyApp({Component, pageProps}: AppProps<{session: Session}>) {
           </ConvertkitProvider>
         </QueryClientProvider>
       </SessionProvider>
+      {process.env.NODE_ENV !== 'development' && (
+        <>
+          <Script
+            async
+            src={`https://www.googletagmanager.com/gtag/js?id=${process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS}`}
+          ></Script>
+          <Script id="google-inline">
+            {`
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+
+          gtag('config', '${process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS}');
+        `}
+          </Script>
+        </>
+      )}
     </>
   )
 }
