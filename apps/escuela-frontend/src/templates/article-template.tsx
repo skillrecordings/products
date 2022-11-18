@@ -1,6 +1,6 @@
 import React from 'react'
 import PortableTextComponents from 'components/portable-text'
-import Layout from 'components/app/layout'
+import Layout from 'components/layout'
 import {LinkedIn, Twitter} from '@skillrecordings/react'
 import {NextRouter, useRouter} from 'next/router'
 import Image from 'next/image'
@@ -13,7 +13,7 @@ import {getOgImage} from 'utils/get-og-image'
 import {isEmpty} from 'lodash'
 import SubscribeForm from 'components/subscribe-form'
 import TableOfContents from 'components/portable-text/table-of-contents'
-import Navigation from 'components/app/navigation'
+import Navigation from 'components/navigation'
 
 type ArticleTemplateProps = {
   article: SanityDocument
@@ -31,7 +31,6 @@ const ArticleTemplate: React.FC<ArticleTemplateProps> = ({article}) => {
   return (
     <Layout
       className="overflow-hidden"
-      nav={<Navigation className="relative flex lg:relative" />}
       meta={{
         title,
         description: shortDescription,
@@ -50,7 +49,7 @@ const ArticleTemplate: React.FC<ArticleTemplateProps> = ({article}) => {
           <TableOfContents value={body} />
         </div>
         <div className="mx-auto w-full max-w-screen-md px-5 pb-10 sm:pt-10 sm:pb-24 lg:px-0">
-          <article className="prose prose-lg max-w-none break-words pt-8 prose-headings:font-bold prose-h2:py-8 prose-a:decoration-brand prose-a:transition hover:prose-a:decoration-brand/90 prose-code:text-[70%] md:prose-xl md:prose-code:text-sm md:prose-code:text-[80%] lg:prose-h2:text-5xl lg:prose-h3:text-4xl lg:prose-code:text-[80%]">
+          <article className="prose prose-lg max-w-none break-words pt-8 prose-headings:font-bold prose-h2:py-8 prose-a:decoration-brand prose-a:transition prose-code:text-[70%] hover:prose-a:decoration-brand/90 md:prose-xl md:prose-code:text-sm md:prose-code:text-[80%] lg:prose-h2:text-5xl lg:prose-h3:text-4xl lg:prose-code:text-[80%]">
             <PortableText value={body} components={PortableTextComponents} />
           </article>
           <Signature />
@@ -70,7 +69,7 @@ const Share: React.FC<React.PropsWithChildren<{title: string}>> = ({title}) => {
   const router = useRouter()
   const url = process.env.NEXT_PUBLIC_URL + router.asPath
   const className =
-    'p-3 hover:bg-white hover:bg-opacity-10 transition rounded-full focus-visible:ring-white'
+    'p-3 hover:bg-gray-500 hover:bg-opacity-10 transition rounded-full focus-visible:ring-white'
   const message = `${title} publicado en @escuelafrontend`
 
   return (

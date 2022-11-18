@@ -19,7 +19,7 @@ module.exports = {
         sicret: ['Sicret Mono', ...defaultTheme.fontFamily.mono],
       },
       colors: {
-        brand: colors.orange[400],
+        brand: colors.red[500],
         gray: {
           0: '#ffffff',
           100: '#dadadb',
@@ -53,5 +53,5 @@ module.exports = {
       }),
     },
   },
-  plugins: [require('@tailwindcss/typography')],
+  plugins: [require('@tailwindcss/typography'), require('tailwind-scrollbar')],
 }

@@ -78,7 +78,7 @@
       @apply font-medium;
     }
     textarea {
-      @apply w-full rounded-lg border border-gray-200 p-3;
+      @apply w-full rounded-lg border border-gray-700 p-3;
     }
   }
 

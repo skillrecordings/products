@@ -1,0 +1,88 @@
+#primary-newsletter-cta {
+  [data-sr-convertkit-subscribe-form] {
+    @apply mx-auto flex w-full max-w-[400px] flex-col gap-6;
+    [data-sr-input] {
+      @apply block w-full rounded-lg bg-white px-5 py-4 text-black focus:outline-white;
+    }
+    [data-sr-input-label] {
+      @apply inline-block pb-1 font-medium;
+    }
+    [data-sr-input-asterisk] {
+      @apply opacity-50;
+    }
+    [data-sr-button] {
+      @apply font-heading mt-2 flex w-full items-center justify-center overflow-clip rounded-full bg-black p-5 text-lg font-black tracking-wide text-white shadow-xl transition focus:outline-white hover:bg-gray-900 sm:text-xl;
+
+      svg {
+        @apply h-6 w-6;
+      }
+    }
+  }
+}
+
+#video-overlay {
+  [data-sr-convertkit-subscribe-form] {
+    @apply flex w-full max-w-sm flex-col gap-4 text-left;
+    [data-sr-input] {
+      @apply w-full rounded-md border border-gray-400/20 bg-gray-300/80 px-3 py-3 placeholder:text-gray-500;
+    }
+    [data-sr-input-label] {
+      @apply inline-block w-full pb-1 text-gray-800;
+    }
+    [data-sr-button] {
+      @apply relative mt-2 flex items-center justify-center rounded-full bg-brand py-4 px-5 font-semibold text-white shadow-2xl shadow-gray-500/10 transition hover:brightness-110;
+      svg {
+        @apply h-7 w-7;
+      }
+    }
+    [data-sr-button][disabled] {
+    }
+  }
+  [data-sr-convertkit-subscribe-form='success'] {
+    p {
+      @apply py-2 text-center;
+    }
+  }
+  [data-sr-convertkit-subscribe-form='error'] {
+    p {
+      @apply py-2 text-center;
+    }
+  }
+}
+
+#tip {
+  [data-sr-convertkit-subscribe-form] {
+    @apply flex w-full flex-col gap-2 text-left md:flex-row;
+    [data-sr-input-wrapper] {
+      @apply w-full;
+    }
+    [data-sr-input-wrapper]:first-of-type {
+      @apply md:w-2/3;
+    }
+    [data-sr-input] {
+      @apply w-full rounded-md bg-gray-200/60 px-3 py-2 shadow-inner placeholder:text-gray-500;
+    }
+
+    [data-sr-input-label] {
+      @apply sr-only;
+    }
+    [data-sr-button] {
+      @apply relative flex flex-shrink-0 items-center justify-center rounded-full bg-brand py-2 px-5 font-semibold text-white shadow-2xl shadow-cyan-900/50 transition focus-visible:ring-white hover:brightness-110;
+      svg {
+        @apply h-7 w-7;
+      }
+    }
+    [data-sr-button][disabled] {
+    }
+  }
+  [data-sr-convertkit-subscribe-form='success'] {
+    p {
+      @apply py-2 text-center;
+    }
+  }
+  [data-sr-convertkit-subscribe-form='error'] {
+    p {
+      @apply py-2 text-center;
+    }
+  }
+}

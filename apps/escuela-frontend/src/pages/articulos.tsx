@@ -1,12 +1,12 @@
 import * as React from 'react'
 import {isEmpty} from 'lodash'
-import Layout from 'components/app/layout'
+import Layout from 'components/layout'
 import Link from 'next/link'
 import Markdown from 'react-markdown'
 import {GetServerSideProps} from 'next'
 import {SanityDocument} from '@sanity/client'
 import {getAllArticles} from '../lib/articles'
-import Navigation from 'components/app/navigation'
+import Navigation from 'components/navigation'
 
 const meta = {
   title: 'Artículos',
@@ -18,11 +18,7 @@ type ArticlesProps = {
 
 const Articles: React.FC<ArticlesProps> = ({articles}) => {
   return (
-    <Layout
-      meta={meta}
-      className="overflow-hidden"
-      nav={<Navigation className="relative flex lg:relative" />}
-    >
+    <Layout meta={meta} className="overflow-hidden">
       <header className="relative overflow-hidden px-5 pt-20 pb-10 text-white md:pt-24 md:pb-16 lg:py-28">
         <h1 className="mt-12 mb-4 bg-gradient-to-b from-white to-gray-200 bg-clip-text text-center text-4xl font-extrabold leading-tight text-transparent sm:text-4xl md:text-5xl lg:text-6xl">
           {meta.title}

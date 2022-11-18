@@ -54,3 +54,19 @@
     transform: translateY(0px);
   }
 }
+
+::selection {
+  @apply bg-brand;
+  @apply text-gray-50;
+}
+
+mux-player {
+  aspect-ratio: 16 / 9;
+  width: 100%;
+  height: auto;
+  @apply relative overflow-hidden;
+}
+
+mux-player::part(vertical-layer) {
+  background-color: rgba(0, 0, 0, 0);
+}
