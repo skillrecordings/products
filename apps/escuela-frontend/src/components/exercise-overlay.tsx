@@ -54,7 +54,7 @@ export const OverlayWrapper: React.FC<
           className,
         )}
       >
-        {children}
+        <>{children}</>
       </div>
     </div>
   )
