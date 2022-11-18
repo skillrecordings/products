@@ -18,12 +18,11 @@ import {useQuery} from 'react-query'
 import {trpc} from '../../utils/trcp'
 import Spinner from './spinner'
 import {Lesson} from 'lib/lesson'
-// import dynamic from 'next/dynamic'
 
 export const OverlayWrapper: React.FC<
   React.PropsWithChildren<{className?: string; dismissable?: boolean}>
 > = ({children, className, dismissable = true}) => {
-  const {setDisplayOverlay, lesson, module} = useMuxPlayer()
+  const {setDisplayOverlay} = useMuxPlayer()
 
   return (
     <div
@@ -55,6 +54,7 @@ export const OverlayWrapper: React.FC<
 
 const DefaultOverlay = () => {
   const {nextExercise, module, path, lesson, handlePlay} = useMuxPlayer()
+  console.log(lesson.slug)
   const router = useRouter()
   const {image} = module
   const addProgressMutation = trpc.useMutation(['progress.add'])
@@ -161,10 +161,10 @@ const FinishedOverlay = () => {
           onClick={() => {
             router
               .push({
-                pathname: `/${path}/[module]/[exercise]`,
+                pathname: `/${path}/[module]/[lesson]`,
                 query: {
                   module: module.slug.current,
-                  exercise: module.exercises[0].slug.current,
+                  lesson: module.lessons[0].slug.current,
                 },
               })
               .then(handlePlay)
@@ -291,23 +291,23 @@ const handleContinue = async (
   path: string,
 ) => {
   if (nextExercise._type === 'solution') {
-    const exercise = module.exercises.find((exercise: SanityDocument) => {
-      const solution = exercise.solution
+    const lesson = module.lessons.find((lesson: SanityDocument) => {
+      const solution = lesson.solution
       return solution?._key === nextExercise._key
     })
 
     return await router
       .push({
-        query: {module: module.slug.current, exercise: exercise.slug},
-        pathname: `${path}/[module]/[exercise]/solution`,
+        query: {module: module.slug.current, lesson: lesson.slug},
+        pathname: `${path}/[module]/[lesson]/solution`,
       })
       .then(() => handlePlay())
   }
 
   return await router
     .push({
-      query: {module: module.slug.current, exercise: nextExercise.slug},
-      pathname: `${path}/[module]/[exercise]`,
+      query: {module: module.slug.current, lesson: nextExercise.slug},
+      pathname: `${path}/[module]/[lesson]`,
     })
     .then(() => handlePlay())
 }

@@ -16,7 +16,6 @@ import {useMuxPlayer, VideoProvider} from 'hooks/use-mux-player'
 import {SanityDocument} from '@sanity/client'
 // import {IconGithub} from 'components/icons'
 import {
-  ExerciseOverlay,
   DefaultOverlay,
   FinishedOverlay,
   BlockedOverlay,
@@ -147,7 +146,7 @@ const Video: React.FC<VideoProps> = React.forwardRef(
             {nextExercise ? (
               <>
                 {isExercise && exercise ? (
-                  <ExerciseOverlay tutorialFiles={tutorialFiles} />
+                  <DefaultOverlay />
                 ) : (
                   <DefaultOverlay />
                 )}

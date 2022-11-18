@@ -16,22 +16,6 @@ const TutorialTemplate: React.FC<{
 }> = ({tutorial}) => {
   const {title, body, ogImage, image, description} = tutorial
   const pageTitle = `${title} Tutorial`
-  console.log(tutorial)
-
-  // TODO: Fix behaving poorly showing the wrong title
-  // const {subscriber} = useConvertkit()
-  //
-  // const subscriberName =
-  //   subscriber &&
-  //   `${subscriber.first_name} ${subscriber?.fields?.last_name ?? ''}`
-  //
-  // const certificateUrl = useLearnerCertificateAsOgImage(
-  //   pageTitle,
-  //   image,
-  //   subscriberName,
-  // )
-  //
-  // const pageOgImageUrl = certificateUrl ?? ogImage ?? undefined
 
   return (
     <Layout
