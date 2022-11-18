@@ -1,18 +1,43 @@
 import * as React from 'react'
 import {capitalize} from 'lodash'
-import {MdExplore} from 'react-icons/md'
+import {MdRadio} from 'react-icons/md'
 
 export default {
   name: 'module',
   title: 'Module',
   type: 'document',
-  icon: MdExplore,
+  icon: MdRadio,
   fields: [
     {
       name: 'title',
       title: 'Title',
       type: 'string',
       validation: (Rule) => Rule.required(),
+    },
+    {
+      name: 'moduleType',
+      title: 'Module Type',
+      type: 'string',
+      validation: (Rule) => Rule.required(),
+      options: {
+        list: [
+          {title: 'Workshop', value: 'workshop'},
+          {title: 'Tutorial', value: 'tutorial'},
+        ],
+      },
+    },
+    {
+      name: 'state',
+      title: 'Current State',
+      type: 'string',
+      validation: (Rule) => Rule.required(),
+      initialValue: 'draft',
+      options: {
+        list: [
+          {title: 'draft', value: 'draft'},
+          {title: 'published', value: 'published'},
+        ],
+      },
     },
     {
       name: 'slug',
@@ -25,21 +50,42 @@ export default {
       },
     },
     {
-      name: 'resources',
-      title: 'Resources',
-      description: 'These are sections or lessons for a module.',
-      type: 'array',
-      of: [{type: 'reference', to: [{type: 'resource'}]}],
-    },
-    {
       name: 'github',
       title: 'GitHub',
       type: 'github',
     },
     {
+      name: 'resources',
+      title: 'Resources',
+      description: 'Exercises, Sections and Explainers in the Module',
+      type: 'array',
+      of: [
+        {
+          title: 'Exercise, Section, or Explainer',
+          type: 'reference',
+          to: [
+            {title: 'Exercise', type: 'exercise'},
+            {title: 'Section', type: 'section'},
+            {title: 'Explainer', type: 'explainer'},
+          ],
+        },
+      ],
+    },
+    {
       name: 'body',
       title: 'Body',
       type: 'body',
+    },
+    {
+      name: 'concepts',
+      title: 'Concepts',
+      type: 'array',
+      of: [
+        {
+          type: 'reference',
+          to: [{type: 'skosConcept'}],
+        },
+      ],
     },
     {
       name: 'image',

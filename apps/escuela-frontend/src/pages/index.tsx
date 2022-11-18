@@ -1,11 +1,11 @@
-import Layout from 'components/app/layout'
+import Layout from 'components/layout'
 import type {NextPage} from 'next'
 import LandingCopy from 'components/landing-copy.mdx'
 import SubscribeForm from 'components/subscribe-form'
 import Image from 'next/image'
 import React from 'react'
 import cx from 'classnames'
-import Navigation from 'components/app/navigation'
+import Navigation from 'components/navigation'
 
 type HeaderProps = {
   image: any
@@ -15,7 +15,7 @@ const Home: NextPage = () => {
   const image = '/header_@2x.png'
 
   return (
-    <Layout nav={<Navigation className="relative flex lg:relative" />}>
+    <Layout>
       <Header image={image} />
       <section className="relative py-10 sm:py-16 lg:py-24">
         <div className="prose-headings:font-text prose-base w-full opacity-90 marker:text-brand prose-headings:mx-auto prose-headings:max-w-2xl prose-headings:px-10 prose-headings:font-bold prose-h2:!my-20 prose-h2:text-center prose-h2:prose-h2:text-2xl prose-h2:text-white prose-p:mx-auto prose-p:max-w-2xl prose-p:px-5 prose-p:font-light prose-strong:font-extrabold prose-pre:mx-auto prose-pre:max-w-2xl prose-pre:overflow-auto prose-ul:mx-auto prose-ul:max-w-2xl prose-ul:list-disc sm:prose-lg prose-h2:sm:text-3xl md:prose-xl prose-h2:md:text-3xl prose-h2:lg:text-4xl ">

@@ -1,4 +1,4 @@
-import Layout from 'components/app/layout'
+import Layout from 'components/layout'
 import {getOgImage} from 'utils/get-og-image'
 import SubscribeForm from 'components/subscribe-form'
 
