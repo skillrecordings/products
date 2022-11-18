@@ -116,7 +116,7 @@ const ExerciseOverlay: React.FC<{tutorialFiles: any}> = ({tutorialFiles}) => {
           <div>Now it's your turn! Try solving this exercise.</div>
           <Actions />
         </div>
-        <div className="relative w-full">lol</div>
+        <div className="relative w-full">TOOD: add stackblitz editor</div>
       </>
     </div>
   )

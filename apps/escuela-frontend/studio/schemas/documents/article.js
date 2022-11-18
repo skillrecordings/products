@@ -65,7 +65,7 @@ export default {
     //       options: {
     //         list: [
     //           {
-    //             title: 'Initial Landing Page: Pro Tailwind (3179174)',
+    //             title: 'Initial Landing Page: Escuela Frontend (3179174)',
     //             value: '3179174',
     //           },
     //         ],
@@ -76,7 +76,7 @@ export default {
     //       title: 'Action Label',
     //       name: 'actionLabel',
     //       type: 'string',
-    //       initialValue: 'Learn Tailwind',
+    //       initialValue: 'Learn Escuela Frontend',
     //     },
     //   ],
     // },

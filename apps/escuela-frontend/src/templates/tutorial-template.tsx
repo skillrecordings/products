@@ -75,17 +75,7 @@ const Header: React.FC<{tutorial: SanityDocument}> = ({tutorial}) => {
           </h1>
           <div className="pt-8 text-lg">
             <div className="flex items-center justify-center gap-3 md:justify-start">
-              <div className="flex items-center gap-3">
-                <div className="flex items-center justify-center overflow-hidden rounded-full">
-                  <Image
-                    src={require('../../public/assets/simon-vrachliotis.png')}
-                    alt="Simon Vrachliotis"
-                    width={48}
-                    height={48}
-                  />
-                </div>
-                <span>Simon Vrachliotis</span>
-              </div>
+              <div className="flex items-center gap-3">TODO</div>
             </div>
             <div className="flex items-center gap-3 pt-8">
               {exercises?.[0] && (

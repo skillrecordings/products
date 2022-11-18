@@ -95,7 +95,7 @@ const NavLink: React.FC<NavLinkProps> = ({
 const NavLogo = () => {
   const router = useRouter()
   return (
-    <Link href="/" aria-label="Pro Tailwind Home" passHref>
+    <Link href="/" aria-label="Escuela Frontend Home" passHref>
       <a
         tabIndex={router.pathname === '/' ? -1 : 0}
         className="font-heading text-xl font-black sm:text-2xl"

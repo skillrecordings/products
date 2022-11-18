@@ -21,24 +21,24 @@ type TipsIndex = {
 }
 
 const pageDescription =
-  'A collection of useful tips that you wish you knew when you started using Tailwind.'
+  'A collection of useful tips that you wish you knew when you started using Escuela Frontend.'
 
 const TipsIndex: React.FC<TipsIndex> = ({tips}) => {
   return (
     <Layout
       meta={{
-        title: `Tailwind Tips by ${process.env.NEXT_PUBLIC_PARTNER_FIRST_NAME} ${process.env.NEXT_PUBLIC_PARTNER_LAST_NAME}`,
+        title: `Escuela Frontend Tips by ${process.env.NEXT_PUBLIC_PARTNER_FIRST_NAME} ${process.env.NEXT_PUBLIC_PARTNER_LAST_NAME}`,
         description: pageDescription,
         ogImage: {
           url: 'https://res.cloudinary.com/pro-tailwind/image/upload/v1667503658/tips/card_2x_ld2v6w.png',
-          alt: 'Tailwind Tips by Simon Vrachliotis',
+          alt: 'Escuela Frontend Tips by Escuela Frontend',
         },
       }}
       className="sm:pt-18 flex flex-col items-center pb-16 pt-16 lg:pt-20 lg:pb-24"
     >
       <header className="relative z-10 flex flex-col items-center px-5 pb-16 text-center">
         <h1 className="font-heading text-center text-4xl font-black sm:text-5xl lg:text-6xl">
-          Tailwind Tips
+          Escuela Frontend Tips
         </h1>
         <p className="max-w-md pt-8 text-center text-lg text-gray-600 lg:text-xl">
           {pageDescription}
