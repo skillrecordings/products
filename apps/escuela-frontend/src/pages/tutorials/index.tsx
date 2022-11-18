@@ -21,8 +21,8 @@ const TutorialsPage: React.FC<{tutorials: SanityDocument[]}> = ({
     <Layout
       meta={
         {
-          title: `Free Tailwind Tutorials from Simon Vrachliotis`,
-          description: `Free Tailwind tutorials by Simon Vrachliotis that will help you learn how to use Tailwind as a professional web developer through exercise driven examples.`,
+          title: `Free Escuela Frontend Tutorials from Escuela Frontend`,
+          description: `Free Escuela Frontend tutorials by Escuela Frontend that will help you learn how to use Escuela Frontend as a professional web developer through exercise driven examples.`,
           ogImage: {
             url: 'https://res.cloudinary.com/pro-tailwind/image/upload/v1668155873/tutorials/card_2x.png',
           },
@@ -31,11 +31,11 @@ const TutorialsPage: React.FC<{tutorials: SanityDocument[]}> = ({
     >
       <main className="relative z-10 flex flex-col items-center justify-center py-20">
         <h1 className="font-heading text-center text-4xl font-black sm:text-5xl lg:text-6xl">
-          Free Tailwind Tutorials
+          Free Escuela Frontend Tutorials
         </h1>
         <p className="max-w-sm pt-8 text-center text-lg text-brand">
-          A collection of free, exercise-driven, in-depth Tailwind tutorials for
-          you to use on your journey to Tailwind wizardry.
+          A collection of free, exercise-driven, in-depth Escuela Frontend
+          tutorials for you to use on your journey to Escuela Frontend wizardry.
         </p>
         {tutorials && (
           <ul className="flex max-w-screen-md flex-col gap-8 px-3 pt-20">

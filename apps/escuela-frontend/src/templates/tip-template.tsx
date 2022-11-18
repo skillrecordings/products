@@ -102,7 +102,7 @@ const TipTemplate: React.FC<TipPageProps> = ({tip, tips}) => {
         ]}
         datePublished={tip._updatedAt || new Date().toISOString()}
         authorName={`${process.env.NEXT_PUBLIC_PARTNER_FIRST_NAME} ${process.env.NEXT_PUBLIC_PARTNER_LAST_NAME}`}
-        description={tip.description || 'Tailwind Tip'}
+        description={tip.description || 'Escuela Frontend Tip'}
       />
       <Layout
         meta={{
@@ -428,10 +428,10 @@ const SubscribeForm = ({
         >
           <MailIcon className="h-5 w-5 text-brand" />
         </div>{' '}
-        New Tailwind tips delivered to your inbox
+        New Escuela Frontend tips delivered to your inbox
       </div>
       <SubscribeToConvertkitForm
-        actionLabel="Subscribe for Tailwind tips"
+        actionLabel="Subscribe for Escuela Frontend tips"
         onSuccess={(subscriber, email) => {
           return handleOnSuccess(subscriber, email)
         }}

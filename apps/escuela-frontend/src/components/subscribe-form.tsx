@@ -17,7 +17,7 @@ const NewsletterSubscribeForm = () => {
       <div className="relative flex w-full flex-col items-center justify-center">
         <div className="max-w-3xl pb-16 text-center">
           <h2 className="font-heading text-4xl font-black leading-tight sm:text-5xl sm:leading-tight">
-            Power-up your team workflow with Tailwind CSS
+            Power-up your team workflow with Escuela Frontend
           </h2>
           <p className="pt-6 text-xl text-blue-100">
             Sign up for exclusive early-release lessons!
@@ -47,33 +47,12 @@ const SubmitButton: React.FC<any> = (props) => {
   const {isLoading} = props
   return (
     <div className="group relative flex w-full flex-col items-center">
-      <div className="pointer-events-none z-20 flex w-24 translate-y-5 items-center justify-center">
-        <Image
-          src={require('../../public/assets/corgi-head.svg')}
-          aria-hidden="true"
-          alt=""
-          loading="eager"
-        />
-      </div>
+      <div className="pointer-events-none z-20 flex w-24 translate-y-5 items-center justify-center"></div>
       <button data-sr-button="" className="z-10">
         {isLoading ? <Loader /> : 'Sign Up Today'}
       </button>
-      <div className="pointer-events-none z-20 hidden w-20 -translate-y-3 items-center justify-center group-hover:flex">
-        <Image
-          src={require('../../public/assets/corgi-legs-up-1.svg')}
-          aria-hidden="true"
-          alt=""
-          loading="eager"
-        />
-      </div>
-      <div className="pointer-events-none z-0 flex w-20 -translate-y-3 items-center justify-center group-hover:hidden">
-        <Image
-          src={require('../../public/assets/corgi-legs-down-1.svg')}
-          aria-hidden="true"
-          alt=""
-          loading="eager"
-        />
-      </div>
+      <div className="pointer-events-none z-20 hidden w-20 -translate-y-3 items-center justify-center group-hover:flex"></div>
+      <div className="pointer-events-none z-0 flex w-20 -translate-y-3 items-center justify-center group-hover:hidden"></div>
     </div>
   )
 }
