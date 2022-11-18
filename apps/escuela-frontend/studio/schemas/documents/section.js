@@ -1,17 +1,12 @@
-import {MdAutoFixHigh} from 'react-icons/md'
+import {MdOutlineGroupWork} from 'react-icons/md'
 
 export default {
-  name: 'solution',
-  type: 'object',
-  title: 'Solution to Exercise',
-  icon: MdAutoFixHigh,
+  name: 'section',
+  type: 'document',
+  title: 'Workshop Section',
+  description: 'A named group of resources within a module.',
+  icon: MdOutlineGroupWork,
   fields: [
-    {
-      name: 'label',
-      title: 'Label',
-      type: 'string',
-      hidden: true,
-    },
     {
       name: 'title',
       title: 'Title',
@@ -32,14 +27,12 @@ export default {
       name: 'resources',
       title: 'Resources',
       type: 'array',
+      description: 'Exercises in the Section',
       of: [
         {
-          title: 'Video Resource',
           type: 'reference',
-          to: [{type: 'videoResource'}],
+          to: [{type: 'exercise'}],
         },
-        {type: 'muxVideo'},
-        {type: 'stackblitz'},
       ],
     },
     {
@@ -48,8 +41,19 @@ export default {
       type: 'body',
     },
     {
+      name: 'concepts',
+      title: 'Concepts',
+      type: 'array',
+      of: [
+        {
+          type: 'reference',
+          to: [{type: 'skosConcept'}],
+        },
+      ],
+    },
+    {
       name: 'description',
-      title: 'Summary',
+      title: 'Short Description',
       description: 'Used as a short "SEO" summary on Twitter cards etc.',
       type: 'text',
       validation: (Rule) => Rule.max(160),

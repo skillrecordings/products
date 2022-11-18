@@ -1,23 +1,18 @@
-import {MdAutoFixHigh} from 'react-icons/md'
+import {MdOutlineLightbulb} from 'react-icons/md'
 
 export default {
-  name: 'solution',
-  type: 'object',
-  title: 'Solution to Exercise',
-  icon: MdAutoFixHigh,
+  name: 'tip',
+  type: 'document',
+  title: 'Tip',
+  icon: MdOutlineLightbulb,
   fields: [
-    {
-      name: 'label',
-      title: 'Label',
-      type: 'string',
-      hidden: true,
-    },
     {
       name: 'title',
       title: 'Title',
       type: 'string',
-      validation: (Rule) => Rule.max(90),
+      validation: (Rule) => Rule.required(),
     },
+
     {
       name: 'slug',
       title: 'Slug',
@@ -32,15 +27,7 @@ export default {
       name: 'resources',
       title: 'Resources',
       type: 'array',
-      of: [
-        {
-          title: 'Video Resource',
-          type: 'reference',
-          to: [{type: 'videoResource'}],
-        },
-        {type: 'muxVideo'},
-        {type: 'stackblitz'},
-      ],
+      of: [{type: 'reference', to: [{type: 'videoResource'}]}, {type: 'tweet'}],
     },
     {
       name: 'body',
@@ -48,8 +35,24 @@ export default {
       type: 'body',
     },
     {
-      name: 'description',
+      name: 'summary',
       title: 'Summary',
+      type: 'body',
+    },
+    {
+      name: 'concepts',
+      title: 'Concepts',
+      type: 'array',
+      of: [
+        {
+          type: 'reference',
+          to: [{type: 'skosConcept'}],
+        },
+      ],
+    },
+    {
+      name: 'description',
+      title: 'Short Description',
       description: 'Used as a short "SEO" summary on Twitter cards etc.',
       type: 'text',
       validation: (Rule) => Rule.max(160),

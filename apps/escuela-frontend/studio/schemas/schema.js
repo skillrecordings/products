@@ -5,26 +5,35 @@ import createSchema from 'part:@sanity/base/schema-creator'
 import schemaTypes from 'all:part:@sanity/base/schema-type'
 // documents
 import article from './documents/article'
-import module from './documents/module'
-import resource from './documents/resource'
 import collaborator from './documents/collaborator'
-
-// objects
+import cta from './documents/cta'
+import exercise from './documents/exercise'
+import section from './documents/section'
+import module from './documents/module'
+import videoResource from './documents/videoResource'
+import tip from './documents/tip'
+import testimonial from './documents/testimonial'
+// —— objects
+// body
+import body from './objects/body'
 import bodyVideo from './objects/bodyVideo'
 import bodyImage from './objects/bodyImage'
-import body from './objects/body'
 import callout from './objects/callout'
 import divider from './objects/divider'
 import externalImage from './objects/externalImage'
 import mediaCaption from './objects/mediaCaption'
+import muxVideo from './objects/resources/muxVideo'
 import videoOptions from './objects/videoOptions'
+import grid from './objects/grid'
+import gridItem from './objects/gridItem'
+import stackblitz from './objects/stackblitz'
+import solution from './objects/resources/solution'
+
 import github from './objects/github'
 import muxAsset from './objects/muxAsset'
-import stackblitz from './objects/stackblitz'
-import muxVideo from './objects/muxVideo'
-import exercise from './objects/resources/exercise'
-import solution from './objects/resources/solution'
-import talk from './objects/resources/talk'
+import castingwordsTranscript from './objects/castingwordsTranscript'
+import tweet from './objects/tweet'
+import bodyTestimonial from './objects/bodyTestimonial'
 
 // Then we give our schema to the builder and provide the result to Sanity
 export default createSchema({
@@ -38,9 +47,14 @@ export default createSchema({
 
     // documents
     article,
+    cta,
     module,
-    resource,
-    //objects
+    exercise,
+    videoResource,
+    tip,
+    testimonial,
+    section,
+    // objects
     body,
     bodyVideo,
     bodyImage,
@@ -48,14 +62,17 @@ export default createSchema({
     divider,
     externalImage,
     mediaCaption,
-    videoOptions,
-    github,
-    muxAsset,
     muxVideo,
+    videoOptions,
+    grid,
+    gridItem,
     stackblitz,
+    github,
     solution,
-    exercise,
-    talk,
+    muxAsset,
+    castingwordsTranscript,
+    tweet,
+    bodyTestimonial,
     collaborator,
     // When added to this list, object types can be used as
     // { type: 'typename' } in other document schemas
