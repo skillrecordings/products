@@ -30,6 +30,8 @@ import mediaCaption from './objects/mediaCaption'
 import twitter from './objects/twitter'
 import muxVideo from './objects/resources/muxVideo'
 import github from './objects/github'
+import castingwordsTranscript from './objects/castingwordsTranscript'
+import muxAsset from './objects/muxAsset'
 
 // Then we give our schema to the builder and provide the result to Sanity
 export default createSchema({
@@ -61,5 +63,7 @@ export default createSchema({
     twitter,
     muxVideo,
     github,
+    muxAsset,
+    castingwordsTranscript,
   ]),
 })

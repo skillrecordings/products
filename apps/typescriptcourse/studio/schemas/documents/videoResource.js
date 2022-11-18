@@ -26,15 +26,15 @@ export default {
         maxLength: 96,
       },
     },
-    // {
-    //   name: 'muxAsset',
-    //   title: 'Mux Asset',
-    //   type: 'muxAsset',
-    // },
-    // {
-    //   name: 'castingwords',
-    //   title: 'Castingwords',
-    //   type: 'castingwordsTranscript',
-    // },
+    {
+      name: 'muxAsset',
+      title: 'Mux Asset',
+      type: 'muxAsset',
+    },
+    {
+      name: 'castingwords',
+      title: 'Castingwords',
+      type: 'castingwordsTranscript',
+    },
   ],
 }
