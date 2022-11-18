@@ -2610,6 +2610,7 @@ importers:
       '@skillrecordings/auth': '=0.0.6'
       '@skillrecordings/config': workspace:*
       '@skillrecordings/convertkit': workspace:*
+      '@skillrecordings/convertkit-sdk': workspace:*
       '@skillrecordings/cookies': workspace:*
       '@skillrecordings/database': workspace:*
       '@skillrecordings/next-seo': workspace:*
@@ -2730,6 +2731,7 @@ importers:
       '@skillrecordings/auth': 0.0.6_next@12.3.1
       '@skillrecordings/config': link:../../packages/config
       '@skillrecordings/convertkit': link:../../packages/convertkit
+      '@skillrecordings/convertkit-sdk': link:../../packages/convertkit-sdk
       '@skillrecordings/cookies': link:../../packages/cookies
       '@skillrecordings/database': link:../../packages/database
       '@skillrecordings/next-seo': link:../../packages/next-seo

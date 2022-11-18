@@ -52,6 +52,7 @@
     "@skillrecordings/react": "workspace:*",
     "@skillrecordings/time": "workspace:*",
     "@skillrecordings/database": "workspace:*",
+    "@skillrecordings/convertkit-sdk": "workspace:*",
     "@stripe/stripe-js": "^1.21.1",
     "@supabase/supabase-js": "^1.29.1",
     "@tippyjs/react": "^4.2.6",
