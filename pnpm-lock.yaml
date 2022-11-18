@@ -1026,14 +1026,14 @@ importers:
       '@sentry/tracing': ^7.9.0
       '@skillrecordings/analytics': workspace:^0.0.6
       '@skillrecordings/config': workspace:^0.0.1
-      '@skillrecordings/convertkit': workspace:*
+      '@skillrecordings/convertkit': workspace:0.0.1
       '@skillrecordings/convertkit-sdk': workspace:*
       '@skillrecordings/cookies': workspace:*
       '@skillrecordings/database': workspace:*
       '@skillrecordings/next-seo': workspace:*
       '@skillrecordings/player': workspace:*
       '@skillrecordings/quiz': workspace:*
-      '@skillrecordings/react': workspace:*
+      '@skillrecordings/react': workspace:0.0.1
       '@skillrecordings/scripts': workspace:*
       '@skillrecordings/skill-api': workspace:*
       '@skillrecordings/time': workspace:0.0.11
