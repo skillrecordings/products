@@ -24,7 +24,7 @@ const ArticleTemplate: React.FC<ArticleTemplateProps> = ({article}) => {
   const {title, description, body, date, related, author} = article
   const shortDescription =
     description || toPlainText(body).substring(0, 157) + '...'
-  const ogImage = getOgImage(title)
+
   const {subscriber, loadingSubscriber} = useConvertkit()
 
   console.log(article)
@@ -40,7 +40,6 @@ const ArticleTemplate: React.FC<ArticleTemplateProps> = ({article}) => {
           publishedTime: date,
         },
         url: `${process.env.NEXT_PUBLIC_URL}/${article.slug}`,
-        ogImage,
       }}
     >
       <Header {...article} />
