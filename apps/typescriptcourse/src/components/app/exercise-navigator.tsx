@@ -37,15 +37,9 @@ const LessonNavigator: React.FC<{
               ? `${path}/${module.slug.current}/${section.slug}/${lesson.slug}`
               : `${path}/${module.slug.current}/${lesson.slug}`
             const isActive = router.asPath === currentPath
-            const scrollToElement =
-              router.asPath === `${currentPath}/solution` ||
-              router.asPath === currentPath
 
             return (
               <li key={lesson.slug} className="pt-2">
-                {scrollToElement && (
-                  <div ref={activeElRef} aria-hidden="true" />
-                )}
                 <Link
                   href={{
                     pathname: section
@@ -63,9 +57,8 @@ const LessonNavigator: React.FC<{
                     className={cx(
                       'flex items-center px-4 py-2 font-semibold leading-tight ',
                       {
-                        ' shadow-xl shadow-gray-500/5':
-                          isActive && !lesson.solution,
-                        '': !isActive && !lesson.solution,
+                        ' shadow-xl shadow-gray-500/5': isActive && !lesson,
+                        '': !isActive && !lesson,
                       },
                     )}
                   >
@@ -78,39 +71,6 @@ const LessonNavigator: React.FC<{
                     {lesson.title}
                   </a>
                 </Link>
-                {lesson.solution && (
-                  <ul className="text-gray-800">
-                    <li key={lesson.slug + `lesson`}>
-                      <Link
-                        href={{
-                          pathname: section
-                            ? `${path}/[module]/[section]/[lesson]`
-                            : `${path}/[module]/[lesson]`,
-                          query: {
-                            module: module.slug.current,
-                            lesson: lesson.slug,
-                            ...(section && {section: section.slug}),
-                          },
-                        }}
-                        passHref
-                      >
-                        <a
-                          className={cx(
-                            'flex items-center border-l-4 py-3 px-8 text-sm font-medium transition',
-                            {
-                              'border-brand-red bg-white shadow-xl shadow-gray-500/5':
-                                isActive,
-                              'border-transparent hover:bg-gray-200/50':
-                                !isActive,
-                            },
-                          )}
-                        >
-                          Lesson
-                        </a>
-                      </Link>
-                    </li>
-                  </ul>
-                )}
               </li>
             )
           })}

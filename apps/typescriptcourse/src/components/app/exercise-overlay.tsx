@@ -11,18 +11,14 @@ import Image from 'next/image'
 import {useMuxPlayer} from 'hooks/use-mux-player'
 import {XIcon} from '@heroicons/react/solid'
 import cx from 'classnames'
+import {setUserId} from '@amplitude/analytics-browser'
 import {sanityClient} from 'utils/sanity-client'
 import {PortableText} from '@portabletext/react'
 import {useQuery} from 'react-query'
 import {trpc} from '../../utils/trcp'
-// import Spinner from './spinner'
-import {Lesson} from '../../lib/lesson'
-import dynamic from 'next/dynamic'
-
-// const SandpackEditor: React.ComponentType<any> = dynamic(
-//   () => import('components/sandpack/repl'),
-//   {ssr: false},
-// )
+import Spinner from './spinner'
+import {Lesson} from 'lib/lesson'
+// import dynamic from 'next/dynamic'
 
 export const OverlayWrapper: React.FC<
   React.PropsWithChildren<{className?: string; dismissable?: boolean}>
@@ -57,77 +53,8 @@ export const OverlayWrapper: React.FC<
   )
 }
 
-const Actions = () => {
-  const {lesson, module, path, handlePlay} = useMuxPlayer()
-  const router = useRouter()
-  return (
-    <div className="flex justify-center gap-2">
-      <button
-        className="rounded-full px-3 py-1 font-medium transition sm:px-5 sm:py-2"
-        onClick={() => {
-          handlePlay()
-        }}
-      >
-        Replay <span aria-hidden="true">↺</span>
-      </button>
-      {/* {nextExercise && (
-        <button
-          className="rounded-full bg-emerald-600 px-3 py-1 font-medium text-white transition hover:bg-emerald-500 sm:px-5 sm:py-2"
-          onClick={() => {
-            handleContinue(router, module, nextExercise, handlePlay, path)
-          }}
-        >
-          Solution <span aria-hidden="true">→</span>
-        </button>
-      )} */}
-    </div>
-  )
-}
-
-const ExerciseOverlay: React.FC<{tutorialFiles: any}> = ({tutorialFiles}) => {
-  const {lesson, module} = useMuxPlayer()
-  const {github} = module
-  // const sandpack = lesson.sandpack
-  console.log(lesson)
-  // const visibleFiles = sandpack
-  // ?.filter(({active}) => active)
-  // .map(({file}) => file)
-
-  const sandpackFiles = sandpack
-    ?.map(({file, code}) => {
-      if (file)
-        return {
-          [file]: {
-            code,
-          },
-        }
-    })
-    .reduce((acc, curr) => ({...acc, ...curr}))
-
-  const files = {
-    ...tutorialFiles,
-    ...sandpackFiles,
-  }
-
-  return (
-    <div className="">
-      {sandpack && (
-        <>
-          <div className="flex w-full items-center justify-between p-3 pl-5 font-medium">
-            <div>Now it's your turn! Try solving this exercise.</div>
-            <Actions />
-          </div>
-          <div className="relative w-full">
-            {/* <SandpackEditor visibleFiles={visibleFiles} files={files} /> */}
-          </div>
-        </>
-      )}
-    </div>
-  )
-}
-
 const DefaultOverlay = () => {
-  const {module, path, lesson, handlePlay} = useMuxPlayer()
+  const {nextExercise, module, path, lesson, handlePlay} = useMuxPlayer()
   const router = useRouter()
   const {image} = module
   const addProgressMutation = trpc.useMutation(['progress.add'])
@@ -148,18 +75,30 @@ const DefaultOverlay = () => {
 
       <p className="pt-4 font-heading text-xl font-black sm:text-3xl">
         <span className="font-normal text-gray-700">Up next:</span>{' '}
-        {/* {nextExercise.title} */}
+        {nextExercise.title}
       </p>
       <div className="flex items-center justify-center gap-5 py-4 sm:py-8">
         <button
-          className="rounded-full px-3 py-1 text-lg font-semibold transition sm:px-5 sm:py-3"
+          className="rounded-full bg-white px-3 py-1 text-lg font-semibold transition hover:bg-gray-100 sm:px-5 sm:py-3"
           onClick={() => {
             handlePlay()
           }}
         >
           Replay ↺
         </button>
-        <button className="rounded-full bg-blue-600 px-3 py-1 text-lg font-semibold transition hover:brightness-125 sm:px-5 sm:py-3">
+        <button
+          className="rounded-full bg-brand-red px-3 py-1 text-lg font-semibold text-white transition hover:brightness-125 sm:px-5 sm:py-3"
+          onClick={() => {
+            addProgressMutation.mutate(
+              {lessonSlug: lesson.slug},
+              {
+                onSettled: (data, error, variables, context) => {
+                  handleContinue(router, module, nextExercise, handlePlay, path)
+                },
+              },
+            )
+          }}
+        >
           Complete & Continue <span aria-hidden="true">→</span>
         </button>
       </div>
@@ -260,7 +199,7 @@ const BlockedOverlay: React.FC = () => {
       const redirectUrl = redirectUrlBuilder(subscriber, router.asPath, {
         confirmToast: 'true',
       })
-      // email && setUserId(email)
+      email && setUserId(email)
       router.push(redirectUrl).then(() => {
         router.reload()
       })
@@ -336,19 +275,13 @@ const LoadingOverlay: React.FC<LoadingOverlayProps> = () => {
             className="opacity-50 blur-sm contrast-125"
           />
         )}
-        {/* <Spinner className="absolute h-8 w-8" /> */}
+        <Spinner className="absolute h-8 w-8" />
       </div>
     </OverlayWrapper>
   )
 }
 
-export {
-  ExerciseOverlay,
-  DefaultOverlay,
-  FinishedOverlay,
-  BlockedOverlay,
-  LoadingOverlay,
-}
+export {DefaultOverlay, FinishedOverlay, BlockedOverlay, LoadingOverlay}
 
 const handleContinue = async (
   router: NextRouter,
