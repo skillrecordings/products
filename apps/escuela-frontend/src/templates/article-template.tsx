@@ -1,38 +1,36 @@
 import React from 'react'
+import TableOfContents from 'components/portable-text/table-of-contents'
 import PortableTextComponents from 'components/portable-text'
 import Layout from 'components/layout'
-import {LinkedIn, Twitter} from '@skillrecordings/react'
-import {NextRouter, useRouter} from 'next/router'
+import Share from 'components/share'
+import isEmpty from 'lodash/isEmpty'
 import Image from 'next/image'
-import {ClockIcon} from '@heroicons/react/outline'
 import Link from 'next/link'
 import {PortableText, toPlainText} from '@portabletext/react'
 import {useConvertkit} from '@skillrecordings/convertkit'
-import {SanityDocument} from '@sanity/client'
-import {getOgImage} from 'utils/get-og-image'
-import {isEmpty} from 'lodash'
+import {ArticleJsonLd} from '@skillrecordings/next-seo'
 import SubscribeForm from 'components/subscribe-form'
-import TableOfContents from 'components/portable-text/table-of-contents'
-import Navigation from 'components/navigation'
+import {getOgImage} from 'utils/get-og-image'
+import {isBrowser} from 'utils/is-browser'
+import {type Article} from 'lib/articles'
+import {format} from 'date-fns'
 
 type ArticleTemplateProps = {
-  article: SanityDocument
+  article: Article
   hasSubscribed: boolean
 }
 
 const ArticleTemplate: React.FC<ArticleTemplateProps> = ({article}) => {
-  const {title, description, body, date, related, author} = article
+  const {title, metaTitle, description, body, date, related} = article
   const shortDescription =
-    description || toPlainText(body).substring(0, 157) + '...'
-
+    description || toPlainText(body).substring(0, 150) + '...'
+  const ogImage = getOgImage({title})
   const {subscriber, loadingSubscriber} = useConvertkit()
 
-  console.log(article)
   return (
     <Layout
-      className="overflow-hidden"
       meta={{
-        title,
+        title: metaTitle || title,
         description: shortDescription,
         type: 'article',
         date,
@@ -40,23 +38,24 @@ const ArticleTemplate: React.FC<ArticleTemplateProps> = ({article}) => {
           publishedTime: date,
         },
         url: `${process.env.NEXT_PUBLIC_URL}/${article.slug}`,
+        ogImage,
       }}
     >
+      <ArticleMeta article={article} shortDescription={shortDescription} />
       <Header {...article} />
       <main>
-        <div className="border-t border-b border-gray-800 bg-gray-800 px-5 shadow-lg lg:px-0">
+        <div className="border-y border-gray-700 bg-gray-800 px-5 shadow-lg shadow-black/5 lg:px-0">
           <TableOfContents value={body} />
         </div>
         <div className="mx-auto w-full max-w-screen-md px-5 pb-10 sm:pt-10 sm:pb-24 lg:px-0">
-          <article className="prose prose-lg max-w-none break-words pt-8 prose-headings:font-bold prose-h2:py-8 prose-a:decoration-brand prose-a:transition prose-code:text-[70%] hover:prose-a:decoration-brand/90 md:prose-xl md:prose-code:text-sm md:prose-code:text-[80%] lg:prose-h2:text-5xl lg:prose-h3:text-4xl lg:prose-code:text-[80%]">
+          <article className="prose prose-invert max-w-none pt-8 prose-headings:font-bold  prose-a:text-brand prose-a:transition prose-code:text-[70%] sm:prose-lg md:prose-code:text-sm md:prose-code:text-[80%] lg:prose-code:text-[80%]">
             <PortableText value={body} components={PortableTextComponents} />
           </article>
-          <Signature />
         </div>
         {!loadingSubscriber && (
           <>{subscriber ? <Share title={title} /> : <SubscribeForm />}</>
         )}
-        <RelatedResources resources={related} />
+        <RelatedResources article={article} />
       </main>
     </Layout>
   )
@@ -64,41 +63,28 @@ const ArticleTemplate: React.FC<ArticleTemplateProps> = ({article}) => {
 
 export default ArticleTemplate
 
-const Share: React.FC<React.PropsWithChildren<{title: string}>> = ({title}) => {
-  const router = useRouter()
-  const url = process.env.NEXT_PUBLIC_URL + router.asPath
-  const className =
-    'p-3 hover:bg-gray-500 hover:bg-opacity-10 transition rounded-full focus-visible:ring-white'
-  const message = `${title} publicado en @escuelafrontend`
+const RelatedResources: React.FC<{
+  article: Article
+}> = ({article}) => {
+  const resources = article.related
 
-  return (
-    <div className="flex">
-      <Twitter className={className} link={url} message={message} />
-      <LinkedIn className={className} link={url} message={message} />
-    </div>
-  )
-}
-
-const RelatedResources: React.FC<{resources: SanityDocument[]}> = ({
-  resources,
-}) => {
   return !isEmpty(resources) ? (
     <section className="mx-auto w-full px-5 pb-16 sm:pt-14 sm:pb-32">
       <div className="mx-auto flex w-full max-w-screen-md flex-col items-start justify-between sm:flex-row">
-        <div className="flex-shrink-0 pt-2 pb-4 font-medium uppercase text-gray-400 sm:pr-32 sm:pb-0 sm:text-lg">
-          Sigue leyendo
+        <div className="flex-shrink-0 pt-2 pb-4 font-semibold uppercase text-gray-600 sm:pr-32 sm:pb-0">
+          Continue Reading
         </div>
         <div className="flex-grow">
           {resources.map(({title, subtitle, slug}) => {
             return (
-              <div className="">
+              <div key={title}>
                 <Link href={`/${slug}`}>
-                  <a className="mx-6 mt-12 mb-4 w-[400px] bg-gradient-to-b from-white to-gray-200 bg-clip-text text-center text-4xl font-extrabold leading-tight text-transparent sm:text-4xl md:!w-full md:text-5xl lg:text-6xl">
+                  <a className="font-heading text-2xl font-bold transition hover:underline lg:text-3xl">
                     {title}
                   </a>
                 </Link>
                 {subtitle && (
-                  <p className="pt-2 text-lg text-gray-400 lg:text-xl">
+                  <p className="max-w-sm pt-2 text-lg text-brand lg:text-xl">
                     {subtitle}
                   </p>
                 )}
@@ -111,40 +97,51 @@ const RelatedResources: React.FC<{resources: SanityDocument[]}> = ({
   ) : null
 }
 
-const Header: React.FC<SanityDocument> = ({
+const Header: React.FC<Article> = ({
   title,
   subtitle,
   date,
   estimatedReadingTime,
-  author,
 }) => {
   return (
-    <header className="relative flex flex-col items-center overflow-hidden px-5 pt-24 pb-8">
+    <header className="relative flex flex-col items-center overflow-hidden px-5 pb-8 sm:pt-10">
       <div className="relative z-10 mx-auto flex w-full max-w-screen-lg flex-col items-center">
-        <Link passHref href="/articulos">
-          <a className="group relative rounded-md bg-gray-700 px-4 py-2 text-base font-normal opacity-80 transition hover:bg-gray-600">
+        {/* <Link passHref href="/articles">
+          <a className="sm:text-lg text-base group text-white relative hover:text-white font-normal px-4 py-2 hover:bg-opacity-10 bg-opacity-0 bg-gray-900 rounded-lg transition opacity-80 hover:opacity-80 focus-visible:ring-white focus-visible:opacity-100">
             <span className="pr-1" role="presentation" aria-hidden="true">
               ←
             </span>{' '}
-            Todos los Artículos
+            All Articles
           </a>
-        </Link>
+        </Link> */}
         <div className="flex flex-col items-center justify-center pt-10 pb-24 text-center">
-          <h1 className="mx-6 mt-12 mb-4 w-[400px] bg-gradient-to-b from-white to-gray-200 bg-clip-text text-center text-4xl font-extrabold leading-tight text-transparent sm:text-4xl md:!w-full md:text-5xl lg:text-6xl">
+          <h1 className="mx-auto py-4 font-heading text-3xl font-bold leading-none text-gray-50 sm:text-4xl lg:text-5xl">
             {title}
           </h1>
+          {subtitle && (
+            <h2 className="mx-auto max-w-md pt-5 text-lg font-medium leading-tight text-brand sm:text-xl">
+              {subtitle}
+            </h2>
+          )}
         </div>
-        <div className="flex w-full max-w-screen-md flex-wrap items-center justify-center gap-10 text-lg leading-none sm:justify-between">
-          <Author info={author} />
-          <div className="flex items-center space-x-5">
-            <time dateTime={date} className="flex items-center text-sm">
-              <ClockIcon aria-hidden="true" className="w-4 opacity-80" />
-              <span className="pl-1">
-                <span>~</span>
+        <div className="flex w-full max-w-screen-md flex-wrap items-center justify-center gap-10 leading-none sm:justify-between sm:text-lg">
+          <Author />
+          <div className="flex gap-16 sm:text-left">
+            <div>
+              <div className="pb-1.5 text-sm font-semibold uppercase tracking-wide text-gray-500">
+                Time to read
+              </div>
+              <div>
+                <span className="text-gray-500">~</span>
                 {estimatedReadingTime}m
-              </span>
+              </div>
+            </div>
+            <time dateTime={date}>
+              <div className="pb-1.5 text-sm font-semibold uppercase tracking-wide text-gray-500">
+                published
+              </div>
+              <div>{format(new Date(date), 'dd MMMM, y')}</div>
             </time>
-            <Share title={title} />
           </div>
         </div>
       </div>
@@ -152,36 +149,35 @@ const Header: React.FC<SanityDocument> = ({
   )
 }
 
-const Author: React.FC<{info: SanityDocument[]}> = ({info}) => {
-  return !isEmpty(info) ? (
-    <>
-      {info.map(({name, image, alt, twitter}) => {
-        return (
-          <div className="col-span-3 flex items-center justify-center md:col-span-3 md:justify-start">
-            <Image
-              src={image}
-              alt={alt}
-              width={42}
-              height={42}
-              priority
-              loading="eager"
-              className="rounded-full"
-            />
-            <a
-              href={twitter}
-              className="pl-2 text-sm decoration-brand underline-offset-1 hover:underline"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              {name}
-            </a>
-          </div>
-        )
-      })}
-    </>
-  ) : null
+const Author = () => {
+  return (
+    <div className="col-span-3 flex items-center justify-center md:col-span-3 md:justify-start">
+      TODO
+      <a
+        href="https://twitter.com/escuelafrontend"
+        className="pl-2 leading-none decoration-indigo-500 underline-offset-1 hover:underline"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        TODO
+      </a>
+    </div>
+  )
 }
 
-const Signature = () => {
-  return <></>
+const ArticleMeta: React.FC<{article: Article; shortDescription: string}> = ({
+  article,
+  shortDescription,
+}) => {
+  const {title, date} = article
+  return (
+    <ArticleJsonLd
+      title={title}
+      description={shortDescription}
+      datePublished={date}
+      url={isBrowser() ? document.location.href : process.env.NEXT_PUBLIC_URL}
+      authorName={`${process.env.NEXT_PUBLIC_PARTNER_FIRST_NAME} ${process.env.NEXT_PUBLIC_PARTNER_LAST_NAME}`}
+      images={['']}
+    />
+  )
 }

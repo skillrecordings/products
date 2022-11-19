@@ -55,7 +55,7 @@ const TipTemplate: React.FC<TipPageProps> = ({tip, tips}) => {
   const ogImage = getOgImage({
     title: tip.title,
     image: `https://image.mux.com/${muxPlaybackId}/thumbnail.png?width=480&height=270&fit_mode=preserve`,
-  } as any)
+  })
 
   const handleOnSuccess = (subscriber: any, email?: string) => {
     if (subscriber) {
@@ -107,11 +107,12 @@ const TipTemplate: React.FC<TipPageProps> = ({tip, tips}) => {
       <Layout
         meta={{
           title: tip.title,
+          ogImage,
           description: tip.description ?? '',
         }}
       >
         <main className="mx-auto w-full">
-          <div className="relative z-10 flex items-center justify-center bg-gradient-to-b from-gray-800 to-gray-900">
+          <div className="relative z-10 flex items-center justify-center border-b border-gray-600">
             <div className="flex w-full max-w-screen-xl flex-col">
               <Video ref={muxPlayerRef} tips={tips} />
               {!subscriber && !loadingSubscriber && (
@@ -123,7 +124,7 @@ const TipTemplate: React.FC<TipPageProps> = ({tip, tips}) => {
             <div className="mx-auto w-full max-w-screen-xl pb-5">
               <div className="flex flex-col gap-0 sm:gap-10 md:flex-row">
                 <div className="w-full">
-                  <h1 className="font-heading inline-flex w-full max-w-2xl items-baseline text-3xl font-black lg:text-4xl">
+                  <h1 className="inline-flex w-full max-w-2xl items-baseline font-heading text-3xl font-bold lg:text-4xl">
                     {tip.title}
                     {tipCompleted && <span className="sr-only">(watched)</span>}
                   </h1>
@@ -136,7 +137,7 @@ const TipTemplate: React.FC<TipPageProps> = ({tip, tips}) => {
                         name="Checkmark"
                         className="h-5 w-5 text-emerald-600"
                       />
-                      <span className="font-heading text-sm font-black uppercase text-emerald-600 opacity-90">
+                      <span className="font-heading text-sm font-bold uppercase text-emerald-600 opacity-90">
                         Watched
                       </span>
                     </div>
@@ -147,16 +148,14 @@ const TipTemplate: React.FC<TipPageProps> = ({tip, tips}) => {
                   )}
                   {tip.body && (
                     <>
-                      <div className="prose w-full max-w-none pb-5 pt-5 prose-headings:font-medium prose-p:text-gray-200 lg:prose-lg">
+                      <div className="prose w-full max-w-none pb-5 pt-5 prose-headings:font-medium prose-p:text-gray-200 prose-a:text-brand prose-strong:text-white lg:prose-lg">
                         <PortableText
                           value={tip.body}
                           components={PortableTextComponents}
                         />
                       </div>
                       <Hr
-                        className={
-                          tipCompleted ? 'bg-emerald-400' : 'bg-cyan-400'
-                        }
+                        className={tipCompleted ? 'bg-emerald-400' : 'bg-brand'}
                       />
                     </>
                   )}
@@ -170,7 +169,7 @@ const TipTemplate: React.FC<TipPageProps> = ({tip, tips}) => {
                   )}
                 </div>
                 <div className="w-full">
-                  <div className="prose w-full max-w-none pb-5 font-medium prose-p:text-gray-200 sm:prose-lg">
+                  <div className="prose prose-invert w-full max-w-none pb-5 font-medium sm:prose-lg">
                     <PortableText
                       value={tip.summary}
                       components={PortableTextComponents}
@@ -206,12 +205,9 @@ const Video: React.FC<any> = React.forwardRef(({tips}, ref: any) => {
     <div className="relative">
       {displayOverlay && <TipOverlay tips={tips} />}
       <div
-        className={cx(
-          'flex items-center justify-center  overflow-hidden shadow-gray-600/40 sm:shadow-2xl xl:rounded-b-xl',
-          {
-            hidden: displayOverlay,
-          },
-        )}
+        className={cx('flex items-center justify-center overflow-hidden', {
+          hidden: displayOverlay,
+        })}
       >
         <MuxPlayer ref={ref} {...(muxPlayerProps as MuxPlayerProps)} />
       </div>
@@ -226,8 +222,8 @@ const Transcript: React.FC<{transcript: any[]; muxPlayerRef: any}> = ({
   const {handlePlay, video} = useMuxPlayer()
   return (
     <section aria-label="transcript">
-      <h2 className="font-heading text-2xl font-black">Transcript</h2>
-      <div className="prose prose-sm max-w-none pt-4 prose-p:text-gray-700 sm:prose">
+      <h2 className="font-heading text-2xl font-bold">Transcript</h2>
+      <div className="prose prose-sm max-w-none pt-4 prose-p:text-gray-200 sm:prose">
         <PortableText
           value={transcript}
           components={
@@ -263,8 +259,8 @@ const RelatedTips: React.FC<{tips: Tip[]; currentTip: Tip}> = ({
   tips,
 }) => {
   return (
-    <section className="mx-auto h-full w-full rounded-xl bg-gray-700 p-5 shadow-2xl shadow-gray-700/20 sm:p-10">
-      <h2 className="font-heading pt-3 text-2xl font-black">More Tips</h2>
+    <section className="mx-auto h-full w-full rounded-md bg-gray-800 p-5 shadow-2xl shadow-gray-500/20 sm:p-10">
+      <h2 className="pt-3 font-heading text-2xl font-bold">More Tips</h2>
       <div className="flex flex-col pt-4">
         {tips
           .filter((tip) => tip.slug !== currentTip.slug)
@@ -279,7 +275,7 @@ const RelatedTips: React.FC<{tips: Tip[]; currentTip: Tip}> = ({
 const Hr: React.FC<{className?: string}> = ({className}) => {
   return (
     <div
-      className={cx('my-8 h-1 w-8 rounded-full', className)}
+      className={cx('my-8 h-1 w-8 rounded-md', className)}
       aria-hidden="true"
     />
   )
@@ -289,11 +285,11 @@ const TipOverlay: React.FC<{tips: Tip[]}> = ({tips}) => {
   const {lesson, module, setDisplayOverlay, handlePlay} = useMuxPlayer()
 
   const buttonStyles =
-    'py-2 px-3 font-medium rounded flex items-center gap-1 hover:bg-gray-700 bg-gray-100 transition text-gray-600'
+    'py-2 px-3 font-medium rounded flex items-center gap-1 hover:bg-gray-200/50 bg-gray-100 transition text-gray-600'
   return (
     <div
       id="video-overlay"
-      className="relative top-0 left-0 flex w-full items-center justify-center border-t border-gray-50 bg-gray-500 shadow-2xl shadow-gray-500/20 lg:aspect-video xl:rounded-b-xl"
+      className="relative top-0 left-0 flex w-full items-center justify-center border-t border-gray-50 bg-gray-900 shadow-2xl shadow-gray-500/20 lg:aspect-video xl:rounded-b-xl"
     >
       <div className="absolute top-8 right-8 z-50 flex items-center justify-center gap-3">
         <button className={buttonStyles} onClick={handlePlay}>
@@ -358,7 +354,7 @@ const VideoOverlayTipCard: React.FC<{suggestedTip: Tip}> = ({suggestedTip}) => {
       className="group relative z-0 flex aspect-video h-full w-full items-end justify-start overflow-hidden rounded-lg bg-gray-900 p-8 text-left font-medium leading-tight text-gray-200"
     >
       <div className="relative z-10 flex flex-col">
-        <span className="font-heading pb-1 text-xs font-bold uppercase tracking-wide text-gray-400">
+        <span className="pb-1 font-heading text-xs font-bold uppercase tracking-wide text-gray-400">
           Tip
         </span>
         <span className="font-medium">
@@ -400,7 +396,7 @@ const ReplyOnTwitter: React.FC<{tweet: string}> = ({tweet}) => {
       href={`https://twitter.com/i/status/${tweet}`}
       target="_blank"
       rel="noopener noreferrer"
-      className="mb-5 mt-2 inline-flex items-center justify-center gap-2 rounded-full bg-gray-500 px-5 py-3 font-medium text-gray-700 shadow-2xl shadow-gray-500/30 transition"
+      className="mb-5 mt-2 inline-flex items-center justify-center gap-2 rounded-md bg-gray-100 px-5 py-3 font-medium text-gray-300 shadow-2xl shadow-gray-500/30 transition"
       onClick={() => {
         track('clicked reply on twitter')
       }}
@@ -419,12 +415,12 @@ const SubscribeForm = ({
   return (
     <div
       id="tip"
-      className="flex w-full flex-col items-center justify-between gap-5 border-b border-gray-700 px-3 pt-4 pb-5 md:flex-row md:pb-3 md:pt-3 2xl:px-0"
+      className="flex w-full flex-col items-center justify-between gap-5 px-3 pt-4 pb-5 md:flex-row md:pb-3 md:pt-3 2xl:px-0"
     >
       <div className="inline-flex items-center gap-2 text-lg font-semibold leading-tight md:text-base lg:flex-shrink-0 lg:text-lg">
         <div
           aria-hidden="true"
-          className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full bg-brand/10"
+          className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-md bg-brand/10"
         >
           <MailIcon className="h-5 w-5 text-brand" />
         </div>{' '}

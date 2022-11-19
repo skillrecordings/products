@@ -1,11 +1,11 @@
 {
   "root": true,
-  "api": {
-    "projectId": "s8qytc9h",
-    "dataset": "production"
-  },
   "project": {
-    "name": "escuela-frontend"
+    "name": "protailwind"
+  },
+  "api": {
+    "projectId": "knx644y7",
+    "dataset": "production"
   },
   "plugins": [
     "@sanity/base",

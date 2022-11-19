@@ -4,6 +4,7 @@ import {GetStaticPaths, GetStaticProps} from 'next'
 import {getAllTutorials, getTutorial} from 'lib/tutorials'
 import {getExercise} from 'lib/exercises'
 import path from 'path'
+import {walk} from 'utils/code-editor-content'
 
 export const getStaticProps: GetStaticProps = async (context) => {
   const {params} = context
@@ -12,8 +13,11 @@ export const getStaticProps: GetStaticProps = async (context) => {
   const module = await getTutorial(params?.module as string)
   const exercise = await getExercise(exerciseSlug)
 
-  const tutorialDirectory = path.join(process.cwd())
-  const tutorialFiles = tutorialDirectory
+  const tutorialDirectory = path.join(
+    process.cwd(),
+    'src/components/sandpack/parcel',
+  )
+  const tutorialFiles = walk(tutorialDirectory)
 
   return {
     props: {exercise, module, tutorialFiles},

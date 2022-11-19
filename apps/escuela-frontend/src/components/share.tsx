@@ -16,13 +16,13 @@ const Share: React.FC<{title: string}> = ({title}) => {
     'w-full flex items-center justify-center px-7 py-8 hover:bg-gray-50 transition'
 
   return (
-    <div className="mx-auto mb-16 flex max-w-screen-md items-center justify-center overflow-hidden bg-white pl-5 pt-10 shadow-2xl shadow-gray-400/20 sm:pt-0 md:rounded-lg">
+    <div className="mx-auto mb-16 flex max-w-screen-md items-center justify-center overflow-hidden bg-gray-900 pl-5 pt-10 shadow-2xl shadow-gray-400/20 sm:pt-0 md:rounded-lg">
       <div className="mx-auto flex w-full max-w-screen-md flex-col items-center justify-between gap-5 sm:flex-row">
         <div>
           <p className="flex items-center text-lg font-medium">
             <HeartIcon
               aria-hidden="true"
-              className="text-brand-red mr-2 inline-block h-5 w-5 flex-shrink-0"
+              className="mr-2 inline-block h-5 w-5 flex-shrink-0 text-brand"
             />
             <span className="leading-none">
               Share this article with your friends

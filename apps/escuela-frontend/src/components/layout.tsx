@@ -2,7 +2,7 @@ import React, {FunctionComponent} from 'react'
 import {NextSeo} from '@skillrecordings/next-seo'
 import {Toaster} from 'react-hot-toast'
 import cx from 'classnames'
-import Navigation from './navigation'
+import Navigation from 'components/navigation'
 import type {LayoutProps} from '@types'
 
 const Layout: FunctionComponent<React.PropsWithChildren<LayoutProps>> = ({

@@ -13,11 +13,11 @@ const Navigation: React.FC<NavigationProps> = ({className}) => {
   return (
     <nav
       aria-label="top"
-      className="z-10 w-full bg-gray-900 py-3 shadow-xl sm:py-4"
+      className="sticky top-0 left-0 z-50 w-full bg-gray-900 bg-opacity-95 py-2 shadow-xl supports-backdrop-blur:bg-opacity-70 supports-backdrop-blur:backdrop-blur-lg sm:py-2"
     >
       <div
         className={cx(className, {
-          'mx-auto flex max-w-screen-lg flex-col items-center justify-between gap-2 px-5 sm:flex-row sm:gap-0':
+          'mx-auto flex max-w-screen-2xl flex-col items-center justify-between gap-2 px-5 sm:flex-row sm:gap-0':
             !className,
         })}
       >
@@ -36,14 +36,20 @@ const DesktopNav = () => {
       <NavSlots>
         <NavLink
           href="/tutorials"
-          icon={<Icon name="Video" className="text-brand" />}
+          icon={<Icon name="Video" className="text-white" />}
         >
           Tutorials
         </NavLink>
-        <NavLink href="/tips" icon={<Icon name="Anchor" />}>
+        <NavLink
+          href="/tips"
+          icon={<Icon name="Anchor" className="text-white" />}
+        >
           Tips
         </NavLink>
-        <NavLink href="/articulos" icon={<Icon name="Palm" />}>
+        <NavLink
+          href="/articles"
+          icon={<Icon name="Palm" className="text-white" />}
+        >
           Articles
         </NavLink>
       </NavSlots>
@@ -51,7 +57,7 @@ const DesktopNav = () => {
   )
 }
 
-const NavSlots = ({children}: any) => {
+const NavSlots: React.FC<React.PropsWithChildren> = ({children}) => {
   return <div className="flex items-center sm:pb-1">{children}</div>
 }
 
@@ -74,7 +80,7 @@ const NavLink: React.FC<NavLinkProps> = ({
       <a
         aria-current={isActive ? 'page' : undefined}
         className={cx(
-          'jusfify-center flex items-center gap-1 rounded-full px-4 py-2 transition hover:bg-gray-700',
+          'jusfify-center flex items-center gap-1 rounded-md px-4 py-2 text-sm transition hover:bg-gray-800',
           {
             'bg-gray-700': isActive,
           },
@@ -98,7 +104,7 @@ const NavLogo = () => {
     <Link href="/" aria-label="Escuela Frontend Home" passHref>
       <a
         tabIndex={router.pathname === '/' ? -1 : 0}
-        className="font-heading text-xl font-black sm:text-2xl"
+        className="font-heading text-lg font-bold leading-loose sm:text-xl"
       >
         <span className="text-white">Escuela Frontend</span>
       </a>
