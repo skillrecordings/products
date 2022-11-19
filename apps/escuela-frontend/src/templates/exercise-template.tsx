@@ -2,10 +2,10 @@ import * as React from 'react'
 import MuxPlayer, {MuxPlayerProps} from '@mux/mux-player-react'
 import PortableTextComponents from 'components/portable-text'
 import ExerciseSidebar from 'components/exercise-sidebar'
-import Navigation from 'components/navigation'
+
 import Layout from 'components/layout'
 import capitalize from 'lodash/capitalize'
-import Spinner from 'components/spinner'
+
 import cx from 'classnames'
 import {
   PortableText,
@@ -22,12 +22,12 @@ import {
   BlockedOverlay,
   LoadingOverlay,
 } from 'components/exercise-overlay'
-import Image from 'next/image'
+
 import {track} from 'utils/analytics'
 import {Exercise, ExerciseSchema} from '../lib/exercises'
 import {useConvertkit} from 'hooks/use-convertkit'
 import {ArticleJsonLd} from '@skillrecordings/next-seo'
-import {GiftIcon} from '@heroicons/react/solid'
+
 import Icon from 'components/icons'
 
 const ExerciseTemplate: React.FC<{

@@ -18,7 +18,7 @@ import {PortableText} from '@portabletext/react'
 import {useQuery} from 'react-query'
 import {trpc} from '../utils/trpc'
 import Spinner from './spinner'
-import {Exercise} from 'lib/exercises'
+
 import dynamic from 'next/dynamic'
 
 const SandpackEditor: React.ComponentType<any> = dynamic(

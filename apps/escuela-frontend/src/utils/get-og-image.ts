@@ -4,7 +4,7 @@ type OgImageUrlOptions = {
   byline?: string
 }
 
-const CLOUDINARY_FETCH_BASE_URL = `https://res.cloudinary.com/pro-tailwind/image/fetch/dpr_auto,f_auto,q_auto:good/`
+// const CLOUDINARY_FETCH_BASE_URL = `https://res.cloudinary.com/pro-tailwind/image/fetch/dpr_auto,f_auto,q_auto:good/`
 
 export const getOgImage = (options: OgImageUrlOptions) => {
   const {title, image, byline} = options

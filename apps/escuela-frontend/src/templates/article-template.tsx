@@ -4,7 +4,6 @@ import PortableTextComponents from 'components/portable-text'
 import Layout from 'components/layout'
 import Share from 'components/share'
 import isEmpty from 'lodash/isEmpty'
-import Image from 'next/image'
 import Link from 'next/link'
 import {PortableText, toPlainText} from '@portabletext/react'
 import {useConvertkit} from '@skillrecordings/convertkit'
@@ -21,7 +20,7 @@ type ArticleTemplateProps = {
 }
 
 const ArticleTemplate: React.FC<ArticleTemplateProps> = ({article}) => {
-  const {title, metaTitle, description, body, date, related} = article
+  const {title, metaTitle, description, body, date} = article
   const shortDescription =
     description || toPlainText(body).substring(0, 150) + '...'
   const ogImage = getOgImage({title})
