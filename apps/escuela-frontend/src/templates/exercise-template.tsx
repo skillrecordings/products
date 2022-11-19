@@ -80,8 +80,8 @@ const ExerciseTemplate: React.FC<{
             path={path}
             section={section}
           />
-          <main className="relative mx-auto max-w-[1480px] grow items-start  sm:bg-gray-100 2xl:flex 2xl:max-w-none  2xl:bg-transparent">
-            <div className="border-gray-100 2xl:relative 2xl:h-full 2xl:w-full 2xl:border-r 2xl:bg-gray-100">
+          <main className="relative mx-auto max-w-[1480px] grow items-start  sm:bg-gray-800 2xl:flex 2xl:max-w-none  2xl:bg-transparent">
+            <div className="border-gray-600 2xl:relative 2xl:h-full 2xl:w-full 2xl:border-r 2xl:bg-gray-800">
               <Video
                 ref={muxPlayerRef}
                 module={module}
@@ -101,10 +101,10 @@ const ExerciseTemplate: React.FC<{
                 />
               </div>
             </div>
-            <article className="relative flex-shrink-0 shadow-gray-500/10 sm:bg-gray-100 2xl:h-full 2xl:bg-transparent 2xl:shadow-xl">
+            <article className="relative flex-shrink-0 shadow-gray-500/10 sm:bg-gray-800 2xl:h-full 2xl:bg-transparent 2xl:shadow-xl">
               <div className="relative z-10 mx-auto max-w-4xl px-5 py-5 lg:py-8 2xl:max-w-xl">
                 <ExerciseTitle exercise={exercise} />
-
+                <ExerciseAssets exercise={exercise} module={module} />
                 <ExerciseDescription exercise={exercise} />
                 {/* <GitHubLink exercise={exercise} module={module} /> */}
               </div>
@@ -147,7 +147,7 @@ const Video: React.FC<VideoProps> = React.forwardRef(
           <>
             {nextExercise ? (
               <>
-                {isExercise ? (
+                {isExercise && exercise.sandpack ? (
                   <ExerciseOverlay tutorialFiles={tutorialFiles} />
                 ) : (
                   <DefaultOverlay />
@@ -216,27 +216,50 @@ const ExerciseTitle: React.FC<{exercise: Exercise}> = ({exercise}) => {
     <>
       <span
         className={cx(
-          'inline-block rounded-full px-2.5 py-1 font-mono text-xs font-semibold uppercase sm:mt-5 lg:text-sm 2xl:mt-0 2xl:text-xs',
+          'inline-block rounded-md px-2.5 py-1 font-mono text-xs font-semibold uppercase sm:mt-5 lg:text-sm 2xl:mt-0 2xl:text-xs',
           {
             'bg-emerald-500/20 text-emerald-600': _type === 'solution',
-            'bg-brand-red/20 text-brand-red': _type === 'exercise',
+            'bg-brand/20 text-brand': _type === 'exercise',
             'bg-indigo-500/20 text-indigo-600': _type === 'explainer',
           },
         )}
       >
         {_type !== 'exercise' ? _type : 'Exercise'}
       </span>
-      <h1 className="font-heading pb-5 pt-3 text-3xl font-black tracking-tight sm:text-4xl xl:text-[2.65rem] 2xl:text-4xl">
+      <h1 className="pb-5 pt-3 font-heading text-3xl font-bold tracking-tight sm:text-4xl xl:text-[2.65rem] 2xl:text-4xl">
         {title}
       </h1>
     </>
   )
 }
 
+const ExerciseAssets: React.FC<{
+  exercise: Exercise
+  module: SanityDocument
+}> = ({exercise, module}) => {
+  const {figma} = exercise
+  return (
+    <div className="flex flex-wrap items-center gap-2 pb-8">
+      {figma?.url && (
+        <a
+          href={figma.url}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="inline-flex items-center gap-2 rounded-lg border border-indigo-500/5 bg-indigo-50 px-4 py-2 text-lg font-semibold text-indigo-600 transition hover:bg-indigo-100/80"
+        >
+          <Icon name="Figma" size="20" className="text-indigo-600" />
+          <span>Design assets</span>
+        </a>
+      )}
+      <GitHubLink exercise={exercise} module={module} />
+    </div>
+  )
+}
+
 const ExerciseDescription: React.FC<{exercise: Exercise}> = ({exercise}) => {
   const {body} = exercise
   return (
-    <div className="prose-headings:font-heading prose max-w-none pt-5 prose-headings:font-black prose-code:text-[90%] xl:pt-8 2xl:pt-5">
+    <div className="prose prose-invert max-w-none pt-5 prose-headings:font-heading prose-headings:font-bold prose-code:text-[90%] xl:pt-8 2xl:pt-5">
       <PortableText value={body} components={PortableTextComponents} />
     </div>
   )
@@ -254,10 +277,10 @@ const VideoTranscript: React.FC<{
 
   return (
     <div className=" mx-auto max-w-4xl p-5 py-16">
-      <h2 className="font-heading flex items-baseline text-xl font-black sm:text-2xl">
+      <h2 className="flex items-baseline font-heading text-xl font-bold sm:text-2xl">
         Transcript
       </h2>
-      <div className="prose max-w-none pt-4">
+      <div className="prose prose-invert max-w-none pt-4">
         <PortableText
           value={transcript}
           components={
@@ -295,7 +318,7 @@ const MobileLessonNavigator: React.FC<{
 }> = ({module, path, section}) => {
   return (
     <details className="group block border-t-2 border-gray-900 lg:hidden">
-      <summary className="no-marker flex cursor-pointer items-center gap-1 bg-white px-4 py-3 font-medium shadow-2xl shadow-gray-500/10 transition marker:content-[''] after:absolute after:right-3 after:flex after:h-6 after:w-6 after:rotate-180 after:items-center after:justify-center after:rounded-full after:bg-gray-100 after:text-lg after:content-['↑'] group-open:after:rotate-0 hover:bg-gray-100">
+      <summary className="no-marker flex cursor-pointer items-center gap-1 bg-gray-900 px-4 py-3 font-medium shadow-2xl shadow-gray-500/10 transition marker:content-[''] after:absolute after:right-3 after:flex after:h-6 after:w-6 after:rotate-180 after:items-center after:justify-center after:rounded-md after:bg-gray-100 after:text-lg after:content-['↑'] group-open:after:rotate-0 hover:bg-gray-700">
         {module.title} {capitalize(module.moduleType)}{' '}
         <span className="opacity-80">
           ({section ? section.exercises.length : module.exercises.length}{' '}

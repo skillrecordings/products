@@ -173,7 +173,7 @@ const HighlightedCode: React.FC<CodeProps> = ({value}) => {
       </pre>
       <pre
         aria-hidden="true"
-        className="relative -mx-5 rounded-none p-5 leading-[1.15] scrollbar-thin scrollbar-track-transparent scrollbar-thumb-gray-600 hover:scrollbar-thumb-gray-500 sm:mx-0 sm:rounded-lg md:leading-tight"
+        className="relative -mx-5 rounded-md p-5 leading-[1.15] scrollbar-thin scrollbar-track-transparent scrollbar-thumb-gray-600 hover:scrollbar-thumb-gray-500 sm:mx-0 sm:rounded-lg md:leading-tight"
       >
         <Refractor
           inline
@@ -229,7 +229,7 @@ const PortableTextComponents: PortableTextComponents = {
       return <InternalLink value={value}>{children}</InternalLink>
     },
     code: ({value, children}) => {
-      return <code className="rounded bg-gray-200 px-1 py-0.5">{children}</code>
+      return <code className="rounded bg-gray-700 px-1 py-0.5">{children}</code>
     },
   },
   types: {
@@ -249,7 +249,7 @@ const PortableTextComponents: PortableTextComponents = {
               <summary className="inline-flex cursor-pointer items-center space-x-2 text-gray-600 transition hover:text-gray-800">
                 <span
                   aria-hidden="true"
-                  className="flex items-center justify-center rounded-full border border-gray-200 p-1 transition group-hover:bg-gray-50"
+                  className="flex items-center justify-center rounded-md border border-gray-200 p-1 transition group-hover:bg-gray-50"
                 >
                   <ChevronDownIcon className="h-4 w-4 group-open:hidden" />
                   <ChevronUpIcon className="hidden h-4 w-4 group-open:block" />
@@ -290,7 +290,7 @@ const PortableTextComponents: PortableTextComponents = {
                 <summary className="inline-flex cursor-pointer items-center space-x-2 text-gray-600 transition hover:text-gray-800">
                   <span
                     aria-hidden="true"
-                    className="flex items-center justify-center rounded-full border border-gray-200 p-1 transition group-hover:bg-gray-50"
+                    className="flex items-center justify-center rounded-md border border-gray-200 p-1 transition group-hover:bg-gray-50"
                   >
                     <ChevronDownIcon className="h-4 w-4 group-open:hidden" />
                     <ChevronUpIcon className="hidden h-4 w-4 group-open:block" />

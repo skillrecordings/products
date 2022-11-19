@@ -1,12 +1,20 @@
 /** @type {import('tailwindcss').Config} */
 const defaultTheme = require('tailwindcss/defaultTheme')
 const colors = require('tailwindcss/colors')
+const plugin = require('tailwindcss/plugin')
+
+const round = (num) =>
+  num
+    .toFixed(7)
+    .replace(/(\.[0-9]+?)0+$/, '$1')
+    .replace(/\.0$/, '')
+const rem = (px) => `${round(px / 16)}rem`
+const em = (px, base) => `${round(px / base)}em`
 
 module.exports = {
   content: [
     './src/**/*.tsx',
     './src/**/*.mdx',
-    './node_modules/@skillrecordings/commerce/dist/**/*.js',
     './node_modules/@skillrecordings/react/dist/**/*.js',
     './node_modules/@skillrecordings/convertkit/dist/**/*.js',
     './node_modules/@skillrecordings/quiz/dist/**/*.js',
@@ -15,22 +23,22 @@ module.exports = {
   theme: {
     extend: {
       fontFamily: {
-        sans: ['IBM Plex Sans', ...defaultTheme.fontFamily.sans],
-        sicret: ['Sicret Mono', ...defaultTheme.fontFamily.mono],
+        sans: [...defaultTheme.fontFamily.sans],
+        heading: [...defaultTheme.fontFamily.sans],
       },
       colors: {
-        brand: colors.red[500],
+        brand: '#ff3e00',
         gray: {
-          0: '#ffffff',
-          100: '#dadadb',
-          200: '#b7b7b8',
-          300: '#979697',
-          400: '#787879',
-          500: '#5d5c5d',
-          600: '#444445',
-          700: '#212021',
-          800: '#101011',
-          900: '#060507',
+          50: '#FFF',
+          100: '#FAFAFA',
+          200: '#EAEAEA',
+          300: '#999',
+          400: '#888',
+          500: '#666',
+          600: '#444',
+          700: '#222',
+          800: '#111',
+          900: '#000',
         },
       },
       screens: {
@@ -39,19 +47,39 @@ module.exports = {
       typography: (theme) => ({
         DEFAULT: {
           css: {
-            '*': {
-              color: theme('colors.white'),
+            fontSize: rem(18),
+            'h1, h2, h3, h4': {
+              fontFamily: theme('fontFamily.heading').join(', '),
+              fontWeight: theme('fontWeight.medium'),
             },
             'code::before': {
-              content: "''",
+              content: '',
             },
             'code::after': {
-              content: "''",
+              content: '',
             },
+          },
+        },
+        lg: {
+          css: {
+            fontSize: rem(20),
+          },
+        },
+        xl: {
+          css: {
+            fontSize: rem(22),
           },
         },
       }),
     },
   },
-  plugins: [require('@tailwindcss/typography'), require('tailwind-scrollbar')],
+  plugins: [
+    require('@tailwindcss/typography'),
+    require('tailwind-scrollbar'),
+    plugin(({addVariant}) => {
+      addVariant('supports-backdrop-blur', '@supports (backdrop-filter: none)')
+      addVariant('firefox', '@supports (-moz-appearance: none)')
+      addVariant('safari', '@supports selector(:nth-child(1 of x))')
+    }),
+  ],
 }

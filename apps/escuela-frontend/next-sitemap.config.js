@@ -1,7 +1,7 @@
 require('dotenv-flow').config()
 /** @type {import('next-sitemap').IConfig} */
 module.exports = {
-  siteUrl: process.env.NEXT_PUBLIC_URL,
+  siteUrl: `https://escuelafrontend.com`,
   changefreq: 'daily',
   priority: 0.7,
   sitemapSize: 5000,
@@ -22,6 +22,6 @@ module.exports = {
     '/check-your-email',
   ],
   robotsTxtOptions: {
-    additionalSitemaps: [`${process.env.NEXT_PUBLIC_URL}/server-sitemap.xml`],
+    additionalSitemaps: ['https://escuelafrontend.com/server-sitemap.xml'],
   },
 }

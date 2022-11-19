@@ -7,6 +7,7 @@ import {PortableText} from '@portabletext/react'
 import {SanityDocument} from '@sanity/client'
 import {isBrowser} from 'utils/is-browser'
 import {track} from '../utils/analytics'
+import {useConvertkit} from 'hooks/use-convertkit'
 import {Exercise} from 'lib/exercises'
 import PortableTextComponents from 'components/portable-text'
 import Icon from 'components/icons'
@@ -47,7 +48,7 @@ const TutorialTemplate: React.FC<{
       <CourseMeta title={pageTitle} description={description} />
       <Header tutorial={tutorial} />
       <main className="relative z-10 flex flex-col gap-5 lg:flex-row">
-        <article className="prose prose-lg w-full max-w-none lg:max-w-xl">
+        <article className="prose prose-lg prose-invert w-full max-w-none lg:max-w-xl">
           <PortableText value={body} components={PortableTextComponents} />
         </article>
         <TutorialExerciseNavigator tutorial={tutorial} />
@@ -70,12 +71,17 @@ const Header: React.FC<{tutorial: SanityDocument}> = ({tutorial}) => {
               Free Tutorial
             </a>
           </Link>
-          <h1 className="font-text font-heading max-w-4xl pt-5 text-4xl font-black lg:text-5xl">
+          <h1 className="font-text max-w-4xl pt-5 font-heading text-4xl font-bold lg:text-5xl">
             {title}
           </h1>
           <div className="pt-8 text-lg">
             <div className="flex items-center justify-center gap-3 md:justify-start">
-              <div className="flex items-center gap-3">TODO</div>
+              <div className="flex items-center gap-3">
+                <div className="flex items-center justify-center overflow-hidden rounded-md">
+                  TODO
+                </div>
+                <span>TODO</span>
+              </div>
             </div>
             <div className="flex items-center gap-3 pt-8">
               {exercises?.[0] && (
@@ -89,7 +95,7 @@ const Header: React.FC<{tutorial: SanityDocument}> = ({tutorial}) => {
                   }}
                 >
                   <a
-                    className="flex items-center justify-center rounded-full bg-brand px-6 py-3 font-semibold text-white transition hover:brightness-125"
+                    className="flex items-center justify-center rounded-md bg-brand px-6 py-3 font-semibold text-white transition hover:brightness-125"
                     onClick={() => {
                       track('clicked github code link', {module: slug.current})
                     }}
@@ -103,7 +109,7 @@ const Header: React.FC<{tutorial: SanityDocument}> = ({tutorial}) => {
               )}
               {github && (
                 <a
-                  className="flex items-center justify-center gap-2 rounded-full border-2 border-gray-700 px-5 py-3 font-medium transition hover:bg-gray-200"
+                  className="flex items-center justify-center gap-2 rounded-md border-2 border-gray-200 px-5 py-3 font-medium transition hover:bg-gray-200"
                   href={github.url}
                   onClick={() => {
                     track('clicked github code link', {module: slug.current})

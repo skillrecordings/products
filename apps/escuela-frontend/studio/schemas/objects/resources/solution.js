@@ -40,6 +40,8 @@ export default {
         },
         {type: 'muxVideo'},
         {type: 'stackblitz'},
+        {type: 'sandpack'},
+        {type: 'figma'},
         {type: 'github'},
       ],
     },

@@ -21,7 +21,7 @@ type TipsIndex = {
 }
 
 const pageDescription =
-  'A collection of useful tips that you wish you knew when you started using Escuela Frontend.'
+  'A collection of useful tips that you wish you knew when you started.'
 
 const TipsIndex: React.FC<TipsIndex> = ({tips}) => {
   return (
@@ -31,16 +31,16 @@ const TipsIndex: React.FC<TipsIndex> = ({tips}) => {
         description: pageDescription,
         ogImage: {
           url: 'https://res.cloudinary.com/pro-tailwind/image/upload/v1667503658/tips/card_2x_ld2v6w.png',
-          alt: 'Escuela Frontend Tips by Escuela Frontend',
+          alt: 'Escuela Frontend Tips',
         },
       }}
       className="sm:pt-18 flex flex-col items-center pb-16 pt-16 lg:pt-20 lg:pb-24"
     >
       <header className="relative z-10 flex flex-col items-center px-5 pb-16 text-center">
-        <h1 className="font-heading text-center text-4xl font-black sm:text-5xl lg:text-6xl">
+        <h1 className="text-center font-heading text-4xl font-bold sm:text-5xl lg:text-6xl">
           Escuela Frontend Tips
         </h1>
-        <p className="max-w-md pt-8 text-center text-lg text-gray-600 lg:text-xl">
+        <p className="max-w-md pt-8 text-center text-lg text-gray-300 lg:text-xl">
           {pageDescription}
         </p>
       </header>
@@ -63,8 +63,8 @@ const TipCard: React.FC<{tip: Tip}> = ({tip}) => {
   const {tipCompleted} = useTipComplete(tip.slug)
 
   return (
-    <article className="flex flex-col items-center overflow-hidden rounded-xl bg-gray-700 shadow-2xl shadow-gray-700/20">
-      <header className="relative flex aspect-video w-full flex-shrink-0 items-center justify-center border-b border-gray-600">
+    <article className="flex flex-col items-center overflow-hidden rounded-md bg-gray-800 shadow-2xl shadow-black/5">
+      <header className="relative flex aspect-video w-full flex-shrink-0 items-center justify-center">
         <button
           onClick={() => {
             router
@@ -98,7 +98,7 @@ const TipCard: React.FC<{tip: Tip}> = ({tip}) => {
             />
           </div>
           <div
-            className="absolute flex items-center justify-center rounded-full text-white opacity-100 drop-shadow-xl duration-500 ease-in-out group-hover:opacity-100"
+            className="absolute flex items-center justify-center rounded-md text-white opacity-100 drop-shadow-xl duration-500 ease-in-out group-hover:opacity-100"
             aria-hidden="true"
           >
             <Icon className="h-6 w-6" name="Playmark" />
@@ -108,11 +108,11 @@ const TipCard: React.FC<{tip: Tip}> = ({tip}) => {
       <div className="flex h-full w-full flex-col items-start p-8">
         <div className="flex items-center gap-2" aria-hidden="true">
           {tipCompleted && (
-            <div className="font-heading rounded-full bg-gray-100 px-2 py-1 text-xs font-bold uppercase leading-none tracking-wider text-gray-500">
+            <div className="rounded-md bg-brand px-2 py-1 font-heading text-xs font-bold uppercase leading-none tracking-wider text-gray-500">
               Watched
             </div>
           )}
-          <div className="font-heading rounded-full bg-amber-100 px-2 py-1 text-xs font-bold uppercase leading-none tracking-wider text-amber-500">
+          <div className="rounded-md bg-brand px-2 py-1 font-heading text-xs font-bold uppercase leading-none tracking-wider text-white">
             Tip
           </div>
         </div>

@@ -21,6 +21,7 @@
   margin-top: 1.25em !important;
   margin-bottom: 1.25em !important;
 }
+
 .token.comment,
 .token.prolog,
 .token.doctype,
@@ -39,7 +40,7 @@
 .token.constant,
 .token.symbol,
 .token.deleted {
-  @apply text-yellow-300;
+  @apply text-green-500;
 }
 
 .token.selector,
@@ -48,7 +49,7 @@
 .token.char,
 .token.builtin,
 .token.inserted {
-  @apply text-brand;
+  @apply text-red-500;
 }
 
 .token.operator,
@@ -62,7 +63,7 @@
 .token.atrule,
 .token.attr-value,
 .token.keyword {
-  @apply text-blue-500;
+  @apply text-gray-500;
 }
 
 .token.function,
@@ -88,4 +89,16 @@ pre::-webkit-scrollbar {
 pre {
   -ms-overflow-style: none; /* IE and Edge */
   scrollbar-width: none; /* Firefox */
+}
+
+.rehype-code-title {
+  @apply rounded-t-lg border border-b-0 border-gray-700 bg-gray-200 px-5 py-3 font-mono text-sm font-bold text-gray-800 dark:bg-gray-800 dark:text-gray-200;
+}
+
+.rehype-code-title + pre {
+  @apply mt-0 rounded-t-none;
+}
+
+.highlight-line {
+  @apply -mx-4 block border-l-4 border-blue-500 bg-gray-800 px-4;
 }

@@ -21,6 +21,11 @@ import Spinner from './spinner'
 import {Exercise} from 'lib/exercises'
 import dynamic from 'next/dynamic'
 
+const SandpackEditor: React.ComponentType<any> = dynamic(
+  () => import('components/sandpack/repl'),
+  {ssr: false},
+)
+
 export const OverlayWrapper: React.FC<
   React.PropsWithChildren<{className?: string; dismissable?: boolean}>
 > = ({children, className, dismissable = true}) => {
@@ -29,11 +34,11 @@ export const OverlayWrapper: React.FC<
   return (
     <div
       id="video-overlay"
-      className="relative top-0 left-0 flex aspect-video w-full items-center justify-center bg-gray-700"
+      className="relative top-0 left-0 flex aspect-video w-full items-center justify-center border border-gray-600 bg-gray-900"
     >
       {dismissable && (
         <button
-          className="absolute top-2 right-2 z-50 flex items-center justify-center gap-1 rounded-full bg-gray-500 py-2 px-3.5 font-medium text-gray-600 transition hover:bg-gray-600"
+          className="absolute top-2 right-2 z-50 flex items-center justify-center gap-1 rounded-md bg-gray-100 py-2 px-3.5 font-medium text-gray-800 transition hover:bg-gray-700"
           onClick={() => {
             track('dismissed video overlay', {
               lesson: lesson.slug,
@@ -54,7 +59,7 @@ export const OverlayWrapper: React.FC<
           className,
         )}
       >
-        <>{children}</>
+        {children}
       </div>
     </div>
   )
@@ -66,7 +71,7 @@ const Actions = () => {
   return (
     <div className="flex justify-center gap-2">
       <button
-        className="rounded-full bg-gray-200 px-3 py-1 font-medium transition hover:bg-gray-300/80 sm:px-5 sm:py-2"
+        className="rounded-md bg-gray-200 px-3 py-1 font-medium transition hover:bg-gray-300/80 sm:px-5 sm:py-2"
         onClick={() => {
           track('clicked replay', {
             lesson: lesson.slug,
@@ -82,7 +87,7 @@ const Actions = () => {
       </button>
       {nextExercise && (
         <button
-          className="rounded-full bg-emerald-600 px-3 py-1 font-medium text-white transition hover:bg-emerald-500 sm:px-5 sm:py-2"
+          className="rounded-md bg-emerald-600 px-3 py-1 font-medium text-white transition hover:bg-emerald-500 sm:px-5 sm:py-2"
           onClick={() => {
             track('clicked continue to solution', {
               lesson: lesson.slug,
@@ -104,20 +109,41 @@ const Actions = () => {
 const ExerciseOverlay: React.FC<{tutorialFiles: any}> = ({tutorialFiles}) => {
   const {lesson, module} = useMuxPlayer()
   const {github} = module
+  const sandpack = lesson.sandpack
+
+  const visibleFiles = sandpack
+    ?.filter(({active}) => active)
+    .map(({file}) => file)
+
+  const sandpackFiles = sandpack
+    ?.map(({file, code}) => {
+      if (file)
+        return {
+          [file]: {
+            code,
+          },
+        }
+    })
+    .reduce((acc, curr) => ({...acc, ...curr}))
 
   const files = {
     ...tutorialFiles,
+    ...sandpackFiles,
   }
 
   return (
     <div className="">
-      <>
-        <div className="flex w-full items-center justify-between p-3 pl-5 font-medium">
-          <div>Now it's your turn! Try solving this exercise.</div>
-          <Actions />
-        </div>
-        <div className="relative w-full">TOOD: add stackblitz editor</div>
-      </>
+      {sandpack && (
+        <>
+          <div className="flex w-full items-center justify-between p-3 pl-5 font-medium">
+            <div>Now it's your turn! Try solving this exercise.</div>
+            <Actions />
+          </div>
+          <div className="relative w-full">
+            <SandpackEditor visibleFiles={visibleFiles} files={files} />
+          </div>
+        </>
+      )}
     </div>
   )
 }
@@ -142,13 +168,13 @@ const DefaultOverlay = () => {
         </div>
       )}
 
-      <p className="font-heading pt-4 text-xl font-black sm:text-3xl">
+      <p className="pt-4 font-heading text-xl font-bold sm:text-3xl">
         <span className="font-normal text-gray-700">Up next:</span>{' '}
         {nextExercise.title}
       </p>
       <div className="flex items-center justify-center gap-5 py-4 sm:py-8">
         <button
-          className="rounded-full bg-gray-500 px-3 py-1 text-lg font-semibold transition hover:bg-gray-600 sm:px-5 sm:py-3"
+          className="rounded-md bg-gray-900 px-3 py-1 text-lg font-semibold transition hover:bg-gray-700 sm:px-5 sm:py-3"
           onClick={() => {
             track('clicked replay', {
               lesson: lesson.slug,
@@ -163,7 +189,7 @@ const DefaultOverlay = () => {
           Replay ↺
         </button>
         <button
-          className="rounded-full bg-brand px-3 py-1 text-lg font-semibold text-white transition hover:brightness-125 sm:px-5 sm:py-3"
+          className="rounded-md bg-brand px-3 py-1 text-lg font-semibold text-white transition hover:brightness-125 sm:px-5 sm:py-3"
           onClick={() => {
             track('clicked complete', {
               lesson: lesson.slug,
@@ -195,7 +221,7 @@ const FinishedOverlay = () => {
   const shareUrl = `${process.env.NEXT_PUBLIC_URL}${path}/${module.slug.current}`
   const shareMessage = `${module.title} ${module.moduleType} by @${process.env.NEXT_PUBLIC_PARTNER_TWITTER}`
   const shareButtonStyles =
-    'bg-gray-500 shadow-xl shadow-gray-500/5 flex items-center gap-2 rounded-full px-4 py-2 hover:bg-gray-50'
+    'bg-gray-900 shadow-xl shadow-gray-500/5 flex items-center gap-2 rounded-md px-4 py-2 hover:bg-gray-50'
 
   const addProgressMutation = trpc.useMutation(['progress.add'])
 
@@ -207,7 +233,7 @@ const FinishedOverlay = () => {
 
   return (
     <OverlayWrapper className="px-5 pt-10 sm:pt-0">
-      <p className="font-text font-heading text-2xl font-black sm:text-3xl">
+      <p className="font-text font-heading text-2xl font-bold sm:text-3xl">
         Share this {module.moduleType} with your friends
       </p>
       <div className="flex items-center gap-2 py-8">
@@ -305,7 +331,7 @@ const BlockedOverlay: React.FC = () => {
   return (
     <div
       id="video-overlay"
-      className="flex w-full flex-col items-center justify-center bg-gray-700 py-5 md:flex-row"
+      className="flex w-full flex-col items-center justify-center border border-gray-600 bg-gray-900 py-5 md:flex-row"
     >
       <div className="z-20 flex h-full flex-shrink-0 flex-col items-center justify-center gap-5 p-5 pb-10 text-center text-lg leading-relaxed sm:p-10 sm:pb-16">
         <div className="flex w-full flex-col items-center justify-center gap-2">
@@ -317,7 +343,7 @@ const BlockedOverlay: React.FC = () => {
               alt={module.title}
             />
           </div>
-          <h2 className="font-heading max-w-sm text-3xl font-black">
+          <h2 className="max-w-sm font-heading text-3xl font-bold">
             Level up with {module.title}
           </h2>
           <h3 className="pb-5 pt-2 text-lg font-medium text-brand">
@@ -337,8 +363,8 @@ const BlockedOverlay: React.FC = () => {
           </p>
         </div>
       </div>
-      <div className="prose flex w-full max-w-none flex-col p-5 text-white prose-p:mb-0 prose-p:text-gray-100 sm:max-w-sm xl:max-w-lg xl:prose-p:mb-0">
-        <h3 className="font-black">This is a free tutorial.</h3>
+      <div className="prose prose-invert flex w-full max-w-none flex-col p-5 prose-p:mb-0  sm:max-w-sm xl:max-w-lg xl:prose-p:mb-0">
+        <h3 className="font-bold">This is a free tutorial.</h3>
         {ctaText && <PortableText value={ctaText} />}
       </div>
     </div>

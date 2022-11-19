@@ -12,7 +12,10 @@ const hiddenDocTypes = (listItem) =>
     'videoResource',
     'skosConcept',
     'skosConceptScheme',
+    'module',
     'testimonial',
+    'section',
+    'explainer',
   ].includes(listItem.getId())
 
 export default () =>

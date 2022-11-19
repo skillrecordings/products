@@ -1,5 +1,29 @@
 import {sanityClient} from '../utils/sanity-client'
 import groq from 'groq'
+import z from 'zod'
+
+export const ArticleSchema = z.object({
+  title: z.string(),
+  metaTitle: z.string().optional(),
+  subtitle: z.string().optional(),
+  slug: z.string(),
+  description: z.nullable(z.string()).optional(),
+  body: z.any().array(),
+  date: z.string(),
+  related: z
+    .object({
+      title: z.string(),
+      subtitle: z.string(),
+      slug: z.string(),
+    })
+    .array(),
+  ogImage: z.object({
+    url: z.string(),
+  }),
+  estimatedReadingTime: z.string(),
+})
+
+export type Article = z.infer<typeof ArticleSchema>
 
 export async function getAllArticles() {
   return await sanityClient.fetch(groq`*[_type == "article" && published == true] | order(date asc){
@@ -7,11 +31,6 @@ export async function getAllArticles() {
     title,
     subtitle,
     'slug': slug.current,
-    author[]->{
-      'authorName': name, 
-      'authorTwitter': twitter, 
-      'authorPic': image
-    },
     description,
     body,
     published,
@@ -28,13 +47,8 @@ export async function getArticle(slug: string) {
     subtitle,
     "slug": slug.current,
     body,
+    metaTitle,
     date,
-    author[]->{
-      name, 
-      twitter, 
-      'image': image.url,
-      'alt': image.alt,
-    },
     description,
     related[]->{
       title,

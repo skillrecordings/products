@@ -1,17 +1,33 @@
 @tailwind base;
-
 @tailwind components;
+@import './subscribe-form.css';
 @import './quiz.css';
-@import './primary-newsletter-cta.css';
-@import './nprogress.css';
 @import './prism.css';
-
-@tailwind utilities;
 @import './focus-visible.css';
-@import './fonts.css';
+@import './nprogress.css';
+@tailwind utilities;
 
-.hero-animation-background {
-  animation: HeroAnimationBackground 8s 0.4s forwards;
+html,
+body,
+#root {
+  color-scheme: dark;
+}
+
+.no-marker {
+  ::-webkit-details-marker {
+    display: none;
+  }
+}
+
+mux-player {
+  aspect-ratio: 16 / 9;
+  width: 100%;
+  height: auto;
+  @apply relative overflow-hidden;
+}
+
+mux-player::part(vertical-layer) {
+  background-color: rgba(0, 0, 0, 0);
 }
 
 .hero-animation-h1 {
@@ -53,20 +69,4 @@
     opacity: 1;
     transform: translateY(0px);
   }
-}
-
-::selection {
-  @apply bg-brand;
-  @apply text-gray-50;
-}
-
-mux-player {
-  aspect-ratio: 16 / 9;
-  width: 100%;
-  height: auto;
-  @apply relative overflow-hidden;
-}
-
-mux-player::part(vertical-layer) {
-  background-color: rgba(0, 0, 0, 0);
 }
