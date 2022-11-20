@@ -18,8 +18,9 @@ import {PortableText} from '@portabletext/react'
 import {useQuery} from 'react-query'
 import {trpc} from '../utils/trpc'
 import Spinner from './spinner'
-
+import {StackBlitzIframe} from './stackblitz-iframe'
 import dynamic from 'next/dynamic'
+import {IconGithub} from './icons'
 
 const SandpackEditor: React.ComponentType<any> = dynamic(
   () => import('components/sandpack/repl'),
@@ -71,7 +72,7 @@ const Actions = () => {
   return (
     <div className="flex justify-center gap-2">
       <button
-        className="rounded-md bg-gray-200 px-3 py-1 font-medium transition hover:bg-gray-300/80 sm:px-5 sm:py-2"
+        className="rounded-md bg-gray-600 px-3 py-1 font-medium transition hover:bg-gray-500/80 sm:px-5 sm:py-2"
         onClick={() => {
           track('clicked replay', {
             lesson: lesson.slug,
@@ -106,44 +107,61 @@ const Actions = () => {
   )
 }
 
-const ExerciseOverlay: React.FC<{tutorialFiles: any}> = ({tutorialFiles}) => {
+const ExerciseOverlay = () => {
   const {lesson, module} = useMuxPlayer()
   const {github} = module
-  const sandpack = lesson.sandpack
-
-  const visibleFiles = sandpack
-    ?.filter(({active}) => active)
-    .map(({file}) => file)
-
-  const sandpackFiles = sandpack
-    ?.map(({file, code}) => {
-      if (file)
-        return {
-          [file]: {
-            code,
-          },
-        }
-    })
-    .reduce((acc, curr) => ({...acc, ...curr}))
-
-  const files = {
-    ...tutorialFiles,
-    ...sandpackFiles,
-  }
+  const stackblitz = lesson.stackblitz
 
   return (
-    <div className="">
-      {sandpack && (
+    <div className=" bg-black/30 ">
+      {stackblitz ? (
         <>
-          <div className="flex w-full items-center justify-between p-3 pl-5 font-medium">
+          <div className="flex w-full items-center justify-between p-3 pl-5 font-medium sm:text-lg">
             <div>Now it's your turn! Try solving this exercise.</div>
-            <Actions />
+            <div className="flex justify-center gap-2">
+              <Actions />
+            </div>
           </div>
-          <div className="relative w-full">
-            <SandpackEditor visibleFiles={visibleFiles} files={files} />
+          <div className="relative hidden h-[500px] w-full sm:block xl:h-[750px]">
+            <StackBlitzIframe exercise={lesson} module={module} />
           </div>
         </>
+      ) : (
+        <div className="aspect-video">
+          <p className="font-text text-3xl font-bold">Now it’s your turn!</p>
+          <p className="">
+            Try solving this exercise inside{' '}
+            <a
+              href={`https://github.com/total-typescript/${github.repo}/blob/main/${stackblitz}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center justify-center gap-1 rounded-sm bg-gray-800 py-0.5 px-1 font-mono text-sm"
+            >
+              <IconGithub /> {stackblitz}
+            </a>{' '}
+            file.
+          </p>
+          <Actions />
+        </div>
       )}
+      <div className="flex aspect-video flex-col items-center justify-center gap-5 p-3 text-center sm:hidden">
+        <p className="font-text text-3xl font-bold">Now it’s your turn!</p>
+        <p className="">
+          Try solving this exercise inside{' '}
+          <a
+            href={`https://github.com/total-typescript/${github.repo}/blob/main/${stackblitz}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center justify-center gap-1 rounded-sm bg-gray-800 py-0.5 px-1 font-mono text-sm"
+          >
+            <IconGithub /> {stackblitz}
+          </a>{' '}
+          file.
+        </p>
+        <div className="flex items-center justify-center gap-3">
+          <Actions />
+        </div>
+      </div>
     </div>
   )
 }
@@ -221,7 +239,7 @@ const FinishedOverlay = () => {
   const shareUrl = `${process.env.NEXT_PUBLIC_URL}${path}/${module.slug.current}`
   const shareMessage = `${module.title} ${module.moduleType} by @${process.env.NEXT_PUBLIC_PARTNER_TWITTER}`
   const shareButtonStyles =
-    'bg-gray-900 shadow-xl shadow-gray-500/5 flex items-center gap-2 rounded-md px-4 py-2 hover:bg-gray-50'
+    'bg-gray-500 shadow-xl shadow-gray-500/5 flex items-center gap-2 rounded-md px-4 py-2 hover:bg-gray-600'
 
   const addProgressMutation = trpc.useMutation(['progress.add'])
 
@@ -234,7 +252,7 @@ const FinishedOverlay = () => {
   return (
     <OverlayWrapper className="px-5 pt-10 sm:pt-0">
       <p className="font-text font-heading text-2xl font-bold text-white sm:text-3xl">
-        Share this {module.moduleType} with your friends
+        Comparte este tutorial con tus amigos!
       </p>
       <div className="flex items-center gap-2 py-8">
         <Twitter

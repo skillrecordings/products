@@ -24,14 +24,14 @@ const TutorialsPage: React.FC<{tutorials: SanityDocument[]}> = ({
           title: `Free Escuela Frontend Tutorials`,
           description: `Free Escuela Frontend tutorials that will help you learn how to use web technologies as a professional web developer through exercise driven examples.`,
           ogImage: {
-            url: 'https://res.cloudinary.com/pro-tailwind/image/upload/v1668155873/tutorials/card_2x.png',
+            url: 'https://res.cloudinary.com/pro-tailwind/image/upload/v1668155873/tutoriales/card_2x.png',
           },
         } as any
       }
     >
       <main className="relative z-10 flex flex-col items-center justify-center py-20">
         <h1 className="text-center font-heading text-4xl font-bold text-white sm:text-5xl lg:text-6xl">
-          Tutorials
+          Tutoriales
         </h1>
         <p className="max-w-sm pt-8 text-center text-lg text-gray-200">
           A collection of free, exercise-driven, in-depth Escuela Frontend
@@ -68,7 +68,7 @@ const TutorialsPage: React.FC<{tutorials: SanityDocument[]}> = ({
                       </div>
                       <Link
                         href={{
-                          pathname: '/tutorials/[module]',
+                          pathname: '/tutoriales/[module]',
                           query: {
                             module: slug.current,
                           },
@@ -82,7 +82,7 @@ const TutorialsPage: React.FC<{tutorials: SanityDocument[]}> = ({
                       {description && <p className="mt-2">{description}</p>}
                       <Link
                         href={{
-                          pathname: '/tutorials/[module]',
+                          pathname: '/tutoriales/[module]',
                           query: {
                             module: slug.current,
                           },

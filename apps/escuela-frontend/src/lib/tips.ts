@@ -12,6 +12,7 @@ export const TipSchema = z.object({
   description: z.nullable(z.string()).optional(),
   body: z.any().array().nullable().optional(),
   summary: z.any().array().nullable().optional(),
+  stackblitz: z.nullable(z.string()).optional(),
   sandpack: z
     .array(
       z.object({

@@ -11,6 +11,7 @@ export const ExerciseSchema = z.object({
   slug: z.string(),
   description: z.nullable(z.string()).optional(),
   body: z.any().array().optional().nullable(),
+  stackblitz: z.nullable(z.string()).optional(),
   sandpack: z
     .array(
       z.object({
@@ -46,6 +47,7 @@ export const ExerciseSchema = z.object({
       body: z.any().array().optional().nullable(),
       muxPlaybackId: z.nullable(z.string()).optional(),
       transcript: z.nullable(z.any().array()).optional(),
+      stackblitz: z.nullable(z.string()).optional(),
       github: z
         .object({
           url: z.string(),
@@ -75,6 +77,7 @@ export const getExerciseMedia = async (exerciseSlug: string) => {
     groq`*[_type == "exercise" && slug.current == $slug][0]{
       "slug": slug.current,
       body,
+      "stackblitz": resources[@._type == 'stackblitz'][0].openFile,
       "sandpack": resources[@._type == 'sandpack'][0].files[]{
             file,
             "code": code.code,
@@ -87,6 +90,7 @@ export const getExerciseMedia = async (exerciseSlug: string) => {
         "muxPlaybackId": resources[@->._type == 'videoResource'][0]-> muxAsset.muxPlaybackId,
         "transcript": resources[@->._type == 'videoResource'][0]-> castingwords.transcript,
         "slug": slug.current,
+        "stackblitz": resources[@._type == 'stackblitz'][0].openFile,
       }
     }`,
     {slug: `${exerciseSlug}`},
@@ -128,6 +132,7 @@ export const getExercise = async (
             "code": code.code,
             active
         },
+        "stackblitz": resources[@._type == 'stackblitz'][0].openFile,
         "muxPlaybackId": resources[@->._type == 'videoResource'][0]-> muxAsset.muxPlaybackId,
         "transcript": resources[@->._type == 'videoResource'][0]-> castingwords.transcript,
       `

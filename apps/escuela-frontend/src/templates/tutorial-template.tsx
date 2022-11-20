@@ -66,7 +66,7 @@ const Header: React.FC<{tutorial: SanityDocument}> = ({tutorial}) => {
     <>
       <header className="relative z-10 flex flex-col-reverse items-center justify-between pb-16 sm:pb-8 md:flex-row">
         <div className="text-center md:text-left">
-          <Link href="/tutorials">
+          <Link href="/tutoriales">
             <a className="pb-1 font-mono text-sm font-semibold uppercase tracking-wide text-brand">
               Free Tutorial
             </a>
@@ -106,7 +106,7 @@ const Header: React.FC<{tutorial: SanityDocument}> = ({tutorial}) => {
               {exercises?.[0] && (
                 <Link
                   href={{
-                    pathname: '/tutorials/[module]/[exercise]',
+                    pathname: '/tutoriales/[module]/[exercise]',
                     query: {
                       module: slug.current,
                       exercise: exercises[0].slug,
@@ -177,7 +177,7 @@ const TutorialExerciseNavigator: React.FC<{tutorial: SanityDocument}> = ({
               <li key={exercise.slug}>
                 <Link
                   href={{
-                    pathname: '/tutorials/[module]/[exercise]',
+                    pathname: '/tutoriales/[module]/[exercise]',
                     query: {
                       module: slug.current,
                       exercise: exercise.slug,
