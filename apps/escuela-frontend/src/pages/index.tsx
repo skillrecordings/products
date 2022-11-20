@@ -55,7 +55,7 @@ const Header: React.FC<HeaderProps> = ({image}) => {
             objectFit="cover"
           />
         )}
-        <div className="absolute inset-0 bg-gray-400 bg-gradient-to-t mix-blend-multiply" />
+        <div className="absolute inset-0 bg-gray-500 bg-gradient-to-t mix-blend-multiply" />
         <div
           className={cx(
             'relative flex min-h-screen w-full flex-col items-center justify-center',

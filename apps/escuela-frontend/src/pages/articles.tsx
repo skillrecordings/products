@@ -51,7 +51,7 @@ const Articles: React.FC<ArticlesProps> = ({articles}) => {
                   return (
                     <div
                       key={slug}
-                      className="gap-5 rounded-md bg-gray-800 p-8 shadow-xl shadow-black/10 sm:p-10"
+                      className="gap-5 rounded-md border border-gray-700 bg-gray-800 p-8 shadow-xl shadow-black/10 sm:p-10"
                     >
                       <div className="justify-left flex w-full sm:justify-between">
                         <div>

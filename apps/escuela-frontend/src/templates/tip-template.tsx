@@ -114,7 +114,7 @@ const TipTemplate: React.FC<TipPageProps> = ({tip, tips}) => {
         }}
       >
         <main className="mx-auto w-full">
-          <div className="relative z-10 flex items-center justify-center border-b border-gray-600 bg-gray-1000">
+          <div className="bg-gray-1000 relative z-10 flex items-center justify-center border-b border-gray-700">
             <div className="flex w-full max-w-screen-xl flex-col">
               <Video ref={muxPlayerRef} tips={tips} />
               {!subscriber && !loadingSubscriber && (
