@@ -1,9 +1,9 @@
 .prose pre {
-  @apply border  border-gray-700 bg-gray-900;
+  @apply border  border-gray-500 bg-gray-800;
 }
 
 .prose code {
-  @apply rounded-lg border border-gray-800 bg-gray-900 px-1 py-0.5 text-gray-200;
+  @apply rounded-lg border border-gray-500 bg-gray-800 px-1 py-0.5 text-gray-200;
 }
 
 .prose pre code {
@@ -63,7 +63,7 @@
 .token.atrule,
 .token.attr-value,
 .token.keyword {
-  @apply text-gray-500;
+  @apply text-gray-50;
 }
 
 .token.function,

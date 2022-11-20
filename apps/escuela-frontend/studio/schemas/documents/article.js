@@ -40,6 +40,12 @@ export default {
       initialValue: true,
     },
     {
+      name: 'author',
+      title: 'Author',
+      type: 'array',
+      of: [{type: 'reference', to: [{type: 'collaborator'}]}],
+    },
+    {
       name: 'body',
       title: 'Body',
       type: 'body',

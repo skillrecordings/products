@@ -13,7 +13,7 @@ const Navigation: React.FC<NavigationProps> = ({className}) => {
   return (
     <nav
       aria-label="top"
-      className="sticky top-0 left-0 z-50 w-full bg-gray-900 bg-opacity-95 py-2 shadow-xl supports-backdrop-blur:bg-opacity-70 supports-backdrop-blur:backdrop-blur-lg sm:py-2"
+      className="sticky top-0 left-0 z-50 w-full border-b border-gray-600 bg-gray-900 bg-opacity-95 py-2 shadow-xl supports-backdrop-blur:bg-opacity-70 supports-backdrop-blur:backdrop-blur-lg sm:py-2"
     >
       <div
         className={cx(className, {
@@ -36,19 +36,19 @@ const DesktopNav = () => {
       <NavSlots>
         <NavLink
           href="/tutorials"
-          icon={<Icon name="Video" className="text-white" />}
+          icon={<Icon name="Rocket" className="text-white" />}
         >
           Tutorials
         </NavLink>
         <NavLink
           href="/tips"
-          icon={<Icon name="Anchor" className="text-white" />}
+          icon={<Icon name="Stars" className="text-white" />}
         >
           Tips
         </NavLink>
         <NavLink
           href="/articles"
-          icon={<Icon name="Palm" className="text-white" />}
+          icon={<Icon name="Puzzle" className="text-white" />}
         >
           Articles
         </NavLink>
@@ -80,7 +80,7 @@ const NavLink: React.FC<NavLinkProps> = ({
       <a
         aria-current={isActive ? 'page' : undefined}
         className={cx(
-          'jusfify-center flex items-center gap-1 rounded-md px-4 py-2 text-sm transition hover:bg-gray-800',
+          'jusfify-center flex items-center gap-1 rounded-md px-4 py-2 text-sm transition hover:bg-gray-700',
           {
             'bg-gray-700': isActive,
           },

@@ -34,12 +34,14 @@ import {setUserId} from '@amplitude/analytics-browser'
 import {ArticleJsonLd} from '@skillrecordings/next-seo'
 import PortableTextComponents from 'components/portable-text'
 import Icon from 'components/icons'
+import isEmpty from 'lodash/isEmpty'
 
 const TipTemplate: React.FC<TipPageProps> = ({tip, tips}) => {
   const muxPlayerRef = React.useRef<HTMLDivElement>()
   const {subscriber, loadingSubscriber} = useConvertkit()
   const router = useRouter()
   const {tipCompleted} = useTipComplete(tip.slug)
+  const author = tip.author
 
   const module: any = {
     slug: {
@@ -112,7 +114,7 @@ const TipTemplate: React.FC<TipPageProps> = ({tip, tips}) => {
         }}
       >
         <main className="mx-auto w-full">
-          <div className="relative z-10 flex items-center justify-center border-b border-gray-600">
+          <div className="relative z-10 flex items-center justify-center border-b border-gray-600 bg-gray-1000">
             <div className="flex w-full max-w-screen-xl flex-col">
               <Video ref={muxPlayerRef} tips={tips} />
               {!subscriber && !loadingSubscriber && (
@@ -124,7 +126,7 @@ const TipTemplate: React.FC<TipPageProps> = ({tip, tips}) => {
             <div className="mx-auto w-full max-w-screen-xl pb-5">
               <div className="flex flex-col gap-0 sm:gap-10 md:flex-row">
                 <div className="w-full">
-                  <h1 className="inline-flex w-full max-w-2xl items-baseline font-heading text-3xl font-bold lg:text-4xl">
+                  <h1 className="inline-flex w-full max-w-2xl items-baseline font-heading text-3xl font-bold text-white lg:text-4xl">
                     {tip.title}
                     {tipCompleted && <span className="sr-only">(watched)</span>}
                   </h1>
@@ -135,15 +137,15 @@ const TipTemplate: React.FC<TipPageProps> = ({tip, tips}) => {
                     >
                       <Icon
                         name="Checkmark"
-                        className="h-5 w-5 text-emerald-600"
+                        className="h-5 w-5 text-green-500"
                       />
-                      <span className="font-heading text-sm font-bold uppercase text-emerald-600 opacity-90">
+                      <span className="font-heading text-sm font-bold uppercase text-green-500 opacity-90">
                         Watched
                       </span>
                     </div>
                   ) : (
                     <Hr
-                      className={tipCompleted ? 'bg-emerald-400' : 'bg-brand'}
+                      className={tipCompleted ? 'bg-green-400' : 'bg-brand'}
                     />
                   )}
                   {tip.body && (
@@ -155,7 +157,7 @@ const TipTemplate: React.FC<TipPageProps> = ({tip, tips}) => {
                         />
                       </div>
                       <Hr
-                        className={tipCompleted ? 'bg-emerald-400' : 'bg-brand'}
+                        className={tipCompleted ? 'bg-green-400' : 'bg-brand'}
                       />
                     </>
                   )}
@@ -167,6 +169,29 @@ const TipTemplate: React.FC<TipPageProps> = ({tip, tips}) => {
                       />
                     </div>
                   )}
+                  {!isEmpty(author) ? (
+                    <>
+                      <div className="col-span-3 flex items-center justify-start md:col-span-3">
+                        <Image
+                          src={author.image}
+                          alt="Author"
+                          width={42}
+                          height={42}
+                          priority
+                          loading="eager"
+                          className="rounded-full"
+                        />
+                        <a
+                          href={author.twitter}
+                          className="pl-2 text-sm decoration-brand underline-offset-1 hover:underline"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                        >
+                          {author.name}
+                        </a>
+                      </div>
+                    </>
+                  ) : null}
                 </div>
                 <div className="w-full">
                   <div className="prose prose-invert w-full max-w-none pb-5 font-medium sm:prose-lg">
@@ -259,7 +284,7 @@ const RelatedTips: React.FC<{tips: Tip[]; currentTip: Tip}> = ({
   tips,
 }) => {
   return (
-    <section className="mx-auto h-full w-full rounded-md bg-gray-800 p-5 shadow-2xl shadow-gray-500/20 sm:p-10">
+    <section className="mx-auto h-full w-full rounded-md bg-gray-800 p-5 sm:p-10">
       <h2 className="pt-3 font-heading text-2xl font-bold">More Tips</h2>
       <div className="flex flex-col pt-4">
         {tips
@@ -285,11 +310,11 @@ const TipOverlay: React.FC<{tips: Tip[]}> = ({tips}) => {
   const {lesson, module, setDisplayOverlay, handlePlay} = useMuxPlayer()
 
   const buttonStyles =
-    'py-2 px-3 font-medium rounded flex items-center gap-1 hover:bg-gray-200/50 bg-gray-100 transition text-gray-600'
+    'py-2 px-3 font-medium rounded flex items-center gap-1 hover:bg-gray-200 bg-gray-100 transition text-gray-600'
   return (
     <div
       id="video-overlay"
-      className="relative top-0 left-0 flex w-full items-center justify-center border-t border-gray-50 bg-gray-900 shadow-2xl shadow-gray-500/20 lg:aspect-video xl:rounded-b-xl"
+      className="relative top-0 left-0 flex w-full items-center justify-center bg-gray-900 shadow-2xl shadow-gray-900/30 lg:aspect-video xl:rounded-b-xl"
     >
       <div className="absolute top-8 right-8 z-50 flex items-center justify-center gap-3">
         <button className={buttonStyles} onClick={handlePlay}>
@@ -396,12 +421,12 @@ const ReplyOnTwitter: React.FC<{tweet: string}> = ({tweet}) => {
       href={`https://twitter.com/i/status/${tweet}`}
       target="_blank"
       rel="noopener noreferrer"
-      className="mb-5 mt-2 inline-flex items-center justify-center gap-2 rounded-md bg-gray-100 px-5 py-3 font-medium text-gray-300 shadow-2xl shadow-gray-500/30 transition"
+      className="mb-5 mt-2 inline-flex items-center justify-center gap-2 rounded-md bg-brand px-5 py-3 font-medium text-gray-50 shadow-2xl shadow-gray-500/30 transition hover:bg-brand/70"
       onClick={() => {
         track('clicked reply on twitter')
       }}
     >
-      <ChatAltIcon aria-hidden="true" className="h-5 w-5 text-sky-500" />
+      <ChatAltIcon aria-hidden="true" className="h-5 w-5 text-gray-50" />
       Discuss on Twitter
     </a>
   )

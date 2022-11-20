@@ -108,9 +108,9 @@ const ExerciseNavigator: React.FC<{
                           className={cx(
                             'flex items-center border-l-4 py-3 px-8 text-sm font-medium transition',
                             {
-                              'border-brand bg-gray-900 shadow-xl shadow-gray-500/5':
+                              'border-red-500 bg-gray-700 text-gray-50 shadow-xl shadow-gray-500/5':
                                 isActive,
-                              'border-transparent hover:bg-gray-200/50':
+                              'border-transparent text-gray-300 hover:bg-gray-700':
                                 !isActive,
                             },
                           )}
@@ -184,9 +184,9 @@ const SolutionLink = ({
           className={cx(
             'flex items-center border-l-4 py-3 px-8 text-sm font-medium transition',
             {
-              'border-emerald-500 bg-gray-900 shadow-xl shadow-gray-500/5':
+              'border-green-400 bg-gray-700 text-gray-50 shadow-xl shadow-gray-500/5':
                 isActive,
-              'border-transparent hover:bg-gray-200/50': !isActive,
+              'border-transparent text-gray-300 hover:bg-gray-700': !isActive,
             },
           )}
           onClick={() => {

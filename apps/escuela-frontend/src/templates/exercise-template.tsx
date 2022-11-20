@@ -218,9 +218,9 @@ const ExerciseTitle: React.FC<{exercise: Exercise}> = ({exercise}) => {
         className={cx(
           'inline-block rounded-md px-2.5 py-1 font-mono text-xs font-semibold uppercase sm:mt-5 lg:text-sm 2xl:mt-0 2xl:text-xs',
           {
-            'bg-emerald-500/20 text-emerald-600': _type === 'solution',
-            'bg-brand/20 text-brand': _type === 'exercise',
-            'bg-indigo-500/20 text-indigo-600': _type === 'explainer',
+            'bg-green-500/20 text-green-500': _type === 'solution',
+            'bg-red-500/20 text-red-500': _type === 'exercise',
+            'bg-brand/20 text-brand': _type === 'explainer',
           },
         )}
       >
@@ -317,8 +317,8 @@ const MobileLessonNavigator: React.FC<{
   path: string
 }> = ({module, path, section}) => {
   return (
-    <details className="group block border-t-2 border-gray-900 lg:hidden">
-      <summary className="no-marker flex cursor-pointer items-center gap-1 bg-gray-900 px-4 py-3 font-medium shadow-2xl shadow-gray-500/10 transition marker:content-[''] after:absolute after:right-3 after:flex after:h-6 after:w-6 after:rotate-180 after:items-center after:justify-center after:rounded-md after:bg-gray-100 after:text-lg after:content-['↑'] group-open:after:rotate-0 hover:bg-gray-700">
+    <details className="group block lg:hidden">
+      <summary className="no-marker flex cursor-pointer items-center gap-1 bg-gray-900 px-4 py-3 font-medium shadow-2xl shadow-gray-500/10 transition marker:content-[''] after:absolute after:right-3 after:flex after:h-6 after:w-6 after:rotate-180 after:items-center after:justify-center after:rounded-md after:bg-gray-600 after:text-lg after:content-['↑'] group-open:after:rotate-0 hover:bg-gray-700">
         {module.title} {capitalize(module.moduleType)}{' '}
         <span className="opacity-80">
           ({section ? section.exercises.length : module.exercises.length}{' '}

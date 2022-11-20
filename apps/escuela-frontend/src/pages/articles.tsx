@@ -7,7 +7,9 @@ import {Article, getAllArticles} from '../lib/articles'
 import {toPlainText} from '@portabletext/react'
 
 const meta = {
-  title: 'Escuela Frontend Articles',
+  title: 'Articles',
+  description:
+    '  In-depth article to learn how to navigate the frontend ecosystem.',
 }
 
 type ArticlesProps = {
@@ -16,11 +18,17 @@ type ArticlesProps = {
 
 const Articles: React.FC<ArticlesProps> = ({articles}) => {
   return (
-    <Layout meta={meta} className="overflow-hidden">
-      <header className="relative overflow-hidden px-5 pt-16 pb-10 sm:pb-20 sm:pt-24">
-        <h1 className="mx-auto max-w-screen-md text-center font-heading text-3xl font-bold leading-none text-gray-50 sm:text-4xl lg:text-5xl">
+    <Layout
+      meta={meta}
+      className="sm:pt-18 flex flex-col items-center pb-16 pt-16 lg:pt-20 lg:pb-24"
+    >
+      <header className="relative z-10 flex flex-col items-center px-5 pb-16 text-center">
+        <h1 className="text-center font-heading text-4xl font-bold text-white sm:text-5xl lg:text-6xl">
           {meta.title}
         </h1>
+        <p className="max-w-sm pt-8 text-center text-lg text-gray-200">
+          {meta.description}
+        </p>
       </header>
       <main className="flex-grow px-5">
         <div className="mx-auto w-full max-w-screen-lg pb-16">
@@ -71,8 +79,14 @@ const Articles: React.FC<ArticlesProps> = ({articles}) => {
                           )} */}
                           <div className="mt-6 flex w-full items-center justify-between space-x-5">
                             <Link href={`/${slug}`} passHref>
-                              <a className="rounded-md bg-brand px-5 py-3 text-white transition hover:bg-sky-600">
-                                View article
+                              <a className="rounded-md bg-brand px-5 py-3 font-medium text-white transition hover:bg-brand/70">
+                                View article{' '}
+                                <span
+                                  aria-hidden="true"
+                                  className="text-white/90 transition group-hover:text-white"
+                                >
+                                  →
+                                </span>
                               </a>
                             </Link>
                             <div className="text-sm text-gray-400">

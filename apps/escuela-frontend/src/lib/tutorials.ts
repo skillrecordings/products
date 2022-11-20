@@ -39,6 +39,11 @@ export const getTutorial = async (slug: string) =>
         title,
         state,
         slug,
+        author[0]->{
+          'name': name, 
+          'twitter': twitter, 
+          'image': image.url
+        },
         body[]{
           ...,
           _type == "bodyTestimonial" => {
