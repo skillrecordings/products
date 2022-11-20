@@ -13,7 +13,7 @@ const Navigation: React.FC<NavigationProps> = ({className}) => {
   return (
     <nav
       aria-label="top"
-      className="sticky top-0 left-0 z-50 w-full border-b border-gray-600 bg-gray-900 bg-opacity-95 py-2 shadow-xl supports-backdrop-blur:bg-opacity-70 supports-backdrop-blur:backdrop-blur-lg sm:py-2"
+      className="sticky top-0 left-0 z-50 w-full border-b border-gray-700 bg-gray-900 bg-opacity-95 py-2 shadow-xl supports-backdrop-blur:bg-opacity-70 supports-backdrop-blur:backdrop-blur-lg sm:py-2"
     >
       <div
         className={cx(className, {

@@ -44,7 +44,7 @@ const ArticleTemplate: React.FC<ArticleTemplateProps> = ({article}) => {
       <ArticleMeta article={article} shortDescription={shortDescription} />
       <Header {...article} />
       <main>
-        <div className="border-y border-gray-600 bg-gray-800/40 px-5 shadow-lg shadow-black/5 lg:px-0">
+        <div className="border-y border-gray-700 bg-gray-800 px-5 lg:px-0">
           <TableOfContents value={body} />
         </div>
         <div className="mx-auto w-full max-w-screen-md px-5 pb-10 sm:pt-10 sm:pb-24 lg:px-0">

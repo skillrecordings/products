@@ -63,7 +63,7 @@ const TipCard: React.FC<{tip: Tip}> = ({tip}) => {
   const {tipCompleted} = useTipComplete(tip.slug)
 
   return (
-    <article className="flex flex-col items-center overflow-hidden rounded-md border border-gray-600 bg-gray-800 shadow-2xl shadow-black/5">
+    <article className="flex flex-col items-center overflow-hidden rounded-md border border-gray-700 bg-gray-800 shadow-2xl shadow-black/5">
       <header className="relative flex aspect-video w-full flex-shrink-0 items-center justify-center">
         <button
           onClick={() => {

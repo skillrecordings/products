@@ -34,7 +34,7 @@ export const OverlayWrapper: React.FC<
   return (
     <div
       id="video-overlay"
-      className="relative top-0 left-0 flex aspect-video w-full items-center justify-center border border-gray-600 bg-gray-900"
+      className="relative top-0 left-0 flex aspect-video w-full items-center justify-center border border-gray-700 bg-gray-900"
     >
       {dismissable && (
         <button
@@ -331,7 +331,7 @@ const BlockedOverlay: React.FC = () => {
   return (
     <div
       id="video-overlay"
-      className="flex w-full flex-col items-center justify-center border border-gray-600 bg-gray-900 py-5 md:flex-row"
+      className="flex w-full flex-col items-center justify-center border border-gray-700 bg-gray-900 py-5 md:flex-row"
     >
       <div className="z-20 flex h-full flex-shrink-0 flex-col items-center justify-center gap-5 p-5 pb-10 text-center text-lg leading-relaxed sm:p-10 sm:pb-16">
         <div className="flex w-full flex-col items-center justify-center gap-2">

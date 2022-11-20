@@ -11,7 +11,7 @@
       @apply opacity-50;
     }
     [data-sr-button] {
-      @apply mt-2 flex w-full items-center justify-center overflow-clip rounded-md bg-black p-5 font-heading text-lg font-bold tracking-wide text-white shadow-xl transition focus:outline-white hover:bg-gray-900 sm:text-xl;
+      @apply mt-2 flex w-full items-center justify-center overflow-clip rounded-md bg-brand p-5 font-heading text-lg font-bold tracking-wide text-white shadow-xl transition focus:outline-white hover:bg-brand sm:text-xl;
 
       svg {
         @apply h-6 w-6;

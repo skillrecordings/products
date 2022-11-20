@@ -44,7 +44,7 @@ const TutorialsPage: React.FC<{tutorials: SanityDocument[]}> = ({
                 return (
                   <li
                     key={slug.current}
-                    className="relative flex flex-col items-center gap-10 overflow-hidden rounded-md border border-gray-600 bg-gray-800 shadow-2xl shadow-black/5 md:flex-row"
+                    className="relative flex flex-col items-center gap-10 overflow-hidden rounded-md border border-gray-700 bg-gray-800 shadow-2xl shadow-black/5 md:flex-row"
                   >
                     <div className="flex h-full flex-shrink-0 items-center justify-center p-10">
                       {image && (

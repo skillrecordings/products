@@ -81,7 +81,7 @@ const ExerciseTemplate: React.FC<{
             section={section}
           />
           <main className="relative mx-auto max-w-[1480px] grow items-start  sm:bg-gray-800 2xl:flex 2xl:max-w-none  2xl:bg-transparent">
-            <div className="border-gray-600 2xl:relative 2xl:h-full 2xl:w-full 2xl:border-r 2xl:bg-gray-800">
+            <div className="border-gray-700 2xl:relative 2xl:h-full 2xl:w-full 2xl:border-r 2xl:bg-gray-800">
               <Video
                 ref={muxPlayerRef}
                 module={module}
@@ -219,8 +219,8 @@ const ExerciseTitle: React.FC<{exercise: Exercise}> = ({exercise}) => {
           'inline-block rounded-md px-2.5 py-1 font-mono text-xs font-semibold uppercase sm:mt-5 lg:text-sm 2xl:mt-0 2xl:text-xs',
           {
             'bg-green-500/20 text-green-500': _type === 'solution',
-            'bg-red-500/20 text-red-500': _type === 'exercise',
-            'bg-brand/20 text-brand': _type === 'explainer',
+            'bg-brand/20 text-brand': _type === 'exercise',
+            'bg-sky-500/20 text-sky-500': _type === 'explainer',
           },
         )}
       >
