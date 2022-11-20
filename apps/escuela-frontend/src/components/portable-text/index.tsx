@@ -424,15 +424,15 @@ type CodeProps = {
 const getCalloutStyles = (type: string): string => {
   switch (type) {
     case 'tip':
-      return 'bg-gray-200'
+      return 'bg-gray-700'
     case 'big-idea':
-      return 'bg-gray-200'
+      return 'bg-gray-700'
     case 'reflection':
-      return 'bg-gray-200'
+      return 'bg-gray-700'
     case 'caution':
-      return 'bg-gray-200'
+      return 'bg-gray-700'
     default:
-      return 'bg-gray-200'
+      return 'bg-gray-700'
   }
 }
 

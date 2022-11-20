@@ -7,15 +7,15 @@ import {PortableText} from '@portabletext/react'
 import {SanityDocument} from '@sanity/client'
 import {isBrowser} from 'utils/is-browser'
 import {track} from '../utils/analytics'
-import {useConvertkit} from 'hooks/use-convertkit'
 import {Exercise} from 'lib/exercises'
 import PortableTextComponents from 'components/portable-text'
 import Icon from 'components/icons'
+import isEmpty from 'lodash/isEmpty'
 
 const TutorialTemplate: React.FC<{
   tutorial: SanityDocument
 }> = ({tutorial}) => {
-  const {title, body, ogImage, image, description} = tutorial
+  const {title, body, ogImage, image, description, author} = tutorial
   const pageTitle = `${title} Tutorial`
 
   // TODO: Fix behaving poorly showing the wrong title
@@ -60,7 +60,7 @@ const TutorialTemplate: React.FC<{
 export default TutorialTemplate
 
 const Header: React.FC<{tutorial: SanityDocument}> = ({tutorial}) => {
-  const {title, slug, exercises, image, github} = tutorial
+  const {title, slug, exercises, image, github, author} = tutorial
 
   return (
     <>
@@ -77,10 +77,29 @@ const Header: React.FC<{tutorial: SanityDocument}> = ({tutorial}) => {
           <div className="pt-8 text-lg">
             <div className="flex items-center justify-center gap-3 md:justify-start">
               <div className="flex items-center gap-3">
-                <div className="flex items-center justify-center overflow-hidden rounded-md">
-                  TODO
-                </div>
-                <span>TODO</span>
+                {!isEmpty(author) ? (
+                  <>
+                    <div className="col-span-3 flex items-center justify-center md:col-span-3 md:justify-start">
+                      <Image
+                        src={author.image}
+                        alt="Author"
+                        width={42}
+                        height={42}
+                        priority
+                        loading="eager"
+                        className="rounded-full"
+                      />
+                      <a
+                        href={author.twitter}
+                        className="pl-2 text-sm decoration-brand underline-offset-1 hover:underline"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        {author.name}
+                      </a>
+                    </div>
+                  </>
+                ) : null}
               </div>
             </div>
             <div className="flex items-center gap-3 pt-8">

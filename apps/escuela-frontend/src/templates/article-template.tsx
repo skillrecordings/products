@@ -13,6 +13,7 @@ import {getOgImage} from 'utils/get-og-image'
 import {isBrowser} from 'utils/is-browser'
 import {type Article} from 'lib/articles'
 import {format} from 'date-fns'
+import Image from 'next/image'
 
 type ArticleTemplateProps = {
   article: Article
@@ -43,7 +44,7 @@ const ArticleTemplate: React.FC<ArticleTemplateProps> = ({article}) => {
       <ArticleMeta article={article} shortDescription={shortDescription} />
       <Header {...article} />
       <main>
-        <div className="border-y border-gray-700 bg-gray-800 px-5 shadow-lg shadow-black/5 lg:px-0">
+        <div className="border-y border-gray-600 bg-gray-800/40 px-5 shadow-lg shadow-black/5 lg:px-0">
           <TableOfContents value={body} />
         </div>
         <div className="mx-auto w-full max-w-screen-md px-5 pb-10 sm:pt-10 sm:pb-24 lg:px-0">
@@ -101,6 +102,7 @@ const Header: React.FC<Article> = ({
   subtitle,
   date,
   estimatedReadingTime,
+  author,
 }) => {
   return (
     <header className="relative flex flex-col items-center overflow-hidden px-5 pb-8 sm:pt-10">
@@ -114,7 +116,7 @@ const Header: React.FC<Article> = ({
           </a>
         </Link> */}
         <div className="flex flex-col items-center justify-center pt-10 pb-24 text-center">
-          <h1 className="mx-auto py-4 font-heading text-3xl font-bold leading-none text-gray-50 sm:text-4xl lg:text-5xl">
+          <h1 className="mx-auto py-4 font-heading text-3xl font-bold leading-none text-white sm:text-4xl lg:text-5xl">
             {title}
           </h1>
           {subtitle && (
@@ -124,10 +126,32 @@ const Header: React.FC<Article> = ({
           )}
         </div>
         <div className="flex w-full max-w-screen-md flex-wrap items-center justify-center gap-10 leading-none sm:justify-between sm:text-lg">
-          <Author />
+          {!isEmpty(author) ? (
+            <>
+              <div className="col-span-3 flex items-center justify-center md:col-span-3 md:justify-start">
+                <Image
+                  src={author.image}
+                  alt="Author"
+                  width={42}
+                  height={42}
+                  priority
+                  loading="eager"
+                  className="rounded-full"
+                />
+                <a
+                  href={author.twitter}
+                  className="pl-2 text-sm decoration-brand underline-offset-1 hover:underline"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  {author.name}
+                </a>
+              </div>
+            </>
+          ) : null}
           <div className="flex gap-16 sm:text-left">
             <div>
-              <div className="pb-1.5 text-sm font-semibold uppercase tracking-wide text-gray-500">
+              <div className="pb-1.5 text-sm font-semibold uppercase tracking-wide text-gray-300">
                 Time to read
               </div>
               <div>
@@ -136,7 +160,7 @@ const Header: React.FC<Article> = ({
               </div>
             </div>
             <time dateTime={date}>
-              <div className="pb-1.5 text-sm font-semibold uppercase tracking-wide text-gray-500">
+              <div className="pb-1.5 text-sm font-semibold uppercase tracking-wide text-gray-300">
                 published
               </div>
               <div>{format(new Date(date), 'dd MMMM, y')}</div>
@@ -145,22 +169,6 @@ const Header: React.FC<Article> = ({
         </div>
       </div>
     </header>
-  )
-}
-
-const Author = () => {
-  return (
-    <div className="col-span-3 flex items-center justify-center md:col-span-3 md:justify-start">
-      TODO
-      <a
-        href="https://twitter.com/escuelafrontend"
-        className="pl-2 leading-none decoration-indigo-500 underline-offset-1 hover:underline"
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        TODO
-      </a>
-    </div>
   )
 }
 

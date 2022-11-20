@@ -27,6 +27,12 @@ export default {
       },
     },
     {
+      name: 'author',
+      title: 'Author',
+      type: 'array',
+      of: [{type: 'reference', to: [{type: 'collaborator'}]}],
+    },
+    {
       name: 'state',
       title: 'Current State',
       type: 'string',

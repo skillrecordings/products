@@ -13,6 +13,8 @@ import module from './documents/module'
 import testimonial from './documents/testimonial'
 import section from './documents/section'
 import explainer from './documents/explainer'
+import collaborator from './documents/collaborator'
+
 // objects
 import bodyVideo from './objects/bodyVideo'
 import bodyImage from './objects/bodyImage'
@@ -53,6 +55,7 @@ export default createSchema({
     testimonial,
     section,
     explainer,
+    collaborator,
     //objects
     body,
     bodyVideo,

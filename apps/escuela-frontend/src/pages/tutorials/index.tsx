@@ -30,10 +30,10 @@ const TutorialsPage: React.FC<{tutorials: SanityDocument[]}> = ({
       }
     >
       <main className="relative z-10 flex flex-col items-center justify-center py-20">
-        <h1 className="text-center font-heading text-4xl font-bold sm:text-5xl lg:text-6xl">
-          Free Escuela Frontend Tutorials
+        <h1 className="text-center font-heading text-4xl font-bold text-white sm:text-5xl lg:text-6xl">
+          Tutorials
         </h1>
-        <p className="max-w-sm pt-8 text-center text-lg text-gray-300">
+        <p className="max-w-sm pt-8 text-center text-lg text-gray-200">
           A collection of free, exercise-driven, in-depth Escuela Frontend
           tutorials for you to use on your journey to Escuela Frontend wizardry.
         </p>
@@ -44,9 +44,9 @@ const TutorialsPage: React.FC<{tutorials: SanityDocument[]}> = ({
                 return (
                   <li
                     key={slug.current}
-                    className="relative flex flex-col items-center gap-10 overflow-hidden rounded-md border border-gray-600 bg-gray-900 shadow-2xl  md:flex-row"
+                    className="relative flex flex-col items-center gap-10 overflow-hidden rounded-md border border-gray-600 bg-gray-800 shadow-2xl shadow-black/5 md:flex-row"
                   >
-                    <div className="flex h-full flex-shrink-0 items-center justify-center bg-gray-900 p-10">
+                    <div className="flex h-full flex-shrink-0 items-center justify-center p-10">
                       {image && (
                         <Image
                           src={image}
@@ -60,7 +60,7 @@ const TutorialsPage: React.FC<{tutorials: SanityDocument[]}> = ({
                     <div className="pr:0 m-10 md:m-0 md:pr-10">
                       <div className="pt-4 pb-3 font-mono text-xs font-semibold uppercase text-gray-300 ">
                         {i === 0 && (
-                          <span className="mr-3 rounded-md bg-gray-100 px-2 py-0.5 font-sans font-semibold uppercase text-gray-700">
+                          <span className="mr-3 rounded-md bg-white px-2 py-0.5 font-sans font-semibold uppercase text-gray-900">
                             New
                           </span>
                         )}
@@ -74,7 +74,7 @@ const TutorialsPage: React.FC<{tutorials: SanityDocument[]}> = ({
                           },
                         }}
                       >
-                        <a className="font-heading text-3xl font-bold hover:underline sm:text-4xl">
+                        <a className="font-heading text-3xl font-bold text-white hover:underline sm:text-4xl">
                           {title}
                         </a>
                       </Link>
@@ -88,7 +88,7 @@ const TutorialsPage: React.FC<{tutorials: SanityDocument[]}> = ({
                           },
                         }}
                       >
-                        <a className="group my-4 inline-block gap-2 rounded-md bg-brand px-4 py-2 font-medium text-white transition">
+                        <a className="group my-4 inline-block gap-2 rounded-md bg-brand px-4 py-2 font-medium text-white transition hover:bg-brand/70">
                           View{' '}
                           <span
                             aria-hidden="true"

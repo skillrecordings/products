@@ -17,6 +17,11 @@ export const ArticleSchema = z.object({
       slug: z.string(),
     })
     .array(),
+  author: z.object({
+    name: z.string().optional(),
+    twitter: z.string().optional(),
+    image: z.string(),
+  }),
   ogImage: z.object({
     url: z.string(),
   }),
@@ -31,6 +36,11 @@ export async function getAllArticles() {
     title,
     subtitle,
     'slug': slug.current,
+    author[0]->{
+      'name': name, 
+      'twitter': twitter, 
+      'image': image.url
+    },
     description,
     body,
     published,
@@ -49,6 +59,11 @@ export async function getArticle(slug: string) {
     body,
     metaTitle,
     date,
+    author[0]->{
+      'name': name, 
+      'twitter': twitter, 
+      'image': image.url
+    },
     description,
     related[]->{
       title,

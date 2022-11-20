@@ -4,7 +4,7 @@
     "name": "protailwind"
   },
   "api": {
-    "projectId": "knx644y7",
+    "projectId": "s8qytc9h",
     "dataset": "production"
   },
   "plugins": [
@@ -18,9 +18,7 @@
   ],
   "env": {
     "development": {
-      "plugins": [
-        "@sanity/vision"
-      ]
+      "plugins": ["@sanity/vision"]
     }
   },
   "parts": [

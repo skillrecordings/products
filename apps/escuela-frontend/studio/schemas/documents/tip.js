@@ -24,6 +24,12 @@ export default {
       },
     },
     {
+      name: 'author',
+      title: 'Author',
+      type: 'array',
+      of: [{type: 'reference', to: [{type: 'collaborator'}]}],
+    },
+    {
       name: 'resources',
       title: 'Resources',
       type: 'array',

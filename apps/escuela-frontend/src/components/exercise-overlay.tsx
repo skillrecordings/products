@@ -38,7 +38,7 @@ export const OverlayWrapper: React.FC<
     >
       {dismissable && (
         <button
-          className="absolute top-2 right-2 z-50 flex items-center justify-center gap-1 rounded-md bg-gray-100 py-2 px-3.5 font-medium text-gray-800 transition hover:bg-gray-700"
+          className="absolute top-2 right-2 z-50 flex items-center justify-center gap-1 rounded-md  bg-gray-600 py-2 px-3.5 font-medium text-gray-300 transition hover:bg-gray-500 "
           onClick={() => {
             track('dismissed video overlay', {
               lesson: lesson.slug,
@@ -50,7 +50,7 @@ export const OverlayWrapper: React.FC<
           }}
         >
           <span>Dismiss</span>{' '}
-          <XIcon className="h-4 w-4 text-gray-500" aria-hidden="true" />
+          <XIcon className="h-4 w-4 text-gray-300" aria-hidden="true" />
         </button>
       )}
       <div
@@ -87,7 +87,7 @@ const Actions = () => {
       </button>
       {nextExercise && (
         <button
-          className="rounded-md bg-emerald-600 px-3 py-1 font-medium text-white transition hover:bg-emerald-500 sm:px-5 sm:py-2"
+          className="rounded-md bg-green-500 px-3 py-1 font-medium text-white transition hover:bg-green-400 sm:px-5 sm:py-2"
           onClick={() => {
             track('clicked continue to solution', {
               lesson: lesson.slug,
@@ -169,12 +169,12 @@ const DefaultOverlay = () => {
       )}
 
       <p className="pt-4 font-heading text-xl font-bold sm:text-3xl">
-        <span className="font-normal text-gray-700">Up next:</span>{' '}
+        <span className="font-light text-gray-300">Up next:</span>{' '}
         {nextExercise.title}
       </p>
       <div className="flex items-center justify-center gap-5 py-4 sm:py-8">
         <button
-          className="rounded-md bg-gray-900 px-3 py-1 text-lg font-semibold transition hover:bg-gray-700 sm:px-5 sm:py-3"
+          className="rounded-md bg-gray-600 px-3 py-1 text-lg font-semibold transition hover:bg-gray-500 sm:px-5 sm:py-3"
           onClick={() => {
             track('clicked replay', {
               lesson: lesson.slug,
@@ -233,7 +233,7 @@ const FinishedOverlay = () => {
 
   return (
     <OverlayWrapper className="px-5 pt-10 sm:pt-0">
-      <p className="font-text font-heading text-2xl font-bold sm:text-3xl">
+      <p className="font-text font-heading text-2xl font-bold text-white sm:text-3xl">
         Share this {module.moduleType} with your friends
       </p>
       <div className="flex items-center gap-2 py-8">

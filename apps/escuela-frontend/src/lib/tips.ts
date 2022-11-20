@@ -25,6 +25,11 @@ export const TipSchema = z.object({
   muxPlaybackId: z.nullable(z.string()).optional(),
   transcript: z.nullable(z.any().array()),
   tweetId: z.string(),
+  author: z.object({
+    name: z.string().optional(),
+    twitter: z.string().optional(),
+    image: z.string(),
+  }),
 })
 
 export const TipsSchema = z.array(TipSchema)
@@ -45,7 +50,12 @@ export const getAllTips = async (): Promise<Tip[]> => {
         "muxPlaybackId": resources[@->._type == 'videoResource'][0]-> muxAsset.muxPlaybackId,
         "slug": slug.current,
         "transcript": resources[@->._type == 'videoResource'][0]-> castingwords.transcript,
-        "tweetId":  resources[@._type == 'tweet'][0].tweetId
+        "tweetId":  resources[@._type == 'tweet'][0].tweetId,
+        author[0]->{
+          'name': name, 
+          'twitter': twitter, 
+          'image': image.url
+        },
   }`)
 
   return TipsSchema.parse(tips)
@@ -65,7 +75,12 @@ export const getTip = async (slug: string): Promise<Tip> => {
         "muxPlaybackId": resources[@->._type == 'videoResource'][0]-> muxAsset.muxPlaybackId,
         "slug": slug.current,
         "transcript": resources[@->._type == 'videoResource'][0]-> castingwords.transcript,
-        "tweetId":  resources[@._type == 'tweet'][0].tweetId
+        "tweetId":  resources[@._type == 'tweet'][0].tweetId,
+        author[0]->{
+          'name': name, 
+          'twitter': twitter, 
+          'image': image.url
+        },
     }`,
     {slug: `${slug}`},
   )

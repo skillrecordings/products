@@ -37,10 +37,10 @@ const TipsIndex: React.FC<TipsIndex> = ({tips}) => {
       className="sm:pt-18 flex flex-col items-center pb-16 pt-16 lg:pt-20 lg:pb-24"
     >
       <header className="relative z-10 flex flex-col items-center px-5 pb-16 text-center">
-        <h1 className="text-center font-heading text-4xl font-bold sm:text-5xl lg:text-6xl">
-          Escuela Frontend Tips
+        <h1 className="text-center font-heading text-4xl font-bold text-white sm:text-5xl lg:text-6xl">
+          Tips
         </h1>
-        <p className="max-w-md pt-8 text-center text-lg text-gray-300 lg:text-xl">
+        <p className="max-w-sm pt-8 text-center text-lg text-gray-200">
           {pageDescription}
         </p>
       </header>
@@ -63,7 +63,7 @@ const TipCard: React.FC<{tip: Tip}> = ({tip}) => {
   const {tipCompleted} = useTipComplete(tip.slug)
 
   return (
-    <article className="flex flex-col items-center overflow-hidden rounded-md bg-gray-800 shadow-2xl shadow-black/5">
+    <article className="flex flex-col items-center overflow-hidden rounded-md border border-gray-600 bg-gray-800 shadow-2xl shadow-black/5">
       <header className="relative flex aspect-video w-full flex-shrink-0 items-center justify-center">
         <button
           onClick={() => {
@@ -108,7 +108,7 @@ const TipCard: React.FC<{tip: Tip}> = ({tip}) => {
       <div className="flex h-full w-full flex-col items-start p-8">
         <div className="flex items-center gap-2" aria-hidden="true">
           {tipCompleted && (
-            <div className="rounded-md bg-brand px-2 py-1 font-heading text-xs font-bold uppercase leading-none tracking-wider text-gray-500">
+            <div className="rounded-md bg-green-500/20 px-2 py-1 font-heading text-xs font-bold uppercase leading-none tracking-wider text-green-300">
               Watched
             </div>
           )}
