@@ -35,10 +35,10 @@ const DesktopNav = () => {
     <div className="flex items-center space-x-5">
       <NavSlots>
         <NavLink
-          href="/tutorials"
+          href="/tutoriales"
           icon={<Icon name="Rocket" className="text-white" />}
         >
-          Tutorials
+          Tutoriales
         </NavLink>
         <NavLink
           href="/tips"
@@ -47,10 +47,10 @@ const DesktopNav = () => {
           Tips
         </NavLink>
         <NavLink
-          href="/articles"
+          href="/articulos"
           icon={<Icon name="Puzzle" className="text-white" />}
         >
-          Articles
+          Artículos
         </NavLink>
       </NavSlots>
     </div>

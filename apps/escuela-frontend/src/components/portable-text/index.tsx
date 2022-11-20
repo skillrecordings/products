@@ -142,7 +142,7 @@ const InternalLink: React.FC<InternalLinkProps> = ({value, children}) => {
   return (
     <Link
       href={{
-        pathname: '/tutorials/[module]/[exercise]',
+        pathname: '/tutoriales/[module]/[exercise]',
         query: {
           module: value.module.slug,
           exercise: value.slug,

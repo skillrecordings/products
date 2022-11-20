@@ -1040,6 +1040,7 @@ importers:
       '@skillrecordings/time': workspace:*
       '@skillrecordings/tsconfig': workspace:*
       '@skillrecordings/types': workspace:*
+      '@stackblitz/sdk': ^1.8.0
       '@tailwindcss/typography': ^0.5.7
       '@trpc/client': ^9.27.2
       '@trpc/next': ^9.27.2
@@ -1125,6 +1126,7 @@ importers:
       '@skillrecordings/react': link:../../packages/react
       '@skillrecordings/skill-api': link:../../packages/skill-api
       '@skillrecordings/time': link:../../packages/time
+      '@stackblitz/sdk': 1.8.0
       '@tailwindcss/typography': 0.5.7_tailwindcss@3.1.6
       '@trpc/client': 9.27.2_@trpc+server@9.27.2
       '@trpc/next': 9.27.2_cpjoldjkwaya224psufok4zvdi
@@ -10316,7 +10318,7 @@ packages:
       '@sentry/types': 7.9.0
       '@sentry/utils': 7.9.0
       '@sentry/webpack-plugin': 1.19.0
-      next: 12.3.1_rlaikcoslzwwtqyk7brpdzej5y
+      next: 12.3.1_biqbaboplfbrettd7655fr4n2y
       react: 18.2.0
       tslib: 1.14.1
       webpack: 5.73.0
@@ -13253,7 +13255,7 @@ packages:
   /axios/0.26.1:
     resolution: {integrity: sha512-fPwcX4EvnSHuInCMItEhAGnaSEXRBjtzh9fOtsE6E1G6p7vl7edEeZe11QHf18+6+9gR5PbKV/sGKNaD8YaMeA==}
     dependencies:
-      follow-redirects: 1.15.1_debug@2.6.9
+      follow-redirects: 1.15.1
     transitivePeerDependencies:
       - debug
 
@@ -17634,6 +17636,15 @@ packages:
 
   /focus-visible/5.2.0:
     resolution: {integrity: sha512-Rwix9pBtC1Nuy5wysTmKy+UjbDJpIfg8eHjw0rjZ1mX4GNLz1Bmd16uDpI3Gk1i70Fgcs8Csg2lPm8HULFg9DQ==}
+
+  /follow-redirects/1.15.1:
+    resolution: {integrity: sha512-yLAMQs+k0b2m7cVxpS1VKJVvoz7SS9Td1zss3XRwXj+ZDH00RJgnuLx7E44wx02kQLrdM3aOOy+FpzS7+8OizA==}
+    engines: {node: '>=4.0'}
+    peerDependencies:
+      debug: '*'
+    peerDependenciesMeta:
+      debug:
+        optional: true
 
   /follow-redirects/1.15.1_debug@2.6.9:
     resolution: {integrity: sha512-yLAMQs+k0b2m7cVxpS1VKJVvoz7SS9Td1zss3XRwXj+ZDH00RJgnuLx7E44wx02kQLrdM3aOOy+FpzS7+8OizA==}
@@ -23086,7 +23097,7 @@ packages:
       '@corex/deepmerge': 4.0.29
       '@next/env': 12.3.0
       minimist: 1.2.6
-      next: 12.3.1_rlaikcoslzwwtqyk7brpdzej5y
+      next: 12.3.1_biqbaboplfbrettd7655fr4n2y
     dev: false
 
   /next-sitemap/3.1.7_o5duabsbbn2rgmqrbe3fporo6y:
@@ -30338,7 +30349,7 @@ packages:
       '@webassemblyjs/wasm-parser': 1.11.1
       acorn: 8.8.0
       acorn-import-assertions: 1.8.0_acorn@8.8.0
-      browserslist: 4.21.1
+      browserslist: 4.21.4
       chrome-trace-event: 1.0.3
       enhanced-resolve: 5.10.0
       es-module-lexer: 0.9.3

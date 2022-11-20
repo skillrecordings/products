@@ -48,7 +48,7 @@ const ExerciseTemplate: React.FC<{
   const pageDescription = exerciseDescription || moduleDescription
   const shareCard = ogImage ? {ogImage: {url: ogImage}} : {}
   //TODO path here could also include module slug and section (as appropriate)
-  const path = `/${module.moduleType}s`
+  const path = `/tutoriales`
 
   return (
     <VideoProvider
@@ -146,13 +146,7 @@ const Video: React.FC<VideoProps> = React.forwardRef(
         {displayOverlay && (
           <>
             {nextExercise ? (
-              <>
-                {isExercise && exercise.sandpack ? (
-                  <ExerciseOverlay tutorialFiles={tutorialFiles} />
-                ) : (
-                  <DefaultOverlay />
-                )}
-              </>
+              <>{isExercise ? <ExerciseOverlay /> : <DefaultOverlay />}</>
             ) : (
               <FinishedOverlay />
             )}

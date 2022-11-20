@@ -7,7 +7,7 @@ import {Article, getAllArticles} from '../lib/articles'
 import {toPlainText} from '@portabletext/react'
 
 const meta = {
-  title: 'Articles',
+  title: 'Artículos',
   description:
     '  In-depth article to learn how to navigate the frontend ecosystem.',
 }
