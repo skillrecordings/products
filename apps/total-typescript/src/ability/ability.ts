@@ -2,12 +2,7 @@ import {Ability, AbilityBuilder, AbilityClass} from '@casl/ability'
 import {Exercise} from '../lib/exercises'
 import {SanityDocument} from '@sanity/client'
 import z from 'zod'
-import {Purchase} from '@skillrecordings/database'
-import {
-  hasAvailableSeats,
-  hasBulkPurchase,
-  hasInvoice,
-} from '@skillrecordings/ability'
+import {hasAvailableSeats, hasBulkPurchase} from '@skillrecordings/ability'
 
 const adminRoles = ['ADMIN', 'SUPERADMIN']
 
