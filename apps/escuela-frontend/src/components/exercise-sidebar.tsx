@@ -22,11 +22,11 @@ const ExerciseSidebar: React.FC<SidebarProps> = ({
     <>
       <div
         className={cx(
-          'relative z-50 w-full shadow-xl shadow-gray-800/50 lg:max-w-[280px] xl:max-w-xs',
+          'relative z-50 w-full border-r border-gray-600 shadow-xl shadow-gray-800/50 lg:max-w-[280px] xl:max-w-xs',
           className,
         )}
       >
-        <div className="top-0 border-r border-gray-600 lg:sticky">
+        <div className="top-0 lg:sticky">
           <aside>
             <div className="z-10 h-[180px] lg:h-[140px]">
               <div className="relative flex items-center gap-5 bg-gray-900 px-3 py-2 shadow-xl shadow-gray-500/5">

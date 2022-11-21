@@ -61,7 +61,7 @@ const ExerciseTemplate: React.FC<{
         meta={
           {title: pageTitle, ...shareCard, description: pageDescription} as any
         }
-        navClassName="mx-auto flex w-full items-center justify-between px-5"
+        navClassName="mx-auto flex w-full flex-col items-center justify-between gap-2 px-5 sm:flex-row sm:gap-0 z-50"
       >
         <ArticleJsonLd
           url={`${process.env.NEXT_PUBLIC_URL}/${module.slug.current}/${exercise.slug}`}
@@ -80,8 +80,8 @@ const ExerciseTemplate: React.FC<{
             path={path}
             section={section}
           />
-          <main className="relative mx-auto max-w-[1480px] grow items-start  sm:bg-gray-800 2xl:flex 2xl:max-w-none  2xl:bg-transparent">
-            <div className="border-gray-700 2xl:relative 2xl:h-full 2xl:w-full 2xl:border-r 2xl:bg-gray-800">
+          <main className="relative mx-auto max-w-[1480px] grow items-start sm:bg-gray-800 2xl:flex 2xl:max-w-none  2xl:bg-transparent">
+            <div className="border border-t-0 border-l-0 border-gray-600 2xl:relative 2xl:h-full 2xl:w-full 2xl:bg-gray-800">
               <Video
                 ref={muxPlayerRef}
                 module={module}

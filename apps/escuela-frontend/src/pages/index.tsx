@@ -11,8 +11,6 @@ type HeaderProps = {
   image: any
 }
 
-const image = '/header_@2x.png'
-
 const Home: NextPage = () => {
   const router = useRouter()
 
@@ -27,7 +25,7 @@ const Home: NextPage = () => {
 
   return (
     <Layout meta={{titleAppendSiteName: false}}>
-      <Header image={image} />
+      <Header />
       <section className="relative py-10 sm:py-16 lg:py-24">
         <div className="prose-headings:font-text prose-base w-full opacity-90 marker:text-brand prose-headings:mx-auto prose-headings:max-w-2xl prose-headings:px-10 prose-headings:font-bold prose-h2:!my-20 prose-h2:text-center prose-h2:prose-h2:text-2xl prose-h2:text-white prose-p:mx-auto prose-p:max-w-2xl prose-p:px-5 prose-p:font-light prose-strong:font-extrabold prose-pre:mx-auto prose-pre:max-w-2xl prose-pre:overflow-auto prose-ul:mx-auto prose-ul:max-w-2xl prose-ul:list-disc sm:prose-lg prose-h2:sm:text-3xl md:prose-xl prose-h2:md:text-3xl prose-h2:lg:text-4xl ">
           <LandingCopy />
@@ -39,31 +37,22 @@ const Home: NextPage = () => {
 
 export default Home
 
-const Header: React.FC<HeaderProps> = ({image}) => {
+const Header: React.FC<HeaderProps> = () => {
   return (
     <>
       <header className="relative z-0 -mt-32">
-        {image && (
-          <Image
-            className="h-full w-full object-cover object-bottom"
-            src={image}
-            priority
-            aria-hidden="true"
-            quality={100}
-            alt="Header image"
-            layout="fill"
-            objectFit="cover"
-          />
-        )}
+        <Image
+          className="h-full w-full object-cover object-bottom"
+          src="/header_@2x.png"
+          priority
+          aria-hidden="true"
+          quality={100}
+          alt="Header image"
+          layout="fill"
+          objectFit="cover"
+        />
         <div className="absolute inset-0 bg-gray-500 bg-gradient-to-t mix-blend-multiply" />
-        <div
-          className={cx(
-            'relative flex min-h-screen w-full flex-col items-center justify-center',
-            {
-              'bg-gray-900': !image,
-            },
-          )}
-        >
+        <div className="relative flex min-h-screen w-full flex-col items-center justify-center">
           <div className="z-10 flex h-full w-full flex-col items-center justify-center">
             <h1 className="hero-animation-h1 mx-6 mt-12 mb-4 bg-gradient-to-b from-white to-gray-200 bg-clip-text text-center text-4xl font-extrabold leading-tight  text-transparent sm:text-4xl md:!w-full md:text-5xl lg:text-6xl">
               Domina el Universo Frontend

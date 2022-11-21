@@ -17,7 +17,7 @@ const Navigation: React.FC<NavigationProps> = ({className}) => {
     >
       <div
         className={cx(className, {
-          'mx-auto flex max-w-screen-2xl flex-col items-center justify-between gap-2 px-5 sm:flex-row sm:gap-0':
+          'mx-auto flex w-full flex-col items-center justify-between gap-2 px-5 sm:flex-row sm:gap-0':
             !className,
         })}
       >
@@ -58,7 +58,7 @@ const DesktopNav = () => {
 }
 
 const NavSlots: React.FC<React.PropsWithChildren> = ({children}) => {
-  return <div className="flex items-center sm:pb-1">{children}</div>
+  return <div className="flex items-center gap-2 sm:pb-1">{children}</div>
 }
 
 type NavLinkProps = React.PropsWithChildren<{
@@ -104,9 +104,16 @@ const NavLogo = () => {
     <Link href="/" aria-label="Escuela Frontend Home" passHref>
       <a
         tabIndex={router.pathname === '/' ? -1 : 0}
-        className="font-heading text-lg font-bold leading-loose sm:text-xl"
+        className="text-lg font-bold sm:text-xl"
       >
-        <span className="text-white">Escuela Frontend</span>
+        <div
+          className={`flex items-center space-x-2 text-xl font-bold tracking-tight text-white sm:text-3xl`}
+        >
+          <span aria-hidden={true} className="font-sicret font-medium">
+            {'/'}
+          </span>
+          <span className=" text-base tracking-wide">Escuela Frontend</span>
+        </div>
       </a>
     </Link>
   )

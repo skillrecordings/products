@@ -71,7 +71,7 @@ const Header: React.FC<{tutorial: SanityDocument}> = ({tutorial}) => {
               Free Tutorial
             </a>
           </Link>
-          <h1 className="font-text max-w-4xl pt-5 font-heading text-4xl font-bold lg:text-5xl">
+          <h1 className="font-text max-w-4xl pt-5 font-heading text-4xl font-bold sm:text-5xl lg:text-6xl">
             {title}
           </h1>
           <div className="pt-8 text-lg">

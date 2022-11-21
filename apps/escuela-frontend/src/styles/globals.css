@@ -6,6 +6,7 @@
 @import './focus-visible.css';
 @import './nprogress.css';
 @tailwind utilities;
+@import './fonts/index.css';
 
 html,
 body,
