@@ -7,10 +7,6 @@ import toast from 'react-hot-toast'
 import LandingCopy from 'components/landing-copy.mdx'
 import cx from 'classnames'
 
-type HeaderProps = {
-  image: any
-}
-
 const Home: NextPage = () => {
   const router = useRouter()
 
@@ -37,7 +33,7 @@ const Home: NextPage = () => {
 
 export default Home
 
-const Header: React.FC<HeaderProps> = () => {
+const Header = () => {
   return (
     <>
       <header className="relative z-0 -mt-32">
