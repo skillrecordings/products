@@ -37,24 +37,14 @@ type ViewerAbilityInput = {
   isSolution?: boolean
 }
 
-type CanViewTutorial = {
-  viewer: User | object
-  module?: SanityDocument
-}
-
-const canViewTutorial = ({viewer, module}: CanViewTutorial) => {
+const canViewTutorial = ({user, subscriber, module}: ViewerAbilityInput) => {
   const contentIsTutorial = module?.moduleType === 'tutorial'
+  const viewer = user || subscriber
 
   return contentIsTutorial && Boolean(viewer)
 }
 
-type CanViewWorkshop = {
-  user?: User
-  module?: SanityDocument
-  lesson?: Exercise
-}
-
-const canViewWorkshop = ({user, module, lesson}: CanViewWorkshop) => {
+const canViewWorkshop = ({user, module, lesson}: ViewerAbilityInput) => {
   const contentIsWorkshop = module?.moduleType === 'workshop'
 
   // TODO remove this once we have a better way to determine if a workshop is
@@ -80,12 +70,6 @@ const canViewWorkshop = ({user, module, lesson}: CanViewWorkshop) => {
   // }
 }
 
-type IsFreelyVisible = {
-  module?: SanityDocument
-  section?: SanityDocument
-  lesson?: Exercise
-  isSolution?: boolean
-}
 /**
  * The first lesson is free to view for anyone
  */
@@ -94,7 +78,7 @@ const isFreelyVisible = ({
   section,
   lesson,
   isSolution,
-}: IsFreelyVisible) => {
+}: ViewerAbilityInput) => {
   const exercises = section ? section.exercises : module?.exercises || []
 
   const isFirstLesson =
@@ -109,14 +93,7 @@ export function defineRulesForPurchases(
   viewerAbilityInput: ViewerAbilityInput,
 ) {
   const {can, rules} = new AbilityBuilder(AppAbility)
-  const {
-    section,
-    module,
-    lesson,
-    subscriber,
-    user,
-    isSolution = false,
-  } = viewerAbilityInput
+  const {user} = viewerAbilityInput
 
   if (hasBulkPurchase(user?.purchases)) {
     can('view', 'Team')
@@ -126,20 +103,15 @@ export function defineRulesForPurchases(
     can('invite', 'Team')
   }
 
-  if (isFreelyVisible({module, section, lesson, isSolution})) {
+  if (isFreelyVisible(viewerAbilityInput)) {
     can('view', 'Content')
   }
 
-  if (
-    canViewTutorial({
-      viewer: user || subscriber,
-      module,
-    })
-  ) {
+  if (canViewTutorial(viewerAbilityInput)) {
     can('view', 'Content')
   }
 
-  if (canViewWorkshop({user, module, lesson})) {
+  if (canViewWorkshop(viewerAbilityInput)) {
     can('view', 'Content')
   }
 
