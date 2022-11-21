@@ -126,12 +126,9 @@ const reviewQuery = groq`*[_type == "review" && slug.current == $slug][0]{
     title,
     'slug': slug.current,
     date,
-    body,
     description,
     ogImage,
-    hlsUrl,
     videoPoster,
-    subtitlesUrl,
     'video': resources[@->._type == 'videoResource'][0]->{
       mediaUrl,
       srt,

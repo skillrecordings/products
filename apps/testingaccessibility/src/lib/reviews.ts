@@ -7,10 +7,8 @@ export async function getAllReviews() {
     description,
     _createdAt,
     'slug': slug.current,
-    hlsUrl,
     published,
     image,
-    date,
-    order
+    date
 }`)
 }

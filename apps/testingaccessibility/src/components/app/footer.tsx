@@ -32,13 +32,11 @@ const Footer: React.FC<React.PropsWithChildren<FooterProps>> = () => {
                     Workshops
                   </NavLink>
                 </li>
-                {/* <li>
-                  <NavLink href="/accessibility-reviews">
-                    Accessibility Reviews
-                  </NavLink>
-                </li> */}
                 <li>
                   <NavLink href="/articles">Articles</NavLink>
+                </li>
+                <li>
+                  <NavLink href="/accessibility-reviews">Reviews</NavLink>
                 </li>
                 {!subscriber && (
                   <li>
