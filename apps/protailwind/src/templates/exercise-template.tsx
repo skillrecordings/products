@@ -39,8 +39,6 @@ const ExerciseTemplate: React.FC<{
 }> = ({exercise, section, module, isSolution = false, tutorialFiles}) => {
   const muxPlayerRef = React.useRef<HTMLDivElement>()
 
-  console.log('exercise', exercise)
-
   exercise = ExerciseSchema.parse(
     isSolution && exercise.solution ? exercise.solution : exercise,
   )
@@ -180,7 +178,7 @@ const GitHubLink: React.FC<{
   exercise: Exercise
   module: SanityDocument
 }> = ({exercise, module}) => {
-  const github = exercise.github ?? module.github
+  const github = exercise.github ?? exercise.solution?.github
 
   if (!github) {
     return null

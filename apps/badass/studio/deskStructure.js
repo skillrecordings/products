@@ -23,6 +23,7 @@ const hiddenDocTypes = (listItem) =>
     'podcast',
     'podcastEpisode',
     'podcastSeason',
+    'videoResource',
   ].includes(listItem.getId())
 
 export default () =>

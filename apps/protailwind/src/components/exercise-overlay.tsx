@@ -110,7 +110,7 @@ const ExerciseOverlay: React.FC<{tutorialFiles: any}> = ({tutorialFiles}) => {
   const {lesson, module} = useMuxPlayer()
   const {github} = module
   const sandpack = lesson.sandpack
-  console.log(lesson)
+
   const visibleFiles = sandpack
     ?.filter(({active}) => active)
     .map(({file}) => file)

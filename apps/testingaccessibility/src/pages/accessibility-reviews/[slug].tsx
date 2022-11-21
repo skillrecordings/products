@@ -17,12 +17,13 @@ import {
   selectIsFullscreen,
 } from '@skillrecordings/player'
 import {serialize} from 'next-mdx-remote/serialize'
-import {MDXRemote} from 'next-mdx-remote'
 import {format} from 'date-fns'
 import {useRouter} from 'next/router'
+import {PortableText} from '@portabletext/react'
 
 const Review: React.FC<React.PropsWithChildren<any>> = ({review, body}) => {
-  const {hlsUrl, title, date, description, videoPoster, subtitlesUrl} = review
+  const {video, title, date, description, videoPoster} = review
+  const {mediaUrl, srt, transcript} = video
 
   const meta = {
     title,
@@ -82,11 +83,10 @@ const Review: React.FC<React.PropsWithChildren<any>> = ({review, body}) => {
                 poster={videoPoster}
                 enableGlobalShortcuts={false}
               >
-                {hlsUrl && <HLSSource src={hlsUrl} />}
-                {subtitlesUrl && (
+                {mediaUrl && <HLSSource src={mediaUrl} />}
+                {srt && (
                   <track
-                    key={subtitlesUrl}
-                    src={subtitlesUrl}
+                    src={`/api/srt/${video._id}`}
                     kind="subtitles"
                     srcLang="en"
                     label="English"
@@ -96,7 +96,7 @@ const Review: React.FC<React.PropsWithChildren<any>> = ({review, body}) => {
             )}
             <article className={cx('prose md:prose-lg mx-auto py-16 px-5')}>
               <h2>Transcript</h2>
-              <MDXRemote {...body} />
+              <PortableText value={transcript} />
             </article>
           </div>
         </div>
@@ -126,12 +126,15 @@ const reviewQuery = groq`*[_type == "review" && slug.current == $slug][0]{
     title,
     'slug': slug.current,
     date,
-    body,
     description,
     ogImage,
-    hlsUrl,
     videoPoster,
-    subtitlesUrl
+    'video': resources[@->._type == 'videoResource'][0]->{
+      mediaUrl,
+      srt,
+      transcript,
+      ...
+    },
     }`
 
 const allReviewsQuery = groq`

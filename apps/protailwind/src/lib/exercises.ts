@@ -46,6 +46,12 @@ export const ExerciseSchema = z.object({
       body: z.any().array().optional().nullable(),
       muxPlaybackId: z.nullable(z.string()).optional(),
       transcript: z.nullable(z.any().array()).optional(),
+      github: z
+        .object({
+          url: z.string(),
+        })
+        .optional()
+        .nullable(),
     })
     .optional()
     .nullable(),
@@ -103,7 +109,20 @@ export const getExercise = async (
       ${
         includeMedia
           ? `      
-        body,
+          body[]{
+            ...,
+            markDefs[]{
+              ...,
+              _type == "internalLink" => {
+                "_id": @.reference->_id,
+                "slug": @.reference->slug.current,
+                "type": @.reference->_type,
+                "module": *[_type=='module'][0]{
+                  "slug": slug.current,
+                }
+              }
+            }
+        },
         "sandpack": resources[@._type == 'sandpack'][0].files[]{
             file,
             "code": code.code,
@@ -133,6 +152,9 @@ export const getExercise = async (
           "stackblitz": resources[@._type == 'stackblitz'][0].openFile,
           "muxPlaybackId": resources[@->._type == 'videoResource'][0]-> muxAsset.muxPlaybackId,
           "transcript": resources[@->._type == 'videoResource'][0]-> castingwords.transcript,
+          "github": resources[@._type == 'github'][0] {
+        url
+      },
         `
             : ''
         }
@@ -166,6 +188,9 @@ export const getAllExercises = async (): Promise<Exercise[]> => {
         body,
         "stackblitz": resources[@._type == 'stackblitz'][0].openFile,
         "muxPlaybackId": resources[@->._type == 'videoResource'][0]-> muxAsset.muxPlaybackId,
+        "github": resources[@._type == 'github'][0] {
+        url
+      },
        "slug": slug.current
        }
     }`)

@@ -60,7 +60,7 @@ const EpisodeIndexLayout: React.FC<{season: PodcastSeason}> = ({season}) => {
       }}
     >
       <div className="overflow-hidden">
-        <div className="w-full max-w-screen-sm px-5 mx-auto overflow-hidden sm:pb-24">
+        <div className="w-full max-w-screen-md px-5 mx-auto overflow-hidden sm:pb-24">
           <header className="relative sm:pt-20 pt-10 overflow-hidden text-white md:pt-24 pb-10">
             <p className="mb-4 text-sm md:text-base font-heading opacity-95">
               Podcast Season One
@@ -83,28 +83,32 @@ const EpisodeIndexLayout: React.FC<{season: PodcastSeason}> = ({season}) => {
               href={`/podcast/${season.slug}/${episode.slug}`}
             >
               <a className="group focus:outline-none">
-                <div className="grid max-w-screen-xl gap-4 mx-auto grid-cols-6 center mb-10">
+                <div className="flex max-w-screen-xl sm:gap-6 gap-4 mx-auto grid-cols-6 center mb-10">
                   <div className="relative flex-none col-span-1">
                     <div className="absolute inset-0 flex items-center justify-center transition transform scale-0 opacity-0 group-hover:scale-100 group-hover:opacity-100 group-focus:opacity-100">
                       <div className="flex-none p-4 text-gray-800 bg-white rounded-full bg-opacity-80">
                         <TriangleIcon />
                       </div>
                     </div>
-                    <Image
-                      className="object-cover w-full rounded-lg h-18"
-                      src={episode.coverArtUrl}
-                      alt={episode.title}
-                      width={500}
-                      height={500}
-                      quality="%100"
-                    />
+                    <div className="flex items-center justify-center sm:w-auto w-24">
+                      <Image
+                        className="rounded-lg"
+                        src={episode.coverArtUrl}
+                        alt={episode.title}
+                        width={180}
+                        height={180}
+                        quality="100%"
+                      />
+                    </div>
                   </div>
-                  <h3 className="col-span-4 mb-3 font-semibold lg:mb-0 sm:text-lg text-base">
-                    {episode.title}
-                  </h3>
-                  <p className="text-right opacity-80 text-sm">
-                    {episode.duration}
-                  </p>
+                  <div className="flex flex-col items-center justify-center">
+                    <h3 className="font-bold lg:mb-0 sm:text-xl lg:text-2xl text-lg group-hover:underline">
+                      {episode.title}
+                    </h3>
+                    <p className="pt-3 opacity-80 sm:text-base text-sm">
+                      {episode.description}
+                    </p>
+                  </div>
                 </div>
               </a>
             </Link>

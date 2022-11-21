@@ -5,7 +5,7 @@ import Image from 'next/image'
 
 const Bio = () => {
   return (
-    <div className="flex sm:flex-row flex-col items-center max-w-screen-md mx-auto w-full">
+    <div className="flex sm:flex-row flex-col items-center max-w-2xl mx-auto w-full">
       <div className="relative sm:max-w-[250px] max-w-[180px]">
         <Image
           src={EmmaBostian}
@@ -25,11 +25,12 @@ const Bio = () => {
       </div>
       <div className="sm:pl-10 w-full sm:text-xl">
         <p>
-          I’m Emma Bostian, a Software Engineer at Spotify and author of{' '}
+          My name is Emma Bostian, and I'm the author of{' '}
           <a
             href="https://technicalinterviews.dev"
             target="_blank"
-            className="text-brand-brightYellow underline" rel="noreferrer"
+            className="text-brand-brightYellow underline"
+            rel="noreferrer"
           >
             De-Coding the Technical Interview Process
           </a>

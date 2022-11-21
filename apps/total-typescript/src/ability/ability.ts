@@ -2,16 +2,14 @@ import {Ability, AbilityBuilder, AbilityClass} from '@casl/ability'
 import {Exercise} from '../lib/exercises'
 import {SanityDocument} from '@sanity/client'
 import z from 'zod'
-import {hasValidPurchase} from '@skillrecordings/ability'
-
-const adminRoles = ['ADMIN', 'SUPERADMIN']
+import {hasAvailableSeats, hasBulkPurchase} from '@skillrecordings/ability'
 
 export const UserSchema = z.object({
-  role: z.string(),
+  role: z.string().optional(),
   purchases: z.array(z.any()),
-  id: z.string(),
+  id: z.string().optional(),
   name: z.nullable(z.string().optional()),
-  email: z.string(),
+  email: z.string().optional(),
 })
 
 export type User = z.infer<typeof UserSchema>
@@ -34,61 +32,87 @@ type ViewerAbilityInput = {
   user?: User
   subscriber?: any
   lesson?: Exercise
-  module: SanityDocument
+  module?: SanityDocument
   section?: SanityDocument
   isSolution?: boolean
+}
+
+const canViewTutorial = ({user, subscriber, module}: ViewerAbilityInput) => {
+  const contentIsTutorial = module?.moduleType === 'tutorial'
+  const viewer = user || subscriber
+
+  return contentIsTutorial && Boolean(viewer)
+}
+
+const canViewWorkshop = ({user, module, lesson}: ViewerAbilityInput) => {
+  const contentIsWorkshop = module?.moduleType === 'workshop'
+
+  // TODO remove this once we have a better way to determine if a workshop is
+  //  available to the user (see below)
+  const userHasPurchases = Boolean(user && user.purchases.length > 0)
+  const hasVideo = Boolean(lesson?.muxPlaybackId)
+
+  return contentIsWorkshop && userHasPurchases && hasVideo
+
+  // TODO a given module is associated with a product
+  //  if the user has a valid purchase of that product
+  //  they can view the content of the lesson
+  // if (hasValidPurchase(user?.purchases)) {
+  //   can('view', 'Account')
+  //   can('view', 'Content')
+  //   can('view', 'Product', {
+  //     productId: {
+  //       $in: user?.purchases?.map(
+  //         (purchase: any) => purchase.productId && purchase.status === 'Valid',
+  //       ),
+  //     },
+  //   })
+  // }
+}
+
+/**
+ * The first lesson is free to view for anyone
+ */
+const isFreelyVisible = ({
+  module,
+  section,
+  lesson,
+  isSolution,
+}: ViewerAbilityInput) => {
+  const exercises = section ? section.exercises : module?.exercises || []
+
+  const isFirstLesson =
+    lesson?._type === 'exercise' && lesson._id === exercises[0]._id
+
+  const hasVideo = Boolean(lesson?.muxPlaybackId)
+
+  return isFirstLesson && hasVideo && !isSolution
 }
 
 export function defineRulesForPurchases(
   viewerAbilityInput: ViewerAbilityInput,
 ) {
   const {can, rules} = new AbilityBuilder(AppAbility)
-  const {
-    section,
-    module,
-    lesson,
-    subscriber,
-    user,
-    isSolution = false,
-  } = viewerAbilityInput
+  const {user} = viewerAbilityInput
 
-  const exercises = section ? section.exercises : module.exercises
-  const isFirstLesson =
-    lesson?._type === 'exercise' && lesson._id === exercises?.[0]._id
-
-  const hasVideo = Boolean(lesson?.muxPlaybackId)
-
-  if (module.moduleType === 'tutorial') {
-    if (subscriber || (!section && isFirstLesson && hasVideo && !isSolution)) {
-      can('view', 'Content')
-    }
+  if (hasBulkPurchase(user?.purchases)) {
+    can('view', 'Team')
   }
 
-  if (isFirstLesson && hasVideo && !isSolution) {
+  if (hasAvailableSeats(user?.purchases)) {
+    can('invite', 'Team')
+  }
+
+  if (isFreelyVisible(viewerAbilityInput)) {
     can('view', 'Content')
   }
 
-  if (module.moduleType === 'workshop') {
-    // TODO remove this once we have a better way to determine if a workshop is
-    //  available to the user (see below)
-    if (user && hasVideo) {
-      can('view', 'Content')
-    }
+  if (canViewTutorial(viewerAbilityInput)) {
+    can('view', 'Content')
+  }
 
-    // TODO a given module is associated with a product
-    //  if the user has a valid purchase of that product
-    //  they can view the content of the lesson
-    // if (hasValidPurchase(user?.purchases)) {
-    //   can('view', 'Account')
-    //   can('view', 'Content')
-    //   can('view', 'Product', {
-    //     productId: {
-    //       $in: user?.purchases?.map(
-    //         (purchase: any) => purchase.productId && purchase.status === 'Valid',
-    //       ),
-    //     },
-    //   })
-    // }
+  if (canViewWorkshop(viewerAbilityInput)) {
+    can('view', 'Content')
   }
 
   // adminRoles.includes(user?.role || '') && can('manage', 'all')

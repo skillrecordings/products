@@ -26,15 +26,16 @@ export default {
       description: 'Square icon',
     },
     {
-      name: 'hlsUrl',
-      title: 'Video HLS URL',
-      type: 'url',
-      description: 'Video URL',
-    },
-    {
-      name: 'subtitlesUrl',
-      title: 'Subtitle track URL',
-      type: 'url',
+      name: 'resources',
+      title: 'Resources',
+      type: 'array',
+      of: [
+        {
+          title: 'Video resources',
+          type: 'reference',
+          to: [{title: 'Video resource', type: 'videoResource'}],
+        },
+      ],
     },
     {
       name: 'videoPoster',
@@ -63,12 +64,7 @@ export default {
       type: 'markdown',
       title: 'Description',
     },
-    {
-      name: 'body',
-      title: 'Transcript',
-      type: 'markdown',
-      description: 'Full body in MDX.',
-    },
+
     {
       name: 'ogImage',
       title: 'Social card',

@@ -119,17 +119,16 @@ export async function recordNewPurchase(checkoutSessionId: string): Promise<{
     merchantAccountId,
   })
 
-  const [_merchantCharge, purchase, _bulkCoupon] =
-    await createMerchantChargeAndPurchase({
-      userId: user.id,
-      stripeChargeId,
-      merchantAccountId,
-      merchantProductId,
-      merchantCustomerId,
-      productId,
-      stripeChargeAmount,
-      quantity,
-    })
+  const [purchase] = await createMerchantChargeAndPurchase({
+    userId: user.id,
+    stripeChargeId,
+    merchantAccountId,
+    merchantProductId,
+    merchantCustomerId,
+    productId,
+    stripeChargeAmount,
+    quantity,
+  })
 
   let purchaseType = await determinePurchaseType({checkoutSessionId})
 

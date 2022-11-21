@@ -1,10 +1,13 @@
 import React from 'react'
 import {useRouter} from 'next/router'
-import {FireIcon, PlayIcon} from '@heroicons/react/solid'
+import {FireIcon, PlayIcon, UserGroupIcon} from '@heroicons/react/solid'
 import {track} from '../../utils/analytics'
 import Link from 'next/link'
 import cx from 'classnames'
 import config from 'config'
+import {AppAbility, getCurrentAbility} from 'ability/ability'
+import {useUser} from '@skillrecordings/react'
+import {trpc} from '../../utils/trpc'
 
 type Props = {
   className?: string
@@ -31,9 +34,30 @@ const Navigation: React.FC<React.PropsWithChildren<Props>> = ({
   )
 }
 
+const useAbilities = () => {
+  const {data: abilityRules} = trpc.useQuery(['abilities.getAbilities'])
+
+  return new AppAbility(abilityRules || [])
+}
+
 const DesktopNav = () => {
+  const ability = useAbilities()
+  const canViewTeam = ability.can('view', 'Team')
+
   return (
     <ul className="flex items-center">
+      {canViewTeam && (
+        <NavLink
+          path="/team"
+          label="Invite Team"
+          icon={
+            <UserGroupIcon
+              className="h-5 w-5 text-cyan-300"
+              aria-hidden="true"
+            />
+          }
+        />
+      )}
       <NavLink
         path="/tutorials"
         label="Free Tutorials"

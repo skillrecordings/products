@@ -79,17 +79,20 @@ const EpisodeLayout = ({episode}: {episode: PodcastEpisode}) => {
         url: `${process.env.NEXT_PUBLIC_URL}${router.asPath}`,
       }}
     >
-      <main className="max-w-screen-md px-5 mx-auto prose sm:py-16 py-5">
-        <h1 className="max-w-screen-md py-4 mx-auto text-3xl font-bold leading-none font-heading sm:text-4xl lg:text-5xl">
+      <main className="mx-auto sm:py-16 py-5 w-full">
+        <h1 className="px-5 max-w-screen-md py-4 mx-auto text-3xl font-bold leading-none font-heading sm:text-4xl lg:text-5xl">
           {title}
         </h1>
-        <div className="prose opacity-90 md:prose-p:text-white/90 md:prose-headings:mx-auto md:prose-lg prose-p:my-5 md:prose-p:my-8 xl:prose-p:my-10 xl:prose-xl max-w-none">
+        <div className="px-5 max-w-screen-md prose opacity-90 md:prose-p:text-white/90 md:prose-headings:mx-auto md:prose-lg prose-p:my-5 md:prose-p:my-8 xl:prose-p:my-10 xl:prose-xl mx-auto">
           <Markdown>{description}</Markdown>
         </div>
         <PodcastPlayer simplecastId={simplecastId} />
-        <section data-article="">
-          {!loadingSubscriber && !subscriber ? (
-            <div className="relative flex flex-col items-center pt-16 pb-16 md:pt-24 md:pb-32">
+        <div className="px-5 prose opacity-90 md:prose-p:text-white/90 md:prose-headings:mx-auto md:prose-lg prose-p:my-5 md:prose-p:my-8 xl:prose-p:my-10 xl:prose-xl max-w-screen-md mx-auto">
+          <PortableText value={content} components={PortableTextComponents} />
+        </div>
+        {!loadingSubscriber && !subscriber ? (
+          <section className="bg-black/40 w-full mt-16">
+            <div className="relative flex flex-col items-center pt-16 pb-16 md:pt-24 md:pb-32 px-5">
               <Image
                 src={'/images/emails/migrate-js-project-to-ts/thumb@2x.png'}
                 alt=""
@@ -107,7 +110,6 @@ const EpisodeLayout = ({episode}: {episode: PodcastEpisode}) => {
                   taste of real-world TypeScript!
                 </h3>
               </div>
-
               <SubscribeToConvertkitForm
                 formId={formId}
                 onSuccess={(subscriber: any) => {
@@ -126,13 +128,9 @@ const EpisodeLayout = ({episode}: {episode: PodcastEpisode}) => {
                 We respect your privacy. Unsubscribe at any time.
               </small>
             </div>
-          ) : null}
-        </section>
-        <div className="prose opacity-90 md:prose-p:text-white/90 md:prose-headings:mx-auto md:prose-lg prose-p:my-5 md:prose-p:my-8 xl:prose-p:my-10 xl:prose-xl max-w-none">
-          <PortableText value={content} components={PortableTextComponents} />
-        </div>
-
-        <div className="mt-20 prose opacity-90 md:prose-p:text-white/90 md:prose-headings:mx-auto md:prose-lg prose-p:my-5 md:prose-p:my-8 xl:prose-p:my-10 xl:prose-xl max-w-none">
+          </section>
+        ) : null}
+        <div className="px-5 max-w-screen-md mx-auto mt-20 prose opacity-90 md:prose-p:text-white/90 md:prose-headings:mx-auto md:prose-lg prose-p:my-5 md:prose-p:my-8 xl:prose-p:my-10 xl:prose-xl">
           <h2>Transcript</h2>
           <Markdown>{transcript}</Markdown>
         </div>

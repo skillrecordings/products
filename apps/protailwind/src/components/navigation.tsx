@@ -3,6 +3,7 @@ import Link from 'next/link'
 import {useRouter} from 'next/router'
 import cx from 'classnames'
 import Icon from './icons'
+import {track} from 'utils/analytics'
 
 type NavigationProps = {
   className?: string
@@ -16,7 +17,7 @@ const Navigation: React.FC<NavigationProps> = ({className}) => {
     >
       <div
         className={cx(className, {
-          'mx-auto flex max-w-screen-lg items-center justify-between px-5':
+          'mx-auto flex max-w-screen-lg flex-col items-center justify-between gap-2 px-5 sm:flex-row sm:gap-0':
             !className,
         })}
       >
@@ -33,12 +34,12 @@ const DesktopNav = () => {
   return (
     <div className="flex items-center space-x-5">
       <NavSlots>
-        {/* <NavLink
+        <NavLink
           href="/tutorials"
           icon={<Icon name="Video" className="text-brand-red" />}
         >
           Tutorials
-        </NavLink> */}
+        </NavLink>
         <NavLink href="/tips" icon={<Icon name="Anchor" />}>
           Tips
         </NavLink>
@@ -51,7 +52,7 @@ const DesktopNav = () => {
 }
 
 const NavSlots: React.FC<React.PropsWithChildren> = ({children}) => {
-  return <div className="flex items-center pb-1">{children}</div>
+  return <div className="flex items-center sm:pb-1">{children}</div>
 }
 
 type NavLinkProps = React.PropsWithChildren<{
@@ -78,6 +79,9 @@ const NavLink: React.FC<NavLinkProps> = ({
             'bg-gray-50': isActive,
           },
         )}
+        onClick={() => {
+          track(`clicked ${children} in primary navigation`)
+        }}
         {...props}
       >
         <>

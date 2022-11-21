@@ -23,27 +23,29 @@ const Reviews: React.FC<React.PropsWithChildren<any>> = ({reviews}) => {
           </h1>
         </header>
         <div className="bg-gray-50 px-5 flex-grow">
-          <div className="pb-16 mx-auto max-w-lg w-full pt-16 gap-16">
-            <div className="grid grid-cols-1 gap-5">
+          <div className="pb-16 mx-auto max-w-xl w-full pt-16 gap-16">
+            <div className="grid grid-cols-1 sm:gap-10 gap-16">
               {reviews.map(({title, description, slug, image, date}: any) => {
                 return (
                   <div
                     key={slug}
                     className="flex sm:flex-row flex-col sm:text-left text-center items-center gap-5"
                   >
-                    <div className="flex-shrink-0">
-                      <Image
-                        src={image}
-                        alt={title}
-                        width={60}
-                        height={60}
-                        className="rounded-md"
-                      />
-                    </div>
+                    {image && (
+                      <div className="flex-shrink-0">
+                        <Image
+                          src={image}
+                          alt={title}
+                          width={60}
+                          height={60}
+                          className="rounded-md"
+                        />
+                      </div>
+                    )}
                     <div className="flex w-full sm:justify-between justify-center">
                       <div>
                         <Link href={`/accessibility-reviews/${slug}`} passHref>
-                          <a className="text-green-600 group-hover:underline sm:text-3xl font-heading text-xl font-bold">
+                          <a className="text-green-600 group-hover:underline sm:text-3xl font-heading text-2xl font-bold">
                             {title.replace('Accessibility Review of ', '')}
                           </a>
                         </Link>

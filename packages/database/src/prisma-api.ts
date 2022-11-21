@@ -273,6 +273,14 @@ export function getSdk(
       }
       return lessonProgress
     },
+    async getPurchaseWithUser(purchaseId: string) {
+      return await ctx.prisma.purchase.findFirst({
+        where: {id: purchaseId as string, status: 'Valid'},
+        include: {
+          user: true,
+        },
+      })
+    },
     async getPurchase(args: Prisma.PurchaseFindUniqueArgs) {
       return await ctx.prisma.purchase.findUnique(args)
     },
@@ -372,13 +380,14 @@ export function getSdk(
       // Note: if the user already has a bulk purchase/coupon, then if they are
       // only adding 1 seat to the team, then it is still a "bulk purchase" and
       // we need to add it to their existing Bulk Coupon.
-      const isBulkPurchase = quantity > 1 || !!existingBulkCoupon
+      const isBulkPurchase = quantity > 1 || Boolean(existingBulkCoupon)
 
       let bulkCouponId = null
       let coupon = null
 
       if (isBulkPurchase) {
-        bulkCouponId = existingBulkCoupon ? existingBulkCoupon.id : v4()
+        bulkCouponId =
+          existingBulkCoupon !== null ? existingBulkCoupon.id : v4()
 
         // Create or Update Bulk Coupon Record
         if (existingBulkCoupon) {
@@ -393,6 +402,7 @@ export function getSdk(
         } else {
           coupon = ctx.prisma.coupon.create({
             data: {
+              id: bulkCouponId,
               restrictedToProductId: productId,
               maxUses: quantity,
               percentageDiscount: 1.0,
@@ -414,9 +424,9 @@ export function getSdk(
       })
 
       if (coupon) {
-        return await ctx.prisma.$transaction([merchantCharge, purchase, coupon])
+        return await ctx.prisma.$transaction([purchase, merchantCharge, coupon])
       } else {
-        return await ctx.prisma.$transaction([merchantCharge, purchase])
+        return await ctx.prisma.$transaction([purchase, merchantCharge])
       }
     },
     async findOrCreateMerchantCustomer({
