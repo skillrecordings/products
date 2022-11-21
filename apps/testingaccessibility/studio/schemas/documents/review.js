@@ -26,6 +26,18 @@ export default {
       description: 'Square icon',
     },
     {
+      name: 'resources',
+      title: 'Resources',
+      type: 'array',
+      of: [
+        {
+          title: 'Video resources',
+          type: 'reference',
+          to: [{title: 'Video resource', type: 'videoResource'}],
+        },
+      ],
+    },
+    {
       name: 'hlsUrl',
       title: 'Video HLS URL',
       type: 'url',
