@@ -1,7 +1,7 @@
 {
   "root": true,
   "project": {
-    "name": "protailwind"
+    "name": "escuela-frontend"
   },
   "api": {
     "projectId": "s8qytc9h",

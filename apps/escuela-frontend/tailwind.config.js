@@ -23,8 +23,9 @@ module.exports = {
   theme: {
     extend: {
       fontFamily: {
-        sans: [...defaultTheme.fontFamily.sans],
+        sans: ['IBM Plex Sans', ...defaultTheme.fontFamily.sans],
         heading: [...defaultTheme.fontFamily.sans],
+        sicret: ['Sicret Mono', ...defaultTheme.fontFamily.mono],
       },
       colors: {
         brand: '#ff3e00',
@@ -37,7 +38,7 @@ module.exports = {
           500: '#666',
           600: '#444',
           700: '#222',
-          800: '#111',
+          800: '#151515',
           900: '#0c0c0c',
         },
       },

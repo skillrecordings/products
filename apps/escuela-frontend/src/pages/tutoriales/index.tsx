@@ -24,7 +24,7 @@ const TutorialsPage: React.FC<{tutorials: SanityDocument[]}> = ({
           title: `Free Escuela Frontend Tutorials`,
           description: `Free Escuela Frontend tutorials that will help you learn how to use web technologies as a professional web developer through exercise driven examples.`,
           ogImage: {
-            url: 'https://res.cloudinary.com/pro-tailwind/image/upload/v1668155873/tutoriales/card_2x.png',
+            url: 'https://res.cloudinary.com/escuela-frontend/image/upload/v1669068727/assets/tutorials-card2x_joxfiy.png',
           },
         } as any
       }
@@ -44,9 +44,9 @@ const TutorialsPage: React.FC<{tutorials: SanityDocument[]}> = ({
                 return (
                   <li
                     key={slug.current}
-                    className="relative flex flex-col items-center gap-10 overflow-hidden rounded-md border border-gray-700 bg-gray-800 shadow-2xl shadow-black/5 md:flex-row"
+                    className="relative flex flex-col items-center gap-10 overflow-hidden rounded-lg border border-gray-700 bg-gray-800 shadow-2xl shadow-black/30 md:flex-row"
                   >
-                    <div className="flex h-full flex-shrink-0 items-center justify-center p-10">
+                    <div className="flex h-full flex-shrink-0 items-center justify-center p-10 md:bg-brand">
                       {image && (
                         <Image
                           src={image}
@@ -88,7 +88,7 @@ const TutorialsPage: React.FC<{tutorials: SanityDocument[]}> = ({
                           },
                         }}
                       >
-                        <a className="group my-4 inline-block gap-2 rounded-md bg-brand px-4 py-2 font-medium text-white transition hover:bg-brand/70">
+                        <a className="group my-4 inline-block gap-2 rounded-md bg-brand px-4 py-2 font-medium text-white transition hover:brightness-125">
                           View{' '}
                           <span
                             aria-hidden="true"

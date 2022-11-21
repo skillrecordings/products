@@ -11,11 +11,11 @@ const NewsletterSubscribeForm = () => {
   return (
     <section
       id="primary-newsletter-cta"
-      className="relative flex flex-col items-center justify-center bg-gradient-to-t from-gray-900/95 via-gray-900 to-gray-900 py-32 px-5 text-white"
+      className="relative flex flex-col items-center justify-center py-32 px-5 text-white"
     >
       <div className="relative flex w-full flex-col items-center justify-center">
         <div className="max-w-3xl pb-16 text-center">
-          <h2 className="font-heading text-4xl font-bold leading-tight sm:text-5xl sm:leading-tight">
+          <h2 className="font-heading text-4xl font-bold leading-tight text-white sm:text-5xl sm:leading-tight">
             Power-up your team workflow with Escuela Frontend
           </h2>
           <p className="pt-6 text-xl text-gray-100">

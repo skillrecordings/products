@@ -51,7 +51,7 @@ const Articles: React.FC<ArticlesProps> = ({articles}) => {
                   return (
                     <div
                       key={slug}
-                      className="gap-5 rounded-md border border-gray-700 bg-gray-800 p-8 shadow-xl shadow-black/10 sm:p-10"
+                      className="gap-5 rounded-md border border-gray-700 bg-gray-800 shadow-2xl shadow-black/30 sm:p-10"
                     >
                       <div className="justify-left flex w-full sm:justify-between">
                         <div>
@@ -79,7 +79,7 @@ const Articles: React.FC<ArticlesProps> = ({articles}) => {
                           )} */}
                           <div className="mt-6 flex w-full items-center justify-between space-x-5">
                             <Link href={`/${slug}`} passHref>
-                              <a className="rounded-md bg-brand px-5 py-3 font-medium text-white transition hover:bg-brand/70">
+                              <a className="rounded-md bg-brand px-5 py-3 font-medium text-white transition hover:brightness-125">
                                 View article{' '}
                                 <span
                                   aria-hidden="true"

@@ -421,7 +421,7 @@ const ReplyOnTwitter: React.FC<{tweet: string}> = ({tweet}) => {
       href={`https://twitter.com/i/status/${tweet}`}
       target="_blank"
       rel="noopener noreferrer"
-      className="mb-5 mt-2 inline-flex items-center justify-center gap-2 rounded-md bg-brand px-5 py-3 font-medium text-gray-50 shadow-2xl shadow-gray-500/30 transition hover:bg-brand/70"
+      className="mb-5 mt-2 inline-flex items-center justify-center gap-2 rounded-md bg-brand px-5 py-3 font-medium text-gray-50 shadow-2xl shadow-gray-500/30 transition hover:brightness-125"
       onClick={() => {
         track('clicked reply on twitter')
       }}

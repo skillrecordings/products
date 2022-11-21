@@ -27,10 +27,10 @@ const TipsIndex: React.FC<TipsIndex> = ({tips}) => {
   return (
     <Layout
       meta={{
-        title: `Escuela Frontend Tips by ${process.env.NEXT_PUBLIC_PARTNER_FIRST_NAME} ${process.env.NEXT_PUBLIC_PARTNER_LAST_NAME}`,
+        title: `Tips para dominar el universo frontend`,
         description: pageDescription,
         ogImage: {
-          url: 'https://res.cloudinary.com/pro-tailwind/image/upload/v1667503658/tips/card_2x_ld2v6w.png',
+          url: 'https://res.cloudinary.com/escuela-frontend/image/upload/v1669068520/assets/tips-card2x.png',
           alt: 'Escuela Frontend Tips',
         },
       }}
@@ -63,7 +63,7 @@ const TipCard: React.FC<{tip: Tip}> = ({tip}) => {
   const {tipCompleted} = useTipComplete(tip.slug)
 
   return (
-    <article className="flex flex-col items-center overflow-hidden rounded-md border border-gray-700 bg-gray-800 shadow-2xl shadow-black/5">
+    <article className="flex flex-col items-center overflow-hidden rounded-md border border-gray-700 bg-gray-800 shadow-2xl shadow-black/30">
       <header className="relative flex aspect-video w-full flex-shrink-0 items-center justify-center">
         <button
           onClick={() => {

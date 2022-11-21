@@ -349,7 +349,7 @@ const BlockedOverlay: React.FC = () => {
   return (
     <div
       id="video-overlay"
-      className="flex w-full flex-col items-center justify-center border border-gray-700 bg-gray-900 py-5 md:flex-row"
+      className="flex w-full flex-col items-center justify-center bg-gray-900 py-5 md:flex-row"
     >
       <div className="z-20 flex h-full flex-shrink-0 flex-col items-center justify-center gap-5 p-5 pb-10 text-center text-lg leading-relaxed sm:p-10 sm:pb-16">
         <div className="flex w-full flex-col items-center justify-center gap-2">
