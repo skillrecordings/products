@@ -33,8 +33,8 @@ export const workshop = createRouter()
   })
   .query('verifyAccess', {
     input: z.object({
-      moduleSlug: z.string(),
-      moduleType: z.string(),
+      moduleSlug: z.string().optional(),
+      moduleType: z.string().optional(),
       lessonSlug: z.string().optional(),
       sectionSlug: z.string().optional(),
       isSolution: z.boolean().optional(),
@@ -50,10 +50,11 @@ export const workshop = createRouter()
         isSolution = false,
       } = input
 
-      const module =
-        moduleType === 'workshop'
+      const module = moduleSlug
+        ? moduleType === 'workshop'
           ? await getWorkshop(moduleSlug)
           : await getTutorial(moduleSlug)
+        : undefined
       const lesson = lessonSlug ? await getExercise(lessonSlug) : undefined
       const section = sectionSlug ? await getSection(sectionSlug) : undefined
 

@@ -70,7 +70,7 @@ const RedeemDialog = ({open = false, couponId}: RedeemDialogProps) => {
             </AlertDialogPrimitive.Cancel>
             <AlertDialogPrimitive.Action asChild>
               <button
-                className="transitions flex rounded-sm border border-transparent bg-orange-300 py-2 px-4 text-sm font-medium text-black shadow-sm focus:outline-none focus:ring-white hover:brightness-105"
+                className="transitions flex rounded-sm border border-transparent bg-cyan-300 py-2 px-4 text-sm font-medium text-black shadow-sm focus:outline-none focus:ring-white hover:brightness-105"
                 type="submit"
               >
                 Yes, Claim License

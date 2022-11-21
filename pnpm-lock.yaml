@@ -2843,7 +2843,9 @@ importers:
     specifiers:
       '@casl/ability': ^6.0.0
       '@skillrecordings/database': workspace:*
+      '@skillrecordings/scripts': workspace:*
       '@skillrecordings/tsconfig': workspace:*
+      '@types/jest': ^27.5.2
       '@types/node': ^18.6.1
       eslint: ^8.12.0
       eslint-config-custom: workspace:*
@@ -2855,7 +2857,9 @@ importers:
       '@casl/ability': 6.0.0
     devDependencies:
       '@skillrecordings/database': link:../database
+      '@skillrecordings/scripts': link:../scripts
       '@skillrecordings/tsconfig': link:../tsconfig
+      '@types/jest': 27.5.2
       '@types/node': 18.6.3
       eslint: 8.19.0
       eslint-config-custom: link:../eslint-config-custom

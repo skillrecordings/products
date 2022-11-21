@@ -17,7 +17,7 @@ const CopyInviteLink: React.FC<
       <div className="flex gap-3 pt-2">
         <input
           readOnly
-          className="w-full rounded-md border border-gray-300 bg-gray-50 py-2 px-3 text-sm font-semibold text-gray-700 shadow-inner selection:bg-green-500 selection:text-white"
+          className="w-full rounded-md border border-gray-300 bg-gray-50 py-2 px-3 text-sm font-semibold text-gray-700 shadow-inner selection:bg-cyan-500 selection:text-white"
           id="inviteLink"
           onClick={(e) => {
             e.currentTarget.select()

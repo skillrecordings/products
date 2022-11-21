@@ -24,7 +24,7 @@ const ThanksRedeem: React.FC<
   React.PropsWithChildren<{purchase: any; email: string}>
 > = ({email}) => {
   return (
-    <Layout footer={null} className="bg-noise bg-green-700">
+    <Layout footer={null} className="bg-noise">
       <main className="flex flex-grow flex-col items-center justify-center px-5 pt-5 pb-16 text-white">
         <div className="mx-auto flex w-full max-w-screen-md flex-col items-center gap-5 text-center">
           <div>
@@ -35,7 +35,7 @@ const ThanksRedeem: React.FC<
               Please check your inbox for a login link that just got sent.
               <code className="my-10 inline-flex items-center gap-2 rounded-md bg-white px-6 py-3 font-sans text-lg font-semibold text-black sm:text-xl">
                 <MailIcon
-                  className="h-5 w-5 text-green-500"
+                  className="h-5 w-5 text-cyan-500"
                   aria-hidden="true"
                 />{' '}
                 {email}

@@ -2,16 +2,21 @@ import {Ability, AbilityBuilder, AbilityClass} from '@casl/ability'
 import {Exercise} from '../lib/exercises'
 import {SanityDocument} from '@sanity/client'
 import z from 'zod'
-import {hasValidPurchase} from '@skillrecordings/ability'
+import {Purchase} from '@skillrecordings/database'
+import {
+  hasAvailableSeats,
+  hasBulkPurchase,
+  hasInvoice,
+} from '@skillrecordings/ability'
 
 const adminRoles = ['ADMIN', 'SUPERADMIN']
 
 export const UserSchema = z.object({
-  role: z.string(),
+  role: z.string().optional(),
   purchases: z.array(z.any()),
-  id: z.string(),
+  id: z.string().optional(),
   name: z.nullable(z.string().optional()),
-  email: z.string(),
+  email: z.string().optional(),
 })
 
 export type User = z.infer<typeof UserSchema>
@@ -34,7 +39,7 @@ type ViewerAbilityInput = {
   user?: User
   subscriber?: any
   lesson?: Exercise
-  module: SanityDocument
+  module?: SanityDocument
   section?: SanityDocument
   isSolution?: boolean
 }
@@ -52,7 +57,17 @@ export function defineRulesForPurchases(
     isSolution = false,
   } = viewerAbilityInput
 
-  const exercises = section ? section.exercises : module.exercises
+  console.log({user})
+
+  if (hasBulkPurchase(user?.purchases)) {
+    can('view', 'Team')
+  }
+
+  if (hasAvailableSeats(user?.purchases)) {
+    can('invite', 'Team')
+  }
+
+  const exercises = section ? section.exercises : module?.exercises || []
   const isFirstLesson =
     lesson?._type === 'exercise' && lesson._id === exercises?.[0]._id
 
@@ -60,7 +75,7 @@ export function defineRulesForPurchases(
 
   const isFreelyVisible = isFirstLesson && hasVideo && !isSolution
 
-  if (module.moduleType === 'tutorial') {
+  if (module?.moduleType === 'tutorial') {
     if (user || subscriber || (!section && isFreelyVisible)) {
       can('view', 'Content')
     }
@@ -70,7 +85,7 @@ export function defineRulesForPurchases(
     can('view', 'Content')
   }
 
-  if (module.moduleType === 'workshop') {
+  if (module?.moduleType === 'workshop') {
     // TODO remove this once we have a better way to determine if a workshop is
     //  available to the user (see below)
     const userHasPurchases = Boolean(user && user.purchases.length > 0)
