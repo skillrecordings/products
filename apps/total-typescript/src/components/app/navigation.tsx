@@ -131,7 +131,7 @@ const MobileNav = () => {
                           Account
                         </div>
                         <ul>
-                          {!canViewTeam && (
+                          {canViewTeam && (
                             <MobileNavLink path="/team" label="Invite team" />
                           )}
                           {canViewInvoice && (
