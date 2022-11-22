@@ -25,9 +25,10 @@ const InviteTeam: React.FC<React.PropsWithChildren<InviteTeamProps>> = ({
   setPersonalPurchase,
 }) => {
   const bulkCouponSchema = z
-    .object({maxUses: z.number(), usedCount: z.number()})
-    .transform(({maxUses, usedCount}) => {
+    .object({id: z.string(), maxUses: z.number(), usedCount: z.number()})
+    .transform(({id, maxUses, usedCount}) => {
       return {
+        bulkCouponId: id,
         maxUses,
         usedCount,
         numberOfRedemptionsLeft: maxUses - usedCount,
@@ -35,14 +36,18 @@ const InviteTeam: React.FC<React.PropsWithChildren<InviteTeamProps>> = ({
       }
     })
 
-  const {maxUses, usedCount, numberOfRedemptionsLeft, hasRedemptionsLeft} =
-    bulkCouponSchema.parse(purchase.bulkCoupon)
+  const {
+    bulkCouponId,
+    maxUses,
+    usedCount,
+    numberOfRedemptionsLeft,
+    hasRedemptionsLeft,
+  } = bulkCouponSchema.parse(purchase.bulkCoupon)
 
   const [canRedeem, setCanRedeem] = React.useState(
     Boolean(hasRedemptionsLeft && !existingPurchase),
   )
   const userEmail = session?.user?.email
-  const bulkCouponId = purchase?.bulkCoupon?.id
 
   return (
     <>
