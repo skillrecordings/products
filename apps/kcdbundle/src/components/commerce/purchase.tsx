@@ -25,7 +25,7 @@ const Purchase = () => {
   // egghead api is not returning correct price with 10% discount
   // so we hardcode it. during sale this should still remain dynamic.
   if (price === fullPrice) {
-    price = 837
+    price = 465
     fullPrice = 931
   }
 

@@ -2,6 +2,7 @@ import React from 'react'
 import SelfRedeemButton from './self-redeem-button'
 import CopyInviteLink from './copy-invite-link'
 import Link from 'next/link'
+import {z} from 'zod'
 
 type InviteTeamProps = {
   purchase: {
@@ -23,15 +24,21 @@ const InviteTeam: React.FC<React.PropsWithChildren<InviteTeamProps>> = ({
   session,
   setPersonalPurchase,
 }) => {
-  const redemptionsLeft =
-    purchase.bulkCoupon &&
-    purchase.bulkCoupon.maxUses > purchase.bulkCoupon.usedCount
-  const numberOfRedemptionsLeft =
-    purchase?.bulkCoupon &&
-    purchase?.bulkCoupon.maxUses - purchase.bulkCoupon.usedCount
+  const bulkCouponSchema = z
+    .object({maxUses: z.number(), usedCount: z.number()})
+    .transform(({maxUses, usedCount}) => {
+      return {
+        maxUses,
+        usedCount,
+        numberOfRedemptionsLeft: maxUses - usedCount,
+        redemptionsLeft: maxUses > usedCount,
+      }
+    })
+
+  const bulkCouponData = bulkCouponSchema.parse(purchase.bulkCoupon)
 
   const [canRedeem, setCanRedeem] = React.useState(
-    Boolean(redemptionsLeft && !existingPurchase),
+    Boolean(bulkCouponData.redemptionsLeft && !existingPurchase),
   )
   const userEmail = session?.user?.email
   const bulkCouponId = purchase?.bulkCoupon?.id
@@ -39,12 +46,19 @@ const InviteTeam: React.FC<React.PropsWithChildren<InviteTeamProps>> = ({
   return (
     <>
       <p className="py-3">
-        You have <strong>{numberOfRedemptionsLeft} seats left</strong>.{' '}
-        {redemptionsLeft &&
+        You have{' '}
+        <strong>{bulkCouponData.numberOfRedemptionsLeft} seats left</strong>.{' '}
+        {bulkCouponData.redemptionsLeft &&
           bulkCouponId &&
           'Send the invite link below to your colleagues to get started:'}
       </p>
-      {redemptionsLeft && bulkCouponId && (
+      {bulkCouponData.usedCount > 0 && (
+        <p className="pb-3 text-xs">
+          Your team has already redeemed {bulkCouponData.usedCount} of{' '}
+          {bulkCouponData.maxUses} seats.
+        </p>
+      )}
+      {bulkCouponData.redemptionsLeft && bulkCouponId && (
         <>
           <div className="w-full ">
             <CopyInviteLink bulkCouponId={bulkCouponId} />
@@ -66,10 +80,10 @@ const InviteTeam: React.FC<React.PropsWithChildren<InviteTeamProps>> = ({
           )}
         </>
       )}
-      {!redemptionsLeft && (
+      {!bulkCouponData.redemptionsLeft && (
         <div className="mt-5 flex items-center justify-between border-t border-gray-100 pt-5">
           <Link href="/#buy">
-            <a className="flex-shrink-0 rounded-md bg-green-500 px-4 py-2 font-semibold text-white transition hover:bg-green-600">
+            <a className="flex-shrink-0 rounded-md bg-cyan-500 px-4 py-2 font-semibold text-white transition hover:bg-cyan-600">
               Buy more seats
             </a>
           </Link>

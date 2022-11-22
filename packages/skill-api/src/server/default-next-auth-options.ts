@@ -17,6 +17,7 @@ async function getUser(userId: string) {
           productId: true,
           createdAt: true,
           totalAmount: true,
+          bulkCouponId: true,
           bulkCoupon: {
             select: {
               maxUses: true,
