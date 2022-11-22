@@ -39,9 +39,7 @@ const Footer: React.FC<React.PropsWithChildren<FooterProps>> = () => {
                   <NavLink href="/accessibility-reviews">Reviews</NavLink>
                 </li>
                 <li>
-                  <NavLink href={isSignedIn ? '/learn' : '/workshops'}>
-                    Live Workshops
-                  </NavLink>
+                  <NavLink href="/workshops">Live Workshops</NavLink>
                 </li>
                 {!subscriber && (
                   <li>
