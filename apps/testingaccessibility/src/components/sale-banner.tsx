@@ -50,7 +50,7 @@ const CountdownRenderer: React.FC<React.PropsWithChildren<CountdownProps>> = ({
         <div className="sm:h-10 sm:text-base text-sm sm:py-0 gap-1 flex py-1 items-center justify-center font-medium font-nav sm:fixed top-0 z-40 bg-white w-full border-b border-gray-100 shadow px-3">
           <span className="sm:w-auto w-full">
             <span className="sm:inline-block block leading-tight">
-              Special launch discount!{' '}
+              Special discount!{' '}
               <span
                 className="px-1"
                 role="img"
