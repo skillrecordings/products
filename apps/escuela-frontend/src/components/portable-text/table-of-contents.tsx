@@ -95,7 +95,7 @@ const TableOfContents = ({value}: PortableTextProps) => {
 
   return (
     <details
-      aria-label="On this page"
+      aria-label="EN ESTA PÁGINA"
       className="no-marker group mx-auto w-full max-w-screen-md text-lg font-medium marker:text-transparent sm:text-xl"
     >
       <summary className="flex items-center hover:cursor-pointer">
@@ -107,7 +107,7 @@ const TableOfContents = ({value}: PortableTextProps) => {
           <ChevronUpIcon className="hidden h-4 w-4 group-open:block" />
         </span>
         <span className="py-3 text-base uppercase text-gray-200 transition group-hover:text-gray-100 sm:py-5">
-          On this page
+          EN ESTA PÁGINA
         </span>
       </summary>
       <div className="pb-4">

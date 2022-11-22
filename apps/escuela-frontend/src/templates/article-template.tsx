@@ -152,7 +152,7 @@ const Header: React.FC<Article> = ({
           <div className="flex gap-16 sm:text-left">
             <div>
               <div className="pb-1.5 text-sm font-semibold uppercase tracking-wide text-gray-300">
-                Time to read
+                Tiempo
               </div>
               <div>
                 <span className="text-gray-500">~</span>
@@ -161,7 +161,7 @@ const Header: React.FC<Article> = ({
             </div>
             <time dateTime={date}>
               <div className="pb-1.5 text-sm font-semibold uppercase tracking-wide text-gray-300">
-                published
+                Publicado
               </div>
               <div>{format(new Date(date), 'dd MMMM, y')}</div>
             </time>

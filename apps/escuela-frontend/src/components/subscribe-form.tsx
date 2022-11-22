@@ -16,24 +16,24 @@ const NewsletterSubscribeForm = () => {
       <div className="relative flex w-full flex-col items-center justify-center">
         <div className="max-w-3xl pb-16 text-center">
           <h2 className="font-heading text-4xl font-bold leading-tight text-white sm:text-5xl sm:leading-tight">
-            Power-up your team workflow with Escuela Frontend
+            Domina el Universo Frontend
           </h2>
           <p className="pt-6 text-xl text-gray-100">
-            Sign up for exclusive early-release lessons!
+            Regístrate para recibir contenido exclusivo
           </p>
         </div>
         <SubscribeToConvertkitForm
           onSuccess={(subscriber: any) => {
             if (subscriber) {
-              const redirectUrl = redirectUrlBuilder(subscriber, '/confirm')
+              const redirectUrl = redirectUrlBuilder(subscriber, '/confirmar')
               router.push(redirectUrl)
             }
           }}
-          actionLabel="Sign Up Today"
+          actionLabel="Regístrate"
           submitButtonElem={<SubmitButton />}
         />
         <p className="pt-8 text-center text-base opacity-80">
-          I respect your privacy. Unsubscribe at any time.
+          Sin spam, cancele en cualquier momento.
         </p>
       </div>
     </section>
@@ -48,7 +48,7 @@ const SubmitButton: React.FC<any> = (props) => {
     <div className="group relative flex w-full flex-col items-center">
       <div className="pointer-events-none z-20 flex w-24 translate-y-5 items-center justify-center"></div>
       <button data-sr-button="" className="z-10">
-        {isLoading ? <Loader /> : 'Sign Up Today'}
+        {isLoading ? <Loader /> : 'Regístrate'}
       </button>
       <div className="pointer-events-none z-20 hidden w-20 -translate-y-3 items-center justify-center group-hover:flex"></div>
       <div className="pointer-events-none z-0 flex w-20 -translate-y-3 items-center justify-center group-hover:hidden"></div>

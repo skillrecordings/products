@@ -50,7 +50,7 @@ export const OverlayWrapper: React.FC<
             setDisplayOverlay(false)
           }}
         >
-          <span>Dismiss</span>{' '}
+          <span>Despedir</span>{' '}
           <XIcon className="h-4 w-4 text-gray-300" aria-hidden="true" />
         </button>
       )}
@@ -84,7 +84,7 @@ const Actions = () => {
           handlePlay()
         }}
       >
-        Replay <span aria-hidden="true">↺</span>
+        Ver de nuevo <span aria-hidden="true">↺</span>
       </button>
       {nextExercise && (
         <button
@@ -100,7 +100,7 @@ const Actions = () => {
             handleContinue(router, module, nextExercise, handlePlay, path)
           }}
         >
-          Solution <span aria-hidden="true">→</span>
+          Solución <span aria-hidden="true">→</span>
         </button>
       )}
     </div>
@@ -117,7 +117,7 @@ const ExerciseOverlay = () => {
       {stackblitz ? (
         <>
           <div className="flex w-full items-center justify-between p-3 pl-5 font-medium sm:text-lg">
-            <div>Now it's your turn! Try solving this exercise.</div>
+            <div>¡Ahora es tu turno! Intenta resolver este ejercicio.</div>
             <div className="flex justify-center gap-2">
               <Actions />
             </div>
@@ -187,7 +187,7 @@ const DefaultOverlay = () => {
       )}
 
       <p className="pt-4 font-heading text-xl font-bold sm:text-3xl">
-        <span className="font-light text-gray-300">Up next:</span>{' '}
+        <span className="font-light text-gray-300">Siguiente lección:</span>{' '}
         {nextExercise.title}
       </p>
       <div className="flex items-center justify-center gap-5 py-4 sm:py-8">
@@ -204,7 +204,7 @@ const DefaultOverlay = () => {
             handlePlay()
           }}
         >
-          Replay ↺
+          Ver de nuevo ↺
         </button>
         <button
           className="rounded-md bg-brand px-3 py-1 text-lg font-semibold text-white transition hover:brightness-125 sm:px-5 sm:py-3"
@@ -226,7 +226,7 @@ const DefaultOverlay = () => {
             )
           }}
         >
-          Complete & Continue <span aria-hidden="true">→</span>
+          Completar y Continuar <span aria-hidden="true">→</span>
         </button>
       </div>
     </OverlayWrapper>
@@ -252,7 +252,7 @@ const FinishedOverlay = () => {
   return (
     <OverlayWrapper className="px-5 pt-10 sm:pt-0">
       <p className="font-text font-heading text-2xl font-bold text-white sm:text-3xl">
-        Comparte este tutorial con tus amigos!
+        Comparte este tutorial!
       </p>
       <div className="flex items-center gap-2 py-8">
         <Twitter
@@ -282,7 +282,7 @@ const FinishedOverlay = () => {
           className="px-3 py-1 text-lg font-semibold transition sm:px-5 sm:py-3"
           onClick={handlePlay}
         >
-          Replay <span aria-hidden="true">↺</span>
+          Ver de nuevo <span aria-hidden="true">↺</span>
         </button>
         <button
           onClick={() => {
@@ -298,7 +298,7 @@ const FinishedOverlay = () => {
           }}
           className="px-3 py-1 text-lg font-semibold transition sm:px-5 sm:py-3 "
         >
-          Play from beginning
+          Ver desde el principio
         </button>
       </div>
     </OverlayWrapper>
@@ -362,27 +362,27 @@ const BlockedOverlay: React.FC = () => {
             />
           </div>
           <h2 className="max-w-sm font-heading text-3xl font-bold">
-            Level up with {module.title}
+            Avanza tu carrera con {module.title}
           </h2>
           <h3 className="pb-5 pt-2 text-lg font-medium text-brand">
-            Access all lessons in this {module.moduleType}.
+            Accede a todas las lecciones de este tutorial.
           </h3>
           <SubscribeToConvertkitForm
-            successMessage="Thanks! You're being redirected..."
+            successMessage="¡Gracias! Estás siendo redirigido..."
             subscribeApiURL={process.env.NEXT_PUBLIC_CONVERTKIT_SUBSCRIBE_URL}
-            actionLabel="Continue Watching"
+            actionLabel="Continuar Viendo"
             fields={startedLearningField}
             onSuccess={(subscriber, email) => {
               return handleOnSuccess(subscriber, email)
             }}
           />
           <p className="pt-2 text-base opacity-80">
-            No spam, unsubscribe at any time.
+            Sin spam, cancele en cualquier momento.
           </p>
         </div>
       </div>
       <div className="prose prose-invert flex w-full max-w-none flex-col p-5 prose-p:mb-0  sm:max-w-sm xl:max-w-lg xl:prose-p:mb-0">
-        <h3 className="font-bold">This is a free tutorial.</h3>
+        <h3 className="font-bold">Este es un tutorial gratuito.</h3>
         {ctaText && <PortableText value={ctaText} />}
       </div>
     </div>

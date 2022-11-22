@@ -18,7 +18,7 @@ export const GitHubLink: React.FC<{
 
   return (
     <div className="pt-14">
-      <h2 className="pb-4 text-2xl font-semibold sm:text-3xl">Code</h2>
+      <h2 className="pb-4 text-2xl font-semibold sm:text-3xl">Código</h2>
       <div className="flex items-center gap-2">
         <a
           onClick={() => {

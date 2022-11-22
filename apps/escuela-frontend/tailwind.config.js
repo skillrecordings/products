@@ -24,7 +24,7 @@ module.exports = {
     extend: {
       fontFamily: {
         sans: ['IBM Plex Sans', ...defaultTheme.fontFamily.sans],
-        heading: [...defaultTheme.fontFamily.sans],
+        heading: ['IBM Plex Sans', ...defaultTheme.fontFamily.sans],
         sicret: ['Sicret Mono', ...defaultTheme.fontFamily.mono],
       },
       colors: {
@@ -40,6 +40,7 @@ module.exports = {
           700: '#222',
           800: '#151515',
           900: '#0c0c0c',
+          1000: '#000',
         },
       },
       screens: {

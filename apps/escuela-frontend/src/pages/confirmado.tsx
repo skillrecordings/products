@@ -8,11 +8,10 @@ const ConfirmedSubscriptionPage = () => {
         <Image />
         <div className="max-w-lg text-center font-light">
           <h1 className="py-8 font-heading text-3xl font-bold lg:text-4xl">
-            You're Confirmed!
+            ¡Has confirmado tu subscripción!
           </h1>
           <p className="mx-auto pb-8 leading-relaxed text-gray-100 sm:text-lg">
-            Thanks for confirming your email address — you're all set to receive{' '}
-            emails from me about Escuela Frontend.
+            Gracias por confirmar tu correo electrónico.
           </p>
         </div>
       </main>

@@ -9,7 +9,7 @@ import {toPlainText} from '@portabletext/react'
 const meta = {
   title: 'Artículos',
   description:
-    '  In-depth article to learn how to navigate the frontend ecosystem.',
+    'Artículos detallados para aprender a navegar por el ecosistema Frontend.',
 }
 
 type ArticlesProps = {
@@ -80,7 +80,7 @@ const Articles: React.FC<ArticlesProps> = ({articles}) => {
                           <div className="mt-6 flex w-full items-center justify-between space-x-5">
                             <Link href={`/${slug}`} passHref>
                               <a className="rounded-md bg-brand px-5 py-3 font-medium text-white transition hover:brightness-125">
-                                View article{' '}
+                                Ver artículo{' '}
                                 <span
                                   aria-hidden="true"
                                   className="text-white/90 transition group-hover:text-white"
@@ -90,7 +90,7 @@ const Articles: React.FC<ArticlesProps> = ({articles}) => {
                               </a>
                             </Link>
                             <div className="text-sm text-gray-400">
-                              Time to read: ~{estimatedReadingTime}m
+                              Tiempo: ~{estimatedReadingTime}m
                             </div>
                           </div>
                         </div>
