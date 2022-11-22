@@ -37,7 +37,7 @@ const Learn: React.FC<React.PropsWithChildren<{purchases: Purchase[]}>> = ({
   purchases = [],
 }) => {
   return (
-    <Layout meta={{title: 'Invoices'}} className="bg-noise bg-green-700">
+    <Layout meta={{title: 'Invoices'}} className="bg-noise text-gray-900">
       <main className="mx-auto flex h-full w-full max-w-2xl flex-grow flex-col py-8 px-5 sm:py-16">
         <h1 className="pb-4 font-heading text-3xl font-medium text-white">
           Your Invoices
@@ -53,7 +53,7 @@ const Learn: React.FC<React.PropsWithChildren<{purchases: Purchase[]}>> = ({
                       <div>
                         <DocumentTextIcon
                           aria-hidden
-                          className="w-6 text-green-500"
+                          className="w-6 text-cyan-500"
                         />
                       </div>
                       <div>
@@ -71,7 +71,7 @@ const Learn: React.FC<React.PropsWithChildren<{purchases: Purchase[]}>> = ({
                       </div>
                     </div>
                     <Link href={`/invoices/${purchase.merchantChargeId}`}>
-                      <a className="hover:bg-moss-50 mt-5 flex flex-shrink-0 items-center justify-end rounded-md px-3 py-2 text-sm font-medium text-green-600 transition hover:bg-opacity-60 sm:mt-0 sm:justify-center">
+                      <a className="hover:bg-moss-50 mt-5 flex flex-shrink-0 items-center justify-end rounded-md px-3 py-2 text-sm font-medium text-cyan-600 transition hover:bg-opacity-60 sm:mt-0 sm:justify-center">
                         <span className="pr-0.5">View Invoice</span>
                         <ChevronRightIcon aria-hidden="true" className="w-5" />
                       </a>
