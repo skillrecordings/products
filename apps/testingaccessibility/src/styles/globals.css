@@ -171,11 +171,8 @@
     [data-sr-input-label] {
       @apply sr-only;
     }
-[data-sr-button] {
-  @apply font-nav flex items-center justify-center rounded-lg text-black bg-yellow-500 hover:bg-opacity-100 transition font-bold text-lg focus-visible:ring-yellow-200 hover:scale-105 hover:-rotate-1 hover:bg-yellow-400;
-}
     [data-sr-button] {
-        @apply relative flex flex-shrink-0 items-center justify-center rounded-full py-2 px-5 font-semibold text-white transition focus-visible:ring-white hover:brightness-110;
+        @apply font-nav flex flex-shrink-0 md:py-1 py-3 px-5 items-center justify-center rounded-lg text-black bg-yellow-500 hover:bg-opacity-100 transition font-bold text-lg focus-visible:ring-yellow-200 hover:scale-[1.02] hover:-rotate-1 hover:bg-yellow-400;
       svg {
         @apply h-7 w-7;
       }
