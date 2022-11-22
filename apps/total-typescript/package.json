@@ -5,6 +5,7 @@
   "scripts": {
     "dev": "next dev -p 3016",
     "dev:setup": "vercel env pull .env.local && sed -i.bak '/^VERCEL/d' .env.local",
+    "dev:stripe": "stripe listen --forward-to localhost:3016/api/skill/webhook/stripe",
     "build": "next build",
     "build:dev": "pnpm -w build --filter total-typescript",
     "postbuild": "NODE_ENV=production next-sitemap",
