@@ -104,13 +104,10 @@ const MobileNav: React.FC<React.PropsWithChildren<unknown>> = () => {
                   <Menu.Item>
                     {(props) => (
                       <MenuLink href="/learn" {...props}>
-                        <span
-                          role="presentation"
-                          aria-label="star"
+                        <StarIcon
                           aria-hidden="true"
-                        >
-                          ⭐️
-                        </span>{' '}
+                          className="w-4 h-4 text-yellow-400 mr-1 mt-0.5"
+                        />
                         Start Learning
                       </MenuLink>
                     )}
