@@ -29,6 +29,8 @@ const InviteTeam: React.FC<React.PropsWithChildren<InviteTeamProps>> = ({
   const numberOfRedemptionsLeft =
     purchase?.bulkCoupon &&
     purchase?.bulkCoupon.maxUses - purchase.bulkCoupon.usedCount
+  const numberOfRedemptionsUsed =
+    purchase?.bulkCoupon && purchase?.bulkCoupon.usedCount
 
   const [canRedeem, setCanRedeem] = React.useState(
     Boolean(redemptionsLeft && !existingPurchase),
@@ -44,6 +46,12 @@ const InviteTeam: React.FC<React.PropsWithChildren<InviteTeamProps>> = ({
           bulkCouponId &&
           'Send the invite link below to your colleagues to get started:'}
       </p>
+      {numberOfRedemptionsUsed && numberOfRedemptionsUsed > 0 && (
+        <p className="pb-3 text-xs">
+          Your team has already redeemed {numberOfRedemptionsUsed} of{' '}
+          {purchase?.bulkCoupon?.maxUses} seats.
+        </p>
+      )}
       {redemptionsLeft && bulkCouponId && (
         <>
           <div className="w-full ">
