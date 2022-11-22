@@ -9,13 +9,12 @@ import {
 import {track} from '../../utils/analytics'
 import cx from 'classnames'
 import config from 'config'
-import {AppAbility, getCurrentAbility} from 'ability/ability'
-import {useUser} from '@skillrecordings/react'
+import {createAppAbility} from 'ability/ability'
 import {isSellingLive} from 'utils/is-selling-live'
 import {trpc} from '../../utils/trpc'
 import NextLink, {type LinkProps} from 'next/link'
 import * as NavigationMenu from '@radix-ui/react-navigation-menu'
-import {signOut} from 'next-auth/react'
+import {signOut, useSession} from 'next-auth/react'
 import toast from 'react-hot-toast'
 
 type Props = {
@@ -47,12 +46,11 @@ const Navigation: React.FC<React.PropsWithChildren<Props>> = ({
 const useAbilities = () => {
   const {data: abilityRules} = trpc.useQuery(['abilities.getAbilities'])
 
-  return new AppAbility(abilityRules || [])
+  return createAppAbility(abilityRules || [])
 }
 
 const DesktopNav = () => {
-  const ability = useAbilities()
-  const canViewContent = ability.can('view', 'Content')
+  const {status} = useSession()
 
   return (
     <ul className="hidden items-center md:flex">
@@ -74,10 +72,10 @@ const DesktopNav = () => {
           aria-hidden="true"
         />
       )}
-      {canViewContent ? (
+      {status === 'authenticated' ? (
         <AccountDropdown />
       ) : (
-        isSellingLive && <NavLink path="/login" label="Log in" />
+        status === 'unauthenticated' && <NavLink path="/login" label="Log in" />
       )}
     </ul>
   )
@@ -86,15 +84,15 @@ const DesktopNav = () => {
 const MobileNav = () => {
   const ability = useAbilities()
   const canViewTeam = ability.can('view', 'Team')
-  const canViewContent = ability.can('view', 'Content')
   const canViewInvoice = ability.can('view', 'Invoice')
+  const {status} = useSession()
 
   return (
     <div className="block md:hidden">
       <ul className="flex h-full items-center justify-center">
-        {isSellingLive && !canViewContent && (
+        {isSellingLive && status === 'unauthenticated' ? (
           <NavLink path="/login" label="Log in" />
-        )}
+        ) : null}
         <li className="h-full">
           <NavigationMenu.Root delayDuration={0} className="flex h-full">
             <NavigationMenu.List className="flex h-full items-center justify-center">
@@ -125,7 +123,7 @@ const MobileNav = () => {
                         />
                       }
                     />
-                    {canViewContent && isSellingLive && (
+                    {status === 'authenticated' && isSellingLive && (
                       <>
                         <div className="border-t border-gray-900/50 px-3 pb-3 pt-5 font-mono text-xs font-semibold uppercase tracking-wide">
                           Account
@@ -137,11 +135,9 @@ const MobileNav = () => {
                           {canViewInvoice && (
                             <MobileNavLink path="/invoices" label="Invoices" />
                           )}
-                          {canViewContent && (
-                            <li>
-                              <LogOutButton className="flex h-full items-center gap-0.5 px-3 py-2 text-base font-medium transition duration-100 hover:bg-gray-800/60 active:bg-transparent" />
-                            </li>
-                          )}
+                          <li>
+                            <LogOutButton className="flex h-full items-center gap-0.5 px-3 py-2 text-base font-medium transition duration-100 hover:bg-gray-800/60 active:bg-transparent" />
+                          </li>
                         </ul>
                       </>
                     )}

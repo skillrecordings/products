@@ -9,7 +9,7 @@ import {track} from '../utils/analytics'
 import {type Exercise, ExerciseSchema} from 'lib/exercises'
 import {type Tip, TipSchema} from 'lib/tips'
 import {useConvertkit} from './use-convertkit'
-import {AppAbility} from 'ability/ability'
+import {AppAbility, createAppAbility} from 'ability/ability'
 import {useSession} from 'next-auth/react'
 import {trpc} from '../utils/trpc'
 
@@ -84,7 +84,7 @@ export const VideoProvider: React.FC<
     },
   ])
 
-  const ability = new AppAbility(abilityRules || [])
+  const ability = createAppAbility(abilityRules || [])
 
   const {setPlayerPrefs, playbackRate, autoplay, getPlayerPrefs} =
     usePlayerPrefs()
