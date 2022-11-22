@@ -77,15 +77,16 @@ const confirmSubscriptionToast = (email?: string) => {
   return toast(
     () => (
       <div>
-        <strong>Confirm your subscription</strong>
+        <strong>Confirma tu suscripción</strong>
         <p>
-          Please check your inbox{' '}
+          Revise tu inbox{' '}
           {email && (
             <>
               (<strong>{email}</strong>)
             </>
           )}{' '}
-          for an email that just got sent. Thanks and enjoy!
+          para un correo electrónico que acaba de ser enviado. ¡Gracias y
+          disfruta!
         </p>
       </div>
     ),

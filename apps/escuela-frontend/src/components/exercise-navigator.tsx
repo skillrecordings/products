@@ -64,7 +64,7 @@ const ExerciseNavigator: React.FC<{
                     className={cx(
                       'flex items-center px-4 py-2 font-semibold leading-tight hover:bg-gray-700',
                       {
-                        'bg-gray-900 shadow-xl shadow-gray-500/5 hover:bg-gray-900':
+                        'bg-gray-800 shadow-xl shadow-gray-500/5 hover:bg-gray-700':
                           isActive && !exercise.solution,
                         'hover:bg-gray-700': !isActive && !exercise.solution,
                       },
@@ -125,7 +125,7 @@ const ExerciseNavigator: React.FC<{
                             })
                           }}
                         >
-                          Exercise
+                          Ejercicio
                         </a>
                       </Link>
                     </li>
@@ -199,7 +199,7 @@ const SolutionLink = ({
             })
           }}
         >
-          {capitalize(solution?._type)}
+          Solución
         </a>
       </Link>
     </li>

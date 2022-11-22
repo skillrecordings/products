@@ -254,7 +254,7 @@ const PortableTextComponents: PortableTextComponents = {
                   <ChevronDownIcon className="h-4 w-4 group-open:hidden" />
                   <ChevronUpIcon className="hidden h-4 w-4 group-open:block" />
                 </span>
-                <span className="text-base">Video Transcript</span>
+                <span className="text-base">Transcripción</span>
               </summary>
               <div className="text-gray-600">
                 <PortableText value={caption} />
@@ -295,7 +295,7 @@ const PortableTextComponents: PortableTextComponents = {
                     <ChevronDownIcon className="h-4 w-4 group-open:hidden" />
                     <ChevronUpIcon className="hidden h-4 w-4 group-open:block" />
                   </span>
-                  <span className="text-base">Video Transcript</span>
+                  <span className="text-base">Transcripción</span>
                 </summary>
                 <div className="text-gray-600">
                   <PortableText value={caption} />

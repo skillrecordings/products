@@ -114,7 +114,7 @@ const TipTemplate: React.FC<TipPageProps> = ({tip, tips}) => {
         }}
       >
         <main className="mx-auto w-full">
-          <div className="bg-gray-1000 relative z-10 flex items-center justify-center border-b border-gray-700">
+          <div className="relative z-10 flex items-center justify-center border-b border-gray-700 bg-gray-1000">
             <div className="flex w-full max-w-screen-xl flex-col">
               <Video ref={muxPlayerRef} tips={tips} />
               {!subscriber && !loadingSubscriber && (
@@ -140,7 +140,7 @@ const TipTemplate: React.FC<TipPageProps> = ({tip, tips}) => {
                         className="h-5 w-5 text-green-500"
                       />
                       <span className="font-heading text-sm font-bold uppercase text-green-500 opacity-90">
-                        Watched
+                        Tip visto
                       </span>
                     </div>
                   ) : (
@@ -247,7 +247,7 @@ const Transcript: React.FC<{transcript: any[]; muxPlayerRef: any}> = ({
   const {handlePlay, video} = useMuxPlayer()
   return (
     <section aria-label="transcript">
-      <h2 className="font-heading text-2xl font-bold">Transcript</h2>
+      <h2 className="font-heading text-2xl font-bold">Transcripción</h2>
       <div className="prose prose-sm max-w-none pt-4 prose-p:text-gray-200 sm:prose">
         <PortableText
           value={transcript}
@@ -285,7 +285,7 @@ const RelatedTips: React.FC<{tips: Tip[]; currentTip: Tip}> = ({
 }) => {
   return (
     <section className="mx-auto h-full w-full rounded-md bg-gray-800 p-5 sm:p-10">
-      <h2 className="pt-3 font-heading text-2xl font-bold">More Tips</h2>
+      <h2 className="pt-3 font-heading text-2xl font-bold">Mas Tips</h2>
       <div className="flex flex-col pt-4">
         {tips
           .filter((tip) => tip.slug !== currentTip.slug)
@@ -318,7 +318,7 @@ const TipOverlay: React.FC<{tips: Tip[]}> = ({tips}) => {
     >
       <div className="absolute top-8 right-8 z-50 flex items-center justify-center gap-3">
         <button className={buttonStyles} onClick={handlePlay}>
-          Replay <span aria-hidden="true">↺</span>
+          Ver de nuevo <span aria-hidden="true">↺</span>
         </button>
         <button
           className={buttonStyles}
@@ -332,7 +332,7 @@ const TipOverlay: React.FC<{tips: Tip[]}> = ({tips}) => {
             setDisplayOverlay(false)
           }}
         >
-          Dismiss <XIcon className="h-4 w-4" aria-hidden="true" />
+          Despedir <XIcon className="h-4 w-4" aria-hidden="true" />
         </button>
       </div>
       <div className="left-0 top-0 z-20 flex h-full w-full flex-col items-center justify-center p-5 text-center text-lg leading-relaxed lg:absolute">
@@ -427,7 +427,7 @@ const ReplyOnTwitter: React.FC<{tweet: string}> = ({tweet}) => {
       }}
     >
       <ChatAltIcon aria-hidden="true" className="h-5 w-5 text-gray-50" />
-      Discuss on Twitter
+      Discutir en Twitter
     </a>
   )
 }
@@ -449,10 +449,10 @@ const SubscribeForm = ({
         >
           <MailIcon className="h-5 w-5 text-brand" />
         </div>{' '}
-        New Escuela Frontend tips delivered to your inbox
+        Avísame cuando salgan nuevos Tips
       </div>
       <SubscribeToConvertkitForm
-        actionLabel="Subscribe for Escuela Frontend tips"
+        actionLabel="Suscríbete"
         onSuccess={(subscriber, email) => {
           return handleOnSuccess(subscriber, email)
         }}

@@ -22,14 +22,14 @@ const ExerciseSidebar: React.FC<SidebarProps> = ({
     <>
       <div
         className={cx(
-          'relative z-50 w-full border-r border-gray-600 shadow-xl shadow-gray-800/50 lg:max-w-[280px] xl:max-w-xs',
+          'relative z-50 w-full border-r border-gray-700 lg:max-w-[280px] xl:max-w-xs',
           className,
         )}
       >
         <div className="top-0 lg:sticky">
           <aside>
-            <div className="z-10 h-[180px] lg:h-[140px]">
-              <div className="relative flex items-center gap-5 bg-gray-900 px-3 py-2 shadow-xl shadow-gray-500/5">
+            <div className="z-10 h-[200px] lg:h-[160px]">
+              <div className="relative flex items-center gap-5 bg-gray-900 px-3 py-2">
                 {module?.image && (
                   <Image
                     src={module.image}
@@ -77,7 +77,7 @@ const ExerciseSidebar: React.FC<SidebarProps> = ({
                 </div>
               </div>
               <p className="px-5 pt-4 pb-2 text-xs font-semibold uppercase tracking-wide text-gray-300">
-                Lessons
+                Lecciones
               </p>
             </div>
 

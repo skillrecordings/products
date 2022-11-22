@@ -68,7 +68,7 @@ const Header: React.FC<{tutorial: SanityDocument}> = ({tutorial}) => {
         <div className="text-center md:text-left">
           <Link href="/tutoriales">
             <a className="pb-1 font-mono text-sm font-semibold uppercase tracking-wide text-brand">
-              Free Tutorial
+              Tutorial Interactivo
             </a>
           </Link>
           <h1 className="font-text max-w-4xl pt-5 font-heading text-4xl font-bold sm:text-5xl lg:text-6xl">
@@ -119,7 +119,7 @@ const Header: React.FC<{tutorial: SanityDocument}> = ({tutorial}) => {
                       track('clicked github code link', {module: slug.current})
                     }}
                   >
-                    Start Learning{' '}
+                    Comienza a aprender{' '}
                     <span className="pl-2" aria-hidden="true">
                       →
                     </span>
@@ -136,7 +136,7 @@ const Header: React.FC<{tutorial: SanityDocument}> = ({tutorial}) => {
                   target="_blank"
                   rel="noopener noreferrer"
                 >
-                  <Icon name="Github" size="20" /> Code
+                  <Icon name="Github" size="20" /> Código
                 </a>
               )}
             </div>
@@ -168,7 +168,7 @@ const TutorialExerciseNavigator: React.FC<{tutorial: SanityDocument}> = ({
       className="border-gray-700 lg:border-l lg:pl-8"
     >
       <h2 className="pb-4 font-mono text-sm font-semibold uppercase text-gray-600">
-        {exercises?.length || 0} Exercises
+        {exercises?.length || 0} Ejercicios
       </h2>
       {exercises && (
         <ul>

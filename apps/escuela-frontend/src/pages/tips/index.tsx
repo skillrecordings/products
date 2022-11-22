@@ -21,17 +21,17 @@ type TipsIndex = {
 }
 
 const pageDescription =
-  'A collection of useful tips that you wish you knew when you started.'
+  'Una colección de consejos útiles que desearías haber sabido cuando empezaste.'
 
 const TipsIndex: React.FC<TipsIndex> = ({tips}) => {
   return (
     <Layout
       meta={{
-        title: `Tips para dominar el universo frontend`,
+        title: `Escuela Frontend Tips`,
         description: pageDescription,
         ogImage: {
           url: 'https://res.cloudinary.com/escuela-frontend/image/upload/v1669068520/assets/tips-card2x.png',
-          alt: 'Escuela Frontend Tips',
+          alt: 'Una colección de consejos útiles que desearías haber sabido cuando empezaste.',
         },
       }}
       className="sm:pt-18 flex flex-col items-center pb-16 pt-16 lg:pt-20 lg:pb-24"
@@ -109,7 +109,7 @@ const TipCard: React.FC<{tip: Tip}> = ({tip}) => {
         <div className="flex items-center gap-2" aria-hidden="true">
           {tipCompleted && (
             <div className="rounded-md bg-green-500/20 px-2 py-1 font-heading text-xs font-bold uppercase leading-none tracking-wider text-green-300">
-              Watched
+              Tip visto
             </div>
           )}
           <div className="rounded-md bg-brand px-2 py-1 font-heading text-xs font-bold uppercase leading-none tracking-wider text-white">

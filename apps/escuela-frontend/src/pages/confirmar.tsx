@@ -7,17 +7,15 @@ const ConfirmSubscriptionPage = () => {
       <main className="flex min-h-screen flex-grow flex-col items-center justify-center p-5 text-white">
         <Image />
         <div className="max-w-lg text-center font-light">
-          {/* <p className="sm:text-xl">
-            Thanks so much for signing up! There’s one last step.
-          </p> */}
           <h1 className="py-8 font-heading text-3xl font-bold lg:text-4xl">
-            Please check your inbox for an email that just got sent.
+            Por favor, revisa tu inbox. Te acabamos de enviar un correo.
           </h1>
           <p className="mx-auto pb-8 leading-relaxed text-gray-100 sm:text-lg">
-            You'll need to click the confirmation link to receive any further
-            emails. If you don't see the email after a few minutes, you might
-            check your spam folder or other filters and add{' '}
-            <strong>equipo@escuelafrontend.com</strong> to your contacts.
+            Deberás hacer clic en el enlace de confirmación para recibir más
+            correos electrónicos. Si no ves el correo electrónico después de
+            unos minutos, es posible que el correo este en tu carpeta de correo
+            no deseado, agrega <strong>equipo@escuelafrontend.com</strong> a tus
+            contactos.
           </p>
         </div>
       </main>

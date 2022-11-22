@@ -81,7 +81,7 @@ const ExerciseTemplate: React.FC<{
             section={section}
           />
           <main className="relative mx-auto max-w-[1480px] grow items-start sm:bg-gray-800 2xl:flex 2xl:max-w-none  2xl:bg-transparent">
-            <div className="border border-t-0 border-l-0 border-gray-600 2xl:relative 2xl:h-full 2xl:w-full 2xl:bg-gray-800">
+            <div className="border border-t-0 border-l-0 border-gray-700 2xl:relative 2xl:h-full 2xl:w-full 2xl:bg-gray-800">
               <Video
                 ref={muxPlayerRef}
                 module={module}
@@ -196,7 +196,7 @@ const GitHubLink: React.FC<{
       >
         <Icon name="Github" size="24" />
         <div>
-          <p className="font-semibold">Code</p>
+          <p className="font-semibold">Código</p>
           {/* <p className="font-mono text-sm text-gray-400">/{openFile}</p> */}
         </div>
       </a>
@@ -218,7 +218,11 @@ const ExerciseTitle: React.FC<{exercise: Exercise}> = ({exercise}) => {
           },
         )}
       >
-        {_type !== 'exercise' ? _type : 'Exercise'}
+        {_type === 'solution'
+          ? 'Solución'
+          : _type === 'exercise'
+          ? 'Ejercicio'
+          : 'Presentación'}
       </span>
       <h1 className="pb-5 pt-3 font-heading text-3xl font-bold tracking-tight sm:text-4xl xl:text-[2.65rem] 2xl:text-4xl">
         {title}
@@ -272,7 +276,7 @@ const VideoTranscript: React.FC<{
   return (
     <div className=" mx-auto max-w-4xl p-5 py-16">
       <h2 className="flex items-baseline font-heading text-xl font-bold sm:text-2xl">
-        Transcript
+        Transcripción
       </h2>
       <div className="prose prose-invert max-w-none pt-4">
         <PortableText
