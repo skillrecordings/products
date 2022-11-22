@@ -1,4 +1,9 @@
-import {Ability, AbilityBuilder, AbilityClass} from '@casl/ability'
+import {
+  MongoAbility,
+  createMongoAbility,
+  CreateAbility,
+  AbilityBuilder,
+} from '@casl/ability'
 import {Exercise} from '../lib/exercises'
 import {SanityDocument} from '@sanity/client'
 import z from 'zod'
@@ -14,19 +19,15 @@ export const UserSchema = z.object({
 
 export type User = z.infer<typeof UserSchema>
 
-type Actions = 'manage' | 'invite' | 'view'
-type Subjects =
-  | 'Team'
-  | 'Purchase'
-  | 'Content'
-  | 'Lesson'
-  | 'Module'
-  | 'Product'
-  | 'Invoice'
-  | 'Account'
-  | 'all'
-export type AppAbility = Ability<[Actions, Subjects]>
-export const AppAbility = Ability as AbilityClass<AppAbility>
+type Abilities =
+  | ['view', 'Content']
+  | ['invite', 'Team']
+  | ['edit', 'User' | User]
+  | ['view', 'Team']
+  | ['view', 'Invoice']
+export type AppAbility = MongoAbility<Abilities>
+
+export const createAppAbility = createMongoAbility as CreateAbility<AppAbility>
 
 type ViewerAbilityInput = {
   user?: User
@@ -89,11 +90,23 @@ const isFreelyVisible = ({
   return isFirstLesson && hasVideo && !isSolution
 }
 
+export function hasChargesForPurchases(purchases?: any[]) {
+  return purchases?.some((purchase) => Boolean(purchase.merchantChargeId))
+}
+
 export function defineRulesForPurchases(
   viewerAbilityInput: ViewerAbilityInput,
 ) {
-  const {can, rules} = new AbilityBuilder(AppAbility)
+  const {can, rules} = new AbilityBuilder<AppAbility>(createMongoAbility)
   const {user} = viewerAbilityInput
+
+  can('edit', 'User', {
+    id: user?.id,
+  })
+
+  if (hasChargesForPurchases(user?.purchases)) {
+    can('view', 'Invoice')
+  }
 
   if (hasBulkPurchase(user?.purchases)) {
     can('view', 'Team')
@@ -115,13 +128,11 @@ export function defineRulesForPurchases(
     can('view', 'Content')
   }
 
-  // adminRoles.includes(user?.role || '') && can('manage', 'all')
-
   return rules
 }
 
 export function getCurrentAbility(
   viewerAbilityInput: ViewerAbilityInput,
 ): AppAbility {
-  return new AppAbility(defineRulesForPurchases(viewerAbilityInput))
+  return createAppAbility(defineRulesForPurchases(viewerAbilityInput))
 }
