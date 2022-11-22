@@ -27,8 +27,8 @@ export default {
     },
     images: [
       {
-        url: 'https://testingaccessibility.com/card@2x.png?v=2',
-        // url: 'https://res.cloudinary.com/dg3gyk0gu/image/upload/v1607009484/testingaccessibility.com/card_2x.png',
+        url: 'https://testingaccessibility.com/card-sale-40@2x.png',
+        // url: 'https://testingaccessibility.com/card@2x.png?v=20221203',
         width: 1280,
         height: 720,
       },

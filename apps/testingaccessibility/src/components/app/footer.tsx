@@ -27,16 +27,21 @@ const Footer: React.FC<React.PropsWithChildren<FooterProps>> = () => {
             <div>
               <h2 className="text-orange-700 font-semibold">Learn</h2>
               <ul className="pt-4">
-                <li>
-                  <NavLink href={isSignedIn ? '/learn' : '/workshops'}>
-                    Workshops
-                  </NavLink>
-                </li>
+                {isSignedIn && (
+                  <li>
+                    <NavLink href="/learn">Pro Workshops</NavLink>
+                  </li>
+                )}
                 <li>
                   <NavLink href="/articles">Articles</NavLink>
                 </li>
                 <li>
                   <NavLink href="/accessibility-reviews">Reviews</NavLink>
+                </li>
+                <li>
+                  <NavLink href={isSignedIn ? '/learn' : '/workshops'}>
+                    Live Workshops
+                  </NavLink>
                 </li>
                 {!subscriber && (
                   <li>

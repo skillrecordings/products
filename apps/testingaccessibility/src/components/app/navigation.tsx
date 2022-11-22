@@ -1,5 +1,5 @@
 import * as React from 'react'
-import {ChevronDownIcon, MenuIcon} from '@heroicons/react/solid'
+import {ChevronDownIcon, MenuIcon, StarIcon} from '@heroicons/react/solid'
 import {LogoutIcon} from '@heroicons/react/outline'
 import {isSellingLive} from 'utils/is-selling-live'
 import {signOut} from 'next-auth/react'
@@ -42,8 +42,17 @@ const DesktopNav: React.FC<React.PropsWithChildren<unknown>> = () => {
       })}
     >
       <NavSlots>
-        <NavLink href={isSignedIn ? '/learn' : '/workshops'}>Workshops</NavLink>
+        {isSignedIn && (
+          <NavLink href="/learn">
+            <StarIcon
+              aria-hidden="true"
+              className="w-4 h-4 text-yellow-400 mr-1 mt-0.5"
+            />
+            Start Learning
+          </NavLink>
+        )}
         <NavLink href="/articles">Articles</NavLink>
+        <NavLink href="/accessibility-reviews">Accessibility Reviews</NavLink>
       </NavSlots>
       {userLoadingStatus !== 'loading' && (isSellingLive || isSignedIn) && (
         <NavSlots>
@@ -91,20 +100,33 @@ const MobileNav: React.FC<React.PropsWithChildren<unknown>> = () => {
                 <div className="text-green-600 text-xs px-2 py-2 uppercase tracking-wide font-bold">
                   Learn
                 </div>
+                {isSignedIn && (
+                  <Menu.Item>
+                    {(props) => (
+                      <MenuLink href="/learn" {...props}>
+                        <span
+                          role="presentation"
+                          aria-label="star"
+                          aria-hidden="true"
+                        >
+                          ⭐️
+                        </span>{' '}
+                        Start Learning
+                      </MenuLink>
+                    )}
+                  </Menu.Item>
+                )}
                 <Menu.Item>
                   {(props) => (
-                    <MenuLink
-                      href={isSignedIn ? '/learn' : '/workshops'}
-                      {...props}
-                    >
-                      Workshops
+                    <MenuLink href="/articles" {...props}>
+                      Articles
                     </MenuLink>
                   )}
                 </Menu.Item>
                 <Menu.Item>
                   {(props) => (
-                    <MenuLink href="/articles" {...props}>
-                      Articles
+                    <MenuLink href="/accessibility-reviews" {...props}>
+                      Accessibility Reviews
                     </MenuLink>
                   )}
                 </Menu.Item>
