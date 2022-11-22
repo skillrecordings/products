@@ -20,11 +20,47 @@ import {serialize} from 'next-mdx-remote/serialize'
 import {format} from 'date-fns'
 import {useRouter} from 'next/router'
 import {PortableText} from '@portabletext/react'
+import {
+  redirectUrlBuilder,
+  SubscribeToConvertkitForm,
+  useConvertkit,
+} from '@skillrecordings/convertkit'
+import {MailIcon} from '@heroicons/react/solid'
+import {track} from '@skillrecordings/analytics'
+
+const SubscribeForm = ({
+  handleOnSuccess,
+}: {
+  handleOnSuccess: (subscriber: any, email?: string) => void
+}) => {
+  return (
+    <div
+      id="tip"
+      className="flex w-full flex-col items-center justify-between gap-5 border-b border-gray-200 px-3 pt-4 pb-5 md:flex-row md:pb-3 md:pt-3 2xl:px-0"
+    >
+      <div className="inline-flex items-center gap-2 text-lg font-semibold leading-tight md:text-base lg:flex-shrink-0 lg:text-lg">
+        <div
+          aria-hidden="true"
+          className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full bg-brand-red/10"
+        >
+          <MailIcon className="h-5 w-5 text-green" />
+        </div>{' '}
+        New a11y reviews delivered to your inbox
+      </div>
+      <SubscribeToConvertkitForm
+        actionLabel="Subscribe for a11y reviews"
+        onSuccess={(subscriber, email) => {
+          return handleOnSuccess(subscriber, email)
+        }}
+      />
+    </div>
+  )
+}
 
 const Review: React.FC<React.PropsWithChildren<any>> = ({review, body}) => {
   const {video, title, date, description, videoPoster} = review
   const {mediaUrl, srt, transcript} = video
-
+  const {subscriber, loadingSubscriber} = useConvertkit()
   const meta = {
     title,
     description,
@@ -41,6 +77,25 @@ const Review: React.FC<React.PropsWithChildren<any>> = ({review, body}) => {
   React.useEffect(() => {
     setIsMounted(true)
   }, [])
+
+  const handleOnSuccess = (subscriber: any, email?: string) => {
+    if (subscriber) {
+      const redirectUrl = redirectUrlBuilder(subscriber, router.asPath, {
+        confirmToast: 'true',
+      })
+
+      track('subscribed to email list', {
+        lesson: review.slug,
+        module: 'tips',
+        location: 'below tip video',
+        moduleType: 'review',
+        lessonType: 'review',
+      })
+      router.push(redirectUrl).then(() => {
+        router.reload()
+      })
+    }
+  }
 
   return (
     <Layout meta={meta} className="bg-gray-50">
@@ -93,6 +148,9 @@ const Review: React.FC<React.PropsWithChildren<any>> = ({review, body}) => {
                   />
                 )}
               </Player>
+            )}
+            {!subscriber && !loadingSubscriber && (
+              <SubscribeForm handleOnSuccess={handleOnSuccess} />
             )}
             <article className={cx('prose md:prose-lg mx-auto py-16 px-5')}>
               <h2>Transcript</h2>
