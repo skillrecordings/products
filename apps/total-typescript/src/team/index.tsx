@@ -32,7 +32,7 @@ const InviteTeam: React.FC<React.PropsWithChildren<InviteTeamProps>> = ({
         ctx.addIssue({
           code: z.ZodIssueCode.custom,
           message:
-            'The purchase is either not a bulk purchase or was queried with its bulk coupon.',
+            'The purchase is either not a bulk purchase or was queried without its bulk coupon.',
         })
         return z.NEVER
       }
