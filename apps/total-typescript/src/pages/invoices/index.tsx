@@ -58,7 +58,8 @@ const Learn: React.FC<React.PropsWithChildren<{purchases: Purchase[]}>> = ({
                       </div>
                       <div>
                         <h2 className="text-lg font-semibold leading-tight">
-                          Testing Accessibility ({purchase.product.name}){' '}
+                          {process.env.NEXT_PUBLIC_SITE_TITLE} (
+                          {purchase.product.name}){' '}
                         </h2>
                         <div className="flex pt-2 text-sm opacity-80 sm:pt-1">
                           <span className="after:content-['・']">
