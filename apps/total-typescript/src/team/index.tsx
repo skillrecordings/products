@@ -26,7 +26,18 @@ const InviteTeam: React.FC<React.PropsWithChildren<InviteTeamProps>> = ({
 }) => {
   const bulkCouponSchema = z
     .object({id: z.string(), maxUses: z.number(), usedCount: z.number()})
-    .transform(({id, maxUses, usedCount}) => {
+    .nullable()
+    .transform((data, ctx) => {
+      if (data === null) {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          message:
+            'The purchase is either not a bulk purchase or was queried with its bulk coupon.',
+        })
+        return z.NEVER
+      }
+
+      const {id, maxUses, usedCount} = data
       return {
         bulkCouponId: id,
         maxUses,
