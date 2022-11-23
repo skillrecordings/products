@@ -75,7 +75,8 @@ const DesktopNav = () => {
       {status === 'authenticated' ? (
         <AccountDropdown />
       ) : (
-        status === 'unauthenticated' && <NavLink path="/login" label="Log in" />
+        status === 'unauthenticated' &&
+        isSellingLive && <NavLink path="/login" label="Log in" />
       )}
     </ul>
   )
