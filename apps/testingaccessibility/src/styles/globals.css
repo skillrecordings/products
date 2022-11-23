@@ -27,7 +27,7 @@
   display: none;
 }
 
-[data-sr-convertkit-subscribe-form] {
+#subscribe [data-sr-convertkit-subscribe-form] {
   @apply flex flex-col w-full max-w-[340px] mx-auto;
   [data-sr-input] {
     @apply block mb-4 w-full px-4 py-3 text-white placeholder-white placeholder-opacity-60 bg-green-800 bg-opacity-50 border border-white border-opacity-20 rounded-lg shadow sm:text-base sm:leading-6;
@@ -152,5 +152,42 @@
 
   [data-radix-collection-item][data-state='checked'] {
     @apply bg-green-600;
+  }
+}
+
+#tip {
+  [data-sr-convertkit-subscribe-form] {
+    @apply flex w-full flex-col gap-2 text-left md:flex-row;
+    [data-sr-input-wrapper] {
+      @apply w-full;
+    }
+    [data-sr-input-wrapper]:first-of-type {
+      @apply md:w-2/3;
+    }
+    [data-sr-input] {
+      @apply w-full rounded-md bg-gray-200/60 px-3 py-2 shadow-inner placeholder:text-gray-500;
+    }
+
+    [data-sr-input-label] {
+      @apply sr-only;
+    }
+    [data-sr-button] {
+      @apply font-nav flex flex-shrink-0 pt-1 pb-1.5 px-4 focus-visible:outline-black items-center justify-center rounded-lg text-black bg-yellow-400 hover:bg-opacity-100 transition font-bold text-lg hover:bg-yellow-300 focus-visible:ring-0;
+      svg {
+        @apply h-7 w-7;
+      }
+    }
+    [data-sr-button][disabled] {
+    }
+  }
+  [data-sr-convertkit-subscribe-form='success'] {
+    p {
+      @apply py-2 text-center;
+    }
+  }
+  [data-sr-convertkit-subscribe-form='error'] {
+    p {
+      @apply py-2 text-center;
+    }
   }
 }

@@ -22,12 +22,6 @@ export default {
       validation: (Rule) => Rule.required(),
     },
     {
-      name: 'website',
-      title: 'Website',
-      type: 'url',
-      description: 'Add url for the collaborator website',
-    },
-    {
       name: 'twitter',
       title: 'Twitter',
       type: 'url',
