@@ -96,11 +96,11 @@ const Invoice: React.FC<
     <Layout
       meta={{title: `Invoice ${merchantChargeId}`}}
       footer={null}
-      className="bg-gray-50 text-gray-900"
+      className="print:bg-white print:text-black"
     >
       <main className="mx-auto max-w-screen-md">
-        <div className="flex flex-col items-center justify-between pb-8 pt-20 text-center print:hidden md:flex-row md:text-left">
-          <h1 className="max-w-md font-sans font-heading text-2xl font-bold leading-tight sm:text-3xl">
+        <div className="flex flex-col items-center justify-between pb-8 pt-28 text-center print:hidden md:flex-row md:text-left">
+          <h1 className="max-w-md font-text text-2xl font-bold leading-tight sm:text-3xl">
             Your Invoice for {process.env.NEXT_PUBLIC_SITE_TITLE}
           </h1>
           <button
@@ -113,11 +113,11 @@ const Invoice: React.FC<
             <DownloadIcon aria-hidden="true" className="w-5" />
           </button>
         </div>
-        <div className="rounded-t-md bg-white shadow-xl print:shadow-none">
+        <div className="rounded-t-md bg-white text-gray-900 shadow-xl print:shadow-none">
           <div className="px-10 py-16">
             <div className="grid w-full grid-cols-3 items-start justify-between">
               <div className="col-span-2 flex items-center">
-                <span className="pl-2 text-lg font-semibold">
+                <span className="pl-2 font-text text-2xl font-bold">
                   {process.env.NEXT_PUBLIC_SITE_TITLE}
                 </span>
               </div>
@@ -142,6 +142,7 @@ const Invoice: React.FC<
                 Invoice ID: <strong>{merchantChargeId}</strong>
                 <br />
                 Created: <strong>{date}</strong>
+                <br />
                 Status:{' '}
                 <strong>
                   {charge.status === 'succeeded' ? 'Paid' : 'Pending'}
@@ -166,7 +167,7 @@ const Invoice: React.FC<
                   <>
                     <textarea
                       aria-label="Invoice notes"
-                      className="form-textarea mt-4 h-full w-full rounded-md border-2 border-blue-500 bg-gray-50 placeholder-gray-700 print:hidden print:border-none print:bg-transparent print:p-0"
+                      className="form-textarea mt-4 h-full w-full rounded-md border-2 border-cyan-500 bg-gray-50 p-3 placeholder-gray-700 print:hidden print:border-none print:bg-transparent print:p-0"
                       value={invoiceMetadata}
                       onChange={(e) => setInvoiceMetadata(e.target.value)}
                       placeholder="Enter additional info here (optional)"
