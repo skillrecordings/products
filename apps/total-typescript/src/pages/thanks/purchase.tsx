@@ -123,7 +123,7 @@ const ThanksVerify: React.FC<
                 </div>
                 <p className="mx-auto mt-2 max-w-sm leading-relaxed text-gray-200 sm:text-lg">
                   You can also visit your{' '}
-                  <Link href="/team/invite">
+                  <Link href="/team">
                     <a className="inline-flex py-1 text-base font-medium transition hover:underline">
                       Team Invite
                     </a>
