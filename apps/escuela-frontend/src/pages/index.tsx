@@ -39,7 +39,7 @@ const Header = () => {
       <header className="relative z-0 -mt-32">
         <Image
           className="h-full w-full object-cover object-bottom"
-          src="/header_@2x.png"
+          src={require('../../public/header_@2x.png')}
           priority
           aria-hidden="true"
           quality={100}
@@ -47,7 +47,7 @@ const Header = () => {
           layout="fill"
           objectFit="cover"
         />
-        <div className="absolute inset-0 bg-gray-500 bg-gradient-to-t mix-blend-multiply" />
+        <div className="absolute inset-0 bg-gray-600 bg-gradient-to-t mix-blend-multiply" />
         <div className="relative flex min-h-screen w-full flex-col items-center justify-center">
           <div className="z-10 flex h-full w-full flex-col items-center justify-center">
             <h1 className="hero-animation-h1 mx-6 mt-12 mb-4 bg-gradient-to-b from-white to-gray-200 bg-clip-text text-center text-4xl font-extrabold leading-tight  text-transparent sm:text-4xl md:!w-full md:text-5xl lg:text-6xl">
