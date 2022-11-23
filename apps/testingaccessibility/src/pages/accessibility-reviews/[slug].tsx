@@ -38,12 +38,12 @@ const SubscribeForm = ({
       id="tip"
       className="flex w-full flex-col items-center justify-between gap-5 border-b border-gray-200 px-3 pt-4 pb-5 md:flex-row md:pb-3 md:pt-3 2xl:px-0"
     >
-      <div className="inline-flex items-center gap-2 text-lg font-semibold leading-tight md:text-base lg:flex-shrink-0 lg:text-lg">
+      <div className="inline-flex items-center gap-2 text-base font-medium leading-tight md:text-sm lg:flex-shrink-0 lg:text-base">
         <div
           aria-hidden="true"
-          className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full bg-brand-red/10"
+          className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full bg-green-500/10"
         >
-          <MailIcon className="h-5 w-5 text-green" />
+          <MailIcon className="h-5 w-5 text-green-600" />
         </div>{' '}
         New a11y reviews delivered to your inbox
       </div>
