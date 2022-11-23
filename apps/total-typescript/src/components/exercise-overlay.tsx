@@ -62,8 +62,10 @@ export const OverlayWrapper: React.FC<
 }
 
 const Actions = () => {
-  const {nextExercise, lesson, module, path, handlePlay} = useMuxPlayer()
+  const {nextExercise, lesson, module, section, path, handlePlay} =
+    useMuxPlayer()
   const router = useRouter()
+
   return (
     <>
       <button
@@ -92,7 +94,14 @@ const Actions = () => {
               moduleType: module.moduleType,
               lessonType: lesson._type,
             })
-            handleContinue(router, module, nextExercise, handlePlay, path)
+            handleContinue(
+              router,
+              module,
+              nextExercise,
+              handlePlay,
+              path,
+              section,
+            )
           }}
         >
           Solution <span aria-hidden="true">→</span>
@@ -162,7 +171,8 @@ const ExerciseOverlay = () => {
 }
 
 const DefaultOverlay = () => {
-  const {nextExercise, module, path, lesson, handlePlay} = useMuxPlayer()
+  const {nextExercise, module, path, lesson, handlePlay, section} =
+    useMuxPlayer()
   const router = useRouter()
   const {image} = module
   const addProgressMutation = trpc.useMutation(['progress.add'])
@@ -215,7 +225,14 @@ const DefaultOverlay = () => {
               {lessonSlug: lesson.slug},
               {
                 onSettled: (data, error, variables, context) => {
-                  handleContinue(router, module, nextExercise, handlePlay, path)
+                  handleContinue(
+                    router,
+                    module,
+                    nextExercise,
+                    handlePlay,
+                    path,
+                    section,
+                  )
                 },
               },
             )
@@ -477,25 +494,61 @@ const handleContinue = async (
   nextExercise: SanityDocument,
   handlePlay: () => void,
   path: string,
+  section?: SanityDocument,
 ) => {
   if (nextExercise._type === 'solution') {
-    const exercise = module.exercises.find((exercise: SanityDocument) => {
-      const solution = exercise.solution
-      return solution?._key === nextExercise._key
-    })
+    if (section) {
+      const exercise = section.exercises.find((exercise: SanityDocument) => {
+        const solution = exercise.solution
+        return solution?._key === nextExercise._key
+      })
 
+      return await router
+        .push({
+          query: {
+            module: module.slug.current,
+            section: section.slug,
+            exercise: exercise.slug,
+          },
+
+          pathname: `${path}/[module]/[section]/[exercise]/solution`,
+        })
+        .then(() => handlePlay())
+    } else {
+      const exercise = module.exercises.find((exercise: SanityDocument) => {
+        const solution = exercise.solution
+        return solution?._key === nextExercise._key
+      })
+
+      return await router
+        .push({
+          query: {
+            module: module.slug.current,
+            exercise: exercise.slug,
+          },
+
+          pathname: `${path}/[module]/[exercise]/solution`,
+        })
+        .then(() => handlePlay())
+    }
+  }
+  if (section) {
     return await router
       .push({
-        query: {module: module.slug.current, exercise: exercise.slug},
-        pathname: `${path}/[module]/[exercise]/solution`,
+        query: {
+          module: module.slug.current,
+          section: section.slug,
+          exercise: nextExercise.slug,
+        },
+        pathname: `${path}/[module]/[section]/[exercise]`,
+      })
+      .then(() => handlePlay())
+  } else {
+    return await router
+      .push({
+        query: {module: module.slug.current, exercise: nextExercise.slug},
+        pathname: `${path}/[module]/[exercise]`,
       })
       .then(() => handlePlay())
   }
-
-  return await router
-    .push({
-      query: {module: module.slug.current, exercise: nextExercise.slug},
-      pathname: `${path}/[module]/[exercise]`,
-    })
-    .then(() => handlePlay())
 }

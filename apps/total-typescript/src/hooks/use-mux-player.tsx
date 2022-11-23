@@ -31,6 +31,7 @@ type VideoContextType = {
   canShowVideo: boolean
   loadingUserStatus: boolean
   ability: AppAbility
+  section?: SanityDocument
 }
 
 export const VideoContext = React.createContext({} as VideoContextType)
@@ -182,6 +183,7 @@ export const VideoProvider: React.FC<
       lesson._type === 'tip'
         ? TipSchema.parse(lesson)
         : ExerciseSchema.parse(lesson),
+    section,
     module,
     video,
     path,
