@@ -29,7 +29,7 @@ const Footer: React.FC<React.PropsWithChildren<FooterProps>> = () => {
               <ul className="pt-4">
                 {isSignedIn && (
                   <li>
-                    <NavLink href="/learn">Self-paced Workshops</NavLink>
+                    <NavLink href="/learn">Pro Workshops</NavLink>
                   </li>
                 )}
                 <li>
@@ -39,7 +39,7 @@ const Footer: React.FC<React.PropsWithChildren<FooterProps>> = () => {
                   <NavLink href="/accessibility-reviews">Reviews</NavLink>
                 </li>
                 <li>
-                  <NavLink href="/workshops">Live Workshops</NavLink>
+                  <NavLink href="/workshops">Live Events</NavLink>
                 </li>
                 {!subscriber && (
                   <li>

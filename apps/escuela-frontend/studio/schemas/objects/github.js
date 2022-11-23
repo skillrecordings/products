@@ -12,7 +12,7 @@ export default {
       name: 'repo',
       title: 'Repository',
       type: 'string',
-      description: 'without https://github.com/escuela-frontend/',
+      description: 'without https://github.com/total-typescript/',
     },
   ],
 }

@@ -1,6 +1,8 @@
 import {GetServerSideProps} from 'next'
 import {Feed} from 'feed'
 import config from '../config'
+import {getAllArticles} from '../lib/articles'
+import {getAllTips} from '../lib/tips'
 
 const hostUrl = process.env.NEXT_PUBLIC_URL
 
@@ -36,11 +38,19 @@ const buildFeed = (items: any) => {
   })
 
   items.forEach((item: any) => {
-    feed.addItem({
+    const getPath = (type: string) => {
+      switch (type) {
+        case 'tip':
+          return '/tips/'
+        default:
+          return '/'
+      }
+    }
+    return feed.addItem({
       title: item.title,
-      link: `${hostUrl}/${item.slug}`,
+      link: `${hostUrl}${getPath(item._type)}${item.slug}`,
       description: blocksToText(item.preview),
-      date: new Date(item.date),
+      date: item.date ? new Date(item.date) : new Date(item._createdAt),
     })
   })
 
@@ -48,12 +58,12 @@ const buildFeed = (items: any) => {
 }
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
-  if (context && context.res) {
-    const {res} = context
+  const {res} = context
+  if (res) {
+    const articles = await getAllArticles()
+    const tips = await getAllTips()
 
-    // const articles = await getAllArticles()
-
-    const feed = buildFeed([] /* replace with articles etc */)
+    const feed = buildFeed([...articles, ...tips])
     res.setHeader('Cache-Control', 's-maxage=1, stale-while-revalidate')
     res.setHeader('content-type', 'text/xml')
     res.write(feed.rss2()) // NOTE: You can also use feed.atom1() or feed.json1() for other feed formats

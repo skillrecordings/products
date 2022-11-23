@@ -113,7 +113,6 @@ CREATE TABLE `MerchantCustomer` (
     `createdAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
     `status` INTEGER NULL DEFAULT 0,
 
-    UNIQUE INDEX `MerchantCustomer_userId_key`(`userId`),
     UNIQUE INDEX `MerchantCustomer_identifier_key`(`identifier`),
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
@@ -224,6 +223,7 @@ CREATE TABLE `VerificationToken` (
     `token` VARCHAR(191) NOT NULL,
     `identifier` VARCHAR(191) NOT NULL,
     `expires` DATETIME(3) NULL,
+    `createdAt` DATETIME(3) NULL DEFAULT CURRENT_TIMESTAMP(3),
 
     UNIQUE INDEX `VerificationToken_identifier_token_key`(`identifier`, `token`),
     PRIMARY KEY (`token`)

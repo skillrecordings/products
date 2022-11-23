@@ -14,7 +14,7 @@
     "lint": "eslint ./src --fix"
   },
   "dependencies": {
-    "@casl/ability": "^6.0.0"
+    "@casl/ability": "^6.3.2"
   },
   "devDependencies": {
     "@skillrecordings/database": "workspace:*",
