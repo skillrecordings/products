@@ -22,6 +22,7 @@ import Spinner from './spinner'
 import {Exercise} from 'lib/exercises'
 import {StackBlitzIframe} from './exercise/stackblitz-iframe'
 import Link from 'next/link'
+import first from 'lodash/first'
 
 export const OverlayWrapper: React.FC<
   React.PropsWithChildren<{className?: string; dismissable?: boolean}>
@@ -317,6 +318,82 @@ const FinishedOverlay = () => {
   )
 }
 
+const FinishedSectionOverlay = () => {
+  const {nextSection, path, section, module, lesson, handlePlay} =
+    useMuxPlayer()
+  const {image} = module
+  const addProgressMutation = trpc.useMutation(['progress.add'])
+  const nextExercise = first(nextSection?.exercises) as SanityDocument
+  const router = useRouter()
+
+  return (
+    <OverlayWrapper className="px-5">
+      {image && (
+        <div className="hidden items-center justify-center sm:flex sm:w-40 lg:w-auto">
+          <Image
+            src={image}
+            alt=""
+            aria-hidden="true"
+            width={220}
+            height={220}
+          />
+        </div>
+      )}
+
+      <p className="pt-4 text-xl font-semibold sm:text-3xl">
+        <span className="font-normal text-gray-200">Up next:</span>{' '}
+        {nextSection.title}
+      </p>
+      <div className="flex items-center justify-center gap-5 py-4 sm:py-8">
+        <button
+          className="rounded bg-gray-800 px-3 py-1 text-lg font-semibold transition hover:bg-gray-700 sm:px-5 sm:py-3"
+          onClick={() => {
+            track('clicked replay', {
+              lesson: lesson.slug,
+              module: module.slug.current,
+              location: 'exercise',
+              moduleType: module.moduleType,
+              lessonType: lesson._type,
+            })
+            handlePlay()
+          }}
+        >
+          Replay ↺
+        </button>
+        <button
+          className="rounded bg-cyan-600 px-3 py-1 text-lg font-semibold transition hover:bg-cyan-500 sm:px-5 sm:py-3"
+          onClick={() => {
+            track('clicked complete', {
+              lesson: lesson.slug,
+              module: module.slug.current,
+              location: 'exercise',
+              moduleType: module.moduleType,
+              lessonType: lesson._type,
+            })
+            addProgressMutation.mutate(
+              {lessonSlug: lesson.slug},
+              {
+                onSettled: (data, error, variables, context) => {
+                  handleContinue(
+                    router,
+                    module,
+                    nextExercise,
+                    handlePlay,
+                    path,
+                    nextSection,
+                  )
+                },
+              },
+            )
+          }}
+        >
+          Complete & Continue <span aria-hidden="true">→</span>
+        </button>
+      </div>
+    </OverlayWrapper>
+  )
+}
+
 const BlockedOverlay: React.FC = () => {
   const router = useRouter()
   const {lesson, module} = useMuxPlayer()
@@ -484,6 +561,7 @@ export {
   ExerciseOverlay,
   DefaultOverlay,
   FinishedOverlay,
+  FinishedSectionOverlay,
   BlockedOverlay,
   LoadingOverlay,
 }
