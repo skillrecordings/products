@@ -60,7 +60,7 @@ const BuyMoreSeatsPage: React.FC<
 > = ({purchase, userId}) => {
   return (
     <Layout
-      meta={{title: 'Invite your team to {process.env.NEXT_PUBLIC_SITE_TITLE}'}}
+      meta={{title: `Invite your team to ${process.env.NEXT_PUBLIC_SITE_TITLE}`}}
       className="bg-noise text-gray-900"
     >
       <main className="mx-auto flex w-full max-w-xl flex-grow flex-col items-center justify-center gap-3 p-5 py-16">
