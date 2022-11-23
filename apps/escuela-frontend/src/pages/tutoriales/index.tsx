@@ -21,7 +21,7 @@ const TutorialsPage: React.FC<{tutorials: SanityDocument[]}> = ({
     <Layout
       meta={
         {
-          title: `Tutoriales interactivos de Escuela Frontend`,
+          title: `Tutoriales de Escuela Frontend`,
           description: `Avanza tu carrera con tutoriales de ingeniería front-end.`,
           ogImage: {
             url: 'https://res.cloudinary.com/escuela-frontend/image/upload/v1669068727/assets/tutorials-card2x_joxfiy.png',
@@ -31,7 +31,7 @@ const TutorialsPage: React.FC<{tutorials: SanityDocument[]}> = ({
     >
       <main className="relative z-10 flex flex-col items-center justify-center py-20">
         <h1 className="text-center font-heading text-4xl font-bold text-white sm:text-5xl lg:text-6xl">
-          Tutoriales Interactivos
+          Tutoriales
         </h1>
         <p className="max-w-sm pt-8 text-center text-lg text-gray-200">
           Avanza tu carrera con tutoriales interactivos de ingeniería front-end,
@@ -64,7 +64,7 @@ const TutorialsPage: React.FC<{tutorials: SanityDocument[]}> = ({
                             Nuevo
                           </span>
                         )}
-                        {exercises.length} ejercicios
+                        {exercises.length - 1} Lecciones
                       </div>
                       <Link
                         href={{
