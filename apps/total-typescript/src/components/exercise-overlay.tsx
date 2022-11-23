@@ -247,7 +247,8 @@ const DefaultOverlay = () => {
 }
 
 const FinishedOverlay = () => {
-  const {module, path, lesson, handlePlay} = useMuxPlayer()
+  const {module, path, section, lesson, handlePlay} = useMuxPlayer()
+
   const router = useRouter()
   const shareUrl = `${process.env.NEXT_PUBLIC_URL}${path}/${module.slug.current}`
   const shareMessage = `${module.title} ${module.moduleType} by @${process.env.NEXT_PUBLIC_PARTNER_TWITTER}`
@@ -261,6 +262,26 @@ const FinishedOverlay = () => {
     // we run this when the effect renders marking the lesson complete
     addProgressMutation.mutate({lessonSlug: lesson.slug})
   }, [])
+
+  const handlePlayFromBeginning = () => {
+    router
+      .push({
+        pathname: section
+          ? `/${path}/[module]/[section]/[exercise]`
+          : `/${path}/[module]/[exercise]`,
+        query: section
+          ? {
+              module: module.slug.current,
+              section: module.sections[0].slug,
+              exercise: module.sections[0].exercises[0].slug,
+            }
+          : {
+              module: module.slug.current,
+              exercise: module.exercises[0].slug,
+            },
+      })
+      .then(handlePlay)
+  }
 
   return (
     <OverlayWrapper className="px-5 pt-10 sm:pt-0">
@@ -298,17 +319,7 @@ const FinishedOverlay = () => {
           Replay <span aria-hidden="true">↺</span>
         </button>
         <button
-          onClick={() => {
-            router
-              .push({
-                pathname: `/${path}/[module]/[exercise]`,
-                query: {
-                  module: module.slug.current,
-                  exercise: module.exercises[0].slug.current,
-                },
-              })
-              .then(handlePlay)
-          }}
+          onClick={handlePlayFromBeginning}
           className="px-3 py-1 text-lg font-semibold transition hover:bg-gray-900 sm:px-5 sm:py-3 "
         >
           Play from beginning
