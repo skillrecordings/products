@@ -172,7 +172,7 @@
       @apply sr-only;
     }
     [data-sr-button] {
-        @apply font-nav flex flex-shrink-0 md:py-1 py-3 px-5 items-center justify-center rounded-lg text-black bg-yellow-500 hover:bg-opacity-100 transition font-bold text-lg focus-visible:ring-yellow-200 hover:scale-[1.02] hover:-rotate-1 hover:bg-yellow-400;
+      @apply font-nav flex flex-shrink-0 pt-1 pb-1.5 px-4 focus-visible:outline-black items-center justify-center rounded-lg text-black bg-yellow-400 hover:bg-opacity-100 transition font-bold text-lg hover:bg-yellow-300 focus-visible:ring-0;
       svg {
         @apply h-7 w-7;
       }
