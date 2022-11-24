@@ -102,7 +102,7 @@ const Header: React.FC<{tutorial: SanityDocument}> = ({tutorial}) => {
                 ) : null}
               </div>
             </div>
-            <div className="flex items-center gap-3 pt-8">
+            <div className="flex items-center justify-center gap-3 pt-8 md:justify-start">
               {exercises?.[0] && (
                 <Link
                   href={{
@@ -119,7 +119,7 @@ const Header: React.FC<{tutorial: SanityDocument}> = ({tutorial}) => {
                       track('clicked github code link', {module: slug.current})
                     }}
                   >
-                    Comienza a aprender{' '}
+                    Comienza{' '}
                     <span className="pl-2" aria-hidden="true">
                       →
                     </span>
@@ -128,8 +128,8 @@ const Header: React.FC<{tutorial: SanityDocument}> = ({tutorial}) => {
               )}
               {github && (
                 <a
-                  className="flex items-center justify-center gap-2 rounded-md border-2 border-gray-500 px-5 py-3 font-medium text-gray-300 transition hover:cursor-pointer hover:bg-gray-600"
-                  href={github.url}
+                  className="flex items-center justify-center gap-2 rounded-md border-2 border-gray-700 px-5 py-3 font-medium transition hover:bg-gray-700"
+                  href={`https://github.com/escuela-frontend/${github.repo}`}
                   onClick={() => {
                     track('clicked github code link', {module: slug.current})
                   }}
@@ -168,7 +168,7 @@ const TutorialExerciseNavigator: React.FC<{tutorial: SanityDocument}> = ({
       className="border-gray-700 lg:border-l lg:pl-8"
     >
       <h2 className="pb-4 font-mono text-sm font-semibold uppercase text-gray-600">
-        {exercises?.length || 0} Ejercicios
+        {exercises?.length - 1 || 0} Lecciones
       </h2>
       {exercises && (
         <ul>
@@ -200,7 +200,7 @@ const TutorialExerciseNavigator: React.FC<{tutorial: SanityDocument}> = ({
                       className="w-8 font-mono text-xs text-gray-400"
                       aria-hidden="true"
                     >
-                      {i + 1}
+                      {i - 1 + 1}
                     </span>
                     <span className="w-full leading-tight group-hover:underline">
                       {exercise.title}

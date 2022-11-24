@@ -14,10 +14,10 @@ export const StackBlitzIframe: React.FC<{
   const [isLoading, setIsLoading] = React.useState(true)
   const codeFileNumber = stackblitz?.match(/\d/g)?.join('').substring(0, 2)
   const startCommand = `${exercise._type.substring(0, 1)}-${codeFileNumber}` // e.g. s-01, e-02, etc
-  const githubOrg = 'total-typescript'
+  const githubOrg = 'escuela-frontend'
   const githubRepo = module.github.repo
   const clickToLoad = Number(false)
-  const embedUrl = `https://stackblitz.com/github/${githubOrg}/${githubRepo}?file=${stackblitz}&embed=1&view=editor&hideExplorer=1&ctl=${clickToLoad}&terminal=${startCommand}`
+  const embedUrl = `https://stackblitz.com/github/${githubOrg}/${githubRepo}?file=${stackblitz}&embed=1&view=editor&hideExplorer=0&ctl=${clickToLoad}&terminal=${startCommand}&theme=dark`
 
   return (
     <>

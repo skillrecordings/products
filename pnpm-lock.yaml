@@ -2338,6 +2338,7 @@ importers:
       '@next/mdx': ^12.3.1
       '@portabletext/react': ^1.0.6
       '@portabletext/types': ^1.0.3
+      '@radix-ui/react-accordion': ^1.0.0
       '@radix-ui/react-alert-dialog': ^0.1.7
       '@radix-ui/react-navigation-menu': ^1.1.1
       '@reach/auto-id': ^0.16.0
@@ -2453,6 +2454,7 @@ importers:
       '@mux/mux-player-react': 0.1.0-beta.26_v7vsrdtui4d36prbwvdnlb7tpq
       '@next/mdx': 12.3.1_hbo3tj2k5fhsh63l2ltjrymaq4
       '@portabletext/react': 1.0.6_react@18.2.0
+      '@radix-ui/react-accordion': 1.0.0_biqbaboplfbrettd7655fr4n2y
       '@radix-ui/react-alert-dialog': 0.1.7_bb2bxwco6ptpubzwpazr52qf6i
       '@radix-ui/react-navigation-menu': 1.1.1_biqbaboplfbrettd7655fr4n2y
       '@reach/auto-id': 0.16.0_biqbaboplfbrettd7655fr4n2y
@@ -2507,7 +2509,7 @@ importers:
       react-device-detect: 2.2.2_biqbaboplfbrettd7655fr4n2y
       react-dom: 18.2.0_react@18.2.0
       react-hook-form: 7.29.0_react@18.2.0
-      react-hot-toast: 2.2.0_npw22p3c4ehm7n7vxn2gqac44u
+      react-hot-toast: 2.2.0_biqbaboplfbrettd7655fr4n2y
       react-query: 3.39.1_biqbaboplfbrettd7655fr4n2y
       react-refractor: 2.1.7_react@18.2.0
       react-rewards: 2.0.3_biqbaboplfbrettd7655fr4n2y
@@ -8852,7 +8854,7 @@ packages:
       '@mdx-js/loader': '>=0.15.0'
       '@mdx-js/react': '*'
     dependencies:
-      '@mdx-js/loader': 2.1.3_webpack@5.73.0
+      '@mdx-js/loader': 2.1.3_webpack@4.46.0
       '@mdx-js/react': 2.1.3_react@18.2.0
     dev: false
 
@@ -13378,7 +13380,7 @@ packages:
   /axios/0.26.1:
     resolution: {integrity: sha512-fPwcX4EvnSHuInCMItEhAGnaSEXRBjtzh9fOtsE6E1G6p7vl7edEeZe11QHf18+6+9gR5PbKV/sGKNaD8YaMeA==}
     dependencies:
-      follow-redirects: 1.15.1
+      follow-redirects: 1.15.1_debug@2.6.9
     transitivePeerDependencies:
       - debug
 
@@ -17760,15 +17762,6 @@ packages:
   /focus-visible/5.2.0:
     resolution: {integrity: sha512-Rwix9pBtC1Nuy5wysTmKy+UjbDJpIfg8eHjw0rjZ1mX4GNLz1Bmd16uDpI3Gk1i70Fgcs8Csg2lPm8HULFg9DQ==}
 
-  /follow-redirects/1.15.1:
-    resolution: {integrity: sha512-yLAMQs+k0b2m7cVxpS1VKJVvoz7SS9Td1zss3XRwXj+ZDH00RJgnuLx7E44wx02kQLrdM3aOOy+FpzS7+8OizA==}
-    engines: {node: '>=4.0'}
-    peerDependencies:
-      debug: '*'
-    peerDependenciesMeta:
-      debug:
-        optional: true
-
   /follow-redirects/1.15.1_debug@2.6.9:
     resolution: {integrity: sha512-yLAMQs+k0b2m7cVxpS1VKJVvoz7SS9Td1zss3XRwXj+ZDH00RJgnuLx7E44wx02kQLrdM3aOOy+FpzS7+8OizA==}
     engines: {node: '>=4.0'}
@@ -18532,6 +18525,12 @@ packages:
       static-eval: 2.1.0
       through2: 2.0.5
       xtend: 4.0.2
+    dev: false
+
+  /goober/2.1.8:
+    resolution: {integrity: sha512-S0C85gCzcfFCMSdjD/CxyQMt1rbf2qEg6hmDzxk2FfD7+7Ogk55m8ZFUMtqNaZM4VVX/qaU9AzSORG+Gf4ZpAQ==}
+    peerDependencies:
+      csstype: ^3.0.10
     dev: false
 
   /goober/2.1.8_csstype@3.0.11:
@@ -23192,7 +23191,7 @@ packages:
       '@corex/deepmerge': 4.0.29
       '@next/env': 12.2.3
       minimist: 1.2.6
-      next: 12.3.1_rlaikcoslzwwtqyk7brpdzej5y
+      next: 12.3.1_biqbaboplfbrettd7655fr4n2y
     dev: false
 
   /next-sitemap/3.1.7_mna6xsgplvxkrmeg4ftolwenke:
@@ -25974,6 +25973,20 @@ packages:
       react: ^16.8.0 || ^17 || ^18
     dependencies:
       react: 18.2.0
+    dev: false
+
+  /react-hot-toast/2.2.0_biqbaboplfbrettd7655fr4n2y:
+    resolution: {integrity: sha512-248rXw13uhf/6TNDVzagX+y7R8J183rp7MwUMNkcrBRyHj/jWOggfXTGlM8zAOuh701WyVW+eUaWG2LeSufX9g==}
+    engines: {node: '>=10'}
+    peerDependencies:
+      react: '>=16'
+      react-dom: '>=16'
+    dependencies:
+      goober: 2.1.8
+      react: 18.2.0
+      react-dom: 18.2.0_react@18.2.0
+    transitivePeerDependencies:
+      - csstype
     dev: false
 
   /react-hot-toast/2.2.0_npw22p3c4ehm7n7vxn2gqac44u:
