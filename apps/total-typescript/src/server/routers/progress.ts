@@ -10,28 +10,38 @@ export const progressRouter = createRouter()
       lessonSlug: z.string(),
     }),
     async resolve({ctx, input}) {
+      const token = await getToken({req: ctx.req})
       const {findOrCreateUser, completeLessonProgressForUser} = getSdk()
       try {
-        const subscriberCookie = ctx.req.cookies['ck_subscriber']
+        if (token) {
+          return await completeLessonProgressForUser({
+            userId: token.id as string,
+            lessonSlug: input.lessonSlug,
+          })
+        } else {
+          const subscriberCookie = ctx.req.cookies['ck_subscriber']
 
-        if (!subscriberCookie) {
-          console.debug('no subscriber cookie')
-          return {error: 'no subscriber found'}
+          if (!subscriberCookie) {
+            console.debug('no subscriber cookie')
+            return {error: 'no subscriber found'}
+          }
+
+          const subscriber = SubscriberSchema.parse(
+            JSON.parse(subscriberCookie),
+          )
+
+          if (!subscriber) {
+            console.debug('no subscriber cookie')
+            return {error: 'no subscriber found'}
+          }
+
+          const {user} = await findOrCreateUser(subscriber.email_address)
+
+          return await completeLessonProgressForUser({
+            userId: user.id,
+            lessonSlug: input.lessonSlug,
+          })
         }
-
-        const subscriber = SubscriberSchema.parse(JSON.parse(subscriberCookie))
-
-        if (!subscriber) {
-          console.debug('no subscriber cookie')
-          return {error: 'no subscriber found'}
-        }
-
-        const {user} = await findOrCreateUser(subscriber.email_address)
-
-        return await completeLessonProgressForUser({
-          userId: user.id,
-          lessonSlug: input.lessonSlug,
-        })
       } catch (error) {
         console.error(error)
         let message = 'Unknown Error'
