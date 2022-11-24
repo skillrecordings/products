@@ -273,6 +273,15 @@ export function getSdk(
       }
       return lessonProgress
     },
+    async getLessonProgressForUser(userId: string) {
+      const userProgress = await ctx.prisma.user.findFirst({
+        where: {id: userId as string},
+        select: {
+          lessonProgresses: true,
+        },
+      })
+      return userProgress?.lessonProgresses
+    },
     async getPurchaseWithUser(purchaseId: string) {
       return await ctx.prisma.purchase.findFirst({
         where: {id: purchaseId as string, status: 'Valid'},

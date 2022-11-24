@@ -14,7 +14,10 @@ import {Exercise} from 'lib/exercises'
 import PortableTextComponents from 'components/portable-text'
 import first from 'lodash/first'
 import * as Accordion from '@radix-ui/react-accordion'
-import {ChevronDownIcon} from '@heroicons/react/solid'
+import {CheckIcon, ChevronDownIcon} from '@heroicons/react/solid'
+import {trpc} from 'utils/trpc'
+import {LessonProgress} from '@skillrecordings/database'
+import {find, isArray} from 'lodash'
 
 const WorkshopTemplate: React.FC<{
   workshop: SanityDocument
@@ -147,6 +150,9 @@ const WorkshopSectionNavigator: React.FC<{workshop: SanityDocument}> = ({
   workshop,
 }) => {
   const {slug, sections, _type} = workshop
+  const {data: userProgress, status: userProgressStatus} = trpc.useQuery([
+    'progress.get',
+  ])
 
   return (
     <nav
@@ -169,14 +175,17 @@ const WorkshopSectionNavigator: React.FC<{workshop: SanityDocument}> = ({
                     <Accordion.Header className="relative z-10 rounded-lg bg-gray-900">
                       <Accordion.Trigger className="group flex w-full items-center justify-between rounded-lg border border-white/5 bg-gray-800/20 py-2 px-3 text-lg font-medium shadow-lg transition hover:bg-gray-800/40">
                         {section.title}
-                        <ChevronDownIcon
-                          className="relative h-3 w-3 opacity-70 transition group-hover:opacity-100 group-radix-state-open:rotate-180"
-                          aria-hidden="true"
-                        />
+                        <div className="flex items-center">
+                          <ChevronDownIcon
+                            className="relative h-3 w-3 opacity-70 transition group-hover:opacity-100 group-radix-state-open:rotate-180"
+                            aria-hidden="true"
+                          />
+                        </div>
                       </Accordion.Trigger>
                     </Accordion.Header>
                     <Accordion.Content>
                       <WorkshopSectionExerciseNavigator
+                        userProgress={userProgress}
                         section={section}
                         moduleSlug={workshop.slug.current}
                       />
@@ -195,11 +204,20 @@ const WorkshopSectionNavigator: React.FC<{workshop: SanityDocument}> = ({
 const WorkshopSectionExerciseNavigator: React.FC<{
   section: SanityDocument
   moduleSlug: string
-}> = ({section, moduleSlug}) => {
+  userProgress: LessonProgress[] | {error?: string} | undefined
+}> = ({section, moduleSlug, userProgress}) => {
   const {slug, exercises, _type} = section
+
   return exercises ? (
     <ul className="-mt-5 rounded-b-lg border border-white/5 bg-black/20 pl-3.5 pr-3 pt-7 pb-3">
       {exercises.map((exercise: Exercise, i: number) => {
+        const isExerciseCompleted =
+          isArray(userProgress) &&
+          find(
+            userProgress,
+            ({lessonSlug}) => lessonSlug === exercise?.solution?.slug,
+          )
+
         return (
           <li key={exercise.slug}>
             <Link
@@ -225,12 +243,19 @@ const WorkshopSectionExerciseNavigator: React.FC<{
                   })
                 }}
               >
-                <span
-                  className="w-6 font-mono text-xs text-gray-400"
-                  aria-hidden="true"
-                >
-                  {i + 1}
-                </span>
+                {isExerciseCompleted ? (
+                  <CheckIcon
+                    className="mr-2 h-4 w-4 text-teal-400"
+                    aria-hidden="true"
+                  />
+                ) : (
+                  <span
+                    className="w-6 font-mono text-xs text-gray-400"
+                    aria-hidden="true"
+                  >
+                    {i + 1}
+                  </span>
+                )}
                 <span className="w-full cursor-pointer leading-tight group-hover:underline">
                   {exercise.title}
                 </span>
