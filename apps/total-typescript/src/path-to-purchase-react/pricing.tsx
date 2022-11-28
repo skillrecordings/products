@@ -9,7 +9,7 @@ import {getCouponLabel} from './get-coupon-label'
 import {useDebounce} from '@skillrecordings/react'
 import {useQuery} from 'react-query'
 import SaleCountdown from './sale-countdown'
-import Spinner from './spinner'
+import Spinner from 'components/spinner'
 import Image from 'next/image'
 import find from 'lodash/find'
 import cx from 'classnames'
@@ -52,7 +52,18 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
   }>()
   const [quantity, setQuantity] = React.useState(1)
   const debouncedQuantity: number = useDebounce<number>(quantity, 250)
-  const {productId, name, image, modules, features, action} = product
+
+  // TODO: productId is different for prod and dev env,
+  // should there be two fields in Sanity to support that?
+  const productId = process.env.NEXT_PUBLIC_DEFAULT_PRODUCT_ID as string
+  const {
+    // productId,
+    name,
+    image,
+    modules,
+    features,
+    action,
+  } = product
   const {addPrice, isDowngrade, isDiscount} = usePriceCheck()
 
   const {data: formattedPrice, status} = useQuery<FormattedPrice>(
@@ -108,9 +119,9 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
     !isDowngrade(formattedPrice)
 
   return (
-    <div className="relative flex flex-col items-center ">
+    <div data-pricing-product-container={index}>
       {image && (
-        <div className="absolute top-[-248px] h-full max-h-[400px] w-full max-w-[400px]">
+        <div data-pricing-product-image={index}>
           <Image
             src={image.url}
             alt={image.alt}
@@ -121,31 +132,21 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
           />
         </div>
       )}
-      <article className="flex flex-col items-center justify-center rounded-md ">
-        {Boolean(appliedMerchantCoupon || isDiscount(formattedPrice)) && (
+      <article data-pricing-product={index}>
+        {/* {Boolean(appliedMerchantCoupon || isDiscount(formattedPrice)) && (
           <Ribbon appliedMerchantCoupon={appliedMerchantCoupon} />
-        )}
-        <div className={cx('flex flex-col items-center pt-24 ')}>
-          <h4
-            data-pricing-product-name-badge={index}
-            className="font-nav inline-flex rounded-full px-4 py-1 pb-1.5 text-sm font-semibold uppercase tracking-wide"
-          >
-            {name}
-          </h4>
-          <div className="mt-4 flex items-baseline font-heading text-6xl font-bold">
+        )} */}
+        <div data-pricing-product-header={index}>
+          <h4 data-pricing-product-name-badge={index}>{name}</h4>
+          <div data-pricing-product-price-container={index}>
             {status === 'loading' ? (
-              <div className="pt-4 pb-3">
+              <div data-pricing-product-price-loading>
                 <span className="sr-only">Loading price</span>
                 <Spinner aria-hidden="true" className="h-8 w-8" />
               </div>
             ) : (
               <>
-                <sup
-                  aria-hidden="true"
-                  className="-translate-y-4 pr-0.5 text-lg font-extrabold opacity-80"
-                >
-                  US
-                </sup>
+                <sup aria-hidden="true">US</sup>
                 <div aria-live="polite" className="flex">
                   {'$' + formattedPrice?.calculatedPrice}
                   {Boolean(
@@ -156,10 +157,10 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
                         aria-hidden="true"
                         className="flex flex-col items-start pl-2"
                       >
-                        <div className="relative flex items-center justify-center text-4xl font-semibold opacity-80 before:absolute before:h-[3px] before:w-full before:-rotate-12 before:scale-110 before:bg-cyan-600 before:opacity-90 before:content-['']">
+                        <div className="relative flex items-center justify-center text-3xl font-semibold text-gray-300 before:absolute before:h-[3px] before:w-full before:-rotate-12 before:scale-110 before:bg-gray-100 before:opacity-90 before:content-['']">
                           {'$' + fullPrice}
                         </div>
-                        <div className="rounded bg-cyan-600 px-1 text-center font-sans text-sm font-bold uppercase tabular-nums text-white">
+                        <div className="rounded bg-amber-300 px-1.5 text-center font-sans text-sm font-bold uppercase tabular-nums text-gray-900">
                           Save {percentOff}%
                         </div>
                       </div>
@@ -211,7 +212,7 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
                   <label className=" flex items-center gap-3">
                     <span className="opacity-80">Seats</span>
                     <input
-                      className=" rounded-md py-2 pl-3 font-mono font-bold"
+                      className="rounded-md bg-gray-800 py-2 pl-3 font-mono font-bold"
                       type="number"
                       min={1}
                       max={100}
@@ -232,7 +233,7 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
               )}
               <button
                 data-pricing-product-checkout-button={index}
-                className="font-nav flex w-full items-center justify-center rounded-md px-5 py-4 pb-[1.1rem] text-center text-lg font-semibold transition disabled:cursor-wait"
+                className="font-nav flex w-full items-center justify-center rounded-md px-5 py-4 text-center text-lg font-semibold transition disabled:cursor-wait"
                 type="submit"
                 disabled={status === 'loading' || status === 'error'}
               >
@@ -257,18 +258,17 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
             index={index}
           />
         )}
-        {modules ||
-          (features && (
-            <div className="w-full pt-8">
-              <div className="relative flex items-center justify-center before:absolute before:left-0 before:h-px before:w-full before:bg-gray-100 before:content-['']">
-                <span className="relative bg-white px-4 text-xs font-medium uppercase text-gray-500">
-                  includes
-                </span>
-              </div>
+        {modules || features ? (
+          <div className="w-full pt-8">
+            <div className="relative flex items-center justify-center before:absolute before:left-0 before:h-px before:w-full before:bg-gray-800 before:content-['']">
+              <span className="relative rounded bg-gray-900 px-4 py-0.5 text-xs font-medium uppercase text-gray-300">
+                includes
+              </span>
             </div>
-          ))}
-        <div className="flex flex-1 flex-col justify-between space-y-6 p-3 px-6 pt-6 pb-8 sm:p-5 sm:pt-6 xl:p-8">
-          {/* <strong className="font-medium">Modules</strong> */}
+          </div>
+        ) : null}
+        <div className="flex w-full flex-1 flex-col justify-between space-y-6 p-3 px-6 pt-6 pb-8 sm:p-5 sm:pt-6 xl:p-8">
+          <strong className="font-medium">Modules</strong>
           {modules && (
             <ul role="list" className="space-y-2 ">
               {modules.map((module) => (
@@ -278,13 +278,14 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
                     className="flex flex-shrink-0 items-center justify-center"
                   >
                     <Image
-                      src={module.image.url}
+                      src={module.image as string}
                       width={50}
                       height={50}
-                      alt={module.image.alt}
+                      alt={module.title}
+                      aria-hidden="true"
                     />
                   </div>
-                  <p className="ml-3 text-base font-medium text-gray-700">
+                  <p className="ml-3 text-base font-medium text-gray-200">
                     {module.title}
                   </p>
                 </li>
@@ -297,9 +298,7 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
               <ul role="list" className="space-y-4">
                 {features.map((feature: {value: string}) => (
                   <li key={feature.value} className="flex items-start">
-                    <p className="ml-3 text-base text-gray-700">
-                      {feature.value}
-                    </p>
+                    <p className="text-base text-gray-200">{feature.value}</p>
                   </li>
                 ))}
               </ul>
@@ -385,7 +384,7 @@ const Ribbon: React.FC<React.PropsWithChildren<RibbonProps>> = ({
       <div className="absolute top-0 left-0 h-3 w-3 bg-amber-500"></div>
       <div className="absolute bottom-0 right-0 h-3 w-3 bg-amber-500"></div>
       <div className="absolute bottom-0 right-0 h-6 w-[141.42%] origin-bottom-right rotate-45 bg-amber-300">
-        <div className="flex flex-col items-center py-1 text-xs font-bold uppercase">
+        <div className="flex flex-col items-center py-1 text-xs font-bold uppercase text-black">
           {getCouponLabel(appliedMerchantCoupon?.type)}
         </div>
       </div>

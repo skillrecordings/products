@@ -3,11 +3,18 @@ import execises from './src/structure/exercises'
 import tips from './src/structure/tips'
 import tutorials from './src/structure/tutorials'
 import workshops from './src/structure/workshops'
+import pricing from './src/structure/pricing'
+import products from './src/structure/products'
 
 const hiddenDocTypes = (listItem) =>
-  !['module', 'tip', 'skosConcept', 'skosConceptScheme'].includes(
-    listItem.getId(),
-  )
+  ![
+    'module',
+    'tip',
+    'skosConcept',
+    'skosConceptScheme',
+    'pricing',
+    'products',
+  ].includes(listItem.getId())
 
 export default () =>
   S.list()
@@ -22,4 +29,7 @@ export default () =>
       S.documentTypeListItem('skosConceptScheme').title('Taxonomy Schemes'),
       S.divider(),
       ...S.documentTypeListItems().filter(hiddenDocTypes),
+      S.divider(),
+      pricing,
+      products,
     ])

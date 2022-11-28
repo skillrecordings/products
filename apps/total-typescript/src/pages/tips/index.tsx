@@ -49,7 +49,6 @@ const TipsIndex: React.FC<TipsIndex> = ({tips}) => {
           return <TipTeaser tip={tip} key={tip.slug} />
         })}
       </main>
-
       <Image
         layout="fill"
         aria-hidden="true"
