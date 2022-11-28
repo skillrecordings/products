@@ -296,6 +296,9 @@ export function getSdk(
     async getPurchasesForUser(userId?: string) {
       const purchases = userId
         ? await ctx.prisma.purchase.findMany({
+            orderBy: {
+              createdAt: 'asc',
+            },
             where: {
               userId,
               status: 'Valid',
