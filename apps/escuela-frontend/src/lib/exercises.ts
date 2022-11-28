@@ -110,6 +110,7 @@ export const getExercise = async (
       title,
       description,
       "slug": slug.current,
+      "stackblitz": resources[@._type == 'stackblitz'][0].openFile,
       ${
         includeMedia
           ? `      
@@ -132,7 +133,6 @@ export const getExercise = async (
             "code": code.code,
             active
         },
-        "stackblitz": resources[@._type == 'stackblitz'][0].openFile,
         "muxPlaybackId": resources[@->._type == 'videoResource'][0]-> muxAsset.muxPlaybackId,
         "transcript": resources[@->._type == 'videoResource'][0]-> castingwords.transcript,
       `
@@ -150,6 +150,7 @@ export const getExercise = async (
         "_updatedAt": ^._updatedAt,
         title,
         description,
+        "stackblitz": resources[@._type == 'stackblitz'][0].openFile,
         ${
           includeMedia
             ? `      

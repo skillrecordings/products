@@ -80,7 +80,7 @@ const ExerciseTemplate: React.FC<{
             path={path}
             section={section}
           />
-          <main className="relative mx-auto max-w-[1480px] grow items-start sm:bg-gray-800 2xl:flex 2xl:max-w-none  2xl:bg-transparent">
+          <main className="relative max-w-[1480px] grow items-start  bg-gray-800 2xl:flex 2xl:max-w-none  2xl:bg-transparent">
             <div className="border border-t-0 border-l-0 border-gray-700 2xl:relative 2xl:h-full 2xl:w-full 2xl:bg-gray-800">
               <Video
                 ref={muxPlayerRef}
@@ -106,7 +106,6 @@ const ExerciseTemplate: React.FC<{
                 <ExerciseTitle exercise={exercise} />
                 <ExerciseAssets exercise={exercise} module={module} />
                 <ExerciseDescription exercise={exercise} />
-                {/* <GitHubLink exercise={exercise} module={module} /> */}
               </div>
               <div className="relative z-10 block 2xl:hidden">
                 <VideoTranscript
@@ -168,38 +167,46 @@ const Video: React.FC<VideoProps> = React.forwardRef(
   },
 )
 
-const GitHubLink: React.FC<{
+export const GitHubLink: React.FC<{
   exercise: Exercise
   module: SanityDocument
 }> = ({exercise, module}) => {
-  const github = exercise.github ?? exercise.solution?.github
+  const {github} = module
 
-  if (!github) {
+  if (!github || !exercise.stackblitz) {
     return null
   }
 
+  const openFile = exercise.stackblitz?.split(',')[0]
+
   return (
-    <div className="flex items-center gap-2">
-      <a
-        onClick={() => {
-          track('clicked github code link', {
-            lesson: exercise.slug,
-            module: module.slug.current,
-            moduleType: module.moduleType,
-            lessonType: exercise._type,
-          })
-        }}
-        href={github.url}
-        target="_blank"
-        rel="noopener noreferrer"
-        className="inline-flex items-center gap-2 rounded-lg bg-gray-800 py-2 px-4 text-lg font-medium text-white transition hover:bg-gray-900"
-      >
-        <Icon name="Github" size="24" />
-        <div>
-          <p className="font-semibold">Código</p>
-          {/* <p className="font-mono text-sm text-gray-400">/{openFile}</p> */}
-        </div>
-      </a>
+    <div className="pt-14">
+      <h2 className="pb-4 text-2xl font-semibold sm:text-3xl">Código</h2>
+      <div className="flex items-center gap-2">
+        <a
+          onClick={() => {
+            track('clicked github code link', {
+              lesson: exercise.slug,
+              module: module.slug.current,
+              moduleType: module.moduleType,
+              lessonType: exercise._type,
+            })
+          }}
+          href={`https://github.com/escuela-frontend/${github.repo}/tree/main/${openFile}`}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="inline-flex items-center gap-4 rounded border border-gray-700/50 bg-gray-800/50 py-5 px-6 text-lg font-medium text-white transition hover:bg-gray-800/90"
+        >
+          <Icon name="Github" size="20" /> Código
+          <div>
+            <p className="text-xl font-semibold">
+              {module.github.repo}
+              <span className="font-medium text-gray-400"></span>
+            </p>
+            <p className="font-mono text-sm text-gray-400">/{openFile}</p>
+          </div>
+        </a>
+      </div>
     </div>
   )
 }
@@ -317,10 +324,10 @@ const MobileLessonNavigator: React.FC<{
   return (
     <details className="group block lg:hidden">
       <summary className="no-marker flex cursor-pointer items-center gap-1 bg-gray-900 px-4 py-3 font-medium shadow-2xl shadow-gray-500/10 transition marker:content-[''] after:absolute after:right-3 after:flex after:h-6 after:w-6 after:rotate-180 after:items-center after:justify-center after:rounded-md after:bg-gray-600 after:text-lg after:content-['↑'] group-open:after:rotate-0 hover:bg-gray-700">
-        {module.title} {capitalize(module.moduleType)}{' '}
+        {module.title}
         <span className="opacity-80">
-          ({section ? section.exercises.length : module.exercises.length}{' '}
-          exercises)
+          ({section ? section.exercises.length : module.exercises.length - 1}{' '}
+          Lecciones)
         </span>
       </summary>
       <ExerciseSidebar module={module} path={path} section={section} />

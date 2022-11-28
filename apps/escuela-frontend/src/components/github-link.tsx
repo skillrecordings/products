@@ -29,7 +29,7 @@ export const GitHubLink: React.FC<{
               lessonType: exercise._type,
             })
           }}
-          href={`https://github.com/total-typescript/${github.repo}/blob/main/${openFile}`}
+          href={`https://github.com/escuela-frontend/${github.repo}/blob/main/${openFile}`}
           target="_blank"
           rel="noopener noreferrer"
           className="inline-flex items-center gap-4 rounded border border-gray-700/50 bg-gray-800/50 py-5 px-6 text-lg font-medium text-white transition hover:bg-slate-800/90"

@@ -83,7 +83,7 @@ const ExerciseNavigator: React.FC<{
                       aria-hidden="true"
                       className="pr-3 text-sm opacity-50"
                     >
-                      {sectionIdx + 1}
+                      {sectionIdx - 1 + 1}
                     </span>{' '}
                     {exercise.title}
                   </a>

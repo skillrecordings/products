@@ -13,6 +13,8 @@ import {useConvertkit} from 'hooks/use-convertkit'
 import {Exercise} from 'lib/exercises'
 import PortableTextComponents from 'components/portable-text'
 import first from 'lodash/first'
+import * as Accordion from '@radix-ui/react-accordion'
+import {ChevronDownIcon} from '@heroicons/react/solid'
 
 const WorkshopTemplate: React.FC<{
   workshop: SanityDocument
@@ -22,7 +24,7 @@ const WorkshopTemplate: React.FC<{
 
   return (
     <Layout
-      className="mx-auto w-full max-w-4xl py-24 px-5 "
+      className="mx-auto w-full pt-24 lg:max-w-4xl lg:pb-24"
       meta={{
         title: pageTitle,
         description,
@@ -35,7 +37,7 @@ const WorkshopTemplate: React.FC<{
       <CourseMeta title={pageTitle} description={description} />
       <Header workshop={workshop} />
       <main className="relative z-10 flex flex-col gap-5 lg:flex-row">
-        <article className="prose prose-lg w-full max-w-none text-white lg:max-w-xl">
+        <article className="prose prose-lg w-full max-w-none px-5 text-white lg:max-w-xl">
           <PortableText value={body} components={PortableTextComponents} />
         </article>
         <WorkshopSectionNavigator workshop={workshop} />
@@ -54,7 +56,7 @@ const Header: React.FC<{workshop: SanityDocument}> = ({workshop}) => {
 
   return (
     <>
-      <header className="relative z-10 flex flex-col-reverse items-center justify-between pt-0 pb-16 sm:pt-8 sm:pb-8 md:flex-row">
+      <header className="relative z-10 flex flex-col-reverse items-center justify-between px-5 pt-0 pb-16 sm:pt-8 sm:pb-8 md:flex-row">
         <div className="text-center md:text-left">
           <Link href="/workshops">
             <a className="pb-1 font-mono text-sm font-semibold uppercase tracking-wide text-cyan-300">
@@ -76,7 +78,7 @@ const Header: React.FC<{workshop: SanityDocument}> = ({workshop}) => {
                 <span>Matt Pocock</span>
               </div>
             </div>
-            <div className="flex items-center gap-3 pt-8">
+            <div className="flex items-center justify-center gap-3 pt-8 md:justify-start">
               {firstSection && (
                 <Link
                   href={{
@@ -145,45 +147,46 @@ const WorkshopSectionNavigator: React.FC<{workshop: SanityDocument}> = ({
   workshop,
 }) => {
   const {slug, sections, _type} = workshop
+
   return (
     <nav
-      aria-label="exercise navigator"
-      className="border-gray-800 lg:border-l lg:pl-8"
+      aria-label="workshop navigator"
+      className="w-full bg-black/20 px-5 py-8 lg:max-w-xs lg:bg-transparent lg:px-0 lg:py-0"
     >
-      <h2 className="pb-4 font-mono text-sm font-semibold uppercase text-gray-300">
-        {sections?.length || 0} Sections
-      </h2>
       {sections && (
-        <ul>
-          {sections.map((section: SanityDocument, i: number) => {
-            return (
-              <li key={section.slug}>
-                <div
-                  className="group inline-flex items-center py-2.5 text-lg font-semibold"
-                  onClick={() => {
-                    track('clicked workshop section', {
-                      module: slug.current,
-                      section: section.slug,
-                      moduleType: _type,
-                    })
-                  }}
-                >
-                  <span
-                    className="w-8 font-mono text-xs text-gray-400"
-                    aria-hidden="true"
-                  >
-                    {i + 1}
-                  </span>
-                  <span className="w-full leading-tight">{section.title}</span>
-                </div>
-                <WorkshopSectionExerciseNavigator
-                  section={section}
-                  moduleSlug={workshop.slug.current}
-                />
-              </li>
-            )
-          })}
-        </ul>
+        <Accordion.Root type="multiple">
+          <div className="flex w-full items-center justify-between pb-3">
+            <h2 className="text-2xl font-semibold">Contents</h2>
+            <h3 className="font-mono text-sm font-semibold uppercase text-gray-300">
+              {sections?.length || 0} Sections
+            </h3>
+          </div>
+          <ul className="flex flex-col gap-2">
+            {sections.map((section: SanityDocument, i: number) => {
+              return (
+                <li key={section.slug}>
+                  <Accordion.Item value={section.slug}>
+                    <Accordion.Header className="relative z-10 rounded-lg bg-gray-900">
+                      <Accordion.Trigger className="group flex w-full items-center justify-between rounded-lg border border-white/5 bg-gray-800/20 py-2 px-3 text-lg font-medium shadow-lg transition hover:bg-gray-800/40">
+                        {section.title}
+                        <ChevronDownIcon
+                          className="relative h-3 w-3 opacity-70 transition group-hover:opacity-100 group-radix-state-open:rotate-180"
+                          aria-hidden="true"
+                        />
+                      </Accordion.Trigger>
+                    </Accordion.Header>
+                    <Accordion.Content>
+                      <WorkshopSectionExerciseNavigator
+                        section={section}
+                        moduleSlug={workshop.slug.current}
+                      />
+                    </Accordion.Content>
+                  </Accordion.Item>
+                </li>
+              )
+            })}
+          </ul>
+        </Accordion.Root>
       )}
     </nav>
   )
@@ -194,60 +197,50 @@ const WorkshopSectionExerciseNavigator: React.FC<{
   moduleSlug: string
 }> = ({section, moduleSlug}) => {
   const {slug, exercises, _type} = section
-  return (
-    <nav
-      aria-label="exercise navigator"
-      className="border-gray-800 lg:border-l lg:pl-8"
-    >
-      <h2 className="pb-4 font-mono text-sm font-semibold uppercase text-gray-300">
-        {exercises?.length || 0} Exercises
-      </h2>
-      {exercises && (
-        <ul>
-          {exercises.map((exercise: Exercise, i: number) => {
-            return (
-              <li key={exercise.slug}>
-                <Link
-                  href={{
-                    pathname: '/workshops/[module]/[section]/[exercise]',
-                    query: {
-                      section: slug,
-                      exercise: exercise.slug,
-                      module: moduleSlug,
-                    },
-                  }}
-                  passHref
+  return exercises ? (
+    <ul className="-mt-5 rounded-b-lg border border-white/5 bg-black/20 pl-3.5 pr-3 pt-7 pb-3">
+      {exercises.map((exercise: Exercise, i: number) => {
+        return (
+          <li key={exercise.slug}>
+            <Link
+              href={{
+                pathname: '/workshops/[module]/[section]/[exercise]',
+                query: {
+                  section: slug,
+                  exercise: exercise.slug,
+                  module: moduleSlug,
+                },
+              }}
+              passHref
+            >
+              <a
+                className="group inline-flex items-center py-2.5 text-base font-medium"
+                onClick={() => {
+                  track('clicked workshop exercise', {
+                    module: slug.current,
+                    lesson: exercise.slug,
+                    section: slug.current,
+                    moduleType: _type,
+                    lessonType: exercise._type,
+                  })
+                }}
+              >
+                <span
+                  className="w-6 font-mono text-xs text-gray-400"
+                  aria-hidden="true"
                 >
-                  <a
-                    className="group inline-flex items-center py-2.5 text-lg font-semibold"
-                    onClick={() => {
-                      track('clicked workshop exercise', {
-                        module: slug.current,
-                        lesson: exercise.slug,
-                        section: slug.current,
-                        moduleType: _type,
-                        lessonType: exercise._type,
-                      })
-                    }}
-                  >
-                    <span
-                      className="w-8 font-mono text-xs text-gray-400"
-                      aria-hidden="true"
-                    >
-                      {i + 1}
-                    </span>
-                    <span className="w-full cursor-pointer leading-tight group-hover:underline">
-                      {exercise.title}
-                    </span>
-                  </a>
-                </Link>
-              </li>
-            )
-          })}
-        </ul>
-      )}
-    </nav>
-  )
+                  {i + 1}
+                </span>
+                <span className="w-full cursor-pointer leading-tight group-hover:underline">
+                  {exercise.title}
+                </span>
+              </a>
+            </Link>
+          </li>
+        )
+      })}
+    </ul>
+  ) : null
 }
 
 const CourseMeta = ({

@@ -310,7 +310,7 @@ const TipOverlay: React.FC<{tips: Tip[]}> = ({tips}) => {
   const {lesson, module, setDisplayOverlay, handlePlay} = useMuxPlayer()
 
   const buttonStyles =
-    'py-2 px-3 font-medium rounded flex items-center gap-1 hover:bg-gray-200 bg-gray-100 transition text-gray-600'
+    'py-2 px-3 font-medium rounded flex items-center gap-1 hover:bg-gray-200 bg-gray-100 transition text-gray-600 sm:text-lg text-sm'
   return (
     <div
       id="video-overlay"

@@ -9,6 +9,7 @@ import {
   ExerciseOverlay,
   FinishedOverlay,
   LoadingOverlay,
+  FinishedSectionOverlay,
 } from '../exercise-overlay'
 import cx from 'classnames'
 import MuxPlayer, {MuxPlayerProps} from '@mux/mux-player-react'
@@ -29,6 +30,7 @@ export const Video: React.FC<VideoProps> = React.forwardRef(
       nextExercise,
       canShowVideo,
       loadingUserStatus,
+      nextSection,
     } = useMuxPlayer()
 
     return (
@@ -37,6 +39,8 @@ export const Video: React.FC<VideoProps> = React.forwardRef(
           <>
             {nextExercise ? (
               <>{isExercise ? <ExerciseOverlay /> : <DefaultOverlay />}</>
+            ) : nextSection ? (
+              <FinishedSectionOverlay />
             ) : (
               <FinishedOverlay />
             )}
