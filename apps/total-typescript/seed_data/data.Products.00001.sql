@@ -2,13 +2,13 @@ INSERT INTO MerchantAccount (id, status, identifier, label) VALUES
 ("tt_cc7acfa7-f60b-4315-ae51-3cbd305e23ae", 1, "acct_1LFP5yAozSgJZBRP", "stripe");
 
 INSERT INTO Product (id, name, status) VALUES
-('tt_cd59affe-ccc3-41ec-b7f6-7e0c816dff6a', "Total TypeScript Vol. 1", 1);
+('tt_00c02ac7-6f95-4ad4-8aac-999b243df6c1', "Total TypeScript Vol. 1", 1);
 
 INSERT INTO MerchantProduct (id, merchantAccountId, productId, status, identifier) VALUES
-('tt_61b88dc4-8004-487b-81b3-0a35d88c02e1', "tt_cc7acfa7-f60b-4315-ae51-3cbd305e23ae", 'tt_cd59affe-ccc3-41ec-b7f6-7e0c816dff6a', 1, "prod_MlWOKsn7m29PjC");
+('tt_61b88dc4-8004-487b-81b3-0a35d88c02e1', "tt_cc7acfa7-f60b-4315-ae51-3cbd305e23ae", 'tt_00c02ac7-6f95-4ad4-8aac-999b243df6c1', 1, "prod_MlWOKsn7m29PjC");
 
 INSERT INTO Price (id, productId, nickname, status, unitAmount ) VALUES
-('tt_c68ae76b-3579-4a56-8417-32de56e54fd8', 'tt_cd59affe-ccc3-41ec-b7f6-7e0c816dff6a', 'Total TypeScript Vol. 1', 1, 799);
+('tt_c68ae76b-3579-4a56-8417-32de56e54fd8', 'tt_00c02ac7-6f95-4ad4-8aac-999b243df6c1', 'Total TypeScript Vol. 1', 1, 799);
 
 INSERT INTO MerchantPrice (id, merchantProductId, merchantAccountId, status, priceId, identifier ) VALUES
 ('tt_a3c78294-84ea-4e6c-b0dd-798f84da982c', 'tt_61b88dc4-8004-487b-81b3-0a35d88c02e1', 'tt_cc7acfa7-f60b-4315-ae51-3cbd305e23ae', 1, "tt_c68ae76b-3579-4a56-8417-32de56e54fd8", "price_1M1zLVAozSgJZBRPbtm67xWX");
