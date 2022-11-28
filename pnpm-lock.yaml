@@ -2437,7 +2437,7 @@ importers:
       ws: ^8.8.1
       xstate: '=4.23.1'
       yup: ^0.32.11
-      zod: ^3.17.10
+      zod: ^3.19.1
       zod-formik-adapter: ^1.1.1
     dependencies:
       '@amplitude/analytics-browser': 1.3.0
@@ -2525,8 +2525,8 @@ importers:
       ws: 8.8.1
       xstate: 4.23.1
       yup: 0.32.11
-      zod: 3.17.10
-      zod-formik-adapter: 1.1.1_uyybnrwsqpp6t5ochh4yse4ary
+      zod: 3.19.1
+      zod-formik-adapter: 1.1.1_3lqirbki2mw44cni3tz454y4qm
     devDependencies:
       '@next/env': 12.2.3
       '@portabletext/types': 1.0.3
@@ -30880,7 +30880,7 @@ packages:
       toposort: 2.0.2
     dev: false
 
-  /zod-formik-adapter/1.1.1_uyybnrwsqpp6t5ochh4yse4ary:
+  /zod-formik-adapter/1.1.1_3lqirbki2mw44cni3tz454y4qm:
     resolution: {integrity: sha512-nN787YLM+FauP3oJGOMKGJAIYK5wwrLy3KVdlv6Ac7HrgKkFAEiDyVQ6cz+i009dE7PxQmlPUtjZLpiA0syR3Q==}
     peerDependencies:
       formik: ^2.2.9
@@ -30889,11 +30889,7 @@ packages:
     dependencies:
       formik: 2.2.9_react@18.2.0
       react: 18.2.0
-      zod: 3.17.10
-    dev: false
-
-  /zod/3.17.10:
-    resolution: {integrity: sha512-IHXnQYQuOOOL/XgHhgl8YjNxBHi3xX0mVcHmqsvJgcxKkEczPshoWdxqyFwsARpf41E0v9U95WUROqsHHxt0UQ==}
+      zod: 3.19.1
     dev: false
 
   /zod/3.19.1:
