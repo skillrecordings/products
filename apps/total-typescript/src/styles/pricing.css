@@ -1,25 +1,52 @@
 #__next {
   /* tier name */
 
-  [data-pricing-product='0'] {
-  }
-  [data-pricing-product='1'] {
-    @apply sm:pt-20;
+  [data-pricing-product-image='0'] {
+    @apply absolute top-[-150px] z-10 h-full max-h-[240px] w-full max-w-[240px];
   }
 
-  [data-pricing-product-name-badge='0'] {
+  [data-pricing-container] {
   }
-  [data-pricing-product-name-badge='1'] {
+
+  [data-pricing-product-container] {
+    @apply relative flex flex-col items-center;
+  }
+
+  [data-pricing-product] {
+    @apply flex flex-col items-center justify-center rounded-md border border-gray-800 bg-gray-900 shadow-2xl;
+  }
+
+  [data-pricing-product-price-container] {
+    @apply mt-4 flex items-baseline text-5xl font-semibold;
+
+    sup {
+      @apply -translate-y-4 pr-0.5 text-lg font-extrabold opacity-80;
+    }
+  }
+
+  [data-pricing-product-price-loading] {
+    @apply py-3;
+  }
+
+  [data-pricing-product-header] {
+    @apply flex flex-col items-center pt-24;
+  }
+
+  [data-pricing-product='1'] {
+  }
+
+  [data-pricing-product-name-badge] {
+    @apply inline-flex rounded-full px-4 py-1 pb-1.5 text-sm font-semibold uppercase tracking-wide text-cyan-300;
   }
 
   /* purchase button */
 
   [data-pricing-product-checkout-button='0'] {
-    @apply bg-cyan-500 text-gray-900 hover:scale-105 transition-all ease-in-out hover:shadow-xl hover:shadow-cyan-700/40;
+    @apply bg-cyan-300 text-gray-900 transition-all ease-in-out hover:scale-105 hover:shadow-xl hover:shadow-cyan-700/40;
   }
   [data-pricing-product-checkout-button='1'] {
     /* @apply bg-indigo-200 text-gray-900 hover:scale-105 transition-all ease-in-out; */
-    @apply bg-transparent border-2 border-cyan-500 text-cyan-500 hover:scale-105 transition-all ease-in-out;
+    @apply border-2 border-cyan-500 bg-transparent text-cyan-500 transition-all ease-in-out hover:scale-105;
   }
 
   [data-pricing-product-checkout-button]:disabled {
@@ -36,7 +63,7 @@
     }
   }
   [data-pricing-product-ppp='1'] {
-    @apply max-w-sm p-5 border border-gray-100;
+    @apply max-w-sm border border-gray-100 p-5;
   }
 }
 
