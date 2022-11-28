@@ -118,7 +118,7 @@ const Welcome: React.FC<
             </Invite>
           )}
           {personalPurchase && <GetStarted />}
-          <Share />
+          <Share productName={purchase.product.name} />
         </div>
       </main>
     </Layout>
@@ -201,8 +201,10 @@ const GetStarted: React.FC<React.PropsWithChildren<unknown>> = () => {
   )
 }
 
-const Share: React.FC<React.PropsWithChildren<unknown>> = () => {
-  const tweet = `https://twitter.com/intent/tweet/?text=Just purchased Engineering Management for the Rest of Us by @sarah_edo`
+const Share: React.FC<React.PropsWithChildren<{productName: string}>> = ({
+  productName,
+}) => {
+  const tweet = `https://twitter.com/intent/tweet/?text=Just purchased ${productName} by @${process.env.NEXT_PUBLIC_PARTNER_TWITTER}`
   return (
     <div className="mx-auto flex max-w-lg flex-col items-center gap-5 px-8 pt-12 pb-5 text-center">
       <p className="gap-1 text-lg font-semibold text-white">
