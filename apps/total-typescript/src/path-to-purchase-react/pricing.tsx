@@ -268,7 +268,7 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
           </div>
         ) : null}
         <div className="flex w-full flex-1 flex-col justify-between space-y-6 p-3 px-6 pt-6 pb-8 sm:p-5 sm:pt-6 xl:p-8">
-          <strong className="font-medium">Modules</strong>
+          <strong className="font-medium">Workshops</strong>
           {modules && (
             <ul role="list" className="space-y-2 ">
               {modules.map((module) => (
@@ -278,7 +278,7 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
                     className="flex flex-shrink-0 items-center justify-center"
                   >
                     <Image
-                      src={module.image as string}
+                      src={module.image.url}
                       width={50}
                       height={50}
                       alt={module.title}

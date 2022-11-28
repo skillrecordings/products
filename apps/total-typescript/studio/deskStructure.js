@@ -20,6 +20,9 @@ export default () =>
   S.list()
     .title('Total TypeScript')
     .items([
+      pricing,
+      products,
+      S.divider(),
       workshops,
       tutorials,
       S.divider(),
@@ -29,7 +32,4 @@ export default () =>
       S.documentTypeListItem('skosConceptScheme').title('Taxonomy Schemes'),
       S.divider(),
       ...S.documentTypeListItems().filter(hiddenDocTypes),
-      S.divider(),
-      pricing,
-      products,
     ])

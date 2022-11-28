@@ -42,12 +42,10 @@ export type SanityProduct = {
   }
   modules: {
     title: string
-    image:
-      | string
-      | {
-          url: string
-          alt: string
-        }
+    image: {
+      url: string
+      alt: string
+    }
   }[]
   features: {
     value: string

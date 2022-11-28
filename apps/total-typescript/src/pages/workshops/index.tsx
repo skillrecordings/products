@@ -11,7 +11,7 @@ export async function getStaticProps() {
   const workshops = await getAllWorkshops()
 
   return {
-    props: {modules: workshops},
+    props: {modules: workshops.reverse()},
     revalidate: 10,
   }
 }
@@ -62,20 +62,24 @@ const WorkshopsPage: React.FC<{modules: SanityDocument[]}> = ({modules}) => {
                         {title}
                       </a>
                     </Link>
-                    <div className="pt-4 pb-3 font-mono text-xs font-semibold uppercase text-cyan-300">
-                      {i === 0 && (
-                        <span className="mr-3 rounded-full bg-cyan-300 px-2 py-0.5 font-sans font-semibold uppercase text-black">
-                          New
-                        </span>
-                      )}
-                      {sections.length} sections,{' '}
-                      {sections.reduce(
-                        (acc: number, section: {exercises?: any[]}) =>
-                          section.exercises?.length || acc,
-                        0,
-                      )}{' '}
-                      exercises
-                    </div>
+                    {sections ? (
+                      <div className="pt-4 pb-3 font-mono text-xs font-semibold uppercase text-cyan-300">
+                        {i === 0 && (
+                          <span className="mr-3 rounded-full bg-cyan-300 px-2 py-0.5 font-sans font-semibold uppercase text-black">
+                            New
+                          </span>
+                        )}
+                        {sections.length} sections,{' '}
+                        {sections.reduce(
+                          (acc: number, section: {exercises?: any[]}) =>
+                            section.exercises?.length || acc,
+                          0,
+                        )}{' '}
+                        exercises
+                      </div>
+                    ) : (
+                      <br />
+                    )}
                     {description && (
                       <p className="text-gray-300">{description}</p>
                     )}
