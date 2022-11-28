@@ -21,8 +21,8 @@ export const PricingTiers: React.FC<React.PropsWithChildren<CommerceProps>> = ({
   const purchasedProductIds = purchases.map((purchase) => purchase.productId)
   return (
     <PriceCheckProvider purchasedProductIds={purchasedProductIds}>
-      <div className="flex gap-10">
-        {redeemableCoupon ? <RedeemDialogForCoupon /> : null}
+      {redeemableCoupon ? <RedeemDialogForCoupon /> : null}
+      <div className="flex gap-10 pt-40" data-pricing-container>
         {products?.map((product, i) => {
           return (
             <div

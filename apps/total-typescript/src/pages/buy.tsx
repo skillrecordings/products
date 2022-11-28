@@ -7,6 +7,7 @@ import {PricingTiers} from '../path-to-purchase-react/product-tiers'
 import Layout from 'components/app/layout'
 import {getToken} from 'next-auth/jwt'
 import {getActiveProducts} from '../path-to-purchase-react/products.server'
+import Image from 'next/image'
 
 const Buy: React.FC<React.PropsWithChildren<CommerceProps>> = ({
   couponFromCode,
@@ -18,11 +19,22 @@ const Buy: React.FC<React.PropsWithChildren<CommerceProps>> = ({
 }) => {
   return (
     <Layout
-      meta={{title: `Buy ${process.env.NEXT_PUBLIC_SITE_TITLE}`}}
+      meta={{
+        title: `Buy ${process.env.NEXT_PUBLIC_SITE_TITLE}`,
+        titleAppendSiteName: false,
+      }}
       defaultCoupon={defaultCoupon}
     >
-      <main className="flex flex-col items-center justify-center py-32">
-        <h1 className="font-din max-w-[25ch] px-5 pb-10 text-center text-4xl uppercase sm:text-5xl lg:text-6xl">
+      <Image
+        layout="fill"
+        aria-hidden="true"
+        alt=""
+        src={require('../../public/assets/landing/bg-divider-3.png')}
+        objectPosition={'top'}
+        className="select-none object-contain"
+      />
+      <main className="relative z-10 flex flex-col items-center justify-center py-32 px-5">
+        <h1 className="text-center font-heading text-4xl font-bold sm:text-5xl">
           Become a TypeScript Wizard
         </h1>
         <section className="flex flex-col items-center justify-center">
