@@ -1,36 +1,38 @@
 import * as React from 'react'
 import {isEmpty} from 'lodash'
-import Layout from 'components/app/layout'
+import Layout from 'components/layout'
 import Link from 'next/link'
-import Markdown from 'react-markdown'
-import {GetServerSideProps} from 'next'
-import {SanityDocument} from '@sanity/client'
-import {getAllArticles} from '../lib/articles'
-import Navigation from 'components/app/navigation'
+import {GetStaticProps} from 'next'
+import {Article, getAllArticles} from '../lib/articles'
+import {toPlainText} from '@portabletext/react'
 
 const meta = {
   title: 'Artículos',
+  description:
+    'Artículos detallados para aprender a navegar por el ecosistema Frontend.',
 }
 
 type ArticlesProps = {
-  articles: SanityDocument[]
+  articles: Article[]
 }
 
 const Articles: React.FC<ArticlesProps> = ({articles}) => {
   return (
     <Layout
       meta={meta}
-      className="overflow-hidden"
-      nav={<Navigation className="relative flex lg:relative" />}
+      className="sm:pt-18 flex flex-col items-center pb-16 pt-16 lg:pt-20 lg:pb-24"
     >
-      <header className="relative overflow-hidden px-5 pt-20 pb-10 text-white md:pt-24 md:pb-16 lg:py-28">
-        <h1 className="mt-12 mb-4 bg-gradient-to-b from-white to-gray-200 bg-clip-text text-center text-4xl font-extrabold leading-tight text-transparent sm:text-4xl md:text-5xl lg:text-6xl">
+      <header className="relative z-10 flex flex-col items-center px-5 pb-16 text-center">
+        <h1 className="text-center font-heading text-4xl font-bold text-white sm:text-5xl lg:text-6xl">
           {meta.title}
         </h1>
+        <p className="max-w-sm pt-8 text-center text-lg text-gray-200">
+          {meta.description}
+        </p>
       </header>
-      <main className="flex-grow">
-        <div className="mx-auto w-full max-w-xl gap-16 pt-16 pb-16">
-          <div className="grid grid-cols-1 gap-10">
+      <main className="flex-grow px-5">
+        <div className="mx-auto w-full max-w-screen-lg pb-16">
+          <div className="grid grid-cols-1 gap-5 sm:gap-10 md:grid-cols-2">
             {isEmpty(articles) ? (
               <h3>Sorry, there are no articles yet</h3>
             ) : (
@@ -39,34 +41,57 @@ const Articles: React.FC<ArticlesProps> = ({articles}) => {
                   title,
                   slug,
                   description,
+                  date,
+                  body,
+                  subtitle,
                   estimatedReadingTime,
-                }: SanityDocument) => {
+                }) => {
+                  const shortDescription =
+                    description || toPlainText(body).substring(0, 190) + '...'
                   return (
-                    <div key={slug} className="gap-5 p-8">
-                      <div className=" flex w-full justify-between text-center">
-                        <div className="">
-                          <div className="mb-2 text-sm text-gray-300">
-                            Tiempo Estimado: {estimatedReadingTime}m
-                          </div>
-                          <h2 className="text-2xl font-extrabold decoration-white transition hover:decoration-gray-500 sm:text-xl lg:text-3xl">
+                    <div
+                      key={slug}
+                      className="gap-5 rounded-md border border-gray-700 bg-gray-800 p-4 shadow-2xl shadow-black/30 sm:p-10"
+                    >
+                      <div className="justify-left flex w-full sm:justify-between">
+                        <div>
+                          <h2 className="font-heading text-2xl font-bold transition lg:text-3xl">
                             <Link href={`/${slug}`} passHref>
                               <a className="group block">{title}</a>
                             </Link>
                           </h2>
-                          {description && (
+                          <h3 className="pt-3 text-xl font-medium text-gray-300">
+                            {subtitle}
+                          </h3>
+                          <p className="pt-5 font-normal text-gray-300">
+                            {shortDescription}
+                          </p>
+                          {/* <time
+                            dateTime={date}
+                            className="block pt-1 font-semibold pb-5 text-gray-500"
+                          >
+                            {format(new Date(date), 'dd MMMM, y')}
+                          </time> */}
+                          {/* {description && (
                             <Markdown className="prose pt-3 pb-6">
                               {description}
                             </Markdown>
-                          )}
-                          <div className="mt-6 flex items-center justify-center space-x-5">
+                          )} */}
+                          <div className="mt-6 flex w-full items-center justify-between space-x-5">
                             <Link href={`/${slug}`} passHref>
-                              <a className="focus-visible:ring-bg-brand/70 mt-4 inline-flex items-center justify-center rounded-md bg-brand px-4 py-4 pt-4 pb-4 text-base font-bold text-gray-900 transition hover:bg-brand/90 hover:bg-opacity-100">
-                                Leer Artículo
-                                <i aria-hidden className="pl-2">
+                              <a className="rounded-md bg-brand px-5 py-3 font-medium text-white transition hover:brightness-125">
+                                Ver artículo{' '}
+                                <span
+                                  aria-hidden="true"
+                                  className="text-white/90 transition group-hover:text-white"
+                                >
                                   →
-                                </i>
+                                </span>
                               </a>
                             </Link>
+                            <div className="text-sm text-gray-400">
+                              Tiempo: ~{estimatedReadingTime}m
+                            </div>
                           </div>
                         </div>
                       </div>
@@ -82,13 +107,12 @@ const Articles: React.FC<ArticlesProps> = ({articles}) => {
   )
 }
 
-export const getServerSideProps: GetServerSideProps = async (context) => {
-  context.res.setHeader('Cache-Control', 's-maxage=1, stale-while-revalidate')
-
+export const getStaticProps: GetStaticProps = async (context) => {
   const articles = await getAllArticles()
 
   return {
     props: {articles},
+    revalidate: 10,
   }
 }
 

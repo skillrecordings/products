@@ -63,9 +63,9 @@ const TableOfContents = ({value}: PortableTextProps) => {
         {props.outline.map((heading: any) => {
           const {subheadings} = heading
           return (
-            <li key={heading._key} className="text-lg sm:text-xl">
+            <li key={heading._key} className="sm:text-lg">
               <Link href={'#' + heading.slug}>
-                <a className="inline-flex py-1 font-medium sm:py-2">
+                <a className="inline-flex py-1 font-medium hover:underline sm:py-2">
                   {getChildrenText(heading)}
                 </a>
               </Link>
@@ -75,7 +75,7 @@ const TableOfContents = ({value}: PortableTextProps) => {
                     return (
                       <li key={subheading._key}>
                         <Link href={'#' + subheading.slug}>
-                          <a className="inline-flex border-l border-gray-600 py-1 pl-6 font-normal sm:py-2">
+                          <a className="inline-flex border-l border-gray-200 py-1 pl-6 font-normal hover:underline sm:py-2">
                             {getChildrenText(subheading)}
                           </a>
                         </Link>
@@ -95,19 +95,19 @@ const TableOfContents = ({value}: PortableTextProps) => {
 
   return (
     <details
-      aria-label="Temario"
+      aria-label="EN ESTA PÁGINA"
       className="no-marker group mx-auto w-full max-w-screen-md text-lg font-medium marker:text-transparent sm:text-xl"
     >
-      <summary className="flex items-center justify-between hover:cursor-pointer">
-        <span className="py-3 text-base uppercase transition sm:py-5">
-          Temario
-        </span>
+      <summary className="flex items-center hover:cursor-pointer">
         <span
           aria-hidden="true"
           className="flex h-16 items-center justify-center px-5 opacity-60 transition group-hover:opacity-100"
         >
           <ChevronDownIcon className="h-4 w-4 group-open:hidden" />
           <ChevronUpIcon className="hidden h-4 w-4 group-open:block" />
+        </span>
+        <span className="py-3 text-base uppercase text-gray-200 transition group-hover:text-gray-100 sm:py-5">
+          EN ESTA PÁGINA
         </span>
       </summary>
       <div className="pb-4">

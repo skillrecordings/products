@@ -53,29 +53,40 @@ const DesktopNav = () => {
   const {status} = useSession()
 
   return (
-    <ul className="hidden items-center md:flex">
-      <NavLink
-        path="/tutorials"
-        label="Free Tutorials"
-        icon={<PlayIcon className="h-5 w-5 text-cyan-300" aria-hidden="true" />}
-      />
-      <NavLink
-        path="/tips"
-        label="Tips"
-        icon={
-          <FireIcon className="h-5 w-5 text-orange-400" aria-hidden="true" />
-        }
-      />
-      {isSellingLive && (
-        <hr
-          className="mx-3 h-1/4 w-px border-transparent bg-gray-700"
-          aria-hidden="true"
+    <ul
+      className={cx('hidden items-center md:flex', {
+        'w-full justify-between': isSellingLive || status === 'authenticated',
+      })}
+    >
+      <div className="flex h-full items-center">
+        {isSellingLive || status === 'authenticated' ? (
+          <hr
+            className="ml-8 mr-3 h-1/4 w-px border-transparent bg-gray-700"
+            aria-hidden="true"
+          />
+        ) : null}
+        <NavLink
+          path="/tutorials"
+          label="Free Tutorials"
+          icon={
+            <PlayIcon className="h-5 w-5 text-cyan-300" aria-hidden="true" />
+          }
         />
-      )}
+        <NavLink
+          path="/tips"
+          label="Tips"
+          icon={
+            <FireIcon className="h-5 w-5 text-orange-400" aria-hidden="true" />
+          }
+        />
+      </div>
+
       {status === 'authenticated' ? (
         <AccountDropdown />
+      ) : status === 'unauthenticated' && isSellingLive ? (
+        <NavLink path="/login" label="Log in" />
       ) : (
-        status === 'unauthenticated' && <NavLink path="/login" label="Log in" />
+        <div aria-hidden="true" />
       )}
     </ul>
   )
@@ -221,7 +232,7 @@ const DropdownLink: React.FC<
         active={isActive}
         {...props}
         className={cx(
-          'flex w-full px-3 py-2 text-sm transition hover:bg-gray-700 sm:text-base',
+          'flex w-full rounded px-3 py-2 text-sm transition hover:bg-gray-700 sm:text-base',
           props.className,
         )}
       />
@@ -253,6 +264,11 @@ const AccountDropdown = () => {
   const canViewTeam = ability.can('view', 'Team')
   const canViewInvoice = ability.can('view', 'Invoice')
 
+  const preventHover = (event: any) => {
+    const e = event as Event
+    return e.preventDefault()
+  }
+
   return (
     <li className="h-full">
       <NavigationMenu.Root
@@ -262,11 +278,19 @@ const AccountDropdown = () => {
       >
         <NavigationMenu.List className="flex h-full items-center justify-center">
           <NavigationMenu.Item className="h-full">
-            <NavigationMenu.Trigger className="flex h-full items-center gap-0.5 px-2 text-sm font-medium hover:radix-state-closed:bg-gray-800/70 radix-state-open:bg-gray-800 sm:gap-1 sm:px-5 sm:text-base">
+            <NavigationMenu.Trigger
+              onPointerMove={preventHover}
+              onPointerLeave={preventHover}
+              className="flex h-full items-center gap-0.5 px-2 text-sm font-medium hover:radix-state-closed:bg-gray-800/70 radix-state-open:bg-gray-800 sm:gap-1 sm:px-5 sm:text-base"
+            >
               Account <ChevronDownIcon className="h-4 w-4" aria-hidden />
             </NavigationMenu.Trigger>
-            <NavigationMenu.Content className="absolute top-full left-0 w-full overflow-y-hidden rounded-b">
-              <ul className="flex w-full flex-col items-start bg-gray-800">
+            <NavigationMenu.Content
+              onPointerMove={preventHover}
+              onPointerLeave={preventHover}
+              className="absolute top-full left-0 w-full rounded-b"
+            >
+              <ul className="flex w-full flex-col items-start rounded-b bg-gray-800 p-1">
                 {canViewTeam && (
                   <li className="w-full">
                     <DropdownLink href="/team">Invite team</DropdownLink>
@@ -309,7 +333,7 @@ const LogOutButton: React.FC<{className?: string}> = ({className}) => {
         className={
           className
             ? className
-            : 'flex w-full px-3 py-2 text-sm transition hover:bg-gray-700 sm:text-base'
+            : 'flex w-full rounded px-3 py-2 text-sm transition hover:bg-gray-700 sm:text-base'
         }
       >
         Log out
