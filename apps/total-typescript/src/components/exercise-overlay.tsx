@@ -22,6 +22,7 @@ import Spinner from './spinner'
 import {Exercise} from 'lib/exercises'
 import {StackBlitzIframe} from './exercise/stackblitz-iframe'
 import Link from 'next/link'
+import first from 'lodash/first'
 
 export const OverlayWrapper: React.FC<
   React.PropsWithChildren<{className?: string; dismissable?: boolean}>
@@ -62,8 +63,10 @@ export const OverlayWrapper: React.FC<
 }
 
 const Actions = () => {
-  const {nextExercise, lesson, module, path, handlePlay} = useMuxPlayer()
+  const {nextExercise, lesson, module, section, path, handlePlay} =
+    useMuxPlayer()
   const router = useRouter()
+
   return (
     <>
       <button
@@ -92,7 +95,14 @@ const Actions = () => {
               moduleType: module.moduleType,
               lessonType: lesson._type,
             })
-            handleContinue(router, module, nextExercise, handlePlay, path)
+            handleContinue(
+              router,
+              module,
+              nextExercise,
+              handlePlay,
+              path,
+              section,
+            )
           }}
         >
           Solution <span aria-hidden="true">→</span>
@@ -162,7 +172,8 @@ const ExerciseOverlay = () => {
 }
 
 const DefaultOverlay = () => {
-  const {nextExercise, module, path, lesson, handlePlay} = useMuxPlayer()
+  const {nextExercise, module, path, lesson, handlePlay, section} =
+    useMuxPlayer()
   const router = useRouter()
   const {image} = module
   const addProgressMutation = trpc.useMutation(['progress.add'])
@@ -215,7 +226,14 @@ const DefaultOverlay = () => {
               {lessonSlug: lesson.slug},
               {
                 onSettled: (data, error, variables, context) => {
-                  handleContinue(router, module, nextExercise, handlePlay, path)
+                  handleContinue(
+                    router,
+                    module,
+                    nextExercise,
+                    handlePlay,
+                    path,
+                    section,
+                  )
                 },
               },
             )
@@ -229,7 +247,8 @@ const DefaultOverlay = () => {
 }
 
 const FinishedOverlay = () => {
-  const {module, path, lesson, handlePlay} = useMuxPlayer()
+  const {module, path, section, lesson, handlePlay} = useMuxPlayer()
+
   const router = useRouter()
   const shareUrl = `${process.env.NEXT_PUBLIC_URL}${path}/${module.slug.current}`
   const shareMessage = `${module.title} ${module.moduleType} by @${process.env.NEXT_PUBLIC_PARTNER_TWITTER}`
@@ -243,6 +262,26 @@ const FinishedOverlay = () => {
     // we run this when the effect renders marking the lesson complete
     addProgressMutation.mutate({lessonSlug: lesson.slug})
   }, [])
+
+  const handlePlayFromBeginning = () => {
+    router
+      .push({
+        pathname: section
+          ? `/${path}/[module]/[section]/[exercise]`
+          : `/${path}/[module]/[exercise]`,
+        query: section
+          ? {
+              module: module.slug.current,
+              section: module.sections[0].slug,
+              exercise: module.sections[0].exercises[0].slug,
+            }
+          : {
+              module: module.slug.current,
+              exercise: module.exercises[0].slug,
+            },
+      })
+      .then(handlePlay)
+  }
 
   return (
     <OverlayWrapper className="px-5 pt-10 sm:pt-0">
@@ -280,17 +319,7 @@ const FinishedOverlay = () => {
           Replay <span aria-hidden="true">↺</span>
         </button>
         <button
-          onClick={() => {
-            router
-              .push({
-                pathname: `/${path}/[module]/[exercise]`,
-                query: {
-                  module: module.slug.current,
-                  exercise: module.exercises[0].slug.current,
-                },
-              })
-              .then(handlePlay)
-          }}
+          onClick={handlePlayFromBeginning}
           className="px-3 py-1 text-lg font-semibold transition hover:bg-gray-900 sm:px-5 sm:py-3 "
         >
           Play from beginning
@@ -463,10 +492,87 @@ const LoadingOverlay: React.FC<LoadingOverlayProps> = () => {
   )
 }
 
+const FinishedSectionOverlay = () => {
+  const {nextSection, path, section, module, lesson, handlePlay} =
+    useMuxPlayer()
+  const {image} = module
+  const addProgressMutation = trpc.useMutation(['progress.add'])
+  const nextExercise = first(nextSection?.exercises) as SanityDocument
+  const router = useRouter()
+
+  return (
+    <OverlayWrapper className="px-5">
+      {image && (
+        <div className="hidden items-center justify-center sm:flex sm:w-40 lg:w-auto">
+          <Image
+            src={image}
+            alt=""
+            aria-hidden="true"
+            width={220}
+            height={220}
+          />
+        </div>
+      )}
+
+      <p className="pt-4 text-xl font-semibold sm:text-3xl">
+        <span className="font-normal text-gray-200">Up next:</span>{' '}
+        {nextSection.title}
+      </p>
+      <div className="flex items-center justify-center gap-5 py-4 sm:py-8">
+        <button
+          className="rounded bg-gray-800 px-3 py-1 text-lg font-semibold transition hover:bg-gray-700 sm:px-5 sm:py-3"
+          onClick={() => {
+            track('clicked replay', {
+              lesson: lesson.slug,
+              module: module.slug.current,
+              location: 'exercise',
+              moduleType: module.moduleType,
+              lessonType: lesson._type,
+            })
+            handlePlay()
+          }}
+        >
+          Replay ↺
+        </button>
+        <button
+          className="rounded bg-cyan-600 px-3 py-1 text-lg font-semibold transition hover:bg-cyan-500 sm:px-5 sm:py-3"
+          onClick={() => {
+            track('clicked complete', {
+              lesson: lesson.slug,
+              module: module.slug.current,
+              location: 'exercise',
+              moduleType: module.moduleType,
+              lessonType: lesson._type,
+            })
+            addProgressMutation.mutate(
+              {lessonSlug: lesson.slug},
+              {
+                onSettled: (data, error, variables, context) => {
+                  handleContinue(
+                    router,
+                    module,
+                    nextExercise,
+                    handlePlay,
+                    path,
+                    nextSection,
+                  )
+                },
+              },
+            )
+          }}
+        >
+          Complete & Continue <span aria-hidden="true">→</span>
+        </button>
+      </div>
+    </OverlayWrapper>
+  )
+}
+
 export {
   ExerciseOverlay,
   DefaultOverlay,
   FinishedOverlay,
+  FinishedSectionOverlay,
   BlockedOverlay,
   LoadingOverlay,
 }
@@ -477,25 +583,61 @@ const handleContinue = async (
   nextExercise: SanityDocument,
   handlePlay: () => void,
   path: string,
+  section?: SanityDocument,
 ) => {
   if (nextExercise._type === 'solution') {
-    const exercise = module.exercises.find((exercise: SanityDocument) => {
-      const solution = exercise.solution
-      return solution?._key === nextExercise._key
-    })
+    if (section) {
+      const exercise = section.exercises.find((exercise: SanityDocument) => {
+        const solution = exercise.solution
+        return solution?._key === nextExercise._key
+      })
 
+      return await router
+        .push({
+          query: {
+            module: module.slug.current,
+            section: section.slug,
+            exercise: exercise.slug,
+          },
+
+          pathname: `${path}/[module]/[section]/[exercise]/solution`,
+        })
+        .then(() => handlePlay())
+    } else {
+      const exercise = module.exercises.find((exercise: SanityDocument) => {
+        const solution = exercise.solution
+        return solution?._key === nextExercise._key
+      })
+
+      return await router
+        .push({
+          query: {
+            module: module.slug.current,
+            exercise: exercise.slug,
+          },
+
+          pathname: `${path}/[module]/[exercise]/solution`,
+        })
+        .then(() => handlePlay())
+    }
+  }
+  if (section) {
     return await router
       .push({
-        query: {module: module.slug.current, exercise: exercise.slug},
-        pathname: `${path}/[module]/[exercise]/solution`,
+        query: {
+          module: module.slug.current,
+          section: section.slug,
+          exercise: nextExercise.slug,
+        },
+        pathname: `${path}/[module]/[section]/[exercise]`,
+      })
+      .then(() => handlePlay())
+  } else {
+    return await router
+      .push({
+        query: {module: module.slug.current, exercise: nextExercise.slug},
+        pathname: `${path}/[module]/[exercise]`,
       })
       .then(() => handlePlay())
   }
-
-  return await router
-    .push({
-      query: {module: module.slug.current, exercise: nextExercise.slug},
-      pathname: `${path}/[module]/[exercise]`,
-    })
-    .then(() => handlePlay())
 }
