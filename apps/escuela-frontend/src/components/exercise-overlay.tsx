@@ -35,7 +35,7 @@ export const OverlayWrapper: React.FC<
   return (
     <div
       id="video-overlay"
-      className="relative top-0 left-0 flex aspect-video w-full items-center justify-center border border-gray-700 bg-gray-900"
+      className="relative top-0 left-0 flex aspect-video w-full items-center justify-center border border-gray-700 bg-gray-900 text-sm sm:text-lg"
     >
       {dismissable && (
         <button
@@ -117,7 +117,7 @@ const ExerciseOverlay = () => {
       {stackblitz ? (
         <>
           <div className="flex w-full items-center justify-between p-3 pl-5 font-medium sm:text-lg">
-            <div>¡Ahora es tu turno! Intenta resolver este ejercicio.</div>
+            <div>¡Ahora es tu turno!</div>
             <div className="flex justify-center gap-2">
               <Actions />
             </div>
@@ -127,12 +127,12 @@ const ExerciseOverlay = () => {
           </div>
         </>
       ) : (
-        <div className="aspect-video">
-          <p className="font-text text-3xl font-bold">Now it’s your turn!</p>
+        <div className="flex aspect-video flex-col items-center justify-center gap-5 p-3 text-center">
+          <p className="font-text text-3xl font-bold">¡Tu turno!</p>
           <p className="">
-            Try solving this exercise inside{' '}
+            Intenta resolver este ejercicio dentro{' '}
             <a
-              href={`https://github.com/total-typescript/${github.repo}/blob/main/${stackblitz}`}
+              href={`https://github.com/escuela-frontend/${github.repo}/blob/main/${stackblitz}`}
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center justify-center gap-1 rounded-sm bg-gray-800 py-0.5 px-1 font-mono text-sm"
@@ -145,11 +145,11 @@ const ExerciseOverlay = () => {
         </div>
       )}
       <div className="flex aspect-video flex-col items-center justify-center gap-5 p-3 text-center sm:hidden">
-        <p className="font-text text-3xl font-bold">Now it’s your turn!</p>
+        <p className="font-text text-3xl font-bold">¡Tu turno!</p>
         <p className="">
-          Try solving this exercise inside{' '}
+          Intenta resolver este ejercicio dentro{' '}
           <a
-            href={`https://github.com/total-typescript/${github.repo}/blob/main/${stackblitz}`}
+            href={`https://github.com/escuela-frontend/${github.repo}/blob/main/${stackblitz}`}
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex items-center justify-center gap-1 rounded-sm bg-gray-800 py-0.5 px-1 font-mono text-sm"
@@ -192,7 +192,7 @@ const DefaultOverlay = () => {
       </p>
       <div className="flex items-center justify-center gap-5 py-4 sm:py-8">
         <button
-          className="rounded-md bg-gray-600 px-3 py-1 text-lg font-semibold transition hover:bg-gray-500 sm:px-5 sm:py-3"
+          className="rounded-md bg-gray-600 px-3 py-1 text-sm font-semibold transition hover:bg-gray-500 sm:px-5 sm:py-3 sm:text-lg"
           onClick={() => {
             track('clicked replay', {
               lesson: lesson.slug,
@@ -207,7 +207,7 @@ const DefaultOverlay = () => {
           Ver de nuevo ↺
         </button>
         <button
-          className="rounded-md bg-brand px-3 py-1 text-lg font-semibold text-white transition hover:brightness-125 sm:px-5 sm:py-3"
+          className="rounded-md bg-brand px-3 py-1 text-sm font-semibold text-white transition hover:brightness-125 sm:px-5 sm:py-3 sm:text-lg"
           onClick={() => {
             track('clicked complete', {
               lesson: lesson.slug,
