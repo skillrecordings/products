@@ -6,6 +6,7 @@ import {validateCoupon} from '@skillrecordings/commerce-server'
 import {postRedemptionToSlack} from '../../server/post-to-slack'
 import {PurchaseStatus} from '../../enums'
 import {sendServerEmail} from '../../server'
+import {type JWT} from 'next-auth/jwt'
 
 export class CouponRedemptionError extends Error {
   couponId: string
@@ -28,8 +29,10 @@ export class CouponRedemptionError extends Error {
 
 export async function redeemGoldenTicket({
   params,
+  token,
 }: {
   params: SkillRecordingsHandlerParams
+  token: JWT | null
 }): Promise<OutgoingResponse> {
   try {
     const {
@@ -62,6 +65,8 @@ export async function redeemGoldenTicket({
           couponId as string,
           email,
         )
+
+      const redeemingForCurrentUser = token?.id === user.id
 
       const productId =
         (coupon.restrictedToProductId as string) ||
@@ -111,19 +116,20 @@ export async function redeemGoldenTicket({
       // To ensure consistency when "redeeming a coupon", we use a DB
       // transaction to create the purchase record and update the coupon's
       // usage count atomically.
-      const [purchase, _coupon] = await prisma.$transaction([
+      const [purchase] = await prisma.$transaction([
         createPurchase,
         updateCouponUsage,
       ])
 
-      if (sendEmail && nextAuthOptions) {
+      // if it's redeemed for the current user we don't need to send a login email
+      if (redeemingForCurrentUser) {
+        // send an appropriate email
+      } else if (sendEmail && nextAuthOptions) {
         await sendServerEmail({
           email: user.email,
           callbackUrl: `${process.env.NEXTAUTH_URL}/welcome?purchaseId=${purchase.id}`,
           nextAuthOptions,
         })
-      } else {
-        console.error(`no email sent to ${user.email}`)
       }
 
       // Post to Slack to notify the team when a special-purpose coupon is
@@ -138,7 +144,7 @@ export async function redeemGoldenTicket({
 
       return {
         status: 200,
-        body: purchase,
+        body: {purchase, redeemingForCurrentUser},
       }
     } else {
       throw new CouponRedemptionError(

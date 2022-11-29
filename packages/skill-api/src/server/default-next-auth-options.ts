@@ -3,6 +3,7 @@ import {PrismaAdapter} from './skill-next-auth-prisma-adapter'
 import {sendVerificationRequest} from './send-verification-request'
 import {prisma} from '@skillrecordings/database'
 import EmailProvider from 'next-auth/providers/email'
+import {NextApiRequest} from 'next'
 
 async function getUser(userId: string) {
   return prisma.user.findUnique({
@@ -36,11 +37,16 @@ async function getUser(userId: string) {
   })
 }
 
+export const createOptions = (config: {req?: NextApiRequest; theme: Theme}) => {
+  return defaultNextAuthOptions(config)
+}
+
 export function defaultNextAuthOptions(options: {
   theme: Theme
   debug?: boolean
+  req?: NextApiRequest
 }): NextAuthOptions {
-  const {theme, debug} = options
+  const {theme, debug, req} = options
   return {
     secret: process.env.NEXTAUTH_SECRET,
     session: {
@@ -87,6 +93,14 @@ export function defaultNextAuthOptions(options: {
       async jwt({token, user: authUser}) {
         if (authUser) {
           const user = await getUser(authUser.id)
+          if (user) {
+            const {roles, id, purchases} = user
+            token.id = id
+            token.purchases = purchases
+            token.role = roles || 'user'
+          }
+        } else if (req?.url === '/api/auth/session?update' && token?.id) {
+          const user = await getUser(token.id as string)
           if (user) {
             const {roles, id, purchases} = user
             token.id = id
