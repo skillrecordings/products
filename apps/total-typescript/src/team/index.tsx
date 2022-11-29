@@ -63,7 +63,11 @@ const InviteTeam: React.FC<React.PropsWithChildren<InviteTeamProps>> = ({
   return (
     <>
       <p className="py-3">
-        You have <strong>{numberOfRedemptionsLeft} seats left</strong>.{' '}
+        You have{' '}
+        <strong className="font-semibold">
+          {numberOfRedemptionsLeft} seats left
+        </strong>
+        .<br />
         {hasRedemptionsLeft &&
           bulkCouponId &&
           'Send the invite link below to your colleagues to get started:'}
@@ -79,7 +83,7 @@ const InviteTeam: React.FC<React.PropsWithChildren<InviteTeamProps>> = ({
             <CopyInviteLink bulkCouponId={bulkCouponId} />
           </div>
           {canRedeem && (
-            <div className="mt-5 flex flex-col items-center gap-3 border-t border-gray-100 pt-5 sm:mt-8 sm:flex-row sm:justify-between">
+            <div className="mt-5 flex flex-col items-center gap-3 border-t border-gray-800 pt-5 sm:mt-8 sm:flex-row sm:justify-between">
               <p className="flex items-center gap-1 font-semibold">
                 Or get access yourself
               </p>

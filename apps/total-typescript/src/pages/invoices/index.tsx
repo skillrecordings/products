@@ -61,14 +61,14 @@ export const InvoiceCard: React.FC<{purchase: Purchase | any}> = ({
   purchase,
 }) => {
   return (
-    <div className="flex flex-col items-start justify-between rounded-md bg-black/60 p-5 sm:flex-row sm:items-center">
+    <div className="flex flex-col items-start justify-between rounded-md border border-gray-800/80 bg-black/60 p-5 sm:flex-row sm:items-center">
       <div className="flex w-full gap-2">
         <div>
           <DocumentTextIcon aria-hidden className="w-6 text-cyan-500" />
         </div>
         <div>
           <h2 className="text-lg font-semibold leading-tight">
-            {purchase.product.name}
+            Invoice: {purchase.product.name}
           </h2>
           <div className="flex pt-2 text-sm text-gray-400 sm:pt-1">
             <span className="after:content-['・']">

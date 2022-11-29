@@ -79,7 +79,7 @@ const BuyMoreSeats = (props: BuyMoreSeatsProps) => {
               const newQuantity = Number(e.target.value)
               setQuantity(newQuantity)
             }}
-            className="rounded-md border border-gray-200 bg-gray-100 py-2 pl-3 font-mono font-bold"
+            className="rounded-md border border-gray-800 bg-gray-900 py-2 pl-3 font-mono font-bold"
           />
         </label>
         <div className="flex items-center gap-5">
@@ -87,7 +87,7 @@ const BuyMoreSeats = (props: BuyMoreSeatsProps) => {
             {'$' + calculatedPrice}
           </div>
           <button
-            className="rounded-md bg-cyan-500 px-5 py-2 font-bold text-white"
+            className="rounded-md bg-cyan-400 px-5 py-2 font-medium text-black transition hover:bg-cyan-300"
             type="submit"
             disabled={false}
           >
