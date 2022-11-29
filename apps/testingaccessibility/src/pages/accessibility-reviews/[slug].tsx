@@ -19,7 +19,7 @@ import {
 import {serialize} from 'next-mdx-remote/serialize'
 import {format} from 'date-fns'
 import {useRouter} from 'next/router'
-import {PortableText} from '@portabletext/react'
+import {PortableText, toPlainText} from '@portabletext/react'
 import {
   redirectUrlBuilder,
   SubscribeToConvertkitForm,
@@ -27,6 +27,7 @@ import {
 } from '@skillrecordings/convertkit'
 import {MailIcon} from '@heroicons/react/solid'
 import {track} from '@skillrecordings/analytics'
+import PortableTextComponents from 'components/portable-text'
 
 const SubscribeForm = ({
   handleOnSuccess,
@@ -57,13 +58,17 @@ const SubscribeForm = ({
   )
 }
 
-const Review: React.FC<React.PropsWithChildren<any>> = ({review, body}) => {
-  const {video, title, date, description, videoPoster} = review
+const Review: React.FC<React.PropsWithChildren<any>> = ({review}) => {
+  const {video, title, date, body, videoPoster} = review
   const {mediaUrl, srt, transcript} = video
   const {subscriber, loadingSubscriber} = useConvertkit()
+  const shortDescription = body
+    ? toPlainText(body).substring(0, 157) + '...'
+    : undefined
+  console.log({review})
   const meta = {
     title,
-    description,
+    description: shortDescription,
     ogImage: {
       url: 'https://res.cloudinary.com/dg3gyk0gu/image/upload/v1646816239/testingaccessibility.com/accessibility-reviews/accessibility-reviews-card_2x.png',
     },
@@ -152,9 +157,25 @@ const Review: React.FC<React.PropsWithChildren<any>> = ({review, body}) => {
             {!subscriber && !loadingSubscriber && (
               <SubscribeForm handleOnSuccess={handleOnSuccess} />
             )}
-            <article className={cx('prose md:prose-lg mx-auto py-16 px-5')}>
-              <h2>Transcript</h2>
-              <PortableText value={transcript} />
+            <article className="pt-10 max-w-screen-lg mx-auto w-full px-5">
+              {body && (
+                <div className="max-w-none xl:prose-pre:text-base md:prose-pre:text-base prose-pre:text-xs prose-ul:sm:pr-0 prose-ul:pr-5 prose-p:w-full prose-ul:mx-auto text-gray-800 prose prose-headings:text-left prose-h3:text-green-800 md:prose-lg xl:prose-xl">
+                  <PortableText
+                    value={body}
+                    components={PortableTextComponents}
+                  />
+                </div>
+              )}
+              {transcript && (
+                <>
+                  <h2 className="pt-10 pb-6 sm:text-4xl text-3xl font-bold font-heading">
+                    Transcript
+                  </h2>
+                  <div className="prose md:prose-lg max-w-none mx-auto pb-16">
+                    <PortableText value={transcript} />
+                  </div>
+                </>
+              )}
             </article>
           </div>
         </div>
@@ -184,7 +205,7 @@ const reviewQuery = groq`*[_type == "review" && slug.current == $slug][0]{
     title,
     'slug': slug.current,
     date,
-    description,
+    body,
     ogImage,
     videoPoster,
     'video': resources[@->._type == 'videoResource'][0]->{
@@ -214,11 +235,8 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     slug: currentReview.slug,
   })
 
-  const {body, ...review} = data
-  const mdxSource = await serialize(body)
-
   return {
-    props: {review, body: mdxSource},
+    props: {review: data},
   }
 }
 

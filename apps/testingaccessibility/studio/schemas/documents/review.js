@@ -20,6 +20,12 @@ export default {
       },
     },
     {
+      title: 'Published',
+      name: 'published',
+      type: 'boolean',
+      initialValue: true,
+    },
+    {
       name: 'image',
       title: 'Icon',
       type: 'string',
@@ -38,6 +44,16 @@ export default {
       ],
     },
     {
+      name: 'body',
+      type: 'body',
+      title: 'Page Body',
+    },
+    {
+      name: 'date',
+      title: 'Date',
+      type: 'date',
+    },
+    {
       name: 'videoPoster',
       title: 'Video Poster',
       type: 'string',
@@ -48,23 +64,6 @@ export default {
       title: 'External URL',
       type: 'url',
     },
-    {
-      title: 'Published',
-      name: 'published',
-      type: 'boolean',
-      initialValue: true,
-    },
-    {
-      name: 'date',
-      title: 'Date',
-      type: 'date',
-    },
-    {
-      name: 'description',
-      type: 'markdown',
-      title: 'Description',
-    },
-
     {
       name: 'ogImage',
       title: 'Social card',
