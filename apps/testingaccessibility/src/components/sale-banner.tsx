@@ -41,6 +41,12 @@ const CountdownRenderer: React.FC<React.PropsWithChildren<CountdownProps>> = ({
     minutes,
     seconds,
   })
+  const [isMounted, setIsMounted] = React.useState(false)
+  React.useEffect(() => {
+    setIsMounted(true)
+  }, [])
+
+  if (!isMounted) return null
 
   const screenReaderValues = `${srValues.days} days, ${srValues.hours} hours, ${srValues.minutes} minutes, and ${srValues.seconds} seconds`
 
