@@ -103,15 +103,11 @@ const Welcome: React.FC<
     <Layout
       meta={{title: `Welcome to ${process.env.NEXT_PUBLIC_SITE_TITLE}`}}
       footer={null}
-      className="bg-noise"
     >
-      <main className="mx-auto flex w-full flex-grow flex-col items-center justify-center py-8 px-5 sm:py-16">
-        <div className=" flex w-full max-w-xl flex-col gap-3">
+      <main className="mx-auto flex w-full flex-grow flex-col items-center justify-center px-5 py-24 sm:py-32">
+        <div className="flex w-full max-w-xl flex-col gap-3">
           <Header upgrade={upgrade} />
-          <div>
-            <h2 className="pb-2 text-lg font-medium">Your invoice</h2>
-            {purchase.merchantChargeId && <InvoiceCard purchase={purchase} />}
-          </div>
+          {purchase.merchantChargeId && <InvoiceCard purchase={purchase} />}
           {redemptionsLeft && (
             <Invite>
               <InviteTeam
@@ -149,39 +145,11 @@ const Header: React.FC<React.PropsWithChildren<{upgrade: boolean}>> = ({
   )
 }
 
-const Invoice: React.FC<React.PropsWithChildren<{purchase: any}>> = ({
-  purchase,
-}: any) => {
-  return (
-    <div className="flex items-center justify-between rounded-md bg-white px-5 py-5 sm:px-8">
-      <h2 className="flex items-center gap-1 text-xl font-bold text-cyan-900">
-        <DocumentTextIcon
-          aria-hidden="true"
-          className="h-5 w-5 text-cyan-500"
-        />
-        <span>Invoice</span>
-      </h2>
-      <Link href={`/invoices/${purchase.merchantChargeId}`}>
-        <a
-          target="_blank"
-          className="flex-shrink-0 rounded-md border bg-cyan-500 px-4 py-2 font-semibold text-white transition hover:bg-cyan-600"
-          title="Link opens in a new window"
-        >
-          Get your invoice{' '}
-          <span role="presentation" aria-hidden="true">
-            →
-          </span>
-        </a>
-      </Link>
-    </div>
-  )
-}
-
 const Invite: React.FC<React.PropsWithChildren<unknown>> = ({children}) => {
   return (
-    <div className="rounded-lg bg-white px-5 py-5 sm:px-8 sm:py-8">
-      <h3 className="flex items-center gap-2 text-xl font-bold">
-        <UserGroupIcon className="w-5 text-green-500" /> Invite your team
+    <div className="rounded-lg border border-gray-800/80 bg-black/60 p-5">
+      <h3 className="flex items-center gap-3 text-xl font-semibold">
+        <UserGroupIcon className="w-5 text-cyan-500" /> Invite your team
       </h3>
       {children}
     </div>
