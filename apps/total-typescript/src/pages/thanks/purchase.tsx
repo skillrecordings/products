@@ -121,23 +121,25 @@ const ThanksVerify: React.FC<
             />
           )}
           <div className="flex flex-col items-center">
-            <h1 className="text-lg font-medium text-cyan-200 sm:text-xl">
+            <h1 className="max-w-md text-lg font-medium text-cyan-100 sm:text-lg">
               Thank you for purchasing{' '}
               {purchaseType === EXISTING_BULK_COUPON && 'more seats for'}{' '}
-              {product?.name || process.env.NEXT_PUBLIC_SITE_TITLE}!
+              {product?.name || process.env.NEXT_PUBLIC_SITE_TITLE}!{' '}
+              {isTeamPurchase && (
+                <>
+                  <br className="hidden sm:block" />
+                  Your purchase is for <strong>{seatsPurchased}</strong>{' '}
+                  {purchaseType === EXISTING_BULK_COUPON && 'additional'} seat
+                  {seatsPurchased > 1 && 's'}.
+                  {purchaseType === NEW_BULK_COUPON && (
+                    <>
+                      {' '}
+                      You can always add more seats later when your team grows.
+                    </>
+                  )}
+                </>
+              )}
             </h1>
-            {isTeamPurchase && (
-              <p className="text-sand-100 mx-auto max-w-md font-medium leading-relaxed">
-                Your purchase is for <strong>{seatsPurchased}</strong>{' '}
-                {purchaseType === EXISTING_BULK_COUPON && 'additional'} seats.
-                {purchaseType === NEW_BULK_COUPON && (
-                  <>
-                    {' '}
-                    You can always add more seats later when your team grows.
-                  </>
-                )}
-              </p>
-            )}
             {isNewPurchase && (
               <>
                 <h2 className="mx-auto max-w-lg py-5 font-text text-3xl font-bold lg:text-4xl">
