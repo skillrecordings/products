@@ -12,6 +12,7 @@ import {getSdk, prisma} from '@skillrecordings/database'
 import Link from 'next/link'
 import {isString} from 'lodash'
 import InviteTeam from 'team'
+import {InvoiceCard} from 'pages/invoices'
 
 export const getServerSideProps: GetServerSideProps = async ({req, query}) => {
   const {purchaseId: purchaseQueryParam, session_id, upgrade} = query
@@ -47,6 +48,7 @@ export const getServerSideProps: GetServerSideProps = async ({req, query}) => {
   if (token && isString(purchaseId) && isString(token?.sub)) {
     const {purchase, existingPurchase, availableUpgrades} =
       await getPurchaseDetails(purchaseId, token.sub)
+    console.log({purchase})
     return purchase
       ? {
           props: {
@@ -104,9 +106,12 @@ const Welcome: React.FC<
       className="bg-noise"
     >
       <main className="mx-auto flex w-full flex-grow flex-col items-center justify-center py-8 px-5 sm:py-16">
-        <div className=" flex w-full max-w-lg flex-col gap-3">
+        <div className=" flex w-full max-w-xl flex-col gap-3">
           <Header upgrade={upgrade} />
-          {purchase.merchantChargeId && <Invoice purchase={purchase} />}
+          <div>
+            <h2 className="pb-2 text-lg font-medium">Your invoice</h2>
+            {purchase.merchantChargeId && <InvoiceCard purchase={purchase} />}
+          </div>
           {redemptionsLeft && (
             <Invite>
               <InviteTeam
@@ -190,9 +195,15 @@ const GetStarted: React.FC<React.PropsWithChildren<unknown>> = () => {
         <span>Ready to get started?</span>
       </h2>
       <Link href={`/workshops`}>
-        <a className="flex-shrink-0 rounded-md bg-cyan-500 px-5 py-4 text-lg font-semibold text-gray-900 transition-all focus-visible:ring-white hover:-rotate-1 hover:scale-105 hover:bg-yellow-400">
-          Start {process.env.NEXT_PUBLIC_SITE_TITLE}{' '}
-          <span role="presentation" aria-hidden="true">
+        <a className="group flex-shrink-0 rounded-md bg-cyan-300 py-4 pl-5 pr-8 text-lg font-semibold text-gray-900 shadow-xl transition-all focus-visible:ring-white hover:bg-cyan-200">
+          <span className="pr-2.5">
+            Start {process.env.NEXT_PUBLIC_SITE_TITLE}{' '}
+          </span>
+          <span
+            role="presentation"
+            aria-hidden="true"
+            className="absolute text-cyan-800 transition group-hover:translate-x-1"
+          >
             →
           </span>
         </a>
@@ -207,7 +218,7 @@ const Share: React.FC<React.PropsWithChildren<{productName: string}>> = ({
   const tweet = `https://twitter.com/intent/tweet/?text=Just purchased ${productName} by @${process.env.NEXT_PUBLIC_PARTNER_TWITTER}`
   return (
     <div className="mx-auto flex max-w-lg flex-col items-center gap-5 px-8 pt-12 pb-5 text-center">
-      <p className="gap-1 text-lg font-semibold text-white">
+      <p className="gap-1 text-lg text-white">
         Please consider telling your friends about{' '}
         {process.env.NEXT_PUBLIC_SITE_TITLE}, it would help me to get a word
         out.{' '}
@@ -219,7 +230,7 @@ const Share: React.FC<React.PropsWithChildren<{productName: string}>> = ({
         href={tweet}
         rel="noopener noreferrer"
         target="_blank"
-        className="flex items-center gap-2 rounded-md border border-orange-200/40 px-3 py-2 text-white transition hover:bg-white/5"
+        className="flex items-center gap-2 rounded-md border border-gray-700 px-3 py-2 text-white transition hover:bg-white/5"
       >
         <TwitterIcon /> Share with your friends!
       </a>

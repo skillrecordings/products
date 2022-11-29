@@ -47,42 +47,47 @@ const Learn: React.FC<React.PropsWithChildren<{purchases: Purchase[]}>> = ({
             .map((purchase: Purchase | any) => {
               return (
                 <li key={purchase.merchantChargeId}>
-                  <div className="flex flex-col justify-between rounded-md bg-black/60 p-5 sm:flex-row sm:items-center">
-                    <div className="flex w-full gap-2">
-                      <div>
-                        <DocumentTextIcon
-                          aria-hidden
-                          className="w-6 text-cyan-500"
-                        />
-                      </div>
-                      <div>
-                        <h2 className="text-lg font-semibold leading-tight">
-                          {process.env.NEXT_PUBLIC_SITE_TITLE} (
-                          {purchase.product.name}){' '}
-                        </h2>
-                        <div className="flex pt-2 text-sm text-gray-400 sm:pt-1">
-                          <span className="after:content-['・']">
-                            USD {purchase.totalAmount}
-                          </span>
-                          <span>
-                            {format(new Date(purchase.createdAt), 'MMMM d, y')}
-                          </span>
-                        </div>
-                      </div>
-                    </div>
-                    <Link href={`/invoices/${purchase.merchantChargeId}`}>
-                      <a className="mt-5 flex flex-shrink-0 items-center justify-end rounded-md bg-cyan-300/10 px-3 py-2 text-sm font-medium text-cyan-400 transition hover:bg-cyan-300/20 sm:mt-0 sm:justify-center">
-                        <span className="pr-0.5">View Invoice</span>
-                        <ChevronRightIcon aria-hidden="true" className="w-5" />
-                      </a>
-                    </Link>
-                  </div>
+                  <InvoiceCard purchase={purchase} />
                 </li>
               )
             })}
         </ul>
       </main>
     </Layout>
+  )
+}
+
+export const InvoiceCard: React.FC<{purchase: Purchase | any}> = ({
+  purchase,
+}) => {
+  return (
+    <div className="flex flex-col items-start justify-between rounded-md bg-black/60 p-5 sm:flex-row sm:items-center">
+      <div className="flex w-full gap-2">
+        <div>
+          <DocumentTextIcon aria-hidden className="w-6 text-cyan-500" />
+        </div>
+        <div>
+          <h2 className="text-lg font-semibold leading-tight">
+            {purchase.product.name}
+          </h2>
+          <div className="flex pt-2 text-sm text-gray-400 sm:pt-1">
+            <span className="after:content-['・']">
+              {Intl.NumberFormat('en-US', {
+                style: 'currency',
+                currency: 'USD',
+              }).format(purchase.totalAmount)}
+            </span>
+            <span>{format(new Date(purchase.createdAt), 'MMMM d, y')}</span>
+          </div>
+        </div>
+      </div>
+      <Link href={`/invoices/${purchase.merchantChargeId}`}>
+        <a className="ml-8 mt-5 flex flex-shrink-0 items-center justify-end rounded-md bg-cyan-300/10 px-3 py-2 text-sm font-medium text-cyan-400 transition hover:bg-cyan-300/20 sm:ml-0 sm:mt-0 sm:justify-center">
+          <span className="pr-0.5">View Invoice</span>
+          <ChevronRightIcon aria-hidden="true" className="w-4" />
+        </a>
+      </Link>
+    </div>
   )
 }
 
