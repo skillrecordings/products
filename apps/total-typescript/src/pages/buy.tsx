@@ -37,17 +37,15 @@ const Buy: React.FC<React.PropsWithChildren<CommerceProps>> = ({
         <h1 className="text-center font-heading text-4xl font-bold sm:text-5xl">
           Become a TypeScript Wizard
         </h1>
-        <section className="flex flex-col items-center justify-center">
-          <div className="px-5 pt-8">
-            <Element name="buy" aria-hidden="true" />
-            <PricingTiers
-              products={products}
-              userId={userId}
-              purchases={purchases}
-              couponIdFromCoupon={couponIdFromCoupon}
-              couponFromCode={couponFromCode}
-            />
-          </div>
+        <section className="px-5 pt-8">
+          <Element name="buy" aria-hidden="true" />
+          <PricingTiers
+            products={products}
+            userId={userId}
+            purchases={purchases}
+            couponIdFromCoupon={couponIdFromCoupon}
+            couponFromCode={couponFromCode}
+          />
         </section>
       </main>
     </Layout>

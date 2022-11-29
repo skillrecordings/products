@@ -52,18 +52,7 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
   }>()
   const [quantity, setQuantity] = React.useState(1)
   const debouncedQuantity: number = useDebounce<number>(quantity, 250)
-
-  // TODO: productId is different for prod and dev env,
-  // should there be two fields in Sanity to support that?
-  const productId = process.env.NEXT_PUBLIC_DEFAULT_PRODUCT_ID as string
-  const {
-    // productId,
-    name,
-    image,
-    modules,
-    features,
-    action,
-  } = product
+  const {productId, name, image, modules, features, action} = product
   const {addPrice, isDowngrade, isDiscount} = usePriceCheck()
 
   const {data: formattedPrice, status} = useQuery<FormattedPrice>(
@@ -119,9 +108,9 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
     !isDowngrade(formattedPrice)
 
   return (
-    <div data-pricing-product-container={index}>
+    <div data-pricing-product={index}>
       {image && (
-        <div data-pricing-product-image={index}>
+        <div data-pricing-product-image="">
           <Image
             src={image.url}
             alt={image.alt}
@@ -132,41 +121,36 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
           />
         </div>
       )}
-      <article data-pricing-product={index}>
+      <article>
         {/* {Boolean(appliedMerchantCoupon || isDiscount(formattedPrice)) && (
           <Ribbon appliedMerchantCoupon={appliedMerchantCoupon} />
         )} */}
-        <div data-pricing-product-header={index}>
-          <h4 data-pricing-product-name-badge={index}>{name}</h4>
-          <div data-pricing-product-price-container={index}>
+        <div data-pricing-product-header="">
+          <h4 data-name-badge="">{name}</h4>
+          <div data-price-container={status}>
             {status === 'loading' ? (
-              <div data-pricing-product-price-loading>
+              <div data-loading-price="">
                 <span className="sr-only">Loading price</span>
                 <Spinner aria-hidden="true" className="h-8 w-8" />
               </div>
             ) : (
               <>
                 <sup aria-hidden="true">US</sup>
-                <div aria-live="polite" className="flex">
+                <div aria-live="polite" data-price="">
                   {'$' + formattedPrice?.calculatedPrice}
                   {Boolean(
                     appliedMerchantCoupon || isDiscount(formattedPrice),
                   ) && (
                     <>
-                      <div
-                        aria-hidden="true"
-                        className="flex flex-col items-start pl-2"
-                      >
-                        <div className="relative flex items-center justify-center text-3xl font-semibold text-gray-300 before:absolute before:h-[3px] before:w-full before:-rotate-12 before:scale-110 before:bg-gray-100 before:opacity-90 before:content-['']">
-                          {'$' + fullPrice}
-                        </div>
-                        <div className="rounded bg-amber-300 px-1.5 text-center font-sans text-sm font-bold uppercase tabular-nums text-gray-900">
+                      <div aria-hidden="true" data-price-discounted="">
+                        <div data-full-price={fullPrice}>{'$' + fullPrice}</div>
+                        <div data-percent-off={percentOff}>
                           Save {percentOff}%
                         </div>
                       </div>
                       <div className="sr-only">
                         {appliedMerchantCoupon?.type === 'bulk' ? (
-                          <div className="font-medium">Team discount.</div>
+                          <div>Team discount.</div>
                         ) : null}{' '}
                         {percentOffLabel}
                       </div>
@@ -176,20 +160,17 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
               </>
             )}
           </div>
-          <div className="pt-2 text-sm opacity-80">yours forever</div>
+          <div data-byline="">yours forever</div>
         </div>
         {purchased ? (
-          <div className="w-full px-8">
-            <div className="font-nav my-8 flex w-full items-center justify-center gap-1 rounded-md bg-cyan-700 px-5 py-5 text-center text-lg font-semibold text-white shadow-inner after:hidden">
-              <CheckCircleIcon aria-hidden="true" className="mt-0.5 h-6 w-6" />{' '}
-              Purchased
+          <div data-purchased-container="">
+            <div data-purchased="">
+              <CheckCircleIcon aria-hidden="true" /> Purchased
             </div>
           </div>
         ) : isDowngrade(formattedPrice) ? (
-          <div className="w-full px-8">
-            <div className="font-nav my-8 flex w-full items-center justify-center gap-1 rounded-md border-2 border-gray-100 px-5 py-5 text-center text-lg font-semibold after:hidden">
-              Unavailable
-            </div>
+          <div data-downgrade-container="">
+            <div data-downgrade="">Unavailable</div>
           </div>
         ) : (
           <form
@@ -203,16 +184,14 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
                 : ``
             }`}
             method="POST"
-            className="flex w-full flex-col items-center justify-center px-5 pt-8 xl:px-10"
           >
-            <fieldset className="w-full">
+            <fieldset>
               <legend className="sr-only">{name}</legend>
               {productId === process.env.NEXT_PUBLIC_DEFAULT_PRODUCT_ID && (
-                <div className="mb-5 flex w-full flex-col items-center justify-center px-5 xl:px-12">
-                  <label className=" flex items-center gap-3">
-                    <span className="opacity-80">Seats</span>
+                <div data-quantity-input="">
+                  <label>
+                    <span>Seats</span>
                     <input
-                      className="rounded-md bg-gray-800 py-2 pl-3 font-mono font-bold"
                       type="number"
                       min={1}
                       max={100}
@@ -232,12 +211,11 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
                 </div>
               )}
               <button
-                data-pricing-product-checkout-button={index}
-                className="font-nav flex w-full items-center justify-center rounded-md px-5 py-4 text-center text-lg font-semibold transition disabled:cursor-wait"
+                data-pricing-product-checkout-button=""
                 type="submit"
                 disabled={status === 'loading' || status === 'error'}
               >
-                <span className="relative z-10">
+                <span>
                   {formattedPrice?.upgradeFromPurchaseId
                     ? `Upgrade Now`
                     : action || `Become a TypeScript Wizard`}
@@ -258,52 +236,61 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
             index={index}
           />
         )}
-        {modules || features ? (
-          <div className="w-full pt-8">
-            <div className="relative flex items-center justify-center before:absolute before:left-0 before:h-px before:w-full before:bg-gray-800 before:content-['']">
-              <span className="relative rounded bg-gray-900 px-4 py-0.5 text-xs font-medium uppercase text-gray-300">
-                includes
-              </span>
+        <div data-pricing-footer="">
+          {modules || features ? (
+            <div data-header="">
+              <div>
+                <span>includes</span>
+              </div>
             </div>
-          </div>
-        ) : null}
-        <div className="flex w-full flex-1 flex-col justify-between space-y-6 p-3 px-6 pt-6 pb-8 sm:p-5 sm:pt-6 xl:p-8">
-          <strong className="font-medium">Workshops</strong>
-          {modules && (
-            <ul role="list" className="space-y-2 ">
-              {modules.map((module) => (
-                <li key={module.title} className="flex items-center">
-                  <div
-                    aria-hidden="true"
-                    className="flex flex-shrink-0 items-center justify-center"
-                  >
-                    <Image
-                      src={module.image.url}
-                      width={50}
-                      height={50}
-                      alt={module.title}
-                      aria-hidden="true"
-                    />
-                  </div>
-                  <p className="ml-3 text-base font-medium text-gray-200">
-                    {module.title}
-                  </p>
-                </li>
-              ))}
-            </ul>
-          )}
-          {features && (
-            <>
-              <strong className="font-medium">Features</strong>
-              <ul role="list" className="space-y-4">
-                {features.map((feature: {value: string}) => (
-                  <li key={feature.value} className="flex items-start">
-                    <p className="text-base text-gray-200">{feature.value}</p>
-                  </li>
-                ))}
+          ) : null}
+          <div data-main="">
+            <strong>Workshops</strong>
+            {modules && (
+              <ul data-workshops="" role="list">
+                {modules.map((module) => {
+                  const getLabelForState = (state: any) => {
+                    switch (state) {
+                      case 'draft':
+                        return 'Coming soon'
+                      default:
+                        return ''
+                    }
+                  }
+                  return (
+                    <li key={module.title}>
+                      <div data-image="" aria-hidden="true">
+                        <Image
+                          src={module.image.url}
+                          layout="fill"
+                          alt={module.title}
+                          aria-hidden="true"
+                        />
+                      </div>
+                      <div>
+                        <p>{module.title}</p>
+                        <div data-state={module.state}>
+                          {getLabelForState(module.state)}
+                        </div>
+                      </div>
+                    </li>
+                  )
+                })}
               </ul>
-            </>
-          )}
+            )}
+            {features && (
+              <>
+                <strong>Features</strong>
+                <ul data-features="" role="list">
+                  {features.map((feature: {value: string}) => (
+                    <li key={feature.value}>
+                      <p>{feature.value}</p>
+                    </li>
+                  ))}
+                </ul>
+              </>
+            )}
+          </div>
         </div>
       </article>
     </div>
