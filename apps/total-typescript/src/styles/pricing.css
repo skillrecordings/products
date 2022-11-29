@@ -157,26 +157,30 @@
         }
       }
     }
-  }
-
-  /* PPP box */
-  [data-pricing-product-ppp='0'] {
-    p {
-      @apply sr-only;
+    /* PPP box */
+    [data-ppp-container] {
+      @apply mx-auto mt-5 w-full max-w-sm rounded-md border border-gray-800 p-5;
+      [data-ppp-header] {
+        @apply w-full space-y-4;
+        strong {
+          @apply font-medium;
+          img {
+            @apply inline-block;
+          }
+        }
+        p {
+        }
+      }
+      label {
+        @apply mt-5 flex cursor-pointer gap-2 rounded-md border border-gray-700 p-3 font-medium tabular-nums accent-cyan-400 transition hover:bg-gray-800;
+        input {
+        }
+        span {
+        }
+      }
     }
-    label {
-      @apply text-sm;
+    /* Countdown box */
+    [data-pricing-product-sale-countdown] {
     }
   }
-  [data-pricing-product-ppp='1'] {
-    @apply max-w-sm border border-gray-100 p-5;
-  }
-}
-
-/* Countdown box */
-[data-pricing-product-sale-countdown='0'] {
-}
-
-[data-pricing-product-sale-countdown='1'] {
-  @apply hidden;
 }

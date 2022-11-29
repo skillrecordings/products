@@ -322,28 +322,24 @@ const RegionalPricingBox: React.FC<
   const percentOff = Math.floor(pppCoupon.percentageDiscount * 100)
 
   return (
-    <div
-      data-pricing-product-ppp={index}
-      className="mt-5 w-full rounded-md px-5 sm:px-10"
-    >
-      <div className="w-full  space-y-4">
-        <p className="font-medium">
+    <div data-ppp-container={index}>
+      <div data-ppp-header="">
+        <strong>
           We noticed that you're from {country}{' '}
           <img
-            className="inline-block"
             src={`https://hardcore-golick-433858.netlify.app/image?code=${countryCode}`}
             alt={`${country} flag`}
           />
           . To help facilitate global learning, we are offering purchasing power
           parity pricing.
-        </p>
-        <p className="">
+        </strong>
+        <p>
           Please note that you will only be able to view content from within{' '}
           {country}, and no bonuses will be provided.
         </p>
-        <p className="pb-5">If that is something that you need:</p>
+        <p>If that is something that you need:</p>
       </div>
-      <label className="flex cursor-pointer gap-2 rounded-md border  border-gray-100 p-3 font-medium tabular-nums accent-cyan-600 transition hover:bg-gray-50">
+      <label>
         <input
           type="checkbox"
           checked={Boolean(activeCoupon)}
