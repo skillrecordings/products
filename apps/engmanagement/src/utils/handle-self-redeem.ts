@@ -12,12 +12,13 @@ export async function handleSelfRedeem(
   bulkCouponId: string,
   onSuccess: (redeemedPurchase: Purchase) => void,
 ) {
-  const redeemedPurchase = await redeemFullPriceCoupon({
+  const {purchase: redeemedPurchase} = await redeemFullPriceCoupon({
     email,
     couponId: bulkCouponId,
     sendEmail: false,
   })
   if (redeemedPurchase && !redeemedPurchase.error) {
+    await fetch('/api/auth/session?update')
     onSuccess(redeemedPurchase)
   }
 }

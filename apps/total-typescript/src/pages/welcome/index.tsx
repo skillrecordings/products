@@ -99,6 +99,8 @@ const Welcome: React.FC<
     purchase.bulkCoupon &&
     purchase.bulkCoupon.maxUses > purchase.bulkCoupon.usedCount
 
+  const hasCharge = Boolean(purchase.merchantChargeId)
+
   return (
     <Layout
       meta={{title: `Welcome to ${process.env.NEXT_PUBLIC_SITE_TITLE}`}}
@@ -106,8 +108,8 @@ const Welcome: React.FC<
     >
       <main className="mx-auto flex w-full flex-grow flex-col items-center justify-center px-5 py-24 sm:py-32">
         <div className="flex w-full max-w-xl flex-col gap-3">
-          <Header upgrade={upgrade} />
-          {purchase.merchantChargeId && <InvoiceCard purchase={purchase} />}
+          <Header upgrade={upgrade} purchase={purchase} />
+          {hasCharge && <InvoiceCard purchase={purchase} />}
           {redemptionsLeft && (
             <Invite>
               <InviteTeam
@@ -126,14 +128,21 @@ const Welcome: React.FC<
   )
 }
 
-const Header: React.FC<React.PropsWithChildren<{upgrade: boolean}>> = ({
-  upgrade,
-}) => {
+const Header: React.FC<
+  React.PropsWithChildren<{
+    upgrade: boolean
+    purchase: {
+      merchantChargeId: string | null
+      bulkCoupon: {id: string; maxUses: number; usedCount: number} | null
+      product: {id: string; name: string}
+    }
+  }>
+> = ({upgrade, purchase}) => {
   return (
     <header className="flex flex-col items-center pb-8 text-center text-white">
       <h1 className="font-heading text-3xl font-bold sm:text-4xl lg:text-5xl">
         {upgrade ? `You've Upgraded ` : `Welcome to `}
-        {process.env.NEXT_PUBLIC_SITE_TITLE}
+        {purchase.product.name}
       </h1>
       {/* <h2 className="pt-4 lg:text-2xl sm:text-xl text-lg font-medium max-w-sm font-heading text-orange-200">
       Thanks so much for purchasing{' '}

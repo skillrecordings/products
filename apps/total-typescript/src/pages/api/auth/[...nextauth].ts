@@ -1,16 +1,26 @@
-import NextAuth, {type NextAuthOptions} from 'next-auth'
+import NextAuth, {type NextAuthOptions, Theme} from 'next-auth'
 import {withSentry} from '@sentry/nextjs'
-import {defaultNextAuthOptions} from '@skillrecordings/skill-api'
+import {createOptions} from '@skillrecordings/skill-api'
+import {NextApiRequest, NextApiResponse} from 'next'
 
-export const nextAuthOptions: NextAuthOptions = defaultNextAuthOptions({
-  theme: {
-    colorScheme: 'auto',
-    brandColor: '#10172a',
-    logo: 'https://res.cloudinary.com/total-typescript/image/upload/v1667577587/illustrations/gem-darker_wogtyw.png',
-  },
+const productTheme: Theme = {
+  colorScheme: 'auto',
+  brandColor: '#10172a',
+  logo: 'https://res.cloudinary.com/total-typescript/image/upload/v1667577587/illustrations/gem-darker_wogtyw.png',
+}
+
+export const nextAuthOptions: NextAuthOptions = createOptions({
+  theme: productTheme,
 })
 
-export default withSentry(NextAuth(nextAuthOptions))
+export default async function NextAuthEndpoint(
+  req: NextApiRequest,
+  res: NextApiResponse,
+) {
+  return withSentry(
+    NextAuth(req, res, createOptions({req, theme: productTheme})),
+  )
+}
 
 export const config = {
   api: {

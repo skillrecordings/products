@@ -4,6 +4,7 @@ import {useFormik} from 'formik'
 import * as Yup from 'yup'
 import {useRouter} from 'next/router'
 import {redeemFullPriceCoupon} from './redeem-full-price-coupon'
+import {useSession} from 'next-auth/react'
 
 const validationSchema = Yup.object().shape({
   email: Yup.string().email('Invalid email').required('Required'),
@@ -15,19 +16,28 @@ interface RedeemDialogProps {
 }
 
 const RedeemDialog = ({open = false, couponId}: RedeemDialogProps) => {
+  const {data: session} = useSession()
   const router = useRouter()
   const formik = useFormik({
     initialValues: {
-      email: '',
+      email: session?.user?.email || '',
     },
     validationSchema,
     onSubmit: async ({email}) => {
-      const purchase = await redeemFullPriceCoupon({email, couponId})
+      const {purchase, redeemingForCurrentUser} = await redeemFullPriceCoupon({
+        email,
+        couponId,
+      })
 
       if (purchase.error) {
         console.error(purchase.message)
       } else {
-        router.push(`/thanks/redeem?purchaseId=${purchase?.id}`)
+        if (redeemingForCurrentUser) {
+          await fetch('/api/auth/session?update')
+          router.push(`/welcome?purchaseId=${purchase?.id}`)
+        } else {
+          router.push(`/thanks/redeem?purchaseId=${purchase?.id}`)
+        }
       }
     },
   })
@@ -39,6 +49,8 @@ const RedeemDialog = ({open = false, couponId}: RedeemDialogProps) => {
         </AlertDialogPrimitive.Title>
         <AlertDialogPrimitive.Description className="border-b border-gray-700/50 px-8 pt-4 pb-8 text-gray-200">
           Enter the email address you wish to be associated with your license.
+          We recommend using an email address you will have access to for years
+          to come. Please triple check the address!
         </AlertDialogPrimitive.Description>
         <form onSubmit={formik.handleSubmit} className="py-4 px-8">
           <div className="mt-2 flex flex-col">
