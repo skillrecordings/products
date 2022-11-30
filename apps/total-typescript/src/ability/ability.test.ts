@@ -68,8 +68,7 @@ test('can view workshop content if a purchase exists', () => {
   const user = {
     purchases: [
       {
-        bulk: true,
-        seats: 1,
+        bulkCouponId: null,
       },
     ],
   }
@@ -115,6 +114,39 @@ test('blocked second workshop lesson if no purchase exists', () => {
   })
   const ability = createAppAbility(rules)
   expect(ability.can('view', 'Content')).toBe(false)
+})
+
+describe("team owner who hasn't redeemed purchase for self", () => {
+  test('cannot view second workshop lesson', () => {
+    const user = {
+      purchases: [{bulkCouponId: '123'}],
+    }
+    const rules = defineRulesForPurchases({
+      user,
+      module: mockWorkshop,
+      lesson: mockExerciseTwo,
+    })
+    const ability = createAppAbility(rules)
+    expect(ability.can('view', 'Content')).toBe(false)
+  })
+})
+
+describe('team owner who has redeemed purchase for self', () => {
+  test('can view second workshop lesson', () => {
+    const user = {
+      purchases: [
+        {bulkCouponId: '123'},
+        {bulkCouponId: null, redeemedBulkCouponId: '123'},
+      ],
+    }
+    const rules = defineRulesForPurchases({
+      user,
+      module: mockWorkshop,
+      lesson: mockExerciseTwo,
+    })
+    const ability = createAppAbility(rules)
+    expect(ability.can('view', 'Content')).toBe(true)
+  })
 })
 
 const mockExerciseOne = {
