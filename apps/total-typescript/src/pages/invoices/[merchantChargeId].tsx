@@ -37,23 +37,13 @@ export const getServerSideProps: GetServerSideProps = async ({
     if (merchantCharge && merchantCharge.identifier) {
       const charge = await stripe.charges.retrieve(merchantCharge.identifier)
 
-      const merchantProductId = merchantCharge.merchantProductId
-      const merchantProduct = await prisma.merchantProduct.findUnique({
-        where: {
-          id: merchantProductId as string,
-        },
-        select: {
-          productId: true,
-        },
-      })
       const purchase = await getPurchaseForStripeCharge(
         merchantCharge.identifier,
       )
       const bulkCoupon = purchase && purchase.bulkCoupon
 
-      const productId = merchantProduct?.productId
       const product = await getProduct({
-        where: {id: productId},
+        where: {id: purchase?.productId},
       })
 
       res.setHeader('Cache-Control', 's-maxage=1, stale-while-revalidate')
