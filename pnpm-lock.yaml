@@ -2627,8 +2627,10 @@ importers:
       '@testing-library/jest-dom': ^5.15.0
       '@testing-library/react': ^12.1.2
       '@tippyjs/react': ^4.2.6
-      '@trpc/react': ^9.27.4
-      '@trpc/server': 10.0.0-rc.8
+      '@trpc/client': ^9.27.2
+      '@trpc/next': ^9.27.2
+      '@trpc/react': ^9.27.2
+      '@trpc/server': ^9.27.2
       '@types/axios': ^0.14.0
       '@types/cookie': ^0.4.1
       '@types/isomorphic-fetch': ^0.0.35
@@ -2742,8 +2744,10 @@ importers:
       '@stripe/stripe-js': 1.21.1
       '@supabase/supabase-js': 1.29.1
       '@tippyjs/react': 4.2.6_biqbaboplfbrettd7655fr4n2y
-      '@trpc/react': 9.27.4_66y3eihvwruj3xa5qpwtizkxb4
-      '@trpc/server': 10.0.0-rc.8
+      '@trpc/client': 9.27.2_@trpc+server@9.27.2
+      '@trpc/next': 9.27.2_cpjoldjkwaya224psufok4zvdi
+      '@trpc/react': 9.27.2_4qx6yxzlojuzl2gqhs2hvlmyii
+      '@trpc/server': 9.27.2
       '@types/js-cookie': 3.0.2
       '@xstate/react': 1.5.1_bpg42ha2il6pcyn3wrx2rxrchm
       autoprefixer: 10.4.7_postcss@8.4.14
@@ -11372,28 +11376,8 @@ packages:
       react-query: 3.39.1_biqbaboplfbrettd7655fr4n2y
     dev: false
 
-  /@trpc/react/9.27.4_66y3eihvwruj3xa5qpwtizkxb4:
-    resolution: {integrity: sha512-bP74Tf6vWcMoWYiTAvbWrieV9cFQiKUDKRoRj0+VeGJbxdbhdJyUzv4zos0T4SiSKuhgoEm9bP4jWU2NhNhpIA==}
-    peerDependencies:
-      '@trpc/client': 9.27.4
-      '@trpc/server': 9.27.4
-      react: '>=16.8.0'
-      react-dom: '>=16.8.0'
-      react-query: ^3.37.0
-    dependencies:
-      '@babel/runtime': 7.18.3
-      '@trpc/server': 10.0.0-rc.8
-      react: 18.2.0
-      react-dom: 18.2.0_react@18.2.0
-      react-query: 3.39.1_biqbaboplfbrettd7655fr4n2y
-    dev: false
-
   /@trpc/server/10.0.0-proxy-beta.17:
     resolution: {integrity: sha512-q3Cl4RC5q0kRg8KGt0sWQ11hKrLaIxK2FYGy7fQ6E+k9Yo8r2VDxn++PskZk9LTzgKRi1JtfZVJO15oXoXJHyw==}
-    dev: false
-
-  /@trpc/server/10.0.0-rc.8:
-    resolution: {integrity: sha512-+NsQqaJGHTiiBcOesH1bIictnnSO+SXaCOy5pM/324QBnJRt9VOO8oYDLcHSwAbJpAbOA+vl6YHs8OoykW6D2g==}
     dev: false
 
   /@trpc/server/9.27.2:

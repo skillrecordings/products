@@ -54,7 +54,6 @@ export const OverlayWrapper: React.FC<
 
 const DefaultOverlay = () => {
   const {nextExercise, module, path, lesson, handlePlay} = useMuxPlayer()
-  console.log(lesson.slug)
   const router = useRouter()
   const {image} = module
   const addProgressMutation = trpc.useMutation(['progress.add'])
@@ -92,7 +91,7 @@ const DefaultOverlay = () => {
             addProgressMutation.mutate(
               {lessonSlug: lesson.slug},
               {
-                onSettled: (data, error, variables, context) => {
+                onSettled: () => {
                   handleContinue(router, module, nextExercise, handlePlay, path)
                 },
               },
