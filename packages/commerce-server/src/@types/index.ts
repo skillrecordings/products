@@ -42,6 +42,7 @@ export type SanityProduct = {
   }
   modules: {
     title: string
+    state?: 'draft' | 'published'
     image: {
       url: string
       alt: string

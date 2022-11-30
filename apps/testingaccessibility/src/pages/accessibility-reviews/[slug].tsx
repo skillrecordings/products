@@ -17,16 +17,58 @@ import {
   selectIsFullscreen,
 } from '@skillrecordings/player'
 import {serialize} from 'next-mdx-remote/serialize'
-import {MDXRemote} from 'next-mdx-remote'
 import {format} from 'date-fns'
 import {useRouter} from 'next/router'
+import {PortableText, toPlainText} from '@portabletext/react'
+import {
+  redirectUrlBuilder,
+  SubscribeToConvertkitForm,
+  useConvertkit,
+} from '@skillrecordings/convertkit'
+import {MailIcon} from '@heroicons/react/solid'
+import {track} from '@skillrecordings/analytics'
+import PortableTextComponents from 'components/portable-text'
 
-const Review: React.FC<React.PropsWithChildren<any>> = ({review, body}) => {
-  const {hlsUrl, title, date, description, videoPoster, subtitlesUrl} = review
+const SubscribeForm = ({
+  handleOnSuccess,
+}: {
+  handleOnSuccess: (subscriber: any, email?: string) => void
+}) => {
+  return (
+    <div
+      id="tip"
+      className="flex w-full flex-col items-center justify-between gap-5 border-b border-gray-200 px-3 pt-4 pb-5 md:flex-row md:pb-3 md:pt-3 2xl:px-0"
+    >
+      <div className="inline-flex items-center gap-2 text-base font-medium leading-tight md:text-sm lg:flex-shrink-0 lg:text-base">
+        <div
+          aria-hidden="true"
+          className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full bg-green-500/10"
+        >
+          <MailIcon className="h-5 w-5 text-green-600" />
+        </div>{' '}
+        New a11y reviews delivered to your inbox
+      </div>
+      <SubscribeToConvertkitForm
+        actionLabel="Subscribe for a11y reviews"
+        onSuccess={(subscriber, email) => {
+          return handleOnSuccess(subscriber, email)
+        }}
+      />
+    </div>
+  )
+}
 
+const Review: React.FC<React.PropsWithChildren<any>> = ({review}) => {
+  const {video, title, date, body, videoPoster} = review
+  const {mediaUrl, srt, transcript} = video
+  const {subscriber, loadingSubscriber} = useConvertkit()
+  const shortDescription = body
+    ? toPlainText(body).substring(0, 157) + '...'
+    : undefined
+  console.log({review})
   const meta = {
     title,
-    description,
+    description: shortDescription,
     ogImage: {
       url: 'https://res.cloudinary.com/dg3gyk0gu/image/upload/v1646816239/testingaccessibility.com/accessibility-reviews/accessibility-reviews-card_2x.png',
     },
@@ -40,6 +82,25 @@ const Review: React.FC<React.PropsWithChildren<any>> = ({review, body}) => {
   React.useEffect(() => {
     setIsMounted(true)
   }, [])
+
+  const handleOnSuccess = (subscriber: any, email?: string) => {
+    if (subscriber) {
+      const redirectUrl = redirectUrlBuilder(subscriber, router.asPath, {
+        confirmToast: 'true',
+      })
+
+      track('subscribed to email list', {
+        lesson: review.slug,
+        module: 'tips',
+        location: 'below tip video',
+        moduleType: 'review',
+        lessonType: 'review',
+      })
+      router.push(redirectUrl).then(() => {
+        router.reload()
+      })
+    }
+  }
 
   return (
     <Layout meta={meta} className="bg-gray-50">
@@ -82,11 +143,10 @@ const Review: React.FC<React.PropsWithChildren<any>> = ({review, body}) => {
                 poster={videoPoster}
                 enableGlobalShortcuts={false}
               >
-                {hlsUrl && <HLSSource src={hlsUrl} />}
-                {subtitlesUrl && (
+                {mediaUrl && <HLSSource src={mediaUrl} />}
+                {srt && (
                   <track
-                    key={subtitlesUrl}
-                    src={subtitlesUrl}
+                    src={`/api/srt/${video._id}`}
                     kind="subtitles"
                     srcLang="en"
                     label="English"
@@ -94,9 +154,28 @@ const Review: React.FC<React.PropsWithChildren<any>> = ({review, body}) => {
                 )}
               </Player>
             )}
-            <article className={cx('prose md:prose-lg mx-auto py-16 px-5')}>
-              <h2>Transcript</h2>
-              <MDXRemote {...body} />
+            {!subscriber && !loadingSubscriber && (
+              <SubscribeForm handleOnSuccess={handleOnSuccess} />
+            )}
+            <article className="pt-10 max-w-screen-lg mx-auto w-full px-5">
+              {body && (
+                <div className="max-w-none xl:prose-pre:text-base md:prose-pre:text-base prose-pre:text-xs prose-ul:sm:pr-0 prose-ul:pr-5 prose-p:w-full prose-ul:mx-auto text-gray-800 prose prose-headings:text-left prose-h3:text-green-800 md:prose-lg xl:prose-xl">
+                  <PortableText
+                    value={body}
+                    components={PortableTextComponents}
+                  />
+                </div>
+              )}
+              {transcript && (
+                <>
+                  <h2 className="pt-10 pb-6 sm:text-4xl text-3xl font-bold font-heading">
+                    Transcript
+                  </h2>
+                  <div className="prose md:prose-lg max-w-none mx-auto pb-16">
+                    <PortableText value={transcript} />
+                  </div>
+                </>
+              )}
             </article>
           </div>
         </div>
@@ -127,11 +206,14 @@ const reviewQuery = groq`*[_type == "review" && slug.current == $slug][0]{
     'slug': slug.current,
     date,
     body,
-    description,
     ogImage,
-    hlsUrl,
     videoPoster,
-    subtitlesUrl
+    'video': resources[@->._type == 'videoResource'][0]->{
+      mediaUrl,
+      srt,
+      transcript,
+      ...
+    },
     }`
 
 const allReviewsQuery = groq`
@@ -153,11 +235,8 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     slug: currentReview.slug,
   })
 
-  const {body, ...review} = data
-  const mdxSource = await serialize(body)
-
   return {
-    props: {review, body: mdxSource},
+    props: {review: data},
   }
 }
 

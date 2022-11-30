@@ -57,7 +57,7 @@ export default {
                 name: 'reference',
                 type: 'reference',
                 title: 'Reference',
-                to: [{type: 'article'}],
+                to: [{type: 'article'}, {type: 'exercise'}],
               },
             ],
           },

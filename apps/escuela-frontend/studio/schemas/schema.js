@@ -5,8 +5,16 @@ import createSchema from 'part:@sanity/base/schema-creator'
 import schemaTypes from 'all:part:@sanity/base/schema-type'
 // documents
 import article from './documents/article'
+import tip from './documents/tip'
+import videoResource from './documents/videoResource'
+import cta from './documents/cta'
+import exercise from './documents/exercise'
 import module from './documents/module'
-import resource from './documents/resource'
+import testimonial from './documents/testimonial'
+import section from './documents/section'
+import explainer from './documents/explainer'
+import collaborator from './documents/collaborator'
+
 // objects
 import bodyVideo from './objects/bodyVideo'
 import bodyImage from './objects/bodyImage'
@@ -16,13 +24,16 @@ import divider from './objects/divider'
 import externalImage from './objects/externalImage'
 import mediaCaption from './objects/mediaCaption'
 import videoOptions from './objects/videoOptions'
-import github from './objects/github'
+import tweet from './objects/tweet'
 import muxAsset from './objects/muxAsset'
-import stackblitz from './objects/stackblitz'
-import muxVideo from './objects/muxVideo'
-import exercise from './objects/resources/exercise'
+import castingwordsTranscript from './objects/castingwordsTranscript'
 import solution from './objects/resources/solution'
-import talk from './objects/resources/talk'
+import muxVideo from './objects/resources/muxVideo'
+import stackblitz from './objects/stackblitz'
+import codeFile from './objects/code-file'
+import sandpack from './objects/resources/sandpack'
+import github from './objects/github'
+import figma from './objects/resources/figma'
 
 // Then we give our schema to the builder and provide the result to Sanity
 export default createSchema({
@@ -36,8 +47,15 @@ export default createSchema({
 
     // documents
     article,
+    tip,
+    videoResource,
+    cta,
+    exercise,
     module,
-    resource,
+    testimonial,
+    section,
+    explainer,
+    collaborator,
     //objects
     body,
     bodyVideo,
@@ -47,13 +65,16 @@ export default createSchema({
     externalImage,
     mediaCaption,
     videoOptions,
-    github,
+    tweet,
     muxAsset,
+    castingwordsTranscript,
+    solution,
     muxVideo,
     stackblitz,
-    solution,
-    exercise,
-    talk,
+    sandpack,
+    codeFile,
+    github,
+    figma,
     // When added to this list, object types can be used as
     // { type: 'typename' } in other document schemas
   ]),

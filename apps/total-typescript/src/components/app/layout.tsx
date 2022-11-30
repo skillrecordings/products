@@ -6,6 +6,7 @@ import isNull from 'lodash/isNull'
 import {Toaster} from 'react-hot-toast'
 import {useRouter} from 'next/router'
 import {Survey} from '../../offer/survey'
+import {DefaultCoupon} from '@skillrecordings/commerce-server/dist/@types'
 
 type LayoutProps = {
   meta?: any
@@ -13,6 +14,7 @@ type LayoutProps = {
   className?: string
   nav?: React.ReactElement | null
   footer?: React.ReactElement | null
+  defaultCoupon?: DefaultCoupon
   children?: any
 }
 

@@ -25,6 +25,8 @@ export function getSdk(
         },
         select: {
           merchantChargeId: true,
+          createdAt: true,
+          totalAmount: true,
           bulkCoupon: {
             select: {
               id: true,
@@ -99,6 +101,22 @@ export function getSdk(
         existingPurchase,
         availableUpgrades,
       }
+    },
+    async getPurchaseForStripeCharge(stripeChargeId: string) {
+      return await ctx.prisma.purchase.findFirst({
+        where: {
+          merchantCharge: {
+            identifier: stripeChargeId,
+          },
+        },
+        include: {
+          bulkCoupon: {
+            include: {
+              bulkCouponPurchases: true,
+            },
+          },
+        },
+      })
     },
     async updatePurchaseStatusForCharge(
       chargeId: string,
@@ -257,12 +275,32 @@ export function getSdk(
       }
       return lessonProgress
     },
+    async getLessonProgressForUser(userId: string) {
+      const userProgress = await ctx.prisma.user.findFirst({
+        where: {id: userId as string},
+        select: {
+          lessonProgresses: true,
+        },
+      })
+      return userProgress?.lessonProgresses
+    },
+    async getPurchaseWithUser(purchaseId: string) {
+      return await ctx.prisma.purchase.findFirst({
+        where: {id: purchaseId as string, status: 'Valid'},
+        include: {
+          user: true,
+        },
+      })
+    },
     async getPurchase(args: Prisma.PurchaseFindUniqueArgs) {
       return await ctx.prisma.purchase.findUnique(args)
     },
     async getPurchasesForUser(userId?: string) {
       const purchases = userId
         ? await ctx.prisma.purchase.findMany({
+            orderBy: {
+              createdAt: 'asc',
+            },
             where: {
               userId,
               status: 'Valid',
@@ -292,6 +330,13 @@ export function getSdk(
 
       return purchases
     },
+    async getMerchantProduct(stripeProductId: string) {
+      return ctx.prisma.merchantProduct.findFirst({
+        where: {
+          identifier: stripeProductId,
+        },
+      })
+    },
     async createMerchantChargeAndPurchase(options: {
       userId: string
       productId: string
@@ -300,6 +345,7 @@ export function getSdk(
       merchantProductId: string
       merchantCustomerId: string
       stripeChargeAmount: number
+      quantity?: number
     }) {
       const {
         userId,
@@ -309,6 +355,7 @@ export function getSdk(
         merchantCustomerId,
         productId,
         stripeChargeAmount,
+        quantity = 1,
       } = options
       // we are using uuids so we can generate this!
       // this is needed because the following actions
@@ -327,6 +374,58 @@ export function getSdk(
         },
       })
 
+      // Check if this user has already purchased a bulk coupon, in which
+      // case, we'll be able to treat this purchase as adding seats.
+      //
+      // TODO: I believe the `maxUses` check is redundant. If there is at
+      // least one `bulkCouponPurchase` attached to this Coupon, then it is a
+      // bulk coupon for this user.
+      const existingBulkCoupon = await ctx.prisma.coupon.findFirst({
+        where: {
+          maxUses: {
+            gt: 1,
+          },
+          bulkCouponPurchases: {
+            some: {userId},
+          },
+        },
+      })
+
+      // Note: if the user already has a bulk purchase/coupon, then if they are
+      // only adding 1 seat to the team, then it is still a "bulk purchase" and
+      // we need to add it to their existing Bulk Coupon.
+      const isBulkPurchase = quantity > 1 || Boolean(existingBulkCoupon)
+
+      let bulkCouponId = null
+      let coupon = null
+
+      if (isBulkPurchase) {
+        bulkCouponId =
+          existingBulkCoupon !== null ? existingBulkCoupon.id : v4()
+
+        // Create or Update Bulk Coupon Record
+        if (existingBulkCoupon) {
+          coupon = ctx.prisma.coupon.update({
+            where: {
+              id: existingBulkCoupon.id,
+            },
+            data: {
+              maxUses: existingBulkCoupon.maxUses + quantity,
+            },
+          })
+        } else {
+          coupon = ctx.prisma.coupon.create({
+            data: {
+              id: bulkCouponId,
+              restrictedToProductId: productId,
+              maxUses: quantity,
+              percentageDiscount: 1.0,
+              status: 1,
+            },
+          })
+        }
+      }
+
       const purchase = ctx.prisma.purchase.create({
         data: {
           id: purchaseId,
@@ -334,12 +433,15 @@ export function getSdk(
           productId,
           merchantChargeId,
           totalAmount: stripeChargeAmount / 100,
+          bulkCouponId,
         },
       })
 
-      const result = await ctx.prisma.$transaction([merchantCharge, purchase])
-
-      return result
+      if (coupon) {
+        return await ctx.prisma.$transaction([purchase, merchantCharge, coupon])
+      } else {
+        return await ctx.prisma.$transaction([purchase, merchantCharge])
+      }
     },
     async findOrCreateMerchantCustomer({
       user,

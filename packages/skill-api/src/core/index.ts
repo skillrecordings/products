@@ -82,7 +82,7 @@ export async function SkillRecordingsHandler<
           config: userOptions,
         })
       case 'redeem':
-        return await redeemGoldenTicket({params})
+        return await redeemGoldenTicket({params, token})
       case 'prices':
         return await loadPrices({params})
       case 'checkout':

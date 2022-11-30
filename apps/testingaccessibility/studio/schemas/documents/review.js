@@ -20,21 +20,38 @@ export default {
       },
     },
     {
+      title: 'Published',
+      name: 'published',
+      type: 'boolean',
+      initialValue: true,
+    },
+    {
       name: 'image',
       title: 'Icon',
       type: 'string',
       description: 'Square icon',
     },
     {
-      name: 'hlsUrl',
-      title: 'Video HLS URL',
-      type: 'url',
-      description: 'Video URL',
+      name: 'resources',
+      title: 'Resources',
+      type: 'array',
+      of: [
+        {
+          title: 'Video resources',
+          type: 'reference',
+          to: [{title: 'Video resource', type: 'videoResource'}],
+        },
+      ],
     },
     {
-      name: 'subtitlesUrl',
-      title: 'Subtitle track URL',
-      type: 'url',
+      name: 'body',
+      type: 'body',
+      title: 'Page Body',
+    },
+    {
+      name: 'date',
+      title: 'Date',
+      type: 'date',
     },
     {
       name: 'videoPoster',
@@ -46,28 +63,6 @@ export default {
       name: 'externalUrl',
       title: 'External URL',
       type: 'url',
-    },
-    {
-      title: 'Published',
-      name: 'published',
-      type: 'boolean',
-      initialValue: true,
-    },
-    {
-      name: 'date',
-      title: 'Date',
-      type: 'date',
-    },
-    {
-      name: 'description',
-      type: 'markdown',
-      title: 'Description',
-    },
-    {
-      name: 'body',
-      title: 'Transcript',
-      type: 'markdown',
-      description: 'Full body in MDX.',
     },
     {
       name: 'ogImage',

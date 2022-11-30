@@ -3,22 +3,19 @@ import Image from 'next/image'
 
 const Bio = () => {
   return (
-    <div className="flex items-start gap-4 max-w-md rounded-t-lg">
+    <div className="flex items-start gap-6 max-w-2xl rounded-t-lg">
       <div className="flex-shrink-0 border-2 border-white border-opacity-90 flex items-center justify-center rounded-full overflow-hidden">
         <Image
           src={require('../../public/images/joe-previte.jpeg')}
           alt="Joe Previte"
           quality={100}
-          width={40}
-          height={40}
+          width={90}
+          height={90}
           loading="eager"
         />
       </div>
-      <div className="pt-1 flex flex-col gap-5 opacity-80 text-sm leading-relaxed">
-        <p>
-          Hey, I’m Joe. Your instructor for this TypeScript Course, nice to meet
-          you. 👋
-        </p>
+      <div className="pt-1 flex flex-col gap-5 opacity-80 sm:text-lg text-base leading-relaxed">
+        <p>Hi! I'm Joe, and I will be your TypeScript Course instructor.</p>
         <p>
           I’m an Open Source TypeScript Engineer with a passion for teaching and
           learning. I help developers learn faster through interactive courses,

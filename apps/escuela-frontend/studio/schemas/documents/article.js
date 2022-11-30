@@ -1,11 +1,9 @@
 import React from 'react'
-import {MdBook} from 'react-icons/md'
 
 export default {
   name: 'article',
   title: 'Article',
   type: 'document',
-  icon: MdBook,
   fields: [
     {
       name: 'title',
@@ -13,11 +11,18 @@ export default {
       type: 'string',
       validation: (Rule) => Rule.required(),
     },
-    // {
-    //   name: 'subtitle',
-    //   title: 'Subtitle',
-    //   type: 'string',
-    // },
+    {
+      name: 'subtitle',
+      title: 'Subtitle',
+      type: 'string',
+    },
+    {
+      name: 'metaTitle',
+      title: 'Meta Title',
+      type: 'string',
+      description: 'Max 60 characters',
+      validation: (Rule) => Rule.max(60),
+    },
     {
       name: 'slug',
       title: 'Slug',
@@ -33,6 +38,12 @@ export default {
       name: 'published',
       type: 'boolean',
       initialValue: true,
+    },
+    {
+      name: 'author',
+      title: 'Author',
+      type: 'array',
+      of: [{type: 'reference', to: [{type: 'collaborator'}]}],
     },
     {
       name: 'body',
@@ -59,7 +70,7 @@ export default {
     //       options: {
     //         list: [
     //           {
-    //             title: 'Initial Landing Page: Pro Tailwind (3179174)',
+    //             title: 'Initial Landing Page: Escuela Frontend (3179174)',
     //             value: '3179174',
     //           },
     //         ],
@@ -70,7 +81,7 @@ export default {
     //       title: 'Action Label',
     //       name: 'actionLabel',
     //       type: 'string',
-    //       initialValue: 'Learn Tailwind',
+    //       initialValue: 'Learn Escuela Frontend',
     //     },
     //   ],
     // },

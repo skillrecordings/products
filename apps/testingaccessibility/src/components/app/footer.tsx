@@ -27,18 +27,19 @@ const Footer: React.FC<React.PropsWithChildren<FooterProps>> = () => {
             <div>
               <h2 className="text-orange-700 font-semibold">Learn</h2>
               <ul className="pt-4">
-                <li>
-                  <NavLink href={isSignedIn ? '/learn' : '/workshops'}>
-                    Workshops
-                  </NavLink>
-                </li>
-                {/* <li>
-                  <NavLink href="/accessibility-reviews">
-                    Accessibility Reviews
-                  </NavLink>
-                </li> */}
+                {isSignedIn && (
+                  <li>
+                    <NavLink href="/learn">Pro Workshops</NavLink>
+                  </li>
+                )}
                 <li>
                   <NavLink href="/articles">Articles</NavLink>
+                </li>
+                <li>
+                  <NavLink href="/accessibility-reviews">Reviews</NavLink>
+                </li>
+                <li>
+                  <NavLink href="/workshops">Live Events</NavLink>
                 </li>
                 {!subscriber && (
                   <li>
@@ -156,7 +157,7 @@ const NavLink: React.FC<React.PropsWithChildren<NavLinkProps>> = ({
   if (href) {
     return (
       <Link href={href} {...props}>
-        <a className="py-1 inline-flex text-base font-medium hover:underline transition">
+        <a className="py-1.5 inline-flex text-base font-medium hover:underline transition leading-tight">
           {children}
         </a>
       </Link>
