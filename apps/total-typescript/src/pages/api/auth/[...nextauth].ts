@@ -6,7 +6,7 @@ import {NextApiRequest, NextApiResponse} from 'next'
 const productTheme: Theme = {
   colorScheme: 'auto',
   brandColor: '#10172a',
-  logo: 'https://res.cloudinary.com/total-typescript/image/upload/v1667577587/illustrations/gem-darker_wogtyw.png',
+  logo: 'https://res.cloudinary.com/total-typescript/image/upload/v1669818423/illustrations/email_txtv7q.png',
 }
 
 export const nextAuthOptions: NextAuthOptions = createOptions({
