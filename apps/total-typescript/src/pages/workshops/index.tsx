@@ -39,7 +39,7 @@ const WorkshopsPage: React.FC<{modules: SanityDocument[]}> = ({modules}) => {
                 return (
                   <li
                     key={slug.current}
-                    className="relative flex flex-col items-center gap-10 overflow-hidden rounded-lg border border-gray-700/50 bg-black/20 p-10 shadow-2xl md:flex-row"
+                    className="relative flex flex-col items-center gap-10 overflow-hidden rounded-lg border border-gray-700/50 bg-black/20 p-8 shadow-2xl md:flex-row"
                   >
                     <div className="flex flex-shrink-0 items-center justify-center">
                       <Image
@@ -71,31 +71,34 @@ const WorkshopsPage: React.FC<{modules: SanityDocument[]}> = ({modules}) => {
                           </a>
                         </Link>
                       )}
-                      {state === 'draft' && (
-                        <span className="absolute right-2 top-5 mr-3 rounded-full bg-gray-700 px-2 py-0.5 font-sans text-xs font-semibold uppercase text-gray-200">
-                          Coming Soon
-                        </span>
-                      )}
-                      {sections ? (
-                        <div className="pt-4 pb-3 font-mono text-xs font-semibold uppercase text-cyan-300">
-                          {i === 0 && (
+                      <div className="pt-4 pb-3 font-mono text-xs font-semibold uppercase text-cyan-300">
+                        {state === 'draft' ? (
+                          <span className="mr-3 rounded-full bg-gray-700 px-2 py-0.5 font-sans font-semibold uppercase text-gray-200">
+                            Coming Soon
+                          </span>
+                        ) : (
+                          i === 0 && (
                             <span className="mr-3 rounded-full bg-cyan-300 px-2 py-0.5 font-sans font-semibold uppercase text-black">
                               New
                             </span>
-                          )}
-                          {sections.length} sections,{' '}
-                          {sections.reduce(
-                            (acc: number, section: {exercises?: any[]}) =>
-                              section.exercises?.length
-                                ? section.exercises?.length + acc
-                                : acc,
-                            0,
-                          )}{' '}
-                          exercises
-                        </div>
-                      ) : (
-                        <br />
-                      )}
+                          )
+                        )}
+                        {sections && state !== 'draft' ? (
+                          <>
+                            {sections.length} sections,{' '}
+                            {sections.reduce(
+                              (acc: number, section: {exercises?: any[]}) =>
+                                section.exercises?.length
+                                  ? section.exercises?.length + acc
+                                  : acc,
+                              0,
+                            )}{' '}
+                            exercises
+                          </>
+                        ) : (
+                          <br />
+                        )}
+                      </div>
 
                       {description && (
                         <p className="text-gray-300">{description}</p>
@@ -109,11 +112,11 @@ const WorkshopsPage: React.FC<{modules: SanityDocument[]}> = ({modules}) => {
                             },
                           }}
                         >
-                          <a className="group mt-5 inline-block gap-2 rounded bg-gray-800 px-4 py-2 font-medium transition hover:bg-gray-700">
-                            View{' '}
+                          <a className="group mt-5 inline-block gap-2 rounded bg-gray-800 py-2 pl-4 pr-6 font-medium transition hover:bg-gray-700">
+                            <span className="pr-2">View</span>
                             <span
                               aria-hidden="true"
-                              className="text-gray-300 transition group-hover:text-white"
+                              className="absolute text-gray-300 transition group-hover:translate-x-1 group-hover:text-white"
                             >
                               →
                             </span>
