@@ -20,7 +20,7 @@ export const getServerSideProps: GetServerSideProps = async ({
 }) => {
   const sessionToken = await getToken({req})
   const {merchantChargeId} = query
-  const {getProduct} = getSdk()
+  const {getProduct, getPurchaseForStripeCharge} = getSdk()
   const ability = getCurrentAbility(sessionToken as any)
   if (merchantChargeId && ability.can('view', 'Invoice')) {
     const merchantCharge = await prisma.merchantCharge.findUnique({
@@ -46,25 +46,10 @@ export const getServerSideProps: GetServerSideProps = async ({
           productId: true,
         },
       })
-      const purchase = await prisma.purchase.findFirst({
-        where: {
-          merchantChargeId: merchantCharge.id,
-        },
-        select: {
-          bulkCouponId: true,
-        },
-      })
-      const bulkCouponId = purchase?.bulkCouponId
-      const bulkCoupon = bulkCouponId
-        ? await prisma.coupon.findUnique({
-            where: {
-              id: bulkCouponId,
-            },
-            select: {
-              maxUses: true,
-            },
-          })
-        : null
+      const purchase = await getPurchaseForStripeCharge(
+        merchantCharge.identifier,
+      )
+      const bulkCoupon = purchase && purchase.bulkCoupon
 
       const productId = merchantProduct?.productId
       const product = await getProduct({
@@ -77,7 +62,7 @@ export const getServerSideProps: GetServerSideProps = async ({
           charge,
           product: convertToSerializeForNextResponse(product),
           merchantChargeId,
-          bulkCoupon,
+          bulkCoupon: convertToSerializeForNextResponse(bulkCoupon),
         },
       }
     }
