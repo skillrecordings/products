@@ -4,6 +4,7 @@ import {
   getCookiesForRequest,
   setCookiesForResponse,
 } from './process-customer-cookies'
+import {getToken} from 'next-auth/jwt'
 
 export const SITE_ROOT_PATH = '/'
 
@@ -21,8 +22,10 @@ export const SITE_ROOT_PATH = '/'
 export async function getMiddlewareResponse(req: NextRequest) {
   let response = NextResponse.next()
   const subscriber = await getCookiesForRequest(req)
+  const token = await getToken({req})
 
-  if (subscriber && req.nextUrl.pathname === SITE_ROOT_PATH) {
+  // if the user is logged in, we don't need to personalize marketing (for now)
+  if (!token && subscriber && req.nextUrl.pathname === SITE_ROOT_PATH) {
     switch (true) {
       case Boolean(subscriber.fields?.level):
         response = rewriteToPath(`/home/level/${subscriber.fields?.level}`, req)

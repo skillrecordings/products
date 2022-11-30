@@ -25,6 +25,8 @@ export function getSdk(
         },
         select: {
           merchantChargeId: true,
+          createdAt: true,
+          totalAmount: true,
           bulkCoupon: {
             select: {
               id: true,
@@ -273,6 +275,15 @@ export function getSdk(
       }
       return lessonProgress
     },
+    async getLessonProgressForUser(userId: string) {
+      const userProgress = await ctx.prisma.user.findFirst({
+        where: {id: userId as string},
+        select: {
+          lessonProgresses: true,
+        },
+      })
+      return userProgress?.lessonProgresses
+    },
     async getPurchaseWithUser(purchaseId: string) {
       return await ctx.prisma.purchase.findFirst({
         where: {id: purchaseId as string, status: 'Valid'},
@@ -287,6 +298,9 @@ export function getSdk(
     async getPurchasesForUser(userId?: string) {
       const purchases = userId
         ? await ctx.prisma.purchase.findMany({
+            orderBy: {
+              createdAt: 'asc',
+            },
             where: {
               userId,
               status: 'Valid',

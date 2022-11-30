@@ -4,6 +4,7 @@ import {useFormik} from 'formik'
 import * as Yup from 'yup'
 import {useRouter} from 'next/router'
 import {redeemFullPriceCoupon} from '../utils/redeem-full-price-coupon'
+import {useSession} from 'next-auth/react'
 
 const validationSchema = Yup.object().shape({
   email: Yup.string().email('Invalid email').required('Required'),
@@ -15,19 +16,28 @@ interface RedeemDialogProps {
 }
 
 const RedeemDialog = ({open = false, couponId}: RedeemDialogProps) => {
+  const {data: session} = useSession()
   const router = useRouter()
   const formik = useFormik({
     initialValues: {
-      email: '',
+      email: session?.user?.email || '',
     },
     validationSchema,
     onSubmit: async ({email}) => {
-      const purchase = await redeemFullPriceCoupon({email, couponId})
+      const {purchase, redeemingForCurrentUser} = await redeemFullPriceCoupon({
+        email,
+        couponId,
+      })
 
       if (purchase.error) {
         console.error(purchase.message)
       } else {
-        router.push(`/thanks/redeem?purchaseId=${purchase?.id}`)
+        if (redeemingForCurrentUser) {
+          await fetch('/api/auth/session?update')
+          router.push(`/welcome?purchaseId=${purchase?.id}`)
+        } else {
+          router.push(`/thanks/redeem?purchaseId=${purchase?.id}`)
+        }
       }
     },
   })

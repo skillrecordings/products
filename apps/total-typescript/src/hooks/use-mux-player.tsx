@@ -9,9 +9,10 @@ import {track} from '../utils/analytics'
 import {type Exercise, ExerciseSchema} from 'lib/exercises'
 import {type Tip, TipSchema} from 'lib/tips'
 import {useConvertkit} from './use-convertkit'
-import {AppAbility} from 'ability/ability'
+import {AppAbility, createAppAbility} from 'ability/ability'
 import {useSession} from 'next-auth/react'
 import {trpc} from '../utils/trpc'
+import {getNextSection} from 'utils/get-next-section'
 
 type VideoResource = Exercise | Tip
 
@@ -24,6 +25,7 @@ type VideoContextType = {
   handlePlay: () => void
   displayOverlay: boolean
   nextExercise: SanityDocument
+  nextSection: SanityDocument
   lesson: VideoResource
   module: SanityDocument
   path: string
@@ -31,6 +33,7 @@ type VideoContextType = {
   canShowVideo: boolean
   loadingUserStatus: boolean
   ability: AppAbility
+  section?: SanityDocument
 }
 
 export const VideoContext = React.createContext({} as VideoContextType)
@@ -66,6 +69,13 @@ export const VideoProvider: React.FC<
     currentLesson: lesson as Exercise,
   })
 
+  const nextSection = section
+    ? getNextSection({
+        module,
+        currentSection: section,
+      })
+    : null
+
   // load ability rules async
   // this is kind of bananas because the "lesson" in
   // this context can be an exercise, solution, or tip
@@ -84,7 +94,7 @@ export const VideoProvider: React.FC<
     },
   ])
 
-  const ability = new AppAbility(abilityRules || [])
+  const ability = createAppAbility(abilityRules || [])
 
   const {setPlayerPrefs, playbackRate, autoplay, getPlayerPrefs} =
     usePlayerPrefs()
@@ -178,10 +188,12 @@ export const VideoProvider: React.FC<
     handlePlay,
     displayOverlay,
     nextExercise,
+    nextSection,
     lesson:
       lesson._type === 'tip'
         ? TipSchema.parse(lesson)
         : ExerciseSchema.parse(lesson),
+    section,
     module,
     video,
     path,

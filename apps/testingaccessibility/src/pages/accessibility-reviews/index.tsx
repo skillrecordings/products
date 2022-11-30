@@ -16,13 +16,13 @@ const meta = {
 const Reviews: React.FC<React.PropsWithChildren<any>> = ({reviews}) => {
   return (
     <Layout meta={meta}>
-      <main>
+      <main className="flex-grow">
         <header className="relative px-5 py-28 overflow-hidden text-white bg-green-700 bg-noise">
           <h1 className="max-w-screen-md font-heading font-bold mx-auto leading-none text-center text-3xl sm:text-4xl lg:text-5xl">
             Accessibility Reviews
           </h1>
         </header>
-        <div className="bg-gray-50 px-5 flex-grow">
+        <div className="bg-gray-50 px-5">
           <div className="pb-16 mx-auto max-w-xl w-full pt-16 gap-16">
             <div className="grid grid-cols-1 sm:gap-10 gap-16">
               {reviews.map(({title, description, slug, image, date}: any) => {

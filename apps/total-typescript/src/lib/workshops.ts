@@ -10,6 +10,7 @@ const workshopsQuery = groq`*[_type == "module" && moduleType == 'workshop'] | o
   _updatedAt,
   _createdAt,
   description,
+  state,
   "sections": resources[@->._type == 'section']->{
     _id,
     _type,

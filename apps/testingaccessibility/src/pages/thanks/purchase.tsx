@@ -15,7 +15,7 @@ import {
   NEW_INDIVIDUAL_PURCHASE,
   INDIVIDUAL_TO_BULK_UPGRADE,
 } from '@skillrecordings/types'
-import {prisma} from '@skillrecordings/database'
+import {getSdk} from '@skillrecordings/database'
 import Link from 'next/link'
 import CopyInviteLink from 'components/team/copy-invite-link'
 
@@ -44,27 +44,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 
   const {email, stripeChargeId, quantity: seatsPurchased} = purchaseInfo
 
-  // Find the purchase associated with this stripeChargeId
-  // - Is the tied to a bulk coupon?
-  //   - If so, is it the first one?
-  //     - Yes: NEW_BULK_COUPON
-  //     - No:  EXISTING_BULK_COUPON
-  //   - If not: NEW_INDIVIDUAL_PURCHASE
-
-  const purchase = await prisma.purchase.findFirst({
-    where: {
-      merchantCharge: {
-        identifier: stripeChargeId,
-      },
-    },
-    include: {
-      bulkCoupon: {
-        include: {
-          bulkCouponPurchases: true,
-        },
-      },
-    },
-  })
+  const purchase = await getSdk().getPurchaseForStripeCharge(stripeChargeId)
 
   if (!purchase || !email) {
     return {
@@ -172,7 +152,7 @@ const ThanksVerify: React.FC<React.PropsWithChildren<ThanksProps>> = ({
                 </div>
                 <p className="text-sand-100 max-w-md font-medium leading-relaxed mx-auto mt-2">
                   You can also visit your{' '}
-                  <Link href="/team/invite">
+                  <Link href="/team">
                     <a className="py-1 inline-flex text-base font-medium hover:underline transition">
                       Team Invite
                     </a>

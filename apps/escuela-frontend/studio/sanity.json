@@ -1,11 +1,11 @@
 {
   "root": true,
+  "project": {
+    "name": "escuela-frontend"
+  },
   "api": {
     "projectId": "s8qytc9h",
     "dataset": "production"
-  },
-  "project": {
-    "name": "escuela-frontend"
   },
   "plugins": [
     "@sanity/base",
@@ -18,9 +18,7 @@
   ],
   "env": {
     "development": {
-      "plugins": [
-        "@sanity/vision"
-      ]
+      "plugins": ["@sanity/vision"]
     }
   },
   "parts": [

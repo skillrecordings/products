@@ -4,7 +4,7 @@ import {ChevronDownIcon, ChevronUpIcon} from '@heroicons/react/solid'
 import {
   toPlainText,
   PortableText,
-  PortableTextComponents as PortableTextComponentsProps,
+  PortableTextComponents,
   PortableTextMarkComponentProps,
 } from '@portabletext/react'
 import {useSelector} from '@xstate/react'
@@ -26,8 +26,8 @@ import yaml from 'refractor/lang/yaml'
 import css from 'refractor/lang/css'
 import jsx from 'refractor/lang/jsx'
 import tsx from 'refractor/lang/tsx'
-import json from 'refractor/lang/json'
 import Spinner from 'components/spinner'
+import Link from 'next/link'
 
 Refractor.registerLanguage(js)
 Refractor.registerLanguage(css)
@@ -35,7 +35,6 @@ Refractor.registerLanguage(markdown)
 Refractor.registerLanguage(yaml)
 Refractor.registerLanguage(jsx)
 Refractor.registerLanguage(tsx)
-Refractor.registerLanguage(json)
 
 const Video: React.FC<{url: string; title: string}> = ({url, title}) => {
   const fullscreenWrapperRef = React.useRef<HTMLDivElement>(null)
@@ -139,9 +138,63 @@ const ExternalLink: React.FC<React.PropsWithChildren<ExternalLinkProps>> = ({
   )
 }
 
+const InternalLink: React.FC<InternalLinkProps> = ({value, children}) => {
+  return (
+    <Link
+      href={{
+        pathname: '/tutoriales/[module]/[exercise]',
+        query: {
+          module: value.module.slug,
+          exercise: value.slug,
+        },
+      }}
+    >
+      <a>{children}</a>
+    </Link>
+  )
+}
+
+const HighlightedCode: React.FC<CodeProps> = ({value}) => {
+  const [mounted, setMounted] = React.useState(false)
+  React.useEffect(() => {
+    setMounted(true)
+  }, [])
+
+  const {language, code, highlightedLines} = value
+  return mounted ? (
+    <>
+      <pre
+        role="region"
+        aria-label={'code sample'}
+        tabIndex={0}
+        className="sr-only"
+      >
+        <code>{code}</code>
+      </pre>
+      <pre
+        aria-hidden="true"
+        className="relative -mx-5 rounded-md p-5 leading-[1.15] scrollbar-thin scrollbar-track-transparent scrollbar-thumb-gray-600 hover:scrollbar-thumb-gray-500 sm:mx-0 sm:rounded-lg md:leading-tight"
+      >
+        <Refractor
+          inline
+          language={
+            language
+              ? Refractor.hasLanguage(language)
+                ? language
+                : 'javascript'
+              : 'javascript'
+          }
+          value={code}
+          markers={highlightedLines}
+        />
+      </pre>
+    </>
+  ) : null
+}
+
 // https://github.com/portabletext/react-portabletext
 
-const PortableTextComponents: PortableTextComponentsProps = {
+const PortableTextComponents: PortableTextComponents = {
   block: {
     h1: ({children, value}) => {
       return <h1 id={speakingurl(toPlainText(value))}>{children}</h1>
@@ -172,12 +225,11 @@ const PortableTextComponents: PortableTextComponentsProps = {
     link: ({value, children}) => {
       return <ExternalLink value={value}>{children}</ExternalLink>
     },
-    code: ({children}) => {
-      return (
-        <span className="rounded-md bg-gray-700 py-1 px-1 font-mono text-base">
-          {children}
-        </span>
-      )
+    internalLink: ({value, children}) => {
+      return <InternalLink value={value}>{children}</InternalLink>
+    },
+    code: ({value, children}) => {
+      return <code className="rounded bg-gray-700 px-1 py-0.5">{children}</code>
     },
   },
   types: {
@@ -197,12 +249,12 @@ const PortableTextComponents: PortableTextComponentsProps = {
               <summary className="inline-flex cursor-pointer items-center space-x-2 text-gray-600 transition hover:text-gray-800">
                 <span
                   aria-hidden="true"
-                  className="flex items-center justify-center rounded-full border border-gray-600 p-1 transition group-hover:bg-gray-50"
+                  className="flex items-center justify-center rounded-md border border-gray-200 p-1 transition group-hover:bg-gray-50"
                 >
                   <ChevronDownIcon className="h-4 w-4 group-open:hidden" />
                   <ChevronUpIcon className="hidden h-4 w-4 group-open:block" />
                 </span>
-                <span className="text-base">Video Transcript</span>
+                <span className="text-base">Transcripción</span>
               </summary>
               <div className="text-gray-600">
                 <PortableText value={caption} />
@@ -238,12 +290,12 @@ const PortableTextComponents: PortableTextComponentsProps = {
                 <summary className="inline-flex cursor-pointer items-center space-x-2 text-gray-600 transition hover:text-gray-800">
                   <span
                     aria-hidden="true"
-                    className="flex items-center justify-center rounded-full border border-gray-600 p-1 transition group-hover:bg-gray-50"
+                    className="flex items-center justify-center rounded-md border border-gray-200 p-1 transition group-hover:bg-gray-50"
                   >
                     <ChevronDownIcon className="h-4 w-4 group-open:hidden" />
                     <ChevronUpIcon className="hidden h-4 w-4 group-open:block" />
                   </span>
-                  <span className="text-base">Video Transcript</span>
+                  <span className="text-base">Transcripción</span>
                 </summary>
                 <div className="text-gray-600">
                   <PortableText value={caption} />
@@ -256,43 +308,14 @@ const PortableTextComponents: PortableTextComponentsProps = {
     },
     bodyImage: ({value}: BodyImageProps) => <BodyImage value={value} />,
     code: ({value}: CodeProps) => {
-      const {language, code, highlightedLines} = value
-      return (
-        <>
-          <pre
-            role="region"
-            aria-label={'code sample'}
-            tabIndex={0}
-            className="sr-only"
-          >
-            <code>{code}</code>
-          </pre>
-          <pre
-            aria-hidden="true"
-            className="-mx-5 rounded-none bg-gray-800 p-5 text-lg leading-[1.15] sm:mx-0 sm:rounded-lg md:text-lg md:leading-tight"
-          >
-            <Refractor
-              inline
-              language={
-                language
-                  ? Refractor.hasLanguage(language)
-                    ? language
-                    : 'javascript'
-                  : 'javascript'
-              }
-              value={code}
-              markers={highlightedLines}
-            />
-          </pre>
-        </>
-      )
+      return <HighlightedCode value={value} />
     },
     callout: ({value}: CalloutProps) => {
       const {body, type} = value
       return (
         <div
           className={cx(
-            `my-4 flex space-x-5 rounded-md p-5 font-sans text-white sm:my-8`,
+            `my-4 flex space-x-5 rounded-md p-5 sm:my-8`,
             getCalloutStyles(type),
           )}
         >
@@ -401,15 +424,15 @@ type CodeProps = {
 const getCalloutStyles = (type: string): string => {
   switch (type) {
     case 'tip':
-      return 'bg-gray-800'
+      return 'bg-gray-700'
     case 'big-idea':
-      return 'bg-gray-800'
+      return 'bg-gray-700'
     case 'reflection':
-      return 'bg-gray-800'
+      return 'bg-gray-700'
     case 'caution':
-      return 'bg-gray-800'
+      return 'bg-gray-700'
     default:
-      return 'bg-gray-800'
+      return 'bg-gray-700'
   }
 }
 

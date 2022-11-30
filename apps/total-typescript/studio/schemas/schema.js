@@ -11,6 +11,8 @@ import module from './documents/module'
 import videoResource from './documents/videoResource'
 import tip from './documents/tip'
 import testimonial from './documents/testimonial'
+import pricing from './documents/pricing'
+import product from './documents/product'
 // —— objects
 // body
 import body from './objects/body'
@@ -26,12 +28,12 @@ import grid from './objects/grid'
 import gridItem from './objects/gridItem'
 import stackblitz from './objects/stackblitz'
 import solution from './objects/resources/solution'
-
 import github from './objects/github'
 import muxAsset from './objects/muxAsset'
 import castingwordsTranscript from './objects/castingwordsTranscript'
 import tweet from './objects/tweet'
 import bodyTestimonial from './objects/bodyTestimonial'
+import feature from './objects/feature'
 
 // Then we give our schema to the builder and provide the result to Sanity
 export default createSchema({
@@ -48,6 +50,8 @@ export default createSchema({
     tip,
     testimonial,
     section,
+    pricing,
+    product,
     // objects
     body,
     bodyVideo,
@@ -61,12 +65,12 @@ export default createSchema({
     grid,
     gridItem,
     stackblitz,
-
     github,
     solution,
     muxAsset,
     castingwordsTranscript,
     tweet,
     bodyTestimonial,
+    feature,
   ]),
 })

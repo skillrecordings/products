@@ -12,6 +12,7 @@ import {getSdk, prisma} from '@skillrecordings/database'
 import Link from 'next/link'
 import {isString} from 'lodash'
 import InviteTeam from 'team'
+import {InvoiceCard} from 'pages/invoices'
 
 export const getServerSideProps: GetServerSideProps = async ({req, query}) => {
   const {purchaseId: purchaseQueryParam, session_id, upgrade} = query
@@ -47,6 +48,7 @@ export const getServerSideProps: GetServerSideProps = async ({req, query}) => {
   if (token && isString(purchaseId) && isString(token?.sub)) {
     const {purchase, existingPurchase, availableUpgrades} =
       await getPurchaseDetails(purchaseId, token.sub)
+    console.log({purchase})
     return purchase
       ? {
           props: {
@@ -97,16 +99,17 @@ const Welcome: React.FC<
     purchase.bulkCoupon &&
     purchase.bulkCoupon.maxUses > purchase.bulkCoupon.usedCount
 
+  const hasCharge = Boolean(purchase.merchantChargeId)
+
   return (
     <Layout
       meta={{title: `Welcome to ${process.env.NEXT_PUBLIC_SITE_TITLE}`}}
       footer={null}
-      className="bg-noise"
     >
-      <main className="mx-auto flex w-full flex-grow flex-col items-center justify-center py-8 px-5 sm:py-16">
-        <div className=" flex w-full max-w-lg flex-col gap-3">
-          <Header upgrade={upgrade} />
-          {purchase.merchantChargeId && <Invoice purchase={purchase} />}
+      <main className="mx-auto flex w-full flex-grow flex-col items-center justify-center px-5 py-24 sm:py-32">
+        <div className="flex w-full max-w-xl flex-col gap-3">
+          <Header upgrade={upgrade} purchase={purchase} />
+          {hasCharge && <InvoiceCard purchase={purchase} />}
           {redemptionsLeft && (
             <Invite>
               <InviteTeam
@@ -118,21 +121,28 @@ const Welcome: React.FC<
             </Invite>
           )}
           {personalPurchase && <GetStarted />}
-          <Share />
+          <Share productName={purchase.product.name} />
         </div>
       </main>
     </Layout>
   )
 }
 
-const Header: React.FC<React.PropsWithChildren<{upgrade: boolean}>> = ({
-  upgrade,
-}) => {
+const Header: React.FC<
+  React.PropsWithChildren<{
+    upgrade: boolean
+    purchase: {
+      merchantChargeId: string | null
+      bulkCoupon: {id: string; maxUses: number; usedCount: number} | null
+      product: {id: string; name: string}
+    }
+  }>
+> = ({upgrade, purchase}) => {
   return (
     <header className="flex flex-col items-center pb-8 text-center text-white">
       <h1 className="font-heading text-3xl font-bold sm:text-4xl lg:text-5xl">
         {upgrade ? `You've Upgraded ` : `Welcome to `}
-        {process.env.NEXT_PUBLIC_SITE_TITLE}
+        {purchase.product.name}
       </h1>
       {/* <h2 className="pt-4 lg:text-2xl sm:text-xl text-lg font-medium max-w-sm font-heading text-orange-200">
       Thanks so much for purchasing{' '}
@@ -144,39 +154,11 @@ const Header: React.FC<React.PropsWithChildren<{upgrade: boolean}>> = ({
   )
 }
 
-const Invoice: React.FC<React.PropsWithChildren<{purchase: any}>> = ({
-  purchase,
-}: any) => {
-  return (
-    <div className="flex items-center justify-between rounded-md bg-white px-5 py-5 sm:px-8">
-      <h2 className="flex items-center gap-1 text-xl font-bold text-cyan-900">
-        <DocumentTextIcon
-          aria-hidden="true"
-          className="h-5 w-5 text-cyan-500"
-        />
-        <span>Invoice</span>
-      </h2>
-      <Link href={`/invoices/${purchase.merchantChargeId}`}>
-        <a
-          target="_blank"
-          className="flex-shrink-0 rounded-md border bg-cyan-500 px-4 py-2 font-semibold text-white transition hover:bg-cyan-600"
-          title="Link opens in a new window"
-        >
-          Get your invoice{' '}
-          <span role="presentation" aria-hidden="true">
-            →
-          </span>
-        </a>
-      </Link>
-    </div>
-  )
-}
-
 const Invite: React.FC<React.PropsWithChildren<unknown>> = ({children}) => {
   return (
-    <div className="rounded-lg bg-white px-5 py-5 sm:px-8 sm:py-8">
-      <h3 className="flex items-center gap-2 text-xl font-bold">
-        <UserGroupIcon className="w-5 text-green-500" /> Invite your team
+    <div className="rounded-lg border border-gray-800/80 bg-black/60 p-5">
+      <h3 className="flex items-center gap-3 text-xl font-semibold">
+        <UserGroupIcon className="w-5 text-cyan-500" /> Invite your team
       </h3>
       {children}
     </div>
@@ -190,9 +172,15 @@ const GetStarted: React.FC<React.PropsWithChildren<unknown>> = () => {
         <span>Ready to get started?</span>
       </h2>
       <Link href={`/workshops`}>
-        <a className="flex-shrink-0 rounded-md bg-cyan-500 px-5 py-4 text-lg font-semibold text-gray-900 transition-all focus-visible:ring-white hover:-rotate-1 hover:scale-105 hover:bg-yellow-400">
-          Start {process.env.NEXT_PUBLIC_SITE_TITLE}{' '}
-          <span role="presentation" aria-hidden="true">
+        <a className="group flex-shrink-0 rounded-md bg-cyan-300 py-4 pl-5 pr-8 text-lg font-semibold text-gray-900 shadow-xl transition-all focus-visible:ring-white hover:bg-cyan-200">
+          <span className="pr-2.5">
+            Start {process.env.NEXT_PUBLIC_SITE_TITLE}{' '}
+          </span>
+          <span
+            role="presentation"
+            aria-hidden="true"
+            className="absolute text-cyan-800 transition group-hover:translate-x-1"
+          >
             →
           </span>
         </a>
@@ -201,11 +189,13 @@ const GetStarted: React.FC<React.PropsWithChildren<unknown>> = () => {
   )
 }
 
-const Share: React.FC<React.PropsWithChildren<unknown>> = () => {
-  const tweet = `https://twitter.com/intent/tweet/?text=Just purchased Engineering Management for the Rest of Us by @sarah_edo`
+const Share: React.FC<React.PropsWithChildren<{productName: string}>> = ({
+  productName,
+}) => {
+  const tweet = `https://twitter.com/intent/tweet/?text=Just purchased ${productName} by @${process.env.NEXT_PUBLIC_PARTNER_TWITTER}`
   return (
     <div className="mx-auto flex max-w-lg flex-col items-center gap-5 px-8 pt-12 pb-5 text-center">
-      <p className="gap-1 text-lg font-semibold text-white">
+      <p className="gap-1 text-lg text-white">
         Please consider telling your friends about{' '}
         {process.env.NEXT_PUBLIC_SITE_TITLE}, it would help me to get a word
         out.{' '}
@@ -217,7 +207,7 @@ const Share: React.FC<React.PropsWithChildren<unknown>> = () => {
         href={tweet}
         rel="noopener noreferrer"
         target="_blank"
-        className="flex items-center gap-2 rounded-md border border-orange-200/40 px-3 py-2 text-white transition hover:bg-white/5"
+        className="flex items-center gap-2 rounded-md border border-gray-700 px-3 py-2 text-white transition hover:bg-white/5"
       >
         <TwitterIcon /> Share with your friends!
       </a>
