@@ -3,6 +3,7 @@ import {Exercise} from '../../lib/exercises'
 import {SanityDocument} from '@sanity/client'
 import {track} from '../../utils/analytics'
 import {IconGithub} from '../icons'
+import {useMuxPlayer} from '../../hooks/use-mux-player'
 
 export const GitHubLink: React.FC<{
   exercise: Exercise
@@ -10,15 +11,16 @@ export const GitHubLink: React.FC<{
 }> = ({exercise, module}) => {
   const {github} = module
 
-  if (!github || !exercise.stackblitz) {
+  const {canShowVideo} = useMuxPlayer()
+
+  if (!canShowVideo || !github || !exercise.stackblitz) {
     return null
   }
 
   const openFile = exercise.stackblitz?.split(',')[0]
 
   return (
-    <div className="pt-14">
-      <h2 className="pb-4 text-2xl font-semibold sm:text-3xl">Code</h2>
+    <div className="pb-4">
       <div className="flex items-center gap-2">
         <a
           onClick={() => {

@@ -438,10 +438,10 @@ const BlockedOverlay: React.FC = () => {
                 />
               </div>
               <h2 className="text-4xl font-semibold">
-                Level up with {module.title}
+                Level up your {module.title}
               </h2>
-              <h3 className="pb-5 text-xl">
-                {ctaText && <PortableText value={ctaText} />}
+              <h3 className="max-w-sm pb-5 text-xl">
+                This {lesson._type} in part of the {module.title} workshop.
               </h3>
               <Link
                 href={{
@@ -449,7 +449,7 @@ const BlockedOverlay: React.FC = () => {
                 }}
               >
                 <a className="group mt-5 inline-block gap-2 rounded bg-gray-800 px-4 py-2 font-medium transition hover:bg-gray-700">
-                  Buy Now{' '}
+                  Unlock this {lesson._type} now{' '}
                   <span
                     aria-hidden="true"
                     className="text-gray-300 transition group-hover:text-white"

@@ -94,8 +94,8 @@ const ExerciseTemplate: React.FC<{
             <article className="relative flex-shrink-0 sm:bg-black/20 2xl:bg-transparent">
               <div className="relative z-10 mx-auto max-w-4xl px-5 py-5 lg:py-8 2xl:max-w-xl">
                 <ExerciseTitle exercise={exercise} />
-                <ExerciseDescription exercise={exercise} />
                 <GitHubLink exercise={exercise} module={module} />
+                <ExerciseDescription exercise={exercise} />
               </div>
               <div className="relative z-10 block 2xl:hidden">
                 <VideoTranscript
