@@ -4,7 +4,7 @@ import {convertToSerializeForNextResponse} from '@skillrecordings/commerce-serve
 import {useLocalStorage} from 'react-use'
 import {GetServerSideProps} from 'next'
 import {stripe} from '@skillrecordings/commerce-server'
-import {Coupon, getSdk, MerchantProduct} from '@skillrecordings/database'
+import {Coupon, getSdk} from '@skillrecordings/database'
 import {Stripe} from 'stripe'
 import fromUnixTime from 'date-fns/fromUnixTime'
 import Layout from 'components/app/layout'
@@ -71,10 +71,9 @@ const Invoice: React.FC<
     charge: Stripe.Charge
     product: {name: string}
     merchantChargeId: string
-    merchantProduct: MerchantProduct
     bulkCoupon: Coupon
   }>
-> = ({charge, product, merchantChargeId, merchantProduct, bulkCoupon}) => {
+> = ({charge, product, merchantChargeId, bulkCoupon}) => {
   const [invoiceMetadata, setInvoiceMetadata] = useLocalStorage(
     'invoice-metadata',
     '',
