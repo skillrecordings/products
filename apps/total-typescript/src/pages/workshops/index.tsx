@@ -34,80 +34,98 @@ const WorkshopsPage: React.FC<{modules: SanityDocument[]}> = ({modules}) => {
         </p>
         {modules && (
           <ul className="flex max-w-screen-md flex-col gap-8 px-3 pt-20">
-            {modules.map(({title, slug, image, description, sections}, i) => {
-              return (
-                <li
-                  key={slug.current}
-                  className="relative flex flex-col items-center gap-10 overflow-hidden rounded-lg border border-gray-700/50 bg-black/20 p-10 shadow-2xl md:flex-row"
-                >
-                  <div className="flex flex-shrink-0 items-center justify-center">
-                    <Image
-                      src={`https://res.cloudinary.com/dg3gyk0gu/image/fetch/h_600/f_auto/${image}`}
-                      alt={title}
-                      width={300}
-                      quality={100}
-                      height={300}
-                    />
-                  </div>
-                  <div>
-                    <Link
-                      href={{
-                        pathname: '/workshops/[module]',
-                        query: {
-                          module: slug.current,
-                        },
-                      }}
-                    >
-                      <a className="text-3xl font-semibold hover:underline sm:text-4xl">
-                        {title}
-                      </a>
-                    </Link>
-                    {sections ? (
-                      <div className="pt-4 pb-3 font-mono text-xs font-semibold uppercase text-cyan-300">
-                        {i === 0 && (
-                          <span className="mr-3 rounded-full bg-cyan-300 px-2 py-0.5 font-sans font-semibold uppercase text-black">
-                            New
-                          </span>
-                        )}
-                        {sections.length} sections,{' '}
-                        {sections.reduce(
-                          (acc: number, section: {exercises?: any[]}) =>
-                            section.exercises?.length
-                              ? section.exercises?.length + acc
-                              : acc,
-                          0,
-                        )}{' '}
-                        exercises
-                      </div>
-                    ) : (
-                      <br />
-                    )}
-                    {description && (
-                      <p className="text-gray-300">{description}</p>
-                    )}
-                    <Link
-                      href={{
-                        pathname: '/workshops/[module]',
-                        query: {
-                          module: slug.current,
-                        },
-                      }}
-                    >
-                      <a className="group mt-5 inline-block gap-2 rounded bg-gray-800 px-4 py-2 font-medium transition hover:bg-gray-700">
-                        View{' '}
-                        <span
-                          aria-hidden="true"
-                          className="text-gray-300 transition group-hover:text-white"
+            {modules.map(
+              ({title, slug, image, description, sections, state}, i) => {
+                return (
+                  <li
+                    key={slug.current}
+                    className="relative flex flex-col items-center gap-10 overflow-hidden rounded-lg border border-gray-700/50 bg-black/20 p-10 shadow-2xl md:flex-row"
+                  >
+                    <div className="flex flex-shrink-0 items-center justify-center">
+                      <Image
+                        src={`https://res.cloudinary.com/dg3gyk0gu/image/fetch/h_600/f_auto/${image}`}
+                        alt={title}
+                        width={300}
+                        quality={100}
+                        height={300}
+                      />
+                    </div>
+                    <div className="w-full">
+                      {state === 'draft' ? (
+                        <h2 className="text-3xl font-semibold sm:text-4xl">
+                          {title}
+                        </h2>
+                      ) : (
+                        <Link
+                          href={{
+                            pathname: '/workshops/[module]',
+                            query: {
+                              module: slug.current,
+                            },
+                          }}
                         >
-                          →
+                          <a>
+                            <h2 className="text-3xl font-semibold hover:underline sm:text-4xl">
+                              {title}
+                            </h2>
+                          </a>
+                        </Link>
+                      )}
+                      {state === 'draft' && (
+                        <span className="absolute right-2 top-5 mr-3 rounded-full bg-gray-700 px-2 py-0.5 font-sans text-xs font-semibold uppercase text-gray-200">
+                          Coming Soon
                         </span>
-                      </a>
-                    </Link>
-                  </div>
-                  <StripesLeft className="absolute left-0 top-0 hidden w-5 md:block" />
-                </li>
-              )
-            })}
+                      )}
+                      {sections ? (
+                        <div className="pt-4 pb-3 font-mono text-xs font-semibold uppercase text-cyan-300">
+                          {i === 0 && (
+                            <span className="mr-3 rounded-full bg-cyan-300 px-2 py-0.5 font-sans font-semibold uppercase text-black">
+                              New
+                            </span>
+                          )}
+                          {sections.length} sections,{' '}
+                          {sections.reduce(
+                            (acc: number, section: {exercises?: any[]}) =>
+                              section.exercises?.length
+                                ? section.exercises?.length + acc
+                                : acc,
+                            0,
+                          )}{' '}
+                          exercises
+                        </div>
+                      ) : (
+                        <br />
+                      )}
+
+                      {description && (
+                        <p className="text-gray-300">{description}</p>
+                      )}
+                      {state !== 'draft' && (
+                        <Link
+                          href={{
+                            pathname: '/workshops/[module]',
+                            query: {
+                              module: slug.current,
+                            },
+                          }}
+                        >
+                          <a className="group mt-5 inline-block gap-2 rounded bg-gray-800 px-4 py-2 font-medium transition hover:bg-gray-700">
+                            View{' '}
+                            <span
+                              aria-hidden="true"
+                              className="text-gray-300 transition group-hover:text-white"
+                            >
+                              →
+                            </span>
+                          </a>
+                        </Link>
+                      )}
+                    </div>
+                    <StripesLeft className="absolute left-0 top-0 hidden w-5 md:block" />
+                  </li>
+                )
+              },
+            )}
           </ul>
         )}
       </main>

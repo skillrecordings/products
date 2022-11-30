@@ -65,6 +65,9 @@ const DesktopNav = () => {
             aria-hidden="true"
           />
         ) : null}
+        {isSellingLive || status === 'authenticated' ? (
+          <NavLink path="/workshops" label="Pro Workshops" icon={<KeyIcon />} />
+        ) : null}
         <NavLink
           path="/tutorials"
           label="Free Tutorials"
@@ -80,7 +83,6 @@ const DesktopNav = () => {
           }
         />
       </div>
-
       {status === 'authenticated' ? (
         <AccountDropdown />
       ) : status === 'unauthenticated' && isSellingLive ? (
@@ -114,6 +116,13 @@ const MobileNav = () => {
                 </NavigationMenu.Trigger>
                 <NavigationMenu.Content className="absolute left-0 top-full w-full bg-gray-800 shadow-xl">
                   <ul>
+                    {isSellingLive || status === 'authenticated' ? (
+                      <MobileNavLink
+                        path="/workshops"
+                        label="Pro Workshops"
+                        icon={<KeyIcon />}
+                      />
+                    ) : null}
                     <MobileNavLink
                       path="/tutorials"
                       label="Free Tutorials"
@@ -205,7 +214,7 @@ const MobileNavLink: React.FC<
       <NextLink href={path} passHref>
         <a
           className={cx(
-            'flex h-full items-center gap-0.5 px-3 py-3 text-base font-medium transition duration-100 hover:bg-gray-800/60 active:bg-transparent',
+            'flex h-full items-center gap-1.5 px-3 py-3 text-base font-medium transition duration-100 hover:bg-gray-800/60 active:bg-transparent',
             className,
           )}
           onClick={() => {
@@ -339,6 +348,24 @@ const LogOutButton: React.FC<{className?: string}> = ({className}) => {
         Log out
       </button>
     </NavigationMenu.Link>
+  )
+}
+
+const KeyIcon = () => {
+  return (
+    <svg
+      className="mr-0.5 h-4 w-4 text-amber-300"
+      xmlns="http://www.w3.org/2000/svg"
+      fill="none"
+      viewBox="0 0 15 15"
+    >
+      <path
+        fill="currentColor"
+        fillRule="evenodd"
+        clipRule="evenodd"
+        d="M14 0a1 1 0 0 1 .707 1.707l-1.646 1.647 1.793 1.792a.5.5 0 0 1 0 .708l-2.5 2.5a.499.499 0 0 1-.708 0L9.854 6.561 7.434 8.98c.367.61.563 1.308.566 2.02a4 4 0 1 1-4-4c.712.004 1.41.2 2.02.566L13.293.293A1 1 0 0 1 14 0ZM4 13a2 2 0 1 0 0-4 2 2 0 0 0 0 4Z"
+      />
+    </svg>
   )
 }
 
