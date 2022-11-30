@@ -96,7 +96,7 @@ const Header: React.FC<{workshop: SanityDocument}> = ({workshop}) => {
                   <a
                     className="flex items-center justify-center rounded bg-cyan-400 px-6 py-3 font-semibold text-black transition hover:bg-cyan-300"
                     onClick={() => {
-                      track('clicked github code link', {module: slug.current})
+                      track('clicked start learning', {module: slug.current})
                     }}
                   >
                     Start Learning{' '}
