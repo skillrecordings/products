@@ -48,12 +48,14 @@ const canViewTutorial = ({user, subscriber, module}: ViewerAbilityInput) => {
 const canViewWorkshop = ({user, module, lesson}: ViewerAbilityInput) => {
   const contentIsWorkshop = module?.moduleType === 'workshop'
 
-  // TODO remove this once we have a better way to determine if a workshop is
-  //  available to the user (see below)
-  const userHasPurchases = Boolean(user && user.purchases.length > 0)
+  const purchases = user?.purchases || []
+  const userHasPurchaseWithAccess = Boolean(
+    purchases.find((purchase) => purchase.bulkCouponId === null),
+  )
+
   const hasVideo = Boolean(lesson?.muxPlaybackId)
 
-  return contentIsWorkshop && userHasPurchases && hasVideo
+  return contentIsWorkshop && userHasPurchaseWithAccess && hasVideo
 
   // TODO a given module is associated with a product
   //  if the user has a valid purchase of that product
