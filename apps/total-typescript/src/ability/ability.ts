@@ -8,6 +8,9 @@ import {Exercise} from '../lib/exercises'
 import {SanityDocument} from '@sanity/client'
 import z from 'zod'
 import {hasAvailableSeats, hasBulkPurchase} from '@skillrecordings/ability'
+import get from 'lodash/get'
+import isEmpty from 'lodash/isEmpty'
+import last from 'lodash/last'
 
 export const UserSchema = z.object({
   role: z.string().optional(),
@@ -52,8 +55,19 @@ const canViewWorkshop = ({user, module, lesson}: ViewerAbilityInput) => {
   //  available to the user (see below)
   const userHasPurchases = Boolean(user && user.purchases.length > 0)
   const hasVideo = Boolean(lesson?.muxPlaybackId)
+  const userHasBulkPurchase = Boolean(
+    userHasPurchases && !isEmpty(get(last(user?.purchases), 'bulkCoupon')),
+  )
+  const userHasClaimedSeat = Boolean(
+    userHasBulkPurchase &&
+      get(last(user?.purchases), 'bulkCoupon.usedCount') !== 0,
+  )
 
-  return contentIsWorkshop && userHasPurchases && hasVideo
+  if (userHasBulkPurchase) {
+    return userHasClaimedSeat && contentIsWorkshop && hasVideo
+  } else {
+    return userHasPurchases && contentIsWorkshop && hasVideo
+  }
 
   // TODO a given module is associated with a product
   //  if the user has a valid purchase of that product

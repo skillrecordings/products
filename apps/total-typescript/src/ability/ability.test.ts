@@ -117,6 +117,40 @@ test('blocked second workshop lesson if no purchase exists', () => {
   expect(ability.can('view', 'Content')).toBe(false)
 })
 
+test('blocked second workshop lesson if user has a bulk purchase but havent claimed a seat for themselves', () => {
+  const user = {
+    purchases: [
+      {
+        bulkCoupon: {maxUses: 5, usedCount: 0},
+      },
+    ],
+  }
+  const rules = defineRulesForPurchases({
+    user,
+    module: mockWorkshop,
+    lesson: mockExerciseTwo,
+  })
+  const ability = createAppAbility(rules)
+  expect(ability.can('view', 'Content')).toBe(false)
+})
+
+test('can view workshop content with bulk purchase and claimed seat', () => {
+  const user = {
+    purchases: [
+      {
+        bulkCoupon: {maxUses: 5, usedCount: 1},
+      },
+    ],
+  }
+  const rules = defineRulesForPurchases({
+    user,
+    module: mockWorkshop,
+    lesson: mockExerciseTwo,
+  })
+  const ability = createAppAbility(rules)
+  expect(ability.can('view', 'Content')).toBe(true)
+})
+
 const mockExerciseOne = {
   title: 'Exercise One',
   slug: 'exercise-one',
