@@ -4,7 +4,7 @@ import {convertToSerializeForNextResponse} from '@skillrecordings/commerce-serve
 import {useLocalStorage} from 'react-use'
 import {GetServerSideProps} from 'next'
 import {stripe} from '@skillrecordings/commerce-server'
-import {getSdk} from '@skillrecordings/database'
+import {Coupon, getSdk, MerchantProduct} from '@skillrecordings/database'
 import {Stripe} from 'stripe'
 import fromUnixTime from 'date-fns/fromUnixTime'
 import Layout from 'components/app/layout'
@@ -28,6 +28,7 @@ export const getServerSideProps: GetServerSideProps = async ({
         id: merchantChargeId as string,
       },
       select: {
+        id: true,
         identifier: true,
         merchantProductId: true,
       },
@@ -45,6 +46,26 @@ export const getServerSideProps: GetServerSideProps = async ({
           productId: true,
         },
       })
+      const purchase = await prisma.purchase.findFirst({
+        where: {
+          merchantChargeId: merchantCharge.id,
+        },
+        select: {
+          bulkCouponId: true,
+        },
+      })
+      const bulkCouponId = purchase?.bulkCouponId
+      const bulkCoupon = bulkCouponId
+        ? await prisma.coupon.findUnique({
+            where: {
+              id: bulkCouponId,
+            },
+            select: {
+              maxUses: true,
+            },
+          })
+        : null
+
       const productId = merchantProduct?.productId
       const product = await getProduct({
         where: {id: productId},
@@ -56,6 +77,7 @@ export const getServerSideProps: GetServerSideProps = async ({
           charge,
           product: convertToSerializeForNextResponse(product),
           merchantChargeId,
+          bulkCoupon,
         },
       }
     }
@@ -74,16 +96,24 @@ const Invoice: React.FC<
     charge: Stripe.Charge
     product: {name: string}
     merchantChargeId: string
+    merchantProduct: MerchantProduct
+    bulkCoupon: Coupon
   }>
-> = ({charge, product, merchantChargeId}) => {
+> = ({charge, product, merchantChargeId, merchantProduct, bulkCoupon}) => {
   const [invoiceMetadata, setInvoiceMetadata] = useLocalStorage(
     'invoice-metadata',
     '',
   )
-
+  const formatUsd = (amount: number) => {
+    return Intl.NumberFormat('en-US', {
+      style: 'currency',
+      currency: 'USD',
+    }).format(amount)
+  }
   const created = fromUnixTime(charge.created)
   const date = format(created, 'MMMM d, y')
   const amount = charge.amount / 100
+
   const instructorName = `${process.env.NEXT_PUBLIC_PARTNER_FIRST_NAME} ${process.env.NEXT_PUBLIC_PARTNER_LAST_NAME}`
   const productName = `${process.env.NEXT_PUBLIC_SITE_TITLE} by ${instructorName}`
 
@@ -190,31 +220,45 @@ const Invoice: React.FC<
                 </tr>
               </thead>
               <tbody>
-                {/* {map(sitePurchases, (purchase) => (
-                  <InvoiceItem key={purchase.guid} purchase={purchase} />
-                ))} */}
-                <tr className="table-row">
-                  <td>
-                    {process.env.NEXT_PUBLIC_SITE_TITLE} ({product.name})
-                    {/* {date} */}
-                  </td>
-                  <td>
-                    {charge.currency.toUpperCase()} {amount}
-                  </td>
-                  <td>1</td>
-                  <td className="text-right">
-                    {amount === null
-                      ? `${charge.currency.toUpperCase()} 0.00`
-                      : `${charge.currency.toUpperCase()} ${amount}`}
-                  </td>
-                </tr>
+                {bulkCoupon ? (
+                  <tr className="table-row">
+                    <td>{product.name}</td>
+                    <td>
+                      {charge.currency.toUpperCase()}{' '}
+                      {formatUsd(charge.amount / 100 / bulkCoupon.maxUses)}
+                    </td>
+                    <td>{bulkCoupon.maxUses}</td>
+                    <td className="text-right">
+                      {amount === null
+                        ? `${charge.currency.toUpperCase()} 0.00`
+                        : `${charge.currency.toUpperCase()} ${formatUsd(
+                            amount,
+                          )}`}
+                    </td>
+                  </tr>
+                ) : (
+                  <tr className="table-row">
+                    <td>{product.name}</td>
+                    <td>
+                      {charge.currency.toUpperCase()} {formatUsd(amount)}
+                    </td>
+                    <td>1</td>
+                    <td className="text-right">
+                      {amount === null
+                        ? `${charge.currency.toUpperCase()} 0.00`
+                        : `${charge.currency.toUpperCase()} ${formatUsd(
+                            amount,
+                          )}`}
+                    </td>
+                  </tr>
+                )}
               </tbody>
             </table>
             <div className="flex flex-col items-end py-16">
               <div>
                 <span className="mr-3">Total</span>
                 <strong className="text-lg">
-                  {charge.currency.toUpperCase()} {amount}
+                  {charge.currency.toUpperCase()} {formatUsd(amount)}
                 </strong>
               </div>
             </div>
