@@ -14,6 +14,17 @@ import Image from 'next/image'
 import find from 'lodash/find'
 import cx from 'classnames'
 import {Purchase} from '@skillrecordings/database'
+import ReactMarkdown from 'react-markdown'
+import {isSellingLive} from '../utils/is-selling-live'
+import {MailIcon} from '@heroicons/react/solid'
+import {
+  redirectUrlBuilder,
+  SubscribeToConvertkitForm,
+} from '@skillrecordings/convertkit'
+import {useConvertkit} from '../hooks/use-convertkit'
+import {setUserId} from '@amplitude/analytics-browser'
+import {track} from '../utils/analytics'
+import {useRouter} from 'next/router'
 
 function getFirstPPPCoupon(availableCoupons: any[] = []) {
   return find(availableCoupons, (coupon) => coupon.type === 'ppp') || false
@@ -54,6 +65,8 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
   const debouncedQuantity: number = useDebounce<number>(quantity, 250)
   const {productId, name, image, modules, features, action} = product
   const {addPrice, isDowngrade, isDiscount} = usePriceCheck()
+  const {subscriber, loadingSubscriber} = useConvertkit()
+  const router = useRouter()
 
   const {data: formattedPrice, status} = useQuery<FormattedPrice>(
     ['pricing', merchantCoupon, debouncedQuantity, productId, userId, couponId],
@@ -107,192 +120,240 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
     !purchased &&
     !isDowngrade(formattedPrice)
 
+  const handleOnSuccess = (subscriber: any, email?: string) => {
+    if (subscriber) {
+      const redirectUrl = redirectUrlBuilder(subscriber, router.asPath, {
+        confirmToast: 'true',
+      })
+      email && setUserId(email)
+      track('subscribed to email list', {
+        location: 'pricing',
+      })
+      router.push(redirectUrl).then(() => {
+        router.reload()
+      })
+    }
+  }
+
   return (
-    <div data-pricing-product={index}>
-      {image && (
-        <div data-pricing-product-image="">
-          <Image
-            src={image.url}
-            alt={image.alt}
-            quality={100}
-            layout={'fill'}
-            objectFit="cover"
-            aria-hidden="true"
-          />
-        </div>
-      )}
-      <article>
-        {/* {Boolean(appliedMerchantCoupon || isDiscount(formattedPrice)) && (
+    <div>
+      <div data-pricing-product={index}>
+        {image && (
+          <div data-pricing-product-image="">
+            <Image
+              src={image.url}
+              alt={image.alt}
+              quality={100}
+              layout={'fill'}
+              objectFit="cover"
+              aria-hidden="true"
+            />
+          </div>
+        )}
+        <article>
+          {/* {Boolean(appliedMerchantCoupon || isDiscount(formattedPrice)) && (
           <Ribbon appliedMerchantCoupon={appliedMerchantCoupon} />
         )} */}
-        <div data-pricing-product-header="">
-          <h4 data-name-badge="">{name}</h4>
-          <div data-price-container={status}>
-            {status === 'loading' ? (
-              <div data-loading-price="">
-                <span className="sr-only">Loading price</span>
-                <Spinner aria-hidden="true" className="h-8 w-8" />
+          <div data-pricing-product-header="">
+            <h4 data-name-badge="">{name}</h4>
+            <div data-price-container={status}>
+              {status === 'loading' ? (
+                <div data-loading-price="">
+                  <span className="sr-only">Loading price</span>
+                  <Spinner aria-hidden="true" className="h-8 w-8" />
+                </div>
+              ) : (
+                <>
+                  <sup aria-hidden="true">US</sup>
+                  <div aria-live="polite" data-price="">
+                    {'$' + formattedPrice?.calculatedPrice}
+                    {Boolean(
+                      appliedMerchantCoupon || isDiscount(formattedPrice),
+                    ) && (
+                      <>
+                        <div aria-hidden="true" data-price-discounted="">
+                          <div data-full-price={fullPrice}>
+                            {'$' + fullPrice}
+                          </div>
+                          <div data-percent-off={percentOff}>
+                            Save {percentOff}%
+                          </div>
+                        </div>
+                        <div className="sr-only">
+                          {appliedMerchantCoupon?.type === 'bulk' ? (
+                            <div>Team discount.</div>
+                          ) : null}{' '}
+                          {percentOffLabel}
+                        </div>
+                      </>
+                    )}
+                  </div>
+                </>
+              )}
+            </div>
+            <div data-byline="">yours forever</div>
+          </div>
+          {purchased ? (
+            <div data-purchased-container="">
+              <div data-purchased="">
+                <CheckCircleIcon aria-hidden="true" /> Purchased
+              </div>
+            </div>
+          ) : isSellingLive ? (
+            isDowngrade(formattedPrice) ? (
+              <div data-downgrade-container="">
+                <div data-downgrade="">Unavailable</div>
               </div>
             ) : (
-              <>
-                <sup aria-hidden="true">US</sup>
-                <div aria-live="polite" data-price="">
-                  {'$' + formattedPrice?.calculatedPrice}
-                  {Boolean(
-                    appliedMerchantCoupon || isDiscount(formattedPrice),
-                  ) && (
-                    <>
-                      <div aria-hidden="true" data-price-discounted="">
-                        <div data-full-price={fullPrice}>{'$' + fullPrice}</div>
-                        <div data-percent-off={percentOff}>
-                          Save {percentOff}%
-                        </div>
+              <div data-purchase-container="">
+                <form
+                  action={`/api/skill/checkout/stripe?productId=${
+                    formattedPrice?.id
+                  }&couponId=${appliedMerchantCoupon?.id}&quantity=${quantity}${
+                    userId ? `&userId=${userId}` : ``
+                  }${
+                    formattedPrice?.upgradeFromPurchaseId
+                      ? `&upgradeFromPurchaseId=${formattedPrice?.upgradeFromPurchaseId}`
+                      : ``
+                  }`}
+                  method="POST"
+                >
+                  <fieldset>
+                    <legend className="sr-only">{name}</legend>
+                    {productId ===
+                      process.env.NEXT_PUBLIC_DEFAULT_PRODUCT_ID && (
+                      <div data-quantity-input="">
+                        <label>
+                          <span>Seats</span>
+                          <input
+                            type="number"
+                            min={1}
+                            max={100}
+                            step={1}
+                            onChange={(e) => {
+                              const quantity = Number(e.target.value)
+                              setMerchantCoupon(undefined)
+                              setQuantity(
+                                quantity < 1
+                                  ? 1
+                                  : quantity > 100
+                                  ? 100
+                                  : quantity,
+                              )
+                            }}
+                            value={quantity}
+                            id={`${quantity}-${name}`}
+                            required={true}
+                          />
+                        </label>
                       </div>
-                      <div className="sr-only">
-                        {appliedMerchantCoupon?.type === 'bulk' ? (
-                          <div>Team discount.</div>
-                        ) : null}{' '}
-                        {percentOffLabel}
-                      </div>
-                    </>
-                  )}
-                </div>
-              </>
-            )}
-          </div>
-          <div data-byline="">yours forever</div>
-        </div>
-        {purchased ? (
-          <div data-purchased-container="">
-            <div data-purchased="">
-              <CheckCircleIcon aria-hidden="true" /> Purchased
-            </div>
-          </div>
-        ) : isDowngrade(formattedPrice) ? (
-          <div data-downgrade-container="">
-            <div data-downgrade="">Unavailable</div>
-          </div>
-        ) : (
-          <form
-            action={`/api/skill/checkout/stripe?productId=${
-              formattedPrice?.id
-            }&couponId=${appliedMerchantCoupon?.id}&quantity=${quantity}${
-              userId ? `&userId=${userId}` : ``
-            }${
-              formattedPrice?.upgradeFromPurchaseId
-                ? `&upgradeFromPurchaseId=${formattedPrice?.upgradeFromPurchaseId}`
-                : ``
-            }`}
-            method="POST"
-          >
-            <fieldset>
-              <legend className="sr-only">{name}</legend>
-              {productId === process.env.NEXT_PUBLIC_DEFAULT_PRODUCT_ID && (
-                <div data-quantity-input="">
-                  <label>
-                    <span>Seats</span>
-                    <input
-                      type="number"
-                      min={1}
-                      max={100}
-                      step={1}
-                      onChange={(e) => {
-                        const quantity = Number(e.target.value)
-                        setMerchantCoupon(undefined)
-                        setQuantity(
-                          quantity < 1 ? 1 : quantity > 100 ? 100 : quantity,
-                        )
-                      }}
-                      value={quantity}
-                      id={`${quantity}-${name}`}
-                      required={true}
-                    />
-                  </label>
-                </div>
-              )}
-              <button
-                data-pricing-product-checkout-button=""
-                type="submit"
-                disabled={status === 'loading' || status === 'error'}
-              >
-                <span>
-                  {formattedPrice?.upgradeFromPurchaseId
-                    ? `Upgrade Now`
-                    : action || `Become a TypeScript Wizard`}
-                </span>
-              </button>
-            </fieldset>
-          </form>
-        )}
-        <SaleCountdown
-          coupon={defaultCoupon}
-          data-pricing-product-sale-countdown={index}
-        />
-        {showPPPBox && (
-          <RegionalPricingBox
-            pppCoupon={pppCoupon || merchantCoupon}
-            activeCoupon={merchantCoupon}
-            setActiveCoupon={setMerchantCoupon}
-            index={index}
-          />
-        )}
-        <div data-pricing-footer="">
-          {modules || features ? (
-            <div data-header="">
-              <div>
-                <span>includes</span>
+                    )}
+                    <button
+                      data-pricing-product-checkout-button=""
+                      type="submit"
+                      disabled={status === 'loading' || status === 'error'}
+                    >
+                      <span>
+                        {formattedPrice?.upgradeFromPurchaseId
+                          ? `Upgrade Now`
+                          : action || `Become a TypeScript Wizard`}
+                      </span>
+                    </button>
+                  </fieldset>
+                </form>
               </div>
+            )
+          ) : (
+            <div data-purchased-container="">
+              <div data-unavailable="">Unavailable</div>
+              {!subscriber && !loadingSubscriber && (
+                <SubscribeForm handleOnSuccess={handleOnSuccess} />
+              )}
             </div>
-          ) : null}
-          <div data-main="">
-            <strong>Workshops</strong>
-            {modules && (
-              <ul data-workshops="" role="list">
-                {modules.map((module) => {
-                  const getLabelForState = (state: any) => {
-                    switch (state) {
-                      case 'draft':
-                        return 'Coming soon'
-                      default:
-                        return ''
+          )}
+          <SaleCountdown
+            coupon={defaultCoupon}
+            data-pricing-product-sale-countdown={index}
+          />
+          {showPPPBox && (
+            <RegionalPricingBox
+              pppCoupon={pppCoupon || merchantCoupon}
+              activeCoupon={merchantCoupon}
+              setActiveCoupon={setMerchantCoupon}
+              index={index}
+            />
+          )}
+          <div data-pricing-footer="">
+            {product.description && (
+              <div className="rose sm:prose-md prose-sm mx-auto max-w-sm px-5">
+                <ReactMarkdown children={product.description} />
+              </div>
+            )}
+            <div className="flex justify-center pt-8 align-middle">
+              <Image
+                src="https://res.cloudinary.com/total-typescript/image/upload/v1669928567/money-back-guarantee-badge-16137430586cd8f5ec2a096bb1b1e4cf_o5teov.svg"
+                width={130}
+                height={130}
+                alt="Money Back Guarantee"
+              />
+            </div>
+            {modules || features ? (
+              <div data-header="">
+                <div>
+                  <span>includes</span>
+                </div>
+              </div>
+            ) : null}
+            <div data-main="">
+              <strong>Workshops</strong>
+              {modules && (
+                <ul data-workshops="" role="list">
+                  {modules.map((module) => {
+                    const getLabelForState = (state: any) => {
+                      switch (state) {
+                        case 'draft':
+                          return 'Coming soon'
+                        default:
+                          return ''
+                      }
                     }
-                  }
-                  return (
-                    <li key={module.title}>
-                      <div data-image="" aria-hidden="true">
-                        <Image
-                          src={module.image.url}
-                          layout="fill"
-                          alt={module.title}
-                          aria-hidden="true"
-                        />
-                      </div>
-                      <div>
-                        <p>{module.title}</p>
-                        <div data-state={module.state}>
-                          {getLabelForState(module.state)}
+                    return (
+                      <li key={module.title}>
+                        <div data-image="" aria-hidden="true">
+                          <Image
+                            src={module.image.url}
+                            layout="fill"
+                            alt={module.title}
+                            aria-hidden="true"
+                          />
                         </div>
-                      </div>
-                    </li>
-                  )
-                })}
-              </ul>
-            )}
-            {features && (
-              <>
-                <strong>Features</strong>
-                <ul data-features="" role="list">
-                  {features.map((feature: {value: string}) => (
-                    <li key={feature.value}>
-                      <p>{feature.value}</p>
-                    </li>
-                  ))}
+                        <div>
+                          <p>{module.title}</p>
+                          <div data-state={module.state}>
+                            {getLabelForState(module.state)}
+                          </div>
+                        </div>
+                      </li>
+                    )
+                  })}
                 </ul>
-              </>
-            )}
+              )}
+              {features && (
+                <>
+                  <strong>Features</strong>
+                  <ul data-features="" role="list">
+                    {features.map((feature: {value: string}) => (
+                      <li key={feature.value}>
+                        <p>{feature.value}</p>
+                      </li>
+                    ))}
+                  </ul>
+                </>
+              )}
+            </div>
           </div>
-        </div>
-      </article>
+        </article>
+      </div>
     </div>
   )
 }
@@ -371,6 +432,35 @@ const Ribbon: React.FC<React.PropsWithChildren<RibbonProps>> = ({
           {getCouponLabel(appliedMerchantCoupon?.type)}
         </div>
       </div>
+    </div>
+  )
+}
+
+const SubscribeForm = ({
+  handleOnSuccess,
+}: {
+  handleOnSuccess: (subscriber: any, email?: string) => void
+}) => {
+  return (
+    <div
+      id="pricing"
+      className="flex w-full max-w-sm flex-col items-center justify-between px-10 pt-2 pb-8"
+    >
+      <div className="inline-flex flex-shrink-0 items-center gap-2 text-base font-medium leading-tight ">
+        <div
+          aria-hidden="true"
+          className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full bg-gray-800"
+        >
+          <MailIcon className="h-5 w-5 text-cyan-300" />
+        </div>{' '}
+        Get notified when Total TypeScript Vol 1. is released:
+      </div>
+      <SubscribeToConvertkitForm
+        actionLabel="Subscribe to get Notified"
+        onSuccess={(subscriber, email) => {
+          return handleOnSuccess(subscriber, email)
+        }}
+      />
     </div>
   )
 }

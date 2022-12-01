@@ -10,7 +10,7 @@ import {surveyConfig} from './survey-config'
 import {Identify, identify} from '@amplitude/analytics-browser'
 
 export const Survey = ({
-  excludePages = ['/confirm', '/workshops'],
+  excludePages = ['/confirm', '/workshops', '/buy'],
 }: {
   excludePages?: string[]
 }) => {
