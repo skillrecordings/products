@@ -2419,6 +2419,7 @@ importers:
       react-dom: 18.2.0
       react-hook-form: ^7.29.0
       react-hot-toast: ^2.2.0
+      react-markdown: ^8.0.4
       react-query: ^3.39.1
       react-refractor: ^2.1.7
       react-rewards: ^2.0.3
@@ -2510,6 +2511,7 @@ importers:
       react-dom: 18.2.0_react@18.2.0
       react-hook-form: 7.29.0_react@18.2.0
       react-hot-toast: 2.2.0_biqbaboplfbrettd7655fr4n2y
+      react-markdown: 8.0.4_3hx2ussxxho4jajbwrd6gq34qe
       react-query: 3.39.1_biqbaboplfbrettd7655fr4n2y
       react-refractor: 2.1.7_react@18.2.0
       react-rewards: 2.0.3_biqbaboplfbrettd7655fr4n2y
@@ -9039,7 +9041,7 @@ packages:
       '@mdx-js/loader': '>=0.15.0'
       '@mdx-js/react': '*'
     dependencies:
-      '@mdx-js/loader': 2.1.3_webpack@5.73.0
+      '@mdx-js/loader': 2.1.3_webpack@4.46.0
       '@mdx-js/react': 2.1.3_react@18.2.0
     dev: false
 
@@ -26356,6 +26358,33 @@ packages:
       unified: 10.1.0
       unist-util-visit: 4.1.0
       vfile: 5.3.0
+    transitivePeerDependencies:
+      - supports-color
+    dev: false
+
+  /react-markdown/8.0.4_3hx2ussxxho4jajbwrd6gq34qe:
+    resolution: {integrity: sha512-2oxHa6oDxc1apg/Gnc1Goh06t3B617xeywqI/92wmDV9FELI6ayRkwge7w7DoEqM0gRpZGTNU6xQG+YpJISnVg==}
+    peerDependencies:
+      '@types/react': '>=16'
+      react: '>=16'
+    dependencies:
+      '@types/hast': 2.3.4
+      '@types/prop-types': 15.7.4
+      '@types/react': 18.0.15
+      '@types/unist': 2.0.6
+      comma-separated-tokens: 2.0.2
+      hast-util-whitespace: 2.0.0
+      prop-types: 15.8.1
+      property-information: 6.1.0
+      react: 18.2.0
+      react-is: 18.0.0
+      remark-parse: 10.0.0
+      remark-rehype: 10.1.0
+      space-separated-tokens: 2.0.1
+      style-to-object: 0.3.0
+      unified: 10.1.2
+      unist-util-visit: 4.1.0
+      vfile: 5.3.5
     transitivePeerDependencies:
       - supports-color
     dev: false
