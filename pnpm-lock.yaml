@@ -2743,10 +2743,12 @@ importers:
 
   apps/typescriptcourse:
     specifiers:
+      '@amplitude/analytics-browser': ^1.3.0
       '@heroicons/react': ^1.0.6
       '@mdx-js/loader': ^1.6.22
       '@mdx-js/mdx': ^2.0.0
       '@mdx-js/react': ^1.6.22
+      '@mux/mux-player-react': 0.1.0-beta.26
       '@next/env': ^12.2.0
       '@next/mdx': ^12.2.5
       '@portabletext/react': ^1.0.6
@@ -2759,7 +2761,9 @@ importers:
       '@skillrecordings/auth': '=0.0.6'
       '@skillrecordings/config': workspace:*
       '@skillrecordings/convertkit': workspace:*
+      '@skillrecordings/convertkit-sdk': workspace:*
       '@skillrecordings/cookies': workspace:*
+      '@skillrecordings/database': workspace:*
       '@skillrecordings/next-seo': workspace:*
       '@skillrecordings/player': workspace:*
       '@skillrecordings/quiz': workspace:*
@@ -2774,10 +2778,15 @@ importers:
       '@testing-library/jest-dom': ^5.15.0
       '@testing-library/react': ^12.1.2
       '@tippyjs/react': ^4.2.6
+      '@trpc/client': ^9.27.2
+      '@trpc/next': ^9.27.2
+      '@trpc/react': ^9.27.2
+      '@trpc/server': ^9.27.2
       '@types/axios': ^0.14.0
       '@types/cookie': ^0.4.1
       '@types/isomorphic-fetch': ^0.0.35
       '@types/jest': ^27.5.2
+      '@types/js-cookie': ^3.0.2
       '@types/lodash': ^4.14.179
       '@types/mdx-js__react': ^1.5.5
       '@types/node': ^17.0.0
@@ -2809,12 +2818,14 @@ importers:
       groq: ^2.15.0
       hls.js: 1.1.5
       isomorphic-fetch: ^3.0.0
+      js-cookie: ^3.0.1
       load-egghead-notes-mdx-url: ^0.1.1
       lodash: ^4.17.21
       mdast-util-to-markdown: ^1.2.6
       mdx-prism: ^0.3.4
       msw: ^0.35.0
       next: ^12.3.1
+      next-auth: ^4.16.4
       next-compose-plugins: ^2.2.1
       next-images: ^1.8.4
       next-sitemap: ^3.0.5
@@ -2830,6 +2841,7 @@ importers:
       react-dom: 18.2.0
       react-hot-toast: ^2.2.0
       react-markdown: ^7.1.0
+      react-query: ^3.39.1
       react-refractor: ^2.1.7
       react-rough-notation: ^1.0.2
       react-scroll: ^1.8.6
@@ -2845,6 +2857,7 @@ importers:
       remark-footnotes: ^4.0.1
       remark-slug: ^7.0.1
       speakingurl: ^14.0.1
+      superjson: ^1.11.0
       swr: ^1.2.2
       tailwindcss: ^3.1.4
       three: ^0.134.0
@@ -2855,9 +2868,11 @@ importers:
       xstate: '=4.23.1'
       zod: ^3.19.1
     dependencies:
+      '@amplitude/analytics-browser': 1.3.0
       '@heroicons/react': 1.0.6_react@18.2.0
       '@mdx-js/mdx': 2.0.0
       '@mdx-js/react': 1.6.22_react@18.2.0
+      '@mux/mux-player-react': 0.1.0-beta.26_v7vsrdtui4d36prbwvdnlb7tpq
       '@next/mdx': 12.2.5_6vwedlnwdegenaf6jioaeirvlu
       '@portabletext/react': 1.0.6_react@18.2.0
       '@portabletext/types': 1.0.3
@@ -2869,7 +2884,9 @@ importers:
       '@skillrecordings/auth': 0.0.6_next@12.3.1
       '@skillrecordings/config': link:../../packages/config
       '@skillrecordings/convertkit': link:../../packages/convertkit
+      '@skillrecordings/convertkit-sdk': link:../../packages/convertkit-sdk
       '@skillrecordings/cookies': link:../../packages/cookies
+      '@skillrecordings/database': link:../../packages/database
       '@skillrecordings/next-seo': link:../../packages/next-seo
       '@skillrecordings/player': link:../../packages/player
       '@skillrecordings/quiz': link:../../packages/quiz
@@ -2878,6 +2895,11 @@ importers:
       '@stripe/stripe-js': 1.21.1
       '@supabase/supabase-js': 1.29.1
       '@tippyjs/react': 4.2.6_biqbaboplfbrettd7655fr4n2y
+      '@trpc/client': 9.27.2_@trpc+server@9.27.2
+      '@trpc/next': 9.27.2_cpjoldjkwaya224psufok4zvdi
+      '@trpc/react': 9.27.2_4qx6yxzlojuzl2gqhs2hvlmyii
+      '@trpc/server': 9.27.2
+      '@types/js-cookie': 3.0.2
       '@xstate/react': 1.5.1_bpg42ha2il6pcyn3wrx2rxrchm
       autoprefixer: 10.4.7_postcss@8.4.14
       axios: 0.26.1
@@ -2894,11 +2916,13 @@ importers:
       groq: 2.15.0
       hls.js: 1.1.5
       isomorphic-fetch: 3.0.0
+      js-cookie: 3.0.1
       load-egghead-notes-mdx-url: 0.1.1
       lodash: 4.17.21
       mdast-util-to-markdown: 1.2.6
       mdx-prism: 0.3.4
       next: 12.3.1_biqbaboplfbrettd7655fr4n2y
+      next-auth: 4.17.0_azq6kxkn3od7qdylwkyksrwopy
       next-sitemap: 3.1.7_o5duabsbbn2rgmqrbe3fporo6y
       next-themes: 0.1.1_azq6kxkn3od7qdylwkyksrwopy
       pluralize: 8.0.0
@@ -2909,6 +2933,7 @@ importers:
       react-dom: 18.2.0_react@18.2.0
       react-hot-toast: 2.2.0_npw22p3c4ehm7n7vxn2gqac44u
       react-markdown: 7.1.0_3hx2ussxxho4jajbwrd6gq34qe
+      react-query: 3.39.1_biqbaboplfbrettd7655fr4n2y
       react-refractor: 2.1.7_react@18.2.0
       react-rough-notation: 1.0.2_biqbaboplfbrettd7655fr4n2y
       react-scroll: 1.8.7_biqbaboplfbrettd7655fr4n2y
@@ -2923,6 +2948,7 @@ importers:
       remark-footnotes: 4.0.1
       remark-slug: 7.0.1
       speakingurl: 14.0.1
+      superjson: 1.11.0
       swr: 1.3.0_react@18.2.0
       three: 0.134.0
       unist-util-visit: 2.0.3
@@ -9041,7 +9067,7 @@ packages:
       '@mdx-js/loader': '>=0.15.0'
       '@mdx-js/react': '*'
     dependencies:
-      '@mdx-js/loader': 2.1.3_webpack@4.46.0
+      '@mdx-js/loader': 2.1.3_webpack@5.73.0
       '@mdx-js/react': 2.1.3_react@18.2.0
     dev: false
 
@@ -11802,7 +11828,6 @@ packages:
 
   /@types/js-cookie/3.0.2:
     resolution: {integrity: sha512-6+0ekgfusHftJNYpihfkMu8BWdeHs9EOJuGcSofErjstGPfPGEu9yTu4t460lTzzAMl2cM5zngQJqPMHbbnvYA==}
-    dev: true
 
   /@types/js-levenshtein/1.1.0:
     resolution: {integrity: sha512-14t0v1ICYRtRVcHASzes0v/O+TIeASb8aD55cWF1PidtInhFWSXcmhzhHqGjUWf9SUq1w70cvd1cWKUULubAfQ==}
@@ -21164,6 +21189,9 @@ packages:
     engines: {node: '>= 0.6.0'}
     dev: false
 
+  /jose/4.11.1:
+    resolution: {integrity: sha512-YRv4Tk/Wlug8qicwqFNFVEZSdbROCHRAC6qu/i0dyNKr5JQdoa2pIGoS04lLO/jXQX7Z9omoNewYIVIxqZBd9Q==}
+
   /jose/4.6.0:
     resolution: {integrity: sha512-0hNAkhMBNi4soKSAX4zYOFV+aqJlEz/4j4fregvasJzEVtjDChvWqRjPvHwLqr5hx28Ayr6bsOs1Kuj87V0O8w==}
 
@@ -23442,6 +23470,32 @@ packages:
       react-dom: 18.2.0_react@18.2.0
       uuid: 8.3.2
 
+  /next-auth/4.17.0_azq6kxkn3od7qdylwkyksrwopy:
+    resolution: {integrity: sha512-aN2tdnjS0MDeUpB2tBDOaWnegkgeMWrsccujbXRGMJ607b+EwRcy63MFGSr0OAboDJEe0902piXQkt94GqF8Qw==}
+    engines: {node: ^12.19.0 || ^14.15.0 || ^16.13.0 || ^18.12.0}
+    peerDependencies:
+      next: ^12.2.5 || ^13
+      nodemailer: ^6.6.5
+      react: ^17.0.2 || ^18
+      react-dom: ^17.0.2 || ^18
+    peerDependenciesMeta:
+      nodemailer:
+        optional: true
+    dependencies:
+      '@babel/runtime': 7.18.3
+      '@panva/hkdf': 1.0.1
+      cookie: 0.5.0
+      jose: 4.11.1
+      next: 12.3.1_biqbaboplfbrettd7655fr4n2y
+      oauth: 0.9.15
+      openid-client: 5.1.4
+      preact: 10.7.2
+      preact-render-to-string: 5.2.0_preact@10.7.2
+      react: 18.2.0
+      react-dom: 18.2.0_react@18.2.0
+      uuid: 8.3.2
+    dev: false
+
   /next-compose-plugins/2.2.1:
     resolution: {integrity: sha512-OjJ+fV15FXO2uQXQagLD4C0abYErBjyjE0I0FHpOEIB8upw0hg1ldFP6cqHTJBH1cZqy96OeR3u1dJ+Ez2D4Bg==}
 
@@ -24176,7 +24230,7 @@ packages:
     resolution: {integrity: sha512-36/PZY3rDgiIFj2uCL9a1fILPmIwu3HksoWO4mukgXe74ZOsEisJMMqTMfmPNw6j/7kO0mBc2xqy4eYRrB8xPA==}
     engines: {node: ^12.19.0 || ^14.15.0 || ^16.13.0}
     dependencies:
-      jose: 4.6.0
+      jose: 4.11.1
       lru-cache: 6.0.0
       object-hash: 2.2.0
       oidc-token-hash: 5.0.1
