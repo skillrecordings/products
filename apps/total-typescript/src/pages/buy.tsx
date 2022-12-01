@@ -22,6 +22,10 @@ const Buy: React.FC<React.PropsWithChildren<CommerceProps>> = ({
       meta={{
         title: `Buy ${process.env.NEXT_PUBLIC_SITE_TITLE}`,
         titleAppendSiteName: false,
+        ogImage: couponFromCode && {
+          url: 'https://res.cloudinary.com/total-typescript/image/upload/v1669888351/illustrations/golden-ticket_2x_hkd8x3.png',
+          alt: 'Golden Ticket',
+        },
       }}
       defaultCoupon={defaultCoupon}
     >

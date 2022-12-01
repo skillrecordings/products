@@ -16,6 +16,10 @@ export const HomeTemplate: React.FC<
     <Layout
       meta={{
         title: `Professional TypeScript Training by Matt Pocock `,
+        ogImage: couponFromCode && {
+          url: 'https://res.cloudinary.com/total-typescript/image/upload/v1669888351/illustrations/golden-ticket_2x_hkd8x3.png',
+          alt: 'Golden Ticket',
+        },
       }}
     >
       <Header level={skillLevel} />
