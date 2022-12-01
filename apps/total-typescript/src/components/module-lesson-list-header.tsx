@@ -90,7 +90,7 @@ const ModuleLessonListHeader: React.FC<SidebarProps> = ({
                 />
               </div>
               {section && (
-                <h3 className="w-full px-3 pt-4 text-xl font-semibold leading-none">
+                <h3 className="w-full px-5 pt-4 text-xl font-semibold leading-none">
                   {section.title}
                 </h3>
               )}
