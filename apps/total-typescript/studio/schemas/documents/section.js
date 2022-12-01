@@ -31,7 +31,7 @@ export default {
       of: [
         {
           type: 'reference',
-          to: [{type: 'exercise'}],
+          to: [{type: 'exercise'}, {type: 'linkResource'}],
         },
       ],
     },

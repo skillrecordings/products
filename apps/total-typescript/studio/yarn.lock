@@ -9854,10 +9854,10 @@ sanity-plugin-cloudinary@^0.2.2:
     styled-components "^5.2.1"
     video.js "^7.11.7"
 
-sanity-plugin-taxonomy-manager@^1.0.1:
-  version "1.0.1"
-  resolved "https://registry.npmjs.org/sanity-plugin-taxonomy-manager/-/sanity-plugin-taxonomy-manager-1.0.1.tgz#d32e4ef4973550e33a0e4c214100da518f719f20"
-  integrity sha512-PunJavGMbi9jI2kCy9lNafn3t54iq3mFyLfhNzkENGHpcSq7aQuh5tmNp2G8aaS7dUksZEGfOJo1ahZeNmnGIw==
+sanity-plugin-taxonomy-manager@^1.0.5:
+  version "1.0.5"
+  resolved "https://registry.yarnpkg.com/sanity-plugin-taxonomy-manager/-/sanity-plugin-taxonomy-manager-1.0.5.tgz#c54bbd01456ea3bcfc365a6de0722441f5e5a7a7"
+  integrity sha512-tvDbJUUBzsWkvRouIhw9zVpOTG3Y2AFY0KxSSgkGzUt9H/J8bhGWEKSFOCX9jyDNtWfZn9pUkPyNKgiKlBfjnQ==
   dependencies:
     "@reach/auto-id" "^0.16.0"
     "@sanity/base" "^2.28.2"
