@@ -444,9 +444,9 @@ const SubscribeForm = ({
   return (
     <div
       id="pricing"
-      className="flex w-full max-w-sm flex-col items-center justify-between px-10 pt-2 pb-8"
+      className="flex w-full max-w-sm flex-col items-center justify-between pt-2 pb-8"
     >
-      <div className="inline-flex flex-shrink-0 items-center gap-2 text-base font-medium leading-tight ">
+      <div className="inline-flex max-w-xs flex-shrink-0 items-center gap-2 text-base font-medium leading-tight ">
         <div
           aria-hidden="true"
           className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full bg-gray-800"
