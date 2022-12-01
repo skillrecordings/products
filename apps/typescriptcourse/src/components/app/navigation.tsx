@@ -27,7 +27,7 @@ const Navigation: React.FC<React.PropsWithChildren<Props>> = ({
       </Link>
       <div className="flex items-center justify-between">
         <NavLink href="/articles">Articles</NavLink>
-        <NavLink href="/tutorials">Tutorials</NavLink>
+        {/* <NavLink href="/tutorials">Tutorials</NavLink> */}
         <NavLink href="/podcast/migrate">Podcast</NavLink>
       </div>
     </nav>
