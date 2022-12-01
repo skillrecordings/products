@@ -2,24 +2,36 @@ import * as React from 'react'
 import {DownloadIcon} from '@heroicons/react/outline'
 import {convertToSerializeForNextResponse} from '@skillrecordings/commerce-server'
 import {useLocalStorage} from 'react-use'
-import {GetServerSideProps} from 'next'
+import {GetServerSideProps, InferGetServerSidePropsType} from 'next'
 import {stripe} from '@skillrecordings/commerce-server'
 import {Coupon, getSdk} from '@skillrecordings/database'
 import {Stripe} from 'stripe'
 import fromUnixTime from 'date-fns/fromUnixTime'
 import Layout from 'components/app/layout'
 import format from 'date-fns/format'
-import {prisma} from '@skillrecordings/database'
+// combine this line with the same-package import above
+import {prisma, Product} from '@skillrecordings/database'
 import {getCurrentAbility} from '@skillrecordings/ability'
 import {getToken} from 'next-auth/jwt'
+import {isArray} from 'lodash'
 
-export const getServerSideProps: GetServerSideProps = async ({
+type InvoiceProps = {
+  charge: Stripe.Charge
+  product: Product
+  merchantChargeId: string
+  bulkCoupon: Coupon | null
+}
+
+export const getServerSideProps: GetServerSideProps<InvoiceProps> = async ({
   res,
   req,
   query,
 }) => {
   const sessionToken = await getToken({req})
-  const {merchantChargeId} = query
+  const {merchantChargeId: _merchantChargeId} = query
+  const merchantChargeId = isArray(_merchantChargeId)
+    ? _merchantChargeId[0]
+    : _merchantChargeId
   const {getProduct, getPurchaseForStripeCharge} = getSdk()
   const ability = getCurrentAbility(sessionToken as any)
   if (merchantChargeId && ability.can('view', 'Invoice')) {
@@ -46,14 +58,26 @@ export const getServerSideProps: GetServerSideProps = async ({
         where: {id: purchase?.productId},
       })
 
+      if (product === null) {
+        return {
+          redirect: {
+            destination: '/invoices',
+            permanent: false,
+          },
+        }
+      }
+
       res.setHeader('Cache-Control', 's-maxage=1, stale-while-revalidate')
+
+      const props: InvoiceProps = {
+        charge,
+        product: convertToSerializeForNextResponse(product),
+        merchantChargeId,
+        bulkCoupon: convertToSerializeForNextResponse(bulkCoupon),
+      }
+
       return {
-        props: {
-          charge,
-          product: convertToSerializeForNextResponse(product),
-          merchantChargeId,
-          bulkCoupon: convertToSerializeForNextResponse(bulkCoupon),
-        },
+        props,
       }
     }
   }
@@ -67,12 +91,7 @@ export const getServerSideProps: GetServerSideProps = async ({
 }
 
 const Invoice: React.FC<
-  React.PropsWithChildren<{
-    charge: Stripe.Charge
-    product: {name: string}
-    merchantChargeId: string
-    bulkCoupon: Coupon
-  }>
+  InferGetServerSidePropsType<typeof getServerSideProps>
 > = ({charge, product, merchantChargeId, bulkCoupon}) => {
   const [invoiceMetadata, setInvoiceMetadata] = useLocalStorage(
     'invoice-metadata',
