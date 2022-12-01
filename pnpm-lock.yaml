@@ -2570,6 +2570,8 @@ importers:
       '@portabletext/react': ^1.0.6
       '@sanity/client': ^3.2.0
       '@sanity/webhook': ^1.0.2
+      '@sentry/nextjs': ^7.9.0
+      '@sentry/tracing': ^7.9.0
       '@skillrecordings/analytics': workspace:*
       '@skillrecordings/commerce-server': workspace:*
       '@skillrecordings/convertkit': workspace:*
@@ -2623,6 +2625,8 @@ importers:
       '@portabletext/react': 1.0.6_react@18.2.0
       '@sanity/client': 3.3.6
       '@sanity/webhook': 1.0.2
+      '@sentry/nextjs': 7.9.0_2l5cy4nu2tll7gjm4fpeclivve
+      '@sentry/tracing': 7.9.0
       '@skillrecordings/analytics': link:../../packages/analytics
       '@skillrecordings/commerce-server': link:../../packages/commerce-server
       '@skillrecordings/convertkit': link:../../packages/convertkit
@@ -13578,7 +13582,7 @@ packages:
   /axios/0.25.0:
     resolution: {integrity: sha512-cD8FOb0tRH3uuEe6+evtAbgJtfxr7ly3fQjYcMcuPlgkwVS9xboaVIpcDV+cYQe+yGykgwZCs1pzjntcGa6l5g==}
     dependencies:
-      follow-redirects: 1.15.1
+      follow-redirects: 1.15.1_debug@2.6.9
     transitivePeerDependencies:
       - debug
 
@@ -13592,7 +13596,7 @@ packages:
   /axios/0.27.2:
     resolution: {integrity: sha512-t+yRIyySRTp/wua5xEr+z1q60QmLq8ABsS5O9Me1AsE5dfKqgnCFzwiCZZ/cGNd1lq4/7akDWMxdhVlucjmnOQ==}
     dependencies:
-      follow-redirects: 1.15.1
+      follow-redirects: 1.15.1_debug@2.6.9
       form-data: 4.0.0
     transitivePeerDependencies:
       - debug
@@ -18048,15 +18052,6 @@ packages:
 
   /focus-visible/5.2.0:
     resolution: {integrity: sha512-Rwix9pBtC1Nuy5wysTmKy+UjbDJpIfg8eHjw0rjZ1mX4GNLz1Bmd16uDpI3Gk1i70Fgcs8Csg2lPm8HULFg9DQ==}
-
-  /follow-redirects/1.15.1:
-    resolution: {integrity: sha512-yLAMQs+k0b2m7cVxpS1VKJVvoz7SS9Td1zss3XRwXj+ZDH00RJgnuLx7E44wx02kQLrdM3aOOy+FpzS7+8OizA==}
-    engines: {node: '>=4.0'}
-    peerDependencies:
-      debug: '*'
-    peerDependenciesMeta:
-      debug:
-        optional: true
 
   /follow-redirects/1.15.1_debug@2.6.9:
     resolution: {integrity: sha512-yLAMQs+k0b2m7cVxpS1VKJVvoz7SS9Td1zss3XRwXj+ZDH00RJgnuLx7E44wx02kQLrdM3aOOy+FpzS7+8OizA==}
