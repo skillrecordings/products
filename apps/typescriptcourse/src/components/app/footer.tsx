@@ -7,15 +7,7 @@ import Bio from '../bio'
 const Footer = () => {
   const router = useRouter()
   const isRoot = router.pathname === '/new-index'
-  return (
-    <footer className="flex flex-col items-center justify-center w-full pt-16 pb-40 bg-black/30">
-      <div className="flex flex-col items-center justify-center w-full max-w-screen-lg px-5 md:flex-row  md:items-start lg:px-0 md:px-10">
-        <div className="pt-16 md:pt-0">
-          <Bio />
-        </div>
-      </div>
-    </footer>
-  )
+  return <Bio />
 }
 
 const NavLink: React.FC<
