@@ -1,21 +1,34 @@
 import * as React from 'react'
 import {GetServerSideProps} from 'next'
 import {HomeTemplate} from 'templates/home-template'
+import {getToken} from 'next-auth/jwt'
+import {getActiveProducts} from '../../../path-to-purchase-react/products.server'
+import {propsForCommerce} from '@skillrecordings/commerce-server'
+import type {CouponForCode} from '@skillrecordings/commerce-server/dist/@types'
 
-export const getServerSideProps: GetServerSideProps = async ({res, query}) => {
+export const getServerSideProps: GetServerSideProps = async ({req, query}) => {
   const {level} = query
 
-  res.setHeader('Cache-Control', 's-maxage=1, stale-while-revalidate')
+  const token = await getToken({req})
+  const {products} = await getActiveProducts()
+  const commerceProps = await propsForCommerce({token, products, query})
 
   return {
     props: {
       level,
+      ...commerceProps,
     },
   }
 }
 
-const LevelCustomHomePage = ({level}: {level: string}) => {
-  return <HomeTemplate level={level} />
+const LevelCustomHomePage = ({
+  level,
+  couponFromCode,
+}: {
+  level: string
+  couponFromCode: CouponForCode
+}) => {
+  return <HomeTemplate level={level} couponFromCode={couponFromCode} />
 }
 
 export default LevelCustomHomePage
