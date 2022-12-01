@@ -6,6 +6,7 @@ import capitalize from 'lodash/capitalize'
 import Link from 'next/link'
 import cx from 'classnames'
 import {Exercise} from '../lib/exercises'
+import Image from 'next/image'
 
 const LessonList: React.FC<{
   module: SanityDocument
@@ -24,13 +25,14 @@ const LessonList: React.FC<{
   }, [router])
 
   const exercises = section ? section.exercises : module.exercises
+  const hasSectionResources = section?.resources?.length > 0
 
   return (
     <div
       ref={scrollContainerRef}
       className="group relative h-[400px] overflow-y-auto pb-16 scrollbar-thin scrollbar-thumb-gray-800/70 hover:scrollbar-thumb-gray-700 lg:h-[calc(100vh-180px)]"
     >
-      <nav aria-label="exercise navigator">
+      <nav aria-label="exercise navigator" className="pb-3">
         <ul className="flex flex-col divide-y divide-gray-800/0 text-lg">
           {exercises?.map((exercise: Exercise, sectionIdx: number) => {
             //TODO treat this differently when a section is present as path will change
@@ -132,6 +134,52 @@ const LessonList: React.FC<{
           })}
         </ul>
       </nav>
+      {hasSectionResources && (
+        <nav
+          aria-label="resource navigator"
+          className="border-t border-gray-800 py-1"
+        >
+          <p className="px-5 pt-4 pb-2 text-xs font-medium uppercase tracking-wide text-gray-300">
+            Section Resources
+          </p>
+          <ul className="flex flex-col divide-y divide-gray-800/0 text-lg">
+            {section?.resources?.map(
+              (resource: SanityDocument, resourceIdx: number) => {
+                return (
+                  <li key={resource.slug} className="pt-2">
+                    <Link href={resource.url} passHref>
+                      <a
+                        className="flex items-center px-4 py-2 font-semibold leading-tight hover:bg-gray-800"
+                        onClick={() => {
+                          track('clicked link resource in navigator', {
+                            module: module.slug.current,
+                            ...(section && {section: section.slug}),
+                            lesson: router.asPath.split('/').pop(),
+                            moduleType: module.moduleType,
+                            resource: resource.slug,
+                          })
+                        }}
+                        target="_blank"
+                      >
+                        <span
+                          aria-hidden="true"
+                          className="pr-3 text-sm opacity-50"
+                        >
+                          {resourceIdx + 1}
+                        </span>{' '}
+                        {resource.title}
+                      </a>
+                    </Link>
+                    <p className="pl-10 pr-3 text-sm text-gray-400">
+                      {resource.description}
+                    </p>
+                  </li>
+                )
+              },
+            )}
+          </ul>
+        </nav>
+      )}
     </div>
   )
 }

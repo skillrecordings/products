@@ -21,6 +21,8 @@
     "@portabletext/react": "^1.0.6",
     "@sanity/client": "^3.2.0",
     "@sanity/webhook": "^1.0.2",
+    "@sentry/nextjs": "^7.9.0",
+    "@sentry/tracing": "^7.9.0",
     "@skillrecordings/analytics": "workspace:*",
     "@skillrecordings/convertkit": "workspace:*",
     "@skillrecordings/database": "workspace:*",

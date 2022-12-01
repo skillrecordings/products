@@ -48,7 +48,6 @@ export const getServerSideProps: GetServerSideProps = async ({req, query}) => {
   if (token && isString(purchaseId) && isString(token?.sub)) {
     const {purchase, existingPurchase, availableUpgrades} =
       await getPurchaseDetails(purchaseId, token.sub)
-    console.log({purchase})
     return purchase
       ? {
           props: {

@@ -19,9 +19,11 @@ export const getStaticProps: GetStaticProps = async ({params}) => {
 
 export const getStaticPaths: GetStaticPaths = async () => {
   const workshops = await getAllWorkshops()
-  const paths = workshops.map((workshop: any) => ({
-    params: {module: workshop.slug.current},
-  }))
+  const paths = workshops.map((workshop: any) => {
+    return {
+      params: {module: workshop.slug.current},
+    }
+  })
   return {paths, fallback: 'blocking'}
 }
 

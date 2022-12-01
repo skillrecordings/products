@@ -37,5 +37,16 @@ export default {
       title: 'Castingwords',
       type: 'castingwordsTranscript',
     },
+    {
+      name: 'concepts',
+      title: 'Concepts',
+      type: 'array',
+      of: [
+        {
+          type: 'reference',
+          to: [{type: 'skosConcept'}],
+        },
+      ],
+    },
   ],
 }
