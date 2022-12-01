@@ -45,6 +45,17 @@ export default {
       type: 'number',
       hidden: true,
     },
+    {
+      name: 'concepts',
+      title: 'Concepts',
+      type: 'array',
+      of: [
+        {
+          type: 'reference',
+          to: [{type: 'skosConcept'}],
+        },
+      ],
+    },
   ],
   preview: {
     select: {

@@ -32,6 +32,17 @@ export default {
       type: 'text',
       validation: (Rule) => Rule.max(160),
     },
+    {
+      name: 'concepts',
+      title: 'Concepts',
+      type: 'array',
+      of: [
+        {
+          type: 'reference',
+          to: [{type: 'skosConcept'}],
+        },
+      ],
+    },
   ],
   preview: {
     select: {

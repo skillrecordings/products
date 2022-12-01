@@ -9,6 +9,7 @@ import exercise from './documents/exercise'
 import section from './documents/section'
 import module from './documents/module'
 import videoResource from './documents/videoResource'
+import linkResource from './documents/linkResource'
 import tip from './documents/tip'
 import testimonial from './documents/testimonial'
 import pricing from './documents/pricing'
@@ -47,6 +48,7 @@ export default createSchema({
     module,
     exercise,
     videoResource,
+    linkResource,
     tip,
     testimonial,
     section,

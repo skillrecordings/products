@@ -33,7 +33,8 @@ const workshopsQuery = groq`*[_type == "module" && moduleType == 'workshop'] | o
         description,
         "slug": slug.current,
       }
-    }
+    },
+    "resources": resources[@->._type in ['linkResource']]->
   }
 }`
 
@@ -86,7 +87,8 @@ export const getWorkshop = async (slug: string) =>
               description,
               "slug": slug.current,
             }
-          }
+          },
+          "resources": resources[@->._type in ['linkResource']]->
         },
         "image": image.asset->url
     }`,

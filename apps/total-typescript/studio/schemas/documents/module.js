@@ -66,6 +66,7 @@ export default {
           to: [
             {title: 'Exercise', type: 'exercise'},
             {title: 'Section', type: 'section'},
+            {type: 'linkResource'},
           ],
         },
       ],

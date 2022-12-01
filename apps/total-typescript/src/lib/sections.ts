@@ -25,7 +25,8 @@ const sectionsQuery = groq`*[_type == "module" && moduleType == 'section'] | ord
       description,
       "slug": slug.current,
     }
-    }
+  },
+  "resources": resources[@->._type in ['linkResource']]->
 }`
 
 export const getAllSections = async () =>
@@ -71,6 +72,7 @@ export const getSection = async (slug: string) =>
             "slug": slug.current,
           }
         },
+        "resources": resources[@->._type in ['linkResource']]->,
         "image": image.asset->url
     }`,
     {slug: `${slug}`},

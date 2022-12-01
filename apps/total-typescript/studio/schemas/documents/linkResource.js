@@ -1,11 +1,11 @@
 /* eslint-disable import/no-anonymous-default-export */
-import {MdVideocam} from 'react-icons/md'
+import {MdLink} from 'react-icons/md'
 
 export default {
-  name: 'videoResource',
-  title: 'Video Resource',
+  name: 'linkResource',
+  title: 'Link Resource',
   type: 'document',
-  icon: MdVideocam,
+  icon: MdLink,
   fields: [
     {
       name: 'title',
@@ -13,9 +13,9 @@ export default {
       type: 'string',
     },
     {
-      name: 'originalMediaUrl',
-      title: 'AWS S3 Url',
-      description: 'A URL to the source video in an S3 Bucket',
+      name: 'url',
+      title: 'Url',
+      description: 'A URL link to the source',
       type: 'url',
     },
     {
@@ -28,14 +28,11 @@ export default {
       },
     },
     {
-      name: 'muxAsset',
-      title: 'Mux Asset',
-      type: 'muxAsset',
-    },
-    {
-      name: 'castingwords',
-      title: 'Castingwords',
-      type: 'castingwordsTranscript',
+      name: 'description',
+      title: 'Short Description',
+      description: 'Describe why the linked resource is useful.',
+      type: 'text',
+      validation: (Rule) => Rule.max(160).required(),
     },
     {
       name: 'concepts',
