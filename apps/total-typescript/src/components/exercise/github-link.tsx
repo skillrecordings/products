@@ -4,6 +4,7 @@ import {SanityDocument} from '@sanity/client'
 import {track} from '../../utils/analytics'
 import {IconGithub} from '../icons'
 import {useMuxPlayer} from '../../hooks/use-mux-player'
+import Spinner from 'components/spinner'
 
 export const GitHubLink: React.FC<{
   exercise: Exercise
@@ -11,7 +12,15 @@ export const GitHubLink: React.FC<{
 }> = ({exercise, module}) => {
   const {github} = module
 
-  const {canShowVideo} = useMuxPlayer()
+  const {canShowVideo, loadingUserStatus} = useMuxPlayer()
+
+  if (loadingUserStatus) {
+    return (
+      <div className="flex w-full items-center justify-center py-12">
+        <Spinner className="h-7 w-7" />
+      </div>
+    )
+  }
 
   if (!canShowVideo || !github || !exercise.stackblitz) {
     return null

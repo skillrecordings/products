@@ -23,6 +23,7 @@ import {Exercise} from 'lib/exercises'
 import {StackBlitzIframe} from './exercise/stackblitz-iframe'
 import Link from 'next/link'
 import first from 'lodash/first'
+import {LockOpenIcon} from '@heroicons/react/outline'
 
 export const OverlayWrapper: React.FC<
   React.PropsWithChildren<{className?: string; dismissable?: boolean}>
@@ -440,19 +441,30 @@ const BlockedOverlay: React.FC = () => {
               <h2 className="text-4xl font-semibold">
                 Level up your {module.title}
               </h2>
-              <h3 className="max-w-sm pb-5 text-xl">
-                This {lesson._type} in part of the {module.title} workshop.
+              <h3 className="max-w-xl pb-5 pt-3 text-lg text-gray-300">
+                This {lesson._type} is part of the {module.title} workshop.
               </h3>
               <Link
                 href={{
                   pathname: '/buy',
                 }}
               >
-                <a className="group mt-5 inline-block gap-2 rounded bg-gray-800 px-4 py-2 font-medium transition hover:bg-gray-700">
-                  Unlock this {lesson._type} now{' '}
+                <a
+                  className="group group mt-5 inline-block gap-2 rounded bg-gradient-to-b from-cyan-300 to-cyan-400 py-3 pl-5 pr-8 font-medium text-black transition hover:brightness-110"
+                  onClick={() => {
+                    track('clicked unlock lesson', {
+                      lesson: lesson.slug,
+                      module: module.slug.current,
+                      location: 'blocked overlay',
+                      moduleType: module.moduleType,
+                      lessonType: lesson._type,
+                    })
+                  }}
+                >
+                  <span className="pr-3">Unlock this {lesson._type} now</span>
                   <span
                     aria-hidden="true"
-                    className="text-gray-300 transition group-hover:text-white"
+                    className="absolute text-cyan-700 transition group-hover:translate-x-1"
                   >
                     →
                   </span>

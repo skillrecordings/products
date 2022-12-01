@@ -10,7 +10,7 @@ export const VideoTranscript: React.FC<{
   muxPlayerRef: any
 }> = ({exercise, muxPlayerRef}) => {
   const transcript = exercise.transcript
-  const {handlePlay, video} = useMuxPlayer()
+  const {handlePlay, video, canShowVideo} = useMuxPlayer()
   if (!transcript) {
     return null
   }
@@ -28,19 +28,23 @@ export const VideoTranscript: React.FC<{
               marks: {
                 timestamp: ({value}: any) => {
                   const {timestamp} = value
-                  return video ? (
+                  return canShowVideo ? (
                     <button
                       className="after:content-[' '] inline-block underline after:inline-block"
                       onClick={() => {
-                        muxPlayerRef.current.currentTime =
-                          hmsToSeconds(timestamp)
-                        handlePlay()
-                        window.scrollTo({top: 80})
+                        if (canShowVideo) {
+                          muxPlayerRef.current.currentTime =
+                            hmsToSeconds(timestamp)
+                          handlePlay()
+                          window.scrollTo({top: 80})
+                        }
                       }}
                     >
                       {timestamp}
                     </button>
-                  ) : null
+                  ) : (
+                    timestamp
+                  )
                 },
               },
             } as PortableTextComponentsType

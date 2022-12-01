@@ -23,9 +23,15 @@ export async function getMiddlewareResponse(req: NextRequest) {
   let response = NextResponse.next()
   const subscriber = await getCookiesForRequest(req)
   const token = await getToken({req})
+  const code = req.nextUrl.searchParams.get('code')
 
   // if the user is logged in, we don't need to personalize marketing (for now)
-  if (!token && subscriber && req.nextUrl.pathname === SITE_ROOT_PATH) {
+  if (
+    !code &&
+    !token &&
+    subscriber &&
+    req.nextUrl.pathname === SITE_ROOT_PATH
+  ) {
     switch (true) {
       case Boolean(subscriber.fields?.level):
         response = rewriteToPath(`/home/level/${subscriber.fields?.level}`, req)

@@ -71,8 +71,8 @@ const ExerciseTemplate: React.FC<{
             path={path}
             section={section}
           />
-          <main className="relative mx-auto max-w-[1480px] grow items-start border-t border-transparent lg:mt-16 2xl:flex 2xl:max-w-none 2xl:border-gray-800">
-            <div className="border-gray-800 2xl:relative 2xl:h-full 2xl:w-full 2xl:border-r">
+          <main className="relative mx-auto w-full max-w-[1480px] grow items-start border-t border-transparent lg:mt-16 2xl:flex 2xl:max-w-none 2xl:border-gray-800">
+            <div className="flex flex-col border-gray-800 2xl:relative 2xl:h-full 2xl:w-full 2xl:border-r">
               <Video
                 ref={muxPlayerRef}
                 module={module}
@@ -84,7 +84,7 @@ const ExerciseTemplate: React.FC<{
                 section={section}
                 path={path}
               />
-              <div className="hidden 2xl:block 2xl:bg-black/20">
+              <div className="hidden flex-grow 2xl:block 2xl:bg-black/20">
                 <VideoTranscript
                   exercise={exercise}
                   muxPlayerRef={muxPlayerRef}
@@ -97,7 +97,7 @@ const ExerciseTemplate: React.FC<{
                 <GitHubLink exercise={exercise} module={module} />
                 <ExerciseDescription exercise={exercise} />
               </div>
-              <div className="relative z-10 block 2xl:hidden">
+              <div className="relative z-10 block flex-grow 2xl:hidden">
                 <VideoTranscript
                   exercise={exercise}
                   muxPlayerRef={muxPlayerRef}

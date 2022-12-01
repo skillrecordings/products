@@ -20,6 +20,7 @@ const ModuleLessonListHeader: React.FC<SidebarProps> = ({
   className,
   children,
 }) => {
+  const headerHeight = section ? '190px' : '150px'
   return (
     <>
       <div
@@ -30,7 +31,9 @@ const ModuleLessonListHeader: React.FC<SidebarProps> = ({
       >
         <div className="top-0 border-r border-gray-800 lg:sticky">
           <aside>
-            <div className="top-0 z-10 h-[180px] bg-gradient-to-t from-transparent via-gray-900 to-gray-900 lg:sticky">
+            <div
+              className={`top-0 z-10 h-[${headerHeight}] bg-gradient-to-t from-transparent via-gray-900 to-gray-900 lg:sticky`}
+            >
               <div className="relative flex items-center gap-5 border-b border-gray-800 bg-gray-900 px-3 py-1">
                 {module?.image && (
                   <Image
@@ -86,6 +89,11 @@ const ModuleLessonListHeader: React.FC<SidebarProps> = ({
                   objectPosition="center center"
                 />
               </div>
+              {section && (
+                <h3 className="w-full px-5 pt-4 text-xl font-semibold leading-none">
+                  {section.title}
+                </h3>
+              )}
               <p className="px-5 pt-4 pb-2 text-xs font-medium uppercase tracking-wide text-gray-300">
                 Exercises
               </p>
