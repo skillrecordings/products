@@ -265,7 +265,7 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
             )
           ) : (
             <div data-purchased-container="">
-              <div data-unavailable="">Unavailable</div>
+              <div data-unavailable="">Coming Soon</div>
               {!subscriber && !loadingSubscriber && (
                 <SubscribeForm handleOnSuccess={handleOnSuccess} />
               )}
@@ -285,7 +285,7 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
           )}
           <div data-pricing-footer="">
             {product.description && (
-              <div className="rose sm:prose-md prose-sm mx-auto max-w-sm px-5">
+              <div className="prose prose-sm mx-auto max-w-sm px-5 prose-p:text-gray-200 sm:prose-base">
                 <ReactMarkdown children={product.description} />
               </div>
             )}
@@ -386,13 +386,13 @@ const RegionalPricingBox: React.FC<
     <div data-ppp-container={index}>
       <div data-ppp-header="">
         <strong>
-          We noticed that you're from {country}{' '}
+          We noticed that you're from{' '}
           <img
             src={`https://hardcore-golick-433858.netlify.app/image?code=${countryCode}`}
             alt={`${country} flag`}
-          />
-          . To help facilitate global learning, we are offering purchasing power
-          parity pricing.
+          />{' '}
+          {country}. To help facilitate global learning, we are offering
+          purchasing power parity pricing.
         </strong>
         <p>
           Please note that you will only be able to view content from within{' '}
@@ -444,9 +444,9 @@ const SubscribeForm = ({
   return (
     <div
       id="pricing"
-      className="flex w-full max-w-sm flex-col items-center justify-between pt-2 pb-8"
+      className="flex w-full max-w-sm flex-col items-center justify-between pb-8"
     >
-      <div className="inline-flex max-w-xs flex-shrink-0 items-center gap-2 text-base font-medium leading-tight ">
+      <div className="inline-flex max-w-xs flex-shrink-0 items-center gap-2 text-base font-medium leading-tight">
         <div
           aria-hidden="true"
           className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full bg-gray-800"
@@ -456,7 +456,7 @@ const SubscribeForm = ({
         Get notified when Total TypeScript Vol 1. is released:
       </div>
       <SubscribeToConvertkitForm
-        actionLabel="Subscribe to get Notified"
+        actionLabel="Subscribe to get notified"
         onSuccess={(subscriber, email) => {
           return handleOnSuccess(subscriber, email)
         }}
