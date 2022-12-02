@@ -284,7 +284,7 @@ const RelatedTips: React.FC<{tips: Tip[]; currentTip: Tip}> = ({
   tips,
 }) => {
   return (
-    <section className="mx-auto h-full w-full rounded-md bg-gray-800 p-5 sm:p-10">
+    <section className="mx-auto mt-5 h-full w-full rounded-md bg-gray-800 p-5 sm:p-10">
       <h2 className="pt-3 font-heading text-2xl font-bold">Mas Tips</h2>
       <div className="flex flex-col pt-4">
         {tips
