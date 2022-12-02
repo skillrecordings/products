@@ -108,19 +108,21 @@ const ThanksVerify: React.FC<
         id="reward"
         className="absolute top-1/3 left-1/2 z-0"
       />
-      <main className="relative z-10 flex min-h-screen flex-grow flex-col items-center justify-center py-28 px-5 text-white">
+      <main className="relative z-10 flex min-h-screen flex-grow flex-col items-center justify-center px-5 pt-10 pb-28 text-white">
         <div className="mx-auto flex w-full max-w-screen-md flex-col items-center gap-5 text-center">
           {product?.image.url && (
-            <Image
-              priority
-              src={product.image.url}
-              width={230}
-              height={230}
-              alt=""
-              aria-hidden="true"
-            />
+            <div className="translate-y-24">
+              <Image
+                priority
+                src={product.image.url}
+                width={812 / 2.8}
+                height={925 / 2.8}
+                alt=""
+                aria-hidden="true"
+              />
+            </div>
           )}
-          <div className="flex flex-col items-center">
+          <div className="relative z-10 flex flex-col items-center">
             <h1 className="max-w-md text-lg font-medium text-cyan-100 sm:text-lg">
               Thank you for purchasing{' '}
               {purchaseType === EXISTING_BULK_COUPON && 'more seats for'}{' '}
