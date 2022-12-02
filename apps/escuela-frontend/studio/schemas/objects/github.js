@@ -1,18 +1,17 @@
+import * as React from 'react'
+import {FaGithubSquare} from 'react-icons/fa'
+
 export default {
   name: 'github',
   type: 'object',
   title: 'GitHub',
+  icon: FaGithubSquare,
   fields: [
     {
-      name: 'title',
-      title: 'Title',
-      type: 'string',
-    },
-    {
-      name: 'repo',
-      title: 'Repository',
-      type: 'string',
-      description: 'without https://github.com/escuela-frontend/',
+      name: 'url',
+      title: 'GitHub URL',
+      type: 'url',
+      description: 'Full URL to repository or concrete file on GitHub',
     },
   ],
 }

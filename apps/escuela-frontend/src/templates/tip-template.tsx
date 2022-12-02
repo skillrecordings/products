@@ -130,6 +130,29 @@ const TipTemplate: React.FC<TipPageProps> = ({tip, tips}) => {
                     {tip.title}
                     {tipCompleted && <span className="sr-only">(watched)</span>}
                   </h1>
+                  {!isEmpty(author) ? (
+                    <>
+                      <div className="col-span-3 mt-4 flex items-center justify-start md:col-span-3">
+                        <Image
+                          src={author.image}
+                          alt="Author"
+                          width={42}
+                          height={42}
+                          priority
+                          loading="eager"
+                          className="rounded-full"
+                        />
+                        <a
+                          href={author.twitter}
+                          className="pl-2 text-sm decoration-brand underline-offset-1 hover:underline"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                        >
+                          {author.name}
+                        </a>
+                      </div>
+                    </>
+                  ) : null}
                   {tipCompleted ? (
                     <div
                       aria-hidden="true"
@@ -169,29 +192,6 @@ const TipTemplate: React.FC<TipPageProps> = ({tip, tips}) => {
                       />
                     </div>
                   )}
-                  {!isEmpty(author) ? (
-                    <>
-                      <div className="col-span-3 flex items-center justify-start md:col-span-3">
-                        <Image
-                          src={author.image}
-                          alt="Author"
-                          width={42}
-                          height={42}
-                          priority
-                          loading="eager"
-                          className="rounded-full"
-                        />
-                        <a
-                          href={author.twitter}
-                          className="pl-2 text-sm decoration-brand underline-offset-1 hover:underline"
-                          target="_blank"
-                          rel="noopener noreferrer"
-                        >
-                          {author.name}
-                        </a>
-                      </div>
-                    </>
-                  ) : null}
                 </div>
                 <div className="w-full">
                   <div className="prose prose-invert w-full max-w-none pb-5 font-medium sm:prose-lg">
