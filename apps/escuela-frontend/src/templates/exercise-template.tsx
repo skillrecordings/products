@@ -242,18 +242,20 @@ const ExerciseAssets: React.FC<{
   exercise: Exercise
   module: SanityDocument
 }> = ({exercise, module}) => {
-  const {figma} = exercise
+  const {github} = exercise
   return (
     <div className="flex flex-wrap items-center gap-2 pb-8">
-      {figma?.url && (
+      {github?.url && (
         <a
-          href={figma.url}
+          href={github.url}
           target="_blank"
           rel="noopener noreferrer"
-          className="inline-flex items-center gap-2 rounded-lg border border-indigo-500/5 bg-indigo-50 px-4 py-2 text-lg font-semibold text-indigo-600 transition hover:bg-indigo-100/80"
+          className="inline-flex items-center gap-2 rounded-lg bg-gray-700 py-2 px-4 text-lg font-medium text-white transition hover:bg-gray-600"
         >
-          <Icon name="Figma" size="20" className="text-indigo-600" />
-          <span>Design assets</span>
+          <Icon name="Github" size="24" />
+          <div>
+            <p className="font-semibold">Código</p>
+          </div>
         </a>
       )}
       <GitHubLink exercise={exercise} module={module} />

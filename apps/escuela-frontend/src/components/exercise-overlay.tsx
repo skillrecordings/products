@@ -130,16 +130,8 @@ const ExerciseOverlay = () => {
         <div className="flex aspect-video flex-col items-center justify-center gap-5 p-3 text-center">
           <p className="font-text text-3xl font-bold">¡Tu turno!</p>
           <p className="">
-            Intenta resolver este ejercicio dentro{' '}
-            <a
-              href={`https://github.com/escuela-frontend/${github.repo}/blob/main/${stackblitz}`}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center justify-center gap-1 rounded-sm bg-gray-800 py-0.5 px-1 font-mono text-sm"
-            >
-              <IconGithub /> {stackblitz}
-            </a>{' '}
-            file.
+            Intenta resolver este ejercicio. Si te quedas atascado, puedes ver
+            la solución.
           </p>
           <Actions />
         </div>

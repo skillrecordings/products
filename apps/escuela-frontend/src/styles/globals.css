@@ -27,10 +27,6 @@ mux-player {
   @apply relative overflow-hidden;
 }
 
-mux-player::part(vertical-layer) {
-  background-color: rgba(0, 0, 0, 0);
-}
-
 .hero-animation-h1 {
   animation: HeroAnimationH1 3s 0.2s forwards cubic-bezier(0.2, 0.8, 0.2, 1);
   opacity: 0;
