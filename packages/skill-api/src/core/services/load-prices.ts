@@ -13,7 +13,8 @@ export async function loadPrices({
   params: SkillRecordingsHandlerParams
 }): Promise<OutgoingResponse> {
   try {
-    const {req} = params
+    const {req, token} = params
+    const userId = token?.sub
 
     const {availableUpgradesForProduct} = getSdk()
 
@@ -67,6 +68,7 @@ export async function loadPrices({
       code,
       merchantCouponId: activeMerchantCoupon && activeMerchantCoupon.id,
       ...(upgradeFromPurchaseId && {upgradeFromPurchaseId}),
+      userId,
     })
 
     return {

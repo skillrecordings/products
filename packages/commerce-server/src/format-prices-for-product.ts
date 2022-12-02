@@ -28,6 +28,7 @@ type FormatPricesForProductOptions = {
   merchantCouponId?: string
   ctx?: Context
   upgradeFromPurchaseId?: string
+  userId?: string
 }
 
 /**
@@ -47,10 +48,17 @@ export async function formatPricesForProduct(
     code,
     merchantCouponId,
     upgradeFromPurchaseId,
+    userId,
   } = noContextOptions
 
-  const {getProduct, getMerchantCoupon, getCoupon, getPrice, getPurchase} =
-    getSdk({ctx})
+  const {
+    getProduct,
+    getMerchantCoupon,
+    getCoupon,
+    getPrice,
+    getPurchase,
+    getPurchasesForUser,
+  } = getSdk({ctx})
 
   const upgradeFromPurchase = upgradeFromPurchaseId
     ? await getPurchase({
@@ -84,8 +92,20 @@ export async function formatPricesForProduct(
 
   if (!price) throw new PriceFormattingError(`no-price-found`, noContextOptions)
 
+  // Determine if the user has an existing bulk purchase of this product.
+  // If so, we can compute tiered pricing based on their existing seats purchased.
+  const userPurchases = await getPurchasesForUser(userId)
+  const bulkPurchase = userPurchases.find(
+    ({productId, bulkCoupon}) =>
+      productId === product.id && Boolean(bulkCoupon),
+  )
+  const existingSeatsPurchasedForThisProduct =
+    bulkPurchase?.bulkCoupon?.maxUses || 0
+
   const pppDiscountPercent = getPPPDiscountPercent(country)
-  const bulkCouponPercent = getBulkDiscountPercent(quantity)
+  const bulkCouponPercent = getBulkDiscountPercent(
+    quantity + existingSeatsPurchasedForThisProduct,
+  )
 
   // if there's a coupon implied because an id is passed in, load it to verify
   const appliedMerchantCoupon = merchantCouponId
