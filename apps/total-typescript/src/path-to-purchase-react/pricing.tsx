@@ -192,7 +192,7 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
                 </>
               )}
             </div>
-            <div data-byline="">yours forever</div>
+            <div data-byline="">full access</div>
           </div>
           {purchased ? (
             <div data-purchased-container="">
@@ -225,7 +225,7 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
                       process.env.NEXT_PUBLIC_DEFAULT_PRODUCT_ID && (
                       <div data-quantity-input="">
                         <label>
-                          <span>Seats</span>
+                          <span>Team Seats</span>
                           <input
                             type="number"
                             min={1}
