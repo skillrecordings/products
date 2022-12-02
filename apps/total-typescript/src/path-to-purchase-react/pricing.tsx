@@ -147,6 +147,7 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
               layout={'fill'}
               objectFit="cover"
               aria-hidden="true"
+              className="pointer-events-none select-none"
             />
           </div>
         )}

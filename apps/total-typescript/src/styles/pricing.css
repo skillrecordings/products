@@ -2,17 +2,18 @@
   /* tier name */
 
   [data-pricing-container] {
-    @apply flex gap-10 pt-32;
+    @apply flex gap-10 pt-40;
   }
 
   [data-pricing-product] {
-    @apply relative flex w-full max-w-[360px] flex-col items-center justify-center rounded-md border border-gray-800 bg-gray-900 shadow-2xl;
+    @apply relative flex w-full max-w-[406px] flex-col items-center justify-center rounded-md border border-gray-800 bg-gray-900 shadow-2xl;
 
     [data-pricing-product-image] {
-      @apply absolute top-[-130px] z-10 h-full max-h-[240px] w-full max-w-[240px];
+      @apply absolute top-[-130px] z-0 h-full max-h-[462px] w-full max-w-[406px];
     }
 
     article {
+      @apply relative z-10 pt-32;
     }
 
     [data-pricing-product-header] {
@@ -23,7 +24,7 @@
       }
 
       [data-name-badge] {
-        @apply inline-flex rounded-full px-4 py-1 pb-1.5 text-sm font-semibold uppercase tracking-wide text-cyan-300;
+        @apply inline-flex rounded-full px-4 py-1 pb-1.5 text-sm font-semibold uppercase tracking-wide text-cyan-300 drop-shadow-md;
       }
 
       [data-price-container] {
@@ -111,7 +112,7 @@
     }
 
     [data-pricing-product-checkout-button] {
-      @apply flex w-full items-center justify-center rounded-md bg-cyan-300 px-5 py-4 text-center text-lg font-semibold text-gray-900 transition ease-in-out disabled:cursor-wait hover:scale-105 hover:shadow-xl hover:shadow-cyan-700/40;
+      @apply flex w-full items-center justify-center rounded-md bg-gradient-to-b from-cyan-300 to-cyan-400 px-5 py-4 text-center text-lg font-semibold text-gray-900 brightness-105 transition ease-in-out focus-visible:ring-white disabled:cursor-wait hover:scale-105 hover:shadow-xl hover:shadow-cyan-700/40 hover:brightness-110;
 
       span {
         @apply relative z-10;
@@ -213,7 +214,7 @@
         @apply sr-only;
       }
       [data-sr-button] {
-        @apply relative flex w-full flex-shrink-0 items-center justify-center rounded-md bg-gradient-to-tr from-cyan-600 to-cyan-500 py-3 px-5 text-lg font-medium shadow-2xl shadow-cyan-900/50 transition focus-visible:ring-white hover:brightness-110;
+        @apply relative flex w-full flex-shrink-0 items-center justify-center rounded-md bg-gradient-to-b from-cyan-300 to-cyan-400 py-3 px-5 text-lg font-semibold text-black shadow-2xl shadow-cyan-900/50 transition focus-visible:ring-white hover:brightness-110;
         svg {
           @apply h-7 w-7;
         }

@@ -28,7 +28,7 @@ const Buy: React.FC<React.PropsWithChildren<CommerceProps>> = ({
               alt: 'Golden Ticket',
             }
           : {
-              url: 'https://res.cloudinary.com/total-typescript/image/upload/v1669972443/card_2x_cjjqft.png',
+              url: 'https://res.cloudinary.com/total-typescript/image/upload/v1669987972/pricing/card_2x_fn7ewb.png',
               alt: `Buy ${process.env.NEXT_PUBLIC_SITE_TITLE}`,
             },
       }}
@@ -42,10 +42,17 @@ const Buy: React.FC<React.PropsWithChildren<CommerceProps>> = ({
         objectPosition={'top'}
         className="select-none object-contain"
       />
-      <main className="relative z-10 flex flex-col items-center justify-center py-32">
-        <h1 className="px-5 text-center font-heading text-4xl font-bold  sm:text-5xl">
+      <main className="relative z-10 flex flex-col items-center justify-center py-36">
+        <h1 className="relative z-10 px-5 text-center font-heading  text-4xl font-bold sm:text-5xl">
           Become a TypeScript Wizard
         </h1>
+        <Image
+          src={require('../../public/assets/landing/bg-divider-5.png')}
+          alt=""
+          aria-hidden="true"
+          layout="fill"
+          className="pointer-events-none z-0 translate-y-80 select-none object-contain object-top"
+        />
         <section className="px-5 pt-8">
           <Element name="buy" aria-hidden="true" />
           <PricingTiers
