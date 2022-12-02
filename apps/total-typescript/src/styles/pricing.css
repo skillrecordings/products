@@ -2,7 +2,7 @@
   /* tier name */
 
   [data-pricing-container] {
-    @apply flex gap-10 pt-40;
+    @apply flex gap-10 pt-32 sm:pt-40;
   }
 
   [data-pricing-product] {

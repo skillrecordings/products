@@ -42,7 +42,7 @@ const Buy: React.FC<React.PropsWithChildren<CommerceProps>> = ({
         objectPosition={'top'}
         className="select-none object-contain"
       />
-      <main className="relative z-10 flex flex-col items-center justify-center py-36">
+      <main className="relative z-10 flex flex-col items-center justify-center py-28 sm:py-36">
         <h1 className="relative z-10 px-5 text-center font-heading  text-4xl font-bold sm:text-5xl">
           Become a TypeScript Wizard
         </h1>
