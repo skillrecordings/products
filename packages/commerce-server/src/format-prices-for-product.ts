@@ -94,18 +94,14 @@ export async function formatPricesForProduct(
 
   // Determine if the user has an existing bulk purchase of this product.
   // If so, we can compute tiered pricing based on their existing seats purchased.
-  const userPurchases = await getPurchasesForUser(userId)
-  const bulkPurchase = userPurchases.find(
-    ({productId, bulkCoupon}) =>
-      productId === product.id && Boolean(bulkCoupon),
-  )
-  const existingSeatsPurchasedForThisProduct =
-    bulkPurchase?.bulkCoupon?.maxUses || 0
+  const seatCount = await getQualifyingSeatCount({
+    userId,
+    productId: product.id,
+    newPurchaseQuantity: quantity,
+  })
 
   const pppDiscountPercent = getPPPDiscountPercent(country)
-  const bulkCouponPercent = getBulkDiscountPercent(
-    quantity + existingSeatsPurchasedForThisProduct,
-  )
+  const bulkCouponPercent = getBulkDiscountPercent(seatCount)
 
   // if there's a coupon implied because an id is passed in, load it to verify
   const appliedMerchantCoupon = merchantCouponId
@@ -311,4 +307,24 @@ async function couponForType(
     const {identifier, ...rest} = coupon
     return {...rest, ...(country && {country})}
   })
+}
+
+const getQualifyingSeatCount = async ({
+  userId,
+  productId: purchasingProductId,
+  newPurchaseQuantity,
+}: {
+  userId: string | undefined
+  productId: string
+  newPurchaseQuantity: number
+}) => {
+  const userPurchases = await getSdk().getPurchasesForUser(userId)
+  const bulkPurchase = userPurchases.find(
+    ({productId, bulkCoupon}) =>
+      productId === purchasingProductId && Boolean(bulkCoupon),
+  )
+  const existingSeatsPurchasedForThisProduct =
+    bulkPurchase?.bulkCoupon?.maxUses || 0
+
+  return newPurchaseQuantity + existingSeatsPurchasedForThisProduct
 }
