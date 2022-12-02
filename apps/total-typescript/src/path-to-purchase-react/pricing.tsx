@@ -30,6 +30,13 @@ function getFirstPPPCoupon(availableCoupons: any[] = []) {
   return find(availableCoupons, (coupon) => coupon.type === 'ppp') || false
 }
 
+const formatUsd = (amount: number) => {
+  return Intl.NumberFormat('en-US', {
+    style: 'currency',
+    currency: 'USD',
+  }).format(amount)
+}
+
 type PricingProps = {
   product: SanityProduct
   purchased?: boolean
@@ -145,9 +152,8 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
               alt={image.alt}
               quality={100}
               layout={'fill'}
-              objectFit="cover"
+              objectFit="contain"
               aria-hidden="true"
-              className="pointer-events-none select-none"
             />
           </div>
         )}
@@ -167,7 +173,8 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
                 <>
                   <sup aria-hidden="true">US</sup>
                   <div aria-live="polite" data-price="">
-                    {'$' + formattedPrice?.calculatedPrice}
+                    {formattedPrice?.calculatedPrice &&
+                      formatUsd(formattedPrice?.calculatedPrice)}
                     {Boolean(
                       appliedMerchantCoupon || isDiscount(formattedPrice),
                     ) && (
@@ -192,7 +199,7 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
                 </>
               )}
             </div>
-            <div data-byline="">full access</div>
+            <div data-byline="">Full access</div>
           </div>
           {purchased ? (
             <div data-purchased-container="">
