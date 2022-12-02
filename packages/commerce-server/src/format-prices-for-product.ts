@@ -51,14 +51,8 @@ export async function formatPricesForProduct(
     userId,
   } = noContextOptions
 
-  const {
-    getProduct,
-    getMerchantCoupon,
-    getCoupon,
-    getPrice,
-    getPurchase,
-    getPurchasesForUser,
-  } = getSdk({ctx})
+  const {getProduct, getMerchantCoupon, getCoupon, getPrice, getPurchase} =
+    getSdk({ctx})
 
   const upgradeFromPurchase = upgradeFromPurchaseId
     ? await getPurchase({
