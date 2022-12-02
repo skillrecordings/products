@@ -56,3 +56,8 @@ code {
     @apply bg-transparent;
   }
 }
+
+input[type='number']::-webkit-inner-spin-button,
+input[type='number']::-webkit-outer-spin-button {
+  @apply opacity-100;
+}
