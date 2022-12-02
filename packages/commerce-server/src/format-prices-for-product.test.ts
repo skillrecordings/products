@@ -113,6 +113,26 @@ test('product with quantity 5 calculatedPrice to have discount applied', async (
   expect(expectedPrice).toBe(product?.calculatedPrice)
 })
 
+test('multiple purchases meeting quantity threshold have bulk discount applied', async () => {
+  const userId = 'user-123'
+  mockCtx.prisma.merchantCoupon.findMany.mockResolvedValue([
+    getMockCoupon('bulk', 0.05),
+  ])
+  mockCtx.prisma.purchase.findMany.mockResolvedValue([
+    getMockExistingBulkPurchase(userId, DEFAULT_PRODUCT_ID, 3),
+  ])
+  const quantity = 2
+  const product = await formatPricesForProduct({
+    userId,
+    productId: DEFAULT_PRODUCT_ID,
+    quantity,
+    ctx,
+  })
+  const expectedPrice = 190 // discounted 5% on 200
+
+  expect(expectedPrice).toBe(product?.calculatedPrice)
+})
+
 test('product no available coupons if country is "US"', async () => {
   mockCtx.prisma.merchantCoupon.findMany.mockResolvedValue([MOCK_INDIA_COUPON])
   const product = await formatPricesForProduct({
@@ -331,6 +351,35 @@ function getMockCoupon(
     identifier: 'coupon',
     status: 1,
     merchantAccountId: 'merchant-account',
+  }
+}
+
+function getMockExistingBulkPurchase(
+  userId: string,
+  productId: string,
+  quantity: number,
+) {
+  const inconsequentialValues = {
+    createdAt: new Date(),
+    totalAmount: new Prisma.Decimal(300),
+    ip_address: '',
+    city: '',
+    state: '',
+    country: '',
+    couponId: null,
+    redeemedBulkCouponId: null,
+    merchantChargeId: 'ch-123',
+    upgradedFromId: null,
+    status: 'Valid',
+    bulkCouponId: 'coupon-123',
+  }
+
+  return {
+    id: 'purchase-123',
+    userId,
+    productId,
+    bulkCoupon: {maxUses: quantity},
+    ...inconsequentialValues,
   }
 }
 
