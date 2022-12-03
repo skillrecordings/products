@@ -151,6 +151,7 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
         {image && (
           <div data-pricing-product-image="">
             <Image
+              priority
               src={image.url}
               alt={image.alt}
               quality={100}

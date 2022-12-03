@@ -9,7 +9,7 @@
     @apply relative flex w-full max-w-[406px] flex-col items-center justify-center rounded-md border border-gray-800 bg-gray-900 shadow-2xl;
 
     [data-pricing-product-image] {
-      @apply pointer-events-none absolute top-[-115px] z-0 h-full max-h-[330px] w-full max-w-[376px] select-none;
+      @apply pointer-events-none absolute top-[-200px] z-0 h-full max-h-[457px] w-full max-w-[404px] select-none;
     }
 
     article {
@@ -235,6 +235,18 @@
   }
 }
 
-sub, sup { font-size: 75%; line-height: 0; position: relative; vertical-align: baseline; }
-sup { top: -0.3em; vertical-align: super;}
-sub { bottom: -0.25em; vertical-align: sub;}
+sub,
+sup {
+  font-size: 75%;
+  line-height: 0;
+  position: relative;
+  vertical-align: baseline;
+}
+sup {
+  top: -0.3em;
+  vertical-align: super;
+}
+sub {
+  bottom: -0.25em;
+  vertical-align: sub;
+}
