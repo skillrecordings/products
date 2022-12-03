@@ -30,8 +30,7 @@ export default {
     },
     images: [
       {
-        url: 'https://kcdbundle.com/card-sale-50@2x.png',
-        // url: 'https://kcdbundle.com/card@2x.png',
+        url: 'https://kcdbundle.com/card@2x.png',
         width: 1280,
         height: 720,
       },
