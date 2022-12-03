@@ -39,7 +39,7 @@ with a link to access your purchase and start learning.
     </svg>
   )
 
-  const tweet = `https://twitter.com/intent/tweet/?text=Just purchased ${config.siteUrl} by @${config.twitter.handle}`
+  const tweet = `https://twitter.com/intent/tweet/?text=Just purchased ${config.siteUrl} by ${config.twitter.handle}`
   const Share = () => (
     <>
       <hr className="mt-8 dark:border-gray-900 border-gray-100" />
