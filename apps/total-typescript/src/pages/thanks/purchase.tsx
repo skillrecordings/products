@@ -111,12 +111,12 @@ const ThanksVerify: React.FC<
       <main className="relative z-10 flex min-h-screen flex-grow flex-col items-center justify-center px-5 pt-10 pb-28 text-white">
         <div className="mx-auto flex w-full max-w-screen-md flex-col items-center gap-5 text-center">
           {product?.image.url && (
-            <div className="translate-y-24">
+            <div className="translate-y-16">
               <Image
                 priority
                 src={product.image.url}
-                width={812 / 2.8}
-                height={925 / 2.8}
+                width={812 / 2.4}
+                height={925 / 2.4}
                 alt=""
                 aria-hidden="true"
               />

@@ -30,6 +30,16 @@ function getFirstPPPCoupon(availableCoupons: any[] = []) {
   return find(availableCoupons, (coupon) => coupon.type === 'ppp') || false
 }
 
+const formatUsd = (amount: number = 0) => {
+  const formatter = new Intl.NumberFormat('en-US', {
+    style: 'currency',
+    currency: 'USD',
+  })
+  const formattedPrice = formatter.format(amount).split('.')
+
+  return {dollars: formattedPrice[0], cents: formattedPrice[1]}
+}
+
 type PricingProps = {
   product: SanityProduct
   purchased?: boolean
@@ -141,13 +151,13 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
         {image && (
           <div data-pricing-product-image="">
             <Image
+              priority
               src={image.url}
               alt={image.alt}
               quality={100}
               layout={'fill'}
-              objectFit="cover"
+              objectFit="contain"
               aria-hidden="true"
-              className="pointer-events-none select-none"
             />
           </div>
         )}
@@ -167,7 +177,12 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
                 <>
                   <sup aria-hidden="true">US</sup>
                   <div aria-live="polite" data-price="">
-                    {'$' + formattedPrice?.calculatedPrice}
+                    {formattedPrice?.calculatedPrice &&
+                      formatUsd(formattedPrice?.calculatedPrice).dollars}
+                    <span className="sup text-sm">
+                      {formattedPrice?.calculatedPrice &&
+                        formatUsd(formattedPrice?.calculatedPrice).cents}
+                    </span>
                     {Boolean(
                       appliedMerchantCoupon || isDiscount(formattedPrice),
                     ) && (
@@ -192,7 +207,7 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
                 </>
               )}
             </div>
-            <div data-byline="">full access</div>
+            <div data-byline="">Full access</div>
           </div>
           {purchased ? (
             <div data-purchased-container="">
