@@ -315,7 +315,8 @@ const getQualifyingSeatCount = async ({
   newPurchaseQuantity: number
   ctx: Context
 }) => {
-  const userPurchases = await getSdk({ctx}).getPurchasesForUser(userId)
+  const {getPurchasesForUser} = getSdk({ctx})
+  const userPurchases = await getPurchasesForUser(userId)
   const bulkPurchase = userPurchases.find(
     ({productId, bulkCoupon}) =>
       productId === purchasingProductId && Boolean(bulkCoupon),
