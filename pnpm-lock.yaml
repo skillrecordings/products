@@ -2397,7 +2397,7 @@ importers:
       feed: ^4.2.2
       focus-visible: ^5.2.0
       formik: 2.2.9
-      framer-motion: ^6.4.1
+      framer-motion: ^7.6.18
       groq: ^2.15.0
       js-cookie: ^3.0.1
       jsonwebtoken: ^8.5.1
@@ -2494,7 +2494,7 @@ importers:
       feed: 4.2.2
       focus-visible: 5.2.0
       formik: 2.2.9_react@18.2.0
-      framer-motion: 6.4.1_biqbaboplfbrettd7655fr4n2y
+      framer-motion: 7.6.18_biqbaboplfbrettd7655fr4n2y
       groq: 2.15.0
       js-cookie: 3.0.1
       jsonwebtoken: 8.5.1
@@ -18247,6 +18247,23 @@ packages:
       tslib: 2.4.0
     optionalDependencies:
       '@emotion/is-prop-valid': 0.8.8
+
+  /framer-motion/7.6.18_biqbaboplfbrettd7655fr4n2y:
+    resolution: {integrity: sha512-+njLqmMZBqf+GpIMRkuC7s9A9KrvOfMXm+B/yscKG+/SKAA+qdQFl/3ACU2tAhN7UFau1HuB/vBa/jrWBKVvDg==}
+    peerDependencies:
+      react: ^18.0.0
+      react-dom: ^18.0.0
+    dependencies:
+      '@motionone/dom': 10.13.1
+      framesync: 6.1.2
+      hey-listen: 1.0.8
+      react: 18.2.0
+      react-dom: 18.2.0_react@18.2.0
+      style-value-types: 5.1.2
+      tslib: 2.4.0
+    optionalDependencies:
+      '@emotion/is-prop-valid': 0.8.8
+    dev: false
 
   /framer-motion/7.6.1_biqbaboplfbrettd7655fr4n2y:
     resolution: {integrity: sha512-8US03IWJKrLoSb81l5OahNzB9Sv7Jo1RhIwUoTG/25BRUdO9lOqq/klsdZqNmNG0ua9IEJJQ8hkYpETJ4N6VSw==}

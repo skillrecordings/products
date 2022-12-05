@@ -30,7 +30,7 @@ const Navigation: React.FC<React.PropsWithChildren<Props>> = ({
     <nav
       aria-label="top"
       className={cx(
-        'absolute top-0 z-30 flex h-14 w-full items-center justify-center bg-black/30 px-3 print:hidden sm:h-16 sm:bg-black/30 sm:px-5',
+        'absolute top-0 z-30 flex h-14 w-full items-center justify-center bg-black/30 pl-3 print:hidden sm:h-16 sm:bg-black/30 sm:pl-5',
         className,
       )}
     >
@@ -110,8 +110,8 @@ const MobileNav = () => {
           <NavigationMenu.Root delayDuration={0} className="flex h-full">
             <NavigationMenu.List className="flex h-full items-center justify-center">
               <NavigationMenu.Item className="h-full">
-                <NavigationMenu.Trigger className="-mr-3 flex h-full items-center justify-center px-5 hover:bg-gray-800 sm:-mr-5">
-                  <MenuIcon className="h-4 w-4" aria-hidden />
+                <NavigationMenu.Trigger className="flex h-full items-center justify-center px-5 hover:bg-gray-800">
+                  <MenuIcon className="h-5 w-5" aria-hidden />
                   <span className="sr-only">Menu</span>
                 </NavigationMenu.Trigger>
                 <NavigationMenu.Content className="absolute left-0 top-full w-full bg-gray-800 shadow-xl">
@@ -186,7 +186,7 @@ const NavLink: React.FC<
       <NextLink href={path} passHref>
         <a
           className={cx(
-            'flex h-full items-center gap-0.5 px-2 text-sm font-medium transition duration-100 hover:bg-gray-800/60 active:bg-transparent sm:gap-1 sm:px-5 sm:text-base',
+            'flex h-full items-center gap-0.5 px-2 text-sm font-medium transition duration-100 hover:bg-gray-800/60 active:bg-transparent sm:gap-1 sm:px-3 sm:text-base lg:px-5',
             className,
           )}
           onClick={() => {

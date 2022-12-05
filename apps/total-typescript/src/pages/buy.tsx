@@ -8,6 +8,7 @@ import Layout from 'components/app/layout'
 import {getToken} from 'next-auth/jwt'
 import {getActiveProducts} from '../path-to-purchase-react/products.server'
 import Image from 'next/image'
+import {motion, useScroll, useTransform} from 'framer-motion'
 
 const Buy: React.FC<React.PropsWithChildren<CommerceProps>> = ({
   couponFromCode,
@@ -17,6 +18,10 @@ const Buy: React.FC<React.PropsWithChildren<CommerceProps>> = ({
   couponIdFromCoupon,
   defaultCoupon,
 }) => {
+  const {scrollYProgress} = useScroll()
+  const y = useTransform(scrollYProgress, [0, 1], [0, 600])
+  const y2 = useTransform(scrollYProgress, [0, 1], [0, 300])
+
   return (
     <Layout
       meta={{
@@ -34,25 +39,31 @@ const Buy: React.FC<React.PropsWithChildren<CommerceProps>> = ({
       }}
       defaultCoupon={defaultCoupon}
     >
-      <Image
-        layout="fill"
-        aria-hidden="true"
-        alt=""
-        src={require('../../public/assets/landing/bg-divider-3.png')}
-        objectPosition={'top'}
-        className="select-none object-contain"
-      />
+      <motion.div style={{y}} className="absolute top-0 h-screen w-full">
+        <Image
+          layout="fill"
+          aria-hidden="true"
+          alt=""
+          src={require('../../public/assets/landing/bg-divider-3.png')}
+          objectPosition={'top'}
+          className="select-none object-contain"
+          quality={100}
+        />
+      </motion.div>
       <main className="relative z-10 flex flex-col items-center justify-center py-28 sm:py-36">
         <h1 className="relative z-10 px-5 text-center font-heading  text-4xl font-bold sm:text-5xl">
           Become a TypeScript Wizard
         </h1>
-        <Image
-          src={require('../../public/assets/landing/bg-divider-5.png')}
-          alt=""
-          aria-hidden="true"
-          layout="fill"
-          className="pointer-events-none z-0 translate-y-80 select-none object-contain object-top"
-        />
+        <motion.div style={{y: y2}} className="absolute top-0 h-screen w-full">
+          <Image
+            src={require('../../public/assets/landing/bg-divider-5.png')}
+            alt=""
+            aria-hidden="true"
+            layout="fill"
+            className="pointer-events-none z-0 translate-y-80 select-none object-contain object-top"
+            quality={100}
+          />
+        </motion.div>
         <section className="px-5 pt-8">
           <Element name="buy" aria-hidden="true" />
           <PricingTiers
@@ -64,6 +75,17 @@ const Buy: React.FC<React.PropsWithChildren<CommerceProps>> = ({
           />
         </section>
       </main>
+      {/* <motion.div style={{y}} className="absolute bottom-0 h-screen w-full"> */}
+      <Image
+        layout="fill"
+        aria-hidden="true"
+        alt=""
+        src={require('../../public/assets/landing/bg-divider-7.png')}
+        objectPosition={'bottom'}
+        className="select-none object-contain"
+        quality={100}
+      />
+      {/* </motion.div> */}
     </Layout>
   )
 }
