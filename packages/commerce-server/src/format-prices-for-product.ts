@@ -92,6 +92,7 @@ export async function formatPricesForProduct(
     userId,
     productId: product.id,
     newPurchaseQuantity: quantity,
+    ctx,
   })
 
   const pppDiscountPercent = getPPPDiscountPercent(country)
@@ -307,12 +308,14 @@ const getQualifyingSeatCount = async ({
   userId,
   productId: purchasingProductId,
   newPurchaseQuantity,
+  ctx,
 }: {
   userId: string | undefined
   productId: string
   newPurchaseQuantity: number
+  ctx: Context
 }) => {
-  const userPurchases = await getSdk().getPurchasesForUser(userId)
+  const userPurchases = await getSdk({ctx}).getPurchasesForUser(userId)
   const bulkPurchase = userPurchases.find(
     ({productId, bulkCoupon}) =>
       productId === purchasingProductId && Boolean(bulkCoupon),
