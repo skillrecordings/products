@@ -132,7 +132,7 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
   }
 
   return (
-    <div>
+    <div id="main-pricing">
       <div data-pricing-product={index}>
         {image && (
           <div data-pricing-product-image="">
