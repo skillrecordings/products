@@ -160,9 +160,22 @@ const ThanksVerify: React.FC<
                   from <strong>{process.env.NEXT_PUBLIC_SUPPORT_EMAIL}</strong>{' '}
                   with a link to access your purchase and start learning.
                 </p>
+                {isTeamPurchase && Boolean(bulkCouponId) && (
+                  <>
+                    <p className="mx-auto max-w-xl pt-5 text-sm text-gray-200 sm:text-base sm:leading-relaxed">
+                      Invite your team to claim seats right away with this
+                      invite link. Don't worry about saving this anywhere, it
+                      will always be available on your Team page once you sign
+                      in.
+                    </p>
+                    <div className="w-full text-gray-900">
+                      <CopyInviteLink bulkCouponId={bulkCouponId} />
+                    </div>
+                  </>
+                )}
               </>
             )}
-            {!isNewPurchase && !!bulkCouponId && (
+            {!isNewPurchase && isTeamPurchase && Boolean(bulkCouponId) && (
               <>
                 <h2 className="mx-auto max-w-lg py-5 text-3xl font-bold lg:text-4xl">
                   Invite Your Team
