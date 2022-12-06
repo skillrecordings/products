@@ -22,7 +22,8 @@ export const validateCoupon = (coupon: Coupon | null) => {
   return {
     isExpired,
     isUsedUp,
-    isRedeemable: isValid && coupon.percentageDiscount.toNumber() >= 1,
+    isRedeemable:
+      isValid && coupon.percentageDiscount.toNumber() >= 1 && !coupon.default,
     isValid,
   }
 }
