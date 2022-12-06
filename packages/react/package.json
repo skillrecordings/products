@@ -32,7 +32,6 @@
     "@skillrecordings/config": "workspace:*",
     "@skillrecordings/cookies": "workspace:*",
     "@skillrecordings/next-seo": "workspace:*",
-    "@tippyjs/react": "^4.2.6",
     "axios": "^0.26.0",
     "formik": "2.2.9",
     "nprogress": "^0.2.0",

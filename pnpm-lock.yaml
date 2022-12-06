@@ -60,7 +60,6 @@ importers:
       '@tailwindcss/typography': ^0.5.2
       '@testing-library/jest-dom': ^5.15.0
       '@testing-library/react': ^12.1.2
-      '@tippyjs/react': ^4.2.6
       '@types/cookie': ^0.4.1
       '@types/jest': ^27.5.2
       '@types/lodash': ^4.14.179
@@ -145,7 +144,6 @@ importers:
       '@skillrecordings/time': link:../../packages/time
       '@stripe/stripe-js': 1.21.1
       '@tailwindcss/typography': 0.5.2_tailwindcss@3.1.4
-      '@tippyjs/react': 4.2.6_biqbaboplfbrettd7655fr4n2y
       '@xstate/react': 1.5.1_bpg42ha2il6pcyn3wrx2rxrchm
       autoprefixer: 10.4.7_postcss@8.4.14
       axios: 0.26.1
@@ -277,7 +275,6 @@ importers:
       '@tailwindcss/typography': ^0.5.2
       '@testing-library/jest-dom': ^5.15.0
       '@testing-library/react': ^12.1.2
-      '@tippyjs/react': ^4.2.6
       '@types/cookie': ^0.4.1
       '@types/jest': ^27.5.2
       '@types/lodash': ^4.14.179
@@ -360,7 +357,6 @@ importers:
       '@stripe/stripe-js': 1.21.1
       '@tailwindcss/forms': 0.5.2_tailwindcss@3.1.4
       '@tailwindcss/typography': 0.5.2_tailwindcss@3.1.4
-      '@tippyjs/react': 4.2.6_biqbaboplfbrettd7655fr4n2y
       '@xstate/react': 1.5.1_bpg42ha2il6pcyn3wrx2rxrchm
       airtable: 0.11.1
       autoprefixer: 10.4.7_postcss@8.4.14
@@ -654,7 +650,6 @@ importers:
       '@tailwindcss/typography': ^0.5.2
       '@testing-library/jest-dom': ^5.15.0
       '@testing-library/react': ^12.1.2
-      '@tippyjs/react': ^4.2.6
       '@types/cookie': ^0.4.1
       '@types/jest': ^27.5.2
       '@types/jsonwebtoken': ^8.5.8
@@ -760,7 +755,6 @@ importers:
       '@stripe/stripe-js': 1.21.1
       '@tailwindcss/forms': 0.5.2_tailwindcss@3.1.4
       '@tailwindcss/typography': 0.5.2_tailwindcss@3.1.4
-      '@tippyjs/react': 4.2.6_biqbaboplfbrettd7655fr4n2y
       '@xstate/react': 1.5.1_bpg42ha2il6pcyn3wrx2rxrchm
       autoprefixer: 10.4.7_postcss@8.4.14
       aws-sdk: 2.1197.0
@@ -1332,7 +1326,6 @@ importers:
       '@tailwindcss/typography': ^0.5.2
       '@testing-library/jest-dom': ^5.15.0
       '@testing-library/react': ^12.1.2
-      '@tippyjs/react': ^4.2.6
       '@types/cookie': ^0.4.1
       '@types/jest': ^27.5.2
       '@types/lodash': ^4.14.179
@@ -1403,7 +1396,6 @@ importers:
       '@stripe/stripe-js': 1.21.1
       '@tailwindcss/forms': 0.5.2_tailwindcss@3.1.4
       '@tailwindcss/typography': 0.5.2_tailwindcss@3.1.4
-      '@tippyjs/react': 4.2.6_biqbaboplfbrettd7655fr4n2y
       '@xstate/react': 1.5.1_bpg42ha2il6pcyn3wrx2rxrchm
       autoprefixer: 10.4.7_postcss@8.4.14
       axios: 0.26.1
@@ -1871,7 +1863,6 @@ importers:
       '@tailwindcss/typography': ^0.5.2
       '@testing-library/jest-dom': ^5.15.0
       '@testing-library/react': ^12.1.2
-      '@tippyjs/react': ^4.2.6
       '@types/cookie': ^0.4.1
       '@types/jest': ^27.5.2
       '@types/lodash': ^4.14.179
@@ -1945,7 +1936,6 @@ importers:
       '@skillrecordings/time': link:../../packages/time
       '@stripe/stripe-js': 1.21.1
       '@tailwindcss/typography': 0.5.2_tailwindcss@3.1.4
-      '@tippyjs/react': 4.2.6_biqbaboplfbrettd7655fr4n2y
       '@xstate/react': 1.5.1_3hx2ussxxho4jajbwrd6gq34qe
       autoprefixer: 10.4.7_postcss@8.4.14
       axios: 0.26.1
@@ -2063,7 +2053,6 @@ importers:
       '@tailwindcss/typography': ^0.5.2
       '@testing-library/jest-dom': ^5.15.0
       '@testing-library/react': ^12.1.2
-      '@tippyjs/react': ^4.2.6
       '@tiptap/core': ^2.0.0-beta.181
       '@tiptap/extension-highlight': ^2.0.0-beta.33
       '@tiptap/extension-link': ^2.0.0-beta.37
@@ -2207,7 +2196,6 @@ importers:
       '@skillrecordings/time': link:../../packages/time
       '@svgdotjs/svg.js': 3.1.2
       '@tailwindcss/typography': 0.5.2_tailwindcss@3.1.4
-      '@tippyjs/react': 4.2.6_biqbaboplfbrettd7655fr4n2y
       '@tiptap/extension-highlight': 2.0.0-beta.33_o5tsmp445vozplpzqkrs3pmjeq
       '@tiptap/extension-link': 2.0.0-beta.37_o5tsmp445vozplpzqkrs3pmjeq
       '@tiptap/extension-typography': 2.0.0-beta.20_o5tsmp445vozplpzqkrs3pmjeq
@@ -2365,7 +2353,6 @@ importers:
       '@skillrecordings/types': workspace:*
       '@stackblitz/sdk': ^1.8.0
       '@tailwindcss/typography': ^0.5.2
-      '@tippyjs/react': ^4.2.6
       '@trpc/client': ^9.27.2
       '@trpc/next': ^9.27.2
       '@trpc/react': ^9.27.2
@@ -2479,7 +2466,6 @@ importers:
       '@skillrecordings/time': link:../../packages/time
       '@stackblitz/sdk': 1.8.0
       '@tailwindcss/typography': 0.5.2_tailwindcss@3.1.6
-      '@tippyjs/react': 4.2.6_biqbaboplfbrettd7655fr4n2y
       '@trpc/client': 9.27.2_@trpc+server@9.27.2
       '@trpc/next': 9.27.2_cpjoldjkwaya224psufok4zvdi
       '@trpc/react': 9.27.2_4qx6yxzlojuzl2gqhs2hvlmyii
@@ -2777,7 +2763,6 @@ importers:
       '@tailwindcss/typography': ^0.5.2
       '@testing-library/jest-dom': ^5.15.0
       '@testing-library/react': ^12.1.2
-      '@tippyjs/react': ^4.2.6
       '@trpc/client': ^9.27.2
       '@trpc/next': ^9.27.2
       '@trpc/react': ^9.27.2
@@ -2894,7 +2879,6 @@ importers:
       '@skillrecordings/time': link:../../packages/time
       '@stripe/stripe-js': 1.21.1
       '@supabase/supabase-js': 1.29.1
-      '@tippyjs/react': 4.2.6_biqbaboplfbrettd7655fr4n2y
       '@trpc/client': 9.27.2_@trpc+server@9.27.2
       '@trpc/next': 9.27.2_cpjoldjkwaya224psufok4zvdi
       '@trpc/react': 9.27.2_4qx6yxzlojuzl2gqhs2hvlmyii
@@ -3615,7 +3599,6 @@ importers:
       '@skillrecordings/scripts': workspace:*
       '@skillrecordings/tsconfig': workspace:*
       '@skillrecordings/types': workspace:*
-      '@tippyjs/react': ^4.2.6
       '@types/cookie': ^0.4.1
       '@types/jest': ^27.5.2
       '@types/lodash': ^4.14.179
@@ -3658,7 +3641,6 @@ importers:
       '@skillrecordings/cookies': link:../cookies
       '@skillrecordings/database': link:../database
       '@skillrecordings/next-seo': link:../next-seo
-      '@tippyjs/react': 4.2.6_biqbaboplfbrettd7655fr4n2y
       axios: 0.26.1
       formik: 2.2.9_react@18.2.0
       nprogress: 0.2.0
