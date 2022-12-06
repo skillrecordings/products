@@ -165,56 +165,63 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
           {/* {Boolean(appliedMerchantCoupon || isDiscount(formattedPrice)) && (
           <Ribbon appliedMerchantCoupon={appliedMerchantCoupon} />
         )} */}
-          <div data-pricing-product-header="">
-            <h4 data-name-badge="">{name}</h4>
-            <div data-price-container={status}>
-              {status === 'loading' ? (
-                <div data-loading-price="">
-                  <span className="sr-only">Loading price</span>
-                  <Spinner aria-hidden="true" className="h-8 w-8" />
-                </div>
-              ) : (
-                <>
-                  <sup aria-hidden="true">US</sup>
-                  <div aria-live="polite" data-price="">
-                    {formattedPrice?.calculatedPrice &&
-                      formatUsd(formattedPrice?.calculatedPrice).dollars}
-                    <span className="sup text-sm">
-                      {formattedPrice?.calculatedPrice &&
-                        formatUsd(formattedPrice?.calculatedPrice).cents}
-                    </span>
-                    {Boolean(
-                      appliedMerchantCoupon || isDiscount(formattedPrice),
-                    ) && (
-                      <>
-                        <div aria-hidden="true" data-price-discounted="">
-                          <div data-full-price={fullPrice}>
-                            {'$' + fullPrice}
-                          </div>
-                          <div data-percent-off={percentOff}>
-                            Save {percentOff}%
-                          </div>
-                        </div>
-                        <div className="sr-only">
-                          {appliedMerchantCoupon?.type === 'bulk' ? (
-                            <div>Team discount.</div>
-                          ) : null}{' '}
-                          {percentOffLabel}
-                        </div>
-                      </>
-                    )}
+          {!purchased && (
+            <div data-pricing-product-header="">
+              <h4 data-name-badge="">{name}</h4>
+              <div data-price-container={status}>
+                {status === 'loading' ? (
+                  <div data-loading-price="">
+                    <span className="sr-only">Loading price</span>
+                    <Spinner aria-hidden="true" className="h-8 w-8" />
                   </div>
-                </>
-              )}
-            </div>
-            <div data-byline="">Full access</div>
-          </div>
-          {purchased ? (
-            <div data-purchased-container="">
-              <div data-purchased="">
-                <CheckCircleIcon aria-hidden="true" /> Purchased
+                ) : (
+                  <>
+                    <sup aria-hidden="true">US</sup>
+                    <div aria-live="polite" data-price="">
+                      {formattedPrice?.calculatedPrice &&
+                        formatUsd(formattedPrice?.calculatedPrice).dollars}
+                      <span className="sup text-sm">
+                        {formattedPrice?.calculatedPrice &&
+                          formatUsd(formattedPrice?.calculatedPrice).cents}
+                      </span>
+                      {Boolean(
+                        appliedMerchantCoupon || isDiscount(formattedPrice),
+                      ) && (
+                        <>
+                          <div aria-hidden="true" data-price-discounted="">
+                            <div data-full-price={fullPrice}>
+                              {'$' + fullPrice}
+                            </div>
+                            <div data-percent-off={percentOff}>
+                              Save {percentOff}%
+                            </div>
+                          </div>
+                          <div className="sr-only">
+                            {appliedMerchantCoupon?.type === 'bulk' ? (
+                              <div>Team discount.</div>
+                            ) : null}{' '}
+                            {percentOffLabel}
+                          </div>
+                        </>
+                      )}
+                    </div>
+                  </>
+                )}
               </div>
+              <div data-byline="">Full access</div>
             </div>
+          )}
+          {purchased ? (
+            <>
+              <div data-pricing-product-header="">
+                <h4 data-name-badge="">{name}</h4>
+              </div>
+              <div data-purchased-container="">
+                <div data-purchased="">
+                  <CheckCircleIcon aria-hidden="true" /> Purchased
+                </div>
+              </div>
+            </>
           ) : isSellingLive ? (
             isDowngrade(formattedPrice) ? (
               <div data-downgrade-container="">
@@ -287,7 +294,7 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
               )}
             </div>
           )}
-          {isSellingLive && (
+          {isSellingLive && !purchased && (
             <SaleCountdown
               coupon={defaultCoupon}
               data-pricing-product-sale-countdown={index}
@@ -302,19 +309,21 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
             />
           )}
           <div data-pricing-footer="">
-            {product.description && (
+            {product.description && !purchased && (
               <div className="prose prose-sm mx-auto max-w-sm px-5 prose-p:text-gray-200 sm:prose-base">
                 <ReactMarkdown children={product.description} />
               </div>
             )}
-            <div className="flex justify-center pt-8 align-middle">
-              <Image
-                src="https://res.cloudinary.com/total-typescript/image/upload/v1669928567/money-back-guarantee-badge-16137430586cd8f5ec2a096bb1b1e4cf_o5teov.svg"
-                width={130}
-                height={130}
-                alt="Money Back Guarantee"
-              />
-            </div>
+            {!purchased && (
+              <div className="flex justify-center pt-8 align-middle">
+                <Image
+                  src="https://res.cloudinary.com/total-typescript/image/upload/v1669928567/money-back-guarantee-badge-16137430586cd8f5ec2a096bb1b1e4cf_o5teov.svg"
+                  width={130}
+                  height={130}
+                  alt="Money Back Guarantee"
+                />
+              </div>
+            )}
             {modules || features ? (
               <div data-header="">
                 <div>
@@ -474,6 +483,7 @@ const SubscribeForm = ({
         Get notified when Total TypeScript Vol 1. is released:
       </div>
       <SubscribeToConvertkitForm
+        formId={3843826}
         actionLabel="Subscribe to get notified"
         onSuccess={(subscriber, email) => {
           return handleOnSuccess(subscriber, email)

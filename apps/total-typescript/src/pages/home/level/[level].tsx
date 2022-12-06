@@ -5,6 +5,7 @@ import {getToken} from 'next-auth/jwt'
 import {getActiveProducts} from '../../../path-to-purchase-react/products.server'
 import {propsForCommerce} from '@skillrecordings/commerce-server'
 import type {CouponForCode} from '@skillrecordings/commerce-server/dist/@types'
+import {CommerceProps} from '@skillrecordings/commerce-server/dist/@types'
 
 export const getServerSideProps: GetServerSideProps = async ({req, query}) => {
   const {level} = query
@@ -21,14 +22,12 @@ export const getServerSideProps: GetServerSideProps = async ({req, query}) => {
   }
 }
 
-const LevelCustomHomePage = ({
-  level,
-  couponFromCode,
-}: {
-  level: string
-  couponFromCode: CouponForCode
-}) => {
-  return <HomeTemplate level={level} couponFromCode={couponFromCode} />
+const LevelCustomHomePage = (
+  props: CommerceProps & {
+    level: string
+  },
+) => {
+  return <HomeTemplate {...props} />
 }
 
 export default LevelCustomHomePage

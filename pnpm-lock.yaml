@@ -2317,13 +2317,13 @@ importers:
       '@codesandbox/sandpack-react': ^1.17.0
       '@heroicons/react': ^1.0.6
       '@hookform/resolvers': ^2.9.8
-      '@mdx-js/loader': ^2.1.2
-      '@mdx-js/mdx': ^2.1.2
-      '@mdx-js/react': ^2.1.2
+      '@mdx-js/loader': ^2.1.5
+      '@mdx-js/mdx': ^2.1.5
+      '@mdx-js/react': ^2.1.5
       '@mux/mux-node': ^6.3.0
       '@mux/mux-player-react': 0.1.0-beta.26
       '@next/env': ^12.2.2
-      '@next/mdx': ^12.3.1
+      '@next/mdx': ^12.3.4
       '@portabletext/react': ^1.0.6
       '@portabletext/types': ^1.0.3
       '@radix-ui/react-accordion': ^1.0.0
@@ -2435,12 +2435,12 @@ importers:
       '@codesandbox/sandpack-react': 1.17.0_biqbaboplfbrettd7655fr4n2y
       '@heroicons/react': 1.0.6_react@18.2.0
       '@hookform/resolvers': 2.9.8_react-hook-form@7.29.0
-      '@mdx-js/loader': 2.1.3_webpack@4.46.0
-      '@mdx-js/mdx': 2.1.2
-      '@mdx-js/react': 2.1.3_react@18.2.0
+      '@mdx-js/loader': 2.1.5_webpack@4.46.0
+      '@mdx-js/mdx': 2.1.5
+      '@mdx-js/react': 2.1.5_react@18.2.0
       '@mux/mux-node': 6.3.0
       '@mux/mux-player-react': 0.1.0-beta.26_v7vsrdtui4d36prbwvdnlb7tpq
-      '@next/mdx': 12.3.1_hbo3tj2k5fhsh63l2ltjrymaq4
+      '@next/mdx': 12.3.4_wuv4qx5dshjptmdbtsqqkih5iu
       '@portabletext/react': 1.0.6_react@18.2.0
       '@radix-ui/react-accordion': 1.0.0_biqbaboplfbrettd7655fr4n2y
       '@radix-ui/react-alert-dialog': 0.1.7_bb2bxwco6ptpubzwpazr52qf6i
@@ -8570,18 +8570,6 @@ packages:
       - react
       - supports-color
 
-  /@mdx-js/loader/2.1.3_webpack@4.46.0:
-    resolution: {integrity: sha512-7LtklcfzZC9aWWFREop0ivemhwcp/cke2tICHEhnDyGn+hTg7LIbWCfSos68kJv9w7Z47KYfNcg9/8zBD+8eXA==}
-    peerDependencies:
-      webpack: '>=4'
-    dependencies:
-      '@mdx-js/mdx': 2.1.2
-      source-map: 0.7.3
-      webpack: 4.46.0
-    transitivePeerDependencies:
-      - supports-color
-    dev: false
-
   /@mdx-js/loader/2.1.3_webpack@5.73.0:
     resolution: {integrity: sha512-7LtklcfzZC9aWWFREop0ivemhwcp/cke2tICHEhnDyGn+hTg7LIbWCfSos68kJv9w7Z47KYfNcg9/8zBD+8eXA==}
     peerDependencies:
@@ -8599,8 +8587,20 @@ packages:
     peerDependencies:
       webpack: '>=4'
     dependencies:
-      '@mdx-js/mdx': 2.1.2
+      '@mdx-js/mdx': 2.1.5
       source-map: 0.7.3
+    transitivePeerDependencies:
+      - supports-color
+    dev: false
+
+  /@mdx-js/loader/2.1.5_webpack@4.46.0:
+    resolution: {integrity: sha512-oXjfTa/iAcMmW8DdQ+hQFodPCLqw5VKT2yoZkLwrZfPVVpUgKrI+5/ZePYq328xxtAUStZmR3ed0PWJrwd5Pkg==}
+    peerDependencies:
+      webpack: '>=4'
+    dependencies:
+      '@mdx-js/mdx': 2.1.5
+      source-map: 0.7.3
+      webpack: 4.46.0
     transitivePeerDependencies:
       - supports-color
     dev: false
@@ -8610,7 +8610,7 @@ packages:
     peerDependencies:
       webpack: '>=4'
     dependencies:
-      '@mdx-js/mdx': 2.1.2
+      '@mdx-js/mdx': 2.1.5
       source-map: 0.7.3
       webpack: 5.73.0
     transitivePeerDependencies:
@@ -8674,6 +8674,30 @@ packages:
       astring: 1.8.1
       estree-util-build-jsx: 2.0.0
       estree-util-is-identifier-name: 2.0.0
+      estree-walker: 3.0.1
+      hast-util-to-estree: 2.0.2
+      markdown-extensions: 1.1.1
+      periscopic: 3.0.4
+      remark-mdx: 2.0.0
+      remark-parse: 10.0.0
+      remark-rehype: 10.1.0
+      unified: 10.1.2
+      unist-util-position-from-estree: 1.1.1
+      unist-util-stringify-position: 3.0.0
+      unist-util-visit: 4.1.0
+      vfile: 5.3.5
+    transitivePeerDependencies:
+      - supports-color
+    dev: false
+
+  /@mdx-js/mdx/2.1.5:
+    resolution: {integrity: sha512-zEG0lt+Bl/r5U6e0TOS7qDbsXICtemfAPquxWFsMbdzrvlWaqMGemLl+sjVpqlyaaiCiGVQBSGdCk0t1qXjkQg==}
+    dependencies:
+      '@types/estree-jsx': 1.0.0
+      '@types/mdx': 2.0.2
+      estree-util-build-jsx: 2.0.0
+      estree-util-is-identifier-name: 2.0.0
+      estree-util-to-js: 1.1.0
       estree-walker: 3.0.1
       hast-util-to-estree: 2.0.2
       markdown-extensions: 1.1.1
@@ -9060,6 +9084,16 @@ packages:
       '@mdx-js/react': '*'
     dependencies:
       '@mdx-js/loader': 2.1.5_webpack@5.73.0
+      '@mdx-js/react': 2.1.5_react@18.2.0
+    dev: false
+
+  /@next/mdx/12.3.4_wuv4qx5dshjptmdbtsqqkih5iu:
+    resolution: {integrity: sha512-YTF/ph9NMKjmrNsr8O+y3IiZee9TaxSd6051qI0Fj/du75pKRRZ1DnOX6ZS7mMgswH7VMERVV7fBZxmJr9sN7Q==}
+    peerDependencies:
+      '@mdx-js/loader': '>=0.15.0'
+      '@mdx-js/react': '*'
+    dependencies:
+      '@mdx-js/loader': 2.1.5_webpack@4.46.0
       '@mdx-js/react': 2.1.5_react@18.2.0
     dev: false
 
@@ -17534,6 +17568,14 @@ packages:
     resolution: {integrity: sha512-aXXZFVMnBBDRP81vS4YtAYJ0hUkgEsXea7lNKWCOeaAquGb1Jm2rcONPB5fpzwgbNxulTvrWuKnp9UElUGAKeQ==}
     dev: false
 
+  /estree-util-to-js/1.1.0:
+    resolution: {integrity: sha512-490lbfCcpLk+ofK6HCgqDfYs4KAfq6QVvDw3+Bm1YoKRgiOjKiKYGAVQE1uwh7zVxBgWhqp4FDtp5SqunpUk1A==}
+    dependencies:
+      '@types/estree-jsx': 1.0.0
+      astring: 1.8.1
+      source-map: 0.7.3
+    dev: false
+
   /estree-util-visit/1.1.0:
     resolution: {integrity: sha512-3lXJ4Us9j8TUif9cWcQy81t9p5OLasnDuuhrFiqb+XstmKC1d1LmrQWYsY49/9URcfHE64mPypDBaNK9NwWDPQ==}
     dependencies:
@@ -21664,7 +21706,7 @@ packages:
   /load-egghead-notes-mdx-url/0.1.1:
     resolution: {integrity: sha512-/YJ8RmQUH8kwQbWCeN3MA1Aj3GHlQvfp75b5kweoNDdW+MK104bCmshvpV8jkxZLGppFTU+nKJptWefWTyWxNQ==}
     dependencies:
-      '@mdx-js/mdx': 2.1.2
+      '@mdx-js/mdx': 2.1.5
       isomorphic-fetch: 3.0.0
       mdast-util-to-markdown: 0.6.5
       remark-frontmatter: 3.0.0
@@ -23540,7 +23582,7 @@ packages:
       react: '>=16.x <=18.x'
       react-dom: '>=16.x <=18.x'
     dependencies:
-      '@mdx-js/mdx': 2.1.2
+      '@mdx-js/mdx': 2.1.5
       '@mdx-js/react': 2.1.5_react@18.2.0
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
