@@ -1,23 +1,13 @@
 import Layout from 'components/app/layout'
 import {Header} from 'components/home/home-header'
 import {Copy} from 'components/home/home-body-copy'
-import {SubscribeToNewsletter} from 'components/home/home-newsletter-cta'
 import React from 'react'
 import {useSkillLevel} from 'components/home/use-skill-level'
 import {useCoupon} from 'path-to-purchase-react/use-coupon'
-import {
-  CommerceProps,
-  CouponForCode,
-} from '@skillrecordings/commerce-server/dist/@types'
+import {CommerceProps} from '@skillrecordings/commerce-server/dist/@types'
 import {Element} from 'react-scroll'
 import {PricingTiers} from '../path-to-purchase-react/product-tiers'
 import Image from 'next/image'
-import {
-  redirectUrlBuilder,
-  SubscribeToConvertkitForm,
-} from '@skillrecordings/convertkit'
-import {setUserId} from '@amplitude/analytics-browser'
-import {track} from '../utils/analytics'
 import {MDXComponents} from '../components/mdx'
 
 export const HomeTemplate: React.FC<
@@ -31,7 +21,6 @@ export const HomeTemplate: React.FC<
   couponIdFromCoupon,
   defaultCoupon,
 }) => {
-  console.log({products})
   const skillLevel = useSkillLevel(level)
   const {redeemableCoupon, RedeemDialogForCoupon} = useCoupon(couponFromCode)
   return (
