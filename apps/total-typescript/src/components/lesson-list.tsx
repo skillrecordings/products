@@ -131,6 +131,48 @@ const LessonList: React.FC<{
                     />
                   </ul>
                 )}
+                {exercise._type === 'explainer' && (
+                  <ul className="text-gray-300">
+                    <li key={exercise.slug + `exercise`}>
+                      <Link
+                        href={{
+                          pathname: section
+                            ? `${path}/[module]/[section]/[exercise]`
+                            : `${path}/[module]/[exercise]`,
+                          query: {
+                            module: module.slug.current,
+                            exercise: exercise.slug,
+                            ...(section && {section: section.slug}),
+                          },
+                        }}
+                        passHref
+                      >
+                        <a
+                          className={cx(
+                            'flex items-center border-l-4 py-2 px-8 text-base font-medium transition hover:bg-slate-400/20 hover:text-white',
+                            {
+                              'border-orange-400 bg-gray-800/80 text-white':
+                                isActive,
+                              'border-transparent ': !isActive,
+                            },
+                          )}
+                          onClick={() => {
+                            track(`clicked explainer in navigator`, {
+                              module: module.slug.current,
+                              lesson: exercise.slug,
+                              ...(section && {section: section.slug}),
+                              location: router.query.lesson,
+                              moduleType: module.moduleType,
+                              lessonType: exercise._type,
+                            })
+                          }}
+                        >
+                          Explainer
+                        </a>
+                      </Link>
+                    </li>
+                  </ul>
+                )}
               </li>
             )
           })}
