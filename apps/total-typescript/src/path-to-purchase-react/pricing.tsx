@@ -7,7 +7,7 @@ import type {
 import {CheckCircleIcon} from '@heroicons/react/outline'
 import {getCouponLabel} from './get-coupon-label'
 import {useDebounce} from '@skillrecordings/react'
-import {useQuery} from 'react-query'
+import {useQuery, QueryStatus} from 'react-query'
 import SaleCountdown from './sale-countdown'
 import Spinner from 'components/spinner'
 import Image from 'next/image'
@@ -74,7 +74,7 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
   const [quantity, setQuantity] = React.useState(1)
   const debouncedQuantity: number = useDebounce<number>(quantity, 250)
   const {productId, name, image, modules, features, action} = product
-  const {addPrice, isDowngrade, isDiscount} = usePriceCheck()
+  const {addPrice, isDowngrade} = usePriceCheck()
   const {subscriber, loadingSubscriber} = useConvertkit()
   const router = useRouter()
 
@@ -104,20 +104,6 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
 
   const defaultCoupon = formattedPrice?.defaultCoupon
   const appliedMerchantCoupon = formattedPrice?.appliedMerchantCoupon
-
-  const fullPrice =
-    (formattedPrice?.unitPrice || 0) * (formattedPrice?.quantity || 0)
-
-  const percentOff = appliedMerchantCoupon
-    ? Math.floor(appliedMerchantCoupon.percentageDiscount * 100)
-    : formattedPrice && isDiscount(formattedPrice)
-    ? Math.floor(
-        (formattedPrice.calculatedPrice / formattedPrice.unitPrice) * 100,
-      )
-    : 0
-
-  const percentOffLabel =
-    appliedMerchantCoupon && `${percentOff}% off of $${fullPrice}`
 
   const pppCoupon = getFirstPPPCoupon(formattedPrice?.availableCoupons)
 
@@ -168,46 +154,7 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
           {!purchased && (
             <div data-pricing-product-header="">
               <h4 data-name-badge="">{name}</h4>
-              <div data-price-container={status}>
-                {status === 'loading' ? (
-                  <div data-loading-price="">
-                    <span className="sr-only">Loading price</span>
-                    <Spinner aria-hidden="true" className="h-8 w-8" />
-                  </div>
-                ) : (
-                  <>
-                    <sup aria-hidden="true">US</sup>
-                    <div aria-live="polite" data-price="">
-                      {formattedPrice?.calculatedPrice &&
-                        formatUsd(formattedPrice?.calculatedPrice).dollars}
-                      <span className="sup text-sm">
-                        {formattedPrice?.calculatedPrice &&
-                          formatUsd(formattedPrice?.calculatedPrice).cents}
-                      </span>
-                      {Boolean(
-                        appliedMerchantCoupon || isDiscount(formattedPrice),
-                      ) && (
-                        <>
-                          <div aria-hidden="true" data-price-discounted="">
-                            <div data-full-price={fullPrice}>
-                              {'$' + fullPrice}
-                            </div>
-                            <div data-percent-off={percentOff}>
-                              Save {percentOff}%
-                            </div>
-                          </div>
-                          <div className="sr-only">
-                            {appliedMerchantCoupon?.type === 'bulk' ? (
-                              <div>Team discount.</div>
-                            ) : null}{' '}
-                            {percentOffLabel}
-                          </div>
-                        </>
-                      )}
-                    </div>
-                  </>
-                )}
-              </div>
+              <PriceDisplay status={status} formattedPrice={formattedPrice} />
               <div data-byline="">Full access</div>
             </div>
           )}
@@ -381,6 +328,68 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
           </div>
         </article>
       </div>
+    </div>
+  )
+}
+
+type PriceDisplayProps = {
+  status: QueryStatus
+  formattedPrice?: FormattedPrice
+}
+
+export const PriceDisplay = ({status, formattedPrice}: PriceDisplayProps) => {
+  const {isDiscount} = usePriceCheck()
+
+  const appliedMerchantCoupon = formattedPrice?.appliedMerchantCoupon
+
+  const fullPrice =
+    (formattedPrice?.unitPrice || 0) * (formattedPrice?.quantity || 0)
+
+  const percentOff = appliedMerchantCoupon
+    ? Math.floor(appliedMerchantCoupon.percentageDiscount * 100)
+    : formattedPrice && isDiscount(formattedPrice)
+    ? Math.floor(
+        (formattedPrice.calculatedPrice / formattedPrice.unitPrice) * 100,
+      )
+    : 0
+
+  const percentOffLabel =
+    appliedMerchantCoupon && `${percentOff}% off of $${fullPrice}`
+
+  return (
+    <div data-price-container={status}>
+      {status === 'loading' ? (
+        <div data-loading-price="">
+          <span className="sr-only">Loading price</span>
+          <Spinner aria-hidden="true" className="h-8 w-8" />
+        </div>
+      ) : (
+        <>
+          <sup aria-hidden="true">US</sup>
+          <div aria-live="polite" data-price="">
+            {formattedPrice?.calculatedPrice &&
+              formatUsd(formattedPrice?.calculatedPrice).dollars}
+            <span className="sup text-sm">
+              {formattedPrice?.calculatedPrice &&
+                formatUsd(formattedPrice?.calculatedPrice).cents}
+            </span>
+            {Boolean(appliedMerchantCoupon || isDiscount(formattedPrice)) && (
+              <>
+                <div aria-hidden="true" data-price-discounted="">
+                  <div data-full-price={fullPrice}>{'$' + fullPrice}</div>
+                  <div data-percent-off={percentOff}>Save {percentOff}%</div>
+                </div>
+                <div className="sr-only">
+                  {appliedMerchantCoupon?.type === 'bulk' ? (
+                    <div>Team discount.</div>
+                  ) : null}{' '}
+                  {percentOffLabel}
+                </div>
+              </>
+            )}
+          </div>
+        </>
+      )}
     </div>
   )
 }
