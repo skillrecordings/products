@@ -66,7 +66,10 @@ const BuyMoreSeats = (props: BuyMoreSeatsProps) => {
 
   return (
     <form className="pt-3" action={formActionPath} method="POST">
-      <fieldset className="flex w-full items-center justify-between">
+      <fieldset
+        id="team-upgrade-pricing-inline"
+        className="flex w-full items-center justify-between"
+      >
         <label className="inline-flex items-center gap-3">
           <span className="opacity-80">Seats</span>
           <input
