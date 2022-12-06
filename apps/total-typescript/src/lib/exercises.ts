@@ -14,20 +14,22 @@ export const ExerciseSchema = z.object({
   stackblitz: z.nullable(z.string()).optional(),
   muxPlaybackId: z.nullable(z.string()).optional(),
   transcript: z.nullable(z.any().array()).optional(),
-  solution: z
-    .object({
-      _key: z.string(),
-      _type: z.string(),
-      _updatedAt: z.string().optional(),
-      title: z.string(),
-      slug: z.string(),
-      description: z.nullable(z.string()).optional(),
-      body: z.any().array().optional(),
-      stackblitz: z.nullable(z.string()).optional(),
-      muxPlaybackId: z.nullable(z.string()).optional(),
-      transcript: z.nullable(z.any().array()).optional(),
-    })
-    .optional(),
+  solution: z.nullable(
+    z
+      .object({
+        _key: z.string(),
+        _type: z.string(),
+        _updatedAt: z.string().optional(),
+        title: z.string(),
+        slug: z.string(),
+        description: z.nullable(z.string()).optional(),
+        body: z.any().array().optional(),
+        stackblitz: z.nullable(z.string()).optional(),
+        muxPlaybackId: z.nullable(z.string()).optional(),
+        transcript: z.nullable(z.any().array()).optional(),
+      })
+      .optional(),
+  ),
 })
 
 export type Exercise = z.infer<typeof ExerciseSchema>
@@ -45,7 +47,7 @@ export const getExerciseMuxPlaybackId = async (exerciseSlug: string) => {
 
 export const getExerciseMedia = async (exerciseSlug: string) => {
   const exerciseMedia = await sanityClient.fetch(
-    groq`*[_type == "exercise" && slug.current == $slug][0]{
+    groq`*[_type in ['exercise', 'explainer'] && slug.current == $slug][0]{
       "slug": slug.current,
       body,
       "stackblitz": resources[@._type == 'stackblitz'][0].openFile,
@@ -70,7 +72,7 @@ export const getExercise = async (
   includeMedia: boolean = true,
 ): Promise<Exercise> => {
   const exercise = await sanityClient.fetch(
-    `*[_type == "exercise" && slug.current == $slug][0]{
+    `*[_type in ['exercise', 'explainer'] && slug.current == $slug][0]{
       _id,
       _type,
       _updatedAt,
@@ -101,7 +103,8 @@ export const getExercise = async (
 }
 
 export const getAllExercises = async (): Promise<Exercise[]> => {
-  const exercises = await sanityClient.fetch(groq`*[_type == "exercise"]{
+  const exercises =
+    await sanityClient.fetch(groq`*[_type in ['exercise', 'explainer']]{
       _id,
       _type,
       _updatedAt,

@@ -83,52 +83,54 @@ const LessonList: React.FC<{
                     {exercise.title}
                   </a>
                 </Link>
-                <ul className="text-gray-300">
-                  <li key={exercise.slug + `exercise`}>
-                    <Link
-                      href={{
-                        pathname: section
-                          ? `${path}/[module]/[section]/[exercise]`
-                          : `${path}/[module]/[exercise]`,
-                        query: {
-                          module: module.slug.current,
-                          exercise: exercise.slug,
-                          ...(section && {section: section.slug}),
-                        },
-                      }}
-                      passHref
-                    >
-                      <a
-                        className={cx(
-                          'flex items-center border-l-4 py-2 px-8 text-base font-medium transition hover:bg-slate-400/20 hover:text-white',
-                          {
-                            'border-orange-400 bg-gray-800/80 text-white':
-                              isActive,
-                            'border-transparent ': !isActive,
-                          },
-                        )}
-                        onClick={() => {
-                          track(`clicked exercise in navigator`, {
+                {exercise._type === 'exercise' && (
+                  <ul className="text-gray-300">
+                    <li key={exercise.slug + `exercise`}>
+                      <Link
+                        href={{
+                          pathname: section
+                            ? `${path}/[module]/[section]/[exercise]`
+                            : `${path}/[module]/[exercise]`,
+                          query: {
                             module: module.slug.current,
-                            lesson: exercise.slug,
+                            exercise: exercise.slug,
                             ...(section && {section: section.slug}),
-                            location: router.query.lesson,
-                            moduleType: module.moduleType,
-                            lessonType: exercise._type,
-                          })
+                          },
                         }}
+                        passHref
                       >
-                        Problem
-                      </a>
-                    </Link>
-                  </li>
-                  <SolutionLink
-                    module={module}
-                    exercise={exercise}
-                    section={section}
-                    path={path}
-                  />
-                </ul>
+                        <a
+                          className={cx(
+                            'flex items-center border-l-4 py-2 px-8 text-base font-medium transition hover:bg-slate-400/20 hover:text-white',
+                            {
+                              'border-orange-400 bg-gray-800/80 text-white':
+                                isActive,
+                              'border-transparent ': !isActive,
+                            },
+                          )}
+                          onClick={() => {
+                            track(`clicked exercise in navigator`, {
+                              module: module.slug.current,
+                              lesson: exercise.slug,
+                              ...(section && {section: section.slug}),
+                              location: router.query.lesson,
+                              moduleType: module.moduleType,
+                              lessonType: exercise._type,
+                            })
+                          }}
+                        >
+                          Problem
+                        </a>
+                      </Link>
+                    </li>
+                    <SolutionLink
+                      module={module}
+                      exercise={exercise}
+                      section={section}
+                      path={path}
+                    />
+                  </ul>
+                )}
               </li>
             )
           })}

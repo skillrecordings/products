@@ -4,7 +4,6 @@ import {GetStaticPaths, GetStaticProps} from 'next'
 import {getExercise, getExerciseMedia} from 'lib/exercises'
 import {getAllWorkshops, getWorkshop} from 'lib/workshops'
 import {getSection} from 'lib/sections'
-import {useQuery} from 'react-query'
 
 export const getStaticProps: GetStaticProps = async (context) => {
   const {params} = context
