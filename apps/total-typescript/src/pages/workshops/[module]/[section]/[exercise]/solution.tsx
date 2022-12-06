@@ -2,7 +2,7 @@ import React from 'react'
 import ExerciseTemplate from 'templates/exercise-template'
 import {GetStaticPaths, GetStaticProps} from 'next'
 import {getAllTutorials, getTutorial} from 'lib/tutorials'
-import {getExercise} from 'lib/exercises'
+import {Exercise, getExercise} from 'lib/exercises'
 import {getAllWorkshops, getWorkshop} from '../../../../../lib/workshops'
 import {getSection} from '../../../../../lib/sections'
 
@@ -29,13 +29,15 @@ export const getStaticPaths: GetStaticPaths = async (context) => {
     return (
       workshop.sections?.flatMap((section: any) => {
         return (
-          section.exercises?.map((exercise: any) => ({
-            params: {
-              module: workshop.slug.current,
-              section: section.slug,
-              exercise: exercise.slug,
-            },
-          })) || []
+          section.exercises
+            ?.filter(({_type}: Exercise) => _type === 'exercise')
+            .map((exercise: Exercise) => ({
+              params: {
+                module: workshop.slug.current,
+                section: section.slug,
+                exercise: exercise.slug,
+              },
+            })) || []
         )
       }) || []
     )
