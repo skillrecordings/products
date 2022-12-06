@@ -57,3 +57,16 @@ test('if a coupon is passed that is valid and has a 100% discount it is redeemab
   expect(result.isValid).toEqual(true)
   expect(result.isRedeemable).toEqual(true)
 })
+
+test('if a default coupon is passed that is valid and has a 100% discount it is not redeemable', async () => {
+  const coupon = {
+    id: 'valid-coupon-id',
+    type: 'special',
+    percentageDiscount: new Prisma.Decimal(1),
+    default: true,
+  } as Prisma.CouponUncheckedCreateInput
+  const result = validateCoupon(coupon as Coupon)
+
+  expect(result.isValid).toEqual(true)
+  expect(result.isRedeemable).toEqual(false)
+})
