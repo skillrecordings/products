@@ -57,15 +57,16 @@ export default {
     {
       name: 'resources',
       title: 'Resources',
-      description: 'Exercises and Sections in the Module',
+      description: 'Exercises, Sections, or Explainers in the Module',
       type: 'array',
       of: [
         {
-          title: 'Exercise and Sections',
+          title: 'Exercise, Sections and Explainers',
           type: 'reference',
           to: [
             {title: 'Exercise', type: 'exercise'},
             {title: 'Section', type: 'section'},
+            {title: 'Explainer', type: 'explainer'},
             {type: 'linkResource'},
           ],
         },

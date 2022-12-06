@@ -6,6 +6,7 @@ import schemaTypes from 'all:part:@sanity/base/schema-type'
 // —— documents
 import cta from './documents/cta'
 import exercise from './documents/exercise'
+import explainer from './documents/explainer'
 import section from './documents/section'
 import module from './documents/module'
 import videoResource from './documents/videoResource'
@@ -47,6 +48,7 @@ export default createSchema({
     cta,
     module,
     exercise,
+    explainer,
     videoResource,
     linkResource,
     tip,
