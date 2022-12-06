@@ -492,6 +492,7 @@ const SubscribeForm = ({
         Get notified when Total TypeScript Vol 1. is released:
       </div>
       <SubscribeToConvertkitForm
+        formId={3843826}
         actionLabel="Subscribe to get notified"
         onSuccess={(subscriber, email) => {
           return handleOnSuccess(subscriber, email)

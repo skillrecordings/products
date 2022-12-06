@@ -56,7 +56,7 @@ export const getSection = async (slug: string) =>
         ogImage,
         description,
         _updatedAt,
-        "exercises": resources[@->._type == 'exercise']->{
+        "exercises": resources[@->._type in ['exercise', 'explainer']]->{
           _id,
           _type,
           _updatedAt,
