@@ -30,7 +30,7 @@ const Login: React.FC<React.PropsWithChildren<{csrfToken: string}>> = ({
 
   return (
     <Layout footer={null} meta={{title: 'Log in to Total TypeScript'}}>
-      <div className="relative mx-auto flex w-full flex-grow flex-col items-center justify-center bg-black/40 pb-16 pt-0 text-white sm:p-5 md:pb-40 md:pt-16">
+      <div className="relative mx-auto flex w-full flex-grow flex-col items-center justify-center pb-16 pt-0 text-white sm:p-5 md:pb-40 md:pt-16">
         <Image
           src={require('../../public/assets/landing/bg-divider-3.png')}
           layout="fill"
@@ -40,8 +40,9 @@ const Login: React.FC<React.PropsWithChildren<{csrfToken: string}>> = ({
           aria-hidden="true"
           className="pointer-events-none select-none"
         />
-        <main className="relative z-10 rounded-lg p-5 shadow-2xl sm:mx-auto sm:bg-gray-800/90 sm:p-10">
-          <div className="mx-auto flex w-full max-w-sm items-center justify-center">
+        <main className="relative z-10 rounded-lg border border-gray-800 p-5 shadow-2xl shadow-black/60 sm:mx-auto sm:bg-black/20 sm:p-10">
+          <Stripes />
+          <div className="mx-auto -mt-20 flex w-full max-w-sm items-center justify-center">
             <Image
               placeholder="blur"
               src={require('../../public/assets/gem.png')}
@@ -101,7 +102,7 @@ const Login: React.FC<React.PropsWithChildren<{csrfToken: string}>> = ({
                   {...register('email', {required: true})}
                 />
               </div>
-              <button className="mt-5 flex w-full items-center justify-center rounded-md border border-transparent bg-cyan-400 px-5 py-4 text-lg font-semibold text-black transition focus:outline-none focus:ring-2 focus:ring-cyan-100 hover:bg-cyan-300">
+              <button className="mt-5 flex w-full items-center justify-center rounded-md border border-transparent bg-gradient-to-b from-cyan-400 to-cyan-500 px-5 py-4 text-lg font-semibold text-black transition focus:outline-none focus:ring-2 focus:ring-cyan-100 hover:brightness-110">
                 Email me a login link
               </button>
             </form>
@@ -113,6 +114,37 @@ const Login: React.FC<React.PropsWithChildren<{csrfToken: string}>> = ({
 }
 
 export default Login
+
+const Stripes = () => {
+  return (
+    <svg
+      className="absolute left-0 top-0 overflow-hidden rounded-t-lg"
+      xmlns="http://www.w3.org/2000/svg"
+      fill="none"
+      viewBox="0 0 526 19"
+    >
+      <mask
+        id="a"
+        width="525"
+        height="18"
+        x="1"
+        y="0"
+        maskUnits="userSpaceOnUse"
+        style={{maskType: 'alpha'}}
+      >
+        <path fill="#060A12" d="M526 18V0H1v18h525Z" />
+      </mask>
+      <g mask="url(#a)">
+        <path
+          stroke="#1E293B"
+          strokeWidth="1.253"
+          d="m413.105 24.159 29.842-29.842m.262 29.842 29.842-29.842m.261 29.842 29.842-29.842m.262 29.842 29.842-29.842M423.263 24.159l29.842-29.842m.262 29.842 29.842-29.842m.261 29.842 29.842-29.842m.262 29.842 29.842-29.842M403.16 24.159l29.842-29.842m.261 29.842 29.842-29.842m.262 29.842 29.842-29.842m.261 29.842 29.842-29.842m.262 29.842 29.842-29.842M393.211 24.159l29.842-29.842m-39.79 29.842 29.842-29.842m-39.791 29.842 29.842-29.842m-39.787 29.842 29.842-29.842m-39.789 29.842 29.842-29.842m-39.792 29.842 29.842-29.842m-39.787 29.842 29.842-29.842M323.58 24.159l29.842-29.842m-39.789 29.842 29.842-29.842m-39.792 29.842 29.842-29.842m-39.789 29.842 29.842-29.842m-39.789 29.842 29.842-29.842m-39.788 29.842 29.843-29.842m-39.792 29.842 29.842-29.842m-39.789 29.842 29.842-29.842m-39.787 29.842 29.842-29.842m-39.792 29.842 29.843-29.842m-39.79 29.842 29.842-29.842m-39.791 29.842 29.842-29.842m-39.787 29.842 29.842-29.842m-39.788 29.842 29.842-29.842m-39.793 29.842 29.842-29.842m-39.787 29.842 29.842-29.842M164.42 24.159l29.842-29.842m-39.788 29.842 29.842-29.842m-39.791 29.842 29.842-29.842m-39.789 29.842L164.42-5.683m-39.789 29.842 29.842-29.842m-39.788 29.842 29.842-29.842m-39.791 29.842 29.842-29.842M94.789 24.159 124.63-5.683M84.844 24.159l29.842-29.842M74.894 24.159l29.842-29.842M64.949 24.159 94.79-5.683M54.998 24.159 84.84-5.683M45.052 24.159 74.894-5.683M35.107 24.159 64.95-5.683M25.158 24.159 55-5.683M15.21 24.159 45.054-5.683M5.261 24.159 35.103-5.683M-4.684 24.159 25.158-5.683m-39.789 29.842L15.21-5.683m-39.79 29.842L5.262-5.683"
+        />
+      </g>
+      <path stroke="#1E293B" d="M0 17.5h526" />
+    </svg>
+  )
+}
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const providers = await getProviders()
