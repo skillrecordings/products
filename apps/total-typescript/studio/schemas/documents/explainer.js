@@ -1,17 +1,37 @@
-import {MdOutlineGroupWork} from 'react-icons/md'
+import {MdRecordVoiceOver} from 'react-icons/md'
 
 export default {
-  name: 'section',
+  name: 'explainer',
   type: 'document',
-  title: 'Workshop Section',
-  description: 'A named group of resources within a module.',
-  icon: MdOutlineGroupWork,
+  title: 'Explainer',
+  description:
+    'A type of Lesson that works as intro or outro for a module or section.',
+  icon: MdRecordVoiceOver,
   fields: [
+    {
+      name: 'label',
+      title: 'Label',
+      type: 'string',
+      hidden: true,
+    },
     {
       name: 'title',
       title: 'Title',
       type: 'string',
       validation: (Rule) => Rule.max(90),
+    },
+    {
+      name: 'explainerType',
+      title: 'Explainer Type',
+      type: 'string',
+      validation: (Rule) => Rule.required(),
+      options: {
+        list: [
+          {title: 'Module intro', value: 'moduleIntro'},
+          {title: 'Module outro', value: 'moduleOutro'},
+          {title: 'Section intro', value: 'sectionIntro'},
+        ],
+      },
     },
     {
       name: 'slug',
@@ -27,12 +47,16 @@ export default {
       name: 'resources',
       title: 'Resources',
       type: 'array',
-      description: 'Exercises, Explainers, or Link Resources in the Section',
       of: [
         {
+          title: 'Video Resource',
           type: 'reference',
-          to: [{type: 'exercise'}, {type: 'explainer'}, {type: 'linkResource'}],
+          to: [{type: 'videoResource'}],
         },
+        {type: 'muxVideo'},
+        {type: 'stackblitz'},
+        {type: 'testimonial'},
+        {type: 'linkResource'},
       ],
     },
     {
