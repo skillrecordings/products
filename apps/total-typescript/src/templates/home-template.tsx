@@ -49,10 +49,18 @@ export const HomeTemplate: React.FC<
             />
           }
         >
-          <h2 className="mx-auto max-w-[15ch] text-center font-heading text-4xl font-bold sm:text-5xl lg:text-5xl xl:text-6xl">
+          <h2 className="mx-auto max-w-[20ch] text-center font-heading text-4xl font-bold sm:text-5xl lg:text-5xl xl:text-6xl">
             Your Total TypeScript Adventure Starts Now
           </h2>
           <div className="flex w-full flex-col items-center pt-16">
+            <Image
+              src={require('../../public/assets/landing/bg-divider-5.png')}
+              alt=""
+              aria-hidden="true"
+              layout="fill"
+              className="pointer-events-none z-0 translate-y-80 select-none object-contain object-top"
+              quality={100}
+            />
             <Element name="buy" aria-hidden="true" />
             <PricingTiers
               products={products}
@@ -63,6 +71,15 @@ export const HomeTemplate: React.FC<
             />
           </div>
         </MDXComponents.Section>
+        <Image
+          layout="fill"
+          aria-hidden="true"
+          alt=""
+          src={require('../../public/assets/landing/bg-divider-4.png')}
+          objectPosition={'top'}
+          className="rotate-180 select-none object-contain"
+          quality={100}
+        />
         {redeemableCoupon ? <RedeemDialogForCoupon /> : null}
       </main>
     </Layout>

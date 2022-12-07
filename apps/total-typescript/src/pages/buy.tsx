@@ -19,8 +19,7 @@ const Buy: React.FC<React.PropsWithChildren<CommerceProps>> = ({
   defaultCoupon,
 }) => {
   const {scrollYProgress} = useScroll()
-  const y = useTransform(scrollYProgress, [0, 1], [0, 600])
-  const y2 = useTransform(scrollYProgress, [0, 1], [0, 300])
+  const y = useTransform(scrollYProgress, [0, 1], [0, -100])
 
   return (
     <Layout
@@ -33,28 +32,26 @@ const Buy: React.FC<React.PropsWithChildren<CommerceProps>> = ({
               alt: 'Golden Ticket',
             }
           : {
-              url: 'https://res.cloudinary.com/total-typescript/image/upload/v1670078798/pricing/card_2x_zjhcud.png',
+              url: 'https://res.cloudinary.com/total-typescript/image/upload/v1670407830/pricing/card_2x_isoiaa.png',
               alt: `Buy ${process.env.NEXT_PUBLIC_SITE_TITLE}`,
             },
       }}
       defaultCoupon={defaultCoupon}
     >
-      <motion.div style={{y}} className="absolute top-0 h-screen w-full">
-        <Image
-          layout="fill"
-          aria-hidden="true"
-          alt=""
-          src={require('../../public/assets/landing/bg-divider-3.png')}
-          objectPosition={'top'}
-          className="select-none object-contain"
-          quality={100}
-        />
-      </motion.div>
+      <Image
+        layout="fill"
+        aria-hidden="true"
+        alt=""
+        src={require('../../public/assets/landing/bg-divider-3.png')}
+        objectPosition={'top'}
+        className="select-none object-contain"
+        quality={100}
+      />
       <main className="relative z-10 flex flex-col items-center justify-center py-28 sm:py-36">
         <h1 className="relative z-10 px-5 text-center font-heading  text-4xl font-bold sm:text-5xl">
           Become a TypeScript Wizard
         </h1>
-        <motion.div style={{y: y2}} className="absolute top-0 h-screen w-full">
+        <motion.div style={{y}} className="absolute top-0 h-screen w-full">
           <Image
             src={require('../../public/assets/landing/bg-divider-5.png')}
             alt=""
@@ -75,7 +72,6 @@ const Buy: React.FC<React.PropsWithChildren<CommerceProps>> = ({
           />
         </section>
       </main>
-      {/* <motion.div style={{y}} className="absolute bottom-0 h-screen w-full"> */}
       <Image
         layout="fill"
         aria-hidden="true"
@@ -85,7 +81,6 @@ const Buy: React.FC<React.PropsWithChildren<CommerceProps>> = ({
         className="select-none object-contain"
         quality={100}
       />
-      {/* </motion.div> */}
     </Layout>
   )
 }
