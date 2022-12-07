@@ -2,7 +2,7 @@ import {useRouter} from 'next/router'
 
 const Unsubscribed = () => {
   const router = useRouter()
-  const tagId = Number(router.query?.tag)
+  const tagId = Number(router.query?.tag || router.query?.tagId)
 
   const message = (tagId: number) => {
     switch (tagId) {
