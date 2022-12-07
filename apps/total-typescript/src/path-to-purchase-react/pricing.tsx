@@ -430,10 +430,6 @@ const RegionalPricingBox: React.FC<
           {country}. To help facilitate global learning, we are offering
           purchasing power parity pricing.
         </strong>
-        <p>
-          Please note that you will only be able to view content from within{' '}
-          {country}, and no bonuses will be provided.
-        </p>
         <p>If that is something that you need:</p>
       </div>
       <label>
