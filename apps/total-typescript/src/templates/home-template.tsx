@@ -52,7 +52,7 @@ export const HomeTemplate: React.FC<
           <h2 className="mx-auto max-w-[20ch] text-center font-heading text-4xl font-bold sm:text-5xl lg:text-5xl xl:text-6xl">
             Your Total TypeScript Adventure Starts Now
           </h2>
-          <div className="flex w-full flex-col items-center pt-16">
+          <div className="flex w-full flex-col items-center pt-5">
             <Image
               src={require('../../public/assets/landing/bg-divider-5.png')}
               alt=""
