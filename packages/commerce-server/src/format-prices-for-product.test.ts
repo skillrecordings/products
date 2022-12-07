@@ -369,6 +369,7 @@ function getMockExistingBulkPurchase(
     couponId: null,
     redeemedBulkCouponId: null,
     merchantChargeId: 'ch-123',
+    checkoutSessionId: 'cs-123',
     upgradedFromId: null,
     status: 'Valid',
     bulkCouponId: 'coupon-123',
@@ -379,6 +380,7 @@ function getMockExistingBulkPurchase(
     userId,
     productId,
     bulkCoupon: {maxUses: quantity},
+    quantity,
     ...inconsequentialValues,
   }
 }

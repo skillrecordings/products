@@ -1,10 +1,9 @@
 import {Stripe} from 'stripe'
-import {first, isEmpty} from 'lodash'
+import {first} from 'lodash'
 import {type Purchase, getSdk} from '@skillrecordings/database'
 import {
   getStripeSdk,
   Context as StripeContext,
-  defaultContext as defaultStripeContext,
 } from '@skillrecordings/stripe-sdk'
 import {NEW_INDIVIDUAL_PURCHASE} from '@skillrecordings/types'
 import {determinePurchaseType, PurchaseType} from './determine-purchase-type'
@@ -128,6 +127,7 @@ export async function recordNewPurchase(checkoutSessionId: string): Promise<{
     productId,
     stripeChargeAmount,
     quantity,
+    checkoutSessionId,
   })
 
   let purchaseType = await determinePurchaseType({checkoutSessionId})

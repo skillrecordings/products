@@ -202,6 +202,8 @@ model Purchase {
   redeemedBulkCouponId String?
   productId            String
   merchantChargeId     String?
+  quantity             Int?
+  checkoutSessionId    String?
   upgradedFromId       String?         @unique
   upgradedFrom         Purchase?       @relation("UpgradedToPurchase", fields: [upgradedFromId], references: [id], onDelete: NoAction, onUpdate: NoAction)
   upgradedTo           Purchase?       @relation("UpgradedToPurchase")

@@ -346,6 +346,7 @@ export function getSdk(
       merchantCustomerId: string
       stripeChargeAmount: number
       quantity?: number
+      checkoutSessionId: string
     }) {
       const {
         userId,
@@ -356,6 +357,7 @@ export function getSdk(
         productId,
         stripeChargeAmount,
         quantity = 1,
+        checkoutSessionId,
       } = options
       // we are using uuids so we can generate this!
       // this is needed because the following actions
@@ -434,6 +436,8 @@ export function getSdk(
           merchantChargeId,
           totalAmount: stripeChargeAmount / 100,
           bulkCouponId,
+          quantity,
+          checkoutSessionId,
         },
       })
 
