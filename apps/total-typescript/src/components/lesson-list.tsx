@@ -151,7 +151,7 @@ const LessonList: React.FC<{
                           className={cx(
                             'flex items-center border-l-4 py-2 px-8 text-base font-medium transition hover:bg-slate-400/20 hover:text-white',
                             {
-                              'border-orange-400 bg-gray-800/80 text-white':
+                              'border-indigo-400 bg-gray-800/80 text-white':
                                 isActive,
                               'border-transparent ': !isActive,
                             },
@@ -209,7 +209,7 @@ const LessonList: React.FC<{
                           aria-hidden="true"
                           className="pr-3 text-sm opacity-50"
                         >
-                          {resourceIdx + 1}
+                          ∙
                         </span>{' '}
                         {resource.title}
                       </a>

@@ -11,7 +11,8 @@ export const ExerciseTitle: React.FC<{exercise: Exercise}> = ({exercise}) => {
           'inline-block rounded-full px-2.5 py-1 font-mono text-xs font-semibold uppercase sm:mt-5 lg:text-sm 2xl:mt-0 2xl:text-xs',
           {
             'bg-cyan-500/20 text-cyan-300': _type === 'solution',
-            'bg-orange-500/20 text-orange-300': _type !== 'solution',
+            'bg-orange-500/20 text-orange-300': _type === 'exercise',
+            'bg-indigo-500/20 text-indigo-200': _type === 'explainer',
           },
         )}
       >

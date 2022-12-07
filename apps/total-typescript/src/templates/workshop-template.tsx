@@ -66,7 +66,9 @@ const Header: React.FC<{workshop: SanityDocument}> = ({workshop}) => {
               Pro Workshop
             </a>
           </Link>
-          <h1 className="font-text text-5xl font-bold lg:text-6xl">{title}</h1>
+          <h1 className="font-text text-4xl font-bold sm:text-5xl lg:text-6xl">
+            {title}
+          </h1>
           <div className="pt-8 text-lg">
             <div className="flex items-center justify-center gap-3 md:justify-start">
               <div className="flex items-center gap-3">

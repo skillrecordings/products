@@ -28,15 +28,15 @@ const TutorialsPage: React.FC<{tutorials: SanityDocument[]}> = ({
       }}
     >
       <main className="relative z-10 flex flex-col items-center justify-center py-32 sm:py-40">
-        <h1 className="text-center font-heading text-5xl font-bold sm:text-5xl">
+        <h1 className="px-5 text-center font-heading text-5xl font-bold sm:text-5xl">
           Free TypeScript Tutorials
         </h1>
-        <p className="max-w-sm pt-8 text-center text-lg text-rose-100/90">
+        <p className="max-w-sm px-5 pt-8 text-center text-lg text-rose-100/90">
           A collection of free, exercise-driven, in-depth TypeScript tutorials
           for you to use on your journey to TypeScript wizardry.
         </p>
         {tutorials && (
-          <ul className="flex max-w-screen-md flex-col gap-8 px-3 pt-20">
+          <ul className="flex max-w-screen-md flex-col gap-5 px-5 pt-10 sm:gap-8 sm:pt-20">
             {tutorials.map(
               ({title, slug, image, description, exercises}, i) => {
                 return (
