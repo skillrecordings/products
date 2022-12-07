@@ -23,3 +23,5 @@ const Unsubscribed = () => {
     </div>
   )
 }
+
+export default Unsubscribed
