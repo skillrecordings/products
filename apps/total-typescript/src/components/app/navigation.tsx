@@ -55,7 +55,7 @@ const DesktopNav = () => {
     <ul className={cx('hidden w-full items-center justify-between md:flex')}>
       <div className="flex h-full items-center">
         <hr
-          className="ml-8 mr-3 h-1/4 w-px border-transparent bg-gray-700"
+          className="ml-6 mr-2 h-1/4 w-px border-transparent bg-gray-700"
           aria-hidden="true"
         />
         <NavLink path="/workshops" label="Pro Workshops" icon={<KeyIcon />} />
@@ -74,13 +74,16 @@ const DesktopNav = () => {
           }
         />
       </div>
-      {status === 'authenticated' ? (
-        <AccountDropdown />
-      ) : status === 'unauthenticated' ? (
-        <NavLink path="/login" label="Log in" />
-      ) : (
-        <div aria-hidden="true" />
-      )}
+      <div className="flex h-full items-center justify-center">
+        <NavLink path="/faq" label="FAQ" />
+        {status === 'authenticated' ? (
+          <AccountDropdown />
+        ) : status === 'unauthenticated' ? (
+          <NavLink path="/login" label="Log in" />
+        ) : (
+          <div aria-hidden="true" />
+        )}
+      </div>
     </ul>
   )
 }
@@ -132,6 +135,7 @@ const MobileNav = () => {
                         />
                       }
                     />
+                    <MobileNavLink path="/faq" label="FAQ" />
                     {status === 'authenticated' && (
                       <>
                         <div className="border-t border-gray-900/50 px-3 pb-3 pt-5 font-mono text-xs font-semibold uppercase tracking-wide">
@@ -279,7 +283,7 @@ const AccountDropdown = () => {
             <NavigationMenu.Trigger
               onPointerMove={preventHover}
               onPointerLeave={preventHover}
-              className="flex h-full items-center gap-0.5 px-2 text-sm font-medium hover:radix-state-closed:bg-gray-800/70 radix-state-open:bg-gray-800 sm:gap-1 sm:px-5 sm:text-base"
+              className="flex h-full items-center gap-0.5 px-2 text-sm font-medium hover:radix-state-closed:bg-gray-800/70 radix-state-open:bg-gray-800 sm:gap-1 sm:px-4 sm:text-base"
             >
               Account <ChevronDownIcon className="h-4 w-4" aria-hidden />
             </NavigationMenu.Trigger>
