@@ -21,5 +21,8 @@ declare namespace NodeJS {
     MUX_TOKEN_ID: string
     MUX_TOKEN_SECRET: string
     NEXT_PUBLIC_DISCORD_INVITE_URL: string
+    SLACK_ANNOUNCE_CHANNEL_ID: string
+    SLACK_FEEDBACK_CHANNEL_ID: string
+    SLACK_TOKEN: string
   }
 }

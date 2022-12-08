@@ -20,7 +20,7 @@
     "format:index": "prettier --write \"*.{js,ts,json,md}\"",
     "format:src": "prettier --write",
     "generate": "turbo run generate",
-    "lint": "TIMING=1 eslint --fix",
+    "lint": "TIMING=1 eslint --fix --cache",
     "pre-commit": "lint-staged",
     "prepare": "husky install",
     "release": "changeset publish",
