@@ -50,7 +50,7 @@ export const ExerciseDescription: React.FC<{exercise: Exercise}> = ({
           <p className="prose max-w-none text-gray-200 prose-a:text-cyan-300 hover:prose-a:text-cyan-200 sm:prose-lg">
             This {lesson._type} is part of{' '}
             <Link href={'/buy'}>
-              <a>Total TypeScript Vol. 1</a>
+              <a>Total TypeScript Core Volume</a>
             </Link>{' '}
             and can be unlocked immediately after purchase. Already purchased?{' '}
             <Link href="/login">
