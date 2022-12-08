@@ -33,6 +33,7 @@ type ViewerAbilityInput = {
   user?: User
   subscriber?: any
   lesson?: Exercise
+  muxPlaybackId?: string | null
   module?: SanityDocument
   section?: SanityDocument
   isSolution?: boolean
@@ -45,7 +46,7 @@ const canViewTutorial = ({user, subscriber, module}: ViewerAbilityInput) => {
   return contentIsTutorial && Boolean(viewer)
 }
 
-const canViewWorkshop = ({user, module, lesson}: ViewerAbilityInput) => {
+const canViewWorkshop = ({user, module}: ViewerAbilityInput) => {
   const contentIsWorkshop = module?.moduleType === 'workshop'
 
   const purchases = user?.purchases || []
@@ -53,9 +54,7 @@ const canViewWorkshop = ({user, module, lesson}: ViewerAbilityInput) => {
     purchases.find((purchase) => purchase.bulkCouponId === null),
   )
 
-  const hasVideo = Boolean(lesson?.muxPlaybackId)
-
-  return contentIsWorkshop && userHasPurchaseWithAccess && hasVideo
+  return contentIsWorkshop && userHasPurchaseWithAccess
 
   // TODO a given module is associated with a product
   //  if the user has a valid purchase of that product
@@ -87,9 +86,7 @@ const isFreelyVisible = ({
   const isFirstLesson =
     lesson?._type === 'exercise' && lesson._id === exercises[0]._id
 
-  const hasVideo = Boolean(lesson?.muxPlaybackId)
-
-  return isFirstLesson && hasVideo && !isSolution
+  return isFirstLesson && !isSolution
 }
 
 export function hasChargesForPurchases(purchases?: any[]) {

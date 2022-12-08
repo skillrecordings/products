@@ -3,24 +3,10 @@ import {z} from 'zod'
 import {getWorkshop} from '../../lib/workshops'
 import {getToken} from 'next-auth/jwt'
 import {defineRulesForPurchases, UserSchema} from '../../ability/ability'
-import {SubscriberSchema} from '../../schemas/subscriber'
 import {getTutorial} from '../../lib/tutorials'
 import {getExercise} from '../../lib/exercises'
 import {getSection} from '../../lib/sections'
-import {NextApiRequest} from 'next'
-
-function getSubscriberFromCookie(req: NextApiRequest) {
-  const cookies = req.cookies
-  if (!cookies) return null
-  const cookie = cookies['ck_subscriber']
-  if (!cookie || cookie === 'undefined') return null
-  try {
-    return SubscriberSchema.parse(JSON.parse(cookie))
-  } catch (e) {
-    console.error(e)
-    return null
-  }
-}
+import {getSubscriberFromCookie} from '../../utils/get-convertkit-subscriber-from-cookie'
 
 export const workshop = createRouter()
   .query('bySlug', {
@@ -38,6 +24,7 @@ export const workshop = createRouter()
       lessonSlug: z.string().optional(),
       sectionSlug: z.string().optional(),
       isSolution: z.boolean().optional(),
+      muxPlaybackId: z.nullable(z.string().optional()),
     }),
     async resolve({ctx, input}) {
       const token = await getToken({req: ctx.req})
@@ -48,6 +35,7 @@ export const workshop = createRouter()
         lessonSlug,
         sectionSlug,
         isSolution = false,
+        muxPlaybackId,
       } = input
 
       const module = moduleSlug
@@ -67,6 +55,7 @@ export const workshop = createRouter()
         lesson,
         section,
         isSolution,
+        muxPlaybackId,
       })
 
       return rules
