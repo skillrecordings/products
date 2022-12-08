@@ -50,6 +50,13 @@ const Fonts = () => {
         type="font/woff2"
         crossOrigin="anonymous"
       />
+      <link
+        href="/fonts/85c016f7-1c53-49be-8528-0c3ec6481153.woff2"
+        rel="preload"
+        as="font"
+        type="font/woff2"
+        crossOrigin="anonymous"
+      />
     </>
   )
 }

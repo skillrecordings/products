@@ -25,9 +25,9 @@ export const Header = ({level}: {level?: SkillLevel}) => {
   const Title = level && level.rank > 3 ? ExpertTitle : DefaultTitle
   return (
     <header className="relative flex flex-col items-center justify-center overflow-hidden px-5">
-      <div className="relative flex w-full max-w-screen-lg flex-col-reverse items-center lg:min-h-[80vh] lg:flex-row">
+      <div className="relative z-10 flex w-full max-w-screen-lg flex-col-reverse items-center lg:min-h-[80vh] lg:flex-row">
         <div className="relative z-10 max-w-2xl pb-10 lg:py-48 lg:pb-48">
-          <h1 className="mt-16 max-w-[14ch] font-heading text-4xl font-normal leading-[1.25] sm:mt-0 sm:text-5xl sm:leading-[1.15] lg:text-5xl lg:leading-[1.15] xl:text-6xl xl:leading-[1.15]">
+          <h1 className="mt-16 w-full max-w-[14ch] font-heading text-4xl font-normal leading-[1.25] sm:mt-0 sm:text-5xl sm:leading-[1.15] lg:text-5xl lg:leading-[1.15] xl:text-6xl xl:leading-[1.15]">
             <Title />
           </h1>
           <h2 className="max-w-[28ch] bg-gradient-to-bl from-teal-200 to-cyan-200 bg-clip-text pt-8 font-text text-lg font-normal text-transparent sm:text-2xl">
@@ -37,7 +37,7 @@ export const Header = ({level}: {level?: SkillLevel}) => {
             </span>
           </h2>
         </div>
-        <div className="-right-40 flex-shrink-0 scale-150 sm:scale-100 lg:absolute">
+        <div className="pointer-events-none -right-40 flex-shrink-0 scale-150 select-none sm:scale-100 lg:absolute">
           <Image
             src={require('../../../public/assets/wizard-in-a-cave@2x.png')}
             alt=""

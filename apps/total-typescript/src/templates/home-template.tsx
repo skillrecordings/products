@@ -71,15 +71,17 @@ export const HomeTemplate: React.FC<
             />
           </div>
         </MDXComponents.Section>
-        <Image
-          layout="fill"
-          aria-hidden="true"
-          alt=""
-          src={require('../../public/assets/landing/bg-divider-4.png')}
-          objectPosition={'top'}
-          className="rotate-180 select-none object-contain"
-          quality={100}
-        />
+        <div className="pointer-events-none select-none">
+          <Image
+            layout="fill"
+            aria-hidden="true"
+            alt=""
+            src={require('../../public/assets/landing/bg-divider-4.png')}
+            objectPosition={'top'}
+            className="rotate-180 select-none object-contain"
+            quality={100}
+          />
+        </div>
         {redeemableCoupon ? <RedeemDialogForCoupon /> : null}
       </main>
     </Layout>
