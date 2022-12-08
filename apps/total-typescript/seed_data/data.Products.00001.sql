@@ -2,16 +2,16 @@ INSERT INTO MerchantAccount (id, status, identifier, label) VALUES
 ("tt_cc7acfa7-f60b-4315-ae51-3cbd305e23ae", 1, "acct_1LFP5yAozSgJZBRP", "stripe");
 
 INSERT INTO Product (id, name, status) VALUES
-('tt_00c02ac7-6f95-4ad4-8aac-999b243df6c1', "Total TypeScript Vol. 1", 1);
+('tt_00c02ac7-6f95-4ad4-8aac-999b243df6c1', "Core Volume", 1);
 
 INSERT INTO MerchantProduct (id, merchantAccountId, productId, status, identifier) VALUES
 ('tt_61b88dc4-8004-487b-81b3-0a35d88c02e1', "tt_cc7acfa7-f60b-4315-ae51-3cbd305e23ae", 'tt_00c02ac7-6f95-4ad4-8aac-999b243df6c1', 1, "prod_MlWOKsn7m29PjC");
 
 INSERT INTO Price (id, productId, nickname, status, unitAmount ) VALUES
-('tt_c68ae76b-3579-4a56-8417-32de56e54fd8', 'tt_00c02ac7-6f95-4ad4-8aac-999b243df6c1', 'Total TypeScript Vol. 1', 1, 800);
+('tt_c68ae76b-3579-4a56-8417-32de56e54fd8', 'tt_00c02ac7-6f95-4ad4-8aac-999b243df6c1', 'Core Volume', 1, 490);
 
 INSERT INTO MerchantPrice (id, merchantProductId, merchantAccountId, status, priceId, identifier ) VALUES
-('tt_a3c78294-84ea-4e6c-b0dd-798f84da982c', 'tt_61b88dc4-8004-487b-81b3-0a35d88c02e1', 'tt_cc7acfa7-f60b-4315-ae51-3cbd305e23ae', 1, "tt_c68ae76b-3579-4a56-8417-32de56e54fd8", "price_1MAcDfAozSgJZBRPGhTGT33q");
+('tt_a3c78294-84ea-4e6c-b0dd-798f84da982c', 'tt_61b88dc4-8004-487b-81b3-0a35d88c02e1', 'tt_cc7acfa7-f60b-4315-ae51-3cbd305e23ae', 1, "tt_c68ae76b-3579-4a56-8417-32de56e54fd8", "price_1MC6KSAozSgJZBRPbhcTmzmV");
 
 INSERT INTO MerchantCoupon (id, merchantAccountId, status, identifier, percentageDiscount, type) VALUES
 ('tt_33d9422e-5fb4-4323-bf34-3e57b4a77429', 'tt_cc7acfa7-f60b-4315-ae51-3cbd305e23ae', 1, '8M0LQt2k', '0.45', "bulk");
@@ -51,6 +51,9 @@ INSERT INTO MerchantCoupon (id, merchantAccountId, status, identifier, percentag
 
 INSERT INTO MerchantCoupon (id, merchantAccountId, status, identifier, percentageDiscount, type) VALUES
 ('tt_c9f0773f-5131-4ffa-998a-32ff65cd9a78', 'tt_cc7acfa7-f60b-4315-ae51-3cbd305e23ae', 1, 't6wtag0L', '0.25', "special");
+
+INSERT INTO MerchantCoupon (id, merchantAccountId, status, identifier, percentageDiscount, type) VALUES
+('tt_6e879ed7-2c68-43a9-a026-7910bf5f402a', 'tt_cc7acfa7-f60b-4315-ae51-3cbd305e23ae', 1, 't8eoLx7m', '0.20', "special");
 
 INSERT INTO MerchantCoupon (id, merchantAccountId, status, identifier, percentageDiscount, type) VALUES
 ('tt_19c9717e-b72b-45b8-8006-b127c56263c1', 'tt_cc7acfa7-f60b-4315-ae51-3cbd305e23ae', 1, 'Our27cg4', '0.1', "special");

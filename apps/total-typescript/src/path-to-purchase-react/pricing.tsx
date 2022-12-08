@@ -7,7 +7,7 @@ import type {
 import {CheckCircleIcon} from '@heroicons/react/outline'
 import {getCouponLabel} from './get-coupon-label'
 import {useDebounce} from '@skillrecordings/react'
-import {useQuery} from 'react-query'
+import {useQuery, QueryStatus} from 'react-query'
 import SaleCountdown from './sale-countdown'
 import Spinner from 'components/spinner'
 import Image from 'next/image'
@@ -74,7 +74,7 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
   const [quantity, setQuantity] = React.useState(1)
   const debouncedQuantity: number = useDebounce<number>(quantity, 250)
   const {productId, name, image, modules, features, action} = product
-  const {addPrice, isDowngrade, isDiscount} = usePriceCheck()
+  const {addPrice, isDowngrade} = usePriceCheck()
   const {subscriber, loadingSubscriber} = useConvertkit()
   const router = useRouter()
 
@@ -105,20 +105,6 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
   const defaultCoupon = formattedPrice?.defaultCoupon
   const appliedMerchantCoupon = formattedPrice?.appliedMerchantCoupon
 
-  const fullPrice =
-    (formattedPrice?.unitPrice || 0) * (formattedPrice?.quantity || 0)
-
-  const percentOff = appliedMerchantCoupon
-    ? Math.floor(appliedMerchantCoupon.percentageDiscount * 100)
-    : formattedPrice && isDiscount(formattedPrice)
-    ? Math.floor(
-        (formattedPrice.calculatedPrice / formattedPrice.unitPrice) * 100,
-      )
-    : 0
-
-  const percentOffLabel =
-    appliedMerchantCoupon && `${percentOff}% off of $${fullPrice}`
-
   const pppCoupon = getFirstPPPCoupon(formattedPrice?.availableCoupons)
 
   // if there is no available coupon, hide the box (it's not a toggle)
@@ -146,7 +132,7 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
   }
 
   return (
-    <div>
+    <div id="main-pricing">
       <div data-pricing-product={index}>
         {image && (
           <div data-pricing-product-image="">
@@ -165,56 +151,24 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
           {/* {Boolean(appliedMerchantCoupon || isDiscount(formattedPrice)) && (
           <Ribbon appliedMerchantCoupon={appliedMerchantCoupon} />
         )} */}
-          <div data-pricing-product-header="">
-            <h4 data-name-badge="">{name}</h4>
-            <div data-price-container={status}>
-              {status === 'loading' ? (
-                <div data-loading-price="">
-                  <span className="sr-only">Loading price</span>
-                  <Spinner aria-hidden="true" className="h-8 w-8" />
-                </div>
-              ) : (
-                <>
-                  <sup aria-hidden="true">US</sup>
-                  <div aria-live="polite" data-price="">
-                    {formattedPrice?.calculatedPrice &&
-                      formatUsd(formattedPrice?.calculatedPrice).dollars}
-                    <span className="sup text-sm">
-                      {formattedPrice?.calculatedPrice &&
-                        formatUsd(formattedPrice?.calculatedPrice).cents}
-                    </span>
-                    {Boolean(
-                      appliedMerchantCoupon || isDiscount(formattedPrice),
-                    ) && (
-                      <>
-                        <div aria-hidden="true" data-price-discounted="">
-                          <div data-full-price={fullPrice}>
-                            {'$' + fullPrice}
-                          </div>
-                          <div data-percent-off={percentOff}>
-                            Save {percentOff}%
-                          </div>
-                        </div>
-                        <div className="sr-only">
-                          {appliedMerchantCoupon?.type === 'bulk' ? (
-                            <div>Team discount.</div>
-                          ) : null}{' '}
-                          {percentOffLabel}
-                        </div>
-                      </>
-                    )}
-                  </div>
-                </>
-              )}
+          {!purchased && (
+            <div data-pricing-product-header="">
+              <h4 data-name-badge="">{name}</h4>
+              <PriceDisplay status={status} formattedPrice={formattedPrice} />
+              <div data-byline="">Full access</div>
             </div>
-            <div data-byline="">Full access</div>
-          </div>
+          )}
           {purchased ? (
-            <div data-purchased-container="">
-              <div data-purchased="">
-                <CheckCircleIcon aria-hidden="true" /> Purchased
+            <>
+              <div data-pricing-product-header="">
+                <h4 data-name-badge="">{name}</h4>
               </div>
-            </div>
+              <div data-purchased-container="">
+                <div data-purchased="">
+                  <CheckCircleIcon aria-hidden="true" /> Purchased
+                </div>
+              </div>
+            </>
           ) : isSellingLive ? (
             isDowngrade(formattedPrice) ? (
               <div data-downgrade-container="">
@@ -287,10 +241,12 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
               )}
             </div>
           )}
-          <SaleCountdown
-            coupon={defaultCoupon}
-            data-pricing-product-sale-countdown={index}
-          />
+          {isSellingLive && !purchased && (
+            <SaleCountdown
+              coupon={defaultCoupon}
+              data-pricing-product-sale-countdown={index}
+            />
+          )}
           {showPPPBox && (
             <RegionalPricingBox
               pppCoupon={pppCoupon || merchantCoupon}
@@ -300,19 +256,21 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
             />
           )}
           <div data-pricing-footer="">
-            {product.description && (
+            {product.description && !purchased && (
               <div className="prose prose-sm mx-auto max-w-sm px-5 prose-p:text-gray-200 sm:prose-base">
                 <ReactMarkdown children={product.description} />
               </div>
             )}
-            <div className="flex justify-center pt-8 align-middle">
-              <Image
-                src="https://res.cloudinary.com/total-typescript/image/upload/v1669928567/money-back-guarantee-badge-16137430586cd8f5ec2a096bb1b1e4cf_o5teov.svg"
-                width={130}
-                height={130}
-                alt="Money Back Guarantee"
-              />
-            </div>
+            {!purchased && (
+              <div className="flex justify-center pt-8 align-middle">
+                <Image
+                  src="https://res.cloudinary.com/total-typescript/image/upload/v1669928567/money-back-guarantee-badge-16137430586cd8f5ec2a096bb1b1e4cf_o5teov.svg"
+                  width={130}
+                  height={130}
+                  alt="Money Back Guarantee"
+                />
+              </div>
+            )}
             {modules || features ? (
               <div data-header="">
                 <div>
@@ -370,6 +328,68 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
           </div>
         </article>
       </div>
+    </div>
+  )
+}
+
+type PriceDisplayProps = {
+  status: QueryStatus
+  formattedPrice?: FormattedPrice
+}
+
+export const PriceDisplay = ({status, formattedPrice}: PriceDisplayProps) => {
+  const {isDiscount} = usePriceCheck()
+
+  const appliedMerchantCoupon = formattedPrice?.appliedMerchantCoupon
+
+  const fullPrice =
+    (formattedPrice?.unitPrice || 0) * (formattedPrice?.quantity || 0)
+
+  const percentOff = appliedMerchantCoupon
+    ? Math.floor(appliedMerchantCoupon.percentageDiscount * 100)
+    : formattedPrice && isDiscount(formattedPrice)
+    ? Math.floor(
+        (formattedPrice.calculatedPrice / formattedPrice.unitPrice) * 100,
+      )
+    : 0
+
+  const percentOffLabel =
+    appliedMerchantCoupon && `${percentOff}% off of $${fullPrice}`
+
+  return (
+    <div data-price-container={status}>
+      {status === 'loading' ? (
+        <div data-loading-price="">
+          <span className="sr-only">Loading price</span>
+          <Spinner aria-hidden="true" className="h-8 w-8" />
+        </div>
+      ) : (
+        <>
+          <sup aria-hidden="true">US</sup>
+          <div aria-live="polite" data-price="">
+            {formattedPrice?.calculatedPrice &&
+              formatUsd(formattedPrice?.calculatedPrice).dollars}
+            <span className="sup text-sm">
+              {formattedPrice?.calculatedPrice &&
+                formatUsd(formattedPrice?.calculatedPrice).cents}
+            </span>
+            {Boolean(appliedMerchantCoupon || isDiscount(formattedPrice)) && (
+              <>
+                <div aria-hidden="true" data-price-discounted="">
+                  <div data-full-price={fullPrice}>{'$' + fullPrice}</div>
+                  <div data-percent-off={percentOff}>Save {percentOff}%</div>
+                </div>
+                <div className="sr-only">
+                  {appliedMerchantCoupon?.type === 'bulk' ? (
+                    <div>Team discount.</div>
+                  ) : null}{' '}
+                  {percentOffLabel}
+                </div>
+              </>
+            )}
+          </div>
+        </>
+      )}
     </div>
   )
 }
@@ -472,6 +492,7 @@ const SubscribeForm = ({
         Get notified when Total TypeScript Vol 1. is released:
       </div>
       <SubscribeToConvertkitForm
+        formId={3843826}
         actionLabel="Subscribe to get notified"
         onSuccess={(subscriber, email) => {
           return handleOnSuccess(subscriber, email)

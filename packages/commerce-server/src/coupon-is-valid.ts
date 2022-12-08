@@ -1,6 +1,10 @@
 import {Coupon} from '@skillrecordings/database'
 import {isAfter} from 'date-fns'
 
+/**
+ * @deprecated prefer `validateCoupon`
+ * @param coupon
+ */
 export function couponIsValid(coupon?: Coupon | null) {
   if (coupon) {
     const unlimitedUse = coupon.maxUses === -1

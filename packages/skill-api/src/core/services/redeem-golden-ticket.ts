@@ -54,7 +54,7 @@ export async function redeemGoldenTicket({
 
     const couponValidation = validateCoupon(coupon)
 
-    if (coupon && couponValidation.isValid) {
+    if (coupon && couponValidation.isRedeemable) {
       const bulkCouponRedemption = coupon.maxUses > 1
 
       const {user} = await findOrCreateUser(email)

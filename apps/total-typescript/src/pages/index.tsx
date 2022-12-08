@@ -8,14 +8,15 @@ import {HomeTemplate} from '../templates/home-template'
 
 export const getServerSideProps: GetServerSideProps = async ({req, query}) => {
   const token = await getToken({req})
-  const {products} = await getActiveProducts()
-  return await propsForCommerce({token, products, query})
+  const {products = []} = await getActiveProducts()
+
+  return await propsForCommerce({query, token, products})
 }
 
-export const HomePage: React.FC<React.PropsWithChildren<CommerceProps>> = ({
-  couponFromCode,
-}) => {
-  return <HomeTemplate couponFromCode={couponFromCode} />
+export const HomePage: React.FC<React.PropsWithChildren<CommerceProps>> = (
+  props,
+) => {
+  return <HomeTemplate {...props} />
 }
 
 export default HomePage

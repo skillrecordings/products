@@ -66,7 +66,7 @@ const Header: React.FC<{tutorial: SanityDocument}> = ({tutorial}) => {
   return (
     <>
       <header className="relative z-10 flex flex-col-reverse items-center justify-between pt-0 pb-16 sm:pt-8 sm:pb-8 md:flex-row">
-        <div className="text-center md:text-left">
+        <div className="pt-5 text-center sm:pt-0 md:text-left">
           <Link href="/tutorials">
             <a className="pb-1 font-mono text-sm font-semibold uppercase tracking-wide text-cyan-300">
               Tutorial

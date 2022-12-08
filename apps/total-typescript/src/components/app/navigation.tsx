@@ -10,7 +10,6 @@ import {track} from '../../utils/analytics'
 import cx from 'classnames'
 import config from 'config'
 import {createAppAbility} from 'ability/ability'
-import {isSellingLive} from 'utils/is-selling-live'
 import {trpc} from '../../utils/trpc'
 import NextLink, {type LinkProps} from 'next/link'
 import * as NavigationMenu from '@radix-ui/react-navigation-menu'
@@ -53,21 +52,13 @@ const DesktopNav = () => {
   const {status} = useSession()
 
   return (
-    <ul
-      className={cx('hidden items-center md:flex', {
-        'w-full justify-between': isSellingLive || status === 'authenticated',
-      })}
-    >
+    <ul className={cx('hidden w-full items-center justify-between md:flex')}>
       <div className="flex h-full items-center">
-        {isSellingLive || status === 'authenticated' ? (
-          <hr
-            className="ml-8 mr-3 h-1/4 w-px border-transparent bg-gray-700"
-            aria-hidden="true"
-          />
-        ) : null}
-        {isSellingLive || status === 'authenticated' ? (
-          <NavLink path="/workshops" label="Pro Workshops" icon={<KeyIcon />} />
-        ) : null}
+        <hr
+          className="ml-8 mr-3 h-1/4 w-px border-transparent bg-gray-700"
+          aria-hidden="true"
+        />
+        <NavLink path="/workshops" label="Pro Workshops" icon={<KeyIcon />} />
         <NavLink
           path="/tutorials"
           label="Free Tutorials"
@@ -85,7 +76,7 @@ const DesktopNav = () => {
       </div>
       {status === 'authenticated' ? (
         <AccountDropdown />
-      ) : status === 'unauthenticated' && isSellingLive ? (
+      ) : status === 'unauthenticated' ? (
         <NavLink path="/login" label="Log in" />
       ) : (
         <div aria-hidden="true" />
@@ -103,7 +94,7 @@ const MobileNav = () => {
   return (
     <div className="block md:hidden">
       <ul className="flex h-full items-center justify-center">
-        {isSellingLive && status === 'unauthenticated' ? (
+        {status === 'unauthenticated' ? (
           <NavLink path="/login" label="Log in" />
         ) : null}
         <li className="h-full">
@@ -116,13 +107,11 @@ const MobileNav = () => {
                 </NavigationMenu.Trigger>
                 <NavigationMenu.Content className="absolute left-0 top-full w-full bg-gray-800 shadow-xl">
                   <ul>
-                    {isSellingLive || status === 'authenticated' ? (
-                      <MobileNavLink
-                        path="/workshops"
-                        label="Pro Workshops"
-                        icon={<KeyIcon />}
-                      />
-                    ) : null}
+                    <MobileNavLink
+                      path="/workshops"
+                      label="Pro Workshops"
+                      icon={<KeyIcon />}
+                    />
                     <MobileNavLink
                       path="/tutorials"
                       label="Free Tutorials"
@@ -143,7 +132,7 @@ const MobileNav = () => {
                         />
                       }
                     />
-                    {status === 'authenticated' && isSellingLive && (
+                    {status === 'authenticated' && (
                       <>
                         <div className="border-t border-gray-900/50 px-3 pb-3 pt-5 font-mono text-xs font-semibold uppercase tracking-wide">
                           Account
