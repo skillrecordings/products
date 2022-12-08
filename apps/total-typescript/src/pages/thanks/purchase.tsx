@@ -142,37 +142,29 @@ const ThanksVerify: React.FC<
                 </>
               )}
             </h1>
-            {isNewPurchase && (
+            <h2 className="mx-auto max-w-lg py-5 font-text text-3xl font-bold lg:text-4xl">
+              Please check your inbox for a login link that just got sent.
+            </h2>
+            <code className="mb-10 mt-5 flex items-center justify-center gap-2 rounded-lg bg-cyan-500/10 px-4 py-3 font-sans text-base font-medium text-white shadow-xl sm:text-lg">
+              <MailIcon className="h-5 w-5 text-cyan-200" aria-hidden="true" />{' '}
+              <span className="text-cyan-200">Email sent to:</span> {email}
+            </code>
+            <p className="mx-auto max-w-xl pt-5 text-sm text-gray-200 sm:text-base sm:leading-relaxed">
+              As a final step to access the course you need to check your inbox
+              (<strong>{email}</strong>) where you will find an email from{' '}
+              <strong>{process.env.NEXT_PUBLIC_SUPPORT_EMAIL}</strong> with a
+              link to access your purchase and start learning.
+            </p>
+            {isTeamPurchase && Boolean(bulkCouponId) && (
               <>
-                <h2 className="mx-auto max-w-lg py-5 font-text text-3xl font-bold lg:text-4xl">
-                  Please check your inbox for a login link that just got sent.
-                </h2>
-                <code className="mb-10 mt-5 flex items-center justify-center gap-2 rounded-lg bg-cyan-500/10 px-4 py-3 font-sans text-base font-medium text-white shadow-xl sm:text-lg">
-                  <MailIcon
-                    className="h-5 w-5 text-cyan-200"
-                    aria-hidden="true"
-                  />{' '}
-                  <span className="text-cyan-200">Email sent to:</span> {email}
-                </code>
                 <p className="mx-auto max-w-xl pt-5 text-sm text-gray-200 sm:text-base sm:leading-relaxed">
-                  As a final step to access the course you need to check your
-                  inbox (<strong>{email}</strong>) where you will find an email
-                  from <strong>{process.env.NEXT_PUBLIC_SUPPORT_EMAIL}</strong>{' '}
-                  with a link to access your purchase and start learning.
+                  Invite your team to claim seats right away with this invite
+                  link. Don't worry about saving this anywhere, it will always
+                  be available on your Team page once you sign in.
                 </p>
-                {isTeamPurchase && Boolean(bulkCouponId) && (
-                  <>
-                    <p className="mx-auto max-w-xl pt-5 text-sm text-gray-200 sm:text-base sm:leading-relaxed">
-                      Invite your team to claim seats right away with this
-                      invite link. Don't worry about saving this anywhere, it
-                      will always be available on your Team page once you sign
-                      in.
-                    </p>
-                    <div className="w-full text-gray-900">
-                      <CopyInviteLink bulkCouponId={bulkCouponId} />
-                    </div>
-                  </>
-                )}
+                <div className="w-full text-gray-900">
+                  <CopyInviteLink bulkCouponId={bulkCouponId} />
+                </div>
               </>
             )}
             {!isNewPurchase && isTeamPurchase && Boolean(bulkCouponId) && (
