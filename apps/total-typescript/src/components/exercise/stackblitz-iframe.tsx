@@ -12,11 +12,11 @@ export const StackBlitzIframe: React.FC<{
 }> = ({exercise, module}) => {
   const stackblitz = exercise.stackblitz
   const [isLoading, setIsLoading] = React.useState(true)
-  const codeFileNumber = stackblitz?.match(/\d/g)?.join('').substring(0, 2)
-  const startCommand = `${exercise._type.substring(0, 1)}-${codeFileNumber}` // e.g. s-01, e-02, etc
+
   const githubOrg = 'total-typescript'
   const githubRepo = module.github.repo
   const clickToLoad = Number(false)
+  const startCommand = getStartCommand(exercise, stackblitz)
   const embedUrl = `https://stackblitz.com/github/${githubOrg}/${githubRepo}?file=${stackblitz}&embed=1&view=editor&hideExplorer=1&ctl=${clickToLoad}&terminal=${startCommand}`
 
   return (
@@ -47,4 +47,24 @@ export const StackBlitzIframe: React.FC<{
       )}
     </>
   )
+}
+
+// Figures out start command: e.g. s-01, e-02, etc
+export const getStartCommand = (
+  exercise: {_type: string},
+  stackblitz: string | null | undefined,
+) => {
+  // Reasonably sensbile fallback, not sure
+  // what we should do when Stacblitz is not defined
+  if (!stackblitz) return 'e-01'
+
+  const stackblitzSplit = stackblitz.split('/')
+
+  const lastPathPart = stackblitzSplit[stackblitzSplit.length - 1]
+
+  const codeFileNumber = lastPathPart.split('-')[0]
+
+  const startCommand = `${exercise._type.substring(0, 1)}-${codeFileNumber}`
+
+  return startCommand
 }
