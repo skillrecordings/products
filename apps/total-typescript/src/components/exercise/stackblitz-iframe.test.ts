@@ -7,6 +7,8 @@ describe('getStartCommand', () => {
       'src/02-unions-and-indexing/05-terminology.problem.ts',
       'e-05',
     ],
+    ['exercise', 'src/02-terminology.problem.ts', 'e-02'],
+    ['exercise', '04-terminology.problem.ts', 'e-04'],
     [
       'solution',
       'src/02-unions-and-indexing/05-terminology.solution.ts',
