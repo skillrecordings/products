@@ -75,7 +75,7 @@ const DesktopNav = () => {
         />
       </div>
       <div className="flex h-full items-center justify-center">
-        <NavLink path="/faq" label="FAQ" />
+        {status === 'unauthenticated' && <NavLink path="/faq" label="FAQ" />}
         {status === 'authenticated' ? (
           <AccountDropdown />
         ) : status === 'unauthenticated' ? (
@@ -303,6 +303,9 @@ const AccountDropdown = () => {
                     <DropdownLink href="/invoices">Invoices</DropdownLink>
                   </li>
                 )}
+                <li className="w-full">
+                  <DropdownLink href="/faq">FAQ</DropdownLink>
+                </li>
                 <li className="w-full">
                   <LogOutButton />
                 </li>
