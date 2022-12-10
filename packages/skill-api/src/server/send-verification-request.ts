@@ -42,7 +42,7 @@ export const sendVerificationRequest = async (
   } = params
   const {host} = new URL(url)
 
-  const {getUserByEmail} = getSdk()
+  const {getUserByEmail, findOrCreateUser} = getSdk()
 
   let subject
 
@@ -60,7 +60,9 @@ export const sendVerificationRequest = async (
       } (${host})`
   }
 
-  const user = await getUserByEmail(email)
+  const user = process.env.CREATE_USER_ON_LOGIN
+    ? await findOrCreateUser(email)
+    : await getUserByEmail(email)
 
   if (!user) return
 
