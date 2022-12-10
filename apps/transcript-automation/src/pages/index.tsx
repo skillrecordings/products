@@ -5,7 +5,7 @@ import HomeCopy from 'content/home.md'
 
 const Home: NextPage = () => {
   return (
-    <Layout>
+    <Layout className="p-3">
       <h1 className="text-4xl text-primary-500 font-bold flex items-center justify-center flex-grow pt-16">
         Transcript Automation Using AI Tools 😎
       </h1>
