@@ -2369,11 +2369,14 @@ importers:
       '@types/react': ^18.0.15
       '@types/react-dom': ^18.0.6
       '@types/react-scroll': ^1.8.3
+      '@types/shortid': ^0.0.29
       '@types/speakingurl': ^13.0.3
+      '@types/uuid': ^8.3.4
       '@types/ws': ^8.5.3
       '@vercel/og': ^0.0.18
       '@xstate/react': '=1.5.1'
       autoprefixer: ^10.4.2
+      aws-sdk: ^2.1197.0
       classnames: ^2.3.1
       cookie: ^0.5.0
       date-fns: ^2.28.0
@@ -2382,6 +2385,7 @@ importers:
       eslint: ^8.19.0
       eslint-config-custom: workspace:*
       feed: ^4.2.2
+      file-extension: ^4.0.5
       focus-visible: ^5.2.0
       formik: 2.2.9
       framer-motion: ^7.6.18
@@ -2410,16 +2414,19 @@ importers:
       react-query: ^3.39.1
       react-refractor: ^2.1.7
       react-rewards: ^2.0.3
+      react-s3-uploader: workspace:*
       react-scroll: ^1.8.6
       react-use: ^17.3.2
       react-use-clipboard: ^1.0.7
       refractor: ^4.5.0
+      shortid: ^2.2.16
       speakingurl: ^14.0.1
       superjson: ^1.9.1
       tailwind-scrollbar: ^2.0.1
       tailwindcss: ^3.1.4
       tailwindcss-radix: ^2.6.1
       typescript: ^4.8.3
+      uuid: ^8.3.2
       webpack: '>=4.3.0 <5.0.0'
       whatwg-fetch: ^3.6.2
       ws: ^8.8.1
@@ -2472,12 +2479,14 @@ importers:
       '@trpc/server': 9.27.2
       '@vercel/og': 0.0.18
       '@xstate/react': 1.5.1_bpg42ha2il6pcyn3wrx2rxrchm
+      aws-sdk: 2.1197.0
       classnames: 2.3.1
       cookie: 0.5.0
       date-fns: 2.28.0
       dexie: 3.2.2
       dexie-react-hooks: 1.1.1_ugasl56bq7goab4h476ffxfsvu
       feed: 4.2.2
+      file-extension: 4.0.5
       focus-visible: 5.2.0
       formik: 2.2.9_react@18.2.0
       framer-motion: 7.6.18_biqbaboplfbrettd7655fr4n2y
@@ -2501,14 +2510,17 @@ importers:
       react-query: 3.39.1_biqbaboplfbrettd7655fr4n2y
       react-refractor: 2.1.7_react@18.2.0
       react-rewards: 2.0.3_biqbaboplfbrettd7655fr4n2y
+      react-s3-uploader: link:../../packages/react-s3-uploader
       react-scroll: 1.8.7_biqbaboplfbrettd7655fr4n2y
       react-use: 17.3.2_biqbaboplfbrettd7655fr4n2y
       react-use-clipboard: 1.0.8_biqbaboplfbrettd7655fr4n2y
       refractor: 4.5.0
+      shortid: 2.2.16
       speakingurl: 14.0.1
       superjson: 1.9.1
       tailwind-scrollbar: 2.0.1_tailwindcss@3.1.6
       tailwindcss-radix: 2.6.1
+      uuid: 8.3.2
       whatwg-fetch: 3.6.2
       ws: 8.8.1
       xstate: 4.23.1
@@ -2533,7 +2545,9 @@ importers:
       '@types/react': 18.0.15
       '@types/react-dom': 18.0.6
       '@types/react-scroll': 1.8.3
+      '@types/shortid': 0.0.29
       '@types/speakingurl': 13.0.3
+      '@types/uuid': 8.3.4
       '@types/ws': 8.5.3
       autoprefixer: 10.4.7_postcss@8.4.14
       eslint: 8.19.0
@@ -3677,6 +3691,28 @@ importers:
       sass: 1.43.4
       typescript: 4.8.3
       xstate: 4.23.1
+
+  packages/react-s3-uploader:
+    specifiers:
+      '@types/react': '*'
+      aws-sdk: 2.x
+      create-react-class: ^15.5.2
+      mime-types: ^2.1.24
+      object-assign: ^2.0.0
+      prop-types: ^15.5.8
+      typescript: ^3.7.5
+      uuid: ^3.1.0
+    dependencies:
+      create-react-class: 15.7.0
+      mime-types: 2.1.34
+      object-assign: 2.1.1
+      prop-types: 15.8.1
+      uuid: 3.4.0
+    optionalDependencies:
+      aws-sdk: 2.1197.0
+    devDependencies:
+      '@types/react': 18.0.15
+      typescript: 3.9.10
 
   packages/scripts:
     specifiers:
@@ -12223,6 +12259,10 @@ packages:
       '@types/node': 18.6.3
     dev: true
 
+  /@types/shortid/0.0.29:
+    resolution: {integrity: sha512-9BCYD9btg2CY4kPcpMQ+vCR8U6V8f/KvixYD5ZbxoWlkhddNF5IeZMVL3p+QFUkg+Hb+kPAG9Jgk4bnnF1v/Fw==}
+    dev: true
+
   /@types/speakingurl/13.0.3:
     resolution: {integrity: sha512-nBHZAaNTEw1YG3ROL7HtTp7HjW8HD7DuFYbWoonUKTZHj7eyOt4vPzyMcc3+xgWNv7xi2rziaiBXHIq6wBeyrw==}
     dev: true
@@ -15342,6 +15382,13 @@ packages:
       safe-buffer: 5.2.1
       sha.js: 2.4.11
 
+  /create-react-class/15.7.0:
+    resolution: {integrity: sha512-QZv4sFWG9S5RUvkTYWbflxeZX+JG7Cz0Tn33rQBJ+WFQTqTfUTjMjiv9tnfXazjsO5r0KhPs+AqCjyrQX6h2ng==}
+    dependencies:
+      loose-envify: 1.4.0
+      object-assign: 4.1.1
+    dev: false
+
   /crelt/1.0.5:
     resolution: {integrity: sha512-+BO9wPPi+DWTDcNYhr/W90myha8ptzftZT+LwcmUbbok0rcP/fequmFYCw8NMoH7pkAZQzU78b3kYrlua5a9eA==}
 
@@ -17927,6 +17974,11 @@ packages:
     engines: {node: ^10.12.0 || >=12.0.0}
     dependencies:
       flat-cache: 3.0.4
+
+  /file-extension/4.0.5:
+    resolution: {integrity: sha512-l0rOL3aKkoi6ea7MNZe6OHgqYYpn48Qfflr8Pe9G9JPPTx5A+sfboK91ZufzIs59/lPqh351l0eb6iKU9J5oGg==}
+    engines: {node: '>=4'}
+    dev: false
 
   /file-loader/6.2.0:
     resolution: {integrity: sha512-qo3glqyTa61Ytg4u73GultjHGjdRyig3tG6lPtyX/jOEJvHif9uB0/OCI2Kif6ctF3caQTW2G5gym21oAsI4pw==}
@@ -23414,6 +23466,10 @@ packages:
     resolution: {integrity: sha512-wynEP02LmIbLpcYw8uBKpcfF6dmg2vcpKqxeH5UcoKEYdExslsdUA4ugFauuaeYdTB76ez6gJW8XAZ6CgkXYxA==}
     dev: false
 
+  /nanoid/2.1.11:
+    resolution: {integrity: sha512-s/snB+WGm6uwi0WjsZdaVcuf3KJXlfGl2LcxgwkEwJF0D/BWzVWAZW/XY4bFaiR7s0Jk3FPvlnepg1H1b1UwlA==}
+    dev: false
+
   /nanoid/3.3.4:
     resolution: {integrity: sha512-MqBkQh/OHTS2egovRtLk45wEyNXwF+cokD+1YPf9u5VfJiRdAiRwB2froX5Co9Rh20xs4siNPm8naNotSD6RBw==}
     engines: {node: ^10 || ^12 || ^13.7 || ^14 || >=15.0.1}
@@ -24125,6 +24181,11 @@ packages:
 
   /oauth/0.9.15:
     resolution: {integrity: sha512-a5ERWK1kh38ExDEfoO6qUHJb32rd7aYmPHuyCu3Fta/cnICvYmgd2uhuKXvPD+PXB+gCEYYEaQdIRAjCOwAKNA==}
+
+  /object-assign/2.1.1:
+    resolution: {integrity: sha512-CdsOUYIh5wIiozhJ3rLQgmUTgcyzFwZZrqhkKhODMoGtPKM+wt0h0CNIoauJWMsS9822EdzPsF/6mb4nLvPN5g==}
+    engines: {node: '>=0.10.0'}
+    dev: false
 
   /object-assign/4.1.1:
     resolution: {integrity: sha512-rJgTQnkUnH1sFw8yT6VSU3zD3sWmu6sZhIseY8VX+GRu3P6F7Fu+JNDoXfklElbLJSnc3FUQHVe4cU5hj+BcUg==}
@@ -28020,6 +28081,12 @@ packages:
       - oniguruma
     dev: false
 
+  /shortid/2.2.16:
+    resolution: {integrity: sha512-Ugt+GIZqvGXCIItnsL+lvFJOiN7RYqlGy7QE41O3YC1xbNSeDGIRO7xg2JJXIAj1cAGnOeC1r7/T9pgrtQbv4g==}
+    dependencies:
+      nanoid: 2.1.11
+    dev: false
+
   /side-channel/1.0.4:
     resolution: {integrity: sha512-q5XPytqFEIKHkGdiMIrY10mvLRvnQh42/+GoBlFW3b2LXLE2xxJpZFdm94we0BaoV3RwJyGqg5wS7epxTv0Zvw==}
     dependencies:
@@ -29952,7 +30019,6 @@ packages:
     resolution: {integrity: sha512-w6fIxVE/H1PkLKcCPsFqKE7Kv7QUwhU8qQY2MueZXWx5cPZdwFupLgKK3vntcK98BtNHZtAF4LA/yl2a7k8R6Q==}
     engines: {node: '>=4.2.0'}
     hasBin: true
-    dev: false
 
   /typescript/4.5.2:
     resolution: {integrity: sha512-5BlMof9H1yGt0P8/WF+wPNw6GfctgGjXp5hkblpyT+8rkASSmkUKMXrxR0Xg8ThVCi/JnHQiKXeBaEwCeQwMFw==}

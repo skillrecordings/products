@@ -11,7 +11,7 @@ import {hasAvailableSeats, hasBulkPurchase} from '@skillrecordings/ability'
 
 export const UserSchema = z.object({
   role: z.string().optional(),
-  purchases: z.array(z.any()),
+  purchases: z.array(z.any()).optional(),
   id: z.string().optional(),
   name: z.nullable(z.string().optional()),
   email: z.string().optional(),
@@ -25,6 +25,7 @@ type Abilities =
   | ['edit', 'User' | User]
   | ['view', 'Team']
   | ['view', 'Invoice']
+  | ['create', 'Content']
 export type AppAbility = MongoAbility<Abilities>
 
 export const createAppAbility = createMongoAbility as CreateAbility<AppAbility>
@@ -128,6 +129,10 @@ export function defineRulesForPurchases(
 
   if (canViewWorkshop(viewerAbilityInput)) {
     can('view', 'Content')
+  }
+
+  if(['ADMIN', 'SUPERADMIN'].includes(user?.role as string)) {
+    can('create', 'Content')
   }
 
   return rules

@@ -5,6 +5,7 @@ import {
   setCookiesForResponse,
 } from './process-customer-cookies'
 import {getToken} from 'next-auth/jwt'
+import {getCurrentAbility, UserSchema} from '../ability/ability'
 
 export const SITE_ROOT_PATH = '/'
 
@@ -36,6 +37,18 @@ export async function getMiddlewareResponse(req: NextRequest) {
       case Boolean(subscriber.fields?.level):
         response = rewriteToPath(`/home/level/${subscriber.fields?.level}`, req)
         break
+    }
+  }
+
+  if(req.nextUrl.pathname.includes('/admin')) {
+    try {
+      const user = UserSchema.parse(token)
+      const ability = getCurrentAbility({user})
+      if(!ability.can('create', 'Content')) {
+        response = rewriteToPath('/login', req)
+      }
+    } catch (error) {
+      response = rewriteToPath('/login', req)
     }
   }
 
