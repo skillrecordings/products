@@ -4,6 +4,7 @@ import {answerSurvey, markLessonComplete} from 'lib/convertkit'
 import {updateSubscriber} from '@skillrecordings/convertkit-sdk'
 import {serialize} from 'cookie'
 import {SubscriberSchema} from 'schemas/subscriber'
+import {convertkitSetSubscriberCookie} from '../ck-set-subscriber-cookie'
 
 export const convertkitRouter = createRouter()
   .mutation('updateName', {
@@ -33,19 +34,10 @@ export const convertkitRouter = createRouter()
         fields: {...(last_name && {last_name})},
       })
 
-      const convertkitCookie = serialize(
-        `ck_subscriber`,
-        JSON.stringify(updatedSubscriber.subscriber),
-        {
-          secure: process.env.NODE_ENV === 'production',
-          path: '/',
-          httpOnly: true,
-          sameSite: 'lax',
-          maxAge: 31556952,
-        },
-      )
-
-      ctx.res.setHeader('Set-Cookie', convertkitCookie)
+      convertkitSetSubscriberCookie({
+        subscriber: updatedSubscriber.subscriber,
+        res: ctx.res,
+      })
 
       return updatedSubscriber
     },
