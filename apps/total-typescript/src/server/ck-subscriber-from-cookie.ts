@@ -8,13 +8,14 @@ export async function getSubscriberFromCookie(req: NextApiRequest) {
   const cookie = cookies['ck_subscriber']
   if (!cookie || cookie === 'undefined') return null
   try {
-    const subscriber = SubscriberSchema.parse(JSON.parse(cookie))
+    const subscriber = JSON.parse(cookie)
     if (subscriber?.id && !subscriber.email_address) {
       return SubscriberSchema.parse(
         await fetchSubscriber(subscriber.id.toString()),
       )
     }
-    return SubscriberSchema.parse(JSON.parse(cookie))
+    if (!subscriber?.id) throw new Error('no subscriber id')
+    return SubscriberSchema.parse(subscriber)
   } catch (e) {
     console.error(e)
     return null
