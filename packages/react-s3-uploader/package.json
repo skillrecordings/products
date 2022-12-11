@@ -3,9 +3,7 @@
   "version": "4.9.3",
   "description": "React component that renders a file input and automatically uploads to an S3 bucket",
   "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
+  "scripts": {},
   "repository": {
     "type": "git",
     "url": "git@github.com:odysseyscience/react-s3-uploader.git"
