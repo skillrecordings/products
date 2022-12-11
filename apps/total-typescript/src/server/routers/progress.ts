@@ -30,7 +30,7 @@ export const progressRouter = createRouter()
             JSON.parse(subscriberCookie),
           )
 
-          if (!subscriber) {
+          if (!subscriber?.email_address) {
             console.debug('no subscriber cookie')
             return {error: 'no subscriber found'}
           }
