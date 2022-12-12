@@ -125,10 +125,10 @@
           @apply mb-5 flex w-full flex-col items-center justify-center px-5 xl:px-12;
 
           label {
-            @apply flex items-center gap-3;
+            @apply flex items-center gap-1;
 
             span {
-              @apply opacity-80;
+              @apply mr-3 opacity-80;
             }
 
             input {
