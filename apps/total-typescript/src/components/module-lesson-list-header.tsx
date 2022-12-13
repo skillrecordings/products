@@ -25,7 +25,7 @@ const ModuleLessonListHeader: React.FC<SidebarProps> = ({
     <>
       <div
         className={cx(
-          'relative z-50 w-full lg:max-w-[280px] xl:max-w-xs',
+          'relative z-50 w-full flex-shrink-0 lg:max-w-[280px] xl:max-w-xs',
           className,
         )}
       >

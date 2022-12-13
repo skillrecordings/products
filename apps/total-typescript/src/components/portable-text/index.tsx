@@ -294,7 +294,7 @@ const PortableTextComponents: PortableTextComponents = {
       return (
         <div
           className={cx(
-            `my-4 flex space-x-5 rounded-md p-5 sm:my-8`,
+            `my-4 flex space-x-5 rounded-md p-5 shadow-2xl shadow-black/30 sm:my-8`,
             getCalloutStyles(type),
           )}
         >
@@ -435,15 +435,15 @@ type CodeProps = {
 const getCalloutStyles = (type: string): string => {
   switch (type) {
     case 'tip':
-      return 'bg-slate-800'
+      return 'bg-gray-800'
     case 'big-idea':
-      return 'bg-slate-800'
+      return 'bg-gray-800'
     case 'reflection':
-      return 'bg-slate-800'
+      return 'bg-gray-800'
     case 'caution':
-      return 'bg-slate-800'
+      return 'bg-gray-800'
     default:
-      return 'bg-slate-800'
+      return 'bg-gray-800'
   }
 }
 
