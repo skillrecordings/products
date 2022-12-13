@@ -2016,11 +2016,11 @@ importers:
       '@headlessui/react': ^1.6.1
       '@heroicons/react': ^1.0.6
       '@mdx-js/loader': ^1.6.22
-      '@mdx-js/mdx': ^2.1.5
+      '@mdx-js/mdx': ^2.0.0
       '@mdx-js/react': ^1.6.22
       '@next-auth/prisma-adapter': ^1.0.3
       '@next/env': ^12.2.0
-      '@next/mdx': ^12.3.4
+      '@next/mdx': ^12.2.5
       '@playwright/test': ^1.25.1
       '@portabletext/react': ^1.0.6
       '@portabletext/types': ^1.0.3
@@ -2116,15 +2116,12 @@ importers:
       next-themes: ^0.1.1
       nodemailer: ^6.7.2
       nodemailer-postmark-transport: ^5.2.1
-      onigasm: ^2.1.0
-      oniguruma: '>=7.0.0 <8.0.0'
       pdfkit-next: ^0.11.0
       pluralize: ^8.0.0
       postcss: ^8.4.14
       postcss-focus-visible: ^6.0.4
       postcss-preset-env: ^7.4.2
       prettier: ^2.6.2
-      prisma: ^4.5.0
       query-string: ^7.1.1
       react: 18.2.0
       react-countdown: ^2.3.2
@@ -2170,13 +2167,13 @@ importers:
       '@headlessui/react': 1.6.1_biqbaboplfbrettd7655fr4n2y
       '@heroicons/react': 1.0.6_react@18.2.0
       '@mdx-js/loader': 1.6.22_react@18.2.0
-      '@mdx-js/mdx': 2.1.5
+      '@mdx-js/mdx': 2.0.0
       '@mdx-js/react': 1.6.22_react@18.2.0
       '@next-auth/prisma-adapter': 1.0.3_2dz4tw7kma4hc2ivamm5imqace
-      '@next/mdx': 12.3.4_6vwedlnwdegenaf6jioaeirvlu
+      '@next/mdx': 12.2.5_6vwedlnwdegenaf6jioaeirvlu
       '@playwright/test': 1.25.2
       '@portabletext/react': 1.0.6_react@18.2.0
-      '@prisma/client': 4.5.0_prisma@4.5.0
+      '@prisma/client': 4.5.0
       '@radix-ui/react-alert-dialog': 0.1.7_bb2bxwco6ptpubzwpazr52qf6i
       '@radix-ui/react-dialog': 0.1.7_bb2bxwco6ptpubzwpazr52qf6i
       '@reach/dialog': 0.16.2_bb2bxwco6ptpubzwpazr52qf6i
@@ -2232,12 +2229,9 @@ importers:
       next-themes: 0.1.1_azq6kxkn3od7qdylwkyksrwopy
       nodemailer: 6.7.2
       nodemailer-postmark-transport: 5.2.1_nodemailer@6.7.2
-      onigasm: 2.2.5
-      oniguruma: 7.2.3
       pdfkit-next: 0.11.0
       pluralize: 8.0.0
       postcss: 8.4.14
-      prisma: 4.5.0
       query-string: 7.1.1
       react: 18.2.0
       react-countdown: 2.3.2_biqbaboplfbrettd7655fr4n2y
@@ -2254,7 +2248,7 @@ importers:
       react-use-clipboard: 1.0.7_biqbaboplfbrettd7655fr4n2y
       refractor: 4.5.0
       rehype: 12.0.0
-      rehype-shiki: 0.0.9_hz3sbvs57k5g3gvwq65yjw6pyu
+      rehype-shiki: 0.0.9
       remark-code-titles: 0.1.2
       remark-footnotes: 4.0.1
       remark-slug: 7.0.1
@@ -2312,7 +2306,7 @@ importers:
       postcss-preset-env: 7.7.2_postcss@8.4.14
       prettier: 2.6.2
       react-test-renderer: 17.0.2_react@18.2.0
-      tailwindcss: 3.1.4
+      tailwindcss: 3.1.4_postcss@8.4.14
       typescript: 4.8.3
       webpack: 5.73.0
 
@@ -8713,11 +8707,11 @@ packages:
       remark-mdx: 2.0.0
       remark-parse: 10.0.0
       remark-rehype: 10.1.0
-      unified: 10.1.0
+      unified: 10.1.2
       unist-util-position-from-estree: 1.1.1
       unist-util-stringify-position: 3.0.0
       unist-util-visit: 4.1.0
-      vfile: 5.3.0
+      vfile: 5.3.5
     transitivePeerDependencies:
       - supports-color
     dev: false
@@ -9022,7 +9016,7 @@ packages:
       '@prisma/client': '>=2.26.0 || >=3'
       next-auth: ^4.0.1
     dependencies:
-      '@prisma/client': 4.5.0_prisma@4.5.0
+      '@prisma/client': 4.5.0
       next-auth: 4.10.3_veosbehjv4o6lw47zt43je3zka
     dev: false
 
@@ -9103,16 +9097,6 @@ packages:
     dependencies:
       '@mdx-js/loader': 2.1.5_webpack@5.73.0
       '@mdx-js/react': 2.1.5_react@18.2.0
-    dev: false
-
-  /@next/mdx/12.3.4_6vwedlnwdegenaf6jioaeirvlu:
-    resolution: {integrity: sha512-YTF/ph9NMKjmrNsr8O+y3IiZee9TaxSd6051qI0Fj/du75pKRRZ1DnOX6ZS7mMgswH7VMERVV7fBZxmJr9sN7Q==}
-    peerDependencies:
-      '@mdx-js/loader': '>=0.15.0'
-      '@mdx-js/react': '*'
-    dependencies:
-      '@mdx-js/loader': 1.6.22_react@18.2.0
-      '@mdx-js/react': 1.6.22_react@18.2.0
     dev: false
 
   /@next/mdx/12.3.4_wuv4qx5dshjptmdbtsqqkih5iu:
@@ -9423,6 +9407,19 @@ packages:
   /@portabletext/types/1.0.3:
     resolution: {integrity: sha512-SDDsdury2SaTI2D5Ea6o+Y39SSZMYHRMWJHxkxYl3yzFP0n/0EknOhoXcoaV+bxGr2dTTqZi2TOEj+uWYuavSw==}
     engines: {node: ^12.20.0 || ^14.13.1 || >=16.0.0}
+
+  /@prisma/client/4.5.0:
+    resolution: {integrity: sha512-B2cV0OPI1smhdYUxsJoLYQLoMlLH06MUxgFUWQnHodGMX98VRVXKmQE/9OcrTNkqtke5RC+YU24Szxd04tZA2g==}
+    engines: {node: '>=14.17'}
+    requiresBuild: true
+    peerDependencies:
+      prisma: '*'
+    peerDependenciesMeta:
+      prisma:
+        optional: true
+    dependencies:
+      '@prisma/engines-version': 4.5.0-43.0362da9eebca54d94c8ef5edd3b2e90af99ba452
+    dev: false
 
   /@prisma/client/4.5.0_prisma@4.5.0:
     resolution: {integrity: sha512-B2cV0OPI1smhdYUxsJoLYQLoMlLH06MUxgFUWQnHodGMX98VRVXKmQE/9OcrTNkqtke5RC+YU24Szxd04tZA2g==}
@@ -11081,7 +11078,7 @@ packages:
       lodash.castarray: 4.4.0
       lodash.isplainobject: 4.0.6
       lodash.merge: 4.6.2
-      tailwindcss: 3.1.4
+      tailwindcss: 3.1.4_postcss@8.4.14
 
   /@tailwindcss/typography/0.5.2_tailwindcss@3.1.6:
     resolution: {integrity: sha512-coq8DBABRPFcVhVIk6IbKyyHUt7YTEC/C992tatFB+yEx5WGBQrCgsSFjxHUr8AWXphWckadVJbominEduYBqw==}
@@ -11639,7 +11636,7 @@ packages:
   /@types/acorn/4.0.6:
     resolution: {integrity: sha512-veQTnWP+1D/xbxVrPC3zHnCZRjSrKfhbMUlEA43iMZLu7EsnTtkJklIuwrCPbOi8YkvDQAiW05VQQFvvz9oieQ==}
     dependencies:
-      '@types/estree': 1.0.0
+      '@types/estree': 0.0.51
     dev: false
 
   /@types/aria-query/4.2.2:
@@ -11751,7 +11748,7 @@ packages:
   /@types/estree-jsx/1.0.0:
     resolution: {integrity: sha512-3qvGd0z8F2ENTGr/GG1yViqfiKmRfrXVx5sJyHGFu3z7m5g5utCQtGp/g29JnjflhtQJBv1WDQukHiT58xPcYQ==}
     dependencies:
-      '@types/estree': 1.0.0
+      '@types/estree': 0.0.51
     dev: false
 
   /@types/estree/0.0.39:
@@ -11768,10 +11765,6 @@ packages:
 
   /@types/estree/0.0.51:
     resolution: {integrity: sha512-CuPgU6f3eT/XgKKPqKd/gLZV1Xmvf1a2R5POBOGQa6uv82xpls89HU5zKeVoyR8XzHd1RGNOlQlvUe3CFkjWNQ==}
-
-  /@types/estree/1.0.0:
-    resolution: {integrity: sha512-WulqXMDUTYAXCjZnk6JtIHPigp55cVtDgDrO2gHRwhyJto21+1zbVCtOYB2L1F9w4qCQ0rOGWBnBe0FNTiEJIQ==}
-    dev: false
 
   /@types/fined/1.1.3:
     resolution: {integrity: sha512-CWYnSRnun3CGbt6taXeVo2lCbuaj4mchVJ4UF/BdU5TSuIn3AmS13pGMwCsBUoehGbhZrBrpNJZSZI5EVilXww==}
@@ -13547,11 +13540,6 @@ packages:
 
   /astring/1.8.1:
     resolution: {integrity: sha512-Aj3mbwVzj7Vve4I/v2JYOPFkCGM2YS7OqQTNSxmUR+LECRpokuPgAYghePgr6SALDo5bD5DlfbSaYjOzGJZOLQ==}
-    hasBin: true
-    dev: false
-
-  /astring/1.8.3:
-    resolution: {integrity: sha512-sRpyiNrx2dEYIMmUXprS8nlpRg2Drs8m9ElX9vVEXaCB4XEAJhKfs7IcX0IwShjuOAjLR6wzIrgoptz1n19i1A==}
     hasBin: true
     dev: false
 
@@ -17609,8 +17597,8 @@ packages:
     resolution: {integrity: sha512-490lbfCcpLk+ofK6HCgqDfYs4KAfq6QVvDw3+Bm1YoKRgiOjKiKYGAVQE1uwh7zVxBgWhqp4FDtp5SqunpUk1A==}
     dependencies:
       '@types/estree-jsx': 1.0.0
-      astring: 1.8.3
-      source-map: 0.7.4
+      astring: 1.8.1
+      source-map: 0.7.3
     dev: false
 
   /estree-util-visit/1.1.0:
@@ -20100,7 +20088,7 @@ packages:
   /is-reference/3.0.0:
     resolution: {integrity: sha512-Eo1W3wUoHWoCoVM4GVl/a+K0IgiqE5aIo4kJABFyMum1ZORlPkC+UC357sSQUL5w5QCE5kCC9upl75b7+7CY/Q==}
     dependencies:
-      '@types/estree': 1.0.0
+      '@types/estree': 0.0.51
     dev: false
 
   /is-regex/1.1.4:
@@ -23418,6 +23406,7 @@ packages:
 
   /nan/2.16.0:
     resolution: {integrity: sha512-UdAqHyFngu7TfQKsCBgAA6pWDkT8MAO7d0jyOecVhN5354xbLqdn8mV9Tat9gepAupm0bt2DbeaSC8vS52MuFA==}
+    optional: true
 
   /nano-css/5.3.4_biqbaboplfbrettd7655fr4n2y:
     resolution: {integrity: sha512-wfcviJB6NOxDIDfr7RFn/GlaN7I/Bhe4d39ZRCJ3xvZX60LVe2qZ+rDqM49nm4YT81gAjzS+ZklhKP/Gnfnubg==}
@@ -24301,13 +24290,6 @@ packages:
     resolution: {integrity: sha512-F+th54mPc0l1lp1ZcFMyL/jTs2Tlq4SqIHKIXGZOR/VkHkF9A7Fr5rRr5+ZG/lWeRsyrClLYRq7s/yFQ/XhWCA==}
     dependencies:
       lru-cache: 5.1.1
-    dev: false
-
-  /oniguruma/7.2.3:
-    resolution: {integrity: sha512-PZZcE0yfg8Q1IvaJImh21RUTHl8ep0zwwyoE912KqlWVrsGByjjj29sdACcD1BFyX2bLkfuOJeP+POzAGVWtbA==}
-    requiresBuild: true
-    dependencies:
-      nan: 2.16.0
     dev: false
 
   /openid-client/5.1.4:
@@ -27212,19 +27194,6 @@ packages:
       - oniguruma
     dev: false
 
-  /rehype-shiki/0.0.9_hz3sbvs57k5g3gvwq65yjw6pyu:
-    resolution: {integrity: sha512-jyatOsBu0A8ZUnQig0QK0xq7CFZpeEukr0DZazg/zFLZATbdcbnIlO779pIW2El/C2S5An33sN2d4w2kmdS+Bw==}
-    dependencies:
-      hast-util-to-string: 1.0.4
-      shiki: 0.1.7_oniguruma@7.2.3
-      shiki-languages: 0.1.6_hz3sbvs57k5g3gvwq65yjw6pyu
-      unist-builder: 2.0.3
-      unist-util-visit: 2.0.3
-    transitivePeerDependencies:
-      - onigasm
-      - oniguruma
-    dev: false
-
   /rehype-stringify/8.0.0:
     resolution: {integrity: sha512-VkIs18G0pj2xklyllrPSvdShAV36Ff3yE5PUO9u36f6+2qJFnn22Z5gKwBOwgXviux4UC7K+/j13AnZfPICi/g==}
     dependencies:
@@ -28046,29 +28015,10 @@ packages:
       - oniguruma
     dev: false
 
-  /shiki-languages/0.1.6_hz3sbvs57k5g3gvwq65yjw6pyu:
-    resolution: {integrity: sha512-rMu+z97UCPKMtPBkzLBItReawXnlOgXZmELFwI/s3ATxd9VzJgSQTtQW/hmW5EYCrzF2kAUjoOnn+50/MPWjgQ==}
-    dependencies:
-      vscode-textmate: github.com/octref/vscode-textmate/e65aabe2227febda7beaad31dd0fca1228c5ddf3_hz3sbvs57k5g3gvwq65yjw6pyu
-    transitivePeerDependencies:
-      - onigasm
-      - oniguruma
-    dev: false
-
   /shiki-languages/0.1.6_onigasm@2.2.5:
     resolution: {integrity: sha512-rMu+z97UCPKMtPBkzLBItReawXnlOgXZmELFwI/s3ATxd9VzJgSQTtQW/hmW5EYCrzF2kAUjoOnn+50/MPWjgQ==}
     dependencies:
       vscode-textmate: github.com/octref/vscode-textmate/e65aabe2227febda7beaad31dd0fca1228c5ddf3_onigasm@2.2.5
-    transitivePeerDependencies:
-      - onigasm
-      - oniguruma
-    dev: false
-
-  /shiki-themes/0.1.7_hz3sbvs57k5g3gvwq65yjw6pyu:
-    resolution: {integrity: sha512-mpF/VynGun/uNdjOIPnyPv4boN/QYDh+zE94SavgvmatMHkXXjZhls19Xv9rcRwuxUrWfXjaPkEZj7VAk94GGg==}
-    dependencies:
-      json5: 2.2.1
-      vscode-textmate: github.com/octref/vscode-textmate/e65aabe2227febda7beaad31dd0fca1228c5ddf3_hz3sbvs57k5g3gvwq65yjw6pyu
     transitivePeerDependencies:
       - onigasm
       - oniguruma
@@ -28091,17 +28041,6 @@ packages:
       shiki-languages: 0.1.6_onigasm@2.2.5
       shiki-themes: 0.1.7_onigasm@2.2.5
       vscode-textmate: github.com/octref/vscode-textmate/e65aabe2227febda7beaad31dd0fca1228c5ddf3_onigasm@2.2.5
-    transitivePeerDependencies:
-      - oniguruma
-    dev: false
-
-  /shiki/0.1.7_oniguruma@7.2.3:
-    resolution: {integrity: sha512-9J0PhAdXv6tt3FZf82oKZkcV8c8NRZYJEOH0eIrrxfcyNzMuB79tJFGFSI3OhhiYFL5namob/Ii0Ri4iDoF15A==}
-    dependencies:
-      onigasm: 2.2.5
-      shiki-languages: 0.1.6_hz3sbvs57k5g3gvwq65yjw6pyu
-      shiki-themes: 0.1.7_hz3sbvs57k5g3gvwq65yjw6pyu
-      vscode-textmate: github.com/octref/vscode-textmate/e65aabe2227febda7beaad31dd0fca1228c5ddf3_hz3sbvs57k5g3gvwq65yjw6pyu
     transitivePeerDependencies:
       - oniguruma
     dev: false
@@ -28330,11 +28269,6 @@ packages:
 
   /source-map/0.7.3:
     resolution: {integrity: sha512-CkCj6giN3S+n9qrYiBTX5gystlENnRW5jZeNLHpe6aue+SrHcG5VYwujhW9s4dY31mEGsxBDrHR6oI69fTXsaQ==}
-    engines: {node: '>= 8'}
-    dev: false
-
-  /source-map/0.7.4:
-    resolution: {integrity: sha512-l3BikUxvPOcn5E74dZiq5BGsTb5yEwhaTSzccU6t4sDOH8NWJCstKO5QT2CvtFoK6F0saL7p9xHAqHOlCPJygA==}
     engines: {node: '>= 8'}
 
   /source-map/0.8.0-beta.0:
@@ -29065,36 +28999,6 @@ packages:
       flatten-tailwindcss-theme: 1.0.0
       tailwindcss: 3.1.4_postcss@8.4.14
     dev: false
-
-  /tailwindcss/3.1.4:
-    resolution: {integrity: sha512-NrxbFV4tYsga/hpWbRyUfIaBrNMXDxx5BsHgBS4v5tlyjf+sDsgBg5m9OxjrXIqAS/uR9kicxLKP+bEHI7BSeQ==}
-    engines: {node: '>=12.13.0'}
-    hasBin: true
-    dependencies:
-      arg: 5.0.2
-      chokidar: 3.5.3
-      color-name: 1.1.4
-      detective: 5.2.1
-      didyoumean: 1.2.2
-      dlv: 1.1.3
-      fast-glob: 3.2.11
-      glob-parent: 6.0.2
-      is-glob: 4.0.3
-      lilconfig: 2.0.5
-      normalize-path: 3.0.0
-      object-hash: 3.0.0
-      picocolors: 1.0.0
-      postcss: 8.4.14
-      postcss-import: 14.1.0_postcss@8.4.14
-      postcss-js: 4.0.0_postcss@8.4.14
-      postcss-load-config: 3.1.4_postcss@8.4.14
-      postcss-nested: 5.0.6_postcss@8.4.14
-      postcss-selector-parser: 6.0.10
-      postcss-value-parser: 4.2.0
-      quick-lru: 5.1.1
-      resolve: 1.22.0
-    transitivePeerDependencies:
-      - ts-node
 
   /tailwindcss/3.1.4_postcss@8.4.14:
     resolution: {integrity: sha512-NrxbFV4tYsga/hpWbRyUfIaBrNMXDxx5BsHgBS4v5tlyjf+sDsgBg5m9OxjrXIqAS/uR9kicxLKP+bEHI7BSeQ==}
@@ -30705,7 +30609,7 @@ packages:
     dependencies:
       '@types/istanbul-lib-coverage': 2.0.3
       convert-source-map: 1.8.0
-      source-map: 0.7.4
+      source-map: 0.7.3
 
   /v8flags/2.1.1:
     resolution: {integrity: sha1-qrGh+jDUX4jdMhFIh1rALAtV5bQ=}
@@ -31412,19 +31316,6 @@ packages:
     peerDependencies:
       onigasm: ^2.1.0
       oniguruma: ^7.0.0
-    dev: false
-
-  github.com/octref/vscode-textmate/e65aabe2227febda7beaad31dd0fca1228c5ddf3_hz3sbvs57k5g3gvwq65yjw6pyu:
-    resolution: {tarball: https://codeload.github.com/octref/vscode-textmate/tar.gz/e65aabe2227febda7beaad31dd0fca1228c5ddf3}
-    id: github.com/octref/vscode-textmate/e65aabe2227febda7beaad31dd0fca1228c5ddf3
-    name: vscode-textmate
-    version: 4.0.1
-    peerDependencies:
-      onigasm: ^2.1.0
-      oniguruma: ^7.0.0
-    dependencies:
-      onigasm: 2.2.5
-      oniguruma: 7.2.3
     dev: false
 
   github.com/octref/vscode-textmate/e65aabe2227febda7beaad31dd0fca1228c5ddf3_onigasm@2.2.5:
