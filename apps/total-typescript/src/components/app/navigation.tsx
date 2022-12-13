@@ -19,22 +19,24 @@ import toast from 'react-hot-toast'
 type Props = {
   className?: string
   containerClassName?: string
+  isMinifiedLogo?: boolean
 }
 
 const Navigation: React.FC<React.PropsWithChildren<Props>> = ({
   className,
   containerClassName = 'max-w-screen-lg flex items-stretch justify-between w-full h-full',
+  isMinifiedLogo = false,
 }) => {
   return (
     <nav
       aria-label="top"
       className={cx(
-        'absolute top-0 z-30 flex h-14 w-full items-center justify-center bg-black/30 pl-3 print:hidden sm:h-16 sm:bg-black/30 sm:pl-5',
+        'absolute top-0 z-50 flex h-14 w-full items-center justify-center bg-black/30 pl-3 print:hidden sm:h-16 sm:bg-black/30 sm:pl-5',
         className,
       )}
     >
       <div className={containerClassName}>
-        <NavLogo />
+        <NavLogo isMinified={isMinifiedLogo} />
         <DesktopNav />
         <MobileNav />
       </div>
@@ -73,6 +75,11 @@ const DesktopNav = () => {
             <FireIcon className="h-5 w-5 text-orange-400" aria-hidden="true" />
           }
         />
+        <NavLink
+          path="/articles"
+          label="Articles"
+          icon={<BookIcon aria-hidden="true" />}
+        />
       </div>
       <div className="flex h-full items-center justify-center">
         {status === 'unauthenticated' && <NavLink path="/faq" label="FAQ" />}
@@ -101,7 +108,10 @@ const MobileNav = () => {
           <NavLink path="/login" label="Log in" />
         ) : null}
         <li className="h-full">
-          <NavigationMenu.Root delayDuration={0} className="flex h-full">
+          <NavigationMenu.Root
+            delayDuration={0}
+            className="relative z-50 flex h-full"
+          >
             <NavigationMenu.List className="flex h-full items-center justify-center">
               <NavigationMenu.Item className="h-full">
                 <NavigationMenu.Trigger className="flex h-full items-center justify-center px-5 hover:bg-gray-800">
@@ -242,20 +252,46 @@ const DropdownLink: React.FC<
   )
 }
 
-export const NavLogo: React.FC<{className?: string}> = ({className}) => {
+export const NavLogo: React.FC<{className?: string; isMinified?: boolean}> = ({
+  className,
+  isMinified,
+}) => {
   const router = useRouter()
   return (
     <NextLink href="/" passHref>
       <a
         aria-label={`${config.title} Home`}
         className={cx(
-          'group group flex h-full flex-shrink-0 items-center font-text text-xl font-semibold text-white',
+          'group group flex h-full flex-shrink-0 items-center font-text text-xl font-semibold text-white md:text-lg lg:text-xl',
           className,
         )}
         tabIndex={router.pathname === '/' ? -1 : 0}
       >
-        <span className="mr-0.5 font-light opacity-90">Total</span>
-        <span>TypeScript</span>
+        <span
+          aria-hidden={!isMinified}
+          className={cx('text-base', {
+            hidden: !isMinified,
+            'hidden sm:hidden md:block xl:hidden': isMinified,
+          })}
+        >
+          TT.
+        </span>
+        <span
+          aria-hidden={isMinified}
+          className={cx('mr-0.5 font-light opacity-90', {
+            'md:hidden xl:block 2xl:block': isMinified,
+          })}
+        >
+          Total
+        </span>
+        <span
+          aria-hidden={isMinified}
+          className={cx({
+            'md:hidden xl:block 2xl:block': isMinified,
+          })}
+        >
+          TypeScript
+        </span>
       </a>
     </NextLink>
   )
@@ -354,6 +390,7 @@ const KeyIcon = () => {
       xmlns="http://www.w3.org/2000/svg"
       fill="none"
       viewBox="0 0 15 15"
+      aria-hidden="true"
     >
       <path
         fill="currentColor"
@@ -361,6 +398,24 @@ const KeyIcon = () => {
         clipRule="evenodd"
         d="M14 0a1 1 0 0 1 .707 1.707l-1.646 1.647 1.793 1.792a.5.5 0 0 1 0 .708l-2.5 2.5a.499.499 0 0 1-.708 0L9.854 6.561 7.434 8.98c.367.61.563 1.308.566 2.02a4 4 0 1 1-4-4c.712.004 1.41.2 2.02.566L13.293.293A1 1 0 0 1 14 0ZM4 13a2 2 0 1 0 0-4 2 2 0 0 0 0 4Z"
       />
+    </svg>
+  )
+}
+
+const BookIcon = () => {
+  return (
+    <svg
+      className="mr-0.5 h-3.5 w-3.5 text-violet-400"
+      aria-hidden="true"
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 16 16"
+    >
+      <g fill="currentColor">
+        <path
+          fill="currentColor"
+          d="M13,0H3C1.3,0,0,1.3,0,3v10c0,1.7,1.3,3,3,3h10c1.7,0,3-1.3,3-3V3C16,1.3,14.7,0,13,0z M5,3h6v4H5V3z M14,13 c0,0.6-0.4,1-1,1H3c-0.6,0-1-0.4-1-1c0-0.6,0.4-1,1-1h10c0.6,0,0.9-0.1,1-0.2V13z"
+        />
+      </g>
     </svg>
   )
 }
