@@ -15,6 +15,7 @@ import NextLink, {type LinkProps} from 'next/link'
 import * as NavigationMenu from '@radix-ui/react-navigation-menu'
 import {signOut, useSession} from 'next-auth/react'
 import toast from 'react-hot-toast'
+import {useFeedback} from '../../feedback-widget/feedback-context'
 
 type Props = {
   className?: string
@@ -52,6 +53,7 @@ const useAbilities = () => {
 
 const DesktopNav = () => {
   const {status} = useSession()
+  const {setIsFeedbackDialogOpen} = useFeedback()
 
   return (
     <ul className={cx('hidden w-full items-center justify-between md:flex')}>
@@ -84,7 +86,16 @@ const DesktopNav = () => {
       <div className="flex h-full items-center justify-center">
         {status === 'unauthenticated' && <NavLink path="/faq" label="FAQ" />}
         {status === 'authenticated' ? (
-          <AccountDropdown />
+          <>
+            <NavLink
+              label="Send Feedback"
+              onClick={() => {
+                console.log('meh!!!')
+                setIsFeedbackDialogOpen(true, 'header')
+              }}
+            />
+            <AccountDropdown />
+          </>
         ) : status === 'unauthenticated' ? (
           <NavLink path="/login" label="Log in" />
         ) : (
@@ -180,11 +191,33 @@ const NavLink: React.FC<
   React.PropsWithChildren<{
     label: string
     icon?: React.ReactElement
-    path: string
+    path?: string
     className?: string
+    onClick?: () => void
   }>
-> = ({label, icon, path, className}) => {
-  return (
+> = ({onClick, label, icon, path, className}) => {
+  const router = useRouter()
+  const isActive = router.pathname === path
+  if (onClick) {
+    return (
+      <li>
+        <button
+          onClick={onClick}
+          aria-current={isActive ? 'page' : undefined}
+          className={cx(
+            'group relative flex h-full items-center justify-center px-5 text-sm opacity-90 outline-none transition hover:bg-gray-100 hover:bg-opacity-50 hover:opacity-100 sm:text-base',
+            {
+              'after:absolute after:bottom-[-2px] after:left-0 after:h-[2px] after:w-full after:bg-cyan-500 after:content-[""]':
+                isActive,
+            },
+          )}
+        >
+          {label}
+        </button>
+      </li>
+    )
+  }
+  return path ? (
     <li className="h-full">
       <NextLink href={path} passHref>
         <a
@@ -201,7 +234,7 @@ const NavLink: React.FC<
         </a>
       </NextLink>
     </li>
-  )
+  ) : null
 }
 
 const MobileNavLink: React.FC<
