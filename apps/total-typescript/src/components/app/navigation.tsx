@@ -32,7 +32,7 @@ const Navigation: React.FC<React.PropsWithChildren<Props>> = ({
     <nav
       aria-label="top"
       className={cx(
-        'absolute top-0 z-50 flex h-14 w-full items-center justify-center bg-black/30 pl-3 print:hidden sm:h-16 sm:bg-black/30 sm:pl-5',
+        'absolute top-0 z-30 flex h-14 w-full items-center justify-center bg-black/30 pl-3 print:hidden sm:h-16 sm:bg-black/30 sm:pl-5',
         className,
       )}
     >
@@ -59,7 +59,7 @@ const DesktopNav = () => {
     <ul className={cx('hidden w-full items-center justify-between md:flex')}>
       <div className="flex h-full items-center">
         <hr
-          className="ml-6 mr-2 h-1/4 w-px border-transparent bg-gray-700"
+          className="ml-4 mr-1 h-1/4 w-px border-transparent bg-gray-700 lg:ml-6 lg:mr-2"
           aria-hidden="true"
         />
         <NavLink path="/workshops" label="Pro Workshops" icon={<KeyIcon />} />
@@ -118,10 +118,7 @@ const MobileNav = () => {
           <NavLink path="/login" label="Log in" />
         ) : null}
         <li className="h-full">
-          <NavigationMenu.Root
-            delayDuration={0}
-            className="relative z-50 flex h-full"
-          >
+          <NavigationMenu.Root delayDuration={0} className="flex h-full">
             <NavigationMenu.List className="flex h-full items-center justify-center">
               <NavigationMenu.Item className="h-full">
                 <NavigationMenu.Trigger className="flex h-full items-center justify-center px-5 hover:bg-gray-800">
@@ -155,10 +152,15 @@ const MobileNav = () => {
                         />
                       }
                     />
+                    <MobileNavLink
+                      path="/articles"
+                      label="Articles"
+                      icon={<BookIcon aria-hidden="true" />}
+                    />
                     <MobileNavLink path="/faq" label="FAQ" />
                     {status === 'authenticated' && (
                       <>
-                        <div className="border-t border-gray-900/50 px-3 pb-3 pt-5 font-mono text-xs font-semibold uppercase tracking-wide">
+                        <div className="border-t border-gray-900/70 px-3 pb-3 pt-5 font-mono text-xs font-semibold uppercase tracking-wide text-gray-300">
                           Account
                         </div>
                         <ul>
@@ -221,7 +223,7 @@ const NavLink: React.FC<
       <NextLink href={path} passHref>
         <a
           className={cx(
-            'flex h-full items-center gap-0.5 px-2 text-sm font-medium transition duration-100 hover:bg-gray-800/60 active:bg-transparent sm:gap-1 sm:px-3 sm:text-base lg:px-5',
+            'flex h-full items-center gap-0.5 px-2 text-sm font-medium transition duration-100 hover:bg-gray-800/60 active:bg-transparent sm:gap-1 sm:px-3 lg:px-5 lg:text-base',
             className,
           )}
           onClick={() => {
@@ -276,7 +278,7 @@ const DropdownLink: React.FC<
         active={isActive}
         {...props}
         className={cx(
-          'flex w-full rounded px-3 py-2 text-sm transition hover:bg-gray-700 sm:text-base',
+          'flex w-full rounded px-3 py-2 transition hover:bg-gray-700',
           props.className,
         )}
       />
@@ -351,7 +353,7 @@ const AccountDropdown = () => {
             <NavigationMenu.Trigger
               onPointerMove={preventHover}
               onPointerLeave={preventHover}
-              className="flex h-full items-center gap-0.5 px-2 text-sm font-medium hover:radix-state-closed:bg-gray-800/70 radix-state-open:bg-gray-800 sm:gap-1 sm:px-4 sm:text-base"
+              className="flex h-full items-center gap-0.5 px-2 text-sm font-medium hover:radix-state-closed:bg-gray-800/70 radix-state-open:bg-gray-800 sm:gap-1 sm:px-4 lg:text-base"
             >
               Account <ChevronDownIcon className="h-4 w-4" aria-hidden />
             </NavigationMenu.Trigger>
@@ -360,7 +362,7 @@ const AccountDropdown = () => {
               onPointerLeave={preventHover}
               className="absolute top-full left-0 w-full rounded-b"
             >
-              <ul className="flex w-full flex-col items-start rounded-b bg-gray-800 p-1">
+              <ul className="flex w-full flex-col items-start rounded-b bg-gray-800 p-1 text-sm lg:text-base">
                 {canViewTeam && (
                   <li className="w-full">
                     <DropdownLink href="/team">Invite team</DropdownLink>
@@ -406,7 +408,7 @@ const LogOutButton: React.FC<{className?: string}> = ({className}) => {
         className={
           className
             ? className
-            : 'flex w-full rounded px-3 py-2 text-sm transition hover:bg-gray-700 sm:text-base'
+            : 'flex w-full rounded px-3 py-2 transition hover:bg-gray-700'
         }
       >
         Log out
