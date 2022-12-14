@@ -55,7 +55,7 @@ const ArticleTemplate: React.FC<ArticleTemplateProps> = ({
         images={[image || '']}
         description={articleDescription}
       />
-      <header className="relative z-10 flex w-full flex-col items-center justify-center  px-5 pt-48 pb-8 sm:pt-36 sm:pb-10">
+      <header className="relative z-10 flex w-full flex-col items-center justify-center  px-5 pt-24 pb-8 sm:pt-36 sm:pb-10">
         <div className="relative z-10 mx-auto flex w-full max-w-3xl flex-col">
           <time dateTime={_createdAt} className="pb-4 text-gray-300">
             {format(new Date(_createdAt), 'MMM dd, y')}
