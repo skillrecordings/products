@@ -33,7 +33,6 @@ export const FeedbackProvider: React.FC<React.PropsWithChildren<any>> = ({
       value={{
         isFeedbackDialogOpen,
         setIsFeedbackDialogOpen: (value, location) => {
-          console.log('location', location, value)
           location && setLocation(location)
           setIsFeedbackDialogOpen(value)
         },

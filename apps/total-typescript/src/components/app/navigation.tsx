@@ -90,7 +90,6 @@ const DesktopNav = () => {
             <NavLink
               label="Send Feedback"
               onClick={() => {
-                console.log('meh!!!')
                 setIsFeedbackDialogOpen(true, 'header')
               }}
             />
