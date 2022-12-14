@@ -2315,7 +2315,6 @@ importers:
       '@amplitude/node': ^1.10.2
       '@casl/ability': ^6.3.2
       '@codesandbox/sandpack-react': ^1.17.0
-      '@headlessui/react': ^1.6.1
       '@heroicons/react': ^1.0.6
       '@hookform/resolvers': ^2.9.8
       '@mdx-js/loader': ^2.1.5
@@ -2329,6 +2328,7 @@ importers:
       '@portabletext/types': ^1.0.3
       '@radix-ui/react-accordion': ^1.0.0
       '@radix-ui/react-alert-dialog': ^0.1.7
+      '@radix-ui/react-dialog': ^0.1.7
       '@radix-ui/react-navigation-menu': ^1.1.1
       '@reach/auto-id': ^0.16.0
       '@reach/utils': ^0.16.0
@@ -2439,7 +2439,6 @@ importers:
       '@amplitude/node': 1.10.2
       '@casl/ability': 6.3.2
       '@codesandbox/sandpack-react': 1.17.0_biqbaboplfbrettd7655fr4n2y
-      '@headlessui/react': 1.6.1_biqbaboplfbrettd7655fr4n2y
       '@heroicons/react': 1.0.6_react@18.2.0
       '@hookform/resolvers': 2.9.8_react-hook-form@7.29.0
       '@mdx-js/loader': 2.1.5_webpack@4.46.0
@@ -2451,6 +2450,7 @@ importers:
       '@portabletext/react': 1.0.6_react@18.2.0
       '@radix-ui/react-accordion': 1.0.0_biqbaboplfbrettd7655fr4n2y
       '@radix-ui/react-alert-dialog': 0.1.7_bb2bxwco6ptpubzwpazr52qf6i
+      '@radix-ui/react-dialog': 0.1.7_bb2bxwco6ptpubzwpazr52qf6i
       '@radix-ui/react-navigation-menu': 1.1.1_biqbaboplfbrettd7655fr4n2y
       '@reach/auto-id': 0.16.0_biqbaboplfbrettd7655fr4n2y
       '@reach/utils': 0.16.0_biqbaboplfbrettd7655fr4n2y

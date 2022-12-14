@@ -1,5 +1,5 @@
 import React from 'react'
-import {Dialog, Transition} from '@headlessui/react'
+import * as Dialog from '@radix-ui/react-dialog'
 import {XIcon} from '@heroicons/react/solid'
 
 type DialogProps = {
@@ -17,57 +17,25 @@ const DialogComp: React.FC<React.PropsWithChildren<DialogProps>> = ({
   const closeButtonRef = React.useRef<HTMLButtonElement>(null)
 
   return (
-    <Transition appear show={isOpen} as={React.Fragment}>
-      <Dialog
-        initialFocus={closeButtonRef}
-        open={isOpen}
-        onClose={handleCloseDialog}
-        as="div"
-        className="relative z-50"
-      >
-        <Transition.Child
-          as={React.Fragment}
-          enter="ease-out duration-300"
-          enterFrom="opacity-0"
-          enterTo="opacity-100"
-          leave="ease-in duration-200"
-          leaveFrom="opacity-100"
-          leaveTo="opacity-0"
+    <Dialog.Root open={isOpen}>
+      <Dialog.Portal>
+        <Dialog.Overlay className="fixed inset-0 z-40 bg-black/40 backdrop-blur" />
+        <Dialog.Content
+          // onPointerDownOutside={handleCloseDialog}
+          onEscapeKeyDown={handleCloseDialog}
+          className="fixed top-1/2 left-1/2 z-50 max-h-[85vh] w-full max-w-md -translate-x-1/2 -translate-y-1/2 rounded-lg border border-gray-800 bg-gray-900 p-5 shadow-2xl shadow-black/50"
         >
-          <div
-            className="fixed inset-0 bg-black bg-opacity-25"
-            aria-hidden="true"
+          <CloseButton
+            ref={closeButtonRef}
+            handleCloseDialog={handleCloseDialog}
           />
-        </Transition.Child>
-        <div className="fixed inset-0 overflow-y-auto">
-          <div className="flex min-h-full items-center justify-center p-4 text-center">
-            <Transition.Child
-              as={React.Fragment}
-              enter="ease-out duration-300"
-              enterFrom="opacity-0 scale-95"
-              enterTo="opacity-100 scale-100"
-              leave="ease-in duration-200"
-              leaveFrom="opacity-100 scale-100"
-              leaveTo="opacity-0 scale-95"
-            >
-              <Dialog.Panel className="w-full max-w-md transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all">
-                <Dialog.Title
-                  as="h1"
-                  className="mb-3 inline-block w-full border-b border-gray-200 pb-3 text-xl font-bold leading-6 text-gray-900"
-                >
-                  {title}
-                </Dialog.Title>
-                <div className="mt-2">{children}</div>
-                <CloseButton
-                  ref={closeButtonRef}
-                  handleCloseDialog={handleCloseDialog}
-                />
-              </Dialog.Panel>
-            </Transition.Child>
-          </div>
-        </div>
-      </Dialog>
-    </Transition>
+          <Dialog.Title className="pb-4 text-2xl font-semibold">
+            {title}
+          </Dialog.Title>
+          {children}
+        </Dialog.Content>
+      </Dialog.Portal>
+    </Dialog.Root>
   )
 }
 
@@ -82,7 +50,7 @@ const CloseButton = React.forwardRef<HTMLButtonElement, CloseButtonProps>(
         <button
           ref={ref}
           type="button"
-          className="inline-flex justify-center rounded-md border border-transparent p-2 text-sm font-medium transition focus:outline-none focus-visible:ring-2 focus-visible:ring-green-500 focus-visible:ring-offset-2 hover:bg-gray-100 hover:shadow-inner"
+          className="inline-flex justify-center rounded-md border border-transparent p-2 text-sm font-medium transition focus:outline-none focus-visible:ring-2 focus-visible:ring-cyan-300 focus-visible:ring-offset-2 focus-visible:ring-offset-gray-900 hover:bg-gray-700 hover:shadow-inner"
           onClick={handleCloseDialog}
         >
           <XIcon className="h-5 w-5" aria-hidden="true" />

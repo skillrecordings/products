@@ -32,7 +32,7 @@ export const FeedbackField: React.FC<React.PropsWithChildren<any>> = ({
         id: 'text',
         name: 'text',
         class:
-          'prose prose-sm min-h-[150px] max-h-[250px] overflow-y-auto shadow-sm bg-gray-100 p-3 focus:ring-blue-500 focus:border-blue-500 block w-full sm:text-sm border border-gray-300 rounded-md',
+          'prose min-h-[150px] max-h-[250px] overflow-y-auto shadow-md shadow-black/50 bg-gray-800 p-3 focus:ring-cyan-300 block w-full border border-gray-700 rounded-md',
       },
     },
   })
@@ -51,15 +51,15 @@ export const FeedbackField: React.FC<React.PropsWithChildren<any>> = ({
     <div>
       <div className="flex w-full items-center justify-between">
         <label
-          className="inline-block flex-shrink-0 pb-1 text-sm font-semibold"
+          className="inline-block flex-shrink-0 pb-1 font-semibold"
           htmlFor="text"
         >
-          {label} <span className="font-normal">(required)</span>
+          {label} <span className="font-normal text-gray-300">(required)</span>
         </label>
         {errors.text && touched.text ? (
           <div
             aria-live="polite"
-            className="inline-block pb-1 text-xs font-semibold leading-tight text-pink-600 sm:text-sm"
+            className="inline-block pb-1 text-xs font-medium leading-tight text-pink-300 sm:text-sm"
           >
             {errors.text}
           </div>
@@ -67,14 +67,14 @@ export const FeedbackField: React.FC<React.PropsWithChildren<any>> = ({
       </div>
       <div
         className={cx({
-          'rounded-md ring ring-pink-600 ring-opacity-20 ring-offset-1':
+          'rounded-md ring ring-pink-300 ring-opacity-80 ring-offset-gray-900':
             errors.text && touched.text,
         })}
       >
         <EditorContent editor={editor} name="text" id="text" />
       </div>
       {showMarkdown && (
-        <small className="text-gray-500">
+        <small className="block pt-2 text-sm text-gray-400">
           Styling with markdown is supported.
         </small>
       )}
@@ -87,7 +87,7 @@ export const EmotionField: React.FC<React.PropsWithChildren<any>> = (props) => {
   return (
     <div>
       <label
-        className="inline-flex pb-1 text-sm font-semibold"
+        className="inline-flex pb-1 font-semibold"
         htmlFor="context.emotion"
       >
         Emotion
@@ -108,22 +108,22 @@ export const EmotionField: React.FC<React.PropsWithChildren<any>> = (props) => {
               className={({active, checked}) =>
                 `${
                   active
-                    ? 'ring-2 ring-white ring-opacity-60 ring-offset-2 ring-offset-blue-300'
+                    ? 'ring-2 ring-white ring-opacity-60 ring-offset-2 ring-offset-gray-900'
                     : ''
                 }
               ${
                 checked
-                  ? 'bg-gray-200/50 bg-opacity-75 text-white shadow-inner'
-                  : 'bg-white'
+                  ? 'bg-gray-600 bg-opacity-75 text-white shadow-inner hover:bg-gray-600'
+                  : 'bg-gray-800 hover:bg-gray-700/80'
               }
-                relative flex cursor-pointer rounded-lg border border-gray-200 px-4 py-3 transition focus:outline-none hover:bg-gray-100/50`
+                relative flex cursor-pointer rounded-lg border border-gray-700 px-4 py-3 transition focus:outline-none`
               }
             >
               {({checked}) => (
                 <>
                   <RadioGroup.Label
                     className={`cursor-pointer text-xl font-medium ${
-                      checked ? 'text-gray-900' : 'text-gray-900'
+                      checked ? 'text-gray-300' : 'text-gray-300'
                     }`}
                     role="img"
                     aria-label={getEmoji(emotion).label}
@@ -131,7 +131,7 @@ export const EmotionField: React.FC<React.PropsWithChildren<any>> = (props) => {
                     {getEmoji(emotion).image}
                   </RadioGroup.Label>
                   {checked && (
-                    <CheckIcon className="absolute right-1 bottom-1 h-4 w-4 text-gray-900" />
+                    <CheckIcon className="absolute right-1 bottom-1 h-4 w-4 text-gray-100" />
                   )}
                 </>
               )}
@@ -150,7 +150,7 @@ export const CategoryField: React.FC<React.PropsWithChildren<any>> = (
   return (
     <div>
       <label
-        className="inline-flex pb-1 text-sm font-semibold"
+        className="inline-flex pb-1 font-semibold"
         htmlFor="context.emotion"
       >
         Category
@@ -171,28 +171,28 @@ export const CategoryField: React.FC<React.PropsWithChildren<any>> = (
               className={({active, checked}) =>
                 `${
                   active
-                    ? 'ring-2 ring-white ring-opacity-60 ring-offset-2 ring-offset-blue-300'
+                    ? 'ring-2 ring-white ring-opacity-60 ring-offset-2 ring-offset-gray-900'
                     : ''
                 }
               ${
                 checked
-                  ? 'bg-gray-200/50 bg-opacity-75 text-white shadow-inner'
-                  : 'bg-white'
+                  ? 'bg-gray-600 bg-opacity-75 text-white shadow-inner hover:bg-gray-600'
+                  : 'bg-gray-800 hover:bg-gray-700/80'
               }
-                relative flex cursor-pointer rounded-lg border border-gray-200 px-5 py-4 transition focus:outline-none hover:bg-gray-100/50`
+              relative flex cursor-pointer rounded-lg border border-gray-700 px-5 py-4 transition focus:outline-none`
               }
             >
               {({checked}) => (
                 <>
                   <RadioGroup.Label
-                    className={`cursor-pointer text-sm font-medium ${
-                      checked ? 'text-gray-900' : 'text-gray-900'
+                    className={`cursor-pointer font-medium ${
+                      checked ? 'text-gray-100' : 'text-gray-100'
                     }`}
                   >
                     {category}
                   </RadioGroup.Label>
                   {checked && (
-                    <CheckIcon className="absolute right-1 bottom-1 h-4 w-4 text-gray-900" />
+                    <CheckIcon className="absolute right-1 bottom-1 h-4 w-4 text-gray-100" />
                   )}
                 </>
               )}
