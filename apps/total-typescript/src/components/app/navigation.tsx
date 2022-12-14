@@ -154,6 +154,7 @@ const MobileNav = () => {
   const canViewTeam = ability.can('view', 'Team')
   const canViewInvoice = ability.can('view', 'Invoice')
   const {status} = useSession()
+  const {setIsFeedbackDialogOpen} = useFeedback()
 
   return (
     <div className="block md:hidden">
@@ -214,6 +215,12 @@ const MobileNav = () => {
                           {canViewInvoice && (
                             <MobileNavLink path="/invoices" label="Invoices" />
                           )}
+                          <MobileNavLink
+                            label="Send Feedback"
+                            onClick={() => {
+                              setIsFeedbackDialogOpen(true, 'header')
+                            }}
+                          />
                           <li>
                             <LogOutButton className="flex h-full items-center gap-0.5 px-3 py-2 text-base font-medium transition duration-100 hover:bg-gray-800/60 active:bg-transparent" />
                           </li>
@@ -283,11 +290,28 @@ const MobileNavLink: React.FC<
   React.PropsWithChildren<{
     label: string
     icon?: React.ReactElement
-    path: string
+    path?: string
     className?: string
+    onClick?: () => void
   }>
-> = ({label, icon, path, className}) => {
-  return (
+> = ({onClick, label, icon, path, className}) => {
+  if (onClick) {
+    return (
+      <li>
+        <button
+          onClick={onClick}
+          className={cx(
+            'flex h-full items-center gap-1.5 px-3 py-3 text-base font-medium transition duration-100 hover:bg-gray-800/60 active:bg-transparent',
+            className,
+          )}
+        >
+          {icon ? icon : null}
+          {label}
+        </button>
+      </li>
+    )
+  }
+  return path ? (
     <li>
       <NextLink href={path} passHref>
         <a
@@ -304,7 +328,7 @@ const MobileNavLink: React.FC<
         </a>
       </NextLink>
     </li>
-  )
+  ) : null
 }
 
 const DropdownLink: React.FC<
