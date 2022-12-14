@@ -1,4 +1,4 @@
-import {isEmpty} from 'lodash'
+import {isEmpty, sortBy} from 'lodash'
 import {getSdk, Context, defaultContext} from '@skillrecordings/database'
 import {Context as StripeContext} from '@skillrecordings/stripe-sdk'
 import {stripeData} from './record-new-purchase'
@@ -33,6 +33,98 @@ const match = (
   return Boolean(value1 && value2 && value1 === value2)
 }
 
+const {getPurchasesForUser, getPurchaseForStripeCharge} = getSdk()
+
+type PurchaseForStripeCharge = NonNullable<
+  Awaited<ReturnType<typeof getPurchaseForStripeCharge>>
+>
+type Purchase = Awaited<ReturnType<typeof getPurchasesForUser>>[number]
+type BulkCoupon = NonNullable<Pick<Purchase, 'bulkCoupon'>['bulkCoupon']>
+type BulkPurchase = Purchase & {bulkCoupon: BulkCoupon}
+type BulkPurchaseData = {
+  focalProduct: {
+    productId: string
+    focalPurchase: PurchaseForStripeCharge
+    otherTeamBulkPurchases: BulkPurchase[]
+    otherIndividualPurchases: Purchase[]
+    focalBulkPurchaseIsChronologicallyFirst: boolean
+  }
+}
+type IndividualPurchaseData = {
+  focalProduct: {
+    productId: string
+    focalPurchase: PurchaseForStripeCharge
+    otherIndividualPurchases: Purchase[]
+  }
+}
+
+const summarizePurchases = (
+  focalPurchase: PurchaseForStripeCharge,
+  allUserPurchases: Purchase[],
+):
+  | {type: 'BULK'; data: BulkPurchaseData}
+  | {type: 'INDIVIDUAL'; data: IndividualPurchaseData} => {
+  // summarize only purchases whose productId's match the focal
+  // purchase's productId
+  const focalProductId = focalPurchase.productId
+
+  const purchaseIsBulk = Boolean(focalPurchase.bulkCoupon?.id)
+
+  // Summarize the purchases for this product ID
+  const focalProductPurchases = allUserPurchases.filter(
+    (purchase) => purchase.productId === focalProductId,
+  )
+
+  const bulkPurchases = focalProductPurchases.filter(
+    (purchase): purchase is BulkPurchase => Boolean(purchase.bulkCoupon?.id),
+  )
+
+  const otherIndividualPurchases = focalProductPurchases.filter(
+    (purchase) =>
+      isEmpty(purchase.bulkCoupon) &&
+      isEmpty(purchase.redeemedBulkCouponId) &&
+      purchase.id !== focalPurchase.id,
+  )
+
+  if (purchaseIsBulk) {
+    const teamBulkPurchases = bulkPurchases.filter((purchase) =>
+      match(purchase.bulkCoupon.id, focalPurchase.bulkCoupon?.id),
+    )
+    const otherTeamBulkPurchases = teamBulkPurchases.filter(
+      (purchase) => purchase.id !== focalPurchase.id,
+    )
+
+    const focalBulkPurchaseIsChronologicallyFirst =
+      sortBy(teamBulkPurchases, 'createdAt')[0].id === focalPurchase.id
+
+    return {
+      type: 'BULK',
+      data: {
+        focalProduct: {
+          productId: focalProductId,
+          focalPurchase,
+          otherTeamBulkPurchases,
+          otherIndividualPurchases,
+          focalBulkPurchaseIsChronologicallyFirst,
+        },
+        // data creates a bag where we can return summaries of purchases
+        // for other products, etc.
+      },
+    }
+  } else {
+    return {
+      type: 'INDIVIDUAL',
+      data: {
+        focalProduct: {
+          productId: focalProductId,
+          focalPurchase,
+          otherIndividualPurchases,
+        },
+      },
+    }
+  }
+}
+
 type DeterminePurchaseTypeOptions = {
   checkoutSessionId: string
   prismaCtx?: Context
@@ -41,81 +133,79 @@ type DeterminePurchaseTypeOptions = {
 
 export async function determinePurchaseType(
   options: DeterminePurchaseTypeOptions,
-): Promise<PurchaseType | null> {
+): Promise<PurchaseType> {
   const {prismaCtx, stripeCtx, ...noContextOptions} = options
   const {checkoutSessionId} = noContextOptions
 
   const {getUserByEmail, getPurchasesForUser, getPurchaseForStripeCharge} =
     getSdk({ctx: prismaCtx})
 
-  // Grab the Stripe Charge ID associated with the completed checkout session
-  // so that we can reference the associated purchase in our database.
-  const purchaseInfo = await stripeData({
-    checkoutSessionId: checkoutSessionId as string,
-    stripeCtx,
-  })
-  const {email, stripeChargeId} = purchaseInfo
+  try {
+    // Grab the Stripe Charge ID associated with the completed checkout session
+    // so that we can reference the associated purchase in our database.
+    const purchaseInfo = await stripeData({
+      checkoutSessionId: checkoutSessionId as string,
+      stripeCtx,
+    })
+    const {email, stripeChargeId} = purchaseInfo
 
-  const user = !!email && (await getUserByEmail(email))
-  const {id: userId} = user || {}
+    const user = !!email && (await getUserByEmail(email))
+    const {id: userId} = user || {}
 
-  // Find the purchase record associated with this Stripe Checkout Session
-  // (via the `stripeChargeId`).
-  const checkoutSessionPurchase = await getPurchaseForStripeCharge(
-    stripeChargeId,
-  )
+    // Find the purchase record associated with this Stripe Checkout Session
+    // (via the `stripeChargeId`).
+    const checkoutSessionPurchase = await getPurchaseForStripeCharge(
+      stripeChargeId,
+    )
 
-  // return early if we don't have a userId or a purchase corresponding to
-  // this checkout session
-  if (!userId || !checkoutSessionPurchase?.id) return null
+    // return early if we don't have a userId or a purchase corresponding to
+    // this checkout session
+    if (!userId || !checkoutSessionPurchase?.id)
+      throw new Error('Missing userId or purchase for checkout session')
 
-  const allUserPurchases = await getPurchasesForUser(userId)
+    const allUserPurchases = await getPurchasesForUser(userId)
 
-  const bulkPurchases = allUserPurchases.filter(
-    (purchase) => purchase.bulkCoupon !== null,
-  )
-  const individualPurchase = allUserPurchases.find(
-    (purchase) =>
-      purchase.bulkCoupon === null && purchase.redeemedBulkCouponId === null,
-  )
+    const {type, data} = summarizePurchases(
+      checkoutSessionPurchase,
+      allUserPurchases,
+    )
 
-  // if the user has no bulk purchases and their only individual purchase
-  // is the purchase for this checkout session, then this session's purchase
-  // type is NEW_INDIVIDUAL_PURCHASE.
-  if (
-    isEmpty(bulkPurchases) &&
-    match(individualPurchase?.id, checkoutSessionPurchase.id)
-  ) {
+    if (type === 'BULK') {
+      const {
+        otherTeamBulkPurchases,
+        otherIndividualPurchases,
+        focalBulkPurchaseIsChronologicallyFirst,
+      } = data.focalProduct
+
+      if (
+        isEmpty(otherTeamBulkPurchases) ||
+        focalBulkPurchaseIsChronologicallyFirst
+      ) {
+        if (isEmpty(otherIndividualPurchases)) {
+          // this is the first purchase, it is a new bulk coupon purchase
+          return NEW_BULK_COUPON
+        } else {
+          // they made an individual purchase before, but are now purchasing
+          // a bulk coupon, that's an upgrade to bulk
+          return INDIVIDUAL_TO_BULK_UPGRADE
+        }
+      } else {
+        // anything else at this point is a purchase of additional bulk seats
+        return EXISTING_BULK_COUPON
+      }
+    }
+
+    // if we've fallen through to here, we are dealing with an individual purchase
+    //
+    // there are more specific types of individual purchases:
+    // - standard individual
+    // - upgrade individual
+    // - redemption
+    //
+    // but we'll just treat all of these as NEW_INDIVIDUAL_PURCHASE for now
+    return NEW_INDIVIDUAL_PURCHASE
+  } catch (e) {
+    // Report this to Sentry
     return NEW_INDIVIDUAL_PURCHASE
   }
-
-  const checkoutSessionIsForFirstBulkPurchase =
-    bulkPurchases.length === 1 &&
-    match(bulkPurchases[0].id, checkoutSessionPurchase.id)
-
-  // if this checkout session is for the user's first bulk purchase and
-  // they already have an existing individual purchase, then this session's
-  // purchase type is INDIVIDUAL_TO_BULK_UPGRADE.
-  if (checkoutSessionIsForFirstBulkPurchase && individualPurchase?.id) {
-    return INDIVIDUAL_TO_BULK_UPGRADE
-  }
-
-  // if this checkout session is for the user's first bulk purchase and
-  // they do not have an existing individual purchase, then this session's
-  // purchase type is NEW_BULK COUPON.
-  if (checkoutSessionIsForFirstBulkPurchase && isEmpty(individualPurchase)) {
-    return NEW_BULK_COUPON
-  }
-
-  if (
-    bulkPurchases.length > 1 &&
-    bulkPurchases
-      .map((purchase) => purchase.id)
-      .includes(checkoutSessionPurchase.id)
-  ) {
-    return EXISTING_BULK_COUPON
-  }
-
-  // TODO: Report the details of an unhandled scenario.
-  return null
 }
