@@ -20,25 +20,25 @@ import {useFeedback} from '../../feedback-widget/feedback-context'
 type Props = {
   className?: string
   containerClassName?: string
-  isMinifiedLogo?: boolean
+  isMinified?: boolean
 }
 
 const Navigation: React.FC<React.PropsWithChildren<Props>> = ({
   className,
   containerClassName = 'max-w-screen-lg flex items-stretch justify-between w-full h-full',
-  isMinifiedLogo = false,
+  isMinified = false,
 }) => {
   return (
     <nav
       aria-label="top"
       className={cx(
-        'absolute top-0 z-30 flex h-14 w-full items-center justify-center bg-black/30 pl-3 print:hidden sm:h-16 sm:bg-black/30 sm:pl-5',
+        'absolute top-0 z-30 flex h-14 w-full items-center justify-center bg-black/30 pl-3 pr-0 print:hidden sm:h-16 sm:bg-black/30 sm:pl-4 md:pr-3',
         className,
       )}
     >
       <div className={containerClassName}>
-        <NavLogo isMinified={isMinifiedLogo} />
-        <DesktopNav />
+        <NavLogo isMinified={isMinified} />
+        <DesktopNav isMinified={isMinified} />
         <MobileNav />
       </div>
     </nav>
@@ -51,7 +51,11 @@ const useAbilities = () => {
   return createAppAbility(abilityRules || [])
 }
 
-const DesktopNav = () => {
+type DesktopNavProps = {
+  isMinified?: boolean
+}
+
+const DesktopNav: React.FC<DesktopNavProps> = ({isMinified}) => {
   const {status} = useSession()
   const {setIsFeedbackDialogOpen} = useFeedback()
 
@@ -62,10 +66,38 @@ const DesktopNav = () => {
           className="ml-4 mr-1 h-1/4 w-px border-transparent bg-gray-700 lg:ml-6 lg:mr-2"
           aria-hidden="true"
         />
-        <NavLink path="/workshops" label="Pro Workshops" icon={<KeyIcon />} />
+        <NavLink
+          path="/workshops"
+          label={
+            <>
+              <span
+                className={cx('hidden ', {
+                  'xl:inline-block': isMinified,
+                  'lg:inline-block': !isMinified,
+                })}
+              >
+                Pro
+              </span>{' '}
+              Workshops
+            </>
+          }
+          icon={<KeyIcon />}
+        />
         <NavLink
           path="/tutorials"
-          label="Free Tutorials"
+          label={
+            <>
+              <span
+                className={cx('hidden ', {
+                  'xl:inline-block': isMinified,
+                  'lg:inline-block': !isMinified,
+                })}
+              >
+                Free
+              </span>{' '}
+              Tutorials
+            </>
+          }
           icon={
             <PlayIcon className="h-5 w-5 text-cyan-300" aria-hidden="true" />
           }
@@ -88,7 +120,19 @@ const DesktopNav = () => {
         {status === 'authenticated' ? (
           <>
             <NavLink
-              label="Send Feedback"
+              label={
+                <>
+                  <span
+                    className={cx('hidden ', {
+                      'xl:inline-block': isMinified,
+                      'lg:inline-block': !isMinified,
+                    })}
+                  >
+                    Send
+                  </span>{' '}
+                  Feedback
+                </>
+              }
               onClick={() => {
                 setIsFeedbackDialogOpen(true, 'header')
               }}
@@ -190,7 +234,7 @@ const MobileNav = () => {
 
 const NavLink: React.FC<
   React.PropsWithChildren<{
-    label: string
+    label: string | React.ReactElement
     icon?: React.ReactElement
     path?: string
     className?: string
@@ -201,16 +245,13 @@ const NavLink: React.FC<
   const isActive = router.pathname === path
   if (onClick) {
     return (
-      <li>
+      <li className="">
         <button
           onClick={onClick}
           aria-current={isActive ? 'page' : undefined}
           className={cx(
-            'group relative flex h-full items-center justify-center px-5 text-sm opacity-90 outline-none transition hover:bg-gray-100 hover:bg-opacity-50 hover:opacity-100 sm:text-base',
-            {
-              'after:absolute after:bottom-[-2px] after:left-0 after:h-[2px] after:w-full after:bg-cyan-500 after:content-[""]':
-                isActive,
-            },
+            'flex h-full items-center gap-0.5 rounded-md py-2 px-2 text-sm font-medium shadow-black/80 transition duration-100 hover:bg-gray-800/60 hover:shadow-lg active:bg-transparent sm:gap-1 sm:px-3 lg:px-3 lg:text-base',
+            className,
           )}
         >
           {label}
@@ -219,11 +260,11 @@ const NavLink: React.FC<
     )
   }
   return path ? (
-    <li className="h-full">
+    <li className="">
       <NextLink href={path} passHref>
         <a
           className={cx(
-            'flex h-full items-center gap-0.5 px-2 text-sm font-medium transition duration-100 hover:bg-gray-800/60 active:bg-transparent sm:gap-1 sm:px-3 lg:px-5 lg:text-base',
+            'flex h-full items-center gap-0.5 rounded-md py-2 px-2 text-sm font-medium shadow-black/80 transition duration-100 hover:bg-gray-800/60 hover:shadow-lg active:bg-transparent sm:gap-1 sm:px-3 lg:px-3 lg:text-base',
             className,
           )}
           onClick={() => {
@@ -349,11 +390,11 @@ const AccountDropdown = () => {
         className="relative flex h-full"
       >
         <NavigationMenu.List className="flex h-full items-center justify-center">
-          <NavigationMenu.Item className="h-full">
+          <NavigationMenu.Item className="">
             <NavigationMenu.Trigger
               onPointerMove={preventHover}
               onPointerLeave={preventHover}
-              className="flex h-full items-center gap-0.5 px-2 text-sm font-medium hover:radix-state-closed:bg-gray-800/70 radix-state-open:bg-gray-800 sm:gap-1 sm:px-4 lg:text-base"
+              className="flex h-full items-center gap-0.5 rounded-md px-2 py-2 text-sm font-medium hover:radix-state-closed:bg-gray-800/70 radix-state-open:bg-gray-800 sm:gap-1 sm:px-3 lg:text-base"
             >
               Account <ChevronDownIcon className="h-4 w-4" aria-hidden />
             </NavigationMenu.Trigger>

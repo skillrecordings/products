@@ -56,7 +56,7 @@ export const ErrorMessage: React.FC<React.PropsWithChildren<unknown>> = ({
   return (
     <div
       aria-live="polite"
-      className="flex items-center justify-center rounded-md bg-pink-50 px-5 py-3 text-sm font-semibold leading-tight text-pink-700"
+      className="flex items-center justify-center rounded-md bg-pink-300/10 px-5 py-3 font-medium leading-tight text-pink-300"
     >
       <XCircleIcon className="mr-2 h-6 w-6" aria-hidden="true" /> Error:{' '}
       {children}
@@ -75,7 +75,7 @@ export const ConfirmationMessage = ({
   return (
     <div
       aria-live="polite"
-      className="flex flex-wrap items-center justify-center rounded-md bg-teal-50 px-5 py-3 text-center text-sm font-semibold text-teal-700"
+      className="flex flex-wrap items-center justify-center rounded-md bg-teal-300/20 px-5 py-4 text-center text-sm font-semibold text-teal-300"
     >
       <CheckIcon className="mr-1 h-4 w-4" aria-hidden="true" />{' '}
       <span>{message}</span>
@@ -104,7 +104,7 @@ export const SubmitButton: React.FC<
     <button
       type="submit"
       disabled={isSubmitting}
-      className="inline-flex justify-center rounded-lg border border-transparent bg-blue-600 px-4 py-2 text-sm font-medium text-white transition focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 hover:bg-blue-700 hover:shadow-lg"
+      className="inline-flex justify-center rounded-lg border border-transparent bg-gradient-to-b from-cyan-400 to-cyan-500 py-3 px-4 text-base font-semibold text-black transition focus:outline-none focus-visible:ring-2 focus-visible:ring-cyan-300 focus-visible:ring-offset-2 hover:bg-cyan-300 hover:shadow-lg hover:brightness-110"
     >
       {isSubmitting ? (
         <>

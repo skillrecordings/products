@@ -52,7 +52,7 @@ const ExerciseTemplate: React.FC<{
           <Navigation
             className="relative flex w-full lg:absolute lg:pl-[calc(280px+20px)] xl:pl-[calc(320px+20px)]"
             containerClassName="flex h-full justify-between w-full items-stretch"
-            isMinifiedLogo={true}
+            isMinified={true}
           />
         }
       >
