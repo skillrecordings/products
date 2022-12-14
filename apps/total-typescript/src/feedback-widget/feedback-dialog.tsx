@@ -5,7 +5,6 @@ import FeedbackForm from './form'
 const Feedback = () => {
   const {isFeedbackDialogOpen, setIsFeedbackDialogOpen, location} =
     useFeedback()
-  console.log({isFeedbackDialogOpen, setIsFeedbackDialogOpen, location})
   const handleCloseDialog = () => {
     setIsFeedbackDialogOpen(false, 'navigation')
   }
