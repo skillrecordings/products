@@ -23,6 +23,7 @@
     "@amplitude/node": "^1.10.2",
     "@casl/ability": "^6.3.2",
     "@codesandbox/sandpack-react": "^1.17.0",
+    "@headlessui/react": "^1.6.1",
     "@heroicons/react": "^1.0.6",
     "@hookform/resolvers": "^2.9.8",
     "@mdx-js/loader": "^2.1.5",
