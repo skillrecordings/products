@@ -99,9 +99,11 @@ const ArticleTemplate: React.FC<ArticleTemplateProps> = ({
             />
           </div>
         </div>
-        <section className="relative z-10 px-5 pb-24">
+        <section className="relative z-10 overflow-hidden px-5 pb-24">
           <Share title={title} />
-          {!subscriber && !loadingSubscriber && <ArticleNewsletterCta />}
+          {!subscriber && !loadingSubscriber && (
+            <ArticleNewsletterCta article={article} />
+          )}
         </section>
         <section className="mx-auto grid w-full max-w-4xl grid-cols-1 gap-8 px-5 pb-32 sm:grid-cols-2">
           {articles.map((article) => {
