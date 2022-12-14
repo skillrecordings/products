@@ -2315,6 +2315,7 @@ importers:
       '@amplitude/node': ^1.10.2
       '@casl/ability': ^6.3.2
       '@codesandbox/sandpack-react': ^1.17.0
+      '@headlessui/react': ^1.6.1
       '@heroicons/react': ^1.0.6
       '@hookform/resolvers': ^2.9.8
       '@mdx-js/loader': ^2.1.5
@@ -2439,6 +2440,7 @@ importers:
       '@amplitude/node': 1.10.2
       '@casl/ability': 6.3.2
       '@codesandbox/sandpack-react': 1.17.0_biqbaboplfbrettd7655fr4n2y
+      '@headlessui/react': 1.6.1_biqbaboplfbrettd7655fr4n2y
       '@heroicons/react': 1.0.6_react@18.2.0
       '@hookform/resolvers': 2.9.8_react-hook-form@7.29.0
       '@mdx-js/loader': 2.1.5_webpack@4.46.0
