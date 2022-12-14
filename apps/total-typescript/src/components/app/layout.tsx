@@ -7,6 +7,7 @@ import {Toaster} from 'react-hot-toast'
 import {useRouter} from 'next/router'
 import {Survey} from '../../offer/survey'
 import {DefaultCoupon} from '@skillrecordings/commerce-server/dist/@types'
+import {useFeedback} from '../../feedback-widget/feedback-context'
 
 type LayoutProps = {
   meta?: any
@@ -27,6 +28,7 @@ const Layout: FunctionComponent<LayoutProps> = ({
   footer,
 }) => {
   const router = useRouter()
+  const {isFeedbackDialogOpen, feedbackComponent} = useFeedback()
   const {
     title,
     description,
@@ -63,6 +65,7 @@ const Layout: FunctionComponent<LayoutProps> = ({
         noindex={noIndex}
       />
       <Toaster position="top-center" />
+      {isFeedbackDialogOpen && feedbackComponent}
       {nav ? nav : isNull(nav) ? null : <Navigation />}
       <div
         className={cx(

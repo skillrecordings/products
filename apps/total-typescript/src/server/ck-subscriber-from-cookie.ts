@@ -17,7 +17,6 @@ export async function getSubscriberFromCookie(req: NextApiRequest) {
     if (!subscriber?.id) throw new Error('no subscriber id')
     return SubscriberSchema.parse(subscriber)
   } catch (e) {
-    console.error(e)
     return null
   }
 }
