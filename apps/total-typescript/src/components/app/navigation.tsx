@@ -15,27 +15,30 @@ import NextLink, {type LinkProps} from 'next/link'
 import * as NavigationMenu from '@radix-ui/react-navigation-menu'
 import {signOut, useSession} from 'next-auth/react'
 import toast from 'react-hot-toast'
+import {useFeedback} from '../../feedback-widget/feedback-context'
 
 type Props = {
   className?: string
   containerClassName?: string
+  isMinified?: boolean
 }
 
 const Navigation: React.FC<React.PropsWithChildren<Props>> = ({
   className,
   containerClassName = 'max-w-screen-lg flex items-stretch justify-between w-full h-full',
+  isMinified = false,
 }) => {
   return (
     <nav
       aria-label="top"
       className={cx(
-        'absolute top-0 z-30 flex h-14 w-full items-center justify-center bg-black/30 pl-3 print:hidden sm:h-16 sm:bg-black/30 sm:pl-5',
+        'absolute top-0 z-30 flex h-14 w-full items-center justify-center bg-black/30 pl-3 pr-0 print:hidden sm:h-16 sm:bg-black/30 sm:pl-4 md:pr-3',
         className,
       )}
     >
       <div className={containerClassName}>
-        <NavLogo />
-        <DesktopNav />
+        <NavLogo isMinified={isMinified} />
+        <DesktopNav isMinified={isMinified} />
         <MobileNav />
       </div>
     </nav>
@@ -48,20 +51,53 @@ const useAbilities = () => {
   return createAppAbility(abilityRules || [])
 }
 
-const DesktopNav = () => {
+type DesktopNavProps = {
+  isMinified?: boolean
+}
+
+const DesktopNav: React.FC<DesktopNavProps> = ({isMinified}) => {
   const {status} = useSession()
+  const {setIsFeedbackDialogOpen} = useFeedback()
 
   return (
     <ul className={cx('hidden w-full items-center justify-between md:flex')}>
       <div className="flex h-full items-center">
         <hr
-          className="ml-6 mr-2 h-1/4 w-px border-transparent bg-gray-700"
+          className="ml-4 mr-1 h-1/4 w-px border-transparent bg-gray-700 lg:ml-6 lg:mr-2"
           aria-hidden="true"
         />
-        <NavLink path="/workshops" label="Pro Workshops" icon={<KeyIcon />} />
+        <NavLink
+          path="/workshops"
+          label={
+            <>
+              <span
+                className={cx('hidden ', {
+                  'xl:inline-block': isMinified,
+                  'lg:inline-block': !isMinified,
+                })}
+              >
+                Pro
+              </span>{' '}
+              Workshops
+            </>
+          }
+          icon={<KeyIcon />}
+        />
         <NavLink
           path="/tutorials"
-          label="Free Tutorials"
+          label={
+            <>
+              <span
+                className={cx('hidden ', {
+                  'xl:inline-block': isMinified,
+                  'lg:inline-block': !isMinified,
+                })}
+              >
+                Free
+              </span>{' '}
+              Tutorials
+            </>
+          }
           icon={
             <PlayIcon className="h-5 w-5 text-cyan-300" aria-hidden="true" />
           }
@@ -73,11 +109,36 @@ const DesktopNav = () => {
             <FireIcon className="h-5 w-5 text-orange-400" aria-hidden="true" />
           }
         />
+        <NavLink
+          path="/articles"
+          label="Articles"
+          icon={<BookIcon aria-hidden="true" />}
+        />
       </div>
       <div className="flex h-full items-center justify-center">
         {status === 'unauthenticated' && <NavLink path="/faq" label="FAQ" />}
         {status === 'authenticated' ? (
-          <AccountDropdown />
+          <>
+            <NavLink
+              label={
+                <>
+                  <span
+                    className={cx('hidden ', {
+                      'xl:inline-block': isMinified,
+                      'lg:inline-block': !isMinified,
+                    })}
+                  >
+                    Send
+                  </span>{' '}
+                  Feedback
+                </>
+              }
+              onClick={() => {
+                setIsFeedbackDialogOpen(true, 'header')
+              }}
+            />
+            <AccountDropdown />
+          </>
         ) : status === 'unauthenticated' ? (
           <NavLink path="/login" label="Log in" />
         ) : (
@@ -93,6 +154,7 @@ const MobileNav = () => {
   const canViewTeam = ability.can('view', 'Team')
   const canViewInvoice = ability.can('view', 'Invoice')
   const {status} = useSession()
+  const {setIsFeedbackDialogOpen} = useFeedback()
 
   return (
     <div className="block md:hidden">
@@ -135,10 +197,15 @@ const MobileNav = () => {
                         />
                       }
                     />
+                    <MobileNavLink
+                      path="/articles"
+                      label="Articles"
+                      icon={<BookIcon aria-hidden="true" />}
+                    />
                     <MobileNavLink path="/faq" label="FAQ" />
                     {status === 'authenticated' && (
                       <>
-                        <div className="border-t border-gray-900/50 px-3 pb-3 pt-5 font-mono text-xs font-semibold uppercase tracking-wide">
+                        <div className="border-t border-gray-900/70 px-3 pb-3 pt-5 font-mono text-xs font-semibold uppercase tracking-wide text-gray-300">
                           Account
                         </div>
                         <ul>
@@ -148,6 +215,12 @@ const MobileNav = () => {
                           {canViewInvoice && (
                             <MobileNavLink path="/invoices" label="Invoices" />
                           )}
+                          <MobileNavLink
+                            label="Send Feedback"
+                            onClick={() => {
+                              setIsFeedbackDialogOpen(true, 'header')
+                            }}
+                          />
                           <li>
                             <LogOutButton className="flex h-full items-center gap-0.5 px-3 py-2 text-base font-medium transition duration-100 hover:bg-gray-800/60 active:bg-transparent" />
                           </li>
@@ -168,18 +241,37 @@ const MobileNav = () => {
 
 const NavLink: React.FC<
   React.PropsWithChildren<{
-    label: string
+    label: string | React.ReactElement
     icon?: React.ReactElement
-    path: string
+    path?: string
     className?: string
+    onClick?: () => void
   }>
-> = ({label, icon, path, className}) => {
-  return (
-    <li className="h-full">
+> = ({onClick, label, icon, path, className}) => {
+  const router = useRouter()
+  const isActive = router.pathname === path
+  if (onClick) {
+    return (
+      <li className="">
+        <button
+          onClick={onClick}
+          aria-current={isActive ? 'page' : undefined}
+          className={cx(
+            'flex h-full items-center gap-0.5 rounded-md py-2 px-2 text-sm font-medium shadow-black/80 transition duration-100 hover:bg-gray-800/60 hover:shadow-lg active:bg-transparent sm:gap-1 sm:px-3 lg:px-3 lg:text-base',
+            className,
+          )}
+        >
+          {label}
+        </button>
+      </li>
+    )
+  }
+  return path ? (
+    <li className="">
       <NextLink href={path} passHref>
         <a
           className={cx(
-            'flex h-full items-center gap-0.5 px-2 text-sm font-medium transition duration-100 hover:bg-gray-800/60 active:bg-transparent sm:gap-1 sm:px-3 sm:text-base lg:px-5',
+            'flex h-full items-center gap-0.5 rounded-md py-2 px-2 text-sm font-medium shadow-black/80 transition duration-100 hover:bg-gray-800/60 hover:shadow-lg active:bg-transparent sm:gap-1 sm:px-3 lg:px-3 lg:text-base',
             className,
           )}
           onClick={() => {
@@ -191,18 +283,35 @@ const NavLink: React.FC<
         </a>
       </NextLink>
     </li>
-  )
+  ) : null
 }
 
 const MobileNavLink: React.FC<
   React.PropsWithChildren<{
     label: string
     icon?: React.ReactElement
-    path: string
+    path?: string
     className?: string
+    onClick?: () => void
   }>
-> = ({label, icon, path, className}) => {
-  return (
+> = ({onClick, label, icon, path, className}) => {
+  if (onClick) {
+    return (
+      <li>
+        <button
+          onClick={onClick}
+          className={cx(
+            'flex h-full items-center gap-1.5 px-3 py-3 text-base font-medium transition duration-100 hover:bg-gray-800/60 active:bg-transparent',
+            className,
+          )}
+        >
+          {icon ? icon : null}
+          {label}
+        </button>
+      </li>
+    )
+  }
+  return path ? (
     <li>
       <NextLink href={path} passHref>
         <a
@@ -219,7 +328,7 @@ const MobileNavLink: React.FC<
         </a>
       </NextLink>
     </li>
-  )
+  ) : null
 }
 
 const DropdownLink: React.FC<
@@ -234,7 +343,7 @@ const DropdownLink: React.FC<
         active={isActive}
         {...props}
         className={cx(
-          'flex w-full rounded px-3 py-2 text-sm transition hover:bg-gray-700 sm:text-base',
+          'flex w-full rounded px-3 py-2 transition hover:bg-gray-700',
           props.className,
         )}
       />
@@ -242,20 +351,46 @@ const DropdownLink: React.FC<
   )
 }
 
-export const NavLogo: React.FC<{className?: string}> = ({className}) => {
+export const NavLogo: React.FC<{className?: string; isMinified?: boolean}> = ({
+  className,
+  isMinified,
+}) => {
   const router = useRouter()
   return (
     <NextLink href="/" passHref>
       <a
         aria-label={`${config.title} Home`}
         className={cx(
-          'group group flex h-full flex-shrink-0 items-center font-text text-xl font-semibold text-white',
+          'group group flex h-full flex-shrink-0 items-center font-text text-xl font-semibold text-white md:text-lg lg:text-xl',
           className,
         )}
         tabIndex={router.pathname === '/' ? -1 : 0}
       >
-        <span className="mr-0.5 font-light opacity-90">Total</span>
-        <span>TypeScript</span>
+        <span
+          aria-hidden={!isMinified}
+          className={cx('text-base', {
+            hidden: !isMinified,
+            'hidden sm:hidden md:block xl:hidden': isMinified,
+          })}
+        >
+          TT.
+        </span>
+        <span
+          aria-hidden={isMinified}
+          className={cx('mr-0.5 font-light opacity-90', {
+            'md:hidden xl:block 2xl:block': isMinified,
+          })}
+        >
+          Total
+        </span>
+        <span
+          aria-hidden={isMinified}
+          className={cx({
+            'md:hidden xl:block 2xl:block': isMinified,
+          })}
+        >
+          TypeScript
+        </span>
       </a>
     </NextLink>
   )
@@ -279,11 +414,11 @@ const AccountDropdown = () => {
         className="relative flex h-full"
       >
         <NavigationMenu.List className="flex h-full items-center justify-center">
-          <NavigationMenu.Item className="h-full">
+          <NavigationMenu.Item className="">
             <NavigationMenu.Trigger
               onPointerMove={preventHover}
               onPointerLeave={preventHover}
-              className="flex h-full items-center gap-0.5 px-2 text-sm font-medium hover:radix-state-closed:bg-gray-800/70 radix-state-open:bg-gray-800 sm:gap-1 sm:px-4 sm:text-base"
+              className="flex h-full items-center gap-0.5 rounded-md px-2 py-2 text-sm font-medium hover:radix-state-closed:bg-gray-800/70 radix-state-open:bg-gray-800 sm:gap-1 sm:px-3 lg:text-base"
             >
               Account <ChevronDownIcon className="h-4 w-4" aria-hidden />
             </NavigationMenu.Trigger>
@@ -292,7 +427,7 @@ const AccountDropdown = () => {
               onPointerLeave={preventHover}
               className="absolute top-full left-0 w-full rounded-b"
             >
-              <ul className="flex w-full flex-col items-start rounded-b bg-gray-800 p-1">
+              <ul className="flex w-full flex-col items-start rounded-b bg-gray-800 p-1 text-sm lg:text-base">
                 {canViewTeam && (
                   <li className="w-full">
                     <DropdownLink href="/team">Invite team</DropdownLink>
@@ -338,7 +473,7 @@ const LogOutButton: React.FC<{className?: string}> = ({className}) => {
         className={
           className
             ? className
-            : 'flex w-full rounded px-3 py-2 text-sm transition hover:bg-gray-700 sm:text-base'
+            : 'flex w-full rounded px-3 py-2 transition hover:bg-gray-700'
         }
       >
         Log out
@@ -354,6 +489,7 @@ const KeyIcon = () => {
       xmlns="http://www.w3.org/2000/svg"
       fill="none"
       viewBox="0 0 15 15"
+      aria-hidden="true"
     >
       <path
         fill="currentColor"
@@ -361,6 +497,24 @@ const KeyIcon = () => {
         clipRule="evenodd"
         d="M14 0a1 1 0 0 1 .707 1.707l-1.646 1.647 1.793 1.792a.5.5 0 0 1 0 .708l-2.5 2.5a.499.499 0 0 1-.708 0L9.854 6.561 7.434 8.98c.367.61.563 1.308.566 2.02a4 4 0 1 1-4-4c.712.004 1.41.2 2.02.566L13.293.293A1 1 0 0 1 14 0ZM4 13a2 2 0 1 0 0-4 2 2 0 0 0 0 4Z"
       />
+    </svg>
+  )
+}
+
+const BookIcon = () => {
+  return (
+    <svg
+      className="mr-0.5 h-3.5 w-3.5 text-violet-400"
+      aria-hidden="true"
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 16 16"
+    >
+      <g fill="currentColor">
+        <path
+          fill="currentColor"
+          d="M13,0H3C1.3,0,0,1.3,0,3v10c0,1.7,1.3,3,3,3h10c1.7,0,3-1.3,3-3V3C16,1.3,14.7,0,13,0z M5,3h6v4H5V3z M14,13 c0,0.6-0.4,1-1,1H3c-0.6,0-1-0.4-1-1c0-0.6,0.4-1,1-1h10c0.6,0,0.9-0.1,1-0.2V13z"
+        />
+      </g>
     </svg>
   )
 }

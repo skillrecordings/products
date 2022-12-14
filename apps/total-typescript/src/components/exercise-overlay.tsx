@@ -23,7 +23,6 @@ import {Exercise} from 'lib/exercises'
 import {StackBlitzIframe} from './exercise/stackblitz-iframe'
 import Link from 'next/link'
 import first from 'lodash/first'
-import {LockOpenIcon} from '@heroicons/react/outline'
 
 export const OverlayWrapper: React.FC<
   React.PropsWithChildren<{className?: string; dismissable?: boolean}>
@@ -37,7 +36,7 @@ export const OverlayWrapper: React.FC<
     >
       {dismissable && (
         <button
-          className="absolute top-2 right-2 z-50 flex items-center gap-1 rounded py-2 px-3 font-medium text-gray-200 transition hover:bg-gray-800"
+          className="absolute top-2 right-2 z-40 flex items-center gap-1 rounded py-2 px-3 font-medium text-gray-200 transition hover:bg-gray-800"
           onClick={() => {
             track('dismissed video overlay', {
               lesson: lesson.slug,

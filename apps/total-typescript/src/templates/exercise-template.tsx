@@ -52,6 +52,7 @@ const ExerciseTemplate: React.FC<{
           <Navigation
             className="relative flex w-full lg:absolute lg:pl-[calc(280px+20px)] xl:pl-[calc(320px+20px)]"
             containerClassName="flex h-full justify-between w-full items-stretch"
+            isMinified={true}
           />
         }
       >
@@ -71,7 +72,7 @@ const ExerciseTemplate: React.FC<{
             path={path}
             section={section}
           />
-          <main className="relative mx-auto w-full max-w-[1480px] grow items-start border-t border-transparent lg:mt-16 2xl:flex 2xl:max-w-none 2xl:border-gray-800">
+          <main className="relative mx-auto w-full max-w-[1480px] items-start border-t border-transparent lg:mt-16 2xl:flex 2xl:max-w-none 2xl:border-gray-800">
             <div className="flex flex-col border-gray-800 2xl:relative 2xl:h-full 2xl:w-full 2xl:border-r">
               <Video
                 ref={muxPlayerRef}

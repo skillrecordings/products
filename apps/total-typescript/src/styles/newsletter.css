@@ -88,3 +88,42 @@
     }
   }
 }
+
+#article-cta {
+  [data-sr-convertkit-subscribe-form] {
+    @apply relative z-10 mx-auto flex w-full max-w-2xl flex-col items-center gap-2 text-left md:flex-row md:items-end;
+    [data-sr-input-wrapper] {
+      @apply w-full;
+    }
+    [data-sr-input-wrapper]:first-of-type {
+    }
+    [data-sr-input] {
+      @apply w-full rounded-md border border-gray-800 bg-gray-900 px-3 py-2 text-lg;
+    }
+
+    [data-sr-input-label] {
+      @apply block pb-1 text-gray-300;
+    }
+    abbr {
+      @apply hidden;
+    }
+    [data-sr-button] {
+      @apply relative mt-5 flex flex-shrink-0 items-center justify-center rounded-md bg-gradient-to-t from-cyan-500 to-cyan-300 py-2 px-5 text-lg font-semibold text-black shadow-2xl shadow-black/80 transition focus-visible:ring-white hover:brightness-125 md:mt-0;
+      svg {
+        @apply h-7 w-7;
+      }
+    }
+    [data-sr-button][disabled] {
+    }
+  }
+  [data-sr-convertkit-subscribe-form='success'] {
+    p {
+      @apply py-2 text-center;
+    }
+  }
+  [data-sr-convertkit-subscribe-form='error'] {
+    p {
+      @apply py-2 text-center;
+    }
+  }
+}

@@ -1,6 +1,6 @@
 # Rewriting TypeScript in Rust? You'd have to be...
 
-For the last few months, Donny (or [dudykr](https://github.com/dudykr) on GitHub) has been walking a long, lonely road. The author of [swc](https://swc.rs), a native-speed replacement for [Babel](https://babeljs.io/), has his eyes on another goal: rewriting TypeScript in Rust.
+For the last few months, Donny (or [kdy1](https://github.com/kdy1) on GitHub) has been walking a long, lonely road. The author of [swc](https://swc.rs), a native-speed replacement for [Babel](https://babeljs.io/), has his eyes on another goal: rewriting TypeScript in Rust.
 
 [`stc`](https://github.com/dudykr/stc) is his attempt. It's a drop-in replacement for `tsc` supporting "all typing and type inference", including all the complexity of generics, conditional types and template literals.
 

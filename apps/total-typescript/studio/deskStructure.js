@@ -1,5 +1,5 @@
 import S from '@sanity/desk-tool/structure-builder'
-import execises from './src/structure/exercises'
+import articles from './src/structure/articles'
 import tips from './src/structure/tips'
 import tutorials from './src/structure/tutorials'
 import workshops from './src/structure/workshops'
@@ -14,6 +14,7 @@ const hiddenDocTypes = (listItem) =>
     'skosConceptScheme',
     'pricing',
     'products',
+    'article',
   ].includes(listItem.getId())
 
 export default () =>
@@ -27,6 +28,7 @@ export default () =>
       tutorials,
       S.divider(),
       tips,
+      articles,
       S.divider(),
       S.documentTypeListItem('skosConcept').title('Concepts'),
       S.documentTypeListItem('skosConceptScheme').title('Taxonomy Schemes'),
