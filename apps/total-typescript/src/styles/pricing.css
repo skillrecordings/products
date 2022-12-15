@@ -132,7 +132,7 @@
           button[role='switch'] {
             @apply relative h-6 w-[47px] rounded-full border border-gray-700/50 bg-gray-800 shadow-md shadow-black/30 transition hover:bg-gray-700/70 radix-state-checked:bg-gray-800 hover:radix-state-checked:bg-gray-700/70;
             span {
-              @apply block h-[18px] w-[18px] translate-x-[2px] rounded-full bg-gray-400 shadow-sm shadow-black/30 transition-all will-change-transform group-hover:bg-gray-300 radix-state-checked:translate-x-[25px] radix-state-checked:bg-cyan-400 group-hover:radix-state-checked:bg-cyan-300;
+              @apply block h-[18px] w-[18px] translate-x-[2px] rounded-full bg-gray-300 shadow-sm shadow-black/30 transition-all will-change-transform group-hover:bg-gray-300 radix-state-checked:translate-x-[25px] radix-state-checked:bg-cyan-400 group-hover:radix-state-checked:bg-cyan-300;
             }
           }
         }
