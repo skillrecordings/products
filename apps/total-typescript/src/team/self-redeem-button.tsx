@@ -18,14 +18,14 @@ const SelfRedeemButton: React.FC<
   onSuccess,
   disabled,
   className = `border border-cyan-500 transition text-cyan-400 px-4 py-2 rounded-md font-semibold ${
-    disabled ? 'cursor-not-allowed opacity-75' : 'hover:bg-cyan-600/20'
+    disabled ? 'cursor-not-allowed opacity-30' : 'hover:bg-cyan-600/20'
   }`,
 }) => {
   const [isLoading, setIsLoading] = React.useState(false)
   return (
     <Button
       isLoading={isLoading}
-      isDisabled={disabled || !userEmail}
+      disabled={disabled || !userEmail}
       className={className}
       onClick={() => {
         if (userEmail) {

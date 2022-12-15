@@ -69,12 +69,9 @@ const InviteTeam: React.FC<React.PropsWithChildren<InviteTeamProps>> = ({
         {hasRedemptionsLeft &&
           bulkCouponId &&
           'Send the invite link below to your colleagues to get started:'}
+        {usedCount > 0 &&
+          `Your team has already redeemed ${usedCount} of ${maxUses} seats.`}
       </p>
-      {usedCount > 0 && (
-        <p className="pb-3 text-xs">
-          Your team has already redeemed {usedCount} of {maxUses} seats.
-        </p>
-      )}
       {bulkCouponId && (
         <>
           <div className="w-full ">
