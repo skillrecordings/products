@@ -34,7 +34,7 @@ const CopyInviteLink: React.FC<
           className={`flex text-sm flex-shrink-0 border bg-gray-100 transition items-center px-5 py-2 rounded-md gap-1 font-semibold ${
             disabled ? 'cursor-not-allowed' : 'hover:bg-gray-200/80'
           }`}
-          isDisabled={disabled}
+          disabled={disabled}
         >
           Copy Link
         </Button>
