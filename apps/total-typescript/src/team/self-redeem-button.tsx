@@ -9,19 +9,23 @@ const SelfRedeemButton: React.FC<
     userEmail: string | null | undefined
     bulkCouponId: string
     onSuccess: (redeemedPurchase: Purchase) => void
+    disabled: boolean
     className?: string
   }>
 > = ({
   userEmail,
   bulkCouponId,
   onSuccess,
-  className = 'border border-cyan-500 transition text-cyan-400 px-4 py-2 hover:bg-cyan-600/20 rounded-md font-semibold',
+  disabled,
+  className = `border border-cyan-500 transition text-cyan-400 px-4 py-2 rounded-md font-semibold ${
+    disabled ? 'cursor-not-allowed opacity-75' : 'hover:bg-cyan-600/20'
+  }`,
 }) => {
   const [isLoading, setIsLoading] = React.useState(false)
   return (
     <Button
       isLoading={isLoading}
-      isDisabled={!userEmail}
+      isDisabled={disabled || !userEmail}
       className={className}
       onClick={() => {
         if (userEmail) {
