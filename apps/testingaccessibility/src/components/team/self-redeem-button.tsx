@@ -25,7 +25,7 @@ const SelfRedeemButton: React.FC<
   return (
     <Button
       isLoading={isLoading}
-      isDisabled={disabled || !userEmail}
+      disabled={disabled || !userEmail}
       className={className}
       onClick={() => {
         if (userEmail) {
