@@ -12,11 +12,10 @@ import SaleCountdown from './sale-countdown'
 import Spinner from 'components/spinner'
 import Image from 'next/image'
 import find from 'lodash/find'
-import cx from 'classnames'
 import {Purchase} from '@skillrecordings/database'
 import ReactMarkdown from 'react-markdown'
 import {isSellingLive} from '../utils/is-selling-live'
-import {MailIcon} from '@heroicons/react/solid'
+import {MailIcon, TicketIcon} from '@heroicons/react/solid'
 import {
   redirectUrlBuilder,
   SubscribeToConvertkitForm,
@@ -25,6 +24,8 @@ import {useConvertkit} from '../hooks/use-convertkit'
 import {setUserId} from '@amplitude/analytics-browser'
 import {track} from '../utils/analytics'
 import {useRouter} from 'next/router'
+import BuyMoreSeats from 'team/buy-more-seats'
+import Card from 'team/card'
 
 function getFirstPPPCoupon(availableCoupons: any[] = []) {
   return find(availableCoupons, (coupon) => coupon.type === 'ppp') || false
@@ -168,6 +169,21 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
                   <CheckCircleIcon aria-hidden="true" /> Purchased
                 </div>
               </div>
+              {userId !== undefined && (
+                <div id="team-upgrade-pricing-inline">
+                  <Card
+                    title={{content: 'Get more seats', as: 'h2'}}
+                    icon={
+                      <TicketIcon
+                        className="w-5 text-cyan-500"
+                        aria-hidden="true"
+                      />
+                    }
+                  >
+                    <BuyMoreSeats productId={productId} userId={userId} />
+                  </Card>
+                </div>
+              )}
             </>
           ) : isSellingLive ? (
             isDowngrade(formattedPrice) ? (
