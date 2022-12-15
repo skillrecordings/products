@@ -4,8 +4,8 @@ import {useCopyToClipboard} from 'react-use'
 import toast from 'react-hot-toast'
 
 const CopyInviteLink: React.FC<
-  React.PropsWithChildren<{bulkCouponId: string}>
-> = ({bulkCouponId}) => {
+  React.PropsWithChildren<{bulkCouponId: string; disabled: boolean}>
+> = ({bulkCouponId, disabled}) => {
   const [_, setCopied] = useCopyToClipboard()
   const inviteLink = `${process.env.NEXT_PUBLIC_URL}?code=${bulkCouponId}`
 
@@ -20,6 +20,7 @@ const CopyInviteLink: React.FC<
           className="w-full text-sm rounded-md bg-gray-50 text-gray-700 shadow-inner py-2 px-3 border border-gray-300 selection:bg-green-500 selection:text-white font-semibold"
           id="inviteLink"
           onClick={(e) => {
+            if (disabled) return
             e.currentTarget.select()
           }}
           value={inviteLink}
@@ -30,7 +31,10 @@ const CopyInviteLink: React.FC<
             setCopied(inviteLink)
             toast.success('Copied')
           }}
-          className="flex text-sm flex-shrink-0 border bg-gray-100 transition hover:bg-gray-200/80 items-center px-5 py-2 rounded-md gap-1 font-semibold"
+          className={`flex text-sm flex-shrink-0 border bg-gray-100 transition items-center px-5 py-2 rounded-md gap-1 font-semibold ${
+            disabled ? 'cursor-not-allowed' : 'hover:bg-gray-200/80'
+          }`}
+          isDisabled={disabled}
         >
           Copy Link
         </Button>

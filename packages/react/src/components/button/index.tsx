@@ -72,7 +72,11 @@ const Button: React.FC<React.PropsWithChildren<ButtonProps>> = ({
   const contentProps = {rightIcon, leftIcon, children}
 
   return (
-    <button data-sr-button {...rest} disabled={isLoading || rest.disabled}>
+    <button
+      data-sr-button
+      {...rest}
+      disabled={isLoading || isDisabled || rest.disabled}
+    >
       {isLoading ? (
         <>
           <ButtonIcon>
