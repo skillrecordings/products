@@ -484,6 +484,11 @@ export function getSdk(
         user = await ctx.prisma.user.create({
           data: {email, name},
         })
+      } else if (name && user.name !== name) {
+        user = await ctx.prisma.user.update({
+          where: {id: user.id},
+          data: {name},
+        })
       }
 
       return {user, isNewUser}
