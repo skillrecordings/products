@@ -121,6 +121,22 @@
           @apply w-full;
         }
 
+        [data-team-switch] {
+          @apply flex items-center justify-center gap-2 pb-5;
+          label {
+            @apply sr-only;
+          }
+          button[role='button'] {
+            @apply text-gray-200 decoration-gray-600 underline-offset-2 transition hover:text-white hover:underline;
+          }
+          button[role='switch'] {
+            @apply relative h-6 w-[47px] rounded-full border border-gray-700/50 bg-gray-800 shadow-md shadow-black/30 transition hover:bg-gray-700/70 radix-state-checked:bg-gray-800 hover:radix-state-checked:bg-gray-700/70;
+            span {
+              @apply block h-[18px] w-[18px] translate-x-[2px] rounded-full bg-gray-400 shadow-sm shadow-black/30 transition-all will-change-transform group-hover:bg-gray-300 radix-state-checked:translate-x-[25px] radix-state-checked:bg-cyan-400 group-hover:radix-state-checked:bg-cyan-300;
+            }
+          }
+        }
+
         [data-quantity-input] {
           @apply mb-5 flex w-full flex-col items-center justify-center px-5 xl:px-12;
 

@@ -25,6 +25,7 @@ import {useConvertkit} from '../hooks/use-convertkit'
 import {setUserId} from '@amplitude/analytics-browser'
 import {track} from '../utils/analytics'
 import {useRouter} from 'next/router'
+import * as Switch from '@radix-ui/react-switch'
 
 function getFirstPPPCoupon(availableCoupons: any[] = []) {
   return find(availableCoupons, (coupon) => coupon.type === 'ppp') || false
@@ -72,6 +73,7 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
     type: string
   }>()
   const [quantity, setQuantity] = React.useState(1)
+  const [isBuyingForTeam, setIsBuyingForTeam] = React.useState(false)
   const debouncedQuantity: number = useDebounce<number>(quantity, 250)
   const {productId, name, image, modules, features, action} = product
   const {addPrice, isDowngrade} = usePriceCheck()
@@ -190,64 +192,102 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
                 >
                   <fieldset>
                     <legend className="sr-only">{name}</legend>
-                    {productId ===
-                      process.env.NEXT_PUBLIC_DEFAULT_PRODUCT_ID && (
-                      <div data-quantity-input="">
-                        <label>
-                          <span>Team Seats</span>
-                          <button
-                            type="button"
-                            aria-label="decrease seat quantity by one"
-                            className="flex h-full items-center justify-center rounded bg-gray-800/50 px-3 py-2 font-mono sm:hidden"
-                            onClick={() => {
-                              if (quantity === 1) return
-                              setQuantity(quantity - 1)
-                            }}
-                          >
-                            -
-                          </button>
-                          <input
-                            type="number"
-                            min={1}
-                            max={100}
-                            step={1}
-                            onChange={(e) => {
-                              const quantity = Number(e.target.value)
-                              setMerchantCoupon(undefined)
-                              setQuantity(
-                                quantity < 1
-                                  ? 1
-                                  : quantity > 100
-                                  ? 100
-                                  : quantity,
-                              )
-                            }}
-                            onKeyDown={(e) => {
-                              // don't allow decimal
-                              if (e.key === ',') {
-                                e.preventDefault()
-                              }
-                            }}
-                            inputMode="numeric"
-                            pattern="[0-9]*"
-                            value={quantity}
-                            id={`${quantity}-${name}`}
-                            required={true}
-                          />
-                          <button
-                            type="button"
-                            aria-label="increase seat quantity by one"
-                            className="flex h-full items-center justify-center rounded bg-gray-800/50 px-3 py-2 font-mono sm:hidden"
-                            onClick={() => {
-                              if (quantity === 100) return
-                              setQuantity(quantity + 1)
-                            }}
-                          >
-                            +
-                          </button>
-                        </label>
-                      </div>
-                    )}
+                    <div data-team-switch="">
+                      <label htmlFor="team-switch">
+                        Buying for myself or for my team
+                      </label>
+                      <button
+                        role="button"
+                        type="button"
+                        onClick={() => {
+                          setIsBuyingForTeam(false)
+                          setQuantity(1)
+                        }}
+                      >
+                        For myself
+                      </button>
+                      <Switch.Root
+                        aria-label={
+                          isBuyingForTeam ? 'For my team' : 'For myself'
+                        }
+                        onCheckedChange={() => {
+                          setIsBuyingForTeam(!isBuyingForTeam)
+                          isBuyingForTeam && setQuantity(1)
+                        }}
+                        checked={isBuyingForTeam}
+                        id="team-switch"
+                      >
+                        <Switch.Thumb />
+                      </Switch.Root>
+                      <button
+                        role="button"
+                        type="button"
+                        onClick={() => {
+                          setIsBuyingForTeam(true)
+                        }}
+                      >
+                        For my team
+                      </button>
+                    </div>
+                    {isBuyingForTeam &&
+                      productId ===
+                        process.env.NEXT_PUBLIC_DEFAULT_PRODUCT_ID && (
+                        <div data-quantity-input="">
+                          <label>
+                            <span>Team Seats</span>
+                            <button
+                              type="button"
+                              aria-label="decrease seat quantity by one"
+                              className="flex h-full items-center justify-center rounded bg-gray-800/50 px-3 py-2 font-mono sm:hidden"
+                              onClick={() => {
+                                if (quantity === 1) return
+                                setQuantity(quantity - 1)
+                              }}
+                            >
+                              -
+                            </button>
+                            <input
+                              type="number"
+                              min={1}
+                              max={100}
+                              step={1}
+                              onChange={(e) => {
+                                const quantity = Number(e.target.value)
+                                setMerchantCoupon(undefined)
+                                setQuantity(
+                                  quantity < 1
+                                    ? 1
+                                    : quantity > 100
+                                    ? 100
+                                    : quantity,
+                                )
+                              }}
+                              onKeyDown={(e) => {
+                                // don't allow decimal
+                                if (e.key === ',') {
+                                  e.preventDefault()
+                                }
+                              }}
+                              inputMode="numeric"
+                              pattern="[0-9]*"
+                              value={quantity}
+                              id={`${quantity}-${name}`}
+                              required={true}
+                            />
+                            <button
+                              type="button"
+                              aria-label="increase seat quantity by one"
+                              className="flex h-full items-center justify-center rounded bg-gray-800/50 px-3 py-2 font-mono sm:hidden"
+                              onClick={() => {
+                                if (quantity === 100) return
+                                setQuantity(quantity + 1)
+                              }}
+                            >
+                              +
+                            </button>
+                          </label>
+                        </div>
+                      )}
                     <button
                       data-pricing-product-checkout-button=""
                       type="submit"
@@ -399,7 +439,7 @@ export const PriceDisplay = ({status, formattedPrice}: PriceDisplayProps) => {
           <div aria-live="polite" data-price="">
             {formattedPrice?.calculatedPrice &&
               formatUsd(formattedPrice?.calculatedPrice).dollars}
-            <span className="sup text-sm">
+            <span className="sup text-sm" aria-hidden="true">
               {formattedPrice?.calculatedPrice &&
                 formatUsd(formattedPrice?.calculatedPrice).cents}
             </span>
