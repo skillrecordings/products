@@ -541,5 +541,40 @@ export function getSdk(
         if (validForProductId) return {defaultMerchantCoupon, defaultCoupon}
       }
     },
+    async transferPurchasesToNewUser({
+      merchantCustomerId,
+      userId,
+    }: {
+      merchantCustomerId: string
+      userId: string
+    }) {
+      const chargesToUpdate = await ctx.prisma.merchantCharge.findMany({
+        where: {
+          merchantCustomerId: merchantCustomerId,
+        },
+      })
+
+      const chargeUpdates = ctx.prisma.merchantCharge.updateMany({
+        where: {
+          merchantCustomerId: merchantCustomerId,
+        },
+        data: {
+          userId: userId,
+        },
+      })
+
+      const purchaseUpdates = ctx.prisma.purchase.updateMany({
+        where: {
+          merchantChargeId: {
+            in: chargesToUpdate.map((c) => c.id),
+          },
+        },
+        data: {
+          userId: userId,
+        },
+      })
+
+      return await ctx.prisma.$transaction([chargeUpdates, purchaseUpdates])
+    },
   }
 }
