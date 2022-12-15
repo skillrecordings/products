@@ -30,7 +30,7 @@ export async function processStripeWebhooks({
     const sig = req.headers['stripe-signature']
 
     let event: any
-    const {updatePurchaseStatusForCharge} = getSdk()
+    const {updatePurchaseStatusForCharge, findOrCreateUser} = getSdk()
     try {
       event = stripe.webhooks.constructEvent(buf, sig as string, webhookSecret)
 
@@ -92,15 +92,36 @@ export async function processStripeWebhooks({
         if (user) {
           const currentEmail = user.email
           const {email, name} = event.data.object
-          await prisma.user.update({
+
+          const {user: updateUser} = await findOrCreateUser(email, name)
+
+          const chargesToUpdate = await prisma.merchantCharge.findMany({
             where: {
-              id: user.id,
-            },
-            data: {
-              email,
-              name,
+              merchantCustomerId: merchantCustomer.id,
             },
           })
+
+          const chargeUpdates = prisma.merchantCharge.updateMany({
+            where: {
+              merchantCustomerId: merchantCustomer.id,
+            },
+            data: {
+              userId: updateUser.id,
+            },
+          })
+
+          const purchaseUpdates = prisma.purchase.updateMany({
+            where: {
+              merchantChargeId: {
+                in: chargesToUpdate.map((c) => c.id),
+              },
+            },
+            data: {
+              userId: updateUser.id,
+            },
+          })
+
+          await prisma.$transaction([chargeUpdates, purchaseUpdates])
 
           if (
             currentEmail.toLowerCase() !== email.toLowerCase() &&
