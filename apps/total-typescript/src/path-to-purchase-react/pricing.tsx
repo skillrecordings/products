@@ -15,7 +15,7 @@ import find from 'lodash/find'
 import {Purchase} from '@skillrecordings/database'
 import ReactMarkdown from 'react-markdown'
 import {isSellingLive} from '../utils/is-selling-live'
-import {MailIcon, TicketIcon} from '@heroicons/react/solid'
+import {MailIcon} from '@heroicons/react/solid'
 import {
   redirectUrlBuilder,
   SubscribeToConvertkitForm,
@@ -24,8 +24,7 @@ import {useConvertkit} from '../hooks/use-convertkit'
 import {setUserId} from '@amplitude/analytics-browser'
 import {track} from '../utils/analytics'
 import {useRouter} from 'next/router'
-import BuyMoreSeats from 'team/buy-more-seats'
-import Card from 'team/card'
+import Link from 'next/link'
 
 function getFirstPPPCoupon(availableCoupons: any[] = []) {
   return find(availableCoupons, (coupon) => coupon.type === 'ppp') || false
@@ -169,21 +168,33 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
                   <CheckCircleIcon aria-hidden="true" /> Purchased
                 </div>
               </div>
-              {userId !== undefined && (
-                <div id="team-upgrade-pricing-inline">
-                  <Card
-                    title={{content: 'Get more seats', as: 'h2'}}
-                    icon={
-                      <TicketIcon
-                        className="w-5 text-cyan-500"
-                        aria-hidden="true"
-                      />
-                    }
+              <div className="flex justify-center">
+                <Link
+                  href={{
+                    pathname: '/team/buy-more-seats',
+                    query: {
+                      productId: productId,
+                    },
+                  }}
+                >
+                  <a
+                    className="group mt-5 inline-block gap-2 rounded bg-gray-800 py-2 pl-4 pr-6 font-medium transition hover:bg-gray-700"
+                    // onClick={() => {
+                    //   track('clicked view workshop module', {
+                    //     module: slug.current,
+                    //   })
+                    // }}
                   >
-                    <BuyMoreSeats productId={productId} userId={userId} />
-                  </Card>
-                </div>
-              )}
+                    <span className="pr-2">Buy More Seats</span>
+                    <span
+                      aria-hidden="true"
+                      className="absolute text-gray-300 transition group-hover:translate-x-1 group-hover:text-white"
+                    >
+                      →
+                    </span>
+                  </a>
+                </Link>
+              </div>
             </>
           ) : isSellingLive ? (
             isDowngrade(formattedPrice) ? (
