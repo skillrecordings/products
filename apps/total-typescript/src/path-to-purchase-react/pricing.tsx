@@ -179,11 +179,11 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
                 >
                   <a
                     className="group mt-5 inline-block gap-2 rounded bg-gray-800 py-2 pl-4 pr-6 font-medium transition hover:bg-gray-700"
-                    // onClick={() => {
-                    //   track('clicked view workshop module', {
-                    //     module: slug.current,
-                    //   })
-                    // }}
+                    onClick={() => {
+                      track('clicked buy more seats', {
+                        location: 'pricing',
+                      })
+                    }}
                   >
                     <span className="pr-2">Buy More Seats</span>
                     <span
