@@ -8,7 +8,7 @@ As a team, being as effective as possible and bringing ever increasing value to 
 
 That's our job!
 
-That's why we are asking for licenses to Total Typescript.
+That's why we are asking for licenses to [Total Typescript](https://totaltypescript.com).
 
 Total Typescript is a the complete typescript course created by Matt Pocock. Every module in Total Typescript is produced from multiple live workshops and have been used to learn Typescript best practices and patterns by countless developers worldwide.
 
@@ -24,18 +24,20 @@ We are happy to answer any questions you may have. We'd love to talk about this 
 
 Thanks!
 
-- your team
+— your team
 
 import Layout from 'components/app/layout'
 
 export default ({children}) => (
   <Layout
     meta={{
-      title: 'Terms, Conditions, and Privacy Policy for Total TypeScript',
+      title: 'A letter to your boss',
     }}
   >
-    <main className="p-5 py-16 lg:py-24">
-      <article className="prose mx-auto">{children}</article>
+    <main className="p-5 py-20 lg:py-28">
+      <article className="prose mx-auto max-w-2xl rounded-md shadow-black/40 sm:prose-lg sm:bg-gray-800/50 sm:p-10 sm:shadow-2xl">
+        {children}
+      </article>
     </main>
   </Layout>
 )

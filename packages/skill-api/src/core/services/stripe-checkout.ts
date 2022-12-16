@@ -35,6 +35,7 @@ export async function stripeCheckout({
         couponId,
         userId,
         upgradeFromPurchaseId,
+        bulk = false,
       } = req.query
 
       const quantity = Number(queryQuantity)
@@ -188,6 +189,8 @@ export async function stripeCheckout({
           ...(Boolean(availableUpgrade && upgradeFromPurchase) && {
             upgradeFromPurchaseId: upgradeFromPurchaseId as string,
           }),
+          bulk: bulk === 'true' ? 'true' : quantity > 1 ? 'true' : 'false',
+          country: (req.headers['x-vercel-ip-country'] as string) || 'US',
           ip_address,
         },
       })
