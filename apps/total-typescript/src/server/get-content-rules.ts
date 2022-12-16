@@ -9,13 +9,13 @@ import {getSection} from '../lib/sections'
 import {defineRulesForPurchases, UserSchema} from '../ability/ability'
 
 export const ContentRulesSchema = z.object({
-  moduleSlug: z.string().optional(),
-  moduleType: z.string().optional(),
-  lessonSlug: z.string().optional(),
-  sectionSlug: z.string().optional(),
-  isSolution: z.boolean().optional(),
-  muxPlaybackId: z.nullable(z.string().optional()),
-})
+  moduleSlug: z.string(),
+  moduleType: z.string(),
+  lessonSlug: z.string(),
+  sectionSlug: z.string(),
+  isSolution: z.boolean(),
+  muxPlaybackId: z.string().nullable(),
+}).partial()
 
 export type ContentRules = z.infer<typeof ContentRulesSchema>
 
