@@ -39,7 +39,7 @@ export async function stripeData(options: StripeDataOptions) {
 
   const checkoutSession = await getCheckoutSession(checkoutSessionId)
 
-  const {customer, line_items, payment_intent} = checkoutSession
+  const {customer, line_items, payment_intent, metadata} = checkoutSession
   const {email, name, id: stripeCustomerId} = customer as Stripe.Customer
   const lineItem = first(line_items?.data) as Stripe.LineItem
   const stripePrice = lineItem.price
@@ -59,6 +59,7 @@ export async function stripeData(options: StripeDataOptions) {
     stripeChargeId,
     quantity,
     stripeChargeAmount,
+    metadata,
   }
 }
 
@@ -96,6 +97,7 @@ export async function recordNewPurchase(checkoutSessionId: string): Promise<{
     stripeChargeId,
     quantity,
     stripeChargeAmount,
+    metadata,
   } = purchaseInfo
 
   if (!email) throw new PurchaseError(`no-email`, checkoutSessionId)
@@ -128,6 +130,7 @@ export async function recordNewPurchase(checkoutSessionId: string): Promise<{
     productId,
     stripeChargeAmount,
     quantity,
+    bulk: metadata?.bulk === 'true',
   })
 
   let purchaseType = await determinePurchaseType({checkoutSessionId})
