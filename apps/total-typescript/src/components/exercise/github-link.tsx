@@ -12,7 +12,7 @@ export const GitHubLink: React.FC<{
 }> = ({exercise, module}) => {
   const {github} = module
 
-  const {canShowVideo, loadingUserStatus} = useMuxPlayer()
+  const {canShowVideo, loadingUserStatus, lessonMedia} = useMuxPlayer()
 
   if (loadingUserStatus) {
     return (
@@ -22,11 +22,11 @@ export const GitHubLink: React.FC<{
     )
   }
 
-  if (!canShowVideo || !github || !exercise.stackblitz) {
+  if (!canShowVideo || !github || !lessonMedia?.stackblitz) {
     return null
   }
 
-  const openFile = exercise.stackblitz?.split(',')[0]
+  const openFile = lessonMedia.stackblitz?.split(',')[0]
 
   return (
     <div className="pb-4">

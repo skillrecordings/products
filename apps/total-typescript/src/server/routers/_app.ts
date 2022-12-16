@@ -7,6 +7,7 @@ import {progressRouter} from './progress'
 import {convertkitRouter} from './convertkit'
 import {workshop} from './workshop'
 import {abilities} from './abilities'
+import {exerciseRouter} from './exercise'
 
 /**
  * Create your application's root router
@@ -28,4 +29,5 @@ export const appRouter = createRouter()
   .merge('convertkit.', convertkitRouter)
   .merge('workshops.', workshop)
   .merge('abilities.', abilities)
+  .merge('exercise.', exerciseRouter)
 export type AppRouter = typeof appRouter
