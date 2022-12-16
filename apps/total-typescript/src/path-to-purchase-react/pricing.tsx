@@ -12,7 +12,6 @@ import SaleCountdown from './sale-countdown'
 import Spinner from 'components/spinner'
 import Image from 'next/image'
 import find from 'lodash/find'
-import cx from 'classnames'
 import {Purchase} from '@skillrecordings/database'
 import ReactMarkdown from 'react-markdown'
 import {isSellingLive} from '../utils/is-selling-live'
@@ -25,6 +24,7 @@ import {useConvertkit} from '../hooks/use-convertkit'
 import {setUserId} from '@amplitude/analytics-browser'
 import {track} from '../utils/analytics'
 import {useRouter} from 'next/router'
+import Link from 'next/link'
 
 function getFirstPPPCoupon(availableCoupons: any[] = []) {
   return find(availableCoupons, (coupon) => coupon.type === 'ppp') || false
@@ -168,6 +168,33 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
                   <CheckCircleIcon aria-hidden="true" /> Purchased
                 </div>
               </div>
+              <div className="flex justify-center">
+                <Link
+                  href={{
+                    pathname: '/team/buy-more-seats',
+                    query: {
+                      productId: productId,
+                    },
+                  }}
+                >
+                  <a
+                    className="group mt-5 inline-block gap-2 rounded bg-gray-800 py-2 pl-4 pr-6 font-medium transition hover:bg-gray-700"
+                    onClick={() => {
+                      track('clicked buy more seats', {
+                        location: 'pricing',
+                      })
+                    }}
+                  >
+                    <span className="pr-2">Buy More Seats</span>
+                    <span
+                      aria-hidden="true"
+                      className="absolute text-gray-300 transition group-hover:translate-x-1 group-hover:text-white"
+                    >
+                      →
+                    </span>
+                  </a>
+                </Link>
+              </div>
             </>
           ) : isSellingLive ? (
             isDowngrade(formattedPrice) ? (
@@ -195,6 +222,17 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
                       <div data-quantity-input="">
                         <label>
                           <span>Team Seats</span>
+                          <button
+                            type="button"
+                            aria-label="decrease seat quantity by one"
+                            className="flex h-full items-center justify-center rounded bg-gray-800/50 px-3 py-2 font-mono sm:hidden"
+                            onClick={() => {
+                              if (quantity === 1) return
+                              setQuantity(quantity - 1)
+                            }}
+                          >
+                            -
+                          </button>
                           <input
                             type="number"
                             min={1}
@@ -211,10 +249,29 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
                                   : quantity,
                               )
                             }}
+                            onKeyDown={(e) => {
+                              // don't allow decimal
+                              if (e.key === ',') {
+                                e.preventDefault()
+                              }
+                            }}
+                            inputMode="numeric"
+                            pattern="[0-9]*"
                             value={quantity}
                             id={`${quantity}-${name}`}
                             required={true}
                           />
+                          <button
+                            type="button"
+                            aria-label="increase seat quantity by one"
+                            className="flex h-full items-center justify-center rounded bg-gray-800/50 px-3 py-2 font-mono sm:hidden"
+                            onClick={() => {
+                              if (quantity === 100) return
+                              setQuantity(quantity + 1)
+                            }}
+                          >
+                            +
+                          </button>
                         </label>
                       </div>
                     )}

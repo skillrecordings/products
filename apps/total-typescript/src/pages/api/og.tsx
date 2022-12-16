@@ -19,9 +19,18 @@ const magnatTextFont = fetch(
   ),
 ).then((res) => res.arrayBuffer())
 
+const larsseitFont = fetch(
+  new URL(
+    '../../../public/fonts/de9d52a7-4fdd-4918-a809-30c95835528f.woff',
+    import.meta.url,
+  ),
+).then((res) => res.arrayBuffer())
+
 export default async function handler(req: NextRequest) {
   const magnatHeadFontData = await magnatHeadFont
   const magnatTextFontData = await magnatTextFont
+  const larsseitFontData = await larsseitFont
+
   try {
     const {searchParams} = new URL(req.url)
 
@@ -29,39 +38,52 @@ export default async function handler(req: NextRequest) {
     const title = hasTitle
       ? searchParams.get('title')?.slice(0, 100)
       : 'My Default Title'
+    const hasImage = searchParams.has('image')
+    const image = hasImage
+      ? searchParams.get('image')
+      : 'https://totaltypescript.com/assets/landing/bg-divider-7.png'
 
     return new ImageResponse(
       (
         <div
-          tw="flex w-full text-white items-center h-full pl-16 justify-between"
+          tw="flex w-full relative text-white items-center h-full pl-16 justify-between border-b-8 border-cyan-300"
           style={{
-            backgroundColor: '#0f172a',
+            backgroundColor: '#0A1020',
+            backgroundImage: `url(${image})`,
+            backgroundSize: 'contain',
+            backgroundRepeat: 'no-repeat',
           }}
         >
-          <div tw="flex-1 flex flex-col justify-between h-full py-12">
-            <p tw="text-3xl text-cyan-300">TotalTypeScript.com</p>
+          <div tw="flex-1 flex flex-col justify-between h-full pt-12 pb-16 relative">
+            <p tw="text-cyan-300" style={{fontSize: 48}}>
+              TotalTypeScript.com
+            </p>
             <p
-              tw="text-6xl tracking-tight font-bold leading-tight my-0"
+              tw="text-7xl tracking-tight font-bold leading-tight"
               style={{
-                fontFamily: 'Magnat Head',
-                zIndex: '1',
+                fontFamily: 'Larsseit',
+                lineHeight: 1.1,
               }}
             >
               {title}
             </p>
-            <div tw="flex items-center">
+            <div tw="flex items-center absolute right-14 top-12">
               <img
                 src="https://www.mattpocock.com/face.jpeg"
                 tw="h-24 rounded-full"
-              ></img>
-              <p tw="text-2xl ml-6">By Matt Pocock</p>
+              />
+              <p
+                style={{fontSize: 36, fontFamily: 'Larsseit'}}
+                tw="text-3xl ml-6 mb-6 text-gray-300"
+              >
+                Matt Pocock
+              </p>
             </div>
           </div>
-          <img
+          {/* <img
             src="https://www.mattpocock.com/og-image.jpg"
-            style={{zIndex: '0'}}
             tw="h-full"
-          />
+          /> */}
         </div>
       ),
       {
@@ -76,6 +98,11 @@ export default async function handler(req: NextRequest) {
           {
             name: 'Magnat Head',
             data: magnatHeadFontData,
+            style: 'normal',
+          },
+          {
+            name: 'Larsseit',
+            data: larsseitFontData,
             style: 'normal',
           },
         ],

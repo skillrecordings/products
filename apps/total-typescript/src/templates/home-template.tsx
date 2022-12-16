@@ -49,10 +49,10 @@ export const HomeTemplate: React.FC<
             />
           }
         >
-          <h2 className="mx-auto max-w-[20ch] text-center font-heading text-4xl font-bold sm:text-5xl lg:text-5xl xl:text-6xl">
+          <h2 className="mx-auto max-w-[20ch] px-3 text-center font-heading text-4xl font-bold sm:text-5xl lg:text-5xl xl:text-6xl">
             Your Total TypeScript Adventure Starts Now
           </h2>
-          <div className="flex w-full flex-col items-center pt-5">
+          <div className="flex w-full flex-col items-center pt-5" id="buy">
             <Image
               src={require('../../public/assets/landing/bg-divider-5.png')}
               alt=""
@@ -71,15 +71,17 @@ export const HomeTemplate: React.FC<
             />
           </div>
         </MDXComponents.Section>
-        <Image
-          layout="fill"
-          aria-hidden="true"
-          alt=""
-          src={require('../../public/assets/landing/bg-divider-4.png')}
-          objectPosition={'top'}
-          className="rotate-180 select-none object-contain"
-          quality={100}
-        />
+        <div className="pointer-events-none select-none">
+          <Image
+            layout="fill"
+            aria-hidden="true"
+            alt=""
+            src={require('../../public/assets/landing/bg-divider-4.png')}
+            objectPosition={'top'}
+            className="rotate-180 select-none object-contain"
+            quality={100}
+          />
+        </div>
         {redeemableCoupon ? <RedeemDialogForCoupon /> : null}
       </main>
     </Layout>

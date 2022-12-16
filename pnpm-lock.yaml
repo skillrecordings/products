@@ -2315,6 +2315,7 @@ importers:
       '@amplitude/node': ^1.10.2
       '@casl/ability': ^6.3.2
       '@codesandbox/sandpack-react': ^1.17.0
+      '@headlessui/react': ^1.6.1
       '@heroicons/react': ^1.0.6
       '@hookform/resolvers': ^2.9.8
       '@mdx-js/loader': ^2.1.5
@@ -2328,6 +2329,7 @@ importers:
       '@portabletext/types': ^1.0.3
       '@radix-ui/react-accordion': ^1.0.0
       '@radix-ui/react-alert-dialog': ^0.1.7
+      '@radix-ui/react-dialog': ^0.1.7
       '@radix-ui/react-navigation-menu': ^1.1.1
       '@reach/auto-id': ^0.16.0
       '@reach/utils': ^0.16.0
@@ -2353,6 +2355,11 @@ importers:
       '@skillrecordings/types': workspace:*
       '@stackblitz/sdk': ^1.8.0
       '@tailwindcss/typography': ^0.5.2
+      '@tiptap/extension-highlight': ^2.0.0-beta.33
+      '@tiptap/extension-link': ^2.0.0-beta.37
+      '@tiptap/extension-typography': ^2.0.0-beta.20
+      '@tiptap/react': ^2.0.0-beta.109
+      '@tiptap/starter-kit': ^2.0.0-beta.184
       '@trpc/client': ^9.27.2
       '@trpc/next': ^9.27.2
       '@trpc/react': ^9.27.2
@@ -2433,6 +2440,7 @@ importers:
       '@amplitude/node': 1.10.2
       '@casl/ability': 6.3.2
       '@codesandbox/sandpack-react': 1.17.0_biqbaboplfbrettd7655fr4n2y
+      '@headlessui/react': 1.6.1_biqbaboplfbrettd7655fr4n2y
       '@heroicons/react': 1.0.6_react@18.2.0
       '@hookform/resolvers': 2.9.8_react-hook-form@7.29.0
       '@mdx-js/loader': 2.1.5_webpack@4.46.0
@@ -2444,6 +2452,7 @@ importers:
       '@portabletext/react': 1.0.6_react@18.2.0
       '@radix-ui/react-accordion': 1.0.0_biqbaboplfbrettd7655fr4n2y
       '@radix-ui/react-alert-dialog': 0.1.7_bb2bxwco6ptpubzwpazr52qf6i
+      '@radix-ui/react-dialog': 0.1.7_bb2bxwco6ptpubzwpazr52qf6i
       '@radix-ui/react-navigation-menu': 1.1.1_biqbaboplfbrettd7655fr4n2y
       '@reach/auto-id': 0.16.0_biqbaboplfbrettd7655fr4n2y
       '@reach/utils': 0.16.0_biqbaboplfbrettd7655fr4n2y
@@ -2466,6 +2475,11 @@ importers:
       '@skillrecordings/time': link:../../packages/time
       '@stackblitz/sdk': 1.8.0
       '@tailwindcss/typography': 0.5.2_tailwindcss@3.1.6
+      '@tiptap/extension-highlight': 2.0.0-beta.33
+      '@tiptap/extension-link': 2.0.0-beta.37
+      '@tiptap/extension-typography': 2.0.0-beta.20
+      '@tiptap/react': 2.0.0-beta.109_biqbaboplfbrettd7655fr4n2y
+      '@tiptap/starter-kit': 2.0.0-beta.184
       '@trpc/client': 9.27.2_@trpc+server@9.27.2
       '@trpc/next': 9.27.2_cpjoldjkwaya224psufok4zvdi
       '@trpc/react': 9.27.2_4qx6yxzlojuzl2gqhs2hvlmyii
@@ -11274,6 +11288,16 @@ packages:
       '@tiptap/core': 2.0.0-beta.181
     dev: false
 
+  /@tiptap/extension-bubble-menu/2.0.0-beta.56:
+    resolution: {integrity: sha512-nZozwauICdaNPmDPrSn1JFd/9/2rLtK8i2vBOcqxWHObVROvu8ZlJspnrJv23vS6P7/ZO3e/QLVHpnn+1yVq3g==}
+    peerDependencies:
+      '@tiptap/core': ^2.0.0-beta.1
+    dependencies:
+      prosemirror-state: 1.4.1
+      prosemirror-view: 1.26.2
+      tippy.js: 6.3.7
+    dev: false
+
   /@tiptap/extension-bubble-menu/2.0.0-beta.56_o5tsmp445vozplpzqkrs3pmjeq:
     resolution: {integrity: sha512-nZozwauICdaNPmDPrSn1JFd/9/2rLtK8i2vBOcqxWHObVROvu8ZlJspnrJv23vS6P7/ZO3e/QLVHpnn+1yVq3g==}
     peerDependencies:
@@ -11328,6 +11352,16 @@ packages:
       prosemirror-dropcursor: 1.4.0
     dev: false
 
+  /@tiptap/extension-floating-menu/2.0.0-beta.51:
+    resolution: {integrity: sha512-rEe7jADK9xr2n2LJsrGEN3Dz7sEGC1JT/7AdTdaZBxQRQvwxTjomqYGrt+LnX+v0MYggh6swMzj7upJosnKbBg==}
+    peerDependencies:
+      '@tiptap/core': ^2.0.0-beta.1
+    dependencies:
+      prosemirror-state: 1.4.1
+      prosemirror-view: 1.26.2
+      tippy.js: 6.3.7
+    dev: false
+
   /@tiptap/extension-floating-menu/2.0.0-beta.51_o5tsmp445vozplpzqkrs3pmjeq:
     resolution: {integrity: sha512-rEe7jADK9xr2n2LJsrGEN3Dz7sEGC1JT/7AdTdaZBxQRQvwxTjomqYGrt+LnX+v0MYggh6swMzj7upJosnKbBg==}
     peerDependencies:
@@ -11365,6 +11399,12 @@ packages:
       '@tiptap/core': 2.0.0-beta.181
     dev: false
 
+  /@tiptap/extension-highlight/2.0.0-beta.33:
+    resolution: {integrity: sha512-TXyMiCcY5a0w5UFax350xU+T79GKJw2XwJ6Punc6sY2RRRgKaEbN1ZF0JCdQhQvD1ooKImHzCRYR8Pldb0xgfg==}
+    peerDependencies:
+      '@tiptap/core': ^2.0.0-beta.1
+    dev: false
+
   /@tiptap/extension-highlight/2.0.0-beta.33_o5tsmp445vozplpzqkrs3pmjeq:
     resolution: {integrity: sha512-TXyMiCcY5a0w5UFax350xU+T79GKJw2XwJ6Punc6sY2RRRgKaEbN1ZF0JCdQhQvD1ooKImHzCRYR8Pldb0xgfg==}
     peerDependencies:
@@ -11398,6 +11438,16 @@ packages:
       '@tiptap/core': ^2.0.0-beta.1
     dependencies:
       '@tiptap/core': 2.0.0-beta.181
+    dev: false
+
+  /@tiptap/extension-link/2.0.0-beta.37:
+    resolution: {integrity: sha512-G5sM1a8Kjm1ZMro+BGsk+yApIDMl7RF/u1PY929HHld7JPsjgB+DZbbQ1U7e9Kxiu/9aDwgOa+w+SLqLiajedw==}
+    peerDependencies:
+      '@tiptap/core': ^2.0.0-beta.1
+    dependencies:
+      linkifyjs: 3.0.5
+      prosemirror-model: 1.18.1
+      prosemirror-state: 1.4.1
     dev: false
 
   /@tiptap/extension-link/2.0.0-beta.37_o5tsmp445vozplpzqkrs3pmjeq:
@@ -11451,12 +11501,32 @@ packages:
       '@tiptap/core': 2.0.0-beta.181
     dev: false
 
+  /@tiptap/extension-typography/2.0.0-beta.20:
+    resolution: {integrity: sha512-rDgl5ssuM/UKTZHHN1QgF5lZTqNI/q7hxpsk7SZhGjuTSbo2mJ38shaKWEsLmofer/xE6+lWtYo8IVkuv998QA==}
+    peerDependencies:
+      '@tiptap/core': ^2.0.0-beta.1
+    dev: false
+
   /@tiptap/extension-typography/2.0.0-beta.20_o5tsmp445vozplpzqkrs3pmjeq:
     resolution: {integrity: sha512-rDgl5ssuM/UKTZHHN1QgF5lZTqNI/q7hxpsk7SZhGjuTSbo2mJ38shaKWEsLmofer/xE6+lWtYo8IVkuv998QA==}
     peerDependencies:
       '@tiptap/core': ^2.0.0-beta.1
     dependencies:
       '@tiptap/core': 2.0.0-beta.181
+    dev: false
+
+  /@tiptap/react/2.0.0-beta.109_biqbaboplfbrettd7655fr4n2y:
+    resolution: {integrity: sha512-kx/I+9DbiKX+LPFYTQf1Mycbw4U77nRsuztMi5UyGoONnwVwVxOUN6sxdnsNX0uo/H0Rf5ZAtQn8vQBaTWPzsQ==}
+    peerDependencies:
+      '@tiptap/core': ^2.0.0-beta.1
+      react: ^17.0.0 || ^18.0.0
+      react-dom: ^17.0.0 || ^18.0.0
+    dependencies:
+      '@tiptap/extension-bubble-menu': 2.0.0-beta.56
+      '@tiptap/extension-floating-menu': 2.0.0-beta.51
+      prosemirror-view: 1.26.2
+      react: 18.2.0
+      react-dom: 18.2.0_react@18.2.0
     dev: false
 
   /@tiptap/react/2.0.0-beta.109_cpkpnzstpcbd5lz5ghf7pjwsmy:

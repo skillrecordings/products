@@ -313,6 +313,7 @@ export function getSdk(
               totalAmount: true,
               bulkCoupon: {
                 select: {
+                  id: true,
                   maxUses: true,
                   usedCount: true,
                 },

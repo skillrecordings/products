@@ -1,6 +1,6 @@
 /** @type {import('next').NextConfig} */
 const withMDX = require('@next/mdx')({
-  extension: /\.mdx?$/,
+  extension: /\.(md|mdx)$/,
   options: {
     providerImportSource: '@mdx-js/react',
   },
@@ -26,7 +26,11 @@ const IMAGE_HOST_DOMAINS = [
   process.env.NEXT_PUBLIC_HOST,
 ]
 
+/**
+ * @type {import('next').NextConfig}
+ */
 const nextConfig = {
+  pageExtensions: ['js', 'jsx', 'ts', 'tsx', 'md', 'mdx'],
   eslint: {ignoreDuringBuilds: true},
   experimental: {scrollRestoration: true},
   productionBrowserSourceMaps: true,

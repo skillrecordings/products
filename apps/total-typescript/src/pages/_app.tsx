@@ -19,6 +19,7 @@ import superjson from 'superjson'
 import {httpBatchLink} from '@trpc/client/links/httpBatchLink'
 import {loggerLink} from '@trpc/client/links/loggerLink'
 import {AppRouter} from 'server/routers/_app'
+import {FeedbackProvider} from 'feedback-widget/feedback-context'
 
 amplitude.init(process.env.NEXT_PUBLIC_AMPLITUDE_API_KEY)
 
@@ -47,15 +48,17 @@ function MyApp({Component, pageProps}: AppProps<{session: Session}>) {
   return (
     <>
       <DefaultSeo {...config} />
-      <SessionProvider session={pageProps.session} refetchInterval={0}>
-        <QueryClientProvider client={queryClient}>
-          <ConvertkitProvider>
-            <MDXProvider components={MDXComponents}>
-              <Component {...pageProps} />
-            </MDXProvider>
-          </ConvertkitProvider>
-        </QueryClientProvider>
-      </SessionProvider>
+      <FeedbackProvider>
+        <SessionProvider session={pageProps.session} refetchInterval={0}>
+          <QueryClientProvider client={queryClient}>
+            <ConvertkitProvider>
+              <MDXProvider components={MDXComponents}>
+                <Component {...pageProps} />
+              </MDXProvider>
+            </ConvertkitProvider>
+          </QueryClientProvider>
+        </SessionProvider>
+      </FeedbackProvider>
       {process.env.NODE_ENV !== 'development' && (
         <>
           <Script

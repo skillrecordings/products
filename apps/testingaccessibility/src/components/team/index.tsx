@@ -30,9 +30,7 @@ const InviteTeam: React.FC<React.PropsWithChildren<InviteTeamProps>> = ({
     purchase?.bulkCoupon &&
     purchase?.bulkCoupon.maxUses - purchase.bulkCoupon.usedCount
 
-  const [canRedeem, setCanRedeem] = React.useState(
-    Boolean(redemptionsLeft && !existingPurchase),
-  )
+  const [canRedeem, setCanRedeem] = React.useState(Boolean(!existingPurchase))
   const userEmail = session?.user?.email
   const bulkCouponId = purchase?.bulkCoupon?.id
 
@@ -44,10 +42,13 @@ const InviteTeam: React.FC<React.PropsWithChildren<InviteTeamProps>> = ({
           bulkCouponId &&
           'Send the invite link below to your colleagues to get started:'}
       </p>
-      {redemptionsLeft && bulkCouponId && (
+      {bulkCouponId && (
         <>
           <div className="w-full ">
-            <CopyInviteLink bulkCouponId={bulkCouponId} />
+            <CopyInviteLink
+              bulkCouponId={bulkCouponId}
+              disabled={!redemptionsLeft}
+            />
           </div>
           {canRedeem && (
             <div className="flex sm:flex-row flex-col items-center sm:justify-between border-t border-gray-100 sm:mt-8 pt-5 mt-5 gap-3">
@@ -61,19 +62,11 @@ const InviteTeam: React.FC<React.PropsWithChildren<InviteTeamProps>> = ({
                   setCanRedeem(false)
                   setPersonalPurchase(redeemedPurchase)
                 }}
+                disabled={!redemptionsLeft}
               />
             </div>
           )}
         </>
-      )}
-      {!redemptionsLeft && (
-        <div className="flex items-center justify-between mt-5 pt-5 border-t border-gray-100">
-          <Link href="/#buy">
-            <a className="font-semibold bg-green-500 transition text-white px-4 py-2 hover:bg-green-600 rounded-md flex-shrink-0">
-              Buy more seats
-            </a>
-          </Link>
-        </div>
       )}
     </>
   )

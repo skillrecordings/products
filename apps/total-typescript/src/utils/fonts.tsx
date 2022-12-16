@@ -1,0 +1,64 @@
+const Fonts = () => {
+  return (
+    <>
+      <link
+        href="/fonts/7cb55cd6-aef3-4b79-aa51-15054afdcf69.woff2"
+        rel="preload"
+        as="font"
+        type="font/woff2"
+        crossOrigin="anonymous"
+      />
+      <link
+        href="/fonts/369a5a85-303f-4d50-ad7e-2187afe657c1.woff2"
+        rel="preload"
+        as="font"
+        type="font/woff2"
+        crossOrigin="anonymous"
+      />
+      <link
+        href="/fonts/2b38d253-1329-46a1-aad0-85085ad35ead.woff2"
+        rel="preload"
+        as="font"
+        type="font/woff2"
+        crossOrigin="anonymous"
+      />
+      <link
+        href="/fonts/7cc866de-c882-49d8-98d9-1395cedb80c3.woff2"
+        rel="preload"
+        as="font"
+        type="font/woff2"
+        crossOrigin="anonymous"
+      />
+      <link
+        href="/fonts/f1395c32-094a-434b-9179-6dc6fe061acf.woff2"
+        rel="preload"
+        as="font"
+        type="font/woff2"
+        crossOrigin="anonymous"
+      />
+      <link
+        href="/fonts/ae566286-fd6d-4e17-9a8f-812ec7e1cb9b.woff2"
+        rel="preload"
+        as="font"
+        type="font/woff2"
+        crossOrigin="anonymous"
+      />
+      <link
+        href="/fonts/5b2ba5f6-17eb-4973-a93f-4751ab74ed6a.woff2"
+        rel="preload"
+        as="font"
+        type="font/woff2"
+        crossOrigin="anonymous"
+      />
+      <link
+        href="/fonts/85c016f7-1c53-49be-8528-0c3ec6481153.woff2"
+        rel="preload"
+        as="font"
+        type="font/woff2"
+        crossOrigin="anonymous"
+      />
+    </>
+  )
+}
+
+export default Fonts
