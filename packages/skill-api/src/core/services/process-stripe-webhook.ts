@@ -108,7 +108,7 @@ export async function processStripeWebhooks({
           ) {
             await sendServerEmail({
               email,
-              callbackUrl: `${process.env.NEXTAUTH_URL}/learn`,
+              callbackUrl: `${process.env.NEXTAUTH_URL}`,
               nextAuthOptions,
             })
           }

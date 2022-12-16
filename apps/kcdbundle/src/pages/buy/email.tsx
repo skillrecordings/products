@@ -191,7 +191,7 @@ const BuyEmailForm: React.FC<React.PropsWithChildren<BuyEmailFormProps>> = ({
                           <div className="flex justify-center items-center w-full">
                             <Button
                               type="submit"
-                              isDisabled={isSubmitting}
+                              disabled={isSubmitting}
                               isLoading={isSubmitting}
                               className="mt-4 w-full flex items-center justify-center text-center bg-gradient-to-t from-blue-600 to-blue-500 rounded-md text-white px-5 py-4 font-medium shadow-md hover:scale-105 transition-all ease-in-out duration-200 hover:shadow-lg border border-blue-700 border-opacity-20"
                             >

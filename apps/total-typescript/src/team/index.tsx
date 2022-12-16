@@ -55,9 +55,7 @@ const InviteTeam: React.FC<React.PropsWithChildren<InviteTeamProps>> = ({
     hasRedemptionsLeft,
   } = bulkCouponSchema.parse(purchase.bulkCoupon)
 
-  const [canRedeem, setCanRedeem] = React.useState(
-    Boolean(hasRedemptionsLeft && !existingPurchase),
-  )
+  const [canRedeem, setCanRedeem] = React.useState(Boolean(!existingPurchase))
   const userEmail = session?.user?.email
 
   return (
@@ -68,19 +66,19 @@ const InviteTeam: React.FC<React.PropsWithChildren<InviteTeamProps>> = ({
           {numberOfRedemptionsLeft} seats left
         </strong>
         .<br />
+        {usedCount > 0 &&
+          `Your team has already redeemed ${usedCount} of ${maxUses} seats. `}
         {hasRedemptionsLeft &&
           bulkCouponId &&
           'Send the invite link below to your colleagues to get started:'}
       </p>
-      {usedCount > 0 && (
-        <p className="pb-3 text-xs">
-          Your team has already redeemed {usedCount} of {maxUses} seats.
-        </p>
-      )}
-      {hasRedemptionsLeft && bulkCouponId && (
+      {bulkCouponId && (
         <>
           <div className="w-full ">
-            <CopyInviteLink bulkCouponId={bulkCouponId} />
+            <CopyInviteLink
+              bulkCouponId={bulkCouponId}
+              disabled={!hasRedemptionsLeft}
+            />
           </div>
           {canRedeem && (
             <div className="mt-5 flex flex-col items-center gap-3 border-t border-gray-800 pt-5 sm:mt-8 sm:flex-row sm:justify-between">
@@ -94,19 +92,11 @@ const InviteTeam: React.FC<React.PropsWithChildren<InviteTeamProps>> = ({
                   setCanRedeem(false)
                   setPersonalPurchase(redeemedPurchase)
                 }}
+                disabled={!hasRedemptionsLeft}
               />
             </div>
           )}
         </>
-      )}
-      {!hasRedemptionsLeft && (
-        <div className="mt-5 flex items-center justify-between border-t border-gray-100 pt-5">
-          <Link href="/#buy">
-            <a className="flex-shrink-0 rounded-md bg-cyan-500 px-4 py-2 font-semibold text-white transition hover:bg-cyan-600">
-              Buy more seats
-            </a>
-          </Link>
-        </div>
       )}
     </>
   )

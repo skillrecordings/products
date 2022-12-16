@@ -320,7 +320,7 @@ const SurveyQuestionSubmit = React.forwardRef(function QuestionSubmit(
 
   return isAnswered ? null : (
     <Comp {...props} ref={forwardRef} data-sr-quiz-question-submit="">
-      <Button isDisabled={isAnswered} isLoading={isSubmitting} type="submit">
+      <Button disabled={isAnswered} isLoading={isSubmitting} type="submit">
         {children}
       </Button>
     </Comp>
