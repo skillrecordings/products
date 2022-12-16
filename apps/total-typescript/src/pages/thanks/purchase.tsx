@@ -149,6 +149,12 @@ const ThanksVerify: React.FC<
               <MailIcon className="h-5 w-5 text-cyan-200" aria-hidden="true" />{' '}
               <span className="text-cyan-200">Email sent to:</span> {email}
             </code>
+            <div className="p-5">
+              👋 Our email service provider is experiencing a global outage and
+              is actively working on fixing delivery. Unfortunately this affects
+              login to Total TypeScript. As soon as they fix the issue, your
+              login will arrive. Sorry for the inconvenience.
+            </div>
             <p className="mx-auto max-w-xl pt-5 text-sm text-gray-200 sm:text-base sm:leading-relaxed">
               As a final step to access the course you need to check your inbox
               (<strong>{email}</strong>) where you will find an email from{' '}

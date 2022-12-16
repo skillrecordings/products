@@ -106,6 +106,12 @@ const Login: React.FC<React.PropsWithChildren<{csrfToken: string}>> = ({
                 Email me a login link
               </button>
             </form>
+            <div className="p-5">
+              👋 Our email service provider is experiencing a global outage and
+              is actively working on fixing delivery. Unfortunately this affects
+              login to Total TypeScript. As soon as they fix the issue, your
+              login will arrive. Sorry for the inconvenience.
+            </div>
           </div>
         </main>
       </div>
