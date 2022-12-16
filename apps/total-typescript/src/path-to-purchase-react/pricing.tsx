@@ -181,9 +181,9 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
                 <form
                   action={`/api/skill/checkout/stripe?productId=${
                     formattedPrice?.id
-                  }&couponId=${appliedMerchantCoupon?.id}&quantity=${quantity}${
-                    userId ? `&userId=${userId}` : ``
-                  }${
+                  }&couponId=${appliedMerchantCoupon?.id}&bulk=${
+                    isBuyingForTeam ? 'true' : 'false'
+                  }&quantity=${quantity}${userId ? `&userId=${userId}` : ``}${
                     formattedPrice?.upgradeFromPurchaseId
                       ? `&upgradeFromPurchaseId=${formattedPrice?.upgradeFromPurchaseId}`
                       : ``
@@ -212,7 +212,7 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
                         }
                         onCheckedChange={() => {
                           setIsBuyingForTeam(!isBuyingForTeam)
-                          isBuyingForTeam && setQuantity(1)
+                          isBuyingForTeam ? setQuantity(1) : setQuantity(5)
                         }}
                         checked={isBuyingForTeam}
                         id="team-switch"
@@ -224,6 +224,7 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
                         type="button"
                         onClick={() => {
                           setIsBuyingForTeam(true)
+                          setQuantity(5)
                         }}
                       >
                         For my team
