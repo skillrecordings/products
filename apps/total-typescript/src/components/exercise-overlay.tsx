@@ -113,9 +113,9 @@ const Actions = () => {
 }
 
 const ExerciseOverlay = () => {
-  const {lesson, module} = useMuxPlayer()
+  const {lesson, module, lessonMedia} = useMuxPlayer()
   const {github} = module
-  const stackblitz = lesson.stackblitz
+  const stackblitz = lessonMedia?.stackblitz
 
   return (
     <div className=" bg-black/30 ">
@@ -480,15 +480,13 @@ const BlockedOverlay: React.FC = () => {
 type LoadingOverlayProps = {}
 
 const LoadingOverlay: React.FC<LoadingOverlayProps> = () => {
-  const {
-    muxPlayerProps: {playbackId},
-  } = useMuxPlayer()
-  const thumbnail = `https://image.mux.com/${playbackId}/thumbnail.png?width=480&height=384&fit_mode=preserve`
+  const {muxPlayerProps} = useMuxPlayer()
+  const thumbnail = `https://image.mux.com/${muxPlayerProps?.playbackId}/thumbnail.png?width=480&height=384&fit_mode=preserve`
 
   return (
     <OverlayWrapper dismissable={false}>
       <div className="flex items-center justify-center">
-        {playbackId && (
+        {muxPlayerProps?.playbackId && (
           <Image
             src={thumbnail}
             layout="fill"

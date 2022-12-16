@@ -347,6 +347,7 @@ export function getSdk(
       merchantCustomerId: string
       stripeChargeAmount: number
       quantity?: number
+      bulk?: boolean
     }) {
       const {
         userId,
@@ -395,7 +396,8 @@ export function getSdk(
       // Note: if the user already has a bulk purchase/coupon, then if they are
       // only adding 1 seat to the team, then it is still a "bulk purchase" and
       // we need to add it to their existing Bulk Coupon.
-      const isBulkPurchase = quantity > 1 || Boolean(existingBulkCoupon)
+      const isBulkPurchase =
+        quantity > 1 || Boolean(existingBulkCoupon) || options.bulk
 
       let bulkCouponId = null
       let coupon = null

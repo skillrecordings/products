@@ -18,9 +18,7 @@
   ],
   "env": {
     "development": {
-      "plugins": [
-        "@sanity/vision"
-      ]
+      "plugins": ["@sanity/vision"]
     }
   },
   "parts": [
@@ -35,6 +33,10 @@
     {
       "implements": "part:@sanity/base/brand-logo",
       "path": "./src/components/logo/index.js"
+    },
+    {
+      "implements": "part:@sanity/form-builder/input/block-editor/on-paste",
+      "path": "./customization/onPaste.js"
     }
   ]
 }
