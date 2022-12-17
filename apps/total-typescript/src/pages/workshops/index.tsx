@@ -30,7 +30,7 @@ const WorkshopsPage: React.FC<{modules: SanityDocument[]}> = ({modules}) => {
           Professional TypeScript Workshops
         </h1>
         <p className="max-w-sm px-5 pt-8 text-center text-lg text-rose-100/90">
-          A collection of profesional, exercise-driven, in-depth, self-paced
+          A collection of professional, exercise-driven, in-depth, self-paced
           TypeScript workshops for you to achieve TypeScript wizardry.
         </p>
         {modules && (
