@@ -39,7 +39,9 @@ export const getAllArticles = async (): Promise<Article[]> => {
   return ArticlesSchema.parse(articles)
 }
 
-export const getArticle = async (slug: string): Promise<Article> => {
+export const getArticle = async (
+  slug: string,
+): Promise<Article | undefined> => {
   const article = await sanityClient.fetch(
     groq`*[_type == "article" && slug.current == $slug][0] {
         _id,
@@ -56,6 +58,8 @@ export const getArticle = async (slug: string): Promise<Article> => {
     }`,
     {slug: `${slug}`},
   )
-
+  if (!article) {
+    return undefined
+  }
   return ArticleSchema.parse(article)
 }
