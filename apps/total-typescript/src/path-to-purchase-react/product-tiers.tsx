@@ -11,6 +11,7 @@ export const PricingTiers: React.FC<React.PropsWithChildren<CommerceProps>> = ({
   userId,
   purchases = [],
   couponIdFromCoupon,
+  allowPurchase,
 }) => {
   const {redeemableCoupon, RedeemDialogForCoupon, validCoupon} =
     useCoupon(couponFromCode)
@@ -33,6 +34,7 @@ export const PricingTiers: React.FC<React.PropsWithChildren<CommerceProps>> = ({
               purchases={purchases}
               index={i}
               couponId={couponId}
+              allowPurchase={allowPurchase}
             />
           )
         })}
