@@ -17,6 +17,7 @@ const Buy: React.FC<React.PropsWithChildren<CommerceProps>> = ({
   products,
   couponIdFromCoupon,
   defaultCoupon,
+  allowPurchase,
 }) => {
   const {scrollYProgress} = useScroll()
   const y = useTransform(scrollYProgress, [0, 1], [0, -100])
@@ -69,6 +70,7 @@ const Buy: React.FC<React.PropsWithChildren<CommerceProps>> = ({
             purchases={purchases}
             couponIdFromCoupon={couponIdFromCoupon}
             couponFromCode={couponFromCode}
+            allowPurchase={allowPurchase}
           />
         </section>
       </main>

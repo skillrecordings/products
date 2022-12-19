@@ -48,6 +48,7 @@ type PricingProps = {
   userId?: string
   index: number
   couponId?: string
+  allowPurchase?: boolean
 }
 
 /**
@@ -67,6 +68,7 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
   userId,
   index,
   couponId,
+  allowPurchase = false,
 }) => {
   const [merchantCoupon, setMerchantCoupon] = React.useState<{
     id: string
@@ -198,7 +200,7 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
                 </Link>
               </div>
             </>
-          ) : isSellingLive ? (
+          ) : isSellingLive || allowPurchase ? (
             isDowngrade(formattedPrice) ? (
               <div data-downgrade-container="">
                 <div data-downgrade="">Unavailable</div>
@@ -339,12 +341,13 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
               )}
             </div>
           )}
-          {isSellingLive && !purchased && (
-            <SaleCountdown
-              coupon={defaultCoupon}
-              data-pricing-product-sale-countdown={index}
-            />
-          )}
+          {isSellingLive ||
+            (allowPurchase && !purchased && (
+              <SaleCountdown
+                coupon={defaultCoupon}
+                data-pricing-product-sale-countdown={index}
+              />
+            ))}
           {showPPPBox && (
             <RegionalPricingBox
               pppCoupon={pppCoupon || merchantCoupon}
