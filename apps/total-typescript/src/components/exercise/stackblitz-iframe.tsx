@@ -4,19 +4,15 @@ import {SanityDocument} from '@sanity/client'
 import cx from 'classnames'
 import Spinner from '../spinner'
 import Image from 'next/image'
-import {useMuxPlayer} from '../../hooks/use-mux-player'
 
 export const StackBlitzIframe: React.FC<{
   exercise: Exercise
   module: SanityDocument
   isExpanded?: boolean
 }> = ({exercise, module}) => {
-  const {lessonMedia} = useMuxPlayer()
-  const stackblitz = lessonMedia?.stackblitz
+  const stackblitz = exercise.stackblitz
   const [isLoading, setIsLoading] = React.useState(true)
 
-  if (!stackblitz) return null
-  
   const githubOrg = 'total-typescript'
   const githubRepo = module.github.repo
   const clickToLoad = Number(false)

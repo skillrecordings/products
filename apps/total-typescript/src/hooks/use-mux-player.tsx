@@ -6,7 +6,7 @@ import {SanityDocument} from '@sanity/client'
 import {useRouter} from 'next/router'
 import {MuxPlayerProps} from '@mux/mux-player-react/*'
 import {track} from '../utils/analytics'
-import {type Exercise, ExerciseMedia, ExerciseSchema} from 'lib/exercises'
+import {type Exercise, ExerciseSchema} from 'lib/exercises'
 import {type Tip, TipSchema} from 'lib/tips'
 import {useConvertkit} from './use-convertkit'
 import {AppAbility, createAppAbility} from 'ability/ability'
@@ -34,7 +34,6 @@ type VideoContextType = {
   loadingUserStatus: boolean
   ability: AppAbility
   section?: SanityDocument
-  lessonMedia?: ExerciseMedia | null
 }
 
 export const VideoContext = React.createContext({} as VideoContextType)
@@ -70,17 +69,6 @@ export const VideoProvider: React.FC<
     currentLesson: lesson as Exercise,
   })
 
-  const {data: lessonMedia, status: lessonMediaLoadingStatus} = trpc.useQuery([
-    'exercise.media',
-    {
-      moduleSlug: module.slug.current,
-      moduleType: module.moduleType,
-      lessonSlug: exerciseSlug,
-      sectionSlug: section?.slug,
-      isSolution: lesson._type === 'solution',
-    },
-  ])
-
   const nextSection = section
     ? getNextSection({
         module,
@@ -102,7 +90,6 @@ export const VideoProvider: React.FC<
       moduleType: module.moduleType,
       lessonSlug: exerciseSlug,
       sectionSlug: section?.slug,
-      muxPlaybackId: lessonMedia?.muxPlaybackId,
       isSolution: lesson._type === 'solution',
     },
   ])
@@ -113,13 +100,12 @@ export const VideoProvider: React.FC<
     usePlayerPrefs()
   const [autoPlay, setAutoPlay] = React.useState(getPlayerPrefs().autoplay)
   const [displayOverlay, setDisplayOverlay] = React.useState(false)
-  const video = {muxPlaybackId: lessonMedia?.muxPlaybackId}
+  const video = {muxPlaybackId: lesson.muxPlaybackId}
   const title = get(lesson, 'title') || get(lesson, 'label')
   const loadingUserStatus =
     loadingSubscriber ||
     status === 'loading' ||
-    abilityRulesStatus === 'loading' ||
-    lessonMediaLoadingStatus === 'loading'
+    abilityRulesStatus === 'loading'
 
   const handlePlay = React.useCallback(() => {
     const videoElement = document.getElementById(
@@ -159,44 +145,42 @@ export const VideoProvider: React.FC<
   const canShowVideo = ability.can('view', 'Content')
 
   const context = {
-    muxPlayerProps: Boolean(video.muxPlaybackId)
-      ? {
-          id: 'mux-player',
-          onPlay: () => {
-            setDisplayOverlay(false)
-            track('started lesson video', {
-              module: module.slug.current,
-              lesson: lesson.slug,
-              moduleType: module.moduleType,
-              lessonType: lesson._type,
-            })
-          },
+    muxPlayerProps: {
+      id: 'mux-player',
+      onPlay: () => {
+        setDisplayOverlay(false)
+        track('started lesson video', {
+          module: module.slug.current,
+          lesson: lesson.slug,
+          moduleType: module.moduleType,
+          lessonType: lesson._type,
+        })
+      },
 
-          onPause: () => {},
-          onEnded: async () => {
-            handleNext(getPlayerPrefs().autoplay)
-            track('completed lesson video', {
-              module: module.slug.current,
-              lesson: lesson.slug,
-              moduleType: module.moduleType,
-              lessonType: lesson._type,
-            })
-            return onEnded()
-          },
-          onRateChange: () => {
-            setPlayerPrefs({
-              playbackRate: muxPlayerRef.current.playbackRate,
-            })
-          },
-          defaultHiddenCaptions: true, // TODO: investigate storing subtitles preferences
-          // autoPlay,
-          streamType: 'on-demand',
-          playbackId: video.muxPlaybackId,
-          metadata: {
-            video_title: `${title} (${lesson._type})`,
-          },
-        }
-      : null,
+      onPause: () => {},
+      onEnded: async () => {
+        handleNext(getPlayerPrefs().autoplay)
+        track('completed lesson video', {
+          module: module.slug.current,
+          lesson: lesson.slug,
+          moduleType: module.moduleType,
+          lessonType: lesson._type,
+        })
+        return onEnded()
+      },
+      onRateChange: () => {
+        setPlayerPrefs({
+          playbackRate: muxPlayerRef.current.playbackRate,
+        })
+      },
+      defaultHiddenCaptions: true, // TODO: investigate storing subtitles preferences
+      // autoPlay,
+      streamType: 'on-demand',
+      playbackId: video.muxPlaybackId,
+      metadata: {
+        video_title: `${title} (${lesson._type})`,
+      },
+    },
     autoPlay,
     setAutoPlay,
     setPlayerPrefs,
@@ -216,7 +200,6 @@ export const VideoProvider: React.FC<
     canShowVideo,
     ability,
     loadingUserStatus,
-    lessonMedia,
   }
   return (
     <VideoContext.Provider value={context}>{children}</VideoContext.Provider>
