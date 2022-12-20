@@ -29,6 +29,7 @@ export type CommerceProps = {
   purchases?: Purchase[]
   products: SanityProduct[]
   defaultCoupon?: DefaultCoupon
+  allowPurchase?: boolean
 }
 
 export type SanityProduct = {
