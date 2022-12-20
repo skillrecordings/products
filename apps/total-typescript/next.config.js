@@ -1,4 +1,5 @@
 /** @type {import('next').NextConfig} */
+const withTM = require('next-transpile-modules')(['@skillrecordings/skill-ui'])
 const withMDX = require('@next/mdx')({
   extension: /\.mdx?$/,
   options: {
@@ -44,7 +45,7 @@ const nextConfig = {
   },
 }
 
-const configWithPlugins = withMDX(nextConfig)
+const configWithPlugins = withMDX(withTM(nextConfig))
 
 if (sentryWebpackPluginOptions) {
   module.exports = withSentryConfig(

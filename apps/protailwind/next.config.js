@@ -1,4 +1,5 @@
 /** @type {import('next').NextConfig} */
+const withTM = require('next-transpile-modules')(['@skillrecordings/skill-ui'])
 const {withSentryConfig} = require('@sentry/nextjs')
 const withMDX = require('@next/mdx')({
   extension: /\.mdx?$/,
@@ -41,7 +42,7 @@ const sentryWebpackPluginOptions = process.env.SENTRY_AUTH_TOKEN && {
   // https://github.com/getsentry/sentry-webpack-plugin#options.
 }
 
-const configWithPlugins = withMDX(nextConfig)
+const configWithPlugins = withMDX(withTM(nextConfig))
 // const configWithPlugins = withMDX(withImages(nextConfig))
 
 if (sentryWebpackPluginOptions) {
