@@ -75,16 +75,17 @@ export const PrimaryNewsletterCta = ({level}: {level?: SkillLevel}) => {
   )
 }
 
-export const ArticleNewsletterCta: React.FC<{article: Article}> = ({
+export const ArticleNewsletterCta: React.FC<{article?: Article}> = ({
   article,
 }) => {
   const router = useRouter()
   const readArticleField = {
     // ex: read_writing_string_replace_in_typescript_on: 2022-09-02
-    [`read_${snakeCase(article.slug)}_on`.toLowerCase()]: new Date()
+    [`read_${snakeCase(article?.slug)}_on`.toLowerCase()]: new Date()
       .toISOString()
       .slice(0, 10),
   }
+
   return (
     <div
       id="article-cta"
@@ -100,7 +101,7 @@ export const ArticleNewsletterCta: React.FC<{article: Article}> = ({
       <div className="relative flex items-center justify-center">
         <SubscribeToConvertkitForm
           actionLabel="Subscribe"
-          fields={readArticleField}
+          fields={article ? readArticleField : undefined}
           onSuccess={(subscriber?: any, email?: string) => {
             return handleOnSuccess(router, subscriber, email)
           }}
@@ -134,14 +135,14 @@ const PointingArrow = () => {
       <circle cx="96.494" cy="138.583" r=".5" fill="#EDEDEE" opacity=".6" />
       <circle cx="63.994" cy="127.083" r="1" fill="#EDEDEE" opacity=".6" />
       <path
-        fill="url(#a)"
-        fill-rule="evenodd"
+        fill="url(#arrow)"
+        fillRule="evenodd"
         d="M1.003 17.456c.099-1.1 1.071-.911 2.171-.812C17.464 17.934 35.836 23.97 53.5 34.5c17.657 10.525 33 25 40.352 41.438 8.694 21.792 10.675 41.364 4.053 55.659-6.368 13.745-18.681 24.11-34.316 32.251l4.905 5.652h-20l11.5-16.5 2 7.169c15.092-7.901 26.461-17.689 32.281-30.254 6.033-13.023 6.276-30.406-2.138-51.495-7.026-17.61-22.4-31.95-39.646-42.23C35.252 25.912 23.098 20.226 9.5 19c-1.1-.1-8.598-.444-8.498-1.544Z"
-        clip-rule="evenodd"
+        clipRule="evenodd"
       />
       <defs>
         <linearGradient
-          id="a"
+          id="arrow"
           x1="43.992"
           x2="55.992"
           y1="26.584"

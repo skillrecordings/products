@@ -9,7 +9,10 @@ import {
 import {useRouter} from 'next/router'
 import toast from 'react-hot-toast'
 
-const Share: React.FC<{title: string}> = ({title}) => {
+const Share: React.FC<{title: string; contentType?: string}> = ({
+  title,
+  contentType = 'article',
+}) => {
   const router = useRouter()
   const url = process.env.NEXT_PUBLIC_URL + router.asPath
   const shareButtonClassName =
@@ -19,7 +22,7 @@ const Share: React.FC<{title: string}> = ({title}) => {
   return (
     <div className="mx-auto mt-16 flex w-full max-w-3xl flex-col items-center justify-center pb-10 text-center">
       <p className="flex items-center text-gray-400">
-        Share this article with your friends
+        Share this {contentType} with your friends
       </p>
       <div className="flex pt-2">
         <Twitter
