@@ -50,7 +50,8 @@ const ExtensionPage = () => {
           className="mt-16 rounded-lg bg-gradient-to-t from-cyan-300 to-cyan-200 px-7 py-4 text-lg font-semibold text-black shadow-xl shadow-cyan-500/10 transition hover:brightness-110"
           onClick={() => {
             track('clicked install extension button')
-          }} rel="noreferrer"
+          }}
+          rel="noreferrer"
         >
           Install the VSCode Extension
         </a>
