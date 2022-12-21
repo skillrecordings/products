@@ -92,7 +92,6 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
         quantity: debouncedQuantity,
         couponId,
         merchantCoupon,
-        purchases,
       },
     ],
     {

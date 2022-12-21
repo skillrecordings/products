@@ -35,7 +35,6 @@ const BuyMoreSeats = (props: BuyMoreSeatsProps) => {
       productId,
       userId,
       quantity: debouncedQuantity,
-      purchases: [],
     },
   ])
 
