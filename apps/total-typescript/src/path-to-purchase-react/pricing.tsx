@@ -26,6 +26,7 @@ import {track} from '../utils/analytics'
 import {useRouter} from 'next/router'
 import * as Switch from '@radix-ui/react-switch'
 import Link from 'next/link'
+import {trpc} from 'utils/trpc'
 
 function getFirstPPPCoupon(availableCoupons: any[] = []) {
   return find(availableCoupons, (coupon) => coupon.type === 'ppp') || false
@@ -82,29 +83,21 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
   const {subscriber, loadingSubscriber} = useConvertkit()
   const router = useRouter()
 
-  const {data: formattedPrice, status} = useQuery<FormattedPrice>(
-    ['pricing', merchantCoupon, debouncedQuantity, productId, userId, couponId],
-    () =>
-      fetch('/api/skill/prices', {
-        method: 'POST',
-        body: JSON.stringify({
-          productId,
-          ...(merchantCoupon && {merchantCouponId: merchantCoupon.id}),
-          quantity,
-          purchases,
-          userId,
-          siteCouponId: couponId,
-        }),
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      })
-        .then((res) => res.json())
-        .then((formattedPrice: FormattedPrice) => {
-          addPrice(formattedPrice, productId)
-          return formattedPrice
-        }),
-  )
+  const {data: formattedPrice, status} = trpc.useQuery([
+    'pricing.formatted',
+    {
+      productId,
+      userId,
+      quantity: debouncedQuantity,
+      couponId,
+      merchantCoupon,
+      purchases,
+    },
+  ])
+
+  if (formattedPrice) {
+    addPrice(formattedPrice, productId)
+  }
 
   const defaultCoupon = formattedPrice?.defaultCoupon
   const appliedMerchantCoupon = formattedPrice?.appliedMerchantCoupon
@@ -116,7 +109,7 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
   // do not show the box if purchased
   // do not show the box if it's a downgrade
   const showPPPBox =
-    (pppCoupon || merchantCoupon?.type === 'ppp') &&
+    Boolean(pppCoupon || merchantCoupon?.type === 'ppp') &&
     !purchased &&
     !isDowngrade(formattedPrice)
 

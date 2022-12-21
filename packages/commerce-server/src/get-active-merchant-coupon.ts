@@ -6,9 +6,9 @@ export async function getActiveMerchantCoupon({
   siteCouponId,
   code,
 }: {
-  productId: string
-  siteCouponId: string
-  code: string
+  productId: string | undefined
+  siteCouponId: string | undefined
+  code: string | undefined
 }) {
   const {getDefaultCoupon, couponForIdOrCode} = getSdk()
 
