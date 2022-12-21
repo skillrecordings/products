@@ -4,6 +4,13 @@ import ArticleTemplate from 'templates/article-template'
 
 export const getStaticProps: GetStaticProps = async ({params}) => {
   const article = await getArticle(params?.article as string)
+
+  if (!article) {
+    return {
+      notFound: true,
+    }
+  }
+
   const articles = (await getAllArticles()).filter(
     (a) => a.slug !== article.slug,
   )

@@ -14,6 +14,7 @@ export async function propsForCommerce({
   products: SanityProduct[]
 }) {
   const couponFromCode = await getCouponForCode(query.code as string)
+  const allowPurchase = Boolean(query.allowPurchase)
 
   const {getDefaultCoupon, getPurchasesForUser} = getSdk()
 
@@ -43,6 +44,7 @@ export async function propsForCommerce({
         purchases: [...purchases.map(convertToSerializeForNextResponse)],
       }),
       products,
+      allowPurchase,
     },
   }
 }
