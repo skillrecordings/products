@@ -13,6 +13,12 @@ export const LessonSchema = z.object({
   body: z.any().array().optional().nullable(),
   muxPlaybackId: z.nullable(z.string()).optional(),
   transcript: z.nullable(z.any().array()).optional(),
+  github: z
+    .object({
+      url: z.string(),
+    })
+    .optional()
+    .nullable(),
 })
 
 export type Lesson = z.infer<typeof LessonSchema>
@@ -61,9 +67,15 @@ export const getLesson = async (
         body,
         "muxPlaybackId": resources[@->._type == 'videoResource'][0]-> muxAsset.muxPlaybackId,
         "transcript": resources[@->._type == 'videoResource'][0]-> castingwords.transcript,
-      `
+       "github": resources[@._type == 'github'][0] {
+        url
+      },
+        `
           : ''
       }
+       "github": resources[@._type == 'github'][0] {
+        url
+      },
     }`
 
   const lesson = await sanityClient.fetch(query, {slug: `${slug}`})

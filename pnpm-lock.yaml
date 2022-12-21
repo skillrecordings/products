@@ -2750,6 +2750,7 @@ importers:
       '@mdx-js/loader': ^1.6.22
       '@mdx-js/mdx': ^2.0.0
       '@mdx-js/react': ^1.6.22
+      '@mux/mux-node': ^6.3.0
       '@mux/mux-player-react': 0.1.0-beta.26
       '@next/env': ^12.2.0
       '@next/mdx': ^12.2.5
@@ -2759,6 +2760,8 @@ importers:
       '@react-three/drei': ^7.20.2
       '@react-three/fiber': ^7.0.27
       '@sanity/client': ^3.3.2
+      '@sanity/webhook': ^1.0.2
+      '@sentry/nextjs': ^7.9.0
       '@skillrecordings/analytics': workspace:*
       '@skillrecordings/auth': '=0.0.6'
       '@skillrecordings/config': workspace:*
@@ -2771,6 +2774,7 @@ importers:
       '@skillrecordings/quiz': workspace:*
       '@skillrecordings/react': workspace:*
       '@skillrecordings/scripts': workspace:*
+      '@skillrecordings/skill-api': workspace:*
       '@skillrecordings/time': workspace:*
       '@skillrecordings/tsconfig': workspace:*
       '@skillrecordings/types': workspace:*
@@ -2788,6 +2792,7 @@ importers:
       '@types/isomorphic-fetch': ^0.0.35
       '@types/jest': ^27.5.2
       '@types/js-cookie': ^3.0.2
+      '@types/jsonwebtoken': ^8.5.8
       '@types/lodash': ^4.14.179
       '@types/mdx-js__react': ^1.5.5
       '@types/node': ^17.0.0
@@ -2820,13 +2825,14 @@ importers:
       hls.js: 1.1.5
       isomorphic-fetch: ^3.0.0
       js-cookie: ^3.0.1
+      jsonwebtoken: ^8.5.1
       load-egghead-notes-mdx-url: ^0.1.1
       lodash: ^4.17.21
       mdast-util-to-markdown: ^1.2.6
       mdx-prism: ^0.3.4
       msw: ^0.35.0
       next: ^12.3.1
-      next-auth: ^4.16.4
+      next-auth: 4.10.3
       next-compose-plugins: ^2.2.1
       next-images: ^1.8.4
       next-sitemap: ^3.0.5
@@ -2873,6 +2879,7 @@ importers:
       '@heroicons/react': 1.0.6_react@18.2.0
       '@mdx-js/mdx': 2.0.0
       '@mdx-js/react': 1.6.22_react@18.2.0
+      '@mux/mux-node': 6.3.1
       '@mux/mux-player-react': 0.1.0-beta.26_v7vsrdtui4d36prbwvdnlb7tpq
       '@next/mdx': 12.2.5_6vwedlnwdegenaf6jioaeirvlu
       '@portabletext/react': 1.0.6_react@18.2.0
@@ -2881,6 +2888,8 @@ importers:
       '@react-three/drei': 7.20.2_q3lm3wbsqyl3yae2fho3a2cr24
       '@react-three/fiber': 7.0.29_l64coo4po4cwrmp7zqxdp2wxuq
       '@sanity/client': 3.3.2
+      '@sanity/webhook': 1.0.2
+      '@sentry/nextjs': 7.9.0_2l5cy4nu2tll7gjm4fpeclivve
       '@skillrecordings/analytics': link:../../packages/analytics
       '@skillrecordings/auth': 0.0.6_next@12.3.1
       '@skillrecordings/config': link:../../packages/config
@@ -2892,6 +2901,7 @@ importers:
       '@skillrecordings/player': link:../../packages/player
       '@skillrecordings/quiz': link:../../packages/quiz
       '@skillrecordings/react': link:../../packages/react
+      '@skillrecordings/skill-api': link:../../packages/skill-api
       '@skillrecordings/time': link:../../packages/time
       '@stripe/stripe-js': 1.21.1
       '@supabase/supabase-js': 1.29.1
@@ -2900,6 +2910,7 @@ importers:
       '@trpc/react': 9.27.2_4qx6yxzlojuzl2gqhs2hvlmyii
       '@trpc/server': 9.27.2
       '@types/js-cookie': 3.0.2
+      '@types/jsonwebtoken': 8.5.8
       '@xstate/react': 1.5.1_bpg42ha2il6pcyn3wrx2rxrchm
       autoprefixer: 10.4.7_postcss@8.4.14
       axios: 0.26.1
@@ -2917,12 +2928,13 @@ importers:
       hls.js: 1.1.5
       isomorphic-fetch: 3.0.0
       js-cookie: 3.0.1
+      jsonwebtoken: 8.5.1
       load-egghead-notes-mdx-url: 0.1.1
       lodash: 4.17.21
       mdast-util-to-markdown: 1.2.6
       mdx-prism: 0.3.4
       next: 12.3.1_biqbaboplfbrettd7655fr4n2y
-      next-auth: 4.17.0_azq6kxkn3od7qdylwkyksrwopy
+      next-auth: 4.10.3_biqbaboplfbrettd7655fr4n2y
       next-sitemap: 3.1.7_o5duabsbbn2rgmqrbe3fporo6y
       next-themes: 0.1.1_azq6kxkn3od7qdylwkyksrwopy
       pluralize: 8.0.0
@@ -10881,7 +10893,7 @@ packages:
       axios: 0.26.1
       client-oauth2: 4.3.3
       js-cookie: 3.0.1
-      next: 12.3.1_dyjg3c6zvjv6p4lxmcqda555km
+      next: 12.3.1_biqbaboplfbrettd7655fr4n2y
     transitivePeerDependencies:
       - debug
     dev: false
@@ -11466,8 +11478,8 @@ packages:
       '@tiptap/core': ^2.0.0-beta.1
     dependencies:
       linkifyjs: 3.0.5
-      prosemirror-model: 1.18.1
-      prosemirror-state: 1.4.1
+      prosemirror-model: 1.16.1
+      prosemirror-state: 1.3.4
     dev: false
 
   /@tiptap/extension-link/2.0.0-beta.37_o5tsmp445vozplpzqkrs3pmjeq:
@@ -11544,7 +11556,7 @@ packages:
     dependencies:
       '@tiptap/extension-bubble-menu': 2.0.0-beta.56
       '@tiptap/extension-floating-menu': 2.0.0-beta.51
-      prosemirror-view: 1.26.2
+      prosemirror-view: 1.23.13
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
     dev: false
@@ -11957,7 +11969,6 @@ packages:
     resolution: {integrity: sha512-zm6xBQpFDIDM6o9r6HSgDeIcLy82TKWctCXEPbJJcXb5AKmi5BNNdLXneixK4lplX3PqIVcwLBCGE/kAGnlD4A==}
     dependencies:
       '@types/node': 18.6.3
-    dev: true
 
   /@types/keyv/3.1.4:
     resolution: {integrity: sha512-BQ5aZNSCpj7D6K2ksrRCTmKRLEpnPvWDiLPfoGyhZ++8YtiK9d/3DBKPJgry359X/P1PfruyYwvnvwFjuEiEIg==}
@@ -13707,7 +13718,7 @@ packages:
   /axios/0.21.4:
     resolution: {integrity: sha512-ut5vewkiu8jjGBdqpM44XxjuCjq9LAKeHVmoVfHVzy8eHgxxq8SbAVQNovDA8mVi05kP0Ea/n/UzcSHcTJQfNg==}
     dependencies:
-      follow-redirects: 1.15.1_debug@2.6.9
+      follow-redirects: 1.15.1
     transitivePeerDependencies:
       - debug
     dev: false
@@ -13722,7 +13733,7 @@ packages:
   /axios/0.26.1:
     resolution: {integrity: sha512-fPwcX4EvnSHuInCMItEhAGnaSEXRBjtzh9fOtsE6E1G6p7vl7edEeZe11QHf18+6+9gR5PbKV/sGKNaD8YaMeA==}
     dependencies:
-      follow-redirects: 1.15.1_debug@2.6.9
+      follow-redirects: 1.15.1
     transitivePeerDependencies:
       - debug
 
@@ -14485,7 +14496,7 @@ packages:
       node-int64: 0.4.0
 
   /buffer-equal-constant-time/1.0.1:
-    resolution: {integrity: sha1-+OcRMvf/5uAaXJaXpMbz5I1cyBk=}
+    resolution: {integrity: sha512-zRpUiDwd/xk6ADqPMATG8vc9VPrkck7T07OIx0gnjmJAnHnTVXNQG3vfvWNuiZIkwu9KrKdA1iJKfsfTVxE6NA==}
     dev: false
 
   /buffer-from/1.1.2:
@@ -14874,6 +14885,7 @@ packages:
       readdirp: 3.6.0
     optionalDependencies:
       fsevents: 2.3.2
+    dev: true
 
   /chokidar/3.5.3:
     resolution: {integrity: sha512-Dr3sfKRP6oTcjf2JmUmFJfeVMvXBdegxB0iVQ5eb2V10uFJUCAS8OByZdVAyVb8xXNz3GjjTgj9kLWsZTqE6kw==}
@@ -18194,6 +18206,15 @@ packages:
   /focus-visible/5.2.0:
     resolution: {integrity: sha512-Rwix9pBtC1Nuy5wysTmKy+UjbDJpIfg8eHjw0rjZ1mX4GNLz1Bmd16uDpI3Gk1i70Fgcs8Csg2lPm8HULFg9DQ==}
 
+  /follow-redirects/1.15.1:
+    resolution: {integrity: sha512-yLAMQs+k0b2m7cVxpS1VKJVvoz7SS9Td1zss3XRwXj+ZDH00RJgnuLx7E44wx02kQLrdM3aOOy+FpzS7+8OizA==}
+    engines: {node: '>=4.0'}
+    peerDependencies:
+      debug: '*'
+    peerDependenciesMeta:
+      debug:
+        optional: true
+
   /follow-redirects/1.15.1_debug@2.6.9:
     resolution: {integrity: sha512-yLAMQs+k0b2m7cVxpS1VKJVvoz7SS9Td1zss3XRwXj+ZDH00RJgnuLx7E44wx02kQLrdM3aOOy+FpzS7+8OizA==}
     engines: {node: '>=4.0'}
@@ -18580,7 +18601,7 @@ packages:
       create-error-class: 3.0.2
       debug: 2.6.9
       decompress-response: 6.0.0
-      follow-redirects: 1.15.1_debug@2.6.9
+      follow-redirects: 1.15.1
       form-urlencoded: 2.0.9
       into-stream: 3.1.0
       is-plain-object: 2.0.4
@@ -23567,7 +23588,7 @@ packages:
       '@babel/runtime': 7.18.3
       '@panva/hkdf': 1.0.1
       cookie: 0.4.2
-      jose: 4.6.0
+      jose: 4.11.1
       oauth: 0.9.15
       openid-client: 5.1.4
       preact: 10.7.2
@@ -23600,32 +23621,6 @@ packages:
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
       uuid: 8.3.2
-
-  /next-auth/4.17.0_azq6kxkn3od7qdylwkyksrwopy:
-    resolution: {integrity: sha512-aN2tdnjS0MDeUpB2tBDOaWnegkgeMWrsccujbXRGMJ607b+EwRcy63MFGSr0OAboDJEe0902piXQkt94GqF8Qw==}
-    engines: {node: ^12.19.0 || ^14.15.0 || ^16.13.0 || ^18.12.0}
-    peerDependencies:
-      next: ^12.2.5 || ^13
-      nodemailer: ^6.6.5
-      react: ^17.0.2 || ^18
-      react-dom: ^17.0.2 || ^18
-    peerDependenciesMeta:
-      nodemailer:
-        optional: true
-    dependencies:
-      '@babel/runtime': 7.18.3
-      '@panva/hkdf': 1.0.1
-      cookie: 0.5.0
-      jose: 4.11.1
-      next: 12.3.1_biqbaboplfbrettd7655fr4n2y
-      oauth: 0.9.15
-      openid-client: 5.1.4
-      preact: 10.7.2
-      preact-render-to-string: 5.2.0_preact@10.7.2
-      react: 18.2.0
-      react-dom: 18.2.0_react@18.2.0
-      uuid: 8.3.2
-    dev: false
 
   /next-compose-plugins/2.2.1:
     resolution: {integrity: sha512-OjJ+fV15FXO2uQXQagLD4C0abYErBjyjE0I0FHpOEIB8upw0hg1ldFP6cqHTJBH1cZqy96OeR3u1dJ+Ez2D4Bg==}
@@ -23933,6 +23928,7 @@ packages:
     transitivePeerDependencies:
       - '@babel/core'
       - babel-plugin-macros
+    dev: true
 
   /next/12.3.1_x6hpkaqu4dxwl4unajq2h7dx44:
     resolution: {integrity: sha512-l7bvmSeIwX5lp07WtIiP9u2ytZMv7jIeB8iacR28PuUEFG5j0HGAPnMqyG5kbZNBG2H7tRsrQ4HCjuMOPnANZw==}
@@ -27835,6 +27831,7 @@ packages:
     hasBin: true
     dependencies:
       chokidar: 3.5.2
+    dev: true
 
   /satori/0.0.40:
     resolution: {integrity: sha512-SoXGq/89mBU34U1h4g/nXeL9DHS/Aof2iUL3FHabq+laSRQUSUI1ZhPhak3J6VMNW8wghYwJ/Bi7aF8FLPq9qQ==}

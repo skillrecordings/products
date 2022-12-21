@@ -26,7 +26,8 @@ import {Lesson, LessonSchema} from '../lib/lesson'
 import {useConvertkit} from '../hooks/use-converkit'
 import {ArticleJsonLd} from '@skillrecordings/next-seo'
 import {GiftIcon} from '@heroicons/react/solid'
-// import Icon from 'components/icons'
+import Icon from 'components/app/icons'
+import {track} from '../utils/analytics'
 
 const ExerciseTemplate: React.FC<{
   exercise: Lesson
@@ -80,7 +81,7 @@ const ExerciseTemplate: React.FC<{
             section={section}
           />
           <main className="relative mx-auto max-w-[1480px] grow items-start 2xl:flex 2xl:max-w-none">
-            <div className="2xl:relative 2xl:h-full 2xl:w-full 2xl:border-r">
+            <div className="2xl:relative 2xl:h-full 2xl:w-full 2xl:border-r border-gray-800">
               <Video
                 ref={muxPlayerRef}
                 module={module}
@@ -103,8 +104,8 @@ const ExerciseTemplate: React.FC<{
             <article className="relative flex-shrink-0 shadow-gray-500/10 2xl:h-full 2xl:shadow-xl">
               <div className="relative z-10 mx-auto max-w-4xl px-5 py-5 lg:py-8 2xl:max-w-xl">
                 <ExerciseTitle exercise={exercise} />
+                <GitHubLink exercise={exercise} module={module} />
                 <ExerciseDescription exercise={exercise} />
-                {/* <GitHubLink exercise={exercise} module={module} /> */}
               </div>
               <div className="relative z-10 block 2xl:hidden">
                 <VideoTranscript
@@ -171,6 +172,42 @@ const Video: React.FC<VideoProps> = React.forwardRef(
     )
   },
 )
+
+const GitHubLink: React.FC<{
+  exercise: Lesson
+  module: SanityDocument
+}> = ({exercise, module}) => {
+  const github = exercise.github
+
+  if (!github) {
+    return null
+  }
+
+  return (
+    <div className="flex items-center gap-2">
+      <a
+        onClick={() => {
+          track('clicked github code link', {
+            lesson: exercise.slug,
+            module: module.slug.current,
+            moduleType: module.moduleType,
+            lessonType: exercise._type,
+          })
+        }}
+        href={github.url}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="inline-flex items-center gap-2 rounded-lg bg-gray-800 py-2 px-4 text-lg font-medium text-white transition hover:bg-gray-900"
+      >
+        <Icon name="Github" size="24" />
+        <div>
+          <p className="font-semibold">Code</p>
+          {/* <p className="font-mono text-sm text-gray-400">/{openFile}</p> */}
+        </div>
+      </a>
+    </div>
+  )
+}
 
 const ExerciseTitle: React.FC<{exercise: Lesson}> = ({exercise}) => {
   const {title, _type} = exercise

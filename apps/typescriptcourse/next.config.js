@@ -6,6 +6,8 @@ const IMAGE_HOST_DOMAINS = [
   `res.cloudinary.com`,
   `d2eip9sf3oo6c2.cloudfront.net`,
   `cdn.sanity.io`,
+  `image.mux.com`,
+  `typescriptcourse.com`,
 ]
 
 const withTM = require('next-transpile-modules')(

@@ -94,7 +94,7 @@ const Header: React.FC<{tutorial: SanityDocument}> = ({tutorial}) => {
               )}
               {github && (
                 <a
-                  className="flex items-center justify-center gap-2 rounded-lg border-2 border-gray-200 px-3 py-2 font-medium transition hover:bg-gray-800"
+                  className="flex items-center justify-center gap-2 rounded-lg border-2 border-red-200 px-3 py-2 font-medium transition hover:bg-gray-800"
                   href={github.url}
                   target="_blank"
                   rel="noopener noreferrer"
@@ -128,7 +128,7 @@ const TutorialLessonNavigator: React.FC<{tutorial: SanityDocument}> = ({
   return (
     <nav
       aria-label="lesson navigator"
-      className="border-gray-200 lg:border-l lg:pl-8"
+      className="border-gray-800 lg:border-l lg:pl-8"
     >
       <h2 className="pb-4 font-mono text-sm font-semibold uppercase text-gray-600">
         {lessons?.length || 0} Lessons

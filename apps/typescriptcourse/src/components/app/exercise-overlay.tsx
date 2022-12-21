@@ -11,18 +11,18 @@ import Image from 'next/image'
 import {useMuxPlayer} from 'hooks/use-mux-player'
 import {XIcon} from '@heroicons/react/solid'
 import cx from 'classnames'
+import {track} from '../../utils/analytics'
 import {setUserId} from '@amplitude/analytics-browser'
 import {sanityClient} from 'utils/sanity-client'
 import {PortableText} from '@portabletext/react'
 import {useQuery} from 'react-query'
 import {trpc} from '../../utils/trcp'
 import Spinner from './spinner'
-import {Lesson} from 'lib/lesson'
 
 export const OverlayWrapper: React.FC<
   React.PropsWithChildren<{className?: string; dismissable?: boolean}>
 > = ({children, className, dismissable = true}) => {
-  const {setDisplayOverlay} = useMuxPlayer()
+  const {setDisplayOverlay, lesson, module} = useMuxPlayer()
 
   return (
     <div
@@ -33,6 +33,12 @@ export const OverlayWrapper: React.FC<
         <button
           className="absolute top-2 right-2 z-50 flex items-center justify-center gap-1 rounded-full  py-2 px-3.5 font-medium text-gray-600 transition"
           onClick={() => {
+            track('dismissed video overlay', {
+              lesson: lesson.slug,
+              module: module.slug.current,
+              moduleType: module.moduleType,
+              lessonType: lesson._type,
+            })
             setDisplayOverlay(false)
           }}
         >
@@ -47,6 +53,60 @@ export const OverlayWrapper: React.FC<
         )}
       >
         {children}
+      </div>
+    </div>
+  )
+}
+
+const Actions = () => {
+  const {nextExercise, lesson, module, path, handlePlay} = useMuxPlayer()
+  const router = useRouter()
+  return (
+    <div className="flex justify-center gap-2">
+      <button
+        className="rounded-md bg-gray-600 px-3 py-1 font-medium transition hover:bg-gray-500/80 sm:px-5 sm:py-2"
+        onClick={() => {
+          track('clicked replay', {
+            lesson: lesson.slug,
+            module: module.slug.current,
+            location: 'exercise',
+            moduleType: module.moduleType,
+            lessonType: lesson._type,
+          })
+          handlePlay()
+        }}
+      >
+        Replay <span aria-hidden="true">↺</span>
+      </button>
+      {nextExercise && (
+        <button
+          className="rounded-md bg-green-500 px-3 py-1 font-medium text-white transition hover:bg-green-400 sm:px-5 sm:py-2"
+          onClick={() => {
+            track('clicked continue to solution', {
+              lesson: lesson.slug,
+              module: module?.slug.current,
+              location: 'exercise',
+              moduleType: module.moduleType,
+              lessonType: lesson._type,
+            })
+            handleContinue(router, module, nextExercise, handlePlay, path)
+          }}
+        ></button>
+      )}
+    </div>
+  )
+}
+
+const ExerciseOverlay = () => {
+  const {lesson, module} = useMuxPlayer()
+  const {github} = module
+
+  return (
+    <div className=" bg-black/30 ">
+      <div className="flex aspect-video flex-col items-center justify-center gap-5 p-3 text-center sm:hidden">
+        <div className="flex items-center justify-center gap-3">
+          <Actions />
+        </div>
       </div>
     </div>
   )
@@ -80,6 +140,13 @@ const DefaultOverlay = () => {
         <button
           className="rounded-full bg-white px-3 py-1 text-lg font-semibold transition hover:bg-gray-100 sm:px-5 sm:py-3"
           onClick={() => {
+            track('clicked replay', {
+              lesson: lesson.slug,
+              module: module.slug.current,
+              location: 'exercise',
+              moduleType: module.moduleType,
+              lessonType: lesson._type,
+            })
             handlePlay()
           }}
         >
@@ -88,6 +155,13 @@ const DefaultOverlay = () => {
         <button
           className="rounded-full bg-brand-red px-3 py-1 text-lg font-semibold text-white transition hover:brightness-125 sm:px-5 sm:py-3"
           onClick={() => {
+            track('clicked complete', {
+              lesson: lesson.slug,
+              module: module.slug.current,
+              location: 'exercise',
+              moduleType: module.moduleType,
+              lessonType: lesson._type,
+            })
             addProgressMutation.mutate(
               {lessonSlug: lesson.slug},
               {
@@ -199,6 +273,13 @@ const BlockedOverlay: React.FC = () => {
         confirmToast: 'true',
       })
       email && setUserId(email)
+      track('subscribed to email list', {
+        lesson: lesson.slug,
+        module: module.slug.current,
+        location: 'exercise',
+        moduleType: module.moduleType,
+        lessonType: lesson._type,
+      })
       router.push(redirectUrl).then(() => {
         router.reload()
       })
@@ -280,7 +361,13 @@ const LoadingOverlay: React.FC<LoadingOverlayProps> = () => {
   )
 }
 
-export {DefaultOverlay, FinishedOverlay, BlockedOverlay, LoadingOverlay}
+export {
+  ExerciseOverlay,
+  DefaultOverlay,
+  FinishedOverlay,
+  BlockedOverlay,
+  LoadingOverlay,
+}
 
 const handleContinue = async (
   router: NextRouter,
