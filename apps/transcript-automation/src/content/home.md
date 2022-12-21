@@ -1,4 +1,4 @@
-# Boost your Output 500% (and have fun doing it) with Transcript Automation
+# Boost your Output 500%
 
 Whether it’s Zoom calls to talk strategy, leading live workshops, or streaming your screen as you learn in public, you spend a lot of time having to be “on”.
 
@@ -44,8 +44,7 @@ With an automated end-to-end process spanning pre-transcription media prep throu
 
 Corrections and edits are minimized, and take a fraction of the time you’re used to. File management becomes a breeze. Creativity and creation are at an all-time high.
 
-## Save time. Create better content. Use robots.
-
-Descript is *so* April 2022.
+Don't let AI take your job.
+Make it make you better.
 
 
