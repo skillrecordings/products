@@ -1,6 +1,6 @@
 import {createRouter} from 'server/createRouter'
 import {z} from 'zod'
-import {getSdk, Purchase} from '@skillrecordings/database'
+import {getSdk} from '@skillrecordings/database'
 import {
   formatPricesForProduct,
   getActiveMerchantCoupon,
@@ -13,8 +13,6 @@ const merchantCouponSchema = z.object({
   type: z.string(),
 })
 
-const PurchaseSchema: z.ZodType<Purchase> = z.any()
-
 const PricingFormattedInputSchema = z.object({
   productId: z.string(),
   userId: z.string().optional(),
@@ -23,7 +21,6 @@ const PricingFormattedInputSchema = z.object({
   merchantCoupon: merchantCouponSchema.optional(),
   upgradeFromPurchaseId: z.string().optional(),
   code: z.string().optional(),
-  purchases: PurchaseSchema.array(),
 })
 
 const checkForAnyAvailableUpgrades = async ({
@@ -33,7 +30,7 @@ const checkForAnyAvailableUpgrades = async ({
 }: {
   upgradeFromPurchaseId: string | undefined
   productId: string
-  purchases: Purchase[]
+  purchases: Array<{id: string; productId: string}>
 }) => {
   if (upgradeFromPurchaseId) return upgradeFromPurchaseId
 
@@ -102,10 +99,12 @@ export const pricing = createRouter().query('formatted', {
       quantity,
       couponId,
       merchantCoupon,
-      purchases,
       upgradeFromPurchaseId: _upgradeFromPurchaseId,
       code,
     } = input
+
+    const {getPurchasesForUser} = getSdk()
+    const purchases = await getPurchasesForUser(userId)
 
     const country = (ctx.req.headers['x-vercel-ip-country'] as string) || 'US'
 
