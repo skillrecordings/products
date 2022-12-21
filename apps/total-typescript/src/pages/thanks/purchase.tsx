@@ -64,22 +64,11 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   }
 }
 
-const ThanksVerify: React.FC<
+const PurchaseLayout: React.FC<
   React.PropsWithChildren<{
-    email: string
-    seatsPurchased: number
-    purchaseType: PurchaseType
-    bulkCouponId: string
-    product: SanityProduct
+    productImage: {url: string; alt: string} | undefined
   }>
-> = ({email, seatsPurchased, purchaseType, bulkCouponId, product}) => {
-  const isTeamPurchase =
-    purchaseType === NEW_BULK_COUPON ||
-    purchaseType === EXISTING_BULK_COUPON ||
-    purchaseType === INDIVIDUAL_TO_BULK_UPGRADE
-  const isNewPurchase =
-    purchaseType === NEW_BULK_COUPON || purchaseType === NEW_INDIVIDUAL_PURCHASE
-
+> = ({productImage, children}) => {
   const {reward} = useReward('reward', 'confetti', {
     startVelocity: 7,
     spread: 300,
@@ -110,87 +99,106 @@ const ThanksVerify: React.FC<
       />
       <main className="relative z-10 flex min-h-screen flex-grow flex-col items-center justify-center px-5 pt-10 pb-28 text-white">
         <div className="mx-auto flex w-full max-w-screen-md flex-col items-center gap-5 text-center">
-          {product?.image.url && (
+          {productImage && (
             <div className="translate-y-16">
               <Image
                 priority
-                src={product.image.url}
+                src={productImage.url}
                 width={812 / 2.4}
                 height={925 / 2.4}
-                alt=""
+                alt={productImage.alt}
                 aria-hidden="true"
               />
             </div>
           )}
           <div className="relative z-10 flex flex-col items-center">
-            <h1 className="max-w-md text-lg font-medium text-cyan-100 sm:text-lg">
-              Thank you for purchasing{' '}
-              {purchaseType === EXISTING_BULK_COUPON && 'more seats for'}{' '}
-              {product?.name || process.env.NEXT_PUBLIC_SITE_TITLE}!{' '}
-              {isTeamPurchase && (
-                <>
-                  <br className="hidden sm:block" />
-                  Your purchase is for <strong>{seatsPurchased}</strong>{' '}
-                  {purchaseType === EXISTING_BULK_COUPON && 'additional'} seat
-                  {seatsPurchased > 1 && 's'}.
-                  {purchaseType === NEW_BULK_COUPON && (
-                    <>
-                      {' '}
-                      You can always add more seats later when your team grows.
-                    </>
-                  )}
-                </>
-              )}
-            </h1>
-            <h2 className="mx-auto max-w-lg py-5 font-text text-3xl font-bold lg:text-4xl">
-              Please check your inbox for a login link that just got sent.
-            </h2>
-            <code className="mb-10 mt-5 flex items-center justify-center gap-2 rounded-lg bg-cyan-500/10 px-4 py-3 font-sans text-base font-medium text-white shadow-xl sm:text-lg">
-              <MailIcon className="h-5 w-5 text-cyan-200" aria-hidden="true" />{' '}
-              <span className="text-cyan-200">Email sent to:</span> {email}
-            </code>
-            <p className="mx-auto max-w-xl pt-5 text-sm text-gray-200 sm:text-base sm:leading-relaxed">
-              As a final step to access the course you need to check your inbox
-              (<strong>{email}</strong>) where you will find an email from{' '}
-              <strong>{process.env.NEXT_PUBLIC_SUPPORT_EMAIL}</strong> with a
-              link to access your purchase and start learning.
-            </p>
-            {isTeamPurchase && Boolean(bulkCouponId) && (
-              <>
-                <p className="mx-auto max-w-xl pt-5 text-sm text-gray-200 sm:text-base sm:leading-relaxed">
-                  Invite your team to claim seats right away with this invite
-                  link. Don't worry about saving this anywhere, it will always
-                  be available on your Team page once you sign in.
-                </p>
-                <div className="w-full text-gray-900">
-                  <CopyInviteLink bulkCouponId={bulkCouponId} />
-                </div>
-              </>
-            )}
-            {!isNewPurchase && isTeamPurchase && Boolean(bulkCouponId) && (
-              <>
-                <h2 className="mx-auto max-w-lg py-5 text-3xl font-bold lg:text-4xl">
-                  Invite Your Team
-                </h2>
-                <div className="w-full text-gray-900">
-                  <CopyInviteLink bulkCouponId={bulkCouponId} />
-                </div>
-                <p className="mx-auto mt-2 max-w-sm leading-relaxed text-gray-200 sm:text-lg">
-                  You can also visit your{' '}
-                  <Link href="/team">
-                    <a className="inline-flex py-1 text-base font-medium transition hover:underline">
-                      Team Invite
-                    </a>
-                  </Link>{' '}
-                  page anytime to get the share link for distributing to your
-                  team.
-                </p>
-              </>
-            )}
+            {children}
           </div>
         </div>
       </main>
     </Layout>
+  )
+}
+
+const ThanksVerify: React.FC<
+  React.PropsWithChildren<{
+    email: string
+    seatsPurchased: number
+    purchaseType: PurchaseType
+    bulkCouponId: string
+    product: SanityProduct
+  }>
+> = ({email, seatsPurchased, purchaseType, bulkCouponId, product}) => {
+  const isTeamPurchase =
+    purchaseType === NEW_BULK_COUPON ||
+    purchaseType === EXISTING_BULK_COUPON ||
+    purchaseType === INDIVIDUAL_TO_BULK_UPGRADE
+  const isNewPurchase =
+    purchaseType === NEW_BULK_COUPON || purchaseType === NEW_INDIVIDUAL_PURCHASE
+
+  return (
+    <PurchaseLayout productImage={product?.image}>
+      <h1 className="max-w-md text-lg font-medium text-cyan-100 sm:text-lg">
+        Thank you for purchasing{' '}
+        {purchaseType === EXISTING_BULK_COUPON && 'more seats for'}{' '}
+        {product?.name || process.env.NEXT_PUBLIC_SITE_TITLE}!{' '}
+        {isTeamPurchase && (
+          <>
+            <br className="hidden sm:block" />
+            Your purchase is for <strong>{seatsPurchased}</strong>{' '}
+            {purchaseType === EXISTING_BULK_COUPON && 'additional'} seat
+            {seatsPurchased > 1 && 's'}.
+            {purchaseType === NEW_BULK_COUPON && (
+              <> You can always add more seats later when your team grows.</>
+            )}
+          </>
+        )}
+      </h1>
+      <h2 className="mx-auto max-w-lg py-5 font-text text-3xl font-bold lg:text-4xl">
+        Please check your inbox for a login link that just got sent.
+      </h2>
+      <code className="mb-10 mt-5 flex items-center justify-center gap-2 rounded-lg bg-cyan-500/10 px-4 py-3 font-sans text-base font-medium text-white shadow-xl sm:text-lg">
+        <MailIcon className="h-5 w-5 text-cyan-200" aria-hidden="true" />{' '}
+        <span className="text-cyan-200">Email sent to:</span> {email}
+      </code>
+      <p className="mx-auto max-w-xl pt-5 text-sm text-gray-200 sm:text-base sm:leading-relaxed">
+        As a final step to access the course you need to check your inbox (
+        <strong>{email}</strong>) where you will find an email from{' '}
+        <strong>{process.env.NEXT_PUBLIC_SUPPORT_EMAIL}</strong> with a link to
+        access your purchase and start learning.
+      </p>
+      {isTeamPurchase && Boolean(bulkCouponId) && (
+        <>
+          <p className="mx-auto max-w-xl pt-5 text-sm text-gray-200 sm:text-base sm:leading-relaxed">
+            Invite your team to claim seats right away with this invite link.
+            Don't worry about saving this anywhere, it will always be available
+            on your Team page once you sign in.
+          </p>
+          <div className="w-full text-gray-900">
+            <CopyInviteLink bulkCouponId={bulkCouponId} />
+          </div>
+        </>
+      )}
+      {!isNewPurchase && isTeamPurchase && Boolean(bulkCouponId) && (
+        <>
+          <h2 className="mx-auto max-w-lg py-5 text-3xl font-bold lg:text-4xl">
+            Invite Your Team
+          </h2>
+          <div className="w-full text-gray-900">
+            <CopyInviteLink bulkCouponId={bulkCouponId} />
+          </div>
+          <p className="mx-auto mt-2 max-w-sm leading-relaxed text-gray-200 sm:text-lg">
+            You can also visit your{' '}
+            <Link href="/team">
+              <a className="inline-flex py-1 text-base font-medium transition hover:underline">
+                Team Invite
+              </a>
+            </Link>{' '}
+            page anytime to get the share link for distributing to your team.
+          </p>
+        </>
+      )}
+    </PurchaseLayout>
   )
 }
 
