@@ -24,7 +24,7 @@ export const PrimaryNewsletterCta: React.FC<
             Save time. Create better content. Use robots.
           </h2>
           <h3 className="max-w-md leading-tight pt-6 pb-16 text-lg text-center">
-            Descript is so April 2022
+            Descript is <em>so</em> April 2022.
           </h3>
         </>
       )}
