@@ -1,11 +1,9 @@
 import * as React from 'react'
-import ModuleLessonListHeader from 'components/module-lesson-list-header'
 import Navigation from 'components/app/navigation'
 import Layout from 'components/app/layout'
 import {VideoProvider} from 'hooks/use-mux-player'
 import {SanityDocument} from '@sanity/client'
 import Image from 'next/image'
-import {Exercise, ExerciseSchema} from '../lib/exercises'
 import {ArticleJsonLd} from '@skillrecordings/next-seo'
 import {Video} from '../components/exercise/video'
 import {GitHubLink} from '../components/exercise/github-link'
@@ -14,20 +12,21 @@ import {ExerciseTitle} from '../components/exercise/exercise-title'
 import {ExerciseDescription} from '../components/exercise/exercise-description'
 import {MobileModuleLessonList} from '../components/exercise/mobile-module-lesson-list'
 import {LargeScreenModuleLessonList} from '../components/exercise/large-screen-module-lesson-list'
+import {LessonResource, LessonResourceSchema} from '../lib/lesson-resources'
+import {useRouter} from 'next/router'
 
 const ExerciseTemplate: React.FC<{
-  exercise: Exercise
+  exercise: LessonResource
   module: SanityDocument
   section?: SanityDocument
-  isSolution?: boolean
-}> = ({exercise, section, module, isSolution = false}) => {
+  videoThumbId?: string
+  transcript: any[]
+}> = ({exercise, section, module, videoThumbId, transcript}) => {
   const muxPlayerRef = React.useRef<HTMLDivElement>()
+  const router = useRouter()
 
-  // required to verify access since we switch to the solution below
-  // and you can't query solutions from Sanity
-  const exerciseSlug = exercise.slug
+  exercise = LessonResourceSchema.parse(exercise)
 
-  exercise = ExerciseSchema.parse(isSolution ? exercise.solution : exercise)
   const {title, description: exerciseDescription} = exercise
 
   const {ogImage, description: moduleDescription} = module
@@ -42,9 +41,10 @@ const ExerciseTemplate: React.FC<{
       muxPlayerRef={muxPlayerRef}
       module={module}
       section={section}
-      exerciseSlug={exerciseSlug}
-      lesson={exercise as Exercise}
+      exerciseSlug={router.query.exercise as string}
+      lesson={exercise}
       path={path}
+      videoThumbId={videoThumbId}
     >
       <Layout
         meta={{title: pageTitle, ...shareCard, description: pageDescription}}
@@ -60,7 +60,7 @@ const ExerciseTemplate: React.FC<{
           url={`${process.env.NEXT_PUBLIC_URL}/${module.slug.current}/${exercise.slug}`}
           title={exercise.title}
           images={[
-            `https://image.mux.com/${exercise.muxPlaybackId}/thumbnail.png?width=480&height=384&fit_mode=preserve`,
+            `https://image.mux.com/${videoThumbId}/thumbnail.png?width=480&height=384&fit_mode=preserve`,
           ]}
           datePublished={exercise._updatedAt || new Date().toISOString()}
           authorName={`${process.env.NEXT_PUBLIC_PARTNER_FIRST_NAME} ${process.env.NEXT_PUBLIC_PARTNER_LAST_NAME}`}
@@ -87,7 +87,7 @@ const ExerciseTemplate: React.FC<{
               />
               <div className="hidden flex-grow 2xl:block 2xl:bg-black/20">
                 <VideoTranscript
-                  exercise={exercise}
+                  transcript={transcript}
                   muxPlayerRef={muxPlayerRef}
                 />
               </div>
@@ -100,7 +100,7 @@ const ExerciseTemplate: React.FC<{
               </div>
               <div className="relative z-10 block flex-grow 2xl:hidden">
                 <VideoTranscript
-                  exercise={exercise}
+                  transcript={transcript}
                   muxPlayerRef={muxPlayerRef}
                 />
               </div>

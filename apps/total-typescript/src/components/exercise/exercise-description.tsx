@@ -1,14 +1,13 @@
 import * as React from 'react'
-import {Exercise} from '../../lib/exercises'
 import {PortableText} from '@portabletext/react'
 import PortableTextComponents from '../portable-text'
 import {take} from 'lodash'
 import {useMuxPlayer} from '../../hooks/use-mux-player'
 import Link from 'next/link'
-import Spinner from 'components/spinner'
 import cx from 'classnames'
+import {LessonResource} from '../../lib/lesson-resources'
 
-export const ExerciseDescription: React.FC<{exercise: Exercise}> = ({
+export const ExerciseDescription: React.FC<{exercise: LessonResource}> = ({
   exercise,
 }) => {
   const {canShowVideo, loadingUserStatus, lesson} = useMuxPlayer()

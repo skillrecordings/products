@@ -1,20 +1,18 @@
 import React from 'react'
 import get from 'lodash/get'
 import {usePlayerPrefs} from './use-player-prefs'
-import {getNextExercise} from 'utils/get-next-exercise'
 import {SanityDocument} from '@sanity/client'
 import {useRouter} from 'next/router'
 import {MuxPlayerProps} from '@mux/mux-player-react/*'
 import {track} from '../utils/analytics'
-import {type Exercise, ExerciseSchema} from 'lib/exercises'
 import {type Tip, TipSchema} from 'lib/tips'
 import {useConvertkit} from './use-convertkit'
 import {AppAbility, createAppAbility} from 'ability/ability'
-import {useSession} from 'next-auth/react'
 import {trpc} from '../utils/trpc'
 import {getNextSection} from 'utils/get-next-section'
+import {LessonResource, LessonResourceSchema} from '../lib/lesson-resources'
 
-type VideoResource = Exercise | Tip
+type VideoResource = LessonResource | Tip
 
 type VideoContextType = {
   muxPlayerProps: MuxPlayerProps | any
@@ -46,6 +44,22 @@ type VideoProviderProps = {
   path?: string
   muxPlayerRef: any
   onEnded?: () => Promise<any>
+  videoThumbId?: string
+}
+
+const useNextLesson = (
+  lesson: VideoResource,
+  module: SanityDocument,
+  section?: SanityDocument,
+) => {
+  const router = useRouter()
+  const {data: nextExercise} = trpc.lessons.getNextLesson.useQuery({
+    type: lesson._type,
+    slug: router.query.exercise as string,
+    module: module.slug.current,
+    section: section?.slug.current,
+  })
+  return nextExercise
 }
 
 export const VideoProvider: React.FC<
@@ -59,15 +73,12 @@ export const VideoProvider: React.FC<
   onEnded = async () => {},
   section,
   exerciseSlug,
+  videoThumbId,
 }) => {
   const router = useRouter()
   const {subscriber, loadingSubscriber} = useConvertkit()
-  const {data: userSession, status} = useSession()
-  const nextExercise = getNextExercise({
-    module,
-    section,
-    currentLesson: lesson as Exercise,
-  })
+
+  const nextExercise = useNextLesson(lesson, module, section)
 
   const nextSection = section
     ? getNextSection({
@@ -98,19 +109,17 @@ export const VideoProvider: React.FC<
     usePlayerPrefs()
   const [autoPlay, setAutoPlay] = React.useState(getPlayerPrefs().autoplay)
   const [displayOverlay, setDisplayOverlay] = React.useState(false)
-  const video = {muxPlaybackId: lesson.muxPlaybackId}
+  const video = {muxPlaybackId: videoThumbId}
   const title = get(lesson, 'title') || get(lesson, 'label')
   const loadingUserStatus =
-    loadingSubscriber ||
-    status === 'loading' ||
-    abilityRulesStatus === 'loading'
+    loadingSubscriber || abilityRulesStatus === 'loading'
 
   const handlePlay = React.useCallback(() => {
     const videoElement = document.getElementById(
       'mux-player',
     ) as HTMLVideoElement
     return videoElement?.play()
-  }, [])
+  }, [videoThumbId])
 
   const moduleSlug = module?.slug?.current
   const nextExerciseSlug = nextExercise?.slug
@@ -142,35 +151,56 @@ export const VideoProvider: React.FC<
 
   const canShowVideo = ability.can('view', 'Content')
 
+  const onPlay = React.useCallback(() => {
+    setDisplayOverlay(false)
+    track('started lesson video', {
+      module: module.slug.current,
+      lesson: lesson.slug,
+      moduleType: module.moduleType,
+      lessonType: lesson._type,
+    })
+  }, [lesson._type, lesson.slug, module.moduleType, module.slug])
+
+  const onEndedCallback = React.useCallback(async () => {
+    handleNext(getPlayerPrefs().autoplay)
+    track('completed lesson video', {
+      module: module.slug.current,
+      lesson: lesson.slug,
+      moduleType: module.moduleType,
+      lessonType: lesson._type,
+    })
+    return onEnded()
+  }, [
+    getPlayerPrefs,
+    handleNext,
+    lesson._type,
+    lesson.slug,
+    module.moduleType,
+    module.slug,
+    onEnded,
+  ])
+
+  const currentPlaybackRate = muxPlayerRef.current?.playbackRate || 1
+  const onRateChange = React.useCallback(() => {
+    setPlayerPrefs({
+      playbackRate: currentPlaybackRate,
+    })
+  }, [currentPlaybackRate, setPlayerPrefs])
+
+  const setDisplayOverlayCallback = React.useCallback(
+    (value: boolean) => {
+      setDisplayOverlay(value)
+    },
+    [setDisplayOverlay],
+  )
+
   const context = {
     muxPlayerProps: {
       id: 'mux-player',
-      onPlay: () => {
-        setDisplayOverlay(false)
-        track('started lesson video', {
-          module: module.slug.current,
-          lesson: lesson.slug,
-          moduleType: module.moduleType,
-          lessonType: lesson._type,
-        })
-      },
-
+      onPlay,
       onPause: () => {},
-      onEnded: async () => {
-        handleNext(getPlayerPrefs().autoplay)
-        track('completed lesson video', {
-          module: module.slug.current,
-          lesson: lesson.slug,
-          moduleType: module.moduleType,
-          lessonType: lesson._type,
-        })
-        return onEnded()
-      },
-      onRateChange: () => {
-        setPlayerPrefs({
-          playbackRate: muxPlayerRef.current.playbackRate,
-        })
-      },
+      onEnded: onEndedCallback,
+      onRateChange,
       defaultHiddenCaptions: true, // TODO: investigate storing subtitles preferences
       // autoPlay,
       streamType: 'on-demand',
@@ -182,7 +212,7 @@ export const VideoProvider: React.FC<
     autoPlay,
     setAutoPlay,
     setPlayerPrefs,
-    setDisplayOverlay: (value: boolean) => setDisplayOverlay(value),
+    setDisplayOverlay: setDisplayOverlayCallback,
     handlePlay,
     displayOverlay,
     nextExercise,
@@ -190,7 +220,7 @@ export const VideoProvider: React.FC<
     lesson:
       lesson._type === 'tip'
         ? TipSchema.parse(lesson)
-        : ExerciseSchema.parse(lesson),
+        : LessonResourceSchema.parse(lesson),
     section,
     module,
     video,

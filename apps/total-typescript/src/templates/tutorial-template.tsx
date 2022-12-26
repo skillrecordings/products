@@ -2,16 +2,14 @@ import React from 'react'
 import Layout from 'components/app/layout'
 import Image from 'next/image'
 import Link from 'next/link'
-import {useLearnerCertificateAsOgImage} from 'hooks/use-learner-certificate-as-ogimage'
 import {CourseJsonLd} from '@skillrecordings/next-seo'
 import {PortableText} from '@portabletext/react'
 import {SanityDocument} from '@sanity/client'
 import {IconGithub} from 'components/icons'
 import {isBrowser} from 'utils/is-browser'
 import {track} from '../utils/analytics'
-import {useConvertkit} from 'hooks/use-convertkit'
-import {Exercise} from 'lib/exercises'
 import PortableTextComponents from 'components/portable-text'
+import {LessonResource} from '../lib/lesson-resources'
 
 const TutorialTemplate: React.FC<{
   tutorial: SanityDocument
@@ -165,7 +163,7 @@ const TutorialExerciseNavigator: React.FC<{tutorial: SanityDocument}> = ({
       </h2>
       {exercises && (
         <ul>
-          {exercises.map((exercise: Exercise, i: number) => {
+          {exercises.map((exercise: LessonResource, i: number) => {
             return (
               <li key={exercise.slug}>
                 <Link

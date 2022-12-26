@@ -7,6 +7,9 @@ import {workshop} from './workshop'
 import {abilities} from './abilities'
 import {pricing} from './pricing'
 import {router} from '../trpc'
+import {stackblitzResourceRouter} from './stackblitz-resource'
+import {lessonsRouter} from './lessons'
+import {soulutionsRouter} from './solutions'
 
 /**
  * Create your application's root router
@@ -20,6 +23,9 @@ export const appRouter = router({
   workshops: workshop,
   abilities: abilities,
   pricing: pricing,
+  stackblitz: stackblitzResourceRouter,
+  lessons: lessonsRouter,
+  solutions: soulutionsRouter,
 })
 
 export type AppRouter = typeof appRouter
