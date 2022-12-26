@@ -83,16 +83,14 @@ export const VideoProvider: React.FC<
   // and we need to be able to robustly check for access
   // while understanding what the actual thing
   // being displayed **is**
-  const {data: abilityRules, status: abilityRulesStatus} = trpc.useQuery([
-    'workshops.verifyAccess',
-    {
+  const {data: abilityRules, status: abilityRulesStatus} =
+    trpc.workshops.verifyAccess.useQuery({
       moduleSlug: module.slug.current,
       moduleType: module.moduleType,
       lessonSlug: exerciseSlug,
       sectionSlug: section?.slug,
       isSolution: lesson._type === 'solution',
-    },
-  ])
+    })
 
   const ability = createAppAbility(abilityRules || [])
 

@@ -1,16 +1,44 @@
-import {createReactQueryHooks} from '@trpc/react'
-import type {inferProcedureOutput} from '@trpc/server'
-import {AppRouter} from 'server/routers/_app'
+import {httpBatchLink, loggerLink} from '@trpc/client'
+import {createTRPCNext} from '@trpc/next'
+import {inferRouterInputs, inferRouterOutputs} from '@trpc/server'
 import superjson from 'superjson'
+import type {AppRouter} from 'server/routers/_app'
 
-export const trpc = createReactQueryHooks<AppRouter>()
+function getBaseUrl() {
+  if (typeof window !== 'undefined') {
+    return ''
+  }
 
-export const transformer = superjson
+  if (process.env.VERCEL_URL) {
+    return `https://${process.env.VERCEL_URL}`
+  }
 
-/**
- * This is a helper method to infer the output of a query resolver
- * @example type HelloOutput = inferQueryOutput<'hello'>
- */
-export type inferQueryOutput<
-  TRouteKey extends keyof AppRouter['_def']['queries'],
-> = inferProcedureOutput<AppRouter['_def']['queries'][TRouteKey]>
+  return `http://127.0.0.1:${process.env.PORT ?? 3016}`
+}
+
+export const trpc = createTRPCNext<AppRouter>({
+  config({ctx}) {
+    return {
+      transformer: superjson,
+      links: [
+        // adds pretty logs to your console in development and logs errors in production
+        loggerLink({
+          enabled: (opts) =>
+            process.env.NODE_ENV === 'development' ||
+            (opts.direction === 'down' && opts.result instanceof Error),
+        }),
+        httpBatchLink({
+          url: `${getBaseUrl()}/api/trpc`,
+        }),
+      ],
+      /**
+       * @link https://react-query.tanstack.com/reference/QueryClient
+       */
+      // queryClientConfig: { defaultOptions: { queries: { staleTime: 60 } } },
+    }
+  },
+  ssr: false,
+})
+
+export type RouterInput = inferRouterInputs<AppRouter>
+export type RouterOutput = inferRouterOutputs<AppRouter>

@@ -1,18 +1,20 @@
-import {createRouter} from '../createRouter'
 import {z} from 'zod'
 import {answerSurvey, markLessonComplete} from 'lib/convertkit'
 import {updateSubscriber} from '@skillrecordings/convertkit-sdk'
 import {serialize} from 'cookie'
 import {SubscriberSchema} from 'schemas/subscriber'
 import {convertkitSetSubscriberCookie} from '../ck-set-subscriber-cookie'
+import {publicProcedure, router} from '../trpc'
 
-export const convertkitRouter = createRouter()
-  .mutation('updateName', {
-    input: z.object({
-      first_name: z.string().optional(),
-      last_name: z.string().optional(),
-    }),
-    async resolve({ctx, input}) {
+export const convertkitRouter = router({
+  updateName: publicProcedure
+    .input(
+      z.object({
+        first_name: z.string().optional(),
+        last_name: z.string().optional(),
+      }),
+    )
+    .mutation(async ({ctx, input}) => {
       const subscriberCookie = ctx.req.cookies['ck_subscriber']
       const {first_name, last_name} = input
 
@@ -40,14 +42,15 @@ export const convertkitRouter = createRouter()
       })
 
       return updatedSubscriber
-    },
-  })
-  .mutation('completeLesson', {
-    input: z.object({
-      moduleSlug: z.string(),
-      lessonSlug: z.string(),
     }),
-    async resolve({ctx, input}) {
+  completeLesson: publicProcedure
+    .input(
+      z.object({
+        moduleSlug: z.string(),
+        lessonSlug: z.string(),
+      }),
+    )
+    .mutation(async ({ctx, input}) => {
       const subscriberCookie = ctx.req.cookies['ck_subscriber']
 
       if (!subscriberCookie) {
@@ -81,14 +84,15 @@ export const convertkitRouter = createRouter()
       ctx.res.setHeader('Set-Cookie', convertkitCookie)
 
       return updatedSubscriber
-    },
-  })
-  .mutation('answerSurvey', {
-    input: z.object({
-      question: z.string(),
-      answer: z.string(),
     }),
-    async resolve({ctx, input}) {
+  answerSurvey: publicProcedure
+    .input(
+      z.object({
+        question: z.string(),
+        answer: z.string(),
+      }),
+    )
+    .mutation(async ({ctx, input}) => {
       const subscriberCookie = ctx.req.cookies['ck_subscriber']
 
       if (!subscriberCookie) {
@@ -122,5 +126,5 @@ export const convertkitRouter = createRouter()
       ctx.res.setHeader('Set-Cookie', convertkitCookie)
 
       return updatedSubscriber
-    },
-  })
+    }),
+})

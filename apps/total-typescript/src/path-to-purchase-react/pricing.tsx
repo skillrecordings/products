@@ -83,17 +83,14 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
   const {subscriber, loadingSubscriber} = useConvertkit()
   const router = useRouter()
 
-  const {data: formattedPrice, status} = trpc.useQuery(
-    [
-      'pricing.formatted',
-      {
-        productId,
-        userId,
-        quantity: debouncedQuantity,
-        couponId,
-        merchantCoupon,
-      },
-    ],
+  const {data: formattedPrice, status} = trpc.pricing.formatted.useQuery(
+    {
+      productId,
+      userId,
+      quantity: debouncedQuantity,
+      couponId,
+      merchantCoupon,
+    },
     {
       onSuccess: (formattedPrice) => {
         addPrice(formattedPrice, productId)

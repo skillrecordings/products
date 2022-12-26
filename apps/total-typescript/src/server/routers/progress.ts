@@ -1,15 +1,17 @@
-import {createRouter} from 'server/createRouter'
+import {publicProcedure, router} from '../trpc'
 import {z} from 'zod'
 import {getSdk} from '@skillrecordings/database'
 import {SubscriberSchema} from 'schemas/subscriber'
 import {getToken} from 'next-auth/jwt'
 
-export const progressRouter = createRouter()
-  .mutation('add', {
-    input: z.object({
-      lessonSlug: z.string(),
-    }),
-    async resolve({ctx, input}) {
+export const progressRouter = router({
+  add: publicProcedure
+    .input(
+      z.object({
+        lessonSlug: z.string(),
+      }),
+    )
+    .mutation(async ({ctx, input}) => {
       const token = await getToken({req: ctx.req})
       const {findOrCreateUser, completeLessonProgressForUser} = getSdk()
       try {
@@ -48,24 +50,22 @@ export const progressRouter = createRouter()
         if (error instanceof Error) message = error.message
         return {error: message}
       }
-    },
-  })
-  .query('get', {
-    async resolve({ctx}) {
-      const {getLessonProgressForUser} = getSdk()
-      const token = await getToken({req: ctx.req})
-      if (token) {
-        try {
-          const lessonProgress = await getLessonProgressForUser(
-            token.id as string,
-          )
-          return lessonProgress
-        } catch (error) {
-          console.error(error)
-          let message = 'Unknown Error'
-          if (error instanceof Error) message = error.message
-          return {error: message}
-        }
+    }),
+  get: publicProcedure.query(async ({ctx}) => {
+    const {getLessonProgressForUser} = getSdk()
+    const token = await getToken({req: ctx.req})
+    if (token) {
+      try {
+        const lessonProgress = await getLessonProgressForUser(
+          token.id as string,
+        )
+        return lessonProgress
+      } catch (error) {
+        console.error(error)
+        let message = 'Unknown Error'
+        if (error instanceof Error) message = error.message
+        return {error: message}
       }
-    },
-  })
+    }
+  }),
+})
