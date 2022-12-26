@@ -29,14 +29,11 @@ const BuyMoreSeats = (props: BuyMoreSeatsProps) => {
   const [quantity, setQuantity] = React.useState(5)
   const debouncedQuantity: number = useDebounce<number>(quantity, 250)
 
-  const {data: formattedPrice, status} = trpc.useQuery([
-    'pricing.formatted',
-    {
-      productId,
-      userId,
-      quantity: debouncedQuantity,
-    },
-  ])
+  const {data: formattedPrice, status} = trpc.pricing.formatted.useQuery({
+    productId,
+    userId,
+    quantity: debouncedQuantity,
+  })
 
   const formActionPath = buildFormActionPath({
     userId,

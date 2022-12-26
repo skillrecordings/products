@@ -190,7 +190,10 @@ const LessonList: React.FC<{
             {section?.resources?.map(
               (resource: SanityDocument, resourceIdx: number) => {
                 return (
-                  <li key={resource.slug} className="pt-2">
+                  <li
+                    key={resource.slug?.current || resource.slug}
+                    className="pt-2"
+                  >
                     <Link href={resource.url} passHref>
                       <a
                         className="flex items-center px-4 py-2 font-semibold leading-tight hover:bg-gray-800"

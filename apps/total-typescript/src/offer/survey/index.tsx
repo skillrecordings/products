@@ -24,7 +24,7 @@ export const Survey = ({
   }
   const router = useRouter()
   const pathIsValid = isPathValid(router.asPath, excludePages)
-  const answerSurveyMutation = trpc.useMutation(['convertkit.answerSurvey'])
+  const answerSurveyMutation = trpc.convertkit.answerSurvey.useMutation()
   const {currentOffer, currentOfferId, isPopupOpen, sendToMachine} =
     useSurveyPopupOfferMachine()
 

@@ -152,9 +152,8 @@ const WorkshopSectionNavigator: React.FC<{workshop: SanityDocument}> = ({
   workshop,
 }) => {
   const {slug, sections, _type} = workshop
-  const {data: userProgress, status: userProgressStatus} = trpc.useQuery([
-    'progress.get',
-  ])
+  const {data: userProgress, status: userProgressStatus} =
+    trpc.progress.get.useQuery()
 
   return (
     <nav

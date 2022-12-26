@@ -1,4 +1,4 @@
-import {createRouter} from 'server/createRouter'
+import {publicProcedure, router} from '../trpc'
 import {z} from 'zod'
 import {getWorkshop} from '../../lib/workshops'
 import {getToken} from 'next-auth/jwt'
@@ -22,24 +22,27 @@ function getSubscriberFromCookie(req: NextApiRequest) {
   }
 }
 
-export const workshop = createRouter()
-  .query('bySlug', {
-    input: z.object({
-      slug: z.string(),
-    }),
-    async resolve({ctx, input}) {
+export const workshop = router({
+  bySlug: publicProcedure
+    .input(
+      z.object({
+        slug: z.string(),
+      }),
+    )
+    .query(async ({ctx, input}) => {
       return await getWorkshop(input.slug)
-    },
-  })
-  .query('verifyAccess', {
-    input: z.object({
-      moduleSlug: z.string().optional(),
-      moduleType: z.string().optional(),
-      lessonSlug: z.string().optional(),
-      sectionSlug: z.string().optional(),
-      isSolution: z.boolean().optional(),
     }),
-    async resolve({ctx, input}) {
+  verifyAccess: publicProcedure
+    .input(
+      z.object({
+        moduleSlug: z.string().optional(),
+        moduleType: z.string().optional(),
+        lessonSlug: z.string().optional(),
+        sectionSlug: z.string().optional(),
+        isSolution: z.boolean().optional(),
+      }),
+    )
+    .query(async ({ctx, input}) => {
       const token = await getToken({req: ctx.req})
       const convertkitSubscriber = getSubscriberFromCookie(ctx.req)
       const {
@@ -70,5 +73,5 @@ export const workshop = createRouter()
       })
 
       return rules
-    },
-  })
+    }),
+})

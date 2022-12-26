@@ -46,7 +46,7 @@ const Navigation: React.FC<React.PropsWithChildren<Props>> = ({
 }
 
 const useAbilities = () => {
-  const {data: abilityRules} = trpc.useQuery(['abilities.getAbilities'])
+  const {data: abilityRules} = trpc.abilities.getAbilities.useQuery()
 
   return createAppAbility(abilityRules || [])
 }

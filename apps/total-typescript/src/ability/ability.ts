@@ -102,9 +102,11 @@ export function defineRulesForPurchases(
   const {can, rules} = new AbilityBuilder<AppAbility>(createMongoAbility)
   const {user} = viewerAbilityInput
 
-  can('edit', 'User', {
-    id: user?.id,
-  })
+  if (user) {
+    can('edit', 'User', {
+      id: user?.id,
+    })
+  }
 
   if (hasChargesForPurchases(user?.purchases)) {
     can('view', 'Invoice')

@@ -1,4 +1,4 @@
-import {createRouter} from 'server/createRouter'
+import {publicProcedure, router} from '../trpc'
 import {z} from 'zod'
 import {getSdk} from '@skillrecordings/database'
 import {
@@ -90,53 +90,54 @@ const checkForAvailableCoupons = async ({
   }
 }
 
-export const pricing = createRouter().query('formatted', {
-  input: PricingFormattedInputSchema,
-  async resolve({ctx, input}): Promise<FormattedPrice> {
-    const {
-      productId,
-      userId,
-      quantity,
-      couponId,
-      merchantCoupon,
-      upgradeFromPurchaseId: _upgradeFromPurchaseId,
-      code,
-    } = input
-
-    const {getPurchasesForUser} = getSdk()
-    const purchases = await getPurchasesForUser(userId)
-
-    const country = (ctx.req.headers['x-vercel-ip-country'] as string) || 'US'
-
-    const upgradeFromPurchaseId = await checkForAnyAvailableUpgrades({
-      upgradeFromPurchaseId: _upgradeFromPurchaseId,
-      productId,
-      purchases,
-    })
-
-    const {activeMerchantCoupon, defaultCoupon} =
-      await checkForAvailableCoupons({
-        merchantCoupon,
-        couponId,
-        code,
+export const pricing = router({
+  formatted: publicProcedure
+    .input(PricingFormattedInputSchema)
+    .query(async ({ctx, input}) => {
+      const {
         productId,
+        userId,
+        quantity,
+        couponId,
+        merchantCoupon,
+        upgradeFromPurchaseId: _upgradeFromPurchaseId,
+        code,
+      } = input
+
+      const {getPurchasesForUser} = getSdk()
+      const purchases = await getPurchasesForUser(userId)
+
+      const country = (ctx.req.headers['x-vercel-ip-country'] as string) || 'US'
+
+      const upgradeFromPurchaseId = await checkForAnyAvailableUpgrades({
+        upgradeFromPurchaseId: _upgradeFromPurchaseId,
+        productId,
+        purchases,
       })
 
-    const productPrices = await formatPricesForProduct({
-      productId,
-      country,
-      quantity,
-      code,
-      merchantCouponId: activeMerchantCoupon?.id,
-      ...(upgradeFromPurchaseId && {upgradeFromPurchaseId}),
-      userId,
-    })
+      const {activeMerchantCoupon, defaultCoupon} =
+        await checkForAvailableCoupons({
+          merchantCoupon,
+          couponId,
+          code,
+          productId,
+        })
 
-    const formattedPrice = {
-      ...productPrices,
-      ...(defaultCoupon && {defaultCoupon}),
-    }
+      const productPrices = await formatPricesForProduct({
+        productId,
+        country,
+        quantity,
+        code,
+        merchantCouponId: activeMerchantCoupon?.id,
+        ...(upgradeFromPurchaseId && {upgradeFromPurchaseId}),
+        userId,
+      })
 
-    return formattedPrice
-  },
+      const formattedPrice = {
+        ...productPrices,
+        ...(defaultCoupon && {defaultCoupon}),
+      }
+
+      return formattedPrice
+    }),
 })
