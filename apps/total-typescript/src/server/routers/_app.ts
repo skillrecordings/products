@@ -10,6 +10,7 @@ import {router} from '../trpc'
 import {stackblitzResourceRouter} from './stackblitz-resource'
 import {lessonsRouter} from './lessons'
 import {soulutionsRouter} from './solutions'
+import {videoResourceRouter} from './video-resources'
 
 /**
  * Create your application's root router
@@ -26,6 +27,7 @@ export const appRouter = router({
   stackblitz: stackblitzResourceRouter,
   lessons: lessonsRouter,
   solutions: soulutionsRouter,
+  videoResources: videoResourceRouter,
 })
 
 export type AppRouter = typeof appRouter

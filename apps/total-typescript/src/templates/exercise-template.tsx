@@ -14,14 +14,15 @@ import {MobileModuleLessonList} from '../components/exercise/mobile-module-lesso
 import {LargeScreenModuleLessonList} from '../components/exercise/large-screen-module-lesson-list'
 import {LessonResource, LessonResourceSchema} from '../lib/lesson-resources'
 import {useRouter} from 'next/router'
+import {getBaseUrl} from 'utils/get-base-url'
 
 const ExerciseTemplate: React.FC<{
   exercise: LessonResource
   module: SanityDocument
   section?: SanityDocument
-  videoThumbId?: string
   transcript: any[]
-}> = ({exercise, section, module, videoThumbId, transcript}) => {
+  videoResourceId: string
+}> = ({exercise, section, module, transcript, videoResourceId}) => {
   const muxPlayerRef = React.useRef<HTMLDivElement>()
   const router = useRouter()
 
@@ -44,7 +45,6 @@ const ExerciseTemplate: React.FC<{
       exerciseSlug={router.query.exercise as string}
       lesson={exercise}
       path={path}
-      videoThumbId={videoThumbId}
     >
       <Layout
         meta={{title: pageTitle, ...shareCard, description: pageDescription}}
@@ -60,7 +60,7 @@ const ExerciseTemplate: React.FC<{
           url={`${process.env.NEXT_PUBLIC_URL}/${module.slug.current}/${exercise.slug}`}
           title={exercise.title}
           images={[
-            `https://image.mux.com/${videoThumbId}/thumbnail.png?width=480&height=384&fit_mode=preserve`,
+            `${getBaseUrl()}/api/video-thumb?videoResourceId=${videoResourceId}`,
           ]}
           datePublished={exercise._updatedAt || new Date().toISOString()}
           authorName={`${process.env.NEXT_PUBLIC_PARTNER_FIRST_NAME} ${process.env.NEXT_PUBLIC_PARTNER_LAST_NAME}`}

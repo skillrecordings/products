@@ -3,6 +3,7 @@ import ExerciseTemplate from 'templates/exercise-template'
 import {GetStaticPaths, GetStaticProps} from 'next'
 import {getAllTutorials, getTutorial} from 'lib/tutorials'
 import {getExercise} from 'lib/exercises'
+import {VideoResourceProvider} from '../../../../video/use-video-resource'
 
 export const getStaticProps: GetStaticProps = async (context) => {
   const {params} = context
@@ -15,8 +16,8 @@ export const getStaticProps: GetStaticProps = async (context) => {
     props: {
       solution: exercise.solution,
       module,
-      videoThumbId: exercise?.solution?.muxPlaybackId,
       transcript: exercise.solution?.transcript,
+      videoResourceId: exercise.videoResourceId,
     },
     revalidate: 10,
   }
@@ -44,16 +45,18 @@ export const getStaticPaths: GetStaticPaths = async (context) => {
 const ExerciseSolution: React.FC<any> = ({
   solution,
   module,
-  videoThumbId,
   transcript,
+  videoResourceId,
 }) => {
   return (
-    <ExerciseTemplate
-      exercise={solution}
-      module={module}
-      videoThumbId={videoThumbId}
-      transcript={transcript}
-    />
+    <VideoResourceProvider videoResourceId={videoResourceId}>
+      <ExerciseTemplate
+        exercise={solution}
+        module={module}
+        transcript={transcript}
+        videoResourceId={videoResourceId}
+      />
+    </VideoResourceProvider>
   )
 }
 

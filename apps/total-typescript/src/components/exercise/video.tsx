@@ -12,6 +12,7 @@ import {
 import cx from 'classnames'
 import MuxPlayer, {MuxPlayerProps} from '@mux/mux-player-react'
 import {LessonResource} from '../../lib/lesson-resources'
+import {useVideoResource} from '../../video/use-video-resource'
 
 type VideoProps = {
   module: SanityDocument
@@ -23,6 +24,7 @@ type VideoProps = {
 export const Video: React.FC<VideoProps> = React.forwardRef(
   ({module, exercise, section}, ref: any) => {
     const isExercise = Boolean(exercise._type === 'exercise')
+    const {videoResource, loadingVideoResource} = useVideoResource()
     const {
       muxPlayerProps,
       displayOverlay,
@@ -50,10 +52,20 @@ export const Video: React.FC<VideoProps> = React.forwardRef(
             hidden: displayOverlay,
           })}
         >
-          {canShowVideo ? (
-            <MuxPlayer ref={ref} {...(muxPlayerProps as MuxPlayerProps)} />
+          {canShowVideo && !loadingVideoResource ? (
+            <MuxPlayer
+              ref={ref}
+              {...(muxPlayerProps as MuxPlayerProps)}
+              playbackId={videoResource.muxPlaybackId}
+            />
           ) : (
-            <>{loadingUserStatus ? <LoadingOverlay /> : <BlockedOverlay />}</>
+            <>
+              {loadingUserStatus || loadingVideoResource ? (
+                <LoadingOverlay />
+              ) : (
+                <BlockedOverlay />
+              )}
+            </>
           )}
         </div>
       </>

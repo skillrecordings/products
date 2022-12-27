@@ -3,18 +3,7 @@ import {createTRPCNext} from '@trpc/next'
 import {inferRouterInputs, inferRouterOutputs} from '@trpc/server'
 import superjson from 'superjson'
 import type {AppRouter} from 'server/routers/_app'
-
-function getBaseUrl() {
-  if (typeof window !== 'undefined') {
-    return ''
-  }
-
-  if (process.env.VERCEL_URL) {
-    return `https://${process.env.VERCEL_URL}`
-  }
-
-  return `http://127.0.0.1:${process.env.PORT ?? 3016}`
-}
+import {getBaseUrl} from './get-base-url'
 
 export const trpc = createTRPCNext<AppRouter>({
   config({ctx}) {

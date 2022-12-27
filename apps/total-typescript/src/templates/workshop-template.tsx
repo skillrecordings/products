@@ -150,9 +150,7 @@ const Header: React.FC<{workshop: SanityDocument}> = ({workshop}) => {
 const WorkshopSectionNavigator: React.FC<{workshop: SanityDocument}> = ({
   workshop,
 }) => {
-  const {slug, sections, _type} = workshop
-  const {data: userProgress, status: userProgressStatus} =
-    trpc.progress.get.useQuery()
+  const {sections} = workshop
 
   return (
     <nav
@@ -185,7 +183,6 @@ const WorkshopSectionNavigator: React.FC<{workshop: SanityDocument}> = ({
                     </Accordion.Header>
                     <Accordion.Content>
                       <WorkshopSectionExerciseNavigator
-                        userProgress={userProgress}
                         section={section}
                         moduleSlug={workshop.slug.current}
                       />
@@ -201,68 +198,90 @@ const WorkshopSectionNavigator: React.FC<{workshop: SanityDocument}> = ({
   )
 }
 
+const LessonListItem = ({
+  lessonResource,
+  section,
+  moduleSlug,
+  index,
+}: {
+  lessonResource: LessonResource
+  section: SanityDocument
+  moduleSlug: string
+  index: number
+}) => {
+  const {data: solution} = trpc.solutions.getSolution.useQuery({
+    exerciseSlug: lessonResource.slug,
+  })
+  const {data: userProgress} = trpc.progress.get.useQuery()
+
+  const isExerciseCompleted =
+    isArray(userProgress) &&
+    find(userProgress, ({lessonSlug}) => lessonSlug === solution?.slug)
+
+  return (
+    <li key={lessonResource.slug}>
+      <Link
+        href={{
+          pathname: '/workshops/[module]/[section]/[exercise]',
+          query: {
+            section: section.slug,
+            exercise: lessonResource.slug,
+            module: moduleSlug,
+          },
+        }}
+        passHref
+      >
+        <a
+          className="group inline-flex items-center py-2.5 text-base font-medium"
+          onClick={() => {
+            track('clicked workshop exercise', {
+              module: moduleSlug,
+              lesson: lessonResource.slug,
+              section: section.slug,
+              moduleType: section._type,
+              lessonType: lessonResource._type,
+            })
+          }}
+        >
+          {isExerciseCompleted ? (
+            <CheckIcon
+              className="mr-2 h-4 w-4 text-teal-400"
+              aria-hidden="true"
+            />
+          ) : (
+            <span
+              className="w-6 font-mono text-xs text-gray-400"
+              aria-hidden="true"
+            >
+              {index + 1}
+            </span>
+          )}
+          <span className="w-full cursor-pointer leading-tight group-hover:underline">
+            {lessonResource.title}
+          </span>
+        </a>
+      </Link>
+    </li>
+  )
+}
+
 const WorkshopSectionExerciseNavigator: React.FC<{
   section: SanityDocument
   moduleSlug: string
-  userProgress: LessonProgress[] | {error?: string} | undefined
-}> = ({section, moduleSlug, userProgress}) => {
-  const {slug, exercises, _type} = section
-  const router = useRouter()
-  const {data: solution, status} = trpc.solutions.getSolution.useQuery({
-    exerciseSlug: router.query.exercise as string,
-  })
+}> = ({section, moduleSlug}) => {
+  const {exercises} = section
 
   return exercises ? (
     <ul className="-mt-5 rounded-b-lg border border-white/5 bg-black/20 pl-3.5 pr-3 pt-7 pb-3">
       {exercises.map((exercise: LessonResource, i: number) => {
-        const isExerciseCompleted =
-          isArray(userProgress) &&
-          find(userProgress, ({lessonSlug}) => lessonSlug === solution?.slug)
-
         return (
-          <li key={exercise.slug}>
-            <Link
-              href={{
-                pathname: '/workshops/[module]/[section]/[exercise]',
-                query: {
-                  section: slug,
-                  exercise: exercise.slug,
-                  module: moduleSlug,
-                },
-              }}
-              passHref
-            >
-              <a
-                className="group inline-flex items-center py-2.5 text-base font-medium"
-                onClick={() => {
-                  track('clicked workshop exercise', {
-                    module: slug.current,
-                    lesson: exercise.slug,
-                    section: slug.current,
-                    moduleType: _type,
-                    lessonType: exercise._type,
-                  })
-                }}
-              >
-                {isExerciseCompleted ? (
-                  <CheckIcon
-                    className="mr-2 h-4 w-4 text-teal-400"
-                    aria-hidden="true"
-                  />
-                ) : (
-                  <span
-                    className="w-6 font-mono text-xs text-gray-400"
-                    aria-hidden="true"
-                  >
-                    {i + 1}
-                  </span>
-                )}
-                <span className="w-full cursor-pointer leading-tight group-hover:underline">
-                  {exercise.title}
-                </span>
-              </a>
-            </Link>
-          </li>
+          <LessonListItem
+            key={exercise.slug}
+            lessonResource={exercise}
+            section={section}
+            moduleSlug={moduleSlug}
+            index={i}
+          />
         )
       })}
     </ul>
