@@ -29,7 +29,7 @@ export const lessonsRouter = router({
       const exercises = section ? section.exercises : module.exercises
 
       const exerciseForSolution = exercises.find((resource: SanityDocument) => {
-        return resource.solution?._key === lesson._key
+        return resource.solution?._key === lesson.solution?._key
       })
 
       const current = find(exercises, {_id: exerciseForSolution._id})
