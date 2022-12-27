@@ -24,7 +24,7 @@ type VideoContextType = {
   nextExercise: SanityDocument
   nextSection: SanityDocument
   path: string
-  video?: {muxPlaybackId: string | null | undefined}
+  video?: {muxPlaybackId?: string}
   canShowVideo: boolean
   loadingUserStatus: boolean
   ability: AppAbility
