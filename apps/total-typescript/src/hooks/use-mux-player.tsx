@@ -57,7 +57,7 @@ const useNextLesson = (
     type: lesson._type,
     slug: router.query.exercise as string,
     module: module.slug.current,
-    section: section?.slug.current,
+    section: section?.slug,
   })
   return nextExercise
 }
