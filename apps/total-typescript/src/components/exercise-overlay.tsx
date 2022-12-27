@@ -22,11 +22,13 @@ import Spinner from './spinner'
 import {StackBlitzIframe} from './exercise/stackblitz-iframe'
 import Link from 'next/link'
 import first from 'lodash/first'
+import {useLesson} from '../video/use-lesson'
 
 export const OverlayWrapper: React.FC<
   React.PropsWithChildren<{className?: string; dismissable?: boolean}>
 > = ({children, className, dismissable = true}) => {
-  const {setDisplayOverlay, lesson, module} = useMuxPlayer()
+  const {setDisplayOverlay} = useMuxPlayer()
+  const {lesson, module} = useLesson()
 
   return (
     <div
@@ -62,8 +64,8 @@ export const OverlayWrapper: React.FC<
 }
 
 const Actions = () => {
-  const {nextExercise, lesson, module, section, path, handlePlay} =
-    useMuxPlayer()
+  const {nextExercise, path, handlePlay} = useMuxPlayer()
+  const {lesson, module, section} = useLesson()
   const router = useRouter()
 
   return (
@@ -112,7 +114,7 @@ const Actions = () => {
 }
 
 const ExerciseOverlay = () => {
-  const {lesson, module} = useMuxPlayer()
+  const {lesson, module} = useLesson()
   const router = useRouter()
   const {data: stackblitz, status} = trpc.stackblitz.byExerciseSlug.useQuery({
     slug: router.query.exercise as string,
@@ -175,8 +177,8 @@ const ExerciseOverlay = () => {
 }
 
 const DefaultOverlay = () => {
-  const {nextExercise, module, path, lesson, handlePlay, section} =
-    useMuxPlayer()
+  const {nextExercise, path, handlePlay} = useMuxPlayer()
+  const {lesson, module, section} = useLesson()
   const router = useRouter()
   const {image} = module
   const addProgressMutation = trpc.progress.add.useMutation()
@@ -250,7 +252,8 @@ const DefaultOverlay = () => {
 }
 
 const FinishedOverlay = () => {
-  const {module, path, section, lesson, handlePlay} = useMuxPlayer()
+  const {path, handlePlay} = useMuxPlayer()
+  const {lesson, module, section} = useLesson()
 
   const router = useRouter()
   const shareUrl = `${process.env.NEXT_PUBLIC_URL}${path}/${module.slug.current}`
@@ -334,7 +337,7 @@ const FinishedOverlay = () => {
 
 const BlockedOverlay: React.FC = () => {
   const router = useRouter()
-  const {lesson, module} = useMuxPlayer()
+  const {lesson, module} = useLesson()
 
   const {data: ctaText} = useQuery(
     [`exercise-free-tutorial`, lesson.slug, module.slug.current],
@@ -507,8 +510,8 @@ const LoadingOverlay: React.FC<LoadingOverlayProps> = () => {
 }
 
 const FinishedSectionOverlay = () => {
-  const {nextSection, path, section, module, lesson, handlePlay} =
-    useMuxPlayer()
+  const {nextSection, path, handlePlay} = useMuxPlayer()
+  const {lesson, module} = useLesson()
   const {image} = module
   const addProgressMutation = trpc.progress.add.useMutation()
   const nextExercise = first(nextSection?.exercises) as SanityDocument

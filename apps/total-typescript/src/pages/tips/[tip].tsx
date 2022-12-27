@@ -2,6 +2,8 @@ import React from 'react'
 import {GetStaticPaths, GetStaticProps, NextPage} from 'next'
 import {getAllTips, getTip, Tip} from 'lib/tips'
 import TipTemplate from 'templates/tip-template'
+import {LessonProvider} from '../../video/use-lesson'
+import {VideoResourceProvider} from '../../video/use-video-resource'
 
 export const getStaticProps: GetStaticProps = async ({params}) => {
   const tip = await getTip(params?.tip as string)
@@ -11,6 +13,7 @@ export const getStaticProps: GetStaticProps = async ({params}) => {
     props: {
       tip,
       tips,
+      videoResourceId: tip.videoResourceId,
     },
     revalidate: 10,
   }
@@ -27,10 +30,25 @@ export const getStaticPaths: GetStaticPaths = async () => {
 export type TipPageProps = {
   tip: Tip
   tips: Tip[]
+  videoResourceId: string
 }
 
-const TipPage: NextPage<TipPageProps> = ({tip, tips}) => {
-  return <TipTemplate tip={tip} tips={tips} />
+const TipPage: NextPage<TipPageProps> = ({tip, tips, videoResourceId}) => {
+  const module: any = {
+    slug: {
+      current: 'tips',
+    },
+    moduleType: 'tip',
+    exercises: tips,
+    resources: tips.filter((tipToCompare) => tipToCompare.slug !== tip.slug),
+  }
+  return (
+    <LessonProvider lesson={tip} module={module}>
+      <VideoResourceProvider videoResourceId={videoResourceId}>
+        <TipTemplate tip={tip} tips={tips} videoResourceId={videoResourceId} />
+      </VideoResourceProvider>
+    </LessonProvider>
+  )
 }
 
 export default TipPage

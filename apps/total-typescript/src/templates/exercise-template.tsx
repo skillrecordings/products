@@ -12,21 +12,17 @@ import {ExerciseTitle} from '../components/exercise/exercise-title'
 import {ExerciseDescription} from '../components/exercise/exercise-description'
 import {MobileModuleLessonList} from '../components/exercise/mobile-module-lesson-list'
 import {LargeScreenModuleLessonList} from '../components/exercise/large-screen-module-lesson-list'
-import {LessonResource, LessonResourceSchema} from '../lib/lesson-resources'
 import {useRouter} from 'next/router'
 import {getBaseUrl} from 'utils/get-base-url'
+import {useLesson} from '../video/use-lesson'
 
 const ExerciseTemplate: React.FC<{
-  exercise: LessonResource
-  module: SanityDocument
-  section?: SanityDocument
   transcript: any[]
   videoResourceId: string
-}> = ({exercise, section, module, transcript, videoResourceId}) => {
+}> = ({transcript, videoResourceId}) => {
   const muxPlayerRef = React.useRef<HTMLDivElement>()
   const router = useRouter()
-
-  exercise = LessonResourceSchema.parse(exercise)
+  const {lesson: exercise, section, module} = useLesson()
 
   const {title, description: exerciseDescription} = exercise
 
@@ -40,10 +36,7 @@ const ExerciseTemplate: React.FC<{
   return (
     <VideoProvider
       muxPlayerRef={muxPlayerRef}
-      module={module}
-      section={section}
       exerciseSlug={router.query.exercise as string}
-      lesson={exercise}
       path={path}
     >
       <Layout
