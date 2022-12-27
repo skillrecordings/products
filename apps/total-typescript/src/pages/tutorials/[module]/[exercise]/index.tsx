@@ -12,7 +12,12 @@ export const getStaticProps: GetStaticProps = async (context) => {
   const exercise = await getExercise(exerciseSlug)
 
   return {
-    props: {exercise, module},
+    props: {
+      exercise,
+      module,
+      videoThumbId: exercise.muxPlaybackId,
+      transcript: exercise.transcript,
+    },
     revalidate: 10,
   }
 }
@@ -37,8 +42,20 @@ export const getStaticPaths: GetStaticPaths = async (context) => {
   return {paths, fallback: 'blocking'}
 }
 
-const ExercisePage: React.FC<any> = ({exercise, module}) => {
-  return <ExerciseTemplate exercise={exercise} module={module} />
+const ExercisePage: React.FC<any> = ({
+  exercise,
+  module,
+  videoThumbId,
+  transcript,
+}) => {
+  return (
+    <ExerciseTemplate
+      exercise={exercise}
+      module={module}
+      videoThumbId={videoThumbId}
+      transcript={transcript}
+    />
+  )
 }
 
 export default ExercisePage

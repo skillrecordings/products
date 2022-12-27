@@ -1,16 +1,14 @@
 import * as React from 'react'
-import {Exercise} from '../../lib/exercises'
 import {useMuxPlayer} from '../../hooks/use-mux-player'
 import {PortableText} from '@portabletext/react'
 import {PortableTextComponents as PortableTextComponentsType} from '@portabletext/react/src/types'
 import {hmsToSeconds} from '@skillrecordings/time'
 
 export const VideoTranscript: React.FC<{
-  exercise: Exercise
+  transcript: any[]
   muxPlayerRef: any
-}> = ({exercise, muxPlayerRef}) => {
-  const transcript = exercise.transcript
-  const {handlePlay, video, canShowVideo} = useMuxPlayer()
+}> = ({transcript, muxPlayerRef}) => {
+  const {handlePlay, canShowVideo} = useMuxPlayer()
   if (!transcript) {
     return null
   }

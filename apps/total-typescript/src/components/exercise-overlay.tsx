@@ -19,7 +19,6 @@ import {PortableText} from '@portabletext/react'
 import {useQuery} from 'react-query'
 import {trpc} from '../utils/trpc'
 import Spinner from './spinner'
-import {Exercise} from 'lib/exercises'
 import {StackBlitzIframe} from './exercise/stackblitz-iframe'
 import Link from 'next/link'
 import first from 'lodash/first'
@@ -114,10 +113,14 @@ const Actions = () => {
 
 const ExerciseOverlay = () => {
   const {lesson, module} = useMuxPlayer()
+  const router = useRouter()
+  const {data: stackblitz, status} = trpc.stackblitz.byExerciseSlug.useQuery({
+    slug: router.query.exercise as string,
+    type: lesson._type,
+  })
   const {github} = module
-  const stackblitz = lesson.stackblitz
 
-  return (
+  return status !== 'loading' ? (
     <div className=" bg-black/30 ">
       {stackblitz ? (
         <>
@@ -128,7 +131,7 @@ const ExerciseOverlay = () => {
             </div>
           </div>
           <div className="relative hidden h-[500px] w-full sm:block xl:h-[750px]">
-            <StackBlitzIframe exercise={lesson as Exercise} module={module} />
+            <StackBlitzIframe exercise={lesson} module={module} />
           </div>
         </>
       ) : (
@@ -168,7 +171,7 @@ const ExerciseOverlay = () => {
         </div>
       </div>
     </div>
-  )
+  ) : null
 }
 
 const DefaultOverlay = () => {

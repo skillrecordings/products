@@ -1,7 +1,5 @@
 import {SanityDocument} from '@sanity/client'
-import {Exercise} from '../../lib/exercises'
 import * as React from 'react'
-import {useConvertkit} from '../../hooks/use-convertkit'
 import {useMuxPlayer} from '../../hooks/use-mux-player'
 import {
   BlockedOverlay,
@@ -13,11 +11,12 @@ import {
 } from '../exercise-overlay'
 import cx from 'classnames'
 import MuxPlayer, {MuxPlayerProps} from '@mux/mux-player-react'
+import {LessonResource} from '../../lib/lesson-resources'
 
 type VideoProps = {
   module: SanityDocument
   section?: SanityDocument
-  exercise: Exercise
+  exercise: LessonResource
   ref: any
 }
 

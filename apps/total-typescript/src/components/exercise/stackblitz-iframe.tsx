@@ -1,16 +1,23 @@
 import * as React from 'react'
-import {Exercise} from 'lib/exercises'
 import {SanityDocument} from '@sanity/client'
 import cx from 'classnames'
 import Spinner from '../spinner'
 import Image from 'next/image'
+import {LessonResource} from '../../lib/lesson-resources'
+import {trpc} from '../../utils/trpc'
+import {useRouter} from 'next/router'
 
 export const StackBlitzIframe: React.FC<{
-  exercise: Exercise
+  exercise: LessonResource
   module: SanityDocument
   isExpanded?: boolean
 }> = ({exercise, module}) => {
-  const stackblitz = exercise.stackblitz
+  const router = useRouter()
+  const {data: stackblitz, status} = trpc.stackblitz.byExerciseSlug.useQuery({
+    slug: router.query.exercise as string,
+    type: exercise._type,
+  })
+
   const [isLoading, setIsLoading] = React.useState(true)
 
   const githubOrg = 'total-typescript'
@@ -19,7 +26,7 @@ export const StackBlitzIframe: React.FC<{
   const startCommand = getStartCommand(exercise, stackblitz)
   const embedUrl = `https://stackblitz.com/github/${githubOrg}/${githubRepo}?file=${stackblitz}&embed=1&view=editor&hideExplorer=1&ctl=${clickToLoad}&terminal=${startCommand}`
 
-  return (
+  return status === 'loading' ? null : (
     <>
       <iframe
         key={stackblitz}

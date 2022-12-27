@@ -2,15 +2,12 @@ import React from 'react'
 import Layout from 'components/app/layout'
 import Image from 'next/image'
 import Link from 'next/link'
-import {useLearnerCertificateAsOgImage} from 'hooks/use-learner-certificate-as-ogimage'
 import {CourseJsonLd} from '@skillrecordings/next-seo'
 import {PortableText} from '@portabletext/react'
 import {SanityDocument} from '@sanity/client'
 import {IconGithub} from 'components/icons'
 import {isBrowser} from 'utils/is-browser'
 import {track} from '../utils/analytics'
-import {useConvertkit} from 'hooks/use-convertkit'
-import {Exercise} from 'lib/exercises'
 import PortableTextComponents from 'components/portable-text'
 import first from 'lodash/first'
 import * as Accordion from '@radix-ui/react-accordion'
@@ -18,6 +15,8 @@ import {CheckIcon, ChevronDownIcon} from '@heroicons/react/solid'
 import {trpc} from 'utils/trpc'
 import {LessonProgress} from '@skillrecordings/database'
 import {find, isArray} from 'lodash'
+import {LessonResource} from '../lib/lesson-resources'
+import {useRouter} from 'next/router'
 
 const WorkshopTemplate: React.FC<{
   workshop: SanityDocument
@@ -208,16 +207,17 @@ const WorkshopSectionExerciseNavigator: React.FC<{
   userProgress: LessonProgress[] | {error?: string} | undefined
 }> = ({section, moduleSlug, userProgress}) => {
   const {slug, exercises, _type} = section
+  const router = useRouter()
+  const {data: solution, status} = trpc.solutions.getSolution.useQuery({
+    exerciseSlug: router.query.exercise as string,
+  })
 
   return exercises ? (
     <ul className="-mt-5 rounded-b-lg border border-white/5 bg-black/20 pl-3.5 pr-3 pt-7 pb-3">
-      {exercises.map((exercise: Exercise, i: number) => {
+      {exercises.map((exercise: LessonResource, i: number) => {
         const isExerciseCompleted =
           isArray(userProgress) &&
-          find(
-            userProgress,
-            ({lessonSlug}) => lessonSlug === exercise?.solution?.slug,
-          )
+          find(userProgress, ({lessonSlug}) => lessonSlug === solution?.slug)
 
         return (
           <li key={exercise.slug}>

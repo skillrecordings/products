@@ -5,8 +5,8 @@ import {useRouter} from 'next/router'
 import capitalize from 'lodash/capitalize'
 import Link from 'next/link'
 import cx from 'classnames'
-import {Exercise} from '../lib/exercises'
-import Image from 'next/image'
+import {LessonResource} from '../lib/lesson-resources'
+import {trpc} from '../utils/trpc'
 
 const LessonList: React.FC<{
   module: SanityDocument
@@ -34,7 +34,7 @@ const LessonList: React.FC<{
     >
       <nav aria-label="exercise navigator" className="pb-3">
         <ul className="flex flex-col divide-y divide-gray-800/0 text-lg">
-          {exercises?.map((exercise: Exercise, sectionIdx: number) => {
+          {exercises?.map((exercise: LessonResource, sectionIdx: number) => {
             //TODO treat this differently when a section is present as path will change
             const currentPath = section
               ? `${path}/${module.slug.current}/${section.slug}/${exercise.slug}`
@@ -239,16 +239,18 @@ const SolutionLink = ({
 }: {
   module: SanityDocument
   section?: SanityDocument
-  exercise: Exercise
+  exercise: LessonResource
   path: string
 }) => {
   const router = useRouter()
-  const solution = exercise.solution
+  const {data: solution, status} = trpc.solutions.getSolution.useQuery({
+    exerciseSlug: router.query.exercise as string,
+  })
   const currentPath = section
     ? `${path}/${module.slug.current}/${section.slug}/${exercise.slug}/solution`
     : `${path}/${module.slug.current}/${exercise.slug}/solution`
   const isActive = router.asPath === currentPath
-  return (
+  return status !== 'loading' ? (
     <li key={solution?._key}>
       <Link
         href={{
@@ -285,6 +287,6 @@ const SolutionLink = ({
         </a>
       </Link>
     </li>
-  )
+  ) : null
 }
 export default LessonList

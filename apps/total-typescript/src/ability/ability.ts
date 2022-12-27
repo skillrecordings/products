@@ -4,10 +4,10 @@ import {
   CreateAbility,
   AbilityBuilder,
 } from '@casl/ability'
-import {Exercise} from '../lib/exercises'
 import {SanityDocument} from '@sanity/client'
 import z from 'zod'
 import {hasAvailableSeats, hasBulkPurchase} from '@skillrecordings/ability'
+import {LessonResource} from '../lib/lesson-resources'
 
 export const UserSchema = z.object({
   role: z.string().optional(),
@@ -32,7 +32,7 @@ export const createAppAbility = createMongoAbility as CreateAbility<AppAbility>
 type ViewerAbilityInput = {
   user?: User
   subscriber?: any
-  lesson?: Exercise
+  lesson?: LessonResource
   module?: SanityDocument
   section?: SanityDocument
   isSolution?: boolean
@@ -53,9 +53,7 @@ const canViewWorkshop = ({user, module, lesson}: ViewerAbilityInput) => {
     purchases.find((purchase) => purchase.bulkCouponId === null),
   )
 
-  const hasVideo = Boolean(lesson?.muxPlaybackId)
-
-  return contentIsWorkshop && userHasPurchaseWithAccess && hasVideo
+  return contentIsWorkshop && userHasPurchaseWithAccess && lesson
 
   // TODO a given module is associated with a product
   //  if the user has a valid purchase of that product
@@ -87,9 +85,7 @@ const isFreelyVisible = ({
   const isFirstLesson =
     lesson?._type === 'exercise' && lesson._id === exercises[0]._id
 
-  const hasVideo = Boolean(lesson?.muxPlaybackId)
-
-  return isFirstLesson && hasVideo && !isSolution
+  return isFirstLesson && lesson && !isSolution
 }
 
 export function hasChargesForPurchases(purchases?: any[]) {
