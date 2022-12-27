@@ -305,7 +305,7 @@ const TipOverlay: React.FC<{tips: Tip[]}> = ({tips}) => {
             track('dismissed video overlay', {
               lesson: lesson.slug,
               module: module.slug.current,
-              moduleType: module._type,
+              moduleType: 'tip',
               lessonType: lesson._type,
             })
             setDisplayOverlay(false)
