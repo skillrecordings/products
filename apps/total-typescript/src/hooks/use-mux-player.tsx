@@ -5,15 +5,13 @@ import {SanityDocument} from '@sanity/client'
 import {useRouter} from 'next/router'
 import {MuxPlayerProps} from '@mux/mux-player-react/*'
 import {track} from '../utils/analytics'
-import {type Tip, TipSchema} from 'lib/tips'
 import {useConvertkit} from './use-convertkit'
 import {AppAbility, createAppAbility} from 'ability/ability'
 import {trpc} from '../utils/trpc'
 import {getNextSection} from 'utils/get-next-section'
-import {LessonResource, LessonResourceSchema} from '../lib/lesson-resources'
 import {useVideoResource} from '../video/use-video-resource'
-
-type VideoResource = LessonResource | Tip
+import {useLesson} from '../video/use-lesson'
+import {useNextLesson} from 'video/use-next-lesson'
 
 type VideoContextType = {
   muxPlayerProps: MuxPlayerProps | any
@@ -25,58 +23,35 @@ type VideoContextType = {
   displayOverlay: boolean
   nextExercise: SanityDocument
   nextSection: SanityDocument
-  lesson: VideoResource
-  module: SanityDocument
   path: string
   video?: {muxPlaybackId: string | null | undefined}
   canShowVideo: boolean
   loadingUserStatus: boolean
   ability: AppAbility
-  section?: SanityDocument
 }
 
 export const VideoContext = React.createContext({} as VideoContextType)
 
 type VideoProviderProps = {
-  module: SanityDocument
-  lesson: VideoResource
   exerciseSlug?: string
-  section?: SanityDocument
   path?: string
   muxPlayerRef: any
   onEnded?: () => Promise<any>
 }
 
-const useNextLesson = (
-  lesson: VideoResource,
-  module: SanityDocument,
-  section?: SanityDocument,
-) => {
-  const router = useRouter()
-  const {data: nextExercise} = trpc.lessons.getNextLesson.useQuery({
-    type: lesson._type,
-    slug: router.query.exercise as string,
-    module: module.slug.current,
-    section: section?.slug,
-  })
-  return nextExercise
-}
-
 export const VideoProvider: React.FC<
   React.PropsWithChildren<VideoProviderProps>
 > = ({
-  module,
-  lesson,
   muxPlayerRef,
   children,
   path = '',
   onEnded = async () => {},
-  section,
   exerciseSlug,
 }) => {
   const router = useRouter()
   const {subscriber, loadingSubscriber} = useConvertkit()
   const {videoResource, loadingVideoResource} = useVideoResource()
+  const {lesson, section, module} = useLesson()
   const nextExercise = useNextLesson(lesson, module, section)
 
   const nextSection = section
@@ -216,10 +191,6 @@ export const VideoProvider: React.FC<
     displayOverlay,
     nextExercise,
     nextSection,
-    lesson:
-      lesson._type === 'tip'
-        ? TipSchema.parse(lesson)
-        : LessonResourceSchema.parse(lesson),
     section,
     module,
     video: videoResource,

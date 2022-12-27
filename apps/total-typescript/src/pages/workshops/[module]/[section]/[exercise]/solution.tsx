@@ -6,6 +6,7 @@ import {getAllWorkshops, getWorkshop} from 'lib/workshops'
 import {getSection} from 'lib/sections'
 import {LessonResource} from '../../../../../lib/lesson-resources'
 import {VideoResourceProvider} from '../../../../../video/use-video-resource'
+import {LessonProvider} from '../../../../../video/use-lesson'
 
 export const getStaticProps: GetStaticProps = async (context) => {
   const {params} = context
@@ -22,7 +23,7 @@ export const getStaticProps: GetStaticProps = async (context) => {
       module,
       section,
       transcript: exercise.solution?.transcript,
-      videoResourceId: exercise.videoResourceId,
+      videoResourceId: exercise.solution?.videoResourceId,
     },
     revalidate: 10,
   }
@@ -61,15 +62,14 @@ const ExerciseSolution: React.FC<any> = ({
   videoResourceId,
 }) => {
   return (
-    <VideoResourceProvider videoResourceId={videoResourceId}>
-      <ExerciseTemplate
-        exercise={solution}
-        section={section}
-        module={module}
-        transcript={transcript}
-        videoResourceId={videoResourceId}
-      />
-    </VideoResourceProvider>
+    <LessonProvider lesson={solution} module={module} section={section}>
+      <VideoResourceProvider videoResourceId={videoResourceId}>
+        <ExerciseTemplate
+          transcript={transcript}
+          videoResourceId={videoResourceId}
+        />
+      </VideoResourceProvider>
+    </LessonProvider>
   )
 }
 

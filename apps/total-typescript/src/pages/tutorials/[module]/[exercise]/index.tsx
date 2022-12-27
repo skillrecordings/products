@@ -4,6 +4,7 @@ import {GetStaticPaths, GetStaticProps} from 'next'
 import {getAllTutorials, getTutorial} from 'lib/tutorials'
 import {getExercise} from 'lib/exercises'
 import {VideoResourceProvider} from '../../../../video/use-video-resource'
+import {LessonProvider} from '../../../../video/use-lesson'
 
 export const getStaticProps: GetStaticProps = async (context) => {
   const {params} = context
@@ -50,14 +51,14 @@ const ExercisePage: React.FC<any> = ({
   videoResourceId,
 }) => {
   return (
-    <VideoResourceProvider videoResourceId={videoResourceId}>
-      <ExerciseTemplate
-        exercise={exercise}
-        module={module}
-        transcript={transcript}
-        videoResourceId={videoResourceId}
-      />
-    </VideoResourceProvider>
+    <LessonProvider lesson={exercise} module={module}>
+      <VideoResourceProvider videoResourceId={videoResourceId}>
+        <ExerciseTemplate
+          transcript={transcript}
+          videoResourceId={videoResourceId}
+        />
+      </VideoResourceProvider>
+    </LessonProvider>
   )
 }
 

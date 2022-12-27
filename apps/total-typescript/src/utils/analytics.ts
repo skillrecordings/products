@@ -15,7 +15,7 @@ export async function track(event: string, params?: any) {
 }
 
 export async function identify(subscriber: Subscriber): Promise<unknown> {
-  if (!subscriber) return
+  if (!subscriber || !subscriber.email_address) return
   try {
     const identify = new Identify()
 

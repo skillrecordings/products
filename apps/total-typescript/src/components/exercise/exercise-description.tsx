@@ -2,15 +2,17 @@ import * as React from 'react'
 import {PortableText} from '@portabletext/react'
 import PortableTextComponents from '../portable-text'
 import {take} from 'lodash'
-import {useMuxPlayer} from '../../hooks/use-mux-player'
+import {useMuxPlayer} from 'hooks/use-mux-player'
 import Link from 'next/link'
 import cx from 'classnames'
-import {LessonResource} from '../../lib/lesson-resources'
+import {LessonResource} from 'lib/lesson-resources'
+import {useLesson} from 'video/use-lesson'
 
 export const ExerciseDescription: React.FC<{exercise: LessonResource}> = ({
   exercise,
 }) => {
-  const {canShowVideo, loadingUserStatus, lesson} = useMuxPlayer()
+  const {canShowVideo, loadingUserStatus} = useMuxPlayer()
+  const {lesson} = useLesson()
   const {body} = exercise
 
   const displayedBody = canShowVideo ? body : take(body, 3)
