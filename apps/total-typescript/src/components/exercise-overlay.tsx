@@ -23,6 +23,8 @@ import {StackBlitzIframe} from './exercise/stackblitz-iframe'
 import Link from 'next/link'
 import first from 'lodash/first'
 import {useLesson} from '../video/use-lesson'
+import {useVideoResource} from 'video/use-video-resource'
+import {getBaseUrl} from 'utils/get-base-url'
 
 export const OverlayWrapper: React.FC<
   React.PropsWithChildren<{className?: string; dismissable?: boolean}>
@@ -486,15 +488,13 @@ const BlockedOverlay: React.FC = () => {
 type LoadingOverlayProps = {}
 
 const LoadingOverlay: React.FC<LoadingOverlayProps> = () => {
-  const {
-    muxPlayerProps: {playbackId},
-  } = useMuxPlayer()
-  const thumbnail = `https://image.mux.com/${playbackId}/thumbnail.png?width=480&height=384&fit_mode=preserve`
+  const {videoResourceId} = useVideoResource()
+  const thumbnail = `${getBaseUrl()}/api/video-thumb?videoResourceId=${videoResourceId}`
 
   return (
     <OverlayWrapper dismissable={false}>
       <div className="flex items-center justify-center">
-        {playbackId && (
+        {videoResourceId && (
           <Image
             src={thumbnail}
             layout="fill"

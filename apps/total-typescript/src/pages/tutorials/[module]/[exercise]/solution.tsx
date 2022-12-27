@@ -52,10 +52,7 @@ const ExerciseSolution: React.FC<any> = ({
   return (
     <LessonProvider lesson={solution} module={module}>
       <VideoResourceProvider videoResourceId={videoResourceId}>
-        <ExerciseTemplate
-          transcript={transcript}
-          videoResourceId={videoResourceId}
-        />
+        <ExerciseTemplate transcript={transcript} />
       </VideoResourceProvider>
     </LessonProvider>
   )
