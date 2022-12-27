@@ -3,10 +3,10 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "build": "next build",
-    "dev": "next dev",
-    "lint": "next lint",
-    "start": "next start"
+    "build": "node_modules/.bin/next build",
+    "dev": "node_modules/.bin/next dev",
+    "lint": "node_modules/.bin/next lint",
+    "start": "node_modules/.bin/next start"
   },
   "dependencies": {
     "@frontapp/plugin-sdk": "^1.0.1",
