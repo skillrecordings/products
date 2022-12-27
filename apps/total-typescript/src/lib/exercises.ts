@@ -9,6 +9,7 @@ export const ExerciseSchema = z
     _key: z.string().optional(),
     stackblitz: z.nullable(z.string()).optional(),
     muxPlaybackId: z.nullable(z.string()).optional(),
+    videoResourceId: z.nullable(z.string()).optional(),
     transcript: z.nullable(z.any().array()).optional(),
     solution: z.nullable(
       z
@@ -16,6 +17,7 @@ export const ExerciseSchema = z
           _key: z.string(),
           stackblitz: z.nullable(z.string()).optional(),
           muxPlaybackId: z.nullable(z.string()).optional(),
+          videoResourceId: z.nullable(z.string()).optional(),
           transcript: z.nullable(z.any().array()).optional(),
         })
         .merge(BaseLessonResourceSchema)
@@ -74,6 +76,7 @@ export const getExercise = async (
       body,
       "stackblitz": resources[@._type == 'stackblitz'][0].openFile,
       "muxPlaybackId": resources[@->._type == 'videoResource'][0]-> muxAsset.muxPlaybackId,
+      "videoResourceId": resources[@->._type == 'videoResource'][0]->_id,
       "transcript": resources[@->._type == 'videoResource'][0]-> castingwords.transcript,
       "solution": resources[@._type == 'solution'][0]{
         _key,
@@ -83,6 +86,7 @@ export const getExercise = async (
         description,
         body,
         "stackblitz": resources[@._type == 'stackblitz'][0].openFile,
+        "videoResourceId": resources[@->._type == 'videoResource'][0]->_id,
         "muxPlaybackId": resources[@->._type == 'videoResource'][0]-> muxAsset.muxPlaybackId,
         "transcript": resources[@->._type == 'videoResource'][0]-> castingwords.transcript,
         "slug": slug.current,
@@ -105,6 +109,7 @@ export const getAllExercises = async (): Promise<Exercise[]> => {
       body,
       "slug": slug.current,
       "stackblitz": resources[@._type == 'stackblitz'][0].openFile,
+      "videoResourceId": resources[@->._type == 'videoResource'][0],
       "muxPlaybackId": resources[@->._type == 'videoResource'][0]-> muxAsset.muxPlaybackId,
       "solution": resources[@._type == 'solution'][0]{
         _key,
@@ -114,6 +119,7 @@ export const getAllExercises = async (): Promise<Exercise[]> => {
         description,
         body,
         "stackblitz": resources[@._type == 'stackblitz'][0].openFile,
+        "videoResourceId": resources[@->._type == 'videoResource'][0],
         "muxPlaybackId": resources[@->._type == 'videoResource'][0]-> muxAsset.muxPlaybackId,
        "slug": slug.current
        }

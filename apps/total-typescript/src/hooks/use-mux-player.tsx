@@ -11,6 +11,7 @@ import {AppAbility, createAppAbility} from 'ability/ability'
 import {trpc} from '../utils/trpc'
 import {getNextSection} from 'utils/get-next-section'
 import {LessonResource, LessonResourceSchema} from '../lib/lesson-resources'
+import {useVideoResource} from '../video/use-video-resource'
 
 type VideoResource = LessonResource | Tip
 
@@ -44,7 +45,6 @@ type VideoProviderProps = {
   path?: string
   muxPlayerRef: any
   onEnded?: () => Promise<any>
-  videoThumbId?: string
 }
 
 const useNextLesson = (
@@ -73,11 +73,10 @@ export const VideoProvider: React.FC<
   onEnded = async () => {},
   section,
   exerciseSlug,
-  videoThumbId,
 }) => {
   const router = useRouter()
   const {subscriber, loadingSubscriber} = useConvertkit()
-
+  const {videoResource, loadingVideoResource} = useVideoResource()
   const nextExercise = useNextLesson(lesson, module, section)
 
   const nextSection = section
@@ -109,17 +108,18 @@ export const VideoProvider: React.FC<
     usePlayerPrefs()
   const [autoPlay, setAutoPlay] = React.useState(getPlayerPrefs().autoplay)
   const [displayOverlay, setDisplayOverlay] = React.useState(false)
-  const video = {muxPlaybackId: videoThumbId}
   const title = get(lesson, 'title') || get(lesson, 'label')
   const loadingUserStatus =
-    loadingSubscriber || abilityRulesStatus === 'loading'
+    loadingSubscriber ||
+    abilityRulesStatus === 'loading' ||
+    loadingVideoResource
 
   const handlePlay = React.useCallback(() => {
     const videoElement = document.getElementById(
       'mux-player',
     ) as HTMLVideoElement
     return videoElement?.play()
-  }, [videoThumbId])
+  }, [])
 
   const moduleSlug = module?.slug?.current
   const nextExerciseSlug = nextExercise?.slug
@@ -143,11 +143,11 @@ export const VideoProvider: React.FC<
 
   // preferences
   React.useEffect(() => {
-    if (muxPlayerRef.current && video) {
+    if (muxPlayerRef.current && videoResource) {
       muxPlayerRef.current.playbackRate = playbackRate
       muxPlayerRef.current.autoplay = autoPlay
     }
-  }, [subscriber, muxPlayerRef, playbackRate, autoPlay, video])
+  }, [subscriber, muxPlayerRef, playbackRate, autoPlay, videoResource])
 
   const canShowVideo = ability.can('view', 'Content')
 
@@ -204,7 +204,6 @@ export const VideoProvider: React.FC<
       defaultHiddenCaptions: true, // TODO: investigate storing subtitles preferences
       // autoPlay,
       streamType: 'on-demand',
-      playbackId: video.muxPlaybackId,
       metadata: {
         video_title: `${title} (${lesson._type})`,
       },
@@ -223,7 +222,7 @@ export const VideoProvider: React.FC<
         : LessonResourceSchema.parse(lesson),
     section,
     module,
-    video,
+    video: videoResource,
     path,
     canShowVideo,
     ability,
