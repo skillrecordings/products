@@ -1,4 +1,3 @@
 {
-  root: true,
-  extends: ['custom'],
+  "extends": "@sanity/eslint-config-studio"
 }
