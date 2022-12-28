@@ -8,7 +8,8 @@ import cx from 'classnames'
 import {type LessonResource} from './lesson-resources'
 import {track} from 'video/analytics'
 
-import {trpc} from 'video/trpc'
+import {useQuery} from '@tanstack/react-query'
+import {SolutionSchema} from '../lib/exercise-solutions'
 
 const LessonList: React.FC<{
   module: SanityDocument
@@ -245,14 +246,17 @@ const SolutionLink = ({
   path: string
 }) => {
   const router = useRouter()
-  const {data: solution, status} = trpc.solutions.getSolution.useQuery({
-    exerciseSlug: router.query.exercise as string,
+  const {data: solution} = useQuery(['solution', exercise.slug], async () => {
+    const fullExercise = await fetch(
+      `/api/skill/exercises/${exercise.slug}`,
+    ).then((res) => res.json())
+    return SolutionSchema.parse(fullExercise.solution)
   })
   const currentPath = section
     ? `${path}/${module.slug.current}/${section.slug}/${exercise.slug}/solution`
     : `${path}/${module.slug.current}/${exercise.slug}/solution`
   const isActive = router.asPath === currentPath
-  return status !== 'loading' ? (
+  return (
     <li key={solution?._key}>
       <Link
         href={{
@@ -289,6 +293,6 @@ const SolutionLink = ({
         </a>
       </Link>
     </li>
-  ) : null
+  )
 }
 export default LessonList

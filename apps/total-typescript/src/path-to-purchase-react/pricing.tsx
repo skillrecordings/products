@@ -7,7 +7,7 @@ import type {
 import {CheckCircleIcon} from '@heroicons/react/outline'
 import {getCouponLabel} from './get-coupon-label'
 import {useDebounce} from '@skillrecordings/react'
-import {useQuery, QueryStatus} from 'react-query'
+import {QueryStatus} from '@tanstack/react-query'
 import SaleCountdown from './sale-countdown'
 import Spinner from 'components/spinner'
 import Image from 'next/image'
@@ -26,7 +26,7 @@ import {track} from '../video/analytics'
 import {useRouter} from 'next/router'
 import * as Switch from '@radix-ui/react-switch'
 import Link from 'next/link'
-import {trpc} from 'video/trpc'
+import {trpc} from 'utils/trpc'
 
 function getFirstPPPCoupon(availableCoupons: any[] = []) {
   return find(availableCoupons, (coupon) => coupon.type === 'ppp') || false

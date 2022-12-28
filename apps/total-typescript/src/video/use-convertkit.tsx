@@ -2,7 +2,7 @@ import * as React from 'react'
 import {isEmpty} from 'lodash'
 
 import Cookies from 'js-cookie'
-import {useQuery} from 'react-query'
+import {useQuery} from '@tanstack/react-query'
 import toast from 'react-hot-toast'
 import {useRouter} from 'next/router'
 import {removeQueryParamsFromRouter} from '@skillrecordings/react'

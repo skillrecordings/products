@@ -16,8 +16,7 @@ import {track} from '../video/analytics'
 import {setUserId} from '@amplitude/analytics-browser'
 import {sanityClient} from 'utils/sanity-client'
 import {PortableText} from '@portabletext/react'
-import {useQuery} from 'react-query'
-import {trpc} from '../video/trpc'
+import {trpc} from '../utils/trpc'
 import Spinner from './spinner'
 import {StackBlitzIframe} from './exercise/stackblitz-iframe'
 import Link from 'next/link'
@@ -25,6 +24,7 @@ import first from 'lodash/first'
 import {useLesson} from '../video/use-lesson'
 import {useVideoResource} from 'video/use-video-resource'
 import {getBaseUrl} from 'video/get-base-url'
+import {useQuery} from '@tanstack/react-query'
 
 export const OverlayWrapper: React.FC<
   React.PropsWithChildren<{className?: string; dismissable?: boolean}>

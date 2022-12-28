@@ -12,7 +12,7 @@ import {Subscriber} from 'video/subscriber'
 import {getTutorial} from 'lib/tutorials'
 import {GetServerSideProps} from 'next'
 import {get, isEmpty} from 'lodash'
-import {trpc} from 'video/trpc'
+import {trpc} from 'utils/trpc'
 import {
   FieldValues,
   SubmitHandler,

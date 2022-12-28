@@ -12,11 +12,9 @@ import PortableTextComponents from 'video/portable-text'
 import first from 'lodash/first'
 import * as Accordion from '@radix-ui/react-accordion'
 import {CheckIcon, ChevronDownIcon} from '@heroicons/react/solid'
-import {trpc} from 'video/trpc'
-import {LessonProgress} from '@skillrecordings/database'
+import {trpc} from 'utils/trpc'
 import {find, isArray} from 'lodash'
 import {LessonResource} from '../video/lesson-resources'
-import {useRouter} from 'next/router'
 
 const WorkshopTemplate: React.FC<{
   workshop: SanityDocument
