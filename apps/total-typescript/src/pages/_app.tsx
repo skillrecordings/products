@@ -3,7 +3,7 @@ import {AppProps} from 'next/app'
 import {Session} from 'next-auth'
 import '../styles/globals.css'
 import 'focus-visible'
-import {ConvertkitProvider} from 'hooks/use-convertkit'
+import {ConvertkitProvider} from 'video/use-convertkit'
 import {usePageview} from '@skillrecordings/analytics'
 import {DefaultSeo} from '@skillrecordings/next-seo'
 import {initNProgress} from '@skillrecordings/react'
@@ -15,7 +15,8 @@ import {SessionProvider} from 'next-auth/react'
 import {QueryClient, QueryClientProvider} from 'react-query'
 import * as amplitude from '@amplitude/analytics-browser'
 import {FeedbackProvider} from 'feedback-widget/feedback-context'
-import {trpc} from '../utils/trpc'
+
+import {trpc} from 'video/trpc'
 
 amplitude.init(process.env.NEXT_PUBLIC_AMPLITUDE_API_KEY)
 

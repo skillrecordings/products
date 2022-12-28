@@ -1,4 +1,4 @@
-import {Subscriber} from 'schemas/subscriber'
+import {Subscriber} from 'video/subscriber'
 import {Identify} from '@amplitude/identify'
 import Amplitude from '@amplitude/node'
 import {isEmpty} from 'lodash'

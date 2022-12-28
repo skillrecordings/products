@@ -1,6 +1,6 @@
 import {NextApiResponse} from 'next'
 import {serialize} from 'cookie'
-import {Subscriber} from '../schemas/subscriber'
+import {Subscriber} from '../video/subscriber'
 
 export function convertkitSetSubscriberCookie({
   subscriber,

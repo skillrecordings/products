@@ -1,12 +1,12 @@
 import * as React from 'react'
 import {SanityDocument} from '@sanity/client'
-import {track} from '../../utils/analytics'
+import {track} from '../../video/analytics'
 import {IconGithub} from '../icons'
-import {useMuxPlayer} from '../../hooks/use-mux-player'
+import {useMuxPlayer} from '../../video/use-mux-player'
 import Spinner from 'components/spinner'
-import {LessonResource} from '../../lib/lesson-resources'
+import {LessonResource} from '../../video/lesson-resources'
 import {useRouter} from 'next/router'
-import {trpc} from '../../utils/trpc'
+import {trpc} from '../../video/trpc'
 
 export const GitHubLink: React.FC<{
   exercise: LessonResource

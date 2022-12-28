@@ -4,7 +4,7 @@ import {GetStaticPaths, GetStaticProps} from 'next'
 import {Exercise, getExercise} from 'lib/exercises'
 import {getAllWorkshops, getWorkshop} from 'lib/workshops'
 import {getSection} from 'lib/sections'
-import {LessonResource} from '../../../../../lib/lesson-resources'
+import {LessonResource} from '../../../../../video/lesson-resources'
 import {VideoResourceProvider} from '../../../../../video/use-video-resource'
 import {LessonProvider} from '../../../../../video/use-lesson'
 

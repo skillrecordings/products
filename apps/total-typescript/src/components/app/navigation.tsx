@@ -6,11 +6,11 @@ import {
   MenuIcon,
   PlayIcon,
 } from '@heroicons/react/solid'
-import {track} from '../../utils/analytics'
+import {track} from '../../video/analytics'
 import cx from 'classnames'
 import config from 'config'
-import {createAppAbility} from 'ability/ability'
-import {trpc} from '../../utils/trpc'
+import {createAppAbility} from 'video/ability'
+import {trpc} from '../../video/trpc'
 import NextLink, {type LinkProps} from 'next/link'
 import * as NavigationMenu from '@radix-ui/react-navigation-menu'
 import {signOut, useSession} from 'next-auth/react'

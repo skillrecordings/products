@@ -2,7 +2,7 @@ import {z} from 'zod'
 import {answerSurvey, markLessonComplete} from 'lib/convertkit'
 import {updateSubscriber} from '@skillrecordings/convertkit-sdk'
 import {serialize} from 'cookie'
-import {SubscriberSchema} from 'schemas/subscriber'
+import {SubscriberSchema} from 'video/subscriber'
 import {convertkitSetSubscriberCookie} from '../ck-set-subscriber-cookie'
 import {publicProcedure, router} from '../trpc'
 

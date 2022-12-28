@@ -8,11 +8,11 @@ import cx from 'classnames'
 import {convertToSerializeForNextResponse} from '@skillrecordings/commerce-server'
 import {getSdk, User} from '@skillrecordings/database'
 import {SanityDocument} from '@sanity/client'
-import {Subscriber} from 'schemas/subscriber'
+import {Subscriber} from 'video/subscriber'
 import {getTutorial} from 'lib/tutorials'
 import {GetServerSideProps} from 'next'
 import {get, isEmpty} from 'lodash'
-import {trpc} from 'utils/trpc'
+import {trpc} from 'video/trpc'
 import {
   FieldValues,
   SubmitHandler,
@@ -25,7 +25,7 @@ import {
   LinkedIn,
   Twitter,
 } from '@skillrecordings/react'
-import {track} from 'utils/analytics'
+import {track} from 'video/analytics'
 import {USER_ID_QUERY_PARAM_KEY} from '.'
 
 export const getServerSideProps: GetServerSideProps = async ({

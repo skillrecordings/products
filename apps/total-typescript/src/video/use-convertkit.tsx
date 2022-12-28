@@ -1,13 +1,15 @@
 import * as React from 'react'
 import {isEmpty} from 'lodash'
-import {CK_SUBSCRIBER_KEY} from '@skillrecordings/config'
+
 import Cookies from 'js-cookie'
 import {useQuery} from 'react-query'
 import toast from 'react-hot-toast'
 import {useRouter} from 'next/router'
 import {removeQueryParamsFromRouter} from '@skillrecordings/react'
-import {type Subscriber} from 'schemas/subscriber'
-import {identify} from '../utils/analytics'
+import {CK_SUBSCRIBER_KEY} from '@skillrecordings/config'
+
+import {type Subscriber} from 'video/subscriber'
+import {identify} from './analytics'
 
 export type ConvertkitContextType = {
   subscriber?: Subscriber

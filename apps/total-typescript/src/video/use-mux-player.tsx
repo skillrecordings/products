@@ -1,17 +1,20 @@
 import React from 'react'
 import get from 'lodash/get'
-import {usePlayerPrefs} from './use-player-prefs'
-import {SanityDocument} from '@sanity/client'
+import {type SanityDocument} from '@sanity/client'
 import {useRouter} from 'next/router'
-import {MuxPlayerProps} from '@mux/mux-player-react/*'
-import {track} from '../utils/analytics'
-import {useConvertkit} from './use-convertkit'
-import {AppAbility, createAppAbility} from 'ability/ability'
-import {trpc} from '../utils/trpc'
-import {getNextSection} from 'utils/get-next-section'
-import {useVideoResource} from '../video/use-video-resource'
-import {useLesson} from '../video/use-lesson'
+import {type MuxPlayerProps} from '@mux/mux-player-react/*'
+
+import {useVideoResource} from './use-video-resource'
+import {useLesson} from './use-lesson'
 import {useNextLesson} from 'video/use-next-lesson'
+import {track} from 'video/analytics'
+import {usePlayerPrefs} from 'video/use-player-prefs'
+import {getNextSection} from 'video/get-next-section'
+import {useConvertkit} from 'video/use-convertkit'
+
+import {trpc} from 'video/trpc'
+
+import {type AppAbility, createAppAbility} from 'video/ability'
 
 type VideoContextType = {
   muxPlayerProps: MuxPlayerProps | any

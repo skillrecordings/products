@@ -1,7 +1,9 @@
-import {LessonResource} from '../lib/lesson-resources'
 import {SanityDocument} from '@sanity/client'
 import {useRouter} from 'next/router'
-import {trpc} from '../utils/trpc'
+
+import {type LessonResource} from './lesson-resources'
+
+import {trpc} from 'video/trpc'
 
 export const useNextLesson = (
   lesson: LessonResource,

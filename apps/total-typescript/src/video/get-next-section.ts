@@ -1,4 +1,4 @@
-import {SanityDocument} from '@sanity/client'
+import {type SanityDocument} from '@sanity/client'
 import find from 'lodash/find'
 import indexOf from 'lodash/indexOf'
 

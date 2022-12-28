@@ -20,13 +20,13 @@ import {
   redirectUrlBuilder,
   SubscribeToConvertkitForm,
 } from '@skillrecordings/convertkit'
-import {useConvertkit} from '../hooks/use-convertkit'
+import {useConvertkit} from '../video/use-convertkit'
 import {setUserId} from '@amplitude/analytics-browser'
-import {track} from '../utils/analytics'
+import {track} from '../video/analytics'
 import {useRouter} from 'next/router'
 import * as Switch from '@radix-ui/react-switch'
 import Link from 'next/link'
-import {trpc} from 'utils/trpc'
+import {trpc} from 'video/trpc'
 
 function getFirstPPPCoupon(availableCoupons: any[] = []) {
   return find(availableCoupons, (coupon) => coupon.type === 'ppp') || false

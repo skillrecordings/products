@@ -5,8 +5,10 @@ import {
   setUserId,
   track as amplitudeTrack,
 } from '@amplitude/analytics-browser'
-import {Subscriber} from 'schemas/subscriber'
+
 import {isEmpty} from 'lodash'
+
+import {type Subscriber} from 'video/subscriber'
 
 export async function track(event: string, params?: any) {
   console.debug(`track ${event}`, params)

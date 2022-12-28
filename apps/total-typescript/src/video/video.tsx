@@ -1,6 +1,12 @@
-import {SanityDocument} from '@sanity/client'
+import {type SanityDocument} from '@sanity/client'
 import * as React from 'react'
-import {useMuxPlayer} from '../../hooks/use-mux-player'
+import cx from 'classnames'
+import MuxPlayer, {type MuxPlayerProps} from '@mux/mux-player-react'
+
+import {useMuxPlayer} from './use-mux-player'
+import {type LessonResource} from './lesson-resources'
+import {useVideoResource} from './use-video-resource'
+
 import {
   BlockedOverlay,
   DefaultOverlay,
@@ -8,11 +14,7 @@ import {
   FinishedOverlay,
   LoadingOverlay,
   FinishedSectionOverlay,
-} from '../exercise-overlay'
-import cx from 'classnames'
-import MuxPlayer, {MuxPlayerProps} from '@mux/mux-player-react'
-import {LessonResource} from '../../lib/lesson-resources'
-import {useVideoResource} from '../../video/use-video-resource'
+} from '../components/exercise-overlay'
 
 type VideoProps = {
   module: SanityDocument

@@ -3,8 +3,8 @@ import {SanityDocument} from '@sanity/client'
 import cx from 'classnames'
 import Spinner from '../spinner'
 import Image from 'next/image'
-import {LessonResource} from '../../lib/lesson-resources'
-import {trpc} from '../../utils/trpc'
+import {LessonResource} from '../../video/lesson-resources'
+import {trpc} from '../../video/trpc'
 import {useRouter} from 'next/router'
 
 export const StackBlitzIframe: React.FC<{

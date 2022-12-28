@@ -1,6 +1,6 @@
 import {withSentry} from '@sentry/nextjs'
 import {NextApiRequest, NextApiResponse} from 'next'
-import {getVideoResource} from 'lib/video-resource'
+import {getVideoResource} from 'video/video-resource'
 
 const videoThumb = async (req: NextApiRequest, res: NextApiResponse) => {
   if (req.method === 'GET') {
