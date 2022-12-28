@@ -15,11 +15,18 @@
     "sanity"
   ],
   "dependencies": {
+    "@sanity/base": "^2.35.2",
+    "@sanity/block-tools": "^3.1.2",
     "@sanity/client": "^3.4.1",
     "@sanity/code-input": "^3.0.1",
+    "@sanity/desk-tool": "^2.35.2",
+    "@sanity/form-builder": "^2.35.2",
     "@sanity/vision": "^3.0.0",
     "autoprefixer": "^10.4.13",
     "cloudinary": "^1.29.0",
+    "micromark": "^3.1.0",
+    "postcss": "^8.4.14",
+    "prop-types": "^15.8.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-is": "^18.2.0",
