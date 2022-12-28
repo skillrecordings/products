@@ -20,10 +20,7 @@ const VerifyModuleAccessArgsSchema = z.object({
   isSolution: z.boolean().default(false).optional(),
 })
 
-const verifyModuleAccess = async (
-  req: NextApiRequest,
-  res: NextApiResponse,
-) => {
+const nextLessonHandler = async (req: NextApiRequest, res: NextApiResponse) => {
   if (req.method === 'POST') {
     const input = JSON.parse(req.body)
     const lesson = await getExercise(input.slug)
@@ -49,7 +46,7 @@ const verifyModuleAccess = async (
   }
 }
 
-export default withSentry(verifyModuleAccess)
+export default withSentry(nextLessonHandler)
 export const config = {
   api: {
     externalResolver: true,
