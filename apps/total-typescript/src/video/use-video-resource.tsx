@@ -1,10 +1,12 @@
+import {type VideoResource} from 'lib/video-resource'
 import React from 'react'
 
 import {trpc} from 'video/trpc'
 
 type VideoResourceContextType = {
-  videoResource: any
+  videoResource?: VideoResource
   loadingVideoResource: boolean
+  videoResourceId: string
 }
 
 export const VideoResourceContext = React.createContext(
@@ -25,6 +27,7 @@ export const VideoResourceProvider: React.FC<VideoResourceProviderProps> = ({
   })
 
   const context = {
+    videoResourceId,
     videoResource,
     loadingVideoResource: status === 'loading',
   }

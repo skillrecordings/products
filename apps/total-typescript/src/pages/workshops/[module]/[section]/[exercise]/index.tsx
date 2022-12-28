@@ -61,10 +61,7 @@ const ExercisePage: React.FC<any> = ({
   return (
     <LessonProvider lesson={exercise} module={module} section={section}>
       <VideoResourceProvider videoResourceId={videoResourceId}>
-        <ExerciseTemplate
-          transcript={transcript}
-          videoResourceId={videoResourceId}
-        />
+        <ExerciseTemplate transcript={transcript} />
       </VideoResourceProvider>
     </LessonProvider>
   )

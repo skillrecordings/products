@@ -15,15 +15,15 @@ import {LargeScreenModuleLessonList} from '../video/large-screen-module-lesson-l
 import {useRouter} from 'next/router'
 import {getBaseUrl} from 'video/get-base-url'
 import {useLesson} from '../video/use-lesson'
+import {useVideoResource} from '../video/use-video-resource'
 
 const ExerciseTemplate: React.FC<{
   transcript: any[]
-  videoResourceId: string
-}> = ({transcript, videoResourceId}) => {
+}> = ({transcript}) => {
   const muxPlayerRef = React.useRef<HTMLDivElement>()
   const router = useRouter()
   const {lesson: exercise, section, module} = useLesson()
-
+  const {videoResourceId} = useVideoResource()
   const {title, description: exerciseDescription} = exercise
 
   const {ogImage, description: moduleDescription} = module

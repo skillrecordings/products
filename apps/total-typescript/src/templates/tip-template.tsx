@@ -39,11 +39,15 @@ import {useVideoResource} from 'video/use-video-resource'
 import {TipPageProps} from '../pages/tips/[tip]'
 import {getBaseUrl} from '../video/get-base-url'
 
-const TipTemplate: React.FC<TipPageProps> = ({tip, tips, videoResourceId}) => {
+const TipTemplate: React.FC<{
+  tip: Tip
+  tips: Tip[]
+}> = ({tip, tips}) => {
   const muxPlayerRef = React.useRef<HTMLDivElement>()
   const {subscriber, loadingSubscriber} = useConvertkit()
   const router = useRouter()
   const {tipCompleted} = useTipComplete(tip.slug)
+  const {videoResourceId} = useVideoResource()
 
   const tweet = tip?.tweetId
 

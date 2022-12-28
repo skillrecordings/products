@@ -58,7 +58,7 @@ export const Video: React.FC<VideoProps> = React.forwardRef(
             <MuxPlayer
               ref={ref}
               {...(muxPlayerProps as MuxPlayerProps)}
-              playbackId={videoResource.muxPlaybackId}
+              playbackId={videoResource?.muxPlaybackId}
             />
           ) : (
             <>
