@@ -1,8 +1,7 @@
-import {type VideoResource} from 'video/video-resource'
 import React from 'react'
 
 import {trpc} from 'video/trpc'
-import {VideoResource} from './video-resource'
+import {type VideoResource} from './video-resource'
 
 type VideoResourceContextType = {
   videoResource?: VideoResource
