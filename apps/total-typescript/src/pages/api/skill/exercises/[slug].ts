@@ -2,7 +2,7 @@ import {withSentry} from '@sentry/nextjs'
 import {NextApiRequest, NextApiResponse} from 'next'
 import {getExercise} from 'lib/exercises'
 
-const convertkitSubscriberHandler = async (
+const exerciseBySlugHandler = async (
   req: NextApiRequest,
   res: NextApiResponse,
 ) => {
@@ -15,7 +15,7 @@ const convertkitSubscriberHandler = async (
   }
 }
 
-export default withSentry(convertkitSubscriberHandler)
+export default withSentry(exerciseBySlugHandler)
 export const config = {
   api: {
     externalResolver: true,
