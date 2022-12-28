@@ -1,4 +1,4 @@
-import {Subscriber} from 'schemas/subscriber'
+import {Subscriber} from 'video/subscriber'
 
 export type Offer = Record<string, any>
 

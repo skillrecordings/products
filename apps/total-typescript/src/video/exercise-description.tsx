@@ -1,11 +1,13 @@
 import * as React from 'react'
 import {PortableText} from '@portabletext/react'
-import PortableTextComponents from '../portable-text'
 import {take} from 'lodash'
-import {useMuxPlayer} from 'hooks/use-mux-player'
 import Link from 'next/link'
 import cx from 'classnames'
-import {LessonResource} from 'lib/lesson-resources'
+
+import PortableTextComponents from './portable-text'
+
+import {useMuxPlayer} from 'video/use-mux-player'
+import {type LessonResource} from 'video/lesson-resources'
 import {useLesson} from 'video/use-lesson'
 
 export const ExerciseDescription: React.FC<{exercise: LessonResource}> = ({
@@ -54,7 +56,7 @@ export const ExerciseDescription: React.FC<{exercise: LessonResource}> = ({
               <a>Total TypeScript Core Volume</a>
             </Link>{' '}
             and can be unlocked immediately after purchase. Already purchased?{' '}
-            <Link href="/login">
+            <Link href="/apps/total-typescript/src/pages/login">
               <a>Log in here.</a>
             </Link>
           </p>

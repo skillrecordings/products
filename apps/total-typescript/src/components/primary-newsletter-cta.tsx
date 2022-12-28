@@ -5,7 +5,7 @@ import {
   SubscribeToConvertkitForm,
 } from '@skillrecordings/convertkit'
 import {setUserId} from '@amplitude/analytics-browser'
-import {track} from 'utils/analytics'
+import {track} from 'video/analytics'
 import * as React from 'react'
 import {SkillLevel} from './home/use-skill-level'
 import {MDXComponents} from './mdx'

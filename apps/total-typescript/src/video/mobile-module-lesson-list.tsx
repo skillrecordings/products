@@ -1,8 +1,9 @@
 import * as React from 'react'
 import {SanityDocument} from '@sanity/client'
 import capitalize from 'lodash/capitalize'
-import ModuleLessonListHeader from '../module-lesson-list-header'
-import LessonList from '../lesson-list'
+
+import ModuleLessonListHeader from './module-lesson-list-header'
+import LessonList from './lesson-list'
 
 export const MobileModuleLessonList: React.FC<{
   module: SanityDocument

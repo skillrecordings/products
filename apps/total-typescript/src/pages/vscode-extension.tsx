@@ -1,9 +1,9 @@
 import Layout from 'components/app/layout'
 import {ArticleNewsletterCta} from 'components/primary-newsletter-cta'
 import Share from 'components/share'
-import {useConvertkit} from 'hooks/use-convertkit'
+import {useConvertkit} from 'video/use-convertkit'
 import Image from 'next/image'
-import {track} from 'utils/analytics'
+import {track} from 'video/analytics'
 
 const DOWNLOAD_URL =
   'https://marketplace.visualstudio.com/items?itemName=mattpocock.ts-error-translator'

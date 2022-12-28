@@ -1,4 +1,4 @@
-import {useConvertkit} from '../hooks/use-convertkit'
+import {useConvertkit} from '../video/use-convertkit'
 import {useMachine} from '@xstate/react'
 import {offerMachine} from './offer-machine'
 import * as React from 'react'

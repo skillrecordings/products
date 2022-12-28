@@ -1,7 +1,8 @@
 import {sanityClient} from '../utils/sanity-client'
 import groq from 'groq'
 import z from 'zod'
-import {BaseLessonResourceSchema} from '../schemas/base-lesson-resource'
+
+import {BaseLessonResourceSchema} from './base-lesson-resource'
 
 export const LessonResourceSchema = z
   .object({

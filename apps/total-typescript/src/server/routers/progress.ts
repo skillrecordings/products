@@ -1,7 +1,7 @@
 import {publicProcedure, router} from '../trpc'
 import {z} from 'zod'
 import {getSdk} from '@skillrecordings/database'
-import {SubscriberSchema} from 'schemas/subscriber'
+import {SubscriberSchema} from 'video/subscriber'
 import {getToken} from 'next-auth/jwt'
 
 export const progressRouter = router({

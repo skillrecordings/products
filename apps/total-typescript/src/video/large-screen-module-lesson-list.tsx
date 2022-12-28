@@ -1,7 +1,8 @@
 import * as React from 'react'
-import LessonList from '../lesson-list'
-import ModuleLessonListHeader from '../module-lesson-list-header'
-import {SanityDocument} from '@sanity/client'
+import {type SanityDocument} from '@sanity/client'
+
+import LessonList from './lesson-list'
+import ModuleLessonListHeader from './module-lesson-list-header'
 
 export const LargeScreenModuleLessonList: React.FC<{
   module: SanityDocument

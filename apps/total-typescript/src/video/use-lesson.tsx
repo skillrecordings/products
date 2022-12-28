@@ -1,6 +1,7 @@
-import {LessonResource} from 'lib/lesson-resources'
 import React from 'react'
-import {SanityDocument} from '@sanity/client'
+import {type SanityDocument} from '@sanity/client'
+
+import {type LessonResource} from 'video/lesson-resources'
 
 type LessonContextType = {
   lesson: LessonResource

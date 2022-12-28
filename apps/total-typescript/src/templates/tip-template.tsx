@@ -1,7 +1,7 @@
 import React from 'react'
 import cx from 'classnames'
 import Layout from 'components/app/layout'
-import {useMuxPlayer, VideoProvider} from 'hooks/use-mux-player'
+import {useMuxPlayer, VideoProvider} from 'video/use-mux-player'
 import MuxPlayer, {MuxPlayerProps} from '@mux/mux-player-react'
 import {Tip} from 'lib/tips'
 import {
@@ -20,7 +20,7 @@ import {
 } from '@heroicons/react/solid'
 import {CheckCircleIcon as CheckCircleIconOutline} from '@heroicons/react/outline'
 import {shuffle, take} from 'lodash'
-import {track} from 'utils/analytics'
+import {track} from 'video/analytics'
 import Navigation from 'components/app/navigation'
 import Image from 'next/image'
 import {getOgImage} from 'utils/get-og-image'
@@ -30,14 +30,14 @@ import {
   redirectUrlBuilder,
   SubscribeToConvertkitForm,
 } from '@skillrecordings/convertkit'
-import {useConvertkit} from 'hooks/use-convertkit'
+import {useConvertkit} from 'video/use-convertkit'
 import {setUserId} from '@amplitude/analytics-browser'
 import {ArticleJsonLd} from '@skillrecordings/next-seo'
-import PortableTextComponents from 'components/portable-text'
+import PortableTextComponents from 'video/portable-text'
 import {useLesson} from 'video/use-lesson'
 import {useVideoResource} from 'video/use-video-resource'
 import {TipPageProps} from '../pages/tips/[tip]'
-import {getBaseUrl} from '../utils/get-base-url'
+import {getBaseUrl} from '../video/get-base-url'
 
 const TipTemplate: React.FC<TipPageProps> = ({tip, tips, videoResourceId}) => {
   const muxPlayerRef = React.useRef<HTMLDivElement>()

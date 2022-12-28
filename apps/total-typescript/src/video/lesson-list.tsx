@@ -1,12 +1,14 @@
 import React from 'react'
-import {SanityDocument} from '@sanity/client'
-import {track} from '../utils/analytics'
+import {type SanityDocument} from '@sanity/client'
 import {useRouter} from 'next/router'
 import capitalize from 'lodash/capitalize'
 import Link from 'next/link'
 import cx from 'classnames'
-import {LessonResource} from '../lib/lesson-resources'
-import {trpc} from '../utils/trpc'
+
+import {type LessonResource} from './lesson-resources'
+import {track} from 'video/analytics'
+
+import {trpc} from 'video/trpc'
 
 const LessonList: React.FC<{
   module: SanityDocument

@@ -1,6 +1,7 @@
 import * as React from 'react'
 import cx from 'classnames'
-import {LessonResource} from '../../lib/lesson-resources'
+
+import {type LessonResource} from './lesson-resources'
 
 export const ExerciseTitle: React.FC<{exercise: LessonResource}> = ({
   exercise,
