@@ -1,4 +1,3 @@
-import {withSentry} from '@sentry/nextjs'
 import {NextApiRequest, NextApiResponse} from 'next'
 import {getExercise} from 'lib/exercises'
 
@@ -15,9 +14,4 @@ const exerciseBySlugHandler = async (
   }
 }
 
-export default withSentry(exerciseBySlugHandler)
-export const config = {
-  api: {
-    externalResolver: true,
-  },
-}
+export default exerciseBySlugHandler

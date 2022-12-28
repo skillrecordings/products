@@ -22,6 +22,9 @@ export const useNextLesson = (
           module: module.slug.current,
           section: section?.slug,
         }),
+        headers: {
+          'Content-Type': 'application/json',
+        },
       }).then((r) => r.json())
     },
   )

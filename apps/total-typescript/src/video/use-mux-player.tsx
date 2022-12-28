@@ -82,6 +82,9 @@ export const VideoProvider: React.FC<
           sectionSlug: section?.slug,
           isSolution: lesson._type === 'solution',
         }),
+        headers: {
+          'Content-Type': 'application/json',
+        },
       }).then((response) => response.json())
     },
   )

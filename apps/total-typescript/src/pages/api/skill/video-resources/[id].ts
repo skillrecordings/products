@@ -1,6 +1,4 @@
-import {withSentry} from '@sentry/nextjs'
 import {NextApiRequest, NextApiResponse} from 'next'
-import {z} from 'zod'
 import {getVideoResource} from 'video/video-resource'
 
 const verifyModuleAccess = async (
@@ -14,9 +12,4 @@ const verifyModuleAccess = async (
   }
 }
 
-export default withSentry(verifyModuleAccess)
-export const config = {
-  api: {
-    externalResolver: true,
-  },
-}
+export default verifyModuleAccess

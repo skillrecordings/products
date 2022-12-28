@@ -1,13 +1,12 @@
-import {withSentry} from '@sentry/nextjs'
 import {NextApiRequest, NextApiResponse} from 'next'
 import {getExercise} from 'lib/exercises'
 import {z} from 'zod'
 import {getToken} from 'next-auth/jwt'
-import {getSubscriberFromCookie} from '../../../../server/ck-subscriber-from-cookie'
-import {getWorkshop} from '../../../../lib/workshops'
-import {getTutorial} from '../../../../lib/tutorials'
-import {getSection} from '../../../../lib/sections'
-import {defineRulesForPurchases, UserSchema} from '../../../../video/ability'
+import {getSubscriberFromCookie} from 'server/ck-subscriber-from-cookie'
+import {getWorkshop} from 'lib/workshops'
+import {getTutorial} from 'lib/tutorials'
+import {getSection} from 'lib/sections'
+import {defineRulesForPurchases, UserSchema} from 'video/ability'
 
 const VerifyModuleAccessArgsSchema = z.object({
   moduleSlug: z.string().optional(),
@@ -22,14 +21,13 @@ const verifyModuleAccess = async (
   res: NextApiResponse,
 ) => {
   if (req.method === 'POST') {
-    console.log(typeof req.body)
     const {
       moduleSlug,
       moduleType,
       lessonSlug,
       sectionSlug,
       isSolution = false,
-    } = VerifyModuleAccessArgsSchema.parse(JSON.parse(req.body))
+    } = VerifyModuleAccessArgsSchema.parse(req.body)
     const token = await getToken({req})
     const convertkitSubscriber = getSubscriberFromCookie(req)
     const module = moduleSlug
@@ -58,9 +56,4 @@ const verifyModuleAccess = async (
   }
 }
 
-export default withSentry(verifyModuleAccess)
-export const config = {
-  api: {
-    externalResolver: true,
-  },
-}
+export default verifyModuleAccess
