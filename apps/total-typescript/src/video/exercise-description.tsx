@@ -56,7 +56,7 @@ export const ExerciseDescription: React.FC<{exercise: LessonResource}> = ({
               <a>Total TypeScript Core Volume</a>
             </Link>{' '}
             and can be unlocked immediately after purchase. Already purchased?{' '}
-            <Link href="/apps/total-typescript/src/pages/login">
+            <Link href="/login">
               <a>Log in here.</a>
             </Link>
           </p>
