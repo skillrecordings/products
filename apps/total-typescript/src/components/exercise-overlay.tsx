@@ -24,7 +24,7 @@ import Link from 'next/link'
 import first from 'lodash/first'
 import {useLesson} from '../video/use-lesson'
 import {useVideoResource} from 'video/use-video-resource'
-import {getBaseUrl} from 'utils/get-base-url'
+import {getBaseUrl} from 'video/get-base-url'
 
 export const OverlayWrapper: React.FC<
   React.PropsWithChildren<{className?: string; dismissable?: boolean}>
