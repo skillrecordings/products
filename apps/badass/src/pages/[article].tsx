@@ -1,10 +1,8 @@
 import React from 'react'
 import {sanityClient} from 'utils/sanity-client'
 import {SanityDocument} from '@sanity/client'
-import {GetServerSideProps, GetStaticPaths, GetStaticProps} from 'next'
+import {GetStaticPaths, GetStaticProps} from 'next'
 import ArticleTemplate from 'templates/article-template'
-import isEmpty from 'lodash/isEmpty'
-import find from 'lodash/find'
 import groq from 'groq'
 
 const previewArticleQuery = groq`*[_type == "article" && slug.current == $slug][0]{

@@ -3,18 +3,13 @@ import {PortableText, toPlainText} from '@portabletext/react'
 import {LinkedIn, Twitter} from '@skillrecordings/react'
 import {CalendarIcon} from '@heroicons/react/outline'
 import {SanityDocument} from '@sanity/client'
-import {NextRouter, useRouter} from 'next/router'
+import {useRouter} from 'next/router'
 import {format} from 'date-fns'
 import JoelHooksHeadshotImage from '../../public/joel-hooks.jpg'
 import PortableTextComponents from 'components/portable-text'
 import Layout from 'components/layout'
-import isEmpty from 'lodash/isEmpty'
 import Image from 'next/image'
-import Link from 'next/link'
-import {
-  CallToActionForm,
-  SmallCallToActionForm,
-} from '../components/call-to-action-form'
+import {SmallCallToActionForm} from '../components/call-to-action-form'
 import {genericCallToActionContent} from '../components/landing-content'
 import MuxVideo from '@mux/mux-player-react'
 
@@ -26,13 +21,9 @@ type ArticleTemplateProps = {
 const ArticleTemplate: React.FC<
   React.PropsWithChildren<ArticleTemplateProps>
 > = ({article, hasSubscribed}) => {
-  const {title, description, body, subscribersOnly, date, cta, ogImage, video} =
-    article
+  const {title, description, body, subscribersOnly, date, video} = article
   const shortDescription =
     description || toPlainText(body).substring(0, 157) + '...'
-  const router = useRouter()
-
-  console.log({video})
 
   return (
     <Layout

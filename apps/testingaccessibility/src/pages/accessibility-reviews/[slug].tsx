@@ -16,7 +16,6 @@ import {
   HLSSource,
   selectIsFullscreen,
 } from '@skillrecordings/player'
-import {serialize} from 'next-mdx-remote/serialize'
 import {format} from 'date-fns'
 import {useRouter} from 'next/router'
 import {PortableText, toPlainText} from '@portabletext/react'

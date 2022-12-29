@@ -1,6 +1,11 @@
 import {NextApiRequest, NextApiResponse} from 'next'
 import fetchConvertkitSubscriberFromServerCookie from '../utils/fetch-convertkit-subscriber'
 
+/**
+ * @deprecated use skill-api instead
+ * @param req
+ * @param res
+ */
 const subscriber = async (req: NextApiRequest, res: NextApiResponse) => {
   if (req.method === 'GET') {
     try {

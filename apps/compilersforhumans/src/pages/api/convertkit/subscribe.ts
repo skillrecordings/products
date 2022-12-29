@@ -1,3 +1,3 @@
-import convertkitSubscribeHandler from '@skillrecordings/convertkit/dist/api/subscribe'
+import convertkitSubscribeHandler from '@skillrecordings/convertkit-react-ui'
 
 export default convertkitSubscribeHandler

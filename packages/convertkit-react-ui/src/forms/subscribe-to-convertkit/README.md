@@ -10,7 +10,7 @@ pnpm add @skillrecordings/convertkit
 
 ## Requirements
 
-1. API endpoint under `/api/convertkit/subscribe` is required and you can import it from `@skillrecordings/convertkit/dist/api/subscribe`
+1. API endpoint under `/api/convertkit/subscribe` is required and you can import it from `@skillrecordings/convertkit-react-ui`
 2. Following environment variables that are used to drive the form:
 
 ```env
