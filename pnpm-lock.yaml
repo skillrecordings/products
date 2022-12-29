@@ -1633,10 +1633,10 @@ importers:
       '@skillrecordings/types': workspace:*
       '@tailwindcss/typography': ^0.5.7
       '@tanstack/react-query': ^4.20.4
-      '@trpc/client': ^9.27.2
-      '@trpc/next': ^9.27.2
-      '@trpc/react': ^9.27.2
-      '@trpc/server': ^9.27.2
+      '@trpc/client': ^10.7.0
+      '@trpc/next': ^10.7.0
+      '@trpc/react-query': ^10.7.0
+      '@trpc/server': ^10.7.0
       '@types/cookie': ^0.4.1
       '@types/jest': ^27.5.2
       '@types/js-cookie': ^3.0.2
@@ -1720,10 +1720,10 @@ importers:
       '@skillrecordings/time': link:../../packages/time
       '@tailwindcss/typography': 0.5.7_tailwindcss@3.1.4
       '@tanstack/react-query': 4.20.4_biqbaboplfbrettd7655fr4n2y
-      '@trpc/client': 9.27.2_@trpc+server@9.27.2
-      '@trpc/next': 9.27.2_dyodlyrl4jlccmeg4rab7q5slm
-      '@trpc/react': 9.27.2_r3nohbkvzkycnbsdj5gzhfx2rm
-      '@trpc/server': 9.27.2
+      '@trpc/client': 10.7.0_@trpc+server@10.7.0
+      '@trpc/next': 10.7.0_d3ztwackgnqsj6s7tqkdtmz3oe
+      '@trpc/react-query': 10.7.0_x4ie6nhblo2vtx2aafrgzlfqy4
+      '@trpc/server': 10.7.0
       '@xstate/react': 1.5.1_bpg42ha2il6pcyn3wrx2rxrchm
       classnames: 2.3.1
       date-fns: 2.28.0
@@ -11790,27 +11790,6 @@ packages:
       react-ssr-prepass: 1.5.0_react@18.2.0
     dev: false
 
-  /@trpc/next/9.27.2_dyodlyrl4jlccmeg4rab7q5slm:
-    resolution: {integrity: sha512-5Xy13sH2c7usWyQtVQ7g7gjv7i1/3shGrtVJJEbdEXq8i0A7BUAg1Q1DjCL92d9otD2jXpnaqRAktrXLZRGCgQ==}
-    peerDependencies:
-      '@trpc/client': 9.27.2
-      '@trpc/react': 9.27.2
-      '@trpc/server': 9.27.2
-      next: '*'
-      react: '>=16.8.0'
-      react-dom: '>=16.8.0'
-      react-query: ^3.37.0
-    dependencies:
-      '@babel/runtime': 7.18.3
-      '@trpc/client': 9.27.2_@trpc+server@9.27.2
-      '@trpc/react': 9.27.2_r3nohbkvzkycnbsdj5gzhfx2rm
-      '@trpc/server': 9.27.2
-      next: 12.3.1_biqbaboplfbrettd7655fr4n2y
-      react: 18.2.0
-      react-dom: 18.2.0_react@18.2.0
-      react-ssr-prepass: 1.5.0_react@18.2.0
-    dev: false
-
   /@trpc/react-query/10.7.0_x4ie6nhblo2vtx2aafrgzlfqy4:
     resolution: {integrity: sha512-dSSmYid6NWocU32QMsH6qWEqnW4mbp7hX01hxsBfAA2mGYD8b4Kgc9ripw4MpPNbsJElJFyWDHfb/UHnhywWbA==}
     peerDependencies:
@@ -11858,22 +11837,6 @@ packages:
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
       react-query: 3.39.1_biqbaboplfbrettd7655fr4n2y
-    dev: false
-
-  /@trpc/react/9.27.2_r3nohbkvzkycnbsdj5gzhfx2rm:
-    resolution: {integrity: sha512-d2Nu3gYD7W9B5J5GylLw41jElQexb9zzwOLmCUR54azhvkIjk2w5dZLLqG3ou7L4ZsnlLOHgyO/LMwrgR4U9ZA==}
-    peerDependencies:
-      '@trpc/client': 9.27.2
-      '@trpc/server': 9.27.2
-      react: '>=16.8.0'
-      react-dom: '>=16.8.0'
-      react-query: ^3.37.0
-    dependencies:
-      '@babel/runtime': 7.18.3
-      '@trpc/client': 9.27.2_@trpc+server@9.27.2
-      '@trpc/server': 9.27.2
-      react: 18.2.0
-      react-dom: 18.2.0_react@18.2.0
     dev: false
 
   /@trpc/server/10.0.0-proxy-beta.17:

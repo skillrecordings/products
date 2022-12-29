@@ -152,7 +152,7 @@ const DefaultOverlay = () => {
   const {nextExercise, module, path, lesson, handlePlay} = useMuxPlayer()
   const router = useRouter()
   const {image} = module
-  const addProgressMutation = trpc.useMutation(['progress.add'])
+  const addProgressMutation = trpc.progress.add.useMutation()
 
   return (
     <OverlayWrapper className="px-5">
@@ -201,7 +201,7 @@ const DefaultOverlay = () => {
             addProgressMutation.mutate(
               {lessonSlug: lesson.slug},
               {
-                onSettled: (data, error, variables, context) => {
+                onSettled: () => {
                   handleContinue(router, module, nextExercise, handlePlay, path)
                 },
               },
@@ -223,7 +223,7 @@ const FinishedOverlay = () => {
   const shareButtonStyles =
     'bg-white shadow-xl shadow-gray-500/5 flex items-center gap-2 rounded-full px-4 py-2 hover:bg-gray-50'
 
-  const addProgressMutation = trpc.useMutation(['progress.add'])
+  const addProgressMutation = trpc.progress.add.useMutation()
 
   React.useEffect(() => {
     // since this is the last lesson and we show the "module complete" overlay
