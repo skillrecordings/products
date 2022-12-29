@@ -8,7 +8,7 @@ import ChanceImage from '../../public/images/chance-strickland.jpeg'
 import {NextRouter, useRouter} from 'next/router'
 import {LinkedIn, Twitter} from '@skillrecordings/react'
 import SubscribeForm from 'components/app/subscribe-form'
-import {useConvertkit} from '@skillrecordings/convertkit'
+import {useConvertkit} from '@skillrecordings/convertkit-react-ui'
 
 const ArticleTemplate: React.FC<ArticlePageProps> = ({article}) => {
   const {title, body} = article

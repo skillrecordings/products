@@ -5,7 +5,7 @@ import LandingCopy from 'components/content/landing-copy.mdx'
 import {
   redirectUrlBuilder,
   SubscribeToConvertkitForm,
-} from '@skillrecordings/convertkit'
+} from '@skillrecordings/convertkit-react-ui'
 import Link from 'next/link'
 import Image from 'next/image'
 import {Logo, GridVisual} from 'components/images'

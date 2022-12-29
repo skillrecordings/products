@@ -4,6 +4,11 @@ import isEmpty from 'lodash/isEmpty'
 import {CK_SUBSCRIBER_KEY, ACCESS_TOKEN_KEY} from '@skillrecordings/config'
 import fetchConvertkitSubscriberFromServerCookie from './fetch-convertkit-subscriber'
 
+/**
+ * @deprecated use skill-lessons packages instead
+ * @param context
+ * @param tagId
+ */
 export async function checkIfConvertkitSubscriber(
   context: GetServerSidePropsContext,
   tagId?: number,

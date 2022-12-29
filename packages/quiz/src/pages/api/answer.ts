@@ -1,10 +1,10 @@
 import {NextApiHandler, NextApiRequest, NextApiResponse} from 'next'
 import {convertkitAxios} from '@skillrecordings/axios'
-import fetchConvertkitSubscriberFromServerCookie from '@skillrecordings/convertkit/dist/utils/fetch-convertkit-subscriber'
 import isEmpty from 'lodash/isEmpty'
 import find from 'lodash/find'
 import toLower from 'lodash/toLower'
 import {CONVERTKIT_BASE_URL} from '@skillrecordings/config'
+import {fetchConvertkitSubscriberFromServerCookie} from '@skillrecordings/convertkit-react-ui'
 
 if (!CONVERTKIT_BASE_URL)
   throw new Error('No Convertkit API Base Url Found: CONVERTKIT_BASE_URL')
@@ -62,4 +62,7 @@ const answer: NextApiHandler = async (
   }
 }
 
+/**
+ * @deprecated use skill-api instead
+ */
 export default answer

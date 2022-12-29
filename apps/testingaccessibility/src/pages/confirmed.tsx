@@ -3,7 +3,7 @@ import Layout from 'components/app/layout'
 import {useRouter} from 'next/router'
 import axios from 'axios'
 import isEmpty from 'lodash/isEmpty'
-import {useConvertkit} from '@skillrecordings/convertkit'
+import {useConvertkit} from '@skillrecordings/convertkit-react-ui'
 
 const Confirmed = () => {
   const router = useRouter()

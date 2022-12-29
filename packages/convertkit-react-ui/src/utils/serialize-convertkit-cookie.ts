@@ -15,6 +15,10 @@ const serializeCookie = (
   }
 }
 
+/**
+ * @deprecated use convertkit-sdk instead
+ * @param subscriberId
+ */
 export default function serializeConvertkitCookie(subscriberId: string) {
   const hour = 3600000
   const oneYear = 365 * 24 * hour

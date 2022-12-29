@@ -5,9 +5,8 @@ import {useRouter} from 'next/router'
 import Image from 'next/image'
 import Link from 'next/link'
 import toast from 'react-hot-toast'
-import {isSellingLive} from 'utils/is-selling-live'
 import {useNavState} from '../../hooks/use-nav-state'
-import {useConvertkit} from '@skillrecordings/convertkit'
+import {useConvertkit} from '@skillrecordings/convertkit-react-ui'
 
 type FooterProps = {}
 

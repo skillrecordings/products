@@ -13,7 +13,7 @@ import {
   useConvertkit,
   SubscribeToConvertkitForm,
   redirectUrlBuilder,
-} from '@skillrecordings/convertkit'
+} from '@skillrecordings/convertkit-react-ui'
 import {
   TheFutureOfRemoteWorkBackground,
   TheValueOfValuesExample,

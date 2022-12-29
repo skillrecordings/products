@@ -20,7 +20,12 @@ export function useConvertkitForm({
   onSuccess: (subscriber: ConvertkitSubscriber, email?: string) => void
   onError: (error?: any) => void
   fields?: any
-}) {
+}): {
+  isSubmitting: boolean
+  status: string
+  handleChange: any
+  handleSubmit: any
+} {
   const {isSubmitting, status, handleChange, handleSubmit} = useFormik({
     initialStatus: '',
     initialValues: {

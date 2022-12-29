@@ -7,7 +7,7 @@ import {useReducedMotion} from 'framer-motion'
 import {
   SubscribeToConvertkitForm,
   redirectUrlBuilder,
-} from '@skillrecordings/convertkit'
+} from '@skillrecordings/convertkit-react-ui'
 import toast from 'react-hot-toast'
 import Layout from 'components/app/layout'
 import AboutInstructor from 'components/about-instructor'

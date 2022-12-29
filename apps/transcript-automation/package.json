@@ -24,7 +24,7 @@
     "@sentry/nextjs": "^7.9.0",
     "@sentry/tracing": "^7.9.0",
     "@skillrecordings/analytics": "workspace:*",
-    "@skillrecordings/convertkit": "workspace:*",
+    "@skillrecordings/convertkit-react-ui": "workspace:*",
     "@skillrecordings/database": "workspace:*",
     "@skillrecordings/commerce-server": "workspace:*",
     "@skillrecordings/next-seo": "workspace:*",

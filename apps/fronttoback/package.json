@@ -17,7 +17,7 @@
     "@portabletext/react": "^1.0.6",
     "@sanity/client": "^3.3.3",
     "@skillrecordings/analytics": "workspace:*",
-    "@skillrecordings/convertkit": "workspace:*",
+    "@skillrecordings/convertkit-react-ui": "workspace:*",
     "@skillrecordings/next-seo": "workspace:*",
     "@skillrecordings/quiz": "workspace:*",
     "@skillrecordings/react": "workspace:*",

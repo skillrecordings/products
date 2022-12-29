@@ -12,14 +12,13 @@ import AngieJones from '../../public/images/angie-jones@2x.png'
 import {
   SubscribeToConvertkitForm,
   redirectUrlBuilder,
-} from '@skillrecordings/convertkit'
+} from '@skillrecordings/convertkit-react-ui'
 import {useRouter} from 'next/router'
 import {getToken} from 'next-auth/jwt'
 import {getActiveProducts} from 'lib/products'
 import {propsForCommerce} from '@skillrecordings/commerce-server'
-import {Element, scroller} from 'react-scroll'
+import {Element} from 'react-scroll'
 import {PricingTiers} from 'components/product-tiers'
-import {isSellingLive} from 'utils/is-selling-live'
 import AmazonLogo from '../components/amazon-logo'
 
 const AMAZON_URL = process.env.NEXT_PUBLIC_AMAZON_URL

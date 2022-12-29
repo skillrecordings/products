@@ -10,7 +10,7 @@ import {
   redirectUrlBuilder,
   SubscribeToConvertkitForm,
   useConvertkit,
-} from '@skillrecordings/convertkit'
+} from '@skillrecordings/convertkit-react-ui'
 import ImageAuthor from '../../public/images/joe-previte.jpeg'
 import isEmpty from 'lodash/isEmpty'
 import Image from 'next/image'

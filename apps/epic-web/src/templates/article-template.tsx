@@ -14,7 +14,7 @@ import PortableTextComponents from 'components/portable-text'
 import Image from 'next/image'
 import {PrimaryNewsletterCta} from 'components/primary-newsletter-cta'
 import Share from 'components/share'
-import {useConvertkit} from '@skillrecordings/convertkit'
+import {useConvertkit} from '@skillrecordings/convertkit-react-ui'
 
 const ArticleTemplate: React.FC<{article: Article}> = ({article}) => {
   const router = useRouter()

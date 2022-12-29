@@ -7,7 +7,7 @@
 Add `/pages/api/convertkit/subscribe.ts` and update it to:
 
 ```typescript
-import convertkitSubscribeHandler from '@skillrecordings/convertkit/dist/api/subscribe'
+import convertkitSubscribeHandler from '@skillrecordings/convertkit-react-ui'
 
 export default convertkitSubscribeHandler
 
@@ -33,7 +33,7 @@ import * as React from 'react'
 import {
   redirectUrlBuilder,
   SubscribeToConvertkitForm,
-} from '@skillrecordings/convertkit'
+} from '@skillrecordings/convertkit-react-ui'
 import {useRouter} from 'next/router'
 
 const CallToActionForm: React.FC<any> = ({content}) => {

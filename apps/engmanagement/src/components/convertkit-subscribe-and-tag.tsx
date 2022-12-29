@@ -1,5 +1,5 @@
 import React from 'react'
-import {useConvertkit} from '@skillrecordings/convertkit'
+import {useConvertkit} from '@skillrecordings/convertkit-react-ui'
 import axios from 'axios'
 import {useFormik} from 'formik'
 import Spinner from 'components/spinner'

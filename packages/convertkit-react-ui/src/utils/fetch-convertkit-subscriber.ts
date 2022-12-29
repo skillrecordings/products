@@ -23,6 +23,10 @@ function getTokenFromCookieHeaders(serverCookies: string = '') {
   return getConvertkitId(parsedCookie)
 }
 
+/**
+ * @deprecated ☠️ use the convertkit-sdk package instead!
+ * @param header
+ */
 export default async function fetchConvertkitSubscriberFromServerCookie(
   header: string,
 ) {
