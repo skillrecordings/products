@@ -4,8 +4,8 @@ import {GetStaticPaths, GetStaticProps} from 'next'
 import {getExercise, getExerciseMedia} from 'lib/exercises'
 import {getAllWorkshops, getWorkshop} from 'lib/workshops'
 import {getSection} from 'lib/sections'
-import {VideoResourceProvider} from '../../../../../video/use-video-resource'
-import {LessonProvider} from '../../../../../video/use-lesson'
+import {VideoResourceProvider} from '@skillrecordings/skill-lesson/hooks/use-video-resource'
+import {LessonProvider} from '@skillrecordings/skill-lesson/hooks/use-lesson'
 
 export const getStaticProps: GetStaticProps = async (context) => {
   const {params} = context

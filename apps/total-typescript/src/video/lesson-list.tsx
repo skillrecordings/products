@@ -5,11 +5,11 @@ import capitalize from 'lodash/capitalize'
 import Link from 'next/link'
 import cx from 'classnames'
 
-import {type LessonResource} from './lesson-resources'
-import {track} from 'video/analytics'
+import {type LessonResource} from '@skillrecordings/skill-lesson/schemas/lesson-resource'
+import {track} from '@skillrecordings/skill-lesson/utils/analytics'
 
 import {useQuery} from '@tanstack/react-query'
-import {SolutionSchema} from '../lib/exercise-solutions'
+import {SolutionSchema} from '@skillrecordings/skill-lesson/schemas/solution'
 
 const LessonList: React.FC<{
   module: SanityDocument

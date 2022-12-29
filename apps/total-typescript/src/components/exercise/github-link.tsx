@@ -1,10 +1,10 @@
 import * as React from 'react'
 import {SanityDocument} from '@sanity/client'
-import {track} from '../../video/analytics'
+import {track} from '@skillrecordings/skill-lesson/utils/analytics'
 import {IconGithub} from '../icons'
-import {useMuxPlayer} from '../../video/use-mux-player'
+import {useMuxPlayer} from '@skillrecordings/skill-lesson/hooks/use-mux-player'
 import Spinner from 'components/spinner'
-import {LessonResource} from '../../video/lesson-resources'
+import {LessonResource} from '@skillrecordings/skill-lesson/schemas/lesson-resource'
 import {useRouter} from 'next/router'
 import {trpc} from '../../utils/trpc'
 

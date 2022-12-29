@@ -1,6 +1,8 @@
 import React from 'react'
-
-import {type VideoResource, VideoResourceSchema} from './video-resource'
+import {
+  type VideoResource,
+  VideoResourceSchema,
+} from '../schemas/video-resource'
 import {useQuery} from '@tanstack/react-query'
 
 type VideoResourceContextType = {

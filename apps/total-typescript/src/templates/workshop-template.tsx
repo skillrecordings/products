@@ -7,14 +7,14 @@ import {PortableText} from '@portabletext/react'
 import {SanityDocument} from '@sanity/client'
 import {IconGithub} from 'components/icons'
 import {isBrowser} from 'utils/is-browser'
-import {track} from '../video/analytics'
-import PortableTextComponents from 'video/portable-text'
+import {track} from '@skillrecordings/skill-lesson/utils/analytics'
 import first from 'lodash/first'
 import * as Accordion from '@radix-ui/react-accordion'
 import {CheckIcon, ChevronDownIcon} from '@heroicons/react/solid'
 import {trpc} from 'utils/trpc'
 import {find, isArray} from 'lodash'
-import {LessonResource} from '../video/lesson-resources'
+import {LessonResource} from '@skillrecordings/skill-lesson/schemas/lesson-resource'
+import PortableTextComponents from '../video/portable-text'
 
 const WorkshopTemplate: React.FC<{
   workshop: SanityDocument

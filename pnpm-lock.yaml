@@ -2350,6 +2350,7 @@ importers:
       '@skillrecordings/react': workspace:*
       '@skillrecordings/scripts': workspace:*
       '@skillrecordings/skill-api': workspace:*
+      '@skillrecordings/skill-lesson': workspace:*
       '@skillrecordings/stripe-sdk': workspace:*
       '@skillrecordings/time': workspace:*
       '@skillrecordings/tsconfig': workspace:*
@@ -2404,6 +2405,7 @@ importers:
       next: ^12.3.1
       next-auth: ^4.10.3
       next-sitemap: ^3.0.5
+      next-transpile-modules: ^9.0.0
       node-fetch: ^2.6.7
       postcss: ^8.4.14
       prettier: ^2.6.2
@@ -2473,6 +2475,7 @@ importers:
       '@skillrecordings/quiz': link:../../packages/quiz
       '@skillrecordings/react': link:../../packages/react
       '@skillrecordings/skill-api': link:../../packages/skill-api
+      '@skillrecordings/skill-lesson': link:../../packages/skill-lesson
       '@skillrecordings/stripe-sdk': link:../../packages/stripe-sdk
       '@skillrecordings/time': link:../../packages/time
       '@stackblitz/sdk': 1.8.0
@@ -2556,6 +2559,7 @@ importers:
       eslint-config-custom: link:../../packages/eslint-config-custom
       lint-staged: 11.2.6
       msw: 0.35.0
+      next-transpile-modules: 9.0.0
       postcss: 8.4.14
       prettier: 2.6.2
       prettier-plugin-tailwindcss: 0.1.13_prettier@2.6.2
@@ -3851,6 +3855,72 @@ importers:
       react-dom: 18.2.0_react@18.2.0
       typescript: 4.9.4
       whatwg-fetch: 3.6.2
+
+  packages/skill-lesson:
+    specifiers:
+      '@amplitude/analytics-browser': ^1.3.0
+      '@casl/ability': ^6.3.2
+      '@heroicons/react': ^1.0.6
+      '@mux/mux-player-react': 0.1.0-beta.26
+      '@portabletext/react': ^1.0.6
+      '@portabletext/types': ^1.0.3
+      '@sanity/client': ^3.4.1
+      '@skillrecordings/ability': workspace:*
+      '@skillrecordings/analytics': workspace:*
+      '@skillrecordings/config': workspace:*
+      '@skillrecordings/react': workspace:*
+      '@skillrecordings/time': workspace:*
+      '@tanstack/react-query': ^4.20.4
+      '@types/js-cookie': ^3.0.2
+      '@types/lodash': ^4.14.179
+      '@types/react': 18.0.18
+      '@types/react-dom': 18.0.6
+      '@types/speakingurl': ^13.0.3
+      classnames: ^2.3.1
+      groq: ^2.15.0
+      js-cookie: ^3.0.1
+      lodash: ^4.17.21
+      next: ^12.3.1
+      react: 18.2.0
+      react-dom: 18.2.0
+      react-hot-toast: ^2.2.0
+      react-refractor: ^2.1.7
+      refractor: ^4.5.0
+      speakingurl: ^14.0.1
+      typescript: 4.9.4
+      zod: ^3.19.1
+    dependencies:
+      '@amplitude/analytics-browser': 1.3.0
+      '@casl/ability': 6.3.2
+      '@heroicons/react': 1.0.6_react@18.2.0
+      '@mux/mux-player-react': 0.1.0-beta.26_5d4wf3yo6k5smpa3kasqkeetaq
+      '@portabletext/react': 1.0.6_react@18.2.0
+      '@portabletext/types': 1.0.3
+      '@sanity/client': 3.4.1
+      '@skillrecordings/ability': link:../ability
+      '@skillrecordings/analytics': link:../analytics
+      '@skillrecordings/config': link:../config
+      '@skillrecordings/react': link:../react
+      '@skillrecordings/time': link:../time
+      '@tanstack/react-query': 4.20.4_biqbaboplfbrettd7655fr4n2y
+      '@types/js-cookie': 3.0.2
+      '@types/lodash': 4.14.186
+      '@types/react': 18.0.18
+      '@types/react-dom': 18.0.6
+      '@types/speakingurl': 13.0.3
+      classnames: 2.3.1
+      groq: 2.15.0
+      js-cookie: 3.0.1
+      lodash: 4.17.21
+      next: 12.3.1_biqbaboplfbrettd7655fr4n2y
+      react: 18.2.0
+      react-dom: 18.2.0_react@18.2.0
+      react-hot-toast: 2.2.0_biqbaboplfbrettd7655fr4n2y
+      react-refractor: 2.1.7_react@18.2.0
+      refractor: 4.8.0
+      speakingurl: 14.0.1
+      typescript: 4.9.4
+      zod: 3.19.1
 
   packages/stripe-sdk:
     specifiers:
@@ -8892,6 +8962,28 @@ packages:
       - debug
     dev: false
 
+  /@mux/mux-player-react/0.1.0-beta.26_5d4wf3yo6k5smpa3kasqkeetaq:
+    resolution: {integrity: sha512-USfxZG0QH/iWzm3Y1HiSDzTVFwc9qzaOjn1Eup7i9UiMACr5PHcQB+LGo27iIgrtzWYZhLthm1MJsJzs05R7mA==}
+    peerDependencies:
+      '@types/react': ^17.0.0 || ^18
+      '@types/react-dom': '*'
+      react: ^17.0.2 || ^18
+      react-dom: ^17.0.2 || ^18
+    peerDependenciesMeta:
+      '@types/react':
+        optional: true
+      '@types/react-dom':
+        optional: true
+    dependencies:
+      '@mux/mux-player': 0.1.0-beta.26
+      '@mux/playback-core': 0.9.0
+      '@types/react': 18.0.18
+      '@types/react-dom': 18.0.6
+      prop-types: 15.8.1
+      react: 18.2.0
+      react-dom: 18.2.0_react@18.2.0
+    dev: false
+
   /@mux/mux-player-react/0.1.0-beta.26_v7vsrdtui4d36prbwvdnlb7tpq:
     resolution: {integrity: sha512-USfxZG0QH/iWzm3Y1HiSDzTVFwc9qzaOjn1Eup7i9UiMACr5PHcQB+LGo27iIgrtzWYZhLthm1MJsJzs05R7mA==}
     peerDependencies:
@@ -10554,6 +10646,19 @@ packages:
       rxjs: 6.6.7
     transitivePeerDependencies:
       - supports-color
+
+  /@sanity/client/3.4.1:
+    resolution: {integrity: sha512-WSvnroCHqboUeyY0nl71vDPKmfurXI0mtqdNDb5u8MW00CAHRyCt1+Sgy39D/g+6R35FYniV31vTSTo3ofim0A==}
+    engines: {node: '>=12'}
+    dependencies:
+      '@sanity/eventsource': 4.0.0
+      get-it: 6.1.1
+      make-error: 1.3.6
+      object-assign: 4.1.1
+      rxjs: 6.6.7
+    transitivePeerDependencies:
+      - supports-color
+    dev: false
 
   /@sanity/color/2.1.11:
     resolution: {integrity: sha512-ZComCEDE7Y5xu/+BksJDVkAffawRWrJvoI7VdIA+szhqzYQWgLRLfsr+UBkYZMtb9a+8HyUm6Uqoo028GNGREQ==}
@@ -12267,7 +12372,7 @@ packages:
   /@types/react-dom/18.0.6:
     resolution: {integrity: sha512-/5OFZgfIPSwy+YuIBP/FgJnQnsxhZhjjrnxudMddeblOouIodEQ75X14Rr4wGSG/bknL+Omy9iWlLo1u/9GzAA==}
     dependencies:
-      '@types/react': 18.0.15
+      '@types/react': 18.0.18
 
   /@types/react-reconciler/0.26.7:
     resolution: {integrity: sha512-mBDYl8x+oyPX/VBb3E638N0B7xG+SPk/EAMcVPeexqus/5aTpTphQi0curhhshOqRrc9t6OPoJfEUkbymse/lQ==}
@@ -12313,6 +12418,13 @@ packages:
 
   /@types/react/18.0.15:
     resolution: {integrity: sha512-iz3BtLuIYH1uWdsv6wXYdhozhqj20oD4/Hk2DNXIn1kFsmp9x8d9QB6FnPhfkbhd2PgEONt9Q1x/ebkwjfFLow==}
+    dependencies:
+      '@types/prop-types': 15.7.4
+      '@types/scheduler': 0.16.2
+      csstype: 3.0.11
+
+  /@types/react/18.0.18:
+    resolution: {integrity: sha512-6hI08umYs6NaiHFEEGioXnxJ+oEhY3eRz8VCUaudZmGdtvPviCJB8mgaMxaDWAdPSYd4eFavrPk2QIolwbLYrg==}
     dependencies:
       '@types/prop-types': 15.7.4
       '@types/scheduler': 0.16.2
@@ -12364,7 +12476,6 @@ packages:
 
   /@types/speakingurl/13.0.3:
     resolution: {integrity: sha512-nBHZAaNTEw1YG3ROL7HtTp7HjW8HD7DuFYbWoonUKTZHj7eyOt4vPzyMcc3+xgWNv7xi2rziaiBXHIq6wBeyrw==}
-    dev: true
 
   /@types/stack-utils/1.0.1:
     resolution: {integrity: sha512-l42BggppR6zLmpfU6fq9HEa2oGPEI8yrSPL3GITjfRInppYFahObbIQOQK3UGxEnyQpltZLaPe75046NOZQikw==}
@@ -16417,14 +16528,6 @@ packages:
     dependencies:
       graceful-fs: 4.2.10
       tapable: 2.2.1
-
-  /enhanced-resolve/5.8.3:
-    resolution: {integrity: sha512-EGAbGvH7j7Xt2nc0E7D99La1OiEs8LnyimkRgwExpUMScN6O+3x9tIWs7PLQZVNx4YD+00skHXPXi1yQHpAmZA==}
-    engines: {node: '>=10.13.0'}
-    dependencies:
-      graceful-fs: 4.2.10
-      tapable: 2.2.1
-    dev: true
 
   /enquirer/2.3.6:
     resolution: {integrity: sha512-yjNnPr315/FjS4zIsUxYguYUPP2e1NK4d7E7ZOLiyYCcbFBiTMyID+2wvm2w6+pZ/odMA7cRkjhsPbltwBOrLg==}
@@ -23873,8 +23976,9 @@ packages:
 
   /next-transpile-modules/9.0.0:
     resolution: {integrity: sha512-VCNFOazIAnXn1hvgYYSTYMnoWgKgwlYh4lm1pKbSfiB3kj5ZYLcKVhfh3jkPOg1cnd9DP+pte9yCUocdPEUBTQ==}
+    deprecated: All features of next-transpile-modules are now natively built-in Next.js 13.1. Please use Next's transpilePackages option :)
     dependencies:
-      enhanced-resolve: 5.8.3
+      enhanced-resolve: 5.10.0
       escalade: 3.1.1
     dev: true
 

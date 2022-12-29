@@ -8,8 +8,8 @@ import {useRouter} from 'next/router'
 import {removeQueryParamsFromRouter} from '@skillrecordings/react'
 import {CK_SUBSCRIBER_KEY} from '@skillrecordings/config'
 
-import {type Subscriber} from 'video/subscriber'
-import {identify} from './analytics'
+import {type Subscriber} from '../schemas/subscriber'
+import {identify} from '../utils/analytics'
 
 export type ConvertkitContextType = {
   subscriber?: Subscriber

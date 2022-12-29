@@ -1,7 +1,6 @@
 import React from 'react'
 import {type SanityDocument} from '@sanity/client'
-
-import {type LessonResource} from 'video/lesson-resources'
+import {type LessonResource} from '../schemas/lesson-resource'
 
 type LessonContextType = {
   lesson: LessonResource

@@ -1,6 +1,6 @@
 import {useSurveyPopupOfferMachine} from 'offer/use-survey-popup-offer-machine'
 import * as React from 'react'
-import {track} from '../../video/analytics'
+import {track} from '@skillrecordings/skill-lesson/utils/analytics'
 import {trpc} from '../../utils/trpc'
 import {SurveyMachineContext} from './survey-machine'
 import {QuestionResource} from '@skillrecordings/types'

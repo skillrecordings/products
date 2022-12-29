@@ -7,9 +7,9 @@ import {PortableText} from '@portabletext/react'
 import {SanityDocument} from '@sanity/client'
 import {IconGithub} from 'components/icons'
 import {isBrowser} from 'utils/is-browser'
-import {track} from '../video/analytics'
+import {track} from '@skillrecordings/skill-lesson/utils/analytics'
+import {LessonResource} from '@skillrecordings/skill-lesson/schemas/lesson-resource'
 import PortableTextComponents from 'video/portable-text'
-import {LessonResource} from '../video/lesson-resources'
 
 const TutorialTemplate: React.FC<{
   tutorial: SanityDocument

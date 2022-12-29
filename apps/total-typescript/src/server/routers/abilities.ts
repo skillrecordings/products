@@ -1,5 +1,8 @@
 import {getToken} from 'next-auth/jwt'
-import {defineRulesForPurchases, UserSchema} from '../../video/ability'
+import {
+  defineRulesForPurchases,
+  UserSchema,
+} from '@skillrecordings/skill-lesson/utils/ability'
 
 import {getSubscriberFromCookie} from '../ck-subscriber-from-cookie'
 import {convertkitSetSubscriberCookie} from '../ck-set-subscriber-cookie'

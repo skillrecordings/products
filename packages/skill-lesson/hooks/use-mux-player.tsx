@@ -6,13 +6,13 @@ import {type MuxPlayerProps} from '@mux/mux-player-react/*'
 
 import {useVideoResource} from './use-video-resource'
 import {useLesson} from './use-lesson'
-import {useNextLesson} from 'video/use-next-lesson'
-import {track} from 'video/analytics'
-import {usePlayerPrefs} from 'video/use-player-prefs'
-import {getNextSection} from 'video/get-next-section'
-import {useConvertkit} from 'video/use-convertkit'
+import {useNextLesson} from './use-next-lesson'
+import {track} from '../utils/analytics'
+import {usePlayerPrefs} from './use-player-prefs'
+import {getNextSection} from '../utils/get-next-section'
+import {useConvertkit} from './use-convertkit'
 
-import {type AppAbility, createAppAbility} from 'video/ability'
+import {type AppAbility, createAppAbility} from '../utils/ability'
 import {useQuery} from '@tanstack/react-query'
 
 type VideoContextType = {

@@ -3,7 +3,7 @@ import {SanityDocument} from '@sanity/client'
 import cx from 'classnames'
 import Spinner from '../spinner'
 import Image from 'next/image'
-import {LessonResource} from '../../video/lesson-resources'
+import {LessonResource} from '@skillrecordings/skill-lesson/schemas/lesson-resource'
 import {trpc} from '../../utils/trpc'
 import {useRouter} from 'next/router'
 

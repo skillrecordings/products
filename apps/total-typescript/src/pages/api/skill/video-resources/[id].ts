@@ -1,5 +1,5 @@
 import {NextApiRequest, NextApiResponse} from 'next'
-import {getVideoResource} from 'video/video-resource'
+import {getVideoResource} from 'lib/video-resources'
 
 const verifyModuleAccess = async (
   req: NextApiRequest,

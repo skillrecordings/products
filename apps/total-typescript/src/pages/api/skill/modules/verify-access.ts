@@ -6,7 +6,10 @@ import {getSubscriberFromCookie} from 'server/ck-subscriber-from-cookie'
 import {getWorkshop} from 'lib/workshops'
 import {getTutorial} from 'lib/tutorials'
 import {getSection} from 'lib/sections'
-import {defineRulesForPurchases, UserSchema} from 'video/ability'
+import {
+  defineRulesForPurchases,
+  UserSchema,
+} from '@skillrecordings/skill-lesson/utils/ability'
 
 const VerifyModuleAccessArgsSchema = z.object({
   moduleSlug: z.string().optional(),

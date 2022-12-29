@@ -4,7 +4,7 @@ import Link from 'next/link'
 import cx from 'classnames'
 import Image from 'next/image'
 
-import {track} from './analytics'
+import {track} from '@skillrecordings/skill-lesson/utils/analytics'
 
 type SidebarProps = {
   module: SanityDocument

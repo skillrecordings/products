@@ -1,7 +1,7 @@
 import {SanityDocument} from '@sanity/client'
 import {useRouter} from 'next/router'
 
-import {type LessonResource} from './lesson-resources'
+import {type LessonResource} from '../schemas/lesson-resource'
 
 import {useQuery} from '@tanstack/react-query'
 

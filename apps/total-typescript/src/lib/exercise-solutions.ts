@@ -1,15 +1,10 @@
 import {sanityClient} from '../utils/sanity-client'
 import groq from 'groq'
+import {
+  type Solution,
+  SolutionSchema,
+} from '@skillrecordings/skill-lesson/schemas/solution'
 import z from 'zod'
-import {BaseLessonResourceSchema} from '../video/base-lesson-resource'
-
-export const SolutionSchema = z
-  .object({
-    _key: z.string().optional(),
-  })
-  .merge(BaseLessonResourceSchema)
-
-export type Solution = z.infer<typeof SolutionSchema>
 
 export const getSolution = async (slug: string): Promise<Solution> => {
   const exercise = await sanityClient.fetch(

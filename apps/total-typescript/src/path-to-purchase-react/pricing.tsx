@@ -20,9 +20,9 @@ import {
   redirectUrlBuilder,
   SubscribeToConvertkitForm,
 } from '@skillrecordings/convertkit'
-import {useConvertkit} from '../video/use-convertkit'
+import {useConvertkit} from '@skillrecordings/skill-lesson/hooks/use-convertkit'
 import {setUserId} from '@amplitude/analytics-browser'
-import {track} from '../video/analytics'
+import {track} from '@skillrecordings/skill-lesson/utils/analytics'
 import {useRouter} from 'next/router'
 import * as Switch from '@radix-ui/react-switch'
 import Link from 'next/link'

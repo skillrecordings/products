@@ -1,6 +1,6 @@
 import {publicProcedure, router} from '../trpc'
 import {z} from 'zod'
-import {getVideoResource} from 'video/video-resource'
+import {getVideoResource} from 'lib/video-resources'
 
 export const videoResourceRouter = router({
   byId: publicProcedure
