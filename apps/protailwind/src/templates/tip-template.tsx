@@ -29,7 +29,7 @@ import {
   redirectUrlBuilder,
   SubscribeToConvertkitForm,
 } from '@skillrecordings/convertkit'
-import {useConvertkit} from '../hooks/use-convertkit'
+import {useConvertkit} from '@skillrecordings/skill-lesson/hooks/use-convertkit'
 import {setUserId} from '@amplitude/analytics-browser'
 import {ArticleJsonLd} from '@skillrecordings/next-seo'
 import PortableTextComponents from 'components/portable-text'
