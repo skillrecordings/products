@@ -1,10 +1,9 @@
 /**
  * This file contains the root router of your tRPC-backend
  */
-import {createRouter} from '../createRouter'
-import superjson from 'superjson'
 import {progressRouter} from './progress'
 import {convertkitRouter} from './convertkit'
+import {router} from '../trpc'
 
 /**
  * Create your application's root router
@@ -12,23 +11,9 @@ import {convertkitRouter} from './convertkit'
  * @link https://trpc.io/docs/ssg
  * @link https://trpc.io/docs/router
  */
-export const appRouter = createRouter()
-  /**
-   * Add data transformers
-   * @link https://trpc.io/docs/data-transformers
-   */
-  .transformer(superjson)
-  /**
-   * Optionally do custom error (type safe!) formatting
-   * @link https://trpc.io/docs/error-formatting
-   */
-  .merge('progress.', progressRouter)
-  .merge('convertkit.', convertkitRouter)
-  // .formatError(({ shape, error }) => { })
-  .query('healthz', {
-    resolve() {
-      return 'yay!'
-    },
-  })
+export const appRouter = router({
+  progress: progressRouter,
+  convertkit: convertkitRouter,
+})
 
 export type AppRouter = typeof appRouter

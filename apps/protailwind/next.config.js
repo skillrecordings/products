@@ -6,6 +6,9 @@ const withMDX = require('@next/mdx')({
     providerImportSource: '@mdx-js/react',
   },
 })
+const withTM = require('next-transpile-modules')([
+  '@skillrecordings/skill-lesson',
+])
 
 const IMAGE_HOST_DOMAINS = [
   `res.cloudinary.com`,
@@ -41,7 +44,7 @@ const sentryWebpackPluginOptions = process.env.SENTRY_AUTH_TOKEN && {
   // https://github.com/getsentry/sentry-webpack-plugin#options.
 }
 
-const configWithPlugins = withMDX(nextConfig)
+const configWithPlugins = withTM(withMDX(nextConfig))
 // const configWithPlugins = withMDX(withImages(nextConfig))
 
 if (sentryWebpackPluginOptions) {

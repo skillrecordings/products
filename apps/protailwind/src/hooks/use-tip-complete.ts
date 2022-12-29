@@ -1,5 +1,5 @@
 import {z} from 'zod'
-import {useQuery} from 'react-query'
+import {useQuery} from '@tanstack/react-query'
 import {localProgressDb} from '../utils/dexie'
 
 export const TipEventSchema = z.object({

@@ -25,7 +25,7 @@ import {
 import Image from 'next/image'
 import {track} from 'utils/analytics'
 import {Exercise, ExerciseSchema} from '../lib/exercises'
-import {useConvertkit} from 'hooks/use-convertkit'
+import {useConvertkit} from '@skillrecordings/skill-lesson/hooks/use-convertkit'
 import {ArticleJsonLd} from '@skillrecordings/next-seo'
 import {GiftIcon} from '@heroicons/react/solid'
 import Icon from 'components/icons'

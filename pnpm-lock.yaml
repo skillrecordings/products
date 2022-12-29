@@ -1627,14 +1627,16 @@ importers:
       '@skillrecordings/react': workspace:*
       '@skillrecordings/scripts': workspace:*
       '@skillrecordings/skill-api': workspace:*
+      '@skillrecordings/skill-lesson': workspace:*
       '@skillrecordings/time': workspace:*
       '@skillrecordings/tsconfig': workspace:*
       '@skillrecordings/types': workspace:*
       '@tailwindcss/typography': ^0.5.7
-      '@trpc/client': ^9.27.2
-      '@trpc/next': ^9.27.2
-      '@trpc/react': ^9.27.2
-      '@trpc/server': ^9.27.2
+      '@tanstack/react-query': ^4.20.4
+      '@trpc/client': ^10.7.0
+      '@trpc/next': ^10.7.0
+      '@trpc/react-query': ^10.7.0
+      '@trpc/server': ^10.7.0
       '@types/cookie': ^0.4.1
       '@types/jest': ^27.5.2
       '@types/js-cookie': ^3.0.2
@@ -1668,6 +1670,7 @@ importers:
       next: ^12.3.1
       next-auth: ^4.10.3
       next-sitemap: ^3.0.5
+      next-transpile-modules: ^9.0.0
       node-fetch: ^2.6.7
       postcss: ^8.4.14
       prettier-plugin-tailwindcss: ^0.1.13
@@ -1675,7 +1678,6 @@ importers:
       react-dom: 18.2.0
       react-hot-toast: ^2.2.0
       react-markdown: ^8.0.3
-      react-query: ^3.39.1
       react-refractor: ^2.1.7
       refractor: ^4.5.0
       speakingurl: ^14.0.1
@@ -1714,12 +1716,14 @@ importers:
       '@skillrecordings/quiz': link:../../packages/quiz
       '@skillrecordings/react': link:../../packages/react
       '@skillrecordings/skill-api': link:../../packages/skill-api
+      '@skillrecordings/skill-lesson': link:../../packages/skill-lesson
       '@skillrecordings/time': link:../../packages/time
       '@tailwindcss/typography': 0.5.7_tailwindcss@3.1.4
-      '@trpc/client': 9.27.2_@trpc+server@9.27.2
-      '@trpc/next': 9.27.2_cpjoldjkwaya224psufok4zvdi
-      '@trpc/react': 9.27.2_4qx6yxzlojuzl2gqhs2hvlmyii
-      '@trpc/server': 9.27.2
+      '@tanstack/react-query': 4.20.4_biqbaboplfbrettd7655fr4n2y
+      '@trpc/client': 10.7.0_@trpc+server@10.7.0
+      '@trpc/next': 10.7.0_d3ztwackgnqsj6s7tqkdtmz3oe
+      '@trpc/react-query': 10.7.0_x4ie6nhblo2vtx2aafrgzlfqy4
+      '@trpc/server': 10.7.0
       '@xstate/react': 1.5.1_bpg42ha2il6pcyn3wrx2rxrchm
       classnames: 2.3.1
       date-fns: 2.28.0
@@ -1737,12 +1741,12 @@ importers:
       next: 12.3.1_biqbaboplfbrettd7655fr4n2y
       next-auth: 4.10.3_biqbaboplfbrettd7655fr4n2y
       next-sitemap: 3.1.7_3k5vmi4j6sdban7pt73cm6gfhu
+      next-transpile-modules: 9.0.0
       node-fetch: 2.6.7
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
       react-hot-toast: 2.2.0_biqbaboplfbrettd7655fr4n2y
       react-markdown: 8.0.3_3hx2ussxxho4jajbwrd6gq34qe
-      react-query: 3.39.1_biqbaboplfbrettd7655fr4n2y
       refractor: 4.5.0
       speakingurl: 14.0.1
       superjson: 1.11.0
@@ -23980,7 +23984,6 @@ packages:
     dependencies:
       enhanced-resolve: 5.10.0
       escalade: 3.1.1
-    dev: true
 
   /next/12.3.0_sfoxds7t5ydpegc3knd667wn6m:
     resolution: {integrity: sha512-GpzI6me9V1+XYtfK0Ae9WD0mKqHyzQlGq1xH1rzNIYMASo4Tkl4rTe9jSqtBpXFhOS33KohXs9ZY38Akkhdciw==}
