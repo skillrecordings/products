@@ -3,7 +3,7 @@ import {SanityDocument} from '@sanity/client'
 import {
   redirectUrlBuilder,
   SubscribeToConvertkitForm,
-} from '@skillrecordings/convertkit'
+} from '@skillrecordings/convertkit-react-ui'
 import {Facebook, LinkedIn, Twitter} from '@skillrecordings/react'
 import {NextRouter, useRouter} from 'next/router'
 import snakeCase from 'lodash/snakeCase'
@@ -18,7 +18,6 @@ import {PortableText} from '@portabletext/react'
 import {useQuery} from '@tanstack/react-query'
 import {trpc} from '../utils/trpc'
 import Spinner from './spinner'
-import {Exercise} from 'lib/exercises'
 import dynamic from 'next/dynamic'
 
 const SandpackEditor: React.ComponentType<any> = dynamic(

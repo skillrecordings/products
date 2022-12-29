@@ -39,7 +39,7 @@
     "@sentry/nextjs": "^7.9.0",
     "@sentry/tracing": "^7.9.0",
     "@skillrecordings/config": "workspace:*",
-    "@skillrecordings/convertkit": "workspace:*",
+    "@skillrecordings/convertkit-react-ui": "workspace:*",
     "@skillrecordings/cookies": "workspace:*",
     "@skillrecordings/player": "workspace:*",
     "@skillrecordings/next-seo": "workspace:*",

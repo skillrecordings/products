@@ -9,7 +9,7 @@ import {format} from 'date-fns'
 import {
   redirectUrlBuilder,
   SubscribeToConvertkitForm,
-} from '@skillrecordings/convertkit'
+} from '@skillrecordings/convertkit-react-ui'
 import ImageMarcy from '../../public/marcy-sutton.jpg'
 import PortableTextComponents from 'components/portable-text'
 import Layout from 'components/app/layout'

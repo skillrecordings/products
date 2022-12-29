@@ -2,7 +2,7 @@ import React from 'react'
 import {
   SubscribeToConvertkitForm,
   redirectUrlBuilder,
-} from '@skillrecordings/convertkit'
+} from '@skillrecordings/convertkit-react-ui'
 import {useRouter} from 'next/router'
 import Image from 'next/image'
 

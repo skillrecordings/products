@@ -42,7 +42,7 @@
     "@sanity/block-content-to-react": "^3.0.0",
     "@sanity/client": "^3.2.0",
     "@skillrecordings/config": "workspace:*",
-    "@skillrecordings/convertkit": "workspace:*",
+    "@skillrecordings/convertkit-react-ui": "workspace:*",
     "@skillrecordings/cookies": "workspace:*",
     "@skillrecordings/next-seo": "workspace:*",
     "@skillrecordings/quiz": "workspace:*",

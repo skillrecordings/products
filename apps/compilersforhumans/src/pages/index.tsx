@@ -7,7 +7,7 @@ import {WEBGL} from 'utils/webgl'
 import {
   SubscribeToConvertkitForm,
   redirectUrlBuilder,
-} from '@skillrecordings/convertkit'
+} from '@skillrecordings/convertkit-react-ui'
 
 export default function Home() {
   const router = useRouter()

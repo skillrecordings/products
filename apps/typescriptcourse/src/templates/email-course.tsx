@@ -4,7 +4,7 @@ import {motion} from 'framer-motion'
 import {
   redirectUrlBuilder,
   SubscribeToConvertkitForm,
-} from '@skillrecordings/convertkit'
+} from '@skillrecordings/convertkit-react-ui'
 import {useRouter} from 'next/router'
 import {Button} from '@skillrecordings/react/dist/components'
 import Image from 'next/image'

@@ -29,7 +29,7 @@
     "@skillrecordings/auth": "=0.0.6",
     "@skillrecordings/axios": "=0.0.2",
     "@skillrecordings/config": "workspace:*",
-    "@skillrecordings/convertkit": "workspace:*",
+    "@skillrecordings/convertkit-react-ui": "workspace:*",
     "@skillrecordings/cookies": "workspace:*",
     "@skillrecordings/react": "workspace:*",
     "axios": "^0.26.0",

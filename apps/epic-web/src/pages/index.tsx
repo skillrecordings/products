@@ -7,7 +7,7 @@ import {PortableText} from '@portabletext/react'
 import {PrimaryNewsletterCta} from 'components/primary-newsletter-cta'
 import AboutKent from 'components/about-kent'
 import Starfield from 'components/starfield'
-import {useConvertkit} from '@skillrecordings/convertkit'
+import {useConvertkit} from '@skillrecordings/convertkit-react-ui'
 import {track} from 'utils/analytics'
 
 export async function getStaticProps() {

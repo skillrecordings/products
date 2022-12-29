@@ -73,4 +73,7 @@ const subscribe = async (req: NextApiRequest, res: NextApiResponse) => {
   }
 }
 
+/**
+ * @deprecated use skill-api instead
+ */
 export default subscribe

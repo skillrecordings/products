@@ -25,8 +25,17 @@ const defaultConvertKitContext: ConvertkitContextType = {
   loadingSubscriber: true,
 }
 
+/**
+ * @deprecated use skill-lessons packages instead
+ */
 export const ConvertkitContext = React.createContext(defaultConvertKitContext)
 
+/**
+ * @deprecated use skill-lessons packages instead
+ * @param children
+ * @param getSubscriberApiUrl
+ * @constructor
+ */
 export const ConvertkitProvider: React.FC<
   React.PropsWithChildren<{getSubscriberApiUrl?: string}>
 > = ({
@@ -82,6 +91,9 @@ export const ConvertkitProvider: React.FC<
   )
 }
 
+/**
+ * @deprecated use skill-lessons packages instead
+ */
 export function useConvertkit() {
   return React.useContext(ConvertkitContext)
 }

@@ -12,7 +12,7 @@ import AngieJones from '../../public/images/angie-jones@2x.png'
 import {
   SubscribeToConvertkitForm,
   redirectUrlBuilder,
-} from '@skillrecordings/convertkit'
+} from '@skillrecordings/convertkit-react-ui'
 import {useRouter} from 'next/router'
 import {getToken} from 'next-auth/jwt'
 import {getActiveProducts} from 'lib/products'

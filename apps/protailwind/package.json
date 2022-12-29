@@ -63,7 +63,7 @@
     "@sentry/tracing": "^7.9.0",
     "@skillrecordings/analytics": "workspace:*",
     "@skillrecordings/config": "workspace:*",
-    "@skillrecordings/convertkit": "workspace:*",
+    "@skillrecordings/convertkit-react-ui": "workspace:*",
     "@skillrecordings/convertkit-sdk": "workspace:*",
     "@skillrecordings/cookies": "workspace:*",
     "@skillrecordings/database": "workspace:*",

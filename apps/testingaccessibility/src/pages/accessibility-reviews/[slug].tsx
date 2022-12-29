@@ -24,7 +24,7 @@ import {
   redirectUrlBuilder,
   SubscribeToConvertkitForm,
   useConvertkit,
-} from '@skillrecordings/convertkit'
+} from '@skillrecordings/convertkit-react-ui'
 import {MailIcon} from '@heroicons/react/solid'
 import {track} from '@skillrecordings/analytics'
 import PortableTextComponents from 'components/portable-text'

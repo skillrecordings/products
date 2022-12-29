@@ -41,7 +41,7 @@ CONVERTKIT_BASE_URL=https://api.convertkit.com/v3/
 import {
   SubscribeToConvertkitForm,
   redirectUrlBuilder,
-} from '@skillrecordings/convertkit'
+} from '@skillrecordings/convertkit-react-ui'
 
 export default (
   <SubscribeToConvertkitForm

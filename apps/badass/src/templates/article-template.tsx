@@ -5,10 +5,6 @@ import {CalendarIcon} from '@heroicons/react/outline'
 import {SanityDocument} from '@sanity/client'
 import {NextRouter, useRouter} from 'next/router'
 import {format} from 'date-fns'
-import {
-  redirectUrlBuilder,
-  SubscribeToConvertkitForm,
-} from '@skillrecordings/convertkit'
 import JoelHooksHeadshotImage from '../../public/joel-hooks.jpg'
 import PortableTextComponents from 'components/portable-text'
 import Layout from 'components/layout'

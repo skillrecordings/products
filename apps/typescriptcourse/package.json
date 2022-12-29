@@ -44,7 +44,7 @@
     "@skillrecordings/analytics": "workspace:*",
     "@skillrecordings/auth": "=0.0.6",
     "@skillrecordings/config": "workspace:*",
-    "@skillrecordings/convertkit": "workspace:*",
+    "@skillrecordings/convertkit-react-ui": "workspace:*",
     "@skillrecordings/cookies": "workspace:*",
     "@skillrecordings/next-seo": "workspace:*",
     "@skillrecordings/player": "workspace:*",

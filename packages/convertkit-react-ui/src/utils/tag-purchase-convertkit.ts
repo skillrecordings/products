@@ -5,6 +5,10 @@ export const convertkitAxios = axios.create({
   baseURL: CONVERTKIT_BASE_URL,
 })
 
+/**
+ * @deprecated use convertkit-sdk instead
+ * @param email
+ */
 export async function tagPurchaseConvertkit(email: string) {
   try {
     await convertkitAxios.post(

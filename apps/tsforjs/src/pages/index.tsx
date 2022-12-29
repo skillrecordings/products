@@ -4,7 +4,7 @@ import {useRouter} from 'next/router'
 import {
   SubscribeToConvertkitForm,
   redirectUrlBuilder,
-} from '@skillrecordings/convertkit'
+} from '@skillrecordings/convertkit-react-ui'
 import Layout from 'components/layout'
 import AccordionModules from 'components/AccordionModules'
 

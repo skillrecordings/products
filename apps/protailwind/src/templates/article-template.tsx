@@ -7,13 +7,13 @@ import isEmpty from 'lodash/isEmpty'
 import Image from 'next/image'
 import Link from 'next/link'
 import {PortableText, toPlainText} from '@portabletext/react'
-import {useConvertkit} from '@skillrecordings/convertkit'
 import {ArticleJsonLd} from '@skillrecordings/next-seo'
 import SubscribeForm from 'components/subscribe-form'
 import {getOgImage} from 'utils/get-og-image'
 import {isBrowser} from 'utils/is-browser'
 import {type Article} from 'lib/articles'
 import {format} from 'date-fns'
+import {useConvertkit} from '@skillrecordings/skill-lesson/hooks/use-convertkit'
 
 type ArticleTemplateProps = {
   article: Article

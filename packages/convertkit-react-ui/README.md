@@ -33,7 +33,7 @@ import * as React from 'react'
 import {
   redirectUrlBuilder,
   SubscribeToConvertkitForm,
-} from '@skillrecordings/convertkit'
+} from '@skillrecordings/convertkit-react-ui'
 import {useRouter} from 'next/router'
 
 const CallToActionForm: React.FC<any> = ({content}) => {

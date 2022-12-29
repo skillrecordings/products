@@ -46,7 +46,7 @@ importers:
       '@sentry/nextjs': ^7.9.0
       '@sentry/tracing': ^7.9.0
       '@skillrecordings/config': workspace:*
-      '@skillrecordings/convertkit': workspace:*
+      '@skillrecordings/convertkit-react-ui': workspace:*
       '@skillrecordings/cookies': workspace:*
       '@skillrecordings/next-seo': workspace:*
       '@skillrecordings/player': workspace:*
@@ -135,7 +135,7 @@ importers:
       '@sentry/nextjs': 7.9.0_next@12.3.1+react@18.2.0
       '@sentry/tracing': 7.9.0
       '@skillrecordings/config': link:../../packages/config
-      '@skillrecordings/convertkit': link:../../packages/convertkit
+      '@skillrecordings/convertkit-react-ui': link:../../packages/convertkit-react-ui
       '@skillrecordings/cookies': link:../../packages/cookies
       '@skillrecordings/next-seo': link:../../packages/next-seo
       '@skillrecordings/player': link:../../packages/player
@@ -261,7 +261,7 @@ importers:
       '@react-three/drei': ^7.20.2
       '@react-three/fiber': 7.0.27
       '@skillrecordings/config': workspace:*
-      '@skillrecordings/convertkit': workspace:*
+      '@skillrecordings/convertkit-react-ui': workspace:*
       '@skillrecordings/cookies': workspace:*
       '@skillrecordings/next-seo': workspace:*
       '@skillrecordings/quiz': workspace:*
@@ -348,7 +348,7 @@ importers:
       '@react-three/drei': 7.20.2_5fmtig3otsjt2gwua6nanmpzta
       '@react-three/fiber': 7.0.27_l64coo4po4cwrmp7zqxdp2wxuq
       '@skillrecordings/config': link:../../packages/config
-      '@skillrecordings/convertkit': link:../../packages/convertkit
+      '@skillrecordings/convertkit-react-ui': link:../../packages/convertkit-react-ui
       '@skillrecordings/cookies': link:../../packages/cookies
       '@skillrecordings/next-seo': link:../../packages/next-seo
       '@skillrecordings/quiz': link:../../packages/quiz
@@ -444,7 +444,7 @@ importers:
       '@sanity/block-content-to-react': ^3.0.0
       '@sanity/client': ^3.2.0
       '@skillrecordings/config': workspace:*
-      '@skillrecordings/convertkit': workspace:*
+      '@skillrecordings/convertkit-react-ui': workspace:*
       '@skillrecordings/cookies': workspace:*
       '@skillrecordings/next-seo': workspace:*
       '@skillrecordings/quiz': workspace:*
@@ -532,7 +532,7 @@ importers:
       '@sanity/block-content-to-react': 3.0.0_react@18.2.0
       '@sanity/client': 3.3.2
       '@skillrecordings/config': link:../../packages/config
-      '@skillrecordings/convertkit': link:../../packages/convertkit
+      '@skillrecordings/convertkit-react-ui': link:../../packages/convertkit-react-ui
       '@skillrecordings/cookies': link:../../packages/cookies
       '@skillrecordings/next-seo': link:../../packages/next-seo
       '@skillrecordings/quiz': link:../../packages/quiz
@@ -634,7 +634,7 @@ importers:
       '@sentry/tracing': ^7.9.0
       '@skillrecordings/commerce-server': workspace:*
       '@skillrecordings/config': workspace:*
-      '@skillrecordings/convertkit': workspace:*
+      '@skillrecordings/convertkit-react-ui': workspace:*
       '@skillrecordings/cookies': workspace:*
       '@skillrecordings/database': workspace:*
       '@skillrecordings/next-seo': workspace:*
@@ -744,7 +744,7 @@ importers:
       '@sentry/tracing': 7.9.0
       '@skillrecordings/commerce-server': link:../../packages/commerce-server
       '@skillrecordings/config': link:../../packages/config
-      '@skillrecordings/convertkit': link:../../packages/convertkit
+      '@skillrecordings/convertkit-react-ui': link:../../packages/convertkit-react-ui
       '@skillrecordings/cookies': link:../../packages/cookies
       '@skillrecordings/database': link:../../packages/database
       '@skillrecordings/next-seo': link:../../packages/next-seo
@@ -863,7 +863,7 @@ importers:
       '@sentry/nextjs': ^7.9.0
       '@skillrecordings/analytics': workspace:*
       '@skillrecordings/commerce-server': workspace:*
-      '@skillrecordings/convertkit': workspace:*
+      '@skillrecordings/convertkit-react-ui': workspace:*
       '@skillrecordings/database': workspace:*
       '@skillrecordings/next-seo': workspace:*
       '@skillrecordings/quiz': workspace:*
@@ -936,7 +936,7 @@ importers:
       '@sentry/nextjs': 7.9.0_2l5cy4nu2tll7gjm4fpeclivve
       '@skillrecordings/analytics': link:../../packages/analytics
       '@skillrecordings/commerce-server': link:../../packages/commerce-server
-      '@skillrecordings/convertkit': link:../../packages/convertkit
+      '@skillrecordings/convertkit-react-ui': link:../../packages/convertkit-react-ui
       '@skillrecordings/database': link:../../packages/database
       '@skillrecordings/next-seo': link:../../packages/next-seo
       '@skillrecordings/quiz': link:../../packages/quiz
@@ -1021,7 +1021,7 @@ importers:
       '@sentry/tracing': ^7.9.0
       '@skillrecordings/analytics': workspace:*
       '@skillrecordings/config': workspace:*
-      '@skillrecordings/convertkit': workspace:*
+      '@skillrecordings/convertkit-react-ui': workspace:*
       '@skillrecordings/convertkit-sdk': workspace:*
       '@skillrecordings/cookies': workspace:*
       '@skillrecordings/database': workspace:*
@@ -1110,7 +1110,7 @@ importers:
       '@sentry/tracing': 7.9.0
       '@skillrecordings/analytics': link:../../packages/analytics
       '@skillrecordings/config': link:../../packages/config
-      '@skillrecordings/convertkit': link:../../packages/convertkit
+      '@skillrecordings/convertkit-react-ui': link:../../packages/convertkit-react-ui
       '@skillrecordings/convertkit-sdk': link:../../packages/convertkit-sdk
       '@skillrecordings/cookies': link:../../packages/cookies
       '@skillrecordings/database': link:../../packages/database
@@ -1197,7 +1197,7 @@ importers:
       '@portabletext/types': ^1.0.3
       '@sanity/client': ^3.3.3
       '@skillrecordings/analytics': workspace:*
-      '@skillrecordings/convertkit': workspace:*
+      '@skillrecordings/convertkit-react-ui': workspace:*
       '@skillrecordings/next-seo': workspace:*
       '@skillrecordings/quiz': workspace:*
       '@skillrecordings/react': workspace:*
@@ -1252,7 +1252,7 @@ importers:
       '@portabletext/react': 1.0.6_react@18.2.0
       '@sanity/client': 3.3.3
       '@skillrecordings/analytics': link:../../packages/analytics
-      '@skillrecordings/convertkit': link:../../packages/convertkit
+      '@skillrecordings/convertkit-react-ui': link:../../packages/convertkit-react-ui
       '@skillrecordings/next-seo': link:../../packages/next-seo
       '@skillrecordings/quiz': link:../../packages/quiz
       '@skillrecordings/react': link:../../packages/react
@@ -1310,7 +1310,7 @@ importers:
       '@reach/dialog': ^0.16.2
       '@skillrecordings/auth': '=0.0.6'
       '@skillrecordings/config': workspace:*
-      '@skillrecordings/convertkit': workspace:*
+      '@skillrecordings/convertkit-react-ui': workspace:*
       '@skillrecordings/cookies': workspace:*
       '@skillrecordings/next-seo': workspace:*
       '@skillrecordings/quiz': workspace:*
@@ -1385,7 +1385,7 @@ importers:
       '@reach/dialog': 0.16.2_bb2bxwco6ptpubzwpazr52qf6i
       '@skillrecordings/auth': 0.0.6_next@12.3.1
       '@skillrecordings/config': link:../../packages/config
-      '@skillrecordings/convertkit': link:../../packages/convertkit
+      '@skillrecordings/convertkit-react-ui': link:../../packages/convertkit-react-ui
       '@skillrecordings/cookies': link:../../packages/cookies
       '@skillrecordings/next-seo': link:../../packages/next-seo
       '@skillrecordings/quiz': link:../../packages/quiz
@@ -1474,7 +1474,7 @@ importers:
       '@sanity/webhook': ^1.0.2
       '@skillrecordings/analytics': workspace:*
       '@skillrecordings/commerce-server': workspace:*
-      '@skillrecordings/convertkit': workspace:*
+      '@skillrecordings/convertkit-react-ui': workspace:*
       '@skillrecordings/database': workspace:*
       '@skillrecordings/next-seo': workspace:*
       '@skillrecordings/quiz': workspace:*
@@ -1538,7 +1538,7 @@ importers:
       '@sanity/webhook': 1.0.2
       '@skillrecordings/analytics': link:../../packages/analytics
       '@skillrecordings/commerce-server': link:../../packages/commerce-server
-      '@skillrecordings/convertkit': link:../../packages/convertkit
+      '@skillrecordings/convertkit-react-ui': link:../../packages/convertkit-react-ui
       '@skillrecordings/database': link:../../packages/database
       '@skillrecordings/next-seo': link:../../packages/next-seo
       '@skillrecordings/quiz': link:../../packages/quiz
@@ -1617,7 +1617,7 @@ importers:
       '@sentry/tracing': ^7.9.0
       '@skillrecordings/analytics': workspace:*
       '@skillrecordings/config': workspace:*
-      '@skillrecordings/convertkit': workspace:*
+      '@skillrecordings/convertkit-react-ui': workspace:*
       '@skillrecordings/convertkit-sdk': workspace:*
       '@skillrecordings/cookies': workspace:*
       '@skillrecordings/database': workspace:*
@@ -1707,7 +1707,7 @@ importers:
       '@sentry/tracing': 7.9.0
       '@skillrecordings/analytics': link:../../packages/analytics
       '@skillrecordings/config': link:../../packages/config
-      '@skillrecordings/convertkit': link:../../packages/convertkit
+      '@skillrecordings/convertkit-react-ui': link:../../packages/convertkit-react-ui
       '@skillrecordings/convertkit-sdk': link:../../packages/convertkit-sdk
       '@skillrecordings/cookies': link:../../packages/cookies
       '@skillrecordings/database': link:../../packages/database
@@ -1855,7 +1855,7 @@ importers:
       '@reach/dialog': ^0.16.2
       '@skillrecordings/analytics': workspace:*
       '@skillrecordings/config': workspace:*
-      '@skillrecordings/convertkit': workspace:*
+      '@skillrecordings/convertkit-react-ui': workspace:*
       '@skillrecordings/cookies': workspace:*
       '@skillrecordings/next-seo': workspace:*
       '@skillrecordings/react': workspace:*
@@ -1933,7 +1933,7 @@ importers:
       '@reach/dialog': 0.16.2_bb2bxwco6ptpubzwpazr52qf6i
       '@skillrecordings/analytics': link:../../packages/analytics
       '@skillrecordings/config': link:../../packages/config
-      '@skillrecordings/convertkit': link:../../packages/convertkit
+      '@skillrecordings/convertkit-react-ui': link:../../packages/convertkit-react-ui
       '@skillrecordings/cookies': link:../../packages/cookies
       '@skillrecordings/next-seo': link:../../packages/next-seo
       '@skillrecordings/react': link:../../packages/react
@@ -2041,7 +2041,7 @@ importers:
       '@skillrecordings/analytics': workspace:*
       '@skillrecordings/commerce-server': workspace:*
       '@skillrecordings/config': workspace:*
-      '@skillrecordings/convertkit': workspace:*
+      '@skillrecordings/convertkit-react-ui': workspace:*
       '@skillrecordings/cookies': workspace:*
       '@skillrecordings/database': workspace:*
       '@skillrecordings/next-seo': workspace:*
@@ -2189,7 +2189,7 @@ importers:
       '@skillrecordings/analytics': link:../../packages/analytics
       '@skillrecordings/commerce-server': link:../../packages/commerce-server
       '@skillrecordings/config': link:../../packages/config
-      '@skillrecordings/convertkit': link:../../packages/convertkit
+      '@skillrecordings/convertkit-react-ui': link:../../packages/convertkit-react-ui
       '@skillrecordings/cookies': link:../../packages/cookies
       '@skillrecordings/database': link:../../packages/database
       '@skillrecordings/next-seo': link:../../packages/next-seo
@@ -2346,7 +2346,7 @@ importers:
       '@skillrecordings/analytics': workspace:*
       '@skillrecordings/commerce-server': workspace:*
       '@skillrecordings/config': workspace:*
-      '@skillrecordings/convertkit': workspace:*
+      '@skillrecordings/convertkit-react-ui': workspace:*
       '@skillrecordings/convertkit-sdk': workspace:*
       '@skillrecordings/database': workspace:*
       '@skillrecordings/next-seo': workspace:*
@@ -2472,7 +2472,7 @@ importers:
       '@skillrecordings/analytics': link:../../packages/analytics
       '@skillrecordings/commerce-server': link:../../packages/commerce-server
       '@skillrecordings/config': link:../../packages/config
-      '@skillrecordings/convertkit': link:../../packages/convertkit
+      '@skillrecordings/convertkit-react-ui': link:../../packages/convertkit-react-ui
       '@skillrecordings/convertkit-sdk': link:../../packages/convertkit-sdk
       '@skillrecordings/database': link:../../packages/database
       '@skillrecordings/next-seo': link:../../packages/next-seo
@@ -2586,7 +2586,7 @@ importers:
       '@sentry/tracing': ^7.9.0
       '@skillrecordings/analytics': workspace:*
       '@skillrecordings/commerce-server': workspace:*
-      '@skillrecordings/convertkit': workspace:*
+      '@skillrecordings/convertkit-react-ui': workspace:*
       '@skillrecordings/database': workspace:*
       '@skillrecordings/next-seo': workspace:*
       '@skillrecordings/quiz': workspace:*
@@ -2641,7 +2641,7 @@ importers:
       '@sentry/tracing': 7.9.0
       '@skillrecordings/analytics': link:../../packages/analytics
       '@skillrecordings/commerce-server': link:../../packages/commerce-server
-      '@skillrecordings/convertkit': link:../../packages/convertkit
+      '@skillrecordings/convertkit-react-ui': link:../../packages/convertkit-react-ui
       '@skillrecordings/database': link:../../packages/database
       '@skillrecordings/next-seo': link:../../packages/next-seo
       '@skillrecordings/quiz': link:../../packages/quiz
@@ -2692,7 +2692,7 @@ importers:
       '@next/env': ^12.2.0
       '@radix-ui/react-accordion': ^1.0.0
       '@skillrecordings/analytics': workspace:*
-      '@skillrecordings/convertkit': workspace:*
+      '@skillrecordings/convertkit-react-ui': workspace:*
       '@skillrecordings/next-seo': workspace:*
       '@skillrecordings/quiz': workspace:*
       '@skillrecordings/react': workspace:*
@@ -2722,7 +2722,7 @@ importers:
       '@modulz/radix-icons': 4.0.0_react@18.2.0
       '@radix-ui/react-accordion': 1.0.0_biqbaboplfbrettd7655fr4n2y
       '@skillrecordings/analytics': link:../../packages/analytics
-      '@skillrecordings/convertkit': link:../../packages/convertkit
+      '@skillrecordings/convertkit-react-ui': link:../../packages/convertkit-react-ui
       '@skillrecordings/next-seo': link:../../packages/next-seo
       '@skillrecordings/quiz': link:../../packages/quiz
       '@skillrecordings/react': link:../../packages/react
@@ -2770,7 +2770,7 @@ importers:
       '@skillrecordings/analytics': workspace:*
       '@skillrecordings/auth': '=0.0.6'
       '@skillrecordings/config': workspace:*
-      '@skillrecordings/convertkit': workspace:*
+      '@skillrecordings/convertkit-react-ui': workspace:*
       '@skillrecordings/convertkit-sdk': workspace:*
       '@skillrecordings/cookies': workspace:*
       '@skillrecordings/database': workspace:*
@@ -2892,7 +2892,7 @@ importers:
       '@skillrecordings/analytics': link:../../packages/analytics
       '@skillrecordings/auth': 0.0.6_next@12.3.1
       '@skillrecordings/config': link:../../packages/config
-      '@skillrecordings/convertkit': link:../../packages/convertkit
+      '@skillrecordings/convertkit-react-ui': link:../../packages/convertkit-react-ui
       '@skillrecordings/convertkit-sdk': link:../../packages/convertkit-sdk
       '@skillrecordings/cookies': link:../../packages/cookies
       '@skillrecordings/database': link:../../packages/database
@@ -3145,7 +3145,7 @@ importers:
       eslint-config-custom: link:../eslint-config-custom
       typescript: 4.9.4
 
-  packages/convertkit:
+  packages/convertkit-react-ui:
     specifiers:
       '@reach/dialog': ^0.16.2
       '@skillrecordings/axios': '=0.0.2'
@@ -3180,7 +3180,7 @@ importers:
       typescript: ^4.9.4
       yup: ^0.32.11
     dependencies:
-      '@reach/dialog': 0.16.2_bb2bxwco6ptpubzwpazr52qf6i
+      '@reach/dialog': 0.16.2_63dfw6rfgd64rl77ptfma4cvt4
       '@skillrecordings/axios': 0.0.2_axios@0.26.1
       '@skillrecordings/config': link:../config
       '@skillrecordings/cookies': link:../cookies
@@ -3190,7 +3190,7 @@ importers:
       formik: 2.2.9_react@18.2.0
       js-cookie: 3.0.1
       query-string: 7.1.1
-      react-use: 17.3.2_biqbaboplfbrettd7655fr4n2y
+      react-use: 17.4.0_biqbaboplfbrettd7655fr4n2y
       yup: 0.32.11
     devDependencies:
       '@skillrecordings/scripts': link:../scripts
@@ -3199,14 +3199,14 @@ importers:
       '@types/cookie': 0.4.1
       '@types/jest': 27.5.2
       '@types/js-cookie': 3.0.2
-      '@types/lodash': 4.14.180
+      '@types/lodash': 4.14.186
       '@types/node': 17.0.41
       '@types/nodemailer': 6.4.4
-      '@types/react': 18.0.15
+      '@types/react': 18.0.18
       '@types/react-dom': 18.0.6
       '@types/yup': 0.29.13
       esbuild-node-tsc: 1.6.1_typescript@4.9.4
-      eslint: 8.19.0
+      eslint: 8.22.0
       eslint-config-custom: link:../eslint-config-custom
       framer-motion: 6.4.1_biqbaboplfbrettd7655fr4n2y
       next: 12.3.1_biqbaboplfbrettd7655fr4n2y
@@ -3523,7 +3523,7 @@ importers:
       '@skillrecordings/auth': '=0.0.6'
       '@skillrecordings/axios': '=0.0.2'
       '@skillrecordings/config': workspace:*
-      '@skillrecordings/convertkit': workspace:*
+      '@skillrecordings/convertkit-react-ui': workspace:*
       '@skillrecordings/cookies': workspace:*
       '@skillrecordings/react': workspace:*
       '@skillrecordings/scripts': ^0.0.5
@@ -3569,7 +3569,7 @@ importers:
       '@skillrecordings/auth': 0.0.6_next@12.3.1
       '@skillrecordings/axios': 0.0.2_axios@0.26.1
       '@skillrecordings/config': link:../config
-      '@skillrecordings/convertkit': link:../convertkit
+      '@skillrecordings/convertkit-react-ui': link:../convertkit-react-ui
       '@skillrecordings/cookies': link:../cookies
       '@skillrecordings/react': link:../react
       axios: 0.26.1
@@ -3742,7 +3742,7 @@ importers:
       '@babel/preset-typescript': ^7.16.0
       '@babel/runtime': ^7.16.3
       '@skillrecordings/commerce-server': workspace:*
-      '@skillrecordings/convertkit': workspace:*
+      '@skillrecordings/convertkit-react-ui': workspace:*
       '@skillrecordings/convertkit-sdk': workspace:*
       '@skillrecordings/database': workspace:*
       '@skillrecordings/scripts': workspace:*
@@ -3798,7 +3798,7 @@ importers:
     dependencies:
       '@babel/runtime': 7.17.2
       '@skillrecordings/commerce-server': link:../commerce-server
-      '@skillrecordings/convertkit': link:../convertkit
+      '@skillrecordings/convertkit-react-ui': link:../convertkit-react-ui
       '@skillrecordings/database': link:../database
       '@slack/web-api': 6.7.2
       concurrently: 7.2.2
@@ -8817,7 +8817,7 @@ packages:
       react: '>=16'
     dependencies:
       '@types/mdx': 2.0.2
-      '@types/react': 18.0.15
+      '@types/react': 18.0.18
       react: 18.2.0
     dev: false
 
@@ -8827,7 +8827,7 @@ packages:
       react: '>=16'
     dependencies:
       '@types/mdx': 2.0.2
-      '@types/react': 18.0.15
+      '@types/react': 18.0.18
       react: 18.2.0
     dev: false
 
@@ -10249,6 +10249,24 @@ packages:
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
       tslib: 2.4.0
+    dev: false
+
+  /@reach/dialog/0.16.2_63dfw6rfgd64rl77ptfma4cvt4:
+    resolution: {integrity: sha512-qq8oX0cROgTb8LjOKWzzNm4SqaN9b89lJHr7UyVo2aQ6WbeNzZBxqXhGywFP7dkR+hNqOJnrA59PXFWhfttA9A==}
+    peerDependencies:
+      react: ^16.8.0 || 17.x
+      react-dom: ^16.8.0 || 17.x
+    dependencies:
+      '@reach/portal': 0.16.2_biqbaboplfbrettd7655fr4n2y
+      '@reach/utils': 0.16.0_biqbaboplfbrettd7655fr4n2y
+      prop-types: 15.8.1
+      react: 18.2.0
+      react-dom: 18.2.0_react@18.2.0
+      react-focus-lock: 2.6.0_7v64pk2mkrohwh22gx7lrz5ive
+      react-remove-scroll: 2.4.3_7v64pk2mkrohwh22gx7lrz5ive
+      tslib: 2.4.0
+    transitivePeerDependencies:
+      - '@types/react'
     dev: false
 
   /@reach/dialog/0.16.2_bb2bxwco6ptpubzwpazr52qf6i:
@@ -12012,7 +12030,7 @@ packages:
   /@types/hoist-non-react-statics/3.3.1:
     resolution: {integrity: sha512-iMIqiko6ooLrTh1joXodJK5X9xeEALT1kM5G3ZLhD3hszxBdIEd5C75U834D9mLcINgD4OyZf5uQXjkuYydWvA==}
     dependencies:
-      '@types/react': 18.0.15
+      '@types/react': 18.0.18
       hoist-non-react-statics: 3.3.2
     dev: true
 
@@ -12171,7 +12189,7 @@ packages:
   /@types/mdx-js__react/1.5.5:
     resolution: {integrity: sha512-k8pnaP6JXVlQh18HgL5X6sYFNC/qZnzO7R2+HsmwrwUd+JnnsU0d9lyyT0RQrHg1anxDU36S98TI/fsGtmYqqg==}
     dependencies:
-      '@types/react': 18.0.15
+      '@types/react': 18.0.18
     dev: true
 
   /@types/mdx/2.0.2:
@@ -12203,7 +12221,7 @@ packages:
   /@types/mjml-react/2.0.5:
     resolution: {integrity: sha512-HJl7StlpXgstqFQaU6m8owyysaA7SoVM40A1Y9BQXUU7FouRPlz6oO1z9Vr+LePdvCOB4CDTP6ayUpM5meJXyQ==}
     dependencies:
-      '@types/react': 18.0.15
+      '@types/react': 18.0.18
     dev: true
 
   /@types/mjml/4.7.0:
@@ -12381,19 +12399,19 @@ packages:
   /@types/react-reconciler/0.26.7:
     resolution: {integrity: sha512-mBDYl8x+oyPX/VBb3E638N0B7xG+SPk/EAMcVPeexqus/5aTpTphQi0curhhshOqRrc9t6OPoJfEUkbymse/lQ==}
     dependencies:
-      '@types/react': 18.0.15
+      '@types/react': 18.0.18
     dev: false
 
   /@types/react-scroll/1.8.3:
     resolution: {integrity: sha512-Xt0+Y58pwrIv+vRFxcyKDoo0gBWBR2eNMJ4XRMhQpZdGUtmjnszPi/wFEJSAY+5r83ypJsSA+hOpSc3hRpYlWw==}
     dependencies:
-      '@types/react': 18.0.15
+      '@types/react': 18.0.18
     dev: true
 
   /@types/react-syntax-highlighter/13.5.2:
     resolution: {integrity: sha512-sRZoKZBGKaE7CzMvTTgz+0x/aVR58ZYUTfB7HN76vC+yQnvo1FWtzNARBt0fGqcLGEVakEzMu/CtPzssmanu8Q==}
     dependencies:
-      '@types/react': 18.0.15
+      '@types/react': 18.0.18
     dev: true
 
   /@types/react/17.0.35:
@@ -12491,7 +12509,7 @@ packages:
     resolution: {integrity: sha512-fgwl+0Pa8pdkwXRoVPP9JbqF0Ivo9llnmsm+7TCI330kbPIFd9qv1Lrhr37shf4tnxCOSu+/IgqM7uJXLWZZNQ==}
     dependencies:
       '@types/hoist-non-react-statics': 3.3.1
-      '@types/react': 18.0.15
+      '@types/react': 18.0.18
       csstype: 3.0.11
     dev: true
 
@@ -26596,6 +26614,22 @@ packages:
       - '@types/react'
     dev: false
 
+  /react-focus-lock/2.6.0_7v64pk2mkrohwh22gx7lrz5ive:
+    resolution: {integrity: sha512-2yB5KWyaefbvFDgqvsg/KpIjbqVlhIY2c/dyDcokDLhB3Ib7I4bjsrta5OkI5euUoIu5xBTyBwIQZPykUJAr1g==}
+    peerDependencies:
+      react: ^16.8.0 || ^17.0.0 || ^18.0.0
+    dependencies:
+      '@babel/runtime': 7.18.3
+      focus-lock: 0.9.2
+      prop-types: 15.8.1
+      react: 18.2.0
+      react-clientside-effect: 1.2.5_react@18.2.0
+      use-callback-ref: 1.2.5_7v64pk2mkrohwh22gx7lrz5ive
+      use-sidecar: 1.0.5_react@18.2.0
+    transitivePeerDependencies:
+      - '@types/react'
+    dev: false
+
   /react-hook-form/7.29.0_react@18.2.0:
     resolution: {integrity: sha512-NcJqWRF6el5HMW30fqZRt27s+lorvlCCDbTpAyHoodQeYWXgQCvZJJQLC1kRMKdrJknVH0NIg3At6TUzlZJFOQ==}
     engines: {node: '>=12.22.0'}
@@ -26838,6 +26872,22 @@ packages:
       tslib: 1.14.1
     dev: false
 
+  /react-remove-scroll-bar/2.2.0_7v64pk2mkrohwh22gx7lrz5ive:
+    resolution: {integrity: sha512-UU9ZBP1wdMR8qoUs7owiVcpaPwsQxUDC2lypP6mmixaGlARZa7ZIBx1jcuObLdhMOvCsnZcvetOho0wzPa9PYg==}
+    engines: {node: '>=8.5.0'}
+    peerDependencies:
+      '@types/react': ^16.8.0 || ^17.0.0
+      react: ^16.8.0 || ^17.0.0
+    peerDependenciesMeta:
+      '@types/react':
+        optional: true
+    dependencies:
+      '@types/react': 18.0.18
+      react: 18.2.0
+      react-style-singleton: 2.2.1_7v64pk2mkrohwh22gx7lrz5ive
+      tslib: 1.14.1
+    dev: false
+
   /react-remove-scroll-bar/2.3.3_3hx2ussxxho4jajbwrd6gq34qe:
     resolution: {integrity: sha512-i9GMNWwpz8XpUpQ6QlevUtFjHGqnPG4Hxs+wlIJntu/xcsZVEpJcIV71K3ZkqNy2q3GfgvkD7y6t/Sv8ofYSbw==}
     engines: {node: '>=10'}
@@ -26870,6 +26920,25 @@ packages:
       react-style-singleton: 2.1.1_3hx2ussxxho4jajbwrd6gq34qe
       tslib: 1.14.1
       use-callback-ref: 1.2.5_3hx2ussxxho4jajbwrd6gq34qe
+      use-sidecar: 1.0.5_react@18.2.0
+    dev: false
+
+  /react-remove-scroll/2.4.3_7v64pk2mkrohwh22gx7lrz5ive:
+    resolution: {integrity: sha512-lGWYXfV6jykJwbFpsuPdexKKzp96f3RbvGapDSIdcyGvHb7/eqyn46C7/6h+rUzYar1j5mdU+XECITHXCKBk9Q==}
+    engines: {node: '>=8.5.0'}
+    peerDependencies:
+      '@types/react': ^16.8.0 || ^17.0.0
+      react: ^16.8.0 || ^17.0.0
+    peerDependenciesMeta:
+      '@types/react':
+        optional: true
+    dependencies:
+      '@types/react': 18.0.18
+      react: 18.2.0
+      react-remove-scroll-bar: 2.2.0_7v64pk2mkrohwh22gx7lrz5ive
+      react-style-singleton: 2.1.1_7v64pk2mkrohwh22gx7lrz5ive
+      tslib: 1.14.1
+      use-callback-ref: 1.2.5_7v64pk2mkrohwh22gx7lrz5ive
       use-sidecar: 1.0.5_react@18.2.0
     dev: false
 
@@ -26964,6 +27033,23 @@ packages:
       tslib: 1.14.1
     dev: false
 
+  /react-style-singleton/2.1.1_7v64pk2mkrohwh22gx7lrz5ive:
+    resolution: {integrity: sha512-jNRp07Jza6CBqdRKNgGhT3u9umWvils1xsuMOjZlghBDH2MU0PL2WZor4PGYjXpnRCa9DQSlHMs/xnABWOwYbA==}
+    engines: {node: '>=8.5.0'}
+    peerDependencies:
+      '@types/react': ^16.8.0 || ^17.0.0
+      react: ^16.8.0 || ^17.0.0
+    peerDependenciesMeta:
+      '@types/react':
+        optional: true
+    dependencies:
+      '@types/react': 18.0.18
+      get-nonce: 1.0.1
+      invariant: 2.2.4
+      react: 18.2.0
+      tslib: 1.14.1
+    dev: false
+
   /react-style-singleton/2.2.1_3hx2ussxxho4jajbwrd6gq34qe:
     resolution: {integrity: sha512-ZWj0fHEMyWkHzKYUr2Bs/4zU6XLmq9HsgBURm7g5pAVfyn49DgUiNgY2d4lXRlYSiCif9YBGpQleewkcqddc7g==}
     engines: {node: '>=10'}
@@ -26975,6 +27061,23 @@ packages:
         optional: true
     dependencies:
       '@types/react': 18.0.15
+      get-nonce: 1.0.1
+      invariant: 2.2.4
+      react: 18.2.0
+      tslib: 2.4.0
+    dev: false
+
+  /react-style-singleton/2.2.1_7v64pk2mkrohwh22gx7lrz5ive:
+    resolution: {integrity: sha512-ZWj0fHEMyWkHzKYUr2Bs/4zU6XLmq9HsgBURm7g5pAVfyn49DgUiNgY2d4lXRlYSiCif9YBGpQleewkcqddc7g==}
+    engines: {node: '>=10'}
+    peerDependencies:
+      '@types/react': ^16.8.0 || ^17.0.0 || ^18.0.0
+      react: ^16.8.0 || ^17.0.0 || ^18.0.0
+    peerDependenciesMeta:
+      '@types/react':
+        optional: true
+    dependencies:
+      '@types/react': 18.0.18
       get-nonce: 1.0.1
       invariant: 2.2.4
       react: 18.2.0
@@ -30667,6 +30770,20 @@ packages:
         optional: true
     dependencies:
       '@types/react': 18.0.15
+      react: 18.2.0
+    dev: false
+
+  /use-callback-ref/1.2.5_7v64pk2mkrohwh22gx7lrz5ive:
+    resolution: {integrity: sha512-gN3vgMISAgacF7sqsLPByqoePooY3n2emTH59Ur5d/M8eg4WTWu1xp8i8DHjohftIyEx0S08RiYxbffr4j8Peg==}
+    engines: {node: '>=8.5.0'}
+    peerDependencies:
+      '@types/react': ^16.8.0 || ^17.0.0
+      react: ^16.8.0 || ^17.0.0
+    peerDependenciesMeta:
+      '@types/react':
+        optional: true
+    dependencies:
+      '@types/react': 18.0.18
       react: 18.2.0
     dev: false
 

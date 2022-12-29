@@ -17,7 +17,7 @@ import {
   redirectUrlBuilder,
   SubscribeToConvertkitForm,
   useConvertkit,
-} from '@skillrecordings/convertkit'
+} from '@skillrecordings/convertkit-react-ui'
 import {motion} from 'framer-motion'
 import {Button} from '@skillrecordings/react/dist/components'
 import Image from 'next/image'

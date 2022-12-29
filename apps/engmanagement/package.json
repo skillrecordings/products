@@ -31,7 +31,7 @@
     "@sentry/tracing": "^7.9.0",
     "@skillrecordings/commerce-server": "workspace:*",
     "@skillrecordings/config": "workspace:*",
-    "@skillrecordings/convertkit": "workspace:*",
+    "@skillrecordings/convertkit-react-ui": "workspace:*",
     "@skillrecordings/cookies": "workspace:*",
     "@skillrecordings/database": "workspace:*",
     "@skillrecordings/next-seo": "workspace:*",

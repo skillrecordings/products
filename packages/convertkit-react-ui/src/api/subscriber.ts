@@ -19,4 +19,7 @@ const subscriber = async (req: NextApiRequest, res: NextApiResponse) => {
   }
 }
 
+/**
+ * @deprecated use skill-api instead
+ */
 export default subscriber

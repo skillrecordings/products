@@ -3,7 +3,7 @@ import get from 'lodash/get'
 import isEmpty from 'lodash/isEmpty'
 import find from 'lodash/find'
 import {CK_SUBSCRIBER_KEY, ACCESS_TOKEN_KEY} from '@skillrecordings/config'
-import {fetchConvertkitSubscriberFromServerCookie} from '@skillrecordings/convertkit'
+import {fetchConvertkitSubscriberFromServerCookie} from '@skillrecordings/convertkit-react-ui'
 
 export default async function checkSubscriber(
   context: GetServerSidePropsContext,
