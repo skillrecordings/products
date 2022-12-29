@@ -1,7 +1,9 @@
 import React from 'react'
-
-import {trpc} from 'video/trpc'
-import {type VideoResource} from './video-resource'
+import {
+  type VideoResource,
+  VideoResourceSchema,
+} from '../schemas/video-resource'
+import {useQuery} from '@tanstack/react-query'
 
 type VideoResourceContextType = {
   videoResource?: VideoResource
@@ -22,9 +24,15 @@ export const VideoResourceProvider: React.FC<VideoResourceProviderProps> = ({
   videoResourceId,
   children,
 }) => {
-  const {data: videoResource, status} = trpc.videoResources.byId.useQuery({
-    id: videoResourceId,
-  })
+  const {data: videoResource, status} = useQuery(
+    ['videoResource', videoResourceId],
+    async () => {
+      const resource = await fetch(
+        `/api/skill/video-resources/${videoResourceId}`,
+      ).then((response) => response.json())
+      return VideoResourceSchema.parse(resource)
+    },
+  )
 
   const context = {
     videoResourceId,

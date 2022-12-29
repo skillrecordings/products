@@ -3,7 +3,7 @@ import {PortableText} from '@portabletext/react'
 import {type PortableTextComponents as PortableTextComponentsType} from '@portabletext/react/src/types'
 import {hmsToSeconds} from '@skillrecordings/time'
 
-import {useMuxPlayer} from './use-mux-player'
+import {useMuxPlayer} from '@skillrecordings/skill-lesson/hooks/use-mux-player'
 
 export const VideoTranscript: React.FC<{
   transcript: any[]

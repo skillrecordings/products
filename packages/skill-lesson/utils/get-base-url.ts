@@ -7,5 +7,5 @@ export function getBaseUrl() {
     return `https://${process.env.VERCEL_URL}`
   }
 
-  return `http://localhost:${process.env.PORT ?? 3016}`
+  return `http://localhost:${process.env.PORT ?? 3000}`
 }

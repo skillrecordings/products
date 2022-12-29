@@ -5,7 +5,7 @@ import superjson from 'superjson'
 
 import type {AppRouter} from 'server/routers/_app'
 
-import {getBaseUrl} from './get-base-url'
+import {getBaseUrl} from '@skillrecordings/skill-lesson/utils/get-base-url'
 
 export const trpc = createTRPCNext<AppRouter>({
   config({ctx}) {

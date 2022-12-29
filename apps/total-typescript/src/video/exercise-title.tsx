@@ -1,7 +1,6 @@
 import * as React from 'react'
 import cx from 'classnames'
-
-import {type LessonResource} from './lesson-resources'
+import {type LessonResource} from '@skillrecordings/skill-lesson/schemas/lesson-resource'
 
 export const ExerciseTitle: React.FC<{exercise: LessonResource}> = ({
   exercise,

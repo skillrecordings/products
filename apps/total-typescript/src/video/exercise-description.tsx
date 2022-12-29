@@ -6,9 +6,9 @@ import cx from 'classnames'
 
 import PortableTextComponents from './portable-text'
 
-import {useMuxPlayer} from 'video/use-mux-player'
-import {type LessonResource} from 'video/lesson-resources'
-import {useLesson} from 'video/use-lesson'
+import {useMuxPlayer} from '@skillrecordings/skill-lesson/hooks/use-mux-player'
+import {type LessonResource} from '@skillrecordings/skill-lesson/schemas/lesson-resource'
+import {useLesson} from '@skillrecordings/skill-lesson/hooks/use-lesson'
 
 export const ExerciseDescription: React.FC<{exercise: LessonResource}> = ({
   exercise,

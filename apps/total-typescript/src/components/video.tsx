@@ -3,9 +3,9 @@ import * as React from 'react'
 import cx from 'classnames'
 import MuxPlayer, {type MuxPlayerProps} from '@mux/mux-player-react'
 
-import {useMuxPlayer} from './use-mux-player'
-import {type LessonResource} from './lesson-resources'
-import {useVideoResource} from './use-video-resource'
+import {useMuxPlayer} from '@skillrecordings/skill-lesson/hooks/use-mux-player'
+import {type LessonResource} from '@skillrecordings/skill-lesson/schemas/lesson-resource'
+import {useVideoResource} from '@skillrecordings/skill-lesson/hooks/use-video-resource'
 
 import {
   BlockedOverlay,
@@ -14,18 +14,17 @@ import {
   FinishedOverlay,
   LoadingOverlay,
   FinishedSectionOverlay,
-} from '../components/exercise-overlay'
+} from './exercise-overlay'
+import {useLesson} from '@skillrecordings/skill-lesson/hooks/use-lesson'
 
 type VideoProps = {
-  module: SanityDocument
-  section?: SanityDocument
-  exercise: LessonResource
   ref: any
 }
 
 export const Video: React.FC<VideoProps> = React.forwardRef(
-  ({module, exercise, section}, ref: any) => {
-    const isExercise = Boolean(exercise._type === 'exercise')
+  (props, ref: any) => {
+    const {lesson} = useLesson()
+    const isExercise = Boolean(lesson._type === 'exercise')
     const {videoResource, loadingVideoResource} = useVideoResource()
     const {
       muxPlayerProps,

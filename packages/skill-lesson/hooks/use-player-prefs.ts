@@ -1,5 +1,5 @@
 import * as React from 'react'
-import cookies from 'utils/cookies'
+import cookies from '../utils/cookies'
 
 const PLAY_PREFS_KEY = 'muxplayer-react-prefs'
 

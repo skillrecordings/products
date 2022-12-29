@@ -4,14 +4,14 @@ import {Article} from 'lib/articles'
 import {PortableText, toPlainText} from '@portabletext/react'
 import Image from 'next/image'
 import Share from 'components/share'
-import {useConvertkit} from 'video/use-convertkit'
+import {useConvertkit} from '@skillrecordings/skill-lesson/hooks/use-convertkit'
 import {
   ArticleNewsletterCta,
   PrimaryNewsletterCta,
 } from 'components/primary-newsletter-cta'
-import PortableTextComponents from 'video/portable-text'
 import {format} from 'date-fns'
 import {ArticleTeaser} from 'pages/articles'
+import PortableTextComponents from 'video/portable-text'
 
 type ArticleTemplateProps = {
   article: Article

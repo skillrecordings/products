@@ -8,7 +8,7 @@ import {SanityDocument} from '@sanity/client'
 import z from 'zod'
 import {hasAvailableSeats, hasBulkPurchase} from '@skillrecordings/ability'
 
-import {type LessonResource} from './lesson-resources'
+import {type LessonResource} from '../schemas/lesson-resource'
 
 export const UserSchema = z.object({
   role: z.string().optional(),

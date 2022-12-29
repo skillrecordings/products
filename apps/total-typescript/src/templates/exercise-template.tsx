@@ -1,30 +1,29 @@
 import * as React from 'react'
 import Navigation from 'components/app/navigation'
 import Layout from 'components/app/layout'
-import {VideoProvider} from 'video/use-mux-player'
-import {SanityDocument} from '@sanity/client'
+import {VideoProvider} from '@skillrecordings/skill-lesson/hooks/use-mux-player'
 import Image from 'next/image'
 import {ArticleJsonLd} from '@skillrecordings/next-seo'
-import {Video} from '../video/video'
+import {Video} from 'components/video'
 import {GitHubLink} from '../components/exercise/github-link'
-import {VideoTranscript} from '../video/video-transcript'
-import {ExerciseTitle} from '../video/exercise-title'
-import {ExerciseDescription} from '../video/exercise-description'
-import {MobileModuleLessonList} from '../video/mobile-module-lesson-list'
-import {LargeScreenModuleLessonList} from '../video/large-screen-module-lesson-list'
 import {useRouter} from 'next/router'
-import {getBaseUrl} from 'video/get-base-url'
-import {useLesson} from '../video/use-lesson'
-import {useVideoResource} from '../video/use-video-resource'
+import {getBaseUrl} from '@skillrecordings/skill-lesson/utils/get-base-url'
+import {useLesson} from '@skillrecordings/skill-lesson/hooks/use-lesson'
+import {useVideoResource} from '@skillrecordings/skill-lesson/hooks/use-video-resource'
+import {LargeScreenModuleLessonList} from 'video/large-screen-module-lesson-list'
+import {MobileModuleLessonList} from 'video/mobile-module-lesson-list'
+import {ExerciseDescription} from '../video/exercise-description'
+import {ExerciseTitle} from 'video/exercise-title'
+import {VideoTranscript} from 'video/video-transcript'
 
 const ExerciseTemplate: React.FC<{
   transcript: any[]
 }> = ({transcript}) => {
   const muxPlayerRef = React.useRef<HTMLDivElement>()
   const router = useRouter()
-  const {lesson: exercise, section, module} = useLesson()
+  const {lesson, section, module} = useLesson()
   const {videoResourceId} = useVideoResource()
-  const {title, description: exerciseDescription} = exercise
+  const {title, description: exerciseDescription} = lesson
 
   const {ogImage, description: moduleDescription} = module
   const pageTitle = `${title}`
@@ -50,12 +49,12 @@ const ExerciseTemplate: React.FC<{
         }
       >
         <ArticleJsonLd
-          url={`${process.env.NEXT_PUBLIC_URL}/${module.slug.current}/${exercise.slug}`}
-          title={exercise.title}
+          url={`${process.env.NEXT_PUBLIC_URL}/${module.slug.current}/${lesson.slug}`}
+          title={lesson.title}
           images={[
             `${getBaseUrl()}/api/video-thumb?videoResourceId=${videoResourceId}`,
           ]}
-          datePublished={exercise._updatedAt || new Date().toISOString()}
+          datePublished={lesson._updatedAt || new Date().toISOString()}
           authorName={`${process.env.NEXT_PUBLIC_PARTNER_FIRST_NAME} ${process.env.NEXT_PUBLIC_PARTNER_LAST_NAME}`}
           description={pageDescription}
         />
@@ -67,12 +66,7 @@ const ExerciseTemplate: React.FC<{
           />
           <main className="relative mx-auto w-full max-w-[1480px] items-start border-t border-transparent lg:mt-16 2xl:flex 2xl:max-w-none 2xl:border-gray-800">
             <div className="flex flex-col border-gray-800 2xl:relative 2xl:h-full 2xl:w-full 2xl:border-r">
-              <Video
-                ref={muxPlayerRef}
-                module={module}
-                exercise={exercise}
-                section={section}
-              />
+              <Video ref={muxPlayerRef} />
               <MobileModuleLessonList
                 module={module}
                 section={section}
@@ -87,9 +81,9 @@ const ExerciseTemplate: React.FC<{
             </div>
             <article className="relative flex-shrink-0 sm:bg-black/20 2xl:bg-transparent">
               <div className="relative z-10 mx-auto max-w-4xl px-5 py-5 lg:py-8 2xl:max-w-xl">
-                <ExerciseTitle exercise={exercise} />
-                <GitHubLink exercise={exercise} module={module} />
-                <ExerciseDescription exercise={exercise} />
+                <ExerciseTitle exercise={lesson} />
+                <GitHubLink exercise={lesson} module={module} />
+                <ExerciseDescription exercise={lesson} />
               </div>
               <div className="relative z-10 block flex-grow 2xl:hidden">
                 <VideoTranscript

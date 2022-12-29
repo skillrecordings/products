@@ -6,15 +6,14 @@ import {type MuxPlayerProps} from '@mux/mux-player-react/*'
 
 import {useVideoResource} from './use-video-resource'
 import {useLesson} from './use-lesson'
-import {useNextLesson} from 'video/use-next-lesson'
-import {track} from 'video/analytics'
-import {usePlayerPrefs} from 'video/use-player-prefs'
-import {getNextSection} from 'video/get-next-section'
-import {useConvertkit} from 'video/use-convertkit'
+import {useNextLesson} from './use-next-lesson'
+import {track} from '../utils/analytics'
+import {usePlayerPrefs} from './use-player-prefs'
+import {getNextSection} from '../utils/get-next-section'
+import {useConvertkit} from './use-convertkit'
 
-import {trpc} from 'video/trpc'
-
-import {type AppAbility, createAppAbility} from 'video/ability'
+import {type AppAbility, createAppAbility} from '../utils/ability'
+import {useQuery} from '@tanstack/react-query'
 
 type VideoContextType = {
   muxPlayerProps: MuxPlayerProps | any
@@ -71,14 +70,24 @@ export const VideoProvider: React.FC<
   // and we need to be able to robustly check for access
   // while understanding what the actual thing
   // being displayed **is**
-  const {data: abilityRules, status: abilityRulesStatus} =
-    trpc.workshops.verifyAccess.useQuery({
-      moduleSlug: module.slug.current,
-      moduleType: module.moduleType,
-      lessonSlug: exerciseSlug,
-      sectionSlug: section?.slug,
-      isSolution: lesson._type === 'solution',
-    })
+  const {data: abilityRules, status: abilityRulesStatus} = useQuery(
+    ['ability-rules', module.slug.current, exerciseSlug],
+    async () => {
+      return await fetch(`/api/skill/modules/verify-access`, {
+        method: 'POST',
+        body: JSON.stringify({
+          moduleSlug: module.slug.current,
+          moduleType: module.moduleType,
+          lessonSlug: exerciseSlug,
+          sectionSlug: section?.slug,
+          isSolution: lesson._type === 'solution',
+        }),
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      }).then((response) => response.json())
+    },
+  )
 
   const ability = createAppAbility(abilityRules || [])
 

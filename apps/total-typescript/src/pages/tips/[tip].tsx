@@ -2,8 +2,8 @@ import React from 'react'
 import {GetStaticPaths, GetStaticProps, NextPage} from 'next'
 import {getAllTips, getTip, Tip} from 'lib/tips'
 import TipTemplate from 'templates/tip-template'
-import {LessonProvider} from '../../video/use-lesson'
-import {VideoResourceProvider} from '../../video/use-video-resource'
+import {LessonProvider} from '@skillrecordings/skill-lesson/hooks/use-lesson'
+import {VideoResourceProvider} from '@skillrecordings/skill-lesson/hooks/use-video-resource'
 
 export const getStaticProps: GetStaticProps = async ({params}) => {
   const tip = await getTip(params?.tip as string)

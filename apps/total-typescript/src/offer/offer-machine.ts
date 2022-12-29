@@ -1,4 +1,4 @@
-import {Subscriber} from 'video/subscriber'
+import {Subscriber} from '@skillrecordings/skill-lesson/schemas/subscriber'
 import {Offer} from './offer-types'
 import {assign, createMachine, StateMachine} from 'xstate'
 import {isBefore, subDays} from 'date-fns'

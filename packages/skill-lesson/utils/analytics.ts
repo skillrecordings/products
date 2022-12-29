@@ -8,7 +8,7 @@ import {
 
 import {isEmpty} from 'lodash'
 
-import {type Subscriber} from 'video/subscriber'
+import {type Subscriber} from '../schemas/subscriber'
 
 export async function track(event: string, params?: any) {
   console.debug(`track ${event}`, params)
