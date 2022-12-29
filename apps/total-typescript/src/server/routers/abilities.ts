@@ -23,6 +23,6 @@ export const abilities = router({
       ...(convertkitSubscriber && {
         subscriber: convertkitSubscriber,
       }),
-    })
+    }) as any
   }),
 })
