@@ -15,7 +15,7 @@ export const getStaticProps: GetStaticProps = async (context) => {
 
   return {
     props: {
-      lesson,
+      lesson: lesson.solution,
       module,
       ...(lesson.solution?.transcript && {
         transcript: lesson.solution?.transcript,
