@@ -4,7 +4,7 @@
 import {progressRouter} from './progress'
 import {convertkitRouter} from './convertkit'
 import {router} from '../trpc'
-import {sandpackResourceRouter} from './sandpack-resource'
+import {lessonResourcesRouter} from './resources'
 
 /**
  * Create your application's root router
@@ -15,7 +15,7 @@ import {sandpackResourceRouter} from './sandpack-resource'
 export const appRouter = router({
   progress: progressRouter,
   convertkit: convertkitRouter,
-  sandpack: sandpackResourceRouter,
+  resources: lessonResourcesRouter,
 })
 
 export type AppRouter = typeof appRouter

@@ -20,7 +20,6 @@ import {
   LoadingOverlay,
 } from 'components/exercise-overlay'
 import {track} from 'utils/analytics'
-import {Exercise, ExerciseSchema} from '../lib/exercises'
 import {useConvertkit} from '@skillrecordings/skill-lesson/hooks/use-convertkit'
 import {ArticleJsonLd} from '@skillrecordings/next-seo'
 
@@ -34,6 +33,7 @@ import {getBaseUrl} from '@skillrecordings/skill-lesson/utils/get-base-url'
 import {useVideoResource} from '@skillrecordings/skill-lesson/hooks/use-video-resource'
 import {trpc} from 'utils/trpc'
 import {useRouter} from 'next/router'
+import {LessonResource} from '@skillrecordings/skill-lesson/schemas/lesson-resource'
 
 const ExerciseTemplate: React.FC<{
   transcript: any[]
@@ -126,12 +126,10 @@ const Video: React.FC<VideoProps> = React.forwardRef(
     const {videoResource, loadingVideoResource} = useVideoResource()
     const {muxPlayerProps, displayOverlay, nextExercise} = useMuxPlayer()
     const router = useRouter()
-    const {data: sandpack} = trpc.sandpack.byExerciseSlug.useQuery({
+    const {data: resources} = trpc.resources.byExerciseSlug.useQuery({
       slug: router.query.exercise as string,
       type: lesson._type,
     })
-
-    console.log(videoResource)
 
     // TODO: handle section logic and remove !section
     const canShowVideo =
@@ -144,7 +142,7 @@ const Video: React.FC<VideoProps> = React.forwardRef(
           <>
             {nextExercise ? (
               <>
-                {isExercise && sandpack ? (
+                {isExercise && resources?.sandpack ? (
                   <ExerciseOverlay tutorialFiles={tutorialFiles} />
                 ) : (
                   <DefaultOverlay />
@@ -182,10 +180,15 @@ const Video: React.FC<VideoProps> = React.forwardRef(
 )
 
 const GitHubLink: React.FC<{
-  exercise: Exercise
+  exercise: LessonResource
   module: SanityDocument
 }> = ({exercise, module}) => {
-  const github = exercise.github ?? exercise.solution?.github
+  const router = useRouter()
+  const {data: resources} = trpc.resources.byExerciseSlug.useQuery({
+    slug: router.query.exercise as string,
+    type: exercise._type,
+  })
+  const github = resources?.github
 
   if (!github) {
     return null
@@ -217,7 +220,7 @@ const GitHubLink: React.FC<{
   )
 }
 
-const ExerciseTitle: React.FC<{exercise: Exercise}> = ({exercise}) => {
+const ExerciseTitle: React.FC<{exercise: LessonResource}> = ({exercise}) => {
   const {title, _type} = exercise
   return (
     <>
@@ -241,10 +244,16 @@ const ExerciseTitle: React.FC<{exercise: Exercise}> = ({exercise}) => {
 }
 
 const ExerciseAssets: React.FC<{
-  exercise: Exercise
+  exercise: LessonResource
   module: SanityDocument
 }> = ({exercise, module}) => {
-  const {figma} = exercise
+  const router = useRouter()
+  const {data: resources} = trpc.resources.byExerciseSlug.useQuery({
+    slug: router.query.exercise as string,
+    type: exercise._type,
+  })
+  const figma = resources?.figma
+
   return (
     <div className="flex flex-wrap items-center gap-2 pb-8">
       {figma?.url && (
@@ -263,7 +272,9 @@ const ExerciseAssets: React.FC<{
   )
 }
 
-const ExerciseDescription: React.FC<{exercise: Exercise}> = ({exercise}) => {
+const ExerciseDescription: React.FC<{exercise: LessonResource}> = ({
+  exercise,
+}) => {
   const {body} = exercise
   return (
     <div className="prose max-w-none pt-5 prose-headings:font-heading prose-headings:font-black prose-code:text-[90%] xl:pt-8 2xl:pt-5">

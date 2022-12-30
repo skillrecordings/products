@@ -2,7 +2,7 @@ import {publicProcedure, router} from '../trpc'
 import {z} from 'zod'
 import {getExercise} from '../../lib/exercises'
 
-export const sandpackResourceRouter = router({
+export const lessonResourcesRouter = router({
   byExerciseSlug: publicProcedure
     .input(
       z.object({
@@ -12,6 +12,11 @@ export const sandpackResourceRouter = router({
     )
     .query(async ({ctx, input}) => {
       const lesson = await getExercise(input.slug)
-      return lesson.sandpack
+      const sandpack = input.type === 'exercise' ? lesson.sandpack : undefined
+      const figma = input.type === 'exercise' ? lesson.figma : undefined
+      const github =
+        input.type === 'exercise' ? lesson.github : lesson.solution?.github
+
+      return {sandpack, figma, github}
     }),
 })

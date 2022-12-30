@@ -113,16 +113,16 @@ const Actions = () => {
 const ExerciseOverlay: React.FC<{tutorialFiles: any}> = ({tutorialFiles}) => {
   const {lesson} = useLesson()
   const router = useRouter()
-  const {data: sandpack} = trpc.sandpack.byExerciseSlug.useQuery({
+  const {data: resources} = trpc.resources.byExerciseSlug.useQuery({
     slug: router.query.exercise as string,
     type: lesson._type,
   })
 
-  const visibleFiles = sandpack
+  const visibleFiles = resources?.sandpack
     ?.filter(({active}) => active)
     .map(({file}) => file)
 
-  const sandpackFiles = sandpack
+  const sandpackFiles = resources?.sandpack
     ?.map(({file, code}) => {
       if (file)
         return {
@@ -140,7 +140,7 @@ const ExerciseOverlay: React.FC<{tutorialFiles: any}> = ({tutorialFiles}) => {
 
   return (
     <div className="">
-      {sandpack && (
+      {resources?.sandpack && (
         <>
           <div className="flex w-full items-center justify-between p-3 pl-5 font-medium">
             <div>Now it's your turn! Try solving this exercise.</div>
