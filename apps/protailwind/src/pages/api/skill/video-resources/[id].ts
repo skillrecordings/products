@@ -1,7 +1,7 @@
 import {NextApiRequest, NextApiResponse} from 'next'
 import {getVideoResource} from '@skillrecordings/skill-lesson/lib/video-resources'
 
-const verifyModuleAccess = async (
+const videoResourceById = async (
   req: NextApiRequest,
   res: NextApiResponse,
 ) => {
@@ -12,4 +12,4 @@ const verifyModuleAccess = async (
   }
 }
 
-export default verifyModuleAccess
+export default videoResourceById
