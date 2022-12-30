@@ -1,5 +1,5 @@
 import {NextApiRequest} from 'next'
-import {SubscriberSchema} from '@skillrecordings/skill-lesson/schemas/subscriber'
+import {SubscriberSchema} from '../schemas/subscriber'
 import {fetchSubscriber} from '@skillrecordings/convertkit-sdk'
 
 export async function getSubscriberFromCookie(req: NextApiRequest) {

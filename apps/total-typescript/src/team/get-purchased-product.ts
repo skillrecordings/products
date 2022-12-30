@@ -1,4 +1,4 @@
-import {sanityClient} from 'utils/sanity-client'
+import {sanityClient} from '@skillrecordings/skill-lesson/utils/sanity-client'
 import {getToken} from 'next-auth/jwt'
 import last from 'lodash/last'
 import get from 'lodash/get'

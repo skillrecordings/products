@@ -1,61 +1,55 @@
-import {sanityClient} from '../utils/sanity-client'
+import {sanityClient} from '@skillrecordings/skill-lesson/utils/sanity-client'
 import groq from 'groq'
 import z from 'zod'
+import {BaseLessonResourceSchema} from '@skillrecordings/skill-lesson/schemas/base-lesson-resource'
 
-export const ExerciseSchema = z.object({
-  _id: z.string().optional(),
-  _key: z.string().optional(),
-  _type: z.string(),
-  _updatedAt: z.string().optional(),
-  title: z.string(),
-  slug: z.string(),
-  description: z.nullable(z.string()).optional(),
-  body: z.any().array().optional().nullable(),
-  sandpack: z
-    .array(
-      z.object({
-        file: z.string().optional(),
-        code: z.string().optional(),
-        active: z.boolean().optional(),
-      }),
-    )
-    .optional()
-    .nullable(),
-  muxPlaybackId: z.nullable(z.string()).optional(),
-  transcript: z.nullable(z.any().array()).optional(),
-  figma: z
-    .object({
-      url: z.string(),
-    })
-    .optional()
-    .nullable(),
-  github: z
-    .object({
-      url: z.string(),
-    })
-    .optional()
-    .nullable(),
-  solution: z
-    .object({
-      _key: z.string(),
-      _type: z.string(),
-      _updatedAt: z.string().optional(),
-      title: z.string(),
-      slug: z.string(),
-      description: z.nullable(z.string()).optional(),
-      body: z.any().array().optional().nullable(),
-      muxPlaybackId: z.nullable(z.string()).optional(),
-      transcript: z.nullable(z.any().array()).optional(),
-      github: z
-        .object({
-          url: z.string(),
-        })
-        .optional()
-        .nullable(),
-    })
-    .optional()
-    .nullable(),
-})
+export const ExerciseSchema = z
+  .object({
+    _id: z.string().optional(),
+    _key: z.string().optional(),
+    sandpack: z
+      .array(
+        z.object({
+          file: z.string().optional(),
+          code: z.string().optional(),
+          active: z.boolean().optional(),
+        }),
+      )
+      .optional()
+      .nullable(),
+    videoResourceId: z.nullable(z.string()).optional(),
+    muxPlaybackId: z.nullable(z.string()).optional(),
+    transcript: z.nullable(z.any().array()).optional(),
+    figma: z
+      .object({
+        url: z.string(),
+      })
+      .optional()
+      .nullable(),
+    github: z
+      .object({
+        url: z.string(),
+      })
+      .optional()
+      .nullable(),
+    solution: z
+      .object({
+        _key: z.string(),
+        videoResourceId: z.nullable(z.string()).optional(),
+        muxPlaybackId: z.nullable(z.string()).optional(),
+        transcript: z.nullable(z.any().array()).optional(),
+        github: z
+          .object({
+            url: z.string(),
+          })
+          .optional()
+          .nullable(),
+      })
+      .merge(BaseLessonResourceSchema)
+      .optional()
+      .nullable(),
+  })
+  .merge(BaseLessonResourceSchema)
 
 export type Exercise = z.infer<typeof ExerciseSchema>
 
@@ -128,6 +122,7 @@ export const getExercise = async (
             "code": code.code,
             active
         },
+        "videoResourceId": resources[@->._type == 'videoResource'][0]->_id,
         "muxPlaybackId": resources[@->._type == 'videoResource'][0]-> muxAsset.muxPlaybackId,
         "transcript": resources[@->._type == 'videoResource'][0]-> castingwords.transcript,
       `
@@ -145,6 +140,7 @@ export const getExercise = async (
         "_updatedAt": ^._updatedAt,
         title,
         description,
+        "videoResourceId": resources[@->._type == 'videoResource'][0]->_id,
         ${
           includeMedia
             ? `      

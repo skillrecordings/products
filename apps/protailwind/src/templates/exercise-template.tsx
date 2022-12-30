@@ -2,17 +2,14 @@ import * as React from 'react'
 import MuxPlayer, {MuxPlayerProps} from '@mux/mux-player-react'
 import PortableTextComponents from 'components/portable-text'
 import ExerciseSidebar from 'components/exercise-sidebar'
-import Navigation from 'components/navigation'
 import Layout from 'components/layout'
 import capitalize from 'lodash/capitalize'
-import Spinner from 'components/spinner'
 import cx from 'classnames'
 import {
   PortableText,
   PortableTextComponents as PortableTextComponentsType,
 } from '@portabletext/react'
 import {hmsToSeconds} from '@skillrecordings/time'
-import {useMuxPlayer, VideoProvider} from 'hooks/use-mux-player'
 import {SanityDocument} from '@sanity/client'
 // import {IconGithub} from 'components/icons'
 import {
@@ -22,27 +19,31 @@ import {
   BlockedOverlay,
   LoadingOverlay,
 } from 'components/exercise-overlay'
-import Image from 'next/image'
 import {track} from 'utils/analytics'
-import {Exercise, ExerciseSchema} from '../lib/exercises'
 import {useConvertkit} from '@skillrecordings/skill-lesson/hooks/use-convertkit'
 import {ArticleJsonLd} from '@skillrecordings/next-seo'
-import {GiftIcon} from '@heroicons/react/solid'
+
 import Icon from 'components/icons'
+import {
+  useMuxPlayer,
+  VideoProvider,
+} from '@skillrecordings/skill-lesson/hooks/use-mux-player'
+import {useLesson} from '@skillrecordings/skill-lesson/hooks/use-lesson'
+import {getBaseUrl} from '@skillrecordings/skill-lesson/utils/get-base-url'
+import {useVideoResource} from '@skillrecordings/skill-lesson/hooks/use-video-resource'
+import {trpc} from 'utils/trpc'
+import {useRouter} from 'next/router'
+import {LessonResource} from '@skillrecordings/skill-lesson/schemas/lesson-resource'
 
 const ExerciseTemplate: React.FC<{
-  exercise: Exercise
-  module: SanityDocument
-  section?: SanityDocument
-  isSolution?: boolean
+  transcript: any[]
   tutorialFiles?: any
-}> = ({exercise, section, module, isSolution = false, tutorialFiles}) => {
+}> = ({transcript, tutorialFiles}) => {
   const muxPlayerRef = React.useRef<HTMLDivElement>()
+  const {lesson, section, module} = useLesson()
+  const {videoResourceId} = useVideoResource()
 
-  exercise = ExerciseSchema.parse(
-    isSolution && exercise.solution ? exercise.solution : exercise,
-  )
-  const {title, description: exerciseDescription} = exercise
+  const {title, description: exerciseDescription} = lesson
   const {ogImage, description: moduleDescription} = module
   const pageTitle = `${title}`
   const pageDescription = exerciseDescription || moduleDescription
@@ -51,12 +52,7 @@ const ExerciseTemplate: React.FC<{
   const path = `/${module.moduleType}s`
 
   return (
-    <VideoProvider
-      muxPlayerRef={muxPlayerRef}
-      module={module}
-      lesson={exercise as Exercise}
-      path={path}
-    >
+    <VideoProvider muxPlayerRef={muxPlayerRef} path={path}>
       <Layout
         meta={
           {title: pageTitle, ...shareCard, description: pageDescription} as any
@@ -64,12 +60,12 @@ const ExerciseTemplate: React.FC<{
         navClassName="mx-auto flex w-full items-center justify-between px-5"
       >
         <ArticleJsonLd
-          url={`${process.env.NEXT_PUBLIC_URL}/${module.slug.current}/${exercise.slug}`}
-          title={exercise.title}
+          url={`${process.env.NEXT_PUBLIC_URL}/${module.slug.current}/${lesson.slug}`}
+          title={lesson.title}
           images={[
-            `https://image.mux.com/${exercise.muxPlaybackId}/thumbnail.png?width=480&height=384&fit_mode=preserve`,
+            `${getBaseUrl()}/api/video-thumb?videoResourceId=${videoResourceId}`,
           ]}
-          datePublished={exercise._updatedAt || new Date().toISOString()}
+          datePublished={lesson._updatedAt || new Date().toISOString()}
           authorName={`${process.env.NEXT_PUBLIC_PARTNER_FIRST_NAME} ${process.env.NEXT_PUBLIC_PARTNER_LAST_NAME}`}
           description={pageDescription}
         />
@@ -82,13 +78,7 @@ const ExerciseTemplate: React.FC<{
           />
           <main className="relative mx-auto max-w-[1480px] grow items-start  sm:bg-gray-100 2xl:flex 2xl:max-w-none  2xl:bg-transparent">
             <div className="border-gray-100 2xl:relative 2xl:h-full 2xl:w-full 2xl:border-r 2xl:bg-gray-100">
-              <Video
-                ref={muxPlayerRef}
-                module={module}
-                exercise={exercise}
-                section={section}
-                tutorialFiles={tutorialFiles}
-              />
+              <Video ref={muxPlayerRef} tutorialFiles={tutorialFiles} />
               <MobileLessonNavigator
                 module={module}
                 section={section}
@@ -96,21 +86,21 @@ const ExerciseTemplate: React.FC<{
               />
               <div className="hidden 2xl:block ">
                 <VideoTranscript
-                  exercise={exercise}
+                  transcript={transcript}
                   muxPlayerRef={muxPlayerRef}
                 />
               </div>
             </div>
             <article className="relative flex-shrink-0 shadow-gray-500/10 sm:bg-gray-100 2xl:h-full 2xl:bg-transparent 2xl:shadow-xl">
               <div className="relative z-10 mx-auto max-w-4xl px-5 py-5 lg:py-8 2xl:max-w-xl">
-                <ExerciseTitle exercise={exercise} />
-                <ExerciseAssets exercise={exercise} module={module} />
-                <ExerciseDescription exercise={exercise} />
+                <LessonTitle lesson={lesson} />
+                <LessonAssets lesson={lesson} module={module} />
+                <LessonDescription lesson={lesson} />
                 {/* <GitHubLink exercise={exercise} module={module} /> */}
               </div>
               <div className="relative z-10 block 2xl:hidden">
                 <VideoTranscript
-                  exercise={exercise}
+                  transcript={transcript}
                   muxPlayerRef={muxPlayerRef}
                 />
               </div>
@@ -123,23 +113,27 @@ const ExerciseTemplate: React.FC<{
 }
 
 type VideoProps = {
-  module: SanityDocument
-  section?: SanityDocument
-  exercise: Exercise
   tutorialFiles?: any
   ref: any
 }
 
 const Video: React.FC<VideoProps> = React.forwardRef(
-  ({module, exercise, section, tutorialFiles}, ref: any) => {
+  ({tutorialFiles}, ref: any) => {
     const {subscriber, loadingSubscriber} = useConvertkit()
-    const isExercise = Boolean(exercise._type === 'exercise')
+    const {lesson, module, section} = useLesson()
+    const isExercise = Boolean(lesson._type === 'exercise')
+    const {videoResource, loadingVideoResource} = useVideoResource()
     const {muxPlayerProps, displayOverlay, nextExercise} = useMuxPlayer()
+    const router = useRouter()
+    const {data: resources} = trpc.resources.byExerciseSlug.useQuery({
+      slug: router.query.exercise as string,
+      type: lesson._type,
+    })
 
     // TODO: handle section logic and remove !section
     const canShowVideo =
-      (subscriber || (!section && exercise._id === module.exercises[0]._id)) &&
-      exercise.muxPlaybackId
+      (subscriber || (!section && lesson._id === module.exercises[0]._id)) &&
+      videoResource?.muxPlaybackId
 
     return (
       <>
@@ -147,7 +141,7 @@ const Video: React.FC<VideoProps> = React.forwardRef(
           <>
             {nextExercise ? (
               <>
-                {isExercise && exercise.sandpack ? (
+                {isExercise && resources?.sandpack ? (
                   <ExerciseOverlay tutorialFiles={tutorialFiles} />
                 ) : (
                   <DefaultOverlay />
@@ -164,9 +158,19 @@ const Video: React.FC<VideoProps> = React.forwardRef(
           })}
         >
           {canShowVideo ? (
-            <MuxPlayer ref={ref} {...(muxPlayerProps as MuxPlayerProps)} />
+            <MuxPlayer
+              ref={ref}
+              {...(muxPlayerProps as MuxPlayerProps)}
+              playbackId={videoResource?.muxPlaybackId}
+            />
           ) : (
-            <>{loadingSubscriber ? <LoadingOverlay /> : <BlockedOverlay />}</>
+            <>
+              {loadingSubscriber || loadingVideoResource ? (
+                <LoadingOverlay />
+              ) : (
+                <BlockedOverlay />
+              )}
+            </>
           )}
         </div>
       </>
@@ -175,10 +179,15 @@ const Video: React.FC<VideoProps> = React.forwardRef(
 )
 
 const GitHubLink: React.FC<{
-  exercise: Exercise
+  lesson: LessonResource
   module: SanityDocument
-}> = ({exercise, module}) => {
-  const github = exercise.github ?? exercise.solution?.github
+}> = ({lesson, module}) => {
+  const router = useRouter()
+  const {data: resources} = trpc.resources.byExerciseSlug.useQuery({
+    slug: router.query.exercise as string,
+    type: lesson._type,
+  })
+  const github = resources?.github
 
   if (!github) {
     return null
@@ -189,10 +198,10 @@ const GitHubLink: React.FC<{
       <a
         onClick={() => {
           track('clicked github code link', {
-            lesson: exercise.slug,
+            lesson: lesson.slug,
             module: module.slug.current,
             moduleType: module.moduleType,
-            lessonType: exercise._type,
+            lessonType: lesson._type,
           })
         }}
         href={github.url}
@@ -210,8 +219,8 @@ const GitHubLink: React.FC<{
   )
 }
 
-const ExerciseTitle: React.FC<{exercise: Exercise}> = ({exercise}) => {
-  const {title, _type} = exercise
+const LessonTitle: React.FC<{lesson: LessonResource}> = ({lesson}) => {
+  const {title, _type} = lesson
   return (
     <>
       <span
@@ -233,11 +242,17 @@ const ExerciseTitle: React.FC<{exercise: Exercise}> = ({exercise}) => {
   )
 }
 
-const ExerciseAssets: React.FC<{
-  exercise: Exercise
+const LessonAssets: React.FC<{
+  lesson: LessonResource
   module: SanityDocument
-}> = ({exercise, module}) => {
-  const {figma} = exercise
+}> = ({lesson, module}) => {
+  const router = useRouter()
+  const {data: resources} = trpc.resources.byExerciseSlug.useQuery({
+    slug: router.query.exercise as string,
+    type: lesson._type,
+  })
+  const figma = resources?.figma
+
   return (
     <div className="flex flex-wrap items-center gap-2 pb-8">
       {figma?.url && (
@@ -251,13 +266,13 @@ const ExerciseAssets: React.FC<{
           <span>Design assets</span>
         </a>
       )}
-      <GitHubLink exercise={exercise} module={module} />
+      <GitHubLink lesson={lesson} module={module} />
     </div>
   )
 }
 
-const ExerciseDescription: React.FC<{exercise: Exercise}> = ({exercise}) => {
-  const {body} = exercise
+const LessonDescription: React.FC<{lesson: LessonResource}> = ({lesson}) => {
+  const {body} = lesson
   return (
     <div className="prose max-w-none pt-5 prose-headings:font-heading prose-headings:font-black prose-code:text-[90%] xl:pt-8 2xl:pt-5">
       <PortableText value={body} components={PortableTextComponents} />
@@ -265,11 +280,10 @@ const ExerciseDescription: React.FC<{exercise: Exercise}> = ({exercise}) => {
   )
 }
 
-const VideoTranscript: React.FC<{
-  exercise: Exercise
+export const VideoTranscript: React.FC<{
+  transcript: any[]
   muxPlayerRef: any
-}> = ({exercise, muxPlayerRef}) => {
-  const transcript = exercise.transcript
+}> = ({transcript, muxPlayerRef}) => {
   const {handlePlay, video} = useMuxPlayer()
   if (!transcript) {
     return null

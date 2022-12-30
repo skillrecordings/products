@@ -7,15 +7,12 @@ import cx from 'classnames'
 import PortableTextComponents from './portable-text'
 
 import {useMuxPlayer} from '@skillrecordings/skill-lesson/hooks/use-mux-player'
-import {type LessonResource} from '@skillrecordings/skill-lesson/schemas/lesson-resource'
 import {useLesson} from '@skillrecordings/skill-lesson/hooks/use-lesson'
 
-export const ExerciseDescription: React.FC<{exercise: LessonResource}> = ({
-  exercise,
-}) => {
+export const ExerciseDescription = () => {
   const {canShowVideo, loadingUserStatus} = useMuxPlayer()
   const {lesson} = useLesson()
-  const {body} = exercise
+  const {body} = lesson
 
   const displayedBody = canShowVideo ? body : take(body, 3)
   return (
