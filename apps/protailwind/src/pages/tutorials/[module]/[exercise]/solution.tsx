@@ -11,16 +11,16 @@ export const getStaticProps: GetStaticProps = async (context) => {
   const exerciseSlug = params?.exercise as string
 
   const module = await getTutorial(params?.module as string)
-  const exercise = await getExercise(exerciseSlug)
+  const lesson = await getExercise(exerciseSlug)
 
   return {
     props: {
-      exercise,
+      lesson,
       module,
-      ...(exercise.solution?.transcript && {
-        transcript: exercise.solution?.transcript,
+      ...(lesson.solution?.transcript && {
+        transcript: lesson.solution?.transcript,
       }),
-      videoResourceId: exercise.solution?.videoResourceId,
+      videoResourceId: lesson.solution?.videoResourceId,
     },
     revalidate: 10,
   }
@@ -48,13 +48,13 @@ export const getStaticPaths: GetStaticPaths = async (context) => {
 }
 
 const ExerciseSolution: React.FC<any> = ({
-  exercise,
+  lesson,
   module,
   transcript,
   videoResourceId,
 }) => {
   return (
-    <LessonProvider lesson={exercise} module={module}>
+    <LessonProvider lesson={lesson} module={module}>
       <VideoResourceProvider videoResourceId={videoResourceId}>
         <ExerciseTemplate transcript={transcript} />
       </VideoResourceProvider>

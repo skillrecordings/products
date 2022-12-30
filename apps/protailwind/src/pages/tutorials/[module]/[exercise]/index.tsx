@@ -13,7 +13,7 @@ export const getStaticProps: GetStaticProps = async (context) => {
   const exerciseSlug = params?.exercise as string
 
   const module = await getTutorial(params?.module as string)
-  const exercise = await getExercise(exerciseSlug)
+  const lesson = await getExercise(exerciseSlug)
 
   const tutorialDirectory = path.join(
     process.cwd(),
@@ -23,11 +23,11 @@ export const getStaticProps: GetStaticProps = async (context) => {
 
   return {
     props: {
-      exercise,
+      lesson,
       module,
       tutorialFiles,
-      transcript: exercise.transcript,
-      videoResourceId: exercise.videoResourceId,
+      transcript: lesson.transcript,
+      videoResourceId: lesson.videoResourceId,
     },
     revalidate: 10,
   }
@@ -54,14 +54,14 @@ export const getStaticPaths: GetStaticPaths = async (context) => {
 }
 
 const ExercisePage: React.FC<any> = ({
-  exercise,
+  lesson,
   module,
   tutorialFiles,
   transcript,
   videoResourceId,
 }) => {
   return (
-    <LessonProvider lesson={exercise} module={module}>
+    <LessonProvider lesson={lesson} module={module}>
       <VideoResourceProvider videoResourceId={videoResourceId}>
         <ExerciseTemplate
           transcript={transcript}
