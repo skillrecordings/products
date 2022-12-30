@@ -2,7 +2,7 @@ import React from 'react'
 import ExerciseTemplate from 'templates/exercise-template'
 import {GetStaticPaths, GetStaticProps} from 'next'
 import {getAllTutorials, getTutorial} from 'lib/tutorials'
-import {getExercise} from 'lib/exercises'
+import {Exercise, getExercise} from 'lib/exercises'
 import {LessonProvider} from '@skillrecordings/skill-lesson/hooks/use-lesson'
 import {VideoResourceProvider} from '@skillrecordings/skill-lesson/hooks/use-video-resource'
 
@@ -17,7 +17,9 @@ export const getStaticProps: GetStaticProps = async (context) => {
     props: {
       exercise,
       module,
-      transcript: exercise.solution?.transcript,
+      ...(exercise.solution?.transcript && {
+        transcript: exercise.solution?.transcript,
+      }),
       videoResourceId: exercise.solution?.videoResourceId,
     },
     revalidate: 10,
@@ -30,14 +32,16 @@ export const getStaticPaths: GetStaticPaths = async (context) => {
   const paths = tutorials.reduce((acc: any[], tutorial: any) => {
     return [
       ...acc,
-      ...tutorial.exercises.map((exercise: any) => {
-        return {
-          params: {
-            module: tutorial.slug.current,
-            exercise: exercise.slug,
-          },
-        }
-      }),
+      ...tutorial.exercises
+        .filter((exercise: Exercise) => Boolean(exercise.solution))
+        .map((exercise: Exercise) => {
+          return {
+            params: {
+              module: tutorial.slug.current,
+              exercise: exercise.slug,
+            },
+          }
+        }),
     ]
   }, [])
   return {paths, fallback: 'blocking'}
