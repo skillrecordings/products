@@ -3,7 +3,7 @@ import {answerSurvey, markLessonComplete} from 'lib/convertkit'
 import {updateSubscriber} from '@skillrecordings/convertkit-sdk'
 import {serialize} from 'cookie'
 import {SubscriberSchema} from '@skillrecordings/skill-lesson/schemas/subscriber'
-import {convertkitSetSubscriberCookie} from '../ck-set-subscriber-cookie'
+import {convertkitSetSubscriberCookie} from '@skillrecordings/skill-lesson/utils/ck-set-subscriber-cookie'
 import {publicProcedure, router} from '../trpc'
 
 export const convertkitRouter = router({

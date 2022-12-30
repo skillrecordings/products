@@ -3872,15 +3872,18 @@ importers:
       '@skillrecordings/ability': workspace:*
       '@skillrecordings/analytics': workspace:*
       '@skillrecordings/config': workspace:*
+      '@skillrecordings/convertkit-sdk': workspace:*
       '@skillrecordings/react': workspace:*
       '@skillrecordings/time': workspace:*
       '@tanstack/react-query': ^4.20.4
+      '@types/cookie': ^0.4.1
       '@types/js-cookie': ^3.0.2
       '@types/lodash': ^4.14.179
       '@types/react': 18.0.18
       '@types/react-dom': 18.0.6
       '@types/speakingurl': ^13.0.3
       classnames: ^2.3.1
+      cookie: ^0.5.0
       groq: ^2.15.0
       js-cookie: ^3.0.1
       lodash: ^4.17.21
@@ -3904,15 +3907,18 @@ importers:
       '@skillrecordings/ability': link:../ability
       '@skillrecordings/analytics': link:../analytics
       '@skillrecordings/config': link:../config
+      '@skillrecordings/convertkit-sdk': link:../convertkit-sdk
       '@skillrecordings/react': link:../react
       '@skillrecordings/time': link:../time
       '@tanstack/react-query': 4.20.4_biqbaboplfbrettd7655fr4n2y
+      '@types/cookie': 0.4.1
       '@types/js-cookie': 3.0.2
       '@types/lodash': 4.14.186
       '@types/react': 18.0.18
       '@types/react-dom': 18.0.6
       '@types/speakingurl': 13.0.3
       classnames: 2.3.1
+      cookie: 0.5.0
       groq: 2.15.0
       js-cookie: 3.0.1
       lodash: 4.17.21
@@ -11944,7 +11950,6 @@ packages:
 
   /@types/cookie/0.4.1:
     resolution: {integrity: sha512-XW/Aa8APYr6jSVVA1y/DEIZX0/GMKLEVekNG727R8cs56ahETkRAy/3DR7+fJyh7oUgGwNQaRfXCun0+KbWY7Q==}
-    dev: true
 
   /@types/cross-spawn/6.0.0:
     resolution: {integrity: sha512-evp2ZGsFw9YKprDbg8ySgC9NA15g3YgiI8ANkGmKKvvi0P2aDGYLPxQIC5qfeKNUOe3TjABVGuah6omPRpIYhg==}

@@ -4,8 +4,8 @@ import {
   UserSchema,
 } from '@skillrecordings/skill-lesson/utils/ability'
 
-import {getSubscriberFromCookie} from '../ck-subscriber-from-cookie'
-import {convertkitSetSubscriberCookie} from '../ck-set-subscriber-cookie'
+import {getSubscriberFromCookie} from '@skillrecordings/skill-lesson/utils/ck-subscriber-from-cookie'
+import {convertkitSetSubscriberCookie} from '@skillrecordings/skill-lesson/utils/ck-set-subscriber-cookie'
 import {publicProcedure, router} from '../trpc'
 
 export const abilities = router({

@@ -1,7 +1,7 @@
 import React from 'react'
 import {type Article, getArticle} from 'lib/articles'
 import {GetStaticPaths, GetStaticProps} from 'next'
-import {sanityClient} from 'utils/sanity-client'
+import {sanityClient} from '@skillrecordings/skill-lesson/utils/sanity-client'
 import ArticleTemplate from 'templates/article-template'
 import groq from 'groq'
 

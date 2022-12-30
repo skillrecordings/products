@@ -1,4 +1,4 @@
-import {sanityClient} from '../utils/sanity-client'
+import {sanityClient} from '@skillrecordings/skill-lesson/utils/sanity-client'
 import groq from 'groq'
 import z from 'zod'
 

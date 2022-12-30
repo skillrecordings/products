@@ -5,6 +5,8 @@ import {getAllTutorials, getTutorial} from 'lib/tutorials'
 import {getExercise} from 'lib/exercises'
 import path from 'path'
 import {walk} from 'utils/code-editor-content'
+import {LessonProvider} from '@skillrecordings/skill-lesson/hooks/use-lesson'
+import {VideoResourceProvider} from '@skillrecordings/skill-lesson/hooks/use-video-resource'
 
 export const getStaticProps: GetStaticProps = async (context) => {
   const {params} = context
@@ -20,7 +22,13 @@ export const getStaticProps: GetStaticProps = async (context) => {
   const tutorialFiles = walk(tutorialDirectory)
 
   return {
-    props: {exercise, module, tutorialFiles},
+    props: {
+      exercise,
+      module,
+      tutorialFiles,
+      transcript: exercise.transcript,
+      videoResourceId: exercise.videoResourceId,
+    },
     revalidate: 10,
   }
 }
@@ -45,13 +53,22 @@ export const getStaticPaths: GetStaticPaths = async (context) => {
   return {paths, fallback: 'blocking'}
 }
 
-const ExercisePage: React.FC<any> = ({exercise, module, tutorialFiles}) => {
+const ExercisePage: React.FC<any> = ({
+  exercise,
+  module,
+  tutorialFiles,
+  transcript,
+  videoResourceId,
+}) => {
   return (
-    <ExerciseTemplate
-      exercise={exercise}
-      module={module}
-      tutorialFiles={tutorialFiles}
-    />
+    <LessonProvider lesson={exercise} module={module}>
+      <VideoResourceProvider videoResourceId={videoResourceId}>
+        <ExerciseTemplate
+          transcript={transcript}
+          tutorialFiles={tutorialFiles}
+        />
+      </VideoResourceProvider>
+    </LessonProvider>
   )
 }
 

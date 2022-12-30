@@ -16,6 +16,7 @@ const IMAGE_HOST_DOMAINS = [
   `cdn.sanity.io`,
   `protailwind.com`,
   `image.mux.com`,
+  'localhost',
   process.env.NEXT_PUBLIC_HOST,
 ]
 

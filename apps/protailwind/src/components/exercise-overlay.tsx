@@ -8,17 +8,20 @@ import {Facebook, LinkedIn, Twitter} from '@skillrecordings/react'
 import {NextRouter, useRouter} from 'next/router'
 import snakeCase from 'lodash/snakeCase'
 import Image from 'next/image'
-import {useMuxPlayer} from 'hooks/use-mux-player'
 import {XIcon} from '@heroicons/react/solid'
 import cx from 'classnames'
 import {track} from '../utils/analytics'
 import {setUserId} from '@amplitude/analytics-browser'
-import {sanityClient} from 'utils/sanity-client'
+import {sanityClient} from '@skillrecordings/skill-lesson/utils/sanity-client'
 import {PortableText} from '@portabletext/react'
 import {useQuery} from '@tanstack/react-query'
 import {trpc} from '../utils/trpc'
 import Spinner from './spinner'
 import dynamic from 'next/dynamic'
+import {useLesson} from '@skillrecordings/skill-lesson/hooks/use-lesson'
+import {useMuxPlayer} from '@skillrecordings/skill-lesson/hooks/use-mux-player'
+import {useVideoResource} from '@skillrecordings/skill-lesson/hooks/use-video-resource'
+import {getBaseUrl} from '@skillrecordings/skill-lesson/utils/get-base-url'
 
 const SandpackEditor: React.ComponentType<any> = dynamic(
   () => import('components/sandpack/repl'),
@@ -28,7 +31,8 @@ const SandpackEditor: React.ComponentType<any> = dynamic(
 export const OverlayWrapper: React.FC<
   React.PropsWithChildren<{className?: string; dismissable?: boolean}>
 > = ({children, className, dismissable = true}) => {
-  const {setDisplayOverlay, lesson, module} = useMuxPlayer()
+  const {lesson, module} = useLesson()
+  const {setDisplayOverlay} = useMuxPlayer()
 
   return (
     <div
@@ -65,7 +69,8 @@ export const OverlayWrapper: React.FC<
 }
 
 const Actions = () => {
-  const {nextExercise, lesson, module, path, handlePlay} = useMuxPlayer()
+  const {lesson, module} = useLesson()
+  const {nextExercise, path, handlePlay} = useMuxPlayer()
   const router = useRouter()
   return (
     <div className="flex justify-center gap-2">
@@ -106,9 +111,12 @@ const Actions = () => {
 }
 
 const ExerciseOverlay: React.FC<{tutorialFiles: any}> = ({tutorialFiles}) => {
-  const {lesson, module} = useMuxPlayer()
-  const {github} = module
-  const sandpack = lesson.sandpack
+  const {lesson} = useLesson()
+  const router = useRouter()
+  const {data: sandpack} = trpc.sandpack.byExerciseSlug.useQuery({
+    slug: router.query.exercise as string,
+    type: lesson._type,
+  })
 
   const visibleFiles = sandpack
     ?.filter(({active}) => active)
@@ -148,7 +156,8 @@ const ExerciseOverlay: React.FC<{tutorialFiles: any}> = ({tutorialFiles}) => {
 }
 
 const DefaultOverlay = () => {
-  const {nextExercise, module, path, lesson, handlePlay} = useMuxPlayer()
+  const {lesson, module} = useLesson()
+  const {nextExercise, path, handlePlay} = useMuxPlayer()
   const router = useRouter()
   const {image} = module
   const addProgressMutation = trpc.progress.add.useMutation()
@@ -215,7 +224,8 @@ const DefaultOverlay = () => {
 }
 
 const FinishedOverlay = () => {
-  const {module, path, lesson, handlePlay} = useMuxPlayer()
+  const {lesson, module} = useLesson()
+  const {path, handlePlay} = useMuxPlayer()
   const router = useRouter()
   const shareUrl = `${process.env.NEXT_PUBLIC_URL}${path}/${module.slug.current}`
   const shareMessage = `${module.title} ${module.moduleType} by @${process.env.NEXT_PUBLIC_PARTNER_TWITTER}`
@@ -288,7 +298,7 @@ const FinishedOverlay = () => {
 
 const BlockedOverlay: React.FC = () => {
   const router = useRouter()
-  const {lesson, module} = useMuxPlayer()
+  const {lesson, module} = useLesson()
 
   const {data: ctaText} = useQuery([`exercise-free-tutorial`], async () => {
     return sanityClient
@@ -373,15 +383,13 @@ const BlockedOverlay: React.FC = () => {
 type LoadingOverlayProps = {}
 
 const LoadingOverlay: React.FC<LoadingOverlayProps> = () => {
-  const {
-    muxPlayerProps: {playbackId},
-  } = useMuxPlayer()
-  const thumbnail = `https://image.mux.com/${playbackId}/thumbnail.png?width=480&height=384&fit_mode=preserve`
+  const {videoResourceId} = useVideoResource()
+  const thumbnail = `${getBaseUrl()}/api/video-thumb?videoResourceId=${videoResourceId}`
 
   return (
     <OverlayWrapper dismissable={false}>
       <div className="flex items-center justify-center">
-        {playbackId && (
+        {videoResourceId && (
           <Image
             src={thumbnail}
             layout="fill"
