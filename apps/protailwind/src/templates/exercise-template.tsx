@@ -37,9 +37,8 @@ import {LessonResource} from '@skillrecordings/skill-lesson/schemas/lesson-resou
 
 const ExerciseTemplate: React.FC<{
   transcript: any[]
-  isSolution?: boolean
   tutorialFiles?: any
-}> = ({transcript, isSolution = false, tutorialFiles}) => {
+}> = ({transcript, tutorialFiles}) => {
   const muxPlayerRef = React.useRef<HTMLDivElement>()
   const {lesson, section, module} = useLesson()
   const {videoResourceId} = useVideoResource()
@@ -94,9 +93,9 @@ const ExerciseTemplate: React.FC<{
             </div>
             <article className="relative flex-shrink-0 shadow-gray-500/10 sm:bg-gray-100 2xl:h-full 2xl:bg-transparent 2xl:shadow-xl">
               <div className="relative z-10 mx-auto max-w-4xl px-5 py-5 lg:py-8 2xl:max-w-xl">
-                <ExerciseTitle exercise={lesson} />
-                <ExerciseAssets exercise={lesson} module={module} />
-                <ExerciseDescription exercise={lesson} />
+                <LessonTitle lesson={lesson} />
+                <LessonAssets lesson={lesson} module={module} />
+                <LessonDescription lesson={lesson} />
                 {/* <GitHubLink exercise={exercise} module={module} /> */}
               </div>
               <div className="relative z-10 block 2xl:hidden">
@@ -180,13 +179,13 @@ const Video: React.FC<VideoProps> = React.forwardRef(
 )
 
 const GitHubLink: React.FC<{
-  exercise: LessonResource
+  lesson: LessonResource
   module: SanityDocument
-}> = ({exercise, module}) => {
+}> = ({lesson, module}) => {
   const router = useRouter()
   const {data: resources} = trpc.resources.byExerciseSlug.useQuery({
     slug: router.query.exercise as string,
-    type: exercise._type,
+    type: lesson._type,
   })
   const github = resources?.github
 
@@ -199,10 +198,10 @@ const GitHubLink: React.FC<{
       <a
         onClick={() => {
           track('clicked github code link', {
-            lesson: exercise.slug,
+            lesson: lesson.slug,
             module: module.slug.current,
             moduleType: module.moduleType,
-            lessonType: exercise._type,
+            lessonType: lesson._type,
           })
         }}
         href={github.url}
@@ -220,8 +219,8 @@ const GitHubLink: React.FC<{
   )
 }
 
-const ExerciseTitle: React.FC<{exercise: LessonResource}> = ({exercise}) => {
-  const {title, _type} = exercise
+const LessonTitle: React.FC<{lesson: LessonResource}> = ({lesson}) => {
+  const {title, _type} = lesson
   return (
     <>
       <span
@@ -243,14 +242,14 @@ const ExerciseTitle: React.FC<{exercise: LessonResource}> = ({exercise}) => {
   )
 }
 
-const ExerciseAssets: React.FC<{
-  exercise: LessonResource
+const LessonAssets: React.FC<{
+  lesson: LessonResource
   module: SanityDocument
-}> = ({exercise, module}) => {
+}> = ({lesson, module}) => {
   const router = useRouter()
   const {data: resources} = trpc.resources.byExerciseSlug.useQuery({
     slug: router.query.exercise as string,
-    type: exercise._type,
+    type: lesson._type,
   })
   const figma = resources?.figma
 
@@ -267,15 +266,13 @@ const ExerciseAssets: React.FC<{
           <span>Design assets</span>
         </a>
       )}
-      <GitHubLink exercise={exercise} module={module} />
+      <GitHubLink lesson={lesson} module={module} />
     </div>
   )
 }
 
-const ExerciseDescription: React.FC<{exercise: LessonResource}> = ({
-  exercise,
-}) => {
-  const {body} = exercise
+const LessonDescription: React.FC<{lesson: LessonResource}> = ({lesson}) => {
+  const {body} = lesson
   return (
     <div className="prose max-w-none pt-5 prose-headings:font-heading prose-headings:font-black prose-code:text-[90%] xl:pt-8 2xl:pt-5">
       <PortableText value={body} components={PortableTextComponents} />

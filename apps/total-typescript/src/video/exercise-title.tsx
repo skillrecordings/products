@@ -3,7 +3,7 @@ import cx from 'classnames'
 import {type LessonResource} from '@skillrecordings/skill-lesson/schemas/lesson-resource'
 
 export const ExerciseTitle: React.FC<{exercise: LessonResource}> = ({
-  exercise,
+  lesson,
 }) => {
   const {title, _type} = exercise
   return (

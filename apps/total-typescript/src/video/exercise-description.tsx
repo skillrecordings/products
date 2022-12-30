@@ -11,7 +11,7 @@ import {type LessonResource} from '@skillrecordings/skill-lesson/schemas/lesson-
 import {useLesson} from '@skillrecordings/skill-lesson/hooks/use-lesson'
 
 export const ExerciseDescription: React.FC<{exercise: LessonResource}> = ({
-  exercise,
+  lesson,
 }) => {
   const {canShowVideo, loadingUserStatus} = useMuxPlayer()
   const {lesson} = useLesson()
