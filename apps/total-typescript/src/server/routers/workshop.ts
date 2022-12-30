@@ -1,15 +1,7 @@
-import {publicProcedure, router} from '../trpc'
+import {publicProcedure, router} from '@skillrecordings/skill-lesson'
 import {z} from 'zod'
 import {getWorkshop} from '../../lib/workshops'
-import {getToken} from 'next-auth/jwt'
-import {
-  defineRulesForPurchases,
-  UserSchema,
-} from '@skillrecordings/skill-lesson/utils/ability'
 import {SubscriberSchema} from '@skillrecordings/skill-lesson/schemas/subscriber'
-import {getTutorial} from '../../lib/tutorials'
-import {getExercise} from '../../lib/exercises'
-import {getSection} from '../../lib/sections'
 import {NextApiRequest} from 'next'
 
 function getSubscriberFromCookie(req: NextApiRequest) {

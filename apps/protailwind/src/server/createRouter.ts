@@ -1,4 +1,4 @@
-import {Context} from './context'
+import {Context} from '@skillrecordings/skill-lesson/server/context'
 import * as trpc from '@trpc/server'
 
 /**

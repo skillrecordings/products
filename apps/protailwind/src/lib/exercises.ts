@@ -123,7 +123,6 @@ export const getExercise = async (
             active
         },
         "videoResourceId": resources[@->._type == 'videoResource'][0]->_id,
-        "muxPlaybackId": resources[@->._type == 'videoResource'][0]-> muxAsset.muxPlaybackId,
         "transcript": resources[@->._type == 'videoResource'][0]-> castingwords.transcript,
       `
           : ''
@@ -146,7 +145,6 @@ export const getExercise = async (
             ? `      
           body,
           "stackblitz": resources[@._type == 'stackblitz'][0].openFile,
-          "muxPlaybackId": resources[@->._type == 'videoResource'][0]-> muxAsset.muxPlaybackId,
           "transcript": resources[@->._type == 'videoResource'][0]-> castingwords.transcript,
           "github": resources[@._type == 'github'][0] {
         url

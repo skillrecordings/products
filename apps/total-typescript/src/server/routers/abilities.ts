@@ -6,7 +6,7 @@ import {
 
 import {getSubscriberFromCookie} from '@skillrecordings/skill-lesson/utils/ck-subscriber-from-cookie'
 import {convertkitSetSubscriberCookie} from '@skillrecordings/skill-lesson/utils/ck-set-subscriber-cookie'
-import {publicProcedure, router} from '../trpc'
+import {publicProcedure, router} from '@skillrecordings/skill-lesson'
 
 export const abilities = router({
   getAbilities: publicProcedure.query(async ({ctx, input}) => {
