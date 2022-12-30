@@ -23,8 +23,8 @@ const defaultConvertKitContext: ConvertkitContextType = {
 export const ConvertkitContext = React.createContext(defaultConvertKitContext)
 
 export const ConvertkitProvider: React.FC<
-  React.PropsWithChildren<{getSubscriberApiUrl?: string}>
-> = ({children}) => {
+  React.PropsWithChildren<{getSubscriberApiUrl?: string; learnerId?: string}>
+> = ({children, learnerId}) => {
   const router = useRouter()
 
   const {data: subscriber, status} = useQuery<Subscriber>(
@@ -35,14 +35,14 @@ export const ConvertkitProvider: React.FC<
         params.get(CK_SUBSCRIBER_KEY) || Cookies.get('ck_subscriber_id')
 
       try {
-        const learner = params.get('learner')
+        const learner = params.get('learner') || learnerId
         const subscriberLoaderParams = new URLSearchParams({
           ...(learner && {learner}),
           ...(ckSubscriberId && {ckSubscriberId}),
         })
 
         const subscriber = await fetch(
-          `/api/subscriber?${subscriberLoaderParams}`,
+          `/api/skill/subscriber/convertkit?${subscriberLoaderParams}`,
         )
           .then((response) => response.json())
           .catch(() => undefined)
@@ -55,9 +55,10 @@ export const ConvertkitProvider: React.FC<
           removeQueryParamsFromRouter(router, [CK_SUBSCRIBER_KEY])
         }
 
-        return subscriber
+        return subscriber || false
       } catch (e) {
         console.debug(`couldn't load ck subscriber cookie`)
+        return false
       }
     },
   )
