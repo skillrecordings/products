@@ -1,11 +1,10 @@
 import * as React from 'react'
 import cx from 'classnames'
-import {type LessonResource} from '@skillrecordings/skill-lesson/schemas/lesson-resource'
+import {useLesson} from '@skillrecordings/skill-lesson/hooks/use-lesson'
 
-export const ExerciseTitle: React.FC<{exercise: LessonResource}> = ({
-  lesson,
-}) => {
-  const {title, _type} = exercise
+export const ExerciseTitle = () => {
+  const {lesson} = useLesson()
+  const {title, _type} = lesson
   return (
     <>
       <span
