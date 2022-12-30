@@ -1,5 +1,5 @@
 import {NextApiRequest, NextApiResponse} from 'next'
-import {getVideoResource} from 'lib/video-resources'
+import {getVideoResource} from '@skillrecordings/skill-lesson/lib/video-resources'
 
 const verifyModuleAccess = async (
   req: NextApiRequest,
