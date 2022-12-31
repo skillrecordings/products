@@ -25,6 +25,7 @@ import {useLesson} from '@skillrecordings/skill-lesson/hooks/use-lesson'
 import {useVideoResource} from '@skillrecordings/skill-lesson/hooks/use-video-resource'
 import {getBaseUrl} from '@skillrecordings/skill-lesson/utils/get-base-url'
 import {useQuery} from '@tanstack/react-query'
+import {LessonResource} from '@skillrecordings/skill-lesson/schemas/lesson-resource'
 
 export const OverlayWrapper: React.FC<
   React.PropsWithChildren<{className?: string; dismissable?: boolean}>
@@ -98,14 +99,14 @@ const Actions = () => {
               moduleType: module.moduleType,
               lessonType: lesson._type,
             })
-            handleContinue(
+            handleContinue({
               router,
               module,
               nextExercise,
               handlePlay,
               path,
               section,
-            )
+            })
           }}
         >
           Solution <span aria-hidden="true">→</span>
@@ -201,7 +202,7 @@ const DefaultOverlay = () => {
 
       <p className="pt-4 text-xl font-semibold sm:text-3xl">
         <span className="font-normal text-gray-200">Up next:</span>{' '}
-        {nextExercise.title}
+        {nextExercise?.title}
       </p>
       <div className="flex items-center justify-center gap-5 py-4 sm:py-8">
         <button
@@ -233,14 +234,14 @@ const DefaultOverlay = () => {
               {lessonSlug: lesson.slug},
               {
                 onSettled: (data, error, variables, context) => {
-                  handleContinue(
+                  handleContinue({
                     router,
                     module,
                     nextExercise,
                     handlePlay,
                     path,
                     section,
-                  )
+                  })
                 },
               },
             )
@@ -514,7 +515,7 @@ const FinishedSectionOverlay = () => {
   const {lesson, module} = useLesson()
   const {image} = module
   const addProgressMutation = trpc.progress.add.useMutation()
-  const nextExercise = first(nextSection?.exercises) as SanityDocument
+  const nextExercise = first(nextSection?.exercises) as LessonResource
   const router = useRouter()
 
   return (
@@ -565,14 +566,14 @@ const FinishedSectionOverlay = () => {
               {lessonSlug: lesson.slug},
               {
                 onSettled: (data, error, variables, context) => {
-                  handleContinue(
+                  handleContinue({
                     router,
                     module,
                     nextExercise,
                     handlePlay,
                     path,
-                    nextSection,
-                  )
+                    section: nextSection,
+                  })
                 },
               },
             )
@@ -594,15 +595,22 @@ export {
   LoadingOverlay,
 }
 
-const handleContinue = async (
-  router: NextRouter,
-  module: SanityDocument,
-  nextExercise: SanityDocument,
-  handlePlay: () => void,
-  path: string,
-  section?: SanityDocument,
-) => {
-  if (nextExercise._type === 'solution') {
+const handleContinue = async ({
+  router,
+  module,
+  section,
+  nextExercise,
+  handlePlay,
+  path,
+}: {
+  router: NextRouter
+  module: SanityDocument
+  section?: SanityDocument
+  nextExercise?: LessonResource
+  handlePlay: () => void
+  path: string
+}) => {
+  if (nextExercise?._type === 'solution') {
     if (section) {
       const exercise = section.exercises.find((exercise: SanityDocument) => {
         const solution = exercise.solution
@@ -644,7 +652,7 @@ const handleContinue = async (
         query: {
           module: module.slug.current,
           section: section.slug,
-          exercise: nextExercise.slug,
+          exercise: nextExercise?.slug,
         },
         pathname: `${path}/[module]/[section]/[exercise]`,
       })
@@ -652,7 +660,7 @@ const handleContinue = async (
   } else {
     return await router
       .push({
-        query: {module: module.slug.current, exercise: nextExercise.slug},
+        query: {module: module.slug.current, exercise: nextExercise?.slug},
         pathname: `${path}/[module]/[exercise]`,
       })
       .then(() => handlePlay())

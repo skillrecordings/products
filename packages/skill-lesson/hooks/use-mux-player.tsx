@@ -14,6 +14,8 @@ import {useConvertkit} from './use-convertkit'
 
 import {type AppAbility, createAppAbility} from '../utils/ability'
 import {useQuery} from '@tanstack/react-query'
+import {LessonResource} from '../schemas/lesson-resource'
+import {trpcSkillLessons} from '../utils/trpc-skill-lessons'
 
 type VideoContextType = {
   muxPlayerProps: MuxPlayerProps | any
@@ -23,7 +25,7 @@ type VideoContextType = {
   setDisplayOverlay: (value: boolean) => void
   handlePlay: () => void
   displayOverlay: boolean
-  nextExercise: SanityDocument
+  nextExercise?: LessonResource
   nextSection: SanityDocument
   path: string
   video?: {muxPlaybackId?: string}
@@ -63,31 +65,14 @@ export const VideoProvider: React.FC<
       })
     : null
 
-  // load ability rules async
-  // this is kind of bananas because the "lesson" in
-  // this context can be an exercise, solution, or tip
-  // so access control is approached differently
-  // and we need to be able to robustly check for access
-  // while understanding what the actual thing
-  // being displayed **is**
-  const {data: abilityRules, status: abilityRulesStatus} = useQuery(
-    ['ability-rules', module.slug.current, exerciseSlug],
-    async () => {
-      return await fetch(`/api/skill/modules/verify-access`, {
-        method: 'POST',
-        body: JSON.stringify({
-          moduleSlug: module.slug.current,
-          moduleType: module.moduleType,
-          lessonSlug: exerciseSlug,
-          sectionSlug: section?.slug,
-          isSolution: lesson._type === 'solution',
-        }),
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      }).then((response) => response.json())
-    },
-  )
+  const {data: abilityRules, status: abilityRulesStatus} =
+    trpcSkillLessons.modules.rules.useQuery({
+      moduleSlug: module.slug.current,
+      moduleType: module.moduleType,
+      lessonSlug: exerciseSlug,
+      sectionSlug: section?.slug,
+      isSolution: lesson._type === 'solution',
+    })
 
   const ability = createAppAbility(abilityRules || [])
 

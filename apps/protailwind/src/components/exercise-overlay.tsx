@@ -22,6 +22,7 @@ import {useLesson} from '@skillrecordings/skill-lesson/hooks/use-lesson'
 import {useMuxPlayer} from '@skillrecordings/skill-lesson/hooks/use-mux-player'
 import {useVideoResource} from '@skillrecordings/skill-lesson/hooks/use-video-resource'
 import {getBaseUrl} from '@skillrecordings/skill-lesson/utils/get-base-url'
+import {LessonResource} from '@skillrecordings/skill-lesson/schemas/lesson-resource'
 
 const SandpackEditor: React.ComponentType<any> = dynamic(
   () => import('components/sandpack/repl'),
@@ -100,7 +101,7 @@ const Actions = () => {
               moduleType: module.moduleType,
               lessonType: lesson._type,
             })
-            handleContinue(router, module, nextExercise, handlePlay, path)
+            handleContinue({router, module, nextExercise, handlePlay, path})
           }}
         >
           Solution <span aria-hidden="true">→</span>
@@ -178,7 +179,7 @@ const DefaultOverlay = () => {
 
       <p className="pt-4 font-heading text-xl font-black sm:text-3xl">
         <span className="font-normal text-gray-700">Up next:</span>{' '}
-        {nextExercise.title}
+        {nextExercise?.title}
       </p>
       <div className="flex items-center justify-center gap-5 py-4 sm:py-8">
         <button
@@ -210,7 +211,13 @@ const DefaultOverlay = () => {
               {lessonSlug: lesson.slug},
               {
                 onSettled: () => {
-                  handleContinue(router, module, nextExercise, handlePlay, path)
+                  handleContinue({
+                    router,
+                    module,
+                    nextExercise,
+                    handlePlay,
+                    path,
+                  })
                 },
               },
             )
@@ -412,14 +419,20 @@ export {
   LoadingOverlay,
 }
 
-const handleContinue = async (
-  router: NextRouter,
-  module: SanityDocument,
-  nextExercise: SanityDocument,
-  handlePlay: () => void,
-  path: string,
-) => {
-  if (nextExercise._type === 'solution') {
+const handleContinue = async ({
+  router,
+  module,
+  nextExercise,
+  handlePlay,
+  path,
+}: {
+  router: NextRouter
+  module: SanityDocument
+  nextExercise?: LessonResource
+  handlePlay: () => void
+  path: string
+}) => {
+  if (nextExercise?._type === 'solution') {
     const exercise = module.exercises.find((exercise: SanityDocument) => {
       const solution = exercise.solution
       return solution?._key === nextExercise._key
@@ -435,7 +448,7 @@ const handleContinue = async (
 
   return await router
     .push({
-      query: {module: module.slug.current, exercise: nextExercise.slug},
+      query: {module: module.slug.current, exercise: nextExercise?.slug},
       pathname: `${path}/[module]/[exercise]`,
     })
     .then(() => handlePlay())

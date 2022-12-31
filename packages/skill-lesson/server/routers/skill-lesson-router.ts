@@ -5,6 +5,8 @@ import {progressRouter} from './progress'
 import {convertkitRouter} from './convertkit'
 import {router} from '../trpc'
 import {videoResourceRouter} from './video-resource'
+import {lessonsRouter} from './lessons'
+import {modulesRouter} from './modules'
 
 /**
  * Create your application's root router
@@ -16,6 +18,8 @@ export const skillLessonRouter = router({
   progress: progressRouter,
   convertkit: convertkitRouter,
   videoResource: videoResourceRouter,
+  lessons: lessonsRouter,
+  modules: modulesRouter,
 })
 
 export type SkillLessonRouter = typeof skillLessonRouter
