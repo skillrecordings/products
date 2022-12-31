@@ -1,6 +1,6 @@
 import groq from 'groq'
-import {sanityClient} from '../utils/sanity-client'
 import z from 'zod'
+import {sanityClient} from '@skillrecordings/skill-lesson/utils/sanity-client'
 
 export const PodcastEpisodeSchema = z.object({
   title: z.string(),

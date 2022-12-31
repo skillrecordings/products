@@ -12,7 +12,6 @@ import {XIcon} from '@heroicons/react/solid'
 import cx from 'classnames'
 import {track} from '../utils/analytics'
 import {setUserId} from '@amplitude/analytics-browser'
-import {sanityClient} from 'utils/sanity-client'
 import {PortableText} from '@portabletext/react'
 import {useQuery} from '@tanstack/react-query'
 import {trpc} from '../utils/trpc'
@@ -20,6 +19,7 @@ import Spinner from './app/spinner'
 import {useMuxPlayer} from '@skillrecordings/skill-lesson/hooks/use-mux-player'
 import {useLesson} from '@skillrecordings/skill-lesson/hooks/use-lesson'
 import {LessonResource} from '@skillrecordings/skill-lesson/schemas/lesson-resource'
+import {sanityClient} from '@skillrecordings/skill-lesson/utils/sanity-client'
 
 export const OverlayWrapper: React.FC<
   React.PropsWithChildren<{className?: string; dismissable?: boolean}>

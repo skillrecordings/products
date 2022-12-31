@@ -1,5 +1,4 @@
 import React from 'react'
-import {sanityClient} from 'utils/sanity-client'
 import {SanityDocument} from '@sanity/client'
 import {GetServerSideProps} from 'next'
 import PortableTextArticleTemplate from 'templates/portable-text-article-template'
@@ -9,6 +8,7 @@ import * as serverCookie from 'cookie'
 import groq from 'groq'
 import {CK_SUBSCRIBER_KEY} from '@skillrecordings/config'
 import {checkIfConvertkitSubscriber} from '@skillrecordings/convertkit-react-ui'
+import {sanityClient} from '@skillrecordings/skill-lesson/utils/sanity-client'
 
 const previewArticleQuery = groq`*[_type == "article" && slug.current == $slug][0]{
     title,
