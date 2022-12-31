@@ -14,7 +14,7 @@ export const StackBlitzIframe: React.FC<{
 }> = ({exercise, module}) => {
   const router = useRouter()
   const {data: stackblitz, status} = trpc.stackblitz.byExerciseSlug.useQuery({
-    slug: router.query.exercise as string,
+    slug: router.query.lesson as string,
     type: exercise._type,
   })
 

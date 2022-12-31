@@ -84,11 +84,11 @@ const Header: React.FC<{workshop: SanityDocument}> = ({workshop}) => {
               {firstSection && (
                 <Link
                   href={{
-                    pathname: '/workshops/[module]/[section]/[exercise]',
+                    pathname: '/workshops/[module]/[section]/[lesson]',
                     query: {
                       module: slug.current,
                       section: firstSection.slug,
-                      exercise: firstExercise?.slug,
+                      lesson: firstExercise?.slug,
                     },
                   }}
                 >
@@ -220,10 +220,10 @@ const LessonListItem = ({
     <li key={lessonResource.slug}>
       <Link
         href={{
-          pathname: '/workshops/[module]/[section]/[exercise]',
+          pathname: '/workshops/[module]/[section]/[lesson]',
           query: {
             section: section.slug,
-            exercise: lessonResource.slug,
+            lesson: lessonResource.slug,
             module: moduleSlug,
           },
         }}

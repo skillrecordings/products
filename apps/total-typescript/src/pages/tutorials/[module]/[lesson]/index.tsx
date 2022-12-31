@@ -8,7 +8,7 @@ import {LessonProvider} from '@skillrecordings/skill-lesson/hooks/use-lesson'
 
 export const getStaticProps: GetStaticProps = async (context) => {
   const {params} = context
-  const exerciseSlug = params?.exercise as string
+  const exerciseSlug = params?.lesson as string
 
   const module = await getTutorial(params?.module as string)
   const exercise = await getExercise(exerciseSlug)

@@ -35,7 +35,7 @@ const ExerciseTemplate: React.FC<{
   return (
     <VideoProvider
       muxPlayerRef={muxPlayerRef}
-      exerciseSlug={router.query.exercise as string}
+      exerciseSlug={router.query.lesson as string}
       path={path}
     >
       <Layout

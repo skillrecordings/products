@@ -1,29 +1,28 @@
 import React from 'react'
 import ExerciseTemplate from 'templates/exercise-template'
 import {GetStaticPaths, GetStaticProps} from 'next'
-import {Exercise, getExercise} from 'lib/exercises'
+import {getExercise, getExerciseMedia} from 'lib/exercises'
 import {getAllWorkshops, getWorkshop} from 'lib/workshops'
 import {getSection} from 'lib/sections'
-import {LessonResource} from '@skillrecordings/skill-lesson/schemas/lesson-resource'
 import {VideoResourceProvider} from '@skillrecordings/skill-lesson/hooks/use-video-resource'
 import {LessonProvider} from '@skillrecordings/skill-lesson/hooks/use-lesson'
 
 export const getStaticProps: GetStaticProps = async (context) => {
   const {params} = context
-  const exerciseSlug = params?.exercise as string
+  const exerciseSlug = params?.lesson as string
   const sectionSlug = params?.section as string
 
   const module = await getWorkshop(params?.module as string)
-  const exercise = await getExercise(exerciseSlug)
+  const exercise = await getExercise(exerciseSlug, false)
   const section = await getSection(sectionSlug)
 
   return {
     props: {
-      solution: exercise.solution,
+      exercise,
       module,
       section,
-      transcript: exercise.solution?.transcript,
-      videoResourceId: exercise.solution?.videoResourceId,
+      transcript: exercise.transcript,
+      videoResourceId: exercise.videoResourceId,
     },
     revalidate: 10,
   }
@@ -37,15 +36,13 @@ export const getStaticPaths: GetStaticPaths = async (context) => {
     return (
       workshop.sections?.flatMap((section: any) => {
         return (
-          section.exercises
-            ?.filter(({_type}: LessonResource) => _type === 'exercise')
-            .map((exercise: Exercise) => ({
-              params: {
-                module: workshop.slug.current,
-                section: section.slug,
-                exercise: exercise.slug,
-              },
-            })) || []
+          section.exercises?.map((exercise: any) => ({
+            params: {
+              module: workshop.slug.current,
+              section: section.slug,
+              exercise: exercise.slug,
+            },
+          })) || []
         )
       }) || []
     )
@@ -54,15 +51,15 @@ export const getStaticPaths: GetStaticPaths = async (context) => {
   return {paths, fallback: 'blocking'}
 }
 
-const ExerciseSolution: React.FC<any> = ({
-  solution,
+const ExercisePage: React.FC<any> = ({
+  exercise,
   module,
   section,
   transcript,
   videoResourceId,
 }) => {
   return (
-    <LessonProvider lesson={solution} module={module} section={section}>
+    <LessonProvider lesson={exercise} module={module} section={section}>
       <VideoResourceProvider videoResourceId={videoResourceId}>
         <ExerciseTemplate transcript={transcript} />
       </VideoResourceProvider>
@@ -70,4 +67,4 @@ const ExerciseSolution: React.FC<any> = ({
   )
 }
 
-export default ExerciseSolution
+export default ExercisePage

@@ -52,11 +52,11 @@ const LessonList: React.FC<{
                 <Link
                   href={{
                     pathname: section
-                      ? `${path}/[module]/[section]/[exercise]`
-                      : `${path}/[module]/[exercise]`,
+                      ? `${path}/[module]/[section]/[lesson]`
+                      : `${path}/[module]/[lesson]`,
                     query: {
                       module: module.slug.current,
-                      exercise: exercise.slug,
+                      lesson: exercise.slug,
                       ...(section && {section: section.slug}),
                     },
                   }}
@@ -89,11 +89,11 @@ const LessonList: React.FC<{
                       <Link
                         href={{
                           pathname: section
-                            ? `${path}/[module]/[section]/[exercise]`
-                            : `${path}/[module]/[exercise]`,
+                            ? `${path}/[module]/[section]/[lesson]`
+                            : `${path}/[module]/[lesson]`,
                           query: {
                             module: module.slug.current,
-                            exercise: exercise.slug,
+                            lesson: exercise.slug,
                             ...(section && {section: section.slug}),
                           },
                         }}
@@ -137,11 +137,11 @@ const LessonList: React.FC<{
                       <Link
                         href={{
                           pathname: section
-                            ? `${path}/[module]/[section]/[exercise]`
-                            : `${path}/[module]/[exercise]`,
+                            ? `${path}/[module]/[section]/[lesson]`
+                            : `${path}/[module]/[lesson]`,
                           query: {
                             module: module.slug.current,
-                            exercise: exercise.slug,
+                            lesson: exercise.slug,
                             ...(section && {section: section.slug}),
                           },
                         }}
@@ -253,11 +253,11 @@ const SolutionLink = ({
       <Link
         href={{
           pathname: section
-            ? `${path}/[module]/[section]/[exercise]/solution`
-            : `${path}/[module]/[exercise]/solution`,
+            ? `${path}/[module]/[section]/[lesson]/solution`
+            : `${path}/[module]/[lesson]/solution`,
           query: {
             module: module.slug.current,
-            exercise: exercise.slug,
+            lesson: exercise.slug,
             ...(section && {section: section.slug}),
           },
         }}
