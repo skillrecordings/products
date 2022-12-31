@@ -428,7 +428,7 @@ const handleContinue = async ({
 }: {
   router: NextRouter
   module: SanityDocument
-  nextExercise?: LessonResource
+  nextExercise?: LessonResource | null
   handlePlay: () => void
   path: string
 }) => {
