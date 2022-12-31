@@ -2783,18 +2783,20 @@ importers:
       '@skillrecordings/react': workspace:*
       '@skillrecordings/scripts': workspace:*
       '@skillrecordings/skill-api': workspace:*
+      '@skillrecordings/skill-lesson': workspace:*
       '@skillrecordings/time': workspace:*
       '@skillrecordings/tsconfig': workspace:*
       '@skillrecordings/types': workspace:*
       '@stripe/stripe-js': ^1.21.1
       '@supabase/supabase-js': ^1.29.1
       '@tailwindcss/typography': ^0.5.2
+      '@tanstack/react-query': ^4.20.4
       '@testing-library/jest-dom': ^5.15.0
       '@testing-library/react': ^12.1.2
-      '@trpc/client': ^9.27.2
-      '@trpc/next': ^9.27.2
-      '@trpc/react': ^9.27.2
-      '@trpc/server': ^9.27.2
+      '@trpc/client': ^10.7.0
+      '@trpc/next': ^10.7.0
+      '@trpc/react-query': ^10.7.0
+      '@trpc/server': ^10.7.0
       '@types/axios': ^0.14.0
       '@types/cookie': ^0.4.1
       '@types/isomorphic-fetch': ^0.0.35
@@ -2838,6 +2840,7 @@ importers:
       lodash: ^4.17.21
       mdast-util-to-markdown: ^1.2.6
       mdx-prism: ^0.3.4
+      mjml: ^4.12.0
       msw: ^0.35.0
       next: ^12.3.1
       next-auth: 4.10.3
@@ -2856,7 +2859,6 @@ importers:
       react-dom: 18.2.0
       react-hot-toast: ^2.2.0
       react-markdown: ^7.1.0
-      react-query: ^3.39.1
       react-refractor: ^2.1.7
       react-rough-notation: ^1.0.2
       react-scroll: ^1.8.6
@@ -2910,13 +2912,15 @@ importers:
       '@skillrecordings/quiz': link:../../packages/quiz
       '@skillrecordings/react': link:../../packages/react
       '@skillrecordings/skill-api': link:../../packages/skill-api
+      '@skillrecordings/skill-lesson': link:../../packages/skill-lesson
       '@skillrecordings/time': link:../../packages/time
       '@stripe/stripe-js': 1.21.1
       '@supabase/supabase-js': 1.29.1
-      '@trpc/client': 9.27.2_@trpc+server@9.27.2
-      '@trpc/next': 9.27.2_cpjoldjkwaya224psufok4zvdi
-      '@trpc/react': 9.27.2_4qx6yxzlojuzl2gqhs2hvlmyii
-      '@trpc/server': 9.27.2
+      '@tanstack/react-query': 4.20.4_biqbaboplfbrettd7655fr4n2y
+      '@trpc/client': 10.7.0_@trpc+server@10.7.0
+      '@trpc/next': 10.7.0_d3ztwackgnqsj6s7tqkdtmz3oe
+      '@trpc/react-query': 10.7.0_x4ie6nhblo2vtx2aafrgzlfqy4
+      '@trpc/server': 10.7.0
       '@types/js-cookie': 3.0.2
       '@types/jsonwebtoken': 8.5.8
       '@xstate/react': 1.5.1_bpg42ha2il6pcyn3wrx2rxrchm
@@ -2941,6 +2945,7 @@ importers:
       lodash: 4.17.21
       mdast-util-to-markdown: 1.2.6
       mdx-prism: 0.3.4
+      mjml: 4.12.0
       next: 12.3.1_biqbaboplfbrettd7655fr4n2y
       next-auth: 4.10.3_biqbaboplfbrettd7655fr4n2y
       next-sitemap: 3.1.7_o5duabsbbn2rgmqrbe3fporo6y
@@ -2953,7 +2958,6 @@ importers:
       react-dom: 18.2.0_react@18.2.0
       react-hot-toast: 2.2.0_npw22p3c4ehm7n7vxn2gqac44u
       react-markdown: 7.1.0_3hx2ussxxho4jajbwrd6gq34qe
-      react-query: 3.39.1_biqbaboplfbrettd7655fr4n2y
       react-refractor: 2.1.7_react@18.2.0
       react-rough-notation: 1.0.2_biqbaboplfbrettd7655fr4n2y
       react-scroll: 1.8.7_biqbaboplfbrettd7655fr4n2y
@@ -11042,7 +11046,7 @@ packages:
       axios: 0.26.1
       client-oauth2: 4.3.3
       js-cookie: 3.0.1
-      next: 12.3.1_biqbaboplfbrettd7655fr4n2y
+      next: 12.3.1_dyjg3c6zvjv6p4lxmcqda555km
     transitivePeerDependencies:
       - debug
     dev: false
@@ -11627,8 +11631,8 @@ packages:
       '@tiptap/core': ^2.0.0-beta.1
     dependencies:
       linkifyjs: 3.0.5
-      prosemirror-model: 1.16.1
-      prosemirror-state: 1.3.4
+      prosemirror-model: 1.18.1
+      prosemirror-state: 1.4.1
     dev: false
 
   /@tiptap/extension-link/2.0.0-beta.37_o5tsmp445vozplpzqkrs3pmjeq:
@@ -11705,7 +11709,7 @@ packages:
     dependencies:
       '@tiptap/extension-bubble-menu': 2.0.0-beta.56
       '@tiptap/extension-floating-menu': 2.0.0-beta.51
-      prosemirror-view: 1.23.13
+      prosemirror-view: 1.26.2
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
     dev: false
@@ -13929,7 +13933,7 @@ packages:
   /axios/0.21.4:
     resolution: {integrity: sha512-ut5vewkiu8jjGBdqpM44XxjuCjq9LAKeHVmoVfHVzy8eHgxxq8SbAVQNovDA8mVi05kP0Ea/n/UzcSHcTJQfNg==}
     dependencies:
-      follow-redirects: 1.15.1
+      follow-redirects: 1.15.1_debug@2.6.9
     transitivePeerDependencies:
       - debug
     dev: false
@@ -13944,7 +13948,7 @@ packages:
   /axios/0.26.1:
     resolution: {integrity: sha512-fPwcX4EvnSHuInCMItEhAGnaSEXRBjtzh9fOtsE6E1G6p7vl7edEeZe11QHf18+6+9gR5PbKV/sGKNaD8YaMeA==}
     dependencies:
-      follow-redirects: 1.15.1
+      follow-redirects: 1.15.1_debug@2.6.9
     transitivePeerDependencies:
       - debug
     dev: false
@@ -15096,7 +15100,6 @@ packages:
       readdirp: 3.6.0
     optionalDependencies:
       fsevents: 2.3.2
-    dev: true
 
   /chokidar/3.5.3:
     resolution: {integrity: sha512-Dr3sfKRP6oTcjf2JmUmFJfeVMvXBdegxB0iVQ5eb2V10uFJUCAS8OByZdVAyVb8xXNz3GjjTgj9kLWsZTqE6kw==}
@@ -18440,15 +18443,6 @@ packages:
   /focus-visible/5.2.0:
     resolution: {integrity: sha512-Rwix9pBtC1Nuy5wysTmKy+UjbDJpIfg8eHjw0rjZ1mX4GNLz1Bmd16uDpI3Gk1i70Fgcs8Csg2lPm8HULFg9DQ==}
 
-  /follow-redirects/1.15.1:
-    resolution: {integrity: sha512-yLAMQs+k0b2m7cVxpS1VKJVvoz7SS9Td1zss3XRwXj+ZDH00RJgnuLx7E44wx02kQLrdM3aOOy+FpzS7+8OizA==}
-    engines: {node: '>=4.0'}
-    peerDependencies:
-      debug: '*'
-    peerDependenciesMeta:
-      debug:
-        optional: true
-
   /follow-redirects/1.15.1_debug@2.6.9:
     resolution: {integrity: sha512-yLAMQs+k0b2m7cVxpS1VKJVvoz7SS9Td1zss3XRwXj+ZDH00RJgnuLx7E44wx02kQLrdM3aOOy+FpzS7+8OizA==}
     engines: {node: '>=4.0'}
@@ -18841,7 +18835,7 @@ packages:
       create-error-class: 3.0.2
       debug: 2.6.9
       decompress-response: 6.0.0
-      follow-redirects: 1.15.1
+      follow-redirects: 1.15.1_debug@2.6.9
       form-urlencoded: 2.0.9
       into-stream: 3.1.0
       is-plain-object: 2.0.4
@@ -24149,7 +24143,6 @@ packages:
     transitivePeerDependencies:
       - '@babel/core'
       - babel-plugin-macros
-    dev: true
 
   /next/12.3.1_x6hpkaqu4dxwl4unajq2h7dx44:
     resolution: {integrity: sha512-l7bvmSeIwX5lp07WtIiP9u2ytZMv7jIeB8iacR28PuUEFG5j0HGAPnMqyG5kbZNBG2H7tRsrQ4HCjuMOPnANZw==}
@@ -28161,7 +28154,6 @@ packages:
     hasBin: true
     dependencies:
       chokidar: 3.5.2
-    dev: true
 
   /satori/0.0.40:
     resolution: {integrity: sha512-SoXGq/89mBU34U1h4g/nXeL9DHS/Aof2iUL3FHabq+laSRQUSUI1ZhPhak3J6VMNW8wghYwJ/Bi7aF8FLPq9qQ==}

@@ -16,7 +16,7 @@ import {setUserId} from '@amplitude/analytics-browser'
 import {sanityClient} from 'utils/sanity-client'
 import {PortableText} from '@portabletext/react'
 import {useQuery} from 'react-query'
-import {trpc} from '../../utils/trcp'
+import {trpc} from '../../utils/trpc'
 import Spinner from './spinner'
 
 export const OverlayWrapper: React.FC<
@@ -116,7 +116,7 @@ const DefaultOverlay = () => {
   const {nextExercise, module, path, lesson, handlePlay} = useMuxPlayer()
   const router = useRouter()
   const {image} = module
-  const addProgressMutation = trpc.useMutation(['progress.add'])
+  const addProgressMutation = trpc.progress.add.useMutation()
 
   return (
     <OverlayWrapper className="px-5">
@@ -187,7 +187,7 @@ const FinishedOverlay = () => {
   const shareButtonStyles =
     'shadow-xl shadow-gray-500/5 flex items-center gap-2 rounded-full px-4 py-2'
 
-  const addProgressMutation = trpc.useMutation(['progress.add'])
+  const addProgressMutation = trpc.progress.add.useMutation()
 
   React.useEffect(() => {
     // since this is the last lesson and we show the "module complete" overlay
