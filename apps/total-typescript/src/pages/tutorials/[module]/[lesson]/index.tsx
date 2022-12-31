@@ -34,7 +34,7 @@ export const getStaticPaths: GetStaticPaths = async (context) => {
         return {
           params: {
             module: tutorial.slug.current,
-            exercise: exercise.slug,
+            lesson: exercise.slug,
           },
         }
       }),

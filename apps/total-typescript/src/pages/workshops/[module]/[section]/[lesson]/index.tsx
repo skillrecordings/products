@@ -40,7 +40,7 @@ export const getStaticPaths: GetStaticPaths = async (context) => {
             params: {
               module: workshop.slug.current,
               section: section.slug,
-              exercise: exercise.slug,
+              lesson: exercise.slug,
             },
           })) || []
         )
