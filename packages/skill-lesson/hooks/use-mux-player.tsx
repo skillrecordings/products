@@ -25,7 +25,7 @@ type VideoContextType = {
   setDisplayOverlay: (value: boolean) => void
   handlePlay: () => void
   displayOverlay: boolean
-  nextExercise?: LessonResource
+  nextExercise?: LessonResource | null
   nextSection: SanityDocument
   path: string
   video?: {muxPlaybackId?: string}
