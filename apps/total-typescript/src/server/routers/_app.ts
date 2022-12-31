@@ -12,7 +12,6 @@ export const appRouter = mergeRouters(
   router({
     workshops: workshop,
     abilities: abilities,
-
     stackblitz: stackblitzResourceRouter,
     solutions: solutionsRouter,
   }),

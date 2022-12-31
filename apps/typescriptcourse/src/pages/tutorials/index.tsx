@@ -23,9 +23,9 @@ const TutorialsPage: React.FC<{tutorials: SanityDocument[]}> = ({
         {
           title: `Free TypeScript Tutorials from Joe Previte`,
           description: `Free TypeScript tutorials by Joe Previte that will help you learn how to use TypeScript as a professional web developer.`,
-          //   ogImage: {
-          //     url: '',
-          //   },
+          ogImage: {
+            url: 'https://res.cloudinary.com/skill-recordings-inc/image/upload/v1671649180/Tutorials%20Assets/card_2x_sexd1e.png',
+          },
         } as any
       }
     >

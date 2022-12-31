@@ -4,19 +4,15 @@ import Link from 'next/link'
 import ExerciseNavigator from './exercise-navigator'
 import cx from 'classnames'
 import Image from 'next/image'
+import {track} from '../utils/analytics'
+import {useLesson} from '@skillrecordings/skill-lesson/hooks/use-lesson'
 
 type SidebarProps = {
-  module: SanityDocument
-  section?: SanityDocument
   path: string
   className?: string
 }
-const ExerciseSidebar: React.FC<SidebarProps> = ({
-  module,
-  section,
-  path = '',
-  className,
-}) => {
+const ExerciseSidebar: React.FC<SidebarProps> = ({path = '', className}) => {
+  const {module, section} = useLesson()
   return (
     <>
       <div
@@ -25,10 +21,10 @@ const ExerciseSidebar: React.FC<SidebarProps> = ({
           className,
         )}
       >
-        <div className="top-0 border-r lg:sticky">
+        <div className="top-0 border-r border-gray-800 lg:sticky">
           <aside>
             <div className="z-10 h-[180px] lg:h-[140px]">
-              <div className="relative flex items-center gap-5 border-t  px-3 py-2 shadow-xl shadow-gray-500/5">
+              <div className="relative flex items-center gap-5 px-3 py-2 shadow-xl shadow-gray-500/5">
                 {module?.image && (
                   <Image
                     src={module.image}
@@ -40,8 +36,15 @@ const ExerciseSidebar: React.FC<SidebarProps> = ({
                   />
                 )}
                 <div className="relative z-10 -translate-y-0.5">
-                  <Link href={`/${module.moduleType}s`}>
-                    <a className="font-mono text-xs font-semibold uppercase text-gray-600 hover:underline">
+                  <Link href={`/tutorials`}>
+                    <a
+                      className="font-mono text-xs font-semibold uppercase text-gray-600 hover:underline"
+                      onClick={() => {
+                        track(`clicked return to ${module.moduleType}s`, {
+                          module: module.slug.current,
+                        })
+                      }}
+                    >
                       {module.moduleType}s
                     </a>
                   </Link>
@@ -54,7 +57,16 @@ const ExerciseSidebar: React.FC<SidebarProps> = ({
                       }}
                       passHref
                     >
-                      <a className="hover:underline">{module.title}</a>
+                      <a
+                        className="hover:underline"
+                        onClick={() => {
+                          track('clicked return to module', {
+                            module: module.slug.current,
+                          })
+                        }}
+                      >
+                        {module.title}
+                      </a>
                     </Link>
                   </h2>
                 </div>

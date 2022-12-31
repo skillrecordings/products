@@ -1,10 +1,11 @@
 import React from 'react'
 import {SanityDocument} from '@sanity/client'
+import {track} from '../utils/analytics'
 import {useRouter} from 'next/router'
 import capitalize from 'lodash/capitalize'
 import Link from 'next/link'
 import cx from 'classnames'
-import {Lesson} from '../../lib/lesson'
+import {Lesson} from '../lib/lesson'
 
 const LessonNavigator: React.FC<{
   module: SanityDocument
@@ -37,9 +38,15 @@ const LessonNavigator: React.FC<{
               ? `${path}/${module.slug.current}/${section.slug}/${lesson.slug}`
               : `${path}/${module.slug.current}/${lesson.slug}`
             const isActive = router.asPath === currentPath
+            const scrollToElement =
+              router.asPath === `${currentPath}/solution` ||
+              router.asPath === currentPath
 
             return (
               <li key={lesson.slug} className="pt-2">
+                {scrollToElement && (
+                  <div ref={activeElRef} aria-hidden="true" />
+                )}
                 <Link
                   href={{
                     pathname: section
@@ -61,6 +68,15 @@ const LessonNavigator: React.FC<{
                         '': !isActive && !lesson,
                       },
                     )}
+                    onClick={() => {
+                      track('clicked exercise in navigator', {
+                        module: module.slug.current,
+                        ...(section && {section: section.slug}),
+                        lesson: lesson.slug,
+                        moduleType: module.moduleType,
+                        lessonType: lesson._type,
+                      })
+                    }}
                   >
                     <span
                       aria-hidden="true"

@@ -33,6 +33,7 @@ export default {
           type: 'reference',
           to: [{type: 'videoResource'}],
         },
+        {type: 'github'},
       ],
     },
     {
