@@ -1,11 +1,11 @@
 import React from 'react'
 import {SanityDocument} from '@sanity/client'
-import {track} from '../../utils/analytics'
+import {track} from '../utils/analytics'
 import {useRouter} from 'next/router'
 import capitalize from 'lodash/capitalize'
 import Link from 'next/link'
 import cx from 'classnames'
-import {Lesson} from '../../lib/lesson'
+import {Lesson} from '../lib/lesson'
 
 const LessonNavigator: React.FC<{
   module: SanityDocument

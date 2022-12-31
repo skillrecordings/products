@@ -33,7 +33,14 @@ export const lessonsRouter = router({
         return resource.solution?._key === lesson.solution?._key
       })
 
-      const current = find(exercises, {_id: exerciseForSolution._id})
+      // TODO: this is likely overloading the lesson type just because it
+      //   exists and is different that the exercise type. We should probably
+      //   create a new type instead of `lesson` since `lesson` describes ALL
+      //   lessons, not just the ones that are not exercises.
+      const current =
+        input.type === 'lesson'
+          ? find(exercises, {slug: input.slug})
+          : find(exercises, {_id: exerciseForSolution._id})
       const nextExerciseIndex = indexOf(exercises, current) + 1
 
       return exercises[nextExerciseIndex]

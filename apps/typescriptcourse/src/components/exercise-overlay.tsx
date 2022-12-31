@@ -8,21 +8,24 @@ import {Facebook, LinkedIn, Twitter} from '@skillrecordings/react'
 import {NextRouter, useRouter} from 'next/router'
 import snakeCase from 'lodash/snakeCase'
 import Image from 'next/image'
-import {useMuxPlayer} from 'hooks/use-mux-player'
 import {XIcon} from '@heroicons/react/solid'
 import cx from 'classnames'
-import {track} from '../../utils/analytics'
+import {track} from '../utils/analytics'
 import {setUserId} from '@amplitude/analytics-browser'
 import {sanityClient} from 'utils/sanity-client'
 import {PortableText} from '@portabletext/react'
-import {useQuery} from 'react-query'
-import {trpc} from '../../utils/trpc'
-import Spinner from './spinner'
+import {useQuery} from '@tanstack/react-query'
+import {trpc} from '../utils/trpc'
+import Spinner from './app/spinner'
+import {useMuxPlayer} from '@skillrecordings/skill-lesson/hooks/use-mux-player'
+import {useLesson} from '@skillrecordings/skill-lesson/hooks/use-lesson'
+import {LessonResource} from '@skillrecordings/skill-lesson/schemas/lesson-resource'
 
 export const OverlayWrapper: React.FC<
   React.PropsWithChildren<{className?: string; dismissable?: boolean}>
 > = ({children, className, dismissable = true}) => {
-  const {setDisplayOverlay, lesson, module} = useMuxPlayer()
+  const {lesson, module} = useLesson()
+  const {setDisplayOverlay} = useMuxPlayer()
 
   return (
     <div
@@ -58,62 +61,9 @@ export const OverlayWrapper: React.FC<
   )
 }
 
-const Actions = () => {
-  const {nextExercise, lesson, module, path, handlePlay} = useMuxPlayer()
-  const router = useRouter()
-  return (
-    <div className="flex justify-center gap-2">
-      <button
-        className="rounded-md bg-gray-600 px-3 py-1 font-medium transition hover:bg-gray-500/80 sm:px-5 sm:py-2"
-        onClick={() => {
-          track('clicked replay', {
-            lesson: lesson.slug,
-            module: module.slug.current,
-            location: 'exercise',
-            moduleType: module.moduleType,
-            lessonType: lesson._type,
-          })
-          handlePlay()
-        }}
-      >
-        Replay <span aria-hidden="true">↺</span>
-      </button>
-      {nextExercise && (
-        <button
-          className="rounded-md bg-green-500 px-3 py-1 font-medium text-white transition hover:bg-green-400 sm:px-5 sm:py-2"
-          onClick={() => {
-            track('clicked continue to solution', {
-              lesson: lesson.slug,
-              module: module?.slug.current,
-              location: 'exercise',
-              moduleType: module.moduleType,
-              lessonType: lesson._type,
-            })
-            handleContinue(router, module, nextExercise, handlePlay, path)
-          }}
-        ></button>
-      )}
-    </div>
-  )
-}
-
-const ExerciseOverlay = () => {
-  const {lesson, module} = useMuxPlayer()
-  const {github} = module
-
-  return (
-    <div className=" bg-black/30 ">
-      <div className="flex aspect-video flex-col items-center justify-center gap-5 p-3 text-center sm:hidden">
-        <div className="flex items-center justify-center gap-3">
-          <Actions />
-        </div>
-      </div>
-    </div>
-  )
-}
-
 const DefaultOverlay = () => {
-  const {nextExercise, module, path, lesson, handlePlay} = useMuxPlayer()
+  const {nextExercise, path, handlePlay} = useMuxPlayer()
+  const {lesson, module} = useLesson()
   const router = useRouter()
   const {image} = module
   const addProgressMutation = trpc.progress.add.useMutation()
@@ -134,7 +84,7 @@ const DefaultOverlay = () => {
 
       <p className="pt-4 font-heading text-xl font-black sm:text-3xl">
         <span className="font-normal text-gray-700">Up next:</span>{' '}
-        {nextExercise.title}
+        {nextExercise?.title}
       </p>
       <div className="flex items-center justify-center gap-5 py-4 sm:py-8">
         <button
@@ -166,7 +116,13 @@ const DefaultOverlay = () => {
               {lessonSlug: lesson.slug},
               {
                 onSettled: () => {
-                  handleContinue(router, module, nextExercise, handlePlay, path)
+                  handleContinue({
+                    router,
+                    module,
+                    nextExercise,
+                    handlePlay,
+                    path,
+                  })
                 },
               },
             )
@@ -180,7 +136,8 @@ const DefaultOverlay = () => {
 }
 
 const FinishedOverlay = () => {
-  const {module, path, lesson, handlePlay} = useMuxPlayer()
+  const {path, handlePlay} = useMuxPlayer()
+  const {lesson, module} = useLesson()
   const router = useRouter()
   const shareUrl = `${process.env.NEXT_PUBLIC_URL}${path}/${module.slug.current}`
   const shareMessage = `${module.title} ${module.moduleType} by @${process.env.NEXT_PUBLIC_PARTNER_TWITTER}`
@@ -253,7 +210,7 @@ const FinishedOverlay = () => {
 
 const BlockedOverlay: React.FC = () => {
   const router = useRouter()
-  const {lesson, module} = useMuxPlayer()
+  const {lesson, module} = useLesson()
 
   const {data: ctaText} = useQuery([`exercise-free-tutorial`], async () => {
     return sanityClient
@@ -361,25 +318,26 @@ const LoadingOverlay: React.FC<LoadingOverlayProps> = () => {
   )
 }
 
-export {
-  ExerciseOverlay,
-  DefaultOverlay,
-  FinishedOverlay,
-  BlockedOverlay,
-  LoadingOverlay,
-}
+export {DefaultOverlay, FinishedOverlay, BlockedOverlay, LoadingOverlay}
 
-const handleContinue = async (
-  router: NextRouter,
-  module: SanityDocument,
-  nextExercise: SanityDocument,
-  handlePlay: () => void,
-  path: string,
-) => {
-  if (nextExercise._type === 'solution') {
+const handleContinue = async ({
+  router,
+  module,
+  nextExercise,
+  handlePlay,
+  path,
+}: {
+  router: NextRouter
+  module: SanityDocument
+  section?: SanityDocument
+  nextExercise?: LessonResource | null
+  handlePlay: () => void
+  path: string
+}) => {
+  if (nextExercise?._type === 'solution') {
     const lesson = module.lessons.find((lesson: SanityDocument) => {
       const solution = lesson.solution
-      return solution?._key === nextExercise._key
+      return solution?._key === nextExercise?._key
     })
 
     return await router
@@ -392,7 +350,7 @@ const handleContinue = async (
 
   return await router
     .push({
-      query: {module: module.slug.current, lesson: nextExercise.slug},
+      query: {module: module.slug.current, lesson: nextExercise?.slug},
       pathname: `${path}/[module]/[lesson]`,
     })
     .then(() => handlePlay())

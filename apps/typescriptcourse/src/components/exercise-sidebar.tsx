@@ -4,20 +4,15 @@ import Link from 'next/link'
 import ExerciseNavigator from './exercise-navigator'
 import cx from 'classnames'
 import Image from 'next/image'
-import {track} from '../../utils/analytics'
+import {track} from '../utils/analytics'
+import {useLesson} from '@skillrecordings/skill-lesson/hooks/use-lesson'
 
 type SidebarProps = {
-  module: SanityDocument
-  section?: SanityDocument
   path: string
   className?: string
 }
-const ExerciseSidebar: React.FC<SidebarProps> = ({
-  module,
-  section,
-  path = '',
-  className,
-}) => {
+const ExerciseSidebar: React.FC<SidebarProps> = ({path = '', className}) => {
+  const {module, section} = useLesson()
   return (
     <>
       <div
