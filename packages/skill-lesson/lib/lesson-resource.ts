@@ -7,16 +7,10 @@ export const LessonSchema = z
   .object({
     _id: z.string().optional(),
     _key: z.string().optional(),
-    stackblitz: z.nullable(z.string()).optional(),
-    videoResourceId: z.nullable(z.string()).optional(),
-    transcript: z.nullable(z.any().array()).optional(),
     solution: z.nullable(
       z
         .object({
           _key: z.string(),
-          stackblitz: z.nullable(z.string()).optional(),
-          videoResourceId: z.nullable(z.string()).optional(),
-          transcript: z.nullable(z.any().array()).optional(),
         })
         .merge(BaseLessonResourceSchema)
         .optional(),
@@ -36,8 +30,6 @@ export const getLesson = async (slug: string): Promise<Lesson> => {
       description,
       "slug": slug.current,
       body,
-      "videoResourceId": resources[@->._type == 'videoResource'][0]->_id,
-      "transcript": resources[@->._type == 'videoResource'][0]-> castingwords.transcript,
       "solution": resources[@._type == 'solution'][0]{
         _key,
         _type,
@@ -45,8 +37,6 @@ export const getLesson = async (slug: string): Promise<Lesson> => {
         title,
         description,
         body,
-        "videoResourceId": resources[@->._type == 'videoResource'][0]->_id,
-        "transcript": resources[@->._type == 'videoResource'][0]-> castingwords.transcript,
         "slug": slug.current,
       }
     }`,
