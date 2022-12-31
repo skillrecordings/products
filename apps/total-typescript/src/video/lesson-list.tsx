@@ -8,9 +8,6 @@ import cx from 'classnames'
 import {type LessonResource} from '@skillrecordings/skill-lesson/schemas/lesson-resource'
 import {track} from '@skillrecordings/skill-lesson/utils/analytics'
 
-import {useQuery} from '@tanstack/react-query'
-import {SolutionSchema} from '@skillrecordings/skill-lesson/schemas/solution'
-
 const LessonList: React.FC<{
   module: SanityDocument
   section?: SanityDocument
@@ -246,18 +243,13 @@ const SolutionLink = ({
   path: string
 }) => {
   const router = useRouter()
-  const {data: solution} = useQuery(['solution', exercise.slug], async () => {
-    const fullExercise = await fetch(
-      `/api/skill/exercises/${exercise.slug}`,
-    ).then((res) => res.json())
-    return SolutionSchema.parse(fullExercise.solution)
-  })
+
   const currentPath = section
     ? `${path}/${module.slug.current}/${section.slug}/${exercise.slug}/solution`
     : `${path}/${module.slug.current}/${exercise.slug}/solution`
   const isActive = router.asPath === currentPath
   return (
-    <li key={solution?._key}>
+    <li key={`${exercise.slug}-solution-link`}>
       <Link
         href={{
           pathname: section
@@ -289,7 +281,7 @@ const SolutionLink = ({
             })
           }}
         >
-          {capitalize(solution?._type)}
+          {capitalize('solution')}
         </a>
       </Link>
     </li>

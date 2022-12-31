@@ -7,7 +7,7 @@ import {workshop} from './workshop'
 import {abilities} from './abilities'
 import {pricing} from './pricing'
 import {stackblitzResourceRouter} from './stackblitz-resource'
-import {soulutionsRouter} from './solutions'
+import {solutionsRouter} from './solutions'
 
 export const appRouter = mergeRouters(
   router({
@@ -15,7 +15,7 @@ export const appRouter = mergeRouters(
     abilities: abilities,
     pricing: pricing,
     stackblitz: stackblitzResourceRouter,
-    solutions: soulutionsRouter,
+    solutions: solutionsRouter,
   }),
   skillLessonRouter,
 )
