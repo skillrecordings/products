@@ -81,12 +81,10 @@ const isFreelyVisible = ({
   lesson,
   isSolution,
 }: ViewerAbilityInput) => {
-  const exercises = section
-    ? section.exercises || section.lessons
-    : module?.exercises || module?.lessons || []
+  const lessons = section ? section.lessons : module?.lessons || []
 
   const isFirstLesson =
-    lesson?._type === 'exercise' && lesson._id === exercises[0]._id
+    lesson?._type === 'exercise' && lesson._id === lessons[0]._id
 
   return isFirstLesson && lesson && !isSolution
 }

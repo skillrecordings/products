@@ -27,9 +27,9 @@ export const lessonsRouter = router({
         return LessonResourceSchema.parse(lesson.solution)
       }
 
-      const exercises = section ? section.exercises : module.exercises
+      const lessons = section ? section.lessons : module.lessons
 
-      const exerciseForSolution = exercises.find((resource: SanityDocument) => {
+      const exerciseForSolution = lessons.find((resource: SanityDocument) => {
         return resource.solution?._key === lesson.solution?._key
       })
 
@@ -39,12 +39,12 @@ export const lessonsRouter = router({
       //   lessons, not just the ones that are not exercises.
       const current =
         input.type === 'lesson'
-          ? find(exercises, {slug: input.slug})
-          : find(exercises, {_id: exerciseForSolution._id})
-      const nextExerciseIndex = indexOf(exercises, current) + 1
+          ? find(lessons, {slug: input.slug})
+          : find(lessons, {_id: exerciseForSolution._id})
+      const nextExerciseIndex = indexOf(lessons, current) + 1
 
-      return exercises[nextExerciseIndex]
-        ? LessonResourceSchema.parse(exercises[nextExerciseIndex])
+      return lessons[nextExerciseIndex]
+        ? LessonResourceSchema.parse(lessons[nextExerciseIndex])
         : null
     }),
 })

@@ -23,7 +23,7 @@ const ExerciseNavigator: React.FC<{
     })
   }, [router])
 
-  const exercises = section ? section.exercises : module.exercises
+  const lessons = section ? section.lessons : module.lessons
 
   return (
     <div
@@ -32,7 +32,7 @@ const ExerciseNavigator: React.FC<{
     >
       <nav aria-label="exercise navigator">
         <ul className="flex flex-col divide-y divide-gray-800/0 text-base">
-          {exercises?.map((exercise: Exercise, sectionIdx: number) => {
+          {lessons?.map((exercise: Exercise, sectionIdx: number) => {
             //TODO treat this differently when a section is present as path will change
             const currentPath = section
               ? `${path}/${module.slug.current}/${section.slug}/${exercise.slug}`

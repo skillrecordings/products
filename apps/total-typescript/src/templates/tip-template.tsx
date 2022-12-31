@@ -44,7 +44,8 @@ import PortableTextComponents from 'video/portable-text'
 const TipTemplate: React.FC<{
   tip: Tip
   tips: Tip[]
-}> = ({tip, tips}) => {
+  transcript: any[]
+}> = ({tip, tips, transcript}) => {
   const muxPlayerRef = React.useRef<HTMLDivElement>()
   const {subscriber, loadingSubscriber} = useConvertkit()
   const router = useRouter()
@@ -160,10 +161,10 @@ const TipTemplate: React.FC<{
                       />
                     </>
                   )}
-                  {tip.transcript && tip.body && (
+                  {transcript && (
                     <div className="w-full max-w-2xl pt-5">
                       <Transcript
-                        transcript={tip.transcript}
+                        transcript={transcript}
                         muxPlayerRef={muxPlayerRef}
                       />
                     </div>
@@ -182,10 +183,10 @@ const TipTemplate: React.FC<{
               </div>
             </div>
             <div className="mx-auto flex w-full max-w-screen-xl flex-col gap-10 pt-10 sm:pt-10 md:flex-row">
-              {tip.transcript && !tip.body && (
+              {transcript && !tip.body && (
                 <div className="w-full max-w-2xl pt-5">
                   <Transcript
-                    transcript={tip.transcript}
+                    transcript={transcript}
                     muxPlayerRef={muxPlayerRef}
                   />
                 </div>

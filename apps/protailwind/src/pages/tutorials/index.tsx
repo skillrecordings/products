@@ -39,70 +39,68 @@ const TutorialsPage: React.FC<{tutorials: SanityDocument[]}> = ({
         </p>
         {tutorials && (
           <ul className="flex max-w-screen-md flex-col gap-8 px-3 pt-20">
-            {tutorials.map(
-              ({title, slug, image, description, exercises}, i) => {
-                return (
-                  <li
-                    key={slug.current}
-                    className="relative flex flex-col items-center gap-10 overflow-hidden rounded-xl border border-gray-200/80 bg-white shadow-2xl shadow-gray-500/10 md:flex-row"
-                  >
-                    <div className="flex h-full flex-shrink-0 items-center justify-center bg-white p-10 md:bg-gray-50">
-                      {image && (
-                        <Image
-                          src={image}
-                          alt={title}
-                          width={260}
-                          height={260}
-                          quality={100}
-                        />
+            {tutorials.map(({title, slug, image, description, lessons}, i) => {
+              return (
+                <li
+                  key={slug.current}
+                  className="relative flex flex-col items-center gap-10 overflow-hidden rounded-xl border border-gray-200/80 bg-white shadow-2xl shadow-gray-500/10 md:flex-row"
+                >
+                  <div className="flex h-full flex-shrink-0 items-center justify-center bg-white p-10 md:bg-gray-50">
+                    {image && (
+                      <Image
+                        src={image}
+                        alt={title}
+                        width={260}
+                        height={260}
+                        quality={100}
+                      />
+                    )}
+                  </div>
+                  <div className="pr:0 m-10 md:m-0 md:pr-10">
+                    <div className="pt-4 pb-3 font-mono text-xs font-semibold uppercase text-gray-600 ">
+                      {i === 0 && (
+                        <span className="mr-3 rounded-full bg-gray-100 px-2 py-0.5 font-sans font-semibold uppercase text-gray-700">
+                          New
+                        </span>
                       )}
+                      {lessons.length} exercises
                     </div>
-                    <div className="pr:0 m-10 md:m-0 md:pr-10">
-                      <div className="pt-4 pb-3 font-mono text-xs font-semibold uppercase text-gray-600 ">
-                        {i === 0 && (
-                          <span className="mr-3 rounded-full bg-gray-100 px-2 py-0.5 font-sans font-semibold uppercase text-gray-700">
-                            New
-                          </span>
-                        )}
-                        {exercises.length} exercises
-                      </div>
-                      <Link
-                        href={{
-                          pathname: '/tutorials/[module]',
-                          query: {
-                            module: slug.current,
-                          },
-                        }}
-                      >
-                        <a className="font-heading text-3xl font-black hover:underline sm:text-4xl">
-                          {title}
-                        </a>
-                      </Link>
+                    <Link
+                      href={{
+                        pathname: '/tutorials/[module]',
+                        query: {
+                          module: slug.current,
+                        },
+                      }}
+                    >
+                      <a className="font-heading text-3xl font-black hover:underline sm:text-4xl">
+                        {title}
+                      </a>
+                    </Link>
 
-                      {description && <p className="mt-2">{description}</p>}
-                      <Link
-                        href={{
-                          pathname: '/tutorials/[module]',
-                          query: {
-                            module: slug.current,
-                          },
-                        }}
-                      >
-                        <a className="group my-4 inline-block gap-2 rounded-full bg-brand-red px-4 py-2 font-medium text-white transition">
-                          View{' '}
-                          <span
-                            aria-hidden="true"
-                            className="text-white/90 transition group-hover:text-white"
-                          >
-                            →
-                          </span>
-                        </a>
-                      </Link>
-                    </div>
-                  </li>
-                )
-              },
-            )}
+                    {description && <p className="mt-2">{description}</p>}
+                    <Link
+                      href={{
+                        pathname: '/tutorials/[module]',
+                        query: {
+                          module: slug.current,
+                        },
+                      }}
+                    >
+                      <a className="group my-4 inline-block gap-2 rounded-full bg-brand-red px-4 py-2 font-medium text-white transition">
+                        View{' '}
+                        <span
+                          aria-hidden="true"
+                          className="text-white/90 transition group-hover:text-white"
+                        >
+                          →
+                        </span>
+                      </a>
+                    </Link>
+                  </div>
+                </li>
+              )
+            })}
           </ul>
         )}
       </main>

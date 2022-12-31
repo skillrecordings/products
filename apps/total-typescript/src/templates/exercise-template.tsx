@@ -4,16 +4,16 @@ import Layout from 'components/app/layout'
 import {VideoProvider} from '@skillrecordings/skill-lesson/hooks/use-mux-player'
 import Image from 'next/image'
 import {ArticleJsonLd} from '@skillrecordings/next-seo'
-import {Video} from 'components/video'
-import {GitHubLink} from '../components/exercise/github-link'
+import {Video} from 'video/video'
+import {GitHubLink} from '../video/exercise/github-link'
 import {useRouter} from 'next/router'
 import {getBaseUrl} from '@skillrecordings/skill-lesson/utils/get-base-url'
 import {useLesson} from '@skillrecordings/skill-lesson/hooks/use-lesson'
 import {useVideoResource} from '@skillrecordings/skill-lesson/hooks/use-video-resource'
 import {LargeScreenModuleLessonList} from 'video/large-screen-module-lesson-list'
 import {MobileModuleLessonList} from 'video/mobile-module-lesson-list'
-import {ExerciseDescription} from '../video/exercise-description'
-import {ExerciseTitle} from 'video/exercise-title'
+import {LessonDescription} from '../video/lesson-description'
+import {LessonTitle} from 'video/lesson-title'
 import {VideoTranscript} from 'video/video-transcript'
 
 const ExerciseTemplate: React.FC<{
@@ -81,9 +81,9 @@ const ExerciseTemplate: React.FC<{
             </div>
             <article className="relative flex-shrink-0 sm:bg-black/20 2xl:bg-transparent">
               <div className="relative z-10 mx-auto max-w-4xl px-5 py-5 lg:py-8 2xl:max-w-xl">
-                <ExerciseTitle />
+                <LessonTitle />
                 <GitHubLink exercise={lesson} module={module} />
-                <ExerciseDescription />
+                <LessonDescription />
               </div>
               <div className="relative z-10 block flex-grow 2xl:hidden">
                 <VideoTranscript

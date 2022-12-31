@@ -18,7 +18,7 @@ const workshopsQuery = groq`*[_type == "module" && moduleType == 'workshop'] | o
     title,
     description,
     "slug": slug.current,
-    "exercises": resources[@->._type in ['exercise', 'explainer']]->{
+    "lessons": resources[@->._type in ['exercise', 'explainer']]->{
       _id,
       _type,
       _updatedAt,
@@ -72,7 +72,7 @@ export const getWorkshop = async (slug: string) =>
           title,
           description,
           "slug": slug.current,
-          "exercises": resources[@->._type in ['exercise', 'explainer']]->{
+          "lessons": resources[@->._type in ['exercise', 'explainer']]->{
             _id,
             _type,
             _updatedAt,

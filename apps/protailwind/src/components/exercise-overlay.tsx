@@ -289,7 +289,7 @@ const FinishedOverlay = () => {
                 pathname: `/${path}/[module]/[lesson]`,
                 query: {
                   module: module.slug.current,
-                  lesson: module.exercises[0].slug.current,
+                  lesson: module.lessons[0].slug.current,
                 },
               })
               .then(handlePlay)
@@ -433,7 +433,7 @@ const handleContinue = async ({
   path: string
 }) => {
   if (nextExercise?._type === 'solution') {
-    const exercise = module.exercises.find((exercise: SanityDocument) => {
+    const exercise = module.lessons.find((exercise: SanityDocument) => {
       const solution = exercise.solution
       return solution?._key === nextExercise._key
     })

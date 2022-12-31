@@ -2,7 +2,6 @@ import React from 'react'
 import cx from 'classnames'
 import Layout from 'components/layout'
 import {TipPageProps} from 'pages/tips/[tip]'
-import {useMuxPlayer, VideoProvider} from 'hooks/use-mux-player'
 import MuxPlayer, {MuxPlayerProps} from '@mux/mux-player-react'
 import {Tip} from 'lib/tips'
 import {
@@ -34,27 +33,34 @@ import {setUserId} from '@amplitude/analytics-browser'
 import {ArticleJsonLd} from '@skillrecordings/next-seo'
 import PortableTextComponents from 'components/portable-text'
 import Icon from 'components/icons'
+import {
+  useMuxPlayer,
+  VideoProvider,
+} from '@skillrecordings/skill-lesson/hooks/use-mux-player'
+import {useVideoResource} from '@skillrecordings/skill-lesson/hooks/use-video-resource'
+import {useLesson} from '@skillrecordings/skill-lesson/hooks/use-lesson'
+import {getBaseUrl} from '@skillrecordings/skill-lesson/utils/get-base-url'
+import {trpc} from '../utils/trpc'
 
-const TipTemplate: React.FC<TipPageProps> = ({tip, tips}) => {
+const TipTemplate: React.FC<{
+  tip: Tip
+  tips: Tip[]
+  transcript: any[]
+}> = ({tip, tips}) => {
   const muxPlayerRef = React.useRef<HTMLDivElement>()
   const {subscriber, loadingSubscriber} = useConvertkit()
   const router = useRouter()
   const {tipCompleted} = useTipComplete(tip.slug)
+  const {videoResourceId} = useVideoResource()
+  const {data: tipResources} = trpc.tipResources.bySlug.useQuery({
+    slug: tip.slug,
+  })
 
-  const module: any = {
-    slug: {
-      current: 'tips',
-    },
-    moduleType: 'tip',
-    exercises: tips,
-    resources: tips.filter((tipToCompare) => tipToCompare.slug !== tip.slug),
-  }
-  const muxPlaybackId = tip?.muxPlaybackId
-  const tweet = tip?.tweetId
+  const tweet = tipResources?.tweetId
 
   const ogImage = getOgImage({
     title: tip.title,
-    image: `https://image.mux.com/${muxPlaybackId}/thumbnail.png?width=480&height=270&fit_mode=preserve`,
+    image: `${getBaseUrl()}/api/video-thumb?videoResourceId=${videoResourceId}`,
   })
 
   const handleOnSuccess = (subscriber: any, email?: string) => {
@@ -88,17 +94,12 @@ const TipTemplate: React.FC<TipPageProps> = ({tip, tips}) => {
   }
 
   return (
-    <VideoProvider
-      lesson={tip}
-      module={module}
-      muxPlayerRef={muxPlayerRef}
-      onEnded={handleVideoEnded}
-    >
+    <VideoProvider muxPlayerRef={muxPlayerRef} onEnded={handleVideoEnded}>
       <ArticleJsonLd
         url={`${process.env.NEXT_PUBLIC_URL}/tips/${tip.slug}`}
         title={tip.title}
         images={[
-          `https://image.mux.com/${tip.muxPlaybackId}/thumbnail.png?width=480&height=384&fit_mode=preserve`,
+          `${getBaseUrl()}/api/video-thumb?videoResourceId=${videoResourceId}`,
         ]}
         datePublished={tip._updatedAt || new Date().toISOString()}
         authorName={`${process.env.NEXT_PUBLIC_PARTNER_FIRST_NAME} ${process.env.NEXT_PUBLIC_PARTNER_LAST_NAME}`}
@@ -179,7 +180,7 @@ const TipTemplate: React.FC<TipPageProps> = ({tip, tips}) => {
                       components={PortableTextComponents}
                     />
                   </div>
-                  <ReplyOnTwitter tweet={tweet} />
+                  {tweet && <ReplyOnTwitter tweet={tweet} />}
                   {tip.body && <RelatedTips currentTip={tip} tips={tips} />}
                 </div>
               </div>
@@ -289,7 +290,8 @@ const Hr: React.FC<{className?: string}> = ({className}) => {
 }
 
 const TipOverlay: React.FC<{tips: Tip[]}> = ({tips}) => {
-  const {lesson, module, setDisplayOverlay, handlePlay} = useMuxPlayer()
+  const {setDisplayOverlay, handlePlay} = useMuxPlayer()
+  const {lesson, module} = useLesson()
 
   const buttonStyles =
     'py-2 px-3 font-medium rounded flex items-center gap-1 hover:bg-gray-200/50 bg-gray-100 transition text-gray-600'
@@ -339,7 +341,9 @@ const VideoOverlayTipCard: React.FC<{suggestedTip: Tip}> = ({suggestedTip}) => {
   const {handlePlay} = useMuxPlayer()
   const {tipCompleted} = useTipComplete(suggestedTip.slug)
 
-  const thumbnail = `https://image.mux.com/${suggestedTip.muxPlaybackId}/thumbnail.png?width=288&height=162&fit_mode=preserve`
+  const thumbnail = `${getBaseUrl()}/api/video-thumb?videoResourceId=${
+    suggestedTip.videoResourceId
+  }`
 
   return (
     <button

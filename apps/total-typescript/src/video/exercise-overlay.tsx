@@ -6,7 +6,7 @@ import {
 } from '@skillrecordings/convertkit-react-ui'
 import {Facebook, LinkedIn, Twitter} from '@skillrecordings/react'
 import {NextRouter, useRouter} from 'next/router'
-import {IconGithub} from './icons'
+import {IconGithub} from '../components/icons'
 import snakeCase from 'lodash/snakeCase'
 import Image from 'next/image'
 import {useMuxPlayer} from '@skillrecordings/skill-lesson/hooks/use-mux-player'
@@ -17,7 +17,7 @@ import {setUserId} from '@amplitude/analytics-browser'
 import {sanityClient} from '@skillrecordings/skill-lesson/utils/sanity-client'
 import {PortableText} from '@portabletext/react'
 import {trpc} from '../utils/trpc'
-import Spinner from './spinner'
+import Spinner from '../components/spinner'
 import {StackBlitzIframe} from './exercise/stackblitz-iframe'
 import Link from 'next/link'
 import first from 'lodash/first'
@@ -282,11 +282,11 @@ const FinishedOverlay = () => {
           ? {
               module: module.slug.current,
               section: module.sections[0].slug,
-              lesson: module.sections[0].exercises[0].slug,
+              lesson: module.sections[0].lessons[0].slug,
             }
           : {
               module: module.slug.current,
-              lesson: module.exercises[0].slug,
+              lesson: module.lessons[0].slug,
             },
       })
       .then(handlePlay)
@@ -515,7 +515,7 @@ const FinishedSectionOverlay = () => {
   const {lesson, module} = useLesson()
   const {image} = module
   const addProgressMutation = trpc.progress.add.useMutation()
-  const nextExercise = first(nextSection?.exercises) as LessonResource
+  const nextExercise = first(nextSection?.lessons) as LessonResource
   const router = useRouter()
 
   return (
@@ -612,7 +612,7 @@ const handleContinue = async ({
 }) => {
   if (nextExercise?._type === 'solution') {
     if (section) {
-      const exercise = section.exercises.find((exercise: SanityDocument) => {
+      const exercise = section.lessons.find((exercise: SanityDocument) => {
         const solution = exercise.solution
         return solution?._key === nextExercise._key
       })
@@ -629,7 +629,7 @@ const handleContinue = async ({
         })
         .then(() => handlePlay())
     } else {
-      const exercise = module.exercises.find((exercise: SanityDocument) => {
+      const exercise = module.lessons.find((exercise: SanityDocument) => {
         const solution = exercise.solution
         return solution?._key === nextExercise._key
       })

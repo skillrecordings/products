@@ -14,6 +14,7 @@ export const getStaticProps: GetStaticProps = async ({params}) => {
       tip,
       tips,
       videoResourceId: tip.videoResourceId,
+      transcript: tip.transcript,
     },
     revalidate: 10,
   }
@@ -31,21 +32,27 @@ export type TipPageProps = {
   tip: Tip
   tips: Tip[]
   videoResourceId: string
+  transcript: any[]
 }
 
-const TipPage: NextPage<TipPageProps> = ({tip, tips, videoResourceId}) => {
+const TipPage: NextPage<TipPageProps> = ({
+  tip,
+  tips,
+  videoResourceId,
+  transcript,
+}) => {
   const module: any = {
     slug: {
       current: 'tips',
     },
     moduleType: 'tip',
-    exercises: tips,
+    lessons: tips,
     resources: tips.filter((tipToCompare) => tipToCompare.slug !== tip.slug),
   }
   return (
     <LessonProvider lesson={tip} module={module}>
       <VideoResourceProvider videoResourceId={videoResourceId}>
-        <TipTemplate tip={tip} tips={tips} />
+        <TipTemplate tip={tip} tips={tips} transcript={transcript} />
       </VideoResourceProvider>
     </LessonProvider>
   )

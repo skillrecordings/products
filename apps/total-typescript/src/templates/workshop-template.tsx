@@ -52,7 +52,7 @@ const Header: React.FC<{workshop: SanityDocument}> = ({workshop}) => {
   const {title, slug, sections, image, github} = workshop
 
   const firstSection = first<SanityDocument>(sections)
-  const firstExercise = first<SanityDocument>(firstSection?.exercises)
+  const firstExercise = first<SanityDocument>(firstSection?.lessons)
 
   return (
     <>
@@ -267,11 +267,11 @@ const WorkshopSectionExerciseNavigator: React.FC<{
   section: SanityDocument
   moduleSlug: string
 }> = ({section, moduleSlug}) => {
-  const {exercises} = section
+  const {lessons} = section
 
-  return exercises ? (
+  return lessons ? (
     <ul className="-mt-5 rounded-b-lg border border-white/5 bg-black/20 pl-3.5 pr-3 pt-7 pb-3">
-      {exercises.map((exercise: LessonResource, i: number) => {
+      {lessons.map((exercise: LessonResource, i: number) => {
         return (
           <LessonListItem
             key={exercise.slug}

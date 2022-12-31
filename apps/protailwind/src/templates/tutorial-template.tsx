@@ -59,7 +59,7 @@ const TutorialTemplate: React.FC<{
 export default TutorialTemplate
 
 const Header: React.FC<{tutorial: SanityDocument}> = ({tutorial}) => {
-  const {title, slug, exercises, image, github} = tutorial
+  const {title, slug, lessons, image, github} = tutorial
 
   return (
     <>
@@ -88,13 +88,13 @@ const Header: React.FC<{tutorial: SanityDocument}> = ({tutorial}) => {
               </div>
             </div>
             <div className="flex items-center gap-3 pt-8">
-              {exercises?.[0] && (
+              {lessons?.[0] && (
                 <Link
                   href={{
                     pathname: '/tutorials/[module]/[lesson]',
                     query: {
                       module: slug.current,
-                      lesson: exercises[0].slug,
+                      lesson: lessons[0].slug,
                     },
                   }}
                 >
@@ -146,18 +146,18 @@ const Header: React.FC<{tutorial: SanityDocument}> = ({tutorial}) => {
 const TutorialExerciseNavigator: React.FC<{tutorial: SanityDocument}> = ({
   tutorial,
 }) => {
-  const {slug, exercises, _type} = tutorial
+  const {slug, lessons, _type} = tutorial
   return (
     <nav
       aria-label="exercise navigator"
       className="border-gray-200 lg:border-l lg:pl-8"
     >
       <h2 className="pb-4 font-mono text-sm font-semibold uppercase text-gray-600">
-        {exercises?.length || 0} Exercises
+        {lessons?.length || 0} Exercises
       </h2>
-      {exercises && (
+      {lessons && (
         <ul>
-          {exercises.map((exercise: Exercise, i: number) => {
+          {lessons.map((exercise: Exercise, i: number) => {
             return (
               <li key={exercise.slug}>
                 <Link

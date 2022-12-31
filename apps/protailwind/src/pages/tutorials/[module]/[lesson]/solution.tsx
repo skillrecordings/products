@@ -32,7 +32,7 @@ export const getStaticPaths: GetStaticPaths = async (context) => {
   const paths = tutorials.reduce((acc: any[], tutorial: any) => {
     return [
       ...acc,
-      ...tutorial.exercises
+      ...tutorial.lessons
         .filter((exercise: Exercise) => Boolean(exercise.solution))
         .map((exercise: Exercise) => {
           return {
