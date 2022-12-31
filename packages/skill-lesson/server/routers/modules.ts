@@ -43,6 +43,6 @@ export const modulesRouter = router({
         lesson,
         section,
         isSolution: input.isSolution,
-      })
+      }) as any[]
     }),
 })
