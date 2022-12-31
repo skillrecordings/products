@@ -10,10 +10,10 @@ import {VideoResourceProvider} from '@skillrecordings/skill-lesson/hooks/use-vid
 
 export const getStaticProps: GetStaticProps = async (context) => {
   const {params} = context
-  const exerciseSlug = params?.exercise as string
+  const lessonSLug = params?.lesson as string
 
   const module = await getTutorial(params?.module as string)
-  const lesson = await getExercise(exerciseSlug)
+  const lesson = await getExercise(lessonSLug)
 
   const tutorialDirectory = path.join(
     process.cwd(),
@@ -43,7 +43,7 @@ export const getStaticPaths: GetStaticPaths = async (context) => {
         return {
           params: {
             module: tutorial.slug.current,
-            exercise: exercise.slug,
+            lesson: exercise.slug,
           },
         }
       }),

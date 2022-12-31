@@ -91,10 +91,10 @@ const Header: React.FC<{tutorial: SanityDocument}> = ({tutorial}) => {
               {exercises?.[0] && (
                 <Link
                   href={{
-                    pathname: '/tutorials/[module]/[exercise]',
+                    pathname: '/tutorials/[module]/[lesson]',
                     query: {
                       module: slug.current,
-                      exercise: exercises[0].slug,
+                      lesson: exercises[0].slug,
                     },
                   }}
                 >
@@ -162,10 +162,10 @@ const TutorialExerciseNavigator: React.FC<{tutorial: SanityDocument}> = ({
               <li key={exercise.slug}>
                 <Link
                   href={{
-                    pathname: '/tutorials/[module]/[exercise]',
+                    pathname: '/tutorials/[module]/[lesson]',
                     query: {
                       module: slug.current,
-                      exercise: exercise.slug,
+                      lesson: exercise.slug,
                     },
                   }}
                   passHref
