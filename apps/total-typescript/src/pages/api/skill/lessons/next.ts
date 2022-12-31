@@ -1,6 +1,5 @@
 import {NextApiRequest, NextApiResponse} from 'next'
 import {getExercise} from 'lib/exercises'
-import {z} from 'zod'
 
 import {getTutorial} from 'lib/tutorials'
 import {getSection} from 'lib/sections'
