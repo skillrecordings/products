@@ -88,9 +88,9 @@ const WorkshopsPage: React.FC<{modules: SanityDocument[]}> = ({modules}) => {
                           <>
                             {sections.length} sections,{' '}
                             {sections.reduce(
-                              (acc: number, section: {exercises?: any[]}) =>
-                                section.exercises?.length
-                                  ? section.exercises?.length + acc
+                              (acc: number, section: {lessons?: any[]}) =>
+                                section.lessons?.length
+                                  ? section.lessons?.length + acc
                                   : acc,
                               0,
                             )}{' '}

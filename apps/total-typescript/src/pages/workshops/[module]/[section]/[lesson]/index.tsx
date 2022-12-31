@@ -31,12 +31,12 @@ export const getStaticProps: GetStaticProps = async (context) => {
 export const getStaticPaths: GetStaticPaths = async (context) => {
   const workshops = await getAllWorkshops()
 
-  // flatMap to extract exercises in sections from workshops
+  // flatMap to extract lessons in sections from workshops
   const paths = workshops.flatMap((workshop: any) => {
     return (
       workshop.sections?.flatMap((section: any) => {
         return (
-          section.exercises?.map((exercise: any) => ({
+          section.lessons?.map((exercise: any) => ({
             params: {
               module: workshop.slug.current,
               section: section.slug,

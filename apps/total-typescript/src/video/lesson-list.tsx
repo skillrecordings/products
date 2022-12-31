@@ -7,14 +7,64 @@ import cx from 'classnames'
 
 import {type LessonResource} from '@skillrecordings/skill-lesson/schemas/lesson-resource'
 import {track} from '@skillrecordings/skill-lesson/utils/analytics'
+import {useLesson} from '@skillrecordings/skill-lesson/hooks/use-lesson'
 
-const LessonList: React.FC<{
-  module: SanityDocument
-  section?: SanityDocument
+type LessonTitleLinkProps = {
   path: string
-}> = ({module, section, path}) => {
+  lesson: LessonResource
+  section?: SanityDocument
+  sectionIndex?: number
+  module: SanityDocument
+}
+
+const LessonTitleLink: React.FC<LessonTitleLinkProps> = ({
+  path,
+  lesson,
+  section,
+  sectionIndex = 0,
+  module,
+}) => {
+  return (
+    <Link
+      href={{
+        pathname: section
+          ? `${path}/[module]/[section]/[lesson]`
+          : `${path}/[module]/[lesson]`,
+        query: {
+          module: module.slug.current,
+          lesson: lesson.slug,
+          ...(section && {section: section.slug}),
+        },
+      }}
+      passHref
+    >
+      <a
+        className="flex items-center px-4 py-2 font-semibold leading-tight hover:bg-gray-800"
+        onClick={() => {
+          track('clicked exercise in navigator', {
+            module: module.slug.current,
+            ...(section && {section: section.slug}),
+            lesson: lesson.slug,
+            moduleType: module.moduleType,
+            lessonType: lesson._type,
+          })
+        }}
+      >
+        <span aria-hidden="true" className="pr-3 text-sm opacity-50">
+          {sectionIndex + 1}
+        </span>{' '}
+        {lesson.title}
+      </a>
+    </Link>
+  )
+}
+
+export const LessonList: React.FC<{
+  path: string
+}> = ({path}) => {
   const router = useRouter()
   const scrollContainerRef = React.useRef<HTMLDivElement>(null)
+  const {module, section} = useLesson()
   const activeElRef = React.useRef<HTMLDivElement>(null)
   React.useEffect(() => {
     const activeElTop: any = activeElRef.current?.offsetTop
@@ -24,7 +74,7 @@ const LessonList: React.FC<{
     })
   }, [router])
 
-  const exercises = section ? section.exercises : module.exercises
+  const lessons = section ? section.lessons : module.lessons
   const hasSectionResources = section?.resources?.length > 0
 
   return (
@@ -34,7 +84,7 @@ const LessonList: React.FC<{
     >
       <nav aria-label="exercise navigator" className="pb-3">
         <ul className="flex flex-col divide-y divide-gray-800/0 text-lg">
-          {exercises?.map((exercise: LessonResource, sectionIdx: number) => {
+          {lessons?.map((exercise: LessonResource, sectionIdx: number) => {
             //TODO treat this differently when a section is present as path will change
             const currentPath = section
               ? `${path}/${module.slug.current}/${section.slug}/${exercise.slug}`
@@ -49,40 +99,13 @@ const LessonList: React.FC<{
                 {scrollToElement && (
                   <div ref={activeElRef} aria-hidden="true" />
                 )}
-                <Link
-                  href={{
-                    pathname: section
-                      ? `${path}/[module]/[section]/[lesson]`
-                      : `${path}/[module]/[lesson]`,
-                    query: {
-                      module: module.slug.current,
-                      lesson: exercise.slug,
-                      ...(section && {section: section.slug}),
-                    },
-                  }}
-                  passHref
-                >
-                  <a
-                    className="flex items-center px-4 py-2 font-semibold leading-tight hover:bg-gray-800"
-                    onClick={() => {
-                      track('clicked exercise in navigator', {
-                        module: module.slug.current,
-                        ...(section && {section: section.slug}),
-                        lesson: exercise.slug,
-                        moduleType: module.moduleType,
-                        lessonType: exercise._type,
-                      })
-                    }}
-                  >
-                    <span
-                      aria-hidden="true"
-                      className="pr-3 text-sm opacity-50"
-                    >
-                      {sectionIdx + 1}
-                    </span>{' '}
-                    {exercise.title}
-                  </a>
-                </Link>
+                <LessonTitleLink
+                  lesson={exercise}
+                  section={section}
+                  sectionIndex={sectionIdx}
+                  module={module}
+                  path={path}
+                />
                 {exercise._type === 'exercise' && (
                   <ul className="text-gray-300">
                     <li key={exercise.slug + `exercise`}>
@@ -287,4 +310,3 @@ const SolutionLink = ({
     </li>
   )
 }
-export default LessonList

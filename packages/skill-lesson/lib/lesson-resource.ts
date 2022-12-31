@@ -47,7 +47,7 @@ export const getLesson = async (slug: string): Promise<Lesson> => {
 }
 
 export const getAllLessons = async (): Promise<Lesson[]> => {
-  const exercises =
+  const lessons =
     await sanityClient.fetch(groq`*[_type in ['lesson', 'exercise', 'explainer']]{
       _id,
       _type,
@@ -69,5 +69,5 @@ export const getAllLessons = async (): Promise<Lesson[]> => {
        }
     }`)
 
-  return z.array(LessonSchema).parse(exercises)
+  return z.array(LessonSchema).parse(lessons)
 }

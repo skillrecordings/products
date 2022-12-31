@@ -178,7 +178,7 @@ const mockTutorial: SanityDocument = {
   _createdAt: new Date().toISOString(),
   _updatedAt: new Date().toISOString(),
   moduleType: 'tutorial',
-  exercises: [mockExerciseOne, mockExerciseTwo],
+  lessons: [mockExerciseOne, mockExerciseTwo],
 }
 
 const mockSection: SanityDocument = {
@@ -187,7 +187,7 @@ const mockSection: SanityDocument = {
   _type: 'section',
   _createdAt: new Date().toISOString(),
   _updatedAt: new Date().toISOString(),
-  exercises: [mockExerciseOne, mockExerciseTwo],
+  lessons: [mockExerciseOne, mockExerciseTwo],
 }
 
 const mockWorkshop: SanityDocument = {
@@ -197,5 +197,5 @@ const mockWorkshop: SanityDocument = {
   _createdAt: new Date().toISOString(),
   _updatedAt: new Date().toISOString(),
   moduleType: 'workshop',
-  exercises: [mockExerciseOne, mockExerciseTwo],
+  lessons: [mockExerciseOne, mockExerciseTwo],
 }

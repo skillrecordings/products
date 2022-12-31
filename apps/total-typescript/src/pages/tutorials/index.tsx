@@ -37,70 +37,68 @@ const TutorialsPage: React.FC<{tutorials: SanityDocument[]}> = ({
         </p>
         {tutorials && (
           <ul className="flex max-w-screen-md flex-col gap-5 px-5 pt-10 sm:gap-8 sm:pt-20">
-            {tutorials.map(
-              ({title, slug, image, description, exercises}, i) => {
-                return (
-                  <li
-                    key={slug.current}
-                    className="relative flex flex-col items-center gap-10 overflow-hidden rounded-lg border border-gray-700/50 bg-black/20 p-10 shadow-2xl md:flex-row"
-                  >
-                    <div className="flex flex-shrink-0 items-center justify-center">
-                      <Image
-                        src={image}
-                        alt={title}
-                        width={300}
-                        quality={100}
-                        height={300}
-                      />
-                    </div>
-                    <div>
-                      <Link
-                        href={{
-                          pathname: '/tutorials/[module]',
-                          query: {
-                            module: slug.current,
-                          },
-                        }}
-                      >
-                        <a className="text-3xl font-semibold hover:underline sm:text-4xl">
-                          {title}
-                        </a>
-                      </Link>
-                      <div className="pt-4 pb-3 font-mono text-xs font-semibold uppercase text-cyan-300">
-                        {i === 0 && (
-                          <span className="mr-3 rounded-full bg-cyan-300 px-2 py-0.5 font-sans font-semibold uppercase text-black">
-                            New
-                          </span>
-                        )}
-                        {exercises.length} exercises
-                      </div>
-                      {description && (
-                        <p className="text-gray-300">{description}</p>
+            {tutorials.map(({title, slug, image, description, lessons}, i) => {
+              return (
+                <li
+                  key={slug.current}
+                  className="relative flex flex-col items-center gap-10 overflow-hidden rounded-lg border border-gray-700/50 bg-black/20 p-10 shadow-2xl md:flex-row"
+                >
+                  <div className="flex flex-shrink-0 items-center justify-center">
+                    <Image
+                      src={image}
+                      alt={title}
+                      width={300}
+                      quality={100}
+                      height={300}
+                    />
+                  </div>
+                  <div>
+                    <Link
+                      href={{
+                        pathname: '/tutorials/[module]',
+                        query: {
+                          module: slug.current,
+                        },
+                      }}
+                    >
+                      <a className="text-3xl font-semibold hover:underline sm:text-4xl">
+                        {title}
+                      </a>
+                    </Link>
+                    <div className="pt-4 pb-3 font-mono text-xs font-semibold uppercase text-cyan-300">
+                      {i === 0 && (
+                        <span className="mr-3 rounded-full bg-cyan-300 px-2 py-0.5 font-sans font-semibold uppercase text-black">
+                          New
+                        </span>
                       )}
-                      <Link
-                        href={{
-                          pathname: '/tutorials/[module]',
-                          query: {
-                            module: slug.current,
-                          },
-                        }}
-                      >
-                        <a className="group mt-5 inline-block gap-2 rounded bg-gray-800 px-4 py-2 font-medium transition hover:bg-gray-700">
-                          View{' '}
-                          <span
-                            aria-hidden="true"
-                            className="text-gray-300 transition group-hover:text-white"
-                          >
-                            →
-                          </span>
-                        </a>
-                      </Link>
+                      {lessons.length} exercises
                     </div>
-                    <StripesLeft className="absolute left-0 top-0 hidden w-5 md:block" />
-                  </li>
-                )
-              },
-            )}
+                    {description && (
+                      <p className="text-gray-300">{description}</p>
+                    )}
+                    <Link
+                      href={{
+                        pathname: '/tutorials/[module]',
+                        query: {
+                          module: slug.current,
+                        },
+                      }}
+                    >
+                      <a className="group mt-5 inline-block gap-2 rounded bg-gray-800 px-4 py-2 font-medium transition hover:bg-gray-700">
+                        View{' '}
+                        <span
+                          aria-hidden="true"
+                          className="text-gray-300 transition group-hover:text-white"
+                        >
+                          →
+                        </span>
+                      </a>
+                    </Link>
+                  </div>
+                  <StripesLeft className="absolute left-0 top-0 hidden w-5 md:block" />
+                </li>
+              )
+            })}
           </ul>
         )}
       </main>

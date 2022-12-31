@@ -9,7 +9,7 @@ import PortableTextComponents from './portable-text'
 import {useMuxPlayer} from '@skillrecordings/skill-lesson/hooks/use-mux-player'
 import {useLesson} from '@skillrecordings/skill-lesson/hooks/use-lesson'
 
-export const ExerciseDescription = () => {
+export const LessonDescription = () => {
   const {canShowVideo, loadingUserStatus} = useMuxPlayer()
   const {lesson} = useLesson()
   const {body} = lesson

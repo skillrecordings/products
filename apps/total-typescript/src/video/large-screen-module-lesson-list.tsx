@@ -1,7 +1,6 @@
 import * as React from 'react'
 import {type SanityDocument} from '@sanity/client'
-
-import LessonList from './lesson-list'
+import {LessonList} from './lesson-list'
 import ModuleLessonListHeader from './module-lesson-list-header'
 
 export const LargeScreenModuleLessonList: React.FC<{
@@ -16,7 +15,7 @@ export const LargeScreenModuleLessonList: React.FC<{
       path={path}
       section={section}
     >
-      <LessonList module={module} path={path} section={section} />
+      <LessonList path={path} />
     </ModuleLessonListHeader>
   )
 }

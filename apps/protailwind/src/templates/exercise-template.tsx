@@ -132,7 +132,7 @@ const Video: React.FC<VideoProps> = React.forwardRef(
 
     // TODO: handle section logic and remove !section
     const canShowVideo =
-      (subscriber || (!section && lesson._id === module.exercises[0]._id)) &&
+      (subscriber || (!section && lesson._id === module.lessons[0]._id)) &&
       videoResource?.muxPlaybackId
 
     return (
@@ -335,8 +335,7 @@ const MobileLessonNavigator: React.FC<{
       <summary className="no-marker flex cursor-pointer items-center gap-1 bg-white px-4 py-3 font-medium shadow-2xl shadow-gray-500/10 transition marker:content-[''] after:absolute after:right-3 after:flex after:h-6 after:w-6 after:rotate-180 after:items-center after:justify-center after:rounded-full after:bg-gray-100 after:text-lg after:content-['↑'] group-open:after:rotate-0 hover:bg-gray-100">
         {module.title} {capitalize(module.moduleType)}{' '}
         <span className="opacity-80">
-          ({section ? section.exercises.length : module.exercises.length}{' '}
-          exercises)
+          ({section ? section.lessons.length : module.lessons.length} exercises)
         </span>
       </summary>
       <ExerciseSidebar module={module} path={path} section={section} />

@@ -1,7 +1,7 @@
 import * as React from 'react'
 import {SanityDocument} from '@sanity/client'
 import cx from 'classnames'
-import Spinner from '../spinner'
+import Spinner from '../../components/spinner'
 import Image from 'next/image'
 import {LessonResource} from '@skillrecordings/skill-lesson/schemas/lesson-resource'
 import {trpc} from '../../utils/trpc'

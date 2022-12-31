@@ -2,7 +2,7 @@ import * as React from 'react'
 import cx from 'classnames'
 import {useLesson} from '@skillrecordings/skill-lesson/hooks/use-lesson'
 
-export const ExerciseTitle = () => {
+export const LessonTitle = () => {
   const {lesson} = useLesson()
   const {title, _type} = lesson
   return (

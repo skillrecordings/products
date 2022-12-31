@@ -39,7 +39,7 @@ export const getStaticPaths: GetStaticPaths = async (context) => {
   const paths = tutorials.reduce((acc: any[], tutorial: any) => {
     return [
       ...acc,
-      ...tutorial.exercises.map((exercise: any) => {
+      ...tutorial.lessons.map((exercise: any) => {
         return {
           params: {
             module: tutorial.slug.current,
