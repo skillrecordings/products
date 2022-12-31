@@ -3,23 +3,26 @@ import {SanityDocument} from '@sanity/client'
 import {
   redirectUrlBuilder,
   SubscribeToConvertkitForm,
-} from '@skillrecordings/convertkit'
+} from '@skillrecordings/convertkit-react-ui'
 import {Facebook, LinkedIn, Twitter} from '@skillrecordings/react'
 import {NextRouter, useRouter} from 'next/router'
 import snakeCase from 'lodash/snakeCase'
 import Image from 'next/image'
-import {useMuxPlayer} from 'hooks/use-mux-player'
 import {XIcon} from '@heroicons/react/solid'
 import cx from 'classnames'
 import {track} from '../utils/analytics'
 import {setUserId} from '@amplitude/analytics-browser'
-import {sanityClient} from 'utils/sanity-client'
+import {sanityClient} from '@skillrecordings/skill-lesson/utils/sanity-client'
 import {PortableText} from '@portabletext/react'
-import {useQuery} from 'react-query'
+import {useQuery} from '@tanstack/react-query'
 import {trpc} from '../utils/trpc'
 import Spinner from './spinner'
-import {Exercise} from 'lib/exercises'
 import dynamic from 'next/dynamic'
+import {useLesson} from '@skillrecordings/skill-lesson/hooks/use-lesson'
+import {useMuxPlayer} from '@skillrecordings/skill-lesson/hooks/use-mux-player'
+import {useVideoResource} from '@skillrecordings/skill-lesson/hooks/use-video-resource'
+import {getBaseUrl} from '@skillrecordings/skill-lesson/utils/get-base-url'
+import {LessonResource} from '@skillrecordings/skill-lesson/schemas/lesson-resource'
 
 const SandpackEditor: React.ComponentType<any> = dynamic(
   () => import('components/sandpack/repl'),
@@ -29,7 +32,8 @@ const SandpackEditor: React.ComponentType<any> = dynamic(
 export const OverlayWrapper: React.FC<
   React.PropsWithChildren<{className?: string; dismissable?: boolean}>
 > = ({children, className, dismissable = true}) => {
-  const {setDisplayOverlay, lesson, module} = useMuxPlayer()
+  const {lesson, module} = useLesson()
+  const {setDisplayOverlay} = useMuxPlayer()
 
   return (
     <div
@@ -66,7 +70,8 @@ export const OverlayWrapper: React.FC<
 }
 
 const Actions = () => {
-  const {nextExercise, lesson, module, path, handlePlay} = useMuxPlayer()
+  const {lesson, module} = useLesson()
+  const {nextExercise, path, handlePlay} = useMuxPlayer()
   const router = useRouter()
   return (
     <div className="flex justify-center gap-2">
@@ -96,7 +101,7 @@ const Actions = () => {
               moduleType: module.moduleType,
               lessonType: lesson._type,
             })
-            handleContinue(router, module, nextExercise, handlePlay, path)
+            handleContinue({router, module, nextExercise, handlePlay, path})
           }}
         >
           Solution <span aria-hidden="true">→</span>
@@ -107,15 +112,18 @@ const Actions = () => {
 }
 
 const ExerciseOverlay: React.FC<{tutorialFiles: any}> = ({tutorialFiles}) => {
-  const {lesson, module} = useMuxPlayer()
-  const {github} = module
-  const sandpack = lesson.sandpack
+  const {lesson} = useLesson()
+  const router = useRouter()
+  const {data: resources} = trpc.resources.byExerciseSlug.useQuery({
+    slug: router.query.exercise as string,
+    type: lesson._type,
+  })
 
-  const visibleFiles = sandpack
+  const visibleFiles = resources?.sandpack
     ?.filter(({active}) => active)
     .map(({file}) => file)
 
-  const sandpackFiles = sandpack
+  const sandpackFiles = resources?.sandpack
     ?.map(({file, code}) => {
       if (file)
         return {
@@ -133,7 +141,7 @@ const ExerciseOverlay: React.FC<{tutorialFiles: any}> = ({tutorialFiles}) => {
 
   return (
     <div className="">
-      {sandpack && (
+      {resources?.sandpack && (
         <>
           <div className="flex w-full items-center justify-between p-3 pl-5 font-medium">
             <div>Now it's your turn! Try solving this exercise.</div>
@@ -149,10 +157,11 @@ const ExerciseOverlay: React.FC<{tutorialFiles: any}> = ({tutorialFiles}) => {
 }
 
 const DefaultOverlay = () => {
-  const {nextExercise, module, path, lesson, handlePlay} = useMuxPlayer()
+  const {lesson, module} = useLesson()
+  const {nextExercise, path, handlePlay} = useMuxPlayer()
   const router = useRouter()
   const {image} = module
-  const addProgressMutation = trpc.useMutation(['progress.add'])
+  const addProgressMutation = trpc.progress.add.useMutation()
 
   return (
     <OverlayWrapper className="px-5">
@@ -170,7 +179,7 @@ const DefaultOverlay = () => {
 
       <p className="pt-4 font-heading text-xl font-black sm:text-3xl">
         <span className="font-normal text-gray-700">Up next:</span>{' '}
-        {nextExercise.title}
+        {nextExercise?.title}
       </p>
       <div className="flex items-center justify-center gap-5 py-4 sm:py-8">
         <button
@@ -201,8 +210,14 @@ const DefaultOverlay = () => {
             addProgressMutation.mutate(
               {lessonSlug: lesson.slug},
               {
-                onSettled: (data, error, variables, context) => {
-                  handleContinue(router, module, nextExercise, handlePlay, path)
+                onSettled: () => {
+                  handleContinue({
+                    router,
+                    module,
+                    nextExercise,
+                    handlePlay,
+                    path,
+                  })
                 },
               },
             )
@@ -216,14 +231,15 @@ const DefaultOverlay = () => {
 }
 
 const FinishedOverlay = () => {
-  const {module, path, lesson, handlePlay} = useMuxPlayer()
+  const {lesson, module} = useLesson()
+  const {path, handlePlay} = useMuxPlayer()
   const router = useRouter()
   const shareUrl = `${process.env.NEXT_PUBLIC_URL}${path}/${module.slug.current}`
   const shareMessage = `${module.title} ${module.moduleType} by @${process.env.NEXT_PUBLIC_PARTNER_TWITTER}`
   const shareButtonStyles =
     'bg-white shadow-xl shadow-gray-500/5 flex items-center gap-2 rounded-full px-4 py-2 hover:bg-gray-50'
 
-  const addProgressMutation = trpc.useMutation(['progress.add'])
+  const addProgressMutation = trpc.progress.add.useMutation()
 
   React.useEffect(() => {
     // since this is the last lesson and we show the "module complete" overlay
@@ -289,7 +305,7 @@ const FinishedOverlay = () => {
 
 const BlockedOverlay: React.FC = () => {
   const router = useRouter()
-  const {lesson, module} = useMuxPlayer()
+  const {lesson, module} = useLesson()
 
   const {data: ctaText} = useQuery([`exercise-free-tutorial`], async () => {
     return sanityClient
@@ -374,15 +390,13 @@ const BlockedOverlay: React.FC = () => {
 type LoadingOverlayProps = {}
 
 const LoadingOverlay: React.FC<LoadingOverlayProps> = () => {
-  const {
-    muxPlayerProps: {playbackId},
-  } = useMuxPlayer()
-  const thumbnail = `https://image.mux.com/${playbackId}/thumbnail.png?width=480&height=384&fit_mode=preserve`
+  const {videoResourceId} = useVideoResource()
+  const thumbnail = `${getBaseUrl()}/api/video-thumb?videoResourceId=${videoResourceId}`
 
   return (
     <OverlayWrapper dismissable={false}>
       <div className="flex items-center justify-center">
-        {playbackId && (
+        {videoResourceId && (
           <Image
             src={thumbnail}
             layout="fill"
@@ -405,14 +419,20 @@ export {
   LoadingOverlay,
 }
 
-const handleContinue = async (
-  router: NextRouter,
-  module: SanityDocument,
-  nextExercise: SanityDocument,
-  handlePlay: () => void,
-  path: string,
-) => {
-  if (nextExercise._type === 'solution') {
+const handleContinue = async ({
+  router,
+  module,
+  nextExercise,
+  handlePlay,
+  path,
+}: {
+  router: NextRouter
+  module: SanityDocument
+  nextExercise?: LessonResource | null
+  handlePlay: () => void
+  path: string
+}) => {
+  if (nextExercise?._type === 'solution') {
     const exercise = module.exercises.find((exercise: SanityDocument) => {
       const solution = exercise.solution
       return solution?._key === nextExercise._key
@@ -428,7 +448,7 @@ const handleContinue = async (
 
   return await router
     .push({
-      query: {module: module.slug.current, exercise: nextExercise.slug},
+      query: {module: module.slug.current, exercise: nextExercise?.slug},
       pathname: `${path}/[module]/[exercise]`,
     })
     .then(() => handlePlay())

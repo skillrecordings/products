@@ -3,6 +3,7 @@ import find from 'lodash/find'
 import {Cookie} from './cookie'
 import fetch from 'node-fetch'
 import {format} from 'date-fns'
+import first from 'lodash/first'
 
 const convertkitBaseUrl =
   process.env.CONVERTKIT_BASE_URL || 'https://api.convertkit.com/v3/'
@@ -211,6 +212,15 @@ export async function subscribeToForm(options: {
     .then(({subscription}: any) => {
       return subscription.subscriber
     })
+}
+
+export const getSubscriberByEmail = async (email: string) => {
+  const {subscribers} = await fetch(
+    `${convertkitBaseUrl}/subscribers?email_address=${email}&api_secret=${process.env.CONVERTKIT_API_SECRET}`,
+  ).then((response) => response.json())
+
+  const subscriber = first(subscribers)
+  return subscriber
 }
 
 export async function fetchSubscriber(convertkitId: string) {

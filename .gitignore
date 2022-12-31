@@ -6,6 +6,7 @@ dist
 .pnpm-debug.log
 .DS_Store
 tsconfig.tsbuildinfo
+.env
 
 # build artifacts
 apps/*/public/sitemap.xml

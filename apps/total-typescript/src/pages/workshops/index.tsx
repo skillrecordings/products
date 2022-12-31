@@ -4,7 +4,7 @@ import {SanityDocument} from '@sanity/client'
 import Link from 'next/link'
 import Image from 'next/image'
 import {getAllWorkshops} from 'lib/workshops'
-import {track} from '../../utils/analytics'
+import {track} from '@skillrecordings/skill-lesson/utils/analytics'
 
 const CLOUDINARY_FETCH_BASE_URL = `https://res.cloudinary.com/total-typescript/image/fetch/dpr_auto,f_auto,q_auto:good/`
 

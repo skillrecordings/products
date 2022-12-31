@@ -5,6 +5,9 @@ const withMDX = require('@next/mdx')({
     providerImportSource: '@mdx-js/react',
   },
 })
+const withTM = require('next-transpile-modules')([
+  '@skillrecordings/skill-lesson',
+])
 const {withSentryConfig} = require('@sentry/nextjs')
 
 const sentryWebpackPluginOptions = process.env.SENTRY_AUTH_TOKEN && {
@@ -44,7 +47,7 @@ const nextConfig = {
   },
 }
 
-const configWithPlugins = withMDX(nextConfig)
+const configWithPlugins = withTM(withMDX(nextConfig))
 
 if (sentryWebpackPluginOptions) {
   module.exports = withSentryConfig(

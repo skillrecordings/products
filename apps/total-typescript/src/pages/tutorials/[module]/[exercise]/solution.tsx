@@ -3,6 +3,8 @@ import ExerciseTemplate from 'templates/exercise-template'
 import {GetStaticPaths, GetStaticProps} from 'next'
 import {getAllTutorials, getTutorial} from 'lib/tutorials'
 import {getExercise} from 'lib/exercises'
+import {VideoResourceProvider} from '@skillrecordings/skill-lesson/hooks/use-video-resource'
+import {LessonProvider} from '@skillrecordings/skill-lesson/hooks/use-lesson'
 
 export const getStaticProps: GetStaticProps = async (context) => {
   const {params} = context
@@ -12,7 +14,12 @@ export const getStaticProps: GetStaticProps = async (context) => {
   const exercise = await getExercise(exerciseSlug)
 
   return {
-    props: {exercise, module},
+    props: {
+      solution: exercise.solution,
+      module,
+      transcript: exercise.solution?.transcript,
+      videoResourceId: exercise.solution?.videoResourceId,
+    },
     revalidate: 10,
   }
 }
@@ -36,9 +43,18 @@ export const getStaticPaths: GetStaticPaths = async (context) => {
   return {paths, fallback: 'blocking'}
 }
 
-const ExerciseSolution: React.FC<any> = ({exercise, module}) => {
+const ExerciseSolution: React.FC<any> = ({
+  solution,
+  module,
+  transcript,
+  videoResourceId,
+}) => {
   return (
-    <ExerciseTemplate exercise={exercise} module={module} isSolution={true} />
+    <LessonProvider lesson={solution} module={module}>
+      <VideoResourceProvider videoResourceId={videoResourceId}>
+        <ExerciseTemplate transcript={transcript} />
+      </VideoResourceProvider>
+    </LessonProvider>
   )
 }
 

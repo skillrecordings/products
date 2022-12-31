@@ -7,7 +7,7 @@ import type {
 import {CheckCircleIcon} from '@heroicons/react/outline'
 import {getCouponLabel} from './get-coupon-label'
 import {useDebounce} from '@skillrecordings/react'
-import {useQuery, QueryStatus} from 'react-query'
+import {QueryStatus} from '@tanstack/react-query'
 import SaleCountdown from './sale-countdown'
 import Spinner from 'components/spinner'
 import Image from 'next/image'
@@ -19,13 +19,14 @@ import {MailIcon} from '@heroicons/react/solid'
 import {
   redirectUrlBuilder,
   SubscribeToConvertkitForm,
-} from '@skillrecordings/convertkit'
-import {useConvertkit} from '../hooks/use-convertkit'
+} from '@skillrecordings/convertkit-react-ui'
+import {useConvertkit} from '@skillrecordings/skill-lesson/hooks/use-convertkit'
 import {setUserId} from '@amplitude/analytics-browser'
-import {track} from '../utils/analytics'
+import {track} from '@skillrecordings/skill-lesson/utils/analytics'
 import {useRouter} from 'next/router'
 import * as Switch from '@radix-ui/react-switch'
 import Link from 'next/link'
+import {trpc} from 'utils/trpc'
 
 function getFirstPPPCoupon(availableCoupons: any[] = []) {
   return find(availableCoupons, (coupon) => coupon.type === 'ppp') || false
@@ -82,28 +83,19 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
   const {subscriber, loadingSubscriber} = useConvertkit()
   const router = useRouter()
 
-  const {data: formattedPrice, status} = useQuery<FormattedPrice>(
-    ['pricing', merchantCoupon, debouncedQuantity, productId, userId, couponId],
-    () =>
-      fetch('/api/skill/prices', {
-        method: 'POST',
-        body: JSON.stringify({
-          productId,
-          ...(merchantCoupon && {merchantCouponId: merchantCoupon.id}),
-          quantity,
-          purchases,
-          userId,
-          siteCouponId: couponId,
-        }),
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      })
-        .then((res) => res.json())
-        .then((formattedPrice: FormattedPrice) => {
-          addPrice(formattedPrice, productId)
-          return formattedPrice
-        }),
+  const {data: formattedPrice, status} = trpc.pricing.formatted.useQuery(
+    {
+      productId,
+      userId,
+      quantity: debouncedQuantity,
+      couponId,
+      merchantCoupon,
+    },
+    {
+      onSuccess: (formattedPrice) => {
+        addPrice(formattedPrice, productId)
+      },
+    },
   )
 
   const defaultCoupon = formattedPrice?.defaultCoupon
@@ -116,7 +108,7 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
   // do not show the box if purchased
   // do not show the box if it's a downgrade
   const showPPPBox =
-    (pppCoupon || merchantCoupon?.type === 'ppp') &&
+    Boolean(pppCoupon || merchantCoupon?.type === 'ppp') &&
     !purchased &&
     !isDowngrade(formattedPrice)
 

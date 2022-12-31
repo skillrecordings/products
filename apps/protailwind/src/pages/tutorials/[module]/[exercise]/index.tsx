@@ -5,13 +5,15 @@ import {getAllTutorials, getTutorial} from 'lib/tutorials'
 import {getExercise} from 'lib/exercises'
 import path from 'path'
 import {walk} from 'utils/code-editor-content'
+import {LessonProvider} from '@skillrecordings/skill-lesson/hooks/use-lesson'
+import {VideoResourceProvider} from '@skillrecordings/skill-lesson/hooks/use-video-resource'
 
 export const getStaticProps: GetStaticProps = async (context) => {
   const {params} = context
   const exerciseSlug = params?.exercise as string
 
   const module = await getTutorial(params?.module as string)
-  const exercise = await getExercise(exerciseSlug)
+  const lesson = await getExercise(exerciseSlug)
 
   const tutorialDirectory = path.join(
     process.cwd(),
@@ -20,7 +22,13 @@ export const getStaticProps: GetStaticProps = async (context) => {
   const tutorialFiles = walk(tutorialDirectory)
 
   return {
-    props: {exercise, module, tutorialFiles},
+    props: {
+      lesson,
+      module,
+      tutorialFiles,
+      transcript: lesson.transcript,
+      videoResourceId: lesson.videoResourceId,
+    },
     revalidate: 10,
   }
 }
@@ -45,13 +53,22 @@ export const getStaticPaths: GetStaticPaths = async (context) => {
   return {paths, fallback: 'blocking'}
 }
 
-const ExercisePage: React.FC<any> = ({exercise, module, tutorialFiles}) => {
+const ExercisePage: React.FC<any> = ({
+  lesson,
+  module,
+  tutorialFiles,
+  transcript,
+  videoResourceId,
+}) => {
   return (
-    <ExerciseTemplate
-      exercise={exercise}
-      module={module}
-      tutorialFiles={tutorialFiles}
-    />
+    <LessonProvider lesson={lesson} module={module}>
+      <VideoResourceProvider videoResourceId={videoResourceId}>
+        <ExerciseTemplate
+          transcript={transcript}
+          tutorialFiles={tutorialFiles}
+        />
+      </VideoResourceProvider>
+    </LessonProvider>
   )
 }
 

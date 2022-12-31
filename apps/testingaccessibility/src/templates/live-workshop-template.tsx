@@ -1,5 +1,5 @@
 import * as React from 'react'
-import {SubscribeToConvertkitForm} from '@skillrecordings/convertkit'
+import {SubscribeToConvertkitForm} from '@skillrecordings/convertkit-react-ui'
 import {MDXRemote} from 'next-mdx-remote'
 import Layout from 'components/app/layout'
 import Link from 'next/link'

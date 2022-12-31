@@ -8,7 +8,7 @@ import {MuxPlayerProps} from '@mux/mux-player-react/*'
 import {track} from '../utils/analytics'
 import {type Exercise, ExerciseSchema} from 'lib/exercises'
 import {type Tip, TipSchema} from 'lib/tips'
-import {useConvertkit} from './use-convertkit'
+import {useConvertkit} from '@skillrecordings/skill-lesson/hooks/use-convertkit'
 
 type VideoResource = Exercise | Tip
 

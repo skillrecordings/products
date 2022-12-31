@@ -1,5 +1,5 @@
 import * as React from 'react'
-import {useConvertkit} from '@skillrecordings/convertkit'
+import {useConvertkit} from '@skillrecordings/convertkit-react-ui'
 import {useRouter} from 'next/router'
 import isEmpty from 'lodash/isEmpty'
 import axios from 'axios'

@@ -3,7 +3,7 @@ import Image from 'next/image'
 import {
   redirectUrlBuilder,
   SubscribeToConvertkitForm,
-} from '@skillrecordings/convertkit'
+} from '@skillrecordings/convertkit-react-ui'
 import {useRouter} from 'next/router'
 
 export const PrimaryNewsletterCta: React.FC<

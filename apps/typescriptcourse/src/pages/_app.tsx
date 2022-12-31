@@ -4,7 +4,7 @@ import {DefaultSeo} from '@skillrecordings/next-seo'
 import config from 'config'
 import '../styles/globals.css'
 import 'focus-visible'
-import {ConvertkitProvider} from '@skillrecordings/convertkit'
+import {ConvertkitProvider} from '@skillrecordings/convertkit-react-ui'
 //TODO: build error if this was in the component after moving it to commerce package
 import '@reach/dialog/styles.css'
 import {MDXProvider} from '@mdx-js/react'

@@ -4,6 +4,8 @@ import {GetStaticPaths, GetStaticProps} from 'next'
 import {getExercise, getExerciseMedia} from 'lib/exercises'
 import {getAllWorkshops, getWorkshop} from 'lib/workshops'
 import {getSection} from 'lib/sections'
+import {VideoResourceProvider} from '@skillrecordings/skill-lesson/hooks/use-video-resource'
+import {LessonProvider} from '@skillrecordings/skill-lesson/hooks/use-lesson'
 
 export const getStaticProps: GetStaticProps = async (context) => {
   const {params} = context
@@ -15,7 +17,13 @@ export const getStaticProps: GetStaticProps = async (context) => {
   const section = await getSection(sectionSlug)
 
   return {
-    props: {exercise, module, section},
+    props: {
+      exercise,
+      module,
+      section,
+      transcript: exercise.transcript,
+      videoResourceId: exercise.videoResourceId,
+    },
     revalidate: 10,
   }
 }
@@ -43,9 +51,19 @@ export const getStaticPaths: GetStaticPaths = async (context) => {
   return {paths, fallback: 'blocking'}
 }
 
-const ExercisePage: React.FC<any> = ({exercise, module, section}) => {
+const ExercisePage: React.FC<any> = ({
+  exercise,
+  module,
+  section,
+  transcript,
+  videoResourceId,
+}) => {
   return (
-    <ExerciseTemplate exercise={exercise} module={module} section={section} />
+    <LessonProvider lesson={exercise} module={module} section={section}>
+      <VideoResourceProvider videoResourceId={videoResourceId}>
+        <ExerciseTemplate transcript={transcript} />
+      </VideoResourceProvider>
+    </LessonProvider>
   )
 }
 

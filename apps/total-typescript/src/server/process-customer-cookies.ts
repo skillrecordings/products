@@ -1,7 +1,10 @@
 import {NextRequest, NextResponse} from 'next/server'
 
 import {clearUserCookie, setUserCookie} from './user-cookies'
-import {type Subscriber, SubscriberSchema} from 'schemas/subscriber'
+import {
+  type Subscriber,
+  SubscriberSchema,
+} from '@skillrecordings/skill-lesson/schemas/subscriber'
 
 export async function getCookiesForRequest(req: NextRequest) {
   try {

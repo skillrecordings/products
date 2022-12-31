@@ -9,7 +9,7 @@ import LevelUp from '../../public/assets/level-up@2x.png'
 import {
   redirectUrlBuilder,
   SubscribeToConvertkitForm,
-} from '@skillrecordings/convertkit'
+} from '@skillrecordings/convertkit-react-ui'
 
 export const CallToActionForm: React.FC<React.PropsWithChildren<any>> = ({
   content,

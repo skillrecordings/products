@@ -31,7 +31,7 @@
     "@sentry/tracing": "^7.9.0",
     "@skillrecordings/commerce-server": "workspace:*",
     "@skillrecordings/config": "workspace:*",
-    "@skillrecordings/convertkit": "workspace:*",
+    "@skillrecordings/convertkit-react-ui": "workspace:*",
     "@skillrecordings/cookies": "workspace:*",
     "@skillrecordings/database": "workspace:*",
     "@skillrecordings/next-seo": "workspace:*",
@@ -131,7 +131,7 @@
     "prettier": "^2.6.2",
     "react-test-renderer": "^17.0.2",
     "tailwindcss": "^3.1.4",
-    "typescript": "^4.8.3"
+    "typescript": "^4.9.4"
   },
   "prisma": {
     "schema": "../../packages/database/prisma/schema.prisma"

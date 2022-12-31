@@ -1,10 +1,12 @@
 import React from 'react'
 import ExerciseTemplate from 'templates/exercise-template'
 import {GetStaticPaths, GetStaticProps} from 'next'
-import {getAllTutorials, getTutorial} from 'lib/tutorials'
 import {Exercise, getExercise} from 'lib/exercises'
-import {getAllWorkshops, getWorkshop} from '../../../../../lib/workshops'
-import {getSection} from '../../../../../lib/sections'
+import {getAllWorkshops, getWorkshop} from 'lib/workshops'
+import {getSection} from 'lib/sections'
+import {LessonResource} from '@skillrecordings/skill-lesson/schemas/lesson-resource'
+import {VideoResourceProvider} from '@skillrecordings/skill-lesson/hooks/use-video-resource'
+import {LessonProvider} from '@skillrecordings/skill-lesson/hooks/use-lesson'
 
 export const getStaticProps: GetStaticProps = async (context) => {
   const {params} = context
@@ -16,7 +18,13 @@ export const getStaticProps: GetStaticProps = async (context) => {
   const section = await getSection(sectionSlug)
 
   return {
-    props: {exercise, module, section},
+    props: {
+      solution: exercise.solution,
+      module,
+      section,
+      transcript: exercise.solution?.transcript,
+      videoResourceId: exercise.solution?.videoResourceId,
+    },
     revalidate: 10,
   }
 }
@@ -30,7 +38,7 @@ export const getStaticPaths: GetStaticPaths = async (context) => {
       workshop.sections?.flatMap((section: any) => {
         return (
           section.exercises
-            ?.filter(({_type}: Exercise) => _type === 'exercise')
+            ?.filter(({_type}: LessonResource) => _type === 'exercise')
             .map((exercise: Exercise) => ({
               params: {
                 module: workshop.slug.current,
@@ -46,14 +54,19 @@ export const getStaticPaths: GetStaticPaths = async (context) => {
   return {paths, fallback: 'blocking'}
 }
 
-const ExerciseSolution: React.FC<any> = ({exercise, module, section}) => {
+const ExerciseSolution: React.FC<any> = ({
+  solution,
+  module,
+  section,
+  transcript,
+  videoResourceId,
+}) => {
   return (
-    <ExerciseTemplate
-      exercise={exercise}
-      module={module}
-      section={section}
-      isSolution={true}
-    />
+    <LessonProvider lesson={solution} module={module} section={section}>
+      <VideoResourceProvider videoResourceId={videoResourceId}>
+        <ExerciseTemplate transcript={transcript} />
+      </VideoResourceProvider>
+    </LessonProvider>
   )
 }
 

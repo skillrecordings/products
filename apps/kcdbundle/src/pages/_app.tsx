@@ -6,7 +6,7 @@ import {ThemeProvider} from 'next-themes'
 import '../styles/globals.css'
 import 'focus-visible'
 import {ViewerProvider} from '@skillrecordings/viewer'
-import {ConvertkitProvider} from '@skillrecordings/convertkit'
+import {ConvertkitProvider} from '@skillrecordings/convertkit-react-ui'
 
 //TODO: build error if this was in the component after moving it to commerce package
 import '@reach/dialog/styles.css'

@@ -5,7 +5,7 @@ import config from '../config'
 import {ThemeProvider} from 'next-themes'
 import '../styles/globals.css'
 import 'focus-visible'
-import {ConvertkitProvider} from '@skillrecordings/convertkit'
+import {ConvertkitProvider} from '@skillrecordings/convertkit-react-ui'
 
 declare global {
   interface Window {

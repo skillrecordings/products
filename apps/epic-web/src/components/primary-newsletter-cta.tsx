@@ -3,7 +3,7 @@ import {
   redirectUrlBuilder,
   SubscribeToConvertkitForm,
   useConvertkitForm,
-} from '@skillrecordings/convertkit'
+} from '@skillrecordings/convertkit-react-ui'
 import {useRouter} from 'next/router'
 import {Button} from '@skillrecordings/react'
 import {track} from 'utils/analytics'

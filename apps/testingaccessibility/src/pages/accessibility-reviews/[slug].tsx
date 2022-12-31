@@ -16,7 +16,6 @@ import {
   HLSSource,
   selectIsFullscreen,
 } from '@skillrecordings/player'
-import {serialize} from 'next-mdx-remote/serialize'
 import {format} from 'date-fns'
 import {useRouter} from 'next/router'
 import {PortableText, toPlainText} from '@portabletext/react'
@@ -24,7 +23,7 @@ import {
   redirectUrlBuilder,
   SubscribeToConvertkitForm,
   useConvertkit,
-} from '@skillrecordings/convertkit'
+} from '@skillrecordings/convertkit-react-ui'
 import {MailIcon} from '@heroicons/react/solid'
 import {track} from '@skillrecordings/analytics'
 import PortableTextComponents from 'components/portable-text'

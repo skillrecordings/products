@@ -7,7 +7,7 @@ import {ThemeProvider} from 'next-themes'
 import {SessionProvider} from 'next-auth/react'
 import '../styles/globals.css'
 import 'focus-visible'
-import {ConvertkitProvider} from '@skillrecordings/convertkit'
+import {ConvertkitProvider} from '@skillrecordings/convertkit-react-ui'
 import {QueryClient, QueryClientProvider} from 'react-query'
 
 const queryClient = new QueryClient()
