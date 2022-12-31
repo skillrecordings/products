@@ -1,9 +1,8 @@
 import {z} from 'zod'
-import {answerSurvey, markLessonComplete} from 'lib/convertkit'
+import {answerSurvey, markLessonComplete} from '../../lib/convertkit'
 import {updateSubscriber} from '@skillrecordings/convertkit-sdk'
 import {serialize} from 'cookie'
-import {SubscriberSchema} from '@skillrecordings/skill-lesson/schemas/subscriber'
-import {convertkitSetSubscriberCookie} from '@skillrecordings/skill-lesson/utils/ck-set-subscriber-cookie'
+import {SubscriberSchema} from '../../schemas/subscriber'
 import {publicProcedure, router} from '../trpc'
 
 export const convertkitRouter = router({
@@ -36,10 +35,19 @@ export const convertkitRouter = router({
         fields: {...(last_name && {last_name})},
       })
 
-      convertkitSetSubscriberCookie({
-        subscriber: updatedSubscriber.subscriber,
-        res: ctx.res,
-      })
+      const convertkitCookie = serialize(
+        `ck_subscriber`,
+        JSON.stringify(updatedSubscriber.subscriber),
+        {
+          secure: process.env.NODE_ENV === 'production',
+          path: '/',
+          httpOnly: true,
+          sameSite: 'lax',
+          maxAge: 31556952,
+        },
+      )
+
+      ctx.res.setHeader('Set-Cookie', convertkitCookie)
 
       return updatedSubscriber
     }),

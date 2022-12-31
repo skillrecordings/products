@@ -1,29 +1,22 @@
-/**
- * This file contains the root router of your tRPC-backend
- */
-import {progressRouter} from './progress'
-import {convertkitRouter} from './convertkit'
+import {
+  mergeRouters,
+  router,
+  skillLessonRouter,
+} from '@skillrecordings/skill-lesson'
 import {workshop} from './workshop'
 import {abilities} from './abilities'
-import {pricing} from './pricing'
-import {router} from '../trpc'
 import {stackblitzResourceRouter} from './stackblitz-resource'
-import {soulutionsRouter} from './solutions'
+import {solutionsRouter} from './solutions'
 
-/**
- * Create your application's root router
- * If you want to use SSG, you need export this
- * @link https://trpc.io/docs/ssg
- * @link https://trpc.io/docs/router
- */
-export const appRouter = router({
-  progress: progressRouter,
-  convertkit: convertkitRouter,
-  workshops: workshop,
-  abilities: abilities,
-  pricing: pricing,
-  stackblitz: stackblitzResourceRouter,
-  solutions: soulutionsRouter,
-})
+export const appRouter = mergeRouters(
+  router({
+    workshops: workshop,
+    abilities: abilities,
+
+    stackblitz: stackblitzResourceRouter,
+    solutions: solutionsRouter,
+  }),
+  skillLessonRouter,
+)
 
 export type AppRouter = typeof appRouter

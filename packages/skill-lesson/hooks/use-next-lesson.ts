@@ -3,7 +3,7 @@ import {useRouter} from 'next/router'
 
 import {type LessonResource} from '../schemas/lesson-resource'
 
-import {useQuery} from '@tanstack/react-query'
+import {trpcSkillLessons} from '../utils/trpc-skill-lessons'
 
 export const useNextLesson = (
   lesson: LessonResource,
@@ -11,22 +11,13 @@ export const useNextLesson = (
   section?: SanityDocument,
 ) => {
   const router = useRouter()
-  const {data: nextExercise} = useQuery(
-    ['next-lesson', lesson.slug],
-    async () => {
-      return await fetch('/api/skill/lessons/next', {
-        method: 'POST',
-        body: JSON.stringify({
-          type: lesson._type,
-          slug: router.query.exercise as string,
-          module: module.slug.current,
-          section: section?.slug,
-        }),
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      }).then((r) => r.json())
-    },
-  )
+
+  const {data: nextExercise} = trpcSkillLessons.lessons.getNextLesson.useQuery({
+    type: lesson._type,
+    slug: router.query.exercise as string,
+    module: module.slug.current,
+    section: section?.slug,
+  })
+
   return nextExercise
 }

@@ -8,7 +8,7 @@
  * @see https://trpc.io/docs/v10/procedures
  */
 
-import {Context} from './context'
+import {Context} from '@skillrecordings/skill-lesson'
 import {initTRPC} from '@trpc/server'
 import superjson from 'superjson'
 

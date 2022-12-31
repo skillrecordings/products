@@ -105,7 +105,7 @@
     "react-use-clipboard": "^1.0.7",
     "refractor": "^4.5.0",
     "speakingurl": "^14.0.1",
-    "superjson": "^1.9.1",
+    "superjson": "^1.11.0",
     "tailwind-scrollbar": "^2.0.1",
     "tailwindcss-radix": "^2.6.1",
     "whatwg-fetch": "^3.6.2",

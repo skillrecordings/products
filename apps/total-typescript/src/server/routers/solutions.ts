@@ -1,8 +1,8 @@
-import {publicProcedure, router} from '../trpc'
+import {publicProcedure, router} from '@skillrecordings/skill-lesson'
 import {z} from 'zod'
 import {getExercise} from '../../lib/exercises'
 
-export const soulutionsRouter = router({
+export const solutionsRouter = router({
   getSolution: publicProcedure
     .input(
       z.object({
