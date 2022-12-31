@@ -2,32 +2,25 @@ import React from 'react'
 import ExerciseTemplate from 'templates/exercise-template'
 import {GetStaticPaths, GetStaticProps} from 'next'
 import {getAllTutorials, getTutorial} from 'lib/tutorials'
-import {getExercise} from 'lib/exercises'
-import path from 'path'
-import {walk} from 'utils/code-editor-content'
+import {Exercise, getExercise} from 'lib/exercises'
 import {LessonProvider} from '@skillrecordings/skill-lesson/hooks/use-lesson'
 import {VideoResourceProvider} from '@skillrecordings/skill-lesson/hooks/use-video-resource'
 
 export const getStaticProps: GetStaticProps = async (context) => {
   const {params} = context
-  const exerciseSlug = params?.exercise as string
+  const exerciseSlug = params?.lesson as string
 
   const module = await getTutorial(params?.module as string)
   const lesson = await getExercise(exerciseSlug)
 
-  const tutorialDirectory = path.join(
-    process.cwd(),
-    'src/components/sandpack/parcel',
-  )
-  const tutorialFiles = walk(tutorialDirectory)
-
   return {
     props: {
-      lesson,
+      lesson: lesson.solution,
       module,
-      tutorialFiles,
-      transcript: lesson.transcript,
-      videoResourceId: lesson.videoResourceId,
+      ...(lesson.solution?.transcript && {
+        transcript: lesson.solution?.transcript,
+      }),
+      videoResourceId: lesson.solution?.videoResourceId,
     },
     revalidate: 10,
   }
@@ -39,37 +32,34 @@ export const getStaticPaths: GetStaticPaths = async (context) => {
   const paths = tutorials.reduce((acc: any[], tutorial: any) => {
     return [
       ...acc,
-      ...tutorial.exercises.map((exercise: any) => {
-        return {
-          params: {
-            module: tutorial.slug.current,
-            exercise: exercise.slug,
-          },
-        }
-      }),
+      ...tutorial.exercises
+        .filter((exercise: Exercise) => Boolean(exercise.solution))
+        .map((exercise: Exercise) => {
+          return {
+            params: {
+              module: tutorial.slug.current,
+              lesson: exercise.slug,
+            },
+          }
+        }),
     ]
   }, [])
-
   return {paths, fallback: 'blocking'}
 }
 
-const ExercisePage: React.FC<any> = ({
+const ExerciseSolution: React.FC<any> = ({
   lesson,
   module,
-  tutorialFiles,
   transcript,
   videoResourceId,
 }) => {
   return (
     <LessonProvider lesson={lesson} module={module}>
       <VideoResourceProvider videoResourceId={videoResourceId}>
-        <ExerciseTemplate
-          transcript={transcript}
-          tutorialFiles={tutorialFiles}
-        />
+        <ExerciseTemplate transcript={transcript} />
       </VideoResourceProvider>
     </LessonProvider>
   )
 }
 
-export default ExercisePage
+export default ExerciseSolution

@@ -71,8 +71,8 @@ export const VideoProvider: React.FC<
     (autoPlay: boolean) => {
       nextExerciseSlug && autoPlay
         ? router.push({
-            pathname: '/[module]/[exercise]',
-            query: {module: moduleSlug, exercise: nextExerciseSlug},
+            pathname: '/[module]/[lesson]',
+            query: {module: moduleSlug, lesson: nextExerciseSlug},
           })
         : setDisplayOverlay(true)
     },

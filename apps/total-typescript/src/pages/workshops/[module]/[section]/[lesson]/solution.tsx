@@ -10,7 +10,7 @@ import {LessonProvider} from '@skillrecordings/skill-lesson/hooks/use-lesson'
 
 export const getStaticProps: GetStaticProps = async (context) => {
   const {params} = context
-  const exerciseSlug = params?.exercise as string
+  const exerciseSlug = params?.lesson as string
   const sectionSlug = params?.section as string
 
   const module = await getWorkshop(params?.module as string)
@@ -43,7 +43,7 @@ export const getStaticPaths: GetStaticPaths = async (context) => {
               params: {
                 module: workshop.slug.current,
                 section: section.slug,
-                exercise: exercise.slug,
+                lesson: exercise.slug,
               },
             })) || []
         )

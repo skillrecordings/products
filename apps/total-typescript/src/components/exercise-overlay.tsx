@@ -120,7 +120,7 @@ const ExerciseOverlay = () => {
   const {lesson, module} = useLesson()
   const router = useRouter()
   const {data: stackblitz, status} = trpc.stackblitz.byExerciseSlug.useQuery({
-    slug: router.query.exercise as string,
+    slug: router.query.lesson as string,
     type: lesson._type,
   })
   const {github} = module
@@ -276,17 +276,17 @@ const FinishedOverlay = () => {
     router
       .push({
         pathname: section
-          ? `/${path}/[module]/[section]/[exercise]`
-          : `/${path}/[module]/[exercise]`,
+          ? `/${path}/[module]/[section]/[lesson]`
+          : `/${path}/[module]/[lesson]`,
         query: section
           ? {
               module: module.slug.current,
               section: module.sections[0].slug,
-              exercise: module.sections[0].exercises[0].slug,
+              lesson: module.sections[0].exercises[0].slug,
             }
           : {
               module: module.slug.current,
-              exercise: module.exercises[0].slug,
+              lesson: module.exercises[0].slug,
             },
       })
       .then(handlePlay)
@@ -622,10 +622,10 @@ const handleContinue = async ({
           query: {
             module: module.slug.current,
             section: section.slug,
-            exercise: exercise.slug,
+            lesson: exercise.slug,
           },
 
-          pathname: `${path}/[module]/[section]/[exercise]/solution`,
+          pathname: `${path}/[module]/[section]/[lesson]/solution`,
         })
         .then(() => handlePlay())
     } else {
@@ -638,10 +638,10 @@ const handleContinue = async ({
         .push({
           query: {
             module: module.slug.current,
-            exercise: exercise.slug,
+            lesson: exercise.slug,
           },
 
-          pathname: `${path}/[module]/[exercise]/solution`,
+          pathname: `${path}/[module]/[lesson]/solution`,
         })
         .then(() => handlePlay())
     }
@@ -652,16 +652,16 @@ const handleContinue = async ({
         query: {
           module: module.slug.current,
           section: section.slug,
-          exercise: nextExercise?.slug,
+          lesson: nextExercise?.slug,
         },
-        pathname: `${path}/[module]/[section]/[exercise]`,
+        pathname: `${path}/[module]/[section]/[lesson]`,
       })
       .then(() => handlePlay())
   } else {
     return await router
       .push({
-        query: {module: module.slug.current, exercise: nextExercise?.slug},
-        pathname: `${path}/[module]/[exercise]`,
+        query: {module: module.slug.current, lesson: nextExercise?.slug},
+        pathname: `${path}/[module]/[lesson]`,
       })
       .then(() => handlePlay())
   }

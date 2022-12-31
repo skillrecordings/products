@@ -3,22 +3,31 @@ import ExerciseTemplate from 'templates/exercise-template'
 import {GetStaticPaths, GetStaticProps} from 'next'
 import {getAllTutorials, getTutorial} from 'lib/tutorials'
 import {getExercise} from 'lib/exercises'
-import {VideoResourceProvider} from '@skillrecordings/skill-lesson/hooks/use-video-resource'
+import path from 'path'
+import {walk} from 'utils/code-editor-content'
 import {LessonProvider} from '@skillrecordings/skill-lesson/hooks/use-lesson'
+import {VideoResourceProvider} from '@skillrecordings/skill-lesson/hooks/use-video-resource'
 
 export const getStaticProps: GetStaticProps = async (context) => {
   const {params} = context
-  const exerciseSlug = params?.exercise as string
+  const lessonSLug = params?.lesson as string
 
   const module = await getTutorial(params?.module as string)
-  const exercise = await getExercise(exerciseSlug)
+  const lesson = await getExercise(lessonSLug)
+
+  const tutorialDirectory = path.join(
+    process.cwd(),
+    'src/components/sandpack/parcel',
+  )
+  const tutorialFiles = walk(tutorialDirectory)
 
   return {
     props: {
-      exercise,
+      lesson,
       module,
-      transcript: exercise.transcript,
-      videoResourceId: exercise.videoResourceId,
+      tutorialFiles,
+      transcript: lesson.transcript,
+      videoResourceId: lesson.videoResourceId,
     },
     revalidate: 10,
   }
@@ -34,7 +43,7 @@ export const getStaticPaths: GetStaticPaths = async (context) => {
         return {
           params: {
             module: tutorial.slug.current,
-            exercise: exercise.slug,
+            lesson: exercise.slug,
           },
         }
       }),
@@ -45,15 +54,19 @@ export const getStaticPaths: GetStaticPaths = async (context) => {
 }
 
 const ExercisePage: React.FC<any> = ({
-  exercise,
+  lesson,
   module,
+  tutorialFiles,
   transcript,
   videoResourceId,
 }) => {
   return (
-    <LessonProvider lesson={exercise} module={module}>
+    <LessonProvider lesson={lesson} module={module}>
       <VideoResourceProvider videoResourceId={videoResourceId}>
-        <ExerciseTemplate transcript={transcript} />
+        <ExerciseTemplate
+          transcript={transcript}
+          tutorialFiles={tutorialFiles}
+        />
       </VideoResourceProvider>
     </LessonProvider>
   )
