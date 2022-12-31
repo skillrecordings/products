@@ -3871,6 +3871,7 @@ importers:
       '@sanity/client': ^3.4.1
       '@skillrecordings/ability': workspace:*
       '@skillrecordings/analytics': workspace:*
+      '@skillrecordings/commerce-server': workspace:*
       '@skillrecordings/config': workspace:*
       '@skillrecordings/convertkit-sdk': workspace:*
       '@skillrecordings/database': workspace:*
@@ -3913,6 +3914,7 @@ importers:
       '@sanity/client': 3.4.1
       '@skillrecordings/ability': link:../ability
       '@skillrecordings/analytics': link:../analytics
+      '@skillrecordings/commerce-server': link:../commerce-server
       '@skillrecordings/config': link:../config
       '@skillrecordings/convertkit-sdk': link:../convertkit-sdk
       '@skillrecordings/database': link:../database

@@ -21,6 +21,7 @@
     "react-hot-toast": "^2.2.0",
     "@skillrecordings/ability": "workspace:*",
     "@skillrecordings/analytics": "workspace:*",
+    "@skillrecordings/commerce-server": "workspace:*",
     "@skillrecordings/convertkit-sdk": "workspace:*",
     "@skillrecordings/database": "workspace:*",
     "@skillrecordings/time": "workspace:*",

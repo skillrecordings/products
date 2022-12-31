@@ -1,4 +1,3 @@
-import {publicProcedure, router} from '@skillrecordings/skill-lesson'
 import {z} from 'zod'
 import {getSdk} from '@skillrecordings/database'
 import {
@@ -6,6 +5,7 @@ import {
   getActiveMerchantCoupon,
 } from '@skillrecordings/commerce-server'
 import {find} from 'lodash'
+import {publicProcedure, router} from '../trpc'
 
 const merchantCouponSchema = z.object({
   id: z.string(),

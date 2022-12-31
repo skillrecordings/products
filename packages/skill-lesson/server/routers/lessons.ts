@@ -18,7 +18,7 @@ export const lessonsRouter = router({
         module: z.string().optional(),
       }),
     )
-    .query(async ({ctx, input}) => {
+    .query(async ({input}) => {
       const lesson = await getLesson(input.slug)
       const section = input.section && (await getSection(input.section))
       const module = input.module && (await getModule(input.module))
@@ -35,6 +35,9 @@ export const lessonsRouter = router({
 
       const current = find(exercises, {_id: exerciseForSolution._id})
       const nextExerciseIndex = indexOf(exercises, current) + 1
-      return LessonResourceSchema.parse(exercises[nextExerciseIndex])
+
+      return exercises[nextExerciseIndex]
+        ? LessonResourceSchema.parse(exercises[nextExerciseIndex])
+        : null
     }),
 })

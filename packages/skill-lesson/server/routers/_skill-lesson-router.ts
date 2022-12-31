@@ -7,6 +7,7 @@ import {router} from '../trpc'
 import {videoResourceRouter} from './video-resource'
 import {lessonsRouter} from './lessons'
 import {modulesRouter} from './modules'
+import {pricing} from './pricing'
 
 /**
  * Create your application's root router
@@ -20,6 +21,7 @@ export const skillLessonRouter = router({
   videoResource: videoResourceRouter,
   lessons: lessonsRouter,
   modules: modulesRouter,
+  pricing: pricing,
 })
 
 export type SkillLessonRouter = typeof skillLessonRouter
