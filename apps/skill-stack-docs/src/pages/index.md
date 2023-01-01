@@ -1,10 +1,10 @@
 ---
 title: Getting started
-pageTitle: CacheAdvance - Never miss the cache again.
-description: Cache every single thing your app could ever do ahead of time, so your code never even has to run at all.
+pageTitle: Skill Stack - Build and deploy a course.
+description: Badass Courses for Badass Developers
 ---
 
-Learn how to get CacheAdvance set up in your project in under thirty minutes or it's free. {% .lead %}
+You'll be coding in no time flat. {% .lead %}
 
 {% quick-links %}
 
