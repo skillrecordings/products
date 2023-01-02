@@ -7,14 +7,16 @@ export const LessonSchema = z
   .object({
     _id: z.string().optional(),
     _key: z.string().optional(),
-    solution: z.nullable(
-      z
-        .object({
-          _key: z.string(),
-        })
-        .merge(BaseLessonResourceSchema)
-        .optional(),
-    ),
+    solution: z
+      .nullable(
+        z
+          .object({
+            _key: z.string(),
+          })
+          .merge(BaseLessonResourceSchema)
+          .optional(),
+      )
+      .optional(),
   })
   .merge(BaseLessonResourceSchema)
 
@@ -42,6 +44,8 @@ export const getLesson = async (slug: string): Promise<Lesson> => {
     }`,
     {slug},
   )
+
+  console.log({exercise})
 
   return LessonSchema.parse(exercise)
 }
