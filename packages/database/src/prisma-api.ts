@@ -292,6 +292,12 @@ export function getSdk(
         },
       })
     },
+    async getCouponWithBulkPurchases(couponId: string) {
+      return await ctx.prisma.coupon.findFirst({
+        where: {id: couponId},
+        include: {bulkCouponPurchases: {select: {bulkCouponId: true}}},
+      })
+    },
     async getPurchase(args: Prisma.PurchaseFindUniqueArgs) {
       return await ctx.prisma.purchase.findUnique(args)
     },

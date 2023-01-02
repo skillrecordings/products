@@ -39,7 +39,7 @@ export async function redeemGoldenTicket({
       req,
       options: {nextAuthOptions},
     } = params
-    const {findOrCreateUser, getCoupon} = getSdk()
+    const {findOrCreateUser, getCouponWithBulkPurchases} = getSdk()
 
     const {email: baseEmail, couponId, sendEmail = true} = req.body
 
@@ -48,14 +48,16 @@ export async function redeemGoldenTicket({
     // something in the chain strips out the plus and leaves a space
     const email = String(baseEmail).replace(' ', '+')
 
-    const coupon = await getCoupon({
-      where: {id: couponId},
-    })
+    const coupon = await getCouponWithBulkPurchases(couponId)
 
     const couponValidation = validateCoupon(coupon)
 
     if (coupon && couponValidation.isRedeemable) {
-      const bulkCouponRedemption = coupon.maxUses > 1
+      // if the Coupon is the Bulk Coupon of a Bulk Purchase,
+      // then a bulk coupon is being redeemed
+      const bulkCouponRedemption = Boolean(
+        coupon?.bulkCouponPurchases[0].bulkCouponId,
+      )
 
       const {user} = await findOrCreateUser(email)
 
@@ -99,6 +101,8 @@ export async function redeemGoldenTicket({
         data: {
           userId: user.id,
           redeemedBulkCouponId: bulkCouponRedemption ? coupon.id : null,
+          // TODO: rename this to `couponUsedId` for non-bulk redemption papertrail
+          couponId: bulkCouponRedemption ? null : coupon.id,
           productId,
           totalAmount: 0,
         },
