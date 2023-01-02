@@ -3939,6 +3939,7 @@ importers:
       '@skillrecordings/convertkit-sdk': workspace:*
       '@skillrecordings/database': workspace:*
       '@skillrecordings/react': workspace:*
+      '@skillrecordings/scripts': workspace:*
       '@skillrecordings/time': workspace:*
       '@tanstack/react-query': ^4.20.4
       '@trpc/client': ^10.7.0
@@ -3946,6 +3947,7 @@ importers:
       '@trpc/react-query': ^10.7.0
       '@trpc/server': ^10.7.0
       '@types/cookie': ^0.4.1
+      '@types/jest': ^27.5.2
       '@types/js-cookie': ^3.0.2
       '@types/lodash': ^4.14.179
       '@types/react': 18.0.18
@@ -3982,6 +3984,7 @@ importers:
       '@skillrecordings/convertkit-sdk': link:../convertkit-sdk
       '@skillrecordings/database': link:../database
       '@skillrecordings/react': link:../react
+      '@skillrecordings/scripts': link:../scripts
       '@skillrecordings/time': link:../time
       '@tanstack/react-query': 4.20.4_biqbaboplfbrettd7655fr4n2y
       '@trpc/client': 10.7.0_@trpc+server@10.7.0
@@ -3989,6 +3992,7 @@ importers:
       '@trpc/react-query': 10.7.0_x4ie6nhblo2vtx2aafrgzlfqy4
       '@trpc/server': 10.7.0
       '@types/cookie': 0.4.1
+      '@types/jest': 27.5.2
       '@types/js-cookie': 3.0.2
       '@types/lodash': 4.14.186
       '@types/react': 18.0.18
@@ -17554,10 +17558,10 @@ packages:
       eslint-import-resolver-webpack:
         optional: true
     dependencies:
-      '@typescript-eslint/parser': 5.40.0_eslint@8.26.0
+      '@typescript-eslint/parser': 5.40.0_sq327paf6wzcma7omk5wjhfcfa
       debug: 3.2.7
       eslint-import-resolver-node: 0.3.6
-      eslint-import-resolver-typescript: 2.7.1_mynvxvmq5qtyojffiqgev4x7mm
+      eslint-import-resolver-typescript: 2.7.1_2iahngt3u2tkbdlu6s4gkur3pu
       find-up: 2.1.0
     transitivePeerDependencies:
       - supports-color
