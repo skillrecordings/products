@@ -30,7 +30,6 @@
     "@skillrecordings/axios": "=0.0.2",
     "@skillrecordings/config": "workspace:*",
     "@skillrecordings/convertkit-react-ui": "workspace:*",
-    "@skillrecordings/cookies": "workspace:*",
     "@skillrecordings/react": "workspace:*",
     "axios": "^0.26.0",
     "eslint-config-custom": "workspace:*",

@@ -76,7 +76,6 @@
     "@skillrecordings/commerce-server": "workspace:*",
     "@skillrecordings/config": "workspace:*",
     "@skillrecordings/convertkit-react-ui": "workspace:*",
-    "@skillrecordings/cookies": "workspace:*",
     "@skillrecordings/database": "workspace:*",
     "@skillrecordings/next-seo": "workspace:*",
     "@skillrecordings/player": "workspace:*",
