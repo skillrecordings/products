@@ -20,6 +20,7 @@ export const lessonsRouter = router({
     )
     .query(async ({input}) => {
       if (input.module === 'tips') return null
+
       const lesson = await getLesson(input.slug)
       const section = input.section && (await getSection(input.section))
       const module = input.module && (await getModule(input.module))
