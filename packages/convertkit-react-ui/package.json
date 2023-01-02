@@ -23,7 +23,6 @@
     "@reach/dialog": "^0.16.2",
     "@skillrecordings/axios": "=0.0.2",
     "@skillrecordings/config": "workspace:*",
-    "@skillrecordings/cookies": "workspace:*",
     "@skillrecordings/react": "workspace:*",
     "axios": "^0.26.0",
     "cookie": "^0.5.0",

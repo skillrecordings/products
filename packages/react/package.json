@@ -30,7 +30,6 @@
     "@skillrecordings/auth": "=0.0.6",
     "@skillrecordings/axios": "=0.0.2",
     "@skillrecordings/config": "workspace:*",
-    "@skillrecordings/cookies": "workspace:*",
     "@skillrecordings/next-seo": "workspace:*",
     "axios": "^0.26.0",
     "formik": "2.2.9",

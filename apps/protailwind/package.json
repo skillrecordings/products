@@ -65,7 +65,6 @@
     "@skillrecordings/config": "workspace:*",
     "@skillrecordings/convertkit-react-ui": "workspace:*",
     "@skillrecordings/convertkit-sdk": "workspace:*",
-    "@skillrecordings/cookies": "workspace:*",
     "@skillrecordings/database": "workspace:*",
     "@skillrecordings/next-seo": "workspace:*",
     "@skillrecordings/player": "workspace:*",
