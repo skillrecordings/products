@@ -1,5 +1,6 @@
 import React from 'react'
 import get from 'lodash/get'
+import isEmpty from 'lodash/isEmpty'
 import {type SanityDocument} from '@sanity/client'
 import {useRouter} from 'next/router'
 import {type MuxPlayerProps} from '@mux/mux-player-react/*'
@@ -87,6 +88,12 @@ export const VideoProvider: React.FC<
     return videoElement?.play()
   }, [])
 
+  const exitFullscreen = () => {
+    if (!isEmpty(window.document.fullscreenElement)) {
+      window.document.exitFullscreen()
+    }
+  }
+
   const moduleSlug = module?.slug?.current
   const nextExerciseSlug = nextExercise?.slug
 
@@ -132,6 +139,7 @@ export const VideoProvider: React.FC<
   }, [lesson._type, lesson.slug, module.moduleType, module.slug])
 
   const onEndedCallback = React.useCallback(async () => {
+    exitFullscreen()
     handleNext(getPlayerPrefs().autoplay)
     track('completed lesson video', {
       module: module.slug.current,
