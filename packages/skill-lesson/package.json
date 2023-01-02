@@ -11,7 +11,7 @@
   "license": "ISC",
   "dependencies": {
     "@amplitude/analytics-browser": "^1.3.0",
-    "@mux/mux-player-react": "0.1.0-beta.26",
+    "@mux/mux-player-react": "1.5.1",
     "@portabletext/react": "^1.0.6",
     "@portabletext/types": "^1.0.3",
     "js-cookie": "^3.0.1",
@@ -27,6 +27,8 @@
     "@skillrecordings/time": "workspace:*",
     "@skillrecordings/react": "workspace:*",
     "@skillrecordings/config": "workspace:*",
+    "@skillrecordings/scripts": "workspace:*",
+    "@types/jest": "^27.5.2",
     "@trpc/client": "^10.7.0",
     "@trpc/next": "^10.7.0",
     "@trpc/react-query": "^10.7.0",
@@ -52,5 +54,8 @@
     "groq": "^2.15.0",
     "superjson": "^1.11.0",
     "typescript": "4.9.4"
+  },
+  "jest": {
+    "preset": "@skillrecordings/scripts/jest/node"
   }
 }

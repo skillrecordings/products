@@ -10,11 +10,9 @@ export const useNextLesson = (
   module: SanityDocument,
   section?: SanityDocument,
 ) => {
-  const router = useRouter()
-
   const {data: nextExercise} = trpcSkillLessons.lessons.getNextLesson.useQuery({
     type: lesson._type,
-    slug: (router.query.exercise as string) || (router.query.lesson as string),
+    slug: lesson.slug,
     module: module.slug.current,
     section: section?.slug,
   })

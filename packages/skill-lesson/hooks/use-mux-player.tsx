@@ -10,10 +10,8 @@ import {useNextLesson} from './use-next-lesson'
 import {track} from '../utils/analytics'
 import {usePlayerPrefs} from './use-player-prefs'
 import {getNextSection} from '../utils/get-next-section'
-import {useConvertkit} from './use-convertkit'
 
 import {type AppAbility, createAppAbility} from '../utils/ability'
-import {useQuery} from '@tanstack/react-query'
 import {LessonResource} from '../schemas/lesson-resource'
 import {trpcSkillLessons} from '../utils/trpc-skill-lessons'
 
@@ -53,7 +51,6 @@ export const VideoProvider: React.FC<
   exerciseSlug,
 }) => {
   const router = useRouter()
-  const {subscriber, loadingSubscriber} = useConvertkit()
   const {videoResource, loadingVideoResource} = useVideoResource()
   const {lesson, section, module} = useLesson()
   const nextExercise = useNextLesson(lesson, module, section)
@@ -76,15 +73,12 @@ export const VideoProvider: React.FC<
 
   const ability = createAppAbility(abilityRules || [])
 
-  const {setPlayerPrefs, playbackRate, autoplay, getPlayerPrefs} =
-    usePlayerPrefs()
+  const {setPlayerPrefs, autoplay, getPlayerPrefs} = usePlayerPrefs()
   const [autoPlay, setAutoPlay] = React.useState(getPlayerPrefs().autoplay)
   const [displayOverlay, setDisplayOverlay] = React.useState(false)
   const title = get(lesson, 'title') || get(lesson, 'label')
   const loadingUserStatus =
-    loadingSubscriber ||
-    abilityRulesStatus === 'loading' ||
-    loadingVideoResource
+    abilityRulesStatus === 'loading' || loadingVideoResource
 
   const handlePlay = React.useCallback(() => {
     const videoElement = document.getElementById(
@@ -113,13 +107,17 @@ export const VideoProvider: React.FC<
     setDisplayOverlay(false)
   }, [lesson])
 
+  const playbackRate = getPlayerPrefs().playbackRate
+  const playbackId = videoResource?.muxPlaybackId
   // preferences
   React.useEffect(() => {
-    if (muxPlayerRef.current && videoResource) {
-      muxPlayerRef.current.playbackRate = playbackRate
-      muxPlayerRef.current.autoplay = autoPlay
+    if (muxPlayerRef.current && playbackId) {
+      setTimeout(() => {
+        muxPlayerRef.current.playbackRate = playbackRate
+        muxPlayerRef.current.autoplay = autoPlay
+      }, 100)
     }
-  }, [subscriber, muxPlayerRef, playbackRate, autoPlay, videoResource])
+  }, [muxPlayerRef, playbackRate, autoPlay, playbackId])
 
   const canShowVideo = ability.can('view', 'Content')
 
@@ -152,12 +150,11 @@ export const VideoProvider: React.FC<
     onEnded,
   ])
 
-  const currentPlaybackRate = muxPlayerRef.current?.playbackRate || 1
   const onRateChange = React.useCallback(() => {
     setPlayerPrefs({
-      playbackRate: currentPlaybackRate,
+      playbackRate: muxPlayerRef.current?.playbackRate,
     })
-  }, [currentPlaybackRate, setPlayerPrefs])
+  }, [muxPlayerRef, setPlayerPrefs])
 
   const setDisplayOverlayCallback = React.useCallback(
     (value: boolean) => {
