@@ -56,7 +56,7 @@ export async function redeemGoldenTicket({
       // if the Coupon is the Bulk Coupon of a Bulk Purchase,
       // then a bulk coupon is being redeemed
       const bulkCouponRedemption = Boolean(
-        coupon?.bulkCouponPurchases[0].bulkCouponId,
+        coupon.bulkCouponPurchases[0]?.bulkCouponId,
       )
 
       const {user} = await findOrCreateUser(email)
