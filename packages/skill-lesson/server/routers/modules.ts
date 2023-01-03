@@ -24,7 +24,7 @@ export const modulesRouter = router({
     )
     .query(async ({ctx, input}) => {
       const token = await getToken({req: ctx.req})
-      const convertkitSubscriber = getSubscriberFromCookie(ctx.req)
+      const convertkitSubscriber = await getSubscriberFromCookie(ctx.req)
       const module = input.moduleSlug && (await getModule(input.moduleSlug))
 
       const lesson = input.lessonSlug
