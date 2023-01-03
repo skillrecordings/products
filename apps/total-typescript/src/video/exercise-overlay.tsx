@@ -387,7 +387,7 @@ const BlockedOverlay: React.FC = () => {
   return (
     <div
       id="video-overlay"
-      className="flex w-full flex-col items-center justify-center bg-[#070B16] py-10 md:flex-row lg:aspect-video"
+      className="flex w-full flex-col items-center justify-center bg-[#070B16] py-10 xl:aspect-video xl:flex-row"
     >
       {module.moduleType === 'tutorial' ? (
         <>
@@ -429,9 +429,13 @@ const BlockedOverlay: React.FC = () => {
               )}
             </div>
           </div>
-          <div className="prose flex w-full max-w-none flex-col p-5 text-white prose-p:mb-0 prose-p:text-gray-300 sm:max-w-sm xl:prose-lg xl:max-w-lg xl:prose-p:mb-0">
-            <h3 className="text-3xl font-semibold">This is a free tutorial.</h3>
-            {ctaText && <PortableText value={ctaText} />}
+          <div className="sm:pr-5">
+            <div className="prose relative flex w-full max-w-2xl flex-col border-gray-700/50 bg-gray-800 p-5 text-white shadow-2xl before:absolute before:top-[-8px] before:left-1/2 before:h-4 before:w-4 before:rotate-45 before:border-l before:border-t before:border-gray-700/50 before:bg-gray-800 before:content-[''] prose-p:mb-0 prose-p:text-gray-300 sm:rounded-lg sm:border xl:prose-lg xl:max-w-lg xl:bg-transparent xl:before:hidden xl:prose-p:mb-0 2xl:prose-base 2xl:prose-p:mb-0">
+              <h3 className="text-2xl font-semibold sm:text-3xl">
+                This is a free tutorial.
+              </h3>
+              {ctaText && <PortableText value={ctaText} />}
+            </div>
           </div>
         </>
       ) : (
