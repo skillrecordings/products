@@ -36,17 +36,16 @@ export async function subscribeToConvertkit({
       fields,
     })
 
+    const fullSubscriber = await fetchSubscriber(subscriber.id.toString())
+
     if (fields) {
-      const subscriberWithFields = await fetchSubscriber(
-        subscriber.id.toString(),
-      )
-      await setConvertkitSubscriberFields(subscriberWithFields, fields)
+      await setConvertkitSubscriberFields(fullSubscriber, fields)
     }
 
     return {
       status: 200,
       body: subscriber,
-      cookies: getConvertkitSubscriberCookie(subscriber),
+      cookies: getConvertkitSubscriberCookie(fullSubscriber),
     }
   } catch (error) {
     return {
