@@ -1,38 +1,50 @@
 import React from 'react'
 import Layout from 'components/app/layout'
-import {convertToSerializeForNextResponse} from '@skillrecordings/commerce-server'
 import {GetServerSideProps} from 'next'
 import BuyMoreSeats from 'team/buy-more-seats'
 import {TicketIcon} from '@heroicons/react/outline'
-import {getCurrentAbility} from '@skillrecordings/ability'
 import {getToken} from 'next-auth/jwt'
 import {getSdk} from '@skillrecordings/database'
 import Card from 'team/card'
+import {z} from 'zod'
 
-export const getServerSideProps: GetServerSideProps = async ({req}) => {
+const productDataSchema = z.object({id: z.string(), name: z.string()})
+
+export const getServerSideProps: GetServerSideProps = async ({req, query}) => {
   const token = await getToken({req})
-  const ability = getCurrentAbility(token as any)
-  const {getPurchasesForUser} = getSdk()
+  const {getPurchasesForUser, getProduct} = getSdk()
 
-  const purchases = await getPurchasesForUser(token?.sub)
+  let productId: string | undefined = undefined
 
-  // try to find a bulk purchase first
-  const bulkPurchases = purchases.filter(
-    (purchase) => purchase.bulkCoupon !== null,
-  )
+  if (query.productId) {
+    productId = query.productId as string
+  } else {
+    const purchases = await getPurchasesForUser(token?.sub)
 
-  // try to find individual-access purchase
-  const individualPurchase = purchases.find(
-    (purchase) =>
-      purchase.bulkCoupon === null && purchase.redeemedBulkCouponId === null,
-  )
+    // try to find a bulk purchase first
+    const bulkPurchases = purchases.filter(
+      (purchase) => purchase.bulkCoupon !== null,
+    )
 
-  const existingPurchase = bulkPurchases[0] || individualPurchase
+    // try to find individual-access purchase
+    const individualPurchase = purchases.find(
+      (purchase) =>
+        purchase.bulkCoupon === null && purchase.redeemedBulkCouponId === null,
+    )
 
-  if (token?.sub && existingPurchase) {
+    const existingPurchase = bulkPurchases[0] || individualPurchase
+
+    productId = existingPurchase.productId
+  }
+
+  const product = await getProduct({where: {id: productId}})
+
+  if (token?.sub && Boolean(product)) {
+    const productData = productDataSchema.parse(product)
+
     return {
       props: {
-        purchase: convertToSerializeForNextResponse(existingPurchase),
+        product: productData,
         userId: token.sub,
       },
     }
@@ -47,17 +59,13 @@ export const getServerSideProps: GetServerSideProps = async ({req}) => {
 }
 
 type BuyMoreSeatsPageProps = {
-  purchase: {
-    merchantChargeId: string | null
-    bulkCoupon: {id: string; maxUses: number; usedCount: number} | null
-    product: {id: string; name: string}
-  }
+  product: z.infer<typeof productDataSchema>
   userId: string
 }
 
 const BuyMoreSeatsPage: React.FC<
   React.PropsWithChildren<BuyMoreSeatsPageProps>
-> = ({purchase, userId}) => {
+> = ({product, userId}) => {
   return (
     <Layout
       meta={{
@@ -66,11 +74,14 @@ const BuyMoreSeatsPage: React.FC<
       className="bg-noise text-gray-900"
     >
       <main className="mx-auto flex w-full max-w-xl flex-grow flex-col items-center justify-center gap-3 p-5 py-16">
+        <h2 className="mx-auto max-w-lg py-5 font-text text-3xl font-bold text-white lg:text-4xl">
+          {product.name}
+        </h2>
         <Card
           title={{content: 'Get more seats', as: 'h2'}}
           icon={<TicketIcon className="w-5 text-cyan-500" aria-hidden="true" />}
         >
-          <BuyMoreSeats productId={purchase.product.id} userId={userId} />
+          <BuyMoreSeats productId={product.id} userId={userId} />
         </Card>
       </main>
     </Layout>
