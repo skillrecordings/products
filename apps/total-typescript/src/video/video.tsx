@@ -33,6 +33,7 @@ export const Video: React.FC<VideoProps> = React.forwardRef(
       canShowVideo,
       loadingUserStatus,
       nextSection,
+      refetchAbilityRules,
     } = useMuxPlayer()
 
     return (
@@ -64,7 +65,7 @@ export const Video: React.FC<VideoProps> = React.forwardRef(
               {loadingUserStatus || loadingVideoResource ? (
                 <LoadingOverlay />
               ) : (
-                <BlockedOverlay />
+                <BlockedOverlay refetchAbilityRules={refetchAbilityRules} />
               )}
             </>
           )}

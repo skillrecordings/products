@@ -26,6 +26,7 @@ import {useVideoResource} from '@skillrecordings/skill-lesson/hooks/use-video-re
 import {getBaseUrl} from '@skillrecordings/skill-lesson/utils/get-base-url'
 import {useQuery} from '@tanstack/react-query'
 import {LessonResource} from '@skillrecordings/skill-lesson/schemas/lesson-resource'
+import {confirmSubscriptionToast} from '@skillrecordings/skill-lesson/hooks/use-convertkit'
 
 export const OverlayWrapper: React.FC<
   React.PropsWithChildren<{className?: string; dismissable?: boolean}>
@@ -338,7 +339,9 @@ const FinishedOverlay = () => {
   )
 }
 
-const BlockedOverlay: React.FC = () => {
+const BlockedOverlay: React.FC<{refetchAbilityRules: () => {}}> = ({
+  refetchAbilityRules,
+}) => {
   const router = useRouter()
   const {lesson, module} = useLesson()
 
@@ -372,9 +375,12 @@ const BlockedOverlay: React.FC = () => {
         moduleType: module.moduleType,
         lessonType: lesson._type,
       })
-      router.push(redirectUrl).then(() => {
-        router.reload()
-      })
+      refetchAbilityRules()
+      confirmSubscriptionToast()
+      // router.push(redirectUrl)
+      // .then(() => {
+      //   router.reload()
+      // })
     }
   }
 

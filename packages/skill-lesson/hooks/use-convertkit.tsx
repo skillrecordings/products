@@ -76,7 +76,7 @@ export function useConvertkit() {
   return React.useContext(ConvertkitContext)
 }
 
-const confirmSubscriptionToast = (email?: string) => {
+export const confirmSubscriptionToast = (email?: string) => {
   return toast(
     () => (
       <div>
