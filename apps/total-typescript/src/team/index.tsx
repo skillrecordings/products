@@ -1,7 +1,6 @@
 import React from 'react'
 import SelfRedeemButton from './self-redeem-button'
 import CopyInviteLink from './copy-invite-link'
-import Link from 'next/link'
 import {z} from 'zod'
 
 type InviteTeamProps = {
@@ -24,6 +23,9 @@ const InviteTeam: React.FC<React.PropsWithChildren<InviteTeamProps>> = ({
   session,
   setPersonalPurchase,
 }) => {
+  const [selfRedemptionSucceeded, setSelfRedemptionSucceeded] =
+    React.useState<boolean>(false)
+
   const bulkCouponSchema = z
     .object({id: z.string(), maxUses: z.number(), usedCount: z.number()})
     .nullable()
@@ -37,7 +39,12 @@ const InviteTeam: React.FC<React.PropsWithChildren<InviteTeamProps>> = ({
         return z.NEVER
       }
 
-      const {id, maxUses, usedCount} = data
+      const {id, maxUses, usedCount: _usedCount} = data
+
+      // manually increment the usedCount by 1 if a self-redemption happened
+      // during this componenet's lifecycle.
+      const usedCount = _usedCount + (selfRedemptionSucceeded ? 1 : 0)
+
       return {
         bulkCouponId: id,
         maxUses,
@@ -91,6 +98,7 @@ const InviteTeam: React.FC<React.PropsWithChildren<InviteTeamProps>> = ({
                 onSuccess={(redeemedPurchase) => {
                   setCanRedeem(false)
                   setPersonalPurchase(redeemedPurchase)
+                  setSelfRedemptionSucceeded(true)
                 }}
                 disabled={!hasRedemptionsLeft}
               />
