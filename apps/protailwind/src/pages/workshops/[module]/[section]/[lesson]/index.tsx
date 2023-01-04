@@ -1,11 +1,14 @@
 import React from 'react'
 import ExerciseTemplate from 'templates/exercise-template'
 import {GetStaticPaths, GetStaticProps} from 'next'
-import {getExercise, getExerciseMedia} from 'lib/exercises'
-import {getAllWorkshops, getWorkshop} from 'lib/workshops'
-import {getSection} from 'lib/sections'
-import {VideoResourceProvider} from '@skillrecordings/skill-lesson/hooks/use-video-resource'
+import {getAllTutorials, getTutorial} from 'lib/tutorials'
+import {getExercise} from 'lib/exercises'
+import path from 'path'
+import {walk} from 'utils/code-editor-content'
 import {LessonProvider} from '@skillrecordings/skill-lesson/hooks/use-lesson'
+import {VideoResourceProvider} from '@skillrecordings/skill-lesson/hooks/use-video-resource'
+import {getAllWorkshops, getWorkshop} from '../../../../../lib/workshops'
+import {getSection} from '@skillrecordings/skill-lesson/lib/sections'
 
 export const getStaticProps: GetStaticProps = async (context) => {
   const {params} = context
@@ -14,13 +17,20 @@ export const getStaticProps: GetStaticProps = async (context) => {
 
   const module = await getWorkshop(params?.module as string)
   const section = await getSection(sectionSlug)
-  const lesson = await getExercise(lessonSlug, false)
+  const lesson = await getExercise(lessonSlug)
+
+  const tutorialDirectory = path.join(
+    process.cwd(),
+    'src/components/sandpack/parcel',
+  )
+  const tutorialFiles = walk(tutorialDirectory)
 
   return {
     props: {
       lesson,
-      module,
       section,
+      module,
+      tutorialFiles,
       transcript: lesson.transcript,
       videoResourceId: lesson.videoResourceId,
     },
@@ -55,13 +65,17 @@ const ExercisePage: React.FC<any> = ({
   lesson,
   module,
   section,
+  tutorialFiles,
   transcript,
   videoResourceId,
 }) => {
   return (
     <LessonProvider lesson={lesson} module={module} section={section}>
       <VideoResourceProvider videoResourceId={videoResourceId}>
-        <ExerciseTemplate transcript={transcript} />
+        <ExerciseTemplate
+          transcript={transcript}
+          tutorialFiles={tutorialFiles}
+        />
       </VideoResourceProvider>
     </LessonProvider>
   )

@@ -23,6 +23,7 @@ import {useMuxPlayer} from '@skillrecordings/skill-lesson/hooks/use-mux-player'
 import {useVideoResource} from '@skillrecordings/skill-lesson/hooks/use-video-resource'
 import {getBaseUrl} from '@skillrecordings/skill-lesson/utils/get-base-url'
 import {LessonResource} from '@skillrecordings/skill-lesson/schemas/lesson-resource'
+import Link from 'next/link'
 
 const SandpackEditor: React.ComponentType<any> = dynamic(
   () => import('components/sandpack/repl'),
@@ -115,7 +116,7 @@ const ExerciseOverlay: React.FC<{tutorialFiles: any}> = ({tutorialFiles}) => {
   const {lesson} = useLesson()
   const router = useRouter()
   const {data: resources} = trpc.resources.byExerciseSlug.useQuery({
-    slug: router.query.exercise as string,
+    slug: router.query.lesson as string,
     type: lesson._type,
   })
 
@@ -349,40 +350,103 @@ const BlockedOverlay: React.FC = () => {
       id="video-overlay"
       className="flex w-full flex-col items-center justify-center bg-gray-200/80 py-5 md:flex-row"
     >
-      <div className="z-20 flex h-full flex-shrink-0 flex-col items-center justify-center gap-5 p-5 pb-10 text-center text-lg leading-relaxed sm:p-10 sm:pb-16">
-        <div className="flex w-full flex-col items-center justify-center gap-2">
-          <div className="relative ">
-            <Image
-              src={module.image}
-              width={150}
-              height={150}
-              alt={module.title}
-            />
+      {module.moduleType === 'tutorial' ? (
+        <>
+          <div className="z-20 flex h-full flex-shrink-0 flex-col items-center justify-center gap-5 p-5 pb-10 text-center text-lg leading-relaxed sm:p-10 sm:pb-16">
+            <div className="flex w-full flex-col items-center justify-center gap-2">
+              <div className="relative ">
+                {module.image && (
+                  <Image
+                    src={module.image}
+                    width={150}
+                    height={150}
+                    alt={module.title}
+                  />
+                )}
+              </div>
+              <h2 className="max-w-sm font-heading text-3xl font-black">
+                Level up with {module.title}
+              </h2>
+              <h3 className="pb-5 pt-2 text-lg font-medium text-brand-red">
+                Access all lessons in this {module.moduleType}.
+              </h3>
+              {module.moduleType === 'tutorial' ? (
+                <>
+                  <SubscribeToConvertkitForm
+                    successMessage="Thanks! You're being redirected..."
+                    subscribeApiURL={
+                      process.env.NEXT_PUBLIC_CONVERTKIT_SUBSCRIBE_URL
+                    }
+                    actionLabel="Continue Watching"
+                    fields={startedLearningField}
+                    onSuccess={(subscriber, email) => {
+                      return handleOnSuccess(subscriber, email)
+                    }}
+                  />
+                  <p className="pt-2 text-base opacity-80">
+                    No spam, unsubscribe at any time.
+                  </p>
+                </>
+              ) : (
+                <div>Buy Now</div>
+              )}
+            </div>
           </div>
-          <h2 className="max-w-sm font-heading text-3xl font-black">
-            Level up with {module.title}
-          </h2>
-          <h3 className="pb-5 pt-2 text-lg font-medium text-brand-red">
-            Access all lessons in this {module.moduleType}.
-          </h3>
-          <SubscribeToConvertkitForm
-            successMessage="Thanks! You're being redirected..."
-            subscribeApiURL={process.env.NEXT_PUBLIC_CONVERTKIT_SUBSCRIBE_URL}
-            actionLabel="Continue Watching"
-            fields={startedLearningField}
-            onSuccess={(subscriber, email) => {
-              return handleOnSuccess(subscriber, email)
-            }}
-          />
-          <p className="pt-2 text-base opacity-80">
-            No spam, unsubscribe at any time.
-          </p>
-        </div>
-      </div>
-      <div className="prose flex w-full max-w-none flex-col p-5 text-white prose-p:mb-0 prose-p:text-gray-700 sm:max-w-sm xl:max-w-lg xl:prose-p:mb-0">
-        <h3 className="font-black">This is a free tutorial.</h3>
-        {ctaText && <PortableText value={ctaText} />}
-      </div>
+          <div className="prose flex w-full max-w-none flex-col p-5 text-white prose-p:mb-0 prose-p:text-gray-700 sm:max-w-sm xl:max-w-lg xl:prose-p:mb-0">
+            <h3 className="font-black">This is a free tutorial.</h3>
+            {ctaText && <PortableText value={ctaText} />}
+          </div>
+        </>
+      ) : (
+        <>
+          <div className="z-20 flex h-full flex-shrink-0 flex-col items-center justify-center gap-5 p-5 pb-10 text-center text-lg leading-relaxed sm:p-10 sm:pb-16">
+            <div className="flex w-full flex-col items-center justify-center gap-2">
+              <div className="relative -mb-5">
+                {module.image && (
+                  <Image
+                    src={module.image}
+                    width={220}
+                    height={220}
+                    alt={module.title}
+                  />
+                )}
+              </div>
+              <h2 className="text-4xl font-semibold">
+                Level up your {module.title}
+              </h2>
+              <h3 className="max-w-xl pb-5 pt-3 text-lg text-gray-300">
+                This {lesson._type} is part of the {module.title} workshop.
+              </h3>
+              <Link
+                href={{
+                  pathname: '/buy',
+                }}
+              >
+                <a
+                  className="group group mt-5 inline-block gap-2 rounded bg-gradient-to-b from-cyan-300 to-cyan-400 py-3 pl-5 pr-8 font-medium text-black transition hover:brightness-110"
+                  onClick={() => {
+                    track('clicked unlock lesson', {
+                      lesson: lesson.slug,
+                      module: module.slug.current,
+                      location: 'blocked overlay',
+                      moduleType: module.moduleType,
+                      lessonType: lesson._type,
+                    })
+                  }}
+                >
+                  <span className="pr-3">Unlock this {lesson._type} now</span>
+                  <span
+                    aria-hidden="true"
+                    className="absolute text-cyan-700 transition group-hover:translate-x-1"
+                  >
+                    →
+                  </span>
+                </a>
+              </Link>
+            </div>
+          </div>
+        </>
+      )}
     </div>
   )
 }

@@ -1,4 +1,5 @@
 import {StaticImageData} from 'next/image'
+import {DefaultCoupon} from '@skillrecordings/commerce-server/dist/@types'
 
 export type Contributor = {
   name: string
@@ -34,5 +35,6 @@ export type LayoutProps = {
   noNav?: boolean
   navClassName?: string
   footer?: React.ReactElement | null
+  defaultCoupon?: DefaultCoupon
   children?: any
 }

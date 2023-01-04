@@ -44,7 +44,12 @@ const Layout: FunctionComponent<React.PropsWithChildren<LayoutProps>> = ({
         noindex={noIndex}
       />
       {!noNav && <Navigation className={navClassName} />}
-      <div className={cx('flex h-full flex-grow flex-col', className)}>
+      <div
+        className={cx(
+          'flex min-h-[calc(100vh-100px)] flex-grow flex-col sm:min-h-[calc(100vh-76px)]',
+          className,
+        )}
+      >
         {children}
         {/* {footer ? footer : isNull(footer) ? null : <Footer />} */}
       </div>

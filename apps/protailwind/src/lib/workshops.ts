@@ -25,12 +25,16 @@ const workshopsQuery = groq`*[_type == "module" && moduleType == 'workshop'] | o
       title,
       description,
       "slug": slug.current,
+            "videoResourceId": resources[@->._type == 'videoResource'][0]->_id,
+      "transcript": resources[@->._type == 'videoResource'][0]-> castingwords.transcript,
       "solution": resources[@._type == 'solution'][0]{
         _key,
         _type,
         "_updatedAt": ^._updatedAt,
         title,
         description,
+              "videoResourceId": resources[@->._type == 'videoResource'][0]->_id,
+      "transcript": resources[@->._type == 'videoResource'][0]-> castingwords.transcript,
         "slug": slug.current,
       }
     },
@@ -79,12 +83,16 @@ export const getWorkshop = async (slug: string) =>
             title,
             description,
             "slug": slug.current,
+                  "videoResourceId": resources[@->._type == 'videoResource'][0]->_id,
+      "transcript": resources[@->._type == 'videoResource'][0]-> castingwords.transcript,
             "solution": resources[@._type == 'solution'][0]{
               _key,
               _type,
               "_updatedAt": ^._updatedAt,
               title,
               description,
+                    "videoResourceId": resources[@->._type == 'videoResource'][0]->_id,
+      "transcript": resources[@->._type == 'videoResource'][0]-> castingwords.transcript,
               "slug": slug.current,
             }
           },
