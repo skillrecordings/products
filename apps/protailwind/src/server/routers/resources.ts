@@ -12,8 +12,8 @@ export const lessonResourcesRouter = router({
     )
     .query(async ({ctx, input}) => {
       const lesson = await getExercise(input.slug)
-      const sandpack = input.type === 'exercise' ? lesson.sandpack : undefined
-      const figma = input.type === 'exercise' ? lesson.figma : undefined
+      const sandpack = input.type === 'exercise' ? lesson.sandpack : null
+      const figma = input.type === 'exercise' ? lesson.figma : null
       const github =
         input.type === 'exercise' ? lesson.github : lesson.solution?.github
 
