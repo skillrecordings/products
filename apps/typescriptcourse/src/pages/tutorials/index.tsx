@@ -19,6 +19,7 @@ const TutorialsPage: React.FC<{tutorials: SanityDocument[]}> = ({
 }) => {
   return (
     <Layout
+      className="overflow-hidden"
       meta={
         {
           title: `Free TypeScript Tutorials from Joe Previte`,

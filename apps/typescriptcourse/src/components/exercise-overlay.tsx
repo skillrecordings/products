@@ -34,7 +34,7 @@ export const OverlayWrapper: React.FC<
     >
       {dismissable && (
         <button
-          className="absolute top-2 right-2 z-50 flex items-center justify-center gap-1 rounded-full  py-2 px-3.5 font-medium text-gray-600 transition"
+          className="absolute top-2 right-2 z-40 flex items-center gap-1 rounded-full py-2 px-3 font-medium text-gray-200 transition hover:bg-gray-700"
           onClick={() => {
             track('dismissed video overlay', {
               lesson: lesson.slug,
@@ -46,7 +46,7 @@ export const OverlayWrapper: React.FC<
           }}
         >
           <span>Dismiss</span>{' '}
-          <XIcon className="h-4 w-4 text-gray-500" aria-hidden="true" />
+          <XIcon className="h-4 w-4 text-gray-200" aria-hidden="true" />
         </button>
       )}
       <div
@@ -69,7 +69,7 @@ const DefaultOverlay = () => {
   const addProgressMutation = trpc.progress.add.useMutation()
 
   return (
-    <OverlayWrapper className="px-5">
+    <OverlayWrapper className="px-5 bg-gray-800">
       {image && (
         <div className="hidden items-center justify-center sm:flex sm:w-40 lg:w-auto">
           <Image
@@ -83,12 +83,12 @@ const DefaultOverlay = () => {
       )}
 
       <p className="pt-4 font-heading text-xl font-black sm:text-3xl">
-        <span className="font-normal text-gray-700">Up next:</span>{' '}
+        <span className="font-normal text-gray-200">Up next:</span>{' '}
         {nextExercise?.title}
       </p>
       <div className="flex items-center justify-center gap-5 py-4 sm:py-8">
         <button
-          className="rounded-full bg-white px-3 py-1 text-lg font-semibold transition hover:bg-gray-100 sm:px-5 sm:py-3"
+          className="rounded-full bg-gray-900 px-3 py-1 text-lg font-semibold transition hover:brightness-125 sm:px-5 sm:py-3"
           onClick={() => {
             track('clicked replay', {
               lesson: lesson.slug,
@@ -103,7 +103,7 @@ const DefaultOverlay = () => {
           Replay ↺
         </button>
         <button
-          className="rounded-full bg-brand-red px-3 py-1 text-lg font-semibold text-white transition hover:brightness-125 sm:px-5 sm:py-3"
+          className="rounded-full bg-brand-red px-3 py-1 text-lg font-semibold text-white transition hover:brightness-125 sm:px-5 sm:py-3 bg-blue-400"
           onClick={() => {
             track('clicked complete', {
               lesson: lesson.slug,
@@ -252,15 +252,15 @@ const BlockedOverlay: React.FC = () => {
   return (
     <div
       id="video-overlay"
-      className="flex w-full flex-col items-center justify-center py-5 md:flex-row"
+      className="flex w-full flex-col items-center justify-center py-5 md:flex-row bg-gray-800"
     >
       <div className="z-20 flex h-full flex-shrink-0 flex-col items-center justify-center gap-5 p-5 pb-10 text-center text-lg leading-relaxed sm:p-10 sm:pb-16">
         <div className="flex w-full flex-col items-center justify-center gap-2">
           <div className="relative ">
             <Image
               src={module.image}
-              width={150}
-              height={150}
+              width={120}
+              height={120}
               alt={module.title}
             />
           </div>
@@ -284,7 +284,7 @@ const BlockedOverlay: React.FC = () => {
           </p>
         </div>
       </div>
-      <div className="prose flex w-full max-w-none flex-col p-5 prose-p:mb-0 prose-p:text-gray-700 sm:max-w-sm xl:max-w-lg xl:prose-p:mb-0">
+      <div className="prose flex w-full max-w-none flex-col p-5 prose-p:mb-0 prose-p:text-gray-200 sm:max-w-sm xl:max-w-lg xl:prose-p:mb-0">
         <h3 className="font-black">This is a free tutorial.</h3>
         {ctaText && <PortableText value={ctaText} />}
       </div>
