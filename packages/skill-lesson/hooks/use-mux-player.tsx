@@ -15,6 +15,7 @@ import {getNextSection} from '../utils/get-next-section'
 import {type AppAbility, createAppAbility} from '../utils/ability'
 import {LessonResource} from '../schemas/lesson-resource'
 import {trpcSkillLessons} from '../utils/trpc-skill-lessons'
+import {useConvertkit} from './use-convertkit'
 
 type VideoContextType = {
   muxPlayerProps: MuxPlayerProps | any
@@ -31,7 +32,6 @@ type VideoContextType = {
   canShowVideo: boolean
   loadingUserStatus: boolean
   ability: AppAbility
-  refetchAbilityRules: () => {}
 }
 
 export const VideoContext = React.createContext({} as VideoContextType)
@@ -53,6 +53,7 @@ export const VideoProvider: React.FC<
   exerciseSlug,
 }) => {
   const router = useRouter()
+  const {subscriber} = useConvertkit()
   const {videoResource, loadingVideoResource} = useVideoResource()
   const {lesson, section, module} = useLesson()
   const nextExercise = useNextLesson(lesson, module, section)
@@ -64,18 +65,15 @@ export const VideoProvider: React.FC<
       })
     : null
 
-  const {
-    data: abilityRules,
-    status: abilityRulesStatus,
-    refetch: refetchAbilityRules,
-    isRefetching,
-  } = trpcSkillLessons.modules.rules.useQuery({
-    moduleSlug: module.slug.current,
-    moduleType: module.moduleType,
-    lessonSlug: exerciseSlug,
-    sectionSlug: section?.slug,
-    isSolution: lesson._type === 'solution',
-  })
+  const {data: abilityRules, status: abilityRulesStatus} =
+    trpcSkillLessons.modules.rules.useQuery({
+      moduleSlug: module.slug.current,
+      moduleType: module.moduleType,
+      lessonSlug: exerciseSlug,
+      sectionSlug: section?.slug,
+      isSolution: lesson._type === 'solution',
+      convertkitSubscriberId: subscriber?.id,
+    })
 
   const ability = createAppAbility(abilityRules || [])
 
@@ -84,7 +82,7 @@ export const VideoProvider: React.FC<
   const [displayOverlay, setDisplayOverlay] = React.useState(false)
   const title = get(lesson, 'title') || get(lesson, 'label')
   const loadingUserStatus =
-    abilityRulesStatus === 'loading' || isRefetching || loadingVideoResource
+    abilityRulesStatus === 'loading' || loadingVideoResource
 
   const handlePlay = React.useCallback(() => {
     const videoElement = document.getElementById(
@@ -198,14 +196,11 @@ export const VideoProvider: React.FC<
     displayOverlay,
     nextExercise,
     nextSection,
-    section,
-    module,
     video: videoResource,
     path,
     canShowVideo,
     ability,
     loadingUserStatus,
-    refetchAbilityRules,
   }
   return (
     <VideoContext.Provider value={context}>{children}</VideoContext.Provider>

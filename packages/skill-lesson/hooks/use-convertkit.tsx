@@ -14,10 +14,12 @@ import {identify} from '../utils/analytics'
 export type ConvertkitContextType = {
   subscriber?: Subscriber
   loadingSubscriber: boolean
+  refetch: () => Promise<any>
 }
 
 const defaultConvertKitContext: ConvertkitContextType = {
   loadingSubscriber: true,
+  refetch: async () => {},
 }
 
 export const ConvertkitContext = React.createContext(defaultConvertKitContext)
@@ -27,45 +29,46 @@ export const ConvertkitProvider: React.FC<
 > = ({children, learnerId}) => {
   const router = useRouter()
 
-  const {data: subscriber, status} = useQuery<Subscriber>(
-    [`convertkit-subscriber`],
-    async () => {
-      const params = new URLSearchParams(window.location.search)
-      const ckSubscriberId =
-        params.get(CK_SUBSCRIBER_KEY) || Cookies.get('ck_subscriber_id')
+  const {
+    data: subscriber,
+    status,
+    refetch,
+  } = useQuery<Subscriber>([`convertkit-subscriber`, learnerId], async () => {
+    const params = new URLSearchParams(window.location.search)
+    const ckSubscriberId =
+      params.get(CK_SUBSCRIBER_KEY) || Cookies.get('ck_subscriber_id')
 
-      try {
-        const learner = params.get('learner') || learnerId
-        const subscriberLoaderParams = new URLSearchParams({
-          ...(learner && {learner}),
-          ...(ckSubscriberId && {ckSubscriberId}),
-        })
+    try {
+      const learner = params.get('learner') || learnerId
+      const subscriberLoaderParams = new URLSearchParams({
+        ...(learner && {learner}),
+        ...(ckSubscriberId && {ckSubscriberId}),
+      })
 
-        const subscriber = await fetch(
-          `/api/skill/subscriber/convertkit?${subscriberLoaderParams}`,
-        )
-          .then((response) => response.json())
-          .catch(() => undefined)
+      const subscriber = await fetch(
+        `/api/skill/subscriber/convertkit?${subscriberLoaderParams}`,
+      )
+        .then((response) => response.json())
+        .catch(() => undefined)
 
-        identify(subscriber)
+      identify(subscriber)
 
-        if (!isEmpty(ckSubscriberId)) {
-          if (router.asPath.match(/confirmToast=true/))
-            confirmSubscriptionToast(subscriber.email_address)
-          removeQueryParamsFromRouter(router, [CK_SUBSCRIBER_KEY])
-        }
-
-        return subscriber || false
-      } catch (e) {
-        console.debug(`couldn't load ck subscriber cookie`)
-        return false
+      if (!isEmpty(ckSubscriberId)) {
+        if (router.asPath.match(/confirmToast=true/))
+          confirmSubscriptionToast(subscriber.email_address)
+        removeQueryParamsFromRouter(router, [CK_SUBSCRIBER_KEY])
       }
-    },
-  )
+
+      return subscriber || false
+    } catch (e) {
+      console.debug(`couldn't load ck subscriber cookie`)
+      return false
+    }
+  })
 
   return (
     <ConvertkitContext.Provider
-      value={{subscriber, loadingSubscriber: status === 'loading'}}
+      value={{subscriber, loadingSubscriber: status === 'loading', refetch}}
     >
       {children}
     </ConvertkitContext.Provider>

@@ -26,7 +26,10 @@ import {useVideoResource} from '@skillrecordings/skill-lesson/hooks/use-video-re
 import {getBaseUrl} from '@skillrecordings/skill-lesson/utils/get-base-url'
 import {useQuery} from '@tanstack/react-query'
 import {LessonResource} from '@skillrecordings/skill-lesson/schemas/lesson-resource'
-import {confirmSubscriptionToast} from '@skillrecordings/skill-lesson/hooks/use-convertkit'
+import {
+  confirmSubscriptionToast,
+  useConvertkit,
+} from '@skillrecordings/skill-lesson/hooks/use-convertkit'
 
 export const OverlayWrapper: React.FC<
   React.PropsWithChildren<{className?: string; dismissable?: boolean}>
@@ -339,11 +342,10 @@ const FinishedOverlay = () => {
   )
 }
 
-const BlockedOverlay: React.FC<{refetchAbilityRules: () => {}}> = ({
-  refetchAbilityRules,
-}) => {
+const BlockedOverlay = () => {
   const router = useRouter()
   const {lesson, module} = useLesson()
+  const {refetch: refetchSubscriber} = useConvertkit()
 
   const {data: ctaText} = useQuery(
     [`exercise-free-tutorial`, lesson.slug, module.slug.current],
@@ -362,9 +364,10 @@ const BlockedOverlay: React.FC<{refetchAbilityRules: () => {}}> = ({
     },
   )
 
-  const handleOnSuccess = (subscriber: any, email?: string) => {
+  const handleOnSuccess = async (subscriber: any, email?: string) => {
     if (subscriber) {
       email && setUserId(email)
+      refetchSubscriber()
       track('subscribed to email list', {
         lesson: lesson.slug,
         module: module.slug.current,
@@ -372,7 +375,6 @@ const BlockedOverlay: React.FC<{refetchAbilityRules: () => {}}> = ({
         moduleType: module.moduleType,
         lessonType: lesson._type,
       })
-      refetchAbilityRules()
       confirmSubscriptionToast()
     }
   }
