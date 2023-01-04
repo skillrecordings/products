@@ -22,6 +22,8 @@ export const createContext = async ({
   return {
     req,
     res,
+    prisma,
+    session,
   }
 }
 
