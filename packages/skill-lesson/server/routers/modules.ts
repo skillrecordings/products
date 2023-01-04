@@ -20,6 +20,7 @@ export const modulesRouter = router({
         lessonSlug: z.string().optional(),
         sectionSlug: z.string().optional(),
         isSolution: z.boolean().default(false).optional(),
+        convertkitSubscriberId: z.number().optional(),
       }),
     )
     .query(async ({ctx, input}) => {

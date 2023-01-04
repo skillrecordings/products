@@ -15,6 +15,7 @@ import {getNextSection} from '../utils/get-next-section'
 import {type AppAbility, createAppAbility} from '../utils/ability'
 import {LessonResource} from '../schemas/lesson-resource'
 import {trpcSkillLessons} from '../utils/trpc-skill-lessons'
+import {useConvertkit} from './use-convertkit'
 
 type VideoContextType = {
   muxPlayerProps: MuxPlayerProps | any
@@ -52,6 +53,7 @@ export const VideoProvider: React.FC<
   exerciseSlug,
 }) => {
   const router = useRouter()
+  const {subscriber} = useConvertkit()
   const {videoResource, loadingVideoResource} = useVideoResource()
   const {lesson, section, module} = useLesson()
   const nextExercise = useNextLesson(lesson, module, section)
@@ -70,6 +72,7 @@ export const VideoProvider: React.FC<
       lessonSlug: exerciseSlug,
       sectionSlug: section?.slug,
       isSolution: lesson._type === 'solution',
+      convertkitSubscriberId: subscriber?.id,
     })
 
   const ability = createAppAbility(abilityRules || [])
@@ -193,8 +196,6 @@ export const VideoProvider: React.FC<
     displayOverlay,
     nextExercise,
     nextSection,
-    section,
-    module,
     video: videoResource,
     path,
     canShowVideo,

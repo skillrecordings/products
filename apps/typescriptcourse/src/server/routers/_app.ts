@@ -4,6 +4,7 @@ import {
   skillLessonRouter,
 } from '@skillrecordings/skill-lesson'
 import {lessonResourcesRouter} from './resources'
+import {type PrismaClient} from '@skillrecordings/database'
 
 export const appRouter = mergeRouters(
   router({
