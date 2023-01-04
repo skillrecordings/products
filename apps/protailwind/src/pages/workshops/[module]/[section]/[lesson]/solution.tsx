@@ -1,11 +1,14 @@
 import React from 'react'
 import ExerciseTemplate from 'templates/exercise-template'
 import {GetStaticPaths, GetStaticProps} from 'next'
-import {getExercise, getExerciseMedia} from 'lib/exercises'
-import {getAllWorkshops, getWorkshop} from 'lib/workshops'
-import {getSection} from 'lib/sections'
-import {VideoResourceProvider} from '@skillrecordings/skill-lesson/hooks/use-video-resource'
+import {getAllTutorials, getTutorial} from 'lib/tutorials'
+import {Exercise, getExercise} from 'lib/exercises'
 import {LessonProvider} from '@skillrecordings/skill-lesson/hooks/use-lesson'
+import {VideoResourceProvider} from '@skillrecordings/skill-lesson/hooks/use-video-resource'
+import {getAllWorkshops, getWorkshop} from '../../../../../lib/workshops'
+import {getSection} from '@skillrecordings/skill-lesson/lib/sections'
+import path from 'path'
+import {walk} from '../../../../../utils/code-editor-content'
 
 export const getStaticProps: GetStaticProps = async (context) => {
   const {params} = context
@@ -14,15 +17,22 @@ export const getStaticProps: GetStaticProps = async (context) => {
 
   const module = await getWorkshop(params?.module as string)
   const section = await getSection(sectionSlug)
-  const lesson = await getExercise(lessonSlug, false)
+  const lesson = await getExercise(lessonSlug)
+
+  const tutorialDirectory = path.join(
+    process.cwd(),
+    'src/components/sandpack/parcel',
+  )
+  const tutorialFiles = walk(tutorialDirectory)
 
   return {
     props: {
-      lesson,
-      module,
+      lesson: lesson.solution,
       section,
-      transcript: lesson.transcript,
-      videoResourceId: lesson.videoResourceId,
+      module,
+      tutorialFiles,
+      transcript: lesson.solution?.transcript,
+      videoResourceId: lesson.solution?.videoResourceId,
     },
     revalidate: 10,
   }
@@ -47,14 +57,13 @@ export const getStaticPaths: GetStaticPaths = async (context) => {
       }) || []
     )
   })
-
   return {paths, fallback: 'blocking'}
 }
 
-const ExercisePage: React.FC<any> = ({
+const ExerciseSolution: React.FC<any> = ({
   lesson,
-  module,
   section,
+  module,
   transcript,
   videoResourceId,
 }) => {
@@ -67,4 +76,4 @@ const ExercisePage: React.FC<any> = ({
   )
 }
 
-export default ExercisePage
+export default ExerciseSolution

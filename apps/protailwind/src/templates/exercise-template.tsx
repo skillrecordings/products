@@ -39,6 +39,7 @@ const ExerciseTemplate: React.FC<{
   transcript: any[]
   tutorialFiles?: any
 }> = ({transcript, tutorialFiles}) => {
+  const router = useRouter()
   const muxPlayerRef = React.useRef<HTMLDivElement>()
   const {lesson, section, module} = useLesson()
   const {videoResourceId} = useVideoResource()
@@ -52,7 +53,11 @@ const ExerciseTemplate: React.FC<{
   const path = `/${module.moduleType}s`
 
   return (
-    <VideoProvider muxPlayerRef={muxPlayerRef} path={path}>
+    <VideoProvider
+      muxPlayerRef={muxPlayerRef}
+      path={path}
+      exerciseSlug={router.query.lesson as string}
+    >
       <Layout
         meta={
           {title: pageTitle, ...shareCard, description: pageDescription} as any
@@ -123,17 +128,18 @@ const Video: React.FC<VideoProps> = React.forwardRef(
     const {lesson, module, section} = useLesson()
     const isExercise = Boolean(lesson._type === 'exercise')
     const {videoResource, loadingVideoResource} = useVideoResource()
-    const {muxPlayerProps, displayOverlay, nextExercise} = useMuxPlayer()
+    const {muxPlayerProps, displayOverlay, nextExercise, canShowVideo} =
+      useMuxPlayer()
     const router = useRouter()
     const {data: resources} = trpc.resources.byExerciseSlug.useQuery({
-      slug: router.query.exercise as string,
+      slug: router.query.lesson as string,
       type: lesson._type,
     })
 
     // TODO: handle section logic and remove !section
-    const canShowVideo =
-      (subscriber || (!section && lesson._id === module.lessons[0]._id)) &&
-      videoResource?.muxPlaybackId
+    // const canShowVideo =
+    //   (subscriber || (!section && lesson._id === module.lessons[0]._id)) &&
+    //   videoResource?.muxPlaybackId
 
     return (
       <>
@@ -184,7 +190,7 @@ const GitHubLink: React.FC<{
 }> = ({lesson, module}) => {
   const router = useRouter()
   const {data: resources} = trpc.resources.byExerciseSlug.useQuery({
-    slug: router.query.exercise as string,
+    slug: router.query.lesson as string,
     type: lesson._type,
   })
   const github = resources?.github
@@ -248,7 +254,7 @@ const LessonAssets: React.FC<{
 }> = ({lesson, module}) => {
   const router = useRouter()
   const {data: resources} = trpc.resources.byExerciseSlug.useQuery({
-    slug: router.query.exercise as string,
+    slug: router.query.lesson as string,
     type: lesson._type,
   })
   const figma = resources?.figma

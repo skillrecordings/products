@@ -34,6 +34,8 @@ export const modulesRouter = router({
         ? await getSection(input.sectionSlug)
         : undefined
 
+      console.log({token, slug: input.lessonSlug})
+
       return defineRulesForPurchases({
         ...(token && {user: UserSchema.parse(token)}),
         ...(convertkitSubscriber && {

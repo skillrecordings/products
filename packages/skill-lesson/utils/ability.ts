@@ -47,6 +47,7 @@ const canViewTutorial = ({user, subscriber, module}: ViewerAbilityInput) => {
 }
 
 const canViewWorkshop = ({user, module, lesson}: ViewerAbilityInput) => {
+  console.log({module, lesson})
   const contentIsWorkshop = module?.moduleType === 'workshop'
 
   const purchases = user?.purchases || []
