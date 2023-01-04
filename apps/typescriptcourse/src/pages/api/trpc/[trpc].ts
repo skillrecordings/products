@@ -1,7 +1,7 @@
 /**
  * This file contains the tRPC http response handler and context creation for Next.js
  */
-import {createContext} from '@skillrecordings/skill-lesson/server/context'
+import {createContext} from '@skillrecordings/skill-lesson'
 import * as trpcNext from '@trpc/server/adapters/next'
 import {AppRouter, appRouter} from 'server/routers/_app'
 
