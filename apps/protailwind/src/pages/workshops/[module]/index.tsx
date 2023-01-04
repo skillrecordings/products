@@ -5,7 +5,7 @@ import {User} from '@skillrecordings/database'
 import {SanityDocument} from '@sanity/client'
 import {getAllTutorials, getTutorial} from 'lib/tutorials'
 import {GetStaticPaths, GetStaticProps} from 'next'
-import {getWorkshop} from '../../../lib/workshops'
+import {getAllWorkshops, getWorkshop} from '../../../lib/workshops'
 import WorkshopTemplate from '../../../templates/workshop-template'
 
 export const USER_ID_QUERY_PARAM_KEY = 'learner'
@@ -20,7 +20,7 @@ export const getStaticProps: GetStaticProps = async ({params}) => {
 }
 
 export const getStaticPaths: GetStaticPaths = async () => {
-  const tutorials = await getAllTutorials()
+  const tutorials = await getAllWorkshops()
   const paths = tutorials.map((tutorial: any) => ({
     params: {module: tutorial.slug.current},
   }))

@@ -9,6 +9,7 @@ import {getAllWorkshops, getWorkshop} from '../../../../../lib/workshops'
 import {getSection} from '@skillrecordings/skill-lesson/lib/sections'
 import path from 'path'
 import {walk} from '../../../../../utils/code-editor-content'
+import {LessonResource} from '@skillrecordings/skill-lesson/schemas/lesson-resource'
 
 export const getStaticProps: GetStaticProps = async (context) => {
   const {params} = context
@@ -31,7 +32,7 @@ export const getStaticProps: GetStaticProps = async (context) => {
       section,
       module,
       tutorialFiles,
-      transcript: lesson.solution?.transcript,
+      transcript: lesson.solution?.transcript || [],
       videoResourceId: lesson.solution?.videoResourceId,
     },
     revalidate: 10,
@@ -46,13 +47,15 @@ export const getStaticPaths: GetStaticPaths = async (context) => {
     return (
       workshop.sections?.flatMap((section: any) => {
         return (
-          section.lessons?.map((lesson: any) => ({
-            params: {
-              module: workshop.slug.current,
-              section: section.slug,
-              lesson: lesson.slug,
-            },
-          })) || []
+          section.lessons
+            ?.filter(({_type}: LessonResource) => _type === 'exercise')
+            .map((lesson: any) => ({
+              params: {
+                module: workshop.slug.current,
+                section: section.slug,
+                lesson: lesson.slug,
+              },
+            })) || []
         )
       }) || []
     )
