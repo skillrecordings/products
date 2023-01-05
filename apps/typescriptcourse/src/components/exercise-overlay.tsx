@@ -153,11 +153,11 @@ const FinishedOverlay = () => {
   }, [])
 
   return (
-    <OverlayWrapper className="px-5 pt-10 sm:pt-0">
+    <OverlayWrapper className="px-5 pt-10 sm:pt-0 bg-gray-800">
       <p className="font-text font-heading text-2xl font-black sm:text-3xl">
         Share this {module.moduleType} with your friends
       </p>
-      <div className="flex items-center gap-2 py-8">
+      <div className="flex items-center gap-2 py-8 bg-gray-700">
         <Twitter
           link={shareUrl}
           message={shareMessage}
@@ -182,7 +182,7 @@ const FinishedOverlay = () => {
       </div>
       <div className="flex items-center justify-center divide-x divide-gray-300">
         <button
-          className="px-3 py-1 text-lg font-semibold transition sm:px-5 sm:py-3"
+          className="rounded-full bg-gray-900 px-3 py-1 text-lg font-semibold transition hover:brightness-125 sm:px-5 sm:py-3"
           onClick={handlePlay}
         >
           Replay <span aria-hidden="true">↺</span>
@@ -199,7 +199,7 @@ const FinishedOverlay = () => {
               })
               .then(handlePlay)
           }}
-          className="px-3 py-1 text-lg font-semibold transition sm:px-5 sm:py-3 "
+          className="rounded-full bg-brand-red px-3 py-1 text-lg font-semibold text-white transition hover:brightness-125 sm:px-5 sm:py-3 bg-blue-400"
         >
           Play from beginning
         </button>
