@@ -17,6 +17,8 @@ import {LessonResource} from '../schemas/lesson-resource'
 import {trpcSkillLessons} from '../utils/trpc-skill-lessons'
 import {useConvertkit} from './use-convertkit'
 
+import {useGlobalPlayerShortcuts} from './use-global-player-shortcut'
+
 type VideoContextType = {
   muxPlayerProps: MuxPlayerProps | any
   autoPlay: boolean
@@ -56,6 +58,8 @@ export const VideoProvider: React.FC<
   const {subscriber} = useConvertkit()
   const {videoResource, loadingVideoResource} = useVideoResource()
   const {lesson, section, module} = useLesson()
+  useGlobalPlayerShortcuts(muxPlayerRef)
+
   const nextExercise = useNextLesson(lesson, module, section)
 
   const nextSection = section
