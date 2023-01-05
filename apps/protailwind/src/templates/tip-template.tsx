@@ -205,6 +205,7 @@ const TipTemplate: React.FC<{
 
 const Video: React.FC<any> = React.forwardRef(({tips}, ref: any) => {
   const {muxPlayerProps, displayOverlay} = useMuxPlayer()
+  const {videoResource} = useVideoResource()
 
   return (
     <div className="relative">
@@ -217,7 +218,11 @@ const Video: React.FC<any> = React.forwardRef(({tips}, ref: any) => {
           },
         )}
       >
-        <MuxPlayer ref={ref} {...(muxPlayerProps as MuxPlayerProps)} />
+        <MuxPlayer
+          ref={ref}
+          {...(muxPlayerProps as MuxPlayerProps)}
+          playbackId={videoResource?.muxPlaybackId}
+        />
       </div>
     </div>
   )
