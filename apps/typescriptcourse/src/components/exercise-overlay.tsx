@@ -191,10 +191,10 @@ const FinishedOverlay = () => {
           onClick={() => {
             router
               .push({
-                pathname: `/${path}/[module]/[lesson]`,
+                pathname: `${path}/[module]/[lesson]`,
                 query: {
                   module: module.slug.current,
-                  lesson: module.lessons[0].slug.current,
+                  lesson: module.lessons[0].slug,
                 },
               })
               .then(handlePlay)
