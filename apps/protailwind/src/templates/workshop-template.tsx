@@ -77,7 +77,7 @@ const Header: React.FC<{workshop: SanityDocument}> = ({workshop}) => {
                     height={48}
                   />
                 </div>
-                <span>Matt Pocock</span>
+                <span>Simon Vrachliotis</span>
               </div>
             </div>
             <div className="flex items-center justify-center gap-3 pt-8 md:justify-start">
