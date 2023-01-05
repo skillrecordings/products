@@ -142,7 +142,7 @@ const FinishedOverlay = () => {
   const shareUrl = `${process.env.NEXT_PUBLIC_URL}${path}/${module.slug.current}`
   const shareMessage = `${module.title} ${module.moduleType} by @${process.env.NEXT_PUBLIC_PARTNER_TWITTER}`
   const shareButtonStyles =
-    'shadow-xl shadow-gray-500/5 flex items-center gap-2 rounded-full px-4 py-2'
+    'shadow-xl shadow-gray-500/5 flex items-center gap-2 rounded-full px-4 py-2 bg-gray-700'
 
   const addProgressMutation = trpc.progress.add.useMutation()
 
@@ -157,7 +157,7 @@ const FinishedOverlay = () => {
       <p className="font-text font-heading text-2xl font-black sm:text-3xl">
         Share this {module.moduleType} with your friends
       </p>
-      <div className="flex items-center gap-2 py-8 bg-gray-700">
+      <div className="flex items-center gap-2 py-8">
         <Twitter
           link={shareUrl}
           message={shareMessage}
