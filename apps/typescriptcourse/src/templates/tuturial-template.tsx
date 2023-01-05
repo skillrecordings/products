@@ -73,7 +73,7 @@ const Header: React.FC<{tutorial: SanityDocument}> = ({tutorial}) => {
                 <span>Joe Previte</span>
               </div>
             </div>
-            <div className="flex items-center gap-3 pt-8">
+            <div className="flex items-center gap-3 pt-8 justify-center md:justify-start">
               {lessons?.[0] && (
                 <Link
                   href={{
@@ -84,7 +84,7 @@ const Header: React.FC<{tutorial: SanityDocument}> = ({tutorial}) => {
                     },
                   }}
                 >
-                  <a className="flex items-center justify-center rounded-lg bg-blue-400 font-semibold hover:brightness-125 px-4 py-2">
+                  <a className="flex items-center justify-center rounded-lg bg-blue-400 font-semibold hover:brightness-125 px-4 py-2 h-11">
                     Start Learning{' '}
                     <span className="pl-2" aria-hidden="true">
                       →
@@ -94,7 +94,7 @@ const Header: React.FC<{tutorial: SanityDocument}> = ({tutorial}) => {
               )}
               {github && (
                 <a
-                  className="flex items-center justify-center gap-2 rounded-lg border-2 border-red-200 px-3 py-2 font-medium transition hover:bg-gray-800"
+                  className="flex items-center justify-center gap-2 rounded-lg border-2 border-red-200 px-3 py-2 font-medium transition hover:bg-gray-800 h-11"
                   href={github.url}
                   target="_blank"
                   rel="noopener noreferrer"
