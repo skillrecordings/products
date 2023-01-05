@@ -63,3 +63,11 @@ mux-player {
   height: auto;
   @apply relative overflow-hidden;
 }
+
+[data-sr-button] {
+  @apply relative items-center justify-center flex;
+
+  svg {
+    @apply h-7 w-7;
+  }
+}
