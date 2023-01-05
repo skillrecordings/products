@@ -53,17 +53,17 @@ const Header: React.FC<{workshop: SanityDocument}> = ({workshop}) => {
 
   const firstSection = first<SanityDocument>(sections)
   const firstExercise = first<SanityDocument>(firstSection?.lessons)
-
+  const instructor = `${process.env.NEXT_PUBLIC_PARTNER_FIRST_NAME} ${process.env.NEXT_PUBLIC_PARTNER_LAST_NAME}`
   return (
     <>
-      <header className="relative z-10 flex flex-col-reverse items-center justify-between px-5 pt-0 pb-16 sm:pt-8 sm:pb-8 md:flex-row">
+      <header className="relative z-10 flex flex-col-reverse items-center justify-between gap-10 px-5 pt-0 pb-16 sm:pt-8 sm:pb-8 md:flex-row">
         <div className="text-center md:text-left">
           <Link href="/workshops">
-            <a className="pb-1 font-mono text-sm font-semibold uppercase tracking-wide text-cyan-300">
+            <a className="block pb-4 font-mono text-sm font-semibold uppercase tracking-wide text-brand-red">
               Pro Workshop
             </a>
           </Link>
-          <h1 className="font-text text-4xl font-bold sm:text-5xl lg:text-6xl">
+          <h1 className="font-text font-heading text-3xl font-extrabold sm:text-4xl lg:text-5xl">
             {title}
           </h1>
           <div className="pt-8 text-lg">
@@ -72,12 +72,12 @@ const Header: React.FC<{workshop: SanityDocument}> = ({workshop}) => {
                 <div className="flex items-center justify-center overflow-hidden rounded-full">
                   <Image
                     src={require('../../public/assets/simon-vrachliotis.png')}
-                    alt="Simon Vrachliotis"
+                    alt={instructor}
                     width={48}
                     height={48}
                   />
                 </div>
-                <span>Simon Vrachliotis</span>
+                <span>{instructor}</span>
               </div>
             </div>
             <div className="flex items-center justify-center gap-3 pt-8 md:justify-start">
@@ -93,7 +93,7 @@ const Header: React.FC<{workshop: SanityDocument}> = ({workshop}) => {
                   }}
                 >
                   <a
-                    className="flex items-center justify-center rounded bg-cyan-400 px-6 py-3 font-semibold text-black transition hover:bg-cyan-300"
+                    className="flex items-center justify-center rounded-full bg-brand-red px-6 py-3 font-semibold text-white shadow-lg transition hover:brightness-110"
                     onClick={() => {
                       track('clicked start learning', {module: slug.current})
                     }}
@@ -161,11 +161,11 @@ const WorkshopSectionNavigator: React.FC<{workshop: SanityDocument}> = ({
                 <li key={section.slug}>
                   <Accordion.Item value={section.slug}>
                     <Accordion.Header className="relative z-10 rounded-lg">
-                      <Accordion.Trigger className="group flex w-full items-center justify-between rounded-lg border  py-2 px-3 text-lg font-medium shadow-lg transition ">
+                      <Accordion.Trigger className="group flex w-full items-center justify-between rounded-lg border bg-white py-2 px-3 text-lg font-medium shadow-lg transition ">
                         {section.title}
                         <div className="flex items-center">
                           <ChevronDownIcon
-                            className="group-radix-state-open:rotate-180 relative h-3 w-3 transition group-hover:opacity-100"
+                            className="relative h-3 w-3 transition group-hover:opacity-100 group-radix-state-open:rotate-180"
                             aria-hidden="true"
                           />
                         </div>

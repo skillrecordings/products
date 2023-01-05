@@ -39,7 +39,7 @@ export const OverlayWrapper: React.FC<
   return (
     <div
       id="video-overlay"
-      className="relative top-0 left-0 flex aspect-video w-full items-center justify-center bg-gray-200/80"
+      className="relative top-0 left-0 flex aspect-video w-full items-center justify-center bg-gray-900/80"
     >
       {dismissable && (
         <button
@@ -344,26 +344,34 @@ const BlockedOverlay: React.FC = () => {
     [`started_${snakeCase(module.title)}_${module.moduleType}`.toLowerCase()]:
       new Date().toISOString().slice(0, 10),
   }
+  const {videoResourceId} = useVideoResource()
+  const thumbnail = `${getBaseUrl()}/api/video-thumb?videoResourceId=${videoResourceId}`
 
   return (
-    <div
-      id="video-overlay"
-      className="flex w-full flex-col items-center justify-center bg-gray-200/80 py-5 md:flex-row"
-    >
+    <OverlayWrapper dismissable={false}>
+      {videoResourceId && (
+        <Image
+          src={thumbnail}
+          layout="fill"
+          alt=""
+          aria-hidden="true"
+          className="opacity-50 blur-sm contrast-125"
+        />
+      )}
       {module.moduleType === 'tutorial' ? (
         <>
           <div className="z-20 flex h-full flex-shrink-0 flex-col items-center justify-center gap-5 p-5 pb-10 text-center text-lg leading-relaxed sm:p-10 sm:pb-16">
             <div className="flex w-full flex-col items-center justify-center gap-2">
-              <div className="relative ">
-                {module.image && (
+              {module.image && (
+                <div className="relative flex items-center justify-center rounded-full bg-gray-100 p-5">
                   <Image
                     src={module.image}
                     width={150}
                     height={150}
                     alt={module.title}
                   />
-                )}
-              </div>
+                </div>
+              )}
               <h2 className="max-w-sm font-heading text-3xl font-black">
                 Level up with {module.title}
               </h2>
@@ -401,20 +409,20 @@ const BlockedOverlay: React.FC = () => {
         <>
           <div className="z-20 flex h-full flex-shrink-0 flex-col items-center justify-center gap-5 p-5 pb-10 text-center text-lg leading-relaxed sm:p-10 sm:pb-16">
             <div className="flex w-full flex-col items-center justify-center gap-2">
-              <div className="relative -mb-5">
-                {module.image && (
+              {module.image && (
+                <div className="relative flex items-center justify-center rounded-full bg-gray-100 p-5">
                   <Image
                     src={module.image}
-                    width={220}
-                    height={220}
+                    width={150}
+                    height={150}
                     alt={module.title}
                   />
-                )}
-              </div>
-              <h2 className="text-4xl font-semibold">
+                </div>
+              )}
+              <h2 className="text-4xl font-semibold text-white">
                 Level up your {module.title}
               </h2>
-              <h3 className="max-w-xl pb-5 pt-3 text-lg text-gray-300">
+              <h3 className="max-w-lg pb-5 pt-3 text-lg text-white opacity-90">
                 This {lesson._type} is part of the {module.title} workshop.
               </h3>
               <Link
@@ -447,7 +455,7 @@ const BlockedOverlay: React.FC = () => {
           </div>
         </>
       )}
-    </div>
+    </OverlayWrapper>
   )
 }
 
