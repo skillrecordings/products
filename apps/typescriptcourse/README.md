@@ -96,15 +96,15 @@ The database can be stopped and started from the Docker dashboard.
 
 #### Connect to local MySQL database
 
-You can use [Table Plus](https://tableplus.com/) or *any other MySQL client* to connect to and manage the database. In Arctype:
+You can use [Table Plus](https://tableplus.com/) or _any other MySQL client_ to connect to and manage the database. In Table Plus:
 
 - Select "Add new data source"
 - Select "MySQL"
 - Input credentials
-    - Name: TypeScript Course
-    - Host: 127.0.0.1; Port: 3309
-    - User: root
-    - Database: typescript-course
+  - Name: TypeScript Course
+  - Host: 127.0.0.1; Port: 3309
+  - User: root
+  - Database: typescript-course
 - Then you can test your connection, save it and view the tables.
 
 ## Edit content
