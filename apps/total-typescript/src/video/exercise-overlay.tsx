@@ -141,7 +141,27 @@ const ExerciseOverlay = () => {
           </div>
         </>
       ) : (
-        <div className="aspect-video">
+        github?.repo && (
+          <div className="aspect-video">
+            <p className="font-text text-3xl font-bold">Now it’s your turn!</p>
+            <p className="">
+              Try solving this exercise inside{' '}
+              <a
+                href={`https://github.com/total-typescript/${github.repo}/blob/main/${stackblitz}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center justify-center gap-1 rounded-sm bg-gray-800 py-0.5 px-1 font-mono text-sm"
+              >
+                <IconGithub /> {stackblitz}
+              </a>{' '}
+              file.
+            </p>
+            <Actions />
+          </div>
+        )
+      )}
+      {github?.repo && (
+        <div className="flex aspect-video flex-col items-center justify-center gap-5 p-3 text-center sm:hidden">
           <p className="font-text text-3xl font-bold">Now it’s your turn!</p>
           <p className="">
             Try solving this exercise inside{' '}
@@ -155,27 +175,11 @@ const ExerciseOverlay = () => {
             </a>{' '}
             file.
           </p>
-          <Actions />
+          <div className="flex items-center justify-center gap-3">
+            <Actions />
+          </div>
         </div>
       )}
-      <div className="flex aspect-video flex-col items-center justify-center gap-5 p-3 text-center sm:hidden">
-        <p className="font-text text-3xl font-bold">Now it’s your turn!</p>
-        <p className="">
-          Try solving this exercise inside{' '}
-          <a
-            href={`https://github.com/total-typescript/${github.repo}/blob/main/${stackblitz}`}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center justify-center gap-1 rounded-sm bg-gray-800 py-0.5 px-1 font-mono text-sm"
-          >
-            <IconGithub /> {stackblitz}
-          </a>{' '}
-          file.
-        </p>
-        <div className="flex items-center justify-center gap-3">
-          <Actions />
-        </div>
-      </div>
     </div>
   ) : null
 }
