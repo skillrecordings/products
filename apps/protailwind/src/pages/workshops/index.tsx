@@ -6,23 +6,23 @@ import Image from 'next/image'
 import {getAllWorkshops} from '../../lib/workshops'
 
 export async function getStaticProps() {
-  const tutorials = await getAllWorkshops()
+  const workshops = await getAllWorkshops()
 
   return {
-    props: {tutorials: tutorials.reverse()},
+    props: {workshops: workshops.reverse()},
     revalidate: 10,
   }
 }
 
-const TutorialsPage: React.FC<{tutorials: SanityDocument[]}> = ({
-  tutorials,
+const WorkshopsPage: React.FC<{workshops: SanityDocument[]}> = ({
+  workshops,
 }) => {
   return (
     <Layout
       meta={
         {
-          title: `Free Tailwind Tutorials from Simon Vrachliotis`,
-          description: `Free Tailwind tutorials by Simon Vrachliotis that will help you learn how to use Tailwind as a professional web developer through exercise driven examples.`,
+          title: `Professional Tailwind Workshops from Simon Vrachliotis`,
+          description: `Professional Tailwind Workshops by Simon Vrachliotis that will help you learn how to use Tailwind as a professional web developer through exercise driven examples.`,
           ogImage: {
             url: 'https://res.cloudinary.com/pro-tailwind/image/upload/v1668155873/tutorials/card_2x.png',
           },
@@ -31,15 +31,16 @@ const TutorialsPage: React.FC<{tutorials: SanityDocument[]}> = ({
     >
       <main className="relative z-10 flex flex-col items-center justify-center py-20">
         <h1 className="text-center font-heading text-4xl font-black sm:text-5xl lg:text-6xl">
-          Pro Tailwind Workshops
+          Professional Tailwind Workshops
         </h1>
-        <p className="max-w-sm pt-8 text-center text-lg text-brand-red">
-          A collection of free, exercise-driven, in-depth Tailwind workshops for
-          you to use on your journey to Tailwind Pro.
+        <p className="max-w-md pt-8 text-center text-lg text-brand-red">
+          A collection of professional, exercise-driven, in-depth, self-paced
+          Tailwind workshops to help you learn how to use Tailwind as a
+          professional web developer.
         </p>
-        {tutorials && (
+        {workshops && (
           <ul className="flex max-w-screen-md flex-col gap-8 px-3 pt-20">
-            {tutorials.map(
+            {workshops.map(
               (
                 {title, slug, image, description, sections, lessons, state},
                 i,
@@ -127,4 +128,4 @@ const TutorialsPage: React.FC<{tutorials: SanityDocument[]}> = ({
   )
 }
 
-export default TutorialsPage
+export default WorkshopsPage

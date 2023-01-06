@@ -24,13 +24,13 @@
   [data-sr-convertkit-subscribe-form] {
     @apply flex w-full max-w-sm flex-col gap-4 text-left;
     [data-sr-input] {
-      @apply w-full rounded-md border border-gray-400/20 bg-gray-300/80 px-3 py-3 placeholder:text-gray-500;
+      @apply w-full rounded-md border border-gray-200 text-black bg-gray-100 px-3 py-3 placeholder:text-gray-500;
     }
     [data-sr-input-label] {
-      @apply inline-block w-full pb-1 text-gray-800;
+      @apply inline-block w-full pb-1 text-gray-200;
     }
     [data-sr-button] {
-      @apply relative mt-2 flex items-center justify-center rounded-full bg-brand-red py-4 px-5 font-semibold text-white shadow-2xl shadow-gray-500/10 transition hover:brightness-110;
+      @apply relative mt-2 flex items-center justify-center rounded-full bg-brand-red py-4 px-5 font-semibold text-white shadow-2xl shadow-gray-500/10 transition hover:brightness-110 ring-offset-1;
       svg {
         @apply h-7 w-7;
       }

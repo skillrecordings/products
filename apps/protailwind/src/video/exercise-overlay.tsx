@@ -3,7 +3,6 @@ import {SanityDocument} from '@sanity/client'
 import {SubscribeToConvertkitForm} from '@skillrecordings/convertkit-react-ui'
 import {Facebook, LinkedIn, Twitter} from '@skillrecordings/react'
 import {NextRouter, useRouter} from 'next/router'
-import {IconGithub} from '../components/icons'
 import snakeCase from 'lodash/snakeCase'
 import Image from 'next/image'
 import {useMuxPlayer} from '@skillrecordings/skill-lesson/hooks/use-mux-player'
@@ -15,7 +14,6 @@ import {sanityClient} from '@skillrecordings/skill-lesson/utils/sanity-client'
 import {PortableText} from '@portabletext/react'
 import {trpc} from '../utils/trpc'
 import Spinner from '../components/spinner'
-import {StackBlitzIframe} from './exercise/stackblitz-iframe'
 import Link from 'next/link'
 import first from 'lodash/first'
 import {useLesson} from '@skillrecordings/skill-lesson/hooks/use-lesson'
@@ -23,21 +21,35 @@ import {useVideoResource} from '@skillrecordings/skill-lesson/hooks/use-video-re
 import {getBaseUrl} from '@skillrecordings/skill-lesson/utils/get-base-url'
 import {useQuery} from '@tanstack/react-query'
 import {LessonResource} from '@skillrecordings/skill-lesson/schemas/lesson-resource'
+import Balancer from 'react-wrap-balancer'
 import {
   confirmSubscriptionToast,
   useConvertkit,
 } from '@skillrecordings/skill-lesson/hooks/use-convertkit'
+import dynamic from 'next/dynamic'
+
+const SandpackEditor: React.ComponentType<any> = dynamic(
+  () => import('./exercise/sandpack/repl'),
+  {ssr: false},
+)
 
 export const OverlayWrapper: React.FC<
-  React.PropsWithChildren<{className?: string; dismissable?: boolean}>
-> = ({children, className, dismissable = true}) => {
+  React.PropsWithChildren<{
+    className?: string
+    dismissable?: boolean
+    background?: string
+  }>
+> = ({children, className, dismissable = true, background = 'bg-gray-900'}) => {
   const {setDisplayOverlay} = useMuxPlayer()
   const {lesson, module} = useLesson()
 
   return (
     <div
       id="video-overlay"
-      className="relative top-0 left-0 flex aspect-video w-full items-center justify-center bg-[#070B16]"
+      className={cx(
+        'relative top-0 left-0 flex aspect-video w-full items-center justify-center text-white',
+        background,
+      )}
     >
       {dismissable && (
         <button
@@ -73,9 +85,9 @@ const Actions = () => {
   const router = useRouter()
 
   return (
-    <>
+    <div className="flex items-center gap-2">
       <button
-        className="rounded bg-gray-800 px-3 py-1 text-lg font-semibold transition hover:bg-gray-700 sm:px-5 sm:py-2"
+        className="rounded-full bg-gray-200 px-3 py-1 font-medium transition hover:bg-gray-300/80 sm:px-5 sm:py-2"
         onClick={() => {
           track('clicked replay', {
             lesson: lesson.slug,
@@ -91,7 +103,7 @@ const Actions = () => {
       </button>
       {nextExercise && (
         <button
-          className="rounded bg-cyan-600 px-3 py-1 text-lg font-semibold transition hover:bg-cyan-500 sm:px-5 sm:py-2"
+          className="rounded-full bg-emerald-600 px-3 py-1 font-medium text-white transition hover:bg-emerald-500 sm:px-5 sm:py-2"
           onClick={() => {
             track('clicked continue to solution', {
               lesson: lesson.slug,
@@ -113,69 +125,53 @@ const Actions = () => {
           Solution <span aria-hidden="true">→</span>
         </button>
       )}
-    </>
+    </div>
   )
 }
 
-const ExerciseOverlay = () => {
+const ExerciseOverlay: React.FC<{tutorialFiles: any}> = ({tutorialFiles}) => {
   const {lesson, module} = useLesson()
   const router = useRouter()
-  const {data: stackblitz, status} = trpc.stackblitz.byExerciseSlug.useQuery({
+  const {data: resources, status} = trpc.resources.byExerciseSlug.useQuery({
     slug: router.query.lesson as string,
     type: lesson._type,
   })
   const {github} = module
+  console.log({resources})
+
+  const visibleFiles = resources?.sandpack
+    ?.filter(({active}) => active)
+    .map(({file}) => file)
+
+  const sandpackFiles = resources?.sandpack
+    ?.map(({file, code}) => {
+      if (file)
+        return {
+          [file]: {
+            code,
+          },
+        }
+    })
+    .reduce((acc, curr) => ({...acc, ...curr}))
+
+  const files = {
+    ...tutorialFiles,
+    ...sandpackFiles,
+  }
 
   return status !== 'loading' ? (
-    <div className=" bg-black/30 ">
-      {stackblitz ? (
+    <div className="">
+      {resources?.sandpack && (
         <>
-          <div className="flex w-full items-center justify-between p-3 pl-5 font-medium sm:text-lg">
+          <div className="flex w-full items-center justify-between p-3 pl-5 font-medium">
             <div>Now it's your turn! Try solving this exercise.</div>
-            <div className="flex justify-center gap-2">
-              <Actions />
-            </div>
+            <Actions />
           </div>
-          <div className="relative hidden h-[500px] w-full sm:block xl:h-[750px]">
-            <StackBlitzIframe exercise={lesson} module={module} />
+          <div className="relative w-full">
+            <SandpackEditor visibleFiles={visibleFiles} files={files} />
           </div>
         </>
-      ) : (
-        <div className="aspect-video">
-          <p className="font-text text-3xl font-bold">Now it’s your turn!</p>
-          <p className="">
-            Try solving this exercise inside{' '}
-            <a
-              href={`https://github.com/total-typescript/${github.repo}/blob/main/${stackblitz}`}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center justify-center gap-1 rounded-sm bg-gray-800 py-0.5 px-1 font-mono text-sm"
-            >
-              <IconGithub /> {stackblitz}
-            </a>{' '}
-            file.
-          </p>
-          <Actions />
-        </div>
       )}
-      <div className="flex aspect-video flex-col items-center justify-center gap-5 p-3 text-center sm:hidden">
-        <p className="font-text text-3xl font-bold">Now it’s your turn!</p>
-        <p className="">
-          Try solving this exercise inside{' '}
-          <a
-            href={`https://github.com/total-typescript/${github.repo}/blob/main/${stackblitz}`}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center justify-center gap-1 rounded-sm bg-gray-800 py-0.5 px-1 font-mono text-sm"
-          >
-            <IconGithub /> {stackblitz}
-          </a>{' '}
-          file.
-        </p>
-        <div className="flex items-center justify-center gap-3">
-          <Actions />
-        </div>
-      </div>
     </div>
   ) : null
 }
@@ -190,13 +186,13 @@ const DefaultOverlay = () => {
   return (
     <OverlayWrapper className="px-5">
       {image && (
-        <div className="hidden items-center justify-center sm:flex sm:w-40 lg:w-auto">
+        <div className="hidden items-center justify-center rounded-full bg-white p-8 sm:flex lg:w-auto">
           <Image
             src={image}
             alt=""
             aria-hidden="true"
-            width={220}
-            height={220}
+            width={150}
+            height={150}
           />
         </div>
       )}
@@ -207,7 +203,7 @@ const DefaultOverlay = () => {
       </p>
       <div className="flex items-center justify-center gap-5 py-4 sm:py-8">
         <button
-          className="rounded bg-gray-800 px-3 py-1 text-lg font-semibold transition hover:bg-gray-700 sm:px-5 sm:py-3"
+          className="rounded-full bg-gray-800 px-3 py-1 text-lg font-semibold transition hover:bg-gray-700 sm:px-5 sm:py-3"
           onClick={() => {
             track('clicked replay', {
               lesson: lesson.slug,
@@ -222,7 +218,7 @@ const DefaultOverlay = () => {
           Replay ↺
         </button>
         <button
-          className="rounded bg-cyan-600 px-3 py-1 text-lg font-semibold transition hover:bg-cyan-500 sm:px-5 sm:py-3"
+          className="rounded-full bg-brand-red px-3 py-1 text-lg font-semibold transition hover:brightness-125 sm:px-5 sm:py-3"
           onClick={() => {
             track('clicked complete', {
               lesson: lesson.slug,
@@ -343,6 +339,7 @@ const BlockedOverlay = () => {
   const router = useRouter()
   const {lesson, module} = useLesson()
   const {refetch: refetchSubscriber} = useConvertkit()
+  const {videoResourceId} = useVideoResource()
 
   const {data: ctaText} = useQuery(
     [`exercise-free-tutorial`, lesson.slug, module.slug.current],
@@ -381,29 +378,32 @@ const BlockedOverlay = () => {
     [`started_${snakeCase(module.title)}_${module.moduleType}`.toLowerCase()]:
       new Date().toISOString().slice(0, 10),
   }
+  const thumbnail = `${getBaseUrl()}/api/video-thumb?videoResourceId=${videoResourceId}`
 
   return (
     <div
       id="video-overlay"
-      className="flex w-full flex-col items-center justify-center bg-[#070B16] py-10 xl:aspect-video xl:flex-row"
+      className="flex w-full flex-col items-center justify-center bg-gray-900 p-5 text-white xl:flex-row"
     >
       {module.moduleType === 'tutorial' ? (
         <>
-          <div className="z-20 flex h-full flex-shrink-0 flex-col items-center justify-center gap-5 p-5 pb-10 text-center text-lg leading-relaxed sm:p-10 sm:pb-16">
-            <div className="flex w-full flex-col items-center justify-center gap-2">
-              <div className="relative -mb-5">
+          <div className="z-20 flex h-full w-full flex-shrink-0 flex-col items-center justify-center gap-10 p-5 pb-10 text-center text-lg leading-relaxed sm:gap-5 sm:p-10 sm:pb-16 xl:flex-row">
+            <div className="flex w-full max-w-xl flex-col items-center justify-center gap-2">
+              <div className="relative flex items-center justify-center rounded-full bg-white p-5">
                 <Image
                   src={module.image}
-                  width={220}
-                  height={220}
+                  width={110}
+                  height={110}
                   alt={module.title}
                 />
               </div>
-              <h2 className="text-4xl font-semibold">
-                Level up with {module.title}
+              <h2 className="pt-4 font-heading text-3xl font-bold">
+                <Balancer>Level up with {module.title}</Balancer>
               </h2>
-              <h3 className="pb-5 text-xl">
-                Access all lessons in this {module.moduleType}.
+              <h3 className="pb-5 text-lg opacity-80 lg:text-xl">
+                <Balancer>
+                  Access all lessons in this {module.moduleType}.
+                </Balancer>
               </h3>
               {module.moduleType === 'tutorial' ? (
                 <>
@@ -426,10 +426,8 @@ const BlockedOverlay = () => {
                 <div>Buy Now</div>
               )}
             </div>
-          </div>
-          <div className="sm:pr-5">
-            <div className="prose relative flex w-full max-w-2xl flex-col border-gray-700/50 bg-gray-800 p-5 text-white shadow-2xl before:absolute before:top-[-8px] before:left-1/2 before:h-4 before:w-4 before:rotate-45 before:border-l before:border-t before:border-gray-700/50 before:bg-gray-800 before:content-[''] prose-p:mb-0 prose-p:text-gray-300 sm:rounded-lg sm:border xl:prose-lg xl:max-w-lg xl:bg-transparent xl:before:hidden xl:prose-p:mb-0 2xl:prose-base 2xl:prose-p:mb-0">
-              <h3 className="text-2xl font-semibold sm:text-3xl">
+            <div className="prose prose-sm relative flex w-full max-w-md flex-col rounded-lg border border-gray-700 bg-gray-800 p-8 text-left before:absolute before:top-[-8px] before:left-1/2 before:h-4 before:w-4 before:rotate-45 before:border-l before:border-t before:border-gray-700/50 before:bg-gray-800 before:content-[''] prose-p:mb-0 prose-p:text-gray-100 xl:before:hidden xl:prose-p:mb-0 2xl:prose-base 2xl:prose-p:mb-0">
+              <h3 className="text-2xl font-semibold text-white sm:text-3xl">
                 This is a free tutorial.
               </h3>
               {ctaText && <PortableText value={ctaText} />}
@@ -438,29 +436,42 @@ const BlockedOverlay = () => {
         </>
       ) : (
         <>
+          {videoResourceId && (
+            <Image
+              src={thumbnail}
+              layout="fill"
+              alt=""
+              aria-hidden="true"
+              objectFit="cover"
+              className="opacity-50 blur-sm brightness-50 contrast-125"
+            />
+          )}
           <div className="z-20 flex h-full flex-shrink-0 flex-col items-center justify-center gap-5 p-5 pb-10 text-center text-lg leading-relaxed sm:p-10 sm:pb-16">
             <div className="flex w-full flex-col items-center justify-center gap-2">
-              <div className="relative -mb-5">
+              <div className="flex items-center justify-center rounded-full bg-white p-8">
                 <Image
                   src={module.image}
-                  width={220}
-                  height={220}
+                  width={150}
+                  height={150}
                   alt={module.title}
                 />
               </div>
-              <h2 className="text-4xl font-semibold">
-                Level up your {module.title}
+              <h2 className="pt-5 font-heading text-4xl font-bold">
+                <Balancer>Level up your {module.title}</Balancer>
               </h2>
-              <h3 className="max-w-xl pb-5 pt-3 text-lg text-gray-300">
-                This {lesson._type} is part of the {module.title} workshop.
+              <h3 className="max-w-lg pb-5 pt-3 text-lg opacity-80">
+                <Balancer>
+                  This {lesson._type} is part of the {module.title} workshop.
+                </Balancer>
               </h3>
               <Link
                 href={{
-                  pathname: '/buy',
+                  pathname: `/workshops/[module]`,
+                  query: {module: module.slug.current},
                 }}
               >
                 <a
-                  className="group group mt-5 inline-block gap-2 rounded bg-gradient-to-b from-cyan-300 to-cyan-400 py-3 pl-5 pr-8 font-medium text-black transition hover:brightness-110"
+                  className="group group mt-5 inline-block gap-2 rounded-full bg-brand-red py-3 pl-5 pr-10 font-medium text-white transition hover:brightness-110"
                   onClick={() => {
                     track('clicked unlock lesson', {
                       lesson: lesson.slug,
@@ -474,7 +485,7 @@ const BlockedOverlay = () => {
                   <span className="pr-3">Unlock this {lesson._type} now</span>
                   <span
                     aria-hidden="true"
-                    className="absolute text-cyan-700 transition group-hover:translate-x-1"
+                    className="absolute transition group-hover:translate-x-1"
                   >
                     →
                   </span>
@@ -503,10 +514,11 @@ const LoadingOverlay: React.FC<LoadingOverlayProps> = () => {
             layout="fill"
             alt=""
             aria-hidden="true"
-            className="opacity-50 blur-sm contrast-125"
+            objectFit="cover"
+            className="opacity-50 blur-sm brightness-50 contrast-125"
           />
         )}
-        <Spinner className="absolute" />
+        <Spinner className="absolute h-8 w-8 text-white" />
       </div>
     </OverlayWrapper>
   )

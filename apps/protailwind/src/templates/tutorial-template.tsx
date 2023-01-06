@@ -8,7 +8,7 @@ import {SanityDocument} from '@sanity/client'
 import {isBrowser} from 'utils/is-browser'
 import {track} from '../utils/analytics'
 import {Exercise} from 'lib/exercises'
-import PortableTextComponents from 'components/portable-text'
+import PortableTextComponents from 'video/portable-text'
 import Icon from 'components/icons'
 
 const TutorialTemplate: React.FC<{

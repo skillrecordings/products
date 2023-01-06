@@ -173,7 +173,7 @@ const GitHubLink: React.FC = () => {
         href={resources.github.url}
         target="_blank"
         rel="noopener noreferrer"
-        className="inline-flex items-center gap-2 rounded-lg bg-gray-800 py-2 px-4 text-lg font-medium text-white transition hover:bg-gray-900"
+        className="inline-flex items-center gap-2 rounded-lg bg-gray-800 py-2 px-4 text-lg font-medium text-white transition hover:bg-gray-700"
       >
         <Icon name="Github" size="24" />
         <div>

@@ -7,19 +7,12 @@ import {
   PortableTextComponents,
   PortableTextMarkComponentProps,
 } from '@portabletext/react'
-import {useSelector} from '@xstate/react'
-import {
-  HLSSource,
-  Player,
-  selectIsFullscreen,
-  useVideo,
-  VideoProvider,
-} from '@skillrecordings/player'
 import speakingurl from 'speakingurl'
 import Image from 'next/image'
 import cx from 'classnames'
 
 import Refractor from 'react-refractor'
+
 import js from 'refractor/lang/javascript'
 import markdown from 'refractor/lang/markdown'
 import yaml from 'refractor/lang/yaml'
@@ -29,51 +22,6 @@ import tsx from 'refractor/lang/tsx'
 import Spinner from 'components/spinner'
 import Link from 'next/link'
 
-Refractor.registerLanguage(js)
-Refractor.registerLanguage(css)
-Refractor.registerLanguage(markdown)
-Refractor.registerLanguage(yaml)
-Refractor.registerLanguage(jsx)
-Refractor.registerLanguage(tsx)
-
-const Video: React.FC<{url: string; title: string}> = ({url, title}) => {
-  const fullscreenWrapperRef = React.useRef<HTMLDivElement>(null)
-  const videoService: any = useVideo()
-  const isFullscreen = useSelector(videoService, selectIsFullscreen)
-  const poster = url
-    .replace('stream.mux.com', 'image.mux.com')
-    .replace('.m3u8', '/thumbnail.png?width=1600&height=1000&fit_mode=pad')
-  return (
-    <div className="">
-      {title && (
-        <strong className="inline-block pb-2 font-semibold">
-          <span className="sr-only">Video:</span> {title}
-        </strong>
-      )}
-      <div
-        ref={fullscreenWrapperRef}
-        className={cx('w-full', {
-          'absolute top-0 left-0 z-50': isFullscreen,
-          relative: !isFullscreen,
-        })}
-      >
-        <div className="overflow-hidden rounded-md">
-          <Player
-            enableGlobalShortcuts={false}
-            aria-label={title}
-            container={fullscreenWrapperRef.current || undefined}
-            aspectRatio="8:5"
-            className={'font-sans'}
-            poster={poster}
-          >
-            {url && <HLSSource src={url} />}
-          </Player>
-        </div>
-      </div>
-    </div>
-  )
-}
-
 const BodyImage = ({value}: BodyImageProps) => {
   const {alt, caption, image, href} = value
   const [isLoading, setIsLoading] = React.useState<boolean>(true)
@@ -82,9 +30,12 @@ const BodyImage = ({value}: BodyImageProps) => {
   const Figure = () => {
     return (
       <figure
-        className={cx('relative flex items-center justify-center', {
-          'bg-gray-800/20': isLoading,
-        })}
+        className={cx(
+          'relative flex items-center justify-center py-4 text-center',
+          {
+            'bg-gray-200/60': isLoading,
+          },
+        )}
       >
         <Image
           onLoadingComplete={() => {
@@ -154,13 +105,61 @@ const InternalLink: React.FC<InternalLinkProps> = ({value, children}) => {
   )
 }
 
+const BodyTestimonial: React.FC<
+  React.PropsWithChildren<BodyTestimonialProps>
+> = ({value, children, ...props}) => {
+  const {body, author} = value
+  return (
+    <div className="not-prose">
+      <blockquote
+        className="relative -mx-5 overflow-hidden border border-gray-800 py-5 pr-5 pl-5 font-medium text-gray-200 shadow-xl sm:mx-0 sm:rounded-lg sm:pr-6 sm:pl-8"
+        {...props}
+      >
+        <div className="relative z-10">
+          <div className="prose-lg text-gray-200">
+            <PortableText components={PortableTextComponents} value={body} />
+          </div>
+          {author?.name && (
+            <div className="flex items-center gap-3 pt-5 text-gray-200">
+              {author.image && (
+                <div className="flex items-center justify-center overflow-hidden rounded-full">
+                  <Image
+                    src={author.image}
+                    alt={author.name}
+                    width={48}
+                    height={48}
+                  />
+                </div>
+              )}
+              <span className="font-normal text-gray-200">{author.name}</span>
+            </div>
+          )}
+        </div>
+        <div
+          className="absolute top-0 left-0 h-full w-0.5 bg-cyan-500 sm:w-1"
+          aria-hidden="true"
+        />
+      </blockquote>
+    </div>
+  )
+}
+
 const HighlightedCode: React.FC<CodeProps> = ({value}) => {
   const [mounted, setMounted] = React.useState(false)
   React.useEffect(() => {
     setMounted(true)
   }, [])
-
   const {language, code, highlightedLines} = value
+  const lines = highlightedLines?.map((line: any) => {
+    return {
+      line: line,
+      component: ({children}: any) => (
+        <div className=" from-yellow-500/30 to-amber-500/40 before:pointer-events-none before:absolute before:left-0 before:h-6 before:w-full before:bg-gradient-to-r before:mix-blend-overlay before:content-['']">
+          {children}
+        </div>
+      ),
+    }
+  })
   return mounted ? (
     <>
       <pre
@@ -185,7 +184,7 @@ const HighlightedCode: React.FC<CodeProps> = ({value}) => {
               : 'javascript'
           }
           value={code}
-          markers={highlightedLines}
+          markers={lines}
         />
       </pre>
     </>
@@ -237,9 +236,7 @@ const PortableTextComponents: PortableTextComponents = {
       const {url, title, caption} = value
       return (
         <figure className="video">
-          <VideoProvider>
-            <Video url={url} title={title} />
-          </VideoProvider>
+          {/* TODO: Add Mux player */}
           <figcaption>
             <details
               className="group marker:text-transparent"
@@ -277,7 +274,7 @@ const PortableTextComponents: PortableTextComponents = {
           >
             <source src={url} type="video/mp4" />
           </video>
-          <div className="pb-4 text-base font-medium text-gray-400">
+          <div className="pb-4 text-base font-medium text-slate-400">
             {title}
           </div>
           {caption && (
@@ -306,6 +303,9 @@ const PortableTextComponents: PortableTextComponents = {
         </figure>
       )
     },
+    bodyTestimonial: ({value}: BodyTestimonialProps) => {
+      return <BodyTestimonial value={value} />
+    },
     bodyImage: ({value}: BodyImageProps) => <BodyImage value={value} />,
     code: ({value}: CodeProps) => {
       return <HighlightedCode value={value} />
@@ -315,7 +315,7 @@ const PortableTextComponents: PortableTextComponents = {
       return (
         <div
           className={cx(
-            `my-4 flex space-x-5 rounded-md p-5 sm:my-8`,
+            `my-4 flex space-x-5 rounded-md p-5 shadow-2xl shadow-black/30 sm:my-8`,
             getCalloutStyles(type),
           )}
         >
@@ -368,8 +368,31 @@ const PortableTextComponents: PortableTextComponents = {
         </div>
       )
     },
+    grid: ({value}: GridProps) => {
+      const {items} = value
+      return (
+        <div className="prose-ul:list-outside prose-ul:pl-0 prose-li:pl-0 sm:prose-ul:pl-0">
+          <ul className="mx-auto grid max-w-screen-md list-outside list-none grid-cols-1 place-content-center place-items-start py-2 pl-0 text-lg sm:text-xl md:grid-cols-2 md:gap-16 md:py-10">
+            {items.map((item: any) => {
+              return (
+                <li key={item.title} className="pl-0 marker:text-black">
+                  <strong className="text-xl font-bold sm:text-2xl">
+                    {item.title}
+                  </strong>
+                  <div className="pl-5 prose-li:py-0.5">
+                    <PortableText value={item.body} />
+                  </div>
+                </li>
+              )
+            })}
+          </ul>
+        </div>
+      )
+    },
   },
 }
+
+type GridProps = any
 
 type InternalLinkProps = any
 type ExternalLinkProps = any
@@ -397,6 +420,17 @@ type BodyVideoProps = {
       autoPlay: boolean
       loop: boolean
     }
+  }
+}
+
+type BodyTestimonialProps = {
+  value: {
+    body: PortableTextBlock | ArbitraryTypedObject
+    author: {
+      name: string
+      image?: string
+    }
+    external_url?: string
   }
 }
 
@@ -467,3 +501,10 @@ const getCalloutImage = (type: string): {alt: string; src: string} => {
 }
 
 export default PortableTextComponents
+
+Refractor.registerLanguage(js)
+Refractor.registerLanguage(css)
+Refractor.registerLanguage(markdown)
+Refractor.registerLanguage(yaml)
+Refractor.registerLanguage(jsx)
+Refractor.registerLanguage(tsx)
