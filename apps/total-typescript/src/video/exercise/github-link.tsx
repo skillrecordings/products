@@ -36,7 +36,7 @@ export const GitHubLink: React.FC<{
 
   const openFile = stackblitz?.split(',')[0]
 
-  return (
+  return github.repo && module.github.repo ? (
     <div className="pb-4">
       <div className="flex items-center gap-2">
         <a
@@ -64,5 +64,5 @@ export const GitHubLink: React.FC<{
         </a>
       </div>
     </div>
-  )
+  ) : null
 }

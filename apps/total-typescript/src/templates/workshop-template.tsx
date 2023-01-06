@@ -105,7 +105,7 @@ const Header: React.FC<{workshop: SanityDocument}> = ({workshop}) => {
                   </a>
                 </Link>
               )}
-              {github && (
+              {github?.repo && (
                 <a
                   className="flex items-center justify-center gap-2 rounded border-2 border-gray-800 px-5 py-3 font-medium transition hover:bg-gray-800"
                   href={`https://github.com/total-typescript/${github.repo}`}
