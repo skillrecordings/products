@@ -137,6 +137,7 @@ const ExerciseOverlay: React.FC<{tutorialFiles: any}> = ({tutorialFiles}) => {
     type: lesson._type,
   })
   const {github} = module
+  console.log({resources})
 
   const visibleFiles = resources?.sandpack
     ?.filter(({active}) => active)
@@ -185,13 +186,13 @@ const DefaultOverlay = () => {
   return (
     <OverlayWrapper className="px-5">
       {image && (
-        <div className="hidden items-center justify-center sm:flex sm:w-40 lg:w-auto">
+        <div className="hidden items-center justify-center rounded-full bg-white p-8 sm:flex lg:w-auto">
           <Image
             src={image}
             alt=""
             aria-hidden="true"
-            width={220}
-            height={220}
+            width={150}
+            height={150}
           />
         </div>
       )}
@@ -202,7 +203,7 @@ const DefaultOverlay = () => {
       </p>
       <div className="flex items-center justify-center gap-5 py-4 sm:py-8">
         <button
-          className="rounded bg-gray-800 px-3 py-1 text-lg font-semibold transition hover:bg-gray-700 sm:px-5 sm:py-3"
+          className="rounded-full bg-gray-800 px-3 py-1 text-lg font-semibold transition hover:bg-gray-700 sm:px-5 sm:py-3"
           onClick={() => {
             track('clicked replay', {
               lesson: lesson.slug,
@@ -217,7 +218,7 @@ const DefaultOverlay = () => {
           Replay ↺
         </button>
         <button
-          className="rounded bg-cyan-600 px-3 py-1 text-lg font-semibold transition hover:bg-cyan-500 sm:px-5 sm:py-3"
+          className="rounded-full bg-brand-red px-3 py-1 text-lg font-semibold transition hover:brightness-125 sm:px-5 sm:py-3"
           onClick={() => {
             track('clicked complete', {
               lesson: lesson.slug,
