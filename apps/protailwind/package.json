@@ -7,6 +7,7 @@
     "postbuild": "NODE_ENV=production next-sitemap",
     "clean": "rm -rf node_modules && pnpm -r exec -- rm -rf .turbo node_modules .next dist",
     "dev": "next dev -p 3017",
+    "dev:setup": "vercel env pull .env.local && sed -i.bak '/^VERCEL/d' .env.local",
     "format": "prettier --write ./src/**/*",
     "integration": "cypress run",
     "lint": "TIMING=1 eslint src/**/*.{ts,tsx} --fix && tsc --noEmit",
