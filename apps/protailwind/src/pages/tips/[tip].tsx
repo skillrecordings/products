@@ -6,17 +6,24 @@ import {VideoResourceProvider} from '@skillrecordings/skill-lesson/hooks/use-vid
 import {LessonProvider} from '@skillrecordings/skill-lesson/hooks/use-lesson'
 
 export const getStaticProps: GetStaticProps = async ({params}) => {
-  const tip = await getTip(params?.tip as string)
-  const tips = await getAllTips()
+  try {
+    const tip = await getTip(params?.tip as string)
+    const tips = await getAllTips()
 
-  return {
-    props: {
-      tip,
-      tips,
-      transcript: tip.transcript,
-      videoResourceId: tip.videoResourceId,
-    },
-    revalidate: 10,
+    return {
+      props: {
+        tip,
+        tips,
+        transcript: tip.transcript,
+        videoResourceId: tip.videoResourceId,
+      },
+      revalidate: 10,
+    }
+  } catch (error) {
+    console.error(error)
+    return {
+      notFound: true,
+    }
   }
 }
 

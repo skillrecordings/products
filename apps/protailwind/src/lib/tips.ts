@@ -24,7 +24,7 @@ export const TipSchema = z.object({
     .nullable(),
   videoResourceId: z.nullable(z.string()).optional(),
   transcript: z.nullable(z.any().array()),
-  tweetId: z.string(),
+  tweetId: z.nullable(z.string()).optional(),
 })
 
 export const TipsSchema = z.array(TipSchema)
