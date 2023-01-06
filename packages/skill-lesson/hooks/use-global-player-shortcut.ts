@@ -36,6 +36,12 @@ export const useGlobalPlayerShortcuts = (muxPlayerRef: {
               muxPlayerRef.current.currentTime -
               (muxPlayerRef.current.forwardSeekOffset || 10)
           }
+          if (e.key === 'f') {
+            e.preventDefault()
+            document.fullscreenElement
+              ? document.exitFullscreen()
+              : muxPlayerRef.current.requestFullscreen()
+          }
         }
       }
     },
