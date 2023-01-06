@@ -8,6 +8,7 @@
     "clean": "rm -rf node_modules && pnpm -r exec -- rm -rf .turbo node_modules .next dist",
     "dev": "next dev -p 3017",
     "dev:setup": "vercel env pull .env.local && sed -i.bak '/^VERCEL/d' .env.local",
+    "dev:stripe": "stripe listen --forward-to localhost:3017/api/skill/webhook/stripe",
     "build:dev": "pnpm -w build --filter protailwind",
     "format": "prettier --write ./src/**/*",
     "integration": "cypress run",
