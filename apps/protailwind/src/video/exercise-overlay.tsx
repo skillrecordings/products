@@ -85,9 +85,9 @@ const Actions = () => {
   const router = useRouter()
 
   return (
-    <>
+    <div className="flex items-center gap-2">
       <button
-        className="rounded bg-gray-800 px-3 py-1 text-lg font-semibold transition hover:bg-gray-700 sm:px-5 sm:py-2"
+        className="rounded-full bg-gray-200 px-3 py-1 font-medium transition hover:bg-gray-300/80 sm:px-5 sm:py-2"
         onClick={() => {
           track('clicked replay', {
             lesson: lesson.slug,
@@ -103,7 +103,7 @@ const Actions = () => {
       </button>
       {nextExercise && (
         <button
-          className="rounded bg-cyan-600 px-3 py-1 text-lg font-semibold transition hover:bg-cyan-500 sm:px-5 sm:py-2"
+          className="rounded-full bg-emerald-600 px-3 py-1 font-medium text-white transition hover:bg-emerald-500 sm:px-5 sm:py-2"
           onClick={() => {
             track('clicked continue to solution', {
               lesson: lesson.slug,
@@ -125,7 +125,7 @@ const Actions = () => {
           Solution <span aria-hidden="true">→</span>
         </button>
       )}
-    </>
+    </div>
   )
 }
 
@@ -465,7 +465,8 @@ const BlockedOverlay = () => {
               </h3>
               <Link
                 href={{
-                  pathname: '/buy',
+                  pathname: `/workshops/[module]`,
+                  query: {module: module.slug.current},
                 }}
               >
                 <a

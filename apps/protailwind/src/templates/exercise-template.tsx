@@ -1,8 +1,5 @@
 import * as React from 'react'
-import ExerciseSidebar from 'components/exercise-sidebar'
 import Layout from 'components/layout'
-import capitalize from 'lodash/capitalize'
-import {SanityDocument} from '@sanity/client'
 import {ArticleJsonLd} from '@skillrecordings/next-seo'
 import {VideoProvider} from '@skillrecordings/skill-lesson/hooks/use-mux-player'
 import {useLesson} from '@skillrecordings/skill-lesson/hooks/use-lesson'
@@ -63,7 +60,7 @@ const ExerciseTemplate: React.FC<{
             section={section}
           />
           <main className="relative mx-auto max-w-[1480px] grow items-start  sm:bg-gray-100 2xl:flex 2xl:max-w-none  2xl:bg-transparent">
-            <div className="border-gray-100 2xl:relative 2xl:h-full 2xl:w-full 2xl:border-r 2xl:bg-gray-100">
+            <div className="border-gray-100 2xl:relative 2xl:h-full 2xl:w-full">
               <Video ref={muxPlayerRef} tutorialFiles={tutorialFiles} />
               <MobileModuleLessonList
                 module={module}
@@ -77,7 +74,7 @@ const ExerciseTemplate: React.FC<{
                 />
               </div>
             </div>
-            <article className="relative flex-shrink-0 shadow-gray-500/10 sm:bg-gray-100 2xl:h-full 2xl:bg-transparent 2xl:shadow-xl">
+            <article className="relative flex-shrink-0 border-gray-200/60 sm:bg-gray-100 2xl:h-full 2xl:border-l 2xl:bg-transparent 2xl:shadow-2xl 2xl:shadow-gray-300/40">
               <div className="relative z-10 mx-auto max-w-4xl px-5 py-5 lg:py-8 2xl:max-w-xl">
                 <LessonTitle />
                 <LessonAssets />
@@ -95,24 +92,6 @@ const ExerciseTemplate: React.FC<{
         </div>
       </Layout>
     </VideoProvider>
-  )
-}
-
-const MobileLessonNavigator: React.FC<{
-  module: SanityDocument
-  section?: SanityDocument
-  path: string
-}> = ({module, path, section}) => {
-  return (
-    <details className="group block border-t-2 border-gray-900 lg:hidden">
-      <summary className="no-marker flex cursor-pointer items-center gap-1 bg-white px-4 py-3 font-medium shadow-2xl shadow-gray-500/10 transition marker:content-[''] after:absolute after:right-3 after:flex after:h-6 after:w-6 after:rotate-180 after:items-center after:justify-center after:rounded-full after:bg-gray-100 after:text-lg after:content-['↑'] group-open:after:rotate-0 hover:bg-gray-100">
-        {module.title} {capitalize(module.moduleType)}{' '}
-        <span className="opacity-80">
-          ({section ? section.lessons.length : module.lessons.length} exercises)
-        </span>
-      </summary>
-      <ExerciseSidebar module={module} path={path} section={section} />
-    </details>
   )
 }
 

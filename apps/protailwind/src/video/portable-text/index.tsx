@@ -20,6 +20,7 @@ import css from 'refractor/lang/css'
 import jsx from 'refractor/lang/jsx'
 import tsx from 'refractor/lang/tsx'
 import Spinner from 'components/spinner'
+import Link from 'next/link'
 
 const BodyImage = ({value}: BodyImageProps) => {
   const {alt, caption, image, href} = value
@@ -88,6 +89,22 @@ const ExternalLink: React.FC<React.PropsWithChildren<ExternalLinkProps>> = ({
   )
 }
 
+const InternalLink: React.FC<InternalLinkProps> = ({value, children}) => {
+  return (
+    <Link
+      href={{
+        pathname: '/tutorials/[module]/[lesson]',
+        query: {
+          module: value.module.slug,
+          lesson: value.slug,
+        },
+      }}
+    >
+      <a>{children}</a>
+    </Link>
+  )
+}
+
 const BodyTestimonial: React.FC<
   React.PropsWithChildren<BodyTestimonialProps>
 > = ({value, children, ...props}) => {
@@ -133,7 +150,6 @@ const HighlightedCode: React.FC<CodeProps> = ({value}) => {
     setMounted(true)
   }, [])
   const {language, code, highlightedLines} = value
-
   const lines = highlightedLines?.map((line: any) => {
     return {
       line: line,
@@ -156,7 +172,7 @@ const HighlightedCode: React.FC<CodeProps> = ({value}) => {
       </pre>
       <pre
         aria-hidden="true"
-        className="relative -mx-5 rounded-none scrollbar-thin scrollbar-track-transparent scrollbar-thumb-gray-800 hover:scrollbar-thumb-gray-700 sm:mx-0 sm:rounded-lg"
+        className="relative -mx-5 rounded-none p-5 leading-[1.15] scrollbar-thin scrollbar-track-transparent scrollbar-thumb-gray-600 hover:scrollbar-thumb-gray-500 sm:mx-0 sm:rounded-lg md:leading-tight"
       >
         <Refractor
           inline
@@ -208,8 +224,11 @@ const PortableTextComponents: PortableTextComponents = {
     link: ({value, children}) => {
       return <ExternalLink value={value}>{children}</ExternalLink>
     },
+    internalLink: ({value, children}) => {
+      return <InternalLink value={value}>{children}</InternalLink>
+    },
     code: ({value, children}) => {
-      return <code>{children}</code>
+      return <code className="rounded bg-gray-200 px-1 py-0.5">{children}</code>
     },
   },
   types: {
@@ -439,15 +458,15 @@ type CodeProps = {
 const getCalloutStyles = (type: string): string => {
   switch (type) {
     case 'tip':
-      return 'bg-gray-800'
+      return 'bg-gray-200'
     case 'big-idea':
-      return 'bg-gray-800'
+      return 'bg-gray-200'
     case 'reflection':
-      return 'bg-gray-800'
+      return 'bg-gray-200'
     case 'caution':
-      return 'bg-gray-800'
+      return 'bg-gray-200'
     default:
-      return 'bg-gray-800'
+      return 'bg-gray-200'
   }
 }
 

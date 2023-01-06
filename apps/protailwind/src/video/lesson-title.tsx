@@ -19,7 +19,7 @@ export const LessonTitle = () => {
       >
         {_type}
       </span>
-      <h1 className="pb-5 pt-3 font-heading text-3xl font-extrabold sm:text-4xl sm:leading-tight xl:text-[2.65rem] 2xl:text-4xl">
+      <h1 className="pb-5 pt-3 font-heading text-3xl font-black tracking-tight sm:text-4xl sm:leading-tight xl:text-[2.65rem] 2xl:text-4xl">
         {title}
       </h1>
     </>

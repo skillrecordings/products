@@ -29,7 +29,7 @@ const ModuleLessonListHeader: React.FC<SidebarProps> = ({
           className,
         )}
       >
-        <div className="top-0 border-r border-gray-100 lg:sticky">
+        <div className="top-0 border-r border-gray-200/60 shadow-2xl shadow-gray-300/40 lg:sticky">
           <aside>
             <div
               className={`top-0 z-10 h-[${headerHeight}] border-t border-gray-100 lg:sticky`}

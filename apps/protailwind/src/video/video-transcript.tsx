@@ -16,7 +16,7 @@ export const VideoTranscript: React.FC<{
 
   return (
     <div className=" mx-auto max-w-4xl p-5 py-16">
-      <h2 className="flex items-baseline font-heading text-2xl font-bold sm:text-3xl">
+      <h2 className="flex items-baseline font-heading text-xl font-black sm:text-3xl">
         Transcript
       </h2>
       <div className="prose max-w-none pt-4 prose-p:text-gray-800">

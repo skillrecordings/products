@@ -19,7 +19,7 @@ export const LessonDescription = () => {
     <div>
       <div
         className={cx(
-          'prose relative max-w-none pt-5 prose-headings:font-semibold prose-headings:text-gray-900 prose-p:text-gray-800 xl:pt-8 2xl:pt-5',
+          'prose relative max-w-none pt-5 prose-headings:font-heading prose-headings:font-black prose-code:text-[90%] xl:pt-8 2xl:pt-5',
           {
             'after:absolute after:bottom-0 after:left-0 after:h-1/2 after:w-full after:bg-gradient-to-b after:from-transparent after:via-gray-100 after:to-gray-100 after:content-[""]':
               !canShowVideo,
@@ -50,7 +50,7 @@ export const LessonDescription = () => {
         <div className="relative flex -translate-y-8 items-center justify-center rounded-lg bg-white p-5 shadow-2xl shadow-gray-400/40 before:absolute before:top-[-8px] before:h-4 before:w-4 before:rotate-45 before:bg-white before:content-['']">
           <p className="prose max-w-none text-gray-800 prose-a:text-brand-red">
             This {lesson._type} is part of{' '}
-            <Link href={`/workshops/${module.slug}`}>
+            <Link href={`/workshops/${module.slug.current}`}>
               <a>{module.title} Workshop</a>
             </Link>{' '}
             and can be unlocked immediately after purchase. Already purchased?{' '}

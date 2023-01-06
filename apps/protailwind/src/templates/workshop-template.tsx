@@ -14,7 +14,7 @@ import {CheckIcon, ChevronDownIcon} from '@heroicons/react/solid'
 import {trpc} from 'utils/trpc'
 import {find, isArray} from 'lodash'
 import {LessonResource} from '@skillrecordings/skill-lesson/schemas/lesson-resource'
-import PortableTextComponents from '../components/portable-text'
+import PortableTextComponents from '../video/portable-text'
 
 const WorkshopTemplate: React.FC<{
   workshop: SanityDocument
@@ -24,7 +24,7 @@ const WorkshopTemplate: React.FC<{
 
   return (
     <Layout
-      className="mx-auto w-full pt-24 lg:max-w-4xl lg:pb-24"
+      className="mx-auto w-full pt-5 lg:max-w-4xl lg:pb-24"
       meta={{
         title: pageTitle,
         description,
@@ -37,7 +37,7 @@ const WorkshopTemplate: React.FC<{
       <CourseMeta title={pageTitle} description={description} />
       <Header workshop={workshop} />
       <main className="relative z-10 flex flex-col gap-5 lg:flex-row">
-        <article className="prose prose-lg w-full max-w-none px-5 text-white lg:max-w-xl">
+        <article className="prose w-full max-w-none px-5 text-gray-900 lg:max-w-xl">
           <PortableText value={body} components={PortableTextComponents} />
         </article>
         <WorkshopSectionNavigator workshop={workshop} />
@@ -147,7 +147,7 @@ const WorkshopSectionNavigator: React.FC<{workshop: SanityDocument}> = ({
       aria-label="workshop navigator"
       className="w-full px-5 py-8 lg:max-w-xs lg:px-0 lg:py-0"
     >
-      {sections && (
+      {sections > 1 ? (
         <Accordion.Root type="multiple">
           <div className="flex w-full items-center justify-between pb-3">
             <h2 className="text-2xl font-semibold">Contents</h2>
@@ -183,6 +183,27 @@ const WorkshopSectionNavigator: React.FC<{workshop: SanityDocument}> = ({
             })}
           </ul>
         </Accordion.Root>
+      ) : (
+        <div>
+          <h3 className="pb-1 font-heading text-lg font-bold">
+            {sections[0].lessons.length} Lessons
+          </h3>
+          <ul className="rounded-lg border border-gray-100 bg-white py-3 pl-3.5 pr-3 shadow-xl shadow-gray-300/20">
+            {sections[0].lessons.map((exercise: LessonResource, i: number) => {
+              const section = sections[0]
+              const moduleSlug = workshop.slug.current
+              return (
+                <LessonListItem
+                  key={exercise.slug}
+                  lessonResource={exercise}
+                  section={section}
+                  moduleSlug={moduleSlug}
+                  index={i}
+                />
+              )
+            })}
+          </ul>
+        </div>
       )}
     </nav>
   )
@@ -235,12 +256,12 @@ const LessonListItem = ({
         >
           {isExerciseCompleted ? (
             <CheckIcon
-              className="mr-2 h-4 w-4 text-teal-400"
+              className="mr-2 h-5 w-5 text-emerald-500"
               aria-hidden="true"
             />
           ) : (
             <span
-              className="w-6 font-mono text-xs text-gray-400"
+              className="w-7 font-mono text-xs text-gray-400"
               aria-hidden="true"
             >
               {index + 1}

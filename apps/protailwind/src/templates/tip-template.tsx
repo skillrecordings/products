@@ -31,7 +31,7 @@ import {
 import {useConvertkit} from '@skillrecordings/skill-lesson/hooks/use-convertkit'
 import {setUserId} from '@amplitude/analytics-browser'
 import {ArticleJsonLd} from '@skillrecordings/next-seo'
-import PortableTextComponents from 'components/portable-text'
+import PortableTextComponents from 'video/portable-text'
 import Icon from 'components/icons'
 import {
   useMuxPlayer,
@@ -94,7 +94,12 @@ const TipTemplate: React.FC<{
   }
 
   return (
-    <VideoProvider muxPlayerRef={muxPlayerRef} onEnded={handleVideoEnded}>
+    <VideoProvider
+      muxPlayerRef={muxPlayerRef}
+      onEnded={handleVideoEnded}
+      exerciseSlug={tip.slug}
+      path="/tips"
+    >
       <ArticleJsonLd
         url={`${process.env.NEXT_PUBLIC_URL}/tips/${tip.slug}`}
         title={tip.title}
@@ -205,6 +210,7 @@ const TipTemplate: React.FC<{
 
 const Video: React.FC<any> = React.forwardRef(({tips}, ref: any) => {
   const {muxPlayerProps, displayOverlay} = useMuxPlayer()
+  const {videoResource} = useVideoResource()
 
   return (
     <div className="relative">
@@ -217,7 +223,11 @@ const Video: React.FC<any> = React.forwardRef(({tips}, ref: any) => {
           },
         )}
       >
-        <MuxPlayer ref={ref} {...(muxPlayerProps as MuxPlayerProps)} />
+        <MuxPlayer
+          ref={ref}
+          {...(muxPlayerProps as MuxPlayerProps)}
+          playbackId={videoResource?.muxPlaybackId}
+        />
       </div>
     </div>
   )
@@ -294,11 +304,11 @@ const TipOverlay: React.FC<{tips: Tip[]}> = ({tips}) => {
   const {lesson, module} = useLesson()
 
   const buttonStyles =
-    'py-2 px-3 font-medium rounded flex items-center gap-1 hover:bg-gray-200/50 bg-gray-100 transition text-gray-600'
+    'py-2 px-3 font-medium rounded-full flex items-center gap-1 hover:bg-gray-100 bg-white transition text-gray-900'
   return (
     <div
       id="video-overlay"
-      className="relative top-0 left-0 flex w-full items-center justify-center border-t border-gray-50 bg-white shadow-2xl shadow-gray-500/20 lg:aspect-video xl:rounded-b-xl"
+      className="relative top-0 left-0 flex w-full items-center justify-center border-t border-gray-50 bg-gray-900 shadow-2xl shadow-gray-500/20 lg:aspect-video xl:rounded-b-xl"
     >
       <div className="absolute top-8 right-8 z-50 flex items-center justify-center gap-3">
         <button className={buttonStyles} onClick={handlePlay}>
@@ -319,7 +329,7 @@ const TipOverlay: React.FC<{tips: Tip[]}> = ({tips}) => {
           Dismiss <XIcon className="h-4 w-4" aria-hidden="true" />
         </button>
       </div>
-      <div className="left-0 top-0 z-20 flex h-full w-full flex-col items-center justify-center p-5 text-center text-lg leading-relaxed lg:absolute">
+      <div className="ft-0 top-0 z-20 flex h-full w-full flex-col items-center justify-center p-5 text-center text-lg leading-relaxed lg:absolute">
         {/* <ShareTip lesson={tip} /> */}
         <div className="grid h-full grid-cols-1 gap-2 sm:grid-cols-2 lg:grid-cols-3 ">
           {take(
@@ -362,7 +372,7 @@ const VideoOverlayTipCard: React.FC<{suggestedTip: Tip}> = ({suggestedTip}) => {
             handlePlay()
           })
       }}
-      className="group relative z-0 flex aspect-video h-full w-full items-end justify-start overflow-hidden rounded-lg bg-gray-900 p-8 text-left font-medium leading-tight text-gray-200"
+      className="group relative z-0 flex aspect-video h-full w-full items-end justify-start overflow-hidden rounded-lg bg-gray-900 p-8 text-left font-medium leading-tight text-gray-100"
     >
       <div className="relative z-10 flex flex-col">
         <span className="pb-1 font-heading text-xs font-bold uppercase tracking-wide text-gray-400">
