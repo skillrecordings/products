@@ -1,5 +1,5 @@
 import React from 'react'
-import TutorialTemplate from 'templates/tuturial-template'
+import TutorialTemplate from 'templates/tutorial-template'
 import {SanityDocument} from '@sanity/client'
 import {getAllTutorials, getTutorial} from 'lib/tutorials'
 import {GetStaticPaths, GetStaticProps} from 'next'

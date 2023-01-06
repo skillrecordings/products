@@ -43,7 +43,7 @@ const LessonNavigator: React.FC<{
               router.asPath === currentPath
 
             return (
-              <li key={lesson.slug} className="pt-2">
+              <li key={lesson.slug} className="">
                 {scrollToElement && (
                   <div ref={activeElRef} aria-hidden="true" />
                 )}
@@ -62,10 +62,11 @@ const LessonNavigator: React.FC<{
                 >
                   <a
                     className={cx(
-                      'flex items-center px-4 py-2 font-semibold leading-tight ',
+                      'flex items-center px-4 py-4 font-semibold leading-tight transition border-l-2',
                       {
-                        ' shadow-xl shadow-gray-500/5': isActive && !lesson,
-                        '': !isActive && !lesson,
+                        'bg-gray-700/60 shadow-xl shadow-gray-500/5 border-blue-500':
+                          isActive,
+                        'hover:bg-gray-800 border-transparent': !isActive,
                       },
                     )}
                     onClick={() => {
@@ -80,7 +81,10 @@ const LessonNavigator: React.FC<{
                   >
                     <span
                       aria-hidden="true"
-                      className="pr-3 text-sm opacity-50"
+                      className={cx('pr-3 text-sm', {
+                        'text-blue-300 opacity-100': isActive,
+                        'opacity-50': !isActive,
+                      })}
                     >
                       {sectionIdx + 1}
                     </span>{' '}

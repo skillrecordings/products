@@ -50,13 +50,13 @@ const TutorialsPage: React.FC<{tutorials: SanityDocument[]}> = ({
                   key={slug.current}
                   className="relative flex flex-col items-center rounded-lg bg-white bg-opacity-5 p-4 md:flex-row shadow-2xl overflow-hidden gap-6"
                 >
-                  <div className="flex h-full flex-shrink-0 items-center justify-centerp-10">
+                  <div className="flex h-full flex-shrink-0 items-center justify-center p-5">
                     {image && (
                       <Image
                         src={image}
                         alt={title}
-                        width={150}
-                        height={150}
+                        width={200}
+                        height={200}
                         quality={100}
                       />
                     )}

@@ -28,8 +28,8 @@ const ExerciseSidebar: React.FC<SidebarProps> = ({path = '', className}) => {
                 {module?.image && (
                   <Image
                     src={module.image}
-                    width={120}
-                    height={120}
+                    width={160}
+                    height={160}
                     alt={module.title}
                     quality={100}
                     className="relative z-10"

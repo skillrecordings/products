@@ -21,7 +21,7 @@ export const LessonDescription = () => {
         className={cx(
           'prose relative max-w-none pt-5 prose-headings:font-heading prose-headings:font-black prose-code:text-[90%] xl:pt-8 2xl:pt-5',
           {
-            'after:absolute after:bottom-0 after:left-0 after:h-1/2 after:w-full after:bg-gradient-to-b after:from-transparent after:via-gray-100 after:to-gray-100 after:content-[""]':
+            'after:absolute after:bottom-0 after:left-0 after:h-1/2 after:w-full after:bg-gradient-to-b after:from-transparent after:via-gray-50 after:to-gray-50 after:content-[""]':
               !canShowVideo,
           },
         )}
