@@ -49,7 +49,7 @@ export function Hero() {
             />
             <div className="relative">
               <p className="inline bg-gradient-to-r from-indigo-200 via-sky-400 to-indigo-200 bg-clip-text font-display text-5xl tracking-tight text-transparent">
-                Build Badass Courses for Badass Developer.
+                Build Badass Courses for Badass Developers.
               </p>
               <p className="mt-3 text-2xl tracking-tight text-slate-400">
                 A set of tools for building and deploying courses on the web.
