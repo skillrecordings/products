@@ -462,6 +462,7 @@ importers:
       react-refractor: ^2.1.7
       react-rewards: ^2.0.3
       react-use: ^17.3.2
+      react-wrap-balancer: ^0.2.4
       refractor: ^4.5.0
       speakingurl: ^14.0.1
       superjson: ^1.11.0
@@ -541,6 +542,7 @@ importers:
       react-markdown: 8.0.3_3hx2ussxxho4jajbwrd6gq34qe
       react-rewards: 2.0.3_biqbaboplfbrettd7655fr4n2y
       react-use: 17.4.0_biqbaboplfbrettd7655fr4n2y
+      react-wrap-balancer: 0.2.4_react@18.2.0
       refractor: 4.5.0
       speakingurl: 14.0.1
       superjson: 1.11.0
@@ -25524,6 +25526,14 @@ packages:
       throttle-debounce: 3.0.1
       ts-easing: 0.2.0
       tslib: 2.4.0
+    dev: false
+
+  /react-wrap-balancer/0.2.4_react@18.2.0:
+    resolution: {integrity: sha512-MVL9/Tw1X72t0i5Y/2j3YmSx1vkJJ22b5Vb+vZ/IOEdq7r9JPNzTfnfkB8wrl98Jwx+F6VCwJXmU7a1lT5PtCA==}
+    peerDependencies:
+      react: ^18.0.0
+    dependencies:
+      react: 18.2.0
     dev: false
 
   /react/18.2.0:

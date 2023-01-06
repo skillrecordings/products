@@ -1,9 +1,6 @@
 import React from 'react'
 import {SanityDocument} from '@sanity/client'
-import {
-  redirectUrlBuilder,
-  SubscribeToConvertkitForm,
-} from '@skillrecordings/convertkit-react-ui'
+import {SubscribeToConvertkitForm} from '@skillrecordings/convertkit-react-ui'
 import {Facebook, LinkedIn, Twitter} from '@skillrecordings/react'
 import {NextRouter, useRouter} from 'next/router'
 import {IconGithub} from '../components/icons'

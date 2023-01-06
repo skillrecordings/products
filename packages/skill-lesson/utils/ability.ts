@@ -85,7 +85,8 @@ const isFreelyVisible = ({
   const lessons = section ? section.lessons : module?.lessons || []
 
   const isFirstLesson =
-    lesson?._type === 'exercise' && lesson._id === lessons[0]._id
+    (lesson?._type === 'exercise' || lesson?._type === 'explainer') &&
+    lesson._id === lessons[0]._id
 
   return isFirstLesson && lesson && !isSolution
 }
