@@ -61,7 +61,7 @@ const Articles: React.FC<ArticlesIndex> = ({articles}) => {
                 </h2>
                 <p className="max-w-xl pt-5 leading-relaxed text-gray-300">
                   {latestArticle.summary
-                    ? latestArticle.summary
+                    ? toPlainText(latestArticle.summary)
                     : latestArticle.body
                     ? toPlainText(latestArticle.body).slice(0, 400)
                     : ''}
@@ -89,7 +89,7 @@ type ArticleTeaserProps = {
 export const ArticleTeaser: React.FC<ArticleTeaserProps> = ({article}) => {
   const {title, summary: _summary, body, image} = article
   const summary = _summary
-    ? _summary
+    ? toPlainText(_summary)
     : body
     ? toPlainText(body).slice(0, 400)
     : ''
