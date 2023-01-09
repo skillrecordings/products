@@ -11,21 +11,45 @@ export default {
       type: 'string',
     },
     {
-      name: 'productId',
-      title: 'Product ID',
-      type: 'string',
-    },
-    {
       name: 'subtitle',
       title: 'Subtitle',
       type: 'text',
       rows: 3,
     },
     {
+      name: 'productId',
+      title: 'Product ID',
+      type: 'string',
+    },
+    {
       name: 'modules',
       title: 'Modules',
       type: 'array',
       of: [{type: 'reference', to: [{type: 'module'}]}],
+    },
+    {
+      name: 'description',
+      title: 'Description',
+      type: 'text',
+      rows: 3,
+    },
+    {
+      name: 'features',
+      title: 'Features',
+      type: 'array',
+      of: [{type: 'feature'}],
+    },
+    {name: 'image', title: 'Image', type: 'externalImage'},
+    {
+      name: 'concepts',
+      title: 'Concepts',
+      type: 'array',
+      of: [
+        {
+          type: 'reference',
+          to: [{type: 'skosConcept'}],
+        },
+      ],
     },
   ],
   preview: {
