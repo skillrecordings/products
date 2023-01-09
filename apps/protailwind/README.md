@@ -86,7 +86,7 @@ pnpm db:push
 
 This starts the MySQL container (running on port `3309`) and applies any schema changes as needed.
 
-The first time you run this command it will seed the database with the contents of `apps/typescriptcourse/seed_data`
+The first time you run this command it will seed the database with the contents of `apps/protailwind/seed_data`
 
 If you want to reset the database, open docker, delete the container **and** the associated image. Otherwise nothing will be changed with the database when you run the above command but it will be running normally in the background.
 
