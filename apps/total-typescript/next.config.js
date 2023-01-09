@@ -43,7 +43,12 @@ const nextConfig = {
     domains: IMAGE_HOST_DOMAINS,
   },
   async redirects() {
-    return []
+    return [
+      {
+        source: '/my-mental-model-for-generics',
+        destination: '/mental-model-for-typescript-generics',
+      },
+    ]
   },
 }
 
