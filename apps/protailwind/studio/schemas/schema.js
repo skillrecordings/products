@@ -13,6 +13,8 @@ import module from './documents/module'
 import testimonial from './documents/testimonial'
 import section from './documents/section'
 import explainer from './documents/explainer'
+import product from './documents/product'
+import pricing from './documents/pricing'
 // objects
 import bodyVideo from './objects/bodyVideo'
 import bodyImage from './objects/bodyImage'
@@ -32,6 +34,7 @@ import codeFile from './objects/code-file'
 import sandpack from './objects/resources/sandpack'
 import github from './objects/github'
 import figma from './objects/resources/figma'
+import feature from './objects/feature'
 
 // Then we give our schema to the builder and provide the result to Sanity
 export default createSchema({
@@ -53,6 +56,8 @@ export default createSchema({
     testimonial,
     section,
     explainer,
+    product,
+    pricing,
     //objects
     body,
     bodyVideo,
@@ -72,6 +77,7 @@ export default createSchema({
     codeFile,
     github,
     figma,
+    feature,
     // When added to this list, object types can be used as
     // { type: 'typename' } in other document schemas
   ]),

@@ -4,6 +4,8 @@ import tips from './src/structure/tips'
 import videoResources from './src/structure/videoResources'
 import tutorials from './src/structure/tutorials'
 import workshops from './src/structure/workshops'
+import pricing from './src/structure/pricing'
+import products from './src/structure/products'
 
 const hiddenDocTypes = (listItem) =>
   ![
@@ -16,12 +18,17 @@ const hiddenDocTypes = (listItem) =>
     'testimonial',
     'section',
     'explainer',
+    'pricing',
+    'products',
   ].includes(listItem.getId())
 
 export default () =>
   S.list()
     .title('Pro Tailwind')
     .items([
+      pricing,
+      products,
+      S.divider(),
       workshops,
       tutorials,
       tips,
