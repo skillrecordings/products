@@ -6,7 +6,7 @@ import {useMuxPlayer} from '@skillrecordings/skill-lesson/hooks/use-mux-player'
 import Spinner from 'components/spinner'
 import {LessonResource} from '@skillrecordings/skill-lesson/schemas/lesson-resource'
 import {useRouter} from 'next/router'
-import {trpc} from '../../utils/trpc'
+import {trpc} from '../../trpc/trpc.client'
 
 export const GitHubLink: React.FC<{
   exercise: LessonResource

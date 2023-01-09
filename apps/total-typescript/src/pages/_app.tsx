@@ -16,7 +16,7 @@ import {QueryClient, QueryClientProvider} from '@tanstack/react-query'
 import * as amplitude from '@amplitude/analytics-browser'
 import {FeedbackProvider} from 'feedback-widget/feedback-context'
 
-import {trpc} from 'utils/trpc'
+import {trpc} from 'trpc/trpc.client'
 
 amplitude.init(process.env.NEXT_PUBLIC_AMPLITUDE_API_KEY)
 
