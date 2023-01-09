@@ -17,10 +17,10 @@ export default {
       rows: 3,
     },
     {
-      name: 'products',
-      title: 'Products',
+      name: 'modules',
+      title: 'Modules',
       type: 'array',
-      of: [{type: 'reference', to: [{type: 'product'}]}],
+      of: [{type: 'reference', to: [{type: 'module'}]}],
     },
   ],
   preview: {
