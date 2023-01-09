@@ -14,7 +14,7 @@ import testimonial from './documents/testimonial'
 import section from './documents/section'
 import explainer from './documents/explainer'
 import product from './documents/product'
-import pricing from './documents/pricing'
+import bundle from './documents/bundle'
 // objects
 import bodyVideo from './objects/bodyVideo'
 import bodyImage from './objects/bodyImage'
@@ -57,7 +57,7 @@ export default createSchema({
     section,
     explainer,
     product,
-    pricing,
+    bundle,
     //objects
     body,
     bodyVideo,

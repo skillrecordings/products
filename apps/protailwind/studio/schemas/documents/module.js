@@ -77,6 +77,19 @@ export default {
       type: 'body',
     },
     {
+      name: 'products',
+      title: 'Products',
+      description: 'Sellable products associated with this module',
+      type: 'array',
+      of: [
+        {
+          title: 'Exercise, Section, or Explainer',
+          type: 'reference',
+          to: [{title: 'Product', type: 'product'}],
+        },
+      ],
+    },
+    {
       name: 'concepts',
       title: 'Concepts',
       type: 'array',

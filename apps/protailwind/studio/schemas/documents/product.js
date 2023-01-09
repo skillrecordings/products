@@ -27,30 +27,6 @@ export default {
       type: 'array',
       of: [{type: 'feature'}],
     },
-    {
-      name: 'modules',
-      title: 'Modules',
-      type: 'array',
-      of: [
-        {
-          type: 'reference',
-          to: [
-            {
-              type: 'module',
-            },
-          ],
-          options: {
-            filter: 'moduleType == $moduleType',
-            filterParams: {moduleType: 'workshop'},
-          },
-        },
-      ],
-    },
-    {
-      name: 'action',
-      title: 'Call to action',
-      type: 'string',
-    },
     {name: 'image', title: 'Image', type: 'externalImage'},
     {
       name: 'concepts',
