@@ -61,7 +61,7 @@ export default {
       type: 'array',
       of: [
         {
-          title: 'Exercise, Section, Explainer',
+          title: 'Exercise, Section, or Explainer',
           type: 'reference',
           to: [
             {title: 'Exercise', type: 'exercise'},
