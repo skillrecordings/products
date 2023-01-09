@@ -1,7 +1,7 @@
 import {useSurveyPopupOfferMachine} from 'offer/use-survey-popup-offer-machine'
 import * as React from 'react'
 import {track} from '@skillrecordings/skill-lesson/utils/analytics'
-import {trpc} from '../../utils/trpc'
+import {trpc} from '../../trpc/trpc.client'
 import {SurveyMachineContext} from './survey-machine'
 import {QuestionResource} from '@skillrecordings/types'
 import {useRouter} from 'next/router'

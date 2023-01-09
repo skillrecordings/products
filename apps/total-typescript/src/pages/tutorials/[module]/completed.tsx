@@ -12,7 +12,7 @@ import {Subscriber} from '@skillrecordings/skill-lesson/schemas/subscriber'
 import {getTutorial} from 'lib/tutorials'
 import {GetServerSideProps} from 'next'
 import {get, isEmpty} from 'lodash'
-import {trpc} from 'utils/trpc'
+import {trpc} from 'trpc/trpc.client'
 import {
   FieldValues,
   SubmitHandler,
