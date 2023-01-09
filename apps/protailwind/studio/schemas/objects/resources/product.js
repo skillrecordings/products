@@ -7,15 +7,9 @@ export default {
   icon: IoMdCash,
   fields: [
     {
-      name: 'title',
-      title: 'Title',
-      type: 'string',
-      validation: (Rule) => Rule.max(90),
-    },
-    {
       name: 'productId',
       title: 'Product ID',
-      description: 'Reference to product in database',
+      description: 'Reference to a product in database',
       type: 'string',
     },
   ],
