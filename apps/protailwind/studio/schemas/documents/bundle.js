@@ -11,6 +11,11 @@ export default {
       type: 'string',
     },
     {
+      name: 'productId',
+      title: 'Product ID',
+      type: 'string',
+    },
+    {
       name: 'subtitle',
       title: 'Subtitle',
       type: 'text',
