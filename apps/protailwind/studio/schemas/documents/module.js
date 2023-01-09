@@ -57,11 +57,11 @@ export default {
     {
       name: 'resources',
       title: 'Resources',
-      description: 'Exercises, Sections and Explainers in the Module',
+      description: 'Exercises, Sections, Explainers or Products in the Module',
       type: 'array',
       of: [
         {
-          title: 'Exercise, Section, or Explainer',
+          title: 'Exercise, Section, Explainer',
           type: 'reference',
           to: [
             {title: 'Exercise', type: 'exercise'},
@@ -69,25 +69,13 @@ export default {
             {title: 'Explainer', type: 'explainer'},
           ],
         },
+        {title: 'Product', type: 'product'},
       ],
     },
     {
       name: 'body',
       title: 'Body',
       type: 'body',
-    },
-    {
-      name: 'products',
-      title: 'Products',
-      description: 'Sellable products associated with this module',
-      type: 'array',
-      of: [
-        {
-          title: 'Exercise, Section, or Explainer',
-          type: 'reference',
-          to: [{title: 'Product', type: 'product'}],
-        },
-      ],
     },
     {
       name: 'concepts',
