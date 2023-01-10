@@ -27,18 +27,16 @@ export const getServerSideProps: GetServerSideProps = async ({
   const token = await getToken({req})
   const commerceProps = await propsForCommerce({token, products, query})
   return {
-    props: {workshop, propsForCommerce: commerceProps.props},
+    props: {workshop, commerceProps: commerceProps.props},
   }
 }
 
-const WorkshopPage: React.FC<CommerceProps & {workshop: SanityDocument}> = ({
-  workshop,
-  propsForCommerce,
-}) => {
+const WorkshopPage: React.FC<{
+  workshop: SanityDocument
+  commerceProps: CommerceProps
+}> = ({workshop, commerceProps}) => {
   // TODO: Load subscriber, find user via Prisma/api using USER_ID_QUERY_PARAM_KEY
-  return (
-    <WorkshopTemplate workshop={workshop} propsForCommerce={propsForCommerce} />
-  )
+  return <WorkshopTemplate workshop={workshop} commerceProps={commerceProps} />
 }
 
 export default WorkshopPage
