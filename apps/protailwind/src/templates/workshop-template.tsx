@@ -31,14 +31,15 @@ import {isSellingLive} from 'path-to-purchase-react/is-selling-live'
 import {getBaseUrl} from '@skillrecordings/skill-lesson/utils/get-base-url'
 import {useVideoResource} from '@skillrecordings/skill-lesson/hooks/use-video-resource'
 
-const WorkshopTemplate: React.FC<
-  CommerceProps & {workshop: SanityDocument}
-> = ({workshop, propsForCommerce}) => {
+const WorkshopTemplate: React.FC<{
+  workshop: SanityDocument
+  commerceProps: CommerceProps
+}> = ({workshop, commerceProps}) => {
   const {title, body, ogImage, description, product} = workshop
   const pageTitle = `${title} Workshop`
   const purchasedProductIds =
-    propsForCommerce.purchases &&
-    propsForCommerce.purchases.map((purchase) => purchase.productId)
+    commerceProps.purchases &&
+    commerceProps.purchases.map((purchase) => purchase.productId)
 
   const hasPurchased = Boolean(
     purchasedProductIds && purchasedProductIds.includes(product.productId),
@@ -71,11 +72,7 @@ const WorkshopTemplate: React.FC<
             workshop={workshop}
           />
         </div>
-        <BuyWorkshop
-          product={product}
-          workshop={workshop}
-          {...propsForCommerce}
-        />
+        <BuyWorkshop product={product} workshop={workshop} {...commerceProps} />
       </main>
     </Layout>
   )
