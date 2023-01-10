@@ -5,7 +5,7 @@ import {withSentry} from '@sentry/nextjs'
 
 const productTheme: Theme = {
   colorScheme: 'auto',
-  brandColor: '#d17300',
+  brandColor: '#4537D2',
 }
 
 export const nextAuthOptions: NextAuthOptions = createOptions({

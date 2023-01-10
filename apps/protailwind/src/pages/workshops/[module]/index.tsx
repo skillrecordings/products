@@ -1,33 +1,44 @@
 import React from 'react'
 import {SanityDocument} from '@sanity/client'
-import {GetStaticPaths, GetStaticProps} from 'next'
+import {GetStaticPaths, GetStaticProps, GetServerSideProps} from 'next'
 import {getAllWorkshops, getWorkshop} from '../../../lib/workshops'
 import WorkshopTemplate from '../../../templates/workshop-template'
+import {getActiveProducts} from 'path-to-purchase-react/products.server'
+import {propsForCommerce} from '@skillrecordings/commerce-server'
+import {getToken} from 'next-auth/jwt'
+import {CommerceProps} from '@skillrecordings/commerce-server/dist/@types'
 
 export const USER_ID_QUERY_PARAM_KEY = 'learner'
 
-export const getStaticProps: GetStaticProps = async ({params}) => {
+export const getServerSideProps: GetServerSideProps = async ({
+  res,
+  req,
+  query,
+  params,
+}) => {
+  res.setHeader('Cache-Control', 's-maxage=1, stale-while-revalidate')
   const workshop = await getWorkshop(params?.module as string)
-
+  const {products} = await getActiveProducts()
+  if (!workshop) {
+    return {
+      notFound: true,
+    }
+  }
+  const token = await getToken({req})
+  const commerceProps = await propsForCommerce({token, products, query})
   return {
-    props: {workshop},
-    revalidate: 10,
+    props: {workshop, propsForCommerce: commerceProps.props},
   }
 }
 
-export const getStaticPaths: GetStaticPaths = async () => {
-  const workshops = await getAllWorkshops()
-  const paths = workshops.map((workshop: any) => ({
-    params: {module: workshop.slug.current},
-  }))
-  return {paths, fallback: 'blocking'}
-}
-
-const WorkshopPage: React.FC<{
-  workshop: SanityDocument
-}> = ({workshop}) => {
+const WorkshopPage: React.FC<CommerceProps & {workshop: SanityDocument}> = ({
+  workshop,
+  propsForCommerce,
+}) => {
   // TODO: Load subscriber, find user via Prisma/api using USER_ID_QUERY_PARAM_KEY
-  return <WorkshopTemplate workshop={workshop} />
+  return (
+    <WorkshopTemplate workshop={workshop} propsForCommerce={propsForCommerce} />
+  )
 }
 
 export default WorkshopPage

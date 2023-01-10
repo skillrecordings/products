@@ -27,6 +27,9 @@ import {
   useConvertkit,
 } from '@skillrecordings/skill-lesson/hooks/use-convertkit'
 import dynamic from 'next/dynamic'
+import {PriceCheckProvider} from 'path-to-purchase-react/pricing-check-context'
+import {Pricing} from 'path-to-purchase-react/pricing'
+import {isSellingLive} from 'path-to-purchase-react/is-selling-live'
 
 const SandpackEditor: React.ComponentType<any> = dynamic(
   () => import('./exercise/sandpack/repl'),
@@ -451,46 +454,50 @@ const BlockedOverlay = () => {
               <div className="flex items-center justify-center rounded-full bg-white p-8">
                 <Image
                   src={module.image}
-                  width={150}
-                  height={150}
+                  width={100}
+                  height={100}
                   alt={module.title}
                 />
               </div>
               <h2 className="pt-5 font-heading text-4xl font-bold">
                 <Balancer>Level up your {module.title}</Balancer>
               </h2>
-              <h3 className="max-w-lg pb-5 pt-3 text-lg opacity-80">
-                <Balancer>
-                  This {lesson._type} is part of the {module.title} workshop.
-                </Balancer>
+              <h3 className="w-full pb-10 pt-3 text-lg opacity-90">
+                <Balancer>Get access to all lessons in this workshop.</Balancer>
               </h3>
-              <Link
-                href={{
-                  pathname: `/workshops/[module]`,
-                  query: {module: module.slug.current},
-                }}
-              >
-                <a
-                  className="group group mt-5 inline-block gap-2 rounded-full bg-brand-red py-3 pl-5 pr-10 font-medium text-white transition hover:brightness-110"
-                  onClick={() => {
-                    track('clicked unlock lesson', {
-                      lesson: lesson.slug,
-                      module: module.slug.current,
-                      location: 'blocked overlay',
-                      moduleType: module.moduleType,
-                      lessonType: lesson._type,
-                    })
+              {isSellingLive ? (
+                <PriceCheckProvider purchasedProductIds={[]}>
+                  <Pricing product={module.product} index={1} />
+                </PriceCheckProvider>
+              ) : (
+                <Link
+                  href={{
+                    pathname: `/workshops/[module]`,
+                    query: {module: module.slug.current},
                   }}
                 >
-                  <span className="pr-3">Unlock this {lesson._type} now</span>
-                  <span
-                    aria-hidden="true"
-                    className="absolute transition group-hover:translate-x-1"
+                  <a
+                    className="group group mt-5 inline-block gap-2 rounded-full bg-brand-red py-3 pl-5 pr-10 font-medium text-white transition hover:brightness-110"
+                    onClick={() => {
+                      track('clicked unlock lesson', {
+                        lesson: lesson.slug,
+                        module: module.slug.current,
+                        location: 'blocked overlay',
+                        moduleType: module.moduleType,
+                        lessonType: lesson._type,
+                      })
+                    }}
                   >
-                    →
-                  </span>
-                </a>
-              </Link>
+                    <span className="pr-3">Unlock this {lesson._type} now</span>
+                    <span
+                      aria-hidden="true"
+                      className="absolute transition group-hover:translate-x-1"
+                    >
+                      →
+                    </span>
+                  </a>
+                </Link>
+              )}
             </div>
           </div>
         </>

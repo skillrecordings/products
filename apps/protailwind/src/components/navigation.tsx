@@ -1,9 +1,11 @@
 import React from 'react'
 import Link from 'next/link'
-import {useRouter} from 'next/router'
+import {NextRouter, useRouter} from 'next/router'
 import cx from 'classnames'
 import Icon from './icons'
 import {track} from 'utils/analytics'
+import {signOut, useSession} from 'next-auth/react'
+import toast from 'react-hot-toast'
 
 type NavigationProps = {
   className?: string
@@ -31,6 +33,8 @@ const Navigation: React.FC<NavigationProps> = ({className}) => {
 export default Navigation
 
 const DesktopNav = () => {
+  const router = useRouter()
+  const {status} = useSession()
   return (
     <div className="flex items-center space-x-5">
       <NavSlots>
@@ -46,6 +50,17 @@ const DesktopNav = () => {
         <NavLink href="/articles" icon={<Icon name="Palm" />}>
           Articles
         </NavLink>
+        {status === 'authenticated' && (
+          <button
+            onClick={async () => {
+              await handleLogOut(router)
+              toast.success('Logged out successfully')
+            }}
+            className="flex w-full rounded px-3 py-2 transition hover:underline"
+          >
+            Log out
+          </button>
+        )}
       </NavSlots>
     </div>
   )
@@ -104,4 +119,12 @@ const NavLogo = () => {
       </a>
     </Link>
   )
+}
+
+export const handleLogOut = async (router: NextRouter) => {
+  const data = await signOut({
+    redirect: false,
+    callbackUrl: '/',
+  }).then((data) => data)
+  window.location.href = data.url
 }
