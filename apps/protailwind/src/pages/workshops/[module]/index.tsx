@@ -16,7 +16,6 @@ export const getServerSideProps: GetServerSideProps = async ({
   query,
   params,
 }) => {
-  res.setHeader('Cache-Control', 's-maxage=1, stale-while-revalidate')
   const workshop = await getWorkshop(params?.module as string)
   const {products} = await getActiveProducts()
   if (!workshop) {
