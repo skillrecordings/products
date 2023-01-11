@@ -93,16 +93,24 @@ const checkForAvailableCoupons = async ({
 }
 
 export const pricing = router({
-  propsForCommerce: publicProcedure.query(async ({ctx}) => {
-    const token = await getToken({req: ctx.req})
-    const {products} = await getActiveProducts()
-    const {props} = await propsForCommerce({
-      query: ctx.req.query,
-      token,
-      products,
-    })
-    return props
-  }),
+  propsForCommerce: publicProcedure
+    .input(
+      z.object({
+        code: z.string().optional(),
+        coupon: z.string().optional(),
+        allowPurchase: z.string().optional(),
+      }),
+    )
+    .query(async ({ctx, input}) => {
+      const token = await getToken({req: ctx.req})
+      const {products} = await getActiveProducts()
+      const {props} = await propsForCommerce({
+        query: input,
+        token,
+        products,
+      })
+      return props
+    }),
   formatted: publicProcedure
     .input(PricingFormattedInputSchema)
     .query(async ({ctx, input}) => {

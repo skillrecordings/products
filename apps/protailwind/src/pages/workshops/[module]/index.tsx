@@ -5,6 +5,7 @@ import {getAllWorkshops, getWorkshop} from '../../../lib/workshops'
 import WorkshopTemplate from '../../../templates/workshop-template'
 
 import {trpc} from '../../../utils/trpc'
+import {useRouter} from 'next/router'
 
 export const USER_ID_QUERY_PARAM_KEY = 'learner'
 
@@ -28,7 +29,10 @@ export const getStaticPaths: GetStaticPaths = async () => {
 const WorkshopPage: React.FC<{
   workshop: SanityDocument
 }> = ({workshop}) => {
-  const {data: commerceProps} = trpc.pricing.propsForCommerce.useQuery()
+  const router = useRouter()
+  const {data: commerceProps} = trpc.pricing.propsForCommerce.useQuery(
+    router.query,
+  )
   // TODO: Load subscriber, find user via Prisma/api using USER_ID_QUERY_PARAM_KEY
   return <WorkshopTemplate workshop={workshop} commerceProps={commerceProps} />
 }
