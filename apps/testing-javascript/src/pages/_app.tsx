@@ -9,8 +9,6 @@ import {DefaultSeo} from '@skillrecordings/next-seo'
 
 import config from '../config'
 
-import {trpc} from 'trpc/trpc.client'
-
 initNProgress()
 
 function MyApp({Component, pageProps}: AppProps) {
@@ -25,4 +23,4 @@ function MyApp({Component, pageProps}: AppProps) {
   )
 }
 
-export default trpc.withTRPC(MyApp)
+export default MyApp

@@ -34,7 +34,10 @@ export const GitHubLink: React.FC<{
     return null
   }
 
-  const openFile = stackblitz?.split(',')[0]
+  const {exerciseGitHubUrl, openFile} = getExerciseGitHubUrl({
+    stackblitz,
+    module,
+  })
 
   return github.repo && module.github.repo ? (
     <div className="pb-4">
@@ -48,7 +51,7 @@ export const GitHubLink: React.FC<{
               lessonType: exercise._type,
             })
           }}
-          href={`https://github.com/total-typescript/${github.repo}/blob/main/${openFile}`}
+          href={exerciseGitHubUrl}
           target="_blank"
           rel="noopener noreferrer"
           className="inline-flex items-center gap-4 rounded border border-gray-700/50 bg-gray-800/50 py-5 px-6 text-lg font-medium text-white transition hover:bg-slate-800/90"
@@ -65,4 +68,16 @@ export const GitHubLink: React.FC<{
       </div>
     </div>
   ) : null
+}
+
+export const getExerciseGitHubUrl = ({
+  stackblitz,
+  module,
+}: {
+  stackblitz: string | null | undefined
+  module: SanityDocument
+}) => {
+  const openFile = stackblitz?.split(',')[0]
+  const exerciseGitHubUrl = `https://github.com/total-typescript/${module.github.repo}/blob/main/${openFile}`
+  return {exerciseGitHubUrl, openFile}
 }
