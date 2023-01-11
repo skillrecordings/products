@@ -38,9 +38,12 @@
             }
           }
         }
-      }
-      [data-price-container='loading'] {
-        @apply flex items-center py-1.5;
+        [data-price-container='loading'] {
+          @apply flex items-center py-1.5;
+        }
+        [data-price-container='error'] {
+          @apply hidden;
+        }
       }
       [data-purchased-container] {
         [data-purchased] {
