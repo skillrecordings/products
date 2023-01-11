@@ -145,61 +145,6 @@ const ExerciseOverlay = () => {
           <div className="flex w-full items-center justify-between p-3 pl-5 font-medium sm:text-lg">
             <div className="flex flex-col">
               <div>Now it's your turn! Try solving this exercise.</div>
-              {!isStackblitzCompatibleBrowser && (
-                <div className="mt-2 hidden rounded-md bg-gray-800 px-4 py-3 text-base sm:block">
-                  <p className="pb-1 font-semibold">
-                    <ExclamationIcon className="inline-block h-5 w-5 text-cyan-300" />{' '}
-                    Incompatible Web Browser
-                  </p>
-                  <p>
-                    {isFirefox && (
-                      <>
-                        <a
-                          href={stackblitzUrl}
-                          target="_blank"
-                          onClick={() => {
-                            track('clicked open stackblitz in new window', {
-                              lesson: lesson.slug,
-                              module: module.slug.current,
-                              location: 'exercise',
-                              moduleType: module.moduleType,
-                              lessonType: lesson._type,
-                            })
-                          }}
-                          className="text-cyan-200 underline" rel="noreferrer"
-                        >
-                          Click here
-                        </a>{' '}
-                        {'for alpha version for Firefox. '}
-                        {'For best experience use Chromium-based browser.'}
-                      </>
-                    )}
-                    {isSafari && (
-                      <>
-                        {
-                          'Please use Chromium-based browser to work on this exercise. Or '
-                        }
-                        <a
-                          href={exerciseGitHubUrl}
-                          target="_blank"
-                          onClick={() => {
-                            track('clicked github code link', {
-                              lesson: lesson.slug,
-                              module: module.slug.current,
-                              moduleType: module.moduleType,
-                              lessonType: lesson._type,
-                            })
-                          }}
-                          className="text-cyan-200 underline" rel="noreferrer"
-                        >
-                          view on GitHub
-                        </a>
-                        {'.'}
-                      </>
-                    )}
-                  </p>
-                </div>
-              )}
             </div>
             <div className="flex justify-center gap-2">
               <Actions />
@@ -208,6 +153,64 @@ const ExerciseOverlay = () => {
           <div className="relative hidden h-[500px] w-full sm:block xl:h-[750px]">
             <StackBlitzIframe exercise={lesson} module={module} />
           </div>
+          {!isStackblitzCompatibleBrowser && (
+            <div className="mx-2 mt-2 hidden rounded-md bg-gray-800 px-4 py-3 text-base sm:block">
+              <p className="pb-1 font-semibold">
+                <ExclamationIcon className="inline-block h-5 w-5 text-cyan-300" />{' '}
+                StackBlitz is poorly supported outside of Chrome.
+              </p>
+              <p>
+                {isFirefox && (
+                  <>
+                    {
+                      'Please use Chromium-based browser to work on this exercise. Or '
+                    }
+                    <a
+                      href={`https://gitpod.io#${exerciseGitHubUrl}`}
+                      target="_blank"
+                      onClick={() => {
+                        track('clicked gitpod code link', {
+                          lesson: lesson.slug,
+                          module: module.slug.current,
+                          moduleType: module.moduleType,
+                          lessonType: lesson._type,
+                        })
+                      }}
+                      className="text-cyan-200 underline"
+                      rel="noreferrer"
+                    >
+                      view on Gitpod
+                    </a>
+                    {'.'}
+                  </>
+                )}
+                {isSafari && (
+                  <>
+                    {
+                      'Please use Chromium-based browser to work on this exercise. Or '
+                    }
+                    <a
+                      href={`https://gitpod.io#${exerciseGitHubUrl}`}
+                      target="_blank"
+                      onClick={() => {
+                        track('clicked gitpod code link', {
+                          lesson: lesson.slug,
+                          module: module.slug.current,
+                          moduleType: module.moduleType,
+                          lessonType: lesson._type,
+                        })
+                      }}
+                      className="text-cyan-200 underline"
+                      rel="noreferrer"
+                    >
+                      view on Gitpod
+                    </a>
+                    {'.'}
+                  </>
+                )}
+              </p>
+            </div>
+          )}
         </>
       ) : (
         github?.repo && (
