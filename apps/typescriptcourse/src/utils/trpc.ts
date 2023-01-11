@@ -2,6 +2,7 @@ import {httpBatchLink, loggerLink} from '@trpc/client'
 import {createTRPCNext} from '@trpc/next'
 import {inferRouterInputs, inferRouterOutputs} from '@trpc/server'
 import superjson from 'superjson'
+import {type CommerceProps} from '@skillrecordings/commerce-server/dist/@types'
 
 import type {AppRouter} from 'server/routers/_app'
 
