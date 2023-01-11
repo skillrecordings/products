@@ -130,12 +130,7 @@ const ExerciseOverlay = () => {
   const {github} = module
   const {isSafari, isFirefox} = useDeviceDetect()
   const isStackblitzCompatibleBrowser = !(isSafari || isFirefox)
-  const stackblitzUrl = getStackblitzUrl({
-    module,
-    exercise: lesson,
-    stackblitz,
-    isEmbed: 0,
-  })
+
   const {exerciseGitHubUrl} = getExerciseGitHubUrl({stackblitz, module})
 
   return status !== 'loading' ? (
