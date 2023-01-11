@@ -17,7 +17,7 @@ const Home: NextPage = () => {
   return (
     <Layout>
       <h1 className="text-4xl text-primary-500 font-bold flex items-center justify-center flex-grow">
-        Hi! 🤡
+        Hi! 👋
       </h1>
       <ul>
         <li>Can View Invoice: {canViewInvoice ? 'true' : 'false'}</li>
