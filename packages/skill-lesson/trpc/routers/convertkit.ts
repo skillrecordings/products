@@ -3,7 +3,7 @@ import {answerSurvey, markLessonComplete} from '../../lib/convertkit'
 import {updateSubscriber} from '@skillrecordings/convertkit-sdk'
 import {serialize} from 'cookie'
 import {SubscriberSchema} from '../../schemas/subscriber'
-import {publicProcedure, router} from '../trpc'
+import {publicProcedure, router} from '../trpc.server'
 
 export const convertkitRouter = router({
   updateName: publicProcedure

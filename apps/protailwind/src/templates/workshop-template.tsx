@@ -27,18 +27,15 @@ import {
 } from '@skillrecordings/commerce-server/dist/@types'
 import {useCoupon} from 'path-to-purchase-react/use-coupon'
 import {PriceCheckProvider} from 'path-to-purchase-react/pricing-check-context'
-import {isSellingLive} from 'path-to-purchase-react/is-selling-live'
-import {getBaseUrl} from '@skillrecordings/skill-lesson/utils/get-base-url'
-import {useVideoResource} from '@skillrecordings/skill-lesson/hooks/use-video-resource'
 
 const WorkshopTemplate: React.FC<{
   workshop: SanityDocument
-  commerceProps: CommerceProps
+  commerceProps?: CommerceProps
 }> = ({workshop, commerceProps}) => {
   const {title, body, ogImage, description, product} = workshop
   const pageTitle = `${title} Workshop`
   const purchasedProductIds =
-    commerceProps.purchases &&
+    commerceProps?.purchases &&
     commerceProps.purchases.map((purchase) => purchase.productId)
 
   const hasPurchased = Boolean(
@@ -72,7 +69,13 @@ const WorkshopTemplate: React.FC<{
             workshop={workshop}
           />
         </div>
-        <BuyWorkshop product={product} workshop={workshop} {...commerceProps} />
+        {commerceProps && (
+          <BuyWorkshop
+            product={product}
+            workshop={workshop}
+            {...commerceProps}
+          />
+        )}
       </main>
     </Layout>
   )
