@@ -26,6 +26,7 @@ import {useRouter} from 'next/router'
 import * as Switch from '@radix-ui/react-switch'
 import Link from 'next/link'
 import {trpc} from 'utils/trpc'
+import Balancer from 'react-wrap-balancer'
 import {isSellingLive} from './is-selling-live'
 
 function getFirstPPPCoupon(availableCoupons: any[] = []) {
@@ -575,16 +576,16 @@ const SubscribeForm = ({
   return (
     <div
       id="pricing"
-      className="flex w-full max-w-sm flex-col items-center justify-between pb-8"
+      className="flex w-full max-w-sm flex-col items-center justify-between"
     >
-      <div className="inline-flex max-w-xs flex-shrink-0 items-center gap-2 text-base font-medium leading-tight">
+      <div className="inline-flex flex-shrink-0 items-center gap-2 pb-5 text-base font-medium leading-tight">
         <div
           aria-hidden="true"
-          className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full bg-gray-800"
+          className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full bg-blue-500/10"
         >
-          <MailIcon className="h-5 w-5 text-cyan-300" />
-        </div>{' '}
-        Get notified when Total TypeScript Vol 1. is released:
+          <MailIcon className="h-5 w-5 text-blue-500" />
+        </div>
+        <Balancer>Get notified when this workshop is released</Balancer>
       </div>
       <SubscribeToConvertkitForm
         formId={3843826}
