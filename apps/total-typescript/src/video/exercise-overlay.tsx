@@ -15,7 +15,7 @@ import {sanityClient} from '@skillrecordings/skill-lesson/utils/sanity-client'
 import {PortableText} from '@portabletext/react'
 import {trpc} from '../trpc/trpc.client'
 import Spinner from '../components/spinner'
-import {StackBlitzIframe} from './exercise/stackblitz-iframe'
+import {getStackblitzUrl, StackBlitzIframe} from './exercise/stackblitz-iframe'
 import Link from 'next/link'
 import first from 'lodash/first'
 import {useLesson} from '@skillrecordings/skill-lesson/hooks/use-lesson'
@@ -27,6 +27,9 @@ import {
   confirmSubscriptionToast,
   useConvertkit,
 } from '@skillrecordings/skill-lesson/hooks/use-convertkit'
+import {useDeviceDetect} from 'hooks/use-device-detect'
+import {ExclamationIcon} from '@heroicons/react/solid'
+import {getExerciseGitHubUrl} from './exercise/github-link'
 
 export const OverlayWrapper: React.FC<
   React.PropsWithChildren<{className?: string; dismissable?: boolean}>
@@ -125,13 +128,79 @@ const ExerciseOverlay = () => {
     type: lesson._type,
   })
   const {github} = module
+  const {isSafari, isFirefox} = useDeviceDetect()
+  const isStackblitzCompatibleBrowser = !(isSafari || isFirefox)
+  const stackblitzUrl = getStackblitzUrl({
+    module,
+    exercise: lesson,
+    stackblitz,
+    isEmbed: 0,
+  })
+  const {exerciseGitHubUrl} = getExerciseGitHubUrl({stackblitz, module})
 
   return status !== 'loading' ? (
     <div className=" bg-black/30 ">
       {stackblitz ? (
         <>
           <div className="flex w-full items-center justify-between p-3 pl-5 font-medium sm:text-lg">
-            <div>Now it's your turn! Try solving this exercise.</div>
+            <div className="flex flex-col">
+              <div>Now it's your turn! Try solving this exercise.</div>
+              {!isStackblitzCompatibleBrowser && (
+                <div className="mt-2 hidden rounded-md bg-gray-800 px-4 py-3 text-base sm:block">
+                  <p className="pb-1 font-semibold">
+                    <ExclamationIcon className="inline-block h-5 w-5 text-cyan-300" />{' '}
+                    Incompatible Web Browser
+                  </p>
+                  <p>
+                    {isFirefox && (
+                      <>
+                        <a
+                          href={stackblitzUrl}
+                          target="_blank"
+                          onClick={() => {
+                            track('clicked open stackblitz in new window', {
+                              lesson: lesson.slug,
+                              module: module.slug.current,
+                              location: 'exercise',
+                              moduleType: module.moduleType,
+                              lessonType: lesson._type,
+                            })
+                          }}
+                          className="text-cyan-200 underline" rel="noreferrer"
+                        >
+                          Click here
+                        </a>{' '}
+                        {'for alpha version for Firefox. '}
+                        {'For best experience use Chromium-based browser.'}
+                      </>
+                    )}
+                    {isSafari && (
+                      <>
+                        {
+                          'Please use Chromium-based browser to work on this exercise. Or '
+                        }
+                        <a
+                          href={exerciseGitHubUrl}
+                          target="_blank"
+                          onClick={() => {
+                            track('clicked github code link', {
+                              lesson: lesson.slug,
+                              module: module.slug.current,
+                              moduleType: module.moduleType,
+                              lessonType: lesson._type,
+                            })
+                          }}
+                          className="text-cyan-200 underline" rel="noreferrer"
+                        >
+                          view on GitHub
+                        </a>
+                        {'.'}
+                      </>
+                    )}
+                  </p>
+                </div>
+              )}
+            </div>
             <div className="flex justify-center gap-2">
               <Actions />
             </div>
