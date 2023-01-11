@@ -465,12 +465,12 @@ const BlockedOverlay = () => {
               <h3 className="w-full pb-10 pt-3 text-lg opacity-90">
                 <Balancer>Get access to all lessons in this workshop.</Balancer>
               </h3>
-              {isSellingLive ? (
-                <PriceCheckProvider>
-                  <Pricing product={module.product} />
-                </PriceCheckProvider>
-              ) : (
-                <Link
+
+              <PriceCheckProvider>
+                <Pricing product={module.product} />
+              </PriceCheckProvider>
+
+              {/* <Link
                   href={{
                     pathname: `/workshops/[module]`,
                     query: {module: module.slug.current},
@@ -496,8 +496,7 @@ const BlockedOverlay = () => {
                       →
                     </span>
                   </a>
-                </Link>
-              )}
+                </Link> */}
             </div>
           </div>
         </>

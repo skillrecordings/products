@@ -104,7 +104,7 @@ const BuyWorkshop: React.FC<
   const thumbnail = `https://protailwind.com/api/video-thumb?videoResourceId=${firstLesson?.videoResourceId}`
   // const thumbnail = `${getBaseUrl()}/api/video-thumb?videoResourceId=${firstLesson?.videoResourceId}`
 
-  return isSellingLive ? (
+  return (
     <div className="mx-auto w-full max-w-sm overflow-hidden rounded-lg border border-gray-200/40 bg-white shadow-2xl shadow-gray-400/20">
       {!hasPurchased && (
         <Link
@@ -149,7 +149,7 @@ const BuyWorkshop: React.FC<
         </PriceCheckProvider>
       </div>
     </div>
-  ) : null
+  )
 }
 
 const Header: React.FC<
