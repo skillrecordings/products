@@ -3,7 +3,7 @@
  */
 import {progressRouter} from './progress'
 import {convertkitRouter} from './convertkit'
-import {router} from '../trpc'
+import {router} from '../trpc.server'
 import {videoResourceRouter} from './video-resource'
 import {lessonsRouter} from './lessons'
 import {modulesRouter} from './modules'

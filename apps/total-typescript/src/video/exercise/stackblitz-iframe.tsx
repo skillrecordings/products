@@ -19,12 +19,7 @@ export const StackBlitzIframe: React.FC<{
   })
 
   const [isLoading, setIsLoading] = React.useState(true)
-
-  const githubOrg = 'total-typescript'
-  const githubRepo = module.github.repo
-  const clickToLoad = Number(false)
-  const startCommand = getStartCommand(exercise, stackblitz)
-  const embedUrl = `https://stackblitz.com/github/${githubOrg}/${githubRepo}?file=${stackblitz}&embed=1&view=editor&hideExplorer=1&ctl=${clickToLoad}&terminal=${startCommand}`
+  const embedUrl = getStackblitzUrl({module, exercise, stackblitz})
 
   return status === 'loading' ? null : (
     <>
@@ -74,4 +69,23 @@ export const getStartCommand = (
   const startCommand = `${exercise._type.substring(0, 1)}-${codeFileNumber}`
 
   return startCommand
+}
+
+export const getStackblitzUrl = ({
+  module,
+  exercise,
+  stackblitz,
+  isEmbed = Number(true),
+}: {
+  module: SanityDocument
+  exercise: LessonResource
+  stackblitz: string | null | undefined
+  isEmbed?: number
+}) => {
+  const githubOrg = 'total-typescript'
+  const githubRepo = module.github.repo
+  const clickToLoad = Number(false)
+  const startCommand = getStartCommand(exercise, stackblitz)
+  const embedUrl = `https://stackblitz.com/github/${githubOrg}/${githubRepo}?file=${stackblitz}&embed=${isEmbed}&view=editor&hideExplorer=1&ctl=${clickToLoad}&terminal=${startCommand}`
+  return embedUrl
 }

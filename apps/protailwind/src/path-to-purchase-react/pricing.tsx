@@ -26,6 +26,7 @@ import {useRouter} from 'next/router'
 import * as Switch from '@radix-ui/react-switch'
 import Link from 'next/link'
 import {trpc} from 'utils/trpc'
+import Balancer from 'react-wrap-balancer'
 import {isSellingLive} from './is-selling-live'
 
 function getFirstPPPCoupon(availableCoupons: any[] = []) {
@@ -47,7 +48,7 @@ type PricingProps = {
   purchased?: boolean
   purchases?: Purchase[]
   userId?: string
-  index: number
+  index?: number
   couponId?: string
   allowPurchase?: boolean
 }
@@ -67,7 +68,7 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
   purchased = false,
   purchases = [],
   userId,
-  index,
+  index = 0,
   couponId,
   allowPurchase = false,
 }) => {
@@ -128,299 +129,298 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
   }
 
   return (
-    <div id="main-pricing">
-      <div data-pricing-product={index}>
-        {image && (
-          <div data-pricing-product-image="">
-            <Image
-              priority
-              src={image.url}
-              alt={image.alt}
-              quality={100}
-              layout={'fill'}
-              objectFit="contain"
-              aria-hidden="true"
-            />
-          </div>
-        )}
-        <article>
-          {/* {Boolean(appliedMerchantCoupon || isDiscount(formattedPrice)) && (
+    <div data-pricing-product={index}>
+      {image && (
+        <div data-pricing-product-image="">
+          <Image
+            priority
+            src={image.url}
+            alt={image.alt}
+            quality={100}
+            layout={'fill'}
+            objectFit="contain"
+            aria-hidden="true"
+          />
+        </div>
+      )}
+      <article>
+        {/* {Boolean(appliedMerchantCoupon || isDiscount(formattedPrice)) && (
           <Ribbon appliedMerchantCoupon={appliedMerchantCoupon} />
         )} */}
-          {!purchased && (
+        {!purchased && (
+          <div data-pricing-product-header="">
+            <h4 data-name-badge="">{name}</h4>
+            <PriceDisplay status={status} formattedPrice={formattedPrice} />
+            <div data-byline="">Full access</div>
+          </div>
+        )}
+        {purchased ? (
+          <>
             <div data-pricing-product-header="">
               <h4 data-name-badge="">{name}</h4>
-              <PriceDisplay status={status} formattedPrice={formattedPrice} />
-              <div data-byline="">Full access</div>
             </div>
-          )}
-          {purchased ? (
-            <>
-              <div data-pricing-product-header="">
-                <h4 data-name-badge="">{name}</h4>
+            <div data-purchased-container="">
+              <div data-purchased="">
+                <CheckCircleIcon aria-hidden="true" /> Purchased
               </div>
-              <div data-purchased-container="">
-                <div data-purchased="">
-                  <CheckCircleIcon aria-hidden="true" /> Purchased
-                </div>
-              </div>
-              <div className="flex justify-center">
-                <Link
-                  href={{
-                    pathname: '/team/buy-more-seats',
-                    query: {
-                      productId: productId,
-                    },
+            </div>
+            <div className="flex justify-center">
+              <Link
+                href={{
+                  pathname: '/team/buy-more-seats',
+                  query: {
+                    productId: productId,
+                  },
+                }}
+              >
+                <a
+                  data-buy-seats=""
+                  onClick={() => {
+                    track('clicked buy more seats', {
+                      location: 'pricing',
+                    })
                   }}
                 >
-                  <a
-                    className="group mt-5 inline-block gap-2 rounded bg-gray-800 py-2 pl-4 pr-6 font-medium transition hover:bg-gray-700"
-                    onClick={() => {
-                      track('clicked buy more seats', {
-                        location: 'pricing',
-                      })
-                    }}
+                  <span className="pr-2">Buy More Seats</span>
+                  <span
+                    aria-hidden="true"
+                    className="absolute text-gray-300 transition group-hover:translate-x-1 group-hover:text-white"
                   >
-                    <span className="pr-2">Buy More Seats</span>
-                    <span
-                      aria-hidden="true"
-                      className="absolute text-gray-300 transition group-hover:translate-x-1 group-hover:text-white"
-                    >
-                      →
-                    </span>
-                  </a>
-                </Link>
-              </div>
-            </>
-          ) : isSellingLive || allowPurchase ? (
-            isDowngrade(formattedPrice) ? (
-              <div data-downgrade-container="">
-                <div data-downgrade="">Unavailable</div>
-              </div>
-            ) : (
-              <div data-purchase-container="">
-                <form
-                  action={`/api/skill/checkout/stripe?productId=${
-                    formattedPrice?.id
-                  }&couponId=${appliedMerchantCoupon?.id}&bulk=${
-                    isBuyingForTeam ? 'true' : 'false'
-                  }&quantity=${quantity}${userId ? `&userId=${userId}` : ``}${
-                    formattedPrice?.upgradeFromPurchaseId
-                      ? `&upgradeFromPurchaseId=${formattedPrice?.upgradeFromPurchaseId}`
-                      : ``
-                  }`}
-                  method="POST"
-                >
-                  <fieldset>
-                    <legend className="sr-only">{name}</legend>
-                    <div data-team-switch="">
-                      <label htmlFor="team-switch">
-                        Buying for myself or for my team
-                      </label>
-                      <button
-                        role="button"
-                        type="button"
-                        onClick={() => {
-                          setIsBuyingForTeam(false)
-                          setQuantity(1)
-                        }}
-                      >
-                        For myself
-                      </button>
-                      <Switch.Root
-                        aria-label={
-                          isBuyingForTeam ? 'For my team' : 'For myself'
-                        }
-                        onCheckedChange={() => {
-                          setIsBuyingForTeam(!isBuyingForTeam)
-                          isBuyingForTeam ? setQuantity(1) : setQuantity(5)
-                        }}
-                        checked={isBuyingForTeam}
-                        id="team-switch"
-                      >
-                        <Switch.Thumb />
-                      </Switch.Root>
-                      <button
-                        role="button"
-                        type="button"
-                        onClick={() => {
-                          setIsBuyingForTeam(true)
-                          setQuantity(5)
-                        }}
-                      >
-                        For my team
-                      </button>
-                    </div>
-                    {isBuyingForTeam &&
-                      productId ===
-                        process.env.NEXT_PUBLIC_DEFAULT_PRODUCT_ID && (
-                        <div data-quantity-input="">
-                          <label>
-                            <span>Team Seats</span>
-                            <button
-                              type="button"
-                              aria-label="decrease seat quantity by one"
-                              className="flex h-full items-center justify-center rounded bg-gray-800/50 px-3 py-2 font-mono sm:hidden"
-                              onClick={() => {
-                                if (quantity === 1) return
-                                setQuantity(quantity - 1)
-                              }}
-                            >
-                              -
-                            </button>
-                            <input
-                              type="number"
-                              min={1}
-                              max={100}
-                              step={1}
-                              onChange={(e) => {
-                                const quantity = Number(e.target.value)
-                                setMerchantCoupon(undefined)
-                                setQuantity(
-                                  quantity < 1
-                                    ? 1
-                                    : quantity > 100
-                                    ? 100
-                                    : quantity,
-                                )
-                              }}
-                              onKeyDown={(e) => {
-                                // don't allow decimal
-                                if (e.key === ',') {
-                                  e.preventDefault()
-                                }
-                              }}
-                              inputMode="numeric"
-                              pattern="[0-9]*"
-                              value={quantity}
-                              id={`${quantity}-${name}`}
-                              required={true}
-                            />
-                            <button
-                              type="button"
-                              aria-label="increase seat quantity by one"
-                              className="flex h-full items-center justify-center rounded bg-gray-800/50 px-3 py-2 font-mono sm:hidden"
-                              onClick={() => {
-                                if (quantity === 100) return
-                                setQuantity(quantity + 1)
-                              }}
-                            >
-                              +
-                            </button>
-                          </label>
-                        </div>
-                      )}
-                    <button
-                      data-pricing-product-checkout-button=""
-                      type="submit"
-                      disabled={status === 'loading' || status === 'error'}
-                    >
-                      <span>
-                        {formattedPrice?.upgradeFromPurchaseId
-                          ? `Upgrade Now`
-                          : action || `Become a TypeScript Wizard`}
-                      </span>
-                    </button>
-                  </fieldset>
-                </form>
-              </div>
-            )
+                    →
+                  </span>
+                </a>
+              </Link>
+            </div>
+          </>
+        ) : isSellingLive || allowPurchase ? (
+          isDowngrade(formattedPrice) ? (
+            <div data-downgrade-container="">
+              <div data-downgrade="">Unavailable</div>
+            </div>
           ) : (
-            <div data-purchased-container="">
-              <div data-unavailable="">Coming Soon</div>
-              {!subscriber && !loadingSubscriber && (
-                <SubscribeForm handleOnSuccess={handleOnSuccess} />
-              )}
-            </div>
-          )}
-          {isSellingLive ||
-            (allowPurchase && !purchased && (
-              <SaleCountdown
-                coupon={defaultCoupon}
-                data-pricing-product-sale-countdown={index}
-              />
-            ))}
-          {showPPPBox && (
-            <RegionalPricingBox
-              pppCoupon={pppCoupon || merchantCoupon}
-              activeCoupon={merchantCoupon}
-              setActiveCoupon={setMerchantCoupon}
-              index={index}
-            />
-          )}
-          <div data-pricing-footer="">
-            {product.description && !purchased && (
-              <div className="prose prose-sm mx-auto max-w-sm px-5 prose-p:text-gray-200 sm:prose-base">
-                <ReactMarkdown children={product.description} />
-              </div>
-            )}
-            {!purchased && (
-              <div className="flex justify-center pt-8 align-middle">
-                <Image
-                  src="https://res.cloudinary.com/total-typescript/image/upload/v1669928567/money-back-guarantee-badge-16137430586cd8f5ec2a096bb1b1e4cf_o5teov.svg"
-                  width={130}
-                  height={130}
-                  alt="Money Back Guarantee"
-                />
-              </div>
-            )}
-            {modules || features ? (
-              <div data-header="">
-                <div>
-                  <span>includes</span>
-                </div>
-              </div>
-            ) : null}
-            <div data-main="">
-              <strong>Workshops</strong>
-              {modules && (
-                <ul data-workshops="" role="list">
-                  {modules.map((module) => {
-                    const getLabelForState = (state: any) => {
-                      switch (state) {
-                        case 'draft':
-                          return 'Coming soon'
-                        default:
-                          return ''
+            <div data-purchase-container="">
+              <form
+                action={`/api/skill/checkout/stripe?productId=${
+                  formattedPrice?.id
+                }&couponId=${appliedMerchantCoupon?.id}&bulk=${
+                  isBuyingForTeam ? 'true' : 'false'
+                }&quantity=${quantity}${userId ? `&userId=${userId}` : ``}${
+                  formattedPrice?.upgradeFromPurchaseId
+                    ? `&upgradeFromPurchaseId=${formattedPrice?.upgradeFromPurchaseId}`
+                    : ``
+                }`}
+                method="POST"
+              >
+                <fieldset>
+                  <legend className="sr-only">{name}</legend>
+                  <div data-team-switch="">
+                    <label htmlFor="team-switch">
+                      Buying for myself or for my team
+                    </label>
+                    <button
+                      role="button"
+                      type="button"
+                      onClick={() => {
+                        setIsBuyingForTeam(false)
+                        setQuantity(1)
+                      }}
+                    >
+                      For myself
+                    </button>
+                    <Switch.Root
+                      aria-label={
+                        isBuyingForTeam ? 'For my team' : 'For myself'
                       }
-                    }
-                    return (
-                      <li key={module.title}>
-                        <div data-image="" aria-hidden="true">
-                          <Image
-                            src={module.image.url}
-                            layout="fill"
-                            alt={module.title}
-                            aria-hidden="true"
+                      onCheckedChange={() => {
+                        setIsBuyingForTeam(!isBuyingForTeam)
+                        isBuyingForTeam ? setQuantity(1) : setQuantity(5)
+                      }}
+                      checked={isBuyingForTeam}
+                      id="team-switch"
+                    >
+                      <Switch.Thumb />
+                    </Switch.Root>
+                    <button
+                      role="button"
+                      type="button"
+                      onClick={() => {
+                        setIsBuyingForTeam(true)
+                        setQuantity(5)
+                      }}
+                    >
+                      For my team
+                    </button>
+                  </div>
+                  {isBuyingForTeam &&
+                    productId ===
+                      process.env.NEXT_PUBLIC_DEFAULT_PRODUCT_ID && (
+                      <div data-quantity-input="">
+                        <label>
+                          <span>Team Seats</span>
+                          <button
+                            type="button"
+                            aria-label="decrease seat quantity by one"
+                            className="flex h-full items-center justify-center rounded bg-gray-800/50 px-3 py-2 font-mono sm:hidden"
+                            onClick={() => {
+                              if (quantity === 1) return
+                              setQuantity(quantity - 1)
+                            }}
+                          >
+                            -
+                          </button>
+                          <input
+                            type="number"
+                            min={1}
+                            max={100}
+                            step={1}
+                            onChange={(e) => {
+                              const quantity = Number(e.target.value)
+                              setMerchantCoupon(undefined)
+                              setQuantity(
+                                quantity < 1
+                                  ? 1
+                                  : quantity > 100
+                                  ? 100
+                                  : quantity,
+                              )
+                            }}
+                            onKeyDown={(e) => {
+                              // don't allow decimal
+                              if (e.key === ',') {
+                                e.preventDefault()
+                              }
+                            }}
+                            inputMode="numeric"
+                            pattern="[0-9]*"
+                            value={quantity}
+                            id={`${quantity}-${name}`}
+                            required={true}
                           />
-                        </div>
-                        <div>
-                          <p>{module.title}</p>
-                          <div data-state={module.state}>
-                            {getLabelForState(module.state)}
-                          </div>
-                        </div>
-                      </li>
-                    )
-                  })}
-                </ul>
-              )}
-              {features && (
-                <>
-                  <strong>Features</strong>
-                  <ul data-features="" role="list">
-                    {features.map((feature: {value: string}) => (
-                      <li key={feature.value}>
-                        <p>{feature.value}</p>
-                      </li>
-                    ))}
-                  </ul>
-                </>
-              )}
+                          <button
+                            type="button"
+                            aria-label="increase seat quantity by one"
+                            className="flex h-full items-center justify-center rounded bg-gray-800/50 px-3 py-2 font-mono sm:hidden"
+                            onClick={() => {
+                              if (quantity === 100) return
+                              setQuantity(quantity + 1)
+                            }}
+                          >
+                            +
+                          </button>
+                        </label>
+                      </div>
+                    )}
+                  <button
+                    data-pricing-product-checkout-button=""
+                    type="submit"
+                    disabled={status === 'loading' || status === 'error'}
+                  >
+                    <span>
+                      {formattedPrice?.upgradeFromPurchaseId
+                        ? `Upgrade Now`
+                        : action || `Buy Now`}
+                    </span>
+                  </button>
+                  <span data-guarantee="">30-Day Money-Back Guarantee</span>
+                </fieldset>
+              </form>
             </div>
+          )
+        ) : (
+          <div data-purchased-container="">
+            <div data-unavailable="">Coming Soon</div>
+            {!subscriber && !loadingSubscriber && (
+              <SubscribeForm handleOnSuccess={handleOnSuccess} />
+            )}
           </div>
-        </article>
-      </div>
+        )}
+        {isSellingLive ||
+          (allowPurchase && !purchased && (
+            <SaleCountdown
+              coupon={defaultCoupon}
+              data-pricing-product-sale-countdown={index}
+            />
+          ))}
+        {showPPPBox && (
+          <RegionalPricingBox
+            pppCoupon={pppCoupon || merchantCoupon}
+            activeCoupon={merchantCoupon}
+            setActiveCoupon={setMerchantCoupon}
+            index={index}
+          />
+        )}
+        <div data-pricing-footer="">
+          {product.description && !purchased && (
+            <div className="prose prose-sm mx-auto max-w-sm px-5 prose-p:text-gray-200 sm:prose-base">
+              <ReactMarkdown children={product.description} />
+            </div>
+          )}
+          {!purchased && (
+            <div data-guarantee="">
+              <Image
+                src="https://res.cloudinary.com/total-typescript/image/upload/v1669928567/money-back-guarantee-badge-16137430586cd8f5ec2a096bb1b1e4cf_o5teov.svg"
+                width={130}
+                height={130}
+                alt="Money Back Guarantee"
+              />
+            </div>
+          )}
+          {modules || features ? (
+            <div data-header="">
+              <div>
+                <span>includes</span>
+              </div>
+            </div>
+          ) : null}
+          <div data-main="">
+            <strong>Workshops</strong>
+            {modules && (
+              <ul data-workshops="" role="list">
+                {modules.map((module) => {
+                  const getLabelForState = (state: any) => {
+                    switch (state) {
+                      case 'draft':
+                        return 'Coming soon'
+                      default:
+                        return ''
+                    }
+                  }
+                  return (
+                    <li key={module.title}>
+                      <div data-image="" aria-hidden="true">
+                        <Image
+                          src={module.image.url}
+                          layout="fill"
+                          alt={module.title}
+                          aria-hidden="true"
+                        />
+                      </div>
+                      <div>
+                        <p>{module.title}</p>
+                        <div data-state={module.state}>
+                          {getLabelForState(module.state)}
+                        </div>
+                      </div>
+                    </li>
+                  )
+                })}
+              </ul>
+            )}
+            {features && (
+              <>
+                <strong>Features</strong>
+                <ul data-features="" role="list">
+                  {features.map((feature: {value: string}) => (
+                    <li key={feature.value}>
+                      <p>{feature.value}</p>
+                    </li>
+                  ))}
+                </ul>
+              </>
+            )}
+          </div>
+        </div>
+      </article>
     </div>
   )
 }
@@ -458,8 +458,8 @@ export const PriceDisplay = ({status, formattedPrice}: PriceDisplayProps) => {
         </div>
       ) : (
         <>
-          <sup aria-hidden="true">US</sup>
           <div aria-live="polite" data-price="">
+            <sup aria-hidden="true">US</sup>
             {formattedPrice?.calculatedPrice &&
               formatUsd(formattedPrice?.calculatedPrice).dollars}
             <span className="sup text-sm" aria-hidden="true">
@@ -469,7 +469,10 @@ export const PriceDisplay = ({status, formattedPrice}: PriceDisplayProps) => {
             {Boolean(appliedMerchantCoupon || isDiscount(formattedPrice)) && (
               <>
                 <div aria-hidden="true" data-price-discounted="">
-                  <div data-full-price={fullPrice}>{'$' + fullPrice}</div>
+                  <div data-full-price={fullPrice}>
+                    {'$' + fullPrice}
+                    <span className="sup">{formatUsd(fullPrice).cents}</span>
+                  </div>
                   <div data-percent-off={percentOff}>Save {percentOff}%</div>
                 </div>
                 <div className="sr-only">
@@ -573,16 +576,16 @@ const SubscribeForm = ({
   return (
     <div
       id="pricing"
-      className="flex w-full max-w-sm flex-col items-center justify-between pb-8"
+      className="flex w-full max-w-sm flex-col items-center justify-between"
     >
-      <div className="inline-flex max-w-xs flex-shrink-0 items-center gap-2 text-base font-medium leading-tight">
+      <div className="inline-flex flex-shrink-0 items-center gap-2 pb-5 text-base font-medium leading-tight">
         <div
           aria-hidden="true"
-          className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full bg-gray-800"
+          className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full bg-blue-500/10"
         >
-          <MailIcon className="h-5 w-5 text-cyan-300" />
-        </div>{' '}
-        Get notified when Total TypeScript Vol 1. is released:
+          <MailIcon className="h-5 w-5 text-blue-500" />
+        </div>
+        <Balancer>Get notified when this workshop is released</Balancer>
       </div>
       <SubscribeToConvertkitForm
         formId={3843826}

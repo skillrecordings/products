@@ -51,6 +51,7 @@
     "@skillrecordings/analytics": "workspace:*",
     "@skillrecordings/auth": "=0.0.6",
     "@skillrecordings/config": "workspace:*",
+    "@skillrecordings/commerce-server": "workspace:*",
     "@skillrecordings/convertkit-sdk": "workspace:*",
     "@skillrecordings/convertkit-react-ui": "workspace:*",
     "@skillrecordings/database": "workspace:*",

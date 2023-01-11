@@ -4,7 +4,7 @@ import {inferRouterInputs, inferRouterOutputs} from '@trpc/server'
 import superjson from 'superjson'
 
 import {getBaseUrl} from './get-base-url'
-import {SkillLessonRouter} from '../server/routers/_skill-lesson-router'
+import {SkillLessonRouter} from '../trpc/routers/_skill-lesson-router'
 
 export const trpcSkillLessons = createTRPCNext<SkillLessonRouter>({
   config({ctx}) {

@@ -40,7 +40,7 @@ export const PriceCheckProvider: React.FC<React.PropsWithChildren<any>> = ({
 
   const isDowngrade = React.useCallback(
     (price?: FormattedPrice) => {
-      if (!price || purchasedProductIds.length === 0) {
+      if (!price || !purchasedProductIds || purchasedProductIds.length === 0) {
         return false
       }
 

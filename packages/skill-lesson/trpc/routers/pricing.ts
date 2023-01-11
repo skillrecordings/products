@@ -3,9 +3,12 @@ import {getSdk} from '@skillrecordings/database'
 import {
   formatPricesForProduct,
   getActiveMerchantCoupon,
+  propsForCommerce,
 } from '@skillrecordings/commerce-server'
 import {find} from 'lodash'
-import {publicProcedure, router} from '../trpc'
+import {publicProcedure, router} from '../trpc.server'
+import {getActiveProducts} from '../../lib/products'
+import {getToken} from 'next-auth/jwt'
 
 const merchantCouponSchema = z.object({
   id: z.string(),
@@ -90,6 +93,24 @@ const checkForAvailableCoupons = async ({
 }
 
 export const pricing = router({
+  propsForCommerce: publicProcedure
+    .input(
+      z.object({
+        code: z.string().optional(),
+        coupon: z.string().optional(),
+        allowPurchase: z.string().optional(),
+      }),
+    )
+    .query(async ({ctx, input}) => {
+      const token = await getToken({req: ctx.req})
+      const {products} = await getActiveProducts()
+      const {props} = await propsForCommerce({
+        query: input,
+        token,
+        products,
+      })
+      return props
+    }),
   formatted: publicProcedure
     .input(PricingFormattedInputSchema)
     .query(async ({ctx, input}) => {

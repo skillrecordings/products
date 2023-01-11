@@ -17,9 +17,8 @@ import {getSdk} from '@skillrecordings/database'
 import CopyInviteLink from 'team/copy-invite-link'
 import {getProduct} from 'path-to-purchase-react/products.server'
 import {SanityProduct} from '@skillrecordings/commerce-server/dist/@types'
-import {useReward} from 'react-rewards'
-import {useReducedMotion} from 'framer-motion'
 import Image from 'next/image'
+import Balancer from 'react-wrap-balancer'
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const {query} = context
@@ -36,7 +35,14 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     checkoutSessionId: session_id as string,
   })
 
-  const {email, stripeChargeId, quantity: seatsPurchased} = purchaseInfo
+  const {
+    email,
+    stripeChargeId,
+    quantity: seatsPurchased,
+    stripeProduct,
+  } = purchaseInfo
+
+  const stripeProductName = stripeProduct.name
 
   const purchase = await getSdk().getPurchaseForStripeCharge(stripeChargeId)
 
@@ -59,6 +65,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
       purchaseType,
       bulkCouponId: purchase.bulkCoupon?.id || null,
       product,
+      stripeProductName,
     },
   }
 }
@@ -68,35 +75,9 @@ const PurchaseLayout: React.FC<
     productImage: {url: string; alt: string} | undefined
   }>
 > = ({productImage, children}) => {
-  const {reward} = useReward('reward', 'confetti', {
-    startVelocity: 7,
-    spread: 300,
-    elementCount: 500,
-    colors: [
-      'rgba(144, 251, 255, 0.8)',
-      'rgba(193, 240, 255, 0.8)',
-      'rgba(94, 216, 255, 0.7)',
-      'rgba(255,255,255, 0.85)',
-      '#22314E',
-      '#050B17',
-    ],
-    decay: 1,
-    elementSize: 5,
-  })
-  const shouldReduceMotion = useReducedMotion()
-
-  React.useEffect(() => {
-    !shouldReduceMotion && reward()
-  }, [shouldReduceMotion])
-
   return (
     <Layout footer={null} meta={{title: 'Purchase Successful'}}>
-      <div
-        aria-hidden="true"
-        id="reward"
-        className="absolute top-1/3 left-1/2 z-0"
-      />
-      <main className="relative z-10 flex min-h-screen flex-grow flex-col items-center justify-center px-5 pt-10 pb-28 text-white">
+      <main className="relative z-10 flex min-h-screen flex-grow flex-col items-center justify-center px-5 pt-10 pb-28">
         <div className="mx-auto flex w-full max-w-screen-md flex-col items-center gap-5 text-center">
           {productImage && (
             <div className="translate-y-16">
@@ -124,7 +105,7 @@ const InlineTeamInvite = ({bulkCouponId}: {bulkCouponId?: string}) => {
 
   return (
     <>
-      <p className="mx-auto max-w-xl pt-5 text-sm text-gray-200 sm:text-base sm:leading-relaxed">
+      <p className="mx-auto max-w-xl pt-5 text-sm text-gray-800 sm:text-base sm:leading-relaxed">
         Invite your team to claim seats right away with this invite link. Don't
         worry about saving this anywhere, it will always be available on your
         Team page once you sign in.
@@ -140,26 +121,36 @@ const NewIndividualPostPurchasePage: React.FC<
   React.PropsWithChildren<{
     email: string
     product: SanityProduct
+    stripeProductName: string
   }>
-> = ({product, email}) => {
+> = ({product, email, stripeProductName}) => {
   return (
     <>
-      <h1 className="max-w-md text-lg font-medium text-cyan-100 sm:text-lg">
-        Thank you for purchasing{' '}
-        {product?.name || process.env.NEXT_PUBLIC_SITE_TITLE}!
+      <h1 className="max-w-lg text-lg font-medium text-blue-600 sm:text-lg">
+        <Balancer>
+          Thank you for purchasing{' '}
+          {product?.name ||
+            stripeProductName ||
+            process.env.NEXT_PUBLIC_SITE_TITLE}
+          !
+        </Balancer>
       </h1>
-      <h2 className="font-text mx-auto max-w-lg py-5 text-3xl font-bold lg:text-4xl">
-        Please check your inbox for a login link that just got sent.
+      <h2 className="font-text mx-auto py-5 text-3xl font-bold lg:text-4xl">
+        <Balancer>
+          Please check your inbox for a login link that just got sent.
+        </Balancer>
       </h2>
-      <code className="mb-10 mt-5 flex items-center justify-center gap-2 rounded-lg bg-cyan-500/10 px-4 py-3 font-sans text-base font-medium text-white shadow-xl sm:text-lg">
-        <MailIcon className="h-5 w-5 text-cyan-200" aria-hidden="true" />{' '}
-        <span className="text-cyan-200">Email sent to:</span> {email}
+      <code className="mb-10 mt-5 flex items-center justify-center gap-2 rounded-lg bg-blue-500/10 px-4 py-3 font-sans text-base font-medium sm:text-lg">
+        <MailIcon className="h-5 w-5 text-blue-500" aria-hidden="true" />{' '}
+        <span className="text-blue-600">Email sent to:</span> {email}
       </code>
-      <p className="mx-auto max-w-xl pt-5 text-sm text-gray-200 sm:text-base sm:leading-relaxed">
-        As a final step to access the course you need to check your inbox (
-        <strong>{email}</strong>) where you will find an email from{' '}
-        <strong>{process.env.NEXT_PUBLIC_SUPPORT_EMAIL}</strong> with a link to
-        access your purchase and start learning.
+      <p className="mx-auto max-w-xl pt-5 text-sm text-gray-700 sm:text-base sm:leading-relaxed">
+        <Balancer>
+          As a final step to access the course you need to check your inbox (
+          <strong>{email}</strong>) where you will find an email from{' '}
+          <strong>{process.env.NEXT_PUBLIC_SUPPORT_EMAIL}</strong> with a link
+          to access your purchase and start learning.
+        </Balancer>
       </p>
     </>
   )
@@ -171,6 +162,7 @@ const NewBulkCouponPostPurchasePage: React.FC<
     product: SanityProduct
     seatsPurchased: number
     bulkCouponId: string
+    stripeProductName: string
   }>
 > = ({product, email, seatsPurchased, bulkCouponId}) => {
   return (
@@ -206,6 +198,7 @@ const ExistingBulkCouponPostPurchasePage: React.FC<
     product: SanityProduct
     seatsPurchased: number
     bulkCouponId: string
+    stripeProductName: string
   }>
 > = ({product, seatsPurchased, bulkCouponId}) => {
   return (
@@ -227,6 +220,7 @@ const IndividualToBulkPostPurchasePage: React.FC<
     product: SanityProduct
     seatsPurchased: number
     bulkCouponId: string
+    stripeProductName: string
   }>
 > = ({product, seatsPurchased, bulkCouponId}) => {
   return (
@@ -251,14 +245,26 @@ const ThanksVerify: React.FC<
     purchaseType: PurchaseType
     bulkCouponId: string
     product: SanityProduct
+    stripeProductName: string
   }>
-> = ({email, seatsPurchased, purchaseType, bulkCouponId, product}) => {
+> = ({
+  email,
+  seatsPurchased,
+  purchaseType,
+  bulkCouponId,
+  product,
+  stripeProductName,
+}) => {
   let postPurchasePage = null
 
   switch (purchaseType) {
     case NEW_INDIVIDUAL_PURCHASE:
       postPurchasePage = (
-        <NewIndividualPostPurchasePage product={product} email={email} />
+        <NewIndividualPostPurchasePage
+          stripeProductName={stripeProductName}
+          product={product}
+          email={email}
+        />
       )
       break
     case NEW_BULK_COUPON:
@@ -268,6 +274,7 @@ const ThanksVerify: React.FC<
           email={email}
           bulkCouponId={bulkCouponId}
           seatsPurchased={seatsPurchased}
+          stripeProductName={stripeProductName}
         />
       )
       break
@@ -277,6 +284,7 @@ const ThanksVerify: React.FC<
           product={product}
           bulkCouponId={bulkCouponId}
           seatsPurchased={seatsPurchased}
+          stripeProductName={stripeProductName}
         />
       )
       break
@@ -286,6 +294,7 @@ const ThanksVerify: React.FC<
           product={product}
           bulkCouponId={bulkCouponId}
           seatsPurchased={seatsPurchased}
+          stripeProductName={stripeProductName}
         />
       )
       break
