@@ -26,7 +26,7 @@ import {track} from '@skillrecordings/skill-lesson/utils/analytics'
 import {useRouter} from 'next/router'
 import * as Switch from '@radix-ui/react-switch'
 import Link from 'next/link'
-import {trpc} from 'utils/trpc'
+import {trpc} from 'trpc/trpc.client'
 
 function getFirstPPPCoupon(availableCoupons: any[] = []) {
   return find(availableCoupons, (coupon) => coupon.type === 'ppp') || false

@@ -4,7 +4,7 @@ import cx from 'classnames'
 import Spinner from '../../components/spinner'
 import Image from 'next/image'
 import {LessonResource} from '@skillrecordings/skill-lesson/schemas/lesson-resource'
-import {trpc} from '../../utils/trpc'
+import {trpc} from '../../trpc/trpc.client'
 import {useRouter} from 'next/router'
 
 export const StackBlitzIframe: React.FC<{

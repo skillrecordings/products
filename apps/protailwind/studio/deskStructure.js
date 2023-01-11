@@ -4,6 +4,7 @@ import tips from './src/structure/tips'
 import videoResources from './src/structure/videoResources'
 import tutorials from './src/structure/tutorials'
 import workshops from './src/structure/workshops'
+import bundles from './src/structure/bundles'
 
 const hiddenDocTypes = (listItem) =>
   ![
@@ -16,6 +17,7 @@ const hiddenDocTypes = (listItem) =>
     'testimonial',
     'section',
     'explainer',
+    'bundles',
   ].includes(listItem.getId())
 
 export default () =>
@@ -29,6 +31,7 @@ export default () =>
       S.divider(),
       videoResources,
       S.divider(),
+      bundles,
       ...S.documentTypeListItems().filter(hiddenDocTypes),
       S.documentTypeListItem('skosConcept').title('Concepts'),
       S.documentTypeListItem('skosConceptScheme').title('Taxonomy Schemes'),

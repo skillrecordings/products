@@ -2,7 +2,7 @@ import React from 'react'
 import {z} from 'zod'
 import {useDebounce} from '@skillrecordings/react'
 import {PriceDisplay} from 'path-to-purchase-react/pricing'
-import {trpc} from 'utils/trpc'
+import {trpc} from 'trpc/trpc.client'
 
 const buildFormActionPath = (params: {
   userId: string
