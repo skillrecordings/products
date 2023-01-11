@@ -213,8 +213,9 @@ const LessonListItem = ({
   const {data: userProgress} = trpc.progress.get.useQuery()
 
   const isExerciseCompleted =
-    isArray(userProgress) &&
-    find(userProgress, ({lessonSlug}) => lessonSlug === solution?.slug)
+    isArray(userProgress) && lessonResource._type === 'exercise'
+      ? find(userProgress, ({lessonSlug}) => lessonSlug === solution?.slug)
+      : find(userProgress, ({lessonSlug}) => lessonSlug === lessonResource.slug)
 
   return (
     <li key={lessonResource.slug}>
