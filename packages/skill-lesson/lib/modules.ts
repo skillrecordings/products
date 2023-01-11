@@ -10,6 +10,7 @@ const modulesQuery = groq`*[_type == "module" && state == 'published'] | order(_
   _updatedAt,
   _createdAt,
   description,
+  "product": resources[@._type == 'product'][0]{productId},
   "lessons": resources[@->._type in ['lesson', 'exercise', 'explainer']]->{
     _id,
     _type,
@@ -54,6 +55,7 @@ export const getModule = async (slug: string) =>
         ogImage,
         description,
         _updatedAt,
+        "product": resources[@._type == 'product'][0]{productId},
         "lessons": resources[@->._type in ['lesson', 'exercise', 'explainer']]->{
           _id,
           _type,
