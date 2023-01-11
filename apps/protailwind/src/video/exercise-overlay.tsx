@@ -466,8 +466,8 @@ const BlockedOverlay = () => {
                 <Balancer>Get access to all lessons in this workshop.</Balancer>
               </h3>
               {isSellingLive ? (
-                <PriceCheckProvider purchasedProductIds={[]}>
-                  <Pricing product={module.product} index={1} />
+                <PriceCheckProvider>
+                  <Pricing product={module.product} />
                 </PriceCheckProvider>
               ) : (
                 <Link

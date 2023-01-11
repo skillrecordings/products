@@ -143,7 +143,6 @@ const BuyWorkshop: React.FC<
             product={product}
             purchased={hasPurchased}
             purchases={purchases}
-            index={1}
             couponId={couponId}
             allowPurchase={allowPurchase}
           />

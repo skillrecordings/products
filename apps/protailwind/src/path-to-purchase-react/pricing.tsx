@@ -47,7 +47,7 @@ type PricingProps = {
   purchased?: boolean
   purchases?: Purchase[]
   userId?: string
-  index: number
+  index?: number
   couponId?: string
   allowPurchase?: boolean
 }
@@ -67,7 +67,7 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
   purchased = false,
   purchases = [],
   userId,
-  index,
+  index = 0,
   couponId,
   allowPurchase = false,
 }) => {
