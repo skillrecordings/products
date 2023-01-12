@@ -1,9 +1,8 @@
 import React from 'react'
 import {z} from 'zod'
-import type {FormattedPrice} from '@skillrecordings/commerce-server/dist/@types'
-import {useQuery} from 'react-query'
 import {useDebounce} from '@skillrecordings/react'
 import {PriceDisplay} from 'path-to-purchase-react/pricing'
+import {trpc} from 'trpc/trpc.client'
 
 const buildFormActionPath = (params: {
   userId: string
@@ -30,33 +29,11 @@ const BuyMoreSeats = (props: BuyMoreSeatsProps) => {
   const [quantity, setQuantity] = React.useState(5)
   const debouncedQuantity: number = useDebounce<number>(quantity, 250)
 
-  const {data: formattedPrice, status} = useQuery<FormattedPrice>(
-    ['pricing', debouncedQuantity, productId],
-    () =>
-      fetch('/api/skill/prices', {
-        method: 'POST',
-        body: JSON.stringify({
-          productId,
-          quantity: debouncedQuantity,
-          purchases: [],
-        }),
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      })
-        .then((res) => res.json())
-        .then((formattedPrice: FormattedPrice) => {
-          return formattedPrice
-        }),
-  )
-
-  const {calculatedPrice} = z
-    .object({calculatedPrice: z.number(), id: z.string()})
-    .or(z.undefined())
-    .transform((value) => {
-      return !!value ? value : {calculatedPrice: 0}
-    })
-    .parse(formattedPrice)
+  const {data: formattedPrice, status} = trpc.pricing.formatted.useQuery({
+    productId,
+    userId,
+    quantity: debouncedQuantity,
+  })
 
   const formActionPath = buildFormActionPath({
     userId,

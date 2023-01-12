@@ -1,34 +1,29 @@
 import * as React from 'react'
-import ModuleLessonListHeader from 'components/module-lesson-list-header'
 import Navigation from 'components/app/navigation'
 import Layout from 'components/app/layout'
-import {VideoProvider} from 'hooks/use-mux-player'
-import {SanityDocument} from '@sanity/client'
+import {VideoProvider} from '@skillrecordings/skill-lesson/hooks/use-mux-player'
 import Image from 'next/image'
-import {Exercise, ExerciseSchema} from '../lib/exercises'
 import {ArticleJsonLd} from '@skillrecordings/next-seo'
-import {Video} from '../components/exercise/video'
-import {GitHubLink} from '../components/exercise/github-link'
-import {VideoTranscript} from '../components/exercise/video-transcript'
-import {ExerciseTitle} from '../components/exercise/exercise-title'
-import {ExerciseDescription} from '../components/exercise/exercise-description'
-import {MobileModuleLessonList} from '../components/exercise/mobile-module-lesson-list'
-import {LargeScreenModuleLessonList} from '../components/exercise/large-screen-module-lesson-list'
+import {Video} from 'video/video'
+import {GitHubLink} from '../video/exercise/github-link'
+import {useRouter} from 'next/router'
+import {getBaseUrl} from '@skillrecordings/skill-lesson/utils/get-base-url'
+import {useLesson} from '@skillrecordings/skill-lesson/hooks/use-lesson'
+import {useVideoResource} from '@skillrecordings/skill-lesson/hooks/use-video-resource'
+import {LargeScreenModuleLessonList} from 'video/large-screen-module-lesson-list'
+import {MobileModuleLessonList} from 'video/mobile-module-lesson-list'
+import {LessonDescription} from '../video/lesson-description'
+import {LessonTitle} from 'video/lesson-title'
+import {VideoTranscript} from 'video/video-transcript'
 
 const ExerciseTemplate: React.FC<{
-  exercise: Exercise
-  module: SanityDocument
-  section?: SanityDocument
-  isSolution?: boolean
-}> = ({exercise, section, module, isSolution = false}) => {
+  transcript: any[]
+}> = ({transcript}) => {
   const muxPlayerRef = React.useRef<HTMLDivElement>()
-
-  // required to verify access since we switch to the solution below
-  // and you can't query solutions from Sanity
-  const exerciseSlug = exercise.slug
-
-  exercise = ExerciseSchema.parse(isSolution ? exercise.solution : exercise)
-  const {title, description: exerciseDescription} = exercise
+  const router = useRouter()
+  const {lesson, section, module} = useLesson()
+  const {videoResourceId} = useVideoResource()
+  const {title, description: exerciseDescription} = lesson
 
   const {ogImage, description: moduleDescription} = module
   const pageTitle = `${title}`
@@ -40,10 +35,7 @@ const ExerciseTemplate: React.FC<{
   return (
     <VideoProvider
       muxPlayerRef={muxPlayerRef}
-      module={module}
-      section={section}
-      exerciseSlug={exerciseSlug}
-      lesson={exercise as Exercise}
+      exerciseSlug={router.query.lesson as string}
       path={path}
     >
       <Layout
@@ -52,16 +44,17 @@ const ExerciseTemplate: React.FC<{
           <Navigation
             className="relative flex w-full lg:absolute lg:pl-[calc(280px+20px)] xl:pl-[calc(320px+20px)]"
             containerClassName="flex h-full justify-between w-full items-stretch"
+            isMinified={true}
           />
         }
       >
         <ArticleJsonLd
-          url={`${process.env.NEXT_PUBLIC_URL}/${module.slug.current}/${exercise.slug}`}
-          title={exercise.title}
+          url={`${process.env.NEXT_PUBLIC_URL}/${module.slug.current}/${lesson.slug}`}
+          title={lesson.title}
           images={[
-            `https://image.mux.com/${exercise.muxPlaybackId}/thumbnail.png?width=480&height=384&fit_mode=preserve`,
+            `${getBaseUrl()}/api/video-thumb?videoResourceId=${videoResourceId}`,
           ]}
-          datePublished={exercise._updatedAt || new Date().toISOString()}
+          datePublished={lesson._updatedAt || new Date().toISOString()}
           authorName={`${process.env.NEXT_PUBLIC_PARTNER_FIRST_NAME} ${process.env.NEXT_PUBLIC_PARTNER_LAST_NAME}`}
           description={pageDescription}
         />
@@ -71,14 +64,9 @@ const ExerciseTemplate: React.FC<{
             path={path}
             section={section}
           />
-          <main className="relative mx-auto w-full max-w-[1480px] grow items-start border-t border-transparent lg:mt-16 2xl:flex 2xl:max-w-none 2xl:border-gray-800">
+          <main className="relative mx-auto w-full max-w-[1480px] items-start border-t border-transparent lg:mt-16 2xl:flex 2xl:max-w-none 2xl:border-gray-800">
             <div className="flex flex-col border-gray-800 2xl:relative 2xl:h-full 2xl:w-full 2xl:border-r">
-              <Video
-                ref={muxPlayerRef}
-                module={module}
-                exercise={exercise}
-                section={section}
-              />
+              <Video ref={muxPlayerRef} />
               <MobileModuleLessonList
                 module={module}
                 section={section}
@@ -86,20 +74,20 @@ const ExerciseTemplate: React.FC<{
               />
               <div className="hidden flex-grow 2xl:block 2xl:bg-black/20">
                 <VideoTranscript
-                  exercise={exercise}
+                  transcript={transcript}
                   muxPlayerRef={muxPlayerRef}
                 />
               </div>
             </div>
             <article className="relative flex-shrink-0 sm:bg-black/20 2xl:bg-transparent">
               <div className="relative z-10 mx-auto max-w-4xl px-5 py-5 lg:py-8 2xl:max-w-xl">
-                <ExerciseTitle exercise={exercise} />
-                <GitHubLink exercise={exercise} module={module} />
-                <ExerciseDescription exercise={exercise} />
+                <LessonTitle />
+                <GitHubLink exercise={lesson} module={module} />
+                <LessonDescription />
               </div>
               <div className="relative z-10 block flex-grow 2xl:hidden">
                 <VideoTranscript
-                  exercise={exercise}
+                  transcript={transcript}
                   muxPlayerRef={muxPlayerRef}
                 />
               </div>

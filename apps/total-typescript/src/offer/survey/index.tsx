@@ -1,7 +1,7 @@
 import {useSurveyPopupOfferMachine} from 'offer/use-survey-popup-offer-machine'
 import * as React from 'react'
-import {track} from '../../utils/analytics'
-import {trpc} from '../../utils/trpc'
+import {track} from '@skillrecordings/skill-lesson/utils/analytics'
+import {trpc} from '../../trpc/trpc.client'
 import {SurveyMachineContext} from './survey-machine'
 import {QuestionResource} from '@skillrecordings/types'
 import {useRouter} from 'next/router'
@@ -24,7 +24,7 @@ export const Survey = ({
   }
   const router = useRouter()
   const pathIsValid = isPathValid(router.asPath, excludePages)
-  const answerSurveyMutation = trpc.useMutation(['convertkit.answerSurvey'])
+  const answerSurveyMutation = trpc.convertkit.answerSurvey.useMutation()
   const {currentOffer, currentOfferId, isPopupOpen, sendToMachine} =
     useSurveyPopupOfferMachine()
 

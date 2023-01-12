@@ -1,4 +1,4 @@
-import {sanityClient} from '../utils/sanity-client'
+import {sanityClient} from '@skillrecordings/skill-lesson/utils/sanity-client'
 import groq from 'groq'
 import z from 'zod'
 
@@ -22,9 +22,9 @@ export const TipSchema = z.object({
     )
     .optional()
     .nullable(),
-  muxPlaybackId: z.nullable(z.string()).optional(),
+  videoResourceId: z.nullable(z.string()).optional(),
   transcript: z.nullable(z.any().array()),
-  tweetId: z.string(),
+  tweetId: z.nullable(z.string()).optional(),
 })
 
 export const TipsSchema = z.array(TipSchema)
@@ -42,7 +42,7 @@ export const getAllTips = async (): Promise<Tip[]> => {
         description,
         summary,
         body,
-        "muxPlaybackId": resources[@->._type == 'videoResource'][0]-> muxAsset.muxPlaybackId,
+        "videoResourceId": resources[@->._type == 'videoResource'][0]->_id,
         "slug": slug.current,
         "transcript": resources[@->._type == 'videoResource'][0]-> castingwords.transcript,
         "tweetId":  resources[@._type == 'tweet'][0].tweetId
@@ -62,7 +62,7 @@ export const getTip = async (slug: string): Promise<Tip> => {
         description,
         summary,
         body,
-        "muxPlaybackId": resources[@->._type == 'videoResource'][0]-> muxAsset.muxPlaybackId,
+        "videoResourceId": resources[@->._type == 'videoResource'][0]->_id,
         "slug": slug.current,
         "transcript": resources[@->._type == 'videoResource'][0]-> castingwords.transcript,
         "tweetId":  resources[@._type == 'tweet'][0].tweetId

@@ -8,6 +8,45 @@ import Mux from '@mux/mux-node'
 
 const secret = process.env.SANITY_WEBHOOK_SECRET
 
+async function createCastingWordsOrder({
+  originalMediaUrl,
+  castingwords,
+}: {
+  originalMediaUrl: string
+  castingwords: {orderId: string; transcript: any[]; audioFileId: number}
+}) {
+  if (!castingwords?.orderId && !castingwords?.transcript) {
+    return await orderTranscript(originalMediaUrl)
+  }
+
+  return {order: castingwords.orderId, audiofiles: [castingwords.audioFileId]}
+}
+
+async function createMuxAsset({
+  originalMediaUrl,
+  muxAsset,
+}: {
+  originalMediaUrl: string
+  muxAsset: {muxAssetId: string; muxPlaybackId: string}
+}) {
+  if (!muxAsset?.muxAssetId) {
+    const {Video} = new Mux()
+    const newMuxAsset = await Video.Assets.create({
+      input: originalMediaUrl,
+      playback_policy: ['public'],
+    })
+
+    return {
+      muxAssetId: newMuxAsset.id,
+      muxPlaybackId: newMuxAsset.playback_ids?.find((playback_id) => {
+        return playback_id.policy === 'public'
+      })?.id,
+    }
+  }
+
+  return muxAsset
+}
+
 /**
  * link to webhook {@link} https://www.sanity.io/organizations/om9qNpcXE/project/z9io1e0u/api/webhooks/xV5ZY6656qclI76i
  *
@@ -22,34 +61,21 @@ const sanityVideoResourceWebhook = async (
   const isValid = isValidSignature(JSON.stringify(req.body), signature, secret)
 
   try {
-    if (!isValid) {
-      throw new Error('cannot verify Sanity webhook signature')
-    } else {
-      const {_id, originalMediaUrl, castingwords} = req.body
+    if (isValid) {
+      const {_id, originalMediaUrl, castingwords, muxAsset} = req.body
       console.info('processing Sanity webhook: Video Resource created', _id)
 
-      if (!castingwords?.orderId && !castingwords?.transcript) {
-        const castingwordsOrder = await orderTranscript(originalMediaUrl)
-
-        const {Video} = new Mux()
-
-        const muxAsset = await Video.Assets.create({
-          input: originalMediaUrl,
-          playback_policy: ['public'],
-        })
-
-        await updateVideoResourceWithTranscriptOrderId({
-          sanityDocumentId: _id,
-          castingwordsOrder,
-          muxAsset: {
-            muxAssetId: muxAsset.id,
-            muxPlaybackId: muxAsset.playback_ids?.find((playback_id) => {
-              return playback_id.policy === 'public'
-            })?.id,
-          },
-        })
-      }
+      await updateVideoResourceWithTranscriptOrderId({
+        sanityDocumentId: _id,
+        castingwordsOrder: await createCastingWordsOrder({
+          originalMediaUrl,
+          castingwords,
+        }),
+        muxAsset: await createMuxAsset({originalMediaUrl, muxAsset}),
+      })
       res.status(200).json({success: true})
+    } else {
+      res.status(500).json({success: false})
     }
   } catch (e) {
     Sentry.captureException(e)

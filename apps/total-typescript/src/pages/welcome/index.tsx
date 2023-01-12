@@ -13,6 +13,7 @@ import Link from 'next/link'
 import {isString} from 'lodash'
 import InviteTeam from 'team'
 import {InvoiceCard} from 'pages/invoices'
+import MuxPlayer from '@mux/mux-player-react'
 
 export const getServerSideProps: GetServerSideProps = async ({req, query}) => {
   const {purchaseId: purchaseQueryParam, session_id, upgrade} = query
@@ -108,7 +109,7 @@ const Welcome: React.FC<
       <main className="mx-auto flex w-full flex-grow flex-col items-center justify-center px-5 py-24 sm:py-32">
         <div className="flex w-full max-w-xl flex-col gap-3">
           <Header upgrade={upgrade} purchase={purchase} />
-          {hasCharge && <InvoiceCard purchase={purchase} />}
+          <Share productName={purchase.product.name} />
           {redemptionsLeft && (
             <Invite>
               <InviteTeam
@@ -120,7 +121,7 @@ const Welcome: React.FC<
             </Invite>
           )}
           {personalPurchase && <GetStarted />}
-          <Share productName={purchase.product.name} />
+          {hasCharge && <InvoiceCard purchase={purchase} />}
         </div>
       </main>
     </Layout>
@@ -167,6 +168,7 @@ const Invite: React.FC<React.PropsWithChildren<unknown>> = ({children}) => {
 const GetStarted: React.FC<React.PropsWithChildren<unknown>> = () => {
   return (
     <div className="relative flex flex-col items-center p-8 text-center">
+      <MuxPlayer playbackId="MP73OYRQ01024QL600kKBwdASaMc49me8008U4Il8og0202xE" />
       <h2 className="flex items-center gap-1 pt-12 pb-8 text-2xl font-semibold text-white sm:text-3xl">
         <span>Ready to get started?</span>
       </h2>
@@ -191,13 +193,12 @@ const GetStarted: React.FC<React.PropsWithChildren<unknown>> = () => {
 const Share: React.FC<React.PropsWithChildren<{productName: string}>> = ({
   productName,
 }) => {
-  const tweet = `https://twitter.com/intent/tweet/?text=Just purchased ${productName} by @${process.env.NEXT_PUBLIC_PARTNER_TWITTER}`
+  const tweet = `https://twitter.com/intent/tweet/?text=Be a TypeScript Wizard with Total TypeScript by @${process.env.NEXT_PUBLIC_PARTNER_TWITTER} 🧙 https%3A%2F%2Fwww.totaltypescript.com%2F`
   return (
-    <div className="mx-auto flex max-w-lg flex-col items-center gap-5 px-8 pt-12 pb-5 text-center">
+    <div className="mx-auto flex max-w-lg flex-col items-center gap-5 px-8 pt-6 pb-3 text-center">
       <p className="gap-1 text-lg text-white">
-        Please consider telling your friends about{' '}
-        {process.env.NEXT_PUBLIC_SITE_TITLE}, it would help me to get a word
-        out.{' '}
+        Tell your friends about {process.env.NEXT_PUBLIC_SITE_TITLE}, <br />
+        it would help me to get a word out.{' '}
         <span role="img" aria-label="smiling face">
           😊
         </span>

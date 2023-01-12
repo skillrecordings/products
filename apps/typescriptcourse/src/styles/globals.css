@@ -56,3 +56,18 @@ but it will still show up on keyboard focus.
 .js-focus-visible :focus:not(.focus-visible) {
   outline: none;
 }
+
+mux-player {
+  aspect-ratio: 16 / 9;
+  width: 100%;
+  height: auto;
+  @apply relative overflow-hidden;
+}
+
+[data-sr-button] {
+  @apply relative items-center justify-center flex;
+
+  svg {
+    @apply h-7 w-7;
+  }
+}

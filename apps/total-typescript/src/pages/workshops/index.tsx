@@ -4,7 +4,7 @@ import {SanityDocument} from '@sanity/client'
 import Link from 'next/link'
 import Image from 'next/image'
 import {getAllWorkshops} from 'lib/workshops'
-import {track} from '../../utils/analytics'
+import {track} from '@skillrecordings/skill-lesson/utils/analytics'
 
 const CLOUDINARY_FETCH_BASE_URL = `https://res.cloudinary.com/total-typescript/image/fetch/dpr_auto,f_auto,q_auto:good/`
 
@@ -30,7 +30,7 @@ const WorkshopsPage: React.FC<{modules: SanityDocument[]}> = ({modules}) => {
           Professional TypeScript Workshops
         </h1>
         <p className="max-w-sm px-5 pt-8 text-center text-lg text-rose-100/90">
-          A collection of profesional, exercise-driven, in-depth, self-paced
+          A collection of professional, exercise-driven, in-depth, self-paced
           TypeScript workshops for you to achieve TypeScript wizardry.
         </p>
         {modules && (
@@ -88,9 +88,9 @@ const WorkshopsPage: React.FC<{modules: SanityDocument[]}> = ({modules}) => {
                           <>
                             {sections.length} sections,{' '}
                             {sections.reduce(
-                              (acc: number, section: {exercises?: any[]}) =>
-                                section.exercises?.length
-                                  ? section.exercises?.length + acc
+                              (acc: number, section: {lessons?: any[]}) =>
+                                section.lessons?.length
+                                  ? section.lessons?.length + acc
                                   : acc,
                               0,
                             )}{' '}

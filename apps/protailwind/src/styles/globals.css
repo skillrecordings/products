@@ -5,6 +5,7 @@
 @import './prism.css';
 @import './focus-visible.css';
 @import './nprogress.css';
+@import './commerce.css';
 @tailwind utilities;
 
 html,

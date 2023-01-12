@@ -9,7 +9,7 @@ type ButtonOptions = {
   /**
    * If `true`, the button will be disabled.
    */
-  isDisabled?: boolean
+  disabled?: boolean
   /**
    * If added, the button will show an icon before the button's label.
    * @type React.ReactElement
@@ -64,15 +64,15 @@ const ButtonIcon: React.FC<
 const Button: React.FC<React.PropsWithChildren<ButtonProps>> = ({
   children,
   isLoading,
-  isDisabled,
   leftIcon,
   rightIcon,
+  disabled,
   ...rest
 }) => {
   const contentProps = {rightIcon, leftIcon, children}
 
   return (
-    <button data-sr-button {...rest} disabled={isLoading || rest.disabled}>
+    <button data-sr-button {...rest} disabled={isLoading || disabled}>
       {isLoading ? (
         <>
           <ButtonIcon>

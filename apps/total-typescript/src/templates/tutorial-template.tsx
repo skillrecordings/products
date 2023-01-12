@@ -2,16 +2,14 @@ import React from 'react'
 import Layout from 'components/app/layout'
 import Image from 'next/image'
 import Link from 'next/link'
-import {useLearnerCertificateAsOgImage} from 'hooks/use-learner-certificate-as-ogimage'
 import {CourseJsonLd} from '@skillrecordings/next-seo'
 import {PortableText} from '@portabletext/react'
 import {SanityDocument} from '@sanity/client'
 import {IconGithub} from 'components/icons'
 import {isBrowser} from 'utils/is-browser'
-import {track} from '../utils/analytics'
-import {useConvertkit} from 'hooks/use-convertkit'
-import {Exercise} from 'lib/exercises'
-import PortableTextComponents from 'components/portable-text'
+import {track} from '@skillrecordings/skill-lesson/utils/analytics'
+import {LessonResource} from '@skillrecordings/skill-lesson/schemas/lesson-resource'
+import PortableTextComponents from 'video/portable-text'
 
 const TutorialTemplate: React.FC<{
   tutorial: SanityDocument
@@ -61,7 +59,7 @@ const TutorialTemplate: React.FC<{
 export default TutorialTemplate
 
 const Header: React.FC<{tutorial: SanityDocument}> = ({tutorial}) => {
-  const {title, slug, exercises, image, github} = tutorial
+  const {title, slug, lessons, image, github} = tutorial
 
   return (
     <>
@@ -88,13 +86,13 @@ const Header: React.FC<{tutorial: SanityDocument}> = ({tutorial}) => {
               </div>
             </div>
             <div className="flex items-center gap-3 pt-8">
-              {exercises?.[0] && (
+              {lessons?.[0] && (
                 <Link
                   href={{
-                    pathname: '/tutorials/[module]/[exercise]',
+                    pathname: '/tutorials/[module]/[lesson]',
                     query: {
                       module: slug.current,
-                      exercise: exercises[0].slug,
+                      lesson: lessons[0].slug,
                     },
                   }}
                 >
@@ -111,7 +109,7 @@ const Header: React.FC<{tutorial: SanityDocument}> = ({tutorial}) => {
                   </a>
                 </Link>
               )}
-              {github && (
+              {github?.repo && (
                 <a
                   className="flex items-center justify-center gap-2 rounded border-2 border-gray-800 px-5 py-3 font-medium transition hover:bg-gray-800"
                   href={`https://github.com/total-typescript/${github.repo}`}
@@ -154,26 +152,26 @@ const Header: React.FC<{tutorial: SanityDocument}> = ({tutorial}) => {
 const TutorialExerciseNavigator: React.FC<{tutorial: SanityDocument}> = ({
   tutorial,
 }) => {
-  const {slug, exercises, _type} = tutorial
+  const {slug, lessons, _type} = tutorial
   return (
     <nav
       aria-label="exercise navigator"
       className="border-gray-800 lg:border-l lg:pl-8"
     >
       <h2 className="pb-4 font-mono text-sm font-semibold uppercase text-gray-300">
-        {exercises?.length || 0} Exercises
+        {lessons?.length || 0} Exercises
       </h2>
-      {exercises && (
+      {lessons && (
         <ul>
-          {exercises.map((exercise: Exercise, i: number) => {
+          {lessons.map((exercise: LessonResource, i: number) => {
             return (
               <li key={exercise.slug}>
                 <Link
                   href={{
-                    pathname: '/tutorials/[module]/[exercise]',
+                    pathname: '/tutorials/[module]/[lesson]',
                     query: {
                       module: slug.current,
-                      exercise: exercise.slug,
+                      lesson: exercise.slug,
                     },
                   }}
                   passHref

@@ -2,22 +2,19 @@ import React from 'react'
 import Layout from 'components/app/layout'
 import Image from 'next/image'
 import Link from 'next/link'
-import {useLearnerCertificateAsOgImage} from 'hooks/use-learner-certificate-as-ogimage'
 import {CourseJsonLd} from '@skillrecordings/next-seo'
 import {PortableText} from '@portabletext/react'
 import {SanityDocument} from '@sanity/client'
 import {IconGithub} from 'components/icons'
 import {isBrowser} from 'utils/is-browser'
-import {track} from '../utils/analytics'
-import {useConvertkit} from 'hooks/use-convertkit'
-import {Exercise} from 'lib/exercises'
-import PortableTextComponents from 'components/portable-text'
+import {track} from '@skillrecordings/skill-lesson/utils/analytics'
 import first from 'lodash/first'
 import * as Accordion from '@radix-ui/react-accordion'
 import {CheckIcon, ChevronDownIcon} from '@heroicons/react/solid'
-import {trpc} from 'utils/trpc'
-import {LessonProgress} from '@skillrecordings/database'
+import {trpc} from 'trpc/trpc.client'
 import {find, isArray} from 'lodash'
+import {LessonResource} from '@skillrecordings/skill-lesson/schemas/lesson-resource'
+import PortableTextComponents from '../video/portable-text'
 
 const WorkshopTemplate: React.FC<{
   workshop: SanityDocument
@@ -55,7 +52,7 @@ const Header: React.FC<{workshop: SanityDocument}> = ({workshop}) => {
   const {title, slug, sections, image, github} = workshop
 
   const firstSection = first<SanityDocument>(sections)
-  const firstExercise = first<SanityDocument>(firstSection?.exercises)
+  const firstExercise = first<SanityDocument>(firstSection?.lessons)
 
   return (
     <>
@@ -87,11 +84,11 @@ const Header: React.FC<{workshop: SanityDocument}> = ({workshop}) => {
               {firstSection && (
                 <Link
                   href={{
-                    pathname: '/workshops/[module]/[section]/[exercise]',
+                    pathname: '/workshops/[module]/[section]/[lesson]',
                     query: {
                       module: slug.current,
                       section: firstSection.slug,
-                      exercise: firstExercise?.slug,
+                      lesson: firstExercise?.slug,
                     },
                   }}
                 >
@@ -108,7 +105,7 @@ const Header: React.FC<{workshop: SanityDocument}> = ({workshop}) => {
                   </a>
                 </Link>
               )}
-              {github && (
+              {github?.repo && (
                 <a
                   className="flex items-center justify-center gap-2 rounded border-2 border-gray-800 px-5 py-3 font-medium transition hover:bg-gray-800"
                   href={`https://github.com/total-typescript/${github.repo}`}
@@ -151,10 +148,7 @@ const Header: React.FC<{workshop: SanityDocument}> = ({workshop}) => {
 const WorkshopSectionNavigator: React.FC<{workshop: SanityDocument}> = ({
   workshop,
 }) => {
-  const {slug, sections, _type} = workshop
-  const {data: userProgress, status: userProgressStatus} = trpc.useQuery([
-    'progress.get',
-  ])
+  const {sections} = workshop
 
   return (
     <nav
@@ -187,7 +181,6 @@ const WorkshopSectionNavigator: React.FC<{workshop: SanityDocument}> = ({
                     </Accordion.Header>
                     <Accordion.Content>
                       <WorkshopSectionExerciseNavigator
-                        userProgress={userProgress}
                         section={section}
                         moduleSlug={workshop.slug.current}
                       />
@@ -203,67 +196,91 @@ const WorkshopSectionNavigator: React.FC<{workshop: SanityDocument}> = ({
   )
 }
 
+const LessonListItem = ({
+  lessonResource,
+  section,
+  moduleSlug,
+  index,
+}: {
+  lessonResource: LessonResource
+  section: SanityDocument
+  moduleSlug: string
+  index: number
+}) => {
+  const {data: solution} = trpc.solutions.getSolution.useQuery({
+    exerciseSlug: lessonResource.slug,
+  })
+  const {data: userProgress} = trpc.progress.get.useQuery()
+
+  const isExerciseCompleted =
+    isArray(userProgress) && lessonResource._type === 'exercise'
+      ? find(userProgress, ({lessonSlug}) => lessonSlug === solution?.slug)
+      : find(userProgress, ({lessonSlug}) => lessonSlug === lessonResource.slug)
+
+  return (
+    <li key={lessonResource.slug}>
+      <Link
+        href={{
+          pathname: '/workshops/[module]/[section]/[lesson]',
+          query: {
+            section: section.slug,
+            lesson: lessonResource.slug,
+            module: moduleSlug,
+          },
+        }}
+        passHref
+      >
+        <a
+          className="group inline-flex items-center py-2.5 text-base font-medium"
+          onClick={() => {
+            track('clicked workshop exercise', {
+              module: moduleSlug,
+              lesson: lessonResource.slug,
+              section: section.slug,
+              moduleType: section._type,
+              lessonType: lessonResource._type,
+            })
+          }}
+        >
+          {isExerciseCompleted ? (
+            <CheckIcon
+              className="mr-2 h-4 w-4 text-teal-400"
+              aria-hidden="true"
+            />
+          ) : (
+            <span
+              className="w-6 font-mono text-xs text-gray-400"
+              aria-hidden="true"
+            >
+              {index + 1}
+            </span>
+          )}
+          <span className="w-full cursor-pointer leading-tight group-hover:underline">
+            {lessonResource.title}
+          </span>
+        </a>
+      </Link>
+    </li>
+  )
+}
+
 const WorkshopSectionExerciseNavigator: React.FC<{
   section: SanityDocument
   moduleSlug: string
-  userProgress: LessonProgress[] | {error?: string} | undefined
-}> = ({section, moduleSlug, userProgress}) => {
-  const {slug, exercises, _type} = section
+}> = ({section, moduleSlug}) => {
+  const {lessons} = section
 
-  return exercises ? (
+  return lessons ? (
     <ul className="-mt-5 rounded-b-lg border border-white/5 bg-black/20 pl-3.5 pr-3 pt-7 pb-3">
-      {exercises.map((exercise: Exercise, i: number) => {
-        const isExerciseCompleted =
-          isArray(userProgress) &&
-          find(
-            userProgress,
-            ({lessonSlug}) => lessonSlug === exercise?.solution?.slug,
-          )
-
+      {lessons.map((exercise: LessonResource, i: number) => {
         return (
-          <li key={exercise.slug}>
-            <Link
-              href={{
-                pathname: '/workshops/[module]/[section]/[exercise]',
-                query: {
-                  section: slug,
-                  exercise: exercise.slug,
-                  module: moduleSlug,
-                },
-              }}
-              passHref
-            >
-              <a
-                className="group inline-flex items-center py-2.5 text-base font-medium"
-                onClick={() => {
-                  track('clicked workshop exercise', {
-                    module: slug.current,
-                    lesson: exercise.slug,
-                    section: slug.current,
-                    moduleType: _type,
-                    lessonType: exercise._type,
-                  })
-                }}
-              >
-                {isExerciseCompleted ? (
-                  <CheckIcon
-                    className="mr-2 h-4 w-4 text-teal-400"
-                    aria-hidden="true"
-                  />
-                ) : (
-                  <span
-                    className="w-6 font-mono text-xs text-gray-400"
-                    aria-hidden="true"
-                  >
-                    {i + 1}
-                  </span>
-                )}
-                <span className="w-full cursor-pointer leading-tight group-hover:underline">
-                  {exercise.title}
-                </span>
-              </a>
-            </Link>
-          </li>
+          <LessonListItem
+            key={exercise.slug}
+            lessonResource={exercise}
+            section={section}
+            moduleSlug={moduleSlug}
+            index={i}
+          />
         )
       })}
     </ul>

@@ -37,3 +37,5 @@ pnpm dev
 # From /apps, you can run the following to generate and re-generate (`apps/skill-template` is .gitignore'd)
 rm -rf skill-template && create-skill-app skill-template
 ```
+
+Reference: [How to develop with and add to `create-skill-app` (Roam link and Loom)](https://roamresearch.com/#/app/egghead/page/7rnK6_w8U)

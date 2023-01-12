@@ -3,6 +3,7 @@ import {Feed} from 'feed'
 import config from '../config'
 import {getAllTutorials} from '../lib/tutorials'
 import {getAllTips} from 'lib/tips'
+import {getAllArticles} from 'lib/articles'
 
 const hostUrl = process.env.NEXT_PUBLIC_URL
 
@@ -38,10 +39,19 @@ const buildFeed = (items: any) => {
   })
 
   items.forEach((item: any) => {
+    const getPath = (type: string) => {
+      switch (type) {
+        case 'tip':
+          return '/tips/'
+        case 'tutorial':
+          return '/tutorials/'
+        default:
+          return '/'
+      }
+    }
     feed.addItem({
-      // TODO: change based on content type (tips/articles/etc)
-      title: `${item.title} Tutorial`,
-      link: `${hostUrl}/tutorials/${item.slug.current}`,
+      title: `${item.title} (${item._type})`,
+      link: `${hostUrl}${getPath(item._type)}${item.slug}`,
       description: item.description,
       date: new Date(item._createdAt),
     })
@@ -56,8 +66,9 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 
     const tutorials = await getAllTutorials()
     const tips = await getAllTips()
+    const articles = await getAllArticles()
 
-    const feed = buildFeed([...tutorials, ...tips] /* articles */)
+    const feed = buildFeed([...tutorials, ...tips, ...articles])
     res.setHeader('Cache-Control', 's-maxage=1, stale-while-revalidate')
     res.setHeader('content-type', 'text/xml')
     res.write(feed.rss2()) // NOTE: You can also use feed.atom1() or feed.json1() for other feed formats

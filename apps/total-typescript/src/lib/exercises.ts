@@ -1,36 +1,28 @@
-import {sanityClient} from '../utils/sanity-client'
+import {sanityClient} from '@skillrecordings/skill-lesson/utils/sanity-client'
 import groq from 'groq'
 import z from 'zod'
+import {BaseLessonResourceSchema} from '@skillrecordings/skill-lesson/schemas/base-lesson-resource'
 
-export const ExerciseSchema = z.object({
-  _id: z.string().optional(),
-  _key: z.string().optional(),
-  _type: z.string(),
-  _updatedAt: z.string().optional(),
-  title: z.string(),
-  slug: z.string(),
-  description: z.nullable(z.string()).optional(),
-  body: z.nullable(z.any().array().optional()),
-  stackblitz: z.nullable(z.string()).optional(),
-  muxPlaybackId: z.nullable(z.string()).optional(),
-  transcript: z.nullable(z.any().array()).optional(),
-  solution: z.nullable(
-    z
-      .object({
-        _key: z.string(),
-        _type: z.string(),
-        _updatedAt: z.string().optional(),
-        title: z.string(),
-        slug: z.string(),
-        description: z.nullable(z.string()).optional(),
-        body: z.any().array().optional(),
-        stackblitz: z.nullable(z.string()).optional(),
-        muxPlaybackId: z.nullable(z.string()).optional(),
-        transcript: z.nullable(z.any().array()).optional(),
-      })
-      .optional(),
-  ),
-})
+export const ExerciseSchema = z
+  .object({
+    _id: z.string().optional(),
+    _key: z.string().optional(),
+    stackblitz: z.nullable(z.string()).optional(),
+    videoResourceId: z.nullable(z.string()).optional(),
+    transcript: z.nullable(z.any().array()).optional(),
+    solution: z.nullable(
+      z
+        .object({
+          _key: z.string(),
+          stackblitz: z.nullable(z.string()).optional(),
+          videoResourceId: z.nullable(z.string()).optional(),
+          transcript: z.nullable(z.any().array()).optional(),
+        })
+        .merge(BaseLessonResourceSchema)
+        .optional(),
+    ),
+  })
+  .merge(BaseLessonResourceSchema)
 
 export type Exercise = z.infer<typeof ExerciseSchema>
 
@@ -79,10 +71,10 @@ export const getExercise = async (
       title,
       description,
       "slug": slug.current,
-        body,
-        "stackblitz": resources[@._type == 'stackblitz'][0].openFile,
-        "muxPlaybackId": resources[@->._type == 'videoResource'][0]-> muxAsset.muxPlaybackId,
-        "transcript": resources[@->._type == 'videoResource'][0]-> castingwords.transcript,
+      body,
+      "stackblitz": resources[@._type == 'stackblitz'][0].openFile,
+      "videoResourceId": resources[@->._type == 'videoResource'][0]->_id,
+      "transcript": resources[@->._type == 'videoResource'][0]-> castingwords.transcript,
       "solution": resources[@._type == 'solution'][0]{
         _key,
         _type,
@@ -91,7 +83,7 @@ export const getExercise = async (
         description,
         body,
         "stackblitz": resources[@._type == 'stackblitz'][0].openFile,
-        "muxPlaybackId": resources[@->._type == 'videoResource'][0]-> muxAsset.muxPlaybackId,
+        "videoResourceId": resources[@->._type == 'videoResource'][0]->_id,
         "transcript": resources[@->._type == 'videoResource'][0]-> castingwords.transcript,
         "slug": slug.current,
       }
@@ -103,7 +95,7 @@ export const getExercise = async (
 }
 
 export const getAllExercises = async (): Promise<Exercise[]> => {
-  const exercises =
+  const lessons =
     await sanityClient.fetch(groq`*[_type in ['exercise', 'explainer']]{
       _id,
       _type,
@@ -113,7 +105,7 @@ export const getAllExercises = async (): Promise<Exercise[]> => {
       body,
       "slug": slug.current,
       "stackblitz": resources[@._type == 'stackblitz'][0].openFile,
-      "muxPlaybackId": resources[@->._type == 'videoResource'][0]-> muxAsset.muxPlaybackId,
+      "videoResourceId": resources[@->._type == 'videoResource'][0],
       "solution": resources[@._type == 'solution'][0]{
         _key,
         _type,
@@ -122,10 +114,10 @@ export const getAllExercises = async (): Promise<Exercise[]> => {
         description,
         body,
         "stackblitz": resources[@._type == 'stackblitz'][0].openFile,
-        "muxPlaybackId": resources[@->._type == 'videoResource'][0]-> muxAsset.muxPlaybackId,
+        "videoResourceId": resources[@->._type == 'videoResource'][0],
        "slug": slug.current
        }
     }`)
 
-  return z.array(ExerciseSchema).parse(exercises)
+  return z.array(ExerciseSchema).parse(lessons)
 }

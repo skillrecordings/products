@@ -292,6 +292,12 @@ export function getSdk(
         },
       })
     },
+    async getCouponWithBulkPurchases(couponId: string) {
+      return await ctx.prisma.coupon.findFirst({
+        where: {id: couponId},
+        include: {bulkCouponPurchases: {select: {bulkCouponId: true}}},
+      })
+    },
     async getPurchase(args: Prisma.PurchaseFindUniqueArgs) {
       return await ctx.prisma.purchase.findUnique(args)
     },
@@ -313,6 +319,7 @@ export function getSdk(
               totalAmount: true,
               bulkCoupon: {
                 select: {
+                  id: true,
                   maxUses: true,
                   usedCount: true,
                 },
@@ -346,6 +353,7 @@ export function getSdk(
       merchantCustomerId: string
       stripeChargeAmount: number
       quantity?: number
+      bulk?: boolean
     }) {
       const {
         userId,
@@ -394,7 +402,8 @@ export function getSdk(
       // Note: if the user already has a bulk purchase/coupon, then if they are
       // only adding 1 seat to the team, then it is still a "bulk purchase" and
       // we need to add it to their existing Bulk Coupon.
-      const isBulkPurchase = quantity > 1 || Boolean(existingBulkCoupon)
+      const isBulkPurchase =
+        quantity > 1 || Boolean(existingBulkCoupon) || options.bulk
 
       let bulkCouponId = null
       let coupon = null
@@ -483,6 +492,11 @@ export function getSdk(
         user = await ctx.prisma.user.create({
           data: {email, name},
         })
+      } else if (name && user.name !== name) {
+        user = await ctx.prisma.user.update({
+          where: {id: user.id},
+          data: {name},
+        })
       }
 
       return {user, isNewUser}
@@ -539,6 +553,41 @@ export function getSdk(
 
         if (validForProductId) return {defaultMerchantCoupon, defaultCoupon}
       }
+    },
+    async transferPurchasesToNewUser({
+      merchantCustomerId,
+      userId,
+    }: {
+      merchantCustomerId: string
+      userId: string
+    }) {
+      const chargesToUpdate = await ctx.prisma.merchantCharge.findMany({
+        where: {
+          merchantCustomerId: merchantCustomerId,
+        },
+      })
+
+      const chargeUpdates = ctx.prisma.merchantCharge.updateMany({
+        where: {
+          merchantCustomerId: merchantCustomerId,
+        },
+        data: {
+          userId: userId,
+        },
+      })
+
+      const purchaseUpdates = ctx.prisma.purchase.updateMany({
+        where: {
+          merchantChargeId: {
+            in: chargesToUpdate.map((c) => c.id),
+          },
+        },
+        data: {
+          userId: userId,
+        },
+      })
+
+      return await ctx.prisma.$transaction([chargeUpdates, purchaseUpdates])
     },
   }
 }

@@ -4,9 +4,9 @@ import Image from 'next/image'
 import {
   redirectUrlBuilder,
   SubscribeToConvertkitForm,
-} from '@skillrecordings/convertkit'
+} from '@skillrecordings/convertkit-react-ui'
 import {setUserId} from '@amplitude/analytics-browser'
-import {track} from '../../utils/analytics'
+import {track} from '@skillrecordings/skill-lesson/utils/analytics'
 import * as React from 'react'
 import {SkillLevel} from './use-skill-level'
 

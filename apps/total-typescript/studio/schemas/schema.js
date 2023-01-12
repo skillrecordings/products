@@ -15,6 +15,7 @@ import tip from './documents/tip'
 import testimonial from './documents/testimonial'
 import pricing from './documents/pricing'
 import product from './documents/product'
+import article from './documents/article'
 // —— objects
 // body
 import body from './objects/body'
@@ -56,6 +57,7 @@ export default createSchema({
     section,
     pricing,
     product,
+    article,
     // objects
     body,
     bodyVideo,

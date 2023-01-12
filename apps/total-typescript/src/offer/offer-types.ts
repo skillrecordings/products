@@ -1,4 +1,4 @@
-import {Subscriber} from 'schemas/subscriber'
+import {Subscriber} from '@skillrecordings/skill-lesson/schemas/subscriber'
 
 export type Offer = Record<string, any>
 

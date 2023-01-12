@@ -35,7 +35,9 @@ export const getServerSideProps: GetServerSideProps = async ({
     })
 
     if (merchantCharge && merchantCharge.identifier) {
-      const charge = await stripe.charges.retrieve(merchantCharge.identifier)
+      const charge = await stripe.charges.retrieve(merchantCharge.identifier, {
+        expand: ['customer'],
+      })
 
       const purchase = await getPurchaseForStripeCharge(
         merchantCharge.identifier,
@@ -79,6 +81,7 @@ const Invoice: React.FC<
     'invoice-metadata',
     '',
   )
+  const customer = charge.customer as Stripe.Customer
   const formatUsd = (amount: number) => {
     return Intl.NumberFormat('en-US', {
       style: 'currency',
@@ -158,9 +161,9 @@ const Invoice: React.FC<
                   Invoice For
                 </h2>
                 <div>
-                  {charge.billing_details.name}
+                  {customer.name}
                   <br />
-                  {charge.billing_details.email}
+                  {customer.email}
                   {/* <br />
                   {charge.billing_details.address?.city}
                   <br />

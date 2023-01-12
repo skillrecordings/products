@@ -1,8 +1,10 @@
 import React from 'react'
 import cx from 'classnames'
 import Layout from 'components/app/layout'
-import {TipPageProps} from 'pages/tips/[tip]'
-import {useMuxPlayer, VideoProvider} from 'hooks/use-mux-player'
+import {
+  useMuxPlayer,
+  VideoProvider,
+} from '@skillrecordings/skill-lesson/hooks/use-mux-player'
 import MuxPlayer, {MuxPlayerProps} from '@mux/mux-player-react'
 import {Tip} from 'lib/tips'
 import {
@@ -21,7 +23,7 @@ import {
 } from '@heroicons/react/solid'
 import {CheckCircleIcon as CheckCircleIconOutline} from '@heroicons/react/outline'
 import {shuffle, take} from 'lodash'
-import {track} from 'utils/analytics'
+import {track} from '@skillrecordings/skill-lesson/utils/analytics'
 import Navigation from 'components/app/navigation'
 import Image from 'next/image'
 import {getOgImage} from 'utils/get-og-image'
@@ -30,32 +32,31 @@ import {localProgressDb} from '../utils/dexie'
 import {
   redirectUrlBuilder,
   SubscribeToConvertkitForm,
-} from '@skillrecordings/convertkit'
-import {useConvertkit} from 'hooks/use-convertkit'
+} from '@skillrecordings/convertkit-react-ui'
+import {useConvertkit} from '@skillrecordings/skill-lesson/hooks/use-convertkit'
 import {setUserId} from '@amplitude/analytics-browser'
 import {ArticleJsonLd} from '@skillrecordings/next-seo'
-import PortableTextComponents from 'components/portable-text'
+import {useLesson} from '@skillrecordings/skill-lesson/hooks/use-lesson'
+import {useVideoResource} from '@skillrecordings/skill-lesson/hooks/use-video-resource'
+import {getBaseUrl} from '@skillrecordings/skill-lesson/utils/get-base-url'
+import PortableTextComponents from 'video/portable-text'
 
-const TipTemplate: React.FC<TipPageProps> = ({tip, tips}) => {
+const TipTemplate: React.FC<{
+  tip: Tip
+  tips: Tip[]
+  transcript: any[]
+}> = ({tip, tips, transcript}) => {
   const muxPlayerRef = React.useRef<HTMLDivElement>()
   const {subscriber, loadingSubscriber} = useConvertkit()
   const router = useRouter()
   const {tipCompleted} = useTipComplete(tip.slug)
+  const {videoResourceId} = useVideoResource()
 
-  const module: any = {
-    slug: {
-      current: 'tips',
-    },
-    moduleType: 'tip',
-    exercises: tips,
-    resources: tips.filter((tipToCompare) => tipToCompare.slug !== tip.slug),
-  }
-  const muxPlaybackId = tip?.muxPlaybackId
   const tweet = tip?.tweetId
 
   const ogImage = getOgImage({
     title: tip.title,
-    image: `https://image.mux.com/${muxPlaybackId}/thumbnail.png?width=480&height=270&fit_mode=preserve`,
+    image: `${getBaseUrl()}/api/video-thumb?videoResourceId=${videoResourceId}`,
   })
 
   const handleOnSuccess = (subscriber: any, email?: string) => {
@@ -89,12 +90,7 @@ const TipTemplate: React.FC<TipPageProps> = ({tip, tips}) => {
   }
 
   return (
-    <VideoProvider
-      lesson={tip}
-      module={module}
-      muxPlayerRef={muxPlayerRef}
-      onEnded={handleVideoEnded}
-    >
+    <VideoProvider muxPlayerRef={muxPlayerRef} onEnded={handleVideoEnded}>
       <ArticleJsonLd
         url={`${process.env.NEXT_PUBLIC_URL}/tips/${tip.slug}`}
         title={tip.title}
@@ -165,10 +161,10 @@ const TipTemplate: React.FC<TipPageProps> = ({tip, tips}) => {
                       />
                     </>
                   )}
-                  {tip.transcript && tip.body && (
+                  {transcript && (
                     <div className="w-full max-w-2xl pt-5">
                       <Transcript
-                        transcript={tip.transcript}
+                        transcript={transcript}
                         muxPlayerRef={muxPlayerRef}
                       />
                     </div>
@@ -187,10 +183,10 @@ const TipTemplate: React.FC<TipPageProps> = ({tip, tips}) => {
               </div>
             </div>
             <div className="mx-auto flex w-full max-w-screen-xl flex-col gap-10 pt-10 sm:pt-10 md:flex-row">
-              {tip.transcript && !tip.body && (
+              {transcript && !tip.body && (
                 <div className="w-full max-w-2xl pt-5">
                   <Transcript
-                    transcript={tip.transcript}
+                    transcript={transcript}
                     muxPlayerRef={muxPlayerRef}
                   />
                 </div>
@@ -214,6 +210,7 @@ const TipTemplate: React.FC<TipPageProps> = ({tip, tips}) => {
 
 const Video: React.FC<any> = React.forwardRef(({tips}, ref: any) => {
   const {muxPlayerProps, displayOverlay} = useMuxPlayer()
+  const {videoResource} = useVideoResource()
 
   return (
     <div className="relative">
@@ -223,7 +220,11 @@ const Video: React.FC<any> = React.forwardRef(({tips}, ref: any) => {
           hidden: displayOverlay,
         })}
       >
-        <MuxPlayer ref={ref} {...(muxPlayerProps as MuxPlayerProps)} />
+        <MuxPlayer
+          ref={ref}
+          {...(muxPlayerProps as MuxPlayerProps)}
+          playbackId={videoResource?.muxPlaybackId}
+        />
       </div>
     </div>
   )
@@ -291,7 +292,8 @@ const Hr: React.FC<{className?: string}> = ({className}) => {
 }
 
 const TipOverlay: React.FC<{tips: Tip[]}> = ({tips}) => {
-  const {lesson, module, setDisplayOverlay, handlePlay} = useMuxPlayer()
+  const {setDisplayOverlay, handlePlay} = useMuxPlayer()
+  const {module, lesson} = useLesson()
 
   const buttonStyles =
     'py-2 px-3 font-medium rounded flex items-center gap-1 hover:bg-gray-700/50 bg-black/80 transition text-gray-200'
@@ -310,7 +312,7 @@ const TipOverlay: React.FC<{tips: Tip[]}> = ({tips}) => {
             track('dismissed video overlay', {
               lesson: lesson.slug,
               module: module.slug.current,
-              moduleType: module.moduleType,
+              moduleType: 'tip',
               lessonType: lesson._type,
             })
             setDisplayOverlay(false)

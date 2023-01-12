@@ -1,32 +1,27 @@
-const withPlugins = require('next-compose-plugins')
-const withImages = require('next-images')
-const withMDX = require('@next/mdx')()
+const withMDX = require('@next/mdx')({
+  extension: /\.mdx?$/,
+  options: {
+    providerImportSource: '@mdx-js/react',
+  },
+})
 
 const IMAGE_HOST_DOMAINS = [
   `res.cloudinary.com`,
   `d2eip9sf3oo6c2.cloudfront.net`,
   `cdn.sanity.io`,
+  `image.mux.com`,
+  `typescriptcourse.com`,
 ]
 
-const withTM = require('next-transpile-modules')(
-  ['unist-util-visit', 'three'],
-  {
-    debug: true,
-  },
-)
+const withTM = require('next-transpile-modules')([
+  'three',
+  '@skillrecordings/skill-lesson',
+])
 
 const nextConfig = {
+  pageExtensions: ['js', 'jsx', 'ts', 'tsx', 'md', 'mdx'],
   eslint: {
     ignoreDuringBuilds: true, // 😭
-  },
-  webpack: (config, {isServer}) => {
-    // Fixes npm packages that depend on `fs` module
-    if (!isServer) {
-      config.node = {
-        fs: 'empty',
-      }
-    }
-    return config
   },
   reactStrictMode: true,
   images: {
@@ -37,14 +32,4 @@ const nextConfig = {
   },
 }
 
-module.exports = withPlugins(
-  [
-    withImages(),
-    withTM,
-    withMDX({
-      pageExtensions: ['ts', 'tsx', 'mdx'],
-      rehypePlugins: [require('mdx-prism')],
-    }),
-  ],
-  nextConfig,
-)
+module.exports = withTM(withMDX(nextConfig))

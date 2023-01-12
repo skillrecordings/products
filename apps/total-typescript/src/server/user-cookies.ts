@@ -1,5 +1,5 @@
 import {NextResponse} from 'next/server'
-import {Subscriber} from 'schemas/subscriber'
+import {Subscriber} from '@skillrecordings/skill-lesson/schemas/subscriber'
 
 export function setUserCookie(res: NextResponse, subscriber: Subscriber) {
   if (subscriber) {

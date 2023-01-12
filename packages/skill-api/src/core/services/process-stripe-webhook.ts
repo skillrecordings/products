@@ -30,7 +30,11 @@ export async function processStripeWebhooks({
     const sig = req.headers['stripe-signature']
 
     let event: any
-    const {updatePurchaseStatusForCharge} = getSdk()
+    const {
+      updatePurchaseStatusForCharge,
+      findOrCreateUser,
+      transferPurchasesToNewUser,
+    } = getSdk()
     try {
       event = stripe.webhooks.constructEvent(buf, sig as string, webhookSecret)
 
@@ -92,14 +96,12 @@ export async function processStripeWebhooks({
         if (user) {
           const currentEmail = user.email
           const {email, name} = event.data.object
-          await prisma.user.update({
-            where: {
-              id: user.id,
-            },
-            data: {
-              email,
-              name,
-            },
+
+          const {user: updateUser} = await findOrCreateUser(email, name)
+
+          await transferPurchasesToNewUser({
+            merchantCustomerId: merchantCustomer.id,
+            userId: updateUser.id,
           })
 
           if (
@@ -108,7 +110,7 @@ export async function processStripeWebhooks({
           ) {
             await sendServerEmail({
               email,
-              callbackUrl: `${process.env.NEXTAUTH_URL}/learn`,
+              callbackUrl: `${process.env.NEXTAUTH_URL}`,
               nextAuthOptions,
             })
           }

@@ -6,6 +6,7 @@ import Image from 'next/image'
 import {useRouter} from 'next/router'
 import {useTipComplete} from '../../hooks/use-tip-complete'
 import Icon from 'components/icons'
+import {getBaseUrl} from '@skillrecordings/skill-lesson/utils/get-base-url'
 
 export async function getStaticProps() {
   const tips = await getAllTips()
@@ -57,8 +58,9 @@ export default TipsIndex
 
 const TipCard: React.FC<{tip: Tip}> = ({tip}) => {
   const {title} = tip
-  const muxPlaybackId = tip?.muxPlaybackId
-  const thumbnail = `https://image.mux.com/${muxPlaybackId}/thumbnail.png?width=1004&height=564&fit_mode=preserve`
+  const thumbnail = `${getBaseUrl()}/api/video-thumb?videoResourceId=${
+    tip?.videoResourceId
+  }`
   const router = useRouter()
   const {tipCompleted} = useTipComplete(tip.slug)
 
@@ -138,8 +140,9 @@ const TipCard: React.FC<{tip: Tip}> = ({tip}) => {
 
 export const TipTeaser: React.FC<{tip: Tip}> = ({tip}) => {
   const {title} = tip
-  const muxPlaybackId = tip?.muxPlaybackId
-  const thumbnail = `https://image.mux.com/${muxPlaybackId}/thumbnail.png?width=240&height=135&fit_mode=preserve`
+  const thumbnail = `${getBaseUrl()}/api/video-thumb?videoResourceId=${
+    tip?.videoResourceId
+  }`
   const router = useRouter()
   const {tipCompleted} = useTipComplete(tip.slug)
 

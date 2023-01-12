@@ -6,7 +6,7 @@ import {stripe, recordNewPurchase} from '@skillrecordings/commerce-server'
 import {NEW_BULK_COUPON, NEW_INDIVIDUAL_PURCHASE} from '@skillrecordings/types'
 import {PurchaseStatus} from '@skillrecordings/skill-api'
 import {prisma, getSdk} from '@skillrecordings/database'
-import {tagPurchaseConvertkit} from '@skillrecordings/convertkit'
+import {tagPurchaseConvertkit} from '@skillrecordings/convertkit-react-ui'
 import {withSentry} from '@sentry/nextjs'
 import * as Sentry from '@sentry/nextjs'
 

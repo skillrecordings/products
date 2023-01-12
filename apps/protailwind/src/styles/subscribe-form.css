@@ -24,13 +24,13 @@
   [data-sr-convertkit-subscribe-form] {
     @apply flex w-full max-w-sm flex-col gap-4 text-left;
     [data-sr-input] {
-      @apply w-full rounded-md border border-gray-400/20 bg-gray-300/80 px-3 py-3 placeholder:text-gray-500;
+      @apply w-full rounded-md border border-gray-200 bg-gray-100 px-3 py-3 text-black placeholder:text-gray-500;
     }
     [data-sr-input-label] {
-      @apply inline-block w-full pb-1 text-gray-800;
+      @apply inline-block w-full pb-1 text-gray-200;
     }
     [data-sr-button] {
-      @apply relative mt-2 flex items-center justify-center rounded-full bg-brand-red py-4 px-5 font-semibold text-white shadow-2xl shadow-gray-500/10 transition hover:brightness-110;
+      @apply relative mt-2 flex items-center justify-center rounded-full bg-brand-red py-4 px-5 font-semibold text-white shadow-2xl shadow-gray-500/10 ring-offset-1 transition hover:brightness-110;
       svg {
         @apply h-7 w-7;
       }
@@ -68,6 +68,40 @@
     }
     [data-sr-button] {
       @apply relative flex flex-shrink-0 items-center justify-center rounded-full bg-brand-red py-2 px-5 font-semibold text-white shadow-2xl shadow-cyan-900/50 transition focus-visible:ring-white hover:brightness-110;
+      svg {
+        @apply h-7 w-7;
+      }
+    }
+    [data-sr-button][disabled] {
+    }
+  }
+  [data-sr-convertkit-subscribe-form='success'] {
+    p {
+      @apply py-2 text-center;
+    }
+  }
+  [data-sr-convertkit-subscribe-form='error'] {
+    p {
+      @apply py-2 text-center;
+    }
+  }
+}
+
+#pricing {
+  [data-sr-convertkit-subscribe-form] {
+    @apply flex w-full flex-col gap-2 text-left;
+    [data-sr-input-wrapper] {
+      @apply w-full;
+    }
+    [data-sr-input] {
+      @apply w-full rounded-md bg-gray-200/60 px-3 py-2 shadow-inner placeholder:text-gray-500 focus-visible:ring-blue-500;
+    }
+
+    [data-sr-input-label] {
+      @apply sr-only;
+    }
+    [data-sr-button] {
+      @apply relative flex flex-shrink-0 items-center justify-center rounded-lg bg-blue-500 py-3 px-5 font-semibold text-white shadow-xl shadow-blue-800/20 ring-offset-1 transition focus-visible:ring-blue-500 hover:brightness-110;
       svg {
         @apply h-7 w-7;
       }

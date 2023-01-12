@@ -11,14 +11,14 @@ export const getNextExercise = (
     return currentLesson.solution
   }
 
-  const exerciseForSolution = module.exercises.find(
+  const exerciseForSolution = module.lessons.find(
     (resource: SanityDocument) => {
       return resource.solution?._key === currentLesson._key
     },
   )
 
-  const current = find(module.exercises, {_id: exerciseForSolution._id})
-  const nextExerciseIndex = indexOf(module.exercises, current) + 1
-  const nextExercise = module.exercises[nextExerciseIndex]
+  const current = find(module.lessons, {_id: exerciseForSolution._id})
+  const nextExerciseIndex = indexOf(module.lessons, current) + 1
+  const nextExercise = module.lessons[nextExerciseIndex]
   return nextExercise
 }

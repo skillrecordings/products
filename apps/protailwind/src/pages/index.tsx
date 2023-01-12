@@ -7,9 +7,30 @@ import toast from 'react-hot-toast'
 import Simon from '../../public/assets/simon-vrachliotis.png'
 import NewsletterSubscribeForm from 'components/subscribe-form'
 import LandingCopy from 'components/landing-copy.mdx'
+import {GetServerSideProps} from 'next'
+import {getToken} from 'next-auth/jwt'
+import {getActiveProducts} from '../path-to-purchase-react/products.server'
+import {propsForCommerce} from '@skillrecordings/commerce-server'
+import {CommerceProps} from '@skillrecordings/commerce-server/dist/@types'
+import {useCoupon} from '../path-to-purchase-react/use-coupon'
 
-const Home: NextPage = () => {
+export const getServerSideProps: GetServerSideProps = async ({req, query}) => {
+  const token = await getToken({req})
+  const {products = []} = await getActiveProducts()
+
+  return await propsForCommerce({query, token, products})
+}
+
+const Home: React.FC<React.PropsWithChildren<CommerceProps>> = (props) => {
   const router = useRouter()
+  const {
+    couponFromCode,
+    purchases = [],
+    userId,
+    products,
+    couponIdFromCoupon,
+    defaultCoupon,
+  } = props
 
   React.useEffect(() => {
     const {query} = router
@@ -20,14 +41,17 @@ const Home: NextPage = () => {
     }
   }, [router])
 
+  const {redeemableCoupon, RedeemDialogForCoupon} = useCoupon(couponFromCode)
+
   return (
-    <Layout meta={{titleAppendSiteName: false}}>
+    <Layout meta={{titleAppendSiteName: false}} defaultCoupon={defaultCoupon}>
       <Header />
       <main>
         <Copy />
         <NewsletterSubscribeForm />
         <Bio />
       </main>
+      {redeemableCoupon ? <RedeemDialogForCoupon /> : null}
     </Layout>
   )
 }

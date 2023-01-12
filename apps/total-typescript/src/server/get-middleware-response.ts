@@ -26,25 +26,28 @@ export async function getMiddlewareResponse(req: NextRequest) {
   const token = await getToken({req})
   const code = req.nextUrl.searchParams.get('code')
 
-  // if the user is logged in, we don't need to personalize marketing (for now)
-  if (
-    !code &&
-    !token &&
-    subscriber &&
-    req.nextUrl.pathname === SITE_ROOT_PATH
-  ) {
-    switch (true) {
-      case Boolean(subscriber.fields?.level):
-        response = rewriteToPath(`/home/level/${subscriber.fields?.level}`, req)
-        break
-    }
-  }
+  // ⚠️ Following redirect causes Purchase CTA to disappear
+  // ⚠️ due to page props on dynamic routes behaving weirdly
 
-  if(req.nextUrl.pathname.includes('/admin')) {
+  // if the user is logged in, we don't need to personalize marketing (for now)
+  // if (
+  //   !code &&
+  //   !token &&
+  //   subscriber &&
+  //   req.nextUrl.pathname === SITE_ROOT_PATH
+  // ) {
+  //   switch (true) {
+  //     case Boolean(subscriber.fields?.level):
+  //       response = rewriteToPath(`/home/level/${subscriber.fields?.level}`, req)
+  //       break
+  //   }
+  // }
+
+  if (req.nextUrl.pathname.includes('/admin')) {
     try {
       const user = UserSchema.parse(token)
       const ability = getCurrentAbility({user})
-      if(!ability.can('create', 'Content')) {
+      if (!ability.can('create', 'Content')) {
         response = rewriteToPath('/login', req)
       }
     } catch (error) {
