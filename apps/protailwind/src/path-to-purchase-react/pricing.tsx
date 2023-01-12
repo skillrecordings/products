@@ -112,7 +112,8 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
     Boolean(pppCoupon || merchantCoupon?.type === 'ppp') &&
     !purchased &&
     !isDowngrade(formattedPrice) &&
-    (allowPurchase || isSellingLive)
+    (allowPurchase || isSellingLive) &&
+    !isBuyingForTeam
 
   const handleOnSuccess = (subscriber: any, email?: string) => {
     if (subscriber) {
@@ -252,65 +253,63 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
                       For my team
                     </button>
                   </div>
-                  {isBuyingForTeam &&
-                    productId ===
-                      process.env.NEXT_PUBLIC_DEFAULT_PRODUCT_ID && (
-                      <div data-quantity-input="">
-                        <label>
-                          <span>Team Seats</span>
-                          <button
-                            type="button"
-                            aria-label="decrease seat quantity by one"
-                            className="flex h-full items-center justify-center rounded bg-gray-800/50 px-3 py-2 font-mono sm:hidden"
-                            onClick={() => {
-                              if (quantity === 1) return
-                              setQuantity(quantity - 1)
-                            }}
-                          >
-                            -
-                          </button>
-                          <input
-                            type="number"
-                            min={1}
-                            max={100}
-                            step={1}
-                            onChange={(e) => {
-                              const quantity = Number(e.target.value)
-                              setMerchantCoupon(undefined)
-                              setQuantity(
-                                quantity < 1
-                                  ? 1
-                                  : quantity > 100
-                                  ? 100
-                                  : quantity,
-                              )
-                            }}
-                            onKeyDown={(e) => {
-                              // don't allow decimal
-                              if (e.key === ',') {
-                                e.preventDefault()
-                              }
-                            }}
-                            inputMode="numeric"
-                            pattern="[0-9]*"
-                            value={quantity}
-                            id={`${quantity}-${name}`}
-                            required={true}
-                          />
-                          <button
-                            type="button"
-                            aria-label="increase seat quantity by one"
-                            className="flex h-full items-center justify-center rounded bg-gray-800/50 px-3 py-2 font-mono sm:hidden"
-                            onClick={() => {
-                              if (quantity === 100) return
-                              setQuantity(quantity + 1)
-                            }}
-                          >
-                            +
-                          </button>
-                        </label>
-                      </div>
-                    )}
+                  {isBuyingForTeam && (
+                    <div data-quantity-input="">
+                      <label>
+                        <span>Team Seats</span>
+                        <button
+                          type="button"
+                          aria-label="decrease seat quantity by one"
+                          className="flex h-full items-center justify-center rounded border border-gray-200 px-3 py-2 font-mono sm:hidden"
+                          onClick={() => {
+                            if (quantity === 1) return
+                            setQuantity(quantity - 1)
+                          }}
+                        >
+                          -
+                        </button>
+                        <input
+                          type="number"
+                          min={1}
+                          max={100}
+                          step={1}
+                          onChange={(e) => {
+                            const quantity = Number(e.target.value)
+                            setMerchantCoupon(undefined)
+                            setQuantity(
+                              quantity < 1
+                                ? 1
+                                : quantity > 100
+                                ? 100
+                                : quantity,
+                            )
+                          }}
+                          onKeyDown={(e) => {
+                            // don't allow decimal
+                            if (e.key === ',') {
+                              e.preventDefault()
+                            }
+                          }}
+                          inputMode="numeric"
+                          pattern="[0-9]*"
+                          value={quantity}
+                          id={`${quantity}-${name}`}
+                          required={true}
+                        />
+                        <button
+                          type="button"
+                          aria-label="increase seat quantity by one"
+                          className="flex h-full items-center justify-center rounded border border-gray-200 px-3 py-2 font-mono sm:hidden"
+                          onClick={() => {
+                            if (quantity === 100) return
+                            setQuantity(quantity + 1)
+                          }}
+                        >
+                          +
+                        </button>
+                      </label>
+                    </div>
+                  )}
                   <button
                     data-pricing-product-checkout-button=""
                     type="submit"
@@ -538,7 +537,9 @@ const RegionalPricingBox: React.FC<
           type="checkbox"
           checked={Boolean(activeCoupon)}
           onChange={() => {
-            activeCoupon ? setActiveCoupon(null) : setActiveCoupon(pppCoupon)
+            activeCoupon
+              ? setActiveCoupon(undefined)
+              : setActiveCoupon(pppCoupon)
           }}
         />
         <span>Activate {percentOff}% off with regional pricing</span>

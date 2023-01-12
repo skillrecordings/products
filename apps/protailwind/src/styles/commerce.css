@@ -18,7 +18,7 @@
             @apply pt-1.5 align-sub text-base font-black text-gray-500;
           }
           [data-price] {
-            @apply flex text-4xl font-black;
+            @apply flex text-5xl font-black;
           }
           span {
             @apply pl-0.5 pt-0.5 align-super text-gray-800;
@@ -30,7 +30,7 @@
               @apply relative flex text-xl leading-none text-gray-600 before:absolute before:top-1/2 before:left-0 before:h-0.5 before:w-full before:bg-gray-700/80;
 
               span {
-                @apply text-sm;
+                @apply text-xs leading-none text-gray-500;
               }
             }
             [data-percent-off] {
@@ -91,7 +91,7 @@
                 }
 
                 input {
-                  @apply max-w-[70px] rounded-md bg-gray-200 py-2 pl-3 font-mono font-bold ring-blue-500;
+                  @apply max-w-[70px] rounded-md border border-gray-200 bg-gray-200/60 py-2 pl-3 font-mono font-bold ring-blue-500;
                 }
               }
             }
@@ -106,6 +106,28 @@
 
           [data-pricing-product-checkout-button]:disabled {
             @apply cursor-wait;
+          }
+        }
+      }
+
+      [data-ppp-container] {
+        @apply pt-5 text-sm;
+        [data-ppp-header] {
+          strong {
+            img {
+              @apply inline-block;
+            }
+          }
+          p {
+            @apply pt-3;
+          }
+        }
+        label {
+          @apply mt-5 flex cursor-pointer items-center gap-2 rounded-md bg-gray-100 p-3 transition hover:bg-gray-200/60;
+          input {
+          }
+          span {
+            @apply font-semibold;
           }
         }
       }
@@ -229,6 +251,27 @@
 
           [data-pricing-product-checkout-button]:disabled {
             @apply cursor-wait;
+          }
+        }
+      }
+      [data-ppp-container] {
+        @apply mt-8 rounded-md bg-gray-800 p-5 text-left text-sm;
+        [data-ppp-header] {
+          strong {
+            img {
+              @apply inline-block;
+            }
+          }
+          p {
+            @apply pt-3;
+          }
+        }
+        label {
+          @apply mt-5 flex cursor-pointer items-center gap-2 rounded-md bg-gray-700 p-3 transition hover:bg-gray-600/80;
+          input {
+          }
+          span {
+            @apply font-semibold;
           }
         }
       }

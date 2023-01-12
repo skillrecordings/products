@@ -27,6 +27,7 @@ import {
 } from '@skillrecordings/commerce-server/dist/@types'
 import {useCoupon} from 'path-to-purchase-react/use-coupon'
 import {PriceCheckProvider} from 'path-to-purchase-react/pricing-check-context'
+import Spinner from 'components/spinner'
 
 const WorkshopTemplate: React.FC<{
   workshop: SanityDocument
@@ -69,12 +70,30 @@ const WorkshopTemplate: React.FC<{
             workshop={workshop}
           />
         </div>
-        {commerceProps && (
+        {commerceProps ? (
           <BuyWorkshop
             product={product}
             workshop={workshop}
             {...commerceProps}
           />
+        ) : (
+          <div
+            role="status"
+            className="mx-auto flex w-full max-w-sm flex-col overflow-hidden rounded-lg border border-gray-200/40 bg-white shadow-2xl shadow-gray-400/20"
+          >
+            <div className="flex aspect-video animate-pulse items-center justify-center bg-gray-200">
+              <Spinner aria-hidden="true" className="h-7 w-7 opacity-80" />
+            </div>
+            <div className="flex animate-pulse flex-col gap-3 p-7">
+              <div className="h-3 w-2/3 rounded-full bg-gray-200"></div>
+              <div className="h-3 rounded-full bg-gray-200"></div>
+              <div className="h-3 w-1/2 rounded-full bg-gray-200"></div>
+              <div className="h-3 w-5/6 rounded-full bg-gray-200"></div>
+              <div className="h-3 w-2/5 rounded-full bg-gray-200"></div>
+              <div className="h-3 w-1/3 rounded-full bg-gray-200"></div>
+              <span className="sr-only">Loading price</span>
+            </div>
+          </div>
         )}
       </main>
     </Layout>
