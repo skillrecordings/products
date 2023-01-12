@@ -111,7 +111,8 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
   const showPPPBox =
     Boolean(pppCoupon || merchantCoupon?.type === 'ppp') &&
     !purchased &&
-    !isDowngrade(formattedPrice)
+    !isDowngrade(formattedPrice) &&
+    (allowPurchase || isSellingLive)
 
   const handleOnSuccess = (subscriber: any, email?: string) => {
     if (subscriber) {
