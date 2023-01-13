@@ -2,8 +2,7 @@ import {NextApiRequest, NextApiResponse} from 'next'
 import AWS from 'aws-sdk'
 import {v4 as uuidv4} from 'uuid'
 import {getToken} from 'next-auth/jwt'
-import {getCurrentAbility, UserSchema} from 'ability/ability'
-
+import {getCurrentAbility, UserSchema} from '@skillrecordings/skill-lesson'
 
 const options = {
   bucket: process.env.AWS_VIDEO_UPLOAD_BUCKET,

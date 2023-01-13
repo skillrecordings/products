@@ -32,7 +32,7 @@ export type SurveyConfig = {
   questionBodyRenderer?: (question: any) => void
 }
 
-export const SurveyQuestionContext =
+export const SurveyQuestionContext: React.Context<InternalQuestionContextValue> =
   createNamedContext<InternalQuestionContextValue>('SurveyQuestionContext', {
     isLast: false,
   } as InternalQuestionContextValue)

@@ -5,7 +5,10 @@ import {
   setCookiesForResponse,
 } from './process-customer-cookies'
 import {getToken} from 'next-auth/jwt'
-import {getCurrentAbility, UserSchema} from '../ability/ability'
+import {
+  getCurrentAbility,
+  UserSchema,
+} from '@skillrecordings/skill-lesson/utils/ability'
 
 export const SITE_ROOT_PATH = '/'
 

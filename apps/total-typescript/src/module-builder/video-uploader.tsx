@@ -1,76 +1,84 @@
 import * as React from 'react'
-import ReactS3Uploader from 'react-s3-uploader'
-import uuid from 'shortid'
-import fileExtension from 'file-extension'
-import {DispatchFunction} from './use-file-upload-reducer'
+import {useFileChange} from './use-file-change'
+import {uploadToS3} from './upload-file'
 
-const SIGNING_URL = `/api/aws/sign-s3`
+const VideoUploader = () => {
+  const {
+    fileError,
+    fileName,
+    fileContents,
+    fileType,
+    fileDispatch,
+    handleFileChange,
+  } = useFileChange()
+  const [s3FileUrl, setS3FileUrl] = React.useState('')
 
-export const getAuthorizationHeader = () => {
-  // const token = getAccessTokenFromCookie()
-  // const authorizationHeader: AuthorizationHeader = token && {
-  //   Authorization: `Bearer ${token}`,
-  // }
-  //
-  // return authorizationHeader
-}
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
+    try {
+      if (fileType && fileContents) {
+        const filePath = await uploadToS3({
+          fileType,
+          fileContents,
+          onUploadProgress: (progressEvent) => {
+            console.log(
+              'progressEvent',
+              progressEvent.loaded / progressEvent.total,
+            )
+          },
+        })
 
-const VideoUploader = ({dispatch}: {dispatch: DispatchFunction}) => {
-  const uploaderRef = React.useRef(null)
-
-
-
+        fileDispatch({type: 'RESET_FILE_STATE'})
+        setS3FileUrl(filePath)
+      }
+    } catch (err) {
+      console.log('error is', err)
+    }
+  }
   return (
     <>
+      <div className="w-full">
+        <div className="mt-40 flex flex-col items-center justify-center">
+          <h1 className="max-w-xl text-3xl">
+            Upload files using the input below:
+          </h1>
+          {fileError && (
+            <h1 className="max-w-3xl text-3xl text-red-600">{fileError}</h1>
+          )}
 
-      <ReactS3Uploader
-        ref={uploaderRef}
-        multiple
-        //if we set this to `false` we can list all the files and
-        //call `uploaderRef.current.uploadFile()` when we are ready
-        autoUpload={false}
-        signingUrl={SIGNING_URL}
-        // @ts-ignore
-        signingUrlHeaders={getAuthorizationHeader()}
-        accept="video/*"
-        scrubFilename={(fullFilename) => {
-          // filename with no extension
-          const filename = fullFilename.replace(/\.[^/.]+$/, '')
-          // remove stuff s3 hates
-          const scrubbed = `${filename}-${uuid.generate()}`
-            .replace(/[^\w\d_\-.]+/gi, '')
-            .toLowerCase()
-          // rebuild it as a fresh new thing
-          return `${scrubbed}.${fileExtension(fullFilename)}`
-        }}
-
-        onSignedUrl={(file) => {console.log({file})}}
-        preprocess={(file, next) => {
-          dispatch({
-            type: 'add',
-            fileUpload: {
-              file,
-              percent: 0,
-              message: 'waiting to upload',
-            },
-          })
-
-          console.log({file})
-
-          next(file)
-        }}
-        onProgress={(percent, message, file) => {
-          dispatch({type: 'progress', file, percent, message})
-        }}
-        onError={(message) => console.log(message)}
-        onFinish={(signResult, file) => {
-          const fileUrl = signResult.signedUrl.split('?')[0]
-          dispatch({type: 'finalize', file, fileUrl})
-        }}
-      />
+          <div>
+            <form onSubmit={handleSubmit}>
+              <div className="mt-2 flex flex-col items-center">
+                <label
+                  htmlFor="video"
+                  className="mt-6 cursor-pointer rounded-lg border px-5 py-1 shadow hover:bg-purple-900 hover:text-white"
+                >
+                  <span className="mt-2 text-base leading-normal">
+                    {fileName || 'File Input'}
+                  </span>
+                  <input
+                    type="file"
+                    accept="video/*"
+                    id="video"
+                    name="video"
+                    className="hidden"
+                    onChange={handleFileChange}
+                  />
+                </label>
+                <button
+                  disabled={!fileContents}
+                  type="submit"
+                  className="my-6 rounded-md border-2 border-green-400 px-1 py-2 hover:bg-purple-900"
+                >
+                  Upload to s3
+                </button>
+              </div>
+            </form>
+            <span className="inline-block h-96 w-96">{s3FileUrl}</span>
+          </div>
+        </div>
+      </div>
     </>
-
-
   )
 }
 

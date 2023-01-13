@@ -1347,10 +1347,11 @@ importers:
       '@types/speakingurl': ^13.0.3
       '@types/uuid': ^8.3.4
       '@types/ws': ^8.5.3
-      '@vercel/og': ^0.0.18
+      '@vercel/og': ^0.0.26
       '@xstate/react': '=1.5.1'
       autoprefixer: ^10.4.2
       aws-sdk: ^2.1197.0
+      axios: ^0.26.0
       classnames: ^2.3.1
       cookie: ^0.5.0
       date-fns: ^2.28.0
@@ -1461,9 +1462,10 @@ importers:
       '@trpc/next': 10.7.0_d3ztwackgnqsj6s7tqkdtmz3oe
       '@trpc/react-query': 10.7.0_x4ie6nhblo2vtx2aafrgzlfqy4
       '@trpc/server': 10.7.0
-      '@vercel/og': 0.0.18
+      '@vercel/og': 0.0.26
       '@xstate/react': 1.5.1_bpg42ha2il6pcyn3wrx2rxrchm
       aws-sdk: 2.1293.0
+      axios: 0.26.1
       classnames: 2.3.1
       cookie: 0.5.0
       date-fns: 2.28.0
@@ -2594,7 +2596,7 @@ importers:
       mime-types: ^2.1.24
       object-assign: ^2.0.0
       prop-types: ^15.5.8
-      typescript: ^3.7.5
+      typescript: ^4.9.4
       uuid: ^3.1.0
     dependencies:
       create-react-class: 15.7.0
@@ -2606,7 +2608,7 @@ importers:
       aws-sdk: 2.1293.0
     devDependencies:
       '@types/react': 18.0.18
-      typescript: 3.9.10
+      typescript: 4.9.4
 
   packages/scripts:
     specifiers:
@@ -8029,7 +8031,7 @@ packages:
       '@mdx-js/loader': '>=0.15.0'
       '@mdx-js/react': '*'
     dependencies:
-      '@mdx-js/loader': 2.1.5_webpack@5.73.0
+      '@mdx-js/loader': 2.1.5_webpack@4.46.0
       '@mdx-js/react': 2.1.5_react@18.2.0
     dev: false
 
@@ -11247,10 +11249,6 @@ packages:
     dependencies:
       '@types/yargs-parser': 21.0.0
 
-  /@types/yoga-layout/1.9.2:
-    resolution: {integrity: sha512-S9q47ByT2pPvD65IvrWp7qppVMpk9WGMbVq9wbWZOHg6tnXSD4vyhao6nOSBwwfDdV2p3Kx9evA9vI+XWTfDvw==}
-    dev: false
-
   /@types/yup/0.29.13:
     resolution: {integrity: sha512-qRyuv+P/1t1JK1rA+elmK1MmCL1BapEzKKfbEhDBV/LMMse4lmhZ/XbgETI39JveDJRpLjmToOI6uFtMW/WR2g==}
     dev: true
@@ -11747,13 +11745,13 @@ packages:
     hasBin: true
     dev: true
 
-  /@vercel/og/0.0.18:
-    resolution: {integrity: sha512-cEid22FkiNrgJ/HtawA6V3+x2jhP+KqwwNG97afFsFmZ/oPsh3Bm01NzCVSpeR96/aPaT2/59pbFXGxulxgp7g==}
+  /@vercel/og/0.0.26:
+    resolution: {integrity: sha512-YCVcVa0UMI4gfmldpBx9l1H28m6rVuwGakNVhbTtjShldxMYJC7eggtTrWxPUydYZomaVElzFl2uumyUwv0MnQ==}
     engines: {node: '>=16'}
     dependencies:
       '@resvg/resvg-wasm': 2.0.0-alpha.4
-      satori: 0.0.40
-      yoga-wasm-web: 0.1.2
+      satori: 0.0.46
+      yoga-wasm-web: 0.3.0
     dev: false
 
   /@webassemblyjs/ast/1.11.1:
@@ -15090,6 +15088,10 @@ packages:
     resolution: {integrity: sha512-uDfvUjVrfGJJhymx/kz6prltenw1u7WrCg1oa94zYY8xxVpLLUu045LAT0dhDZdXG58/EpPL/5kA180fQ/qudg==}
     engines: {node: '>=10'}
 
+  /emoji-regex/10.2.1:
+    resolution: {integrity: sha512-97g6QgOk8zlDRdgq1WxwgTMgEWGVAQvB5Fdpgc1MkNy56la5SKP9GsMXKDOdqwn90/41a8yPwIGk1Y6WVbeMQA==}
+    dev: false
+
   /emoji-regex/7.0.3:
     resolution: {integrity: sha512-CwBLREIQ7LvYFB0WyRvwhq5N5qPhc6PMjD6bYggFlI5YyDgl+0vxq5VHbMOFqLg7hfWzmu8T5Z1QofhmTIhItA==}
     dev: false
@@ -15820,10 +15822,10 @@ packages:
       eslint-import-resolver-webpack:
         optional: true
     dependencies:
-      '@typescript-eslint/parser': 5.40.0_eslint@8.26.0
+      '@typescript-eslint/parser': 5.40.0_sq327paf6wzcma7omk5wjhfcfa
       debug: 3.2.7
       eslint-import-resolver-node: 0.3.6
-      eslint-import-resolver-typescript: 2.7.1_mynvxvmq5qtyojffiqgev4x7mm
+      eslint-import-resolver-typescript: 2.7.1_2iahngt3u2tkbdlu6s4gkur3pu
       find-up: 2.1.0
     transitivePeerDependencies:
       - supports-color
@@ -26599,16 +26601,17 @@ packages:
     dependencies:
       chokidar: 3.5.2
 
-  /satori/0.0.40:
-    resolution: {integrity: sha512-SoXGq/89mBU34U1h4g/nXeL9DHS/Aof2iUL3FHabq+laSRQUSUI1ZhPhak3J6VMNW8wghYwJ/Bi7aF8FLPq9qQ==}
+  /satori/0.0.46:
+    resolution: {integrity: sha512-7RfTz38MB0n8tzmRHtUh1y0K7609CLBHpYuyZuh9rpf9FyhOd2in+6EHuqu6ul/Jebn1qD1HdYKtAMjb7uiNAQ==}
     engines: {node: '>=16'}
     dependencies:
       '@shuding/opentype.js': 1.4.0-beta.0
       css-background-parser: 0.1.0
       css-box-shadow: 1.0.0-3
       css-to-react-native: 3.0.0
+      emoji-regex: 10.2.1
       postcss-value-parser: 4.2.0
-      yoga-layout-prebuilt: 1.10.0
+      yoga-wasm-web: 0.3.0
     dev: false
 
   /sax/1.2.1:
@@ -28706,6 +28709,7 @@ packages:
     resolution: {integrity: sha512-w6fIxVE/H1PkLKcCPsFqKE7Kv7QUwhU8qQY2MueZXWx5cPZdwFupLgKK3vntcK98BtNHZtAF4LA/yl2a7k8R6Q==}
     engines: {node: '>=4.2.0'}
     hasBin: true
+    dev: false
 
   /typescript/4.9.4:
     resolution: {integrity: sha512-Uz+dTXYzxXXbsFpM86Wh3dKCxrQqUcVMxwU54orwlJjOpO3ao8L7j5lH+dWfTwgCwIuM9GQ2kvVotzYJMXTBZg==}
@@ -29964,15 +29968,8 @@ packages:
     resolution: {integrity: sha512-rVksvsnNCdJ/ohGc6xgPwyN8eheCxsiLM8mxuE/t/mOVqJewPuO1miLpTHQiRgTKCLexL4MeAFVagts7HmNZ2Q==}
     engines: {node: '>=10'}
 
-  /yoga-layout-prebuilt/1.10.0:
-    resolution: {integrity: sha512-YnOmtSbv4MTf7RGJMK0FvZ+KD8OEe/J5BNnR0GHhD8J/XcG/Qvxgszm0Un6FTHWW4uHlTgP0IztiXQnGyIR45g==}
-    engines: {node: '>=8'}
-    dependencies:
-      '@types/yoga-layout': 1.9.2
-    dev: false
-
-  /yoga-wasm-web/0.1.2:
-    resolution: {integrity: sha512-8SkgawHcA0RUbMrnhxbaQkZDBi8rMed8pQHixkFF9w32zGhAwZ9/cOHWlpYfr6RCx42Yp3siV45/jPEkJxsk6w==}
+  /yoga-wasm-web/0.3.0:
+    resolution: {integrity: sha512-rD3L4jyMlO1m+RWU60lNwZQK5zmzglCV5fI1gTRikmpv3YzmNIZQbjyfE6cMNb9Xaly/C1SwemYGbsiOekMvnQ==}
     dev: false
 
   /yup/0.32.11:
