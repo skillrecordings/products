@@ -28,6 +28,7 @@ import Link from 'next/link'
 import {trpc} from 'utils/trpc'
 import Balancer from 'react-wrap-balancer'
 import {isSellingLive} from './is-selling-live'
+import BuyMoreSeats from 'team/buy-more-seats'
 
 function getFirstPPPCoupon(availableCoupons: any[] = []) {
   return find(availableCoupons, (coupon) => coupon.type === 'ppp') || false
@@ -165,33 +166,9 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
               <div data-purchased="">
                 <CheckCircleIcon aria-hidden="true" /> Purchased
               </div>
-            </div>
-            <div className="flex justify-center">
-              <Link
-                href={{
-                  pathname: '/team/buy-more-seats',
-                  query: {
-                    productId: productId,
-                  },
-                }}
-              >
-                <a
-                  data-buy-seats=""
-                  onClick={() => {
-                    track('clicked buy more seats', {
-                      location: 'pricing',
-                    })
-                  }}
-                >
-                  <span className="pr-2">Buy More Seats</span>
-                  <span
-                    aria-hidden="true"
-                    className="absolute text-gray-300 transition group-hover:translate-x-1 group-hover:text-white"
-                  >
-                    →
-                  </span>
-                </a>
-              </Link>
+              <div className="flex flex-col justify-center">
+                <BuyMoreSeats productId={productId} userId={userId as string} />
+              </div>
             </div>
           </>
         ) : isSellingLive || allowPurchase ? (
