@@ -103,7 +103,6 @@
     "react-markdown": "^8.0.4",
     "react-refractor": "^2.1.7",
     "react-rewards": "^2.0.3",
-    "react-s3-uploader": "workspace:*",
     "react-scroll": "^1.8.6",
     "react-use": "^17.3.2",
     "react-use-clipboard": "^1.0.7",
