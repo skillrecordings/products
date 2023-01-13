@@ -15,7 +15,7 @@ type InviteTeamProps = {
     product: {id: string; name: string}
   }
   session: any
-  setPersonalPurchase: (props: any) => void
+  setPersonalPurchase?: (props: any) => void
 }
 
 const InviteTeam: React.FC<React.PropsWithChildren<InviteTeamProps>> = ({
@@ -65,15 +65,18 @@ const InviteTeam: React.FC<React.PropsWithChildren<InviteTeamProps>> = ({
         <strong className="font-semibold">
           {numberOfRedemptionsLeft} seats left
         </strong>
-        .
+        .{' '}
+        {usedCount > 0 && (
+          <>
+            Your team has already redeemed {usedCount} of {maxUses} seats.
+          </>
+        )}
       </p>
-      <p className="pt-1">
-        {usedCount > 0 &&
-          `Your team has already redeemed ${usedCount} of ${maxUses} seats.`}
-        {hasRedemptionsLeft &&
-          bulkCouponId &&
-          'Send the invite link below to your colleagues to get started:'}
-      </p>
+      {hasRedemptionsLeft && bulkCouponId && (
+        <p className="pt-1">
+          Send the invite link below to your colleagues to get started:
+        </p>
+      )}
       {bulkCouponId && (
         <div className="flex flex-col">
           <div>
@@ -82,7 +85,7 @@ const InviteTeam: React.FC<React.PropsWithChildren<InviteTeamProps>> = ({
               disabled={!hasRedemptionsLeft}
             />
           </div>
-          {canRedeem && (
+          {canRedeem && setPersonalPurchase && (
             <div className="mt-5 flex flex-col gap-3 border-t border-gray-100 pt-5 sm:mt-7 sm:flex-row sm:items-center sm:justify-between">
               <p className="flex items-center gap-1 font-semibold">
                 Or get access yourself
