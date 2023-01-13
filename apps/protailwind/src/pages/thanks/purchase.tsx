@@ -1,8 +1,8 @@
 import * as React from 'react'
 import {GetServerSideProps} from 'next'
 import Layout from 'components/layout'
-import {MailIcon} from '@heroicons/react/outline'
 import {
+  convertToSerializeForNextResponse,
   determinePurchaseType,
   PurchaseType,
   stripeData,
@@ -13,12 +13,16 @@ import {
   NEW_BULK_COUPON,
   NEW_INDIVIDUAL_PURCHASE,
 } from '@skillrecordings/types'
-import {getSdk} from '@skillrecordings/database'
+import {getSdk, Purchase} from '@skillrecordings/database'
 import CopyInviteLink from 'team/copy-invite-link'
-import {getProduct} from 'path-to-purchase-react/products.server'
-import {SanityProduct} from '@skillrecordings/commerce-server/dist/@types'
 import Image from 'next/image'
 import Balancer from 'react-wrap-balancer'
+import {PawTrail} from './redeem'
+import {first} from 'lodash'
+import {getAllWorkshops} from 'lib/workshops'
+import {SanityDocument} from '@sanity/client'
+import {InvoiceCard} from 'pages/invoices'
+import {MailIcon} from '@heroicons/react/solid'
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const {query} = context
@@ -56,185 +60,123 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     checkoutSessionId: session_id as string,
   })
 
-  const product = await getProduct(purchase.productId)
+  const workshops = await getAllWorkshops()
+  const product = first(
+    workshops.filter(
+      (workshop: SanityDocument) =>
+        workshop.product.productId === purchase.productId,
+    ),
+  )
 
   return {
     props: {
+      purchase: convertToSerializeForNextResponse(purchase),
       email,
       seatsPurchased,
       purchaseType,
       bulkCouponId: purchase.bulkCoupon?.id || null,
-      product,
+      product: product || null,
       stripeProductName,
     },
   }
 }
 
-const PurchaseLayout: React.FC<
-  React.PropsWithChildren<{
-    productImage: {url: string; alt: string} | undefined
-  }>
-> = ({productImage, children}) => {
-  return (
-    <Layout footer={null} meta={{title: 'Purchase Successful'}}>
-      <main className="relative z-10 flex min-h-screen flex-grow flex-col items-center justify-center px-5 pt-10 pb-28">
-        <div className="mx-auto flex w-full max-w-screen-md flex-col items-center gap-5 text-center">
-          {productImage && (
-            <div className="translate-y-16">
-              <Image
-                priority
-                src={productImage.url}
-                width={812 / 2.4}
-                height={925 / 2.4}
-                alt={productImage.alt}
-                aria-hidden="true"
-              />
-            </div>
-          )}
-          <div className="relative z-10 flex flex-col items-center">
-            {children}
-          </div>
-        </div>
-      </main>
-    </Layout>
-  )
-}
-
-const InlineTeamInvite = ({bulkCouponId}: {bulkCouponId?: string}) => {
+const InlineTeamInvite = ({
+  bulkCouponId,
+  seatsPurchased,
+}: {
+  bulkCouponId?: string
+  seatsPurchased: number
+}) => {
   if (!bulkCouponId) return null
 
   return (
-    <>
-      <p className="mx-auto max-w-xl pt-5 text-sm text-gray-800 sm:text-base sm:leading-relaxed">
-        Invite your team to claim seats right away with this invite link. Don't
-        worry about saving this anywhere, it will always be available on your
-        Team page once you sign in.
-      </p>
-      <div className="w-full text-gray-900">
+    <div className="mx-auto w-full">
+      <h2 className="pb-2 font-heading text-sm font-black uppercase">
+        Invite your team
+      </h2>
+      <div className="flex flex-col rounded-lg border border-gray-100 bg-white p-5 shadow-xl shadow-gray-400/5">
+        <p className="pb-2 font-semibold">
+          You have purchased {seatsPurchased} seats.
+        </p>
+        <p className="pb-2">
+          Invite your team to claim seats right away with this invite link.
+          Don't worry about saving this anywhere, it will always be available on
+          your{' '}
+          <a
+            className="font-semibold underline"
+            href={`${process.env.NEXT_PUBLIC_URL}/team`}
+          >
+            Team page
+          </a>{' '}
+          once you sign in.
+        </p>
         <CopyInviteLink bulkCouponId={bulkCouponId} />
       </div>
-    </>
+    </div>
   )
 }
 
-const NewIndividualPostPurchasePage: React.FC<
-  React.PropsWithChildren<{
-    email: string
-    product: SanityProduct
-    stripeProductName: string
-  }>
-> = ({product, email, stripeProductName}) => {
+type ThankYouProps = {
+  email: string
+  product: SanityDocument
+  title: string
+  byline: JSX.Element | null
+}
+
+const ThankYou: React.FC<ThankYouProps> = ({title, byline, product, email}) => {
   return (
-    <>
-      <h1 className="max-w-lg text-lg font-medium text-blue-600 sm:text-lg">
-        <Balancer>
-          Thank you for purchasing{' '}
-          {product?.name ||
-            stripeProductName ||
-            process.env.NEXT_PUBLIC_SITE_TITLE}
-          !
-        </Balancer>
-      </h1>
-      <h2 className="font-text mx-auto py-5 text-3xl font-bold lg:text-4xl">
-        <Balancer>
-          Please check your inbox for a login link that just got sent.
-        </Balancer>
-      </h2>
-      <code className="mb-10 mt-5 flex items-center justify-center gap-2 rounded-lg bg-blue-500/10 px-4 py-3 font-sans text-base font-medium sm:text-lg">
-        <MailIcon className="h-5 w-5 text-blue-500" aria-hidden="true" />{' '}
-        <span className="text-blue-600">Email sent to:</span> {email}
-      </code>
-      <p className="mx-auto max-w-xl pt-5 text-sm text-gray-700 sm:text-base sm:leading-relaxed">
-        <Balancer>
+    <header className="mx-auto w-full">
+      <div className="flex flex-col items-center gap-10 sm:flex-row">
+        {product?.image && (
+          <div className="flex flex-shrink-0 items-center justify-center">
+            <Image
+              src={product.image}
+              alt={product.title}
+              width={250}
+              height={250}
+            />
+          </div>
+        )}
+        <div className="flex flex-col items-start">
+          <h1 className="font-heading text-3xl font-black sm:text-3xl lg:text-4xl">
+            <span className="block pb-4 font-heading text-sm font-black uppercase text-brand-red">
+              Success!
+            </span>
+            {title}
+          </h1>
+          <p className="pt-5 font-medium">{byline}</p>
+        </div>
+      </div>
+    </header>
+  )
+}
+
+const LoginLink: React.FC<{email: string}> = ({email}) => {
+  return (
+    <div className="relative mx-auto flex w-full items-center justify-between gap-5 overflow-hidden rounded-xl bg-brand-red p-7 text-white shadow-2xl shadow-gray-400/20 selection:bg-white selection:text-brand-red sm:p-12">
+      <div className="relative z-10">
+        <p className="inline-flex rounded-full bg-white px-3 py-1 font-heading text-xs font-black uppercase text-brand-red sm:text-sm">
+          Final step
+        </p>
+        <h2 className="mx-auto py-5 font-heading text-2xl font-black sm:text-3xl lg:text-4xl">
+          <Balancer>
+            Please check your inbox for a <i>login link</i> that just got sent.
+          </Balancer>
+        </h2>
+        <div className="mb-3 inline-flex items-center gap-1 rounded-lg bg-white/20 py-3 px-4">
+          <MailIcon className="h-5 w-5" />{' '}
+          <strong className="font-semibold">Email sent to: {email}</strong>
+        </div>
+        <p className="mx-auto text-sm font-medium leading-relaxed text-white sm:text-base">
           As a final step to access the course you need to check your inbox (
           <strong>{email}</strong>) where you will find an email from{' '}
           <strong>{process.env.NEXT_PUBLIC_SUPPORT_EMAIL}</strong> with a link
           to access your purchase and start learning.
-        </Balancer>
-      </p>
-    </>
-  )
-}
-
-const NewBulkCouponPostPurchasePage: React.FC<
-  React.PropsWithChildren<{
-    email: string
-    product: SanityProduct
-    seatsPurchased: number
-    bulkCouponId: string
-    stripeProductName: string
-  }>
-> = ({product, email, seatsPurchased, bulkCouponId}) => {
-  return (
-    <>
-      <h1 className="max-w-md text-lg font-medium text-cyan-100 sm:text-lg">
-        Thank you for purchasing{' '}
-        {product?.name || process.env.NEXT_PUBLIC_SITE_TITLE}!{' '}
-        <br className="hidden sm:block" />
-        Your purchase is for <strong>{seatsPurchased}</strong> seat
-        {seatsPurchased > 1 && 's'}. You can always add more seats later when
-        your team grows.
-      </h1>
-      <h2 className="font-text mx-auto max-w-lg py-5 text-3xl font-bold lg:text-4xl">
-        Please check your inbox for a login link that just got sent.
-      </h2>
-      <code className="mb-10 mt-5 flex items-center justify-center gap-2 rounded-lg bg-cyan-500/10 px-4 py-3 font-sans text-base font-medium text-white shadow-xl sm:text-lg">
-        <MailIcon className="h-5 w-5 text-cyan-200" aria-hidden="true" />{' '}
-        <span className="text-cyan-200">Email sent to:</span> {email}
-      </code>
-      <p className="mx-auto max-w-xl pt-5 text-sm text-gray-200 sm:text-base sm:leading-relaxed">
-        As a final step to access the course you need to check your inbox (
-        <strong>{email}</strong>) where you will find an email from{' '}
-        <strong>{process.env.NEXT_PUBLIC_SUPPORT_EMAIL}</strong> with a link to
-        access your purchase and start learning.
-      </p>
-      <InlineTeamInvite bulkCouponId={bulkCouponId} />
-    </>
-  )
-}
-
-const ExistingBulkCouponPostPurchasePage: React.FC<
-  React.PropsWithChildren<{
-    product: SanityProduct
-    seatsPurchased: number
-    bulkCouponId: string
-    stripeProductName: string
-  }>
-> = ({product, seatsPurchased, bulkCouponId}) => {
-  return (
-    <>
-      <h1 className="max-w-md text-lg font-medium text-cyan-100 sm:text-lg">
-        Thank you for purchasing more seats for{' '}
-        {product?.name || process.env.NEXT_PUBLIC_SITE_TITLE}!{' '}
-        <br className="hidden sm:block" />
-        Your purchase is for <strong>{seatsPurchased}</strong> additional seat
-        {seatsPurchased > 1 && 's'}.
-      </h1>
-      <InlineTeamInvite bulkCouponId={bulkCouponId} />
-    </>
-  )
-}
-
-const IndividualToBulkPostPurchasePage: React.FC<
-  React.PropsWithChildren<{
-    product: SanityProduct
-    seatsPurchased: number
-    bulkCouponId: string
-    stripeProductName: string
-  }>
-> = ({product, seatsPurchased, bulkCouponId}) => {
-  return (
-    <>
-      <h1 className="max-w-md text-lg font-medium text-cyan-100 sm:text-lg">
-        Thank you for purchasing more seats for{' '}
-        {product?.name || process.env.NEXT_PUBLIC_SITE_TITLE}!{' '}
-        <br className="hidden sm:block" />
-        Your purchase is for <strong>{seatsPurchased}</strong> additional seat
-        {seatsPurchased > 1 && 's'}. You can always add more seats later when
-        your team grows.
-      </h1>
-      <InlineTeamInvite bulkCouponId={bulkCouponId} />
-    </>
+        </p>
+      </div>
+      <PawTrail />
+    </div>
   )
 }
 
@@ -244,8 +186,9 @@ const ThanksVerify: React.FC<
     seatsPurchased: number
     purchaseType: PurchaseType
     bulkCouponId: string
-    product: SanityProduct
+    product: SanityDocument
     stripeProductName: string
+    purchase: Purchase
   }>
 > = ({
   email,
@@ -254,57 +197,84 @@ const ThanksVerify: React.FC<
   bulkCouponId,
   product,
   stripeProductName,
+  purchase,
 }) => {
-  let postPurchasePage = null
+  let byline = null
+  let title = `Thank you for purchasing ${stripeProductName}`
+  let loginLink = null
+  let inviteTeam = (
+    <InlineTeamInvite
+      bulkCouponId={bulkCouponId}
+      seatsPurchased={seatsPurchased}
+    />
+  )
 
   switch (purchaseType) {
     case NEW_INDIVIDUAL_PURCHASE:
-      postPurchasePage = (
-        <NewIndividualPostPurchasePage
-          stripeProductName={stripeProductName}
-          product={product}
-          email={email}
-        />
-      )
+      loginLink = LoginLink
       break
     case NEW_BULK_COUPON:
-      postPurchasePage = (
-        <NewBulkCouponPostPurchasePage
-          product={product}
-          email={email}
-          bulkCouponId={bulkCouponId}
-          seatsPurchased={seatsPurchased}
-          stripeProductName={stripeProductName}
-        />
+      byline = (
+        <>
+          Your purchase is for <strong>{seatsPurchased}</strong> seat
+          {seatsPurchased > 1 && 's'}. You can always add more seats later when
+          your team grows.
+        </>
       )
+      loginLink = LoginLink
       break
     case EXISTING_BULK_COUPON:
-      postPurchasePage = (
-        <ExistingBulkCouponPostPurchasePage
-          product={product}
-          bulkCouponId={bulkCouponId}
-          seatsPurchased={seatsPurchased}
-          stripeProductName={stripeProductName}
-        />
+      title = `Thank you for purchasing more seats for ${
+        product?.name || process.env.NEXT_PUBLIC_SITE_TITLE
+      }!`
+      byline = (
+        <>
+          Your purchase is for <strong>{seatsPurchased}</strong> additional seat
+          {seatsPurchased > 1 && 's'}. You can always add more seats later when
+          your team grows.
+        </>
       )
+
       break
     case INDIVIDUAL_TO_BULK_UPGRADE:
-      postPurchasePage = (
-        <IndividualToBulkPostPurchasePage
-          product={product}
-          bulkCouponId={bulkCouponId}
-          seatsPurchased={seatsPurchased}
-          stripeProductName={stripeProductName}
-        />
+      title = `Thank you for purchasing more seats for ${
+        product?.name || process.env.NEXT_PUBLIC_SITE_TITLE
+      }!`
+      byline = (
+        <>
+          Your purchase is for <strong>{seatsPurchased}</strong> additional seat
+          {seatsPurchased > 1 && 's'}. You can always add more seats later when
+          your team grows.
+        </>
       )
+
       break
   }
 
   return (
-    <PurchaseLayout productImage={product?.image}>
-      {postPurchasePage}
-      {/* link to invoice here! */}
-    </PurchaseLayout>
+    <>
+      <Layout footer={null} meta={{title: 'Purchase Successful'}}>
+        <main className="mx-auto flex w-full max-w-screen-md flex-col gap-8 py-10 px-5">
+          <ThankYou
+            title={title}
+            byline={byline}
+            product={product}
+            email={email}
+          />
+
+          {inviteTeam && inviteTeam}
+          {loginLink && loginLink({email})}
+          <div>
+            <h2 className="pb-2 font-heading text-sm font-black uppercase">
+              Get your invoice
+            </h2>
+            <InvoiceCard
+              purchase={{product: {name: stripeProductName}, ...purchase}}
+            />
+          </div>
+        </main>
+      </Layout>
+    </>
   )
 }
 

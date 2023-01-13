@@ -9,6 +9,8 @@ import {Element} from 'react-scroll'
 import {PricingTiers} from '../path-to-purchase-react/product-tiers'
 import Image from 'next/image'
 import {MDXComponents} from '../components/mdx'
+import {isSellingLive} from 'utils/is-selling-live'
+import {SubscribeToNewsletter} from 'components/home/home-newsletter-cta'
 
 export const HomeTemplate: React.FC<
   React.PropsWithChildren<CommerceProps & {level?: string}>
@@ -37,40 +39,44 @@ export const HomeTemplate: React.FC<
       <Header level={skillLevel} />
       <main>
         <Copy level={skillLevel} />
-        <MDXComponents.Section
-          className="flex flex-col items-center bg-[#081021] py-40"
-          slot={
-            <Image
-              src="/assets/landing/bg-divider-7.png"
-              layout="fill"
-              className="pointer-events-none select-none object-contain"
-              objectPosition="top center"
-              quality={100}
-            />
-          }
-        >
-          <h2 className="mx-auto max-w-[20ch] px-3 text-center font-heading text-4xl font-bold sm:text-5xl lg:text-5xl xl:text-6xl">
-            Your Total TypeScript Adventure Starts Now
-          </h2>
-          <div className="flex w-full flex-col items-center pt-5" id="buy">
-            <Image
-              src={require('../../public/assets/landing/bg-divider-5.png')}
-              alt=""
-              aria-hidden="true"
-              layout="fill"
-              className="pointer-events-none z-0 translate-y-80 select-none object-contain object-top"
-              quality={100}
-            />
-            <Element name="buy" aria-hidden="true" />
-            <PricingTiers
-              products={products}
-              userId={userId}
-              purchases={purchases}
-              couponIdFromCoupon={couponIdFromCoupon}
-              couponFromCode={couponFromCode}
-            />
-          </div>
-        </MDXComponents.Section>
+        {isSellingLive ? (
+          <MDXComponents.Section
+            className="flex flex-col items-center bg-[#081021] py-40"
+            slot={
+              <Image
+                src="/assets/landing/bg-divider-7.png"
+                layout="fill"
+                className="pointer-events-none select-none object-contain"
+                objectPosition="top center"
+                quality={100}
+              />
+            }
+          >
+            <h2 className="mx-auto max-w-[20ch] px-3 text-center font-heading text-4xl font-bold sm:text-5xl lg:text-5xl xl:text-6xl">
+              Your Total TypeScript Adventure Starts Now
+            </h2>
+            <div className="flex w-full flex-col items-center pt-5" id="buy">
+              <Image
+                src={require('../../public/assets/landing/bg-divider-5.png')}
+                alt=""
+                aria-hidden="true"
+                layout="fill"
+                className="pointer-events-none z-0 translate-y-80 select-none object-contain object-top"
+                quality={100}
+              />
+              <Element name="buy" aria-hidden="true" />
+              <PricingTiers
+                products={products}
+                userId={userId}
+                purchases={purchases}
+                couponIdFromCoupon={couponIdFromCoupon}
+                couponFromCode={couponFromCode}
+              />
+            </div>
+          </MDXComponents.Section>
+        ) : (
+          <SubscribeToNewsletter level={skillLevel} />
+        )}
         <div className="pointer-events-none select-none">
           <Image
             layout="fill"

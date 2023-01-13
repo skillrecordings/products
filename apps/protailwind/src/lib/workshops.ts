@@ -11,7 +11,7 @@ const workshopsQuery = groq`*[_type == "module" && moduleType == 'workshop'] | o
   _createdAt,
   description,
   state,
-  "product": resources[@->._type == 'product']->{productId},
+  "product": resources[@._type == 'product'][0]{productId},
   "sections": resources[@->._type == 'section']->{
     _id,
     _type,
