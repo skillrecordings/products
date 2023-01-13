@@ -48,7 +48,6 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   const stripeProductName = stripeProduct.name
 
   const purchase = await getSdk().getPurchaseForStripeCharge(stripeChargeId)
-  console.log({purchase})
 
   if (!purchase || !email) {
     return {
@@ -67,7 +66,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
         workshop.product.productId === purchase.productId,
     ),
   )
-  console.log({product})
+
   return {
     props: {
       purchase: convertToSerializeForNextResponse(purchase),
@@ -75,7 +74,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
       seatsPurchased,
       purchaseType,
       bulkCouponId: purchase.bulkCoupon?.id || null,
-      product,
+      product: product || null,
       stripeProductName,
     },
   }
