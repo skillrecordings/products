@@ -2,7 +2,7 @@ import * as React from 'react'
 import {GetServerSideProps} from 'next'
 import {getSdk} from '@skillrecordings/database'
 import Layout from 'components/layout'
-import {MailIcon} from '@heroicons/react/outline'
+import {MailIcon} from '@heroicons/react/solid'
 import Balancer from 'react-wrap-balancer'
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
@@ -42,14 +42,11 @@ const ThanksRedeem: React.FC<
                 Please check your inbox for a <i>login link</i> that just got
                 sent.
               </Balancer>
-              {/* <code className="my-10 inline-flex items-center gap-2 rounded-md bg-white px-6 py-3 font-sans text-lg font-semibold text-black sm:text-xl">
-                <MailIcon
-                  className="h-5 w-5 text-cyan-500"
-                  aria-hidden="true"
-                />{' '}
-                {email}
-              </code> */}
             </h2>
+            <div className="mb-3 inline-flex items-center gap-1 rounded-lg bg-white/20 py-3 px-4">
+              <MailIcon className="h-5 w-5" />{' '}
+              <strong className="font-semibold">Email sent to: {email}</strong>
+            </div>
             <p className="mx-auto text-sm font-medium leading-relaxed text-white sm:text-base">
               As a final step to access the course you need to check your inbox
               (<strong>{email}</strong>) where you will find an email from{' '}

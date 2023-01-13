@@ -22,6 +22,7 @@ import {first} from 'lodash'
 import {getAllWorkshops} from 'lib/workshops'
 import {SanityDocument} from '@sanity/client'
 import {InvoiceCard} from 'pages/invoices'
+import {MailIcon} from '@heroicons/react/solid'
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const {query} = context
@@ -80,7 +81,13 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   }
 }
 
-const InlineTeamInvite = ({bulkCouponId}: {bulkCouponId?: string}) => {
+const InlineTeamInvite = ({
+  bulkCouponId,
+  seatsPurchased,
+}: {
+  bulkCouponId?: string
+  seatsPurchased: number
+}) => {
   if (!bulkCouponId) return null
 
   return (
@@ -89,6 +96,9 @@ const InlineTeamInvite = ({bulkCouponId}: {bulkCouponId?: string}) => {
         Invite your team
       </h2>
       <div className="flex flex-col rounded-lg border border-gray-100 bg-white p-5 shadow-xl shadow-gray-400/5">
+        <p className="pb-2 font-semibold">
+          You have purchased {seatsPurchased} seats.
+        </p>
         <p className="pb-2">
           Invite your team to claim seats right away with this invite link.
           Don't worry about saving this anywhere, it will always be available on
@@ -154,6 +164,10 @@ const LoginLink: React.FC<{email: string}> = ({email}) => {
             Please check your inbox for a <i>login link</i> that just got sent.
           </Balancer>
         </h2>
+        <div className="mb-3 inline-flex items-center gap-1 rounded-lg bg-white/20 py-3 px-4">
+          <MailIcon className="h-5 w-5" />{' '}
+          <strong className="font-semibold">Email sent to: {email}</strong>
+        </div>
         <p className="mx-auto text-sm font-medium leading-relaxed text-white sm:text-base">
           As a final step to access the course you need to check your inbox (
           <strong>{email}</strong>) where you will find an email from{' '}
@@ -188,7 +202,12 @@ const ThanksVerify: React.FC<
   let byline = null
   let title = `Thank you for purchasing ${stripeProductName}`
   let loginLink = null
-  let inviteTeam = <InlineTeamInvite bulkCouponId={bulkCouponId} />
+  let inviteTeam = (
+    <InlineTeamInvite
+      bulkCouponId={bulkCouponId}
+      seatsPurchased={seatsPurchased}
+    />
+  )
 
   switch (purchaseType) {
     case NEW_INDIVIDUAL_PURCHASE:
@@ -242,6 +261,7 @@ const ThanksVerify: React.FC<
             product={product}
             email={email}
           />
+
           {inviteTeam && inviteTeam}
           {loginLink && loginLink({email})}
           <div>
