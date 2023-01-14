@@ -59,20 +59,18 @@ export default function Home() {
                 <div className="w-full flex flex-col relative z-10 lg:p-16 sm:p-10 p-8">
                   <div className="flex flex-col">
                     <h3 className="font-display uppercase sm:text-6xl text-5xl font-bold">
-                      <Link href={`/${slug}`}>
-                        <a>{title}</a>
-                      </Link>
+                      <Link href={`/${slug}`}>{title}</Link>
                     </h3>
                     {description && (
                       <p className="sm:max-w-[40ch] pt-4">{description}</p>
                     )}
                     <div className="pt-12 flex items-center space-x-2">
-                      <Link href={`/${slug}`} key={title}>
-                        <a
-                          className={`px-5 py-4 font-medium text-sm ${styles.button}`}
-                        >
-                          View Case Study
-                        </a>
+                      <Link
+                        href={`/${slug}`}
+                        key={title}
+                        className={`px-5 py-4 font-medium text-sm ${styles.button}`}
+                      >
+                        View Case Study
                       </Link>
                       <a
                         href={url}
