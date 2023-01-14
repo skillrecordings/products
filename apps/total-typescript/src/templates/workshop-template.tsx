@@ -58,10 +58,11 @@ const Header: React.FC<{workshop: SanityDocument}> = ({workshop}) => {
     <>
       <header className="relative z-10 flex flex-col-reverse items-center justify-between px-5 pt-0 pb-16 sm:pt-8 sm:pb-8 md:flex-row">
         <div className="text-center md:text-left">
-          <Link href="/workshops">
-            <a className="pb-1 font-mono text-sm font-semibold uppercase tracking-wide text-cyan-300">
-              Pro Workshop
-            </a>
+          <Link
+            href="/workshops"
+            className="pb-1 font-mono text-sm font-semibold uppercase tracking-wide text-cyan-300"
+          >
+            Pro Workshop
           </Link>
           <h1 className="font-text text-4xl font-bold sm:text-5xl lg:text-6xl">
             {title}
@@ -91,18 +92,15 @@ const Header: React.FC<{workshop: SanityDocument}> = ({workshop}) => {
                       lesson: firstExercise?.slug,
                     },
                   }}
+                  className="flex items-center justify-center rounded bg-cyan-400 px-6 py-3 font-semibold text-black transition hover:bg-cyan-300"
+                  onClick={() => {
+                    track('clicked start learning', {module: slug.current})
+                  }}
                 >
-                  <a
-                    className="flex items-center justify-center rounded bg-cyan-400 px-6 py-3 font-semibold text-black transition hover:bg-cyan-300"
-                    onClick={() => {
-                      track('clicked start learning', {module: slug.current})
-                    }}
-                  >
-                    Start Learning{' '}
-                    <span className="pl-2" aria-hidden="true">
-                      →
-                    </span>
-                  </a>
+                  Start Learning{' '}
+                  <span className="pl-2" aria-hidden="true">
+                    →
+                  </span>
                 </Link>
               )}
               {github?.repo && (
@@ -229,36 +227,33 @@ const LessonListItem = ({
           },
         }}
         passHref
+        className="group inline-flex items-center py-2.5 text-base font-medium"
+        onClick={() => {
+          track('clicked workshop exercise', {
+            module: moduleSlug,
+            lesson: lessonResource.slug,
+            section: section.slug,
+            moduleType: section._type,
+            lessonType: lessonResource._type,
+          })
+        }}
       >
-        <a
-          className="group inline-flex items-center py-2.5 text-base font-medium"
-          onClick={() => {
-            track('clicked workshop exercise', {
-              module: moduleSlug,
-              lesson: lessonResource.slug,
-              section: section.slug,
-              moduleType: section._type,
-              lessonType: lessonResource._type,
-            })
-          }}
-        >
-          {isExerciseCompleted ? (
-            <CheckIcon
-              className="mr-2 h-4 w-4 text-teal-400"
-              aria-hidden="true"
-            />
-          ) : (
-            <span
-              className="w-6 font-mono text-xs text-gray-400"
-              aria-hidden="true"
-            >
-              {index + 1}
-            </span>
-          )}
-          <span className="w-full cursor-pointer leading-tight group-hover:underline">
-            {lessonResource.title}
+        {isExerciseCompleted ? (
+          <CheckIcon
+            className="mr-2 h-4 w-4 text-teal-400"
+            aria-hidden="true"
+          />
+        ) : (
+          <span
+            className="w-6 font-mono text-xs text-gray-400"
+            aria-hidden="true"
+          >
+            {index + 1}
           </span>
-        </a>
+        )}
+        <span className="w-full cursor-pointer leading-tight group-hover:underline">
+          {lessonResource.title}
+        </span>
       </Link>
     </li>
   )

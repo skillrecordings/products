@@ -172,23 +172,20 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
                       productId: productId,
                     },
                   }}
+                  className="group mt-5 inline-block gap-2 rounded bg-gray-800 py-2 pl-4 pr-6 font-medium transition hover:bg-gray-700"
+                  onClick={() => {
+                    track('clicked buy more seats', {
+                      location: 'pricing',
+                    })
+                  }}
                 >
-                  <a
-                    className="group mt-5 inline-block gap-2 rounded bg-gray-800 py-2 pl-4 pr-6 font-medium transition hover:bg-gray-700"
-                    onClick={() => {
-                      track('clicked buy more seats', {
-                        location: 'pricing',
-                      })
-                    }}
+                  <span className="pr-2">Buy More Seats</span>
+                  <span
+                    aria-hidden="true"
+                    className="absolute text-gray-300 transition group-hover:translate-x-1 group-hover:text-white"
                   >
-                    <span className="pr-2">Buy More Seats</span>
-                    <span
-                      aria-hidden="true"
-                      className="absolute text-gray-300 transition group-hover:translate-x-1 group-hover:text-white"
-                    >
-                      →
-                    </span>
-                  </a>
+                    →
+                  </span>
                 </Link>
               </div>
             </>

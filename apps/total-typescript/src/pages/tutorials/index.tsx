@@ -60,10 +60,9 @@ const TutorialsPage: React.FC<{tutorials: SanityDocument[]}> = ({
                           module: slug.current,
                         },
                       }}
+                      className="text-3xl font-semibold hover:underline sm:text-4xl"
                     >
-                      <a className="text-3xl font-semibold hover:underline sm:text-4xl">
-                        {title}
-                      </a>
+                      {title}
                     </Link>
                     <div className="pt-4 pb-3 font-mono text-xs font-semibold uppercase text-cyan-300">
                       {i === 0 && (
@@ -83,16 +82,15 @@ const TutorialsPage: React.FC<{tutorials: SanityDocument[]}> = ({
                           module: slug.current,
                         },
                       }}
+                      className="group mt-5 inline-block gap-2 rounded bg-gray-800 px-4 py-2 font-medium transition hover:bg-gray-700"
                     >
-                      <a className="group mt-5 inline-block gap-2 rounded bg-gray-800 px-4 py-2 font-medium transition hover:bg-gray-700">
-                        View{' '}
-                        <span
-                          aria-hidden="true"
-                          className="text-gray-300 transition group-hover:text-white"
-                        >
-                          →
-                        </span>
-                      </a>
+                      View{' '}
+                      <span
+                        aria-hidden="true"
+                        className="text-gray-300 transition group-hover:text-white"
+                      >
+                        →
+                      </span>
                     </Link>
                   </div>
                   <StripesLeft className="absolute left-0 top-0 hidden w-5 md:block" />

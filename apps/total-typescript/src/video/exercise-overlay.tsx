@@ -529,27 +529,24 @@ const BlockedOverlay = () => {
                 href={{
                   pathname: '/buy',
                 }}
+                className="group group mt-5 inline-block gap-2 rounded bg-gradient-to-b from-cyan-300 to-cyan-400 py-3 pl-5 pr-8 font-medium text-black transition hover:brightness-110"
+                onClick={() => {
+                  track('clicked unlock lesson', {
+                    lesson: lesson.slug,
+                    module: module.slug.current,
+                    location: 'blocked overlay',
+                    moduleType: module.moduleType,
+                    lessonType: lesson._type,
+                  })
+                }}
               >
-                <a
-                  className="group group mt-5 inline-block gap-2 rounded bg-gradient-to-b from-cyan-300 to-cyan-400 py-3 pl-5 pr-8 font-medium text-black transition hover:brightness-110"
-                  onClick={() => {
-                    track('clicked unlock lesson', {
-                      lesson: lesson.slug,
-                      module: module.slug.current,
-                      location: 'blocked overlay',
-                      moduleType: module.moduleType,
-                      lessonType: lesson._type,
-                    })
-                  }}
+                <span className="pr-3">Unlock this {lesson._type} now</span>
+                <span
+                  aria-hidden="true"
+                  className="absolute text-cyan-700 transition group-hover:translate-x-1"
                 >
-                  <span className="pr-3">Unlock this {lesson._type} now</span>
-                  <span
-                    aria-hidden="true"
-                    className="absolute text-cyan-700 transition group-hover:translate-x-1"
-                  >
-                    →
-                  </span>
-                </a>
+                  →
+                </span>
               </Link>
             </div>
           </div>

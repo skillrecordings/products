@@ -172,19 +172,20 @@ const GetStarted: React.FC<React.PropsWithChildren<unknown>> = () => {
       <h2 className="flex items-center gap-1 pt-12 pb-8 text-2xl font-semibold text-white sm:text-3xl">
         <span>Ready to get started?</span>
       </h2>
-      <Link href={`/workshops`}>
-        <a className="group flex-shrink-0 rounded-md bg-cyan-300 py-4 pl-5 pr-8 text-lg font-semibold text-gray-900 shadow-xl transition-all focus-visible:ring-white hover:bg-cyan-200">
-          <span className="pr-2.5">
-            Start {process.env.NEXT_PUBLIC_SITE_TITLE}{' '}
-          </span>
-          <span
-            role="presentation"
-            aria-hidden="true"
-            className="absolute text-cyan-800 transition group-hover:translate-x-1"
-          >
-            →
-          </span>
-        </a>
+      <Link
+        href={`/workshops`}
+        className="group flex-shrink-0 rounded-md bg-cyan-300 py-4 pl-5 pr-8 text-lg font-semibold text-gray-900 shadow-xl transition-all focus-visible:ring-white hover:bg-cyan-200"
+      >
+        <span className="pr-2.5">
+          Start {process.env.NEXT_PUBLIC_SITE_TITLE}{' '}
+        </span>
+        <span
+          role="presentation"
+          aria-hidden="true"
+          className="absolute text-cyan-800 transition group-hover:translate-x-1"
+        >
+          →
+        </span>
       </Link>
     </div>
   )
