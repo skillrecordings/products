@@ -453,7 +453,6 @@ importers:
       next: ^13.1.2
       next-auth: ^4.10.3
       next-sitemap: ^3.0.5
-      next-transpile-modules: ^9.0.0
       node-fetch: ^2.6.7
       postcss: ^8.4.14
       prettier-plugin-tailwindcss: ^0.1.13
@@ -536,7 +535,6 @@ importers:
       next: 13.1.2_biqbaboplfbrettd7655fr4n2y
       next-auth: 4.10.3_biqbaboplfbrettd7655fr4n2y
       next-sitemap: 3.1.7_6rw52dn6h5rb5c4lgmx2je4lea
-      next-transpile-modules: 9.0.0
       node-fetch: 2.6.7
       react: 18.2.0
       react-countdown: 2.3.2_biqbaboplfbrettd7655fr4n2y
@@ -1369,7 +1367,6 @@ importers:
       next: ^13.1.2
       next-auth: ^4.10.3
       next-sitemap: ^3.0.5
-      next-transpile-modules: ^9.0.0
       node-fetch: ^2.6.7
       postcss: ^8.4.14
       prettier: ^2.6.2
@@ -1523,7 +1520,6 @@ importers:
       eslint-config-custom: link:../../packages/eslint-config-custom
       lint-staged: 11.2.6
       msw: 0.35.0
-      next-transpile-modules: 9.0.0
       postcss: 8.4.14
       prettier: 2.6.2
       prettier-plugin-tailwindcss: 0.1.13_prettier@2.6.2
@@ -1743,7 +1739,6 @@ importers:
       next-images: ^1.8.4
       next-sitemap: ^3.0.5
       next-themes: ^0.1.1
-      next-transpile-modules: ^9.0.0
       pluralize: ^8.0.0
       postcss: ^8.4.14
       postcss-preset-env: ^7.4.2
@@ -1905,7 +1900,6 @@ importers:
       msw: 0.35.0
       next-compose-plugins: 2.2.1
       next-images: 1.8.4_webpack@5.73.0
-      next-transpile-modules: 9.0.0
       postcss-preset-env: 7.7.2_postcss@8.4.14
       prettier: 2.6.2
       react-test-renderer: 17.0.2_react@18.2.0
@@ -22631,13 +22625,6 @@ packages:
 
   /next-tick/1.0.0:
     resolution: {integrity: sha512-mc/caHeUcdjnC/boPWJefDr4KUIWQNv+tlnFnJd38QMou86QtxQzBJfxgGRzvx8jazYRqrVlaHarfO72uNxPOg==}
-
-  /next-transpile-modules/9.0.0:
-    resolution: {integrity: sha512-VCNFOazIAnXn1hvgYYSTYMnoWgKgwlYh4lm1pKbSfiB3kj5ZYLcKVhfh3jkPOg1cnd9DP+pte9yCUocdPEUBTQ==}
-    deprecated: All features of next-transpile-modules are now natively built-in Next.js 13.1. Please use Next's transpilePackages option :)
-    dependencies:
-      enhanced-resolve: 5.10.0
-      escalade: 3.1.1
 
   /next/12.3.1_biqbaboplfbrettd7655fr4n2y:
     resolution: {integrity: sha512-l7bvmSeIwX5lp07WtIiP9u2ytZMv7jIeB8iacR28PuUEFG5j0HGAPnMqyG5kbZNBG2H7tRsrQ4HCjuMOPnANZw==}

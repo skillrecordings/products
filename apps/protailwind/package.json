@@ -105,7 +105,6 @@
     "next": "^13.1.2",
     "next-auth": "^4.10.3",
     "next-sitemap": "^3.0.5",
-    "next-transpile-modules": "^9.0.0",
     "node-fetch": "^2.6.7",
     "react": "18.2.0",
     "react-countdown": "^2.3.2",
