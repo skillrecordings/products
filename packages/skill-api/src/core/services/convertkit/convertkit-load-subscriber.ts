@@ -8,6 +8,7 @@ import {
 import {prisma} from '@skillrecordings/database'
 import {getToken} from 'next-auth/jwt'
 import {NextApiRequest} from 'next'
+import {inngest} from '@skillrecordings/inngest'
 
 export async function convertkitLoadSubscriber({
   params,
