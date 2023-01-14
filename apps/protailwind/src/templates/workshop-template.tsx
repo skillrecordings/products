@@ -138,24 +138,23 @@ const BuyWorkshop: React.FC<
               module: workshop.slug.current,
             },
           }}
+          className="group relative flex aspect-video h-full w-full items-center justify-center bg-black"
         >
-          <a className="group relative flex aspect-video h-full w-full items-center justify-center bg-black">
-            <Image
-              src={thumbnail}
-              layout="fill"
-              alt=""
-              aria-hidden="true"
-              objectFit="cover"
-              className="opacity-80"
-            />
-            <PlayIcon
-              className="absolute h-10 w-10 text-white transition group-hover:scale-105"
-              aria-hidden="true"
-            />
-            <div className="absolute left-0 bottom-0 flex w-full items-center justify-center bg-gradient-to-t from-black/80 to-transparent pb-3.5 pt-8 text-sm font-medium text-white">
-              Preview this workshop
-            </div>
-          </a>
+          <Image
+            src={thumbnail}
+            layout="fill"
+            alt=""
+            aria-hidden="true"
+            objectFit="cover"
+            className="opacity-80"
+          />
+          <PlayIcon
+            className="absolute h-10 w-10 text-white transition group-hover:scale-105"
+            aria-hidden="true"
+          />
+          <div className="absolute left-0 bottom-0 flex w-full items-center justify-center bg-gradient-to-t from-black/80 to-transparent pb-3.5 pt-8 text-sm font-medium text-white">
+            Preview this workshop
+          </div>
         </Link>
       )}
       <div className="p-7">
@@ -186,10 +185,11 @@ const Header: React.FC<
     <>
       <header className="relative z-10 flex flex-col-reverse items-center justify-between gap-10 pb-16 sm:pb-8 md:flex-row">
         <div className="text-center md:text-left">
-          <Link href="/workshops">
-            <a className="block pb-4 font-mono text-sm font-semibold uppercase tracking-wide text-brand-red">
-              Pro Workshop
-            </a>
+          <Link
+            href="/workshops"
+            className="block pb-4 font-mono text-sm font-semibold uppercase tracking-wide text-brand-red"
+          >
+            Pro Workshop
           </Link>
           <h1 className="font-text font-heading text-3xl font-extrabold sm:text-4xl lg:text-5xl">
             {title}
@@ -219,18 +219,15 @@ const Header: React.FC<
                       lesson: firstExercise?.slug,
                     },
                   }}
+                  className="flex items-center justify-center rounded-full bg-brand-red px-6 py-3 font-semibold text-white shadow-lg transition hover:brightness-110"
+                  onClick={() => {
+                    track('clicked start learning', {module: slug.current})
+                  }}
                 >
-                  <a
-                    className="flex items-center justify-center rounded-full bg-brand-red px-6 py-3 font-semibold text-white shadow-lg transition hover:brightness-110"
-                    onClick={() => {
-                      track('clicked start learning', {module: slug.current})
-                    }}
-                  >
-                    Start Learning{' '}
-                    <span className="pl-2" aria-hidden="true">
-                      →
-                    </span>
-                  </a>
+                  Start Learning{' '}
+                  <span className="pl-2" aria-hidden="true">
+                    →
+                  </span>
                 </Link>
               )}
               {github?.repo && (
@@ -385,45 +382,42 @@ const LessonListItem = ({
           },
         }}
         passHref
+        className="group inline-flex items-center py-2.5 text-base font-medium"
+        onClick={() => {
+          track('clicked workshop exercise', {
+            module: moduleSlug,
+            lesson: lessonResource.slug,
+            section: section.slug,
+            moduleType: section._type,
+            lessonType: lessonResource._type,
+          })
+        }}
       >
-        <a
-          className="group inline-flex items-center py-2.5 text-base font-medium"
-          onClick={() => {
-            track('clicked workshop exercise', {
-              module: moduleSlug,
-              lesson: lessonResource.slug,
-              section: section.slug,
-              moduleType: section._type,
-              lessonType: lessonResource._type,
-            })
-          }}
-        >
-          {purchased || index === 0 ? (
-            <>
-              {isExerciseCompleted ? (
-                <CheckIcon
-                  className="mr-2 h-5 w-5 text-emerald-500"
-                  aria-hidden="true"
-                />
-              ) : (
-                <span
-                  className="w-7 font-mono text-xs text-gray-400"
-                  aria-hidden="true"
-                >
-                  {index + 1}
-                </span>
-              )}
-            </>
-          ) : (
-            <LockClosedIcon
-              className="mr-3 h-4 w-4 text-gray-400"
-              aria-hidden="true"
-            />
-          )}
-          <span className="w-full cursor-pointer leading-tight group-hover:underline">
-            {lessonResource.title}
-          </span>
-        </a>
+        {purchased || index === 0 ? (
+          <>
+            {isExerciseCompleted ? (
+              <CheckIcon
+                className="mr-2 h-5 w-5 text-emerald-500"
+                aria-hidden="true"
+              />
+            ) : (
+              <span
+                className="w-7 font-mono text-xs text-gray-400"
+                aria-hidden="true"
+              >
+                {index + 1}
+              </span>
+            )}
+          </>
+        ) : (
+          <LockClosedIcon
+            className="mr-3 h-4 w-4 text-gray-400"
+            aria-hidden="true"
+          />
+        )}
+        <span className="w-full cursor-pointer leading-tight group-hover:underline">
+          {lessonResource.title}
+        </span>
       </Link>
     </li>
   )

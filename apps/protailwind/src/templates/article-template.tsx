@@ -79,10 +79,11 @@ const RelatedResources: React.FC<{
           {resources.map(({title, subtitle, slug}) => {
             return (
               <div key={title}>
-                <Link href={`/${slug}`}>
-                  <a className="font-heading text-2xl font-black transition hover:underline lg:text-3xl">
-                    {title}
-                  </a>
+                <Link
+                  href={`/${slug}`}
+                  className="font-heading text-2xl font-black transition hover:underline lg:text-3xl"
+                >
+                  {title}
                 </Link>
                 {subtitle && (
                   <p className="max-w-sm pt-2 text-lg text-brand-red lg:text-xl">

@@ -126,11 +126,9 @@ const TipCard: React.FC<{tip: Tip}> = ({tip}) => {
                 tip: tip.slug,
               },
             }}
+            className="inline-flex items-start gap-1 hover:underline"
           >
-            <a className="inline-flex items-start gap-1 hover:underline">
-              {title}{' '}
-              {tipCompleted && <span className="sr-only">(watched)</span>}
-            </a>
+            {title} {tipCompleted && <span className="sr-only">(watched)</span>}
           </Link>
         </h2>
       </div>
@@ -211,10 +209,9 @@ export const TipTeaser: React.FC<{tip: Tip}> = ({tip}) => {
               tip: tip.slug,
             },
           }}
+          className="inline-flex items-start gap-1 hover:underline"
         >
-          <a className="inline-flex items-start gap-1 hover:underline">
-            {title} {tipCompleted && <span className="sr-only">(watched)</span>}
-          </a>
+          {title} {tipCompleted && <span className="sr-only">(watched)</span>}
         </Link>
       </h2>
     </article>

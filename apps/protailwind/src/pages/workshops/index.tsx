@@ -91,10 +91,9 @@ const WorkshopsPage: React.FC<{workshops: SanityDocument[]}> = ({
                             module: slug.current,
                           },
                         }}
+                        className="font-heading text-3xl font-black hover:underline sm:text-4xl"
                       >
-                        <a className="font-heading text-3xl font-black hover:underline sm:text-4xl">
-                          {title}
-                        </a>
+                        {title}
                       </Link>
 
                       {description && <p className="mt-2">{description}</p>}
@@ -105,16 +104,15 @@ const WorkshopsPage: React.FC<{workshops: SanityDocument[]}> = ({
                             module: slug.current,
                           },
                         }}
+                        className="group my-4 inline-block gap-2 rounded-full bg-brand-red px-4 py-2 font-medium text-white transition"
                       >
-                        <a className="group my-4 inline-block gap-2 rounded-full bg-brand-red px-4 py-2 font-medium text-white transition">
-                          View{' '}
-                          <span
-                            aria-hidden="true"
-                            className="text-white/90 transition group-hover:text-white"
-                          >
-                            →
-                          </span>
-                        </a>
+                        View{' '}
+                        <span
+                          aria-hidden="true"
+                          className="text-white/90 transition group-hover:text-white"
+                        >
+                          →
+                        </span>
                       </Link>
                     </div>
                   </li>

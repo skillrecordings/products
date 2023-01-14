@@ -46,17 +46,16 @@ const ModuleLessonListHeader: React.FC<SidebarProps> = ({
                   />
                 )}
                 <div className="relative z-10 -translate-y-0.5">
-                  <Link href={`/${module.moduleType}s`}>
-                    <a
-                      className="font-mono text-xs font-semibold uppercase text-gray-500 hover:underline"
-                      onClick={() => {
-                        track(`clicked return to ${module.moduleType}s`, {
-                          module: module.slug.current,
-                        })
-                      }}
-                    >
-                      {module.moduleType}s
-                    </a>
+                  <Link
+                    href={`/${module.moduleType}s`}
+                    className="font-mono text-xs font-semibold uppercase text-gray-500 hover:underline"
+                    onClick={() => {
+                      track(`clicked return to ${module.moduleType}s`, {
+                        module: module.slug.current,
+                      })
+                    }}
+                  >
+                    {module.moduleType}s
                   </Link>
                   <span className="pl-1 text-xs text-gray-300">/</span>
                   <h2 className="w-full font-heading text-xl font-extrabold leading-none">
@@ -66,17 +65,14 @@ const ModuleLessonListHeader: React.FC<SidebarProps> = ({
                         query: {module: module.slug.current},
                       }}
                       passHref
+                      className="hover:underline"
+                      onClick={() => {
+                        track('clicked return to module', {
+                          module: module.slug.current,
+                        })
+                      }}
                     >
-                      <a
-                        className="hover:underline"
-                        onClick={() => {
-                          track('clicked return to module', {
-                            module: module.slug.current,
-                          })
-                        }}
-                      >
-                        {module.title}
-                      </a>
+                      {module.title}
                     </Link>
                   </h2>
                 </div>

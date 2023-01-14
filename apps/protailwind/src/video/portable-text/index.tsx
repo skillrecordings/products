@@ -100,7 +100,7 @@ const InternalLink: React.FC<InternalLinkProps> = ({value, children}) => {
         },
       }}
     >
-      <a>{children}</a>
+      {children}
     </Link>
   )
 }

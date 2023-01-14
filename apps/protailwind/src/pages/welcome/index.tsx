@@ -211,10 +211,11 @@ const Header: React.FC<
             {purchase.product.name}
           </h1>
           {personalPurchase && (
-            <Link href={`/workshops/${workshop?.slug.current}`}>
-              <a className="mt-8 rounded-full bg-brand-red px-8 py-3 font-heading text-lg font-bold text-white shadow-xl shadow-black/10 transition hover:brightness-110">
-                Start Learning
-              </a>
+            <Link
+              href={`/workshops/${workshop?.slug.current}`}
+              className="mt-8 rounded-full bg-brand-red px-8 py-3 font-heading text-lg font-bold text-white shadow-xl shadow-black/10 transition hover:brightness-110"
+            >
+              Start Learning
             </Link>
           )}
         </div>

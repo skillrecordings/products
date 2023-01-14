@@ -51,12 +51,10 @@ export const LessonDescription = () => {
           <p className="prose max-w-none text-gray-800 prose-a:text-brand-red">
             This {lesson._type} is part of{' '}
             <Link href={`/workshops/${module.slug.current}`}>
-              <a>{module.title} Workshop</a>
+              {module.title}Workshop
             </Link>{' '}
             and can be unlocked immediately after purchase. Already purchased?{' '}
-            <Link href="/login">
-              <a>Log in here.</a>
-            </Link>
+            <Link href="/login">Log in here.</Link>
           </p>
         </div>
       )}
