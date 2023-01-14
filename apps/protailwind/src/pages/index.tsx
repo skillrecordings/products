@@ -1,7 +1,7 @@
 import React from 'react'
 import type {NextPage} from 'next'
 import {useRouter} from 'next/router'
-import Image from 'next/image'
+import Image from 'next/legacy/image'
 import Layout from 'components/layout'
 import toast from 'react-hot-toast'
 import Simon from '../../public/assets/simon-vrachliotis.png'

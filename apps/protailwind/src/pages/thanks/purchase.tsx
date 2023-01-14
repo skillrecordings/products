@@ -15,7 +15,7 @@ import {
 } from '@skillrecordings/types'
 import {getSdk, Purchase} from '@skillrecordings/database'
 import CopyInviteLink from 'team/copy-invite-link'
-import Image from 'next/image'
+import Image from 'next/legacy/image'
 import Balancer from 'react-wrap-balancer'
 import {PawTrail} from './redeem'
 import {first} from 'lodash'

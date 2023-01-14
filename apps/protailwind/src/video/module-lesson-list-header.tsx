@@ -2,7 +2,7 @@ import React from 'react'
 import {type SanityDocument} from '@sanity/client'
 import Link from 'next/link'
 import cx from 'classnames'
-import Image from 'next/image'
+import Image from 'next/legacy/image'
 
 import {track} from '@skillrecordings/skill-lesson/utils/analytics'
 

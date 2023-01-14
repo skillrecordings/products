@@ -16,7 +16,7 @@ import {InvoiceCard} from 'pages/invoices'
 import MuxPlayer from '@mux/mux-player-react'
 import {getAllWorkshops} from 'lib/workshops'
 import {SanityDocument} from '@sanity/client'
-import Image from 'next/image'
+import Image from 'next/legacy/image'
 
 export const getServerSideProps: GetServerSideProps = async ({req, query}) => {
   const {purchaseId: purchaseQueryParam, session_id, upgrade} = query

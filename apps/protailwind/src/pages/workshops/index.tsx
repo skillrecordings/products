@@ -2,7 +2,7 @@ import React from 'react'
 import Layout from 'components/layout'
 import {SanityDocument} from '@sanity/client'
 import Link from 'next/link'
-import Image from 'next/image'
+import Image from 'next/legacy/image'
 import {getAllWorkshops} from '../../lib/workshops'
 
 export async function getStaticProps() {
