@@ -57,7 +57,7 @@ function Header({ navigation }) {
         <MobileNavigation navigation={navigation} />
       </div>
       <div className="relative flex flex-grow basis-0 items-center">
-        <Link href="/" aria-label="Home page">
+        <Link href="/" aria-label="Home page" legacyBehavior>
           <Logomark className="h-9 w-9 lg:hidden" />
           <Logo className="hidden h-9 w-auto fill-slate-700 dark:fill-sky-100 lg:block" />
         </Link>
@@ -71,6 +71,7 @@ function Header({ navigation }) {
           href="https://github.com/skillrecordings/products"
           className="group"
           aria-label="GitHub"
+          legacyBehavior
         >
           <GitHubIcon className="h-6 w-6 fill-slate-400 group-hover:fill-slate-500 dark:group-hover:fill-slate-300" />
         </Link>
@@ -190,6 +191,7 @@ export function Layout({ children, title, tableOfContents }) {
                   <Link
                     href={previousPage.href}
                     className="text-base font-semibold text-slate-500 hover:text-slate-600 dark:text-slate-400 dark:hover:text-slate-300"
+                    legacyBehavior
                   >
                     <span aria-hidden="true">&larr;</span> {previousPage.title}
                   </Link>
@@ -205,6 +207,7 @@ export function Layout({ children, title, tableOfContents }) {
                   <Link
                     href={nextPage.href}
                     className="text-base font-semibold text-slate-500 hover:text-slate-600 dark:text-slate-400 dark:hover:text-slate-300"
+                    legacyBehavior
                   >
                     {nextPage.title} <span aria-hidden="true">&rarr;</span>
                   </Link>
@@ -234,6 +237,7 @@ export function Layout({ children, title, tableOfContents }) {
                               ? 'text-sky-500'
                               : 'font-normal text-slate-500 hover:text-slate-700 dark:text-slate-400 dark:hover:text-slate-300'
                           )}
+                          legacyBehavior
                         >
                           {section.title}
                         </Link>
@@ -252,6 +256,7 @@ export function Layout({ children, title, tableOfContents }) {
                                     ? 'text-sky-500'
                                     : 'hover:text-slate-600 dark:hover:text-slate-300'
                                 }
+                                legacyBehavior
                               >
                                 {subSection.title}
                               </Link>

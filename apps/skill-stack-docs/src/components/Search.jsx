@@ -11,7 +11,11 @@ const docSearchConfig = {
 }
 
 function Hit({ hit, children }) {
-  return <Link href={hit.url}>{children}</Link>
+  return (
+    <Link href={hit.url} legacyBehavior>
+      {children}
+    </Link>
+  )
 }
 
 function SearchIcon(props) {
