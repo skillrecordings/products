@@ -27,7 +27,6 @@ export function Navigation({ navigation, className }) {
                         ? 'font-semibold text-sky-500 before:bg-sky-500'
                         : 'text-slate-500 before:hidden before:bg-slate-300 hover:text-slate-600 hover:before:block dark:text-slate-400 dark:before:bg-slate-700 dark:hover:text-slate-300'
                     )}
-                    legacyBehavior
                   >
                     {link.title}
                   </Link>

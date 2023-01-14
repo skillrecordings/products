@@ -1,5 +1,5 @@
 import { Fragment } from 'react'
-import Image from 'next/legacy/image'
+import Image from 'next/image'
 import clsx from 'clsx'
 import Highlight, { defaultProps } from 'prism-react-renderer'
 
