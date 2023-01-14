@@ -6,7 +6,7 @@ import {GetStaticProps} from 'next'
 import {format} from 'date-fns'
 import {SanityDocument} from '@sanity/client'
 import {getAllArticles} from '../lib/articles'
-import Image from 'next/image'
+import Image from 'next/legacy/image'
 import Stars from '../../public/assets/stars-1@2x.png'
 import {Author} from 'templates/article-template'
 

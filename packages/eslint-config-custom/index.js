@@ -9,6 +9,7 @@ module.exports = {
     'react/jsx-key': 'off',
     'react/react-in-jsx-scope': 'off',
     'react/display-name': 'off',
+    'react/no-unescaped-entities': 'off',
   },
   parserOptions: {
     babelOptions: {

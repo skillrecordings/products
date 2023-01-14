@@ -4,7 +4,7 @@ import {Menu, Transition} from '@headlessui/react'
 import {useRouter} from 'next/router'
 import Link from 'next/link'
 import cx from 'classnames'
-import Image from 'next/image'
+import Image from 'next/legacy/image'
 import SkullLogo from '../../public/assets/skull@2x.png'
 
 const Navigation = () => {
