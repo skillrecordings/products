@@ -4,7 +4,7 @@ import {GetStaticProps} from 'next'
 import {useRouter} from 'next/router'
 import {getAllArticles, type Article} from 'lib/articles'
 import Link from 'next/link'
-import Image from 'next/image'
+import Image from 'next/legacy/image'
 import {track} from 'utils/analytics'
 
 export const getStaticProps: GetStaticProps = async (context) => {
