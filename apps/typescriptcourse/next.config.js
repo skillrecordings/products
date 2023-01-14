@@ -13,12 +13,8 @@ const IMAGE_HOST_DOMAINS = [
   `typescriptcourse.com`,
 ]
 
-const withTM = require('next-transpile-modules')([
-  'three',
-  '@skillrecordings/skill-lesson',
-])
-
 const nextConfig = {
+  transpilePackages: ['three', '@skillrecordings/skill-lesson'],
   pageExtensions: ['js', 'jsx', 'ts', 'tsx', 'md', 'mdx'],
   eslint: {
     ignoreDuringBuilds: true, // 😭
@@ -32,4 +28,4 @@ const nextConfig = {
   },
 }
 
-module.exports = withTM(withMDX(nextConfig))
+module.exports = withMDX(nextConfig)

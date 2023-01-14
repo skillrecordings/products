@@ -17,6 +17,7 @@ const Editor: React.FC<any> = ({activeFile, isPreview}) => {
   const parseTailwindConfigFromCdn = (config: string) => {
     const trueConfig = config.replace('tailwind.config', 'module.exports')
     // need to define a module because of eval below
+    // eslint-disable-next-line @next/next/no-assign-module-variable
     const module = {
       exports: {},
     }

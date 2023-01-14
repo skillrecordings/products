@@ -16,7 +16,7 @@ import {InvoiceCard} from 'pages/invoices'
 import MuxPlayer from '@mux/mux-player-react'
 import {getAllWorkshops} from 'lib/workshops'
 import {SanityDocument} from '@sanity/client'
-import Image from 'next/image'
+import Image from 'next/legacy/image'
 
 export const getServerSideProps: GetServerSideProps = async ({req, query}) => {
   const {purchaseId: purchaseQueryParam, session_id, upgrade} = query
@@ -211,10 +211,11 @@ const Header: React.FC<
             {purchase.product.name}
           </h1>
           {personalPurchase && (
-            <Link href={`/workshops/${workshop?.slug.current}`}>
-              <a className="mt-8 rounded-full bg-brand-red px-8 py-3 font-heading text-lg font-bold text-white shadow-xl shadow-black/10 transition hover:brightness-110">
-                Start Learning
-              </a>
+            <Link
+              href={`/workshops/${workshop?.slug.current}`}
+              className="mt-8 rounded-full bg-brand-red px-8 py-3 font-heading text-lg font-bold text-white shadow-xl shadow-black/10 transition hover:brightness-110"
+            >
+              Start Learning
             </Link>
           )}
         </div>

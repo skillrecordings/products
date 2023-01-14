@@ -65,20 +65,22 @@ const TableOfContents: React.FC<{article: Article}> = ({article}) => {
           const {subheadings} = heading
           return (
             <li key={heading._key} className="sm:text-xl text-lg">
-              <Link href={'#' + heading.slug}>
-                <a className="hover:underline inline-flex sm:py-2 py-1 font-medium">
-                  {getChildrenText(heading)}
-                </a>
+              <Link
+                href={'#' + heading.slug}
+                className="hover:underline inline-flex sm:py-2 py-1 font-medium"
+              >
+                {getChildrenText(heading)}
               </Link>
               {subheadings.length > 0 && (
                 <ol className="py-2">
                   {subheadings.map((subheading: any) => {
                     return (
                       <li key={subheading._key}>
-                        <Link href={'#' + subheading.slug}>
-                          <a className="pl-6 inline-flex border-l border-gray-700 hover:underline sm:py-2 py-1 font-normal opacity-90">
-                            {getChildrenText(subheading)}
-                          </a>
+                        <Link
+                          href={'#' + subheading.slug}
+                          className="pl-6 inline-flex border-l border-gray-700 hover:underline sm:py-2 py-1 font-normal opacity-90"
+                        >
+                          {getChildrenText(subheading)}
                         </Link>
                       </li>
                     )

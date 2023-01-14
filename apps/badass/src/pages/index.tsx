@@ -1,6 +1,6 @@
 import * as React from 'react'
 import Link from 'next/link'
-import Image from 'next/image'
+import Image from 'next/legacy/image'
 import Layout from 'components/layout'
 import {
   projects,
@@ -150,14 +150,14 @@ const ProjectsSection: React.FC<React.PropsWithChildren<any>> = ({content}) => {
               <div className="flex items-center gap-3 sm:p-10 p-10 sm:justify-start justify-center">
                 <div className="flex-shrink-0">{image}</div>
                 <h3>
-                  <Link href={`https://${title}`} passHref>
-                    <a
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="font-sans font-semibold sm:text-2xl text-xl block hover:underline"
-                    >
-                      {title}
-                    </a>
+                  <Link
+                    href={`https://${title}`}
+                    passHref
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="font-sans font-semibold sm:text-2xl text-xl block hover:underline"
+                  >
+                    {title}
                   </Link>
                 </h3>
               </div>

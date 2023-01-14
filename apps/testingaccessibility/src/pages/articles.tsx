@@ -38,12 +38,14 @@ const Articles: React.FC<React.PropsWithChildren<ArticlesProps>> = ({
                     <div key={slug} className="gap-5">
                       <div className="flex w-full sm:justify-between justify-left">
                         <div>
-                          <Link href={`/${slug}`} passHref>
-                            <a className="group block">
-                              <h2 className="text-green-600 group-hover:underline sm:text-3xl font-heading text-2xl font-bold">
-                                {title}
-                              </h2>
-                            </a>
+                          <Link
+                            href={`/${slug}`}
+                            passHref
+                            className="group block"
+                          >
+                            <h2 className="text-green-600 group-hover:underline sm:text-3xl font-heading text-2xl font-bold">
+                              {title}
+                            </h2>
                           </Link>
                           <time
                             dateTime={date}
@@ -59,16 +61,16 @@ const Articles: React.FC<React.PropsWithChildren<ArticlesProps>> = ({
                         </div>
                       </div>
                       {slug && (
-                        <Link href={`/${slug}`} passHref>
-                          <a
-                            className="font-nav px-3 py-2 pt-1.5 rounded-md hover:bg-moss-200/50 transition bg-moss-100 text-green-600 font-semibold inline-flex"
-                            aria-label={`Read ${title}`}
-                          >
-                            Read
-                            <i aria-hidden className="pl-2">
-                              →
-                            </i>
-                          </a>
+                        <Link
+                          href={`/${slug}`}
+                          passHref
+                          className="font-nav px-3 py-2 pt-1.5 rounded-md hover:bg-moss-200/50 transition bg-moss-100 text-green-600 font-semibold inline-flex"
+                          aria-label={`Read ${title}`}
+                        >
+                          Read
+                          <i aria-hidden className="pl-2">
+                            →
+                          </i>
                         </Link>
                       )}
                     </div>

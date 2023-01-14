@@ -7,7 +7,7 @@ import {
   PortableTextMarkComponentProps,
 } from '@portabletext/react'
 import isEmpty from 'lodash/isEmpty'
-import Image from 'next/image'
+import Image from 'next/legacy/image'
 import {TwitterTweetEmbed} from 'react-twitter-embed'
 import cx from 'classnames'
 import speakingurl from 'speakingurl'

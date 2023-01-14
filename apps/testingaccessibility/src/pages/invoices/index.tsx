@@ -70,11 +70,12 @@ const Learn: React.FC<React.PropsWithChildren<{purchases: Purchase[]}>> = ({
                         </div>
                       </div>
                     </div>
-                    <Link href={`/invoices/${purchase.merchantChargeId}`}>
-                      <a className="sm:mt-0 mt-5 flex-shrink-0 text-green-600 font-medium flex items-center sm:justify-center justify-end rounded-md px-3 py-2 hover:bg-moss-50 hover:bg-opacity-60 transition text-sm">
-                        <span className="pr-0.5">View Invoice</span>
-                        <ChevronRightIcon aria-hidden="true" className="w-5" />
-                      </a>
+                    <Link
+                      href={`/invoices/${purchase.merchantChargeId}`}
+                      className="sm:mt-0 mt-5 flex-shrink-0 text-green-600 font-medium flex items-center sm:justify-center justify-end rounded-md px-3 py-2 hover:bg-moss-50 hover:bg-opacity-60 transition text-sm"
+                    >
+                      <span className="pr-0.5">View Invoice</span>
+                      <ChevronRightIcon aria-hidden="true" className="w-5" />
                     </Link>
                   </div>
                 </li>

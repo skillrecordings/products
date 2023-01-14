@@ -14,7 +14,7 @@ import BreadcrumbNav from 'components/breadcrumb'
 import Layout from 'components/app/layout'
 import pluralize from 'pluralize'
 import find from 'lodash/find'
-import Image from 'next/image'
+import Image from 'next/legacy/image'
 import Link from 'next/link'
 import cx from 'classnames'
 import {LessonProgress} from '@skillrecordings/database'
@@ -213,20 +213,19 @@ const Sections: React.FC<React.PropsWithChildren<SectionsProps>> = ({
                     },
                   }}
                   passHref
+                  className="hover:underline text-3xl font-bold font-heading inline-block leading-tight"
                 >
-                  <a className="hover:underline text-3xl font-bold font-heading inline-block leading-tight">
-                    <h2>
-                      {section.title}{' '}
-                      {isCompleted && (
-                        <span className="sr-only">(completed)</span>
-                      )}{' '}
-                      {i === 0 && module.sections.length > 1 && (
-                        <span className="font-display font-medium text-xl">
-                          (start here)
-                        </span>
-                      )}
-                    </h2>
-                  </a>
+                  <h2>
+                    {section.title}{' '}
+                    {isCompleted && (
+                      <span className="sr-only">(completed)</span>
+                    )}{' '}
+                    {i === 0 && module.sections.length > 1 && (
+                      <span className="font-display font-medium text-xl">
+                        (start here)
+                      </span>
+                    )}
+                  </h2>
                 </Link>
               </div>
               {section.lessons && section.body && (
@@ -265,27 +264,24 @@ const Sections: React.FC<React.PropsWithChildren<SectionsProps>> = ({
                                 },
                               }}
                               passHref
+                              aria-label={`${lesson.title} ${
+                                isCompleted ? '(completed)' : ''
+                              }`}
+                              data-index={isCompleted ? '✓' : i + 1}
+                              className={cx(
+                                `group pl-4 group-hover:bg-gray-50 text-gray-800 hover:text-gray-900 w-full font-semibold py-4 transition relative items-center inline-flex before:font-semibold before:flex before:items-center before:justify-center before:font-mono before:content-[attr(data-index)] before:w-5 before:h-5 before:left-0 before:rounded-full before:flex-shrink-0`,
+                                {
+                                  'before:text-[0.55em] before:text-gray-500 before:border before:border-gray-300':
+                                    !isCompleted,
+                                  'before:text-sm before:text-white  before:bg-green-500':
+                                    isCompleted,
+                                },
+                              )}
                             >
-                              <a
-                                aria-label={`${lesson.title} ${
-                                  isCompleted ? '(completed)' : ''
-                                }`}
-                                data-index={isCompleted ? '✓' : i + 1}
-                                className={cx(
-                                  `group pl-4 group-hover:bg-gray-50 text-gray-800 hover:text-gray-900 w-full font-semibold py-4 transition relative items-center inline-flex before:font-semibold before:flex before:items-center before:justify-center before:font-mono before:content-[attr(data-index)] before:w-5 before:h-5 before:left-0 before:rounded-full before:flex-shrink-0`,
-                                  {
-                                    'before:text-[0.55em] before:text-gray-500 before:border before:border-gray-300':
-                                      !isCompleted,
-                                    'before:text-sm before:text-white  before:bg-green-500':
-                                      isCompleted,
-                                  },
-                                )}
-                              >
-                                <span className="pl-3">{lesson.title} </span>
-                                {isCompleted && (
-                                  <span className="sr-only">(completed)</span>
-                                )}
-                              </a>
+                              <span className="pl-3">{lesson.title} </span>
+                              {isCompleted && (
+                                <span className="sr-only">(completed)</span>
+                              )}
                             </Link>
                           </li>
                         )

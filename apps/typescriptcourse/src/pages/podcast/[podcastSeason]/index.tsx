@@ -1,6 +1,6 @@
 import * as React from 'react'
 import {GetStaticPaths, GetStaticProps} from 'next'
-import Image from 'next/image'
+import Image from 'next/legacy/image'
 import {
   getAllPodcastSeasons,
   getPodcastSeason,
@@ -81,36 +81,35 @@ const EpisodeIndexLayout: React.FC<{season: PodcastSeason}> = ({season}) => {
             <Link
               key={episode.slug}
               href={`/podcast/${season.slug}/${episode.slug}`}
+              className="group focus:outline-none"
             >
-              <a className="group focus:outline-none">
-                <div className="flex max-w-screen-xl sm:gap-6 gap-4 mx-auto grid-cols-6 center mb-10">
-                  <div className="relative flex-none col-span-1">
-                    <div className="absolute inset-0 flex items-center justify-center transition transform scale-0 opacity-0 group-hover:scale-100 group-hover:opacity-100 group-focus:opacity-100">
-                      <div className="flex-none p-4 text-gray-800 bg-white rounded-full bg-opacity-80">
-                        <TriangleIcon />
-                      </div>
-                    </div>
-                    <div className="flex items-center justify-center sm:w-auto w-24">
-                      <Image
-                        className="rounded-lg"
-                        src={episode.coverArtUrl}
-                        alt={episode.title}
-                        width={180}
-                        height={180}
-                        quality="100%"
-                      />
+              <div className="flex max-w-screen-xl sm:gap-6 gap-4 mx-auto grid-cols-6 center mb-10">
+                <div className="relative flex-none col-span-1">
+                  <div className="absolute inset-0 flex items-center justify-center transition transform scale-0 opacity-0 group-hover:scale-100 group-hover:opacity-100 group-focus:opacity-100">
+                    <div className="flex-none p-4 text-gray-800 bg-white rounded-full bg-opacity-80">
+                      <TriangleIcon />
                     </div>
                   </div>
-                  <div className="flex flex-col items-center justify-center">
-                    <h3 className="font-bold lg:mb-0 sm:text-xl lg:text-2xl text-lg group-hover:underline">
-                      {episode.title}
-                    </h3>
-                    <p className="pt-3 opacity-80 sm:text-base text-sm">
-                      {episode.description}
-                    </p>
+                  <div className="flex items-center justify-center sm:w-auto w-24">
+                    <Image
+                      className="rounded-lg"
+                      src={episode.coverArtUrl}
+                      alt={episode.title}
+                      width={180}
+                      height={180}
+                      quality={90}
+                    />
                   </div>
                 </div>
-              </a>
+                <div className="flex flex-col items-center justify-center">
+                  <h3 className="font-bold lg:mb-0 sm:text-xl lg:text-2xl text-lg group-hover:underline">
+                    {episode.title}
+                  </h3>
+                  <p className="pt-3 opacity-80 sm:text-base text-sm">
+                    {episode.description}
+                  </p>
+                </div>
+              </div>
             </Link>
           ))}
         </div>

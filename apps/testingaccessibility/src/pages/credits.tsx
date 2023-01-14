@@ -1,6 +1,6 @@
 import Layout from 'components/app/layout'
 import drop from 'lodash/drop'
-import Image from 'next/image'
+import Image from 'next/legacy/image'
 import ReactMarkdown from 'react-markdown'
 import {TwitterIcon} from './welcome'
 import {

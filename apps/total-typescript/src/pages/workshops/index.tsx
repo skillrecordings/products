@@ -2,7 +2,7 @@ import React from 'react'
 import Layout from 'components/app/layout'
 import {SanityDocument} from '@sanity/client'
 import Link from 'next/link'
-import Image from 'next/image'
+import Image from 'next/legacy/image'
 import {getAllWorkshops} from 'lib/workshops'
 import {track} from '@skillrecordings/skill-lesson/utils/analytics'
 
@@ -65,11 +65,9 @@ const WorkshopsPage: React.FC<{modules: SanityDocument[]}> = ({modules}) => {
                             },
                           }}
                         >
-                          <a>
-                            <h2 className="text-3xl font-semibold hover:underline sm:text-4xl">
-                              {title}
-                            </h2>
-                          </a>
+                          <h2 className="text-3xl font-semibold hover:underline sm:text-4xl">
+                            {title}
+                          </h2>
                         </Link>
                       )}
                       <div className="pt-4 pb-3 font-mono text-xs font-semibold uppercase text-cyan-300">
@@ -112,23 +110,20 @@ const WorkshopsPage: React.FC<{modules: SanityDocument[]}> = ({modules}) => {
                               module: slug.current,
                             },
                           }}
+                          className="group mt-5 inline-block gap-2 rounded bg-gray-800 py-2 pl-4 pr-6 font-medium transition hover:bg-gray-700"
+                          onClick={() => {
+                            track('clicked view workshop module', {
+                              module: slug.current,
+                            })
+                          }}
                         >
-                          <a
-                            className="group mt-5 inline-block gap-2 rounded bg-gray-800 py-2 pl-4 pr-6 font-medium transition hover:bg-gray-700"
-                            onClick={() => {
-                              track('clicked view workshop module', {
-                                module: slug.current,
-                              })
-                            }}
+                          <span className="pr-2">View</span>
+                          <span
+                            aria-hidden="true"
+                            className="absolute text-gray-300 transition group-hover:translate-x-1 group-hover:text-white"
                           >
-                            <span className="pr-2">View</span>
-                            <span
-                              aria-hidden="true"
-                              className="absolute text-gray-300 transition group-hover:translate-x-1 group-hover:text-white"
-                            >
-                              →
-                            </span>
-                          </a>
+                            →
+                          </span>
                         </Link>
                       )}
                     </div>

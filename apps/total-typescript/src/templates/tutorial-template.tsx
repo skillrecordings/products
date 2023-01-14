@@ -1,6 +1,6 @@
 import React from 'react'
 import Layout from 'components/app/layout'
-import Image from 'next/image'
+import Image from 'next/legacy/image'
 import Link from 'next/link'
 import {CourseJsonLd} from '@skillrecordings/next-seo'
 import {PortableText} from '@portabletext/react'
@@ -65,10 +65,11 @@ const Header: React.FC<{tutorial: SanityDocument}> = ({tutorial}) => {
     <>
       <header className="relative z-10 flex flex-col-reverse items-center justify-between pt-0 pb-16 sm:pt-8 sm:pb-8 md:flex-row">
         <div className="pt-5 text-center sm:pt-0 md:text-left">
-          <Link href="/tutorials">
-            <a className="pb-1 font-mono text-sm font-semibold uppercase tracking-wide text-cyan-300">
-              Tutorial
-            </a>
+          <Link
+            href="/tutorials"
+            className="pb-1 font-mono text-sm font-semibold uppercase tracking-wide text-cyan-300"
+          >
+            Tutorial
           </Link>
           <h1 className="font-text text-5xl font-bold lg:text-6xl">{title}</h1>
           <div className="pt-8 text-lg">
@@ -95,18 +96,15 @@ const Header: React.FC<{tutorial: SanityDocument}> = ({tutorial}) => {
                       lesson: lessons[0].slug,
                     },
                   }}
+                  className="flex items-center justify-center rounded bg-cyan-400 px-6 py-3 font-semibold text-black transition hover:bg-cyan-300"
+                  onClick={() => {
+                    track('clicked github code link', {module: slug.current})
+                  }}
                 >
-                  <a
-                    className="flex items-center justify-center rounded bg-cyan-400 px-6 py-3 font-semibold text-black transition hover:bg-cyan-300"
-                    onClick={() => {
-                      track('clicked github code link', {module: slug.current})
-                    }}
-                  >
-                    Start Learning{' '}
-                    <span className="pl-2" aria-hidden="true">
-                      →
-                    </span>
-                  </a>
+                  Start Learning{' '}
+                  <span className="pl-2" aria-hidden="true">
+                    →
+                  </span>
                 </Link>
               )}
               {github?.repo && (
@@ -175,28 +173,25 @@ const TutorialExerciseNavigator: React.FC<{tutorial: SanityDocument}> = ({
                     },
                   }}
                   passHref
+                  className="group inline-flex items-center py-2.5 text-lg font-semibold"
+                  onClick={() => {
+                    track('clicked tutorial exercise', {
+                      module: slug.current,
+                      lesson: exercise.slug,
+                      moduleType: _type,
+                      lessonType: exercise._type,
+                    })
+                  }}
                 >
-                  <a
-                    className="group inline-flex items-center py-2.5 text-lg font-semibold"
-                    onClick={() => {
-                      track('clicked tutorial exercise', {
-                        module: slug.current,
-                        lesson: exercise.slug,
-                        moduleType: _type,
-                        lessonType: exercise._type,
-                      })
-                    }}
+                  <span
+                    className="w-8 font-mono text-xs text-gray-400"
+                    aria-hidden="true"
                   >
-                    <span
-                      className="w-8 font-mono text-xs text-gray-400"
-                      aria-hidden="true"
-                    >
-                      {i + 1}
-                    </span>
-                    <span className="w-full leading-tight group-hover:underline">
-                      {exercise.title}
-                    </span>
-                  </a>
+                    {i + 1}
+                  </span>
+                  <span className="w-full leading-tight group-hover:underline">
+                    {exercise.title}
+                  </span>
                 </Link>
               </li>
             )

@@ -1,7 +1,7 @@
 import * as React from 'react'
 import {CaseStudyTemplateProps} from '@types'
 import Layout from 'components/app/layout'
-import Image from 'next/image'
+import Image from 'next/legacy/image'
 import {Twitter, Facebook, Reddit, LinkedIn} from 'components/share'
 import {useRouter} from 'next/router'
 import config from 'config'

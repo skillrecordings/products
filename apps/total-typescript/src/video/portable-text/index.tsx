@@ -8,7 +8,7 @@ import {
   PortableTextMarkComponentProps,
 } from '@portabletext/react'
 import speakingurl from 'speakingurl'
-import Image from 'next/image'
+import Image from 'next/legacy/image'
 import cx from 'classnames'
 
 import Refractor from 'react-refractor'
@@ -40,8 +40,8 @@ const BodyImage = ({value}: BodyImageProps) => {
           }}
           src={src}
           alt={alt}
-          width={width}
-          height={height}
+          width={Number(width)}
+          height={Number(height)}
           quality={100}
           className="rounded-md"
         />

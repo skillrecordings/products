@@ -2,7 +2,7 @@ import Layout from 'components/app/layout'
 import {ArticleJsonLd} from '@skillrecordings/next-seo'
 import {Article} from 'lib/articles'
 import {PortableText, toPlainText} from '@portabletext/react'
-import Image from 'next/image'
+import Image from 'next/legacy/image'
 import Share from 'components/share'
 import {useConvertkit} from '@skillrecordings/skill-lesson/hooks/use-convertkit'
 import {
