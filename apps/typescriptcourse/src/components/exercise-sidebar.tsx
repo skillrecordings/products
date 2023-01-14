@@ -36,17 +36,16 @@ const ExerciseSidebar: React.FC<SidebarProps> = ({path = '', className}) => {
                   />
                 )}
                 <div className="relative z-10 -translate-y-0.5">
-                  <Link href={`/tutorials`}>
-                    <a
-                      className="font-mono text-xs font-semibold uppercase text-gray-600 hover:underline"
-                      onClick={() => {
-                        track(`clicked return to ${module.moduleType}s`, {
-                          module: module.slug.current,
-                        })
-                      }}
-                    >
-                      {module.moduleType}s
-                    </a>
+                  <Link
+                    href={`/tutorials`}
+                    className="font-mono text-xs font-semibold uppercase text-gray-600 hover:underline"
+                    onClick={() => {
+                      track(`clicked return to ${module.moduleType}s`, {
+                        module: module.slug.current,
+                      })
+                    }}
+                  >
+                    {module.moduleType}s
                   </Link>
                   <span className="pl-1 text-xs text-gray-400">/</span>
                   <h2 className="w-full font-heading text-lg font-bold leading-none">
@@ -56,17 +55,14 @@ const ExerciseSidebar: React.FC<SidebarProps> = ({path = '', className}) => {
                         query: {module: module.slug.current},
                       }}
                       passHref
+                      className="hover:underline"
+                      onClick={() => {
+                        track('clicked return to module', {
+                          module: module.slug.current,
+                        })
+                      }}
                     >
-                      <a
-                        className="hover:underline"
-                        onClick={() => {
-                          track('clicked return to module', {
-                            module: module.slug.current,
-                          })
-                        }}
-                      >
-                        {module.title}
-                      </a>
+                      {module.title}
                     </Link>
                   </h2>
                 </div>

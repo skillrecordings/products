@@ -51,10 +51,11 @@ const Header: React.FC<{tutorial: SanityDocument}> = ({tutorial}) => {
     <>
       <header className="relative z-10 flex flex-col-reverse items-center justify-between pb-16 sm:pb-8 md:flex-row">
         <div className="text-center md:text-left">
-          <Link href="/tutorials">
-            <a className="pb-1 font-mono text-sm font-semibold uppercase tracking-wide text-brand-red text-blue-400">
-              Free Tutorial
-            </a>
+          <Link
+            href="/tutorials"
+            className="pb-1 font-mono text-sm font-semibold uppercase tracking-wide text-brand-red text-blue-400"
+          >
+            Free Tutorial
           </Link>
           <h1 className="max-w-4xl font-bold leading-none font-heading pt-5 text-4xl lg:text-5xl">
             {title}
@@ -83,13 +84,12 @@ const Header: React.FC<{tutorial: SanityDocument}> = ({tutorial}) => {
                       lesson: lessons[0].slug,
                     },
                   }}
+                  className="flex items-center justify-center rounded-lg bg-blue-600 font-semibold hover:brightness-125 px-5 py-3"
                 >
-                  <a className="flex items-center justify-center rounded-lg bg-blue-600 font-semibold hover:brightness-125 px-5 py-3">
-                    Start Learning{' '}
-                    <span className="pl-2" aria-hidden="true">
-                      →
-                    </span>
-                  </a>
+                  Start Learning{' '}
+                  <span className="pl-2" aria-hidden="true">
+                    →
+                  </span>
                 </Link>
               )}
               {github && (
@@ -147,18 +147,17 @@ const TutorialLessonNavigator: React.FC<{tutorial: SanityDocument}> = ({
                     },
                   }}
                   passHref
+                  className="group inline-flex items-center py-2.5 text-lg font-semibold"
                 >
-                  <a className="group inline-flex items-center py-2.5 text-lg font-semibold">
-                    <span
-                      className="w-8 font-mono text-xs text-gray-400"
-                      aria-hidden="true"
-                    >
-                      {i + 1}
-                    </span>
-                    <span className="w-full leading-tight group-hover:underline">
-                      {lesson.title}
-                    </span>
-                  </a>
+                  <span
+                    className="w-8 font-mono text-xs text-gray-400"
+                    aria-hidden="true"
+                  >
+                    {i + 1}
+                  </span>
+                  <span className="w-full leading-tight group-hover:underline">
+                    {lesson.title}
+                  </span>
                 </Link>
               </li>
             )
