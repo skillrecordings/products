@@ -24,26 +24,22 @@ const Navigation = () => {
 const NavLogo = () => {
   const router = useRouter()
   return (
-    <Link href="/" aria-label="Badass Dev Home" passHref>
-      <a
-        className="inline-flex items-center"
-        tabIndex={router.pathname === '/' ? -1 : 0}
-      >
-        <div className="flex items-center justify-center sm:w-auto w-14 flex-shrink-0">
-          <Image
-            src={SkullLogo}
-            alt="Badass Skull Logo"
-            width={80}
-            height={80}
-          />
-        </div>
-        <div className="font-heading sm:text-2xl text-xl">
-          Badass
-          <span className="pl-0.5 text-base font-condensed text-badass-yellow-500">
-            .dev
-          </span>
-        </div>
-      </a>
+    <Link
+      href="/"
+      aria-label="Badass Dev Home"
+      passHref
+      className="inline-flex items-center"
+      tabIndex={router.pathname === '/' ? -1 : 0}
+    >
+      <div className="flex items-center justify-center sm:w-auto w-14 flex-shrink-0">
+        <Image src={SkullLogo} alt="Badass Skull Logo" width={80} height={80} />
+      </div>
+      <div className="font-heading sm:text-2xl text-xl">
+        Badass
+        <span className="pl-0.5 text-base font-condensed text-badass-yellow-500">
+          .dev
+        </span>
+      </div>
     </Link>
   )
 }
@@ -137,19 +133,19 @@ const NavLink: React.FC<React.PropsWithChildren<{href: string}>> = ({
   const isActive = href.endsWith(router.pathname)
 
   return (
-    <Link href={href} passHref>
-      <a
-        aria-current={isActive ? 'page' : undefined}
-        className={cx(
-          'relative h-full font-heading flex items-center justify-center group transition outline-none hover:opacity-100 opacity-90',
-          {
-            'first-letter:text-pink-500': isActive,
-          },
-        )}
-        {...props}
-      >
-        {children}
-      </a>
+    <Link
+      href={href}
+      passHref
+      aria-current={isActive ? 'page' : undefined}
+      className={cx(
+        'relative h-full font-heading flex items-center justify-center group transition outline-none hover:opacity-100 opacity-90',
+        {
+          'first-letter:text-pink-500': isActive,
+        },
+      )}
+      {...props}
+    >
+      {children}
     </Link>
   )
 }
@@ -164,16 +160,16 @@ type MenuLinkProps = {
 const MenuLink = React.forwardRef<HTMLAnchorElement, MenuLinkProps>(
   ({href, children, active, ...rest}, ref) => {
     return (
-      <Link href={href} passHref>
-        <a
-          ref={ref}
-          className={`${
-            active ? 'bg-gray-100' : 'text-gray-900'
-          } group flex w-full items-center rounded-md px-2 py-2`}
-          {...rest}
-        >
-          {children}
-        </a>
+      <Link
+        href={href}
+        passHref
+        ref={ref}
+        className={`${
+          active ? 'bg-gray-100' : 'text-gray-900'
+        } group flex w-full items-center rounded-md px-2 py-2`}
+        {...rest}
+      >
+        {children}
       </Link>
     )
   },
