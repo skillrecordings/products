@@ -136,16 +136,13 @@ const DevTools: React.FC<
                   question: q,
                 },
               }}
+              className={
+                get(router.query, 'question') === q
+                  ? 'underline'
+                  : 'hover:underline'
+              }
             >
-              <a
-                className={
-                  get(router.query, 'question') === q
-                    ? 'underline'
-                    : 'hover:underline'
-                }
-              >
-                {q}
-              </a>
+              {q}
             </Link>
           </li>
         ))}
