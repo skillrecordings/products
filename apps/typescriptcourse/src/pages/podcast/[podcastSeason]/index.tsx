@@ -97,7 +97,7 @@ const EpisodeIndexLayout: React.FC<{season: PodcastSeason}> = ({season}) => {
                       alt={episode.title}
                       width={180}
                       height={180}
-                      quality="100%"
+                      quality={90}
                     />
                   </div>
                 </div>

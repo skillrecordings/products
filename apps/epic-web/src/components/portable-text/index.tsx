@@ -44,8 +44,8 @@ const BodyImage = ({value}: BodyImageProps) => {
           }}
           src={url}
           alt={alt}
-          width={width}
-          height={height}
+          width={Number(width)}
+          height={Number(height)}
           quality={100}
           className="rounded-md"
         />
