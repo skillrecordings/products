@@ -1,7 +1,7 @@
 import * as React from 'react'
 import Layout from 'components/app/layout'
 import NewMailImage from '../../public/assets/new-mail@2x.png'
-import Image from 'next/image'
+import Image from 'next/legacy/image'
 import toast from 'react-hot-toast'
 
 const CheckYourEmail = () => {

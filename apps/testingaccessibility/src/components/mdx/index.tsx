@@ -3,7 +3,7 @@ import {H1, H2, H3, H4} from './headings'
 import {workshops} from 'components/content/workshops'
 import {Link} from './link'
 import cx from 'classnames'
-import Image from 'next/image'
+import Image from 'next/legacy/image'
 
 const MDXComponents = {
   h1: (props: any) => <H1 {...props} />,

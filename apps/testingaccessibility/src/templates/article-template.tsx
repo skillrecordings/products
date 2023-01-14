@@ -14,7 +14,7 @@ import ImageMarcy from '../../public/marcy-sutton.jpg'
 import PortableTextComponents from 'components/portable-text'
 import Layout from 'components/app/layout'
 import isEmpty from 'lodash/isEmpty'
-import Image from 'next/image'
+import Image from 'next/legacy/image'
 import Link from 'next/link'
 
 type ArticleTemplateProps = {

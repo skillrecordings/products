@@ -1,7 +1,7 @@
 import * as React from 'react'
 import {GetServerSideProps} from 'next'
 import Layout from 'components/app/layout'
-import Image from 'next/image'
+import Image from 'next/legacy/image'
 import {MailIcon} from '@heroicons/react/outline'
 import {z} from 'zod'
 import {

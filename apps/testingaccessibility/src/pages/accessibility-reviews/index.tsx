@@ -1,7 +1,7 @@
 import * as React from 'react'
 import Layout from 'components/app/layout'
 import Link from 'next/link'
-import Image from 'next/image'
+import Image from 'next/legacy/image'
 import {GetServerSideProps} from 'next'
 import {format} from 'date-fns'
 import {getAllReviews} from '../../lib/reviews'
