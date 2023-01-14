@@ -3,6 +3,7 @@ import {
   setConvertkitSubscriberFields,
 } from '@skillrecordings/convertkit-sdk'
 import {Subscriber} from '../schemas/subscriber'
+import {inngest} from '@skillrecordings/inngest'
 
 export const transformSlugsToConvertkitField = ({
   moduleSlug,
@@ -77,6 +78,7 @@ export const answerSurvey = async ({
   answer: string
 }) => {
   try {
+    console.log({subscriber})
     const response = await setConvertkitSubscriberFields(
       {
         id: subscriber.id,
@@ -86,9 +88,18 @@ export const answerSurvey = async ({
         [question]: answer,
         last_surveyed_on: formatDate(new Date()),
       },
-    )
+    ).then((response) => response.json())
 
-    return await response.json()
+    await inngest.send({
+      name: 'convertkit/survey-answered',
+      data: {
+        subscriber,
+        question,
+        answer,
+      },
+    })
+
+    return response
   } catch (error) {
     return {error}
   }
