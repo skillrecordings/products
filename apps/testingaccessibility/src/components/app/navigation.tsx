@@ -233,20 +233,20 @@ const NavLink: React.FC<React.PropsWithChildren<NavLinkProps>> = ({
   }
   if (href) {
     return (
-      <Link href={href} passHref>
-        <a
-          aria-current={isActive ? 'page' : undefined}
-          className={cx(
-            'relative px-5 h-full flex items-center justify-center hover:bg-gray-100 hover:bg-opacity-50 group transition outline-none hover:opacity-100 opacity-90 text-sm',
-            {
-              'after:content-[""] after:absolute after:w-full after:h-[2px] after:bottom-[-2px] after:left-0 after:bg-green-500':
-                isActive,
-            },
-          )}
-          {...props}
-        >
-          {children}
-        </a>
+      <Link
+        href={href}
+        passHref
+        aria-current={isActive ? 'page' : undefined}
+        className={cx(
+          'relative px-5 h-full flex items-center justify-center hover:bg-gray-100 hover:bg-opacity-50 group transition outline-none hover:opacity-100 opacity-90 text-sm',
+          {
+            'after:content-[""] after:absolute after:w-full after:h-[2px] after:bottom-[-2px] after:left-0 after:bg-green-500':
+              isActive,
+          },
+        )}
+        {...props}
+      >
+        {children}
       </Link>
     )
   }
@@ -263,16 +263,16 @@ type MenuLinkProps = {
 const MenuLink = React.forwardRef<HTMLAnchorElement, MenuLinkProps>(
   ({href, children, active, ...rest}, ref) => {
     return (
-      <Link href={href} passHref>
-        <a
-          ref={ref}
-          className={`${
-            active ? 'bg-gray-100' : 'text-gray-900'
-          } group flex w-full items-center rounded-md px-2 py-2`}
-          {...rest}
-        >
-          {children}
-        </a>
+      <Link
+        href={href}
+        passHref
+        ref={ref}
+        className={`${
+          active ? 'bg-gray-100' : 'text-gray-900'
+        } group flex w-full items-center rounded-md px-2 py-2`}
+        {...rest}
+      >
+        {children}
       </Link>
     )
   },
@@ -358,31 +358,32 @@ const RestorePurchasesLink = () => {
 export const NavLogo = () => {
   const router = useRouter()
   return (
-    <Link href="/" aria-label="Testing Accessibility Home" passHref>
-      <a
-        className={cx(
-          'h-full group text-gray-900 bg-white flex-shrink-0 flex items-center group after:content-[""] relative after:absolute after:-right-6 after:h-5 after:w-px sm:after:bg-gray-200',
-          {
-            'after:bg-transparent sm:after:bg-transparent': !isSellingLive,
-          },
-        )}
-        tabIndex={router.pathname === '/' ? -1 : 0}
-      >
-        <div className="w-8 flex items-center justify-center">
-          <Image
-            src={require('../../../public/assets/logo-mark@2x.png')}
-            quality={100}
-            alt=""
-            aria-hidden="true"
-            width={64}
-            height={64}
-            priority
-          />
-        </div>
-        <div className="pl-1 flex flex-col font-bold text-xs uppercase leading-none font-nav">
-          <span className="block">Testing</span> <span>Accessibility</span>
-        </div>
-      </a>
+    <Link
+      href="/"
+      aria-label="Testing Accessibility Home"
+      passHref
+      className={cx(
+        'h-full group text-gray-900 bg-white flex-shrink-0 flex items-center group after:content-[""] relative after:absolute after:-right-6 after:h-5 after:w-px sm:after:bg-gray-200',
+        {
+          'after:bg-transparent sm:after:bg-transparent': !isSellingLive,
+        },
+      )}
+      tabIndex={router.pathname === '/' ? -1 : 0}
+    >
+      <div className="w-8 flex items-center justify-center">
+        <Image
+          src={require('../../../public/assets/logo-mark@2x.png')}
+          quality={100}
+          alt=""
+          aria-hidden="true"
+          width={64}
+          height={64}
+          priority
+        />
+      </div>
+      <div className="pl-1 flex flex-col font-bold text-xs uppercase leading-none font-nav">
+        <span className="block">Testing</span> <span>Accessibility</span>
+      </div>
     </Link>
   )
 }

@@ -284,11 +284,10 @@ const UpNext: React.FC<React.PropsWithChildren<UpNextProps>> = ({
                     lesson: nextLesson.slug,
                   },
             }}
+            className="focus-visible:ring-amber-500 transition-all mt-4 inline-flex items-center justify-center font-medium px-5 py-3 rounded-md bg-white shadow-lg hover:bg-white/90 text-black"
           >
-            <a className="focus-visible:ring-amber-500 transition-all mt-4 inline-flex items-center justify-center font-medium px-5 py-3 rounded-md bg-white shadow-lg hover:bg-white/90 text-black">
-              <span>{nextLesson.title}</span>
-              <ChevronRightIcon className="w-5" aria-hidden="true" />
-            </a>
+            <span>{nextLesson.title}</span>
+            <ChevronRightIcon className="w-5" aria-hidden="true" />
           </Link>
         </div>
       ) : (
@@ -314,11 +313,10 @@ const UpNext: React.FC<React.PropsWithChildren<UpNextProps>> = ({
                       lesson: nextSectionLesson.slug,
                     },
               }}
+              className="focus-visible:ring-amber-500 transition-all mt-4 inline-flex items-center justify-center font-medium px-5 py-3 rounded-md bg-white shadow-lg hover:bg-white/90 text-black"
             >
-              <a className="focus-visible:ring-amber-500 transition-all mt-4 inline-flex items-center justify-center font-medium px-5 py-3 rounded-md bg-white shadow-lg hover:bg-white/90 text-black">
-                <span>{nextSectionLesson.title}</span>
-                <ChevronRightIcon className="w-5" aria-hidden="true" />
-              </a>
+              <span>{nextSectionLesson.title}</span>
+              <ChevronRightIcon className="w-5" aria-hidden="true" />
             </Link>
           </div>
         )
@@ -385,31 +383,26 @@ const LessonNavigator: React.FC<
                         },
                   }}
                   passHref
+                  data-index={isCompleted ? '✓' : i + 1}
+                  aria-current={currentLessonIndex === i ? 'page' : undefined}
+                  aria-label={`${title} ${isCompleted ? '(completed)' : ''}`}
+                  className={cx(
+                    `text-sm pl-5 pt-0.5 py-5 hover:text-gray-900 text-gray-700 relative flex after:font-semibold after:flex after:items-center after:justify-center after:font-mono after:absolute after:content-[attr(data-index)] after:w-5 after:h-5 after:border after:bg-white after:-left-2.5 after:rounded-full after:top-0.5 group-last-of-type:before:hidden before:absolute before:h-full before:left-[0] before:w-[1px] before:bg-gray-200 before:top-4`,
+                    {
+                      'font-bold after:border-gray-500 after:text-gray-800 after:font-bold text-gray-900':
+                        isActive && !isCompleted,
+                      '': !isActive,
+                      'after:text-[0.55em] after:text-gray-500 after:border-gray-300':
+                        !isCompleted,
+                      'after:text-sm after:text-white after:border-green-600 after:bg-green-600':
+                        isCompleted && !isActive,
+                      'after:text-white after:border-green-600 after:bg-green-600 font-bold':
+                        isCompleted && isActive,
+                    },
+                  )}
                 >
-                  <a
-                    data-index={isCompleted ? '✓' : i + 1}
-                    aria-current={currentLessonIndex === i ? 'page' : undefined}
-                    aria-label={`${title} ${isCompleted ? '(completed)' : ''}`}
-                    className={cx(
-                      `text-sm pl-5 pt-0.5 py-5 hover:text-gray-900 text-gray-700 relative flex after:font-semibold after:flex after:items-center after:justify-center after:font-mono after:absolute after:content-[attr(data-index)] after:w-5 after:h-5 after:border after:bg-white after:-left-2.5 after:rounded-full after:top-0.5 group-last-of-type:before:hidden before:absolute before:h-full before:left-[0] before:w-[1px] before:bg-gray-200 before:top-4`,
-                      {
-                        'font-bold after:border-gray-500 after:text-gray-800 after:font-bold text-gray-900':
-                          isActive && !isCompleted,
-                        '': !isActive,
-                        'after:text-[0.55em] after:text-gray-500 after:border-gray-300':
-                          !isCompleted,
-                        'after:text-sm after:text-white after:border-green-600 after:bg-green-600':
-                          isCompleted && !isActive,
-                        'after:text-white after:border-green-600 after:bg-green-600 font-bold':
-                          isCompleted && isActive,
-                      },
-                    )}
-                  >
-                    {title}{' '}
-                    {isCompleted && (
-                      <span className="sr-only">(completed)</span>
-                    )}
-                  </a>
+                  {title}{' '}
+                  {isCompleted && <span className="sr-only">(completed)</span>}
                 </Link>
               </li>
             )

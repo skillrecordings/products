@@ -152,10 +152,11 @@ const ThanksVerify: React.FC<React.PropsWithChildren<ThanksProps>> = ({
                 </div>
                 <p className="text-sand-100 max-w-md font-medium leading-relaxed mx-auto mt-2">
                   You can also visit your{' '}
-                  <Link href="/team">
-                    <a className="py-1 inline-flex text-base font-medium hover:underline transition">
-                      Team Invite
-                    </a>
+                  <Link
+                    href="/team"
+                    className="py-1 inline-flex text-base font-medium hover:underline transition"
+                  >
+                    Team Invite
                   </Link>{' '}
                   page anytime to get the share link for distributing to your
                   team.

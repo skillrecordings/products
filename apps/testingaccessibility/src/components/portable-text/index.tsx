@@ -163,8 +163,8 @@ export const InternalLink: React.FC<
     }
   }
   return (
-    <Link href={getPath()}>
-      <a {...props}>{children}</a>
+    <Link href={getPath()} {...props}>
+      {children}
     </Link>
   )
 }

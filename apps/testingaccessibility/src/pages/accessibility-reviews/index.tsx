@@ -44,10 +44,12 @@ const Reviews: React.FC<React.PropsWithChildren<any>> = ({reviews}) => {
                     )}
                     <div className="flex w-full sm:justify-between justify-center">
                       <div>
-                        <Link href={`/accessibility-reviews/${slug}`} passHref>
-                          <a className="text-green-600 group-hover:underline sm:text-3xl font-heading text-2xl font-bold">
-                            {title.replace('Accessibility Review of ', '')}
-                          </a>
+                        <Link
+                          href={`/accessibility-reviews/${slug}`}
+                          passHref
+                          className="text-green-600 group-hover:underline sm:text-3xl font-heading text-2xl font-bold"
+                        >
+                          {title.replace('Accessibility Review of ', '')}
                         </Link>
                         <time dateTime={date} className="block font-medium">
                           {format(new Date(date), 'MMMM d, yyyy')}
@@ -56,13 +58,15 @@ const Reviews: React.FC<React.PropsWithChildren<any>> = ({reviews}) => {
                       </div>
                     </div>
                     {slug && (
-                      <Link href={`/accessibility-reviews/${slug}`} passHref>
-                        <a className="flex-shrink-0 px-3 py-2 rounded-md hover:bg-moss-200/50 transition bg-moss-100 text-green-600 font-semibold inline-flex">
-                          Watch the review
-                          <i aria-hidden className="pl-2">
-                            →
-                          </i>
-                        </a>
+                      <Link
+                        href={`/accessibility-reviews/${slug}`}
+                        passHref
+                        className="flex-shrink-0 px-3 py-2 rounded-md hover:bg-moss-200/50 transition bg-moss-100 text-green-600 font-semibold inline-flex"
+                      >
+                        Watch the review
+                        <i aria-hidden className="pl-2">
+                          →
+                        </i>
                       </Link>
                     )}
                   </div>
