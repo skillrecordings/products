@@ -2,7 +2,7 @@ import {toPlainText} from '@portabletext/react'
 import Layout from 'components/app/layout'
 import {Article, getAllArticles} from 'lib/articles'
 import {drop, first} from 'lodash'
-import Image from 'next/image'
+import Image from 'next/legacy/image'
 import Link from 'next/link'
 
 export async function getStaticProps() {

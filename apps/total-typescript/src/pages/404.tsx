@@ -1,5 +1,5 @@
 import Layout from 'components/app/layout'
-import Image from 'next/image'
+import Image from 'next/legacy/image'
 
 const NotFound = () => {
   return (

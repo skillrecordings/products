@@ -10,7 +10,7 @@ import {useDebounce} from '@skillrecordings/react'
 import {QueryStatus} from '@tanstack/react-query'
 import SaleCountdown from './sale-countdown'
 import Spinner from 'components/spinner'
-import Image from 'next/image'
+import Image from 'next/legacy/image'
 import find from 'lodash/find'
 import {Purchase} from '@skillrecordings/database'
 import ReactMarkdown from 'react-markdown'
@@ -351,7 +351,7 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
           <div data-pricing-footer="">
             {product.description && !purchased && (
               <div className="prose prose-sm mx-auto max-w-sm px-5 prose-p:text-gray-200 sm:prose-base">
-                <ReactMarkdown children={product.description} />
+                <ReactMarkdown>{product.description}</ReactMarkdown>
               </div>
             )}
             {!purchased && (
