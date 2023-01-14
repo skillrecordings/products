@@ -1949,7 +1949,7 @@ importers:
       '@skillrecordings/types': workspace:*
       '@types/cookie': ^0.4.1
       '@types/jest': ^27.5.2
-      '@types/lodash': ^4.14.179
+      '@types/lodash': ^4.14.180
       '@types/node': ^17.0.0
       '@types/nodemailer': ^6.4.4
       '@types/react': ^18.0.15
@@ -1957,15 +1957,20 @@ importers:
       eslint: ^8.19.0
       eslint-config-custom: workspace:*
       jest-localstorage-mock: ^2.4.14
+      lodash: ^4.17.21
       next: ^13.1.2
       react: 18.2.0
       react-dom: 18.2.0
+      rimraf: ^3.0.2
+      tsup: ^5.11.13
+      tsx: ^3.7.1
       typescript: ^4.9.4
     dependencies:
-      '@skillrecordings/types': link:../types
+      lodash: 4.17.21
     devDependencies:
       '@skillrecordings/scripts': link:../scripts
       '@skillrecordings/tsconfig': link:../tsconfig
+      '@skillrecordings/types': link:../types
       '@types/cookie': 0.4.1
       '@types/jest': 27.5.2
       '@types/lodash': 4.14.180
@@ -1979,6 +1984,9 @@ importers:
       next: 13.1.2_biqbaboplfbrettd7655fr4n2y
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
+      rimraf: 3.0.2
+      tsup: 5.12.9_typescript@4.9.4
+      tsx: 3.8.0
       typescript: 4.9.4
 
   packages/commerce-server:
@@ -2442,7 +2450,7 @@ importers:
       '@codesandbox/sandpack-themes': 1.17.0
       '@reach/auto-id': 0.16.0_biqbaboplfbrettd7655fr4n2y
       '@reach/utils': 0.16.0_biqbaboplfbrettd7655fr4n2y
-      '@skillrecordings/analytics': link:../analytics
+      '@skillrecordings/analytics': 0.0.6_next@13.1.2+react@18.2.0
       '@skillrecordings/auth': 0.0.6_next@13.1.2
       '@skillrecordings/axios': 0.0.2_axios@0.26.1
       '@skillrecordings/config': link:../config
@@ -9884,6 +9892,17 @@ packages:
     resolution: {integrity: sha512-D0L6SfaEJltJFpKdE3h1+3auDxldbifnfOI0eTlO36kSCeCdZKSFfgYOR5gWen9VTpCDAr/bXhX4K7SlGVTVlQ==}
     dev: false
 
+  /@skillrecordings/analytics/0.0.6_next@13.1.2+react@18.2.0:
+    resolution: {integrity: sha512-fIPcCrXLgX3jn/4AA9zqBVOioqPRkKETE2SsGYNw37d2I0cdfMsKvgBkHDot223FWUq1KAn4BJf84LDBSSVEew==}
+    peerDependencies:
+      next: '>= 11.1.2 < 13'
+      react: ^17.0.2 < 18.0.0
+    dependencies:
+      '@skillrecordings/types': 0.0.5
+      next: 13.1.2_dyjg3c6zvjv6p4lxmcqda555km
+      react: 18.2.0
+    dev: false
+
   /@skillrecordings/auth/0.0.6_next@13.1.2:
     resolution: {integrity: sha512-ZTU05/wJ3TjXyMII66zAEqCb7/4akxf7HFthsRFO/bEdGVNgpSgl/bo/btScoGNyOV84fVGv16MaAGFV3RtrLw==}
     peerDependencies:
@@ -9925,6 +9944,10 @@ packages:
 
   /@skillrecordings/cookies/0.0.1:
     resolution: {integrity: sha512-gSJujtLx4v8kC94IzBM36Npp/xpqTmgt/Z0ZbwiSJ95oOeqSGxP+MJIe8R/PFLt8e0q8Gkxx8dhJXrQoXA6wlw==}
+    dev: false
+
+  /@skillrecordings/types/0.0.5:
+    resolution: {integrity: sha512-fWBj5hKs1lPGC0AJ8JPw/RWaNpagf5kU7t0fKdG0WqemN/c2dNchVwzjKtt3249VKpQVh53btZpZNLknPI2d6g==}
     dev: false
 
   /@slack/logger/3.0.0:
@@ -14118,7 +14141,7 @@ packages:
     dev: true
 
   /concat-map/0.0.1:
-    resolution: {integrity: sha512-/Srv4dswyQNBfohGpz9o6Yb3Gz3SrUDqBH5rTuhGR7ahtlbYKnVxw2bCFMRljaA7EXHaXZ8wsHdodFvbkhKmqg==}
+    resolution: {integrity: sha1-2Klr13/Wjfd5OnMDajug1UBdR3s=}
 
   /concat-stream/1.6.2:
     resolution: {integrity: sha512-27HBghJxjiZtIk3Ycvn/4kbJk/1uZuJFfuPEns6LaEvpvG1f0hTea8lilrouyo9mVc2GWdcEZ8OLoGmSADlrCw==}
