@@ -16,7 +16,7 @@ import GetCertificate from 'components/certificate'
 import Layout from 'components/app/layout'
 import isEmpty from 'lodash/isEmpty'
 import find from 'lodash/find'
-import Image from 'next/image'
+import Image from 'next/legacy/image'
 import Link from 'next/link'
 import cx from 'classnames'
 import groq from 'groq'
@@ -130,14 +130,10 @@ const Learn: React.FC<
                       query: {module: 'foundations-of-accessibility'},
                     }
               }
+              className="flex items-center font-medium gap-2 mt-8 px-4 py-2.5 rounded-md border border-white/20 hover:bg-white/5 transition focus-visible:ring-white"
             >
-              <a className="flex items-center font-medium gap-2 mt-8 px-4 py-2.5 rounded-md border border-white/20 hover:bg-white/5 transition focus-visible:ring-white">
-                {isEmpty(progress) ? 'Start' : 'Continue'} Learning{' '}
-                <ChevronRightIcon
-                  aria-hidden="true"
-                  className="w-4 h-4 mt-0.5"
-                />
-              </a>
+              {isEmpty(progress) ? 'Start' : 'Continue'}Learning{' '}
+              <ChevronRightIcon aria-hidden="true" className="w-4 h-4 mt-0.5" />
             </Link>
           </header>
           <div className="grid grid-cols-1 gap-16 w-full">
@@ -170,10 +166,9 @@ const Learn: React.FC<
                           query: {module: slug},
                         }}
                         passHref
+                        className="hover:underline sm:text-4xl text-3xl leading-tight font-bold mt-2 inline-flex justify-center w-full font-heading md:text-left text-center focus-visible:ring-white"
                       >
-                        <a className="hover:underline sm:text-4xl text-3xl leading-tight font-bold mt-2 inline-flex justify-center w-full font-heading md:text-left text-center focus-visible:ring-white">
-                          <h2>{title}</h2>
-                        </a>
+                        <h2>{title}</h2>
                       </Link>
                       <ol className="pt-5 list-none">
                         {sections?.map((section: SanityDocument, i: number) => {
@@ -197,31 +192,28 @@ const Learn: React.FC<
                                   },
                                 }}
                                 passHref
+                                aria-label={`${title} ${
+                                  isCompleted ? '(completed)' : ''
+                                }`}
+                                data-index={isCompleted ? '✓' : i + 1}
+                                className={cx(
+                                  `after:content-[""] after:absolute after:left-[21.5px] after:top-0 group-first-of-type:after:top-1/2 group-first-of-type:after:h-1/2 after:w-px after:bg-white/20 after:h-full group rounded-md pl-3 group-hover:bg-green-800/20 text-sand-100 hover:text-white focus-visible:ring-white w-full font-medium py-4 transition relative items-center inline-flex before:font-semibold before:z-10 before:flex before:items-center before:justify-center before:font-mono before:content-[attr(data-index)] before:w-5 before:h-5 before:left-0 before:rounded-full before:flex-shrink-0`,
+                                  {
+                                    'before:text-[0.55em] before:text-sans-500/50 before:border before:border-white/20 before:bg-green-700 before:bg-noise':
+                                      !isCompleted,
+                                    'before:text-sm before:text-white  before:bg-green-500':
+                                      isCompleted,
+                                    'after:hidden':
+                                      sections.length === 1 &&
+                                      !CERTIFICATE_ENABLED,
+                                    'group-last-of-type:after:bottom-1/2 group-last-of-type:after:h-1/2':
+                                      !CERTIFICATE_ENABLED,
+                                  },
+                                )}
                               >
-                                <a
-                                  aria-label={`${title} ${
-                                    isCompleted ? '(completed)' : ''
-                                  }`}
-                                  data-index={isCompleted ? '✓' : i + 1}
-                                  className={cx(
-                                    `after:content-[""] after:absolute after:left-[21.5px] after:top-0 group-first-of-type:after:top-1/2 group-first-of-type:after:h-1/2 after:w-px after:bg-white/20 after:h-full group rounded-md pl-3 group-hover:bg-green-800/20 text-sand-100 hover:text-white focus-visible:ring-white w-full font-medium py-4 transition relative items-center inline-flex before:font-semibold before:z-10 before:flex before:items-center before:justify-center before:font-mono before:content-[attr(data-index)] before:w-5 before:h-5 before:left-0 before:rounded-full before:flex-shrink-0`,
-                                    {
-                                      'before:text-[0.55em] before:text-sans-500/50 before:border before:border-white/20 before:bg-green-700 before:bg-noise':
-                                        !isCompleted,
-                                      'before:text-sm before:text-white  before:bg-green-500':
-                                        isCompleted,
-                                      'after:hidden':
-                                        sections.length === 1 &&
-                                        !CERTIFICATE_ENABLED,
-                                      'group-last-of-type:after:bottom-1/2 group-last-of-type:after:h-1/2':
-                                        !CERTIFICATE_ENABLED,
-                                    },
-                                  )}
-                                >
-                                  <span className="inline-flex pl-2">
-                                    {title}
-                                  </span>
-                                </a>
+                                <span className="inline-flex pl-2">
+                                  {title}
+                                </span>
                               </Link>
                             </li>
                           )

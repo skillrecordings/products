@@ -1,6 +1,6 @@
 import * as React from 'react'
 import Layout from 'components/layout'
-import Image from 'next/image'
+import Image from 'next/legacy/image'
 import toast from 'react-hot-toast'
 
 const CheckYourEmail = () => {

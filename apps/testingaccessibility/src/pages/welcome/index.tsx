@@ -9,7 +9,7 @@ import {GetServerSideProps} from 'next'
 import {getToken} from 'next-auth/jwt'
 import InviteTeam from 'components/team'
 import Layout from 'components/app/layout'
-import Image from 'next/image'
+import Image from 'next/legacy/image'
 import {getSdk, prisma} from '@skillrecordings/database'
 import Link from 'next/link'
 import {isString} from 'lodash'
@@ -171,17 +171,16 @@ const Invoice: React.FC<React.PropsWithChildren<{purchase: any}>> = ({
         />
         <span>Invoice</span>
       </h2>
-      <Link href={`/invoices/${purchase.merchantChargeId}`}>
-        <a
-          target="_blank"
-          className="border bg-green-500 hover:bg-green-600 text-white transition px-4 py-2 rounded-md flex-shrink-0 font-semibold"
-          title="Link opens in a new window"
-        >
-          Get your invoice{' '}
-          <span role="presentation" aria-hidden="true">
-            →
-          </span>
-        </a>
+      <Link
+        href={`/invoices/${purchase.merchantChargeId}`}
+        target="_blank"
+        className="border bg-green-500 hover:bg-green-600 text-white transition px-4 py-2 rounded-md flex-shrink-0 font-semibold"
+        title="Link opens in a new window"
+      >
+        Get your invoice{' '}
+        <span role="presentation" aria-hidden="true">
+          →
+        </span>
       </Link>
     </div>
   )
@@ -200,13 +199,14 @@ const GetStarted: React.FC<React.PropsWithChildren<unknown>> = () => {
       <h2 className="pt-12 font-semibold flex items-center gap-1 sm:text-3xl text-2xl pb-8 text-white">
         <span>Ready to get started?</span>
       </h2>
-      <Link href={`/learn`}>
-        <a className="text-green-900 text-lg bg-yellow-500 focus-visible:ring-white px-5 py-4 hover:-rotate-1 hover:scale-105 transition-all hover:bg-yellow-400 rounded-md flex-shrink-0 font-semibold">
-          Start Testing Accessibility{' '}
-          <span role="presentation" aria-hidden="true">
-            →
-          </span>
-        </a>
+      <Link
+        href={`/learn`}
+        className="text-green-900 text-lg bg-yellow-500 focus-visible:ring-white px-5 py-4 hover:-rotate-1 hover:scale-105 transition-all hover:bg-yellow-400 rounded-md flex-shrink-0 font-semibold"
+      >
+        Start Testing Accessibility{' '}
+        <span role="presentation" aria-hidden="true">
+          →
+        </span>
       </Link>
     </div>
   )

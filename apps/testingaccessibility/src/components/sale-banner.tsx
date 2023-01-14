@@ -91,10 +91,11 @@ const GoToPricingButton: React.FC<React.PropsWithChildren<unknown>> = ({
   const shouldReduceMotion = useReducedMotion()
   const isLandingPage = router.pathname === '/' || router.pathname === '/buy'
   return (
-    <Link href="/buy">
-      <a className="ml-2 flex-shrink-0 inline-flex px-2 py-0.5 pb-1 underline rounded-md border hover:bg-moss-50">
-        {children}
-      </a>
+    <Link
+      href="/buy"
+      className="ml-2 flex-shrink-0 inline-flex px-2 py-0.5 pb-1 underline rounded-md border hover:bg-moss-50"
+    >
+      {children}
     </Link>
   )
 }

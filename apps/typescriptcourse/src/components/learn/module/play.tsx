@@ -15,19 +15,20 @@ const Play: React.FC<
     : 'Start'
 
   const PlayButton = () => (
-    <Link href={`/lessons/${progress.nextLesson.slug}`}>
-      <a className="flex items-center group flex-shrink-0 space-x-2 font-semibold py-1">
-        <span
-          className={`p-1 rounded-full ${
-            isModuleCompleted
-              ? 'dark:bg-teal-800 bg-teal-200 dark:text-teal-500 text-teal-700'
-              : 'bg-black dark:bg-white text-white dark:text-black'
-          }  flex items-center justify-center`}
-        >
-          <i className={isModuleCompleted ? 'gg-check' : 'gg-play-button'} />
-        </span>
-        <span className="group-hover:underline">{buttonText}</span>
-      </a>
+    <Link
+      href={`/lessons/${progress.nextLesson.slug}`}
+      className="flex items-center group flex-shrink-0 space-x-2 font-semibold py-1"
+    >
+      <span
+        className={`p-1 rounded-full ${
+          isModuleCompleted
+            ? 'dark:bg-teal-800 bg-teal-200 dark:text-teal-500 text-teal-700'
+            : 'bg-black dark:bg-white text-white dark:text-black'
+        }  flex items-center justify-center`}
+      >
+        <i className={isModuleCompleted ? 'gg-check' : 'gg-play-button'} />
+      </span>
+      <span className="group-hover:underline">{buttonText}</span>
     </Link>
   )
 
@@ -44,16 +45,16 @@ const Play: React.FC<
         {items.map((item) => {
           const completed = isLessonCompleted(item.slug)
           return (
-            <Link key={item.slug} href={`/lessons/${item.slug}`}>
-              <a
-                className={`${
-                  completed
-                    ? 'bg-teal-500 hover:bg-teal-400'
-                    : 'bg-gray-400 hover:bg-gray-300'
-                } border dark:border-black border-white h-full block`}
-                style={{width}}
-              />
-            </Link>
+            <Link
+              key={item.slug}
+              href={`/lessons/${item.slug}`}
+              className={`${
+                completed
+                  ? 'bg-teal-500 hover:bg-teal-400'
+                  : 'bg-gray-400 hover:bg-gray-300'
+              } border dark:border-black border-white h-full block`}
+              style={{width}}
+            ></Link>
           )
         })}
       </div>

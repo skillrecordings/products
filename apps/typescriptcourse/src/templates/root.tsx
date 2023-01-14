@@ -7,7 +7,7 @@ import {
 } from '@skillrecordings/convertkit-react-ui'
 import {useRouter} from 'next/router'
 import {Button} from '@skillrecordings/react/dist/components'
-import Image from 'next/image'
+import Image from 'next/legacy/image'
 import type {EmailCourseTemplateProps} from './email-course'
 import StarsBackground from 'components/stars-background'
 import AnimatedBadge from 'components/mdx/badge'

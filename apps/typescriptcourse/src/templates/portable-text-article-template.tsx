@@ -13,7 +13,7 @@ import {
 } from '@skillrecordings/convertkit-react-ui'
 import ImageAuthor from '../../public/images/joe-previte.jpeg'
 import isEmpty from 'lodash/isEmpty'
-import Image from 'next/image'
+import Image from 'next/legacy/image'
 import Link from 'next/link'
 import Layout from 'components/app/layout'
 import PortableTextComponents from 'components/portable-text'
@@ -33,13 +33,15 @@ const Header: React.FC<
   return (
     <header className="relative flex flex-col items-center px-5 pt-16 pb-8 overflow-hidden text-white">
       <div className="relative z-10 flex flex-col items-center w-full max-w-screen-md mx-auto">
-        <Link passHref href="/articles">
-          <a className="relative px-4 py-2 text-sm font-normal text-white transition bg-white bg-opacity-0 rounded-full sm:text-base group hover:text-white hover:bg-opacity-10 opacity-80 hover:opacity-90 focus-visible:ring-white focus-visible:opacity-100">
-            <span className="pr-1" role="presentation" aria-hidden="true">
-              ←
-            </span>{' '}
-            All Articles
-          </a>
+        <Link
+          passHref
+          href="/articles"
+          className="relative px-4 py-2 text-sm font-normal text-white transition bg-white bg-opacity-0 rounded-full sm:text-base group hover:text-white hover:bg-opacity-10 opacity-80 hover:opacity-90 focus-visible:ring-white focus-visible:opacity-100"
+        >
+          <span className="pr-1" role="presentation" aria-hidden="true">
+            ←
+          </span>{' '}
+          All Articles
         </Link>
         <h1 className="max-w-screen-md py-4 pb-16 mx-auto text-3xl font-bold leading-none text-center font-heading sm:text-4xl lg:text-5xl">
           {title}

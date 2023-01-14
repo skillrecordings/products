@@ -76,10 +76,12 @@ const WorkshopItem = ({workshop}: any) => {
   )
   const getTitle = (slug: any) =>
     slug ? (
-      <Link href={`/workshops/${slug}`} passHref>
-        <a className="group inline-flex text-green-600">
-          <WorkshopTitle />
-        </a>
+      <Link
+        href={`/workshops/${slug}`}
+        passHref
+        className="group inline-flex text-green-600"
+      >
+        <WorkshopTitle />
       </Link>
     ) : (
       <WorkshopTitle />
@@ -90,22 +92,22 @@ const WorkshopItem = ({workshop}: any) => {
       <DisplayDate />
       <Markdown className="prose pt-3 pb-6">{description}</Markdown>
       {slug && (
-        <Link href={`/workshops/${slug}`} passHref>
-          <a
-            className="font-nav px-3 py-2 rounded-md hover:bg-moss-200/50 transition bg-moss-100 text-green-600 font-semibold inline-flex"
-            aria-label={`Sign up for the workshop on ${title}`}
-          >
-            {published ? (
-              <>
-                Sign up for the workshop{' '}
-                <i aria-hidden className="pl-2">
-                  →
-                </i>
-              </>
-            ) : (
-              'Read more'
-            )}
-          </a>
+        <Link
+          href={`/workshops/${slug}`}
+          passHref
+          className="font-nav px-3 py-2 rounded-md hover:bg-moss-200/50 transition bg-moss-100 text-green-600 font-semibold inline-flex"
+          aria-label={`Sign up for the workshop on ${title}`}
+        >
+          {published ? (
+            <>
+              Sign up for the workshop{' '}
+              <i aria-hidden className="pl-2">
+                →
+              </i>
+            </>
+          ) : (
+            'Read more'
+          )}
         </Link>
       )}
     </article>

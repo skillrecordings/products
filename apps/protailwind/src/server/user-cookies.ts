@@ -16,7 +16,5 @@ export function setUserCookie(res: NextResponse, subscriber: Subscriber) {
 }
 
 export function clearUserCookie(res: NextResponse) {
-  res.cookies.delete('ck_subscriber', {
-    domain: process.env.NEXT_PUBLIC_AUTH_COOKIE_DOMAIN,
-  })
+  res.cookies.delete('ck_subscriber')
 }

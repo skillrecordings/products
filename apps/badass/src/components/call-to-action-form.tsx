@@ -1,6 +1,6 @@
 import * as React from 'react'
 import {useRouter} from 'next/router'
-import Image from 'next/image'
+import Image from 'next/legacy/image'
 import ImageFish from '../../public/assets/fish@2x.png'
 import ImageFormMushroomRight from '../../public/assets/form-mushroom-right@2x.png'
 import ImageFormMushroomLeft from '../../public/assets/form-mushroom-left@2x.png'
