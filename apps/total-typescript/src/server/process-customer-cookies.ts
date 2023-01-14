@@ -12,6 +12,7 @@ export async function getCookiesForRequest(req: NextRequest) {
       JSON.parse(req.cookies.get('ck_subscriber') as unknown as string),
     )
   } catch (e) {
+    console.log(e)
     return
   }
 }
