@@ -78,7 +78,6 @@ export const answerSurvey = async ({
   answer: string
 }) => {
   try {
-    console.log({subscriber})
     const response = await setConvertkitSubscriberFields(
       {
         id: subscriber.id,
