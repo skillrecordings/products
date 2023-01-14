@@ -1,6 +1,6 @@
 import * as React from 'react'
 import {GetStaticPaths, GetStaticProps} from 'next'
-import Image from 'next/image'
+import Image from 'next/legacy/image'
 import {
   getAllPodcastSeasons,
   getPodcastSeason,

@@ -3,7 +3,7 @@ import Layout from 'components/app/layout'
 import {SanityDocument} from '@sanity/client'
 import {getAllTutorials} from 'lib/tutorials'
 import Link from 'next/link'
-import Image from 'next/image'
+import Image from 'next/legacy/image'
 
 export async function getStaticProps() {
   const tutorials = await getAllTutorials()

@@ -13,7 +13,7 @@ import {
 } from '@skillrecordings/convertkit-react-ui'
 import ImageAuthor from '../../public/images/joe-previte.jpeg'
 import isEmpty from 'lodash/isEmpty'
-import Image from 'next/image'
+import Image from 'next/legacy/image'
 import Link from 'next/link'
 import Layout from 'components/app/layout'
 import PortableTextComponents from 'components/portable-text'

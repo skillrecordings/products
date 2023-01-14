@@ -3,7 +3,7 @@ import {SanityDocument} from '@sanity/client'
 import Link from 'next/link'
 import ExerciseNavigator from './exercise-navigator'
 import cx from 'classnames'
-import Image from 'next/image'
+import Image from 'next/legacy/image'
 import {track} from '../utils/analytics'
 import {useLesson} from '@skillrecordings/skill-lesson/hooks/use-lesson'
 
