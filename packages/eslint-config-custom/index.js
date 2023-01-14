@@ -10,6 +10,7 @@ module.exports = {
     'react/react-in-jsx-scope': 'off',
     'react/display-name': 'off',
     'react/no-unescaped-entities': 'off',
+    '@next/next/no-assign-module-variable': 'off',
   },
   parserOptions: {
     babelOptions: {
