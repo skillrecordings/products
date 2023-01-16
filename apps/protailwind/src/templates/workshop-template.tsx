@@ -72,7 +72,7 @@ const WorkshopTemplate: React.FC<{
             />
           )}
         </div>
-        {commerceProps ? (
+        {commerceProps && product ? (
           <BuyWorkshop
             product={product}
             workshop={workshop}
