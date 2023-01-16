@@ -82,7 +82,7 @@
     "feed": "^4.2.2",
     "focus-visible": "^5.2.0",
     "formik": "2.2.9",
-    "framer-motion": "^6.4.1",
+    "framer-motion": "^8.4.3",
     "framer-motion-3d": "^6.4.1",
     "groq": "^2.15.0",
     "hls.js": "1.1.5",
