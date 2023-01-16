@@ -12,5 +12,11 @@ export default {
       description: 'Reference to a product in database',
       type: 'string',
     },
+    {
+      name: 'features',
+      title: 'Features',
+      type: 'array',
+      of: [{type: 'feature'}],
+    },
   ],
 }

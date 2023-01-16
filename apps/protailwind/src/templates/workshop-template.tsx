@@ -70,7 +70,7 @@ const WorkshopTemplate: React.FC<{
             workshop={workshop}
           />
         </div>
-        {commerceProps ? (
+        {commerceProps && product ? (
           <BuyWorkshop
             product={product}
             workshop={workshop}
