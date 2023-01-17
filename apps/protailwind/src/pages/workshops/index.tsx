@@ -91,7 +91,7 @@ const WorkshopsPage: React.FC<{workshops: SanityDocument[]}> = ({
                             module: slug.current,
                           },
                         }}
-                        className="font-heading text-3xl font-black hover:underline sm:text-4xl"
+                        className="block font-heading text-3xl font-black hover:underline sm:text-4xl"
                       >
                         {title}
                       </Link>

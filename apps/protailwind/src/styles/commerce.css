@@ -18,7 +18,7 @@
           @apply pb-2 text-center font-heading text-sm font-extrabold uppercase text-brand-red;
         }
         [data-title] {
-          @apply text-center font-heading text-4xl font-black;
+          @apply text-center font-heading text-3xl font-black;
         }
         [data-instructor] {
           @apply flex items-center justify-center gap-2 pt-3;
