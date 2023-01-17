@@ -28,7 +28,7 @@ export async function lookupUser({
         purchases: {
           select: {
             id: true,
-            merchantChargeId: true,
+            merchantCharge: true,
             productId: true,
             createdAt: true,
             totalAmount: true,
