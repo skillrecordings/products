@@ -25,10 +25,21 @@ export async function lookupUser({
       select: {
         roles: true,
         id: true,
+        merchantCustomers: true,
         purchases: {
           select: {
             id: true,
-            merchantCharge: true,
+            merchantCharge: {
+              select: {
+                id: true,
+                identifier: true,
+                merchantCustomer: {
+                  select: {
+                    identifier: true,
+                  },
+                },
+              },
+            },
             productId: true,
             createdAt: true,
             totalAmount: true,
