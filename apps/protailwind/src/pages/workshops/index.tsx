@@ -110,7 +110,8 @@ const WorkshopsPage: React.FC<{workshops: SanityDocument[]}> = ({
                         </h2>
                       )}
                       {description && <p className="mt-2">{description}</p>}
-                      {(isSellingLive || state !== 'draft') && (
+                      {(process.env.NODE_ENV === 'development' ||
+                        state !== 'draft') && (
                         <Link
                           href={{
                             pathname: '/workshops/[module]',
