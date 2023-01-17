@@ -21,7 +21,7 @@ export const LessonDescription = () => {
         className={cx(
           'prose relative max-w-none pt-5 prose-headings:font-heading prose-headings:font-black prose-code:text-[90%] xl:pt-8 2xl:pt-5',
           {
-            'after:absolute after:bottom-0 after:left-0 after:h-1/2 after:w-full after:bg-gradient-to-b after:from-transparent after:via-gray-50 after:to-gray-50 after:content-[""]':
+            'after:absolute after:bottom-0 after:left-0 after:h-1/2 after:w-full after:bg-gradient-to-b after:from-transparent after:via-gray-50 after:to-gray-50 after:content-[""] sm:after:via-gray-100 sm:after:to-gray-100 2xl:after:via-gray-50 2xl:after:to-gray-50':
               !canShowVideo,
           },
         )}
@@ -51,12 +51,10 @@ export const LessonDescription = () => {
           <p className="prose max-w-none text-gray-800 prose-a:text-brand-red">
             This {lesson._type} is part of{' '}
             <Link href={`/workshops/${module.slug.current}`}>
-              <a>{module.title} Workshop</a>
+              {module.title}Workshop
             </Link>{' '}
             and can be unlocked immediately after purchase. Already purchased?{' '}
-            <Link href="/login">
-              <a>Log in here.</a>
-            </Link>
+            <Link href="/login">Log in here.</Link>
           </p>
         </div>
       )}

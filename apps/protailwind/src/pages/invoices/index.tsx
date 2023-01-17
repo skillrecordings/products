@@ -61,16 +61,16 @@ export const InvoiceCard: React.FC<{purchase: Purchase | any}> = ({
   purchase,
 }) => {
   return (
-    <div className="flex flex-col items-start justify-between rounded-md border border-gray-800/80 bg-black/60 p-5 sm:flex-row sm:items-center">
-      <div className="flex w-full gap-2">
+    <Link href={`/invoices/${purchase.merchantChargeId}`} className="group">
+      <div className="flex items-start rounded-lg border border-gray-100 bg-white px-5 py-6 shadow-xl shadow-gray-400/5">
         <div>
-          <DocumentTextIcon aria-hidden className="w-6 text-cyan-500" />
+          <DocumentTextIcon aria-hidden className="w-6 text-sky-500" />
         </div>
-        <div>
-          <h2 className="text-lg font-semibold leading-tight">
-            Invoice: {purchase.product.name}
-          </h2>
-          <div className="flex pt-2 text-sm text-gray-400 sm:pt-1">
+        <div className="flex w-full flex-col justify-between gap-2 pl-2 sm:flex-row sm:items-center">
+          <div className="font-semibold group-hover:underline">
+            Invoice: {purchase?.product?.name}
+          </div>
+          <div className="flex text-sm text-gray-600 md:pr-2">
             <span className="after:content-['・']">
               {Intl.NumberFormat('en-US', {
                 style: 'currency',
@@ -81,13 +81,7 @@ export const InvoiceCard: React.FC<{purchase: Purchase | any}> = ({
           </div>
         </div>
       </div>
-      <Link href={`/invoices/${purchase.merchantChargeId}`}>
-        <a className="ml-8 mt-5 flex flex-shrink-0 items-center justify-end rounded-md bg-cyan-300/10 px-3 py-2 text-sm font-medium text-cyan-400 transition hover:bg-cyan-300/20 sm:ml-0 sm:mt-0 sm:justify-center">
-          <span className="pr-0.5">View Invoice</span>
-          <ChevronRightIcon aria-hidden="true" className="w-4" />
-        </a>
-      </Link>
-    </div>
+    </Link>
   )
 }
 

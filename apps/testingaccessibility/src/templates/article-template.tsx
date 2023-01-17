@@ -14,7 +14,7 @@ import ImageMarcy from '../../public/marcy-sutton.jpg'
 import PortableTextComponents from 'components/portable-text'
 import Layout from 'components/app/layout'
 import isEmpty from 'lodash/isEmpty'
-import Image from 'next/image'
+import Image from 'next/legacy/image'
 import Link from 'next/link'
 
 type ArticleTemplateProps = {
@@ -80,13 +80,15 @@ const Header: React.FC<
   return (
     <header className="flex flex-col items-center relative px-5 pt-16 pb-8 overflow-hidden text-white bg-green-700 bg-noise">
       <div className="flex flex-col items-center max-w-screen-md mx-auto w-full relative z-10">
-        <Link passHref href="/articles">
-          <a className="sm:text-base text-sm group text-white relative hover:text-white font-normal px-4 py-2 hover:bg-opacity-10 bg-opacity-0 bg-white rounded-md transition opacity-80 hover:opacity-90 focus-visible:ring-white focus-visible:opacity-100">
-            <span className="pr-1" role="presentation" aria-hidden="true">
-              ←
-            </span>{' '}
-            All Articles
-          </a>
+        <Link
+          passHref
+          href="/articles"
+          className="sm:text-base text-sm group text-white relative hover:text-white font-normal px-4 py-2 hover:bg-opacity-10 bg-opacity-0 bg-white rounded-md transition opacity-80 hover:opacity-90 focus-visible:ring-white focus-visible:opacity-100"
+        >
+          <span className="pr-1" role="presentation" aria-hidden="true">
+            ←
+          </span>{' '}
+          All Articles
         </Link>
         <h1 className="pb-16 max-w-screen-md font-heading font-bold mx-auto leading-none text-center text-3xl sm:text-4xl lg:text-5xl py-4">
           {title}

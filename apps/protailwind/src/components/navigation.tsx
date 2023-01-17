@@ -1,9 +1,11 @@
 import React from 'react'
 import Link from 'next/link'
-import {useRouter} from 'next/router'
+import {NextRouter, useRouter} from 'next/router'
 import cx from 'classnames'
 import Icon from './icons'
 import {track} from 'utils/analytics'
+import {signOut, useSession} from 'next-auth/react'
+import toast from 'react-hot-toast'
 
 type NavigationProps = {
   className?: string
@@ -31,6 +33,8 @@ const Navigation: React.FC<NavigationProps> = ({className}) => {
 export default Navigation
 
 const DesktopNav = () => {
+  const router = useRouter()
+  const {status} = useSession()
   return (
     <div className="flex items-center space-x-5">
       <NavSlots>
@@ -46,6 +50,17 @@ const DesktopNav = () => {
         <NavLink href="/articles" icon={<Icon name="Palm" />}>
           Articles
         </NavLink>
+        {status === 'authenticated' && (
+          <button
+            onClick={async () => {
+              await handleLogOut(router)
+              toast.success('Logged out successfully')
+            }}
+            className="flex w-full rounded px-3 py-2 transition hover:underline"
+          >
+            Log out
+          </button>
+        )}
       </NavSlots>
     </div>
   )
@@ -70,24 +85,24 @@ const NavLink: React.FC<NavLinkProps> = ({
   const isActive = router.pathname === href
 
   return (
-    <Link href={href} passHref>
-      <a
-        aria-current={isActive ? 'page' : undefined}
-        className={cx(
-          'jusfify-center flex items-center gap-1 rounded-full px-4 py-2 transition hover:bg-gray-100',
-          {
-            'bg-gray-50': isActive,
-          },
-        )}
-        onClick={() => {
-          track(`clicked ${children} in primary navigation`)
-        }}
-        {...props}
-      >
-        <>
-          {icon} {children}
-        </>
-      </a>
+    <Link
+      href={href}
+      passHref
+      aria-current={isActive ? 'page' : undefined}
+      className={cx(
+        'jusfify-center flex items-center gap-1 rounded-full px-4 py-2 transition hover:bg-gray-100',
+        {
+          'bg-gray-50': isActive,
+        },
+      )}
+      onClick={() => {
+        track(`clicked ${children} in primary navigation`)
+      }}
+      {...props}
+    >
+      <>
+        {icon} {children}
+      </>
     </Link>
   )
 }
@@ -95,13 +110,22 @@ const NavLink: React.FC<NavLinkProps> = ({
 const NavLogo = () => {
   const router = useRouter()
   return (
-    <Link href="/" aria-label="Pro Tailwind Home" passHref>
-      <a
-        tabIndex={router.pathname === '/' ? -1 : 0}
-        className="font-heading text-xl font-black sm:text-2xl"
-      >
-        <span className="text-brand-red">Pro</span>Tailwind
-      </a>
+    <Link
+      href="/"
+      aria-label="Pro Tailwind Home"
+      passHref
+      tabIndex={router.pathname === '/' ? -1 : 0}
+      className="font-heading text-xl font-black sm:text-2xl"
+    >
+      <span className="text-brand-red">Pro</span>Tailwind
     </Link>
   )
+}
+
+export const handleLogOut = async (router: NextRouter) => {
+  const data = await signOut({
+    redirect: false,
+    callbackUrl: '/',
+  }).then((data) => data)
+  window.location.href = data.url
 }

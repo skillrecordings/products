@@ -11,6 +11,7 @@ const workshopsQuery = groq`*[_type == "module" && moduleType == 'workshop'] | o
   _createdAt,
   description,
   state,
+  "product": resources[@._type == 'product'][0]{productId},
   "sections": resources[@->._type == 'section']->{
     _id,
     _type,
@@ -69,6 +70,8 @@ export const getWorkshop = async (slug: string) =>
         ogImage,
         description,
         _updatedAt,
+        "product": resources[@._type == 'product'][0]{productId},
+        resources,
         "sections": resources[@->._type == 'section']->{
           _id,
           _type,

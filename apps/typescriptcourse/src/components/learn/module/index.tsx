@@ -1,6 +1,6 @@
 import * as React from 'react'
 import type {LessonResource, Resource} from '@skillrecordings/types'
-import Image from 'next/image'
+import Image from 'next/legacy/image'
 import Markdown from 'react-markdown'
 import {convertTimeWithTitles} from '@skillrecordings/time'
 import Lessons from 'components/learn/module/lessons'
@@ -48,10 +48,9 @@ const Module: React.FC<React.PropsWithChildren<ModuleProps>> = ({
                 <Play items={items} progress={progress} />
               </div>
               <div className="space-y-3">
-                <Markdown
-                  children={resource.description}
-                  className="prose dark:prose-dark max-w-none"
-                />
+                <Markdown className="prose dark:prose-dark max-w-none">
+                  {resource.description}
+                </Markdown>
                 {items && (
                   <button
                     onClick={() => setExpanded(!isExpanded)}

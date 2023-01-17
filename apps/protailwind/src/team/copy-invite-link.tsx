@@ -12,14 +12,14 @@ const CopyInviteLink: React.FC<
 
   return (
     <>
-      <label className="sr-only font-semibold" htmlFor="inviteLink">
+      <label className="sr-only" htmlFor="inviteLink">
         Invite Share Link
       </label>
       <div className="flex gap-3 pt-2">
         <input
           readOnly
           className={cx(
-            'w-full rounded-md border border-gray-800 bg-gray-900 py-2 px-3 text-sm font-semibold text-white shadow-inner selection:bg-cyan-500 selection:text-white',
+            'w-full rounded-md border border-gray-200 bg-gray-100 py-2 px-3 text-sm font-semibold text-black transition selection:bg-sky-500 selection:text-white hover:bg-gray-200',
             {
               'opacity-50': disabled,
             },
@@ -39,8 +39,8 @@ const CopyInviteLink: React.FC<
             setCopied(inviteLink)
             toast.success('Copied')
           }}
-          className={`flex flex-shrink-0 items-center gap-1 rounded-md bg-cyan-400/20 px-5 py-2 text-sm font-semibold text-cyan-300 transition ${
-            disabled ? 'cursor-not-allowed opacity-30' : 'hover:bg-cyan-400/30'
+          className={`flex flex-shrink-0 items-center gap-1 rounded-full bg-sky-400/20 px-5 py-2 text-sm font-semibold text-sky-600 transition ${
+            disabled ? 'cursor-not-allowed opacity-30' : 'hover:bg-sky-400/30'
           }`}
           disabled={disabled}
         >

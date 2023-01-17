@@ -1,3 +1,5 @@
+import {isSellingLive} from 'utils/is-selling-live'
+
 <Section className="text-center pt-48 pb-24 prose-p:max-w-lg" backgroundImage="/assets/landing/bg-sea-of-red-lines@2x.png">
 
 The feature’s working. The tests are passing.<br className="md:block hidden" />But your IDE is a sea of red lines. TypeScript’s not happy again.
@@ -192,5 +194,7 @@ They can bend it to their will, and use its power for amazing DX.
 This course is all about building that understanding at a deep level. When you’ve completed Total TypeScript, you’ll reach a point of mastery where very little surprises you any more.
 
 You’ll have less fear when approaching nasty TypeScript errors, more confidence when typing dynamic signatures, gain velocity by cutting lines of code, and so much more.
+
+{!isSellingLive ? <p>If that sounds good, consider signing up for exclusive content and early-release workshop offerings below.</p> : null}
 
 </Section>

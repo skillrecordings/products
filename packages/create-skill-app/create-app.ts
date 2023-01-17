@@ -114,8 +114,11 @@ export async function createApp({
         case 'package-template.json': {
           return 'package.json'
         }
+        case 'deskStructure.ts': {
+          return path.join('schemas', 'deskStructure.ts')
+        }
         default: {
-          return configTemplate
+          return templateName
         }
       }
     }

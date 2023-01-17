@@ -8,7 +8,7 @@ import {
   PortableTextMarkComponentProps,
 } from '@portabletext/react'
 import speakingurl from 'speakingurl'
-import Image from 'next/image'
+import Image from 'next/legacy/image'
 import cx from 'classnames'
 
 import Refractor from 'react-refractor'
@@ -100,7 +100,7 @@ const InternalLink: React.FC<InternalLinkProps> = ({value, children}) => {
         },
       }}
     >
-      <a>{children}</a>
+      {children}
     </Link>
   )
 }

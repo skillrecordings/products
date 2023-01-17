@@ -1,5 +1,5 @@
 import Layout from 'components/layout'
-import Image from 'next/image'
+import Image from 'next/legacy/image'
 import Illustration from '../../public/assets/fish@2x.png'
 import {motion} from 'framer-motion'
 

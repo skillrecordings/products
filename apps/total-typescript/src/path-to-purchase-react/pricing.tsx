@@ -10,7 +10,7 @@ import {useDebounce} from '@skillrecordings/react'
 import {QueryStatus} from '@tanstack/react-query'
 import SaleCountdown from './sale-countdown'
 import Spinner from 'components/spinner'
-import Image from 'next/image'
+import Image from 'next/legacy/image'
 import find from 'lodash/find'
 import {Purchase} from '@skillrecordings/database'
 import ReactMarkdown from 'react-markdown'
@@ -172,23 +172,20 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
                       productId: productId,
                     },
                   }}
+                  className="group mt-5 inline-block gap-2 rounded bg-gray-800 py-2 pl-4 pr-6 font-medium transition hover:bg-gray-700"
+                  onClick={() => {
+                    track('clicked buy more seats', {
+                      location: 'pricing',
+                    })
+                  }}
                 >
-                  <a
-                    className="group mt-5 inline-block gap-2 rounded bg-gray-800 py-2 pl-4 pr-6 font-medium transition hover:bg-gray-700"
-                    onClick={() => {
-                      track('clicked buy more seats', {
-                        location: 'pricing',
-                      })
-                    }}
+                  <span className="pr-2">Buy More Seats</span>
+                  <span
+                    aria-hidden="true"
+                    className="absolute text-gray-300 transition group-hover:translate-x-1 group-hover:text-white"
                   >
-                    <span className="pr-2">Buy More Seats</span>
-                    <span
-                      aria-hidden="true"
-                      className="absolute text-gray-300 transition group-hover:translate-x-1 group-hover:text-white"
-                    >
-                      →
-                    </span>
-                  </a>
+                    →
+                  </span>
                 </Link>
               </div>
             </>
@@ -351,7 +348,7 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
           <div data-pricing-footer="">
             {product.description && !purchased && (
               <div className="prose prose-sm mx-auto max-w-sm px-5 prose-p:text-gray-200 sm:prose-base">
-                <ReactMarkdown children={product.description} />
+                <ReactMarkdown>{product.description}</ReactMarkdown>
               </div>
             )}
             {!purchased && (

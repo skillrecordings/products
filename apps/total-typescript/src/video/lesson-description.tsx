@@ -49,13 +49,9 @@ export const LessonDescription = () => {
         <div className="relative flex -translate-y-8 items-center justify-center rounded border border-gray-700/50 bg-gray-800 p-5 shadow-2xl before:absolute before:top-[-8px] before:h-4 before:w-4 before:rotate-45 before:border-l before:border-t before:border-gray-700/50 before:bg-gray-800 before:content-['']">
           <p className="prose max-w-none text-gray-200 prose-a:text-cyan-300 hover:prose-a:text-cyan-200 sm:prose-lg">
             This {lesson._type} is part of{' '}
-            <Link href={'/buy'}>
-              <a>Total TypeScript Core Volume</a>
-            </Link>{' '}
-            and can be unlocked immediately after purchase. Already purchased?{' '}
-            <Link href="/login">
-              <a>Log in here.</a>
-            </Link>
+            <Link href={'/buy'}>Total TypeScript Core Volume</Link> and can be
+            unlocked immediately after purchase. Already purchased?{' '}
+            <Link href="/login">Log in here.</Link>
           </p>
         </div>
       )}

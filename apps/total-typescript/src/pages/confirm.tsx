@@ -1,7 +1,7 @@
 import React from 'react'
 import Layout from 'components/app/layout'
 import config from 'config'
-import Image from 'next/image'
+import Image from 'next/legacy/image'
 import {useRouter} from 'next/router'
 import {get} from 'lodash'
 

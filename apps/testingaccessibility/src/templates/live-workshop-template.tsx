@@ -74,13 +74,14 @@ const LiveWorkshopTemplate: React.FC<React.PropsWithChildren<any>> = ({
       <Layout meta={{title, description}}>
         <main>
           <header className="flex flex-col items-center relative px-5 py-16 overflow-hidden text-white bg-green-700 bg-noise">
-            <Link href="/workshops">
-              <a className="group text-white/80 relative hover:text-white font-normal px-4 py-2 hover:bg-opacity-5 bg-opacity-0 bg-white rounded-md transition opacity-80 hover:opacity-90">
-                <span className="pr-1" role="presentation" aria-hidden="true">
-                  ←
-                </span>{' '}
-                All Workshops
-              </a>
+            <Link
+              href="/workshops"
+              className="group text-white/80 relative hover:text-white font-normal px-4 py-2 hover:bg-opacity-5 bg-opacity-0 bg-white rounded-md transition opacity-80 hover:opacity-90"
+            >
+              <span className="pr-1" role="presentation" aria-hidden="true">
+                ←
+              </span>{' '}
+              All Workshops
             </Link>
             <h1 className="max-w-screen-md font-heading font-bold mx-auto leading-none text-center text-3xl sm:text-4xl lg:text-5xl py-4">
               {title}

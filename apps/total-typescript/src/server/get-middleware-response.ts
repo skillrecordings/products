@@ -42,7 +42,7 @@ export async function getMiddlewareResponse(req: NextRequest) {
   //   }
   // }
 
-  response = setCookiesForResponse(response, subscriber)
+  // response = setCookiesForResponse(response, subscriber)
 
   return response
 }

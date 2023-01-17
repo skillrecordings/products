@@ -5,7 +5,7 @@ import {Facebook, LinkedIn, Twitter} from '@skillrecordings/react'
 import {NextRouter, useRouter} from 'next/router'
 import {IconGithub} from '../components/icons'
 import snakeCase from 'lodash/snakeCase'
-import Image from 'next/image'
+import Image from 'next/legacy/image'
 import {useMuxPlayer} from '@skillrecordings/skill-lesson/hooks/use-mux-player'
 import {XIcon} from '@heroicons/react/solid'
 import cx from 'classnames'
@@ -27,6 +27,9 @@ import {
   confirmSubscriptionToast,
   useConvertkit,
 } from '@skillrecordings/skill-lesson/hooks/use-convertkit'
+import {useDeviceDetect} from 'hooks/use-device-detect'
+import {ExclamationIcon} from '@heroicons/react/solid'
+import {getExerciseGitHubUrl} from './exercise/github-link'
 
 export const OverlayWrapper: React.FC<
   React.PropsWithChildren<{className?: string; dismissable?: boolean}>
@@ -125,13 +128,19 @@ const ExerciseOverlay = () => {
     type: lesson._type,
   })
   const {github} = module
+  const {isSafari, isFirefox} = useDeviceDetect()
+  const isStackblitzCompatibleBrowser = !(isSafari || isFirefox)
+
+  const {exerciseGitHubUrl} = getExerciseGitHubUrl({stackblitz, module})
 
   return status !== 'loading' ? (
     <div className=" bg-black/30 ">
       {stackblitz ? (
         <>
           <div className="flex w-full items-center justify-between p-3 pl-5 font-medium sm:text-lg">
-            <div>Now it's your turn! Try solving this exercise.</div>
+            <div className="flex flex-col">
+              <div>Now it's your turn! Try solving this exercise.</div>
+            </div>
             <div className="flex justify-center gap-2">
               <Actions />
             </div>
@@ -139,6 +148,64 @@ const ExerciseOverlay = () => {
           <div className="relative hidden h-[500px] w-full sm:block xl:h-[750px]">
             <StackBlitzIframe exercise={lesson} module={module} />
           </div>
+          {!isStackblitzCompatibleBrowser && (
+            <div className="mx-2 mt-2 hidden rounded-md bg-gray-800 px-4 py-3 text-base sm:block">
+              <p className="pb-1 font-semibold">
+                <ExclamationIcon className="inline-block h-5 w-5 text-cyan-300" />{' '}
+                StackBlitz is poorly supported outside of Chrome.
+              </p>
+              <p>
+                {isFirefox && (
+                  <>
+                    {
+                      'Please use Chromium-based browser to work on this exercise. Or '
+                    }
+                    <a
+                      href={`https://gitpod.io#${exerciseGitHubUrl}`}
+                      target="_blank"
+                      onClick={() => {
+                        track('clicked gitpod code link', {
+                          lesson: lesson.slug,
+                          module: module.slug.current,
+                          moduleType: module.moduleType,
+                          lessonType: lesson._type,
+                        })
+                      }}
+                      className="text-cyan-200 underline"
+                      rel="noreferrer"
+                    >
+                      view on Gitpod
+                    </a>
+                    {'.'}
+                  </>
+                )}
+                {isSafari && (
+                  <>
+                    {
+                      'Please use Chromium-based browser to work on this exercise. Or '
+                    }
+                    <a
+                      href={`https://gitpod.io#${exerciseGitHubUrl}`}
+                      target="_blank"
+                      onClick={() => {
+                        track('clicked gitpod code link', {
+                          lesson: lesson.slug,
+                          module: module.slug.current,
+                          moduleType: module.moduleType,
+                          lessonType: lesson._type,
+                        })
+                      }}
+                      className="text-cyan-200 underline"
+                      rel="noreferrer"
+                    >
+                      view on Gitpod
+                    </a>
+                    {'.'}
+                  </>
+                )}
+              </p>
+            </div>
+          )}
         </>
       ) : (
         github?.repo && (
@@ -462,27 +529,24 @@ const BlockedOverlay = () => {
                 href={{
                   pathname: '/buy',
                 }}
+                className="group group mt-5 inline-block gap-2 rounded bg-gradient-to-b from-cyan-300 to-cyan-400 py-3 pl-5 pr-8 font-medium text-black transition hover:brightness-110"
+                onClick={() => {
+                  track('clicked unlock lesson', {
+                    lesson: lesson.slug,
+                    module: module.slug.current,
+                    location: 'blocked overlay',
+                    moduleType: module.moduleType,
+                    lessonType: lesson._type,
+                  })
+                }}
               >
-                <a
-                  className="group group mt-5 inline-block gap-2 rounded bg-gradient-to-b from-cyan-300 to-cyan-400 py-3 pl-5 pr-8 font-medium text-black transition hover:brightness-110"
-                  onClick={() => {
-                    track('clicked unlock lesson', {
-                      lesson: lesson.slug,
-                      module: module.slug.current,
-                      location: 'blocked overlay',
-                      moduleType: module.moduleType,
-                      lessonType: lesson._type,
-                    })
-                  }}
+                <span className="pr-3">Unlock this {lesson._type} now</span>
+                <span
+                  aria-hidden="true"
+                  className="absolute text-cyan-700 transition group-hover:translate-x-1"
                 >
-                  <span className="pr-3">Unlock this {lesson._type} now</span>
-                  <span
-                    aria-hidden="true"
-                    className="absolute text-cyan-700 transition group-hover:translate-x-1"
-                  >
-                    →
-                  </span>
-                </a>
+                  →
+                </span>
               </Link>
             </div>
           </div>

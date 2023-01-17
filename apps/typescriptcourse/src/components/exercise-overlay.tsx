@@ -7,7 +7,7 @@ import {
 import {Facebook, LinkedIn, Twitter} from '@skillrecordings/react'
 import {NextRouter, useRouter} from 'next/router'
 import snakeCase from 'lodash/snakeCase'
-import Image from 'next/image'
+import Image from 'next/legacy/image'
 import {XIcon} from '@heroicons/react/solid'
 import cx from 'classnames'
 import {track} from '../utils/analytics'

@@ -57,7 +57,7 @@ export default {
     {
       name: 'resources',
       title: 'Resources',
-      description: 'Exercises, Sections and Explainers in the Module',
+      description: 'Exercises, Sections, Explainers or Products in the Module',
       type: 'array',
       of: [
         {
@@ -69,6 +69,7 @@ export default {
             {title: 'Explainer', type: 'explainer'},
           ],
         },
+        {title: 'Product', type: 'product'},
       ],
     },
     {

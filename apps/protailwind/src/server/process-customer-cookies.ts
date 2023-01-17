@@ -7,7 +7,7 @@ export async function getCookiesForRequest(req: NextRequest) {
   try {
     console.log(req.cookies)
     return SubscriberSchema.parse(
-      JSON.parse(req.cookies.get('ck_subscriber') as string),
+      JSON.parse(req.cookies.get('ck_subscriber') as unknown as string),
     )
   } catch (e) {
     return
