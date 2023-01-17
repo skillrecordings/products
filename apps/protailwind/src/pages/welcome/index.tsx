@@ -58,7 +58,7 @@ export const getServerSideProps: GetServerSideProps = async ({req, query}) => {
       const workshop = first(
         workshops.filter(
           (workshop: SanityDocument) =>
-            workshop.product.productId === purchase.product.id,
+            workshop?.product?.productId === purchase.product.id,
         ),
       )
 
