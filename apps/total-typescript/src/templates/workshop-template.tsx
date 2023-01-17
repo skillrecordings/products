@@ -40,7 +40,7 @@ const WorkshopTemplate: React.FC<{
         <article className="prose prose-lg w-full max-w-none px-5 text-white lg:max-w-xl">
           <PortableText value={body} components={PortableTextComponents} />
         </article>
-        <WorkshopSectionNavigator workshop={workshop} />
+        {workshop && <WorkshopSectionNavigator workshop={workshop} />}
       </main>
     </Layout>
   )

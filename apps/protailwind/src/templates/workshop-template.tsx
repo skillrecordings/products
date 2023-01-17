@@ -65,10 +65,12 @@ const WorkshopTemplate: React.FC<{
           <article className="prose w-full max-w-none pb-10 text-gray-900 lg:max-w-xl">
             <PortableText value={body} components={PortableTextComponents} />
           </article>
-          <WorkshopSectionNavigator
-            purchased={hasPurchased}
-            workshop={workshop}
-          />
+          {workshop && (
+            <WorkshopSectionNavigator
+              purchased={hasPurchased}
+              workshop={workshop}
+            />
+          )}
         </div>
         {commerceProps ? (
           <BuyWorkshop
