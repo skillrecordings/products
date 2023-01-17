@@ -54,6 +54,7 @@ export const getServerSideProps: GetServerSideProps = async ({req, query}) => {
       await getPurchaseDetails(purchaseId, token.sub)
 
     if (purchase) {
+      // TODO: replace with getActiveProduct
       const workshops = await getAllWorkshops()
       const workshop = first(
         workshops.filter(
