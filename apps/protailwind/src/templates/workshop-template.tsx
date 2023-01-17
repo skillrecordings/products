@@ -122,13 +122,13 @@ const BuyWorkshop: React.FC<
   const purchasedProductIds = purchases.map((purchase) => purchase.productId)
   const hasPurchased =
     purchasedProductIds && purchasedProductIds.includes(product.productId)
-  const firstLesson = workshop.sections[0].lessons[0]
+  const firstLesson = workshop?.sections[0]?.lessons[0]
   const thumbnail = `https://protailwind.com/api/video-thumb?videoResourceId=${firstLesson?.videoResourceId}`
   // const thumbnail = `${getBaseUrl()}/api/video-thumb?videoResourceId=${firstLesson?.videoResourceId}`
 
   return (
     <div className="mx-auto w-full max-w-sm overflow-hidden rounded-lg border border-gray-200/40 bg-white shadow-2xl shadow-gray-400/20">
-      {!hasPurchased && (
+      {!hasPurchased && firstLesson && (
         <Link
           href={{
             pathname: '/workshops/[module]/[section]/[lesson]',
@@ -269,6 +269,8 @@ const WorkshopSectionNavigator: React.FC<{
 }> = ({workshop, purchased}) => {
   const {sections} = workshop
 
+  if (!sections) return null
+
   return (
     <nav
       aria-label="workshop navigator"
@@ -316,17 +318,17 @@ const WorkshopSectionNavigator: React.FC<{
             Workshop content
           </h3>
           <div className="flex gap-1 pb-2 text-sm">
-            <span>{sections[0].lessons.length} lessons</span> {'・'}
+            <span>{sections[0]?.lessons.length} lessons</span> {'・'}
             <span>
               {
-                sections[0].lessons.filter((l: any) => l._type === 'exercise')
+                sections[0]?.lessons.filter((l: any) => l._type === 'exercise')
                   .length
               }{' '}
               exercises
             </span>
           </div>
           <ul className="rounded-lg border border-gray-100 bg-white py-3 pl-3.5 pr-3 shadow-xl shadow-gray-300/20">
-            {sections[0].lessons.map((exercise: LessonResource, i: number) => {
+            {sections[0]?.lessons.map((exercise: LessonResource, i: number) => {
               const section = sections[0]
               const moduleSlug = workshop.slug.current
               return (

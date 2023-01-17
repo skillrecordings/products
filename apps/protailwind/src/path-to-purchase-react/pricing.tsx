@@ -163,8 +163,8 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
         )} */}
         {!purchased && (
           <div data-pricing-product-header="">
-            <h2 data-name-badge="">{name}</h2>
-            {title && <h1 data-title>{title}</h1>}
+            <p data-name-badge="">{name}</p>
+            {title && <h2 data-title>{title}</h2>}
             {instructor && (
               <div data-instructor="">
                 {instructor.image && (
@@ -182,7 +182,8 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
         {purchased ? (
           <>
             <div data-pricing-product-header="">
-              <h2 data-name-badge="">{name}</h2>
+              <p data-name-badge="">{name}</p>
+              {title && <h2 data-title>{title}</h2>}
             </div>
             <div data-purchased-container="">
               <div data-purchased="">
