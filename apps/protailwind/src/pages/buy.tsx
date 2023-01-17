@@ -36,7 +36,13 @@ const Buy: React.FC<CommerceProps> = ({
 
   return (
     <Layout
-      meta={{title: `Buy ${process.env.NEXT_PUBLIC_SITE_TITLE} Workshops`}}
+      meta={{
+        title: `Buy ${process.env.NEXT_PUBLIC_SITE_TITLE} Workshops`,
+        ogImage: {
+          url: 'https://res.cloudinary.com/pro-tailwind/image/upload/v1673953704/buy-card_2x.png',
+          alt: 'Professional Tailwind CSS Workshops',
+        },
+      }}
       className="py-16"
     >
       <header>
