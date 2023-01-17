@@ -8,6 +8,7 @@ import {getActiveProducts} from 'path-to-purchase-react/products.server'
 import type {CommerceProps} from '@skillrecordings/commerce-server/dist/@types'
 import {useCoupon} from 'path-to-purchase-react/use-coupon'
 import {PriceCheckProvider} from 'path-to-purchase-react/pricing-check-context'
+import Image from 'next/image'
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const {req, query} = context
@@ -32,8 +33,6 @@ const Buy: React.FC<CommerceProps> = ({
     couponIdFromCoupon || (validCoupon ? couponFromCode?.id : undefined)
 
   const purchasedProductIds = purchases.map((purchase) => purchase.productId)
-
-  const [isContentsModalOpen, setContentsModalOpen] = React.useState(false)
 
   return (
     <Layout
@@ -65,6 +64,14 @@ const Buy: React.FC<CommerceProps> = ({
             })}
           </div>
         </PriceCheckProvider>
+        <div className="flex w-full items-center justify-center pt-16">
+          <Image
+            src={require('../../public/assets/money-back-guarantee-badge.svg')}
+            width={130}
+            height={130}
+            alt="30-Day Money-Back Guarantee"
+          />
+        </div>
       </main>
     </Layout>
   )
