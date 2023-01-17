@@ -48,14 +48,14 @@
     "esbuild-node-tsc": "^1.6.1",
     "eslint": "^8.19.0",
     "eslint-config-custom": "workspace:*",
-    "framer-motion": "^6.4.1",
+    "framer-motion": "^8.4.3",
     "next": "^13.1.2",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "typescript": "^4.9.4"
   },
   "peerDependencies": {
-    "framer-motion": "^6.4.1",
+    "framer-motion": "^8.4.3",
     "next": ">= 11.1.2 < 13"
   },
   "publishConfig": {

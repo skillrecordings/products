@@ -21,6 +21,7 @@
     "format:src": "prettier --write",
     "generate": "turbo run generate",
     "lint": "TIMING=1 eslint --fix --cache",
+    "manypkg": "manypkg",
     "pre-commit": "lint-staged",
     "prepare": "husky install",
     "release": "changeset publish",
