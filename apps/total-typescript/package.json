@@ -21,6 +21,7 @@
     "@amplitude/analytics-browser": "^1.3.0",
     "@amplitude/identify": "^1.10.2",
     "@amplitude/node": "^1.10.2",
+    "@axiomhq/axiom-node": "^0.10.0",
     "@casl/ability": "^6.3.2",
     "@codesandbox/sandpack-react": "^1.17.0",
     "@headlessui/react": "^1.6.1",
