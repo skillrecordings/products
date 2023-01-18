@@ -65,10 +65,12 @@ const WorkshopTemplate: React.FC<{
           <article className="prose w-full max-w-none pb-10 text-gray-900 lg:max-w-xl">
             <PortableText value={body} components={PortableTextComponents} />
           </article>
-          <WorkshopSectionNavigator
-            purchased={hasPurchased}
-            workshop={workshop}
-          />
+          {workshop && (
+            <WorkshopSectionNavigator
+              purchased={hasPurchased}
+              workshop={workshop}
+            />
+          )}
         </div>
         {commerceProps && product ? (
           <BuyWorkshop
@@ -312,7 +314,7 @@ const WorkshopSectionNavigator: React.FC<{
             })}
           </ul>
         </Accordion.Root>
-      ) : (
+      ) : sections ? (
         <div>
           <h3 className="pb-4 font-heading text-2xl font-black">
             Workshop content
@@ -342,6 +344,15 @@ const WorkshopSectionNavigator: React.FC<{
                 />
               )
             })}
+          </ul>
+        </div>
+      ) : (
+        <div>
+          <h3 className="pb-1 font-heading text-lg font-bold">
+            No lessons yet!
+          </h3>
+          <ul className="rounded-lg border border-gray-100 bg-white py-3 pl-3.5 pr-3 shadow-xl shadow-gray-300/20">
+            <li className="text-gray-500">...</li>
           </ul>
         </div>
       )}
