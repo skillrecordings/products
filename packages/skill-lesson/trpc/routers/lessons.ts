@@ -31,22 +31,27 @@ export const lessonsRouter = router({
 
       const lessons = section ? section.lessons : module.lessons
 
-      const exerciseForSolution = lessons.find((resource: SanityDocument) => {
-        return resource.solution?._key === lesson.solution?._key
-      })
+      let currentLesson
 
-      // TODO: this is likely overloading the lesson type just because it
-      //   exists and is different that the exercise type. We should probably
-      //   create a new type instead of `lesson` since `lesson` describes ALL
-      //   lessons, not just the ones that are not exercises.
-      const current =
-        input.type === 'lesson'
-          ? find(lessons, {slug: input.slug})
-          : find(lessons, {_id: exerciseForSolution._id})
-      const nextExerciseIndex = indexOf(lessons, current) + 1
+      switch (input.type) {
+        case 'exercise':
+          //exercises have solutions, that's what makes them exercises
+          //so we match the solution key to identify the exercise
+          const exerciseForSolution = lessons.find(
+            (resource: SanityDocument) => {
+              return resource.solution?._key === lesson.solution?._key
+            },
+          )
+          currentLesson = find(lessons, {_id: exerciseForSolution._id})
+          break
+        default:
+          currentLesson = find(lessons, {slug: input.slug})
+      }
 
-      return lessons[nextExerciseIndex]
-        ? LessonResourceSchema.parse(lessons[nextExerciseIndex])
+      const nextLessonIndex = indexOf(lessons, currentLesson) + 1
+
+      return lessons[nextLessonIndex]
+        ? LessonResourceSchema.parse(lessons[nextLessonIndex])
         : null
     }),
 })
