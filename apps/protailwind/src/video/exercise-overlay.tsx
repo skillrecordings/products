@@ -140,7 +140,6 @@ const ExerciseOverlay: React.FC<{tutorialFiles: any}> = ({tutorialFiles}) => {
     type: lesson._type,
   })
   const {github} = module
-  console.log({resources})
 
   const visibleFiles = resources?.sandpack
     ?.filter(({active}) => active)

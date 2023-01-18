@@ -256,14 +256,16 @@ const BlockedOverlay: React.FC = () => {
     >
       <div className="z-20 flex h-full flex-shrink-0 flex-col items-center justify-center gap-5 p-5 pb-10 text-center text-lg leading-relaxed sm:p-10 sm:pb-16">
         <div className="flex w-full flex-col items-center justify-center gap-2">
-          <div className="relative ">
-            <Image
-              src={module.image}
-              width={120}
-              height={120}
-              alt={module.title}
-            />
-          </div>
+          {module.image && (
+            <div className="relative ">
+              <Image
+                src={module.image}
+                width={120}
+                height={120}
+                alt={module.title}
+              />
+            </div>
+          )}
           <h2 className="max-w-sm font-heading text-3xl font-black">
             Level up with {module.title}
           </h2>

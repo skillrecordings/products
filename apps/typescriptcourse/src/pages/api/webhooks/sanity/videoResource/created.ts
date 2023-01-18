@@ -78,6 +78,7 @@ const sanityVideoResourceWebhook = async (
       res.status(500).json({success: false})
     }
   } catch (e) {
+    console.log('error', e)
     Sentry.captureException(e)
     res.status(200).json({success: true})
   }

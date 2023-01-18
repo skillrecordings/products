@@ -4,6 +4,7 @@ import {SanityDocument} from '@sanity/client'
 import Link from 'next/link'
 import Image from 'next/legacy/image'
 import {getAllWorkshops} from '../../lib/workshops'
+import {isSellingLive} from 'path-to-purchase-react/is-selling-live'
 
 export async function getStaticProps() {
   const workshops = await getAllWorkshops()
@@ -62,8 +63,13 @@ const WorkshopsPage: React.FC<{workshops: SanityDocument[]}> = ({
                       )}
                     </div>
                     <div className="pr:0 m-10 md:m-0 md:pr-10">
-                      <div className="pt-4 pb-3 font-mono text-xs font-semibold uppercase text-gray-600 ">
-                        {i === 0 && (
+                      <div className="flex items-center gap-1 pb-3 font-mono text-xs font-semibold uppercase text-gray-600">
+                        {state === 'draft' && (
+                          <span className="mr-3 rounded-full bg-gray-100 px-2 py-0.5 font-sans font-semibold uppercase text-gray-700">
+                            Coming Soon
+                          </span>
+                        )}
+                        {i === 0 && state !== 'draft' && (
                           <span className="mr-3 rounded-full bg-gray-100 px-2 py-0.5 font-sans font-semibold uppercase text-gray-700">
                             New
                           </span>
@@ -84,36 +90,46 @@ const WorkshopsPage: React.FC<{workshops: SanityDocument[]}> = ({
                           <br />
                         )}
                       </div>
-                      <Link
-                        href={{
-                          pathname: '/workshops/[module]',
-                          query: {
-                            module: slug.current,
-                          },
-                        }}
-                        className="font-heading text-3xl font-black hover:underline sm:text-4xl"
-                      >
-                        {title}
-                      </Link>
-
+                      {state === 'draft' ? (
+                        <h2 className="block font-heading text-3xl font-black sm:text-4xl">
+                          {title}
+                        </h2>
+                      ) : (
+                        <h2>
+                          <Link
+                            href={{
+                              pathname: '/workshops/[module]',
+                              query: {
+                                module: slug.current,
+                              },
+                            }}
+                            className="block font-heading text-3xl font-black hover:underline sm:text-4xl"
+                          >
+                            {title}
+                          </Link>
+                        </h2>
+                      )}
                       {description && <p className="mt-2">{description}</p>}
-                      <Link
-                        href={{
-                          pathname: '/workshops/[module]',
-                          query: {
-                            module: slug.current,
-                          },
-                        }}
-                        className="group my-4 inline-block gap-2 rounded-full bg-brand-red px-4 py-2 font-medium text-white transition"
-                      >
-                        View{' '}
-                        <span
-                          aria-hidden="true"
-                          className="text-white/90 transition group-hover:text-white"
+                      {(process.env.NODE_ENV === 'development' ||
+                        state !== 'draft') && (
+                        <Link
+                          href={{
+                            pathname: '/workshops/[module]',
+                            query: {
+                              module: slug.current,
+                            },
+                          }}
+                          className="group my-4 inline-block gap-2 rounded-full bg-brand-red px-4 py-2 font-medium text-white transition"
                         >
-                          →
-                        </span>
-                      </Link>
+                          View{' '}
+                          <span
+                            aria-hidden="true"
+                            className="text-white/90 transition group-hover:text-white"
+                          >
+                            →
+                          </span>
+                        </Link>
+                      )}
                     </div>
                   </li>
                 )

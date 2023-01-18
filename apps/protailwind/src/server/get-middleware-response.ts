@@ -21,7 +21,6 @@ export const SITE_ROOT_PATH = '/'
 export async function getMiddlewareResponse(req: NextRequest) {
   let response = NextResponse.next()
   const subscriber = await getCookiesForRequest(req)
-  console.log(subscriber)
 
   if (subscriber && req.nextUrl.pathname === SITE_ROOT_PATH) {
     switch (true) {

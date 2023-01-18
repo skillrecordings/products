@@ -35,8 +35,10 @@ export type CommerceProps = {
 export type SanityProduct = {
   productId: string
   name: string
+  title?: string
   action: string
   description?: string
+  slug?: string
   image: {
     url: string
     alt: string
@@ -49,7 +51,19 @@ export type SanityProduct = {
       alt: string
     }
   }[]
+  lessons?: {
+    title: string
+    state?: 'draft' | 'published'
+    image: {
+      url: string
+      alt: string
+    }
+  }[]
   features: {
     value: string
   }[]
+  instructor?: {
+    name: string
+    image: string
+  }
 }
