@@ -50,7 +50,7 @@ export async function orderTranscript(
 ) {
   // BULK2 is a quick transcript order. There is also BULK6 but it is slower
   // BCAPTION3 orders captions
-  const skus = [expedite ? 'BULK2' : 'BULK6', 'BCAPTION3']
+  const skus = [expedite ? 'TRANS2' : 'TRANS6', 'CAPTION1']
   const url = buildCastingwordsOrderUrl({skus, originalMediaUrl})
   const headers = new Headers()
   headers.append('Content-Type', 'application/json')
@@ -60,6 +60,7 @@ export async function orderTranscript(
     headers,
   }).then(async (response) => {
     const order = await response.json()
+    console.log('castingwords', {order})
     return CastingWordsOrderResponseSchema.parse(order)
   })
 }
