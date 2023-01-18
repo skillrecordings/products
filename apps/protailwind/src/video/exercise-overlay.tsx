@@ -162,7 +162,7 @@ const ExerciseOverlay: React.FC<{tutorialFiles: any}> = ({tutorialFiles}) => {
   }
 
   return status !== 'loading' ? (
-    <div className="">
+    <div className="flex aspect-video flex-col items-center justify-center">
       {resources?.sandpack && (
         <>
           <div className="flex w-full items-center justify-between p-3 pl-5 font-medium">
