@@ -20,8 +20,10 @@ export async function lookupUser({
       }
     }
 
+    const email = (req.query?.email as string) || (req.body?.email as string)
+
     const user = await prisma.user.findUnique({
-      where: {email: req.body.email as string},
+      where: {email},
       select: {
         roles: true,
         id: true,
