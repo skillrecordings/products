@@ -8,6 +8,7 @@ import cx from 'classnames'
 import {type LessonResource} from '@skillrecordings/skill-lesson/schemas/lesson-resource'
 import {track} from '@skillrecordings/skill-lesson/utils/analytics'
 import {useLesson} from '@skillrecordings/skill-lesson/hooks/use-lesson'
+import {trpc} from '../utils/trpc'
 
 type LessonTitleLinkProps = {
   path: string
@@ -56,6 +57,69 @@ const LessonTitleLink: React.FC<LessonTitleLinkProps> = ({
   )
 }
 
+const ExerciseListItem = ({
+  exerciseSlug,
+  path,
+}: {
+  exerciseSlug: string
+  path: string
+}) => {
+  const router = useRouter()
+  const {module, section} = useLesson()
+  const {data: exercise} = trpc.exercises.bySlug.useQuery({slug: exerciseSlug})
+  const currentPath = section
+    ? `${path}/${module.slug.current}/${section.slug}/${exercise?.slug}`
+    : `${path}/${module.slug.current}/${exercise?.slug}`
+  const isActive = router.asPath === currentPath
+  return exercise ? (
+    <ul className="text-gray-700">
+      <li key={exercise.slug + `exercise`}>
+        <Link
+          href={{
+            pathname: section
+              ? `${path}/[module]/[section]/[lesson]`
+              : `${path}/[module]/[lesson]`,
+            query: {
+              module: module.slug.current,
+              lesson: exercise.slug,
+              ...(section && {section: section.slug}),
+            },
+          }}
+          passHref
+          className={cx(
+            'flex items-center border-l-4 py-2.5 px-8 text-sm font-medium transition',
+            {
+              'border-brand-red bg-white shadow-lg shadow-gray-300/20':
+                isActive,
+              'border-transparent hover:bg-gray-100': !isActive,
+            },
+          )}
+          onClick={() => {
+            track(`clicked exercise in navigator`, {
+              module: module.slug.current,
+              lesson: exercise.slug,
+              ...(section && {section: section.slug}),
+              location: router.query.lesson,
+              moduleType: module.moduleType,
+              lessonType: exercise._type,
+            })
+          }}
+        >
+          Exercise
+        </Link>
+      </li>
+      {exercise.solution != null && (
+        <SolutionLink
+          module={module}
+          exercise={exercise}
+          section={section}
+          path={path}
+        />
+      )}
+    </ul>
+  ) : null
+}
+
 export const LessonList: React.FC<{
   path: string
 }> = ({path}) => {
@@ -102,51 +166,7 @@ export const LessonList: React.FC<{
                   path={path}
                 />
                 {exercise._type === 'exercise' && (
-                  <ul className="text-gray-700">
-                    <li key={exercise.slug + `exercise`}>
-                      <Link
-                        href={{
-                          pathname: section
-                            ? `${path}/[module]/[section]/[lesson]`
-                            : `${path}/[module]/[lesson]`,
-                          query: {
-                            module: module.slug.current,
-                            lesson: exercise.slug,
-                            ...(section && {section: section.slug}),
-                          },
-                        }}
-                        passHref
-                        className={cx(
-                          'flex items-center border-l-4 py-2.5 px-8 text-sm font-medium transition',
-                          {
-                            'border-brand-red bg-white shadow-lg shadow-gray-300/20':
-                              isActive,
-                            'border-transparent hover:bg-gray-100': !isActive,
-                          },
-                        )}
-                        onClick={() => {
-                          track(`clicked exercise in navigator`, {
-                            module: module.slug.current,
-                            lesson: exercise.slug,
-                            ...(section && {section: section.slug}),
-                            location: router.query.lesson,
-                            moduleType: module.moduleType,
-                            lessonType: exercise._type,
-                          })
-                        }}
-                      >
-                        Exercise
-                      </Link>
-                    </li>
-                    {exercise.solution != null && (
-                      <SolutionLink
-                        module={module}
-                        exercise={exercise}
-                        section={section}
-                        path={path}
-                      />
-                    )}
-                  </ul>
+                  <ExerciseListItem exerciseSlug={exercise.slug} path={path} />
                 )}
                 {exercise._type === 'explainer' && (
                   <ul className="text-gray-700">
