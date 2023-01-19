@@ -38,9 +38,7 @@ const Learn: React.FC<React.PropsWithChildren<{purchases: Purchase[]}>> = ({
   return (
     <Layout meta={{title: 'Invoices'}}>
       <main className="mx-auto flex h-full w-full max-w-2xl flex-grow flex-col py-24 px-5 sm:py-32">
-        <h1 className="font-text pb-4 text-3xl font-medium text-white">
-          Your Invoices
-        </h1>
+        <h1 className="pb-4 font-heading text-3xl font-black">Your Invoices</h1>
         <ul className="flex flex-col gap-2">
           {purchases
             .filter((purchase: Purchase) => purchase.merchantChargeId)
@@ -70,7 +68,7 @@ export const InvoiceCard: React.FC<{purchase: Purchase | any}> = ({
           <div className="font-semibold group-hover:underline">
             Invoice: {purchase?.product?.name}
           </div>
-          <div className="flex text-sm text-gray-600 md:pr-2">
+          <div className="flex flex-wrap text-sm text-gray-600 md:pr-2">
             <span className="after:content-['・']">
               {Intl.NumberFormat('en-US', {
                 style: 'currency',

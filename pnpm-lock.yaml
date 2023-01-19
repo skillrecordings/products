@@ -390,6 +390,7 @@ importers:
       '@radix-ui/react-accordion': ^1.0.0
       '@radix-ui/react-alert-dialog': ^0.1.7
       '@radix-ui/react-dropdown-menu': ^1.0.0
+      '@radix-ui/react-navigation-menu': ^1.1.1
       '@radix-ui/react-switch': ^1.0.1
       '@sanity/client': ^3.3.2
       '@sanity/types': ^2.29.5
@@ -492,6 +493,7 @@ importers:
       '@radix-ui/react-accordion': 1.0.0_biqbaboplfbrettd7655fr4n2y
       '@radix-ui/react-alert-dialog': 0.1.7_bb2bxwco6ptpubzwpazr52qf6i
       '@radix-ui/react-dropdown-menu': 1.0.0_bb2bxwco6ptpubzwpazr52qf6i
+      '@radix-ui/react-navigation-menu': 1.1.1_biqbaboplfbrettd7655fr4n2y
       '@radix-ui/react-switch': 1.0.1_biqbaboplfbrettd7655fr4n2y
       '@sanity/client': 3.3.2
       '@sanity/webhook': 1.0.2
@@ -6152,13 +6154,13 @@ packages:
     engines: {node: '>=6.9.0'}
     dependencies:
       core-js-pure: 3.19.1
-      regenerator-runtime: 0.13.9
+      regenerator-runtime: 0.13.11
 
   /@babel/runtime/7.16.0:
     resolution: {integrity: sha512-Nht8L0O8YCktmsDV6FqFue7vQLRx3Hb0B37lS5y0jDRqRxlBG4wIJHnf9/bgSE2UyipKFA01YtS+npRdTWBUyw==}
     engines: {node: '>=6.9.0'}
     dependencies:
-      regenerator-runtime: 0.13.9
+      regenerator-runtime: 0.13.11
 
   /@babel/runtime/7.17.2:
     resolution: {integrity: sha512-hzeyJyMA1YGdJTuWU0e/j4wKXrU4OMFvY2MSlaI9B7VQb0r5cxTE3EAIS2Q7Tn2RIcDkRvTA/v2JsAEhxe99uw==}
@@ -8214,7 +8216,7 @@ packages:
       '@mdx-js/loader': '>=0.15.0'
       '@mdx-js/react': '*'
     dependencies:
-      '@mdx-js/loader': 2.1.5_webpack@4.46.0
+      '@mdx-js/loader': 2.1.5_webpack@5.73.0
       '@mdx-js/react': 2.1.5_react@18.2.0
     dev: false
 
@@ -8871,7 +8873,7 @@ packages:
       react: ^16.8 || ^17.0 || ^18.0
       react-dom: ^16.8 || ^17.0 || ^18.0
     dependencies:
-      '@babel/runtime': 7.18.3
+      '@babel/runtime': 7.20.7
       '@radix-ui/primitive': 1.0.0
       '@radix-ui/react-collection': 1.0.0_biqbaboplfbrettd7655fr4n2y
       '@radix-ui/react-compose-refs': 1.0.0_react@18.2.0
@@ -8902,7 +8904,7 @@ packages:
       react: ^16.8 || ^17.0 || ^18.0
       react-dom: ^16.8 || ^17.0 || ^18.0
     dependencies:
-      '@babel/runtime': 7.18.3
+      '@babel/runtime': 7.20.7
       '@radix-ui/primitive': 1.0.0
       '@radix-ui/react-collection': 1.0.1_biqbaboplfbrettd7655fr4n2y
       '@radix-ui/react-compose-refs': 1.0.0_react@18.2.0
@@ -10239,7 +10241,7 @@ packages:
     engines: {node: '>=12'}
     dependencies:
       '@babel/code-frame': 7.18.6
-      '@babel/runtime': 7.18.3
+      '@babel/runtime': 7.20.7
       '@types/aria-query': 4.2.2
       aria-query: 5.0.0
       chalk: 4.1.2
@@ -12551,7 +12553,7 @@ packages:
     resolution: {integrity: sha512-o/HelwhuKpTj/frsOsbNLNgnNGVIFsVP/SW2BSF14gVl7kAfMOJ6/8wUAUvG1R1NHKrfG+2sHZTu0yauT1qBrA==}
     engines: {node: '>=6.0'}
     dependencies:
-      '@babel/runtime': 7.18.3
+      '@babel/runtime': 7.20.7
       '@babel/runtime-corejs3': 7.16.0
 
   /aria-query/5.0.0:
@@ -13030,7 +13032,7 @@ packages:
   /babel-plugin-macros/2.8.0:
     resolution: {integrity: sha512-SEP5kJpfGYqYKpBrj5XU3ahw5p5GOHJ0U5ssOSQ/WBVdwkD2Dzlce95exQTs3jOVWPPKLBN2rlEWkCK7dSmLvg==}
     dependencies:
-      '@babel/runtime': 7.18.3
+      '@babel/runtime': 7.20.7
       cosmiconfig: 6.0.0
       resolve: 1.22.1
 
@@ -13277,7 +13279,7 @@ packages:
       '@babel/preset-env': 7.17.10_@babel+core@7.16.5
       '@babel/preset-react': 7.16.7_@babel+core@7.16.5
       '@babel/preset-typescript': 7.16.7_@babel+core@7.16.5
-      '@babel/runtime': 7.18.3
+      '@babel/runtime': 7.20.7
       babel-plugin-macros: 3.1.0
       babel-plugin-transform-react-remove-prop-types: 0.4.24
     transitivePeerDependencies:
@@ -13447,7 +13449,7 @@ packages:
   /broadcast-channel/3.7.0:
     resolution: {integrity: sha512-cIAKJXAxGJceNZGTZSBzMxzyOn72cVgPnKx4dc6LRjQgbaJUQqhy5rzL3zbMxkMWsGKkv2hSFkPRMEXfoMZ2Mg==}
     dependencies:
-      '@babel/runtime': 7.18.3
+      '@babel/runtime': 7.20.7
       detect-node: 2.1.0
       js-sha3: 0.8.0
       microseconds: 0.2.0
@@ -16189,10 +16191,10 @@ packages:
       eslint-import-resolver-webpack:
         optional: true
     dependencies:
-      '@typescript-eslint/parser': 5.40.0_eslint@8.26.0
+      '@typescript-eslint/parser': 5.40.0_sq327paf6wzcma7omk5wjhfcfa
       debug: 3.2.7
       eslint-import-resolver-node: 0.3.6
-      eslint-import-resolver-typescript: 2.7.1_mynvxvmq5qtyojffiqgev4x7mm
+      eslint-import-resolver-typescript: 2.7.1_2iahngt3u2tkbdlu6s4gkur3pu
       find-up: 2.1.0
     transitivePeerDependencies:
       - supports-color
@@ -21392,7 +21394,7 @@ packages:
   /match-sorter/6.3.1:
     resolution: {integrity: sha512-mxybbo3pPNuA+ZuCUhm5bwNkXrJTbsk5VWbR5wiwz/GC6LIiegBGn2w3O08UG/jdbYLinw51fSQ5xNU1U3MgBw==}
     dependencies:
-      '@babel/runtime': 7.18.3
+      '@babel/runtime': 7.20.7
       remove-accents: 0.4.2
     dev: false
 

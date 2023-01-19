@@ -62,6 +62,7 @@
     "@radix-ui/react-accordion": "^1.0.0",
     "@radix-ui/react-alert-dialog": "^0.1.7",
     "@radix-ui/react-dropdown-menu": "^1.0.0",
+    "@radix-ui/react-navigation-menu": "^1.1.1",
     "@radix-ui/react-switch": "^1.0.1",
     "@sanity/client": "^3.3.2",
     "@sanity/webhook": "^1.0.2",
