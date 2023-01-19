@@ -1,7 +1,7 @@
 require('dotenv-flow').config()
 /** @type {import('next-sitemap').IConfig} */
 module.exports = {
-  siteUrl: `https://protailwind.com`,
+  siteUrl: `https://www.protailwind.com`,
   changefreq: 'daily',
   priority: 0.7,
   sitemapSize: 5000,
@@ -20,8 +20,9 @@ module.exports = {
     '/team',
     '/error',
     '/check-your-email',
+    '_next/*',
   ],
   robotsTxtOptions: {
-    additionalSitemaps: ['https://protailwind.com/server-sitemap.xml'],
+    additionalSitemaps: ['https://www.protailwind.com/server-sitemap.xml'],
   },
 }
