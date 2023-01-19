@@ -3,6 +3,7 @@ import {getSdk} from '@skillrecordings/database'
 import {SubscriberSchema} from '../../schemas/subscriber'
 import {publicProcedure, router} from '../trpc.server'
 import {getToken} from 'next-auth/jwt'
+import sortBy from 'lodash/sortBy'
 
 export const progressRouter = router({
   add: publicProcedure
@@ -59,7 +60,12 @@ export const progressRouter = router({
         const lessonProgress = await getLessonProgressForUser(
           token.id as string,
         )
-        return lessonProgress
+        const sortedLessonProgressByLatest = sortBy(
+          lessonProgress,
+          ({updatedAt}) => updatedAt,
+        ).reverse()
+
+        return sortedLessonProgressByLatest
       } catch (error) {
         console.error(error)
         let message = 'Unknown Error'
