@@ -11,6 +11,7 @@ export const BaseLessonResourceSchema = z.object({
     .nullable(
       z.object({
         _key: z.string(),
+        slug: z.nullable(z.string()).optional(),
         videoResourceId: z.nullable(z.string()).optional(),
         transcript: z.nullable(z.any().array()).optional(),
         github: z
