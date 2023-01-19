@@ -5,7 +5,7 @@ import Link from 'next/link'
 import {CourseJsonLd} from '@skillrecordings/next-seo'
 import {PortableText} from '@portabletext/react'
 import {SanityDocument} from '@sanity/client'
-import {IconGithub} from 'components/icons'
+import Icon from 'components/icons'
 import {isBrowser} from 'utils/is-browser'
 import {track} from '@skillrecordings/skill-lesson/utils/analytics'
 import first from 'lodash/first'
@@ -242,7 +242,7 @@ const Header: React.FC<
                   target="_blank"
                   rel="noopener noreferrer"
                 >
-                  <IconGithub className="w-6" /> Code
+                  <Icon name="Github" className="w-6" /> Code
                 </a>
               )}
             </div>
