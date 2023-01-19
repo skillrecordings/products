@@ -22,7 +22,7 @@ type TipsIndex = {
 }
 
 const pageDescription =
-  'A collection of useful tips that you wish you knew when you started using Tailwind.'
+  'A collection of valuable tips that you wish you had known when you started using Tailwind. Level up your skills by digging into these techniques.'
 
 const TipsIndex: React.FC<TipsIndex> = ({tips}) => {
   return (

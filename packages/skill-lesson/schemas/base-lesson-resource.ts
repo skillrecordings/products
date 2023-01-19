@@ -7,4 +7,19 @@ export const BaseLessonResourceSchema = z.object({
   slug: z.string(),
   description: z.nullable(z.string()).optional(),
   body: z.nullable(z.any().array().optional()),
+  solution: z
+    .nullable(
+      z.object({
+        _key: z.string(),
+        videoResourceId: z.nullable(z.string()).optional(),
+        transcript: z.nullable(z.any().array()).optional(),
+        github: z
+          .object({
+            url: z.string(),
+          })
+          .optional()
+          .nullable(),
+      }),
+    )
+    .optional(),
 })

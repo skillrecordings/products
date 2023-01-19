@@ -73,7 +73,6 @@ export const LessonList: React.FC<{
 
   const lessons = section ? section.lessons : module.lessons
   const hasSectionResources = section?.resources?.length > 0
-
   return (
     <div
       ref={scrollContainerRef}
@@ -90,7 +89,6 @@ export const LessonList: React.FC<{
             const scrollToElement =
               router.asPath === `${currentPath}/solution` ||
               router.asPath === currentPath
-
             return (
               <li key={exercise.slug} className="pt-2">
                 {scrollToElement && (
@@ -140,12 +138,14 @@ export const LessonList: React.FC<{
                         Exercise
                       </Link>
                     </li>
-                    <SolutionLink
-                      module={module}
-                      exercise={exercise}
-                      section={section}
-                      path={path}
-                    />
+                    {exercise.solution != null && (
+                      <SolutionLink
+                        module={module}
+                        exercise={exercise}
+                        section={section}
+                        path={path}
+                      />
+                    )}
                   </ul>
                 )}
                 {exercise._type === 'explainer' && (
