@@ -60,12 +60,7 @@ export const progressRouter = router({
         const lessonProgress = await getLessonProgressForUser(
           token.id as string,
         )
-        const sortedLessonProgressByLatest = sortBy(
-          lessonProgress,
-          ({updatedAt}) => updatedAt,
-        ).reverse()
-
-        return sortedLessonProgressByLatest
+        return lessonProgress
       } catch (error) {
         console.error(error)
         let message = 'Unknown Error'

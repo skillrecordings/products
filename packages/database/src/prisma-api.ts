@@ -278,8 +278,12 @@ export function getSdk(
     async getLessonProgressForUser(userId: string) {
       const userProgress = await ctx.prisma.user.findFirst({
         where: {id: userId as string},
-        select: {
-          lessonProgresses: true,
+        include: {
+          lessonProgresses: {
+            orderBy: {
+              updatedAt: 'desc',
+            },
+          },
         },
       })
       return userProgress?.lessonProgresses
