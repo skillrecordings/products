@@ -23,7 +23,7 @@ const WorkshopsPage: React.FC<{workshops: SanityDocument[]}> = ({
       meta={
         {
           title: `Professional Tailwind Workshops from Simon Vrachliotis`,
-          description: `Professional Tailwind Workshops by Simon Vrachliotis that will help you learn how to use Tailwind as a professional web developer through exercise driven examples.`,
+          description: `Professional Tailwind Workshops by Simon Vrachliotis will help you learn how to use Tailwind as a professional web developer through exercise-driven examples.`,
           ogImage: {
             url: 'https://res.cloudinary.com/pro-tailwind/image/upload/v1668155873/tutorials/card_2x.png',
           },
