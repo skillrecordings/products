@@ -3,7 +3,6 @@ import {getSdk} from '@skillrecordings/database'
 import {SubscriberSchema} from '../../schemas/subscriber'
 import {publicProcedure, router} from '../trpc.server'
 import {getToken} from 'next-auth/jwt'
-import sortBy from 'lodash/sortBy'
 
 export const progressRouter = router({
   add: publicProcedure
