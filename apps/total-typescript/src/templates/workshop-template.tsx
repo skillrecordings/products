@@ -2,6 +2,7 @@ import React from 'react'
 import Layout from 'components/app/layout'
 import Image from 'next/legacy/image'
 import Link from 'next/link'
+import cx from 'classnames'
 import {CourseJsonLd} from '@skillrecordings/next-seo'
 import {PortableText} from '@portabletext/react'
 import {SanityDocument} from '@sanity/client'
@@ -10,11 +11,19 @@ import {isBrowser} from 'utils/is-browser'
 import {track} from '@skillrecordings/skill-lesson/utils/analytics'
 import first from 'lodash/first'
 import * as Accordion from '@radix-ui/react-accordion'
-import {CheckIcon, ChevronDownIcon} from '@heroicons/react/solid'
+import {
+  ArrowRightIcon,
+  CheckIcon,
+  ChevronDownIcon,
+} from '@heroicons/react/solid'
 import {trpc} from 'trpc/trpc.client'
-import {find, isArray} from 'lodash'
+import {find, isArray, isEmpty} from 'lodash'
 import {LessonResource} from '@skillrecordings/skill-lesson/schemas/lesson-resource'
 import PortableTextComponents from '../video/portable-text'
+import {
+  useModuleProgress,
+  useSectionProgress,
+} from '@skillrecordings/skill-lesson/hooks/use-progress'
 
 const WorkshopTemplate: React.FC<{
   workshop: SanityDocument
@@ -50,6 +59,9 @@ export default WorkshopTemplate
 
 const Header: React.FC<{workshop: SanityDocument}> = ({workshop}) => {
   const {title, slug, sections, image, github} = workshop
+  const moduleProgress = useModuleProgress({
+    module: workshop,
+  })
 
   const firstSection = first<SanityDocument>(sections)
   const firstExercise = first<SanityDocument>(firstSection?.lessons)
@@ -88,16 +100,30 @@ const Header: React.FC<{workshop: SanityDocument}> = ({workshop}) => {
                     pathname: '/workshops/[module]/[section]/[lesson]',
                     query: {
                       module: slug.current,
-                      section: firstSection.slug,
-                      lesson: firstExercise?.slug,
+                      section:
+                        moduleProgress.completedLessons.length > 0
+                          ? moduleProgress?.nextSection?.slug
+                          : firstSection.slug,
+                      lesson:
+                        moduleProgress.completedLessons.length > 0
+                          ? moduleProgress?.nextExercise?.slug
+                          : firstExercise?.slug,
                     },
                   }}
-                  className="flex items-center justify-center rounded bg-cyan-400 px-6 py-3 font-semibold text-black transition hover:bg-cyan-300"
+                  className={cx(
+                    'flex items-center justify-center rounded bg-cyan-400 px-6 py-3 font-semibold text-black transition hover:bg-cyan-300',
+                    {
+                      'animate-pulse': moduleProgress.status === 'loading',
+                    },
+                  )}
                   onClick={() => {
                     track('clicked start learning', {module: slug.current})
                   }}
                 >
-                  Start Learning{' '}
+                  {moduleProgress.completedLessons.length > 0
+                    ? 'Continue'
+                    : 'Start'}{' '}
+                  Learning
                   <span className="pl-2" aria-hidden="true">
                     →
                   </span>
@@ -147,45 +173,43 @@ const WorkshopSectionNavigator: React.FC<{workshop: SanityDocument}> = ({
   workshop,
 }) => {
   const {sections} = workshop
+  const {nextSection, status: moduleProgressStatus} = useModuleProgress({
+    module: workshop,
+  })
 
+  const [openedSections, setOpenedSections] = React.useState<string[]>()
+  React.useEffect(() => {
+    setOpenedSections([nextSection.slug])
+  }, [moduleProgressStatus])
   return (
     <nav
       aria-label="workshop navigator"
       className="w-full bg-black/20 px-5 py-8 lg:max-w-xs lg:bg-transparent lg:px-0 lg:py-0"
     >
       {sections && (
-        <Accordion.Root type="multiple">
+        <Accordion.Root
+          type="multiple"
+          onValueChange={(e) => setOpenedSections(e)}
+          value={moduleProgressStatus === 'success' ? openedSections : []}
+        >
           <div className="flex w-full items-center justify-between pb-3">
             <h2 className="text-2xl font-semibold">Contents</h2>
-            <h3 className="font-mono text-sm font-semibold uppercase text-gray-300">
+            <h3
+              className="cursor-pointer font-mono text-sm font-semibold uppercase text-gray-300"
+              onClick={() => {
+                setOpenedSections(
+                  !isEmpty(openedSections)
+                    ? []
+                    : sections.map(({slug}: {slug: string}) => slug),
+                )
+              }}
+            >
               {sections?.length || 0} Sections
             </h3>
           </div>
           <ul className="flex flex-col gap-2">
             {sections.map((section: SanityDocument, i: number) => {
-              return (
-                <li key={section.slug}>
-                  <Accordion.Item value={section.slug}>
-                    <Accordion.Header className="relative z-10 rounded-lg bg-gray-900">
-                      <Accordion.Trigger className="group flex w-full items-center justify-between rounded-lg border border-white/5 bg-gray-800/20 py-2 px-3 text-lg font-medium shadow-lg transition hover:bg-gray-800/40">
-                        {section.title}
-                        <div className="flex items-center">
-                          <ChevronDownIcon
-                            className="relative h-3 w-3 opacity-70 transition group-hover:opacity-100 group-radix-state-open:rotate-180"
-                            aria-hidden="true"
-                          />
-                        </div>
-                      </Accordion.Trigger>
-                    </Accordion.Header>
-                    <Accordion.Content>
-                      <WorkshopSectionExerciseNavigator
-                        section={section}
-                        moduleSlug={workshop.slug.current}
-                      />
-                    </Accordion.Content>
-                  </Accordion.Item>
-                </li>
-              )
+              return <SectionItem section={section} workshop={workshop} />
             })}
           </ul>
         </Accordion.Root>
@@ -194,26 +218,73 @@ const WorkshopSectionNavigator: React.FC<{workshop: SanityDocument}> = ({
   )
 }
 
+const SectionItem: React.FC<{
+  section: SanityDocument
+  workshop: SanityDocument
+}> = ({section, workshop}) => {
+  const sectionProgress = useSectionProgress({section: section})
+
+  return (
+    <li key={section.slug}>
+      <Accordion.Item value={section.slug}>
+        <Accordion.Header className="relative z-10 overflow-hidden rounded-lg bg-gray-900">
+          <Accordion.Trigger className="group relative z-10 flex w-full items-center justify-between rounded-lg border border-white/5 bg-gray-800/20 py-2 px-3 text-lg font-medium shadow-lg transition hover:bg-gray-800/40">
+            {section.title}
+            <div className="flex items-center">
+              {sectionProgress.isCompleted && (
+                <CheckIcon
+                  className="mr-2 h-4 w-4 text-teal-400"
+                  aria-hidden="true"
+                />
+              )}
+              <ChevronDownIcon
+                className="relative h-3 w-3 opacity-70 transition group-hover:opacity-100 group-radix-state-open:rotate-180"
+                aria-hidden="true"
+              />
+            </div>
+          </Accordion.Trigger>
+          <div
+            aria-hidden="true"
+            className={`absolute left-0 top-0 h-full bg-white/5`}
+            style={{width: `${sectionProgress.percentCompleted}%`}}
+          />
+        </Accordion.Header>
+        <Accordion.Content>
+          <WorkshopSectionExerciseNavigator
+            workshop={workshop}
+            section={section}
+          />
+        </Accordion.Content>
+      </Accordion.Item>
+    </li>
+  )
+}
+
 const LessonListItem = ({
   lessonResource,
   section,
-  moduleSlug,
+  workshop,
   index,
 }: {
   lessonResource: LessonResource
   section: SanityDocument
-  moduleSlug: string
+  workshop: SanityDocument
   index: number
 }) => {
   const {data: solution} = trpc.solutions.getSolution.useQuery({
     exerciseSlug: lessonResource.slug,
   })
-  const {data: userProgress} = trpc.progress.get.useQuery()
+  // const {data: userProgress} = trpc.progress.get.useQuery()
+  const {completedLessons, nextExercise} = useModuleProgress({module: workshop})
 
   const isExerciseCompleted =
-    isArray(userProgress) && lessonResource._type === 'exercise'
-      ? find(userProgress, ({lessonSlug}) => lessonSlug === solution?.slug)
-      : find(userProgress, ({lessonSlug}) => lessonSlug === lessonResource.slug)
+    isArray(completedLessons) && lessonResource._type === 'exercise'
+      ? find(completedLessons, ({lessonSlug}) => lessonSlug === solution?.slug)
+      : find(
+          completedLessons,
+          ({lessonSlug}) => lessonSlug === lessonResource.slug,
+        )
+  const isNextExercise = nextExercise?.slug === lessonResource.slug
 
   return (
     <li key={lessonResource.slug}>
@@ -223,14 +294,19 @@ const LessonListItem = ({
           query: {
             section: section.slug,
             lesson: lessonResource.slug,
-            module: moduleSlug,
+            module: workshop.slug.current,
           },
         }}
         passHref
-        className="group inline-flex items-center py-2.5 text-base font-medium"
+        className={cx(
+          'group inline-flex w-full flex-col justify-center py-2.5 pl-3.5 pr-3 text-base font-medium',
+          {
+            'bg-gradient-to-r from-cyan-300/5 to-transparent': isNextExercise,
+          },
+        )}
         onClick={() => {
           track('clicked workshop exercise', {
-            module: moduleSlug,
+            module: workshop.slug.current,
             lesson: lessonResource.slug,
             section: section.slug,
             moduleType: section._type,
@@ -238,22 +314,35 @@ const LessonListItem = ({
           })
         }}
       >
-        {isExerciseCompleted ? (
-          <CheckIcon
-            className="mr-2 h-4 w-4 text-teal-400"
-            aria-hidden="true"
-          />
-        ) : (
-          <span
-            className="w-6 font-mono text-xs text-gray-400"
-            aria-hidden="true"
-          >
-            {index + 1}
-          </span>
+        {isNextExercise && (
+          <div className="flex items-center gap-1 pb-1">
+            <ArrowRightIcon
+              aria-hidden="true"
+              className="mr-1.5 -ml-1 h-4 w-4 text-cyan-300"
+            />
+            <div className="font-mono text-xs font-semibold uppercase tracking-wide text-cyan-300">
+              CONTINUE
+            </div>
+          </div>
         )}
-        <span className="w-full cursor-pointer leading-tight group-hover:underline">
-          {lessonResource.title}
-        </span>
+        <div className="inline-flex items-center">
+          {isExerciseCompleted ? (
+            <CheckIcon
+              className="mr-[11.5px] -ml-1 h-4 w-4 text-teal-400"
+              aria-hidden="true"
+            />
+          ) : (
+            <span
+              className="w-6 font-mono text-xs text-gray-400"
+              aria-hidden="true"
+            >
+              {index + 1}
+            </span>
+          )}
+          <span className="w-full cursor-pointer leading-tight group-hover:underline">
+            {lessonResource.title}
+          </span>
+        </div>
       </Link>
     </li>
   )
@@ -261,19 +350,19 @@ const LessonListItem = ({
 
 const WorkshopSectionExerciseNavigator: React.FC<{
   section: SanityDocument
-  moduleSlug: string
-}> = ({section, moduleSlug}) => {
+  workshop: SanityDocument
+}> = ({section, workshop}) => {
   const {lessons} = section
 
   return lessons ? (
-    <ul className="-mt-5 rounded-b-lg border border-white/5 bg-black/20 pl-3.5 pr-3 pt-7 pb-3">
+    <ul className="-mt-5 rounded-b-lg border border-white/5 bg-black/20 pt-7 pb-3">
       {lessons.map((exercise: LessonResource, i: number) => {
         return (
           <LessonListItem
             key={exercise.slug}
             lessonResource={exercise}
             section={section}
-            moduleSlug={moduleSlug}
+            workshop={workshop}
             index={i}
           />
         )
