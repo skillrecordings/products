@@ -4,11 +4,12 @@ import {useRouter} from 'next/router'
 import {type LessonResource} from '../schemas/lesson-resource'
 
 import {trpcSkillLessons} from '../utils/trpc-skill-lessons'
+import {Module, Section} from './use-progress'
 
 export const useNextLesson = (
   lesson: LessonResource,
-  module: SanityDocument,
-  section?: SanityDocument,
+  module: Module,
+  section?: Section,
 ) => {
   const router = useRouter()
 

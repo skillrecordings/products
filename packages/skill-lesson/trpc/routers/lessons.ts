@@ -13,13 +13,13 @@ export const lessonsRouter = router({
     .input(
       z.object({
         type: z.string(),
-        slug: z.string(),
+        slug: z.string().optional(),
         section: z.string().optional(),
         module: z.string().optional(),
       }),
     )
     .query(async ({input}) => {
-      if (input.module === 'tips') return null
+      if (input.module === 'tips' || !input.slug) return null
 
       const lesson = await getLesson(input.slug)
       const section = input.section && (await getSection(input.section))

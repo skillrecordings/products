@@ -1,7 +1,6 @@
 import React from 'react'
 import get from 'lodash/get'
 import isEmpty from 'lodash/isEmpty'
-import {type SanityDocument} from '@sanity/client'
 import {useRouter} from 'next/router'
 import {type MuxPlayerProps} from '@mux/mux-player-react/*'
 
@@ -18,6 +17,7 @@ import {trpcSkillLessons} from '../utils/trpc-skill-lessons'
 import {useConvertkit} from './use-convertkit'
 
 import {useGlobalPlayerShortcuts} from './use-global-player-shortcut'
+import {Section} from './use-progress'
 
 type VideoContextType = {
   muxPlayerProps: MuxPlayerProps | any
@@ -28,7 +28,7 @@ type VideoContextType = {
   handlePlay: () => void
   displayOverlay: boolean
   nextExercise?: LessonResource | null
-  nextSection: SanityDocument
+  nextSection: Section | null
   path: string
   video?: {muxPlaybackId?: string}
   canShowVideo: boolean

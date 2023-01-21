@@ -59,12 +59,12 @@ export const progressRouter = router({
         const lessonProgress = await getLessonProgressForUser(
           token.id as string,
         )
-        return lessonProgress
+        return lessonProgress || []
       } catch (error) {
         console.error(error)
         let message = 'Unknown Error'
         if (error instanceof Error) message = error.message
-        return {error: message}
+        return []
       }
     }
   }),
