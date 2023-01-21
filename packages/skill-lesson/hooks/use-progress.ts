@@ -28,7 +28,7 @@ export const useModuleProgress = ({module}: {module: SanityDocument}) => {
   let lastCompletedSolution = first(resources)
 
   React.useEffect(() => {
-    if (userProgressStatus === 'success') {
+    if (userProgressStatus === 'success' && lastCompletedSolution) {
       setLastCompletedExercise(
         find(exercises, {
           slug: lastCompletedSolution.slug,
@@ -48,14 +48,14 @@ export const useModuleProgress = ({module}: {module: SanityDocument}) => {
 
   const activeSection = first(
     filter(sections, ({lessons}, i) => {
-      const lesson = find(lessons, {slug: lastCompletedExercise.slug})
+      const lesson = find(lessons, {slug: lastCompletedExercise?.slug})
       return lesson
     }),
   )
 
   const isLastLessonInSection =
-    indexOf(activeSection.lessons, lastCompletedExercise) ===
-    activeSection.lessons.length - 1
+    indexOf(activeSection?.lessons, lastCompletedExercise) ===
+    activeSection?.lessons.length - 1
 
   const nextSection = isLastLessonInSection
     ? getNextSection({
@@ -70,8 +70,8 @@ export const useModuleProgress = ({module}: {module: SanityDocument}) => {
     refetch: refetchNextLesson,
   } = trpcSkillLessons.lessons.getNextLesson.useQuery({
     type: 'solution',
-    slug: lastCompletedExercise.slug,
-    section: nextSection.slug,
+    slug: lastCompletedExercise?.slug,
+    section: nextSection?.slug,
     module: module.slug.current,
   })
 
@@ -83,11 +83,15 @@ export const useModuleProgress = ({module}: {module: SanityDocument}) => {
   if (
     !isEmpty(
       find(moduleProgress, {
-        lessonSlug: get(
-          find(exercises, {slug: nextExercise?.slug}),
-          'solution.slug',
-        ),
-      }),
+        // if explainer
+        lessonSlug: get(find(exercises, {slug: nextExercise?.slug}), 'slug'),
+      }) ||
+        find(moduleProgress, {
+          lessonSlug: get(
+            find(exercises, {slug: nextExercise?.slug}),
+            'solution.slug',
+          ),
+        }),
     )
   ) {
     setLastCompletedExercise(

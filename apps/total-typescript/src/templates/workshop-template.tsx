@@ -179,7 +179,7 @@ const WorkshopSectionNavigator: React.FC<{workshop: SanityDocument}> = ({
 
   const [openedSections, setOpenedSections] = React.useState<string[]>()
   React.useEffect(() => {
-    setOpenedSections([nextSection.slug])
+    setOpenedSections([nextSection?.slug])
   }, [moduleProgressStatus])
   return (
     <nav
