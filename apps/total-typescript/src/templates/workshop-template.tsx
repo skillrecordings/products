@@ -314,7 +314,7 @@ const LessonListItem = ({
           })
         }}
       >
-        {isNextExercise && (
+        {isNextExercise && !isEmpty(completedLessons) && (
           <div className="flex items-center gap-1 pb-1">
             <ArrowRightIcon
               aria-hidden="true"
