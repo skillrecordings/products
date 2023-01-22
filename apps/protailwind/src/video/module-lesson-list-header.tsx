@@ -5,10 +5,12 @@ import cx from 'classnames'
 import Image from 'next/legacy/image'
 
 import {track} from '@skillrecordings/skill-lesson/utils/analytics'
+import {Module} from '@skillrecordings/skill-lesson/schemas/module'
+import {Section} from '@skillrecordings/skill-lesson/schemas/section'
 
 type SidebarProps = {
-  module: SanityDocument
-  section?: SanityDocument
+  module: Module
+  section?: Section
   path: string
   className?: string
   children?: React.ReactNode
@@ -77,7 +79,7 @@ const ModuleLessonListHeader: React.FC<SidebarProps> = ({
                   </h2>
                 </div>
               </div>
-              {section && module.sections.length > 1 && (
+              {section && module.sections && module.sections.length > 1 && (
                 <h3 className="w-full px-5 pt-4 text-xl font-semibold leading-none">
                   {section.title}
                 </h3>

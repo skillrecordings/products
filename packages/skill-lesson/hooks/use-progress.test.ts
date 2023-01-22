@@ -14,7 +14,8 @@ test('the all lessons to be returned', () => {
 const lessonOneSolution = {
   _id: 'lesson-1-solution',
   slug: 'lesson-1-solution',
-  type: 'solution',
+  _type: 'solution',
+  title: 'Lesson 1 Solution',
 }
 
 const lessonOne = {
@@ -29,7 +30,8 @@ const lessonOne = {
 const lessonTwoSolution = {
   _id: 'lesson-2-solution',
   slug: 'lesson-2-solution',
-  type: 'solution',
+  _type: 'solution',
+  title: 'Lesson 2 Solution',
 }
 
 const lessonTwo = {

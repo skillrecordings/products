@@ -6,7 +6,7 @@ import {publicProcedure, router} from '../trpc.server'
 import {getModule} from '../../lib/modules'
 import {getSection} from '../../lib/sections'
 import {getLesson} from '../../lib/lesson-resource'
-import {LessonResourceSchema} from '../../schemas/lesson-resource'
+import {LessonResourceSchema} from '../../schemas/lesson'
 
 export const lessonsRouter = router({
   getNextLesson: publicProcedure
@@ -15,7 +15,7 @@ export const lessonsRouter = router({
         type: z.string(),
         slug: z.string().optional(),
         section: z.string().optional(),
-        module: z.string().optional(),
+        module: z.string().nullish(),
       }),
     )
     .query(async ({input}) => {

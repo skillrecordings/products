@@ -51,7 +51,7 @@ const ExerciseTemplate: React.FC<{
           ]}
           datePublished={lesson._updatedAt || new Date().toISOString()}
           authorName={`${process.env.NEXT_PUBLIC_PARTNER_FIRST_NAME} ${process.env.NEXT_PUBLIC_PARTNER_LAST_NAME}`}
-          description={pageDescription}
+          description={pageDescription || ''}
         />
         <div className="flex flex-col lg:flex-row">
           <LargeScreenModuleLessonList

@@ -22,7 +22,7 @@ import {useLesson} from '@skillrecordings/skill-lesson/hooks/use-lesson'
 import {useVideoResource} from '@skillrecordings/skill-lesson/hooks/use-video-resource'
 import {getBaseUrl} from '@skillrecordings/skill-lesson/utils/get-base-url'
 import {useQuery} from '@tanstack/react-query'
-import {LessonResource} from '@skillrecordings/skill-lesson/schemas/lesson-resource'
+import {Lesson} from '@skillrecordings/skill-lesson/schemas/lesson'
 import {
   confirmSubscriptionToast,
   useConvertkit,
@@ -585,7 +585,7 @@ const FinishedSectionOverlay = () => {
   const {lesson, module} = useLesson()
   const {image} = module
   const addProgressMutation = trpc.progress.add.useMutation()
-  const nextExercise = first(nextSection?.lessons) as LessonResource
+  const nextExercise = first(nextSection?.lessons) as Lesson
   const router = useRouter()
 
   return (
@@ -676,7 +676,7 @@ const handleContinue = async ({
   router: NextRouter
   module: SanityDocument
   section?: SanityDocument
-  nextExercise?: LessonResource | null
+  nextExercise?: Lesson | null
   handlePlay: () => void
   path: string
 }) => {

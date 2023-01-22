@@ -5,13 +5,13 @@ import capitalize from 'lodash/capitalize'
 import Link from 'next/link'
 import cx from 'classnames'
 
-import {type LessonResource} from '@skillrecordings/skill-lesson/schemas/lesson-resource'
+import {type Lesson} from '@skillrecordings/skill-lesson/schemas/lesson'
 import {track} from '@skillrecordings/skill-lesson/utils/analytics'
 import {useLesson} from '@skillrecordings/skill-lesson/hooks/use-lesson'
 
 type LessonTitleLinkProps = {
   path: string
-  lesson: LessonResource
+  lesson: Lesson
   section?: SanityDocument
   sectionIndex?: number
   module: SanityDocument
@@ -81,7 +81,7 @@ export const LessonList: React.FC<{
     >
       <nav aria-label="exercise navigator" className="pb-3">
         <ul className="flex flex-col divide-y divide-gray-800/0 text-lg">
-          {lessons?.map((exercise: LessonResource, sectionIdx: number) => {
+          {lessons?.map((exercise: Lesson, sectionIdx: number) => {
             //TODO treat this differently when a section is present as path will change
             const currentPath = section
               ? `${path}/${module.slug.current}/${section.slug}/${exercise.slug}`
@@ -253,7 +253,7 @@ const SolutionLink = ({
 }: {
   module: SanityDocument
   section?: SanityDocument
-  exercise: LessonResource
+  exercise: Lesson
   path: string
 }) => {
   const router = useRouter()

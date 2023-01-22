@@ -3,24 +3,18 @@ import {SanityDocument} from '@sanity/client'
 import {trpcSkillLessons} from '../utils/trpc-skill-lessons'
 import {first, filter, find, flatMap, get, indexOf, isEmpty, map} from 'lodash'
 import {getNextSection} from '../utils/get-next-section'
-import {LessonResource} from '../schemas/lesson-resource'
+import {Lesson} from '../schemas/lesson'
 import {LessonProgress} from '@skillrecordings/database'
+import {Exercise} from '../schemas/exercise'
+import {Section} from '../schemas/section'
+import {Module} from '../schemas/module'
 
-export type Exercise = LessonResource & {solution?: any}
-export type Module = {
-  sections: Section[]
-  _id: string
-  slug: {current: string}
-  moduleType: string
-}
-export type Section = {lessons: Exercise[]; _id: string; slug: string}
-
-export function extractExercisesAndResource(sections: Section[]) {
+export function extractExercisesAndResource(sections?: Section[] | null) {
   const exercises = flatMap<Section, Exercise>(
     sections,
-    (section) => section.lessons,
+    (section) => section?.lessons || [],
   )
-  const resources = flatMap<Section, LessonResource>(sections, (section) =>
+  const resources = flatMap<Section, Lesson>(sections, (section) =>
     map(section.lessons, (lesson: {solution?: any}) =>
       lesson.solution ? lesson.solution : lesson,
     ),
@@ -33,7 +27,7 @@ export const getLastCompletedSolution = ({
   resources,
   moduleProgress,
 }: {
-  resources: LessonResource[]
+  resources: Lesson[]
   moduleProgress: LessonProgress[]
 }) => {
   return !isEmpty(moduleProgress)
@@ -50,10 +44,10 @@ export const getNextSectionAndModuleProgress = ({
   sections,
   module,
 }: {
-  sections: Section[]
+  sections?: Section[] | null
   userProgress: LessonProgress[]
-  resources: LessonResource[]
-  lastCompletedExercise?: Exercise
+  resources: Lesson[]
+  lastCompletedExercise?: Lesson | null
   module: Module
 }) => {
   const moduleProgress = userProgress.filter(({completedAt, lessonSlug}) => {
@@ -61,24 +55,26 @@ export const getNextSectionAndModuleProgress = ({
     return find(resources, {slug: lessonSlug})
   })
 
-  const activeSection = first(
-    sections.filter(({lessons}) => {
-      const lesson = find(lessons, {slug: lastCompletedExercise?.slug})
-      return lesson
-    }),
-  )
+  const activeSection =
+    first(
+      sections?.filter(({lessons}) => {
+        const lesson = find(lessons, {slug: lastCompletedExercise?.slug})
+        return lesson
+      }),
+    ) || null
 
   const isLastLessonInSection = activeSection?.lessons
     ? indexOf(activeSection?.lessons, lastCompletedExercise) ===
       activeSection?.lessons.length - 1
     : false
 
-  const nextSection = isLastLessonInSection
-    ? getNextSection({
-        module: module,
-        currentSection: activeSection,
-      })
-    : activeSection
+  const nextSection =
+    activeSection && isLastLessonInSection
+      ? getNextSection({
+          module: module,
+          currentSection: activeSection,
+        })
+      : activeSection
 
   return {nextSection, moduleProgress}
 }
@@ -89,10 +85,10 @@ export const getCompleted = ({
   exercises,
   nextExercise,
 }: {
-  resources: LessonResource[]
+  resources: Lesson[]
   moduleProgress: LessonProgress[]
   exercises: Exercise[]
-  nextExercise?: LessonResource | null
+  nextExercise?: Lesson | null
 }) => {
   const isCompleted = moduleProgress.length === resources.length
   const percentCompleted = Math.round(
@@ -129,9 +125,9 @@ export const useModuleProgress = ({module}: {module: Module}) => {
 
   // storing this in state allows to refetch nextExercise
   // in case the original next is already completed
-  const [lastCompletedExercise, setLastCompletedExercise] = React.useState(
-    first(exercises),
-  )
+  const [lastCompletedExercise, setLastCompletedExercise] = React.useState<
+    Lesson | null | undefined
+  >(first(exercises))
 
   const {nextSection, moduleProgress} = getNextSectionAndModuleProgress({
     userProgress,
@@ -158,14 +154,12 @@ export const useModuleProgress = ({module}: {module: Module}) => {
     })
 
   React.useEffect(() => {
+    const lessons = nextSection?.lessons
     if (hasProgress && nextSection) {
       setLastCompletedExercise(
-        nextSection.lessons[
-          indexOf(
-            nextSection.lessons,
-            find(nextSection.lessons, {slug: nextExercise?.slug}),
-          )
-        ],
+        lessons
+          ? lessons[indexOf(lessons, find(lessons, {slug: nextExercise?.slug}))]
+          : null,
       )
     }
     if (userProgressStatus === 'success' && lastCompletedSolution) {

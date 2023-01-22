@@ -12,12 +12,12 @@ import {usePlayerPrefs} from './use-player-prefs'
 import {getNextSection} from '../utils/get-next-section'
 
 import {type AppAbility, createAppAbility} from '../utils/ability'
-import {LessonResource} from '../schemas/lesson-resource'
+import {Lesson} from '../schemas/lesson'
 import {trpcSkillLessons} from '../utils/trpc-skill-lessons'
 import {useConvertkit} from './use-convertkit'
 
 import {useGlobalPlayerShortcuts} from './use-global-player-shortcut'
-import {Section} from './use-progress'
+import {Section} from '../schemas/section'
 
 type VideoContextType = {
   muxPlayerProps: MuxPlayerProps | any
@@ -27,7 +27,7 @@ type VideoContextType = {
   setDisplayOverlay: (value: boolean) => void
   handlePlay: () => void
   displayOverlay: boolean
-  nextExercise?: LessonResource | null
+  nextExercise?: Lesson | null
   nextSection: Section | null
   path: string
   video?: {muxPlaybackId?: string}

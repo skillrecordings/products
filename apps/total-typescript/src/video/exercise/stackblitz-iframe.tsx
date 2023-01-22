@@ -3,12 +3,12 @@ import {SanityDocument} from '@sanity/client'
 import cx from 'classnames'
 import Spinner from '../../components/spinner'
 import Image from 'next/legacy/image'
-import {LessonResource} from '@skillrecordings/skill-lesson/schemas/lesson-resource'
+import {Lesson} from '@skillrecordings/skill-lesson/schemas/lesson'
 import {trpc} from '../../trpc/trpc.client'
 import {useRouter} from 'next/router'
 
 export const StackBlitzIframe: React.FC<{
-  exercise: LessonResource
+  exercise: Lesson
   module: SanityDocument
   isExpanded?: boolean
 }> = ({exercise, module}) => {
@@ -78,7 +78,7 @@ export const getStackblitzUrl = ({
   isEmbed = Number(true),
 }: {
   module: SanityDocument
-  exercise: LessonResource
+  exercise: Lesson
   stackblitz: string | null | undefined
   isEmbed?: number
 }) => {

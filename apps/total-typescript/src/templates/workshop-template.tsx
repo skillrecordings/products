@@ -18,7 +18,7 @@ import {
 } from '@heroicons/react/solid'
 import {trpc} from 'trpc/trpc.client'
 import {find, isArray, isEmpty} from 'lodash'
-import {LessonResource} from '@skillrecordings/skill-lesson/schemas/lesson-resource'
+import {Lesson} from '@skillrecordings/skill-lesson/schemas/lesson'
 import PortableTextComponents from '../video/portable-text'
 import {
   useModuleProgress,
@@ -266,7 +266,7 @@ const LessonListItem = ({
   workshop,
   index,
 }: {
-  lessonResource: LessonResource
+  lessonResource: Lesson
   section: SanityDocument
   workshop: SanityDocument
   index: number
@@ -356,7 +356,7 @@ const WorkshopSectionExerciseNavigator: React.FC<{
 
   return lessons ? (
     <ul className="-mt-5 rounded-b-lg border border-white/5 bg-black/20 pt-7 pb-3">
-      {lessons.map((exercise: LessonResource, i: number) => {
+      {lessons.map((exercise: Lesson, i: number) => {
         return (
           <LessonListItem
             key={exercise.slug}

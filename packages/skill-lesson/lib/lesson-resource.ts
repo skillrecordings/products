@@ -1,6 +1,6 @@
 import groq from 'groq'
 import z from 'zod'
-import {BaseLessonResourceSchema} from '../schemas/base-lesson-resource'
+import {ResourceSchema} from '../schemas/resource'
 import {sanityClient} from '../utils/sanity-client'
 
 export const LessonSchema = z
@@ -13,12 +13,12 @@ export const LessonSchema = z
           .object({
             _key: z.string(),
           })
-          .merge(BaseLessonResourceSchema)
+          .merge(ResourceSchema)
           .optional(),
       )
       .optional(),
   })
-  .merge(BaseLessonResourceSchema)
+  .merge(ResourceSchema)
 
 export type Lesson = z.infer<typeof LessonSchema>
 

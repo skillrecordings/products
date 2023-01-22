@@ -20,7 +20,7 @@ import {useLesson} from '@skillrecordings/skill-lesson/hooks/use-lesson'
 import {useVideoResource} from '@skillrecordings/skill-lesson/hooks/use-video-resource'
 import {getBaseUrl} from '@skillrecordings/skill-lesson/utils/get-base-url'
 import {useQuery} from '@tanstack/react-query'
-import {LessonResource} from '@skillrecordings/skill-lesson/schemas/lesson-resource'
+import {Lesson} from '@skillrecordings/skill-lesson/schemas/lesson'
 import Balancer from 'react-wrap-balancer'
 import {
   confirmSubscriptionToast,
@@ -30,6 +30,10 @@ import dynamic from 'next/dynamic'
 import {PriceCheckProvider} from 'path-to-purchase-react/pricing-check-context'
 import {Pricing} from 'path-to-purchase-react/pricing'
 import {isSellingLive} from 'path-to-purchase-react/is-selling-live'
+import {Module} from '@skillrecordings/skill-lesson/schemas/module'
+import {Section} from '@skillrecordings/skill-lesson/schemas/section'
+import {Exercise} from '@skillrecordings/skill-lesson/schemas/exercise'
+import {SanityProduct} from '@skillrecordings/commerce-server/dist/@types'
 
 const SandpackEditor: React.ComponentType<any> = dynamic(
   () => import('./exercise/sandpack/repl'),
@@ -133,13 +137,12 @@ const Actions = () => {
 }
 
 const ExerciseOverlay: React.FC<{tutorialFiles: any}> = ({tutorialFiles}) => {
-  const {lesson, module} = useLesson()
+  const {lesson} = useLesson()
   const router = useRouter()
   const {data: resources, status} = trpc.resources.byExerciseSlug.useQuery({
     slug: router.query.lesson as string,
     type: lesson._type,
   })
-  const {github} = module
 
   const visibleFiles = resources?.sandpack
     ?.filter(({active}) => active)
@@ -280,12 +283,15 @@ const FinishedOverlay = () => {
         query: section
           ? {
               module: module.slug.current,
-              section: module.sections[0].slug,
-              lesson: module.sections[0].lessons[0].slug,
+              section: module.sections && module.sections[0].slug,
+              lesson:
+                module.sections &&
+                module.sections[0].lessons &&
+                module.sections[0].lessons[0].slug,
             }
           : {
               module: module.slug.current,
-              lesson: module.lessons[0].slug,
+              lesson: module.lessons && module.lessons[0].slug,
             },
       })
       .then(handlePlay)
@@ -391,14 +397,16 @@ const BlockedOverlay = () => {
         <>
           <div className="z-20 flex h-full w-full flex-shrink-0 flex-col items-center justify-center gap-10 p-5 pb-10 text-center text-lg leading-relaxed sm:gap-5 sm:p-10 sm:pb-16 xl:flex-row">
             <div className="flex w-full max-w-xl flex-col items-center justify-center gap-2">
-              <div className="relative flex items-center justify-center rounded-full bg-white p-5">
-                <Image
-                  src={module.image}
-                  width={110}
-                  height={110}
-                  alt={module.title}
-                />
-              </div>
+              {module.image && (
+                <div className="relative flex items-center justify-center rounded-full bg-white p-5">
+                  <Image
+                    src={module.image}
+                    width={110}
+                    height={110}
+                    alt={module.title}
+                  />
+                </div>
+              )}
               <h2 className="pt-4 font-heading text-3xl font-bold">
                 <Balancer>Level up with {module.title}</Balancer>
               </h2>
@@ -450,14 +458,16 @@ const BlockedOverlay = () => {
           )}
           <div className="z-20 flex h-full flex-shrink-0 flex-col items-center justify-center gap-5 p-5 pb-10 text-center text-lg leading-relaxed sm:p-10 sm:pb-16">
             <div className="flex w-full flex-col items-center justify-center gap-2">
-              <div className="flex items-center justify-center rounded-full bg-white p-8">
-                <Image
-                  src={module.image}
-                  width={100}
-                  height={100}
-                  alt={module.title}
-                />
-              </div>
+              {module.image && (
+                <div className="flex items-center justify-center rounded-full bg-white p-8">
+                  <Image
+                    src={module.image}
+                    width={100}
+                    height={100}
+                    alt={module.title}
+                  />
+                </div>
+              )}
               <h2 className="pt-5 font-heading text-4xl font-bold">
                 <Balancer>Level up your {module.title}</Balancer>
               </h2>
@@ -465,7 +475,9 @@ const BlockedOverlay = () => {
                 <Balancer>Get access to all lessons in this workshop.</Balancer>
               </h3>
               <PriceCheckProvider>
-                <Pricing product={module.product} />
+                {module.product && (
+                  <Pricing product={module.product as SanityProduct} />
+                )}
               </PriceCheckProvider>
             </div>
           </div>
@@ -505,7 +517,7 @@ const FinishedSectionOverlay = () => {
   const {lesson, module} = useLesson()
   const {image} = module
   const addProgressMutation = trpc.progress.add.useMutation()
-  const nextExercise = first(nextSection?.lessons) as LessonResource
+  const nextExercise = first(nextSection?.lessons) as Lesson
   const router = useRouter()
 
   return (
@@ -522,10 +534,12 @@ const FinishedSectionOverlay = () => {
         </div>
       )}
 
-      <p className="pt-4 text-xl font-semibold sm:text-3xl">
-        <span className="font-normal text-gray-200">Up next:</span>{' '}
-        {nextSection.title}
-      </p>
+      {nextSection && (
+        <p className="pt-4 text-xl font-semibold sm:text-3xl">
+          <span className="font-normal text-gray-200">Up next:</span>{' '}
+          {nextSection.title}
+        </p>
+      )}
       <div className="flex items-center justify-center gap-5 py-4 sm:py-8">
         <button
           className="rounded bg-gray-800 px-3 py-1 text-lg font-semibold transition hover:bg-gray-700 sm:px-5 sm:py-3"
@@ -594,46 +608,66 @@ const handleContinue = async ({
   path,
 }: {
   router: NextRouter
-  module: SanityDocument
-  section?: SanityDocument
-  nextExercise?: LessonResource | null
+  module: Module
+  section?: Section | null
+  nextExercise?: Lesson | null
   handlePlay: () => void
   path: string
 }) => {
   if (nextExercise?._type === 'solution') {
     if (section) {
-      const exercise = section.lessons.find((exercise: SanityDocument) => {
-        const solution = exercise.solution
-        return solution?._key === nextExercise._key
-      })
-
-      return await router
-        .push({
-          query: {
-            module: module.slug.current,
-            section: section.slug,
-            lesson: exercise.slug,
-          },
-
-          pathname: `${path}/[module]/[section]/[lesson]/solution`,
+      const exercise =
+        section.lessons &&
+        section.lessons.find((exercise: Exercise) => {
+          const solution = exercise.solution
+          return solution?._key === nextExercise._key
         })
-        .then(() => handlePlay())
+
+      return exercise
+        ? await router
+            .push({
+              query: {
+                module: module.slug.current,
+                section: section.slug,
+                lesson: exercise.slug,
+              },
+
+              pathname: `${path}/[module]/[section]/[lesson]/solution`,
+            })
+            .then(() => handlePlay())
+        : await router.push({
+            query: {
+              module: module.slug.current,
+            },
+
+            pathname: `${path}/[module]`,
+          })
     } else {
-      const exercise = module.lessons.find((exercise: SanityDocument) => {
-        const solution = exercise.solution
-        return solution?._key === nextExercise._key
-      })
-
-      return await router
-        .push({
-          query: {
-            module: module.slug.current,
-            lesson: exercise.slug,
-          },
-
-          pathname: `${path}/[module]/[lesson]/solution`,
+      const exercise =
+        module.lessons &&
+        module.lessons.find((exercise: Exercise) => {
+          const solution = exercise.solution
+          return solution?._key === nextExercise._key
         })
-        .then(() => handlePlay())
+
+      return exercise
+        ? await router
+            .push({
+              query: {
+                module: module.slug.current,
+                lesson: exercise.slug,
+              },
+
+              pathname: `${path}/[module]/[lesson]/solution`,
+            })
+            .then(() => handlePlay())
+        : await router.push({
+            query: {
+              module: module.slug.current,
+            },
+
+            pathname: `${path}/[module]`,
+          })
     }
   }
   if (section) {

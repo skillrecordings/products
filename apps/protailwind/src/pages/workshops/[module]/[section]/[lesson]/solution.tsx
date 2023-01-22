@@ -9,7 +9,7 @@ import {getAllWorkshops, getWorkshop} from '../../../../../lib/workshops'
 import {getSection} from '@skillrecordings/skill-lesson/lib/sections'
 import path from 'path'
 import {walk} from '../../../../../utils/code-editor-content'
-import {LessonResource} from '@skillrecordings/skill-lesson/schemas/lesson-resource'
+import {Lesson} from '@skillrecordings/skill-lesson/schemas/lesson'
 
 export const getStaticProps: GetStaticProps = async (context) => {
   const {params} = context
@@ -48,7 +48,7 @@ export const getStaticPaths: GetStaticPaths = async (context) => {
       workshop.sections?.flatMap((section: any) => {
         return (
           section.lessons
-            ?.filter(({_type}: LessonResource) => _type === 'exercise')
+            ?.filter(({_type}: Lesson) => _type === 'exercise')
             .map((lesson: any) => ({
               params: {
                 module: workshop.slug.current,

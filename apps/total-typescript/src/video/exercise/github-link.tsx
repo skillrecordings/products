@@ -4,12 +4,12 @@ import {track} from '@skillrecordings/skill-lesson/utils/analytics'
 import {IconGithub} from '../../components/icons'
 import {useMuxPlayer} from '@skillrecordings/skill-lesson/hooks/use-mux-player'
 import Spinner from 'components/spinner'
-import {LessonResource} from '@skillrecordings/skill-lesson/schemas/lesson-resource'
+import {Lesson} from '@skillrecordings/skill-lesson/schemas/lesson'
 import {useRouter} from 'next/router'
 import {trpc} from '../../trpc/trpc.client'
 
 export const GitHubLink: React.FC<{
-  exercise: LessonResource
+  exercise: Lesson
   module: SanityDocument
 }> = ({exercise, module}) => {
   const {github} = module

@@ -18,7 +18,7 @@ import {trpc} from '../utils/trpc'
 import Spinner from './app/spinner'
 import {useMuxPlayer} from '@skillrecordings/skill-lesson/hooks/use-mux-player'
 import {useLesson} from '@skillrecordings/skill-lesson/hooks/use-lesson'
-import {LessonResource} from '@skillrecordings/skill-lesson/schemas/lesson-resource'
+import {Lesson} from '@skillrecordings/skill-lesson/schemas/lesson'
 import {sanityClient} from '@skillrecordings/skill-lesson/utils/sanity-client'
 
 export const OverlayWrapper: React.FC<
@@ -332,7 +332,7 @@ const handleContinue = async ({
   router: NextRouter
   module: SanityDocument
   section?: SanityDocument
-  nextExercise?: LessonResource | null
+  nextExercise?: Lesson | null
   handlePlay: () => void
   path: string
 }) => {

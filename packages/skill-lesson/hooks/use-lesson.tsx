@@ -1,10 +1,10 @@
 import React from 'react'
-import {type SanityDocument} from '@sanity/client'
-import {type LessonResource} from '../schemas/lesson-resource'
-import {Module, Section} from './use-progress'
+import {type Lesson} from '../schemas/lesson'
+import {Section} from '../schemas/section'
+import {Module} from '../schemas/module'
 
 type LessonContextType = {
-  lesson: LessonResource
+  lesson: Lesson
   section?: Section
   module: Module
 }
@@ -12,7 +12,7 @@ type LessonContextType = {
 export const LessonContext = React.createContext({} as LessonContextType)
 
 type LessonProviderProps = {
-  lesson: LessonResource
+  lesson: Lesson
   module: Module
   section?: Section
   children: React.ReactNode
