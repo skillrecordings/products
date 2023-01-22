@@ -13,6 +13,11 @@ export const ModuleSchema = z
     ogImage: z.string().nullish(),
     image: z.string().nullish(),
     product: z.object({productId: z.string()}).nullish(),
+    github: z
+      .object({
+        repo: z.string().nullish(),
+      })
+      .nullish(),
     slug: z.object({
       current: z.string().nullish(),
     }),

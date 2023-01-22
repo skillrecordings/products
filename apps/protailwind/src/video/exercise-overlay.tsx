@@ -34,6 +34,7 @@ import {Module} from '@skillrecordings/skill-lesson/schemas/module'
 import {Section} from '@skillrecordings/skill-lesson/schemas/section'
 import {Exercise} from '@skillrecordings/skill-lesson/schemas/exercise'
 import {SanityProduct} from '@skillrecordings/commerce-server/dist/@types'
+import {handlePlayFromBeginning} from '@skillrecordings/skill-lesson/utils/handle-play-from-beginning'
 
 const SandpackEditor: React.ComponentType<any> = dynamic(
   () => import('./exercise/sandpack/repl'),
@@ -274,29 +275,6 @@ const FinishedOverlay = () => {
     addProgressMutation.mutate({lessonSlug: lesson.slug})
   }, [])
 
-  const handlePlayFromBeginning = () => {
-    router
-      .push({
-        pathname: section
-          ? `/${path}/[module]/[section]/[lesson]`
-          : `/${path}/[module]/[lesson]`,
-        query: section
-          ? {
-              module: module.slug.current,
-              section: module.sections && module.sections[0].slug,
-              lesson:
-                module.sections &&
-                module.sections[0].lessons &&
-                module.sections[0].lessons[0].slug,
-            }
-          : {
-              module: module.slug.current,
-              lesson: module.lessons && module.lessons[0].slug,
-            },
-      })
-      .then(handlePlay)
-  }
-
   return (
     <OverlayWrapper className="px-5 pt-10 sm:pt-0">
       <p className="font-text text-2xl font-semibold sm:text-3xl sm:font-bold">
@@ -333,7 +311,15 @@ const FinishedOverlay = () => {
           Replay <span aria-hidden="true">↺</span>
         </button>
         <button
-          onClick={handlePlayFromBeginning}
+          onClick={() =>
+            handlePlayFromBeginning({
+              router,
+              module,
+              section,
+              path,
+              handlePlay,
+            })
+          }
           className="px-3 py-1 text-lg font-semibold transition hover:bg-gray-900 sm:px-5 sm:py-3 "
         >
           Play from beginning

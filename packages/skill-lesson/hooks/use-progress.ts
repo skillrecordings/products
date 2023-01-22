@@ -191,7 +191,7 @@ export const useModuleProgress = ({module}: {module: Module}) => {
   }
 }
 
-export const useSectionProgress = ({section}: {section: SanityDocument}) => {
+export const useSectionProgress = ({section}: {section: Section}) => {
   const {data: userProgress} = trpcSkillLessons.progress.get.useQuery()
   const exercises = get(section, 'lessons')
   const resources = map(exercises, (l) => (l.solution ? l.solution : l))
@@ -201,7 +201,7 @@ export const useSectionProgress = ({section}: {section: SanityDocument}) => {
     return find(resources, {slug: lessonSlug})
   })
 
-  let lastCompletedExercise = first(exercises) as SanityDocument
+  let lastCompletedExercise = first<Exercise>(exercises) || null
   let lastCompletedSolution = first(resources)
 
   if (!isEmpty(sectionProgress)) {
@@ -211,16 +211,18 @@ export const useSectionProgress = ({section}: {section: SanityDocument}) => {
     lastCompletedExercise =
       // if explainer
       find(exercises, {
-        slug: lastCompletedSolution.slug,
+        slug: lastCompletedSolution?.slug,
       }) ||
       find(exercises, {
         solution: lastCompletedSolution,
-      })
+      }) ||
+      null
   }
 
   const isLastLessonInSection =
+    section.lessons &&
     indexOf(section.lessons, lastCompletedExercise) ===
-    section.lessons.length - 1
+      section.lessons.length - 1
 
   const isCompleted = sectionProgress.length === resources.length
   const percentCompleted = Math.round(
@@ -230,7 +232,7 @@ export const useSectionProgress = ({section}: {section: SanityDocument}) => {
   const {data: nextExercise, status: nextExerciseStatus} =
     trpcSkillLessons.lessons.getNextLesson.useQuery({
       type: 'solution',
-      slug: lastCompletedExercise.slug,
+      slug: lastCompletedExercise?.slug,
       section: section.slug,
       //   module: module.slug.current,
     })
