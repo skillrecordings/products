@@ -29,6 +29,7 @@ import {getBaseUrl} from '@skillrecordings/skill-lesson/utils/get-base-url'
 import {useVideoResource} from '@skillrecordings/skill-lesson/hooks/use-video-resource'
 import {trpc} from '../utils/trpc'
 import {useConvertkit} from '@skillrecordings/skill-lesson/hooks/use-convertkit'
+import * as process from 'process'
 
 const ExerciseTemplate: React.FC<{
   transcript: any[]
@@ -66,7 +67,9 @@ const ExerciseTemplate: React.FC<{
           ]}
           datePublished={lesson._updatedAt || new Date().toISOString()}
           authorName={`${process.env.NEXT_PUBLIC_PARTNER_FIRST_NAME} ${process.env.NEXT_PUBLIC_PARTNER_LAST_NAME}`}
-          description={pageDescription}
+          description={
+            pageDescription || process.env.NEXT_PUBLIC_PRODUCT_DESCRIPTION
+          }
         />
         <div className="flex flex-col lg:flex-row">
           <ExerciseSidebar className="hidden lg:block" path={path} />
@@ -115,7 +118,8 @@ const Video: React.FC<VideoProps> = React.forwardRef(
 
     // TODO: handle section logic and remove !section
     const canShowVideo =
-      (subscriber || (!section && lesson._id === module.lessons[0]._id)) &&
+      (subscriber ||
+        (!section && module.lessons && lesson._id === module.lessons[0]._id)) &&
       videoResource?.muxPlaybackId
 
     return (
@@ -267,14 +271,14 @@ const MobileLessonNavigator: React.FC<{
   path: string
 }> = ({path}) => {
   const {module, section} = useLesson()
+  const exerciseCount = section
+    ? section.lessons && section.lessons.length
+    : module.lessons && module.lessons.length
   return (
     <details className="group block border-t-2 border-gray-900 lg:hidden">
       <summary className="no-marker flex cursor-pointer items-center gap-1 px-4 py-3 font-medium shadow-2xl transition marker:content-[''] after:absolute after:right-3 after:flex after:h-6 after:w-6 after:rotate-180 after:items-center after:justify-center after:rounded-full after:text-lg after:content-['↑'] group-open:after:rotate-0">
         {module.title} {capitalize(module.moduleType)}{' '}
-        <span className="opacity-80">
-          ({section ? section.exercises.length : module.lessons.length}{' '}
-          exercises)
-        </span>
+        <span className="opacity-80">({exerciseCount} exercises)</span>
       </summary>
       <ExerciseSidebar path={path} />
     </details>

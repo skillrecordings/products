@@ -20,6 +20,9 @@ import {useMuxPlayer} from '@skillrecordings/skill-lesson/hooks/use-mux-player'
 import {useLesson} from '@skillrecordings/skill-lesson/hooks/use-lesson'
 import {Lesson} from '@skillrecordings/skill-lesson/schemas/lesson'
 import {sanityClient} from '@skillrecordings/skill-lesson/utils/sanity-client'
+import {Module} from '@skillrecordings/skill-lesson/schemas/module'
+import {Section} from '@skillrecordings/skill-lesson/schemas/section'
+import {Exercise} from '@skillrecordings/skill-lesson/schemas/exercise'
 
 export const OverlayWrapper: React.FC<
   React.PropsWithChildren<{className?: string; dismissable?: boolean}>
@@ -189,15 +192,16 @@ const FinishedOverlay = () => {
         </button>
         <button
           onClick={() => {
-            router
-              .push({
-                pathname: `${path}/[module]/[lesson]`,
-                query: {
-                  module: module.slug.current,
-                  lesson: module.lessons[0].slug,
-                },
-              })
-              .then(handlePlay)
+            module.lessons &&
+              router
+                .push({
+                  pathname: `${path}/[module]/[lesson]`,
+                  query: {
+                    module: module.slug.current,
+                    lesson: module.lessons[0].slug,
+                  },
+                })
+                .then(handlePlay)
           }}
           className="rounded-full bg-brand-red px-3 py-1 text-lg font-semibold text-white transition hover:brightness-125 sm:px-5 sm:py-3 bg-blue-400"
         >
@@ -330,24 +334,29 @@ const handleContinue = async ({
   path,
 }: {
   router: NextRouter
-  module: SanityDocument
-  section?: SanityDocument
+  module: Module
+  section?: Section
   nextExercise?: Lesson | null
   handlePlay: () => void
   path: string
 }) => {
   if (nextExercise?._type === 'solution') {
-    const lesson = module.lessons.find((lesson: SanityDocument) => {
-      const solution = lesson.solution
-      return solution?._key === nextExercise?._key
-    })
-
-    return await router
-      .push({
-        query: {module: module.slug.current, lesson: lesson.slug},
-        pathname: `${path}/[module]/[lesson]/solution`,
+    const lesson =
+      module.lessons &&
+      module.lessons.find((lesson: Exercise) => {
+        const solution = lesson.solution
+        return solution?._key === nextExercise?._key
       })
-      .then(() => handlePlay())
+
+    return (
+      lesson &&
+      (await router
+        .push({
+          query: {module: module.slug.current, lesson: lesson.slug},
+          pathname: `${path}/[module]/[lesson]/solution`,
+        })
+        .then(() => handlePlay()))
+    )
   }
 
   return await router

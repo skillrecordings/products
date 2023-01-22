@@ -1,15 +1,15 @@
 import React from 'react'
-import {SanityDocument} from '@sanity/client'
 import {track} from '../utils/analytics'
 import {useRouter} from 'next/router'
-import capitalize from 'lodash/capitalize'
 import Link from 'next/link'
 import cx from 'classnames'
 import {Lesson} from '../lib/lesson'
+import {Module} from '@skillrecordings/skill-lesson/schemas/module'
+import {Section} from '@skillrecordings/skill-lesson/schemas/section'
 
 const LessonNavigator: React.FC<{
-  module: SanityDocument
-  section?: SanityDocument
+  module: Module
+  section?: Section
   path: string
 }> = ({module, section, path}) => {
   const router = useRouter()
