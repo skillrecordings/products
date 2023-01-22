@@ -2,6 +2,39 @@ import {NextRouter, useRouter} from 'next/router'
 import {Section} from '../schemas/section'
 import {Module} from '../schemas/module'
 
+export const pathnameForPath = ({
+  section,
+  path,
+}: {
+  section?: Section
+  path: string
+}) => {
+  return section
+    ? `/${path}/[module]/[section]/[lesson]`
+    : `/${path}/[module]/[lesson]`
+}
+
+export const getRouteQuery = ({
+  section,
+  module,
+}: {
+  section?: Section
+  module: Module
+}) => {
+  return section
+    ? {
+        module: module.slug.current,
+        section: module.sections && module.sections[0].slug,
+        lesson:
+          module.sections &&
+          module.sections[0].lessons &&
+          module.sections[0].lessons[0].slug,
+      }
+    : {
+        module: module.slug.current,
+        lesson: module.lessons && module.lessons[0].slug,
+      }
+}
 export const handlePlayFromBeginning = ({
   router,
   section,
@@ -17,22 +50,8 @@ export const handlePlayFromBeginning = ({
 }) => {
   router
     .push({
-      pathname: section
-        ? `/${path}/[module]/[section]/[lesson]`
-        : `/${path}/[module]/[lesson]`,
-      query: section
-        ? {
-            module: module.slug.current,
-            section: module.sections && module.sections[0].slug,
-            lesson:
-              module.sections &&
-              module.sections[0].lessons &&
-              module.sections[0].lessons[0].slug,
-          }
-        : {
-            module: module.slug.current,
-            lesson: module.lessons && module.lessons[0].slug,
-          },
+      pathname: pathnameForPath({section, path}),
+      query: getRouteQuery({section, module}),
     })
     .then(handlePlay)
 }
