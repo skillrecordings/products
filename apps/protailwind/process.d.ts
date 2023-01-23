@@ -22,5 +22,8 @@ declare namespace NodeJS {
     SANITY_WEBHOOK_SECRET: string
     CASTINGWORDS_API_TOKEN: string
     EMAIL_SERVER_PORT: number
+    SLACK_ANNOUNCE_CHANNEL_ID: string
+    SLACK_FEEDBACK_CHANNEL_ID: string
+    SLACK_TOKEN: string
   }
 }
