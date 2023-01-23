@@ -28,6 +28,12 @@ export default {
       },
     },
     {
+      name: 'duration',
+      title: 'Duration',
+      type: 'number',
+      readOnly: true,
+    },
+    {
       name: 'muxAsset',
       title: 'Mux Asset',
       type: 'muxAsset',

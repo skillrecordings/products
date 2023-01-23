@@ -36,5 +36,11 @@ export default {
       title: 'Castingwords',
       type: 'castingwordsTranscript',
     },
+    {
+      name: 'duration',
+      title: 'Duration',
+      type: 'number',
+      readOnly: true,
+    },
   ],
 }
