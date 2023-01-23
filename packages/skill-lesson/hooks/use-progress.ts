@@ -1,5 +1,4 @@
 import React from 'react'
-import {SanityDocument} from '@sanity/client'
 import {trpcSkillLessons} from '../utils/trpc-skill-lessons'
 import {first, filter, find, flatMap, get, indexOf, isEmpty, map} from 'lodash'
 import {getNextSection} from '../utils/get-next-section'
@@ -25,19 +24,35 @@ export function extractExercisesAndResource(sections?: Section[] | null) {
 
 export const getLastCompletedSolution = ({
   resources,
-  moduleProgress,
+  completedResources,
 }: {
   resources: Lesson[]
-  moduleProgress: LessonProgress[]
+  completedResources: LessonProgress[]
 }) => {
-  return !isEmpty(moduleProgress)
+  return !isEmpty(completedResources)
     ? resources.find((resource) => {
-        return resource.slug === get(first(moduleProgress), 'lessonSlug')
+        return resource.slug === get(first(completedResources), 'lessonSlug')
       })
     : first(resources)
 }
 
-export const getNextSectionAndModuleProgress = ({
+const getCompletedResources = ({
+  userProgress,
+  resources,
+}: {
+  userProgress: LessonProgress[]
+  resources: Lesson[]
+}) => {
+  const completedResources = userProgress.filter(
+    ({completedAt, lessonSlug}) => {
+      if (!completedAt) return
+      return find(resources, {slug: lessonSlug})
+    },
+  )
+  return completedResources
+}
+
+export const getNextSectionForProgress = ({
   userProgress,
   resources,
   lastCompletedExercise,
@@ -50,11 +65,6 @@ export const getNextSectionAndModuleProgress = ({
   lastCompletedExercise?: Lesson | null
   module: Module
 }) => {
-  const moduleProgress = userProgress.filter(({completedAt, lessonSlug}) => {
-    if (!completedAt) return
-    return find(resources, {slug: lessonSlug})
-  })
-
   const activeSection =
     first(
       sections?.filter(({lessons}) => {
@@ -76,31 +86,31 @@ export const getNextSectionAndModuleProgress = ({
         })
       : activeSection
 
-  return {nextSection, moduleProgress}
+  return nextSection
 }
 
-export const getCompleted = ({
+export const getProgress = ({
   resources,
-  moduleProgress,
+  completedResources,
   exercises,
   nextExercise,
 }: {
   resources: Lesson[]
-  moduleProgress: LessonProgress[]
+  completedResources: LessonProgress[]
   exercises: Exercise[]
   nextExercise?: Lesson | null
 }) => {
-  const isCompleted = moduleProgress.length === resources.length
+  const isCompleted = completedResources.length === resources.length
   const percentCompleted = Math.round(
-    (moduleProgress.length / resources.length) * 100,
+    (completedResources.length / resources.length) * 100,
   )
 
   const hasProgress = !isEmpty(
-    find(moduleProgress, {
+    find(completedResources, {
       // if explainer
       lessonSlug: get(find(exercises, {slug: nextExercise?.slug}), 'slug'),
     }) ||
-      find(moduleProgress, {
+      find(completedResources, {
         lessonSlug: get(
           find(exercises, {slug: nextExercise?.slug}),
           'solution.slug',
@@ -110,7 +120,7 @@ export const getCompleted = ({
 
   const lastCompletedSolution = getLastCompletedSolution({
     resources,
-    moduleProgress,
+    completedResources,
   })
 
   return {isCompleted, percentCompleted, lastCompletedSolution, hasProgress}
@@ -129,7 +139,9 @@ export const useModuleProgress = ({module}: {module: Module}) => {
     Lesson | null | undefined
   >(first(exercises))
 
-  const {nextSection, moduleProgress} = getNextSectionAndModuleProgress({
+  const completedResources = getCompletedResources({userProgress, resources})
+
+  const nextSection = getNextSectionForProgress({
     userProgress,
     resources,
     lastCompletedExercise,
@@ -146,9 +158,9 @@ export const useModuleProgress = ({module}: {module: Module}) => {
     })
 
   const {isCompleted, percentCompleted, lastCompletedSolution, hasProgress} =
-    getCompleted({
+    getProgress({
       resources,
-      moduleProgress,
+      completedResources,
       exercises,
       nextExercise,
     })
@@ -182,11 +194,11 @@ export const useModuleProgress = ({module}: {module: Module}) => {
   ])
 
   return {
-    nextExercise: isEmpty(moduleProgress) ? first(exercises) : nextExercise,
+    nextExercise: isEmpty(completedResources) ? first(exercises) : nextExercise,
     nextSection,
     isCompleted,
     percentCompleted,
-    completedLessons: moduleProgress,
+    completedLessons: completedResources,
     status: nextExerciseStatus,
   }
 }
