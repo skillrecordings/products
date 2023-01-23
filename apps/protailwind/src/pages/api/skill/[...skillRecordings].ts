@@ -10,6 +10,10 @@ export const skillOptions: SkillRecordingsOptions = {
   },
   slack: {
     token: process.env.SLACK_TOKEN,
+    feedback: {
+      channelId: process.env.SLACK_FEEDBACK_CHANNEL_ID,
+      botUsername: 'PT Feedback Bot',
+    },
     redeem: {
       channelId: process.env.SLACK_ANNOUNCE_CHANNEL_ID,
       botUsername: 'PT Redeemer',

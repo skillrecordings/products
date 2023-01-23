@@ -33,6 +33,12 @@ export default {
       type: 'muxAsset',
     },
     {
+      name: 'duration',
+      title: 'Duration',
+      type: 'number',
+      readOnly: true,
+    },
+    {
       name: 'castingwords',
       title: 'Castingwords',
       type: 'castingwordsTranscript',
