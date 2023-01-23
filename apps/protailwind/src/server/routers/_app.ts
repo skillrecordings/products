@@ -9,7 +9,6 @@ import {solutionsRouter} from './solutions'
 import {exercisesRouter} from './exercises'
 import {abilities} from './abilities'
 
-
 export const appRouter = mergeRouters(
   router({
     resources: lessonResourcesRouter,
