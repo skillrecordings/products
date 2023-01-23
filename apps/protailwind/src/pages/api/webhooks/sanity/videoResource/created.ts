@@ -25,9 +25,11 @@ async function createCastingWordsOrder({
 async function createMuxAsset({
   originalMediaUrl,
   muxAsset,
+  duration,
 }: {
   originalMediaUrl: string
   muxAsset: {muxAssetId: string; muxPlaybackId: string}
+  duration: number
 }) {
   if (!muxAsset?.muxAssetId) {
     const {Video} = new Mux()
@@ -37,6 +39,7 @@ async function createMuxAsset({
     })
 
     return {
+      duration: newMuxAsset.duration,
       muxAssetId: newMuxAsset.id,
       muxPlaybackId: newMuxAsset.playback_ids?.find((playback_id) => {
         return playback_id.policy === 'public'
@@ -44,7 +47,7 @@ async function createMuxAsset({
     }
   }
 
-  return muxAsset
+  return {...muxAsset, duration}
 }
 
 /**
@@ -62,16 +65,25 @@ const sanityVideoResourceWebhook = async (
 
   try {
     if (isValid) {
-      const {_id, originalMediaUrl, castingwords, muxAsset} = req.body
+      const {_id, originalMediaUrl, castingwords, muxAsset, duration} = req.body
       console.info('processing Sanity webhook: Video Resource created', _id)
+
+      const castingwordsOrder = await createCastingWordsOrder({
+        originalMediaUrl,
+        castingwords,
+      })
+
+      const {duration: assetDuration, ...newMuxAsset} = await createMuxAsset({
+        originalMediaUrl,
+        muxAsset,
+        duration,
+      })
 
       await updateVideoResourceWithTranscriptOrderId({
         sanityDocumentId: _id,
-        castingwordsOrder: await createCastingWordsOrder({
-          originalMediaUrl,
-          castingwords,
-        }),
-        muxAsset: await createMuxAsset({originalMediaUrl, muxAsset}),
+        castingwordsOrder,
+        muxAsset: newMuxAsset,
+        duration: assetDuration,
       })
       res.status(200).json({success: true})
     } else {
