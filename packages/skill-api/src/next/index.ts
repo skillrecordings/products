@@ -71,7 +71,7 @@ async function SkillRecordingsNextHandler(
     return res.json({url: handler.redirect})
   }
 
-  return res.send(handler.body)
+  return res.json(handler.body)
 }
 
 function SkillRecordings(options: SkillRecordingsOptions): any

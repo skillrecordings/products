@@ -19,7 +19,7 @@ import {getProduct} from 'path-to-purchase-react/products.server'
 import {SanityProduct} from '@skillrecordings/commerce-server/dist/@types'
 import {useReward} from 'react-rewards'
 import {useReducedMotion} from 'framer-motion'
-import Image from 'next/image'
+import Image from 'next/legacy/image'
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const {query} = context

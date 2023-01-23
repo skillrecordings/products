@@ -1,4 +1,4 @@
-import Image from 'next/image'
+import Image from 'next/legacy/image'
 import * as React from 'react'
 import {SkillLevel} from './use-skill-level'
 

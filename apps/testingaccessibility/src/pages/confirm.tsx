@@ -1,7 +1,7 @@
 import NewMailImage from '../../public/assets/new-mail@2x.png'
 import Signature from '../../public/assets/signature@2x.png'
 import Layout from 'components/app/layout'
-import Image from 'next/image'
+import Image from 'next/legacy/image'
 
 const Confirm = () => (
   <Layout

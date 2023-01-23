@@ -2,7 +2,7 @@ import React from 'react'
 import Layout from 'components/app/layout'
 import {getAllTips, Tip} from 'lib/tips'
 import Link from 'next/link'
-import Image from 'next/image'
+import Image from 'next/legacy/image'
 import {CheckCircleIcon, PlayIcon} from '@heroicons/react/solid'
 import {useRouter} from 'next/router'
 import {useTipComplete} from '../../hooks/use-tip-complete'
@@ -138,10 +138,9 @@ export const TipTeaser: React.FC<{tip: Tip}> = ({tip}) => {
               tip: tip.slug,
             },
           }}
+          className="inline-flex items-start gap-1 hover:underline"
         >
-          <a className="inline-flex items-start gap-1 hover:underline">
-            {title} {tipCompleted && <span className="sr-only">(watched)</span>}
-          </a>
+          {title} {tipCompleted && <span className="sr-only">(watched)</span>}
         </Link>
       </h2>
     </article>

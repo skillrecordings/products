@@ -11,7 +11,7 @@ import Link from 'next/link'
 import {useScroll, motion, useTransform} from 'framer-motion'
 import * as dateFns from 'date-fns'
 import {PlayIcon} from '@heroicons/react/solid'
-import Image from 'next/image'
+import Image from 'next/legacy/image'
 import GooglePodcasts from '../../../../public/assets/podcast/google.svg'
 import SpotifyPodcasts from '../../../../public/assets/podcast/spotify.svg'
 import ApplePodcasts from '../../../../public/assets/podcast/apple.svg'
@@ -122,52 +122,52 @@ const PodcastSeason: React.FC<{season: PodcastSeason}> = ({season}) => {
                 key={episode.slug}
                 className="flex md:flex-row flex-col items-center md:space-x-10 md:space-y-0 space-y-10"
               >
-                <Link href={`/podcast/${season.slug}/${episode.slug}`}>
-                  <a className="group relative flex items-center justify-center flex-shrink-0 overflow-hidden">
-                    <Image
-                      width={250}
-                      height={250}
-                      className="w-full rounded-lg object-cover"
-                      src={`https://res.cloudinary.com/badass-courses/image/fetch/h_460,dpr_auto,f_auto,q_auto:good/${episode.coverArtUrl}`}
-                      alt={episode.title}
-                    />
-                    <div className="group-hover:opacity-100 opacity-0 transition">
-                      <PlayIcon className="w-8 absolute left-3 bottom-3 group-hover:scale-100 scale-50 group-hover:translate-y-0 translate-y-2 transition" />
-                      <div className="absolute pointer-events-none bottom-3 right-3 flex items-end gap-0.5 justify-end h-5">
-                        {new Array(6).fill('').map((_, i) => (
-                          <motion.div
-                            key={i}
-                            className="w-1 bg-white"
-                            animate={{
-                              height: [
-                                `${Math.random() * 21}%`,
-                                `${Math.random() * 101}%`,
-                                `${Math.random() * 101}%`,
-                                `${Math.random() * 81}%`,
-                                `${Math.random() * 101}%`,
-                              ],
-                            }}
-                            transition={{
-                              repeat: Infinity,
-                              repeatType: 'reverse',
-                              type: 'spring',
-                              duration: 1,
-                            }}
-                          />
-                        ))}
-                      </div>
+                <Link
+                  href={`/podcast/${season.slug}/${episode.slug}`}
+                  className="group relative flex items-center justify-center flex-shrink-0 overflow-hidden"
+                >
+                  <Image
+                    width={250}
+                    height={250}
+                    className="w-full rounded-lg object-cover"
+                    src={`https://res.cloudinary.com/badass-courses/image/fetch/h_460,dpr_auto,f_auto,q_auto:good/${episode.coverArtUrl}`}
+                    alt={episode.title}
+                  />
+                  <div className="group-hover:opacity-100 opacity-0 transition">
+                    <PlayIcon className="w-8 absolute left-3 bottom-3 group-hover:scale-100 scale-50 group-hover:translate-y-0 translate-y-2 transition" />
+                    <div className="absolute pointer-events-none bottom-3 right-3 flex items-end gap-0.5 justify-end h-5">
+                      {new Array(6).fill('').map((_, i) => (
+                        <motion.div
+                          key={i}
+                          className="w-1 bg-white"
+                          animate={{
+                            height: [
+                              `${Math.random() * 21}%`,
+                              `${Math.random() * 101}%`,
+                              `${Math.random() * 101}%`,
+                              `${Math.random() * 81}%`,
+                              `${Math.random() * 101}%`,
+                            ],
+                          }}
+                          transition={{
+                            repeat: Infinity,
+                            repeatType: 'reverse',
+                            type: 'spring',
+                            duration: 1,
+                          }}
+                        />
+                      ))}
                     </div>
-                  </a>
+                  </div>
                 </Link>
                 <div>
                   <h3 className="pl-8 md:pl-0">
                     <Link
                       key={episode.slug}
                       href={`/podcast/${season.slug}/${episode.slug}`}
+                      className="sm:text-3xl text-2xl font-heading group focus:outline-none hover:underline"
                     >
-                      <a className="sm:text-3xl text-2xl font-heading group focus:outline-none hover:underline">
-                        {episode.title}
-                      </a>
+                      {episode.title}
                     </Link>
                   </h3>
                   <p className="pt-5 sm:text-base sm:leading-relaxed text-sm px-8 md:px-0 md:ml-0 -ml-4 md:pl-0 text-gray-300">

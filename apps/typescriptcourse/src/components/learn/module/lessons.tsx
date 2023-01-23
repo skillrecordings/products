@@ -19,28 +19,27 @@ const Lessons: React.FC<
         const completed = isLessonCompleted(item.slug)
         return (
           <li key={item.id}>
-            <Link href={item.path}>
-              <a
-                className={`py-2 px-3 flex items-center group font-medium ${
-                  i % 2 === 0
-                    ? 'dark:bg-white bg-white dark:bg-opacity-5 bg-opacity-50'
-                    : ''
-                } ${completed ? 'text-opacity-70' : ''}`}
+            <Link
+              href={item.path}
+              className={`py-2 px-3 flex items-center group font-medium ${
+                i % 2 === 0
+                  ? 'dark:bg-white bg-white dark:bg-opacity-5 bg-opacity-50'
+                  : ''
+              } ${completed ? 'text-opacity-70' : ''}`}
+            >
+              {completed && <i className={`gg-check opacity-90`} />}
+              <div
+                className={`flex items-center justify-between w-full ${
+                  completed ? 'opacity-70 hover:opacity-100' : ''
+                }`}
               >
-                {completed && <i className={`gg-check opacity-90`} />}
-                <div
-                  className={`flex items-center justify-between w-full ${
-                    completed ? 'opacity-70 hover:opacity-100' : ''
-                  }`}
-                >
-                  <span className="group-hover:underline">{item.title}</span>
-                  <time className="text-sm opacity-50">
-                    {convertTimeWithTitles(item.duration, {
-                      showSeconds: true,
-                    })}
-                  </time>
-                </div>
-              </a>
+                <span className="group-hover:underline">{item.title}</span>
+                <time className="text-sm opacity-50">
+                  {convertTimeWithTitles(item.duration, {
+                    showSeconds: true,
+                  })}
+                </time>
+              </div>
             </Link>
           </li>
         )

@@ -1,7 +1,7 @@
 import React from 'react'
 import EmmaBostianFrame from '../../../public/emma-bostian--frame@2x.png'
 import EmmaBostian from '../../../public/emma-bostian--frame-cut@2x.png'
-import Image from 'next/image'
+import Image from 'next/legacy/image'
 
 const Bio = () => {
   return (

@@ -10,7 +10,7 @@ import {useDebounce} from '@skillrecordings/react'
 import {QueryStatus} from '@tanstack/react-query'
 import SaleCountdown from './sale-countdown'
 import Spinner from 'components/spinner'
-import Image from 'next/image'
+import Image from 'next/legacy/image'
 import find from 'lodash/find'
 import {Purchase} from '@skillrecordings/database'
 import ReactMarkdown from 'react-markdown'
@@ -24,10 +24,11 @@ import {setUserId} from '@amplitude/analytics-browser'
 import {track} from '@skillrecordings/skill-lesson/utils/analytics'
 import {useRouter} from 'next/router'
 import * as Switch from '@radix-ui/react-switch'
-import Link from 'next/link'
 import {trpc} from 'utils/trpc'
 import Balancer from 'react-wrap-balancer'
 import {isSellingLive} from './is-selling-live'
+import BuyMoreSeats from 'team/buy-more-seats'
+import Link from 'next/link'
 
 function getFirstPPPCoupon(availableCoupons: any[] = []) {
   return find(availableCoupons, (coupon) => coupon.type === 'ppp') || false
@@ -51,6 +52,7 @@ type PricingProps = {
   index?: number
   couponId?: string
   allowPurchase?: boolean
+  handleViewContents?: () => void
 }
 
 /**
@@ -79,7 +81,17 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
   const [quantity, setQuantity] = React.useState(1)
   const [isBuyingForTeam, setIsBuyingForTeam] = React.useState(false)
   const debouncedQuantity: number = useDebounce<number>(quantity, 250)
-  const {productId, name, image, modules, features, action} = product
+  const {
+    productId,
+    name,
+    title,
+    instructor,
+    image,
+    modules,
+    lessons,
+    features,
+    action,
+  } = product
   const {addPrice, isDowngrade} = usePriceCheck()
   const {subscriber, loadingSubscriber} = useConvertkit()
   const router = useRouter()
@@ -151,7 +163,18 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
         )} */}
         {!purchased && (
           <div data-pricing-product-header="">
-            <h4 data-name-badge="">{name}</h4>
+            <p data-name-badge="">{name}</p>
+            {title && <h2 data-title>{title}</h2>}
+            {instructor && (
+              <div data-instructor="">
+                {instructor.image && (
+                  <div data-instructor-image="">
+                    <Image src={instructor.image} width={60} height={60} />
+                  </div>
+                )}
+                {instructor.name && <span>{instructor.name}</span>}
+              </div>
+            )}
             <PriceDisplay status={status} formattedPrice={formattedPrice} />
             <div data-byline="">Full access</div>
           </div>
@@ -159,39 +182,16 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
         {purchased ? (
           <>
             <div data-pricing-product-header="">
-              <h4 data-name-badge="">{name}</h4>
+              <p data-name-badge="">{name}</p>
+              {title && <h2 data-title>{title}</h2>}
             </div>
             <div data-purchased-container="">
               <div data-purchased="">
                 <CheckCircleIcon aria-hidden="true" /> Purchased
               </div>
-            </div>
-            <div className="flex justify-center">
-              <Link
-                href={{
-                  pathname: '/team/buy-more-seats',
-                  query: {
-                    productId: productId,
-                  },
-                }}
-              >
-                <a
-                  data-buy-seats=""
-                  onClick={() => {
-                    track('clicked buy more seats', {
-                      location: 'pricing',
-                    })
-                  }}
-                >
-                  <span className="pr-2">Buy More Seats</span>
-                  <span
-                    aria-hidden="true"
-                    className="absolute text-gray-300 transition group-hover:translate-x-1 group-hover:text-white"
-                  >
-                    →
-                  </span>
-                </a>
-              </Link>
+              <div className="flex flex-col justify-center">
+                <BuyMoreSeats productId={productId} userId={userId as string} />
+              </div>
             </div>
           </>
         ) : isSellingLive || allowPurchase ? (
@@ -352,7 +352,7 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
         <div data-pricing-footer="">
           {product.description && !purchased && (
             <div className="prose prose-sm mx-auto max-w-sm px-5 prose-p:text-gray-200 sm:prose-base">
-              <ReactMarkdown children={product.description} />
+              <ReactMarkdown>{product.description}</ReactMarkdown>
             </div>
           )}
           {!purchased && (
@@ -373,38 +373,42 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
             </div>
           ) : null}
           <div data-main="">
-            <strong>Workshops</strong>
             {modules && (
-              <ul data-workshops="" role="list">
-                {modules.map((module) => {
-                  const getLabelForState = (state: any) => {
-                    switch (state) {
-                      case 'draft':
-                        return 'Coming soon'
-                      default:
-                        return ''
+              <>
+                <strong>Workshops</strong>
+                <ul data-workshops="" role="list">
+                  {modules.map((module) => {
+                    const getLabelForState = (state: any) => {
+                      switch (state) {
+                        case 'draft':
+                          return 'Coming soon'
+                        default:
+                          return ''
+                      }
                     }
-                  }
-                  return (
-                    <li key={module.title}>
-                      <div data-image="" aria-hidden="true">
-                        <Image
-                          src={module.image.url}
-                          layout="fill"
-                          alt={module.title}
-                          aria-hidden="true"
-                        />
-                      </div>
-                      <div>
-                        <p>{module.title}</p>
-                        <div data-state={module.state}>
-                          {getLabelForState(module.state)}
+                    return (
+                      <li key={module.title}>
+                        {module.image && (
+                          <div data-image="" aria-hidden="true">
+                            <Image
+                              src={module.image.url}
+                              layout="fill"
+                              alt={module.title}
+                              aria-hidden="true"
+                            />
+                          </div>
+                        )}
+                        <div>
+                          <p>{module.title}</p>
+                          <div data-state={module.state}>
+                            {getLabelForState(module.state)}
+                          </div>
                         </div>
-                      </div>
-                    </li>
-                  )
-                })}
-              </ul>
+                      </li>
+                    )
+                  })}
+                </ul>
+              </>
             )}
             {features && (
               <>
@@ -417,6 +421,14 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
                   ))}
                 </ul>
               </>
+            )}
+            {product.slug && lessons && (
+              <div data-contents="">
+                {lessons ? `${lessons?.length} lessons` : null}
+                <Link href={`/workshops/${product.slug}`}>
+                  View contents <span aria-hidden="true">→</span>
+                </Link>
+              </div>
             )}
           </div>
         </div>

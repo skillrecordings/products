@@ -268,19 +268,19 @@ const NavLink: React.FC<
   }
   return path ? (
     <li className="">
-      <NextLink href={path} passHref>
-        <a
-          className={cx(
-            'flex h-full items-center gap-0.5 rounded-md py-2 px-2 text-sm font-medium shadow-black/80 transition duration-100 hover:bg-gray-800/60 hover:shadow-lg active:bg-transparent sm:gap-1 sm:px-3 lg:px-3 lg:text-base',
-            className,
-          )}
-          onClick={() => {
-            track(`clicked ${label} link in nav`)
-          }}
-        >
-          {icon ? icon : null}
-          {label}
-        </a>
+      <NextLink
+        href={path}
+        passHref
+        className={cx(
+          'flex h-full items-center gap-0.5 rounded-md py-2 px-2 text-sm font-medium shadow-black/80 transition duration-100 hover:bg-gray-800/60 hover:shadow-lg active:bg-transparent sm:gap-1 sm:px-3 lg:px-3 lg:text-base',
+          className,
+        )}
+        onClick={() => {
+          track(`clicked ${label} link in nav`)
+        }}
+      >
+        {icon ? icon : null}
+        {label}
       </NextLink>
     </li>
   ) : null
@@ -313,19 +313,19 @@ const MobileNavLink: React.FC<
   }
   return path ? (
     <li>
-      <NextLink href={path} passHref>
-        <a
-          className={cx(
-            'flex h-full items-center gap-1.5 px-3 py-3 text-base font-medium transition duration-100 hover:bg-gray-800/60 active:bg-transparent',
-            className,
-          )}
-          onClick={() => {
-            track(`clicked ${label} link in nav`)
-          }}
-        >
-          {icon ? icon : null}
-          {label}
-        </a>
+      <NextLink
+        href={path}
+        passHref
+        className={cx(
+          'flex h-full items-center gap-1.5 px-3 py-3 text-base font-medium transition duration-100 hover:bg-gray-800/60 active:bg-transparent',
+          className,
+        )}
+        onClick={() => {
+          track(`clicked ${label} link in nav`)
+        }}
+      >
+        {icon ? icon : null}
+        {label}
       </NextLink>
     </li>
   ) : null
@@ -338,7 +338,7 @@ const DropdownLink: React.FC<
   const isActive = router.asPath === href
 
   return (
-    <NextLink href={href} passHref>
+    <NextLink href={href} passHref legacyBehavior>
       <NavigationMenu.Link
         active={isActive}
         {...props}
@@ -357,41 +357,41 @@ export const NavLogo: React.FC<{className?: string; isMinified?: boolean}> = ({
 }) => {
   const router = useRouter()
   return (
-    <NextLink href="/" passHref>
-      <a
-        aria-label={`${config.title} Home`}
-        className={cx(
-          'group group flex h-full flex-shrink-0 items-center font-text text-xl font-semibold text-white md:text-lg lg:text-xl',
-          className,
-        )}
-        tabIndex={router.pathname === '/' ? -1 : 0}
+    <NextLink
+      href="/"
+      passHref
+      aria-label={`${config.title} Home`}
+      className={cx(
+        'group group flex h-full flex-shrink-0 items-center font-text text-xl font-semibold text-white md:text-lg lg:text-xl',
+        className,
+      )}
+      tabIndex={router.pathname === '/' ? -1 : 0}
+    >
+      <span
+        aria-hidden={!isMinified}
+        className={cx('text-base', {
+          hidden: !isMinified,
+          'hidden sm:hidden md:block xl:hidden': isMinified,
+        })}
       >
-        <span
-          aria-hidden={!isMinified}
-          className={cx('text-base', {
-            hidden: !isMinified,
-            'hidden sm:hidden md:block xl:hidden': isMinified,
-          })}
-        >
-          TT.
-        </span>
-        <span
-          aria-hidden={isMinified}
-          className={cx('mr-0.5 font-light opacity-90', {
-            'md:hidden xl:block 2xl:block': isMinified,
-          })}
-        >
-          Total
-        </span>
-        <span
-          aria-hidden={isMinified}
-          className={cx({
-            'md:hidden xl:block 2xl:block': isMinified,
-          })}
-        >
-          TypeScript
-        </span>
-      </a>
+        TT.
+      </span>
+      <span
+        aria-hidden={isMinified}
+        className={cx('mr-0.5 font-light opacity-90', {
+          'md:hidden xl:block 2xl:block': isMinified,
+        })}
+      >
+        Total
+      </span>
+      <span
+        aria-hidden={isMinified}
+        className={cx({
+          'md:hidden xl:block 2xl:block': isMinified,
+        })}
+      >
+        TypeScript
+      </span>
     </NextLink>
   )
 }

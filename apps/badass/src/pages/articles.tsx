@@ -6,7 +6,7 @@ import {GetStaticProps} from 'next'
 import {format} from 'date-fns'
 import {SanityDocument} from '@sanity/client'
 import {getAllArticles} from '../lib/articles'
-import Image from 'next/image'
+import Image from 'next/legacy/image'
 import Stars from '../../public/assets/stars-1@2x.png'
 import {Author} from 'templates/article-template'
 
@@ -53,12 +53,14 @@ const Articles: React.FC<React.PropsWithChildren<ArticlesProps>> = ({
                     </i>
                     <div className="flex w-full sm:justify-between justify-left">
                       <div>
-                        <Link href={`/${slug}`} passHref>
-                          <a className="group block">
-                            <h2 className="group-hover:underline md:text-4xl sm:text-3xl text-xl font-heading">
-                              {title}
-                            </h2>
-                          </a>
+                        <Link
+                          href={`/${slug}`}
+                          passHref
+                          className="group block"
+                        >
+                          <h2 className="group-hover:underline md:text-4xl sm:text-3xl text-xl font-heading">
+                            {title}
+                          </h2>
                         </Link>
                         <div className="flex items-center pt-5 gap-8">
                           <Author />

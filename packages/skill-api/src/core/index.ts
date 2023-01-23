@@ -15,6 +15,7 @@ import {
   convertkitLoadSubscriber,
   subscribeToConvertkit,
 } from './services/convertkit'
+import {lookupUser} from './services/lookup-user'
 
 export interface OutgoingResponse<
   Body extends string | Record<string, any> | any[] = any,
@@ -93,6 +94,8 @@ export async function SkillRecordingsHandler<
         return await subscribeToConvertkit({params})
       case 'answer':
         return await convertkitAnswerQuizQuestion({params})
+      case 'lookup':
+        return await lookupUser({params})
     }
   }
 

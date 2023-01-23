@@ -59,37 +59,34 @@ const LessonNavigator: React.FC<{
                     },
                   }}
                   passHref
+                  className={cx(
+                    'flex items-center px-4 py-4 font-semibold leading-tight transition border-l-2',
+                    {
+                      'bg-gray-700/60 shadow-xl shadow-gray-500/5 border-blue-500':
+                        isActive,
+                      'hover:bg-gray-800 border-transparent': !isActive,
+                    },
+                  )}
+                  onClick={() => {
+                    track('clicked exercise in navigator', {
+                      module: module.slug.current,
+                      ...(section && {section: section.slug}),
+                      lesson: lesson.slug,
+                      moduleType: module.moduleType,
+                      lessonType: lesson._type,
+                    })
+                  }}
                 >
-                  <a
-                    className={cx(
-                      'flex items-center px-4 py-4 font-semibold leading-tight transition border-l-2',
-                      {
-                        'bg-gray-700/60 shadow-xl shadow-gray-500/5 border-blue-500':
-                          isActive,
-                        'hover:bg-gray-800 border-transparent': !isActive,
-                      },
-                    )}
-                    onClick={() => {
-                      track('clicked exercise in navigator', {
-                        module: module.slug.current,
-                        ...(section && {section: section.slug}),
-                        lesson: lesson.slug,
-                        moduleType: module.moduleType,
-                        lessonType: lesson._type,
-                      })
-                    }}
+                  <span
+                    aria-hidden="true"
+                    className={cx('pr-3 text-sm', {
+                      'text-blue-300 opacity-100': isActive,
+                      'opacity-50': !isActive,
+                    })}
                   >
-                    <span
-                      aria-hidden="true"
-                      className={cx('pr-3 text-sm', {
-                        'text-blue-300 opacity-100': isActive,
-                        'opacity-50': !isActive,
-                      })}
-                    >
-                      {sectionIdx + 1}
-                    </span>{' '}
-                    {lesson.title}
-                  </a>
+                    {sectionIdx + 1}
+                  </span>{' '}
+                  {lesson.title}
                 </Link>
               </li>
             )

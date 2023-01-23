@@ -1,6 +1,6 @@
 import * as React from 'react'
 import {Contributor} from '@types'
-import Image from 'next/image'
+import Image from 'next/legacy/image'
 import cx from 'classnames'
 
 type ContributorProfileBoxProps = {

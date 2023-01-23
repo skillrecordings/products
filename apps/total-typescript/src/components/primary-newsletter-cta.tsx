@@ -1,5 +1,5 @@
 import {NextRouter, useRouter} from 'next/router'
-import Image from 'next/image'
+import Image from 'next/legacy/image'
 import {
   redirectUrlBuilder,
   SubscribeToConvertkitForm,

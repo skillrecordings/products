@@ -4,7 +4,7 @@ import {SubscribeToConvertkitForm} from '@skillrecordings/convertkit-react-ui'
 import {Facebook, LinkedIn, Twitter} from '@skillrecordings/react'
 import {NextRouter, useRouter} from 'next/router'
 import snakeCase from 'lodash/snakeCase'
-import Image from 'next/image'
+import Image from 'next/legacy/image'
 import {useMuxPlayer} from '@skillrecordings/skill-lesson/hooks/use-mux-player'
 import {XIcon} from '@heroicons/react/solid'
 import cx from 'classnames'
@@ -140,7 +140,6 @@ const ExerciseOverlay: React.FC<{tutorialFiles: any}> = ({tutorialFiles}) => {
     type: lesson._type,
   })
   const {github} = module
-  console.log({resources})
 
   const visibleFiles = resources?.sandpack
     ?.filter(({active}) => active)
@@ -163,7 +162,7 @@ const ExerciseOverlay: React.FC<{tutorialFiles: any}> = ({tutorialFiles}) => {
   }
 
   return status !== 'loading' ? (
-    <div className="">
+    <div className="flex aspect-video flex-col items-center justify-center">
       {resources?.sandpack && (
         <>
           <div className="flex w-full items-center justify-between p-3 pl-5 font-medium">

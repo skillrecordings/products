@@ -25,7 +25,7 @@ import {CheckCircleIcon as CheckCircleIconOutline} from '@heroicons/react/outlin
 import {shuffle, take} from 'lodash'
 import {track} from '@skillrecordings/skill-lesson/utils/analytics'
 import Navigation from 'components/app/navigation'
-import Image from 'next/image'
+import Image from 'next/legacy/image'
 import {getOgImage} from 'utils/get-og-image'
 import {useTipComplete} from '../hooks/use-tip-complete'
 import {localProgressDb} from '../utils/dexie'

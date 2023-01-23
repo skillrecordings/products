@@ -4,7 +4,7 @@ import {GetStaticProps} from 'next'
 import {useRouter} from 'next/router'
 import {getAllArticles, type Article} from 'lib/articles'
 import Link from 'next/link'
-import Image from 'next/image'
+import Image from 'next/legacy/image'
 import {track} from 'utils/analytics'
 
 export const getStaticProps: GetStaticProps = async (context) => {
@@ -58,17 +58,17 @@ const Articles: React.FC<{articles: Article[]}> = ({articles}) => {
               )}
               <div className="relative z-10">
                 <h2 className="fluid-2xl font-semibold">
-                  <Link href={slug} passHref>
-                    <a
-                      onClick={() => {
-                        track('clicked article title', {
-                          article: slug,
-                        })
-                      }}
-                      className="hover:underline"
-                    >
-                      {title}
-                    </a>
+                  <Link
+                    href={slug}
+                    passHref
+                    onClick={() => {
+                      track('clicked article title', {
+                        article: slug,
+                      })
+                    }}
+                    className="hover:underline"
+                  >
+                    {title}
                   </Link>
                 </h2>
                 {description && (
@@ -98,17 +98,17 @@ const Articles: React.FC<{articles: Article[]}> = ({articles}) => {
                     {estimatedReadingTime} minutes
                   </div>
                 </div>
-                <Link href={slug} passHref>
-                  <a
-                    onClick={() => {
-                      track('clicked start reading article', {
-                        article: slug,
-                      })
-                    }}
-                    className="hover:bg-yellow-300 transition-all px-4 py-3 rounded bg-brand text-black font-bold"
-                  >
-                    Start reading <span aria-hidden="true">→</span>
-                  </a>
+                <Link
+                  href={slug}
+                  passHref
+                  onClick={() => {
+                    track('clicked start reading article', {
+                      article: slug,
+                    })
+                  }}
+                  className="hover:bg-yellow-300 transition-all px-4 py-3 rounded bg-brand text-black font-bold"
+                >
+                  Start reading<span aria-hidden="true">→</span>
                 </Link>
               </div>
             </article>

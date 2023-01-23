@@ -2,8 +2,9 @@ import React from 'react'
 import Layout from 'components/layout'
 import {SanityDocument} from '@sanity/client'
 import Link from 'next/link'
-import Image from 'next/image'
+import Image from 'next/legacy/image'
 import {getAllWorkshops} from '../../lib/workshops'
+import {isSellingLive} from 'path-to-purchase-react/is-selling-live'
 
 export async function getStaticProps() {
   const workshops = await getAllWorkshops()
@@ -22,7 +23,7 @@ const WorkshopsPage: React.FC<{workshops: SanityDocument[]}> = ({
       meta={
         {
           title: `Professional Tailwind Workshops from Simon Vrachliotis`,
-          description: `Professional Tailwind Workshops by Simon Vrachliotis that will help you learn how to use Tailwind as a professional web developer through exercise driven examples.`,
+          description: `Professional Tailwind Workshops by Simon Vrachliotis will help you learn how to use Tailwind as a professional web developer through exercise-driven examples.`,
           ogImage: {
             url: 'https://res.cloudinary.com/pro-tailwind/image/upload/v1668155873/tutorials/card_2x.png',
           },
@@ -62,8 +63,13 @@ const WorkshopsPage: React.FC<{workshops: SanityDocument[]}> = ({
                       )}
                     </div>
                     <div className="pr:0 m-10 md:m-0 md:pr-10">
-                      <div className="pt-4 pb-3 font-mono text-xs font-semibold uppercase text-gray-600 ">
-                        {i === 0 && (
+                      <div className="flex items-center gap-1 pb-3 font-mono text-xs font-semibold uppercase text-gray-600">
+                        {state === 'draft' && (
+                          <span className="mr-3 rounded-full bg-gray-100 px-2 py-0.5 font-sans font-semibold uppercase text-gray-700">
+                            Coming Soon
+                          </span>
+                        )}
+                        {i === 0 && state !== 'draft' && (
                           <span className="mr-3 rounded-full bg-gray-100 px-2 py-0.5 font-sans font-semibold uppercase text-gray-700">
                             New
                           </span>
@@ -84,29 +90,37 @@ const WorkshopsPage: React.FC<{workshops: SanityDocument[]}> = ({
                           <br />
                         )}
                       </div>
-                      <Link
-                        href={{
-                          pathname: '/workshops/[module]',
-                          query: {
-                            module: slug.current,
-                          },
-                        }}
-                      >
-                        <a className="font-heading text-3xl font-black hover:underline sm:text-4xl">
+                      {state === 'draft' ? (
+                        <h2 className="block font-heading text-3xl font-black sm:text-4xl">
                           {title}
-                        </a>
-                      </Link>
-
+                        </h2>
+                      ) : (
+                        <h2>
+                          <Link
+                            href={{
+                              pathname: '/workshops/[module]',
+                              query: {
+                                module: slug.current,
+                              },
+                            }}
+                            className="block font-heading text-3xl font-black hover:underline sm:text-4xl"
+                          >
+                            {title}
+                          </Link>
+                        </h2>
+                      )}
                       {description && <p className="mt-2">{description}</p>}
-                      <Link
-                        href={{
-                          pathname: '/workshops/[module]',
-                          query: {
-                            module: slug.current,
-                          },
-                        }}
-                      >
-                        <a className="group my-4 inline-block gap-2 rounded-full bg-brand-red px-4 py-2 font-medium text-white transition">
+                      {(process.env.NODE_ENV === 'development' ||
+                        state !== 'draft') && (
+                        <Link
+                          href={{
+                            pathname: '/workshops/[module]',
+                            query: {
+                              module: slug.current,
+                            },
+                          }}
+                          className="group my-4 inline-block gap-2 rounded-full bg-brand-red px-4 py-2 font-medium text-white transition"
+                        >
                           View{' '}
                           <span
                             aria-hidden="true"
@@ -114,8 +128,8 @@ const WorkshopsPage: React.FC<{workshops: SanityDocument[]}> = ({
                           >
                             →
                           </span>
-                        </a>
-                      </Link>
+                        </Link>
+                      )}
                     </div>
                   </li>
                 )

@@ -14,6 +14,7 @@ export type SkillRecordingsAction =
   | 'subscriber'
   | 'answer'
   | 'subscribe'
+  | 'lookup'
 
 export interface SkillRecordingsHeader {
   key: string

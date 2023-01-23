@@ -64,20 +64,22 @@ const TableOfContents = ({value}: PortableTextProps) => {
           const {subheadings} = heading
           return (
             <li key={heading._key}>
-              <Link href={'#' + heading.slug}>
-                <a className="hover:underline inline-flex sm:py-2 py-1 font-medium text-base">
-                  {getChildrenText(heading)}
-                </a>
+              <Link
+                href={'#' + heading.slug}
+                className="hover:underline inline-flex sm:py-2 py-1 font-medium text-base"
+              >
+                {getChildrenText(heading)}
               </Link>
               {subheadings.length > 0 && (
                 <ol className="py-2">
                   {subheadings.map((subheading: any) => {
                     return (
                       <li key={subheading._key}>
-                        <Link href={'#' + subheading.slug}>
-                          <a className="pl-6 text-base inline-flex border-l border-gray-200 hover:underline sm:py-2 py-1 font-medium">
-                            {getChildrenText(subheading)}
-                          </a>
+                        <Link
+                          href={'#' + subheading.slug}
+                          className="pl-6 text-base inline-flex border-l border-gray-200 hover:underline sm:py-2 py-1 font-medium"
+                        >
+                          {getChildrenText(subheading)}
                         </Link>
                       </li>
                     )

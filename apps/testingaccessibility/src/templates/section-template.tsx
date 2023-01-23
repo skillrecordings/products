@@ -10,7 +10,7 @@ import BreadcrumbNav from 'components/breadcrumb'
 import Layout from 'components/app/layout'
 import indexOf from 'lodash/indexOf'
 import find from 'lodash/find'
-import Image from 'next/image'
+import Image from 'next/legacy/image'
 import Link from 'next/link'
 import cx from 'classnames'
 import {ProgressToggle} from './lesson-template'
@@ -125,16 +125,15 @@ const SectionTemplate: React.FC<
                         modules as any,
                       ),
                     }}
+                    className="focus-visible:ring-green-400 transition-all mt-4 inline-flex items-center justify-center font-medium px-5 py-3 rounded-md bg-white shadow-lg hover:bg-white/90 text-black"
                   >
-                    <a className="focus-visible:ring-green-400 transition-all mt-4 inline-flex items-center justify-center font-medium px-5 py-3 rounded-md bg-white shadow-lg hover:bg-white/90 text-black">
-                      <span className="pr-1">
-                        Up next:{' '}
-                        <span className="font-semibold">
-                          {nextUpSection.title}
-                        </span>
+                    <span className="pr-1">
+                      Up next:{' '}
+                      <span className="font-semibold">
+                        {nextUpSection.title}
                       </span>
-                      <ChevronRightIcon className="w-4" aria-hidden="true" />
-                    </a>
+                    </span>
+                    <ChevronRightIcon className="w-4" aria-hidden="true" />
                   </Link>
                 </div>
               )}
@@ -195,23 +194,20 @@ const LessonsNavigator = ({
                       },
                 }}
                 passHref
+                aria-label={`${title} ${isCompleted ? '(completed)' : ''}`}
+                data-index={isCompleted ? '✓' : i + 1}
+                className={cx(
+                  `px-3 sm:text-lg hover:bg-gray-50 w-full font-semibold py-4 hover:text-gray-900 text-gray-700 relative items-center inline-flex before:font-semibold before:flex before:items-center before:justify-center before:font-mono before:content-[attr(data-index)] before:w-5 before:h-5 before:border before:left-0 before:rounded-full before:flex-shrink-0`,
+                  {
+                    'before:text-[0.55em] before:text-gray-500 before:border-gray-300':
+                      !isCompleted,
+                    'before:text-sm before:text-white before:border-green-500 before:bg-green-500':
+                      isCompleted,
+                  },
+                )}
               >
-                <a
-                  aria-label={`${title} ${isCompleted ? '(completed)' : ''}`}
-                  data-index={isCompleted ? '✓' : i + 1}
-                  className={cx(
-                    `px-3 sm:text-lg hover:bg-gray-50 w-full font-semibold py-4 hover:text-gray-900 text-gray-700 relative items-center inline-flex before:font-semibold before:flex before:items-center before:justify-center before:font-mono before:content-[attr(data-index)] before:w-5 before:h-5 before:border before:left-0 before:rounded-full before:flex-shrink-0`,
-                    {
-                      'before:text-[0.55em] before:text-gray-500 before:border-gray-300':
-                        !isCompleted,
-                      'before:text-sm before:text-white before:border-green-500 before:bg-green-500':
-                        isCompleted,
-                    },
-                  )}
-                >
-                  <span className="pl-3">{title} </span>
-                  {isCompleted && <span className="sr-only">(completed)</span>}
-                </a>
+                <span className="pl-3">{title} </span>
+                {isCompleted && <span className="sr-only">(completed)</span>}
               </Link>
             </li>
           )

@@ -4,6 +4,7 @@ import {Toaster} from 'react-hot-toast'
 import cx from 'classnames'
 import Navigation from 'components/navigation'
 import type {LayoutProps} from '@types'
+import {useRouter} from 'next/router'
 
 const Layout: FunctionComponent<React.PropsWithChildren<LayoutProps>> = ({
   children,
@@ -13,11 +14,12 @@ const Layout: FunctionComponent<React.PropsWithChildren<LayoutProps>> = ({
   noNav,
   navClassName,
 }) => {
+  const router = useRouter()
   const {
     title,
     description,
     titleAppendSiteName = false,
-    url,
+    url = `${process.env.NEXT_PUBLIC_URL}${router.asPath}`,
     type = 'website',
     ogImage,
     date,

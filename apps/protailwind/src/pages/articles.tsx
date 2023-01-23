@@ -49,8 +49,12 @@ const Articles: React.FC<ArticlesProps> = ({articles}) => {
                       <div className="justify-left flex w-full sm:justify-between">
                         <div>
                           <h2 className="font-heading text-2xl font-black transition lg:text-3xl">
-                            <Link href={`/${slug}`} passHref>
-                              <a className="group block">{title}</a>
+                            <Link
+                              href={`/${slug}`}
+                              passHref
+                              className="group block"
+                            >
+                              {title}
                             </Link>
                           </h2>
                           <h3 className="pt-3 text-xl font-medium text-gray-700">
@@ -71,10 +75,12 @@ const Articles: React.FC<ArticlesProps> = ({articles}) => {
                             </Markdown>
                           )} */}
                           <div className="mt-6 flex w-full items-center justify-between space-x-5">
-                            <Link href={`/${slug}`} passHref>
-                              <a className="rounded-full bg-sky-500 px-5 py-3 text-white transition hover:bg-sky-600">
-                                View article
-                              </a>
+                            <Link
+                              href={`/${slug}`}
+                              passHref
+                              className="rounded-full bg-sky-500 px-5 py-3 text-white transition hover:bg-sky-600"
+                            >
+                              View article
                             </Link>
                             <div className="text-sm text-gray-700">
                               Time to read: ~{estimatedReadingTime}m

@@ -19,6 +19,12 @@ export default {
       type: 'url',
     },
     {
+      name: 'duration',
+      title: 'Duration',
+      type: 'number',
+      readOnly: true,
+    },
+    {
       title: 'SRT',
       name: 'srt',
       type: 'text',

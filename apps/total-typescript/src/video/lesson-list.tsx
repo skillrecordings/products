@@ -37,24 +37,21 @@ const LessonTitleLink: React.FC<LessonTitleLinkProps> = ({
         },
       }}
       passHref
+      className="flex items-center px-4 py-2 font-semibold leading-tight hover:bg-gray-800"
+      onClick={() => {
+        track('clicked exercise in navigator', {
+          module: module.slug.current,
+          ...(section && {section: section.slug}),
+          lesson: lesson.slug,
+          moduleType: module.moduleType,
+          lessonType: lesson._type,
+        })
+      }}
     >
-      <a
-        className="flex items-center px-4 py-2 font-semibold leading-tight hover:bg-gray-800"
-        onClick={() => {
-          track('clicked exercise in navigator', {
-            module: module.slug.current,
-            ...(section && {section: section.slug}),
-            lesson: lesson.slug,
-            moduleType: module.moduleType,
-            lessonType: lesson._type,
-          })
-        }}
-      >
-        <span aria-hidden="true" className="pr-3 text-sm opacity-50">
-          {sectionIndex + 1}
-        </span>{' '}
-        {lesson.title}
-      </a>
+      <span aria-hidden="true" className="pr-3 text-sm opacity-50">
+        {sectionIndex + 1}
+      </span>{' '}
+      {lesson.title}
     </Link>
   )
 }
@@ -121,29 +118,26 @@ export const LessonList: React.FC<{
                           },
                         }}
                         passHref
+                        className={cx(
+                          'flex items-center border-l-4 py-2 px-8 text-base font-medium transition hover:bg-slate-400/20 hover:text-white',
+                          {
+                            'border-orange-400 bg-gray-800/80 text-white':
+                              isActive,
+                            'border-transparent ': !isActive,
+                          },
+                        )}
+                        onClick={() => {
+                          track(`clicked exercise in navigator`, {
+                            module: module.slug.current,
+                            lesson: exercise.slug,
+                            ...(section && {section: section.slug}),
+                            location: router.query.lesson,
+                            moduleType: module.moduleType,
+                            lessonType: exercise._type,
+                          })
+                        }}
                       >
-                        <a
-                          className={cx(
-                            'flex items-center border-l-4 py-2 px-8 text-base font-medium transition hover:bg-slate-400/20 hover:text-white',
-                            {
-                              'border-orange-400 bg-gray-800/80 text-white':
-                                isActive,
-                              'border-transparent ': !isActive,
-                            },
-                          )}
-                          onClick={() => {
-                            track(`clicked exercise in navigator`, {
-                              module: module.slug.current,
-                              lesson: exercise.slug,
-                              ...(section && {section: section.slug}),
-                              location: router.query.lesson,
-                              moduleType: module.moduleType,
-                              lessonType: exercise._type,
-                            })
-                          }}
-                        >
-                          Problem
-                        </a>
+                        Problem
                       </Link>
                     </li>
                     <SolutionLink
@@ -169,29 +163,26 @@ export const LessonList: React.FC<{
                           },
                         }}
                         passHref
+                        className={cx(
+                          'flex items-center border-l-4 py-2 px-8 text-base font-medium transition hover:bg-slate-400/20 hover:text-white',
+                          {
+                            'border-indigo-400 bg-gray-800/80 text-white':
+                              isActive,
+                            'border-transparent ': !isActive,
+                          },
+                        )}
+                        onClick={() => {
+                          track(`clicked explainer in navigator`, {
+                            module: module.slug.current,
+                            lesson: exercise.slug,
+                            ...(section && {section: section.slug}),
+                            location: router.query.lesson,
+                            moduleType: module.moduleType,
+                            lessonType: exercise._type,
+                          })
+                        }}
                       >
-                        <a
-                          className={cx(
-                            'flex items-center border-l-4 py-2 px-8 text-base font-medium transition hover:bg-slate-400/20 hover:text-white',
-                            {
-                              'border-indigo-400 bg-gray-800/80 text-white':
-                                isActive,
-                              'border-transparent ': !isActive,
-                            },
-                          )}
-                          onClick={() => {
-                            track(`clicked explainer in navigator`, {
-                              module: module.slug.current,
-                              lesson: exercise.slug,
-                              ...(section && {section: section.slug}),
-                              location: router.query.lesson,
-                              moduleType: module.moduleType,
-                              lessonType: exercise._type,
-                            })
-                          }}
-                        >
-                          Explainer
-                        </a>
+                        Explainer
                       </Link>
                     </li>
                   </ul>
@@ -217,28 +208,28 @@ export const LessonList: React.FC<{
                     key={resource.slug?.current || resource.slug}
                     className="pt-2"
                   >
-                    <Link href={resource.url} passHref>
-                      <a
-                        className="flex items-center px-4 py-2 font-semibold leading-tight hover:bg-gray-800"
-                        onClick={() => {
-                          track('clicked link resource in navigator', {
-                            module: module.slug.current,
-                            ...(section && {section: section.slug}),
-                            lesson: router.asPath.split('/').pop(),
-                            moduleType: module.moduleType,
-                            resource: resource.slug,
-                          })
-                        }}
-                        target="_blank"
+                    <Link
+                      href={resource.url}
+                      passHref
+                      className="flex items-center px-4 py-2 font-semibold leading-tight hover:bg-gray-800"
+                      onClick={() => {
+                        track('clicked link resource in navigator', {
+                          module: module.slug.current,
+                          ...(section && {section: section.slug}),
+                          lesson: router.asPath.split('/').pop(),
+                          moduleType: module.moduleType,
+                          resource: resource.slug,
+                        })
+                      }}
+                      target="_blank"
+                    >
+                      <span
+                        aria-hidden="true"
+                        className="pr-3 text-sm opacity-50"
                       >
-                        <span
-                          aria-hidden="true"
-                          className="pr-3 text-sm opacity-50"
-                        >
-                          ∙
-                        </span>{' '}
-                        {resource.title}
-                      </a>
+                        ∙
+                      </span>{' '}
+                      {resource.title}
                     </Link>
                     <p className="pl-10 pr-3 text-sm text-gray-400">
                       {resource.description}
@@ -285,27 +276,24 @@ const SolutionLink = ({
           },
         }}
         passHref
+        className={cx(
+          'flex items-center border-l-4 py-2 px-8 text-base font-medium transition hover:bg-slate-400/20 hover:text-white',
+          {
+            'border-cyan-400 bg-gray-800/80 text-white': isActive,
+            'border-transparent ': !isActive,
+          },
+        )}
+        onClick={() => {
+          track(`clicked solution in navigator`, {
+            module: module.slug.current,
+            lesson: exercise.slug,
+            moduleType: module.moduleType,
+            lessonType: exercise._type,
+            ...(section && {section: section.slug}),
+          })
+        }}
       >
-        <a
-          className={cx(
-            'flex items-center border-l-4 py-2 px-8 text-base font-medium transition hover:bg-slate-400/20 hover:text-white',
-            {
-              'border-cyan-400 bg-gray-800/80 text-white': isActive,
-              'border-transparent ': !isActive,
-            },
-          )}
-          onClick={() => {
-            track(`clicked solution in navigator`, {
-              module: module.slug.current,
-              lesson: exercise.slug,
-              moduleType: module.moduleType,
-              lessonType: exercise._type,
-              ...(section && {section: section.slug}),
-            })
-          }}
-        >
-          {capitalize('solution')}
-        </a>
+        {capitalize('solution')}
       </Link>
     </li>
   )

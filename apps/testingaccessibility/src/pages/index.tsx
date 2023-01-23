@@ -1,5 +1,5 @@
 import * as React from 'react'
-import Image from 'next/image'
+import Image from 'next/legacy/image'
 import LandingCopy from 'components/content/landing-copy.mdx'
 import Layout from 'components/app/layout'
 import {GetServerSideProps} from 'next'

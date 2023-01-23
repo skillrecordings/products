@@ -81,11 +81,12 @@ export const InvoiceCard: React.FC<{purchase: Purchase | any}> = ({
           </div>
         </div>
       </div>
-      <Link href={`/invoices/${purchase.merchantChargeId}`}>
-        <a className="ml-8 mt-5 flex flex-shrink-0 items-center justify-end rounded-md bg-cyan-300/10 px-3 py-2 text-sm font-medium text-cyan-400 transition hover:bg-cyan-300/20 sm:ml-0 sm:mt-0 sm:justify-center">
-          <span className="pr-0.5">View Invoice</span>
-          <ChevronRightIcon aria-hidden="true" className="w-4" />
-        </a>
+      <Link
+        href={`/invoices/${purchase.merchantChargeId}`}
+        className="ml-8 mt-5 flex flex-shrink-0 items-center justify-end rounded-md bg-cyan-300/10 px-3 py-2 text-sm font-medium text-cyan-400 transition hover:bg-cyan-300/20 sm:ml-0 sm:mt-0 sm:justify-center"
+      >
+        <span className="pr-0.5">View Invoice</span>
+        <ChevronRightIcon aria-hidden="true" className="w-4" />
       </Link>
     </div>
   )

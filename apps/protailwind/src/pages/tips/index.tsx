@@ -2,7 +2,7 @@ import React from 'react'
 import Layout from 'components/layout'
 import {getAllTips, Tip} from 'lib/tips'
 import Link from 'next/link'
-import Image from 'next/image'
+import Image from 'next/legacy/image'
 import {useRouter} from 'next/router'
 import {useTipComplete} from '../../hooks/use-tip-complete'
 import Icon from 'components/icons'
@@ -22,7 +22,7 @@ type TipsIndex = {
 }
 
 const pageDescription =
-  'A collection of useful tips that you wish you knew when you started using Tailwind.'
+  'A collection of valuable tips that you wish you had known when you started using Tailwind. Level up your skills by digging into these techniques.'
 
 const TipsIndex: React.FC<TipsIndex> = ({tips}) => {
   return (
@@ -126,11 +126,9 @@ const TipCard: React.FC<{tip: Tip}> = ({tip}) => {
                 tip: tip.slug,
               },
             }}
+            className="inline-flex items-start gap-1 hover:underline"
           >
-            <a className="inline-flex items-start gap-1 hover:underline">
-              {title}{' '}
-              {tipCompleted && <span className="sr-only">(watched)</span>}
-            </a>
+            {title} {tipCompleted && <span className="sr-only">(watched)</span>}
           </Link>
         </h2>
       </div>
@@ -211,10 +209,9 @@ export const TipTeaser: React.FC<{tip: Tip}> = ({tip}) => {
               tip: tip.slug,
             },
           }}
+          className="inline-flex items-start gap-1 hover:underline"
         >
-          <a className="inline-flex items-start gap-1 hover:underline">
-            {title} {tipCompleted && <span className="sr-only">(watched)</span>}
-          </a>
+          {title} {tipCompleted && <span className="sr-only">(watched)</span>}
         </Link>
       </h2>
     </article>

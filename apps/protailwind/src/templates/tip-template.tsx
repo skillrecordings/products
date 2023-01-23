@@ -20,7 +20,7 @@ import {
 } from '@heroicons/react/solid'
 import {shuffle, take} from 'lodash'
 import {track} from '../utils/analytics'
-import Image from 'next/image'
+import Image from 'next/legacy/image'
 import {getOgImage} from 'utils/get-og-image'
 import {useTipComplete} from '../hooks/use-tip-complete'
 import {localProgressDb} from '../utils/dexie'

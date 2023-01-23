@@ -1,6 +1,9 @@
 import {z} from 'zod'
 import {answerSurvey, markLessonComplete} from '../../lib/convertkit'
-import {updateSubscriber} from '@skillrecordings/convertkit-sdk'
+import {
+  fetchSubscriber,
+  updateSubscriber,
+} from '@skillrecordings/convertkit-sdk'
 import {serialize} from 'cookie'
 import {SubscriberSchema} from '../../schemas/subscriber'
 import {publicProcedure, router} from '../trpc.server'
@@ -101,14 +104,20 @@ export const convertkitRouter = router({
       }),
     )
     .mutation(async ({ctx, input}) => {
+      let subscriber
+      const convertkitId =
+        ctx.req.cookies?.[
+          process.env.NEXT_PUBLIC_CONVERTKIT_SUBSCRIBER_KEY ||
+            'ck_subscriber_id'
+        ]
+
       const subscriberCookie = ctx.req.cookies['ck_subscriber']
 
-      if (!subscriberCookie) {
-        console.debug('no subscriber cookie')
-        return {error: 'no subscriber found'}
+      if (convertkitId) {
+        subscriber = SubscriberSchema.parse(await fetchSubscriber(convertkitId))
+      } else if (subscriberCookie) {
+        subscriber = SubscriberSchema.parse(JSON.parse(subscriberCookie))
       }
-
-      const subscriber = SubscriberSchema.parse(JSON.parse(subscriberCookie))
 
       if (!subscriber) {
         return {error: 'no subscriber found'}

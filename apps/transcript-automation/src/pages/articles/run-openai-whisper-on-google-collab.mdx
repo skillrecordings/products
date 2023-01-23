@@ -1,0 +1,143 @@
+# OpenAI Whisper in Google Colab
+
+Transcripts are vital for creating meaningful next steps and content from your conversations.
+
+One of the fastest ways to go from an audio file to a high-quality transcript is using [OpenAI Whisper](https://github.com/openai/whisper) inside of a [Google Colab Notebook](https://colab.research.google.com/).
+
+In this guide, you will develop a baseline for building your own transcript automation process.
+
+Oh, and it’s free!
+
+
+## Getting Started with Google Colab
+
+[Google Colab](https://colab.research.google.com/) is a free to use web app that enables you to install and run Python code as well as Linux-based applications.
+
+To get started, visit [https://colab.research.google.com/](https://colab.research.google.com/) and create a new Notebook (you will need to be logged in to your Google account). The notebook you create will be conveniently located in a “Colab Notebooks” folder inside of your Google Drive.
+
+Colab is driven by Cells that allow you to write code and commands to execute, or markdown to document what you’re doing.
+
+When you create a new notebook, your cursor will be inside of a code cell.
+
+Additional cells can be added by using the “Insert” menu or hovering your mouse near the bottom center point of a cell. I tend to group related functionality into dedicated cells, though it’s technically possible to put an entire application in a single cell.
+
+The first thing we need to do is add the command to install Whisper from Python’s pip registry: \
+\
+`!pip install git+https://github.com/openai/whisper.git`
+
+The exclamation point tells Colab that this is a command to execute rather than a python script to run.
+
+Speaking of running, at the top of the Notebook UI in the “Runtime” menu is an option to “Change Runtime Type”. Click this menu item, and set the “Hardware accelerator” dropdown to GPU.
+
+
+Colab’s free GPU support is pretty great, as it drastically reduces the amount of time it takes to run Whisper.
+
+
+## Introducing OpenAI Whisper
+
+We’ve told Colab to install Whisper, but what is it?
+
+[Whisper](https://github.com/openai/whisper) is an automatic speech recognition model that produces high-quality transcriptions (and translations) from audio files.
+
+There are several different model sizes to use with Whisper, depending on your source material (and the time you want to spend waiting for the transcript to be processed). I’ve found that their `medium` size model does quite well when transcribing content that isn’t overly technical.When I know the content is heavier on jargon, I’ll use the `large-v2` model which not only handles these cases better but sometimes transcribes words into camelCase or PascalCase on its own. Pretty impressive.
+
+The command to run Whisper is pretty straightforward:
+
+`!whisper “file.mp3” –model large-v2 –language English`
+
+Supplying the language is optional, but a couple times I’ve been surprised when the model’s language auto-detection thought my recording was in Welsh!
+
+
+## Running a Whisper Transcription in Colab
+
+To prepare the Colab notebook for use, click the “Connect” button in the upper right corner of the UI.
+
+Over on the left side of the Colab UI is a folder icon. Clicking this icon will expand the sidebar and provide you with the option of dragging a file in or using an upload picker.
+
+
+Once your file has finished uploading, create a new Code cell and add the Whisper command. Update the filename, but don’t worry about adding any leading dots or slashes– the default upload location is the root.
+
+`!whisper “I Have a Dream.mp3” –model large-v2 –language English`
+
+With this cell added, you are ready to start the transcription!
+
+
+## Running the Notebook
+
+From the “Runtime” menu of Colab, select the “Run all” option.
+
+The first cell will start running, and updating with output from running the install command.
+
+Once the installation is finished, Colab moves down to the next cell to run the Whisper command.
+
+The cell will download the `large-v2` model (almost 3GB) then begin printing lines of text as they are transcribed from the audio:
+
+Notice that in the screenshot above there is no separation in the transcript between the speaker doing the introduction and MLK’s speech starting. This process, known as _speaker diarization_, requires a separate model than Whisper. More on that later!
+
+
+## Downloading Whisper’s Output
+
+After the transcription process has completed, the File pane will update to display `txt`, `srt`, and `vtt` files with names that match the source input.
+
+The txt file is the same unformatted line-by-line output from the Whisper pane’s output, but without the timestamps.
+
+Both the `srt` and `vtt` are subtitle files that contain the text, along with timestamps that tell the player when each line should be displayed.
+
+The post-processing automations I’ve built rely on the `srt` format, so that’s the one I download.
+
+To download a file, hover over its name and select “Download” from the three-dot menu that appears.
+
+## Testing Subtitle Playback
+
+When Whisper creates its output files, it keeps the original file extension and appends the output format.
+
+If you’d like to test out your subtitles locally, rename the `srt` file to remove the `.mp3` part.
+
+Most media players will automatically recognize a subtitle file when it matches a media file, though this functionality may be limited to video files.
+
+However, the open source and cross-platform media player [mpv](https://mpv.io/) matches up `I Have a Dream.mp3` and `I Have a Dream.srt` and displays the subtitles over a blank screen as seen in this screenshot:
+
+Another cool thing about mpv is its support for scripts, which are super helpful for some of the prep work I do when working with longer recordings.
+
+
+## Wrap-up
+
+It’s pretty amazing that with essentially two lines of code you can produce a usable transcript for a media file.
+
+Depending on your end goal for a particular transcript, it’s important to proofread and edit Whisper’s output. While it is quite good, it can still make mistakes.
+
+For example, in the original “I Have a Dream” speech, MLK says:
+
+“When the architects of our great republic wrote the magnificent words of the Constitution and the Declaration of Independence, they were signing a promissory note to which every American was to fall heir.”
+
+Whisper transcribed this as:
+
+“...a promissory note to _whichever American was to fall out._”
+
+This isn’t exactly right.
+
+However, it is worth pointing out that Whisper is able to recognize conversational pauses and punctuate accordingly. As seen in the next line, it adds an Oxford Comma, but misses a capital “B”:
+
+“This note was a promise that all men, yes, black men as well as white men, would be guaranteed the unalienable rights of life, liberty, and the pursuit of happiness.”
+
+The bottom line is, always remember to proofread!
+
+## Next Steps
+
+With a “Transcript” in place, it’s time to bring some “Automation” into the mix.
+
+Adding [Script Kit](https://www.scriptkit.com/) into the mix allows for streamlined pre- and post-processing that help you to extract and create value from what Whisper provides.
+
+import Layout from 'components/layout'
+
+export default ({children}) => (
+<Layout
+meta={{
+title: 'Terms, Conditions, and Privacy Policy for Total TypeScript',
+}}
+>
+    <main className="p-5 py-16 lg:py-24">
+      <article className="prose mx-auto">{children}</article>
+    </main>
+  </Layout>
+)

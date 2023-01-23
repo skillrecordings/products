@@ -42,10 +42,10 @@ const BuyMoreSeats = (props: BuyMoreSeatsProps) => {
   })
 
   return (
-    <form className="pt-3" action={formActionPath} method="POST">
+    <form className="" action={formActionPath} method="POST">
       <fieldset
         id="team-upgrade-pricing-inline"
-        className="flex w-full items-center justify-between"
+        className="flex w-full flex-col justify-between gap-5"
       >
         <label className="inline-flex items-center gap-3">
           <span className="opacity-80">Seats</span>
@@ -60,24 +60,20 @@ const BuyMoreSeats = (props: BuyMoreSeatsProps) => {
               const newQuantity = Number(e.target.value)
               setQuantity(newQuantity)
             }}
-            className="rounded-md border border-gray-800 bg-gray-900 py-2 pl-3 font-mono font-bold"
+            className="rounded-md border border-gray-200 bg-gray-100 py-2 pl-3 font-mono font-bold"
           />
         </label>
-        <div data-pricing-product="">
-          <div
-            data-pricing-product-header=""
-            className="flex items-center gap-5"
-          >
-            <PriceDisplay status={status} formattedPrice={formattedPrice} />
-            <button
-              className="rounded-md bg-cyan-400 px-5 py-2 font-medium text-black transition hover:bg-cyan-300"
-              type="submit"
-              disabled={false}
-            >
-              Buy
-            </button>
-          </div>
+
+        <div data-pricing-product-header="" className="flex items-center gap-5">
+          <PriceDisplay status={status} formattedPrice={formattedPrice} />
         </div>
+        <button
+          className="rounded-lg bg-blue-500 px-5 py-3 font-medium text-white transition hover:bg-blue-600"
+          type="submit"
+          disabled={false}
+        >
+          Buy more seats
+        </button>
       </fieldset>
     </form>
   )

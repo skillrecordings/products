@@ -6,7 +6,7 @@ import {Element} from 'react-scroll'
 import {PricingTiers} from '../components/product-tiers'
 import FAQ from '../components/content/faq-section'
 import Layout from 'components/app/layout'
-import Image from 'next/image'
+import Image from 'next/legacy/image'
 import {getToken} from 'next-auth/jwt'
 import {getActiveProducts} from '../lib/products'
 

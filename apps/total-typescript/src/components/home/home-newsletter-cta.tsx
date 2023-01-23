@@ -1,6 +1,6 @@
 import {useRouter} from 'next/router'
 import {MDXComponents} from '../mdx'
-import Image from 'next/image'
+import Image from 'next/legacy/image'
 import {
   redirectUrlBuilder,
   SubscribeToConvertkitForm,

@@ -45,8 +45,6 @@ export const getLesson = async (slug: string): Promise<Lesson> => {
     {slug},
   )
 
-  console.log({exercise})
-
   return LessonSchema.parse(exercise)
 }
 

@@ -1,4 +1,4 @@
-import {StaticImageData} from 'next/image'
+import {StaticImageData} from 'next/legacy/image'
 import {DefaultCoupon} from '@skillrecordings/commerce-server/dist/@types'
 
 export type Contributor = {

@@ -60,11 +60,12 @@ const BreadcrumbNav: React.FC<React.PropsWithChildren<BreadcrumbProps>> = ({
     <nav className="flex font-nav" aria-label="Breadcrumb">
       <ol role="list" className="flex items-center sm:space-x-4 space-x-2">
         <li>
-          <Link href="/learn">
-            <a className="text-gray-400 hover:text-gray-500 w-5 block">
-              <HomeIcon className="flex-shrink-0 h-5 w-5" aria-hidden="true" />
-              <span className="sr-only">Home</span>
-            </a>
+          <Link
+            href="/learn"
+            className="text-gray-400 hover:text-gray-500 w-5 block"
+          >
+            <HomeIcon className="flex-shrink-0 h-5 w-5" aria-hidden="true" />
+            <span className="sr-only">Home</span>
           </Link>
         </li>
         {pages.map((page: Page, i: number) => {
@@ -83,10 +84,9 @@ const BreadcrumbNav: React.FC<React.PropsWithChildren<BreadcrumbProps>> = ({
                       pathname: page.pathname,
                       query: page.query,
                     }}
+                    className="flex-shrink-0 sm:ml-4 ml-2 text-sm font-medium text-gray-800 hover:text-gray-800 hover:underline"
                   >
-                    <a className="flex-shrink-0 sm:ml-4 ml-2 text-sm font-medium text-gray-800 hover:text-gray-800 hover:underline">
-                      {page.title}
-                    </a>
+                    {page.title}
                   </Link>
                 ) : (
                   <span

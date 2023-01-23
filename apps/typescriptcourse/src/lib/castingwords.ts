@@ -60,6 +60,7 @@ export async function orderTranscript(
     headers,
   }).then(async (response) => {
     const order = await response.json()
+    console.log('castingwords', {order})
     return CastingWordsOrderResponseSchema.parse(order)
   })
 }

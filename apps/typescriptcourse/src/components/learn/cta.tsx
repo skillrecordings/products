@@ -37,13 +37,14 @@ const CallToAction: React.FC<
       {currentModule ? (
         <>
           {nextLesson ? (
-            <Link href={`/lessons/${nextLesson.slug}`}>
-              <a className="px-8 py-5 flex bg-gray-200 dark:bg-gray-800 items-center font-semibold space-x-2 hover:underline">
-                <span className="flex items-center justify-center p-1 rounded-full dark:bg-white dark:text-black bg-black text-white">
-                  <i className="gg-play-button" />
-                </span>
-                <span>Continue Learning</span>
-              </a>
+            <Link
+              href={`/lessons/${nextLesson.slug}`}
+              className="px-8 py-5 flex bg-gray-200 dark:bg-gray-800 items-center font-semibold space-x-2 hover:underline"
+            >
+              <span className="flex items-center justify-center p-1 rounded-full dark:bg-white dark:text-black bg-black text-white">
+                <i className="gg-play-button" />
+              </span>
+              <span>Continue Learning</span>
             </Link>
           ) : (
             <div className="p-8">
@@ -54,13 +55,14 @@ const CallToAction: React.FC<
       ) : (
         <>
           {firstLesson ? (
-            <Link href={`/lessons/${firstLesson.slug}`}>
-              <a className="px-8 py-5 flex bg-gray-200 dark:bg-gray-800 items-center font-semibold space-x-2 hover:underline">
-                <span className="flex items-center justify-center p-1 rounded-full dark:bg-white dark:text-black bg-black text-white">
-                  <i className="gg-play-button" />
-                </span>
-                <span>Start Learning</span>
-              </a>
+            <Link
+              href={`/lessons/${firstLesson.slug}`}
+              className="px-8 py-5 flex bg-gray-200 dark:bg-gray-800 items-center font-semibold space-x-2 hover:underline"
+            >
+              <span className="flex items-center justify-center p-1 rounded-full dark:bg-white dark:text-black bg-black text-white">
+                <i className="gg-play-button" />
+              </span>
+              <span>Start Learning</span>
             </Link>
           ) : (
             <div className="flex w-full h-full items-center justify-center bg-gray-100 dark:bg-gray-900 p-10">

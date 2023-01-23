@@ -119,25 +119,22 @@ const Autocomplete = (props: any) => {
                               query: getMeta(item, props.product).query,
                             }}
                             passHref
+                            className={cx(
+                              'flex items-center justify-between px-3 py-2 rounded-md w-full transition',
+                              {
+                                'bg-gray-100': selected,
+                              },
+                            )}
                           >
-                            <a
-                              className={cx(
-                                'flex items-center justify-between px-3 py-2 rounded-md w-full transition',
-                                {
-                                  'bg-gray-100': selected,
-                                },
+                            <span>
+                              {highlight(
+                                parseAlgoliaHitHighlight({
+                                  hit: item,
+                                  attribute: 'title',
+                                }),
                               )}
-                            >
-                              <span>
-                                {highlight(
-                                  parseAlgoliaHitHighlight({
-                                    hit: item,
-                                    attribute: 'title',
-                                  }),
-                                )}
-                              </span>
-                              <span className="text-sm">{item.type}</span>
-                            </a>
+                            </span>
+                            <span className="text-sm">{item.type}</span>
                           </Link>
                         </li>
                       )

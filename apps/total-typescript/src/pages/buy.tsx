@@ -7,7 +7,7 @@ import {PricingTiers} from '../path-to-purchase-react/product-tiers'
 import Layout from 'components/app/layout'
 import {getToken} from 'next-auth/jwt'
 import {getActiveProducts} from '../path-to-purchase-react/products.server'
-import Image from 'next/image'
+import Image from 'next/legacy/image'
 import {motion, useScroll, useTransform} from 'framer-motion'
 
 const Buy: React.FC<React.PropsWithChildren<CommerceProps>> = ({

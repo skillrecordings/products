@@ -2,7 +2,7 @@ import React from 'react'
 import {useFeedback} from 'context/feedback-context'
 import {handleSignOut} from './navigation'
 import {useRouter} from 'next/router'
-import Image from 'next/image'
+import Image from 'next/legacy/image'
 import Link from 'next/link'
 import toast from 'react-hot-toast'
 import {useNavState} from '../../hooks/use-nav-state'
@@ -111,8 +111,8 @@ const Footer: React.FC<React.PropsWithChildren<FooterProps>> = () => {
           </nav>
           <div className="w-full items-center flex gap-8 sm:pt-0 pt-16">
             <small className="text-sm">© Testing Accessibility</small>
-            <Link href="/terms">
-              <a className="hover:underline text-sm">Terms & Conditions</a>
+            <Link href="/terms" className="hover:underline text-sm">
+              Terms & Conditions
             </Link>
           </div>
         </div>
@@ -155,10 +155,12 @@ const NavLink: React.FC<React.PropsWithChildren<NavLinkProps>> = ({
   }
   if (href) {
     return (
-      <Link href={href} {...props}>
-        <a className="py-1.5 inline-flex text-base font-medium hover:underline transition leading-tight">
-          {children}
-        </a>
+      <Link
+        href={href}
+        {...props}
+        className="py-1.5 inline-flex text-base font-medium hover:underline transition leading-tight"
+      >
+        {children}
       </Link>
     )
   }

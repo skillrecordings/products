@@ -3,7 +3,7 @@ import Layout from 'components/app/layout'
 import {SanityDocument} from '@sanity/client'
 import {getAllTutorials} from 'lib/tutorials'
 import Link from 'next/link'
-import Image from 'next/image'
+import Image from 'next/legacy/image'
 
 export async function getStaticProps() {
   const tutorials = await getAllTutorials()
@@ -77,10 +77,9 @@ const TutorialsPage: React.FC<{tutorials: SanityDocument[]}> = ({
                           module: slug.current,
                         },
                       }}
+                      className="text-3xl font-bold leading-none font-heading hover:underline"
                     >
-                      <a className="text-3xl font-bold leading-none font-heading hover:underline">
-                        {title}
-                      </a>
+                      {title}
                     </Link>
 
                     {description && (
@@ -93,16 +92,15 @@ const TutorialsPage: React.FC<{tutorials: SanityDocument[]}> = ({
                           module: slug.current,
                         },
                       }}
+                      className="mt-5 inline-block gap-2 rounded-full bg-brand-red px-4 py-2 font-medium text-white transition bg-white bg-opacity-0 rounded-full bg-opacity-10 group hover:opacity-90 focus-visible:ring-white focus-visible:opacity-100"
                     >
-                      <a className="mt-5 inline-block gap-2 rounded-full bg-brand-red px-4 py-2 font-medium text-white transition bg-white bg-opacity-0 rounded-full bg-opacity-10 group hover:opacity-90 focus-visible:ring-white focus-visible:opacity-100">
-                        View{' '}
-                        <span
-                          aria-hidden="true"
-                          className="text-white transition group-hover:text-white"
-                        >
-                          →
-                        </span>
-                      </a>
+                      View{' '}
+                      <span
+                        aria-hidden="true"
+                        className="text-white transition group-hover:text-white"
+                      >
+                        →
+                      </span>
                     </Link>
                   </div>
                 </li>

@@ -40,26 +40,24 @@ const Articles: React.FC<React.PropsWithChildren<ArticlesProps>> = ({
                 <div key={slug} className="gap-5">
                   <div className="flex w-full sm:justify-between justify-left">
                     <div>
-                      <Link href={`/${slug}`} passHref>
-                        <a className="block group">
-                          <h2 className="mb-10 text-xl font-bold text-white sm:text-3xl font-heading">
-                            {title}
-                          </h2>
-                        </a>
+                      <Link href={`/${slug}`} passHref className="block group">
+                        <h2 className="mb-10 text-xl font-bold text-white sm:text-3xl font-heading">
+                          {title}
+                        </h2>
                       </Link>
                     </div>
                   </div>
                   {slug && (
-                    <Link href={`/${slug}`} passHref>
-                      <a
-                        className="relative px-4 py-3 text-sm font-normal text-white transition bg-white bg-opacity-0 rounded-full bg-opacity-10 sm:text-base group hover:opacity-90 focus-visible:ring-white focus-visible:opacity-100"
-                        aria-label={`Read ${title}`}
-                      >
-                        Read Article
-                        <i aria-hidden className="pl-2">
-                          →
-                        </i>
-                      </a>
+                    <Link
+                      href={`/${slug}`}
+                      passHref
+                      className="relative px-4 py-3 text-sm font-normal text-white transition bg-white bg-opacity-0 rounded-full bg-opacity-10 sm:text-base group hover:opacity-90 focus-visible:ring-white focus-visible:opacity-100"
+                      aria-label={`Read ${title}`}
+                    >
+                      Read Article
+                      <i aria-hidden className="pl-2">
+                        →
+                      </i>
                     </Link>
                   )}
                 </div>
