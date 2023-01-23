@@ -5,10 +5,12 @@ import cx from 'classnames'
 import Image from 'next/legacy/image'
 
 import {track} from '@skillrecordings/skill-lesson/utils/analytics'
+import {Module} from '@skillrecordings/skill-lesson/schemas/module'
+import {Section} from '@skillrecordings/skill-lesson/schemas/section'
 
 type SidebarProps = {
-  module: SanityDocument
-  section?: SanityDocument
+  module: Module
+  section?: Section
   path: string
   className?: string
   children?: React.ReactNode

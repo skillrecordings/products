@@ -1,14 +1,16 @@
 import {SanityDocument} from '@sanity/client'
 import {useRouter} from 'next/router'
 
-import {type LessonResource} from '../schemas/lesson-resource'
+import {type Lesson} from '../schemas/lesson'
 
 import {trpcSkillLessons} from '../utils/trpc-skill-lessons'
+import {Section} from '../schemas/section'
+import {Module} from '../schemas/module'
 
 export const useNextLesson = (
-  lesson: LessonResource,
-  module: SanityDocument,
-  section?: SanityDocument,
+  lesson: Lesson,
+  module: Module,
+  section?: Section,
 ) => {
   const router = useRouter()
 

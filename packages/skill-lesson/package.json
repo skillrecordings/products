@@ -5,7 +5,9 @@
   "main": "index.tsx",
   "types": "index.tsx",
   "private": true,
-  "scripts": {},
+  "scripts": {
+    "test": "jest"
+  },
   "keywords": [],
   "author": "",
   "license": "ISC",
@@ -58,6 +60,7 @@
     "zod": "^3.19.1"
   },
   "jest": {
-    "preset": "@skillrecordings/scripts/jest/node"
+    "preset": "@skillrecordings/scripts/jest/node",
+    "testEnvironment": "node"
   }
 }

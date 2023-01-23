@@ -4,7 +4,7 @@ import {GetStaticPaths, GetStaticProps} from 'next'
 import {Exercise, getExercise} from 'lib/exercises'
 import {getAllWorkshops, getWorkshop} from 'lib/workshops'
 import {getSection} from 'lib/sections'
-import {LessonResource} from '@skillrecordings/skill-lesson/schemas/lesson-resource'
+import {Lesson} from '@skillrecordings/skill-lesson/schemas/lesson'
 import {VideoResourceProvider} from '@skillrecordings/skill-lesson/hooks/use-video-resource'
 import {LessonProvider} from '@skillrecordings/skill-lesson/hooks/use-lesson'
 
@@ -38,7 +38,7 @@ export const getStaticPaths: GetStaticPaths = async (context) => {
       workshop.sections?.flatMap((section: any) => {
         return (
           section.lessons
-            ?.filter(({_type}: LessonResource) => _type === 'exercise')
+            ?.filter(({_type}: Lesson) => _type === 'exercise')
             .map((exercise: Exercise) => ({
               params: {
                 module: workshop.slug.current,

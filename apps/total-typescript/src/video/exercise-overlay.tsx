@@ -22,7 +22,7 @@ import {useLesson} from '@skillrecordings/skill-lesson/hooks/use-lesson'
 import {useVideoResource} from '@skillrecordings/skill-lesson/hooks/use-video-resource'
 import {getBaseUrl} from '@skillrecordings/skill-lesson/utils/get-base-url'
 import {useQuery} from '@tanstack/react-query'
-import {LessonResource} from '@skillrecordings/skill-lesson/schemas/lesson-resource'
+import {Lesson} from '@skillrecordings/skill-lesson/schemas/lesson'
 import {
   confirmSubscriptionToast,
   useConvertkit,
@@ -30,6 +30,10 @@ import {
 import {useDeviceDetect} from 'hooks/use-device-detect'
 import {ExclamationIcon} from '@heroicons/react/solid'
 import {getExerciseGitHubUrl} from './exercise/github-link'
+import {Module} from '@skillrecordings/skill-lesson/schemas/module'
+import {Section} from '@skillrecordings/skill-lesson/schemas/section'
+import {Exercise} from '@skillrecordings/skill-lesson/schemas/exercise'
+import {handlePlayFromBeginning} from '@skillrecordings/skill-lesson/utils/handle-play-from-beginning'
 
 export const OverlayWrapper: React.FC<
   React.PropsWithChildren<{className?: string; dismissable?: boolean}>
@@ -344,26 +348,6 @@ const FinishedOverlay = () => {
     addProgressMutation.mutate({lessonSlug: lesson.slug})
   }, [])
 
-  const handlePlayFromBeginning = () => {
-    router
-      .push({
-        pathname: section
-          ? `/${path}/[module]/[section]/[lesson]`
-          : `/${path}/[module]/[lesson]`,
-        query: section
-          ? {
-              module: module.slug.current,
-              section: module.sections[0].slug,
-              lesson: module.sections[0].lessons[0].slug,
-            }
-          : {
-              module: module.slug.current,
-              lesson: module.lessons[0].slug,
-            },
-      })
-      .then(handlePlay)
-  }
-
   return (
     <OverlayWrapper className="px-5 pt-10 sm:pt-0">
       <p className="font-text text-2xl font-semibold sm:text-3xl sm:font-bold">
@@ -400,7 +384,15 @@ const FinishedOverlay = () => {
           Replay <span aria-hidden="true">↺</span>
         </button>
         <button
-          onClick={handlePlayFromBeginning}
+          onClick={() =>
+            handlePlayFromBeginning({
+              router,
+              module,
+              section,
+              path,
+              handlePlay,
+            })
+          }
           className="px-3 py-1 text-lg font-semibold transition hover:bg-gray-900 sm:px-5 sm:py-3 "
         >
           Play from beginning
@@ -411,7 +403,6 @@ const FinishedOverlay = () => {
 }
 
 const BlockedOverlay = () => {
-  const router = useRouter()
   const {lesson, module} = useLesson()
   const {refetch: refetchSubscriber} = useConvertkit()
 
@@ -462,14 +453,16 @@ const BlockedOverlay = () => {
         <>
           <div className="z-20 flex h-full flex-shrink-0 flex-col items-center justify-center gap-5 p-5 pb-10 text-center text-lg leading-relaxed sm:p-10 sm:pb-16">
             <div className="flex w-full flex-col items-center justify-center gap-2">
-              <div className="relative -mb-5">
-                <Image
-                  src={module.image}
-                  width={220}
-                  height={220}
-                  alt={module.title}
-                />
-              </div>
+              {module.image && (
+                <div className="relative -mb-5">
+                  <Image
+                    src={module.image}
+                    width={220}
+                    height={220}
+                    alt={module.title}
+                  />
+                </div>
+              )}
               <h2 className="text-4xl font-semibold">
                 Level up with {module.title}
               </h2>
@@ -511,14 +504,16 @@ const BlockedOverlay = () => {
         <>
           <div className="z-20 flex h-full flex-shrink-0 flex-col items-center justify-center gap-5 p-5 pb-10 text-center text-lg leading-relaxed sm:p-10 sm:pb-16">
             <div className="flex w-full flex-col items-center justify-center gap-2">
-              <div className="relative -mb-5">
-                <Image
-                  src={module.image}
-                  width={220}
-                  height={220}
-                  alt={module.title}
-                />
-              </div>
+              {module.image && (
+                <div className="relative -mb-5">
+                  <Image
+                    src={module.image}
+                    width={220}
+                    height={220}
+                    alt={module.title}
+                  />
+                </div>
+              )}
               <h2 className="text-4xl font-semibold">
                 Level up your {module.title}
               </h2>
@@ -585,7 +580,7 @@ const FinishedSectionOverlay = () => {
   const {lesson, module} = useLesson()
   const {image} = module
   const addProgressMutation = trpc.progress.add.useMutation()
-  const nextExercise = first(nextSection?.lessons) as LessonResource
+  const nextExercise = first(nextSection?.lessons) as Lesson
   const router = useRouter()
 
   return (
@@ -602,10 +597,12 @@ const FinishedSectionOverlay = () => {
         </div>
       )}
 
-      <p className="pt-4 text-xl font-semibold sm:text-3xl">
-        <span className="font-normal text-gray-200">Up next:</span>{' '}
-        {nextSection.title}
-      </p>
+      {nextSection && (
+        <p className="pt-4 text-xl font-semibold sm:text-3xl">
+          <span className="font-normal text-gray-200">Up next:</span>{' '}
+          {nextSection.title}
+        </p>
+      )}
       <div className="flex items-center justify-center gap-5 py-4 sm:py-8">
         <button
           className="rounded bg-gray-800 px-3 py-1 text-lg font-semibold transition hover:bg-gray-700 sm:px-5 sm:py-3"
@@ -674,46 +671,56 @@ const handleContinue = async ({
   path,
 }: {
   router: NextRouter
-  module: SanityDocument
-  section?: SanityDocument
-  nextExercise?: LessonResource | null
+  module: Module
+  section?: Section | null
+  nextExercise?: Lesson | null
   handlePlay: () => void
   path: string
 }) => {
   if (nextExercise?._type === 'solution') {
     if (section) {
-      const exercise = section.lessons.find((exercise: SanityDocument) => {
-        const solution = exercise.solution
-        return solution?._key === nextExercise._key
-      })
-
-      return await router
-        .push({
-          query: {
-            module: module.slug.current,
-            section: section.slug,
-            lesson: exercise.slug,
-          },
-
-          pathname: `${path}/[module]/[section]/[lesson]/solution`,
+      const exercise =
+        section.lessons &&
+        section.lessons.find((exercise: Exercise) => {
+          const solution = exercise.solution
+          return solution?._key === nextExercise._key
         })
-        .then(() => handlePlay())
+
+      return (
+        exercise &&
+        (await router
+          .push({
+            query: {
+              module: module.slug.current,
+              section: section.slug,
+              lesson: exercise.slug,
+            },
+
+            pathname: `${path}/[module]/[section]/[lesson]/solution`,
+          })
+          .then(() => handlePlay()))
+      )
     } else {
-      const exercise = module.lessons.find((exercise: SanityDocument) => {
-        const solution = exercise.solution
-        return solution?._key === nextExercise._key
-      })
-
-      return await router
-        .push({
-          query: {
-            module: module.slug.current,
-            lesson: exercise.slug,
-          },
-
-          pathname: `${path}/[module]/[lesson]/solution`,
+      const exercise =
+        module.lessons &&
+        module.lessons.find((exercise: Exercise) => {
+          const solution = exercise.solution
+          return solution?._key === nextExercise._key
         })
-        .then(() => handlePlay())
+
+      return (
+        exercise &&
+        (await router
+          .push({
+            query: {
+              module: module.slug.current,
+              lesson: exercise.slug,
+            },
+
+            pathname: `${path}/[module]/[lesson]/solution`,
+          })
+          .then(() => handlePlay()))
+      )
     }
   }
   if (section) {

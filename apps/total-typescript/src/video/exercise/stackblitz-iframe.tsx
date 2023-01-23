@@ -3,13 +3,14 @@ import {SanityDocument} from '@sanity/client'
 import cx from 'classnames'
 import Spinner from '../../components/spinner'
 import Image from 'next/legacy/image'
-import {LessonResource} from '@skillrecordings/skill-lesson/schemas/lesson-resource'
+import {Lesson} from '@skillrecordings/skill-lesson/schemas/lesson'
 import {trpc} from '../../trpc/trpc.client'
 import {useRouter} from 'next/router'
+import {Module} from '@skillrecordings/skill-lesson/schemas/module'
 
 export const StackBlitzIframe: React.FC<{
-  exercise: LessonResource
-  module: SanityDocument
+  exercise: Lesson
+  module: Module
   isExpanded?: boolean
 }> = ({exercise, module}) => {
   const router = useRouter()
@@ -77,13 +78,13 @@ export const getStackblitzUrl = ({
   stackblitz,
   isEmbed = Number(true),
 }: {
-  module: SanityDocument
-  exercise: LessonResource
+  module: Module
+  exercise: Lesson
   stackblitz: string | null | undefined
   isEmbed?: number
 }) => {
   const githubOrg = 'total-typescript'
-  const githubRepo = module.github.repo
+  const githubRepo = module.github?.repo
   const clickToLoad = Number(false)
   const startCommand = getStartCommand(exercise, stackblitz)
   const embedUrl = `https://stackblitz.com/github/${githubOrg}/${githubRepo}?file=${stackblitz}&embed=${isEmbed}&view=editor&hideExplorer=1&ctl=${clickToLoad}&terminal=${startCommand}`

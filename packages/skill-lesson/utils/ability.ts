@@ -8,7 +8,7 @@ import {SanityDocument} from '@sanity/client'
 import z from 'zod'
 import {hasAvailableSeats, hasBulkPurchase} from '@skillrecordings/ability'
 
-import {type LessonResource} from '../schemas/lesson-resource'
+import {type Lesson} from '../schemas/lesson'
 
 export const UserSchema = z.object({
   role: z.string().optional(),
@@ -33,7 +33,7 @@ export const createAppAbility = createMongoAbility as CreateAbility<AppAbility>
 type ViewerAbilityInput = {
   user?: User
   subscriber?: any
-  lesson?: LessonResource
+  lesson?: Lesson
   module?: SanityDocument
   section?: SanityDocument
   isSolution?: boolean

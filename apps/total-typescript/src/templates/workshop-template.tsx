@@ -18,15 +18,18 @@ import {
 } from '@heroicons/react/solid'
 import {trpc} from 'trpc/trpc.client'
 import {find, isArray, isEmpty} from 'lodash'
-import {LessonResource} from '@skillrecordings/skill-lesson/schemas/lesson-resource'
+import {Lesson} from '@skillrecordings/skill-lesson/schemas/lesson'
 import PortableTextComponents from '../video/portable-text'
 import {
   useModuleProgress,
   useSectionProgress,
 } from '@skillrecordings/skill-lesson/hooks/use-progress'
+import {Module} from '@skillrecordings/skill-lesson/schemas/module'
+import {Section} from '@skillrecordings/skill-lesson/schemas/section'
+import * as process from 'process'
 
 const WorkshopTemplate: React.FC<{
-  workshop: SanityDocument
+  workshop: Module
 }> = ({workshop}) => {
   const {title, body, ogImage, image, description} = workshop
   const pageTitle = `${title} Workshop`
@@ -57,14 +60,14 @@ const WorkshopTemplate: React.FC<{
 
 export default WorkshopTemplate
 
-const Header: React.FC<{workshop: SanityDocument}> = ({workshop}) => {
+const Header: React.FC<{workshop: Module}> = ({workshop}) => {
   const {title, slug, sections, image, github} = workshop
   const moduleProgress = useModuleProgress({
     module: workshop,
   })
 
-  const firstSection = first<SanityDocument>(sections)
-  const firstExercise = first<SanityDocument>(firstSection?.lessons)
+  const firstSection = first<Section>(sections)
+  const firstExercise = first<Lesson>(firstSection?.lessons)
 
   return (
     <>
@@ -169,9 +172,7 @@ const Header: React.FC<{workshop: SanityDocument}> = ({workshop}) => {
   )
 }
 
-const WorkshopSectionNavigator: React.FC<{workshop: SanityDocument}> = ({
-  workshop,
-}) => {
+const WorkshopSectionNavigator: React.FC<{workshop: Module}> = ({workshop}) => {
   const {sections} = workshop
   const {nextSection, status: moduleProgressStatus} = useModuleProgress({
     module: workshop,
@@ -179,7 +180,7 @@ const WorkshopSectionNavigator: React.FC<{workshop: SanityDocument}> = ({
 
   const [openedSections, setOpenedSections] = React.useState<string[]>()
   React.useEffect(() => {
-    setOpenedSections([nextSection?.slug])
+    nextSection?.slug && setOpenedSections([nextSection?.slug])
   }, [moduleProgressStatus])
   return (
     <nav
@@ -208,7 +209,7 @@ const WorkshopSectionNavigator: React.FC<{workshop: SanityDocument}> = ({
             </h3>
           </div>
           <ul className="flex flex-col gap-2">
-            {sections.map((section: SanityDocument, i: number) => {
+            {sections.map((section: Section, i: number) => {
               return <SectionItem section={section} workshop={workshop} />
             })}
           </ul>
@@ -219,8 +220,8 @@ const WorkshopSectionNavigator: React.FC<{workshop: SanityDocument}> = ({
 }
 
 const SectionItem: React.FC<{
-  section: SanityDocument
-  workshop: SanityDocument
+  section: Section
+  workshop: Module
 }> = ({section, workshop}) => {
   const sectionProgress = useSectionProgress({section: section})
 
@@ -266,9 +267,9 @@ const LessonListItem = ({
   workshop,
   index,
 }: {
-  lessonResource: LessonResource
-  section: SanityDocument
-  workshop: SanityDocument
+  lessonResource: Lesson
+  section: Section
+  workshop: Module
   index: number
 }) => {
   const {data: solution} = trpc.solutions.getSolution.useQuery({
@@ -349,14 +350,14 @@ const LessonListItem = ({
 }
 
 const WorkshopSectionExerciseNavigator: React.FC<{
-  section: SanityDocument
-  workshop: SanityDocument
+  section: Section
+  workshop: Module
 }> = ({section, workshop}) => {
   const {lessons} = section
 
   return lessons ? (
     <ul className="-mt-5 rounded-b-lg border border-white/5 bg-black/20 pt-7 pb-3">
-      {lessons.map((exercise: LessonResource, i: number) => {
+      {lessons.map((exercise: Lesson, i: number) => {
         return (
           <LessonListItem
             key={exercise.slug}
@@ -376,11 +377,11 @@ const CourseMeta = ({
   description,
 }: {
   title: string
-  description: string
+  description?: string | null
 }) => (
   <CourseJsonLd
     courseName={title}
-    description={description}
+    description={description || process.env.NEXT_PUBLIC_PRODUCT_DESCRIPTION}
     provider={{
       name: `${process.env.NEXT_PUBLIC_PARTNER_FIRST_NAME} ${process.env.NEXT_PUBLIC_PARTNER_LAST_NAME}`,
       type: 'Person',
