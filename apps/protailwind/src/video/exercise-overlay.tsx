@@ -234,7 +234,7 @@ const DefaultOverlay = () => {
               lessonType: lesson._type,
             })
             addProgressMutation.mutate(
-              {lessonSlug: lesson.slug},
+              {lessonSlug: router.query.lesson as string},
               {
                 onSettled: (data, error, variables, context) => {
                   handleContinue({
@@ -272,7 +272,7 @@ const FinishedOverlay = () => {
   React.useEffect(() => {
     // since this is the last lesson and we show the "module complete" overlay
     // we run this when the effect renders marking the lesson complete
-    addProgressMutation.mutate({lessonSlug: lesson.slug})
+    addProgressMutation.mutate({lessonSlug: router.query.lesson as string})
   }, [])
 
   return (
@@ -553,7 +553,7 @@ const FinishedSectionOverlay = () => {
               lessonType: lesson._type,
             })
             addProgressMutation.mutate(
-              {lessonSlug: lesson.slug},
+              {lessonSlug: router.query.lesson as string},
               {
                 onSettled: (data, error, variables, context) => {
                   handleContinue({

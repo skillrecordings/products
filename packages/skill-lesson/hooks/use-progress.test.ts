@@ -1,4 +1,5 @@
-import {extractExercisesAndResource} from './use-progress'
+import {LessonProgress} from '@skillrecordings/database'
+import {extractExercisesAndResource, getProgress} from './use-progress'
 
 test('the solution for lesson one to be returned as a resource', () => {
   const {resources} = extractExercisesAndResource(sections)
@@ -10,6 +11,29 @@ test('the all lessons to be returned', () => {
 
   expect(exercises).toEqual([lessonOne, lessonTwo])
 })
+
+test('getProgress returns hasProgress true when there is progress', () => {
+  const {hasProgress} = getProgress({
+    completedResources: [lessonOneProgress],
+    exercises: [lessonOne],
+    resources: [lessonOneSolution],
+  })
+
+  expect(hasProgress).toEqual(true)
+})
+
+const lessonOneProgress: LessonProgress = {
+  lessonSlug: 'lesson-1',
+  completedAt: new Date(),
+  id: '',
+  userId: '',
+  lessonId: null,
+  sectionId: null,
+  moduleId: null,
+  lessonVersion: null,
+  updatedAt: null,
+  createdAt: new Date(),
+}
 
 const lessonOneSolution = {
   _id: 'lesson-1-solution',

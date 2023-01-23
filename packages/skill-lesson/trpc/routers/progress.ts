@@ -3,6 +3,7 @@ import {getSdk} from '@skillrecordings/database'
 import {SubscriberSchema} from '../../schemas/subscriber'
 import {publicProcedure, router} from '../trpc.server'
 import {getToken} from 'next-auth/jwt'
+import {getLesson} from '../../lib/lesson-resource'
 
 export const progressRouter = router({
   add: publicProcedure
@@ -15,9 +16,11 @@ export const progressRouter = router({
       const token = await getToken({req: ctx.req})
       const {findOrCreateUser, completeLessonProgressForUser} = getSdk()
       try {
+        const lesson = await getLesson(input.lessonSlug)
         if (token) {
           return await completeLessonProgressForUser({
             userId: token.id as string,
+            lessonId: lesson._id,
             lessonSlug: input.lessonSlug,
           })
         } else {
@@ -41,6 +44,7 @@ export const progressRouter = router({
 
           return await completeLessonProgressForUser({
             userId: user.id,
+            lessonId: lesson._id,
             lessonSlug: input.lessonSlug,
           })
         }

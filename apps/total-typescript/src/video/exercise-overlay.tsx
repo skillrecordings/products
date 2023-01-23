@@ -300,14 +300,14 @@ const DefaultOverlay = () => {
           className="rounded bg-cyan-600 px-3 py-1 text-lg font-semibold transition hover:bg-cyan-500 sm:px-5 sm:py-3"
           onClick={() => {
             track('clicked complete', {
-              lesson: lesson.slug,
+              lesson: router.query.lesson as string,
               module: module.slug.current,
               location: 'exercise',
               moduleType: module.moduleType,
               lessonType: lesson._type,
             })
             addProgressMutation.mutate(
-              {lessonSlug: lesson.slug},
+              {lessonSlug: router.query.lesson as string},
               {
                 onSettled: (data, error, variables, context) => {
                   handleContinue({
@@ -332,7 +332,7 @@ const DefaultOverlay = () => {
 
 const FinishedOverlay = () => {
   const {path, handlePlay} = useMuxPlayer()
-  const {lesson, module, section} = useLesson()
+  const {module, section} = useLesson()
 
   const router = useRouter()
   const shareUrl = `${process.env.NEXT_PUBLIC_URL}${path}/${module.slug.current}`
@@ -345,8 +345,8 @@ const FinishedOverlay = () => {
   React.useEffect(() => {
     // since this is the last lesson and we show the "module complete" overlay
     // we run this when the effect renders marking the lesson complete
-    addProgressMutation.mutate({lessonSlug: lesson.slug})
-  }, [])
+    addProgressMutation.mutate({lessonSlug: router.query.lesson as string})
+  }, [addProgressMutation, router.query.lesson])
 
   return (
     <OverlayWrapper className="px-5 pt-10 sm:pt-0">
@@ -630,7 +630,7 @@ const FinishedSectionOverlay = () => {
               lessonType: lesson._type,
             })
             addProgressMutation.mutate(
-              {lessonSlug: lesson.slug},
+              {lessonSlug: router.query.lesson as string},
               {
                 onSettled: (data, error, variables, context) => {
                   handleContinue({
