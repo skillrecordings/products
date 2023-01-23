@@ -58,9 +58,8 @@ export default TipsIndex
 
 const TipCard: React.FC<{tip: Tip}> = ({tip}) => {
   const {title} = tip
-  const thumbnail = `${getBaseUrl()}/api/video-thumb?videoResourceId=${
-    tip?.videoResourceId
-  }`
+  const muxPlaybackId = tip?.muxPlaybackId
+  const thumbnail = `https://image.mux.com/${muxPlaybackId}/thumbnail.png?width=1280&height=720&fit_mode=preserve`
   const router = useRouter()
   const {tipCompleted} = useTipComplete(tip.slug)
 
@@ -138,9 +137,8 @@ const TipCard: React.FC<{tip: Tip}> = ({tip}) => {
 
 export const TipTeaser: React.FC<{tip: Tip}> = ({tip}) => {
   const {title} = tip
-  const thumbnail = `${getBaseUrl()}/api/video-thumb?videoResourceId=${
-    tip?.videoResourceId
-  }`
+  const muxPlaybackId = tip?.muxPlaybackId
+  const thumbnail = `https://image.mux.com/${muxPlaybackId}/thumbnail.png?width=1280&height=720&fit_mode=preserve`
   const router = useRouter()
   const {tipCompleted} = useTipComplete(tip.slug)
 

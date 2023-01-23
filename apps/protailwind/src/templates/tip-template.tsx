@@ -104,7 +104,7 @@ const TipTemplate: React.FC<{
         url={`${process.env.NEXT_PUBLIC_URL}/tips/${tip.slug}`}
         title={tip.title}
         images={[
-          `${getBaseUrl()}/api/video-thumb?videoResourceId=${videoResourceId}`,
+          `https://image.mux.com/${tip.muxPlaybackId}/thumbnail.png?width=480&height=384&fit_mode=preserve`,
         ]}
         datePublished={tip._updatedAt || new Date().toISOString()}
         authorName={`${process.env.NEXT_PUBLIC_PARTNER_FIRST_NAME} ${process.env.NEXT_PUBLIC_PARTNER_LAST_NAME}`}
@@ -351,9 +351,7 @@ const VideoOverlayTipCard: React.FC<{suggestedTip: Tip}> = ({suggestedTip}) => {
   const {handlePlay} = useMuxPlayer()
   const {tipCompleted} = useTipComplete(suggestedTip.slug)
 
-  const thumbnail = `${getBaseUrl()}/api/video-thumb?videoResourceId=${
-    suggestedTip.videoResourceId
-  }`
+  const thumbnail = `https://image.mux.com/${suggestedTip.muxPlaybackId}/thumbnail.png?width=288&height=162&fit_mode=preserve`
 
   return (
     <button
