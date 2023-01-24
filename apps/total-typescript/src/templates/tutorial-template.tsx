@@ -8,7 +8,7 @@ import {SanityDocument} from '@sanity/client'
 import {IconGithub} from 'components/icons'
 import {isBrowser} from 'utils/is-browser'
 import {track} from '@skillrecordings/skill-lesson/utils/analytics'
-import {LessonResource} from '@skillrecordings/skill-lesson/schemas/lesson-resource'
+import {Lesson} from '@skillrecordings/skill-lesson/schemas/lesson'
 import PortableTextComponents from 'video/portable-text'
 
 const TutorialTemplate: React.FC<{
@@ -161,7 +161,7 @@ const TutorialExerciseNavigator: React.FC<{tutorial: SanityDocument}> = ({
       </h2>
       {lessons && (
         <ul>
-          {lessons.map((exercise: LessonResource, i: number) => {
+          {lessons.map((exercise: Lesson, i: number) => {
             return (
               <li key={exercise.slug}>
                 <Link

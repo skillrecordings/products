@@ -4,13 +4,14 @@ import {track} from '@skillrecordings/skill-lesson/utils/analytics'
 import {IconGithub} from '../../components/icons'
 import {useMuxPlayer} from '@skillrecordings/skill-lesson/hooks/use-mux-player'
 import Spinner from 'components/spinner'
-import {LessonResource} from '@skillrecordings/skill-lesson/schemas/lesson-resource'
+import {Lesson} from '@skillrecordings/skill-lesson/schemas/lesson'
 import {useRouter} from 'next/router'
 import {trpc} from '../../trpc/trpc.client'
+import {Module} from '@skillrecordings/skill-lesson/schemas/module'
 
 export const GitHubLink: React.FC<{
-  exercise: LessonResource
-  module: SanityDocument
+  exercise: Lesson
+  module: Module
 }> = ({exercise, module}) => {
   const {github} = module
 
@@ -39,7 +40,7 @@ export const GitHubLink: React.FC<{
     module,
   })
 
-  return github.repo && module.github.repo ? (
+  return github.repo && module.github?.repo ? (
     <div className="pb-4">
       <div className="flex items-center gap-2">
         <a
@@ -75,9 +76,9 @@ export const getExerciseGitHubUrl = ({
   module,
 }: {
   stackblitz: string | null | undefined
-  module: SanityDocument
+  module: Module
 }) => {
   const openFile = stackblitz?.split(',')[0]
-  const exerciseGitHubUrl = `https://github.com/total-typescript/${module.github.repo}/blob/main/${openFile}`
+  const exerciseGitHubUrl = `https://github.com/total-typescript/${module.github?.repo}/blob/main/${openFile}`
   return {exerciseGitHubUrl, openFile}
 }

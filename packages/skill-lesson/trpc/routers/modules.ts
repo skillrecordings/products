@@ -11,7 +11,7 @@ export const modulesRouter = router({
   rules: publicProcedure
     .input(
       z.object({
-        moduleSlug: z.string().optional(),
+        moduleSlug: z.string().nullish(),
         moduleType: z.string().optional(),
         lessonSlug: z.string().optional(),
         sectionSlug: z.string().optional(),

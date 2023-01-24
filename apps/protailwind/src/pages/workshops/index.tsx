@@ -76,7 +76,7 @@ const WorkshopsPage: React.FC<{workshops: SanityDocument[]}> = ({
                         )}
                         {sections && state !== 'draft' ? (
                           <>
-                            {sections.length} sections,{' '}
+                            {/* {sections.length} sections,{' '} */}
                             {sections.reduce(
                               (acc: number, section: {lessons?: any[]}) =>
                                 section.lessons?.length
