@@ -5,6 +5,7 @@ import {SanityDocument} from '@sanity/client'
 import {GetStaticPaths, GetStaticProps} from 'next'
 import WorkshopTemplate from '../../../templates/workshop-template'
 import {getAllWorkshops, getWorkshop} from '../../../lib/workshops'
+import {Module} from '@skillrecordings/skill-lesson/schemas/module'
 
 export const USER_ID_QUERY_PARAM_KEY = 'learner'
 
@@ -28,7 +29,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
 }
 
 const WorkshopPage: React.FC<{
-  workshop: SanityDocument
+  workshop: Module
 }> = ({workshop}) => {
   // TODO: Load subscriber, find user via Prisma/api using USER_ID_QUERY_PARAM_KEY
   return <WorkshopTemplate workshop={workshop} />

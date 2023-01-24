@@ -1,19 +1,20 @@
 import React from 'react'
-import {type SanityDocument} from '@sanity/client'
-import {type LessonResource} from '../schemas/lesson-resource'
+import {type Lesson} from '../schemas/lesson'
+import {Section} from '../schemas/section'
+import {Module} from '../schemas/module'
 
 type LessonContextType = {
-  lesson: LessonResource
-  section?: SanityDocument
-  module: SanityDocument
+  lesson: Lesson
+  section?: Section
+  module: Module
 }
 
 export const LessonContext = React.createContext({} as LessonContextType)
 
 type LessonProviderProps = {
-  lesson: LessonResource
-  module: SanityDocument
-  section?: SanityDocument
+  lesson: Lesson
+  module: Module
+  section?: Section
   children: React.ReactNode
 }
 

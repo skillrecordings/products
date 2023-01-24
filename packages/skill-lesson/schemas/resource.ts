@@ -1,6 +1,6 @@
 import z from 'zod'
 
-export const BaseLessonResourceSchema = z.object({
+export const ResourceSchema = z.object({
   _type: z.string(),
   _updatedAt: z.string().optional(),
   title: z.string(),
@@ -8,3 +8,5 @@ export const BaseLessonResourceSchema = z.object({
   description: z.nullable(z.string()).optional(),
   body: z.nullable(z.any().array().optional()),
 })
+
+export type Resource = z.infer<typeof ResourceSchema>

@@ -18,7 +18,7 @@ import {
 } from '@heroicons/react/solid'
 import {trpc} from 'utils/trpc'
 import {find, isArray} from 'lodash'
-import {LessonResource} from '@skillrecordings/skill-lesson/schemas/lesson-resource'
+import {Lesson} from '@skillrecordings/skill-lesson/schemas/lesson'
 import PortableTextComponents from '../video/portable-text'
 import {Pricing} from 'path-to-purchase-react/pricing'
 import {
@@ -330,7 +330,7 @@ const WorkshopSectionNavigator: React.FC<{
             </span>
           </div>
           <ul className="rounded-lg border border-gray-100 bg-white py-3 pl-3.5 pr-3 shadow-xl shadow-gray-300/20">
-            {sections[0]?.lessons.map((exercise: LessonResource, i: number) => {
+            {sections[0]?.lessons.map((exercise: Lesson, i: number) => {
               const section = sections[0]
               const moduleSlug = workshop.slug.current
               return (
@@ -367,7 +367,7 @@ const LessonListItem = ({
   index,
   purchased,
 }: {
-  lessonResource: LessonResource
+  lessonResource: Lesson
   section: SanityDocument
   moduleSlug: string
   index: number
@@ -444,7 +444,7 @@ const WorkshopSectionExerciseNavigator: React.FC<{
 
   return lessons ? (
     <ul className="-mt-5 rounded-b-lg border pl-3.5 pr-3 pt-7 pb-3">
-      {lessons.map((exercise: LessonResource, i: number) => {
+      {lessons.map((exercise: Lesson, i: number) => {
         return (
           <LessonListItem
             key={exercise.slug}

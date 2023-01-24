@@ -1,7 +1,7 @@
 import {sanityClient} from '@skillrecordings/skill-lesson/utils/sanity-client'
 import groq from 'groq'
 import z from 'zod'
-import {BaseLessonResourceSchema} from '@skillrecordings/skill-lesson/schemas/base-lesson-resource'
+import {ResourceSchema} from '@skillrecordings/skill-lesson/schemas/resource'
 
 export const ExerciseSchema = z
   .object({
@@ -43,11 +43,11 @@ export const ExerciseSchema = z
           .optional()
           .nullable(),
       })
-      .merge(BaseLessonResourceSchema)
+      .merge(ResourceSchema)
       .optional()
       .nullable(),
   })
-  .merge(BaseLessonResourceSchema)
+  .merge(ResourceSchema)
 
 export type Exercise = z.infer<typeof ExerciseSchema>
 

@@ -5,16 +5,18 @@ import capitalize from 'lodash/capitalize'
 import Link from 'next/link'
 import cx from 'classnames'
 
-import {type LessonResource} from '@skillrecordings/skill-lesson/schemas/lesson-resource'
+import {type Lesson} from '@skillrecordings/skill-lesson/schemas/lesson'
 import {track} from '@skillrecordings/skill-lesson/utils/analytics'
 import {useLesson} from '@skillrecordings/skill-lesson/hooks/use-lesson'
+import {Section} from '@skillrecordings/skill-lesson/schemas/section'
+import {Module} from '@skillrecordings/skill-lesson/schemas/module'
 
 type LessonTitleLinkProps = {
   path: string
-  lesson: LessonResource
-  section?: SanityDocument
+  lesson: Lesson
+  section?: Section
   sectionIndex?: number
-  module: SanityDocument
+  module: Module
 }
 
 const LessonTitleLink: React.FC<LessonTitleLinkProps> = ({
@@ -72,7 +74,8 @@ export const LessonList: React.FC<{
   }, [router])
 
   const lessons = section ? section.lessons : module.lessons
-  const hasSectionResources = section?.resources?.length > 0
+  const hasSectionResources =
+    section?.resources && section?.resources?.length > 0
 
   return (
     <div
@@ -81,7 +84,7 @@ export const LessonList: React.FC<{
     >
       <nav aria-label="exercise navigator" className="pb-3">
         <ul className="flex flex-col divide-y divide-gray-800/0 text-lg">
-          {lessons?.map((exercise: LessonResource, sectionIdx: number) => {
+          {lessons?.map((exercise: Lesson, sectionIdx: number) => {
             //TODO treat this differently when a section is present as path will change
             const currentPath = section
               ? `${path}/${module.slug.current}/${section.slug}/${exercise.slug}`
@@ -201,43 +204,45 @@ export const LessonList: React.FC<{
             Section Resources
           </p>
           <ul className="flex flex-col divide-y divide-gray-800/0 text-lg">
-            {section?.resources?.map(
-              (resource: SanityDocument, resourceIdx: number) => {
-                return (
-                  <li
-                    key={resource.slug?.current || resource.slug}
-                    className="pt-2"
+            {section?.resources?.map((resource: any, resourceIdx: number) => {
+              // this uses any because the resource type here expects a URL, but that
+              // assumes a specific resource type. We need to support any resource type
+              // and present it based on it's structure that doesn't assume a resource
+              // is simply a URL
+              return (
+                <li
+                  key={resource.slug?.current || resource.slug}
+                  className="pt-2"
+                >
+                  <Link
+                    href={resource.url}
+                    passHref
+                    className="flex items-center px-4 py-2 font-semibold leading-tight hover:bg-gray-800"
+                    onClick={() => {
+                      track('clicked link resource in navigator', {
+                        module: module.slug.current,
+                        ...(section && {section: section.slug}),
+                        lesson: router.asPath.split('/').pop(),
+                        moduleType: module.moduleType,
+                        resource: resource.slug,
+                      })
+                    }}
+                    target="_blank"
                   >
-                    <Link
-                      href={resource.url}
-                      passHref
-                      className="flex items-center px-4 py-2 font-semibold leading-tight hover:bg-gray-800"
-                      onClick={() => {
-                        track('clicked link resource in navigator', {
-                          module: module.slug.current,
-                          ...(section && {section: section.slug}),
-                          lesson: router.asPath.split('/').pop(),
-                          moduleType: module.moduleType,
-                          resource: resource.slug,
-                        })
-                      }}
-                      target="_blank"
+                    <span
+                      aria-hidden="true"
+                      className="pr-3 text-sm opacity-50"
                     >
-                      <span
-                        aria-hidden="true"
-                        className="pr-3 text-sm opacity-50"
-                      >
-                        ∙
-                      </span>{' '}
-                      {resource.title}
-                    </Link>
-                    <p className="pl-10 pr-3 text-sm text-gray-400">
-                      {resource.description}
-                    </p>
-                  </li>
-                )
-              },
-            )}
+                      ∙
+                    </span>{' '}
+                    {resource.title}
+                  </Link>
+                  <p className="pl-10 pr-3 text-sm text-gray-400">
+                    {resource.description}
+                  </p>
+                </li>
+              )
+            })}
           </ul>
         </nav>
       )}
@@ -251,9 +256,9 @@ const SolutionLink = ({
   exercise,
   path,
 }: {
-  module: SanityDocument
-  section?: SanityDocument
-  exercise: LessonResource
+  module: Module
+  section?: Section
+  exercise: Lesson
   path: string
 }) => {
   const router = useRouter()

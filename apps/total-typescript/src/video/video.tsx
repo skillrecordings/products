@@ -4,7 +4,7 @@ import cx from 'classnames'
 import MuxPlayer, {type MuxPlayerProps} from '@mux/mux-player-react'
 
 import {useMuxPlayer} from '@skillrecordings/skill-lesson/hooks/use-mux-player'
-import {type LessonResource} from '@skillrecordings/skill-lesson/schemas/lesson-resource'
+import {type Lesson} from '@skillrecordings/skill-lesson/schemas/lesson'
 import {useVideoResource} from '@skillrecordings/skill-lesson/hooks/use-video-resource'
 
 import {
