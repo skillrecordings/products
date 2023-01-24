@@ -1,25 +1,10 @@
 import {LessonProgress} from '@skillrecordings/database'
-import {extractExercisesAndResource, getProgress} from './use-progress'
-
-test('the solution for lesson one to be returned as a resource', () => {
-  const {resources} = extractExercisesAndResource(sections)
-  expect(resources).toEqual([lessonOneSolution, lessonTwoSolution])
-})
+import {getAllLessons} from './use-progress'
 
 test('the all lessons to be returned', () => {
-  const {exercises} = extractExercisesAndResource(sections)
+  const lessons = getAllLessons(sections)
 
-  expect(exercises).toEqual([lessonOne, lessonTwo])
-})
-
-test('getProgress returns hasProgress true when there is progress', () => {
-  const {hasProgress} = getProgress({
-    completedResources: [lessonOneProgress],
-    exercises: [lessonOne],
-    resources: [lessonOneSolution],
-  })
-
-  expect(hasProgress).toEqual(true)
+  expect(lessons).toEqual([lessonOne, lessonTwo])
 })
 
 const lessonOneProgress: LessonProgress = {
