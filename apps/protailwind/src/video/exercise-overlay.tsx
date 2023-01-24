@@ -373,6 +373,8 @@ const BlockedOverlay = () => {
       new Date().toISOString().slice(0, 10),
   }
 
+  const thumbnail = `${getBaseUrl()}/api/video-thumb?videoResourceId=${videoResourceId}`
+
   return (
     <div
       id="video-overlay"
@@ -431,6 +433,16 @@ const BlockedOverlay = () => {
         </>
       ) : (
         <>
+          {videoResourceId && (
+            <Image
+              src={thumbnail}
+              layout="fill"
+              alt=""
+              aria-hidden="true"
+              objectFit="cover"
+              className="opacity-50 blur-sm brightness-50 contrast-125"
+            />
+          )}
           <div className="z-20 flex h-full flex-shrink-0 flex-col items-center justify-center gap-5 p-5 pb-10 text-center text-lg leading-relaxed sm:p-10 sm:pb-16">
             <div className="flex w-full flex-col items-center justify-center gap-2">
               {module.image && (
