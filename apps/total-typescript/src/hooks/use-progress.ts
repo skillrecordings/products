@@ -1,12 +1,12 @@
 import React from 'react'
-import {trpcSkillLessons} from '../utils/trpc-skill-lessons'
+import {trpcSkillLessons} from '@skillrecordings/skill-lesson/utils/trpc-skill-lessons'
 import {first, filter, find, flatMap, get, indexOf, isEmpty, map} from 'lodash'
-import {getNextSection} from '../utils/get-next-section'
-import {Lesson} from '../schemas/lesson'
+import {getNextSection} from '@skillrecordings/skill-lesson/utils/get-next-section'
+import {Lesson} from '@skillrecordings/skill-lesson/schemas/lesson'
 import {LessonProgress} from '@skillrecordings/database'
-import {Exercise} from '../schemas/exercise'
-import {Section} from '../schemas/section'
-import {Module} from '../schemas/module'
+import {Exercise} from '@skillrecordings/skill-lesson/schemas/exercise'
+import {Section} from '@skillrecordings/skill-lesson/schemas/section'
+import {Module} from '@skillrecordings/skill-lesson/schemas/module'
 
 export function extractExercisesAndResource(sections?: Section[] | null) {
   const exercises = flatMap<Section, Exercise>(

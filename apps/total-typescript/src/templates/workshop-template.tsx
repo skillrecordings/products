@@ -20,10 +20,7 @@ import {trpc} from 'trpc/trpc.client'
 import {find, isArray, isEmpty} from 'lodash'
 import {Lesson} from '@skillrecordings/skill-lesson/schemas/lesson'
 import PortableTextComponents from '../video/portable-text'
-import {
-  useModuleProgress,
-  useSectionProgress,
-} from '@skillrecordings/skill-lesson/hooks/use-progress'
+import {useModuleProgress, useSectionProgress} from 'hooks/use-progress'
 import {Module} from '@skillrecordings/skill-lesson/schemas/module'
 import {Section} from '@skillrecordings/skill-lesson/schemas/section'
 import * as process from 'process'
