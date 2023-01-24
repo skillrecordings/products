@@ -5,6 +5,10 @@ import {
   setCookiesForResponse,
 } from './process-customer-cookies'
 import {getToken} from 'next-auth/jwt'
+import {
+  getCurrentAbility,
+  UserSchema,
+} from '@skillrecordings/skill-lesson/utils/ability'
 
 export const SITE_ROOT_PATH = '/'
 
@@ -21,28 +25,19 @@ export const SITE_ROOT_PATH = '/'
  */
 export async function getMiddlewareResponse(req: NextRequest) {
   let response = NextResponse.next()
-  const subscriber = await getCookiesForRequest(req)
   const token = await getToken({req})
-  const code = req.nextUrl.searchParams.get('code')
 
-  // ⚠️ Following redirect causes Purchase CTA to disappear
-  // ⚠️ due to page props on dynamic routes behaving weirdly
-
-  // if the user is logged in, we don't need to personalize marketing (for now)
-  // if (
-  //   !code &&
-  //   !token &&
-  //   subscriber &&
-  //   req.nextUrl.pathname === SITE_ROOT_PATH
-  // ) {
-  //   switch (true) {
-  //     case Boolean(subscriber.fields?.level):
-  //       response = rewriteToPath(`/home/level/${subscriber.fields?.level}`, req)
-  //       break
-  //   }
-  // }
-
-  // response = setCookiesForResponse(response, subscriber)
+  if (req.nextUrl.pathname.includes('/admin')) {
+    try {
+      const user = UserSchema.parse(token)
+      const ability = getCurrentAbility({user})
+      if (!ability.can('create', 'Content')) {
+        response = rewriteToPath('/login', req)
+      }
+    } catch (error) {
+      response = rewriteToPath('/login', req)
+    }
+  }
 
   return response
 }
