@@ -53,7 +53,7 @@ Copy the template `.env.local.template` file to `.env.local` and `.env.template`
 of this file by default are are:
 
 ```shell
-DATABASE_URL="mysql://root@localhost:3309/testing-javascript"
+DATABASE_URL="mysql://root@localhost:3306/testing-javascript"
 ```
 
 You can use the provided templates. These files are ignored by git because they should **never be committed to the repository under any circumstances.**
@@ -114,7 +114,7 @@ pnpm db:start
 pnpm db:push
 ```
 
-This starts the MySQL container (running on port `3309`) and applies any schema changes as needed.
+This starts the MySQL container (running on port `3306`) and applies any schema changes as needed.
 
 The first time you run this command it will seed the database with the contents of `apps/testing-javascript/seed_data`
 
@@ -147,7 +147,7 @@ pscale org switch skill-recordings
 Finally run the database:
 
 ```bash
-pscale connect testing-javascript BRANCH_NAME --port 3309
+pscale connect testing-javascript BRANCH_NAME --port 3306
 ```
 
 The production database runs on the `main` branch. Use the production database with caution!
@@ -191,7 +191,7 @@ The `dev:stripe` node script is a shorthand for `stripe listen --forward-to loca
 ### Connect to the Planetscale database
 
 ```bash
-pscale connect testing-javascript PLANETSCALE_DB_BRANCH_NAME --port 3309
+pscale connect testing-javascript PLANETSCALE_DB_BRANCH_NAME --port 3306
 ```
 
 ### Changing the Database Schema
@@ -208,7 +208,7 @@ When you make changes to the schema via Prisma you'll need to explicitly push it
 
 You can test out your schema changes locally with the MySQL in Docker instance.
 
-First, make sure Docker is running with MySQL at the appropriate port (`3309`).
+First, make sure Docker is running with MySQL at the appropriate port (`3306`).
 
 Then, apply the changes to the MySQL databse using Prisma's `db push` command.
 
@@ -239,10 +239,10 @@ pscale branch create testing-javascript PLANETSCALE_DB_BRANCH_NAME
 Now open up a connection to the branch that you've created for these schema changes.
 
 ```bash
-pscale connect testing-javascript PLANETSCALE_DB_BRANCH_NAME --port 3309
+pscale connect testing-javascript PLANETSCALE_DB_BRANCH_NAME --port 3306
 ```
 
-With a connection open at port 3309, we can now push our schema changes up to Planetscale.
+With a connection open at port `3306`, we can now push our schema changes up to Planetscale.
 
 ```bash
 pnpm db:push
