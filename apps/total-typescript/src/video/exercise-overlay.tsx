@@ -261,6 +261,7 @@ const DefaultOverlay = () => {
   const router = useRouter()
   const {image} = module
   const addProgressMutation = trpc.progress.add.useMutation()
+  const utils = trpc.useContext()
 
   return (
     <OverlayWrapper className="px-5">
@@ -310,6 +311,9 @@ const DefaultOverlay = () => {
               {lessonSlug: router.query.lesson as string},
               {
                 onSettled: (data, error, variables, context) => {
+                  utils.moduleProgress.bySlug.invalidate({
+                    slug: module.slug.current,
+                  })
                   handleContinue({
                     router,
                     module,
@@ -341,12 +345,25 @@ const FinishedOverlay = () => {
     'bg-gray-800 flex items-center gap-2 rounded px-3 py-2 hover:bg-gray-700'
 
   const addProgressMutation = trpc.progress.add.useMutation()
+  const utils = trpc.useContext()
 
   React.useEffect(() => {
     // since this is the last lesson and we show the "module complete" overlay
     // we run this when the effect renders marking the lesson complete
-    addProgressMutation.mutate({lessonSlug: router.query.lesson as string})
-  }, [addProgressMutation, router.query.lesson])
+    addProgressMutation.mutate(
+      {lessonSlug: router.query.lesson as string},
+      {
+        onSettled: () => {
+          utils.moduleProgress.bySlug.invalidate({slug: module.slug.current})
+        },
+      },
+    )
+  }, [
+    addProgressMutation,
+    module.slug,
+    router.query.lesson,
+    utils.moduleProgress.bySlug,
+  ])
 
   return (
     <OverlayWrapper className="px-5 pt-10 sm:pt-0">
@@ -580,6 +597,7 @@ const FinishedSectionOverlay = () => {
   const {lesson, module} = useLesson()
   const {image} = module
   const addProgressMutation = trpc.progress.add.useMutation()
+  const utils = trpc.useContext()
   const nextExercise = first(nextSection?.lessons) as Lesson
   const router = useRouter()
 
@@ -633,6 +651,9 @@ const FinishedSectionOverlay = () => {
               {lessonSlug: router.query.lesson as string},
               {
                 onSettled: (data, error, variables, context) => {
+                  utils.moduleProgress.bySlug.invalidate({
+                    slug: module.slug.current,
+                  })
                   handleContinue({
                     router,
                     module,
