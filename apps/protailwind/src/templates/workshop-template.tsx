@@ -2,6 +2,7 @@ import React from 'react'
 import Layout from 'components/layout'
 import Image from 'next/legacy/image'
 import Link from 'next/link'
+import cx from 'classnames'
 import {CourseJsonLd} from '@skillrecordings/next-seo'
 import {PortableText} from '@portabletext/react'
 import {SanityDocument} from '@sanity/client'
@@ -28,6 +29,7 @@ import {
 import {useCoupon} from 'path-to-purchase-react/use-coupon'
 import {PriceCheckProvider} from 'path-to-purchase-react/pricing-check-context'
 import Spinner from 'components/spinner'
+import {BadgeCheckIcon} from '@heroicons/react/outline'
 
 const WorkshopTemplate: React.FC<{
   workshop: SanityDocument
@@ -45,7 +47,7 @@ const WorkshopTemplate: React.FC<{
 
   return (
     <Layout
-      className="mx-auto w-full px-5 pt-5 lg:max-w-screen-lg lg:pb-24"
+      className="mx-auto w-full px-5 pt-10 lg:max-w-screen-lg lg:pb-24"
       meta={{
         title: pageTitle,
         description,
@@ -58,44 +60,67 @@ const WorkshopTemplate: React.FC<{
       <CourseMeta title={pageTitle} description={description} />
       <Header workshop={workshop} purchased={hasPurchased} />
       <main
-        data-workshop={workshop.slug}
-        className="relative z-10 flex flex-col gap-8 lg:flex-row lg:items-start"
+        data-workshop={workshop.slug.current}
+        className={cx(
+          'relative z-10 flex flex-col lg:flex-row lg:items-start lg:gap-8',
+          {
+            'flex-col-reverse': !hasPurchased,
+          },
+        )}
       >
-        <div className="max-w-xl">
+        <div className="pt-10 lg:max-w-xl lg:pt-0">
           <article className="prose w-full max-w-none pb-10 text-gray-900 lg:max-w-xl">
             <PortableText value={body} components={PortableTextComponents} />
           </article>
-          {workshop && (
+          {workshop && !hasPurchased && (
             <WorkshopSectionNavigator
               purchased={hasPurchased}
               workshop={workshop}
             />
           )}
         </div>
-        {commerceProps && product ? (
-          <BuyWorkshop
-            product={product}
-            workshop={workshop}
-            {...commerceProps}
-          />
+
+        {hasPurchased ? (
+          <>
+            {workshop && (
+              <div className="lg:max-w-sm">
+                <WorkshopSectionNavigator
+                  purchased={hasPurchased}
+                  workshop={workshop}
+                />
+              </div>
+            )}
+          </>
         ) : (
-          <div
-            role="status"
-            className="mx-auto flex w-full max-w-sm flex-col overflow-hidden rounded-lg border border-gray-200/40 bg-white shadow-2xl shadow-gray-400/20"
-          >
-            <div className="flex aspect-video animate-pulse items-center justify-center bg-gray-200">
-              <Spinner aria-hidden="true" className="h-7 w-7 opacity-80" />
-            </div>
-            <div className="flex animate-pulse flex-col gap-3 p-7">
-              <div className="h-3 w-2/3 rounded-full bg-gray-200"></div>
-              <div className="h-3 rounded-full bg-gray-200"></div>
-              <div className="h-3 w-1/2 rounded-full bg-gray-200"></div>
-              <div className="h-3 w-5/6 rounded-full bg-gray-200"></div>
-              <div className="h-3 w-2/5 rounded-full bg-gray-200"></div>
-              <div className="h-3 w-1/3 rounded-full bg-gray-200"></div>
-              <span className="sr-only">Loading price</span>
-            </div>
-          </div>
+          <>
+            {commerceProps && product ? (
+              <BuyWorkshop
+                product={product}
+                workshop={workshop}
+                purchasedProductIds={purchasedProductIds}
+                hasPurchased={hasPurchased}
+                {...commerceProps}
+              />
+            ) : (
+              <div
+                role="status"
+                className="mx-auto flex w-full max-w-sm flex-col overflow-hidden rounded-lg border border-gray-200/40 bg-white shadow-2xl shadow-gray-400/20"
+              >
+                <div className="flex aspect-video animate-pulse items-center justify-center bg-gray-200">
+                  <Spinner aria-hidden="true" className="h-7 w-7 opacity-80" />
+                </div>
+                <div className="flex animate-pulse flex-col gap-3 p-7">
+                  <div className="h-3 w-2/3 rounded-full bg-gray-200"></div>
+                  <div className="h-3 rounded-full bg-gray-200"></div>
+                  <div className="h-3 w-1/2 rounded-full bg-gray-200"></div>
+                  <div className="h-3 w-5/6 rounded-full bg-gray-200"></div>
+                  <div className="h-3 w-2/5 rounded-full bg-gray-200"></div>
+                  <div className="h-3 w-1/3 rounded-full bg-gray-200"></div>
+                  <span className="sr-only">Loading price</span>
+                </div>
+              </div>
+            )}
+          </>
         )}
       </main>
     </Layout>
@@ -105,7 +130,12 @@ const WorkshopTemplate: React.FC<{
 export default WorkshopTemplate
 
 const BuyWorkshop: React.FC<
-  CommerceProps & {product: SanityProduct; workshop: SanityDocument}
+  CommerceProps & {
+    product: SanityProduct
+    workshop: SanityDocument
+    purchasedProductIds: string[] | undefined
+    hasPurchased: boolean
+  }
 > = ({
   product,
   workshop,
@@ -116,14 +146,14 @@ const BuyWorkshop: React.FC<
   couponIdFromCoupon,
   defaultCoupon,
   allowPurchase,
+  purchasedProductIds,
+  hasPurchased,
 }) => {
   const {redeemableCoupon, RedeemDialogForCoupon, validCoupon} =
     useCoupon(couponFromCode)
   const couponId =
     couponIdFromCoupon || (validCoupon ? couponFromCode?.id : undefined)
-  const purchasedProductIds = purchases.map((purchase) => purchase.productId)
-  const hasPurchased =
-    purchasedProductIds && purchasedProductIds.includes(product.productId)
+
   const firstLesson = workshop?.sections[0]?.lessons[0]
   const thumbnail = `https://protailwind.com/api/video-thumb?videoResourceId=${firstLesson?.videoResourceId}`
   // const thumbnail = `${getBaseUrl()}/api/video-thumb?videoResourceId=${firstLesson?.videoResourceId}`
@@ -185,19 +215,21 @@ const Header: React.FC<
   const instructor = `${process.env.NEXT_PUBLIC_PARTNER_FIRST_NAME} ${process.env.NEXT_PUBLIC_PARTNER_LAST_NAME}`
   return (
     <>
-      <header className="relative z-10 flex flex-col-reverse items-center justify-between gap-10 pb-16 sm:pb-8 md:flex-row">
+      <header className="relative z-10 flex flex-col-reverse items-center justify-between gap-16 sm:pb-8 md:flex-row lg:pb-16">
         <div className="text-center md:text-left">
-          <Link
-            href="/workshops"
-            className="block pb-4 font-mono text-sm font-semibold uppercase tracking-wide text-brand-red"
-          >
-            Pro Workshop
-          </Link>
-          <h1 className="font-text font-heading text-3xl font-extrabold sm:text-4xl lg:text-5xl">
+          <div className="flex items-center gap-5 pb-4">
+            <Link
+              href="/workshops"
+              className="block font-mono text-sm font-semibold uppercase tracking-wide text-brand-red"
+            >
+              Pro Workshop
+            </Link>
+          </div>
+          <h1 className="font-text font-heading text-3xl font-black tracking-tight sm:text-4xl lg:text-5xl">
             {title}
           </h1>
           <div className="pt-8 text-lg">
-            <div className="flex items-center justify-center gap-3 md:justify-start">
+            <div className="flex items-center justify-center gap-10 text-base md:justify-start">
               <div className="flex items-center gap-3">
                 <div className="flex items-center justify-center overflow-hidden rounded-full">
                   <Image
@@ -209,6 +241,15 @@ const Header: React.FC<
                 </div>
                 <span>{instructor}</span>
               </div>
+              {purchased ? (
+                <div className="flex items-center gap-1">
+                  <BadgeCheckIcon
+                    aria-hidden="true"
+                    className="h-7 w-7 text-gray-600"
+                  />{' '}
+                  Purchased
+                </div>
+              ) : null}
             </div>
             <div className="flex items-center justify-center gap-3 pt-8 md:justify-start">
               {firstSection && purchased && (
@@ -267,17 +308,15 @@ const Header: React.FC<
 
 const WorkshopSectionNavigator: React.FC<{
   workshop: SanityDocument
+  className?: string
   purchased: boolean
-}> = ({workshop, purchased}) => {
+}> = ({workshop, purchased, className}) => {
   const {sections} = workshop
 
   if (!sections) return null
 
   return (
-    <nav
-      aria-label="workshop navigator"
-      className="w-full px-5 py-8 lg:px-0 lg:py-0"
-    >
+    <nav aria-label="workshop navigator" className="w-full py-8 lg:py-0">
       {sections > 1 ? (
         <Accordion.Root type="multiple">
           <div className="flex w-full items-center justify-between pb-3">
@@ -329,7 +368,7 @@ const WorkshopSectionNavigator: React.FC<{
               exercises
             </span>
           </div>
-          <ul className="rounded-lg border border-gray-100 bg-white py-3 pl-3.5 pr-3 shadow-xl shadow-gray-300/20">
+          <ul className="rounded-lg border border-gray-100 bg-white py-3 pl-3.5 pr-5 shadow-xl shadow-gray-300/20">
             {sections[0]?.lessons.map((exercise: Lesson, i: number) => {
               const section = sections[0]
               const moduleSlug = workshop.slug.current
@@ -395,7 +434,7 @@ const LessonListItem = ({
           },
         }}
         passHref
-        className="group inline-flex items-center py-2.5 text-base font-medium"
+        className="group relative inline-flex items-baseline py-2.5 pl-7 text-base font-medium"
         onClick={() => {
           track('clicked workshop exercise', {
             module: moduleSlug,
@@ -406,29 +445,31 @@ const LessonListItem = ({
           })
         }}
       >
-        {purchased || index === 0 ? (
-          <>
-            {isExerciseCompleted ? (
-              <CheckIcon
-                className="mr-2 h-5 w-5 text-emerald-500"
-                aria-hidden="true"
-              />
-            ) : (
-              <span
-                className="w-7 font-mono text-xs text-gray-400"
-                aria-hidden="true"
-              >
-                {index + 1}
-              </span>
-            )}
-          </>
-        ) : (
-          <LockClosedIcon
-            className="mr-3 h-4 w-4 text-gray-400"
-            aria-hidden="true"
-          />
-        )}
-        <span className="w-full cursor-pointer leading-tight group-hover:underline">
+        <div className="absolute left-0 translate-y-1">
+          {purchased || index === 0 ? (
+            <>
+              {isExerciseCompleted ? (
+                <CheckIcon
+                  className="h-5 w-5 text-emerald-500"
+                  aria-hidden="true"
+                />
+              ) : (
+                <span
+                  className="absolute w-5 font-mono text-xs text-gray-400"
+                  aria-hidden="true"
+                >
+                  {index + 1}
+                </span>
+              )}
+            </>
+          ) : (
+            <LockClosedIcon
+              className="h-4 w-4 text-gray-400"
+              aria-hidden="true"
+            />
+          )}
+        </div>
+        <span className="w-full cursor-pointer group-hover:underline">
           {lessonResource.title}
         </span>
       </Link>
