@@ -15,7 +15,6 @@ import {
   CheckIcon,
   ChevronDownIcon,
 } from '@heroicons/react/solid'
-import {trpc} from 'trpc/trpc.client'
 import {find, isArray, isEmpty} from 'lodash'
 import {Lesson} from '@skillrecordings/skill-lesson/schemas/lesson'
 import PortableTextComponents from '../video/portable-text'
@@ -58,9 +57,10 @@ export default WorkshopTemplate
 
 const Header: React.FC<{workshop: Module}> = ({workshop}) => {
   const {title, slug, sections, image, github} = workshop
-  const moduleProgress = useModuleProgress({
-    module: workshop,
-  })
+  const {isProgressLoaded, nextLesson, nextSection, isModuleStarted} =
+    useModuleProgress({
+      module: workshop,
+    })
 
   const firstSection = first<Section>(sections)
   const firstExercise = first<Lesson>(firstSection?.lessons)
@@ -99,30 +99,25 @@ const Header: React.FC<{workshop: Module}> = ({workshop}) => {
                     pathname: '/workshops/[module]/[section]/[lesson]',
                     query: {
                       module: slug.current,
-                      section:
-                        moduleProgress.completedLessons.length > 0
-                          ? moduleProgress?.nextSection?.slug
-                          : firstSection.slug,
-                      lesson:
-                        moduleProgress.completedLessons.length > 0
-                          ? moduleProgress?.nextExercise?.slug
-                          : firstExercise?.slug,
+                      section: isModuleStarted
+                        ? nextSection?.slug
+                        : firstSection.slug,
+                      lesson: isModuleStarted
+                        ? nextLesson?.slug
+                        : firstExercise?.slug,
                     },
                   }}
                   className={cx(
                     'flex items-center justify-center rounded bg-cyan-400 px-6 py-3 font-semibold text-black transition hover:bg-cyan-300',
                     {
-                      'animate-pulse': moduleProgress.status === 'loading',
+                      'animate-pulse': !isProgressLoaded,
                     },
                   )}
                   onClick={() => {
                     track('clicked start learning', {module: slug.current})
                   }}
                 >
-                  {moduleProgress.completedLessons.length > 0
-                    ? 'Continue'
-                    : 'Start'}{' '}
-                  Learning
+                  {isModuleStarted ? 'Continue' : 'Start'} Learning
                   <span className="pl-2" aria-hidden="true">
                     →
                   </span>
@@ -170,14 +165,14 @@ const Header: React.FC<{workshop: Module}> = ({workshop}) => {
 
 const WorkshopSectionNavigator: React.FC<{workshop: Module}> = ({workshop}) => {
   const {sections} = workshop
-  const {nextSection, status: moduleProgressStatus} = useModuleProgress({
+  const {nextSection, isProgressLoaded, isModuleStarted} = useModuleProgress({
     module: workshop,
   })
 
   const [openedSections, setOpenedSections] = React.useState<string[]>()
   React.useEffect(() => {
     nextSection?.slug && setOpenedSections([nextSection?.slug])
-  }, [moduleProgressStatus, nextSection?.slug])
+  }, [isModuleStarted, nextSection?.slug])
   return (
     <nav
       aria-label="workshop navigator"
@@ -187,7 +182,7 @@ const WorkshopSectionNavigator: React.FC<{workshop: Module}> = ({workshop}) => {
         <Accordion.Root
           type="multiple"
           onValueChange={(e) => setOpenedSections(e)}
-          value={moduleProgressStatus === 'success' ? openedSections : []}
+          value={isProgressLoaded ? openedSections : []}
         >
           <div className="flex w-full items-center justify-between pb-3">
             <h2 className="text-2xl font-semibold">Contents</h2>
@@ -219,7 +214,7 @@ const SectionItem: React.FC<{
   section: Section
   workshop: Module
 }> = ({section, workshop}) => {
-  const sectionProgress = useSectionProgress({section: section})
+  const {isCompleted, percentCompleted} = useSectionProgress({section: section})
 
   return (
     <li key={section.slug}>
@@ -228,7 +223,7 @@ const SectionItem: React.FC<{
           <Accordion.Trigger className="group relative z-10 flex w-full items-center justify-between rounded-lg border border-white/5 bg-gray-800/20 py-2 px-3 text-lg font-medium shadow-lg transition hover:bg-gray-800/40">
             {section.title}
             <div className="flex items-center">
-              {sectionProgress.isCompleted && (
+              {isCompleted && (
                 <CheckIcon
                   className="mr-2 h-4 w-4 text-teal-400"
                   aria-hidden="true"
@@ -243,7 +238,7 @@ const SectionItem: React.FC<{
           <div
             aria-hidden="true"
             className={`absolute left-0 top-0 h-full bg-white/5`}
-            style={{width: `${sectionProgress.percentCompleted}%`}}
+            style={{width: `${percentCompleted}%`}}
           />
         </Accordion.Header>
         <Accordion.Content>
@@ -268,23 +263,19 @@ const LessonListItem = ({
   workshop: Module
   index: number
 }) => {
-  const {data: solution} = trpc.solutions.getSolution.useQuery({
-    exerciseSlug: lessonResource.slug,
+  const {completedLessons, nextLesson, isModuleStarted} = useModuleProgress({
+    module: workshop,
   })
-  // const {data: userProgress} = trpc.progress.get.useQuery()
-  const {completedLessons, nextExercise} = useModuleProgress({module: workshop})
 
-  const isExerciseCompleted =
-    isArray(completedLessons) && lessonResource._type === 'exercise'
-      ? find(completedLessons, ({lessonSlug}) => lessonSlug === solution?.slug)
-      : find(
-          completedLessons,
-          ({lessonSlug}) => lessonSlug === lessonResource.slug,
-        )
-  const isNextExercise = nextExercise?.slug === lessonResource.slug
+  const isExerciseCompleted = find(
+    completedLessons,
+    ({lessonId}) => lessonId === lessonResource._id,
+  )
+
+  const isNextLesson = nextLesson?.slug === lessonResource.slug
 
   return (
-    <li key={lessonResource.slug}>
+    <li key={lessonResource._id}>
       <Link
         href={{
           pathname: '/workshops/[module]/[section]/[lesson]',
@@ -298,7 +289,7 @@ const LessonListItem = ({
         className={cx(
           'group inline-flex w-full flex-col justify-center py-2.5 pl-3.5 pr-3 text-base font-medium',
           {
-            'bg-gradient-to-r from-cyan-300/5 to-transparent': isNextExercise,
+            'bg-gradient-to-r from-cyan-300/5 to-transparent': isNextLesson,
           },
         )}
         onClick={() => {
@@ -311,7 +302,7 @@ const LessonListItem = ({
           })
         }}
       >
-        {isNextExercise && !isEmpty(completedLessons) && (
+        {isNextLesson && isModuleStarted && (
           <div className="flex items-center gap-1 pb-1">
             <ArrowRightIcon
               aria-hidden="true"
