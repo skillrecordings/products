@@ -1,12 +1,22 @@
 import React from 'react'
-import {trpcSkillLessons} from '@skillrecordings/skill-lesson/utils/trpc-skill-lessons'
-import {first, filter, find, flatMap, get, indexOf, isEmpty, map} from 'lodash'
+import {
+  first,
+  filter,
+  find,
+  flatMap,
+  get,
+  indexOf,
+  isEmpty,
+  map,
+  isArray,
+} from 'lodash'
 import {getNextSection} from '@skillrecordings/skill-lesson/utils/get-next-section'
 import {Lesson} from '@skillrecordings/skill-lesson/schemas/lesson'
 import {LessonProgress} from '@skillrecordings/database'
 import {Exercise} from '@skillrecordings/skill-lesson/schemas/exercise'
 import {Section} from '@skillrecordings/skill-lesson/schemas/section'
 import {Module} from '@skillrecordings/skill-lesson/schemas/module'
+import {trpcSkillLessons} from '@skillrecordings/skill-lesson/utils/trpc-skill-lessons'
 
 export function extractExercisesAndResource(sections?: Section[] | null) {
   const exercises = flatMap<Section, Exercise>(
@@ -193,6 +203,36 @@ export const useModuleProgress = ({module}: {module: Module}) => {
     userProgressStatus,
   ])
 
+  // {
+  //   module: slug.current,
+  //     section:
+  //   moduleProgress.completedLessons.length > 0
+  //     ? moduleProgress?.nextSection?.slug
+  //     : firstSection.slug,
+  //     lesson:
+  //   moduleProgress.completedLessons.length > 0
+  //     ? moduleProgress?.nextExercise?.slug
+  //     : firstExercise?.slug,
+  // }
+  // module progress is used to derive a link to START or CONTINUE learning
+  // based on the current progress
+
+  // const [openedSections, setOpenedSections] = React.useState<string[]>()
+  // React.useEffect(() => {
+  //   nextSection?.slug && setOpenedSections([nextSection?.slug])
+  // }, [moduleProgressStatus, nextSection?.slug])
+  // module progress is used to open sections on the list of modules
+
+  // const isExerciseCompleted =
+  //   isArray(completedLessons) && lessonResource._type === 'exercise'
+  //     ? find(completedLessons, ({lessonSlug}) => lessonSlug === solution?.slug)
+  //     : find(
+  //       completedLessons,
+  //       ({lessonSlug}) => lessonSlug === lessonResource.slug,
+  //     )
+  // const isNextExercise = nextExercise?.slug === lessonResource.slug
+  // module progress is used to determine if a lesson is completed or not
+
   return {
     nextExercise: isEmpty(completedResources) ? first(exercises) : nextExercise,
     nextSection,
@@ -248,6 +288,9 @@ export const useSectionProgress = ({section}: {section: Section}) => {
       section: section.slug,
       //   module: module.slug.current,
     })
+
+  // const sectionProgress = useSectionProgress({section: section})
+  // section progress is used to display the percentage a section is completed
 
   return {
     section,

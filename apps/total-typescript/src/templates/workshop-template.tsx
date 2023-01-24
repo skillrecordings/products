@@ -5,7 +5,6 @@ import Link from 'next/link'
 import cx from 'classnames'
 import {CourseJsonLd} from '@skillrecordings/next-seo'
 import {PortableText} from '@portabletext/react'
-import {SanityDocument} from '@sanity/client'
 import {IconGithub} from 'components/icons'
 import {isBrowser} from 'utils/is-browser'
 import {track} from '@skillrecordings/skill-lesson/utils/analytics'
@@ -178,7 +177,7 @@ const WorkshopSectionNavigator: React.FC<{workshop: Module}> = ({workshop}) => {
   const [openedSections, setOpenedSections] = React.useState<string[]>()
   React.useEffect(() => {
     nextSection?.slug && setOpenedSections([nextSection?.slug])
-  }, [moduleProgressStatus])
+  }, [moduleProgressStatus, nextSection?.slug])
   return (
     <nav
       aria-label="workshop navigator"
