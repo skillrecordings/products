@@ -7,7 +7,7 @@
 // Execute the Mux Asset Upload script with:
 //
 // ```
-// npx ts-node --skipProject src/data/sanity-import.ts
+// npx ts-node --files --skipProject src/data/sanity-import.ts
 // ```
 
 import fs from 'fs'
