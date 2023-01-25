@@ -4,7 +4,6 @@ import {SanityDocument} from '@sanity/client'
 import Link from 'next/link'
 import Image from 'next/legacy/image'
 import {getAllWorkshops} from '../../lib/workshops'
-import {isSellingLive} from 'path-to-purchase-react/is-selling-live'
 
 export async function getStaticProps() {
   const workshops = await getAllWorkshops()
@@ -23,9 +22,9 @@ const WorkshopsPage: React.FC<{workshops: SanityDocument[]}> = ({
       meta={
         {
           title: `Professional Tailwind Workshops from Simon Vrachliotis`,
-          description: `Professional Tailwind Workshops by Simon Vrachliotis will help you learn how to use Tailwind as a professional web developer through exercise-driven examples.`,
+          description: `Learn how to use Tailwind as a professional web developer through exercise-driven examples.`,
           ogImage: {
-            url: 'https://res.cloudinary.com/pro-tailwind/image/upload/v1668155873/tutorials/card_2x.png',
+            url: 'https://res.cloudinary.com/pro-tailwind/image/upload/v1674655491/workshops-card_2x.png',
           },
         } as any
       }
