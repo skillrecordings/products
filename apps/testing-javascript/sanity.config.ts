@@ -10,7 +10,7 @@ export default defineConfig({
   name: 'default',
   title: 'testing-javascript',
 
-  projectId: 'sanity-project-id',
+  projectId: 'p9j29730',
   dataset: 'production',
 
   plugins: [
