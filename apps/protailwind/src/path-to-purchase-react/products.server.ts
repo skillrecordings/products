@@ -35,7 +35,14 @@ const productQuery = groq`*[_type == "module" && moduleType == 'workshop' && $pr
   _createdAt,
   description,
   state,
-  resources,
+  resources[]->,
+  "sections": resources[@->._type == 'section']->{
+    "slug": slug.current
+  },
+  "lessons": resources[@->._type == 'section']->resources[@->._type in ['exercise', 'explainer']]->{
+    _id,
+    "slug": slug.current
+  },
   "productId": resources[@._type == 'product'][0].productId,
   "features": resources[@._type == 'product'][0].features,
   "instructor": {
@@ -47,7 +54,7 @@ const productQuery = groq`*[_type == "module" && moduleType == 'workshop' && $pr
 export const getActiveProducts = async () =>
   await sanityClient.fetch(productsQuery)
 
-export const getProduct = async (productId: string) => {
+export const getActiveProduct = async (productId: string) => {
   const product = await sanityClient.fetch(productQuery, {
     productId,
   })

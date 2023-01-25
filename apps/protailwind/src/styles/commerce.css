@@ -547,3 +547,50 @@
     }
   }
 }
+
+#buy-more-seats-modal {
+  #team-upgrade-pricing-inline {
+    @apply flex flex-col items-center pt-5;
+    label {
+      span {
+      }
+
+      input {
+        @apply selection:bg-sky-500 focus-visible:ring-sky-500;
+      }
+    }
+    [data-pricing-product-header] {
+      [data-price-container='loading'] {
+        @apply py-6;
+      }
+      [data-price-container] {
+        [data-price] {
+          @apply text-center;
+          sup {
+            @apply pr-1 align-sub;
+          }
+          @apply font-heading text-3xl font-black;
+          span {
+            @apply align-super text-sm;
+          }
+        }
+
+        [data-price-discounted] {
+          @apply mt-3 flex items-center gap-5 rounded-lg bg-amber-100 px-3 py-1 text-lg text-amber-600;
+          [data-full-price] {
+            @apply text-2xl line-through;
+            span {
+              @apply align-super text-xs;
+            }
+          }
+          [data-percent-off] {
+            @apply font-extrabold;
+          }
+        }
+      }
+    }
+    button {
+      @apply mt-3 w-full rounded-full bg-sky-500 hover:bg-sky-600;
+    }
+  }
+}
