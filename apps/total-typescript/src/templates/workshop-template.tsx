@@ -234,10 +234,9 @@ const SectionItem: React.FC<{
   section: Section
   workshop: Module
 }> = ({section, workshop}) => {
-  const {data: moduleProgress, status: moduleProgressStatus} =
-    trpc.moduleProgress.bySlug.useQuery({
-      slug: workshop.slug.current,
-    })
+  const {data: moduleProgress} = trpc.moduleProgress.bySlug.useQuery({
+    slug: workshop.slug.current,
+  })
   const sectionProgress = moduleProgress?.sections.find(
     (s) => s.id === section._id,
   )
@@ -291,10 +290,9 @@ const LessonListItem = ({
   workshop: Module
   index: number
 }) => {
-  const {data: moduleProgress, status: moduleProgressStatus} =
-    trpc.moduleProgress.bySlug.useQuery({
-      slug: workshop.slug.current,
-    })
+  const {data: moduleProgress} = trpc.moduleProgress.bySlug.useQuery({
+    slug: workshop.slug.current,
+  })
 
   const completedLessons = moduleProgress?.lessons.filter(
     (l) => l.lessonCompleted,
