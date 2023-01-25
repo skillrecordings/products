@@ -18,10 +18,11 @@ import {
 import {find, isArray, isEmpty} from 'lodash'
 import {Lesson} from '@skillrecordings/skill-lesson/schemas/lesson'
 import PortableTextComponents from '../video/portable-text'
-import {useModuleProgress, useSectionProgress} from 'hooks/use-progress'
+import {useModuleProgress, useSectionProgress} from 'video/use-progress'
 import {Module} from '@skillrecordings/skill-lesson/schemas/module'
 import {Section} from '@skillrecordings/skill-lesson/schemas/section'
 import * as process from 'process'
+import {trpc} from '../trpc/trpc.client'
 
 const WorkshopTemplate: React.FC<{
   workshop: Module
@@ -266,6 +267,12 @@ const LessonListItem = ({
   const {completedLessons, nextLesson, isModuleStarted} = useModuleProgress({
     module: workshop,
   })
+
+  const moduleProgress = trpc.moduleProgress.bySlug.useQuery({
+    slug: workshop.slug.current,
+  })
+
+  console.log({moduleProgress})
 
   const isExerciseCompleted = find(
     completedLessons,
