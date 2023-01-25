@@ -9,32 +9,25 @@ import {IconGithub} from 'components/icons'
 import {isBrowser} from 'utils/is-browser'
 import {track} from '@skillrecordings/skill-lesson/utils/analytics'
 import first from 'lodash/first'
+import isEmpty from 'lodash/isEmpty'
 import * as Accordion from '@radix-ui/react-accordion'
 import {
   ArrowRightIcon,
   CheckIcon,
   ChevronDownIcon,
 } from '@heroicons/react/solid'
-import {find, isEmpty} from 'lodash'
 import {Lesson} from '@skillrecordings/skill-lesson/schemas/lesson'
 import PortableTextComponents from '../video/portable-text'
 import {Module} from '@skillrecordings/skill-lesson/schemas/module'
 import {Section} from '@skillrecordings/skill-lesson/schemas/section'
 import * as process from 'process'
 import {trpc} from '../trpc/trpc.client'
-import {type ModuleProgress} from 'video/module-progress'
-import {useModuleProgress, useSectionProgress} from 'video/use-progress'
 
 const WorkshopTemplate: React.FC<{
   workshop: Module
 }> = ({workshop}) => {
   const {title, body, ogImage, image, description} = workshop
   const pageTitle = `${title} Workshop`
-
-  const {data: moduleProgress, status: moduleProgressStatus} =
-    trpc.moduleProgress.bySlug.useQuery({
-      slug: workshop.slug.current,
-    })
 
   return (
     <Layout
@@ -49,22 +42,12 @@ const WorkshopTemplate: React.FC<{
       }}
     >
       <CourseMeta title={pageTitle} description={description} />
-      <Header
-        moduleProgress={moduleProgress}
-        moduleProgressStatus={moduleProgressStatus}
-        workshop={workshop}
-      />
+      <Header workshop={workshop} />
       <main className="relative z-10 flex flex-col gap-5 lg:flex-row">
         <article className="prose prose-lg w-full max-w-none px-5 text-white lg:max-w-xl">
           <PortableText value={body} components={PortableTextComponents} />
         </article>
-        {workshop && (
-          <WorkshopSectionNavigator
-            moduleProgress={moduleProgress}
-            moduleProgressStatus={moduleProgressStatus}
-            workshop={workshop}
-          />
-        )}
+        {workshop && <WorkshopSectionNavigator workshop={workshop} />}
       </main>
     </Layout>
   )
@@ -74,10 +57,12 @@ export default WorkshopTemplate
 
 const Header: React.FC<{
   workshop: Module
-  moduleProgress: ModuleProgress | null | undefined
-  moduleProgressStatus: 'success' | 'loading' | 'error'
-}> = ({workshop, moduleProgress, moduleProgressStatus}) => {
+}> = ({workshop}) => {
   const {title, slug, sections, image, github} = workshop
+  const {data: moduleProgress, status: moduleProgressStatus} =
+    trpc.moduleProgress.bySlug.useQuery({
+      slug: workshop.slug.current,
+    })
 
   const isModuleInProgress = (moduleProgress?.completedLessonCount || 0) > 0
   const nextSection = moduleProgress?.nextSection
@@ -186,12 +171,17 @@ const Header: React.FC<{
 
 const WorkshopSectionNavigator: React.FC<{
   workshop: Module
-  moduleProgress: ModuleProgress | null | undefined
-  moduleProgressStatus: 'success' | 'loading' | 'error'
-}> = ({workshop, moduleProgress, moduleProgressStatus}) => {
+}> = ({workshop}) => {
   const {sections} = workshop
+  const {data: moduleProgress, status: moduleProgressStatus} =
+    trpc.moduleProgress.bySlug.useQuery({
+      slug: workshop.slug.current,
+    })
   const nextSection = moduleProgress?.nextSection
-  const [openedSections, setOpenedSections] = React.useState<string[]>([])
+  const initialOpenedSections = sections ? [sections[0].slug] : []
+  const [openedSections, setOpenedSections] = React.useState<string[]>(
+    initialOpenedSections,
+  )
 
   React.useEffect(() => {
     nextSection?.slug && setOpenedSections([nextSection?.slug])
@@ -227,7 +217,6 @@ const WorkshopSectionNavigator: React.FC<{
             {sections.map((section: Section, i: number) => {
               return (
                 <SectionItem
-                  moduleProgress={moduleProgress}
                   key={section.slug}
                   section={section}
                   workshop={workshop}
@@ -244,8 +233,11 @@ const WorkshopSectionNavigator: React.FC<{
 const SectionItem: React.FC<{
   section: Section
   workshop: Module
-  moduleProgress: ModuleProgress | null | undefined
-}> = ({section, workshop, moduleProgress}) => {
+}> = ({section, workshop}) => {
+  const {data: moduleProgress, status: moduleProgressStatus} =
+    trpc.moduleProgress.bySlug.useQuery({
+      slug: workshop.slug.current,
+    })
   const sectionProgress = moduleProgress?.sections.find(
     (s) => s.id === section._id,
   )
@@ -279,7 +271,6 @@ const SectionItem: React.FC<{
         </Accordion.Header>
         <Accordion.Content>
           <WorkshopSectionExerciseNavigator
-            moduleProgress={moduleProgress}
             workshop={workshop}
             section={section}
           />
@@ -294,22 +285,24 @@ const LessonListItem = ({
   section,
   workshop,
   index,
-  moduleProgress,
 }: {
   lessonResource: Lesson
   section: Section
   workshop: Module
   index: number
-  moduleProgress: ModuleProgress | null | undefined
 }) => {
+  const {data: moduleProgress, status: moduleProgressStatus} =
+    trpc.moduleProgress.bySlug.useQuery({
+      slug: workshop.slug.current,
+    })
+
   const completedLessons = moduleProgress?.lessons.filter(
     (l) => l.lessonCompleted,
   )
   const nextLesson = moduleProgress?.nextLesson
   const completedLessonCount = moduleProgress?.completedLessonCount || 0
 
-  const isExerciseCompleted = find(
-    completedLessons,
+  const isExerciseCompleted = completedLessons?.find(
     ({id}) => id === lessonResource._id,
   )
 
@@ -379,8 +372,7 @@ const LessonListItem = ({
 const WorkshopSectionExerciseNavigator: React.FC<{
   section: Section
   workshop: Module
-  moduleProgress: ModuleProgress | null | undefined
-}> = ({section, workshop, moduleProgress}) => {
+}> = ({section, workshop}) => {
   const {lessons} = section
 
   return lessons ? (
@@ -388,7 +380,6 @@ const WorkshopSectionExerciseNavigator: React.FC<{
       {lessons.map((exercise: Lesson, i: number) => {
         return (
           <LessonListItem
-            moduleProgress={moduleProgress}
             key={exercise.slug}
             lessonResource={exercise}
             section={section}
