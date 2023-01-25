@@ -66,9 +66,80 @@ const Icons = {
       d="M0 0v4c0 2.065 1.604 4 4.141 4a3.983 3.983 0 0 0 2.65 2.793c-.179.938-.509 2.111-1.124 3.207H4v2h8v-2h-1.667c-.615-1.096-.945-2.27-1.123-3.207A3.984 3.984 0 0 0 11.859 8C14.388 8 16 6.072 16 4V0H0Zm2 4V2h2v4c-1.103 0-2-.897-2-2Zm12 0c0 1.103-.898 2-2 2V2h2v2Z"
     />
   ),
+  Calendar: () => (
+    <path
+      fill="none"
+      stroke="currentColor"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      d="M.5 5.5h15m-1.5-3H2A1.5 1.5 0 0 0 .5 4v9A1.5 1.5 0 0 0 2 14.5h12a1.5 1.5 0 0 0 1.5-1.5V4A1.5 1.5 0 0 0 14 2.5ZM4.5.5v2m7-2v2"
+    />
+  ),
+  Dollar: () => (
+    <path
+      fill="none"
+      stroke="currentColor"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      d="M8 .5v15M11.5 3C9.5 1.992 4 1.539 4 5c0 3.525 8 2.005 8 6 0 3.387-5.716 3.2-8 2"
+    />
+  ),
+  Email: () => (
+    <>
+      <g clip-path="url(#a)">
+        <path
+          fill="none"
+          stroke="currentColor"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          d="M11.882 14.794c-1.713.655-6.942 1.725-9.777-1.538C-.643 10.1.55 5.311 2.607 2.919a8.265 8.265 0 0 1 9.069-1.794 6.185 6.185 0 0 1 3.811 6.351c-.118 1.823-.679 3.788-2.511 3.93-1.832.142-2.128-1.567-2.246-2.393m0 0c.017-1.458.126-2.913.325-4.357-4.017-1.224-5.435.912-5.878 2.221-.443 1.309-.591 3.36 1.063 4.243 1.654.883 3.84-.256 4.49-2.107Z"
+        />
+      </g>
+      <defs>
+        <clipPath id="a">
+          <path fill="#fff" d="M0 0h16v16H0z" />
+        </clipPath>
+      </defs>
+    </>
+  ),
+  PlayOutline: () => (
+    <path
+      fill="none"
+      stroke="currentColor"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      strokeMiterlimit="10"
+      d="m2.5.5 12 7.5-12 7.5V.5Z"
+    />
+  ),
+  Receipt: () => (
+    <path
+      fill="none"
+      stroke="currentColor"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      strokeMiterlimit="10"
+      d="M13.5.5h-11a1 1 0 0 0-1 1v14l2.5-2 2 2 2-2 2 2 2-2 2.5 2v-14a1 1 0 0 0-1-1Zm-9 5h7m-7 4h7"
+    />
+  ),
+  Team: () => (
+    <path
+      fill="none"
+      stroke="currentColor"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      d="M5.5 7.5a3 3 0 1 0 0-6 3 3 0 0 0 0 6Zm7-1a2 2 0 1 0 0-4 2 2 0 0 0 0 4Zm-7 3a5 5 0 0 0-5 5h10a5 5 0 0 0-5-5Zm5.341-.5a3 3 0 0 1 4.659 2.5v1h-3"
+    />
+  ),
+  Twitter: () => (
+    <path
+      fill="currentColor"
+      d="M16,3c-0.6,0.3-1.2,0.4-1.9,0.5c0.7-0.4,1.2-1,1.4-1.8c-0.6,0.4-1.3,0.6-2.1,0.8c-0.6-0.6-1.5-1-2.4-1 C9.3,1.5,7.8,3,7.8,4.8c0,0.3,0,0.5,0.1,0.7C5.2,5.4,2.7,4.1,1.1,2.1c-0.3,0.5-0.4,1-0.4,1.7c0,1.1,0.6,2.1,1.5,2.7 c-0.5,0-1-0.2-1.5-0.4c0,0,0,0,0,0c0,1.6,1.1,2.9,2.6,3.2C3,9.4,2.7,9.4,2.4,9.4c-0.2,0-0.4,0-0.6-0.1c0.4,1.3,1.6,2.3,3.1,2.3 c-1.1,0.9-2.5,1.4-4.1,1.4c-0.3,0-0.5,0-0.8,0c1.5,0.9,3.2,1.5,5,1.5c6,0,9.3-5,9.3-9.3c0-0.1,0-0.3,0-0.4C15,4.3,15.6,3.7,16,3z"
+    />
+  ),
 } as const
 
-type IconNames = keyof typeof Icons
+export type IconNames = keyof typeof Icons
 
 const Icon: React.FC<IconProperties> = ({
   viewBox,
