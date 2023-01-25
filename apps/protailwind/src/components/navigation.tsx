@@ -171,7 +171,6 @@ const NavLogo = () => {
 
 const AccountDropdown = () => {
   const ability = useAbilities()
-  const canViewTeam = ability.can('view', 'Team')
   const canViewInvoice = ability.can('view', 'Invoice')
 
   const preventHover = (event: any) => {
@@ -202,14 +201,9 @@ const AccountDropdown = () => {
             className="absolute top-full left-0 w-full rounded-b"
           >
             <ul className="flex w-full flex-col items-start rounded-b-lg bg-white p-1 text-sm shadow-2xl shadow-gray-900/20 lg:text-base">
-              {canViewTeam && (
-                <li className="w-full">
-                  <DropdownLink href="/team">Invite team</DropdownLink>
-                </li>
-              )}
               {canViewInvoice && (
                 <li className="w-full">
-                  <DropdownLink href="/invoices">Invoices</DropdownLink>
+                  <DropdownLink href="/purchases">Purchases</DropdownLink>
                 </li>
               )}
               {/* <li className="w-full">

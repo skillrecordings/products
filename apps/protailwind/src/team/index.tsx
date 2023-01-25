@@ -16,6 +16,7 @@ type InviteTeamProps = {
   }
   session: any
   setPersonalPurchase?: (props: any) => void
+  className?: string
 }
 
 const InviteTeam: React.FC<React.PropsWithChildren<InviteTeamProps>> = ({
@@ -23,6 +24,7 @@ const InviteTeam: React.FC<React.PropsWithChildren<InviteTeamProps>> = ({
   existingPurchase,
   session,
   setPersonalPurchase,
+  className = 'flex flex-col rounded-lg border border-gray-100 bg-white px-5 py-6 shadow-xl shadow-gray-400/5',
 }) => {
   const bulkCouponSchema = z
     .object({id: z.string(), maxUses: z.number(), usedCount: z.number()})
@@ -59,7 +61,7 @@ const InviteTeam: React.FC<React.PropsWithChildren<InviteTeamProps>> = ({
   const userEmail = session?.user?.email
 
   return (
-    <div className="flex flex-col rounded-lg border border-gray-100 bg-white px-5 py-6 shadow-xl shadow-gray-400/5">
+    <div className={className}>
       <p>
         You have{' '}
         <strong className="font-semibold">

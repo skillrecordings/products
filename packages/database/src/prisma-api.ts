@@ -518,6 +518,10 @@ export function getSdk(
 
       return user
     },
+    async getUserById(options: Prisma.UserFindUniqueArgs) {
+      const user = await ctx.prisma.user.findUnique(options)
+      return user
+    },
     async getProduct(options: Prisma.ProductFindFirstArgs) {
       const product = await ctx.prisma.product.findFirst(options)
       return product
