@@ -2,7 +2,7 @@
   "name": "testing-javascript",
   "private": true,
   "scripts": {
-    "dev": "next dev -p 3020",
+    "dev": "next dev -p 3018",
     "dev:sanity": "sanity dev",
     "build": "next build",
     "postbuild": "NODE_ENV=production next-sitemap",
