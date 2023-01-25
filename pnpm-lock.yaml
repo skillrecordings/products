@@ -1046,6 +1046,7 @@ importers:
       sanity: ^3.0.0
       sanity-plugin-cloudinary: ^1.0.1
       styled-components: ^5.2
+      superjson: ^1.12.2
       tailwindcss: ^3.1.6
       typescript: ^4.9.4
       uuid: ^8.3.2
@@ -1099,6 +1100,7 @@ importers:
       sanity: 3.2.5_34p3kynx32jfaofqogjlofkdsy
       sanity-plugin-cloudinary: 1.0.1_lwfue5ecbqwevxpjdqp6room4e
       styled-components: 5.3.6_biqbaboplfbrettd7655fr4n2y
+      superjson: 1.12.2
       uuid: 8.3.2
       zod: 3.20.2
     devDependencies:
@@ -30387,6 +30389,13 @@ packages:
 
   /superjson/1.11.0:
     resolution: {integrity: sha512-6PfAg1FKhqkwWvPb2uXhH4MkMttdc17eJ91+Aoz4s1XUEDZFmLfFx/xVA3wgkPxAGy5dpozgGdK6V/n20Wj9yg==}
+    engines: {node: '>=10'}
+    dependencies:
+      copy-anything: 3.0.2
+    dev: false
+
+  /superjson/1.12.2:
+    resolution: {integrity: sha512-ugvUo9/WmvWOjstornQhsN/sR9mnGtWGYeTxFuqLb4AiT4QdUavjGFRALCPKWWnAiUJ4HTpytj5e0t5HoMRkXg==}
     engines: {node: '>=10'}
     dependencies:
       copy-anything: 3.0.2
