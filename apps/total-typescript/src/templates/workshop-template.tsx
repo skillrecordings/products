@@ -178,9 +178,11 @@ const WorkshopSectionNavigator: React.FC<{
       slug: workshop.slug.current,
     })
   const nextSection = moduleProgress?.nextSection
-  const initialOpenedSections = sections ? [sections[0].slug] : []
+  const initialOpenedSections = !isEmpty(first(sections))
+    ? [first(sections)?.slug]
+    : []
   const [openedSections, setOpenedSections] = React.useState<string[]>(
-    initialOpenedSections,
+    initialOpenedSections as string[],
   )
 
   React.useEffect(() => {
