@@ -77,11 +77,7 @@ export default {
       title: 'Body',
       type: 'body',
     },
-    {
-      name: 'image',
-      title: 'Image',
-      type: 'image',
-    },
+    {name: 'image', title: 'Image', type: 'externalImage'},
     {
       name: 'ogImage',
       title: 'Share card URL',
