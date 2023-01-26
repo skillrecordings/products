@@ -28,7 +28,7 @@ import {useCoupon} from 'path-to-purchase-react/use-coupon'
 import {PriceCheckProvider} from 'path-to-purchase-react/pricing-check-context'
 import Spinner from 'components/spinner'
 import {BadgeCheckIcon} from '@heroicons/react/outline'
-import {Module} from '@skillrecordings/skill-lesson/schemas/module'
+import {type Module} from '@skillrecordings/skill-lesson/schemas/module'
 import {Section} from '@skillrecordings/skill-lesson/schemas/section'
 import {getBaseUrl} from '@skillrecordings/skill-lesson/utils/get-base-url'
 
