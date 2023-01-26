@@ -79,27 +79,32 @@ const DesktopNav = () => {
           label="Articles"
         />
       </NavSlots>
-      {(isSellingLive || status === 'authenticated') && (
-        <ul className="flex items-center gap-2">
-          {status === 'authenticated' && (
-            <NavLink
-              label={
-                <>
-                  <span className="hidden lg:inline-block">Send</span> Feedback
-                </>
-              }
-              onClick={() => {
-                setIsFeedbackDialogOpen(true, 'navigation')
-                track('opened feedback dialog')
-              }}
-            />
+      {status !== 'loading' && (
+        <>
+          {(isSellingLive || status === 'authenticated') && (
+            <ul className="flex items-center gap-2">
+              {status === 'authenticated' && (
+                <NavLink
+                  label={
+                    <>
+                      <span className="hidden lg:inline-block">Send</span>{' '}
+                      Feedback
+                    </>
+                  }
+                  onClick={() => {
+                    setIsFeedbackDialogOpen(true, 'navigation')
+                    track('opened feedback dialog')
+                  }}
+                />
+              )}
+              {status === 'authenticated' ? (
+                <AccountDropdown />
+              ) : (
+                <NavLink path="/login" label="Log in" />
+              )}
+            </ul>
           )}
-          {status === 'authenticated' ? (
-            <AccountDropdown />
-          ) : (
-            <NavLink path="/login" label="Log in" />
-          )}
-        </ul>
+        </>
       )}
     </ul>
   )
