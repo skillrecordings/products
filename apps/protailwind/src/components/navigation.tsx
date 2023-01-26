@@ -12,6 +12,7 @@ import * as NavigationMenu from '@radix-ui/react-navigation-menu'
 import {createAppAbility} from '@skillrecordings/skill-lesson/utils/ability'
 import {trpc} from '../utils/trpc'
 import {ChevronDownIcon, MenuIcon} from '@heroicons/react/solid'
+import {useFeedback} from '@skillrecordings/feedback-widget'
 
 type NavigationProps = {
   className?: string
@@ -47,7 +48,7 @@ export default Navigation
 
 const DesktopNav = () => {
   const {status} = useSession()
-
+  const {setIsFeedbackDialogOpen} = useFeedback()
   return (
     <ul
       className={cx('hidden items-center space-x-5 md:flex', {
@@ -59,7 +60,11 @@ const DesktopNav = () => {
           <NavLink
             path="/workshops"
             icon={<Icon name="Trophy" className="text-[#F8A729]" />}
-            label="Pro Workshops"
+            label={
+              <>
+                <span className="hidden lg:inline-block">Pro</span> Workshops
+              </>
+            }
           />
         )}
         <NavLink
@@ -75,7 +80,19 @@ const DesktopNav = () => {
         />
       </NavSlots>
       {(isSellingLive || status === 'authenticated') && (
-        <ul>
+        <ul className="flex items-center gap-2">
+          <NavLink
+            label={
+              <>
+                <span className="hidden lg:inline-block">Send</span> Feedback
+              </>
+            }
+            onClick={() => {
+              setIsFeedbackDialogOpen(true, 'navigation')
+              track('opened feedback dialog')
+            }}
+          />
+
           {status === 'authenticated' ? (
             <AccountDropdown />
           ) : (
@@ -119,7 +136,7 @@ const NavLink: React.FC<
           onClick={onClick}
           aria-current={isActive ? 'page' : undefined}
           className={cx(
-            'jusfify-center flex items-center gap-1 rounded-full px-4 py-2 transition hover:bg-gray-100',
+            'jusfify-center flex items-center gap-1 rounded-full px-3 py-2 transition hover:bg-gray-100 lg:px-4',
             className,
             {
               'bg-gray-50': isActive,
@@ -137,7 +154,7 @@ const NavLink: React.FC<
         href={path}
         passHref
         className={cx(
-          'jusfify-center flex items-center gap-1 rounded-full px-4 py-2 transition hover:bg-gray-100',
+          'jusfify-center flex items-center gap-1 rounded-full px-3 py-2 transition hover:bg-gray-100 lg:px-4',
           className,
           {
             'bg-gray-50': isActive,
@@ -190,7 +207,7 @@ const AccountDropdown = () => {
             onPointerMove={preventHover}
             onPointerLeave={preventHover}
             className={cx(
-              'jusfify-center flex items-center gap-1 rounded-full px-4 py-2 transition hover:bg-gray-100',
+              'jusfify-center flex items-center gap-1 rounded-full px-3 py-2 transition hover:bg-gray-100 lg:px-4',
             )}
           >
             Account <ChevronDownIcon className="h-4 w-4" aria-hidden />
@@ -245,7 +262,7 @@ const MobileNav = () => {
   const canViewTeam = ability.can('view', 'Team')
   const canViewInvoice = ability.can('view', 'Invoice')
   const {status} = useSession()
-  // const {setIsFeedbackDialogOpen} = useFeedback()
+  const {setIsFeedbackDialogOpen} = useFeedback()
 
   return (
     <div className="block md:hidden">
@@ -288,24 +305,25 @@ const MobileNav = () => {
                     {/* <MobileNavLink path="/faq" label="FAQ" /> */}
                     {status === 'authenticated' && (
                       <>
-                        <div className="border-t border-gray-100 px-3 pb-3 pt-5 font-mono text-xs font-semibold uppercase tracking-wide text-gray-700">
+                        <div className="border-t border-gray-100 px-5 pb-3 pt-5 font-mono text-xs font-semibold uppercase tracking-wide text-gray-700">
                           Account
                         </div>
                         <ul>
-                          {canViewTeam && (
-                            <MobileNavLink path="/team" label="Invite team" />
-                          )}
                           {canViewInvoice && (
-                            <MobileNavLink path="/invoices" label="Invoices" />
+                            <MobileNavLink
+                              path="/purchases"
+                              label="Purchases"
+                            />
                           )}
-                          {/* <MobileNavLink
+                          <MobileNavLink
                             label="Send Feedback"
                             onClick={() => {
-                              setIsFeedbackDialogOpen(true, 'header')
+                              setIsFeedbackDialogOpen(true, 'navigation')
+                              track('opened feedback dialog')
                             }}
-                          /> */}
+                          />
                           <li>
-                            <LogOutButton className="flex h-full w-full items-center gap-0.5 px-3 py-3 text-base font-medium transition duration-100 hover:bg-gray-100 active:bg-transparent" />
+                            <LogOutButton className="flex h-full w-full items-center gap-0.5 px-5 py-3 text-base font-medium transition duration-100 hover:bg-gray-100 active:bg-transparent" />
                           </li>
                         </ul>
                       </>
@@ -337,7 +355,7 @@ const MobileNavLink: React.FC<
         <button
           onClick={onClick}
           className={cx(
-            'flex h-full items-center gap-1.5 px-5 py-3 text-base font-medium transition duration-100 hover:bg-gray-100 active:bg-transparent',
+            'flex h-full w-full items-center gap-1.5 px-5 py-3 text-base font-medium transition duration-100 hover:bg-gray-100 active:bg-transparent',
             className,
           )}
         >

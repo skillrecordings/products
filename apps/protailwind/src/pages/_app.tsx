@@ -12,6 +12,7 @@ import {DefaultSeo} from '@skillrecordings/next-seo'
 import config from '../config'
 import {trpc} from 'utils/trpc'
 import Script from 'next/script'
+import {FeedbackProvider} from '@skillrecordings/feedback-widget'
 
 const queryClient = new QueryClient()
 
@@ -23,9 +24,11 @@ function MyApp({Component, pageProps}: AppProps<{session: Session}>) {
       <DefaultSeo {...config} />
       <SessionProvider session={pageProps.session} refetchInterval={0}>
         <QueryClientProvider client={queryClient}>
-          <ConvertkitProvider>
-            <Component {...pageProps} />
-          </ConvertkitProvider>
+          <FeedbackProvider>
+            <ConvertkitProvider>
+              <Component {...pageProps} />
+            </ConvertkitProvider>
+          </FeedbackProvider>
         </QueryClientProvider>
       </SessionProvider>
       {process.env.NODE_ENV !== 'development' && (
