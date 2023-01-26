@@ -81,18 +81,19 @@ const DesktopNav = () => {
       </NavSlots>
       {(isSellingLive || status === 'authenticated') && (
         <ul className="flex items-center gap-2">
-          <NavLink
-            label={
-              <>
-                <span className="hidden lg:inline-block">Send</span> Feedback
-              </>
-            }
-            onClick={() => {
-              setIsFeedbackDialogOpen(true, 'navigation')
-              track('opened feedback dialog')
-            }}
-          />
-
+          {status === 'authenticated' && (
+            <NavLink
+              label={
+                <>
+                  <span className="hidden lg:inline-block">Send</span> Feedback
+                </>
+              }
+              onClick={() => {
+                setIsFeedbackDialogOpen(true, 'navigation')
+                track('opened feedback dialog')
+              }}
+            />
+          )}
           {status === 'authenticated' ? (
             <AccountDropdown />
           ) : (
