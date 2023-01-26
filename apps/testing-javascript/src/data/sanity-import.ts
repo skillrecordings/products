@@ -479,9 +479,9 @@ const importCourseData = async () => {
       state: 'published',
       slug: buildSlug(courseSlug),
       title,
-      description,
+      description: '',
       resources: sanityLessonRefs,
-      body: undefined,
+      body: buildBlock(description),
       image: {
         _type: 'externalImage',
         url: square_cover_large_url,
