@@ -13,13 +13,13 @@ INSERT INTO Price (id, productId, nickname, status, unitAmount ) VALUES
 INSERT INTO MerchantPrice (id, merchantProductId, merchantAccountId, status, priceId, identifier ) VALUES
 ('pt_4d94ce1c-440f-4423-b2f2-a91be924e72e', 'pt_27df20cf-24ac-4e81-959c-9c126a6c2065', 'pt_d99e565c-c58b-4514-bcd8-2840930ed001', 1, "pt_634f67f6-8e05-4372-b9ef-0d2e674bcacf", "price_1MMKRRKXqbBrKxVRIPPtJOR7");
 INSERT INTO Product (id, name, status) VALUES
-('pt_60eb2f82-80ad-4bcf-8434-f34e81df7bbf', "Tailwind Multi-Theme Strategy Workshop", 1);
+('pt_1f203155-9096-462b-a94e-c4bafb64b968', "Tailwind Multi-Theme Strategy Workshop", 1);
 
 INSERT INTO MerchantProduct (id, merchantAccountId, productId, status, identifier) VALUES
-('pt_fbe733b1-f0fa-42b8-b6d8-98709759c111', "pt_d99e565c-c58b-4514-bcd8-2840930ed001", 'pt_60eb2f82-80ad-4bcf-8434-f34e81df7bbf', 1, "prod_N6XWE5fG4owCxK");
+('pt_fbe733b1-f0fa-42b8-b6d8-98709759c111', "pt_d99e565c-c58b-4514-bcd8-2840930ed001", 'pt_1f203155-9096-462b-a94e-c4bafb64b968', 1, "prod_N6XWE5fG4owCxK");
 
 INSERT INTO Price (id, productId, nickname, status, unitAmount ) VALUES
-('pt_3c210496-417e-48c9-a9ca-5e5809acdd9b', 'pt_60eb2f82-80ad-4bcf-8434-f34e81df7bbf', 'Tailwind Multi-Theme Strategy Workshop', 1, 79);
+('pt_3c210496-417e-48c9-a9ca-5e5809acdd9b', 'pt_1f203155-9096-462b-a94e-c4bafb64b968', 'Tailwind Multi-Theme Strategy Workshop', 1, 79);
 
 INSERT INTO MerchantPrice (id, merchantProductId, merchantAccountId, status, priceId, identifier ) VALUES
 ('pt_04ccd0d0-21d8-4417-a81e-af6006e2384f', 'pt_fbe733b1-f0fa-42b8-b6d8-98709759c111', 'pt_d99e565c-c58b-4514-bcd8-2840930ed001', 1, "pt_3c210496-417e-48c9-a9ca-5e5809acdd9b", "price_1MMKRQKXqbBrKxVRGcUW074A");

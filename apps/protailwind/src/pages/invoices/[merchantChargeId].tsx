@@ -22,7 +22,7 @@ export const getServerSideProps: GetServerSideProps = async ({
   const {merchantChargeId} = query
   const {getProduct, getPurchaseForStripeCharge} = getSdk()
   const ability = getCurrentAbility(sessionToken as any)
-  if (merchantChargeId && ability.can('view', 'Invoice')) {
+  if (merchantChargeId) {
     const merchantCharge = await prisma.merchantCharge.findUnique({
       where: {
         id: merchantChargeId as string,
