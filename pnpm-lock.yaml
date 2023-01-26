@@ -2300,6 +2300,7 @@ importers:
       '@heroicons/react': ^1.0.6
       '@radix-ui/react-dialog': ^0.1.7
       '@radix-ui/react-radio-group': ^1.1.1
+      '@skillrecordings/scripts': workspace:*
       '@skillrecordings/skill-api': workspace:*
       '@skillrecordings/tsconfig': workspace:*
       '@skillrecordings/types': workspace:*
@@ -2338,6 +2339,7 @@ importers:
       formik: 2.2.9_react@18.2.0
       yup: 0.32.11
     devDependencies:
+      '@skillrecordings/scripts': link:../scripts
       '@skillrecordings/tsconfig': link:../tsconfig
       '@skillrecordings/types': link:../types
       '@tiptap/core': 2.0.0-beta.181
