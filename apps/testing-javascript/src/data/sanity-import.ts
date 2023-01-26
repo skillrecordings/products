@@ -91,6 +91,11 @@ const SanityReferenceSchema = z.object({
 })
 type SanityReference = z.infer<typeof SanityReferenceSchema>
 
+const ExternalImageSchema = z.object({
+  _type: z.literal('externalImage'),
+  url: z.string().url(),
+})
+
 const ExplainerSchema = z.object({
   _id: z.string(),
   _type: z.literal('explainer'),
@@ -113,6 +118,7 @@ const WorkshopSchema = z.object({
   resources: SanityReferenceSchema.array(),
   description: z.string(),
   body: SanityBlockSchema.optional(),
+  image: ExternalImageSchema,
 })
 type Workshop = z.infer<typeof WorkshopSchema>
 
@@ -123,6 +129,7 @@ const ProductSchema = z.object({
   productId: z.string(),
   description: z.string(),
   modules: SanityReferenceSchema.array(),
+  image: ExternalImageSchema,
 })
 type Product = z.infer<typeof ProductSchema>
 
@@ -231,6 +238,7 @@ const importCourseData = async () => {
       title: z.string(),
       description: z.string(),
       lessons: lessonSchema.array(),
+      square_cover_large_url: z.string().url(),
     })
     .passthrough()
   const productSchema = z
@@ -240,6 +248,7 @@ const importCourseData = async () => {
       description: z.string(),
       slug: z.string(),
       courses: courseSchema.array(),
+      square_cover_large_url: z.string(),
     })
     .passthrough()
 
@@ -439,7 +448,13 @@ const importCourseData = async () => {
   for (const course of Object.entries(uniqueCourses)) {
     const [courseSlug, courseData] = course
 
-    const {lessonSlugs, title, description, id: eggheadId} = courseData
+    const {
+      lessonSlugs,
+      title,
+      description,
+      id: eggheadId,
+      square_cover_large_url,
+    } = courseData
 
     const sanityLessonIds = lessonSlugs.map((lessonSlug) => {
       return explainerPayloads[lessonSlug].sanityId
@@ -467,6 +482,10 @@ const importCourseData = async () => {
       description,
       resources: sanityLessonRefs,
       body: undefined,
+      image: {
+        _type: 'externalImage',
+        url: square_cover_large_url,
+      },
     }
 
     workshopPayloads[courseSlug] = {
@@ -499,7 +518,13 @@ const importCourseData = async () => {
   for (const productEntry of Object.entries(uniqueProducts)) {
     const [productSlug, productData] = productEntry
 
-    const {courseSlugs, title, description, id: eggheadId} = productData
+    const {
+      courseSlugs,
+      title,
+      description,
+      id: eggheadId,
+      square_cover_large_url,
+    } = productData
 
     const sanityWorkshopIds = courseSlugs.map((courseSlug) => {
       return workshopPayloads[courseSlug].sanityId
@@ -524,6 +549,10 @@ const importCourseData = async () => {
       title,
       description,
       modules: sanityWorkshopRefs,
+      image: {
+        _type: 'externalImage',
+        url: square_cover_large_url,
+      },
     }
 
     productPayloads[productSlug] = {
