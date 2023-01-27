@@ -2735,7 +2735,6 @@ importers:
       '@skillrecordings/database': workspace:*
       '@skillrecordings/inngest': workspace:*
       '@skillrecordings/scripts': workspace:*
-      '@skillrecordings/skill-lesson': workspace:*
       '@skillrecordings/tsconfig': workspace:*
       '@slack/web-api': ^6.7.2
       '@types/cookie': ^0.4.1
@@ -2793,7 +2792,6 @@ importers:
       '@skillrecordings/convertkit-react-ui': link:../convertkit-react-ui
       '@skillrecordings/database': link:../database
       '@skillrecordings/inngest': link:../inngest
-      '@skillrecordings/skill-lesson': link:../skill-lesson
       '@slack/web-api': 6.7.2
       concurrently: 7.2.2
       cookie: 0.5.0

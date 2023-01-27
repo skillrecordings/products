@@ -33,7 +33,6 @@
   },
   "dependencies": {
     "@babel/runtime": "^7.16.3",
-    "@skillrecordings/skill-lesson": "workspace:*",
     "groq": "^2.15.0",
     "@sanity/client": "^3.4.1",
     "@skillrecordings/database": "workspace:*",
