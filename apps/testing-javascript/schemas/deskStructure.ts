@@ -12,7 +12,7 @@ const hiddenDocTypes = (listItem: any) =>
 
 export default (S: any) =>
   S.list()
-    .title('tjs-migration')
+    .title('Testing JavaScript')
     .items([
       pricing(S),
       products(S),
