@@ -94,7 +94,7 @@ export default {
     select: {
       type: 'moduleType',
       title: 'title',
-      media: 'image.asset.url',
+      media: 'image.url',
     },
     prepare(selection) {
       const {title, media, type} = selection
