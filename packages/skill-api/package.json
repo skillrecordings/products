@@ -35,7 +35,7 @@
     "@babel/runtime": "^7.16.3",
     "@skillrecordings/skill-lesson": "workspace:*",
     "groq": "^2.15.0",
-    "@sanity/client": "^3.3.2",
+    "@sanity/client": "^3.4.1",
     "@skillrecordings/database": "workspace:*",
     "@skillrecordings/commerce-server": "workspace:*",
     "@skillrecordings/convertkit-react-ui": "workspace:*",

@@ -2727,7 +2727,7 @@ importers:
       '@babel/preset-react': ^7.16.0
       '@babel/preset-typescript': ^7.16.0
       '@babel/runtime': ^7.16.3
-      '@sanity/client': ^3.3.2
+      '@sanity/client': ^3.4.1
       '@skillrecordings/commerce-server': workspace:*
       '@skillrecordings/convertkit-react-ui': workspace:*
       '@skillrecordings/convertkit-sdk': workspace:*
