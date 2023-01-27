@@ -5,7 +5,7 @@ import {
   tagSubscriber,
 } from '@skillrecordings/convertkit-sdk'
 import {Purchase} from '@skillrecordings/database'
-import {sanityClient} from '@skillrecordings/skill-lesson/utils/sanity-client'
+import {sanityClient} from '../../../lib/sanity-client'
 import groq from 'groq'
 
 export async function convertkitTagPurchase(email: string, purchase: Purchase) {
