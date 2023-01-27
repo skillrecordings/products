@@ -60,7 +60,7 @@ export async function processStripeWebhooks({
           console.warn('⛔️ not sending email: no nextAuthOptions found')
         }
 
-        await convertkitTagPurchase(email)
+        await convertkitTagPurchase(email, purchase)
         await postSaleToSlack(purchaseInfo, purchase)
 
         return {

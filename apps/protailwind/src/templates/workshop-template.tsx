@@ -5,7 +5,6 @@ import Link from 'next/link'
 import cx from 'classnames'
 import {CourseJsonLd} from '@skillrecordings/next-seo'
 import {PortableText} from '@portabletext/react'
-import {SanityDocument} from '@sanity/client'
 import Icon from 'components/icons'
 import {isBrowser} from 'utils/is-browser'
 import {track} from '@skillrecordings/skill-lesson/utils/analytics'
@@ -18,7 +17,6 @@ import {
   PlayIcon,
 } from '@heroicons/react/solid'
 import {trpc} from 'utils/trpc'
-import {find, isArray} from 'lodash'
 import {Lesson} from '@skillrecordings/skill-lesson/schemas/lesson'
 import PortableTextComponents from '../video/portable-text'
 import {Pricing} from 'path-to-purchase-react/pricing'
@@ -30,9 +28,17 @@ import {useCoupon} from 'path-to-purchase-react/use-coupon'
 import {PriceCheckProvider} from 'path-to-purchase-react/pricing-check-context'
 import Spinner from 'components/spinner'
 import {BadgeCheckIcon} from '@heroicons/react/outline'
+import {type Module} from '@skillrecordings/skill-lesson/schemas/module'
+import {Section} from '@skillrecordings/skill-lesson/schemas/section'
+import {getBaseUrl} from '@skillrecordings/skill-lesson/utils/get-base-url'
 
 const WorkshopTemplate: React.FC<{
-  workshop: SanityDocument
+  workshop: Module & {
+    description: string
+    ogImage: string
+    sections: Section[]
+    product: SanityProduct
+  }
   commerceProps?: CommerceProps
 }> = ({workshop, commerceProps}) => {
   const {title, body, ogImage, description, product} = workshop
@@ -42,7 +48,9 @@ const WorkshopTemplate: React.FC<{
     commerceProps.purchases.map((purchase) => purchase.productId)
 
   const hasPurchased = Boolean(
-    purchasedProductIds && purchasedProductIds.includes(product.productId),
+    product &&
+      purchasedProductIds &&
+      purchasedProductIds.includes(product.productId),
   )
 
   return (
@@ -132,7 +140,9 @@ export default WorkshopTemplate
 const BuyWorkshop: React.FC<
   CommerceProps & {
     product: SanityProduct
-    workshop: SanityDocument
+    workshop: Module & {
+      sections: Section[]
+    }
     purchasedProductIds: string[] | undefined
     hasPurchased: boolean
   }
@@ -149,14 +159,15 @@ const BuyWorkshop: React.FC<
   purchasedProductIds,
   hasPurchased,
 }) => {
-  const {redeemableCoupon, RedeemDialogForCoupon, validCoupon} =
-    useCoupon(couponFromCode)
+  const {validCoupon} = useCoupon(couponFromCode)
   const couponId =
     couponIdFromCoupon || (validCoupon ? couponFromCode?.id : undefined)
-
-  const firstLesson = workshop?.sections[0]?.lessons[0]
-  const thumbnail = `https://protailwind.com/api/video-thumb?videoResourceId=${firstLesson?.videoResourceId}`
-  // const thumbnail = `${getBaseUrl()}/api/video-thumb?videoResourceId=${firstLesson?.videoResourceId}`
+  const firstSection = workshop.sections[0]
+  const firstLesson = firstSection.lessons && firstSection?.lessons[0]
+  console.log({firstLesson})
+  const thumbnail = `${getBaseUrl()}/api/video-thumb?videoResourceId=${
+    firstLesson?.videoResourceId
+  }`
 
   return (
     <div className="mx-auto w-full max-w-sm overflow-hidden rounded-lg border border-gray-200/40 bg-white shadow-2xl shadow-gray-400/20">
@@ -206,13 +217,22 @@ const BuyWorkshop: React.FC<
 }
 
 const Header: React.FC<
-  React.PropsWithChildren<{workshop: SanityDocument; purchased: boolean}>
+  React.PropsWithChildren<{workshop: Module; purchased: boolean}>
 > = ({workshop, purchased, children}) => {
   const {title, slug, sections, image, github} = workshop
-
-  const firstSection = first<SanityDocument>(sections)
-  const firstExercise = first<SanityDocument>(firstSection?.lessons)
+  const firstSection = first<Section>(sections)
+  const firstLesson = first<Lesson>(firstSection?.lessons)
   const instructor = `${process.env.NEXT_PUBLIC_PARTNER_FIRST_NAME} ${process.env.NEXT_PUBLIC_PARTNER_LAST_NAME}`
+
+  const {data: moduleProgress} = trpc.moduleProgress.bySlug.useQuery({
+    slug: workshop.slug.current,
+  })
+
+  const isModuleInProgress = (moduleProgress?.completedLessonCount || 0) > 0
+  const completedLessonCount = moduleProgress?.completedLessonCount || 0
+  const nextLesson = moduleProgress?.nextLesson
+  const nextSection = moduleProgress?.nextSection
+
   return (
     <>
       <header className="relative z-10 flex flex-col-reverse items-center justify-between gap-16 sm:pb-8 md:flex-row lg:pb-16">
@@ -258,8 +278,12 @@ const Header: React.FC<
                     pathname: '/workshops/[module]/[section]/[lesson]',
                     query: {
                       module: slug.current,
-                      section: firstSection.slug,
-                      lesson: firstExercise?.slug,
+                      section: isModuleInProgress
+                        ? nextSection?.slug
+                        : firstSection.slug,
+                      lesson: isModuleInProgress
+                        ? nextLesson?.slug
+                        : firstLesson?.slug,
                     },
                   }}
                   className="flex items-center justify-center rounded-full bg-brand-red px-6 py-3 font-semibold text-white shadow-lg transition hover:brightness-110"
@@ -267,7 +291,7 @@ const Header: React.FC<
                     track('clicked start learning', {module: slug.current})
                   }}
                 >
-                  Start Learning{' '}
+                  {isModuleInProgress ? 'Continue' : 'Start'} Learning{' '}
                   <span className="pl-2" aria-hidden="true">
                     →
                   </span>
@@ -307,7 +331,7 @@ const Header: React.FC<
 }
 
 const WorkshopSectionNavigator: React.FC<{
-  workshop: SanityDocument
+  workshop: Module & {sections: Section[]}
   className?: string
   purchased: boolean
 }> = ({workshop, purchased, className}) => {
@@ -317,7 +341,7 @@ const WorkshopSectionNavigator: React.FC<{
 
   return (
     <nav aria-label="workshop navigator" className="w-full py-8 lg:py-0">
-      {sections > 1 ? (
+      {sections.length > 1 ? (
         <Accordion.Root type="multiple">
           <div className="flex w-full items-center justify-between pb-3">
             <h2 className="text-2xl font-semibold">Contents</h2>
@@ -326,7 +350,7 @@ const WorkshopSectionNavigator: React.FC<{
             </h3>
           </div>
           <ul className="flex flex-col gap-2">
-            {sections.map((section: SanityDocument, i: number) => {
+            {sections.map((section, i: number) => {
               return (
                 <li key={section.slug}>
                   <Accordion.Item value={section.slug}>
@@ -344,7 +368,7 @@ const WorkshopSectionNavigator: React.FC<{
                     <Accordion.Content>
                       <WorkshopSectionExerciseNavigator
                         section={section}
-                        moduleSlug={workshop.slug.current}
+                        workshop={workshop}
                       />
                     </Accordion.Content>
                   </Accordion.Item>
@@ -359,17 +383,17 @@ const WorkshopSectionNavigator: React.FC<{
             Workshop content
           </h3>
           <div className="flex gap-1 pb-2 text-sm">
-            <span>{sections[0]?.lessons.length} lessons</span> {'・'}
+            <span>{sections[0]?.lessons?.length} lessons</span> {'・'}
             <span>
               {
-                sections[0]?.lessons.filter((l: any) => l._type === 'exercise')
+                sections[0]?.lessons?.filter((l: any) => l._type === 'exercise')
                   .length
               }{' '}
               exercises
             </span>
           </div>
           <ul className="rounded-lg border border-gray-100 bg-white py-3 pl-3.5 pr-5 shadow-xl shadow-gray-300/20">
-            {sections[0]?.lessons.map((exercise: Lesson, i: number) => {
+            {sections[0]?.lessons?.map((exercise: Lesson, i: number) => {
               const section = sections[0]
               const moduleSlug = workshop.slug.current
               return (
@@ -377,7 +401,7 @@ const WorkshopSectionNavigator: React.FC<{
                   key={exercise.slug}
                   lessonResource={exercise}
                   section={section}
-                  moduleSlug={moduleSlug}
+                  workshop={workshop}
                   index={i}
                   purchased={purchased}
                 />
@@ -402,25 +426,30 @@ const WorkshopSectionNavigator: React.FC<{
 const LessonListItem = ({
   lessonResource,
   section,
-  moduleSlug,
   index,
   purchased,
+  workshop,
 }: {
   lessonResource: Lesson
-  section: SanityDocument
-  moduleSlug: string
+  section: Section
+
   index: number
   purchased?: boolean
+  workshop: Module
 }) => {
-  const {data: solution} = trpc.solutions.getSolution.useQuery({
-    exerciseSlug: lessonResource.slug,
+  const {data: moduleProgress} = trpc.moduleProgress.bySlug.useQuery({
+    slug: workshop.slug.current,
   })
-  const {data: userProgress} = trpc.progress.get.useQuery()
 
-  const isExerciseCompleted =
-    isArray(userProgress) && lessonResource._type === 'exercise'
-      ? find(userProgress, ({lessonSlug}) => lessonSlug === solution?.slug)
-      : find(userProgress, ({lessonSlug}) => lessonSlug === lessonResource.slug)
+  const completedLessons = moduleProgress?.lessons.filter(
+    (l) => l.lessonCompleted,
+  )
+  const nextLesson = moduleProgress?.nextLesson
+  const completedLessonCount = moduleProgress?.completedLessonCount || 0
+
+  const isExerciseCompleted = completedLessons?.find(
+    ({id}) => id === lessonResource._id,
+  )
 
   return (
     <li key={lessonResource.slug}>
@@ -430,14 +459,14 @@ const LessonListItem = ({
           query: {
             section: section.slug,
             lesson: lessonResource.slug,
-            module: moduleSlug,
+            module: workshop.slug.current,
           },
         }}
         passHref
         className="group relative inline-flex items-baseline py-2.5 pl-7 text-base font-medium"
         onClick={() => {
           track('clicked workshop exercise', {
-            module: moduleSlug,
+            module: workshop.slug.current,
             lesson: lessonResource.slug,
             section: section.slug,
             moduleType: section._type,
@@ -478,9 +507,9 @@ const LessonListItem = ({
 }
 
 const WorkshopSectionExerciseNavigator: React.FC<{
-  section: SanityDocument
-  moduleSlug: string
-}> = ({section, moduleSlug}) => {
+  section: Section
+  workshop: Module
+}> = ({section, workshop}) => {
   const {lessons} = section
 
   return lessons ? (
@@ -491,7 +520,7 @@ const WorkshopSectionExerciseNavigator: React.FC<{
             key={exercise.slug}
             lessonResource={exercise}
             section={section}
-            moduleSlug={moduleSlug}
+            workshop={workshop}
             index={i}
           />
         )

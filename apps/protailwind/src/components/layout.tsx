@@ -5,6 +5,7 @@ import cx from 'classnames'
 import Navigation from 'components/navigation'
 import type {LayoutProps} from '@types'
 import {useRouter} from 'next/router'
+import {useFeedback} from '@skillrecordings/feedback-widget'
 
 const Layout: FunctionComponent<React.PropsWithChildren<LayoutProps>> = ({
   children,
@@ -24,6 +25,7 @@ const Layout: FunctionComponent<React.PropsWithChildren<LayoutProps>> = ({
     ogImage,
     date,
   } = meta || {}
+  const {isFeedbackDialogOpen, feedbackComponent} = useFeedback()
 
   return (
     <div className="relative">
@@ -45,6 +47,7 @@ const Layout: FunctionComponent<React.PropsWithChildren<LayoutProps>> = ({
         canonical={url}
         noindex={noIndex}
       />
+      {isFeedbackDialogOpen && feedbackComponent}
       {!noNav && <Navigation className={navClassName} />}
       <div
         className={cx(

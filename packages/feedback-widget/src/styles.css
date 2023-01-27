@@ -1,0 +1,87 @@
+[data-sr-feedback-widget-overlay] {
+  @apply fixed inset-0 z-[60] bg-black/40 backdrop-blur;
+}
+[data-sr-feedback-widget-content] {
+  @apply fixed top-1/2 left-1/2 w-full max-w-md -translate-x-1/2 -translate-y-1/2 rounded-lg border border-gray-100 bg-white p-5 shadow-2xl shadow-black/10 z-[999];
+}
+[data-sr-feedback-widget-title] {
+  @apply pb-4 text-2xl font-black font-heading;
+}
+[data-sr-feedback-widget-close] {
+  @apply absolute top-2 right-2;
+}
+[data-sr-feedback-widget-close] button {
+  @apply inline-flex justify-center items-center rounded-full border border-transparent p-2 text-sm bg-gray-100 font-medium transition focus:outline-none focus-visible:ring-2 focus-visible:ring-cyan-300 focus-visible:ring-offset-2 focus-visible:ring-offset-gray-900 hover:bg-gray-200 hover:shadow-inner;
+}
+
+[data-sr-feedback-widget-close] button svg {
+  @apply w-5 h-5;
+}
+[data-sr-feeback-widget-form] {
+  @apply flex flex-col space-y-5;
+}
+[data-sr-feedback-widget-radio-group-container] {
+  @apply flex w-full flex-col space-y-5 md:flex-row md:space-y-0 md:space-x-10;
+}
+[data-sr-feedback-widget-feedback-field='error'] {
+  @apply rounded-md ring ring-pink-300 ring-opacity-80 ring-offset-white;
+}
+[data-sr-feedback-widget-feedback-field] #text div {
+  @apply prose prose-base prose-p:first-of-type:mt-0 min-h-[150px] max-h-[250px] overflow-y-auto shadow bg-gray-100 p-3 focus:ring-sky-500 block w-full border border-gray-200 rounded-md;
+}
+[data-sr-feedback-widget-feedback-field] small {
+  @apply block pt-2 text-sm text-gray-400;
+}
+[data-sr-feedback-widget-feedback-field-header] {
+  @apply flex w-full items-center justify-between pt-2 pb-2;
+}
+[data-sr-feedback-widget-feedback-field-header] label {
+  @apply inline-block flex-shrink-0 font-semibold;
+}
+[data-sr-feedback-widget-feedback-field-header] label span {
+  @apply font-normal text-gray-500;
+}
+[data-sr-feedback-widget-feedback-field-header] div {
+  @apply inline-block text-xs font-medium leading-tight text-pink-500 sm:text-sm;
+}
+[data-sr-feedback-widget-submit][type='submit'] {
+  @apply bg-sky-500 rounded-full py-4 px-5 text-white hover:bg-sky-600 transition;
+}
+
+/* emotion field */
+
+[data-sr-feedback-widget-emotion-field] {
+}
+[data-sr-feedback-widget-emotion-field] label {
+  @apply inline-flex pb-1 font-semibold;
+}
+[data-sr-feedback-widget-emotion-field-buttons] {
+  @apply flex items-center gap-3;
+}
+[data-sr-feedback-widget-emotion-field-buttons] label {
+}
+[data-sr-feedback-widget-emotion-field-buttons] button {
+  @apply rounded-md relative leading-none flex items-center justify-center border border-gray-200/50 radix-state-checked:bg-white radix-state-checked:shadow-xl radix-state-checked:shadow-gray-500/10 radix-state-checked:border radix-state-checked:border-gray-100 shadow-inner p-4 text-xl bg-gray-100 hover:bg-gray-200;
+}
+[data-sr-feedback-widget-emotion-field-buttons] button span {
+  @apply after:content-['✓'] after:absolute after:left-1.5 after:text-sm after:top-0.5 after:text-gray-600;
+}
+
+/* category field */
+
+[data-sr-feedback-widget-category-field] {
+}
+[data-sr-feedback-widget-category-field] label {
+  @apply inline-flex pb-1 font-semibold;
+}
+[data-sr-feedback-widget-category-field-buttons] {
+  @apply flex items-center gap-3;
+}
+[data-sr-feedback-widget-category-field-buttons] label {
+}
+[data-sr-feedback-widget-category-field-buttons] button {
+  @apply rounded-md relative leading-tight flex items-center justify-center border border-gray-200/50 radix-state-checked:bg-white radix-state-checked:shadow-xl radix-state-checked:shadow-gray-500/10 radix-state-checked:border radix-state-checked:border-gray-100 shadow-inner p-4 text-base bg-gray-100 hover:bg-gray-200;
+}
+[data-sr-feedback-widget-category-field-buttons] button span {
+  @apply after:content-['✓'] after:pr-1 after:text-gray-600;
+}

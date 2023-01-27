@@ -1,5 +1,7 @@
 import React from 'react'
-import {SanityDocument} from '@sanity/client'
+import {type Module} from '@skillrecordings/skill-lesson/schemas/module'
+import {type Section} from '@skillrecordings/skill-lesson/schemas/section'
+import {type SanityProduct} from '@skillrecordings/commerce-server/dist/@types'
 import {GetStaticPaths, GetStaticProps} from 'next'
 import {getAllWorkshops, getWorkshop} from '../../../lib/workshops'
 import WorkshopTemplate from '../../../templates/workshop-template'
@@ -27,7 +29,12 @@ export const getStaticPaths: GetStaticPaths = async () => {
 }
 
 const WorkshopPage: React.FC<{
-  workshop: SanityDocument
+  workshop: Module & {
+    description: string
+    ogImage: string
+    sections: Section[]
+    product: SanityProduct
+  }
 }> = ({workshop}) => {
   const router = useRouter()
   const {data: commerceProps} = trpc.pricing.propsForCommerce.useQuery(

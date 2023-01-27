@@ -13,6 +13,11 @@ export default {
       type: 'string',
     },
     {
+      name: 'convertkitPurchasedTagId',
+      title: 'ConvertKit Purchased Tag ID',
+      type: 'string',
+    },
+    {
       name: 'features',
       title: 'Features',
       type: 'array',

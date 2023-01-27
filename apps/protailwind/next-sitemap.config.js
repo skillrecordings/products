@@ -21,6 +21,8 @@ module.exports = {
     '/error',
     '/check-your-email',
     '_next/*',
+    'invoices/*',
+    'purchases/*',
   ],
   robotsTxtOptions: {
     additionalSitemaps: ['https://www.protailwind.com/server-sitemap.xml'],
