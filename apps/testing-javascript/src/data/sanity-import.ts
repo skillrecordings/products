@@ -12,6 +12,7 @@
 
 import fs from 'fs'
 import fetch from 'node-fetch'
+import Mux from '@mux/mux-node'
 // import sanityClient from '@sanity/client'
 import {v4 as uuidv4} from 'uuid'
 import {z} from 'zod'
@@ -67,7 +68,7 @@ const CastingWordsSchema = z
     audioFileId: z.string().or(z.number()).optional(),
     orderId: z.string().optional(),
     transcript: SanityBlockSchema,
-    srt: z.string().optional(),
+    srt: z.string(),
   })
   .nullish()
 const VideoResourceSchema = z.object({
@@ -203,9 +204,13 @@ const buildBlock = (text: string): SanityBlock => {
 }
 
 type CastingWords = z.infer<typeof CastingWordsSchema>
-const buildCastingWordsBlock = (transcript: string): CastingWords => {
+const buildCastingWordsBlock = (
+  transcript: string,
+  srt_text: string,
+): CastingWords => {
   return {
     transcript: buildBlock(transcript),
+    srt: srt_text,
   }
 }
 
@@ -230,6 +235,7 @@ const importCourseData = async () => {
     description: z.coerce.string(),
     media_url: z.string(),
     transcript: z.string(),
+    subtitles_url: z.string(),
   })
   const courseSchema = z
     .object({
@@ -336,6 +342,15 @@ const importCourseData = async () => {
       videoResourceData: VideoResource
     }
   } = {}
+  const muxAssetsThatNeedSRT: {
+    [lessonSlug: string]: {muxAssetId: string; srtUrl: string}
+  } = {}
+
+  // Set up Mux API Client
+  const MUX_ACCESS_TOKEN = process.env.MUX_ACCESS_TOKEN as string
+  const MUX_SECRET_KEY = process.env.MUX_SECRET_KEY as string
+  const muxClient = new Mux(MUX_ACCESS_TOKEN, MUX_SECRET_KEY)
+  const {Video} = muxClient
 
   // *********************
   // ** Video Resources **
@@ -351,7 +366,36 @@ const importCourseData = async () => {
     // media URL, that would be pretty readable.
     const title = last(mediaUrl.split('/')) || mediaUrl
 
-    const {transcript} = uniqueLessons[lessonSlug]
+    const {transcript, subtitles_url} = uniqueLessons[lessonSlug]
+
+    let srt_text = ''
+    try {
+      const response = await fetch(subtitles_url)
+      srt_text = await response.text()
+    } catch (e) {
+      console.log(e)
+    }
+
+    // check the Mux asset and see if we need to add an SRT track to the asset
+    // https://github.com/skillrecordings/products/blob/81fe98ceec24ef107544453b81afb4d8a1ec7eec/apps/total-typescript/src/lib/sanity.ts#L50-L69
+    if (srt_text !== '') {
+      const {tracks} = await Video.Assets.get(assetId)
+
+      const existingSubtitle = tracks?.find(
+        (track: any) => track.name === 'English',
+      )
+
+      if (!existingSubtitle) {
+        muxAssetsThatNeedSRT[lessonSlug] = {
+          muxAssetId: assetId,
+          srtUrl: subtitles_url,
+        }
+      }
+
+      // throttle the Mux API to ~1 RPS
+      // "Requests against the all other General Data APIs are rate limited to a sustained 5 request per second (RPS)"
+      await sleep(1000)
+    }
 
     const muxVideoResourceId = `mux-video-${assetId}`
 
@@ -361,7 +405,7 @@ const importCourseData = async () => {
       title,
       slug: buildSlug(lessonSlug),
       originalMediaUrl: playbackData.mediaUrl,
-      castingwords: buildCastingWordsBlock(transcript),
+      castingwords: buildCastingWordsBlock(transcript, srt_text),
       muxAsset: {
         muxAssetId: assetId,
         muxPlaybackId,
@@ -382,6 +426,25 @@ const importCourseData = async () => {
   const resultOfVideoResourceCreates: any = await writeObjectsToSanity(
     videoResourcePayloads,
   )
+
+  // add the SRT tracks to the Mux assets as well
+  for (const subtitleData of Object.entries(muxAssetsThatNeedSRT)) {
+    const [_, {muxAssetId, srtUrl}] = subtitleData
+
+    await Video.Assets.createTrack(muxAssetId, {
+      url: srtUrl,
+      type: 'text',
+      text_type: 'subtitles',
+      closed_captions: false,
+      language_code: 'en-US',
+      name: 'English',
+      passthrough: 'English',
+    })
+
+    // throttle the Mux API to ~1 RPS
+    // "Requests against the all other General Data APIs are rate limited to a sustained 5 request per second (RPS)"
+    await sleep(1000)
+  }
 
   // **************************
   // ** Explainers (Lessons) **
