@@ -14,6 +14,7 @@ const productsQuery = groq`*[_type == "module" && moduleType == 'workshop' && !(
   state,
   resources,
   "productId": resources[@._type == 'product'][0].productId,
+  "convertkitPurchasedTagId": resources[@._type == 'product'][0].convertkitPurchasedTagId,
   "features": resources[@._type == 'product'][0].features,
   "instructor": {
     "name": "Simon Vrachliotis",
@@ -44,6 +45,7 @@ const productQuery = groq`*[_type == "module" && moduleType == 'workshop' && $pr
     "slug": slug.current
   },
   "productId": resources[@._type == 'product'][0].productId,
+  "convertkitPurchasedTagId": resources[@._type == 'product'][0].convertkitPurchasedTagId,
   "features": resources[@._type == 'product'][0].features,
   "instructor": {
     "name": "Simon Vrachliotis",
