@@ -242,7 +242,7 @@ Now open up a connection to the branch that you've created for these schema chan
 pscale connect testing-javascript PLANETSCALE_DB_BRANCH_NAME --port 3309
 ```
 
-With a connection open at port 3309, we can now push our schema changes up to Planetscale.
+With a connection open at port `3309`, we can now push our schema changes up to Planetscale.
 
 ```bash
 pnpm db:push
