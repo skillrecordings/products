@@ -180,7 +180,6 @@ export async function stripeCheckout({
           },
         ],
         expires_at: TWELVE_FOUR_HOURS_FROM_NOW,
-        payment_method_types: ['card'],
         mode: 'payment',
         success_url: successUrl,
         cancel_url: `${req.headers.origin}/buy`,
