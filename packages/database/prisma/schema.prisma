@@ -268,8 +268,8 @@ model PurchaseUserTransfer {
   purchaseId      String
   sourceUser      User                      @relation("SourceUser", fields: [sourceUserId], references: [id], onDelete: Cascade)
   sourceUserId    String
-  targetUser      User                      @relation("TargetUser", fields: [targetUserId], references: [id], onDelete: Cascade)
-  targetUserId    String
+  targetUser      User?                      @relation("TargetUser", fields: [targetUserId], references: [id], onDelete: Cascade)
+  targetUserId    String?
   createdAt       DateTime                  @default(now())
   expiresAt       DateTime?
   canceledAt      DateTime?

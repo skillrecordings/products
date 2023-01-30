@@ -1,6 +1,6 @@
 import {Context, defaultContext} from './context'
 import {v4} from 'uuid'
-import {Prisma, Purchase, User} from '@prisma/client'
+import {Prisma, Purchase, PurchaseUserTransferState, User} from '@prisma/client'
 
 type SDKOptions = {ctx?: Context}
 
@@ -24,6 +24,13 @@ export function getSdk(
           userId,
         },
         select: {
+          purchaseUserTransfers: {
+            where: {
+              expiresAt: {
+                gte: new Date(),
+              },
+            },
+          },
           merchantChargeId: true,
           createdAt: true,
           totalAmount: true,
@@ -600,6 +607,30 @@ export function getSdk(
       })
 
       return await ctx.prisma.$transaction([chargeUpdates, purchaseUpdates])
+    },
+    async createPurchaseUserTransfer({
+      sourceUserId,
+      purchaseId,
+    }: {
+      sourceUserId: string
+      purchaseId: string
+    }) {
+      const purchase = await ctx.prisma.purchase.findFirst({
+        where: {
+          id: purchaseId,
+          userId: sourceUserId,
+        },
+      })
+      return (
+        purchase &&
+        (await ctx.prisma.purchaseUserTransfer.create({
+          data: {
+            sourceUserId,
+            purchaseId: purchase.id,
+            expiresAt: new Date(Date.now() + 1000 * 60 * 60 * 24 * 7),
+          },
+        }))
+      )
     },
   }
 }
