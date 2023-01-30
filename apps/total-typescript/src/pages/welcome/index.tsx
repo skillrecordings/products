@@ -8,12 +8,13 @@ import {useSession} from 'next-auth/react'
 import {GetServerSideProps} from 'next'
 import {getToken} from 'next-auth/jwt'
 import Layout from 'components/app/layout'
-import {getSdk, prisma} from '@skillrecordings/database'
+import {getSdk, prisma, PurchaseUserTransfer} from '@skillrecordings/database'
 import Link from 'next/link'
 import {isString} from 'lodash'
 import InviteTeam from 'team'
 import {InvoiceCard} from 'pages/invoices'
 import MuxPlayer from '@mux/mux-player-react'
+import {useForm} from 'react-hook-form'
 
 export const getServerSideProps: GetServerSideProps = async ({req, query}) => {
   const {purchaseId: purchaseQueryParam, session_id, upgrade} = query
@@ -80,6 +81,7 @@ const Welcome: React.FC<
       merchantChargeId: string | null
       bulkCoupon: {id: string; maxUses: number; usedCount: number} | null
       product: {id: string; name: string}
+      purchaseUserTransfers: PurchaseUserTransfer[]
     }
     existingPurchase: {
       id: string
@@ -100,6 +102,12 @@ const Welcome: React.FC<
     purchase.bulkCoupon.maxUses > purchase.bulkCoupon.usedCount
 
   const hasCharge = Boolean(purchase.merchantChargeId)
+  const isTransferAvailable = Boolean(
+    purchase.purchaseUserTransfers.filter(
+      (purchaseUserTransfer) =>
+        purchaseUserTransfer.transferState === 'AVAILABLE',
+    ).length,
+  )
 
   return (
     <Layout
@@ -122,9 +130,72 @@ const Welcome: React.FC<
           )}
           {personalPurchase && <GetStarted />}
           {hasCharge && <InvoiceCard purchase={purchase} />}
+          {isTransferAvailable && (
+            <Transfer purchaseUserTransfers={purchase.purchaseUserTransfers} />
+          )}
         </div>
       </main>
     </Layout>
+  )
+}
+
+type PurchaseTransferFormData = {
+  email: string
+}
+
+const PurchaseTransferForm = ({
+  purchaseUserTransfer,
+}: {
+  purchaseUserTransfer: PurchaseUserTransfer
+}) => {
+  const {
+    register,
+    handleSubmit,
+    watch,
+    reset,
+    formState: {errors},
+  } = useForm<PurchaseTransferFormData>()
+
+  const onSubmit = (data: PurchaseTransferFormData) => console.log(data)
+
+  return (
+    <div>
+      <p className="text-gray-600">{purchaseUserTransfer.transferState}</p>
+      <form onSubmit={handleSubmit(onSubmit)}>
+        <input type="email" {...register('email', {required: true})} />
+        {errors.email && <span>This field is required</span>}
+        <button type="submit">Transfer</button>
+      </form>
+    </div>
+  )
+}
+
+const Transfer = ({
+  purchaseUserTransfers,
+}: {
+  purchaseUserTransfers: PurchaseUserTransfer[]
+}) => {
+  // jsx that uses tailwind and provides a ui to enter an email to initiate a transfer of a purchase
+  return (
+    <div className="flex flex-col gap-3">
+      <h2 className="text-2xl font-bold">Transfer Your Purchase</h2>
+      <p className="text-gray-600">
+        You can transfer your purchase to another user. This will allow them to
+        access the content you purchased. Once the transfer is complete you will
+        no longer have access to the content or associated invoices.
+      </p>
+      <div className="flex flex-col gap-3">
+        {purchaseUserTransfers.map((purchaseUserTransfer) => {
+          // jsx form component that provides an input and submit button to initiate a transfer
+          return (
+            <PurchaseTransferForm
+              purchaseUserTransfer={purchaseUserTransfer}
+              key={purchaseUserTransfer.id}
+            />
+          )
+        })}
+      </div>
+    </div>
   )
 }
 
