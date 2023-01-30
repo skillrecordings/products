@@ -213,6 +213,7 @@ model Purchase {
   product              Product         @relation(fields: [productId], references: [id], onDelete: Cascade)
   user                 User?           @relation(fields: [userId], references: [id], onDelete: Cascade)
   status               String          @default("Valid")
+  purchaseUserTransfers PurchaseUserTransfer[]
 }
 
 model Session {
@@ -224,19 +225,21 @@ model Session {
 }
 
 model User {
-  id                String             @id @default(uuid())
-  name              String?
-  email             String             @unique
-  emailVerified     DateTime?
-  image             String?
-  accounts          Account[]
-  merchantCharges   MerchantCharge[]
-  merchantCustomers MerchantCustomer[]
-  purchases         Purchase[]
-  sessions          Session[]
-  lessonProgresses  LessonProgress[]
-  comments          Comment[]
-  roles             String             @default("User")
+  id                      String             @id @default(uuid())
+  name                    String?
+  email                   String             @unique
+  emailVerified           DateTime?
+  image                   String?
+  accounts                Account[]
+  merchantCharges         MerchantCharge[]
+  merchantCustomers       MerchantCustomer[]
+  purchases               Purchase[]
+  sessions                Session[]
+  lessonProgresses        LessonProgress[]
+  sourcePurchaseTransfers PurchaseUserTransfer[] @relation("SourceUser")
+  targetPurchaseTransfers PurchaseUserTransfer[] @relation("TargetUser")
+  comments                Comment[]
+  roles                   String             @default("User")
 }
 
 model VerificationToken {
@@ -246,4 +249,30 @@ model VerificationToken {
   createdAt  DateTime? @default(now())
 
   @@unique([identifier, token])
+}
+
+enum PurchaseUserTransferState {
+  AVAILABLE
+  INITIATED
+  VERIFIED
+  CANCELED
+  EXPIRED
+  CONFIRMED
+  COMPLETED
+}
+
+model PurchaseUserTransfer {
+  id              String                    @id @default(uuid())
+  transferState   PurchaseUserTransferState @default(AVAILABLE)
+  purchase        Purchase                  @relation(fields: [purchaseId], references: [id], onDelete: Cascade)
+  purchaseId      String
+  sourceUser      User                      @relation("SourceUser", fields: [sourceUserId], references: [id], onDelete: Cascade)
+  sourceUserId    String
+  targetUser      User                      @relation("TargetUser", fields: [targetUserId], references: [id], onDelete: Cascade)
+  targetUserId    String
+  createdAt       DateTime                  @default(now())
+  expiresAt       DateTime?
+  canceledAt      DateTime?
+  confirmedAt     DateTime?
+  completedAt     DateTime?
 }
