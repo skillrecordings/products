@@ -13,8 +13,6 @@ export const abilities = router({
     const token = await getToken({req: ctx.req})
     const convertkitSubscriber = await getSubscriberFromCookie(ctx.req)
 
-    // TODO: where could we move this? It doesn't seem like an ability check is
-    // the best place to set a cookie.
     convertkitSetSubscriberCookie({
       subscriber: convertkitSubscriber,
       res: ctx.res,
