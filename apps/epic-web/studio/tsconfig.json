@@ -1,6 +1,15 @@
 {
-  // Note: This config is only used to help editors like VS Code understand/resolve
-  // parts, the actual transpilation is done by babel. Any compiler configuration in
-  // here will be ignored.
-  "include": ["./node_modules/@sanity/base/types/**/*.ts", "./**/*.ts", "./**/*.tsx"]
+  "exclude": ["node_modules"],
+  "extends": "@skillrecordings/tsconfig/nextjs.json",
+  "compilerOptions": {
+    "baseUrl": "./src/",
+    "rootDir": "src",
+    "outDir": "dist",
+    "incremental": true
+  },
+  "include": [
+    "./node_modules/@sanity/base/types/**/*.ts",
+    "./**/*.ts",
+    "./**/*.tsx"
+  ]
 }
