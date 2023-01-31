@@ -8,10 +8,10 @@ export default {
   icon: FiGithub,
   fields: [
     {
-      name: 'url',
-      title: 'GitHub URL',
-      type: 'url',
-      description: 'Full URL to repository or concrete file on GitHub',
+      name: 'repo',
+      title: 'Repository',
+      type: 'string',
+      description: 'without https://github.com/pro-tailwind/',
     },
   ],
 }
