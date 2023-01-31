@@ -298,7 +298,7 @@ const Header: React.FC<
                   </span>
                 </Link>
               )}
-              {github?.repo && (
+              {github?.repo && purchased && (
                 <a
                   className="flex items-center justify-center gap-2 rounded-full bg-gray-900 px-6 py-3 font-semibold text-white shadow-lg transition hover:brightness-110"
                   href={`https://github.com/pro-tailwind/${github.repo}`}
