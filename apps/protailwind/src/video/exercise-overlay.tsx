@@ -35,6 +35,7 @@ import {Section} from '@skillrecordings/skill-lesson/schemas/section'
 import {Exercise} from '@skillrecordings/skill-lesson/schemas/exercise'
 import {SanityProduct} from '@skillrecordings/commerce-server/dist/@types'
 import {handlePlayFromBeginning} from '@skillrecordings/skill-lesson/utils/handle-play-from-beginning'
+import Icon from 'components/icons'
 
 const SandpackEditor: React.ComponentType<any> = dynamic(
   () => import('./exercise/sandpack/repl'),
@@ -167,15 +168,31 @@ const ExerciseOverlay: React.FC<{tutorialFiles: any}> = ({tutorialFiles}) => {
 
   return status !== 'loading' ? (
     <div className="flex aspect-video flex-col items-center justify-center">
-      {resources?.sandpack && (
+      <div className="flex w-full items-center justify-between p-3 pl-5 font-medium">
+        <div>Now it's your turn! Try solving this exercise.</div>
+        <Actions />
+      </div>
+      {resources?.sandpack ? (
         <>
-          <div className="flex w-full items-center justify-between p-3 pl-5 font-medium">
-            <div>Now it's your turn! Try solving this exercise.</div>
-            <Actions />
-          </div>
           <div className="relative w-full">
             <SandpackEditor visibleFiles={visibleFiles} files={files} />
           </div>
+        </>
+      ) : (
+        <>
+          {resources?.github ? (
+            <>
+              <div className="relative flex h-full w-full items-center justify-center bg-gray-200">
+                <a
+                  href={resources?.github.url}
+                  target="_blank"
+                  className="flex items-center gap-2 rounded-full bg-gray-900 px-3 py-1 text-lg font-semibold text-white transition hover:brightness-125 sm:px-5 sm:py-3" rel="noreferrer"
+                >
+                  <Icon name="Github" className="h-5 w-5" /> Open exercise
+                </a>
+              </div>
+            </>
+          ) : null}
         </>
       )}
     </div>
