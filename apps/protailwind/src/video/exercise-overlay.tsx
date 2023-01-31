@@ -179,21 +179,39 @@ const ExerciseOverlay: React.FC<{tutorialFiles: any}> = ({tutorialFiles}) => {
           </div>
         </>
       ) : (
-        <>
-          {resources?.github ? (
+        <div className="relative h-full w-full">
+          {resources?.github || resources?.gitpod ? (
             <>
-              <div className="relative flex h-full w-full items-center justify-center bg-gray-200">
-                <a
-                  href={resources?.github.url}
-                  target="_blank"
-                  className="flex items-center gap-2 rounded-full bg-gray-900 px-3 py-1 text-lg font-semibold text-white transition hover:brightness-125 sm:px-5 sm:py-3" rel="noreferrer"
-                >
-                  <Icon name="Github" className="h-5 w-5" /> Open exercise
-                </a>
+              <Image
+                src={require('../../public/assets/editor-placeholder.svg')}
+                layout="fill"
+                className="object-cover object-left-top"
+              />
+              <div className="relative flex h-full w-full items-center justify-center gap-3 ">
+                {resources?.gitpod?.url && (
+                  <a
+                    href={resources.gitpod.url}
+                    target="_blank"
+                    className="flex items-center gap-2 rounded-full bg-orange-600 px-3 py-1 text-lg font-semibold text-white transition hover:brightness-125 sm:px-5 sm:py-3"
+                    rel="noreferrer"
+                  >
+                    <Icon name="Gitpod" className="h-5 w-5" /> View on Gitpod
+                  </a>
+                )}
+                {resources?.github?.url && (
+                  <a
+                    href={resources.github.url}
+                    target="_blank"
+                    className="flex items-center gap-2 rounded-full bg-gray-800 px-3 py-1 text-lg font-semibold text-white transition hover:brightness-125 sm:px-5 sm:py-3"
+                    rel="noreferrer"
+                  >
+                    <Icon name="Github" className="h-5 w-5" /> View on Github
+                  </a>
+                )}
               </div>
             </>
           ) : null}
-        </>
+        </div>
       )}
     </div>
   ) : null
