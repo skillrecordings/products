@@ -32,6 +32,7 @@ import stackblitz from './objects/stackblitz'
 import codeFile from './objects/code-file'
 import sandpack from './objects/resources/sandpack'
 import github from './objects/github'
+import gitpod from './objects/resources/gitpod'
 import figma from './objects/resources/figma'
 import feature from './objects/feature'
 import product from './objects/resources/product'
@@ -75,6 +76,7 @@ export default createSchema({
     sandpack,
     codeFile,
     github,
+    gitpod,
     figma,
     feature,
     product,

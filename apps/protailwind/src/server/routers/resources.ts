@@ -19,7 +19,9 @@ export const lessonResourcesRouter = router({
           : null
       const github =
         input.type === 'exercise' ? lesson.github : lesson.solution?.github
+      const gitpod =
+        input.type === 'exercise' ? lesson.gitpod : lesson.solution?.gitpod
 
-      return {sandpack, figma, github}
+      return {sandpack, figma, github, gitpod}
     }),
 })
