@@ -3,13 +3,17 @@ import {AppProps} from 'next/app'
 import '../styles/globals.css'
 import '../styles/fonts.css'
 import 'focus-visible'
-import {ConvertkitProvider} from '@skillrecordings/convertkit-react-ui'
+// import {ConvertkitProvider} from '@skillrecordings/convertkit-react-ui'
+import {ConvertkitProvider} from '@skillrecordings/skill-lesson/hooks/use-convertkit'
+import {QueryClient, QueryClientProvider} from '@tanstack/react-query'
 import {usePageview} from '@skillrecordings/analytics'
 import {initNProgress} from '@skillrecordings/react'
 import {DefaultSeo} from '@skillrecordings/next-seo'
 
 import config from '../config'
 import Script from 'next/script'
+
+const queryClient = new QueryClient()
 
 initNProgress()
 
@@ -18,9 +22,11 @@ function MyApp({Component, pageProps}: AppProps) {
   return (
     <>
       <DefaultSeo {...config} />
-      <ConvertkitProvider>
-        <Component {...pageProps} />
-      </ConvertkitProvider>
+      <QueryClientProvider client={queryClient}>
+        <ConvertkitProvider>
+          <Component {...pageProps} />
+        </ConvertkitProvider>
+      </QueryClientProvider>
       {process.env.NODE_ENV !== 'development' && (
         <>
           <Script
