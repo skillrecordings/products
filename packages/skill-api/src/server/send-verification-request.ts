@@ -11,9 +11,14 @@ export type MagicLinkEmailType =
   | 'reset'
   | 'purchase'
   | 'upgrade'
+  | 'transfer'
 
-type HTMLEmailParams = Record<'url' | 'host' | 'email', string>
-type TextEmailParams = Record<'url' | 'host', string>
+export type HTMLEmailParams = Record<'url' | 'host' | 'email', string> & {
+  expires?: Date
+}
+export type TextEmailParams = Record<'url' | 'host', string> & {
+  expires?: Date
+}
 
 function isValidateEmailServerConfig(server: any) {
   return Boolean(
@@ -39,6 +44,7 @@ export const sendVerificationRequest = async (
     text = defaultText,
     html = defaultHtml,
     theme,
+    expires,
   } = params
   const {host} = new URL(url)
 
@@ -49,6 +55,12 @@ export const sendVerificationRequest = async (
   switch (params.type) {
     case 'purchase':
       subject = `Thank you for Purchasing ${
+        process.env.NEXT_PUBLIC_PRODUCT_NAME ||
+        process.env.NEXT_PUBLIC_SITE_TITLE
+      } (${host})`
+      break
+    case 'transfer':
+      subject = `Accept Your Seat for ${
         process.env.NEXT_PUBLIC_PRODUCT_NAME ||
         process.env.NEXT_PUBLIC_SITE_TITLE
       } (${host})`
@@ -79,8 +91,8 @@ export const sendVerificationRequest = async (
       to: email,
       from,
       subject,
-      text: text({url, host}),
-      html: html({url, host, email}, theme),
+      text: text({url, host, expires}),
+      html: html({url, host, email, expires}, theme),
     })
   } else {
     console.warn(
@@ -107,49 +119,49 @@ function defaultHtml({url, host, email}: HTMLEmailParams, theme: Theme) {
   const {html} = mjml2html(`
 <mjml>
   <mj-head>
-    <mj-font name="Inter" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600" />
+    <mj-font name='Inter' href='https://fonts.googleapis.com/css2?family=Inter:wght@400;600' />
     <mj-attributes>
-      <mj-all font-family="Inter, Helvetica, sans-serif" line-height="1.5" />
+      <mj-all font-family='Inter, Helvetica, sans-serif' line-height='1.5' />
     </mj-attributes>
     <mj-raw>
-      <meta name="color-scheme" content="light" />
-      <meta name="supported-color-schemes" content="light" />
+      <meta name='color-scheme' content='light' />
+      <meta name='supported-color-schemes' content='light' />
     </mj-raw>
   </mj-head>
-  <mj-body background-color="${backgroundColor}">
+  <mj-body background-color='${backgroundColor}'>
     ${
       theme?.logo &&
-      `<mj-section padding="10px 0 10px 0">
-          <mj-column background-color="${backgroundColor}">
-            <mj-image alt="${process.env.NEXT_PUBLIC_SITE_TITLE}" width="180px" src="${theme.logo}" />
+      `<mj-section padding='10px 0 10px 0'>
+          <mj-column background-color='${backgroundColor}'>
+            <mj-image alt='${process.env.NEXT_PUBLIC_SITE_TITLE}' width='180px' src='${theme.logo}' />
           </mj-column>
         </mj-section>`
     }
-    <mj-section padding-top="0">
-      <mj-column background-color="${mainBackgroundColor}" padding="16px 10px">
-        <mj-text font-size="18px" color="${textColor}" align="center" padding-bottom="20px">
-          Log in as <strong color="${textColor}">${escapedEmail}</strong> to ${
+    <mj-section padding-top='0'>
+      <mj-column background-color='${mainBackgroundColor}' padding='16px 10px'>
+        <mj-text font-size='18px' color='${textColor}' align='center' padding-bottom='20px'>
+          Log in as <strong color='${textColor}'>${escapedEmail}</strong> to ${
     process.env.NEXT_PUBLIC_SITE_TITLE
   }.
         </mj-text>
-        <mj-button href="${url}" background-color="${buttonBackgroundColor}" color="${buttonTextColor}" target="_blank" border-radius="6px" font-size="18px" font-weight="bold">
+        <mj-button href='${url}' background-color='${buttonBackgroundColor}' color='${buttonTextColor}' target='_blank' border-radius='6px' font-size='18px' font-weight='bold'>
           Log in
         </mj-button>
 
-        <mj-text color="${textColor}" align="center"  padding="30px 90px 10px 90px">
-          The link is valid for 24 hours or until it is used once. You will stay logged in for 60 days. <a href="${
+        <mj-text color='${textColor}' align='center'  padding='30px 90px 10px 90px'>
+          The link is valid for 24 hours or until it is used once. You will stay logged in for 60 days. <a href='${
             process.env.NEXT_PUBLIC_URL
-          }/login" target="_blank">Click here to request another link</a>.
+          }/login' target='_blank'>Click here to request another link</a>.
         </mj-text>
-        <mj-text color="${textColor}" align="center" padding="10px 90px 10px 90px">
-          Once you are logged in, you can <a href="${
+        <mj-text color='${textColor}' align='center' padding='10px 90px 10px 90px'>
+          Once you are logged in, you can <a href='${
             process.env.NEXT_PUBLIC_URL
-          }/invoices" target="_blank">access your invoice here</a>.
+          }/invoices' target='_blank'>access your invoice here</a>.
         </mj-text>
-        <mj-text color="${textColor}" align="center" padding="10px 90px 10px 90px">
+        <mj-text color='${textColor}' align='center' padding='10px 90px 10px 90px'>
           If you need additional help, reply!
         </mj-text>
-        <mj-text color="gray" align="center" padding-top="40px">
+        <mj-text color='gray' align='center' padding-top='40px'>
           If you did not request this email you can safely ignore it.
         </mj-text>
     </mj-section>
