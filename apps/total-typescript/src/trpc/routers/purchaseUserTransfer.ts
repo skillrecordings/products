@@ -294,8 +294,13 @@ export const purchaseUserTransferRouter = router({
       }),
     )
     .query(async ({ctx, input}) => {
+      const token = await getToken({req: ctx.req})
+      if (!token) {
+        return []
+      }
       return await prisma.purchaseUserTransfer.findMany({
         where: {
+          sourceUserId: token.sub as string,
           purchaseId: input.id,
           expiresAt: {
             gte: new Date(),
