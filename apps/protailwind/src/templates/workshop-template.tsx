@@ -164,7 +164,7 @@ const BuyWorkshop: React.FC<
     couponIdFromCoupon || (validCoupon ? couponFromCode?.id : undefined)
   const firstSection = workshop.sections[0]
   const firstLesson = firstSection.lessons && firstSection?.lessons[0]
-  console.log({firstLesson})
+
   const thumbnail = `${getBaseUrl()}/api/video-thumb?videoResourceId=${
     firstLesson?.videoResourceId
   }`
@@ -220,7 +220,7 @@ const Header: React.FC<
   React.PropsWithChildren<{workshop: Module; purchased: boolean}>
 > = ({workshop, purchased, children}) => {
   const {title, slug, sections, image, github} = workshop
-  console.log({github})
+
   const firstSection = first<Section>(sections)
   const firstLesson = first<Lesson>(firstSection?.lessons)
   const instructor = `${process.env.NEXT_PUBLIC_PARTNER_FIRST_NAME} ${process.env.NEXT_PUBLIC_PARTNER_LAST_NAME}`
