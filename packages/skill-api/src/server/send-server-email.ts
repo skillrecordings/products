@@ -1,6 +1,10 @@
-import {NextAuthOptions} from 'next-auth'
+import {NextAuthOptions, Theme} from 'next-auth'
 import {createHash, randomBytes} from 'crypto'
-import type {MagicLinkEmailType} from './send-verification-request'
+import type {
+  HTMLEmailParams,
+  MagicLinkEmailType,
+  TextEmailParams,
+} from './send-verification-request'
 import {sendVerificationRequest} from './send-verification-request'
 import {v4} from 'uuid'
 
@@ -21,11 +25,17 @@ export async function sendServerEmail({
   callbackUrl,
   nextAuthOptions,
   type = 'login',
+  html,
+  text,
+  expiresAt,
 }: {
   email: string
   callbackUrl?: string
   nextAuthOptions: NextAuthOptions
   type?: MagicLinkEmailType
+  html?: (options: HTMLEmailParams, theme: Theme) => string
+  text?: (options: TextEmailParams) => string
+  expiresAt?: Date | null
 }) {
   if (!nextAuthOptions) return
 
@@ -40,9 +50,9 @@ export async function sendServerEmail({
   const token = (await emailProvider.generateVerificationToken?.()) ?? v4()
 
   const ONE_DAY_IN_SECONDS = 86400
-  const expires = new Date(
-    Date.now() + (emailProvider.maxAge ?? ONE_DAY_IN_SECONDS) * 1000,
-  )
+  const expires =
+    expiresAt ||
+    new Date(Date.now() + (emailProvider.maxAge ?? ONE_DAY_IN_SECONDS) * 1000)
 
   await nextAuthOptions?.adapter?.createVerificationToken?.({
     identifier,
@@ -64,5 +74,7 @@ export async function sendServerEmail({
     token: token as string,
     expires,
     type,
+    html,
+    text,
   })
 }
