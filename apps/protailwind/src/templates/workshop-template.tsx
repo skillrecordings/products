@@ -164,7 +164,7 @@ const BuyWorkshop: React.FC<
     couponIdFromCoupon || (validCoupon ? couponFromCode?.id : undefined)
   const firstSection = workshop.sections[0]
   const firstLesson = firstSection.lessons && firstSection?.lessons[0]
-  console.log({firstLesson})
+
   const thumbnail = `${getBaseUrl()}/api/video-thumb?videoResourceId=${
     firstLesson?.videoResourceId
   }`
@@ -220,6 +220,7 @@ const Header: React.FC<
   React.PropsWithChildren<{workshop: Module; purchased: boolean}>
 > = ({workshop, purchased, children}) => {
   const {title, slug, sections, image, github} = workshop
+
   const firstSection = first<Section>(sections)
   const firstLesson = first<Lesson>(firstSection?.lessons)
   const instructor = `${process.env.NEXT_PUBLIC_PARTNER_FIRST_NAME} ${process.env.NEXT_PUBLIC_PARTNER_LAST_NAME}`
@@ -297,9 +298,9 @@ const Header: React.FC<
                   </span>
                 </Link>
               )}
-              {github?.repo && (
+              {github?.repo && purchased && (
                 <a
-                  className="flex items-center justify-center gap-2 rounded border-2 border-gray-800 px-5 py-3 font-medium transition hover:bg-gray-800"
+                  className="flex items-center justify-center gap-2 rounded-full bg-gray-900 px-6 py-3 font-semibold text-white shadow-lg transition hover:brightness-110"
                   href={`https://github.com/pro-tailwind/${github.repo}`}
                   onClick={() => {
                     track('clicked github code link', {module: slug.current})
@@ -307,7 +308,7 @@ const Header: React.FC<
                   target="_blank"
                   rel="noopener noreferrer"
                 >
-                  <Icon name="Github" className="w-6" /> Code
+                  <Icon name="Github" className="h-5 w-5" /> Code
                 </a>
               )}
             </div>

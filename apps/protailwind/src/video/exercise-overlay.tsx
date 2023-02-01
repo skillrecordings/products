@@ -35,6 +35,7 @@ import {Section} from '@skillrecordings/skill-lesson/schemas/section'
 import {Exercise} from '@skillrecordings/skill-lesson/schemas/exercise'
 import {SanityProduct} from '@skillrecordings/commerce-server/dist/@types'
 import {handlePlayFromBeginning} from '@skillrecordings/skill-lesson/utils/handle-play-from-beginning'
+import Icon from 'components/icons'
 
 const SandpackEditor: React.ComponentType<any> = dynamic(
   () => import('./exercise/sandpack/repl'),
@@ -138,7 +139,7 @@ const Actions = () => {
 }
 
 const ExerciseOverlay: React.FC<{tutorialFiles: any}> = ({tutorialFiles}) => {
-  const {lesson} = useLesson()
+  const {lesson, module} = useLesson()
   const router = useRouter()
   const {data: resources, status} = trpc.resources.byExerciseSlug.useQuery({
     slug: router.query.lesson as string,
@@ -165,18 +166,88 @@ const ExerciseOverlay: React.FC<{tutorialFiles: any}> = ({tutorialFiles}) => {
     ...sandpackFiles,
   }
 
+  const githubRepo = `https://github.com/pro-tailwind/${module?.github?.repo}`
+
   return status !== 'loading' ? (
     <div className="flex aspect-video flex-col items-center justify-center">
-      {resources?.sandpack && (
+      <div className="flex w-full items-center justify-between p-3 pl-5 font-medium">
+        <div>Now it's your turn! Try solving this exercise.</div>
+        <Actions />
+      </div>
+      {resources?.sandpack ? (
         <>
-          <div className="flex w-full items-center justify-between p-3 pl-5 font-medium">
-            <div>Now it's your turn! Try solving this exercise.</div>
-            <Actions />
-          </div>
           <div className="relative w-full">
             <SandpackEditor visibleFiles={visibleFiles} files={files} />
           </div>
         </>
+      ) : (
+        <div className="relative h-full w-full">
+          {resources?.github || resources?.gitpod ? (
+            <>
+              <Image
+                src={require('../../public/assets/editor-placeholder.svg')}
+                layout="fill"
+                className="object-cover object-left-top"
+              />
+              <div className="relative flex h-full w-full flex-col items-center justify-center gap-3 text-center text-white">
+                <p className="font-heading text-2xl font-black sm:pb-8 sm:text-3xl">
+                  Try solving this exercise
+                </p>
+                <p className="text-lg font-semibold sm:text-xl">Run locally</p>
+                <p className="max-w-sm sm:text-lg">
+                  Clone{' '}
+                  {module?.github?.repo ? (
+                    <a
+                      href={githubRepo}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="text-sky-300 underline"
+                    >
+                      workshop repository
+                    </a>
+                  ) : (
+                    'workshop repository'
+                  )}{' '}
+                  and follow instructions from the{' '}
+                  {module?.github?.repo ? (
+                    <a
+                      href={`${githubRepo}#readme`}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="text-sky-300 underline"
+                    >
+                      README
+                    </a>
+                  ) : (
+                    'README'
+                  )}
+                  .
+                </p>
+                <p className="text-lg font-semibold sm:py-5 sm:text-xl">or</p>
+                {resources?.gitpod?.url && (
+                  <a
+                    href={resources.gitpod.url}
+                    target="_blank"
+                    className="flex items-center gap-2 rounded-full bg-orange-600 px-3 py-1 text-lg font-semibold text-white transition hover:brightness-125 sm:px-5 sm:py-3"
+                    rel="noreferrer"
+                  >
+                    <Icon name="Gitpod" className="h-5 w-5" /> Run on Gitpod
+                  </a>
+                )}
+                {/* {resources?.github?.url && (
+                  <a
+                    href={resources.github.url}
+                    target="_blank"
+                    className="flex items-center gap-2 rounded-full bg-gray-800 px-3 py-1 text-lg font-semibold text-white transition hover:brightness-125 sm:px-5 sm:py-3"
+                    rel="noreferrer"
+                  >
+                    <Icon name="Github" className="h-5 w-5" /> View on Github
+                  </a>
+                )} */}
+              </div>
+            </>
+          ) : null}
+        </div>
       )}
     </div>
   ) : null

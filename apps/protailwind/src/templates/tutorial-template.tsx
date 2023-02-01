@@ -109,17 +109,17 @@ const Header: React.FC<{tutorial: SanityDocument}> = ({tutorial}) => {
                   </span>
                 </Link>
               )}
-              {github && (
+              {github?.repo && (
                 <a
-                  className="flex items-center justify-center gap-2 rounded-full border-2 border-gray-200 px-5 py-3 font-medium transition hover:bg-gray-200"
-                  href={github.url}
+                  className="flex items-center justify-center gap-2 rounded-full bg-gray-900 px-6 py-3 font-semibold text-white shadow-lg transition hover:brightness-110"
+                  href={`https://github.com/pro-tailwind/${github.repo}`}
                   onClick={() => {
                     track('clicked github code link', {module: slug.current})
                   }}
                   target="_blank"
                   rel="noopener noreferrer"
                 >
-                  <Icon name="Github" size="20" /> Code
+                  <Icon name="Github" className="h-5 w-5" /> Code
                 </a>
               )}
             </div>
