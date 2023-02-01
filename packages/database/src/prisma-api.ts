@@ -24,13 +24,7 @@ export function getSdk(
           userId,
         },
         select: {
-          purchaseUserTransfers: {
-            where: {
-              expiresAt: {
-                gte: new Date(),
-              },
-            },
-          },
+          id: true,
           merchantChargeId: true,
           createdAt: true,
           totalAmount: true,
@@ -631,6 +625,34 @@ export function getSdk(
           },
         }))
       )
+    },
+    async getPurchaseUserTransferById({id}: {id: string}) {
+      return await ctx.prisma.purchaseUserTransfer.findUnique({
+        where: {
+          id,
+        },
+        include: {
+          sourceUser: true,
+          targetUser: true,
+          purchase: true,
+        },
+      })
+    },
+    async updatePurchaseUserTransferTransferState({
+      id,
+      transferState,
+    }: {
+      id: string
+      transferState: PurchaseUserTransferState
+    }) {
+      return await ctx.prisma.purchaseUserTransfer.update({
+        where: {
+          id,
+        },
+        data: {
+          transferState,
+        },
+      })
     },
   }
 }
