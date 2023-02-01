@@ -36,7 +36,7 @@ export const useGlobalPlayerShortcuts = (muxPlayerRef: {
               muxPlayerRef.current.currentTime -
               (muxPlayerRef.current.forwardSeekOffset || 10)
           }
-          if (e.key === 'f') {
+          if (e.key === 'f' && !e.metaKey && !e.ctrlKey) {
             e.preventDefault()
             document.fullscreenElement
               ? document.exitFullscreen()
