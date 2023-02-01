@@ -3,6 +3,7 @@ import Icon from 'components/icons'
 import {useRouter} from 'next/router'
 import {trpc} from 'utils/trpc'
 import GitHubLink from './github-link'
+import GitpodLink from './gitpod-link'
 
 const LessonAssets = () => {
   const {lesson, module} = useLesson()
@@ -28,6 +29,7 @@ const LessonAssets = () => {
         </a>
       )}
       <GitHubLink />
+      <GitpodLink />
     </div>
   ) : null
 }

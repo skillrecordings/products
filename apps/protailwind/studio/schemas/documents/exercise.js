@@ -47,6 +47,7 @@ export default {
         {type: 'testimonial'},
         {type: 'figma'},
         {type: 'github'},
+        {type: 'gitpod'},
       ],
     },
     {

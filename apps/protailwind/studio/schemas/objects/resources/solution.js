@@ -43,6 +43,7 @@ export default {
         {type: 'sandpack'},
         {type: 'figma'},
         {type: 'github'},
+        {type: 'gitpod'},
       ],
     },
     {

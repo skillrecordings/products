@@ -85,6 +85,7 @@ export async function recordNewPurchase(checkoutSessionId: string): Promise<{
     findOrCreateMerchantCustomer,
     createMerchantChargeAndPurchase,
     getMerchantProduct,
+    createPurchaseUserTransfer,
   } = getSdk()
 
   const purchaseInfo = await stripeData({checkoutSessionId})
@@ -141,6 +142,11 @@ export async function recordNewPurchase(checkoutSessionId: string): Promise<{
     // then fallback to NEW_INDIVIDUAL_PURCHASE
     purchaseType = NEW_INDIVIDUAL_PURCHASE
   }
+
+  await createPurchaseUserTransfer({
+    purchaseId: purchase.id,
+    sourceUserId: user.id,
+  })
 
   return {
     purchase,

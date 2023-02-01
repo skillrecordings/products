@@ -31,12 +31,24 @@ export const ExerciseSchema = z
       })
       .optional()
       .nullable(),
+    gitpod: z
+      .object({
+        url: z.string(),
+      })
+      .optional()
+      .nullable(),
     solution: z
       .object({
         _key: z.string(),
         videoResourceId: z.nullable(z.string()).optional(),
         transcript: z.nullable(z.any().array()).optional(),
         github: z
+          .object({
+            url: z.string(),
+          })
+          .optional()
+          .nullable(),
+        gitpod: z
           .object({
             url: z.string(),
           })
@@ -86,6 +98,9 @@ export const getExercise = async (slug: string): Promise<Exercise> => {
       "github": resources[@._type == 'github'][0] {
         url
       },
+      "gitpod": resources[@._type == 'gitpod'][0] {
+        url
+      },
       "solution": resources[@._type == 'solution'][0]{
         _key,
         _type,
@@ -96,6 +111,9 @@ export const getExercise = async (slug: string): Promise<Exercise> => {
         body,
         "transcript": resources[@->._type == 'videoResource'][0]-> castingwords.transcript,
         "github": resources[@._type == 'github'][0] {
+          url
+        },
+        "gitpod": resources[@._type == 'gitpod'][0] {
           url
         },
         "slug": slug.current,
