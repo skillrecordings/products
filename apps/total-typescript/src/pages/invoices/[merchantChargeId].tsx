@@ -259,10 +259,12 @@ const Invoice: React.FC<
           </div>
         </div>
         {purchaseUserTransfers ? (
-          <Transfer
-            purchaseUserTransfers={purchaseUserTransfers}
-            refetch={refetch}
-          />
+          <div className="py-16">
+            <Transfer
+              purchaseUserTransfers={purchaseUserTransfers}
+              refetch={refetch}
+            />
+          </div>
         ) : null}
       </main>
     </Layout>
