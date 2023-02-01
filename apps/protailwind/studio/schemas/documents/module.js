@@ -52,7 +52,7 @@ export default {
     {
       name: 'github',
       title: 'GitHub',
-      type: 'github',
+      type: 'githubRepo',
     },
     {
       name: 'resources',
