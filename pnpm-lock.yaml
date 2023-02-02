@@ -103,7 +103,7 @@ importers:
       prettier: ^2.6.2
       query-string: ^7.1.1
       react: 18.2.0
-      react-countdown: ^2.3.2
+      react-countdown: ^2.3.5
       react-dom: 18.2.0
       react-hot-toast: ^2.2.0
       react-markdown: ^8.0.2
@@ -169,7 +169,7 @@ importers:
       postcss: 8.4.14
       query-string: 7.1.1
       react: 18.2.0
-      react-countdown: 2.3.2_biqbaboplfbrettd7655fr4n2y
+      react-countdown: 2.3.5_biqbaboplfbrettd7655fr4n2y
       react-dom: 18.2.0_react@18.2.0
       react-hot-toast: 2.2.0_biqbaboplfbrettd7655fr4n2y
       react-markdown: 8.0.3_3hx2ussxxho4jajbwrd6gq34qe
@@ -460,7 +460,7 @@ importers:
       postcss: ^8.4.14
       prettier-plugin-tailwindcss: ^0.1.13
       react: 18.2.0
-      react-countdown: ^2.3.2
+      react-countdown: ^2.3.5
       react-dom: 18.2.0
       react-hook-form: ^7.29.0
       react-hot-toast: ^2.2.0
@@ -543,7 +543,7 @@ importers:
       next-sitemap: 3.1.7_6rw52dn6h5rb5c4lgmx2je4lea
       node-fetch: 2.6.7
       react: 18.2.0
-      react-countdown: 2.3.2_biqbaboplfbrettd7655fr4n2y
+      react-countdown: 2.3.5_biqbaboplfbrettd7655fr4n2y
       react-dom: 18.2.0_react@18.2.0
       react-hook-form: 7.29.0_react@18.2.0
       react-hot-toast: 2.2.0_biqbaboplfbrettd7655fr4n2y
@@ -762,7 +762,7 @@ importers:
       prettier: ^2.6.2
       query-string: ^7.1.1
       react: 18.2.0
-      react-countdown: ^2.3.2
+      react-countdown: ^2.3.5
       react-dom: 18.2.0
       react-markdown: ^7.1.0
       react-scroll: ^1.8.6
@@ -812,7 +812,7 @@ importers:
       postcss: 8.4.14
       query-string: 7.1.1
       react: 18.2.0
-      react-countdown: 2.3.2_biqbaboplfbrettd7655fr4n2y
+      react-countdown: 2.3.5_biqbaboplfbrettd7655fr4n2y
       react-dom: 18.2.0_react@18.2.0
       react-markdown: 7.1.0_3hx2ussxxho4jajbwrd6gq34qe
       react-scroll: 1.8.7_biqbaboplfbrettd7655fr4n2y
@@ -1142,7 +1142,7 @@ importers:
       prettier: ^2.6.2
       query-string: ^7.1.1
       react: 18.2.0
-      react-countdown: ^2.3.2
+      react-countdown: ^2.3.5
       react-dom: 18.2.0
       react-hook-form: ^7.29.0
       react-hot-toast: ^2.2.0
@@ -1250,7 +1250,7 @@ importers:
       postcss: 8.4.14
       query-string: 7.1.1
       react: 18.2.0
-      react-countdown: 2.3.2_biqbaboplfbrettd7655fr4n2y
+      react-countdown: 2.3.5_biqbaboplfbrettd7655fr4n2y
       react-dom: 18.2.0_react@18.2.0
       react-hook-form: 7.29.0_react@18.2.0
       react-hot-toast: 2.2.0_npw22p3c4ehm7n7vxn2gqac44u
@@ -1438,7 +1438,7 @@ importers:
       prettier-plugin-tailwindcss: ^0.1.13
       query-string: ^7.1.1
       react: 18.2.0
-      react-countdown: ^2.3.2
+      react-countdown: ^2.3.5
       react-device-detect: ^2.2.2
       react-dom: 18.2.0
       react-hook-form: ^7.29.0
@@ -1546,7 +1546,7 @@ importers:
       node-fetch: 2.6.7
       query-string: 7.1.1
       react: 18.2.0
-      react-countdown: 2.3.2_biqbaboplfbrettd7655fr4n2y
+      react-countdown: 2.3.5_biqbaboplfbrettd7655fr4n2y
       react-device-detect: 2.2.2_biqbaboplfbrettd7655fr4n2y
       react-dom: 18.2.0_react@18.2.0
       react-hook-form: 7.29.0_react@18.2.0
@@ -1823,7 +1823,7 @@ importers:
       prettier: ^2.6.2
       query-string: ^7.1.1
       react: 18.2.0
-      react-countdown: ^2.3.2
+      react-countdown: ^2.3.5
       react-dom: 18.2.0
       react-hot-toast: ^2.2.0
       react-markdown: ^7.1.0
@@ -1922,7 +1922,7 @@ importers:
       postcss: 8.4.14
       query-string: 7.1.1
       react: 18.2.0
-      react-countdown: 2.3.2_biqbaboplfbrettd7655fr4n2y
+      react-countdown: 2.3.5_biqbaboplfbrettd7655fr4n2y
       react-dom: 18.2.0_react@18.2.0
       react-hot-toast: 2.2.0_npw22p3c4ehm7n7vxn2gqac44u
       react-markdown: 7.1.0_3hx2ussxxho4jajbwrd6gq34qe
@@ -8656,7 +8656,7 @@ packages:
       '@mdx-js/loader': '>=0.15.0'
       '@mdx-js/react': '*'
     dependencies:
-      '@mdx-js/loader': 2.1.5_webpack@5.73.0
+      '@mdx-js/loader': 2.1.5_webpack@4.46.0
       '@mdx-js/react': 2.1.5_react@18.2.0
     dev: false
 
@@ -27254,8 +27254,8 @@ packages:
       react: 18.2.0
     dev: false
 
-  /react-countdown/2.3.2_biqbaboplfbrettd7655fr4n2y:
-    resolution: {integrity: sha512-Q4SADotHtgOxNWhDdvgupmKVL0pMB9DvoFcxv5AzjsxVhzOVxnttMbAywgqeOdruwEAmnPhOhNv/awAgkwru2w==}
+  /react-countdown/2.3.5_biqbaboplfbrettd7655fr4n2y:
+    resolution: {integrity: sha512-K26ENYEesMfPxhRRtm1r+Pf70SErrvW3g4CArLi/x6MPFjgfDFYePT4UghEj8p2nI0cqVV7/JjDgjyr//U60Og==}
     peerDependencies:
       react: '>= 15'
       react-dom: '>= 15'

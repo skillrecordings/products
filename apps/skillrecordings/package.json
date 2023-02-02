@@ -69,7 +69,7 @@
     "postcss": "^8.4.14",
     "query-string": "^7.1.1",
     "react": "18.2.0",
-    "react-countdown": "^2.3.2",
+    "react-countdown": "^2.3.5",
     "react-dom": "18.2.0",
     "react-markdown": "^7.1.0",
     "react-scroll": "^1.8.6",

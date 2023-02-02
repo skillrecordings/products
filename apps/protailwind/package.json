@@ -110,7 +110,7 @@
     "next-sitemap": "^3.0.5",
     "node-fetch": "^2.6.7",
     "react": "18.2.0",
-    "react-countdown": "^2.3.2",
+    "react-countdown": "^2.3.5",
     "react-dom": "18.2.0",
     "react-hook-form": "^7.29.0",
     "react-hot-toast": "^2.2.0",

@@ -14,7 +14,9 @@ export async function propsForCommerce({
   products: SanityProduct[]
 }) {
   const couponFromCode = await getCouponForCode(query.code as string)
-  const allowPurchase = Boolean(query.allowPurchase)
+  const allowPurchase =
+    Boolean(process.env.NEXT_PUBLIC_SELLING_LIVE) ||
+    Boolean(query.allowPurchase)
 
   const {getDefaultCoupon, getPurchasesForUser} = getSdk()
 

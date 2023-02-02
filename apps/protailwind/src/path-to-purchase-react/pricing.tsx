@@ -334,13 +334,13 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
             )}
           </div>
         )}
-        {isSellingLive ||
-          (allowPurchase && !purchased && (
-            <SaleCountdown
-              coupon={defaultCoupon}
-              data-pricing-product-sale-countdown={index}
-            />
-          ))}
+        {isSellingLive && allowPurchase && !purchased && (
+          <SaleCountdown
+            coupon={defaultCoupon}
+            data-pricing-product-sale-countdown={index}
+          />
+        )}
+
         {showPPPBox && (
           <RegionalPricingBox
             pppCoupon={pppCoupon || merchantCoupon}
