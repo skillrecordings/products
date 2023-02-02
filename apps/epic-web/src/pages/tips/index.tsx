@@ -1,6 +1,6 @@
 import React from 'react'
 import Layout from 'components/app/layout'
-import {getAllTips, Tip} from 'lib/tips'
+import {getAllTips, getTip, Tip} from 'lib/tips'
 import Link from 'next/link'
 import Image from 'next/legacy/image'
 import {useRouter} from 'next/router'
@@ -9,63 +9,11 @@ import Icon from 'components/icons'
 import {getBaseUrl} from '@skillrecordings/skill-lesson/utils/get-base-url'
 
 export async function getStaticProps() {
-  // const tips = await getAllTips()
-  const tips = [
-    {
-      _createdAt: '2023-01-06T03:30:26Z',
-      _id: '1a185de2-49c4-4819-b4e1-c171102701af',
-      _rev: 'sv9JCrQ2mN7v1oIbvneEal',
-      _type: 'tip',
-      _updatedAt: '2023-01-06T03:30:26Z',
-      description:
-        'Styling the `::selection` pseudo-element to match your brand color is a great way to bring extra delight to your designs!',
-      resources: [
-        {
-          _key: '4f24711b46d5',
-          _type: 'tweet',
-          tweetId: '1588298680175427584',
-        },
-        {
-          _key: '17c49f19a650',
-          _ref: 'c3d0c657-8745-4388-a7ff-340459dab04c',
-          _type: 'reference',
-        },
-      ],
-      slug: {
-        _type: 'slug',
-        current: 'on-brand-text-selection-with-the-selection-modifier',
-      },
-      summary: [
-        {
-          _key: '925fddd4a6e4',
-          _type: 'block',
-          children: [
-            {
-              _key: '11ff2f9dda180',
-              _type: 'span',
-              marks: [],
-              text: 'Styling the ',
-            },
-            {
-              _key: '11ff2f9dda181',
-              _type: 'span',
-              marks: ['code'],
-              text: '::selection',
-            },
-            {
-              _key: '11ff2f9dda182',
-              _type: 'span',
-              marks: [],
-              text: ' pseudo-element to match your brand color is a great way to bring extra delight to your designs!',
-            },
-          ],
-          markDefs: [],
-          style: 'normal',
-        },
-      ],
-      title: 'On brand text selection with the `selection` modifier',
-    },
-  ]
+  const tips = await getAllTips()
+  // const qqq = await getTip(
+  //   'combining-variants-with-the-dark-mode-class-strategy',
+  // )
+  // console.log({qqq})
 
   return {
     props: {tips},
@@ -80,6 +28,7 @@ type TipsIndex = {
 const pageDescription = 'A collection of valuable tips.'
 
 const TipsIndex: React.FC<TipsIndex> = ({tips}) => {
+  console.log({tips})
   return (
     <Layout
       meta={{
@@ -113,12 +62,10 @@ export default TipsIndex
 
 const TipCard: React.FC<{tip: Tip}> = ({tip}) => {
   const {title} = tip
-  const thumbnail = `${getBaseUrl()}/api/video-thumb?videoResourceId=${
-    tip?.videoResourceId
-  }`
+  const thumbnail = `${getBaseUrl()}/api/video-thumb?videoResourceId=a7195968-785a-45cf-a119-58798c52f686`
   const router = useRouter()
-  // const {tipCompleted} = useTipComplete(tip.slug)
-  const tipCompleted = false
+  const {tipCompleted} = useTipComplete(tip.slug)
+  // console.log({tip})
 
   return (
     <article className="flex flex-col items-center overflow-hidden rounded-xl bg-white shadow-2xl shadow-gray-500/20">
@@ -174,7 +121,7 @@ const TipCard: React.FC<{tip: Tip}> = ({tip}) => {
             Tip
           </div>
         </div>
-        <h2 className="pt-2 text-base font-semibold leading-tight sm:text-xl">
+        <h2 className="pt-2 text-base font-semibold leading-tight sm:text-xl text-black">
           <Link
             href={{
               pathname: '/tips/[tip]',
@@ -198,8 +145,8 @@ export const TipTeaser: React.FC<{tip: Tip}> = ({tip}) => {
     tip?.videoResourceId
   }`
   const router = useRouter()
-  // const {tipCompleted} = useTipComplete(tip.slug)
-  const tipCompleted = false
+  const {tipCompleted} = useTipComplete(tip.slug)
+  // const tipCompleted = false
 
   return (
     <article className="flex items-center gap-5 py-4">

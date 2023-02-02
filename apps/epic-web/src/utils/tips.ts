@@ -67,7 +67,7 @@ export const getTip = async (slug: string): Promise<Tip> => {
         "transcript": resources[@->._type == 'videoResource'][0]-> castingwords.transcript,
         "tweetId":  resources[@._type == 'tweet'][0].tweetId
     }`,
-    {slug},
+    {slug: `${slug}`},
   )
 
   return TipSchema.parse(tip)

@@ -1,9 +1,10 @@
 import S from '@sanity/desk-tool/structure-builder'
 import pages from './src/structure/pages'
 import articles from './src/structure/articles'
+import tips from './src/structure/tips'
 
 const hiddenDocTypes = (listItem) =>
-  !['article', 'page', 'skosConcept', 'skosConceptScheme'].includes(
+  !['article', 'tip', 'page', 'skosConcept', 'skosConceptScheme'].includes(
     listItem.getId(),
   )
 
@@ -12,6 +13,7 @@ export default () =>
     .title('Epic Web')
     .items([
       articles,
+      tips,
       S.divider(),
       pages,
       S.divider(),

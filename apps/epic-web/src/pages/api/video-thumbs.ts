@@ -3,9 +3,12 @@ import {NextApiRequest, NextApiResponse} from 'next'
 import {getVideoResource} from '@skillrecordings/skill-lesson/lib/video-resources'
 
 const videoThumb = async (req: NextApiRequest, res: NextApiResponse) => {
+  // console.log('YEAH, GET METHOD CALLED!!')
   if (req.method === 'GET') {
     const videoResourceId = req.query.videoResourceId as string
     const videoResource = await getVideoResource(videoResourceId)
+
+    // console.log({videoResource})
 
     // load an image binary via fetch
     const response = await fetch(
