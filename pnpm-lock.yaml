@@ -911,6 +911,7 @@ importers:
       '@types/react-dom': ^18.0.6
       '@types/uuid': ^8.3.4
       classnames: ^2.3.1
+      date-fns: ^2.28.0
       dotenv-flow: ^3.2.0
       eslint: ^8.19.0
       eslint-config-custom: workspace:*
@@ -974,6 +975,7 @@ importers:
       '@trpc/react-query': 10.7.0_x4ie6nhblo2vtx2aafrgzlfqy4
       '@trpc/server': 10.7.0
       classnames: 2.3.1
+      date-fns: 2.28.0
       feed: 4.2.2
       groq: 2.15.0
       lodash: 4.17.21
@@ -2923,6 +2925,7 @@ importers:
       '@skillrecordings/inngest': workspace:*
       '@skillrecordings/react': workspace:*
       '@skillrecordings/scripts': workspace:*
+      '@skillrecordings/skill-api': workspace:*
       '@skillrecordings/time': workspace:*
       '@tanstack/react-query': ^4.20.4
       '@trpc/client': '=10.7.0'
@@ -2970,6 +2973,7 @@ importers:
       '@skillrecordings/inngest': link:../inngest
       '@skillrecordings/react': link:../react
       '@skillrecordings/scripts': link:../scripts
+      '@skillrecordings/skill-api': link:../skill-api
       '@skillrecordings/time': link:../time
       '@tanstack/react-query': 4.20.4_biqbaboplfbrettd7655fr4n2y
       '@trpc/client': 10.7.0_@trpc+server@10.7.0
@@ -8646,7 +8650,7 @@ packages:
       '@mdx-js/loader': '>=0.15.0'
       '@mdx-js/react': '*'
     dependencies:
-      '@mdx-js/loader': 2.1.5_webpack@5.73.0
+      '@mdx-js/loader': 2.1.5_webpack@4.46.0
       '@mdx-js/react': 2.1.5_react@18.2.0
     dev: false
 
@@ -18881,7 +18885,6 @@ packages:
         optional: true
     dependencies:
       debug: 2.6.9
-    dev: false
 
   /follow-redirects/1.15.2_debug@4.3.4:
     resolution: {integrity: sha512-VQLG33o04KaQ8uYi2tVNbdrWp1QWxNNea+nmIB4EVM28v0hmP17z7aG1+wAkNzVq4KeXTq3221ye5qTJP91JwA==}
@@ -19286,7 +19289,7 @@ packages:
       create-error-class: 3.0.2
       debug: 2.6.9
       decompress-response: 6.0.0
-      follow-redirects: 1.15.2_debug@4.3.4
+      follow-redirects: 1.15.2_debug@2.6.9
       form-urlencoded: 2.0.9
       into-stream: 3.1.0
       is-plain-object: 2.0.4
