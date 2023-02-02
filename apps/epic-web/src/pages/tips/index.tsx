@@ -28,7 +28,6 @@ type TipsIndex = {
 const pageDescription = 'A collection of valuable tips.'
 
 const TipsIndex: React.FC<TipsIndex> = ({tips}) => {
-  console.log({tips})
   return (
     <Layout
       meta={{
@@ -65,7 +64,6 @@ const TipCard: React.FC<{tip: Tip}> = ({tip}) => {
   const thumbnail = `${getBaseUrl()}/api/video-thumb?videoResourceId=a7195968-785a-45cf-a119-58798c52f686`
   const router = useRouter()
   const {tipCompleted} = useTipComplete(tip.slug)
-  // console.log({tip})
 
   return (
     <article className="flex flex-col items-center overflow-hidden rounded-xl bg-white shadow-2xl shadow-gray-500/20">

@@ -61,6 +61,7 @@ const TipCard: React.FC<{tip: Tip}> = ({tip}) => {
   const thumbnail = `${getBaseUrl()}/api/video-thumb?videoResourceId=${
     tip?.videoResourceId
   }`
+  console.log({thumbnail})
   const router = useRouter()
   const {tipCompleted} = useTipComplete(tip.slug)
 
