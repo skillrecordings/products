@@ -17,6 +17,8 @@ import MuxPlayer from '@mux/mux-player-react'
 import {getAllWorkshops} from 'lib/workshops'
 import {SanityDocument} from '@sanity/client'
 import Image from 'next/legacy/image'
+import {trpc} from '../../trpc/trpc.client'
+import {Transfer} from 'purchase-transfer/purchase-transfer'
 
 export const getServerSideProps: GetServerSideProps = async ({req, query}) => {
   const {purchaseId: purchaseQueryParam, session_id, upgrade} = query
@@ -91,6 +93,7 @@ export const getServerSideProps: GetServerSideProps = async ({req, query}) => {
 }
 
 type Purchase = {
+  id: string
   merchantChargeId: string | null
   bulkCoupon: {id: string; maxUses: number; usedCount: number} | null
   product: {id: string; name: string}
@@ -135,6 +138,21 @@ const Welcome: React.FC<
 
   const hasCharge = Boolean(purchase.merchantChargeId)
 
+  const {data: purchaseUserTransfers, refetch} =
+    trpc.purchaseUserTransfer.forPurchaseId.useQuery({
+      id: purchase.id,
+    })
+
+  const isTransferAvailable =
+    !purchase.bulkCoupon &&
+    Boolean(
+      purchaseUserTransfers?.filter((purchaseUserTransfer) =>
+        ['AVAILABLE', 'INITIATED', 'COMPLETED'].includes(
+          purchaseUserTransfer.transferState,
+        ),
+      ).length,
+    )
+
   return (
     <Layout
       meta={{title: `Welcome to ${process.env.NEXT_PUBLIC_SITE_TITLE}`}}
@@ -149,6 +167,12 @@ const Welcome: React.FC<
             personalPurchase={personalPurchase}
           />
           <div className="flex flex-col gap-10">
+            <div>
+              <h2 className="pb-2 font-heading text-sm font-black uppercase">
+                Share Pro Tailwind
+              </h2>
+              <Share productName={purchase.product.name} />
+            </div>
             {redemptionsLeft && (
               <div>
                 <h2 className="pb-2 font-heading text-sm font-black uppercase">
@@ -170,12 +194,12 @@ const Welcome: React.FC<
                 <InvoiceCard purchase={purchase} />
               </div>
             )}
-            <div>
-              <h2 className="pb-2 font-heading text-sm font-black uppercase">
-                Share Pro Tailwind
-              </h2>
-              <Share productName={purchase.product.name} />
-            </div>
+            {isTransferAvailable && purchaseUserTransfers && (
+              <Transfer
+                purchaseUserTransfers={purchaseUserTransfers}
+                refetch={refetch}
+              />
+            )}
           </div>
         </div>
       </main>

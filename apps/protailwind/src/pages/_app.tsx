@@ -10,7 +10,7 @@ import {usePageview} from '@skillrecordings/analytics'
 import {initNProgress} from '@skillrecordings/react'
 import {DefaultSeo} from '@skillrecordings/next-seo'
 import config from '../config'
-import {trpc} from 'utils/trpc'
+import {trpc} from 'trpc/trpc.client'
 import Script from 'next/script'
 import {FeedbackProvider} from '@skillrecordings/feedback-widget'
 

@@ -16,7 +16,7 @@ import {
   LockClosedIcon,
   PlayIcon,
 } from '@heroicons/react/solid'
-import {trpc} from 'utils/trpc'
+import {trpc} from 'trpc/trpc.client'
 import {Lesson} from '@skillrecordings/skill-lesson/schemas/lesson'
 import PortableTextComponents from '../video/portable-text'
 import {Pricing} from 'path-to-purchase-react/pricing'

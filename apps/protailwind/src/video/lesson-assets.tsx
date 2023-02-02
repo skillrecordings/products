@@ -1,7 +1,7 @@
 import {useLesson} from '@skillrecordings/skill-lesson/hooks/use-lesson'
 import Icon from 'components/icons'
 import {useRouter} from 'next/router'
-import {trpc} from 'utils/trpc'
+import {trpc} from 'trpc/trpc.client'
 import GitHubLink from './github-link'
 import GitpodLink from './gitpod-link'
 

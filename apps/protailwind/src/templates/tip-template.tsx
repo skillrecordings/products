@@ -40,7 +40,7 @@ import {
 import {useVideoResource} from '@skillrecordings/skill-lesson/hooks/use-video-resource'
 import {useLesson} from '@skillrecordings/skill-lesson/hooks/use-lesson'
 import {getBaseUrl} from '@skillrecordings/skill-lesson/utils/get-base-url'
-import {trpc} from '../utils/trpc'
+import {trpc} from '../trpc/trpc.client'
 
 const TipTemplate: React.FC<{
   tip: Tip

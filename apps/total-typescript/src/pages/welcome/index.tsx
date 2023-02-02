@@ -108,13 +108,16 @@ const Welcome: React.FC<
     purchase.bulkCoupon.maxUses > purchase.bulkCoupon.usedCount
 
   const hasCharge = Boolean(purchase.merchantChargeId)
-  const isTransferAvailable = Boolean(
-    purchaseUserTransfers?.filter((purchaseUserTransfer) =>
-      ['AVAILABLE', 'INITIATED', 'COMPLETED'].includes(
-        purchaseUserTransfer.transferState,
-      ),
-    ).length,
-  )
+
+  const isTransferAvailable =
+    personalPurchase &&
+    Boolean(
+      purchaseUserTransfers?.filter((purchaseUserTransfer) =>
+        ['AVAILABLE', 'INITIATED', 'COMPLETED'].includes(
+          purchaseUserTransfer.transferState,
+        ),
+      ).length,
+    )
 
   return (
     <Layout

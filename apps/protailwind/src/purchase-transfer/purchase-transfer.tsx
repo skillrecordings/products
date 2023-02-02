@@ -27,8 +27,6 @@ const PurchaseTransferForm = ({
       id: purchaseUserTransferId,
     })
 
-  console.log({purchaseUserTransfer, status})
-
   const {mutate, error, isLoading} =
     trpc.purchaseUserTransfer.initiate.useMutation({
       onSuccess: async (input) => {
@@ -54,14 +52,14 @@ const PurchaseTransferForm = ({
           Email:
         </label>
         <input
-          className="w-full rounded-md border border-gray-800 bg-gray-800/50 px-3 py-2 text-lg"
+          className="w-full rounded-md bg-gray-200/60 px-3 py-2 shadow-inner placeholder:text-gray-500"
           type="email"
           {...register('email', {required: true})}
           placeholder="somebody@example.com"
         />
         {errors.email && <span>This field is required</span>}
         <button
-          className="relative flex flex-shrink-0 items-center justify-center rounded-md bg-gradient-to-tr from-cyan-600 to-cyan-500 py-2 px-5 text-lg font-semibold shadow-2xl shadow-cyan-900/50 transition focus-visible:ring-white hover:brightness-110"
+          className="relative flex flex-shrink-0 items-center justify-center rounded-full bg-brand-red py-2 px-5 font-semibold text-white shadow-2xl shadow-cyan-900/50 transition focus-visible:ring-white hover:brightness-110"
           type="submit"
           disabled={isLoading}
         >
@@ -95,14 +93,14 @@ export const Transfer = ({
                 <h2 className="text-2xl font-bold">
                   Transfer this purchase to another email address.
                 </h2>
-                <p className="text-gray-200">
+                <p>
                   You can transfer your purchase to another email address. We
                   recommend using a personal/permanent email address. Once the
                   transfer is complete you will no longer have access to the
                   content or associated invoices from this account for this
                   purchase.
                 </p>
-                <p className="text-gray-200">
+                <p>
                   Only a single email transfer is provided per purchase as a
                   courtesy!
                 </p>
@@ -122,7 +120,7 @@ export const Transfer = ({
                   or expires.
                 </h2>
                 <button
-                  className="relative flex flex-shrink-0 items-center justify-center rounded-md bg-gradient-to-tr from-cyan-600 to-cyan-500 py-2 px-5 text-lg font-semibold shadow-2xl shadow-cyan-900/50 transition focus-visible:ring-white hover:brightness-110"
+                  className="relative flex flex-shrink-0 items-center justify-center rounded-full bg-brand-red py-2 px-5 font-semibold text-white shadow-2xl shadow-cyan-900/50 transition focus-visible:ring-white hover:brightness-110"
                   onClick={() => {
                     cancelMutation.mutate({
                       purchaseUserTransferId: purchaseUserTransfer.id,
@@ -135,7 +133,7 @@ export const Transfer = ({
             )}
             {purchaseUserTransfer.transferState === 'COMPLETED' && (
               <div>
-                <p className="text-gray-200">
+                <p>
                   This purchase has been transferred. You no longer have access
                   to this purchase or its associated invoice.
                 </p>

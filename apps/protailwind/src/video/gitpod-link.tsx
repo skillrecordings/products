@@ -2,7 +2,7 @@ import {useLesson} from '@skillrecordings/skill-lesson/hooks/use-lesson'
 import Icon from 'components/icons'
 import {useRouter} from 'next/router'
 import {track} from 'utils/analytics'
-import {trpc} from 'utils/trpc'
+import {trpc} from 'trpc/trpc.client'
 
 const GitpodLink = () => {
   const router = useRouter()

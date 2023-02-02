@@ -7,6 +7,7 @@ import {postRedemptionToSlack} from '../../server/post-to-slack'
 import {PurchaseStatus} from '../../enums'
 import {sendServerEmail} from '../../server'
 import {type JWT} from 'next-auth/jwt'
+import {v4} from 'uuid'
 
 export class CouponRedemptionError extends Error {
   couponId: string
@@ -97,8 +98,11 @@ export async function redeemGoldenTicket({
           existingPurchase.id,
         )
 
+      const purchaseId = v4()
+
       const createPurchase = prisma.purchase.create({
         data: {
+          id: purchaseId,
           userId: user.id,
           redeemedBulkCouponId: bulkCouponRedemption ? coupon.id : null,
           // TODO: rename this to `couponUsedId` for non-bulk redemption papertrail
@@ -117,12 +121,21 @@ export async function redeemGoldenTicket({
         },
       })
 
+      const purchaseUserTransfer = prisma.purchaseUserTransfer.create({
+        data: {
+          sourceUserId: user.id,
+          purchaseId: purchaseId,
+          expiresAt: new Date(Date.now() + 1000 * 60 * 60 * 24 * 7),
+        },
+      })
+
       // To ensure consistency when "redeeming a coupon", we use a DB
       // transaction to create the purchase record and update the coupon's
       // usage count atomically.
       const [purchase] = await prisma.$transaction([
         createPurchase,
         updateCouponUsage,
+        purchaseUserTransfer,
       ])
 
       // if it's redeemed for the current user we don't need to send a login email

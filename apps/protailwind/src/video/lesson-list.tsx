@@ -8,7 +8,7 @@ import cx from 'classnames'
 import {type Lesson} from '@skillrecordings/skill-lesson/schemas/lesson'
 import {track} from '@skillrecordings/skill-lesson/utils/analytics'
 import {useLesson} from '@skillrecordings/skill-lesson/hooks/use-lesson'
-import {trpc} from '../utils/trpc'
+import {trpc} from '../trpc/trpc.client'
 import {Module} from '@skillrecordings/skill-lesson/schemas/module'
 import {Section} from '@skillrecordings/skill-lesson/schemas/section'
 
