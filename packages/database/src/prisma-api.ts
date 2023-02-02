@@ -455,10 +455,27 @@ export function getSdk(
         },
       })
 
+      const purchaseUserTransfer = ctx.prisma.purchaseUserTransfer.create({
+        data: {
+          sourceUserId: userId,
+          purchaseId: purchaseId,
+          expiresAt: new Date(Date.now() + 1000 * 60 * 60 * 24 * 7),
+        },
+      })
+
       if (coupon) {
-        return await ctx.prisma.$transaction([purchase, merchantCharge, coupon])
+        return await ctx.prisma.$transaction([
+          purchase,
+          merchantCharge,
+          coupon,
+          purchaseUserTransfer,
+        ])
       } else {
-        return await ctx.prisma.$transaction([purchase, merchantCharge])
+        return await ctx.prisma.$transaction([
+          purchase,
+          merchantCharge,
+          purchaseUserTransfer,
+        ])
       }
     },
     async findOrCreateMerchantCustomer({
