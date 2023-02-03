@@ -37,44 +37,27 @@ const CountdownRenderer: React.FC<
 
   return completed ? null : (
     <>
-      <div className="w-full px-10 pb-7" {...rest}>
-        <div className="w-full rounded-lg text-center">
-          <p className="pb-5 font-medium">Hurry! Price goes up in:</p>
-          <div
-            aria-hidden="true"
-            className="mx-auto grid max-w-[300px] grid-cols-4 items-center justify-center gap-2 tabular-nums tracking-tight"
-          >
-            <div className="flex flex-col">
-              <span className="text-3xl font-medium leading-none">{days}</span>
-              <span className="pt-1 text-xs font-medium uppercase tracking-wide text-gray-500">
-                days
-              </span>
-            </div>
-            <div className="flex flex-col">
-              <span className="text-3xl font-medium leading-none">{hours}</span>
-              <span className="pt-1 text-xs font-medium uppercase tracking-wide text-gray-500">
-                hours
-              </span>
-            </div>
-            <div className="flex flex-col">
-              <span className="text-3xl font-medium leading-none">
-                {minutes}
-              </span>
-              <span className="pt-1 text-xs font-medium uppercase tracking-wide text-gray-500">
-                minutes
-              </span>
-            </div>
-            <div className="flex flex-col">
-              <span className="text-3xl font-medium leading-none">
-                {seconds}
-              </span>
-              <span className="pt-1 text-xs font-medium uppercase tracking-wide text-gray-500">
-                seconds
-              </span>
-            </div>
+      <div {...rest}>
+        <p data-title="">Hurry! Price goes up in:</p>
+        <div aria-hidden="true" data-grid="">
+          <div className="flex flex-col">
+            <span data-number="">{days}</span>
+            <span data-label="">days</span>
           </div>
-          <div className="sr-only">{screenReaderValues}</div>
+          <div className="flex flex-col">
+            <span data-number="">{hours}</span>
+            <span data-label="">hours</span>
+          </div>
+          <div className="flex flex-col">
+            <span data-number="">{minutes}</span>
+            <span data-label="">minutes</span>
+          </div>
+          <div className="flex flex-col">
+            <span data-number="">{seconds}</span>
+            <span data-label="">seconds</span>
+          </div>
         </div>
+        <div className="sr-only">{screenReaderValues}</div>
       </div>
     </>
   )

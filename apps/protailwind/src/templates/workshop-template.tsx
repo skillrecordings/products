@@ -200,7 +200,7 @@ const BuyWorkshop: React.FC<
           </div>
         </Link>
       )}
-      <div className="p-7">
+      <div className="p-5 sm:p-7">
         <PriceCheckProvider purchasedProductIds={purchasedProductIds}>
           <Pricing
             userId={userId}

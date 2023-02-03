@@ -177,6 +177,12 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
             )}
             <PriceDisplay status={status} formattedPrice={formattedPrice} />
             <div data-byline="">Full access</div>
+            {(isSellingLive || allowPurchase) && (
+              <SaleCountdown
+                data-pricing-product-sale-countdown=""
+                coupon={defaultCoupon}
+              />
+            )}
           </div>
         )}
         {purchased ? (
@@ -334,13 +340,6 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
             )}
           </div>
         )}
-        {isSellingLive && allowPurchase && !purchased && (
-          <SaleCountdown
-            coupon={defaultCoupon}
-            data-pricing-product-sale-countdown={index}
-          />
-        )}
-
         {showPPPBox && (
           <RegionalPricingBox
             pppCoupon={pppCoupon || merchantCoupon}

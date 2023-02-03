@@ -165,8 +165,10 @@ const LoginLink: React.FC<{email: string}> = ({email}) => {
           </Balancer>
         </h2>
         <div className="mb-3 inline-flex items-center gap-1 rounded-lg bg-white/20 py-3 px-4">
-          <MailIcon className="h-5 w-5" />{' '}
-          <strong className="font-semibold">Email sent to: {email}</strong>
+          <MailIcon className="h-5 w-5 flex-shrink-0" />{' '}
+          <strong className="inline-block break-all font-semibold">
+            Email sent to: {email}
+          </strong>
         </div>
         <p className="mx-auto text-sm font-medium leading-relaxed text-white sm:text-base">
           As a final step to access the course you need to check your inbox (
