@@ -19,6 +19,10 @@ import videoOptions from './objects/videoOptions'
 import grid from './objects/grid'
 import gridItem from './objects/gridItem'
 import tweet from './objects/tweet'
+import tip from './documents/tip'
+import videoResource from './documents/videoResource'
+import muxAsset from './objects/muxAsset'
+import castingwordsTranscript from './objects/castingwordsTranscript'
 
 // Then we give our schema to the builder and provide the result to Sanity
 export default createSchema({
@@ -30,6 +34,8 @@ export default createSchema({
     // documents
     page,
     article,
+    tip,
+    videoResource,
     // objects
     body,
     bodyVideo,
@@ -42,5 +48,7 @@ export default createSchema({
     grid,
     gridItem,
     tweet,
+    muxAsset,
+    castingwordsTranscript,
   ]),
 })
