@@ -9,7 +9,7 @@ const hiddenDocTypes = (listItem) =>
     'article',
     'page',
     'tip',
-    'videoResources',
+    'videoResource',
     'skosConcept',
     'skosConceptScheme',
   ].includes(listItem.getId())

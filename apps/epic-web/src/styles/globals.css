@@ -19,3 +19,14 @@
     display: none;
   }
 }
+
+mux-player {
+  aspect-ratio: 16 / 9;
+  width: 100%;
+  height: auto;
+  @apply relative overflow-hidden;
+}
+
+mux-player::part(vertical-layer) {
+  background-color: rgba(0, 0, 0, 0);
+}
