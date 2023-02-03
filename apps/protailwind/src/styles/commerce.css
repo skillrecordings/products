@@ -64,7 +64,23 @@
         [data-price-container='error'] {
           @apply hidden;
         }
+        [data-pricing-product-sale-countdown] {
+          @apply mt-5 flex w-full flex-col rounded-lg border border-gray-200 py-5 text-center;
+          [data-grid] {
+            @apply mx-auto grid max-w-[300px] grid-cols-4 items-center justify-center gap-3 tabular-nums tracking-tight;
+          }
+          [data-title] {
+            @apply pb-4 text-base font-medium;
+          }
+          [data-number] {
+            @apply font-heading text-3xl font-black leading-none;
+          }
+          [data-label] {
+            @apply pt-1 text-xs font-semibold uppercase tracking-wide opacity-75;
+          }
+        }
       }
+
       [data-purchased-container] {
         @apply px-5 pt-6;
         [data-loading-price] {
@@ -262,10 +278,25 @@
           }
         }
         [data-price-container='loading'] {
-          @apply flex items-center py-1.5;
+          @apply flex items-center py-2;
         }
         [data-price-container='error'] {
           @apply hidden;
+        }
+        [data-pricing-product-sale-countdown] {
+          @apply mt-5 flex w-full flex-col rounded-lg border border-gray-200 py-5 px-3 text-center;
+          [data-grid] {
+            @apply mx-auto grid max-w-[300px] grid-cols-4 items-center justify-center gap-3 tabular-nums tracking-tight;
+          }
+          [data-title] {
+            @apply pb-4 text-sm font-medium sm:text-base;
+          }
+          [data-number] {
+            @apply font-heading text-2xl font-black leading-none sm:text-3xl;
+          }
+          [data-label] {
+            @apply pt-1 text-xs font-semibold uppercase tracking-wide opacity-75;
+          }
         }
       }
       [data-purchased-container] {
@@ -411,6 +442,21 @@
             [data-percent-off] {
               @apply text-base text-pink-300;
             }
+          }
+        }
+        [data-pricing-product-sale-countdown] {
+          @apply mt-5 flex w-full flex-col rounded-lg border-2 border-white/10 py-5 px-5 text-center;
+          [data-grid] {
+            @apply mx-auto grid grid-cols-4 items-center justify-center gap-3 tabular-nums tracking-tight sm:max-w-[300px];
+          }
+          [data-title] {
+            @apply pb-4 text-sm font-medium sm:text-base;
+          }
+          [data-number] {
+            @apply font-heading text-2xl font-black leading-none sm:text-3xl;
+          }
+          [data-label] {
+            @apply pt-1 text-xs font-semibold uppercase tracking-wide opacity-75;
           }
         }
       }
