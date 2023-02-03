@@ -911,6 +911,7 @@ importers:
       '@types/react-dom': ^18.0.6
       '@types/uuid': ^8.3.4
       classnames: ^2.3.1
+      date-fns: ^2.28.0
       dotenv-flow: ^3.2.0
       eslint: ^8.19.0
       eslint-config-custom: workspace:*
@@ -974,6 +975,7 @@ importers:
       '@trpc/react-query': 10.7.0_x4ie6nhblo2vtx2aafrgzlfqy4
       '@trpc/server': 10.7.0
       classnames: 2.3.1
+      date-fns: 2.28.0
       feed: 4.2.2
       groq: 2.15.0
       lodash: 4.17.21

@@ -143,11 +143,6 @@ export async function recordNewPurchase(checkoutSessionId: string): Promise<{
     purchaseType = NEW_INDIVIDUAL_PURCHASE
   }
 
-  await createPurchaseUserTransfer({
-    purchaseId: purchase.id,
-    sourceUserId: user.id,
-  })
-
   return {
     purchase,
     user,

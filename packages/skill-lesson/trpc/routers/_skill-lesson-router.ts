@@ -8,6 +8,7 @@ import {videoResourceRouter} from './video-resource'
 import {lessonsRouter} from './lessons'
 import {modulesRouter} from './modules'
 import {pricing} from './pricing'
+import {purchaseUserTransferRouter} from './purchaseUserTransfer'
 
 /**
  * Create your application's root router
@@ -22,6 +23,7 @@ export const skillLessonRouter = router({
   lessons: lessonsRouter,
   modules: modulesRouter,
   pricing: pricing,
+  purchaseUserTransfer: purchaseUserTransferRouter,
 })
 
 export type SkillLessonRouter = typeof skillLessonRouter

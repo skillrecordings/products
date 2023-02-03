@@ -10,7 +10,7 @@ import toast from 'react-hot-toast'
 import {isSellingLive} from 'path-to-purchase-react/is-selling-live'
 import * as NavigationMenu from '@radix-ui/react-navigation-menu'
 import {createAppAbility} from '@skillrecordings/skill-lesson/utils/ability'
-import {trpc} from '../utils/trpc'
+import {trpc} from '../trpc/trpc.client'
 import {ChevronDownIcon, MenuIcon} from '@heroicons/react/solid'
 import {useFeedback} from '@skillrecordings/feedback-widget'
 

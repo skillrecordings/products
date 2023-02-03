@@ -46,6 +46,7 @@
     "@trpc/react-query": "^10.7.0",
     "@trpc/server": "^10.7.0",
     "classnames": "^2.3.1",
+    "date-fns": "^2.28.0",
     "feed": "^4.2.2",
     "groq": "^2.15.0",
     "lodash": "^4.17.21",

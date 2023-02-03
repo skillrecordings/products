@@ -21,6 +21,7 @@
     "@portabletext/types": "^1.0.3",
     "@sanity/client": "^3.4.1",
     "@skillrecordings/ability": "workspace:*",
+    "@skillrecordings/skill-api": "workspace:*",
     "@skillrecordings/analytics": "workspace:*",
     "@skillrecordings/commerce-server": "workspace:*",
     "@skillrecordings/config": "workspace:*",

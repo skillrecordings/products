@@ -12,6 +12,8 @@ import format from 'date-fns/format'
 import {prisma} from '@skillrecordings/database'
 import {getCurrentAbility} from '@skillrecordings/ability'
 import {getToken} from 'next-auth/jwt'
+import {trpc} from '../../trpc/trpc.client'
+import {Transfer} from '../../purchase-transfer/purchase-transfer'
 
 export const getServerSideProps: GetServerSideProps = async ({
   res,
@@ -54,6 +56,7 @@ export const getServerSideProps: GetServerSideProps = async ({
           charge,
           product: convertToSerializeForNextResponse(product),
           merchantChargeId,
+          purchaseId: purchase?.id,
           bulkCoupon: convertToSerializeForNextResponse(bulkCoupon),
         },
       }
@@ -75,12 +78,19 @@ const Invoice: React.FC<
     merchantChargeId: string
     merchantProduct: MerchantProduct
     bulkCoupon: Coupon
+    purchaseId: string
   }>
-> = ({charge, product, merchantChargeId, merchantProduct, bulkCoupon}) => {
+> = ({charge, product, merchantChargeId, purchaseId, bulkCoupon}) => {
   const [invoiceMetadata, setInvoiceMetadata] = useLocalStorage(
     'invoice-metadata',
     '',
   )
+
+  const {data: purchaseUserTransfers, refetch} =
+    trpc.purchaseUserTransfer.forPurchaseId.useQuery({
+      id: purchaseId,
+    })
+
   const customer = charge.customer as Stripe.Customer
   const formatUsd = (amount: number) => {
     return Intl.NumberFormat('en-US', {
@@ -242,6 +252,14 @@ const Invoice: React.FC<
             </div>
           </div>
         </div>
+        {!bulkCoupon && purchaseUserTransfers ? (
+          <div className="py-16">
+            <Transfer
+              purchaseUserTransfers={purchaseUserTransfers}
+              refetch={refetch}
+            />
+          </div>
+        ) : null}
       </main>
     </Layout>
   )

@@ -1,4 +1,3 @@
-import {publicProcedure, router} from '@skillrecordings/skill-lesson'
 import {z} from 'zod'
 import {
   getSdk,
@@ -6,19 +5,20 @@ import {
   type PurchaseUserTransfer,
   type PurchaseUserTransferState,
 } from '@skillrecordings/database'
-import {
-  type HTMLEmailParams,
-  sendServerEmail,
-  type TextEmailParams,
-} from '@skillrecordings/skill-api'
-import {type Theme} from 'next-auth'
+
+import {NextAuthOptions, type Theme} from 'next-auth'
 import process from 'process'
-import mjml2html from 'mjml'
-import {nextAuthOptions} from '../../pages/api/auth/[...nextauth]'
 import {format} from 'date-fns'
-import {getBaseUrl} from '@skillrecordings/skill-lesson/utils/get-base-url'
 import {getToken} from 'next-auth/jwt'
 import {type Stripe, stripe} from '@skillrecordings/commerce-server'
+import {
+  HTMLEmailParams,
+  sendServerEmail,
+  TextEmailParams,
+} from '@skillrecordings/skill-api'
+import {getBaseUrl} from '../../utils/get-base-url'
+import {publicProcedure, router} from '../trpc.server'
+import mjml2html from 'mjml'
 
 const canInitiateTransfer = async ({
   purchaseUserTransfer,
@@ -53,9 +53,11 @@ const canInitiateTransfer = async ({
 const initiateTransfer = async ({
   purchaseUserTransferId,
   toEmail,
+  nextAuthOptions,
 }: {
   purchaseUserTransferId: string
   toEmail: string
+  nextAuthOptions?: NextAuthOptions
 }) => {
   const {getPurchaseUserTransferById, findOrCreateUser} = getSdk()
   const {user: toUser} = await findOrCreateUser(toEmail.toLowerCase())
@@ -73,15 +75,16 @@ const initiateTransfer = async ({
       },
     })
 
-    await sendServerEmail({
-      email: toUser.email,
-      callbackUrl: `${getBaseUrl()}/transfer/${initiatedTransfer.id}`,
-      nextAuthOptions,
-      type: 'transfer',
-      html: defaultHtml,
-      text: defaultText,
-      expiresAt: initiatedTransfer.expiresAt,
-    })
+    nextAuthOptions &&
+      (await sendServerEmail({
+        email: toUser.email,
+        callbackUrl: `${getBaseUrl()}/transfer/${initiatedTransfer.id}`,
+        nextAuthOptions,
+        type: 'transfer',
+        html: defaultHtml,
+        text: defaultText,
+        expiresAt: initiatedTransfer.expiresAt,
+      }))
   }
 }
 
@@ -106,6 +109,7 @@ export const purchaseUserTransferRouter = router({
       return await initiateTransfer({
         purchaseUserTransferId: purchaseUserTransfer.id,
         toEmail: input.email,
+        nextAuthOptions: ctx.nextAuthOptions,
       })
     }),
   cancel: publicProcedure

@@ -6,7 +6,7 @@ import {GetStaticPaths, GetStaticProps} from 'next'
 import {getAllWorkshops, getWorkshop} from '../../../lib/workshops'
 import WorkshopTemplate from '../../../templates/workshop-template'
 
-import {trpc} from '../../../utils/trpc'
+import {trpc} from '../../../trpc/trpc.client'
 import {useRouter} from 'next/router'
 
 export const USER_ID_QUERY_PARAM_KEY = 'learner'
