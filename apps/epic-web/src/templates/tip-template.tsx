@@ -58,8 +58,6 @@ const TipTemplate: React.FC<{
 
   const tweet = tipResources?.tweetId
 
-  console.log({tweet})
-
   const ogImage = getOgImage({
     title: tip.title,
     image: `${getBaseUrl()}/api/video-thumb?videoResourceId=${videoResourceId}`,
