@@ -205,7 +205,7 @@ export const TipTeaser: React.FC<{tip: Tip}> = ({tip}) => {
           </div>
         </button>
       </header>
-      <h2 className="text-base font-bold leading-tight sm:text-lg">
+      <h2 className="text-black font-bold leading-tight sm:text-lg">
         <Link
           href={{
             pathname: '/tips/[tip]',

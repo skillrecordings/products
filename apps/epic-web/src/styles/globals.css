@@ -1,6 +1,6 @@
 @tailwind base;
-
 @tailwind components;
+@import './subscribe-form.css';
 @import './quiz.css';
 @import './primary-newsletter-cta.css';
 @import './nprogress.css';

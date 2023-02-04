@@ -228,7 +228,11 @@ const PortableTextComponents: PortableTextComponents = {
       return <InternalLink value={value}>{children}</InternalLink>
     },
     code: ({value, children}) => {
-      return <code className="rounded bg-gray-200 px-1 py-0.5">{children}</code>
+      return (
+        <code className="rounded px-1 py-0.5 text-yellow-50 bg-gray-700">
+          {children}
+        </code>
+      )
     },
   },
   types: {
