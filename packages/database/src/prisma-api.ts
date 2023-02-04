@@ -318,10 +318,13 @@ export function getSdk(
             },
             where: {
               userId,
-              status: 'Valid',
+              status: {
+                in: ['Valid', 'Refunded'],
+              },
             },
             select: {
               id: true,
+              status: true,
               merchantChargeId: true,
               productId: true,
               createdAt: true,

@@ -33,6 +33,7 @@ const PurchasesIndex: React.FC<{
       redeemedBulkCouponId: string | null
     }[]
 }> = ({purchases}) => {
+  console.log({purchases})
   return (
     <Layout meta={{title: 'Your Purchases'}}>
       <header className="px-5 pt-16 text-center sm:pt-20">

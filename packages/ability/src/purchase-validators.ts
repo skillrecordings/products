@@ -18,7 +18,9 @@ export function hasAvailableSeats(purchases?: any[]) {
 
 export function hasValidPurchase(purchases?: any[]) {
   return purchases?.some((purchase) => {
-    return purchase && !Boolean(purchase.bulkCoupon)
+    return (
+      purchase && !Boolean(purchase.bulkCoupon) && purchase.status === 'Valid'
+    )
   })
 }
 
