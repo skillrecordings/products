@@ -30,7 +30,7 @@ const Navigation = () => {
           New Learning Experience by Kent C. Dodds
         </div>
       </div>
-      <div className="absolute lg:right-7 lg:top-5 right-4 top-3.5 lg:text-white text-black z-10">
+      <div className="absolute lg:right-7 lg:top-5 right-4 top-3.5 lg:text-white text-black z-10 flex space-x-8">
         <Link
           href="/articles"
           passHref
@@ -42,6 +42,18 @@ const Navigation = () => {
           className="flex items-center lg:font-medium font-semibold before:content-[''''] before:absolute lg:text-base text-sm before:w-1 before:h-1 before:bg-brand before:-ml-2.5 hover:underline decoration-white/40"
         >
           Articles
+        </Link>
+        <Link
+          href="/tips"
+          passHref
+          onClick={() => {
+            track('clicked Tips from navigation', {
+              page: asPath,
+            })
+          }}
+          className="flex items-center lg:font-medium font-semibold before:content-[''''] before:absolute lg:text-base text-sm before:w-1 before:h-1 before:bg-brand before:-ml-2.5 hover:underline decoration-white/40"
+        >
+          Tips
         </Link>
       </div>
     </nav>

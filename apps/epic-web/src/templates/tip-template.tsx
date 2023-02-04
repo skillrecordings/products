@@ -119,7 +119,7 @@ const TipTemplate: React.FC<{
           description: tip.description ?? '',
         }}
       >
-        <main className="mx-auto w-full">
+        <main className="mx-auto w-full pt-16">
           <div className="relative z-10 flex items-center justify-center">
             <div className="flex w-full max-w-screen-xl flex-col">
               <Video ref={muxPlayerRef} tips={tips} />
