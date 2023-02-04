@@ -7,7 +7,7 @@ const Navigation = () => {
   const isRoot = pathname === '/'
 
   return (
-    <nav aria-label="top" className="lg:w-16 w-full">
+    <nav aria-label="top" className="lg:w-16 w-full shrink-0">
       <div className="lg:w-16 w-full lg:h-screen lg:fixed bg-brand text-black z-10 flex lg:flex-col flex-row justify-between">
         <Link
           href="/"

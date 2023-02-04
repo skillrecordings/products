@@ -118,7 +118,7 @@ const TipTemplate: React.FC<{
         }}
       >
         <main className="mx-auto w-full">
-          <div className="relative z-10 flex items-center justify-center bg-gradient-to-b from-gray-100 to-gray-50">
+          <div className="relative z-10 flex items-center justify-center">
             <div className="flex w-full max-w-screen-xl flex-col">
               <Video ref={muxPlayerRef} tips={tips} />
               {!subscriber && !loadingSubscriber && (
@@ -179,7 +179,7 @@ const TipTemplate: React.FC<{
                   )}
                 </div>
                 <div className="w-full">
-                  <div className="prose w-full max-w-none pb-5 font-medium prose-p:text-gray-800 sm:prose-lg">
+                  <div className="prose w-full max-w-none pb-5 font-medium sm:prose-lg">
                     <PortableText
                       value={tip.summary}
                       components={PortableTextComponents}
@@ -241,7 +241,7 @@ const Transcript: React.FC<{transcript: any[]; muxPlayerRef: any}> = ({
   return (
     <section aria-label="transcript">
       <h2 className="font-heading text-2xl font-black">Transcript</h2>
-      <div className="prose prose-sm max-w-none pt-4 prose-p:text-gray-700 sm:prose">
+      <div className="prose prose-sm max-w-none pt-4 sm:prose">
         <PortableText
           value={transcript}
           components={
@@ -278,7 +278,9 @@ const RelatedTips: React.FC<{tips: Tip[]; currentTip: Tip}> = ({
 }) => {
   return (
     <section className="mx-auto h-full w-full rounded-xl bg-white p-5 shadow-2xl shadow-gray-500/20 sm:p-10">
-      <h2 className="pt-3 font-heading text-2xl font-black">More Tips</h2>
+      <h2 className="pt-3 font-heading text-2xl font-black text-black">
+        More Tips
+      </h2>
       <div className="flex flex-col pt-4">
         {tips
           .filter((tip) => tip.slug !== currentTip.slug)
@@ -436,7 +438,7 @@ const SubscribeForm = ({
   return (
     <div
       id="tip"
-      className="flex w-full flex-col items-center justify-between gap-5 border-b border-gray-200 px-3 pt-4 pb-5 md:flex-row md:pb-3 md:pt-3 2xl:px-0"
+      className="flex w-full flex-col items-center justify-between gap-5 border-b border-gray-700/80 px-3 pt-4 pb-5 md:flex-row md:pb-3 md:pt-3 2xl:px-0"
     >
       <div className="inline-flex items-center gap-2 text-lg font-semibold leading-tight md:text-base lg:flex-shrink-0 lg:text-lg">
         <div
@@ -445,10 +447,10 @@ const SubscribeForm = ({
         >
           <MailIcon className="h-5 w-5 text-brand-red" />
         </div>{' '}
-        New Tailwind tips delivered to your inbox
+        New EpicWeb tips delivered to your inbox
       </div>
       <SubscribeToConvertkitForm
-        actionLabel="Subscribe for Tailwind tips"
+        actionLabel="Subscribe for EpicWeb tips"
         onSuccess={(subscriber, email) => {
           return handleOnSuccess(subscriber, email)
         }}
