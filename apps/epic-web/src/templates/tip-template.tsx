@@ -149,9 +149,7 @@ const TipTemplate: React.FC<{
                     </div>
                   ) : (
                     <Hr
-                      className={
-                        tipCompleted ? 'bg-emerald-400' : 'bg-brand-red'
-                      }
+                      className={tipCompleted ? 'bg-emerald-400' : 'bg-brand'}
                     />
                   )}
                   {tip.body && (
@@ -443,9 +441,9 @@ const SubscribeForm = ({
       <div className="inline-flex items-center gap-2 text-lg font-semibold leading-tight md:text-base lg:flex-shrink-0 lg:text-lg">
         <div
           aria-hidden="true"
-          className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full bg-brand-red/10"
+          className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full bg-brand/10"
         >
-          <MailIcon className="h-5 w-5 text-brand-red" />
+          <MailIcon className="h-5 w-5 text-brand" />
         </div>{' '}
         New EpicWeb tips delivered to your inbox
       </div>
