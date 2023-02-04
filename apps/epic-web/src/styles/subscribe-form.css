@@ -1,51 +1,41 @@
 #primary-newsletter-cta {
   [data-sr-convertkit-subscribe-form] {
-    @apply mx-auto flex w-full max-w-[400px] flex-col gap-6;
+    @apply text-lg flex flex-col w-full max-w-md mx-auto px-5 space-y-8;
     [data-sr-input] {
-      @apply block w-full rounded-lg bg-white px-5 py-4 text-black focus:outline-white;
+      @apply block mt-2 p-5 w-full bg-black rounded-none;
     }
     [data-sr-input-label] {
-      @apply inline-block pb-1 font-medium;
+      @apply font-medium pb-1 inline-block;
     }
     [data-sr-input-asterisk] {
       @apply opacity-50;
     }
     [data-sr-button] {
-      @apply mt-2 flex w-full items-center justify-center overflow-clip rounded-full bg-black p-5 text-lg font-black tracking-wide text-white shadow-xl transition focus:outline-white hover:bg-gray-900 sm:text-xl;
-
+      @apply mt-10 relative rounded-none bg-brand text-black p-5 font-bold focus-visible:outline-offset-4 before:absolute before:w-0 hover:before:w-full before:h-full before:bg-amber-300 hover:scale-105 active:scale-100 ease-in-out duration-300 before:transition-all before:ease-in-out before:duration-300 transition-all before:left-0 before:top-0 flex items-center justify-center;
       svg {
-        @apply h-6 w-6;
+        @apply w-7 h-7;
       }
     }
   }
 }
 
-#video-overlay {
+#article {
   [data-sr-convertkit-subscribe-form] {
-    @apply flex w-full max-w-sm flex-col gap-4 text-left;
+    @apply text-lg flex flex-col w-full max-w-md mx-auto space-y-8;
     [data-sr-input] {
-      @apply w-full rounded-md border border-gray-200 bg-gray-100 px-3 py-3 text-black placeholder:text-gray-500;
+      @apply block mt-2 p-5 w-full bg-black border border-gray-700/80;
     }
     [data-sr-input-label] {
-      @apply inline-block w-full pb-1 text-gray-200;
+      @apply font-medium pb-1 inline-block;
+    }
+    [data-sr-input-asterisk] {
+      @apply opacity-50;
     }
     [data-sr-button] {
-      @apply relative mt-2 flex items-center justify-center rounded-full bg-brand py-4 px-5 font-semibold text-white shadow-2xl shadow-gray-500/10 ring-offset-1 transition hover:brightness-110;
+      @apply mt-10 relative bg-brand text-black p-5 font-bold focus-visible:outline-offset-4 before:absolute before:w-0 hover:before:w-full before:h-full before:bg-amber-300 hover:scale-105 active:scale-100 ease-in-out duration-300 before:transition-all before:ease-in-out before:duration-300 transition-all before:left-0 before:top-0 flex items-center justify-center;
       svg {
-        @apply h-7 w-7;
+        @apply w-7 h-7;
       }
-    }
-    [data-sr-button][disabled] {
-    }
-  }
-  [data-sr-convertkit-subscribe-form='success'] {
-    p {
-      @apply py-2 text-center;
-    }
-  }
-  [data-sr-convertkit-subscribe-form='error'] {
-    p {
-      @apply py-2 text-center;
     }
   }
 }
@@ -68,40 +58,6 @@
     }
     [data-sr-button] {
       @apply relative flex flex-shrink-0 items-center justify-center before:absolute before:w-0 hover:before:w-full bg-brand before:h-full before:bg-amber-300 before:z-[-1] ease-in-out duration-300 before:transition-all before:ease-in-out before:duration-300 transition-all before:left-0 before:top-0 py-2 px-5 font-semibold text-black shadow-2xl shadow-cyan-900/50  focus-visible:ring-white hover:brightness-110;
-      svg {
-        @apply h-7 w-7;
-      }
-    }
-    [data-sr-button][disabled] {
-    }
-  }
-  [data-sr-convertkit-subscribe-form='success'] {
-    p {
-      @apply py-2 text-center;
-    }
-  }
-  [data-sr-convertkit-subscribe-form='error'] {
-    p {
-      @apply py-2 text-center;
-    }
-  }
-}
-
-#pricing {
-  [data-sr-convertkit-subscribe-form] {
-    @apply flex w-full flex-col gap-2 text-left;
-    [data-sr-input-wrapper] {
-      @apply w-full;
-    }
-    [data-sr-input] {
-      @apply w-full rounded-md bg-gray-200/60 px-3 py-2 shadow-inner placeholder:text-gray-500 focus-visible:ring-blue-500;
-    }
-
-    [data-sr-input-label] {
-      @apply sr-only;
-    }
-    [data-sr-button] {
-      @apply relative flex flex-shrink-0 items-center justify-center rounded-lg bg-blue-500 py-3 px-5 font-semibold text-white shadow-xl shadow-blue-800/20 ring-offset-1 transition focus-visible:ring-blue-500 hover:brightness-110;
       svg {
         @apply h-7 w-7;
       }
