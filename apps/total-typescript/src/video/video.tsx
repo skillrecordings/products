@@ -30,6 +30,7 @@ export const Video: React.FC<VideoProps> = React.forwardRef(
       muxPlayerProps,
       displayOverlay,
       nextExercise,
+      nextExerciseStatus,
       canShowVideo,
       loadingUserStatus,
       nextSection,
@@ -39,12 +40,28 @@ export const Video: React.FC<VideoProps> = React.forwardRef(
       <>
         {displayOverlay && (
           <>
-            {nextExercise ? (
-              <>{isExercise ? <ExerciseOverlay /> : <DefaultOverlay />}</>
-            ) : nextSection ? (
-              <FinishedSectionOverlay />
+            {nextExerciseStatus === 'loading' ? (
+              <LoadingOverlay />
             ) : (
-              <FinishedOverlay />
+              <>
+                {nextExercise ? (
+                  <>
+                    {isExercise ? (
+                      canShowVideo ? (
+                        <ExerciseOverlay />
+                      ) : (
+                        <BlockedOverlay />
+                      )
+                    ) : (
+                      <DefaultOverlay />
+                    )}
+                  </>
+                ) : nextSection ? (
+                  <FinishedSectionOverlay />
+                ) : (
+                  <FinishedOverlay />
+                )}
+              </>
             )}
           </>
         )}
