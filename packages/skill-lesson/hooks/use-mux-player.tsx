@@ -111,19 +111,12 @@ export const VideoProvider: React.FC<
   const moduleSlug = module?.slug?.current
   const nextExerciseSlug = nextExercise?.slug
 
-  const handleNext = React.useCallback(
-    (autoPlay: boolean) => {
-      console.log({nextExercise})
-      if (lesson._type === 'exercise') {
-        router.push(router.asPath + '/exercise').then(() => {
-          setDisplayOverlay(true)
-        })
-      } else {
-        setDisplayOverlay(true)
-      }
-    },
-    [lesson._type, nextExercise, router],
-  )
+  const handleNext = React.useCallback(async () => {
+    if (lesson._type === 'exercise') {
+      await router.push(router.asPath + '/exercise').then(() => {})
+    }
+    setDisplayOverlay(true)
+  }, [lesson._type, router])
 
   // initialize player state
   React.useEffect(() => {
@@ -158,7 +151,7 @@ export const VideoProvider: React.FC<
 
   const onEndedCallback = React.useCallback(async () => {
     exitFullscreen()
-    handleNext(getPlayerPrefs().autoplay)
+    handleNext()
     track('completed lesson video', {
       module: module.slug.current,
       lesson: lesson.slug,
@@ -167,7 +160,6 @@ export const VideoProvider: React.FC<
     })
     return onEnded()
   }, [
-    getPlayerPrefs,
     handleNext,
     lesson._type,
     lesson.slug,
