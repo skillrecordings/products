@@ -52,7 +52,10 @@ const canViewWorkshop = ({user, module, lesson}: ViewerAbilityInput) => {
 
   const purchases = user?.purchases || []
   const userHasPurchaseWithAccess = Boolean(
-    purchases.find((purchase) => purchase.bulkCouponId === null),
+    purchases.find(
+      (purchase) =>
+        purchase.bulkCouponId === null && purchase.status === 'Valid',
+    ),
   )
 
   return contentIsWorkshop && userHasPurchaseWithAccess && lesson

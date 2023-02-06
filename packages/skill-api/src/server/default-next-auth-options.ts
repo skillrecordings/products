@@ -14,6 +14,7 @@ async function getUser(userId: string) {
       purchases: {
         select: {
           id: true,
+          status: true,
           merchantChargeId: true,
           productId: true,
           createdAt: true,

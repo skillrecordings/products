@@ -36,6 +36,7 @@ export const getServerSideProps: GetServerSideProps = async ({
         id: purchaseId as string,
       },
       select: {
+        status: true,
         productId: true,
         totalAmount: true,
         createdAt: true,
@@ -102,6 +103,7 @@ type PurchaseDetailProps = {
     email: string
   }
   purchase: {
+    status: 'Valid' | 'Refunded' | 'Disputed' | 'Pending'
     merchantChargeId: string | null
     bulkCoupon: {id: string; maxUses: number; usedCount: number} | null
     product: {id: string; name: string}
@@ -169,7 +171,8 @@ const PurchaseDetail: React.FC<PurchaseDetailProps> = ({
                 />
               )}
               <Row label="Amount paid" icon="Dollar">
-                <Price amount={purchase.totalAmount} />
+                <Price amount={purchase.totalAmount} />{' '}
+                {purchase.status === 'Refunded' && '(Refunded)'}
               </Row>
               <Row label="Purchased on" icon="Calendar">
                 <DatePurchased date={purchase.createdAt} />
@@ -179,7 +182,8 @@ const PurchaseDetail: React.FC<PurchaseDetailProps> = ({
                   {user.email}
                 </Row>
               )}
-              {(personalPurchase || canViewContent) && (
+              {((purchase.status === 'Valid' && personalPurchase) ||
+                canViewContent) && (
                 <Row label="Progress" icon="PlayOutline">
                   <Progress sanityProduct={sanityProduct} />
                 </Row>
