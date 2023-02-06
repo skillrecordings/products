@@ -113,21 +113,16 @@ export const VideoProvider: React.FC<
 
   const handleNext = React.useCallback(
     (autoPlay: boolean) => {
-      // if (nextExercise?._type === 'exercise') {
-      //   setDisplayOverlay(true)
-      // } else {
-      //   router.push(router.asPath + '/exercise').then(() => {
-      //     setDisplayOverlay(true)
-      //   })
-      // }
-      nextExerciseSlug && autoPlay
-        ? router.push({
-            pathname: '/[module]/[lesson]',
-            query: {module: moduleSlug, lesson: nextExerciseSlug},
-          })
-        : setDisplayOverlay(true)
+      console.log({nextExercise})
+      if (lesson._type === 'exercise') {
+        router.push(router.asPath + '/exercise').then(() => {
+          setDisplayOverlay(true)
+        })
+      } else {
+        setDisplayOverlay(true)
+      }
     },
-    [moduleSlug, nextExercise, router],
+    [lesson._type, nextExercise, router],
   )
 
   // initialize player state
