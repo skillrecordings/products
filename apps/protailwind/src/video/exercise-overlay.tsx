@@ -14,7 +14,7 @@ import {sanityClient} from '@skillrecordings/skill-lesson/utils/sanity-client'
 import {PortableText} from '@portabletext/react'
 import {trpc} from '../trpc/trpc.client'
 import Spinner from '../components/spinner'
-import Link from 'next/link'
+import isEmpty from 'lodash/isEmpty'
 import first from 'lodash/first'
 import {useLesson} from '@skillrecordings/skill-lesson/hooks/use-lesson'
 import {useVideoResource} from '@skillrecordings/skill-lesson/hooks/use-video-resource'
@@ -167,6 +167,8 @@ const ExerciseOverlay: React.FC<{tutorialFiles: any}> = ({tutorialFiles}) => {
   }
 
   const githubRepo = `https://github.com/pro-tailwind/${module?.github?.repo}`
+  const githubUrl = resources?.github?.url
+  const step = resources?.github?.url?.match(/\d+-\d+-\d+/g)
 
   return status !== 'loading' ? (
     <div className="flex aspect-video flex-col items-center justify-center">
@@ -194,34 +196,49 @@ const ExerciseOverlay: React.FC<{tutorialFiles: any}> = ({tutorialFiles}) => {
                   Try solving this exercise
                 </p>
                 <p className="text-lg font-semibold sm:text-xl">Run locally</p>
-                <p className="max-w-sm sm:text-lg">
-                  Clone{' '}
-                  {module?.github?.repo ? (
-                    <a
-                      href={githubRepo}
-                      target="_blank"
-                      rel="noreferrer"
-                      className="text-sky-300 underline"
-                    >
-                      workshop repository
-                    </a>
-                  ) : (
-                    'workshop repository'
-                  )}{' '}
-                  and follow instructions from the{' '}
-                  {module?.github?.repo ? (
-                    <a
-                      href={`${githubRepo}#readme`}
-                      target="_blank"
-                      rel="noreferrer"
-                      className="text-sky-300 underline"
-                    >
-                      README
-                    </a>
-                  ) : (
-                    'README'
-                  )}
-                  .
+                <p className="max-w-md sm:text-lg">
+                  <Balancer>
+                    Clone{' '}
+                    {module?.github?.repo ? (
+                      <a
+                        href={githubRepo}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="text-sky-300 underline"
+                      >
+                        workshop repository
+                      </a>
+                    ) : (
+                      'workshop repository'
+                    )}{' '}
+                    and follow instructions from the{' '}
+                    {module?.github?.repo ? (
+                      <a
+                        href={`${githubRepo}#readme`}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="text-sky-300 underline"
+                      >
+                        README
+                      </a>
+                    ) : (
+                      'README'
+                    )}
+                    .{' '}
+                    {githubUrl && !isEmpty(step) && (
+                      <>
+                        This exercise corresponds to step{' '}
+                        <a
+                          href={githubUrl}
+                          target="_blank"
+                          rel="noreferrer"
+                          className="text-sky-300 underline"
+                        >
+                          {step}
+                        </a>
+                      </>
+                    )}
+                  </Balancer>
                 </p>
                 <p className="text-lg font-semibold sm:py-5 sm:text-xl">or</p>
                 {resources?.gitpod?.url && (

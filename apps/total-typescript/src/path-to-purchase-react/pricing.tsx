@@ -147,12 +147,14 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
           {/* {Boolean(appliedMerchantCoupon || isDiscount(formattedPrice)) && (
           <Ribbon appliedMerchantCoupon={appliedMerchantCoupon} />
         )} */}
-          {!purchased && (
+          {(isSellingLive || allowPurchase) && !purchased ? (
             <div data-pricing-product-header="">
               <h4 data-name-badge="">{name}</h4>
               <PriceDisplay status={status} formattedPrice={formattedPrice} />
               <div data-byline="">Full access</div>
             </div>
+          ) : (
+            <div data-pricing-product-header="" />
           )}
           {purchased ? (
             <>
@@ -330,13 +332,12 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
               )}
             </div>
           )}
-          {isSellingLive ||
-            (allowPurchase && !purchased && (
-              <SaleCountdown
-                coupon={defaultCoupon}
-                data-pricing-product-sale-countdown={index}
-              />
-            ))}
+          {(isSellingLive || allowPurchase) && !purchased && (
+            <SaleCountdown
+              coupon={defaultCoupon}
+              data-pricing-product-sale-countdown={index}
+            />
+          )}
           {showPPPBox && (
             <RegionalPricingBox
               pppCoupon={pppCoupon || merchantCoupon}
@@ -346,12 +347,14 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
             />
           )}
           <div data-pricing-footer="">
-            {product.description && !purchased && (
-              <div className="prose prose-sm mx-auto max-w-sm px-5 prose-p:text-gray-200 sm:prose-base">
-                <ReactMarkdown>{product.description}</ReactMarkdown>
-              </div>
-            )}
-            {!purchased && (
+            {product.description &&
+              (isSellingLive || allowPurchase) &&
+              !purchased && (
+                <div className="prose prose-sm mx-auto max-w-sm px-5 prose-p:text-gray-200 sm:prose-base">
+                  <ReactMarkdown>{product.description}</ReactMarkdown>
+                </div>
+              )}
+            {(isSellingLive || allowPurchase) && !purchased && (
               <div className="flex justify-center pt-8 align-middle">
                 <Image
                   src="https://res.cloudinary.com/total-typescript/image/upload/v1669928567/money-back-guarantee-badge-16137430586cd8f5ec2a096bb1b1e4cf_o5teov.svg"
@@ -579,11 +582,13 @@ const SubscribeForm = ({
         >
           <MailIcon className="h-5 w-5 text-cyan-300" />
         </div>{' '}
-        Get notified when Total TypeScript Vol 1. is released:
+        Total TypeScript is not available for purchase yet! We plan to release
+        it around March 1st 2023. If you'd like to get notified and receive the
+        best discounts, please subscribe below:
       </div>
       <SubscribeToConvertkitForm
         formId={3843826}
-        actionLabel="Subscribe to get notified"
+        actionLabel="Get Notified"
         onSuccess={(subscriber, email) => {
           return handleOnSuccess(subscriber, email)
         }}
