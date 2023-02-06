@@ -28,6 +28,7 @@ type VideoContextType = {
   handlePlay: () => void
   displayOverlay: boolean
   nextExercise?: Lesson | null
+  nextExerciseStatus?: 'error' | 'success' | 'loading'
   nextSection: Section | null
   path: string
   video?: {muxPlaybackId?: string}
@@ -55,12 +56,17 @@ export const VideoProvider: React.FC<
   exerciseSlug,
 }) => {
   const router = useRouter()
+
   const {subscriber} = useConvertkit()
   const {videoResource, loadingVideoResource} = useVideoResource()
   const {lesson, section, module} = useLesson()
   useGlobalPlayerShortcuts(muxPlayerRef)
 
-  const nextExercise = useNextLesson(lesson, module, section)
+  const {nextExercise, nextExerciseStatus} = useNextLesson(
+    lesson,
+    module,
+    section,
+  )
 
   const nextSection = section
     ? getNextSection({
@@ -84,6 +90,7 @@ export const VideoProvider: React.FC<
   const {setPlayerPrefs, autoplay, getPlayerPrefs} = usePlayerPrefs()
   const [autoPlay, setAutoPlay] = React.useState(getPlayerPrefs().autoplay)
   const [displayOverlay, setDisplayOverlay] = React.useState(false)
+
   const title = get(lesson, 'title') || get(lesson, 'label')
   const loadingUserStatus =
     abilityRulesStatus === 'loading' || loadingVideoResource
@@ -106,20 +113,23 @@ export const VideoProvider: React.FC<
 
   const handleNext = React.useCallback(
     (autoPlay: boolean) => {
-      nextExerciseSlug && autoPlay
-        ? router.push({
-            pathname: '/[module]/[lesson]',
-            query: {module: moduleSlug, lesson: nextExerciseSlug},
-          })
-        : setDisplayOverlay(true)
+      if (nextExercise?._type === 'exercise') {
+        setDisplayOverlay(true)
+      } else {
+        router.push(router.asPath + '/exercise').then(() => {
+          setDisplayOverlay(true)
+        })
+      }
     },
-    [moduleSlug, nextExerciseSlug, router],
+    [moduleSlug, nextExercise, router],
   )
 
   // initialize player state
   React.useEffect(() => {
-    setDisplayOverlay(false)
-  }, [lesson])
+    router.asPath.endsWith('/exercise')
+      ? setDisplayOverlay(true)
+      : setDisplayOverlay(false)
+  }, [lesson, router.asPath])
 
   const playbackRate = getPlayerPrefs().playbackRate
   const playbackId = videoResource?.muxPlaybackId
@@ -199,6 +209,7 @@ export const VideoProvider: React.FC<
     handlePlay,
     displayOverlay,
     nextExercise,
+    nextExerciseStatus,
     nextSection,
     video: videoResource,
     path,

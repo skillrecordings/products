@@ -10,6 +10,7 @@ import {track} from '@skillrecordings/skill-lesson/utils/analytics'
 import {useLesson} from '@skillrecordings/skill-lesson/hooks/use-lesson'
 import {Section} from '@skillrecordings/skill-lesson/schemas/section'
 import {Module} from '@skillrecordings/skill-lesson/schemas/module'
+import {trpc} from 'trpc/trpc.client'
 
 type LessonTitleLinkProps = {
   path: string
@@ -63,7 +64,8 @@ export const LessonList: React.FC<{
 }> = ({path}) => {
   const router = useRouter()
   const scrollContainerRef = React.useRef<HTMLDivElement>(null)
-  const {module, section} = useLesson()
+  const {module, section, lesson} = useLesson()
+
   const activeElRef = React.useRef<HTMLDivElement>(null)
   React.useEffect(() => {
     const activeElTop: any = activeElRef.current?.offsetTop
@@ -90,12 +92,14 @@ export const LessonList: React.FC<{
               ? `${path}/${module.slug.current}/${section.slug}/${exercise.slug}`
               : `${path}/${module.slug.current}/${exercise.slug}`
             const isActive = router.asPath === currentPath
+
             const scrollToElement =
               router.asPath === `${currentPath}/solution` ||
-              router.asPath === currentPath
+              router.asPath === currentPath ||
+              router.asPath === currentPath + '/exercise'
 
             return (
-              <li key={exercise.slug} className="pt-2">
+              <li key={exercise._id} className="pt-2">
                 {scrollToElement && (
                   <div ref={activeElRef} aria-hidden="true" />
                 )}
@@ -108,7 +112,10 @@ export const LessonList: React.FC<{
                 />
                 {exercise._type === 'exercise' && (
                   <ul className="text-gray-300">
-                    <li key={exercise.slug + `exercise`}>
+                    <li
+                      key={exercise.slug + `exercise`}
+                      className="relative flex items-center"
+                    >
                       <Link
                         href={{
                           pathname: section
@@ -122,7 +129,7 @@ export const LessonList: React.FC<{
                         }}
                         passHref
                         className={cx(
-                          'flex items-center border-l-4 py-2 px-8 text-base font-medium transition hover:bg-slate-400/20 hover:text-white',
+                          'flex w-full items-center border-l-4 py-2 px-8 text-base font-medium transition hover:bg-slate-400/20 hover:text-white',
                           {
                             'border-orange-400 bg-gray-800/80 text-white':
                               isActive,
@@ -143,6 +150,12 @@ export const LessonList: React.FC<{
                         Problem
                       </Link>
                     </li>
+                    <StackblitzLink
+                      module={module}
+                      lesson={exercise}
+                      section={section}
+                      path={path}
+                    />
                     <SolutionLink
                       module={module}
                       exercise={exercise}
@@ -210,10 +223,7 @@ export const LessonList: React.FC<{
               // and present it based on it's structure that doesn't assume a resource
               // is simply a URL
               return (
-                <li
-                  key={resource.slug?.current || resource.slug}
-                  className="pt-2"
-                >
+                <li key={resource.url} className="pt-2">
                   <Link
                     href={resource.url}
                     passHref
@@ -247,6 +257,67 @@ export const LessonList: React.FC<{
         </nav>
       )}
     </div>
+  )
+}
+
+const StackblitzLink = ({
+  module,
+  lesson,
+  section,
+  path,
+}: {
+  module: Module
+  section?: Section
+  lesson: Lesson
+  path: string
+}) => {
+  const router = useRouter()
+  const {data: stackblitz, status: stackblitzStatus} =
+    trpc.stackblitz.byExerciseSlug.useQuery({
+      slug: router.query.lesson as string,
+      type: lesson._type,
+    })
+  const currentPath = section
+    ? `${path}/${module.slug.current}/${section.slug}/${lesson.slug}`
+    : `${path}/${module.slug.current}/${lesson.slug}`
+  const isActive = router.asPath === currentPath + '/exercise'
+
+  return (
+    <>
+      {stackblitzStatus === 'loading' ? (
+        <li
+          className={cx(
+            'flex w-full items-center border-l-4 border-transparent py-2 px-8 text-base font-medium',
+          )}
+        >
+          Exercise
+        </li>
+      ) : stackblitz ? (
+        <li>
+          <Link
+            href={{
+              pathname: section
+                ? `${path}/[module]/[section]/[lesson]/exercise`
+                : `${path}/[module]/[lesson]/exercise`,
+              query: {
+                module: module.slug.current,
+                lesson: lesson.slug,
+                ...(section && {section: section.slug}),
+              },
+            }}
+            className={cx(
+              'flex w-full items-center border-l-4 py-2 px-8 text-base font-medium transition hover:bg-slate-400/20 hover:text-white',
+              {
+                'border-indigo-400 bg-gray-800/80 text-white': isActive,
+                'border-transparent ': !isActive,
+              },
+            )}
+          >
+            Exercise
+          </Link>
+        </li>
+      ) : null}
+    </>
   )
 }
 

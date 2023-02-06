@@ -72,7 +72,8 @@ const ExerciseListItem = ({
   const currentPath = section
     ? `${path}/${module.slug.current}/${section.slug}/${exercise?.slug}`
     : `${path}/${module.slug.current}/${exercise?.slug}`
-  const isActive = router.asPath === currentPath
+  const isActive =
+    router.asPath === currentPath || router.asPath === currentPath + '/exercise'
   return exercise ? (
     <ul className="text-gray-700">
       <li key={exercise.slug + `exercise`}>
