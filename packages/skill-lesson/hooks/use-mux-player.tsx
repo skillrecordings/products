@@ -121,7 +121,7 @@ export const VideoProvider: React.FC<
         })
       }
     },
-    [moduleSlug, nextExerciseSlug, router],
+    [moduleSlug, nextExercise, router],
   )
 
   // initialize player state
