@@ -43,31 +43,30 @@ const PurchaseTransferForm = ({
   }
 
   return (
-    <div>
-      <form
-        className="flex w-full flex-col gap-2 text-left md:flex-row"
-        onSubmit={handleSubmit(onSubmit)}
+    <form
+      id="purchase-transfer-form"
+      className="flex w-full flex-col gap-2 text-left md:flex-row"
+      onSubmit={handleSubmit(onSubmit)}
+    >
+      <label className="sr-only" htmlFor="email">
+        Email:
+      </label>
+      <input
+        className="w-full rounded-md bg-gray-200/60 px-3 py-2 shadow-inner placeholder:text-gray-500"
+        type="email"
+        {...register('email', {required: true})}
+        placeholder="somebody@example.com"
+      />
+      {errors.email && <span>This field is required</span>}
+      <button
+        className="relative flex flex-shrink-0 items-center justify-center rounded-full bg-brand-red py-2 px-5 font-semibold text-white shadow-2xl shadow-cyan-900/50 transition focus-visible:ring-white hover:brightness-110"
+        type="submit"
+        disabled={isLoading}
       >
-        <label className="sr-only" htmlFor="email">
-          Email:
-        </label>
-        <input
-          className="w-full rounded-md bg-gray-200/60 px-3 py-2 shadow-inner placeholder:text-gray-500"
-          type="email"
-          {...register('email', {required: true})}
-          placeholder="somebody@example.com"
-        />
-        {errors.email && <span>This field is required</span>}
-        <button
-          className="relative flex flex-shrink-0 items-center justify-center rounded-full bg-brand-red py-2 px-5 font-semibold text-white shadow-2xl shadow-cyan-900/50 transition focus-visible:ring-white hover:brightness-110"
-          type="submit"
-          disabled={isLoading}
-        >
-          Transfer
-        </button>
-        {error && <span>{error.message}</span>}
-      </form>
-    </div>
+        Transfer
+      </button>
+      {error && <span>{error.message}</span>}
+    </form>
   )
 }
 
@@ -83,15 +82,18 @@ export const Transfer = ({
       refetch()
     },
   })
+
   return (
-    <div className="mt-12 flex flex-col gap-3">
+    <div id="purchase-transfer">
       {purchaseUserTransfers.map((purchaseUserTransfer) => {
+        const STATE = purchaseUserTransfer.transferState
+
         return (
-          <>
-            {purchaseUserTransfer.transferState === 'AVAILABLE' && (
+          <div data-transfer-state={STATE} className="flex flex-col gap-3">
+            {STATE === 'AVAILABLE' && (
               <>
                 <h2 className="text-2xl font-bold">
-                  Transfer this purchase to another email address.
+                  Transfer this purchase to another email address
                 </h2>
                 <p>
                   You can transfer your purchase to another email address. We
@@ -111,8 +113,8 @@ export const Transfer = ({
                 />
               </>
             )}
-            {purchaseUserTransfer.transferState === 'INITIATED' && (
-              <div>
+            {STATE === 'INITIATED' && (
+              <>
                 <h2 className="mb-3 text-2xl font-bold">
                   This purchase is being transferred. Once accepted you will no
                   longer have access to this purchase or its associated invoice.
@@ -129,17 +131,17 @@ export const Transfer = ({
                 >
                   Cancel Transfer
                 </button>
-              </div>
+              </>
             )}
-            {purchaseUserTransfer.transferState === 'COMPLETED' && (
-              <div>
+            {STATE === 'COMPLETED' && (
+              <>
                 <p>
                   This purchase has been transferred. You no longer have access
                   to this purchase or its associated invoice.
                 </p>
-              </div>
+              </>
             )}
-          </>
+          </div>
         )
       })}
     </div>

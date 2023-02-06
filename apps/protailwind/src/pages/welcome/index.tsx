@@ -158,7 +158,10 @@ const Welcome: React.FC<
       meta={{title: `Welcome to ${process.env.NEXT_PUBLIC_SITE_TITLE}`}}
       footer={null}
     >
-      <main className="mx-auto flex w-full flex-grow flex-col items-center justify-center px-5 pt-10 pb-32">
+      <main
+        className="mx-auto flex w-full flex-grow flex-col items-center justify-center px-5 pt-10 pb-32"
+        id="welcome"
+      >
         <div className="flex w-full max-w-screen-md flex-col gap-3">
           <Header
             workshop={workshop}
@@ -195,10 +198,15 @@ const Welcome: React.FC<
               </div>
             )}
             {isTransferAvailable && purchaseUserTransfers && (
-              <Transfer
-                purchaseUserTransfers={purchaseUserTransfers}
-                refetch={refetch}
-              />
+              <div>
+                <h2 className="pb-2 font-heading text-sm font-black uppercase">
+                  Transfer this purchase to another email address
+                </h2>
+                <Transfer
+                  purchaseUserTransfers={purchaseUserTransfers}
+                  refetch={refetch}
+                />
+              </div>
             )}
           </div>
         </div>
