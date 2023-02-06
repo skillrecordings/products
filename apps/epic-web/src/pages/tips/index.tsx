@@ -10,11 +10,6 @@ import {getBaseUrl} from '@skillrecordings/skill-lesson/utils/get-base-url'
 
 export async function getStaticProps() {
   const tips = await getAllTips()
-  // const qqq = await getTip(
-  //   'combining-variants-with-the-dark-mode-class-strategy',
-  // )
-  // console.log({qqq})
-
   return {
     props: {tips},
     revalidate: 10,
@@ -28,6 +23,7 @@ type TipsIndex = {
 const pageDescription = 'A collection of valuable tips.'
 
 const TipsIndex: React.FC<TipsIndex> = ({tips}) => {
+  const tipsAllowed = process.env.NEXT_PUBLIC_TIPS_ALLOWED === 'true'
   return (
     <Layout
       meta={{
@@ -40,19 +36,23 @@ const TipsIndex: React.FC<TipsIndex> = ({tips}) => {
       }}
       className="sm:pt-18 flex flex-col items-center pb-16 pt-16 lg:pt-20 lg:pb-24"
     >
-      <header className="relative z-10 flex flex-col items-center px-5 pb-16 text-center">
-        <h1 className="text-center font-heading text-4xl font-black sm:text-5xl lg:text-6xl">
-          Tips
-        </h1>
-        <p className="max-w-md pt-8 text-center text-lg text-gray-600 lg:text-xl">
-          {pageDescription}
-        </p>
-      </header>
-      <main className="relative z-10 mx-auto grid w-full max-w-screen-lg grid-cols-1 gap-5 px-5 md:grid-cols-2">
-        {tips.map((tip) => {
-          return <TipCard tip={tip} key={tip.slug} />
-        })}
-      </main>
+      {tipsAllowed ? (
+        <>
+          <header className="relative z-10 flex flex-col items-center px-5 pb-16 text-center">
+            <h1 className="text-center font-heading text-4xl font-black sm:text-5xl lg:text-6xl">
+              Tips
+            </h1>
+            <p className="max-w-md pt-8 text-center text-lg text-gray-600 lg:text-xl">
+              {pageDescription}
+            </p>
+          </header>
+          <main className="relative z-10 mx-auto grid w-full max-w-screen-lg grid-cols-1 gap-5 px-5 md:grid-cols-2">
+            {tips.map((tip) => {
+              return <TipCard tip={tip} key={tip.slug} />
+            })}
+          </main>
+        </>
+      ) : null}
     </Layout>
   )
 }
