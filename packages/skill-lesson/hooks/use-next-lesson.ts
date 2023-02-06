@@ -20,12 +20,13 @@ export const useNextLesson = (
     slug = router.query.lesson as string
   }
 
-  const {data: nextExercise} = trpcSkillLessons.lessons.getNextLesson.useQuery({
-    type: lesson._type,
-    slug,
-    module: module.slug.current,
-    section: section?.slug,
-  })
+  const {data: nextExercise, status: nextExerciseStatus} =
+    trpcSkillLessons.lessons.getNextLesson.useQuery({
+      type: lesson._type,
+      slug,
+      module: module.slug.current,
+      section: section?.slug,
+    })
 
-  return nextExercise
+  return {nextExercise, nextExerciseStatus}
 }

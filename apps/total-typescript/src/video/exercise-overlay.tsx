@@ -7,7 +7,7 @@ import {IconGithub} from '../components/icons'
 import snakeCase from 'lodash/snakeCase'
 import Image from 'next/legacy/image'
 import {useMuxPlayer} from '@skillrecordings/skill-lesson/hooks/use-mux-player'
-import {XIcon} from '@heroicons/react/solid'
+import {CodeIcon, XIcon} from '@heroicons/react/solid'
 import cx from 'classnames'
 import {track} from '@skillrecordings/skill-lesson/utils/analytics'
 import {setUserId} from '@amplitude/analytics-browser'
@@ -94,7 +94,7 @@ const Actions = () => {
           handlePlay()
         }}
       >
-        Replay <span aria-hidden="true">↺</span>
+        <span aria-hidden="true">↺</span> Replay
       </button>
       {nextExercise && (
         <button
@@ -137,7 +137,7 @@ const ExerciseOverlay = () => {
 
   const {exerciseGitHubUrl} = getExerciseGitHubUrl({stackblitz, module})
 
-  return status !== 'loading' ? (
+  return (
     <div className=" bg-black/30 ">
       {stackblitz ? (
         <>
@@ -252,7 +252,7 @@ const ExerciseOverlay = () => {
         </div>
       )}
     </div>
-  ) : null
+  )
 }
 
 const DefaultOverlay = () => {
@@ -262,6 +262,10 @@ const DefaultOverlay = () => {
   const {image} = module
   const addProgressMutation = trpc.progress.add.useMutation()
   const utils = trpc.useContext()
+  const {data: stackblitz} = trpc.stackblitz.byExerciseSlug.useQuery({
+    slug: router.query.lesson as string,
+    type: lesson._type,
+  })
 
   return (
     <OverlayWrapper className="px-5">
@@ -281,7 +285,7 @@ const DefaultOverlay = () => {
         <span className="font-normal text-gray-200">Up next:</span>{' '}
         {nextExercise?.title}
       </p>
-      <div className="flex items-center justify-center gap-5 py-4 sm:py-8">
+      <div className="flex flex-wrap items-center justify-center gap-3 py-4 sm:py-8">
         <button
           className="rounded bg-gray-800 px-3 py-1 text-lg font-semibold transition hover:bg-gray-700 sm:px-5 sm:py-3"
           onClick={() => {
@@ -295,8 +299,17 @@ const DefaultOverlay = () => {
             handlePlay()
           }}
         >
-          Replay ↺
+          <span aria-hidden="true">↺</span> Replay
         </button>
+        {stackblitz && (
+          <Link
+            href={router.asPath.replace('solution', 'exercise')}
+            className="flex items-center gap-1 rounded bg-gray-800 px-3 py-1 text-lg font-semibold transition hover:bg-gray-700 sm:px-5 sm:py-3"
+          >
+            <CodeIcon className="h-5 w-5" aria-hidden="true" />
+            Try Again
+          </Link>
+        )}
         <button
           className="rounded bg-cyan-600 px-3 py-1 text-lg font-semibold transition hover:bg-cyan-500 sm:px-5 sm:py-3"
           onClick={() => {
@@ -600,6 +613,10 @@ const FinishedSectionOverlay = () => {
   const utils = trpc.useContext()
   const nextExercise = first(nextSection?.lessons) as Lesson
   const router = useRouter()
+  const {data: stackblitz} = trpc.stackblitz.byExerciseSlug.useQuery({
+    slug: router.query.lesson as string,
+    type: lesson._type,
+  })
 
   return (
     <OverlayWrapper className="px-5">
@@ -614,14 +631,13 @@ const FinishedSectionOverlay = () => {
           />
         </div>
       )}
-
       {nextSection && (
         <p className="pt-4 text-xl font-semibold sm:text-3xl">
           <span className="font-normal text-gray-200">Up next:</span>{' '}
           {nextSection.title}
         </p>
       )}
-      <div className="flex items-center justify-center gap-5 py-4 sm:py-8">
+      <div className="flex flex-wrap items-center justify-center gap-3 py-4 sm:py-8">
         <button
           className="rounded bg-gray-800 px-3 py-1 text-lg font-semibold transition hover:bg-gray-700 sm:px-5 sm:py-3"
           onClick={() => {
@@ -635,8 +651,17 @@ const FinishedSectionOverlay = () => {
             handlePlay()
           }}
         >
-          Replay ↺
+          <span aria-hidden="true">↺</span> Replay
         </button>
+        {stackblitz && (
+          <Link
+            href={router.asPath.replace('solution', 'exercise')}
+            className="flex items-center gap-1 rounded bg-gray-800 px-3 py-1 text-lg font-semibold transition hover:bg-gray-700 sm:px-5 sm:py-3"
+          >
+            Try Again
+            <CodeIcon className="h-5 w-5" aria-hidden="true" />
+          </Link>
+        )}
         <button
           className="rounded bg-cyan-600 px-3 py-1 text-lg font-semibold transition hover:bg-cyan-500 sm:px-5 sm:py-3"
           onClick={() => {
