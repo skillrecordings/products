@@ -143,6 +143,26 @@ const Icons = {
       d="M9.355.797a1.591 1.591 0 0 1-.58 2.156L4.122 5.647a.401.401 0 0 0-.2.348v4.228a.4.4 0 0 0 .2.347l3.683 2.133a.39.39 0 0 0 .39 0l3.685-2.133a.4.4 0 0 0 .2-.347v-2.63L8.766 9.485a1.55 1.55 0 0 1-2.127-.6 1.592 1.592 0 0 1 .593-2.153l4.739-2.708c1.443-.824 3.228.232 3.228 1.91v4.61a3.015 3.015 0 0 1-1.497 2.612l-4.23 2.448a2.937 2.937 0 0 1-2.948 0l-4.229-2.448A3.016 3.016 0 0 1 .8 10.544v-4.87A3.016 3.016 0 0 1 2.297 3.06L7.225.208a1.55 1.55 0 0 1 2.13.589Z"
     />
   ),
+  MoveDown: () => (
+    <g
+      strokeWidth="1"
+      fill="none"
+      stroke="currentColor"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
+      <line x1="12.5" y1="0.5" x2="12.5" y2="15.5" stroke="currentColor"></line>
+      <polyline
+        points="15.5 12.5 12.5 15.5 9.5 12.5"
+        stroke="currentColor"
+      ></polyline>
+      <polyline points="0.5 2.5 0.5 0.5 2.5 0.5"></polyline>
+      <polyline points="2.5 6.5 0.5 6.5 0.5 4.5"></polyline>
+      <polyline points="6.5 4.5 6.5 6.5 4.5 6.5"></polyline>
+      <polyline points="4.5 0.5 6.5 0.5 6.5 2.5"></polyline>
+      <rect x="0.5" y="9.5" width="6" height="6"></rect>
+    </g>
+  ),
 } as const
 
 export type IconNames = keyof typeof Icons

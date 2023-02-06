@@ -6,6 +6,7 @@
 @import './focus-visible.css';
 @import './nprogress.css';
 @import './commerce.css';
+@import '../purchase-details/purchase-details.css';
 @import '@skillrecordings/feedback-widget/dist/styles.css';
 @tailwind utilities;
 
