@@ -57,7 +57,7 @@
       @apply sr-only;
     }
     [data-sr-button] {
-      @apply relative flex flex-shrink-0 items-center justify-center before:absolute before:w-0 hover:before:w-full bg-brand before:h-full before:bg-amber-300 before:z-[-1] ease-in-out duration-300 before:transition-all before:ease-in-out before:duration-300 transition-all before:left-0 before:top-0 py-2 px-5 font-semibold text-black shadow-2xl shadow-cyan-900/50  focus-visible:ring-white hover:brightness-110;
+      @apply relative flex flex-shrink-0 items-center justify-center before:absolute before:w-0 hover:before:w-full bg-brand before:h-full before:bg-amber-300 before:z-[-1] ease-in-out duration-300 before:transition-all before:ease-in-out before:duration-300 transition-all before:left-0 before:top-0 py-2 px-5 font-semibold text-black focus-visible:ring-white hover:brightness-110;
       svg {
         @apply h-7 w-7;
       }

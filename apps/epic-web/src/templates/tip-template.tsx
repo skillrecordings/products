@@ -419,13 +419,16 @@ const ReplyOnTwitter: React.FC<{tweet: string}> = ({tweet}) => {
       href={`https://twitter.com/i/status/${tweet}`}
       target="_blank"
       rel="noopener noreferrer"
-      className="mb-5 mt-2 inline-flex items-center justify-center gap-2 rounded-full bg-white px-5 py-3 font-medium text-gray-700 shadow-2xl shadow-gray-500/30 transition"
+      className="mb-5 mt-2 relative inline-flex flex-shrink-0 items-center justify-center before:absolute before:w-0 hover:before:w-full bg-gray-700 before:h-full before:bg-gray-600 before:z-[-1] ease-in-out duration-300 before:transition-all before:ease-in-out before:duration-300 transition-all before:left-0 before:top-0 py-4 px-5 font-semibold text-white  focus-visible:ring-white hover:brightness-110 space-x-2"
       onClick={() => {
         track('clicked reply on twitter')
       }}
     >
-      <ChatAltIcon aria-hidden="true" className="h-5 w-5 text-sky-500" />
-      Discuss on Twitter
+      <ChatAltIcon
+        aria-hidden="true"
+        className="relative h-5 w-5 text-sky-500"
+      />
+      <span>Discuss on Twitter</span>
     </a>
   )
 }
