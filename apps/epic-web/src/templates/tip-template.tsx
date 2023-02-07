@@ -310,7 +310,7 @@ const TipOverlay: React.FC<{tips: Tip[]}> = ({tips}) => {
   return (
     <div
       id="video-overlay"
-      className="relative top-0 left-0 flex w-full items-center justify-center border-t border-gray-50 bg-gray-900 shadow-2xl shadow-gray-500/20 lg:aspect-video xl:rounded-b-xl"
+      className="relative top-0 left-0 flex w-full items-center justify-center border-t border-gray-700/80 bg-gray-900 shadow-2xl shadow-gray-500/20 lg:aspect-video xl:rounded-b-xl"
     >
       <div className="absolute top-8 right-8 z-50 flex items-center justify-center gap-3">
         <button className={buttonStyles} onClick={handlePlay}>
@@ -374,7 +374,7 @@ const VideoOverlayTipCard: React.FC<{suggestedTip: Tip}> = ({suggestedTip}) => {
             handlePlay()
           })
       }}
-      className="group relative z-0 flex aspect-video h-full w-full items-end justify-start overflow-hidden rounded-lg bg-gray-900 p-8 text-left font-medium leading-tight text-gray-100"
+      className="group relative z-0 flex aspect-video h-full w-full items-end justify-start overflow-hidden rounded-lg bg-gray-900 p-8 text-left font-medium leading-tight text-gray-100 border border-gray-700/80"
     >
       <div className="relative z-10 flex flex-col">
         <span className="pb-1 font-heading text-xs font-bold uppercase tracking-wide text-gray-400">
