@@ -11,6 +11,7 @@ import {useLesson} from '@skillrecordings/skill-lesson/hooks/use-lesson'
 import {trpc} from '../trpc/trpc.client'
 import {Module} from '@skillrecordings/skill-lesson/schemas/module'
 import {Section} from '@skillrecordings/skill-lesson/schemas/section'
+import Icon from 'components/icons'
 
 type LessonTitleLinkProps = {
   path: string
@@ -27,6 +28,17 @@ const LessonTitleLink: React.FC<LessonTitleLinkProps> = ({
   sectionIndex = 0,
   module,
 }) => {
+  const {data: moduleProgress, status: moduleProgressStatus} =
+    trpc.moduleProgress.bySlug.useQuery({
+      slug: module.slug.current,
+      type: module.moduleType,
+    })
+
+  const isLessonCompleted = moduleProgress?.lessons.find(
+    (progressLesson) =>
+      progressLesson.id === lesson._id && progressLesson.lessonCompleted,
+  )
+
   return (
     <Link
       href={{
@@ -51,10 +63,21 @@ const LessonTitleLink: React.FC<LessonTitleLinkProps> = ({
         })
       }}
     >
-      <span aria-hidden="true" className="absolute left-3 text-xs opacity-50">
-        {sectionIndex + 1}
-      </span>{' '}
-      <span className="pl-5">{lesson.title}</span>
+      {isLessonCompleted ? (
+        <Icon
+          name="Checkmark"
+          aria-hidden="true"
+          className="absolute left-3 w-3 text-xs text-emerald-500"
+        />
+      ) : (
+        <span aria-hidden="true" className="absolute left-3 text-xs opacity-50">
+          {sectionIndex + 1}
+        </span>
+      )}{' '}
+      <span className="pl-5">
+        {lesson.title}{' '}
+        {isLessonCompleted && <span className="sr-only">(completed)</span>}
+      </span>
     </Link>
   )
 }
@@ -74,6 +97,7 @@ const ExerciseListItem = ({
     : `${path}/${module.slug.current}/${exercise?.slug}`
   const isActive =
     router.asPath === currentPath || router.asPath === currentPath + '/exercise'
+
   return exercise ? (
     <ul className="text-gray-700">
       <li key={exercise.slug + `exercise`}>
@@ -134,7 +158,7 @@ export const LessonList: React.FC<{
     const activeElTop: any = activeElRef.current?.offsetTop
     const scrollContainerTop: any = scrollContainerRef.current?.offsetTop
     scrollContainerRef.current?.scrollTo({
-      top: activeElTop - scrollContainerTop,
+      top: activeElTop - 0,
     })
   }, [router])
 
