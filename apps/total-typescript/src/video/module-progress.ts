@@ -18,23 +18,25 @@ export const ModuleProgressSchema = z.object({
       slug: z.string(),
     })
     .nullish(),
-  sections: z.array(
-    z.object({
-      id: z.string(),
-      slug: z.string(),
-      sectionCompleted: z.boolean(),
-      percentComplete: z.number(),
-      lessonCount: z.number(),
-      completedLessonCount: z.number(),
-      lessons: z.array(
-        z.object({
-          id: z.string(),
-          slug: z.string(),
-          lessonCompleted: z.boolean().default(false),
-        }),
-      ),
-    }),
-  ),
+  sections: z
+    .array(
+      z.object({
+        id: z.string(),
+        slug: z.string(),
+        sectionCompleted: z.boolean(),
+        percentComplete: z.number(),
+        lessonCount: z.number(),
+        completedLessonCount: z.number(),
+        lessons: z.array(
+          z.object({
+            id: z.string(),
+            slug: z.string(),
+            lessonCompleted: z.boolean().default(false),
+          }),
+        ),
+      }),
+    )
+    .nullable(),
   lessons: z.array(
     z.object({
       id: z.string(),

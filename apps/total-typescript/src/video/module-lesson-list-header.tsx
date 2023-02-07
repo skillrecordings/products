@@ -22,19 +22,19 @@ const ModuleLessonListHeader: React.FC<SidebarProps> = ({
   className,
   children,
 }) => {
-  const headerHeight = section ? '190px' : '150px'
+  const headerHeight = 150
   return (
     <>
       <div
         className={cx(
-          'relative z-50 w-full flex-shrink-0 lg:max-w-[280px] xl:max-w-xs',
+          'relative z-50 w-full flex-shrink-0 border-r border-gray-800 lg:max-w-[280px] xl:max-w-xs',
           className,
         )}
       >
-        <div className="top-0 border-r border-gray-800 lg:sticky">
+        <div className="top-0 lg:sticky">
           <aside>
             <div
-              className={`top-0 z-10 h-[${headerHeight}] bg-gradient-to-t from-transparent via-gray-900 to-gray-900 lg:sticky`}
+              className={`top-0 z-10 h-[${headerHeight}px] bg-gradient-to-t from-transparent via-gray-900 to-gray-900 lg:sticky`}
             >
               <div className="relative flex items-center gap-5 border-b border-gray-800 bg-gray-900 px-3 py-1">
                 {module?.image && (
@@ -87,18 +87,17 @@ const ModuleLessonListHeader: React.FC<SidebarProps> = ({
                   objectPosition="center center"
                 />
               </div>
-              {section && (
+              {/* {section && (
                 <h3 className="w-full px-5 pt-4 text-xl font-semibold leading-none">
                   {section.title}
                 </h3>
               )}
               <p className="px-5 pt-4 pb-2 text-xs font-medium uppercase tracking-wide text-gray-300">
                 Exercises
-              </p>
+              </p> */}
             </div>
-
             {children}
-            <div className="pointer-events-none absolute bottom-0 left-0 z-20 h-24 w-full bg-gradient-to-t from-gray-900 to-transparent" />
+            <div className="pointer-events-none absolute bottom-0 left-0 z-20 h-16 w-full bg-gradient-to-t from-gray-900 to-transparent" />
           </aside>
         </div>
       </div>
