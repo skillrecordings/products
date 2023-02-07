@@ -2,7 +2,10 @@ import React from 'react'
 import cx from 'classnames'
 import Layout from 'components/layout'
 import {TipPageProps} from 'pages/tips/[tip]'
-import MuxPlayer, {MuxPlayerProps} from '@mux/mux-player-react'
+import MuxPlayer, {
+  MuxPlayerProps,
+  MuxPlayerRefAttributes,
+} from '@mux/mux-player-react'
 import {Tip} from 'lib/tips'
 import {
   PortableText,
@@ -47,7 +50,7 @@ const TipTemplate: React.FC<{
   tips: Tip[]
   transcript: any[]
 }> = ({tip, tips}) => {
-  const muxPlayerRef = React.useRef<HTMLDivElement>()
+  const muxPlayerRef = React.useRef<MuxPlayerRefAttributes>(null)
   const {subscriber, loadingSubscriber} = useConvertkit()
   const router = useRouter()
   const {tipCompleted} = useTipComplete(tip.slug)

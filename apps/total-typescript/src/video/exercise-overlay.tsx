@@ -75,7 +75,7 @@ export const OverlayWrapper: React.FC<
 }
 
 const Actions = () => {
-  const {nextExercise, path, handlePlay} = useMuxPlayer()
+  const {nextExercise, path, handlePlay, muxPlayerRef} = useMuxPlayer()
   const {lesson, module, section} = useLesson()
   const router = useRouter()
 
@@ -93,6 +93,9 @@ const Actions = () => {
           })
           if (router.asPath.endsWith('/exercise')) {
             router.push(router.asPath.replace('/exercise', ''))
+            if (muxPlayerRef.current) {
+              muxPlayerRef.current.currentTime = 0
+            }
           }
           handlePlay()
         }}

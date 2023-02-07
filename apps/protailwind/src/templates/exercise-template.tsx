@@ -13,13 +13,14 @@ import {VideoTranscript} from 'video/video-transcript'
 import {Video} from 'video/video'
 import {LargeScreenModuleLessonList} from 'video/large-screen-module-lesson-list'
 import {MobileModuleLessonList} from 'video/mobile-module-lesson-list'
+import {MuxPlayerRefAttributes} from '@mux/mux-player-react/*'
 
 const ExerciseTemplate: React.FC<{
   transcript: any[]
   tutorialFiles?: any
 }> = ({transcript, tutorialFiles}) => {
   const router = useRouter()
-  const muxPlayerRef = React.useRef<HTMLDivElement>()
+  const muxPlayerRef = React.useRef<MuxPlayerRefAttributes>(null)
   const {lesson, section, module} = useLesson()
   const {videoResourceId} = useVideoResource()
 

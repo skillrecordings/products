@@ -5,7 +5,10 @@ import {
   useMuxPlayer,
   VideoProvider,
 } from '@skillrecordings/skill-lesson/hooks/use-mux-player'
-import MuxPlayer, {MuxPlayerProps} from '@mux/mux-player-react'
+import MuxPlayer, {
+  MuxPlayerProps,
+  MuxPlayerRefAttributes,
+} from '@mux/mux-player-react'
 import {Tip} from 'lib/tips'
 import {
   PortableText,
@@ -46,7 +49,7 @@ const TipTemplate: React.FC<{
   tips: Tip[]
   transcript: any[]
 }> = ({tip, tips, transcript}) => {
-  const muxPlayerRef = React.useRef<HTMLDivElement>()
+  const muxPlayerRef = React.useRef<MuxPlayerRefAttributes>(null)
   const {subscriber, loadingSubscriber} = useConvertkit()
   const router = useRouter()
   const {tipCompleted} = useTipComplete(tip.slug)

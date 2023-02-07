@@ -4,9 +4,9 @@ import get from 'lodash/get'
 
 const ignoredInputs = ['input', 'select', 'button', 'textarea', 'mux-player']
 
-export const useGlobalPlayerShortcuts = (muxPlayerRef: {
-  current: MuxPlayerRefAttributes
-}) => {
+export const useGlobalPlayerShortcuts = (
+  muxPlayerRef: React.RefObject<MuxPlayerRefAttributes>,
+) => {
   const handleUserKeyPress = React.useCallback(
     (e: any) => {
       const activeElement = document.activeElement

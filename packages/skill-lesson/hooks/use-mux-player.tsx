@@ -2,7 +2,10 @@ import React from 'react'
 import get from 'lodash/get'
 import isEmpty from 'lodash/isEmpty'
 import {useRouter} from 'next/router'
-import {type MuxPlayerProps} from '@mux/mux-player-react/*'
+import {
+  MuxPlayerRefAttributes,
+  type MuxPlayerProps,
+} from '@mux/mux-player-react/*'
 
 import {useVideoResource} from './use-video-resource'
 import {useLesson} from './use-lesson'
@@ -35,6 +38,7 @@ type VideoContextType = {
   canShowVideo: boolean
   loadingUserStatus: boolean
   ability: AppAbility
+  muxPlayerRef: React.RefObject<MuxPlayerRefAttributes>
 }
 
 export const VideoContext = React.createContext({} as VideoContextType)
@@ -42,7 +46,7 @@ export const VideoContext = React.createContext({} as VideoContextType)
 type VideoProviderProps = {
   exerciseSlug?: string
   path?: string
-  muxPlayerRef: any
+  muxPlayerRef: React.RefObject<MuxPlayerRefAttributes>
   onEnded?: () => Promise<any>
 }
 
@@ -108,9 +112,6 @@ export const VideoProvider: React.FC<
     }
   }
 
-  const moduleSlug = module?.slug?.current
-  const nextExerciseSlug = nextExercise?.slug
-
   const handleNext = React.useCallback(async () => {
     if (lesson._type === 'exercise') {
       await router.push(router.asPath + '/exercise').then(() => {})
@@ -120,21 +121,25 @@ export const VideoProvider: React.FC<
 
   // initialize player state
   React.useEffect(() => {
-    router.asPath.endsWith('/exercise')
-      ? setDisplayOverlay(true)
-      : setDisplayOverlay(false)
-  }, [lesson, router.asPath])
+    if (router.asPath.endsWith('/exercise')) {
+      muxPlayerRef.current && muxPlayerRef.current.pause()
+      setDisplayOverlay(true)
+    } else {
+      setDisplayOverlay(false)
+    }
+  }, [lesson, router.asPath, muxPlayerRef])
 
   const playbackRate = getPlayerPrefs().playbackRate
   const playbackId = videoResource?.muxPlaybackId
+
   // preferences
   React.useEffect(() => {
-    if (muxPlayerRef.current && playbackId) {
-      setTimeout(() => {
+    setTimeout(() => {
+      if (muxPlayerRef.current && playbackId) {
         muxPlayerRef.current.playbackRate = playbackRate
         muxPlayerRef.current.autoplay = autoPlay
-      }, 100)
-    }
+      }
+    }, 100)
   }, [muxPlayerRef, playbackRate, autoPlay, playbackId])
 
   const canShowVideo = ability.can('view', 'Content')
@@ -209,6 +214,7 @@ export const VideoProvider: React.FC<
     canShowVideo,
     ability,
     loadingUserStatus,
+    muxPlayerRef,
   }
   return (
     <VideoContext.Provider value={context}>{children}</VideoContext.Provider>

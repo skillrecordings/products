@@ -29,7 +29,6 @@
     "@skillrecordings/database": "workspace:*",
     "@skillrecordings/inngest": "workspace:*",
     "@skillrecordings/react": "workspace:*",
-    "@skillrecordings/skill-api": "workspace:*",
     "@skillrecordings/scripts": "workspace:*",
     "@skillrecordings/time": "workspace:*",
     "@tanstack/react-query": "^4.20.4",
