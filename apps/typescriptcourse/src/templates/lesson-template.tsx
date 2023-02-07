@@ -1,5 +1,8 @@
 import * as React from 'react'
-import MuxPlayer, {MuxPlayerProps} from '@mux/mux-player-react'
+import MuxPlayer, {
+  MuxPlayerProps,
+  MuxPlayerRefAttributes,
+} from '@mux/mux-player-react'
 import PortableTextComponents from 'components/portable-text'
 import ExerciseSidebar from '../components/exercise-sidebar'
 import Navigation from 'components/app/navigation'
@@ -35,7 +38,7 @@ const ExerciseTemplate: React.FC<{
   transcript: any[]
   tutorialFiles?: any
 }> = ({transcript, tutorialFiles}) => {
-  const muxPlayerRef = React.useRef<HTMLDivElement>()
+  const muxPlayerRef = React.useRef<MuxPlayerRefAttributes>(null)
   const {lesson, module} = useLesson()
   const {videoResourceId} = useVideoResource()
   const {title, description: exerciseDescription} = lesson
