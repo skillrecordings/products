@@ -1,6 +1,7 @@
 import {publicProcedure, router} from '@skillrecordings/skill-lesson'
 import {z} from 'zod'
 import {getWorkshop} from '../../lib/workshops'
+import {getTutorial} from '../../lib/tutorials'
 import {Section} from '@skillrecordings/skill-lesson/schemas/section'
 import {Lesson} from '@skillrecordings/skill-lesson/schemas/lesson'
 import {prisma} from '@skillrecordings/database'
@@ -12,6 +13,7 @@ export const moduleProgressRouter = router({
     .input(
       z.object({
         slug: z.string().nullish(),
+        type: z.string().optional(),
       }),
     )
     .query(async ({ctx, input}) => {
@@ -20,11 +22,21 @@ export const moduleProgressRouter = router({
         return null
       }
 
-      const module = await getWorkshop(input.slug)
+      const getModuleByType = async (slug: string, type?: string) => {
+        switch (type) {
+          case 'tutorial':
+            return await getTutorial(slug)
+          default:
+            return await getWorkshop(slug)
+        }
+      }
 
-      const allModuleLessons = module.sections.flatMap(
-        (section: Section) => section.lessons,
-      )
+      const module = await getModuleByType(input.slug, input.type)
+
+      const allModuleLessons = module?.sections
+        ? module.sections.flatMap((section: Section) => section.lessons)
+        : module.lessons
+
       const lessonIds = allModuleLessons.map((lesson: Lesson) => lesson._id)
 
       const moduleLessonProgress = await prisma.lessonProgress.findMany({
@@ -46,38 +58,41 @@ export const moduleProgressRouter = router({
         }
       })
 
-      const moduleProgressSections = module.sections.map((section: Section) => {
-        const sectionProgressLessons =
-          section.lessons?.map((lesson: Lesson) => {
+      const moduleProgressSections = module?.sections
+        ? module.sections.map((section: Section) => {
+            const sectionProgressLessons =
+              section.lessons?.map((lesson: Lesson) => {
+                return {
+                  id: lesson._id,
+                  slug: lesson.slug,
+                  lessonCompleted: Boolean(
+                    moduleLessonProgress.find(
+                      (progress) => progress.lessonId === lesson._id,
+                    ),
+                  ),
+                }
+              }) || []
             return {
-              id: lesson._id,
-              slug: lesson.slug,
-              lessonCompleted: Boolean(
-                moduleLessonProgress.find(
-                  (progress) => progress.lessonId === lesson._id,
-                ),
+              id: section._id,
+              slug: section.slug,
+              sectionCompleted: sectionProgressLessons.every(
+                (lesson) => lesson.lessonCompleted,
               ),
+              percentComplete: Math.round(
+                (sectionProgressLessons.filter(
+                  (lesson) => lesson.lessonCompleted,
+                ).length /
+                  sectionProgressLessons.length) *
+                  100,
+              ),
+              completedLessonCount: sectionProgressLessons.filter(
+                (lesson) => lesson.lessonCompleted,
+              ).length,
+              lessonCount: sectionProgressLessons.length,
+              lessons: sectionProgressLessons,
             }
-          }) || []
-        return {
-          id: section._id,
-          slug: section.slug,
-          sectionCompleted: sectionProgressLessons.every(
-            (lesson) => lesson.lessonCompleted,
-          ),
-          percentComplete: Math.round(
-            (sectionProgressLessons.filter((lesson) => lesson.lessonCompleted)
-              .length /
-              sectionProgressLessons.length) *
-              100,
-          ),
-          completedLessonCount: sectionProgressLessons.filter(
-            (lesson) => lesson.lessonCompleted,
-          ).length,
-          lessonCount: sectionProgressLessons.length,
-          lessons: sectionProgressLessons,
-        }
-      })
+          })
+        : null
 
       return ModuleProgressSchema.parse({
         moduleId: module._id,
@@ -86,7 +101,7 @@ export const moduleProgressRouter = router({
             (lesson: {lessonCompleted: boolean}) => !lesson.lessonCompleted,
           ) || null,
         nextSection:
-          moduleProgressSections.find(
+          moduleProgressSections?.find(
             (section: {sectionCompleted: boolean}) => !section.sectionCompleted,
           ) || null,
         moduleCompleted: moduleProgressLessons.every(

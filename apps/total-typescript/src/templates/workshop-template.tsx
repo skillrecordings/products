@@ -239,7 +239,7 @@ const SectionItem: React.FC<{
   const {data: moduleProgress} = trpc.moduleProgress.bySlug.useQuery({
     slug: workshop.slug.current,
   })
-  const sectionProgress = moduleProgress?.sections.find(
+  const sectionProgress = moduleProgress?.sections?.find(
     (s) => s.id === section._id,
   )
   const isSectionCompleted = sectionProgress?.sectionCompleted
