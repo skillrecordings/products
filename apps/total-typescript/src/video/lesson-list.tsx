@@ -137,6 +137,9 @@ export const LessonList: React.FC<{
                   (openedSection) => openedSection === section.slug,
                 )
 
+                const hasSectionResources =
+                  section?.resources && section?.resources?.length > 0
+
                 return (
                   <li key={section.slug}>
                     <Accordion.Item value={section.slug}>
@@ -194,60 +197,7 @@ export const LessonList: React.FC<{
                           )}
                         </ul>
                         {hasSectionResources && (
-                          <nav
-                            aria-label="resource navigator"
-                            className="bg-black/30 pt-1 pb-8"
-                          >
-                            <p className="px-5 pt-4 pb-2 text-xs font-medium uppercase tracking-wide text-gray-300">
-                              Section Resources
-                            </p>
-                            <ul className="flex flex-col divide-y divide-gray-800/0 text-lg">
-                              {currentSection?.resources?.map(
-                                (resource: any, resourceIdx: number) => {
-                                  // this uses any because the resource type here expects a URL, but that
-                                  // assumes a specific resource type. We need to support any resource type
-                                  // and present it based on it's structure that doesn't assume a resource
-                                  // is simply a URL
-                                  return (
-                                    <li key={resource.url} className="pt-2">
-                                      <Link
-                                        href={resource.url}
-                                        passHref
-                                        className="flex items-center px-4 py-2 font-semibold leading-tight hover:bg-gray-800/40"
-                                        onClick={() => {
-                                          track(
-                                            'clicked link resource in navigator',
-                                            {
-                                              module: module.slug.current,
-                                              ...(currentSection && {
-                                                section: currentSection.slug,
-                                              }),
-                                              lesson: router.asPath
-                                                .split('/')
-                                                .pop(),
-                                              moduleType: module.moduleType,
-                                              resource: resource.slug,
-                                            },
-                                          )
-                                        }}
-                                        target="_blank"
-                                      >
-                                        <LinkIcon
-                                          className="mr-3 h-3 w-3 text-gray-500"
-                                          aria-hidden="true"
-                                        />
-
-                                        {resource.title}
-                                      </Link>
-                                      <p className="pl-10 pr-3 text-sm italic text-gray-400">
-                                        {resource.description}
-                                      </p>
-                                    </li>
-                                  )
-                                },
-                              )}
-                            </ul>
-                          </nav>
+                          <SectionResources section={section} module={module} />
                         )}
                       </Accordion.Content>
                     </Accordion.Item>
@@ -268,10 +218,70 @@ export const LessonList: React.FC<{
                 />
               )
             })}
+            {hasSectionResources && (
+              <SectionResources section={currentSection} module={module} />
+            )}
           </ul>
         )}
       </nav>
     </div>
+  )
+}
+
+const SectionResources = ({
+  section,
+  module,
+}: {
+  section: Section
+  module: Module
+}) => {
+  const router = useRouter()
+
+  return (
+    <nav aria-label="resource navigator" className="bg-black/30 pt-1 pb-8">
+      <p className="px-5 pt-4 pb-2 text-xs font-medium uppercase tracking-wide text-gray-300">
+        Section Resources
+      </p>
+      <ul className="flex flex-col divide-y divide-gray-800/0 text-lg">
+        {section?.resources?.map((resource: any, resourceIdx: number) => {
+          // this uses any because the resource type here expects a URL, but that
+          // assumes a specific resource type. We need to support any resource type
+          // and present it based on it's structure that doesn't assume a resource
+          // is simply a URL
+          return (
+            <li key={resource.url} className="pt-2">
+              <Link
+                href={resource.url}
+                passHref
+                className="flex items-center px-4 py-2 font-semibold leading-tight hover:bg-gray-800/40"
+                onClick={() => {
+                  track('clicked link resource in navigator', {
+                    module: module.slug.current,
+                    ...(section && {
+                      section: section.slug,
+                    }),
+                    lesson: router.asPath.split('/').pop(),
+                    moduleType: module.moduleType,
+                    resource: resource.slug,
+                  })
+                }}
+                target="_blank"
+              >
+                <LinkIcon
+                  className="mr-3 h-3 w-3 text-gray-500"
+                  aria-hidden="true"
+                />
+
+                {resource.title}
+              </Link>
+              <p className="pl-10 pr-3 text-sm italic text-gray-400">
+                {resource.description}
+              </p>
+            </li>
+          )
+        })}
+      </ul>
+    </nav>
   )
 }
 
