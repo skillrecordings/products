@@ -56,8 +56,6 @@ const TipTemplate: React.FC<{
     slug: tip.slug,
   })
 
-  console.log({subscriber})
-
   const tweet = tipResources?.tweetId
 
   const ogImage = getOgImage({
