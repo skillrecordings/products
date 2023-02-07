@@ -105,6 +105,9 @@ const Actions = () => {
             moduleType: module.moduleType,
             lessonType: lesson._type,
           })
+          if (router.asPath.endsWith('/exercise')) {
+            router.push(router.asPath.replace('/exercise', ''))
+          }
           handlePlay()
         }}
       >
