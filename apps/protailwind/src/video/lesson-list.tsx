@@ -19,6 +19,7 @@ type LessonTitleLinkProps = {
   section?: Section
   sectionIndex?: number
   module: Module
+  currentPath: string
 }
 
 const LessonTitleLink: React.FC<LessonTitleLinkProps> = ({
@@ -27,17 +28,19 @@ const LessonTitleLink: React.FC<LessonTitleLinkProps> = ({
   section,
   sectionIndex = 0,
   module,
+  currentPath,
 }) => {
   const {data: moduleProgress, status: moduleProgressStatus} =
     trpc.moduleProgress.bySlug.useQuery({
       slug: module.slug.current,
-      type: module.moduleType,
     })
-
+  const router = useRouter()
   const isLessonCompleted = moduleProgress?.lessons.find(
     (progressLesson) =>
       progressLesson.id === lesson._id && progressLesson.lessonCompleted,
   )
+
+  const isExpanded = !isLessonCompleted || router.asPath.includes(currentPath)
 
   return (
     <Link
@@ -52,7 +55,13 @@ const LessonTitleLink: React.FC<LessonTitleLinkProps> = ({
         },
       }}
       passHref
-      className="relative flex items-center px-4 py-2 text-base font-semibold leading-tight hover:bg-gray-100"
+      className={cx(
+        'relative flex items-center px-4 py-2 text-base font-semibold leading-tight hover:bg-gray-100',
+        {
+          'text-gray-700 opacity-80 transition hover:text-gray-900 hover:opacity-100':
+            isLessonCompleted && !isExpanded,
+        },
+      )}
       onClick={() => {
         track('clicked exercise in navigator', {
           module: module.slug.current,
@@ -83,22 +92,33 @@ const LessonTitleLink: React.FC<LessonTitleLinkProps> = ({
 }
 
 const ExerciseListItem = ({
-  exerciseSlug,
   path,
+  currentPath,
+  exercise,
 }: {
-  exerciseSlug: string
   path: string
+  currentPath: string
+  exercise: Lesson
 }) => {
   const router = useRouter()
   const {module, section} = useLesson()
-  const {data: exercise} = trpc.exercises.bySlug.useQuery({slug: exerciseSlug})
-  const currentPath = section
-    ? `${path}/${module.slug.current}/${section.slug}/${exercise?.slug}`
-    : `${path}/${module.slug.current}/${exercise?.slug}`
+
+  const {data: moduleProgress} = trpc.moduleProgress.bySlug.useQuery({
+    slug: module.slug.current,
+  })
+  const completedLessons = moduleProgress?.lessons.filter(
+    (l) => l.lessonCompleted,
+  )
+  const isLessonCompleted = completedLessons?.find(
+    ({id}) => id === exercise?._id,
+  )
+
   const isActive =
     router.asPath === currentPath || router.asPath === currentPath + '/exercise'
 
-  return exercise ? (
+  const isExpanded = !isLessonCompleted || router.asPath.includes(currentPath)
+
+  return isExpanded ? (
     <ul className="text-gray-700">
       <li key={exercise.slug + `exercise`}>
         <Link
@@ -135,14 +155,12 @@ const ExerciseListItem = ({
           Exercise
         </Link>
       </li>
-      {exercise.solution != null && (
-        <SolutionLink
-          module={module}
-          exercise={exercise}
-          section={section}
-          path={path}
-        />
-      )}
+      <SolutionLink
+        module={module}
+        exercise={exercise}
+        section={section}
+        path={path}
+      />
     </ul>
   ) : null
 }
@@ -152,7 +170,7 @@ export const LessonList: React.FC<{
 }> = ({path}) => {
   const router = useRouter()
   const scrollContainerRef = React.useRef<HTMLDivElement>(null)
-  const {module, section} = useLesson()
+  const {module, section, lesson} = useLesson()
   const activeElRef = React.useRef<HTMLDivElement>(null)
   React.useEffect(() => {
     const activeElTop: any = activeElRef.current?.offsetTop
@@ -171,22 +189,24 @@ export const LessonList: React.FC<{
       className="group relative h-[400px] overflow-y-auto pb-16 scrollbar-thin scrollbar-thumb-gray-300 hover:scrollbar-thumb-gray-400 lg:h-[calc(100vh-128px)]"
     >
       <nav aria-label="exercise navigator" className="pb-3">
-        <ul className="flex flex-col divide-y divide-gray-800/0 text-lg">
+        <ul className="flex flex-col divide-y divide-gray-800/0 text-lg text-gray-700">
           {lessons?.map((exercise: Lesson, sectionIdx: number) => {
             //TODO treat this differently when a section is present as path will change
             const currentPath = section
               ? `${path}/${module.slug.current}/${section.slug}/${exercise.slug}`
               : `${path}/${module.slug.current}/${exercise.slug}`
-            const isActive = router.asPath === currentPath
+
             const scrollToElement =
               router.asPath === `${currentPath}/solution` ||
               router.asPath === currentPath
+
             return (
               <li key={exercise.slug} className="pt-2">
                 {scrollToElement && (
                   <div ref={activeElRef} aria-hidden="true" />
                 )}
                 <LessonTitleLink
+                  currentPath={currentPath}
                   lesson={exercise}
                   section={section}
                   sectionIndex={sectionIdx}
@@ -194,46 +214,18 @@ export const LessonList: React.FC<{
                   path={path}
                 />
                 {exercise._type === 'exercise' && (
-                  <ExerciseListItem exerciseSlug={exercise.slug} path={path} />
+                  <ExerciseListItem
+                    exercise={exercise}
+                    currentPath={currentPath}
+                    path={path}
+                  />
                 )}
                 {exercise._type === 'explainer' && (
-                  <ul className="text-gray-700">
-                    <li key={exercise.slug + `exercise`}>
-                      <Link
-                        href={{
-                          pathname: section
-                            ? `${path}/[module]/[section]/[lesson]`
-                            : `${path}/[module]/[lesson]`,
-                          query: {
-                            module: module.slug.current,
-                            lesson: exercise.slug,
-                            ...(section && {section: section.slug}),
-                          },
-                        }}
-                        passHref
-                        className={cx(
-                          'flex items-center border-l-4 py-2.5 px-8 text-sm font-medium transition ',
-                          {
-                            'border-indigo-500 bg-white shadow-lg shadow-gray-300/20':
-                              isActive,
-                            'border-transparent hover:bg-gray-100': !isActive,
-                          },
-                        )}
-                        onClick={() => {
-                          track(`clicked explainer in navigator`, {
-                            module: module.slug.current,
-                            lesson: exercise.slug,
-                            ...(section && {section: section.slug}),
-                            location: router.query.lesson,
-                            moduleType: module.moduleType,
-                            lessonType: exercise._type,
-                          })
-                        }}
-                      >
-                        Explainer
-                      </Link>
-                    </li>
-                  </ul>
+                  <ExplainerLink
+                    exercise={exercise}
+                    currentPath={currentPath}
+                    path={path}
+                  />
                 )}
               </li>
             )
@@ -290,6 +282,67 @@ export const LessonList: React.FC<{
       )}
     </div>
   )
+}
+
+const ExplainerLink = ({
+  exercise,
+  path,
+  currentPath,
+}: {
+  exercise: Lesson
+  path: string
+  currentPath: string
+}) => {
+  const {module, section} = useLesson()
+  const router = useRouter()
+  const isActive = router.asPath === currentPath
+
+  const {data: moduleProgress} = trpc.moduleProgress.bySlug.useQuery({
+    slug: module.slug.current,
+  })
+  const completedLessons = moduleProgress?.lessons.filter(
+    (l) => l.lessonCompleted,
+  )
+  const isLessonCompleted = completedLessons?.find(
+    ({id}) => id === exercise?._id,
+  )
+
+  const isExpanded = !isLessonCompleted || router.asPath.includes(currentPath)
+
+  return isExpanded ? (
+    <Link
+      href={{
+        pathname: section
+          ? `${path}/[module]/[section]/[lesson]`
+          : `${path}/[module]/[lesson]`,
+        query: {
+          module: module.slug.current,
+          lesson: exercise.slug,
+          ...(section && {section: section.slug}),
+        },
+      }}
+      passHref
+      className={cx(
+        'flex items-center border-l-4 py-2.5 px-8 text-sm font-medium transition ',
+        {
+          'border-indigo-500 bg-white shadow-lg shadow-gray-300/20': isActive,
+          'border-transparent hover:bg-gray-100': !isActive,
+        },
+      )}
+      onClick={() => {
+        track(`clicked explainer in navigator`, {
+          module: module.slug.current,
+          lesson: exercise.slug,
+          ...(section && {section: section.slug}),
+          location: router.query.lesson,
+          moduleType: module.moduleType,
+          lessonType: exercise._type,
+        })
+      }}
+    >
+      Explainer
+    </Link>
+  ) : null
 }
 
 const SolutionLink = ({

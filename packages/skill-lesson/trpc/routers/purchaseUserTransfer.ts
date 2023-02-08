@@ -78,7 +78,7 @@ const initiateTransfer = async ({
     nextAuthOptions &&
       (await sendServerEmail({
         email: toUser.email,
-        callbackUrl: `${getBaseUrl()}/transfer/${initiatedTransfer.id}`,
+        callbackUrl: `${process.env.NEXT_PUBLIC_URL}/transfer/${initiatedTransfer.id}`,
         nextAuthOptions,
         type: 'transfer',
         html: defaultHtml,

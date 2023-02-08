@@ -4,6 +4,7 @@ import {SanityDocument} from '@sanity/client'
 import {getAllTutorials} from 'lib/tutorials'
 import Link from 'next/link'
 import Image from 'next/legacy/image'
+import Balancer from 'react-wrap-balancer'
 
 export async function getStaticProps() {
   const tutorials = await getAllTutorials()
@@ -31,9 +32,11 @@ const TutorialsPage: React.FC<{tutorials: SanityDocument[]}> = ({
         <h1 className="px-5 text-center font-heading text-5xl font-bold sm:text-5xl">
           Free TypeScript Tutorials
         </h1>
-        <p className="max-w-sm px-5 pt-8 text-center text-lg text-rose-100/90">
-          A collection of free, exercise-driven, in-depth TypeScript tutorials
-          for you to use on your journey to TypeScript wizardry.
+        <p className="max-w-lg px-5 pt-8 text-center text-lg text-rose-100/90">
+          <Balancer>
+            A collection of free, exercise-driven, in-depth TypeScript tutorials
+            for you to use on your journey to TypeScript wizardry.
+          </Balancer>
         </p>
         {tutorials && (
           <ul className="flex max-w-screen-md flex-col gap-5 px-5 pt-10 sm:gap-8 sm:pt-20">

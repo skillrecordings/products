@@ -1660,6 +1660,7 @@ importers:
       react-scroll: ^1.8.6
       react-use: ^17.3.2
       react-use-clipboard: ^1.0.7
+      react-wrap-balancer: ^0.2.4
       refractor: ^4.5.0
       shortid: ^2.2.16
       speakingurl: ^14.0.1
@@ -1768,6 +1769,7 @@ importers:
       react-scroll: 1.8.7_biqbaboplfbrettd7655fr4n2y
       react-use: 17.3.2_biqbaboplfbrettd7655fr4n2y
       react-use-clipboard: 1.0.8_biqbaboplfbrettd7655fr4n2y
+      react-wrap-balancer: 0.2.4_react@18.2.0
       refractor: 4.5.0
       shortid: 2.2.16
       speakingurl: 14.0.1

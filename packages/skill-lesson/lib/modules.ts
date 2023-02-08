@@ -55,7 +55,33 @@ export const getModule = async (slug: string) =>
         ogImage,
         description,
         _updatedAt,
+        "image": image.asset->url,
         "product": resources[@._type == 'product'][0]{productId},
+        "sections": resources[@->._type == 'section']->{
+          _id,
+          _type,
+          _updatedAt,
+          title,
+          description,
+          "slug": slug.current,
+          "lessons": resources[@->._type in ['lesson', 'exercise', 'explainer']]->{
+            _id,
+            _type,
+            _updatedAt,
+            title,
+            description,
+            "slug": slug.current,
+            "solution": resources[@._type == 'solution'][0]{
+              _key,
+              _type,
+              "_updatedAt": ^._updatedAt,
+              title,
+              description,
+              "slug": slug.current,
+            }
+          },
+          "resources": resources[@->._type in ['linkResource']]->
+        },
         "lessons": resources[@->._type in ['lesson', 'exercise', 'explainer']]->{
           _id,
           _type,
@@ -72,7 +98,6 @@ export const getModule = async (slug: string) =>
             "slug": slug.current,
           }
         },
-        "image": image.asset->url
     }`,
     {slug: `${slug}`},
   )
