@@ -1,5 +1,5 @@
 {
-  "name": "epic-websssss",
+  "name": "epic-web",
   "private": true,
   "scripts": {
     "dev": "next dev -p 3021",
