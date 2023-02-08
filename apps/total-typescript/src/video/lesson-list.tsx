@@ -16,7 +16,7 @@ type LessonTitleLinkProps = {
   path: string
   lesson: Lesson
   section?: Section
-  sectionIndex?: number
+  index?: number
   module: Module
 }
 
@@ -24,13 +24,12 @@ const LessonTitleLink: React.FC<LessonTitleLinkProps> = ({
   path,
   lesson,
   section,
-  sectionIndex = 0,
+  index = 0,
   module,
 }) => {
   const {data: moduleProgress, status: moduleProgressStatus} =
     trpc.moduleProgress.bySlug.useQuery({
       slug: module.slug.current,
-      type: module.moduleType,
     })
 
   const isLessonCompleted = moduleProgress?.lessons.find(
@@ -64,12 +63,12 @@ const LessonTitleLink: React.FC<LessonTitleLinkProps> = ({
     >
       {isLessonCompleted ? (
         <CheckIcon
-          className="mr-2 -ml-1 h-4 w-4 text-cyan-400"
+          className="mr-2 -ml-1 h-4 w-4 flex-shrink-0 text-cyan-400"
           aria-hidden="true"
         />
       ) : (
         <span aria-hidden="true" className="pr-3 text-sm opacity-50">
-          {sectionIndex + 1}
+          {index + 1}
         </span>
       )}{' '}
       {lesson.title}{' '}
@@ -83,23 +82,23 @@ export const LessonList: React.FC<{
 }> = ({path}) => {
   const router = useRouter()
   const scrollContainerRef = React.useRef<HTMLDivElement>(null)
-  const {module, section: currentSection, lesson} = useLesson()
+  const {module, section: currentSection} = useLesson()
   const activeElRef = React.useRef<HTMLDivElement>(null)
+  const sections = module.sections
+  const lessons = currentSection ? currentSection.lessons : module.lessons
 
   React.useEffect(() => {
     const activeElementOffset: any = activeElRef.current?.offsetTop
 
     scrollContainerRef.current?.scrollTo({
-      top: activeElementOffset - 53,
+      top:
+        activeElementOffset -
+        (module.sections && module.sections.length > 1 ? 53 : 0),
     })
   }, [router, activeElRef, scrollContainerRef])
 
-  const sections = module.sections
-  const lessons = currentSection ? currentSection.lessons : module.lessons
-
   const {data: moduleProgress} = trpc.moduleProgress.bySlug.useQuery({
     slug: module.slug.current,
-    type: module.moduleType,
   })
 
   const hasSectionResources =
@@ -182,13 +181,13 @@ export const LessonList: React.FC<{
                       <Accordion.Content>
                         <ul className="flex flex-col divide-y divide-gray-800/0 border-b border-white/5 text-lg">
                           {section.lessons?.map(
-                            (exercise: Lesson, sectionIdx: number) => {
+                            (exercise: Lesson, index: number) => {
                               return (
                                 <Lessons
                                   exercise={exercise}
                                   module={module}
                                   section={section}
-                                  sectionIndex={sectionIdx}
+                                  index={index}
                                   path={path}
                                   ref={activeElRef}
                                 />
@@ -208,13 +207,15 @@ export const LessonList: React.FC<{
           </Accordion.Root>
         ) : (
           <ul className="flex flex-col divide-y divide-gray-800/0 text-lg">
-            {lessons?.map((exercise: Lesson) => {
+            {lessons?.map((exercise: Lesson, index: number) => {
               return (
                 <Lessons
                   exercise={exercise}
                   module={module}
                   path={path}
                   ref={activeElRef}
+                  index={index}
+                  key={exercise._id}
                 />
               )
             })}
@@ -289,62 +290,78 @@ const Lessons = React.forwardRef<
   HTMLDivElement,
   {
     section?: Section
-    sectionIndex?: number
+    index?: number
     path: string
     exercise: Lesson
     module: Module
   }
->(({section, path, exercise, module, sectionIndex}, ref) => {
+>(({section, path, exercise, module, index}, ref) => {
+  const {data: moduleProgress} = trpc.moduleProgress.bySlug.useQuery({
+    slug: module.slug.current,
+  })
+  const completedLessons = moduleProgress?.lessons.filter(
+    (l) => l.lessonCompleted,
+  )
+  const isLessonCompleted = completedLessons?.find(
+    ({id}) => id === exercise._id,
+  )
   const router = useRouter()
   const currentPath = section
     ? `${path}/${module.slug.current}/${section.slug}/${exercise.slug}`
     : `${path}/${module.slug.current}/${exercise.slug}`
 
-  const scrollToElement =
-    router.asPath === `${currentPath}/solution` ||
-    router.asPath === currentPath ||
-    router.asPath === currentPath + '/exercise'
+  const isExpanded = !isLessonCompleted || router.asPath.includes(currentPath)
+
+  const scrollToElement = router.asPath.includes(currentPath)
 
   return (
-    <li key={exercise._id} className="py-1">
+    <li
+      key={exercise._id}
+      className={cx('py-1', {
+        'text-gray-300 opacity-80 hover:text-gray-100 hover:opacity-100':
+          isLessonCompleted && !isExpanded,
+      })}
+    >
       {scrollToElement && <div ref={ref} aria-hidden="true" />}
       <LessonTitleLink
         lesson={exercise}
         section={section}
-        sectionIndex={sectionIndex}
+        index={index}
         module={module}
         path={path}
       />
-      {exercise._type === 'exercise' && (
+      {isExpanded && (
         <ul className="text-gray-300">
-          <ProblemLink
-            module={module}
-            exercise={exercise}
-            section={section}
-            path={path}
-          />
-          <StackblitzLink
-            module={module}
-            lesson={exercise}
-            section={section}
-            path={path}
-          />
-          <SolutionLink
-            module={module}
-            exercise={exercise}
-            section={section}
-            path={path}
-          />
-        </ul>
-      )}
-      {exercise._type === 'explainer' && (
-        <ul className="text-gray-300">
-          <ExplainerLink
-            exercise={exercise}
-            module={module}
-            section={section}
-            path={path}
-          />
+          {exercise._type === 'exercise' && (
+            <>
+              <ProblemLink
+                module={module}
+                exercise={exercise}
+                section={section}
+                path={path}
+              />
+              <StackblitzLink
+                module={module}
+                lesson={exercise}
+                section={section}
+                path={path}
+              />
+              <SolutionLink
+                module={module}
+                exercise={exercise}
+                section={section}
+                path={path}
+              />
+            </>
+          )}
+          {exercise._type === 'explainer' && (
+            <ExplainerLink
+              exercise={exercise}
+              module={module}
+              section={section}
+              path={path}
+            />
+          )}
         </ul>
       )}
     </li>

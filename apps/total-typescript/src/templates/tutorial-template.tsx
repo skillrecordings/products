@@ -4,15 +4,20 @@ import Image from 'next/legacy/image'
 import Link from 'next/link'
 import {CourseJsonLd} from '@skillrecordings/next-seo'
 import {PortableText} from '@portabletext/react'
-import {SanityDocument} from '@sanity/client'
 import {IconGithub} from 'components/icons'
 import {isBrowser} from 'utils/is-browser'
 import {track} from '@skillrecordings/skill-lesson/utils/analytics'
 import {Lesson} from '@skillrecordings/skill-lesson/schemas/lesson'
 import PortableTextComponents from 'video/portable-text'
+import {trpc} from 'trpc/trpc.client'
+import {type Module} from '@skillrecordings/skill-lesson/schemas/module'
+import {CheckIcon} from '@heroicons/react/solid'
+import {first} from 'lodash'
+import {Section} from '@skillrecordings/skill-lesson/schemas/section'
+import cx from 'classnames'
 
 const TutorialTemplate: React.FC<{
-  tutorial: SanityDocument
+  tutorial: Module
 }> = ({tutorial}) => {
   const {title, body, ogImage, image, description} = tutorial
   const pageTitle = `${title} Tutorial`
@@ -58,8 +63,19 @@ const TutorialTemplate: React.FC<{
 
 export default TutorialTemplate
 
-const Header: React.FC<{tutorial: SanityDocument}> = ({tutorial}) => {
-  const {title, slug, lessons, image, github} = tutorial
+const Header: React.FC<{tutorial: Module}> = ({tutorial}) => {
+  const {title, slug, sections, image, github} = tutorial
+  const {data: moduleProgress, status: moduleProgressStatus} =
+    trpc.moduleProgress.bySlug.useQuery({
+      slug: tutorial.slug.current,
+    })
+
+  const isModuleInProgress = (moduleProgress?.completedLessonCount || 0) > 0
+  const nextSection = moduleProgress?.nextSection
+  const nextLesson = moduleProgress?.nextLesson
+
+  const firstSection = first<Section>(sections)
+  const firstLesson = first<Lesson>(firstSection?.lessons)
 
   return (
     <>
@@ -87,26 +103,46 @@ const Header: React.FC<{tutorial: SanityDocument}> = ({tutorial}) => {
               </div>
             </div>
             <div className="flex items-center gap-3 pt-8">
-              {lessons?.[0] && (
-                <Link
-                  href={{
-                    pathname: '/tutorials/[module]/[lesson]',
-                    query: {
-                      module: slug.current,
-                      lesson: lessons[0].slug,
-                    },
-                  }}
-                  className="flex items-center justify-center rounded bg-cyan-400 px-6 py-3 font-semibold text-black transition hover:bg-cyan-300"
-                  onClick={() => {
-                    track('clicked github code link', {module: slug.current})
-                  }}
-                >
-                  Start Learning{' '}
-                  <span className="pl-2" aria-hidden="true">
-                    →
-                  </span>
-                </Link>
-              )}
+              <Link
+                href={
+                  firstSection && sections && sections.length > 0
+                    ? {
+                        pathname: '/tutorials/[module]/[section]/[lesson]',
+                        query: {
+                          module: slug.current,
+                          section: isModuleInProgress
+                            ? nextSection?.slug
+                            : firstSection.slug,
+                          lesson: isModuleInProgress
+                            ? nextLesson?.slug
+                            : firstLesson?.slug,
+                        },
+                      }
+                    : {
+                        pathname: '/tutorials/[module]/[lesson]',
+                        query: {
+                          module: slug.current,
+                          lesson: isModuleInProgress
+                            ? nextLesson?.slug
+                            : firstLesson?.slug,
+                        },
+                      }
+                }
+                className={cx(
+                  'flex items-center justify-center rounded bg-cyan-400 px-6 py-3 font-semibold text-black transition hover:bg-cyan-300',
+                  {
+                    'animate-pulse': moduleProgressStatus === 'loading',
+                  },
+                )}
+                onClick={() => {
+                  track('clicked start learning', {module: slug.current})
+                }}
+              >
+                {isModuleInProgress ? 'Continue' : 'Start'} Learning
+                <span className="pl-2" aria-hidden="true">
+                  →
+                </span>
+              </Link>
               {github?.repo && (
                 <a
                   className="flex items-center justify-center gap-2 rounded border-2 border-gray-800 px-5 py-3 font-medium transition hover:bg-gray-800"
@@ -147,10 +183,17 @@ const Header: React.FC<{tutorial: SanityDocument}> = ({tutorial}) => {
   )
 }
 
-const TutorialExerciseNavigator: React.FC<{tutorial: SanityDocument}> = ({
+const TutorialExerciseNavigator: React.FC<{tutorial: Module}> = ({
   tutorial,
 }) => {
-  const {slug, lessons, _type} = tutorial
+  const {slug, lessons: _lessons, sections, _type} = tutorial
+  const {data: moduleProgress} = trpc.moduleProgress.bySlug.useQuery({
+    slug: tutorial.slug.current,
+  })
+
+  const lessons =
+    sections && sections.length === 1 ? sections[0].lessons : _lessons
+
   return (
     <nav
       aria-label="exercise navigator"
@@ -162,6 +205,13 @@ const TutorialExerciseNavigator: React.FC<{tutorial: SanityDocument}> = ({
       {lessons && (
         <ul>
           {lessons.map((exercise: Lesson, i: number) => {
+            const completedLessons = moduleProgress?.lessons.filter(
+              (l) => l.lessonCompleted,
+            )
+
+            const isExerciseCompleted = completedLessons?.find(
+              ({id}) => id === exercise._id,
+            )
             return (
               <li key={exercise.slug}>
                 <Link
@@ -183,14 +233,24 @@ const TutorialExerciseNavigator: React.FC<{tutorial: SanityDocument}> = ({
                     })
                   }}
                 >
-                  <span
-                    className="w-8 font-mono text-xs text-gray-400"
-                    aria-hidden="true"
-                  >
-                    {i + 1}
-                  </span>
+                  {isExerciseCompleted ? (
+                    <CheckIcon
+                      className="mr-4 -ml-1 h-5 w-5 text-teal-400"
+                      aria-hidden="true"
+                    />
+                  ) : (
+                    <span
+                      className="w-8 font-mono text-xs text-gray-400"
+                      aria-hidden="true"
+                    >
+                      {i + 1}
+                    </span>
+                  )}
                   <span className="w-full leading-tight group-hover:underline">
-                    {exercise.title}
+                    {exercise.title}{' '}
+                    {isExerciseCompleted && (
+                      <span className="sr-only">(completed)</span>
+                    )}
                   </span>
                 </Link>
               </li>
@@ -207,11 +267,11 @@ const CourseMeta = ({
   description,
 }: {
   title: string
-  description: string
+  description?: string | null | undefined
 }) => (
   <CourseJsonLd
     courseName={title}
-    description={description}
+    description={description || ''}
     provider={{
       name: `${process.env.NEXT_PUBLIC_PARTNER_FIRST_NAME} ${process.env.NEXT_PUBLIC_PARTNER_LAST_NAME}`,
       type: 'Person',

@@ -5,6 +5,7 @@ import Link from 'next/link'
 import Image from 'next/legacy/image'
 import {getAllWorkshops} from 'lib/workshops'
 import {track} from '@skillrecordings/skill-lesson/utils/analytics'
+import Balancer from 'react-wrap-balancer'
 
 const CLOUDINARY_FETCH_BASE_URL = `https://res.cloudinary.com/total-typescript/image/fetch/dpr_auto,f_auto,q_auto:good/`
 
@@ -29,9 +30,11 @@ const WorkshopsPage: React.FC<{modules: SanityDocument[]}> = ({modules}) => {
         <h1 className="px-5 text-center font-heading text-5xl font-bold sm:text-5xl">
           Professional TypeScript Workshops
         </h1>
-        <p className="max-w-sm px-5 pt-8 text-center text-lg text-rose-100/90">
-          A collection of professional, exercise-driven, in-depth, self-paced
-          TypeScript workshops for you to achieve TypeScript wizardry.
+        <p className="max-w-lg px-5 pt-8 text-center text-lg text-rose-100/90">
+          <Balancer>
+            A collection of professional, exercise-driven, in-depth, self-paced
+            TypeScript workshops for you to achieve TypeScript wizardry.
+          </Balancer>
         </p>
         {modules && (
           <ul className="flex max-w-screen-md flex-col gap-5 px-5 pt-10 sm:gap-8 sm:pt-20">
