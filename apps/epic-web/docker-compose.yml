@@ -1,4 +1,5 @@
 version: '3.8'
+name: kcd-products
 services:
   db:
     image: mysql:8.0
