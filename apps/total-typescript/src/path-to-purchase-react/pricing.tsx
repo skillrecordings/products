@@ -327,6 +327,11 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
           ) : (
             <div data-purchased-container="">
               <div data-unavailable="">Coming Soon</div>
+              <div className="my-6 items-center text-base font-medium leading-tight">
+                Total TypeScript is not available for purchase yet! We plan to
+                launch around March 1st 2023.
+              </div>
+
               {!subscriber && !loadingSubscriber && (
                 <SubscribeForm handleOnSuccess={handleOnSuccess} />
               )}
@@ -582,9 +587,8 @@ const SubscribeForm = ({
         >
           <MailIcon className="h-5 w-5 text-cyan-300" />
         </div>{' '}
-        Total TypeScript is not available for purchase yet! We plan to release
-        it around March 1st 2023. If you'd like to get notified and receive the
-        best discounts, please subscribe below:
+        If you'd like to get notified and receive the best discounts, please
+        subscribe below:
       </div>
       <SubscribeToConvertkitForm
         formId={3843826}
