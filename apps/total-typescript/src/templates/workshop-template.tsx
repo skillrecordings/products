@@ -131,7 +131,7 @@ const Header: React.FC<{
               )}
               {github?.repo && (
                 <a
-                  className="flex items-center justify-center gap-2 rounded border-2 border-gray-800 px-5 py-3 font-medium transition hover:bg-gray-800"
+                  className="flex items-center justify-center gap-2 rounded-md border-2 border-gray-800 px-5 py-3 font-medium transition hover:bg-gray-800"
                   href={`https://github.com/total-typescript/${github.repo}`}
                   onClick={() => {
                     track('clicked github code link', {module: slug.current})

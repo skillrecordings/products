@@ -75,7 +75,7 @@ const Header: React.FC<{tutorial: Module}> = ({tutorial}) => {
   const nextLesson = moduleProgress?.nextLesson
 
   const firstSection = first<Section>(sections)
-  const firstLesson = first<Lesson>(firstSection?.lessons)
+  const firstLesson = first<Lesson>(firstSection?.lessons || tutorial.lessons)
 
   return (
     <>
@@ -105,7 +105,7 @@ const Header: React.FC<{tutorial: Module}> = ({tutorial}) => {
             <div className="flex items-center gap-3 pt-8">
               <Link
                 href={
-                  firstSection && sections && sections.length > 0
+                  firstSection && sections
                     ? {
                         pathname: '/tutorials/[module]/[section]/[lesson]',
                         query: {
@@ -145,7 +145,7 @@ const Header: React.FC<{tutorial: Module}> = ({tutorial}) => {
               </Link>
               {github?.repo && (
                 <a
-                  className="flex items-center justify-center gap-2 rounded border-2 border-gray-800 px-5 py-3 font-medium transition hover:bg-gray-800"
+                  className="flex items-center justify-center gap-2 rounded-md border-2 border-gray-800 px-5 py-3 font-medium transition hover:bg-gray-800"
                   href={`https://github.com/total-typescript/${github.repo}`}
                   onClick={() => {
                     track('clicked github code link', {module: slug.current})
