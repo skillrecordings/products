@@ -11,19 +11,19 @@ import Layout from 'components/layout'
 import Image from 'next/legacy/image'
 import {SmallCallToActionForm} from '../components/call-to-action-form'
 import {genericCallToActionContent} from '../components/landing-content'
-import MuxVideo from '@mux/mux-player-react'
-import Balancer from 'react-wrap-balancer'
-import type {Article} from 'lib/articles'
 
-type ArticleTemplateProps = {
-  article: Article
+import Balancer from 'react-wrap-balancer'
+import type {CaseStudy} from 'lib/case-studies'
+
+type CaseStudyTemplateProps = {
+  caseStudy: CaseStudy
 }
 
-const ArticleTemplate: React.FC<
-  React.PropsWithChildren<ArticleTemplateProps>
-> = ({article}) => {
-  const {title, description, body, _createdAt: date, video} = article
-  console.log({video})
+const CaseStudyTemplate: React.FC<
+  React.PropsWithChildren<CaseStudyTemplateProps>
+> = ({caseStudy}) => {
+  const {title, description, body, image, _createdAt: date} = caseStudy
+
   const shortDescription =
     description || (body && toPlainText(body).substring(0, 157) + '...')
 
@@ -38,29 +38,17 @@ const ArticleTemplate: React.FC<
         article: {
           publishedTime: date,
         },
-        url: `${process.env.NEXT_PUBLIC_URL}/${article.slug}`,
+        url: `${process.env.NEXT_PUBLIC_URL}/partners/${caseStudy.slug}`,
         ogImage: {
           url: `https://badass-ogimage.vercel.app/api/card?title=${title}`,
         },
       }}
     >
-      <Header title={title} date={date} />
+      <Header title={title} image={image} />
       <main>
         <div className="max-w-screen-md mx-auto w-full">
           <div className="md:pt-16 pt-10 lg:px-0 px-5 pb-16">
-            <article className="prose first-letter:text-6xl first-letter:pr-3 first-letter:-mt-0.5 first-letter:font-expanded first-letter:float-left first-letter:text-badass-pink-500 lg:prose-xl sm:prose-lg md:prose-code:text-sm max-w-none prose-p:text-neutral-200 prose-pre:prose-code:bg-transparent prose-code:bg-white/20 prose-code:px-1 prose-code:py-0.5 prose-code:rounded lg:prose-code:text-[78%] sm:prose-code:text-[80%]">
-              {video ? (
-                <>
-                  <MuxVideo
-                    playbackId={video.muxPlaybackId}
-                    streamType="on-demand"
-                  />
-                  <PortableText
-                    value={video.transcript}
-                    components={PortableTextComponents}
-                  />
-                </>
-              ) : null}
+            <article className="prose lg:prose-xl sm:prose-lg md:prose-code:text-sm max-w-none prose-p:text-neutral-200 prose-pre:prose-code:bg-transparent prose-code:bg-white/20 prose-code:px-1 prose-code:py-0.5 prose-code:rounded lg:prose-code:text-[78%] sm:prose-code:text-[80%]">
               <PortableText value={body} components={PortableTextComponents} />
             </article>
           </div>
@@ -73,29 +61,22 @@ const ArticleTemplate: React.FC<
   )
 }
 
-export default ArticleTemplate
+export default CaseStudyTemplate
 
 const Header: React.FC<
-  React.PropsWithChildren<{title: string; date: string}>
-> = ({title, date}) => {
+  React.PropsWithChildren<{title: string; image: string | null | undefined}>
+> = ({title, image}) => {
   return (
-    <header className="flex items-center justify-center pt-5 pb-10">
+    <header className="flex items-center justify-center pb-32">
       <div className="flex flex-col items-center px-5">
-        <h1 className="max-w-4xl sm:text-5xl text-4xl font-heading sm:leading-tight leading-tight text-center py-16">
+        {image && (
+          <div className="w-80 h-80 flex items-center justify-center relative">
+            <Image src={image} layout="fill" className="object-contain" />
+          </div>
+        )}
+        <h1 className="max-w-screen-md w-full sm:text-6xl text-5xl font-heading sm:leading-tight leading-tight text-center pt-16">
           <Balancer>{title}</Balancer>
         </h1>
-        <div className="flex flex-col items-center w-full">
-          <div className="flex gap-10 pt-10 justify-center items-center w-full">
-            <Author />
-            <time dateTime={date} className="flex items-center">
-              <CalendarIcon aria-hidden="true" className="w-5" />{' '}
-              <span className="sr-only">published on </span>
-              <span className="pl-1">
-                {format(new Date(date), 'dd MMMM, y')}
-              </span>
-            </time>
-          </div>
-        </div>
       </div>
     </header>
   )

@@ -16,7 +16,7 @@ const articles = S.listItem()
             S.documentList('article')
               .title('Published articles')
               .menuItemGroups(S.documentTypeList('article').getMenuItems())
-              .filter('_type == "article" && published == true')
+              .filter('_type == "article" && state == "published"')
               .child((documentId) =>
                 S.document().documentId(documentId).schemaType('article'),
               ),

@@ -2,20 +2,13 @@ import {sanityClient} from '@skillrecordings/skill-lesson/utils/sanity-client'
 import groq from 'groq'
 import z from 'zod'
 
-export const ArticleSchema = z.object({
+export const CaseStudySchema = z.object({
   _id: z.string(),
   _type: z.string(),
   _updatedAt: z.string(),
   _createdAt: z.string(),
   title: z.string(),
   slug: z.string(),
-  video: z
-    .object({
-      muxPlaybackId: z.string(),
-      transcript: z.array(z.any()),
-    })
-    .optional()
-    .nullable(),
   image: z.nullable(z.string()).optional(),
   description: z.nullable(z.string()).optional(),
   body: z.any().array().nullable().optional(),
@@ -23,13 +16,13 @@ export const ArticleSchema = z.object({
   state: z.enum(['published', 'draft']),
 })
 
-export const ArticlesSchema = z.array(ArticleSchema)
+export const CaseStudiesSchema = z.array(CaseStudySchema)
 
-export type Article = z.infer<typeof ArticleSchema>
+export type CaseStudy = z.infer<typeof CaseStudySchema>
 
-export const getAllArticles = async (): Promise<Article[]> => {
-  const articles =
-    await sanityClient.fetch(groq`*[_type == "article"] | order(_createdAt desc) {
+export const getAllCaseStudies = async (): Promise<CaseStudy[]> => {
+  const caseStudies =
+    await sanityClient.fetch(groq`*[_type == "caseStudy"] | order(_createdAt desc) {
         _id,
         _type,
         _updatedAt,
@@ -43,24 +36,20 @@ export const getAllArticles = async (): Promise<Article[]> => {
         body
   }`)
 
-  return ArticlesSchema.parse(articles)
+  return CaseStudiesSchema.parse(caseStudies)
 }
 
-export const getArticle = async (
+export const getCaseStudy = async (
   slug: string,
-): Promise<Article | undefined> => {
-  const article = await sanityClient.fetch(
-    groq`*[_type == "article" && slug.current == $slug][0] {
+): Promise<CaseStudy | undefined> => {
+  const caseStudy = await sanityClient.fetch(
+    groq`*[_type == "caseStudy" && slug.current == $slug][0] {
         _id,
         _type,
         _updatedAt,
         _createdAt,
         "slug": slug.current,
         title,
-        "video": resources[@->._type == 'videoResource'][0]-> {
-          "transcript": castingwords.transcript,
-          "muxPlaybackId": muxAsset.muxPlaybackId
-        },
         state,
         description,
         "image": image.asset->url,
@@ -69,8 +58,8 @@ export const getArticle = async (
     }`,
     {slug: `${slug}`},
   )
-  if (!article) {
+  if (!caseStudy) {
     return undefined
   }
-  return ArticleSchema.parse(article)
+  return CaseStudySchema.parse(caseStudy)
 }

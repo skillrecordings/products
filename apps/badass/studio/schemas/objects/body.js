@@ -1,6 +1,11 @@
 import {HiOutlineEmojiHappy, HiExternalLink, HiLink} from 'react-icons/hi'
+import React, {forwardRef} from 'react'
+import {BlockEditor} from 'part:@sanity/form-builder'
+import {handlePaste} from '../../customization/onPaste'
 
-// TODO: Exercises (don't have to have solutions), Challenges (always have solutions, sometimes multiple parts)
+const CustomEditor = forwardRef((props, ref) => (
+  <BlockEditor {...props} ref={ref} onPaste={handlePaste} />
+))
 export default {
   name: 'body',
   type: 'array',
@@ -88,4 +93,5 @@ export default {
     {type: 'callout'},
     {type: 'divider'},
   ],
+  inputComponent: CustomEditor,
 }
