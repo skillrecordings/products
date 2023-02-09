@@ -81,7 +81,7 @@ const ArticlePage: React.FC<React.PropsWithChildren<ArticlePageProps>> = ({
   article,
   hasSubscribed = true,
 }) => {
-  return <ArticleTemplate article={article} hasSubscribed={hasSubscribed} />
+  return <ArticleTemplate article={article} />
 }
 
 export default ArticlePage
