@@ -1,22 +1,22 @@
 type OgImageUrlOptions = {
   title: string
   image?: string
-  path: string
+  byline?: string
 }
 
-const CLOUDINARY_FETCH_BASE_URL = `https://res.cloudinary.com/total-typescript/image/fetch/dpr_auto,f_auto,q_auto:good/`
+const CLOUDINARY_FETCH_BASE_URL = `https://res.cloudinary.com/pro-tailwind/image/fetch/dpr_auto,f_auto,q_auto:good/`
 
 export const getOgImage = (options: OgImageUrlOptions) => {
-  const {title, image, path} = options
+  const {title, image, byline} = options
 
   const query = new URLSearchParams({
     ...(image && {image}),
+    ...(byline && {byline}),
     title: title,
   })
   const url =
-    process.env.NEXT_PUBLIC_OG_IMAGE_URI +
-    path +
-    `/${encodeURI(title)}?${query.toString()}`
+    // CLOUDINARY_FETCH_BASE_URL + // TODO: figure out why it's not working with cloudinary fetch url
+    process.env.NEXT_PUBLIC_OG_IMAGE_URI + `?${query.toString()}`
 
   return {
     url,

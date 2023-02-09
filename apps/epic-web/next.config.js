@@ -23,10 +23,14 @@ const IMAGE_HOST_DOMAINS = [
   `res.cloudinary.com`,
   `d2eip9sf3oo6c2.cloudfront.net`,
   `cdn.sanity.io`,
+  `epicweb.dev`,
+  `image.mux.com`,
+  'localhost',
   process.env.NEXT_PUBLIC_HOST,
 ]
 
 const nextConfig = {
+  transpilePackages: ['@skillrecordings/skill-lesson'],
   eslint: {ignoreDuringBuilds: true},
   experimental: {scrollRestoration: true},
   productionBrowserSourceMaps: true,

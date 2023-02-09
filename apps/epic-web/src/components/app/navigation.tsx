@@ -6,8 +6,10 @@ const Navigation = () => {
   const {pathname, asPath} = useRouter()
   const isRoot = pathname === '/'
 
+  const tipsAllowed = process.env.NEXT_PUBLIC_TIPS_ALLOWED === 'true'
+
   return (
-    <nav aria-label="top" className="lg:w-16 w-full">
+    <nav aria-label="top" className="lg:w-16 w-full shrink-0">
       <div className="lg:w-16 w-full lg:h-screen lg:fixed bg-brand text-black z-10 flex lg:flex-col flex-row justify-between">
         <Link
           href="/"
@@ -30,7 +32,7 @@ const Navigation = () => {
           New Learning Experience by Kent C. Dodds
         </div>
       </div>
-      <div className="absolute lg:right-7 lg:top-5 right-4 top-3.5 lg:text-white text-black z-10">
+      <div className="absolute lg:right-7 lg:top-5 right-4 top-3.5 lg:text-white text-black z-10 flex space-x-8">
         <Link
           href="/articles"
           passHref
@@ -43,6 +45,20 @@ const Navigation = () => {
         >
           Articles
         </Link>
+        {tipsAllowed && (
+          <Link
+            href="/tips"
+            passHref
+            onClick={() => {
+              track('clicked Tips from navigation', {
+                page: asPath,
+              })
+            }}
+            className="flex items-center lg:font-medium font-semibold before:content-[''''] before:absolute lg:text-base text-sm before:w-1 before:h-1 before:bg-brand before:-ml-2.5 hover:underline decoration-white/40"
+          >
+            Tips
+          </Link>
+        )}
       </div>
     </nav>
   )

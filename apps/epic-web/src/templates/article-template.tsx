@@ -14,7 +14,7 @@ import PortableTextComponents from 'components/portable-text'
 import Image from 'next/legacy/image'
 import {PrimaryNewsletterCta} from 'components/primary-newsletter-cta'
 import Share from 'components/share'
-import {useConvertkit} from '@skillrecordings/convertkit-react-ui'
+import {useConvertkit} from '@skillrecordings/skill-lesson/hooks/use-convertkit'
 
 const ArticleTemplate: React.FC<{article: Article}> = ({article}) => {
   const router = useRouter()
@@ -33,7 +33,7 @@ const ArticleTemplate: React.FC<{article: Article}> = ({article}) => {
     description || `${toPlainText(body).substring(0, 157)}...`
   const author = `${process.env.NEXT_PUBLIC_PARTNER_FIRST_NAME} ${process.env.NEXT_PUBLIC_PARTNER_LAST_NAME}`
   const url = `${process.env.NEXT_PUBLIC_URL}${router.asPath}`
-  const {subscriber} = useConvertkit()
+  const {subscriber, loadingSubscriber} = useConvertkit()
 
   return (
     <Layout meta={{title, description: pageDescription, ogImage}}>
