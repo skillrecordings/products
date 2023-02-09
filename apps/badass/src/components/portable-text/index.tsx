@@ -116,6 +116,14 @@ const PortableTextComponents: PortableTextComponents = {
     h4: ({children, value}) => {
       return <h4 id={speakingurl(toPlainText(value))}>{children}</h4>
     },
+    blockquote: ({children, value}) => {
+      return (
+        <blockquote>
+          🫦
+          {children}
+        </blockquote>
+      )
+    },
   },
   marks: {
     emoji: ({text, value}: EmojiProps) => {

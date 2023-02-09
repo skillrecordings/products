@@ -1,11 +1,11 @@
 import React from 'react'
-import {MdOutlineArticle} from 'react-icons/md'
+import {MdOutlineLocalShipping} from 'react-icons/md'
 
 export default {
-  name: 'article',
-  title: 'Article',
+  name: 'caseStudy',
+  title: 'Case Study',
   type: 'document',
-  icon: MdOutlineArticle,
+  icon: MdOutlineLocalShipping,
   fields: [
     {
       name: 'title',

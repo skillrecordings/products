@@ -8,6 +8,7 @@ import products from './src/structure/products'
 import podcasts from './src/structure/podcasts'
 import episodes from './src/structure/episodes'
 import seasons from './src/structure/seasons'
+import caseStudies from './src/structure/caseStudies'
 
 const hiddenDocTypes = (listItem) =>
   ![
@@ -23,14 +24,13 @@ const hiddenDocTypes = (listItem) =>
     'podcast',
     'podcastEpisode',
     'podcastSeason',
-    'videoResource',
+    'caseStudies',
   ].includes(listItem.getId())
 
 export default () =>
   S.list()
     .title('Badass Courses')
     .items([
-      ...S.documentTypeListItems().filter(hiddenDocTypes),
       products,
       S.divider(),
       modules,
@@ -43,7 +43,9 @@ export default () =>
       S.divider(),
       workshops,
       articles,
+      caseStudies,
       S.divider(),
+      ...S.documentTypeListItems().filter(hiddenDocTypes),
       S.documentTypeListItem('skosConcept').title('Concepts'),
       S.documentTypeListItem('skosConceptScheme').title('Taxonomy Schemes'),
     ])

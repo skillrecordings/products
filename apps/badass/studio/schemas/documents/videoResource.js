@@ -44,4 +44,15 @@ export default {
       type: 'castingwordsTranscript',
     },
   ],
+  preview: {
+    select: {
+      title: 'title',
+    },
+    prepare(selection) {
+      const {title} = selection
+      return {
+        title,
+      }
+    },
+  },
 }
