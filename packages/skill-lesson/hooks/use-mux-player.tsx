@@ -6,26 +6,26 @@ import {
   MuxPlayerRefAttributes,
   type MuxPlayerProps,
 } from '@mux/mux-player-react/*'
-
 import {useVideoResource} from './use-video-resource'
 import {useLesson} from './use-lesson'
 import {useNextLesson} from './use-next-lesson'
 import {track} from '../utils/analytics'
-import {usePlayerPrefs} from './use-player-prefs'
+import {
+  handleTextTrackChange,
+  setPreferredPlaybackRate,
+  setPreferredTextTrack,
+  usePlayerPrefs,
+} from './use-player-prefs'
 import {getNextSection} from '../utils/get-next-section'
-
 import {type AppAbility, createAppAbility} from '../utils/ability'
 import {Lesson} from '../schemas/lesson'
 import {trpcSkillLessons} from '../utils/trpc-skill-lessons'
 import {useConvertkit} from './use-convertkit'
-
 import {useGlobalPlayerShortcuts} from './use-global-player-shortcut'
 import {Section} from '../schemas/section'
 
 type VideoContextType = {
   muxPlayerProps: MuxPlayerProps | any
-  autoPlay: boolean
-  setAutoPlay: (value: boolean) => void
   setPlayerPrefs: (prefs: {[key: string]: boolean | string}) => void
   setDisplayOverlay: (value: boolean) => void
   handlePlay: () => void
@@ -62,8 +62,11 @@ export const VideoProvider: React.FC<
   const router = useRouter()
 
   const {subscriber} = useConvertkit()
+
   const {videoResource, loadingVideoResource} = useVideoResource()
+
   const {lesson, section, module} = useLesson()
+
   useGlobalPlayerShortcuts(muxPlayerRef)
 
   const {nextExercise, nextExerciseStatus} = useNextLesson(
@@ -91,11 +94,14 @@ export const VideoProvider: React.FC<
 
   const ability = createAppAbility(abilityRules || [])
 
-  const {setPlayerPrefs, autoplay, getPlayerPrefs} = usePlayerPrefs()
-  const [autoPlay, setAutoPlay] = React.useState(getPlayerPrefs().autoplay)
+  const canShowVideo = ability.can('view', 'Content')
+
+  const {setPlayerPrefs} = usePlayerPrefs()
+
   const [displayOverlay, setDisplayOverlay] = React.useState(false)
 
   const title = get(lesson, 'title') || get(lesson, 'label')
+
   const loadingUserStatus =
     abilityRulesStatus === 'loading' || loadingVideoResource
 
@@ -118,31 +124,6 @@ export const VideoProvider: React.FC<
     }
     setDisplayOverlay(true)
   }, [lesson._type, router])
-
-  // initialize player state
-  React.useEffect(() => {
-    if (router.asPath.endsWith('/exercise')) {
-      muxPlayerRef.current && muxPlayerRef.current.pause()
-      setDisplayOverlay(true)
-    } else {
-      setDisplayOverlay(false)
-    }
-  }, [lesson, router.asPath, muxPlayerRef])
-
-  const playbackRate = getPlayerPrefs().playbackRate
-  const playbackId = videoResource?.muxPlaybackId
-
-  // preferences
-  React.useEffect(() => {
-    setTimeout(() => {
-      if (muxPlayerRef.current && playbackId) {
-        muxPlayerRef.current.playbackRate = playbackRate
-        muxPlayerRef.current.autoplay = autoPlay
-      }
-    }, 100)
-  }, [muxPlayerRef, playbackRate, autoPlay, playbackId])
-
-  const canShowVideo = ability.can('view', 'Content')
 
   const onPlay = React.useCallback(() => {
     setDisplayOverlay(false)
@@ -186,6 +167,22 @@ export const VideoProvider: React.FC<
     [setDisplayOverlay],
   )
 
+  // initialize player state
+  React.useEffect(() => {
+    if (router.asPath.endsWith('/exercise') && lesson) {
+      muxPlayerRef.current && muxPlayerRef.current.pause()
+      setDisplayOverlay(true)
+    } else {
+      setDisplayOverlay(false)
+    }
+  }, [lesson, router.asPath, muxPlayerRef])
+
+  const handleUserPreferences = React.useCallback(() => {
+    setPreferredPlaybackRate(muxPlayerRef)
+    setPreferredTextTrack(muxPlayerRef)
+    handleTextTrackChange(muxPlayerRef, setPlayerPrefs)
+  }, [muxPlayerRef, setPlayerPrefs])
+
   const context = {
     muxPlayerProps: {
       id: 'mux-player',
@@ -193,15 +190,13 @@ export const VideoProvider: React.FC<
       onPause: () => {},
       onEnded: onEndedCallback,
       onRateChange,
-      defaultHiddenCaptions: true, // TODO: investigate storing subtitles preferences
-      // autoPlay,
+      defaultHiddenCaptions: true,
       streamType: 'on-demand',
       metadata: {
         video_title: `${title} (${lesson._type})`,
       },
-    },
-    autoPlay,
-    setAutoPlay,
+      onLoadedData: handleUserPreferences,
+    } as MuxPlayerProps,
     setPlayerPrefs,
     setDisplayOverlay: setDisplayOverlayCallback,
     handlePlay,
