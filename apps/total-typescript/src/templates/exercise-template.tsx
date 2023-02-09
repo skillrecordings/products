@@ -100,6 +100,7 @@ const ExerciseTemplate: React.FC<{
                 objectFit="contain"
                 objectPosition="center top"
                 className="pointer-events-none z-0 select-none"
+                priority
               />
             </article>
           </main>

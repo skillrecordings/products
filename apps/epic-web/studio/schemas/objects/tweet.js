@@ -1,21 +1,27 @@
-import React from 'react'
-import TweetEmbed from 'react-tweet-embed'
+import {FiTwitter} from 'react-icons/fi'
 
 export default {
   name: 'tweet',
   type: 'object',
   title: 'Tweet',
+  icon: FiTwitter,
   fields: [
     {
-      name: 'id',
-      type: 'string',
+      name: 'tweetId',
       title: 'Tweet ID',
+      type: 'string',
+      validation: (Rule) => Rule.required(),
     },
+    {name: 'label', title: 'Label', type: 'string'},
   ],
   preview: {
-    select: {id: 'id'},
-    component: ({value}) => {
-      return <TweetEmbed tweetId={value.id} />
+    select: {
+      file: 'FiTwitter',
+    },
+    prepare(selection) {
+      return {
+        title: 'Tweet',
+      }
     },
   },
 }

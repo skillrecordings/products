@@ -1,7 +1,6 @@
 import {PrismaClient} from '@skillrecordings/database'
 import * as trpc from '@trpc/server'
 import * as trpcNext from '@trpc/server/adapters/next'
-import {NextAuthOptions} from 'next-auth'
 
 const prisma = new PrismaClient({
   log:
@@ -17,7 +16,7 @@ export const createContext = async ({
   req,
   res,
   nextAuthOptions,
-}: trpcNext.CreateNextContextOptions & {nextAuthOptions?: NextAuthOptions}) => {
+}: trpcNext.CreateNextContextOptions & {nextAuthOptions?: any}) => {
   return {
     req,
     res,
