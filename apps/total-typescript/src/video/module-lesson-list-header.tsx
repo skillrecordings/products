@@ -85,6 +85,7 @@ const ModuleLessonListHeader: React.FC<SidebarProps> = ({
                   layout="fill"
                   objectFit="cover"
                   objectPosition="center center"
+                  priority
                 />
               </div>
               {/* {section && (

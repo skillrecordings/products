@@ -1,3 +1,4 @@
+import {MuxPlayerRefAttributes} from '@mux/mux-player-react/*'
 import * as React from 'react'
 import cookies from '../utils/cookies'
 
@@ -6,8 +7,17 @@ const PLAY_PREFS_KEY = 'muxplayer-react-prefs'
 export const defaultSubtitlePreference = {
   id: null,
   kind: null,
-  label: 'off',
+  label: null,
   language: null,
+  mode: 'disabled',
+}
+
+export type Subtitle = {
+  id: string | null
+  kind: string | null
+  label: string | null
+  language: string | null
+  mode: string
 }
 
 export type PlayerPrefs = {
@@ -20,12 +30,7 @@ export type PlayerPrefs = {
     id: string
     width: any
   }
-  subtitle: {
-    id: any
-    kind: any
-    label: any
-    language: any
-  }
+  subtitle: Subtitle
   muted: boolean
   theater: boolean
   defaultView: string
@@ -82,5 +87,54 @@ export const usePlayerPrefs = () => {
     setPlayerPrefs: setPlayerPrefsOptions,
     getPlayerPrefs: React.useCallback(getPlayerPrefs, []),
     ...playerPrefs,
+  }
+}
+
+export const setPreferredPlaybackRate = (
+  muxPlayerRef: React.RefObject<MuxPlayerRefAttributes>,
+) => {
+  if (muxPlayerRef.current) {
+    let player = muxPlayerRef.current
+    player.playbackRate = getPlayerPrefs().playbackRate
+  }
+}
+
+export const setPreferredTextTrack = (
+  muxPlayerRef: React.RefObject<MuxPlayerRefAttributes>,
+) => {
+  if (muxPlayerRef.current) {
+    let player = muxPlayerRef.current
+    let preferredTextTrack = player.textTracks?.getTrackById(
+      getPlayerPrefs().subtitle.id,
+    )
+    if (preferredTextTrack && getPlayerPrefs().subtitle.mode === 'showing') {
+      preferredTextTrack.mode = 'showing'
+    }
+  }
+}
+
+export const handleTextTrackChange = (
+  muxPlayerRef: React.RefObject<MuxPlayerRefAttributes>,
+  setPlayerPrefs: (e: {subtitle: Subtitle}) => void,
+) => {
+  if (muxPlayerRef.current) {
+    let player = muxPlayerRef.current
+    player?.textTracks?.addEventListener('change', () => {
+      const subtitles = Array.from(player.textTracks || []).filter((track) => {
+        return ['subtitles'].includes(track.kind)
+      })
+
+      subtitles.forEach((textTrack) => {
+        setPlayerPrefs({
+          subtitle: {
+            id: textTrack.id,
+            kind: textTrack.kind,
+            label: textTrack.label,
+            language: textTrack.language,
+            mode: textTrack.mode,
+          },
+        })
+      })
+    })
   }
 }
