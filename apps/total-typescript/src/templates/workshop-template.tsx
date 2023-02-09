@@ -22,6 +22,7 @@ import {Module} from '@skillrecordings/skill-lesson/schemas/module'
 import {Section} from '@skillrecordings/skill-lesson/schemas/section'
 import * as process from 'process'
 import {trpc} from '../trpc/trpc.client'
+import Balancer from 'react-wrap-balancer'
 
 const WorkshopTemplate: React.FC<{
   workshop: Module
@@ -82,7 +83,7 @@ const Header: React.FC<{
             Pro Workshop
           </Link>
           <h1 className="font-text text-4xl font-bold sm:text-5xl lg:text-6xl">
-            {title}
+            <Balancer>{title}</Balancer>
           </h1>
           <div className="pt-8 text-lg">
             <div className="flex items-center justify-center gap-3 md:justify-start">
@@ -249,8 +250,8 @@ const SectionItem: React.FC<{
     <li key={section.slug}>
       <Accordion.Item value={section.slug}>
         <Accordion.Header className="relative z-10 overflow-hidden rounded-lg bg-gray-900">
-          <Accordion.Trigger className="group relative z-10 flex w-full items-center justify-between rounded-lg border border-white/5 bg-gray-800/20 py-2 px-3 text-lg font-medium shadow-lg transition hover:bg-gray-800/40">
-            {section.title}
+          <Accordion.Trigger className="group relative z-10 flex w-full items-center justify-between rounded-lg border border-white/5 bg-gray-800/20 py-2.5 px-3 text-left text-lg font-medium leading-tight shadow-lg transition hover:bg-gray-800/40">
+            <Balancer>{section.title}</Balancer>
             <div className="flex items-center">
               {isSectionCompleted && (
                 <CheckIcon
