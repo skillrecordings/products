@@ -32,6 +32,7 @@ import linkListItem from './objects/linkListItem'
 import schedule from './objects/schedule'
 import muxAsset from './objects/muxAsset'
 import castingwordsTranscript from './objects/castingwordsTranscript'
+import caseStudy from './documents/caseStudy'
 
 // Then we give our schema to the builder and provide the result to Sanity
 export default createSchema({
@@ -44,6 +45,7 @@ export default createSchema({
     // in the studio.
     workshop,
     article,
+    caseStudy,
     videoResource,
     // product
     product,
