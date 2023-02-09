@@ -204,6 +204,7 @@ const TipTemplate: React.FC<{
             layout="fill"
             objectPosition="center top"
             className="pointer-events-none -z-10 select-none object-contain"
+            priority
           />
         </main>
       </Layout>
