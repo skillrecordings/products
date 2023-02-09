@@ -11,6 +11,7 @@ import {Section} from '@skillrecordings/skill-lesson/schemas/section'
 import {Module} from '@skillrecordings/skill-lesson/schemas/module'
 import {trpc} from 'trpc/trpc.client'
 import {CheckIcon, ChevronDownIcon, LinkIcon} from '@heroicons/react/solid'
+import Balancer from 'react-wrap-balancer'
 
 type LessonTitleLinkProps = {
   path: string
@@ -142,14 +143,13 @@ export const LessonList: React.FC<{
                 return (
                   <li key={section.slug}>
                     <Accordion.Item value={section.slug}>
-                      <Accordion.Header className=" sticky top-0 z-10 overflow-hidden bg-gray-900 shadow-xl shadow-black/20">
+                      <Accordion.Header className="sticky top-0 z-10 overflow-hidden bg-gray-900 shadow-xl shadow-black/20">
                         <Accordion.Trigger
                           className={cx(
-                            'group relative z-10 flex w-full items-center justify-between border-b border-white/5 bg-gray-800/20 py-3 pl-3 pr-4 text-lg font-semibold transition hover:bg-gray-800/40',
+                            'group relative z-10 flex w-full items-center justify-between border-b border-white/5 bg-gray-800/20 py-3 pl-3 pr-4 text-left text-lg font-semibold leading-tight transition hover:bg-gray-800/40',
                           )}
                         >
-                          {section.title}
-
+                          <Balancer>{section.title}</Balancer>
                           <div className="flex items-center">
                             {isSectionCompleted && (
                               <CheckIcon

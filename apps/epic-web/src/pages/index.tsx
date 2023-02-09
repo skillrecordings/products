@@ -7,7 +7,7 @@ import {PortableText} from '@portabletext/react'
 import {PrimaryNewsletterCta} from 'components/primary-newsletter-cta'
 import AboutKent from 'components/about-kent'
 import Starfield from 'components/starfield'
-import {useConvertkit} from '@skillrecordings/convertkit-react-ui'
+import {useConvertkit} from '@skillrecordings/skill-lesson/hooks/use-convertkit'
 import {track} from 'utils/analytics'
 
 export async function getStaticProps() {
@@ -22,7 +22,7 @@ export async function getStaticProps() {
 const Index: NextPage<any> = ({page}) => {
   const [starfieldSpeed, setStarfieldSpeed] = React.useState(0.5)
   const {body} = page
-  const {subscriber} = useConvertkit()
+  const {subscriber, loadingSubscriber} = useConvertkit()
 
   return (
     <Layout>
