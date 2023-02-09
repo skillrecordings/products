@@ -29,12 +29,10 @@ export const getStaticPaths: GetStaticPaths = async (context) => {
 
 type ArticlePageProps = {
   article: Article
-  hasSubscribed: boolean
 }
 
 const ArticlePage: React.FC<React.PropsWithChildren<ArticlePageProps>> = ({
   article,
-  hasSubscribed = true,
 }) => {
   return <ArticleTemplate article={article} />
 }
