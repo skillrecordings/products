@@ -441,6 +441,8 @@ const FinishedOverlay = () => {
 const BlockedOverlay = () => {
   const {lesson, module} = useLesson()
   const {refetch: refetchSubscriber} = useConvertkit()
+  const {videoResourceId} = useVideoResource()
+  const thumbnail = `${getBaseUrl()}/api/video-thumb?videoResourceId=${videoResourceId}`
 
   const {data: ctaText} = useQuery(
     [`exercise-free-tutorial`, lesson.slug, module.slug.current],
@@ -485,6 +487,15 @@ const BlockedOverlay = () => {
       id="video-overlay"
       className="flex w-full flex-col items-center justify-center bg-[#070B16] py-10 xl:aspect-video xl:flex-row"
     >
+      <Image
+        src={thumbnail}
+        layout="fill"
+        alt=""
+        aria-hidden="true"
+        className="opacity-50 blur-sm contrast-125"
+        priority
+      />
+
       {module.moduleType === 'tutorial' ? (
         <>
           <div className="z-20 flex h-full flex-shrink-0 flex-col items-center justify-center gap-5 p-5 pb-10 text-center text-lg leading-relaxed sm:p-10 sm:pb-16">

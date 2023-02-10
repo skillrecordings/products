@@ -41,7 +41,6 @@ import {setUserId} from '@amplitude/analytics-browser'
 import {ArticleJsonLd} from '@skillrecordings/next-seo'
 import {useLesson} from '@skillrecordings/skill-lesson/hooks/use-lesson'
 import {useVideoResource} from '@skillrecordings/skill-lesson/hooks/use-video-resource'
-import {getBaseUrl} from '@skillrecordings/skill-lesson/utils/get-base-url'
 import PortableTextComponents from 'video/portable-text'
 
 const TipTemplate: React.FC<{
@@ -59,7 +58,8 @@ const TipTemplate: React.FC<{
 
   const ogImage = getOgImage({
     title: tip.title,
-    image: `${getBaseUrl()}/api/video-thumb?videoResourceId=${videoResourceId}`,
+    image: `${process.env.NEXT_PUBLIC_URL}/api/video-thumb?videoResourceId=${videoResourceId}`,
+    type: 'tips',
   })
 
   const handleOnSuccess = (subscriber: any, email?: string) => {
