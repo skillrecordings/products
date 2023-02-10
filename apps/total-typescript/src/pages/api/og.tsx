@@ -33,33 +33,47 @@ export default async function handler(req: NextRequest) {
 
   try {
     const {searchParams} = new URL(req.url)
-
     const hasTitle = searchParams.has('title')
     const title = hasTitle
       ? searchParams.get('title')?.slice(0, 100)
       : 'My Default Title'
     const hasImage = searchParams.has('image')
-    const image = hasImage
-      ? searchParams.get('image')
-      : 'https://totaltypescript.com/assets/landing/bg-divider-7.png'
+    const image = searchParams.get('image')
+    const hasType = searchParams.has('type')
+    const type = hasType ? searchParams.get('type') : ''
+    const defaultBackground =
+      'https://totaltypescript.com/assets/landing/bg-divider-7.png'
 
     return new ImageResponse(
       (
         <div
-          tw="flex w-full relative text-white items-center h-full pl-16 justify-between border-b-8 border-cyan-300"
+          tw="flex w-full relative justify-center text-white items-center h-full pl-16 justify-between border-b-8 border-cyan-300"
           style={{
             backgroundColor: '#0A1020',
-            backgroundImage: `url(${image})`,
+            backgroundImage: `url(${defaultBackground})`,
             backgroundSize: 'contain',
             backgroundRepeat: 'no-repeat',
           }}
         >
+          {hasImage && (
+            <div
+              tw="absolute left-0 top-0 w-full h-full opacity-25"
+              style={{
+                width: 1920 / 1.2,
+                height: 1080 / 1.2,
+                backgroundColor: '#0A1020',
+                backgroundImage: `url(${image})`,
+                backgroundSize: '100% 100%',
+                backgroundRepeat: 'no-repeat',
+              }}
+            />
+          )}
           <div tw="flex-1 flex flex-col justify-between h-full pt-12 pb-16 relative">
-            <p tw="text-cyan-300" style={{fontSize: 48}}>
-              TotalTypeScript.com
+            <p tw="text-cyan-200" style={{fontSize: 48}}>
+              TotalTypeScript.com{type && <span tw="text-white">/{type}</span>}
             </p>
             <p
-              tw="text-7xl tracking-tight font-bold leading-tight"
+              tw="text-7xl tracking-tight font-bold leading-tight pr-16"
               style={{
                 fontFamily: 'Larsseit',
                 lineHeight: 1.1,
@@ -80,10 +94,6 @@ export default async function handler(req: NextRequest) {
               </p>
             </div>
           </div>
-          {/* <img
-            src="https://www.mattpocock.com/og-image.jpg"
-            tw="h-full"
-          /> */}
         </div>
       ),
       {
@@ -94,16 +104,19 @@ export default async function handler(req: NextRequest) {
             name: 'Magnat Text',
             data: magnatTextFontData,
             style: 'normal',
+            weight: 300,
           },
           {
             name: 'Magnat Head',
             data: magnatHeadFontData,
             style: 'normal',
+            weight: 600,
           },
           {
             name: 'Larsseit',
             data: larsseitFontData,
             style: 'normal',
+            weight: 500,
           },
         ],
       },

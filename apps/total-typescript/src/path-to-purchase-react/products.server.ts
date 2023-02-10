@@ -40,6 +40,9 @@ export const getProduct = async (productId: string) => {
      "name": title,
      image {
       url
+     },
+     modules[]->{
+      slug
      }
     }`,
     {
