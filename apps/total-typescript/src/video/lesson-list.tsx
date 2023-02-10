@@ -184,6 +184,7 @@ export const LessonList: React.FC<{
                             (exercise: Lesson, index: number) => {
                               return (
                                 <Lessons
+                                  key={exercise._id}
                                   exercise={exercise}
                                   module={module}
                                   section={section}

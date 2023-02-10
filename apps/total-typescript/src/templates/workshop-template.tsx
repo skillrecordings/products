@@ -1,6 +1,6 @@
 import React from 'react'
 import Layout from 'components/app/layout'
-import Image from 'next/legacy/image'
+import Image from 'next/image'
 import Link from 'next/link'
 import cx from 'classnames'
 import {CourseJsonLd} from '@skillrecordings/next-seo'
@@ -94,6 +94,7 @@ const Header: React.FC<{
                     alt="Matt Pocock"
                     width={48}
                     height={48}
+                    placeholder="blur"
                   />
                 </div>
                 <span>Matt Pocock</span>
@@ -147,12 +148,12 @@ const Header: React.FC<{
           </div>
         </div>
         {image && (
-          <div className="flex items-center justify-center lg:-mr-16">
+          <div className="flex flex-shrink-0 items-center justify-center lg:-mr-16">
             <Image
               src={image}
               alt={title}
-              width={500}
-              height={500}
+              width={400}
+              height={400}
               quality={100}
             />
           </div>
@@ -190,7 +191,7 @@ const WorkshopSectionNavigator: React.FC<{
     nextSection?.slug && setOpenedSections([nextSection?.slug])
   }, [nextSection?.slug])
 
-  return (
+  return moduleProgressStatus === 'success' ? (
     <nav
       aria-label="workshop navigator"
       className="w-full bg-black/20 px-5 py-8 lg:max-w-xs lg:bg-transparent lg:px-0 lg:py-0"
@@ -199,7 +200,7 @@ const WorkshopSectionNavigator: React.FC<{
         <Accordion.Root
           type="multiple"
           onValueChange={(e) => setOpenedSections(e)}
-          value={moduleProgressStatus === 'success' ? openedSections : []}
+          value={openedSections}
         >
           <div className="flex w-full items-center justify-between pb-3">
             <h2 className="text-2xl font-semibold">Contents</h2>
@@ -230,6 +231,36 @@ const WorkshopSectionNavigator: React.FC<{
         </Accordion.Root>
       )}
     </nav>
+  ) : (
+    <WorkshopSectionNavigatorSkeleton sections={sections} />
+  )
+}
+
+const WorkshopSectionNavigatorSkeleton: React.FC<{
+  sections: Section[] | null | undefined
+}> = ({sections}) => {
+  return (
+    <div
+      role="status"
+      className="flex w-full animate-pulse flex-col gap-3 lg:max-w-xs"
+    >
+      <div className="flex w-full items-center justify-between pb-3">
+        <h2 className="text-2xl font-semibold">Contents</h2>
+        <h3 className="cursor-pointer font-mono text-sm font-semibold uppercase text-gray-300">
+          {sections?.length || 0} Sections
+        </h3>
+      </div>
+      {sections?.map((section) => {
+        return (
+          <div className="flex flex-col gap-3 pb-5">
+            <div className="h-4 w-5/6 rounded-full bg-gray-700" />
+            {section?.lessons?.map(() => {
+              return <div className="h-3 rounded-full bg-gray-800" />
+            })}
+          </div>
+        )
+      })}
+    </div>
   )
 }
 

@@ -4,8 +4,7 @@ import Link from 'next/link'
 import Markdown from 'react-markdown'
 import {GetStaticProps} from 'next'
 import {format} from 'date-fns'
-import {SanityDocument} from '@sanity/client'
-import {getAllArticles} from '../lib/articles'
+import {type Article, getAllArticles} from '../lib/articles'
 import Image from 'next/legacy/image'
 import Stars from '../../public/assets/stars-1@2x.png'
 import {Author} from 'templates/article-template'
@@ -18,7 +17,7 @@ const meta = {
 }
 
 type ArticlesProps = {
-  articles: SanityDocument[]
+  articles: Article[]
 }
 
 const Articles: React.FC<React.PropsWithChildren<ArticlesProps>> = ({
@@ -42,7 +41,7 @@ const Articles: React.FC<React.PropsWithChildren<ArticlesProps>> = ({
         <div className="pb-16 mx-auto max-w-3xl w-full sm:pt-20 gap-16">
           <div className="grid grid-cols-1 gap-20">
             {articles.map(
-              ({title, slug, description, date}: SanityDocument, i: number) => {
+              ({title, slug, description, _createdAt: date}, i: number) => {
                 return (
                   <div key={slug} className="sm:gap-5 gap-3 flex">
                     <i
@@ -75,16 +74,6 @@ const Articles: React.FC<React.PropsWithChildren<ArticlesProps>> = ({
                         )}
                       </div>
                     </div>
-                    {/* {slug && (
-                      <Link href={`/${slug}`} passHref>
-                        <a
-                          className="font-condensed sm:text-2xl text-xl text-badass-yellow-300 tracking-widest flex items-baseline gap-1"
-                          aria-label={`Read ${title}`}
-                        >
-                          Read
-                        </a>
-                      </Link>
-                    )} */}
                   </div>
                 )
               },

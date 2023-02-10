@@ -1,9 +1,11 @@
 import React from 'react'
+import {MdOutlineArticle} from 'react-icons/md'
 
 export default {
   name: 'article',
   title: 'Article',
   type: 'document',
+  icon: MdOutlineArticle,
   fields: [
     {
       name: 'title',
@@ -22,126 +24,79 @@ export default {
       },
     },
     {
-      title: 'Published',
-      name: 'published',
-      type: 'boolean',
-      initialValue: true,
-    },
-    {
-      title: 'Subscribers Only',
-      name: 'subscribersOnly',
-      type: 'boolean',
-      readOnly: true,
-      initialValue: false,
-    },
-    {
-      name: 'preview',
-      title: 'Preview',
-      type: 'body',
+      name: 'state',
+      title: 'Current State',
+      type: 'string',
       validation: (Rule) => Rule.required(),
+      initialValue: 'draft',
+      options: {
+        list: [
+          {title: 'draft', value: 'draft'},
+          {title: 'published', value: 'published'},
+        ],
+      },
     },
     {
-      name: 'body',
-      title: 'Full Article',
-      type: 'body',
-      validation: (Rule) => Rule.required(),
-    },
-    {
-      name: 'video',
-      title: 'Video',
-      type: 'videoResource',
-    },
-    {
-      title: 'Call to Action',
-      name: 'cta',
-      type: 'object',
-      description: 'Displayed at the bottom of the article. Not required.',
-      fields: [
+      name: 'resources',
+      title: 'Resources',
+      type: 'array',
+      of: [
         {
-          title: 'Text',
-          type: 'body',
-          name: 'body',
-        },
-        {
-          title: 'Form',
-          name: 'ckFormId',
-          type: 'string',
-          of: [{type: 'string'}],
-          options: {
-            list: [
-              {title: 'Email Course (1863867)', value: '1863867'},
-              {
-                title: 'workshop-form-automated-testing (3122427)',
-                value: '3122427',
-              },
-              {
-                title: 'workshop-form-automated-testing (3120060)',
-                value: '3120060',
-              },
-              {
-                title: 'workshop-form-automated-testing (3122424)',
-                value: '3122424',
-              },
-              {
-                title: 'workshop-form-automated-testing (3122425)',
-                value: '3122425',
-              },
-              {
-                title: 'workshop-form-manually-a11y-testing (2662749)',
-                value: '2662749',
-              },
-              {title: 'workshop-form-people (3122421)', value: '3122421'},
-              {title: 'workshop-form-semantics (3122422)', value: '3122422'},
-            ],
-            sortable: false,
-          },
-        },
-        {
-          title: 'Action Label',
-          name: 'actionLabel',
-          type: 'string',
-          initialValue: 'Start Testing Accessibility →',
+          type: 'reference',
+          to: [{type: 'videoResource'}],
         },
       ],
     },
-    {name: 'image', title: 'Image', type: 'externalImage'},
+    {
+      name: 'body',
+      title: 'Article Body',
+      type: 'body',
+      validation: (Rule) => Rule.required(),
+    },
+    {
+      name: 'image',
+      title: 'Image',
+      type: 'image',
+    },
+    {
+      name: 'summary',
+      title: 'Summary',
+      type: 'body',
+    },
     {
       name: 'ogImage',
       title: 'Share Card',
       type: 'externalImage',
-      description: '1200x628',
+      description: '1200x630',
     },
     {
       name: 'description',
-      title: 'SEO Description',
+      title: 'Short Description',
+      description: 'Used as a short "SEO" summary on Twitter cards etc.',
       type: 'text',
       validation: (Rule) => Rule.max(160),
     },
     {
-      name: 'date',
-      title: 'Published Date',
-      type: 'date',
-      validation: (Rule) => Rule.required(),
-    },
-    {
-      name: 'tags',
-      title: 'Tags',
+      name: 'concepts',
+      title: 'Concepts',
       type: 'array',
-      of: [{type: 'reference', to: [{type: 'tag'}]}],
-      options: {
-        layout: 'tags',
-      },
+      of: [
+        {
+          type: 'reference',
+          to: [{type: 'skosConcept'}],
+        },
+      ],
     },
   ],
   preview: {
     select: {
       title: 'title',
-      media: 'image.url',
+      media: 'image.asset.url',
     },
     prepare(selection) {
       const {media, title} = selection
       return {
-        title: title,
+        title,
         media: media && <img src={media} alt={title} />,
       }
     },
