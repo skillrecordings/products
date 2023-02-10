@@ -311,7 +311,7 @@ const Lessons = React.forwardRef<
     ? `${path}/${module.slug.current}/${section.slug}/${exercise.slug}`
     : `${path}/${module.slug.current}/${exercise.slug}`
 
-  const isExpanded = !isLessonCompleted || router.asPath.includes(currentPath)
+  const isExpanded = router.asPath.includes(currentPath)
 
   const scrollToElement = router.asPath.includes(currentPath)
 
