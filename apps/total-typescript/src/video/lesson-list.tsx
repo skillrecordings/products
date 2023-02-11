@@ -64,7 +64,7 @@ const LessonTitleLink: React.FC<LessonTitleLinkProps> = ({
     >
       {isLessonCompleted ? (
         <CheckIcon
-          className="mr-2 -ml-1 h-4 w-4 flex-shrink-0 text-cyan-400"
+          className="mr-[7px] -ml-1 h-4 w-4 flex-shrink-0 text-cyan-400"
           aria-hidden="true"
         />
       ) : (
@@ -87,17 +87,6 @@ export const LessonList: React.FC<{
   const activeElRef = React.useRef<HTMLDivElement>(null)
   const sections = module.sections
   const lessons = currentSection ? currentSection.lessons : module.lessons
-
-  React.useEffect(() => {
-    const activeElementOffset: any = activeElRef.current?.offsetTop
-
-    scrollContainerRef.current?.scrollTo({
-      top:
-        activeElementOffset -
-        (module.sections && module.sections.length > 1 ? 53 : 0),
-    })
-  }, [router, activeElRef, scrollContainerRef])
-
   const {data: moduleProgress} = trpc.moduleProgress.bySlug.useQuery({
     slug: module.slug.current,
   })
@@ -112,6 +101,17 @@ export const LessonList: React.FC<{
   React.useEffect(() => {
     currentSection && setOpenedSections([currentSection.slug])
   }, [currentSection])
+
+  React.useEffect(() => {
+    const activeElementOffset = moduleProgress && activeElRef.current?.offsetTop
+
+    activeElementOffset &&
+      scrollContainerRef.current?.scrollTo({
+        top:
+          activeElementOffset -
+          (module.sections && module.sections.length > 1 ? 53 : 0),
+      })
+  }, [router, activeElRef, scrollContainerRef, module, moduleProgress])
 
   return (
     <div
@@ -318,9 +318,12 @@ const Lessons = React.forwardRef<
   return (
     <li
       key={exercise._id}
-      className={cx('py-1', {
+      className={cx('', {
         'text-gray-300 opacity-80 hover:text-gray-100 hover:opacity-100':
           isLessonCompleted && !isExpanded,
+        'text-gray-300 opacity-90 hover:text-gray-100 hover:opacity-100':
+          !isExpanded,
+        'bg-gray-700/20': isExpanded,
       })}
     >
       {scrollToElement && <div ref={ref} aria-hidden="true" />}

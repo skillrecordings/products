@@ -217,7 +217,7 @@ const Video: React.FC<any> = React.forwardRef(({tips}, ref: any) => {
   const {videoResource} = useVideoResource()
 
   return (
-    <div className="relative">
+    <div className="relative aspect-video">
       {displayOverlay && <TipOverlay tips={tips} />}
       <div
         className={cx('', {
@@ -327,7 +327,7 @@ const TipOverlay: React.FC<{tips: Tip[]}> = ({tips}) => {
       </div>
       <div className="left-0 top-0 z-20 flex h-full w-full flex-col items-center justify-center p-5 text-center text-lg leading-relaxed lg:absolute">
         {/* <ShareTip lesson={tip} /> */}
-        <div className="grid h-full grid-cols-1 gap-2 sm:grid-cols-2 lg:grid-cols-3 ">
+        <div className="grid h-full grid-cols-1 gap-2 sm:grid-cols-2 lg:grid-cols-3">
           {take(shuffle(tips), 9).map((tip) => (
             <VideoOverlayTipCard suggestedTip={tip} />
           ))}
