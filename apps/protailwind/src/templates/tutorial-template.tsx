@@ -10,38 +10,35 @@ import {track} from '../utils/analytics'
 import {Exercise} from 'lib/exercises'
 import PortableTextComponents from 'video/portable-text'
 import Icon from 'components/icons'
+import {Module} from '@skillrecordings/skill-lesson/schemas/module'
+import {first, isEmpty} from 'lodash'
+import {Lesson} from '@skillrecordings/skill-lesson/schemas/lesson'
+import {Section} from '@skillrecordings/skill-lesson/schemas/section'
+import {WorkshopSectionNavigator} from './workshop-template'
+import {trpc} from 'trpc/trpc.client'
 
 const TutorialTemplate: React.FC<{
-  tutorial: SanityDocument
+  tutorial: Module & {
+    description: string
+    ogImage: string
+    sections: Section[]
+  }
 }> = ({tutorial}) => {
-  const {title, body, ogImage, image, description} = tutorial
+  const {title, body, ogImage, description} = tutorial
   const pageTitle = `${title} Tutorial`
-
-  // TODO: Fix behaving poorly showing the wrong title
-  // const {subscriber} = useConvertkit()
-  //
-  // const subscriberName =
-  //   subscriber &&
-  //   `${subscriber.first_name} ${subscriber?.fields?.last_name ?? ''}`
-  //
-  // const certificateUrl = useLearnerCertificateAsOgImage(
-  //   pageTitle,
-  //   image,
-  //   subscriberName,
-  // )
-  //
-  // const pageOgImageUrl = certificateUrl ?? ogImage ?? undefined
 
   return (
     <Layout
-      className="mx-auto w-full max-w-screen-lg py-24 px-5"
+      className="mx-auto w-full max-w-screen-lg py-16 px-5"
       meta={{
         title: pageTitle,
         description,
-        ogImage: {
-          url: ogImage,
-          alt: pageTitle,
-        },
+        ogImage: ogImage
+          ? {
+              url: ogImage,
+              alt: pageTitle,
+            }
+          : undefined,
       }}
     >
       <CourseMeta title={pageTitle} description={description} />
@@ -50,7 +47,13 @@ const TutorialTemplate: React.FC<{
         <article className="prose prose-lg w-full max-w-none lg:max-w-xl">
           <PortableText value={body} components={PortableTextComponents} />
         </article>
-        <TutorialExerciseNavigator tutorial={tutorial} />
+        <div className="lg:max-w-sm">
+          <WorkshopSectionNavigator
+            workshop={tutorial}
+            purchased={true}
+            path="tutorials"
+          />
+        </div>
       </main>
     </Layout>
   )
@@ -58,8 +61,20 @@ const TutorialTemplate: React.FC<{
 
 export default TutorialTemplate
 
-const Header: React.FC<{tutorial: SanityDocument}> = ({tutorial}) => {
-  const {title, slug, lessons, image, github} = tutorial
+const Header: React.FC<{tutorial: Module}> = ({tutorial}) => {
+  const {title, slug, sections, image, github} = tutorial
+
+  const firstSection = first<Section>(sections)
+  const firstLesson = first<Lesson>(firstSection?.lessons)
+
+  const {data: moduleProgress} = trpc.moduleProgress.bySlug.useQuery({
+    slug: tutorial.slug.current,
+  })
+
+  const isModuleInProgress = (moduleProgress?.completedLessonCount || 0) > 0
+  const completedLessonCount = moduleProgress?.completedLessonCount || 0
+  const nextLesson = moduleProgress?.nextLesson
+  const nextSection = moduleProgress?.nextSection
 
   return (
     <>
@@ -89,21 +104,26 @@ const Header: React.FC<{tutorial: SanityDocument}> = ({tutorial}) => {
               </div>
             </div>
             <div className="flex items-center gap-3 pt-8">
-              {lessons?.[0] && (
+              {firstSection && (
                 <Link
                   href={{
-                    pathname: '/tutorials/[module]/[lesson]',
+                    pathname: '/tutorials/[module]/[section]/[lesson]',
                     query: {
                       module: slug.current,
-                      lesson: lessons[0].slug,
+                      section: isModuleInProgress
+                        ? nextSection?.slug
+                        : firstSection.slug,
+                      lesson: isModuleInProgress
+                        ? nextLesson?.slug
+                        : firstLesson?.slug,
                     },
                   }}
-                  className="flex items-center justify-center rounded-full bg-brand-red px-6 py-3 font-semibold text-white transition hover:brightness-125"
+                  className="flex items-center justify-center rounded-full bg-brand-red px-6 py-3 font-semibold text-white shadow-lg transition hover:brightness-110"
                   onClick={() => {
-                    track('clicked github code link', {module: slug.current})
+                    track('clicked start learning', {module: slug.current})
                   }}
                 >
-                  Start Learning{' '}
+                  {isModuleInProgress ? 'Continue' : 'Start'} Learning{' '}
                   <span className="pl-2" aria-hidden="true">
                     →
                   </span>
@@ -138,61 +158,6 @@ const Header: React.FC<{tutorial: SanityDocument}> = ({tutorial}) => {
         )}
       </header>
     </>
-  )
-}
-
-const TutorialExerciseNavigator: React.FC<{tutorial: SanityDocument}> = ({
-  tutorial,
-}) => {
-  const {slug, lessons, _type} = tutorial
-  return (
-    <nav
-      aria-label="exercise navigator"
-      className="border-gray-200 lg:border-l lg:pl-8"
-    >
-      <h2 className="pb-4 font-mono text-sm font-semibold uppercase text-gray-600">
-        {lessons?.length || 0} Exercises
-      </h2>
-      {lessons && (
-        <ul>
-          {lessons.map((exercise: Exercise, i: number) => {
-            return (
-              <li key={exercise.slug}>
-                <Link
-                  href={{
-                    pathname: '/tutorials/[module]/[lesson]',
-                    query: {
-                      module: slug.current,
-                      lesson: exercise.slug,
-                    },
-                  }}
-                  passHref
-                  className="group inline-flex items-center py-2.5 text-lg font-semibold"
-                  onClick={() => {
-                    track('clicked tutorial exercise', {
-                      module: slug.current,
-                      lesson: exercise.slug,
-                      moduleType: _type,
-                      lessonType: exercise._type,
-                    })
-                  }}
-                >
-                  <span
-                    className="w-8 font-mono text-xs text-gray-400"
-                    aria-hidden="true"
-                  >
-                    {i + 1}
-                  </span>
-                  <span className="w-full leading-tight group-hover:underline">
-                    {exercise.title}
-                  </span>
-                </Link>
-              </li>
-            )
-          })}
-        </ul>
-      )}
-    </nav>
   )
 }
 

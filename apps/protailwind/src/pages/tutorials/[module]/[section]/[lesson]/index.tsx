@@ -7,12 +7,15 @@ import path from 'path'
 import {walk} from 'utils/code-editor-content'
 import {LessonProvider} from '@skillrecordings/skill-lesson/hooks/use-lesson'
 import {VideoResourceProvider} from '@skillrecordings/skill-lesson/hooks/use-video-resource'
+import {getSection} from '@skillrecordings/skill-lesson/lib/sections'
 
 export const getStaticProps: GetStaticProps = async (context) => {
   const {params} = context
   const lessonSLug = params?.lesson as string
+  const sectionSlug = params?.section as string
 
   const module = await getTutorial(params?.module as string)
+  const section = await getSection(sectionSlug)
   const lesson = await getExercise(lessonSLug)
 
   const tutorialDirectory = path.join(
@@ -24,6 +27,7 @@ export const getStaticProps: GetStaticProps = async (context) => {
   return {
     props: {
       lesson,
+      section,
       module,
       tutorialFiles,
       transcript: lesson.transcript,
@@ -36,19 +40,22 @@ export const getStaticProps: GetStaticProps = async (context) => {
 export const getStaticPaths: GetStaticPaths = async (context) => {
   const tutorials = await getAllTutorials()
 
-  const paths = tutorials.reduce((acc: any[], tutorial: any) => {
-    return [
-      ...acc,
-      ...tutorial.lessons.map((exercise: any) => {
-        return {
-          params: {
-            module: tutorial.slug.current,
-            lesson: exercise.slug,
-          },
-        }
-      }),
-    ]
-  }, [])
+  // flatMap to extract lessons in sections from tutorials
+  const paths = tutorials.flatMap((tutorial: any) => {
+    return (
+      tutorial.sections?.flatMap((section: any) => {
+        return (
+          section.lessons?.map((lesson: any) => ({
+            params: {
+              module: tutorial.slug.current,
+              section: section.slug,
+              lesson: lesson.slug,
+            },
+          })) || []
+        )
+      }) || []
+    )
+  })
 
   return {paths, fallback: 'blocking'}
 }
@@ -56,12 +63,13 @@ export const getStaticPaths: GetStaticPaths = async (context) => {
 const ExercisePage: React.FC<any> = ({
   lesson,
   module,
+  section,
   tutorialFiles,
   transcript,
   videoResourceId,
 }) => {
   return (
-    <LessonProvider lesson={lesson} module={module}>
+    <LessonProvider lesson={lesson} module={module} section={section}>
       <VideoResourceProvider videoResourceId={videoResourceId}>
         <ExerciseTemplate
           transcript={transcript}
