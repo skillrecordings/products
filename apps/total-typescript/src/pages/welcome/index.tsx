@@ -4,18 +4,22 @@ import {
   convertToSerializeForNextResponse,
   stripeData,
 } from '@skillrecordings/commerce-server'
+import Balancer from 'react-wrap-balancer'
 import {useSession} from 'next-auth/react'
 import {GetServerSideProps} from 'next'
 import {getToken} from 'next-auth/jwt'
 import Layout from 'components/app/layout'
-import {getSdk, prisma, PurchaseUserTransfer} from '@skillrecordings/database'
+import {getSdk, prisma} from '@skillrecordings/database'
 import Link from 'next/link'
 import {isString} from 'lodash'
 import InviteTeam from 'team'
 import {InvoiceCard} from 'pages/invoices'
 import MuxPlayer from '@mux/mux-player-react'
+import {SanityDocument} from '@sanity/client'
+import Image from 'next/legacy/image'
 import {trpc} from '../../trpc/trpc.client'
-import {Transfer} from '../../purchase-transfer/purchase-transfer'
+import {Transfer} from 'purchase-transfer/purchase-transfer'
+import {getProduct} from 'path-to-purchase-react/products.server'
 
 export const getServerSideProps: GetServerSideProps = async ({req, query}) => {
   const {purchaseId: purchaseQueryParam, session_id, upgrade} = query
@@ -51,21 +55,27 @@ export const getServerSideProps: GetServerSideProps = async ({req, query}) => {
   if (token && isString(purchaseId) && isString(token?.sub)) {
     const {purchase, existingPurchase, availableUpgrades} =
       await getPurchaseDetails(purchaseId, token.sub)
-    return purchase
-      ? {
-          props: {
-            purchase: convertToSerializeForNextResponse(purchase),
-            existingPurchase,
-            availableUpgrades,
-            upgrade: upgrade === 'true',
-          },
-        }
-      : {
-          redirect: {
-            destination: `/`,
-            permanent: false,
-          },
-        }
+
+    if (purchase) {
+      const product = await getProduct(purchase.product.id)
+
+      return {
+        props: {
+          product,
+          purchase: convertToSerializeForNextResponse(purchase),
+          existingPurchase,
+          availableUpgrades,
+          upgrade: upgrade === 'true',
+        },
+      }
+    } else {
+      return {
+        redirect: {
+          destination: `/`,
+          permanent: false,
+        },
+      }
+    }
   }
 
   return {
@@ -76,15 +86,24 @@ export const getServerSideProps: GetServerSideProps = async ({req, query}) => {
   }
 }
 
+type Purchase = {
+  id: string
+  merchantChargeId: string | null
+  bulkCoupon: {id: string; maxUses: number; usedCount: number} | null
+  product: {id: string; name: string}
+}
+
+type PersonalPurchase = {
+  id: string
+  product: {
+    id: string
+    name: string
+  }
+}
+
 const Welcome: React.FC<
   React.PropsWithChildren<{
-    purchase: {
-      id: string
-      merchantChargeId: string | null
-      bulkCoupon: {id: string; maxUses: number; usedCount: number} | null
-      product: {id: string; name: string}
-      purchaseUserTransfers: PurchaseUserTransfer[]
-    }
+    purchase: Purchase
     existingPurchase: {
       id: string
       product: {id: string; name: string}
@@ -92,16 +111,20 @@ const Welcome: React.FC<
     token: any
     availableUpgrades: {upgradableTo: {id: string; name: string}}[]
     upgrade: boolean
+    product?: SanityDocument
   }>
-> = ({upgrade, purchase, token, existingPurchase, availableUpgrades}) => {
+> = ({
+  upgrade,
+  purchase,
+  token,
+  existingPurchase,
+  availableUpgrades,
+  product,
+}) => {
   const {data: session, status} = useSession()
-  const [personalPurchase, setPersonalPurchase] = React.useState(
-    purchase.bulkCoupon ? existingPurchase : purchase,
-  )
-  const {data: purchaseUserTransfers, refetch} =
-    trpc.purchaseUserTransfer.forPurchaseId.useQuery({
-      id: purchase.id,
-    })
+  const [personalPurchase, setPersonalPurchase] = React.useState<
+    PersonalPurchase | Purchase
+  >(purchase.bulkCoupon ? existingPurchase : purchase)
 
   const redemptionsLeft =
     purchase.bulkCoupon &&
@@ -109,8 +132,13 @@ const Welcome: React.FC<
 
   const hasCharge = Boolean(purchase.merchantChargeId)
 
+  const {data: purchaseUserTransfers, refetch} =
+    trpc.purchaseUserTransfer.forPurchaseId.useQuery({
+      id: purchase.id,
+    })
+
   const isTransferAvailable =
-    personalPurchase &&
+    !purchase.bulkCoupon &&
     Boolean(
       purchaseUserTransfers?.filter((purchaseUserTransfer) =>
         ['AVAILABLE', 'INITIATED', 'COMPLETED'].includes(
@@ -124,28 +152,69 @@ const Welcome: React.FC<
       meta={{title: `Welcome to ${process.env.NEXT_PUBLIC_SITE_TITLE}`}}
       footer={null}
     >
-      <main className="mx-auto flex w-full flex-grow flex-col items-center justify-center px-5 py-24 sm:py-32">
-        <div className="flex w-full max-w-xl flex-col gap-3">
-          <Header upgrade={upgrade} purchase={purchase} />
-          <Share productName={purchase.product.name} />
-          {redemptionsLeft && (
-            <Invite>
-              <InviteTeam
-                setPersonalPurchase={setPersonalPurchase}
-                session={session}
-                purchase={purchase}
-                existingPurchase={existingPurchase}
+      <main
+        className="mx-auto flex w-full flex-grow flex-col items-center justify-center px-5 pt-24 pb-32"
+        id="welcome"
+      >
+        <div className="flex w-full max-w-screen-md flex-col gap-3">
+          <Header
+            product={product}
+            upgrade={upgrade}
+            purchase={purchase}
+            personalPurchase={personalPurchase}
+          />
+          <div className="flex flex-col gap-10">
+            <div>
+              <h2 className="pb-2 font-semibold uppercase tracking-wide">
+                Introduction
+              </h2>
+              <MuxPlayer
+                poster={
+                  'https://res.cloudinary.com/total-typescript/image/upload/v1676385817/welcome-video-thumbnail_2x_luri3y.png'
+                }
+                className="overflow-hidden rounded-md shadow-2xl shadow-black/30"
+                playbackId="MP73OYRQ01024QL600kKBwdASaMc49me8008U4Il8og0202xE"
               />
-            </Invite>
-          )}
-          {personalPurchase && <GetStarted />}
-          {hasCharge && <InvoiceCard purchase={purchase} />}
-          {isTransferAvailable && purchaseUserTransfers && (
-            <Transfer
-              purchaseUserTransfers={purchaseUserTransfers}
-              refetch={refetch}
-            />
-          )}
+            </div>
+            <div>
+              <h2 className="pb-2 font-semibold uppercase tracking-wide">
+                Share {process.env.NEXT_PUBLIC_SITE_TITLE}
+              </h2>
+              <Share productName={purchase.product.name} />
+            </div>
+            {redemptionsLeft && (
+              <div>
+                <h2 className="pb-2 font-semibold uppercase tracking-wide">
+                  Invite your team
+                </h2>
+                <Invite
+                  setPersonalPurchase={setPersonalPurchase}
+                  session={session}
+                  purchase={purchase}
+                  existingPurchase={existingPurchase}
+                />
+              </div>
+            )}
+            {hasCharge && (
+              <div>
+                <h2 className="pb-2 font-semibold uppercase tracking-wide">
+                  Get your invoice
+                </h2>
+                <InvoiceCard purchase={purchase} />
+              </div>
+            )}
+            {isTransferAvailable && purchaseUserTransfers && (
+              <div>
+                <h2 className="pb-2 font-heading text-sm font-black uppercase">
+                  Transfer this purchase to another email address
+                </h2>
+                <Transfer
+                  purchaseUserTransfers={purchaseUserTransfers}
+                  refetch={refetch}
+                />
+              </div>
+            )}
+          </div>
         </div>
       </main>
     </Layout>
@@ -155,74 +224,73 @@ const Welcome: React.FC<
 const Header: React.FC<
   React.PropsWithChildren<{
     upgrade: boolean
-    purchase: {
-      merchantChargeId: string | null
-      bulkCoupon: {id: string; maxUses: number; usedCount: number} | null
-      product: {id: string; name: string}
-    }
+    purchase: Purchase
+    personalPurchase?: PersonalPurchase | Purchase
+    product?: SanityDocument
   }>
-> = ({upgrade, purchase}) => {
+> = ({upgrade, purchase, product, personalPurchase}) => {
   return (
-    <header className="flex flex-col items-center pb-8 text-center text-white">
-      <h1 className="font-heading text-3xl font-bold sm:text-4xl lg:text-5xl">
-        {upgrade ? `You've Upgraded ` : `Welcome to `}
-        {purchase.product.name}
-      </h1>
-      {/* <h2 className="pt-4 lg:text-2xl sm:text-xl text-lg font-medium max-w-sm font-heading text-orange-200">
-      Thanks so much for purchasing{' '}
-      {purchase.bulkCoupon
+    <header>
+      <div className="flex flex-col items-center gap-10 pb-8 sm:flex-row">
+        {product?.image && (
+          <div className="flex flex-shrink-0 items-center justify-center">
+            <Image
+              src={product.image.url}
+              alt={product.title}
+              width={250}
+              height={250}
+            />
+          </div>
+        )}
+        <div className="flex w-full flex-col items-center text-center sm:items-start sm:text-left">
+          <h1 className="w-full font-text text-4xl font-black sm:text-4xl lg:text-5xl">
+            <span className="block pb-4 font-sans text-sm font-semibold uppercase tracking-wide text-cyan-300">
+              {upgrade ? `You've Upgraded ` : `Welcome to `}
+            </span>
+            <Balancer>Total TypeScript {purchase.product.name}</Balancer>
+          </h1>
+          {personalPurchase && (
+            <Link
+              href={`/workshops/${product?.modules[0]?.slug.current}`}
+              className="mt-8 rounded-lg bg-cyan-400 px-8 py-3 text-lg font-semibold text-gray-900 shadow-xl shadow-black/10 transition hover:brightness-110"
+            >
+              Start Learning
+            </Link>
+          )}
+        </div>
+      </div>
+      {/* {purchase.bulkCoupon
         ? `${purchase.product?.name} team license!`
-        : `${purchase.product?.name} license!`}
-    </h2> */}
+        : `${purchase.product?.name} license!`} */}
     </header>
   )
 }
 
-const Invite: React.FC<React.PropsWithChildren<unknown>> = ({children}) => {
+const Invite: React.FC<React.PropsWithChildren<any>> = ({
+  setPersonalPurchase,
+  session,
+  purchase,
+  existingPurchase,
+}) => {
   return (
-    <div className="rounded-lg border border-gray-800/80 bg-black/60 p-5">
-      <h3 className="flex items-center gap-3 text-xl font-semibold">
-        <UserGroupIcon className="w-5 text-cyan-500" /> Invite your team
-      </h3>
-      {children}
-    </div>
-  )
-}
-
-const GetStarted: React.FC<React.PropsWithChildren<unknown>> = () => {
-  return (
-    <div className="relative flex flex-col items-center p-8 text-center">
-      <MuxPlayer playbackId="MP73OYRQ01024QL600kKBwdASaMc49me8008U4Il8og0202xE" />
-      <h2 className="flex items-center gap-1 pt-12 pb-8 text-2xl font-semibold text-white sm:text-3xl">
-        <span>Ready to get started?</span>
-      </h2>
-      <Link
-        href={`/workshops`}
-        className="group flex-shrink-0 rounded-md bg-cyan-300 py-4 pl-5 pr-8 text-lg font-semibold text-gray-900 shadow-xl transition-all focus-visible:ring-white hover:bg-cyan-200"
-      >
-        <span className="pr-2.5">
-          Start {process.env.NEXT_PUBLIC_SITE_TITLE}{' '}
-        </span>
-        <span
-          role="presentation"
-          aria-hidden="true"
-          className="absolute text-cyan-800 transition group-hover:translate-x-1"
-        >
-          →
-        </span>
-      </Link>
-    </div>
+    <InviteTeam
+      setPersonalPurchase={setPersonalPurchase}
+      session={session}
+      purchase={purchase}
+      existingPurchase={existingPurchase}
+    />
   )
 }
 
 const Share: React.FC<React.PropsWithChildren<{productName: string}>> = ({
   productName,
 }) => {
-  const tweet = `https://twitter.com/intent/tweet/?text=Be a TypeScript Wizard with Total TypeScript by @${process.env.NEXT_PUBLIC_PARTNER_TWITTER} 🧙 https%3A%2F%2Fwww.totaltypescript.com%2F`
+  const tweet = `https://twitter.com/intent/tweet/?text=Total TypeScript ${productName} by @${process.env.NEXT_PUBLIC_PARTNER_TWITTER} 🧙 https%3A%2F%2Fwww.protailwind.com%2F`
   return (
-    <div className="mx-auto flex max-w-lg flex-col items-center gap-5 px-8 pt-6 pb-3 text-center">
-      <p className="gap-1 text-lg text-white">
-        Tell your friends about {process.env.NEXT_PUBLIC_SITE_TITLE}, <br />
+    <div className="flex flex-col justify-between gap-5 rounded-lg border border-gray-700/30 bg-gray-800  px-5 py-6 shadow-xl shadow-black/10 sm:flex-row sm:items-center">
+      <p>
+        Tell your friends about {process.env.NEXT_PUBLIC_SITE_TITLE},{' '}
+        <br className="hidden sm:block" />
         it would help me to get a word out.{' '}
         <span role="img" aria-label="smiling face">
           😊
@@ -232,7 +300,7 @@ const Share: React.FC<React.PropsWithChildren<{productName: string}>> = ({
         href={tweet}
         rel="noopener noreferrer"
         target="_blank"
-        className="flex items-center gap-2 rounded-md border border-gray-700 px-3 py-2 text-white transition hover:bg-white/5"
+        className="flex items-center gap-2 self-start rounded-md border border-cyan-500 px-5 py-2.5 font-semibold text-cyan-400 transition hover:bg-cyan-600/20"
       >
         <TwitterIcon /> Share with your friends!
       </a>

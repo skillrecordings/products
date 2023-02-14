@@ -61,7 +61,7 @@ export const InvoiceCard: React.FC<{purchase: Purchase | any}> = ({
   purchase,
 }) => {
   return (
-    <div className="flex flex-col items-start justify-between rounded-md border border-gray-800/80 bg-black/60 p-5 sm:flex-row sm:items-center">
+    <div className="flex flex-col items-start justify-between rounded-lg border border-gray-700/30 bg-gray-800 p-5 shadow-xl shadow-black/10 sm:flex-row sm:items-center">
       <div className="flex w-full gap-2">
         <div>
           <DocumentTextIcon aria-hidden className="w-6 text-cyan-500" />
@@ -83,7 +83,7 @@ export const InvoiceCard: React.FC<{purchase: Purchase | any}> = ({
       </div>
       <Link
         href={`/invoices/${purchase.merchantChargeId}`}
-        className="ml-8 mt-5 flex flex-shrink-0 items-center justify-end rounded-md bg-cyan-300/10 px-3 py-2 text-sm font-medium text-cyan-400 transition hover:bg-cyan-300/20 sm:ml-0 sm:mt-0 sm:justify-center"
+        className="ml-8 mt-5 flex flex-shrink-0 items-center justify-end rounded-md bg-cyan-300/20 px-4 py-2.5 text-sm font-semibold text-cyan-300 transition hover:bg-cyan-300/30 sm:ml-0 sm:mt-0 sm:justify-center"
       >
         <span className="pr-0.5">View Invoice</span>
         <ChevronRightIcon aria-hidden="true" className="w-4" />
