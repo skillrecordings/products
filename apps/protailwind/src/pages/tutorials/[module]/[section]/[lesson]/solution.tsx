@@ -5,17 +5,22 @@ import {getAllTutorials, getTutorial} from 'lib/tutorials'
 import {Exercise, getExercise} from 'lib/exercises'
 import {LessonProvider} from '@skillrecordings/skill-lesson/hooks/use-lesson'
 import {VideoResourceProvider} from '@skillrecordings/skill-lesson/hooks/use-video-resource'
+import {getSection} from 'lib/sections'
+import {Lesson} from '@skillrecordings/skill-lesson/schemas/lesson'
 
 export const getStaticProps: GetStaticProps = async (context) => {
   const {params} = context
   const exerciseSlug = params?.lesson as string
+  const sectionSlug = params?.section as string
 
   const module = await getTutorial(params?.module as string)
+  const section = await getSection(sectionSlug)
   const lesson = await getExercise(exerciseSlug)
 
   return {
     props: {
       lesson: lesson.solution,
+      section,
       module,
       ...(lesson.solution?.transcript && {
         transcript: lesson.solution?.transcript,
@@ -29,32 +34,36 @@ export const getStaticProps: GetStaticProps = async (context) => {
 export const getStaticPaths: GetStaticPaths = async (context) => {
   const tutorials = await getAllTutorials()
 
-  const paths = tutorials.reduce((acc: any[], tutorial: any) => {
-    return [
-      ...acc,
-      ...tutorial.lessons
-        .filter((exercise: Exercise) => Boolean(exercise.solution))
-        .map((exercise: Exercise) => {
-          return {
-            params: {
-              module: tutorial.slug.current,
-              lesson: exercise.slug,
-            },
-          }
-        }),
-    ]
-  }, [])
+  // flatMap to extract lessons in sections from tutorials
+  const paths = tutorials.flatMap((tutorial: any) => {
+    return (
+      tutorial.sections?.flatMap((section: any) => {
+        return (
+          section.lessons
+            ?.filter(({_type}: Lesson) => _type === 'exercise')
+            .map((lesson: any) => ({
+              params: {
+                module: tutorial.slug.current,
+                section: section.slug,
+                lesson: lesson.slug,
+              },
+            })) || []
+        )
+      }) || []
+    )
+  })
   return {paths, fallback: 'blocking'}
 }
 
 const ExerciseSolution: React.FC<any> = ({
   lesson,
   module,
+  section,
   transcript,
   videoResourceId,
 }) => {
   return (
-    <LessonProvider lesson={lesson} module={module}>
+    <LessonProvider lesson={lesson} module={module} section={section}>
       <VideoResourceProvider videoResourceId={videoResourceId}>
         <ExerciseTemplate transcript={transcript} />
       </VideoResourceProvider>
