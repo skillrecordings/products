@@ -62,7 +62,7 @@ const LessonTitleLink: React.FC<LessonTitleLinkProps> = ({
     >
       {isLessonCompleted ? (
         <CheckIcon
-          className="mr-[7px] -ml-1 h-4 w-4 flex-shrink-0 text-cyan-400"
+          className="mr-[7.5px] -ml-1 h-4 w-4 flex-shrink-0 text-cyan-400"
           aria-hidden="true"
         />
       ) : (

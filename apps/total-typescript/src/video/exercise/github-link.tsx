@@ -55,15 +55,17 @@ export const GitHubLink: React.FC<{
           href={exerciseGitHubUrl}
           target="_blank"
           rel="noopener noreferrer"
-          className="inline-flex items-center gap-4 rounded border border-gray-700/50 bg-gray-800/50 py-5 px-6 text-lg font-medium text-white transition hover:bg-slate-800/90"
+          className="inline-flex items-center gap-4 rounded-md border border-gray-700/50 bg-gray-800/50 py-3 px-4 text-lg font-medium text-white transition hover:bg-slate-800/90"
         >
-          <IconGithub className="h-14 w-14" />
+          <IconGithub className="h-14 w-14 flex-shrink-0 rounded-full bg-black/30 p-2" />
           <div>
             <p className="text-xl font-semibold">
               {module.github.repo}
               <span className="font-medium text-gray-400"></span>
             </p>
-            <p className="font-mono text-sm text-gray-400">/{openFile}</p>
+            <p className="font-mono text-sm text-gray-400 2xl:text-xs">
+              /{openFile}
+            </p>
           </div>
         </a>
       </div>
