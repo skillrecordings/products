@@ -132,6 +132,7 @@ export async function recordNewPurchase(checkoutSessionId: string): Promise<{
     stripeChargeAmount,
     quantity,
     bulk: metadata?.bulk === 'true',
+    checkoutSessionId,
   })
 
   let purchaseType = await determinePurchaseType({checkoutSessionId})

@@ -45,6 +45,18 @@ export const getServerSideProps: GetServerSideProps = async ({
       )
       const bulkCoupon = purchase && purchase.bulkCoupon
 
+      let quantity = 1
+      if (purchase?.merchantPurchase?.checkoutSessionId) {
+        const checkoutSession = await stripe.checkout.sessions.retrieve(
+          purchase?.merchantPurchase?.checkoutSessionId,
+          {expand: ['line_items']},
+        )
+
+        quantity = checkoutSession.line_items?.data[0].quantity || 1
+      } else if (bulkCoupon) {
+        quantity = bulkCoupon.maxUses
+      }
+
       const product = await getProduct({
         where: {id: purchase?.productId},
       })
@@ -57,6 +69,7 @@ export const getServerSideProps: GetServerSideProps = async ({
           merchantChargeId,
           purchaseId: purchase?.id,
           bulkCoupon: convertToSerializeForNextResponse(bulkCoupon),
+          quantity,
         },
       }
     }
@@ -77,14 +90,15 @@ const Invoice: React.FC<
     merchantChargeId: string
     merchantProduct: MerchantProduct
     bulkCoupon: Coupon
+    quantity: number
     purchaseId: string
   }>
 > = ({
   charge,
   product,
   merchantChargeId,
-  merchantProduct,
   bulkCoupon,
+  quantity = 1,
   purchaseId,
 }) => {
   const [invoiceMetadata, setInvoiceMetadata] = useLocalStorage(
@@ -226,14 +240,14 @@ const Invoice: React.FC<
                 </tr>
               </thead>
               <tbody>
-                {bulkCoupon ? (
+                {quantity ? (
                   <tr className="table-row">
                     <td>{product.name}</td>
                     <td>
                       {charge.currency.toUpperCase()}{' '}
-                      {formatUsd(charge.amount / 100 / bulkCoupon.maxUses)}
+                      {formatUsd(charge.amount / 100 / quantity)}
                     </td>
-                    <td>{bulkCoupon.maxUses}</td>
+                    <td>{quantity}</td>
                     <td className="text-right">
                       {amount === null
                         ? `${charge.currency.toUpperCase()} 0.00`
