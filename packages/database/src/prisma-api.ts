@@ -481,11 +481,12 @@ export function getSdk(
         },
       })
 
+      const oneWeekInMilliseconds = 1000 * 60 * 60 * 24 * 7
       const purchaseUserTransfer = ctx.prisma.purchaseUserTransfer.create({
         data: {
           sourceUserId: userId,
           purchaseId: purchaseId,
-          expiresAt: new Date(Date.now() + 1000 * 60 * 60 * 24 * 7),
+          expiresAt: new Date(Date.now() + oneWeekInMilliseconds),
         },
       })
 
