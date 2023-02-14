@@ -10,8 +10,6 @@ import fromUnixTime from 'date-fns/fromUnixTime'
 import Layout from 'components/app/layout'
 import format from 'date-fns/format'
 import {prisma} from '@skillrecordings/database'
-import {getCurrentAbility} from '@skillrecordings/ability'
-import {getToken} from 'next-auth/jwt'
 import {Transfer} from '../../purchase-transfer/purchase-transfer'
 import {trpc} from '../../trpc/trpc.client'
 import {MailIcon} from '@heroicons/react/solid'
@@ -21,11 +19,10 @@ export const getServerSideProps: GetServerSideProps = async ({
   req,
   query,
 }) => {
-  const sessionToken = await getToken({req})
   const {merchantChargeId} = query
   const {getProduct, getPurchaseForStripeCharge} = getSdk()
-  const ability = getCurrentAbility(sessionToken as any)
-  if (merchantChargeId && ability.can('view', 'Invoice')) {
+
+  if (merchantChargeId) {
     const merchantCharge = await prisma.merchantCharge.findUnique({
       where: {
         id: merchantChargeId as string,
@@ -122,7 +119,7 @@ const Invoice: React.FC<
 
   return (
     <Layout
-      meta={{title: `Invoice ${merchantChargeId}`}}
+      meta={{title: `Invoice for ${productName}`}}
       footer={null}
       className="print:bg-white print:text-black"
     >
