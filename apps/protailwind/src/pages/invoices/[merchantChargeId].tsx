@@ -10,8 +10,6 @@ import fromUnixTime from 'date-fns/fromUnixTime'
 import Layout from 'components/layout'
 import format from 'date-fns/format'
 import {prisma} from '@skillrecordings/database'
-import {getCurrentAbility} from '@skillrecordings/ability'
-import {getToken} from 'next-auth/jwt'
 import {trpc} from '../../trpc/trpc.client'
 import {Transfer} from '../../purchase-transfer/purchase-transfer'
 import {MailIcon} from '@heroicons/react/solid'
@@ -21,10 +19,8 @@ export const getServerSideProps: GetServerSideProps = async ({
   req,
   query,
 }) => {
-  const sessionToken = await getToken({req})
   const {merchantChargeId} = query
   const {getProduct, getPurchaseForStripeCharge} = getSdk()
-  const ability = getCurrentAbility(sessionToken as any)
   if (merchantChargeId) {
     const merchantCharge = await prisma.merchantCharge.findUnique({
       where: {
