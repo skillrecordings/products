@@ -92,6 +92,7 @@ const TeamPage: React.FC<React.PropsWithChildren<TeamPageProps>> = ({
           }
         >
           <InviteTeam
+            className=""
             session={session}
             purchase={purchase}
             existingPurchase={existingPurchase}
