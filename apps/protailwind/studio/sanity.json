@@ -14,7 +14,8 @@
     "@sanity/desk-tool",
     "taxonomy-manager",
     "@sanity/code-input",
-    "cloudinary"
+    "cloudinary",
+    "@sanity/vision"
   ],
   "env": {
     "development": {
