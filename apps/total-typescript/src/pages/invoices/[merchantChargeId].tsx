@@ -14,6 +14,7 @@ import {getCurrentAbility} from '@skillrecordings/ability'
 import {getToken} from 'next-auth/jwt'
 import {Transfer} from '../../purchase-transfer/purchase-transfer'
 import {trpc} from '../../trpc/trpc.client'
+import {MailIcon} from '@heroicons/react/solid'
 
 export const getServerSideProps: GetServerSideProps = async ({
   res,
@@ -93,6 +94,10 @@ const Invoice: React.FC<
     'invoice-metadata',
     '',
   )
+  const [isMounted, setIsMounted] = React.useState(false)
+  React.useEffect(() => {
+    setIsMounted(true)
+  }, [])
   const {data: purchaseUserTransfers, refetch} =
     trpc.purchaseUserTransfer.forPurchaseId.useQuery({
       id: purchaseId,
@@ -104,17 +109,16 @@ const Invoice: React.FC<
       currency: 'USD',
     }).format(amount)
   }
+
   const created = fromUnixTime(charge.created)
   const date = format(created, 'MMMM d, y')
   const amount = charge.amount / 100
-
   const instructorName = `${process.env.NEXT_PUBLIC_PARTNER_FIRST_NAME} ${process.env.NEXT_PUBLIC_PARTNER_LAST_NAME}`
   const productName = `${process.env.NEXT_PUBLIC_SITE_TITLE} by ${instructorName}`
 
-  const [isMounted, setIsMounted] = React.useState(false)
-  React.useEffect(() => {
-    setIsMounted(true)
-  }, [])
+  const emailData =
+    isMounted &&
+    `mailto:?subject=Invoice for ${process.env.NEXT_PUBLIC_SITE_TITLE}&body=Invoice for ${process.env.NEXT_PUBLIC_HOST} purchase: ${window.location}`
 
   return (
     <Layout
@@ -123,19 +127,30 @@ const Invoice: React.FC<
       className="print:bg-white print:text-black"
     >
       <main className="mx-auto max-w-screen-md">
-        <div className="flex flex-col items-center justify-between pb-8 pt-28 text-center print:hidden md:flex-row md:text-left">
-          <h1 className="max-w-md font-text text-2xl font-bold leading-tight sm:text-3xl">
+        <div className="flex flex-col items-center justify-between px-5 pb-8 pt-20 text-center print:hidden sm:pt-28 md:text-left">
+          <h1 className="pb-5 font-text text-2xl font-bold leading-tight sm:text-3xl">
             Your Invoice for {process.env.NEXT_PUBLIC_SITE_TITLE}
           </h1>
-          <button
-            onClick={() => {
-              window.print()
-            }}
-            className="my-4 flex items-center rounded-md bg-cyan-600 px-5 py-3 text-sm font-semibold leading-6 text-white transition-colors duration-200 ease-in-out hover:bg-cyan-700"
-          >
-            <span className="pr-2">Download PDF or Print</span>
-            <DownloadIcon aria-hidden="true" className="w-5" />
-          </button>
+          <div className="flex w-full flex-col items-center gap-2 sm:w-auto sm:flex-row sm:pb-4">
+            <button
+              onClick={() => {
+                window.print()
+              }}
+              className="flex w-full items-center justify-center rounded-md border border-cyan-600 bg-cyan-600 px-5 py-3 font-semibold leading-6 text-white transition-colors duration-200 ease-in-out hover:bg-cyan-700 sm:w-auto"
+            >
+              <span className="pr-2">Download PDF or Print</span>
+              <DownloadIcon aria-hidden="true" className="w-5" />
+            </button>
+            {emailData && (
+              <a
+                href={emailData}
+                className="flex w-full items-center justify-center rounded-md border border-cyan-300 px-5 py-3 font-semibold leading-6 text-cyan-300 transition-colors duration-200 ease-in-out hover:bg-cyan-600/20 sm:w-auto"
+              >
+                <span className="pr-2">Send via email</span>
+                <MailIcon aria-hidden="true" className="w-5" />
+              </a>
+            )}
+          </div>
         </div>
         <div className="rounded-t-md bg-white text-gray-900 shadow-xl print:shadow-none">
           <div className="px-10 py-16">
@@ -176,7 +191,7 @@ const Invoice: React.FC<
                 <h2 className="mb-2 text-xs uppercase text-gray-500">
                   Invoice For
                 </h2>
-                <div>
+                <div className="break-all">
                   {customer.name}
                   <br />
                   {customer.email}
