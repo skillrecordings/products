@@ -1,0 +1,37 @@
+#welcome {
+  #purchase-transfer {
+    [data-transfer-state] {
+      @apply flex flex-col  gap-3 rounded-lg border border-gray-700/30 bg-gray-800 p-5 shadow-xl shadow-black/10;
+      p {
+        @apply text-gray-100;
+      }
+      button {
+        @apply rounded-lg bg-gray-600 py-2.5 shadow-none;
+      }
+      input {
+        @apply border border-gray-600/50 bg-gray-700 placeholder:text-gray-400;
+      }
+    }
+    [data-transfer-state='AVAILABLE'] {
+      h2 {
+        @apply hidden;
+      }
+      p:last-of-type {
+        @apply font-semibold;
+      }
+    }
+    [data-transfer-state='INITIATED'] {
+      h2 {
+        @apply text-base font-normal text-gray-100 before:mr-1 before:animate-pulse before:rounded-full before:px-1 before:text-xl before:content-["📧"];
+      }
+      button {
+        @apply self-start bg-gray-600;
+      }
+    }
+    [data-transfer-state='COMPLETED'] {
+      p:first-of-type {
+        @apply before:mr-1 before:px-1 before:text-xl before:leading-none before:text-emerald-600 before:content-["✓"];
+      }
+    }
+  }
+}
