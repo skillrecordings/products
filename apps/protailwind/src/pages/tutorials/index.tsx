@@ -1,34 +1,40 @@
-import React from 'react'
-import Layout from 'components/layout'
-import {SanityDocument} from '@sanity/client'
-import {getAllTutorials} from 'lib/tutorials'
+import type {GetStaticProps, NextPage} from 'next'
 import Link from 'next/link'
-import Image from 'next/legacy/image'
+import Image from 'next/image'
+import Layout from 'components/layout'
+import {getAllTutorials} from 'lib/tutorials'
+interface Tutorial {
+  title: string
+  slug: {
+    current: string
+  }
+  image?: string
+  description?: string
+  sections?: Array<{lessons?: any[]}>
+  state: string
+}
 
-export async function getStaticProps() {
-  const tutorials = await getAllTutorials()
-
-  return {
-    props: {tutorials},
-    revalidate: 10,
+interface MetaTags {
+  title: string
+  description: string
+  ogImage?: {
+    url: string
+    alt: string
   }
 }
 
-const TutorialsPage: React.FC<{tutorials: SanityDocument[]}> = ({
-  tutorials,
-}) => {
+const meta: MetaTags = {
+  title: `Free Tailwind Tutorials from Simon Vrachliotis`,
+  description: `Free Tailwind tutorials by Simon Vrachliotis that will help you learn how to use Tailwind as a professional web developer through exercise driven examples.`,
+  ogImage: {
+    url: 'https://res.cloudinary.com/pro-tailwind/image/upload/v1668155873/tutorials/card_2x.png',
+    alt: 'Free Tailwind Tutorials from Simon Vrachliotis',
+  },
+}
+
+const TutorialsPage: NextPage<{tutorials: Tutorial[]}> = ({tutorials}) => {
   return (
-    <Layout
-      meta={
-        {
-          title: `Free Tailwind Tutorials from Simon Vrachliotis`,
-          description: `Free Tailwind tutorials by Simon Vrachliotis that will help you learn how to use Tailwind as a professional web developer through exercise driven examples.`,
-          ogImage: {
-            url: 'https://res.cloudinary.com/pro-tailwind/image/upload/v1668155873/tutorials/card_2x.png',
-          },
-        } as any
-      }
-    >
+    <Layout meta={meta}>
       <main className="relative z-10 flex flex-col items-center justify-center py-20">
         <h1 className="text-center font-heading text-4xl font-black sm:text-5xl lg:text-6xl">
           Free Tailwind Tutorials
@@ -39,7 +45,15 @@ const TutorialsPage: React.FC<{tutorials: SanityDocument[]}> = ({
         </p>
         {tutorials && (
           <ul className="flex max-w-screen-md flex-col gap-8 px-3 pt-20">
-            {tutorials.map(({title, slug, image, description, lessons}, i) => {
+            {tutorials.map((tutorial) => {
+              const {title, slug, image, description, sections, state} =
+                tutorial
+              const totalLessons = sections?.reduce(
+                (total, section) => total + (section.lessons?.length ?? 0),
+                0,
+              )
+              const isNew = state !== 'draft'
+
               return (
                 <li
                   key={slug.current}
@@ -58,12 +72,12 @@ const TutorialsPage: React.FC<{tutorials: SanityDocument[]}> = ({
                   </div>
                   <div className="pr:0 m-10 md:m-0 md:pr-10">
                     <div className="pt-4 pb-3 font-mono text-xs font-semibold uppercase text-gray-600 ">
-                      {i === 0 && (
+                      {isNew && (
                         <span className="mr-3 rounded-full bg-gray-100 px-2 py-0.5 font-sans font-semibold uppercase text-gray-700">
                           New
                         </span>
                       )}
-                      {lessons.length} exercises
+                      {totalLessons ? <>{totalLessons} exercises</> : <br />}
                     </div>
                     <Link
                       href={{
@@ -104,6 +118,15 @@ const TutorialsPage: React.FC<{tutorials: SanityDocument[]}> = ({
       </main>
     </Layout>
   )
+}
+
+export const getStaticProps: GetStaticProps = async () => {
+  const tutorials = await getAllTutorials()
+
+  return {
+    props: {tutorials},
+    revalidate: 10,
+  }
 }
 
 export default TutorialsPage
