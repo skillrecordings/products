@@ -116,6 +116,11 @@ export function getSdk(
               bulkCouponPurchases: true,
             },
           },
+          merchantPurchase: {
+            select: {
+              checkoutSessionId: true,
+            },
+          },
         },
       })
     },
@@ -368,6 +373,7 @@ export function getSdk(
       stripeChargeAmount: number
       quantity?: number
       bulk?: boolean
+      checkoutSessionId: string
     }) {
       const {
         userId,
@@ -378,6 +384,7 @@ export function getSdk(
         productId,
         stripeChargeAmount,
         quantity = 1,
+        checkoutSessionId,
       } = options
       // we are using uuids so we can generate this!
       // this is needed because the following actions
@@ -462,6 +469,16 @@ export function getSdk(
         }
       }
 
+      const merchantPurchaseId = v4()
+
+      const merchantPurchase = ctx.prisma.merchantPurchase.create({
+        data: {
+          id: merchantPurchaseId,
+          checkoutSessionId,
+          merchantAccountId,
+        },
+      })
+
       const purchase = ctx.prisma.purchase.create({
         data: {
           id: purchaseId,
@@ -470,6 +487,7 @@ export function getSdk(
           merchantChargeId,
           totalAmount: stripeChargeAmount / 100,
           bulkCouponId,
+          merchantPurchaseId,
         },
       })
 
@@ -488,12 +506,14 @@ export function getSdk(
           merchantCharge,
           coupon,
           purchaseUserTransfer,
+          merchantPurchase,
         ])
       } else {
         return await ctx.prisma.$transaction([
           purchase,
           merchantCharge,
           purchaseUserTransfer,
+          merchantPurchase,
         ])
       }
     },
