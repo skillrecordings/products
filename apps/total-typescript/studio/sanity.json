@@ -17,11 +17,6 @@
     "cloudinary",
     "taxonomy-manager"
   ],
-  "env": {
-    "development": {
-      "plugins": ["@sanity/vision"]
-    }
-  },
   "parts": [
     {
       "name": "part:@sanity/base/schema",
