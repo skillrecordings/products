@@ -409,17 +409,9 @@ export function getSdk(
         },
       })
 
-      // TODO: This doesn't seem to be looking up the bulk coupon based
-      // on the product ID which will become an issue when any particular
-      // app has more than one product.
-      // E.g. should probably account for `restrictedToProductId`
-      //
-      // Check if this user has already purchased a bulk coupon, in which
-      // case, we'll be able to treat this purchase as adding seats.
-      //
-      // TODO: I believe the `maxUses` check is redundant. If there is at
-      // least one `bulkCouponPurchase` attached to this Coupon, then it is a
-      // bulk coupon for this user.
+      // Check if this user has already purchased a bulk coupon for this
+      // product, in which case, we'll be able to treat this purchase as
+      // adding seats.
       const existingBulkCoupon = await ctx.prisma.coupon.findFirst({
         where: {
           restrictedToProductId: productId,
