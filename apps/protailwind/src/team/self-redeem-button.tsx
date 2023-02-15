@@ -20,6 +20,7 @@ const SelfRedeemButton: React.FC<
   className = `self-start bg-brand-red text-white transition px-5 py-3 rounded-full font-medium ${
     disabled ? 'cursor-not-allowed opacity-30' : 'hover:brightness-125'
   }`,
+  children,
 }) => {
   const [isLoading, setIsLoading] = React.useState(false)
   return (
@@ -52,7 +53,7 @@ const SelfRedeemButton: React.FC<
         }
       }}
     >
-      Claim one seat for yourself
+      {children || 'Claim one seat for yourself'}
     </Button>
   )
 }

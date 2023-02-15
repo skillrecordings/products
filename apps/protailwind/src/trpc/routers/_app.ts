@@ -9,6 +9,7 @@ import {solutionsRouter} from './solutions'
 import {exercisesRouter} from './exercises'
 import {abilities} from './abilities'
 import {moduleProgressRouter} from './module-progress'
+import {purchasesRouter} from './purchases'
 
 export const appRouter = mergeRouters(
   router({
@@ -18,6 +19,7 @@ export const appRouter = mergeRouters(
     exercises: exercisesRouter,
     abilities: abilities,
     moduleProgress: moduleProgressRouter,
+    purchases: purchasesRouter,
   }),
   skillLessonRouter,
 )
