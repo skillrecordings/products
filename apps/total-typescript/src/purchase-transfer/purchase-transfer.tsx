@@ -1,7 +1,7 @@
 import {trpc} from '../trpc/trpc.client'
 import {useForm} from 'react-hook-form'
 import {PurchaseUserTransfer} from '@skillrecordings/database'
-import * as React from 'react'
+import Balancer from 'react-wrap-balancer'
 
 type PurchaseTransferFormData = {
   email: string
@@ -27,8 +27,6 @@ const PurchaseTransferForm = ({
       id: purchaseUserTransferId,
     })
 
-  console.log({purchaseUserTransfer, status})
-
   const {mutate, error, isLoading} =
     trpc.purchaseUserTransfer.initiate.useMutation({
       onSuccess: async (input) => {
@@ -45,31 +43,30 @@ const PurchaseTransferForm = ({
   }
 
   return (
-    <div>
-      <form
-        className="flex w-full flex-col gap-2 text-left md:flex-row"
-        onSubmit={handleSubmit(onSubmit)}
+    <form
+      id="purchase-transfer-form"
+      className="flex w-full flex-col gap-2 text-left md:flex-row"
+      onSubmit={handleSubmit(onSubmit)}
+    >
+      <label className="sr-only" htmlFor="email">
+        Email:
+      </label>
+      <input
+        className="w-full rounded-md bg-gray-200/60 px-3 py-2 shadow-inner placeholder:text-gray-500"
+        type="email"
+        {...register('email', {required: true})}
+        placeholder="somebody@example.com"
+      />
+      {errors.email && <span>This field is required</span>}
+      <button
+        className="bg-brand-red relative flex flex-shrink-0 items-center justify-center rounded-full py-2 px-5 font-semibold text-white shadow-2xl shadow-cyan-900/50 transition focus-visible:ring-white hover:brightness-110"
+        type="submit"
+        disabled={isLoading}
       >
-        <label className="sr-only" htmlFor="email">
-          Email:
-        </label>
-        <input
-          className="w-full rounded-md border border-gray-800 bg-gray-800/50 px-3 py-2 text-lg"
-          type="email"
-          {...register('email', {required: true})}
-          placeholder="somebody@example.com"
-        />
-        {errors.email && <span>This field is required</span>}
-        <button
-          className="relative flex flex-shrink-0 items-center justify-center rounded-md bg-gradient-to-tr from-cyan-600 to-cyan-500 py-2 px-5 text-lg font-semibold shadow-2xl shadow-cyan-900/50 transition focus-visible:ring-white hover:brightness-110"
-          type="submit"
-          disabled={isLoading}
-        >
-          Transfer
-        </button>
-        {error && <span>{error.message}</span>}
-      </form>
-    </div>
+        Transfer
+      </button>
+      {error && <span>{error.message}</span>}
+    </form>
   )
 }
 
@@ -85,24 +82,27 @@ export const Transfer = ({
       refetch()
     },
   })
+
   return (
-    <div className="mt-12 flex flex-col gap-3">
+    <div id="purchase-transfer">
       {purchaseUserTransfers.map((purchaseUserTransfer) => {
+        const STATE = purchaseUserTransfer.transferState
+
         return (
-          <>
-            {purchaseUserTransfer.transferState === 'AVAILABLE' && (
+          <div data-transfer-state={STATE} className="flex flex-col gap-3">
+            {STATE === 'AVAILABLE' && (
               <>
                 <h2 className="text-2xl font-bold">
-                  Transfer this purchase to another email address.
+                  Transfer this purchase to another email address
                 </h2>
-                <p className="text-gray-200">
+                <p>
                   You can transfer your purchase to another email address. We
                   recommend using a personal/permanent email address. Once the
                   transfer is complete you will no longer have access to the
                   content or associated invoices from this account for this
                   purchase.
                 </p>
-                <p className="text-gray-200">
+                <p>
                   Only a single email transfer is provided per purchase as a
                   courtesy!
                 </p>
@@ -113,8 +113,8 @@ export const Transfer = ({
                 />
               </>
             )}
-            {purchaseUserTransfer.transferState === 'INITIATED' && (
-              <div>
+            {STATE === 'INITIATED' && (
+              <>
                 <h2 className="mb-3 text-2xl font-bold">
                   This purchase is being transferred. Once accepted you will no
                   longer have access to this purchase or its associated invoice.
@@ -122,7 +122,7 @@ export const Transfer = ({
                   or expires.
                 </h2>
                 <button
-                  className="relative flex flex-shrink-0 items-center justify-center rounded-md bg-gradient-to-tr from-cyan-600 to-cyan-500 py-2 px-5 text-lg font-semibold shadow-2xl shadow-cyan-900/50 transition focus-visible:ring-white hover:brightness-110"
+                  className="bg-brand-red relative flex flex-shrink-0 items-center justify-center rounded-full py-2 px-5 font-semibold text-white shadow-2xl shadow-cyan-900/50 transition focus-visible:ring-white hover:brightness-110"
                   onClick={() => {
                     cancelMutation.mutate({
                       purchaseUserTransferId: purchaseUserTransfer.id,
@@ -131,17 +131,19 @@ export const Transfer = ({
                 >
                   Cancel Transfer
                 </button>
-              </div>
+              </>
             )}
-            {purchaseUserTransfer.transferState === 'COMPLETED' && (
-              <div>
-                <p className="text-gray-200">
-                  This purchase has been transferred. You no longer have access
-                  to this purchase or its associated invoice.
+            {STATE === 'COMPLETED' && (
+              <>
+                <p>
+                  <Balancer>
+                    This purchase has been transferred. You no longer have
+                    access to this purchase or its associated invoice.
+                  </Balancer>
                 </p>
-              </div>
+              </>
             )}
-          </>
+          </div>
         )
       })}
     </div>

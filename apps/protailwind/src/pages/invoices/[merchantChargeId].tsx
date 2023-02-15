@@ -10,20 +10,17 @@ import fromUnixTime from 'date-fns/fromUnixTime'
 import Layout from 'components/layout'
 import format from 'date-fns/format'
 import {prisma} from '@skillrecordings/database'
-import {getCurrentAbility} from '@skillrecordings/ability'
-import {getToken} from 'next-auth/jwt'
 import {trpc} from '../../trpc/trpc.client'
 import {Transfer} from '../../purchase-transfer/purchase-transfer'
+import {MailIcon} from '@heroicons/react/solid'
 
 export const getServerSideProps: GetServerSideProps = async ({
   res,
   req,
   query,
 }) => {
-  const sessionToken = await getToken({req})
   const {merchantChargeId} = query
   const {getProduct, getPurchaseForStripeCharge} = getSdk()
-  const ability = getCurrentAbility(sessionToken as any)
   if (merchantChargeId) {
     const merchantCharge = await prisma.merchantCharge.findUnique({
       where: {
@@ -110,6 +107,10 @@ const Invoice: React.FC<
     setIsMounted(true)
   }, [])
 
+  const emailData =
+    isMounted &&
+    `mailto:?subject=Invoice for ${process.env.NEXT_PUBLIC_SITE_TITLE}&body=Invoice for ${process.env.NEXT_PUBLIC_HOST} purchase: ${window.location}`
+
   return (
     <Layout
       meta={{title: `Invoice ${merchantChargeId}`}}
@@ -117,19 +118,30 @@ const Invoice: React.FC<
       className="print:bg-white print:text-black"
     >
       <main className="mx-auto max-w-screen-md">
-        <div className="flex flex-col items-center justify-between pb-8 pt-28 text-center print:hidden md:flex-row md:text-left">
+        <div className="flex flex-col items-center justify-between pb-8 pt-12 text-center print:hidden md:text-center">
           <h1 className="font-text max-w-md text-2xl font-bold leading-tight sm:text-3xl">
             Your Invoice for {process.env.NEXT_PUBLIC_SITE_TITLE}
           </h1>
-          <button
-            onClick={() => {
-              window.print()
-            }}
-            className="my-4 flex items-center rounded-md bg-cyan-600 px-5 py-3 text-sm font-semibold leading-6 text-white transition-colors duration-200 ease-in-out hover:bg-cyan-700"
-          >
-            <span className="pr-2">Download PDF or Print</span>
-            <DownloadIcon aria-hidden="true" className="w-5" />
-          </button>
+          <div className="flex flex-col items-center gap-2 pt-5 sm:flex-row">
+            <button
+              onClick={() => {
+                window.print()
+              }}
+              className="flex items-center rounded-md border border-indigo-600 bg-indigo-600 px-5 py-3 text-sm font-semibold leading-6 text-white transition-colors duration-200 ease-in-out hover:bg-indigo-700"
+            >
+              <span className="pr-2">Download PDF or Print</span>
+              <DownloadIcon aria-hidden="true" className="w-5" />
+            </button>
+            {emailData && (
+              <a
+                href={emailData}
+                className="flex items-center rounded-md border border-indigo-600 px-5 py-3 text-sm font-semibold leading-6 text-indigo-600 transition-colors duration-200 ease-in-out hover:bg-indigo-600/10"
+              >
+                <span className="pr-2">Send via email</span>
+                <MailIcon aria-hidden="true" className="w-5" />
+              </a>
+            )}
+          </div>
         </div>
         <div className="rounded-t-md bg-white text-gray-900 shadow-xl print:shadow-none">
           <div className="px-10 py-16">
@@ -189,7 +201,7 @@ const Invoice: React.FC<
                   <>
                     <textarea
                       aria-label="Invoice notes"
-                      className="form-textarea mt-4 h-full w-full rounded-md border-2 border-cyan-500 bg-gray-50 p-3 placeholder-gray-700 print:hidden print:border-none print:bg-transparent print:p-0"
+                      className="form-textarea mt-4 h-full w-full rounded-md border-2 border-indigo-500 bg-gray-50 p-3 placeholder-gray-700 print:hidden print:border-none print:bg-transparent print:p-0"
                       value={invoiceMetadata}
                       onChange={(e) => setInvoiceMetadata(e.target.value)}
                       placeholder="Enter additional info here (optional)"

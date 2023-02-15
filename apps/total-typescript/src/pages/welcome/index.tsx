@@ -205,7 +205,7 @@ const Welcome: React.FC<
             )}
             {isTransferAvailable && purchaseUserTransfers && (
               <div>
-                <h2 className="pb-2 font-heading text-sm font-black uppercase">
+                <h2 className="pb-2 font-semibold uppercase tracking-wide">
                   Transfer this purchase to another email address
                 </h2>
                 <Transfer
@@ -287,7 +287,7 @@ const Share: React.FC<React.PropsWithChildren<{productName: string}>> = ({
 }) => {
   const tweet = `https://twitter.com/intent/tweet/?text=Total TypeScript ${productName} by @${process.env.NEXT_PUBLIC_PARTNER_TWITTER} 🧙 https%3A%2F%2Fwww.protailwind.com%2F`
   return (
-    <div className="flex flex-col justify-between gap-5 rounded-lg border border-gray-700/30 bg-gray-800  px-5 py-6 shadow-xl shadow-black/10 sm:flex-row sm:items-center">
+    <div className="flex flex-col justify-between gap-5 rounded-lg border border-gray-700/30 bg-gray-800 px-5 py-6 shadow-xl shadow-black/10 sm:flex-row sm:items-center">
       <p>
         Tell your friends about {process.env.NEXT_PUBLIC_SITE_TITLE},{' '}
         <br className="hidden sm:block" />
