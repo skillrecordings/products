@@ -422,9 +422,6 @@ export function getSdk(
       // bulk coupon for this user.
       const existingBulkCoupon = await ctx.prisma.coupon.findFirst({
         where: {
-          maxUses: {
-            gt: 1,
-          },
           bulkCouponPurchases: {
             some: {userId},
           },
