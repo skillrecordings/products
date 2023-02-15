@@ -394,6 +394,26 @@ export function getSdk(
         },
       })
 
+      // if this user has already purchased this product, then an additional
+      // purchase (even for only 1 seat) should be processed as a bulk
+      // purchase so that they can distribute the seat to someone else.
+      //
+      // if an existingPurchase is found, but no existingBulkCoupon is found,
+      // then the logic below will account for that and create a new bulk
+      // coupon for the requested quantity.
+      const existingPurchase = await ctx.prisma.purchase.findFirst({
+        where: {
+          productId,
+          userId,
+          status: 'Valid',
+        },
+      })
+
+      // TODO: This doesn't seem to be looking up the bulk coupon based
+      // on the product ID which will become an issue when any particular
+      // app has more than one product.
+      // E.g. should probably account for `restrictedToProductId`
+      //
       // Check if this user has already purchased a bulk coupon, in which
       // case, we'll be able to treat this purchase as adding seats.
       //
@@ -415,7 +435,10 @@ export function getSdk(
       // only adding 1 seat to the team, then it is still a "bulk purchase" and
       // we need to add it to their existing Bulk Coupon.
       const isBulkPurchase =
-        quantity > 1 || Boolean(existingBulkCoupon) || options.bulk
+        quantity > 1 ||
+        Boolean(existingBulkCoupon) ||
+        options.bulk ||
+        Boolean(existingPurchase)
 
       let bulkCouponId = null
       let coupon = null
@@ -458,11 +481,12 @@ export function getSdk(
         },
       })
 
+      const oneWeekInMilliseconds = 1000 * 60 * 60 * 24 * 7
       const purchaseUserTransfer = ctx.prisma.purchaseUserTransfer.create({
         data: {
           sourceUserId: userId,
           purchaseId: purchaseId,
-          expiresAt: new Date(Date.now() + 1000 * 60 * 60 * 24 * 7),
+          expiresAt: new Date(Date.now() + oneWeekInMilliseconds),
         },
       })
 
