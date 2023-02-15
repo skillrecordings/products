@@ -26,6 +26,7 @@ import {
   confirmSubscriptionToast,
   useConvertkit,
 } from '@skillrecordings/skill-lesson/hooks/use-convertkit'
+import {createAppAbility} from '@skillrecordings/skill-lesson/utils/ability'
 import dynamic from 'next/dynamic'
 import {PriceCheckProvider} from 'path-to-purchase-react/pricing-check-context'
 import {Pricing} from 'path-to-purchase-react/pricing'
@@ -36,6 +37,19 @@ import {Exercise} from '@skillrecordings/skill-lesson/schemas/exercise'
 import {SanityProduct} from '@skillrecordings/commerce-server/dist/@types'
 import {handlePlayFromBeginning} from '@skillrecordings/skill-lesson/utils/handle-play-from-beginning'
 import Icon from 'components/icons'
+import {useSession} from 'next-auth/react'
+import Link from 'next/link'
+import SelfRedeemButton from 'team/self-redeem-button'
+
+const useAbilities = () => {
+  const {
+    data: abilityRules,
+    refetch,
+    isFetching,
+  } = trpc.abilities.getAbilities.useQuery()
+
+  return {ability: createAppAbility(abilityRules || []), refetch, isFetching}
+}
 
 const SandpackEditor: React.ComponentType<any> = dynamic(
   () => import('./exercise/sandpack/repl'),
@@ -445,7 +459,7 @@ const BlockedOverlay = () => {
   const {lesson, module} = useLesson()
   const {refetch: refetchSubscriber} = useConvertkit()
   const {videoResourceId} = useVideoResource()
-
+  const {refetchAbility} = useMuxPlayer()
   const {data: ctaText} = useQuery(
     [`exercise-free-tutorial`, lesson.slug, module.slug.current],
     async () => {
@@ -484,6 +498,14 @@ const BlockedOverlay = () => {
       new Date().toISOString().slice(0, 10),
   }
   const thumbnail = `${getBaseUrl()}/api/video-thumb?videoResourceId=${videoResourceId}`
+
+  const {data: session} = useSession()
+  const {ability} = useAbilities()
+  const canViewTeam = ability.can('view', 'Team')
+  const {data: purchaseDetails} =
+    trpc.purchases.getPurchaseByProductId.useQuery({
+      productId: module.product?.productId as string,
+    })
 
   return (
     <div
@@ -568,14 +590,52 @@ const BlockedOverlay = () => {
               <h2 className="pt-5 font-heading text-4xl font-bold">
                 <Balancer>Level up your {module.title}</Balancer>
               </h2>
-              <h3 className="w-full pb-10 pt-3 text-lg opacity-90">
-                <Balancer>Get access to all lessons in this workshop.</Balancer>
-              </h3>
-              <PriceCheckProvider>
-                {module.product && (
-                  <Pricing product={module.product as SanityProduct} />
-                )}
-              </PriceCheckProvider>
+              {canViewTeam ? (
+                <>
+                  <h3 className="max-w-xl pb-5 pt-3 text-lg text-gray-300">
+                    <Balancer>
+                      You've purchased a team license with{' '}
+                      {purchaseDetails?.purchase?.bulkCoupon?.maxUses} seats and
+                      haven't claimed a seat for yourself yet.
+                    </Balancer>
+                  </h3>
+                  {purchaseDetails?.purchase?.bulkCoupon?.id &&
+                    !purchaseDetails?.existingPurchase && (
+                      <SelfRedeemButton
+                        disabled={Boolean(purchaseDetails?.existingPurchase)}
+                        userEmail={session?.user?.email}
+                        bulkCouponId={purchaseDetails?.purchase?.bulkCoupon?.id}
+                        onSuccess={(redeemedPurchase) => {
+                          if (redeemedPurchase) {
+                            refetchAbility()
+                          }
+                        }}
+                        className="rounded-full bg-brand-red px-6 py-3 text-base font-semibold text-white transition hover:brightness-125"
+                      >
+                        Claim one seat for yourself and start learning
+                      </SelfRedeemButton>
+                    )}
+                  <Link
+                    href="/team"
+                    className="mt-3 text-center text-base text-white underline"
+                  >
+                    Invite your team
+                  </Link>
+                </>
+              ) : (
+                <>
+                  <h3 className="w-full pb-10 pt-3 text-lg opacity-90">
+                    <Balancer>
+                      Get access to all lessons in this workshop.
+                    </Balancer>
+                  </h3>
+                  <PriceCheckProvider>
+                    {module.product && (
+                      <Pricing product={module.product as SanityProduct} />
+                    )}
+                  </PriceCheckProvider>
+                </>
+              )}
             </div>
           </div>
         </>

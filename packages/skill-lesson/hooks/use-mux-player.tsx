@@ -36,6 +36,7 @@ type VideoContextType = {
   path: string
   video?: {muxPlaybackId?: string}
   canShowVideo: boolean
+  refetchAbility: () => void
   loadingUserStatus: boolean
   ability: AppAbility
   muxPlayerRef: React.RefObject<MuxPlayerRefAttributes>
@@ -82,15 +83,18 @@ export const VideoProvider: React.FC<
       })
     : null
 
-  const {data: abilityRules, status: abilityRulesStatus} =
-    trpcSkillLessons.modules.rules.useQuery({
-      moduleSlug: module.slug.current,
-      moduleType: module.moduleType,
-      lessonSlug: exerciseSlug,
-      sectionSlug: section?.slug,
-      isSolution: lesson._type === 'solution',
-      convertkitSubscriberId: subscriber?.id,
-    })
+  const {
+    data: abilityRules,
+    status: abilityRulesStatus,
+    refetch: refetchAbility,
+  } = trpcSkillLessons.modules.rules.useQuery({
+    moduleSlug: module.slug.current,
+    moduleType: module.moduleType,
+    lessonSlug: exerciseSlug,
+    sectionSlug: section?.slug,
+    isSolution: lesson._type === 'solution',
+    convertkitSubscriberId: subscriber?.id,
+  })
 
   const ability = createAppAbility(abilityRules || [])
 
@@ -207,6 +211,7 @@ export const VideoProvider: React.FC<
     video: videoResource,
     path,
     canShowVideo,
+    refetchAbility,
     ability,
     loadingUserStatus,
     muxPlayerRef,
