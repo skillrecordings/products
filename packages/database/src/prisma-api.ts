@@ -632,30 +632,6 @@ export function getSdk(
 
       return await ctx.prisma.$transaction([chargeUpdates, purchaseUpdates])
     },
-    async createPurchaseUserTransfer({
-      sourceUserId,
-      purchaseId,
-    }: {
-      sourceUserId: string
-      purchaseId: string
-    }) {
-      const purchase = await ctx.prisma.purchase.findFirst({
-        where: {
-          id: purchaseId,
-          userId: sourceUserId,
-        },
-      })
-      return (
-        purchase &&
-        (await ctx.prisma.purchaseUserTransfer.create({
-          data: {
-            sourceUserId,
-            purchaseId: purchase.id,
-            expiresAt: new Date(Date.now() + 1000 * 60 * 60 * 24 * 7),
-          },
-        }))
-      )
-    },
     async getPurchaseUserTransferById({id}: {id: string}) {
       return await ctx.prisma.purchaseUserTransfer.findUnique({
         where: {
