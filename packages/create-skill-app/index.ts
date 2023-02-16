@@ -65,7 +65,7 @@ async function run(): Promise<void> {
       type: 'number',
       name: 'databasePort',
       message: `What port will the MySQL database run on in dev?`,
-      initial: 3306,
+      initial: 3309,
     },
     {
       type: 'text',
