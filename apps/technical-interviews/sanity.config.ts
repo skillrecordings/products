@@ -10,7 +10,7 @@ export default defineConfig({
   name: 'default',
   title: 'technical-interviews',
 
-  projectId: 'sanity_product_id',
+  projectId: 'xj049bfe',
   dataset: 'production',
 
   plugins: [
