@@ -28,7 +28,6 @@ export const getServerSideProps: GetServerSideProps = async ({req, query}) => {
   const providers = await getProviders()
   const {getPurchaseDetails} = getSdk()
 
-  console.log({token})
 
   let purchaseId = purchaseQueryParam
 
