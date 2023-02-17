@@ -5,13 +5,13 @@ import {
   stripeData,
 } from '@skillrecordings/commerce-server'
 import Balancer from 'react-wrap-balancer'
-import {useSession} from 'next-auth/react'
+import {getProviders, signIn, useSession} from 'next-auth/react'
 import {GetServerSideProps} from 'next'
 import {getToken} from 'next-auth/jwt'
 import Layout from 'components/app/layout'
 import {getSdk, prisma} from '@skillrecordings/database'
 import Link from 'next/link'
-import {isString} from 'lodash'
+import {isEmpty, isString} from 'lodash'
 import InviteTeam from 'team'
 import {InvoiceCard} from 'pages/invoices'
 import MuxPlayer from '@mux/mux-player-react'
@@ -20,11 +20,15 @@ import Image from 'next/legacy/image'
 import {trpc} from '../../trpc/trpc.client'
 import {Transfer} from 'purchase-transfer/purchase-transfer'
 import {getProduct} from 'path-to-purchase-react/products.server'
+import {IconGithub2} from '../../components/icons'
 
 export const getServerSideProps: GetServerSideProps = async ({req, query}) => {
   const {purchaseId: purchaseQueryParam, session_id, upgrade} = query
   const token = await getToken({req})
+  const providers = await getProviders()
   const {getPurchaseDetails} = getSdk()
+
+  console.log({token})
 
   let purchaseId = purchaseQueryParam
 
@@ -66,6 +70,7 @@ export const getServerSideProps: GetServerSideProps = async ({req, query}) => {
           existingPurchase,
           availableUpgrades,
           upgrade: upgrade === 'true',
+          providers,
         },
       }
     } else {
@@ -112,6 +117,7 @@ const Welcome: React.FC<
     availableUpgrades: {upgradableTo: {id: string; name: string}}[]
     upgrade: boolean
     product?: SanityDocument
+    providers?: any
   }>
 > = ({
   upgrade,
@@ -120,6 +126,7 @@ const Welcome: React.FC<
   existingPurchase,
   availableUpgrades,
   product,
+  providers = {},
 }) => {
   const {data: session, status} = useSession()
   const [personalPurchase, setPersonalPurchase] = React.useState<
@@ -162,6 +169,7 @@ const Welcome: React.FC<
             upgrade={upgrade}
             purchase={purchase}
             personalPurchase={personalPurchase}
+            providers={providers}
           />
           <div className="flex flex-col gap-10">
             <div>
@@ -182,6 +190,7 @@ const Welcome: React.FC<
               </h2>
               <Share productName={purchase.product.name} />
             </div>
+
             {redemptionsLeft && (
               <div>
                 <h2 className="pb-2 font-semibold uppercase tracking-wide">
@@ -227,8 +236,12 @@ const Header: React.FC<
     purchase: Purchase
     personalPurchase?: PersonalPurchase | Purchase
     product?: SanityDocument
+    providers?: any
   }>
-> = ({upgrade, purchase, product, personalPurchase}) => {
+> = ({upgrade, purchase, product, personalPurchase, providers = {}}) => {
+  const githubProvider = providers.github
+  const {data: isGithubConnected, status} = trpc.user.githubConnected.useQuery()
+
   return (
     <header>
       <div className="flex flex-col items-center gap-10 pb-8 sm:flex-row">
@@ -250,12 +263,31 @@ const Header: React.FC<
             <Balancer>Total TypeScript {purchase.product.name}</Balancer>
           </h1>
           {personalPurchase && (
-            <Link
-              href={`/workshops/${product?.modules[0]?.slug.current}`}
-              className="mt-8 rounded-lg bg-cyan-400 px-8 py-3 text-lg font-semibold text-gray-900 shadow-xl shadow-black/10 transition hover:brightness-110"
-            >
-              Start Learning
-            </Link>
+            <div>
+              <div className="flex gap-2">
+                <Link
+                  href={`/workshops/${product?.modules[0]?.slug.current}`}
+                  className="mt-8 rounded-lg bg-cyan-400 px-8 py-3 text-lg font-medium text-gray-900 shadow-xl shadow-black/10 transition hover:brightness-110"
+                >
+                  Start Learning
+                </Link>
+                {githubProvider &&
+                status !== 'loading' &&
+                !isGithubConnected ? (
+                  <button
+                    onClick={() => signIn(githubProvider.id)}
+                    className="mt-8 rounded-lg rounded-md bg-gray-800 px-4 py-3 text-lg font-medium text-white transition-all duration-300 ease-in-out hover:bg-gray-700 active:bg-gray-600"
+                  >
+                    <div className="flex items-center dark:text-gray-100">
+                      <span className="mr-2 flex items-center justify-center">
+                        <IconGithub2 className="fill-current" />
+                      </span>
+                      Connect {githubProvider.name}
+                    </div>
+                  </button>
+                ) : null}
+              </div>
+            </div>
           )}
         </div>
       </div>

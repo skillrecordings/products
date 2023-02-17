@@ -1,15 +1,18 @@
 import * as React from 'react'
-import {getCsrfToken, getProviders} from 'next-auth/react'
+import {getCsrfToken, getProviders, signIn} from 'next-auth/react'
 import {useForm} from 'react-hook-form'
 import {GetServerSideProps} from 'next'
 import Image from 'next/legacy/image'
 import Layout from 'components/app/layout'
 import {useRouter} from 'next/router'
 import toast from 'react-hot-toast'
+import Link from 'next/link'
+import {FunctionComponent} from 'react'
+import {IconGithub, IconGithub2} from '../components/icons'
 
-const Login: React.FC<React.PropsWithChildren<{csrfToken: string}>> = ({
-  csrfToken,
-}) => {
+const Login: React.FC<
+  React.PropsWithChildren<{csrfToken: string; providers: any}>
+> = ({csrfToken, providers = {}}) => {
   const {
     register,
     formState: {errors},
@@ -27,6 +30,8 @@ const Login: React.FC<React.PropsWithChildren<{csrfToken: string}>> = ({
       })
     }
   }, [router])
+
+  const githubProvider = providers.github
 
   return (
     <Layout footer={null} meta={{title: 'Log in to Total TypeScript'}}>
@@ -107,6 +112,22 @@ const Login: React.FC<React.PropsWithChildren<{csrfToken: string}>> = ({
               </button>
             </form>
           </div>
+          {githubProvider ? (
+            <div className="flex flex-col items-center justify-center pt-3 align-middle sm:mx-auto sm:w-full sm:max-w-md sm:pt-6">
+              or
+              <button
+                onClick={() => signIn(githubProvider.id, {callbackUrl: '/'})}
+                className="mt-4 flex justify-center rounded-md bg-gray-800 px-5 py-3 font-medium text-white transition-all duration-300 ease-in-out hover:bg-gray-700 active:bg-gray-600"
+              >
+                <div className="flex items-center dark:text-gray-100">
+                  <span className="mr-2 flex items-center justify-center">
+                    <IconGithub2 className="fill-current" />
+                  </span>
+                  Sign in with {githubProvider.name}
+                </div>
+              </button>
+            </div>
+          ) : null}
         </main>
       </div>
     </Layout>
