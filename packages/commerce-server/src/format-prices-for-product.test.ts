@@ -372,7 +372,7 @@ function getMockExistingBulkPurchase(
     upgradedFromId: null,
     status: 'Valid',
     bulkCouponId: 'coupon-123',
-    merchantPurchaseId: 'mp-123',
+    merchantSessionId: 'ms-123',
   }
 
   return {
