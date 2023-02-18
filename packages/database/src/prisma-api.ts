@@ -116,9 +116,14 @@ export function getSdk(
               bulkCouponPurchases: true,
             },
           },
-          merchantPurchase: {
+          merchantSession: {
             select: {
-              checkoutSessionId: true,
+              identifier: true,
+              merchantAccount: {
+                select: {
+                  label: true,
+                },
+              },
             },
           },
         },
@@ -363,6 +368,18 @@ export function getSdk(
         },
       })
     },
+    async getMerchantCharge(merchantChargeId: string) {
+      return await ctx.prisma.merchantCharge.findUnique({
+        where: {
+          id: merchantChargeId,
+        },
+        select: {
+          id: true,
+          identifier: true,
+          merchantProductId: true,
+        },
+      })
+    },
     async createMerchantChargeAndPurchase(options: {
       userId: string
       productId: string
@@ -469,12 +486,12 @@ export function getSdk(
         }
       }
 
-      const merchantPurchaseId = v4()
+      const merchantSessionId = v4()
 
-      const merchantPurchase = ctx.prisma.merchantPurchase.create({
+      const merchantSession = ctx.prisma.merchantSession.create({
         data: {
-          id: merchantPurchaseId,
-          checkoutSessionId,
+          id: merchantSessionId,
+          identifier: checkoutSessionId,
           merchantAccountId,
         },
       })
@@ -487,7 +504,7 @@ export function getSdk(
           merchantChargeId,
           totalAmount: stripeChargeAmount / 100,
           bulkCouponId,
-          merchantPurchaseId,
+          merchantSessionId,
         },
       })
 
@@ -506,14 +523,14 @@ export function getSdk(
           merchantCharge,
           coupon,
           purchaseUserTransfer,
-          merchantPurchase,
+          merchantSession,
         ])
       } else {
         return await ctx.prisma.$transaction([
           purchase,
           merchantCharge,
           purchaseUserTransfer,
-          merchantPurchase,
+          merchantSession,
         ])
       }
     },

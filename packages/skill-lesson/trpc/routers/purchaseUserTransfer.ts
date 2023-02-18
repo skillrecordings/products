@@ -294,7 +294,7 @@ export const purchaseUserTransferRouter = router({
   forPurchaseId: publicProcedure
     .input(
       z.object({
-        id: z.string(),
+        id: z.string().optional(),
       }),
     )
     .query(async ({ctx, input}) => {

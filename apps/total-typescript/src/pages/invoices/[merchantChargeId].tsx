@@ -1,106 +1,34 @@
 import * as React from 'react'
 import {DownloadIcon} from '@heroicons/react/outline'
-import {convertToSerializeForNextResponse} from '@skillrecordings/commerce-server'
 import {useLocalStorage} from 'react-use'
-import {GetServerSideProps} from 'next'
-import {stripe} from '@skillrecordings/commerce-server'
-import {Coupon, getSdk, MerchantProduct} from '@skillrecordings/database'
 import {Stripe} from 'stripe'
 import fromUnixTime from 'date-fns/fromUnixTime'
 import Layout from 'components/app/layout'
 import format from 'date-fns/format'
-import {prisma} from '@skillrecordings/database'
 import {Transfer} from '../../purchase-transfer/purchase-transfer'
 import {trpc} from '../../trpc/trpc.client'
 import {MailIcon} from '@heroicons/react/solid'
+import {z} from 'zod'
+import {useRouter} from 'next/router'
+import {GetServerSideProps} from 'next'
 
-export const getServerSideProps: GetServerSideProps = async ({
-  res,
-  req,
-  query,
-}) => {
-  const {merchantChargeId} = query
-  const {getProduct, getPurchaseForStripeCharge} = getSdk()
-
-  if (merchantChargeId) {
-    const merchantCharge = await prisma.merchantCharge.findUnique({
-      where: {
-        id: merchantChargeId as string,
-      },
-      select: {
-        id: true,
-        identifier: true,
-        merchantProductId: true,
-        purchase: true,
-      },
-    })
-
-    if (merchantCharge && merchantCharge.identifier) {
-      const charge = await stripe.charges.retrieve(merchantCharge.identifier, {
-        expand: ['customer'],
-      })
-
-      const purchase = await getPurchaseForStripeCharge(
-        merchantCharge.identifier,
-      )
-      const bulkCoupon = purchase && purchase.bulkCoupon
-
-      let quantity = 1
-      if (purchase?.merchantPurchase?.checkoutSessionId) {
-        const checkoutSession = await stripe.checkout.sessions.retrieve(
-          purchase?.merchantPurchase?.checkoutSessionId,
-          {expand: ['line_items']},
-        )
-
-        quantity = checkoutSession.line_items?.data[0].quantity || 1
-      } else if (bulkCoupon) {
-        quantity = bulkCoupon.maxUses
-      }
-
-      const product = await getProduct({
-        where: {id: purchase?.productId},
-      })
-
-      res.setHeader('Cache-Control', 's-maxage=1, stale-while-revalidate')
-      return {
-        props: {
-          charge,
-          product: convertToSerializeForNextResponse(product),
-          merchantChargeId,
-          purchaseId: purchase?.id,
-          bulkCoupon: convertToSerializeForNextResponse(bulkCoupon),
-          quantity,
-        },
-      }
-    }
-  }
+export const getServerSideProps: GetServerSideProps = async ({query}) => {
+  const {merchantChargeId} = z
+    .object({merchantChargeId: z.string()})
+    .parse(query)
 
   return {
-    redirect: {
-      destination: '/invoices',
-      permanent: false,
+    props: {
+      merchantChargeId,
     },
   }
 }
 
 const Invoice: React.FC<
   React.PropsWithChildren<{
-    charge: Stripe.Charge
-    product: {name: string}
     merchantChargeId: string
-    merchantProduct: MerchantProduct
-    bulkCoupon: Coupon
-    quantity: number
-    purchaseId: string
   }>
-> = ({
-  charge,
-  product,
-  merchantChargeId,
-  bulkCoupon,
-  quantity = 1,
-  purchaseId,
-}) => {
+> = ({merchantChargeId}) => {
   const [invoiceMetadata, setInvoiceMetadata] = useLocalStorage(
     'invoice-metadata',
     '',
@@ -109,10 +37,32 @@ const Invoice: React.FC<
   React.useEffect(() => {
     setIsMounted(true)
   }, [])
+
+  const router = useRouter()
+
+  const {data: chargeDetails, status} = trpc.invoices.getChargeDetails.useQuery(
+    {
+      merchantChargeId,
+    },
+  )
+
+  React.useEffect(() => {
+    if (chargeDetails?.state !== 'SUCCESS' && status !== 'loading') {
+      router.push('/invoices')
+    }
+  }, [status, chargeDetails?.state])
+
   const {data: purchaseUserTransfers, refetch} =
     trpc.purchaseUserTransfer.forPurchaseId.useQuery({
-      id: purchaseId,
+      id: chargeDetails?.result?.purchaseId,
     })
+
+  if (chargeDetails?.state !== 'SUCCESS') {
+    return null
+  }
+
+  const {charge, product, bulkCoupon, quantity} = chargeDetails.result
+
   const customer = charge.customer as Stripe.Customer
   const formatUsd = (amount: number) => {
     return Intl.NumberFormat('en-US', {

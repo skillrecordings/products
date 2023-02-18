@@ -89,7 +89,7 @@ model MerchantAccount {
   merchantCustomers MerchantCustomer[]
   merchantPrices    MerchantPrice[]
   merchantProducts  MerchantProduct[]
-  merchantPurchase  MerchantPurchase[]
+  merchantSession   MerchantSession[]
 }
 
 model MerchantCharge {
@@ -157,9 +157,9 @@ model MerchantProduct {
   merchantPrices    MerchantPrice[]
 }
 
-model MerchantPurchase {
+model MerchantSession {
   id                String          @id @default(uuid())
-  checkoutSessionId String
+  identifier        String
   merchantAccountId String
   merchantAccount   MerchantAccount @relation(fields: [merchantAccountId], references: [id], onDelete: Cascade)
   purchase          Purchase[]
@@ -213,7 +213,7 @@ model Purchase {
   redeemedBulkCouponId  String?
   productId             String
   merchantChargeId      String?
-  merchantPurchaseId    String?
+  merchantSessionId     String?
   upgradedFromId        String?                @unique
   upgradedFrom          Purchase?              @relation("UpgradedToPurchase", fields: [upgradedFromId], references: [id], onDelete: NoAction, onUpdate: NoAction)
   upgradedTo            Purchase?              @relation("UpgradedToPurchase")
@@ -222,7 +222,7 @@ model Purchase {
   coupon                Coupon?                @relation("StandardPurchase", fields: [couponId], references: [id], onDelete: Cascade)
   redeemedBulkCoupon    Coupon?                @relation("RedeemedBulkCoupon", fields: [redeemedBulkCouponId], references: [id], onDelete: NoAction)
   merchantCharge        MerchantCharge?        @relation(fields: [merchantChargeId], references: [id], onDelete: Cascade)
-  merchantPurchase      MerchantPurchase?      @relation(fields: [merchantPurchaseId], references: [id], onDelete: Cascade)
+  merchantSession       MerchantSession?       @relation(fields: [merchantSessionId], references: [id], onDelete: Cascade)
   product               Product                @relation(fields: [productId], references: [id], onDelete: Cascade)
   user                  User?                  @relation(fields: [userId], references: [id], onDelete: Cascade)
   status                String                 @default("Valid")
