@@ -196,17 +196,14 @@ export function getSdk(
     },
     async completeLessonProgressForUser({
       userId,
-      lessonSlug,
       lessonId,
     }: {
       userId: string
-      lessonSlug?: string
       lessonId?: string
     }) {
       let lessonProgress = await ctx.prisma.lessonProgress.findFirst({
         where: {
           userId,
-          lessonSlug,
           lessonId,
         },
       })
@@ -225,7 +222,6 @@ export function getSdk(
         lessonProgress = await ctx.prisma.lessonProgress.create({
           data: {
             userId,
-            lessonSlug,
             lessonId,
             completedAt: now,
             updatedAt: now,
