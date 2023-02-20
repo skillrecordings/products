@@ -196,17 +196,14 @@ export function getSdk(
     },
     async completeLessonProgressForUser({
       userId,
-      lessonSlug,
       lessonId,
     }: {
       userId: string
-      lessonSlug?: string
       lessonId?: string
     }) {
       let lessonProgress = await ctx.prisma.lessonProgress.findFirst({
         where: {
           userId,
-          lessonSlug,
           lessonId,
         },
       })
@@ -225,7 +222,6 @@ export function getSdk(
         lessonProgress = await ctx.prisma.lessonProgress.create({
           data: {
             userId,
-            lessonSlug,
             lessonId,
             completedAt: now,
             updatedAt: now,
@@ -409,22 +405,12 @@ export function getSdk(
         },
       })
 
-      // TODO: This doesn't seem to be looking up the bulk coupon based
-      // on the product ID which will become an issue when any particular
-      // app has more than one product.
-      // E.g. should probably account for `restrictedToProductId`
-      //
-      // Check if this user has already purchased a bulk coupon, in which
-      // case, we'll be able to treat this purchase as adding seats.
-      //
-      // TODO: I believe the `maxUses` check is redundant. If there is at
-      // least one `bulkCouponPurchase` attached to this Coupon, then it is a
-      // bulk coupon for this user.
+      // Check if this user has already purchased a bulk coupon for this
+      // product, in which case, we'll be able to treat this purchase as
+      // adding seats.
       const existingBulkCoupon = await ctx.prisma.coupon.findFirst({
         where: {
-          maxUses: {
-            gt: 1,
-          },
+          restrictedToProductId: productId,
           bulkCouponPurchases: {
             some: {userId},
           },
