@@ -18,10 +18,9 @@ export const progressRouter = router({
       try {
         const lesson = await getLesson(input.lessonSlug)
         if (token) {
-          return await completeLessonProgressForUser({
+          completeLessonProgressForUser({
             userId: token.id as string,
             lessonId: lesson._id,
-            lessonSlug: input.lessonSlug,
           })
         } else {
           const subscriberCookie = ctx.req.cookies['ck_subscriber']
@@ -42,12 +41,12 @@ export const progressRouter = router({
 
           const {user} = await findOrCreateUser(subscriber.email_address)
 
-          return await completeLessonProgressForUser({
+          completeLessonProgressForUser({
             userId: user.id,
             lessonId: lesson._id,
-            lessonSlug: input.lessonSlug,
           })
         }
+        return true
       } catch (error) {
         console.error(error)
         let message = 'Unknown Error'
