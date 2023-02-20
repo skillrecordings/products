@@ -211,13 +211,15 @@ export function getSdk(
       const now = new Date()
 
       if (lessonProgress) {
-        lessonProgress = await ctx.prisma.lessonProgress.update({
-          where: {id: lessonProgress.id},
-          data: {
-            completedAt: now,
-            updatedAt: now,
-          },
-        })
+        if (!lessonProgress.completedAt) {
+          lessonProgress = await ctx.prisma.lessonProgress.update({
+            where: {id: lessonProgress.id},
+            data: {
+              completedAt: now,
+              updatedAt: now,
+            },
+          })
+        }
       } else {
         lessonProgress = await ctx.prisma.lessonProgress.create({
           data: {
