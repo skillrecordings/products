@@ -1,6 +1,7 @@
 import * as React from 'react'
 import cx from 'classnames'
 import {useLesson} from '@skillrecordings/skill-lesson/hooks/use-lesson'
+import Balancer from 'react-wrap-balancer'
 
 export const LessonTitle = () => {
   const {lesson} = useLesson()
@@ -19,8 +20,8 @@ export const LessonTitle = () => {
       >
         {_type !== 'exercise' ? _type : 'Problem'}
       </span>
-      <h1 className="pb-5 pt-3 text-3xl font-bold tracking-tight sm:text-4xl xl:text-[2.65rem] 2xl:text-4xl">
-        {title}
+      <h1 className="pb-5 pt-3 text-3xl font-bold sm:text-4xl xl:text-[2.65rem] 2xl:text-4xl">
+        <Balancer>{title}</Balancer>
       </h1>
     </>
   )

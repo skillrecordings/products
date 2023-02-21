@@ -41,7 +41,7 @@ export const GitHubLink: React.FC<{
   })
 
   return github.repo && module.github?.repo ? (
-    <div className="pb-4">
+    <div className="mt-6 pb-4">
       <div className="flex items-center gap-2">
         <a
           onClick={() => {
@@ -63,7 +63,7 @@ export const GitHubLink: React.FC<{
               {module.github.repo}
               <span className="font-medium text-gray-400"></span>
             </p>
-            <p className="font-mono text-sm text-gray-400 2xl:text-xs">
+            <p className="font-mono text-xs text-gray-400 2xl:text-xs">
               /{openFile}
             </p>
           </div>
