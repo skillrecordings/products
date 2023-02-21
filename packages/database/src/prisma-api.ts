@@ -238,7 +238,7 @@ export function getSdk(
       lessonSlug,
     }: {
       userId: string
-      lessonId: string
+      lessonId?: string
       lessonSlug: string
     }) {
       let lessonProgress = await ctx.prisma.lessonProgress.findFirst({
