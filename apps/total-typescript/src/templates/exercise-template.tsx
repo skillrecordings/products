@@ -16,6 +16,8 @@ import {LessonDescription} from '../video/lesson-description'
 import {LessonTitle} from 'video/lesson-title'
 import {VideoTranscript} from 'video/video-transcript'
 import {MuxPlayerRefAttributes} from '@mux/mux-player-react/*'
+import LessonCompletionToggle from 'video/lesson-completion-toggle'
+import {useSession} from 'next-auth/react'
 
 const ExerciseTemplate: React.FC<{
   transcript: any[]
@@ -32,6 +34,7 @@ const ExerciseTemplate: React.FC<{
   const shareCard = ogImage ? {ogImage: {url: ogImage}} : {}
   //TODO path here could also include module slug and section (as appropriate)
   const path = `/${module.moduleType}s`
+  const {data: session} = useSession()
 
   return (
     <VideoProvider
@@ -73,7 +76,7 @@ const ExerciseTemplate: React.FC<{
                 section={section}
                 path={path}
               />
-              <div className="hidden flex-grow 2xl:block 2xl:bg-black/20">
+              <div className="relative hidden flex-grow 2xl:block 2xl:bg-black/20">
                 <VideoTranscript
                   transcript={transcript}
                   muxPlayerRef={muxPlayerRef}
@@ -85,6 +88,9 @@ const ExerciseTemplate: React.FC<{
                 <LessonTitle />
                 <GitHubLink exercise={lesson} module={module} />
                 <LessonDescription />
+                {(lesson._type === 'solution' ||
+                  lesson._type === 'explainer') &&
+                  session && <LessonCompletionToggle />}
               </div>
               <div className="relative z-10 block flex-grow 2xl:hidden">
                 <VideoTranscript

@@ -49,7 +49,7 @@ const LessonTitleLink: React.FC<LessonTitleLinkProps> = ({
         },
       }}
       passHref
-      className="flex items-center px-4 py-2 font-semibold leading-tight hover:bg-gray-800/50"
+      className="flex items-center px-4 py-2.5 font-semibold leading-tight hover:bg-gray-800/50"
       onClick={() => {
         track('clicked exercise in navigator', {
           module: module.slug.current,
@@ -62,7 +62,7 @@ const LessonTitleLink: React.FC<LessonTitleLinkProps> = ({
     >
       {isLessonCompleted ? (
         <CheckIcon
-          className="mr-[7px] -ml-1 h-4 w-4 flex-shrink-0 text-cyan-400"
+          className="mr-[7.5px] -ml-1 h-4 w-4 flex-shrink-0 text-cyan-400"
           aria-hidden="true"
         />
       ) : (
@@ -70,7 +70,7 @@ const LessonTitleLink: React.FC<LessonTitleLinkProps> = ({
           {index + 1}
         </span>
       )}{' '}
-      {lesson.title}{' '}
+      <Balancer>{lesson.title}</Balancer>{' '}
       {isLessonCompleted && <span className="sr-only">(completed)</span>}
     </Link>
   )
@@ -266,10 +266,9 @@ const SectionResources = ({
                 target="_blank"
               >
                 <LinkIcon
-                  className="mr-3 h-3 w-3 text-gray-500"
+                  className="mr-3 h-3 w-3 flex-shrink-0 text-gray-500"
                   aria-hidden="true"
                 />
-
                 {resource.title}
               </Link>
               <p className="pl-10 pr-3 text-sm italic text-gray-400">
