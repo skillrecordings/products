@@ -75,7 +75,6 @@ const ExerciseTemplate: React.FC<{
                 path={path}
               />
               <div className="relative hidden flex-grow 2xl:block 2xl:bg-black/20">
-                <LessonCompletionToggle />
                 <VideoTranscript
                   transcript={transcript}
                   muxPlayerRef={muxPlayerRef}
@@ -83,13 +82,12 @@ const ExerciseTemplate: React.FC<{
               </div>
             </div>
             <article className="relative flex-shrink-0 sm:bg-black/20 2xl:bg-transparent">
-              <div className="block 2xl:hidden">
-                <LessonCompletionToggle />
-              </div>
               <div className="relative z-10 mx-auto max-w-4xl px-5 py-5 lg:py-6 2xl:max-w-xl">
                 <LessonTitle />
                 <GitHubLink exercise={lesson} module={module} />
                 <LessonDescription />
+                {(lesson._type === 'solution' ||
+                  lesson._type === 'explainer') && <LessonCompletionToggle />}
               </div>
               <div className="relative z-10 block flex-grow 2xl:hidden">
                 <VideoTranscript
