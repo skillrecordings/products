@@ -26,6 +26,7 @@ const queryClient = new QueryClient()
 function MyApp({Component, pageProps}: AppProps<{session: Session}>) {
   usePageview()
   initNProgress()
+
   return (
     <>
       <DefaultSeo {...config} />

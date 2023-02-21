@@ -38,7 +38,12 @@ async function getUser(userId: string) {
   })
 }
 
-export const createOptions = (config: {req?: NextApiRequest; theme: Theme}) => {
+export const createOptions = (config: {
+  req?: NextApiRequest
+  theme: Theme
+  providers?: any[]
+  debug?: boolean
+}) => {
   return defaultNextAuthOptions(config)
 }
 
@@ -46,8 +51,9 @@ export function defaultNextAuthOptions(options: {
   theme: Theme
   debug?: boolean
   req?: NextApiRequest
+  providers?: any[]
 }): NextAuthOptions {
-  const {theme, debug, req} = options
+  const {theme, debug, req, providers = []} = options
   return {
     secret: process.env.NEXTAUTH_SECRET,
     session: {
@@ -72,6 +78,7 @@ export function defaultNextAuthOptions(options: {
         from: process.env.NEXT_PUBLIC_SUPPORT_EMAIL,
         sendVerificationRequest,
       }),
+      ...providers,
     ],
     callbacks: {
       async session({session, token}) {
