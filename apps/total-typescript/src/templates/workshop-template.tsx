@@ -23,6 +23,7 @@ import {Section} from '@skillrecordings/skill-lesson/schemas/section'
 import * as process from 'process'
 import {trpc} from '../trpc/trpc.client'
 import Balancer from 'react-wrap-balancer'
+import {useModuleProgress} from '../video/module-progress'
 
 const WorkshopTemplate: React.FC<{
   workshop: Module
@@ -268,9 +269,7 @@ const SectionItem: React.FC<{
   section: Section
   workshop: Module
 }> = ({section, workshop}) => {
-  const {data: moduleProgress} = trpc.moduleProgress.bySlug.useQuery({
-    slug: workshop.slug.current,
-  })
+  const moduleProgress = useModuleProgress()
   const sectionProgress = moduleProgress?.sections?.find(
     (s) => s.id === section._id,
   )
@@ -324,9 +323,7 @@ const LessonListItem = ({
   workshop: Module
   index: number
 }) => {
-  const {data: moduleProgress} = trpc.moduleProgress.bySlug.useQuery({
-    slug: workshop.slug.current,
-  })
+  const moduleProgress = useModuleProgress()
 
   const completedLessons = moduleProgress?.lessons.filter(
     (l) => l.lessonCompleted,

@@ -25,6 +25,7 @@ module.exports = {
       },
       screens: {
         print: {raw: 'print'},
+        '3xl': '1760px',
       },
       typography: (theme) => ({
         DEFAULT: {
