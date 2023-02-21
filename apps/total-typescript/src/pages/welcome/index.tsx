@@ -1,5 +1,4 @@
 import * as React from 'react'
-import {DocumentTextIcon, UserGroupIcon} from '@heroicons/react/outline'
 import {
   convertToSerializeForNextResponse,
   stripeData,
@@ -11,7 +10,7 @@ import {getToken} from 'next-auth/jwt'
 import Layout from 'components/app/layout'
 import {getSdk, prisma} from '@skillrecordings/database'
 import Link from 'next/link'
-import {isEmpty, isString} from 'lodash'
+import {isString} from 'lodash'
 import InviteTeam from 'team'
 import {InvoiceCard} from 'pages/invoices'
 import MuxPlayer from '@mux/mux-player-react'
@@ -20,14 +19,13 @@ import Image from 'next/legacy/image'
 import {trpc} from '../../trpc/trpc.client'
 import {Transfer} from 'purchase-transfer/purchase-transfer'
 import {getProduct} from 'path-to-purchase-react/products.server'
-import {IconGithub2} from '../../components/icons'
+import {IconGithub} from '../../components/icons'
 
 export const getServerSideProps: GetServerSideProps = async ({req, query}) => {
   const {purchaseId: purchaseQueryParam, session_id, upgrade} = query
   const token = await getToken({req})
   const providers = await getProviders()
   const {getPurchaseDetails} = getSdk()
-
 
   let purchaseId = purchaseQueryParam
 
@@ -263,10 +261,10 @@ const Header: React.FC<
           </h1>
           {personalPurchase && (
             <div>
-              <div className="flex gap-2">
+              <div className="flex flex-wrap justify-center gap-3 pt-8 sm:justify-start">
                 <Link
                   href={`/workshops/${product?.modules[0]?.slug.current}`}
-                  className="mt-8 rounded-lg bg-cyan-400 px-8 py-3 text-lg font-medium text-gray-900 shadow-xl shadow-black/10 transition hover:brightness-110"
+                  className="w-full rounded-lg bg-cyan-400 px-5 py-3 text-lg font-semibold text-gray-900 shadow-xl shadow-black/10 transition hover:brightness-110 sm:w-auto"
                 >
                   Start Learning
                 </Link>
@@ -275,14 +273,10 @@ const Header: React.FC<
                 !isGithubConnected ? (
                   <button
                     onClick={() => signIn(githubProvider.id)}
-                    className="mt-8 rounded-lg rounded-md bg-gray-800 px-4 py-3 text-lg font-medium text-white transition-all duration-300 ease-in-out hover:bg-gray-700 active:bg-gray-600"
+                    className="flex w-full items-center justify-center gap-2 rounded-lg bg-gray-800 px-5 py-3 text-lg font-semibold text-white shadow-xl shadow-black/10 transition hover:brightness-110 sm:w-auto"
                   >
-                    <div className="flex items-center dark:text-gray-100">
-                      <span className="mr-2 flex items-center justify-center">
-                        <IconGithub2 className="fill-current" />
-                      </span>
-                      Connect {githubProvider.name}
-                    </div>
+                    <IconGithub className="w-5" aria-hidden="true" />
+                    Connect {githubProvider.name}
                   </button>
                 ) : null}
               </div>
