@@ -13,14 +13,10 @@
     "@sanity/default-login",
     "@sanity/desk-tool",
     "@sanity/code-input",
+    "@sanity/vision",
     "cloudinary",
     "taxonomy-manager"
   ],
-  "env": {
-    "development": {
-      "plugins": ["@sanity/vision"]
-    }
-  },
   "parts": [
     {
       "name": "part:@sanity/base/schema",

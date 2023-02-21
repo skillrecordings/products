@@ -23,7 +23,6 @@ const ExerciseTemplate: React.FC<{
   const muxPlayerRef = React.useRef<MuxPlayerRefAttributes>(null)
   const {lesson, section, module} = useLesson()
   const {videoResourceId} = useVideoResource()
-
   const {title, description: exerciseDescription} = lesson
   const {ogImage, description: moduleDescription} = module
   const pageTitle = `${title}`

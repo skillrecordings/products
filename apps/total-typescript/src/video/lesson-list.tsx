@@ -12,6 +12,7 @@ import {Module} from '@skillrecordings/skill-lesson/schemas/module'
 import {trpc} from 'trpc/trpc.client'
 import {CheckIcon, ChevronDownIcon, LinkIcon} from '@heroicons/react/solid'
 import Balancer from 'react-wrap-balancer'
+import {useModuleProgress} from './module-progress'
 
 type LessonTitleLinkProps = {
   path: string
@@ -28,10 +29,7 @@ const LessonTitleLink: React.FC<LessonTitleLinkProps> = ({
   index = 0,
   module,
 }) => {
-  const {data: moduleProgress, status: moduleProgressStatus} =
-    trpc.moduleProgress.bySlug.useQuery({
-      slug: module.slug.current,
-    })
+  const moduleProgress = useModuleProgress()
 
   const isLessonCompleted = moduleProgress?.lessons.find(
     (progressLesson) =>
@@ -87,9 +85,7 @@ export const LessonList: React.FC<{
   const activeElRef = React.useRef<HTMLDivElement>(null)
   const sections = module.sections
   const lessons = currentSection ? currentSection.lessons : module.lessons
-  const {data: moduleProgress} = trpc.moduleProgress.bySlug.useQuery({
-    slug: module.slug.current,
-  })
+  const moduleProgress = useModuleProgress()
 
   const hasSectionResources =
     currentSection?.resources && currentSection?.resources?.length > 0
@@ -297,9 +293,7 @@ const Lessons = React.forwardRef<
     module: Module
   }
 >(({section, path, exercise, module, index}, ref) => {
-  const {data: moduleProgress} = trpc.moduleProgress.bySlug.useQuery({
-    slug: module.slug.current,
-  })
+  const moduleProgress = useModuleProgress()
   const completedLessons = moduleProgress?.lessons.filter(
     (l) => l.lessonCompleted,
   )

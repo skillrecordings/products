@@ -31,6 +31,7 @@ import {BadgeCheckIcon} from '@heroicons/react/outline'
 import {type Module} from '@skillrecordings/skill-lesson/schemas/module'
 import {Section} from '@skillrecordings/skill-lesson/schemas/section'
 import {getBaseUrl} from '@skillrecordings/skill-lesson/utils/get-base-url'
+import {capitalize} from 'lodash'
 
 const WorkshopTemplate: React.FC<{
   workshop: Module & {
@@ -331,11 +332,12 @@ const Header: React.FC<
   )
 }
 
-const WorkshopSectionNavigator: React.FC<{
+export const WorkshopSectionNavigator: React.FC<{
   workshop: Module & {sections: Section[]}
   className?: string
   purchased: boolean
-}> = ({workshop, purchased, className}) => {
+  path?: string
+}> = ({workshop, purchased, className, path = 'workshops'}) => {
   const {sections} = workshop
 
   if (!sections) return null
@@ -370,6 +372,7 @@ const WorkshopSectionNavigator: React.FC<{
                       <WorkshopSectionExerciseNavigator
                         section={section}
                         workshop={workshop}
+                        path={path}
                       />
                     </Accordion.Content>
                   </Accordion.Item>
@@ -381,7 +384,7 @@ const WorkshopSectionNavigator: React.FC<{
       ) : sections ? (
         <div>
           <h3 className="pb-4 font-heading text-2xl font-black">
-            Workshop content
+            {capitalize(workshop.moduleType)} content
           </h3>
           <div className="flex gap-1 pb-2 text-sm">
             <span>{sections[0]?.lessons?.length} lessons</span> {'・'}
@@ -405,6 +408,7 @@ const WorkshopSectionNavigator: React.FC<{
                   workshop={workshop}
                   index={i}
                   purchased={purchased}
+                  path={path}
                 />
               )
             })}
@@ -430,13 +434,14 @@ const LessonListItem = ({
   index,
   purchased,
   workshop,
+  path,
 }: {
   lessonResource: Lesson
   section: Section
-
   index: number
   purchased?: boolean
   workshop: Module
+  path?: string
 }) => {
   const {data: moduleProgress} = trpc.moduleProgress.bySlug.useQuery({
     slug: workshop.slug.current,
@@ -456,8 +461,9 @@ const LessonListItem = ({
     <li key={lessonResource.slug}>
       <Link
         href={{
-          pathname: '/workshops/[module]/[section]/[lesson]',
+          pathname: `/[path]/[module]/[section]/[lesson]`,
           query: {
+            path,
             section: section.slug,
             lesson: lessonResource.slug,
             module: workshop.slug.current,
@@ -510,7 +516,8 @@ const LessonListItem = ({
 const WorkshopSectionExerciseNavigator: React.FC<{
   section: Section
   workshop: Module
-}> = ({section, workshop}) => {
+  path?: string
+}> = ({section, workshop, path}) => {
   const {lessons} = section
 
   return lessons ? (
@@ -523,6 +530,7 @@ const WorkshopSectionExerciseNavigator: React.FC<{
             section={section}
             workshop={workshop}
             index={i}
+            path={path}
           />
         )
       })}

@@ -39,7 +39,7 @@ const TutorialsPage: React.FC<{tutorials: SanityDocument[]}> = ({
         </p>
         {tutorials && (
           <ul className="flex max-w-screen-md flex-col gap-8 px-3 pt-20">
-            {tutorials.map(({title, slug, image, description, lessons}, i) => {
+            {tutorials.map(({title, slug, image, description, sections}, i) => {
               return (
                 <li
                   key={slug.current}
@@ -63,7 +63,14 @@ const TutorialsPage: React.FC<{tutorials: SanityDocument[]}> = ({
                           New
                         </span>
                       )}
-                      {lessons.length} exercises
+                      {sections.reduce(
+                        (acc: number, section: {lessons?: any[]}) =>
+                          section.lessons?.length
+                            ? section.lessons?.length + acc
+                            : acc,
+                        0,
+                      )}{' '}
+                      exercises
                     </div>
                     <Link
                       href={{

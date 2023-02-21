@@ -17,7 +17,7 @@ const Card: React.FC<
   const Title = (props: any) =>
     React.createElement(title.as, props, `${title.content}`)
   return (
-    <div className="w-full rounded-lg border border-gray-800/80 bg-black/60 p-5 text-white">
+    <div className="w-full rounded-lg border border-gray-700/30 bg-gray-800 p-5 text-white shadow-xl shadow-black/10">
       <div className="flex items-center gap-3 text-xl font-semibold">
         {icon} <Title />
       </div>

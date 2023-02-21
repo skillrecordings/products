@@ -34,6 +34,20 @@ import {Module} from '@skillrecordings/skill-lesson/schemas/module'
 import {Section} from '@skillrecordings/skill-lesson/schemas/section'
 import {Exercise} from '@skillrecordings/skill-lesson/schemas/exercise'
 import {handlePlayFromBeginning} from '@skillrecordings/skill-lesson/utils/handle-play-from-beginning'
+import {createAppAbility} from '@skillrecordings/skill-lesson/utils/ability'
+import SelfRedeemButton from 'team/self-redeem-button'
+import {useSession} from 'next-auth/react'
+import Balancer from 'react-wrap-balancer'
+
+const useAbilities = () => {
+  const {
+    data: abilityRules,
+    refetch,
+    isFetching,
+  } = trpc.abilities.getAbilities.useQuery()
+
+  return {ability: createAppAbility(abilityRules || []), refetch, isFetching}
+}
 
 export const OverlayWrapper: React.FC<
   React.PropsWithChildren<{className?: string; dismissable?: boolean}>
@@ -356,6 +370,7 @@ const DefaultOverlay = () => {
 const FinishedOverlay = () => {
   const {path, handlePlay} = useMuxPlayer()
   const {module, section} = useLesson()
+  const [markedComplete, setMarkedComplete] = React.useState(false)
 
   const router = useRouter()
   const shareUrl = `${process.env.NEXT_PUBLIC_URL}${path}/${module.slug.current}`
@@ -369,20 +384,18 @@ const FinishedOverlay = () => {
   React.useEffect(() => {
     // since this is the last lesson and we show the "module complete" overlay
     // we run this when the effect renders marking the lesson complete
-    addProgressMutation.mutate(
-      {lessonSlug: router.query.lesson as string},
-      {
-        onSettled: () => {
-          utils.moduleProgress.bySlug.invalidate({slug: module.slug.current})
+    if (!markedComplete) {
+      addProgressMutation.mutate(
+        {lessonSlug: router.query.lesson as string},
+        {
+          onSettled: () => {
+            utils.moduleProgress.bySlug.invalidate({slug: module.slug.current})
+          },
         },
-      },
-    )
-  }, [
-    addProgressMutation,
-    module.slug,
-    router.query.lesson,
-    utils.moduleProgress.bySlug,
-  ])
+      )
+      setMarkedComplete(true)
+    }
+  }, [])
 
   return (
     <OverlayWrapper className="px-5 pt-10 sm:pt-0">
@@ -443,7 +456,7 @@ const BlockedOverlay = () => {
   const {refetch: refetchSubscriber} = useConvertkit()
   const {videoResourceId} = useVideoResource()
   const thumbnail = `${getBaseUrl()}/api/video-thumb?videoResourceId=${videoResourceId}`
-
+  const {refetchAbility} = useMuxPlayer()
   const {data: ctaText} = useQuery(
     [`exercise-free-tutorial`, lesson.slug, module.slug.current],
     async () => {
@@ -481,6 +494,10 @@ const BlockedOverlay = () => {
     [`started_${snakeCase(module.title)}_${module.moduleType}`.toLowerCase()]:
       new Date().toISOString().slice(0, 10),
   }
+  const {data: session} = useSession()
+  const {ability} = useAbilities()
+  const canViewTeam = ability.can('view', 'Team')
+  const {data: purchaseDetails} = trpc.purchases.getLastPurchase.useQuery()
 
   return (
     <div
@@ -495,7 +512,6 @@ const BlockedOverlay = () => {
         className="opacity-50 blur-sm contrast-125"
         priority
       />
-
       {module.moduleType === 'tutorial' ? (
         <>
           <div className="z-20 flex h-full flex-shrink-0 flex-col items-center justify-center gap-5 p-5 pb-10 text-center text-lg leading-relaxed sm:p-10 sm:pb-16">
@@ -564,32 +580,68 @@ const BlockedOverlay = () => {
               <h2 className="text-4xl font-semibold">
                 Level up your {module.title}
               </h2>
-              <h3 className="max-w-xl pb-5 pt-3 text-lg text-gray-300">
-                This {lesson._type} is part of the {module.title} workshop.
-              </h3>
-              <Link
-                href={{
-                  pathname: '/buy',
-                }}
-                className="group group mt-5 inline-block gap-2 rounded bg-gradient-to-b from-cyan-300 to-cyan-400 py-3 pl-5 pr-8 font-medium text-black transition hover:brightness-110"
-                onClick={() => {
-                  track('clicked unlock lesson', {
-                    lesson: lesson.slug,
-                    module: module.slug.current,
-                    location: 'blocked overlay',
-                    moduleType: module.moduleType,
-                    lessonType: lesson._type,
-                  })
-                }}
-              >
-                <span className="pr-3">Unlock this {lesson._type} now</span>
-                <span
-                  aria-hidden="true"
-                  className="absolute text-cyan-700 transition group-hover:translate-x-1"
-                >
-                  →
-                </span>
-              </Link>
+              {canViewTeam ? (
+                <>
+                  <h3 className="max-w-xl pb-5 pt-3 text-lg text-gray-300">
+                    <Balancer>
+                      You've purchased a team license with{' '}
+                      {purchaseDetails?.purchase?.bulkCoupon?.maxUses} seats and
+                      haven't claimed a seat for yourself yet.
+                    </Balancer>
+                  </h3>
+                  {purchaseDetails?.purchase?.bulkCoupon?.id &&
+                    !purchaseDetails?.existingPurchase && (
+                      <SelfRedeemButton
+                        disabled={Boolean(purchaseDetails?.existingPurchase)}
+                        userEmail={session?.user?.email}
+                        bulkCouponId={purchaseDetails?.purchase?.bulkCoupon?.id}
+                        onSuccess={(redeemedPurchase) => {
+                          if (redeemedPurchase) {
+                            refetchAbility()
+                          }
+                        }}
+                        className="rounded-lg bg-cyan-400 px-5 py-3 text-base font-semibold text-gray-900 brightness-125 transition hover:brightness-100"
+                      >
+                        Claim one seat for yourself and start learning
+                      </SelfRedeemButton>
+                    )}
+                  <Link
+                    href="/team"
+                    className="mt-3 text-center text-base text-cyan-200 hover:underline"
+                  >
+                    Invite your team
+                  </Link>
+                </>
+              ) : (
+                <>
+                  <h3 className="max-w-xl pb-5 pt-3 text-lg text-gray-300">
+                    This {lesson._type} is part of the {module.title} workshop.
+                  </h3>
+                  <Link
+                    href={{
+                      pathname: '/buy',
+                    }}
+                    className="group group mt-5 inline-block gap-2 rounded bg-gradient-to-b from-cyan-300 to-cyan-400 py-3 pl-5 pr-8 font-medium text-black transition hover:brightness-110"
+                    onClick={() => {
+                      track('clicked unlock lesson', {
+                        lesson: lesson.slug,
+                        module: module.slug.current,
+                        location: 'blocked overlay',
+                        moduleType: module.moduleType,
+                        lessonType: lesson._type,
+                      })
+                    }}
+                  >
+                    <span className="pr-3">Unlock this {lesson._type} now</span>
+                    <span
+                      aria-hidden="true"
+                      className="absolute text-cyan-700 transition group-hover:translate-x-1"
+                    >
+                      →
+                    </span>
+                  </Link>
+                </>
+              )}
             </div>
           </div>
         </>

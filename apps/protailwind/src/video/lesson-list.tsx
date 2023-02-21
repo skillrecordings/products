@@ -183,6 +183,7 @@ export const LessonList: React.FC<{
   const lessons = section ? section.lessons : module.lessons
   const hasSectionResources =
     section?.resources && section?.resources.length > 0
+
   return (
     <div
       ref={scrollContainerRef}

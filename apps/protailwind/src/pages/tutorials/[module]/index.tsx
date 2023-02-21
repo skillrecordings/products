@@ -5,6 +5,8 @@ import {User} from '@skillrecordings/database'
 import {SanityDocument} from '@sanity/client'
 import {getAllTutorials, getTutorial} from 'lib/tutorials'
 import {GetStaticPaths, GetStaticProps} from 'next'
+import {Module} from '@skillrecordings/skill-lesson/schemas/module'
+import {Section} from '@skillrecordings/skill-lesson/schemas/section'
 
 export const USER_ID_QUERY_PARAM_KEY = 'learner'
 
@@ -26,7 +28,11 @@ export const getStaticPaths: GetStaticPaths = async () => {
 }
 
 const TutorialPage: React.FC<{
-  tutorial: SanityDocument
+  tutorial: Module & {
+    description: string
+    ogImage: string
+    sections: Section[]
+  }
 }> = ({tutorial}) => {
   // TODO: Load subscriber, find user via Prisma/api using USER_ID_QUERY_PARAM_KEY
   return <TutorialTemplate tutorial={tutorial} />

@@ -196,17 +196,14 @@ export function getSdk(
     },
     async completeLessonProgressForUser({
       userId,
-      lessonSlug,
       lessonId,
     }: {
       userId: string
-      lessonSlug?: string
       lessonId?: string
     }) {
       let lessonProgress = await ctx.prisma.lessonProgress.findFirst({
         where: {
           userId,
-          lessonSlug,
           lessonId,
         },
       })
@@ -214,18 +211,19 @@ export function getSdk(
       const now = new Date()
 
       if (lessonProgress) {
-        lessonProgress = await ctx.prisma.lessonProgress.update({
-          where: {id: lessonProgress.id},
-          data: {
-            completedAt: now,
-            updatedAt: now,
-          },
-        })
+        if (!lessonProgress.completedAt) {
+          lessonProgress = await ctx.prisma.lessonProgress.update({
+            where: {id: lessonProgress.id},
+            data: {
+              completedAt: now,
+              updatedAt: now,
+            },
+          })
+        }
       } else {
         lessonProgress = await ctx.prisma.lessonProgress.create({
           data: {
             userId,
-            lessonSlug,
             lessonId,
             completedAt: now,
             updatedAt: now,
@@ -398,17 +396,27 @@ export function getSdk(
         },
       })
 
-      // Check if this user has already purchased a bulk coupon, in which
-      // case, we'll be able to treat this purchase as adding seats.
+      // if this user has already purchased this product, then an additional
+      // purchase (even for only 1 seat) should be processed as a bulk
+      // purchase so that they can distribute the seat to someone else.
       //
-      // TODO: I believe the `maxUses` check is redundant. If there is at
-      // least one `bulkCouponPurchase` attached to this Coupon, then it is a
-      // bulk coupon for this user.
+      // if an existingPurchase is found, but no existingBulkCoupon is found,
+      // then the logic below will account for that and create a new bulk
+      // coupon for the requested quantity.
+      const existingPurchase = await ctx.prisma.purchase.findFirst({
+        where: {
+          productId,
+          userId,
+          status: 'Valid',
+        },
+      })
+
+      // Check if this user has already purchased a bulk coupon for this
+      // product, in which case, we'll be able to treat this purchase as
+      // adding seats.
       const existingBulkCoupon = await ctx.prisma.coupon.findFirst({
         where: {
-          maxUses: {
-            gt: 1,
-          },
+          restrictedToProductId: productId,
           bulkCouponPurchases: {
             some: {userId},
           },
@@ -419,7 +427,10 @@ export function getSdk(
       // only adding 1 seat to the team, then it is still a "bulk purchase" and
       // we need to add it to their existing Bulk Coupon.
       const isBulkPurchase =
-        quantity > 1 || Boolean(existingBulkCoupon) || options.bulk
+        quantity > 1 ||
+        Boolean(existingBulkCoupon) ||
+        options.bulk ||
+        Boolean(existingPurchase)
 
       let bulkCouponId = null
       let coupon = null
@@ -462,11 +473,12 @@ export function getSdk(
         },
       })
 
+      const oneWeekInMilliseconds = 1000 * 60 * 60 * 24 * 7
       const purchaseUserTransfer = ctx.prisma.purchaseUserTransfer.create({
         data: {
           sourceUserId: userId,
           purchaseId: purchaseId,
-          expiresAt: new Date(Date.now() + 1000 * 60 * 60 * 24 * 7),
+          expiresAt: new Date(Date.now() + oneWeekInMilliseconds),
         },
       })
 
@@ -625,30 +637,6 @@ export function getSdk(
       })
 
       return await ctx.prisma.$transaction([chargeUpdates, purchaseUpdates])
-    },
-    async createPurchaseUserTransfer({
-      sourceUserId,
-      purchaseId,
-    }: {
-      sourceUserId: string
-      purchaseId: string
-    }) {
-      const purchase = await ctx.prisma.purchase.findFirst({
-        where: {
-          id: purchaseId,
-          userId: sourceUserId,
-        },
-      })
-      return (
-        purchase &&
-        (await ctx.prisma.purchaseUserTransfer.create({
-          data: {
-            sourceUserId,
-            purchaseId: purchase.id,
-            expiresAt: new Date(Date.now() + 1000 * 60 * 60 * 24 * 7),
-          },
-        }))
-      )
     },
     async getPurchaseUserTransferById({id}: {id: string}) {
       return await ctx.prisma.purchaseUserTransfer.findUnique({
