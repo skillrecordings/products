@@ -7,8 +7,14 @@ import {getToken} from 'next-auth/jwt'
 import {getSdk} from '@skillrecordings/database'
 import Card from 'team/card'
 import {z} from 'zod'
+import {sanityClient} from '@skillrecordings/skill-lesson/utils/sanity-client'
+import groq from 'groq'
 
-const productDataSchema = z.object({id: z.string(), name: z.string()})
+const productDataSchema = z.object({
+  id: z.string(),
+  name: z.string(),
+  description: z.string(),
+})
 
 export const getServerSideProps: GetServerSideProps = async ({req, query}) => {
   const token = await getToken({req})
@@ -39,8 +45,17 @@ export const getServerSideProps: GetServerSideProps = async ({req, query}) => {
 
   const product = await getProduct({where: {id: productId}})
 
+  // Load product `description` from Sanity
+  const productDescriptionQuery = groq`*[_type == "product" && productId == $productId][0]{
+      description
+    }`
+
+  const {description} = await sanityClient.fetch(productDescriptionQuery, {
+    productId: productId,
+  })
+
   if (token?.sub && Boolean(product)) {
-    const productData = productDataSchema.parse(product)
+    const productData = productDataSchema.parse({...product, description})
 
     return {
       props: {
@@ -77,6 +92,9 @@ const BuyMoreSeatsPage: React.FC<
         <h2 className="mx-auto max-w-lg py-5 font-text text-3xl font-bold text-white lg:text-4xl">
           {product.name}
         </h2>
+        <h3 className="text-md mx-auto max-w-lg py-5 font-text font-bold text-white lg:text-lg">
+          {product.description}
+        </h3>
         <Card
           title={{content: 'Get more seats', as: 'h2'}}
           icon={<TicketIcon className="w-5 text-cyan-500" aria-hidden="true" />}
