@@ -379,6 +379,9 @@ const FinishedOverlay = () => {
     'bg-gray-800 flex items-center gap-2 rounded px-3 py-2 hover:bg-gray-700'
 
   const addProgressMutation = trpc.progress.add.useMutation()
+  const completeLessonConvertkitMutation =
+    trpc.convertkit.completeLesson.useMutation()
+
   const utils = trpc.useContext()
 
   React.useEffect(() => {
@@ -395,6 +398,10 @@ const FinishedOverlay = () => {
       )
       setMarkedComplete(true)
     }
+    completeLessonConvertkitMutation.mutate({
+      lessonSlug: router.query.lesson as string,
+      moduleSlug: module.slug.current as string,
+    })
   }, [])
 
   return (
