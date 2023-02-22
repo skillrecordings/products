@@ -482,11 +482,13 @@ const BlockedOverlay = () => {
   return (
     <div
       id="video-overlay"
-      className="flex w-full flex-col items-center justify-center bg-[#070B16] py-10 xl:aspect-video xl:flex-row"
+      className="relative flex w-full flex-col items-center justify-center bg-[#070B16] py-10 xl:aspect-video xl:flex-row"
     >
       <Image
         src={thumbnail}
         layout="fill"
+        objectFit="contain"
+        objectPosition="top"
         alt=""
         aria-hidden="true"
         className="opacity-50 blur-sm contrast-125"

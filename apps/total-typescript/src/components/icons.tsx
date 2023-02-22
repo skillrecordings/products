@@ -1,3 +1,5 @@
+import * as React from 'react'
+
 export const IconGithub: React.FC<{className?: string}> = ({
   className = 'w-4 h-4',
 }) => {

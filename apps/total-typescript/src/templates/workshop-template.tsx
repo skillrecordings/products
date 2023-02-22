@@ -24,6 +24,7 @@ import * as process from 'process'
 import {trpc} from '../trpc/trpc.client'
 import Balancer from 'react-wrap-balancer'
 import {useModuleProgress} from '../video/module-progress'
+import WorkshopCertificate from 'certificate/workshop-certificate'
 
 const WorkshopTemplate: React.FC<{
   workshop: Module
@@ -49,7 +50,10 @@ const WorkshopTemplate: React.FC<{
         <article className="prose prose-lg w-full max-w-none px-5 text-white lg:max-w-xl">
           <PortableText value={body} components={PortableTextComponents} />
         </article>
-        {workshop && <WorkshopSectionNavigator workshop={workshop} />}
+        <div className="w-full lg:max-w-xs">
+          {workshop && <WorkshopSectionNavigator workshop={workshop} />}
+          <WorkshopCertificate workshop={workshop} />
+        </div>
       </main>
     </Layout>
   )
@@ -83,7 +87,7 @@ const Header: React.FC<{
           >
             Pro Workshop
           </Link>
-          <h1 className="font-text text-4xl font-bold sm:text-5xl lg:text-6xl">
+          <h1 className="font-text text-3xl font-bold sm:text-5xl lg:text-6xl">
             <Balancer>{title}</Balancer>
           </h1>
           <div className="pt-8 text-lg">
@@ -161,12 +165,11 @@ const Header: React.FC<{
         )}
       </header>
       <Image
-        layout="fill"
+        fill
         aria-hidden="true"
         alt=""
         src={require('../../public/assets/landing/bg-divider-3.png')}
-        objectPosition={'top'}
-        className="-z-10 object-contain"
+        className="-z-10 object-contain object-top"
       />
     </>
   )
@@ -195,7 +198,7 @@ const WorkshopSectionNavigator: React.FC<{
   return moduleProgressStatus === 'success' ? (
     <nav
       aria-label="workshop navigator"
-      className="w-full bg-black/20 px-5 py-8 lg:max-w-xs lg:bg-transparent lg:px-0 lg:py-0"
+      className="w-full bg-black/20 py-8 px-5 lg:max-w-xs lg:bg-transparent lg:px-0 lg:py-0"
     >
       {sections && (
         <Accordion.Root

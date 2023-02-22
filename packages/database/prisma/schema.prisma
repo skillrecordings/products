@@ -89,6 +89,7 @@ model MerchantAccount {
   merchantCustomers MerchantCustomer[]
   merchantPrices    MerchantPrice[]
   merchantProducts  MerchantProduct[]
+  merchantSession   MerchantSession[]
 }
 
 model MerchantCharge {
@@ -156,6 +157,14 @@ model MerchantProduct {
   merchantPrices    MerchantPrice[]
 }
 
+model MerchantSession {
+  id                String          @id @default(uuid())
+  identifier        String
+  merchantAccountId String
+  merchantAccount   MerchantAccount @relation(fields: [merchantAccountId], references: [id], onDelete: Cascade)
+  purchase          Purchase[]
+}
+
 model Price {
   id             String          @id @default(uuid())
   productId      String?
@@ -191,30 +200,32 @@ model UpgradableProducts {
 }
 
 model Purchase {
-  id                   String          @id @default(uuid())
-  userId               String?
-  createdAt            DateTime        @default(now())
-  totalAmount          Decimal
-  ip_address           String?
-  city                 String?
-  state                String?
-  country              String?
-  couponId             String?
-  bulkCouponId         String?
-  redeemedBulkCouponId String?
-  productId            String
-  merchantChargeId     String?
-  upgradedFromId       String?         @unique
-  upgradedFrom         Purchase?       @relation("UpgradedToPurchase", fields: [upgradedFromId], references: [id], onDelete: NoAction, onUpdate: NoAction)
-  upgradedTo           Purchase?       @relation("UpgradedToPurchase")
-  bulkCoupon           Coupon?         @relation("BulkCoupon", fields: [bulkCouponId], references: [id])
-  individualBulkCoupon Coupon?         @relation("IndividualBulkCoupon")
-  coupon               Coupon?         @relation("StandardPurchase", fields: [couponId], references: [id], onDelete: Cascade)
-  redeemedBulkCoupon   Coupon?         @relation("RedeemedBulkCoupon", fields: [redeemedBulkCouponId], references: [id], onDelete: NoAction)
-  merchantCharge       MerchantCharge? @relation(fields: [merchantChargeId], references: [id], onDelete: Cascade)
-  product              Product         @relation(fields: [productId], references: [id], onDelete: Cascade)
-  user                 User?           @relation(fields: [userId], references: [id], onDelete: Cascade)
-  status               String          @default("Valid")
+  id                    String                 @id @default(uuid())
+  userId                String?
+  createdAt             DateTime               @default(now())
+  totalAmount           Decimal
+  ip_address            String?
+  city                  String?
+  state                 String?
+  country               String?
+  couponId              String?
+  bulkCouponId          String?
+  redeemedBulkCouponId  String?
+  productId             String
+  merchantChargeId      String?
+  merchantSessionId     String?
+  upgradedFromId        String?                @unique
+  upgradedFrom          Purchase?              @relation("UpgradedToPurchase", fields: [upgradedFromId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  upgradedTo            Purchase?              @relation("UpgradedToPurchase")
+  bulkCoupon            Coupon?                @relation("BulkCoupon", fields: [bulkCouponId], references: [id])
+  individualBulkCoupon  Coupon?                @relation("IndividualBulkCoupon")
+  coupon                Coupon?                @relation("StandardPurchase", fields: [couponId], references: [id], onDelete: Cascade)
+  redeemedBulkCoupon    Coupon?                @relation("RedeemedBulkCoupon", fields: [redeemedBulkCouponId], references: [id], onDelete: NoAction)
+  merchantCharge        MerchantCharge?        @relation(fields: [merchantChargeId], references: [id], onDelete: Cascade)
+  merchantSession       MerchantSession?       @relation(fields: [merchantSessionId], references: [id], onDelete: Cascade)
+  product               Product                @relation(fields: [productId], references: [id], onDelete: Cascade)
+  user                  User?                  @relation(fields: [userId], references: [id], onDelete: Cascade)
+  status                String                 @default("Valid")
   purchaseUserTransfers PurchaseUserTransfer[]
 }
 
@@ -227,9 +238,9 @@ model Session {
 }
 
 model User {
-  id                      String             @id @default(uuid())
+  id                      String                 @id @default(uuid())
   name                    String?
-  email                   String             @unique
+  email                   String                 @unique
   emailVerified           DateTime?
   image                   String?
   accounts                Account[]
@@ -241,7 +252,7 @@ model User {
   sourcePurchaseTransfers PurchaseUserTransfer[] @relation("SourceUser")
   targetPurchaseTransfers PurchaseUserTransfer[] @relation("TargetUser")
   comments                Comment[]
-  roles                   String             @default("User")
+  roles                   String                 @default("User")
 }
 
 model VerificationToken {
@@ -264,17 +275,17 @@ enum PurchaseUserTransferState {
 }
 
 model PurchaseUserTransfer {
-  id              String                    @id @default(uuid())
-  transferState   PurchaseUserTransferState @default(AVAILABLE)
-  purchase        Purchase                  @relation(fields: [purchaseId], references: [id], onDelete: Cascade)
-  purchaseId      String
-  sourceUser      User                      @relation("SourceUser", fields: [sourceUserId], references: [id], onDelete: Cascade)
-  sourceUserId    String
-  targetUser      User?                      @relation("TargetUser", fields: [targetUserId], references: [id], onDelete: Cascade)
-  targetUserId    String?
-  createdAt       DateTime                  @default(now())
-  expiresAt       DateTime?
-  canceledAt      DateTime?
-  confirmedAt     DateTime?
-  completedAt     DateTime?
+  id            String                    @id @default(uuid())
+  transferState PurchaseUserTransferState @default(AVAILABLE)
+  purchase      Purchase                  @relation(fields: [purchaseId], references: [id], onDelete: Cascade)
+  purchaseId    String
+  sourceUser    User                      @relation("SourceUser", fields: [sourceUserId], references: [id], onDelete: Cascade)
+  sourceUserId  String
+  targetUser    User?                     @relation("TargetUser", fields: [targetUserId], references: [id], onDelete: Cascade)
+  targetUserId  String?
+  createdAt     DateTime                  @default(now())
+  expiresAt     DateTime?
+  canceledAt    DateTime?
+  confirmedAt   DateTime?
+  completedAt   DateTime?
 }

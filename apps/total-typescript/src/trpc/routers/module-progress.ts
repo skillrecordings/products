@@ -42,7 +42,8 @@ export const moduleProgressRouter = router({
           slug: lesson.slug,
           lessonCompleted: Boolean(
             moduleLessonProgress.find(
-              (progress) => progress.lessonId === lesson._id,
+              (progress) =>
+                progress.lessonId === lesson._id && progress.completedAt,
             ),
           ),
         }
@@ -56,7 +57,8 @@ export const moduleProgressRouter = router({
               slug: lesson.slug,
               lessonCompleted: Boolean(
                 moduleLessonProgress.find(
-                  (progress) => progress.lessonId === lesson._id,
+                  (progress) =>
+                    progress.lessonId === lesson._id && progress.completedAt,
                 ),
               ),
             }

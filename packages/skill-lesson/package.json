@@ -52,7 +52,7 @@
     "lodash": "^4.17.21",
     "mjml": "^4.12.0",
     "next": "^13.1.2",
-    "next-auth": "=4.10.3",
+    "next-auth": "^4.19.2",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-hot-toast": "^2.2.0",

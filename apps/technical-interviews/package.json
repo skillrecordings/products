@@ -67,7 +67,7 @@
     "micromark": "^3.1.0",
     "mjml": "^4.12.0",
     "next": "^13.1.2",
-    "next-auth": "^4.10.3",
+    "next-auth": "^4.19.2",
     "next-sitemap": "^3.0.5",
     "nodemailer": "^6.7.2",
     "nodemailer-postmark-transport": "^5.2.1",
