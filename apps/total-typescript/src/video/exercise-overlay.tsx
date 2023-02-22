@@ -370,6 +370,7 @@ const DefaultOverlay = () => {
 const FinishedOverlay = () => {
   const {path, handlePlay} = useMuxPlayer()
   const {module, section} = useLesson()
+  const [markedComplete, setMarkedComplete] = React.useState(false)
 
   const router = useRouter()
   const shareUrl = `${process.env.NEXT_PUBLIC_URL}${path}/${module.slug.current}`
@@ -383,20 +384,18 @@ const FinishedOverlay = () => {
   React.useEffect(() => {
     // since this is the last lesson and we show the "module complete" overlay
     // we run this when the effect renders marking the lesson complete
-    addProgressMutation.mutate(
-      {lessonSlug: router.query.lesson as string},
-      {
-        onSettled: () => {
-          utils.moduleProgress.bySlug.invalidate({slug: module.slug.current})
+    if (!markedComplete) {
+      addProgressMutation.mutate(
+        {lessonSlug: router.query.lesson as string},
+        {
+          onSettled: () => {
+            utils.moduleProgress.bySlug.invalidate({slug: module.slug.current})
+          },
         },
-      },
-    )
-  }, [
-    addProgressMutation,
-    module.slug,
-    router.query.lesson,
-    utils.moduleProgress.bySlug,
-  ])
+      )
+      setMarkedComplete(true)
+    }
+  }, [])
 
   return (
     <OverlayWrapper className="px-5 pt-10 sm:pt-0">
@@ -503,11 +502,13 @@ const BlockedOverlay = () => {
   return (
     <div
       id="video-overlay"
-      className="flex w-full flex-col items-center justify-center bg-[#070B16] py-10 xl:aspect-video xl:flex-row"
+      className="relative flex w-full flex-col items-center justify-center bg-[#070B16] py-10 xl:aspect-video xl:flex-row"
     >
       <Image
         src={thumbnail}
         layout="fill"
+        objectFit="contain"
+        objectPosition="top"
         alt=""
         aria-hidden="true"
         className="opacity-50 blur-sm contrast-125"

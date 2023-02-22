@@ -206,17 +206,14 @@ export function getSdk(
     },
     async completeLessonProgressForUser({
       userId,
-      lessonSlug,
       lessonId,
     }: {
       userId: string
-      lessonSlug?: string
       lessonId?: string
     }) {
       let lessonProgress = await ctx.prisma.lessonProgress.findFirst({
         where: {
           userId,
-          lessonSlug,
           lessonId,
         },
       })
@@ -224,18 +221,19 @@ export function getSdk(
       const now = new Date()
 
       if (lessonProgress) {
-        lessonProgress = await ctx.prisma.lessonProgress.update({
-          where: {id: lessonProgress.id},
-          data: {
-            completedAt: now,
-            updatedAt: now,
-          },
-        })
+        if (!lessonProgress.completedAt) {
+          lessonProgress = await ctx.prisma.lessonProgress.update({
+            where: {id: lessonProgress.id},
+            data: {
+              completedAt: now,
+              updatedAt: now,
+            },
+          })
+        }
       } else {
         lessonProgress = await ctx.prisma.lessonProgress.create({
           data: {
             userId,
-            lessonSlug,
             lessonId,
             completedAt: now,
             updatedAt: now,
@@ -246,15 +244,18 @@ export function getSdk(
     },
     async toggleLessonProgressForUser({
       userId,
+      lessonId,
       lessonSlug,
     }: {
       userId: string
+      lessonId?: string
       lessonSlug: string
     }) {
       let lessonProgress = await ctx.prisma.lessonProgress.findFirst({
         where: {
           userId,
           lessonSlug,
+          lessonId,
         },
       })
 
@@ -282,6 +283,7 @@ export function getSdk(
         lessonProgress = await ctx.prisma.lessonProgress.create({
           data: {
             userId,
+            lessonId,
             lessonSlug,
             completedAt: now,
             updatedAt: now,
@@ -433,22 +435,12 @@ export function getSdk(
         },
       })
 
-      // TODO: This doesn't seem to be looking up the bulk coupon based
-      // on the product ID which will become an issue when any particular
-      // app has more than one product.
-      // E.g. should probably account for `restrictedToProductId`
-      //
-      // Check if this user has already purchased a bulk coupon, in which
-      // case, we'll be able to treat this purchase as adding seats.
-      //
-      // TODO: I believe the `maxUses` check is redundant. If there is at
-      // least one `bulkCouponPurchase` attached to this Coupon, then it is a
-      // bulk coupon for this user.
+      // Check if this user has already purchased a bulk coupon for this
+      // product, in which case, we'll be able to treat this purchase as
+      // adding seats.
       const existingBulkCoupon = await ctx.prisma.coupon.findFirst({
         where: {
-          maxUses: {
-            gt: 1,
-          },
+          restrictedToProductId: productId,
           bulkCouponPurchases: {
             some: {userId},
           },
@@ -682,30 +674,6 @@ export function getSdk(
       })
 
       return await ctx.prisma.$transaction([chargeUpdates, purchaseUpdates])
-    },
-    async createPurchaseUserTransfer({
-      sourceUserId,
-      purchaseId,
-    }: {
-      sourceUserId: string
-      purchaseId: string
-    }) {
-      const purchase = await ctx.prisma.purchase.findFirst({
-        where: {
-          id: purchaseId,
-          userId: sourceUserId,
-        },
-      })
-      return (
-        purchase &&
-        (await ctx.prisma.purchaseUserTransfer.create({
-          data: {
-            sourceUserId,
-            purchaseId: purchase.id,
-            expiresAt: new Date(Date.now() + 1000 * 60 * 60 * 24 * 7),
-          },
-        }))
-      )
     },
     async getPurchaseUserTransferById({id}: {id: string}) {
       return await ctx.prisma.purchaseUserTransfer.findUnique({

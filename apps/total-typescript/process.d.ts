@@ -24,5 +24,7 @@ declare namespace NodeJS {
     SLACK_ANNOUNCE_CHANNEL_ID: string
     SLACK_FEEDBACK_CHANNEL_ID: string
     SLACK_TOKEN: string
+    GITHUB_ID: string
+    GITHUB_SECRET: string
   }
 }

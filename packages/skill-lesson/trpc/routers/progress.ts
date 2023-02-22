@@ -18,9 +18,57 @@ export const progressRouter = router({
       try {
         const lesson = await getLesson(input.lessonSlug)
         if (token) {
-          return await completeLessonProgressForUser({
+          completeLessonProgressForUser({
             userId: token.id as string,
             lessonId: lesson._id,
+          })
+        } else {
+          const subscriberCookie = ctx.req.cookies['ck_subscriber']
+
+          if (!subscriberCookie) {
+            console.debug('no subscriber cookie')
+            return {error: 'no subscriber found'}
+          }
+
+          const subscriber = SubscriberSchema.parse(
+            JSON.parse(subscriberCookie),
+          )
+
+          if (!subscriber?.email_address) {
+            console.debug('no subscriber cookie')
+            return {error: 'no subscriber found'}
+          }
+
+          const {user} = await findOrCreateUser(subscriber.email_address)
+
+          completeLessonProgressForUser({
+            userId: user.id,
+            lessonId: lesson._id,
+          })
+        }
+        return true
+      } catch (error) {
+        console.error(error)
+        let message = 'Unknown Error'
+        if (error instanceof Error) message = error.message
+        return {error: message}
+      }
+    }),
+  toggle: publicProcedure
+    .input(
+      z.object({
+        lessonSlug: z.string(),
+      }),
+    )
+    .mutation(async ({ctx, input}) => {
+      const token = await getToken({req: ctx.req})
+      const {findOrCreateUser, toggleLessonProgressForUser} = getSdk()
+      try {
+        const lesson = await getLesson(input.lessonSlug)
+        if (token) {
+          return await toggleLessonProgressForUser({
+            userId: token.id as string,
+            lessonId: lesson._id as string,
             lessonSlug: input.lessonSlug,
           })
         } else {
@@ -42,9 +90,9 @@ export const progressRouter = router({
 
           const {user} = await findOrCreateUser(subscriber.email_address)
 
-          return await completeLessonProgressForUser({
+          return await toggleLessonProgressForUser({
             userId: user.id,
-            lessonId: lesson._id,
+            lessonId: lesson._id as string,
             lessonSlug: input.lessonSlug,
           })
         }
