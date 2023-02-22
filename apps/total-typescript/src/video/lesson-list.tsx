@@ -115,7 +115,7 @@ export const LessonList: React.FC<{
       className="group relative h-[400px] overflow-y-auto pb-16 scrollbar-thin scrollbar-thumb-gray-800/70 hover:scrollbar-thumb-gray-700 lg:h-[calc(100vh-180px)]"
     >
       <nav aria-label="exercise navigator">
-        {sections ? (
+        {sections && sections.length > 1 ? (
           <Accordion.Root
             type="multiple"
             onValueChange={(e) => setOpenedSections(e)}
@@ -202,6 +202,25 @@ export const LessonList: React.FC<{
               })}
             </ul>
           </Accordion.Root>
+        ) : sections?.length === 1 ? (
+          <ul className="flex flex-col divide-y divide-gray-800/0 text-lg">
+            {sections[0]?.lessons?.map((exercise: Lesson, index: number) => {
+              return (
+                <Lessons
+                  section={sections[0]}
+                  exercise={exercise}
+                  module={module}
+                  path={path}
+                  ref={activeElRef}
+                  index={index}
+                  key={exercise._id}
+                />
+              )
+            })}
+            {hasSectionResources && (
+              <SectionResources section={currentSection} module={module} />
+            )}
+          </ul>
         ) : (
           <ul className="flex flex-col divide-y divide-gray-800/0 text-lg">
             {lessons?.map((exercise: Lesson, index: number) => {
@@ -288,7 +307,7 @@ const Lessons = React.forwardRef<
     section?: Section
     index?: number
     path: string
-    exercise: Lesson
+    exercise: Lesson & {explainerType?: string}
     module: Module
   }
 >(({section, path, exercise, module, index}, ref) => {
@@ -351,14 +370,15 @@ const Lessons = React.forwardRef<
               />
             </>
           )}
-          {exercise._type === 'explainer' && (
-            <ExplainerLink
-              exercise={exercise}
-              module={module}
-              section={section}
-              path={path}
-            />
-          )}
+          {exercise._type === 'explainer' &&
+            exercise.explainerType !== 'interview' && (
+              <ExplainerLink
+                exercise={exercise}
+                module={module}
+                section={section}
+                path={path}
+              />
+            )}
         </ul>
       )}
     </li>

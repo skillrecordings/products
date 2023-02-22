@@ -1,11 +1,12 @@
 import React from 'react'
 import Layout from 'components/app/layout'
-import {SanityDocument} from '@sanity/client'
 import Link from 'next/link'
 import Image from 'next/legacy/image'
 import {getAllWorkshops} from 'lib/workshops'
 import {track} from '@skillrecordings/skill-lesson/utils/analytics'
 import Balancer from 'react-wrap-balancer'
+import type {Module} from '@skillrecordings/skill-lesson/schemas/module'
+import type {Section} from '@skillrecordings/skill-lesson/schemas/section'
 
 const CLOUDINARY_FETCH_BASE_URL = `https://res.cloudinary.com/total-typescript/image/fetch/dpr_auto,f_auto,q_auto:good/`
 
@@ -18,7 +19,7 @@ export async function getStaticProps() {
   }
 }
 
-const WorkshopsPage: React.FC<{modules: SanityDocument[]}> = ({modules}) => {
+const WorkshopsPage: React.FC<{modules: Module[]}> = ({modules}) => {
   return (
     <Layout
       meta={{
@@ -38,8 +39,9 @@ const WorkshopsPage: React.FC<{modules: SanityDocument[]}> = ({modules}) => {
         </p>
         {modules && (
           <ul className="flex max-w-screen-md flex-col gap-5 px-5 pt-10 sm:gap-8 sm:pt-20">
-            {modules.map(
-              ({title, slug, image, description, sections, state}, i) => {
+            {modules
+              .filter((module) => module.image)
+              .map(({title, slug, image, description, sections, state}, i) => {
                 return (
                   <li
                     key={slug.current}
@@ -89,7 +91,7 @@ const WorkshopsPage: React.FC<{modules: SanityDocument[]}> = ({modules}) => {
                           <>
                             {sections.length} sections,{' '}
                             {sections.reduce(
-                              (acc: number, section: {lessons?: any[]}) =>
+                              (acc: number, section: Section) =>
                                 section.lessons?.length
                                   ? section.lessons?.length + acc
                                   : acc,
@@ -101,7 +103,6 @@ const WorkshopsPage: React.FC<{modules: SanityDocument[]}> = ({modules}) => {
                           <br />
                         )}
                       </div>
-
                       {description && (
                         <p className="text-gray-300">{description}</p>
                       )}
@@ -133,8 +134,7 @@ const WorkshopsPage: React.FC<{modules: SanityDocument[]}> = ({modules}) => {
                     <StripesLeft className="absolute left-0 top-0 hidden w-5 md:block" />
                   </li>
                 )
-              },
-            )}
+              })}
           </ul>
         )}
       </main>

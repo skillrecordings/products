@@ -49,15 +49,15 @@ const ModuleLessonListHeader: React.FC<SidebarProps> = ({
                 )}
                 <div className="relative z-10 -translate-y-0.5">
                   <Link
-                    href={`/${module.moduleType}s`}
+                    href={path}
                     className="font-mono text-xs font-semibold uppercase text-gray-300 hover:underline"
                     onClick={() => {
-                      track(`clicked return to ${module.moduleType}s`, {
+                      track(`clicked return to ${path}`, {
                         module: module.slug.current,
                       })
                     }}
                   >
-                    {module.moduleType}s
+                    {path.replace('/', '')}
                   </Link>
                   <span className="pl-1 text-xs text-gray-400">/</span>
                   <h2 className="w-full text-2xl font-semibold leading-none">

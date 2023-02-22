@@ -29,7 +29,7 @@ import WorkshopCertificate from 'certificate/workshop-certificate'
 const WorkshopTemplate: React.FC<{
   workshop: Module
 }> = ({workshop}) => {
-  const {title, body, ogImage, image, description} = workshop
+  const {title, body, ogImage, image, description, moduleType} = workshop
   const pageTitle = `${title} Workshop`
 
   return (
@@ -52,7 +52,9 @@ const WorkshopTemplate: React.FC<{
         </article>
         <div className="w-full lg:max-w-xs">
           {workshop && <WorkshopSectionNavigator workshop={workshop} />}
-          <WorkshopCertificate workshop={workshop} />
+          {moduleType !== 'interview' && (
+            <WorkshopCertificate workshop={workshop} />
+          )}
         </div>
       </main>
     </Layout>
@@ -191,6 +193,8 @@ const WorkshopSectionNavigator: React.FC<{
     initialOpenedSections as string[],
   )
 
+  const firstSection = sections && sections[0]
+
   React.useEffect(() => {
     nextSection?.slug && setOpenedSections([nextSection?.slug])
   }, [nextSection?.slug])
@@ -200,7 +204,7 @@ const WorkshopSectionNavigator: React.FC<{
       aria-label="workshop navigator"
       className="w-full bg-black/20 py-8 px-5 lg:max-w-xs lg:bg-transparent lg:px-0 lg:py-0"
     >
-      {sections && (
+      {sections && sections.length > 1 && (
         <Accordion.Root
           type="multiple"
           onValueChange={(e) => setOpenedSections(e)}
@@ -233,6 +237,31 @@ const WorkshopSectionNavigator: React.FC<{
             })}
           </ul>
         </Accordion.Root>
+      )}
+      {sections && sections.length === 1 && (
+        <>
+          <div className="flex w-full items-center justify-between pb-3">
+            <h2 className="text-2xl font-semibold">Contents</h2>
+            <h3 className="font-mono text-sm font-semibold uppercase text-gray-300">
+              {firstSection?.lessons?.length || 0} Lessons
+            </h3>
+          </div>
+          <ul>
+            {firstSection &&
+              firstSection?.lessons?.map((lesson, idx) => {
+                return (
+                  <LessonListItem
+                    isInSection={false}
+                    index={idx}
+                    lessonResource={lesson}
+                    section={sections[0]}
+                    workshop={workshop}
+                    key={lesson.slug}
+                  />
+                )
+              })}
+          </ul>
+        </>
       )}
     </nav>
   ) : (
@@ -320,11 +349,13 @@ const LessonListItem = ({
   section,
   workshop,
   index,
+  isInSection = true,
 }: {
   lessonResource: Lesson
   section: Section
   workshop: Module
   index: number
+  isInSection?: boolean
 }) => {
   const moduleProgress = useModuleProgress()
 
@@ -355,6 +386,7 @@ const LessonListItem = ({
           'group inline-flex w-full flex-col justify-center py-2.5 pl-3.5 pr-3 text-base font-medium',
           {
             'bg-gradient-to-r from-cyan-300/5 to-transparent': isNextLesson,
+            'rounded-md': !isInSection,
           },
         )}
         onClick={() => {

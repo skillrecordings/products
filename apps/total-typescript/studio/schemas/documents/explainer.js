@@ -30,6 +30,7 @@ export default {
           {title: 'Module intro', value: 'moduleIntro'},
           {title: 'Module outro', value: 'moduleOutro'},
           {title: 'Section intro', value: 'sectionIntro'},
+          {title: 'Interview', value: 'interview'},
           {title: 'General (other)', value: 'general'},
         ],
       },

@@ -5,6 +5,7 @@ import tutorials from './src/structure/tutorials'
 import workshops from './src/structure/workshops'
 import pricing from './src/structure/pricing'
 import products from './src/structure/products'
+import interviews from './src/structure/interviews'
 
 const hiddenDocTypes = (listItem) =>
   ![
@@ -26,6 +27,7 @@ export default () =>
       S.divider(),
       workshops,
       tutorials,
+      interviews,
       S.divider(),
       tips,
       articles,

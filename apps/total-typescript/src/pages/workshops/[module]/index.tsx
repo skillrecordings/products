@@ -1,7 +1,4 @@
 import React from 'react'
-
-import {User} from '@skillrecordings/database'
-import {SanityDocument} from '@sanity/client'
 import {GetStaticPaths, GetStaticProps} from 'next'
 import WorkshopTemplate from '../../../templates/workshop-template'
 import {getAllWorkshops, getWorkshop} from '../../../lib/workshops'

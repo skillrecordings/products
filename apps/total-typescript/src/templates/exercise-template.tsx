@@ -32,8 +32,10 @@ const ExerciseTemplate: React.FC<{
   const pageTitle = `${title}`
   const pageDescription = exerciseDescription || moduleDescription
   const shareCard = ogImage ? {ogImage: {url: ogImage}} : {}
-  //TODO path here could also include module slug and section (as appropriate)
-  const path = `/${module.moduleType}s`
+  // TODO: path here could also include module slug and section (as appropriate)
+  // NOTE: interviews live under workshops currently - remove the condition below if they end up with their own respective route
+  const path =
+    module.moduleType === 'interview' ? '/workshops' : `/${module.moduleType}s`
   const {data: session} = useSession()
 
   return (
