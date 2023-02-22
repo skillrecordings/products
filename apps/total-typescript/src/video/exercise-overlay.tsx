@@ -402,7 +402,7 @@ const FinishedOverlay = () => {
       lessonSlug: router.query.lesson as string,
       moduleSlug: module.slug.current as string,
     })
-  }, [])
+  }, [markedComplete])
 
   return (
     <OverlayWrapper className="px-5 pt-10 sm:pt-0">
