@@ -396,12 +396,12 @@ const FinishedOverlay = () => {
           },
         },
       )
+      completeLessonConvertkitMutation.mutate({
+        lessonSlug: router.query.lesson as string,
+        moduleSlug: module.slug.current as string,
+      })
       setMarkedComplete(true)
     }
-    completeLessonConvertkitMutation.mutate({
-      lessonSlug: router.query.lesson as string,
-      moduleSlug: module.slug.current as string,
-    })
   }, [markedComplete])
 
   return (
