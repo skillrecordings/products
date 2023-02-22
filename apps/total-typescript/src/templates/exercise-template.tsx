@@ -16,6 +16,7 @@ import {LessonDescription} from '../video/lesson-description'
 import {LessonTitle} from 'video/lesson-title'
 import {VideoTranscript} from 'video/video-transcript'
 import {MuxPlayerRefAttributes} from '@mux/mux-player-react/*'
+import {trpc} from '../trpc/trpc.client'
 
 const ExerciseTemplate: React.FC<{
   transcript: any[]
@@ -33,11 +34,26 @@ const ExerciseTemplate: React.FC<{
   //TODO path here could also include module slug and section (as appropriate)
   const path = `/${module.moduleType}s`
 
+  const addProgressMutation = trpc.progress.add.useMutation()
+  const utils = trpc.useContext()
+
   return (
     <VideoProvider
       muxPlayerRef={muxPlayerRef}
       exerciseSlug={router.query.lesson as string}
       path={path}
+      onModuleEnded={async () => {
+        addProgressMutation.mutate(
+          {lessonSlug: router.query.lesson as string},
+          {
+            onSettled: () => {
+              utils.moduleProgress.bySlug.invalidate({
+                slug: module.slug.current,
+              })
+            },
+          },
+        )
+      }}
     >
       <Layout
         meta={{title: pageTitle, ...shareCard, description: pageDescription}}
