@@ -19,6 +19,7 @@ import {MuxPlayerRefAttributes} from '@mux/mux-player-react/*'
 import {trpc} from '../trpc/trpc.client'
 import LessonCompletionToggle from 'video/lesson-completion-toggle'
 import {useSession} from 'next-auth/react'
+import {useQueryClient} from '@tanstack/react-query'
 
 const ExerciseTemplate: React.FC<{
   transcript: any[]
@@ -38,7 +39,7 @@ const ExerciseTemplate: React.FC<{
   const {data: session} = useSession()
 
   const addProgressMutation = trpc.progress.add.useMutation()
-  const utils = trpc.useContext()
+  const client = useQueryClient()
 
   return (
     <VideoProvider
@@ -50,9 +51,7 @@ const ExerciseTemplate: React.FC<{
           {lessonSlug: router.query.lesson as string},
           {
             onSettled: () => {
-              utils.moduleProgress.bySlug.invalidate({
-                slug: module.slug.current,
-              })
+              client.invalidateQueries()
             },
           },
         )
