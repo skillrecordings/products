@@ -39,7 +39,7 @@ export const getExerciseMuxPlaybackId = async (exerciseSlug: string) => {
 
 export const getExerciseMedia = async (exerciseSlug: string) => {
   const exerciseMedia = await sanityClient.fetch(
-    groq`*[_type in ['exercise', 'explainer'] && slug.current == $slug][0]{
+    groq`*[_type in ['exercise', 'explainer', 'interview'] && slug.current == $slug][0]{
       "slug": slug.current,
       body,
       "stackblitz": resources[@._type == 'stackblitz'][0].openFile,
@@ -64,7 +64,7 @@ export const getExercise = async (
   includeMedia: boolean = true,
 ): Promise<Exercise> => {
   const exercise = await sanityClient.fetch(
-    `*[_type in ['exercise', 'explainer'] && slug.current == $slug][0]{
+    `*[_type in ['exercise', 'explainer', 'interview'] && slug.current == $slug][0]{
       _id,
       _type,
       _updatedAt,
@@ -96,7 +96,7 @@ export const getExercise = async (
 
 export const getAllExercises = async (): Promise<Exercise[]> => {
   const lessons =
-    await sanityClient.fetch(groq`*[_type in ['exercise', 'explainer']]{
+    await sanityClient.fetch(groq`*[_type in ['exercise', 'explainer', 'interview']]{
       _id,
       _type,
       _updatedAt,

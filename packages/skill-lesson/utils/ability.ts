@@ -48,7 +48,8 @@ const canViewTutorial = ({user, subscriber, module}: ViewerAbilityInput) => {
 }
 
 const canViewWorkshop = ({user, module, lesson}: ViewerAbilityInput) => {
-  const contentIsWorkshop = module?.moduleType === 'workshop'
+  const contentIsWorkshop =
+    module?.moduleType === 'workshop' || module?.moduleType === 'playlist'
 
   const purchases = user?.purchases || []
   const userHasPurchaseWithAccess = Boolean(

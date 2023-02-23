@@ -37,15 +37,15 @@ export function useFileChange() {
       return
     }
 
-    if (fileObj.size > 100000000) {
-      fileDispatch({
-        type: 'FILE_CHANGE_FAILURE',
-        fileError: `File is too large, file size is ${bytesToMb(
-          fileObj.size,
-        ).toFixed(2)} MB, maximum allowed size - 1 MB.`,
-      })
-      return
-    }
+    // if (fileObj.size > 10000000000) {
+    //   fileDispatch({
+    //     type: 'FILE_CHANGE_FAILURE',
+    //     fileError: `File is too large, file size is ${bytesToMb(
+    //       fileObj.size,
+    //     ).toFixed(2)} MB, maximum allowed size - 1 MB.`,
+    //   })
+    //   return
+    // }
 
     // eslint-disable-next-line no-param-reassign
     event.target.value = ''
