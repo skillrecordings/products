@@ -317,3 +317,24 @@ sub {
   bottom: -0.25em;
   vertical-align: sub;
 }
+
+#buy-more-seats {
+  #team-upgrade-pricing-inline {
+    @apply flex flex-col sm:flex-row;
+  }
+  [data-pricing-product-header] {
+    @apply flex flex-col pt-5 sm:flex-row sm:pt-0;
+  }
+  [data-loading-price] {
+    @apply flex h-full w-full items-center justify-center;
+  }
+  [data-price] {
+    @apply items-center text-4xl;
+    span {
+      @apply self-start;
+    }
+  }
+  button[type='submit'] {
+    @apply px-8 font-semibold;
+  }
+}
