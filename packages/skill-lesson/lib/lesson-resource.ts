@@ -24,7 +24,7 @@ export type Lesson = z.infer<typeof LessonSchema>
 
 export const getLesson = async (slug: string): Promise<Lesson> => {
   const exercise = await sanityClient.fetch(
-    `*[_type in ['lesson', 'exercise', 'explainer', 'tip'] && slug.current == $slug][0]{
+    `*[_type in ['lesson', 'exercise', 'explainer', 'tip', 'interview'] && slug.current == $slug][0]{
       _id,
       _type,
       _updatedAt,
@@ -50,7 +50,7 @@ export const getLesson = async (slug: string): Promise<Lesson> => {
 
 export const getAllLessons = async (): Promise<Lesson[]> => {
   const lessons =
-    await sanityClient.fetch(groq`*[_type in ['lesson', 'exercise', 'explainer']]{
+    await sanityClient.fetch(groq`*[_type in ['lesson', 'exercise', 'explainer', 'interview']]{
       _id,
       _type,
       _updatedAt,

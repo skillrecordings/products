@@ -82,7 +82,7 @@ export const getModule = async (slug: string) =>
           },
           "resources": resources[@->._type in ['linkResource']]->
         },
-        "lessons": resources[@->._type in ['lesson', 'exercise', 'explainer']]->{
+        "lessons": resources[@->._type in ['lesson', 'exercise', 'explainer', 'interview']]->{
           _id,
           _type,
           _updatedAt,
