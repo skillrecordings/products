@@ -380,34 +380,38 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
               <strong>Workshops</strong>
               {modules && (
                 <ul data-workshops="" role="list">
-                  {modules.map((module) => {
-                    const getLabelForState = (state: any) => {
-                      switch (state) {
-                        case 'draft':
-                          return 'Coming soon'
-                        default:
-                          return ''
+                  {modules
+                    .filter((module) => module.moduleType === 'workshop')
+                    .map((module) => {
+                      const getLabelForState = (state: any) => {
+                        switch (state) {
+                          case 'draft':
+                            return 'Coming soon'
+                          default:
+                            return ''
+                        }
                       }
-                    }
-                    return (
-                      <li key={module.title}>
-                        <div data-image="" aria-hidden="true">
-                          <Image
-                            src={module.image.url}
-                            layout="fill"
-                            alt={module.title}
-                            aria-hidden="true"
-                          />
-                        </div>
-                        <div>
-                          <p>{module.title}</p>
-                          <div data-state={module.state}>
-                            {getLabelForState(module.state)}
+                      return (
+                        <li key={module.title}>
+                          {module.image && (
+                            <div data-image="" aria-hidden="true">
+                              <Image
+                                src={module.image.url}
+                                layout="fill"
+                                alt={module.title}
+                                aria-hidden="true"
+                              />
+                            </div>
+                          )}
+                          <div>
+                            <p>{module.title}</p>
+                            <div data-state={module.state}>
+                              {getLabelForState(module.state)}
+                            </div>
                           </div>
-                        </div>
-                      </li>
-                    )
-                  })}
+                        </li>
+                      )
+                    })}
                 </ul>
               )}
               {features && (

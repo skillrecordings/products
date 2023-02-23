@@ -44,6 +44,7 @@ export type SanityProduct = {
     alt: string
   }
   modules: {
+    moduleType: 'workshop' | 'playlist'
     title: string
     state?: 'draft' | 'published'
     image: {
