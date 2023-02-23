@@ -267,16 +267,16 @@ importers:
       '@skillrecordings/types': workspace:*
       '@slack/web-api': ^6.7.2
       '@tailwindcss/typography': ^0.5.2
-      '@tanstack/react-query': ^4.24.10
+      '@tanstack/react-query': ^4.20.4
       '@tiptap/extension-highlight': ^2.0.0-beta.33
       '@tiptap/extension-link': ^2.0.0-beta.37
       '@tiptap/extension-typography': ^2.0.0-beta.20
       '@tiptap/react': ^2.0.0-beta.109
       '@tiptap/starter-kit': ^2.0.0-beta.184
-      '@trpc/client': '=10.12.0'
-      '@trpc/next': '=10.12.0'
-      '@trpc/react-query': '=10.12.0'
-      '@trpc/server': '=10.12.0'
+      '@trpc/client': '=10.7.0'
+      '@trpc/next': '=10.7.0'
+      '@trpc/react-query': '=10.7.0'
+      '@trpc/server': '=10.7.0'
       '@types/cookie': ^0.4.1
       '@types/jsonwebtoken': ^8.5.8
       '@types/mdx': ^2.0.2
@@ -352,16 +352,16 @@ importers:
       '@skillrecordings/skill-lesson': link:../../packages/skill-lesson
       '@slack/web-api': 6.7.2
       '@tailwindcss/typography': 0.5.7_tailwindcss@3.2.4
-      '@tanstack/react-query': 4.24.10_biqbaboplfbrettd7655fr4n2y
+      '@tanstack/react-query': 4.20.4_biqbaboplfbrettd7655fr4n2y
       '@tiptap/extension-highlight': 2.0.0-beta.33
       '@tiptap/extension-link': 2.0.0-beta.37
       '@tiptap/extension-typography': 2.0.0-beta.20
       '@tiptap/react': 2.0.0-beta.109_biqbaboplfbrettd7655fr4n2y
       '@tiptap/starter-kit': 2.0.0-beta.184
-      '@trpc/client': 10.12.0_@trpc+server@10.12.0
-      '@trpc/next': 10.12.0_iagzbwbntvokptq7au22jyvqgi
-      '@trpc/react-query': 10.12.0_tij422wpfxfl3iixjhzsgwgs2e
-      '@trpc/server': 10.12.0
+      '@trpc/client': 10.7.0_@trpc+server@10.7.0
+      '@trpc/next': 10.7.0_ugkwfq4p7rtp4nzc2ulppxnmju
+      '@trpc/react-query': 10.7.0_x4ie6nhblo2vtx2aafrgzlfqy4
+      '@trpc/server': 10.7.0
       classnames: 2.3.1
       date-fns: 2.28.0
       feed: 4.2.2
@@ -442,11 +442,11 @@ importers:
       '@skillrecordings/types': workspace:*
       '@slack/web-api': ^6.7.2
       '@tailwindcss/typography': ^0.5.2
-      '@tanstack/react-query': ^4.24.10
-      '@trpc/client': '=10.12.0'
-      '@trpc/next': '=10.12.0'
-      '@trpc/react-query': '=10.12.0'
-      '@trpc/server': '=10.12.0'
+      '@tanstack/react-query': ^4.20.4
+      '@trpc/client': '=10.7.0'
+      '@trpc/next': '=10.7.0'
+      '@trpc/react-query': '=10.7.0'
+      '@trpc/server': '=10.7.0'
       '@types/cookie': ^0.4.1
       '@types/js-cookie': ^3.0.2
       '@types/jsonwebtoken': ^8.5.8
@@ -526,11 +526,11 @@ importers:
       '@skillrecordings/time': link:../../packages/time
       '@slack/web-api': 6.7.2
       '@tailwindcss/typography': 0.5.2_tailwindcss@3.1.6
-      '@tanstack/react-query': 4.24.10_biqbaboplfbrettd7655fr4n2y
-      '@trpc/client': 10.12.0_@trpc+server@10.12.0
-      '@trpc/next': 10.12.0_iagzbwbntvokptq7au22jyvqgi
-      '@trpc/react-query': 10.12.0_tij422wpfxfl3iixjhzsgwgs2e
-      '@trpc/server': 10.12.0
+      '@tanstack/react-query': 4.20.4_biqbaboplfbrettd7655fr4n2y
+      '@trpc/client': 10.7.0_@trpc+server@10.7.0
+      '@trpc/next': 10.7.0_ugkwfq4p7rtp4nzc2ulppxnmju
+      '@trpc/react-query': 10.7.0_x4ie6nhblo2vtx2aafrgzlfqy4
+      '@trpc/server': 10.7.0
       '@types/lodash': 4.14.179
       classnames: 2.3.1
       cloudinary: 1.29.0
@@ -636,11 +636,11 @@ importers:
       '@skillrecordings/tsconfig': workspace:*
       '@skillrecordings/types': workspace:*
       '@tailwindcss/typography': ^0.5.7
-      '@tanstack/react-query': ^4.24.10
-      '@trpc/client': '=10.12.0'
-      '@trpc/next': '=10.12.0'
-      '@trpc/react-query': '=10.12.0'
-      '@trpc/server': '=10.12.0'
+      '@tanstack/react-query': ^4.20.4
+      '@trpc/client': '=10.7.0'
+      '@trpc/next': '=10.7.0'
+      '@trpc/react-query': '=10.7.0'
+      '@trpc/server': '=10.7.0'
       '@types/cookie': ^0.4.1
       '@types/jest': ^27.5.2
       '@types/js-cookie': ^3.0.2
@@ -737,11 +737,11 @@ importers:
       '@skillrecordings/skill-lesson': link:../../packages/skill-lesson
       '@skillrecordings/time': link:../../packages/time
       '@tailwindcss/typography': 0.5.7_tailwindcss@3.1.4
-      '@tanstack/react-query': 4.24.10_biqbaboplfbrettd7655fr4n2y
-      '@trpc/client': 10.12.0_@trpc+server@10.12.0
-      '@trpc/next': 10.12.0_iagzbwbntvokptq7au22jyvqgi
-      '@trpc/react-query': 10.12.0_tij422wpfxfl3iixjhzsgwgs2e
-      '@trpc/server': 10.12.0
+      '@tanstack/react-query': 4.20.4_biqbaboplfbrettd7655fr4n2y
+      '@trpc/client': 10.7.0_@trpc+server@10.7.0
+      '@trpc/next': 10.7.0_ugkwfq4p7rtp4nzc2ulppxnmju
+      '@trpc/react-query': 10.7.0_x4ie6nhblo2vtx2aafrgzlfqy4
+      '@trpc/server': 10.7.0
       '@xstate/react': 1.5.1_bpg42ha2il6pcyn3wrx2rxrchm
       classnames: 2.3.1
       date-fns: 2.28.0
@@ -812,11 +812,11 @@ importers:
     specifiers:
       '@frontapp/plugin-sdk': ^1.0.1
       '@frontapp/ui-bridge': ^2.0.0-beta1
-      '@tanstack/react-query': ^4.24.10
-      '@trpc/client': '=10.12.0'
-      '@trpc/next': '=10.12.0'
-      '@trpc/react-query': '=10.12.0'
-      '@trpc/server': '=10.12.0'
+      '@tanstack/react-query': ^4.20.4
+      '@trpc/client': '=10.7.0'
+      '@trpc/next': '=10.7.0'
+      '@trpc/react-query': '=10.7.0'
+      '@trpc/server': '=10.7.0'
       '@types/lodash': ^4.14.186
       '@types/node': 18.0.0
       '@types/react': 18.0.14
@@ -842,11 +842,11 @@ importers:
     dependencies:
       '@frontapp/plugin-sdk': 1.4.0
       '@frontapp/ui-bridge': 2.0.0-beta10
-      '@tanstack/react-query': 4.24.10_biqbaboplfbrettd7655fr4n2y
-      '@trpc/client': 10.12.0_@trpc+server@10.12.0
-      '@trpc/next': 10.12.0_g4vgttib7iziykwqrysm3sz7eu
-      '@trpc/react-query': 10.12.0_tij422wpfxfl3iixjhzsgwgs2e
-      '@trpc/server': 10.12.0
+      '@tanstack/react-query': 4.20.4_biqbaboplfbrettd7655fr4n2y
+      '@trpc/client': 10.7.0_@trpc+server@10.7.0
+      '@trpc/next': 10.7.0_d3ztwackgnqsj6s7tqkdtmz3oe
+      '@trpc/react-query': 10.7.0_x4ie6nhblo2vtx2aafrgzlfqy4
+      '@trpc/server': 10.7.0
       axios: 0.26.1
       lodash: 4.17.21
       next: 12.3.1_biqbaboplfbrettd7655fr4n2y
@@ -1119,16 +1119,16 @@ importers:
       '@skillrecordings/types': workspace:*
       '@slack/web-api': ^6.7.2
       '@tailwindcss/typography': ^0.5.2
-      '@tanstack/react-query': ^4.24.10
+      '@tanstack/react-query': ^4.20.4
       '@tiptap/extension-highlight': ^2.0.0-beta.33
       '@tiptap/extension-link': ^2.0.0-beta.37
       '@tiptap/extension-typography': ^2.0.0-beta.20
       '@tiptap/react': ^2.0.0-beta.109
       '@tiptap/starter-kit': ^2.0.0-beta.184
-      '@trpc/client': '=10.12.0'
-      '@trpc/next': '=10.12.0'
-      '@trpc/react-query': '=10.12.0'
-      '@trpc/server': '=10.12.0'
+      '@trpc/client': '=10.7.0'
+      '@trpc/next': '=10.7.0'
+      '@trpc/react-query': '=10.7.0'
+      '@trpc/server': '=10.7.0'
       '@types/cookie': ^0.4.1
       '@types/jsonwebtoken': ^8.5.8
       '@types/mdx': ^2.0.2
@@ -1205,16 +1205,16 @@ importers:
       '@skillrecordings/skill-lesson': link:../../packages/skill-lesson
       '@slack/web-api': 6.7.2
       '@tailwindcss/typography': 0.5.7_tailwindcss@3.2.4
-      '@tanstack/react-query': 4.24.10_biqbaboplfbrettd7655fr4n2y
+      '@tanstack/react-query': 4.20.4_biqbaboplfbrettd7655fr4n2y
       '@tiptap/extension-highlight': 2.0.0-beta.33
       '@tiptap/extension-link': 2.0.0-beta.37
       '@tiptap/extension-typography': 2.0.0-beta.20
       '@tiptap/react': 2.0.0-beta.109_biqbaboplfbrettd7655fr4n2y
       '@tiptap/starter-kit': 2.0.0-beta.184
-      '@trpc/client': 10.12.0_@trpc+server@10.12.0
-      '@trpc/next': 10.12.0_iagzbwbntvokptq7au22jyvqgi
-      '@trpc/react-query': 10.12.0_tij422wpfxfl3iixjhzsgwgs2e
-      '@trpc/server': 10.12.0
+      '@trpc/client': 10.7.0_@trpc+server@10.7.0
+      '@trpc/next': 10.7.0_ugkwfq4p7rtp4nzc2ulppxnmju
+      '@trpc/react-query': 10.7.0_x4ie6nhblo2vtx2aafrgzlfqy4
+      '@trpc/server': 10.7.0
       classnames: 2.3.1
       date-fns: 2.28.0
       feed: 4.2.2
@@ -1294,7 +1294,7 @@ importers:
       '@skillrecordings/types': workspace:*
       '@slack/web-api': ^6.7.2
       '@tailwindcss/typography': ^0.5.2
-      '@tanstack/react-query': ^4.24.10
+      '@tanstack/react-query': ^4.20.4
       '@trpc/client': ^10.7.0
       '@trpc/next': ^10.7.0
       '@trpc/react-query': ^10.7.0
@@ -1371,10 +1371,10 @@ importers:
       '@skillrecordings/skill-lesson': link:../../packages/skill-lesson
       '@slack/web-api': 6.7.2
       '@tailwindcss/typography': 0.5.7_tailwindcss@3.2.4
-      '@tanstack/react-query': 4.24.10_biqbaboplfbrettd7655fr4n2y
+      '@tanstack/react-query': 4.20.4_biqbaboplfbrettd7655fr4n2y
       '@trpc/client': 10.7.0_@trpc+server@10.7.0
-      '@trpc/next': 10.7.0_yjl4hfb5heuefbvza7aixfm3mi
-      '@trpc/react-query': 10.7.0_vzeg6rxdr3hmv57yie2tqx2dji
+      '@trpc/next': 10.7.0_ugkwfq4p7rtp4nzc2ulppxnmju
+      '@trpc/react-query': 10.7.0_x4ie6nhblo2vtx2aafrgzlfqy4
       '@trpc/server': 10.7.0
       classnames: 2.3.1
       date-fns: 2.28.0
@@ -1779,16 +1779,16 @@ importers:
       '@skillrecordings/types': workspace:*
       '@stackblitz/sdk': ^1.8.0
       '@tailwindcss/typography': ^0.5.2
-      '@tanstack/react-query': ^4.24.10
+      '@tanstack/react-query': ^4.20.4
       '@tiptap/extension-highlight': ^2.0.0-beta.33
       '@tiptap/extension-link': ^2.0.0-beta.37
       '@tiptap/extension-typography': ^2.0.0-beta.20
       '@tiptap/react': ^2.0.0-beta.109
       '@tiptap/starter-kit': ^2.0.0-beta.184
-      '@trpc/client': '=10.12.0'
-      '@trpc/next': '=10.12.0'
-      '@trpc/react-query': '=10.12.0'
-      '@trpc/server': '=10.12.0'
+      '@trpc/client': '=10.7.0'
+      '@trpc/next': '=10.7.0'
+      '@trpc/react-query': '=10.7.0'
+      '@trpc/server': '=10.7.0'
       '@types/cookie': ^0.4.1
       '@types/jest': ^27.5.2
       '@types/js-cookie': ^3.0.2
@@ -1913,16 +1913,16 @@ importers:
       '@skillrecordings/time': link:../../packages/time
       '@stackblitz/sdk': 1.8.0
       '@tailwindcss/typography': 0.5.2_tailwindcss@3.1.6
-      '@tanstack/react-query': 4.24.10_biqbaboplfbrettd7655fr4n2y
+      '@tanstack/react-query': 4.20.4_biqbaboplfbrettd7655fr4n2y
       '@tiptap/extension-highlight': 2.0.0-beta.33
       '@tiptap/extension-link': 2.0.0-beta.37
       '@tiptap/extension-typography': 2.0.0-beta.20
       '@tiptap/react': 2.0.0-beta.109_biqbaboplfbrettd7655fr4n2y
       '@tiptap/starter-kit': 2.0.0-beta.184
-      '@trpc/client': 10.12.0_@trpc+server@10.12.0
-      '@trpc/next': 10.12.0_iagzbwbntvokptq7au22jyvqgi
-      '@trpc/react-query': 10.12.0_tij422wpfxfl3iixjhzsgwgs2e
-      '@trpc/server': 10.12.0
+      '@trpc/client': 10.7.0_@trpc+server@10.7.0
+      '@trpc/next': 10.7.0_ugkwfq4p7rtp4nzc2ulppxnmju
+      '@trpc/react-query': 10.7.0_x4ie6nhblo2vtx2aafrgzlfqy4
+      '@trpc/server': 10.7.0
       '@vercel/og': 0.1.0
       '@xstate/react': 1.5.1_bpg42ha2il6pcyn3wrx2rxrchm
       aws-sdk: 2.1300.0
@@ -2163,13 +2163,13 @@ importers:
       '@stripe/stripe-js': ^1.21.1
       '@supabase/supabase-js': ^1.29.1
       '@tailwindcss/typography': ^0.5.2
-      '@tanstack/react-query': ^4.24.10
+      '@tanstack/react-query': ^4.20.4
       '@testing-library/jest-dom': ^5.15.0
       '@testing-library/react': ^12.1.2
-      '@trpc/client': '=10.12.0'
-      '@trpc/next': '=10.12.0'
-      '@trpc/react-query': '=10.12.0'
-      '@trpc/server': '=10.12.0'
+      '@trpc/client': '=10.7.0'
+      '@trpc/next': '=10.7.0'
+      '@trpc/react-query': '=10.7.0'
+      '@trpc/server': '=10.7.0'
       '@types/axios': ^0.14.0
       '@types/cookie': ^0.4.1
       '@types/isomorphic-fetch': ^0.0.35
@@ -2288,11 +2288,11 @@ importers:
       '@skillrecordings/time': link:../../packages/time
       '@stripe/stripe-js': 1.21.1
       '@supabase/supabase-js': 1.29.1
-      '@tanstack/react-query': 4.24.10_biqbaboplfbrettd7655fr4n2y
-      '@trpc/client': 10.12.0_@trpc+server@10.12.0
-      '@trpc/next': 10.12.0_iagzbwbntvokptq7au22jyvqgi
-      '@trpc/react-query': 10.12.0_tij422wpfxfl3iixjhzsgwgs2e
-      '@trpc/server': 10.12.0
+      '@tanstack/react-query': 4.20.4_biqbaboplfbrettd7655fr4n2y
+      '@trpc/client': 10.7.0_@trpc+server@10.7.0
+      '@trpc/next': 10.7.0_ugkwfq4p7rtp4nzc2ulppxnmju
+      '@trpc/react-query': 10.7.0_x4ie6nhblo2vtx2aafrgzlfqy4
+      '@trpc/server': 10.7.0
       '@types/js-cookie': 3.0.2
       '@types/jsonwebtoken': 8.5.8
       '@xstate/react': 1.5.1_bpg42ha2il6pcyn3wrx2rxrchm
@@ -3331,11 +3331,11 @@ importers:
       '@skillrecordings/scripts': workspace:*
       '@skillrecordings/skill-api': workspace:*
       '@skillrecordings/time': workspace:*
-      '@tanstack/react-query': ^4.24.10
-      '@trpc/client': '=10.12.0'
-      '@trpc/next': '=10.12.0'
-      '@trpc/react-query': '=10.12.0'
-      '@trpc/server': '=10.12.0'
+      '@tanstack/react-query': ^4.20.4
+      '@trpc/client': '=10.7.0'
+      '@trpc/next': '=10.7.0'
+      '@trpc/react-query': '=10.7.0'
+      '@trpc/server': '=10.7.0'
       '@types/cookie': ^0.4.1
       '@types/jest': ^27.5.2
       '@types/js-cookie': ^3.0.2
@@ -3382,11 +3382,11 @@ importers:
       '@skillrecordings/scripts': link:../scripts
       '@skillrecordings/skill-api': link:../skill-api
       '@skillrecordings/time': link:../time
-      '@tanstack/react-query': 4.24.10_biqbaboplfbrettd7655fr4n2y
-      '@trpc/client': 10.12.0_@trpc+server@10.12.0
-      '@trpc/next': 10.12.0_iagzbwbntvokptq7au22jyvqgi
-      '@trpc/react-query': 10.12.0_tij422wpfxfl3iixjhzsgwgs2e
-      '@trpc/server': 10.12.0
+      '@tanstack/react-query': 4.20.4_biqbaboplfbrettd7655fr4n2y
+      '@trpc/client': 10.7.0_@trpc+server@10.7.0
+      '@trpc/next': 10.7.0_ugkwfq4p7rtp4nzc2ulppxnmju
+      '@trpc/react-query': 10.7.0_x4ie6nhblo2vtx2aafrgzlfqy4
+      '@trpc/server': 10.7.0
       '@types/cookie': 0.4.1
       '@types/jest': 27.5.2
       '@types/js-cookie': 3.0.2
@@ -11772,12 +11772,12 @@ packages:
       tailwindcss: 3.2.4
     dev: false
 
-  /@tanstack/query-core/4.24.10:
-    resolution: {integrity: sha512-2QywqXEAGBIUoTdgn1lAB4/C8QEqwXHj2jrCLeYTk2xVGtLiPEUD8jcMoeB2noclbiW2mMt4+Fq7fZStuz3wAQ==}
+  /@tanstack/query-core/4.20.4:
+    resolution: {integrity: sha512-lhLtGVNJDsJ/DyZXrLzekDEywQqRVykgBqTmkv0La32a/RleILXy6JMLBb7UmS3QCatg/F/0N9/5b0i5j6IKcA==}
     dev: false
 
-  /@tanstack/react-query/4.24.10_biqbaboplfbrettd7655fr4n2y:
-    resolution: {integrity: sha512-FY1DixytOcNNCydPQXLxuKEV7VSST32CAuJ55BjhDNqASnMLZn+6c30yQBMrODjmWMNwzfjMZnq0Vw7C62Fwow==}
+  /@tanstack/react-query/4.20.4_biqbaboplfbrettd7655fr4n2y:
+    resolution: {integrity: sha512-SJRxx13k/csb9lXAJfycgVA1N/yU/h3bvRNWP0+aHMfMjmbyX82FdoAcckDBbOdEyAupvb0byelNHNeypCFSyA==}
     peerDependencies:
       react: ^16.8.0 || ^17.0.0 || ^18.0.0
       react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0
@@ -11788,7 +11788,7 @@ packages:
       react-native:
         optional: true
     dependencies:
-      '@tanstack/query-core': 4.24.10
+      '@tanstack/query-core': 4.20.4
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
       use-sync-external-store: 1.2.0_react@18.2.0
@@ -12258,14 +12258,6 @@ packages:
     engines: {node: '>= 10'}
     dev: false
 
-  /@trpc/client/10.12.0_@trpc+server@10.12.0:
-    resolution: {integrity: sha512-CUBRaE0FpYiRnPGkFB9oLD2cdFd5fSzQwPSR7/zXNKMjwdE+5P7q5mtgbh3bFey3lYidmpKDFgYRnl9Cz2Z7OQ==}
-    peerDependencies:
-      '@trpc/server': 10.12.0
-    dependencies:
-      '@trpc/server': 10.12.0
-    dev: false
-
   /@trpc/client/10.7.0_@trpc+server@10.7.0:
     resolution: {integrity: sha512-xCPc2hp37REJst6TXMkJvdc85CHvxpVY6YVdZIjl7uCYoQcrstwy8AWi7ElB3x7e19Cweke+9CAaUXKwAE1AKQ==}
     peerDependencies:
@@ -12274,49 +12266,7 @@ packages:
       '@trpc/server': 10.7.0
     dev: false
 
-  /@trpc/next/10.12.0_g4vgttib7iziykwqrysm3sz7eu:
-    resolution: {integrity: sha512-Ux6jKkRfmeL8csfhQFUBs9or0MCXeA/S1rbf2OY22GUwldhfaXQXhlaQy9Ae0f/D8Xqlip0i6BVYaG4isKejwA==}
-    peerDependencies:
-      '@tanstack/react-query': ^4.3.8
-      '@trpc/client': 10.12.0
-      '@trpc/react-query': ^10.8.0
-      '@trpc/server': 10.12.0
-      next: '*'
-      react: '>=16.8.0'
-      react-dom: '>=16.8.0'
-    dependencies:
-      '@tanstack/react-query': 4.24.10_biqbaboplfbrettd7655fr4n2y
-      '@trpc/client': 10.12.0_@trpc+server@10.12.0
-      '@trpc/react-query': 10.12.0_tij422wpfxfl3iixjhzsgwgs2e
-      '@trpc/server': 10.12.0
-      next: 12.3.1_biqbaboplfbrettd7655fr4n2y
-      react: 18.2.0
-      react-dom: 18.2.0_react@18.2.0
-      react-ssr-prepass: 1.5.0_react@18.2.0
-    dev: false
-
-  /@trpc/next/10.12.0_iagzbwbntvokptq7au22jyvqgi:
-    resolution: {integrity: sha512-Ux6jKkRfmeL8csfhQFUBs9or0MCXeA/S1rbf2OY22GUwldhfaXQXhlaQy9Ae0f/D8Xqlip0i6BVYaG4isKejwA==}
-    peerDependencies:
-      '@tanstack/react-query': ^4.3.8
-      '@trpc/client': 10.12.0
-      '@trpc/react-query': ^10.8.0
-      '@trpc/server': 10.12.0
-      next: '*'
-      react: '>=16.8.0'
-      react-dom: '>=16.8.0'
-    dependencies:
-      '@tanstack/react-query': 4.24.10_biqbaboplfbrettd7655fr4n2y
-      '@trpc/client': 10.12.0_@trpc+server@10.12.0
-      '@trpc/react-query': 10.12.0_tij422wpfxfl3iixjhzsgwgs2e
-      '@trpc/server': 10.12.0
-      next: 13.1.2_biqbaboplfbrettd7655fr4n2y
-      react: 18.2.0
-      react-dom: 18.2.0_react@18.2.0
-      react-ssr-prepass: 1.5.0_react@18.2.0
-    dev: false
-
-  /@trpc/next/10.7.0_yjl4hfb5heuefbvza7aixfm3mi:
+  /@trpc/next/10.7.0_d3ztwackgnqsj6s7tqkdtmz3oe:
     resolution: {integrity: sha512-ZLY4J9IgEHN2op0UM14NCwCDyodRUw8Pmxgnpr62+UMIhDll6uggb2an8Op87l9EeYdKhKe2VavDWphI8vFGgw==}
     peerDependencies:
       '@tanstack/react-query': ^4.3.8
@@ -12327,9 +12277,30 @@ packages:
       react: '>=16.8.0'
       react-dom: '>=16.8.0'
     dependencies:
-      '@tanstack/react-query': 4.24.10_biqbaboplfbrettd7655fr4n2y
+      '@tanstack/react-query': 4.20.4_biqbaboplfbrettd7655fr4n2y
       '@trpc/client': 10.7.0_@trpc+server@10.7.0
-      '@trpc/react-query': 10.7.0_vzeg6rxdr3hmv57yie2tqx2dji
+      '@trpc/react-query': 10.7.0_x4ie6nhblo2vtx2aafrgzlfqy4
+      '@trpc/server': 10.7.0
+      next: 12.3.1_biqbaboplfbrettd7655fr4n2y
+      react: 18.2.0
+      react-dom: 18.2.0_react@18.2.0
+      react-ssr-prepass: 1.5.0_react@18.2.0
+    dev: false
+
+  /@trpc/next/10.7.0_ugkwfq4p7rtp4nzc2ulppxnmju:
+    resolution: {integrity: sha512-ZLY4J9IgEHN2op0UM14NCwCDyodRUw8Pmxgnpr62+UMIhDll6uggb2an8Op87l9EeYdKhKe2VavDWphI8vFGgw==}
+    peerDependencies:
+      '@tanstack/react-query': ^4.3.8
+      '@trpc/client': 10.7.0
+      '@trpc/react-query': ^10.0.0-proxy-beta.21
+      '@trpc/server': 10.7.0
+      next: '*'
+      react: '>=16.8.0'
+      react-dom: '>=16.8.0'
+    dependencies:
+      '@tanstack/react-query': 4.20.4_biqbaboplfbrettd7655fr4n2y
+      '@trpc/client': 10.7.0_@trpc+server@10.7.0
+      '@trpc/react-query': 10.7.0_x4ie6nhblo2vtx2aafrgzlfqy4
       '@trpc/server': 10.7.0
       next: 13.1.2_biqbaboplfbrettd7655fr4n2y
       react: 18.2.0
@@ -12337,23 +12308,7 @@ packages:
       react-ssr-prepass: 1.5.0_react@18.2.0
     dev: false
 
-  /@trpc/react-query/10.12.0_tij422wpfxfl3iixjhzsgwgs2e:
-    resolution: {integrity: sha512-f8RmXy8kPqel6nVLRykE3f7wk0dkVveGK+nyaO29jXViRPnTtn8HI94PaHZGEyqpi5VBcc+FGlMgk1ckkFNjQA==}
-    peerDependencies:
-      '@tanstack/react-query': ^4.3.8
-      '@trpc/client': 10.12.0
-      '@trpc/server': 10.12.0
-      react: '>=16.8.0'
-      react-dom: '>=16.8.0'
-    dependencies:
-      '@tanstack/react-query': 4.24.10_biqbaboplfbrettd7655fr4n2y
-      '@trpc/client': 10.12.0_@trpc+server@10.12.0
-      '@trpc/server': 10.12.0
-      react: 18.2.0
-      react-dom: 18.2.0_react@18.2.0
-    dev: false
-
-  /@trpc/react-query/10.7.0_vzeg6rxdr3hmv57yie2tqx2dji:
+  /@trpc/react-query/10.7.0_x4ie6nhblo2vtx2aafrgzlfqy4:
     resolution: {integrity: sha512-dSSmYid6NWocU32QMsH6qWEqnW4mbp7hX01hxsBfAA2mGYD8b4Kgc9ripw4MpPNbsJElJFyWDHfb/UHnhywWbA==}
     peerDependencies:
       '@tanstack/react-query': ^4.3.8
@@ -12362,15 +12317,11 @@ packages:
       react: '>=16.8.0'
       react-dom: '>=16.8.0'
     dependencies:
-      '@tanstack/react-query': 4.24.10_biqbaboplfbrettd7655fr4n2y
+      '@tanstack/react-query': 4.20.4_biqbaboplfbrettd7655fr4n2y
       '@trpc/client': 10.7.0_@trpc+server@10.7.0
       '@trpc/server': 10.7.0
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
-    dev: false
-
-  /@trpc/server/10.12.0:
-    resolution: {integrity: sha512-gD5FCNCIDgx1fuYbCfFQgIYT1HVUzsXtQUrvG+nTLBL19eWJctwHetWYB2b71NmfLvq/b+QSH1OzPq1WvsHeag==}
     dev: false
 
   /@trpc/server/10.7.0:
@@ -18182,10 +18133,10 @@ packages:
       eslint-import-resolver-webpack:
         optional: true
     dependencies:
-      '@typescript-eslint/parser': 5.40.0_eslint@8.26.0
+      '@typescript-eslint/parser': 5.40.0_sq327paf6wzcma7omk5wjhfcfa
       debug: 3.2.7
       eslint-import-resolver-node: 0.3.6
-      eslint-import-resolver-typescript: 2.7.1_mynvxvmq5qtyojffiqgev4x7mm
+      eslint-import-resolver-typescript: 2.7.1_2iahngt3u2tkbdlu6s4gkur3pu
       find-up: 2.1.0
     transitivePeerDependencies:
       - supports-color
@@ -19587,6 +19538,7 @@ packages:
         optional: true
     dependencies:
       debug: 2.6.9
+    dev: false
 
   /follow-redirects/1.15.2_debug@4.3.4:
     resolution: {integrity: sha512-VQLG33o04KaQ8uYi2tVNbdrWp1QWxNNea+nmIB4EVM28v0hmP17z7aG1+wAkNzVq4KeXTq3221ye5qTJP91JwA==}
@@ -19991,7 +19943,7 @@ packages:
       create-error-class: 3.0.2
       debug: 2.6.9
       decompress-response: 6.0.0
-      follow-redirects: 1.15.2_debug@2.6.9
+      follow-redirects: 1.15.2_debug@4.3.4
       form-urlencoded: 2.0.9
       into-stream: 3.1.0
       is-plain-object: 2.0.4
@@ -25153,7 +25105,7 @@ packages:
       '@panva/hkdf': 1.0.1
       cookie: 0.5.0
       jose: 4.11.1
-      next: 13.1.2_x6hpkaqu4dxwl4unajq2h7dx44
+      next: 13.1.2_biqbaboplfbrettd7655fr4n2y
       nodemailer: 6.7.2
       oauth: 0.9.15
       openid-client: 5.1.4
@@ -25461,6 +25413,7 @@ packages:
     transitivePeerDependencies:
       - '@babel/core'
       - babel-plugin-macros
+    dev: true
 
   /nice-try/1.0.5:
     resolution: {integrity: sha512-1nh45deeb5olNY7eX82BkPO7SSxR5SSYJiPTrTdFUVYwAl8CKMA5N9PjTYkHiRjisVcxcQ1HXdLhx2qxxJzLNQ==}
@@ -31147,6 +31100,7 @@ packages:
       '@babel/core': 7.16.5
       client-only: 0.0.1
       react: 18.2.0
+    dev: true
 
   /styled-jsx/5.1.1_react@18.2.0:
     resolution: {integrity: sha512-pW7uC1l4mBZ8ugbiZrcIsiIvVx1UmTfw7UkC3Um2tmfUq9Bhk8IiyEIPl6F8agHgjzku6j0xQEZbfA5uSgSaCw==}
