@@ -3,6 +3,7 @@ import articles from './src/structure/articles'
 import tips from './src/structure/tips'
 import tutorials from './src/structure/tutorials'
 import workshops from './src/structure/workshops'
+import playlists from './src/structure/playlists'
 import pricing from './src/structure/pricing'
 import products from './src/structure/products'
 
@@ -26,6 +27,7 @@ export default () =>
       S.divider(),
       workshops,
       tutorials,
+      playlists,
       S.divider(),
       tips,
       articles,
