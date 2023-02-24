@@ -63,6 +63,7 @@
     "@stackblitz/sdk": "^1.8.0",
     "@tailwindcss/typography": "^0.5.2",
     "@tanstack/react-query": "^4.20.4",
+    "@tanstack/react-query-devtools": "^4.24.10",
     "@tiptap/extension-highlight": "^2.0.0-beta.33",
     "@tiptap/extension-link": "^2.0.0-beta.37",
     "@tiptap/extension-typography": "^2.0.0-beta.20",

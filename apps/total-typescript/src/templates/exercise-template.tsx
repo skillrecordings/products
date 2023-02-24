@@ -16,6 +16,7 @@ import {LessonDescription} from '../video/lesson-description'
 import {LessonTitle} from 'video/lesson-title'
 import {VideoTranscript} from 'video/video-transcript'
 import {MuxPlayerRefAttributes} from '@mux/mux-player-react/*'
+import {trpc} from '../trpc/trpc.client'
 import LessonCompletionToggle from 'video/lesson-completion-toggle'
 import {useSession} from 'next-auth/react'
 
@@ -36,11 +37,16 @@ const ExerciseTemplate: React.FC<{
   const path = `/${module.moduleType}s`
   const {data: session} = useSession()
 
+  const addProgressMutation = trpc.progress.add.useMutation()
+
   return (
     <VideoProvider
       muxPlayerRef={muxPlayerRef}
       exerciseSlug={router.query.lesson as string}
       path={path}
+      onModuleEnded={async () => {
+        addProgressMutation.mutate({lessonSlug: router.query.lesson as string})
+      }}
     >
       <Layout
         meta={{title: pageTitle, ...shareCard, description: pageDescription}}

@@ -13,6 +13,7 @@ import {MDXProvider} from '@mdx-js/react'
 import {MDXComponents} from 'components/mdx'
 import {SessionProvider} from 'next-auth/react'
 import {QueryClient, QueryClientProvider} from '@tanstack/react-query'
+import {ReactQueryDevtools} from '@tanstack/react-query-devtools'
 import * as amplitude from '@amplitude/analytics-browser'
 import {FeedbackProvider} from 'feedback-widget/feedback-context'
 
@@ -38,6 +39,7 @@ function MyApp({Component, pageProps}: AppProps<{session: Session}>) {
                 <Component {...pageProps} />
               </MDXProvider>
             </ConvertkitProvider>
+            <ReactQueryDevtools initialIsOpen={false} />
           </QueryClientProvider>
         </SessionProvider>
       </FeedbackProvider>

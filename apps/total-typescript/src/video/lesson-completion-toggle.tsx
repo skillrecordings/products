@@ -13,7 +13,6 @@ const LessonCompletionToggle = () => {
   const {
     data: moduleProgress,
     status: moduleProgressStatus,
-    refetch,
     isFetching,
   } = trpc.moduleProgress.bySlug.useQuery({
     slug: module.slug.current,
@@ -34,12 +33,6 @@ const LessonCompletionToggle = () => {
     return toggleProgressMutation.mutate(
       {lessonSlug: lessonSlug as string},
       {
-        onSettled: (data, error, variables, context) => {
-          refetch()
-          utils.moduleProgress.bySlug.invalidate({
-            slug: module.slug.current,
-          })
-        },
         onError: (error) => {
           toast.error(`Error setting lesson progress.`)
           console.debug(error.message)

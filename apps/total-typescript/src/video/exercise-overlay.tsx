@@ -344,9 +344,6 @@ const DefaultOverlay = () => {
               {lessonSlug: router.query.lesson as string},
               {
                 onSettled: (data, error, variables, context) => {
-                  utils.moduleProgress.bySlug.invalidate({
-                    slug: module.slug.current,
-                  })
                   handleContinue({
                     router,
                     module,
@@ -370,32 +367,12 @@ const DefaultOverlay = () => {
 const FinishedOverlay = () => {
   const {path, handlePlay} = useMuxPlayer()
   const {module, section} = useLesson()
-  const [markedComplete, setMarkedComplete] = React.useState(false)
 
   const router = useRouter()
   const shareUrl = `${process.env.NEXT_PUBLIC_URL}${path}/${module.slug.current}`
   const shareMessage = `${module.title} ${module.moduleType} by @${process.env.NEXT_PUBLIC_PARTNER_TWITTER}`
   const shareButtonStyles =
     'bg-gray-800 flex items-center gap-2 rounded px-3 py-2 hover:bg-gray-700'
-
-  const addProgressMutation = trpc.progress.add.useMutation()
-  const utils = trpc.useContext()
-
-  React.useEffect(() => {
-    // since this is the last lesson and we show the "module complete" overlay
-    // we run this when the effect renders marking the lesson complete
-    if (!markedComplete) {
-      addProgressMutation.mutate(
-        {lessonSlug: router.query.lesson as string},
-        {
-          onSettled: () => {
-            utils.moduleProgress.bySlug.invalidate({slug: module.slug.current})
-          },
-        },
-      )
-      setMarkedComplete(true)
-    }
-  }, [])
 
   return (
     <OverlayWrapper className="px-5 pt-10 sm:pt-0">
@@ -747,9 +724,6 @@ const FinishedSectionOverlay = () => {
               {lessonSlug: router.query.lesson as string},
               {
                 onSettled: (data, error, variables, context) => {
-                  utils.moduleProgress.bySlug.invalidate({
-                    slug: module.slug.current,
-                  })
                   handleContinue({
                     router,
                     module,

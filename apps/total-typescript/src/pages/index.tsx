@@ -10,7 +10,6 @@ export const getServerSideProps: GetServerSideProps = async ({req, query}) => {
   const token = await getToken({req})
   const {products = []} = await getActiveProducts()
 
-
   return await propsForCommerce({query, token, products})
 }
 
