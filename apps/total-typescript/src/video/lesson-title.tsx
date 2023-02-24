@@ -15,6 +15,7 @@ export const LessonTitle = () => {
             'bg-cyan-500/20 text-cyan-300': _type === 'solution',
             'bg-orange-500/20 text-orange-300': _type === 'exercise',
             'bg-indigo-500/20 text-indigo-200': _type === 'explainer',
+            'bg-sky-500/20 text-sky-200': _type === 'interview',
           },
         )}
       >

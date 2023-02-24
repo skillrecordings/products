@@ -34,7 +34,7 @@ const WorkshopTemplate: React.FC<{
 
   return (
     <Layout
-      className="mx-auto w-full pt-24 lg:max-w-4xl lg:pb-24"
+      className="mx-auto w-full pt-20 lg:max-w-4xl lg:pb-24"
       meta={{
         title: pageTitle,
         description,
@@ -45,13 +45,13 @@ const WorkshopTemplate: React.FC<{
       }}
     >
       <CourseMeta title={pageTitle} description={description} />
-      <Header workshop={workshop} />
+      <Header module={workshop} />
       <main className="relative z-10 flex flex-col gap-5 lg:flex-row">
-        <article className="prose prose-lg w-full max-w-none px-5 text-white lg:max-w-xl">
+        <article className="prose prose-lg w-full max-w-none px-5 text-white prose-a:text-cyan-300 hover:prose-a:text-cyan-200 lg:max-w-xl">
           <PortableText value={body} components={PortableTextComponents} />
         </article>
         <div className="w-full lg:max-w-xs">
-          {workshop && <WorkshopSectionNavigator workshop={workshop} />}
+          {workshop && <ModuleNavigator module={workshop} />}
           <WorkshopCertificate workshop={workshop} />
         </div>
       </main>
@@ -62,12 +62,12 @@ const WorkshopTemplate: React.FC<{
 export default WorkshopTemplate
 
 const Header: React.FC<{
-  workshop: Module
-}> = ({workshop}) => {
-  const {title, slug, sections, image, github} = workshop
+  module: Module
+}> = ({module}) => {
+  const {title, slug, sections, image, github} = module
   const {data: moduleProgress, status: moduleProgressStatus} =
     trpc.moduleProgress.bySlug.useQuery({
-      slug: workshop.slug.current,
+      slug: module.slug.current,
     })
 
   const isModuleInProgress = (moduleProgress?.completedLessonCount || 0) > 0
@@ -80,17 +80,17 @@ const Header: React.FC<{
   return (
     <>
       <header className="relative z-10 flex flex-col-reverse items-center justify-between px-5 pt-0 pb-16 sm:pt-8 sm:pb-8 md:flex-row">
-        <div className="text-center md:text-left">
+        <div className="w-full text-center md:text-left">
           <Link
             href="/workshops"
             className="pb-1 font-mono text-sm font-semibold uppercase tracking-wide text-cyan-300"
           >
             Pro Workshop
           </Link>
-          <h1 className="font-text text-3xl font-bold sm:text-5xl lg:text-6xl">
+          <h1 className="font-text text-4xl font-bold sm:text-5xl lg:text-6xl">
             <Balancer>{title}</Balancer>
           </h1>
-          <div className="pt-8 text-lg">
+          <div className="w-full pt-8 text-lg">
             <div className="flex items-center justify-center gap-3 md:justify-start">
               <div className="flex items-center gap-3">
                 <div className="flex items-center justify-center overflow-hidden rounded-full">
@@ -105,40 +105,50 @@ const Header: React.FC<{
                 <span>Matt Pocock</span>
               </div>
             </div>
-            <div className="flex items-center justify-center gap-3 pt-8 md:justify-start">
-              {firstSection && (
-                <Link
-                  href={{
-                    pathname: '/workshops/[module]/[section]/[lesson]',
-                    query: {
-                      module: slug.current,
-                      section: isModuleInProgress
-                        ? nextSection?.slug
-                        : firstSection.slug,
-                      lesson: isModuleInProgress
-                        ? nextLesson?.slug
-                        : firstLesson?.slug,
-                    },
-                  }}
-                  className={cx(
-                    'flex items-center justify-center rounded bg-cyan-400 px-6 py-3 font-semibold text-black transition hover:bg-cyan-300',
-                    {
-                      'animate-pulse': moduleProgressStatus === 'loading',
-                    },
-                  )}
-                  onClick={() => {
-                    track('clicked start learning', {module: slug.current})
-                  }}
-                >
-                  {isModuleInProgress ? 'Continue' : 'Start'} Learning
-                  <span className="pl-2" aria-hidden="true">
-                    →
-                  </span>
-                </Link>
-              )}
+            <div className="flex w-full flex-col items-center justify-center gap-3 pt-8 md:flex-row md:justify-start">
+              <Link
+                href={
+                  firstSection && sections
+                    ? {
+                        pathname: `/${module.moduleType}s/[module]/[section]/[lesson]`,
+                        query: {
+                          module: slug.current,
+                          section: isModuleInProgress
+                            ? nextSection?.slug
+                            : firstSection.slug,
+                          lesson: isModuleInProgress
+                            ? nextLesson?.slug
+                            : firstLesson?.slug,
+                        },
+                      }
+                    : {
+                        pathname: `/${module.moduleType}s/[module]/[lesson]`,
+                        query: {
+                          module: slug.current,
+                          lesson: isModuleInProgress
+                            ? nextLesson?.slug
+                            : firstLesson?.slug,
+                        },
+                      }
+                }
+                className={cx(
+                  'flex w-full items-center justify-center rounded bg-cyan-400 px-5 py-4 font-semibold leading-tight text-black transition hover:bg-cyan-300 md:w-auto',
+                  {
+                    'animate-pulse': moduleProgressStatus === 'loading',
+                  },
+                )}
+                onClick={() => {
+                  track('clicked start learning', {module: slug.current})
+                }}
+              >
+                {isModuleInProgress ? 'Continue' : 'Start'} Learning
+                <span className="pl-2" aria-hidden="true">
+                  →
+                </span>
+              </Link>
               {github?.repo && (
                 <a
-                  className="flex items-center justify-center gap-2 rounded-md border-2 border-gray-800 px-5 py-3 font-medium transition hover:bg-gray-800"
+                  className="flex w-full items-center justify-center gap-2 rounded-md border-2 border-gray-800 px-5 py-4 font-medium leading-tight transition hover:bg-gray-800 md:w-auto"
                   href={`https://github.com/total-typescript/${github.repo}`}
                   onClick={() => {
                     track('clicked github code link', {module: slug.current})
@@ -175,13 +185,13 @@ const Header: React.FC<{
   )
 }
 
-const WorkshopSectionNavigator: React.FC<{
-  workshop: Module
-}> = ({workshop}) => {
-  const {sections} = workshop
+export const ModuleNavigator: React.FC<{
+  module: Module
+}> = ({module}) => {
+  const {sections, moduleType, lessons} = module
   const {data: moduleProgress, status: moduleProgressStatus} =
     trpc.moduleProgress.bySlug.useQuery({
-      slug: workshop.slug.current,
+      slug: module.slug.current,
     })
   const nextSection = moduleProgress?.nextSection
   const initialOpenedSections = !isEmpty(first(sections))
@@ -191,16 +201,18 @@ const WorkshopSectionNavigator: React.FC<{
     initialOpenedSections as string[],
   )
 
+  const firstSection = sections && sections[0]
+
   React.useEffect(() => {
     nextSection?.slug && setOpenedSections([nextSection?.slug])
   }, [nextSection?.slug])
 
   return moduleProgressStatus === 'success' ? (
     <nav
-      aria-label="workshop navigator"
+      aria-label={`${moduleType} navigator`}
       className="w-full bg-black/20 py-8 px-5 lg:max-w-xs lg:bg-transparent lg:px-0 lg:py-0"
     >
-      {sections && (
+      {sections && sections.length > 1 && (
         <Accordion.Root
           type="multiple"
           onValueChange={(e) => setOpenedSections(e)}
@@ -224,25 +236,75 @@ const WorkshopSectionNavigator: React.FC<{
           <ul className="flex flex-col gap-2">
             {sections.map((section: Section, i: number) => {
               return (
-                <SectionItem
+                <ModuleSection
                   key={section.slug}
                   section={section}
-                  workshop={workshop}
+                  module={module}
                 />
               )
             })}
           </ul>
         </Accordion.Root>
       )}
+      {sections && sections.length === 1 && (
+        <>
+          <div className="flex w-full items-center justify-between pb-3">
+            <h2 className="text-2xl font-semibold">Contents</h2>
+            <h3 className="font-mono text-sm font-semibold uppercase text-gray-300">
+              {firstSection?.lessons?.length || 0} Lessons
+            </h3>
+          </div>
+          <ul>
+            {firstSection &&
+              firstSection?.lessons?.map((lesson, idx) => {
+                return (
+                  <ModuleLesson
+                    isInSection={false}
+                    index={idx}
+                    lessonResource={lesson}
+                    section={sections[0]}
+                    module={module}
+                    key={lesson.slug}
+                  />
+                )
+              })}
+          </ul>
+        </>
+      )}
+      {!sections && lessons && (
+        <>
+          <div className="flex w-full items-center justify-between pb-3">
+            <h2 className="text-2xl font-semibold">Contents</h2>
+            <h3 className="font-mono text-sm font-semibold uppercase text-gray-300">
+              {lessons?.length || 0} Lessons
+            </h3>
+          </div>
+          <ul>
+            {lessons?.map((lesson, idx) => {
+              return (
+                <ModuleLesson
+                  isInSection={false}
+                  index={idx}
+                  lessonResource={lesson}
+                  module={module}
+                  key={lesson.slug}
+                />
+              )
+            })}
+          </ul>
+        </>
+      )}
     </nav>
   ) : (
-    <WorkshopSectionNavigatorSkeleton sections={sections} />
+    <ModuleNavigatorSkeleton sections={sections} lessons={lessons} />
   )
 }
 
-const WorkshopSectionNavigatorSkeleton: React.FC<{
+const ModuleNavigatorSkeleton: React.FC<{
   sections: Section[] | null | undefined
-}> = ({sections}) => {
+  lessons: Lesson[] | null | undefined
+}> = ({sections, lessons}) => {
+  const items = sections || lessons
   return (
     <div
       role="status"
@@ -251,12 +313,12 @@ const WorkshopSectionNavigatorSkeleton: React.FC<{
       <div className="flex w-full items-center justify-between pb-3">
         <h2 className="text-2xl font-semibold">Contents</h2>
         <h3 className="cursor-pointer font-mono text-sm font-semibold uppercase text-gray-300">
-          {sections?.length || 0} Sections
+          {items?.length || 0} {sections ? 'Sections' : 'Lessons'}
         </h3>
       </div>
       {sections?.map((section) => {
         return (
-          <div className="flex flex-col gap-3 pb-5">
+          <div key={section._id} className="flex flex-col gap-3 pb-5">
             <div className="h-4 w-5/6 rounded-full bg-gray-700" />
             {section?.lessons?.map(() => {
               return <div className="h-3 rounded-full bg-gray-800" />
@@ -264,14 +326,21 @@ const WorkshopSectionNavigatorSkeleton: React.FC<{
           </div>
         )
       })}
+      {lessons?.map((lesson) => {
+        return (
+          <div key={lesson._id} className="flex flex-col">
+            <div className="h-5 rounded-full bg-gray-700" />
+          </div>
+        )
+      })}
     </div>
   )
 }
 
-const SectionItem: React.FC<{
+const ModuleSection: React.FC<{
   section: Section
-  workshop: Module
-}> = ({section, workshop}) => {
+  module: Module
+}> = ({section, module}) => {
   const moduleProgress = useModuleProgress()
   const sectionProgress = moduleProgress?.sections?.find(
     (s) => s.id === section._id,
@@ -305,26 +374,25 @@ const SectionItem: React.FC<{
           />
         </Accordion.Header>
         <Accordion.Content>
-          <WorkshopSectionExerciseNavigator
-            workshop={workshop}
-            section={section}
-          />
+          <ModuleSectionContent module={module} section={section} />
         </Accordion.Content>
       </Accordion.Item>
     </li>
   )
 }
 
-const LessonListItem = ({
+const ModuleLesson = ({
   lessonResource,
   section,
-  workshop,
+  module,
   index,
+  isInSection = true,
 }: {
   lessonResource: Lesson
-  section: Section
-  workshop: Module
+  section?: Section
+  module: Module
   index: number
+  isInSection?: boolean
 }) => {
   const moduleProgress = useModuleProgress()
 
@@ -342,27 +410,39 @@ const LessonListItem = ({
   return (
     <li key={lessonResource._id}>
       <Link
-        href={{
-          pathname: '/workshops/[module]/[section]/[lesson]',
-          query: {
-            section: section.slug,
-            lesson: lessonResource.slug,
-            module: workshop.slug.current,
-          },
-        }}
+        href={
+          section
+            ? {
+                pathname: `/${module.moduleType}s/[module]/[section]/[lesson]`,
+                query: {
+                  section: section.slug,
+                  lesson: lessonResource.slug,
+                  module: module.slug.current,
+                },
+              }
+            : {
+                pathname: `/${module.moduleType}s/[module]/[lesson]`,
+                query: {
+                  lesson: lessonResource.slug,
+                  module: module.slug.current,
+                },
+              }
+        }
         passHref
         className={cx(
           'group inline-flex w-full flex-col justify-center py-2.5 pl-3.5 pr-3 text-base font-medium',
           {
-            'bg-gradient-to-r from-cyan-300/5 to-transparent': isNextLesson,
+            'bg-gradient-to-r from-cyan-300/5 to-transparent':
+              isNextLesson && completedLessons && completedLessons.length > 0,
+            'rounded-md': !isInSection,
           },
         )}
         onClick={() => {
           track('clicked workshop exercise', {
-            module: workshop.slug.current,
+            module: module.slug.current,
             lesson: lessonResource.slug,
-            section: section.slug,
-            moduleType: section._type,
+            ...(section && {section: section.slug}),
+            moduleType: section ? section._type : module.moduleType,
             lessonType: lessonResource._type,
           })
         }}
@@ -401,21 +481,21 @@ const LessonListItem = ({
   )
 }
 
-const WorkshopSectionExerciseNavigator: React.FC<{
+const ModuleSectionContent: React.FC<{
   section: Section
-  workshop: Module
-}> = ({section, workshop}) => {
+  module: Module
+}> = ({section, module}) => {
   const {lessons} = section
 
   return lessons ? (
     <ul className="-mt-5 rounded-b-lg border border-white/5 bg-black/20 pt-7 pb-3">
       {lessons.map((exercise: Lesson, i: number) => {
         return (
-          <LessonListItem
+          <ModuleLesson
             key={exercise.slug}
             lessonResource={exercise}
             section={section}
-            workshop={workshop}
+            module={module}
             index={i}
           />
         )

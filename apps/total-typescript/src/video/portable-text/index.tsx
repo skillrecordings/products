@@ -19,6 +19,7 @@ import yaml from 'refractor/lang/yaml'
 import css from 'refractor/lang/css'
 import jsx from 'refractor/lang/jsx'
 import tsx from 'refractor/lang/tsx'
+import Link from 'next/link'
 
 const BodyImage = ({value}: BodyImageProps) => {
   const {alt, caption, src, width, height, href} = value
