@@ -25,6 +25,7 @@ import {trpc} from '../trpc/trpc.client'
 import Balancer from 'react-wrap-balancer'
 import {useModuleProgress} from '../video/module-progress'
 import WorkshopCertificate from 'certificate/workshop-certificate'
+import {capitalize} from 'lodash'
 
 const WorkshopTemplate: React.FC<{
   workshop: Module
@@ -202,6 +203,12 @@ export const ModuleNavigator: React.FC<{
   )
 
   const firstSection = sections && sections[0]
+  const lessonType =
+    sections && sections.length > 1
+      ? 'section'
+      : firstSection
+      ? firstSection?.lessons && firstSection.lessons[0]._type
+      : lessons && lessons[0]._type
 
   React.useEffect(() => {
     nextSection?.slug && setOpenedSections([nextSection?.slug])
@@ -230,7 +237,7 @@ export const ModuleNavigator: React.FC<{
                 )
               }}
             >
-              {sections?.length || 0} Sections
+              {sections?.length || 0} {capitalize(lessonType || 'lesson')}s
             </h3>
           </div>
           <ul className="flex flex-col gap-2">
@@ -251,7 +258,8 @@ export const ModuleNavigator: React.FC<{
           <div className="flex w-full items-center justify-between pb-3">
             <h2 className="text-2xl font-semibold">Contents</h2>
             <h3 className="font-mono text-sm font-semibold uppercase text-gray-300">
-              {firstSection?.lessons?.length || 0} Lessons
+              {firstSection?.lessons?.length || 0}{' '}
+              {capitalize(lessonType || 'lesson')}s
             </h3>
           </div>
           <ul>
@@ -276,7 +284,7 @@ export const ModuleNavigator: React.FC<{
           <div className="flex w-full items-center justify-between pb-3">
             <h2 className="text-2xl font-semibold">Contents</h2>
             <h3 className="font-mono text-sm font-semibold uppercase text-gray-300">
-              {lessons?.length || 0} Lessons
+              {lessons?.length || 0} {capitalize(lessonType || 'lesson')}s
             </h3>
           </div>
           <ul>
@@ -296,14 +304,19 @@ export const ModuleNavigator: React.FC<{
       )}
     </nav>
   ) : (
-    <ModuleNavigatorSkeleton sections={sections} lessons={lessons} />
+    <ModuleNavigatorSkeleton
+      sections={sections}
+      lessons={lessons}
+      lessonType={lessonType}
+    />
   )
 }
 
 const ModuleNavigatorSkeleton: React.FC<{
   sections: Section[] | null | undefined
   lessons: Lesson[] | null | undefined
-}> = ({sections, lessons}) => {
+  lessonType: string | null | undefined
+}> = ({sections, lessons, lessonType}) => {
   const items = sections || lessons
   return (
     <div
@@ -313,7 +326,7 @@ const ModuleNavigatorSkeleton: React.FC<{
       <div className="flex w-full items-center justify-between pb-3">
         <h2 className="text-2xl font-semibold">Contents</h2>
         <h3 className="cursor-pointer font-mono text-sm font-semibold uppercase text-gray-300">
-          {items?.length || 0} {sections ? 'Sections' : 'Lessons'}
+          {items?.length || 0} {capitalize(lessonType || 'lesson')}s
         </h3>
       </div>
       {sections?.map((section) => {
