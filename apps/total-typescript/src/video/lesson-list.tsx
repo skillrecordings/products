@@ -112,38 +112,38 @@ export const LessonList: React.FC<{
   const handleOnAccordionValueChange = (sectionSlug: string) => {
     setOpenedSection(sectionSlug)
     // navigate to lesson in current section
-    if (sectionSlug !== openedSection && sections) {
-      const section = sections.find((section) => section.slug === sectionSlug)
-      // Note: scrolling below first lesson results in jumpy ui
-      // const sectionProgress = moduleProgress?.sections?.find(
-      //   (s) => s.id === section?._id,
-      // )
-      // const nextLesson = sectionProgress?.lessons.find(
-      //   ({lessonCompleted}) => !lessonCompleted,
-      // )
+    // if (sectionSlug !== openedSection && sections) {
+    //   const section = sections.find((section) => section.slug === sectionSlug)
+    // Note: scrolling below first lesson results in jumpy ui
+    // const sectionProgress = moduleProgress?.sections?.find(
+    //   (s) => s.id === section?._id,
+    // )
+    // const nextLesson = sectionProgress?.lessons.find(
+    //   ({lessonCompleted}) => !lessonCompleted,
+    // )
 
-      // if (nextLesson) {
-      //   router.push({
-      //     query: {
-      //       lesson: nextLesson.slug,
-      //       section: sectionSlug,
-      //       module: module.slug.current,
-      //     },
-      //     pathname: `${path}/[module]/[section]/[lesson]`,
-      //   })
-      // } else {
-      const firstLesson = section?.lessons && section.lessons[0]
-      firstLesson &&
-        router.push({
-          query: {
-            lesson: firstLesson.slug,
-            section: sectionSlug,
-            module: module.slug.current,
-          },
-          pathname: `${path}/[module]/[section]/[lesson]`,
-        })
-      // }
-    }
+    // if (nextLesson) {
+    //   router.push({
+    //     query: {
+    //       lesson: nextLesson.slug,
+    //       section: sectionSlug,
+    //       module: module.slug.current,
+    //     },
+    //     pathname: `${path}/[module]/[section]/[lesson]`,
+    //   })
+    // } else {
+    // const firstLesson = section?.lessons && section.lessons[0]
+    // firstLesson &&
+    //   router.push({
+    //     query: {
+    //       lesson: firstLesson.slug,
+    //       section: sectionSlug,
+    //       module: module.slug.current,
+    //     },
+    //     pathname: `${path}/[module]/[section]/[lesson]`,
+    //   })
+    // }
+    // }
   }
 
   return (
