@@ -90,24 +90,61 @@ export const LessonList: React.FC<{
   const hasSectionResources =
     currentSection?.resources && currentSection?.resources?.length > 0
 
-  const [openedSections, setOpenedSections] = React.useState<string[]>(
-    currentSection ? [currentSection.slug] : [],
+  const [openedSection, setOpenedSection] = React.useState<string>(
+    currentSection ? currentSection.slug : '',
   )
 
   React.useEffect(() => {
-    currentSection && setOpenedSections([currentSection.slug])
+    currentSection && setOpenedSection(currentSection.slug)
   }, [currentSection])
 
   React.useEffect(() => {
-    const activeElementOffset = moduleProgress && activeElRef.current?.offsetTop
+    const activeElementOffset = activeElRef.current?.offsetTop
 
     activeElementOffset &&
       scrollContainerRef.current?.scrollTo({
         top:
           activeElementOffset -
-          (module.sections && module.sections.length > 1 ? 53 : 0),
+          (module.sections && module.sections.length > 1 ? 48 : 0),
       })
-  }, [router, activeElRef, scrollContainerRef, module, moduleProgress])
+  }, [router, activeElRef, scrollContainerRef, module, openedSection])
+
+  const handleOnAccordionValueChange = (sectionSlug: string) => {
+    setOpenedSection(sectionSlug)
+    // navigate to lesson in current section
+    // if (sectionSlug !== openedSection && sections) {
+    //   const section = sections.find((section) => section.slug === sectionSlug)
+    // Note: scrolling below first lesson results in jumpy ui
+    // const sectionProgress = moduleProgress?.sections?.find(
+    //   (s) => s.id === section?._id,
+    // )
+    // const nextLesson = sectionProgress?.lessons.find(
+    //   ({lessonCompleted}) => !lessonCompleted,
+    // )
+
+    // if (nextLesson) {
+    //   router.push({
+    //     query: {
+    //       lesson: nextLesson.slug,
+    //       section: sectionSlug,
+    //       module: module.slug.current,
+    //     },
+    //     pathname: `${path}/[module]/[section]/[lesson]`,
+    //   })
+    // } else {
+    // const firstLesson = section?.lessons && section.lessons[0]
+    // firstLesson &&
+    //   router.push({
+    //     query: {
+    //       lesson: firstLesson.slug,
+    //       section: sectionSlug,
+    //       module: module.slug.current,
+    //     },
+    //     pathname: `${path}/[module]/[section]/[lesson]`,
+    //   })
+    // }
+    // }
+  }
 
   return (
     <div
@@ -117,9 +154,10 @@ export const LessonList: React.FC<{
       <nav aria-label="exercise navigator">
         {sections ? (
           <Accordion.Root
-            type="multiple"
-            onValueChange={(e) => setOpenedSections(e)}
-            value={openedSections}
+            type="single"
+            collapsible
+            onValueChange={handleOnAccordionValueChange}
+            defaultValue={openedSection}
           >
             <ul className="relative">
               {sections.map((section) => {
@@ -129,9 +167,7 @@ export const LessonList: React.FC<{
                 const isSectionCompleted = sectionProgress?.sectionCompleted
                 const sectionPercentComplete = sectionProgress?.percentComplete
                 const isCurrentSection = section.slug === currentSection?.slug
-                const isSectionOpened = openedSections.find(
-                  (openedSection) => openedSection === section.slug,
-                )
+                const isSectionOpened = openedSection === section.slug
 
                 const hasSectionResources =
                   section?.resources && section?.resources?.length > 0
@@ -179,15 +215,25 @@ export const LessonList: React.FC<{
                           {section.lessons?.map(
                             (exercise: Lesson, index: number) => {
                               return (
-                                <Lessons
-                                  key={exercise._id}
-                                  exercise={exercise}
-                                  module={module}
-                                  section={section}
-                                  index={index}
-                                  path={path}
-                                  ref={activeElRef}
-                                />
+                                <>
+                                  {index === 0 && isSectionOpened && (
+                                    <div
+                                      ref={activeElRef}
+                                      className="w-0"
+                                      aria-hidden="true"
+                                    />
+                                  )}
+                                  <Lessons
+                                    isCurrentSection={isCurrentSection}
+                                    key={exercise._id}
+                                    exercise={exercise}
+                                    module={module}
+                                    section={section}
+                                    index={index}
+                                    path={path}
+                                    ref={activeElRef}
+                                  />
+                                </>
                               )
                             },
                           )}
@@ -241,7 +287,7 @@ const SectionResources = ({
         Section Resources
       </p>
       <ul className="flex flex-col divide-y divide-gray-800/0 text-lg">
-        {section?.resources?.map((resource: any, resourceIdx: number) => {
+        {section?.resources?.map((resource: any) => {
           // this uses any because the resource type here expects a URL, but that
           // assumes a specific resource type. We need to support any resource type
           // and present it based on it's structure that doesn't assume a resource
@@ -290,8 +336,9 @@ const Lessons = React.forwardRef<
     path: string
     exercise: Lesson
     module: Module
+    isCurrentSection?: boolean
   }
->(({section, path, exercise, module, index}, ref) => {
+>(({section, path, exercise, module, index, isCurrentSection}, ref) => {
   const moduleProgress = useModuleProgress()
   const completedLessons = moduleProgress?.lessons.filter(
     (l) => l.lessonCompleted,
@@ -306,7 +353,9 @@ const Lessons = React.forwardRef<
 
   const isExpanded = router.asPath.includes(currentPath)
 
-  const scrollToElement = router.asPath.includes(currentPath)
+  const scrollToElement = section
+    ? router.asPath.includes(currentPath) && isCurrentSection
+    : router.asPath.includes(currentPath)
 
   return (
     <li
