@@ -344,9 +344,6 @@ const DefaultOverlay = () => {
               {lessonSlug: router.query.lesson as string},
               {
                 onSettled: (data, error, variables, context) => {
-                  utils.moduleProgress.bySlug.invalidate({
-                    slug: module.slug.current,
-                  })
                   handleContinue({
                     router,
                     module,
@@ -727,9 +724,6 @@ const FinishedSectionOverlay = () => {
               {lessonSlug: router.query.lesson as string},
               {
                 onSettled: (data, error, variables, context) => {
-                  utils.moduleProgress.bySlug.invalidate({
-                    slug: module.slug.current,
-                  })
                   handleContinue({
                     router,
                     module,
