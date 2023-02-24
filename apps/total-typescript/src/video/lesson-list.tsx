@@ -99,7 +99,7 @@ export const LessonList: React.FC<{
   }, [currentSection])
 
   React.useEffect(() => {
-    const activeElementOffset = moduleProgress && activeElRef.current?.offsetTop
+    const activeElementOffset = activeElRef.current?.offsetTop
 
     activeElementOffset &&
       scrollContainerRef.current?.scrollTo({
@@ -107,14 +107,7 @@ export const LessonList: React.FC<{
           activeElementOffset -
           (module.sections && module.sections.length > 1 ? 48 : 0),
       })
-  }, [
-    router,
-    activeElRef,
-    scrollContainerRef,
-    module,
-    moduleProgress,
-    openedSection,
-  ])
+  }, [router, activeElRef, scrollContainerRef, module, openedSection])
 
   const handleOnAccordionValueChange = (sectionSlug: string) => {
     setOpenedSection(sectionSlug)
