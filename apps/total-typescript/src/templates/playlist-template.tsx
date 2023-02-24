@@ -11,10 +11,11 @@ import {Lesson} from '@skillrecordings/skill-lesson/schemas/lesson'
 import PortableTextComponents from 'video/portable-text'
 import {trpc} from 'trpc/trpc.client'
 import {type Module} from '@skillrecordings/skill-lesson/schemas/module'
-import {CheckIcon} from '@heroicons/react/solid'
 import {first} from 'lodash'
 import {Section} from '@skillrecordings/skill-lesson/schemas/section'
 import cx from 'classnames'
+import {ModuleNavigator} from './workshop-template'
+import Balancer from 'react-wrap-balancer'
 
 const PlaylistTemplate: React.FC<{
   playlist: Module
@@ -24,7 +25,7 @@ const PlaylistTemplate: React.FC<{
 
   return (
     <Layout
-      className="mx-auto w-full max-w-4xl py-24 px-5 "
+      className="mx-auto w-full pt-20 lg:max-w-4xl lg:pb-24"
       meta={{
         title: pageTitle,
         description,
@@ -37,10 +38,10 @@ const PlaylistTemplate: React.FC<{
       <CourseMeta title={pageTitle} description={description} />
       <Header playlist={playlist} />
       <main className="relative z-10 flex flex-col gap-5 lg:flex-row">
-        <article className="prose prose-lg w-full max-w-none text-white lg:max-w-xl">
+        <article className="prose prose-lg w-full max-w-none px-5 text-white prose-a:text-cyan-300 hover:prose-a:text-cyan-200 lg:max-w-xl">
           <PortableText value={body} components={PortableTextComponents} />
         </article>
-        <PlaylistVideoNavigator playlist={playlist} />
+        {playlist && <ModuleNavigator module={playlist} />}
       </main>
     </Layout>
   )
@@ -64,16 +65,18 @@ const Header: React.FC<{playlist: Module}> = ({playlist}) => {
 
   return (
     <>
-      <header className="relative z-10 flex flex-col-reverse items-center justify-between pt-0 pb-16 sm:pt-8 sm:pb-8 md:flex-row">
-        <div className="pt-5 text-center sm:pt-0 md:text-left">
+      <header className="relative z-10 flex flex-col-reverse items-center justify-between px-5 pt-0 pb-16 sm:pt-8 sm:pb-8 md:flex-row">
+        <div className="w-full text-center md:text-left">
           <Link
             href="/playlists"
             className="pb-1 font-mono text-sm font-semibold uppercase tracking-wide text-cyan-300"
           >
             Playlist
           </Link>
-          <h1 className="font-text text-5xl font-bold lg:text-6xl">{title}</h1>
-          <div className="pt-8 text-lg">
+          <h1 className="text-center font-text text-4xl font-bold sm:text-5xl md:text-left lg:text-6xl">
+            <Balancer>{title}</Balancer>
+          </h1>
+          <div className="w-full pt-8 text-lg">
             <div className="flex items-center justify-center gap-3 md:justify-start">
               <div className="flex items-center gap-3">
                 <div className="flex items-center justify-center overflow-hidden rounded-full">
@@ -87,7 +90,7 @@ const Header: React.FC<{playlist: Module}> = ({playlist}) => {
                 <span>Matt Pocock</span>
               </div>
             </div>
-            <div className="flex items-center gap-3 pt-8">
+            <div className="flex w-full flex-col items-center justify-center gap-3 pt-8 md:flex-row md:justify-start">
               <Link
                 href={
                   firstSection && sections
@@ -114,7 +117,7 @@ const Header: React.FC<{playlist: Module}> = ({playlist}) => {
                       }
                 }
                 className={cx(
-                  'flex items-center justify-center rounded bg-cyan-400 px-6 py-3 font-semibold text-black transition hover:bg-cyan-300',
+                  'flex w-full items-center justify-center rounded bg-cyan-400 px-5 py-4 font-semibold leading-tight text-black transition hover:bg-cyan-300 md:w-auto',
                   {
                     'animate-pulse': moduleProgressStatus === 'loading',
                   },
@@ -130,7 +133,7 @@ const Header: React.FC<{playlist: Module}> = ({playlist}) => {
               </Link>
               {github?.repo && (
                 <a
-                  className="flex items-center justify-center gap-2 rounded-md border-2 border-gray-800 px-5 py-3 font-medium transition hover:bg-gray-800"
+                  className="flex w-full items-center justify-center gap-2 rounded-md border-2 border-gray-800 px-5 py-4 font-medium leading-tight transition hover:bg-gray-800 md:w-auto"
                   href={`https://github.com/total-typescript/${github.repo}`}
                   onClick={() => {
                     track('clicked github code link', {module: slug.current})
@@ -145,12 +148,12 @@ const Header: React.FC<{playlist: Module}> = ({playlist}) => {
           </div>
         </div>
         {image && (
-          <div className="flex items-center justify-center lg:-mr-16">
+          <div className="flex flex-shrink-0 items-center justify-center lg:-mr-16">
             <Image
               src={image}
               alt={title}
-              width={500}
-              height={500}
+              width={400}
+              height={400}
               quality={100}
             />
           </div>
@@ -165,83 +168,6 @@ const Header: React.FC<{playlist: Module}> = ({playlist}) => {
         className="-z-10 object-contain"
       />
     </>
-  )
-}
-
-const PlaylistVideoNavigator: React.FC<{playlist: Module}> = ({playlist}) => {
-  const {slug, lessons: _lessons, sections, _type} = playlist
-  const {data: moduleProgress} = trpc.moduleProgress.bySlug.useQuery({
-    slug: playlist.slug.current,
-  })
-
-  const lessons =
-    sections && sections.length === 1 ? sections[0].lessons : _lessons
-
-  return (
-    <nav
-      aria-label="video navigator"
-      className="border-gray-800 lg:border-l lg:pl-8"
-    >
-      <h2 className="pb-4 font-mono text-sm font-semibold uppercase text-gray-300">
-        {lessons?.length || 0} Videos
-      </h2>
-      {lessons && (
-        <ul>
-          {lessons.map((exercise: Lesson, i: number) => {
-            const completedLessons = moduleProgress?.lessons.filter(
-              (l) => l.lessonCompleted,
-            )
-
-            const isExerciseCompleted = completedLessons?.find(
-              ({id}) => id === exercise._id,
-            )
-            return (
-              <li key={exercise.slug}>
-                <Link
-                  href={{
-                    pathname: '/playlists/[module]/[lesson]',
-                    query: {
-                      module: slug.current,
-                      lesson: exercise.slug,
-                    },
-                  }}
-                  passHref
-                  className="group inline-flex items-center py-2.5 text-lg font-semibold"
-                  onClick={() => {
-                    track('clicked playlist video', {
-                      module: slug.current,
-                      lesson: exercise.slug,
-                      moduleType: _type,
-                      lessonType: exercise._type,
-                    })
-                  }}
-                >
-                  {isExerciseCompleted ? (
-                    <CheckIcon
-                      className="mr-4 -ml-1 h-5 w-5 text-teal-400"
-                      aria-hidden="true"
-                    />
-                  ) : (
-                    <span
-                      className="w-8 font-mono text-xs text-gray-400"
-                      aria-hidden="true"
-                    >
-                      {i + 1}
-                    </span>
-                  )}
-                  <span className="w-full leading-tight group-hover:underline">
-                    {exercise.title}{' '}
-                    {isExerciseCompleted && (
-                      <span className="sr-only">(completed)</span>
-                    )}
-                  </span>
-                </Link>
-              </li>
-            )
-          })}
-        </ul>
-      )}
-    </nav>
   )
 }
 

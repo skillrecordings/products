@@ -47,7 +47,7 @@ export const getTutorial = async (slug: string) =>
               "image": image.asset->url,
               name
             }
-        }
+          }
         },
         moduleType,
         _id,
