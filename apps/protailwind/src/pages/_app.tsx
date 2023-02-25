@@ -4,7 +4,6 @@ import type {Session} from 'next-auth'
 import '../styles/globals.css'
 import 'focus-visible'
 import {ConvertkitProvider} from '@skillrecordings/skill-lesson/hooks/use-convertkit'
-import {QueryClient, QueryClientProvider} from '@tanstack/react-query'
 import {SessionProvider} from 'next-auth/react'
 import {usePageview} from '@skillrecordings/analytics'
 import {initNProgress} from '@skillrecordings/react'
@@ -14,8 +13,6 @@ import {trpc} from 'trpc/trpc.client'
 import Script from 'next/script'
 import {FeedbackProvider} from '@skillrecordings/feedback-widget'
 
-const queryClient = new QueryClient()
-
 function MyApp({Component, pageProps}: AppProps<{session: Session}>) {
   usePageview()
   initNProgress()
@@ -23,13 +20,11 @@ function MyApp({Component, pageProps}: AppProps<{session: Session}>) {
     <>
       <DefaultSeo {...config} />
       <SessionProvider session={pageProps.session} refetchInterval={0}>
-        <QueryClientProvider client={queryClient}>
-          <FeedbackProvider>
-            <ConvertkitProvider>
-              <Component {...pageProps} />
-            </ConvertkitProvider>
-          </FeedbackProvider>
-        </QueryClientProvider>
+        <FeedbackProvider>
+          <ConvertkitProvider>
+            <Component {...pageProps} />
+          </ConvertkitProvider>
+        </FeedbackProvider>
       </SessionProvider>
       {process.env.NODE_ENV !== 'development' && (
         <>

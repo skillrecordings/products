@@ -11,12 +11,9 @@ import MDXComponents from 'components/mdx'
 import {usePageview} from '@skillrecordings/analytics'
 import {ConvertkitProvider} from '@skillrecordings/skill-lesson/hooks/use-convertkit'
 import {SessionProvider} from 'next-auth/react'
-import {QueryClient, QueryClientProvider} from '@tanstack/react-query'
 import {Session} from 'next-auth'
 
 import {trpc} from 'utils/trpc'
-
-const queryClient = new QueryClient()
 
 declare global {
   interface Window {
@@ -34,13 +31,11 @@ function MyApp({Component, pageProps}: AppProps<{session: Session}>) {
     <>
       <DefaultSeo {...config} />
       <SessionProvider session={pageProps.session} refetchInterval={0}>
-        <QueryClientProvider client={queryClient}>
-          <ConvertkitProvider>
-            <MDXProvider components={MDXComponents}>
-              <Component {...pageProps} />
-            </MDXProvider>
-          </ConvertkitProvider>
-        </QueryClientProvider>
+        <ConvertkitProvider>
+          <MDXProvider components={MDXComponents}>
+            <Component {...pageProps} />
+          </MDXProvider>
+        </ConvertkitProvider>
       </SessionProvider>
     </>
   )
