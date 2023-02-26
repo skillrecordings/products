@@ -11,6 +11,8 @@ import {MDXComponents} from 'components/mdx'
 import {SessionProvider} from 'next-auth/react'
 import * as amplitude from '@amplitude/analytics-browser'
 import {FeedbackProvider} from 'feedback-widget/feedback-context'
+import {ReactQueryDevtools} from '@tanstack/react-query-devtools'
+
 import config from '../config'
 
 import {trpc} from 'trpc/trpc.client'
@@ -20,6 +22,10 @@ import {Session} from 'next-auth'
 if (process.env.NEXT_PUBLIC_AMPLITUDE_API_KEY) {
   amplitude.init(process.env.NEXT_PUBLIC_AMPLITUDE_API_KEY)
 }
+
+const isGoogleAnalyticsAvailable =
+  process.env.NODE_ENV !== 'development' &&
+  process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS
 
 function MyApp({Component, pageProps}: AppProps<{session: Session}>) {
   usePageview()
@@ -34,9 +40,10 @@ function MyApp({Component, pageProps}: AppProps<{session: Session}>) {
               <Component {...pageProps} />
             </MDXProvider>
           </ConvertkitProvider>
+          <ReactQueryDevtools initialIsOpen={false} />
         </SessionProvider>
       </FeedbackProvider>
-      {process.env.NODE_ENV !== 'development' && (
+      {isGoogleAnalyticsAvailable && (
         <>
           <Script
             async
