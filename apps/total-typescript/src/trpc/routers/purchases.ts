@@ -38,7 +38,6 @@ export const purchasesRouter = router({
         const currentPurchase = purchases.find((purchase) => {
           purchase.productId === input.productId
         })
-        console.log({purchases, currentPurchase})
 
         if (currentPurchase) {
           const purchaseId = currentPurchase.id

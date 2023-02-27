@@ -27,6 +27,7 @@ import {useRouter} from 'next/router'
 import * as Switch from '@radix-ui/react-switch'
 import Link from 'next/link'
 import {trpc} from 'trpc/trpc.client'
+import Balancer from 'react-wrap-balancer'
 
 function getFirstPPPCoupon(availableCoupons: any[] = []) {
   return find(availableCoupons, (coupon) => coupon.type === 'ppp') || false
@@ -47,7 +48,7 @@ type PricingProps = {
   purchased?: boolean
   purchases?: Purchase[]
   userId?: string
-  index: number
+  index?: number
   couponId?: string
   allowPurchase?: boolean
 }
@@ -67,7 +68,7 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
   purchased = false,
   purchases = [],
   userId,
-  index,
+  index = 0,
   couponId,
   allowPurchase = false,
 }) => {
@@ -110,7 +111,9 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
   const showPPPBox =
     Boolean(pppCoupon || merchantCoupon?.type === 'ppp') &&
     !purchased &&
-    !isDowngrade(formattedPrice)
+    !isDowngrade(formattedPrice) &&
+    !isBuyingForTeam &&
+    allowPurchase
 
   const handleOnSuccess = (subscriber: any, email?: string) => {
     if (subscriber) {
@@ -543,7 +546,9 @@ const RegionalPricingBox: React.FC<
           type="checkbox"
           checked={Boolean(activeCoupon)}
           onChange={() => {
-            activeCoupon ? setActiveCoupon(null) : setActiveCoupon(pppCoupon)
+            activeCoupon
+              ? setActiveCoupon(undefined)
+              : setActiveCoupon(pppCoupon)
           }}
         />
         <span>Activate {percentOff}% off with regional pricing</span>
@@ -591,8 +596,10 @@ const SubscribeForm = ({
         >
           <MailIcon className="h-5 w-5 text-cyan-300" />
         </div>{' '}
-        If you'd like to get notified and receive the best discounts, please
-        subscribe below:
+        <Balancer>
+          If you'd like to get notified and receive the best discounts, please
+          subscribe below:
+        </Balancer>
       </div>
       <SubscribeToConvertkitForm
         formId={3843826}
