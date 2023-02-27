@@ -12,17 +12,13 @@ import Script from 'next/script'
 import {MDXProvider} from '@mdx-js/react'
 import {MDXComponents} from 'components/mdx'
 import {SessionProvider} from 'next-auth/react'
-import {QueryClient, QueryClientProvider} from '@tanstack/react-query'
 import {ReactQueryDevtools} from '@tanstack/react-query-devtools'
 import * as amplitude from '@amplitude/analytics-browser'
 import {FeedbackProvider} from 'feedback-widget/feedback-context'
 
 import {trpc} from 'trpc/trpc.client'
-import {useRouter} from 'next/router'
 
 amplitude.init(process.env.NEXT_PUBLIC_AMPLITUDE_API_KEY)
-
-const queryClient = new QueryClient()
 
 function MyApp({Component, pageProps}: AppProps<{session: Session}>) {
   usePageview()
@@ -33,14 +29,12 @@ function MyApp({Component, pageProps}: AppProps<{session: Session}>) {
       <DefaultSeo {...config} />
       <FeedbackProvider>
         <SessionProvider session={pageProps.session} refetchInterval={0}>
-          <QueryClientProvider client={queryClient}>
-            <ConvertkitProvider>
-              <MDXProvider components={MDXComponents}>
-                <Component {...pageProps} />
-              </MDXProvider>
-            </ConvertkitProvider>
-            <ReactQueryDevtools initialIsOpen={false} />
-          </QueryClientProvider>
+          <ConvertkitProvider>
+            <MDXProvider components={MDXComponents}>
+              <Component {...pageProps} />
+            </MDXProvider>
+          </ConvertkitProvider>
+          <ReactQueryDevtools initialIsOpen={false} />
         </SessionProvider>
       </FeedbackProvider>
       {process.env.NODE_ENV !== 'development' && (

@@ -9,20 +9,23 @@ import {DefaultSeo} from '@skillrecordings/next-seo'
 import {MDXProvider} from '@mdx-js/react'
 import {MDXComponents} from 'components/mdx'
 import {SessionProvider} from 'next-auth/react'
-import {QueryClient, QueryClientProvider} from '@tanstack/react-query'
 import * as amplitude from '@amplitude/analytics-browser'
 import {FeedbackProvider} from 'feedback-widget/feedback-context'
+import {ReactQueryDevtools} from '@tanstack/react-query-devtools'
+
 import config from '../config'
 
 import {trpc} from 'trpc/trpc.client'
 import Script from 'next/script'
 import {Session} from 'next-auth'
 
-const queryClient = new QueryClient()
-
 if (process.env.NEXT_PUBLIC_AMPLITUDE_API_KEY) {
   amplitude.init(process.env.NEXT_PUBLIC_AMPLITUDE_API_KEY)
 }
+
+const isGoogleAnalyticsAvailable =
+  process.env.NODE_ENV !== 'development' &&
+  process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS
 
 function MyApp({Component, pageProps}: AppProps<{session: Session}>) {
   usePageview()
@@ -32,16 +35,15 @@ function MyApp({Component, pageProps}: AppProps<{session: Session}>) {
       <DefaultSeo {...config} />
       <FeedbackProvider>
         <SessionProvider session={pageProps.session} refetchInterval={0}>
-          <QueryClientProvider client={queryClient}>
-            <ConvertkitProvider>
-              <MDXProvider components={MDXComponents}>
-                <Component {...pageProps} />
-              </MDXProvider>
-            </ConvertkitProvider>
-          </QueryClientProvider>
+          <ConvertkitProvider>
+            <MDXProvider components={MDXComponents}>
+              <Component {...pageProps} />
+            </MDXProvider>
+          </ConvertkitProvider>
+          <ReactQueryDevtools initialIsOpen={false} />
         </SessionProvider>
       </FeedbackProvider>
-      {process.env.NODE_ENV !== 'development' && (
+      {isGoogleAnalyticsAvailable && (
         <>
           <Script
             async
