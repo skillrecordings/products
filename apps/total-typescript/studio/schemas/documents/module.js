@@ -62,9 +62,15 @@ export default {
       type: 'array',
       of: [
         {
-          title: 'Sections and Link Resources',
+          title: 'Exercise, Sections and Explainers',
           type: 'reference',
-          to: [{title: 'Section', type: 'section'}, {type: 'linkResource'}],
+          to: [
+            {title: 'Exercise', type: 'exercise'},
+            {title: 'Section', type: 'section'},
+            {title: 'Explainer', type: 'explainer'},
+            {title: 'Interview', type: 'interview'},
+            {type: 'linkResource'},
+          ],
         },
       ],
     },
