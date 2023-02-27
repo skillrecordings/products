@@ -10,6 +10,7 @@ import {solutionsRouter} from './solutions'
 import {moduleProgressRouter} from './module-progress'
 import {purchasesRouter} from './purchases'
 import {userRouter} from './user'
+import {productsRouter} from './products'
 
 export const appRouter = mergeRouters(
   router({
@@ -20,6 +21,7 @@ export const appRouter = mergeRouters(
     moduleProgress: moduleProgressRouter,
     purchases: purchasesRouter,
     user: userRouter,
+    products: productsRouter,
   }),
   skillLessonRouter,
 )

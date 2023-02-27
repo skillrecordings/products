@@ -3,6 +3,7 @@ import {SanityDocument} from '@sanity/client'
 import {SubscribeToConvertkitForm} from '@skillrecordings/convertkit-react-ui'
 import {Facebook, LinkedIn, Twitter} from '@skillrecordings/react'
 import {NextRouter, useRouter} from 'next/router'
+import ReactMarkdown from 'react-markdown'
 import {IconGithub} from '../components/icons'
 import snakeCase from 'lodash/snakeCase'
 import Image from 'next/legacy/image'
@@ -38,6 +39,8 @@ import {createAppAbility} from '@skillrecordings/skill-lesson/utils/ability'
 import SelfRedeemButton from 'team/self-redeem-button'
 import {useSession} from 'next-auth/react'
 import Balancer from 'react-wrap-balancer'
+import {Pricing} from 'path-to-purchase-react/pricing'
+import {PriceCheckProvider} from 'path-to-purchase-react/pricing-check-context'
 
 const useAbilities = () => {
   const {
@@ -432,6 +435,9 @@ const BlockedOverlay = () => {
   const {lesson, module} = useLesson()
   const {refetch: refetchSubscriber} = useConvertkit()
   const {videoResourceId} = useVideoResource()
+  const {data: products, status: productsStatus} =
+    trpc.products.getProducts.useQuery()
+  const activeProduct = products?.products[0]
   const thumbnail = `${getBaseUrl()}/api/video-thumb?videoResourceId=${videoResourceId}`
   const {refetchAbility} = useMuxPlayer()
   const {data: ctaText} = useQuery(
@@ -476,10 +482,16 @@ const BlockedOverlay = () => {
   const canViewTeam = ability.can('view', 'Team')
   const {data: purchaseDetails} = trpc.purchases.getLastPurchase.useQuery()
 
-  return (
+  return productsStatus === 'success' ? (
     <div
       id="video-overlay"
-      className="relative flex w-full flex-col items-center justify-center bg-[#070B16] py-10 xl:aspect-video xl:flex-row"
+      //
+      className={cx(
+        'relative flex w-full flex-col items-center justify-center bg-[#04060d] py-10 xl:flex-row',
+        {
+          'xl:aspect-video': module.moduleType === 'tutorial' || canViewTeam,
+        },
+      )}
     >
       <Image
         src={thumbnail}
@@ -544,88 +556,93 @@ const BlockedOverlay = () => {
         </>
       ) : (
         <>
-          <div className="z-20 flex h-full flex-shrink-0 flex-col items-center justify-center gap-5 p-5 pb-10 text-center text-lg leading-relaxed sm:p-10 sm:pb-16">
-            <div className="flex w-full flex-col items-center justify-center gap-2">
-              {module.image && (
-                <div className="relative -mb-5">
-                  <Image
-                    src={module.image}
-                    width={220}
-                    height={220}
-                    alt={module.title}
-                  />
-                </div>
-              )}
-              <h2 className="text-4xl font-semibold">
-                Level up your {module.title}
-              </h2>
-              {canViewTeam ? (
-                <>
-                  <h3 className="max-w-xl pb-5 pt-3 text-lg text-gray-300">
+          <div className="z-20 flex h-full flex-shrink-0 flex-col items-center justify-center gap-5 p-5 text-center text-lg leading-relaxed">
+            {canViewTeam ? (
+              <div className="flex w-full flex-col items-center justify-center gap-2">
+                {module.image && (
+                  <div className="relative -mb-5">
+                    <Image
+                      src={module.image}
+                      width={220}
+                      height={220}
+                      alt={module.title}
+                    />
+                  </div>
+                )}
+                <h2 className="text-4xl font-semibold">
+                  Level up your {module.title}
+                </h2>
+                <h3 className="max-w-xl pb-5 pt-3 text-lg text-gray-300">
+                  <Balancer>
+                    You've purchased a team license with{' '}
+                    {purchaseDetails?.purchase?.bulkCoupon?.maxUses} seats and
+                    haven't claimed a seat for yourself yet.
+                  </Balancer>
+                </h3>
+                {purchaseDetails?.purchase?.bulkCoupon?.id &&
+                  !purchaseDetails?.existingPurchase && (
+                    <SelfRedeemButton
+                      disabled={Boolean(purchaseDetails?.existingPurchase)}
+                      userEmail={session?.user?.email}
+                      bulkCouponId={purchaseDetails?.purchase?.bulkCoupon?.id}
+                      onSuccess={(redeemedPurchase) => {
+                        if (redeemedPurchase) {
+                          refetchAbility()
+                        }
+                      }}
+                      className="rounded-lg bg-cyan-400 px-5 py-3 text-base font-semibold text-gray-900 brightness-125 transition hover:brightness-100"
+                    >
+                      Claim one seat for yourself and start learning
+                    </SelfRedeemButton>
+                  )}
+                <Link
+                  href="/team"
+                  className="mt-3 text-center text-base text-cyan-200 hover:underline"
+                >
+                  Invite your team
+                </Link>
+              </div>
+            ) : (
+              <div className="flex w-full flex-col items-center justify-center gap-10 xl:flex-row">
+                <div className="w-full max-w-[420px]">
+                  {activeProduct.image.url && (
+                    <div className="relative -mb-5">
+                      <Image
+                        src={activeProduct.image.url}
+                        width={200}
+                        height={200}
+                        alt=""
+                        aria-hidden="true"
+                      />
+                    </div>
+                  )}
+                  <h2 className="text-3xl font-semibold">
+                    Level up your {module.title}
+                  </h2>
+                  <h3 className="w-full pb-5 pt-3 text-base text-gray-300">
+                    {/* This {lesson._type} is part of Total TypeScript {activeProduct?.name}. */}
                     <Balancer>
-                      You've purchased a team license with{' '}
-                      {purchaseDetails?.purchase?.bulkCoupon?.maxUses} seats and
-                      haven't claimed a seat for yourself yet.
+                      <ReactMarkdown className="prose w-full prose-p:text-gray-300">
+                        {activeProduct.description}
+                      </ReactMarkdown>
                     </Balancer>
                   </h3>
-                  {purchaseDetails?.purchase?.bulkCoupon?.id &&
-                    !purchaseDetails?.existingPurchase && (
-                      <SelfRedeemButton
-                        disabled={Boolean(purchaseDetails?.existingPurchase)}
-                        userEmail={session?.user?.email}
-                        bulkCouponId={purchaseDetails?.purchase?.bulkCoupon?.id}
-                        onSuccess={(redeemedPurchase) => {
-                          if (redeemedPurchase) {
-                            refetchAbility()
-                          }
-                        }}
-                        className="rounded-lg bg-cyan-400 px-5 py-3 text-base font-semibold text-gray-900 brightness-125 transition hover:brightness-100"
-                      >
-                        Claim one seat for yourself and start learning
-                      </SelfRedeemButton>
+                </div>
+                <div className="w-full lg:w-auto">
+                  <PriceCheckProvider>
+                    {productsStatus === 'success' && (
+                      <Pricing product={activeProduct} />
                     )}
-                  <Link
-                    href="/team"
-                    className="mt-3 text-center text-base text-cyan-200 hover:underline"
-                  >
-                    Invite your team
-                  </Link>
-                </>
-              ) : (
-                <>
-                  <h3 className="max-w-xl pb-5 pt-3 text-lg text-gray-300">
-                    This {lesson._type} is part of the {module.title} workshop.
-                  </h3>
-                  <Link
-                    href={{
-                      pathname: '/buy',
-                    }}
-                    className="group group mt-5 inline-block gap-2 rounded bg-gradient-to-b from-cyan-300 to-cyan-400 py-3 pl-5 pr-8 font-medium text-black transition hover:brightness-110"
-                    onClick={() => {
-                      track('clicked unlock lesson', {
-                        lesson: lesson.slug,
-                        module: module.slug.current,
-                        location: 'blocked overlay',
-                        moduleType: module.moduleType,
-                        lessonType: lesson._type,
-                      })
-                    }}
-                  >
-                    <span className="pr-3">Unlock this {lesson._type} now</span>
-                    <span
-                      aria-hidden="true"
-                      className="absolute text-cyan-700 transition group-hover:translate-x-1"
-                    >
-                      →
-                    </span>
-                  </Link>
-                </>
-              )}
-            </div>
+                  </PriceCheckProvider>
+                </div>
+              </div>
+            )}
           </div>
         </>
       )}
     </div>
+  ) : (
+    <LoadingOverlay />
   )
 }
 
