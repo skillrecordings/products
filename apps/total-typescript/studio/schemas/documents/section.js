@@ -27,11 +27,17 @@ export default {
       name: 'resources',
       title: 'Resources',
       type: 'array',
-      description: 'Exercises, Explainers, or Link Resources in the Section',
+      description:
+        'Exercises, Explainers, Interviews, or Link Resources in the Section',
       of: [
         {
           type: 'reference',
-          to: [{type: 'exercise'}, {type: 'explainer'}, {type: 'linkResource'}],
+          to: [
+            {type: 'exercise'},
+            {type: 'explainer'},
+            {type: 'interview'},
+            {type: 'linkResource'},
+          ],
         },
       ],
     },
