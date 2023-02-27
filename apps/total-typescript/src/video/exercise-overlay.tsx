@@ -41,7 +41,6 @@ import {useSession} from 'next-auth/react'
 import Balancer from 'react-wrap-balancer'
 import {Pricing} from 'path-to-purchase-react/pricing'
 import {PriceCheckProvider} from 'path-to-purchase-react/pricing-check-context'
-import {isSellingLive} from 'path-to-purchase-react/is-selling-live'
 
 const useAbilities = () => {
   const {
