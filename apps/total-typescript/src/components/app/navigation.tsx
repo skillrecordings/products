@@ -482,10 +482,10 @@ const LogOutButton: React.FC<{className?: string}> = ({className}) => {
   )
 }
 
-const KeyIcon = () => {
+export const KeyIcon = () => {
   return (
     <svg
-      className="mr-0.5 h-4 w-4 text-amber-300"
+      className="mr-1 h-4 w-4 text-amber-300"
       xmlns="http://www.w3.org/2000/svg"
       fill="none"
       viewBox="0 0 15 15"
@@ -501,10 +501,10 @@ const KeyIcon = () => {
   )
 }
 
-const BookIcon = () => {
+export const BookIcon = () => {
   return (
     <svg
-      className="mr-0.5 h-3.5 w-3.5 text-violet-400"
+      className="mr-1 h-3.5 w-3.5 text-violet-400"
       aria-hidden="true"
       xmlns="http://www.w3.org/2000/svg"
       viewBox="0 0 16 16"

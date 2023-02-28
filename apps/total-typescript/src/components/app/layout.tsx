@@ -8,6 +8,7 @@ import {useRouter} from 'next/router'
 import {Survey} from '../../offer/survey'
 import {DefaultCoupon} from '@skillrecordings/commerce-server/dist/@types'
 import {useFeedback} from '../../feedback-widget/feedback-context'
+import Footer from 'components/app/footer'
 
 type LayoutProps = {
   meta?: any
@@ -74,8 +75,9 @@ const Layout: FunctionComponent<LayoutProps> = ({
         )}
       >
         {children}
-        {/* {footer ? footer : isNull(footer) ? null : <Footer />} */}
       </div>
+      {footer ? footer : isNull(footer) ? null : <Footer />}
+
       <Survey />
     </div>
   )

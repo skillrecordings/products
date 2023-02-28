@@ -2,14 +2,10 @@ import React from 'react'
 import Layout from 'components/app/layout'
 import config from 'config'
 import Image from 'next/legacy/image'
-import {useRouter} from 'next/router'
-import {get} from 'lodash'
 
 const ConfirmSubscriptionPage = () => {
-  const router = useRouter()
-
   return (
-    <Layout meta={{title: 'Confirm your subscription'}}>
+    <Layout meta={{title: 'Confirm your subscription'}} footer={null}>
       <main className="flex flex-grow flex-col items-center justify-center px-5 py-24">
         <div className="px-10 sm:px-0">
           <Image
