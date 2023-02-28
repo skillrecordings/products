@@ -112,8 +112,7 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
     Boolean(pppCoupon || merchantCoupon?.type === 'ppp') &&
     !purchased &&
     !isDowngrade(formattedPrice) &&
-    !isBuyingForTeam &&
-    allowPurchase
+    !isBuyingForTeam
 
   const handleOnSuccess = (subscriber: any, email?: string) => {
     if (subscriber) {
