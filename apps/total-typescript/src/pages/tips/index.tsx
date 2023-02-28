@@ -6,6 +6,7 @@ import Image from 'next/legacy/image'
 import {CheckCircleIcon, PlayIcon} from '@heroicons/react/solid'
 import {useRouter} from 'next/router'
 import {useTipComplete} from '../../hooks/use-tip-complete'
+import Balancer from 'react-wrap-balancer'
 
 export async function getStaticProps() {
   const tips = await getAllTips()
@@ -44,7 +45,7 @@ const TipsIndex: React.FC<TipsIndex> = ({tips}) => {
           {pageDescription}
         </p>
       </header>
-      <main className="relative z-10 mx-auto flex w-full max-w-screen-md flex-col divide-y divide-gray-800 rounded-lg bg-black/30 px-3 sm:px-5">
+      <main className="relative z-10 mx-auto flex w-full max-w-screen-md flex-col px-3 sm:px-5">
         {tips.map((tip) => {
           return <TipTeaser tip={tip} key={tip.slug} />
         })}
@@ -138,9 +139,10 @@ export const TipTeaser: React.FC<{tip: Tip}> = ({tip}) => {
               tip: tip.slug,
             },
           }}
-          className="inline-flex items-start gap-1 hover:underline"
+          className="w-full gap-1 hover:underline"
         >
-          {title} {tipCompleted && <span className="sr-only">(watched)</span>}
+          <Balancer>{title}</Balancer>{' '}
+          {tipCompleted && <span className="sr-only">(watched)</span>}
         </Link>
       </h2>
     </article>

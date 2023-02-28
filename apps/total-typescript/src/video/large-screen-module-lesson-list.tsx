@@ -1,5 +1,4 @@
 import * as React from 'react'
-import {type SanityDocument} from '@sanity/client'
 import {LessonList} from './lesson-list'
 import ModuleLessonListHeader from './module-lesson-list-header'
 import {Module} from '@skillrecordings/skill-lesson/schemas/module'

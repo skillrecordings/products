@@ -4,7 +4,7 @@ import {Signature} from './confirm'
 
 const ConfirmedSubscriptionPage = () => {
   return (
-    <Layout>
+    <Layout footer={null}>
       <main className="flex flex-grow flex-col items-center justify-center px-5">
         <Image />
         <div className="max-w-lg text-center font-light">

@@ -19,6 +19,7 @@ import {MuxPlayerRefAttributes} from '@mux/mux-player-react/*'
 import {trpc} from '../trpc/trpc.client'
 import LessonCompletionToggle from 'video/lesson-completion-toggle'
 import {useSession} from 'next-auth/react'
+import Footer from 'components/app/footer'
 
 const ExerciseTemplate: React.FC<{
   transcript: any[]
@@ -57,6 +58,7 @@ const ExerciseTemplate: React.FC<{
             isMinified={true}
           />
         }
+        footer={null}
       >
         <ArticleJsonLd
           url={`${process.env.NEXT_PUBLIC_URL}/${module.slug.current}/${lesson.slug}`}

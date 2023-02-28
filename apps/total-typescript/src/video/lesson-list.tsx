@@ -149,7 +149,7 @@ export const LessonList: React.FC<{
   return (
     <div
       ref={scrollContainerRef}
-      className="group relative h-[400px] overflow-y-auto pb-16 scrollbar-thin scrollbar-thumb-gray-800/70 hover:scrollbar-thumb-gray-700 lg:h-[calc(100vh-180px)]"
+      className="group relative h-[400px] overflow-y-auto pb-16 scrollbar-thin scrollbar-thumb-gray-800/70 hover:scrollbar-thumb-gray-700 lg:h-[calc(100vh-102px)]"
     >
       <nav aria-label="exercise navigator">
         {sections ? (
