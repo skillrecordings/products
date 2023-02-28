@@ -384,15 +384,11 @@
       }
 
       [data-ppp-container] {
-        @apply rounded-lg border border-gray-800 bg-black/40;
-        /* @apply left-0 bottom-0 m-0 flex flex-col items-center gap-5 rounded border-none lg:absolute lg:flex-row lg:rounded-none lg:border; */
+        @apply rounded-lg border border-gray-800 bg-black/40 p-3;
         [data-ppp-header] {
           @apply text-left text-base lg:text-sm;
-          strong {
-            /* @apply lg:inline; */
-          }
           p {
-            /* @apply lg:inline lg:before:content-["_"]; */
+            @apply lg:inline lg:before:content-["_"];
           }
         }
         label {

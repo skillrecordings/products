@@ -485,13 +485,7 @@ const BlockedOverlay = () => {
   return productsStatus === 'success' ? (
     <div
       id="video-overlay"
-      //
-      className={cx(
-        'relative flex w-full flex-col items-center justify-center bg-[#04060d] py-10 xl:flex-row',
-        {
-          'xl:aspect-video': module.moduleType === 'tutorial' || canViewTeam,
-        },
-      )}
+      className="relative flex w-full flex-col items-center justify-center bg-[#04060d] py-10 xl:aspect-video xl:flex-row"
     >
       <Image
         src={thumbnail}
