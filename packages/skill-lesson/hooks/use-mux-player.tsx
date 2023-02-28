@@ -125,7 +125,7 @@ export const VideoProvider: React.FC<
   }
 
   const handleNext = React.useCallback(async () => {
-    if (lesson._type === 'exercise') {
+    if (lesson._type === 'exercise' && !router.asPath.endsWith('/exercise')) {
       await router.push(router.asPath + '/exercise').then(() => {})
     }
     setDisplayOverlay(true)
