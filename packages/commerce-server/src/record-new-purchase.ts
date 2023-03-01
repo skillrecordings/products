@@ -52,7 +52,7 @@ export async function stripeData(options: StripeDataOptions) {
 
   // extract MerchantCoupon identifier if used for purchase
   const discount = first(lineItem.discounts)
-  let stripeCouponId = discount?.discount.coupon.id
+  const stripeCouponId = discount?.discount.coupon.id
 
   return {
     stripeCustomerId,
