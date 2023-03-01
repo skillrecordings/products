@@ -5,6 +5,8 @@ import Image from 'next/legacy/image'
 import Layout from 'components/layout'
 import toast from 'react-hot-toast'
 import Simon from '../../public/assets/simon-vrachliotis.png'
+import SimonWithPuppies from '../../public/assets/simon-with-puppies.jpg'
+import SurfingCorgi from '../../public/assets/surfing-corgi.svg'
 import NewsletterSubscribeForm from 'components/subscribe-form'
 import LandingCopy from 'components/landing-copy.mdx'
 import {GetServerSideProps} from 'next'
@@ -64,7 +66,7 @@ const Header = () => {
       <div className="mx-auto flex w-full max-w-screen-xl flex-col items-center justify-center gap-16 md:flex-row">
         <div className="flex w-80 items-center justify-center md:w-auto lg:flex-shrink-0">
           <Image
-            src={require('../../public/assets/surfing-corgi.svg')}
+            src={SurfingCorgi}
             alt=""
             aria-hidden="true"
             quality={100}
@@ -97,12 +99,7 @@ const Instructor = () => {
   return (
     <div className="flex items-center gap-3 pt-10">
       <div className="flex items-center justify-center overflow-hidden rounded-full">
-        <Image
-          src={require('../../public/assets/simon-vrachliotis.png')}
-          alt="Simon Vrachliotis"
-          width={64}
-          height={64}
-        />
+        <Image src={Simon} alt="Simon Vrachliotis" width={64} height={64} />
       </div>
       <div>
         New course by
@@ -122,29 +119,33 @@ const Copy = () => {
 
 const Bio = () => {
   return (
-    <section className="relative z-10 -mt-20 flex items-center justify-center py-10 px-5 sm:mt-0 sm:py-16 lg:py-24">
-      <div className="flex max-w-screen-sm flex-col items-center justify-center gap-10 md:flex-row md:items-start">
-        <div className="flex flex-shrink-0 items-center justify-center rounded-full shadow-xl ring ring-white/10 ring-offset-1">
+    <section className="relative z-10 -mt-24 flex items-center justify-center py-10 px-5 sm:py-16 md:mt-0 lg:py-24">
+      <div className="flex max-w-screen-sm flex-col items-center justify-center gap-10 md:max-w-screen-md md:flex-row md:items-start">
+        <div className="flex flex-shrink-0 items-center justify-center overflow-hidden rounded-md shadow-xl ring-4 ring-white/30">
           <Image
-            src={Simon}
-            width={150}
-            height={150}
+            src={SimonWithPuppies}
+            width={180}
+            height={240}
             placeholder="blur"
             loading={'eager'}
             alt="Simon Vrachliotis"
+            className="object-cover"
           />
         </div>
-        <div className="text-lg leading-relaxed">
+        <div className="max-w-md space-y-4 text-lg leading-relaxed md:max-w-none">
           <p>
-            <span aria-label="waving hand">👋</span> Hi, I'm Simon. I'm a hybrid
-            designer, developer, video editor and content creator with an
-            optimistic and enthusiastic approach to life! Rather than pretending
-            to be a "10×" developer, I take pride in helping people around me
-            get more productive ❤️
+            Hi, I'm Simon. <span aria-label="waving hand">👋</span>
           </p>
-          <p className="pt-4 font-semibold">
-            I will be your Pro Tailwind instructor. I'm excited, let's have some
-            fun!
+          <p>
+            I'm a hybrid designer, developer and content creator with an
+            optimistic and enthusiastic approach to life!
+          </p>
+          <p>
+            Rather than pretending to be a "10×" developer, I take pride in
+            helping people around me get more productive ❤️
+          </p>
+          <p className="font-semibold">
+            I will be your Pro Tailwind instructor. Let's have some fun!
           </p>
         </div>
       </div>
