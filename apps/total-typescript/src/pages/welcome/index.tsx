@@ -310,7 +310,7 @@ const Invite: React.FC<React.PropsWithChildren<any>> = ({
 const Share: React.FC<React.PropsWithChildren<{productName: string}>> = ({
   productName,
 }) => {
-  const tweet = `https://twitter.com/intent/tweet/?text=Total TypeScript ${productName} by @${process.env.NEXT_PUBLIC_PARTNER_TWITTER} 🧙 https%3A%2F%2Fwww.protailwind.com%2F`
+  const tweet = `https://twitter.com/intent/tweet/?text=Total TypeScript ${productName} by @${process.env.NEXT_PUBLIC_PARTNER_TWITTER} 🧙 ${process.env.NEXT_PUBLIC_URL}`
   return (
     <div className="flex flex-col justify-between gap-5 rounded-lg border border-gray-700/30 bg-gray-800 px-5 py-6 shadow-xl shadow-black/10 sm:flex-row sm:items-center">
       <p>
