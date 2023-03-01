@@ -384,6 +384,7 @@ export function getSdk(
       userId: string
       productId: string
       stripeChargeId: string
+      stripeCouponId?: string
       merchantAccountId: string
       merchantProductId: string
       merchantCustomerId: string
@@ -395,6 +396,7 @@ export function getSdk(
       const {
         userId,
         stripeChargeId,
+        stripeCouponId,
         merchantAccountId,
         merchantProductId,
         merchantCustomerId,
@@ -474,6 +476,10 @@ export function getSdk(
             },
           })
         } else {
+          const merchantCoupon = await ctx.prisma.merchantCoupon.findFirst({
+            where: {identifier: stripeCouponId},
+          })
+
           coupon = ctx.prisma.coupon.create({
             data: {
               id: bulkCouponId,
@@ -481,6 +487,7 @@ export function getSdk(
               maxUses: quantity,
               percentageDiscount: 1.0,
               status: 1,
+              merchantCouponId: merchantCoupon?.id,
             },
           })
         }

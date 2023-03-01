@@ -50,6 +50,10 @@ export async function stripeData(options: StripeDataOptions) {
   const stripeChargeId = stripeCharge?.id as string
   const stripeChargeAmount = stripeCharge?.amount || 0
 
+  // extract MerchantCoupon identifier if used for purchase
+  const discount = first(lineItem.discounts)
+  let stripeCouponId = discount?.discount.coupon.id
+
   return {
     stripeCustomerId,
     email,
@@ -57,6 +61,7 @@ export async function stripeData(options: StripeDataOptions) {
     stripeProductId: stripeProduct.id,
     stripeProduct,
     stripeChargeId,
+    stripeCouponId,
     quantity,
     stripeChargeAmount,
     metadata,
@@ -95,6 +100,7 @@ export async function recordNewPurchase(checkoutSessionId: string): Promise<{
     name,
     stripeProductId,
     stripeChargeId,
+    stripeCouponId,
     quantity,
     stripeChargeAmount,
     metadata,
@@ -124,6 +130,7 @@ export async function recordNewPurchase(checkoutSessionId: string): Promise<{
   const [purchase] = await createMerchantChargeAndPurchase({
     userId: user.id,
     stripeChargeId,
+    stripeCouponId,
     merchantAccountId,
     merchantProductId,
     merchantCustomerId,
