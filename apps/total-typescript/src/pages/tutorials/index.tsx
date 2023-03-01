@@ -15,9 +15,19 @@ export async function getStaticProps() {
   }
 }
 
+// There are multiple sections containing arrays of lessons. I'd like to flat map them into a single array of lessons.
+const sectionsFlatMap = (sections: any[]) => {
+  const map = sections.flatMap((section) => {
+    return section.lessons || []
+  })
+
+  return map
+}
+
 const TutorialsPage: React.FC<{tutorials: SanityDocument[]}> = ({
   tutorials,
 }) => {
+  console.log(tutorials)
   return (
     <Layout
       meta={{
@@ -40,7 +50,7 @@ const TutorialsPage: React.FC<{tutorials: SanityDocument[]}> = ({
         </p>
         {tutorials && (
           <ul className="flex max-w-screen-md flex-col gap-5 px-5 pt-10 sm:gap-8 sm:pt-20">
-            {tutorials.map(({title, slug, image, description, lessons}, i) => {
+            {tutorials.map(({title, slug, image, description, sections}, i) => {
               return (
                 <li
                   key={slug.current}
@@ -73,7 +83,7 @@ const TutorialsPage: React.FC<{tutorials: SanityDocument[]}> = ({
                           New
                         </span>
                       )}
-                      {lessons.length} exercises
+                      {sectionsFlatMap(sections).length} exercises
                     </div>
                     {description && (
                       <p className="text-gray-300">{description}</p>
