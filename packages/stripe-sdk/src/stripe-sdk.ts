@@ -11,6 +11,7 @@ export function getStripeSdk(
         expand: [
           'customer',
           'line_items.data.price.product',
+          'line_items.data.discounts',
           'payment_intent.charges',
         ],
       })
