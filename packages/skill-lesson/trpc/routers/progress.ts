@@ -104,7 +104,7 @@ export const progressRouter = router({
       }
     }),
   get: publicProcedure.query(async ({ctx}) => {
-    const {getLessonProgressForUser} = getSdk()
+    const {findOrCreateUser, getLessonProgressForUser} = getSdk()
     const token = await getToken({req: ctx.req})
     if (token) {
       try {
@@ -118,6 +118,25 @@ export const progressRouter = router({
         if (error instanceof Error) message = error.message
         return []
       }
+    } else {
+      const subscriberCookie = ctx.req.cookies['ck_subscriber']
+
+      if (!subscriberCookie) {
+        console.debug('no subscriber cookie')
+        return {error: 'no subscriber found'}
+      }
+
+      const subscriber = SubscriberSchema.parse(JSON.parse(subscriberCookie))
+
+      if (!subscriber?.email_address) {
+        console.debug('no subscriber cookie')
+        return {error: 'no subscriber found'}
+      }
+
+      const {user} = await findOrCreateUser(subscriber.email_address)
+
+      const lessonProgress = await getLessonProgressForUser(user.id as string)
+      return lessonProgress || []
     }
   }),
 })
