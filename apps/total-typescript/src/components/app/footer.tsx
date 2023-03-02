@@ -68,8 +68,8 @@ const Footer: React.FC<FooterProps> = ({className}) => {
           quality={100}
           alt=""
           aria-hidden="true"
-          width={220}
-          className="absolute -top-24 md:static md:-mt-12"
+          width={180}
+          className="absolute -top-20 md:static md:-mt-12"
         />
       </div>
     </footer>

@@ -15,6 +15,7 @@ const productsQuery = groq`*[_type == "pricing"][0] {
   },
   modules[]->{
     moduleType,
+    "slug": slug.current,
     title,
     "image": image.asset->{url, alt},
     state
