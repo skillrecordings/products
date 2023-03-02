@@ -31,7 +31,7 @@ export default {
     },
     images: [
       {
-        url: `https://${process.env.NEXT_PUBLIC_VERCEL_URL}/card@2x.png`,
+        url: `https://${process.env.NEXT_PUBLIC_VERCEL_URL}/card-sale@2x.png`,
         width: 1200,
         height: 630,
       },
