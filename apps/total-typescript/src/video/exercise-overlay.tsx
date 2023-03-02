@@ -41,6 +41,7 @@ import {useSession} from 'next-auth/react'
 import Balancer from 'react-wrap-balancer'
 import {Pricing} from 'path-to-purchase-react/pricing'
 import {PriceCheckProvider} from 'path-to-purchase-react/pricing-check-context'
+import {SanityProduct} from '@skillrecordings/commerce-server/dist/@types'
 
 const useAbilities = () => {
   const {
@@ -613,7 +614,7 @@ const BlockedOverlay = () => {
                   <h2 className="text-3xl font-semibold">
                     Level up your {module.title}
                   </h2>
-                  <h3 className="w-full pb-5 pt-3 text-base text-gray-300">
+                  <h3 className="w-full pb-3 pt-3 text-base text-gray-300">
                     {/* This {lesson._type} is part of Total TypeScript {activeProduct?.name}. */}
                     <Balancer>
                       <ReactMarkdown className="prose w-full prose-p:text-gray-300">
@@ -621,6 +622,37 @@ const BlockedOverlay = () => {
                       </ReactMarkdown>
                     </Balancer>
                   </h3>
+                  <div className="text-base text-gray-300">
+                    Includes all{' '}
+                    {
+                      activeProduct.modules.filter(
+                        ({moduleType}: Module) => moduleType === 'workshop',
+                      ).length
+                    }{' '}
+                    workshops:
+                  </div>
+                  <div className="flex items-center justify-center gap-3 pt-3">
+                    {activeProduct.modules
+                      .filter(
+                        ({moduleType}: Module) => moduleType === 'workshop',
+                      )
+                      .map((module: SanityProduct) => {
+                        return (
+                          <Link
+                            href={`/workshops/${module.slug}`}
+                            className="transition hover:scale-105"
+                            target="_blank"
+                          >
+                            <Image
+                              src={module.image.url}
+                              alt={`${module.title} workshop`}
+                              width={60}
+                              height={60}
+                            />
+                          </Link>
+                        )
+                      })}
+                  </div>
                 </div>
                 <div className="w-full lg:w-auto">
                   <PriceCheckProvider>

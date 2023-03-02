@@ -11,6 +11,7 @@ import Image from 'next/legacy/image'
 import {MDXComponents} from '../components/mdx'
 import {isSellingLive} from 'utils/is-selling-live'
 import {SubscribeToNewsletter} from 'components/home/home-newsletter-cta'
+import Balancer from 'react-wrap-balancer'
 
 export const HomeTemplate: React.FC<
   React.PropsWithChildren<CommerceProps & {level?: string}>
@@ -41,7 +42,7 @@ export const HomeTemplate: React.FC<
         <Copy level={skillLevel} />
         {isSellingLive ? (
           <MDXComponents.Section
-            className="flex flex-col items-center bg-[#081021] py-40"
+            className="-mb-40 flex flex-col items-center bg-[#081021] py-24 pb-56 sm:py-40 sm:pb-56"
             slot={
               <Image
                 src="/assets/landing/bg-divider-7.png"
@@ -52,8 +53,8 @@ export const HomeTemplate: React.FC<
               />
             }
           >
-            <h2 className="mx-auto max-w-[20ch] px-3 text-center font-heading text-4xl font-bold sm:text-5xl lg:text-5xl xl:text-6xl">
-              Your Total TypeScript Adventure Starts Now
+            <h2 className="mx-auto max-w-screen-lg px-3 text-center font-heading text-3xl font-bold sm:text-5xl lg:text-5xl xl:text-6xl">
+              <Balancer>Your Total TypeScript Adventure Starts Now</Balancer>
             </h2>
             <div className="flex w-full flex-col items-center pt-5" id="buy">
               <Image

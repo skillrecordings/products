@@ -1,6 +1,7 @@
 import React from 'react'
 import Image from 'next/legacy/image'
 import cx from 'classnames'
+import Balancer from 'react-wrap-balancer'
 
 export const MDXComponents = {
   TypeError: (props: TypeErrorProps) => <TypeError {...props} />,
@@ -9,6 +10,8 @@ export const MDXComponents = {
   Section: (props: any) => <Section {...props} />,
   SectionHeading: (props: any) => <SectionHeading {...props} />,
   ErrorFromHell: (props: any) => <ErrorFromHell {...props} />,
+  Testimonial: (props: any) => <Testimonial {...props} />,
+  Module: (props: any) => <Module {...props} />,
 }
 
 type TypeErrorProps = {
@@ -74,7 +77,7 @@ const SectionHeading: React.FC<any> = ({
           className,
         )}
       >
-        {children}
+        <Balancer>{children}</Balancer>
       </h2>
       {dividerBottom && (
         <DecorativeImage
@@ -133,4 +136,60 @@ const ErrorFromHell: React.FC<any> = ({children}) => {
 
 const DecorativeImage: React.FC<any> = (props) => {
   return <Image alt="" aria-hidden="true" quality={100} priority {...props} />
+}
+
+const Testimonial: React.FC<
+  React.PropsWithChildren<{author: {name: string; image?: string}}>
+> = ({children, author}) => {
+  return (
+    <div className="not-prose">
+      <blockquote className="relative flex h-full flex-col justify-between rounded-md border border-gray-800 p-5 sm:p-8">
+        <div className="font-medium before:absolute before:right-8 before:bottom-9 before:flex before:items-center before:justify-center before:font-heading before:text-3xl before:font-extrabold before:leading-none before:text-cyan-300 before:content-['”']">
+          {children}
+        </div>
+        {author?.name && (
+          <div className="mt-5 flex items-center gap-3">
+            {author.image && (
+              <Image
+                src={author.image}
+                width={50}
+                height={50}
+                alt={author.name}
+                className="rounded-full"
+              />
+            )}
+            <span className="">{author.name}</span>
+          </div>
+        )}
+      </blockquote>
+    </div>
+  )
+}
+
+const Module: React.FC<React.PropsWithChildren<any>> = ({
+  title,
+  sub,
+  image,
+  children,
+}) => {
+  return (
+    <div className="not-prose">
+      <div className="mx-auto flex w-full max-w-4xl flex-col gap-5 md:flex-row">
+        <div className="flex flex-shrink-0 items-center justify-center md:items-start">
+          <Image src={image} alt={title} width={280} height={280} />
+        </div>
+        <div className="px-5">
+          <h3 className="text-center font-text text-3xl font-bold sm:text-4xl md:text-left">
+            {title}
+          </h3>
+          <h4 className="pt-2 text-center text-xl font-medium text-cyan-200 sm:text-2xl md:pt-5 md:text-left">
+            <Balancer>{sub}</Balancer>
+          </h4>
+          <div className="flex flex-col space-y-3 pt-8 text-gray-200 md:pt-5">
+            {children}
+          </div>
+        </div>
+      </div>
+    </div>
+  )
 }

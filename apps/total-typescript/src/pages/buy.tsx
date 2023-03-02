@@ -33,7 +33,7 @@ const Buy: React.FC<React.PropsWithChildren<CommerceProps>> = ({
               alt: 'Golden Ticket',
             }
           : {
-              url: 'https://res.cloudinary.com/total-typescript/image/upload/v1670407830/pricing/card_2x_isoiaa.png',
+              url: 'https://res.cloudinary.com/total-typescript/image/upload/v1677783278/buy-card-sale_2x_mtdeem.png',
               alt: `Buy ${process.env.NEXT_PUBLIC_SITE_TITLE}`,
             },
       }}

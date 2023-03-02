@@ -1,8 +1,9 @@
 import {isSellingLive} from 'utils/is-selling-live'
+import Balancer from 'react-wrap-balancer'
 
 <Section className="text-center pt-48 pb-24 prose-p:max-w-lg" backgroundImage="/assets/landing/bg-sea-of-red-lines@2x.png">
 
-The feature’s working. The tests are passing.<br className="md:block hidden" />But your IDE is a sea of red lines. TypeScript’s not happy again.
+The feature’s working. The tests are passing. <br className="md:block hidden" />But your IDE is a sea of red lines. TypeScript’s not happy again.
 
 You move on to the next error:
 
@@ -76,29 +77,27 @@ Ultimately…
   objectPosition="top center"
   
 />}>
-<SectionHeading className="max-w-sm" dividerTop="/assets/landing/divider-8@2x.png" dividerBottom="/assets/landing/divider-7@2x.png">
-You deserve so much better
+<SectionHeading className="max-w-2xl" dividerTop="/assets/landing/divider-8@2x.png" dividerBottom="/assets/landing/divider-7@2x.png">
+An exercise-driven approach for learning TypeScript
 </SectionHeading>
 
-You deserve a practical, systematic approach to {props.level?.rank > 3 ? `expand your TypeScript expertise` : `learning TypeScript in depth`}.
+Total TypeScript's approach is different than what you'll find in other online courses.
 
-That's why I'm creating Total TypeScript.
+Instead of sitting through hours of lectures, you'll be presented with problematic code and a concise explanation of what needs to be done.
 
-It combines everything I've learned leading TypeScript teams and as an OSS maintainer for XState.
+Then using your existing skills along helpful links to relevant docs and other resources, you'll have as much time as you need to complete the challenge either in your local editor or using the editor embedded into each lesson.
 
-This course will be massive. Comprehensive. Total.
+When you're ready, you can watch how a true TypeScript Wizard approaches solving the challenge.
 
-We'll start right at ground-level. You won’t need any prior TypeScript knowledge to take this course.
+The exercises build upon another, demonstrating the most important TypeScript concepts in a variety different contexts so you can build understanding of when, where, and how to best apply them in your own application and library code.
 
-But also, it’s going to be the most advanced TypeScript course on the market. We’ll show you the techniques used by the most complex OSS libraries.
+<div className="max-w-2xl w-full mx-auto px-5">
+<Testimonial author={{name: '— Andrew C.'}}>
 
-It will turn you into your company's resident TypeScript Wizard:
+"The challenges were not too easy, and some of them took me a fair amount of time to find a working solution. This ultimately helped me to better understand TypeScript!"
 
-- the one that can unblock others and raise their velocity
-- the one that leads large-scale Typescript refactors
-- the one who knows instinctively what TypeScript is doing
-
-**You are indispensable.**
+</Testimonial>
+</div>
 
 </Section>
 
@@ -108,78 +107,7 @@ It will turn you into your company's resident TypeScript Wizard:
   className="pointer-events-none object-contain select-none"
   objectPosition="top center"
 />}>
-<SectionHeading className="max-w-xl" dividerTop="/assets/landing/divider-5@2x.png" dividerBottom="/assets/landing/divider-4@2x.png">
-A systematic approach for learning TypeScript
-</SectionHeading>
-
-### Fundamentals
-
-Getting good at TypeScript is all about understanding the compiler. It can feel like an evil schoolteacher: peering over your code and marking it with squiggly red lines.
-
-But like all good teachers, it’s hard on you because it wants the best for you.
-
-It’s helping you out with autocomplete.
-
-It’s showing you how to use external libraries without needing docs.
-
-And it’s much smarter than you give it credit for.
-
-All _you_ need to learn is:
-
-- How to use your IDE to get the most out of TypeScript
-- How to read TypeScript’s long error messages
-- How to give TypeScript hints using type annotations
-
-<div className="pointer-events-none relative -z-10 flex h-24 w-full translate-y-16 select-none items-center justify-center overflow-visible">
-  <Image
-    src="/assets/landing/bg-divider-5.png"
-    width={1512 / 1.2}
-    height={378 / 1.2}
-  />
-</div>
-
-### Debugging
-
-Next, we’ll master debugging with TypeScript. The errors that really hurt come from how your code interacts with external modules.
-
-We’ll learn how to deep-dive `node_modules` and TypeScript’s own declaration files.
-
-We’ll learn about advanced patterns in external modules, like namespaces, function overloads and interface augmentation.
-
-We’ll learn how to solve type errors at source, not just plastering over them with `any`.
-
-<div className="pointer-events-none relative -z-10 flex h-24 w-56 translate-x-80 translate-y-24 select-none items-center justify-center overflow-visible sm:w-full sm:translate-x-1/4 sm:translate-y-56">
-  <Image
-    src="/assets/landing/cloud@2x.png"
-    width={1184 / 3}
-    height={1367 / 3}
-  />
-</div>
-
-### Velocity
-
-Now, it’s time to go fast.
-
-We’ll look at techniques for DRY-ing up TypeScript code by:
-
-- Inferring from runtime code using <span className="text-rose-400">typeof</span>
-- Building incredible inference using generics
-- Generating TypeScript types from external sources
-
-TypeScript can enable some amazing DX for your team. But learning how to pick the right abstraction can be tough.
-
-We’ll be learning how the builder pattern and functional programming can enable some amazing API’s.
-
-</Section>
-
-<Section className="pt-10" slot={<Image
-  src="/assets/landing/bg-divider-6.png"
-  layout="fill"
-  className="pointer-events-none object-contain select-none"
-  objectPosition="top center"
-  
-/>}>
-<SectionHeading className="max-w-sm" dividerTop="/assets/landing/divider-1@2x.png" dividerBottom="/assets/landing/divider-2@2x.png">
+<SectionHeading className="max-w-2xl" dividerTop="/assets/landing/divider-5@2x.png" dividerBottom="/assets/landing/divider-4@2x.png">
 Make TypeScript work for you, not against you
 </SectionHeading>
 
@@ -191,10 +119,208 @@ To them, TypeScript doesn’t feel like magic. It feels simple, predictable and 
 
 They can bend it to their will, and use its power for amazing DX.
 
-This course is all about building that understanding at a deep level. When you’ve completed Total TypeScript, you’ll reach a point of mastery where very little surprises you any more.
+Total TypeScript Core Volume is all about building that understanding at a deep level.
+
+When you’ve completed the exercises, you’ll reach a point of mastery where very little surprises you any more.
 
 You’ll have less fear when approaching nasty TypeScript errors, more confidence when typing dynamic signatures, gain velocity by cutting lines of code, and so much more.
 
-{!isSellingLive ? <p>If that sounds good, consider signing up for exclusive content and early-release workshop offerings below.</p> : null}
+</Section>
+
+<Section className="" slot={<Image
+  src="/assets/landing/bg-divider-3.png"
+  layout="fill"
+  className="pointer-events-none object-contain select-none"
+  objectPosition="top center"
+  
+/>}>
+<SectionHeading className="max-w-sm" dividerTop="/assets/landing/divider-1@2x.png" dividerBottom="/assets/landing/divider-2@2x.png">
+You deserve so much better
+</SectionHeading>
+
+You deserve a practical, systematic approach to learning TypeScript in depth.
+
+Total TypeScript shows you the techniques used by the most complex OSS libraries.
+
+Become your company’s resident TypeScript Wizard.
+
+- You will become a better contributor and reviewer.
+- You will be the one to unblock others and raise their velocity.
+- You will be the one who knows instinctively what TypeScript is doing.
+
+**You are indispensable.**
+
+</Section>
+
+<Section className="py-24 bg-[#081021]" slot={<Image
+  src="/assets/landing/bg-divider-4.png"
+  layout="fill"
+  className="pointer-events-none object-contain select-none"
+  objectPosition="top center"
+/>}>
+<SectionHeading className="max-w-xl" dividerTop="/assets/landing/divider-4@2x.png" dividerBottom="/assets/landing/divider-3@2x.png">
+Who is Total TypeScript for?
+</SectionHeading>
+
+Total TypeScript Core Volume is suitable for any developer who is ready to work at becoming a wizard, though some basic familiarity with TypeScript is recommended.
+
+The Type Transformations workshop begins by warming you up with exercises on basic inference and essential types.
+
+Then nearly 150 exercises later, the Advanced TypeScript Patterns workshop will have you creating chainable method abstractions with generics and the builder pattern.
+
+Check out the free [Beginner's Tutorial](https://totaltypescript.com/tutorials/beginners-typescript) to set a foundation and get an idea for the workshop's teaching approach.
+
+</Section>
+
+<Section className="" slot={<Image
+  src="/assets/landing/bg-divider-3.png"
+  layout="fill"
+  className="pointer-events-none object-contain select-none"
+  objectPosition="top center"
+/>}>
+
+<SectionHeading className="max-w-2xl pt-0">
+  Early Feedback for Total TypeScript
+</SectionHeading>
+
+<div className="grid md:grid-cols-2 grid-cols-1 gap-5 max-w-screen-lg w-full mx-auto px-5 pb-24">
+
+<Testimonial author={{name: 'Alex Tana', image: require('../../public/testimonials/alex-tana.jpg')}}>
+
+Total TypeScript is hands down the best course out there, and the format is the best I've seen. It feels like you're doing a 1 on 1 with Matt Pocock.
+
+</Testimonial>
+
+<Testimonial author={{name: 'Mr. Steal Your Code', image: require('../../public/testimonials/mr-steal-your-code.jpg')}}>
+
+Matt Pocock is saving my life with his Total TypeScript course. Can't tell you how many other videos I've watched that didn't click as much as his have. Looking forward to the more advanced courses.
+
+</Testimonial>
+
+<Testimonial author={{name: 'Christopher Almeida-Symons', image: require('../../public/testimonials/christopher-almeida-symons.jpg')}}>
+
+After finishing the Total Typescript course by Matt Pocock: I love the UI and how he encourages something a lot of developers are not taught...reading docs. They are a powerful tool and should be encouraged to be used more.
+
+</Testimonial>
+
+<Testimonial author={{name: 'Sebastian Kasanzew', image: require('../../public/testimonials/sebastian-kasanzew.jpg')}}>
+
+These videos and exercises really helped me to get to the next level in TS. I could improve types in some projects at work right on the next day.
+
+</Testimonial>
+
+</div>
+
+<SectionHeading
+  className="max-w-sm pb-0"
+  dividerTop="/assets/landing/divider-3@2x.png"
+>
+  Total TypeScript Core Volume
+</SectionHeading>
+
+The Total TypeScript Core Volume contains three professional-grade workshops for you to achieve TypeScript Wizardry:
+
+- Type Transformations (7 sections, 50+ exercises)
+- TypeScript Generics (6 sections, 40+ exercises)
+- Advanced TypeScript Patterns (7 sections, 40+ exercises)
+
+Each workshop contains dozens of exercises designed to put your problem solving skills to the test.
+
+<div className="flex items-center justify-center not-prose flex-col pt-16 pb-5 px-5 text-center">
+  <Image
+    src={require('../../public/matt-pocock.jpeg')}
+    alt="Matt Pocock"
+    width={140}
+    height={140}
+    className="flex rounded-full"
+  />
+
+<h2 className="sm:text-4xl text-3xl font-text font-bold pt-5">Hi, I'm Matt Pocock</h2>
+</div>
+
+Before creating Total TypeScript, I was a member of the XState core team and worked as a developer advocate at Vercel.
+
+I've worked with TypeScript as a lead fullstack dev, a library maintainer, and now as a full-time educator.
+
+I built Total TypeScript to make the secrets of open-source maintainers and industry experts available to everyone.
+
+</Section>
+
+<Section className="py-16 bg-[#081021]" slot={<Image
+  src="/assets/landing/bg-divider-4.png"
+  layout="fill"
+  className="pointer-events-none object-contain select-none"
+  objectPosition="top center"
+/>}>
+
+<SectionHeading
+  className="w-full pb-10"
+  dividerTop="/assets/landing/divider-5@2x.png"
+>
+  Workshops Include
+</SectionHeading>
+
+<div className="flex flex-col gap-20">
+
+<Module title="Type Transformations" sub="Wield the power of transformation to move from one type to another with ease" image="https://cdn.sanity.io/images/z9io1e0u/production/8d26aee5def2397f419bb038fd8879286fd41bda-768x768.png">
+
+Many problems in TypeScript come down to transforming types into other types.
+
+This workshop is your first step on the path to wizardry with topics including unions, template literals, conditional types and mapped types. You'll also see how to take advantage of inference and type helpers to ensure you retain flexibility while ensuring your types are exactly how you expect them to be.
+
+</Module>
+
+<Module title="TypeScript Generics" sub="Unlock amazing inference in the functions you create and the abstractions you build" image="https://cdn.sanity.io/images/z9io1e0u/production/12ef51ed533404ccf132765c75be8b6fe600bcda-769x769.png">
+
+Generics are one of TypeScript's most complex and intimidating features.
+
+Getting good at generics requires deep knowledge of the TypeScript Compiler, as well as an understanding of how their placement impacts their usefulness.
+
+You'll practice with using generics in a variety of situations, as well as how to use function overloads when generics aren't the best fit.
+
+</Module>
+
+<Module title="Advanced TypeScript Patterns" sub="Become fluent in TypeScript's undocumented patterns" image="https://cdn.sanity.io/images/z9io1e0u/production/ce94d457bbfa7580dd803aaa5630a7c6ebed9fee-927x927.png">
+
+The TypeScript community has discovered and iterated upon several patterns that build on the type transformation and generics techniques explored in the earlier workshops.
+
+Here you'll grow more powerful through practice with branded types and the builder pattern, among others. You will also discover the best practices for strongly typing the global scope and how to understand the flow of generics through external libraries.
+
+</Module>
+</div>
+
+</Section>
+
+<Section className="pt-10" slot={<Image
+  src="/assets/landing/bg-divider-3.png"
+  layout="fill"
+  className="pointer-events-none object-cover select-none"
+  objectPosition="top center"
+/>}>
+
+<SectionHeading
+  className="max-w-sm pb-8 sm:pb-0"
+  dividerTop="/assets/landing/divider-8@2x.png"
+>
+  Developers like you are saying…
+</SectionHeading>
+
+<div className="flex flex-col gap-10 max-w-xl mx-auto w-full not-prose px-5 sm:pl-5 pl-12">
+<blockquote className="before:pt-1 before:text-cyan-300 before:content-['”'] before:-left-8 before:absolute relative before:text-3xl before:font-heading before:font-extrabold">
+
+The content itself was incredible. Videos are superb. Delivery, pacing, tone, everything- wow. I feel like I have superpowers. I’ve Already made one library available!
+
+</blockquote>
+<blockquote className="before:pt-1 before:text-cyan-300 before:content-['”'] before:-left-8 before:absolute relative before:text-3xl before:font-heading before:font-extrabold">
+
+Your dedication to educating the community on TypeScript is remarkable, and your passion for the subject is evident in the quality of your content.
+
+</blockquote>
+<blockquote className="before:pt-1 before:text-cyan-300 before:content-['”'] before:-left-8 before:absolute relative before:text-3xl before:font-heading before:font-extrabold">
+
+I truly feel like a wizard and I can’t stop recommending it!
+
+</blockquote>
+</div>
 
 </Section>
