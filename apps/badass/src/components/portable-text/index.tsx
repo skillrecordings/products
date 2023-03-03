@@ -1,6 +1,7 @@
 import React from 'react'
 import type {ArbitraryTypedObject, PortableTextBlock} from '@portabletext/types'
 import {ChevronDownIcon, ChevronUpIcon} from '@heroicons/react/solid'
+import Balancer from 'react-wrap-balancer'
 import {
   toPlainText,
   PortableText,
@@ -16,7 +17,7 @@ import {
   VideoProvider,
 } from '@skillrecordings/player'
 import speakingurl from 'speakingurl'
-import Image from 'next/legacy/image'
+import Image from 'next/image'
 import Link from 'next/link'
 import cx from 'classnames'
 
@@ -25,6 +26,7 @@ import js from 'refractor/lang/javascript'
 import markdown from 'refractor/lang/markdown'
 import yaml from 'refractor/lang/yaml'
 import Spinner from 'components/spinner'
+import {TwitterTweetEmbed} from 'react-twitter-embed'
 
 Refractor.registerLanguage(js)
 Refractor.registerLanguage(markdown)
@@ -75,8 +77,8 @@ const BodyImage = ({value}: BodyImageProps) => {
   const {url, width, height} = image
   return (
     <figure
-      className={cx('flex items-center justify-center relative', {
-        'bg-gray-100': isLoading,
+      className={cx('flex flex-col items-center justify-center relative', {
+        'bg-white/10': isLoading,
       })}
     >
       <Image
@@ -118,8 +120,7 @@ const PortableTextComponents: PortableTextComponents = {
     },
     blockquote: ({children, value}) => {
       return (
-        <blockquote>
-          🫦
+        <blockquote className="not-prose p-5 border-badass-yellow-500 border-l-[3px] bg-white/10 text-gray-200 relative not-italic font-normal">
           {children}
         </blockquote>
       )
@@ -150,6 +151,53 @@ const PortableTextComponents: PortableTextComponents = {
     },
   },
   types: {
+    bodyGrid: ({value}: any) => {
+      const {items} = value
+      console.log({items})
+      return (
+        <div className={cx(`grid grid-flow-col gap-5 overflow-x-auto`)}>
+          {items.map((item: any) => {
+            return (
+              <PortableText components={PortableTextComponents} value={item} />
+            )
+          })}
+        </div>
+      )
+    },
+    bodyClientProfile: ({value}: any) => {
+      const {name, description, image} = value
+      return (
+        <div className="flex items-center gap-10">
+          <Image
+            src={image}
+            alt={name}
+            width={200}
+            height={200}
+            className="flex-shrink-0 rounded"
+          />
+          <div className="flex flex-col w-full">
+            <span className="text-3xl font-semibold">{name}</span>
+            <span className="text-lg text-gray-300 pt-3">
+              <Balancer>{description}</Balancer>
+            </span>
+          </div>
+        </div>
+      )
+    },
+    tweet: ({value}: any) => {
+      const {tweetId} = value
+      return (
+        <TwitterTweetEmbed
+          tweetId={tweetId}
+          options={{theme: 'dark'}}
+          placeholder={
+            <div className="aspect-square w-full h-full flex items-center justify-center">
+              <Spinner className="w-5 h-5" />
+            </div>
+          }
+        />
+      )
+    },
     bodyVideo: ({value}: BodyVideoProps) => {
       const {url, title, caption} = value
       return (

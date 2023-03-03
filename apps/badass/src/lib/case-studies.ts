@@ -54,7 +54,16 @@ export const getCaseStudy = async (
         description,
         "image": image.asset->url,
         summary,
-        body
+        body[]{
+        ...,
+        markDefs[]{
+          ...,
+        },
+        _type == "bodyClientProfile" => {
+          ...,
+          "image": image.asset->url
+        }
+      },
     }`,
     {slug: `${slug}`},
   )

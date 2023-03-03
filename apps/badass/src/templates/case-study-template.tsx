@@ -8,7 +8,7 @@ import {format} from 'date-fns'
 import JoelHooksHeadshotImage from '../../public/joel-hooks.jpg'
 import PortableTextComponents from 'components/portable-text'
 import Layout from 'components/layout'
-import Image from 'next/legacy/image'
+import Image from 'next/image'
 import {SmallCallToActionForm} from '../components/call-to-action-form'
 import {genericCallToActionContent} from '../components/landing-content'
 
@@ -67,14 +67,18 @@ const Header: React.FC<
   React.PropsWithChildren<{title: string; image: string | null | undefined}>
 > = ({title, image}) => {
   return (
-    <header className="flex items-center justify-center pb-32">
-      <div className="flex flex-col items-center px-5">
-        {image && (
-          <div className="w-80 h-80 flex items-center justify-center relative">
-            <Image src={image} layout="fill" className="object-contain" />
-          </div>
-        )}
-        <h1 className="max-w-screen-md w-full sm:text-6xl text-5xl font-heading sm:leading-tight leading-tight text-center pt-16">
+    <header className="flex items-center justify-center pb-24 bg-badass-neutral-1000 aspect-video max-h-[calc(100vh-120px)] relative">
+      {image && (
+        <Image
+          src={image}
+          fill
+          className="object-contain"
+          alt=""
+          aria-hidden="true"
+        />
+      )}
+      <div className="flex flex-col items-center px-5 w-full relative z-10">
+        <h1 className="max-w-screen-lg drop-shadow-2xl shadow-black w-full sm:text-6xl text-3xl font-heading uppercase sm:leading-tight leading-tight text-center">
           <Balancer>{title}</Balancer>
         </h1>
       </div>

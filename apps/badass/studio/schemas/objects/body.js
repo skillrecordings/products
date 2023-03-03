@@ -92,6 +92,10 @@ export default {
     {type: 'code'},
     {type: 'callout'},
     {type: 'divider'},
+    {type: 'bodyGrid'},
+    {type: 'bodyContributorProfile'},
+    {type: 'bodyClientProfile'},
+    {type: 'tweet'},
   ],
   inputComponent: CustomEditor,
 }
