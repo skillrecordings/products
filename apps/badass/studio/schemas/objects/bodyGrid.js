@@ -1,5 +1,5 @@
 import React from 'react'
-import {FiTwitter} from 'react-icons/fi'
+import {FiTwitter, FiUser} from 'react-icons/fi'
 
 export default {
   name: 'bodyGrid',
@@ -25,7 +25,7 @@ export default {
         <div
           style={{display: 'grid', gridAutoFlow: 'column', overflowX: 'auto'}}
         >
-          {items.map(({tweetId}) => {
+          {items.map(({_type, ...props}) => {
             return (
               <div
                 style={{
@@ -35,16 +35,33 @@ export default {
                   padding: '20px 0',
                 }}
               >
-                <strong
-                  style={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                  }}
-                >
-                  <FiTwitter /> Tweet
-                </strong>
-                <small>({tweetId})</small>
+                {_type === 'tweet' && (
+                  <>
+                    <strong
+                      style={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                      }}
+                    >
+                      <FiTwitter /> Tweet
+                    </strong>
+                    <small>({props.tweetId})</small>
+                  </>
+                )}
+                {_type === 'bodyContributorProfile' && (
+                  <>
+                    <strong
+                      style={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                      }}
+                    >
+                      <FiUser /> {props.name}
+                    </strong>
+                  </>
+                )}
               </div>
             )
           })}

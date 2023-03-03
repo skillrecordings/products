@@ -25,7 +25,7 @@ export default {
     select: {name: 'name'},
     component: ({value}) => {
       const {name} = value
-      return name ? <div>client: {name}</div> : null
+      return name ? <div>contributor: {name}</div> : null
     },
   },
 }

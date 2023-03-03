@@ -153,12 +153,22 @@ const PortableTextComponents: PortableTextComponents = {
   types: {
     bodyGrid: ({value}: any) => {
       const {items} = value
-      console.log({items})
+      console.log({value})
       return (
-        <div className={cx(`grid grid-flow-col gap-5 overflow-x-auto`)}>
+        <div
+          className={cx(`grid gap-5 overflow-x-auto auto-cols-fr`, {
+            'sm:grid-cols-2 grid-cols-1': items.length === 2,
+            'md:grid-cols-3 sm:grid-cols-2 grid-cols-1': items.length === 3,
+          })}
+        >
           {items.map((item: any) => {
             return (
-              <PortableText components={PortableTextComponents} value={item} />
+              <>
+                <PortableText
+                  components={PortableTextComponents}
+                  value={item}
+                />
+              </>
             )
           })}
         </div>
@@ -168,16 +178,40 @@ const PortableTextComponents: PortableTextComponents = {
       const {name, description, image} = value
       return (
         <div className="flex items-center gap-10">
-          <Image
-            src={image}
-            alt={name}
-            width={200}
-            height={200}
-            className="flex-shrink-0 rounded"
-          />
+          {image && (
+            <Image
+              src={image}
+              alt={name}
+              width={200}
+              height={200}
+              className="flex-shrink-0 rounded"
+            />
+          )}
           <div className="flex flex-col w-full">
             <span className="text-3xl font-semibold">{name}</span>
             <span className="text-lg text-gray-300 pt-3">
+              <Balancer>{description}</Balancer>
+            </span>
+          </div>
+        </div>
+      )
+    },
+    bodyContributorProfile: ({value}: any) => {
+      const {name, description, image} = value
+      return (
+        <div className="flex items-center p-5 gap-5 bg-white/10 rounded">
+          {image && (
+            <Image
+              src={image}
+              alt={name}
+              width={60}
+              height={60}
+              className="flex-shrink-0 rounded-full !my-0"
+            />
+          )}
+          <div className="flex flex-col w-full">
+            <span className="text-xl font-semibold">{name}</span>
+            <span className="text-base opacity-80 leading-tight pt-1">
               <Balancer>{description}</Balancer>
             </span>
           </div>

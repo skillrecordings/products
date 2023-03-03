@@ -62,6 +62,23 @@ export const getCaseStudy = async (
         _type == "bodyClientProfile" => {
           ...,
           "image": image.asset->url
+        },
+        _type == "bodyContributorProfile" => {
+          ...,
+          "image": image.asset->url
+        },
+        _type == 'bodyGrid' => {
+            ...,
+            items[]{
+              _type == "bodyClientProfile" => {
+                ...,
+                "image": image.asset->url
+              },
+              _type == "bodyContributorProfile" => {
+                ...,
+                "image": image.asset->url
+              },
+          }
         }
       },
     }`,
