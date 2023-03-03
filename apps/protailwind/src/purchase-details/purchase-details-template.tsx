@@ -159,7 +159,7 @@ const PurchaseTransfer: React.FC<{purchase: {id: string}}> = ({purchase}) => {
       id: purchase.id,
     })
 
-  return (
+  return !isEmpty(purchaseUserTransfers) ? (
     <div className="flex w-full flex-col gap-3 py-4 px-3">
       <div className="flex flex-shrink-0 items-center gap-2">
         <Icon className="text-gray-600" name="MoveDown" /> Transfer this
@@ -174,7 +174,7 @@ const PurchaseTransfer: React.FC<{purchase: {id: string}}> = ({purchase}) => {
         )}
       </div>
     </div>
-  )
+  ) : null
 }
 
 const WelcomeHeader = () => {
