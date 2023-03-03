@@ -2,7 +2,11 @@ import {ArrowRightIcon} from '@heroicons/react/solid'
 import {Purchase} from '@skillrecordings/database'
 import Layout from 'components/app/layout'
 import Link from 'next/link'
-import {DatePurchased, Price} from 'purchase-details/purchase-details-template'
+import {
+  DatePurchased,
+  InvoiceLink,
+  Price,
+} from 'purchase-details/purchase-details-template'
 import Balancer from 'react-wrap-balancer'
 import Image from 'next/image'
 
@@ -15,6 +19,7 @@ export type PurchasesIndexProps = {
       createdAt: string
       totalAmount: number
       redeemedBulkCouponId: string | null
+      merchantChargeId: string
     }[]
 }
 
@@ -50,13 +55,15 @@ const PurchasesIndexTemplate: React.FC<PurchasesIndexProps> = ({purchases}) => {
                 </h2>
                 <div className="mt-8 flex w-full flex-col justify-between gap-5 border-t border-dotted border-gray-700 pt-4 sm:flex-row sm:items-center sm:gap-0">
                   <div className="flex items-center text-gray-300">
+                    <InvoiceLink merchantChargeId={purchase.merchantChargeId} />
+                    {' ・ '}
                     <Price amount={purchase.totalAmount} />
                     {' ・ '}
                     <DatePurchased date={purchase.createdAt} />
                   </div>
                   <Link
                     href={`/purchases/${purchase.id}`}
-                    className="flex items-center gap-2 font-medium text-cyan-300 underline"
+                    className="flex items-center gap-2 font-medium text-cyan-300 hover:underline"
                   >
                     View details {purchase.bulkCoupon && 'and invite your team'}{' '}
                     <ArrowRightIcon className="h-4 w-4" />
