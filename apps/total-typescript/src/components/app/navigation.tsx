@@ -213,6 +213,12 @@ const MobileNav = () => {
                             <MobileNavLink path="/team" label="Invite team" />
                           )}
                           {canViewInvoice && (
+                            <MobileNavLink
+                              path="/purchases"
+                              label="Purchases"
+                            />
+                          )}
+                          {canViewInvoice && (
                             <MobileNavLink path="/invoices" label="Invoices" />
                           )}
                           <MobileNavLink
@@ -431,6 +437,11 @@ const AccountDropdown = () => {
                 {canViewTeam && (
                   <li className="w-full">
                     <DropdownLink href="/team">Invite team</DropdownLink>
+                  </li>
+                )}
+                {canViewInvoice && (
+                  <li className="w-full">
+                    <DropdownLink href="/purchases">Purchases</DropdownLink>
                   </li>
                 )}
                 {canViewInvoice && (
