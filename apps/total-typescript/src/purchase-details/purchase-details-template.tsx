@@ -66,71 +66,78 @@ const PurchaseDetailsTemplate: React.FC<PurchaseDetailsProps> = ({
   )
 
   return (
-    <Layout meta={{title: `Purchase details for ${product.name}`}}>
+    <Layout
+      meta={{title: `Purchase details for ${product.name}`}}
+      className="bg-black/20"
+    >
       {welcome ? <WelcomeHeader /> : null}
-      <div
-        className="mx-auto w-full max-w-3xl px-5 pt-24 pb-24 sm:pt-40"
-        id="purchase-detail"
-      >
-        <main className="flex flex-col items-center gap-10 bg-gray-900 sm:items-start md:flex-row">
-          <Image
-            src={sanityProduct.image.url}
-            alt=""
-            aria-hidden="true"
-            width={240}
-            height={240}
-            className="flex-shrink-0"
-          />
-          <div className="w-full">
-            <p className="pb-3 font-medium uppercase tracking-wide text-cyan-300">
-              Your purchase details for
-            </p>
-            <h1 className="font-heading text-5xl font-extrabold">
-              <Balancer>{product.name}</Balancer>
-            </h1>
-            <div className="-mx-3 flex flex-col items-center justify-center divide-y divide-gray-800 pt-10">
-              <Row label="Invoice" icon="Receipt">
-                <InvoiceLink merchantChargeId={purchase.merchantChargeId} />
-              </Row>
-              {canInviteTeam && (
-                <ManageTeam
-                  purchase={purchase}
-                  email={user.email}
-                  existingPurchase={existingPurchase}
-                  setPersonalPurchase={setPersonalPurchase}
-                />
-              )}
-              <Row label="Amount paid" icon="Dollar">
-                <Price amount={purchase.totalAmount} />{' '}
-                {purchase.status === 'Refunded' && '(Refunded)'}
-              </Row>
-              <Row label="Purchased on" icon="Calendar">
-                <DatePurchased date={purchase.createdAt} />
-              </Row>
-              {user && (
-                <Row label="Associated email address" icon="Email">
-                  {user.email}
+      <div className="bg-gray-900">
+        <div
+          className="mx-auto w-full max-w-3xl px-5 pt-24 pb-24 sm:pt-40"
+          id="purchase-detail"
+        >
+          <main className="flex flex-col items-center gap-10 sm:items-start md:flex-row">
+            <Image
+              src={sanityProduct.image.url}
+              alt=""
+              aria-hidden="true"
+              width={240}
+              height={240}
+              className="flex-shrink-0"
+            />
+            <div className="w-full">
+              <p className="pb-3 font-medium uppercase tracking-wide text-cyan-300">
+                Your purchase details for
+              </p>
+              <h1 className="font-heading text-5xl font-extrabold">
+                <Balancer>{product.name}</Balancer>
+              </h1>
+              <div className="-mx-3 flex flex-col items-center justify-center divide-y divide-gray-800 pt-10">
+                <Row label="Invoice" icon="Receipt">
+                  <InvoiceLink merchantChargeId={purchase.merchantChargeId} />
                 </Row>
-              )}
-              {/* {((purchase.status === 'Valid' && personalPurchase) ||
+                {canInviteTeam && (
+                  <ManageTeam
+                    purchase={purchase}
+                    email={user.email}
+                    existingPurchase={existingPurchase}
+                    setPersonalPurchase={setPersonalPurchase}
+                  />
+                )}
+                <Row label="Amount paid" icon="Dollar">
+                  <Price amount={purchase.totalAmount} />{' '}
+                  {purchase.status === 'Refunded' && '(Refunded)'}
+                </Row>
+                <Row label="Purchased on" icon="Calendar">
+                  <DatePurchased date={purchase.createdAt} />
+                </Row>
+                {user && (
+                  <Row label="Associated email address" icon="Email">
+                    {user.email}
+                  </Row>
+                )}
+                {/* {((purchase.status === 'Valid' && personalPurchase) ||
                 canViewContent) && (
                 <Row label="Progress" icon="PlayOutline">
                   <Progress sanityProduct={sanityProduct} />
                 </Row>
               )} */}
-              {!purchase.bulkCoupon && <PurchaseTransfer purchase={purchase} />}
+                {!purchase.bulkCoupon && (
+                  <PurchaseTransfer purchase={purchase} />
+                )}
+              </div>
             </div>
-          </div>
-        </main>
+          </main>
+        </div>
+        <footer className="flex w-full flex-col items-center justify-center gap-16 border-t border-gray-800/50 bg-black/20 px-5 py-16 sm:flex-row">
+          {welcome && <Share />}
+          <BuySeats
+            productName={product.name}
+            productId={purchase.productId}
+            userId={purchase.userId}
+          />
+        </footer>
       </div>
-      <footer className="flex w-full flex-grow flex-col items-center justify-center gap-16 border-t border-gray-800/50 bg-black/20 px-5 py-16 sm:flex-row">
-        {welcome && <Share />}
-        <BuySeats
-          productName={product.name}
-          productId={purchase.productId}
-          userId={purchase.userId}
-        />
-      </footer>
     </Layout>
   )
 }
@@ -162,7 +169,7 @@ const PurchaseTransfer: React.FC<{purchase: {id: string}}> = ({purchase}) => {
       id: purchase.id,
     })
 
-  return (
+  return !isEmpty(purchaseUserTransfers) ? (
     <div className="flex w-full flex-col gap-3 py-4 px-3">
       <div className="flex flex-shrink-0 items-center gap-2 text-gray-200">
         <Icon className="text-gray-500" name="MoveDown" /> Transfer this
@@ -177,7 +184,7 @@ const PurchaseTransfer: React.FC<{purchase: {id: string}}> = ({purchase}) => {
         )}
       </div>
     </div>
-  )
+  ) : null
 }
 
 const WelcomeHeader = () => {
@@ -266,7 +273,7 @@ const ManageTeam: React.FC<{
   )
 }
 
-const InvoiceLink: React.FC<{merchantChargeId: string | null}> = ({
+export const InvoiceLink: React.FC<{merchantChargeId: string | null}> = ({
   merchantChargeId,
 }) => {
   const ability = useAbilities()
