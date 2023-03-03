@@ -84,7 +84,10 @@ export const sendVerificationRequest = async (
     console.log(`\n************************************\n`)
   }
 
-  if (isValidateEmailServerConfig(server)) {
+  if (
+    isValidateEmailServerConfig(server) &&
+    process.env.SKIP_EMAIL !== 'true'
+  ) {
     const transport = createTransport(server)
 
     await transport.sendMail({
@@ -94,6 +97,8 @@ export const sendVerificationRequest = async (
       text: text({url, host, expires}),
       html: html({url, host, email, expires}, theme),
     })
+  } else if (process.env.SKIP_EMAIL === 'true') {
+    console.warn(`🚫 email sending is disabled.`)
   } else {
     console.warn(
       `🚫 Invalid email server config. Do you need a POSTMARK_KEY env var?`,
