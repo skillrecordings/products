@@ -440,7 +440,7 @@ const BlockedOverlay = () => {
     trpc.products.getProducts.useQuery()
   const activeProduct = products?.products[0]
   const thumbnail = `${getBaseUrl()}/api/video-thumb?videoResourceId=${videoResourceId}`
-  const {refetchAbility} = useMuxPlayer()
+  const {refetchAbility, ability} = useMuxPlayer()
   const {data: ctaText} = useQuery(
     [`exercise-free-tutorial`, lesson.slug, module.slug.current],
     async () => {
@@ -479,8 +479,8 @@ const BlockedOverlay = () => {
       new Date().toISOString().slice(0, 10),
   }
   const {data: session} = useSession()
-  const {ability} = useAbilities()
   const canViewTeam = ability.can('view', 'Team')
+  const canViewRegionRestriction = ability.can('view', 'RegionRestriction')
   const {data: purchaseDetails} = trpc.purchases.getLastPurchase.useQuery()
 
   return productsStatus === 'success' ? (
@@ -611,15 +611,30 @@ const BlockedOverlay = () => {
                       />
                     </div>
                   )}
-                  <h2 className="text-3xl font-semibold">
-                    Level up your {module.title}
-                  </h2>
+                  {canViewRegionRestriction ? (
+                    <h2 className="text-3xl font-semibold">
+                      Your License is Region Restricted
+                    </h2>
+                  ) : (
+                    <h2 className="text-3xl font-semibold">
+                      Level up your {module.title}
+                    </h2>
+                  )}
+
                   <h3 className="w-full pb-3 pt-3 text-base text-gray-300">
                     {/* This {lesson._type} is part of Total TypeScript {activeProduct?.name}. */}
                     <Balancer>
-                      <ReactMarkdown className="prose w-full prose-p:text-gray-300">
-                        {activeProduct.description}
-                      </ReactMarkdown>
+                      {canViewRegionRestriction ? (
+                        <div>
+                          Your license is restricted to a specific region. You
+                          can upgrade to an unrestricted license to view this
+                          lesson anywhere.
+                        </div>
+                      ) : (
+                        <ReactMarkdown className="prose w-full prose-p:text-gray-300">
+                          {activeProduct.description}
+                        </ReactMarkdown>
+                      )}
                     </Balancer>
                   </h3>
                   <div className="text-base text-gray-300">

@@ -90,7 +90,11 @@ const PurchaseDetailsTemplate: React.FC<PurchaseDetailsProps> = ({
                 Your purchase details for
               </p>
               <h1 className="font-heading text-5xl font-extrabold">
-                <Balancer>{product.name}</Balancer>
+                <Balancer>
+                  {purchase.status === 'Restricted'
+                    ? `${product.name} (PPP)`
+                    : product.name}
+                </Balancer>
               </h1>
               <div className="-mx-3 flex flex-col items-center justify-center divide-y divide-gray-800 pt-10">
                 <Row label="Invoice" icon="Receipt">

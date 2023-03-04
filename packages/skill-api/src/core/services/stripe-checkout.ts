@@ -4,6 +4,8 @@ import {getSdk, prisma} from '@skillrecordings/database'
 import {first} from 'lodash'
 import {add} from 'date-fns'
 import {getCalculatedPriced, stripe} from '@skillrecordings/commerce-server'
+import {getToken} from 'next-auth/jwt'
+import {NextApiRequest} from 'next'
 
 export class CheckoutError extends Error {
   couponId?: string
@@ -24,6 +26,7 @@ export async function stripeCheckout({
 }): Promise<OutgoingResponse> {
   try {
     const {req} = params
+    const token = await getToken({req: req as unknown as NextApiRequest})
 
     const ip_address = req.headers['x-forwarded-for'] as string
 
@@ -40,16 +43,17 @@ export async function stripeCheckout({
 
       const quantity = Number(queryQuantity)
 
-      const user = userId
-        ? await prisma.user.findUnique({
-            where: {
-              id: userId as string,
-            },
-            include: {
-              merchantCustomers: true,
-            },
-          })
-        : false
+      const user =
+        userId || token?.sub
+          ? await prisma.user.findUnique({
+              where: {
+                id: (userId as string) || (token?.sub as string),
+              },
+              include: {
+                merchantCustomers: true,
+              },
+            })
+          : false
 
       const upgradeFromPurchase = upgradeFromPurchaseId
         ? await prisma.purchase.findFirst({
@@ -61,7 +65,7 @@ export async function stripeCheckout({
               product: true,
             },
           })
-        : false
+        : null
 
       const availableUpgrade =
         quantity === 1 && upgradeFromPurchase
@@ -110,7 +114,10 @@ export async function stripeCheckout({
 
       let discounts = []
 
-      const isUpgrade = Boolean(availableUpgrade && upgradeFromPurchase)
+      const isUpgrade = Boolean(
+        (availableUpgrade || upgradeFromPurchase?.status === 'Restricted') &&
+          upgradeFromPurchase,
+      )
 
       const TWELVE_FOUR_HOURS_FROM_NOW = Math.floor(
         add(new Date(), {hours: 12}).getTime() / 1000,
@@ -125,9 +132,15 @@ export async function stripeCheckout({
           fixedDiscount: upgradeFromPurchase.totalAmount.toNumber(),
         })
 
+        const upgradeFromRegionRestriction =
+          upgradeFromPurchase?.status === 'Restricted'
+        const couponName = upgradeFromRegionRestriction
+          ? `Unrestricted`
+          : `Upgrade from ${upgradeFromPurchase.product.name}`
+
         const coupon = await stripe.coupons.create({
           amount_off: (fullPrice - calculatedPrice) * 100,
-          name: `Upgrade from ${upgradeFromPurchase.product.name}`,
+          name: couponName,
           max_redemptions: 1,
           redeem_by: TWELVE_FOUR_HOURS_FROM_NOW,
           currency: 'USD',
@@ -180,7 +193,10 @@ export async function stripeCheckout({
           upgradeFromPurchaseId: upgradeFromPurchaseId as string,
         }),
         bulk: bulk === 'true' ? 'true' : quantity > 1 ? 'true' : 'false',
-        country: (req.headers['x-vercel-ip-country'] as string) || 'US',
+        country:
+          (req.headers['x-vercel-ip-country'] as string) ||
+          process.env.DEFAULT_COUNTRY ||
+          'US',
         ip_address,
       }
 

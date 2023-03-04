@@ -5,6 +5,21 @@ import {getToken} from 'next-auth/jwt'
 import {z} from 'zod'
 
 export const purchasesRouter = router({
+  getPurchaseById: publicProcedure
+    .input(
+      z.object({
+        purchaseId: z.string().nullish(),
+      }),
+    )
+    .query(async ({input: {purchaseId}}) => {
+      const {getPurchase} = getSdk()
+
+      return purchaseId
+        ? await getPurchase({
+            where: {id: purchaseId},
+          })
+        : null
+    }),
   getLastPurchase: publicProcedure.query(async ({ctx}) => {
     const token = await getToken({req: ctx.req})
     const {getPurchaseDetails, getPurchasesForUser} = getSdk()

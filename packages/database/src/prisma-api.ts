@@ -346,6 +346,7 @@ export function getSdk(
               productId: true,
               createdAt: true,
               totalAmount: true,
+              country: true,
               bulkCoupon: {
                 select: {
                   id: true,
@@ -465,7 +466,7 @@ export function getSdk(
         quantity > 1 ||
         Boolean(existingBulkCoupon) ||
         options.bulk ||
-        Boolean(existingPurchase)
+        Boolean(existingPurchase?.status === 'Valid')
 
       let bulkCouponId = null
       let coupon = null
@@ -535,7 +536,9 @@ export function getSdk(
         data: {
           sourceUserId: userId,
           purchaseId: purchaseId,
-          expiresAt: new Date(Date.now() + oneWeekInMilliseconds),
+          expiresAt: existingPurchase
+            ? new Date()
+            : new Date(Date.now() + oneWeekInMilliseconds),
         },
       })
 
