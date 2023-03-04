@@ -30,7 +30,7 @@ export type PurchaseDetailsProps = {
   }
   purchase: {
     id: string
-    status: 'Valid' | 'Refunded' | 'Disputed' | 'Pending'
+    status: 'Valid' | 'Refunded' | 'Disputed' | 'Pending' | 'Restricted'
     merchantChargeId: string | null
     bulkCoupon: {id: string; maxUses: number; usedCount: number} | null
     product: {id: string; name: string}

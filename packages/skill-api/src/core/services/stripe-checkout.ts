@@ -55,7 +55,7 @@ export async function stripeCheckout({
         ? await prisma.purchase.findFirst({
             where: {
               id: upgradeFromPurchaseId as string,
-              status: 'Valid',
+              status: {in: ['Valid', 'Restricted']},
             },
             include: {
               product: true,
@@ -142,14 +142,18 @@ export async function stripeCheckout({
           coupon: coupon.id,
         })
       } else if (merchantCoupon && merchantCoupon.identifier) {
-        const {id} = await stripe.promotionCodes.create({
-          coupon: merchantCoupon.identifier,
-          max_redemptions: 1,
-          expires_at: TWELVE_FOUR_HOURS_FROM_NOW,
-        })
-        discounts.push({
-          promotion_code: id,
-        })
+        // no ppp for bulk purchases
+        const isNotPPP = merchantCoupon.type !== 'ppp'
+        if (isNotPPP || quantity === 1) {
+          const {id} = await stripe.promotionCodes.create({
+            coupon: merchantCoupon.identifier,
+            max_redemptions: 1,
+            expires_at: TWELVE_FOUR_HOURS_FROM_NOW,
+          })
+          discounts.push({
+            promotion_code: id,
+          })
+        }
       }
 
       if (!loadedProduct) {
@@ -171,6 +175,15 @@ export async function stripeCheckout({
         ? `${process.env.NEXT_PUBLIC_URL}/welcome?session_id={CHECKOUT_SESSION_ID}&upgrade=true`
         : `${process.env.NEXT_PUBLIC_URL}/thanks/purchase?session_id={CHECKOUT_SESSION_ID}`
 
+      const metadata = {
+        ...(Boolean(availableUpgrade && upgradeFromPurchase) && {
+          upgradeFromPurchaseId: upgradeFromPurchaseId as string,
+        }),
+        bulk: bulk === 'true' ? 'true' : quantity > 1 ? 'true' : 'false',
+        country: (req.headers['x-vercel-ip-country'] as string) || 'US',
+        ip_address,
+      }
+
       const session = await stripe.checkout.sessions.create({
         discounts,
         line_items: [
@@ -184,13 +197,9 @@ export async function stripeCheckout({
         success_url: successUrl,
         cancel_url: `${req.headers.origin}/buy`,
         ...(customerId && {customer: customerId}),
-        metadata: {
-          ...(Boolean(availableUpgrade && upgradeFromPurchase) && {
-            upgradeFromPurchaseId: upgradeFromPurchaseId as string,
-          }),
-          bulk: bulk === 'true' ? 'true' : quantity > 1 ? 'true' : 'false',
-          country: (req.headers['x-vercel-ip-country'] as string) || 'US',
-          ip_address,
+        metadata,
+        payment_intent_data: {
+          metadata,
         },
       })
 

@@ -50,7 +50,7 @@ export function getSdk(
       }
 
       const availableUpgrades =
-        purchase.status === 'Valid'
+        purchase.status === 'Valid' || purchase.status === 'Restricted'
           ? await ctx.prisma.upgradableProducts.findMany({
               where: {
                 AND: [
@@ -85,7 +85,9 @@ export function getSdk(
             not: purchaseId as string,
           },
           bulkCoupon: null,
-          status: 'Valid',
+          status: {
+            in: ['Valid', 'Restricted'],
+          },
         },
         select: {
           id: true,
@@ -131,7 +133,7 @@ export function getSdk(
     },
     async updatePurchaseStatusForCharge(
       chargeId: string,
-      status: 'Valid' | 'Refunded' | 'Disputed' | 'Banned',
+      status: 'Valid' | 'Refunded' | 'Disputed' | 'Banned' | 'Restricted',
     ): Promise<Purchase | undefined> {
       const purchase = await ctx.prisma.purchase.findFirst({
         where: {
@@ -307,7 +309,10 @@ export function getSdk(
     },
     async getPurchaseWithUser(purchaseId: string) {
       return await ctx.prisma.purchase.findFirst({
-        where: {id: purchaseId as string, status: 'Valid'},
+        where: {
+          id: purchaseId as string,
+          status: {in: ['Valid', 'Restricted']},
+        },
         include: {
           user: true,
         },
@@ -331,7 +336,7 @@ export function getSdk(
             where: {
               userId,
               status: {
-                in: ['Valid', 'Refunded'],
+                in: ['Valid', 'Refunded', 'Restricted'],
               },
             },
             select: {
@@ -392,6 +397,7 @@ export function getSdk(
       quantity?: number
       bulk?: boolean
       checkoutSessionId: string
+      country?: string
     }) {
       const {
         userId,
@@ -404,6 +410,7 @@ export function getSdk(
         stripeChargeAmount,
         quantity = 1,
         checkoutSessionId,
+        country,
       } = options
       // we are using uuids so we can generate this!
       // this is needed because the following actions
@@ -433,7 +440,9 @@ export function getSdk(
         where: {
           productId,
           userId,
-          status: 'Valid',
+          status: {
+            in: ['Valid', 'Restricted'],
+          },
         },
       })
 
@@ -503,15 +512,21 @@ export function getSdk(
         },
       })
 
+      const merchantCoupon = await ctx.prisma.merchantCoupon.findFirst({
+        where: {identifier: stripeCouponId},
+      })
+
       const purchase = ctx.prisma.purchase.create({
         data: {
           id: purchaseId,
+          status: merchantCoupon?.type === 'ppp' ? 'Restricted' : 'Valid',
           userId,
           productId,
           merchantChargeId,
           totalAmount: stripeChargeAmount / 100,
           bulkCouponId,
           merchantSessionId,
+          country,
         },
       })
 

@@ -1,0 +1,28 @@
+{
+  "name": "do-stuff",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@skillrecordings/analytics": "workspace:*",
+    "@skillrecordings/commerce-server": "workspace:*",
+    "@skillrecordings/config": "workspace:*",
+    "@skillrecordings/convertkit-sdk": "workspace:*",
+    "@skillrecordings/database": "workspace:*",
+    "@skillrecordings/skill-api": "workspace:*",
+    "@types/lodash": "^4.14.191",
+    "dotenv": "^16.0.3",
+    "lodash": "^4.17.21",
+    "stripe": "^8.186.1"
+  },
+  "prisma": {
+    "schema": "../../packages/database/prisma/schema.prisma"
+  }
+}
