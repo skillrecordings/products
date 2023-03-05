@@ -159,7 +159,7 @@ const TipTemplate: React.FC<{
                   )}
                   {tip.body && (
                     <>
-                      <div className="prose w-full max-w-none pb-5 pt-5 prose-headings:font-medium prose-p:text-gray-200 lg:prose-lg">
+                      <div className="prose w-full max-w-none pb-5 pt-5 prose-headings:font-medium prose-p:text-gray-600 lg:prose-lg">
                         <PortableText
                           value={tip.body}
                           components={PortableTextComponents}
