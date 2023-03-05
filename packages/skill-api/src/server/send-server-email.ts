@@ -66,16 +66,15 @@ export async function sendServerEmail({
   const params = new URLSearchParams({callbackUrl, token, email: identifier})
   const _url = `${baseUrl}/api/auth/callback/${emailProvider.id}?${params}`
 
-  if (process.env.SKIP_EMAIL !== 'true')
-    await sendVerificationRequest({
-      identifier,
-      url: _url,
-      theme: nextAuthOptions.theme || {colorScheme: 'auto'},
-      provider: emailProvider.options,
-      token: token as string,
-      expires,
-      type,
-      html,
-      text,
-    })
+  await sendVerificationRequest({
+    identifier,
+    url: _url,
+    theme: nextAuthOptions.theme || {colorScheme: 'auto'},
+    provider: emailProvider.options,
+    token: token as string,
+    expires,
+    type,
+    html,
+    text,
+  })
 }

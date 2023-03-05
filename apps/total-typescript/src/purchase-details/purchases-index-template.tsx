@@ -14,6 +14,7 @@ export type PurchasesIndexProps = {
   purchases: Purchase &
     {
       id: string
+      status: string
       bulkCoupon: string
       product: {name: string}
       createdAt: string
@@ -49,7 +50,8 @@ const PurchasesIndexTemplate: React.FC<PurchasesIndexProps> = ({purchases}) => {
                       href={`/purchases/${purchase.id}`}
                       className="hover:underline"
                     >
-                      {purchase.product.name}
+                      {purchase.product.name}{' '}
+                      {purchase.status === 'Restricted' ? '(PPP)' : ''}
                     </Link>
                   </Balancer>
                 </h2>

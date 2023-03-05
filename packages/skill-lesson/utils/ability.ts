@@ -27,6 +27,7 @@ type Abilities =
   | ['view', 'Team']
   | ['view', 'Invoice']
   | ['create', 'Content']
+  | ['view', 'RegionRestriction']
 export type AppAbility = MongoAbility<Abilities>
 
 export const createAppAbility = createMongoAbility as CreateAbility<AppAbility>
@@ -38,6 +39,11 @@ type ViewerAbilityInput = {
   module?: SanityDocument
   section?: SanityDocument
   isSolution?: boolean
+  country?: string
+  purchasedModules?: {
+    productId: string
+    modules: {_id: string; slug: string}[]
+  }[]
 }
 
 const canViewTutorial = ({user, subscriber, module}: ViewerAbilityInput) => {
@@ -47,19 +53,39 @@ const canViewTutorial = ({user, subscriber, module}: ViewerAbilityInput) => {
   return contentIsTutorial && Boolean(viewer)
 }
 
-const canViewWorkshop = ({user, module, lesson}: ViewerAbilityInput) => {
+const canViewWorkshop = ({
+  user,
+  module,
+  lesson,
+  country,
+  purchasedModules = [],
+}: ViewerAbilityInput) => {
   const contentIsWorkshop =
     module?.moduleType === 'workshop' || module?.moduleType === 'playlist'
 
-  const purchases = user?.purchases || []
+  if (!contentIsWorkshop || !lesson) {
+    return false
+  }
+
+  const modulePurchase = purchasedModules
+    .filter((purchasedModule) =>
+      purchasedModule.modules.some((m) => m._id === module?._id),
+    )
+    .map((purchasedModule) => {
+      return user?.purchases?.find(
+        (purchase) => purchase.productId === purchasedModule.productId,
+      )
+    })
+
   const userHasPurchaseWithAccess = Boolean(
-    purchases.find(
+    modulePurchase.find(
       (purchase) =>
-        purchase.bulkCouponId === null && purchase.status === 'Valid',
+        (purchase.bulkCouponId === null && purchase.status === 'Valid') ||
+        (purchase.status === 'Restricted' && purchase.country === country),
     ),
   )
 
-  return contentIsWorkshop && userHasPurchaseWithAccess && lesson
+  return userHasPurchaseWithAccess
 
   // TODO a given module is associated with a product
   //  if the user has a valid purchase of that product
@@ -103,12 +129,52 @@ export function defineRulesForPurchases(
   viewerAbilityInput: ViewerAbilityInput,
 ) {
   const {can, rules} = new AbilityBuilder<AppAbility>(createMongoAbility)
-  const {user} = viewerAbilityInput
+  const {user, country, purchasedModules = [], module} = viewerAbilityInput
 
   if (user) {
     can('edit', 'User', {
       id: user?.id,
     })
+  }
+
+  if (user && module && purchasedModules) {
+    const modulePurchase = purchasedModules
+      .filter((purchasedModule) =>
+        purchasedModule.modules.some((m) => m._id === module?._id),
+      )
+      .map((purchasedModule) => {
+        return user?.purchases?.find(
+          (purchase) => purchase.productId === purchasedModule.productId,
+        )
+      })
+
+    const userHasPurchaseWithAccess = modulePurchase.map((purchase) => {
+      if (purchase.bulkCouponId !== null) {
+        return {valid: false, reason: 'bulk_purchase'}
+      }
+      if (
+        purchase.status === 'Valid' ||
+        (purchase.status === 'Restricted' && purchase.country === country)
+      ) {
+        return {valid: true}
+      }
+      if (purchase.status === 'Restricted' && purchase.country !== country) {
+        return {valid: false, reason: 'region_restricted'}
+      }
+      return {valid: false, reason: 'unknown'}
+    })
+
+    if (userHasPurchaseWithAccess.some((purchase) => purchase.valid)) {
+      can('view', 'Content')
+    }
+
+    if (
+      userHasPurchaseWithAccess.some(
+        (purchase) => purchase.reason === 'region_restricted',
+      )
+    ) {
+      can('view', 'RegionRestriction')
+    }
   }
 
   if (hasChargesForPurchases(user?.purchases)) {

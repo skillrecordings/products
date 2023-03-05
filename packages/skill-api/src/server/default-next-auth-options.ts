@@ -15,6 +15,7 @@ async function getUser(userId: string) {
         select: {
           id: true,
           status: true,
+          country: true,
           merchantChargeId: true,
           productId: true,
           createdAt: true,

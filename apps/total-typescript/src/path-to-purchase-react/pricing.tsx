@@ -99,6 +99,12 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
     },
   )
 
+  const {data: purchaseToUpgrade} = trpc.purchases.getPurchaseById.useQuery({
+    purchaseId: formattedPrice?.upgradeFromPurchaseId,
+  })
+
+  const isRestrictedUpgrade = purchaseToUpgrade?.status === 'Restricted'
+
   const defaultCoupon = formattedPrice?.defaultCoupon
   const appliedMerchantCoupon = formattedPrice?.appliedMerchantCoupon
 
@@ -153,7 +159,11 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
             <div data-pricing-product-header="">
               <h4 data-name-badge="">{name}</h4>
               <PriceDisplay status={status} formattedPrice={formattedPrice} />
-              <div data-byline="">Full access</div>
+              {isRestrictedUpgrade ? (
+                <div data-byline="">All region access</div>
+              ) : (
+                <div data-byline="">Full access</div>
+              )}
             </div>
           ) : (
             <div data-pricing-product-header="" />

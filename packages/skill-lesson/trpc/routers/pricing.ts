@@ -29,10 +29,12 @@ const checkForAnyAvailableUpgrades = async ({
   upgradeFromPurchaseId,
   productId,
   purchases,
+  country,
 }: {
   upgradeFromPurchaseId: string | undefined
   productId: string
   purchases: Array<{id: string; productId: string}>
+  country: string
 }) => {
   if (upgradeFromPurchaseId) return upgradeFromPurchaseId
 
@@ -124,16 +126,38 @@ export const pricing = router({
         code,
       } = input
 
+      const token = await getToken({req: ctx.req})
+
       const {getPurchasesForUser} = getSdk()
-      const purchases = await getPurchasesForUser(userId)
+      const purchases = await getPurchasesForUser(userId || token?.sub || '')
 
-      const country = (ctx.req.headers['x-vercel-ip-country'] as string) || 'US'
+      const country =
+        (ctx.req.headers['x-vercel-ip-country'] as string) ||
+        process.env.DEFAULT_COUNTRY ||
+        'US'
 
-      const upgradeFromPurchaseId = await checkForAnyAvailableUpgrades({
+      let upgradeFromPurchaseId = await checkForAnyAvailableUpgrades({
         upgradeFromPurchaseId: _upgradeFromPurchaseId,
         productId,
         purchases,
+        country,
       })
+
+      const restrictedPurchase = purchases.find((purchase) => {
+        return (
+          purchase.productId === productId && purchase.status === 'Restricted'
+        )
+      })
+
+      if (restrictedPurchase) {
+        const validPurchase = purchases.find((purchase) => {
+          return purchase.productId === productId && purchase.status === 'Valid'
+        })
+
+        if (!validPurchase) {
+          upgradeFromPurchaseId = restrictedPurchase.id
+        }
+      }
 
       const {activeMerchantCoupon, defaultCoupon} =
         await checkForAvailableCoupons({

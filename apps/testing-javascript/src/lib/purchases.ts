@@ -3,7 +3,7 @@ import {Purchase} from '@skillrecordings/database'
 
 export async function updatePurchaseStatusForCharge(
   chargeId: string,
-  status: 'Valid' | 'Refunded' | 'Disputed' | 'Banned',
+  status: 'Valid' | 'Refunded' | 'Disputed' | 'Banned' | 'Restricted',
 ): Promise<Purchase | undefined> {
   const purchase = await prisma.purchase.findFirst({
     where: {
@@ -66,7 +66,7 @@ export async function getPurchaseDetails(purchaseId: string, userId: string) {
   }
 
   const availableUpgrades =
-    purchase.status === 'Valid'
+    purchase.status === 'Valid' || purchase.status === 'Restricted'
       ? await prisma.upgradableProducts.findMany({
           where: {
             AND: [
@@ -101,7 +101,9 @@ export async function getPurchaseDetails(purchaseId: string, userId: string) {
         not: purchaseId as string,
       },
       bulkCoupon: null,
-      status: 'Valid',
+      status: {
+        in: ['Valid', 'Restricted'],
+      },
     },
     select: {
       id: true,

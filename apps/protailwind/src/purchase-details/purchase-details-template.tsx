@@ -30,7 +30,7 @@ export type PurchaseDetailsProps = {
   }
   purchase: {
     id: string
-    status: 'Valid' | 'Refunded' | 'Disputed' | 'Pending'
+    status: 'Valid' | 'Refunded' | 'Disputed' | 'Pending' | 'Restricted'
     merchantChargeId: string | null
     bulkCoupon: {id: string; maxUses: number; usedCount: number} | null
     product: {id: string; name: string}
@@ -109,7 +109,8 @@ const PurchaseDetailsTemplate: React.FC<PurchaseDetailsProps> = ({
                   {user.email}
                 </Row>
               )}
-              {((purchase.status === 'Valid' && personalPurchase) ||
+              {(purchase.status === 'Valid' ||
+                (purchase.status === 'Restricted' && personalPurchase) ||
                 canViewContent) && (
                 <Row label="Progress" icon="PlayOutline">
                   <Progress sanityProduct={sanityProduct} />

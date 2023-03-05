@@ -68,6 +68,7 @@ test('can view workshop 2nd lesson if Valid purchase exists', () => {
   const user = {
     purchases: [
       {
+        productId: '123',
         bulkCouponId: null,
         status: 'Valid',
       },
@@ -77,7 +78,20 @@ test('can view workshop 2nd lesson if Valid purchase exists', () => {
     user,
     module: mockWorkshop,
     lesson: mockExerciseTwo,
+    purchasedModules: [
+      {
+        productId: '123',
+        modules: [
+          {
+            _id: mockWorkshop._id,
+            slug: mockWorkshop.slug,
+          },
+        ],
+      },
+    ],
   })
+
+  console.log('rules', rules)
 
   const ability = createAppAbility(rules)
   expect(ability.can('view', 'Content')).toBe(true)
@@ -157,13 +171,29 @@ describe('team owner who has redeemed purchase for self', () => {
     const user = {
       purchases: [
         {bulkCouponId: '123'},
-        {bulkCouponId: null, redeemedBulkCouponId: '123', status: 'Valid'},
+        {
+          productId: '123',
+          bulkCouponId: null,
+          redeemedBulkCouponId: '123',
+          status: 'Valid',
+        },
       ],
     }
     const rules = defineRulesForPurchases({
       user,
       module: mockWorkshop,
       lesson: mockExerciseTwo,
+      purchasedModules: [
+        {
+          productId: '123',
+          modules: [
+            {
+              _id: mockWorkshop._id,
+              slug: mockWorkshop.slug,
+            },
+          ],
+        },
+      ],
     })
 
     const ability = createAppAbility(rules)
@@ -214,6 +244,7 @@ const mockSection: SanityDocument = {
 
 const mockWorkshop: SanityDocument = {
   _id: 'mock-tutorial',
+  slug: 'mock-workshop',
   _rev: 'mock',
   _type: 'module',
   _createdAt: new Date().toISOString(),
