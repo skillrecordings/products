@@ -131,7 +131,7 @@ export async function stripeCheckout({
           upgradeFromPurchase,
       )
 
-      const TWELVE_FOUR_HOURS_FROM_NOW = Math.floor(
+      const TWELVE_HOURS_FROM_NOW = Math.floor(
         add(new Date(), {hours: 12}).getTime() / 1000,
       )
 
@@ -154,7 +154,7 @@ export async function stripeCheckout({
           amount_off: (fullPrice - calculatedPrice) * 100,
           name: couponName,
           max_redemptions: 1,
-          redeem_by: TWELVE_FOUR_HOURS_FROM_NOW,
+          redeem_by: TWELVE_HOURS_FROM_NOW,
           currency: 'USD',
           applies_to: {
             products: [
@@ -170,7 +170,7 @@ export async function stripeCheckout({
         const {id} = await stripe.promotionCodes.create({
           coupon: merchantCoupon.identifier,
           max_redemptions: 1,
-          expires_at: TWELVE_FOUR_HOURS_FROM_NOW,
+          expires_at: TWELVE_HOURS_FROM_NOW,
         })
         discounts.push({
           promotion_code: id,
@@ -216,7 +216,7 @@ export async function stripeCheckout({
             quantity: Number(quantity),
           },
         ],
-        expires_at: TWELVE_FOUR_HOURS_FROM_NOW,
+        expires_at: TWELVE_HOURS_FROM_NOW,
         mode: 'payment',
         success_url: successUrl,
         cancel_url: `${req.headers.origin}/buy`,
