@@ -37,9 +37,8 @@ export const purchasesRouter = router({
         const purchases = (await getPurchasesForUser(token.id as string)) || []
         const currentPurchase = purchases.find((purchase) => {
           return (
-            (purchase.productId === input.productId &&
-              purchase.status === 'Valid') ||
-            purchase.status === 'Restricted'
+            purchase.productId === input.productId &&
+            ['Valid', 'Restricted'].includes(purchase.status)
           )
         })
 
