@@ -2,12 +2,12 @@ import React from 'react'
 import {createAppAbility} from '@skillrecordings/skill-lesson/utils/ability'
 import {LessonProgress} from '@skillrecordings/database'
 import {Section} from '@skillrecordings/skill-lesson/schemas/section'
-import {find, first, get, indexOf, isArray, isEmpty} from 'lodash'
+import {find, isArray, isEmpty} from 'lodash'
 import {format} from 'date-fns'
 import {trpc} from 'trpc/trpc.client'
 import BuyMoreSeats from 'team/buy-more-seats'
 import Balancer from 'react-wrap-balancer'
-import Layout from 'components/layout'
+import Layout from 'components/app/layout'
 import Link from 'next/link'
 import Image from 'next/image'
 import InviteTeam from 'team'
@@ -66,69 +66,82 @@ const PurchaseDetailsTemplate: React.FC<PurchaseDetailsProps> = ({
   )
 
   return (
-    <Layout meta={{title: `Purchase details for ${product.name}`}}>
+    <Layout
+      meta={{title: `Purchase details for ${product.name}`}}
+      className="bg-black/20"
+    >
       {welcome ? <WelcomeHeader /> : null}
-      <div className="mx-auto w-full max-w-3xl py-16" id="purchase-detail">
-        <main className="flex flex-col items-start gap-10 bg-gray-50 md:flex-row">
-          <Image
-            src={sanityProduct.image.url}
-            alt=""
-            aria-hidden="true"
-            width={200}
-            height={200}
-            className="flex-shrink-0"
-          />
-          <div className="w-full">
-            <p className="pb-3 font-heading font-extrabold uppercase text-sky-500">
-              Your purchase details for
-            </p>
-            <h1 className="font-heading text-4xl font-black">
-              <Balancer>{product.name}</Balancer>
-            </h1>
-            <div className="-mx-3 flex flex-col items-center justify-center divide-y divide-slate-200 pt-10">
-              <Row label="Invoice" icon="Receipt">
-                <InvoiceLink merchantChargeId={purchase.merchantChargeId} />
-              </Row>
-              {canInviteTeam && (
-                <ManageTeam
-                  purchase={purchase}
-                  email={user.email}
-                  existingPurchase={existingPurchase}
-                  setPersonalPurchase={setPersonalPurchase}
-                />
-              )}
-              <Row label="Amount paid" icon="Dollar">
-                <Price amount={purchase.totalAmount} />{' '}
-                {purchase.status === 'Refunded' && '(Refunded)'}
-              </Row>
-              <Row label="Purchased on" icon="Calendar">
-                <DatePurchased date={purchase.createdAt} />
-              </Row>
-              {user && (
-                <Row label="Associated email address" icon="Email">
-                  {user.email}
+      <div className="bg-gray-900">
+        <div
+          className="mx-auto w-full max-w-3xl px-5 pt-24 pb-24 sm:pt-40"
+          id="purchase-detail"
+        >
+          <main className="flex flex-col items-center gap-10 sm:items-start md:flex-row">
+            <Image
+              src={sanityProduct.image.url}
+              alt=""
+              aria-hidden="true"
+              width={240}
+              height={240}
+              className="flex-shrink-0"
+            />
+            <div className="w-full">
+              <p className="pb-3 font-medium uppercase tracking-wide text-cyan-300">
+                Your purchase details for
+              </p>
+              <h1 className="font-heading text-5xl font-extrabold">
+                <Balancer>
+                  {purchase.status === 'Restricted'
+                    ? `${product.name} (PPP)`
+                    : product.name}
+                </Balancer>
+              </h1>
+              <div className="-mx-3 flex flex-col items-center justify-center divide-y divide-gray-800 pt-10">
+                <Row label="Invoice" icon="Receipt">
+                  <InvoiceLink merchantChargeId={purchase.merchantChargeId} />
                 </Row>
-              )}
-              {(purchase.status === 'Valid' ||
-                (purchase.status === 'Restricted' && personalPurchase) ||
+                {canInviteTeam && (
+                  <ManageTeam
+                    purchase={purchase}
+                    email={user.email}
+                    existingPurchase={existingPurchase}
+                    setPersonalPurchase={setPersonalPurchase}
+                  />
+                )}
+                <Row label="Amount paid" icon="Dollar">
+                  <Price amount={purchase.totalAmount} />{' '}
+                  {purchase.status === 'Refunded' && '(Refunded)'}
+                </Row>
+                <Row label="Purchased on" icon="Calendar">
+                  <DatePurchased date={purchase.createdAt} />
+                </Row>
+                {user && (
+                  <Row label="Associated email address" icon="Email">
+                    {user.email}
+                  </Row>
+                )}
+                {/* {((purchase.status === 'Valid' && personalPurchase) ||
                 canViewContent) && (
                 <Row label="Progress" icon="PlayOutline">
                   <Progress sanityProduct={sanityProduct} />
                 </Row>
-              )}
-              {!purchase.bulkCoupon && <PurchaseTransfer purchase={purchase} />}
+              )} */}
+                {!purchase.bulkCoupon && (
+                  <PurchaseTransfer purchase={purchase} />
+                )}
+              </div>
             </div>
-          </div>
-        </main>
+          </main>
+        </div>
+        <footer className="flex w-full flex-col items-center justify-center gap-16 border-t border-gray-800/50 bg-black/20 px-5 py-16 sm:flex-row">
+          {welcome && <Share />}
+          <BuySeats
+            productName={product.name}
+            productId={purchase.productId}
+            userId={purchase.userId}
+          />
+        </footer>
       </div>
-      <footer className="flex w-full flex-grow items-center justify-center gap-16 bg-slate-100 py-16">
-        {welcome && <Share />}
-        <BuySeats
-          productName={product.name}
-          productId={purchase.productId}
-          userId={purchase.userId}
-        />
-      </footer>
     </Layout>
   )
 }
@@ -146,8 +159,8 @@ const Row: React.FC<
 > = ({children, label = 'Label', icon = null}) => {
   return children ? (
     <div className="flex w-full items-start justify-between py-4 px-3">
-      <div className="flex items-center gap-2">
-        {icon && <Icon className="text-gray-600" name={icon} />} {label}
+      <div className="flex items-center gap-2 text-gray-200">
+        {icon && <Icon className="text-gray-500" name={icon} />} {label}
       </div>
       <div className="w-2/4 text-left font-medium">{children}</div>
     </div>
@@ -162,8 +175,8 @@ const PurchaseTransfer: React.FC<{purchase: {id: string}}> = ({purchase}) => {
 
   return !isEmpty(purchaseUserTransfers) ? (
     <div className="flex w-full flex-col gap-3 py-4 px-3">
-      <div className="flex flex-shrink-0 items-center gap-2">
-        <Icon className="text-gray-600" name="MoveDown" /> Transfer this
+      <div className="flex flex-shrink-0 items-center gap-2 text-gray-200">
+        <Icon className="text-gray-500" name="MoveDown" /> Transfer this
         purchase to another email address
       </div>
       <div className="w-full text-left font-medium">
@@ -180,16 +193,16 @@ const PurchaseTransfer: React.FC<{purchase: {id: string}}> = ({purchase}) => {
 
 const WelcomeHeader = () => {
   return (
-    <header className="relative flex w-full flex-col items-center justify-center overflow-hidden bg-[#31AEF6] pb-32 text-center text-white sm:pb-10">
-      <Image
+    <header className="relative mt-14 flex w-full flex-col items-center justify-center overflow-hidden bg-cyan-200 text-center text-gray-900 sm:mt-16">
+      {/* <Image
         src={require('../../public/assets/corgi-waving-upside-down.svg')}
         alt=""
         aria-hidden="true"
         className="relative z-0"
-      />
-      <div className="absolute z-10 w-full px-5 pt-40">
-        <h1 className="font-heading text-3xl font-black sm:text-4xl md:text-5xl">
-          <Balancer>Welcome to Pro Tailwind!</Balancer>
+      /> */}
+      <div className="z-10 w-full px-5 py-24">
+        <h1 className="font-text text-3xl font-extrabold sm:text-4xl md:text-5xl">
+          <Balancer>Welcome to Total TypeScript!</Balancer>
         </h1>
         <p className="pt-3 sm:text-lg">
           <Balancer>
@@ -211,20 +224,20 @@ const BuySeats: React.FC<{
       id="buy-more-seats-modal"
       className="flex max-w-xs flex-col items-center text-center"
     >
-      <p className="pb-5">
-        Get your team to level up with Tailwind Multi-Theme Strategy Workshop
+      <p className="pb-5 text-lg text-gray-300">
+        Get your team to level up with Total TypeScript {productName}
       </p>
       <Dialog.Root>
-        <Dialog.Trigger className="group flex items-center gap-2 rounded-full bg-sky-500 px-5 py-2.5 font-heading font-semibold text-white transition hover:bg-sky-600">
+        <Dialog.Trigger className="group flex items-center gap-2 rounded-md bg-cyan-300 px-5 py-2.5 font-semibold text-black transition hover:bg-cyan-400">
           Buy more seats
         </Dialog.Trigger>
         <Dialog.Overlay className="fixed inset-0 z-10 bg-black/50 backdrop-blur-sm" />
-        <Dialog.Content className="fixed top-1/2 left-1/2 z-40 w-full max-w-md -translate-x-1/2 -translate-y-1/2 rounded-lg bg-white px-6 py-8 shadow-2xl shadow-gray-500/10">
-          <Dialog.Title className="pb-5 text-center font-heading text-2xl font-black leading-tight">
+        <Dialog.Content className="fixed top-1/2 left-1/2 z-40 w-full max-w-md -translate-x-1/2 -translate-y-1/2 rounded-lg bg-gray-800 px-6 pb-10 pt-12 shadow-2xl shadow-gray-500/10">
+          <Dialog.Title className="pb-5 text-center text-2xl font-semibold leading-tight">
             <Balancer>Buy more seats for {productName}</Balancer>
           </Dialog.Title>
           <BuyMoreSeats productId={productId} userId={userId} />
-          <Dialog.Close className="absolute top-2 right-2 rounded-full p-2 hover:bg-gray-100">
+          <Dialog.Close className="absolute top-2 right-2 rounded-full p-2 hover:bg-gray-700">
             <XIcon className="h-5 w-5" />
           </Dialog.Close>
         </Dialog.Content>
@@ -251,7 +264,7 @@ const ManageTeam: React.FC<{
   return (
     <div className="flex w-full flex-col items-baseline justify-between border-b border-gray-200 py-4 px-3">
       <div className="flex items-center gap-2">
-        <Icon name="Team" className="text-gray-600" /> Your Team
+        <Icon name="Team" className="text-gray-500" /> Your Team
       </div>
       <InviteTeam
         setPersonalPurchase={setPersonalPurchase}
@@ -264,14 +277,14 @@ const ManageTeam: React.FC<{
   )
 }
 
-const InvoiceLink: React.FC<{merchantChargeId: string | null}> = ({
+export const InvoiceLink: React.FC<{merchantChargeId: string | null}> = ({
   merchantChargeId,
 }) => {
   const ability = useAbilities()
   const canViewInvoice = ability.can('view', 'Invoice')
   return canViewInvoice ? (
     <Link
-      className="text-sky-500 underline"
+      className="text-cyan-300 underline"
       href={{
         pathname: '/invoices/[merchantChargeId]',
         query: {
@@ -290,7 +303,7 @@ export const Price: React.FC<{amount: number}> = ({amount}) => {
     <div>
       <span className="pr-1">USD</span>
       <span>{dollars}</span>
-      <sup>{cents}</sup>
+      <sup className="!top-0 text-xs">{cents}</sup>
     </div>
   )
 }
@@ -299,43 +312,43 @@ export const DatePurchased: React.FC<{date: string}> = ({date}) => {
   return <>{format(new Date(date), 'MMMM dd, y')}</>
 }
 
-const StartLearning: React.FC<{
-  product: {
-    slug: string
-    lessons: {_id: string; slug: string}[]
-    sections: Section[]
-  }
-}> = ({product}) => {
-  const {lessons, sections} = product
-  const {data: userProgress} = trpc.progress.get.useQuery()
-  const completedLessons = getCompletedLessons({userProgress, lessons})
-  const nextLesson = completedLessons
-    ? lessons[
-        indexOf(
-          lessons,
-          find(lessons, {_id: get(first(completedLessons), 'lessonId')}),
-        ) + 1
-      ]
-    : first(lessons)
+// const StartLearning: React.FC<{
+//   product: {
+//     slug: string
+//     lessons: {_id: string; slug: string}[]
+//     sections: Section[]
+//   }
+// }> = ({product}) => {
+//   const {lessons, sections} = product
+//   const {data: userProgress} = trpc.progress.get.useQuery()
+//   const completedLessons = getCompletedLessons({userProgress, lessons})
+//   const nextLesson = completedLessons
+//     ? lessons[
+//         indexOf(
+//           lessons,
+//           find(lessons, {_id: get(first(completedLessons), 'lessonId')}),
+//         ) + 1
+//       ]
+//     : first(lessons)
 
-  return (
-    <>
-      <Link
-        href={{
-          pathname: '/workshops/[module]/[section]/[lesson]',
-          query: {
-            module: product.slug,
-            section: first(sections)?.slug,
-            lesson: nextLesson?.slug,
-          },
-        }}
-        className="inline-flex flex-shrink-0 rounded-full bg-sky-500 px-4 py-2.5 text-sm font-semibold text-white focus-visible:ring-offset-1"
-      >
-        {isEmpty(completedLessons) ? 'Start Learning' : 'Continue Learning'}
-      </Link>
-    </>
-  )
-}
+//   return (
+//     <>
+//       <Link
+//         href={{
+//           pathname: '/workshops/[module]/[section]/[lesson]',
+//           query: {
+//             module: product.slug,
+//             section: first(sections)?.slug,
+//             lesson: nextLesson?.slug,
+//           },
+//         }}
+//         className="inline-flex flex-shrink-0 rounded-full bg-sky-500 px-4 py-2.5 text-sm font-semibold text-white focus-visible:ring-offset-1"
+//       >
+//         {isEmpty(completedLessons) ? 'Start Learning' : 'Continue Learning'}
+//       </Link>
+//     </>
+//   )
+// }
 
 const getCompletedLessons = ({
   userProgress,
@@ -354,9 +367,9 @@ const getCompletedLessons = ({
 }
 
 const Share = () => {
-  const tweet = `https://twitter.com/intent/tweet/?text=Pro Tailwind by @${process.env.NEXT_PUBLIC_PARTNER_TWITTER} 🧙 https%3A%2F%2Fwww.protailwind.com%2F`
+  const tweet = `https://twitter.com/intent/tweet/?text=Total TypeScript by @${process.env.NEXT_PUBLIC_PARTNER_TWITTER} 🧙 https%3A%2F%2Fwww.totaltypescript.com%2F`
   return (
-    <div className="flex flex-col items-center justify-center gap-5 text-center">
+    <div className="flex flex-col items-center justify-center gap-5 text-center text-lg text-gray-300">
       <p>
         Tell your friends about {process.env.NEXT_PUBLIC_SITE_TITLE},{' '}
         <br className="hidden sm:block" />
@@ -369,32 +382,36 @@ const Share = () => {
         href={tweet}
         rel="noopener noreferrer"
         target="_blank"
-        className="group flex items-center gap-2 rounded-full border border-sky-500 px-5 py-2.5 font-heading font-semibold text-sky-500 transition hover:bg-sky-500 hover:text-white"
+        className="group flex items-center gap-2 rounded-lg border border-cyan-300 px-5 py-2.5 text-base font-medium text-cyan-200 transition hover:bg-cyan-300 hover:text-black"
       >
-        <Icon name="Twitter" className="fill-sky-500 group-hover:fill-white" />{' '}
+        <Icon
+          name="Twitter"
+          className="fill-cyan-300 group-hover:fill-cyan-200"
+        />{' '}
         Share with your friends!
       </a>
     </div>
   )
 }
 
-const Progress: React.FC<{
-  sanityProduct: {
-    slug: string
-    lessons: {_id: string; slug: string}[]
-    sections: Section[]
-  }
-}> = ({sanityProduct}) => {
-  const {lessons} = sanityProduct
-  const {data: userProgress} = trpc.progress.get.useQuery()
-  const completedLessons = getCompletedLessons({userProgress, lessons})
-  return (
-    <div className="flex items-center gap-2">
-      {completedLessons?.length}/{lessons.length} lessons completed
-      <StartLearning product={sanityProduct} />
-    </div>
-  )
-}
+// const Progress: React.FC<{
+//   sanityProduct: {
+//     slug: string
+//     lessons: {_id: string; slug: string}[]
+//     sections: Section[]
+//     modules: Module[]
+//   }
+// }> = ({sanityProduct}) => {
+//   const {modules} = sanityProduct
+//   const {data: userProgress} = trpc.progress.get.useQuery()
+//   const completedLessons = getCompletedLessons({userProgress, lessons})
+//   return (
+//     <div className="flex items-center gap-2">
+//       {completedLessons?.length}/{lessons?.length} lessons completed
+//       <StartLearning product={sanityProduct} />
+//     </div>
+//   )
+// }
 
 const formatUsd = (amount: number = 0) => {
   const formatter = new Intl.NumberFormat('en-US', {

@@ -28,6 +28,18 @@ const Login: React.FC<
         icon: '⛔️',
       })
     }
+    if (query.error) {
+      switch (query.error) {
+        case 'OAuthAccountNotLinked':
+          toast(
+            'Github account NOT connected. Is it already linked? Try logging out and logging in with Github to check.',
+            {
+              icon: '⛔️',
+            },
+          )
+          break
+      }
+    }
   }, [router])
 
   const githubProvider = providers.github

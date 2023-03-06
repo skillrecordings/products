@@ -43,3 +43,8 @@ but it will still show up on keyboard focus.
 [data-js-focus-visible] :focus:not([data-focus-visible-added]) {
   outline: none;
 }
+
+.twitter-tweet {
+  border-radius: 13px;
+  @apply overflow-hidden;
+}

@@ -76,7 +76,9 @@ export function defineRulesForPurchases(purchases: any[]) {
     can('view', 'Product', {
       productId: {
         $in: purchases?.map(
-          (purchase: any) => purchase.productId && purchase.status === 'Valid',
+          (purchase: any) =>
+            (purchase.productId && purchase.status === 'Valid') ||
+            purchase.status === 'Restricted',
         ),
       },
     })

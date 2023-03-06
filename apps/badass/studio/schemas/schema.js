@@ -22,6 +22,10 @@ import season from './documents/podcastSeason'
 // objects
 import bodyVideo from './objects/bodyVideo'
 import bodyImage from './objects/bodyImage'
+import tweet from './objects/tweet'
+import bodyContributorProfile from './objects/bodyContributorProfile'
+import bodyClientProfile from './objects/bodyClientProfile'
+import bodyGrid from './objects/bodyGrid'
 import mediaCaption from './objects/mediaCaption'
 import body from './objects/body'
 import feature from './objects/feature'
@@ -59,8 +63,10 @@ export default createSchema({
     season,
     // objects
     body,
+    tweet,
     bodyVideo,
     bodyImage,
+    bodyGrid,
     mediaCaption,
     externalImage,
     feature,
@@ -70,6 +76,8 @@ export default createSchema({
     schedule,
     muxAsset,
     castingwordsTranscript,
+    bodyClientProfile,
+    bodyContributorProfile,
     // When added to this list, object types can be used as
     // { type: 'typename' } in other document schemas
     richDate,

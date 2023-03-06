@@ -145,7 +145,11 @@ const Invoice: React.FC<
                 <br />
                 Status:{' '}
                 <strong>
-                  {charge.status === 'succeeded' ? 'Paid' : 'Pending'}
+                  {charge.status === 'succeeded'
+                    ? charge.refunded
+                      ? 'Refunded'
+                      : 'Paid'
+                    : 'Pending'}
                 </strong>
               </div>
               <div className="pt-12">

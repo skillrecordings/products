@@ -138,6 +138,7 @@ export async function recordNewPurchase(checkoutSessionId: string): Promise<{
     stripeChargeAmount,
     quantity,
     bulk: metadata?.bulk === 'true',
+    country: metadata?.country,
     checkoutSessionId,
   })
 
