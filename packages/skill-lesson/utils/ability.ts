@@ -80,7 +80,7 @@ const canViewWorkshop = ({
   const userHasPurchaseWithAccess = Boolean(
     modulePurchase.find(
       (purchase) =>
-        (purchase.bulkCouponId === null && purchase.status === 'Valid') ||
+        (purchase?.bulkCouponId === null && purchase.status === 'Valid') ||
         (purchase.status === 'Restricted' && purchase.country === country),
     ),
   )
@@ -149,7 +149,7 @@ export function defineRulesForPurchases(
       })
 
     const userHasPurchaseWithAccess = modulePurchase.map((purchase) => {
-      if (purchase.bulkCouponId !== null) {
+      if (purchase?.bulkCouponId !== null) {
         return {valid: false, reason: 'bulk_purchase'}
       }
       if (
