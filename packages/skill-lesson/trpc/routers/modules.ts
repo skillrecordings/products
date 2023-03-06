@@ -6,7 +6,7 @@ import {getLesson} from '../../lib/lesson-resource'
 import {getToken} from 'next-auth/jwt'
 import {getSubscriberFromCookie} from '../../utils/ck-subscriber-from-cookie'
 import {defineRulesForPurchases, UserSchema} from '../../utils/ability'
-import {getProductModules} from '../../lib/products'
+import {getProducts, getModuleProducts} from '../../lib/products'
 
 export const modulesRouter = router({
   rules: publicProcedure
@@ -42,7 +42,9 @@ export const modulesRouter = router({
         const user = UserSchema.parse(token)
         const productsPurchased =
           user.purchases?.map((purchase) => purchase.productId) || []
-        purchasedModules = await getProductModules(productsPurchased)
+        const products = await getProducts(productsPurchased)
+        const moduleProducts = await getModuleProducts(productsPurchased)
+        purchasedModules.push(...products, ...moduleProducts)
       }
 
       return defineRulesForPurchases({

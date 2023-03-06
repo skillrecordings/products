@@ -7,7 +7,7 @@ import {
 import {getSubscriberFromCookie} from '@skillrecordings/skill-lesson/utils/ck-subscriber-from-cookie'
 import {convertkitSetSubscriberCookie} from '@skillrecordings/skill-lesson/utils/ck-set-subscriber-cookie'
 import {publicProcedure, router} from '@skillrecordings/skill-lesson'
-import {getProductModules} from '@skillrecordings/skill-lesson/lib/products'
+import {getProducts} from '@skillrecordings/skill-lesson/lib/products'
 
 export const abilities = router({
   getAbilities: publicProcedure.query(async ({ctx, input}) => {
@@ -29,7 +29,7 @@ export const abilities = router({
       const user = UserSchema.parse(token)
       const productsPurchased =
         user.purchases?.map((purchase) => purchase.productId) || []
-      purchasedModules = await getProductModules(productsPurchased)
+      purchasedModules = await getProducts(productsPurchased)
     }
 
     return defineRulesForPurchases({
