@@ -16,10 +16,10 @@ export const getStaticProps: GetStaticProps = async (context) => {
 
   return {
     props: {
-      solution: exercise.solution,
+      exercise,
       module,
-      transcript: exercise.solution?.transcript,
-      videoResourceId: exercise.solution?.videoResourceId,
+      transcript: exercise.transcript,
+      videoResourceId: exercise.videoResourceId,
     },
     revalidate: 10,
   }
@@ -28,31 +28,34 @@ export const getStaticProps: GetStaticProps = async (context) => {
 export const getStaticPaths: GetStaticPaths = async (context) => {
   const tutorials = await getAllTutorials()
 
-  const paths = tutorials.reduce((acc: any[], tutorial: any) => {
-    return [
-      ...acc,
-      ...tutorial.lessons.map((exercise: any) => {
-        return {
-          params: {
-            module: tutorial.slug.current,
-            lesson: exercise.slug,
-          },
-        }
-      }),
-    ]
-  }, [])
+  const paths = tutorials.flatMap((tutorial: any) => {
+    return (
+      tutorial.sections?.flatMap((section: any) => {
+        return (
+          section.lessons?.map((lesson: any) => ({
+            params: {
+              module: tutorial.slug.current,
+              section: section.slug,
+              lesson: lesson.slug,
+            },
+          })) || []
+        )
+      }) || []
+    )
+  })
+
   return {paths, fallback: 'blocking'}
 }
 
-const ExerciseSolution: React.FC<any> = ({
-  solution,
+const ExercisePage: React.FC<any> = ({
+  exercise,
   module,
   transcript,
   videoResourceId,
 }) => {
   return (
     <ModuleProgressProvider moduleSlug={module.slug.current}>
-      <LessonProvider lesson={solution} module={module}>
+      <LessonProvider lesson={exercise} module={module}>
         <VideoResourceProvider videoResourceId={videoResourceId}>
           <ExerciseTemplate transcript={transcript} />
         </VideoResourceProvider>
@@ -61,4 +64,4 @@ const ExerciseSolution: React.FC<any> = ({
   )
 }
 
-export default ExerciseSolution
+export default ExercisePage

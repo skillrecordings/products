@@ -44,53 +44,53 @@ export const getAllTutorials = async () =>
 export const getTutorial = async (slug: string) =>
   await sanityClient.fetch(
     groq`*[_type == "module" && moduleType == 'tutorial' && slug.current == $slug][0]{
-        "id": _id,
-        _type,
-        title,
-        state,
-        slug,
-        body[]{
-          ...,
-          _type == "bodyTestimonial" => {
-            "body": testimonial->body,
-            "author": testimonial->author {
-              "image": image.asset->url,
-              name
-            }
+      "id": _id,
+      _type,
+      title,
+      state,
+      slug,
+      moduleType,
+      _id,
+      github,
+      ogImage,
+      description,
+      _updatedAt,
+      "image": image.asset->url,
+      body[]{
+        ...,
+        _type == "bodyTestimonial" => {
+          "body": testimonial->body,
+          "author": testimonial->author {
+            "image": image.asset->url,
+            name
           }
-        },
-        moduleType,
+        }
+      },
+      "sections": resources[@->._type == 'section']->{
         _id,
-        github,
-        ogImage,
-        description,
+        _type,
         _updatedAt,
-        "sections": resources[@->._type == 'section']->{
+        title,
+        description,
+        "slug": slug.current,
+        "lessons": resources[@->._type in ['exercise', 'explainer']]->{
           _id,
           _type,
           _updatedAt,
           title,
           description,
           "slug": slug.current,
-          "lessons": resources[@->._type in ['exercise', 'explainer']]->{
-            _id,
+          "solution": resources[@._type == 'solution'][0]{
+            _key,
             _type,
-            _updatedAt,
+            "_updatedAt": ^._updatedAt,
             title,
             description,
             "slug": slug.current,
-            "solution": resources[@._type == 'solution'][0]{
-              _key,
-              _type,
-              "_updatedAt": ^._updatedAt,
-              title,
-              description,
-              "slug": slug.current,
-            }
-          },
-          "resources": resources[@->._type in ['linkResource']]->
-        }
-        "image": image.asset->url
+          }
+        },
+        "resources": resources[@->._type in ['linkResource']]->
+      }
     }`,
     {slug: `${slug}`},
   )
