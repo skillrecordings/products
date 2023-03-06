@@ -96,13 +96,23 @@ export async function stripeCheckout({
         },
       })
 
-      const merchantCoupon = couponId
+      let merchantCoupon = couponId
         ? await getMerchantCoupon({
             where: {
               id: couponId as string,
             },
           })
-        : false
+        : null
+
+      // Null out the `merchantCoupon` if it is a PPP coupon when the
+      // quantity is greater than 1. You cannot apply PPP to a purchase
+      // of multiple seats.
+      if (merchantCoupon?.type === 'ppp' && quantity > 1) {
+        // TODO: Let support know that we may have showed a discounted
+        // price to a user when we didn't mean to.
+
+        merchantCoupon = null
+      }
 
       const stripeCoupon =
         merchantCoupon && merchantCoupon.identifier
@@ -157,18 +167,14 @@ export async function stripeCheckout({
           coupon: coupon.id,
         })
       } else if (merchantCoupon && merchantCoupon.identifier) {
-        // no ppp for bulk purchases
-        const isNotPPP = merchantCoupon.type !== 'ppp'
-        if (isNotPPP || quantity === 1) {
-          const {id} = await stripe.promotionCodes.create({
-            coupon: merchantCoupon.identifier,
-            max_redemptions: 1,
-            expires_at: TWELVE_FOUR_HOURS_FROM_NOW,
-          })
-          discounts.push({
-            promotion_code: id,
-          })
-        }
+        const {id} = await stripe.promotionCodes.create({
+          coupon: merchantCoupon.identifier,
+          max_redemptions: 1,
+          expires_at: TWELVE_FOUR_HOURS_FROM_NOW,
+        })
+        discounts.push({
+          promotion_code: id,
+        })
       }
 
       if (!loadedProduct) {
