@@ -6,6 +6,7 @@ import {add} from 'date-fns'
 import {getCalculatedPriced, stripe} from '@skillrecordings/commerce-server'
 import {getToken} from 'next-auth/jwt'
 import {NextApiRequest} from 'next'
+import {z} from 'zod'
 
 export class CheckoutError extends Error {
   couponId?: string
@@ -36,24 +37,25 @@ export async function stripeCheckout({
         productId,
         quantity: queryQuantity = 1,
         couponId,
-        userId,
+        userId: _userId,
         upgradeFromPurchaseId,
         bulk = false,
       } = req.query
 
       const quantity = Number(queryQuantity)
 
-      const user =
-        userId || token?.sub
-          ? await prisma.user.findUnique({
-              where: {
-                id: (userId as string) || (token?.sub as string),
-              },
-              include: {
-                merchantCustomers: true,
-              },
-            })
-          : false
+      const result = z.string().safeParse(_userId || token?.sub)
+
+      const user = result.success
+        ? await prisma.user.findUnique({
+            where: {
+              id: result.data,
+            },
+            include: {
+              merchantCustomers: true,
+            },
+          })
+        : false
 
       const upgradeFromPurchase = upgradeFromPurchaseId
         ? await prisma.purchase.findFirst({
