@@ -34,8 +34,8 @@ export const getActiveProducts = async () =>
     ],
   }
 
-export const getProductModules = async (productIds: string[]) => {
-  const product = await sanityClient.fetch(
+export const getProducts = async (productIds: string[]) => {
+  const products = await sanityClient.fetch(
     groq`*[_type == 'product' && productId in $productIds][]{
     _id,
     productId,
@@ -47,7 +47,26 @@ export const getProductModules = async (productIds: string[]) => {
       productIds,
     },
   )
-  return product
+  return products
+}
+
+export const getModuleProducts = async (productIds: string[]) => {
+  const products = await sanityClient.fetch(
+    groq`*[_type == "module" && moduleType == 'workshop' && !(null in resources[].productId)] | order(_createdAt desc) {
+    _id,
+    resources,
+    "productId": resources[@._type == 'product'][0].productId,
+    }`,
+    {
+      productIds,
+    },
+  )
+  return products.map((product: any) => {
+    // product can also be a module with product resource
+    // TODO: adjust logic in here: https://github.com/skillrecordings/products/blob/main/packages/skill-lesson/utils/ability.ts#L72
+    // so that this object doesn't have to be reshaped
+    return {...product, modules: [product]}
+  })
 }
 
 export const getProduct = async (productId: string) => {
