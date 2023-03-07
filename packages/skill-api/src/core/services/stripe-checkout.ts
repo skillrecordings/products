@@ -6,7 +6,6 @@ import {add} from 'date-fns'
 import {getCalculatedPriced, stripe} from '@skillrecordings/commerce-server'
 import {getToken} from 'next-auth/jwt'
 import {NextApiRequest} from 'next'
-import {z} from 'zod'
 
 export class CheckoutError extends Error {
   couponId?: string
@@ -33,46 +32,33 @@ export async function stripeCheckout({
 
     try {
       const {getMerchantCoupon} = getSdk()
-
-      const querySchema = z
-        .object({
-          productId: z.string(),
-          upgradeFromPurchaseId: z.string().optional(),
-          userId: z.string().optional(),
-          couponId: z.string().optional(),
-          quantity: z.number().optional(),
-          bulk: z.boolean().default(false),
-        })
-        .transform(({quantity, userId, ...rest}) => {
-          return {
-            userId: userId || token?.sub,
-            quantity: quantity || 1,
-            ...rest,
-          }
-        })
-
       const {
         productId,
-        upgradeFromPurchaseId,
-        userId,
+        quantity: queryQuantity = 1,
         couponId,
-        quantity,
-        bulk,
-      } = querySchema.parse(req.query)
+        userId,
+        upgradeFromPurchaseId,
+        bulk = false,
+      } = req.query
 
-      const user = await prisma.user.findUnique({
-        where: {
-          id: userId,
-        },
-        include: {
-          merchantCustomers: true,
-        },
-      })
+      const quantity = Number(queryQuantity)
+
+      const user =
+        userId || token?.sub
+          ? await prisma.user.findUnique({
+              where: {
+                id: (userId as string) || (token?.sub as string),
+              },
+              include: {
+                merchantCustomers: true,
+              },
+            })
+          : false
 
       const upgradeFromPurchase = upgradeFromPurchaseId
         ? await prisma.purchase.findFirst({
             where: {
-              id: upgradeFromPurchaseId,
+              id: upgradeFromPurchaseId as string,
               status: {in: ['Valid', 'Restricted']},
             },
             include: {
@@ -86,7 +72,7 @@ export async function stripeCheckout({
           ? await prisma.upgradableProducts.findFirst({
               where: {
                 upgradableFromId: upgradeFromPurchase.productId,
-                upgradableToId: productId,
+                upgradableToId: productId as string,
               },
             })
           : false
@@ -97,7 +83,7 @@ export async function stripeCheckout({
           : false
 
       const loadedProduct = await prisma.product.findFirst({
-        where: {id: productId},
+        where: {id: productId as string},
         include: {
           prices: true,
           merchantProducts: {
@@ -108,21 +94,13 @@ export async function stripeCheckout({
         },
       })
 
-      let merchantCoupon = await getMerchantCoupon({
-        where: {
-          id: couponId,
-        },
-      })
-
-      // Null out the `merchantCoupon` if it is a PPP coupon when the
-      // quantity is greater than 1. You cannot apply PPP to a purchase
-      // of multiple seats.
-      if (merchantCoupon?.type === 'ppp' && quantity > 1) {
-        // TODO: Let support know that we may have showed a discounted
-        // price to a user when we didn't mean to.
-
-        merchantCoupon = null
-      }
+      const merchantCoupon = couponId
+        ? await getMerchantCoupon({
+            where: {
+              id: couponId as string,
+            },
+          })
+        : false
 
       const stripeCoupon =
         merchantCoupon && merchantCoupon.identifier
@@ -141,7 +119,7 @@ export async function stripeCheckout({
           upgradeFromPurchase,
       )
 
-      const TWELVE_HOURS_FROM_NOW = Math.floor(
+      const TWELVE_FOUR_HOURS_FROM_NOW = Math.floor(
         add(new Date(), {hours: 12}).getTime() / 1000,
       )
 
@@ -164,7 +142,7 @@ export async function stripeCheckout({
           amount_off: (fullPrice - calculatedPrice) * 100,
           name: couponName,
           max_redemptions: 1,
-          redeem_by: TWELVE_HOURS_FROM_NOW,
+          redeem_by: TWELVE_FOUR_HOURS_FROM_NOW,
           currency: 'USD',
           applies_to: {
             products: [
@@ -177,21 +155,22 @@ export async function stripeCheckout({
           coupon: coupon.id,
         })
       } else if (merchantCoupon && merchantCoupon.identifier) {
-        const {id} = await stripe.promotionCodes.create({
-          coupon: merchantCoupon.identifier,
-          max_redemptions: 1,
-          expires_at: TWELVE_HOURS_FROM_NOW,
-        })
-        discounts.push({
-          promotion_code: id,
-        })
+        // no ppp for bulk purchases
+        const isNotPPP = merchantCoupon.type !== 'ppp'
+        if (isNotPPP || quantity === 1) {
+          const {id} = await stripe.promotionCodes.create({
+            coupon: merchantCoupon.identifier,
+            max_redemptions: 1,
+            expires_at: TWELVE_FOUR_HOURS_FROM_NOW,
+          })
+          discounts.push({
+            promotion_code: id,
+          })
+        }
       }
 
-      // TODO: Could we throw this error much earlier in the function and
-      // avoid generating promo codes and making other queries when we are
-      // eventually going to throw anyway?
       if (!loadedProduct) {
-        throw new CheckoutError('No product was found', productId)
+        throw new CheckoutError('No product was found', productId as string)
       }
 
       const price =
@@ -211,9 +190,9 @@ export async function stripeCheckout({
 
       const metadata = {
         ...(Boolean(availableUpgrade && upgradeFromPurchase) && {
-          upgradeFromPurchaseId,
+          upgradeFromPurchaseId: upgradeFromPurchaseId as string,
         }),
-        bulk: Boolean(bulk || quantity > 1).toString(),
+        bulk: bulk === 'true' ? 'true' : quantity > 1 ? 'true' : 'false',
         country:
           (req.headers['x-vercel-ip-country'] as string) ||
           process.env.DEFAULT_COUNTRY ||
@@ -229,7 +208,7 @@ export async function stripeCheckout({
             quantity: Number(quantity),
           },
         ],
-        expires_at: TWELVE_HOURS_FROM_NOW,
+        expires_at: TWELVE_FOUR_HOURS_FROM_NOW,
         mode: 'payment',
         success_url: successUrl,
         cancel_url: `${req.headers.origin}/buy`,
