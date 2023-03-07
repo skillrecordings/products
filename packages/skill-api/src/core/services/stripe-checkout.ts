@@ -41,32 +41,36 @@ export async function stripeCheckout({
         .object({
           productId: z.string(),
           upgradeFromPurchaseId: z.string().optional(),
+          userId: z.string().optional(),
           couponId: z.string().optional(),
           quantity: z.number().optional(),
           bulk: z.boolean().default(false),
         })
-        .transform(({quantity, ...rest}) => {
+        .transform(({quantity, userId, ...rest}) => {
           return {
+            userId: userId || token?.sub,
             quantity: quantity || 1,
             ...rest,
           }
         })
 
-      const {productId, upgradeFromPurchaseId, couponId, quantity, bulk} =
-        querySchema.parse(req.query)
+      const {
+        productId,
+        upgradeFromPurchaseId,
+        userId,
+        couponId,
+        quantity,
+        bulk,
+      } = querySchema.parse(req.query)
 
-      const result = z.string().safeParse(_userId || token?.sub)
-
-      const user = result.success
-        ? await prisma.user.findUnique({
-            where: {
-              id: result.data,
-            },
-            include: {
-              merchantCustomers: true,
-            },
-          })
-        : false
+      const user = await prisma.user.findUnique({
+        where: {
+          id: userId,
+        },
+        include: {
+          merchantCustomers: true,
+        },
+      })
 
       const upgradeFromPurchase = upgradeFromPurchaseId
         ? await prisma.purchase.findFirst({
