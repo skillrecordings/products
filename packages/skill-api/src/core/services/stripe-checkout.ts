@@ -190,6 +190,9 @@ export async function stripeCheckout({
         })
       }
 
+      // TODO: Could we throw this error much earlier in the function and
+      // avoid generating promo codes and making other queries when we are
+      // eventually going to throw anyway?
       if (!loadedProduct) {
         throw new CheckoutError('No product was found', productId)
       }
