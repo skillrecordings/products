@@ -54,7 +54,10 @@ const VideoPage: React.FC<any> = ({
   return (
     <ModuleProgressProvider moduleSlug={module.slug.current}>
       <LessonProvider lesson={lesson} module={module}>
-        <VideoResourceProvider videoResourceId={videoResourceId}>
+        <VideoResourceProvider
+          videoResourceId={videoResourceId}
+          module={module}
+        >
           <ExerciseTemplate transcript={transcript} />
         </VideoResourceProvider>
       </LessonProvider>

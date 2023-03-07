@@ -59,7 +59,7 @@ const TipPage: NextPage<TipPageProps> = ({
 
   return (
     <LessonProvider lesson={tip} module={module}>
-      <VideoResourceProvider videoResourceId={videoResourceId}>
+      <VideoResourceProvider videoResourceId={videoResourceId} module={module}>
         <TipTemplate tip={tip} tips={tips} transcript={transcript} />
       </VideoResourceProvider>
     </LessonProvider>
