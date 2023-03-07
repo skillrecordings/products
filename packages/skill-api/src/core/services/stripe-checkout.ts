@@ -33,16 +33,27 @@ export async function stripeCheckout({
 
     try {
       const {getMerchantCoupon} = getSdk()
-      const {
-        productId,
-        quantity: queryQuantity = 1,
-        couponId,
-        userId: _userId,
-        upgradeFromPurchaseId,
-        bulk = false,
-      } = req.query
+      // TODO: Maybe we should just Zod parse everything coming in and clean
+      // up a bunch of type coercion (`as`'s) throughout this file.
+      const {userId: _userId} = req.query
 
-      const quantity = Number(queryQuantity)
+      const querySchema = z
+        .object({
+          productId: z.string(),
+          upgradeFromPurchaseId: z.string().optional(),
+          couponId: z.string().optional(),
+          quantity: z.number().optional(),
+          bulk: z.boolean().default(false),
+        })
+        .transform(({quantity, ...rest}) => {
+          return {
+            quantity: quantity || 1,
+            ...rest,
+          }
+        })
+
+      const {productId, upgradeFromPurchaseId, couponId, quantity, bulk} =
+        querySchema.parse(req.query)
 
       const result = z.string().safeParse(_userId || token?.sub)
 
@@ -60,7 +71,7 @@ export async function stripeCheckout({
       const upgradeFromPurchase = upgradeFromPurchaseId
         ? await prisma.purchase.findFirst({
             where: {
-              id: upgradeFromPurchaseId as string,
+              id: upgradeFromPurchaseId,
               status: {in: ['Valid', 'Restricted']},
             },
             include: {
@@ -74,7 +85,7 @@ export async function stripeCheckout({
           ? await prisma.upgradableProducts.findFirst({
               where: {
                 upgradableFromId: upgradeFromPurchase.productId,
-                upgradableToId: productId as string,
+                upgradableToId: productId,
               },
             })
           : false
@@ -85,7 +96,7 @@ export async function stripeCheckout({
           : false
 
       const loadedProduct = await prisma.product.findFirst({
-        where: {id: productId as string},
+        where: {id: productId},
         include: {
           prices: true,
           merchantProducts: {
@@ -96,13 +107,11 @@ export async function stripeCheckout({
         },
       })
 
-      let merchantCoupon = couponId
-        ? await getMerchantCoupon({
-            where: {
-              id: couponId as string,
-            },
-          })
-        : null
+      let merchantCoupon = await getMerchantCoupon({
+        where: {
+          id: couponId,
+        },
+      })
 
       // Null out the `merchantCoupon` if it is a PPP coupon when the
       // quantity is greater than 1. You cannot apply PPP to a purchase
@@ -178,7 +187,7 @@ export async function stripeCheckout({
       }
 
       if (!loadedProduct) {
-        throw new CheckoutError('No product was found', productId as string)
+        throw new CheckoutError('No product was found', productId)
       }
 
       const price =
@@ -198,9 +207,9 @@ export async function stripeCheckout({
 
       const metadata = {
         ...(Boolean(availableUpgrade && upgradeFromPurchase) && {
-          upgradeFromPurchaseId: upgradeFromPurchaseId as string,
+          upgradeFromPurchaseId,
         }),
-        bulk: bulk === 'true' ? 'true' : quantity > 1 ? 'true' : 'false',
+        bulk: Boolean(bulk || quantity > 1).toString(),
         country:
           (req.headers['x-vercel-ip-country'] as string) ||
           process.env.DEFAULT_COUNTRY ||
