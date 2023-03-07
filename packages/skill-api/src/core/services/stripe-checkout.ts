@@ -33,9 +33,6 @@ export async function stripeCheckout({
 
     try {
       const {getMerchantCoupon} = getSdk()
-      // TODO: Maybe we should just Zod parse everything coming in and clean
-      // up a bunch of type coercion (`as`'s) throughout this file.
-      const {userId: _userId} = req.query
 
       const querySchema = z
         .object({
