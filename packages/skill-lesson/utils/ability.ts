@@ -148,8 +148,8 @@ export function defineRulesForPurchases(
       .filter((purchasedModule) =>
         purchasedModule.modules.some((m) => m._id === module?._id),
       )
-      .map((purchasedModule) => {
-        return user?.purchases?.find(
+      .flatMap((purchasedModule) => {
+        return user?.purchases?.filter(
           (purchase) => purchase.productId === purchasedModule.productId,
         )
       })

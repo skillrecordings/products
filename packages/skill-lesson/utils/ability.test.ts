@@ -154,7 +154,7 @@ test('blocked second workshop lesson if no purchase exists', () => {
 describe("team owner who hasn't redeemed purchase for self", () => {
   test('cannot view second workshop lesson', () => {
     const user = {
-      purchases: [{bulkCouponId: '123'}],
+      purchases: [{productId: '123', bulkCouponId: '123'}],
     }
     const rules = defineRulesForPurchases({
       user,
@@ -170,7 +170,16 @@ describe('team owner who has redeemed purchase for self', () => {
   test('can view second workshop lesson', () => {
     const user = {
       purchases: [
-        {bulkCouponId: '123'},
+        {
+          productId: '123',
+          bulkCouponId: '123',
+          status: 'Valid',
+        },
+        {
+          productId: '123',
+          bulkCouponId: '123',
+          status: 'Valid',
+        },
         {
           productId: '123',
           bulkCouponId: null,
