@@ -68,21 +68,27 @@ const canViewWorkshop = ({
   }
 
   const modulePurchase = purchasedModules
-    .filter((purchasedModule) =>
-      purchasedModule.modules.some((m) => m._id === module?._id),
-    )
-    .map((purchasedModule) => {
-      return user?.purchases?.find(
-        (purchase) => purchase.productId === purchasedModule.productId,
+    .filter((purchasedModule) => {
+      return (
+        purchasedModule.productId &&
+        purchasedModule.modules.some((m) => {
+          return m._id === module?._id
+        })
       )
+    })
+    .flatMap((purchasedModule) => {
+      return user?.purchases?.filter((purchase) => {
+        return purchase.productId === purchasedModule.productId
+      })
     })
 
   const userHasPurchaseWithAccess = Boolean(
-    modulePurchase.find(
-      (purchase) =>
-        (purchase?.bulkCouponId === null && purchase.status === 'Valid') ||
-        (purchase.status === 'Restricted' && purchase.country === country),
-    ),
+    modulePurchase.find((purchase) => {
+      return (
+        (purchase?.bulkCouponId === null && purchase?.status === 'Valid') ||
+        (purchase?.status === 'Restricted' && purchase?.country === country)
+      )
+    }),
   )
 
   return userHasPurchaseWithAccess
