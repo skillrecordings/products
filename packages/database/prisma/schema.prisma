@@ -100,7 +100,7 @@ model MerchantCharge {
   merchantAccountId  String
   merchantProductId  String
   createdAt          DateTime          @default(now())
-  merchantCustomerId String
+  merchantCustomerId String?
   merchantAccount    MerchantAccount   @relation(fields: [merchantAccountId], references: [id], onDelete: Cascade)
   merchantCustomer   MerchantCustomer? @relation(fields: [merchantCustomerId], references: [id], onDelete: Cascade)
   merchantProduct    MerchantProduct   @relation(fields: [merchantProductId], references: [id], onDelete: Cascade)
