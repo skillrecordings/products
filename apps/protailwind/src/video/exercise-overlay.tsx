@@ -260,26 +260,35 @@ const ExerciseOverlay: React.FC<{tutorialFiles: any}> = ({tutorialFiles}) => {
                     )}
                   </Balancer>
                 </p>
-                <p className="text-lg font-semibold sm:py-5 sm:text-xl">or</p>
                 {resources?.gitpod?.url && (
-                  <a
-                    href={resources.gitpod.url}
-                    target="_blank"
-                    className="flex items-center gap-2 rounded-full bg-orange-600 px-3 py-1 text-lg font-semibold text-white transition hover:brightness-125 sm:px-5 sm:py-3"
-                    rel="noreferrer"
-                  >
-                    <Icon name="Gitpod" className="h-5 w-5" /> Run on Gitpod
-                  </a>
+                  <>
+                    <p className="text-lg font-semibold sm:py-5 sm:text-xl">
+                      or
+                    </p>
+                    <a
+                      href={resources.gitpod.url}
+                      target="_blank"
+                      className="flex items-center gap-2 rounded-full bg-orange-600 px-3 py-1 text-lg font-semibold text-white transition hover:brightness-125 sm:px-5 sm:py-3"
+                      rel="noreferrer"
+                    >
+                      <Icon name="Gitpod" className="h-5 w-5" /> Run on Gitpod
+                    </a>
+                  </>
                 )}
                 {/* {resources?.github?.url && (
-                  <a
-                    href={resources.github.url}
-                    target="_blank"
-                    className="flex items-center gap-2 rounded-full bg-gray-800 px-3 py-1 text-lg font-semibold text-white transition hover:brightness-125 sm:px-5 sm:py-3"
-                    rel="noreferrer"
-                  >
-                    <Icon name="Github" className="h-5 w-5" /> View on Github
-                  </a>
+                  <>
+                    <p className="text-lg font-semibold sm:py-5 sm:text-xl">
+                      or
+                    </p>
+                    <a
+                      href={resources.github.url}
+                      target="_blank"
+                      className="flex items-center gap-2 rounded-full bg-gray-800 px-3 py-1 text-lg font-semibold text-white transition hover:brightness-125 sm:px-5 sm:py-3"
+                      rel="noreferrer"
+                    >
+                      <Icon name="Github" className="h-5 w-5" /> View on Github
+                    </a>
+                  </>
                 )} */}
               </div>
             </>
