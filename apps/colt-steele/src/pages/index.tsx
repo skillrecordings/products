@@ -66,6 +66,7 @@ const Home: NextPage = () => {
           </motion.p>
           <motion.div {...motionProps} className="mix-blend-multiply">
             <Image
+              priority
               src={require('../../public/assets/d-1@2x.png')}
               alt=""
               aria-hidden
@@ -87,6 +88,7 @@ const Home: NextPage = () => {
             className="not-prose relative py-16 sm:px-40 px-20 text-center sm:text-4xl text-2xl italic bg-white -mx-16 sm:my-48 my-24"
           >
             <Image
+              priority
               src={require('../../public/assets/quote-1@2x.png')}
               alt=""
               aria-hidden
@@ -95,6 +97,7 @@ const Home: NextPage = () => {
               className="absolute sm:-left-40 left-0 sm:-top-24 -top-16 sm:w-auto w-32"
             />
             <Image
+              priority
               src={require('../../public/assets/quote-2@2x.png')}
               alt=""
               aria-hidden
@@ -125,6 +128,7 @@ const Home: NextPage = () => {
         <div className="relative z-10" ref={skeletonRef}>
           <motion.div style={shouldReduceMotion ? {} : {x}}>
             <Image
+              priority
               src={require('../../public/assets/skeleton-flowers@2x.png')}
               width={1215}
               height={487}
@@ -139,6 +143,7 @@ const Home: NextPage = () => {
             <div className="flex flex-col items-center justify-center sm:pb-56 pb-24 sm:pt-32 pt-24">
               <PrimaryNewsletterCta />
               <Image
+                priority
                 src={require('../../public/assets/mountain-silhouette@2x.png')}
                 alt=""
                 aria-hidden
