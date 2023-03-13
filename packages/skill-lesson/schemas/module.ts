@@ -1,10 +1,9 @@
-import {ResourceSchema} from './resource'
-import z, {string} from 'zod'
+import z from 'zod'
 import {LessonResourceSchema} from './lesson'
 import {ExerciseSchema} from './exercise'
 import {CollectionSchema} from './collection'
 import {SectionSchema} from './section'
-import {SanityProduct} from '@skillrecordings/commerce-server/dist/@types'
+import {TestimonialSchema} from './testimonial'
 
 export const ModuleSchema = z
   .object({
@@ -25,6 +24,7 @@ export const ModuleSchema = z
       .array(z.intersection(LessonResourceSchema, ExerciseSchema))
       .nullish(),
     sections: z.array(SectionSchema).nullish(),
+    testimonials: z.array(TestimonialSchema).nullish(),
   })
   .merge(CollectionSchema.omit({slug: true}))
 

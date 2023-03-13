@@ -28,11 +28,12 @@ import {useModuleProgress} from '../video/module-progress'
 import WorkshopCertificate from 'certificate/workshop-certificate'
 import {capitalize} from 'lodash'
 import {createAppAbility} from '@skillrecordings/skill-lesson/utils/ability'
+import Testimonials from 'testimonials'
 
 const WorkshopTemplate: React.FC<{
   workshop: Module
 }> = ({workshop}) => {
-  const {title, body, ogImage, image, description} = workshop
+  const {title, body, ogImage, testimonials, description} = workshop
   const pageTitle = `${title} Workshop`
 
   return (
@@ -50,9 +51,14 @@ const WorkshopTemplate: React.FC<{
       <CourseMeta title={pageTitle} description={description} />
       <Header module={workshop} />
       <main className="relative z-10 flex flex-col gap-5 lg:flex-row">
-        <article className="prose prose-lg w-full max-w-none px-5 text-white prose-a:text-cyan-300 hover:prose-a:text-cyan-200 lg:max-w-xl">
-          <PortableText value={body} components={PortableTextComponents} />
-        </article>
+        <div className="px-5">
+          <article className="prose prose-lg w-full max-w-none text-white prose-a:text-cyan-300 hover:prose-a:text-cyan-200 lg:max-w-xl">
+            <PortableText value={body} components={PortableTextComponents} />
+          </article>
+          {testimonials && testimonials?.length > 0 && (
+            <Testimonials testimonials={testimonials} />
+          )}
+        </div>
         <div className="w-full lg:max-w-xs">
           {workshop && <ModuleNavigator module={workshop} />}
           <WorkshopCertificate workshop={workshop} />

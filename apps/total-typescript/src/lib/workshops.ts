@@ -65,6 +65,16 @@ export const getWorkshop = async (slug: string) =>
         ogImage,
         description,
         _updatedAt,
+        "testimonials": resources[@->._type == 'testimonial']->{
+          _id,
+          _type,
+          _updatedAt,
+          body,
+          author {
+            name,
+            "image": image.asset->url
+          }
+        },
         "sections": resources[@->._type == 'section']->{
           _id,
           _type,
