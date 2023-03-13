@@ -32,7 +32,7 @@ const Home: NextPage = () => {
     offset: ['start end', 'end start'],
   })
 
-  const x = useTransform(scrollYProgress, [0, 1], ['-100%', '100%'], {
+  const x = useTransform(scrollYProgress, [0, 1], ['-20%', '0%'], {
     ease: easeInOut,
   })
 
