@@ -32,10 +32,7 @@ const Buy: React.FC<React.PropsWithChildren<CommerceProps>> = ({
               url: 'https://res.cloudinary.com/total-typescript/image/upload/v1669888351/illustrations/golden-ticket_2x_hkd8x3.png',
               alt: 'Golden Ticket',
             }
-          : {
-              url: 'https://res.cloudinary.com/total-typescript/image/upload/v1677783278/buy-card-sale_2x_mtdeem.png',
-              alt: `Buy ${process.env.NEXT_PUBLIC_SITE_TITLE}`,
-            },
+          : undefined,
       }}
       defaultCoupon={defaultCoupon}
     >
