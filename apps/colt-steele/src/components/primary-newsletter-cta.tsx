@@ -5,6 +5,7 @@ import {
 } from '@skillrecordings/convertkit-react-ui'
 import {useRouter} from 'next/router'
 import common from '../text/common'
+import Balancer from 'react-wrap-balancer'
 
 export const PrimaryNewsletterCta: React.FC<
   React.PropsWithChildren<unknown>
@@ -12,20 +13,23 @@ export const PrimaryNewsletterCta: React.FC<
   const router = useRouter()
   return (
     <section
-      aria-label="Email course sign-up"
+      aria-label="Subscribe"
       id="subscribe"
-      className="relative flex flex-col items-center justify-center overflow-hidden sm:px-16 px-5 lg:pb-32 sm:pb-24 pb-16 sm:pt-24 pt-10"
+      className="text-center flex flex-col items-center justify-center relative z-10"
     >
       {children ? (
         children
       ) : (
         <>
-          <h2 className="max-w-lg font-heading mx-auto -mt-4 sm:text-4xl text-3xl leading-none text-center md:text-5xl font-bold sm:mt-0">
-            Find out What's Next for Colt Steele
+          <h2 className="sm:text-5xl text-3xl font-bold">
+            <Balancer>Find out What's Next for Colt Steele</Balancer>
           </h2>
-          <h3 className="max-w-md leading-tight pt-6 pb-16 text-xl text-center">
-            Want to be the first to know when the next course is released? Sign
-            up below.
+          <h3 className="text-xl pt-8 max-w-md w-full mb-16">
+            <Balancer>
+              {' '}
+              Want to be the first to know when the next course is released?
+              Sign up below.
+            </Balancer>
           </h3>
         </>
       )}
@@ -36,10 +40,10 @@ export const PrimaryNewsletterCta: React.FC<
             router.push(redirectUrl)
           }
         }}
-        actionLabel={`${common['primary-newsletter-button-cta-label']} →`}
+        actionLabel={common['primary-newsletter-button-cta-label']}
       />
-      <p className="pt-8 opacity-80 text-sm">
-        We respect your privacy. Unsubscribe at any time.
+      <p className="mt-8 opacity-80 text-sm bg-brand-bone px-1 py-0.5">
+        I respect your privacy. Unsubscribe at any time.
       </p>
     </section>
   )

@@ -1,9 +1,13 @@
 @tailwind base;
 
 @tailwind components;
-@import './quiz.css';
 @import './primary-newsletter-cta.css';
 @import './nprogress.css';
+@import './fonts.css';
 
 @tailwind utilities;
 @import './focus-visible.css';
+
+::selection {
+  @apply bg-brand-bone;
+}
