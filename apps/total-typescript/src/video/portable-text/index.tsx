@@ -92,36 +92,42 @@ const BodyTestimonial: React.FC<
 > = ({value, children, ...props}) => {
   const {body, author} = value
   return (
-    <div className="not-prose">
-      <blockquote
-        className="relative -mx-5 overflow-hidden border border-gray-800 py-5 pr-5 pl-5 font-medium text-gray-200 shadow-xl sm:mx-0 sm:rounded-lg sm:pr-6 sm:pl-8"
-        {...props}
-      >
-        <div className="relative z-10">
-          <div className="prose-lg text-gray-200">
-            <PortableText components={PortableTextComponents} value={body} />
+    <div
+      className="relative -mx-5 overflow-hidden bg-gray-800/60 py-5 pr-5 pl-5 font-medium sm:mx-0 sm:rounded-md sm:pr-6 sm:pl-8"
+      {...props}
+    >
+      <div className="relative z-10">
+        <blockquote className="prose prose-lg my-0 max-w-none border-none pl-0 font-normal italic prose-p:text-gray-200 prose-a:text-cyan-300">
+          <PortableText components={PortableTextComponents} value={body} />
+        </blockquote>
+        {author?.name && (
+          <div className="flex items-center gap-3 pt-5 text-gray-200">
+            {author.image ? (
+              <div className="flex items-center justify-center overflow-hidden rounded-full">
+                <Image
+                  src={author.image}
+                  alt={author.name}
+                  width={40}
+                  height={40}
+                />
+              </div>
+            ) : (
+              '— '
+            )}
+            <span className="font-normal text-gray-200">{author.name}</span>
           </div>
-          {author?.name && (
-            <div className="flex items-center gap-3 pt-5 text-gray-200">
-              {author.image && (
-                <div className="flex items-center justify-center overflow-hidden rounded-full">
-                  <Image
-                    src={author.image}
-                    alt={author.name}
-                    width={48}
-                    height={48}
-                  />
-                </div>
-              )}
-              <span className="font-normal text-gray-200">{author.name}</span>
-            </div>
-          )}
-        </div>
-        <div
-          className="absolute top-0 left-0 h-full w-0.5 bg-cyan-500 sm:w-1"
-          aria-hidden="true"
-        />
-      </blockquote>
+        )}
+      </div>
+      <div
+        className="absolute top-0 left-0 h-full w-1 bg-cyan-500"
+        aria-hidden="true"
+      />
+      <div
+        aria-hidden
+        className="absolute right-5 bottom-0 font-serif text-5xl font-bold leading-none text-gray-500"
+      >
+        ”
+      </div>
     </div>
   )
 }
