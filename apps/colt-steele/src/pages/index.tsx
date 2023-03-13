@@ -39,7 +39,7 @@ const Home: NextPage = () => {
   return (
     <Layout className="overflow-x-hidden">
       <div className="relative z-10 bg-brand-cultured sm:p-5">
-        <header className="bg-brand-bone flex items-center justify-center h-[calc(100vh-2.5rem)] overflow-hidden relative">
+        <header className="bg-brand-bone flex items-center justify-center sm:h-[calc(100vh-2.5rem)] h-screen overflow-hidden relative">
           <Image
             src={require('../../public/assets/hero@2x.png')}
             alt=""
@@ -48,7 +48,7 @@ const Home: NextPage = () => {
             priority
             quality={100}
             placeholder="blur"
-            className="pointer-events-none select-none object-contain"
+            className="pointer-events-none select-none sm:object-contain object-cover"
           />
         </header>
       </div>
