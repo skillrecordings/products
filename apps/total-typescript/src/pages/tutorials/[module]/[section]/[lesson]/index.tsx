@@ -6,20 +6,24 @@ import {getExercise} from 'lib/exercises'
 import {VideoResourceProvider} from '@skillrecordings/skill-lesson/hooks/use-video-resource'
 import {LessonProvider} from '@skillrecordings/skill-lesson/hooks/use-lesson'
 import {ModuleProgressProvider} from 'video/module-progress'
+import {getSection} from 'lib/sections'
 
 export const getStaticProps: GetStaticProps = async (context) => {
   const {params} = context
-  const exerciseSlug = params?.lesson as string
+  const lessonSlug = params?.lesson as string
+  const sectionSlug = params?.section as string
 
   const module = await getTutorial(params?.module as string)
-  const exercise = await getExercise(exerciseSlug)
+  const section = await getSection(sectionSlug)
+  const lesson = await getExercise(lessonSlug, false)
 
   return {
     props: {
-      exercise,
+      lesson,
       module,
-      transcript: exercise.transcript,
-      videoResourceId: exercise.videoResourceId,
+      section,
+      transcript: lesson.transcript,
+      videoResourceId: lesson.videoResourceId,
     },
     revalidate: 10,
   }
@@ -28,32 +32,35 @@ export const getStaticProps: GetStaticProps = async (context) => {
 export const getStaticPaths: GetStaticPaths = async (context) => {
   const tutorials = await getAllTutorials()
 
-  const paths = tutorials.reduce((acc: any[], tutorial: any) => {
-    return [
-      ...acc,
-      ...tutorial.lessons.map((exercise: any) => {
-        return {
-          params: {
-            module: tutorial.slug.current,
-            lesson: exercise.slug,
-          },
-        }
-      }),
-    ]
-  }, [])
+  const paths = tutorials.flatMap((tutorial: any) => {
+    return (
+      tutorial.sections?.flatMap((section: any) => {
+        return (
+          section.lessons?.map((lesson: any) => ({
+            params: {
+              module: tutorial.slug.current,
+              section: section.slug,
+              lesson: lesson.slug,
+            },
+          })) || []
+        )
+      }) || []
+    )
+  })
 
   return {paths, fallback: 'blocking'}
 }
 
 const ExercisePage: React.FC<any> = ({
-  exercise,
+  lesson,
   module,
+  section,
   transcript,
   videoResourceId,
 }) => {
   return (
     <ModuleProgressProvider moduleSlug={module.slug.current}>
-      <LessonProvider lesson={exercise} module={module}>
+      <LessonProvider lesson={lesson} module={module} section={section}>
         <VideoResourceProvider videoResourceId={videoResourceId}>
           <ExerciseTemplate transcript={transcript} />
         </VideoResourceProvider>
