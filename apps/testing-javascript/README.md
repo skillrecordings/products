@@ -336,7 +336,42 @@ Start prisma studio:
 pnpm db:studio
 ```
 
-### Seed Data
+### Seed Data the First Time
+
+There are a couple SQL files located in `seed_data/` that contain `insert`
+statements for seeding initial users and Stripe product data. You should only
+be running these if your database is completely empty and you aren't trying to
+restore data from an existing database.
+
+#### Seeding a local database
+
+These can be used to seed a locally running MySQL database on port 3309 with
+the following commands.
+
+```bash
+mysql -h ::1 -P 3309 -u root -D kcd-products < seed_data/User.00001.sql
+mysql -h ::1 -P 3309 -u root -D kcd-products < seed_data/Product.00001.sql
+```
+
+#### Seeding a Planetscale database
+
+Or they can be used to seed a Planetscale database/branch. To do that, first
+open a local proxy connection to the desired Planetscale branch (e.g.
+`staging`):
+
+```bash
+pscale connect kcd-products staging --port 3309 --host "::1"
+```
+
+and then run the same commands as you would locally as these will now be
+proxied to the remote Planetscale database:
+
+```bash
+mysql -h ::1 -P 3309 -u root -D kcd-products < seed_data/User.00001.sql
+mysql -h ::1 -P 3309 -u root -D kcd-products < seed_data/Product.00001.sql
+```
+
+### Seed Data from Main
 
 When you make a new branch in Planetscale it doesn't bring data over.
 

@@ -15,6 +15,7 @@ import {
   ArrowRightIcon,
   CheckIcon,
   ChevronDownIcon,
+  LockClosedIcon,
 } from '@heroicons/react/solid'
 import {Lesson} from '@skillrecordings/skill-lesson/schemas/lesson'
 import PortableTextComponents from '../video/portable-text'
@@ -26,11 +27,13 @@ import Balancer from 'react-wrap-balancer'
 import {useModuleProgress} from '../video/module-progress'
 import WorkshopCertificate from 'certificate/workshop-certificate'
 import {capitalize} from 'lodash'
+import {createAppAbility} from '@skillrecordings/skill-lesson/utils/ability'
+import Testimonials from 'testimonials'
 
 const WorkshopTemplate: React.FC<{
   workshop: Module
 }> = ({workshop}) => {
-  const {title, body, ogImage, image, description} = workshop
+  const {title, body, ogImage, testimonials, description} = workshop
   const pageTitle = `${title} Workshop`
 
   return (
@@ -48,9 +51,14 @@ const WorkshopTemplate: React.FC<{
       <CourseMeta title={pageTitle} description={description} />
       <Header module={workshop} />
       <main className="relative z-10 flex flex-col gap-5 lg:flex-row">
-        <article className="prose prose-lg w-full max-w-none px-5 text-white prose-a:text-cyan-300 hover:prose-a:text-cyan-200 lg:max-w-xl">
-          <PortableText value={body} components={PortableTextComponents} />
-        </article>
+        <div className="px-5">
+          <article className="prose prose-lg w-full max-w-none text-white prose-a:text-cyan-300 hover:prose-a:text-cyan-200 lg:max-w-xl">
+            <PortableText value={body} components={PortableTextComponents} />
+          </article>
+          {testimonials && testimonials?.length > 0 && (
+            <Testimonials testimonials={testimonials} />
+          )}
+        </div>
         <div className="w-full lg:max-w-xs">
           {workshop && <ModuleNavigator module={workshop} />}
           <WorkshopCertificate workshop={workshop} />
@@ -420,6 +428,25 @@ const ModuleLesson = ({
   )
 
   const isNextLesson = nextLesson?.slug === lessonResource.slug
+  const useAbilities = () => {
+    const {data: abilityRules, status: abilityRulesStatus} =
+      trpc.modules.rules.useQuery({
+        moduleSlug: module.slug.current,
+        moduleType: module.moduleType,
+        sectionSlug: section?.slug,
+        lessonSlug: lessonResource.slug,
+      })
+    return {ability: createAppAbility(abilityRules || []), abilityRulesStatus}
+  }
+  const {ability, abilityRulesStatus} = useAbilities()
+
+  // relying on ability would mark tutorials as locked because it's correctly checking for user
+  // we don't want that here hence the moduleType check
+  const canShowVideo =
+    module.moduleType === 'tutorial' ||
+    ability.can('view', 'Content') ||
+    abilityRulesStatus === 'loading'
+
   return (
     <li key={lessonResource._id}>
       <Link
@@ -472,18 +499,27 @@ const ModuleLesson = ({
           </div>
         )}
         <div className="inline-flex items-center">
-          {isExerciseCompleted ? (
-            <CheckIcon
-              className="mr-[11.5px] -ml-1 h-4 w-4 text-teal-400"
-              aria-hidden="true"
-            />
+          {canShowVideo ? (
+            <>
+              {isExerciseCompleted ? (
+                <CheckIcon
+                  className="mr-[11.5px] -ml-1 h-4 w-4 text-teal-400"
+                  aria-hidden="true"
+                />
+              ) : (
+                <span
+                  className="w-6 font-mono text-xs text-gray-400"
+                  aria-hidden="true"
+                >
+                  {index + 1}
+                </span>
+              )}
+            </>
           ) : (
-            <span
-              className="w-6 font-mono text-xs text-gray-400"
+            <LockClosedIcon
               aria-hidden="true"
-            >
-              {index + 1}
-            </span>
+              className="-ml-1 mr-[11.5px] h-4 w-4 text-gray-400"
+            />
           )}
           <span className="w-full cursor-pointer leading-tight group-hover:underline">
             {lessonResource.title}

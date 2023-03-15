@@ -296,6 +296,7 @@ importers:
       eslint-config-custom: workspace:*
       feed: ^4.2.2
       formik: 2.2.9
+      framer-motion: ^8.4.3
       groq: ^2.15.0
       jest: ^27.5.1
       jest-mock-extended: ^2.0.4
@@ -312,6 +313,8 @@ importers:
       react: 18.2.0
       react-dom: 18.2.0
       react-icons: ^4.7.1
+      react-use: ^17.3.2
+      react-wrap-balancer: ^0.2.4
       sanity: ^3.0.0
       sanity-plugin-cloudinary: ^1.0.1
       superjson: '=1.11.0'
@@ -368,6 +371,7 @@ importers:
       date-fns: 2.28.0
       feed: 4.2.2
       formik: 2.2.9_react@18.2.0
+      framer-motion: 8.5.4_biqbaboplfbrettd7655fr4n2y
       groq: 2.15.0
       lodash: 4.17.21
       micromark: 3.1.0
@@ -380,6 +384,8 @@ importers:
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
       react-icons: 4.7.1_react@18.2.0
+      react-use: 17.4.0_biqbaboplfbrettd7655fr4n2y
+      react-wrap-balancer: 0.2.4_react@18.2.0
       sanity: 3.2.5_z4un7qnaa7wwj3f2uxtandoqfq
       sanity-plugin-cloudinary: 1.0.1_lwfue5ecbqwevxpjdqp6room4e
       superjson: 1.11.0
@@ -1133,6 +1139,7 @@ importers:
       '@trpc/server': '=10.7.0'
       '@types/cookie': ^0.4.1
       '@types/jsonwebtoken': ^8.5.8
+      '@types/lodash': ^4.14.179
       '@types/mdx': ^2.0.2
       '@types/mdx-js__react': ^1.5.5
       '@types/mjml': ^4.7.0
@@ -1141,12 +1148,14 @@ importers:
       '@types/nprogress': ^0.2.0
       '@types/react': ^18.0.15
       '@types/react-dom': ^18.0.6
+      autoprefixer: ^10.4.2
       classnames: ^2.3.1
       date-fns: ^2.28.0
       dotenv-flow: ^3.2.0
       eslint: ^8.19.0
       eslint-config-custom: workspace:*
       feed: ^4.2.2
+      focus-visible: ^5.2.0
       formik: 2.2.9
       groq: ^2.15.0
       jest: ^27.5.1
@@ -1217,9 +1226,11 @@ importers:
       '@trpc/next': 10.7.0_ugkwfq4p7rtp4nzc2ulppxnmju
       '@trpc/react-query': 10.7.0_x4ie6nhblo2vtx2aafrgzlfqy4
       '@trpc/server': 10.7.0
+      autoprefixer: 10.4.12_postcss@8.4.20
       classnames: 2.3.1
       date-fns: 2.28.0
       feed: 4.2.2
+      focus-visible: 5.2.0
       formik: 2.2.9_react@18.2.0
       groq: 2.15.0
       lodash: 4.17.21
@@ -1245,6 +1256,7 @@ importers:
       '@skillrecordings/types': link:../../packages/types
       '@types/cookie': 0.4.1
       '@types/jsonwebtoken': 8.5.8
+      '@types/lodash': 4.14.191
       '@types/mdx': 2.0.2
       '@types/mdx-js__react': 1.5.5
       '@types/mjml': 4.7.0
@@ -14571,6 +14583,22 @@ packages:
       postcss-value-parser: 4.2.0
     dev: true
 
+  /autoprefixer/10.4.12_postcss@8.4.20:
+    resolution: {integrity: sha512-WrCGV9/b97Pa+jtwf5UGaRjgQIg7OK3D06GnoYoZNcG1Xb8Gt3EfuKjlhh9i/VtT16g6PYjZ69jdJ2g8FxSC4Q==}
+    engines: {node: ^10 || ^12 || >=14}
+    hasBin: true
+    peerDependencies:
+      postcss: ^8.1.0
+    dependencies:
+      browserslist: 4.21.4
+      caniuse-lite: 1.0.30001419
+      fraction.js: 4.2.0
+      normalize-range: 0.1.2
+      picocolors: 1.0.0
+      postcss: 8.4.20
+      postcss-value-parser: 4.2.0
+    dev: false
+
   /autoprefixer/10.4.7_postcss@8.4.14:
     resolution: {integrity: sha512-ypHju4Y2Oav95SipEcCcI5J7CGPuvz8oat7sUtYj3ClK44bldfvtvcxK6IEK++7rqB7YchDGzweZIBG+SD0ZAA==}
     engines: {node: ^10 || ^12 || >=14}
@@ -18188,10 +18216,10 @@ packages:
       eslint-import-resolver-webpack:
         optional: true
     dependencies:
-      '@typescript-eslint/parser': 5.40.0_eslint@8.26.0
+      '@typescript-eslint/parser': 5.40.0_sq327paf6wzcma7omk5wjhfcfa
       debug: 3.2.7
       eslint-import-resolver-node: 0.3.6
-      eslint-import-resolver-typescript: 2.7.1_mynvxvmq5qtyojffiqgev4x7mm
+      eslint-import-resolver-typescript: 2.7.1_2iahngt3u2tkbdlu6s4gkur3pu
       find-up: 2.1.0
     transitivePeerDependencies:
       - supports-color
@@ -19593,7 +19621,6 @@ packages:
         optional: true
     dependencies:
       debug: 2.6.9
-    dev: false
 
   /follow-redirects/1.15.2_debug@4.3.4:
     resolution: {integrity: sha512-VQLG33o04KaQ8uYi2tVNbdrWp1QWxNNea+nmIB4EVM28v0hmP17z7aG1+wAkNzVq4KeXTq3221ye5qTJP91JwA==}
@@ -19998,7 +20025,7 @@ packages:
       create-error-class: 3.0.2
       debug: 2.6.9
       decompress-response: 6.0.0
-      follow-redirects: 1.15.2_debug@4.3.4
+      follow-redirects: 1.15.2_debug@2.6.9
       form-urlencoded: 2.0.9
       into-stream: 3.1.0
       is-plain-object: 2.0.4
@@ -25160,7 +25187,7 @@ packages:
       '@panva/hkdf': 1.0.1
       cookie: 0.5.0
       jose: 4.11.1
-      next: 13.1.2_biqbaboplfbrettd7655fr4n2y
+      next: 13.1.2_x6hpkaqu4dxwl4unajq2h7dx44
       nodemailer: 6.7.2
       oauth: 0.9.15
       openid-client: 5.1.4
@@ -25468,7 +25495,6 @@ packages:
     transitivePeerDependencies:
       - '@babel/core'
       - babel-plugin-macros
-    dev: true
 
   /nice-try/1.0.5:
     resolution: {integrity: sha512-1nh45deeb5olNY7eX82BkPO7SSxR5SSYJiPTrTdFUVYwAl8CKMA5N9PjTYkHiRjisVcxcQ1HXdLhx2qxxJzLNQ==}
@@ -31155,7 +31181,6 @@ packages:
       '@babel/core': 7.16.5
       client-only: 0.0.1
       react: 18.2.0
-    dev: true
 
   /styled-jsx/5.1.1_react@18.2.0:
     resolution: {integrity: sha512-pW7uC1l4mBZ8ugbiZrcIsiIvVx1UmTfw7UkC3Um2tmfUq9Bhk8IiyEIPl6F8agHgjzku6j0xQEZbfA5uSgSaCw==}

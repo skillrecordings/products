@@ -1,6 +1,7 @@
 import React, {FunctionComponent} from 'react'
 import {NextSeo} from '@skillrecordings/next-seo'
 import cx from 'classnames'
+import Navigation from './navigation'
 
 type LayoutProps = {
   meta?: any
@@ -22,7 +23,7 @@ const Layout: FunctionComponent<React.PropsWithChildren<LayoutProps>> = ({
   const {
     title,
     description,
-    titleAppendSiteName = true,
+    titleAppendSiteName = false,
     url,
     type = 'website',
     ogImage,
@@ -52,7 +53,7 @@ const Layout: FunctionComponent<React.PropsWithChildren<LayoutProps>> = ({
         canonical={url}
         noindex={noIndex}
       />
-      {/* {nav ? nav : isNull(nav) ? null : <Navigation />} */}
+      <Navigation />
       <div
         className={cx('flex flex-col flex-grow h-full min-h-screen', className)}
       >

@@ -1,15 +1,18 @@
 [data-sr-convertkit-subscribe-form] {
-    @apply flex flex-col w-full max-w-[340px] mx-auto;
-    [data-sr-input] {
-        @apply block mb-4 w-full px-4 py-3 border placeholder-opacity-60 bg-opacity-50 rounded-lg shadow sm:text-base sm:leading-6;
+  @apply flex flex-col w-full max-w-sm mx-auto text-left;
+  [data-sr-input] {
+    @apply block mb-4 w-full px-4 py-4 border shadow-inner placeholder-opacity-60 bg-opacity-50 rounded sm:text-lg sm:leading-6 focus-visible:ring-white focus-visible:ring-black/10 border-transparent;
+  }
+  [data-sr-input-label] {
+    @apply font-medium pb-1 inline-block;
+  }
+  [data-sr-input-asterisk] {
+    @apply opacity-50;
+  }
+  [data-sr-button] {
+    @apply py-5 mt-4 focus-visible:ring-2 focus-visible:ring-white flex items-center justify-center rounded text-white bg-brand-red hover:bg-opacity-100 transition font-bold text-lg hover:scale-105;
+    svg {
+      @apply my-1;
     }
-    [data-sr-input-label] {
-        @apply font-medium pb-1 inline-block;
-    }
-    [data-sr-input-asterisk] {
-        @apply opacity-50;
-    }
-    [data-sr-button] {
-        @apply pt-4 pb-5 mt-4 flex items-center justify-center rounded-lg text-black bg-yellow-500 hover:bg-opacity-100 transition font-bold text-lg focus-visible:ring-yellow-200 hover:scale-105 hover:-rotate-1 hover:bg-yellow-400;
-    }
+  }
 }

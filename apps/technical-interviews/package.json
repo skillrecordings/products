@@ -78,7 +78,9 @@
     "sanity-plugin-cloudinary": "^1.0.1",
     "styled-components": "^5.2",
     "superjson": "=1.11.0",
-    "yup": "^0.32.11"
+    "yup": "^0.32.11",
+    "focus-visible": "^5.2.0",
+    "autoprefixer": "^10.4.2"
   },
   "devDependencies": {
     "@next/env": "^12.2.2",
@@ -91,6 +93,7 @@
     "@types/mdx-js__react": "^1.5.5",
     "@types/mjml": "^4.7.0",
     "@types/node": "^17.0.0",
+    "@types/lodash": "^4.14.179",
     "@types/nodemailer": "^6.4.4",
     "@types/nprogress": "^0.2.0",
     "@types/react": "^18.0.15",

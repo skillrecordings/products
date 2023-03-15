@@ -66,6 +66,16 @@ export const getTutorial = async (slug: string) =>
           }
         }
       },
+      "testimonials": resources[@->._type == 'testimonial']->{
+        _id,
+        _type,
+        _updatedAt,
+        body,
+        author {
+          name,
+          "image": image.asset->url
+        }
+      },
       "sections": resources[@->._type == 'section']->{
         _id,
         _type,
