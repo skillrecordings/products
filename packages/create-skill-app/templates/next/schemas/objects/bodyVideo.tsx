@@ -1,31 +1,32 @@
 import React from 'react'
+import {defineField, defineType} from 'sanity'
 
-export default {
+export default defineType({
   name: 'bodyVideo',
   type: 'object',
   title: 'Video',
   fields: [
-    {
+    defineField({
       name: 'url',
       type: 'url',
       title: 'Video URL',
       validation: (Rule) => Rule.required(),
-    },
-    {
+    }),
+    defineField({
       name: 'title',
       type: 'string',
       title: 'Title',
-    },
-    {
+    }),
+    defineField({
       name: 'videoOptions',
       type: 'videoOptions',
       title: 'Video Options',
-    },
-    {
+    }),
+    defineField({
       name: 'caption',
       title: 'Transcript',
       type: 'mediaCaption',
-    },
+    }),
   ],
   preview: {
     select: {
@@ -34,8 +35,10 @@ export default {
       transcript: 'caption',
       videoOptions: 'videoOptions',
     },
-    component: ({value}) => {
-      const {url, transcript, title, videoOptions} = value
+  },
+  components: {
+    preview: (selection: any) => {
+      const {url, transcript, title, videoOptions} = selection
       const {autoPlay, loop, controls} = videoOptions
 
       return (
@@ -66,4 +69,4 @@ export default {
       )
     },
   },
-}
+})

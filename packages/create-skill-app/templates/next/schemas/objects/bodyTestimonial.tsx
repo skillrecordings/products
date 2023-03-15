@@ -1,11 +1,12 @@
 import React from 'react'
+import {defineField, defineType} from 'sanity'
 
-export default {
+export default defineType({
   name: 'bodyTestimonial',
   type: 'object',
   title: 'Testimonial',
   fields: [
-    {
+    defineField({
       name: 'testimonial',
       title: 'Testimonial',
       type: 'reference',
@@ -15,7 +16,7 @@ export default {
         },
       ],
       validation: (Rule) => Rule.required(),
-    },
+    }),
   ],
   preview: {
     select: {
@@ -24,7 +25,9 @@ export default {
       authorName: 'testimonial.author.name',
       authorImage: 'testimonial.author.image.asset.url',
     },
-    component: ({value}) => {
+  },
+  components: {
+    preview: (value: any) => {
       const {testimonial, authorName, authorImage, externalUrl} = value
 
       return (
@@ -59,4 +62,4 @@ export default {
       )
     },
   },
-}
+})

@@ -1,19 +1,22 @@
 import React from 'react'
+import {defineField, defineType} from 'sanity'
 
-export default {
+export default defineType({
   name: 'divider',
   type: 'object',
   title: 'Divider',
   fields: [
-    {
+    defineField({
       name: 'image',
       title: 'Image URL',
       type: 'string',
-    },
+    }),
   ],
   preview: {
     select: {image: 'image'},
-    component: ({value}) => {
+  },
+  components: {
+    preview: (value: any) => {
       const {image} = value
       return image ? (
         <div
@@ -30,4 +33,4 @@ export default {
       )
     },
   },
-}
+})
