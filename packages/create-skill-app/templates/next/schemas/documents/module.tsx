@@ -1,20 +1,21 @@
 import * as React from 'react'
 import {capitalize} from 'lodash'
 import {MdRadio} from 'react-icons/md'
+import {defineArrayMember, defineField, defineType} from 'sanity'
 
-export default {
+export default defineType({
   name: 'module',
   title: 'Module',
   type: 'document',
   icon: MdRadio,
   fields: [
-    {
+    defineField({
       name: 'title',
       title: 'Title',
       type: 'string',
       validation: (Rule) => Rule.required(),
-    },
-    {
+    }),
+    defineField({
       name: 'moduleType',
       title: 'Module Type',
       type: 'string',
@@ -25,8 +26,8 @@ export default {
           {title: 'Tutorial', value: 'tutorial'},
         ],
       },
-    },
-    {
+    }),
+    defineField({
       name: 'state',
       title: 'Current State',
       type: 'string',
@@ -38,8 +39,8 @@ export default {
           {title: 'published', value: 'published'},
         ],
       },
-    },
-    {
+    }),
+    defineField({
       name: 'slug',
       title: 'Slug',
       type: 'slug',
@@ -48,19 +49,19 @@ export default {
         source: 'title',
         maxLength: 96,
       },
-    },
-    {
+    }),
+    defineField({
       name: 'github',
       title: 'GitHub',
       type: 'github',
-    },
-    {
+    }),
+    defineField({
       name: 'resources',
       title: 'Resources',
       description: 'Exercises, Sections, or Explainers in the Module',
       type: 'array',
       of: [
-        {
+        defineArrayMember({
           title: 'Exercise, Sections and Explainers',
           type: 'reference',
           to: [
@@ -69,30 +70,30 @@ export default {
             {title: 'Explainer', type: 'explainer'},
             {type: 'linkResource'},
           ],
-        },
+        }),
       ],
-    },
-    {
+    }),
+    defineField({
       name: 'body',
       title: 'Body',
       type: 'body',
-    },
-    {
+    }),
+    defineField({
       name: 'image',
       title: 'Image',
       type: 'image',
-    },
-    {
+    }),
+    defineField({
       name: 'ogImage',
       title: 'Share card URL',
       type: 'url',
-    },
-    {
+    }),
+    defineField({
       name: 'description',
       title: 'SEO Description',
       type: 'text',
       validation: (Rule) => Rule.max(160),
-    },
+    }),
   ],
   preview: {
     select: {
@@ -108,4 +109,4 @@ export default {
       }
     },
   },
-}
+})

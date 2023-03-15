@@ -1,27 +1,27 @@
-import React from 'react'
+import {defineArrayMember, defineField, defineType} from 'sanity'
 
-export default {
+export default defineType({
   name: 'pricing',
   title: 'Pricing',
   type: 'document',
   fields: [
-    {
+    defineField({
       name: 'title',
       title: 'Title',
       type: 'string',
-    },
-    {
+    }),
+    defineField({
       name: 'subtitle',
       title: 'Subtitle',
       type: 'text',
       rows: 3,
-    },
-    {
+    }),
+    defineField({
       name: 'products',
       title: 'Products',
       type: 'array',
-      of: [{type: 'reference', to: [{type: 'product'}]}],
-    },
+      of: [defineArrayMember({type: 'reference', to: [{type: 'product'}]})],
+    }),
   ],
   preview: {
     select: {
@@ -34,4 +34,4 @@ export default {
       }
     },
   },
-}
+})

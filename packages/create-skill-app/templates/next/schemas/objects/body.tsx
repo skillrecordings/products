@@ -4,20 +4,15 @@ import {
   HiOutlineClock,
   HiLink,
 } from 'react-icons/hi'
-import React, {forwardRef} from 'react'
-import {BlockEditor} from 'sanity'
-import {handlePaste} from '../customization/onPaste'
-
-const CustomEditor = forwardRef((props, ref) => (
-  <BlockEditor {...props} ref={ref} onPaste={handlePaste} />
-))
+import {defineArrayMember, defineField} from 'sanity'
 
 // TODO: Exercises (don't have to have solutions), Challenges (always have solutions, sometimes multiple parts)
-export default {
+export default defineField({
   name: 'body',
   type: 'array',
+  title: 'Body',
   of: [
-    {
+    defineArrayMember({
       type: 'block',
       // styles: [
       //   {title: 'Normal', value: 'normal'},
@@ -31,13 +26,11 @@ export default {
       // ],
       marks: {
         annotations: [
-          {
+          defineArrayMember({
             name: 'link',
             type: 'object',
             title: 'External link',
-            blockEditor: {
-              icon: HiExternalLink,
-            },
+            icon: HiExternalLink,
             fields: [
               {
                 name: 'href',
@@ -51,14 +44,12 @@ export default {
                 type: 'boolean',
               },
             ],
-          },
-          {
+          }),
+          defineArrayMember({
             name: 'internalLink',
             type: 'object',
             title: 'Internal link',
-            blockEditor: {
-              icon: HiLink,
-            },
+            icon: HiLink,
             fields: [
               {
                 name: 'reference',
@@ -67,14 +58,12 @@ export default {
                 to: [{type: 'exercise'}, {type: 'module'}],
               },
             ],
-          },
-          {
+          }),
+          defineArrayMember({
             name: 'emoji',
             type: 'object',
             title: 'Emoji',
-            blockEditor: {
-              icon: HiOutlineEmojiHappy,
-            },
+            icon: HiOutlineEmojiHappy,
             fields: [
               {
                 name: 'emoji',
@@ -90,14 +79,12 @@ export default {
                 ],
               },
             ],
-          },
-          {
+          }),
+          defineArrayMember({
             name: 'timestamp',
             type: 'object',
             title: 'Timestamp',
-            blockEditor: {
-              icon: HiOutlineClock,
-            },
+            icon: HiOutlineClock,
             fields: [
               {
                 name: 'timestamp',
@@ -106,17 +93,31 @@ export default {
                 validation: (Rule) => Rule.required(),
               },
             ],
-          },
+          }),
         ],
       },
-    },
-    {type: 'bodyImage'},
-    {type: 'bodyVideo'},
-    {type: 'code'},
-    {type: 'callout'},
-    {type: 'divider'},
-    {type: 'grid'},
-    {type: 'bodyTestimonial'},
+    }),
+    defineArrayMember({type: 'bodyImage'}),
+    defineArrayMember({type: 'bodyVideo'}),
+    defineArrayMember({type: 'code'}),
+    defineArrayMember({type: 'callout'}),
+    defineArrayMember({type: 'divider'}),
+    defineArrayMember({type: 'grid'}),
+    defineArrayMember({type: 'bodyTestimonial'}),
   ],
-  inputComponent: CustomEditor,
-}
+  // TODO: This makes pasting to stop working
+  // components: {
+  //   input: CustomEditor,
+  // },
+})
+
+// import React, {forwardRef} from 'react'
+// import {BlockEditor} from 'sanity'
+// import {handlePaste} from '../customization/onPaste'
+// const CustomEditor = forwardRef((props, ref) => (
+//   <BlockEditor
+//     {...props}
+//     ref={ref}
+//     onPaste={handlePaste}
+//   />
+// ))

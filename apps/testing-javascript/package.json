@@ -11,7 +11,8 @@
     "db:studio": "prisma studio",
     "db:push": "prisma db push",
     "db:schema": "prisma migrate dev --create-only",
-    "db:start": "docker compose up -d"
+    "db:start": "docker compose up -d",
+    "db:generate": "pnpm -w generate"
   },
   "dependencies": {
     "@mdx-js/loader": "^2.1.2",
