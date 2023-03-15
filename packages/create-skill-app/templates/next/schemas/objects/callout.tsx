@@ -1,12 +1,13 @@
 import React from 'react'
 import {PortableText} from '@portabletext/react'
+import {defineField, defineType} from 'sanity'
 
-export default {
+export default defineType({
   name: 'callout',
   type: 'object',
   title: 'Callout',
   fields: [
-    {
+    defineField({
       name: 'type',
       title: 'Type',
       type: 'string',
@@ -20,16 +21,18 @@ export default {
           {title: 'Caution', value: 'caution'},
         ],
       },
-    },
-    {
+    }),
+    defineField({
       name: 'body',
       title: 'Body',
       type: 'body',
-    },
+    }),
   ],
   preview: {
     select: {body: 'body', type: 'type'},
-    component: ({value}) => {
+  },
+  components: {
+    preview: (value: any) => {
       const {body, type} = value
       const getImage = () => {
         switch (type) {
@@ -53,4 +56,4 @@ export default {
       )
     },
   },
-}
+})
