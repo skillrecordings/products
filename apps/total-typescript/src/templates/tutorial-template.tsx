@@ -16,11 +16,12 @@ import {Section} from '@skillrecordings/skill-lesson/schemas/section'
 import cx from 'classnames'
 import {ModuleNavigator} from './workshop-template'
 import Balancer from 'react-wrap-balancer'
+import Testimonials from 'testimonials'
 
 const TutorialTemplate: React.FC<{
   tutorial: Module
 }> = ({tutorial}) => {
-  const {title, body, ogImage, image, description} = tutorial
+  const {title, body, ogImage, image, description, testimonials} = tutorial
   const pageTitle = `${title} Tutorial`
 
   return (
@@ -38,9 +39,14 @@ const TutorialTemplate: React.FC<{
       <CourseMeta title={pageTitle} description={description} />
       <Header tutorial={tutorial} />
       <main className="relative z-10 flex flex-col gap-5 lg:flex-row">
-        <article className="prose prose-lg w-full max-w-none px-5 text-white prose-a:text-cyan-300 hover:prose-a:text-cyan-200 lg:max-w-xl">
-          <PortableText value={body} components={PortableTextComponents} />
-        </article>
+        <div className="px-5">
+          <article className="prose prose-lg w-full max-w-none text-white prose-a:text-cyan-300 hover:prose-a:text-cyan-200 lg:max-w-xl">
+            <PortableText value={body} components={PortableTextComponents} />
+          </article>
+          {testimonials && testimonials?.length > 0 && (
+            <Testimonials testimonials={testimonials} />
+          )}
+        </div>
         {tutorial && <ModuleNavigator module={tutorial} />}
       </main>
     </Layout>

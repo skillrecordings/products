@@ -55,6 +55,16 @@ export const getTutorial = async (slug: string) =>
         ogImage,
         description,
         _updatedAt,
+        "testimonials": resources[@->._type == 'testimonial']->{
+          _id,
+          _type,
+          _updatedAt,
+          body,
+          author {
+            name,
+            "image": image.asset->url
+          }
+        },
         "lessons": resources[@->._type in ['exercise', 'explainer']]->{
           _id,
           _type,
