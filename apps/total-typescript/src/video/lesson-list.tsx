@@ -152,7 +152,7 @@ export const LessonList: React.FC<{
       className="group relative h-[400px] overflow-y-auto pb-16 scrollbar-thin scrollbar-thumb-gray-800/70 hover:scrollbar-thumb-gray-700 lg:h-[calc(100vh-102px)]"
     >
       <nav aria-label="exercise navigator">
-        {sections ? (
+        {sections && sections.length > 1 ? (
           <Accordion.Root
             type="single"
             collapsible
@@ -253,6 +253,7 @@ export const LessonList: React.FC<{
             {lessons?.map((exercise: Lesson, index: number) => {
               return (
                 <Lessons
+                  section={sections ? sections[0] : undefined}
                   exercise={exercise}
                   module={module}
                   path={path}
