@@ -211,6 +211,7 @@ export const VideoProvider: React.FC<
         video_title: `${title} (${lesson._type})`,
       },
       onLoadedData: handleUserPreferences,
+      playbackRates: [0.75, 1, 1.25, 1.5, 1.75, 2],
     } as MuxPlayerProps,
     setPlayerPrefs,
     setDisplayOverlay: setDisplayOverlayCallback,
