@@ -96,17 +96,17 @@
   [data-single-section] {
     @apply flex flex-col divide-y divide-gray-800/0 text-lg;
   }
-  /* lessons */
-  [data-lessons][data-is-lesson-completed='true'][data-is-expanded='false'] {
+  /* lesson */
+  [data-lesson][data-is-lesson-completed='true'][data-is-expanded='false'] {
     @apply text-gray-300 opacity-80 hover:text-gray-100 hover:opacity-100;
   }
-  [data-lessons][data-is-expanded='false'] {
+  [data-lesson][data-is-expanded='false'] {
     @apply text-gray-300 opacity-90 hover:text-gray-100 hover:opacity-100;
   }
-  [data-lessons][data-is-expanded='true'] {
+  [data-lesson][data-is-expanded='true'] {
     @apply bg-gray-700/20;
   }
-  [data-lessons] {
+  [data-lesson] {
     [data-lesson-title] {
       @apply flex items-center px-4 py-2.5 font-semibold leading-tight hover:bg-gray-800/50;
       [data-check-icon] {

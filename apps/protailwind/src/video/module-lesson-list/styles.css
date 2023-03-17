@@ -96,23 +96,23 @@
   [data-single-section] {
     @apply flex flex-col divide-y divide-gray-800/0 text-lg text-gray-700;
   }
-  /* lessons */
-  [data-lessons][data-is-lesson-completed='true'][data-is-expanded='false'] {
+  /* lesson */
+  [data-lesson][data-is-lesson-completed='true'][data-is-expanded='false'] {
     @apply text-gray-700 opacity-80 transition hover:text-gray-900 hover:opacity-100;
   }
-  [data-lessons][data-is-expanded='false'] {
+  [data-lesson][data-is-expanded='false'] {
     @apply opacity-90 hover:opacity-100;
     [data-lesson-title] {
       @apply hover:bg-white;
     }
   }
-  [data-lessons][data-is-expanded='true'] {
+  [data-lesson][data-is-expanded='true'] {
     @apply bg-gray-200/60;
     [data-lesson-title] {
       @apply hover:bg-gray-200/60;
     }
   }
-  [data-lessons] {
+  [data-lesson] {
     [data-lesson-title] {
       @apply relative flex items-center px-8 py-3 text-base font-semibold leading-tight;
       [data-check-icon] {
