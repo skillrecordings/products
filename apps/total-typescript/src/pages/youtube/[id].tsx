@@ -41,10 +41,9 @@ const Banner = () => {
     <div className="sm:my-5 sm:p-5">
       <div className="relative z-10 mx-auto flex w-full max-w-3xl flex-col items-center justify-around border border-gray-800 bg-gray-800/50 text-center text-gray-200 shadow-xl shadow-black/20 transition sm:flex-row sm:rounded-lg sm:text-left">
         <Image
-          src={require('../../../public/assets/ts-book.png')}
+          src="https://res.cloudinary.com/total-typescript/image/upload/w_480,h_480/v1676015688/core-volume_2x_wt7jnc.png"
           width={240}
           height={240}
-          placeholder="blur"
           alt=""
           aria-hidden="true"
           priority
