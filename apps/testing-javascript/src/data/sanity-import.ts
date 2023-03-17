@@ -71,6 +71,25 @@ const CastingWordsSchema = z
     srt: z.string(),
   })
   .nullish()
+  .transform((data) => {
+    if (data === null || data === undefined) {
+      return data
+    }
+
+    const {srt, ...rest} = data
+
+    if (srt.startsWith('WEBVTT\n\n')) {
+      const updatedSrt = srt.replace(/^WEBVTT\n\n/, '')
+
+      return {
+        ...rest,
+        srt: updatedSrt,
+      }
+    } else {
+      return data
+    }
+  })
+
 const VideoResourceSchema = z.object({
   _id: z.string(),
   _type: z.literal('videoResource'),
