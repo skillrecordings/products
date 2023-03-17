@@ -37,7 +37,7 @@ const Layout: FunctionComponent<LayoutProps> = ({
     url = `${process.env.NEXT_PUBLIC_URL}${router.asPath}`,
     type = 'website',
     ogImage = {
-      url: `${process.env.NEXT_PUBLIC_URL}/card-sale@2x.png`,
+      url: `${process.env.NEXT_PUBLIC_URL}/card@2x.png`,
     },
     date,
   } = meta || {}
