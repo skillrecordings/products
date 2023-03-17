@@ -18,11 +18,11 @@ export const GitHubLink: React.FC<{
   const {canShowVideo, loadingUserStatus} = useMuxPlayer()
 
   const router = useRouter()
-  const {data: stackblitz, status} = trpc.stackblitz.byExerciseSlug.useQuery({
+  const {data: resources, status} = trpc.resources.byExerciseSlug.useQuery({
     slug: router.query.lesson as string,
     type: exercise._type,
   })
-
+  const stackblitz = resources?.stackblitz
   if (loadingUserStatus || status === 'loading') {
     return (
       <div className="flex w-full items-center justify-center py-12">

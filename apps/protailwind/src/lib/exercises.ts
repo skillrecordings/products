@@ -7,6 +7,7 @@ export const ExerciseSchema = z
   .object({
     _id: z.string().optional(),
     _key: z.string().optional(),
+    stackblitz: z.nullable(z.string()).optional(),
     sandpack: z
       .array(
         z.object({
@@ -42,6 +43,7 @@ export const ExerciseSchema = z
         _key: z.string(),
         videoResourceId: z.nullable(z.string()).optional(),
         transcript: z.nullable(z.any().array()).optional(),
+        stackblitz: z.nullable(z.string()).optional(),
         github: z
           .object({
             url: z.string(),

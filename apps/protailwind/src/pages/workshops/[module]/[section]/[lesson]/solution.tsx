@@ -10,6 +10,7 @@ import {getSection} from '@skillrecordings/skill-lesson/lib/sections'
 import path from 'path'
 import {walk} from '../../../../../utils/code-editor-content'
 import {Lesson} from '@skillrecordings/skill-lesson/schemas/lesson'
+import {ModuleProgressProvider} from 'video/module-progress'
 
 export const getStaticProps: GetStaticProps = async (context) => {
   const {params} = context
@@ -71,11 +72,13 @@ const ExerciseSolution: React.FC<any> = ({
   videoResourceId,
 }) => {
   return (
-    <LessonProvider lesson={lesson} module={module} section={section}>
-      <VideoResourceProvider videoResourceId={videoResourceId}>
-        <ExerciseTemplate transcript={transcript} />
-      </VideoResourceProvider>
-    </LessonProvider>
+    <ModuleProgressProvider moduleSlug={module.slug.current}>
+      <LessonProvider lesson={lesson} module={module} section={section}>
+        <VideoResourceProvider videoResourceId={videoResourceId}>
+          <ExerciseTemplate transcript={transcript} />
+        </VideoResourceProvider>
+      </LessonProvider>
+    </ModuleProgressProvider>
   )
 }
 

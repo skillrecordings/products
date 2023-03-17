@@ -8,6 +8,7 @@ import {walk} from 'utils/code-editor-content'
 import {LessonProvider} from '@skillrecordings/skill-lesson/hooks/use-lesson'
 import {VideoResourceProvider} from '@skillrecordings/skill-lesson/hooks/use-video-resource'
 import {getSection} from '@skillrecordings/skill-lesson/lib/sections'
+import {ModuleProgressProvider} from 'video/module-progress'
 
 export const getStaticProps: GetStaticProps = async (context) => {
   const {params} = context
@@ -69,14 +70,16 @@ const ExercisePage: React.FC<any> = ({
   videoResourceId,
 }) => {
   return (
-    <LessonProvider lesson={lesson} module={module} section={section}>
-      <VideoResourceProvider videoResourceId={videoResourceId}>
-        <ExerciseTemplate
-          transcript={transcript}
-          tutorialFiles={tutorialFiles}
-        />
-      </VideoResourceProvider>
-    </LessonProvider>
+    <ModuleProgressProvider moduleSlug={module.slug.current}>
+      <LessonProvider lesson={lesson} module={module} section={section}>
+        <VideoResourceProvider videoResourceId={videoResourceId}>
+          <ExerciseTemplate
+            transcript={transcript}
+            tutorialFiles={tutorialFiles}
+          />
+        </VideoResourceProvider>
+      </LessonProvider>
+    </ModuleProgressProvider>
   )
 }
 

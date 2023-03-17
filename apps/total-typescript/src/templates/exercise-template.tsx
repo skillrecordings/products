@@ -10,8 +10,8 @@ import {useRouter} from 'next/router'
 import {getBaseUrl} from '@skillrecordings/skill-lesson/utils/get-base-url'
 import {useLesson} from '@skillrecordings/skill-lesson/hooks/use-lesson'
 import {useVideoResource} from '@skillrecordings/skill-lesson/hooks/use-video-resource'
-import {LargeScreenModuleLessonList} from 'video/large-screen-module-lesson-list'
-import {MobileModuleLessonList} from 'video/mobile-module-lesson-list'
+import {LargeScreenModuleLessonList} from 'video/module-lesson-list/large-screen-module-lesson-list'
+import {MobileModuleLessonList} from 'video/module-lesson-list/mobile-module-lesson-list'
 import {LessonDescription} from '../video/lesson-description'
 import {LessonTitle} from 'video/lesson-title'
 import {VideoTranscript} from 'video/video-transcript'
@@ -71,11 +71,7 @@ const ExerciseTemplate: React.FC<{
           description={pageDescription || ''}
         />
         <div className="flex flex-grow flex-col lg:flex-row">
-          <LargeScreenModuleLessonList
-            module={module}
-            path={path}
-            section={section}
-          />
+          <LargeScreenModuleLessonList module={module} path={path} />
           <main className="relative mx-auto w-full max-w-[1480px] items-start border-t border-transparent lg:mt-16 2xl:flex 2xl:max-w-none 2xl:border-gray-800">
             <div className="flex flex-col border-gray-800 2xl:relative 2xl:h-full 2xl:w-full 2xl:border-r">
               <Video ref={muxPlayerRef} />

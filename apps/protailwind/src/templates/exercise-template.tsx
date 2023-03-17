@@ -11,8 +11,8 @@ import {LessonTitle} from 'video/lesson-title'
 import LessonAssets from 'video/lesson-assets'
 import {VideoTranscript} from 'video/video-transcript'
 import {Video} from 'video/video'
-import {LargeScreenModuleLessonList} from 'video/large-screen-module-lesson-list'
-import {MobileModuleLessonList} from 'video/mobile-module-lesson-list'
+import {LargeScreenModuleLessonList} from 'video/module-lesson-list/large-screen-module-lesson-list'
+import {MobileModuleLessonList} from 'video/module-lesson-list/mobile-module-lesson-list'
 import {MuxPlayerRefAttributes} from '@mux/mux-player-react/*'
 
 const ExerciseTemplate: React.FC<{
@@ -54,12 +54,8 @@ const ExerciseTemplate: React.FC<{
           description={pageDescription || ''}
         />
         <div className="flex flex-col lg:flex-row">
-          <LargeScreenModuleLessonList
-            module={module}
-            path={path}
-            section={section}
-          />
-          <main className="relative mx-auto max-w-[1480px] grow items-start  sm:bg-gray-100 2xl:flex 2xl:max-w-none  2xl:bg-transparent">
+          <LargeScreenModuleLessonList module={module} path={path} />
+          <main className="relative mx-auto max-w-[1480px] grow items-start sm:bg-gray-100 2xl:flex 2xl:max-w-none 2xl:bg-transparent">
             <div className="border-gray-100 2xl:relative 2xl:h-full 2xl:w-full">
               <Video ref={muxPlayerRef} tutorialFiles={tutorialFiles} />
               <MobileModuleLessonList
@@ -67,7 +63,7 @@ const ExerciseTemplate: React.FC<{
                 section={section}
                 path={path}
               />
-              <div className="hidden 2xl:block ">
+              <div className="hidden 2xl:block">
                 <VideoTranscript
                   transcript={transcript}
                   muxPlayerRef={muxPlayerRef}

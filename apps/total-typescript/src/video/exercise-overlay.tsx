@@ -151,14 +151,14 @@ const Actions = () => {
 const ExerciseOverlay = () => {
   const {lesson, module} = useLesson()
   const router = useRouter()
-  const {data: stackblitz, status} = trpc.stackblitz.byExerciseSlug.useQuery({
+  const {data: resources, status} = trpc.resources.byExerciseSlug.useQuery({
     slug: router.query.lesson as string,
     type: lesson._type,
   })
   const {github} = module
   const {isSafari, isFirefox} = useDeviceDetect()
   const isStackblitzCompatibleBrowser = !(isSafari || isFirefox)
-
+  const stackblitz = resources?.stackblitz
   const {exerciseGitHubUrl} = getExerciseGitHubUrl({stackblitz, module})
 
   return (
@@ -286,10 +286,11 @@ const DefaultOverlay = () => {
   const {image} = module
   const addProgressMutation = trpc.progress.add.useMutation()
   const utils = trpc.useContext()
-  const {data: stackblitz} = trpc.stackblitz.byExerciseSlug.useQuery({
+  const {data: resources} = trpc.resources.byExerciseSlug.useQuery({
     slug: router.query.lesson as string,
     type: lesson._type,
   })
+  const stackblitz = resources?.stackblitz
 
   return (
     <OverlayWrapper className="px-5">
@@ -719,10 +720,11 @@ const FinishedSectionOverlay = () => {
   const utils = trpc.useContext()
   const nextExercise = first(nextSection?.lessons) as Lesson
   const router = useRouter()
-  const {data: stackblitz} = trpc.stackblitz.byExerciseSlug.useQuery({
+  const {data: resources} = trpc.resources.byExerciseSlug.useQuery({
     slug: router.query.lesson as string,
     type: lesson._type,
   })
+  const stackblitz = resources?.stackblitz
 
   return (
     <OverlayWrapper className="px-5">

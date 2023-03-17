@@ -2,7 +2,6 @@ import React from 'react'
 import {useRouter} from 'next/router'
 import capitalize from 'lodash/capitalize'
 import Link from 'next/link'
-import cx from 'classnames'
 import * as Accordion from '@radix-ui/react-accordion'
 import {type Lesson} from '@skillrecordings/skill-lesson/schemas/lesson'
 import {track} from '@skillrecordings/skill-lesson/utils/analytics'
@@ -12,7 +11,7 @@ import {Module} from '@skillrecordings/skill-lesson/schemas/module'
 import {trpc} from 'trpc/trpc.client'
 import {CheckIcon, ChevronDownIcon, LinkIcon} from '@heroicons/react/solid'
 import Balancer from 'react-wrap-balancer'
-import {useModuleProgress} from './module-progress'
+import {useModuleProgress} from 'video/module-progress'
 
 type LessonTitleLinkProps = {
   path: string
@@ -49,7 +48,7 @@ const LessonTitleLink: React.FC<LessonTitleLinkProps> = ({
         },
       }}
       passHref
-      className="flex items-center px-4 py-2.5 font-semibold leading-tight hover:bg-gray-800/50"
+      data-lesson-title=""
       onClick={() => {
         track('clicked exercise in navigator', {
           module: module.slug.current,
@@ -61,12 +60,9 @@ const LessonTitleLink: React.FC<LessonTitleLinkProps> = ({
       }}
     >
       {isLessonCompleted ? (
-        <CheckIcon
-          className="mr-[7.5px] -ml-1 h-4 w-4 flex-shrink-0 text-cyan-400"
-          aria-hidden="true"
-        />
+        <CheckIcon data-check-icon="" aria-hidden="true" />
       ) : (
-        <span aria-hidden="true" className="pr-3 text-sm opacity-50">
+        <span aria-hidden="true" data-index={index + 1}>
           {index + 1}
         </span>
       )}{' '}
@@ -147,11 +143,8 @@ export const LessonList: React.FC<{
   }
 
   return (
-    <div
-      ref={scrollContainerRef}
-      className="group relative h-[400px] overflow-y-auto pb-16 scrollbar-thin scrollbar-thumb-gray-800/70 hover:scrollbar-thumb-gray-700 lg:h-[calc(100vh-102px)]"
-    >
-      <nav aria-label="exercise navigator">
+    <div ref={scrollContainerRef} data-module-lesson-list="">
+      <nav aria-label="lesson list">
         {sections && sections.length > 1 ? (
           <Accordion.Root
             type="single"
@@ -159,7 +152,7 @@ export const LessonList: React.FC<{
             onValueChange={handleOnAccordionValueChange}
             defaultValue={openedSection}
           >
-            <ul className="relative">
+            <ul data-sections="">
               {sections.map((section) => {
                 const sectionProgress = moduleProgress?.sections?.find(
                   (s) => s.id === section._id,
@@ -175,53 +168,39 @@ export const LessonList: React.FC<{
                 return (
                   <li key={section.slug}>
                     <Accordion.Item value={section.slug}>
-                      <Accordion.Header className="sticky top-0 z-10 overflow-hidden bg-gray-900 shadow-xl shadow-black/20">
-                        <Accordion.Trigger
-                          className={cx(
-                            'group relative z-10 flex w-full items-center justify-between border-b border-white/5 bg-gray-800/20 py-3 pl-3 pr-4 text-left text-lg font-semibold leading-tight transition hover:bg-gray-800/40',
-                          )}
-                        >
+                      <Accordion.Header data-accordion-header="">
+                        <Accordion.Trigger data-accordion-trigger="">
                           <Balancer>{section.title}</Balancer>
-                          <div className="flex items-center">
+                          <div data-icons="">
                             {isSectionCompleted && (
                               <CheckIcon
-                                className="mr-2 h-4 w-4 text-teal-400"
+                                data-check-icon=""
                                 aria-hidden="true"
                               />
                             )}
                             {isCurrentSection && (
-                              <span className="mr-3 h-1 w-1 animate-pulse rounded-full bg-cyan-500 opacity-75 duration-1000" />
+                              <span data-active-section-indicator="" />
                             )}
                             <ChevronDownIcon
-                              className={cx(
-                                'relative h-3 w-3 transition group-hover:opacity-100 group-radix-state-open:rotate-180',
-                                {
-                                  'opacity-80': isSectionOpened,
-                                  'opacity-50': !isSectionOpened,
-                                },
-                              )}
+                              data-chevron-down-icon=""
                               aria-hidden="true"
                             />
                           </div>
                         </Accordion.Trigger>
                         <div
                           aria-hidden="true"
-                          className={`absolute left-0 top-0 h-full bg-white/5`}
+                          data-section-progress={`${sectionPercentComplete}%`}
                           style={{width: `${sectionPercentComplete}%`}}
                         />
                       </Accordion.Header>
-                      <Accordion.Content>
-                        <ul className="flex flex-col divide-y divide-gray-800/0 border-b border-white/5 text-lg">
+                      <Accordion.Content data-accordion-content="">
+                        <ul>
                           {section.lessons?.map(
                             (exercise: Lesson, index: number) => {
                               return (
                                 <>
                                   {index === 0 && isSectionOpened && (
-                                    <div
-                                      ref={activeElRef}
-                                      className="w-0"
-                                      aria-hidden="true"
-                                    />
+                                    <div ref={activeElRef} aria-hidden="true" />
                                   )}
                                   <Lessons
                                     isCurrentSection={isCurrentSection}
@@ -249,7 +228,7 @@ export const LessonList: React.FC<{
             </ul>
           </Accordion.Root>
         ) : (
-          <ul className="flex flex-col divide-y divide-gray-800/0 text-lg">
+          <ul data-single-section="">
             {lessons?.map((exercise: Lesson, index: number) => {
               return (
                 <Lessons
@@ -283,22 +262,19 @@ const SectionResources = ({
   const router = useRouter()
 
   return (
-    <nav aria-label="resource navigator" className="bg-black/30 pt-1 pb-8">
-      <p className="px-5 pt-4 pb-2 text-xs font-medium uppercase tracking-wide text-gray-300">
-        Section Resources
-      </p>
-      <ul className="flex flex-col divide-y divide-gray-800/0 text-lg">
+    <nav aria-label="resource navigator" data-section-resources="">
+      <p data-label="">Section Resources</p>
+      <ul>
         {section?.resources?.map((resource: any) => {
           // this uses any because the resource type here expects a URL, but that
           // assumes a specific resource type. We need to support any resource type
           // and present it based on it's structure that doesn't assume a resource
           // is simply a URL
           return (
-            <li key={resource.url} className="pt-2">
+            <li key={resource.url}>
               <Link
                 href={resource.url}
                 passHref
-                className="flex items-center px-4 py-2 font-semibold leading-tight hover:bg-gray-800/40"
                 onClick={() => {
                   track('clicked link resource in navigator', {
                     module: module.slug.current,
@@ -312,15 +288,10 @@ const SectionResources = ({
                 }}
                 target="_blank"
               >
-                <LinkIcon
-                  className="mr-3 h-3 w-3 flex-shrink-0 text-gray-500"
-                  aria-hidden="true"
-                />
+                <LinkIcon aria-hidden="true" />
                 {resource.title}
               </Link>
-              <p className="pl-10 pr-3 text-sm italic text-gray-400">
-                {resource.description}
-              </p>
+              <p>{resource.description}</p>
             </li>
           )
         })}
@@ -360,14 +331,10 @@ const Lessons = React.forwardRef<
 
   return (
     <li
+      data-lessons=""
+      data-is-lesson-completed={isLessonCompleted}
+      data-is-expanded={isExpanded}
       key={exercise._id}
-      className={cx('', {
-        'text-gray-300 opacity-80 hover:text-gray-100 hover:opacity-100':
-          isLessonCompleted && !isExpanded,
-        'text-gray-300 opacity-90 hover:text-gray-100 hover:opacity-100':
-          !isExpanded,
-        'bg-gray-700/20': isExpanded,
-      })}
     >
       {scrollToElement && <div ref={ref} aria-hidden="true" />}
       <LessonTitleLink
@@ -378,7 +345,7 @@ const Lessons = React.forwardRef<
         path={path}
       />
       {isExpanded && (
-        <ul className="text-gray-300">
+        <ul>
           {exercise._type === 'exercise' && (
             <>
               <ProblemLink
@@ -387,7 +354,7 @@ const Lessons = React.forwardRef<
                 section={section}
                 path={path}
               />
-              <StackblitzLink
+              <ExerciseLink
                 module={module}
                 lesson={exercise}
                 section={section}
@@ -433,8 +400,9 @@ const ExplainerLink = ({
   const isActive = router.asPath === currentPath
 
   return (
-    <li key={exercise.slug + `exercise`}>
+    <li key={exercise.slug + `exercise`} data-explainer="">
       <Link
+        data-is-active={isActive}
         href={{
           pathname: section
             ? `${path}/[module]/[section]/[lesson]`
@@ -446,13 +414,6 @@ const ExplainerLink = ({
           },
         }}
         passHref
-        className={cx(
-          'flex items-center border-l-4 py-2 px-8 text-base font-medium transition hover:bg-gray-800/50 hover:text-white',
-          {
-            'border-indigo-400 bg-gray-800/80 text-white': isActive,
-            'border-transparent ': !isActive,
-          },
-        )}
         onClick={() => {
           track(`clicked explainer in navigator`, {
             module: module.slug.current,
@@ -487,8 +448,9 @@ const ProblemLink = ({
     : `${path}/${module.slug.current}/${exercise.slug}`
   const isActive = router.asPath === currentPath
   return (
-    <li key={exercise.slug + `exercise`} className="relative flex items-center">
+    <li key={exercise.slug + `exercise`} data-problem="">
       <Link
+        data-is-active={isActive}
         href={{
           pathname: section
             ? `${path}/[module]/[section]/[lesson]`
@@ -500,13 +462,6 @@ const ProblemLink = ({
           },
         }}
         passHref
-        className={cx(
-          'flex w-full items-center border-l-4 py-2 px-8 text-base font-medium transition hover:bg-gray-800/50 hover:text-white',
-          {
-            'border-orange-400 bg-gray-800/80 text-white': isActive,
-            'border-transparent ': !isActive,
-          },
-        )}
         onClick={() => {
           track(`clicked exercise in navigator`, {
             module: module.slug.current,
@@ -524,7 +479,7 @@ const ProblemLink = ({
   )
 }
 
-const StackblitzLink = ({
+const ExerciseLink = ({
   module,
   lesson,
   section,
@@ -536,8 +491,8 @@ const StackblitzLink = ({
   path: string
 }) => {
   const router = useRouter()
-  const {data: stackblitz, status: stackblitzStatus} =
-    trpc.stackblitz.byExerciseSlug.useQuery({
+  const {data: resources, status: resourcesStatus} =
+    trpc.resources.byExerciseSlug.useQuery({
       slug: router.query.lesson as string,
       type: lesson._type,
     })
@@ -546,19 +501,20 @@ const StackblitzLink = ({
     : `${path}/${module.slug.current}/${lesson.slug}`
   const isActive = router.asPath === currentPath + '/exercise'
 
+  const stackblitz = resources?.stackblitz
+  const sandpack = resources?.sandpack
+  const gitpod = resources?.gitpod
+  const github = resources?.github
+  const hasExercise = stackblitz || sandpack || gitpod || github
+
   return (
     <>
-      {stackblitzStatus === 'loading' ? (
-        <li
-          className={cx(
-            'flex w-full items-center border-l-4 border-transparent py-2 px-8 text-base font-medium',
-          )}
-        >
-          Exercise
-        </li>
-      ) : stackblitz ? (
-        <li>
+      {resourcesStatus === 'loading' ? (
+        <li data-exercise-is-loading="">Exercise</li>
+      ) : hasExercise ? (
+        <li data-exercise="">
           <Link
+            data-is-active={isActive}
             href={{
               pathname: section
                 ? `${path}/[module]/[section]/[lesson]/exercise`
@@ -569,13 +525,7 @@ const StackblitzLink = ({
                 ...(section && {section: section.slug}),
               },
             }}
-            className={cx(
-              'flex w-full items-center border-l-4 py-2 px-8 text-base font-medium transition hover:bg-gray-800/50 hover:text-white',
-              {
-                'border-indigo-400 bg-gray-800/80 text-white': isActive,
-                'border-transparent ': !isActive,
-              },
-            )}
+            passHref
           >
             Exercise
           </Link>
@@ -603,8 +553,9 @@ const SolutionLink = ({
     : `${path}/${module.slug.current}/${exercise.slug}/solution`
   const isActive = router.asPath === currentPath
   return (
-    <li key={`${exercise.slug}-solution-link`}>
+    <li key={`${exercise.slug}-solution-link`} data-solution="">
       <Link
+        data-is-active={isActive}
         href={{
           pathname: section
             ? `${path}/[module]/[section]/[lesson]/solution`
@@ -616,13 +567,6 @@ const SolutionLink = ({
           },
         }}
         passHref
-        className={cx(
-          'flex items-center border-l-4 py-2 px-8 text-base font-medium transition hover:bg-gray-800/50 hover:text-white',
-          {
-            'border-cyan-400 bg-gray-800/80 text-white': isActive,
-            'border-transparent ': !isActive,
-          },
-        )}
         onClick={() => {
           track(`clicked solution in navigator`, {
             module: module.slug.current,
