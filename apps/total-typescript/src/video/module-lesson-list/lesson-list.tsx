@@ -511,37 +511,25 @@ export const ExerciseLink = ({
     : `${path}/${module.slug.current}/${lesson.slug}`
   const isActive = router.asPath === currentPath + '/exercise'
 
-  // const stackblitz = resources?.stackblitz
-  // const sandpack = resources?.sandpack
-  // const gitpod = resources?.gitpod
-  // const github = resources?.github
-  // const hasExercise = stackblitz || sandpack || gitpod || github
-
   return (
-    <>
-      {/* {resourcesStatus === 'loading' ? (
-        <li data-exercise-is-loading="">Exercise</li>
-      ) : hasExercise ? ( */}
-      <li data-exercise="">
-        <Link
-          data-is-active={isActive}
-          href={{
-            pathname: section
-              ? `${path}/[module]/[section]/[lesson]/exercise`
-              : `${path}/[module]/[lesson]/exercise`,
-            query: {
-              module: module.slug.current,
-              lesson: lesson.slug,
-              ...(section && {section: section.slug}),
-            },
-          }}
-          passHref
-        >
-          Exercise
-        </Link>
-      </li>
-      {/* ) : null} */}
-    </>
+    <li data-exercise="">
+      <Link
+        data-is-active={isActive}
+        href={{
+          pathname: section
+            ? `${path}/[module]/[section]/[lesson]/exercise`
+            : `${path}/[module]/[lesson]/exercise`,
+          query: {
+            module: module.slug.current,
+            lesson: lesson.slug,
+            ...(section && {section: section.slug}),
+          },
+        }}
+        passHref
+      >
+        Exercise
+      </Link>
+    </li>
   )
 }
 
