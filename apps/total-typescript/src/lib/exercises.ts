@@ -8,6 +8,34 @@ export const ExerciseSchema = z
     _id: z.string().optional(),
     _key: z.string().optional(),
     stackblitz: z.nullable(z.string()).optional(),
+    sandpack: z
+      .array(
+        z.object({
+          file: z.string().optional(),
+          code: z.string().optional(),
+          active: z.boolean().optional(),
+        }),
+      )
+      .optional()
+      .nullable(),
+    figma: z
+      .object({
+        url: z.string(),
+      })
+      .optional()
+      .nullable(),
+    github: z
+      .object({
+        url: z.string(),
+      })
+      .optional()
+      .nullable(),
+    gitpod: z
+      .object({
+        url: z.string(),
+      })
+      .optional()
+      .nullable(),
     videoResourceId: z.nullable(z.string()).optional(),
     transcript: z.nullable(z.any().array()).optional(),
     solution: z.nullable(
@@ -15,6 +43,24 @@ export const ExerciseSchema = z
         .object({
           _key: z.string(),
           stackblitz: z.nullable(z.string()).optional(),
+          figma: z
+            .object({
+              url: z.string(),
+            })
+            .optional()
+            .nullable(),
+          github: z
+            .object({
+              url: z.string(),
+            })
+            .optional()
+            .nullable(),
+          gitpod: z
+            .object({
+              url: z.string(),
+            })
+            .optional()
+            .nullable(),
           videoResourceId: z.nullable(z.string()).optional(),
           transcript: z.nullable(z.any().array()).optional(),
         })

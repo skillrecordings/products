@@ -1,5 +1,4 @@
 import * as React from 'react'
-import {SanityDocument} from '@sanity/client'
 import cx from 'classnames'
 import Spinner from '../../components/spinner'
 import Image from 'next/legacy/image'
@@ -14,10 +13,11 @@ export const StackBlitzIframe: React.FC<{
   isExpanded?: boolean
 }> = ({exercise, module}) => {
   const router = useRouter()
-  const {data: stackblitz, status} = trpc.stackblitz.byExerciseSlug.useQuery({
+  const {data: resources, status} = trpc.resources.byExerciseSlug.useQuery({
     slug: router.query.lesson as string,
     type: exercise._type,
   })
+  const stackblitz = resources?.stackblitz
 
   const [isLoading, setIsLoading] = React.useState(true)
   const embedUrl = getStackblitzUrl({module, exercise, stackblitz})

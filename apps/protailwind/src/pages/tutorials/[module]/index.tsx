@@ -7,6 +7,7 @@ import {getAllTutorials, getTutorial} from 'lib/tutorials'
 import {GetStaticPaths, GetStaticProps} from 'next'
 import {Module} from '@skillrecordings/skill-lesson/schemas/module'
 import {Section} from '@skillrecordings/skill-lesson/schemas/section'
+import {ModuleProgressProvider} from 'video/module-progress'
 
 export const USER_ID_QUERY_PARAM_KEY = 'learner'
 
@@ -35,7 +36,12 @@ const TutorialPage: React.FC<{
   }
 }> = ({tutorial}) => {
   // TODO: Load subscriber, find user via Prisma/api using USER_ID_QUERY_PARAM_KEY
-  return <TutorialTemplate tutorial={tutorial} />
+
+  return (
+    <ModuleProgressProvider moduleSlug={tutorial.slug.current}>
+      <TutorialTemplate tutorial={tutorial} />
+    </ModuleProgressProvider>
+  )
 }
 
 export default TutorialPage

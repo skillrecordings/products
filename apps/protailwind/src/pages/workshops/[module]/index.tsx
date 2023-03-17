@@ -8,6 +8,7 @@ import WorkshopTemplate from '../../../templates/workshop-template'
 
 import {trpc} from '../../../trpc/trpc.client'
 import {useRouter} from 'next/router'
+import {ModuleProgressProvider} from 'video/module-progress'
 
 export const USER_ID_QUERY_PARAM_KEY = 'learner'
 
@@ -41,7 +42,11 @@ const WorkshopPage: React.FC<{
     router.query,
   )
   // TODO: Load subscriber, find user via Prisma/api using USER_ID_QUERY_PARAM_KEY
-  return <WorkshopTemplate workshop={workshop} commerceProps={commerceProps} />
+  return (
+    <ModuleProgressProvider moduleSlug={workshop.slug.current}>
+      <WorkshopTemplate workshop={workshop} commerceProps={commerceProps} />
+    </ModuleProgressProvider>
+  )
 }
 
 export default WorkshopPage

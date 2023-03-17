@@ -8,6 +8,7 @@
 @import './prism-theme.css';
 @import './pricing.css';
 @import './purchase-transfer.css';
+@import '../video/module-lesson-list/styles.css';
 
 @tailwind utilities;
 @import './focus-visible.css';
