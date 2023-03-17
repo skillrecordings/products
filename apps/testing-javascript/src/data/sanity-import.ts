@@ -283,16 +283,39 @@ const importCourseData = async () => {
   const uniqueLessons: {[lessonSlug: string]: LessonData} = {}
 
   for (const product of products) {
+    // they have already been parsed, no reason to re-parse them individually
+    // here
     const parsedProduct = productSchema.parse(product)
 
     const {slug: productSlug} = parsedProduct
 
+    // ignore courses with the following slugs because they are the Series
+    // duplicates. The up-to-date courses are Playlist records with the other
+    // slugs.
+    // Series.where(id: [214, 406, 223, 407, 409, 408, 246, 410]).pluck(:slug)
+    const ignoredCourseSlugs = [
+      'static-analysis-testing-javascript-applications-71c1',
+      'test-node-js-backends',
+      'use-dom-testing-library-to-test-any-js-framework',
+      'install-configure-and-script-cypress-for-javascript-web-applications-8184',
+      'test-react-components-with-jest-and-react-testing-library-30af',
+      'configure-jest-for-testing-javascript-applications-b3674a',
+      'javascript-mocking-fundamentals',
+      'fundamentals-of-testing-in-javascript',
+    ]
+
+    const allowedCourses = product.courses.filter((course) => {
+      return !ignoredCourseSlugs.includes(course.slug)
+    })
+
+    const courseSlugs = allowedCourses.map((course) => course.slug)
+
     uniqueProducts[productSlug] = {
-      courseSlugs: product.courses.map((course) => course.slug),
+      courseSlugs,
       ...parsedProduct,
     }
 
-    for (const course of product.courses) {
+    for (const course of allowedCourses) {
       const courseSlug = course.slug as string
 
       if (uniqueCourses[courseSlug] === undefined) {
