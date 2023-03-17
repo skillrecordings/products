@@ -29,11 +29,7 @@ export const lessonResourcesRouter = router({
           : input.type === 'explainer'
           ? lesson.gitpod
           : lesson.solution?.gitpod
-      const stackblitz =
-        input.type === 'solution'
-          ? lesson.solution?.stackblitz
-          : lesson.stackblitz
 
-      return {sandpack, figma, github, gitpod, stackblitz}
+      return {sandpack, figma, github, gitpod}
     }),
 })

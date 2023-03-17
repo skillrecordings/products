@@ -5,12 +5,19 @@ import ModuleLessonListHeader from './module-lesson-list-header'
 import {LessonList} from './lesson-list'
 import {Module} from '@skillrecordings/skill-lesson/schemas/module'
 import {Section} from '@skillrecordings/skill-lesson/schemas/section'
+import {Lesson} from '@skillrecordings/skill-lesson/schemas/lesson'
 
 export const MobileModuleLessonList: React.FC<{
+  exerciseResourcesRenderer: (
+    path: string,
+    module: Module,
+    lesson: Lesson,
+    section?: Section,
+  ) => void
   module: Module
   section?: Section
   path: string
-}> = ({module, path, section}) => {
+}> = ({module, path, section, exerciseResourcesRenderer}) => {
   const exerciseCount = section
     ? section.lessons && section.lessons.length
     : module.lessons && module.lessons.length
@@ -24,7 +31,10 @@ export const MobileModuleLessonList: React.FC<{
         <span data-byline="">{exerciseCount || 0} exercises</span>
       </summary>
       <ModuleLessonListHeader module={module} path={path}>
-        <LessonList path={path} />
+        <LessonList
+          path={path}
+          exerciseResourcesRenderer={exerciseResourcesRenderer}
+        />
       </ModuleLessonListHeader>
     </details>
   )

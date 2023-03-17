@@ -13,11 +13,10 @@ export const StackBlitzIframe: React.FC<{
   isExpanded?: boolean
 }> = ({exercise, module}) => {
   const router = useRouter()
-  const {data: resources, status} = trpc.resources.byExerciseSlug.useQuery({
+  const {data: stackblitz, status} = trpc.stackblitz.byExerciseSlug.useQuery({
     slug: router.query.lesson as string,
     type: exercise._type,
   })
-  const stackblitz = resources?.stackblitz
 
   const [isLoading, setIsLoading] = React.useState(true)
   const embedUrl = getStackblitzUrl({module, exercise, stackblitz})

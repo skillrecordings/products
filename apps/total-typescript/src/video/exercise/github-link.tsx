@@ -1,5 +1,4 @@
 import * as React from 'react'
-import {SanityDocument} from '@sanity/client'
 import {track} from '@skillrecordings/skill-lesson/utils/analytics'
 import {IconGithub} from '../../components/icons'
 import {useMuxPlayer} from '@skillrecordings/skill-lesson/hooks/use-mux-player'
@@ -18,11 +17,11 @@ export const GitHubLink: React.FC<{
   const {canShowVideo, loadingUserStatus} = useMuxPlayer()
 
   const router = useRouter()
-  const {data: resources, status} = trpc.resources.byExerciseSlug.useQuery({
+  const {data: stackblitz, status} = trpc.stackblitz.byExerciseSlug.useQuery({
     slug: router.query.lesson as string,
     type: exercise._type,
   })
-  const stackblitz = resources?.stackblitz
+
   if (loadingUserStatus || status === 'loading') {
     return (
       <div className="flex w-full items-center justify-center py-12">

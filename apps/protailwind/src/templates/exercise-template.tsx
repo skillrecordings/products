@@ -14,6 +14,15 @@ import {Video} from 'video/video'
 import {LargeScreenModuleLessonList} from 'video/module-lesson-list/large-screen-module-lesson-list'
 import {MobileModuleLessonList} from 'video/module-lesson-list/mobile-module-lesson-list'
 import {MuxPlayerRefAttributes} from '@mux/mux-player-react/*'
+import {trpc} from 'trpc/trpc.client'
+import {Module} from '@skillrecordings/skill-lesson/schemas/module'
+import {Lesson} from '@skillrecordings/skill-lesson/schemas/lesson'
+import {Section} from '@skillrecordings/skill-lesson/schemas/section'
+import {
+  ExerciseLink,
+  ProblemLink,
+  SolutionLink,
+} from 'video/module-lesson-list/lesson-list'
 
 const ExerciseTemplate: React.FC<{
   transcript: any[]
@@ -30,7 +39,47 @@ const ExerciseTemplate: React.FC<{
   const shareCard = ogImage ? {ogImage: {url: ogImage}} : {}
   //TODO path here could also include module slug and section (as appropriate)
   const path = `/${module.moduleType}s`
-
+  const {data: resources, status: resourcesStatus} =
+    trpc.resources.byExerciseSlug.useQuery({
+      slug: router.query.lesson as string,
+      type: lesson._type,
+    })
+  const exerciseResourcesRenderer = (
+    path: string,
+    module: Module,
+    lesson: Lesson,
+    section?: Section,
+  ) => {
+    const hasResources = resources?.sandpack || resources?.gitpod
+    return (
+      <>
+        <ProblemLink
+          module={module}
+          exercise={lesson}
+          section={section}
+          path={path}
+        />
+        {resourcesStatus === 'loading' ? (
+          <li data-exercise-is-loading="">Exercise</li>
+        ) : (
+          hasResources && (
+            <ExerciseLink
+              module={module}
+              lesson={lesson}
+              section={section}
+              path={path}
+            />
+          )
+        )}
+        <SolutionLink
+          module={module}
+          lesson={lesson}
+          section={section}
+          path={path}
+        />
+      </>
+    )
+  }
   return (
     <VideoProvider
       muxPlayerRef={muxPlayerRef}
@@ -54,11 +103,16 @@ const ExerciseTemplate: React.FC<{
           description={pageDescription || ''}
         />
         <div className="flex flex-col lg:flex-row">
-          <LargeScreenModuleLessonList module={module} path={path} />
+          <LargeScreenModuleLessonList
+            exerciseResourcesRenderer={exerciseResourcesRenderer}
+            module={module}
+            path={path}
+          />
           <main className="relative mx-auto max-w-[1480px] grow items-start sm:bg-gray-100 2xl:flex 2xl:max-w-none 2xl:bg-transparent">
             <div className="border-gray-100 2xl:relative 2xl:h-full 2xl:w-full">
               <Video ref={muxPlayerRef} tutorialFiles={tutorialFiles} />
               <MobileModuleLessonList
+                exerciseResourcesRenderer={exerciseResourcesRenderer}
                 module={module}
                 section={section}
                 path={path}
