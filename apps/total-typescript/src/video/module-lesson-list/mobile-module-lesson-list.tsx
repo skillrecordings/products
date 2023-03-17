@@ -8,7 +8,7 @@ import {Section} from '@skillrecordings/skill-lesson/schemas/section'
 import {Lesson} from '@skillrecordings/skill-lesson/schemas/lesson'
 
 export const MobileModuleLessonList: React.FC<{
-  exerciseResourcesRenderer: (
+  lessonResourceRenderer: (
     path: string,
     module: Module,
     lesson: Lesson,
@@ -17,7 +17,7 @@ export const MobileModuleLessonList: React.FC<{
   module: Module
   section?: Section
   path: string
-}> = ({module, path, section, exerciseResourcesRenderer}) => {
+}> = ({module, path, section, lessonResourceRenderer}) => {
   const exerciseCount = section
     ? section.lessons && section.lessons.length
     : module.lessons && module.lessons.length
@@ -33,7 +33,7 @@ export const MobileModuleLessonList: React.FC<{
       <ModuleLessonListHeader module={module} path={path}>
         <LessonList
           path={path}
-          exerciseResourcesRenderer={exerciseResourcesRenderer}
+          lessonResourceRenderer={lessonResourceRenderer}
         />
       </ModuleLessonListHeader>
     </details>

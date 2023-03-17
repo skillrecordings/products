@@ -20,6 +20,7 @@ import {Lesson} from '@skillrecordings/skill-lesson/schemas/lesson'
 import {Section} from '@skillrecordings/skill-lesson/schemas/section'
 import {
   ExerciseLink,
+  ExplainerLink,
   ProblemLink,
   SolutionLink,
 } from 'video/module-lesson-list/lesson-list'
@@ -44,7 +45,7 @@ const ExerciseTemplate: React.FC<{
       slug: router.query.lesson as string,
       type: lesson._type,
     })
-  const exerciseResourcesRenderer = (
+  const lessonResourceRenderer = (
     path: string,
     module: Module,
     lesson: Lesson,
@@ -53,30 +54,42 @@ const ExerciseTemplate: React.FC<{
     const hasResources = resources?.sandpack || resources?.gitpod
     return (
       <>
-        <ProblemLink
-          module={module}
-          exercise={lesson}
-          section={section}
-          path={path}
-        />
-        {resourcesStatus === 'loading' ? (
-          <li data-exercise-is-loading="">Exercise</li>
-        ) : (
-          hasResources && (
-            <ExerciseLink
+        {lesson._type === 'exercise' && (
+          <>
+            <ProblemLink
+              module={module}
+              exercise={lesson}
+              section={section}
+              path={path}
+            />
+            {resourcesStatus === 'loading' ? (
+              <li data-exercise-is-loading="">Exercise</li>
+            ) : (
+              hasResources && (
+                <ExerciseLink
+                  module={module}
+                  lesson={lesson}
+                  section={section}
+                  path={path}
+                />
+              )
+            )}
+            <SolutionLink
               module={module}
               lesson={lesson}
               section={section}
               path={path}
             />
-          )
+          </>
         )}
-        <SolutionLink
-          module={module}
-          lesson={lesson}
-          section={section}
-          path={path}
-        />
+        {lesson._type === 'explainer' && (
+          <ExplainerLink
+            lesson={lesson}
+            module={module}
+            section={section}
+            path={path}
+          />
+        )}
       </>
     )
   }
@@ -104,7 +117,7 @@ const ExerciseTemplate: React.FC<{
         />
         <div className="flex flex-col lg:flex-row">
           <LargeScreenModuleLessonList
-            exerciseResourcesRenderer={exerciseResourcesRenderer}
+            lessonResourceRenderer={lessonResourceRenderer}
             module={module}
             path={path}
           />
@@ -112,7 +125,7 @@ const ExerciseTemplate: React.FC<{
             <div className="border-gray-100 2xl:relative 2xl:h-full 2xl:w-full">
               <Video ref={muxPlayerRef} tutorialFiles={tutorialFiles} />
               <MobileModuleLessonList
-                exerciseResourcesRenderer={exerciseResourcesRenderer}
+                lessonResourceRenderer={lessonResourceRenderer}
                 module={module}
                 section={section}
                 path={path}

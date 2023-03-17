@@ -19,12 +19,12 @@ import {MuxPlayerRefAttributes} from '@mux/mux-player-react/*'
 import {trpc} from '../trpc/trpc.client'
 import LessonCompletionToggle from 'video/lesson-completion-toggle'
 import {useSession} from 'next-auth/react'
-import Footer from 'components/app/footer'
 import {Module} from '@skillrecordings/skill-lesson/schemas/module'
 import {Lesson} from '@skillrecordings/skill-lesson/schemas/lesson'
 import {Section} from '@skillrecordings/skill-lesson/schemas/section'
 import {
   ExerciseLink,
+  ExplainerLink,
   ProblemLink,
   SolutionLink,
 } from 'video/module-lesson-list/lesson-list'
@@ -53,7 +53,7 @@ const ExerciseTemplate: React.FC<{
       type: lesson._type,
     })
 
-  const exerciseResourcesRenderer = (
+  const lessonResourceRenderer = (
     path: string,
     module: Module,
     lesson: Lesson,
@@ -61,30 +61,42 @@ const ExerciseTemplate: React.FC<{
   ) => {
     return (
       <>
-        <ProblemLink
-          module={module}
-          exercise={lesson}
-          section={section}
-          path={path}
-        />
-        {stackblitzStatus === 'loading' ? (
-          <li data-exercise-is-loading="">Exercise</li>
-        ) : (
-          stackblitz && (
-            <ExerciseLink
+        {lesson._type === 'exercise' && (
+          <>
+            <ProblemLink
+              module={module}
+              exercise={lesson}
+              section={section}
+              path={path}
+            />
+            {stackblitzStatus === 'loading' ? (
+              <li data-exercise-is-loading="">Exercise</li>
+            ) : (
+              stackblitz && (
+                <ExerciseLink
+                  module={module}
+                  lesson={lesson}
+                  section={section}
+                  path={path}
+                />
+              )
+            )}
+            <SolutionLink
               module={module}
               lesson={lesson}
               section={section}
               path={path}
             />
-          )
+          </>
         )}
-        <SolutionLink
-          module={module}
-          lesson={lesson}
-          section={section}
-          path={path}
-        />
+        {lesson._type === 'explainer' && (
+          <ExplainerLink
+            lesson={lesson}
+            module={module}
+            section={section}
+            path={path}
+          />
+        )}
       </>
     )
   }
@@ -121,7 +133,7 @@ const ExerciseTemplate: React.FC<{
         />
         <div className="flex flex-grow flex-col lg:flex-row">
           <LargeScreenModuleLessonList
-            exerciseResourcesRenderer={exerciseResourcesRenderer}
+            lessonResourceRenderer={lessonResourceRenderer}
             module={module}
             path={path}
           />
@@ -129,7 +141,7 @@ const ExerciseTemplate: React.FC<{
             <div className="flex flex-col border-gray-800 2xl:relative 2xl:h-full 2xl:w-full 2xl:border-r">
               <Video ref={muxPlayerRef} />
               <MobileModuleLessonList
-                exerciseResourcesRenderer={exerciseResourcesRenderer}
+                lessonResourceRenderer={lessonResourceRenderer}
                 module={module}
                 section={section}
                 path={path}

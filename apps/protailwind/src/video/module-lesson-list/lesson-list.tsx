@@ -13,14 +13,14 @@ import {useRouter} from 'next/router'
 import Link from 'next/link'
 
 export const LessonList: React.FC<{
-  exerciseResourcesRenderer: (
+  lessonResourceRenderer: (
     path: string,
     module: Module,
     lesson: Lesson,
     section?: Section,
   ) => void
   path: string
-}> = ({path, exerciseResourcesRenderer}) => {
+}> = ({path, lessonResourceRenderer}) => {
   const router = useRouter()
   const scrollContainerRef = React.useRef<HTMLDivElement>(null)
   const {module, section: currentSection} = useLesson()
@@ -101,7 +101,7 @@ export const LessonList: React.FC<{
               {sections.map((section) => {
                 return (
                   <Section
-                    exerciseResourcesRenderer={exerciseResourcesRenderer}
+                    lessonResourceRenderer={lessonResourceRenderer}
                     path={path}
                     section={section}
                     key={section.slug}
@@ -119,7 +119,7 @@ export const LessonList: React.FC<{
             {lessons?.map((lesson: Lesson, index: number) => {
               return (
                 <Lesson
-                  exerciseResourcesRenderer={exerciseResourcesRenderer}
+                  lessonResourceRenderer={lessonResourceRenderer}
                   section={sections ? sections[0] : undefined}
                   lesson={lesson}
                   module={module}
@@ -143,7 +143,7 @@ export const LessonList: React.FC<{
 const Section = React.forwardRef<
   HTMLDivElement,
   React.PropsWithChildren<{
-    exerciseResourcesRenderer: (
+    lessonResourceRenderer: (
       path: string,
       module: Module,
       lesson: Lesson,
@@ -158,7 +158,7 @@ const Section = React.forwardRef<
 >(
   (
     {
-      exerciseResourcesRenderer,
+      lessonResourceRenderer,
       path,
       module,
       section,
@@ -212,7 +212,7 @@ const Section = React.forwardRef<
                       />
                     )}
                     <Lesson
-                      exerciseResourcesRenderer={exerciseResourcesRenderer}
+                      lessonResourceRenderer={lessonResourceRenderer}
                       isCurrentSection={isCurrentSection}
                       key={lesson._id}
                       lesson={lesson}
@@ -304,7 +304,7 @@ const Lesson = React.forwardRef<
     lesson: Lesson
     module: Module
     isCurrentSection?: boolean
-    exerciseResourcesRenderer: (
+    lessonResourceRenderer: (
       path: string,
       module: Module,
       lesson: Lesson,
@@ -320,7 +320,7 @@ const Lesson = React.forwardRef<
       module,
       index,
       isCurrentSection,
-      exerciseResourcesRenderer,
+      lessonResourceRenderer,
     },
     ref,
   ) => {
@@ -361,8 +361,8 @@ const Lesson = React.forwardRef<
           <ul>
             {lesson._type === 'exercise' && (
               <>
-                {exerciseResourcesRenderer ? (
-                  exerciseResourcesRenderer(path, module, lesson, section)
+                {lessonResourceRenderer ? (
+                  lessonResourceRenderer(path, module, lesson, section)
                 ) : (
                   <>
                     <ProblemLink

@@ -6,7 +6,7 @@ import {Section} from '@skillrecordings/skill-lesson/schemas/section'
 import {Lesson} from '@skillrecordings/skill-lesson/schemas/lesson'
 
 export const LargeScreenModuleLessonList: React.FC<{
-  exerciseResourcesRenderer: (
+  lessonResourceRenderer: (
     path: string,
     module: Module,
     lesson: Lesson,
@@ -14,13 +14,10 @@ export const LargeScreenModuleLessonList: React.FC<{
   ) => void
   module: Module
   path: string
-}> = ({module, path, exerciseResourcesRenderer}) => {
+}> = ({module, path, lessonResourceRenderer}) => {
   return (
     <ModuleLessonListHeader module={module} path={path}>
-      <LessonList
-        exerciseResourcesRenderer={exerciseResourcesRenderer}
-        path={path}
-      />
+      <LessonList lessonResourceRenderer={lessonResourceRenderer} path={path} />
     </ModuleLessonListHeader>
   )
 }
