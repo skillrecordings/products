@@ -7,7 +7,6 @@ export const ExerciseSchema = z
   .object({
     _id: z.string().optional(),
     _key: z.string().optional(),
-    stackblitz: z.nullable(z.string()).optional(),
     sandpack: z
       .array(
         z.object({
@@ -43,7 +42,6 @@ export const ExerciseSchema = z
         _key: z.string(),
         videoResourceId: z.nullable(z.string()).optional(),
         transcript: z.nullable(z.any().array()).optional(),
-        stackblitz: z.nullable(z.string()).optional(),
         github: z
           .object({
             url: z.string(),
@@ -137,7 +135,6 @@ export const getAllExercises = async (): Promise<Exercise[]> => {
       description,
       body,
       "slug": slug.current,
-      "stackblitz": resources[@._type == 'stackblitz'][0].openFile,
       "videoResourceId": resources[@->._type == 'videoResource'][0]->_id,
       "solution": resources[@._type == 'solution'][0]{
         _key,
@@ -146,7 +143,6 @@ export const getAllExercises = async (): Promise<Exercise[]> => {
         title,
         description,
         body,
-        "stackblitz": resources[@._type == 'stackblitz'][0].openFile,
         "videoResourceId": resources[@->._type == 'videoResource'][0]->_id,
         "github": resources[@._type == 'github'][0] {
           url 

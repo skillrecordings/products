@@ -20,6 +20,14 @@ import {trpc} from '../trpc/trpc.client'
 import LessonCompletionToggle from 'video/lesson-completion-toggle'
 import {useSession} from 'next-auth/react'
 import Footer from 'components/app/footer'
+import {Module} from '@skillrecordings/skill-lesson/schemas/module'
+import {Lesson} from '@skillrecordings/skill-lesson/schemas/lesson'
+import {Section} from '@skillrecordings/skill-lesson/schemas/section'
+import {
+  ExerciseLink,
+  ProblemLink,
+  SolutionLink,
+} from 'video/module-lesson-list/lesson-list'
 
 const ExerciseTemplate: React.FC<{
   transcript: any[]
@@ -39,6 +47,47 @@ const ExerciseTemplate: React.FC<{
   const {data: session} = useSession()
 
   const addProgressMutation = trpc.progress.add.useMutation()
+  const {data: stackblitz, status: stackblitzStatus} =
+    trpc.stackblitz.byExerciseSlug.useQuery({
+      slug: router.query.lesson as string,
+      type: lesson._type,
+    })
+
+  const exerciseResourcesRenderer = (
+    path: string,
+    module: Module,
+    lesson: Lesson,
+    section?: Section,
+  ) => {
+    return (
+      <>
+        <ProblemLink
+          module={module}
+          exercise={lesson}
+          section={section}
+          path={path}
+        />
+        {stackblitzStatus === 'loading' ? (
+          <li data-exercise-is-loading="">Exercise</li>
+        ) : (
+          stackblitz && (
+            <ExerciseLink
+              module={module}
+              lesson={lesson}
+              section={section}
+              path={path}
+            />
+          )
+        )}
+        <SolutionLink
+          module={module}
+          lesson={lesson}
+          section={section}
+          path={path}
+        />
+      </>
+    )
+  }
 
   return (
     <VideoProvider
@@ -71,11 +120,16 @@ const ExerciseTemplate: React.FC<{
           description={pageDescription || ''}
         />
         <div className="flex flex-grow flex-col lg:flex-row">
-          <LargeScreenModuleLessonList module={module} path={path} />
+          <LargeScreenModuleLessonList
+            exerciseResourcesRenderer={exerciseResourcesRenderer}
+            module={module}
+            path={path}
+          />
           <main className="relative mx-auto w-full max-w-[1480px] items-start border-t border-transparent lg:mt-16 2xl:flex 2xl:max-w-none 2xl:border-gray-800">
             <div className="flex flex-col border-gray-800 2xl:relative 2xl:h-full 2xl:w-full 2xl:border-r">
               <Video ref={muxPlayerRef} />
               <MobileModuleLessonList
+                exerciseResourcesRenderer={exerciseResourcesRenderer}
                 module={module}
                 section={section}
                 path={path}

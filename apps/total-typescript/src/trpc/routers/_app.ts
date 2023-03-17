@@ -10,7 +10,7 @@ import {moduleProgressRouter} from './module-progress'
 import {purchasesRouter} from './purchases'
 import {userRouter} from './user'
 import {productsRouter} from './products'
-import {lessonResourcesRouter} from './resources'
+import {stackblitzResourceRouter} from './stackblitz-resources'
 
 export const appRouter = mergeRouters(
   router({
@@ -21,7 +21,7 @@ export const appRouter = mergeRouters(
     purchases: purchasesRouter,
     user: userRouter,
     products: productsRouter,
-    resources: lessonResourcesRouter,
+    stackblitz: stackblitzResourceRouter,
   }),
   skillLessonRouter,
 )

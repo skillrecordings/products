@@ -9,13 +9,18 @@ import {useModuleProgress} from 'video/module-progress'
 import * as Accordion from '@radix-ui/react-accordion'
 import capitalize from 'lodash/capitalize'
 import Balancer from 'react-wrap-balancer'
-import {trpc} from 'trpc/trpc.client'
 import {useRouter} from 'next/router'
 import Link from 'next/link'
 
 export const LessonList: React.FC<{
+  exerciseResourcesRenderer: (
+    path: string,
+    module: Module,
+    lesson: Lesson,
+    section?: Section,
+  ) => void
   path: string
-}> = ({path}) => {
+}> = ({path, exerciseResourcesRenderer}) => {
   const router = useRouter()
   const scrollContainerRef = React.useRef<HTMLDivElement>(null)
   const {module, section: currentSection} = useLesson()
@@ -96,12 +101,13 @@ export const LessonList: React.FC<{
               {sections.map((section) => {
                 return (
                   <Section
+                    exerciseResourcesRenderer={exerciseResourcesRenderer}
+                    path={path}
                     section={section}
                     key={section.slug}
                     openedSection={openedSection}
                     currentSection={currentSection}
                     module={module}
-                    path={path}
                     ref={activeElRef}
                   />
                 )
@@ -110,16 +116,17 @@ export const LessonList: React.FC<{
           </Accordion.Root>
         ) : (
           <ul data-single-section="">
-            {lessons?.map((exercise: Lesson, index: number) => {
+            {lessons?.map((lesson: Lesson, index: number) => {
               return (
                 <Lesson
+                  exerciseResourcesRenderer={exerciseResourcesRenderer}
                   section={sections ? sections[0] : undefined}
-                  exercise={exercise}
+                  lesson={lesson}
                   module={module}
                   path={path}
                   ref={activeElRef}
                   index={index}
-                  key={exercise._id}
+                  key={lesson._id}
                 />
               )
             })}
@@ -135,76 +142,99 @@ export const LessonList: React.FC<{
 
 const Section = React.forwardRef<
   HTMLDivElement,
-  {
+  React.PropsWithChildren<{
+    exerciseResourcesRenderer: (
+      path: string,
+      module: Module,
+      lesson: Lesson,
+      section?: Section,
+    ) => void
+    path: string
     section: Section
     openedSection: string
     currentSection: Section | undefined
     module: Module
-    path: string
-  }
->(({path, module, section, openedSection, currentSection}, activeElRef) => {
-  const moduleProgress = useModuleProgress()
-  const sectionProgress = moduleProgress?.sections?.find(
-    (s) => s.id === section._id,
-  )
-  const isSectionCompleted = sectionProgress?.sectionCompleted
-  const sectionPercentComplete = sectionProgress?.percentComplete
-  const isCurrentSection = section.slug === currentSection?.slug
-  const isSectionOpened = openedSection === section.slug
+  }>
+>(
+  (
+    {
+      exerciseResourcesRenderer,
+      path,
+      module,
+      section,
+      openedSection,
+      currentSection,
+    },
+    activeElRef,
+  ) => {
+    const moduleProgress = useModuleProgress()
+    const sectionProgress = moduleProgress?.sections?.find(
+      (s) => s.id === section._id,
+    )
+    const isSectionCompleted = sectionProgress?.sectionCompleted
+    const sectionPercentComplete = sectionProgress?.percentComplete
+    const isCurrentSection = section.slug === currentSection?.slug
+    const isSectionOpened = openedSection === section.slug
 
-  const hasSectionResources =
-    section?.resources && section?.resources?.length > 0
+    const hasSectionResources =
+      section?.resources && section?.resources?.length > 0
 
-  return (
-    <li>
-      <Accordion.Item value={section.slug}>
-        <Accordion.Header data-accordion-header="">
-          <Accordion.Trigger data-accordion-trigger="">
-            <Balancer>{section.title}</Balancer>
-            <div data-icons="">
-              {isSectionCompleted && (
-                <CheckIcon data-check-icon="" aria-hidden="true" />
-              )}
-              {isCurrentSection && <span data-active-section-indicator="" />}
-              <ChevronDownIcon data-chevron-down-icon="" aria-hidden="true" />
-            </div>
-          </Accordion.Trigger>
-          <div
-            aria-hidden="true"
-            data-section-progress={`${sectionPercentComplete}%`}
-            style={{width: `${sectionPercentComplete}%`}}
-          />
-        </Accordion.Header>
-        <Accordion.Content data-accordion-content="">
-          <ul>
-            {section.lessons?.map((exercise: Lesson, index: number) => {
-              return (
-                <>
-                  {index === 0 && isSectionOpened && (
-                    <div ref={activeElRef} aria-hidden="true" />
-                  )}
-                  <Lesson
-                    isCurrentSection={isCurrentSection}
-                    key={exercise._id}
-                    exercise={exercise}
-                    module={module}
-                    section={section}
-                    index={index}
-                    path={path}
-                    ref={activeElRef}
-                  />
-                </>
-              )
-            })}
-          </ul>
-          {hasSectionResources && (
-            <SectionResources section={section} module={module} />
-          )}
-        </Accordion.Content>
-      </Accordion.Item>
-    </li>
-  )
-})
+    return (
+      <li>
+        <Accordion.Item value={section.slug}>
+          <Accordion.Header data-accordion-header="">
+            <Accordion.Trigger data-accordion-trigger="">
+              <Balancer>{section.title}</Balancer>
+              <div data-icons="">
+                {isSectionCompleted && (
+                  <CheckIcon data-check-icon="" aria-hidden="true" />
+                )}
+                {isCurrentSection && <span data-active-section-indicator="" />}
+                <ChevronDownIcon data-chevron-down-icon="" aria-hidden="true" />
+              </div>
+            </Accordion.Trigger>
+            <div
+              aria-hidden="true"
+              data-section-progress={`${sectionPercentComplete}%`}
+              style={{width: `${sectionPercentComplete}%`}}
+            />
+          </Accordion.Header>
+          <Accordion.Content data-accordion-content="">
+            <ul>
+              {section.lessons?.map((lesson: Lesson, index: number) => {
+                return (
+                  <>
+                    {index === 0 && isSectionOpened && (
+                      <div
+                        ref={activeElRef}
+                        key={lesson._id + '-active'}
+                        aria-hidden="true"
+                      />
+                    )}
+                    <Lesson
+                      exerciseResourcesRenderer={exerciseResourcesRenderer}
+                      isCurrentSection={isCurrentSection}
+                      key={lesson._id}
+                      lesson={lesson}
+                      module={module}
+                      section={section}
+                      index={index}
+                      path={path}
+                      ref={activeElRef}
+                    />
+                  </>
+                )
+              })}
+            </ul>
+            {hasSectionResources && (
+              <SectionResources section={section} module={module} />
+            )}
+          </Accordion.Content>
+        </Accordion.Item>
+      </li>
+    )
+  },
+)
 
 type LessonTitleLinkProps = {
   path: string
@@ -271,101 +301,120 @@ const Lesson = React.forwardRef<
     section?: Section
     index?: number
     path: string
-    exercise: Lesson
+    lesson: Lesson
     module: Module
     isCurrentSection?: boolean
+    exerciseResourcesRenderer: (
+      path: string,
+      module: Module,
+      lesson: Lesson,
+      section?: Section,
+    ) => void
   }
->(({section, path, exercise, module, index, isCurrentSection}, ref) => {
-  const moduleProgress = useModuleProgress()
-  const completedLessons = moduleProgress?.lessons.filter(
-    (l) => l.lessonCompleted,
-  )
-  const isLessonCompleted = completedLessons?.find(
-    ({id}) => id === exercise._id,
-  )
-  const router = useRouter()
-  const currentPath = section
-    ? `${path}/${module.slug.current}/${section.slug}/${exercise.slug}`
-    : `${path}/${module.slug.current}/${exercise.slug}`
+>(
+  (
+    {
+      section,
+      path,
+      lesson,
+      module,
+      index,
+      isCurrentSection,
+      exerciseResourcesRenderer,
+    },
+    ref,
+  ) => {
+    const moduleProgress = useModuleProgress()
+    const completedLessons = moduleProgress?.lessons.filter(
+      (l) => l.lessonCompleted,
+    )
+    const isLessonCompleted = completedLessons?.find(
+      ({id}) => id === lesson._id,
+    )
+    const router = useRouter()
+    const currentPath = section
+      ? `${path}/${module.slug.current}/${section.slug}/${lesson.slug}`
+      : `${path}/${module.slug.current}/${lesson.slug}`
 
-  const isExpanded = router.asPath.includes(currentPath)
+    const isExpanded = router.asPath.includes(currentPath)
 
-  const scrollToElement = section
-    ? router.asPath.includes(currentPath) && isCurrentSection
-    : router.asPath.includes(currentPath)
+    const scrollToElement = section
+      ? router.asPath.includes(currentPath) && isCurrentSection
+      : router.asPath.includes(currentPath)
 
-  return (
-    <li
-      data-lesson=""
-      data-is-lesson-completed={isLessonCompleted}
-      data-is-expanded={isExpanded}
-      key={exercise._id}
-    >
-      {scrollToElement && <div ref={ref} aria-hidden="true" />}
-      <LessonTitleLink
-        lesson={exercise}
-        section={section}
-        index={index}
-        module={module}
-        path={path}
-      />
-      {isExpanded && (
-        <ul>
-          {exercise._type === 'exercise' && (
-            <>
-              <ProblemLink
+    return (
+      <li
+        data-lesson=""
+        data-is-lesson-completed={isLessonCompleted}
+        data-is-expanded={isExpanded}
+        key={lesson._id}
+      >
+        {scrollToElement && <div ref={ref} aria-hidden="true" />}
+        <LessonTitleLink
+          lesson={lesson}
+          section={section}
+          index={index}
+          module={module}
+          path={path}
+        />
+        {isExpanded && (
+          <ul>
+            {lesson._type === 'exercise' && (
+              <>
+                {exerciseResourcesRenderer ? (
+                  exerciseResourcesRenderer(path, module, lesson, section)
+                ) : (
+                  <>
+                    <ProblemLink
+                      module={module}
+                      exercise={lesson}
+                      section={section}
+                      path={path}
+                    />
+                    <SolutionLink
+                      module={module}
+                      lesson={lesson}
+                      section={section}
+                      path={path}
+                    />
+                  </>
+                )}
+              </>
+            )}
+            {lesson._type === 'explainer' && (
+              <ExplainerLink
+                lesson={lesson}
                 module={module}
-                exercise={exercise}
                 section={section}
                 path={path}
               />
-              <ExerciseLink
-                module={module}
-                lesson={exercise}
-                section={section}
-                path={path}
-              />
-              <SolutionLink
-                module={module}
-                exercise={exercise}
-                section={section}
-                path={path}
-              />
-            </>
-          )}
-          {exercise._type === 'explainer' && (
-            <ExplainerLink
-              exercise={exercise}
-              module={module}
-              section={section}
-              path={path}
-            />
-          )}
-        </ul>
-      )}
-    </li>
-  )
-})
+            )}
+          </ul>
+        )}
+      </li>
+    )
+  },
+)
 
-const ExplainerLink = ({
-  exercise,
+export const ExplainerLink = ({
+  lesson,
   module,
   section,
   path,
 }: {
-  exercise: Lesson
+  lesson: Lesson
   module: Module
   section?: Section
   path: string
 }) => {
   const router = useRouter()
   const currentPath = section
-    ? `${path}/${module.slug.current}/${section.slug}/${exercise.slug}`
-    : `${path}/${module.slug.current}/${exercise.slug}`
+    ? `${path}/${module.slug.current}/${section.slug}/${lesson.slug}`
+    : `${path}/${module.slug.current}/${lesson.slug}`
   const isActive = router.asPath === currentPath
 
   return (
-    <li key={exercise.slug + `exercise`} data-explainer="">
+    <li key={lesson.slug + `explainer`} data-explainer="">
       <Link
         data-is-active={isActive}
         href={{
@@ -374,7 +423,7 @@ const ExplainerLink = ({
             : `${path}/[module]/[lesson]`,
           query: {
             module: module.slug.current,
-            lesson: exercise.slug,
+            lesson: lesson.slug,
             ...(section && {section: section.slug}),
           },
         }}
@@ -382,11 +431,11 @@ const ExplainerLink = ({
         onClick={() => {
           track(`clicked explainer in navigator`, {
             module: module.slug.current,
-            lesson: exercise.slug,
+            lesson: lesson.slug,
             ...(section && {section: section.slug}),
             location: router.query.lesson,
             moduleType: module.moduleType,
-            lessonType: exercise._type,
+            lessonType: lesson._type,
           })
         }}
       >
@@ -396,7 +445,7 @@ const ExplainerLink = ({
   )
 }
 
-const ProblemLink = ({
+export const ProblemLink = ({
   exercise,
   path,
   section,
@@ -444,7 +493,7 @@ const ProblemLink = ({
   )
 }
 
-const ExerciseLink = ({
+export const ExerciseLink = ({
   module,
   lesson,
   section,
@@ -456,69 +505,65 @@ const ExerciseLink = ({
   path: string
 }) => {
   const router = useRouter()
-  const {data: resources, status: resourcesStatus} =
-    trpc.resources.byExerciseSlug.useQuery({
-      slug: router.query.lesson as string,
-      type: lesson._type,
-    })
+
   const currentPath = section
     ? `${path}/${module.slug.current}/${section.slug}/${lesson.slug}`
     : `${path}/${module.slug.current}/${lesson.slug}`
   const isActive = router.asPath === currentPath + '/exercise'
 
-  const stackblitz = resources?.stackblitz
-  const sandpack = resources?.sandpack
-  const gitpod = resources?.gitpod
-  const github = resources?.github
-  const hasExercise = stackblitz || sandpack || gitpod || github
+  // const stackblitz = resources?.stackblitz
+  // const sandpack = resources?.sandpack
+  // const gitpod = resources?.gitpod
+  // const github = resources?.github
+  // const hasExercise = stackblitz || sandpack || gitpod || github
 
   return (
     <>
-      {resourcesStatus === 'loading' ? (
+      {/* {resourcesStatus === 'loading' ? (
         <li data-exercise-is-loading="">Exercise</li>
-      ) : hasExercise ? (
-        <li data-exercise="">
-          <Link
-            data-is-active={isActive}
-            href={{
-              pathname: section
-                ? `${path}/[module]/[section]/[lesson]/exercise`
-                : `${path}/[module]/[lesson]/exercise`,
-              query: {
-                module: module.slug.current,
-                lesson: lesson.slug,
-                ...(section && {section: section.slug}),
-              },
-            }}
-            passHref
-          >
-            Exercise
-          </Link>
-        </li>
-      ) : null}
+      ) : hasExercise ? ( */}
+      <li data-exercise="">
+        <Link
+          data-is-active={isActive}
+          href={{
+            pathname: section
+              ? `${path}/[module]/[section]/[lesson]/exercise`
+              : `${path}/[module]/[lesson]/exercise`,
+            query: {
+              module: module.slug.current,
+              lesson: lesson.slug,
+              ...(section && {section: section.slug}),
+            },
+          }}
+          passHref
+        >
+          Exercise
+        </Link>
+      </li>
+      {/* ) : null} */}
     </>
   )
 }
 
-const SolutionLink = ({
+export const SolutionLink = ({
   module,
   section,
-  exercise,
+  lesson,
   path,
 }: {
   module: Module
   section?: Section
-  exercise: Lesson
+  lesson: Lesson
   path: string
 }) => {
   const router = useRouter()
-
   const currentPath = section
-    ? `${path}/${module.slug.current}/${section.slug}/${exercise.slug}/solution`
-    : `${path}/${module.slug.current}/${exercise.slug}/solution`
+    ? `${path}/${module.slug.current}/${section.slug}/${lesson.slug}/solution`
+    : `${path}/${module.slug.current}/${lesson.slug}/solution`
   const isActive = router.asPath === currentPath
+
   return (
-    <li key={`${exercise.slug}-solution-link`} data-solution="">
+    <li key={`${lesson.slug}-solution-link`} data-solution="">
       <Link
         data-is-active={isActive}
         href={{
@@ -527,7 +572,7 @@ const SolutionLink = ({
             : `${path}/[module]/[lesson]/solution`,
           query: {
             module: module.slug.current,
-            lesson: exercise.slug,
+            lesson: lesson.slug,
             ...(section && {section: section.slug}),
           },
         }}
@@ -535,9 +580,9 @@ const SolutionLink = ({
         onClick={() => {
           track(`clicked solution in navigator`, {
             module: module.slug.current,
-            lesson: exercise.slug,
+            lesson: lesson.slug,
             moduleType: module.moduleType,
-            lessonType: exercise._type,
+            lessonType: lesson._type,
             ...(section && {section: section.slug}),
           })
         }}
