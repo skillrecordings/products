@@ -1,20 +1,32 @@
 import Balancer from 'react-wrap-balancer'
 import Layout from 'components/app/layout'
-import {useRouter} from 'next/router'
 import Link from 'next/link'
 import Image from 'next/image'
+import {GetServerSideProps} from 'next'
+import React from 'react'
 
-const YouTube = () => {
-  const router = useRouter()
-  const {query} = router
+export const getServerSideProps: GetServerSideProps = async (context) => {
+  const id = context.params?.id as string
+  if (!id) {
+    return {
+      notFound: true,
+    }
+  }
+  return {
+    props: {
+      id,
+    },
+  }
+}
 
+const YouTube: React.FC<{id: string}> = ({id}) => {
   return (
     <Layout
       footer={null}
       meta={{
         title: 'YouTube on Total TypeScript',
         ogImage: {
-          url: `https://img.youtube.com/vi/${query.id}/maxresdefault.jpg`,
+          url: `https://img.youtube.com/vi/${id}/maxresdefault.jpg`,
         },
       }}
     >
@@ -22,7 +34,7 @@ const YouTube = () => {
         <iframe
           width="853"
           height="480"
-          src={`https://www.youtube.com/embed/${query.id}`}
+          src={`https://www.youtube.com/embed/${id}`}
           frameBorder="0"
           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
           allowFullScreen
