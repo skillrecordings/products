@@ -19,6 +19,8 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   }
 }
 
+const CLOUDINARY_FETCH_BASE_URL = `https://res.cloudinary.com/total-typescript/image/fetch/w_1200,h_630,c_fill/`
+
 const YouTube: React.FC<{id: string}> = ({id}) => {
   return (
     <Layout
@@ -26,7 +28,7 @@ const YouTube: React.FC<{id: string}> = ({id}) => {
       meta={{
         title: 'YouTube on Total TypeScript',
         ogImage: {
-          url: `https://img.youtube.com/vi/${id}/maxresdefault.jpg`,
+          url: `${CLOUDINARY_FETCH_BASE_URL}https://img.youtube.com/vi/${id}/maxresdefault.jpg`,
         },
       }}
     >
