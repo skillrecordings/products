@@ -144,7 +144,7 @@ const Testimonial: React.FC<
   return (
     <div className="not-prose">
       <blockquote className="relative flex h-full flex-col justify-between rounded-md border border-gray-800 p-5 sm:p-8">
-        <div className="font-medium before:absolute before:right-8 before:bottom-9 before:flex before:items-center before:justify-center before:font-heading before:text-3xl before:font-extrabold before:leading-none before:text-cyan-300 before:content-['”']">
+        <div className="font-normal before:absolute before:right-8 before:bottom-9 before:flex before:items-center before:justify-center before:font-heading before:text-3xl before:font-extrabold before:leading-none before:text-cyan-300 before:content-['”']">
           {children}
         </div>
         {author?.name && (
