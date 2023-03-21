@@ -641,7 +641,7 @@ export function getSdk(
       const merchantCoupons = await ctx.prisma.merchantCoupon.findMany(options)
       return merchantCoupons
     },
-    async getDefaultCoupon(productId?: string) {
+    async getDefaultCoupon(productIds?: string[]) {
       const activeSaleCoupon = await ctx.prisma.coupon.findFirst({
         where: {
           default: true,
@@ -656,7 +656,7 @@ export function getSdk(
       if (activeSaleCoupon) {
         const {restrictedToProductId} = activeSaleCoupon
         const validForProductId = restrictedToProductId
-          ? restrictedToProductId === productId
+          ? productIds?.includes(restrictedToProductId)
           : true
 
         const {merchantCoupon: defaultMerchantCoupon, ...defaultCoupon} =
