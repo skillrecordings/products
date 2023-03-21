@@ -109,7 +109,7 @@ You can use [Table Plus](https://tableplus.com/) or _any other MySQL client_ to 
 
 ## Edit content
 
-Edit workshops with Sanity at [typescriptcourse.sanity.studio](https://protailwind.sanity.studio/).
+Edit workshops with Sanity at [protailwind.sanity.studio](https://protailwind.sanity.studio/).
 
 ## Stripe
 
