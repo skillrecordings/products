@@ -38,13 +38,16 @@ const WorkshopPage: React.FC<{
   }
 }> = ({workshop}) => {
   const router = useRouter()
-  const {data: commerceProps} = trpc.pricing.propsForCommerce.useQuery(
-    router.query,
-  )
+  const {data: commerceProps, isLoading} =
+    trpc.pricing.propsForCommerce.useQuery(router.query)
   // TODO: Load subscriber, find user via Prisma/api using USER_ID_QUERY_PARAM_KEY
   return (
     <ModuleProgressProvider moduleSlug={workshop.slug.current}>
-      <WorkshopTemplate workshop={workshop} commerceProps={commerceProps} />
+      <WorkshopTemplate
+        workshop={workshop}
+        commerceProps={commerceProps}
+        commersePropsLoading={isLoading}
+      />
     </ModuleProgressProvider>
   )
 }

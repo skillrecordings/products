@@ -41,7 +41,8 @@ const WorkshopTemplate: React.FC<{
     product: SanityProduct
   }
   commerceProps?: CommerceProps
-}> = ({workshop, commerceProps}) => {
+  commersePropsLoading: boolean
+}> = ({workshop, commerceProps, commersePropsLoading}) => {
   const {title, body, ogImage, description, product} = workshop
   const pageTitle = `${title} Workshop`
   const purchasedProductIds =
@@ -89,45 +90,52 @@ const WorkshopTemplate: React.FC<{
           )}
         </div>
 
-        {hasPurchased ? (
+        {!commersePropsLoading && (
           <>
-            {workshop && (
-              <div className="lg:max-w-sm">
-                <WorkshopSectionNavigator
-                  purchased={hasPurchased}
-                  workshop={workshop}
-                />
-              </div>
-            )}
-          </>
-        ) : (
-          <>
-            {commerceProps && product ? (
-              <BuyWorkshop
-                product={product}
-                workshop={workshop}
-                purchasedProductIds={purchasedProductIds}
-                hasPurchased={hasPurchased}
-                {...commerceProps}
-              />
+            {hasPurchased ? (
+              <>
+                {workshop && (
+                  <div className="lg:max-w-sm">
+                    <WorkshopSectionNavigator
+                      purchased={hasPurchased}
+                      workshop={workshop}
+                    />
+                  </div>
+                )}
+              </>
             ) : (
-              <div
-                role="status"
-                className="mx-auto flex w-full max-w-sm flex-col overflow-hidden rounded-lg border border-gray-200/40 bg-white shadow-2xl shadow-gray-400/20"
-              >
-                <div className="flex aspect-video animate-pulse items-center justify-center bg-gray-200">
-                  <Spinner aria-hidden="true" className="h-7 w-7 opacity-80" />
-                </div>
-                <div className="flex animate-pulse flex-col gap-3 p-7">
-                  <div className="h-3 w-2/3 rounded-full bg-gray-200"></div>
-                  <div className="h-3 rounded-full bg-gray-200"></div>
-                  <div className="h-3 w-1/2 rounded-full bg-gray-200"></div>
-                  <div className="h-3 w-5/6 rounded-full bg-gray-200"></div>
-                  <div className="h-3 w-2/5 rounded-full bg-gray-200"></div>
-                  <div className="h-3 w-1/3 rounded-full bg-gray-200"></div>
-                  <span className="sr-only">Loading price</span>
-                </div>
-              </div>
+              <>
+                {commerceProps && product ? (
+                  <BuyWorkshop
+                    product={product}
+                    workshop={workshop}
+                    purchasedProductIds={purchasedProductIds}
+                    hasPurchased={hasPurchased}
+                    {...commerceProps}
+                  />
+                ) : (
+                  <div
+                    role="status"
+                    className="mx-auto flex w-full max-w-sm flex-col overflow-hidden rounded-lg border border-gray-200/40 bg-white shadow-2xl shadow-gray-400/20"
+                  >
+                    <div className="flex aspect-video animate-pulse items-center justify-center bg-gray-200">
+                      <Spinner
+                        aria-hidden="true"
+                        className="h-7 w-7 opacity-80"
+                      />
+                    </div>
+                    <div className="flex animate-pulse flex-col gap-3 p-7">
+                      <div className="h-3 w-2/3 rounded-full bg-gray-200"></div>
+                      <div className="h-3 rounded-full bg-gray-200"></div>
+                      <div className="h-3 w-1/2 rounded-full bg-gray-200"></div>
+                      <div className="h-3 w-5/6 rounded-full bg-gray-200"></div>
+                      <div className="h-3 w-2/5 rounded-full bg-gray-200"></div>
+                      <div className="h-3 w-1/3 rounded-full bg-gray-200"></div>
+                      <span className="sr-only">Loading price</span>
+                    </div>
+                  </div>
+                )}
+              </>
             )}
           </>
         )}
@@ -273,7 +281,7 @@ const Header: React.FC<
                 </div>
               ) : null}
             </div>
-            <div className="flex items-center justify-center gap-3 pt-8 md:justify-start">
+            <div className="mt-8 flex min-h-[3.25rem] items-center justify-center gap-3 md:justify-start">
               {firstSection && purchased && (
                 <Link
                   href={{
