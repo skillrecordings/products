@@ -58,11 +58,11 @@ export const getServerSideProps: GetServerSideProps = async ({req, query}) => {
     if (purchase) {
       // TODO: replace with getActiveProduct
       const workshops = await getAllWorkshops()
+
       const workshop = first(
-        workshops.filter(
-          (workshop: SanityDocument) =>
-            workshop?.product?.productId === purchase.product.id,
-        ),
+        workshops.filter((workshop: SanityDocument) => {
+          return workshop?.product?.productId === purchase.product.id
+        }),
       )
 
       return {

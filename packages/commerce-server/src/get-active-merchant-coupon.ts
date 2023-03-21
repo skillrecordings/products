@@ -14,7 +14,9 @@ export async function getActiveMerchantCoupon({
 
   let activeMerchantCoupon = null
 
-  const defaultCoupons = await getDefaultCoupon(productId)
+  const defaultCoupons = productId
+    ? await getDefaultCoupon([productId])
+    : undefined
 
   const defaultMerchantCoupon = defaultCoupons
     ? defaultCoupons.defaultMerchantCoupon
