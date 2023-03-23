@@ -24,7 +24,6 @@ export async function propsForCommerce({
     ? await getPurchasesForUser(token.sub as string)
     : false
 
-  console.log({products})
 
   const couponIdFromCoupon = (query.coupon as string) || couponFromCode?.id
   const defaultCoupons = !token
