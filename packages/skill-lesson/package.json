@@ -16,7 +16,7 @@
     "@axiomhq/axiom-node": "^0.10.0",
     "@casl/ability": "^6.3.2",
     "@heroicons/react": "^1.0.6",
-    "@mux/mux-player-react": "1.5.1",
+    "@mux/mux-player-react": "1.8.0",
     "@portabletext/react": "^1.0.6",
     "@portabletext/types": "^1.0.3",
     "@sanity/client": "^3.4.1",
