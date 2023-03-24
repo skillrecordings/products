@@ -6,7 +6,6 @@ import Layout from 'components/layout'
 import PortableTextComponents from 'components/portable-text'
 
 const WorkshopTemplate: React.FC<any> = ({workshop}) => {
-  console.log({workshop})
   return (
     <Layout>
       <main className="relative z-10 flex flex-col items-center justify-center py-20">

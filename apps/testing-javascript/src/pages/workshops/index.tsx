@@ -49,9 +49,9 @@ const WorkshopsIndex: React.FC<{product: any}> = ({product}) => {
                       <h3 className="font-bold text-xl">
                         <Link
                           href={{
-                            pathname: '/workshops/[workshop]',
+                            pathname: '/workshops/[module]',
                             query: {
-                              workshop: module.slug,
+                              module: module.slug,
                             },
                           }}
                           className="hover:underline"

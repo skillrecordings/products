@@ -4,7 +4,7 @@ import {getAllWorkshops, getWorkshopBySlug} from '../../../lib/resources'
 import WorkshopTemplate from '../../../templates/workshop-template'
 
 export const getStaticProps: GetStaticProps = async ({params}) => {
-  const workshop = await getWorkshopBySlug(params?.workshop as string)
+  const workshop = await getWorkshopBySlug(params?.module as string)
 
   return {
     props: {workshop},
@@ -15,7 +15,7 @@ export const getStaticProps: GetStaticProps = async ({params}) => {
 export const getStaticPaths: GetStaticPaths = async () => {
   const workshops = await getAllWorkshops()
   const paths = workshops.map((workshop: any) => ({
-    params: {workshop: workshop.slug},
+    params: {module: workshop.slug},
   }))
   return {paths, fallback: 'blocking'}
 }
