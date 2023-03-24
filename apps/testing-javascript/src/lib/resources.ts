@@ -15,13 +15,16 @@ export const getAllProducts = async () =>
     image {
       url
     },
-    "description": body[0].children[0].text,
-    "resources": {
+    "slug": slug.current,
+    description,
+    body,
+    "lessons": resources[@->._type in ['explainer']]->{
       "id": _id,
+      "updatedAt": _updatedAt,
       title,
-      "slug": slug.current,
       "description": body[0].children[0].text,
-      resources
+      "slug": slug.current,
+      "videoResourceId": resources[@->._type == 'videoResource'][0]->_id
     }
   }
 }`)
@@ -42,12 +45,14 @@ export const getProductById = async (productId: string) =>
           url
         },
         "slug": slug.current,
-        "description": body[0].children[0].text,
+        description,
+        body,
         "lessons": resources[@->._type in ['explainer']]->{
           "id": _id,
           "updatedAt": _updatedAt,
           title,
-          "description": body[0].children[0].text,
+          description,
+          body,
           "slug": slug.current,
           "videoResourceId": resources[@->._type == 'videoResource'][0]->_id
         }
@@ -62,7 +67,8 @@ export const getAllWorkshops = async () =>
         title,
         state,
         "slug": slug.current,
-        "description": body[0].children[0].text,
+        description,
+        body,
         "updatedAt": _updatedAt,
         image {
           url
@@ -71,7 +77,8 @@ export const getAllWorkshops = async () =>
           "id": _id,
           "updatedAt": _updatedAt,
           title,
-          "description": body[0].children[0].text,
+          description,
+          body,
           "slug": slug.current,
           "videoResourceId": resources[@->._type == 'videoResource'][0]->_id
         }
@@ -84,7 +91,8 @@ export const getWorkshopBySlug = async (slug: string) =>
         title,
         state,
         "slug": slug.current,
-        "description": body[0].children[0].text,
+        description,
+        body,
         "updatedAt": _updatedAt,
         image {
           url
@@ -93,7 +101,8 @@ export const getWorkshopBySlug = async (slug: string) =>
           "id": _id,
           "updatedAt": _updatedAt,
           title,
-          "description": body[0].children[0].text,
+          description,
+          body,
           "slug": slug.current,
           "videoResourceId": resources[@->._type == 'videoResource'][0]->_id
         }
