@@ -109,3 +109,18 @@ export const getWorkshopBySlug = async (slug: string) =>
     }`,
     {slug: `${slug}`},
   )
+
+export const getLessonBySlug = async (slug: string) =>
+  await sanityClient.fetch(
+    groq`*[_type in ["explainer"] && slug.current == $slug][0]{
+      "id": _id,
+      _updatedAt,
+      title,
+      description,
+      body,
+      "slug": slug.current,
+      "videoResourceId": resources[@->._type == 'videoResource'][0]->_id,
+      "transcript": resources[@->._type == 'videoResource'][0]-> castingwords.transcript,
+    }`,
+    {slug: `${slug}`},
+  )
