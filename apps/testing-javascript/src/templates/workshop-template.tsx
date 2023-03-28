@@ -25,9 +25,9 @@ const WorkshopTemplate: React.FC<any> = ({workshop}) => {
               <li key={lesson.id}>
                 <Link
                   href={{
-                    pathname: `/workshops/[workshop]/[lesson]`,
+                    pathname: `/workshops/[module]/[lesson]`,
                     query: {
-                      workshop: workshop.slug,
+                      module: workshop.slug,
                       lesson: lesson.slug,
                     },
                   }}

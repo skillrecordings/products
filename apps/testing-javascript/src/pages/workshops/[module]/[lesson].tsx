@@ -1,9 +1,5 @@
 import React from 'react'
 import {GetStaticPaths, GetStaticProps} from 'next'
-// import {getAllTutorials, getTutorial} from 'lib/tutorials'
-// import {getExercise} from 'lib/exercises'
-// import path from 'path'
-// import {walk} from 'utils/code-editor-content'
 import {LessonProvider} from '@skillrecordings/skill-lesson/hooks/use-lesson'
 import {VideoResourceProvider} from '@skillrecordings/skill-lesson/hooks/use-video-resource'
 import {
@@ -11,7 +7,6 @@ import {
   getLessonBySlug,
   getWorkshopBySlug,
 } from '../../../lib/resources'
-// import {getSection} from '@skillrecordings/skill-lesson/lib/sections'
 import {ModuleProgressProvider} from 'utils/module-progress'
 
 import LessonTemplate from 'templates/lesson-template'
@@ -59,15 +54,11 @@ const LessonPage: React.FC<any> = ({
   console.log({videoResourceId})
   return (
     // <ModuleProgressProvider moduleSlug={module.slug.current}>
-    <LessonProvider lesson={lesson} module={module}>
-      <VideoResourceProvider videoResourceId={videoResourceId}>
-        <LessonTemplate
-          transcript={transcript}
-          lesson={lesson}
-          module={module}
-        />
-      </VideoResourceProvider>
-    </LessonProvider>
+    //   <LessonProvider lesson={lesson} module={module}>
+    //     <VideoResourceProvider videoResourceId={videoResourceId}>
+    <LessonTemplate transcript={transcript} lesson={lesson} module={module} />
+    //     </VideoResourceProvider>
+    //   </LessonProvider>
     // </ModuleProgressProvider>
   )
 }
