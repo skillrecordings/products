@@ -49,7 +49,6 @@
     "@skillrecordings/skill-api": "workspace:*",
     "@skillrecordings/skill-lesson": "workspace:*",
     "@slack/web-api": "^6.7.2",
-    "@tailwindcss/typography": "^0.5.2",
     "@tiptap/extension-highlight": "^2.0.0-beta.33",
     "@tiptap/extension-link": "^2.0.0-beta.37",
     "@tiptap/extension-typography": "^2.0.0-beta.20",
@@ -79,6 +78,7 @@
     "react-icons": "^4.7.1",
     "sanity": "^3.0.0",
     "sanity-plugin-cloudinary": "^1.0.1",
+    "tailwindcss-radix": "^2.8.0",
     "superjson": "=1.11.0",
     "yup": "^0.32.11"
   },
@@ -104,9 +104,23 @@
     "jest-mock-extended": "^2.0.4",
     "postcss": "^8.4.14",
     "prettier": "^2.6.2",
-    "tailwindcss": "^3.1.6",
+    "tailwindcss": "^3.3.0",
+    "@tailwindcss/typography": "^0.5.9",
+    "tailwind-scrollbar": "^3.0.0",
+    "prettier-plugin-tailwindcss": "^0.2.5",
     "typescript": "^4.9.4",
     "webpack": "^5.73.0"
+  },
+  "prettier": {
+    "bracketSpacing": false,
+    "jsxBracketSameLine": false,
+    "plugins": ["prettier-plugin-tailwindcss"],
+    "printWidth": 80,
+    "semi": false,
+    "singleQuote": true,
+    "tabWidth": 2,
+    "trailingComma": "all",
+    "useTabs": false
   },
   "jest": {
     "preset": "@skillrecordings/scripts/jest/next"
