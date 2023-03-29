@@ -72,10 +72,6 @@ const DefaultOverlay = () => {
   const router = useRouter()
   const {image} = module
   const addProgressMutation = trpc.progress.add.useMutation()
-  // const {data: stackblitz} = trpc.stackblitz.byExerciseSlug.useQuery({
-  //   slug: router.query.lesson as string,
-  //   type: lesson._type,
-  // })
 
   return (
     <OverlayWrapper data-video-overlay="default">
@@ -468,10 +464,6 @@ const FinishedSectionOverlay = () => {
   const addProgressMutation = trpc.progress.add.useMutation()
   const nextExercise = first(nextSection?.lessons) as Lesson
   const router = useRouter()
-  // const {data: stackblitz} = trpc.stackblitz.byExerciseSlug.useQuery({
-  //   slug: router.query.lesson as string,
-  //   type: lesson._type,
-  // })
 
   return (
     <OverlayWrapper data-video-overlay="finished-section">
