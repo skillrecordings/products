@@ -9,6 +9,7 @@
 @import '../purchase-details/purchase-details.css';
 @import '@skillrecordings/feedback-widget/dist/styles.css';
 @import '../video/module-lesson-list/styles.css';
+@import '../video/video-overlays/styles.css';
 @tailwind utilities;
 
 html,

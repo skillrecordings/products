@@ -9,6 +9,7 @@
 @import './pricing.css';
 @import './purchase-transfer.css';
 @import '../video/module-lesson-list/styles.css';
+@import '../video/video-overlays/styles.css';
 
 @tailwind utilities;
 @import './focus-visible.css';
