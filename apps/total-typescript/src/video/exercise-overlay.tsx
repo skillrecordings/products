@@ -16,7 +16,7 @@ import {sanityClient} from '@skillrecordings/skill-lesson/utils/sanity-client'
 import {PortableText} from '@portabletext/react'
 import {trpc} from '../trpc/trpc.client'
 import Spinner from '../components/spinner'
-import {StackBlitzIframe} from './exercise/stackblitz-iframe'
+import {getStartCommand, StackBlitzIframe} from './exercise/stackblitz-iframe'
 import Link from 'next/link'
 import first from 'lodash/first'
 import {useLesson} from '@skillrecordings/skill-lesson/hooks/use-lesson'
@@ -66,7 +66,7 @@ export const OverlayWrapper: React.FC<
     >
       {dismissable && (
         <button
-          className="absolute top-2 right-2 z-40 flex items-center gap-1 rounded py-2 px-3 font-medium text-gray-200 transition hover:bg-gray-800"
+          className="absolute top-2 right-2 z-40 flex items-center gap-1 rounded px-3 py-2 font-medium text-gray-200 transition hover:bg-gray-800"
           onClick={() => {
             track('dismissed video overlay', {
               lesson: lesson.slug,
@@ -92,7 +92,7 @@ export const OverlayWrapper: React.FC<
   )
 }
 
-const Actions = () => {
+const Actions = (props: {stackblitz: string | null | undefined}) => {
   const {nextExercise, path, handlePlay, muxPlayerRef} = useMuxPlayer()
   const {lesson, module, section} = useLesson()
   const router = useRouter()
@@ -120,6 +120,18 @@ const Actions = () => {
       >
         <span aria-hidden="true">↺</span> Replay
       </button>
+      <a
+        className="rounded bg-gray-800 px-3 py-1 text-lg font-semibold transition hover:bg-gray-700 sm:px-5 sm:py-2"
+        href={`vscode://mattpocock.ts-error-translator/show-file?filename=${encodeURIComponent(
+          props.stackblitz!,
+        )}&repo=${encodeURIComponent(
+          module.github?.repo!,
+        )}&script=${encodeURIComponent(
+          `npm run ${getStartCommand(lesson, props.stackblitz)}`,
+        )}`}
+      >
+        Open in VSCode
+      </a>
       {nextExercise && (
         <button
           className="rounded bg-cyan-600 px-3 py-1 text-lg font-semibold transition hover:bg-cyan-500 sm:px-5 sm:py-2"
@@ -161,7 +173,7 @@ const ExerciseOverlay = () => {
   const {exerciseGitHubUrl} = getExerciseGitHubUrl({stackblitz, module})
 
   return (
-    <div className=" bg-black/30 ">
+    <div className=" bg-black/30">
       {stackblitz ? (
         <>
           <div className="flex w-full items-center justify-between p-3 pl-5 font-medium sm:text-lg">
@@ -169,7 +181,7 @@ const ExerciseOverlay = () => {
               <div>Now it's your turn! Try solving this exercise.</div>
             </div>
             <div className="flex justify-center gap-2">
-              <Actions />
+              <Actions stackblitz={stackblitz} />
             </div>
           </div>
           <div className="relative hidden h-[500px] w-full sm:block xl:h-[750px]">
@@ -250,7 +262,7 @@ const ExerciseOverlay = () => {
               </a>{' '}
               file.
             </p>
-            <Actions />
+            <Actions stackblitz={stackblitz} />
           </div>
         )
       )}
@@ -270,7 +282,7 @@ const ExerciseOverlay = () => {
             file.
           </p>
           <div className="flex items-center justify-center gap-3">
-            <Actions />
+            <Actions stackblitz={stackblitz} />
           </div>
         </div>
       )}
@@ -565,7 +577,7 @@ const BlockedOverlay = () => {
                 <h2 className="text-4xl font-semibold">
                   Level up your {module.title}
                 </h2>
-                <h3 className="max-w-xl pb-5 pt-3 text-lg text-gray-300">
+                <h3 className="max-w-xl pt-3 pb-5 text-lg text-gray-300">
                   <Balancer>
                     You've purchased a team license with{' '}
                     {purchaseDetails?.purchase?.bulkCoupon?.maxUses} seats and
@@ -619,7 +631,7 @@ const BlockedOverlay = () => {
                     </h2>
                   )}
 
-                  <h3 className="w-full pb-3 pt-3 text-base text-gray-300">
+                  <h3 className="w-full pt-3 pb-3 text-base text-gray-300">
                     {/* This {lesson._type} is part of Total TypeScript {activeProduct?.name}. */}
                     <Balancer>
                       {canViewRegionRestriction ? (
