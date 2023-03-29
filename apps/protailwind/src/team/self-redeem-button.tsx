@@ -25,6 +25,7 @@ const SelfRedeemButton: React.FC<
   const [isLoading, setIsLoading] = React.useState(false)
   return (
     <Button
+      data-self-redeem-button=""
       isLoading={isLoading}
       disabled={disabled || !userEmail}
       className={className}

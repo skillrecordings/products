@@ -1,21 +1,19 @@
-import {type SanityDocument} from '@sanity/client'
 import * as React from 'react'
 import cx from 'classnames'
 import MuxPlayer, {type MuxPlayerProps} from '@mux/mux-player-react'
-
 import {useMuxPlayer} from '@skillrecordings/skill-lesson/hooks/use-mux-player'
-import {type Lesson} from '@skillrecordings/skill-lesson/schemas/lesson'
 import {useVideoResource} from '@skillrecordings/skill-lesson/hooks/use-video-resource'
-
+import {useLesson} from '@skillrecordings/skill-lesson/hooks/use-lesson'
+import ExerciseOverlay from 'components/exercise-overlay'
 import {
   BlockedOverlay,
   DefaultOverlay,
-  ExerciseOverlay,
   FinishedOverlay,
   LoadingOverlay,
   FinishedSectionOverlay,
-} from './exercise-overlay'
-import {useLesson} from '@skillrecordings/skill-lesson/hooks/use-lesson'
+} from './video-overlays'
+import {trpc} from 'trpc/trpc.client'
+import Spinner from 'components/spinner'
 
 type VideoProps = {
   ref: any
@@ -35,22 +33,24 @@ export const Video: React.FC<VideoProps> = React.forwardRef(
       loadingUserStatus,
       nextSection,
     } = useMuxPlayer()
+    const {data: products} = trpc.products.getProducts.useQuery()
+    const activeProduct = products?.products[0]
 
     return (
       <>
         {displayOverlay && (
           <>
             {nextExerciseStatus === 'loading' ? (
-              <LoadingOverlay />
+              <LoadingOverlay loadingIndicator={<Spinner />} />
             ) : (
               <>
                 {nextExercise ? (
                   <>
                     {isExercise ? (
                       canShowVideo ? (
-                        <ExerciseOverlay />
+                        <ExerciseOverlay /> // TODO: should be passed down from exerciseOverlayRenderer() callback function
                       ) : (
-                        <BlockedOverlay />
+                        <BlockedOverlay product={activeProduct} /> // TODO: product should be passed down from to this Video component
                       )
                     ) : (
                       <DefaultOverlay />
@@ -79,9 +79,9 @@ export const Video: React.FC<VideoProps> = React.forwardRef(
           ) : (
             <>
               {loadingUserStatus || loadingVideoResource ? (
-                <LoadingOverlay />
+                <LoadingOverlay loadingIndicator={<Spinner />} />
               ) : (
-                <BlockedOverlay />
+                <BlockedOverlay product={activeProduct} />
               )}
             </>
           )}

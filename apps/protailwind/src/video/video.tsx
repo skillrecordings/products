@@ -1,21 +1,19 @@
-import {type SanityDocument} from '@sanity/client'
 import * as React from 'react'
 import cx from 'classnames'
 import MuxPlayer, {type MuxPlayerProps} from '@mux/mux-player-react'
-
 import {useMuxPlayer} from '@skillrecordings/skill-lesson/hooks/use-mux-player'
-import {type Lesson} from '@skillrecordings/skill-lesson/schemas/lesson'
 import {useVideoResource} from '@skillrecordings/skill-lesson/hooks/use-video-resource'
-
+import ExerciseOverlay from 'components/exercise-overlay'
 import {
   BlockedOverlay,
   DefaultOverlay,
-  ExerciseOverlay,
   FinishedOverlay,
   LoadingOverlay,
   FinishedSectionOverlay,
-} from './exercise-overlay'
+} from './video-overlays'
 import {useLesson} from '@skillrecordings/skill-lesson/hooks/use-lesson'
+import {SanityProduct} from '@skillrecordings/commerce-server/dist/@types'
+import Spinner from 'components/spinner'
 
 type VideoProps = {
   ref: any
@@ -24,13 +22,14 @@ type VideoProps = {
 
 export const Video: React.FC<VideoProps> = React.forwardRef(
   ({tutorialFiles}, ref: any) => {
-    const {lesson} = useLesson()
+    const {lesson, module} = useLesson()
     const isExercise = Boolean(lesson._type === 'exercise')
     const {videoResource, loadingVideoResource} = useVideoResource()
     const {
       muxPlayerProps,
       displayOverlay,
       nextExercise,
+      nextExerciseStatus,
       canShowVideo,
       loadingUserStatus,
       nextSection,
@@ -40,18 +39,30 @@ export const Video: React.FC<VideoProps> = React.forwardRef(
       <>
         {displayOverlay && (
           <>
-            {nextExercise ? (
+            {nextExerciseStatus === 'loading' ? (
+              <LoadingOverlay loadingIndicator={<Spinner />} />
+            ) : (
               <>
-                {isExercise ? (
-                  <ExerciseOverlay tutorialFiles={tutorialFiles} />
+                {nextExercise ? (
+                  <>
+                    {isExercise ? (
+                      canShowVideo ? (
+                        <ExerciseOverlay tutorialFiles={tutorialFiles} /> // TODO: should be passed down from exerciseOverlayRenderer() callback function
+                      ) : (
+                        <BlockedOverlay
+                          product={module.product as SanityProduct}
+                        /> // TODO: product should be passed down from to this Video component
+                      )
+                    ) : (
+                      <DefaultOverlay />
+                    )}
+                  </>
+                ) : nextSection ? (
+                  <FinishedSectionOverlay />
                 ) : (
-                  <DefaultOverlay />
+                  <FinishedOverlay />
                 )}
               </>
-            ) : nextSection ? (
-              <FinishedSectionOverlay />
-            ) : (
-              <FinishedOverlay />
             )}
           </>
         )}
@@ -69,9 +80,9 @@ export const Video: React.FC<VideoProps> = React.forwardRef(
           ) : (
             <>
               {loadingUserStatus || loadingVideoResource ? (
-                <LoadingOverlay />
+                <LoadingOverlay loadingIndicator={<Spinner />} />
               ) : (
-                <BlockedOverlay />
+                <BlockedOverlay product={module.product as SanityProduct} />
               )}
             </>
           )}

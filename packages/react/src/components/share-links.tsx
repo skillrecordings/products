@@ -26,12 +26,14 @@ const Twitter: React.FC<React.PropsWithChildren<ShareLinkProps>> = ({
   className = defaultStyle,
   svgClassName = 'w-4 h-4',
   children,
+  ...props
 }) => (
   <a
     href={getShareUrl('twitter', link, message)}
     className={className}
     target="_blank"
     rel="noopener noreferrer"
+    {...props}
   >
     <TwitterIcon className={svgClassName} />
     {children || <span className="sr-only">share on twitter</span>}
@@ -43,12 +45,14 @@ const Facebook: React.FC<React.PropsWithChildren<ShareLinkProps>> = ({
   className = defaultStyle,
   svgClassName = 'w-4 h-4',
   children,
+  ...props
 }) => (
   <a
     href={getShareUrl('facebook', link)}
     className={className}
     target="_blank"
     rel="noopener noreferrer"
+    {...props}
   >
     <FacebookIcon className={svgClassName} />
     {children || <span className="sr-only">share on facebook</span>}
@@ -61,12 +65,14 @@ const Reddit: React.FC<React.PropsWithChildren<ShareLinkProps>> = ({
   className = defaultStyle,
   svgClassName = 'w-4 h-4',
   children,
+  ...props
 }) => (
   <a
     href={getShareUrl('reddit', link)}
     className={className}
     target="_blank"
     rel="noopener noreferrer"
+    {...props}
   >
     <RedditIcon className={svgClassName} />
     {children || <span className="sr-only">share on reddit</span>}
@@ -81,6 +87,7 @@ const CopyToClipboard: React.FC<
   className = defaultStyle + ' relative text-xs',
   svgClassName = 'w-4 h-4',
   children,
+  ...props
 }) => {
   const [_, copyToClipboard] = useClipboard(link, {
     successDuration: 700,
@@ -94,6 +101,7 @@ const CopyToClipboard: React.FC<
         onSuccess()
       }}
       className={className}
+      {...props}
     >
       <LinkIcon className={svgClassName} />
       {children || <span className="sr-only">copy url to clipboard</span>}
@@ -106,12 +114,14 @@ const LinkedIn: React.FC<React.PropsWithChildren<ShareLinkProps>> = ({
   className = defaultStyle,
   svgClassName = 'w-4 h-4',
   children,
+  ...props
 }) => (
   <a
     href={getShareUrl('linkedin', link)}
     className={className}
     target="_blank"
     rel="noopener noreferrer"
+    {...props}
   >
     <LinkedInIcon className={svgClassName} />
     {children || <span className="sr-only">share on linkedin</span>}
@@ -124,12 +134,14 @@ const Hacker: React.FC<React.PropsWithChildren<ShareLinkProps>> = ({
   className = defaultStyle,
   svgClassName = 'w-4 h-4',
   children,
+  ...props
 }) => (
   <a
     href={getShareUrl('hacker', link)}
     className={className}
     target="_blank"
     rel="noopener noreferrer"
+    {...props}
   >
     <HackerNewsIcon className={svgClassName} />
     {children || <span className="sr-only">share on hacker news</span>}
