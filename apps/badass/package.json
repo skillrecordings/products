@@ -31,7 +31,7 @@
     "@headlessui/react": "^1.6.1",
     "@heroicons/react": "^1.0.6",
     "@mux/mux-node": "^6.3.1",
-    "@mux/mux-player-react": "1.5.1",
+    "@mux/mux-player-react": "1.8.0",
     "@next/mdx": "^12.2.5",
     "@portabletext/react": "^1.0.6",
     "@reach/dialog": "^0.16.2",
@@ -48,7 +48,6 @@
     "@skillrecordings/skill-lesson": "workspace:*",
     "@skillrecordings/time": "workspace:*",
     "@stripe/stripe-js": "^1.21.1",
-    "@tailwindcss/typography": "^0.5.2",
     "@xstate/react": "=1.5.1",
     "autoprefixer": "^10.4.2",
     "axios": "^0.26.0",
@@ -125,7 +124,8 @@
     "postcss-preset-env": "^7.4.2",
     "prettier": "^2.6.2",
     "react-test-renderer": "^17.0.2",
-    "tailwindcss": "^3.1.4",
+    "tailwindcss": "^3.3.0",
+    "@tailwindcss/typography": "^0.5.9",
     "typescript": "^4.9.4"
   }
 }

@@ -22,7 +22,7 @@ The rest of the dev environment setup is described in the following _Prisma_ and
 of this file by default are:
 
 ```shell
-DATABASE_URL=mysql://root@127.0.0.1:3309/typescript-course
+DATABASE_URL=mysql://root@127.0.0.1:3309/pro-tailwind
 ```
 
 #### Development Secrets
@@ -101,15 +101,15 @@ You can use [Table Plus](https://tableplus.com/) or _any other MySQL client_ to 
 - Select "New Connection"
 - Select "MySQL"
 - Input credentials
-  - Name: TypeScript Course
+  - Name: Pro Tailwind
   - Host: 127.0.0.1; Port: 3309
   - User: root
-  - Database: typescript-course
+  - Database: pro-tailwind
 - Then you can test your connection, save it and view the tables.
 
 ## Edit content
 
-Edit workshops with Sanity at [typescriptcourse.sanity.studio](https://typescriptcourse.sanity.studio/).
+Edit workshops with Sanity at [protailwind.sanity.studio](https://protailwind.sanity.studio/).
 
 ## Stripe
 
