@@ -1,23 +1,17 @@
 import React, {FunctionComponent} from 'react'
 import {NextSeo} from '@skillrecordings/next-seo'
 import cx from 'classnames'
-
-type LayoutProps = {
-  meta?: any
-  noIndex?: boolean
-  className?: string
-  nav?: React.ReactElement | null
-  footer?: React.ReactElement | null
-  children?: any
-}
+import {Toaster} from 'react-hot-toast'
+import Navigation from 'components/navigation'
+import type {LayoutProps} from '@types'
 
 const Layout: FunctionComponent<React.PropsWithChildren<LayoutProps>> = ({
   children,
   className,
   meta,
   noIndex,
-  nav,
-  footer,
+  noNav,
+  navClassName,
 }) => {
   const {
     title,
@@ -31,6 +25,7 @@ const Layout: FunctionComponent<React.PropsWithChildren<LayoutProps>> = ({
 
   return (
     <div className="relative">
+      <Toaster position="top-center" />
       <NextSeo
         title={title}
         description={description}
@@ -52,12 +47,11 @@ const Layout: FunctionComponent<React.PropsWithChildren<LayoutProps>> = ({
         canonical={url}
         noindex={noIndex}
       />
-      {/* {nav ? nav : isNull(nav) ? null : <Navigation />} */}
+      {!noNav && <Navigation className={navClassName} />}
       <div
         className={cx('flex flex-col flex-grow h-full min-h-screen', className)}
       >
         {children}
-        {/* {footer ? footer : isNull(footer) ? null : <Footer />} */}
       </div>
     </div>
   )
