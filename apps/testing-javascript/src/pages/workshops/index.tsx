@@ -31,7 +31,6 @@ const WorkshopsIndex: React.FC<{product: any}> = ({product}) => {
           {!isEmpty(product[0]) && (
             <div className="space-y-8">
               {product[0].modules.map((module: any) => {
-                console.log({module})
                 return (
                   <div
                     key={module.slug}
