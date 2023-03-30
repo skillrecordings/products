@@ -51,7 +51,6 @@ const LessonPage: React.FC<any> = ({
   videoResourceId,
   transcript,
 }) => {
-  console.log({videoResourceId})
   return (
     // <ModuleProgressProvider moduleSlug={module.slug.current}>
     //   <LessonProvider lesson={lesson} module={module}>
