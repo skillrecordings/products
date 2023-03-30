@@ -27,7 +27,14 @@ export const Video: React.FC<
     ref: React.ForwardedRef<MuxPlayerRefAttributes>
   } & VideoProps
 > = React.forwardRef<MuxPlayerRefAttributes, VideoProps>(
-  ({product, exerciseOverlayRenderer, loadingIndicator}, ref) => {
+  (
+    {
+      product,
+      exerciseOverlayRenderer = () => <DefaultOverlay />,
+      loadingIndicator,
+    },
+    ref,
+  ) => {
     const {lesson} = useLesson()
     const isExercise = Boolean(lesson._type === 'exercise')
     const {videoResource, loadingVideoResource} = useVideoResource()
