@@ -2,7 +2,7 @@ import {z} from 'zod'
 
 const envVariables = z.object({
   NEXT_PUBLIC_SANITY_PROJECT_ID: z.string(),
-  NEXT_PUBLIC_SANITY_DATASET: z.string(),
+  NEXT_PUBLIC_SANITY_DATASET_ID: z.string(),
   SANITY_EDITOR_TOKEN: z.string(),
   NEXT_PUBLIC_SANITY_API_VERSION: z.string(),
   SANITY_IMPORT_DATA_FILE_PATH: z.string(),
