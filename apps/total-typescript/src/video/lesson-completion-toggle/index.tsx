@@ -3,7 +3,6 @@ import {useLesson} from '@skillrecordings/skill-lesson/hooks/use-lesson'
 import {trpc} from 'trpc/trpc.client'
 import {useRouter} from 'next/router'
 import {motion} from 'framer-motion'
-import cx from 'classnames'
 import toast from 'react-hot-toast'
 
 const LessonCompletionToggle = () => {
@@ -19,7 +18,6 @@ const LessonCompletionToggle = () => {
   })
 
   const toggleProgressMutation = trpc.progress.toggle.useMutation()
-  const utils = trpc.useContext()
   const completedLessons = moduleProgress?.lessons.filter(
     (l) => l.lessonCompleted,
   )
@@ -42,36 +40,21 @@ const LessonCompletionToggle = () => {
   }
 
   return (
-    <div className="mt-16 flex w-full items-center justify-center border-y border-dashed border-gray-800">
-      <form className="inline-flex flex-col items-center justify-center gap-3 rounded-md py-10 sm:flex-row">
-        <p className="text-2xl font-semibold">Finished this lesson?</p>
-        <label
-          className={cx(
-            'group relative inline-flex flex-row items-center overflow-hidden rounded bg-gray-800/0 py-2 px-3 transition hover:bg-gray-800/40 sm:flex-row-reverse',
-            {
-              'hover:cursor-pointer': !isFetching,
-              'hover:cursor-wait': isFetching,
-            },
-          )}
-        >
-          <span className="pr-2 text-base leading-none text-gray-300 transition group-hover:text-white sm:pl-2 lg:text-lg">
-            Mark as complete
-          </span>
+    <div data-lesson-completion-toggle="">
+      <form>
+        <p data-title="">Finished this lesson?</p>
+        <label data-fetching={isFetching.toString()}>
+          <span data-label="">Mark as complete</span>
           <Switch.Root
             disabled={isFetching}
             onClick={handleToggleLessonProgress}
             checked={moduleProgressStatus === 'success' && isLessonCompleted}
-            className={cx(
-              'relative h-5 w-10 rounded-full border border-gray-700/50 bg-gray-800 shadow-md shadow-black/50 radix-state-checked:border-cyan-400 radix-state-checked:bg-cyan-500',
-              {
-                'animate-pulse': isFetching,
-              },
-            )}
           >
-            <Switch.Thumb className="block h-4 w-4 translate-x-0.5 rounded-full bg-gray-200 shadow-sm shadow-black/50 transition-all ease-out group-hover:translate-x-1 group-hover:bg-white radix-state-checked:translate-x-5 radix-state-checked:bg-white radix-state-checked:group-hover:translate-x-5" />
+            <Switch.Thumb />
           </Switch.Root>
           {isFetching && (
             <motion.div
+              data-loading-indicator=""
               animate={{
                 width: ['0%', '100%', '100%'],
                 opacity: [0.2, 1, 0],
@@ -82,7 +65,6 @@ const LessonCompletionToggle = () => {
                 repeat: Infinity,
                 type: 'spring',
               }}
-              className="absolute left-0 h-full bg-white/10"
               aria-hidden="true"
             />
           )}

@@ -151,7 +151,7 @@ const ExerciseTemplate: React.FC<{
               <div className="relative z-10 mx-auto max-w-4xl px-5 py-5 lg:py-8 2xl:max-w-xl">
                 <LessonTitle />
                 <LessonAssets />
-                <LessonDescription />
+                <LessonDescription productName={module.title} />
                 {/* <GitHubLink exercise={exercise} module={module} /> */}
               </div>
               <div className="relative z-10 block 2xl:hidden">
