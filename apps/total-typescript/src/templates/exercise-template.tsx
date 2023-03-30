@@ -166,7 +166,9 @@ const ExerciseTemplate: React.FC<{
               <div className="relative z-10 mx-auto max-w-4xl px-5 py-5 lg:py-6 2xl:max-w-xl">
                 <LessonTitle />
                 <GitHubLink exercise={lesson} module={module} />
-                <LessonDescription />
+                <LessonDescription
+                  productName={activeProduct?.name || module.title}
+                />
                 {(lesson._type === 'solution' ||
                   lesson._type === 'explainer') &&
                   session && <LessonCompletionToggle />}

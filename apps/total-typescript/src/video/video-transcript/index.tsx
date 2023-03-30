@@ -15,11 +15,9 @@ export const VideoTranscript: React.FC<{
   }
 
   return (
-    <div className=" mx-auto max-w-4xl p-5 py-16">
-      <h2 className="flex items-baseline text-2xl font-semibold sm:text-3xl">
-        Transcript
-      </h2>
-      <div className="prose max-w-none pt-4 prose-p:text-gray-300 sm:prose-lg">
+    <div data-video-transcript="">
+      <h2 data-title="">Transcript</h2>
+      <div data-transcript="">
         <PortableText
           value={transcript}
           components={
@@ -29,7 +27,7 @@ export const VideoTranscript: React.FC<{
                   const {timestamp} = value
                   return canShowVideo ? (
                     <button
-                      className="after:content-[' '] inline-block underline after:inline-block"
+                      data-timestamp=""
                       onClick={() => {
                         if (canShowVideo) {
                           muxPlayerRef.current.currentTime =
