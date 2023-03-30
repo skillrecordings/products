@@ -28,6 +28,8 @@ import {
   ProblemLink,
   SolutionLink,
 } from 'video/module-lesson-list/lesson-list'
+import ExerciseOverlay from 'components/exercise-overlay'
+import Spinner from 'components/spinner'
 
 const ExerciseTemplate: React.FC<{
   transcript: any[]
@@ -45,6 +47,8 @@ const ExerciseTemplate: React.FC<{
   //TODO path here could also include module slug and section (as appropriate)
   const path = `/${module.moduleType}s`
   const {data: session} = useSession()
+  const {data: products} = trpc.products.getProducts.useQuery()
+  const activeProduct = products?.products[0]
 
   const addProgressMutation = trpc.progress.add.useMutation()
   const {data: stackblitz, status: stackblitzStatus} =
@@ -139,7 +143,12 @@ const ExerciseTemplate: React.FC<{
           />
           <main className="relative mx-auto w-full max-w-[1480px] items-start border-t border-transparent lg:mt-16 2xl:flex 2xl:max-w-none 2xl:border-gray-800">
             <div className="flex flex-col border-gray-800 2xl:relative 2xl:h-full 2xl:w-full 2xl:border-r">
-              <Video ref={muxPlayerRef} />
+              <Video
+                ref={muxPlayerRef}
+                product={activeProduct}
+                exerciseOverlayRenderer={() => <ExerciseOverlay />}
+                loadingIndicator={<Spinner />}
+              />
               <MobileModuleLessonList
                 lessonResourceRenderer={lessonResourceRenderer}
                 module={module}
