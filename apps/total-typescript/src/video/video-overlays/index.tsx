@@ -166,7 +166,7 @@ const FinishedOverlay = () => {
     'bg-gray-800 flex items-center gap-2 rounded px-3 py-2 hover:bg-gray-700'
 
   return (
-    <OverlayWrapper data-video-overlay="finished-lesson">
+    <OverlayWrapper data-video-overlay="finished">
       <p data-title="">Share this {module.moduleType} with your friends</p>
       <div data-share-actions="">
         <Twitter link={shareUrl} message={shareMessage} data-action="share">

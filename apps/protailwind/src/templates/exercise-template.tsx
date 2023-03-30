@@ -24,6 +24,9 @@ import {
   ProblemLink,
   SolutionLink,
 } from 'video/module-lesson-list/lesson-list'
+import ExerciseOverlay from 'components/exercise-overlay'
+import Spinner from 'components/spinner'
+import {SanityProduct} from '@skillrecordings/commerce-server/dist/@types'
 
 const ExerciseTemplate: React.FC<{
   transcript: any[]
@@ -123,7 +126,14 @@ const ExerciseTemplate: React.FC<{
           />
           <main className="relative mx-auto max-w-[1480px] grow items-start sm:bg-gray-100 2xl:flex 2xl:max-w-none 2xl:bg-transparent">
             <div className="border-gray-100 2xl:relative 2xl:h-full 2xl:w-full">
-              <Video ref={muxPlayerRef} tutorialFiles={tutorialFiles} />
+              <Video
+                ref={muxPlayerRef}
+                product={module.product as SanityProduct}
+                exerciseOverlayRenderer={() => (
+                  <ExerciseOverlay tutorialFiles={tutorialFiles} />
+                )}
+                loadingIndicator={<Spinner />}
+              />
               <MobileModuleLessonList
                 lessonResourceRenderer={lessonResourceRenderer}
                 module={module}

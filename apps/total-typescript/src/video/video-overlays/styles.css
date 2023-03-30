@@ -138,7 +138,7 @@
     @apply absolute;
   }
 }
-[data-video-overlay='finished-lesson'] {
+[data-video-overlay='finished'] {
   @apply px-5 pt-10 sm:pt-0;
   [data-title] {
     @apply font-text text-2xl font-semibold sm:text-3xl sm:font-bold;
