@@ -4,11 +4,11 @@ import Image from 'next/legacy/image'
 import Link from 'next/link'
 import {CourseJsonLd} from '@skillrecordings/next-seo'
 import {PortableText} from '@portabletext/react'
-import {IconGithub} from 'components/icons'
+import {Icon} from '@skillrecordings/react'
 import {isBrowser} from 'utils/is-browser'
 import {track} from '@skillrecordings/skill-lesson/utils/analytics'
 import {Lesson} from '@skillrecordings/skill-lesson/schemas/lesson'
-import PortableTextComponents from 'video/portable-text'
+import {portableTextComponents} from '@skillrecordings/react'
 import {trpc} from 'trpc/trpc.client'
 import {type Module} from '@skillrecordings/skill-lesson/schemas/module'
 import {first} from 'lodash'
@@ -16,6 +16,7 @@ import {Section} from '@skillrecordings/skill-lesson/schemas/section'
 import cx from 'classnames'
 import {ModuleNavigator} from './workshop-template'
 import Balancer from 'react-wrap-balancer'
+import Spinner from 'components/spinner'
 
 const PlaylistTemplate: React.FC<{
   playlist: Module
@@ -39,7 +40,10 @@ const PlaylistTemplate: React.FC<{
       <Header playlist={playlist} />
       <main className="relative z-10 flex flex-col gap-5 lg:flex-row">
         <article className="prose prose-lg w-full max-w-none px-5 text-white prose-a:text-cyan-300 hover:prose-a:text-cyan-200 lg:max-w-xl">
-          <PortableText value={body} components={PortableTextComponents} />
+          <PortableText
+            value={body}
+            components={portableTextComponents({loadingIndicator: <Spinner />})}
+          />
         </article>
         {playlist && <ModuleNavigator module={playlist} />}
       </main>
@@ -65,7 +69,7 @@ const Header: React.FC<{playlist: Module}> = ({playlist}) => {
 
   return (
     <>
-      <header className="relative z-10 flex flex-col-reverse items-center justify-between px-5 pt-0 pb-16 sm:pt-8 sm:pb-8 md:flex-row">
+      <header className="relative z-10 flex flex-col-reverse items-center justify-between px-5 pb-16 pt-0 sm:pb-8 sm:pt-8 md:flex-row">
         <div className="w-full text-center md:text-left">
           <Link
             href="/playlists"
@@ -141,7 +145,7 @@ const Header: React.FC<{playlist: Module}> = ({playlist}) => {
                   target="_blank"
                   rel="noopener noreferrer"
                 >
-                  <IconGithub className="w-6" /> Code
+                  <Icon name="Github" size="24" /> Code
                 </a>
               )}
             </div>

@@ -1,11 +1,11 @@
+import React from 'react'
 import {PortableTextProps} from '@portabletext/react'
-import {ChevronDownIcon, ChevronUpIcon} from '@heroicons/react/solid'
 import speakingurl from 'speakingurl'
 import Link from 'next/link'
 
 // Based on https://kittygiraudel.com/2022/05/19/table-of-contents-with-sanity-portable-text/
 
-const TableOfContents = ({value}: PortableTextProps) => {
+export const TableOfContents = ({value}: PortableTextProps) => {
   const filter = (ast: any, match: any) =>
     ast.reduce((acc: any, node: any) => {
       if (match(node)) acc.push(node)
@@ -63,22 +63,14 @@ const TableOfContents = ({value}: PortableTextProps) => {
         {props.outline.map((heading: any) => {
           const {subheadings} = heading
           return (
-            <li key={heading._key} className="sm:text-lg">
-              <Link
-                href={'#' + heading.slug}
-                className="inline-flex py-1 font-medium hover:underline sm:py-2"
-              >
-                {getChildrenText(heading)}
-              </Link>
+            <li key={heading._key} data-heading="">
+              <Link href={'#' + heading.slug}>{getChildrenText(heading)}</Link>
               {subheadings.length > 0 && (
-                <ol className="py-2">
+                <ol data-subheading="">
                   {subheadings.map((subheading: any) => {
                     return (
                       <li key={subheading._key}>
-                        <Link
-                          href={'#' + subheading.slug}
-                          className="inline-flex border-l border-gray-200 py-1 pl-6 font-normal hover:underline sm:py-2"
-                        >
+                        <Link href={'#' + subheading.slug}>
                           {getChildrenText(subheading)}
                         </Link>
                       </li>
@@ -96,23 +88,12 @@ const TableOfContents = ({value}: PortableTextProps) => {
   if (outline.length === 0) return null
 
   return (
-    <details
-      aria-label="On this page"
-      className="no-marker group mx-auto w-full max-w-screen-md text-lg font-medium marker:text-transparent sm:text-xl"
-    >
-      <summary className="flex items-center hover:cursor-pointer">
-        <span
-          aria-hidden="true"
-          className="flex h-16 items-center justify-center px-5 opacity-60 transition group-hover:opacity-100"
-        >
-          <ChevronDownIcon className="h-4 w-4 group-open:hidden" />
-          <ChevronUpIcon className="hidden h-4 w-4 group-open:block" />
-        </span>
-        <span className="py-3 text-base uppercase text-gray-800 transition group-hover:text-gray-900 sm:py-5">
-          On this page
-        </span>
+    <details data-table-of-contents="" aria-label="On this page">
+      <summary>
+        <span data-marker="" aria-hidden="true" />
+        <span data-title="">On this page</span>
       </summary>
-      <div className="pb-4">
+      <div data-content="">
         <nav aria-label="Table of contents">
           <ToC outline={outline} />
         </nav>
@@ -120,5 +101,3 @@ const TableOfContents = ({value}: PortableTextProps) => {
     </details>
   )
 }
-
-export default TableOfContents

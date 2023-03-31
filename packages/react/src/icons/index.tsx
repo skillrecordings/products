@@ -1,4 +1,4 @@
-import React from 'react'
+import * as React from 'react'
 
 type IconProperties = {
   className?: string
@@ -18,6 +18,12 @@ const Icons = {
       clipRule="evenodd"
     />
   ),
+  Anchor: () => (
+    <path
+      fill="#01AAF4"
+      d="m12.143 9.789 1.857.08v1.484c0 1.308-.939 2.502-2.24 2.634A2.503 2.503 0 0 1 9 11.5V5.816a2.992 2.992 0 0 0 1.941-3.417A3.01 3.01 0 0 0 8.565.052 3.005 3.005 0 0 0 5 3c0 1.302.838 2.402 2 2.816v5.537c0 1.308-.939 2.502-2.24 2.634A2.503 2.503 0 0 1 2 11.5V9.869l1.857-.08a.5.5 0 0 0 .255-.916L0 6.131v5.165c0 2.327 1.677 4.415 3.99 4.675 1.628.184 3.087-.524 4.01-1.678.923 1.154 2.382 1.862 4.01 1.678 2.313-.26 3.99-2.348 3.99-4.675V6.13l-4.112 2.742a.5.5 0 0 0 .255.916ZM8 2a1.001 1.001 0 0 1 0 2 1.001 1.001 0 0 1 0-2Z"
+    />
+  ),
   Checkmark: () => (
     <polygon
       points="0.5,7.5 2,6 5.5,8.5 14,2 15.5,3.5 5.5,13.5"
@@ -30,12 +36,6 @@ const Icons = {
     <path
       fill="currentColor"
       d="m13.6 7.2-10-7A1 1 0 0 0 2 1v14a1 1 0 0 0 1.6.8l10-7c.5-.4.5-1.2 0-1.6Z"
-    />
-  ),
-  Anchor: () => (
-    <path
-      fill="#01AAF4"
-      d="m12.143 9.789 1.857.08v1.484c0 1.308-.939 2.502-2.24 2.634A2.503 2.503 0 0 1 9 11.5V5.816a2.992 2.992 0 0 0 1.941-3.417A3.01 3.01 0 0 0 8.565.052 3.005 3.005 0 0 0 5 3c0 1.302.838 2.402 2 2.816v5.537c0 1.308-.939 2.502-2.24 2.634A2.503 2.503 0 0 1 2 11.5V9.869l1.857-.08a.5.5 0 0 0 .255-.916L0 6.131v5.165c0 2.327 1.677 4.415 3.99 4.675 1.628.184 3.087-.524 4.01-1.678.923 1.154 2.382 1.862 4.01 1.678 2.313-.26 3.99-2.348 3.99-4.675V6.13l-4.112 2.742a.5.5 0 0 0 .255.916ZM8 2a1.001 1.001 0 0 1 0 2 1.001 1.001 0 0 1 0-2Z"
     />
   ),
   Github: () => (
@@ -151,16 +151,13 @@ const Icons = {
       strokeLinecap="round"
       strokeLinejoin="round"
     >
-      <line x1="12.5" y1="0.5" x2="12.5" y2="15.5" stroke="currentColor"></line>
-      <polyline
-        points="15.5 12.5 12.5 15.5 9.5 12.5"
-        stroke="currentColor"
-      ></polyline>
-      <polyline points="0.5 2.5 0.5 0.5 2.5 0.5"></polyline>
-      <polyline points="2.5 6.5 0.5 6.5 0.5 4.5"></polyline>
-      <polyline points="6.5 4.5 6.5 6.5 4.5 6.5"></polyline>
-      <polyline points="4.5 0.5 6.5 0.5 6.5 2.5"></polyline>
-      <rect x="0.5" y="9.5" width="6" height="6"></rect>
+      <line x1="12.5" y1="0.5" x2="12.5" y2="15.5" stroke="currentColor" />
+      <polyline points="15.5 12.5 12.5 15.5 9.5 12.5" stroke="currentColor" />
+      <polyline points="0.5 2.5 0.5 0.5 2.5 0.5" />
+      <polyline points="2.5 6.5 0.5 6.5 0.5 4.5" />
+      <polyline points="6.5 4.5 6.5 6.5 4.5 6.5" />
+      <polyline points="4.5 0.5 6.5 0.5 6.5 2.5" />
+      <rect x="0.5" y="9.5" width="6" height="6" />
     </g>
   ),
 } as const
@@ -193,4 +190,4 @@ Icon.defaultProps = {
   role: 'img',
 }
 
-export default Icon
+export {Icon}

@@ -34,8 +34,8 @@ import {
 import {useConvertkit} from '@skillrecordings/skill-lesson/hooks/use-convertkit'
 import {setUserId} from '@amplitude/analytics-browser'
 import {ArticleJsonLd} from '@skillrecordings/next-seo'
-import PortableTextComponents from 'video/portable-text'
-import Icon from 'components/icons'
+import {portableTextComponents} from '@skillrecordings/react'
+import {Icon} from '@skillrecordings/react'
 import {
   useMuxPlayer,
   VideoProvider,
@@ -44,6 +44,7 @@ import {useVideoResource} from '@skillrecordings/skill-lesson/hooks/use-video-re
 import {useLesson} from '@skillrecordings/skill-lesson/hooks/use-lesson'
 import {getBaseUrl} from '@skillrecordings/skill-lesson/utils/get-base-url'
 import {trpc} from '../trpc/trpc.client'
+import Spinner from 'components/spinner'
 
 const TipTemplate: React.FC<{
   tip: Tip
@@ -140,11 +141,12 @@ const TipTemplate: React.FC<{
                   {tipCompleted ? (
                     <div
                       aria-hidden="true"
-                      className="flex items-center gap-1 pt-6 pb-[20px]"
+                      className="flex items-center gap-1 pb-[20px] pt-6"
                     >
                       <Icon
                         name="Checkmark"
-                        className="h-5 w-5 text-emerald-600"
+                        size="20"
+                        className="text-emerald-600"
                       />
                       <span className="font-heading text-sm font-black uppercase text-emerald-600 opacity-90">
                         Watched
@@ -159,10 +161,12 @@ const TipTemplate: React.FC<{
                   )}
                   {tip.body && (
                     <>
-                      <div className="prose w-full max-w-none pb-5 pt-5 prose-headings:font-medium prose-p:text-gray-600 lg:prose-lg">
+                      <div className="prose w-full max-w-none pb-5 pt-5 lg:prose-lg prose-headings:font-medium prose-p:text-gray-600">
                         <PortableText
                           value={tip.body}
-                          components={PortableTextComponents}
+                          components={portableTextComponents({
+                            loadingIndicator: <Spinner />,
+                          })}
                         />
                       </div>
                       <Hr
@@ -182,10 +186,12 @@ const TipTemplate: React.FC<{
                   )}
                 </div>
                 <div className="w-full">
-                  <div className="prose w-full max-w-none pb-5 font-medium prose-p:text-gray-800 sm:prose-lg">
+                  <div className="prose w-full max-w-none pb-5 font-medium sm:prose-lg prose-p:text-gray-800">
                     <PortableText
                       value={tip.summary}
-                      components={PortableTextComponents}
+                      components={portableTextComponents({
+                        loadingIndicator: <Spinner />,
+                      })}
                     />
                   </div>
                   {tweet && <ReplyOnTwitter tweet={tweet} />}
@@ -244,7 +250,7 @@ const Transcript: React.FC<{transcript: any[]; muxPlayerRef: any}> = ({
   return (
     <section aria-label="transcript">
       <h2 className="font-heading text-2xl font-black">Transcript</h2>
-      <div className="prose prose-sm max-w-none pt-4 prose-p:text-gray-700 sm:prose">
+      <div className="prose prose-sm max-w-none pt-4 sm:prose prose-p:text-gray-700">
         <PortableText
           value={transcript}
           components={
@@ -311,9 +317,9 @@ const TipOverlay: React.FC<{tips: Tip[]}> = ({tips}) => {
   return (
     <div
       id="video-overlay"
-      className="relative top-0 left-0 flex w-full items-center justify-center border-t border-gray-50 bg-gray-900 shadow-2xl shadow-gray-500/20 lg:aspect-video xl:rounded-b-xl"
+      className="relative left-0 top-0 flex w-full items-center justify-center border-t border-gray-50 bg-gray-900 shadow-2xl shadow-gray-500/20 lg:aspect-video xl:rounded-b-xl"
     >
-      <div className="absolute top-8 right-8 z-50 flex items-center justify-center gap-3">
+      <div className="absolute right-8 top-8 z-50 flex items-center justify-center gap-3">
         <button className={buttonStyles} onClick={handlePlay}>
           Replay <span aria-hidden="true">↺</span>
         </button>
@@ -439,7 +445,7 @@ const SubscribeForm = ({
   return (
     <div
       id="tip"
-      className="flex w-full flex-col items-center justify-between gap-5 border-b border-gray-200 px-3 pt-4 pb-5 md:flex-row md:pb-3 md:pt-3 2xl:px-0"
+      className="flex w-full flex-col items-center justify-between gap-5 border-b border-gray-200 px-3 pb-5 pt-4 md:flex-row md:pb-3 md:pt-3 2xl:px-0"
     >
       <div className="inline-flex items-center gap-2 text-lg font-semibold leading-tight md:text-base lg:flex-shrink-0 lg:text-lg">
         <div

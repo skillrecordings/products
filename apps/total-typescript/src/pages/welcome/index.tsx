@@ -19,7 +19,7 @@ import Image from 'next/legacy/image'
 import {trpc} from '../../trpc/trpc.client'
 import {Transfer} from 'purchase-transfer/purchase-transfer'
 import {getProduct} from 'path-to-purchase-react/products.server'
-import {IconGithub} from '../../components/icons'
+import {Icon} from '@skillrecordings/react'
 
 export const getServerSideProps: GetServerSideProps = async ({req, query}) => {
   const {purchaseId: purchaseQueryParam, session_id, upgrade} = query
@@ -157,7 +157,7 @@ const Welcome: React.FC<
       footer={null}
     >
       <main
-        className="mx-auto flex w-full flex-grow flex-col items-center justify-center px-5 pt-24 pb-32"
+        className="mx-auto flex w-full flex-grow flex-col items-center justify-center px-5 pb-32 pt-24"
         id="welcome"
       >
         <div className="flex w-full max-w-screen-md flex-col gap-3">
@@ -275,7 +275,7 @@ const Header: React.FC<
                     onClick={() => signIn(githubProvider.id)}
                     className="flex w-full items-center justify-center gap-2 rounded-lg bg-gray-800 px-5 py-3 text-lg font-semibold text-white shadow-xl shadow-black/10 transition hover:brightness-110 sm:w-auto"
                   >
-                    <IconGithub className="w-5" aria-hidden="true" />
+                    <Icon name="Github" size="20" />
                     Connect {githubProvider.name}
                   </button>
                 ) : null}

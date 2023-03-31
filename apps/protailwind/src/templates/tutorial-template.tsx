@@ -4,18 +4,17 @@ import Image from 'next/legacy/image'
 import Link from 'next/link'
 import {CourseJsonLd} from '@skillrecordings/next-seo'
 import {PortableText} from '@portabletext/react'
-import {SanityDocument} from '@sanity/client'
 import {isBrowser} from 'utils/is-browser'
 import {track} from '../utils/analytics'
-import {Exercise} from 'lib/exercises'
-import PortableTextComponents from 'video/portable-text'
-import Icon from 'components/icons'
+import {portableTextComponents} from '@skillrecordings/react'
+import {Icon} from '@skillrecordings/react'
 import {Module} from '@skillrecordings/skill-lesson/schemas/module'
 import {first, isEmpty} from 'lodash'
 import {Lesson} from '@skillrecordings/skill-lesson/schemas/lesson'
 import {Section} from '@skillrecordings/skill-lesson/schemas/section'
 import {WorkshopSectionNavigator} from './workshop-template'
 import {trpc} from 'trpc/trpc.client'
+import Spinner from 'components/spinner'
 
 const TutorialTemplate: React.FC<{
   tutorial: Module & {
@@ -29,7 +28,7 @@ const TutorialTemplate: React.FC<{
 
   return (
     <Layout
-      className="mx-auto w-full max-w-screen-lg py-16 px-5"
+      className="mx-auto w-full max-w-screen-lg px-5 py-16"
       meta={{
         title: pageTitle,
         description,
@@ -45,7 +44,10 @@ const TutorialTemplate: React.FC<{
       <Header tutorial={tutorial} />
       <main className="relative z-10 flex flex-col gap-5 lg:flex-row">
         <article className="prose prose-lg w-full max-w-none lg:max-w-xl">
-          <PortableText value={body} components={PortableTextComponents} />
+          <PortableText
+            value={body}
+            components={portableTextComponents({loadingIndicator: <Spinner />})}
+          />
         </article>
         <div className="lg:max-w-sm">
           <WorkshopSectionNavigator
@@ -139,7 +141,7 @@ const Header: React.FC<{tutorial: Module}> = ({tutorial}) => {
                   target="_blank"
                   rel="noopener noreferrer"
                 >
-                  <Icon name="Github" className="h-5 w-5" /> Code
+                  <Icon name="Github" size="20" /> Code
                 </a>
               )}
             </div>

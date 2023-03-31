@@ -12,7 +12,7 @@ import Link from 'next/link'
 import Image from 'next/image'
 import InviteTeam from 'team'
 import {useSession} from 'next-auth/react'
-import Icon, {type IconNames} from 'components/icons'
+import {Icon, IconNames} from '@skillrecordings/react'
 import * as Dialog from '@radix-ui/react-dialog'
 import {XIcon} from '@heroicons/react/solid'
 import {Transfer} from 'purchase-transfer/purchase-transfer'
@@ -73,7 +73,7 @@ const PurchaseDetailsTemplate: React.FC<PurchaseDetailsProps> = ({
       {welcome ? <WelcomeHeader /> : null}
       <div className="bg-gray-900">
         <div
-          className="mx-auto w-full max-w-3xl px-5 pt-24 pb-24 sm:pt-40"
+          className="mx-auto w-full max-w-3xl px-5 pb-24 pt-24 sm:pt-40"
           id="purchase-detail"
         >
           <main className="flex flex-col items-center gap-10 sm:items-start md:flex-row">
@@ -158,7 +158,7 @@ const Row: React.FC<
   React.PropsWithChildren<{label: string; icon: IconNames}>
 > = ({children, label = 'Label', icon = null}) => {
   return children ? (
-    <div className="flex w-full items-start justify-between py-4 px-3">
+    <div className="flex w-full items-start justify-between px-3 py-4">
       <div className="flex items-center gap-2 text-gray-200">
         {icon && <Icon className="text-gray-500" name={icon} />} {label}
       </div>
@@ -174,7 +174,7 @@ const PurchaseTransfer: React.FC<{purchase: {id: string}}> = ({purchase}) => {
     })
 
   return !isEmpty(purchaseUserTransfers) ? (
-    <div className="flex w-full flex-col gap-3 py-4 px-3">
+    <div className="flex w-full flex-col gap-3 px-3 py-4">
       <div className="flex flex-shrink-0 items-center gap-2 text-gray-200">
         <Icon className="text-gray-500" name="MoveDown" /> Transfer this
         purchase to another email address
@@ -232,12 +232,12 @@ const BuySeats: React.FC<{
           Buy more seats
         </Dialog.Trigger>
         <Dialog.Overlay className="fixed inset-0 z-10 bg-black/50 backdrop-blur-sm" />
-        <Dialog.Content className="fixed top-1/2 left-1/2 z-40 w-full max-w-md -translate-x-1/2 -translate-y-1/2 rounded-lg bg-gray-800 px-6 pb-10 pt-12 shadow-2xl shadow-gray-500/10">
+        <Dialog.Content className="fixed left-1/2 top-1/2 z-40 w-full max-w-md -translate-x-1/2 -translate-y-1/2 rounded-lg bg-gray-800 px-6 pb-10 pt-12 shadow-2xl shadow-gray-500/10">
           <Dialog.Title className="pb-5 text-center text-2xl font-semibold leading-tight">
             <Balancer>Buy more seats for {productName}</Balancer>
           </Dialog.Title>
           <BuyMoreSeats productId={productId} userId={userId} />
-          <Dialog.Close className="absolute top-2 right-2 rounded-full p-2 hover:bg-gray-700">
+          <Dialog.Close className="absolute right-2 top-2 rounded-full p-2 hover:bg-gray-700">
             <XIcon className="h-5 w-5" />
           </Dialog.Close>
         </Dialog.Content>
@@ -262,7 +262,7 @@ const ManageTeam: React.FC<{
   const {data: session, status} = useSession()
 
   return (
-    <div className="flex w-full flex-col items-baseline justify-between border-b border-gray-200 py-4 px-3">
+    <div className="flex w-full flex-col items-baseline justify-between border-b border-gray-200 px-3 py-4">
       <div className="flex items-center gap-2">
         <Icon name="Team" className="text-gray-500" /> Your Team
       </div>

@@ -6,13 +6,13 @@ import {useRouter} from 'next/router'
 import {trpc} from 'trpc/trpc.client'
 import Balancer from 'react-wrap-balancer'
 import isEmpty from 'lodash/isEmpty'
-import Icon from 'components/icons'
+import {Icon} from '@skillrecordings/react'
 import {useMuxPlayer} from '@skillrecordings/skill-lesson/hooks/use-mux-player'
 import {track} from '@skillrecordings/skill-lesson/utils/analytics'
 import {handleContinue} from 'video/video-overlays'
 
 const SandpackEditor: React.ComponentType<any> = dynamic(
-  () => import('../video/exercise/sandpack/repl'),
+  () => import('../exercise/sandpack/repl'),
   {ssr: false},
 )
 
@@ -129,7 +129,7 @@ const ExerciseOverlay: React.FC<{tutorialFiles: any}> = ({tutorialFiles}) => {
                       className="flex items-center gap-2 rounded-full bg-orange-600 px-3 py-1 text-lg font-semibold text-white transition hover:brightness-125 sm:px-5 sm:py-3"
                       rel="noreferrer"
                     >
-                      <Icon name="Gitpod" className="h-5 w-5" /> Run on Gitpod
+                      <Icon name="Gitpod" size="20" /> Run on Gitpod
                     </a>
                   </>
                 )}

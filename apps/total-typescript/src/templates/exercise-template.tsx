@@ -5,7 +5,7 @@ import {VideoProvider} from '@skillrecordings/skill-lesson/hooks/use-mux-player'
 import Image from 'next/legacy/image'
 import {ArticleJsonLd} from '@skillrecordings/next-seo'
 import {Video} from 'video/video'
-import {GitHubLink} from '../video/exercise/github-link'
+import GitHubLink from '../video/github-link'
 import {useRouter} from 'next/router'
 import {getBaseUrl} from '@skillrecordings/skill-lesson/utils/get-base-url'
 import {useLesson} from '@skillrecordings/skill-lesson/hooks/use-lesson'
@@ -30,6 +30,7 @@ import {
 } from 'video/module-lesson-list/lesson-list'
 import ExerciseOverlay from 'components/exercise-overlay'
 import Spinner from 'components/spinner'
+import {getExerciseGitHubUrl} from 'exercise/get-exercise-github-url'
 
 const ExerciseTemplate: React.FC<{
   transcript: any[]
@@ -104,6 +105,10 @@ const ExerciseTemplate: React.FC<{
       </>
     )
   }
+  const {exerciseGitHubUrl, openFile} = getExerciseGitHubUrl({
+    stackblitz,
+    module,
+  })
 
   return (
     <VideoProvider
@@ -165,9 +170,17 @@ const ExerciseTemplate: React.FC<{
             <article className="relative flex-shrink-0 sm:bg-black/20 2xl:bg-transparent">
               <div className="relative z-10 mx-auto max-w-4xl px-5 py-5 lg:py-6 2xl:max-w-xl">
                 <LessonTitle />
-                <GitHubLink exercise={lesson} module={module} />
+                <GitHubLink
+                  exercise={lesson}
+                  module={module}
+                  loadingIndicator={<Spinner className="h-7 w-7" />}
+                  url={exerciseGitHubUrl}
+                  file={openFile}
+                  repository={module?.github?.repo}
+                />
                 <LessonDescription
                   productName={activeProduct?.name || module.title}
+                  loadingIndicator={<Spinner />}
                 />
                 {(lesson._type === 'solution' ||
                   lesson._type === 'explainer') &&

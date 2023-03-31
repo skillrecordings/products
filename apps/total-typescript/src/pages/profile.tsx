@@ -2,7 +2,7 @@ import * as React from 'react'
 import {getProviders, signIn} from 'next-auth/react'
 import {GetServerSideProps} from 'next'
 import Layout from 'components/app/layout'
-import {IconGithub} from '../components/icons'
+import {Icon} from '@skillrecordings/react'
 import {getToken} from 'next-auth/jwt'
 import {trpc} from '../trpc/trpc.client'
 import {isEmpty} from 'lodash'
@@ -32,7 +32,7 @@ const Profile: React.FC<React.PropsWithChildren<{providers: any}>> = ({
                     className="flex w-full items-center justify-center rounded-md border border-transparent bg-gray-700 px-5 py-4 font-semibold text-white shadow-xl shadow-black/20 transition focus:outline-none focus:ring-2 focus:ring-cyan-100 hover:brightness-110"
                   >
                     <span className="mr-2 flex items-center justify-center">
-                      <IconGithub className="w-5" aria-hidden="true" />
+                      <Icon name="Github" size="20" />
                     </span>
                     Disconnect {account.provider}
                   </button>
@@ -47,7 +47,7 @@ const Profile: React.FC<React.PropsWithChildren<{providers: any}>> = ({
                 className="flex w-full items-center justify-center rounded-md border border-transparent bg-gray-700 px-5 py-4 font-semibold text-white shadow-xl shadow-black/20 transition focus:outline-none focus:ring-2 focus:ring-cyan-100 hover:brightness-110"
               >
                 <span className="mr-2 flex items-center justify-center">
-                  <IconGithub className="w-5" aria-hidden="true" />
+                  <Icon name="Github" size="20" />
                 </span>
                 Connect {githubProvider.name}
               </button>

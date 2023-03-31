@@ -1,8 +1,9 @@
 import React from 'react'
 import {type Testimonial} from '@skillrecordings/skill-lesson/schemas/testimonial'
-import PortableTextComponents from 'video/portable-text'
+import {portableTextComponents} from '@skillrecordings/react'
 import {PortableText} from '@portabletext/react'
 import Image from 'next/image'
+import Spinner from 'components/spinner'
 
 type TestimonialsProps = {
   testimonials: Testimonial[]
@@ -29,12 +30,15 @@ const Testimonial: React.FC<{testimonial: Testimonial}> = ({testimonial}) => {
     <div className="relative inline-flex flex-col rounded bg-gray-800 p-5">
       <div
         aria-hidden
-        className="absolute right-5 bottom-0 font-serif text-5xl font-bold leading-none text-gray-500"
+        className="absolute bottom-0 right-5 font-serif text-5xl font-bold leading-none text-gray-500"
       >
         ”
       </div>
       <blockquote className="prose my-0 italic prose-p:last-of-type:my-0 prose-p:last-of-type:py-0 prose-a:text-cyan-300">
-        <PortableText value={body} components={PortableTextComponents} />
+        <PortableText
+          value={body}
+          components={portableTextComponents({loadingIndicator: <Spinner />})}
+        />
       </blockquote>
       <div className="mt-5 inline-flex items-center gap-2">
         {author.image ? (
