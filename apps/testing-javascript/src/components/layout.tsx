@@ -24,7 +24,7 @@ const Layout: FunctionComponent<React.PropsWithChildren<LayoutProps>> = ({
   } = meta || {}
 
   return (
-    <div className="relative">
+    <div className="relative flex flex-col min-h-screen">
       <Toaster position="top-center" />
       <NextSeo
         title={title}
@@ -48,11 +48,7 @@ const Layout: FunctionComponent<React.PropsWithChildren<LayoutProps>> = ({
         noindex={noIndex}
       />
       {!noNav && <Navigation className={navClassName} />}
-      <div
-        className={cx('flex flex-col flex-grow h-full min-h-screen', className)}
-      >
-        {children}
-      </div>
+      <div className={cx('flex flex-col flex-grow', className)}>{children}</div>
     </div>
   )
 }

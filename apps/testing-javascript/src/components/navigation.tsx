@@ -51,11 +51,7 @@ const DesktopNav = () => {
   const {status} = useSession()
   // const {setIsFeedbackDialogOpen} = useFeedback()
   return (
-    <ul
-      className={cx('hidden items-center space-x-5 md:flex', {
-        'w-full justify-between': status === 'authenticated',
-      })}
-    >
+    <ul className="hidden items-center space-x-5 md:flex w-full justify-between">
       <NavSlots>
         <NavLink
           path="/workshops"
@@ -108,15 +104,7 @@ const DesktopNav = () => {
 const NavSlots: React.FC<React.PropsWithChildren> = ({children}) => {
   const {status} = useSession()
 
-  return (
-    <div
-      className={cx('flex items-center', {
-        'pl-5': status === 'authenticated',
-      })}
-    >
-      {children}
-    </div>
-  )
+  return <div className="flex items-center pl-5">{children}</div>
 }
 
 const NavLink: React.FC<
