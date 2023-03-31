@@ -52,13 +52,17 @@ const LessonPage: React.FC<any> = ({
   transcript,
 }) => {
   return (
-    // <ModuleProgressProvider moduleSlug={module.slug.current}>
-    //   <LessonProvider lesson={lesson} module={module}>
-    //     <VideoResourceProvider videoResourceId={videoResourceId}>
-    <LessonTemplate transcript={transcript} lesson={lesson} module={module} />
-    //     </VideoResourceProvider>
-    //   </LessonProvider>
-    // </ModuleProgressProvider>
+    <ModuleProgressProvider moduleSlug={module.slug.current}>
+      <LessonProvider lesson={lesson} module={module}>
+        <VideoResourceProvider videoResourceId={videoResourceId}>
+          <LessonTemplate
+            transcript={transcript}
+            lesson={lesson}
+            module={module}
+          />
+        </VideoResourceProvider>
+      </LessonProvider>
+    </ModuleProgressProvider>
   )
 }
 
