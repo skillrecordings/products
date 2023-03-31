@@ -19,7 +19,7 @@ import Image from 'next/legacy/image'
 import {trpc} from '../../trpc/trpc.client'
 import {Transfer} from 'purchase-transfer/purchase-transfer'
 import {getProduct} from 'path-to-purchase-react/products.server'
-import {Icon} from '@skillrecordings/react'
+import {Icon} from '@skillrecordings/skill-lesson/icons'
 
 export const getServerSideProps: GetServerSideProps = async ({req, query}) => {
   const {purchaseId: purchaseQueryParam, session_id, upgrade} = query

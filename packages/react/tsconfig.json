@@ -1,14 +1,12 @@
 {
   "compilerOptions": {
     "lib": ["dom", "ES2015"],
-    "module": "ESNext",
+    "module": "CommonJS",
     "outDir": "./dist",
     "rootDir": "./src",
     "jsx": "react",
     "declaration": true,
-    "declarationDir": "./dist",
-    "resolveJsonModule": true,
-    "moduleResolution": "node"
+    "declarationDir": "./dist"
   },
   "exclude": ["node_modules", "**/src/*.test.ts", "**/src/*.test.tsx"],
   "extends": "@skillrecordings/tsconfig/base.json",

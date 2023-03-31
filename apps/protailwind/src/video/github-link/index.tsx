@@ -1,6 +1,6 @@
 import * as React from 'react'
 import {track} from '@skillrecordings/skill-lesson/utils/analytics'
-import {Icon} from '@skillrecordings/react'
+import {Icon} from '@skillrecordings/skill-lesson/icons'
 import {useMuxPlayer} from '@skillrecordings/skill-lesson/hooks/use-mux-player'
 import {Lesson} from '@skillrecordings/skill-lesson/schemas/lesson'
 import {Module} from '@skillrecordings/skill-lesson/schemas/module'

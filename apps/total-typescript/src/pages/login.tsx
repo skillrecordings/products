@@ -6,7 +6,7 @@ import Image from 'next/image'
 import Layout from 'components/app/layout'
 import {useRouter} from 'next/router'
 import toast from 'react-hot-toast'
-import {Icon} from '@skillrecordings/react'
+import {Icon} from '@skillrecordings/skill-lesson/icons'
 import Balancer from 'react-wrap-balancer'
 
 const Login: React.FC<

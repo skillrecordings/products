@@ -1,6 +1,8 @@
 import React from 'react'
-import {TableOfContents} from '@skillrecordings/react'
-import {portableTextComponents} from '@skillrecordings/react'
+import {
+  portableTextComponents,
+  TableOfContents,
+} from '@skillrecordings/skill-lesson/portable-text'
 import Layout from 'components/layout'
 import Share from 'components/share'
 import isEmpty from 'lodash/isEmpty'

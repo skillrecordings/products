@@ -11,7 +11,7 @@ import {
 } from 'components/primary-newsletter-cta'
 import {format} from 'date-fns'
 import {ArticleTeaser} from 'pages/articles'
-import {portableTextComponents} from '@skillrecordings/react'
+import {portableTextComponents} from '@skillrecordings/skill-lesson/portable-text'
 import Spinner from 'components/spinner'
 
 type ArticleTemplateProps = {

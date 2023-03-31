@@ -5,7 +5,7 @@ import Link from 'next/link'
 import Image from 'next/legacy/image'
 import {useRouter} from 'next/router'
 import {useTipComplete} from '../../hooks/use-tip-complete'
-import {Icon} from '@skillrecordings/react'
+import {Icon} from '@skillrecordings/skill-lesson/icons'
 import {getBaseUrl} from '@skillrecordings/skill-lesson/utils/get-base-url'
 
 export async function getStaticProps() {

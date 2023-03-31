@@ -1,5 +1,5 @@
 import {useLesson} from '@skillrecordings/skill-lesson/hooks/use-lesson'
-import {Icon} from '@skillrecordings/react'
+import {Icon} from '@skillrecordings/skill-lesson/icons'
 import {useRouter} from 'next/router'
 import {track} from 'utils/analytics'
 import {trpc} from 'trpc/trpc.client'

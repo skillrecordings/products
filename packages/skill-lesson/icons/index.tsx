@@ -162,7 +162,7 @@ const Icons = {
   ),
 } as const
 
-export type IconNames = keyof typeof Icons
+type IconNames = keyof typeof Icons
 
 const Icon: React.FC<IconProperties> = ({
   viewBox,
@@ -190,4 +190,4 @@ Icon.defaultProps = {
   role: 'img',
 }
 
-export {Icon}
+export {Icon, type IconNames}

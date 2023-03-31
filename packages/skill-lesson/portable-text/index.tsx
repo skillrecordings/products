@@ -9,6 +9,7 @@ import {
 import speakingurl from 'speakingurl'
 import Image from 'next/image'
 import Link from 'next/link'
+import {TableOfContents} from './table-of-contents'
 
 import Refractor from 'react-refractor'
 import js from 'refractor/lang/javascript'
@@ -198,7 +199,7 @@ const HighlightedCode: React.FC<CodeProps> = ({value}) => {
 
 // https://github.com/portabletext/react-portabletext
 
-export const portableTextComponents = ({
+const portableTextComponents = ({
   loadingIndicator,
 }: {
   loadingIndicator: React.ReactElement
@@ -467,3 +468,5 @@ const getCalloutImage = (type: string): {alt: string; src: string} => {
       return {alt: 'speech baloon', src: '💬'}
   }
 }
+
+export {portableTextComponents, TableOfContents}

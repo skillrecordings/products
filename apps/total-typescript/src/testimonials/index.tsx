@@ -1,6 +1,6 @@
 import React from 'react'
 import {type Testimonial} from '@skillrecordings/skill-lesson/schemas/testimonial'
-import {portableTextComponents} from '@skillrecordings/react'
+import {portableTextComponents} from '@skillrecordings/skill-lesson/portable-text'
 import {PortableText} from '@portabletext/react'
 import Image from 'next/image'
 import Spinner from 'components/spinner'

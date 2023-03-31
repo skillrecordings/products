@@ -34,8 +34,8 @@ import {
 import {useConvertkit} from '@skillrecordings/skill-lesson/hooks/use-convertkit'
 import {setUserId} from '@amplitude/analytics-browser'
 import {ArticleJsonLd} from '@skillrecordings/next-seo'
-import {portableTextComponents} from '@skillrecordings/react'
-import {Icon} from '@skillrecordings/react'
+import {portableTextComponents} from '@skillrecordings/skill-lesson/portable-text'
+import {Icon} from '@skillrecordings/skill-lesson/icons'
 import {
   useMuxPlayer,
   VideoProvider,

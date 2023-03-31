@@ -26,7 +26,7 @@ import {
 import ExerciseOverlay from 'components/exercise-overlay'
 import Spinner from 'components/spinner'
 import {SanityProduct} from '@skillrecordings/commerce-server/dist/@types'
-import {Icon} from '@skillrecordings/react'
+import {Icon} from '@skillrecordings/skill-lesson/icons'
 import GitHubLink from 'video/github-link'
 import GitpodLink from 'components/gitpod-link'
 

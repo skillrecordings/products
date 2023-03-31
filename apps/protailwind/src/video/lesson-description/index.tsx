@@ -1,7 +1,7 @@
 import {PortableText} from '@portabletext/react'
 import {take} from 'lodash'
 import Link from 'next/link'
-import {portableTextComponents} from '@skillrecordings/react'
+import {portableTextComponents} from '@skillrecordings/skill-lesson/portable-text'
 import {useMuxPlayer} from '@skillrecordings/skill-lesson/hooks/use-mux-player'
 import {useLesson} from '@skillrecordings/skill-lesson/hooks/use-lesson'
 

@@ -5,7 +5,7 @@ import Link from 'next/link'
 import cx from 'classnames'
 import {CourseJsonLd} from '@skillrecordings/next-seo'
 import {PortableText} from '@portabletext/react'
-import {Icon} from '@skillrecordings/react'
+import {Icon} from '@skillrecordings/skill-lesson/icons'
 import {isBrowser} from 'utils/is-browser'
 import {track} from '@skillrecordings/skill-lesson/utils/analytics'
 import first from 'lodash/first'
@@ -18,7 +18,7 @@ import {
 } from '@heroicons/react/solid'
 import {trpc} from 'trpc/trpc.client'
 import {Lesson} from '@skillrecordings/skill-lesson/schemas/lesson'
-import {portableTextComponents} from '@skillrecordings/react'
+import {portableTextComponents} from '@skillrecordings/skill-lesson/portable-text'
 import {Pricing} from 'path-to-purchase-react/pricing'
 import {
   CommerceProps,

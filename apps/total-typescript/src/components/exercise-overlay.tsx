@@ -7,7 +7,7 @@ import {getExerciseGitHubUrl} from 'exercise/get-exercise-github-url'
 import {StackBlitzIframe} from 'exercise/stackblitz-iframe'
 import {ExclamationIcon} from '@heroicons/react/solid'
 import {track} from '@skillrecordings/skill-lesson/utils/analytics'
-import {Icon} from '@skillrecordings/react'
+import {Icon} from '@skillrecordings/skill-lesson/icons'
 import {useMuxPlayer} from '@skillrecordings/skill-lesson/hooks/use-mux-player'
 
 const ExerciseOverlay = () => {
