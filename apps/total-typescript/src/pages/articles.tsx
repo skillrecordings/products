@@ -34,7 +34,7 @@ const Articles: React.FC<ArticlesIndex> = ({articles}) => {
         },
       }}
     >
-      <main className="mx-auto flex h-full w-full max-w-4xl flex-grow flex-col gap-5 py-20 px-5 md:py-32">
+      <main className="mx-auto flex h-full w-full max-w-4xl flex-grow flex-col gap-5 px-5 py-20 md:py-32">
         <h1 className="mb-8 border-b border-gray-800 pb-3 text-lg font-medium sm:mb-10">
           TypeScript Articles{' '}
           <span className="font-light text-gray-300">by Matt Pocock</span>
@@ -42,10 +42,10 @@ const Articles: React.FC<ArticlesIndex> = ({articles}) => {
         {latestArticle && (
           <article className="w-full" key={latestArticle.slug}>
             <Link href={latestArticle.slug} className="group block">
-              <div className="relative aspect-video overflow-hidden rounded-lg">
+              <div className="relative aspect-video overflow-hidden rounded-lg border border-gray-800/60 sm:border-none">
                 {latestArticle.image && (
                   <Image
-                    className="transition duration-500 ease-in-out group-hover:scale-105"
+                    className="scale-150 transition duration-500 ease-in-out sm:scale-100 sm:group-hover:scale-105"
                     src={latestArticle.image}
                     alt=""
                     aria-hidden="true"
@@ -98,7 +98,7 @@ export const ArticleTeaser: React.FC<ArticleTeaserProps> = ({article}) => {
         <div className="relative aspect-video overflow-hidden rounded-lg border border-gray-800/60">
           {image && (
             <Image
-              className="transition duration-500 ease-in-out group-hover:scale-105"
+              className="scale-150 transition duration-500 ease-in-out sm:scale-125 sm:group-hover:scale-150"
               src={image}
               alt=""
               aria-hidden="true"

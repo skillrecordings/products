@@ -56,7 +56,7 @@ const ArticleTemplate: React.FC<ArticleTemplateProps> = ({
         images={[image || '']}
         description={articleDescription}
       />
-      <header className="relative z-10 flex w-full flex-col items-center justify-center  px-5 pb-8 pt-24 sm:pb-10 sm:pt-36">
+      <header className="relative z-10 flex w-full flex-col items-center justify-center px-5 pb-8 pt-24 sm:pb-10 sm:pt-36">
         <div className="relative z-10 mx-auto flex w-full max-w-3xl flex-col">
           <time dateTime={_createdAt} className="pb-4 text-gray-300">
             {format(new Date(_createdAt), 'MMM dd, y')}
@@ -80,6 +80,7 @@ const ArticleTemplate: React.FC<ArticleTemplateProps> = ({
         {image && (
           <div className="relative aspect-video h-full w-full max-w-screen-lg rounded-lg">
             <Image
+              className="scale-[2] sm:scale-100"
               src={image}
               alt=""
               aria-hidden="true"
