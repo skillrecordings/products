@@ -25,8 +25,22 @@ module.exports = {
       typography: (theme) => ({
         DEFAULT: {
           css: {
-            '*': {
-              color: theme('colors.white'),
+            color: theme('colors.white'),
+            code: {color: theme('colors.white')},
+            'h1, h2, h3, h4': {
+              color: theme('colors.gray.100'),
+            },
+            li: {
+              color: theme('colors.gray.300'),
+            },
+            a: {
+              color: theme('colors.cyan.300'),
+            },
+            'a:hover': {
+              color: theme('colors.cyan.200'),
+            },
+            p: {
+              color: theme('colors.gray.300'),
             },
             'code::before': {
               content: "''",
