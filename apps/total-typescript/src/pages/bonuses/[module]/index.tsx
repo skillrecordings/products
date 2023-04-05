@@ -3,35 +3,33 @@ import React from 'react'
 import {GetStaticPaths, GetStaticProps} from 'next'
 import {Module} from '@skillrecordings/skill-lesson/schemas/module'
 import {ModuleProgressProvider} from 'video/module-progress'
-import {getAllPlaylists, getPlaylist} from '../../../lib/playlists'
-import PlaylistTemplate from '../../../templates/playlist-template'
-
-export const USER_ID_QUERY_PARAM_KEY = 'learner'
+import {getAllBonuses, getBonus} from '../../../lib/bonuses'
+import BonusTemplate from '../../../templates/bonus-template'
 
 export const getStaticProps: GetStaticProps = async ({params}) => {
-  const playlist = await getPlaylist(params?.module as string)
+  const bonus = await getBonus(params?.module as string)
 
   return {
-    props: {playlist},
+    props: {bonus},
     revalidate: 10,
   }
 }
 
 export const getStaticPaths: GetStaticPaths = async () => {
-  const playlists = await getAllPlaylists()
-  const paths = playlists.map((playlist: any) => ({
-    params: {module: playlist.slug.current},
+  const bonuses = await getAllBonuses()
+  const paths = bonuses.map((bonus: any) => ({
+    params: {module: bonus.slug.current},
   }))
   return {paths, fallback: 'blocking'}
 }
 
 const PlaylistPage: React.FC<{
-  playlist: Module
-}> = ({playlist}) => {
+  bonus: Module
+}> = ({bonus}) => {
   // TODO: Load subscriber, find user via Prisma/api using USER_ID_QUERY_PARAM_KEY
   return (
-    <ModuleProgressProvider moduleSlug={playlist.slug.current}>
-      <PlaylistTemplate playlist={playlist} />
+    <ModuleProgressProvider moduleSlug={bonus.slug.current}>
+      <BonusTemplate bonus={bonus} />
     </ModuleProgressProvider>
   )
 }

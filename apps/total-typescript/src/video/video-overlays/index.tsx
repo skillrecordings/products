@@ -415,7 +415,12 @@ const BlockedOverlay: React.FC<{product: SanityProduct}> = ({product}) => {
                 </div>
                 <div data-col="2">
                   <PriceCheckProvider>
-                    {product && <Pricing product={product} />}
+                    {product && (
+                      <Pricing
+                        product={product}
+                        canViewRegionRestriction={canViewRegionRestriction}
+                      />
+                    )}
                   </PriceCheckProvider>
                 </div>
               </div>

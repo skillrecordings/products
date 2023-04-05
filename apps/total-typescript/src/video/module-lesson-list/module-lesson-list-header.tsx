@@ -3,6 +3,7 @@ import Link from 'next/link'
 import Image from 'next/legacy/image'
 import {track} from '@skillrecordings/skill-lesson/utils/analytics'
 import {Module} from '@skillrecordings/skill-lesson/schemas/module'
+import pluralize from 'pluralize'
 
 type SidebarProps = {
   module: Module
@@ -33,15 +34,18 @@ const ModuleLessonListHeader: React.FC<SidebarProps> = ({
                 )}
                 <div data-title="">
                   <Link
-                    href={`/${module.moduleType}s`}
+                    href={`/${pluralize(module.moduleType)}`}
                     data-type=""
                     onClick={() => {
-                      track(`clicked return to ${module.moduleType}s`, {
-                        module: module.slug.current,
-                      })
+                      track(
+                        `clicked return to ${pluralize(module.moduleType)}`,
+                        {
+                          module: module.slug.current,
+                        },
+                      )
                     }}
                   >
-                    {module.moduleType}s
+                    {pluralize(module.moduleType)}
                   </Link>
                   <span>/</span>
                   <h2>

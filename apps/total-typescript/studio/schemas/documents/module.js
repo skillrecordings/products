@@ -23,7 +23,7 @@ export default {
         list: [
           {title: 'Workshop', value: 'workshop'},
           {title: 'Tutorial', value: 'tutorial'},
-          {title: 'Playlist', value: 'playlist'},
+          {title: 'Bonus', value: 'bonus'},
         ],
       },
     },

@@ -1820,6 +1820,7 @@ importers:
       '@types/mjml': ^4.7.0
       '@types/node': ^17.0.0
       '@types/nodemailer': ^6.4.4
+      '@types/pluralize': ^0.0.29
       '@types/react': ^18.0.15
       '@types/react-dom': ^18.0.6
       '@types/react-scroll': ^1.8.3
@@ -1855,6 +1856,7 @@ importers:
       next-auth: ^4.19.2
       next-sitemap: ^3.0.5
       node-fetch: ^2.6.7
+      pluralize: ^8.0.0
       postcss: ^8.4.14
       prettier: ^2.6.2
       prettier-plugin-tailwindcss: ^0.2.5
@@ -1940,6 +1942,7 @@ importers:
       '@trpc/next': 10.7.0_ugkwfq4p7rtp4nzc2ulppxnmju
       '@trpc/react-query': 10.7.0_x4ie6nhblo2vtx2aafrgzlfqy4
       '@trpc/server': 10.7.0
+      '@types/pluralize': 0.0.29
       '@vercel/og': 0.1.0
       '@xstate/react': 1.5.1_bpg42ha2il6pcyn3wrx2rxrchm
       aws-sdk: 2.1300.0
@@ -1964,6 +1967,7 @@ importers:
       next-auth: 4.19.2_7jnwqgtpcnwg4nzft4b6xlzlfi
       next-sitemap: 3.1.7_6rw52dn6h5rb5c4lgmx2je4lea
       node-fetch: 2.6.7
+      pluralize: 8.0.0
       query-string: 7.1.1
       react: 18.2.0
       react-countdown: 2.3.5_biqbaboplfbrettd7655fr4n2y
@@ -12775,7 +12779,6 @@ packages:
 
   /@types/pluralize/0.0.29:
     resolution: {integrity: sha512-BYOID+l2Aco2nBik+iYS4SZX0Lf20KPILP5RGmM1IgzdwNdTs0eebiFriOPcej1sX9mLnSoiNte5zcFxssgpGA==}
-    dev: true
 
   /@types/prettier/1.19.1:
     resolution: {integrity: sha512-5qOlnZscTn4xxM5MeGXAMOsIOIKIbh9e85zJWfBRVPlRMEVawzoPhINYbRGkBZCI8LxvBe7tJCdWiarA99OZfQ==}

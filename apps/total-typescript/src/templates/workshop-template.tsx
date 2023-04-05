@@ -30,6 +30,7 @@ import {capitalize} from 'lodash'
 import {createAppAbility} from '@skillrecordings/skill-lesson/utils/ability'
 import Testimonials from 'testimonials'
 import Spinner from 'components/spinner'
+import pluralize from 'pluralize'
 
 const WorkshopTemplate: React.FC<{
   workshop: Module
@@ -125,7 +126,9 @@ const Header: React.FC<{
                 href={
                   firstSection && sections
                     ? {
-                        pathname: `/${module.moduleType}s/[module]/[section]/[lesson]`,
+                        pathname: `/${pluralize(
+                          module.moduleType,
+                        )}/[module]/[section]/[lesson]`,
                         query: {
                           module: slug.current,
                           section: isModuleInProgress
@@ -137,7 +140,9 @@ const Header: React.FC<{
                         },
                       }
                     : {
-                        pathname: `/${module.moduleType}s/[module]/[lesson]`,
+                        pathname: `/${pluralize(
+                          module.moduleType,
+                        )}/[module]/[lesson]`,
                         query: {
                           module: slug.current,
                           lesson: isModuleInProgress
@@ -459,7 +464,9 @@ const ModuleLesson = ({
         href={
           section
             ? {
-                pathname: `/${module.moduleType}s/[module]/[section]/[lesson]`,
+                pathname: `/${pluralize(
+                  module.moduleType,
+                )}/[module]/[section]/[lesson]`,
                 query: {
                   section: section.slug,
                   lesson: lessonResource.slug,
@@ -467,7 +474,7 @@ const ModuleLesson = ({
                 },
               }
             : {
-                pathname: `/${module.moduleType}s/[module]/[lesson]`,
+                pathname: `/${pluralize(module.moduleType)}/[module]/[lesson]`,
                 query: {
                   lesson: lessonResource.slug,
                   module: module.slug.current,

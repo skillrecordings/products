@@ -13,6 +13,7 @@ import Balancer from 'react-wrap-balancer'
 import Image from 'next/image'
 import ReactMarkdown from 'react-markdown'
 import Link from 'next/link'
+import pluralize from 'pluralize'
 
 const productDataSchema = z.object({
   id: z.string(),
@@ -162,7 +163,7 @@ const BuyMoreSeatsPage: React.FC<
           </div>
         </header>
         <main className="flex w-full max-w-3xl flex-col items-center">
-          <span className="pt-10 pb-3 text-center text-base font-medium uppercase text-cyan-300">
+          <span className="pb-3 pt-10 text-center text-base font-medium uppercase text-cyan-300">
             <Balancer>
               Includes access to {modules.length} professional self-paced
               workshops
@@ -185,7 +186,7 @@ const BuyMoreSeatsPage: React.FC<
                   />
                   <Link
                     target="_blank"
-                    href={`/${moduleType}s/${slug}`}
+                    href={`/${pluralize(moduleType)}/${slug}`}
                     className="pt-2 text-xl font-semibold hover:underline"
                   >
                     {module.title}

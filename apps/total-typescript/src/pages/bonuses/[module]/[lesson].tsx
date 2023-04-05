@@ -5,13 +5,13 @@ import {getExercise} from 'lib/exercises'
 import {VideoResourceProvider} from '@skillrecordings/skill-lesson/hooks/use-video-resource'
 import {LessonProvider} from '@skillrecordings/skill-lesson/hooks/use-lesson'
 import {ModuleProgressProvider} from 'video/module-progress'
-import {getAllPlaylists, getPlaylist} from 'lib/playlists'
+import {getAllBonuses, getBonus} from 'lib/bonuses'
 
 export const getStaticProps: GetStaticProps = async (context) => {
   const {params} = context
   const exerciseSlug = params?.lesson as string
 
-  const module = await getPlaylist(params?.module as string)
+  const module = await getBonus(params?.module as string)
   const lesson = await getExercise(exerciseSlug)
 
   return {
@@ -26,7 +26,7 @@ export const getStaticProps: GetStaticProps = async (context) => {
 }
 
 export const getStaticPaths: GetStaticPaths = async (context) => {
-  const tutorials = await getAllPlaylists()
+  const tutorials = await getAllBonuses()
 
   const paths = tutorials.reduce((acc: any[], tutorial: any) => {
     return [
