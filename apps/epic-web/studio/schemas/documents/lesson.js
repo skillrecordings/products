@@ -1,11 +1,12 @@
-import {MdOutlineGroupWork} from 'react-icons/md'
+import {MdOutlineExtension} from 'react-icons/md'
 
 export default {
-  name: 'section',
+  name: 'lesson',
   type: 'document',
-  title: 'Workshop Section',
-  description: 'A named group of resources within a module.',
-  icon: MdOutlineGroupWork,
+  title: 'Lesson',
+  description:
+    'A type of Lesson that has only one part (one video), there is not solution',
+  icon: MdOutlineExtension,
   fields: [
     {
       name: 'title',
@@ -27,12 +28,13 @@ export default {
       name: 'resources',
       title: 'Resources',
       type: 'array',
-      description: 'Exercises in the Section',
       of: [
         {
+          title: 'Video Resource',
           type: 'reference',
-          to: [{type: 'exercise'}, {type: 'explainer'}, {type: 'lesson'}],
+          to: [{type: 'videoResource'}],
         },
+        {type: 'github'},
       ],
     },
     {

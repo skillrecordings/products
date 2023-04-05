@@ -10,6 +10,8 @@ import exercise from './documents/exercise'
 import module from './documents/module'
 import section from './documents/section'
 import explainer from './documents/explainer'
+import lesson from './documents/lesson'
+
 // —— objects
 // body
 import body from './objects/body'
@@ -51,6 +53,7 @@ export default createSchema({
     module,
     section,
     explainer,
+    lesson,
     // objects
     body,
     feature,
