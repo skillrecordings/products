@@ -6,6 +6,12 @@ import schemaTypes from 'all:part:@sanity/base/schema-type'
 // —— documents
 import page from './documents/page'
 import article from './documents/article'
+import exercise from './documents/exercise'
+import module from './documents/module'
+import section from './documents/section'
+import explainer from './documents/explainer'
+import lesson from './documents/lesson'
+
 // —— objects
 // body
 import body from './objects/body'
@@ -23,6 +29,13 @@ import tip from './documents/tip'
 import videoResource from './documents/videoResource'
 import muxAsset from './objects/muxAsset'
 import castingwordsTranscript from './objects/castingwordsTranscript'
+import solution from './objects/resources/solution'
+import muxVideo from './objects/resources/muxVideo'
+import github from './objects/resources/github'
+import gitpod from './objects/resources/gitpod'
+import product from './objects/resources/product'
+import githubRepo from './objects/github-repo'
+import feature from './objects/feature'
 
 // Then we give our schema to the builder and provide the result to Sanity
 export default createSchema({
@@ -36,8 +49,14 @@ export default createSchema({
     article,
     tip,
     videoResource,
+    exercise,
+    module,
+    section,
+    explainer,
+    lesson,
     // objects
     body,
+    feature,
     bodyVideo,
     bodyImage,
     callout,
@@ -50,5 +69,11 @@ export default createSchema({
     tweet,
     muxAsset,
     castingwordsTranscript,
+    solution,
+    muxVideo,
+    github,
+    product,
+    gitpod,
+    githubRepo,
   ]),
 })
