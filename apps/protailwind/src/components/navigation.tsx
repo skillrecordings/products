@@ -3,7 +3,7 @@ import Link from 'next/link'
 import NextLink, {type LinkProps} from 'next/link'
 import {NextRouter, useRouter} from 'next/router'
 import cx from 'classnames'
-import Icon from './icons'
+import {Icon} from '@skillrecordings/skill-lesson/icons'
 import {track} from 'utils/analytics'
 import {signOut, useSession} from 'next-auth/react'
 import toast from 'react-hot-toast'
@@ -221,7 +221,7 @@ const AccountDropdown = () => {
           <NavigationMenu.Content
             onPointerMove={preventHover}
             onPointerLeave={preventHover}
-            className="absolute top-full left-0 w-full rounded-b"
+            className="absolute left-0 top-full w-full rounded-b"
           >
             <ul className="flex w-full flex-col items-start rounded-b-lg bg-white p-1 text-sm shadow-2xl shadow-gray-900/20 lg:text-base">
               {canViewInvoice && (

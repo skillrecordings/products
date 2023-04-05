@@ -8,7 +8,6 @@ import {useVideoResource} from '@skillrecordings/skill-lesson/hooks/use-video-re
 import {useRouter} from 'next/router'
 import {LessonDescription} from 'video/lesson-description'
 import {LessonTitle} from 'video/lesson-title'
-import LessonAssets from 'video/lesson-assets'
 import {VideoTranscript} from 'video/video-transcript'
 import {Video} from 'video/video'
 import {LargeScreenModuleLessonList} from 'video/module-lesson-list/large-screen-module-lesson-list'
@@ -27,6 +26,9 @@ import {
 import ExerciseOverlay from 'components/exercise-overlay'
 import Spinner from 'components/spinner'
 import {SanityProduct} from '@skillrecordings/commerce-server/dist/@types'
+import {Icon} from '@skillrecordings/skill-lesson/icons'
+import GitHubLink from 'video/github-link'
+import GitpodLink from 'components/gitpod-link'
 
 const ExerciseTemplate: React.FC<{
   transcript: any[]
@@ -151,8 +153,10 @@ const ExerciseTemplate: React.FC<{
               <div className="relative z-10 mx-auto max-w-4xl px-5 py-5 lg:py-8 2xl:max-w-xl">
                 <LessonTitle />
                 <LessonAssets />
-                <LessonDescription productName={module.title} />
-                {/* <GitHubLink exercise={exercise} module={module} /> */}
+                <LessonDescription
+                  productName={module.title}
+                  loadingIndicator={<Spinner />}
+                />
               </div>
               <div className="relative z-10 block 2xl:hidden">
                 <VideoTranscript
@@ -166,6 +170,41 @@ const ExerciseTemplate: React.FC<{
       </Layout>
     </VideoProvider>
   )
+}
+
+const LessonAssets = () => {
+  const {lesson, module} = useLesson()
+  const router = useRouter()
+  const {data: resources} = trpc.resources.byExerciseSlug.useQuery({
+    slug: router.query.lesson as string,
+    type: lesson._type,
+  })
+  const figma = resources?.figma
+  const github = resources?.github
+
+  return figma || github ? (
+    <div className="flex flex-wrap items-center gap-2 pb-8">
+      {figma?.url && (
+        <a
+          href={figma.url}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="inline-flex items-center gap-2 rounded-lg border border-indigo-500/5 bg-indigo-50 px-4 py-2 text-lg font-semibold text-indigo-600 transition hover:bg-indigo-100/80"
+        >
+          <Icon name="Figma" size="20" className="text-indigo-600" />
+          <span>Design assets</span>
+        </a>
+      )}
+      <GitHubLink
+        exercise={lesson}
+        module={module}
+        loadingIndicator={<Spinner className="h-7 w-7" />}
+        url={github?.url as string}
+        repository="Code"
+      />
+      <GitpodLink />
+    </div>
+  ) : null
 }
 
 export default ExerciseTemplate

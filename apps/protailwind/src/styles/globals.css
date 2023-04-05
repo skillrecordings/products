@@ -6,12 +6,16 @@
 @import './focus-visible.css';
 @import './nprogress.css';
 @import './commerce.css';
+@import './portable-text.css';
 @import '../purchase-details/purchase-details.css';
 @import '@skillrecordings/feedback-widget/dist/styles.css';
+
 @import '../video/module-lesson-list/styles.css';
 @import '../video/video-overlays/styles.css';
 @import '../video/lesson-description/styles.css';
 @import '../video/lesson-title/styles.css';
+@import '../video/video-transcript/styles.css';
+@import '../video/github-link/styles.css';
 
 @tailwind utilities;
 
@@ -21,9 +25,11 @@ body,
   color-scheme: light;
 }
 
-.no-marker {
-  ::-webkit-details-marker {
-    display: none;
+@layer utilities {
+  .no-marker {
+    ::-webkit-details-marker {
+      display: none;
+    }
   }
 }
 

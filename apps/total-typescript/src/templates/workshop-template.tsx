@@ -5,7 +5,7 @@ import Link from 'next/link'
 import cx from 'classnames'
 import {CourseJsonLd} from '@skillrecordings/next-seo'
 import {PortableText} from '@portabletext/react'
-import {IconGithub} from 'components/icons'
+import {Icon} from '@skillrecordings/skill-lesson/icons'
 import {isBrowser} from 'utils/is-browser'
 import {track} from '@skillrecordings/skill-lesson/utils/analytics'
 import first from 'lodash/first'
@@ -18,7 +18,7 @@ import {
   LockClosedIcon,
 } from '@heroicons/react/solid'
 import {Lesson} from '@skillrecordings/skill-lesson/schemas/lesson'
-import PortableTextComponents from '../video/portable-text'
+import {portableTextComponents} from '@skillrecordings/skill-lesson/portable-text'
 import {Module} from '@skillrecordings/skill-lesson/schemas/module'
 import {Section} from '@skillrecordings/skill-lesson/schemas/section'
 import * as process from 'process'
@@ -29,6 +29,7 @@ import WorkshopCertificate from 'certificate/workshop-certificate'
 import {capitalize} from 'lodash'
 import {createAppAbility} from '@skillrecordings/skill-lesson/utils/ability'
 import Testimonials from 'testimonials'
+import Spinner from 'components/spinner'
 
 const WorkshopTemplate: React.FC<{
   workshop: Module
@@ -53,7 +54,12 @@ const WorkshopTemplate: React.FC<{
       <main className="relative z-10 flex flex-col gap-5 lg:flex-row">
         <div className="px-5">
           <article className="prose prose-lg w-full max-w-none text-white prose-a:text-cyan-300 hover:prose-a:text-cyan-200 lg:max-w-xl">
-            <PortableText value={body} components={PortableTextComponents} />
+            <PortableText
+              value={body}
+              components={portableTextComponents({
+                loadingIndicator: <Spinner />,
+              })}
+            />
           </article>
           {testimonials && testimonials?.length > 0 && (
             <Testimonials testimonials={testimonials} />
@@ -88,7 +94,7 @@ const Header: React.FC<{
 
   return (
     <>
-      <header className="relative z-10 flex flex-col-reverse items-center justify-between px-5 pt-0 pb-16 sm:pt-8 sm:pb-8 md:flex-row">
+      <header className="relative z-10 flex flex-col-reverse items-center justify-between px-5 pb-16 pt-0 sm:pb-8 sm:pt-8 md:flex-row">
         <div className="w-full text-center md:text-left">
           <Link
             href="/workshops"
@@ -165,7 +171,7 @@ const Header: React.FC<{
                   target="_blank"
                   rel="noopener noreferrer"
                 >
-                  <IconGithub className="w-6" /> Code
+                  <Icon name="Github" size="24" /> Code
                 </a>
               )}
             </div>
@@ -225,7 +231,7 @@ export const ModuleNavigator: React.FC<{
   return moduleProgressStatus === 'success' ? (
     <nav
       aria-label={`${moduleType} navigator`}
-      className="w-full bg-black/20 py-8 px-5 lg:max-w-xs lg:bg-transparent lg:px-0 lg:py-0"
+      className="w-full bg-black/20 px-5 py-8 lg:max-w-xs lg:bg-transparent lg:px-0 lg:py-0"
     >
       {sections && sections.length > 1 && (
         <Accordion.Root
@@ -373,7 +379,7 @@ const ModuleSection: React.FC<{
     <li key={section.slug}>
       <Accordion.Item value={section.slug}>
         <Accordion.Header className="relative z-10 overflow-hidden rounded-lg bg-gray-900">
-          <Accordion.Trigger className="group relative z-10 flex w-full items-center justify-between rounded-lg border border-white/5 bg-gray-800/20 py-2.5 px-3 text-left text-lg font-medium leading-tight shadow-lg transition hover:bg-gray-800/40">
+          <Accordion.Trigger className="group relative z-10 flex w-full items-center justify-between rounded-lg border border-white/5 bg-gray-800/20 px-3 py-2.5 text-left text-lg font-medium leading-tight shadow-lg transition hover:bg-gray-800/40">
             <Balancer>{section.title}</Balancer>
             <div className="flex items-center">
               {isSectionCompleted && (
@@ -491,7 +497,7 @@ const ModuleLesson = ({
           <div className="flex items-center gap-1 pb-1">
             <ArrowRightIcon
               aria-hidden="true"
-              className="mr-1.5 -ml-1 h-4 w-4 text-cyan-300"
+              className="-ml-1 mr-1.5 h-4 w-4 text-cyan-300"
             />
             <div className="font-mono text-xs font-semibold uppercase tracking-wide text-cyan-300">
               CONTINUE
@@ -503,7 +509,7 @@ const ModuleLesson = ({
             <>
               {isExerciseCompleted ? (
                 <CheckIcon
-                  className="mr-[11.5px] -ml-1 h-4 w-4 text-teal-400"
+                  className="-ml-1 mr-[11.5px] h-4 w-4 text-teal-400"
                   aria-hidden="true"
                 />
               ) : (
@@ -537,7 +543,7 @@ const ModuleSectionContent: React.FC<{
   const {lessons} = section
 
   return lessons ? (
-    <ul className="-mt-5 rounded-b-lg border border-white/5 bg-black/20 pt-7 pb-3">
+    <ul className="-mt-5 rounded-b-lg border border-white/5 bg-black/20 pb-3 pt-7">
       {lessons.map((exercise: Lesson, i: number) => {
         return (
           <ModuleLesson

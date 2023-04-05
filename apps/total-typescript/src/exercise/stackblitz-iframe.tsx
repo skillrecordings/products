@@ -1,9 +1,9 @@
 import * as React from 'react'
 import cx from 'classnames'
-import Spinner from '../../components/spinner'
+import Spinner from '../components/spinner'
 import Image from 'next/legacy/image'
 import {Lesson} from '@skillrecordings/skill-lesson/schemas/lesson'
-import {trpc} from '../../trpc/trpc.client'
+import {trpc} from '../trpc/trpc.client'
 import {useRouter} from 'next/router'
 import {Module} from '@skillrecordings/skill-lesson/schemas/module'
 
@@ -41,7 +41,7 @@ export const StackBlitzIframe: React.FC<{
             <span>Loading editor...</span>
           </div>
           <Image
-            src={require('../../../public/assets/editor-placeholder.svg')}
+            src={require('../../public/assets/editor-placeholder.svg')}
             layout="fill"
             className="object-cover object-left-top"
           />

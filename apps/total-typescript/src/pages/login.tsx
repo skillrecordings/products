@@ -6,7 +6,7 @@ import Image from 'next/image'
 import Layout from 'components/app/layout'
 import {useRouter} from 'next/router'
 import toast from 'react-hot-toast'
-import {IconGithub} from '../components/icons'
+import {Icon} from '@skillrecordings/skill-lesson/icons'
 import Balancer from 'react-wrap-balancer'
 
 const Login: React.FC<
@@ -134,7 +134,7 @@ const Login: React.FC<
                 className="flex w-full items-center justify-center rounded-md border border-transparent bg-gray-700 px-5 py-4 font-semibold text-white shadow-xl shadow-black/20 transition focus:outline-none focus:ring-2 focus:ring-cyan-100 hover:brightness-110"
               >
                 <span className="mr-2 flex items-center justify-center">
-                  <IconGithub className="w-5" aria-hidden="true" />
+                  <Icon name="Github" size="20" />
                 </span>
                 Log in with {githubProvider.name}
               </button>

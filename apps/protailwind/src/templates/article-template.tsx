@@ -1,6 +1,8 @@
 import React from 'react'
-import TableOfContents from 'video/portable-text/table-of-contents'
-import PortableTextComponents from 'video/portable-text'
+import {
+  portableTextComponents,
+  TableOfContents,
+} from '@skillrecordings/skill-lesson/portable-text'
 import Layout from 'components/layout'
 import Share from 'components/share'
 import isEmpty from 'lodash/isEmpty'
@@ -14,6 +16,7 @@ import {isBrowser} from 'utils/is-browser'
 import {type Article} from 'lib/articles'
 import {format} from 'date-fns'
 import {useConvertkit} from '@skillrecordings/skill-lesson/hooks/use-convertkit'
+import Spinner from 'components/spinner'
 
 type ArticleTemplateProps = {
   article: Article
@@ -47,9 +50,14 @@ const ArticleTemplate: React.FC<ArticleTemplateProps> = ({article}) => {
         <div className="border-t border-gray-200/60 bg-gray-50 px-5 shadow-lg shadow-black/5 lg:px-0">
           <TableOfContents value={body} />
         </div>
-        <div className="mx-auto w-full max-w-screen-md px-5 pb-10 sm:pt-10 sm:pb-24 lg:px-0">
-          <article className="prose max-w-none pt-8 prose-headings:font-black  prose-a:text-blue-600 prose-a:transition prose-code:text-[70%] sm:prose-lg md:prose-code:text-sm md:prose-code:text-[80%] lg:prose-code:text-[80%]">
-            <PortableText value={body} components={PortableTextComponents} />
+        <div className="mx-auto w-full max-w-screen-md px-5 pb-10 sm:pb-24 sm:pt-10 lg:px-0">
+          <article className="prose max-w-none pt-8 sm:prose-lg  prose-headings:font-black prose-a:text-blue-600 prose-a:transition prose-code:text-[70%] md:prose-code:text-[80%] md:prose-code:text-sm lg:prose-code:text-[80%]">
+            <PortableText
+              value={body}
+              components={portableTextComponents({
+                loadingIndicator: <Spinner />,
+              })}
+            />
           </article>
           <Signature />
         </div>
@@ -70,9 +78,9 @@ const RelatedResources: React.FC<{
   const resources = article.related
 
   return !isEmpty(resources) ? (
-    <section className="mx-auto w-full px-5 pb-16 sm:pt-14 sm:pb-32">
+    <section className="mx-auto w-full px-5 pb-16 sm:pb-32 sm:pt-14">
       <div className="mx-auto flex w-full max-w-screen-md flex-col items-start justify-between sm:flex-row">
-        <div className="flex-shrink-0 pt-2 pb-4 font-semibold uppercase text-gray-600 sm:pr-32 sm:pb-0">
+        <div className="flex-shrink-0 pb-4 pt-2 font-semibold uppercase text-gray-600 sm:pb-0 sm:pr-32">
           Continue Reading
         </div>
         <div className="flex-grow">
@@ -116,7 +124,7 @@ const Header: React.FC<Article> = ({
             All Articles
           </a>
         </Link> */}
-        <div className="flex flex-col items-center justify-center pt-10 pb-24 text-center">
+        <div className="flex flex-col items-center justify-center pb-24 pt-10 text-center">
           <h1 className="mx-auto py-4 font-heading text-3xl font-black leading-none sm:text-4xl lg:text-5xl">
             {title}
           </h1>

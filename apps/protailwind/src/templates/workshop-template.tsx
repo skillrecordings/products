@@ -5,7 +5,7 @@ import Link from 'next/link'
 import cx from 'classnames'
 import {CourseJsonLd} from '@skillrecordings/next-seo'
 import {PortableText} from '@portabletext/react'
-import Icon from 'components/icons'
+import {Icon} from '@skillrecordings/skill-lesson/icons'
 import {isBrowser} from 'utils/is-browser'
 import {track} from '@skillrecordings/skill-lesson/utils/analytics'
 import first from 'lodash/first'
@@ -18,7 +18,7 @@ import {
 } from '@heroicons/react/solid'
 import {trpc} from 'trpc/trpc.client'
 import {Lesson} from '@skillrecordings/skill-lesson/schemas/lesson'
-import PortableTextComponents from '../video/portable-text'
+import {portableTextComponents} from '@skillrecordings/skill-lesson/portable-text'
 import {Pricing} from 'path-to-purchase-react/pricing'
 import {
   CommerceProps,
@@ -79,7 +79,12 @@ const WorkshopTemplate: React.FC<{
       >
         <div className="pt-10 lg:max-w-xl lg:pt-0">
           <article className="prose w-full max-w-none pb-10 text-gray-900 lg:max-w-xl">
-            <PortableText value={body} components={PortableTextComponents} />
+            <PortableText
+              value={body}
+              components={portableTextComponents({
+                loadingIndicator: <Spinner />,
+              })}
+            />
           </article>
           {workshop && !hasPurchased && (
             <WorkshopSectionNavigator
@@ -196,7 +201,7 @@ const BuyWorkshop: React.FC<
             className="absolute h-10 w-10 text-white transition group-hover:scale-105"
             aria-hidden="true"
           />
-          <div className="absolute left-0 bottom-0 flex w-full items-center justify-center bg-gradient-to-t from-black/80 to-transparent pb-3.5 pt-8 text-sm font-medium text-white">
+          <div className="absolute bottom-0 left-0 flex w-full items-center justify-center bg-gradient-to-t from-black/80 to-transparent pb-3.5 pt-8 text-sm font-medium text-white">
             Preview this workshop
           </div>
         </Link>
@@ -309,7 +314,7 @@ const Header: React.FC<
                   target="_blank"
                   rel="noopener noreferrer"
                 >
-                  <Icon name="Github" className="h-5 w-5" /> Code
+                  <Icon name="Github" size="20" /> Code
                 </a>
               )}
             </div>
@@ -358,7 +363,7 @@ export const WorkshopSectionNavigator: React.FC<{
                 <li key={section.slug}>
                   <Accordion.Item value={section.slug}>
                     <Accordion.Header className="relative z-10 rounded-lg">
-                      <Accordion.Trigger className="group flex w-full items-center justify-between rounded-lg border bg-white py-2 px-3 text-lg font-medium shadow-lg transition ">
+                      <Accordion.Trigger className="group flex w-full items-center justify-between rounded-lg border bg-white px-3 py-2 text-lg font-medium shadow-lg transition ">
                         {section.title}
                         <div className="flex items-center">
                           <ChevronDownIcon
@@ -521,7 +526,7 @@ const WorkshopSectionExerciseNavigator: React.FC<{
   const {lessons} = section
 
   return lessons ? (
-    <ul className="-mt-5 rounded-b-lg border pl-3.5 pr-3 pt-7 pb-3">
+    <ul className="-mt-5 rounded-b-lg border pb-3 pl-3.5 pr-3 pt-7">
       {lessons.map((exercise: Lesson, i: number) => {
         return (
           <LessonListItem

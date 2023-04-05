@@ -661,7 +661,6 @@ importers:
       '@types/react': ^18.0.15
       '@types/react-dom': ^18.0.6
       '@types/shortid': ^0.0.29
-      '@types/speakingurl': ^13.0.3
       '@types/uuid': ^8.3.4
       '@xstate/react': '=1.5.1'
       autoprefixer: ^10.4.2
@@ -697,13 +696,10 @@ importers:
       react-hook-form: ^7.29.0
       react-hot-toast: ^2.2.0
       react-markdown: ^8.0.3
-      react-refractor: ^2.1.7
       react-rewards: ^2.0.3
       react-use: ^17.3.2
       react-wrap-balancer: ^0.2.4
-      refractor: ^4.5.0
       shortid: ^2.2.16
-      speakingurl: ^14.0.1
       superjson: '=1.11.0'
       tailwind-scrollbar: ^3.0.0
       tailwindcss: ^3.3.0
@@ -787,9 +783,7 @@ importers:
       react-rewards: 2.0.3_biqbaboplfbrettd7655fr4n2y
       react-use: 17.4.0_biqbaboplfbrettd7655fr4n2y
       react-wrap-balancer: 0.2.4_react@18.2.0
-      refractor: 4.5.0
       shortid: 2.2.16
-      speakingurl: 14.0.1
       superjson: 1.11.0
       tailwindcss-radix: 2.8.0
       uuid: 8.3.2
@@ -817,7 +811,6 @@ importers:
       '@types/react': 18.0.15
       '@types/react-dom': 18.0.6
       '@types/shortid': 0.0.29
-      '@types/speakingurl': 13.0.3
       '@types/uuid': 8.3.4
       autoprefixer: 10.4.7_postcss@8.4.14
       eslint: 8.19.0
@@ -825,7 +818,6 @@ importers:
       msw: 0.35.0
       postcss: 8.4.14
       prettier-plugin-tailwindcss: 0.2.5
-      react-refractor: 2.1.7_react@18.2.0
       tailwind-scrollbar: 3.0.0_tailwindcss@3.3.0
       tailwindcss: 3.3.0_postcss@8.4.14
       typescript: 4.9.4
@@ -1832,7 +1824,6 @@ importers:
       '@types/react-dom': ^18.0.6
       '@types/react-scroll': ^1.8.3
       '@types/shortid': ^0.0.29
-      '@types/speakingurl': ^13.0.3
       '@types/uuid': ^8.3.4
       '@types/ws': ^8.5.3
       '@vercel/og': ^0.1.0
@@ -1875,15 +1866,12 @@ importers:
       react-hook-form: ^7.29.0
       react-hot-toast: ^2.2.0
       react-markdown: ^8.0.4
-      react-refractor: ^2.1.7
       react-rewards: ^2.0.3
       react-scroll: ^1.8.6
       react-use: ^17.3.2
       react-use-clipboard: ^1.0.7
       react-wrap-balancer: ^0.2.4
-      refractor: ^4.5.0
       shortid: ^2.2.16
-      speakingurl: ^14.0.1
       superjson: '=1.11.0'
       tailwind-scrollbar: ^3.0.0
       tailwindcss: ^3.3.0
@@ -1984,15 +1972,12 @@ importers:
       react-hook-form: 7.29.0_react@18.2.0
       react-hot-toast: 2.2.0_biqbaboplfbrettd7655fr4n2y
       react-markdown: 8.0.4_3hx2ussxxho4jajbwrd6gq34qe
-      react-refractor: 2.1.7_react@18.2.0
       react-rewards: 2.0.3_biqbaboplfbrettd7655fr4n2y
       react-scroll: 1.8.7_biqbaboplfbrettd7655fr4n2y
       react-use: 17.3.2_biqbaboplfbrettd7655fr4n2y
       react-use-clipboard: 1.0.8_biqbaboplfbrettd7655fr4n2y
       react-wrap-balancer: 0.2.4_react@18.2.0
-      refractor: 4.5.0
       shortid: 2.2.16
-      speakingurl: 14.0.1
       superjson: 1.11.0
       tailwindcss-radix: 2.8.0
       uuid: 8.3.2
@@ -2023,7 +2008,6 @@ importers:
       '@types/react-dom': 18.0.6
       '@types/react-scroll': 1.8.3
       '@types/shortid': 0.0.29
-      '@types/speakingurl': 13.0.3
       '@types/uuid': 8.3.4
       '@types/ws': 8.5.3
       autoprefixer: 10.4.7_postcss@8.4.14
@@ -27701,6 +27685,7 @@ packages:
   /prismjs/1.27.0:
     resolution: {integrity: sha512-t13BGPUlFDR7wRB5kQDG4jjl7XeuH6jbJGt11JHPL96qwsEHNX2+68tFXqc1/k+/jALsbSWJKUOT/hcYAZ5LkA==}
     engines: {node: '>=6'}
+    dev: false
 
   /process-nextick-args/2.0.1:
     resolution: {integrity: sha512-3ouUOpQhtgrbOa17J7+uxOTpITYWaGP7/AhoR3+A+/1e9skrzelGi/dXzEYyvbxubEF6Wn2ypscTKiKJFFn1ag==}
@@ -28445,6 +28430,7 @@ packages:
       refractor: 3.6.0
       unist-util-filter: 2.0.3
       unist-util-visit-parents: 3.1.1
+    dev: false
 
   /react-refresh/0.14.0:
     resolution: {integrity: sha512-wViHqhAd8OHeLS/IRMJjTSDHF3U9eWi62F/MledQGPdJGDhodXJ9PBLNGr6WWL7qlH12Mt3TyTpbS+hGXMjCzQ==}
@@ -28991,6 +28977,7 @@ packages:
       hastscript: 6.0.0
       parse-entities: 2.0.0
       prismjs: 1.27.0
+    dev: false
 
   /refractor/4.5.0:
     resolution: {integrity: sha512-cN0XFpjsjAefSRddH6/Ov0k5NrJozG2O5cvSnuLy3j9FDbknf0HswfQq4C9rOrIkFfLcdtZ9cEpm7TOKe+YDjw==}
@@ -32653,6 +32640,7 @@ packages:
     resolution: {integrity: sha512-8k6Jl/KLFqIRTHydJlHh6+uFgqYHq66pV75pZgr1JwfyFSjbWb12yfb0yitW/0TbHXjr9U4G9BQpOvMANB+ExA==}
     dependencies:
       unist-util-is: 4.1.0
+    dev: false
 
   /unist-util-generated/1.1.6:
     resolution: {integrity: sha512-cln2Mm1/CZzN5ttGK7vkoGw+RZ8VcUH6BtGbq98DDtRGquAAOXig1mrBQYelOwMXYS8rK+vZDyyojSjp7JX+Lg==}

@@ -4,11 +4,11 @@ import Image from 'next/legacy/image'
 import Link from 'next/link'
 import {CourseJsonLd} from '@skillrecordings/next-seo'
 import {PortableText} from '@portabletext/react'
-import {IconGithub} from 'components/icons'
+import {Icon} from '@skillrecordings/skill-lesson/icons'
 import {isBrowser} from 'utils/is-browser'
 import {track} from '@skillrecordings/skill-lesson/utils/analytics'
 import {Lesson} from '@skillrecordings/skill-lesson/schemas/lesson'
-import PortableTextComponents from 'video/portable-text'
+import {portableTextComponents} from '@skillrecordings/skill-lesson/portable-text'
 import {trpc} from 'trpc/trpc.client'
 import {type Module} from '@skillrecordings/skill-lesson/schemas/module'
 import {first} from 'lodash'
@@ -17,6 +17,7 @@ import cx from 'classnames'
 import {ModuleNavigator} from './workshop-template'
 import Balancer from 'react-wrap-balancer'
 import Testimonials from 'testimonials'
+import Spinner from 'components/spinner'
 
 const TutorialTemplate: React.FC<{
   tutorial: Module
@@ -41,7 +42,12 @@ const TutorialTemplate: React.FC<{
       <main className="relative z-10 flex flex-col gap-5 lg:flex-row">
         <div className="px-5">
           <article className="prose prose-lg w-full max-w-none text-white prose-a:text-cyan-300 hover:prose-a:text-cyan-200 lg:max-w-xl">
-            <PortableText value={body} components={PortableTextComponents} />
+            <PortableText
+              value={body}
+              components={portableTextComponents({
+                loadingIndicator: <Spinner />,
+              })}
+            />
           </article>
           {testimonials && testimonials?.length > 0 && (
             <Testimonials testimonials={testimonials} />
@@ -71,7 +77,7 @@ const Header: React.FC<{tutorial: Module}> = ({tutorial}) => {
 
   return (
     <>
-      <header className="relative z-10 flex flex-col-reverse items-center justify-between px-5 pt-0 pb-16 sm:pt-8 sm:pb-8 md:flex-row">
+      <header className="relative z-10 flex flex-col-reverse items-center justify-between px-5 pb-16 pt-0 sm:pb-8 sm:pt-8 md:flex-row">
         <div className="w-full text-center md:text-left">
           <Link
             href="/tutorials"
@@ -147,7 +153,7 @@ const Header: React.FC<{tutorial: Module}> = ({tutorial}) => {
                   target="_blank"
                   rel="noopener noreferrer"
                 >
-                  <IconGithub className="w-6" /> Code
+                  <Icon name="Github" size="24" /> Code
                 </a>
               )}
             </div>

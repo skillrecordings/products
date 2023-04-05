@@ -3,11 +3,11 @@ import {useDeviceDetect} from 'hooks/use-device-detect'
 import {useRouter} from 'next/router'
 import {trpc} from 'trpc/trpc.client'
 import {handleContinue} from 'video/video-overlays'
-import {getExerciseGitHubUrl} from 'video/exercise/github-link'
-import {StackBlitzIframe} from 'video/exercise/stackblitz-iframe'
+import {getExerciseGitHubUrl} from 'exercise/get-exercise-github-url'
+import {StackBlitzIframe} from 'exercise/stackblitz-iframe'
 import {ExclamationIcon} from '@heroicons/react/solid'
 import {track} from '@skillrecordings/skill-lesson/utils/analytics'
-import {IconGithub} from 'components/icons'
+import {Icon} from '@skillrecordings/skill-lesson/icons'
 import {useMuxPlayer} from '@skillrecordings/skill-lesson/hooks/use-mux-player'
 
 const ExerciseOverlay = () => {
@@ -108,7 +108,7 @@ const ExerciseOverlay = () => {
                 rel="noopener noreferrer"
                 className="inline-flex items-center justify-center gap-1 rounded-sm bg-gray-800 px-1 py-0.5 font-mono text-sm"
               >
-                <IconGithub /> {stackblitz}
+                <Icon name="Github" /> {stackblitz}
               </a>{' '}
               file.
             </p>
@@ -127,7 +127,7 @@ const ExerciseOverlay = () => {
               rel="noopener noreferrer"
               className="inline-flex items-center justify-center gap-1 rounded-sm bg-gray-800 px-1 py-0.5 font-mono text-sm"
             >
-              <IconGithub /> {stackblitz}
+              <Icon name="Github" /> {stackblitz}
             </a>{' '}
             file.
           </p>

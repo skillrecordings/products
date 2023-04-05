@@ -41,7 +41,8 @@ import {setUserId} from '@amplitude/analytics-browser'
 import {ArticleJsonLd} from '@skillrecordings/next-seo'
 import {useLesson} from '@skillrecordings/skill-lesson/hooks/use-lesson'
 import {useVideoResource} from '@skillrecordings/skill-lesson/hooks/use-video-resource'
-import PortableTextComponents from 'video/portable-text'
+import {portableTextComponents} from '@skillrecordings/skill-lesson/portable-text'
+import Spinner from 'components/spinner'
 
 const TipTemplate: React.FC<{
   tip: Tip
@@ -132,7 +133,7 @@ const TipTemplate: React.FC<{
                   {tipCompleted ? (
                     <div
                       aria-hidden="true"
-                      className="flex items-center gap-1 pt-6 pb-[20px]"
+                      className="flex items-center gap-1 pb-[20px] pt-6"
                     >
                       <CheckCircleIconOutline
                         className="inline-block h-5 w-5 flex-shrink-0 text-teal-400 sm:h-6 sm:w-6"
@@ -151,10 +152,12 @@ const TipTemplate: React.FC<{
                   )}
                   {tip.body && (
                     <>
-                      <div className="prose w-full max-w-none pb-5 pt-5 prose-headings:font-medium prose-p:text-gray-200 lg:prose-lg">
+                      <div className="prose w-full max-w-none pb-5 pt-5 lg:prose-lg prose-headings:font-medium prose-p:text-gray-200">
                         <PortableText
                           value={tip.body}
-                          components={PortableTextComponents}
+                          components={portableTextComponents({
+                            loadingIndicator: <Spinner />,
+                          })}
                         />
                       </div>
                       <Hr
@@ -174,10 +177,12 @@ const TipTemplate: React.FC<{
                   )}
                 </div>
                 <div className="w-full">
-                  <div className="prose prose-lg w-full max-w-none pb-5 font-medium prose-p:text-gray-200 lg:prose-xl">
+                  <div className="prose prose-lg w-full max-w-none pb-5 font-medium lg:prose-xl prose-p:text-gray-200">
                     <PortableText
                       value={tip.summary}
-                      components={PortableTextComponents}
+                      components={portableTextComponents({
+                        loadingIndicator: <Spinner />,
+                      })}
                     />
                   </div>
                   <ReplyOnTwitter tweet={tweet} />
@@ -242,7 +247,7 @@ const Transcript: React.FC<{transcript: any[]; muxPlayerRef: any}> = ({
   return (
     <section aria-label="transcript">
       <h2 className="text-2xl font-semibold">Transcript</h2>
-      <div className="prose max-w-none pt-4 prose-p:text-gray-300 sm:prose-lg">
+      <div className="prose max-w-none pt-4 sm:prose-lg prose-p:text-gray-300">
         <PortableText
           value={transcript}
           components={
@@ -304,9 +309,9 @@ const TipOverlay: React.FC<{tips: Tip[]}> = ({tips}) => {
   return (
     <div
       id="video-overlay"
-      className="relative top-0 left-0 flex w-full items-center justify-center bg-[#070B16] lg:aspect-video"
+      className="relative left-0 top-0 flex w-full items-center justify-center bg-[#070B16] lg:aspect-video"
     >
-      <div className="absolute top-8 right-8 z-50 flex items-center justify-center gap-3">
+      <div className="absolute right-8 top-8 z-50 flex items-center justify-center gap-3">
         <button className={buttonStyles} onClick={handlePlay}>
           Replay <span aria-hidden="true">↺</span>
         </button>
@@ -425,7 +430,7 @@ const SubscribeForm = ({
   return (
     <div
       id="tip"
-      className="flex w-full flex-col items-center justify-between gap-5 border-b border-gray-800 px-3 pt-2 pb-3 md:flex-row md:pt-1 2xl:px-0"
+      className="flex w-full flex-col items-center justify-between gap-5 border-b border-gray-800 px-3 pb-3 pt-2 md:flex-row md:pt-1 2xl:px-0"
     >
       <div className="inline-flex items-center gap-2 text-lg font-medium leading-tight md:text-base lg:flex-shrink-0 lg:text-lg">
         <div

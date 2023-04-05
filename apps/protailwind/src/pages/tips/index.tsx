@@ -5,7 +5,7 @@ import Link from 'next/link'
 import Image from 'next/legacy/image'
 import {useRouter} from 'next/router'
 import {useTipComplete} from '../../hooks/use-tip-complete'
-import Icon from 'components/icons'
+import {Icon} from '@skillrecordings/skill-lesson/icons'
 import {getBaseUrl} from '@skillrecordings/skill-lesson/utils/get-base-url'
 
 export async function getStaticProps() {
@@ -35,7 +35,7 @@ const TipsIndex: React.FC<TipsIndex> = ({tips}) => {
           alt: 'Tailwind Tips by Simon Vrachliotis',
         },
       }}
-      className="sm:pt-18 flex flex-col items-center pb-16 pt-16 lg:pt-20 lg:pb-24"
+      className="sm:pt-18 flex flex-col items-center pb-16 pt-16 lg:pb-24 lg:pt-20"
     >
       <header className="relative z-10 flex flex-col items-center px-5 pb-16 text-center">
         <h1 className="text-center font-heading text-4xl font-black sm:text-5xl lg:text-6xl">
@@ -103,7 +103,7 @@ const TipCard: React.FC<{tip: Tip}> = ({tip}) => {
             className="absolute flex items-center justify-center rounded-full text-white opacity-100 drop-shadow-xl duration-500 ease-in-out group-hover:opacity-100"
             aria-hidden="true"
           >
-            <Icon className="h-6 w-6" name="Playmark" />
+            <Icon name="Playmark" size="24" />
           </div>
         </button>
       </header>

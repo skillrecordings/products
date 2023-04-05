@@ -1,13 +1,14 @@
 import {PortableText} from '@portabletext/react'
 import {take} from 'lodash'
 import Link from 'next/link'
-import PortableTextComponents from 'video/portable-text'
+import {portableTextComponents} from '@skillrecordings/skill-lesson/portable-text'
 import {useMuxPlayer} from '@skillrecordings/skill-lesson/hooks/use-mux-player'
 import {useLesson} from '@skillrecordings/skill-lesson/hooks/use-lesson'
 
-export const LessonDescription: React.FC<{productName: string}> = ({
-  productName,
-}) => {
+export const LessonDescription: React.FC<{
+  productName: string
+  loadingIndicator: React.ReactElement
+}> = ({productName, loadingIndicator}) => {
   const {canShowVideo, loadingUserStatus} = useMuxPlayer()
   const {lesson} = useLesson()
   const {body} = lesson
@@ -18,7 +19,7 @@ export const LessonDescription: React.FC<{productName: string}> = ({
       <div data-content="" data-content-visible={canShowVideo.toString()}>
         <PortableText
           value={displayedBody}
-          components={PortableTextComponents}
+          components={portableTextComponents({loadingIndicator})}
         />
       </div>
       {!canShowVideo && loadingUserStatus && (
