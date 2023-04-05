@@ -156,8 +156,6 @@ export function defineRulesForPurchases(
         )
       })
 
-    console.log({purchasedModules, modulePurchase, viewerAbilityInput})
-
     const userHasPurchaseWithAccess = modulePurchase.map((purchase) => {
       if (purchase?.bulkCouponId !== null) {
         return {valid: false, reason: 'bulk_purchase'}
@@ -166,8 +164,6 @@ export function defineRulesForPurchases(
       if (purchase.status === 'Restricted' && purchase.country !== country) {
         return {valid: false, reason: 'region_restricted'}
       }
-
-      console.log({status: purchase.status, country: purchase.country, module})
 
       if (purchase.status === 'Restricted' && module.moduleType === 'bonus') {
         return {valid: false, reason: 'region_restricted'}
@@ -183,8 +179,6 @@ export function defineRulesForPurchases(
       }
       return {valid: false, reason: 'unknown'}
     })
-
-    console.log({userHasPurchaseWithAccess})
 
     if (userHasPurchaseWithAccess.some((purchase) => purchase.valid)) {
       can('view', 'Content')
