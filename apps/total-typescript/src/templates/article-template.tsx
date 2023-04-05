@@ -55,7 +55,7 @@ const ArticleTemplate: React.FC<ArticleTemplateProps> = ({
         images={[image || '']}
         description={articleDescription}
       />
-      <header className="relative z-10 flex w-full flex-col items-center justify-center  px-5 pt-24 pb-8 sm:pt-36 sm:pb-10">
+      <header className="relative z-10 flex w-full flex-col items-center justify-center px-5 pb-8 pt-24 sm:pb-10 sm:pt-36">
         <div className="relative z-10 mx-auto flex w-full max-w-3xl flex-col">
           <time dateTime={_createdAt} className="pb-4 text-gray-300">
             {format(new Date(_createdAt), 'MMM dd, y')}
@@ -79,6 +79,7 @@ const ArticleTemplate: React.FC<ArticleTemplateProps> = ({
         {image && (
           <div className="relative aspect-video h-full w-full max-w-screen-lg rounded-lg">
             <Image
+              className="scale-[2] sm:scale-100"
               src={image}
               alt=""
               aria-hidden="true"
@@ -89,7 +90,7 @@ const ArticleTemplate: React.FC<ArticleTemplateProps> = ({
         )}
       </header>
       <main className="relative z-10 pt-5">
-        <div className="prose relative z-10 mx-auto w-full max-w-3xl px-5 prose-p:text-gray-300 prose-a:text-cyan-300 prose-a:transition hover:prose-a:text-cyan-200 sm:prose-lg sm:prose-pre:-mx-5 md:prose-xl">
+        <div className="prose relative z-10 mx-auto w-full max-w-3xl px-5 sm:prose-lg md:prose-xl prose-p:text-gray-300 prose-a:text-cyan-300 prose-a:transition hover:prose-a:text-cyan-200 sm:prose-pre:-mx-5">
           <PortableText value={body} components={PortableTextComponents} />
           <div className="flex w-36 -rotate-6 gap-2 pt-10 text-gray-400">
             —
